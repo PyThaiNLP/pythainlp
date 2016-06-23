@@ -6,7 +6,7 @@ def isThai(chr):
     return False
 
 
-def warp(txt):
+def icu(txt):
 	bd = PyICU.BreakIterator.createWordInstance(PyICU.Locale("th"))
 	bd.setText(txt)
 	lastPos = bd.first()

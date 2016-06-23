@@ -111,15 +111,16 @@ def warp(txt):
 	# for b in txt:
 	bb = list(txt)
 	cc = sub(txt)
-	print(cc)
+	return cc
     # return txt
-a = []
-warp('ตอง')
-warp('มอง')
-warp('มด')
-warp('พร')
-warp('คน')
-warp('พรม') #!
-warp('แมว')
-warp('ชล')
-warp('ต้น')
+if __name__ == "__main__":
+	a = []
+	warp('ตอง')
+	warp('มอง')
+	warp('มด')
+	warp('พร')
+	warp('คน')
+	warp('พรม') #!
+	warp('แมว')
+	warp('ชล')
+	warp('ต้น')

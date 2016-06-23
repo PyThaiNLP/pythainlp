@@ -7,7 +7,7 @@ setup(name='pythai-nlp',
       author='Wannaphong',
       author_email='wannaphong@yahoo.com',
       #url='https://www.python.org/sigs/distutils-sig/',
-      #packages=['distutils', 'distutils.command'],
+      packages=['romanization'],
       license='Apache License Version 2.0'
       classifiers=[
             'Development Status :: 1 - Planning',

@@ -10,7 +10,7 @@ setup(name='pythai-nlp',
       #packages=['distutils', 'distutils.command'],
       license='Apache License Version 2.0'
       classifiers=[
-            'Development Status :: 3 - Alpha',
+            'Development Status :: 1 - Planning',
             'License :: OSI Approved :: Apache Software License',
             'Natural Language :: Thai',
             'Programming Language :: Python :: 3',

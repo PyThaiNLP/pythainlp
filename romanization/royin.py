@@ -1,3 +1,4 @@
+# ยังไม่สามารถถอดเสียงสระได้ ***
 import PyICU
 import re
 

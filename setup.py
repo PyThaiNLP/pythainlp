@@ -9,6 +9,7 @@ setup(name='pythai-nlp',
       #url='https://www.python.org/sigs/distutils-sig/',
       packages=['romanization','number','test','segment'],
       license='Apache License Version 2.0'
+      install_requires=['PyICU>=1.9.3']
       classifiers=[
             'Development Status :: 1 - Planning',
             'License :: OSI Approved :: Apache Software License',

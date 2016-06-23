@@ -1,7 +1,7 @@
 # ระบบติดตั้ง
 from distutils.core import setup
 
-setup(name='pythai-nlp',
+setup(name='pythainlp',
       version='0.1',
       #description='Python Distribution Utilities',
       author='Wannaphong',

@@ -12,6 +12,7 @@ setup(name='pythai-nlp',
       classifiers=[
             'Development Status :: 3 - Alpha',
             'License :: OSI Approved :: Apache Software License',
+            'Natural Language :: Thai',
             'Programming Language :: Python :: 3',
             'Programming Language :: Python :: 3.3',
             'Programming Language :: Python :: 3.5',

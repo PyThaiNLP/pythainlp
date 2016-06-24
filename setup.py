@@ -7,7 +7,7 @@ setup(name='pythainlp',
       author='Wannaphong',
       author_email='wannaphong@yahoo.com',
       #url='https://www.python.org/sigs/distutils-sig/',
-      packages=['romanization','number','test','segment'],
+      packages=['pythainlp'],
       license='Apache License Version 2.0',
       install_requires=['PyICU>=1.9.3'],
       classifiers=[

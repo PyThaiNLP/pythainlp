@@ -2,4 +2,4 @@
 
 __author__ = 'Wannaphong Phatthiyaphaibun'
 __email__ = 'wannaphong@yahoo.com'
-__version__ = '0.0.1'
+__version__ = '0.0.2'

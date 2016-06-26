@@ -1,4 +1,5 @@
 # ระบบแปลงเลขใน 1- 10 ภาษาไทย
+import math
 p = [['ภาษาไทย', 'ตัวเลข','เลขไทย'],
      ['หนึ่ง', '1', '๑'],
      ['สอง', '2', '๒'],
@@ -36,52 +37,64 @@ def ttnt(text):
 	#ข้อความสู่เลขไทย
 	thaitonum = dict((x[0], x[2]) for x in p[1:])
 	return thaitonum[text]
-def numtowords(number):
-	digit=['ศูนย์','หนึ่ง','สอง','สาม','สี่','ห้า','หก','เจ็ด','แปด','เก้า','สิบ']
-	num=['','สิบ','ร้อย','พัน','หมื่น','แสน','ล้าน']
-	number = number.split(".")
-	c_num0=len(number[0])
-	len1=len(number[0])
-	aa=number[1]
-	c_num1=len(aa)
-	len2=len(aa)
-	convert=''
-	#	คิดจำนวนเต็ม
-	n=0
-	while n<len1:
-		c_num0-=1
-		aa=number[0]
-		c_digit=int(aa[n:n+1])
-		if(c_num0==0 and c_digit==0): digit[c_digit]=''
-		if(c_num0==0 and c_digit==1): digit[c_digit]='เอ็ด'
-		if(c_num0==0 and c_digit==2): digit[c_digit]='สอง'
-		if(c_num0==1 and c_digit==2): digit[c_digit]='ยี่'; 
-		if(c_num0==1 and c_digit==1): digit[c_digit]=''
-		convert+=digit[c_digit]
-		convert+=num[c_num0]
-		n+=1
-	convert += 'บาท'
-	if(number[1]==''):
-		convert += 'ถ้วน'
-	#คิดจุดทศนิยม
-	n=0
-	num={'00':'ศูนย์','01':'หนึ่ง','02':'สอง','03':'สาม','04':'สี่','05':'ห้า','06':'หก','07':'เจ็ด','08':'แปด','09':'เก้า','0':'ศูนย์'}
-	if int(number[1]) < 10:
-		convert+=num[number[1]]
+def number_format(num, places=0):
+    return '{:20,.2f}'.format(num)
+# fork by http://justmindthought.blogspot.com/2012/12/code-php.html
+def numtowords(amount_number):
+	amount_number = number_format(amount_number, 2).replace(" ","")
+	#print(amount_number)
+	pt = amount_number.find(".")
+	number,fraction = "",""
+	amount_number1 = amount_number.split('.')
+	if (pt == False):
+		number = amount_number
 	else:
-		while n<len2: 
-			c_num1-=1
-			aa=number[1]
-			c_digit=int(aa[n:n+1])
-			if(c_num1==0 and c_digit==1): digit[c_digit]='หนึ่ง'
-			if(c_num1==0 and c_digit==2): digit[c_digit]='สอง'
-			if(c_num1==1 and c_digit==2): digit[c_digit]='ยี่' 
-			if(c_num1==1 and c_digit==1): digit[c_digit]=''
-			convert+=digit[c_digit]
-			convert+=num[c_num1] 
-			n+=1
-	if(number[1]!=''):
-		convert += 'สตางค์'
-	return convert
-if __name__ == '__main__":
+		amount_number = amount_number.split('.')
+		number = amount_number[0]
+		fraction = int(amount_number1[1]) #amount_number[pt:pt + 1]
+	ret = ""
+	number=eval(number.replace(",",""))
+	#print(type(number))
+	baht = ReadNumber(number)
+	if (baht != ""):
+		ret += baht + "บาท"
+	#print(amount_number)
+	satang = ReadNumber(fraction)
+	if (satang != ""):
+		ret += satang + "สตางค์"
+	else:
+		ret += "ถ้วน"
+	return ret
+
+
+def ReadNumber(number):
+	position_call = ["แสน", "หมื่น", "พัน", "ร้อย", "สิบ", ""]
+	number_call = ["", "หนึ่ง", "สอง", "สาม","สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"]
+	number = number
+	ret = ""
+	if (number == 0): return ret
+	if (number > 1000000):
+		ret += ReadNumber(int(number / 1000000)) + "ล้าน"
+		number = int(math.fmod(number, 1000000))
+	divider = 100000
+	pos = 0
+	while(number > 0):
+		d=int(number/divider)
+		if (divider == 10) and (d == 2):
+			ret += "ยี่"
+		elif (divider == 10) and (d == 1):
+			ret += ""
+		elif ((divider == 1) and (d == 1) and (ret != "")):
+			ret += "เอ็ด"
+		else:
+			ret += number_call[d]
+		if(d):
+			ret += position_call[pos]
+		else:
+			ret += ""
+		number=number % divider
+		divider=divider / 10
+		pos += 1
+	return ret
+if __name__ == "__main__":
   print(ntt('4'))

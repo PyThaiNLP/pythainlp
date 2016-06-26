@@ -20,3 +20,6 @@ print(a)
 print(b)
 from pythainlp.segment.dict import segment
 print(segment('ฉันรักคุณ'))
+from pythainlp.number import numtowords
+print("5611116.50")
+print(numtowords(5611116.50))

@@ -30,7 +30,7 @@ class TestPythainlp(unittest.TestCase):
         pass
 
     def test_command_line_interface(self):
-        runner = icu()
+        runner = icu("ทดสอบระบบ")
         result = runner.invoke(icu.main)
         assert result.exit_code == 0
         assert 'pythainlp.segment.pyicu.main' in result.output

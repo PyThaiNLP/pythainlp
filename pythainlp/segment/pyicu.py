@@ -19,6 +19,6 @@ def segment(txt):
     except StopIteration:
         pass
         #retTxt = retTxt[:-1]
-    return retTxt
+    return retTxt.split(',')
 if __name__ == "__main__":
 	print(segment('ทดสอบระบบตัดคำด้วยไอซียู'))

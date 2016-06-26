@@ -86,7 +86,6 @@ def sub(text):
 def romanization(txt):
 	txt = segment(txt)  # (','.join(str(x) for x in txt))  # แยกออกมาเป็น list
 	cc=''
-	txt = txt.split(',')
 	for b in txt:
 		cc += sub(b)
 	return cc

@@ -1,17 +1,5 @@
 from pythainlp.segment.isthai import isThai
-try:
-	import PyICU
-except ImportError:
-	print('PyICU Install  1 Yes 2 No : ')
-	a=int(input())
-	if a==1:
-		try:
-			import pip
-			pip.main(['install','pyicu'])
-			import icu
-		except:
-			print('error')
-
+import PyICU
 def segment(txt):
     bd = PyICU.BreakIterator.createWordInstance(PyICU.Locale("th"))
     bd.setText(txt)

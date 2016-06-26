@@ -2,6 +2,8 @@ from pythainlp.segment import segment
 a = 'ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'
 b = segment(a)
 print(b)
+from pythainlp.segment.dict import segment
+print(segment(a))
 print(type(b))
 from pythainlp.rank import rank
 aa = rank(a)
@@ -16,3 +18,5 @@ b="นามรสนอำันี"
 b=texttoeng(b)
 print(a)
 print(b)
+from pythainlp.segment.dict import segment
+print(segment('ฉันรักคุณ'))

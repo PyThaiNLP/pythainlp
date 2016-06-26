@@ -1,4 +1,4 @@
 try:
 	from pythainlp.segment.pyicu import segment
 except ImportError:
-	print('')
+	from pythainlp.segment.dict import segment

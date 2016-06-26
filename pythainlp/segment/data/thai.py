@@ -7,3 +7,5 @@ def data():
 	with codecs.open(template_file, 'r',encoding='utf8') as f:
 		lines = f.read().splitlines()
 	return lines
+if __name__ == "__main__":
+	print(data())

@@ -10,7 +10,7 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    'Click>=6.0',
+    'pyicu>=1.9.3',
     # TODO: put package requirements here
 ]
 
@@ -31,11 +31,6 @@ setup(
     ],
     package_dir={'pythainlp':
                  'pythainlp'},
-    entry_points={
-        'console_scripts': [
-            'pythainlp=pythainlp.cli:main'
-        ]
-    },
     include_package_data=True,
     install_requires=requirements,
     license="Apache Software License 2.0",
@@ -45,10 +40,7 @@ setup(
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
-        'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
+        'Natural Language :: Thai',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',

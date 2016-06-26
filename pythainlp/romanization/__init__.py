@@ -1,1 +1,1 @@
-from pythainlp.romanization.royin import *
+from pythainlp.romanization.royin import romanization

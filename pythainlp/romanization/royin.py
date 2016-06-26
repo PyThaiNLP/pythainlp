@@ -1,5 +1,5 @@
 # ยังไม่สามารถถอดเสียงสระได้ ***
-import PyICU
+from pythainlp.segment import segment
 import re
 
 th = u'[ก-ฮ]+'
@@ -82,46 +82,22 @@ def sub(text):
 		return text
 
 
-def isThai(chr):
-    cVal = ord(chr)
-    if(cVal >= 3584 and cVal <= 3711):
-        return True
-    return False
 
-
-def warp(txt):
-	bd = PyICU.BreakIterator.createWordInstance(PyICU.Locale("th"))
-	bd.setText(txt)
-	lastPos = bd.first()
-	retTxt = ""
-	try:
-		while(1):
-			currentPos = next(bd)
-			retTxt += txt[lastPos:currentPos]
-			# เฉพาะภาษาไทยเท่านั้น
-			if(isThai(txt[currentPos - 1])):
-				if(currentPos < len(txt)):
-					if(isThai(txt[currentPos])):
-                        # คั่นคำที่แบ่ง
-						retTxt += ','
-			lastPos = currentPos
-	except StopIteration:
-		pass
-	txt = txt  # (','.join(str(x) for x in txt))  # แยกออกมาเป็น list
-	print(txt)
-	# for b in txt:
-	bb = list(txt)
-	cc = sub(txt)
+def romanization(txt):
+	txt = segment(txt)  # (','.join(str(x) for x in txt))  # แยกออกมาเป็น list
+	cc=''
+	txt = txt.split(',')
+	for b in txt:
+		cc += sub(b)
 	return cc
     # return txt
 if __name__ == "__main__":
-	a = []
-	warp('ตอง')
-	warp('มอง')
-	warp('มด')
-	warp('พร')
-	warp('คน')
-	warp('พรม') #!
-	warp('แมว')
-	warp('ชล')
-	warp('ต้น')
+	romanization('ตอง')
+	romanization('มอง')
+	romanization('มด')
+	romanization('พร')
+	romanization('คน')
+	romanization('พรม') #!
+	romanization('แมว')
+	romanization('ชล')
+	romanization('ต้น')

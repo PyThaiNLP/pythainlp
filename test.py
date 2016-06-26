@@ -6,3 +6,6 @@ print(type(b))
 from pythainlp.rank import rank
 aa = rank(a)
 print(aa)
+from pythainlp.romanization import romanization
+b=romanization("ต้นกก")
+print(b)

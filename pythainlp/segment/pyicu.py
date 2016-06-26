@@ -1,7 +1,18 @@
 from pythainlp.segment.isthai import isThai
-import PyICU
+try:
+	import PyICU
+except ImportError:
+	print('PyICU Install  1 Yes 2 No : ')
+	a=int(input())
+	if a==1:
+		try:
+			import pip
+			pip.main(['install','pyicu'])
+			import icu
+		except:
+			print('error')
 
-def icu(txt):
+def segment(txt):
     bd = PyICU.BreakIterator.createWordInstance(PyICU.Locale("th"))
     bd.setText(txt)
     lastPos = bd.first()
@@ -21,5 +32,5 @@ def icu(txt):
         pass
         #retTxt = retTxt[:-1]
     return retTxt
-def main():
-	print(icu('ทดสอบระบบตัดคำด้วยไอซียู'))
+if __name__ == "__main__":
+	print(segment('ทดสอบระบบตัดคำด้วยไอซียู'))

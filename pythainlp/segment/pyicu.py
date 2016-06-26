@@ -21,3 +21,5 @@ def icu(txt):
         pass
         #retTxt = retTxt[:-1]
     return retTxt
+def main():
+	print(icu('ทดสอบระบบตัดคำด้วยไอซียู'))

@@ -31,9 +31,9 @@ class TestPythainlp(unittest.TestCase):
 
     def test_command_line_interface(self):
         runner = icu("ทดสอบระบบ")
-        result = runner.invoke(icu.main)
+        #result = runner.invoke(icu.main)
         assert result.exit_code == 0
-        assert 'pythainlp.segment.pyicu.main' in result.output
+        #assert 'pythainlp.segment.pyicu.main' in result.output
         #help_result = runner.invoke(cli.main, ['--help'])
         #assert help_result.exit_code == 0
         #assert '--help  Show this message and exit.' in help_result.output

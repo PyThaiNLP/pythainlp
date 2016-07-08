@@ -1,4 +1,5 @@
-from .data.thai import data
+from __future__ import absolute_import
+from . import data.thai
 lines = data()
 # code by https://stackoverflow.com/a/16690988
 def segment(string):

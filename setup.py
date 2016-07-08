@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup
+from setuptools import find_packages
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
@@ -26,11 +27,7 @@ setup(
     author="Wannaphong Phatthiyaphaibun",
     author_email='wannaphong@yahoo.com',
     url='https://github.com/wannaphongcom/pythainlp',
-    packages=[
-        'pythainlp',
-    ],
-    package_dir={'pythainlp':
-                 'pythainlp'},
+    packages=find_packages(),
     include_package_data=True,
     install_requires=requirements,
     license="Apache Software License 2.0",

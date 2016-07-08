@@ -3,8 +3,8 @@
 __author__ = 'Wannaphong Phatthiyaphaibun'
 __email__ = 'wannaphong@yahoo.com'
 __version__ = '0.0.2'
-from pythainlp.romanization import romanization
-from pythainlp.segment import segment
-from pythainlp.rank import rank
-from pythainlp.change import *
-from pythainlp.number import *
+from pythainlp import romanization
+from pythainlp import segment
+from pythainlp import rank
+from pythainlp import change
+from pythainlp import number

@@ -1,4 +1,4 @@
 try:
-	from pythainlp.segment.pyicu import segment
+	from .pyicu import segment
 except:
-	from pythainlp.segment.dict import segment
+	from .dict import segment

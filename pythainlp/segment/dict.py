@@ -1,4 +1,4 @@
-from pythainlp.segment.data.thai import data
+from .data.thai import data
 lines = data()
 # code by https://stackoverflow.com/a/16690988
 def segment(string):

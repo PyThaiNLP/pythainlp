@@ -23,7 +23,7 @@ setup(
     name='pythainlp',
     version='0.0.3',
     description="Thai NLP in python package.",
-    long_description=readme + '\n\n' + history,
+    long_description=readme,# + '\n\n' + history,
     author="Wannaphong Phatthiyaphaibun",
     author_email='wannaphong@yahoo.com',
     url='https://github.com/wannaphongcom/pythainlp',

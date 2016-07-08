@@ -9,7 +9,10 @@ Natural language processing หรือ การประมวลภาษา
 รองรับเฉพาะ Python 3 เท่านั้น (Python 2 กำลังพัฒนา)
 
 ### Version
-0.0.2
+0.0.3
+
+### มีอะไรใหม่
+แก้ไข bug import ใน python บางรุ่น
 
 ### ความสามารถ
   - ตัดคำภาษาไทย

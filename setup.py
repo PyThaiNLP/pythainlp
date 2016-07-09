@@ -11,7 +11,7 @@ with open('README.rst') as readme_file:
 #    history = history_file.read()
 
 requirements = [
-    #'pyicu>=1.9.3',
+    'pyicu>=1.9.3',
     # TODO: put package requirements here
 ]
 

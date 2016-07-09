@@ -19,7 +19,10 @@ b=texttoeng(b)
 print(a)
 print(b)
 from pythainlp.segment.dict import segment
-print(segment('ฉันรักคุณ'))
+print(segment('ปีคริสต์ศักราช'))
 from pythainlp.number import numtowords
 print("5611116.50")
 print(numtowords(5611116.50))
+
+from pythainlp.postaggers.text import pts
+print(pts('รัก'))

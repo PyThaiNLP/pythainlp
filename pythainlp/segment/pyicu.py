@@ -1,4 +1,4 @@
-from pythainlp.segment.isthai import isThai
+from .isthai import isThai
 import PyICU
 def segment(txt):
     bd = PyICU.BreakIterator.createWordInstance(PyICU.Locale("th"))

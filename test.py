@@ -6,7 +6,7 @@ from pythainlp.segment.dict import segment
 print(segment(a))
 print(type(b))
 from pythainlp.rank import rank
-aa = rank(a)
+aa = rank(b)
 print(aa)
 from pythainlp.romanization import romanization
 b=romanization("ต้นกก")
@@ -24,5 +24,5 @@ from pythainlp.number import numtowords
 print("5611116.50")
 print(numtowords(5611116.50))
 
-from pythainlp.postaggers.text import pts
-print(pts('รัก'))
+from pythainlp.postaggers import tag
+print(tag('คุณกำลังประชุม'))

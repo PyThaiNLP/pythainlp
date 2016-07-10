@@ -1,7 +1,6 @@
 ===============================
-PyThai-NLP
+PyThaiNLP
 ===============================
-
 
 .. image:: https://img.shields.io/pypi/v/pythainlp.svg
         :target: https://pypi.python.org/pypi/pythainlp
@@ -17,9 +16,11 @@ PyThai-NLP
      :target: https://pyup.io/repos/github/wannaphongcom/pythainlp/
      :alt: Updates
 
-
 Thai NLP in python package.
 
+Version
+--------
+0.0.4
 
 * Free software: Apache Software License 2.0
 * Documentation: https://pythainlp.readthedocs.io.
@@ -28,13 +29,6 @@ Thai NLP in python package.
 Features
 --------
 
-* TODO
-
-Credits
----------
-
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
-
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
-
+* Thai split words
+* Thai postagger
+* And more.

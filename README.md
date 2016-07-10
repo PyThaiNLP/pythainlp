@@ -49,7 +49,7 @@ b = segment(a)
 print(b) # ['ฉัน', 'รัก', 'ภาษาไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คนไทย']
 # Postaggers ภาษาไทย
 from pythainlp.postaggers import tag
-print(tag('คุณกำลังประชุม')) #ค ุณ/PPRS กำลัง/XVBM ประชุม/VACT
+print(tag('คุณกำลังประชุม')) # [('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')]
 # หาคำที่มีจำนวนการใช้งานมากที่สุด
 from pythainlp.rank import rank
 aa = rank(b)

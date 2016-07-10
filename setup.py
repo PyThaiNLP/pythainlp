@@ -12,6 +12,7 @@ with open('README.rst') as readme_file:
 
 requirements = [
     'pyicu>=1.9.3',
+    'nltk',
     # TODO: put package requirements here
 ]
 

@@ -32,3 +32,9 @@ Features
 * Thai split words
 * Thai postagger
 * And more.
+
+
+INSTALL
+--------
+
+     $ pip3 install pythainlp

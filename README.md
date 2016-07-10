@@ -27,6 +27,11 @@ Natural language processing หรือ การประมวลภาษา
 
 รองรับเฉพาะ Python 3
 
+รุ่นเสถียร
+```sh
+$ pip3 install pythainlp
+```
+รุ่นกำลังพัฒนา
 ```sh
 $ git clone https://github.com/wannaphongcom/pythainlp.git
 $ cd pythainlp

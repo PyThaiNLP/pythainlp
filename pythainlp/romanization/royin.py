@@ -1,4 +1,5 @@
 # ยังไม่สามารถถอดเสียงสระได้ ***
+from __future__ import absolute_import
 from pythainlp.segment import segment
 import re
 
@@ -63,7 +64,8 @@ def delete1(data):
 		if (re.search(a,data)):
 				data = re.sub(a,'',data)
 	return data
-def sub(text):
+# ส่วนพยัญชนะ
+def consonant(text):
 	try:
 		txt = delete1(text)
 		text = list(txt)
@@ -81,22 +83,197 @@ def sub(text):
 	except:
 		return text
 
-
+# ส่วนสระ
+def vowel(data):
+	data = data
+	th = u'[ก-ฮ]+'
+	a=''
+	if re.match(u"แ[ก-ฮ]ว",data) is not None:
+		aa=list(data)
+		aa[0]='aeo'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"เ[ก-ฮ]ียว",data) is not None:
+		aa = list(data)
+		aa[0] = 'iao'	
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"[ก-ฮ]ะ",data) is not None:
+		a+=consonant(re.sub('ะ', "a", data))
+	elif re.match(u"[ก-ฮ]ั",data) is not None:
+		a+=consonant(re.sub('ั', "a", data))
+	elif re.match(u"[ก-ฮ]รร",data) is not None:
+		a+=consonant(re.sub('รร', "a", data))
+	elif re.match(u"[ก-ฮ]า",data) is not None:
+		a+=consonant(re.sub('า', "a", data))
+	elif re.match(u"[ก-ฮ]รร", data) is not None:
+		a+=consonant(re.sub('รร', "an", data))
+	elif re.match(u"[ก-ฮ]ำ",data) is not None:
+		a+=consonant(re.sub('ำ', "am", data))
+	elif re.match(u"[ก-ฮ]ิ",data) is not None:
+		a+=consonant(re.sub('ิ', "i", data))
+	elif re.match(u"[ก-ฮ]ึ",data) is not None:
+		a+=consonant(re.sub('ึ', "ue", data))
+	elif re.match(u"[ก-ฮ]ื",data) is not None:
+		a+=consonant(re.sub('ื', "ue", data))
+	elif re.match(u"[ก-ฮ]ุ",data) is not None:
+		a+=consonant(re.sub('ุ', "u", data))
+	elif re.match(u"[ก-ฮ]ู",data) is not None:
+		a+=consonant(re.sub('ู', "u", data))
+	elif re.match(u"เ[ก-ฮ]ะ",data) is not None:
+		aa = list(data)
+		#a+=consonant((list(data))[1])
+		aa[0]='e'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"เ[ก-ฮ]็",data) is not None:
+		aa = list(data)
+		aa[0]='e'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"เ[ก-ฮ]",data) is not None:
+		aa = list(data)
+		aa[0]='e'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"แ[ก-ฮ]ะ",data) is not None:
+		aa = list(data)
+		aa[0]='ae'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"แ[ก-ฮ]",data) is not None:
+		aa = list(data)
+		aa[0]='ae'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"โ[ก-ฮ]ะ",data) is not None:
+		aa = list(data)
+		aa[0]='o'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"โ[ก-ฮ]",data) is not None:
+		aa = list(data)
+		aa[0]='o'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"เ[ก-ฮ]าะ",data) is not None:
+		aa = list(data)
+		aa[0]='o'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"[ก-ฮ]อ",data) is not None:
+		a+=consonant((list(data))[0])
+		a+='o'
+	elif re.match(u"เ[ก-ฮ]อะ",data) is not None:
+		aa = list(data)
+		aa[0]='oe'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"เ[ก-ฮ]ิ",data) is not None:
+		aa = list(data)
+		aa[0]='oe'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"เ[ก-ฮ]อ",data) is not None:
+		aa = list(data)
+		aa[0]='oe'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"เ[ก-ฮ]ียะ",data) is not None:
+		aa = list(data)
+		aa[0]='ia'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"เ[ก-ฮ]ีย",data) is not None:
+		aa = list(data)
+		aa[0]='ia'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"เ[ก-ฮ]ือะ",data) is not None:
+		aa = list(data)
+		aa[0]='uea'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"เ[ก-ฮ]ือ",data) is not None:
+		aa = list(data)
+		aa[0]='uea'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"[ก-ฮ]ัวะ",data) is not None:
+		a+=consonant(re.sub('ัวะ', "ua", data))
+	elif re.match(u"[ก-ฮ]ัว",data) is not None:
+		a+=consonant(re.sub('ัว', "ua", data))
+	elif re.match(u"[ก-ฮ]ว[ก-ฮ]",data) is not None:
+		aa=list(data)
+		aa[1]='ua'
+		aa[2]=aa[1]+consonant(aa[2])
+		a+=consonant(aa[0]+aa[2])
+	elif re.match(u"ใ[ก-ฮ]",data) is not None:
+		aa = list(data)
+		aa[0] = 'ai'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"ไ[ก-ฮ]",data) is not None:
+		aa = list(data)
+		aa[0] = 'ai'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"[ก-ฮ]ัย",data) is not None:
+		a+=consonant(re.sub('ัย', "ai", data))
+	elif re.match(u"ไ[ก-ฮ]ย",data) is not None:
+		aa = list(data)
+		aa[0] = 'ai'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"[ก-ฮ]าย",data) is not None:
+		a+=consonant(re.sub('าย', "ai", data))
+	elif re.match(u"เ[ก-ฮ]า",data) is not None:
+		aa = list(data)
+		aa[0] = 'ao'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"[ก-ฮ]าว",data) is not None:
+		a+=consonant(re.sub('าว', "ao", data))
+	elif re.match(u"[ก-ฮ]ย",data) is not None:
+		a+=consonant(re.sub('ย', "ui", data))
+	elif re.match(u"โ[ก-ฮ]ย",data) is not None:
+		aa = list(data)
+		aa[0] = 'oi'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"[ก-ฮ]อย",data) is not None:
+		a+=consonant(re.sub('อย', "oi", data))
+	elif re.match(u"เ[ก-ฮ]ย",data) is not None:
+		aa = list(data)
+		aa[0] = 'oei'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"เ[ก-ฮ]ือย",data) is not None:
+		aa = list(data)
+		aa[0] = 'ueai'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"[ก-ฮ]วย",data) is not None:
+		a+=consonant(re.sub('วย', "uai", data))
+	elif re.match(u"[ก-ฮ]ิว",data) is not None:
+		a+=consonant(re.sub('ิว', "io", data))
+	elif re.match(u"เ[ก-ฮ]็ว",data) is not None:
+		aa = list(data)
+		aa[0] = 'eo'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"เ[ก-ฮ]ว",data) is not None:
+		aa = list(data)
+		aa[0] = 'eo'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"แ[ก-ฮ]ว",data) is not None:
+		aa = list(data)
+		aa[0] = 'aeo'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"แ[ก-ฮ]็ว",data) is not None:
+		aa = list(data)
+		aa[0] = 'aeo'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"[ก-ฮ]ี",data) is not None:
+		a+=consonant(re.sub('ี', "i", data))
+	else:
+		a+=consonant(data)
+	return a
 
 def romanization(txt):
 	txt = segment(txt)  # (','.join(str(x) for x in txt))  # แยกออกมาเป็น list
 	cc=''
 	for b in txt:
-		cc += sub(b)
+		cc += consonant(b)
 	return cc
     # return txt
 if __name__ == "__main__":
-	romanization('ตอง')
-	romanization('มอง')
-	romanization('มด')
-	romanization('พร')
-	romanization('คน')
-	romanization('พรม') #!
-	romanization('แมว')
-	romanization('ชล')
-	romanization('ต้น')
+	print(romanization('ตอง'))
+	print(romanization('มอง'))
+	print(romanization('มด'))
+	print(romanization('พร'))
+	print(romanization('คน'))
+	print(romanization('พรม')) #!
+	#romanization('แมว')
+	print(romanization('ชล'))
+	print(romanization('ต้น'))
+	print(vowel('ตาล'))
+	print(vowel('แมว'))
+	print(vowel('มะ'))
+	print(vowel('เร็ว'))
+	print(vowel('เรียว'))

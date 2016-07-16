@@ -17,27 +17,27 @@ thaitonum = dict((x[2], x[1]) for x in p[1:])
 p1 = dict((x[0], x[1]) for x in p[1:])
 d1 = 0
 def nttn(text):
-	#เลขไทยสู่เลข
+	"""คืนค่า str เป็นเลขไทยสู่เลข"""
 	thaitonum = dict((x[2], x[1]) for x in p[1:])
 	return thaitonum[text]
 def nttt(text):
-	#เลขไทยสู่ข้อความ
+	"""เลขไทยสู่ข้อความ"""
 	thaitonum = dict((x[2], x[0]) for x in p[1:])
 	return thaitonum[text]
 def ntnt(text):
-	#เลขสู่เลขไทย
+	"""เลขสู่เลขไทย"""
 	thaitonum = dict((x[1], x[2]) for x in p[1:])
 	return thaitonum[text]
 def ntt(text):
-	#เลขสู่ข้อความ
+	"""เลขสู่ข้อความ"""
 	thaitonum = dict((x[1], x[0]) for x in p[1:])
 	return thaitonum[text]
 def ttn(text):
-	#ข้อความสู่เลข
+	"""ข้อความสู่เลข"""
 	thaitonum = dict((x[0], x[1]) for x in p[1:])
 	return thaitonum[text]
 def ttnt(text):
-	#ข้อความสู่เลขไทย
+	"""ข้อความสู่เลขไทย"""
 	thaitonum = dict((x[0], x[2]) for x in p[1:])
 	return thaitonum[text]
 def number_format(num, places=0):
@@ -45,7 +45,6 @@ def number_format(num, places=0):
 # fork by http://justmindthought.blogspot.com/2012/12/code-php.html
 def numtowords(amount_number):
 	amount_number = number_format(amount_number, 2).replace(" ","")
-	#print(amount_number)
 	pt = amount_number.find(".")
 	number,fraction = "",""
 	amount_number1 = amount_number.split('.')
@@ -71,6 +70,7 @@ def numtowords(amount_number):
 
 
 def ReadNumber(number):
+	"""อ่านจำนวนตัวเลขภาษาไทย รับค่าเป็น float คืนค่าเป็น str"""
 	position_call = ["แสน", "หมื่น", "พัน", "ร้อย", "สิบ", ""]
 	number_call = ["", "หนึ่ง", "สอง", "สาม","สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"]
 	number = number

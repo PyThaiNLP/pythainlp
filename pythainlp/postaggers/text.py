@@ -15,6 +15,7 @@ def data():
 	return model
 data1 =data()
 def tag(text):
+	"""รับค่าเป็นข้อความ str คืนค่าเป็น list เช่น [('ข้อความ', 'ชนิดคำ')]"""
 	text= segment(text)
 	tagger = nltk.tag.UnigramTagger(model=data1)# backoff=default_tagger)
 	return tagger.tag(text)

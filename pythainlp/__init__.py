@@ -10,3 +10,4 @@ from . import change
 from . import number
 from . import date
 from . import postaggers
+from . import collation

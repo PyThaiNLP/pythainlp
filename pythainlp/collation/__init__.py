@@ -1,0 +1,11 @@
+# เขียนโดย วรรณพงษ์  ภัททิยไพบูลย์
+# เขียนโดย วรรณพงษ์  ภัททิยไพบูลย์
+from __future__ import absolute_import
+from __future__ import print_function
+import icu
+collator1 = icu.Collator.createInstance(icu.Locale('th_TH'))
+def collation(data):
+	return sorted(data,key=collator1.getSortKey)
+if __name__ == "__main__":
+	a=collation(['ไก่','ไข่','ก','ฮา'])
+	print(a)

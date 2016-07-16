@@ -1,4 +1,7 @@
 from __future__ import absolute_import
+from __future__ import print_function
+from future import standard_library
+standard_library.install_aliases()
 from .thai import data
 lines = data()
 # code by https://stackoverflow.com/a/16690988

@@ -13,6 +13,7 @@ with open('README.rst') as readme_file:
 requirements = [
     'pyicu>=1.9.3',
     'nltk',
+    'future',
     # TODO: put package requirements here
 ]
 
@@ -22,7 +23,7 @@ test_requirements = [
 
 setup(
     name='pythainlp',
-    version='0.0.5',
+    version='0.0.6',
     description="Thai NLP in python package.",
     long_description=readme,# + '\n\n' + history,
     author="Wannaphong Phatthiyaphaibun",

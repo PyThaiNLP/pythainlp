@@ -12,15 +12,11 @@ PyThaiNLP
         :target: https://pythainlp.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/wannaphongcom/cookiecutter-django/shield.svg
-     :target: https://pyup.io/repos/github/wannaphongcom/pythainlp/
-     :alt: Updates
-
 Thai NLP in python package.
 
 Version
 --------
-0.0.5
+0.0.6
 
 * Free software: Apache Software License 2.0
 * Documentation: https://pythainlp.readthedocs.io.

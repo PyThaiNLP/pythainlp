@@ -4,7 +4,7 @@ from .isthai import isThai
 import PyICU
 # ตัดคำภาษาไทย
 def segment(txt):
-    """คืนค่าออกมาเป็น list ที่ได้มาจากการตัดคำโดย ICU"""
+    """รับค่า ''str'' คืนค่าออกมาเป็น ''list'' ที่ได้มาจากการตัดคำโดย ICU"""
 	bd = PyICU.BreakIterator.createWordInstance(PyICU.Locale("th"))
     bd.setText(txt)
     lastPos = bd.first()

@@ -88,6 +88,41 @@ def vowel(data):
 	data = data
 	th = u'[ก-ฮ]+'
 	a=''
+	if len(data) == 2:
+			if re.match(u"[ก-ฮ]ะ",data) is not None:
+				a+=consonant(re.sub('ะ', "a", data))
+			elif re.match(u"[ก-ฮ]ั",data) is not None:
+				a+=consonant(re.sub('ั', "a", data))
+			elif re.match(u"[ก-ฮ]า",data) is not None:
+				a+=consonant(re.sub('า', "a", data))
+			elif re.match(u"[ก-ฮ]รร", data) is not None:
+				a+=consonant(re.sub('รร', "an", data))
+			elif re.match(u"[ก-ฮ]ำ",data) is not None:
+				a+=consonant(re.sub('ำ', "am", data))
+			elif re.match(u"[ก-ฮ]ิ",data) is not None:
+				a+=consonant(re.sub('ิ', "i", data))
+			elif re.match(u"[ก-ฮ]ึ",data) is not None:
+				a+=consonant(re.sub('ึ', "ue", data))
+			elif re.match(u"[ก-ฮ]ื",data) is not None:
+				a+=consonant(re.sub('ื', "ue", data))
+			elif re.match(u"[ก-ฮ]ุ",data) is not None:
+				a+=consonant(re.sub('ุ', "u", data))
+			elif re.match(u"[ก-ฮ]ู",data) is not None:
+				a+=consonant(re.sub('ู', "u", data))
+			elif re.match(u"ใ[ก-ฮ]",data) is not None:
+				aa = list(data)
+				aa[0] = 'ai'
+				a+=consonant(aa[1]+aa[0])
+			elif re.match(u"ไ[ก-ฮ]",data) is not None:
+				aa = list(data)
+				aa[0] = 'ai'
+				a+=consonant(aa[1]+aa[0])
+			elif re.match(u"โ[ก-ฮ]",data) is not None:
+				aa = list(data)
+				aa[0]='o'
+				a+=consonant(aa[1]+aa[0])
+	elif re.match(u"[ก-ฮ]รร",data) is not None:
+		a+=consonant(re.sub('รร', "a", data))
 	if re.match(u"แ[ก-ฮ]ว",data) is not None:
 		aa=list(data)
 		aa[0]='aeo'
@@ -96,28 +131,7 @@ def vowel(data):
 		aa = list(data)
 		aa[0] = 'iao'	
 		a+=consonant(aa[1]+aa[0])
-	elif re.match(u"[ก-ฮ]ะ",data) is not None:
-		a+=consonant(re.sub('ะ', "a", data))
-	elif re.match(u"[ก-ฮ]ั",data) is not None:
-		a+=consonant(re.sub('ั', "a", data))
-	elif re.match(u"[ก-ฮ]รร",data) is not None:
-		a+=consonant(re.sub('รร', "a", data))
-	elif re.match(u"[ก-ฮ]า",data) is not None:
-		a+=consonant(re.sub('า', "a", data))
-	elif re.match(u"[ก-ฮ]รร", data) is not None:
-		a+=consonant(re.sub('รร', "an", data))
-	elif re.match(u"[ก-ฮ]ำ",data) is not None:
-		a+=consonant(re.sub('ำ', "am", data))
-	elif re.match(u"[ก-ฮ]ิ",data) is not None:
-		a+=consonant(re.sub('ิ', "i", data))
-	elif re.match(u"[ก-ฮ]ึ",data) is not None:
-		a+=consonant(re.sub('ึ', "ue", data))
-	elif re.match(u"[ก-ฮ]ื",data) is not None:
-		a+=consonant(re.sub('ื', "ue", data))
-	elif re.match(u"[ก-ฮ]ุ",data) is not None:
-		a+=consonant(re.sub('ุ', "u", data))
-	elif re.match(u"[ก-ฮ]ู",data) is not None:
-		a+=consonant(re.sub('ู', "u", data))
+
 	elif re.match(u"เ[ก-ฮ]ะ",data) is not None:
 		aa = list(data)
 		#a+=consonant((list(data))[1])
@@ -140,10 +154,6 @@ def vowel(data):
 		aa[0]='ae'
 		a+=consonant(aa[1]+aa[0])
 	elif re.match(u"โ[ก-ฮ]ะ",data) is not None:
-		aa = list(data)
-		aa[0]='o'
-		a+=consonant(aa[1]+aa[0])
-	elif re.match(u"โ[ก-ฮ]",data) is not None:
 		aa = list(data)
 		aa[0]='o'
 		a+=consonant(aa[1]+aa[0])
@@ -191,14 +201,7 @@ def vowel(data):
 		aa[1]='ua'
 		aa[2]=aa[1]+consonant(aa[2])
 		a+=consonant(aa[0]+aa[2])
-	elif re.match(u"ใ[ก-ฮ]",data) is not None:
-		aa = list(data)
-		aa[0] = 'ai'
-		a+=consonant(aa[1]+aa[0])
-	elif re.match(u"ไ[ก-ฮ]",data) is not None:
-		aa = list(data)
-		aa[0] = 'ai'
-		a+=consonant(aa[1]+aa[0])
+
 	elif re.match(u"[ก-ฮ]ัย",data) is not None:
 		a+=consonant(re.sub('ัย', "ai", data))
 	elif re.match(u"ไ[ก-ฮ]ย",data) is not None:

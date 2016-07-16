@@ -57,8 +57,8 @@ aa = rank(b)
 print(aa) # Counter({'ฉัน': 2, 'ไทย': 2, 'เป็น': 1, 'รัก': 1, 'ภาษา': 1, 'เพราะ': 1, 'คน': 1})
 # ถอดเสียงภาษาไทยเป็น Latin
 from pythainlp.romanization import romanization
-b=romanization("ต้นกก")
-print(b) # tonkok
+b=romanization("แมว")
+print(b) # mæw
 # แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา
 from pythainlp.change import *
 a="l;ylfu8iy["

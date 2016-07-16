@@ -30,7 +30,7 @@ setup(
     author_email='wannaphong@yahoo.com',
     url='https://github.com/wannaphongcom/pythainlp',
     packages=find_packages(),
-    package_data={'pythainlp.postaggers':['thaipos.pickle'],'pythainlp.segment':['thai.txt']},
+    package_data={'pythainlp.postaggers':['thaipos.json'],'pythainlp.segment':['thai.txt']},
     include_package_data=True,
     install_requires=requirements,
     license="Apache Software License 2.0",

@@ -13,7 +13,7 @@ from pythainlp.rank import rank
 aa = rank(b)
 print(aa)
 from pythainlp.romanization import romanization
-b=romanization("ต้นกก")
+b=romanization("แมว")
 print(b)
 from pythainlp.change import *
 a="l;ylfu8iy["

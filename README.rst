@@ -8,10 +8,6 @@ PyThaiNLP
 .. image:: https://img.shields.io/travis/wannaphongcom/pythainlp.svg
         :target: https://travis-ci.org/wannaphongcom/pythainlp
 
-.. image:: https://readthedocs.org/projects/pythainlp/badge/?version=latest
-        :target: https://pythainlp.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
-
 Thai NLP in python package.
 
 Version
@@ -19,7 +15,7 @@ Version
 0.0.6
 
 * Free software: Apache Software License 2.0
-* Documentation: https://pythainlp.readthedocs.io.
+* Documentation: https://pythonhosted.org/pythainlp/
 
 
 Features

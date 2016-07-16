@@ -4,6 +4,7 @@ from future import standard_library
 standard_library.install_aliases()
 from collections import Counter
 from pythainlp.segment import segment
+#เรียงจำนวนคำของประโยค
 def rank(data):
 	"""เรียงจำนวนคำของประโยค
 	รับค่าเป็น list คืนค่าเป็น list [ข้อความ,จำนวน]"""

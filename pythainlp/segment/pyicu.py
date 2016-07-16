@@ -2,6 +2,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 from .isthai import isThai
 import PyICU
+# ตัดคำภาษาไทย
 def segment(txt):
     """คืนค่าออกมาเป็น list ที่ได้มาจากการตัดคำโดย ICU"""
 	bd = PyICU.BreakIterator.createWordInstance(PyICU.Locale("th"))

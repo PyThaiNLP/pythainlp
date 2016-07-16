@@ -16,28 +16,34 @@ p = [['ภาษาไทย', 'ตัวเลข','เลขไทย'],
 thaitonum = dict((x[2], x[1]) for x in p[1:])
 p1 = dict((x[0], x[1]) for x in p[1:])
 d1 = 0
+#เลขไทยสู่เลข
 def nttn(text):
 	"""คืนค่า str เป็นเลขไทยสู่เลข"""
 	thaitonum = dict((x[2], x[1]) for x in p[1:])
 	return thaitonum[text]
+#เลขไทยสู่ข้อความ
 def nttt(text):
-	"""เลขไทยสู่ข้อความ"""
+	"""คืนค่า str เป็นเลขไทยสู่ข้อความ"""
 	thaitonum = dict((x[2], x[0]) for x in p[1:])
 	return thaitonum[text]
+#เลขสู่เลขไทย
 def ntnt(text):
-	"""เลขสู่เลขไทย"""
+	"""คืนค่า str เป็นเลขสู่เลขไทย"""
 	thaitonum = dict((x[1], x[2]) for x in p[1:])
 	return thaitonum[text]
+#เลขสู่ข้อความ
 def ntt(text):
-	"""เลขสู่ข้อความ"""
+	"""คืนค่า str เป็นเลขสู่ข้อความ"""
 	thaitonum = dict((x[1], x[0]) for x in p[1:])
 	return thaitonum[text]
+#ข้อความสู่เลข
 def ttn(text):
-	"""ข้อความสู่เลข"""
+	"""คืนค่า str เป็นข้อความสู่เลข"""
 	thaitonum = dict((x[0], x[1]) for x in p[1:])
 	return thaitonum[text]
+#ข้อความสู่เลขไทย
 def ttnt(text):
-	"""ข้อความสู่เลขไทย"""
+	"""คืนค่า str เป็นข้อความสู่เลขไทย"""
 	thaitonum = dict((x[0], x[2]) for x in p[1:])
 	return thaitonum[text]
 def number_format(num, places=0):
@@ -53,14 +59,12 @@ def numtowords(amount_number):
 	else:
 		amount_number = amount_number.split('.')
 		number = amount_number[0]
-		fraction = int(amount_number1[1]) #amount_number[pt:pt + 1]
+		fraction = int(amount_number1[1]) 
 	ret = ""
 	number=eval(number.replace(",",""))
-	#print(type(number))
 	baht = ReadNumber(number)
 	if (baht != ""):
 		ret += baht + "บาท"
-	#print(amount_number)
 	satang = ReadNumber(fraction)
 	if (satang != ""):
 		ret += satang + "สตางค์"
@@ -68,7 +72,7 @@ def numtowords(amount_number):
 		ret += "ถ้วน"
 	return ret
 
-
+#อ่านจำนวนตัวเลขภาษาไทย
 def ReadNumber(number):
 	"""อ่านจำนวนตัวเลขภาษาไทย รับค่าเป็น float คืนค่าเป็น str"""
 	position_call = ["แสน", "หมื่น", "พัน", "ร้อย", "สิบ", ""]

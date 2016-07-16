@@ -55,7 +55,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'PyThai-NLP'
+project = u'PyThaiNLP'
 copyright = u"2016, Wannaphong Phatthiyaphaibun"
 
 # The version info for the project you're documenting, acts as replacement
@@ -209,7 +209,7 @@ latex_elements = {
 # [howto/manual]).
 latex_documents = [
     ('index', 'pythainlp.tex',
-     u'PyThai-NLP Documentation',
+     u'PyThaiNLP Documentation',
      u'Wannaphong Phatthiyaphaibun', 'manual'),
 ]
 
@@ -240,7 +240,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'pythainlp',
-     u'PyThai-NLP Documentation',
+     u'PyThaiNLP Documentation',
      [u'Wannaphong Phatthiyaphaibun'], 1)
 ]
 
@@ -255,7 +255,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'pythainlp',
-     u'PyThai-NLP Documentation',
+     u'PyThaiNLP Documentation',
      u'Wannaphong Phatthiyaphaibun',
      'pythainlp',
      'One line description of project.',

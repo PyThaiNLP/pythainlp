@@ -14,6 +14,7 @@ def data():
 		model = json.load(handle)
 	return model
 data1 =data()
+#Postaggers ภาษาไทย
 def tag(text):
 	"""รับค่าเป็นข้อความ str คืนค่าเป็น list เช่น [('ข้อความ', 'ชนิดคำ')]"""
 	text= segment(text)

@@ -1,9 +1,8 @@
-# เขียนโดย วรรณพงษ์  ภัททิยไพบูลย์
-# เขียนโดย วรรณพงษ์  ภัททิยไพบูลย์
 from __future__ import absolute_import
 from __future__ import print_function
 import icu
 collator1 = icu.Collator.createInstance(icu.Locale('th_TH'))
+# เรียงลำดับข้อมูล list ภาษาไทย
 def collation(data):
 	"""เป็นคำสั่งเรียงลำดับข้อมูลใน list รับค่า list คืนค่าเป็น list"""
 	return sorted(data,key=collator1.getSortKey)

@@ -1,12 +1,15 @@
 # PyThaiNLP
 [![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=master)](https://travis-ci.org/wannaphongcom/pythainlp)
-[![Documentation Status](https://readthedocs.org/projects/pythainlp/badge/?version=latest)](http://pythainlp.readthedocs.io/en/latest/?badge=latest)
 
 Thai NLP in python package. 
 
 Natural language processing หรือ การประมวลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่องานวิจัยและพัฒนา การประมวลภาษาธรรมชาติในภาษา Python
 
-รองรับเฉพาะ Python 3 เท่านั้น (Python 2 กำลังพัฒนา)
+รองรับเฉพาะ Python 3 เท่านั้น 
+
+  - เอกสารการใช้งาน : [https://pythonhosted.org/pythainlp/](https://pythonhosted.org/pythainlp/)
+  - หน้าหลัก GitHub :  [https://github.com/wannaphongcom/pythainlp](https://github.com/wannaphongcom/pythainlp)
+
 
 ### Version
 0.0.6

@@ -71,6 +71,8 @@ def consonant(text):
 		text = list(txt)
 		text1 = ""
 		text1 = p1[text[0]]
+		#print(len(text))
+		print(text)
 		if len(txt) == 2: # จัดการแก้ไขการสะกดคำที่มี 2 ตัว โดยการเติม o
 			text1 += 'o'
 		for a in txt[1:]:
@@ -88,41 +90,6 @@ def vowel(data):
 	data = data
 	th = u'[ก-ฮ]+'
 	a=''
-	if len(data) == 2:
-			if re.match(u"[ก-ฮ]ะ",data) is not None:
-				a+=consonant(re.sub('ะ', "a", data))
-			elif re.match(u"[ก-ฮ]ั",data) is not None:
-				a+=consonant(re.sub('ั', "a", data))
-			elif re.match(u"[ก-ฮ]า",data) is not None:
-				a+=consonant(re.sub('า', "a", data))
-			elif re.match(u"[ก-ฮ]รร", data) is not None:
-				a+=consonant(re.sub('รร', "an", data))
-			elif re.match(u"[ก-ฮ]ำ",data) is not None:
-				a+=consonant(re.sub('ำ', "am", data))
-			elif re.match(u"[ก-ฮ]ิ",data) is not None:
-				a+=consonant(re.sub('ิ', "i", data))
-			elif re.match(u"[ก-ฮ]ึ",data) is not None:
-				a+=consonant(re.sub('ึ', "ue", data))
-			elif re.match(u"[ก-ฮ]ื",data) is not None:
-				a+=consonant(re.sub('ื', "ue", data))
-			elif re.match(u"[ก-ฮ]ุ",data) is not None:
-				a+=consonant(re.sub('ุ', "u", data))
-			elif re.match(u"[ก-ฮ]ู",data) is not None:
-				a+=consonant(re.sub('ู', "u", data))
-			elif re.match(u"ใ[ก-ฮ]",data) is not None:
-				aa = list(data)
-				aa[0] = 'ai'
-				a+=consonant(aa[1]+aa[0])
-			elif re.match(u"ไ[ก-ฮ]",data) is not None:
-				aa = list(data)
-				aa[0] = 'ai'
-				a+=consonant(aa[1]+aa[0])
-			elif re.match(u"โ[ก-ฮ]",data) is not None:
-				aa = list(data)
-				aa[0]='o'
-				a+=consonant(aa[1]+aa[0])
-	elif re.match(u"[ก-ฮ]รร",data) is not None:
-		a+=consonant(re.sub('รร', "a", data))
 	if re.match(u"แ[ก-ฮ]ว",data) is not None:
 		aa=list(data)
 		aa[0]='aeo'
@@ -131,7 +98,28 @@ def vowel(data):
 		aa = list(data)
 		aa[0] = 'iao'	
 		a+=consonant(aa[1]+aa[0])
-
+	elif re.match(u"[ก-ฮ]ะ",data) is not None:
+		a+=consonant(re.sub('ะ', "a", data))
+	elif re.match(u"[ก-ฮ]ั",data) is not None:
+		a+=consonant(re.sub('ั', "a", data))
+	elif re.match(u"[ก-ฮ]รร",data) is not None:
+		a+=consonant(re.sub('รร', "a", data))
+	elif re.match(u"[ก-ฮ]า",data) is not None:
+		a+=consonant(re.sub('า', "a", data))
+	elif re.match(u"[ก-ฮ]รร[ก-ฮ]", data) is not None:
+		a+=consonant(re.sub('รร', "an", data))
+	elif re.match(u"[ก-ฮ]ำ",data) is not None:
+		a+=consonant(re.sub('ำ', "am", data))
+	elif re.match(u"[ก-ฮ]ิ",data) is not None:
+		a+=consonant(re.sub('ิ', "i", data))
+	elif re.match(u"[ก-ฮ]ึ",data) is not None:
+		a+=consonant(re.sub('ึ', "ue", data))
+	elif re.match(u"[ก-ฮ]ื",data) is not None:
+		a+=consonant(re.sub('ื', "ue", data))
+	elif re.match(u"[ก-ฮ]ุ",data) is not None:
+		a+=consonant(re.sub('ุ', "u", data))
+	elif re.match(u"[ก-ฮ]ู",data) is not None:
+		a+=consonant(re.sub('ู', "u", data))
 	elif re.match(u"เ[ก-ฮ]ะ",data) is not None:
 		aa = list(data)
 		#a+=consonant((list(data))[1])
@@ -154,6 +142,10 @@ def vowel(data):
 		aa[0]='ae'
 		a+=consonant(aa[1]+aa[0])
 	elif re.match(u"โ[ก-ฮ]ะ",data) is not None:
+		aa = list(data)
+		aa[0]='o'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"โ[ก-ฮ]",data) is not None:
 		aa = list(data)
 		aa[0]='o'
 		a+=consonant(aa[1]+aa[0])
@@ -201,7 +193,14 @@ def vowel(data):
 		aa[1]='ua'
 		aa[2]=aa[1]+consonant(aa[2])
 		a+=consonant(aa[0]+aa[2])
-
+	elif re.match(u"ใ[ก-ฮ]",data) is not None:
+		aa = list(data)
+		aa[0] = 'ai'
+		a+=consonant(aa[1]+aa[0])
+	elif re.match(u"ไ[ก-ฮ]",data) is not None:
+		aa = list(data)
+		aa[0] = 'ai'
+		a+=consonant(aa[1]+aa[0])
 	elif re.match(u"[ก-ฮ]ัย",data) is not None:
 		a+=consonant(re.sub('ัย', "ai", data))
 	elif re.match(u"ไ[ก-ฮ]ย",data) is not None:
@@ -258,11 +257,34 @@ def vowel(data):
 		a+=consonant(data)
 	return a
 
+def segment1(data):
+	#แบ่งคำด้วย pythainlp ปกติแล้วมาแยกคำในแต่ละ list อีกรอบ
+	p="(แ[ก-ฮ]ว)|(เ[ก-ฮ]ียว)|([ก-ฮ]ะ)|([ก-ฮ]ั)|([ก-ฮ]รร)|([ก-ฮ]า)|([ก-ฮ]รร[ก-ฮ])|([ก-ฮ]ำ)|([ก-ฮ]ิ)|([ก-ฮ]ึ)|([ก-ฮ]ื)|([ก-ฮ]ุ)|([ก-ฮ]ู)|(เ[ก-ฮ]ะ)|(เ[ก-ฮ]็)|(เ[ก-ฮ])|(แ[ก-ฮ]ะ)|(แ[ก-ฮ])|(โ[ก-ฮ]ะ)|(โ[ก-ฮ])|(เ[ก-ฮ]าะ)|([ก-ฮ]อ)|(เ[ก-ฮ]อะ)|(เ[ก-ฮ]ิ)|(เ[ก-ฮ]อ)|(เ[ก-ฮ]ียะ)|(เ[ก-ฮ]ีย)|(เ[ก-ฮ]ื(อะ|อ))|([ก-ฮ]ั(วะ|ว))|([[ก-ฮ]ว[ก-ฮ])|(ใ[ก-ฮ])|(ไ[ก-ฮ])|([ก-ฮ]าย)|(เ[ก-ฮ]า)|([ก-ฮ]าว)|([ก-ฮ]ย)|(โ[ก-ฮ]ย)|([ก-ฮ]อย)|(เ[ก-ฮ]ย)|(เ[ก-ฮ]ือย)|([ก-ฮ]วย|([ก-ฮ]ิว)|(เ[ก-ฮ]็ว)|(เ[ก-ฮ]ว))|(แ[ก-ฮ]ว)|(แ[ก-ฮ]็ว)|([ก-ฮ]ี)"# |()
+	p = re.compile(p, re.U)
+	match = p.split(data)
+	match= [x for x in match if x is not None]
+	match= [x for x in match if x is not '']
+	match= [x for x in match if x is not '']
+	data=""
+	print(match)
+	for a in match:
+		data+=vowel(a)
+		#try:
+		#	data+=consonant(b)
+		#except:
+		#	data += vowel(b)
+	return data#,match
 def romanization(txt):
 	txt = segment(txt)  # (','.join(str(x) for x in txt))  # แยกออกมาเป็น list
 	cc=''
+	print(txt)
 	for b in txt:
-		cc += consonant(b)
+		try:
+			#cc+=consonant(b)
+			cc += segment1(b)
+		except:
+			#cc += segment1(b)
+			cc+=consonant(b)
 	return cc
     # return txt
 if __name__ == "__main__":
@@ -280,3 +302,4 @@ if __name__ == "__main__":
 	print(vowel('มะ'))
 	print(vowel('เร็ว'))
 	print(vowel('เรียว'))
+	print(romanization('พนมรุ้ง'))

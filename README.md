@@ -10,6 +10,9 @@ Natural language processing หรือ การประมวลภาษา
   - เอกสารการใช้งาน : [https://pythonhosted.org/pythainlp/](https://pythonhosted.org/pythainlp/)
   - หน้าหลัก GitHub :  [https://github.com/wannaphongcom/pythainlp](https://github.com/wannaphongcom/pythainlp)
 
+### สถานะโครงการ
+
+กำลังพัฒนา 
 
 ### Version
 0.0.6
@@ -81,3 +84,7 @@ print(numtowords(5611116.50)) # ห้าล้านหกแสนหนึ่
 Apache Software License 2.0
 
 พัฒนาโดย นาย วรรณพงษ์  ภัททิยไพบูลย์
+
+### สนับสนุน
+
+คุณสามารถร่วมพัฒนาโครงการนี้ได้ โดยการ Fork และส่งโครงการกลับมา

@@ -6,7 +6,7 @@ import pythainlp
 import os
 import json
 import nltk.tag, nltk.data
-templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), 'postaggers')
+templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), 'corpus')
 template_file = os.path.join(templates_dir, 'thaipos.json')
 #default_tagger = nltk.data.load(nltk.tag._POS_TAGGER)
 def data():

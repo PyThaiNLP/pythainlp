@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 __author__ = 'Wannaphong Phatthiyaphaibun'
 __email__ = 'wannaphong@yahoo.com'
-__version__ = '0.0.6'
+__version__ = '0.0.7'
 from . import romanization
 from . import segment
 from . import rank

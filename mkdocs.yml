@@ -2,6 +2,7 @@ site_name: PyThaiNLP
 theme: readthedocs
 pages:
 - Home: index.md
+- Install: install.md
 - Docs: using.md
 - License: license.md
-- About: about.md
+- About: docs.md

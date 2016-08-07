@@ -3,6 +3,6 @@ theme: readthedocs
 pages:
 - Home: index.md
 - Install: install.md
-- Docs: using.md
+- Docs: docs.md
 - License: license.md
 - About: docs.md

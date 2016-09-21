@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 from __future__ import print_function
-from .isthai import isThai
+from isthai import isThai
 import PyICU
 # ตัดคำภาษาไทย
 def segment(txt):

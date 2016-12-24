@@ -1,9 +1,10 @@
 # PyThaiNLP
+[![pypi](https://img.shields.io/pypi/v/pythainlp.svg](https://pypi.python.org/pypi/pythainlp)
 [![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=master)](https://travis-ci.org/wannaphongcom/pythainlp)
 
 Thai NLP in python package. 
 
-Natural language processing หรือ การประมวลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่องานวิจัยและพัฒนา การประมวลภาษาธรรมชาติในภาษา Python
+Natural language processing หรือ การประมวลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่องานวิจัยและพัฒนาการประมวลภาษาธรรมชาติภาษาไทยในภาษา Python
 
 รองรับเฉพาะ Python 3 เท่านั้น 
 

@@ -28,5 +28,5 @@ from pythainlp.number import numtowords
 print("5611116.50")
 print(numtowords(5611116.50))
 
-from pythainlp.postaggers import tag
-print(tag('คุณกำลังประชุม'))
+#from pythainlp.postaggers import tag
+#print(tag('คุณกำลังประชุม'))

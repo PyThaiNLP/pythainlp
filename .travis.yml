@@ -25,4 +25,4 @@ deploy:
   on:
     tags: true
     repo: wannaphongcom/pythainlp
-    condition: $TOXENV == py27
+    condition: $TOXENV == py35

@@ -8,15 +8,15 @@ from pythainlp.number import numtowords
 from pythainlp.postaggers import tag
 class TestUM(unittest.TestCase):
 	def segment_test(self):
-		return segment('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย') == ['ฉัน', 'รัก', 'ภาษา', 'ไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คน', 'ไทย']
+		self.assertTrue(segment('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย') == ['ฉัน', 'รัก', 'ภาษา', 'ไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คน', 'ไทย'])
 	def rank_test(self):
-		return rank(["แมว","คน","แมว"]) == Counter({'แมว': 2, 'คน': 1})
+		self.assertTrue(rank(["แมว","คน","แมว"]) == Counter({'แมว': 2, 'คน': 1}))
 	def change_test(self):
-		return texttothai("l;ylfu8iy[") == 'สวัสดีครับ'
+		self.assertTrue(texttothai("l;ylfu8iy[") == 'สวัสดีครับ')
 	def number_test(self):
-		return numtowords(5611116.50) == 'ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์'
+		self.assertTrue(numtowords(5611116.50) == 'ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์')
 	def tag_test(self):
-		return tag("คุณกำลังประชุม") == [('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')]
+		self.assertTrue(tag("คุณกำลังประชุม") == [('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 if __name__ == '__main__':
     (options, args) = parser.parse_args()
     if options.run_tests:

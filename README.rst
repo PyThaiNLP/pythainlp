@@ -12,7 +12,7 @@ Thai NLP in python package.
 
 Version
 --------
-0.0.8
+0.0.9
 
 * Free software: Apache Software License 2.0
 * Documentation: https://pythonhosted.org/pythainlp/

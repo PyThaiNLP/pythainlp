@@ -1,1 +1,1 @@
-mkdocs serve
+mkdocs build --clean

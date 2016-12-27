@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 from setuptools import setup
@@ -23,7 +23,7 @@ test_requirements = [
 
 setup(
     name='pythainlp',
-    version='0.0.7',
+    version='0.0.8',
     description="Thai NLP in python package.",
     long_description=readme,# + '\n\n' + history,
     author="Wannaphong Phatthiyaphaibun",
@@ -35,6 +35,7 @@ setup(
     install_requires=requirements,
     license="Apache Software License 2.0",
     zip_safe=False,
+    test_suite='tests',
     keywords='pythainlp',
     classifiers=[
         'Development Status :: 3 - Alpha',

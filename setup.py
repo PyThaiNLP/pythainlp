@@ -26,7 +26,7 @@ setup(
     version='0.0.8',
     description="Thai NLP in python package.",
     long_description=readme,# + '\n\n' + history,
-    author="Wannaphong Phatthiyaphaibun",
+    author='Wannaphong Phatthiyaphaibun',
     author_email='wannaphong@yahoo.com',
     url='https://github.com/wannaphongcom/pythainlp',
     packages=find_packages(),
@@ -35,7 +35,7 @@ setup(
     install_requires=requirements,
     license='Apache Software License 2.0',
     zip_safe=False,
-    test_suite='tests',
+    test_suite='test',
     keywords='pythainlp',
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -46,6 +46,6 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5'],
-    #test_suite='tests',
+    #scripts = ['test.py']
     #tests_require=test_requirements
 )

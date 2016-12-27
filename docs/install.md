@@ -3,15 +3,21 @@
 สามารถติดตั้งได้โดยใช้คำสั่ง
 
 รุ่นเสถียร
+
 ```sh
 $ pip3 install pythainlp
 ```
 รุ่นกำลังพัฒนา
+
 ```sh
 $ git clone https://github.com/wannaphongcom/pythainlp.git
 $ cd pythainlp
 $ python setup.py install
 ```
+
+# สำหรับเปิดใช้งานระบบเช็คคำผิด
+
+ต้องทำการติดตั้ง hunspell ให้เรียบร้อย
 
 ## สำหรับ Windows
 

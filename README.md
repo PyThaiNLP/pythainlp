@@ -1,4 +1,5 @@
 # PyThaiNLP
+[![PyPI Downloads][pypi-dl-image]]
 [![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
 [![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=master)](https://travis-ci.org/wannaphongcom/pythainlp)
 
@@ -86,3 +87,5 @@ Apache Software License 2.0
 ### สนับสนุน
 
 คุณสามารถร่วมพัฒนาโครงการนี้ได้ โดยการ Fork และส่ง pull requests กลับมา
+
+[pypi-dl-image]: https://img.shields.io/pypi/dm/pythainlp.png

@@ -1,7 +1,6 @@
 # ระบบแปลงเลขใน 1- 10 ภาษาไทย
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import,division,print_function
+from nine import str
 import math
 p = [['ภาษาไทย', 'ตัวเลข','เลขไทย'],
      ['หนึ่ง', '1', '๑'],

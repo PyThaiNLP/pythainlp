@@ -14,6 +14,7 @@ requirements = [
     'pyicu>=1.9.3',
     'nltk',
     'future',
+    'nine',
     # TODO: put package requirements here
 ]
 
@@ -35,7 +36,7 @@ setup(
     install_requires=requirements,
     license='Apache Software License 2.0',
     zip_safe=False,
-    test_suite='test',
+    #test_suite='test',
     keywords='pythainlp',
     classifiers=[
         'Development Status :: 3 - Alpha',

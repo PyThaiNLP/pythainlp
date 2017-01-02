@@ -1,10 +1,9 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import,division,print_function
+from nine import nimport,str
 from pythainlp.segment import segment
 import pythainlp
 import os
-import json
+json= nimport('json')
 import nltk.tag, nltk.data
 templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), 'corpus')
 template_file = os.path.join(templates_dir, 'thaipos.json')

@@ -1,4 +1,6 @@
 import os
+from nine import nimport,str
+codecs= nimport('codecs')
 import codecs
 import pythainlp
 templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), 'corpus')

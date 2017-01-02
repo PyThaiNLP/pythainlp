@@ -3,6 +3,9 @@ import subprocess
 import sys
 
 def spell(word,lang):
+	"""เป็นคำสั่งตรวจคำผิดโดยใช้ hunspell
+	รับค่า str ส่งออกเป็น list
+	"""
 	try:
 		if sys.platform == 'win32':
 			cmd = "echo "+word+" | hunspell -d "+lang
@@ -13,7 +16,7 @@ def spell(word,lang):
 		get = getoutput.split("\n")
 		del get[0]
 		if get[0] == '*':
-			getoutput = "No Suggestions"
+			getoutput = []
 		else:
 			if get[1] == "":
 				del get[1]

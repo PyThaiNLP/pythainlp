@@ -24,9 +24,9 @@ test_requirements = [
 
 setup(
     name='pythainlp',
-    version='0.0.9',
+    version='1.0.0',
     description="Thai NLP in python package.",
-    long_description=readme,# + '\n\n' + history,
+    long_description=readme,
     author='Wannaphong Phatthiyaphaibun',
     author_email='wannaphong@yahoo.com',
     url='https://github.com/wannaphongcom/pythainlp',
@@ -39,14 +39,18 @@ setup(
     #test_suite='test',
     keywords='pythainlp',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: Thai',
+        'Topic :: Text Processing :: Linguistic',
+        'Programming Language :: Python :: Implementation',
+        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5'],
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6'],
     #scripts = ['test.py']
     #tests_require=test_requirements
 )

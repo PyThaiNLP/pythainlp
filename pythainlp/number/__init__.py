@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ระบบแปลงเลขใน 1- 10 ภาษาไทย
 from __future__ import absolute_import,division,print_function
 from nine import str

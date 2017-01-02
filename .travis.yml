@@ -10,7 +10,6 @@ env:
   - TOXENV=py33
   - TOXENV=py27
   - TOXENV=pypy
-  - TOXENV=pypy3
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: pip install -U tox
 

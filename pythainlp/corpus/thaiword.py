@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from nine import nimport,str
 codecs= nimport('codecs')

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
+from __future__ import print_function
 import os
 import codecs
 import pythainlp
@@ -9,4 +11,4 @@ def data():
 		lines = f.read().splitlines()
 	return lines
 if __name__ == "__main__":
-	print(data())
+	print((data()))

@@ -1,6 +1,6 @@
 from __future__ import absolute_import,print_function
-from nine import str, basestring
 from future import standard_library
+import six
 standard_library.install_aliases()
 from .thai import data
 lines = data()

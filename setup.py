@@ -15,6 +15,7 @@ requirements = [
     'nltk',
     'future',
     'nine',
+    'six',
     # TODO: put package requirements here
 ]
 

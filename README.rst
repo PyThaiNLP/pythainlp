@@ -4,6 +4,8 @@ PyThaiNLP
 [|PyPI Downloads|][|pypi|](https://pypi.python.org/pypi/pythainlp)
 |Build Status|
 
+สถานะการ Build ในเวชั่นทดสอบ |Build Status|
+
 Thai NLP in python package.
 
 Natural language processing หรือ การประมวลภาษาธรรมชาติ โมดูล PyThaiNLP
@@ -106,5 +108,5 @@ Apache Software License 2.0
 
 .. |PyPI Downloads| image:: https://img.shields.io/pypi/dm/pythainlp.png
 .. |pypi| image:: https://img.shields.io/pypi/v/pythainlp.svg
-.. |Build Status| image:: https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=master
+.. |Build Status| image:: https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=develop
    :target: https://travis-ci.org/wannaphongcom/pythainlp

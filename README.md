@@ -1,7 +1,9 @@
 # PyThaiNLP
 [![PyPI Downloads](https://img.shields.io/pypi/dm/pythainlp.png)]
 [![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
-[![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=master)](https://travis-ci.org/wannaphongcom/pythainlp)
+[![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=develop)](https://travis-ci.org/wannaphongcom/pythainlp)
+
+สถานะการ Build ในเวชั่นทดสอบ [![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=develop)](https://travis-ci.org/wannaphongcom/pythainlp)
 
 Thai NLP in python package. 
 

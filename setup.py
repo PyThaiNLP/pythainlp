@@ -3,9 +3,10 @@
 
 from setuptools import setup
 from setuptools import find_packages
+import codecs
 
-#with open('README.rst') as readme_file:
-#    readme = readme_file.read()
+with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
+    readme = readme_file.read()
 
 #with open('HISTORY.rst') as history_file:
 #    history = history_file.read()
@@ -27,7 +28,7 @@ setup(
     name='pythainlp',
     version='1.0.0',
     description="Thai NLP in python package.",
-    #long_description=readme,
+    long_description=readme,
     author='Wannaphong Phatthiyaphaibun',
     author_email='wannaphong@yahoo.com',
     url='https://github.com/wannaphongcom/pythainlp',

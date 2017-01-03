@@ -1,5 +1,4 @@
-﻿#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 
 from setuptools import setup
 from setuptools import find_packages
@@ -7,9 +6,6 @@ import codecs
 
 with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
     readme = readme_file.read()
-
-#with open('HISTORY.rst') as history_file:
-#    history = history_file.read()
 
 requirements = [
     'pyicu>=1.9.3',
@@ -38,7 +34,6 @@ setup(
     install_requires=requirements,
     license='Apache Software License 2.0',
     zip_safe=False,
-    #test_suite='test',
     keywords='pythainlp',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -52,6 +47,4 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5']
-    #scripts = ['test.py']
-    #tests_require=test_requirements
 )

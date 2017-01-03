@@ -2,6 +2,7 @@ from __future__ import absolute_import,division,print_function
 from nine import nimport,str
 from pythainlp.segment import segment
 import pythainlp
+import codecs
 import os
 json= nimport('json')
 import nltk.tag, nltk.data
@@ -9,7 +10,7 @@ templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), 'corpus')
 template_file = os.path.join(templates_dir, 'thaipos.json')
 #default_tagger = nltk.data.load(nltk.tag._POS_TAGGER)
 def data():
-	with open(template_file) as handle:
+	with codecs.open(template_file,'r',encoding='utf-8') as handle:
 		model = json.load(handle)
 	return model
 data1 =data()

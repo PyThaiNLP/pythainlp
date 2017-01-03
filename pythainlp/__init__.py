@@ -3,12 +3,12 @@ from __future__ import absolute_import
 __author__ = 'Wannaphong Phatthiyaphaibun'
 __email__ = 'wannaphong@yahoo.com'
 __version__ = '1.0.0'
-from . import romanization
-from . import segment
-from . import rank
-from . import change
-from . import number
-from . import date
-from . import postaggers
-from . import collation
-from . import spell
+from pythainlp.romanization import *
+from pythainlp.segment import *
+from pythainlp.rank import *
+from pythainlp.change import *
+from pythainlp.number import *
+from pythainlp.date import *
+from pythainlp.postaggers import *
+from pythainlp.collation import *
+from pythainlp.spell import *

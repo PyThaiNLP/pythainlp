@@ -9,8 +9,8 @@ with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
 
 requirements = [
     'pyicu>=1.9.3',
-    'nltk',
-    'future',
+    'nltk>=3.2.2',
+    'future>=0.16.0',
     'nine',
     'six',
     # TODO: put package requirements here
@@ -29,6 +29,7 @@ setup(
     author_email='wannaphong@yahoo.com',
     url='https://github.com/wannaphongcom/pythainlp',
     packages=find_packages(),
+    test_suite='test',
     package_data={'pythainlp.corpus':['thaipos.json','thaiword.txt']},
     include_package_data=True,
     install_requires=requirements,
@@ -46,5 +47,6 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5']
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6']
 )

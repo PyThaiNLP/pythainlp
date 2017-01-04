@@ -1,4 +1,6 @@
 from __future__ import absolute_import,print_function
+from __future__ import unicode_literals
+from __future__ import division
 from future import standard_library
 import six
 standard_library.install_aliases()

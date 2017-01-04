@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,print_function
+from __future__ import unicode_literals
+from __future__ import division
+from future import standard_library
+standard_library.install_aliases()
 from nine import str,iteritems
 dictdata={'Z':'(','z':'ผ','X':')','x':'ป','C':'ฉ','c':'แ','V':'ฮ','v':'อ','B':'ฺ','b':'ิ','N':'์','n':'ื','M':'?','m':'ท','<':'ฒ',',':'ม','>':'ฬ','.':'ใ','?':'ฦ','/':'ฝ',
 'A':'ฤ','a':'ฟ','S':'ฆ','s':'ห','D':'ฏ','d':'ก','F':'โ','f':'ด','G':'ฌ','g':'เ','H':'็','h':'้','J':'๋','j':'j','K':'ษ','k':'า','L':'ศ','l':'ส',':':'ซ','"':'.',"'":"ง",':':'ซ',';':'ว',

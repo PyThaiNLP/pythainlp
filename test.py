@@ -6,7 +6,6 @@ from __future__ import absolute_import
 from future import standard_library
 standard_library.install_aliases()
 import unittest
-import optparse
 from collections import Counter
 from pythainlp.segment import segment
 from pythainlp.rank import rank

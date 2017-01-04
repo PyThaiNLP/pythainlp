@@ -36,6 +36,15 @@ pythainlp.postaggers.tag(str)
 [('แมว', 'NCMN'), ('กิน', 'VACT'), ('ปลา', 'NCMN')
 ```
 
+## ตรวจคำผิด
+
+คุณจะต้องติดตั้ง hunspell ( https://github.com/hunspell/hunspell/ )ในเครื่องของคุณก่อนใช้งานความสามารถนี้
+
+```python
+pythainlp.spell.spell(str)
+```
+ส่งออกเป็น list
+
 ## หาคำที่มีจำนวนการใช้งานมากที่สุด
 
 ```python

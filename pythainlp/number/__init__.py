@@ -1,5 +1,11 @@
+# -*- coding: utf-8 -*-
 # ระบบแปลงเลขใน 1- 10 ภาษาไทย
 from __future__ import absolute_import,division,print_function
+from __future__ import unicode_literals
+from builtins import dict
+from builtins import int
+from future import standard_library
+standard_library.install_aliases()
 from nine import str
 import math
 p = [['ภาษาไทย', 'ตัวเลข','เลขไทย'],

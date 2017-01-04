@@ -7,7 +7,7 @@ Thai NLP in python package.
 PyThaiNLP เป็นโมดูลด้าน Natural language processing ภาษาไทยในภาษา Python
 
 ## เวชั่น
-0.0.7
+1.0.0
 
   - เอกสารการใช้งาน : [https://pythonhosted.org/pythainlp/](https://pythonhosted.org/pythainlp/)
   - หน้าหลัก GitHub :  [https://github.com/wannaphongcom/pythainlp](https://github.com/wannaphongcom/pythainlp)

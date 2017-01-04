@@ -4,8 +4,6 @@ PyThaiNLP
 [|PyPI Downloads|][|pypi|](https://pypi.python.org/pypi/pythainlp)
 |Build Status|
 
-สถานะการ Build ในเวชั่นทดสอบ |Build Status|
-
 Thai NLP in python package.
 
 Natural language processing หรือ การประมวลภาษาธรรมชาติ โมดูล PyThaiNLP
@@ -42,7 +40,7 @@ Version
 ติดตั้ง
 =======
 
-รองรับเฉพาะ Python 3
+รองรับทั้ง Python 2.7 และ Python 3
 
 รุ่นเสถียร
 

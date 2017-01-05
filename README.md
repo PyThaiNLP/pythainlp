@@ -35,7 +35,7 @@ Natural language processing หรือ การประมวลภาษา
 
 รุ่นเสถียร
 ```sh
-$ pip3 install pythainlp
+$ pip install pythainlp
 ```
 รุ่นกำลังพัฒนา
 ```sh

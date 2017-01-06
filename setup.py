@@ -5,10 +5,6 @@ import codecs
 import sys
 from setuptools import setup
 
-if sys.version_info < (3,):
-      package_dir = {'': 'src2'}
-else:
-      package_dir = {'': 'src3'}
 with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
     readme = readme_file.read()
 
@@ -17,8 +13,7 @@ requirements = [
     'nltk>=3.2.2',
     'future>=0.16.0',
     'nine',
-    'six',
-    # TODO: put package requirements here
+    'six'
 ]
 
 test_requirements = [
@@ -34,7 +29,6 @@ setup(
     author_email='wannaphong@yahoo.com',
     url='https://github.com/wannaphongcom/pythainlp',
     packages=find_packages(),
-    package_dir = package_dir,
     test_suite='test',
     package_data={'pythainlp.corpus':['thaipos.json','thaiword.txt']},
     include_package_data=True,

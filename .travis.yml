@@ -2,15 +2,14 @@
 # This file will be regenerated if you run travis_pypi_setup.py
 
 language: python
-python: 3.5
-
-env:
-  - TOXENV=py36
-  - TOXENV=py35
-  - TOXENV=py34
-  - TOXENV=py33
-  - TOXENV=py27
-  - TOXENV=pypy
+python:
+  - "2.6"
+  - "2.7"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: pip install -U tox
 
@@ -30,4 +29,4 @@ deploy:
   on:
     tags: true
     repo: wannaphongcom/pythainlp
-    condition: $TOXENV == py35
+    #condition: $TOXENV == py35

@@ -5,6 +5,7 @@ from __future__ import division
 from __future__ import absolute_import
 from future import standard_library
 standard_library.install_aliases()
+from nine import IS_PYTHON2
 import unittest
 from collections import Counter
 from pythainlp.corpus import alphabet
@@ -28,6 +29,9 @@ class TestUM(unittest.TestCase):
 	def testTag(self):
 		self.assertEqual(tag("คุณกำลังประชุม"),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 	def testAlphabet(self):
-		self.assertEqual(str(type(alphabet.get_data())),"<class 'list'>")
+		if IS_PYTHON2:
+			self.assertEqual(str(type(alphabet.get_data())),"<type 'list'>")
+		else:
+			self.assertEqual(str(type(alphabet.get_data())),"<class 'list'>")
 if __name__ == '__main__':
     unittest.main()

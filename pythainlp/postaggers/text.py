@@ -1,13 +1,9 @@
-from __future__ import absolute_import,division,print_function
-from __future__ import unicode_literals
-from future import standard_library
-standard_library.install_aliases()
-from nine import nimport,str
+from __future__ import absolute_import,division,print_function,unicode_literals
 from pythainlp.segment import segment
 import pythainlp
 import codecs
 import os
-json= nimport('json')
+import json
 import nltk.tag, nltk.data
 templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), 'corpus')
 template_file = os.path.join(templates_dir, 'thaipos.json')

@@ -1,11 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+from setuptools import setup
 from setuptools import find_packages
 import codecs
-import sys
-from setuptools import setup
-
 with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
     readme = readme_file.read()
 
@@ -23,7 +20,7 @@ test_requirements = [
 
 setup(
     name='pythainlp',
-    version='1.0.0',
+    version='1.1',
     description="Thai NLP in python package.",
     long_description=readme,
     author='Wannaphong Phatthiyaphaibun',
@@ -44,7 +41,6 @@ setup(
     'Natural Language :: Thai',
     'Topic :: Text Processing :: Linguistic',
     'Programming Language :: Python :: Implementation',
-    'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: 3',
     ],
 )

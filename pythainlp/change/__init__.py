@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import,print_function
-from __future__ import unicode_literals
-from __future__ import division
-from future import standard_library
-standard_library.install_aliases()
-from nine import str,iteritems
+from __future__ import absolute_import
 dictdata={'Z':'(','z':'ผ','X':')','x':'ป','C':'ฉ','c':'แ','V':'ฮ','v':'อ','B':'ฺ','b':'ิ','N':'์','n':'ื','M':'?','m':'ท','<':'ฒ',',':'ม','>':'ฬ','.':'ใ','?':'ฦ','/':'ฝ',
 'A':'ฤ','a':'ฟ','S':'ฆ','s':'ห','D':'ฏ','d':'ก','F':'โ','f':'ด','G':'ฌ','g':'เ','H':'็','h':'้','J':'๋','j':'j','K':'ษ','k':'า','L':'ศ','l':'ส',':':'ซ','"':'.',"'":"ง",':':'ซ',';':'ว',
 'Q':'๐','q':'ๆ','W':'"','w':'ไ','E':'ฎ','e':'ำ','R':'ฑ','r':'พ','T':'ธ','t':'ะ','Y':'ํ','y':'ั','U':'๊','u':'ี','I':'ณ','i':'ร','O':'ฯ','o':'น','P':'ญ','p':'ย','{':'ฐ','[':'บ','}':',',']':'ล','|':'ฅ',']':'ฃ',

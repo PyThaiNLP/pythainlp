@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from __future__ import division
 from future import standard_library
 standard_library.install_aliases()
-__all__ = ["thaipos", "thaiword"]
+__all__ = ["thaipos", "thaiword","alphabet"]
 from .thaipos import get_data
 from .thaiword import get_data
+from .alphabet import get_data

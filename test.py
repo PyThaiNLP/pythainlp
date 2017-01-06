@@ -7,6 +7,7 @@ from future import standard_library
 standard_library.install_aliases()
 import unittest
 from collections import Counter
+from pythainlp.corpus import alphabet
 from pythainlp.segment import segment
 from pythainlp.rank import rank
 from pythainlp.change import *
@@ -26,5 +27,7 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(numtowords(5611116.50),'ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์')
 	def testTag(self):
 		self.assertEqual(tag("คุณกำลังประชุม"),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
+	def testAlphabet(self):
+		self.assertEqual(str(type(alphabet.get_data())),"<class 'list'>")
 if __name__ == '__main__':
     unittest.main()

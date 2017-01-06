@@ -3,19 +3,20 @@
 
 language: python
 python:
-  - "2.7"
-  - "3.3"
+  - "2.7.12"
   - "3.4"
   - "3.5"
   - "3.6"
   - "pypy"
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -U tox
+install:
+  - pip install .
+  - pip install -r requirements.txt
 
 os:
   - linux
 # command to run tests, e.g. python setup.py test
-script: python setup.py test
+script: pytest
 
 # After you create the Github repo and add it to Travis, run the
 # travis_pypi_setup.py script to finish PyPI deployment setup

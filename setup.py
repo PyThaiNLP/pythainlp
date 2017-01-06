@@ -3,7 +3,7 @@
 from setuptools import find_packages
 import codecs
 import sys
-from distutils.core import setup
+from setuptools import setup
 
 if sys.version_info < (3,):
       package_dir = {'': 'src2'}

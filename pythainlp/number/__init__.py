@@ -3,7 +3,6 @@
 from __future__ import absolute_import,division,print_function,unicode_literals
 from builtins import dict
 from builtins import int
-from nine import str
 import math
 p = [['ภาษาไทย', 'ตัวเลข','เลขไทย'],
      ['หนึ่ง', '1', '๑'],

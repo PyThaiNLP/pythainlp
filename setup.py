@@ -25,7 +25,7 @@ setup(
     author_email='wannaphong@yahoo.com',
     url='https://github.com/wannaphongcom/pythainlp',
     packages=find_packages(),
-    test_suite='test',
+    test_suite='pythainlp.test',
     package_data={'pythainlp.corpus':['thaipos.json','thaiword.txt']},
     include_package_data=True,
     install_requires=requirements,

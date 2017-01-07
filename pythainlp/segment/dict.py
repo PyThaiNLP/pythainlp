@@ -4,8 +4,7 @@ from .thai import data
 lines = data()
 # code by https://stackoverflow.com/a/16690988
 def segment(string):
-    """Segments a string into words prefering longer words givens
-    a dictionary wset."""
+    """รับค่าสตริง str คืนค่า list"""
     # Sort wset in decreasing string order
     lines.sort(key=len, reverse=True)
     result = tokenize(string, lines, "")

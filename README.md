@@ -7,7 +7,7 @@ Thai NLP in python package.
 
 Natural language processing หรือ การประมวลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่องานวิจัยและพัฒนาการประมวลภาษาธรรมชาติภาษาไทยในภาษา Python
 
-รองรับทั้ง Python 2.7 และ Python 3 
+รองรับ Python 3.4 ขึ้นไป
 
   - เอกสารการใช้งาน : [https://pythonhosted.org/pythainlp/](https://pythonhosted.org/pythainlp/)
   - หน้าหลัก GitHub :  [https://github.com/wannaphongcom/pythainlp](https://github.com/wannaphongcom/pythainlp)
@@ -17,7 +17,7 @@ Natural language processing หรือ การประมวลภาษา
 กำลังพัฒนา 
 
 ### Version
-1.0.0
+1.1
 
 ### ความสามารถ
   - ตัดคำภาษาไทย
@@ -31,7 +31,7 @@ Natural language processing หรือ การประมวลภาษา
 
 # ติดตั้ง
 
-รองรับทั้ง Python 2.7 และ Python 3
+รองรับ Python 3.4 ขึ้นไป
 
 รุ่นเสถียร
 ```sh

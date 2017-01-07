@@ -4,6 +4,7 @@ import unittest
 from collections import Counter
 from pythainlp.corpus import alphabet
 from pythainlp.segment import segment
+from pythainlp.segment.dict import segment as segmentdict
 from pythainlp.rank import rank
 from pythainlp.change import *
 from pythainlp.number import numtowords
@@ -13,6 +14,8 @@ from pythainlp.date import now
 class TestUM(unittest.TestCase):
 	def testSegment(self):
 		self.assertEqual(segment('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),['ฉัน', 'รัก', 'ภาษา', 'ไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คน', 'ไทย'])
+	def testSegmentDict(self):
+		self.assertEqual(segmentdict('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),['ฉัน', 'รัก', 'ภาษาไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คนไทย'])
 	def testRank(self):
 		self.assertEqual(rank(["แมว","คน","แมว"]),Counter({'แมว': 2, 'คน': 1}))
 	def testChange(self):

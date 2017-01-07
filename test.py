@@ -9,6 +9,7 @@ from pythainlp.change import *
 from pythainlp.number import numtowords
 from pythainlp.postaggers import tag
 from pythainlp.romanization import romanization
+from pythainlp.date import now
 class TestUM(unittest.TestCase):
 	def testSegment(self):
 		self.assertEqual(segment('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),['ฉัน', 'รัก', 'ภาษา', 'ไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คน', 'ไทย'])
@@ -24,5 +25,7 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(tag("คุณกำลังประชุม"),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 	def testAlphabet(self):
 		self.assertEqual(str(type(alphabet.get_data())),"<class 'list'>")
+	def testNow(self):
+		self.assertEqual(type(now()),"<class 'str'>")
 if __name__ == '__main__':
     unittest.main()

@@ -26,6 +26,6 @@ class TestUM(unittest.TestCase):
 	def testAlphabet(self):
 		self.assertEqual(str(type(alphabet.get_data())),"<class 'list'>")
 	def testNow(self):
-		self.assertEqual(type(now()),"<class 'str'>")
+		self.assertEqual(type(now()),type('7 มกราคม 2560 20:23:01'))
 if __name__ == '__main__':
     unittest.main()

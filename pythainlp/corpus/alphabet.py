@@ -1,9 +1,4 @@
-from __future__ import absolute_import
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from future import standard_library
-standard_library.install_aliases()
+from __future__ import absolute_import,unicode_literals
 def get_data():
 	"""เป็นคำสั่งสำหรับดึงตัวอักษร ก - ฮ ในภาษาไทย
 	คืนค่า list

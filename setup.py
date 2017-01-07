@@ -9,9 +9,7 @@ with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
 requirements = [
     'pyicu>=1.9.3',
     'nltk>=3.2.2',
-    'future>=0.16.0',
-    'nine',
-    'six'
+    'future>=0.16.0'
 ]
 
 test_requirements = [

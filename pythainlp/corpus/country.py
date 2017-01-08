@@ -1,5 +1,4 @@
 from __future__ import absolute_import,unicode_literals
-list=
 def get_data():
 	"""เป็นคำสั่งดึงชื่อประเทศในโลก รูปแบบภาษาไทย
 	คืนค่า list

@@ -50,11 +50,10 @@ $ python setup.py install
 
 ```sh
 $ brew install icu4c
-$ ls -l /usr/local/opt/icu4c/include/
 $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pyicu
 ```
 
-ข้อมูลเพิ่มเติม คลิกที่นี้
+ข้อมูลเพิ่มเติม [คลิกที่นี้](https://medium.com/data-science-cafe/install-polyglot-on-mac-3c90445abc1f#.rdfrorxjx)
 
 
 # เอกสารการใช้งานเบื้องต้น

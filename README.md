@@ -44,6 +44,19 @@ $ cd pythainlp
 $ python setup.py install
 ```
 
+## ติดตั้งบน Mac
+
+ก่อนติดตั้งให้ติดตั้ง icu library ก่อน
+
+```sh
+$ brew install icu4c
+$ ls -l /usr/local/opt/icu4c/include/
+$ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pyicu
+```
+
+ข้อมูลเพิ่มเติม คลิกที่นี้
+
+
 # เอกสารการใช้งานเบื้องต้น
 
 ตัวอย่างการใช้งาน

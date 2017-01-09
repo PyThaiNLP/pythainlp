@@ -1,0 +1,1 @@
+python setup.py upload_docs --upload-dir=site

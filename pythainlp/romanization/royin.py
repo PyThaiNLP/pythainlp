@@ -72,7 +72,7 @@ def consonant(text):
 		text1 = ""
 		text1 = p1[text[0]]
 		#print(len(text))
-		print(text)
+		#print(text)
 		if len(txt) == 2: # จัดการแก้ไขการสะกดคำที่มี 2 ตัว โดยการเติม o
 			text1 += 'o'
 		for a in txt[1:]:
@@ -88,50 +88,27 @@ def consonant(text):
 # ส่วนสระ
 def vowel(data):
 	#พัฒนาอยู่
+	#[ก-ฮ]ะ
+	a=list(data)
+	word=consonant(a[0]) + 'a'
+	return word
 
-def segment1(data):
-	#แบ่งคำด้วย pythainlp ปกติแล้วมาแยกคำในแต่ละ list อีกรอบ
-	p="(แ[ก-ฮ]ว)|(เ[ก-ฮ]ียว)|([ก-ฮ]ะ)|([ก-ฮ]ั)|([ก-ฮ]รร)|([ก-ฮ]า)|([ก-ฮ]รร[ก-ฮ])|([ก-ฮ]ำ)|([ก-ฮ]ิ)|([ก-ฮ]ึ)|([ก-ฮ]ื)|([ก-ฮ]ุ)|([ก-ฮ]ู)|(เ[ก-ฮ]ะ)|(เ[ก-ฮ]็)|(เ[ก-ฮ])|(แ[ก-ฮ]ะ)|(แ[ก-ฮ])|(โ[ก-ฮ]ะ)|(โ[ก-ฮ])|(เ[ก-ฮ]าะ)|([ก-ฮ]อ)|(เ[ก-ฮ]อะ)|(เ[ก-ฮ]ิ)|(เ[ก-ฮ]อ)|(เ[ก-ฮ]ียะ)|(เ[ก-ฮ]ีย)|(เ[ก-ฮ]ื(อะ|อ))|([ก-ฮ]ั(วะ|ว))|([[ก-ฮ]ว[ก-ฮ])|(ใ[ก-ฮ])|(ไ[ก-ฮ])|([ก-ฮ]าย)|(เ[ก-ฮ]า)|([ก-ฮ]าว)|([ก-ฮ]ย)|(โ[ก-ฮ]ย)|([ก-ฮ]อย)|(เ[ก-ฮ]ย)|(เ[ก-ฮ]ือย)|([ก-ฮ]วย|([ก-ฮ]ิว)|(เ[ก-ฮ]็ว)|(เ[ก-ฮ]ว))|(แ[ก-ฮ]ว)|(แ[ก-ฮ]็ว)|([ก-ฮ]ี)"# |()
-	p = re.compile(p, re.U)
-	match = p.split(data)
-	match= [x for x in match if x is not None]
-	match= [x for x in match if x is not '']
-	match= [x for x in match if x is not '']
-	data=""
-	print(match)
-	for a in match:
-		data+=vowel(a)
-		#try:
-		#	data+=consonant(b)
-		#except:
-		#	data += vowel(b)
-	return data#,match
 def romanization(txt):
 	txt = segment(txt)  # (','.join(str(x) for x in txt))  # แยกออกมาเป็น list
 	cc=''
-	print(txt)
+	#print(txt)
 	for b in txt:
-		try:
-			#cc+=consonant(b)
-			cc += segment1(b)
-		except:
-			#cc += segment1(b)
-			cc+=consonant(b)
+		cc+=consonant(b)
 	return cc
     # return txt
 if __name__ == "__main__":
-	print(romanization('ตอง'))
+	print(romanization('ตอง') == "tong")
 	print(romanization('มอง'))
 	print(romanization('มด'))
 	print(romanization('พร'))
 	print(romanization('คน'))
 	print(romanization('พรม')) #!
 	#romanization('แมว')
+	print(vowel("ปะ") == "pa")
 	print(romanization('ชล'))
-	print(romanization('ต้น'))
-	print(vowel('ตาล'))
-	print(vowel('แมว'))
-	print(vowel('มะ'))
-	print(vowel('เร็ว'))
-	print(vowel('เรียว'))
-	print(romanization('พนมรุ้ง'))
+	print(romanization('ต้น') == "ton")

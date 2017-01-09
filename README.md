@@ -44,6 +44,18 @@ $ cd pythainlp
 $ python setup.py install
 ```
 
+## ติดตั้งบน Mac
+
+
+```sh
+$ brew install icu4c --force
+$ brew link --force icu4c
+$ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pythainlp
+```
+
+ข้อมูลเพิ่มเติม [คลิกที่นี้](https://medium.com/data-science-cafe/install-polyglot-on-mac-3c90445abc1f#.rdfrorxjx)
+
+
 # เอกสารการใช้งานเบื้องต้น
 
 ตัวอย่างการใช้งาน

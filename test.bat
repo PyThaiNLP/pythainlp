@@ -1,2 +1,0 @@
-nosetests
-python

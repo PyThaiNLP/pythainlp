@@ -3,6 +3,8 @@
 [![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
 [![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=develop)](https://travis-ci.org/wannaphongcom/pythainlp)
 
+Homepages :[https://sites.google.com/view/pythainlp/home](https://sites.google.com/view/pythainlp/home)
+
 # English
 
 Thai NLP in python package. 
@@ -41,7 +43,7 @@ $ pip install pythainlp
 ```
 Development version
 ```sh
-$ git clone https://github.com/wannaphongcom/pythainlp.git
+$ git clone -b  develop --single-branch https://github.com/wannaphongcom/pythainlp.git
 $ cd pythainlp
 $ python setup.py install
 ```
@@ -133,7 +135,7 @@ $ pip install pythainlp
 ```
 รุ่นกำลังพัฒนา
 ```sh
-$ git clone https://github.com/wannaphongcom/pythainlp.git
+$ git clone -b  develop --single-branch https://github.com/wannaphongcom/pythainlp.git
 $ cd pythainlp
 $ python setup.py install
 ```

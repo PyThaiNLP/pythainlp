@@ -23,3 +23,6 @@ def getSynset(synset):
 		return Synset(*row)
 	else:
 		return None
+if __name__ == "__main__":
+	print(getSynset("ผลักดันกลับ"))
+	print(getWords("02503365-v"))

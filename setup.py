@@ -7,7 +7,7 @@ with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
     readme = readme_file.read()
 
 requirements = [
-    'pyicu>=1.9.3',
+    'pyicu>=1.9.2',
     'nltk>=3.2.2',
     'future>=0.16.0'
 ]
@@ -31,7 +31,7 @@ setup(
     install_requires=requirements,
     license='Apache Software License 2.0',
     zip_safe=False,
-    keywords='pythainlp,nlp,thai',
+    keywords='pythainlp',
     classifiers=[
     'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',

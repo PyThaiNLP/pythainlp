@@ -31,7 +31,7 @@ setup(
     install_requires=requirements,
     license='Apache Software License 2.0',
     zip_safe=False,
-    keywords='pythainlp','nlp','thai',
+    keywords='pythainlp,nlp,thai',
     classifiers=[
     'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',

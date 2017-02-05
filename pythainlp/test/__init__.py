@@ -3,6 +3,7 @@ from __future__ import absolute_import
 import unittest
 from collections import Counter
 from pythainlp.corpus import alphabet
+from pythainlp.corpus import wordnet
 from pythainlp.segment import segment
 from pythainlp.segment.dict import segment as segmentdict
 from pythainlp.rank import rank
@@ -11,6 +12,8 @@ from pythainlp.number import numtowords
 from pythainlp.postaggers import tag
 from pythainlp.romanization import romanization
 from pythainlp.date import now
+from collections import namedtuple
+Synset = namedtuple('Synset', 'synset li')
 class TestUM(unittest.TestCase):
 	def testSegment(self):
 		self.assertEqual(segment('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),['ฉัน', 'รัก', 'ภาษา', 'ไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คน', 'ไทย'])
@@ -30,5 +33,7 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(str(type(alphabet.get_data())),"<class 'list'>")
 	def testNow(self):
 		self.assertEqual(type(now()),type('7 มกราคม 2560 20:23:01'))
+	def testWordNet(self):
+		self.assertEqual(wordnet.getSynset("ผลักดันกลับ"),Synset(synset='02503365-v', li='ผลักดันกลับ'))
 if __name__ == '__main__':
     unittest.main()

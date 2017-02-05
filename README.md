@@ -38,10 +38,12 @@ Developing
 Supports Python 3.4 +
 
 Stable version
+
 ```sh
 $ pip install pythainlp
 ```
 Development version
+
 ```sh
 $ git clone -b  develop --single-branch https://github.com/wannaphongcom/pythainlp.git
 $ cd pythainlp
@@ -62,6 +64,7 @@ For more information. [Click](https://medium.com/data-science-cafe/install-polyg
 # Document
 
 Sample usage
+
 ```python
 # Thai Segment 
 from pythainlp.segment import segment
@@ -130,10 +133,13 @@ Natural language processing หรือ การประมวลภาษา
 รองรับ Python 3.4 ขึ้นไป
 
 รุ่นเสถียร
+
 ```sh
 $ pip install pythainlp
 ```
+
 รุ่นกำลังพัฒนา
+
 ```sh
 $ git clone -b  develop --single-branch https://github.com/wannaphongcom/pythainlp.git
 $ cd pythainlp
@@ -154,6 +160,7 @@ $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip i
 # เอกสารการใช้งานเบื้องต้น
 
 ตัวอย่างการใช้งาน
+
 ```python
 # ตัดคำ
 from pythainlp.segment import segment

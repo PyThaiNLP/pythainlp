@@ -21,7 +21,7 @@ Supports Python 3.4 +
 Developing
 
 ### Version
-1.1
+1.2
 
 ### Capabilities
   - Thai Segment 

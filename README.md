@@ -30,7 +30,7 @@ Developing
   - Read a number to text in Thai language
   - Sort the words of a sentence
   - Fix the printer forgot to change the language
-  - Check the wrong words in Thai languag
+  - Check the wrong words in Thai language
   - And more.
 
 # Install

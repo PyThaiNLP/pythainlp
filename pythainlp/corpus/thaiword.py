@@ -1,13 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from future import standard_library
-standard_library.install_aliases()
 import os
-from nine import nimport,str
-codecs= nimport('codecs')
 import codecs
 import pythainlp
 templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), 'corpus')

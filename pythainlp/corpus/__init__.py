@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import,print_function
-from __future__ import unicode_literals
-from __future__ import division
-from future import standard_library
-standard_library.install_aliases()
-__all__ = ["thaipos", "thaiword"]
+from __future__ import absolute_import
+__all__ = ["thaipos", "thaiword","alphabet","tone","country","wordnet"]
 from .thaipos import get_data
 from .thaiword import get_data
+from .alphabet import get_data
+from .tone import get_data
+from .country import get_data

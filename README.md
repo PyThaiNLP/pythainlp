@@ -23,10 +23,14 @@ Developing
 ### Version
 1.2
 
+### New !
+  - add thai Sentiment
+
 ### Capabilities
   - Thai Segment 
   - Thai to Latin
   - Thai Postaggers
+  - Thai Sentiment
   - Read a number to text in Thai language
   - Sort the words of a sentence
   - Fix the printer forgot to change the language
@@ -99,7 +103,10 @@ Natural language processing หรือ การประมวลภาษา
 กำลังพัฒนา 
 
 ### Version
-1.1
+1.2
+
+### มีอะไรใหม่
+  - เพิ่มการรองรับ Sentiment ภาษาไทย
 
 ### ความสามารถ
   - ตัดคำภาษาไทย

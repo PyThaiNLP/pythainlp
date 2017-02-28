@@ -13,7 +13,7 @@ def segment(string):
         result.reverse() # Put the list into correct order
         return result
     else:
-        raise Exception("No possible segmentation!")
+        return result
 
 def tokenize(string, wset, token):
     """Returns either false if the string can't be segmented by 

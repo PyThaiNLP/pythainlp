@@ -96,7 +96,7 @@ def ReadNumber(number):
 			ret += "เอ็ด"
 		else:
 			ret += number_call[d]
-		if(d):
+		if d:
 			ret += position_call[pos]
 		else:
 			ret += ""

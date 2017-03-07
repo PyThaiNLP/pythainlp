@@ -13,6 +13,7 @@ from pythainlp.postaggers import tag
 from pythainlp.romanization import romanization
 from pythainlp.date import now
 from pythainlp.sentiment import sentiment
+import pythainlp.Text
 from collections import namedtuple
 Synset = namedtuple('Synset', 'synset li')
 class TestUM(unittest.TestCase):
@@ -38,5 +39,7 @@ class TestUM(unittest.TestCase):
 		self.assertEqual('pos',sentiment('สวัสดีครับ'))
 	def testWordNet(self):
 		self.assertEqual(wordnet.getSynset("ผลักดันกลับ"),Synset(synset='02503365-v', li='ผลักดันกลับ'))
+	def testText(self):
+		self.assertEqual(str(type(pythainlp.Text("ผลักดันกลับ"))),"<class 'nltk.text.Text'>")
 if __name__ == '__main__':
     unittest.main()

@@ -16,3 +16,4 @@ from pythainlp.collation import *
 from pythainlp.spell import *
 from pythainlp.sentiment import *
 from pythainlp.test import *
+from pythainlp.Text import *

@@ -1,5 +1,4 @@
-﻿#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 from setuptools import setup
 from setuptools import find_packages
 import codecs
@@ -40,6 +39,6 @@ setup(
     'License :: OSI Approved :: Apache Software License',
     'Natural Language :: Thai',
     'Topic :: Text Processing :: Linguistic',
-    'Programming Language :: Python :: Implementation',
+    'Programming Language :: Python :: Implementation'
     ],
 )

@@ -27,7 +27,7 @@ class TestUM(unittest.TestCase):
 	def testChange(self):
 		self.assertEqual(texttothai("l;ylfu8iy["),'สวัสดีครับ')
 	def testRomanization(self):
-		self.assertEqual(romanization("แมว"),'mæw')
+		self.assertEqual((romanization("แมว")).encode('utf-16'),'mæw'.encode('utf-16'))
 	def testNumber(self):
 		self.assertEqual(numtowords(5611116.50),'ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์')
 	def testTag(self):

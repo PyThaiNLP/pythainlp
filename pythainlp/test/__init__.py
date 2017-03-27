@@ -15,21 +15,20 @@ from pythainlp.date import now
 from pythainlp.sentiment import sentiment
 import pythainlp.Text
 from collections import namedtuple
-import six
 Synset = namedtuple('Synset', 'synset li')
 class TestUM(unittest.TestCase):
 	def testSegment(self):
-		self.assertEqual(segment('ฉันรักภาษาไทย'),[u'ฉัน', u'รัก', u'ภาษา', u'ไทย'])
+		self.assertEqual(segment('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),['ฉัน', 'รัก', 'ภาษา', 'ไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คน', 'ไทย'])
 	def testSegmentDict(self):
-		self.assertEqual(segmentdict('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
+		self.assertEqual(segmentdict('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),['ฉัน', 'รัก', 'ภาษาไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คนไทย'])
 	def testRank(self):
-		self.assertEqual(rank([u"แมว",u"คน",u"แมว"]),Counter({u'แมว': 2, u'คน': 1}))
+		self.assertEqual(rank(["แมว","คน","แมว"]),Counter({'แมว': 2, 'คน': 1}))
 	def testChange(self):
-		self.assertEqual(texttothai("l;ylfu8iy["),u'สวัสดีครับ')
+		self.assertEqual(texttothai("l;ylfu8iy["),'สวัสดีครับ')
 	def testRomanization(self):
-		self.assertEqual(romanization("แมว"),'mæw'.encode('utf-16'))
+		self.assertEqual(romanization("แมว"),'mæw')
 	def testNumber(self):
-		self.assertEqual(numtowords(5611116.50),u'ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์')
+		self.assertEqual(numtowords(5611116.50),'ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์')
 	def testTag(self):
 		self.assertEqual(tag("คุณกำลังประชุม"),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 	def testAlphabet(self):

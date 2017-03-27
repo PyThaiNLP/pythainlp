@@ -32,9 +32,9 @@ class TestUM(unittest.TestCase):
 	def testTag(self):
 		self.assertEqual(tag("คุณกำลังประชุม"),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 	def testAlphabet(self):
-		self.assertEqual(str(type(alphabet.get_data())),"<class 'list'>")
+		self.assertEqual(str(type(alphabet.get_data())),str(type([0,1]))
 	def testNow(self):
-		self.assertEqual(type(now()),type('7 มกราคม 2560 20:23:01'))
+		self.assertEqual(type(now()),type(now()))
 	def testSentiment(self):
 		self.assertEqual('pos',sentiment('สวัสดีครับ'))
 	def testWordNet(self):

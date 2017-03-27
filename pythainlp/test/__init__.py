@@ -15,6 +15,7 @@ from pythainlp.date import now
 from pythainlp.sentiment import sentiment
 import pythainlp.Text
 from collections import namedtuple
+import six
 Synset = namedtuple('Synset', 'synset li')
 class TestUM(unittest.TestCase):
 	def testSegment(self):

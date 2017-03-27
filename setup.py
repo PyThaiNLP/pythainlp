@@ -10,7 +10,8 @@ requirements = [
     'pyicu>=1.9.2',
     'nltk>=3.2.2',
     'future>=0.16.0',
-    'dill'
+    'dill',
+    'six'
 ]
 
 test_requirements = [

@@ -1,8 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-from __future__ import absolute_import,unicode_literals
-__author__ = 'Wannaphong Phatthiyaphaibun'
-__email__ = 'wannaphong@yahoo.com'
-__version__ = '1.2'
+from __future__ import absolute_import
 from pythainlp.romanization import *
 from pythainlp.segment import * # เตรียมลบออก 1
 from pythainlp.tokenize import * # แทนที่ 1

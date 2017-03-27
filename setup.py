@@ -41,6 +41,5 @@ setup(
     'Natural Language :: Thai',
     'Topic :: Text Processing :: Linguistic',
     'Programming Language :: Python :: Implementation',
-    'Programming Language :: Python :: 3',
     ],
 )

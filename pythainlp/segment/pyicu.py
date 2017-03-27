@@ -1,7 +1,6 @@
 from __future__ import absolute_import,print_function
 from itertools import groupby
 import PyICU
-import six
 # ตัดคำภาษาไทย
 def segment(txt):
     """รับค่า ''str'' คืนค่าออกมาเป็น ''list'' ที่ได้มาจากการตัดคำโดย ICU"""

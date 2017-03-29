@@ -11,7 +11,6 @@ from pythainlp.change import *
 from pythainlp.number import numtowords
 from pythainlp.postaggers import tag
 from pythainlp.romanization import romanization
-from pythainlp.date import now
 from pythainlp.sentiment import sentiment
 import pythainlp.Text
 from collections import namedtuple
@@ -33,8 +32,6 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(tag("คุณกำลังประชุม"),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 	def testAlphabet(self):
 		self.assertEqual(str(type(alphabet.get_data())),str(type([0,1]))
-	def testNow(self):
-		self.assertEqual(type(now()),type('7 มกราคม 2560 20:23:01'))
 	def testSentiment(self):
 		self.assertEqual('pos',sentiment('สวัสดีครับ'))
 	def testWordNet(self):

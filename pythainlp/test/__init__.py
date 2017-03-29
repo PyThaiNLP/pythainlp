@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
-'''
 import unittest
 from collections import Counter
 from pythainlp.corpus import alphabet
@@ -44,4 +43,3 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(str(type(pythainlp.Text("ผลักดันกลับ"))),"<class 'nltk.text.Text'>")
 if __name__ == '__main__':
     unittest.main()
-'''

@@ -5,7 +5,7 @@ import PyICU,six
 def segment(txt):
     """รับค่า ''str'' คืนค่าออกมาเป็น ''list'' ที่ได้มาจากการตัดคำโดย ICU"""
     bd = PyICU.BreakIterator.createWordInstance(PyICU.Locale("th"))
-    bd.setText(txt)
+    bd.setText(six.u(txt))
     breaks = list(bd)
     return [txt[x[0]:x[1]] for x in zip([0]+breaks, breaks)]
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ from pythainlp.number import numtowords
 from pythainlp.postaggers import tag
 from pythainlp.romanization import romanization
 from pythainlp.date import now
-from pythainlp.sentiment import sentiment
+#from pythainlp.sentiment import sentiment
 import pythainlp.Text
 from collections import namedtuple
 Synset = namedtuple('Synset', 'synset li')

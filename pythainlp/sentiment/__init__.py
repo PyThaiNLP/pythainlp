@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import six
 import sys
 if six.PY2:
-	sys.exit("Thai sentiment in pythainlp. Not support python 2.7")
+	print("Thai sentiment in pythainlp. Not support python 2.7")
 from builtins import open
 import pythainlp
 import os

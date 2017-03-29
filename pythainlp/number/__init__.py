@@ -3,7 +3,7 @@
 from __future__ import absolute_import,division,print_function,unicode_literals
 from builtins import dict
 from builtins import int
-import math
+import math,six
 p = [['ภาษาไทย', 'ตัวเลข','เลขไทย'],
      ['หนึ่ง', '1', '๑'],
      ['สอง', '2', '๒'],
@@ -71,7 +71,7 @@ def numtowords(amount_number):
 		ret += satang + "สตางค์"
 	else:
 		ret += "ถ้วน"
-	return ret
+	return six.u(ret)
 
 #อ่านจำนวนตัวเลขภาษาไทย
 def ReadNumber(number):

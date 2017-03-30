@@ -25,7 +25,7 @@ def texttoeng(data):
 	รับค่าเป็น ''str'' คืนค่าเป็น ''str''"""
 	data = list(six.u(data))
 	data2 = ""
-	dictdataeng= {v: k for k, v in iteritems(dictdata)}
+	dictdataeng= {v: k for k, v in six.iteritems(dictdata)}
 	for a in data:
 		try:
 			a = dictdataeng[six.u(a)]

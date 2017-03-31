@@ -6,32 +6,31 @@ PyThaiNLP
 
 Thai NLP in python package.
 
--  Homepage : https://pythonhosted.org/pythainlp/
+-  Homepage : https://sites.google.com/view/pythainlp/home
 -  GitHub : https://github.com/wannaphongcom/pythainlp
 
 
 Version
 ~~~~~~~
 
-1.1
+1.2
 
 
 Install
 =======
 
-Python 3.4 + only
 
 .. code:: sh
 
-    $ pip3 install pythainlp
+    $ pip install pythainlp
 
 License
 ~~~~~~~
-
-Apache Software License 2.0
-
-
 .. |PyPI Downloads| image:: https://img.shields.io/pypi/dm/pythainlp.png
 .. |pypi| image:: https://img.shields.io/pypi/v/pythainlp.svg
 .. |Build Status| image:: https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=develop
    :target: https://travis-ci.org/wannaphongcom/pythainlp
+
+
+Apache Software License 2.0
+

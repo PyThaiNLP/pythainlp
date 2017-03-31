@@ -13,7 +13,7 @@ Thai Natural language processing in Python language.
 
 Supports Python 3.4 +
 
-  - Document : [https://pythonhosted.org/pythainlp/](https://pythonhosted.org/pythainlp/)
+  - Document : [https://sites.google.com/view/pythainlp/home](https://sites.google.com/view/pythainlp/home)
   - GitHub Home :  [https://github.com/wannaphongcom/pythainlp](https://github.com/wannaphongcom/pythainlp)
 
 ### Project status
@@ -95,7 +95,7 @@ Natural language processing หรือ การประมวลภาษา
 
 รองรับ Python 3.4 ขึ้นไป
 
-  - เอกสารการใช้งาน : [https://pythonhosted.org/pythainlp/](https://pythonhosted.org/pythainlp/)
+  - เอกสารการใช้งาน : [https://sites.google.com/view/pythainlp/home](https://sites.google.com/view/pythainlp/home)
   - หน้าหลัก GitHub :  [https://github.com/wannaphongcom/pythainlp](https://github.com/wannaphongcom/pythainlp)
 
 ### สถานะโครงการ

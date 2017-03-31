@@ -22,11 +22,11 @@ class TestUM(unittest.TestCase):
 	def testRank(self):
 		self.assertEqual(rank(["แมว","คน","แมว"]),Counter({'แมว': 2, 'คน': 1}))
 	def testChange(self):
-		self.assertEqual(texttothai("l;ylfu8iy["),six.u('สวัสดีครับ'))
+		self.assertEqual(texttothai("l;ylfu8iy["),'สวัสดีครับ')
 	def testRomanization(self):
-		self.assertEqual(romanization("แมว"),six.u('mæw'))
+		self.assertEqual(romanization("แมว"),'mæw')
 	def testNumber(self):
-		self.assertEqual(numtowords(5611116.50),six.u('ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์'))
+		self.assertEqual(numtowords(5611116.50),'ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์')
 	def testTag(self):
 		self.assertEqual(tag("คุณกำลังประชุม"),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 if __name__ == '__main__':

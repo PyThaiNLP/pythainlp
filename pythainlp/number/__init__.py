@@ -4,16 +4,16 @@ from __future__ import absolute_import,division,print_function,unicode_literals
 from builtins import dict
 from builtins import int
 import math,six
-p = [['ภาษาไทย', 'ตัวเลข','เลขไทย'],
-     ['หนึ่ง', '1', '๑'],
-     ['สอง', '2', '๒'],
-     ['สาม', '3', '๓'],
-     ['สี่', '4', '๔'],
-     ['ห้า', '5', '๕'],
-     ['หก', '6', '๖'],
-     ['หก', '7', '๗'],
-     ['แปด', '8', '๘'],
-     ['เก้า', '9', '๙']]
+p = [[u'ภาษาไทย', u'ตัวเลข',u'เลขไทย'],
+     [u'หนึ่ง', u'1', u'๑'],
+     [u'สอง', u'2', u'๒'],
+     [u'สาม', u'3', u'๓'],
+     [u'สี่', u'4', u'๔'],
+     [u'ห้า', u'5', u'๕'],
+     [u'หก', u'6', u'๖'],
+     [u'หก', u'7', u'๗'],
+     [u'แปด', u'8', u'๘'],
+     [u'เก้า', u'9', u'๙']]
 thaitonum = dict((x[2], x[1]) for x in p[1:])
 p1 = dict((x[0], x[1]) for x in p[1:])
 d1 = 0
@@ -71,7 +71,7 @@ def numtowords(amount_number):
 		ret += satang + "สตางค์"
 	else:
 		ret += "ถ้วน"
-	return six.u(ret)
+	return ret
 
 #อ่านจำนวนตัวเลขภาษาไทย
 def ReadNumber(number):

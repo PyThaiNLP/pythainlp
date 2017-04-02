@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-from __future__ import absolute_import,unicode_literals
+from __future__ import absolute_import,unicode_literals,print_function
 from .thai import data
 lines = data()
 # code by https://stackoverflow.com/a/16690988
@@ -13,7 +13,7 @@ def segment(string):
         result.reverse() # Put the list into correct order
         return result
     else:
-        raise Exception("No possible segmentation!")
+        return result
 
 def tokenize(string, wset, token):
     """Returns either false if the string can't be segmented by 

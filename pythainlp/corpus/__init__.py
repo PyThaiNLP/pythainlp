@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
-__all__ = ["thaipos", "thaiword","alphabet","tone","country","wordnet"]
+from __future__ import absolute_import,unicode_literals
+#__all__ = ["thaipos", "thaiword","alphabet","tone","country","wordnet"]
 from .thaipos import get_data
 from .thaiword import get_data
 from .alphabet import get_data

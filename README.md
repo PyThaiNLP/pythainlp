@@ -11,9 +11,9 @@ Thai NLP in python package.
 
 Thai Natural language processing in Python language.
 
-Supports Python 3.4 +
+Supports Python 2.7 and Python 3.4 +
 
-  - Document : [https://pythonhosted.org/pythainlp/](https://pythonhosted.org/pythainlp/)
+  - Document : [https://sites.google.com/view/pythainlp/home](https://sites.google.com/view/pythainlp/home)
   - GitHub Home :  [https://github.com/wannaphongcom/pythainlp](https://github.com/wannaphongcom/pythainlp)
 
 ### Project status
@@ -21,12 +21,17 @@ Supports Python 3.4 +
 Developing
 
 ### Version
-1.1
+1.2
+
+### New !
+  - add Thai Sentiment (Python 3.4 + only)
+  - Supports Python 2.7
 
 ### Capabilities
   - Thai Segment 
   - Thai to Latin
   - Thai Postaggers
+  - Thai Sentiment
   - Read a number to text in Thai language
   - Sort the words of a sentence
   - Fix the printer forgot to change the language
@@ -35,7 +40,7 @@ Developing
 
 # Install
 
-Supports Python 3.4 +
+Supports Python 2.7 and Python 3.4 +
 
 Stable version
 
@@ -89,9 +94,9 @@ Thai NLP in python package.
 
 Natural language processing หรือ การประมวลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่องานวิจัยและพัฒนาการประมวลภาษาธรรมชาติภาษาไทยในภาษา Python
 
-รองรับ Python 3.4 ขึ้นไป
+รองรับ Python 2.7 และ Python 3.4 ขึ้นไป
 
-  - เอกสารการใช้งาน : [https://pythonhosted.org/pythainlp/](https://pythonhosted.org/pythainlp/)
+  - เอกสารการใช้งาน : [https://sites.google.com/view/pythainlp/home](https://sites.google.com/view/pythainlp/home)
   - หน้าหลัก GitHub :  [https://github.com/wannaphongcom/pythainlp](https://github.com/wannaphongcom/pythainlp)
 
 ### สถานะโครงการ
@@ -99,7 +104,11 @@ Natural language processing หรือ การประมวลภาษา
 กำลังพัฒนา 
 
 ### Version
-1.1
+1.2
+
+### มีอะไรใหม่
+  - เพิ่มการรองรับ Sentiment ภาษาไทย (Python 3.4 ขึ้นไป)
+  - รองรับ Python 2.7
 
 ### ความสามารถ
   - ตัดคำภาษาไทย
@@ -113,7 +122,7 @@ Natural language processing หรือ การประมวลภาษา
 
 # ติดตั้ง
 
-รองรับ Python 3.4 ขึ้นไป
+รองรับ Python 2.7 และ Python 3.4 ขึ้นไป
 
 รุ่นเสถียร
 

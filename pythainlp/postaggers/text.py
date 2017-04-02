@@ -5,6 +5,7 @@ import pythainlp
 import codecs
 import os
 import json
+import six
 import nltk.tag, nltk.data
 templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), 'corpus')
 template_file = os.path.join(templates_dir, 'thaipos.json')

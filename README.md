@@ -2,6 +2,8 @@
 [![PyPI Downloads](https://img.shields.io/pypi/dm/pythainlp.png)]
 [![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
 [![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=develop)](https://travis-ci.org/wannaphongcom/pythainlp)
+[![Build status](https://ci.appveyor.com/api/projects/status/uxerymgggp1uch0p?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp)
+
 
 Homepages :[https://sites.google.com/view/pythainlp/home](https://sites.google.com/view/pythainlp/home)
 

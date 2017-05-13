@@ -6,3 +6,4 @@ from .thaiword import get_data
 from .alphabet import get_data
 from .tone import get_data
 from .country import get_data
+from .stopwords import words

@@ -1,3 +1,4 @@
+﻿from __future__ import absolute_import,unicode_literals
 def words(lang):
     words = {'thai' :
                  ["นี้", "นํา", "นั้น", "นัก", "นอกจาก", "ทุก", "ที่สุด", "ที่", "ทําให้", "ทํา", "ทาง", "ทั้งนี้",

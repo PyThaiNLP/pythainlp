@@ -23,11 +23,7 @@ Supports Python 2.7 and Python 3.4 +
 Developing
 
 ### Version
-1.2
-
-### New !
-  - add Thai Sentiment (Python 3.4 + only)
-  - Supports Python 2.7
+1.3
 
 ### Capabilities
   - Thai Segment 
@@ -57,9 +53,9 @@ Sample usage
 
 ```python
 # Thai Segment 
-from pythainlp.segment import segment
+from pythainlp.tokenize import word_tokenize
 a = 'ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'
-b = segment(a)
+b = word_tokenize(a)
 print(b) # ['ฉัน', 'รัก', 'ภาษาไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คนไทย']
 # Thai Postaggers
 from pythainlp.postaggers import tag
@@ -106,11 +102,7 @@ Natural language processing หรือ การประมวลภาษา
 กำลังพัฒนา 
 
 ### Version
-1.2
-
-### มีอะไรใหม่
-  - เพิ่มการรองรับ Sentiment ภาษาไทย (Python 3.4 ขึ้นไป)
-  - รองรับ Python 2.7
+1.3
 
 ### ความสามารถ
   - ตัดคำภาษาไทย
@@ -150,9 +142,9 @@ $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip i
 
 ```python
 # ตัดคำ
-from pythainlp.segment import segment
+from pythainlp.tokenize import word_tokenize
 a = 'ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'
-b = segment(a)
+b = word_tokenize(a)
 print(b) # ['ฉัน', 'รัก', 'ภาษาไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คนไทย']
 # Postaggers ภาษาไทย
 from pythainlp.postaggers import tag

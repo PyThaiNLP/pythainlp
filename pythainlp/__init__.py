@@ -2,6 +2,9 @@
 from __future__ import absolute_import
 import six
 if six.PY3:
+	"""
+	ไว้ใส่ความสามารถที่รองรับเฉพาะ Python 3.4+ เท่านั้น
+	"""
 	from pythainlp.sentiment import *
 	from pythainlp.spell import *
 from pythainlp.romanization import *

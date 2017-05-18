@@ -5,7 +5,6 @@ from collections import Counter
 from pythainlp.corpus import alphabet
 from pythainlp.corpus import wordnet
 from pythainlp.tokenize import word_tokenize
-from pythainlp.segment.dict import segment as segmentdict
 from pythainlp.rank import rank
 from pythainlp.change import *
 from pythainlp.number import numtowords
@@ -18,7 +17,7 @@ class TestUM(unittest.TestCase):
 	def testSegment(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),[u'ฉัน', u'รัก', u'ภาษา', u'ไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คน', u'ไทย'])
 	def testSegmentDict(self):
-		self.assertEqual(segmentdict('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
+		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='dict'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
 	def testRank(self):
 		self.assertEqual(rank(["แมว","คน","แมว"]),Counter({'แมว': 2, 'คน': 1}))
 	def testChange(self):

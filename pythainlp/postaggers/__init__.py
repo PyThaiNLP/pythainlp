@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import,division,print_function,unicode_literals
-from pythainlp.segment import segment
+from __future__ import absolute_import,division,unicode_literals
+from pythainlp.tokenize import word_tokenize
 import pythainlp
 import codecs
 import os
@@ -18,6 +18,6 @@ data1 =data()
 #Postaggers ภาษาไทย
 def tag(text):
 	"""รับค่าเป็นข้อความ ''str'' คืนค่าเป็น ''list'' เช่น [('ข้อความ', 'ชนิดคำ')]"""
-	text= segment(text)
+	text= word_tokenize(text)
 	tagger = nltk.tag.UnigramTagger(model=data1)# backoff=default_tagger)
 	return tagger.tag(text)

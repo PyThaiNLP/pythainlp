@@ -1,5 +1,11 @@
 ﻿from __future__ import absolute_import,unicode_literals
 def words(lang):
+    '''
+    stopword ภาษาไทย
+    วิธีใช้
+    from pythainlp.corpus import stopwords
+    stopwords = stopwords.words('thai')
+    '''
     words = {'thai' :
                  ["นี้", "นํา", "นั้น", "นัก", "นอกจาก", "ทุก", "ที่สุด", "ที่", "ทําให้", "ทํา", "ทาง", "ทั้งนี้",
                  "ดัง", "ซึ่ง", "ช่วง", "จาก", "จัด", "จะ", "คือ", "ความ", "ครั้ง", "คง", "ขึ้น", "ของ", "ขอ",
@@ -14,7 +20,3 @@ def words(lang):
             }
 
     if lang == 'thai': return words['thai'] #ถ้า argument ที่ได้เป็น 'thai' ก็จะ return stopwords
-
-# วิธีใช้
-# from pythainlp.corpus import stopwords
-# stopwords = stopwords.words('thai')

@@ -17,7 +17,6 @@ def tag(text):
 	"""
 	หมายเหตุ API ชุดนี้เตรียมหยุดการใช้งาน
 	รับค่าเป็น ''list'' คืนค่าเป็น ''list'' เช่น [('ข้อความ', 'ชนิดคำ')]"""
-	if type(text)=='str':
-    		text= word_tokenize(text)
+	text= word_tokenize(text)
 	tagger = nltk.tag.UnigramTagger(model=data())# backoff=default_tagger)
 	return tagger.tag(text)

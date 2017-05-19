@@ -12,7 +12,10 @@ from pythainlp.tokenize import word_tokenize
 import dill
 templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), 'sentiment')
 def sentiment(text):
-	"""รับค่าสตริง str คืนค่า pos หรือ neg"""
+	"""
+	sentiment ภาษาไทย
+	ใช้ข้อมูลจาก https://github.com/wannaphongcom/lexicon-thai/tree/master/ข้อความ/
+	รับค่าสตริง str คืนค่า pos , neg หรือ neutral"""
 	with open(os.path.join(templates_dir, 'vocabulary.data'), 'rb') as in_strm:
 		vocabulary = dill.load(in_strm)
 	in_strm.close()

@@ -4,7 +4,7 @@ import six
 import sys
 if six.PY2:
 	print("Thai sentiment in pythainlp. Not support python 2.7")
-	sys.exit()
+	sys.exit(0)
 from builtins import open
 import pythainlp
 import os

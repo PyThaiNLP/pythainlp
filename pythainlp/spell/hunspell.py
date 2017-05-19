@@ -4,7 +4,7 @@ import six
 import sys
 if six.PY2:
 	print("Not support python 2.7")
-	sys.exit()
+	sys.exit(0)
 
 def spell(word,lang):
 	"""เป็นคำสั่งตรวจคำผิดโดยใช้ hunspell

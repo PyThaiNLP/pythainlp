@@ -5,19 +5,19 @@ import pythainlp
 import codecs
 import os
 import json
-import six
-import nltk.tag, nltk.data
+import nltk.tag
+import nltk.data
 templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), 'corpus')
 template_file = os.path.join(templates_dir, 'thaipos.json')
-#default_tagger = nltk.data.load(nltk.tag._POS_TAGGER)
 def data():
 	with codecs.open(template_file,'r',encoding='utf-8-sig') as handle:
 		model = json.load(handle)
 	return model
-data1 =data()
-#Postaggers ภาษาไทย
 def tag(text):
-	"""รับค่าเป็นข้อความ ''str'' คืนค่าเป็น ''list'' เช่น [('ข้อความ', 'ชนิดคำ')]"""
-	text= word_tokenize(text)
-	tagger = nltk.tag.UnigramTagger(model=data1)# backoff=default_tagger)
+	"""
+	หมายเหตุ API ชุดนี้เตรียมหยุดการใช้งาน
+	รับค่าเป็น ''list'' คืนค่าเป็น ''list'' เช่น [('ข้อความ', 'ชนิดคำ')]"""
+	if type(text)=='str':
+    		text= word_tokenize(text)
+	tagger = nltk.tag.UnigramTagger(model=data())# backoff=default_tagger)
 	return tagger.tag(text)

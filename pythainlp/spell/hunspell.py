@@ -1,6 +1,10 @@
 from __future__ import absolute_import,print_function,unicode_literals
 import subprocess
+import six
 import sys
+if six.PY2:
+	print("Not support python 2.7")
+	sys.exit()
 
 def spell(word,lang):
 	"""เป็นคำสั่งตรวจคำผิดโดยใช้ hunspell

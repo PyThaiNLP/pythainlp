@@ -10,7 +10,8 @@ requirements = [
     'nltk>=3.2.2',
     'future>=0.16.0',
     'dill',
-    'six'
+    'six',
+    'artagger'
 ]
 
 test_requirements = [
@@ -34,11 +35,11 @@ setup(
     zip_safe=False,
     keywords='pythainlp',
     classifiers=[
-    'Development Status :: 5 - Production/Stable',
-    'Intended Audience :: Developers',
-    'License :: OSI Approved :: Apache Software License',
-    'Natural Language :: Thai',
-    'Topic :: Text Processing :: Linguistic',
-    'Programming Language :: Python :: Implementation'
+        'Development Status :: 5 - Production/Stable',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: Apache Software License',
+        'Natural Language :: Thai',
+        'Topic :: Text Processing :: Linguistic',
+        'Programming Language :: Python :: Implementation'
     ],
 )

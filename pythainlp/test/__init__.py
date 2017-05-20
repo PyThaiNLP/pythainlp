@@ -8,7 +8,7 @@ from pythainlp.tokenize import word_tokenize
 from pythainlp.rank import rank
 from pythainlp.change import *
 from pythainlp.number import numtowords
-from pythainlp.postaggers import tag
+from pythainlp.tag import pos_tag
 from pythainlp.romanization import romanization
 from pythainlp.date import now
 from collections import namedtuple
@@ -27,6 +27,8 @@ class TestUM(unittest.TestCase):
 	def testNumber(self):
 		self.assertEqual(numtowords(5611116.50),'ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์')
 	def testTag(self):
-		self.assertEqual(tag("คุณกำลังประชุม"),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
+		self.assertEqual(pos_tag("คุณกำลังประชุม",engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
+	def testTagnew(self):
+    		self.assertEqual(pos_tag("ผมรักคุณ",engine='artagger'),[('ผม', 'PPRS'), ('รัก', 'VSTA'), ('คุณ', 'PPRS')])
 if __name__ == '__main__':
     unittest.main()

@@ -21,8 +21,8 @@ def pos_tag(text,engine='old'):
 			def tag(text1):
 					from artagger import Tagger
 					tagger = Tagger()
-					text= word_tokenize(text)
-					words = tagger.tag(' '.join(text))
+					text1= word_tokenize(text1)
+					words = tagger.tag(' '.join(text1))
 					totag=[]
 					for word in words:
     						totag.append((word.word, word.tag))

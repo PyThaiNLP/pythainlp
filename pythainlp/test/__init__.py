@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
-import unittest,six
+import unittest,six,sys
 from collections import Counter
 from pythainlp.corpus import alphabet
 from pythainlp.corpus import wordnet
@@ -29,6 +29,7 @@ class TestUM(unittest.TestCase):
 	def testTag(self):
 		self.assertEqual(pos_tag("คุณกำลังประชุม",engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 	def testTagnew(self):
-    		self.assertEqual(pos_tag("ผมรักคุณ",engine='artagger'),[('ผม', 'PPRS'), ('รัก', 'VSTA'), ('คุณ', 'PPRS')])
+    		if sys.version_info > (3,3):
+    				self.assertEqual(pos_tag("ผมรักคุณ",engine='artagger'),[('ผม', 'PPRS'), ('รัก', 'VSTA'), ('คุณ', 'PPRS')])
 if __name__ == '__main__':
     unittest.main()

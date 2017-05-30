@@ -1,4 +1,4 @@
-from pythainlp.segment import segment
+from pythainlp.tokenize import word_tokenize
 a = 'ฉันรักภาษาไทยเพราะฉันเป็นคนไทยและฉันใช้ภาษาไทย'
-b = segment(a)
+b = word_tokenize(a)
 print(b)

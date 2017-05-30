@@ -30,6 +30,6 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(pos_tag(word_tokenize("คุณกำลังประชุม"),engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 	def testTagnew(self):
     		if sys.version_info > (3,3):
-    				self.assertEqual(pos_tag(word_tokenize("คุณกำลังประชุม"),engine='artagger'),[('ผม', 'PPRS'), ('รัก', 'VSTA'), ('คุณ', 'PPRS')])
+    				self.assertEqual(pos_tag(word_tokenize("ผมรักคุณ"),engine='artagger'),[('ผม', 'PPRS'), ('รัก', 'VSTA'), ('คุณ', 'PPRS')])
 if __name__ == '__main__':
     unittest.main()

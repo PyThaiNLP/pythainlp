@@ -1,24 +1,19 @@
+=========
 PyThaiNLP
 =========
 
-Thai NLP in python package.
+เวชั่น 1.3
 
--  Homepage : https://sites.google.com/view/pythainlp/home
--  GitHub : https://github.com/wannaphongcom/pythainlp
+โมดูลประมวลผลภาษาธรรมชาติภาษาไยใน Python
 
+รองรับ Python 3.4 ขึ้นไปเท่านั้น
 
-Version
-~~~~~~~
+**ติดตั้ง**
 
-1.2
+pip install pythainlp
 
+เอกสาร `https://github.com/wannaphongcom/pythainlp <https://github.com/wannaphongcom/pythainlp>`_
 
-Install
-=======
-
-.. code:: sh
-
-    $ pip install pythainlp
 
 License
 ~~~~~~~

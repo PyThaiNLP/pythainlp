@@ -8,14 +8,14 @@ if six.PY3:
 	from pythainlp.sentiment import *
 	from pythainlp.spell import *
 from pythainlp.romanization import *
-from pythainlp.segment import * # เตรียมลบออก 1
-from pythainlp.tokenize import * # แทนที่ 1
+from pythainlp.segment import *
+from pythainlp.tokenize import *
 from pythainlp.rank import *
 from pythainlp.change import *
 from pythainlp.number import *
 from pythainlp.date import *
-from pythainlp.postaggers import * # เตรียมลบออก 2
-from pythainlp.tag import * # แทนที่ 2
+from pythainlp.postaggers import * 
+from pythainlp.tag import * 
 from pythainlp.collation import *
 from pythainlp.test import *
 from pythainlp.Text import *

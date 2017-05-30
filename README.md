@@ -11,7 +11,7 @@ Homepages :[https://sites.google.com/view/pythainlp/home](https://sites.google.c
 
 Natural language processing หรือ การประมวลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่องานวิจัยและพัฒนาการประมวลภาษาธรรมชาติภาษาไทยในภาษา Python
 
-รองรับ Python 2.7 และ Python 3.4 ขึ้นไป
+รองรับ Python 3.4 ขึ้นไป
 
   - เอกสารการใช้งาน : [https://sites.google.com/view/pythainlp/home](https://sites.google.com/view/pythainlp/home)
   - หน้าหลัก GitHub :  [https://github.com/wannaphongcom/pythainlp](https://github.com/wannaphongcom/pythainlp)
@@ -35,7 +35,7 @@ Natural language processing หรือ การประมวลภาษา
 
 # ติดตั้ง
 
-รองรับ Python 2.7 และ Python 3.4 ขึ้นไป
+รองรับ Python 3.4 ขึ้นไป
 
 รุ่นเสถียร
 
@@ -56,6 +56,8 @@ $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip i
 
 
 # เอกสารการใช้งานเบื้องต้น
+
+อ่านได้ที่ https://github.com/wannaphongcom/pythainlp/blob/master/docs/pythainlp-1-3-thai.md
 
 ### License
 

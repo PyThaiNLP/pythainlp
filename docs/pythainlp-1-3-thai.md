@@ -166,3 +166,14 @@ from pythainlp.change import *
 - texttoeng(str) แปลงแป้นตัวอักษรภาษาไทยเป็นภาษาอังกฤษ
 
 คืนค่าออกมาเป็น str
+
+### Sentiment analysis ภาษาไทย
+
+ใช้ข้อมูลจาก https://github.com/wannaphongcom/lexicon-thai/tree/master/ข้อความ/
+
+```python
+from pythainlp.sentiment import sentiment
+sentiment(str)
+```
+
+รับค่า str ส่งออกเป็น pos , neg หรือ neutral

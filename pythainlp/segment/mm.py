@@ -160,5 +160,5 @@ class wordcut(object):
                         lastresult.append(' '.join(r))
         return lastresult
 def segment(text):
-    pt = wordcut(stopNumber=False, removeNonCharacter=True, caseSensitive=False, ngram=(1, 1), negation=True, removeRepeat=True)
+    pt = wordcut(stopNumber=False, removeNonCharacter=True, caseSensitive=False, negation=True, removeRepeat=True)
     return pt.segment(text)

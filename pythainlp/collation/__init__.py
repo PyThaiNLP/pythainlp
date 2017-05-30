@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import,unicode_literals
+from __future__ import absolute_import,unicode_literals,print_function
 import icu
 collator1 = icu.Collator.createInstance(icu.Locale('th_TH'))
 # เรียงลำดับข้อมูล list ภาษาไทย

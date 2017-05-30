@@ -43,8 +43,23 @@ Natural language processing หรือ การประมวลภาษา
 $ pip install pythainlp
 ```
 
-## ติดตั้งบน Mac
+**วิธีติดตั้งสำหรับ Windows**
 
+ให้ทำการติดตั้ง pyicu โดยใช้ไฟล์ .whl จาก [http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu) 
+
+หากใช้ python 3.5 64 bit ให้โหลด PyICU‑1.9.7‑cp35‑cp35m‑win_amd64.whl แล้วเปิด cmd ใช้คำสั่ง
+
+```
+pip install PyICU‑1.9.7‑cp35‑cp35m‑win_amd64.whl
+```
+
+แล้วจึงใช้ 
+
+```
+pip install pythainlp
+```
+
+**ติดตั้งบน Mac**
 
 ```sh
 $ brew install icu4c --force

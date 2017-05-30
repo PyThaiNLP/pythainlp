@@ -16,8 +16,8 @@ def pos_tag(text,engine='old'):
 	if engine=='old':
     		from pythainlp.postaggers import tag
 	elif engine=='artagger':
-			if sys.version_info < (2,7):
-    				sys.exit('Sorry, Python < 2.7 is not supported')
+			if sys.version_info < (3,4):
+    				sys.exit('Sorry, Python < 3.4 is not supported')
 			def tag(text1):
 					from artagger import Tagger
 					tagger = Tagger()

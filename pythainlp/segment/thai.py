@@ -4,9 +4,20 @@ import os
 import codecs
 import pythainlp
 templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), 'corpus')
-template_file = os.path.join(templates_dir, 'thaiword.txt')
+def fileload(name1):
+	return os.path.join(templates_dir, name1)
 def data():
-	with codecs.open(template_file, 'r',encoding='utf-8-sig') as f:
+	'''
+	โหลดรายการคำศัพท์ภาษาไทย (ตัวเก่า)
+	'''
+	with codecs.open(fileload('thaiword.txt'), 'r',encoding='utf-8-sig') as f:
+		lines = f.read().splitlines()
+	return lines
+def newdata():
+	'''
+	โหลดรายการคำศัพท์ภาษาไทย (ตัวใหม่)
+	'''
+	with codecs.open(fileload('new-thaidict.txt'), 'r',encoding='utf-8-sig') as f:
 		lines = f.read().splitlines()
 	return lines
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 from __future__ import absolute_import,unicode_literals,print_function
 from .thai import data
 lines = data()
-# code by https://stackoverflow.com/a/16690988
+# fork from https://stackoverflow.com/a/16690988
 def segment(string):
     """รับค่าสตริง str คืนค่า list"""
     # Sort wset in decreasing string order

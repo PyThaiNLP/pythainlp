@@ -11,8 +11,6 @@ License: MIT
 from __future__ import print_function
 from six.moves import range,zip
 import re
-import os
-import glob
 from .thai import newdata # load dictionary
 from pythainlp.corpus import stopwords # load  stopwords
 

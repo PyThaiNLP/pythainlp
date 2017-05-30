@@ -1,18 +1,16 @@
 ﻿# -*- coding: utf-8 -*-
 from setuptools import setup
 from setuptools import find_packages
-import codecs
-with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
-    readme = readme_file.read()
-
+import sys
 requirements = [
-    'pyicu>=1.9.2',
+    'pyicu',
     'nltk>=3.2.2',
     'future>=0.16.0',
-    'dill',
-    'six',
-    'artagger'
+    'six'
 ]
+if sys.version_info >= (3,4):
+    requirements.append('artagger')
+    requirements.append('dill')
 
 test_requirements = [
     # TODO: put package test requirements here
@@ -22,7 +20,6 @@ setup(
     name='pythainlp',
     version='1.2',
     description="Thai NLP in python package.",
-    long_description=readme,
     author='Wannaphong Phatthiyaphaibun',
     author_email='wannaphong@yahoo.com',
     url='https://github.com/wannaphongcom/pythainlp',

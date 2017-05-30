@@ -103,7 +103,7 @@ print(collation(['ไก่','ไข่','ก','ฮา'])) # ['ก', 'ไก่'
 
 ### รับเวลาปัจจุบันเป็นภาษาไทย
 
-```
+```python
 from pythainlp.date import now
 now() # '30 พฤษภาคม 2560 18:45:24'
 ```
@@ -111,13 +111,13 @@ now() # '30 พฤษภาคม 2560 18:45:24'
 
 เรียกใช้งาน
 
-```
+```python
 from pythainlp.corpus import wordnet
 ```
 
 **รับ Synset**
 
-```
+```python
 wordnet.getSynset(คำ)
 ```
 
@@ -125,7 +125,7 @@ wordnet.getSynset(คำ)
 
 **รับคำจาก id**
 
-```
+```python
 wordnet.getWords()
 ```
 
@@ -140,23 +140,24 @@ stopwords = stopwords.words('thai')
 
 ### หาคำที่มีจำนวนการใช้งานมากที่สุด
 
-```
-pythainlp.rank.rank(list)
+```python
+from pythainlp.rank import rank
+rank(list)
 ```
 
 คืนค่าออกมาเป็น dict
 
 **ตัวอย่างการใช้งาน**
 
-```
->>> pythainlp.rank.rank(['แมง','แมง','คน'])
+```python
+>>> rank(['แมง','แมง','คน'])
 Counter({'แมง': 2, 'คน': 1})
 ```
 
 ### แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา
 
-```
-pythainlp.change.คำสั่ง()
+```python
+from pythainlp.change import *
 ```
 
 มีคำสั่งดังนี้

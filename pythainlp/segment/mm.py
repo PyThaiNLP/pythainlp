@@ -11,7 +11,6 @@ License: MIT
 from __future__ import print_function
 from six.moves import range,zip
 import re
-import marisa_trie
 import os
 import glob
 from .thai import newdata # load dictionary
@@ -25,7 +24,7 @@ class wordcut(object):
         self.stopword = False
         self.stopdict = stopwords.words('thai')
 
-        self.trie = marisa_trie.Trie(d)
+        self.trie = d
         self.removeRepeat = removeRepeat
         self.stopNumber = stopNumber
         self.removeSpaces = removeSpaces

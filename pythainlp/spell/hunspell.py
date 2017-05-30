@@ -6,7 +6,7 @@ if six.PY2:
 	print("Not support python 2.7")
 	sys.exit(0)
 
-def spell(word,lang):
+def spell(word,lang='th_TH'):
 	"""เป็นคำสั่งตรวจคำผิดโดยใช้ hunspell
 	รับค่า str ส่งออกเป็น list
 	"""

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,division,unicode_literals
-from pythainlp.tokenize import word_tokenize
 import pythainlp
 import codecs
 import os
@@ -17,6 +16,5 @@ def tag(text):
 	"""
 	หมายเหตุ API ชุดนี้เตรียมหยุดการใช้งาน
 	รับค่าเป็น ''list'' คืนค่าเป็น ''list'' เช่น [('ข้อความ', 'ชนิดคำ')]"""
-	text= word_tokenize(text)
 	tagger = nltk.tag.UnigramTagger(model=data())# backoff=default_tagger)
 	return tagger.tag(text)

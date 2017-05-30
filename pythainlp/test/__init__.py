@@ -27,9 +27,9 @@ class TestUM(unittest.TestCase):
 	def testNumber(self):
 		self.assertEqual(numtowords(5611116.50),'ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์')
 	def testTag(self):
-		self.assertEqual(pos_tag("คุณกำลังประชุม",engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
+		self.assertEqual(pos_tag(word_tokenize("คุณกำลังประชุม"),engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 	def testTagnew(self):
     		if sys.version_info > (3,3):
-    				self.assertEqual(pos_tag("ผมรักคุณ",engine='artagger'),[('ผม', 'PPRS'), ('รัก', 'VSTA'), ('คุณ', 'PPRS')])
+    				self.assertEqual(pos_tag(word_tokenize("คุณกำลังประชุม"),engine='artagger'),[('ผม', 'PPRS'), ('รัก', 'VSTA'), ('คุณ', 'PPRS')])
 if __name__ == '__main__':
     unittest.main()

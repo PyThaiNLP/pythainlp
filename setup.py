@@ -6,7 +6,8 @@ requirements = [
     'pyicu',
     'nltk>=3.2.2',
     'future>=0.16.0',
-    'six'
+    'six',
+    'marisa_trie'
 ]
 if sys.version_info >= (3,4):
     requirements.append('artagger')

@@ -13,6 +13,7 @@ from six.moves import range,zip
 import re
 from .thai import newdata # load dictionary
 from pythainlp.corpus import stopwords # load  stopwords
+import marisa_trie
 
 class wordcut(object):
     def __init__(self, removeRepeat=True, stopDictionary="", removeSpaces=True, minLength=1, stopNumber=False, removeNonCharacter=False, caseSensitive=True, ngram=(1,1), negation=False):
@@ -22,7 +23,7 @@ class wordcut(object):
         self.stopword = False
         self.stopdict = stopwords.words('thai')
 
-        self.trie = d
+        self.trie = marisa_trie.Trie(d)
         self.removeRepeat = removeRepeat
         self.stopNumber = stopNumber
         self.removeSpaces = removeSpaces

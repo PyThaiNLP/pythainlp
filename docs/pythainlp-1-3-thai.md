@@ -105,6 +105,8 @@ romanization("แมว") # 'mæw'
 sudo apt-get install hunspell hunspell-th
 ```
 
+บน Mac OS ติดตั้งตามนี้ [http://pankdm.github.io/hunspell.html](http://pankdm.github.io/hunspell.html)
+
 ให้ใช้ pythainlp.spell ตามตัวอย่างนี้
 
 ```python

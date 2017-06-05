@@ -82,7 +82,6 @@ class wordcut(object):
             for data in self.trie.keys(word[0:longest]):
                 if(len(data) > longest):
                     if data in word[0:len(data)]:
-                        wordLength = 0
                         longest = len(data)
                         maxData = data
 

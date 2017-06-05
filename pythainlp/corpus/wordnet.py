@@ -63,6 +63,3 @@ def morphy(form, pos=None):
 	return wordnet.morphy(form, pos=None)
 def custom_lemmas(tab_file, lang):
 	return wordnet.custom_lemmas(tab_file, lang)
-if __name__ == "__main__":
-	#print(getSynset("ผลักดันกลับ"))
-	#print(getWords("02503365-v"))

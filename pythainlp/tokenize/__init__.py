@@ -11,9 +11,9 @@ def word_tokenize(text,engine='icu'):
 	- mm ใช้ Maximum Matching algorithm
 	"""
 	if engine=='icu':
-    		from pythainlp.segment.pyicu import segment
+    		from .pyicu import segment
 	elif engine=='dict':
-    		from pythainlp.segment.dict import segment
+    		from .dict import segment
 	elif engine=='mm':
-    		from pythainlp.segment.mm import segment
+    		from .mm import segment
 	return segment(text)

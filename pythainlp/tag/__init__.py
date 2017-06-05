@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 #  TODO ปรับ API ให้เหมือน nltk
 from __future__ import absolute_import,division,print_function,unicode_literals
-from pythainlp.postaggers import tag
 import sys
 def pos_tag(text,engine='old'):
 	"""
@@ -13,7 +12,7 @@ def pos_tag(text,engine='old'):
 	* artagger เป็น RDR POS Tagger
 	"""
 	if engine=='old':
-    		from pythainlp.postaggers import tag
+    		from .old import tag
 	elif engine=='artagger':
 			if sys.version_info < (3,4):
     				sys.exit('Sorry, Python < 3.4 is not supported')

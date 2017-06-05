@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,print_function,unicode_literals
 from itertools import groupby
-import PyICU
+import icu
 def isEnglish(s):
     try:
         try:
@@ -29,7 +29,7 @@ def isThai(chr):
         return False
 def segment(txt):
     """รับค่า ''str'' คืนค่าออกมาเป็น ''list'' ที่ได้มาจากการตัดคำโดย ICU"""
-    bd = PyICU.BreakIterator.createWordInstance(PyICU.Locale("th"))
+    bd = icu.BreakIterator.createWordInstance(icu.Locale("th"))
     bd.setText(txt.replace(' ', ''))
     breaks = list(bd)
     result=[txt[x[0]:x[1]] for x in zip([0]+breaks, breaks)]

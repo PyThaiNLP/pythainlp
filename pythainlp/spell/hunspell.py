@@ -30,7 +30,7 @@ def spell(word,lang='th_TH'):
 			getoutput = getoutput.split(",")
 		del get
 		return getoutput
-	except:
+	except subprocess.CalledProcessError:
 		print('plase install hunspell')
 		return None
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,print_function,unicode_literals
 from itertools import groupby
+from langdetect import detect 
 import re
 import icu
 def isEnglish(s):
@@ -22,8 +23,10 @@ def isThai(chr):
     if isEnglish(chr):
         return False
     try:
-        cVal = ord(chr)
+        '''cVal = ord(chr)
         if(cVal >= 3584 and cVal <= 3711):
+            return True'''
+        if detect(chr)=='th':
             return True
         return False
     except:
@@ -65,3 +68,4 @@ if __name__ == "__main__":
 	print(segment('ผมชอบพูดไทยคำ English'))
 	print(segment('ผมชอบพูดไทยคำEnglishคำ'))
 	print(segment('ผมชอบพูดไทยคำEnglish540 บาท'))
+	print(segment('ประหยัด ไฟเบอห้า'))

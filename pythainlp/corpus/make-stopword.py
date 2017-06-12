@@ -44,7 +44,8 @@ listno1=data("stopwords-th-old.txt") # ไฟล์ตั้งต้น
 filelist = [
 "stopwords-th1.txt",
 "stopwords-th2.txt",
-"stopwords-th3.txt"
+"stopwords-th3.txt",
+"stopwords-th4.txt"
 ] # รายการไฟล์ทั้งหมด
 for namefile in filelist:
 	print(namefile)

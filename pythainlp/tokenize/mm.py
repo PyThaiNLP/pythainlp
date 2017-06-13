@@ -45,7 +45,7 @@ class wordcut(object):
             return False
 
         if self.removeNonCharacter:
-            match = re.search(u"[0-9A-Za-z\u0E00-\u0E7F]+", word)
+            match = re.search(u"[0-9A-Za-z\u0E00-\u0E7F]+", word,re.U)
             if not match:
                 return False
 
@@ -58,7 +58,7 @@ class wordcut(object):
             self.onNegation = False
 
         # check latin words
-        match = re.search(u"[A-Za-z\d]*", word)
+        match = re.search(u"[A-Za-z\d]*", word,re.U)
         if match.group(0):
             if not self.caseSensitive:
                 return match.group(0).lower()
@@ -66,7 +66,7 @@ class wordcut(object):
                 return match.group(0)
 
         # check number
-        match = re.search(u"[\d]*", word)
+        match = re.search(u"[\d]*", word,re.U)
         if match.group(0):
             return match.group(0)
 
@@ -89,7 +89,7 @@ class wordcut(object):
         if maxData:
             try:
                 # Special check for case like ๆ
-                if word[len(maxData)] == u'ๆ':
+                if word[len(maxData)] == 'ๆ':
                     return word[0:(len(maxData) + 1)]
                 else:
                     return maxData
@@ -150,7 +150,7 @@ class wordcut(object):
         lastresult = []
         for x in range(self.ngram[0], self.ngram[1]+1):
             for r in self.find_ngrams(result, x):
-                match = re.search(u"[A-Za-z\d]+", ''.join(r))
+                match = re.search(u"[A-Za-z\d]+", ''.join(r),re.U)
                 if not match:
                     lastresult.append(''.join(r))
                 else:

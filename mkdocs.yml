@@ -1,8 +1,0 @@
-site_name: PyThaiNLP
-theme: readthedocs
-pages:
-- Home: index.md
-- Install: install.md
-- Docs: docs.md
-- License: license.md
-- About: about.md

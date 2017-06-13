@@ -159,6 +159,94 @@ class wordcut(object):
                     else:
                         lastresult.append(' '.join(r))
         return lastresult
+def mergelistlen(listdata,lennum):
+    i=0
+    listlen=len(listdata)
+    while i<listlen:
+        if i>(listlen-1) or i+1==listlen:
+            '''
+            ถ้า i เกินความยาว list ให้ออกจากการลูป
+            '''
+            break
+        elif re.search(r'[0-9]',listdata[i]):
+            '''
+            ถ้าหาก listdata[i] เป็นตัวเลขให้ข้ามไป
+            '''
+            pass
+        elif re.search(r'[ะา]',listdata[i]) and (len(listdata[i])==lennum and len(listdata[i+1])==lennum):
+            '''
+            ถ้าหาก listdata[i] คือ ะ/า ซึ่งเปนสระที่ไว้ข้างหลังได้เท่านั้น และ listdata[i] กับ listdata[i+1] ยาวเท่า lennum
+            จึงนำ listdata[i] ไปรวมกับ listdata[i-1] แล้วลบ listdata[i] ออก
+            '''
+            listdata[i-1]+=listdata[i]
+            del listdata[i]
+            i-=1
+        elif re.search(r'[ก-ฮ]',listdata[i]) and re.search(r'[0-9]',listdata[i+1]):
+            '''
+            กันปัญหา ก-ฮ ตัวต่อมาเป็น 0-9 มีความยาวเท่ากัน ให้ ก-ฮ ไปรวมกับตัวก่อนหน้า
+            '''
+            listdata[i-1]+=listdata[i]
+            del listdata[i]
+            i-=1
+        elif len(listdata[i])==lennum and len(listdata[i+1])==lennum:
+            '''
+            ถ้าหาก list มีความยาวเท่ากันอยู่ติดกัน
+            '''
+            #print(listdata,'99')
+            T=True
+            num=1
+            while T==True:
+               if (i+num)>=listlen:
+                   ii=i
+                   num2=1
+                   TT=True
+                   while TT==True:
+                    if (i+num2)<=(listlen-1):
+                        listdata[i]+=listdata[i+num2]
+                        num2+=1
+                    elif (i+num2)>(listlen-1):
+                        num2-=1
+                        TT=False
+                   TT=True
+                   while TT==True:
+                    if (i+num2) != i:
+                        del listdata[i+num2]
+                        num2-=1
+                    else:
+                        TT=False
+                   T=False
+               elif len(listdata[i+(num-1)])!=len(listdata[i+num]): #and re.search(r'[0-9]',listdata[i+(num-1)])==False:# and isThai(listdata[i+(num-1)])==True:
+                    ii=1+i
+                    while ii<(i+num) and ii<(len(listdata)-1):
+                        listdata[i]+=listdata[ii]
+                        ii+=1
+                    ii=i+num-1
+                    while ii>i:
+                        del listdata[ii]
+                        ii-=1
+                    T=False
+               num+=1
+            del T,ii
+        elif len(listdata[i])==lennum and len(listdata[i+1])!=lennum:
+            '''
+            ในกรณีที่ list ความยาวที่กำหนด แต่ตัวต่อไปยาวไม่เท่า ให้ยุบรวมกัน
+            '''
+            if re.search(r'[เแโใไ]',listdata[i]):
+                '''
+                ถ้าหากเป็นสระต้นคำ ให้รวมกัน
+                '''
+                listdata[i]+=listdata[i+1]
+                del listdata[i+1]
+            elif re.search(r'[ก-ฮ]',listdata[i]) or re.search(r'[ะา]',listdata[i]):
+                '''
+                หากเป็นแค่พยัญชนะให้รวมกับตัวหลัง
+                '''
+                listdata[i-1]+=listdata[i]
+                del listdata[i]
+                i-=1
+        listlen=len(listdata)
+        i+=1
+    return listdata
 def segment(text):
     pt = wordcut(stopNumber=False, removeNonCharacter=True, caseSensitive=False,removeRepeat=True)
-    return pt.segment(text)
+    return mergelistlen(pt.segment(text),1)

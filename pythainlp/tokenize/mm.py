@@ -11,13 +11,13 @@ License: MIT
 from __future__ import print_function
 from six.moves import range,zip
 import re
-from .thai import data # load dictionary
+from .thai import newdata # load dictionary
 from pythainlp.corpus import stopwords # load  stopwords
 #import marisa_trie
 
 class wordcut(object):
     def __init__(self, removeRepeat=True, stopDictionary="", removeSpaces=True, minLength=1, stopNumber=False, removeNonCharacter=False, caseSensitive=True, ngram=(1,1), negation=False):
-        d = data() # load dictionary
+        d = newdata() # load dictionary
         # load negation listdir
         self.negationDict = ['ไม่','แต่']
         self.stopword = False

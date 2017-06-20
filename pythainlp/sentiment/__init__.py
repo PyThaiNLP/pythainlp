@@ -9,7 +9,17 @@ from builtins import open
 import pythainlp
 import os
 from pythainlp.tokenize import word_tokenize
-import dill
+try:
+    import dill                    
+except ImportError:
+	import pip
+	pip.main(['install','dill'])
+	try:
+		import dill
+	except ImportError:
+		print("Error ! using 'pip install dill'")
+		sys.exit(0)
+
 templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), 'sentiment')
 def sentiment(text):
 	"""

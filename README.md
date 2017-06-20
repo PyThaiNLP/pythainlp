@@ -28,6 +28,7 @@ Natural language processing หรือ การประมวลภาษา
 ### สิ่งใหม่ที่เพิ่มเข้ามาใน PyThaiNLP 1.4
 
 - รองรับ  Thai Character Clusters (TCC) และ ETCC
+- Thai WordNet ตัวใหม่
 
 ### ความสามารถ
   - ตัดคำภาษาไทย
@@ -78,7 +79,7 @@ $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip i
 
 # เอกสารการใช้งานเบื้องต้น
 
-อ่านได้ที่ https://github.com/wannaphongcom/pythainlp/blob/master/docs/pythainlp-1-4-thai.md
+อ่านได้ที่ https://github.com/wannaphongcom/pythainlp/blob/pythainlp1.4/docs/pythainlp-1-4-thai.md
 
 ### License
 

@@ -17,7 +17,16 @@ def pos_tag(text,engine='old'):
 			if sys.version_info < (3,4):
     				sys.exit('Sorry, Python < 3.4 is not supported')
 			def tag(text1):
-					from artagger import Tagger
+					try:
+						from artagger import Tagger
+					except ImportError:
+						import pip
+						pip.main(['install','https://github.com/franziz/artagger/archive/master.zip'])
+						try:
+							from artagger import Tagger
+						except ImportError:
+							print("Error ! using 'pip install https://github.com/franziz/artagger/archive/master.zip'")
+							sys.exit(0)
 					tagger = Tagger()
 					words = tagger.tag(' '.join(text1))
 					totag=[]

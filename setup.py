@@ -10,9 +10,6 @@ requirements = [
     'marisa_trie',
     'langdetect'
 ]
-if sys.version_info >= (3,4):
-    requirements.append('artagger')
-    requirements.append('dill')
 
 test_requirements = [
     # TODO: put package test requirements here

@@ -9,7 +9,9 @@ Homepages :[https://sites.google.com/view/pythainlp/home](https://sites.google.c
 
 ประมวลภาษาธรรมชาติภาษาไทยในภาษา Python
 
-Natural language processing หรือ การประมวลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่องานวิจัยและพัฒนาการประมวลภาษาธรรมชาติภาษาไทยในภาษา Python
+Natural language processing หรือ การประมวลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่อพัฒนาการประมวลภาษาธรรมชาติภาษาไทยในภาษา Python และ**มันฟรี (ตลอดไป) เพื่อคนไทยและชาวโลกทุกคน !**
+
+> เพราะโลกขับเคลื่อนต่อไปด้วยการแบ่งปัน
 
 รองรับ Python 3.4 ขึ้นไป
 
@@ -22,6 +24,10 @@ Natural language processing หรือ การประมวลภาษา
 
 ### Version
 1.4
+
+### สิ่งใหม่ที่เพิ่มเข้ามาใน PyThaiNLP 1.4
+
+- รองรับ  Thai Character Clusters (TCC) และ ETCC
 
 ### ความสามารถ
   - ตัดคำภาษาไทย
@@ -72,7 +78,7 @@ $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip i
 
 # เอกสารการใช้งานเบื้องต้น
 
-อ่านได้ที่ https://github.com/wannaphongcom/pythainlp/blob/master/docs/pythainlp-1-3-thai.md
+อ่านได้ที่ https://github.com/wannaphongcom/pythainlp/blob/master/docs/pythainlp-1-4-thai.md
 
 ### License
 

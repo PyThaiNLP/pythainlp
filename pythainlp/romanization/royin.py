@@ -64,6 +64,10 @@ def deletetone(data):
 	for tone in ['่','้','๊','๋']:
 		if (re.search(tone,data)):
 				data = re.sub(tone,'',data)
+	if re.search(u'[\w]'+'์',data, re.U):
+		search=re.findall(u'[\w]'+'์',data, re.U)
+		for i in search:
+				data=re.sub(i,'',data,flags=re.U)
 	return data
 def romanization(text):
     text=deletetone(text)

@@ -83,8 +83,19 @@ engine คือ ชุดเครื่องมือในการ postagge
 
 ```python
 from pythainlp.romanization import romanization
-romanization(str)
+romanization(str,engine='pyicu')
 ```
+มี 2 engine ดังนี้
+
+- pyicu ส่งค่า Latin
+- royin ใช้หลักเกณฑ์การถอดอักษรไทยเป็นอักษรโรมัน ฉบับราชบัณฑิตยสถาน
+
+data :
+
+รับค่า ''str'' ข้อความ 
+
+คืนค่าเป็น ''str'' ข้อความ
+
 **ตัวอย่าง**
 
 ```python

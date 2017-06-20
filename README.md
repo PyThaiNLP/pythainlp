@@ -29,6 +29,7 @@ Natural language processing หรือ การประมวลภาษา
 
 - รองรับ  Thai Character Clusters (TCC) และ ETCC
 - Thai WordNet ตัวใหม่
+- เพิ่มหลักเกณฑ์การถอดอักษรไทยเป็นอักษรโรมัน ฉบับราชบัณฑิตยสถาน
 
 ### ความสามารถ
   - ตัดคำภาษาไทย

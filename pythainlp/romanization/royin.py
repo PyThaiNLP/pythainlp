@@ -1,114 +1,588 @@
-# ยังไม่สามารถถอดเสียงสระได้ ***
-from __future__ import absolute_import
-from pythainlp.segment import segment
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import,division,unicode_literals,print_function
+'''
+โมดูลถอดเสียงไทยเป็นอังกฤษ
+
+พัฒนาต่อจาก new-thai.py
+
+พัฒนาโดย นาย วรรณพงษ์ ภัททิยไพบูลย์
+
+เริ่มพัฒนา 20 มิ.ย. 2560
+'''
+from pythainlp.tokenize import word_tokenize
+from pythainlp.tokenize import tcc
+from pythainlp.tokenize import etcc
 import re
-
-th = u'[ก-ฮ]+'
-
-p = [['อักษรไทย', 'ต้น', 'ทั่วไป'],
-     ['ก', 'k', 'k'],
-     ['ข', 'kh', 'k'],
-     ['ฃ', 'kh', 'k'],
-     ['ค', 'kh', 'k'],
-     ['ฅ', 'kh', 'k'],
-     ['ฆ', 'kh', 'k'],
-     ['ง', 'ng', 'ng'],
-     ['จ', 'ch', 't'],
-     ['ฉ', 'ch', 't'],
-     ['ช', 'ch', 't'],
-     ['ซ', 's', 't'],
-     ['ฌ', 'ch', 't'],
-     ['ญ', 'y', 'n'],
-     ['ฎ', 'd', 't'],
-     ['ฏ', 't', 't'],
-     ['ฐ', 'th', 't'],
-     ['ฑ', 'th', 't'],
-     ['ฒ', 'th', 't'],
-     ['ณ', 'n', 'n'],
-     ['ด', 'd', 't'],
-     ['ต', 't', 't'],
-     ['ถ', 'th', 't'],
-     ['ท', 'th', 't'],
-     ['ธ', 'th', 't'],
-     ['น', 'n', 'n'],
-     ['บ', 'b', 'p'],
-     ['ป', 'p', 'p'],
-     ['ผ', 'ph', 'p'],
-     ['ฝ', 'f', 'p'],
-     ['พ', 'ph', 'p'],
-     ['ฟ', 'f', 'p'],
-     ['ภ', 'ph', 'p'],
-     ['ม', 'm', 'm'],
-     ['ย', 'y', ''],
-     ['ร', 'r', 'n'],
-     ['ล', 'l', 'n'],
-     ['ว', 'w', ''],
-     ['ศ', 's', 't'],
-     ['ษ', 's', 't'],
-     ['ส', 's', 't'],
-     ['ห', 'h', ''],
-     ['ฬ', 'l', 'n'],
-     ['อ', '', 'o'],
-     ['ฮ', 'h', '']]
-p2 = dict((x[0], x[2]) for x in p[1:])
-p1 = dict((x[0], x[1]) for x in p[1:])
-d1 = 0
-# p1 อักรต้น
-# p2 ทั่วไป
-# def sub1(txt)
-
-tone = ['่','้','๊','๋']
-def delete1(data):
-	#โค้ดส่วนตัดวรรณยุกต์ออก
-	for a in tone:
-		if (re.search(a,data)):
-				data = re.sub(a,'',data)
+Consonants = { # พยัญชนะ ต้น สะกด
+'ก':['k','k'],
+'ข':['kh','k'],
+'ฃ':['kh','k'],
+'ค':['kh','k'],
+'ฅ':['kh','k'],
+'ฆ':['kh','k'],
+'ง':['ng','ng'],
+'จ':['ch','t'],
+'ฉ':['ch','t'],
+'ช':['ch','t'],
+'ซ':['s','t'],
+'ฌ':['ch','t'],
+'ญ':['y','n'],
+'ฎ':['d','t'],
+'ฏ':['t','t'],
+'ฐ':['th','t'],
+'ฑ':['th','t'], #* พยัญชนะต้น เป็น d ได้
+'ฒ':['th','t'],
+'ณ':['n','n'],
+'ด':['d','t'],
+'ต':['t','t'],
+'ถ':['th','t'],
+'ท':['th','t'],
+'ธ':['th','t'],
+'น':['n','n'],
+'บ':['b','p'],
+'ป':['p','p'],
+'ผ':['ph','p'],
+'ฝ':['f','p'],
+'พ':['ph','p'],
+'ฟ':['f','p'],
+'ภ':['ph','p'],
+'ม':['m','m'],
+'ย':['y',''],
+'ร':['r','n'],
+'ล':['l','n'],
+'ว':['w',''],
+'ศ':['s','t'],
+'ษ':['s','t'],
+'ส':['s','t'],
+'ห':['h',''],
+'ฬ':['l','n'],
+'ฮ':['h','']
+}
+Consonantsthai= u'[กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮ]'
+def deletetone(data):
+    #โค้ดส่วนตัดวรรณยุกต์ออก
+	for tone in ['่','้','๊','๋']:
+		if (re.search(tone,data)):
+				data = re.sub(tone,'',data)
 	return data
-# ส่วนพยัญชนะ
-def consonant(text):
-	try:
-		txt = delete1(text)
-		text = list(txt)
-		text1 = ""
-		text1 = p1[text[0]]
-		#print(len(text))
-		#print(text)
-		if len(txt) == 2: # จัดการแก้ไขการสะกดคำที่มี 2 ตัว โดยการเติม o
-			text1 += 'o'
-		for a in txt[1:]:
-			#a=delete1(a)
-			if (re.search(th, a, re.U)):
-				text1 += p2[a]
-			else:
-				text1 += a
-		return text1
-	except:
-		return text
+def romanization(text):
+    text=deletetone(text)
+    text1=word_tokenize(text,engine='mm')
+    textdata=[]
+    #print(text1)
+    for text in text1:
+        a1=etcc.etcc(text)
+        a2=tcc.tcc(a1)
+        text=re.sub('//','/',a2)
+        #print(text)
+        if re.search(u'เ[\w]'+'/ี'+'ย/ว/',text, re.U):
+            '''
+            จัดการกับ เอียว
+            '''
+            #print('เอียว')
+            search=re.findall(u'เ[\w]'+'/ี'+'ย/ว',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'iao',text,flags=re.U)
+        if re.search(u'แ[\w]'+'/็'+'ว',text, re.U):
+            '''
+            จัดการกับ แอ็ว
+            '''
+            #print('แอ็ว')
+            search=re.findall(u'แ[\w]'+'/็'+'ว',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'aeo',text,flags=re.U)
+        if re.search(u'แ[\w]/[\w]'+'็/'+'ว',text, re.U):
+            '''
+            จัดการกับ แออ็ว
+            '''
+            #print('แออ็ว')
+            search=re.findall(u'แ[\w]/[\w]'+'็/'+'ว',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+list(i)[3]+'aeo',text,flags=re.U)
+        if re.search(u'แ[\w]/'+'ว',text, re.U):
+            '''
+            จัดการกับ แอว
+            '''
+            #print('แอว')
+            search=re.findall(u'แ[\w]/'+'ว',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'aeo',text,flags=re.U)
+        if re.search(u'เ[\w]'+'ว',text, re.U):
+            '''
+            จัดการกับ เอว
+            '''
+            #print('เอว')
+            search=re.findall(u'เ[\w]'+'ว',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'eo',text,flags=re.U)
+        if re.search(u'เ[\w]/็ว',text, re.U):
+            '''
+            จัดการกับ เอ็ว
+            '''
+            #print('เอ็ว')
+            search=re.findall(u'เ[\w]/็ว',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'eo',text,flags=re.U)
+        if re.search(u'เ[\w]ี/ยะ',text, re.U):
+            '''
+            จัดการกับ เอียะ
+            '''
+            #print('เอียะ')
+            search=re.findall(u'เ[\w]ี/ยะ',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'ia',text,flags=re.U)
+        if re.search(u'เ[\w]ีย',text, re.U):
+            '''
+            จัดการกับ เอีย (1)
+            '''
+            #print('เอีย 1')
+            search=re.findall(u'เ[\w]ีย',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'ia',text,flags=re.U)
+        if re.search(u'เ[\w]/ีย',text, re.U):
+            '''
+            จัดการกับ เอีย (2)
+            '''
+            #print('เอีย 2')
+            search=re.findall(u'เ[\w]/ีย',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'ia',text,flags=re.U)
+        if re.search(u'เ[\w]/ือ/ย',text, re.U):
+            '''
+            จัดการกับ เอือย
+            '''
+            #print('เอือย')
+            search=re.findall(u'เ[\w]/ือ/ย',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'ueai',text,flags=re.U)
+        if re.search(u'เ[\w]/ือ/ะ',text, re.U):
+            '''
+            จัดการกับ เอือ
+            '''
+            #print('เอือ')
+            search=re.findall(u'เ[\w]/ือ/ะ',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'uea',text,flags=re.U)
+        if re.search(u'เ[\w]/ือ',text, re.U):
+            '''
+            จัดการกับ เอือ
+            '''
+            #print('เอือ')
+            search=re.findall(u'เ[\w]/ือ',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'uea',text,flags=re.U)
+        if re.search(u'โ[\w]/ย',text, re.U):
+            '''
+            จัดการกับ โอย
+            '''
+            #print('โอย')
+            search=re.findall(u'โ[\w]/ย',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'oi',text,flags=re.U)
+        if re.search(u'[\w]อย',text, re.U):
+            '''
+            จัดการกับ โอย
+            '''
+            #print('โอย')
+            search=re.findall(u'[\w]อย',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[0]+'oi',text,flags=re.U)
+        if re.search(u'โ/[\w]ะ/',text, re.U):
+            '''
+            จัดการกับ โอะ
+            '''
+            #print('โอะ')
+            search=re.findall(u'โ/[\w]ะ/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[2]+'o',text,flags=re.U)
+        if re.search(u'โ[\w]',text, re.U):
+            '''
+            จัดการกับ โอ
+            '''
+            #print('โอ')
+            search=re.findall(u'โ[\w]',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'o',text,flags=re.U)
+        if re.search(u'เ/[\w]า/ะ/',text, re.U):
+            '''
+            จัดการกับ เอาะ (1)
+            '''
+            #print('เอาะ 1')
+            search=re.findall(u'เ/[\w]า/ะ/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[2]+'o',text,flags=re.U)
+        if re.search(u'เ[\w]าะ/',text, re.U):
+            '''
+            จัดการกับ เอาะ (2)
+            '''
+            #print('เอาะ 2')
+            search=re.findall(u'เ[\w]าะ/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'o',text,flags=re.U)
+        if re.search(u'อำ',text, re.U):
+            '''
+            จัดการกับ อำ
+            '''
+            #print('อำ')
+            search=re.findall(u'อำ',text, re.U)
+            for i in search:
+                text=re.sub(i,'am',text,flags=re.U)
+        if re.search(u'อี',text, re.U):
+            '''
+            จัดการกับ อี
+            '''
+            #print('"อี"')
+            search=re.findall(u'อี',text, re.U)
+            for i in search:
+                text=re.sub(i,'i',text,flags=re.U)
+        if re.search(u'[\w]อ',text, re.U):
+            '''
+            จัดการกับ ออ
+            '''
+            #print('ออ')
+            search=re.findall(u'[\w]อ',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[0]+'o',text,flags=re.U)
+        if re.search(u'/[\w]ั/ว/ะ',text, re.U):
+            '''
+            จัดการกับ อัวะ
+            '''
+            #print('อัวะ')
+            search=re.findall(u'/[\w]ั/ว/ะ',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'ua',text,flags=re.U)
+        if re.search(u'/[\w]ั/ว',text, re.U):
+            '''
+            จัดการกับ อัว
+            '''
+            #print('อัว')
+            search=re.findall(u'/[\w]ั/ว',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'ua',text,flags=re.U)
 
-# ส่วนสระ
-def vowel(data):
-	#พัฒนาอยู่
-	#[ก-ฮ]ะ
-	a=list(data)
-	word=consonant(a[0]) + 'a'
-	return word
-
-def romanization(txt):
-	txt = segment(txt)  # (','.join(str(x) for x in txt))  # แยกออกมาเป็น list
-	cc=''
-	#print(txt)
-	for b in txt:
-		cc+=consonant(b)
-	return cc
-    # return txt
-if __name__ == "__main__":
-	print(romanization('ตอง') == "tong")
-	print(romanization('มอง'))
-	print(romanization('มด'))
-	print(romanization('พร'))
-	print(romanization('คน'))
-	print(romanization('พรม')) #!
-	#romanization('แมว')
-	print(vowel("ปะ") == "pa")
-	print(romanization('ชล'))
-	print(romanization('ต้น') == "ton")
+        # ใอ,อัย , อาย
+        if re.search(u'ใ[\w]/',text, re.U):
+            '''
+            จัดการกับ ใอ
+            '''
+            #print('ใอ')
+            search=re.findall(u'ใ[\w]/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'ai',text,flags=re.U)
+        if re.search(u'[\w]ั/ย',text, re.U):
+            '''
+            จัดการกับ อัย
+            '''
+            #print('อัย')
+            search=re.findall(u'[\w]ั/ย',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[0]+'ai',text,flags=re.U)
+        if re.search(u'[\w]า/ย',text, re.U):
+            '''
+            จัดการกับ อาย
+            '''
+            #print('อาย')
+            search=re.findall(u'[\w]า/ย',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[0]+'ai',text,flags=re.U)
+        #เอา, อาว
+        if re.search(u'เ/[\w]า/',text, re.U):
+            '''
+            จัดการกับ เอา
+            '''
+            #print('เอา')
+            search=re.findall(u'เ/[\w]า/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[2]+'ao',text,flags=re.U)
+        if re.search(u'[\w]า/ว',text, re.U):
+            '''
+            จัดการกับ อาว
+            '''
+            #print('อาว')
+            search=re.findall(u'[\w]า/ว',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[0]+'ao',text,flags=re.U)
+        #อุย
+        if re.search(u'[\w]ุ/ย',text, re.U):
+            '''
+            จัดการกับ อุย
+            '''
+            #print('อุย')
+            search=re.findall(u'[\w]ุ/ย',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[0]+'ui',text,flags=re.U)
+        #เอย
+        if re.search(u'เ[\w]/ย',text, re.U):
+            '''
+            จัดการกับ เอย
+            '''
+            #print('เอย')
+            search=re.findall(u'เ[\w]/ย',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'oei',text,flags=re.U)
+        # เออ
+        if re.search(u'เ[\w]/อ',text, re.U):
+            '''
+            จัดการกับ เออ
+            '''
+            #print('เออ')
+            search=re.findall(u'เ[\w]/อ',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'oe',text,flags=re.U)
+        # แอะ, แอ
+        if re.search(u'แ/[\w]ะ/',text, re.U):
+            '''
+            จัดการกับ แอะ
+            '''
+            #print('แอะ')
+            search=re.findall(u'แ/[\w]ะ/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[2]+'ae',text,flags=re.U)
+        if re.search(u'/แ[\w]/',text, re.U):
+            '''
+            จัดการกับ แอ
+            '''
+            #print('แอ')
+            search=re.findall(u'/แ[\w]/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[2]+'ae',text,flags=re.U)
+        # เอะ
+        if re.search(u'เ/[\w]ะ/',text, re.U):
+            '''
+            จัดการกับ เอะ
+            '''
+            #print('เอะ')
+            search=re.findall(u'เ/[\w]ะ/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[2]+'e',text,flags=re.U)
+        # อิว
+        if re.search(u'/[\w]ิ/ว',text, re.U):
+            '''
+            จัดการกับ อิว
+            '''
+            #print('อิว')
+            search=re.findall(u'/[\w]ิ/ว',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'io',text,flags=re.U)
+        # อวย
+        if re.search(u'[\w]วย',text, re.U):
+            '''
+            จัดการกับ อวย
+            '''
+            #print('อวย')
+            search=re.findall(u'[\w]วย',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[0]+'uai',text,flags=re.U)
+        # -ว-
+        if re.search(u'[\w]ว[\w]',text, re.U):
+            '''
+            จัดการกับ -ว-
+            '''
+            #print('-ว-')
+            search=re.findall(u'[\w]ว[\w]',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[0]+'ua'+list(i)[2],text,flags=re.U)
+        # เ–็,เอ
+        if re.search(u'เ[\w]/'+'็',text, re.U):
+            '''
+            จัดการกับ เ–็
+            '''
+            #print('เ–็')
+            search=re.findall(u'เ[\w]/'+'็',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'e',text,flags=re.U)
+        if re.search(u'เ[\w]/',text, re.U):
+            '''
+            จัดการกับ เอ
+            '''
+            #print('เอ')
+            search=re.findall(u'เ[\w]/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'e',text,flags=re.U)
+        #ไอย
+        if re.search(u'ไ[\w]/ย',text, re.U):
+            '''
+            จัดการกับ ไอย
+            '''
+            #print('ไอย')
+            search=re.findall(u'ไ[\w]/ย',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'ai',text,flags=re.U)
+        #ไอ
+        if re.search(u'ไ[\w]/',text, re.U):
+            '''
+            จัดการกับ ไอ
+            '''
+            #print('ไอ')
+            search=re.findall(u'ไ[\w]/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'ai',text,flags=re.U)
+        #อะ
+        if re.search(u'/[\w]ะ/',text, re.U):
+            '''
+            จัดการกับ อะ
+            '''
+            #print('อะ')
+            search=re.findall(u'/[\w]ะ/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'a',text,flags=re.U)
+        # –ั 
+        if re.search(u'/[\w]ั/',text, re.U):
+            '''
+            จัดการกับ –ั 
+            '''
+            #print('–ั ')
+            search=re.findall(u'/[\w]ั/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'a',text,flags=re.U)
+        # รร
+        """
+        if re.search(u'[\w]รร[\w]',text, re.U):
+            '''
+            จัดการกับ -รร-
+            '''
+            #print('-รร- 1')
+            search=re.findall(u'[\w]รร[\w]',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[0]+'a'+list(i)[3],text,flags=re.U)
+        if re.search(u'[\w]รร',text, re.U):
+            '''
+            จัดการกับ -รร-
+            '''
+            #print('-รร- 2')
+            search=re.findall(u'[\w]รร',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[0]+'an'+'/',text,flags=re.U)
+        """
+        if re.search(u'[\w]รร',text, re.U):
+            '''
+            จัดการกับ -รร-
+            '''
+            #print('-รร- 1')
+            if len(text)==3:
+                search=re.findall(u'[\w]รร',text, re.U)
+                for i in search:
+                    text=re.sub(i,list(i)[0]+'an',text,flags=re.U)
+            else:
+                search=re.findall(u'[\w]รร',text, re.U)
+                for i in search:
+                    text=re.sub(i,list(i)[0]+'a',text,flags=re.U)
+        #อา
+        if re.search(u'อา',text, re.U):
+            '''
+            จัดการกับ อา 1
+            '''
+            #print('อา 1')
+            search=re.findall(u'อา',text, re.U)
+            for i in search:
+                text=re.sub(i,'a',text,flags=re.U)
+        if re.search(u'/[\w]า/',text, re.U):
+            '''
+            จัดการกับ อา 2
+            '''
+            #print('อา 2')
+            search=re.findall(u'/[\w]า/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'a',text,flags=re.U)
+        #อำ
+        if re.search(u'/[\w]ำ/',text, re.U):
+            '''
+            จัดการกับ อำ 1
+            '''
+            #print('อำ 1')
+            search=re.findall(u'/[\w]ำ/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'am',text,flags=re.U)
+        #อิ , อี
+        if re.search(u'/[\w]ิ/',text, re.U):
+            '''
+            จัดการกับ อิ 
+            '''
+            #print('อิ')
+            search=re.findall(u'/[\w]ิ/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'i'+'/',text,flags=re.U)
+        if re.search(u'/[\w]ี/',text, re.U):
+            '''
+            จัดการกับ อี
+            '''
+            #print('อี')
+            search=re.findall(u'/[\w]ี/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'i'+'/',text,flags=re.U)
+        #อึ , อื
+        if re.search(u'/[\w]ึ/',text, re.U):
+            '''
+            จัดการกับ อึ
+            '''
+            #print('อึ')
+            search=re.findall(u'/[\w]ึ/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'ue'+'/',text,flags=re.U)
+        if re.search(u'/[\w]ื/',text, re.U):
+            '''
+            จัดการกับ อื
+            '''
+            #print('อื')
+            search=re.findall(u'/[\w]ื/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'ue'+'/',text,flags=re.U)
+        #อุ , อู
+        if re.search(u'/[\w]ุ/',text, re.U):
+            '''
+            จัดการกับ อุ
+            '''
+            #print('อุ')
+            search=re.findall(u'/[\w]ุ/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'u'+'/',text,flags=re.U)
+        if re.search(u'/[\w]ู/',text, re.U):
+            '''
+            จัดการกับ อู
+            '''
+            #print('อู')
+            search=re.findall(u'/[\w]ู/',text, re.U)
+            for i in search:
+                text=re.sub(i,list(i)[1]+'u'+'/',text,flags=re.U)
+        if re.search(r'[^กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮ]',text, re.U):
+            '''
+             ใช้ในกรณีคำนั้นมีสระด้วย จะได้เอาพยัญชนะตัวแรกไปเทียบ
+            '''
+            d=re.search(Consonantsthai,text,re.U)
+            text=re.sub(d.group(0),Consonants[d.group(0)][0],text,flags=re.U)
+        listtext=list(text)
+        if re.search(Consonantsthai,listtext[0], re.U):
+	        '''
+	        จัดการกับพยัญชนะต้น
+	        '''
+	        listtext[0]=Consonants[listtext[0]][0]
+	        two=False
+	        if len(listtext)==2:
+		        if  re.search(Consonantsthai,listtext[1], re.U):
+			        '''
+			        จัดการกับพยัญชนะ 2 ตัว และมีแค่ 2 ตั   และมีแค่ 2 ตัวติดกันในคำ 
+			        '''
+			        listtext.append(Consonants[listtext[1]][1])
+			        listtext[1]='o'
+			        two=True
+        else:
+	        two=False
+        i=0
+        while i<len(listtext) and two==False:
+	        if re.search(Consonantsthai,listtext[i], re.U):
+		        '''
+		        ถ้าหากเป็นพยัญชนะ
+		        '''
+		        listtext[i]=Consonants[listtext[i]][1]
+	        i+=1
+        text=''.join(listtext) # คืนค่ากลับสู่ str
+        #print(text)
+        textdata.append(re.sub('/','',text))
+    return ''.join(textdata)
+if __name__ == '__main__':
+    print(romanization('วัน')+romanization('นะ')+romanization('พง'))
+    print(romanization('นัด')+romanization('ชะ')+romanization('โนน'))
+    print(romanization('สรรพ'))
+    print(romanization('สรร')+romanization('หา'))
+    print(romanization('สรร')+romanization('หา'))
+    print(romanization('แมว'))

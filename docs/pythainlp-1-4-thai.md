@@ -150,6 +150,40 @@ now() # '30 พฤษภาคม 2560 18:45:24'
 from pythainlp.corpus import wordnet
 ```
 
+**การใช้งาน**
+
+API เหมือนกับ NLTK โดยรองรับ API ดังนี้
+
+- wordnet.synsets(word)
+- wordnet.synset(name_synsets)
+- wordnet.all_lemma_names(pos=None, lang="tha")
+- wordnet.all_synsets(pos=None)
+- wordnet.langs()
+- wordnet.lemmas(word,pos=None,lang="tha")
+- wordnet.lemma(name_synsets)
+- wordnet.lemma_from_key(key)
+- wordnet.path_similarity(synsets1,synsets2)
+- wordnet.lch_similarity(synsets1,synsets2)
+- wordnet.wup_similarity(synsets1,synsets2)
+- wordnet.morphy(form, pos=None)
+- wordnet.custom_lemmas(tab_file, lang)
+
+**ตัวอย่าง**
+
+```python
+>>> from pythainlp.corpus import wordnet
+>>> print(wordnet.synsets('หนึ่ง'))
+[Synset('one.s.05'), Synset('one.s.04'), Synset('one.s.01'), Synset('one.n.01')]
+>>> print(wordnet.synsets('หนึ่ง')[0].lemma_names('tha'))
+[]
+>>> print(wordnet.synset('one.s.05'))
+Synset('one.s.05')
+>>> print(wordnet.synset('spy.n.01').lemmas())
+[Lemma('spy.n.01.spy'), Lemma('spy.n.01.undercover_agent')]
+>>> print(wordnet.synset('spy.n.01').lemma_names('tha'))
+['สปาย', 'สายลับ']
+```
+
 ### stopword ภาษาไทย
 
 ```python

@@ -56,6 +56,7 @@ Consonants = { # พยัญชนะ ต้น สะกด
 'ส':['s','t'],
 'ห':['h',''],
 'ฬ':['l','n'],
+'อ':['',''],
 'ฮ':['h','']
 }
 Consonantsthai= u'[กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮ]'
@@ -75,7 +76,7 @@ def romanization(text):
     textdata=[]
     #print(text1)
     for text in text1:
-        a1=etcc.etcc(text)
+        #a1=etcc.etcc(text)
         a2=tcc.tcc(text)
         text=re.sub('//','/',a2)
         if re.search(u'เ[\w]'+'ี'+'ย/ว',text, re.U):

@@ -86,6 +86,8 @@ $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip i
 
 Apache Software License 2.0
 
+สามารถนำไปใช้ได้ทั้งงานวิจัยและในเชิงการค้า ใช้ในโปรแกรมปิดโค้ดได้ โดยคุณต้องระบุว่าใช้ PyThaiNLP ในเอกสารของโปรแกรมคุณและแนบ Apache Software License 2.0 ของ PyThaiNLP ไปด้วย
+
 
 พัฒนาโดย นาย วรรณพงษ์  ภัททิยไพบูลย์
 

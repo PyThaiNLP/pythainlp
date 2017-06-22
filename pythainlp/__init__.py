@@ -17,3 +17,4 @@ from pythainlp.tag import *
 from pythainlp.collation import *
 from pythainlp.test import *
 from pythainlp.Text import *
+from pythainlp.MetaSound import *

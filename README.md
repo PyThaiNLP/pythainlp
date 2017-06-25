@@ -31,6 +31,7 @@ Natural language processing หรือ การประมวลภาษา
 - Thai WordNet ตัวใหม่
 - เพิ่มหลักเกณฑ์การถอดอักษรไทยเป็นอักษรโรมัน ฉบับราชบัณฑิตยสถาน
 - เพิ่ม Meta Sound ภาษาไทย
+- เพิ่ม Thai Soundex
 
 ### ความสามารถ
   - ตัดคำภาษาไทย
@@ -40,6 +41,11 @@ Natural language processing หรือ การประมวลภาษา
   - เรียงจำนวนคำของประโยค
   - แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา
   - เช็คคำผิดในภาษาไทย
+  - รองรับ  Thai Character Clusters (TCC) และ ETCC
+  - Thai WordNet
+  - Stop Word ภาษาไทย
+  - Meta Sound ภาษาไทย
+  - Thai Soundex
   - และอื่น ๆ 
 
 # ติดตั้ง

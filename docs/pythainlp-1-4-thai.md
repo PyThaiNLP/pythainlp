@@ -268,6 +268,28 @@ grammar : คุณ Wittawat Jitkrittum (https://github.com/wittawatj/jtcc/blob/
 '/คืน/ความสุข'
 ```
 
+### Thai Soundex ภาษาไทย
+
+เดติด คุณ Korakot Chaovavanich (จาก https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8)
+
+กฎที่รองรับในเวชั่น 1.4
+
+- กฎการเข้ารหัสซาวน์เด็กซ์ของ  วิชิตหล่อจีระชุณห์กุล  และ  เจริญ  คุวินทร์พันธุ์
+
+**การใช้งาน**
+
+```python
+>>> from pythainlp.soundex import LK82
+>>> print(LK82('รถ'))
+ร3000
+>>> print(LK82('รด'))
+ร3000
+>>> print(LK82('จัน'))
+จ4000
+>>> print(LK82('จันทร์'))
+จ4000
+```
+
 ### Meta Sound ภาษาไทย
 
 ```

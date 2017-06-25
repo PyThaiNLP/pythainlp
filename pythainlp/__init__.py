@@ -18,3 +18,4 @@ from pythainlp.collation import *
 from pythainlp.test import *
 from pythainlp.Text import *
 from pythainlp.MetaSound import *
+from pythainlp.soundex import *

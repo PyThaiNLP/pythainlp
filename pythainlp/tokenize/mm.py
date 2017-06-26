@@ -10,20 +10,37 @@ License: MIT
 
 from __future__ import print_function
 from six.moves import range,zip
+import codecs
 import re
 from .thai import newdata # load dictionary
 from pythainlp.corpus import stopwords # load  stopwords
-#import marisa_trie
+import marisa_trie
 
 class wordcut(object):
-    def __init__(self, removeRepeat=True, stopDictionary="", removeSpaces=True, minLength=1, stopNumber=False, removeNonCharacter=False, caseSensitive=True, ngram=(1,1), negation=False):
+    def __init__(self, removeRepeat=True, keyDictionary="", stopDictionary="", removeSpaces=True, minLength=1, stopNumber=False, removeNonCharacter=False, caseSensitive=True, ngram=(1,1), negation=False):
         d = newdata() # load dictionary
         # load negation listdir
-        self.negationDict = ['ไม่','แต่']
+        self.negationDict = []
+        if negation:
+            self.negationDict = ['ไม่','แต่']
         self.stopword = False
-        self.stopdict = stopwords.words('thai')
+        self.stopdict = []
+        if(stopDictionary is not ""):
+            self.stopword = True
+            with codecs.open(stopDictionary, 'r',encoding='utf8') as f:
+                for line in f:
+                    self.stopdict.append(line)
+        else:
+            self.stopdict = stopwords.words('thai')
+        self.keyword = False
+        self.keydict = []
+        if(keyDictionary is not ""):
+            self.keyword = True
+            with codecs.open(keyDictionary, 'r',encoding='utf8') as f:
+                for line in f.read().splitlines():
+                    self.keydict.append(line)
 
-        self.trie = d
+        self.trie = marisa_trie.Trie(d)
         self.removeRepeat = removeRepeat
         self.stopNumber = stopNumber
         self.removeSpaces = removeSpaces
@@ -80,7 +97,7 @@ class wordcut(object):
 
         if longest > 20:
             for data in self.trie.keys(word[0:longest]):
-                if(len(data) > longest):
+                if len(data) > longest:
                     if data in word[0:len(data)]:
                         longest = len(data)
                         maxData = data
@@ -110,6 +127,20 @@ class wordcut(object):
 
         return wordArray
 
+    def extract_keyword(self, wordArray):
+        resultArray = []
+        for dd in wordArray:
+            try:
+                if self.caseSensitive:
+                    if dd in self.keydict:
+                        resultArray.append(dd)
+                else:
+                    if dd.lower() in self.keydict:
+                        resultArray.append(dd)
+            except ValueError:
+                pass
+
+        return resultArray
     # c = sentence which represent as char
     # N = number of character
     def find_segment(self, c):

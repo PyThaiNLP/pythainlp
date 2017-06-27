@@ -27,8 +27,10 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(rank(["แมว","คน","แมว"]),Counter({'แมว': 2, 'คน': 1}))
 	def testChange(self):
 		self.assertEqual(texttothai("l;ylfu8iy["),'สวัสดีครับ')
-	def testRomanization(self):
+	def testRomanization1(self):
 		self.assertEqual(romanization("แมว"),'mæw')
+	def testRomanization2(self):
+		self.assertEqual(romanization("แมว",engine="royin"),'maeo')
 	def testNumber(self):
 		self.assertEqual(numtowords(5611116.50),'ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์')
 	def testTCC(self):
@@ -39,6 +41,8 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(LK82('รถ'),'ร3000')
 	def testMS(self):
 		self.assertEqual(MetaSound('คน'),'15')
+	def testWORDNET(self):
+		self.assertEqual(wordnet.synset('spy.n.01').lemma_names('tha'),['สปาย', 'สายลับ'])
 	def testTag(self):
 		self.assertEqual(pos_tag(word_tokenize("คุณกำลังประชุม"),engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 	def testTagnew(self):

@@ -3,6 +3,7 @@
 [![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
 [![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=develop)](https://travis-ci.org/wannaphongcom/pythainlp)
 [![Build status](https://ci.appveyor.com/api/projects/status/uxerymgggp1uch0p?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp)
+[![Coverage Status](https://coveralls.io/repos/github/wannaphongcom/pythainlp/badge.svg?branch=pythainlp1.4)](https://coveralls.io/github/wannaphongcom/pythainlp?branch=pythainlp1.4)
 
 
 Homepages :[https://sites.google.com/view/pythainlp/home](https://sites.google.com/view/pythainlp/home)

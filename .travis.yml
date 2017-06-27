@@ -7,7 +7,7 @@ python:
   - "3.5"
   - "3.6"
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -r requirements.txt
+install: pip install -r requirements-travis.txt
 
 os:
   - linux

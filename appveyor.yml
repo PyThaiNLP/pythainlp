@@ -1,0 +1,20 @@
+build: false
+
+environment:
+  matrix:
+    - PYTHON: "C:/Python35"
+    - PYTHON: "C:/Python36"
+
+init:
+  - "ECHO %PYTHON%"
+  - ps: "ls C:/Python*"
+
+install:
+  # FIXME: updating pip fails with PermissionError
+  # - "%PYTHON%/Scripts/pip.exe install -U pip setuptools"
+  - "%PYTHON%/Scripts/pip.exe install -e ."
+
+test_script:
+  - "%PYTHON%/Scripts/pip.exe --version"
+  - "%PYTHON%/Scripts/http.exe --debug"
+  - "%PYTHON%/python.exe setup.py test"

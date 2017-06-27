@@ -11,7 +11,7 @@ from pythainlp.number import numtowords
 from pythainlp.tag import pos_tag
 from pythainlp.romanization import romanization
 from pythainlp.date import now
-from pythainlp.tokenize import tcc,etcc
+from pythainlp.tokenize import tcc,etcc,isthai
 from pythainlp.soundex import LK82
 from pythainlp.MetaSound import *
 from collections import namedtuple
@@ -41,8 +41,11 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(LK82('รถ'),'ร3000')
 	def testMS(self):
 		self.assertEqual(MetaSound('คน'),'15')
+	def testISTHAI(self):
+		self.assertEqual(isthai('ค'),True)
 	def testWORDNET(self):
 		self.assertEqual(wordnet.synset('spy.n.01').lemma_names('tha'),['สปาย', 'สายลับ'])
+		self.assertEqual(wordnet.langs()!=None,True)
 	def testTag(self):
 		self.assertEqual(pos_tag(word_tokenize("คุณกำลังประชุม"),engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 	def testTagnew(self):

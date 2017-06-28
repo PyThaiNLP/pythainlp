@@ -17,6 +17,9 @@ from pythainlp.corpus import stopwords # load  stopwords
 import marisa_trie
 
 class wordcut(object):
+    """
+    ตัดคำภาษาไทยด้วย Maximum Matching algorithm
+    """
     def __init__(self, removeRepeat=True, keyDictionary="", stopDictionary="", removeSpaces=True, minLength=1, stopNumber=False, removeNonCharacter=False, caseSensitive=True, ngram=(1,1), negation=False):
         d = newdata() # load dictionary
         # load negation listdir

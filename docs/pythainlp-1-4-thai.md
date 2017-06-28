@@ -200,13 +200,6 @@ Synset('one.s.05')
 ['สปาย', 'สายลับ']
 ```
 
-### stopword ภาษาไทย
-
-```python
-from pythainlp.corpus import stopwords
-stopwords = stopwords.words('thai')
-```
-
 ### หาคำที่มีจำนวนการใช้งานมากที่สุด
 
 ```python
@@ -293,7 +286,7 @@ grammar : คุณ Wittawat Jitkrittum (https://github.com/wittawatj/jtcc/blob/
 ### Meta Sound ภาษาไทย
 
 ```
-Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statistical Ontology for Analysing Names Given in Accordance 	with Thai Astrology. Retrieved from https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf
+Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statistical Ontology for Analysing Names Given in Accordance with Thai Astrology. Retrieved from https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf
 ```
 
 **การใช้งาน**
@@ -306,7 +299,7 @@ Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statisti
 
 ### Sentiment analysis ภาษาไทย
 
-ใช้ข้อมูลจาก https://github.com/wannaphongcom/lexicon-thai/tree/master/ข้อความ/
+ใช้ข้อมูลจาก [https://github.com/wannaphongcom/lexicon-thai/tree/master/ข้อความ/](https://github.com/wannaphongcom/lexicon-thai/tree/master/ข้อความ/)
 
 ```python
 from pythainlp.sentiment import sentiment
@@ -314,6 +307,36 @@ sentiment(str)
 ```
 
 รับค่า str ส่งออกเป็น pos , neg หรือ neutral
+
+### Corpus
+
+#### stopword ภาษาไทย
+
+```python
+from pythainlp.corpus import stopwords
+stopwords = stopwords.words('thai')
+```
+
+#### ชื่อประเทศ ภาษาไทย
+
+```python
+from pythainlp.corpus import country
+country.get_data()
+```
+
+#### ตัววรรณยุกต์ในภาษาไทย
+
+```python
+from pythainlp.corpus import tone
+tone.get_data()
+```
+
+#### ตัวพยัญชนะในภาษาไทย
+
+```python
+from pythainlp.corpus import alphabet
+alphabet.get_data()
+```
 
 
 

@@ -48,9 +48,8 @@ def LK82(s):
                 res.append(c.translate(t2))
             else:
                 res.append('')
-        elif c in 'หอ':
-            if i+1<len(c) and (c[i+1] in "ึืุู"):
-                res.append(c.translate(t2))
+        elif c in 'หอ' and (i+1<len(c) and (c[i+1] in "ึืุู")):
+            res.append(c.translate(t2))
         elif c in 'รวยฤฦ':
             if i_v == i-1 or (i+1<len(c) and (c[i+1] in "ึืุู")):
                 res.append(c.translate(t2))

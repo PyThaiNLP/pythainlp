@@ -17,6 +17,12 @@ LV=['ุ','ู']
 c='['+''.join(C)+']'
 uv2='['+''.join(['ั','ื'])+']'
 def etcc(text):
+    """
+    Enhanced Thai Character Cluster (ETCC)
+    คั่นด้วย /
+    รับ str
+    ส่งออก str
+    """
     if (re.search('[เแ]'+c+'['+''.join(UV)+']'+'\w',text,re.U)):
         search=re.findall('[เแ]'+c+'['+''.join(UV)+']'+'\w',text,re.U)
         for i in search:

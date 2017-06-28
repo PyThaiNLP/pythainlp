@@ -14,7 +14,7 @@ def word_tokenize(text,engine='icu'):
 	if engine=='icu':
     		from .pyicu import segment
 	elif engine=='dict':
-    		from .dict import segment
+    		from .dictsegment import segment
 	elif engine=='mm':
     		from .mm import segment
 	elif engine=='pylexto':

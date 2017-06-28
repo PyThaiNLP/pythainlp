@@ -5,17 +5,17 @@ if six.PY3:
 	"""
 	ไว้ใส่ความสามารถที่รองรับเฉพาะ Python 3.4+ เท่านั้น
 	"""
-	from pythainlp.sentiment import *
-	from pythainlp.spell import *
-from pythainlp.romanization import *
-from pythainlp.tokenize import *
-from pythainlp.rank import *
-from pythainlp.change import *
-from pythainlp.number import *
-from pythainlp.date import *
-from pythainlp.tag import * 
-from pythainlp.collation import *
-from pythainlp.test import *
-from pythainlp.Text import *
-from pythainlp.MetaSound import *
-from pythainlp.soundex import *
+	from pythainlp.sentiment import sentiment
+	from pythainlp.spell import hunspell,spell
+from pythainlp.romanization import romanization,pyicu,royin
+from pythainlp.tokenize import word_tokenize,mm,dictsegment,pyicu,tcc,etcc,thai,pylexto
+from pythainlp.rank import rank
+from pythainlp.change import texttothai,texttoeng
+from pythainlp.number import nttn,nttt,ntnt,ntt,ttn,ttnt,number_format,numtowords,ReadNumber
+from pythainlp.date import now
+from pythainlp.tag import old,pos_tag
+from pythainlp.collation import collation
+from pythainlp.test import TestUM
+from pythainlp.Text import Text
+from pythainlp.MetaSound import MetaSound
+from pythainlp.soundex import LK82

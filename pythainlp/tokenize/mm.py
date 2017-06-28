@@ -72,7 +72,7 @@ class wordcut(object):
         return True
 
     # Find maximum matching in Trie if match return id else return -1
-    def searchTrie(self, word):
+    def search_trie(self, word):
         # remove negation if see a space
         if(word[0:1] == " "):
             self.onNegation = False
@@ -91,29 +91,29 @@ class wordcut(object):
             return match.group(0)
 
         longest = 0
-        maxData = None
+        max_data = None
 
         for x in range(20):
             if word[0:x] in self.trie:
                 longest = len(word[0:x])
-                maxData = word[0:x]
+                max_data = word[0:x]
 
         if longest > 20:
             for data in self.trie.keys(word[0:longest]):
                 if len(data) > longest and data in word[0:len(data)]:
                     longest = len(data)
-                    maxData = data
+                    max_data = data
 
 
-        if maxData:
+        if max_data:
             try:
                 # Special check for case like ๆ
-                if word[len(maxData)] == 'ๆ':
-                    return word[0:(len(maxData) + 1)]
+                if word[len(max_data)] == 'ๆ':
+                    return word[0:(len(max_data) + 1)]
                 else:
-                    return maxData
+                    return max_data
             except:
-                return maxData
+                return max_data
         else:
             return -1
 
@@ -130,18 +130,18 @@ class wordcut(object):
         return wordArray
 
     def extract_keyword(self, wordArray):
-        resultArray = []
+        result_array = []
         for dd in wordArray:
             try:
                 if self.caseSensitive and dd in self.keydict:
-                    resultArray.append(dd)
+                    result_array.append(dd)
                 else:
                     if dd.lower() in self.keydict:
-                        resultArray.append(dd)
+                        result_array.append(dd)
             except ValueError:
                 pass
 
-        return resultArray
+        return result_array
     # c = sentence which represent as char
     # N = number of character
     def find_segment(self, c):
@@ -149,7 +149,7 @@ class wordcut(object):
         N = len(c)
         arr = []
         while(i < N):
-            j = self.searchTrie(c[i:N])
+            j = self.search_trie(c[i:N])
             if(j == -1):
                 if(self.removeRepeat is False or c[i] != c[i - 1]):
                     arr.append(c[i])

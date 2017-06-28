@@ -13,7 +13,7 @@ from pythainlp.tokenize import word_tokenize
 from pythainlp.tokenize import tcc
 from pythainlp.tokenize import etcc
 import re
-Consonants = { # พยัญชนะ ต้น สะกด
+consonants = { # พยัญชนะ ต้น สะกด
 'ก':['k','k'],
 'ข':['kh','k'],
 'ฃ':['kh','k'],
@@ -59,7 +59,7 @@ Consonants = { # พยัญชนะ ต้น สะกด
 'อ':['',''],
 'ฮ':['h','']
 }
-Consonantsthai= u'[กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮ]'
+consonants_thai= u'[กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮ]'
 def deletetone(data):
     #โค้ดส่วนตัดวรรณยุกต์ออก
 	for tone in ['่','้','๊','๋']:
@@ -537,32 +537,32 @@ def romanization(text):
             '''
              ใช้ในกรณีคำนั้นมีสระด้วย จะได้เอาพยัญชนะตัวแรกไปเทียบ
             '''
-            d=re.search(Consonantsthai,text,re.U)
-            text=re.sub(d.group(0),Consonants[d.group(0)][0],text,flags=re.U)
+            d=re.search(consonants_thai,text,re.U)
+            text=re.sub(d.group(0),consonants[d.group(0)][0],text,flags=re.U)
         listtext=list(text)
-        if re.search(Consonantsthai,listtext[0], re.U):
+        if re.search(consonants_thai,listtext[0], re.U):
 	        '''
 	        จัดการกับพยัญชนะต้น
 	        '''
-	        listtext[0]=Consonants[listtext[0]][0]
+	        listtext[0]=consonants[listtext[0]][0]
 	        two=False
 	        if len(listtext)==2:
-		        if  re.search(Consonantsthai,listtext[1], re.U):
+		        if  re.search(consonants_thai,listtext[1], re.U):
 			        '''
 			        จัดการกับพยัญชนะ 2 ตัว และมีแค่ 2 ตั   และมีแค่ 2 ตัวติดกันในคำ 
 			        '''
-			        listtext.append(Consonants[listtext[1]][1])
+			        listtext.append(consonants[listtext[1]][1])
 			        listtext[1]='o'
 			        two=True
         else:
 	        two=False
         i=0
         while i<len(listtext) and two==False:
-	        if re.search(Consonantsthai,listtext[i], re.U):
+	        if re.search(consonants_thai,listtext[i], re.U):
 		        '''
 		        ถ้าหากเป็นพยัญชนะ
 		        '''
-		        listtext[i]=Consonants[listtext[i]][1]
+		        listtext[i]=consonants[listtext[i]][1]
 	        i+=1
         text=''.join(listtext) # คืนค่ากลับสู่ str
         #print(text)

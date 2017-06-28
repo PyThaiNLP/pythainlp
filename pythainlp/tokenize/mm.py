@@ -130,6 +130,9 @@ class wordcut(object):
         return wordArray
 
     def extract_keyword(self, wordArray):
+        """
+        ใช้ในการหาคำสำคัญ
+        """
         result_array = []
         for dd in wordArray:
             try:
@@ -173,6 +176,9 @@ class wordcut(object):
         return zip(*[input_list[i:] for i in range(n)])
 
     def segment(self, c):
+        '''
+        ตัดคำใช้ฟังก์ชัน segment
+        '''
         result = self.find_segment(c)
         if self.stopword:
             result = self.transform(result)
@@ -192,6 +198,9 @@ class wordcut(object):
                         lastresult.append(' '.join(r))
         return lastresult
 def mergelistlen(listdata,lennum):
+    '''
+    แก้ Bug ที่เกิดจาก mm
+    '''
     i=0
     listlen=len(listdata)
     while i<listlen:
@@ -280,5 +289,8 @@ def mergelistlen(listdata,lennum):
         i+=1
     return listdata
 def segment(text):
+    '''
+    ใช้ในการตัดตำ segment(str) คืนค่า list
+    '''
     pt = wordcut(stopNumber=False, removeNonCharacter=True, caseSensitive=False,removeRepeat=True)
     return mergelistlen(pt.segment(text),1)

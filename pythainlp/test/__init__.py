@@ -6,7 +6,7 @@ from pythainlp.corpus import alphabet
 from pythainlp.corpus import wordnet
 from pythainlp.tokenize import word_tokenize
 from pythainlp.rank import rank
-from pythainlp.change import *
+from pythainlp.change import texttothai,texttoeng
 from pythainlp.number import numtowords
 from pythainlp.tag import pos_tag
 from pythainlp.romanization import romanization
@@ -14,7 +14,7 @@ from pythainlp.date import now
 from pythainlp.tokenize import tcc,etcc
 from pythainlp.soundex import LK82
 from pythainlp.corpus import stopwords
-from pythainlp.MetaSound import *
+from pythainlp.MetaSound import MetaSound
 from collections import namedtuple
 Synset = namedtuple('Synset', 'synset li')
 class TestUM(unittest.TestCase):

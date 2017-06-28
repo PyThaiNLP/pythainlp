@@ -97,10 +97,9 @@ class wordcut(object):
 
         if longest > 20:
             for data in self.trie.keys(word[0:longest]):
-                if len(data) > longest:
-                    if data in word[0:len(data)]:
-                        longest = len(data)
-                        maxData = data
+                if len(data) > longest and data in word[0:len(data)]:
+                    longest = len(data)
+                    maxData = data
 
 
         if maxData:
@@ -131,9 +130,8 @@ class wordcut(object):
         resultArray = []
         for dd in wordArray:
             try:
-                if self.caseSensitive:
-                    if dd in self.keydict:
-                        resultArray.append(dd)
+                if self.caseSensitive and dd in self.keydict:
+                    resultArray.append(dd)
                 else:
                     if dd.lower() in self.keydict:
                         resultArray.append(dd)

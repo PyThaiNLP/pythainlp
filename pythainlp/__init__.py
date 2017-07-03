@@ -18,4 +18,4 @@ from pythainlp.collation import collation
 from pythainlp.test import TestUM
 from pythainlp.Text import Text
 from pythainlp.MetaSound import MetaSound
-from pythainlp.soundex import LK82
+from pythainlp.soundex import LK82,Udom83

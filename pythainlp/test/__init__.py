@@ -12,7 +12,7 @@ from pythainlp.tag import pos_tag
 from pythainlp.romanization import romanization
 from pythainlp.date import now
 from pythainlp.tokenize import tcc,etcc
-from pythainlp.soundex import LK82
+from pythainlp.soundex import LK82,Udom83
 from pythainlp.corpus import stopwords
 from pythainlp.MetaSound import MetaSound
 from collections import namedtuple
@@ -41,6 +41,7 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(etcc.etcc('คืนความสุข'),'/คืน/ความสุข')
 	def test_lk82(self):
 		self.assertEqual(LK82('รถ'),'ร3000')
+		self.assertEqual(Udom83('รถ'),'ร800000')
 	def test_ms(self):
 		self.assertEqual(MetaSound('คน'),'15')
 	def test_wordnet(self):

@@ -7,12 +7,12 @@ from marisa_trie import Trie
 from collections import Counter, defaultdict
 from pythainlp.corpus.thaiword import get_data
 class LatticeString(str):
-    def __new__(cls, value, multi=None): 
+    def __new__(cls, value, multi=None, in_dict=True): 
         ''' Return a string instance 
         ''' 
         return str.__new__(cls, value)
     
-    def __init__(self, value, multi=None):
+    def __init__(self, value, multi=None, in_dict=True):
         self.unique = True
         if multi:
             self.multi = list(multi)
@@ -21,7 +21,7 @@ class LatticeString(str):
         else:
             self.multi = [value]
             
-        self.in_dict = True   # บอกว่าเป็นคำมีในดิกหรือเปล่า
+        self.in_dict = in_dict   # บอกว่าเป็นคำมีในดิกหรือเปล่า
 
     def suggest(self):
         return []
@@ -73,6 +73,7 @@ def tcut(text):
             else:
                 i = len(text)
             w = text[p:i]
+            w = w.replace(' ','') # ลบค่าที่ว่าง
             words_at[p].append(w)
             yield LatticeString(w, in_dict=False)
             last_p = i
@@ -102,6 +103,6 @@ def listcut(text):
     ww = list(tcut(text))
     return list(combine(ww))
 if __name__ == "__main__":
-	text='ผมตากลมเย็นสบายดี'
+	text='ผมตากลมเย็นสบายดีok เข้าใจ'
 	print(mmcut(text))
 	print(listcut(text))

@@ -79,6 +79,9 @@ def tcut(text):
             last_p = i
             q.add(i)
 def mmcut(text):
+    '''
+	ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย
+    '''
     res = []
     for w in tcut(text):
         if w.unique:
@@ -100,9 +103,12 @@ def combine(ww):
                     yield m.replace("/","|")+"|"+tail
                     
 def listcut(text):
+    '''
+	ใช้ในการหา list ที่สามารถตัดคำได้ทั้งหมด
+	'''
     ww = list(tcut(text))
     return list(combine(ww))
 if __name__ == "__main__":
-	text='ผมตากลมเย็นสบายดีok เข้าใจ'
+	text='ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด'
 	print(mmcut(text))
 	print(listcut(text))

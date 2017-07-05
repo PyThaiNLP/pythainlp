@@ -20,7 +20,10 @@ def isEnglish(s):
         else:
             return True
 def isThai(chr):
-    if isEnglish(chr):
+	'''
+	เช็คตัวอักษรว่าใช่ภาษาไทยไหม
+	'''
+	if isEnglish(chr):
         return False
     try:
         '''cVal = ord(chr)
@@ -28,7 +31,8 @@ def isThai(chr):
             return True'''
         if detect(chr)=='th':
             return True
-        return False
+        else:
+			return False
     except:
         return False
 def segment(txt):

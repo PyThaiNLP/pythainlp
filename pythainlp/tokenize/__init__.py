@@ -10,6 +10,7 @@ def word_tokenize(text,engine='icu'):
 	- dict
 	- mm ใช้ Maximum Matching algorithm
 	- pylexto ใช้ LexTo ในการตัดคำ
+	- newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่
 	"""
 	if engine=='icu':
     		from .pyicu import segment
@@ -19,4 +20,6 @@ def word_tokenize(text,engine='icu'):
     		from .mm import segment
 	elif engine=='pylexto':
     		from .pylexto import segment
+	elif engine=='newmm':
+    		from .newmm import mmcut as segment
 	return segment(text)

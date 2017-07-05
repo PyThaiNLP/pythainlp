@@ -45,7 +45,7 @@ def tcut(text):
                 yield w
             elif p_ < p2:
                 for path in serialize(p_, p2):
-                    yield w+'/'+path
+                    yield w+'|'+path
                     
     q = {0}
     last_p = 0   # last position for yield
@@ -74,3 +74,23 @@ def mmcut(text):
             mm = min(w.multi, key=lambda x: x.count('/'))
             res.extend(mm.split('/'))
     return res
+def listcut(text):
+    '''
+    ใช้หาคำที่สามารถตัดได้ทั้งหมดโดยจะเป็น list โดยมี | เป็นตัวแบ่งใน list
+    '''
+    listdata = list(tcut(text))
+    listdata1=['']*len(listdata)
+    i=0
+    maxnum=0
+    numall=1
+    listnum=[0]*len(listdata)
+    while i<len(listdata):
+        listdata1[i]=listdata[i].multi
+        if maxnum != len(listdata1[i]) and maxnum<len(listdata1[i]):
+            maxnum=len(listdata1[i]) # หาค่าที่มากที่สุด
+        listnum[i]=len(listdata1[i])
+        numall=numall*listnum[i]
+        i+=1
+    return listdata1
+text='ผมตากลมเย็นสบายดี'
+print(listcut(text))

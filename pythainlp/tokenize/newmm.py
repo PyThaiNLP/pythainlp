@@ -74,23 +74,20 @@ def mmcut(text):
             mm = min(w.multi, key=lambda x: x.count('/'))
             res.extend(mm.split('/'))
     return res
+def combine(ww):
+    if ww == []:
+        yield ""
+    else:
+        w = ww[0]
+        for tail in combine(ww[1:]):
+            if w.unique:
+                yield w+"|"+tail
+            else:
+                for m in w.multi:
+                    yield m.replace("/","|")+"|"+tail
+                    
 def listcut(text):
-    '''
-    ใช้หาคำที่สามารถตัดได้ทั้งหมดโดยจะเป็น list โดยมี | เป็นตัวแบ่งใน list
-    '''
-    listdata = list(tcut(text))
-    listdata1=['']*len(listdata)
-    i=0
-    maxnum=0
-    numall=1
-    listnum=[0]*len(listdata)
-    while i<len(listdata):
-        listdata1[i]=listdata[i].multi
-        if maxnum != len(listdata1[i]) and maxnum<len(listdata1[i]):
-            maxnum=len(listdata1[i]) # หาค่าที่มากที่สุด
-        listnum[i]=len(listdata1[i])
-        numall=numall*listnum[i]
-        i+=1
-    return listdata1
+    ww = list(tcut(text))
+    return list(combine(ww))
 text='ผมตากลมเย็นสบายดี'
 print(listcut(text))

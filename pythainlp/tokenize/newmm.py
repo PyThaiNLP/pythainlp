@@ -33,10 +33,9 @@ def serialize(p, p2):
         elif p_ < p2:
             for path in serialize(p_, p2):
                 yield w+'/'+path
-trie = Trie(get_data())
 # มี jigsaw พร้อมแล้ว  ต่อไปก็ลองเขียน tcut ใหม่
 def tcut(text):
-    
+    trie = Trie(get_data())
     words_at = defaultdict(list) # main data structure
     
     def serialize(p, p2):    # helper function
@@ -63,8 +62,10 @@ def tcut(text):
             yield LatticeString(text[last_p:q0], serialize(last_p, q0))
             last_p = q0
         # กรณี len(q) == 0  คือ เจอคำนอก dict
-# ตัดคำแบบ maximal matching
 def mmcut(text):
+    '''
+    ตัดคำแบบ maximal matching
+    '''
     res = []
     for w in tcut(text):
         if w.unique:

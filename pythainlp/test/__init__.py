@@ -18,6 +18,9 @@ from pythainlp.MetaSound import MetaSound
 from collections import namedtuple
 Synset = namedtuple('Synset', 'synset li')
 class TestUM(unittest.TestCase):
+	"""
+	ระบบทดสอบการทำงานของโค้ดของ PyThaiNLP
+	"""
 	def test_segment(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),[u'ฉัน', u'รัก', u'ภาษา', u'ไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คน', u'ไทย'])
 	def test_segment_dict(self):

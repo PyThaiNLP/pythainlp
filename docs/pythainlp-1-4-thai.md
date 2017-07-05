@@ -341,6 +341,13 @@ from pythainlp.corpus import alphabet
 alphabet.get_data()
 ```
 
+#### รายการคำในภาษาไทย
 
+```python
+from pythainlp.corpus.thaiword import get_data # ข้อมูลเก่า
+get_data()
+from pythainlp.corpus.newthaiword import get_data # ข้อมูลใหม่
+get_data()
+```
 
 เขียนโดย นาย วรรณพงษ์  ภัททิยไพบูลย์

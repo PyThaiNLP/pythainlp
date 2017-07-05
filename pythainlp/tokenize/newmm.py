@@ -35,8 +35,9 @@ def serialize(p, p2):
                 yield w+'/'+path
 # มี jigsaw พร้อมแล้ว  ต่อไปก็ลองเขียน tcut ใหม่
 def tcut(text):
+    #global last_p, i, q, ww   # for debug
     trie = Trie(get_data())
-    words_at = defaultdict(list) # main data structure
+    words_at = defaultdict(list)  # main data structure
     
     def serialize(p, p2):    # helper function
         for w in words_at[p]:
@@ -45,7 +46,7 @@ def tcut(text):
                 yield w
             elif p_ < p2:
                 for path in serialize(p_, p2):
-                    yield w+'|'+path
+                    yield w+'/'+path
                     
     q = {0}
     last_p = 0   # last position for yield
@@ -61,11 +62,22 @@ def tcut(text):
             q0 = min(q)
             yield LatticeString(text[last_p:q0], serialize(last_p, q0))
             last_p = q0
-        # กรณี len(q) == 0  คือ เจอคำนอก dict
+            
+        # กรณี len(q) == 0  คือ ไม่มีใน dict
+        if len(q)==0:
+            # skip น้อยที่สุด ที่เป็นไปได้
+            for i in range(p, len(text)):
+                ww = trie.prefixes(text[i:])
+                if ww:
+                    break
+            else:
+                i = len(text)
+            w = text[p:i]
+            words_at[p].append(w)
+            yield LatticeString(w, in_dict=False)
+            last_p = i
+            q.add(i)
 def mmcut(text):
-    '''
-    ตัดคำแบบ maximal matching
-    '''
     res = []
     for w in tcut(text):
         if w.unique:
@@ -89,5 +101,7 @@ def combine(ww):
 def listcut(text):
     ww = list(tcut(text))
     return list(combine(ww))
-text='ผมตากลมเย็นสบายดี'
-print(listcut(text))
+if __name__ == "__main__":
+	text='ผมตากลมเย็นสบายดี'
+	print(mmcut(text))
+	print(listcut(text))

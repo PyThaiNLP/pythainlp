@@ -60,13 +60,18 @@ $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip i
 
 ### Documentation
 
-Read on https://github.com/wannaphongcom/pythainlp/blob/pythainlp1.4/docs/pythainlp-1-4-thai.md
+Read on https://github.com/wannaphongcom/pythainlp/blob/pythainlp1.4/docs/pythainlp-1-4-eng.md
 
 ### License
 
 Apache Software License 2.0
 
 ## ภาษาไทย
+
+[![PyPI Downloads](https://img.shields.io/pypi/dm/pythainlp.png)]
+[![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
+[![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=develop)](https://travis-ci.org/wannaphongcom/pythainlp)
+[![Build status](https://ci.appveyor.com/api/projects/status/uxerymgggp1uch0p?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp)[![Code Issues](https://www.quantifiedcode.com/api/v1/project/7f699ed4cad24be18d0d24ebd60d7543/badge.svg)](https://www.quantifiedcode.com/app/project/7f699ed4cad24be18d0d24ebd60d7543)[![Coverage Status](https://coveralls.io/repos/github/wannaphongcom/pythainlp/badge.svg?branch=pythainlp1.4)](https://coveralls.io/github/wannaphongcom/pythainlp?branch=pythainlp1.4)
 
 ประมวลภาษาธรรมชาติภาษาไทยในภาษา Python
 

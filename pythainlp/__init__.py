@@ -6,8 +6,8 @@ if six.PY3:
 	ไว้ใส่ความสามารถที่รองรับเฉพาะ Python 3.4+ เท่านั้น
 	"""
 	from pythainlp.sentiment import sentiment
-	from pythainlp.spell import hunspell,spell
-from pythainlp.romanization import romanization,pyicu,royin
+	from pythainlp.spell import spell
+from pythainlp.romanization import romanization
 from pythainlp.tokenize import word_tokenize,tcc,etcc
 from pythainlp.rank import rank
 from pythainlp.change import texttothai,texttoeng

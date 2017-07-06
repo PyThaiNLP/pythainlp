@@ -19,4 +19,4 @@ from pythainlp.test import TestUM
 from pythainlp.Text import Text
 from pythainlp.MetaSound import MetaSound
 from pythainlp.soundex import LK82,Udom83
-from pythainlp.util import ngrams,bigrams
+from pythainlp.util import ngrams,bigrams,trigram

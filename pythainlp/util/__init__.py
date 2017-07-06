@@ -16,3 +16,10 @@ def bigrams(sequence):
 	bigrams(sequence)
 	"""
 	return nltk.util.bigrams(sequence)
+def trigram(token):
+	'''
+	Trigram สร้าง trigram
+	trigram(token)
+	- token คือ list
+	'''
+	return ngrams(token,3)

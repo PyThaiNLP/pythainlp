@@ -8,20 +8,22 @@
 from pythainlp.tokenize import word_tokenize
 word_tokenize(text,engine)
 ```
-**text** is thai text.
+**text** refers to an input text string in Thai.
 
-**engine** is thai segment system have 6 engine
+**engine** refers to a thai word segmentation system; There are 6 systems to choose from.
 
-1. icu - using pyicu. (default)
-2. dict - using dict . returns False if the message can not be wrapped.
-3. mm - using Maximum Matching algorithm in thai segment.
-4. newmm - using Maximum Matching algorithm in thai segment. credit Korakot Chaovavanich  from https://www.facebook.com/groups/408004796247683/permalink/431283740586455/
-5. pylexto using LexTo in thai segment.
-6. deepcut using deepcut from https://github.com/rkcosmos/deepcut in thai segment.
+1. icu (default) - pyicu has a very poor performance. 
+2. dict - dictionary-based tokenizer. It returns False if the message can not be wrapped.
+3. mm - Maximum Matching algorithm for Thai word segmentation.
+4. newmm - Maximum Matching algorithm for Thai word segmatation. Developed by Korakot Chaovavanich (https://www.facebook.com/groups/408004796247683/permalink/431283740586455/)
+5. pylexto - LexTo.
+6. deepcut - Deep Learning based Thai word segmentation (https://github.com/rkcosmos/deepcut)
 
-returns ''list'' ex. ['แมว','กิน']
 
-**ตัวอย่าง**
+Output: ''list'' ex. ['แมว','กิน']
+
+**Example**
+
 
 ```python
 from pythainlp.tokenize import word_tokenize
@@ -42,8 +44,8 @@ pos_tag(list,engine='old')
 
 engine
 
-1. old is UnigramTagger (default)
-2. artagger is RDR POS Tagger.
+1. old is the UnigramTagger (default)
+2. artagger is the RDR POS Tagger.
 
 ### Thai romanization
 
@@ -51,7 +53,7 @@ engine
 from pythainlp.romanization import romanization
 romanization(str,engine='pyicu')
 ```
-It's have 2 engine
+There are 2 engines
 
 - pyicu
 - royin
@@ -69,9 +71,9 @@ from pythainlp.romanization import romanization
 romanization("แมว") # 'mæw'
 ```
 
-### Check the wrong word 
+### Spell Check 
 
-Before using this ability. Install hunspell and hunspell-th first.
+Before using this module,  please install hunspell and hunspell-th.
 
 ```python
 from pythainlp.spell import *
@@ -83,14 +85,14 @@ print(a) # ['สี่เหลี่ยม', 'เสียเหลี่ยม
 ```python
 from pythainlp.number import *
 ```
-- nttn(str)  - To convert thai numbers to numbers.
+- nttn(str)  - convert thai numbers to numbers.
 - nttt(str) - Thai Numbers to text.
 - ntnt(str) - numbers to thai numbers.
 - ntt(str) -  numbers to text.
 - ttn(str) - text to  numbers.
 - numtowords(float) -  Read thai numbers (Baht) input ''float'' returns  'str'
 
-### Sorting List of Thai Information in List
+### Sort Thai text into List
 
 ```python
 from pythainlp.collation import collation
@@ -149,7 +151,7 @@ Synset('one.s.05')
 ['สปาย', 'สายลับ']
 ```
 
-### Find words with the most usage.
+### Find the most frequent words.
 
 ```python
 from pythainlp.rank import rank
@@ -165,7 +167,7 @@ returns dict
 Counter({'แมง': 2, 'คน': 1})
 ```
 
-### Solve printing problems forget to change language
+### Incorrect input language correction
 
 ```python
 from pythainlp.change import *

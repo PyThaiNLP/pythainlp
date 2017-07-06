@@ -1,5 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-from nltk.util import ngrams as ngramsdata
+import nltk.util
 def ngrams(token,num):
 	'''
 	ngrams สร้าง ngrams
@@ -8,4 +8,11 @@ def ngrams(token,num):
 	- token คือ list
 	- num คือ จำนวน ngrams
 	'''
-	return ngramsdata(token,int(num))
+	return nltk.util.ngrams(token,int(num))
+def bigrams(sequence):
+	"""
+	bigrams ใน Python
+
+	bigrams(sequence)
+	"""
+	return nltk.util.bigrams(sequence)

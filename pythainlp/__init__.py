@@ -13,10 +13,10 @@ from pythainlp.rank import rank
 from pythainlp.change import texttothai,texttoeng
 from pythainlp.number import nttn,nttt,ntnt,ntt,ttn,ttnt,number_format,numtowords,ReadNumber
 from pythainlp.date import now
-from pythainlp.tag import old,pos_tag
+from pythainlp.tag import pos_tag
 from pythainlp.collation import collation
 from pythainlp.test import TestUM
 from pythainlp.Text import Text
 from pythainlp.MetaSound import MetaSound
 from pythainlp.soundex import LK82,Udom83
-from pythainlp.util import ngrams
+from pythainlp.util import ngrams,bigrams

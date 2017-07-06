@@ -234,7 +234,7 @@ from pythainlp.change import *
 
 PyThaiNLP 1.4 รองรับ Thai Character Clusters (TCC) โดยจะแบ่งกลุ่มด้วย /
 
-เดติด
+**เดติด**
 
 TCC : Mr.Jakkrit TeCho
 

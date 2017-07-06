@@ -312,6 +312,25 @@ sentiment(str)
 
 รับค่า str ส่งออกเป็น pos , neg หรือ neutral
 
+### Util
+
+การใช้งาน
+
+```python
+from pythainlp.util import *
+```
+
+#### ngrams
+
+สำหรับสร้าง ngrams 
+
+```python
+ngrams(token,num)
+```
+
+- token คือ list
+- num คือ จำนวน ngrams
+
 ### Corpus
 
 #### stopword ภาษาไทย

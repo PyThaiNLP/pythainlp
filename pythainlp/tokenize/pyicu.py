@@ -5,7 +5,10 @@ from langdetect import detect
 import re
 import icu
 def isEnglish(s):
-    try:
+	'''
+	เช็คว่าตัวอักษรเป็นภาษาอังกฤษหรือไม่
+	'''
+	try:
         try:
             s.encode('ascii')
         except UnicodeEncodeError:

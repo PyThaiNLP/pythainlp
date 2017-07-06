@@ -9,35 +9,35 @@ def isEnglish(s):
 	เช็คว่าตัวอักษรเป็นภาษาอังกฤษหรือไม่
 	'''
 	try:
-        try:
-            s.encode('ascii')
-        except UnicodeEncodeError:
-            return False
-        else:
-            return True
-    except:
-        try:
-            s.decode('ascii')
-        except UnicodeDecodeError:
-            return False
-        else:
-            return True
+		try:
+			s.encode('ascii')
+		except UnicodeEncodeError:
+			return False
+		else:
+			return True
+	except:
+		try:
+			s.decode('ascii')
+		except UnicodeDecodeError:
+			return False
+		else:
+			return True
 def isThai(chr):
 	'''
 	เช็คตัวอักษรว่าใช่ภาษาไทยไหม
 	'''
 	if isEnglish(chr):
-        return False
-    try:
-        '''cVal = ord(chr)
-        if(cVal >= 3584 and cVal <= 3711):
-            return True'''
-        if detect(chr)=='th':
-            return True
-        else:
+		return False
+	try:
+		'''cVal = ord(chr)
+		if(cVal >= 3584 and cVal <= 3711):
+		return True'''
+		if detect(chr)=='th':
+			return True
+		else:
 			return False
-    except:
-        return False
+	except:
+		return False
 def segment(txt):
     """รับค่า ''str'' คืนค่าออกมาเป็น ''list'' ที่ได้มาจากการตัดคำโดย ICU"""
     bd = icu.BreakIterator.createWordInstance(icu.Locale("th"))

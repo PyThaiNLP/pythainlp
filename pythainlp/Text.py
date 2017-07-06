@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
-from pythainlp.tokenize import *
+from pythainlp.tokenize import word_tokenize
 import nltk
 def Text(str1):
 	if type(str1) != 'list':

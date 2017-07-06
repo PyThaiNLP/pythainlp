@@ -1,36 +1,48 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,print_function,unicode_literals
 from itertools import groupby
-import PyICU
+from langdetect import detect 
+import re
+import icu
 def isEnglish(s):
-    try:
-        try:
-            s.encode('ascii')
-        except UnicodeEncodeError:
-            return False
-        else:
-            return True
-    except:
-        try:
-            s.decode('ascii')
-        except UnicodeDecodeError:
-            return False
-        else:
-            return True
+	'''
+	เช็คว่าตัวอักษรเป็นภาษาอังกฤษหรือไม่
+	'''
+	try:
+		try:
+			s.encode('ascii')
+		except UnicodeEncodeError:
+			return False
+		else:
+			return True
+	except:
+		try:
+			s.decode('ascii')
+		except UnicodeDecodeError:
+			return False
+		else:
+			return True
 def isThai(chr):
-    if isEnglish(chr):
-        return False
-    try:
-        cVal = ord(chr)
-        if(cVal >= 3584 and cVal <= 3711):
-            return True
-        return False
-    except:
-        return False
+	'''
+	เช็คตัวอักษรว่าใช่ภาษาไทยไหม
+	'''
+	if isEnglish(chr):
+		return False
+	try:
+		'''cVal = ord(chr)
+		if(cVal >= 3584 and cVal <= 3711):
+		return True'''
+		if detect(chr)=='th':
+			return True
+		else:
+			return False
+	except:
+		return False
 def segment(txt):
     """รับค่า ''str'' คืนค่าออกมาเป็น ''list'' ที่ได้มาจากการตัดคำโดย ICU"""
-    bd = PyICU.BreakIterator.createWordInstance(PyICU.Locale("th"))
-    bd.setText(txt.replace(' ', ''))
+    bd = icu.BreakIterator.createWordInstance(icu.Locale("th"))
+    pattern = re.compile(r'\s+')
+    bd.setText(re.sub(pattern, '', txt))
     breaks = list(bd)
     result=[txt[x[0]:x[1]] for x in zip([0]+breaks, breaks)]
     result1=[]
@@ -62,3 +74,5 @@ if __name__ == "__main__":
 	print(segment('ทดสอบระบบตัดคำด้วยไอซียู'))
 	print(segment('ผมชอบพูดไทยคำ English'))
 	print(segment('ผมชอบพูดไทยคำEnglishคำ'))
+	print(segment('ผมชอบพูดไทยคำEnglish540 บาท'))
+	print(segment('ประหยัด ไฟเบอห้า'))

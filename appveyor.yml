@@ -1,9 +1,8 @@
-build: false
+build: off
 
 environment:
   matrix:
-    - PYTHON: "C:/Python35"
-    - PYTHON: "C:/Python36"
+    - PYTHON: "C:/Python34"
 
 init:
   - "ECHO %PYTHON%"
@@ -12,9 +11,9 @@ init:
 install:
   # FIXME: updating pip fails with PermissionError
   # - "%PYTHON%/Scripts/pip.exe install -U pip setuptools"
+  - "%PYTHON%/Scripts/pip.exe install https://get.openlp.org/win-sdk/PyICU-1.9.5-cp34-cp34m-win32.whl"
   - "%PYTHON%/Scripts/pip.exe install -e ."
 
 test_script:
   - "%PYTHON%/Scripts/pip.exe --version"
-  - "%PYTHON%/Scripts/http.exe --debug"
   - "%PYTHON%/python.exe setup.py test"

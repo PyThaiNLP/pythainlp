@@ -3,7 +3,7 @@
 from __future__ import absolute_import,division,print_function,unicode_literals
 from builtins import dict
 from builtins import int
-import math,six
+import math,six,ast
 p = [[u'ภาษาไทย', u'ตัวเลข',u'เลขไทย'],
      [u'หนึ่ง', u'1', u'๑'],
      [u'สอง', u'2', u'๒'],
@@ -62,7 +62,7 @@ def numtowords(amount_number):
 		number = amount_number[0]
 		fraction = int(amount_number1[1]) 
 	ret = ""
-	number=eval(number.replace(",",""))
+	number=ast.literal_eval(number.replace(",",""))
 	baht = ReadNumber(number)
 	if (baht != ""):
 		ret += baht + "บาท"
@@ -105,4 +105,4 @@ def ReadNumber(number):
 		pos += 1
 	return ret
 if __name__ == "__main__":
-  print(ntt('4'))
+  print(numtowords(4000.0))

@@ -80,7 +80,7 @@ def prepend_line(filepath, line):
 
 def load_yaml_config(filepath):
     with open(filepath) as f:
-        return yaml.load(f)
+        return yaml.safe_load(f)
 
 
 def save_yaml_config(filepath, config):

@@ -11,7 +11,7 @@ Thai natural language processing in Python.
 
 PyThaiNLP is python module like nltk , but It's working with thai language.
 
-It's support python 3.4 +.
+It's support python 2.7 and Python 3
 
 ### Project status
 
@@ -19,7 +19,7 @@ Developing
 
 ### Version
 
-1.4
+1.5
 
 ### Capability
 
@@ -80,7 +80,7 @@ Natural language processing หรือ การประมวลภาษา
 
 > เพราะโลกขับเคลื่อนต่อไปด้วยการแบ่งปัน
 
-รองรับ Python 3.4 ขึ้นไป
+รองรับ Python 2.7 และ Python 3
 
   - หน้าหลัก GitHub :  [https://github.com/wannaphongcom/pythainlp](https://github.com/wannaphongcom/pythainlp)
 
@@ -89,15 +89,11 @@ Natural language processing หรือ การประมวลภาษา
 กำลังพัฒนา 
 
 ### Version
-1.4
+1.5
 
-### สิ่งใหม่ที่เพิ่มเข้ามาใน PyThaiNLP 1.4
+### สิ่งใหม่ที่เพิ่มเข้ามาใน PyThaiNLP 1.5
 
-- รองรับ  Thai Character Clusters (TCC) และ ETCC
-- Thai WordNet ตัวใหม่
-- เพิ่มหลักเกณฑ์การถอดอักษรไทยเป็นอักษรโรมัน ฉบับราชบัณฑิตยสถาน
-- เพิ่ม Meta Sound ภาษาไทย
-- เพิ่ม Thai Soundex
+- กลับมารองรับ  Python 2.7 แล้ว
 
 ### ความสามารถ
   - ตัดคำภาษาไทย
@@ -116,7 +112,7 @@ Natural language processing หรือ การประมวลภาษา
 
 ### ติดตั้ง
 
-รองรับ Python 3.4 ขึ้นไป
+รองรับ Python 2.7 และ Python 3
 
 รุ่นเสถียร
 

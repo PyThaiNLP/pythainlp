@@ -72,7 +72,7 @@ def deletetone(data):
 	return data
 def romanization(text):
     text=deletetone(text)
-    text1=word_tokenize(text,engine='mm')
+    text1=word_tokenize(text,engine='newmm')
     textdata=[]
     #print(text1)
     for text in text1:
@@ -540,12 +540,14 @@ def romanization(text):
             d=re.search(consonants_thai,text,re.U)
             text=re.sub(d.group(0),consonants[d.group(0)][0],text,flags=re.U)
         listtext=list(text)
+        #print(listtext,0)
         if re.search(consonants_thai,listtext[0], re.U):
 	        '''
 	        จัดการกับพยัญชนะต้น
 	        '''
 	        listtext[0]=consonants[listtext[0]][0]
 	        two=False
+	        #print(listtext,1)
 	        if len(listtext)==2:
 		        if  re.search(consonants_thai,listtext[1], re.U):
 			        '''
@@ -554,6 +556,16 @@ def romanization(text):
 			        listtext.append(consonants[listtext[1]][1])
 			        listtext[1]='o'
 			        two=True
+        elif (len(listtext)==3 and listtext[1]=='/'):
+	        #print(listtext,2)
+	        if re.search(consonants_thai,listtext[2], re.U) and re.search(r'[ก-ฮ]',listtext[2], re.U):
+		        '''
+		        กร
+		        ผ่าน tcc เป็น ก/ร แก้ไขในกรณีนี้
+		        '''
+		        listtext[1]='o'
+		        listtext[2]=consonants[listtext[2]][1]
+		        two=True
         else:
 	        two=False
         i=0

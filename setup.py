@@ -18,7 +18,7 @@ test_requirements = [
 setup(
     name='pythainlp',
     version='1.5',
-    description="Thai NLP in python package.",
+    description="Thai natural language processing in Python package.",
     author='Wannaphong Phatthiyaphaibun',
     author_email='wannaphong@yahoo.com',
     url='https://github.com/wannaphongcom/pythainlp',

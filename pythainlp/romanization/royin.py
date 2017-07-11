@@ -61,7 +61,7 @@ consonants = { # พยัญชนะ ต้น สะกด
 }
 consonants_thai= u'[กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮ]'
 def deletetone(data):
-    #โค้ดส่วนตัดวรรณยุกต์ออก
+	'''โค้ดส่วนตัดวรรณยุกต์ออก'''
 	for tone in ['่','้','๊','๋']:
 		if (re.search(tone,data)):
 				data = re.sub(tone,'',data)
@@ -71,6 +71,9 @@ def deletetone(data):
 				data=re.sub(i,'',data,flags=re.U)
 	return data
 def romanization(text):
+    '''
+    romanization(str)
+    '''
     text=deletetone(text)
     text1=word_tokenize(text,engine='newmm')
     textdata=[]

@@ -17,6 +17,7 @@ def word_tokenize(text,engine='icu'):
     		'''
 			ตัดคำภาษาไทยโดยใช้ icu ในการตัดคำ
 			'''
+    		print('คำเตือน !!! \n ใน PyThaiNLP 1.6 ค่าเริ่มต้นจะเปลี่ยนไปเป็น newmm')
     		from .pyicu import segment
 	elif engine=='dict':
     		'''

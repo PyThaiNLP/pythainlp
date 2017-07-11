@@ -1,4 +1,5 @@
-﻿from nltk.util import ngrams as ngramsdata
+﻿# -*- coding: utf-8 -*-
+from nltk.util import ngrams as ngramsdata
 def ngrams(token,num):
 	'''
 	ngrams สร้าง ngrams

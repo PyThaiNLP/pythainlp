@@ -587,3 +587,4 @@ if __name__ == '__main__':
     print(romanization('สรร')+romanization('หา'))
     print(romanization('สรร')+romanization('หา'))
     print(romanization('แมว'))
+    print(romanization('กร')==romanization('กอน'))

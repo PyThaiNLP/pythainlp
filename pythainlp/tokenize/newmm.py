@@ -8,6 +8,7 @@ from __future__ import absolute_import,division,unicode_literals,print_function
 from marisa_trie import Trie
 from collections import Counter, defaultdict
 from pythainlp.corpus.thaiword import get_data
+import string as str
 class LatticeString(str):
     def __new__(cls, value, multi=None, in_dict=True): 
         ''' Return a string instance 

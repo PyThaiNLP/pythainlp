@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import,division,unicode_literals,print_function
 '''
 ตัดคำภาษาไทยโดยใช้ Maximum Matching algorithm
 เดติดโค้ดต้นฉบับ คุณ Korakot Chaovavanich

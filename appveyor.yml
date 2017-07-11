@@ -13,6 +13,8 @@ install:
   # - "%PYTHON%/Scripts/pip.exe install -U pip setuptools"
   - "%PYTHON%/Scripts/pip.exe install https://get.openlp.org/win-sdk/PyICU-1.9.5-cp34-cp34m-win32.whl"
   - "%PYTHON%/Scripts/pip.exe install -e ."
+  - "chcp 65001"
+  - "set PYTHONIOENCODING=utf-8"
 
 test_script:
   - "%PYTHON%/Scripts/pip.exe --version"

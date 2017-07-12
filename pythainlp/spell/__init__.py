@@ -1,3 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
-from .hunspell import spell
+def spell(word,engine='pn'):
+    '''
+    คำสั่งเช็คคำผิด spell(word,engine='pn')
+
+    engine ที่รองรับ
+    - pn พัฒนามาจาก Peter Norvig (ค่าเริ่มต้น)
+    - hunspell ใช้ hunspell (ไม่รองรับ Python 2.7)
+    '''
+    if engine=='pn':
+        from .pn import spell2
+        return spell2(word)
+    elif engine=='hunspell':
+        from .hunspell import spell1
+        return spell1(word)

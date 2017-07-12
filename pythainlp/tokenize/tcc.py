@@ -68,5 +68,5 @@ def tcc(w, sep='/'):
 if __name__ == '__main__':
     print(tcc('แมวกิน'))
     print(tcc('ประชาชน'))
-    print(tcc('ขุด')+'/'+tcc('หลุม'))
+    print(tcc('ขุดหลุม'))
     print(tcc('ยินดี'))

@@ -15,6 +15,7 @@ from pythainlp.tokenize import tcc,etcc
 from pythainlp.soundex import LK82,Udom83
 from pythainlp.corpus import stopwords
 from pythainlp.MetaSound import MetaSound
+from pythainlp.spell import spell
 from collections import namedtuple
 Synset = namedtuple('Synset', 'synset li')
 class TestUM(unittest.TestCase):
@@ -54,6 +55,8 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(wordnet.langs()!=None,True)
 	def test_stopword(self):
 		self.assertEqual(stopwords.words('thai')!=None,True)
+	def test_spell(self):
+		self.assertEqual(spell('เน้ร')!=None,True)
 	def test_tag(self):
 		self.assertEqual(pos_tag(word_tokenize("คุณกำลังประชุม"),engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 	def test_tag_new(self):

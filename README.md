@@ -63,6 +63,8 @@ $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip i
 
 Read on https://github.com/wannaphongcom/pythainlp/blob/pythainlp1.4/docs/pythainlp-1-4-eng.md
 
+Develop : Read on https://github.com/wannaphongcom/pythainlp/blob/dev/docs/pythainlp-1-5-eng.md
+
 ### License
 
 Apache Software License 2.0
@@ -150,6 +152,8 @@ $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip i
 ### เอกสารการใช้งาน
 
 อ่านได้ที่ https://github.com/wannaphongcom/pythainlp/blob/pythainlp1.4/docs/pythainlp-1-4-thai.md
+
+เอกสารนักพัฒนา : Read on https://github.com/wannaphongcom/pythainlp/blob/dev/docs/pythainlp-1-5-thai.md
 
 ### License
 

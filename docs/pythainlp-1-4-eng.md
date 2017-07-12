@@ -1,5 +1,7 @@
 # User manual PyThaiNLP 1.4
 
+[TOC]
+
 ## API
 
 ### Thai segment

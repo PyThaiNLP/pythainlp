@@ -20,6 +20,10 @@ def now_reign_year():
 def reign_year_to_ad(reign_year,reign):
 	'''
 	ปีรัชกาล แปลงเป็น ค.ศ.
+	reign_year_to_ad(reign_year,reign)
+	
+	reign_year - ปีที่ 
+	reign - รัชกาล
 	'''
 	if int(reign)==10:
 		ad = int(reign_year)+2015
@@ -27,6 +31,8 @@ def reign_year_to_ad(reign_year,reign):
 		ad = int(reign_year)+1945
 	elif int(reign)==8:
 		ad = int(reign_year)+1928
+	elif int(reign)==7:
+		ad = int(reign_year)+1924
 	return ad
 # BE คือ พ.ศ.
 # AD คือ ค.ศ.

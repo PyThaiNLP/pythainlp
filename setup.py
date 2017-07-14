@@ -8,7 +8,7 @@ requirements = [
     'future>=0.16.0',
     'six',
     'marisa_trie',
-    'langdetect'
+    'requests'
 ]
 
 test_requirements = [

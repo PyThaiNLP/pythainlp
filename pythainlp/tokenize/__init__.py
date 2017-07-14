@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import,division,unicode_literals,print_function
+from __future__ import absolute_import,unicode_literals
 def word_tokenize(text,engine='icu'):
 	"""
 	ระบบตัดคำภาษาไทย
@@ -16,8 +16,9 @@ def word_tokenize(text,engine='icu'):
 	if engine=='icu':
     		'''
 			ตัดคำภาษาไทยโดยใช้ icu ในการตัดคำ
-			'''
-    		print('คำเตือน !!! \n คำสั่ง word_tokenize(text) ใน PyThaiNLP 1.6 \nค่าเริ่มต้นจะเปลี่ยนจาก icu ไปเป็น newmm')
+			
+    		คำเตือน !!! \n คำสั่ง word_tokenize(text) ใน PyThaiNLP 1.6
+			ค่าเริ่มต้นจะเปลี่ยนจาก icu ไปเป็น newmm'''
     		from .pyicu import segment
 	elif engine=='dict':
     		'''

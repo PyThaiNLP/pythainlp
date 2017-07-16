@@ -61,7 +61,7 @@ $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip i
 
 ### Documentation
 
-Read on https://github.com/wannaphongcom/pythainlp/blob/pythainlp1.4/docs/pythainlp-1-4-eng.md
+Read on https://github.com/wannaphongcom/pythainlp/blob/dev/docs/pythainlp-1-4-eng.md
 
 Develop : Read on https://github.com/wannaphongcom/pythainlp/blob/dev/docs/pythainlp-1-5-eng.md
 

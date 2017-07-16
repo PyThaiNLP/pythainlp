@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Thai - PyThaiNLP</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Thai";
+    var mkdocs_page_input_path = "pythainlp-1-4-thai.md";
+    var mkdocs_page_url = "/pythainlp-1-4-thai/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> PyThaiNLP</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../pythainlp-1-4-eng/">English</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Thai</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#pythainlp-14">คู่มือการใช้งาน PyThaiNLP 1.4</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#api">API</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">PyThaiNLP</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Thai</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="pythainlp-14">คู่มือการใช้งาน PyThaiNLP 1.4</h1>
+<div class="toc">
+<ul>
+<li><a href="#pythainlp-14">คู่มือการใช้งาน PyThaiNLP 1.4</a><ul>
+<li><a href="#api">API</a><ul>
+<li><a href="#_1">ตัดคำไทย</a></li>
+<li><a href="#postaggers">Postaggers ภาษาไทย</a></li>
+<li><a href="#latin">แปลงข้อความเป็น Latin</a></li>
+<li><a href="#_2">เช็คคำผิด</a></li>
+<li><a href="#pythainlpnumber">pythainlp.number</a></li>
+<li><a href="#list">เรียงลำดับข้อมูลภาษาไทยใน List</a></li>
+<li><a href="#_3">รับเวลาปัจจุบันเป็นภาษาไทย</a></li>
+<li><a href="#wordnet">WordNet ภาษาไทย</a></li>
+<li><a href="#_4">หาคำที่มีจำนวนการใช้งานมากที่สุด</a></li>
+<li><a href="#_5">แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา</a></li>
+<li><a href="#thai-character-clusters-tcc">Thai Character Clusters (TCC)</a></li>
+<li><a href="#enhanced-thai-character-cluster-etcc">Enhanced Thai Character Cluster (ETCC)</a></li>
+<li><a href="#thai-soundex">Thai Soundex ภาษาไทย</a></li>
+<li><a href="#meta-sound">Meta Sound ภาษาไทย</a></li>
+<li><a href="#sentiment-analysis">Sentiment analysis ภาษาไทย</a></li>
+<li><a href="#util">Util</a><ul>
+<li><a href="#ngrams">ngrams</a></li>
+</ul>
+</li>
+<li><a href="#corpus">Corpus</a><ul>
+<li><a href="#stopword">stopword ภาษาไทย</a></li>
+<li><a href="#_6">ชื่อประเทศ ภาษาไทย</a></li>
+<li><a href="#_7">ตัววรรณยุกต์ในภาษาไทย</a></li>
+<li><a href="#_8">ตัวพยัญชนะในภาษาไทย</a></li>
+<li><a href="#_9">รายการคำในภาษาไทย</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Natural language processing หรือ การประมวลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่อพัฒนาการประมวลภาษาธรรมชาติภาษาไทยในภาษา Python และ<strong>มันฟรี (ตลอดไป) เพื่อคนไทยและชาวโลกทุกคน !</strong></p>
+<blockquote>
+<p>เพราะโลกขับเคลื่อนต่อไปด้วยการแบ่งปัน</p>
+</blockquote>
+<p>รองรับเฉพาะ Python 3.4 ขึ้นไปเท่านั้น</p>
+<p>ติดตั้งใช้คำสั่ง</p>
+<pre><code>pip install pythainlp
+</code></pre>
+
+<p><strong>วิธีติดตั้งสำหรับ Windows</strong></p>
+<p>ให้ทำการติดตั้ง pyicu โดยใช้ไฟล์ .whl จาก <a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu">http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu</a> </p>
+<p>หากใช้ python 3.5 64 bit ให้โหลด PyICU‑1.9.7‑cp35‑cp35m‑win_amd64.whl แล้วเปิด cmd ใช้คำสั่ง</p>
+<pre><code>pip install PyICU‑1.9.7‑cp35‑cp35m‑win_amd64.whl
+</code></pre>
+
+<p>แล้วจึงใช้ </p>
+<pre><code>pip install pythainlp
+</code></pre>
+
+<p><strong>ติดตั้งบน Mac</strong></p>
+<pre><code class="sh">$ brew install icu4c --force
+$ brew link --force icu4c
+$ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pythainlp
+</code></pre>
+
+<p>ข้อมูลเพิ่มเติม <a href="https://medium.com/data-science-cafe/install-polyglot-on-mac-3c90445abc1f#.rdfrorxjx">คลิกที่นี้</a></p>
+<h2 id="api">API</h2>
+<h3 id="_1">ตัดคำไทย</h3>
+<p>สำหรับการตัดคำไทยนั้น ใช้ API ดังต่อไปนี้</p>
+<pre><code class="python">from pythainlp.tokenize import word_tokenize
+word_tokenize(text,engine)
+</code></pre>
+
+<p>text คือ ข้อความในรูปแบบสตริง str เท่านั้น</p>
+<p>engine คือ ระบบตัดคำไทย ปัจจุบันนี้ PyThaiNLP ได้พัฒนามี 6 engine ให้ใช้งานกันดังนี้</p>
+<ol>
+<li>icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ) และเป็นค่าเริ่มต้น</li>
+<li>dict - เป็นการตัดคำโดยใช้พจานุกรมจาก thaiword.txt ใน corpus  (ความแม่นยำปานกลาง) จะคืนค่า False หากข้อความนั้นไม่สามารถตัดคำได้</li>
+<li>mm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย - API ชุดเก่า</li>
+<li>newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ โดยใช้โค้ดคุณ Korakot Chaovavanich  จาก https://www.facebook.com/groups/408004796247683/permalink/431283740586455/ มาพัฒนาต่อ</li>
+<li>pylexto ใช้ LexTo ในการตัดคำ</li>
+<li>deepcut ใช้ deepcut จาก https://github.com/rkcosmos/deepcut ในการตัดคำภาษาไทย</li>
+</ol>
+<p>คืนค่าเป็น ''list'' เช่น ['แมว','กิน']</p>
+<p><strong>ตัวอย่าง</strong></p>
+<pre><code class="python">from pythainlp.tokenize import word_tokenize
+text='ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด'
+a=word_tokenize(text,engine='icu') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอ', 'เค', 'บ่', 'พวก', 'เรา', 'เป็น', 'คน', 'ไทย', 'รัก', 'ภาษา', 'ไทย', 'ภาษา', 'บ้าน', 'เกิด']
+b=word_tokenize(text,engine='dict') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
+c=word_tokenize(text,engine='mm') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
+d=word_tokenize(text,engine='pylexto') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
+e=word_tokenize(text,engine='newmm') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
+</code></pre>
+
+<h3 id="postaggers">Postaggers ภาษาไทย</h3>
+<pre><code class="python">from pythainlp.tag import pos_tag
+pos_tag(list,engine='old')
+</code></pre>
+
+<p>list คือ list ที่เก็บข้อความหลังผ่านการตัดคำแล้ว</p>
+<p>engine คือ ชุดเครื่องมือในการ postaggers มี 2 ตัวดังนี้</p>
+<ol>
+<li>old เป็น UnigramTagger (ค่าเริ่มต้น)</li>
+<li>artagger เป็น RDR POS Tagger ละเอียดยิ่งกว่าเดิม รองรับเฉพาะ Python 3 เท่านั้น</li>
+</ol>
+<h3 id="latin">แปลงข้อความเป็น Latin</h3>
+<pre><code class="python">from pythainlp.romanization import romanization
+romanization(str,engine='pyicu')
+</code></pre>
+
+<p>มี 2 engine ดังนี้</p>
+<ul>
+<li>pyicu ส่งค่า Latin</li>
+<li>royin ใช้หลักเกณฑ์การถอดอักษรไทยเป็นอักษรโรมัน ฉบับราชบัณฑิตยสถาน (<strong>หากมีข้อผิดพลาด ให้ใช้คำอ่าน เนื่องจากตัว royin ไม่มีตัวแปลงคำเป็นคำอ่าน</strong>)</li>
+</ul>
+<p>data :</p>
+<p>รับค่า ''str'' ข้อความ </p>
+<p>คืนค่าเป็น ''str'' ข้อความ</p>
+<p><strong>ตัวอย่าง</strong></p>
+<pre><code class="python">from pythainlp.romanization import romanization
+romanization(&quot;แมว&quot;) # 'mæw'
+</code></pre>
+
+<h3 id="_2">เช็คคำผิด</h3>
+<p>ก่อนใช้งานความสามารถนี้ ให้ทำการติดตั้ง hunspell และ hunspell-th ก่อน</p>
+<p><strong>วิธีติดตั้ง</strong> สำหรับบน Debian , Ubuntu</p>
+<pre><code>sudo apt-get install hunspell hunspell-th
+</code></pre>
+
+<p>บน Mac OS ติดตั้งตามนี้ <a href="http://pankdm.github.io/hunspell.html">http://pankdm.github.io/hunspell.html</a></p>
+<p>ให้ใช้ pythainlp.spell ตามตัวอย่างนี้</p>
+<pre><code class="python">from pythainlp.spell import *
+a=spell(&quot;สี่เหลียม&quot;)
+print(a) # ['สี่เหลี่ยม', 'เสียเหลี่ยม', 'เหลี่ยม']
+</code></pre>
+
+<h3 id="pythainlpnumber">pythainlp.number</h3>
+<pre><code class="python">from pythainlp.number import *
+</code></pre>
+
+<p>จัดการกับตัวเลข โดยมีดังนี้</p>
+<ul>
+<li>nttn(str)  - เป็นการแปลงเลขไทยสู่เลข</li>
+<li>nttt(str) - เลขไทยสู่ข้อความ</li>
+<li>ntnt(str) - เลขสู่เลขไทย</li>
+<li>ntt(str) - เลขสู่ข้อความ</li>
+<li>ttn(str) - ข้อความสู่เลข</li>
+<li>numtowords(float) -  อ่านจำนวนตัวเลขภาษาไทย (บาท) รับค่าเป็น ''float'' คืนค่าเป็น  'str'</li>
+</ul>
+<h3 id="list">เรียงลำดับข้อมูลภาษาไทยใน List</h3>
+<pre><code class="python">from pythainlp.collation import collation
+print(collation(['ไก่','ไข่','ก','ฮา'])) # ['ก', 'ไก่', 'ไข่', 'ฮา']
+</code></pre>
+
+<p>รับ list คืนค่า list</p>
+<h3 id="_3">รับเวลาปัจจุบันเป็นภาษาไทย</h3>
+<pre><code class="python">from pythainlp.date import now
+now() # '30 พฤษภาคม 2560 18:45:24'
+</code></pre>
+
+<h3 id="wordnet">WordNet ภาษาไทย</h3>
+<p>เรียกใช้งาน</p>
+<pre><code class="python">from pythainlp.corpus import wordnet
+</code></pre>
+
+<p><strong>การใช้งาน</strong></p>
+<p>API เหมือนกับ NLTK โดยรองรับ API ดังนี้</p>
+<ul>
+<li>wordnet.synsets(word)</li>
+<li>wordnet.synset(name_synsets)</li>
+<li>wordnet.all_lemma_names(pos=None, lang="tha")</li>
+<li>wordnet.all_synsets(pos=None)</li>
+<li>wordnet.langs()</li>
+<li>wordnet.lemmas(word,pos=None,lang="tha")</li>
+<li>wordnet.lemma(name_synsets)</li>
+<li>wordnet.lemma_from_key(key)</li>
+<li>wordnet.path_similarity(synsets1,synsets2)</li>
+<li>wordnet.lch_similarity(synsets1,synsets2)</li>
+<li>wordnet.wup_similarity(synsets1,synsets2)</li>
+<li>wordnet.morphy(form, pos=None)</li>
+<li>wordnet.custom_lemmas(tab_file, lang)</li>
+</ul>
+<p><strong>ตัวอย่าง</strong></p>
+<pre><code class="python">&gt;&gt;&gt; from pythainlp.corpus import wordnet
+&gt;&gt;&gt; print(wordnet.synsets('หนึ่ง'))
+[Synset('one.s.05'), Synset('one.s.04'), Synset('one.s.01'), Synset('one.n.01')]
+&gt;&gt;&gt; print(wordnet.synsets('หนึ่ง')[0].lemma_names('tha'))
+[]
+&gt;&gt;&gt; print(wordnet.synset('one.s.05'))
+Synset('one.s.05')
+&gt;&gt;&gt; print(wordnet.synset('spy.n.01').lemmas())
+[Lemma('spy.n.01.spy'), Lemma('spy.n.01.undercover_agent')]
+&gt;&gt;&gt; print(wordnet.synset('spy.n.01').lemma_names('tha'))
+['สปาย', 'สายลับ']
+</code></pre>
+
+<h3 id="_4">หาคำที่มีจำนวนการใช้งานมากที่สุด</h3>
+<pre><code class="python">from pythainlp.rank import rank
+rank(list)
+</code></pre>
+
+<p>คืนค่าออกมาเป็น dict</p>
+<p><strong>ตัวอย่างการใช้งาน</strong></p>
+<pre><code class="python">&gt;&gt;&gt; rank(['แมง','แมง','คน'])
+Counter({'แมง': 2, 'คน': 1})
+</code></pre>
+
+<h3 id="_5">แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา</h3>
+<pre><code class="python">from pythainlp.change import *
+</code></pre>
+
+<p>มีคำสั่งดังนี้</p>
+<ul>
+<li>texttothai(str) แปลงแป้นตัวอักษรภาษาอังกฤษเป็นภาษาไทย</li>
+<li>texttoeng(str) แปลงแป้นตัวอักษรภาษาไทยเป็นภาษาอังกฤษ</li>
+</ul>
+<p>คืนค่าออกมาเป็น str</p>
+<h3 id="thai-character-clusters-tcc">Thai Character Clusters (TCC)</h3>
+<p>PyThaiNLP 1.4 รองรับ Thai Character Clusters (TCC) โดยจะแบ่งกลุ่มด้วย /</p>
+<p><strong>เดติด</strong></p>
+<p>TCC : Mr.Jakkrit TeCho</p>
+<p>grammar : คุณ Wittawat Jitkrittum (https://github.com/wittawatj/jtcc/blob/master/TCC.g)</p>
+<p>โค้ด : คุณ Korakot Chaovavanich </p>
+<p><strong>การใช้งาน</strong></p>
+<pre><code class="python">&gt;&gt;&gt; from pythainlp.tokenize import tcc
+&gt;&gt;&gt; tcc.tcc('ประเทศไทย')
+'ป/ระ/เท/ศ/ไท/ย'
+</code></pre>
+
+<h3 id="enhanced-thai-character-cluster-etcc">Enhanced Thai Character Cluster (ETCC)</h3>
+<p>นอกจาก TCC แล้ว PyThaiNLP 1.4 ยังรองรับ Enhanced Thai Character Cluster (ETCC) โดยแบ่งกลุ่มด้วย /</p>
+<p><strong>การใช้งาน</strong></p>
+<pre><code class="python">&gt;&gt;&gt; from pythainlp.tokenize import etcc
+&gt;&gt;&gt; etcc.etcc('คืนความสุข')
+'/คืน/ความสุข'
+</code></pre>
+
+<h3 id="thai-soundex">Thai Soundex ภาษาไทย</h3>
+<p>เดติด คุณ Korakot Chaovavanich (จาก https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8)</p>
+<p>กฎที่รองรับในเวชั่น 1.4</p>
+<ul>
+<li>กฎการเข้ารหัสซาวน์เด็กซ์ของ  วิชิตหล่อจีระชุณห์กุล  และ  เจริญ  คุวินทร์พันธุ์ - LK82</li>
+<li>กฎการเข้ารหัสซาวน์เด็กซ์ของ วรรณี อุดมพาณิชย์ - Udom83</li>
+</ul>
+<p><strong>การใช้งาน</strong></p>
+<pre><code class="python">&gt;&gt;&gt; from pythainlp.soundex import LK82
+&gt;&gt;&gt; print(LK82('รถ'))
+ร3000
+&gt;&gt;&gt; print(LK82('รด'))
+ร3000
+&gt;&gt;&gt; print(LK82('จัน'))
+จ4000
+&gt;&gt;&gt; print(LK82('จันทร์'))
+จ4000
+&gt;&gt;&gt; print(Udom83('รถ'))
+ร800000
+</code></pre>
+
+<h3 id="meta-sound">Meta Sound ภาษาไทย</h3>
+<pre><code>Snae &amp; Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statistical Ontology for Analysing Names Given in Accordance with Thai Astrology. Retrieved from https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf
+</code></pre>
+
+<p><strong>การใช้งาน</strong></p>
+<pre><code class="python">&gt;&gt;&gt; from pythainlp.MetaSound import *
+&gt;&gt;&gt; MetaSound('คน')
+'15'
+</code></pre>
+
+<h3 id="sentiment-analysis">Sentiment analysis ภาษาไทย</h3>
+<p>ใช้ข้อมูลจาก <a href="https://github.com/wannaphongcom/lexicon-thai/tree/master/ข้อความ/">https://github.com/wannaphongcom/lexicon-thai/tree/master/ข้อความ/</a></p>
+<pre><code class="python">from pythainlp.sentiment import sentiment
+sentiment(str)
+</code></pre>
+
+<p>รับค่า str ส่งออกเป็น pos , neg หรือ neutral</p>
+<h3 id="util">Util</h3>
+<p>การใช้งาน</p>
+<pre><code class="python">from pythainlp.util import *
+</code></pre>
+
+<h4 id="ngrams">ngrams</h4>
+<p>สำหรับสร้าง ngrams </p>
+<pre><code class="python">ngrams(token,num)
+</code></pre>
+
+<ul>
+<li>token คือ list</li>
+<li>num คือ จำนวน ngrams</li>
+</ul>
+<h3 id="corpus">Corpus</h3>
+<h4 id="stopword">stopword ภาษาไทย</h4>
+<pre><code class="python">from pythainlp.corpus import stopwords
+stopwords = stopwords.words('thai')
+</code></pre>
+
+<h4 id="_6">ชื่อประเทศ ภาษาไทย</h4>
+<pre><code class="python">from pythainlp.corpus import country
+country.get_data()
+</code></pre>
+
+<h4 id="_7">ตัววรรณยุกต์ในภาษาไทย</h4>
+<pre><code class="python">from pythainlp.corpus import tone
+tone.get_data()
+</code></pre>
+
+<h4 id="_8">ตัวพยัญชนะในภาษาไทย</h4>
+<pre><code class="python">from pythainlp.corpus import alphabet
+alphabet.get_data()
+</code></pre>
+
+<h4 id="_9">รายการคำในภาษาไทย</h4>
+<pre><code class="python">from pythainlp.corpus.thaiword import get_data # ข้อมูลเก่า
+get_data()
+from pythainlp.corpus.newthaiword import get_data # ข้อมูลใหม่
+get_data()
+</code></pre>
+
+<p>เขียนโดย นาย วรรณพงษ์  ภัททิยไพบูลย์</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../pythainlp-1-4-eng/" class="btn btn-neutral" title="English"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../pythainlp-1-4-eng/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>

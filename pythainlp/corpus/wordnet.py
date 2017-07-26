@@ -3,13 +3,11 @@ from __future__ import unicode_literals,print_function,absolute_import
 import nltk
 try:
 	nltk.data.find("corpora/omw")
+	nltk.data.find("corpora/wordnet")
 except:
 	nltk.download('wordnet')
 	nltk.download('omw')
-try:
-	from nltk.corpus import wordnet 
-except:
-	nltk.download('wordnet')
+from nltk.corpus import wordnet
 '''
 API ตัวเก่า
 '''

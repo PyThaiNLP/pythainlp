@@ -4,9 +4,12 @@ import nltk
 try:
 	nltk.data.find("corpora/omw")
 except:
-	nltk.download('omw')
 	nltk.download('wordnet')
-from nltk.corpus import wordnet 
+	nltk.download('omw')
+try:
+	from nltk.corpus import wordnet 
+except:
+	nltk.download('wordnet')
 '''
 API ตัวเก่า
 '''

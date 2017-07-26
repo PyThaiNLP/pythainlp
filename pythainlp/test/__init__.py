@@ -20,7 +20,7 @@ from collections import namedtuple
 Synset = namedtuple('Synset', 'synset li')
 class TestUM(unittest.TestCase):
 	"""
-	ระบบทดสอบการทำงานของโค้ดของ PyThaiNLP
+	ระบบทดสอบการทำงานของโค้ดของ PyThaiNLP 1.5
 	"""
 	def test_segment(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),[u'ฉัน', u'รัก', u'ภาษา', u'ไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คน', u'ไทย'])

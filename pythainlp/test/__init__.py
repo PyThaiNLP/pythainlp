@@ -17,6 +17,7 @@ from pythainlp.corpus import stopwords
 from pythainlp.MetaSound import MetaSound
 from pythainlp.spell import spell
 from collections import namedtuple
+from pythainlp.collation import collation
 Synset = namedtuple('Synset', 'synset li')
 class TestUM(unittest.TestCase):
 	"""
@@ -59,6 +60,8 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(stopwords.words('thai')!=None,True)
 	def test_spell(self):
 		self.assertEqual(spell('เน้ร')!=None,True)
+	def test_collation(self):
+		self.assertEqual(collation(['ไก่','กก']),[u'กก', u'ไก่'])
 	def test_tag(self):
 		self.assertEqual(pos_tag(word_tokenize("คุณกำลังประชุม"),engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 	def test_tag_new(self):

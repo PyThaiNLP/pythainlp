@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import,unicode_literals
+from __future__ import absolute_import,unicode_literals,print_function
 import six
 import sys
 if six.PY2:
 	print("Thai sentiment in pythainlp. Not support python 2.7")
 	sys.exit(0)
-from builtins import open
 import pythainlp
 import os
 from pythainlp.tokenize import word_tokenize
@@ -32,5 +31,5 @@ def sentiment(text):
 	with open(os.path.join(templates_dir, 'sentiment.data'), 'rb') as in_strm:
 		classifier = dill.load(in_strm)
 	in_strm.close()
-	featurized_test_sentence =  {i:(i in word_tokenize(text.lower())) for i in vocabulary}
+	featurized_test_sentence =  {i:(i in word_tokenize(text)) for i in vocabulary}
 	return classifier.classify(featurized_test_sentence)

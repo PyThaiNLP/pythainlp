@@ -4,6 +4,7 @@ import unittest,six,sys
 from collections import Counter
 from pythainlp.corpus import alphabet
 from pythainlp.corpus import wordnet
+from pythainlp.keywords import *
 from pythainlp.tokenize import word_tokenize
 from pythainlp.rank import rank
 from pythainlp.change import texttothai,texttoeng
@@ -62,6 +63,8 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(spell('เน้ร')!=None,True)
 	def test_collation(self):
 		self.assertEqual(collation(['ไก่','กก']),[u'กก', u'ไก่'])
+	def test_keywords(self):
+    		self.assertEqual(find_keyword(word_tokenize("แมวกินปลาอร่อยรู้ไหมว่าแมวเป็นแมวรู้ไหมนะแมว",engine='newmm')),{u'แมว': 4})
 	def test_tag(self):
 		self.assertEqual(pos_tag(word_tokenize("คุณกำลังประชุม"),engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 	def test_tag_new(self):

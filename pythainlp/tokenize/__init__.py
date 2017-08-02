@@ -47,11 +47,23 @@ def word_tokenize(text,engine='icu'):
 			'''
     		from .deepcut import segment
 	return segment(text)
-def sent_tokenize(text):
+def sent_tokenize(text,engine='whitespace'):
 	'''
+	sent_tokenize(text,engine='whitespace')
+
 	TODO
 	ยังไม่สมบูรณ์
 
 	ตัดประโยคเบื้องต้น โดยการแบ่งด้วยช่องว่าง
 	'''
-	return text.split(' ')
+	if engine=='whitespace':
+		data=text.split(' ')
+	return data
+def wordpunct_tokenize(text):
+	'''
+	wordpunct_tokenize(text)
+
+	It is nltk.tokenize.wordpunct_tokenize(text).
+	'''
+	import nltk
+	return nltk.tokenize.wordpunct_tokenize(text)

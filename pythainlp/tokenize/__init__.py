@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
+import nltk
 def word_tokenize(text,engine='icu'):
 	"""
 	ระบบตัดคำภาษาไทย
@@ -57,7 +58,7 @@ def sent_tokenize(text,engine='whitespace'):
 	ตัดประโยคเบื้องต้น โดยการแบ่งด้วยช่องว่าง
 	'''
 	if engine=='whitespace':
-		data=text.split(' ')
+		data=nltk.tokenize.WhitespaceTokenizer().tokenize(text)
 	return data
 def wordpunct_tokenize(text):
 	'''
@@ -65,5 +66,6 @@ def wordpunct_tokenize(text):
 
 	It is nltk.tokenize.wordpunct_tokenize(text).
 	'''
-	import nltk
 	return nltk.tokenize.wordpunct_tokenize(text)
+def WhitespaceTokenizer(text):
+	return nltk.tokenize.WhitespaceTokenizer().tokenize(text)

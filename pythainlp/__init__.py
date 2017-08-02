@@ -20,3 +20,4 @@ from pythainlp.Text import Text
 from pythainlp.MetaSound import MetaSound
 from pythainlp.soundex import LK82,Udom83
 from pythainlp.util import ngrams,bigrams,trigram
+from pythainlp.keywords import find_keyword

@@ -8,7 +8,7 @@ if six.PY3:
 	from pythainlp.sentiment import sentiment
 	from pythainlp.spell import spell
 from pythainlp.romanization import romanization
-from pythainlp.tokenize import word_tokenize,tcc,etcc
+from pythainlp.tokenize import word_tokenize,sent_tokenize,tcc,etcc
 from pythainlp.rank import rank
 from pythainlp.change import texttothai,texttoeng
 from pythainlp.number import nttn,nttt,ntnt,ntt,ttn,ttnt,number_format,numtowords,ReadNumber

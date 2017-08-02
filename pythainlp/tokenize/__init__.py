@@ -47,3 +47,11 @@ def word_tokenize(text,engine='icu'):
 			'''
     		from .deepcut import segment
 	return segment(text)
+def sent_tokenize(text):
+	'''
+	TODO
+	ยังไม่สมบูรณ์
+
+	ตัดประโยคเบื้องต้น โดยการแบ่งด้วยช่องว่าง
+	'''
+	return text.split(' ')

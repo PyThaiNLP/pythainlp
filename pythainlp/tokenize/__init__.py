@@ -37,6 +37,11 @@ def word_tokenize(text,engine='icu'):
 			ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่
 			'''
     		from .newmm import mmcut as segment
+	elif engine=='longest-matching':
+    		'''
+			ใช้ Longest matching ในการตัดคำ
+			'''
+    		from .longest import segment
 	elif engine=='pylexto':
     		'''
 			ใช้ LexTo ในการตัดคำ

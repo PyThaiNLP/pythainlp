@@ -114,4 +114,4 @@ def listcut(text):
 if __name__ == "__main__":
 	text='ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด'
 	print(mmcut(text))
-	print(listcut(text))
+	#print(listcut(text))

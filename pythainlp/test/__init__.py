@@ -19,7 +19,6 @@ from pythainlp.MetaSound import MetaSound
 from pythainlp.spell import spell
 from collections import namedtuple
 from pythainlp.collation import collation
-Synset = namedtuple('Synset', 'synset li')
 class TestUM(unittest.TestCase):
 	"""
 	ระบบทดสอบการทำงานของโค้ดของ PyThaiNLP 1.5

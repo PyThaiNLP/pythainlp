@@ -12,5 +12,5 @@ def find_keyword(word_list,lentext=3):
     lentext คือ จำนวนคำที่มีอยู่ใน list สำหรับใช้กำหนดค่าหา keyword ค่าเริ่มต้นคือ 3
     '''
     filtered_words = [word for word in word_list if word not in set(stopwords.words('thai'))]
-    word_list=rank(word_list)
+    word_list=rank(filtered_words)
     return {k:v for k, v in word_list.items() if v>=lentext}

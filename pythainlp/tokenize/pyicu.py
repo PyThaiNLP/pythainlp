@@ -33,7 +33,7 @@ def isThai(chr):
 			return True
 		else:
 			return False
-	except:
+	except TypeError:
 		return False
 def segment(txt):
     """รับค่า ''str'' คืนค่าออกมาเป็น ''list'' ที่ได้มาจากการตัดคำโดย ICU"""

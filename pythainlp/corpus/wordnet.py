@@ -4,7 +4,7 @@ import nltk
 try:
 	nltk.data.find("corpora/omw")
 	nltk.data.find("corpora/wordnet")
-except:
+except LookupError:
 	nltk.download('wordnet')
 	nltk.download('omw')
 from nltk.corpus import wordnet

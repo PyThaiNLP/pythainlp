@@ -10,9 +10,10 @@
 
 Thai natural language processing in Python.
 
-PyThaiNLP is python module like nltk , but It's working with thai language.
+PyThaiNLP is a python module similar to `nltk` , but it's working primarily on
+Thai language instead of English.
 
-It's support python 2.7 and Python 3
+It supports both Python 2.7 and Python 3.
 
 ### Project status
 
@@ -32,7 +33,7 @@ Developing
 - Thai soundex
 - Thai postaggers
 - Thai romanization
-- Check the wrong words in Thai.
+- Thai misspellings detection and correction
 
 and much more.
 
@@ -44,15 +45,15 @@ and much more.
 $ pip install pythainlp
 ```
 
-**Install in  Windows**
+**Install on  Windows**
 
-download pyicu from [http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu) than install pyicu. install pythainlp using pip.
+Download `pyicu` from [http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu) then install `pyicu`. Install `pythainlp` using `pip`.
 
 ```
 pip install pythainlp
 ```
 
-**Install in MacOS**
+**Install on MacOS**
 
 ```sh
 $ brew install icu4c --force

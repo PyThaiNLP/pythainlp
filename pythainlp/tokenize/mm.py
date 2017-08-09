@@ -12,7 +12,7 @@ from __future__ import print_function
 from six.moves import range,zip
 import codecs
 import re
-from .thai import newdata # load dictionary
+from .thai import data as newdata # load dictionary
 from pythainlp.corpus import stopwords # load  stopwords
 import marisa_trie
 

@@ -65,7 +65,7 @@ def segment(txt):
                        data2.append(txt1)
         data1=''.join(data2)
         data1=data1.split(',')
-        result1=result1+data1
+        result1+=data1
     return result1
 if __name__ == "__main__":
 	print(segment('ทดสอบระบบตัดคำด้วยไอซียู'))

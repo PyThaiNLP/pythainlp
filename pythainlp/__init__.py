@@ -11,7 +11,6 @@ from pythainlp.romanization import romanization
 from pythainlp.tokenize import word_tokenize,sent_tokenize,tcc,etcc
 from pythainlp.rank import rank
 from pythainlp.change import texttothai,texttoeng
-from pythainlp.number import nttn,nttt,ntnt,ntt,ttn,ttnt,number_format,numtowords,ReadNumber
 from pythainlp.date import now
 from pythainlp.tag import pos_tag
 from pythainlp.collation import collation

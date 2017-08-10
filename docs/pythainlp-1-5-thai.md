@@ -141,11 +141,11 @@ from pythainlp.number import *
 ```
 จัดการกับตัวเลข โดยมีดังนี้
 
-- nttn(str)  - เป็นการแปลงเลขไทยสู่เลข
-- nttt(str) - เลขไทยสู่ข้อความ
-- ntnt(str) - เลขสู่เลขไทย
-- ntt(str) - เลขสู่ข้อความ
-- ttn(str) - ข้อความสู่เลข
+- thai_num_to_num(str)  - เป็นการแปลงเลขไทยสู่เลข
+- thai_num_to_text(str) - เลขไทยสู่ข้อความ
+- num_to_thai_num(str) - เลขสู่เลขไทย
+- num_to_text(str) - เลขสู่ข้อความ
+- text_to_num(str) - ข้อความสู่เลข
 - numtowords(float) -  อ่านจำนวนตัวเลขภาษาไทย (บาท) รับค่าเป็น ''float'' คืนค่าเป็น  'str'
 
 ### เรียงลำดับข้อมูลภาษาไทยใน List

@@ -15,7 +15,7 @@ def segment(s):
     # Find the best match for the i first characters, assuming cost has
     # been built for the i-1 first characters.
     # Returns a pair (match_cost, match_length).
-    data = re.split(r'\n|\s+',s)#s.split(' ')
+    data = re.split(r'\n|\s+',s) # แยกช่องว่างและขึ้นประโยคใหม่
     outall=''
     def best_match(i):
         candidates = enumerate(reversed(cost[max(0, i-maxword):i]))

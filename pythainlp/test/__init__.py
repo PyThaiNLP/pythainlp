@@ -2,8 +2,7 @@
 from __future__ import absolute_import,unicode_literals
 import unittest,six,sys
 from collections import Counter
-from pythainlp.corpus import alphabet
-from pythainlp.corpus import wordnet
+from pythainlp.corpus import alphabet,wordnet,country,tone
 from pythainlp.keywords import *
 from pythainlp.tokenize import word_tokenize
 from pythainlp.rank import rank
@@ -60,14 +59,17 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(stopwords.words('thai')!=None,True)
 	def test_spell(self):
 		self.assertEqual(spell('เน้ร')!=None,True)
+	def test_corpus(self):
+		self.assertEqual(alphabet.get_data()!=None,True)
+		self.assertEqual(country.get_data()!=None,True)
+		self.assertEqual(tone.get_data()!=None,True)
 	def test_collation(self):
-		self.assertEqual(collation(['ไก่','กก']),[u'กก', u'ไก่'])
+    		self.assertEqual(collation(['ไก่','กก']),[u'กก', u'ไก่'])
 	def test_keywords(self):
     		self.assertEqual(find_keyword(word_tokenize("แมวกินปลาอร่อยรู้ไหมว่าแมวเป็นแมวรู้ไหมนะแมว",engine='newmm')),{u'แมว': 4})
 	def test_tag(self):
 		self.assertEqual(pos_tag(word_tokenize("คุณกำลังประชุม"),engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
-	def test_tag_new(self):
-    		if sys.version_info > (3,3):
-    				self.assertEqual(pos_tag(word_tokenize("ผมรักคุณ"),engine='artagger'),[('ผม', 'PPRS'), ('รัก', 'VSTA'), ('คุณ', 'PPRS')])
+		if sys.version_info > (3,3):
+			self.assertEqual(pos_tag(word_tokenize("ผมรักคุณ"),engine='artagger'),[('ผม', 'PPRS'), ('รัก', 'VSTA'), ('คุณ', 'PPRS')])
 if __name__ == '__main__':
     unittest.main()

@@ -8,12 +8,10 @@ def segment(string):
     # Sort wset in decreasing string order
     lines.sort(key=len, reverse=True)
     result = tokenize(string, lines, "")
-    if result:
+    if result==True:
         result.pop() # Remove the empty string token
         result.reverse() # Put the list into correct order
-        return result
-    else:
-        return result
+    return result
 
 def tokenize(string, wset, token):
     """Returns either false if the string can't be segmented by 

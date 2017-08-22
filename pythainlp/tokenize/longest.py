@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,division,unicode_literals,print_function
 from builtins import *
-# Longest matching 
+# Longest matching
 # โค้ดจาก https://stackoverflow.com/a/11642687
 from pythainlp.corpus.thaiword import get_data # ข้อมูลเก่า
 from math import log
@@ -33,7 +33,6 @@ def segment(s):
         i = len(s)
         while i>0:
             c,k = best_match(i)
-            assert c == cost[i]
             out.append(s[i-k:i])
             i -= k
         if countlist==0:

@@ -11,7 +11,7 @@ from __future__ import absolute_import,division,unicode_literals,print_function
 '''
 from pythainlp.tokenize import word_tokenize
 from pythainlp.tokenize import tcc
-from pythainlp.tokenize import etcc
+#from pythainlp.tokenize import etcc
 import re
 consonants = { # พยัญชนะ ต้น สะกด
 'ก':['k','k'],
@@ -433,10 +433,10 @@ def romanization(text):
             search=re.findall(u'\wะ',text, re.U)
             for i in search:
                 text=re.sub(i,list(i)[0]+'a',text,flags=re.U)
-        # –ั 
+        # –ั
         if re.search(u'\wั',text, re.U):
             '''
-            จัดการกับ –ั 
+            จัดการกับ –ั
             '''
             #print('–ั ')
             search=re.findall(u'\wั',text, re.U)
@@ -488,7 +488,7 @@ def romanization(text):
         #อิ , อี
         if re.search(u'\wิ',text, re.U):
             '''
-            จัดการกับ อิ 
+            จัดการกับ อิ
             '''
             #print('อิ')
             search=re.findall(u'\wิ',text, re.U)
@@ -554,7 +554,7 @@ def romanization(text):
 	        if len(listtext)==2:
 		        if  re.search(consonants_thai,listtext[1], re.U):
 			        '''
-			        จัดการกับพยัญชนะ 2 ตัว และมีแค่ 2 ตั   และมีแค่ 2 ตัวติดกันในคำ 
+			        จัดการกับพยัญชนะ 2 ตัว และมีแค่ 2 ตั   และมีแค่ 2 ตัวติดกันในคำ
 			        '''
 			        listtext.append(consonants[listtext[1]][1])
 			        listtext[1]='o'

@@ -1,6 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
-import six
 def get_data():
 	"""เป็นคำสั่งสำหรับดึงตัวอักษร ก - ฮ ในภาษาไทย
 	คืนค่า list

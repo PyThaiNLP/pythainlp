@@ -4,20 +4,20 @@ from builtins import *
 '''
 ตัดคำภาษาไทยโดยใช้ Maximum Matching algorithm
 เดติดโค้ดต้นฉบับ คุณ Korakot Chaovavanich
-จาก https://www.facebook.com/groups/408004796247683/permalink/431283740586455/ 
+จาก https://www.facebook.com/groups/408004796247683/permalink/431283740586455/
 และ https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716
 '''
 import re
 from marisa_trie import Trie
-from collections import Counter, defaultdict
+from collections import defaultdict
 from pythainlp.corpus.thaiword import get_data
 trie = Trie(get_data())
 class LatticeString(str):
     ''' String subclass เพื่อเก็บวิธีตัดหลายๆ วิธี
     '''
-    def __new__(cls, value, multi=None, in_dict=True): 
+    def __new__(cls, value, multi=None, in_dict=True):
         return str.__new__(cls, value)
-    
+
     def __init__(self, value, multi=None, in_dict=True):
         self.unique = True
         if multi:
@@ -27,7 +27,7 @@ class LatticeString(str):
         else:
             self.multi = [value]
         self.in_dict = in_dict   # บอกว่าเป็นคำมีในดิกหรือเปล่า
-        
+
 spat_eng = r'''(?x)
 [-a-zA-Z]+|   # english
 \d[\d,\.]*|   # number
@@ -37,10 +37,10 @@ spat_eng = r'''(?x)
 pat_eng = re.compile(spat_eng)
 
 def multicut(text):
-    ''' ส่งคืน LatticeString คืนมาเป็นก้อนๆ 
-    ''' 
+    ''' ส่งคืน LatticeString คืนมาเป็นก้อนๆ
+    '''
     words_at = defaultdict(list)  # main data structure
-    
+
     def serialize(p, p2):    # helper function
         for w in words_at[p]:
             p_ = p + len(w)
@@ -49,22 +49,22 @@ def multicut(text):
             elif p_ < p2:
                 for path in serialize(p_, p2):
                     yield w+'/'+path
-                    
+
     q = {0}
     last_p = 0   # last position for yield
     while min(q) < len(text):
         p = min(q)
         q -= {p}  # q.pop, but for set
-        
+
         for w in trie.prefixes(text[p:]):
             words_at[p].append(w)
-            q.add(p+len(w))   
-            
+            q.add(p+len(w))
+
         if len(q)==1:
             q0 = min(q)
             yield LatticeString(text[last_p:q0], serialize(last_p, q0))
             last_p = q0
-            
+
         # กรณี len(q) == 0  คือ ไม่มีใน dict
         if len(q)==0:
             m = pat_eng.match(text[p:])
@@ -83,7 +83,7 @@ def multicut(text):
             yield LatticeString(w, in_dict=False)
             last_p = i
             q.add(i)
-            
+
 def mmcut(text):
     ''' Maximum Matching algorithm ในการตัดคำภาษาไทย
     '''
@@ -106,7 +106,7 @@ def combine(ww):
             else:
                 for m in w.multi:
                     yield m.replace("/","|")+"|"+tail
-                    
+
 def listcut(text):
     '''
 	ใช้ในการหา list ที่สามารถตัดคำได้ทั้งหมด

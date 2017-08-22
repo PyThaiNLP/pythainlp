@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
 import nltk
+from six.moves import zip
 def word_tokenize(text,engine='icu'):
 	"""
 	ระบบตัดคำภาษาไทย
@@ -20,7 +21,6 @@ def word_tokenize(text,engine='icu'):
 	if engine=='icu':
     		'''
 			ตัดคำภาษาไทยโดยใช้ icu ในการตัดคำ
-			
     		คำเตือน !!! \n คำสั่ง word_tokenize(text) ใน PyThaiNLP 1.6
 			ค่าเริ่มต้นจะเปลี่ยนจาก icu ไปเป็น newmm'''
     		from .pyicu import segment
@@ -82,3 +82,35 @@ def wordpunct_tokenize(text):
 	return nltk.tokenize.wordpunct_tokenize(text)
 def WhitespaceTokenizer(text):
 	return nltk.tokenize.WhitespaceTokenizer().tokenize(text)
+def isthai(text,check_all=False):
+    """
+    สำหรับเช็คว่าเป็นตัวอักษรภาษาไทยหรือไม่
+    isthai(text,check_all=False)
+    text คือ ข้อความหรือ list ตัวอักษร
+    check_all สำหรับส่งคืนค่า True หรือ False เช็คทุกตัวอักษร
+
+    การส่งคืนค่า
+    {'thai':% อักษรภาษาไทย,'check_all':tuple โดยจะเป็น (ตัวอักษร,True หรือ False)}
+    """
+    listext=list(text)
+    i=0
+    num_isthai=0
+    if check_all==True:
+        listthai=[]
+    while i<len(listext):
+        cVal = ord(listext[i])
+        if(cVal >= 3584 and cVal <= 3711):
+            num_isthai+=1
+            if check_all==True:
+                listthai.append(True)
+        else:
+            if check_all==True:
+                listthai.append(False)
+        i+=1
+    thai=(num_isthai/len(listext))*100
+    if check_all==True:
+        dictthai=tuple(zip(listext,listthai))
+        data= {'thai':thai,'check_all':dictthai}
+    else:
+        data= {'thai':thai}
+    return data

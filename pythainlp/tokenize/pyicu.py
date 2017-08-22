@@ -2,7 +2,6 @@
 from __future__ import absolute_import,print_function,unicode_literals
 from itertools import groupby
 from six.moves import zip
-import re
 import icu
 def isEnglish(s):
 	'''
@@ -40,8 +39,8 @@ def isThai(chr):
 def segment(txt):
     """รับค่า ''str'' คืนค่าออกมาเป็น ''list'' ที่ได้มาจากการตัดคำโดย ICU"""
     bd = icu.BreakIterator.createWordInstance(icu.Locale("th")) # เริ่มต้นเรียกใช้งานคำสั่งตัดคำโดยเลือกเป็นภาษาไทยโดยใช้ icu
-    pattern = re.compile(r'\n') # กำหนดรูปแบบไว้เพื่อใช้ในการแทนที่ข้อมูล
-    bd.setText(re.sub(pattern, '', txt)) # ทำการตัดคำ
+    txt=txt.replace('\n','')
+    bd.setText(txt) # ทำการตัดคำ
     breaks = list(bd)
     result=[txt[x[0]:x[1]] for x in zip([0]+breaks, breaks)]
     result1=[]
@@ -67,12 +66,11 @@ def segment(txt):
                        data2.append(txt1)
         data1=''.join(data2)
         result1+=data1.split(',')
-    if ' ' in result1:
-        result1.remove(' ')
-    return result1
+    return [x for x in result1 if x != ' ']
 if __name__ == "__main__":
 	print(segment('ทดสอบระบบตัดคำด้วยไอซียู'))
 	print(segment('ผมชอบพูดไทยคำ English'))
 	print(segment('ผมชอบพูดไทยคำEnglishคำ'))
-	print(segment('ผมชอบพูดไทยคำEnglish540 บาท'))
+	print(segment("""ผมชอบพูดไทยคำEnglish540
+    บาท"""))
 	print(segment('ประหยัด ไฟเบอห้า'))

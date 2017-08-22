@@ -23,19 +23,20 @@ def isEnglish(s):
 		else:
 			return True
 def isThai(chr):
-	'''
-	เช็คตัวอักษรว่าใช่ภาษาไทยไหม
-	'''
-	if isEnglish(chr):
-		return False
-	try:
-		cVal = ord(chr)
-		if(cVal >= 3584 and cVal <= 3711):
-			return True
-		else:
-			return False
-	except TypeError:
-		return False
+    '''
+    เช็คตัวอักษรว่าใช่ภาษาไทยไหม
+    '''
+    if isEnglish(chr):
+        return False
+    else:
+        try:
+            cVal = ord(chr)
+            if(cVal >= 3584 and cVal <= 3711):
+                return True
+            else:
+                return False
+        except TypeError:
+            return False
 def segment(txt):
     """รับค่า ''str'' คืนค่าออกมาเป็น ''list'' ที่ได้มาจากการตัดคำโดย ICU"""
     bd = icu.BreakIterator.createWordInstance(icu.Locale("th")) # เริ่มต้นเรียกใช้งานคำสั่งตัดคำโดยเลือกเป็นภาษาไทยโดยใช้ icu

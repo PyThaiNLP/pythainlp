@@ -21,7 +21,6 @@ def reign_year_to_ad(reign_year,reign):
 	'''
 	ปีรัชกาล แปลงเป็น ค.ศ.
 	reign_year_to_ad(reign_year,reign)
-	
 	reign_year - ปีที่ 
 	reign - รัชกาล
 	'''

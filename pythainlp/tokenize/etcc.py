@@ -55,7 +55,7 @@ def etcc(text):
         '''แก้ไขในกรณี พัน/ธุ์'''
         search=re.findall('/'+c+''.join(['ุ', '์'])+'/',text,re.U)
         for i in search:
-            ii=re.sub('/','', i) 
+            ii=re.sub('/','', i)
             text=re.sub(i,ii+'/', text)   
     return re.sub('//','/',text)
 if __name__ == '__main__':

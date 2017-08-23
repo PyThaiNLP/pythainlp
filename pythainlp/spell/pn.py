@@ -15,7 +15,7 @@ def correction(word):
     'Most probable spelling correction for word.'
     return max(candidates(word), key=P)
 """
-def spell2(word): 
+def spell2(word):
     if word=='':
         return ''
     else:
@@ -30,5 +30,5 @@ def edits1(word):
     replaces   = [L + c + R[1:]           for L, R in splits if R for c in letters]
     inserts    = [L + c + R               for L, R in splits for c in letters]
     return set(deletes + transposes + replaces + inserts)
-def edits2(word): 
+def edits2(word):
     return (e2 for e1 in edits1(word) for e2 in edits1(e1))

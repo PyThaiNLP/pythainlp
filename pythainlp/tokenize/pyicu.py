@@ -20,15 +20,15 @@ def isEnglish(s):
 			return False
 		else:
 			return True
-def isThai(chr):
+def isThai(chr1):
     '''
     เช็คตัวอักษรว่าใช่ภาษาไทยไหม
     '''
-    if isEnglish(chr):
+    if isEnglish(chr1):
         return False
     else:
         try:
-            cVal = ord(chr)
+            cVal = ord(chr1)
             if(cVal >= 3584 and cVal <= 3711):
                 return True
             else:

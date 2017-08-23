@@ -5,7 +5,7 @@ based on algorithm from
 http://www.aclweb.org/anthology/E14-4016
 
 fork from https://github.com/narongdejsrn/pythaiwordcut
-License: MIT 
+License: MIT
 '''
 
 from __future__ import print_function

@@ -5,7 +5,7 @@ from __future__ import absolute_import,division,unicode_literals,print_function
 เดติด
 TCC : Mr.Jakkrit TeCho
 grammar : คุณ Wittawat Jitkrittum (https://github.com/wittawatj/jtcc/blob/master/TCC.g)
-โค้ด : คุณ Korakot Chaovavanich 
+โค้ด : คุณ Korakot Chaovavanich
 """
 import re
 pat_list = """\

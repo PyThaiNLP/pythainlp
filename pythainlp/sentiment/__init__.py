@@ -10,7 +10,7 @@ from pythainlp.corpus import stopwords
 import os
 from pythainlp.tokenize import word_tokenize
 try:
-    import dill                    
+	import dill
 except ImportError:
 	import pip
 	pip.main(['install','dill'])

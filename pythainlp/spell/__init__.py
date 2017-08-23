@@ -9,8 +9,7 @@ def spell(word,engine='pn'):
     - hunspell ใช้ hunspell (ไม่รองรับ Python 2.7)
     '''
     if engine=='pn':
-        from .pn import spell2
-        return spell2(word)
+        from .pn import spell as spell1
     elif engine=='hunspell':
-        from .hunspell import spell1
-        return spell1(word)
+        from .hunspell import spell as spell1
+    return spell1(word)

@@ -7,19 +7,12 @@ from builtins import *
 from pythainlp.corpus.thaiword import get_data
 from collections import Counter
 WORDS = Counter(get_data())
-"""
-def P(word, N=sum(WORDS.values())): 
+def P(word, N=sum(WORDS.values())):
     'Probability of `word`.'
     return WORDS[word] / N
-def correction(word): 
-    'Most probable spelling correction for word.'
-    return max(candidates(word), key=P)
-"""
-def spell2(word):
-    if word=='':
-        return ''
-    else:
-        return (known([word]) or known(edits1(word)) or known(edits2(word)) or [word])
+def correction(word):
+    'แสดงความที่เป็นไปได้มากที่สุด'
+    return max(spell(word), key=P)
 def known(words):
     return list(w for w in words if w in WORDS)
 def edits1(word):
@@ -32,3 +25,8 @@ def edits1(word):
     return set(deletes + transposes + replaces + inserts)
 def edits2(word):
     return (e2 for e1 in edits1(word) for e2 in edits1(e1))
+def spell(word):
+    if word=='':
+        return ''
+    else:
+        return (known([word]) or known(edits1(word)) or known(edits2(word)) or [word])

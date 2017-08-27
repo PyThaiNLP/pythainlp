@@ -42,7 +42,9 @@ $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip i
 
 ## API
 
-### ตัดคำไทย
+### pythainlp.tokenize
+
+#### word_tokenize
 
 สำหรับการตัดคำไทยนั้น ใช้ API ดังต่อไปนี้
 
@@ -77,7 +79,101 @@ d=word_tokenize(text,engine='pylexto') # ['ผม', 'รัก', 'คุณ', '�
 e=word_tokenize(text,engine='newmm') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
 ```
 
-### Postaggers ภาษาไทย
+#### sent_tokenize
+
+ใช้ตัดประโยคภาษาไทย
+
+```python
+sent_tokenize(text,engine='whitespace')
+```
+
+text คือ ข้อความในรูปแบบสตริง
+
+engine คือ เครื่องมือสำหรับใช้ตัดประโยค ปัจจุบันรองรับเฉพาะ whitespace ตัดประโยคจากช่องว่าง
+
+คืนค่า ออกเป็น list
+
+#### WhitespaceTokenizer
+
+ใช้ตัดคำ/ประโยคจากช่องว่างในสตริง
+
+```python
+>>> from pythainlp.tokenize import WhitespaceTokenizer
+>>> WhitespaceTokenizer("ทดสอบ ตัดคำช่องว่าง")
+['ทดสอบ', 'ตัดคำช่องว่าง']
+```
+
+#### isthai
+
+ใช้เช็คข้อความว่าเป็นภาษาไทยทั้งหมดกี่ %
+
+```python
+isthai(text,check_all=False)
+```
+
+text คือ ข้อความหรือ list ตัวอักษร
+
+check_all สำหรับส่งคืนค่า True หรือ False เช็คทุกตัวอักษร
+
+**การส่งคืนค่า**
+
+```python
+{'thai':% อักษรภาษาไทย,'check_all':tuple โดยจะเป็น (ตัวอักษร,True หรือ False)}
+```
+
+#### Thai Character Clusters (TCC)
+
+PyThaiNLP 1.4 รองรับ Thai Character Clusters (TCC) โดยจะแบ่งกลุ่มด้วย /
+
+**เดติด**
+
+TCC : Mr.Jakkrit TeCho
+
+grammar : คุณ Wittawat Jitkrittum (https://github.com/wittawatj/jtcc/blob/master/TCC.g)
+
+โค้ด : คุณ Korakot Chaovavanich 
+
+**การใช้งาน**
+
+```python
+>>> from pythainlp.tokenize import tcc
+>>> tcc.tcc('ประเทศไทย')
+'ป/ระ/เท/ศ/ไท/ย'
+```
+
+#### Enhanced Thai Character Cluster (ETCC)
+
+นอกจาก TCC แล้ว PyThaiNLP 1.4 ยังรองรับ Enhanced Thai Character Cluster (ETCC) โดยแบ่งกลุ่มด้วย /
+
+**การใช้งาน**
+
+```python
+>>> from pythainlp.tokenize import etcc
+>>> etcc.etcc('คืนความสุข')
+'/คืน/ความสุข'
+```
+
+### keywords
+
+ใช้หา keywords จากข้อความภาษาไทย
+
+#### find_keyword
+
+การทำงาน หาคำที่ถูกใช้งานมากกว่าค่าขั้นต่ำที่กำหนดได้ โดยจะลบ stopword ออกไป
+
+```python
+find_keyword(word_list,lentext=3)
+```
+
+word_list คือ list ของข้อความที่ผ่านการตัดคำแล้ว
+
+lentext คือ จำนวนคำขั้นต่ำที่ต้องการหา keyword
+
+คืนค่าออกมาเป็น dict
+
+### tag
+
+เป็น Part-of-speech tagging ภาษาไทย
 
 ```python
 from pythainlp.tag import pos_tag
@@ -91,7 +187,7 @@ engine คือ ชุดเครื่องมือในการ postagge
 1. old เป็น UnigramTagger (ค่าเริ่มต้น)
 2. artagger เป็น RDR POS Tagger ละเอียดยิ่งกว่าเดิม รองรับเฉพาะ Python 3 เท่านั้น
 
-### แปลงข้อความเป็น Latin
+### romanization
 
 ```python
 from pythainlp.romanization import romanization
@@ -115,25 +211,48 @@ from pythainlp.romanization import romanization
 romanization("แมว") # 'mæw'
 ```
 
-### เช็คคำผิด 
+### spell 
 
-ก่อนใช้งานความสามารถนี้ ให้ทำการติดตั้ง hunspell และ hunspell-th ก่อน
+เป็น API สำหรับเช็คคำผิดในภาษาไทย 
 
-**วิธีติดตั้ง** สำหรับบน Debian , Ubuntu
-
-```
-sudo apt-get install hunspell hunspell-th
+```python
+spell(word,engine='pn')
 ```
 
-บน Mac OS ติดตั้งตามนี้ [http://pankdm.github.io/hunspell.html](http://pankdm.github.io/hunspell.html)
+engine ที่รองรับ
 
-ให้ใช้ pythainlp.spell ตามตัวอย่างนี้
+- pn พัฒนามาจาก Peter Norvig (ค่าเริ่มต้น)
+- hunspell ใช้ hunspell (ไม่รองรับ Python 2.7)
+
+**ตัวอย่างการใช้งาน**
 
 ```python
 from pythainlp.spell import *
 a=spell("สี่เหลียม")
-print(a) # ['สี่เหลี่ยม', 'เสียเหลี่ยม', 'เหลี่ยม']
+print(a) # ['สี่เหลี่ยม']
 ```
+#### pn
+
+```python
+correction(word)
+```
+
+แสดงคำที่เป็นไปได้มากที่สุด
+
+**ตัวอย่างการใช้งาน**
+
+```python
+from pythainlp.spell.pn import correction
+a=correction("สี่เหลียม")
+print(a) # ['สี่เหลี่ยม']
+```
+
+ผลลัพธ์
+
+```
+สี่เหลี่ยม
+```
+
 ### pythainlp.number
 
 ```python
@@ -148,7 +267,9 @@ from pythainlp.number import *
 - text_to_num(str) - ข้อความสู่เลข
 - numtowords(float) -  อ่านจำนวนตัวเลขภาษาไทย (บาท) รับค่าเป็น ''float'' คืนค่าเป็น  'str'
 
-### เรียงลำดับข้อมูลภาษาไทยใน List
+### collation
+
+ใช้ในการเรียงลำดับข้อมูลภาษาไทยใน List
 
 ```python
 from pythainlp.collation import collation
@@ -157,55 +278,21 @@ print(collation(['ไก่','ไข่','ก','ฮา'])) # ['ก', 'ไก่'
 
 รับ list คืนค่า list
 
-### รับเวลาปัจจุบันเป็นภาษาไทย
+### date
+
+#### now
+
+รับเวลาปัจจุบันเป็นภาษาไทย
 
 ```python
 from pythainlp.date import now
 now() # '30 พฤษภาคม 2560 18:45:24'
 ```
-### WordNet ภาษาไทย
+### rank
 
-เรียกใช้งาน
+#### rank
 
-```python
-from pythainlp.corpus import wordnet
-```
-
-**การใช้งาน**
-
-API เหมือนกับ NLTK โดยรองรับ API ดังนี้
-
-- wordnet.synsets(word)
-- wordnet.synset(name_synsets)
-- wordnet.all_lemma_names(pos=None, lang="tha")
-- wordnet.all_synsets(pos=None)
-- wordnet.langs()
-- wordnet.lemmas(word,pos=None,lang="tha")
-- wordnet.lemma(name_synsets)
-- wordnet.lemma_from_key(key)
-- wordnet.path_similarity(synsets1,synsets2)
-- wordnet.lch_similarity(synsets1,synsets2)
-- wordnet.wup_similarity(synsets1,synsets2)
-- wordnet.morphy(form, pos=None)
-- wordnet.custom_lemmas(tab_file, lang)
-
-**ตัวอย่าง**
-
-```python
->>> from pythainlp.corpus import wordnet
->>> print(wordnet.synsets('หนึ่ง'))
-[Synset('one.s.05'), Synset('one.s.04'), Synset('one.s.01'), Synset('one.n.01')]
->>> print(wordnet.synsets('หนึ่ง')[0].lemma_names('tha'))
-[]
->>> print(wordnet.synset('one.s.05'))
-Synset('one.s.05')
->>> print(wordnet.synset('spy.n.01').lemmas())
-[Lemma('spy.n.01.spy'), Lemma('spy.n.01.undercover_agent')]
->>> print(wordnet.synset('spy.n.01').lemma_names('tha'))
-['สปาย', 'สายลับ']
-```
-
-### หาคำที่มีจำนวนการใช้งานมากที่สุด
+หาคำที่มีจำนวนการใช้งานมากที่สุด
 
 ```python
 from pythainlp.rank import rank
@@ -221,7 +308,9 @@ rank(list)
 Counter({'แมง': 2, 'คน': 1})
 ```
 
-### แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา
+### change
+
+#### แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา
 
 ```python
 from pythainlp.change import *
@@ -234,39 +323,7 @@ from pythainlp.change import *
 
 คืนค่าออกมาเป็น str
 
-### Thai Character Clusters (TCC)
-
-PyThaiNLP 1.4 รองรับ Thai Character Clusters (TCC) โดยจะแบ่งกลุ่มด้วย /
-
-**เดติด**
-
-TCC : Mr.Jakkrit TeCho
-
-grammar : คุณ Wittawat Jitkrittum (https://github.com/wittawatj/jtcc/blob/master/TCC.g)
-
-โค้ด : คุณ Korakot Chaovavanich 
-
-**การใช้งาน**
-
-```python
->>> from pythainlp.tokenize import tcc
->>> tcc.tcc('ประเทศไทย')
-'ป/ระ/เท/ศ/ไท/ย'
-```
-
-### Enhanced Thai Character Cluster (ETCC)
-
-นอกจาก TCC แล้ว PyThaiNLP 1.4 ยังรองรับ Enhanced Thai Character Cluster (ETCC) โดยแบ่งกลุ่มด้วย /
-
-**การใช้งาน**
-
-```python
->>> from pythainlp.tokenize import etcc
->>> etcc.etcc('คืนความสุข')
-'/คืน/ความสุข'
-```
-
-### Thai Soundex ภาษาไทย
+### soundex
 
 เดติด คุณ Korakot Chaovavanich (จาก https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8)
 
@@ -305,9 +362,9 @@ Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statisti
 '15'
 ```
 
-### Sentiment analysis ภาษาไทย
+### sentiment
 
-ใช้ข้อมูลจาก [https://github.com/wannaphongcom/lexicon-thai/tree/master/ข้อความ/](https://github.com/wannaphongcom/lexicon-thai/tree/master/ข้อความ/)
+เป็น Sentiment analysis ภาษาไทย ใช้ข้อมูลจาก [https://github.com/wannaphongcom/lexicon-thai/tree/master/ข้อความ/](https://github.com/wannaphongcom/lexicon-thai/tree/master/ข้อความ/)
 
 ```python
 from pythainlp.sentiment import sentiment
@@ -357,6 +414,48 @@ trigram(token)
 
 ### Corpus
 
+#### WordNet ภาษาไทย
+
+เรียกใช้งาน
+
+```python
+from pythainlp.corpus import wordnet
+```
+
+**การใช้งาน**
+
+API เหมือนกับ NLTK โดยรองรับ API ดังนี้
+
+- wordnet.synsets(word)
+- wordnet.synset(name_synsets)
+- wordnet.all_lemma_names(pos=None, lang="tha")
+- wordnet.all_synsets(pos=None)
+- wordnet.langs()
+- wordnet.lemmas(word,pos=None,lang="tha")
+- wordnet.lemma(name_synsets)
+- wordnet.lemma_from_key(key)
+- wordnet.path_similarity(synsets1,synsets2)
+- wordnet.lch_similarity(synsets1,synsets2)
+- wordnet.wup_similarity(synsets1,synsets2)
+- wordnet.morphy(form, pos=None)
+- wordnet.custom_lemmas(tab_file, lang)
+
+**ตัวอย่าง**
+
+```python
+>>> from pythainlp.corpus import wordnet
+>>> print(wordnet.synsets('หนึ่ง'))
+[Synset('one.s.05'), Synset('one.s.04'), Synset('one.s.01'), Synset('one.n.01')]
+>>> print(wordnet.synsets('หนึ่ง')[0].lemma_names('tha'))
+[]
+>>> print(wordnet.synset('one.s.05'))
+Synset('one.s.05')
+>>> print(wordnet.synset('spy.n.01').lemmas())
+[Lemma('spy.n.01.spy'), Lemma('spy.n.01.undercover_agent')]
+>>> print(wordnet.synset('spy.n.01').lemma_names('tha'))
+['สปาย', 'สายลับ']
+```
+
 #### stopword ภาษาไทย
 
 ```python
@@ -393,5 +492,67 @@ get_data()
 from pythainlp.corpus.newthaiword import get_data # ข้อมูลใหม่
 get_data()
 ```
+
+#### provinces
+
+สำหรับจัดการชื่อจังหวัดในประเทศไทย
+
+##### get_data
+
+รับข้อมูลชื่อจังหวัดในประเทศไทบ
+
+```python
+get_data()
+```
+
+คือค่าออกมาเป็น list
+
+##### parsed_docs
+
+สำหรับใช้ Tag ชื่อจังหวัดในประเทศไทย
+
+```python
+parsed_docs(text_list)
+```
+
+text_list คือ ข้อความภาษาไทยที่อยู่ใน list โดยผ่านการตัดคำมาแล้ว
+
+**ตัวอย่าง**
+
+```python
+>>> d=['หนองคาย', 'เป็น', 'เมือง', 'น่าอยู่', 'อันดับ', 'ต้น', 'ๆ', 'ของ', 'โลก', 'นอกจากนี้', 'ยัง', 'มี', 'เชียงใหม่']
+>>> parsed_docs(d)
+["[LOC : 'หนองคาย']", 'เป็น', 'เมือง', 'น่าอยู่', 'อันดับ', 'ต้น', 'ๆ', 'ของ', 'โลก', 'นอกจากนี้', 'ยัง', 'มี', "[LOC : 'เชียงใหม่']"]
+```
+
+#### TNC
+
+สำหรับใช้จัดการกับ Thai National Corpus (http://www.arts.chula.ac.th/~ling/TNC/index.php)
+
+##### word_frequency
+
+ใช้วัดความถี่ของคำ
+
+```python
+word_frequency(word,domain='all')
+```
+
+word คือ คำ
+
+domain คือ หมวดหมู่ของคำ
+
+มีหมวดหมู่ดังนี้
+
+- all
+- imaginative
+- natural-pure-science
+- applied-science
+- social-science
+- world-affairs-history
+- commerce-finance
+- arts
+- belief-thought
+- leisure
+- others
 
 เขียนโดย นาย วรรณพงษ์  ภัททิยไพบูลย์

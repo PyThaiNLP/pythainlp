@@ -61,11 +61,11 @@ $ brew link --force icu4c
 $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pythainlp
 ```
 
+more detailed information https://medium.com/data-science-cafe/install-polyglot-on-mac-3c90445abc1f#.rdfrorxjx
+
 ### Documentation
 
-Read on https://github.com/wannaphongcom/pythainlp/blob/dev/docs/pythainlp-1-4-eng.md
-
-Develop : Read on https://github.com/wannaphongcom/pythainlp/blob/dev/docs/pythainlp-1-5-eng.md
+Read on https://github.com/wannaphongcom/pythainlp/blob/dev/docs/pythainlp-1-5-eng.md
 
 ### License
 
@@ -154,9 +154,7 @@ $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip i
 
 ### เอกสารการใช้งาน
 
-อ่านได้ที่ https://github.com/wannaphongcom/pythainlp/blob/pythainlp1.4/docs/pythainlp-1-4-thai.md
-
-เอกสารนักพัฒนา : Read on https://github.com/wannaphongcom/pythainlp/blob/dev/docs/pythainlp-1-5-thai.md
+อ่านได้ที่  https://github.com/wannaphongcom/pythainlp/blob/dev/docs/pythainlp-1-5-thai.md
 
 ### License
 

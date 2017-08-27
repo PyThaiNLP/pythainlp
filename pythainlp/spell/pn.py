@@ -11,7 +11,7 @@ def P(word, N=sum(WORDS.values())):
     'Probability of `word`.'
     return WORDS[word] / N
 def correction(word):
-    'แสดงความที่เป็นไปได้มากที่สุด'
+    'แสดงคำที่เป็นไปได้มากที่สุด'
     return max(spell(word), key=P)
 def known(words):
     return list(w for w in words if w in WORDS)

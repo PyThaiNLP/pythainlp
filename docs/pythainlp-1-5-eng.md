@@ -76,6 +76,10 @@ Tokenizer by using spaces
 >>> WhitespaceTokenizer("ทดสอบ ตัดคำช่องว่าง")
 ['ทดสอบ', 'ตัดคำช่องว่าง']
 ```
+#### isthai
+
+check
+
 ### Thai postaggers
 
 ```python
@@ -127,12 +131,35 @@ return dict {words: number of keywords}
 
 ### Spell Check 
 
+```python
+spell(word,engine='pn')
+```
+engine
+
+- 'pn' code from Peter Norvig
+- 'hunspell' using hunspell
+
 Before using this module,  please install hunspell and hunspell-th.
 
 ```python
 from pythainlp.spell import *
 a=spell("สี่เหลียม")
-print(a) # ['สี่เหลี่ยม', 'เสียเหลี่ยม', 'เหลี่ยม']
+print(a) # ['สี่เหลี่ยม']
+```
+#### pn
+
+```python
+correction(word)
+```
+
+Show word possible
+
+**Sample usage**
+
+```python
+from pythainlp.spell.pn import correction
+a=correction("สี่เหลียม")
+print(a) # ['สี่เหลี่ยม']
 ```
 ### number
 
@@ -255,6 +282,26 @@ ngrams(token,num)
 - token - list
 - num - ngrams
 
+#### bigrams
+
+for building bigrams
+
+```python
+bigrams(token)
+```
+
+- token - list
+
+#### trigram
+
+for building trigram
+
+```python
+trigram(token)
+```
+
+- token - list
+
 ### Corpus
 
 #### Thai stopword
@@ -293,6 +340,18 @@ get_data()
 from pythainlp.corpus.newthaiword import get_data # new data
 get_data()
 ```
+
+#### ConceptNet
+
+Thai tool for ConceptNet.
+
+**find edges**
+
+```python
+edges(word,lang='th')
+```
+
+return dict
 
 #### Thai WordNet
 
@@ -336,4 +395,27 @@ Synset('one.s.05')
 ['สปาย', 'สายลับ']
 ```
 
-### 
+#### TNC
+
+Tool for Thai National Corpus (http://www.arts.chula.ac.th/~ling/TNC/index.php)
+
+##### word_frequency
+
+find word frequency
+
+```python
+word_frequency(word,domain='all')
+```
+domain
+
+- all
+- imaginative
+- natural-pure-science
+- applied-science
+- social-science
+- world-affairs-history
+- commerce-finance
+- arts
+- belief-thought
+- leisure
+- others

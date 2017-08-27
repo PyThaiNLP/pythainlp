@@ -525,6 +525,18 @@ text_list คือ ข้อความภาษาไทยที่อยู
 ["[LOC : 'หนองคาย']", 'เป็น', 'เมือง', 'น่าอยู่', 'อันดับ', 'ต้น', 'ๆ', 'ของ', 'โลก', 'นอกจากนี้', 'ยัง', 'มี', "[LOC : 'เชียงใหม่']"]
 ```
 
+#### ConceptNet
+
+เครื่องมือสำหรับ ConceptNet.
+
+**ค้นหา edges**
+
+```python
+edges(word,lang='th')
+```
+
+return dict
+
 #### TNC
 
 สำหรับใช้จัดการกับ Thai National Corpus (http://www.arts.chula.ac.th/~ling/TNC/index.php)

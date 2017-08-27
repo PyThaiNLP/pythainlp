@@ -1,6 +1,10 @@
 ﻿# -*- coding: utf-8 -*-
 from setuptools import setup
 from setuptools import find_packages
+import codecs
+with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
+    readme = readme_file.read()
+readme_file.close()
 requirements = [
     'pyicu',
     'nltk>=3.2.2',
@@ -18,6 +22,7 @@ setup(
     name='pythainlp',
     version='1.5',
     description="Thai natural language processing in Python package.",
+    long_description=readme,
     author='Wannaphong Phatthiyaphaibun',
     author_email='wannaphong@yahoo.com',
     url='https://github.com/wannaphongcom/pythainlp',

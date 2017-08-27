@@ -1,18 +1,21 @@
 =========
-PyThaiNLP
+PyThaiNLP 1.5
 =========
 
-เวชั่น 1.4
+Thai natural language processing in Python.
 
-โมดูลประมวลผลภาษาธรรมชาติภาษาไทยใน Python
+PyThaiNLP is a python module similar to nltk , but it's working primarily on
 
-รองรับ Python 3.4 ขึ้นไปเท่านั้น
+Thai language instead of English.
 
-**ติดตั้ง**
+It supports both Python 2.7 and Python 3.
+
+
+**Install**
 
 pip install pythainlp
 
-เอกสาร `https://github.com/wannaphongcom/pythainlp <https://github.com/wannaphongcom/pythainlp>`_
+Docs `https://github.com/wannaphongcom/pythainlp <https://github.com/wannaphongcom/pythainlp>`_
 
 
 License

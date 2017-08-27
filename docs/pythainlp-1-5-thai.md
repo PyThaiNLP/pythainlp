@@ -42,7 +42,7 @@ $ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip i
 
 ## API
 
-### pythainlp.tokenize
+### tokenize
 
 #### word_tokenize
 

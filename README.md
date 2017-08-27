@@ -4,9 +4,9 @@
 [![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
 [![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=develop)](https://travis-ci.org/wannaphongcom/pythainlp)
 [![Build status](https://ci.appveyor.com/api/projects/status/uxerymgggp1uch0p?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp)
-[![Coverage Status](https://coveralls.io/repos/github/wannaphongcom/pythainlp/badge.svg?branch=pythainlp1.4)](https://coveralls.io/github/wannaphongcom/pythainlp?branch=pythainlp1.4)
+[![Coverage Status](https://coveralls.io/repos/github/wannaphongcom/pythainlp/badge.svg)](https://coveralls.io/github/wannaphongcom/pythainlp)
 
-## English
+Homepags : https://sites.google.com/view/pythainlp/
 
 Thai natural language processing in Python.
 
@@ -15,17 +15,9 @@ Thai language instead of English.
 
 It supports both Python 2.7 and Python 3.
 
-### Project status
-
-Developing
-
-### Version
-
-1.5
-
 ### Capability
 
-- Thai segment
+- Thai segmentation
 - Thai wordnet
 - Thai Character Clusters (TCC) and ETCC
 - Thai stop word
@@ -45,39 +37,17 @@ and much more.
 $ pip install pythainlp
 ```
 
-**Install on  Windows**
-
-Download `pyicu` from [http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu) then install `pyicu`. Install `pythainlp` using `pip`.
-
-```
-pip install pythainlp
-```
-
-**Install on MacOS**
-
-```sh
-$ brew install icu4c --force
-$ brew link --force icu4c
-$ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pythainlp
-```
-
-more detailed information https://medium.com/data-science-cafe/install-polyglot-on-mac-3c90445abc1f#.rdfrorxjx
+more read on [https://sites.google.com/view/pythainlp/english/install](https://sites.google.com/view/pythainlp/english/install)
 
 ### Documentation
 
-Read on https://github.com/wannaphongcom/pythainlp/blob/dev/docs/pythainlp-1-5-eng.md
+Read on [https://sites.google.com/view/pythainlp/english](https://sites.google.com/view/pythainlp/english)
 
 ### License
 
 Apache Software License 2.0
 
 ## ภาษาไทย
-
-[![PyPI Downloads](https://img.shields.io/pypi/dm/pythainlp.png)]
-[![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
-[![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=develop)](https://travis-ci.org/wannaphongcom/pythainlp)
-[![Build status](https://ci.appveyor.com/api/projects/status/uxerymgggp1uch0p?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp)
-[![Coverage Status](https://coveralls.io/repos/github/wannaphongcom/pythainlp/badge.svg?branch=pythainlp1.4)](https://coveralls.io/github/wannaphongcom/pythainlp?branch=pythainlp1.4)
 
 ประมวลภาษาธรรมชาติภาษาไทยในภาษา Python
 
@@ -88,17 +58,6 @@ Natural language processing หรือ การประมวลภาษา
 รองรับ Python 2.7 และ Python 3
 
   - หน้าหลัก GitHub :  [https://github.com/wannaphongcom/pythainlp](https://github.com/wannaphongcom/pythainlp)
-
-### สถานะโครงการ
-
-กำลังพัฒนา 
-
-### Version
-1.5
-
-### สิ่งใหม่ที่เพิ่มเข้ามาใน PyThaiNLP 1.5
-
-- กลับมารองรับ  Python 2.7 แล้ว
 
 ### ความสามารถ
   - ตัดคำภาษาไทย
@@ -125,31 +84,7 @@ Natural language processing หรือ การประมวลภาษา
 $ pip install pythainlp
 ```
 
-**วิธีติดตั้งสำหรับ Windows**
-
-ให้ทำการติดตั้ง pyicu โดยใช้ไฟล์ .whl จาก [http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu) 
-
-หากใช้ python 3.5 64 bit ให้โหลด PyICU‑1.9.7‑cp35‑cp35m‑win_amd64.whl แล้วเปิด cmd ใช้คำสั่ง
-
-```
-pip install PyICU‑1.9.7‑cp35‑cp35m‑win_amd64.whl
-```
-
-แล้วจึงใช้ 
-
-```
-pip install pythainlp
-```
-
-**ติดตั้งบน Mac**
-
-```sh
-$ brew install icu4c --force
-$ brew link --force icu4c
-$ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip install pythainlp
-```
-
-ข้อมูลเพิ่มเติม [คลิกที่นี้](https://medium.com/data-science-cafe/install-polyglot-on-mac-3c90445abc1f#.rdfrorxjx)
+อ่านเพิ่มเติมใน [https://sites.google.com/view/pythainlp/ภาษาไทย/install](https://sites.google.com/view/pythainlp/ภาษาไทย/install)
 
 
 ### เอกสารการใช้งาน

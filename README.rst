@@ -15,11 +15,17 @@ It supports both Python 2.7 and Python 3.
 
 pip install pythainlp
 
-Docs `https://github.com/wannaphongcom/pythainlp <https://github.com/wannaphongcom/pythainlp>`_
+Homepags : `https://sites.google.com/view/pythainlp/ <https://sites.google.com/view/pythainlp/>`_
+
+GitHub : https://github.com/wannaphongcom/pythainlp
+
+Development Lead
+----------------
+
+* Wannaphong Phatthiyaphaibun <wannaphong@kkumail.com>
 
 
 License
 ~~~~~~~
 
 Apache Software License 2.0
-

@@ -89,7 +89,7 @@ $ pip install pythainlp
 
 ### เอกสารการใช้งาน
 
-อ่านได้ที่  https://github.com/wannaphongcom/pythainlp/blob/dev/docs/pythainlp-1-5-thai.md
+อ่านได้ที่  [https://sites.google.com/view/pythainlp/ภาษาไทย](https://sites.google.com/view/pythainlp/ภาษาไทย)
 
 ### License
 

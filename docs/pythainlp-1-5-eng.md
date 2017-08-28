@@ -41,6 +41,19 @@ d=word_tokenize(text,engine='pylexto') # ['ผม', 'รัก', 'คุณ', '�
 e=word_tokenize(text,engine='newmm') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
 ```
 
+#### sent_tokenize
+
+Thai Sentence Tokenizer
+
+```python
+sent_tokenize(text,engine='whitespace')
+```
+
+engine :
+
+- whitespace
+- whitespace+newline
+
 #### Thai Character Clusters (TCC)
 
 TCC : Mr.Jakkrit TeCho

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
 import nltk
+import re
 from six.moves import zip
 def word_tokenize(text,engine='icu'):
 	"""
@@ -72,6 +73,8 @@ def sent_tokenize(text,engine='whitespace'):
 	'''
 	if engine=='whitespace':
 		data=nltk.tokenize.WhitespaceTokenizer().tokenize(text)
+	elif engine=='whitespace+newline':
+		data=re.sub(r'\n+|\s+','|',text,re.U).split('|')
 	return data
 def wordpunct_tokenize(text):
 	'''

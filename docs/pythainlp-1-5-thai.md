@@ -89,9 +89,12 @@ sent_tokenize(text,engine='whitespace')
 
 text คือ ข้อความในรูปแบบสตริง
 
-engine คือ เครื่องมือสำหรับใช้ตัดประโยค ปัจจุบันรองรับเฉพาะ whitespace ตัดประโยคจากช่องว่าง
+engine คือ เครื่องมือสำหรับใช้ตัดประโยค
 
-คืนค่า ออกเป็น list
+- whitespace ตัดประโยคจากช่องว่าง
+- whitespace+newline ตัดประโยคจากช่องว่างและตัดจากการขึ้นบรรทัดใหม่
+
+คืนค่า ออกมาเป็น list
 
 #### WhitespaceTokenizer
 

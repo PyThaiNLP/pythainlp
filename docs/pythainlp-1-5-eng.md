@@ -46,13 +46,13 @@ e=word_tokenize(text,engine='newmm') # ['ผม', 'รัก', 'คุณ', 'น
 Thai Sentence Tokenizer
 
 ```python
-sent_tokenize(text,engine='whitespace')
+sent_tokenize(text,engine='whitespace+newline')
 ```
 
 engine :
 
-- whitespace
-- whitespace+newline
+- whitespace - tokenizer from whitespace
+- whitespace+newline - tokenizer from whitespace and newline.
 
 #### Thai Character Clusters (TCC)
 

@@ -84,7 +84,7 @@ e=word_tokenize(text,engine='newmm') # ['ผม', 'รัก', 'คุณ', 'น
 ใช้ตัดประโยคภาษาไทย
 
 ```python
-sent_tokenize(text,engine='whitespace')
+sent_tokenize(text,engine='whitespace+newline')
 ```
 
 text คือ ข้อความในรูปแบบสตริง

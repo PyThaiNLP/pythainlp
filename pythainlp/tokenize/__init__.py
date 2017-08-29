@@ -62,13 +62,9 @@ def word_tokenize(text,engine='icu'):
 			'''
     		from .wordcutpy import segment
 	return segment(text)
-def sent_tokenize(text,engine='whitespace'):
+def sent_tokenize(text,engine='whitespace+newline'):
 	'''
-	sent_tokenize(text,engine='whitespace')
-
-	TODO
-	ยังไม่สมบูรณ์
-
+	sent_tokenize(text,engine='whitespace+newline')
 	ตัดประโยคเบื้องต้น โดยการแบ่งด้วยช่องว่าง
 	'''
 	if engine=='whitespace':

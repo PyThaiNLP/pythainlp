@@ -5,8 +5,6 @@ from string import punctuation
 from collections import defaultdict
 from pythainlp.tokenize import sent_tokenize, word_tokenize
 from heapq import nlargest
-
-
 class FrequencySummarizer:
     def __init__(self, min_cut=0.1, max_cut=0.9):
         self._min_cut = min_cut
@@ -41,10 +39,10 @@ class FrequencySummarizer:
                     ranking[i] += self._freq[w]
         sents_idx = self._rank(ranking,n)
         return [sents[j] for j in sents_idx]
-def summarize(text,n,engine='frequency'):
+def summarize_text(text,n,engine='frequency'):
     '''
     คำสั่งสรุปเอกสารภาษาไทย
-    summarize(text,n,engine='frequency')
+    summarize_text(text,n,engine='frequency')
     text เป็นข้อความ
     n คือ จำนวนประโยคสรุป
     engine ที่รองรับ

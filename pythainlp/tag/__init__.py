@@ -21,11 +21,11 @@ def pos_tag(text,engine='old'):
 						from artagger import Tagger
 					except ImportError:
 						import pip
-						pip.main(['install','https://github.com/franziz/artagger/archive/master.zip'])
+						pip.main(['install','https://github.com/wannaphongcom/artagger/archive/master.zip'])
 						try:
 							from artagger import Tagger
 						except ImportError:
-							print("Error ! using 'pip install https://github.com/franziz/artagger/archive/master.zip'")
+							print("Error ! using 'pip install https://github.com/wannaphongcom/artagger/archive/master.zip'")
 							sys.exit(0)
 					tagger = Tagger()
 					words = tagger.tag(' '.join(text1))

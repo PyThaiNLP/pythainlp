@@ -17,6 +17,7 @@ from pythainlp.MetaSound import MetaSound
 from pythainlp.spell import spell
 from collections import namedtuple
 from pythainlp.collation import collation
+from pythainlp.util import normalize
 class TestUM(unittest.TestCase):
 	"""
 	ระบบทดสอบการทำงานของโค้ดของ PyThaiNLP 1.5
@@ -65,6 +66,8 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(provinces.get_data()!=None,True)
 	def test_collation(self):
     		self.assertEqual(collation(['ไก่','กก']),[u'กก', u'ไก่'])
+	def test_normalize(self):
+    		self.assertEqual(normalize(u"เเปลก")==u"แปลก",True)
 	def test_keywords(self):
     		self.assertEqual(find_keyword(word_tokenize("แมวกินปลาอร่อยรู้ไหมว่าแมวเป็นแมวรู้ไหมนะแมว",engine='newmm')),{u'แมว': 4})
 	def test_tag(self):

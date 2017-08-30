@@ -29,7 +29,6 @@ class FrequencySummarizer:
 
     def summarize(self, text, n):
         sents = sent_tokenize(text)
-        assert n <= len(sents)
         word_sent = [word_tokenize(s) for s in sents]
         self._freq = self._compute_frequencies(word_sent)
         ranking = defaultdict(int)

@@ -315,6 +315,21 @@ trigram(token)
 
 - token - list
 
+#### normalize
+
+fix thai text
+
+```python
+normalize(text)
+```
+
+**Example**
+
+```python
+>>> print(normalize("เเปลก")=="แปลก") # เ เ ป ล ก กับ แปลก
+True
+```
+
 ### Corpus
 
 #### Thai stopword

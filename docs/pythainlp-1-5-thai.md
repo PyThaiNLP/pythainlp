@@ -415,6 +415,21 @@ trigram(token)
 
 - token คือ list
 
+#### normalize
+
+ซ่อมข้อความภาษาไทย เช่น กี่่่ ไปเป็น กี่
+
+```python
+normalize(text)
+```
+
+**ตัวอย่าง**
+
+```python
+>>> print(normalize("เเปลก")=="แปลก") # เ เ ป ล ก กับ แปลก
+True
+```
+
 ### Corpus
 
 #### WordNet ภาษาไทย

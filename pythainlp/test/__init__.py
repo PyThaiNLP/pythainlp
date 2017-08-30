@@ -67,7 +67,7 @@ class TestUM(unittest.TestCase):
 	def test_collation(self):
     		self.assertEqual(collation(['ไก่','กก']),[u'กก', u'ไก่'])
 	def test_normalize(self):
-    		self.assertEqual(normalize(u"เเปลก")==u"แปลก",True)
+    		self.assertEqual(normalize("เเปลก"),"แปลก")
 	def test_keywords(self):
     		self.assertEqual(find_keyword(word_tokenize("แมวกินปลาอร่อยรู้ไหมว่าแมวเป็นแมวรู้ไหมนะแมว",engine='newmm')),{u'แมว': 4})
 	def test_tag(self):

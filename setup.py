@@ -25,7 +25,7 @@ setup(
     long_description=readme,
     author='Wannaphong Phatthiyaphaibun',
     author_email='wannaphong@yahoo.com',
-    url='https://github.com/wannaphongcom/pythainlp',
+    url='https://sites.google.com/view/pythainlp/',
     packages=find_packages(),
     test_suite='pythainlp.test',
     package_data={'pythainlp.corpus':['stopwords-th.txt','thaipos.json','thaiword.txt','corpus_license.md','tha-wn.db','new-thaidict.txt','negation.txt','provinces.csv'],'pythainlp.sentiment':['vocabulary.data','sentiment.data']},

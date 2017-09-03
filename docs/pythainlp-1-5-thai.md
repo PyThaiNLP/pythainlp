@@ -374,7 +374,7 @@ from pythainlp.sentiment import sentiment
 sentiment(str)
 ```
 
-รับค่า str ส่งออกเป็น pos , neg หรือ neutral
+รับค่า str ส่งออกเป็น pos , neg
 
 ### Util
 

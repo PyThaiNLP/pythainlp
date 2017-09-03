@@ -20,5 +20,3 @@ def newdata():
 	with codecs.open(fileload('new-thaidict.txt'), 'r',encoding='utf-8-sig') as f:
 		lines = f.read().splitlines()
 	return lines
-if __name__ == "__main__":
-	print((data()))

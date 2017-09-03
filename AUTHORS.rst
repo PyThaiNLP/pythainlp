@@ -5,7 +5,7 @@ Credits
 Development Lead
 ----------------
 
-* Wannaphong Phatthiyaphaibun <wannaphong@yahoo.com>
+* Wannaphong Phatthiyaphaibun <wannaphong@kkumail.com>
 
 TCC & THAI SOUNDEX CODE
 ------------

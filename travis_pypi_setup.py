@@ -17,7 +17,7 @@ from cryptography.hazmat.primitives.asymmetric.padding import PKCS1v15
 
 try:
     from urllib import urlopen
-except:
+except ImportError:
     from urllib.request import urlopen
 
 
@@ -80,7 +80,7 @@ def prepend_line(filepath, line):
 
 def load_yaml_config(filepath):
     with open(filepath) as f:
-        return yaml.load(f)
+        return yaml.safe_load(f)
 
 
 def save_yaml_config(filepath, config):
@@ -114,7 +114,7 @@ if '__main__' == __name__:
     import argparse
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--repo', default=GITHUB_REPO,
-                        help='GitHub repo (default: %s)' % GITHUB_REPO)
+                        help='GitHub repo (default: {0!s})'.format(GITHUB_REPO))
     parser.add_argument('--password',
                         help='PyPI password (will prompt if not provided)')
 

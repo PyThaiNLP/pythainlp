@@ -1,4 +1,5 @@
-﻿from __future__ import absolute_import,unicode_literals
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import,unicode_literals
 def get_data():
 	"""เป็นคำสั่งดึงชื่อประเทศในโลก รูปแบบภาษาไทย
 	คืนค่า list

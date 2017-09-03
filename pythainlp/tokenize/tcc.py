@@ -1,9 +1,11 @@
+﻿# -*- coding: utf-8 -*-
+from __future__ import absolute_import,division,unicode_literals,print_function
 """
 โปรแกรม TCC ภาษาไทย
 เดติด
 TCC : Mr.Jakkrit TeCho
 grammar : คุณ Wittawat Jitkrittum (https://github.com/wittawatj/jtcc/blob/master/TCC.g)
-โค้ด : คุณ Korakot Chaovavanich 
+โค้ด : คุณ Korakot Chaovavanich
 """
 import re
 pat_list = """\
@@ -66,5 +68,5 @@ def tcc(w, sep='/'):
 if __name__ == '__main__':
     print(tcc('แมวกิน'))
     print(tcc('ประชาชน'))
-    print(tcc('ขุด')+'/'+tcc('หลุม'))
+    print(tcc('ขุดหลุม'))
     print(tcc('ยินดี'))

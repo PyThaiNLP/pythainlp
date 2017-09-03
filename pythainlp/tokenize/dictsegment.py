@@ -11,9 +11,7 @@ def segment(string):
     if result:
         result.pop() # Remove the empty string token
         result.reverse() # Put the list into correct order
-        return result
-    else:
-        return result
+    return result
 
 def tokenize(string, wset, token):
     """Returns either false if the string can't be segmented by 

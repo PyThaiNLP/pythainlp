@@ -3,7 +3,7 @@
 from __future__ import absolute_import,division,print_function,unicode_literals
 from builtins import dict
 from builtins import int
-import math,six
+import math,six,ast
 p = [[u'ภาษาไทย', u'ตัวเลข',u'เลขไทย'],
      [u'หนึ่ง', u'1', u'๑'],
      [u'สอง', u'2', u'๒'],
@@ -18,32 +18,32 @@ thaitonum = dict((x[2], x[1]) for x in p[1:])
 p1 = dict((x[0], x[1]) for x in p[1:])
 d1 = 0
 #เลขไทยสู่เลข
-def nttn(text):
+def thai_num_to_num(text):
 	"""รับค่า ''str'' คืนค่า ''str'' เป็นเลขไทยสู่เลข"""
 	thaitonum = dict((x[2], x[1]) for x in p[1:])
 	return thaitonum[text]
 #เลขไทยสู่ข้อความ
-def nttt(text):
+def thai_num_to_text(text):
 	"""รับค่า ''str'' คืนค่า ''str'' เป็นเลขไทยสู่ข้อความ"""
 	thaitonum = dict((x[2], x[0]) for x in p[1:])
 	return thaitonum[text]
 #เลขสู่เลขไทย
-def ntnt(text):
+def num_to_thai_num(text):
 	"""รับค่า ''str'' คืนค่า ''str'' เป็นเลขสู่เลขไทย"""
 	thaitonum = dict((x[1], x[2]) for x in p[1:])
 	return thaitonum[text]
 #เลขสู่ข้อความ
-def ntt(text):
+def num_to_text(text):
 	"""รับค่า ''str'' คืนค่า ''str'' เป็นเลขสู่ข้อความ"""
 	thaitonum = dict((x[1], x[0]) for x in p[1:])
 	return thaitonum[text]
 #ข้อความสู่เลข
-def ttn(text):
+def text_to_num(text):
 	"""รับค่า ''str'' คืนค่า ''str'' เป็นข้อความสู่เลข"""
 	thaitonum = dict((x[0], x[1]) for x in p[1:])
 	return thaitonum[text]
 #ข้อความสู่เลขไทย
-def ttnt(text):
+def text_to_thai_num(text):
 	"""รับค่า ''str'' คืนค่า ''str'' เป็นข้อความสู่เลขไทย"""
 	thaitonum = dict((x[0], x[2]) for x in p[1:])
 	return thaitonum[text]
@@ -62,7 +62,7 @@ def numtowords(amount_number):
 		number = amount_number[0]
 		fraction = int(amount_number1[1]) 
 	ret = ""
-	number=eval(number.replace(",",""))
+	number=ast.literal_eval(number.replace(",",""))
 	baht = ReadNumber(number)
 	if (baht != ""):
 		ret += baht + "บาท"
@@ -105,4 +105,4 @@ def ReadNumber(number):
 		pos += 1
 	return ret
 if __name__ == "__main__":
-  print(ntt('4'))
+  print(numtowords(4000.0))

@@ -5,12 +5,12 @@ try:
     import deepcut
 except ImportError:
 	'''
-    ในกรณ๊ที่ยังไม่ติดตั้ง deepcut ในระบบ
+    ในกรณีที่ยังไม่ติดตั้ง deepcut ในระบบ
     '''
 	import pip
 	pip.main(['install','deepcut'])
 	try:
-		from pylexto import LexTo
+		import deepcut
 	except ImportError:
 		sys.exit('Error ! using pip install deepcut')
 def segment(text):

@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import,division,unicode_literals,print_function
+from builtins import *
 '''
 MetaSound
 
@@ -8,7 +11,13 @@ Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statisti
 import re
 def MetaSound(name):
     '''
-    MetaSound(str)
+    MetaSound(str) ภาษาไทย
+
+    >>> MetaSound('รัก')
+    '501'
+    >>> MetaSound('ลัก')
+    '501'
+
     '''
     name1=list(name)
     count=len(name1)

@@ -1,0 +1,6 @@
+site_name: PyThaiNLP
+theme: readthedocs
+pages:
+- Home: index.md
+- English: pythainlp-1-4-eng.md
+- Thai: pythainlp-1-4-thai.md

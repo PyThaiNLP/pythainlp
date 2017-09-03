@@ -12,10 +12,10 @@ def texttothai(data):
 	data = list(data)
 	data2 = ""
 	for a in data:
-		try:
-			a = dictdata[a]
-		except:
-			a = a
+		if a in dictdata:
+    			a = dictdata[a]
+		else:
+    			a = a
 		data2+=a
 	del data
 	return data2
@@ -27,10 +27,10 @@ def texttoeng(data):
 	data2 = ""
 	dictdataeng= {v: k for k, v in six.iteritems(dictdata)}
 	for a in data:
-		try:
-			a = dictdataeng[a]
-		except:
-			a = a
+		if a in dictdataeng:
+    			a = dictdataeng[a]
+		else:
+    			a = a
 		data2+=a
 	return data2
 if __name__ == "__main__":

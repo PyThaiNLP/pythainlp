@@ -5,14 +5,14 @@ based on algorithm from
 http://www.aclweb.org/anthology/E14-4016
 
 fork from https://github.com/narongdejsrn/pythaiwordcut
-License: MIT 
+License: MIT
 '''
 
 from __future__ import print_function
 from six.moves import range,zip
 import codecs
 import re
-from .thai import newdata # load dictionary
+from .thai import data as newdata # load dictionary
 from pythainlp.corpus import stopwords # load  stopwords
 import marisa_trie
 

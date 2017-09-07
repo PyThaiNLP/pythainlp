@@ -2,7 +2,7 @@
 from __future__ import absolute_import,unicode_literals
 import unittest,six,sys
 from collections import Counter
-from pythainlp.corpus import alphabet,wordnet,country,tone,provinces
+from pythainlp.corpus import alphabet,wordnet,country,tone,provinces,stopwords,newthaiword,thaiword
 from pythainlp.keywords import *
 from pythainlp.tokenize import word_tokenize,tcc,etcc
 from pythainlp.rank import rank
@@ -12,7 +12,6 @@ from pythainlp.tag import pos_tag
 from pythainlp.romanization import romanization
 from pythainlp.date import now,reign_year_to_ad
 from pythainlp.soundex import LK82,Udom83
-from pythainlp.corpus import stopwords
 from pythainlp.MetaSound import MetaSound
 from pythainlp.spell import spell
 from collections import namedtuple
@@ -67,6 +66,7 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(country.get_data()!=None,True)
 		self.assertEqual(tone.get_data()!=None,True)
 		self.assertEqual(provinces.get_data()!=None,True)
+		self.assertEqual(len(newthaiword.get_data())>len(thaiword.get_data()),True)
 	def test_collation(self):
     		self.assertEqual(collation(['ไก่','กก']),[u'กก', u'ไก่'])
 	def test_normalize(self):

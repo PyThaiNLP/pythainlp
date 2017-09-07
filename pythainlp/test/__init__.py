@@ -41,6 +41,10 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(romanization("แมว"),'mæw')
 	def test_romanization2(self):
 		self.assertEqual(romanization("แมว",engine="royin"),'maeo')
+		self.assertEqual(romanization("เดือน",engine="royin"),'duean')
+		self.assertEqual(romanization("ดู",engine="royin"),'du')
+		self.assertEqual(romanization("ดำ",engine="royin"),'dam')
+		self.assertEqual(romanization("บัว",engine="royin"),'bua')
 	def test_number(self):
 		self.assertEqual(numtowords(5611116.50),'ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์')
 	def test_tcc(self):

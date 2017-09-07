@@ -10,7 +10,7 @@ from pythainlp.change import texttothai,texttoeng
 from pythainlp.number import numtowords
 from pythainlp.tag import pos_tag
 from pythainlp.romanization import romanization
-from pythainlp.date import now
+from pythainlp.date import now,reign_year_to_ad
 from pythainlp.soundex import LK82,Udom83
 from pythainlp.corpus import stopwords
 from pythainlp.MetaSound import MetaSound
@@ -59,6 +59,9 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(stopwords.words('thai')!=None,True)
 	def test_spell(self):
 		self.assertEqual(spell('เน้ร')!=None,True)
+	def test_date(self):
+		self.assertEqual(now()!=None,True)
+		self.assertEqual(reign_year_to_ad(2,10),2017)
 	def test_corpus(self):
 		self.assertEqual(alphabet.get_data()!=None,True)
 		self.assertEqual(country.get_data()!=None,True)

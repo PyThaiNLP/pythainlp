@@ -1,4 +1,4 @@
-pyicu
+pyicu==1.9.7
 nltk>=3.2.2
 future>=0.16.0
 six==1.10.0

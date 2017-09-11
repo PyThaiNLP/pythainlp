@@ -4,4 +4,4 @@ future>=0.16.0
 six==1.10.0
 marisa_trie==0.7.4
 langdetect==1.0.7
-requests
+requests==2.18.4

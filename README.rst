@@ -1,6 +1,6 @@
-=========
-PyThaiNLP 1.5
-=========
+================
+PyThaiNLP 1.5.1
+================
 
 Thai natural language processing in Python.
 
@@ -20,12 +20,10 @@ Homepags : `https://sites.google.com/view/pythainlp/ <https://sites.google.com/v
 GitHub : https://github.com/wannaphongcom/pythainlp
 
 Development Lead
-----------------
 
 * Wannaphong Phatthiyaphaibun <wannaphong@kkumail.com>
 
 
-License
-~~~~~~~
+**License**
 
 Apache Software License 2.0

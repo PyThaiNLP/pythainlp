@@ -20,8 +20,8 @@ class wordcut(object):
     """
     ตัดคำภาษาไทยด้วย Maximum Matching algorithm
     """
-    def __init__(self, removeRepeat=True, keyDictionary="", stopDictionary="", removeSpaces=True, minLength=1, stopNumber=False, removeNonCharacter=False, caseSensitive=True, ngram=(1,1), negation=False):
-        d = newdata() # load dictionary
+    def __init__(self, removeRepeat=True, keyDictionary="", stopDictionary="", removeSpaces=True, minLength=1, stopNumber=False, removeNonCharacter=False, caseSensitive=True, ngram=(1,1), negation=False,data=""):
+        d = data # load dictionary
         # load negation listdir
         self.negationDict = []
         if negation:
@@ -288,9 +288,9 @@ def mergelistlen(listdata,lennum):
         listlen=len(listdata)
         i+=1
     return listdata
-def segment(text):
+def segment(text,data=newdata()):
     '''
     ใช้ในการตัดตำ segment(str) คืนค่า list
     '''
-    pt = wordcut(stopNumber=False, removeNonCharacter=True, caseSensitive=False,removeRepeat=True)
+    pt = wordcut(stopNumber=False, removeNonCharacter=True, caseSensitive=False,removeRepeat=True,data=data)
     return mergelistlen(pt.segment(text),1)

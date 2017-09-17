@@ -5,12 +5,12 @@ from builtins import *
 # โค้ดจาก https://stackoverflow.com/a/11642687
 from pythainlp.corpus.thaiword import get_data # ข้อมูลเก่า
 from math import log
-words=get_data()
 import re
-wordcost = dict((k, log((i+1)*log(len(words)))) for i,k in enumerate(words))
-maxword = max(len(x) for x in words)
-def segment(s):
+def segment(s,data=get_data()):
     """ตัดคำภาษาไทยด้วย Longest matching"""
+    words=data
+    wordcost = dict((k, log((i+1)*log(len(words)))) for i,k in enumerate(words))
+    maxword = max(len(x) for x in words)
 
     # Find the best match for the i first characters, assuming cost has
     # been built for the i-1 first characters.

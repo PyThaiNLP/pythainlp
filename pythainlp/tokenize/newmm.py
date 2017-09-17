@@ -11,7 +11,6 @@ import re
 from marisa_trie import Trie
 from collections import defaultdict
 from pythainlp.corpus.thaiword import get_data
-trie = Trie(get_data())
 class LatticeString(str):
     ''' String subclass เพื่อเก็บวิธีตัดหลายๆ วิธี
     '''
@@ -36,11 +35,11 @@ spat_eng = r'''(?x)
 '''
 pat_eng = re.compile(spat_eng)
 
-def multicut(text):
+def multicut(text,data=get_data()):
     ''' ส่งคืน LatticeString คืนมาเป็นก้อนๆ
     '''
     words_at = defaultdict(list)  # main data structure
-
+    trie = Trie(data)
     def serialize(p, p2):    # helper function
         for w in words_at[p]:
             p_ = p + len(w)
@@ -116,4 +115,4 @@ def listcut(text):
 if __name__ == "__main__":
 	text='ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด'
 	print(mmcut(text))
-	print(listcut(text))
+	#print(listcut(text))

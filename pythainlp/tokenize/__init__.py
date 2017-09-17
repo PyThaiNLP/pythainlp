@@ -2,7 +2,28 @@
 from __future__ import absolute_import,unicode_literals
 import nltk
 import re
+import codecs
 from six.moves import zip
+def dict_word_tokenize(text,file,engine="newmm"):
+	'''
+	dict_word_tokenize(text,file,engine)
+	เป็นคำสั่งสำหรับตัดคำโดยใช้ข้อมูลที่ผู้ใช้กำหนด
+	text คือ ข้อความที่ต้องการตัดคำ
+	file คือ ที่ตั้งไฟล์ที่ต้องการมาเป็นฐานข้อมูลตัดคำ
+	engine คือ เครื่องมือตัดคำ
+	- newmm ตัดคำด้วย newmm
+	- mm ตัดคำด้วย mm
+	'''
+	with codecs.open(file, 'r',encoding='utf8') as f:
+		lines = f.read().splitlines()
+	f.close()
+	if engine=="newmm":
+		from .newmm import mmcut as segment
+	elif engine=="mm":
+		from .mm import segment
+	elif engine=='longest-matching':
+		from .longest import segment
+	return segment(text,data=lines)
 def word_tokenize(text,engine='icu'):
 	"""
 	ระบบตัดคำภาษาไทย

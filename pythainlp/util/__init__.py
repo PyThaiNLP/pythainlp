@@ -83,3 +83,13 @@ def normalize(text):
     for data in list(zip(rule1,rule1)):
         text=re.sub(data[0].replace(u"t",u"[่้๊๋]")+"+",data[1],text,re.U)
     return text
+def deletetone(data):
+	'''โค้ดส่วนตัดวรรณยุกต์ออก'''
+	for tone in ['่','้','๊','๋']:
+		if (re.search(tone,data)):
+				data = re.sub(tone,'',data)
+	if re.search(u'\w'+'์',data, re.U):
+		search=re.findall(u'\w'+'์',data, re.U)
+		for i in search:
+				data=re.sub(i,'',data,flags=re.U)
+	return data

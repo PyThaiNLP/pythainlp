@@ -2,6 +2,7 @@
 from __future__ import absolute_import,division,unicode_literals,print_function
 from builtins import *
 '''
+โปรแกรม multi-cut
 ตัดคำภาษาไทยโดยใช้ Maximum Matching algorithm
 เดติดโค้ดต้นฉบับ คุณ Korakot Chaovavanich
 จาก https://www.facebook.com/groups/408004796247683/permalink/431283740586455/
@@ -84,15 +85,10 @@ def multicut(text,data=get_data()):
             q.add(i)
 
 def mmcut(text):
-    ''' Maximum Matching algorithm ในการตัดคำภาษาไทย
-    '''
     res = []
     for w in multicut(text):
-        if w.unique:
-            res.append(w)
-        else:
-            mm = min(w.multi, key=lambda x: x.count('/'))
-            res.extend(mm.split('/'))
+        mm = min(w.multi, key=lambda x: x.count('/'))
+        res.extend(mm.split('/'))
     return res
 def combine(ww):
     if ww == []:

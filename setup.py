@@ -20,7 +20,7 @@ test_requirements = [
 
 setup(
     name='pythainlp',
-    version='1.5.2',
+    version='1.5.3',
     description="Thai natural language processing in Python package.",
     long_description=readme,
     author='Wannaphong Phatthiyaphaibun',

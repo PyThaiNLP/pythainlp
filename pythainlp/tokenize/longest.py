@@ -42,5 +42,5 @@ def segment(s,data=get_data()):
         countlist+=1
     return outall.split('|')
 if __name__ == "__main__":
-	s = 'สวัสดีชาวโลกเข้าใจกันไหมพวกคุณ โอเคกันไหม'
+	s = 'สวัสดีชาวโลกเข้าใจกันไหมพวกคุณ โอเคกันไหม ยสยา ดีแล้วนะคุณเธอ'
 	print(segment(s))

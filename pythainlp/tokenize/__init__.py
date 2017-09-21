@@ -12,7 +12,9 @@ def dict_word_tokenize(text,file,engine="newmm"):
 	file คือ ที่ตั้งไฟล์ที่ต้องการมาเป็นฐานข้อมูลตัดคำ
 	engine คือ เครื่องมือตัดคำ
 	- newmm ตัดคำด้วย newmm
+    - wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 	- mm ตัดคำด้วย mm
+    - longest-matching ตัดคำโดยใช้ longest matching
 	'''
 	with codecs.open(file, 'r',encoding='utf8') as f:
 		lines = f.read().splitlines()
@@ -23,6 +25,8 @@ def dict_word_tokenize(text,file,engine="newmm"):
 		from .mm import segment
 	elif engine=='longest-matching':
 		from .longest import segment
+	elif engine=='wordcutpy':
+		from .wordcutpy import segment
 	return segment(text,data=lines)
 def word_tokenize(text,engine='icu'):
 	"""

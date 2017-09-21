@@ -36,7 +36,7 @@ spat_eng = r'''(?x)
 '''
 pat_eng = re.compile(spat_eng)
 
-def multicut(text,data=get_data()):
+def multicut(text,data):
     ''' ส่งคืน LatticeString คืนมาเป็นก้อนๆ
     '''
     words_at = defaultdict(list)  # main data structure
@@ -84,9 +84,9 @@ def multicut(text,data=get_data()):
             last_p = i
             q.add(i)
 
-def mmcut(text):
+def mmcut(text,data=get_data()):
     res = []
-    for w in multicut(text):
+    for w in multicut(text,data=data):
         mm = min(w.multi, key=lambda x: x.count('/'))
         res.extend(mm.split('/'))
     return res

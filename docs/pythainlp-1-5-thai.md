@@ -16,21 +16,19 @@ pip install pythainlp
 
 **วิธีติดตั้งสำหรับ Windows**
 
-ให้ทำการติดตั้ง pyicu โดยใช้ไฟล์ .whl จาก [http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu) 
+การติดตั้ง pythainlp บน windows ต้องติดตั้ง pyicu ซึ่งทำได้ยากมาก
+วิธีที่ง่ายที่สุดคือใช้ wheel
 
-หากใช้ python 3.5 64 bit ให้โหลด PyICU‑1.9.7‑cp35‑cp35m‑win_amd64.whl แล้วเปิด cmd ใช้คำสั่ง
+1. [http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu) แล้ว download wheel ตาม python ตัวเองเช่น
+  ผมใช้ python x64 3.6.1 บน Windows ก็ให้ใช้ PyICU‑1.9.7‑cp36‑cp36m‑win_amd64.whl
 
-```
-pip install PyICU‑1.9.7‑cp35‑cp35m‑win_amd64.whl
-```
+2. `pip install PyICU‑1.9.7‑cp36‑cp36m‑win_amd64.whl`
 
-แล้วจึงใช้ 
-
-```
-pip install pythainlp
-```
+3. `pip install pythainlp`
 
 **ติดตั้งบน Mac**
+
+** แนะนำให้ใช้ icu 58.2 เนื่องจาก icu 59.1 มาปัญหากับ PyICU **
 
 ```sh
 $ brew install icu4c --force

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,division,unicode_literals,print_function
 import re
-import six
 vowel_data_py3="""เ*ียว,\\1iao
 แ*็ว,\\1aeo
 แ*ว,\\1aeo
@@ -50,58 +49,7 @@ vowel_data_py3="""เ*ียว,\\1iao
 *า,\\1a
 *ั,\\1a
 *ะ,\\1a"""
-vowel_data_py2="""เ*ียว,\1iao
-แ*็ว,\1aeo
-แ*ว,\1aeo
-เ*็ว,\1eo
-เ*ว,\1eo
-*ิว,\1io
-*วย,\1uai
-เ*ือย,\1ueai
-เ*ย,\1oei
-*อย,\1oi
-โ*ย,\1oi
-*ุย,\1ui
-*าย,\1ai
-ไ*ย,\1ai
-*ัย,\1ai
-ไ*,\1ai
-ใ*,\1ai
-*ว*,\1ua\2
-*ัวะ,\1ua
-*ัว,\1ua
-เ*ือะ,\1uea
-เ*ือ,\1uea
-เ*ียะ,\1ia
-เ*ีย,\1ia
-เ*อะ,\1oe
-เ*อ,\1oe
-เ*ิ,\1oe
-*อ,\1o
-เ*าะ,\1o
-โ*ะ,\1o
-โ*,\1o
-แ*ะ,\1ae
-แ*,\1ae
-เ*าะ,\1e
-*าว,\1ao
-เ*า,\1ao
-เ*็,\1e
-เ*,\1e
-*ู,\1u
-*ุ,\1u
-*ื,\1ue
-*ึ,\1ue
-*ี,\1i
-*ิ,\1i
-*ำ,\1am
-*า,\1a
-*ั,\1a
-*ะ,\1a"""
-if six.PY2:
-	vowel_data=vowel_data_py2.replace('*','([ก-ฮ])')
-else:
-	vowel_data=vowel_data_py3.replace('*','([ก-ฮ])')
+vowel_data=vowel_data_py3.replace('*','([ก-ฮ])')
 reader = [x.split(',') for x in vowel_data.split('\n')]
 def deletetone(data):
 	'''โค้ดส่วนตัดวรรณยุกต์ออก'''
@@ -180,6 +128,8 @@ def consonants(word,res):
 			elif i==0 and res[0]!="ห":
 				word=word.replace(res[0],consonants_data[res[0]][0])
 				i+=1
+			elif res[i]=="ร" and (word[i]=="ร" and len(word)==i+1):
+				word=word.replace(res[i],consonants_data[res[i]][1])
 			elif res[i]=="ร" and (word[i]=="ร" and word[i+1]=="ร"):
 				word=list(word)
 				del word[i+1]

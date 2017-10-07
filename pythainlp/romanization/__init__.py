@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
+from pythainlp.tokenize import word_tokenize
 # ถอดเสียงภาษาไทยเป็น Latin
 def romanization(data,engine='pyicu'):
 	"""เป็นคำสั่ง ถอดเสียงภาษาไทยเป็นอังกฤษ 
@@ -10,8 +11,14 @@ def romanization(data,engine='pyicu'):
 	data :
 	รับค่า ''str'' ข้อความ 
 	คืนค่าเป็น ''str'' ข้อความ"""
+	word_list=word_tokenize(data)
+	listword=[]
+	i=0
 	if engine=='royin': 
     		from .royin import romanization
 	elif engine=='pyicu':
     		from .pyicu import romanization
-	return romanization(data)
+	while i<len(word_list):
+		listword.append(romanization(word_list[i]))
+		i+=1
+	return ''.join(listword)

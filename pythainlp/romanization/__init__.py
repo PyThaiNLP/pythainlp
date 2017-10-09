@@ -21,4 +21,4 @@ def romanization(data,engine='pyicu'):
 	while i<len(word_list):
 		listword.append(romanization(word_list[i]))
 		i+=1
-	return ' '.join(listword)
+	return ''.join(listword)

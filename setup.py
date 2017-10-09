@@ -57,6 +57,7 @@ test_requirements = [
 ]
 
 setup(
+    cmdclass={'install': CustomInstallCommand},
     name='pythainlp',
     version='1.5.3',
     description="Thai natural language processing in Python package.",
@@ -79,5 +80,4 @@ setup(
         'Natural Language :: Thai',
         'Topic :: Text Processing :: Linguistic',
         'Programming Language :: Python :: Implementation'],
-    cmdclass={'install': CustomInstallCommand}
 )

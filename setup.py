@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 from setuptools import setup
 from setuptools import find_packages
-from setuptools.command.install import install
+from distutils.command.install import install as _install
 import codecs
 import platform
 import sys
@@ -9,6 +9,7 @@ import struct
 def windows_is():
     return platform.system()=='Windows'
 def icu1():
+    import pip
     if windows_is()==True:
         try:
             import icu
@@ -41,12 +42,16 @@ def icu1():
             icu='pyicu'
     else:
         icu='pyicu'
-    return icu
+    return pip.main['install',icu]
+class install(_install):
+    def run(self):
+        _install.run(self)
+        self.execute(icu1, (self.install_lib,),
+                     msg="Running post install task")
 with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
     readme = readme_file.read()
 readme_file.close()
 requirements = [
-    str(icu1()),
     'nltk>=3.2.2',
     'future>=0.16.0',
     'six',
@@ -80,4 +85,5 @@ setup(
         'Natural Language :: Thai',
         'Topic :: Text Processing :: Linguistic',
         'Programming Language :: Python :: Implementation'],
+    cmdclass={'install': install}
 )

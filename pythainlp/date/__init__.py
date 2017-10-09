@@ -6,10 +6,10 @@ except ImportError:
 	from pythainlp.icu import icu_install
 	import pip
 	pip.main(['install',icu_install()])
-    try:
-        import icu
-    except ImportError:
-        raise ImportError
+	try:
+		import icu
+	except ImportError:
+		raise ImportError
 import datetime
 now1 = datetime.datetime.now()
 # TODO

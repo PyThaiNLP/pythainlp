@@ -7,10 +7,10 @@ except ImportError:
 	from pythainlp.icu import icu_install
 	import pip
 	pip.main(['install',icu_install()])
-    try:
-        import icu
-    except ImportError:
-        raise ImportError
+	try:
+		import icu
+	except ImportError:
+		raise ImportError
 def isEnglish(s):
 	'''
 	เช็คว่าตัวอักษรเป็นภาษาอังกฤษหรือไม่

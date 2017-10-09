@@ -46,7 +46,7 @@ with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
     readme = readme_file.read()
 readme_file.close()
 requirements = [
-    icu1(),
+    str(icu1()),
     'nltk>=3.2.2',
     'future>=0.16.0',
     'six',

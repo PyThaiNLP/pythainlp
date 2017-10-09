@@ -1,6 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
-import icu
+try:
+	import icu
+except ImportError:
+	from pythainlp.icu import icu_install
+	import pip
+	pip.main(['install',icu_install()])
+    try:
+        import icu
+    except ImportError:
+        raise ImportError
 import datetime
 now1 = datetime.datetime.now()
 # TODO

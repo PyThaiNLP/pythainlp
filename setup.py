@@ -1,53 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 from setuptools import setup
 from setuptools import find_packages
-from distutils.command.install import install as _install
 import codecs
-import platform
-import sys
-import struct
-def windows_is():
-    return platform.system()=='Windows'
-def icu1():
-    import pip
-    if windows_is()==True:
-        try:
-            import icu
-            i=True
-        except ImportError:
-            i=False
-        python_version='{0[0]}.{0[1]}'.format(sys.version_info)
-        bit=struct.calcsize("P") * 8
-        if python_version=="3.6" and i!=True:
-            if bit=="64":
-                icu='https://github.com/wannaphongcom/pythainlp-installer/raw/master/windows/pyicu/PyICU-cp36-cp36m-win_amd64.whl'
-            else:
-                icu='https://github.com/wannaphongcom/pythainlp-installer/raw/master/windows/pyicu/PyICU-cp36-cp36m-win32.whl'
-        elif python_version=="3.5" and i!=True:
-            if bit=="64":
-                icu='https://github.com/wannaphongcom/pythainlp-installer/raw/master/windows/pyicu/PyICU-cp35-cp35m-win_amd64.whl'
-            else:
-                icu='https://github.com/wannaphongcom/pythainlp-installer/raw/master/windows/pyicu/PyICU-cp35-cp35m-win32.whl'
-        elif python_version=="3.4" and i!=True:
-            if bit=="64":
-                icu='https://github.com/wannaphongcom/pythainlp-installer/raw/master/windows/pyicu/PyICU-cp34-cp34m-win_amd64.whl'
-            else:
-                icu='https://github.com/wannaphongcom/pythainlp-installer/raw/master/windows/pyicu/PyICU-cp34-cp34m-win32.whl'
-        elif python_version=="2.7" and i!=True:
-            if bit=="64":
-                icu='https://github.com/wannaphongcom/pythainlp-installer/raw/master/windows/pyicu/PyICU-cp27-cp27m-win_amd64.whl'
-            else:
-                icu='https://github.com/wannaphongcom/pythainlp-installer/raw/master/windows/pyicu/PyICU-cp27-cp27m-win32.whl'
-        else:
-            icu='pyicu'
-    else:
-        icu='pyicu'
-    return pip.main['install',icu]
-class install(_install):
-    def run(self):
-        _install.run(self)
-        self.execute(icu1, (self.install_lib,),
-                     msg="Running post install task")
 with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
     readme = readme_file.read()
 readme_file.close()
@@ -84,6 +38,5 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: Thai',
         'Topic :: Text Processing :: Linguistic',
-        'Programming Language :: Python :: Implementation'],
-    cmdclass={'install': install}
+        'Programming Language :: Python :: Implementation']
 )

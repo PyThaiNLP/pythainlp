@@ -1,16 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,print_function,unicode_literals
 from six.moves import zip
-try:
-	import icu
-except ImportError:
-	from pythainlp.icu import icu_install
-	import pip
-	pip.main(['install',icu_install()])
-	try:
-		import icu
-	except ImportError:
-		raise ImportError
+import icu
 def isEnglish(s):
 	'''
 	เช็คว่าตัวอักษรเป็นภาษาอังกฤษหรือไม่

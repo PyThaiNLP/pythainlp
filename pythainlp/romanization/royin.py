@@ -51,11 +51,11 @@ vowel_data_py3="""เ*ียว,\\1iao
 *ะ,\\1a"""
 vowel_data=vowel_data_py3.replace('*','([ก-ฮ])')
 reader = [x.split(',') for x in vowel_data.split('\n')]
-def deletetone(data):
+def delete(data):
+	data = re.sub('จน์|มณ์|ณฑ์|ทร์|ตร์|[ก-ฮ]์|[ก-ฮ][ะ-ู]์', "", data) # ลบตัวการันต์
+	data = re.sub("[ๆฯ]", "", data)
 	'''โค้ดส่วนตัดวรรณยุกต์ออก'''
-	for tone in ['่','้','๊','๋']:
-		if (re.search(tone,data)):
-				data = re.sub(tone,'',data)
+	data = re.sub("[่-๋]", "", data)  # ลบวรรณยุกต์
 	if re.search(u'\w'+'์',data, re.U):
 		search=re.findall(u'\w'+'์',data, re.U)
 		for i in search:
@@ -145,13 +145,13 @@ def consonants(word,res):
 	return word
 def romanization(word):
 	pattern = re.compile(r"[ก-ฮ]",re.U)
+	word = vowel(delete(word))
 	res = re.findall(pattern,word)
-	word = vowel(deletetone(word))
-	word=consonants(word,res)
 	if len(word)==2 and len(res)==2:
 		word=list(word)
 		word.insert(1,'o')
 		word=''.join(word)
+	word=consonants(word,res)
 	return word
 if __name__ == "__main__":
 	print(romanization("แมว")=="maeo")

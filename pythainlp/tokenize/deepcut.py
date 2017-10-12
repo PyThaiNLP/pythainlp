@@ -4,9 +4,7 @@ import sys
 try:
     import deepcut
 except ImportError:
-	'''
-    ในกรณีที่ยังไม่ติดตั้ง deepcut ในระบบ
-    '''
+	'''ในกรณีที่ยังไม่ติดตั้ง deepcut ในระบบ'''
 	import pip
 	pip.main(['install','deepcut'])
 	try:

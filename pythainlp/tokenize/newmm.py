@@ -106,7 +106,7 @@ def listcut(text,data=get_data()):
     '''
 	ใช้ในการหา list ที่สามารถตัดคำได้ทั้งหมด
 	'''
-    ww = list(multicut(text,data)))
+    ww = list(multicut(text,data))
     return list(combine(ww))
 if __name__ == "__main__":
 	text='ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด'

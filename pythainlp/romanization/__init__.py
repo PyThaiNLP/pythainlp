@@ -14,7 +14,7 @@ def romanization(data,engine='pyicu'):
 	word_list=word_tokenize(data)
 	listword=[]
 	i=0
-	if engine=='royin': 
+	if engine=='royin':
     		from .royin import romanization
 	elif engine=='pyicu':
     		from .pyicu import romanization

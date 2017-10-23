@@ -96,7 +96,7 @@ $ pip install pythainlp
 Apache Software License 2.0
 
 
-พัฒนาโดย นาย วรรณพงษ์  ภัททิยไพบูลย์
+พัฒนาโดย PyThaiNLP
 
 ### สนับสนุน
 

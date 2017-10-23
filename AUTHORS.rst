@@ -7,6 +7,8 @@ Development Lead
 
 * Wannaphong Phatthiyaphaibun <wannaphong@kkumail.com>
 
+* Korakot Chaovavanich
+
 TCC & THAI SOUNDEX CODE
 ------------
 

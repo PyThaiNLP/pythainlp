@@ -23,6 +23,8 @@ Development Lead
 
 * Wannaphong Phatthiyaphaibun <wannaphong@kkumail.com>
 
+* Korakot Chaovavanich
+
 
 **License**
 

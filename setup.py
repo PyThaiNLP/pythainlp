@@ -22,7 +22,7 @@ setup(
     version='1.5.3',
     description="Thai natural language processing in Python package.",
     long_description=readme,
-    author='Wannaphong Phatthiyaphaibun',
+    author='PyThaiNLP',
     author_email='wannaphong@yahoo.com',
     url='https://sites.google.com/view/pythainlp/',
     packages=find_packages(),

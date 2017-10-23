@@ -3,3 +3,4 @@ future>=0.16.0
 six
 marisa_trie
 langdetect
+dill

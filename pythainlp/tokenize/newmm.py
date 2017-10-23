@@ -9,9 +9,9 @@ from builtins import *
 และ https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716
 '''
 import re
+from pythainlp.tools import file_trie
 from marisa_trie import Trie
 from collections import defaultdict
-from pythainlp.corpus.thaiword import get_data
 class LatticeString(str):
     ''' String subclass เพื่อเก็บวิธีตัดหลายๆ วิธี
     '''
@@ -40,7 +40,10 @@ def multicut(text,data):
     ''' ส่งคืน LatticeString คืนมาเป็นก้อนๆ
     '''
     words_at = defaultdict(list)  # main data structure
-    trie = Trie(data)
+    if data=="":
+        trie = file_trie(data="old")
+    else:
+        trie = Trie(data)
     def serialize(p, p2):    # helper function
         for w in words_at[p]:
             p_ = p + len(w)
@@ -84,7 +87,7 @@ def multicut(text,data):
             last_p = i
             q.add(i)
 
-def mmcut(text,data=get_data()):
+def mmcut(text,data=''):
     res = []
     for w in multicut(text,data=data):
         mm = min(w.multi, key=lambda x: x.count('/'))
@@ -102,7 +105,7 @@ def combine(ww):
                 for m in w.multi:
                     yield m.replace("/","|")+"|"+tail
 
-def listcut(text,data=get_data()):
+def listcut(text,data=''):
     '''
 	ใช้ในการหา list ที่สามารถตัดคำได้ทั้งหมด
 	'''

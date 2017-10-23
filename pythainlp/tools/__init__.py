@@ -1,6 +1,36 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
+import os
+import dill
+def file_trie(data):
+	'''
+	ใช้สร้างไฟล์ข้อมูลสำหรับระบบที่ใช้ trie
+	'''
+	path = os.path.join(os.path.expanduser("~"), 'pythainlp-data')#os.path.join(, 'pthainlp_trie.data')
+	if not os.path.exists(path):
+		os.makedirs(path)
+	if data=="old":
+		path = os.path.join(path, 'pythainlp_trie1.data')
+	else:
+		path = os.path.join(path, 'pythainlp_trie2.data')
+	if not os.path.exists(path):
+		#ถ้าไม่มีไฟล์
+		import marisa_trie
+		if data=="old":
+			from pythainlp.corpus.thaiword import get_data # ข้อมูลเก่า
+		else:
+			from pythainlp.corpus.newthaiword import get_data # ข้อมูลเก่า
+		with open(path,'wb') as dill_file:
+			dill.dump(marisa_trie.Trie(get_data()),dill_file)
+		dill_file.close()
+	with open(path,'rb') as dill_file:
+		data=dill.load(dill_file)
+	dill_file.close()
+	return data
 def test_segmenter(segmenter, test):
+    '''
+    ระบบทดสอบการตัดคำ
+    '''
     words = test
     result = segmenter
     correct = (result == words)

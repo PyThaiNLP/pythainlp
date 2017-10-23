@@ -10,7 +10,8 @@ requirements = [
     'future>=0.16.0',
     'six',
     'marisa_trie',
-    'requests'
+    'requests',
+    'dill'
 ]
 test_requirements = [
     # TODO: put package test requirements here

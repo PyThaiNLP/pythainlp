@@ -1,10 +1,9 @@
 # PyThaiNLP
-[![PyPI Downloads](https://img.shields.io/pypi/dm/pythainlp.png)]
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/50fa9d87f4fb4a95aac62b398aa374fa)](https://www.codacy.com/app/wannaphongcom/pythainlp?utm_source=github.com&utm_medium=referral&utm_content=wannaphongcom/pythainlp&utm_campaign=badger)
 [![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
-[![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=develop)](https://travis-ci.org/wannaphongcom/pythainlp)
-[![Build status](https://ci.appveyor.com/api/projects/status/uxerymgggp1uch0p?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp)
-[![Coverage Status](https://coveralls.io/repos/github/wannaphongcom/pythainlp/badge.svg)](https://coveralls.io/github/wannaphongcom/pythainlp)
+[![Build Status](https://travis-ci.org/PyThaiNLP/pythainlp.svg?branch=develop)](https://travis-ci.org/PyThaiNLP/pythainlp)
+[![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
+[![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev)
 
 Homepags : https://sites.google.com/view/pythainlp/
 

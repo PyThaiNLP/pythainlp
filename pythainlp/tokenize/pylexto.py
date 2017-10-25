@@ -14,6 +14,6 @@ def segment(text,full=False):
     lexto = LexTo()
     words, types = lexto.tokenize(text)
     if full==True:
-		return (words,types)
+        return (words,types)
     else:
-		return words
+        return words

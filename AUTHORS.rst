@@ -9,6 +9,8 @@ Development Lead
 
 * Korakot Chaovavanich
 
+* Charin Polpanumas
+
 TCC & THAI SOUNDEX CODE
 ------------
 

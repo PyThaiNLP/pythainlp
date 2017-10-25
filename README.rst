@@ -25,6 +25,8 @@ Development Lead
 
 * Korakot Chaovavanich
 
+* Charin Polpanumas
+
 
 **License**
 

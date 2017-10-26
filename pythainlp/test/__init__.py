@@ -75,7 +75,8 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(provinces.get_data()!=None,True)
 		self.assertEqual(len(newthaiword.get_data())>len(thaiword.get_data()),True)
 	def test_collation(self):
-    		self.assertEqual(collation(['ไก่','กก']),[u'กก', u'ไก่'])
+		self.assertEqual(collation(['ไก่','กก']),[u'กก', u'ไก่'])
+		self.assertEqual(collation(['ไก่', 'เป็ด', 'หมู', 'วัว']),[u'ไก่', u'เป็ด', u'วัว', u'หมู'])
 	def test_normalize(self):
     		self.assertEqual(normalize("เเปลก"),"แปลก")
 	def test_keywords(self):

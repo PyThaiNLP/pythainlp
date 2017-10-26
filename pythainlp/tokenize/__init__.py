@@ -4,7 +4,7 @@ import nltk
 import re
 import codecs
 from six.moves import zip
-def dict_word_tokenize(text,file,engine="newmm"):
+def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
 	'''
 	dict_word_tokenize(text,file,engine)
 	เป็นคำสั่งสำหรับตัดคำโดยใช้ข้อมูลที่ผู้ใช้กำหนด
@@ -15,10 +15,17 @@ def dict_word_tokenize(text,file,engine="newmm"):
     - wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 	- mm ตัดคำด้วย mm
     - longest-matching ตัดคำโดยใช้ longest matching
+	data_type คือ ชนิดข้อมูล
+	- file คือ ไฟล์ข้อมูล
+	- list คือ ข้อมูลที่อยู่ใน list
+	กรณีที่ใช้ list ต้องใช้ data=list(ข้อมูล)
 	'''
-	with codecs.open(file, 'r',encoding='utf8') as f:
-		lines = f.read().splitlines()
-	f.close()
+	if data_type=='file':
+		with codecs.open(file, 'r',encoding='utf8') as f:
+			lines = f.read().splitlines()
+		f.close()
+	elif data_type=='list':
+		lines = data
 	if engine=="newmm":
 		from .newmm import mmcut as segment
 	elif engine=="mm":

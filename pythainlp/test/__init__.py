@@ -4,7 +4,7 @@ import unittest,six,sys
 from collections import Counter
 from pythainlp.corpus import alphabet,wordnet,country,tone,provinces,stopwords,newthaiword,thaiword
 from pythainlp.keywords import *
-from pythainlp.tokenize import word_tokenize,tcc,etcc
+from pythainlp.tokenize import word_tokenize,tcc,etcc,isthai,WhitespaceTokenizer
 from pythainlp.rank import rank
 from pythainlp.change import texttothai,texttoeng
 from pythainlp.number import numtowords
@@ -49,6 +49,10 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(numtowords(5611116.50),'ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์')
 	def test_tcc(self):
 		self.assertEqual(tcc.tcc('ประเทศไทย'),'ป/ระ/เท/ศ/ไท/ย')
+	def test_isthai(self):
+		self.assertEqual(isthai('ประเทศไทย'),{'thai': 100.0})
+	def test_WhitespaceTokenizer(self):
+		self.assertEqual(WhitespaceTokenizer("1 2 3"),['1', '2', '3'])
 	def test_etcc(self):
 		self.assertEqual(etcc.etcc('คืนความสุข'),'/คืน/ความสุข')
 	def test_lk82(self):

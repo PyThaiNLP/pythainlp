@@ -38,7 +38,7 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(texttothai("l;ylfu8iy["),'สวัสดีครับ')
 		self.assertEqual(texttoeng('สวัสดีครับ'),"l;ylfu8iy[")
 	def test_romanization1(self):
-		self.assertEqual(romanization("แมว"),'mæw')
+		self.assertEqual(romanization("แมว"),'maeo')
 	def test_romanization2(self):
 		self.assertEqual(romanization("แมว",engine="royin"),'maeo')
 		self.assertEqual(romanization("เดือน",engine="royin"),'duean')

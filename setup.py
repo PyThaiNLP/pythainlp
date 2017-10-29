@@ -5,7 +5,6 @@ with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
     readme = readme_file.read()
 readme_file.close()
 requirements = [
-    'pyicu',
     'nltk>=3.2.2',
     'future>=0.16.0',
     'six',
@@ -19,7 +18,7 @@ test_requirements = [
 
 setup(
     name='pythainlp',
-    version='1.5.3',
+    version='1.6.0',
     description="Thai natural language processing in Python package.",
     long_description=readme,
     author='PyThaiNLP',

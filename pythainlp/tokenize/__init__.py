@@ -35,18 +35,18 @@ def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
 	elif engine=='wordcutpy':
 		from .wordcutpy import segment
 	return segment(text,data=lines)
-def word_tokenize(text,engine='icu'):
+def word_tokenize(text,engine='newmm'):
 	"""
 	ระบบตัดคำภาษาไทย
 
-	word_tokenize(text,engine='icu')
+	word_tokenize(text,engine='newmm')
 	text คือ ข้อความในรูปแบบ str
 	engine มี
-	- icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ) และเป็นค่าเริ่มต้น
+	- newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)
+	- icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)
 	- dict - ใช้ dicu ในการตัดคำไทย จะคืนค่า False หากไม่สามารถตัดคำไทย
 	- longest-matching ใช้ Longest matching ในการตัดคำ
 	- mm ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
-	- newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่
 	- pylexto ใช้ LexTo ในการตัดคำ
 	- deepcut ใช้ Deep Neural Network ในการตัดคำภาษาไทย
 	- wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ

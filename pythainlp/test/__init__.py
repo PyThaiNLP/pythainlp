@@ -23,7 +23,7 @@ class TestUM(unittest.TestCase):
 	ระบบทดสอบการทำงานของโค้ดของ PyThaiNLP 1.5
 	"""
 	def test_segment(self):
-		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),[u'ฉัน', u'รัก', u'ภาษา', u'ไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คน', u'ไทย'])
+		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
 	def test_segment_dict(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='dict'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
 	def test_segment_mm(self):
@@ -82,9 +82,9 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(collation(['ไก่','กก']),[u'กก', u'ไก่'])
 		self.assertEqual(collation(['ไก่', 'เป็ด', 'หมู', 'วัว']),[u'ไก่', u'เป็ด', u'วัว', u'หมู'])
 	def test_normalize(self):
-    		self.assertEqual(normalize("เเปลก"),"แปลก")
+		self.assertEqual(normalize("เเปลก"),"แปลก")
 	def test_keywords(self):
-    		self.assertEqual(find_keyword(word_tokenize("แมวกินปลาอร่อยรู้ไหมว่าแมวเป็นแมวรู้ไหมนะแมว",engine='newmm')),{u'แมว': 4})
+		self.assertEqual(find_keyword(word_tokenize("แมวกินปลาอร่อยรู้ไหมว่าแมวเป็นแมวรู้ไหมนะแมว",engine='newmm')),{u'แมว': 4})
 	def test_tag(self):
 		self.assertEqual(pos_tag(word_tokenize("คุณกำลังประชุม"),engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 		if sys.version_info >= (3,4):

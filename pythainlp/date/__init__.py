@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
 import icu
-import datetime
+import datetime, pytz
 now1 = datetime.datetime.now()
-# TODO
+tz = pytz.timezone('Asia/Bangkok')
+
 def now():
-	'''
-	คืนค่าเวลา ณ ขณะนี้ ในรูปแบบ str
-	ตัวอย่าง "7 มกราคม 2560 20:22:59"
-	'''
-	formatter = icu.DateFormat.createDateTimeInstance(icu.DateFormat.LONG, icu.DateFormat.kDefault, icu.Locale('th_TH'))
-	return formatter.format(datetime.datetime.now())
+    now1 = datetime.datetime.now(tz)
+    month_name = 'x มกราคม กุมภาพันธ์ มีนาคม เมษายน พฤษภาคม มิถุนายน กรกฎาคม สิงหาคม กันยายน ตุลาคม พฤศจิกายน ธันวาคม'.split()[now1.month]
+    thai_year = now1.year + 543
+    time_str = now1.strftime('%H:%M:%S')
+    return "%d %s %d %s"%(now1.day, month_name, thai_year, time_str) # 30 ตุลาคม 2560 20:45:30
+
 def now_reign_year():
 	'''
 	ปีรัชกาลที่ 10

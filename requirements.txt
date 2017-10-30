@@ -4,3 +4,4 @@ six
 marisa_trie
 langdetect
 dill
+pytz

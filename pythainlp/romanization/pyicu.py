@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
-import icu
+try:
+	import icu
+except ImportError:
+	import pip
+	pip.main(['install','pyicu'])
+	try:
+		import icu
+	except ImportError:
+		sys.exit('Error ! using pip install pyicu')
 
 # ถอดเสียงภาษาไทยเป็น Latin
 def romanization(data):

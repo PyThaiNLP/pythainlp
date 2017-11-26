@@ -31,7 +31,7 @@ def file_trie(data):
 			data=data2
 		elif data=='old':
 			from pythainlp.corpus.thaiword import get_data # ข้อมูลเก่า
-			data2=get_data()
+			data=get_data()
 		else:
 			from pythainlp.corpus.newthaiword import get_data # ข้อมูลเก่า
 			data=get_data()

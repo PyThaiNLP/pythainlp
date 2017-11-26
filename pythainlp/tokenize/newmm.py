@@ -12,6 +12,7 @@ import re
 from pythainlp.tools import file_trie
 from marisa_trie import Trie
 from collections import defaultdict
+from pythainlp.tokenize import tcc
 class LatticeString(str):
     ''' String subclass เพื่อเก็บวิธีตัดหลายๆ วิธี
     '''
@@ -27,10 +28,9 @@ class LatticeString(str):
         else:
             self.multi = [value]
         self.in_dict = in_dict   # บอกว่าเป็นคำมีในดิกหรือเปล่า
-
 spat_eng = r'''(?x)
-[-a-zA-Z]+|   # english
-\d[\d,\.]*|   # number
+([\d,\.]\#)+|   # number
+([a-zA-Z]\#)+|  # english
 [ \t]+|       # space
 \r?\n         # newline
 '''
@@ -41,7 +41,7 @@ def multicut(text,data):
     '''
     words_at = defaultdict(list)  # main data structure
     if data=="":
-        trie = file_trie(data="old")
+        trie = file_trie(data="newmm")
     else:
         trie = Trie(data)
     def serialize(p, p2):    # helper function
@@ -69,9 +69,9 @@ def multicut(text,data):
             last_p = q0
 
         # กรณี len(q) == 0  คือ ไม่มีใน dict
-        if len(q)==0:
+        elif len(q)==0:
             m = pat_eng.match(text[p:])
-            if m: # อังกฤษ, เลข, ว่าง
+            if m!=None: # อังกฤษ, เลข, ว่าง
                 i = p + m.span()[1]
             else: # skip น้อยที่สุด ที่เป็นไปได้
                 for i in range(p, len(text)):
@@ -89,10 +89,22 @@ def multicut(text,data):
 
 def mmcut(text,data=''):
     res = []
+    text=tcc.tcc(text,sep='#')
+    if(text[len(text)-1]!='#'):
+        text+='#'
     for w in multicut(text,data=data):
         mm = min(w.multi, key=lambda x: x.count('/'))
         res.extend(mm.split('/'))
-    return res
+    listdata=res
+    i=0
+    num=len(listdata)
+    while i<len(listdata):
+        if(re.search('\A[ก-ฮ]#\Z',listdata[i]) and i-1>=0):
+            listdata[i-1]+=listdata[i]
+            listdata[i]='#'
+            num-=1
+        i+=1
+    return [x.replace('#','') for x in res if x!='#']
 def combine(ww):
     if ww == []:
         yield ""

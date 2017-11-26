@@ -2,6 +2,7 @@
 from __future__ import absolute_import,unicode_literals
 import os
 import dill
+from pythainlp.tokenize import tcc
 def file_trie(data):
 	'''
 	ใช้สร้างไฟล์ข้อมูลสำหรับระบบที่ใช้ trie
@@ -9,19 +10,33 @@ def file_trie(data):
 	path = os.path.join(os.path.expanduser("~"), 'pythainlp-data')#os.path.join(, 'pthainlp_trie.data')
 	if not os.path.exists(path):
 		os.makedirs(path)
-	if data=="old":
-		path = os.path.join(path, 'pythainlp_trie1.data')
+	if data=="newmm":
+		path = os.path.join(path, 'pythainlp_trie-tcc1.data')
+	elif data=="old":
+		path = os.path.join(path, 'pythainlp_trie2.data')
 	else:
 		path = os.path.join(path, 'pythainlp_trie2.data')
 	if not os.path.exists(path):
 		#ถ้าไม่มีไฟล์
 		import marisa_trie
-		if data=="old":
+		if data=="newmm":
 			from pythainlp.corpus.thaiword import get_data # ข้อมูลเก่า
+			data2=get_data()
+			i=0
+			while i<len(data2):
+				data2[i]=tcc.tcc(data2[i],sep='#')
+				if(data2[len(data2[i])-1]!="#"):
+					data2[i]+="#"
+				i+=1
+			data=data2
+		elif data=='old':
+			from pythainlp.corpus.thaiword import get_data # ข้อมูลเก่า
+			data2=get_data()
 		else:
 			from pythainlp.corpus.newthaiword import get_data # ข้อมูลเก่า
+			data=get_data()
 		with open(path,'wb') as dill_file:
-			dill.dump(marisa_trie.Trie(get_data()),dill_file)
+			dill.dump(marisa_trie.Trie(data),dill_file)
 		dill_file.close()
 	with open(path,'rb') as dill_file:
 		data=dill.load(dill_file)

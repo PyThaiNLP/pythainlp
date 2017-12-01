@@ -43,6 +43,12 @@ def multicut(text,data):
     if data=="":
         trie = file_trie(data="newmm")
     else:
+        i=0
+        while i<len(data):
+            data[i]=tcc.tcc(data[i],sep='#')
+            if(data[len(data[i])-1]!="#"):
+               data[i]+="#"
+            i+=1
         trie = Trie(data)
     def serialize(p, p2):    # helper function
         for w in words_at[p]:

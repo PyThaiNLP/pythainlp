@@ -9,6 +9,7 @@ from builtins import *
 และ https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716
 '''
 import re
+import copy
 from pythainlp.tools import file_trie
 from marisa_trie import Trie
 from collections import defaultdict
@@ -44,12 +45,13 @@ def multicut(text,data):
         trie = file_trie(data="newmm")
     else:
         i=0
-        while i<len(data):
-            data[i]=tcc.tcc(data[i],sep='#')
-            if(data[len(data[i])-1]!="#"):
-               data[i]+="#"
+        data2=copy.copy(data)
+        while i<len(data2):
+            data2[i]=tcc.tcc(data2[i],sep='#')
+            if(data2[len(data2[i])-1]!="#"):
+               data2[i]+="#"
             i+=1
-        trie = Trie(data)
+        trie = Trie(data2)
     def serialize(p, p2):    # helper function
         for w in words_at[p]:
             p_ = p + len(w)

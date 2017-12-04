@@ -31,6 +31,7 @@ class LatticeString(str):
         self.in_dict = in_dict   # บอกว่าเป็นคำมีในดิกหรือเปล่า
 spat_eng = r'''(?x)
 ([\d,\.]\#)+|   # number
+([๑๒๓๔๕๖๗๘๙๐,\.]\#)+|   # thai number
 ([a-zA-Z]\#)+|  # english
 [ \t]+|       # space
 \r?\n         # newline

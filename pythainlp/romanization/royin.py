@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,division,unicode_literals,print_function
 import re
+import copy
 vowel_data_py3="""เ*ียว,\\1iao
 แ*็ว,\\1aeo
+เ*ือย,\\1ueai
 แ*ว,\\1aeo
 เ*็ว,\\1eo
 เ*ว,\\1eo
 *ิว,\\1io
 *วย,\\1uai
-เ*ือย,\\1ueai
 เ*ย,\\1oei
 *อย,\\1oi
 โ*ย,\\1oi
@@ -30,6 +31,7 @@ vowel_data_py3="""เ*ียว,\\1iao
 เ*ิ,\\1oe
 *อ,\\1o
 เ*าะ,\\1o
+เ*็,\\1e
 โ*ะ,\\1o
 โ*,\\1o
 แ*ะ,\\1ae
@@ -37,7 +39,6 @@ vowel_data_py3="""เ*ียว,\\1iao
 เ*าะ,\\1e
 *าว,\\1ao
 เ*า,\\1ao
-เ*็,\\1e
 เ*,\\1e
 *ู,\\1u
 *ุ,\\1u
@@ -122,9 +123,8 @@ def consonants(word,res):
 		lenword=len(res)
 		while i<lenword:
 			if i==0 and res[0]=="ห":
-				word=word.replace(res[0],"")
-				del res[0]
-				lenword-=1
+				word=word.replace(res[0],consonants_data[res[0]][0])
+				i+=1
 			elif i==0 and res[0]!="ห":
 				word=word.replace(res[0],consonants_data[res[0]][0])
 				i+=1
@@ -145,14 +145,14 @@ def consonants(word,res):
 	return word
 def romanization(word):
 	pattern = re.compile(r"[ก-ฮ]",re.U)
-	word = vowel(delete(word))
-	res = re.findall(pattern,word)
-	if len(word)==2 and len(res)==2:
-		word=list(word)
-		word.insert(1,'o')
-		word=''.join(word)
-	word=consonants(word,res)
-	return word
+	word2 = vowel(delete(word))
+	res = re.findall(pattern,word2)
+	if len(word2)==2 and len(res)==2:
+		word2=list(word2)
+		word2.insert(1,'o')
+		word2=''.join(word2)
+	word2=consonants(word2,res)
+	return word2
 if __name__ == "__main__":
 	print(romanization("แมว")=="maeo")
 	print(romanization("น้าว")=="nao")

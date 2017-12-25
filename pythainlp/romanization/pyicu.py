@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import sys
 from __future__ import absolute_import,unicode_literals
 try:
 	import icu

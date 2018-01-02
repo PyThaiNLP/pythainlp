@@ -24,6 +24,8 @@ class TestUM(unittest.TestCase):
 	"""
 	def test_segment(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
+	def test_segment_icu(self):
+		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='icu'),[u'ฉัน', u'รัก', u'ภาษา', u'ไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คน', u'ไทย'])
 	def test_segment_dict(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='dict'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
 	def test_segment_mm(self):
@@ -39,6 +41,7 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(texttoeng('สวัสดีครับ'),"l;ylfu8iy[")
 	def test_romanization1(self):
 		self.assertEqual(romanization("แมว"),'maeo')
+		self.assertEqual(romanization("แมว","pyicu"),'mæw')
 	def test_romanization2(self):
 		self.assertEqual(romanization("แมว",engine="royin"),'maeo')
 		self.assertEqual(romanization("เดือน",engine="royin"),'duean')

@@ -144,3 +144,8 @@ def isthai(text,check_all=False):
     else:
         data= {'thai':thai}
     return data
+def syllable_tokenize(text):
+	'''
+	TODO
+	'''
+	return ""

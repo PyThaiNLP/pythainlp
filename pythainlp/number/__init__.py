@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-# ระบบแปลงเลขใน 1- 10 ภาษาไทย
+''' ระบบแปลงเลขใน 1- 10 ภาษาไทย
+fork by http://justmindthought.blogspot.com/2012/12/code-php.html
+'''
 from __future__ import absolute_import,division,print_function,unicode_literals
 from builtins import dict
 from builtins import int

@@ -4,6 +4,7 @@ import nltk
 import re
 import codecs
 from six.moves import zip
+from pythainlp.corpus.thaisyllable import get_data
 def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
 	'''
 	dict_word_tokenize(text,file,engine)
@@ -144,8 +145,20 @@ def isthai(text,check_all=False):
     else:
         data= {'thai':thai}
     return data
-def syllable_tokenize(text):
-	'''
-	TODO
-	'''
-	return ""
+def syllable_tokenize(text1):
+	"""
+	syllable_tokenize(text)
+	เป็นคำสั่งสำหรับใช้ตัดพยางค์ในภาษาไทย
+	รับ str
+	ส่งออก list
+	"""
+	text1=word_tokenize(text1)
+	data=[]
+	if(len(text1)>0):
+		i=0
+		while(i<len(text1)):
+			data.extend(dict_word_tokenize(text=text1[i],data=get_data(),data_type="list"))
+			i+=1
+	else:
+		data=dict_word_tokenize(text=text1,data=get_data(),data_type="list")
+	return data

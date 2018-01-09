@@ -4,7 +4,7 @@ import unittest,six,sys
 from collections import Counter
 from pythainlp.corpus import alphabet,wordnet,country,tone,provinces,stopwords,newthaiword,thaiword
 from pythainlp.keywords import *
-from pythainlp.tokenize import word_tokenize,tcc,etcc,isthai,WhitespaceTokenizer
+from pythainlp.tokenize import word_tokenize,tcc,etcc,isthai,WhitespaceTokenizer,syllable_tokenize
 from pythainlp.rank import rank
 from pythainlp.change import texttothai,texttoeng
 from pythainlp.number import numtowords
@@ -24,6 +24,8 @@ class TestUM(unittest.TestCase):
 	"""
 	def test_segment(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
+	def test_syllable_tokenize(self):
+		self.assertEqual(syllable_tokenize("สวัสดีชาวโลก"),[u'สวัส', u'ดี', u'ชาว', u'โลก'])
 	def test_segment_icu(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='icu'),[u'ฉัน', u'รัก', u'ภาษา', u'ไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คน', u'ไทย'])
 	def test_segment_dict(self):

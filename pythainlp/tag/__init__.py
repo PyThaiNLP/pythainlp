@@ -26,8 +26,7 @@ def pos_tag(text,engine='old'):
 						except ImportError:
 							print("Error ! using 'pip install https://github.com/franziz/artagger/archive/master.zip'")
 							sys.exit(0)
-					tagger = Tagger()
-					words = tagger.tag(' '.join(text1))
+					words = Tagger().tag(' '.join(text1))
 					totag=[]
 					for word in words:
     						totag.append((word.word, word.tag))

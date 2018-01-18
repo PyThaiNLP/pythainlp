@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
-import icu
 import datetime, pytz
 now1 = datetime.datetime.now()
 tz = pytz.timezone('Asia/Bangkok')

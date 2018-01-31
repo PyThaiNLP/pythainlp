@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import,division,unicode_literals,print_function
-import six
-if six.PY2:
-	from builtins import *
+from __future__ import absolute_import,unicode_literals
 '''
 โปรแกรม multi-cut
 ตัดคำภาษาไทยโดยใช้ Maximum Matching algorithm
@@ -10,6 +7,9 @@ if six.PY2:
 จาก https://www.facebook.com/groups/408004796247683/permalink/431283740586455/
 และ https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716
 '''
+import six
+if six.PY2:
+	from builtins import *
 import re
 import copy
 from pythainlp.tools import file_trie
@@ -44,9 +44,7 @@ def multicut(text,data):
     ''' ส่งคืน LatticeString คืนมาเป็นก้อนๆ
     '''
     words_at = defaultdict(list)  # main data structure
-    if data=="":
-        trie = file_trie(data="newmm")
-    else:
+    if data!="": # ถ้าหากกำหนดข้อมูลโดยใช้ dict ของตัวเอง
         i=0
         data2=copy.copy(data)
         while i<len(data2):
@@ -55,6 +53,8 @@ def multicut(text,data):
                data2[i]+="#"
             i+=1
         trie = Trie(data2)
+    else:
+        trie = file_trie(data="newmm")
     def serialize(p, p2):    # helper function
         for w in words_at[p]:
             p_ = p + len(w)
@@ -99,22 +99,13 @@ def multicut(text,data):
 
 def mmcut(text,data=''):
     res = []
-    text=tcc.tcc(text,sep='#')
-    if(text[len(text)-1]!='#'):
-        text+='#'
+    text=tcc.tcc(text,sep='#') # ให้นำข้อความมาผ่าน tcc
+    if(text[len(text)-1]!='#'): # ถ้าตัวสุดท้ายของสตริงไม่เป็น #
+        text+='#' # ให้เพิ่ม # เข้าไป
     for w in multicut(text,data=data):
         mm = min(w.multi, key=lambda x: x.count('/'))
         res.extend(mm.split('/'))
-    listdata=res
-    i=0
-    num=len(listdata)
-    while i<len(listdata):
-        if(re.search('\A[ก-ฮ]#\Z',listdata[i]) and i-1>=0):
-            listdata[i-1]+=listdata[i]
-            listdata[i]='#'
-            num-=1
-        i+=1
-    return [x.replace('#','') for x in res if x!='#']
+    return [x.replace('#','') for x in res if x!='#'] # เอา # ออก
 def combine(ww):
     if ww == []:
         yield ""
@@ -135,5 +126,5 @@ def listcut(text,data=''):
     return list(combine(ww))
 if __name__ == "__main__":
 	text='ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด'
-	print(mmcut(text))
+	mmcut(text)
 	#print(listcut(text))

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,division,unicode_literals,print_function
-from builtins import *
+#from builtins import *
 '''
 โปรแกรม multi-cut
 ตัดคำภาษาไทยโดยใช้ Maximum Matching algorithm
@@ -61,7 +61,6 @@ def multicut(text,data):
             elif p_ < p2:
                 for path in serialize(p_, p2):
                     yield w+'/'+path
-
     q = {0}
     last_p = 0   # last position for yield
     while min(q) < len(text):

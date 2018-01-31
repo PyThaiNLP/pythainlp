@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,division,unicode_literals,print_function
-#from builtins import *
+import six
+if six.PY2:
+	from builtins import *
 '''
 โปรแกรม multi-cut
 ตัดคำภาษาไทยโดยใช้ Maximum Matching algorithm

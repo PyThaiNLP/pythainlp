@@ -33,7 +33,7 @@ def file_trie(data):
 			from pythainlp.corpus.thaiword import get_data # ข้อมูลเก่า
 			data=get_data()
 		else:
-			from pythainlp.corpus.newthaiword import get_data # ข้อมูลเก่า
+			from pythainlp.corpus.newthaiword import get_data # ข้อมูลใหม่
 			data=get_data()
 		with open(path,'wb') as dill_file:
 			dill.dump(marisa_trie.Trie(data),dill_file)

@@ -3,6 +3,7 @@ from __future__ import absolute_import,unicode_literals
 import os
 import dill
 from pythainlp.tokenize import tcc
+import marisa_trie
 def file_trie(data):
 	'''
 	ใช้สร้างไฟล์ข้อมูลสำหรับระบบที่ใช้ trie
@@ -18,7 +19,6 @@ def file_trie(data):
 		path = os.path.join(path, 'pythainlp_trie2.data')
 	if not os.path.exists(path):
 		#ถ้าไม่มีไฟล์
-		import marisa_trie
 		if data=="newmm":
 			from pythainlp.corpus.thaiword import get_data # ข้อมูลเก่า
 			data2=get_data()

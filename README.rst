@@ -1,5 +1,5 @@
 ================
-PyThaiNLP 1.5.1
+PyThaiNLP 1.6.0
 ================
 
 Thai natural language processing in Python.

@@ -1,4 +1,5 @@
+# -*- coding: utf-8 -*-
 from pythainlp.tokenize import word_tokenize
-a = 'ฉันรักภาษาไทยเพราะฉันเป็นคนไทยและฉันใช้ภาษาไทย'
+a =u'ฉันรักภาษาไทยเพราะฉันเป็นคนไทยและฉันใช้ภาษาไทย'
 b = word_tokenize(a)
 print(b)

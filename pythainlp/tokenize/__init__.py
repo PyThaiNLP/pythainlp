@@ -89,6 +89,11 @@ def word_tokenize(text,engine='newmm'):
 			ใช้ Deep Neural Network ในการตัดคำภาษาไทย
 			'''
     		from .deepcut import segment
+	elif engine=='cutkum':
+    		'''
+			ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)
+			'''
+    		from .cutkum import segment
 	elif engine=='wordcutpy':
     		'''
 			wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ

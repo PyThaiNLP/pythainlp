@@ -3,6 +3,7 @@
 '''ตัวตัดคำภาษาไทยโดยใช้หลักการ maximal matching และ TCC
 พัฒนาโดยคุณ Korakot Chaovavanich
 Notebook : https://colab.research.google.com/notebook#fileId=1V1Z657_5eSWPo8rLfVRwA0A5E4vkg7SI
+https://colab.research.google.com/drive/14Ibg-ngZXj15RKwjNwoZlOT32fQBOrBx#scrollTo=MYZ7NzAR7Dmw
 '''
 from __future__ import absolute_import, unicode_literals
 import re
@@ -82,54 +83,64 @@ def serialize(words_at, p, p2):
         elif p_ < p2:
             for path in serialize(words_at, p_, p2):
                 yield [w] + path
-
+def bfs_paths_graph(graph, start, goal):
+  queue = [(start, [start])]
+  while queue:
+    (vertex, path) = queue.pop(0)
+    for next in graph[vertex]:
+      if next == goal:
+        yield path + [next]
+      else:
+        queue.append((next, path+[next]))
 
 def onecut(text, data=['']):
-    if(data != ['']):
-        trie = Trie(data)
-    else:
-        trie = THAI_WORDS
-    words_at = defaultdict(list)  # main data structure
-    allow_pos = tcc_pos(text)     # ตำแหน่งที่ตัด ต้องตรงกับ tcc
+  if(data != ['']):
+      trie = Trie(data)
+  else:
+      trie = THAI_WORDS
+  graph = defaultdict(list)  # main data structure
+  allow_pos = tcc_pos(text)     # ตำแหน่งที่ตัด ต้องตรงกับ tcc
+  
+  q = [0]       # min-heap queue
+  last_p = 0    # last position for yield
+  while q[0] < len(text):
+      p = heappop(q)
 
-    q = [0]       # min-heap queue
-    last_p = 0    # last position for yield
-    while q[0] < len(text):
-        p = heappop(q)
+      for w in trie.prefixes(text[p:]):
+          p_ = p + len(w)
+          if p_ in allow_pos:  # เลือกที่สอดคล้อง tcc
+            graph[p].append(p_)
+            if p_ not in q:
+              heappush(q, p_)   
 
-        for w in trie.prefixes(text[p:]):
-            p_ = p + len(w)
-            if p_ in allow_pos:  # เลือกที่สอดคล้อง tcc
-                words_at[p].append(w)
-                if p_ not in q:
-                    heappush(q, p_)
+      # กรณี length 1 คือ ไม่กำกวมแล้ว ส่งผลลัพธ์ก่อนนี้คืนได้
+      if len(q)==1:
+          pp = next(bfs_paths_graph(graph, last_p, q[0]))
+          # เริ่มต้น last_p = pp[0] เอง
+          for p in pp[1:]:
+            yield text[last_p:p]
+            last_p = p
+          # สุดท้าย last_p == q[0] เอง
 
-        # กรณี length 1 คือ ไม่กำกวมแล้ว ส่งผลลัพธ์ก่อนนี้คืนได้
-        if len(q) == 1:
-            paths = serialize(words_at, last_p, q[0])
-            for w in min(paths, key=len):
-                yield w
-            last_p = q[0]
-
-        # กรณี length 0  คือ ไม่มีใน dict
-        if len(q) == 0:
-            m = pat_eng.match(text[p:])
-            if m:  # อังกฤษ, เลข, ว่าง
-                i = p + m.end()
-            else:  # skip น้อยที่สุด ที่เป็นไปได้
-                for i in range(p + 1, len(text)):
-                    if i in allow_pos:   # ใช้ tcc ด้วย
-                        ww = trie.prefixes(text[i:])
-                        m = pat_eng.match(text[i:])
-                        if ww or m:
-                            break
-                else:
-                    i = len(text)
-            w = text[p:i]
-            words_at[p].append(w)
-            yield w
-            last_p = i
-            heappush(q, i)
+      # กรณี length 0  คือ ไม่มีใน dict
+      if len(q)==0:
+          m = pat_eng.match(text[p:])
+          if m: # อังกฤษ, เลข, ว่าง
+              i = p + m.end()
+          else: # skip น้อยที่สุด ที่เป็นไปได้
+              for i in range(p+1, len(text)):
+                  if i in allow_pos:   # ใช้ tcc ด้วย
+                      ww = trie.prefixes(text[i:])
+                      m = pat_eng.match(text[i:])
+                      if ww or m:
+                          break
+              else:
+                  i = len(text)
+          w = text[p:i]
+          graph[p].append(i)
+          yield w
+          last_p = i
+          heappush(q, i)
 
 # ช่วยให้ไม่ต้องพิมพ์ยาวๆ
 

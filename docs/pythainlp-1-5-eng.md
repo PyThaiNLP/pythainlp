@@ -260,7 +260,7 @@ credit Korakot Chaovavanich (from https://gist.github.com/korakot/0b772e09340cac
 **Example**
 
 ```python
->>> from pythainlp.soundex import LK82
+>>> from pythainlp.soundex import LK82,Udom83
 >>> print(LK82('รถ'))
 ร3000
 >>> print(LK82('รด'))

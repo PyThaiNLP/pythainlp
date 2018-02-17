@@ -359,7 +359,7 @@ from pythainlp.change import *
 **การใช้งาน**
 
 ```python
->>> from pythainlp.soundex import LK82
+>>> from pythainlp.soundex import LK82,Udom83
 >>> print(LK82('รถ'))
 ร3000
 >>> print(LK82('รด'))

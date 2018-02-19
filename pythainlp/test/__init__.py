@@ -20,7 +20,7 @@ from pythainlp.util import normalize
 from pythainlp.summarize import summarize_text
 class TestUM(unittest.TestCase):
 	"""
-	ระบบทดสอบการทำงานของโค้ดของ PyThaiNLP 1.5
+	ระบบทดสอบการทำงานของโค้ดของ PyThaiNLP 1.6
 	"""
 	def test_segment(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
@@ -38,20 +38,23 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='mm'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
 	def test_segment_newmm(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='newmm'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
+		self.assertEqual(word_tokenize('สวัสดีครับ สบายดีไหมครับ',engine='newmm'),[u'สวัสดี', u'ครับ', u' ', u'สบายดี', u'ไหม', u'ครับ'])
+		self.assertEqual(word_tokenize('จุ๋มง่วงนอนยัง',engine='newmm'),[u'จุ๋ม', u'ง่วงนอน', u'ยัง'])
+		self.assertEqual(word_tokenize('จุ๋มง่วง',engine='newmm'),[u'จุ๋ม', u'ง่วง'])
 	def test_segment_longest_matching(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='longest-matching'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
-	"""def test_segment_Wordcut(self):
+	def test_segment_Wordcut(self):
 		if sys.version_info >= (3,4):
-			self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='wordcutpy'),[u'ฉัน', u'รัก', u'ภาษา', u'ไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คน', u'ไทย'])"""
+			self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='wordcutpy'),[u'ฉัน', u'รัก', u'ภาษา', u'ไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คน', u'ไทย'])
 	def test_rank(self):
 		self.assertEqual(rank(["แมว","คน","แมว"]),Counter({'แมว': 2, 'คน': 1}))
 	def test_change(self):
 		self.assertEqual(texttothai("l;ylfu8iy["),'สวัสดีครับ')
 		self.assertEqual(texttoeng('สวัสดีครับ'),"l;ylfu8iy[")
-	def test_romanization1(self):
+	def test_romanization(self):
 		self.assertEqual(romanization("แมว"),'maeo')
 		self.assertEqual(romanization("แมว","pyicu"),'mæw')
-	def test_romanization2(self):
+	def test_romanization_royin(self):
 		self.assertEqual(romanization("แมว",engine="royin"),'maeo')
 		self.assertEqual(romanization("เดือน",engine="royin"),'duean')
 		self.assertEqual(romanization("ดู",engine="royin"),'du')

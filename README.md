@@ -18,7 +18,7 @@ It supports both Python 2.7 and Python 3.
 
 ### Capability
 
-- Thai segmentation
+- Thai word segmentation
 - Thai wordnet
 - Thai Character Clusters (TCC) and ETCC
 - Thai stop word

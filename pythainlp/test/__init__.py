@@ -18,6 +18,7 @@ from collections import namedtuple
 from pythainlp.collation import collation
 from pythainlp.util import normalize
 from pythainlp.summarize import summarize_text
+from pythainlp.vowel_clean import vowel_clean, vowel_list_clean
 class TestUM(unittest.TestCase):
 	"""
 	ระบบทดสอบการทำงานของโค้ดของ PyThaiNLP 1.6
@@ -104,5 +105,10 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(pos_tag(word_tokenize("คุณกำลังประชุม"),engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
 		if sys.version_info >= (3,4):
 			self.assertEqual(str(type(pos_tag(word_tokenize("ผมรักคุณ"),engine='artagger'))),"<class 'list'>")
+	def test_vowel_clean(self):
+		self.assertEqual(vowel_list_clean(["เเม่"]), ["แม่"])
+		self.assertEqual(vowel_list_clean(["สี่เหลี่่่่่ยม"]), ["สี่เหลี่ยม"])
+		self.assertEqual(vowel_clean("สี่เหลี่่่่่ยม"), "สี่เหลี่ยม")
+		self.assertEqual(vowel_clean("มาาาาหาาาาแม่หน่อย"), "มาหาแม่หน่อย")
 if __name__ == '__main__':
     unittest.main()

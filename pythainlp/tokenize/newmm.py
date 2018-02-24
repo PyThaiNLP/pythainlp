@@ -73,16 +73,6 @@ def tcc_pos(text):
         p_set.add(p)
     return p_set
 
-
-def serialize(words_at, p, p2):
-    # find path ทั้งหมด แบบ depth first
-    for w in words_at[p]:
-        p_ = p + len(w)
-        if p_ == p2:
-            yield [w]
-        elif p_ < p2:
-            for path in serialize(words_at, p_, p2):
-                yield [w] + path
 def bfs_paths_graph(graph, start, goal):
   queue = [(start, [start])]
   while queue:

@@ -23,12 +23,12 @@ def vowel_clean(text):
     previous_chr = ''
     for chr in text:
         if not chr >= 'ฯ' and chr <= '์':
-            text_cleaned = text_cleaned + chr
+            text_cleaned = '{}{}'.format(text_cleaned, chr)
             previous_chr = chr
             continue
         if chr == previous_chr:
             continue
-        text_cleaned = text_cleaned + chr
+        text_cleaned = '{}{}'.format(text_cleaned, chr)
         previous_chr = chr
     return text_cleaned
 

@@ -15,17 +15,8 @@ It supports both Python 2.7 and Python 3.
 
 pip install pythainlp
 
-Homepags : `https://sites.google.com/view/pythainlp/ <https://sites.google.com/view/pythainlp/>`_
 
 GitHub : https://github.com/wannaphongcom/pythainlp
-
-Development Lead
-
-* Wannaphong Phatthiyaphaibun <wannaphong@kkumail.com>
-
-* Korakot Chaovavanich
-
-* Charin Polpanumas
 
 
 **License**

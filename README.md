@@ -7,8 +7,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
 [![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev)
 
-Homepags : https://sites.google.com/view/pythainlp/
-
 Thai natural language processing in Python.
 
 PyThaiNLP is a python module similar to `nltk` , but it's working primarily on
@@ -38,11 +36,9 @@ and much more.
 $ pip install pythainlp
 ```
 
-more read on [https://sites.google.com/view/pythainlp/english/install](https://sites.google.com/view/pythainlp/english/install)
-
 ### Documentation
 
-Read on [https://sites.google.com/view/pythainlp/english](https://sites.google.com/view/pythainlp/english)
+Read on [https://github.com/PyThaiNLP/pythainlp/tree/dev/docs](https://github.com/PyThaiNLP/pythainlp/tree/dev/docs)
 
 ### License
 
@@ -58,7 +54,7 @@ Natural language processing หรือ การประมวลภาษา
 
 รองรับ Python 2.7 และ Python 3
 
-  - หน้าหลัก GitHub :  [https://github.com/wannaphongcom/pythainlp](https://github.com/wannaphongcom/pythainlp)
+  - หน้าหลัก GitHub :  [https://github.com/PyThaiNLP/pythainlp/](https://github.com/PyThaiNLP/pythainlp/)
 
 ### ความสามารถ
   - ตัดคำภาษาไทย
@@ -85,12 +81,9 @@ Natural language processing หรือ การประมวลภาษา
 $ pip install pythainlp
 ```
 
-อ่านเพิ่มเติมใน [https://sites.google.com/view/pythainlp/ภาษาไทย/install](https://sites.google.com/view/pythainlp/ภาษาไทย/install)
-
-
 ### เอกสารการใช้งาน
 
-อ่านได้ที่  [https://sites.google.com/view/pythainlp/ภาษาไทย](https://sites.google.com/view/pythainlp/ภาษาไทย)
+อ่านได้ที่  [https://github.com/PyThaiNLP/pythainlp/tree/dev/docs](https://github.com/PyThaiNLP/pythainlp/tree/dev/docs)
 
 ### License
 

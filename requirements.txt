@@ -2,5 +2,6 @@ nltk>=3.2.2
 future>=0.16.0
 six
 marisa_trie
+requests
 dill
 pytz

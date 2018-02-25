@@ -1,6 +1,6 @@
-=========
-PyThaiNLP 1.5
-=========
+================
+PyThaiNLP 1.6.0
+================
 
 Thai natural language processing in Python.
 
@@ -15,17 +15,10 @@ It supports both Python 2.7 and Python 3.
 
 pip install pythainlp
 
-Homepags : `https://sites.google.com/view/pythainlp/ <https://sites.google.com/view/pythainlp/>`_
 
 GitHub : https://github.com/wannaphongcom/pythainlp
 
-Development Lead
-----------------
 
-* Wannaphong Phatthiyaphaibun <wannaphong@kkumail.com>
-
-
-License
-~~~~~~~
+**License**
 
 Apache Software License 2.0

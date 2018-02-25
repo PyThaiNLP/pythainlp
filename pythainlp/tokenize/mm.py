@@ -12,16 +12,16 @@ from __future__ import print_function
 from six.moves import range,zip
 import codecs
 import re
-from .thai import data as newdata # load dictionary
+from pythainlp.tools import file_trie
 from pythainlp.corpus import stopwords # load  stopwords
 import marisa_trie
-
 class wordcut(object):
     """
     ตัดคำภาษาไทยด้วย Maximum Matching algorithm
     """
-    def __init__(self, removeRepeat=True, keyDictionary="", stopDictionary="", removeSpaces=True, minLength=1, stopNumber=False, removeNonCharacter=False, caseSensitive=True, ngram=(1,1), negation=False):
-        d = newdata() # load dictionary
+    def __init__(self, removeRepeat=True, keyDictionary="", stopDictionary="", removeSpaces=True, minLength=1, stopNumber=False, removeNonCharacter=False, caseSensitive=True, ngram=(1,1), negation=False,data=""):
+        if data!="":
+            d = data # load dictionary
         # load negation listdir
         self.negationDict = []
         if negation:
@@ -43,7 +43,10 @@ class wordcut(object):
                 for line in f.read().splitlines():
                     self.keydict.append(line)
 
-        self.trie = marisa_trie.Trie(d)
+        if data=="":
+            self.trie = file_trie(data="old")
+        else:
+            self.trie = marisa_trie.Trie(d)
         self.removeRepeat = removeRepeat
         self.stopNumber = stopNumber
         self.removeSpaces = removeSpaces
@@ -288,9 +291,9 @@ def mergelistlen(listdata,lennum):
         listlen=len(listdata)
         i+=1
     return listdata
-def segment(text):
+def segment(text,data=""):
     '''
     ใช้ในการตัดตำ segment(str) คืนค่า list
     '''
-    pt = wordcut(stopNumber=False, removeNonCharacter=True, caseSensitive=False,removeRepeat=True)
+    pt = wordcut(stopNumber=False, removeNonCharacter=True, caseSensitive=False,removeRepeat=True,data=data)
     return mergelistlen(pt.segment(text),1)

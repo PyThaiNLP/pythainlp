@@ -1,7 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,print_function,unicode_literals
+import sys
 from six.moves import zip
-import icu
+try:
+	import icu
+except ImportError:
+	import pip
+	pip.main(['install','pyicu'])
+	try:
+		import icu
+	except ImportError:
+		sys.exit('Error ! using pip install pyicu')
 def isEnglish(s):
 	'''
 	เช็คว่าตัวอักษรเป็นภาษาอังกฤษหรือไม่

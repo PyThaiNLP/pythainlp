@@ -1,4 +1,4 @@
-# คู่มือการใช้งาน PyThaiNLP 1.5
+# คู่มือการใช้งาน PyThaiNLP 1.6
 
 [TOC]
 
@@ -13,6 +13,8 @@ Natural language processing หรือ การประมวลภาษา
 ```
 pip install pythainlp
 ```
+
+ปัจจุบันนี้ PyThaiNLP ไม่ต้องการ PyICU ในการใช้งาน API อีกแล้ว แต่หากท่านต้องการใช้ API ที่มี PyICU ให้ทำตามคำแนะนำข้างล่างนี้
 
 **วิธีติดตั้งสำหรับ Windows**
 
@@ -54,18 +56,26 @@ text คือ ข้อความในรูปแบบสตริง str 
 
 engine คือ ระบบตัดคำไทย ปัจจุบันนี้ PyThaiNLP ได้พัฒนามี 6 engine ให้ใช้งานกันดังนี้
 
-1. icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ) และเป็นค่าเริ่มต้น
-2. dict - เป็นการตัดคำโดยใช้พจานุกรมจาก thaiword.txt ใน corpus  (ความแม่นยำปานกลาง) **จะคืนค่า False หากข้อความนั้นไม่สามารถตัดคำได้**
-3. longest-matching ใช้ Longest matching ในการตัดคำ
-4. mm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย - API ชุดเก่า
-5. newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ โดยใช้โค้ดคุณ Korakot Chaovavanich  จาก https://www.facebook.com/groups/408004796247683/permalink/431283740586455/ มาพัฒนาต่อ
-6. pylexto ใช้ LexTo ในการตัดคำ โดยเป็น Longest matching
+1. newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ โดยใช้โค้ดคุณ Korakot Chaovavanich  จาก https://www.facebook.com/groups/408004796247683/permalink/431283740586455/ มาพัฒนาต่อ (ค่าเริ่มต้น)
+2. icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)
+3. dict - เป็นการตัดคำโดยใช้พจานุกรมจาก thaiword.txt ใน corpus  (ความแม่นยำปานกลาง) **จะคืนค่า False หากข้อความนั้นไม่สามารถตัดคำได้**
+4. longest-matching ใช้ Longest matching ในการตัดคำ
+5. mm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย - API ชุดเก่า **อยู่ในหมวดบำรุงรักษาเท่านั้น**
+6. ****pylexto ใช้ LexTo ในการตัดคำ โดยเป็น Longest matching
 7. deepcut ใช้ deepcut จาก https://github.com/rkcosmos/deepcut ในการตัดคำภาษาไทย
 8. wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 
 คืนค่าเป็น ''list'' เช่น ['แมว','กิน']
 
 **ตัวอย่าง**
+
+```
+สำหรับผู้ใช้งาน Python 2.7 ให้ทำการ encode ให้เป็น UTF-8 ก่อนใช้งานโมดูล PyThaiNLP
+
+เช่น text=u'ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด'
+```
+
+การใช้งาน
 
 ```python
 from pythainlp.tokenize import word_tokenize
@@ -100,6 +110,12 @@ engine คือ เครื่องมือตัดคำ
 
 ตัวอย่างการใช้งาน https://gist.github.com/wannaphongcom/1e862583051bf0464b6ef4ed592f739c
 
+```
+สำหรับผู้ใช้งาน Python 2.7 ให้ทำการ encode ให้เป็น UTF-8 ก่อนใช้งานโมดูล PyThaiNLP
+
+เช่น text=u'ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด'
+```
+
 #### sent_tokenize
 
 ใช้ตัดประโยคภาษาไทย
@@ -127,6 +143,14 @@ engine คือ เครื่องมือสำหรับใช้ตั
 ['ทดสอบ', 'ตัดคำช่องว่าง']
 ```
 
+```
+สำหรับผู้ใช้งาน Python 2.7 ให้ทำการ encode ให้เป็น UTF-8 ก่อนใช้งานโมดูล PyThaiNLP
+
+เช่น WhitespaceTokenizer(u"ทดสอบ ตัดคำช่องว่าง")
+```
+
+
+
 #### isthai
 
 ใช้เช็คข้อความว่าเป็นภาษาไทยทั้งหมดกี่ %
@@ -147,7 +171,7 @@ check_all สำหรับส่งคืนค่า True หรือ False 
 
 #### Thai Character Clusters (TCC)
 
-PyThaiNLP 1.4 รองรับ Thai Character Clusters (TCC) โดยจะแบ่งกลุ่มด้วย /
+รองรับ Thai Character Clusters (TCC) โดยจะแบ่งกลุ่มด้วย /
 
 **เดติด**
 
@@ -215,12 +239,12 @@ engine คือ ชุดเครื่องมือในการ postagge
 
 ```python
 from pythainlp.romanization import romanization
-romanization(str,engine='pyicu')
+romanization(str,engine='royin')
 ```
 มี 2 engine ดังนี้
 
 - pyicu ส่งค่า Latin
-- royin ใช้หลักเกณฑ์การถอดอักษรไทยเป็นอักษรโรมัน ฉบับราชบัณฑิตยสถาน (**หากมีข้อผิดพลาด ให้ใช้คำอ่าน เนื่องจากตัว royin ไม่มีตัวแปลงคำเป็นคำอ่าน**)
+- royin ใช้หลักเกณฑ์การถอดอักษรไทยเป็นอักษรโรมัน ฉบับราชบัณฑิตยสถาน (**หากมีข้อผิดพลาด ให้ใช้คำอ่าน เนื่องจากตัว royin ไม่มีตัวแปลงคำเป็นคำอ่าน**) 
 
 data :
 
@@ -232,7 +256,7 @@ data :
 
 ```python
 from pythainlp.romanization import romanization
-romanization("แมว") # 'mæw'
+romanization("แมว") # 'maew'
 ```
 
 ### spell 
@@ -566,7 +590,7 @@ text_list คือ ข้อความภาษาไทยที่อยู
 
 #### ConceptNet
 
-เครื่องมือสำหรับ ConceptNet.
+เครื่องมือสำหรับ ConceptNet
 
 **ค้นหา edges**
 
@@ -606,4 +630,4 @@ domain คือ หมวดหมู่ของคำ
 - leisure
 - others
 
-เขียนโดย นาย วรรณพงษ์  ภัททิยไพบูลย์
+เขียนโดย PyThaiNLP

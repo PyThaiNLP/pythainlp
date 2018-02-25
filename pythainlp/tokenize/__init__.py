@@ -2,19 +2,52 @@
 from __future__ import absolute_import,unicode_literals
 import nltk
 import re
+import codecs
 from six.moves import zip
-def word_tokenize(text,engine='icu'):
+from pythainlp.corpus.thaisyllable import get_data
+def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
+	'''
+	dict_word_tokenize(text,file,engine)
+	เป็นคำสั่งสำหรับตัดคำโดยใช้ข้อมูลที่ผู้ใช้กำหนด
+	text คือ ข้อความที่ต้องการตัดคำ
+	file คือ ที่ตั้งไฟล์ที่ต้องการมาเป็นฐานข้อมูลตัดคำ
+	engine คือ เครื่องมือตัดคำ
+	- newmm ตัดคำด้วย newmm
+    - wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
+	- mm ตัดคำด้วย mm
+    - longest-matching ตัดคำโดยใช้ longest matching
+	data_type คือ ชนิดข้อมูล
+	- file คือ ไฟล์ข้อมูล
+	- list คือ ข้อมูลที่อยู่ใน list
+	กรณีที่ใช้ list ต้องใช้ data=list(ข้อมูล)
+	'''
+	if data_type=='file':
+		with codecs.open(file, 'r',encoding='utf8') as f:
+			lines = f.read().splitlines()
+		f.close()
+	elif data_type=='list':
+		lines = data
+	if engine=="newmm":
+		from .newmm import mmcut as segment
+	elif engine=="mm":
+		from .mm import segment
+	elif engine=='longest-matching':
+		from .longest import segment
+	elif engine=='wordcutpy':
+		from .wordcutpy import segment
+	return segment(text,data=lines)
+def word_tokenize(text,engine='newmm'):
 	"""
 	ระบบตัดคำภาษาไทย
 
-	word_tokenize(text,engine='icu')
+	word_tokenize(text,engine='newmm')
 	text คือ ข้อความในรูปแบบ str
 	engine มี
-	- icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ) และเป็นค่าเริ่มต้น
+	- newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)
+	- icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)
 	- dict - ใช้ dicu ในการตัดคำไทย จะคืนค่า False หากไม่สามารถตัดคำไทย
 	- longest-matching ใช้ Longest matching ในการตัดคำ
 	- mm ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
-	- newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่
 	- pylexto ใช้ LexTo ในการตัดคำ
 	- deepcut ใช้ Deep Neural Network ในการตัดคำภาษาไทย
 	- wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
@@ -56,6 +89,11 @@ def word_tokenize(text,engine='icu'):
 			ใช้ Deep Neural Network ในการตัดคำภาษาไทย
 			'''
     		from .deepcut import segment
+	elif engine=='cutkum':
+    		'''
+			ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)
+			'''
+    		from .cutkum import segment
 	elif engine=='wordcutpy':
     		'''
 			wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
@@ -75,7 +113,6 @@ def sent_tokenize(text,engine='whitespace+newline'):
 def wordpunct_tokenize(text):
 	'''
 	wordpunct_tokenize(text)
-
 	It is nltk.tokenize.wordpunct_tokenize(text).
 	'''
 	return nltk.tokenize.wordpunct_tokenize(text)
@@ -113,3 +150,20 @@ def isthai(text,check_all=False):
     else:
         data= {'thai':thai}
     return data
+def syllable_tokenize(text1):
+	"""
+	syllable_tokenize(text)
+	เป็นคำสั่งสำหรับใช้ตัดพยางค์ในภาษาไทย
+	รับ str
+	ส่งออก list
+	"""
+	text1=word_tokenize(text1)
+	data=[]
+	if(len(text1)>0):
+		i=0
+		while(i<len(text1)):
+			data.extend(dict_word_tokenize(text=text1[i],data=get_data(),data_type="list"))
+			i+=1
+	else:
+		data=dict_word_tokenize(text=text1,data=get_data(),data_type="list")
+	return data

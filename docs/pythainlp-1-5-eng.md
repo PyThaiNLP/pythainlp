@@ -41,6 +41,28 @@ d=word_tokenize(text,engine='pylexto') # ['ผม', 'รัก', 'คุณ', '�
 e=word_tokenize(text,engine='newmm') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
 ```
 
+#### dict_word_tokenize
+
+```python
+from pythainlp.tokenize import dict_word_tokenize
+dict_word_tokenize(text,file,engine)
+```
+
+A command for tokenize by using user-defined information.
+
+text : str
+
+file : name file data using in tokenize.
+
+engine
+
+- newmm
+- wordcutpy : using wordcutpy (https://github.com/veer66/wordcutpy)
+- mm
+- longest-matching
+
+Example https://gist.github.com/wannaphongcom/1e862583051bf0464b6ef4ed592f739c
+
 #### sent_tokenize
 
 Thai Sentence Tokenizer
@@ -238,7 +260,7 @@ credit Korakot Chaovavanich (from https://gist.github.com/korakot/0b772e09340cac
 **Example**
 
 ```python
->>> from pythainlp.soundex import LK82
+>>> from pythainlp.soundex import LK82,Udom83
 >>> print(LK82('รถ'))
 ร3000
 >>> print(LK82('รด'))

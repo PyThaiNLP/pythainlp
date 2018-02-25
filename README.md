@@ -1,12 +1,11 @@
-# PyThaiNLP
-[![PyPI Downloads](https://img.shields.io/pypi/dm/pythainlp.png)]
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/50fa9d87f4fb4a95aac62b398aa374fa)](https://www.codacy.com/app/wannaphongcom/pythainlp?utm_source=github.com&utm_medium=referral&utm_content=wannaphongcom/pythainlp&utm_campaign=badger)
-[![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
-[![Build Status](https://travis-ci.org/wannaphongcom/pythainlp.svg?branch=develop)](https://travis-ci.org/wannaphongcom/pythainlp)
-[![Build status](https://ci.appveyor.com/api/projects/status/uxerymgggp1uch0p?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp)
-[![Coverage Status](https://coveralls.io/repos/github/wannaphongcom/pythainlp/badge.svg)](https://coveralls.io/github/wannaphongcom/pythainlp)
+![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
 
-Homepags : https://sites.google.com/view/pythainlp/
+# PyThaiNLP
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)[![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
+[![Build Status](https://travis-ci.org/PyThaiNLP/pythainlp.svg?branch=develop)](https://travis-ci.org/PyThaiNLP/pythainlp)
+[![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
+[![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev)
 
 Thai natural language processing in Python.
 
@@ -17,7 +16,7 @@ It supports both Python 2.7 and Python 3.
 
 ### Capability
 
-- Thai segmentation
+- Thai word segmentation
 - Thai wordnet
 - Thai Character Clusters (TCC) and ETCC
 - Thai stop word
@@ -37,11 +36,9 @@ and much more.
 $ pip install pythainlp
 ```
 
-more read on [https://sites.google.com/view/pythainlp/english/install](https://sites.google.com/view/pythainlp/english/install)
-
 ### Documentation
 
-Read on [https://sites.google.com/view/pythainlp/english](https://sites.google.com/view/pythainlp/english)
+Read on [https://github.com/PyThaiNLP/pythainlp/tree/dev/docs](https://github.com/PyThaiNLP/pythainlp/tree/dev/docs)
 
 ### License
 
@@ -57,7 +54,7 @@ Natural language processing หรือ การประมวลภาษา
 
 รองรับ Python 2.7 และ Python 3
 
-  - หน้าหลัก GitHub :  [https://github.com/wannaphongcom/pythainlp](https://github.com/wannaphongcom/pythainlp)
+  - หน้าหลัก GitHub :  [https://github.com/PyThaiNLP/pythainlp/](https://github.com/PyThaiNLP/pythainlp/)
 
 ### ความสามารถ
   - ตัดคำภาษาไทย
@@ -84,19 +81,19 @@ Natural language processing หรือ การประมวลภาษา
 $ pip install pythainlp
 ```
 
-อ่านเพิ่มเติมใน [https://sites.google.com/view/pythainlp/ภาษาไทย/install](https://sites.google.com/view/pythainlp/ภาษาไทย/install)
-
-
 ### เอกสารการใช้งาน
 
-อ่านได้ที่  [https://sites.google.com/view/pythainlp/ภาษาไทย](https://sites.google.com/view/pythainlp/ภาษาไทย)
+อ่านได้ที่  [https://github.com/PyThaiNLP/pythainlp/tree/dev/docs](https://github.com/PyThaiNLP/pythainlp/tree/dev/docs)
 
 ### License
 
 Apache Software License 2.0
 
+พัฒนาโดย PyThaiNLP
 
-พัฒนาโดย นาย วรรณพงษ์  ภัททิยไพบูลย์
+### Logo
+
+ออกแบบโดยคุณ วรุตม์ พสุธาดล จากการประกวดที่ https://www.facebook.com/groups/408004796247683/permalink/475864542795041/ และ https://www.facebook.com/groups/408004796247683/permalink/474262752955220/
 
 ### สนับสนุน
 

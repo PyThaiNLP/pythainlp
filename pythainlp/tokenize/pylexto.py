@@ -10,7 +10,10 @@ except ImportError:
 		from pylexto import LexTo
 	except ImportError:
 		sys.exit('Error ! using pip install https://github.com/wannaphongcom/pylexto/archive/master.zip')
-def segment(text):
+def segment(text,full=False):
     lexto = LexTo()
     words, types = lexto.tokenize(text)
-    return words
+    if full==True:
+        return (words,types)
+    else:
+        return words

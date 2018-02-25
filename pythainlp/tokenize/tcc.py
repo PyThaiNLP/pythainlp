@@ -38,20 +38,6 @@ ct[ะาำ]?
 ฯลฯ
 ฯ
 """.replace('c','[ก-ฮ]').replace('t', '[่-๋]?').split()
-'''
-def tcc(w):
-    p = 0 # position
-    while p<len(w):
-        for pat in pat_list:
-            m = re.match(pat, w[p:])
-            if m:
-                n = m.span()[1]
-                break
-            else: # กรณีหาไม่เจอ
-                n = 1
-        yield w[p:p+n]
-        p += n
-'''
 def tcc1(w):
     p = 0
     pat = re.compile("|".join(pat_list))

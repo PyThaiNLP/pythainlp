@@ -5,3 +5,5 @@ six
 marisa_trie
 langdetect
 requests
+dill
+pytz

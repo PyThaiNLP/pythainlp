@@ -36,7 +36,7 @@ def etcc(text):
     if (re.search(c+uv2+c,text,re.U)):
         search=re.findall(c+uv2+c,text,re.U)
         for i in search:
-            text=re.sub(i, '/'+i+'/', text)    
+            text=re.sub(i, '/'+i+'/', text)
     re.sub('//','/',text)
     if (re.search('เ'+c+'า'+'ะ',text,re.U)):
         search=re.findall('เ'+c+'า'+'ะ',text,re.U)
@@ -56,7 +56,7 @@ def etcc(text):
         search=re.findall('/'+c+''.join(['ุ', '์'])+'/',text,re.U)
         for i in search:
             ii=re.sub('/','', i)
-            text=re.sub(i,ii+'/', text)   
+            text=re.sub(i,ii+'/', text)
     return re.sub('//','/',text)
 if __name__ == '__main__':
     print(etcc('พันธุ์เด็กเปียเสือเงินพังมือเพราะเกาะเอาะยีนส์เพราะเรือดีเพราะ'))

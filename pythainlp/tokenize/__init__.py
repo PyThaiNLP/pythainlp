@@ -5,6 +5,34 @@ import re
 import codecs
 from six.moves import zip
 from pythainlp.corpus.thaisyllable import get_data
+from pythainlp.corpus.thaiword import get_data as get_dict
+from marisa_trie import Trie
+
+class Tokenizer:
+	def __init__(self, custom_dict=None):
+		"""
+		Initialize tokenizer object
+		
+		Keyword arguments:
+		custom_dict -- a file path or a list of vocaburaies to be used to create a trie (default - original lexitron)
+
+		Object variables:
+		trie_dict -- a trie to use in tokenizing engines
+		"""
+		if custom_dict:
+			if type(custom_dict) is list:
+				self.trie_dict = Trie(custom_dict)
+			elif type(custom_dict) is str:
+				with codecs.open(custom_dict, 'r',encoding='utf8') as f:
+					vocabs = [word.rstrip() for word in f.readlines()]
+				self.trie_dict = Trie(vocabs)
+		else:
+			self.trie_dict = Trie(get_dict())
+	
+	def word_tokenize(self, text, engine='newmm'):
+		from .newmm import mmcut as segment
+		return segment(text, data=self.trie_dict)
+
 def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
 	'''
 	dict_word_tokenize(text,file,engine)
@@ -13,9 +41,9 @@ def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
 	file คือ ที่ตั้งไฟล์ที่ต้องการมาเป็นฐานข้อมูลตัดคำ
 	engine คือ เครื่องมือตัดคำ
 	- newmm ตัดคำด้วย newmm
-    - wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
+	- wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 	- mm ตัดคำด้วย mm
-    - longest-matching ตัดคำโดยใช้ longest matching
+	- longest-matching ตัดคำโดยใช้ longest matching
 	data_type คือ ชนิดข้อมูล
 	- file คือ ไฟล์ข้อมูล
 	- list คือ ข้อมูลที่อยู่ใน list
@@ -24,7 +52,6 @@ def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
 	if data_type=='file':
 		with codecs.open(file, 'r',encoding='utf8') as f:
 			lines = f.read().splitlines()
-		f.close()
 	elif data_type=='list':
 		lines = data
 	if engine=="newmm":
@@ -36,6 +63,7 @@ def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
 	elif engine=='wordcutpy':
 		from .wordcutpy import segment
 	return segment(text,data=lines)
+
 def word_tokenize(text,engine='newmm'):
 	"""
 	ระบบตัดคำภาษาไทย
@@ -53,53 +81,54 @@ def word_tokenize(text,engine='newmm'):
 	- wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 	"""
 	if engine=='icu':
-    		'''
-			ตัดคำภาษาไทยโดยใช้ icu ในการตัดคำ
-    		คำเตือน !!! \n คำสั่ง word_tokenize(text) ใน PyThaiNLP 1.6
-			ค่าเริ่มต้นจะเปลี่ยนจาก icu ไปเป็น newmm'''
-    		from .pyicu import segment
+		'''
+		ตัดคำภาษาไทยโดยใช้ icu ในการตัดคำ
+		คำเตือน !!! \n คำสั่ง word_tokenize(text) ใน PyThaiNLP 1.6
+		ค่าเริ่มต้นจะเปลี่ยนจาก icu ไปเป็น newmm'''
+		from .pyicu import segment
 	elif engine=='dict':
-    		'''
-			ใช้ dicu ในการตัดคำไทย
-			จะคืนค่า False หากไม่สามารถตัดคำไทย
-			'''
-    		from .dictsegment import segment
+		'''
+		ใช้ dicu ในการตัดคำไทย
+		จะคืนค่า False หากไม่สามารถตัดคำไทย
+		'''
+		from .dictsegment import segment
 	elif engine=='mm':
-    		'''
-			ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
-			'''
-    		from .mm import segment
+		'''
+		ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
+		'''
+		from .mm import segment
 	elif engine=='newmm':
-    		'''
-			ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่
-			'''
-    		from .newmm import mmcut as segment
+		'''
+		ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่
+		'''
+		from .newmm import mmcut as segment
 	elif engine=='longest-matching':
-    		'''
-			ใช้ Longest matching ในการตัดคำ
-			'''
-    		from .longest import segment
+		'''
+		ใช้ Longest matching ในการตัดคำ
+		'''
+		from .longest import segment
 	elif engine=='pylexto':
-    		'''
-			ใช้ LexTo ในการตัดคำ
-			'''
-    		from .pylexto import segment
+		'''
+		ใช้ LexTo ในการตัดคำ
+		'''
+		from .pylexto import segment
 	elif engine=='deepcut':
-    		'''
-			ใช้ Deep Neural Network ในการตัดคำภาษาไทย
-			'''
-    		from .deepcut import segment
+		'''
+		ใช้ Deep Neural Network ในการตัดคำภาษาไทย
+		'''
+		from .deepcut import segment
 	elif engine=='cutkum':
-    		'''
-			ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)
-			'''
-    		from .cutkum import segment
+		'''
+		ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)
+		'''
+		from .cutkum import segment
 	elif engine=='wordcutpy':
-    		'''
-			wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
-			'''
-    		from .wordcutpy import segment
+		'''
+		wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
+		'''
+		from .wordcutpy import segment
 	return segment(text)
+
 def sent_tokenize(text,engine='whitespace+newline'):
 	'''
 	sent_tokenize(text,engine='whitespace+newline')
@@ -119,37 +148,37 @@ def wordpunct_tokenize(text):
 def WhitespaceTokenizer(text):
 	return nltk.tokenize.WhitespaceTokenizer().tokenize(text)
 def isthai(text,check_all=False):
-    """
-    สำหรับเช็คว่าเป็นตัวอักษรภาษาไทยหรือไม่
-    isthai(text,check_all=False)
-    text คือ ข้อความหรือ list ตัวอักษร
-    check_all สำหรับส่งคืนค่า True หรือ False เช็คทุกตัวอักษร
+	"""
+	สำหรับเช็คว่าเป็นตัวอักษรภาษาไทยหรือไม่
+	isthai(text,check_all=False)
+	text คือ ข้อความหรือ list ตัวอักษร
+	check_all สำหรับส่งคืนค่า True หรือ False เช็คทุกตัวอักษร
 
-    การส่งคืนค่า
-    {'thai':% อักษรภาษาไทย,'check_all':tuple โดยจะเป็น (ตัวอักษร,True หรือ False)}
-    """
-    listext=list(text)
-    i=0
-    num_isthai=0
-    if check_all==True:
-        listthai=[]
-    while i<len(listext):
-        cVal = ord(listext[i])
-        if(cVal >= 3584 and cVal <= 3711):
-            num_isthai+=1
-            if check_all==True:
-                listthai.append(True)
-        else:
-            if check_all==True:
-                listthai.append(False)
-        i+=1
-    thai=(num_isthai/len(listext))*100
-    if check_all==True:
-        dictthai=tuple(zip(listext,listthai))
-        data= {'thai':thai,'check_all':dictthai}
-    else:
-        data= {'thai':thai}
-    return data
+	การส่งคืนค่า
+	{'thai':% อักษรภาษาไทย,'check_all':tuple โดยจะเป็น (ตัวอักษร,True หรือ False)}
+	"""
+	listext=list(text)
+	i=0
+	num_isthai=0
+	if check_all==True:
+		listthai=[]
+	while i<len(listext):
+		cVal = ord(listext[i])
+		if(cVal >= 3584 and cVal <= 3711):
+			num_isthai+=1
+			if check_all==True:
+				listthai.append(True)
+		else:
+			if check_all==True:
+				listthai.append(False)
+		i+=1
+	thai=(num_isthai/len(listext))*100
+	if check_all==True:
+		dictthai=tuple(zip(listext,listthai))
+		data= {'thai':thai,'check_all':dictthai}
+	else:
+		data= {'thai':thai}
+	return data
 def syllable_tokenize(text1):
 	"""
 	syllable_tokenize(text)

@@ -83,10 +83,12 @@ def bfs_paths_graph(graph, start, goal):
       else:
         queue.append((next, path+[next]))
 
-def onecut(text, data=['']):
-  if(data != ['']):
-      trie = Trie(data)
-  else:
+def onecut(text, trie=None):
+#   if(data != ['']):
+#       trie = Trie(data)
+#   else:
+#       trie = THAI_WORDS
+  if not trie:
       trie = THAI_WORDS
   graph = defaultdict(list)  # main data structure
   allow_pos = tcc_pos(text)     # ตำแหน่งที่ตัด ต้องตรงกับ tcc
@@ -135,5 +137,5 @@ def onecut(text, data=['']):
 # ช่วยให้ไม่ต้องพิมพ์ยาวๆ
 
 
-def mmcut(text, data=['']):
-    return list(onecut(text, data=data))
+def mmcut(text, data=None):
+    return list(onecut(text, trie=data))

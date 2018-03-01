@@ -56,6 +56,8 @@ def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
 		lines = data
 	if engine=="newmm":
 		from .newmm import mmcut as segment
+		trie = Trie(lines)
+		return segment(text, data=trie)
 	elif engine=="mm":
 		from .mm import segment
 	elif engine=='longest-matching':

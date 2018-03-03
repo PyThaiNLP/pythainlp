@@ -8,32 +8,10 @@ from pythainlp.corpus.thaisyllable import get_data
 from pythainlp.corpus.thaiword import get_data as get_dict
 from marisa_trie import Trie
 
-class Tokenizer:
-	def __init__(self, custom_dict=None):
-		"""
-		Initialize tokenizer object
-		
-		Keyword arguments:
-		custom_dict -- a file path or a list of vocaburaies to be used to create a trie (default - original lexitron)
+VOCABS = list()
+CUSTOM_DICT_TRIE = None
 
-		Object variables:
-		trie_dict -- a trie to use in tokenizing engines
-		"""
-		if custom_dict:
-			if type(custom_dict) is list:
-				self.trie_dict = Trie(custom_dict)
-			elif type(custom_dict) is str:
-				with codecs.open(custom_dict, 'r',encoding='utf8') as f:
-					vocabs = [word.rstrip() for word in f.readlines()]
-				self.trie_dict = Trie(vocabs)
-		else:
-			self.trie_dict = Trie(get_dict())
-	
-	def word_tokenize(self, text, engine='newmm'):
-		from .newmm import mmcut as segment
-		return segment(text, data=self.trie_dict)
-
-def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
+def dict_word_tokenize(text, file='', engine="newmm", data=[''], data_type="file"):
 	'''
 	dict_word_tokenize(text,file,engine)
 	เป็นคำสั่งสำหรับตัดคำโดยใช้ข้อมูลที่ผู้ใช้กำหนด
@@ -49,22 +27,26 @@ def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
 	- list คือ ข้อมูลที่อยู่ใน list
 	กรณีที่ใช้ list ต้องใช้ data=list(ข้อมูล)
 	'''
-	if data_type=='file':
-		with codecs.open(file, 'r',encoding='utf8') as f:
-			lines = f.read().splitlines()
-	elif data_type=='list':
-		lines = data
+	from pythainlp.tokenize import VOCABS, CUSTOM_DICT_TRIE
+	global VOCABS, CUSTOM_DICT_TRIE # Unable to replace value if 'global' is not declared
+	if not VOCABS:
+		if data_type=='file':
+			with codecs.open(file, 'r',encoding='utf8') as f:
+				VOCABS = f.read().splitlines()
+				CUSTOM_DICT_TRIE = Trie(VOCABS)
+		elif data_type=='list':
+			VOCABS = data
+			CUSTOM_DICT_TRIE = Trie(VOCABS)
 	if engine=="newmm":
 		from .newmm import mmcut as segment
-		trie = Trie(lines)
-		return segment(text, data=trie)
+		return segment(text, data=CUSTOM_DICT_TRIE)
 	elif engine=="mm":
 		from .mm import segment
 	elif engine=='longest-matching':
 		from .longest import segment
 	elif engine=='wordcutpy':
 		from .wordcutpy import segment
-	return segment(text,data=lines)
+	return segment(text, data=VOCABS)
 
 def word_tokenize(text,engine='newmm'):
 	"""
@@ -198,3 +180,28 @@ def syllable_tokenize(text1):
 	else:
 		data=dict_word_tokenize(text=text1,data=get_data(),data_type="list")
 	return data
+
+class Tokenizer:
+	def __init__(self, custom_dict=None):
+		"""
+		Initialize tokenizer object
+		
+		Keyword arguments:
+		custom_dict -- a file path or a list of vocaburaies to be used to create a trie (default - original lexitron)
+
+		Object variables:
+		trie_dict -- a trie to use in tokenizing engines
+		"""
+		if custom_dict:
+			if type(custom_dict) is list:
+				self.trie_dict = Trie(custom_dict)
+			elif type(custom_dict) is str:
+				with codecs.open(custom_dict, 'r',encoding='utf8') as f:
+					vocabs = f.read().splitlines()
+				self.trie_dict = Trie(vocabs)
+		else:
+			self.trie_dict = Trie(get_dict())
+	
+	def word_tokenize(self, text, engine='newmm'):
+		from .newmm import mmcut as segment
+		return segment(text, data=self.trie_dict)

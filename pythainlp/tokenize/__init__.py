@@ -4,14 +4,15 @@ import nltk
 import re
 import codecs
 from six.moves import zip
+# from pythainlp.tools import file_trie
 from pythainlp.corpus.thaisyllable import get_data
 from pythainlp.corpus.thaiword import get_data as get_dict
 from marisa_trie import Trie
 
-VOCABS = list()
-CUSTOM_DICT_TRIE = None
+CUSTOM_DICT_INITIALIZED = False
+DICT_TRIE = None #file_trie(data="old")
 
-def dict_word_tokenize(text, file='', engine="newmm", data=[''], data_type="file"):
+def dict_word_tokenize(text, engine="newmm", custom_dict_source=None):
 	'''
 	dict_word_tokenize(text,file,engine)
 	เป็นคำสั่งสำหรับตัดคำโดยใช้ข้อมูลที่ผู้ใช้กำหนด
@@ -27,26 +28,28 @@ def dict_word_tokenize(text, file='', engine="newmm", data=[''], data_type="file
 	- list คือ ข้อมูลที่อยู่ใน list
 	กรณีที่ใช้ list ต้องใช้ data=list(ข้อมูล)
 	'''
-	from pythainlp.tokenize import VOCABS, CUSTOM_DICT_TRIE
-	global VOCABS, CUSTOM_DICT_TRIE # Unable to replace value if 'global' is not declared
-	if not VOCABS:
-		if data_type=='file':
-			with codecs.open(file, 'r',encoding='utf8') as f:
-				VOCABS = f.read().splitlines()
-				CUSTOM_DICT_TRIE = Trie(VOCABS)
-		elif data_type=='list':
-			VOCABS = data
-			CUSTOM_DICT_TRIE = Trie(VOCABS)
+	from pythainlp.tokenize import CUSTOM_DICT_INITIALIZED, DICT_TRIE
+	global CUSTOM_DICT_INITIALIZED, DICT_TRIE # Unable to replace value if 'global' is not declared
+	if custom_dict_source:
+		if not CUSTOM_DICT_INITIALIZED:
+			# Replace the default trie with a custom dict trie
+			if type(custom_dict_source) is str:
+				# Receive a file path of the custom dict to read
+				with codecs.open(custom_dict_source, 'r',encoding='utf8') as f:
+					_vocabs = f.read().splitlines()
+					DICT_TRIE = Trie(_vocabs)
+			elif isinstance(custom_dict_source, (list, tuple, set)):
+				# Received a sequence type object of vocabs
+				DICT_TRIE = Trie(custom_dict_source)
 	if engine=="newmm":
 		from .newmm import mmcut as segment
-		return segment(text, data=CUSTOM_DICT_TRIE)
 	elif engine=="mm":
 		from .mm import segment
 	elif engine=='longest-matching':
 		from .longest import segment
 	elif engine=='wordcutpy':
 		from .wordcutpy import segment
-	return segment(text, data=VOCABS)
+	return segment(text)
 
 def word_tokenize(text,engine='newmm'):
 	"""

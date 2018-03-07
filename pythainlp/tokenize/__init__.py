@@ -179,10 +179,10 @@ def syllable_tokenize(text1):
 	if(len(text1)>0):
 		i=0
 		while(i<len(text1)):
-			data.extend(dict_word_tokenize(text=text1[i],data=get_data(),data_type="list"))
+			data.extend(word_tokenize(text=text1[i]))
 			i+=1
 	else:
-		data=dict_word_tokenize(text=text1,data=get_data(),data_type="list")
+		data=word_tokenize(text=text1)
 	return data
 
 def create_custom_dict_trie(custom_dict_source):

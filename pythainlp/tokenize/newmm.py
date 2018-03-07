@@ -9,8 +9,6 @@ from __future__ import absolute_import, unicode_literals
 import re
 from collections import defaultdict
 from heapq import heappush, heappop  # for priority queue
-from pythainlp.corpus.thaiword import get_data  # ดึงข้อมูลรายการคำในภาษาไทย
-# from pythainlp.tokenize import DICT_TRIE
 
 # ช่วยตัดพวกภาษาอังกฤษ เป็นต้น
 pat_eng = re.compile(r'''(?x)
@@ -48,8 +46,6 @@ ct[ะาำ]?
 [เ-ไ]ct
 """.replace('c', '[ก-ฮ]').replace('t', '[่-๋]?').split()
 
-from pythainlp.tools import file_trie
-DICT_TRIE = file_trie(data='old')
 
 def tcc(w):
     p = 0
@@ -82,7 +78,7 @@ def bfs_paths_graph(graph, start, goal):
       else:
         queue.append((next, path+[next]))
 
-def onecut(text):
+def onecut(text, trie):
   graph = defaultdict(list)  # main data structure
   allow_pos = tcc_pos(text)     # ตำแหน่งที่ตัด ต้องตรงกับ tcc
   
@@ -91,7 +87,7 @@ def onecut(text):
   while q[0] < len(text):
       p = heappop(q)
 
-      for w in DICT_TRIE.prefixes(text[p:]):
+      for w in trie.prefixes(text[p:]):
           p_ = p + len(w)
           if p_ in allow_pos:  # เลือกที่สอดคล้อง tcc
             graph[p].append(p_)
@@ -115,7 +111,7 @@ def onecut(text):
           else: # skip น้อยที่สุด ที่เป็นไปได้
               for i in range(p+1, len(text)):
                   if i in allow_pos:   # ใช้ tcc ด้วย
-                      ww = [w for w in DICT_TRIE.prefixes(text[i:]) if (i+len(w) in allow_pos)]
+                      ww = [w for w in trie.prefixes(text[i:]) if (i+len(w) in allow_pos)]
                       m = pat_eng.match(text[i:])
                       if ww or m:
                           break
@@ -129,5 +125,6 @@ def onecut(text):
 
 # ช่วยให้ไม่ต้องพิมพ์ยาวๆ
 
-def mmcut(text):
-    return list(onecut(text))
+
+def mmcut(text, trie):
+    return list(onecut(text, trie))

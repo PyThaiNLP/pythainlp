@@ -4,15 +4,13 @@ import nltk
 import re
 import codecs
 from six.moves import zip
-# from pythainlp.tools import file_trie
 from pythainlp.corpus.thaisyllable import get_data
 from pythainlp.corpus.thaiword import get_data as get_dict
 from marisa_trie import Trie
 
-CUSTOM_DICT_INITIALIZED = False
-DICT_TRIE = None #file_trie(data="old")
+DEFAULT_DICT_TRIE = Trie(get_dict())
 
-def dict_word_tokenize(text, engine="newmm", custom_dict_source=None):
+def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
 	'''
 	dict_word_tokenize(text,file,engine)
 	เป็นคำสั่งสำหรับตัดคำโดยใช้ข้อมูลที่ผู้ใช้กำหนด
@@ -20,27 +18,20 @@ def dict_word_tokenize(text, engine="newmm", custom_dict_source=None):
 	file คือ ที่ตั้งไฟล์ที่ต้องการมาเป็นฐานข้อมูลตัดคำ
 	engine คือ เครื่องมือตัดคำ
 	- newmm ตัดคำด้วย newmm
-	- wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
+    - wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 	- mm ตัดคำด้วย mm
-	- longest-matching ตัดคำโดยใช้ longest matching
+    - longest-matching ตัดคำโดยใช้ longest matching
 	data_type คือ ชนิดข้อมูล
 	- file คือ ไฟล์ข้อมูล
 	- list คือ ข้อมูลที่อยู่ใน list
 	กรณีที่ใช้ list ต้องใช้ data=list(ข้อมูล)
 	'''
-	from pythainlp.tokenize import CUSTOM_DICT_INITIALIZED, DICT_TRIE
-	global CUSTOM_DICT_INITIALIZED, DICT_TRIE # Unable to replace value if 'global' is not declared
-	if custom_dict_source:
-		if not CUSTOM_DICT_INITIALIZED:
-			# Replace the default trie with a custom dict trie
-			if type(custom_dict_source) is str:
-				# Receive a file path of the custom dict to read
-				with codecs.open(custom_dict_source, 'r',encoding='utf8') as f:
-					_vocabs = f.read().splitlines()
-					DICT_TRIE = Trie(_vocabs)
-			elif isinstance(custom_dict_source, (list, tuple, set)):
-				# Received a sequence type object of vocabs
-				DICT_TRIE = Trie(custom_dict_source)
+	if data_type=='file':
+		with codecs.open(file, 'r',encoding='utf8') as f:
+			lines = f.read().splitlines()
+		f.close()
+	elif data_type=='list':
+		lines = data
 	if engine=="newmm":
 		from .newmm import mmcut as segment
 	elif engine=="mm":
@@ -49,9 +40,9 @@ def dict_word_tokenize(text, engine="newmm", custom_dict_source=None):
 		from .longest import segment
 	elif engine=='wordcutpy':
 		from .wordcutpy import segment
-	return segment(text)
+	return segment(text,data=lines)
 
-def word_tokenize(text,engine='newmm'):
+def word_tokenize(text, engine='newmm', custom_dict_trie=None):
 	"""
 	ระบบตัดคำภาษาไทย
 
@@ -67,6 +58,12 @@ def word_tokenize(text,engine='newmm'):
 	- deepcut ใช้ Deep Neural Network ในการตัดคำภาษาไทย
 	- wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 	"""
+	from pythainlp.tokenize import DEFAULT_DICT_TRIE
+	if custom_dict_trie:
+		trie = custom_dict_trie
+	else:
+		trie = DEFAULT_DICT_TRIE
+	
 	if engine=='icu':
 		'''
 		ตัดคำภาษาไทยโดยใช้ icu ในการตัดคำ
@@ -84,16 +81,19 @@ def word_tokenize(text,engine='newmm'):
 		ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
 		'''
 		from .mm import segment
+		return segment(text, trie)
 	elif engine=='newmm':
 		'''
 		ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่
 		'''
 		from .newmm import mmcut as segment
+		return segment(text, trie)
 	elif engine=='longest-matching':
 		'''
 		ใช้ Longest matching ในการตัดคำ
 		'''
 		from .longest import segment
+		return segment(text, trie)
 	elif engine=='pylexto':
 		'''
 		ใช้ LexTo ในการตัดคำ
@@ -114,6 +114,7 @@ def word_tokenize(text,engine='newmm'):
 		wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 		'''
 		from .wordcutpy import segment
+		return segment(text, trie)
 	return segment(text)
 
 def sent_tokenize(text,engine='whitespace+newline'):
@@ -184,6 +185,33 @@ def syllable_tokenize(text1):
 		data=dict_word_tokenize(text=text1,data=get_data(),data_type="list")
 	return data
 
+def create_custom_dict_trie(custom_dict_source):
+	"""The function is used to create a custom dict trie which will be
+	used for word_tokenize() function
+	
+	Arguments:
+		custom_dict_source {string or list} -- a list of vocaburaries or a path to source file
+	
+	Raises:
+		ValueError -- Invalid custom_dict_source's object type
+	
+	Returns:
+		Trie -- A trie created from custom dict input
+	"""
+
+	if type(custom_dict_source) is str:
+		# Receive a file path of the custom dict to read
+		with codecs.open(custom_dict_source, 'r',encoding='utf8') as f:
+			_vocabs = f.read().splitlines()
+			return Trie(_vocabs)
+	elif isinstance(custom_dict_source, (list, tuple, set)):
+		# Received a sequence type object of vocabs
+		return Trie(custom_dict_source)
+	else:
+		raise TypeError(
+			'Type of custom_dict_source must be either str (path to source file) or collections'
+		)
+
 class Tokenizer:
 	def __init__(self, custom_dict=None):
 		"""
@@ -207,4 +235,4 @@ class Tokenizer:
 	
 	def word_tokenize(self, text, engine='newmm'):
 		from .newmm import mmcut as segment
-		return segment(text, data=self.trie_dict)
+		return segment(text, self.trie_dict)

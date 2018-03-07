@@ -109,9 +109,7 @@ def word_tokenize(text, engine='newmm', custom_dict_trie=None):
 		"""
 		from .cutkum import segment
 	elif engine=='wordcutpy':
-		"""
-		wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
-		"""
+		# wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 		from .wordcutpy import segment
 		
 	if engine in TRIE_WORD_SEGMENT_ENGINES:

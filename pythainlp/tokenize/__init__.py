@@ -108,9 +108,7 @@ def word_tokenize(text, engine='newmm', custom_dict_trie=None):
 		'''
 		from .cutkum import segment
 	elif engine=='wordcutpy':
-		'''
-		wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
-		'''
+		# wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 		from .wordcutpy import segment
 		from wordcut import Wordcut
 		wordcut = Wordcut.bigthai() if trie is DEFAULT_DICT_TRIE else Wordcut(trie.keys())

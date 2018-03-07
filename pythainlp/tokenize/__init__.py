@@ -12,7 +12,7 @@ DEFAULT_DICT_TRIE = Trie(get_dict())
 TRIE_WORD_SEGMENT_ENGINES = ['newmm', 'mm', 'longest-matching']
 
 def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
-	'''
+	"""
 	dict_word_tokenize(text,file,engine)
 	เป็นคำสั่งสำหรับตัดคำโดยใช้ข้อมูลที่ผู้ใช้กำหนด
 	text คือ ข้อความที่ต้องการตัดคำ
@@ -26,7 +26,7 @@ def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
 	- file คือ ไฟล์ข้อมูล
 	- list คือ ข้อมูลที่อยู่ใน list
 	กรณีที่ใช้ list ต้องใช้ data=list(ข้อมูล)
-	'''
+	"""
 	if data_type=='file':
 		with codecs.open(file, 'r',encoding='utf8') as f:
 			lines = f.read().splitlines()
@@ -66,51 +66,52 @@ def word_tokenize(text, engine='newmm', custom_dict_trie=None):
 		trie = DEFAULT_DICT_TRIE
 	
 	if engine=='icu':
-		'''
+		"""
 		ตัดคำภาษาไทยโดยใช้ icu ในการตัดคำ
 		คำเตือน !!! \n คำสั่ง word_tokenize(text) ใน PyThaiNLP 1.6
-		ค่าเริ่มต้นจะเปลี่ยนจาก icu ไปเป็น newmm'''
+		ค่าเริ่มต้นจะเปลี่ยนจาก icu ไปเป็น newmm
+		"""
 		from .pyicu import segment
 	elif engine=='dict':
-		'''
+		"""
 		ใช้ dicu ในการตัดคำไทย
 		จะคืนค่า False หากไม่สามารถตัดคำไทย
-		'''
+		"""
 		from .dictsegment import segment
 	elif engine=='mm':
-		'''
+		"""
 		ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
-		'''
+		"""
 		from .mm import segment
 	elif engine=='newmm':
-		'''
+		"""
 		ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่
-		'''
+		"""
 		from .newmm import mmcut as segment
 	elif engine=='longest-matching':
-		'''
+		"""
 		ใช้ Longest matching ในการตัดคำ
-		'''
+		"""
 		from .longest import segment
 	elif engine=='pylexto':
-		'''
+		"""
 		ใช้ LexTo ในการตัดคำ
-		'''
+		"""
 		from .pylexto import segment
 	elif engine=='deepcut':
-		'''
+		"""
 		ใช้ Deep Neural Network ในการตัดคำภาษาไทย
-		'''
+		"""
 		from .deepcut import segment
 	elif engine=='cutkum':
-		'''
+		"""
 		ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)
-		'''
+		"""
 		from .cutkum import segment
 	elif engine=='wordcutpy':
-		'''
+		"""
 		wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
-		'''
+		"""
 		from .wordcutpy import segment
 		
 	if engine in TRIE_WORD_SEGMENT_ENGINES:
@@ -125,20 +126,20 @@ def word_tokenize(text, engine='newmm', custom_dict_trie=None):
 	return segment(text)
 
 def sent_tokenize(text,engine='whitespace+newline'):
-	'''
+	"""
 	sent_tokenize(text,engine='whitespace+newline')
 	ตัดประโยคเบื้องต้น โดยการแบ่งด้วยช่องว่าง
-	'''
+	"""
 	if engine=='whitespace':
 		data=nltk.tokenize.WhitespaceTokenizer().tokenize(text)
 	elif engine=='whitespace+newline':
 		data=re.sub(r'\n+|\s+','|',text,re.U).split('|')
 	return data
 def wordpunct_tokenize(text):
-	'''
+	"""
 	wordpunct_tokenize(text)
 	It is nltk.tokenize.wordpunct_tokenize(text).
-	'''
+	"""
 	return nltk.tokenize.wordpunct_tokenize(text)
 def WhitespaceTokenizer(text):
 	return nltk.tokenize.WhitespaceTokenizer().tokenize(text)

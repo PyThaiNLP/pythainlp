@@ -9,7 +9,7 @@ from pythainlp.corpus.thaiword import get_data as get_dict
 from marisa_trie import Trie
 
 DEFAULT_DICT_TRIE = Trie(get_dict())
-TRIE_WORD_SEGMENT_ENGINES = ['newmm', 'mm', 'longest-matching', 'wordcutpy']
+TRIE_WORD_SEGMENT_ENGINES = ['newmm', 'mm', 'longest-matching']
 
 def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
 	'''
@@ -112,6 +112,9 @@ def word_tokenize(text, engine='newmm', custom_dict_trie=None):
 		wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 		'''
 		from .wordcutpy import segment
+		from wordcut import Wordcut
+		wordcut = Wordcut.bigthai() if trie is DEFAULT_DICT_TRIE else Wordcut(trie.keys())
+		return segment(text, wordcut)
 
 	if engine in TRIE_WORD_SEGMENT_ENGINES:
 		return segment(text, trie)
@@ -176,13 +179,14 @@ def syllable_tokenize(text1):
 	"""
 	text1=word_tokenize(text1)
 	data=[]
+	trie = create_custom_dict_trie(custom_dict_source=get_data())
 	if(len(text1)>0):
 		i=0
 		while(i<len(text1)):
-			data.extend(word_tokenize(text=text1[i]))
+			data.extend(word_tokenize(text=text1[i], custom_dict_trie=trie))
 			i+=1
 	else:
-		data=word_tokenize(text=text1)
+		data=word_tokenize(text=text1, custom_dict_trie=trie)
 	return data
 
 def create_custom_dict_trie(custom_dict_source):

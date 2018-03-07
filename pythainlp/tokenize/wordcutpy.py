@@ -18,7 +18,5 @@ except ImportError:
 	except ImportError:
 		sys.exit('Error ! using $ pip install wordcutpy')
 
-def segment(text, trie):
-    word_list = trie.keys()
-    wordcut = Wordcut(word_list)
+def segment(text, wordcut):
     return wordcut.tokenize(text)

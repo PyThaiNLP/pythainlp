@@ -108,17 +108,20 @@ def word_tokenize(text, engine='newmm', custom_dict_trie=None):
 		'''
 		from .cutkum import segment
 	elif engine=='wordcutpy':
-		# wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
+		'''
+		wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
+		'''
 		from .wordcutpy import segment
+		
+	if engine in TRIE_WORD_SEGMENT_ENGINES:
+		return segment(text, trie)
+	elif engine == 'wordcutpy':
 		from wordcut import Wordcut
 		if trie is DEFAULT_DICT_TRIE:
 			wordcut = Wordcut.bigthai() 
 		else: 
 			wordcut = Wordcut(trie.keys())
 		return segment(text, wordcut)
-
-	if engine in TRIE_WORD_SEGMENT_ENGINES:
-		return segment(text, trie)
 	return segment(text)
 
 def sent_tokenize(text,engine='whitespace+newline'):

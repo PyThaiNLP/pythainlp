@@ -111,12 +111,14 @@ def word_tokenize(text, engine='newmm', custom_dict_trie=None):
 		# wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 		from .wordcutpy import segment
 		from wordcut import Wordcut
-		wordcut = Wordcut.bigthai() if trie is DEFAULT_DICT_TRIE else Wordcut(trie.keys())
+		if trie is DEFAULT_DICT_TRIE:
+			wordcut = Wordcut.bigthai() 
+		else: 
+			wordcut = Wordcut(trie.keys())
+		return segment(text, wordcut)
 
 	if engine in TRIE_WORD_SEGMENT_ENGINES:
 		return segment(text, trie)
-	elif engine == 'wordcutpy':
-		return segment(text, wordcut)
 	return segment(text)
 
 def sent_tokenize(text,engine='whitespace+newline'):

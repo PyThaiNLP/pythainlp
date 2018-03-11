@@ -11,28 +11,20 @@ from marisa_trie import Trie
 DEFAULT_DICT_TRIE = Trie(get_dict())
 TRIE_WORD_SEGMENT_ENGINES = ['newmm', 'mm', 'longest-matching']
 
-def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
+def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
 	'''
 	dict_word_tokenize(text,file,engine)
 	เป็นคำสั่งสำหรับตัดคำโดยใช้ข้อมูลที่ผู้ใช้กำหนด
 	text คือ ข้อความที่ต้องการตัดคำ
-	file คือ ที่ตั้งไฟล์ที่ต้องการมาเป็นฐานข้อมูลตัดคำ
+	custom_dict_trie คือ trie ที่สร้างจาก create_custom_dict_trie
 	engine คือ เครื่องมือตัดคำ
 	- newmm ตัดคำด้วย newmm
     - wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 	- mm ตัดคำด้วย mm
     - longest-matching ตัดคำโดยใช้ longest matching
-	data_type คือ ชนิดข้อมูล
-	- file คือ ไฟล์ข้อมูล
-	- list คือ ข้อมูลที่อยู่ใน list
-	กรณีที่ใช้ list ต้องใช้ data=list(ข้อมูล)
 	'''
-	if data_type=='file':
-		with codecs.open(file, 'r',encoding='utf8') as f:
-			lines = f.read().splitlines()
-		f.close()
-	elif data_type=='list':
-		lines = data
+	trie = custom_dict_trie
+
 	if engine=="newmm":
 		from .newmm import mmcut as segment
 	elif engine=="mm":
@@ -41,7 +33,9 @@ def dict_word_tokenize(text,file='',engine="newmm",data=[''],data_type="file"):
 		from .longest import segment
 	elif engine=='wordcutpy':
 		from .wordcutpy import segment
-	return segment(text,data=lines)
+		return segment(text, trie.keys())
+	
+	return segment(text, trie)
 
 def word_tokenize(text, engine='newmm', custom_dict_trie=None):
 	"""
@@ -59,11 +53,6 @@ def word_tokenize(text, engine='newmm', custom_dict_trie=None):
 	- deepcut ใช้ Deep Neural Network ในการตัดคำภาษาไทย
 	- wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 	"""
-	from pythainlp.tokenize import DEFAULT_DICT_TRIE
-	if custom_dict_trie:
-		trie = custom_dict_trie
-	else:
-		trie = DEFAULT_DICT_TRIE
 	
 	if engine=='icu':
 		'''
@@ -112,16 +101,7 @@ def word_tokenize(text, engine='newmm', custom_dict_trie=None):
 		wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 		'''
 		from .wordcutpy import segment
-		
-	if engine in TRIE_WORD_SEGMENT_ENGINES:
-		return segment(text, trie)
-	elif engine == 'wordcutpy':
-		from wordcut import Wordcut
-		if trie is DEFAULT_DICT_TRIE:
-			wordcut = Wordcut.bigthai() 
-		else: 
-			wordcut = Wordcut(trie.keys())
-		return segment(text, wordcut)
+
 	return segment(text)
 
 def sent_tokenize(text,engine='whitespace+newline'):
@@ -187,10 +167,10 @@ def syllable_tokenize(text1):
 	if(len(text1)>0):
 		i=0
 		while(i<len(text1)):
-			data.extend(word_tokenize(text=text1[i], custom_dict_trie=trie))
+			data.extend(dict_word_tokenize(text=text1[i], custom_dict_trie=trie))
 			i+=1
 	else:
-		data=word_tokenize(text=text1, custom_dict_trie=trie)
+		data=dict_word_tokenize(text=text1, custom_dict_trie=trie)
 	return data
 
 def create_custom_dict_trie(custom_dict_source):

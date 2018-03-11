@@ -13,6 +13,8 @@ from six.moves import range,zip
 import codecs
 import re
 from pythainlp.corpus import stopwords # load  stopwords
+from pythainlp.tokenize import DEFAULT_DICT_TRIE
+
 class wordcut(object):
     """
     ตัดคำภาษาไทยด้วย Maximum Matching algorithm
@@ -40,7 +42,7 @@ class wordcut(object):
             with codecs.open(keyDictionary, 'r',encoding='utf8') as f:
                 for line in f.read().splitlines():
                     self.keydict.append(line)
-
+        
         self.trie = trie
         self.removeRepeat = removeRepeat
         self.stopNumber = stopNumber
@@ -286,9 +288,11 @@ def mergelistlen(listdata,lennum):
         listlen=len(listdata)
         i+=1
     return listdata
-def segment(text, trie):
+def segment(text, trie=None):
     '''
     ใช้ในการตัดตำ segment(str) คืนค่า list
     '''
+    if not trie:
+        trie = DEFAULT_DICT_TRIE
     pt = wordcut(stopNumber=False, removeNonCharacter=True, caseSensitive=False,removeRepeat=True, trie=trie)
     return mergelistlen(pt.segment(text),1)

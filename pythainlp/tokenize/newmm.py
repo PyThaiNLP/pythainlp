@@ -9,6 +9,7 @@ from __future__ import absolute_import, unicode_literals
 import re
 from collections import defaultdict
 from heapq import heappush, heappop  # for priority queue
+from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
 # ช่วยตัดพวกภาษาอังกฤษ เป็นต้น
 pat_eng = re.compile(r'''(?x)
@@ -126,5 +127,7 @@ def onecut(text, trie):
 # ช่วยให้ไม่ต้องพิมพ์ยาวๆ
 
 
-def mmcut(text, trie):
+def mmcut(text, trie=None):
+    if not trie:
+        trie = DEFAULT_DICT_TRIE
     return list(onecut(text, trie))

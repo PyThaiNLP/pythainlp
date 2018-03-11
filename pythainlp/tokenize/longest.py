@@ -3,6 +3,7 @@ from __future__ import absolute_import,division,unicode_literals,print_function
 '''
 Code from https://github.com/patorn/thai-sentiment/blob/78bf461dfdc8a3f0517712fac56dd921dc0f9dd6/thai_sentiment/tokenizer.py
 '''
+from pythainlp.tokenize import DEFAULT_DICT_TRIE
 import re
 FRONT_DEP_CHAR = ['ะ', 'ั', 'า ', 'ำ', 'ิ', 'ี', 'ึ', 'ื', 'ุ', 'ู', 'ๅ', '็', '์', 'ํ']
 REAR_DEP_CHAR = ['ั', 'ื', 'เ', 'แ', 'โ', 'ใ', 'ไ', 'ํ']
@@ -107,6 +108,8 @@ class Tokenizer(object):
     def tokenize(self, text):
         tokens = self.segment_text(text)
         return tokens
-def segment(s, trie):
+def segment(s, trie=None):
     """ตัดคำภาษาไทยด้วย Longest matching"""
+    if not trie:
+        trie = DEFAULT_DICT_TRIE
     return Tokenizer(trie).tokenize(s)

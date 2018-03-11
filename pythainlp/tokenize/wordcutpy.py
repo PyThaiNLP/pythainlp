@@ -18,5 +18,10 @@ except ImportError:
 	except ImportError:
 		sys.exit('Error ! using $ pip install wordcutpy')
 
-def segment(text, wordcut):
+def segment(text, data=None):
+    if not data:
+        wordcut = Wordcut.bigthai()
+    else:
+        word_list = list(set(data))
+        wordcut = Wordcut(word_list)
     return wordcut.tokenize(text)

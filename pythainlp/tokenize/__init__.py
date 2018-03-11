@@ -9,7 +9,6 @@ from pythainlp.corpus.thaiword import get_data as get_dict
 from marisa_trie import Trie
 
 DEFAULT_DICT_TRIE = Trie(get_dict())
-TRIE_WORD_SEGMENT_ENGINES = ['newmm', 'mm', 'longest-matching']
 
 def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
 	'''
@@ -23,7 +22,6 @@ def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
 	- mm ตัดคำด้วย mm
     - longest-matching ตัดคำโดยใช้ longest matching
 	'''
-	trie = custom_dict_trie
 
 	if engine=="newmm":
 		from .newmm import mmcut as segment
@@ -33,11 +31,11 @@ def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
 		from .longest import segment
 	elif engine=='wordcutpy':
 		from .wordcutpy import segment
-		return segment(text, trie.keys())
+		return segment(text, custom_dict_trie.keys())
 	
-	return segment(text, trie)
+	return segment(text, custom_dict_trie)
 
-def word_tokenize(text, engine='newmm', custom_dict_trie=None):
+def word_tokenize(text, engine='newmm'):
 	"""
 	ระบบตัดคำภาษาไทย
 

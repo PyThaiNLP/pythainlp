@@ -9,9 +9,7 @@ from __future__ import absolute_import, unicode_literals
 import re
 from collections import defaultdict
 from heapq import heappush, heappop  # for priority queue
-from marisa_trie import Trie
-from pythainlp.corpus.thaiword import get_data  # ดึงข้อมูลรายการคำในภาษาไทย
-
+from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
 # ช่วยตัดพวกภาษาอังกฤษ เป็นต้น
 pat_eng = re.compile(r'''(?x)
@@ -49,8 +47,6 @@ ct[ะาำ]?
 [เ-ไ]ct
 """.replace('c', '[ก-ฮ]').replace('t', '[่-๋]?').split()
 
-THAI_WORDS = Trie(get_data())
-
 
 def tcc(w):
     p = 0
@@ -83,11 +79,7 @@ def bfs_paths_graph(graph, start, goal):
       else:
         queue.append((next, path+[next]))
 
-def onecut(text, data=['']):
-  if(data != ['']):
-      trie = Trie(data)
-  else:
-      trie = THAI_WORDS
+def onecut(text, trie):
   graph = defaultdict(list)  # main data structure
   allow_pos = tcc_pos(text)     # ตำแหน่งที่ตัด ต้องตรงกับ tcc
   
@@ -135,5 +127,7 @@ def onecut(text, data=['']):
 # ช่วยให้ไม่ต้องพิมพ์ยาวๆ
 
 
-def mmcut(text, data=['']):
-    return list(onecut(text, data=data))
+def mmcut(text, trie=None):
+    if not trie:
+        trie = DEFAULT_DICT_TRIE
+    return list(onecut(text, trie))

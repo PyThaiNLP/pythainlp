@@ -173,7 +173,7 @@ check_all สำหรับส่งคืนค่า True หรือ False 
 
 รองรับ Thai Character Clusters (TCC) โดยจะแบ่งกลุ่มด้วย /
 
-**เดติด**
+**เครดิต**
 
 TCC : Mr.Jakkrit TeCho
 

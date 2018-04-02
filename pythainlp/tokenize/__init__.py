@@ -99,6 +99,8 @@ def word_tokenize(text, engine='newmm'):
 		wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
 		'''
 		from .wordcutpy import segment
+	else:
+		raise Exception("error no have engine.")
 
 	return segment(text)
 

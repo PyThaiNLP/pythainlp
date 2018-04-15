@@ -1,17 +1,20 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,division,print_function,unicode_literals
 import sys
-def pos_tag(text,engine='old'):
+def pos_tag(text,engine='unigram',corpus='orchid'):
 	"""
 	ระบบ postaggers
 
-	pos_tag(text,engine='old')
+	pos_tag(text,engine='unigram')
 	engine ที่รองรับ
-	* old เป็น UnigramTagger
+	* unigram เป็น UnigramTagger
+	* perceptron เป็น PerceptronTagger
 	* artagger เป็น RDR POS Tagger
 	"""
-	if engine=='old':
+	if engine=='old' or engine=='unigram':
     		from .old import tag
+	elif engine=='perceptron':
+			from .perceptron import tag
 	elif engine=='artagger':
 			if sys.version_info < (3,4):
     				sys.exit('Sorry, Python < 3.4 is not supported')
@@ -31,4 +34,4 @@ def pos_tag(text,engine='old'):
 					for word in words:
     						totag.append((word.word, word.tag))
 					return totag
-	return tag(text)
+	return tag(text,corpus=corpus)

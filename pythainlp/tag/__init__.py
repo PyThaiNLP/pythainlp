@@ -5,11 +5,14 @@ def pos_tag(text,engine='unigram',corpus='orchid'):
 	"""
 	ระบบ postaggers
 
-	pos_tag(text,engine='unigram')
+	pos_tag(text,engine='unigram',corpus='orchid')
 	engine ที่รองรับ
 	* unigram เป็น UnigramTagger
 	* perceptron เป็น PerceptronTagger
 	* artagger เป็น RDR POS Tagger
+	corpus ที่รองรับ
+	* orchid
+	* pud ใช้ข้อมูล  Parallel Universal Dependencies (PUD) treebanks
 	"""
 	if engine=='old' or engine=='unigram':
     		from .old import tag

@@ -23,15 +23,16 @@ def pos_tag(text,engine='unigram',corpus='orchid'):
 						from artagger import Tagger
 					except ImportError:
 						import pip
-						pip.main(['install','https://github.com/franziz/artagger/archive/master.zip'])
+						pip.main(['install','https://github.com/wannaphongcom/artagger/archive/master.zip'])
 						try:
 							from artagger import Tagger
 						except ImportError:
-							print("Error ! using 'pip install https://github.com/franziz/artagger/archive/master.zip'")
+							print("Error ! using 'pip install https://github.com/wannaphongcom/artagger/archive/master.zip'")
 							sys.exit(0)
 					words = Tagger().tag(' '.join(text1))
 					totag=[]
 					for word in words:
     						totag.append((word.word, word.tag))
 					return totag
+			return tag(text)
 	return tag(text,corpus=corpus)

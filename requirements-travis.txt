@@ -7,3 +7,4 @@ langdetect
 requests
 dill
 pytz
+conllu

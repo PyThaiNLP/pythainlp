@@ -11,7 +11,8 @@ requirements = [
 	'marisa_trie',
 	'requests',
 	'dill',
-	'pytz'
+	'pytz',
+	'conllu'
 ]
 test_requirements = [
     # TODO: put package test requirements here

@@ -26,7 +26,6 @@ pat_tcc = """\
 เcctาะ
 เccีtยะ
 เccีtย(?=[เ-ไก-ฮ]|$)
-เccอะ
 เcc็c
 เcิc์c
 เcิtc

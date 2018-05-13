@@ -48,7 +48,7 @@ Apache Software License 2.0
 
 ประมวลภาษาธรรมชาติภาษาไทยในภาษา Python
 
-Natural language processing หรือ การประมวลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่อพัฒนาการประมวลภาษาธรรมชาติภาษาไทยในภาษา Python และ**มันฟรี (ตลอดไป) เพื่อคนไทยและชาวโลกทุกคน !**
+Natural language processing หรือ การประมวลผลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่อพัฒนาการประมวลผลภาษาธรรมชาติภาษาไทยในภาษา Python และ**มันฟรี (ตลอดไป) เพื่อคนไทยและชาวโลกทุกคน !**
 
 > เพราะโลกขับเคลื่อนต่อไปด้วยการแบ่งปัน
 
@@ -79,6 +79,12 @@ Natural language processing หรือ การประมวลภาษา
 
 ```sh
 $ pip install pythainlp
+```
+
+รุ่นกำลังพัฒนา
+
+```sh
+$ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
 
 ### เอกสารการใช้งาน

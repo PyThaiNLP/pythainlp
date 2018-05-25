@@ -28,7 +28,7 @@ setup(
     url='https://github.com/PyThaiNLP/pythainlp',
     packages=find_packages(),
     test_suite='pythainlp.test',
-    package_data={'pythainlp.corpus':['stopwords-th.txt','thaipos.json','thaiword.txt','corpus_license.md','tha-wn.db','new-thaidict.txt','negation.txt','provinces.csv'],'pythainlp.sentiment':['vocabulary.data','sentiment.data']},
+    package_data={'pythainlp.corpus':['stopwords-th.txt','thaipos.json','thaiword.txt','corpus_license.md','tha-wn.db','new-thaidict.txt','negation.txt','provinces.csv','pt_tagger_1.dill','ud_thai-pud_pt_tagger.dill','ud_thai-pud_unigram_tagger.dill','unigram_tagger.dill'],'pythainlp.sentiment':['vocabulary.data','sentiment.data']},
     include_package_data=True,
     install_requires=requirements,
     license='Apache Software License 2.0',

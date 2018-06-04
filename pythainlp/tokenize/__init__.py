@@ -35,7 +35,7 @@ def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
 	
 	return segment(text, custom_dict_trie)
 
-def word_tokenize(text, engine='newmm'):
+def word_tokenize(text, engine='newmm',whitespaces=True):
 	"""
 	ระบบตัดคำภาษาไทย
 
@@ -101,7 +101,8 @@ def word_tokenize(text, engine='newmm'):
 		from .wordcutpy import segment
 	else:
 		raise Exception("error no have engine.")
-
+	if whitespaces==False:
+		return [i.strip(' ') for i in segment(text) if i.strip(' ')!='']
 	return segment(text)
 
 def sent_tokenize(text,engine='whitespace+newline'):

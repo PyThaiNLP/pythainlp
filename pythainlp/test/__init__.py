@@ -40,6 +40,7 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(word_tokenize('สวัสดีครับ สบายดีไหมครับ',engine='newmm'),[u'สวัสดี', u'ครับ', u' ', u'สบายดี', u'ไหม', u'ครับ'])
 		self.assertEqual(word_tokenize('จุ๋มง่วงนอนยัง',engine='newmm'),[u'จุ๋ม', u'ง่วงนอน', u'ยัง'])
 		self.assertEqual(word_tokenize('จุ๋มง่วง',engine='newmm'),[u'จุ๋ม', u'ง่วง'])
+		self.assertEqual(word_tokenize('จุ๋ม   ง่วง',engine='newmm',whitespaces=False),[u'จุ๋ม', u'ง่วง'])
 	def test_segment_longest_matching(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='longest-matching'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
 	def test_segment_Wordcut(self):

@@ -8,7 +8,7 @@ requirements = [
 	'nltk>=3.2.2',
 	'future>=0.16.0',
 	'six',
-	'marisa_trie',
+	'marisa_trie<=0.7.4',
 	'requests',
 	'dill',
 	'pytz',

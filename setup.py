@@ -8,7 +8,7 @@ requirements = [
 	'nltk>=3.2.2',
 	'future>=0.16.0',
 	'six',
-	'marisa_trie',
+	'marisa_trie<=0.7.4',
 	'requests',
 	'dill',
 	'pytz'
@@ -19,7 +19,7 @@ test_requirements = [
 
 setup(
     name='pythainlp',
-    version='1.6.0.5',
+    version='1.6.0.6',
     description="Thai natural language processing in Python package.",
     long_description=readme,
     author='PyThaiNLP',

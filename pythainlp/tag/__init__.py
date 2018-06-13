@@ -40,4 +40,4 @@ def pos_tag(text,engine='unigram',corpus='orchid'):
 			return tag(text)
 	return tag(text,corpus=corpus)
 def pos_tag_sents(sentences,engine='unigram',corpus='orchid'):
-	return [pos_tag(i,engine='unigram',corpus='orchid') for i in sentences]
+	return [pos_tag(i,engine=engine,corpus=corpus) for i in sentences]

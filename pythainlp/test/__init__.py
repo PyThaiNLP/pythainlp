@@ -8,7 +8,7 @@ from pythainlp.tokenize import word_tokenize,tcc,etcc,isthai,WhitespaceTokenizer
 from pythainlp.rank import rank
 from pythainlp.change import texttothai,texttoeng
 from pythainlp.number import numtowords
-from pythainlp.tag import pos_tag
+from pythainlp.tag import pos_tag,pos_tag_sents
 from pythainlp.romanization import romanization
 from pythainlp.date import now,reign_year_to_ad
 from pythainlp.soundex import LK82,Udom83
@@ -102,6 +102,7 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(find_keyword(word_tokenize("แมวกินปลาอร่อยรู้ไหมว่าแมวเป็นแมวรู้ไหมนะแมว",engine='newmm')),{u'แมว': 4})
 	def test_tag(self):
 		self.assertEqual(pos_tag(word_tokenize("คุณกำลังประชุม"),engine='old'),[('คุณ', 'PPRS'), ('กำลัง', 'XVBM'), ('ประชุม', 'VACT')])
+		self.assertEqual(pos_tag_sents([["ผม","กิน","ข้าว"],["แมว","วิ่ง"]]),[[('ผม', 'PPRS'), ('กิน', 'VACT'), ('ข้าว', 'NCMN')], [('แมว', 'NCMN'), ('วิ่ง', 'VACT')]])
 		if sys.version_info >= (3,4):
 			self.assertEqual(str(type(pos_tag(word_tokenize("ผมรักคุณ"),engine='artagger'))),"<class 'list'>")
 if __name__ == '__main__':

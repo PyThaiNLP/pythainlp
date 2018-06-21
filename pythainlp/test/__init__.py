@@ -16,7 +16,7 @@ from pythainlp.MetaSound import MetaSound
 from pythainlp.spell import spell
 from collections import namedtuple
 from pythainlp.collation import collation
-from pythainlp.util import normalize
+from pythainlp.util import normalize,listtext_num2num
 from pythainlp.summarize import summarize_text
 class TestUM(unittest.TestCase):
 	"""
@@ -98,6 +98,8 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(collation(['ไก่', 'เป็ด', 'หมู', 'วัว']),[u'ไก่', u'เป็ด', u'วัว', u'หมู'])
 	def test_normalize(self):
 		self.assertEqual(normalize("เเปลก"),"แปลก")
+	def test_listtext_num2num(self):
+		self.assertEqual(listtext_num2num(['หก','ล้าน','หกแสน','หกหมื่น','หกพัน','หกร้อย','หกสิบ','หก']),6666666)
 	def test_keywords(self):
 		self.assertEqual(find_keyword(word_tokenize("แมวกินปลาอร่อยรู้ไหมว่าแมวเป็นแมวรู้ไหมนะแมว",engine='newmm')),{u'แมว': 4})
 	def test_tag(self):

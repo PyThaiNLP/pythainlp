@@ -529,6 +529,21 @@ normalize(text)
 True
 ```
 
+#### listtext_num2num
+
+แปลง list ข้อความตัวเลขในภาษาไทยให้เป็นตัวเลข
+
+```python
+listtext_num2num(list)
+```
+
+**ตัวอย่าง**
+
+```python
+>>> listtext_num2num(['หก','ล้าน','หกแสน','หกหมื่น','หกพัน','หกร้อย','หกสิบ','หก'])
+6666666
+```
+
 ### Corpus
 
 #### WordNet ภาษาไทย

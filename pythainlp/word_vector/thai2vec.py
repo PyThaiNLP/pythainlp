@@ -31,7 +31,7 @@ def download():
 	if not os.path.exists(path):
 		print("Download models...")
 		from urllib import request
-		request.urlretrieve("https://www.dropbox.com/sh/t9qfj2ethst8g20/AAC_vnHM5xmiyz1B9ouz_8Kna/data/thaiwiki/models/thai2vec.vec?dl=1",path)
+		request.urlretrieve("https://www.dropbox.com/s/upnbmiebkfma7oy/thai2vec.vec?dl=1",path)
 		print("OK.")
 	return path
 def get_model():

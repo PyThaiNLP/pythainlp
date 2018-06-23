@@ -4,6 +4,12 @@ import os
 import dill
 from pythainlp.tokenize import tcc
 import marisa_trie
+def get_path_data(file):
+	path = os.path.join(os.path.expanduser("~"), 'pythainlp-data')
+	path = os.path.join(path, file)
+	return path
+def get_path_pythainlp_data():
+	return os.path.join(os.path.expanduser("~"), 'pythainlp-data')
 def file_trie(data):
 	'''
 	ใช้สร้างไฟล์ข้อมูลสำหรับระบบที่ใช้ trie

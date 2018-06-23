@@ -21,18 +21,15 @@ except ImportError:
 		print("Error ! using 'pip install gensim numpy'")
 		sys.exit(0)
 from pythainlp.tokenize import word_tokenize
+from pythainlp.corpus import get_file
+from pythainlp.corpus import download as download_data
 import os
 
 def download():
-	path = os.path.join(os.path.expanduser("~"), 'pythainlp-data')
-	if not os.path.exists(path):
-		os.makedirs(path)
-	path = os.path.join(path, 'thai2vec.vec')
-	if not os.path.exists(path):
-		print("Download models...")
-		from urllib import request
-		request.urlretrieve("https://www.dropbox.com/s/upnbmiebkfma7oy/thai2vec.vec?dl=1",path)
-		print("OK.")
+	path = get_file('thai2vec')
+	if path==None:
+		download_data('thai2vec')
+		path = get_file('thai2vec')
 	return path
 def get_model():
 	return KeyedVectors.load_word2vec_format(download(),binary=False)

@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 from setuptools import setup,find_packages
 import codecs
-with codecs.open('README.rst','r',encoding='utf-8') as readme_file:
+with codecs.open('README.md','r',encoding='utf-8') as readme_file:
     readme = readme_file.read()
 readme_file.close()
 requirements = [
@@ -12,10 +12,9 @@ requirements = [
 	'requests',
 	'dill',
 	'pytz',
-	'conllu'
-]
-test_requirements = [
-    # TODO: put package test requirements here
+	'conllu',
+	'tinydb',
+	'tqdm'
 ]
 
 setup(

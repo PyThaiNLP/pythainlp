@@ -4,18 +4,8 @@ import codecs
 with codecs.open('README.md','r',encoding='utf-8') as readme_file:
     readme = readme_file.read()
 readme_file.close()
-requirements = [
-	'nltk>=3.2.2',
-	'future>=0.16.0',
-	'six',
-	'marisa_trie<=0.7.4',
-	'requests',
-	'dill',
-	'pytz',
-	'conllu',
-	'tinydb',
-	'tqdm'
-]
+with codecs.open('requirements.txt','r',encoding='utf-8') as f:
+    requirements = f.read().splitlines()
 
 setup(
     name='pythainlp',

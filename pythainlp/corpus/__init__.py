@@ -44,7 +44,7 @@ def download_(url, dst):
                 pbar.update(1024)
     pbar.close()
     #return file_size
-def download(name):
+def download(name,force=False):
     db=TinyDB(path_db_)
     temp = Query()
     data=requests.get("https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/master/db.json")
@@ -60,14 +60,18 @@ def download(name):
             if len(db.search(temp.name==name and temp.version==temp_name['version']))==0:
                 print("have update")
                 print("from "+name+" "+db.search(temp.name==name)[0]['version']+" update to "+name+" "+temp_name['version'])
-                yes_no=str(input("y or n : ")).lower()
+                yes_no="y"
+                if force==False:
+                    yes_no=str(input("y or n : ")).lower()
                 if "y"==yes_no:
                     download_(temp_name['download'],temp_name['file_name'])
                     db.update({'version':temp_name['version']},temp.name==name)
             else:
                 print("re-download")
                 print("from "+name+" "+db.search(temp.name==name)[0]['version']+" update to "+name+" "+temp_name['version'])
-                yes_no=str(input("y or n : ")).lower()
+                yes_no="y"
+                if force==False:
+                    yes_no=str(input("y or n : ")).lower()
                 if "y"==yes_no:
                     download_(temp_name['download'],temp_name['file_name'])
                     db.update({'version':temp_name['version']},temp.name==name)

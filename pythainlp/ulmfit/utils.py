@@ -13,14 +13,14 @@ try:
     import numpy as np
     from fastai.text import *
 except ImportError:
-	import pip
-	pip.main(['install','fastai','numpy'])
-	try:
+    import pip
+    pip.main(['install','fastai','numpy'])
+    try:
         import numpy as np
         from fastai.text import *
-	except ImportError:
-		print("Error installing using 'pip install fastai numpy'")
-		sys.exit(0)
+    except ImportError:
+        print("Error installing using 'pip install fastai numpy'")
+        sys.exit(0)
 
 from pythainlp.tokenize import word_tokenize
 from pythainlp.corpus import get_file

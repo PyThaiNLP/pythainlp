@@ -22,9 +22,15 @@ except ImportError:
         print("Error installing using 'pip install fastai numpy'")
         sys.exit(0)
 
+#import torch
+try:
+    import torch
+except ImportError:
+    print('PyTorch required. See https://pytorch.org/.')
+
 from pythainlp.tokenize import word_tokenize
 from pythainlp.corpus import get_file
-from pythainlp.corpus import download as download_data
+from pythainlp.corpus import download
 MODEL_NAME = 'thwiki_model2'
 
 #paralellized thai tokenizer with some text cleaning

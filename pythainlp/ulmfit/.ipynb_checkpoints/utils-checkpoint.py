@@ -12,14 +12,16 @@ import torch
 try:
     import numpy as np
     from fastai.text import *
+    import dill as pickle
 except ImportError:
     import pip
-    pip.main(['install','fastai','numpy'])
+    pip.main(['install','fastai','numpy','dill'])
     try:
         import numpy as np
         from fastai.text import *
+        import dill as pickle
     except ImportError:
-        print("Error installing using 'pip install fastai numpy'")
+        print("Error installing using 'pip install fastai numpy dill'")
         sys.exit(0)
 
 #import torch
@@ -32,6 +34,7 @@ from pythainlp.tokenize import word_tokenize
 from pythainlp.corpus import get_file
 from pythainlp.corpus import download
 MODEL_NAME = 'thwiki_model2'
+ITOS_NAME = 'itos'
 
 #paralellized thai tokenizer with some text cleaning
 class ThaiTokenizer():
@@ -110,8 +113,8 @@ def document_vector(ss, m, stoi,tok_engine='newmm'):
     res = to_np(torch.mean(pred[-1],0).view(-1))
     return(res)
     
-#load pretrained embeddings into current embeddings
-def pretrained_wgts(em_sz, wgts, itos_pre, itos_cls):
+#merge pretrained embeddings with current embeddings
+def merge_wgts(em_sz, wgts, itos_pre, itos_cls):
     vocab_size = len(itos_cls)
     enc_wgts = to_np(wgts['0.encoder.weight'])
     #average weight of encoding
@@ -141,12 +144,17 @@ def get_path(fname):
 	if path==None:
 		download(fname)
 		path = get_file(fname)
-	return path
+	return(path)
 
-def load_pretrained():
+def load_pretrained_model():
     path = get_path(MODEL_NAME)
     wgts = torch.load(path, map_location=lambda storage, loc: storage)
     return(wgts)
+
+def load_pretrained_itos():
+    path = get_path(ITOS_NAME)
+    itos = pickle.load(open(path,'rb'))
+    return(itos)
 
 def about():
 	return '''

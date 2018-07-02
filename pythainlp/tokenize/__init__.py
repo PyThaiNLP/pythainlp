@@ -12,17 +12,14 @@ DEFAULT_DICT_TRIE = Trie(get_dict())
 
 def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
 	'''
-	dict_word_tokenize(text,file,engine)
-	เป็นคำสั่งสำหรับตัดคำโดยใช้ข้อมูลที่ผู้ใช้กำหนด
-	text คือ ข้อความที่ต้องการตัดคำ
-	custom_dict_trie คือ trie ที่สร้างจาก create_custom_dict_trie
-	engine คือ เครื่องมือตัดคำ
-	- newmm ตัดคำด้วย newmm
-    - wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
-	- mm ตัดคำด้วย mm
-    - longest-matching ตัดคำโดยใช้ longest matching
-	'''
+	:meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
 
+	:param str text: the text to be tokenized
+	:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie
+	:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)
+
+	:return: A list of words, tokenized from a text.
+	'''
 	if engine=="newmm":
 		from .newmm import mmcut as segment
 	elif engine=="mm":
@@ -32,72 +29,43 @@ def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
 	elif engine=='wordcutpy':
 		from .wordcutpy import segment
 		return segment(text, custom_dict_trie.keys())
-	
 	return segment(text, custom_dict_trie)
 
-def word_tokenize(text, engine='newmm',whitespaces=True):
+def word_tokenize(text, engine='newmm',whitespaces=False):
 	"""
-	ระบบตัดคำภาษาไทย
+    :param str text:  the text to be tokenized
+    :param str engine: the engine to tokenize text
+    :param bool whitespaces: True to output no whitespace, a common mark of sentence or end of phrase in Thai.
+    :Parameters for engine:
+        * newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)
+        * icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)
+        * dict - ใช้ dict ในการตัดคำไทย จะคืนค่า False หากไม่สามารถตัดคำไทย
+        * longest-matching ใช้ Longest matching ในการตัดคำ
+        * mm ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
+        * pylexto - ใช้ LexTo ในการตัดคำ
+        * deepcut - ใช้ Deep Neural Network ในการตัดคำภาษาไทย
+        * wordcutpy - ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
+        * cutkum - ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)
+    :return: A list of words, tokenized from a text
+	"""
 
-	word_tokenize(text,engine='newmm')
-	text คือ ข้อความในรูปแบบ str
-	engine มี
-	- newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)
-	- icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)
-	- dict - ใช้ dicu ในการตัดคำไทย จะคืนค่า False หากไม่สามารถตัดคำไทย
-	- longest-matching ใช้ Longest matching ในการตัดคำ
-	- mm ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
-	- pylexto ใช้ LexTo ในการตัดคำ
-	- deepcut ใช้ Deep Neural Network ในการตัดคำภาษาไทย
-	- wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
-	"""
-	
 	if engine=='icu':
-		'''
-		ตัดคำภาษาไทยโดยใช้ icu ในการตัดคำ
-		คำเตือน !!! \n คำสั่ง word_tokenize(text) ใน PyThaiNLP 1.6
-		ค่าเริ่มต้นจะเปลี่ยนจาก icu ไปเป็น newmm'''
 		from .pyicu import segment
-	elif engine=='dict':
-		'''
-		ใช้ dicu ในการตัดคำไทย
-		จะคืนค่า False หากไม่สามารถตัดคำไทย
-		'''
+	elif engine=='dicts':
 		from .dictsegment import segment
 	elif engine=='mm':
-		'''
-		ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
-		'''
 		from .mm import segment
 	elif engine=='newmm':
-		'''
-		ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่
-		'''
 		from .newmm import mmcut as segment
 	elif engine=='longest-matching':
-		'''
-		ใช้ Longest matching ในการตัดคำ
-		'''
 		from .longest import segment
 	elif engine=='pylexto':
-		'''
-		ใช้ LexTo ในการตัดคำ
-		'''
 		from .pylexto import segment
 	elif engine=='deepcut':
-		'''
-		ใช้ Deep Neural Network ในการตัดคำภาษาไทย
-		'''
 		from .deepcut import segment
 	elif engine=='cutkum':
-		'''
-		ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)
-		'''
 		from .cutkum import segment
 	elif engine=='wordcutpy':
-		'''
-		wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
-		'''
 		from .wordcutpy import segment
 	else:
 		raise Exception("error no have engine.")
@@ -177,13 +145,13 @@ def syllable_tokenize(text1):
 def create_custom_dict_trie(custom_dict_source):
 	"""The function is used to create a custom dict trie which will be
 	used for word_tokenize() function
-	
+
 	Arguments:
 		custom_dict_source {string or list} -- a list of vocaburaries or a path to source file
-	
+
 	Raises:
 		ValueError -- Invalid custom_dict_source's object type
-	
+
 	Returns:
 		Trie -- A trie created from custom dict input
 	"""
@@ -205,7 +173,7 @@ class Tokenizer:
 	def __init__(self, custom_dict=None):
 		"""
 		Initialize tokenizer object
-		
+
 		Keyword arguments:
 		custom_dict -- a file path or a list of vocaburaies to be used to create a trie (default - original lexitron)
 
@@ -221,7 +189,7 @@ class Tokenizer:
 				self.trie_dict = Trie(vocabs)
 		else:
 			self.trie_dict = Trie(get_dict())
-	
+
 	def word_tokenize(self, text, engine='newmm'):
 		from .newmm import mmcut as segment
 		return segment(text, self.trie_dict)

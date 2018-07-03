@@ -23,10 +23,10 @@ def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
     - longest-matching ตัดคำโดยใช้ longest matching
 	'''
 
-	if engine=="newmm":
+	if engine=="newmm" or engine=="onecut":
 		from .newmm import mmcut as segment
-	elif engine=="mm":
-		from .mm import segment
+	elif engine=="mm" or engine=="multi_cut":
+		from .multi_cut import segment
 	elif engine=='longest-matching':
 		from .longest import segment
 	elif engine=='wordcutpy':
@@ -58,20 +58,14 @@ def word_tokenize(text, engine='newmm',whitespaces=True):
 		คำเตือน !!! \n คำสั่ง word_tokenize(text) ใน PyThaiNLP 1.6
 		ค่าเริ่มต้นจะเปลี่ยนจาก icu ไปเป็น newmm'''
 		from .pyicu import segment
-	elif engine=='dict':
+	elif engine=='multi_cut' or engine=='mm':
 		'''
-		ใช้ dicu ในการตัดคำไทย
-		จะคืนค่า False หากไม่สามารถตัดคำไทย
+		โปรแกรมตัดคำ multi-cut
 		'''
-		from .dictsegment import segment
-	elif engine=='mm':
+		from .multi_cut import segment
+	elif engine=='newmm' or engine=='onecut':
 		'''
-		ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
-		'''
-		from .mm import segment
-	elif engine=='newmm':
-		'''
-		ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่
+		ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ชื่อ onecut)
 		'''
 		from .newmm import mmcut as segment
 	elif engine=='longest-matching':
@@ -89,11 +83,6 @@ def word_tokenize(text, engine='newmm',whitespaces=True):
 		ใช้ Deep Neural Network ในการตัดคำภาษาไทย
 		'''
 		from .deepcut import segment
-	elif engine=='cutkum':
-		'''
-		ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)
-		'''
-		from .cutkum import segment
 	elif engine=='wordcutpy':
 		'''
 		wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ

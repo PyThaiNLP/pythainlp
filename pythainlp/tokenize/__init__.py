@@ -42,9 +42,8 @@ def word_tokenize(text, engine='newmm',whitespaces=True):
 	word_tokenize(text,engine='newmm')
 	text คือ ข้อความในรูปแบบ str
 	engine มี
-	- newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)
+	- newmm - ใช้ Maximum Matching algorithm กับ TCC ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)
 	- icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)
-	- dict - ใช้ dicu ในการตัดคำไทย จะคืนค่า False หากไม่สามารถตัดคำไทย
 	- longest-matching ใช้ Longest matching ในการตัดคำ
 	- mm ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
 	- pylexto ใช้ LexTo ในการตัดคำ

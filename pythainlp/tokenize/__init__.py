@@ -31,7 +31,7 @@ def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
 		return segment(text, custom_dict_trie.keys())
 	return segment(text, custom_dict_trie)
 
-def word_tokenize(text, engine='newmm',whitespaces=False):
+def word_tokenize(text, engine='newmm',whitespaces=True):
 	"""
     :param str text:  the text to be tokenized
     :param str engine: the engine to tokenize text
@@ -117,16 +117,16 @@ def syllable_tokenize(text):
 
 	:return: returns list of strings of syllables
 	"""
-	text=word_tokenize(text)
+	text1=word_tokenize(text)
 	data=[]
 	trie = create_custom_dict_trie(custom_dict_source=get_data())
-	if(len(text)>0):
+	if len(text1)>1:
 		i=0
-		while(i<len(text)):
+		while i<len(text):
 			data.extend(dict_word_tokenize(text=text1[i], custom_dict_trie=trie))
 			i+=1
 	else:
-		data=dict_word_tokenize(text=text1, custom_dict_trie=trie)
+		data=dict_word_tokenize(text=text, custom_dict_trie=trie)
 	return data
 
 def create_custom_dict_trie(custom_dict_source):

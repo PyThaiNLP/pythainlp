@@ -122,7 +122,7 @@ def syllable_tokenize(text):
 	trie = create_custom_dict_trie(custom_dict_source=get_data())
 	if len(text1)>1:
 		i=0
-		while i<len(text):
+		while i<len(text1):
 			data.extend(dict_word_tokenize(text=text1[i], custom_dict_trie=trie))
 			i+=1
 	else:

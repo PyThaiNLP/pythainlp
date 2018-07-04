@@ -10,6 +10,28 @@ from marisa_trie import Trie
 
 DEFAULT_DICT_TRIE = Trie(get_dict())
 
+
+def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
+	'''
+	:meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
+
+	:param str text: the text to be tokenized
+	:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie
+	:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)
+
+	:return: A list of words, tokenized from a text.
+	'''
+	if engine=="newmm" or engine=="onecut":
+		from .newmm import mmcut as segment
+	elif engine=="mm" or engine=="multi_cut":
+		from .multi_cut import segment
+	elif engine=='longest-matching':
+		from .longest import segment
+	elif engine=='wordcutpy':
+		from .wordcutpy import segment
+		return segment(text, custom_dict_trie.keys())
+	return segment(text, custom_dict_trie)
+
 def word_tokenize(text, engine='newmm',whitespaces=False):
 	"""
     :param str text:  the text to be tokenized
@@ -32,9 +54,9 @@ def word_tokenize(text, engine='newmm',whitespaces=False):
 		from .pyicu import segment
 	elif engine=='dicts':
 		from .dictsegment import segment
-	elif engine=='mm':
-		from .mm import segment
-	elif engine=='newmm':
+	elif engine=='multi_cut' or engine=='mm':
+		from .multi_cut import segment
+	elif engine=='newmm' or engine=='onecut':
 		from .newmm import mmcut as segment
 	elif engine=='longest-matching':
 		from .longest import segment
@@ -51,28 +73,6 @@ def word_tokenize(text, engine='newmm',whitespaces=False):
 	if whitespaces==False:
 		return [i.strip(' ') for i in segment(text) if i.strip(' ')!='']
 	return segment(text)
-
-
-def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
-	'''
-	:meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
-
-	:param str text: the text to be tokenized
-	:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie
-	:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)
-
-	:return: A list of words, tokenized from a text.
-	'''
-	if engine=="newmm":
-		from .newmm import mmcut as segment
-	elif engine=="mm":
-		from .mm import segment
-	elif engine=='longest-matching':
-		from .longest import segment
-	elif engine=='wordcutpy':
-		from .wordcutpy import segment
-		return segment(text, custom_dict_trie.keys())
-	return segment(text, custom_dict_trie)
 
 def sent_tokenize(text,engine='whitespace+newline'):
 	'''

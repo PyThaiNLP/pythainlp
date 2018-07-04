@@ -14,7 +14,6 @@ DEFAULT_DICT_TRIE = Trie(get_dict())
 def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
 	'''
 	:meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
-
 	:param str text: the text to be tokenized
 	:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie
 	:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)
@@ -40,20 +39,15 @@ def word_tokenize(text, engine='newmm',whitespaces=False):
     :Parameters for engine:
         * newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)
         * icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)
-        * dict - ใช้ dict ในการตัดคำไทย จะคืนค่า False หากไม่สามารถตัดคำไทย
         * longest-matching ใช้ Longest matching ในการตัดคำ
         * mm ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
         * pylexto - ใช้ LexTo ในการตัดคำ
         * deepcut - ใช้ Deep Neural Network ในการตัดคำภาษาไทย
         * wordcutpy - ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
         * cutkum - ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)
-    :return: A list of words, tokenized from a text
-	"""
-
+    :return: A list of words, tokenized from a text"""
 	if engine=='icu':
 		from .pyicu import segment
-	elif engine=='dicts':
-		from .dictsegment import segment
 	elif engine=='multi_cut' or engine=='mm':
 		from .multi_cut import segment
 	elif engine=='newmm' or engine=='onecut':
@@ -64,8 +58,6 @@ def word_tokenize(text, engine='newmm',whitespaces=False):
 		from .pylexto import segment
 	elif engine=='deepcut':
 		from .deepcut import segment
-	elif engine=='cutkum':
-		from .cutkum import segment
 	elif engine=='wordcutpy':
 		from .wordcutpy import segment
 	else:

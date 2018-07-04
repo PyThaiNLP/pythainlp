@@ -26,13 +26,8 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
 	def test_syllable_tokenize(self):
 		self.assertEqual(syllable_tokenize("สวัสดีชาวโลก"),[u'สวัส', u'ดี', u'ชาว', u'โลก'])
-	def test_segment_deeplearning(self):
-		if sys.version_info >= (3,4):
-    			self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='cutkum'),[u'ฉัน', u'รัก', u'ภาษา', u'ไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คน', u'ไทย'])
 	def test_segment_icu(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='icu'),[u'ฉัน', u'รัก', u'ภาษา', u'ไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คน', u'ไทย'])
-	def test_segment_dict(self):
-		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='dict'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
 	def test_segment_mm(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย',engine='mm'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
 	def test_segment_newmm(self):
@@ -99,7 +94,8 @@ class TestUM(unittest.TestCase):
 	def test_normalize(self):
 		self.assertEqual(normalize("เเปลก"),"แปลก")
 	def test_listtext_num2num(self):
-		self.assertEqual(listtext_num2num(['หก','ล้าน','หกแสน','หกหมื่น','หกพัน','หกร้อย','หกสิบ','หก']),6666666)
+		if sys.version_info >= (3,4):
+			self.assertEqual(listtext_num2num([u'หก',u'ล้าน',u'หกแสน',u'หกหมื่น',u'หกพัน',u'หกร้อย',u'หกสิบ',u'หก']),6666666)
 	def test_keywords(self):
 		self.assertEqual(find_keyword(word_tokenize("แมวกินปลาอร่อยรู้ไหมว่าแมวเป็นแมวรู้ไหมนะแมว",engine='newmm')),{u'แมว': 4})
 	def test_tag(self):

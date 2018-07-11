@@ -28,7 +28,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Installation" href="../notes/installation.html" /> 
+    <link rel="next" title="pythainlp.word_vector" href="word_vector.html" />
+    <link rel="prev" title="pythainlp.romanization" href="romanization.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -84,7 +85,9 @@
 </ul>
 <p class="caption"><span class="caption-text">Package reference:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="romanization.html">pythainlp.romanization</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="word_vector.html">pythainlp.word_vector</a></li>
 </ul>
 
             
@@ -154,7 +157,7 @@
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pythainlp.tokenize</span></code> contains multiple functions for tokenizing a chunk of Thai text into desirable units.</p>
 <dl class="function">
 <dt id="pythainlp.tokenize.word_tokenize">
-<code class="descclassname">pythainlp.tokenize.</code><code class="descname">word_tokenize</code><span class="sig-paren">(</span><em>text</em>, <em>engine='newmm'</em>, <em>whitespaces=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/tokenize.html#word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.tokenize.word_tokenize" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pythainlp.tokenize.</code><code class="descname">word_tokenize</code><span class="sig-paren">(</span><em>text</em>, <em>engine='newmm'</em>, <em>whitespaces=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/tokenize.html#word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.tokenize.word_tokenize" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -170,7 +173,6 @@
 <tr class="field-even field"><td>&#160;</td><td class="field-body"><ul class="first simple">
 <li>newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)</li>
 <li>icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)</li>
-<li>dict - ใช้ dict ในการตัดคำไทย จะคืนค่า False หากไม่สามารถตัดคำไทย</li>
 <li>longest-matching ใช้ Longest matching ในการตัดคำ</li>
 <li>mm ใช้ Maximum Matching algorithm - โค้ดชุดเก่า</li>
 <li>pylexto - ใช้ LexTo ในการตัดคำ</li>
@@ -185,25 +187,31 @@
 </tr>
 </tbody>
 </table>
+<p><strong>Example</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pythainlp.tokenize</span> <span class="k">import</span> <span class="n">word_tokenize</span>
+<span class="n">text</span><span class="o">=</span><span class="s1">&#39;ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด&#39;</span>
+<span class="n">a</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;icu&#39;</span><span class="p">)</span> <span class="c1"># [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอ&#39;, &#39;เค&#39;, &#39;บ่&#39;, &#39;พวก&#39;, &#39;เรา&#39;, &#39;เป็น&#39;, &#39;คน&#39;, &#39;ไทย&#39;, &#39;รัก&#39;, &#39;ภาษา&#39;, &#39;ไทย&#39;, &#39;ภาษา&#39;, &#39;บ้าน&#39;, &#39;เกิด&#39;]</span>
+<span class="n">b</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;dict&#39;</span><span class="p">)</span> <span class="c1"># [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คนไทย&#39;, &#39;รัก&#39;, &#39;ภาษาไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="n">c</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;mm&#39;</span><span class="p">)</span> <span class="c1"># [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คนไทย&#39;, &#39;รัก&#39;, &#39;ภาษาไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="n">d</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;pylexto&#39;</span><span class="p">)</span> <span class="c1"># [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คนไทย&#39;, &#39;รัก&#39;, &#39;ภาษาไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="n">e</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;newmm&#39;</span><span class="p">)</span> <span class="c1"># [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คนไทย&#39;, &#39;รัก&#39;, &#39;ภาษาไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="n">g</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;wordcutpy&#39;</span><span class="p">)</span> <span class="c1"># [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คน&#39;, &#39;ไทย&#39;, &#39;รัก&#39;, &#39;ภาษา&#39;, &#39;ไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="pythainlp.tokenize.dict_word_tokenize">
 <code class="descclassname">pythainlp.tokenize.</code><code class="descname">dict_word_tokenize</code><span class="sig-paren">(</span><em>text</em>, <em>custom_dict_trie</em>, <em>engine='newmm'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/tokenize.html#dict_word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.tokenize.dict_word_tokenize" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference internal" href="#pythainlp.tokenize.dict_word_tokenize" title="pythainlp.tokenize.dict_word_tokenize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict_word_tokenize()</span></code></a> tokenizes word based on the dictionary you provide. The format has to be in trie data structure.</p>
+<dd><p><a class="reference internal" href="#pythainlp.tokenize.dict_word_tokenize" title="pythainlp.tokenize.dict_word_tokenize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict_word_tokenize()</span></code></a> tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
+:param str text: the text to be tokenized
+:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie
+:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the text to be tokenized</li>
-<li><strong>custom_dict_trie</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – คือ trie ที่สร้างจาก create_custom_dict_trie</li>
-<li><strong>engine</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of words, tokenized from a text.</p>
-</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of words, tokenized from a text.</td>
 </tr>
 </tbody>
 </table>
@@ -276,8 +284,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="word_vector.html" class="btn btn-neutral float-right" title="pythainlp.word_vector" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="../notes/installation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="romanization.html" class="btn btn-neutral" title="pythainlp.romanization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

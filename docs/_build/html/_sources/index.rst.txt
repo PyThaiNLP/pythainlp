@@ -17,7 +17,7 @@ PyThaiNLP is a Python library for natural language processing (NLP) of Thai lang
 
 .. toctree::
    :glob:
-   :maxdepth: 3
+   :maxdepth: 1
    :caption: Package reference:
 
    api/*

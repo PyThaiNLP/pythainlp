@@ -83,7 +83,9 @@
 </ul>
 <p class="caption"><span class="caption-text">Package reference:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/romanization.html">pythainlp.romanization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/tokenizer.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/word_vector.html">pythainlp.word_vector</a></li>
 </ul>
 
             
@@ -159,7 +161,28 @@
 
 <span class="n">DEFAULT_DICT_TRIE</span> <span class="o">=</span> <span class="n">Trie</span><span class="p">(</span><span class="n">get_dict</span><span class="p">())</span>
 
-<div class="viewcode-block" id="word_tokenize"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.word_tokenize">[docs]</a><span class="k">def</span> <span class="nf">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;newmm&#39;</span><span class="p">,</span><span class="n">whitespaces</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="dict_word_tokenize"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.dict_word_tokenize">[docs]</a><span class="k">def</span> <span class="nf">dict_word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;newmm&#39;</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	:meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.</span>
+<span class="sd">	:param str text: the text to be tokenized</span>
+<span class="sd">	:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie</span>
+<span class="sd">	:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)</span>
+
+<span class="sd">	:return: A list of words, tokenized from a text.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">if</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;newmm&quot;</span> <span class="ow">or</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;onecut&quot;</span><span class="p">:</span>
+		<span class="kn">from</span> <span class="nn">.newmm</span> <span class="k">import</span> <span class="n">mmcut</span> <span class="k">as</span> <span class="n">segment</span>
+	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;mm&quot;</span> <span class="ow">or</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;multi_cut&quot;</span><span class="p">:</span>
+		<span class="kn">from</span> <span class="nn">.multi_cut</span> <span class="k">import</span> <span class="n">segment</span>
+	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;longest-matching&#39;</span><span class="p">:</span>
+		<span class="kn">from</span> <span class="nn">.longest</span> <span class="k">import</span> <span class="n">segment</span>
+	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;wordcutpy&#39;</span><span class="p">:</span>
+		<span class="kn">from</span> <span class="nn">.wordcutpy</span> <span class="k">import</span> <span class="n">segment</span>
+		<span class="k">return</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+	<span class="k">return</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="word_tokenize"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.word_tokenize">[docs]</a><span class="k">def</span> <span class="nf">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;newmm&#39;</span><span class="p">,</span><span class="n">whitespaces</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    :param str text:  the text to be tokenized</span>
 <span class="sd">    :param str engine: the engine to tokenize text</span>
@@ -167,7 +190,6 @@
 <span class="sd">    :Parameters for engine:</span>
 <span class="sd">        * newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)</span>
 <span class="sd">        * icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)</span>
-<span class="sd">        * dict - ใช้ dict ในการตัดคำไทย จะคืนค่า False หากไม่สามารถตัดคำไทย</span>
 <span class="sd">        * longest-matching ใช้ Longest matching ในการตัดคำ</span>
 <span class="sd">        * mm ใช้ Maximum Matching algorithm - โค้ดชุดเก่า</span>
 <span class="sd">        * pylexto - ใช้ LexTo ในการตัดคำ</span>
@@ -175,15 +197,23 @@
 <span class="sd">        * wordcutpy - ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ</span>
 <span class="sd">        * cutkum - ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)</span>
 <span class="sd">    :return: A list of words, tokenized from a text</span>
-<span class="sd">	&quot;&quot;&quot;</span>
 
+<span class="sd">    **Example**::</span>
+
+<span class="sd">        from pythainlp.tokenize import word_tokenize</span>
+<span class="sd">        text=&#39;ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด&#39;</span>
+<span class="sd">        a=word_tokenize(text,engine=&#39;icu&#39;) # [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอ&#39;, &#39;เค&#39;, &#39;บ่&#39;, &#39;พวก&#39;, &#39;เรา&#39;, &#39;เป็น&#39;, &#39;คน&#39;, &#39;ไทย&#39;, &#39;รัก&#39;, &#39;ภาษา&#39;, &#39;ไทย&#39;, &#39;ภาษา&#39;, &#39;บ้าน&#39;, &#39;เกิด&#39;]</span>
+<span class="sd">        b=word_tokenize(text,engine=&#39;dict&#39;) # [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คนไทย&#39;, &#39;รัก&#39;, &#39;ภาษาไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="sd">        c=word_tokenize(text,engine=&#39;mm&#39;) # [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คนไทย&#39;, &#39;รัก&#39;, &#39;ภาษาไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="sd">        d=word_tokenize(text,engine=&#39;pylexto&#39;) # [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คนไทย&#39;, &#39;รัก&#39;, &#39;ภาษาไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="sd">        e=word_tokenize(text,engine=&#39;newmm&#39;) # [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คนไทย&#39;, &#39;รัก&#39;, &#39;ภาษาไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="sd">        g=word_tokenize(text,engine=&#39;wordcutpy&#39;) # [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คน&#39;, &#39;ไทย&#39;, &#39;รัก&#39;, &#39;ภาษา&#39;, &#39;ไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 	<span class="k">if</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;icu&#39;</span><span class="p">:</span>
 		<span class="kn">from</span> <span class="nn">.pyicu</span> <span class="k">import</span> <span class="n">segment</span>
-	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;dicts&#39;</span><span class="p">:</span>
-		<span class="kn">from</span> <span class="nn">.dictsegment</span> <span class="k">import</span> <span class="n">segment</span>
-	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;mm&#39;</span><span class="p">:</span>
-		<span class="kn">from</span> <span class="nn">.mm</span> <span class="k">import</span> <span class="n">segment</span>
-	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;newmm&#39;</span><span class="p">:</span>
+	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;multi_cut&#39;</span> <span class="ow">or</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;mm&#39;</span><span class="p">:</span>
+		<span class="kn">from</span> <span class="nn">.multi_cut</span> <span class="k">import</span> <span class="n">segment</span>
+	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;newmm&#39;</span> <span class="ow">or</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;onecut&#39;</span><span class="p">:</span>
 		<span class="kn">from</span> <span class="nn">.newmm</span> <span class="k">import</span> <span class="n">mmcut</span> <span class="k">as</span> <span class="n">segment</span>
 	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;longest-matching&#39;</span><span class="p">:</span>
 		<span class="kn">from</span> <span class="nn">.longest</span> <span class="k">import</span> <span class="n">segment</span>
@@ -191,8 +221,6 @@
 		<span class="kn">from</span> <span class="nn">.pylexto</span> <span class="k">import</span> <span class="n">segment</span>
 	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;deepcut&#39;</span><span class="p">:</span>
 		<span class="kn">from</span> <span class="nn">.deepcut</span> <span class="k">import</span> <span class="n">segment</span>
-	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;cutkum&#39;</span><span class="p">:</span>
-		<span class="kn">from</span> <span class="nn">.cutkum</span> <span class="k">import</span> <span class="n">segment</span>
 	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;wordcutpy&#39;</span><span class="p">:</span>
 		<span class="kn">from</span> <span class="nn">.wordcutpy</span> <span class="k">import</span> <span class="n">segment</span>
 	<span class="k">else</span><span class="p">:</span>
@@ -200,28 +228,6 @@
 	<span class="k">if</span> <span class="n">whitespaces</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
 		<span class="k">return</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">!=</span><span class="s1">&#39;&#39;</span><span class="p">]</span>
 	<span class="k">return</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="dict_word_tokenize"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.dict_word_tokenize">[docs]</a><span class="k">def</span> <span class="nf">dict_word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;newmm&#39;</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	:meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.</span>
-
-<span class="sd">	:param str text: the text to be tokenized</span>
-<span class="sd">	:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie</span>
-<span class="sd">	:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)</span>
-
-<span class="sd">	:return: A list of words, tokenized from a text.</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="k">if</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;newmm&quot;</span><span class="p">:</span>
-		<span class="kn">from</span> <span class="nn">.newmm</span> <span class="k">import</span> <span class="n">mmcut</span> <span class="k">as</span> <span class="n">segment</span>
-	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;mm&quot;</span><span class="p">:</span>
-		<span class="kn">from</span> <span class="nn">.mm</span> <span class="k">import</span> <span class="n">segment</span>
-	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;longest-matching&#39;</span><span class="p">:</span>
-		<span class="kn">from</span> <span class="nn">.longest</span> <span class="k">import</span> <span class="n">segment</span>
-	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;wordcutpy&#39;</span><span class="p">:</span>
-		<span class="kn">from</span> <span class="nn">.wordcutpy</span> <span class="k">import</span> <span class="n">segment</span>
-		<span class="k">return</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-	<span class="k">return</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="sent_tokenize"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.sent_tokenize">[docs]</a><span class="k">def</span> <span class="nf">sent_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;whitespace+newline&#39;</span><span class="p">):</span>
 	<span class="sd">&#39;&#39;&#39;</span>
@@ -274,16 +280,16 @@
 
 <span class="sd">	:return: returns list of strings of syllables</span>
 <span class="sd">	&quot;&quot;&quot;</span>
-	<span class="n">text</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+	<span class="n">text1</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 	<span class="n">data</span><span class="o">=</span><span class="p">[]</span>
 	<span class="n">trie</span> <span class="o">=</span> <span class="n">create_custom_dict_trie</span><span class="p">(</span><span class="n">custom_dict_source</span><span class="o">=</span><span class="n">get_data</span><span class="p">())</span>
-	<span class="k">if</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text1</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
 		<span class="n">i</span><span class="o">=</span><span class="mi">0</span>
-		<span class="k">while</span><span class="p">(</span><span class="n">i</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)):</span>
+		<span class="k">while</span> <span class="n">i</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">text1</span><span class="p">):</span>
 			<span class="n">data</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">dict_word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">custom_dict_trie</span><span class="o">=</span><span class="n">trie</span><span class="p">))</span>
 			<span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
 	<span class="k">else</span><span class="p">:</span>
-		<span class="n">data</span><span class="o">=</span><span class="n">dict_word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text1</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="o">=</span><span class="n">trie</span><span class="p">)</span>
+		<span class="n">data</span><span class="o">=</span><span class="n">dict_word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="o">=</span><span class="n">trie</span><span class="p">)</span>
 	<span class="k">return</span> <span class="n">data</span>
 
 <div class="viewcode-block" id="create_custom_dict_trie"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.create_custom_dict_trie">[docs]</a><span class="k">def</span> <span class="nf">create_custom_dict_trie</span><span class="p">(</span><span class="n">custom_dict_source</span><span class="p">):</span>

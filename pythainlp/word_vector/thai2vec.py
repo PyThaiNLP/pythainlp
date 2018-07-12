@@ -32,17 +32,24 @@ def download():
 		path = get_file('thai2vec02')
 	return path
 def get_model():
-	return KeyedVectors.load_word2vec_format(download(),binary=False)
+    '''
+    :return: Downloads the `gensim` model.'''
+    return KeyedVectors.load_word2vec_format(download(),binary=False)
 def most_similar_cosmul(positive,negative):
-	'''
+    '''
 	การใช้งาน
 	input list
 	'''
-	return get_model().most_similar_cosmul(positive=positive, negative=negative)
+    return get_model().most_similar_cosmul(positive=positive, negative=negative)
 def doesnt_match(listdata):
-	return get_model().doesnt_match(listdata)
+    return get_model().doesnt_match(listdata)
 def similarity(word1,word2):
-	return get_model().similarity(word1,word2)
+    '''
+    :param str word1: first word
+    :param str word2: second word
+    :return: the cosine similarity between the two word vectors
+    '''
+    return get_model().similarity(word1,word2)
 def sentence_vectorizer(ss,dim=300,use_mean=False):
     s = word_tokenize(ss)
     vec = np.zeros((1,dim))

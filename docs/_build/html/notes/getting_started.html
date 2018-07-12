@@ -85,7 +85,9 @@
 </ul>
 <p class="caption"><span class="caption-text">Package reference:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/romanization.html">pythainlp.romanization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api/tokenizer.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api/word_vector.html">pythainlp.word_vector</a></li>
 </ul>
 
             
@@ -154,7 +156,17 @@
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <p>PyThaiNLP is a Python library for natural language processing (NLP) of Thai language. With this package, you can NLP tasks such as classify texts and tokenize words.</p>
 <p>TODO: Add example for classification</p>
-<p>TODO: Add example for word tokenization</p>
+<p><strong>Tokenization Example</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pythainlp.tokenize</span> <span class="k">import</span> <span class="n">word_tokenize</span>
+<span class="n">text</span><span class="o">=</span><span class="s1">&#39;ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด&#39;</span>
+<span class="n">a</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;icu&#39;</span><span class="p">)</span> <span class="c1"># [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอ&#39;, &#39;เค&#39;, &#39;บ่&#39;, &#39;พวก&#39;, &#39;เรา&#39;, &#39;เป็น&#39;, &#39;คน&#39;, &#39;ไทย&#39;, &#39;รัก&#39;, &#39;ภาษา&#39;, &#39;ไทย&#39;, &#39;ภาษา&#39;, &#39;บ้าน&#39;, &#39;เกิด&#39;]</span>
+<span class="n">b</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;dict&#39;</span><span class="p">)</span> <span class="c1"># [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คนไทย&#39;, &#39;รัก&#39;, &#39;ภาษาไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="n">c</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;mm&#39;</span><span class="p">)</span> <span class="c1"># [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คนไทย&#39;, &#39;รัก&#39;, &#39;ภาษาไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="n">d</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;pylexto&#39;</span><span class="p">)</span> <span class="c1"># [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คนไทย&#39;, &#39;รัก&#39;, &#39;ภาษาไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="n">e</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;newmm&#39;</span><span class="p">)</span> <span class="c1"># [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คนไทย&#39;, &#39;รัก&#39;, &#39;ภาษาไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="n">g</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;wordcutpy&#39;</span><span class="p">)</span> <span class="c1"># [&#39;ผม&#39;, &#39;รัก&#39;, &#39;คุณ&#39;, &#39;นะ&#39;, &#39;ครับ&#39;, &#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;เป็น&#39;, &#39;คน&#39;, &#39;ไทย&#39;, &#39;รัก&#39;, &#39;ภาษา&#39;, &#39;ไทย&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิ</span>
+</pre></div>
+</div>
 <p>Thai has historically faced a lot of NLP challenges. A quick list of them include as follows:</p>
 <ol class="arabic simple">
 <li><strong>Start-end of sentence marking</strong> - This is arguably the biggest problem for the field of Thai NLP. The lack of end of sentence marking (EOS) makes it hard for researchers to create training sets, the basis of most research in this field. The root of the problem is two-pronged. In terms of writing system, Thai uses space to indicate both commas and periods. No letter indicates an end of a sentence. In terms of language use, Thais have a habit of starting their sentences with connector terms such as ‘because’, ‘but’, ‘following’, etc, making it often hard even for natives to decide where the end of sentence should be when translating.</li>

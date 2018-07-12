@@ -3,14 +3,11 @@ from __future__ import absolute_import,unicode_literals
 from pythainlp.tokenize import word_tokenize
 # ถอดเสียงภาษาไทยเป็น Latin
 def romanization(data,engine='royin'):
-	"""เป็นคำสั่ง ถอดเสียงภาษาไทยเป็นอังกฤษ 
-	romanization(data,engine='royin')
-	มี 2 engine ดังนี้
-	- pyicu ส่งค่า Latin
-	- royin ใช้หลักเกณฑ์การถอดอักษรไทยเป็นอักษรโรมัน ฉบับราชบัณฑิตยสถาน
-	data :
-	รับค่า ''str'' ข้อความ 
-	คืนค่าเป็น ''str'' ข้อความ"""
+	"""
+	:param str data: Thai text to be romanized
+	:param str engine: choose between 'royin' and 'pyicu'. 'royin' will romanize according to the standard of Thai Royal Institute. 'pyicu' will romanize according to the Internaitonal Phonetic Alphabet.
+	:return: English (more or less) text that spells out how the Thai text should read.
+	"""
 	word_list=word_tokenize(data)
 	listword=[]
 	i=0

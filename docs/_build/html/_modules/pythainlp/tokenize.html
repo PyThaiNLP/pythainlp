@@ -84,6 +84,8 @@
 <p class="caption"><span class="caption-text">Package reference:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api/romanization.html">pythainlp.romanization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/tag.html">pythainlp.tag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/tokenizer.html">pythainlp.tokenize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/word_vector.html">pythainlp.word_vector</a></li>
 </ul>
@@ -165,6 +167,7 @@
 <div class="viewcode-block" id="dict_word_tokenize"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.dict_word_tokenize">[docs]</a><span class="k">def</span> <span class="nf">dict_word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;newmm&#39;</span><span class="p">):</span>
 	<span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">	:meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.</span>
+
 <span class="sd">	:param str text: the text to be tokenized</span>
 <span class="sd">	:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie</span>
 <span class="sd">	:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)</span>
@@ -243,6 +246,16 @@
 	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;whitespace+newline&#39;</span><span class="p">:</span>
 		<span class="n">data</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n+|\s+&#39;</span><span class="p">,</span><span class="s1">&#39;|&#39;</span><span class="p">,</span><span class="n">text</span><span class="p">,</span><span class="n">re</span><span class="o">.</span><span class="n">U</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">)</span>
 	<span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="subword_tokenize"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.subword_tokenize">[docs]</a><span class="k">def</span> <span class="nf">subword_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;tcc&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param str text: text to be tokenized</span>
+<span class="sd">    :param str engine: choosing &#39;tcc&#39; uses the Thai Character Cluster rule to segment words into the smallest unique units.</span>
+<span class="sd">    :return: a list of tokenized strings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;tcc&#39;</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">.tcc</span> <span class="k">import</span> <span class="n">tcc</span>
+    <span class="k">return</span> <span class="n">tcc</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="isthai"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.isthai">[docs]</a><span class="k">def</span> <span class="nf">isthai</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">check_all</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
@@ -335,6 +348,7 @@
 	<span class="k">def</span> <span class="nf">word_tokenize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;newmm&#39;</span><span class="p">):</span>
 		<span class="kn">from</span> <span class="nn">.newmm</span> <span class="k">import</span> <span class="n">mmcut</span> <span class="k">as</span> <span class="n">segment</span>
 		<span class="k">return</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">trie_dict</span><span class="p">)</span>
+
 </pre></div>
 
            </div>

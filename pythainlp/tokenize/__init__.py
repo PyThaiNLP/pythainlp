@@ -14,6 +14,7 @@ DEFAULT_DICT_TRIE = Trie(get_dict())
 def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
 	'''
 	:meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
+
 	:param str text: the text to be tokenized
 	:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie
 	:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)
@@ -92,6 +93,16 @@ def sent_tokenize(text,engine='whitespace+newline'):
 	elif engine=='whitespace+newline':
 		data=re.sub(r'\n+|\s+','|',text,re.U).split('|')
 	return data
+
+def subword_tokenize(text, engine='tcc'):
+    """
+    :param str text: text to be tokenized
+    :param str engine: choosing 'tcc' uses the Thai Character Cluster rule to segment words into the smallest unique units.
+    :return: a list of tokenized strings.
+    """
+    if engine == 'tcc':
+        from .tcc import tcc
+    return tcc(text)
 
 def isthai(text,check_all=False):
 	"""
@@ -184,3 +195,4 @@ class Tokenizer:
 	def word_tokenize(self, text, engine='newmm'):
 		from .newmm import mmcut as segment
 		return segment(text, self.trie_dict)
+

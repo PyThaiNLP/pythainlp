@@ -2,18 +2,18 @@
 from __future__ import absolute_import,division,print_function,unicode_literals
 import sys
 
-def pos_tag(text,engine='unigram',corpus='orchid'):
+def pos_tag(list,engine='unigram',corpus='orchid'):
     """
     Part of Speech tagging function.
 
-    :param text:
+    :param list list: takes in a list of tokenized words (put differently, a list of string)
     :param str engine:
         * unigram - unigram tagger
         * perceptron - perceptron tagger
         * artagger - RDR POS tagger
-    :param corpus:
-        * orchid
-        * pud - Parallel Universal Dependencies (PUD) treeba banks
+    :param str corpus:
+        * orchid - annotated Thai academic articles
+        * pud - Parallel Universal Dependencies (PUD) treebanks
     :return: returns a list of labels regarding which part of speech it is
     """
     if engine=='old' or engine=='unigram':

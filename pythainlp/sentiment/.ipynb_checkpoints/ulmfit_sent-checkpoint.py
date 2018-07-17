@@ -30,6 +30,16 @@ import torch
 from torch.autograd import Variable
 from torch import LongTensor
 
+#import fastai for multiBatchRNN
+try:
+    from fastai.text import *
+except ImportError:
+    print(
+    """
+    fastai required for multiBatchRNN. 
+    Run 'pip install https://github.com/fastai/fastai/archive/master.zip'
+    """)
+
 from pythainlp.tokenize import word_tokenize
 from pythainlp.corpus import get_file
 from pythainlp.corpus import download

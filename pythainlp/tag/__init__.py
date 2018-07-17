@@ -2,11 +2,11 @@
 from __future__ import absolute_import,division,print_function,unicode_literals
 import sys
 
-def pos_tag(list,engine='unigram',corpus='orchid'):
+def pos_tag(list_text,engine='unigram',corpus='orchid'):
     """
     Part of Speech tagging function.
 
-    :param list list: takes in a list of tokenized words (put differently, a list of string)
+    :param list list_text: takes in a list of tokenized words (put differently, a list of string)
     :param str engine:
         * unigram - unigram tagger
         * perceptron - perceptron tagger
@@ -40,7 +40,7 @@ def pos_tag(list,engine='unigram',corpus='orchid'):
                 totag.append((word.word, word.tag))
             return totag
         return tag(text)
-    return tag(list,corpus=corpus)
+    return tag(list_text,corpus=corpus)
 
 def pos_tag_sents(sentences,engine='unigram',corpus='orchid'):
     return [pos_tag(i,engine=engine,corpus=corpus) for i in sentences]

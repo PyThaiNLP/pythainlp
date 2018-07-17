@@ -9,6 +9,7 @@ The :class:`pythainlp.tokenize` contains multiple functions for tokenizing a chu
 
 .. autofunction:: word_tokenize
 .. autofunction:: dict_word_tokenize
+.. autofunction:: subword_tokenize
 .. autofunction:: sent_tokenize
 .. autofunction:: isthai
 .. autofunction:: create_custom_dict_trie

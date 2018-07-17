@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pythainlp.romanization &mdash; PyThaiNLP 20180622 documentation</title>
+  <title>pythainlp.spell &mdash; PyThaiNLP 20180622 documentation</title>
   
 
   
@@ -135,7 +135,7 @@
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
-      <li>pythainlp.romanization</li>
+      <li>pythainlp.spell</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -150,28 +150,22 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for pythainlp.romanization</h1><div class="highlight"><pre>
+  <h1>Source code for pythainlp.spell</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span><span class="n">unicode_literals</span>
-<span class="kn">from</span> <span class="nn">pythainlp.tokenize</span> <span class="k">import</span> <span class="n">word_tokenize</span>
-<span class="c1"># ถอดเสียงภาษาไทยเป็น Latin</span>
-<div class="viewcode-block" id="romanization"><a class="viewcode-back" href="../../api/romanization.html#pythainlp.romanization.romanization">[docs]</a><span class="k">def</span> <span class="nf">romanization</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;royin&#39;</span><span class="p">):</span>
-	<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">	:param str data: Thai text to be romanized</span>
-<span class="sd">	:param str engine: choose between &#39;royin&#39; and &#39;pyicu&#39;. &#39;royin&#39; will romanize according to the standard of Thai Royal Institute. &#39;pyicu&#39; will romanize according to the Internaitonal Phonetic Alphabet.</span>
-<span class="sd">	:return: English (more or less) text that spells out how the Thai text should read.</span>
-<span class="sd">	&quot;&quot;&quot;</span>
-	<span class="n">word_list</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-	<span class="n">listword</span><span class="o">=</span><span class="p">[]</span>
-	<span class="n">i</span><span class="o">=</span><span class="mi">0</span>
-	<span class="k">if</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;royin&#39;</span><span class="p">:</span>
-    		<span class="kn">from</span> <span class="nn">.royin</span> <span class="k">import</span> <span class="n">romanization</span>
-	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;pyicu&#39;</span><span class="p">:</span>
-    		<span class="kn">from</span> <span class="nn">.pyicu</span> <span class="k">import</span> <span class="n">romanization</span>
-	<span class="k">while</span> <span class="n">i</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">word_list</span><span class="p">):</span>
-		<span class="n">listword</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">romanization</span><span class="p">(</span><span class="n">word_list</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
-		<span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
-	<span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">listword</span><span class="p">)</span></div>
+<div class="viewcode-block" id="spell"><a class="viewcode-back" href="../../api/spell.html#pythainlp.spell.spell">[docs]</a><span class="k">def</span> <span class="nf">spell</span><span class="p">(</span><span class="n">word</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;pn&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param str word: the word to check spelling</span>
+<span class="sd">    :param str engine:</span>
+<span class="sd">        * pn - Peter Norvig&#39;s algorithm</span>
+<span class="sd">        * hunspell - uses hunspell&#39;s algorithm, which should already exist in linux</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;pn&#39;</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">.pn</span> <span class="k">import</span> <span class="n">spell</span> <span class="k">as</span> <span class="n">spell1</span>
+    <span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;hunspell&#39;</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">.hunspell</span> <span class="k">import</span> <span class="n">spell</span> <span class="k">as</span> <span class="n">spell1</span>
+    <span class="k">return</span> <span class="n">spell1</span><span class="p">(</span><span class="n">word</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

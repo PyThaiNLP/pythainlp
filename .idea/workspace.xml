@@ -2,27 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3cc23465-536d-4a3c-9bdb-cea52c9d386b" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/api/romanization.rst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/api/word_vector.rst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/api/spell.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/api/tokenizer.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/api/tokenizer.doctree" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/environment.pickle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/index.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/index.doctree" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/doctrees/notes/getting_started.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/doctrees/notes/getting_started.doctree" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/pythainlp/romanization.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/pythainlp/romanization.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/pythainlp/tokenize.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/pythainlp/tokenize.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/notes/getting_started.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/notes/getting_started.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_modules/pythainlp/word_vector/thai2vec.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_modules/pythainlp/word_vector/thai2vec.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/_build/html/_sources/api/tokenizer.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/_sources/api/tokenizer.rst.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/api/tokenizer.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/api/tokenizer.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/genindex.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/_build/html/notes/getting_started.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/notes/getting_started.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/objects.inv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/search.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/_build/html/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/_build/html/searchindex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/notes/getting_started.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/notes/getting_started.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pythainlp/romanization/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythainlp/romanization/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pythainlp/tokenize/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythainlp/tokenize/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pythainlp/word_vector/thai2vec.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythainlp/word_vector/thai2vec.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pythainlp/spell/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythainlp/spell/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pythainlp/spell/hunspell.py" beforeDir="false" afterPath="$PROJECT_DIR$/pythainlp/spell/hunspell.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -32,21 +29,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="getting_started.rst" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/notes/getting_started.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="romanization.rst" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/api/romanization.rst">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
+            <state relative-caret-position="360">
+              <caret line="24" selection-start-line="24" selection-end-line="24" />
             </state>
           </provider>
         </entry>
@@ -54,17 +42,11 @@
       <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pythainlp/tokenize/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="47">
-              <caret line="44" column="48" selection-start-line="44" selection-start-column="48" selection-end-line="44" selection-end-column="48" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pythainlp/romanization/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="21" selection-start-line="21" selection-end-line="21" />
+            <state relative-caret-position="306">
+              <caret line="40" column="59" selection-start-line="40" selection-start-column="59" selection-end-line="40" selection-end-column="59" />
+              <folding>
+                <element signature="e#24#79#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -72,46 +54,54 @@
       <file leaf-file-name="tokenizer.rst" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/api/tokenizer.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="54" selection-start-line="7" selection-start-column="54" selection-end-line="7" selection-end-column="54" />
+            <state relative-caret-position="135">
+              <caret line="9" selection-start-line="9" selection-end-line="9" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="word_vector.rst" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/api/word_vector.rst">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="thai2vec.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pythainlp/word_vector/thai2vec.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="397">
-              <caret line="51" column="4" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.rst" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.rst" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/index.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="15" selection-start-line="19" selection-start-column="15" selection-end-line="19" selection-end-column="15" />
+            <state relative-caret-position="120">
+              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="conf.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/conf.py">
+      <file leaf-file-name="spell.rst" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/docs/api/spell.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="65">
-              <caret line="155" selection-start-line="155" selection-end-line="155" />
+            <state relative-caret-position="105">
+              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pythainlp/spell/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="hunspell.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pythainlp/spell/hunspell.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="540">
+              <caret line="36" column="19" lean-forward="true" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
+              <folding>
+                <element signature="e#24#94#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pn.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pythainlp/spell/pn.py">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -123,14 +113,19 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/docs/api/romanization.rst" />
-        <option value="$PROJECT_DIR$/docs/api/tokenizer.rst" />
         <option value="$PROJECT_DIR$/docs/conf.py" />
         <option value="$PROJECT_DIR$/docs/api/word_vector.rst" />
-        <option value="$PROJECT_DIR$/pythainlp/tokenize/__init__.py" />
         <option value="$PROJECT_DIR$/docs/notes/getting_started.rst" />
         <option value="$PROJECT_DIR$/pythainlp/romanization/__init__.py" />
         <option value="$PROJECT_DIR$/pythainlp/word_vector/thai2vec.py" />
         <option value="$PROJECT_DIR$/docs/index.rst" />
+        <option value="$PROJECT_DIR$/docs/api/tokenizer.rst" />
+        <option value="$PROJECT_DIR$/pythainlp/tokenize/__init__.py" />
+        <option value="$PROJECT_DIR$/docs/api/tag.rst" />
+        <option value="$PROJECT_DIR$/pythainlp/tag/__init__.py" />
+        <option value="$PROJECT_DIR$/docs/api/spell.rst" />
+        <option value="$PROJECT_DIR$/pythainlp/spell/hunspell.py" />
+        <option value="$PROJECT_DIR$/pythainlp/spell/__init__.py" />
       </list>
     </option>
   </component>
@@ -145,7 +140,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -167,12 +161,6 @@
             <path>
               <item name="pythainlp" type="b2602c69:ProjectViewProjectNode" />
               <item name="pythainlp" type="462c0819:PsiDirectoryNode" />
-              <item name="docs" type="462c0819:PsiDirectoryNode" />
-              <item name="notes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pythainlp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pythainlp" type="462c0819:PsiDirectoryNode" />
               <item name="pythainlp" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -180,6 +168,18 @@
               <item name="pythainlp" type="462c0819:PsiDirectoryNode" />
               <item name="pythainlp" type="462c0819:PsiDirectoryNode" />
               <item name="romanization" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pythainlp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pythainlp" type="462c0819:PsiDirectoryNode" />
+              <item name="pythainlp" type="462c0819:PsiDirectoryNode" />
+              <item name="spell" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pythainlp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pythainlp" type="462c0819:PsiDirectoryNode" />
+              <item name="pythainlp" type="462c0819:PsiDirectoryNode" />
+              <item name="tag" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pythainlp" type="b2602c69:ProjectViewProjectNode" />
@@ -203,6 +203,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -235,63 +236,60 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="824" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="825" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15574348" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/docs/api/romanization">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pythainlp/tokenize/deepcut.py">
+    <entry file="file://$PROJECT_DIR$/docs/notes/getting_started.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="270">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/api/romanization.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/tokenize/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="44" column="48" selection-start-line="44" selection-start-column="48" selection-end-line="44" selection-end-column="48" />
           <folding>
             <element signature="e#24#79#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pythainlp/MetaSound.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pythainlp/soundex.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pythainlp/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pythainlp/change.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pythainlp/Text.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/conf.py">
+    <entry file="file://$PROJECT_DIR$/pythainlp/romanization/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="65">
-          <caret line="155" selection-start-line="155" selection-end-line="155" />
+        <state relative-caret-position="300">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
     </entry>
@@ -299,6 +297,34 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="54" selection-start-line="7" selection-start-column="54" selection-end-line="7" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/api/word_vector.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/word_vector/thai2vec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="51" column="4" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/index.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="17" lean-forward="true" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2310">
+          <caret line="155" selection-start-line="155" selection-end-line="155" />
         </state>
       </provider>
     </entry>
@@ -318,7 +344,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pythainlp/tokenize/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="47">
+        <state relative-caret-position="660">
           <caret line="44" column="48" selection-start-line="44" selection-start-column="48" selection-end-line="44" selection-end-column="48" />
         </state>
       </provider>
@@ -327,6 +353,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/api/tokenizer.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="54" selection-start-line="7" selection-start-column="54" selection-end-line="7" selection-end-column="54" />
         </state>
       </provider>
     </entry>
@@ -339,15 +372,157 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pythainlp/word_vector/thai2vec.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
+        <state relative-caret-position="735">
           <caret line="51" column="4" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2310">
+          <caret line="155" selection-start-line="155" selection-end-line="155" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/index.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="15" selection-start-line="19" selection-start-column="15" selection-end-line="19" selection-end-column="15" />
+        <state relative-caret-position="405">
+          <caret line="27" column="18" lean-forward="true" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/api/romanization" />
+    <entry file="file://$PROJECT_DIR$/pythainlp/tokenize/deepcut.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/MetaSound.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/soundex.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/change.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/Text.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2310">
+          <caret line="155" selection-start-line="155" selection-end-line="155" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/api/romanization.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/word_vector/thai2vec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="51" column="4" selection-start-line="51" selection-start-column="4" selection-end-line="51" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/tag/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="15" column="63" lean-forward="true" selection-start-line="15" selection-start-column="63" selection-end-line="15" selection-end-column="63" />
+          <folding>
+            <element signature="e#24#103#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/api/tag.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/api/word_vector.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/romanization/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/tokenize/tcc.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/tokenize/thai.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/tokenize/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="40" column="59" selection-start-line="40" selection-start-column="59" selection-end-line="40" selection-end-column="59" />
+          <folding>
+            <element signature="e#24#79#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/notes/getting_started.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/index.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/api/tokenizer.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" selection-start-line="9" selection-end-line="9" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/spell/hunspell.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="36" column="19" lean-forward="true" selection-start-line="36" selection-start-column="19" selection-end-line="36" selection-end-column="19" />
+          <folding>
+            <element signature="e#24#94#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/spell/pn.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pythainlp/spell/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/api/spell.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>

@@ -33,7 +33,7 @@ def spel1(word,lang='th_TH'):
 		del get
 		return getoutput
 	except subprocess.CalledProcessError:
-		print('plase install hunspell')
+		print('please install hunspell')
 		return None
 if __name__ == "__main__":
   Input = spell("appoe","")

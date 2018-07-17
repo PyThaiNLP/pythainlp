@@ -40,7 +40,7 @@ def pos_tag(list,engine='unigram',corpus='orchid'):
                 totag.append((word.word, word.tag))
             return totag
         return tag(text)
-    return tag(text,corpus=corpus)
+    return tag(list,corpus=corpus)
 
 def pos_tag_sents(sentences,engine='unigram',corpus='orchid'):
     return [pos_tag(i,engine=engine,corpus=corpus) for i in sentences]

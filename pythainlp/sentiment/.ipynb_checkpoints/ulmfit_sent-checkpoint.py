@@ -47,6 +47,7 @@ def get_path(fname):
 
 #load model
 m = torch.load(get_path(MODEL_NAME))
+m.eval()
 #load itos and stoi
 itos = pickle.load(open(get_path(ITOS_NAME),'rb'))
 stoi = defaultdict(lambda:0, {v:k for k,v in enumerate(itos)})

@@ -14,8 +14,9 @@ try:
     from fastai.text import *
     import dill as pickle
 except ImportError:
-    import pip
-    pip.main(['install','fastai','numpy','dill'])
+    from pythainlp.tools import install_package
+    install_package('fastai')
+    install_package('numpy')
     try:
         import numpy as np
         from fastai.text import *

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,unicode_literals
-from pythainlp.tools import install_package
 import sys
 try:
     import deepcut
 except ImportError:
 	'''ในกรณีที่ยังไม่ติดตั้ง deepcut ในระบบ'''
+	from pythainlp.tools import install_package
 	install_package('deepcut')
 	try:
 		import deepcut

@@ -12,8 +12,9 @@ try:
 	from gensim.models import KeyedVectors
 	import numpy as np
 except ImportError:
-	import pip
-	pip.main(['install','gensim','numpy'])
+	from pythainlp.tools import install_package
+	install_package('gensim')
+	install_package('numpy')
 	try:
 		from gensim.models import KeyedVectors
 		import numpy as np

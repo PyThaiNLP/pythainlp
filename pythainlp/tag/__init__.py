@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,division,print_function,unicode_literals
 import sys
-
 def pos_tag(list_text,engine='unigram',corpus='orchid'):
     """
     Part of Speech tagging function.
@@ -27,8 +26,8 @@ def pos_tag(list_text,engine='unigram',corpus='orchid'):
             try:
                 from artagger import Tagger
             except ImportError:
-                import pip
-                pip.main(['install','https://github.com/wannaphongcom/artagger/archive/master.zip'])
+                from pythainlp.tools import install_package
+                install_package('https://github.com/wannaphongcom/artagger/archive/master.zip')
                 try:
                     from artagger import Tagger
                 except ImportError:

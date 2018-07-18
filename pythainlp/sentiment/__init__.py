@@ -9,16 +9,7 @@ import pythainlp
 from pythainlp.corpus import stopwords
 import os
 from pythainlp.tokenize import word_tokenize
-try:
-	import dill
-except ImportError:
-	import pip
-	pip.main(['install','dill'])
-	try:
-		import dill
-	except ImportError:
-		print("Error ! using 'pip install dill'")
-		sys.exit(0)
+import dill
 
 templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), 'sentiment')
 def sentiment(text):

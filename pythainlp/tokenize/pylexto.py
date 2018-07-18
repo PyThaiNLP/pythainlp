@@ -4,8 +4,8 @@ import sys
 try:
     from pylexto import LexTo
 except ImportError:
-	import pip
-	pip.main(['install','https://github.com/wannaphongcom/pylexto/archive/master.zip'])
+	from pythainlp.tools import install_package
+	install_package('https://github.com/wannaphongcom/pylexto/archive/master.zip')
 	try:
 		from pylexto import LexTo
 	except ImportError:

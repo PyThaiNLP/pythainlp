@@ -12,8 +12,9 @@ try:
     import numpy as np
     import dill as pickle
 except ImportError:
-    import pip
-    pip.main(['install','numpy','dill'])
+    from pythainlp.tools import install_package
+    install_package('numpy')
+    install_package('dill')
     try:
         import numpy as np
         import dill as pickle

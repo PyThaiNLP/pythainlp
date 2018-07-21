@@ -9,7 +9,6 @@ The :class:`pythainlp.number` contains functions for processing thai numbers and
 .. autofunction:: num_to_thai_num
 .. autofunction:: num_to_text
 .. autofunction:: text_to_num
-.. autofunction:: readnumber
 .. autofunction:: numtowords
 
 

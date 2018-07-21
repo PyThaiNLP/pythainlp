@@ -5,6 +5,9 @@ now1 = datetime.datetime.now()
 tz = pytz.timezone('Asia/Bangkok')
 
 def now():
+    """
+    :return: the current date. Currently only months are spelled out.
+    """
     now1 = datetime.datetime.now(tz)
     month_name = 'x มกราคม กุมภาพันธ์ มีนาคม เมษายน พฤษภาคม มิถุนายน กรกฎาคม สิงหาคม กันยายน ตุลาคม พฤศจิกายน ธันวาคม'.split()[now1.month]
     thai_year = now1.year + 543
@@ -21,7 +24,7 @@ def reign_year_to_ad(reign_year,reign):
 	'''
 	ปีรัชกาล แปลงเป็น ค.ศ.
 	reign_year_to_ad(reign_year,reign)
-	reign_year - ปีที่ 
+	reign_year - ปีที่
 	reign - รัชกาล
 	'''
 	if int(reign)==10:

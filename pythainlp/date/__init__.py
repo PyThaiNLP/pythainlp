@@ -6,7 +6,7 @@ tz = pytz.timezone('Asia/Bangkok')
 
 def now():
     """
-    :return: the current date. Currently only months are spelled out.
+    :return: the current date with Thai month and Thai year. The month is spelled out in text, and the year is converted from AD to Thai years. (ie: 30 ตุลาคม 2560 20:45:30)
     """
     now1 = datetime.datetime.now(tz)
     month_name = 'x มกราคม กุมภาพันธ์ มีนาคม เมษายน พฤษภาคม มิถุนายน กรกฎาคม สิงหาคม กันยายน ตุลาคม พฤศจิกายน ธันวาคม'.split()[now1.month]
@@ -38,4 +38,4 @@ def reign_year_to_ad(reign_year,reign):
 	return ad
 # BE คือ พ.ศ.
 # AD คือ ค.ศ.
-#  AH ปีฮิจเราะห์ศักราชเป็นปีพุทธศักราช จะต้องบวกด้วย 1122
+# AH ปีฮิจเราะห์ศักราชเป็นปีพุทธศักราช จะต้องบวกด้วย 1122

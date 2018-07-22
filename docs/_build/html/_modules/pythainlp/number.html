@@ -241,17 +241,17 @@
         <span class="n">fraction</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">amount_number1</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">number</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">number</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
-    <span class="n">baht</span> <span class="o">=</span> <span class="n">ReadNumber</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">baht</span> <span class="o">=</span> <span class="n">readnumber</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">baht</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="n">ret</span> <span class="o">+=</span> <span class="n">baht</span> <span class="o">+</span> <span class="s2">&quot;บาท&quot;</span>
-    <span class="n">satang</span> <span class="o">=</span> <span class="n">ReadNumber</span><span class="p">(</span><span class="n">fraction</span><span class="p">)</span>
+    <span class="n">satang</span> <span class="o">=</span> <span class="n">readnumber</span><span class="p">(</span><span class="n">fraction</span><span class="p">)</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">satang</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="n">ret</span> <span class="o">+=</span> <span class="n">satang</span> <span class="o">+</span> <span class="s2">&quot;สตางค์&quot;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;ถ้วน&quot;</span>
     <span class="k">return</span> <span class="n">ret</span></div>
 
-<div class="viewcode-block" id="readnumber"><a class="viewcode-back" href="../../api/number.html#pythainlp.number.readnumber">[docs]</a><span class="k">def</span> <span class="nf">readnumber</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">readnumber</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    :param float number: a float number (with decimals) indicating a quantity</span>
 <span class="sd">    :return: a text that indicates the full amount in word form, properly ending each digit with the right term.</span>
@@ -262,7 +262,7 @@
     <span class="n">ret</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">number</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span> <span class="k">return</span> <span class="n">ret</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">number</span> <span class="o">&gt;</span> <span class="mi">1000000</span><span class="p">):</span>
-        <span class="n">ret</span> <span class="o">+=</span> <span class="n">ReadNumber</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">number</span> <span class="o">/</span> <span class="mi">1000000</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;ล้าน&quot;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="n">readnumber</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">number</span> <span class="o">/</span> <span class="mi">1000000</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;ล้าน&quot;</span>
         <span class="n">number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">fmod</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">))</span>
     <span class="n">divider</span> <span class="o">=</span> <span class="mi">100000</span>
     <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
@@ -283,7 +283,7 @@
         <span class="n">number</span><span class="o">=</span><span class="n">number</span> <span class="o">%</span> <span class="n">divider</span>
         <span class="n">divider</span><span class="o">=</span><span class="n">divider</span> <span class="o">/</span> <span class="mi">10</span>
         <span class="n">pos</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="n">ret</span></div>
+    <span class="k">return</span> <span class="n">ret</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">numtowords</span><span class="p">(</span><span class="mf">4000.0</span><span class="p">))</span>

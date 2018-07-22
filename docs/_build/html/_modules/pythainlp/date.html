@@ -162,7 +162,7 @@
 
 <div class="viewcode-block" id="now"><a class="viewcode-back" href="../../api/date.html#pythainlp.date.now">[docs]</a><span class="k">def</span> <span class="nf">now</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    :return: the current date. Currently only months are spelled out.</span>
+<span class="sd">    :return: the current date with Thai month and Thai year. The month is spelled out in text, and the year is converted from AD to Thai years. (ie: 30 ตุลาคม 2560 20:45:30)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">now1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="p">)</span>
     <span class="n">month_name</span> <span class="o">=</span> <span class="s1">&#39;x มกราคม กุมภาพันธ์ มีนาคม เมษายน พฤษภาคม มิถุนายน กรกฎาคม สิงหาคม กันยายน ตุลาคม พฤศจิกายน ธันวาคม&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="n">now1</span><span class="o">.</span><span class="n">month</span><span class="p">]</span>
@@ -194,7 +194,7 @@
 	<span class="k">return</span> <span class="n">ad</span>
 <span class="c1"># BE คือ พ.ศ.</span>
 <span class="c1"># AD คือ ค.ศ.</span>
-<span class="c1">#  AH ปีฮิจเราะห์ศักราชเป็นปีพุทธศักราช จะต้องบวกด้วย 1122</span>
+<span class="c1"># AH ปีฮิจเราะห์ศักราชเป็นปีพุทธศักราช จะต้องบวกด้วย 1122</span>
 </pre></div>
 
            </div>

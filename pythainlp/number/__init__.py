@@ -85,10 +85,10 @@ def numtowords(amount_number):
         fraction = int(amount_number1[1])
     ret = ""
     number=ast.literal_eval(number.replace(",",""))
-    baht = ReadNumber(number)
+    baht = readnumber(number)
     if (baht != ""):
         ret += baht + "บาท"
-    satang = ReadNumber(fraction)
+    satang = readnumber(fraction)
     if (satang != ""):
         ret += satang + "สตางค์"
     else:
@@ -106,7 +106,7 @@ def readnumber(number):
     ret = ""
     if (number == 0): return ret
     if (number > 1000000):
-        ret += ReadNumber(int(number / 1000000)) + "ล้าน"
+        ret += readnumber(int(number / 1000000)) + "ล้าน"
         number = int(math.fmod(number, 1000000))
     divider = 100000
     pos = 0

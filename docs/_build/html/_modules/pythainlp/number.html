@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pythainlp.number &mdash; PyThaiNLP 20180622 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> PyThaiNLP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Notes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Package reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/collation.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/date.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/number.html">pythainlp.number</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/romanization.html">pythainlp.romanization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/tag.html">pythainlp.tag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/tokenizer.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/word_vector.html">pythainlp.word_vector</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyThaiNLP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pythainlp.number</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pythainlp.number</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&#39;&#39;&#39; ระบบแปลงเลขใน 1- 10 ภาษาไทย</span>
+<span class="sd">fork by http://justmindthought.blogspot.com/2012/12/code-php.html</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span><span class="n">division</span><span class="p">,</span><span class="n">print_function</span><span class="p">,</span><span class="n">unicode_literals</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">dict</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">int</span>
+<span class="kn">import</span> <span class="nn">math</span><span class="o">,</span><span class="nn">six</span><span class="o">,</span><span class="nn">ast</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">[[</span><span class="sa">u</span><span class="s1">&#39;ภาษาไทย&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;ตัวเลข&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;เลขไทย&#39;</span><span class="p">],</span>
+     <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;หนึ่ง&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;๑&#39;</span><span class="p">],</span>
+     <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;สอง&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;๒&#39;</span><span class="p">],</span>
+     <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;สาม&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;๓&#39;</span><span class="p">],</span>
+     <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;สี่&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;4&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;๔&#39;</span><span class="p">],</span>
+     <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;ห้า&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;5&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;๕&#39;</span><span class="p">],</span>
+     <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;หก&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;6&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;๖&#39;</span><span class="p">],</span>
+     <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;หก&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;7&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;๗&#39;</span><span class="p">],</span>
+     <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;แปด&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;8&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;๘&#39;</span><span class="p">],</span>
+     <span class="p">[</span><span class="sa">u</span><span class="s1">&#39;เก้า&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;9&#39;</span><span class="p">,</span> <span class="sa">u</span><span class="s1">&#39;๙&#39;</span><span class="p">]]</span>
+<span class="n">thaitonum</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+<span class="n">p1</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+<span class="n">d1</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1">#เลขไทยสู่เลข</span>
+<div class="viewcode-block" id="thai_num_to_num"><a class="viewcode-back" href="../../api/number.html#pythainlp.number.thai_num_to_num">[docs]</a><span class="k">def</span> <span class="nf">thai_num_to_num</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param str text: Thai number characters such as &#39;๑&#39;, &#39;๒&#39;, &#39;๓&#39;</span>
+<span class="sd">    :return: universal numbers such as &#39;1&#39;, &#39;2&#39;, &#39;3&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">thaitonum</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">thaitonum</span><span class="p">[</span><span class="n">text</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="thai_num_to_text"><a class="viewcode-back" href="../../api/number.html#pythainlp.number.thai_num_to_text">[docs]</a><span class="k">def</span> <span class="nf">thai_num_to_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param str text: Thai number characters such as &#39;๑&#39;, &#39;๒&#39;, &#39;๓&#39;</span>
+<span class="sd">    :return: Thai numbers, spelled out in Thai</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">thaitonum</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">thaitonum</span><span class="p">[</span><span class="n">text</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="num_to_thai_num"><a class="viewcode-back" href="../../api/number.html#pythainlp.number.num_to_thai_num">[docs]</a><span class="k">def</span> <span class="nf">num_to_thai_num</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param text: universal numbers such as &#39;1&#39;, &#39;2&#39;, &#39;3&#39;</span>
+<span class="sd">    :return:  Thai number characters such as &#39;๑&#39;, &#39;๒&#39;, &#39;๓&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">thaitonum</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">thaitonum</span><span class="p">[</span><span class="n">text</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="num_to_text"><a class="viewcode-back" href="../../api/number.html#pythainlp.number.num_to_text">[docs]</a><span class="k">def</span> <span class="nf">num_to_text</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param text: universal numbers such as &#39;1&#39;, &#39;2&#39;, &#39;3&#39;</span>
+<span class="sd">    :return: Thai numbers, spelled out in Thai</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">thaitonum</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">thaitonum</span><span class="p">[</span><span class="n">text</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="text_to_num"><a class="viewcode-back" href="../../api/number.html#pythainlp.number.text_to_num">[docs]</a><span class="k">def</span> <span class="nf">text_to_num</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param text: Thai numbers, spelled out in Thai</span>
+<span class="sd">    :return: universal numbers such as &#39;1&#39;, &#39;2&#39;, &#39;3&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">thaitonum</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">thaitonum</span><span class="p">[</span><span class="n">text</span><span class="p">]</span></div>
+
+<span class="k">def</span> <span class="nf">text_to_thai_num</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param text: Thai numbers, spelled out in Thai</span>
+<span class="sd">    :return: Thai numbers such as &#39;๑&#39;, &#39;๒&#39;, &#39;๓&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">thaitonum</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">thaitonum</span><span class="p">[</span><span class="n">text</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">number_format</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">places</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{:20,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+<span class="c1"># fork by http://justmindthought.blogspot.com/2012/12/code-php.html</span>
+
+<div class="viewcode-block" id="numtowords"><a class="viewcode-back" href="../../api/number.html#pythainlp.number.numtowords">[docs]</a><span class="k">def</span> <span class="nf">numtowords</span><span class="p">(</span><span class="n">amount_number</span><span class="p">):</span>
+    <span class="n">amount_number</span> <span class="o">=</span> <span class="n">number_format</span><span class="p">(</span><span class="n">amount_number</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">pt</span> <span class="o">=</span> <span class="n">amount_number</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+    <span class="n">number</span><span class="p">,</span><span class="n">fraction</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span>
+    <span class="n">amount_number1</span> <span class="o">=</span> <span class="n">amount_number</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">pt</span> <span class="o">==</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">amount_number</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">amount_number</span> <span class="o">=</span> <span class="n">amount_number</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">amount_number</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">fraction</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">amount_number1</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">number</span><span class="o">=</span><span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">number</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+    <span class="n">baht</span> <span class="o">=</span> <span class="n">readnumber</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">baht</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="n">baht</span> <span class="o">+</span> <span class="s2">&quot;บาท&quot;</span>
+    <span class="n">satang</span> <span class="o">=</span> <span class="n">readnumber</span><span class="p">(</span><span class="n">fraction</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">satang</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="n">satang</span> <span class="o">+</span> <span class="s2">&quot;สตางค์&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;ถ้วน&quot;</span>
+    <span class="k">return</span> <span class="n">ret</span></div>
+
+<span class="k">def</span> <span class="nf">readnumber</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param float number: a float number (with decimals) indicating a quantity</span>
+<span class="sd">    :return: a text that indicates the full amount in word form, properly ending each digit with the right term.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">position_call</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;แสน&quot;</span><span class="p">,</span> <span class="s2">&quot;หมื่น&quot;</span><span class="p">,</span> <span class="s2">&quot;พัน&quot;</span><span class="p">,</span> <span class="s2">&quot;ร้อย&quot;</span><span class="p">,</span> <span class="s2">&quot;สิบ&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">]</span>
+    <span class="n">number_call</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;หนึ่ง&quot;</span><span class="p">,</span> <span class="s2">&quot;สอง&quot;</span><span class="p">,</span> <span class="s2">&quot;สาม&quot;</span><span class="p">,</span><span class="s2">&quot;สี่&quot;</span><span class="p">,</span> <span class="s2">&quot;ห้า&quot;</span><span class="p">,</span> <span class="s2">&quot;หก&quot;</span><span class="p">,</span> <span class="s2">&quot;เจ็ด&quot;</span><span class="p">,</span> <span class="s2">&quot;แปด&quot;</span><span class="p">,</span> <span class="s2">&quot;เก้า&quot;</span><span class="p">]</span>
+    <span class="n">number</span> <span class="o">=</span> <span class="n">number</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">number</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span> <span class="k">return</span> <span class="n">ret</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">number</span> <span class="o">&gt;</span> <span class="mi">1000000</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="n">readnumber</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">number</span> <span class="o">/</span> <span class="mi">1000000</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;ล้าน&quot;</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">fmod</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">))</span>
+    <span class="n">divider</span> <span class="o">=</span> <span class="mi">100000</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">number</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">d</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">number</span><span class="o">/</span><span class="n">divider</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">divider</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">d</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;ยี่&quot;</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">divider</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">d</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">elif</span> <span class="p">((</span><span class="n">divider</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">d</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">ret</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">)):</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;เอ็ด&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="n">number_call</span><span class="p">[</span><span class="n">d</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">d</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="n">position_call</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">number</span><span class="o">=</span><span class="n">number</span> <span class="o">%</span> <span class="n">divider</span>
+        <span class="n">divider</span><span class="o">=</span><span class="n">divider</span> <span class="o">/</span> <span class="mi">10</span>
+        <span class="n">pos</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">ret</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">numtowords</span><span class="p">(</span><span class="mf">4000.0</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018-2018, PyThaiNLP (GPL license).
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'20180622',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

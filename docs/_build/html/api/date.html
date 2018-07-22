@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview: module code &mdash; PyThaiNLP 20180622 documentation</title>
+  <title>pythainlp.tokenize &mdash; PyThaiNLP 20180622 documentation</title>
   
 
   
@@ -27,7 +27,9 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pythainlp.number" href="number.html" />
+    <link rel="prev" title="pythainlp.tokenize" href="collation.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -82,15 +84,15 @@
 <li class="toctree-l1"><a class="reference internal" href="../notes/installation.html">Installation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Package reference:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../api/collation.html">pythainlp.tokenize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/date.html">pythainlp.tokenize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/number.html">pythainlp.number</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/romanization.html">pythainlp.romanization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/spell.html">pythainlp.spell</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/tag.html">pythainlp.tag</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/tokenizer.html">pythainlp.tokenize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../api/word_vector.html">pythainlp.word_vector</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="collation.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="number.html">pythainlp.number</a></li>
+<li class="toctree-l1"><a class="reference internal" href="romanization.html">pythainlp.romanization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tag.html">pythainlp.tag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tokenizer.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="word_vector.html">pythainlp.word_vector</a></li>
 </ul>
 
             
@@ -136,10 +138,14 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Overview: module code</li>
+      <li>pythainlp.tokenize</li>
     
     
       <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/date.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -151,21 +157,38 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="pythainlp/collation.html">pythainlp.collation</a></li>
-<li><a href="pythainlp/date.html">pythainlp.date</a></li>
-<li><a href="pythainlp/number.html">pythainlp.number</a></li>
-<li><a href="pythainlp/romanization.html">pythainlp.romanization</a></li>
-<li><a href="pythainlp/spell.html">pythainlp.spell</a></li>
-<li><a href="pythainlp/tag.html">pythainlp.tag</a></li>
-<li><a href="pythainlp/tokenize.html">pythainlp.tokenize</a></li>
-<li><a href="pythainlp/word_vector/thai2vec.html">pythainlp.word_vector.thai2vec</a></li>
-</ul>
+  <div class="section" id="pythainlp-tokenize">
+<h1>pythainlp.tokenize<a class="headerlink" href="#pythainlp-tokenize" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pythainlp.date</span></code> helps output dates, as spelled out in Thai.</p>
+<dl class="function">
+<dt id="pythainlp.date.now">
+<code class="descclassname">pythainlp.date.</code><code class="descname">now</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/date.html#now"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.date.now" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the current date with Thai month and Thai year. The month is spelled out in text, and the year is converted from AD to Thai years. (ie: 30 ตุลาคม 2560 20:45:30)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="number.html" class="btn btn-neutral float-right" title="pythainlp.number" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="collation.html" class="btn btn-neutral" title="pythainlp.tokenize" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

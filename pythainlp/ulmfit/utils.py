@@ -14,8 +14,9 @@ try:
     from fastai.text import *
     import dill as pickle
 except ImportError:
-    import pip
-    pip.main(['install','fastai','numpy','dill'])
+    from pythainlp.tools import install_package
+    install_package('fastai')
+    install_package('numpy')
     try:
         import numpy as np
         from fastai.text import *
@@ -91,13 +92,13 @@ def get_all(df):
     return tok, labels
 
 #convert text dataframe to numericalized dataframes
-def numericalizer(df, max_vocab = 60000, min_freq = 2, pad_tok = '_pad_',
-            unk_tok = '_unk_'):
+def numericalizer(df, itos=None, max_vocab = 60000, min_freq = 2, pad_tok = '_pad_', unk_tok = '_unk_'):
     tok, labels = get_all(df)
     freq = Counter(p for o in tok for p in o)
-    itos = [o for o,c in freq.most_common(max_vocab) if c>min_freq]
-    itos.insert(0, pad_tok)
-    itos.insert(0, unk_tok)
+    if itos is None:
+        itos = [o for o,c in freq.most_common(max_vocab) if c>min_freq]
+        itos.insert(0, pad_tok)
+        itos.insert(0, unk_tok)
     stoi = collections.defaultdict(lambda:0, {v:k for k,v in enumerate(itos)})
     lm = np.array([[stoi[o] for o in p] for p in tok])
     return(lm,tok,labels,itos,stoi,freq)

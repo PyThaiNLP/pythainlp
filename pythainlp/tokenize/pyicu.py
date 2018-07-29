@@ -5,8 +5,8 @@ import re
 try:
 	import icu
 except ImportError:
-	import pip
-	pip.main(['install','pyicu'])
+	from pythainlp.tools import install_package
+	install_package('pyicu')
 	try:
 		import icu
 	except ImportError:

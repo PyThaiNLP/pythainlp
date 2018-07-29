@@ -11,8 +11,8 @@ except ImportError:
 	'''
     ในกรณีที่ยังไม่ติดตั้ง wordcutpy ในระบบ
     '''
-	import pip
-	pip.main(['install','wordcutpy'])
+	from pythainlp.tools import install_package
+	install_package('wordcutpy')
 	try:
 		from wordcut import Wordcut
 	except ImportError:

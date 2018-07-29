@@ -10,94 +10,68 @@ from marisa_trie import Trie
 
 DEFAULT_DICT_TRIE = Trie(get_dict())
 
+
 def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
 	'''
-	dict_word_tokenize(text,file,engine)
-	เป็นคำสั่งสำหรับตัดคำโดยใช้ข้อมูลที่ผู้ใช้กำหนด
-	text คือ ข้อความที่ต้องการตัดคำ
-	custom_dict_trie คือ trie ที่สร้างจาก create_custom_dict_trie
-	engine คือ เครื่องมือตัดคำ
-	- newmm ตัดคำด้วย newmm
-    - wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
-	- mm ตัดคำด้วย mm
-    - longest-matching ตัดคำโดยใช้ longest matching
-	'''
+	:meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
 
-	if engine=="newmm":
+	:param str text: the text to be tokenized
+	:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie
+	:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)
+
+	:return: A list of words, tokenized from a text.
+	'''
+	if engine=="newmm" or engine=="onecut":
 		from .newmm import mmcut as segment
-	elif engine=="mm":
-		from .mm import segment
+	elif engine=="mm" or engine=="multi_cut":
+		from .multi_cut import segment
 	elif engine=='longest-matching':
 		from .longest import segment
 	elif engine=='wordcutpy':
 		from .wordcutpy import segment
 		return segment(text, custom_dict_trie.keys())
-	
 	return segment(text, custom_dict_trie)
 
 def word_tokenize(text, engine='newmm',whitespaces=True):
 	"""
-	ระบบตัดคำภาษาไทย
+    :param str text:  the text to be tokenized
+    :param str engine: the engine to tokenize text
+    :param bool whitespaces: True to output no whitespace, a common mark of sentence or end of phrase in Thai.
+    :Parameters for engine:
+        * newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)
+        * icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)
+        * longest-matching ใช้ Longest matching ในการตัดคำ
+        * mm ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
+        * pylexto - ใช้ LexTo ในการตัดคำ
+        * deepcut - ใช้ Deep Neural Network ในการตัดคำภาษาไทย
+        * wordcutpy - ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
+        * cutkum - ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)
+    :return: A list of words, tokenized from a text
 
-	word_tokenize(text,engine='newmm')
-	text คือ ข้อความในรูปแบบ str
-	engine มี
-	- newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)
-	- icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)
-	- dict - ใช้ dicu ในการตัดคำไทย จะคืนค่า False หากไม่สามารถตัดคำไทย
-	- longest-matching ใช้ Longest matching ในการตัดคำ
-	- mm ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
-	- pylexto ใช้ LexTo ในการตัดคำ
-	- deepcut ใช้ Deep Neural Network ในการตัดคำภาษาไทย
-	- wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
-	"""
-	
+    **Example**::
+
+        from pythainlp.tokenize import word_tokenize
+        text='ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด'
+        a=word_tokenize(text,engine='icu') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอ', 'เค', 'บ่', 'พวก', 'เรา', 'เป็น', 'คน', 'ไทย', 'รัก', 'ภาษา', 'ไทย', 'ภาษา', 'บ้าน', 'เกิด']
+        b=word_tokenize(text,engine='dict') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
+        c=word_tokenize(text,engine='mm') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
+        d=word_tokenize(text,engine='pylexto') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
+        e=word_tokenize(text,engine='newmm') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
+        g=word_tokenize(text,engine='wordcutpy') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คน', 'ไทย', 'รัก', 'ภาษา', 'ไทย', 'ภาษา', 'บ้านเกิด']
+    """
 	if engine=='icu':
-		'''
-		ตัดคำภาษาไทยโดยใช้ icu ในการตัดคำ
-		คำเตือน !!! \n คำสั่ง word_tokenize(text) ใน PyThaiNLP 1.6
-		ค่าเริ่มต้นจะเปลี่ยนจาก icu ไปเป็น newmm'''
 		from .pyicu import segment
-	elif engine=='dict':
-		'''
-		ใช้ dicu ในการตัดคำไทย
-		จะคืนค่า False หากไม่สามารถตัดคำไทย
-		'''
-		from .dictsegment import segment
-	elif engine=='mm':
-		'''
-		ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
-		'''
-		from .mm import segment
-	elif engine=='newmm':
-		'''
-		ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่
-		'''
+	elif engine=='multi_cut' or engine=='mm':
+		from .multi_cut import segment
+	elif engine=='newmm' or engine=='onecut':
 		from .newmm import mmcut as segment
 	elif engine=='longest-matching':
-		'''
-		ใช้ Longest matching ในการตัดคำ
-		'''
 		from .longest import segment
 	elif engine=='pylexto':
-		'''
-		ใช้ LexTo ในการตัดคำ
-		'''
 		from .pylexto import segment
 	elif engine=='deepcut':
-		'''
-		ใช้ Deep Neural Network ในการตัดคำภาษาไทย
-		'''
 		from .deepcut import segment
-	elif engine=='cutkum':
-		'''
-		ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)
-		'''
-		from .cutkum import segment
 	elif engine=='wordcutpy':
-		'''
-		wordcutpy ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
-		'''
 		from .wordcutpy import segment
 	else:
 		raise Exception("error no have engine.")
@@ -107,31 +81,35 @@ def word_tokenize(text, engine='newmm',whitespaces=True):
 
 def sent_tokenize(text,engine='whitespace+newline'):
 	'''
-	sent_tokenize(text,engine='whitespace+newline')
-	ตัดประโยคเบื้องต้น โดยการแบ่งด้วยช่องว่าง
+	This function does not yet automatically recognize when a sentence actually ends. Rather it helps split text where white space and a new line is found.
+
+	:param str text: the text to be tokenized
+	:param str engine: choose between 'whitespace' or 'whitespace+newline'
+
+	:return: a list of text, split by whitespace or new line.
 	'''
 	if engine=='whitespace':
 		data=nltk.tokenize.WhitespaceTokenizer().tokenize(text)
 	elif engine=='whitespace+newline':
 		data=re.sub(r'\n+|\s+','|',text,re.U).split('|')
 	return data
-def wordpunct_tokenize(text):
-	'''
-	wordpunct_tokenize(text)
-	It is nltk.tokenize.wordpunct_tokenize(text).
-	'''
-	return nltk.tokenize.wordpunct_tokenize(text)
-def WhitespaceTokenizer(text):
-	return nltk.tokenize.WhitespaceTokenizer().tokenize(text)
+
+def subword_tokenize(text, engine='tcc'):
+    """
+    :param str text: text to be tokenized
+    :param str engine: choosing 'tcc' uses the Thai Character Cluster rule to segment words into the smallest unique units.
+    :return: a list of tokenized strings.
+    """
+    if engine == 'tcc':
+        from .tcc import tcc
+    return tcc(text)
+
 def isthai(text,check_all=False):
 	"""
-	สำหรับเช็คว่าเป็นตัวอักษรภาษาไทยหรือไม่
-	isthai(text,check_all=False)
-	text คือ ข้อความหรือ list ตัวอักษร
-	check_all สำหรับส่งคืนค่า True หรือ False เช็คทุกตัวอักษร
+	:param str text: input string or list of strings
+	:param bool check_all: checks all character or not
 
-	การส่งคืนค่า
-	{'thai':% อักษรภาษาไทย,'check_all':tuple โดยจะเป็น (ตัวอักษร,True หรือ False)}
+	:return: A dictionary with the first value as proportional of text that is Thai, and the second value being a tuple of all characters, along with true or false.
 	"""
 	listext=list(text)
 	i=0
@@ -155,37 +133,31 @@ def isthai(text,check_all=False):
 	else:
 		data= {'thai':thai}
 	return data
-def syllable_tokenize(text1):
+
+def syllable_tokenize(text):
 	"""
-	syllable_tokenize(text)
-	เป็นคำสั่งสำหรับใช้ตัดพยางค์ในภาษาไทย
-	รับ str
-	ส่งออก list
+	:param str text: input string to be tokenized
+
+	:return: returns list of strings of syllables
 	"""
-	text1=word_tokenize(text1)
+	text1=word_tokenize(text)
 	data=[]
 	trie = create_custom_dict_trie(custom_dict_source=get_data())
-	if(len(text1)>0):
+	if len(text1)>1:
 		i=0
-		while(i<len(text1)):
+		while i<len(text1):
 			data.extend(dict_word_tokenize(text=text1[i], custom_dict_trie=trie))
 			i+=1
 	else:
-		data=dict_word_tokenize(text=text1, custom_dict_trie=trie)
+		data=dict_word_tokenize(text=text, custom_dict_trie=trie)
 	return data
 
 def create_custom_dict_trie(custom_dict_source):
-	"""The function is used to create a custom dict trie which will be
-	used for word_tokenize() function
-	
-	Arguments:
-		custom_dict_source {string or list} -- a list of vocaburaries or a path to source file
-	
-	Raises:
-		ValueError -- Invalid custom_dict_source's object type
-	
-	Returns:
-		Trie -- A trie created from custom dict input
+	"""The function is used to create a custom dict trie which will be used for word_tokenize() function. For more information on the trie data structure, see:https://marisa-trie.readthedocs.io/en/latest/index.html
+
+	:param string/list custom_dict_source:  a list of vocaburaries or a path to source file
+
+	:return: A trie created from custom dict input
 	"""
 
 	if type(custom_dict_source) is str:
@@ -205,12 +177,10 @@ class Tokenizer:
 	def __init__(self, custom_dict=None):
 		"""
 		Initialize tokenizer object
-		
-		Keyword arguments:
-		custom_dict -- a file path or a list of vocaburaies to be used to create a trie (default - original lexitron)
 
-		Object variables:
-		trie_dict -- a trie to use in tokenizing engines
+		:param str custom_dict: a file path or a list of vocaburaies to be used to create a trie (default - original lexitron)
+
+		:return: trie_dict - a dictionary in the form of trie data for tokenizing engines
 		"""
 		if custom_dict:
 			if type(custom_dict) is list:
@@ -221,7 +191,8 @@ class Tokenizer:
 				self.trie_dict = Trie(vocabs)
 		else:
 			self.trie_dict = Trie(get_dict())
-	
+
 	def word_tokenize(self, text, engine='newmm'):
 		from .newmm import mmcut as segment
 		return segment(text, self.trie_dict)
+

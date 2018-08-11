@@ -73,7 +73,7 @@ Natural language processing หรือ การประมวลผลภา
 
 ### ติดตั้ง
 
-รองรับ Python 2.7 และ Python 3
+รองรับ Python 3.4 ขึ้นไป
 
 รุ่นเสถียร
 

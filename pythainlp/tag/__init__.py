@@ -20,8 +20,6 @@ def pos_tag(list_text,engine='unigram',corpus='orchid'):
     elif engine=='perceptron':
         from .perceptron import tag
     elif engine=='artagger':
-        if sys.version_info < (3,4):
-                sys.exit('Sorry, Python < 3.4 is not supported')
         def tag(text1):
             try:
                 from artagger import Tagger

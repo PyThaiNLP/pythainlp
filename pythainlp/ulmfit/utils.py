@@ -166,5 +166,3 @@ def about():
 	Development : Charin Polpanumas
 	GitHub : https://github.com/cstorm125/thai2vec
 	'''
-
-

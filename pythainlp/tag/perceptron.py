@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import,division,unicode_literals
-import six
 import sys
-if six.PY2:
-	print("Thai sentiment in pythainlp. Not support python 2.7")
-	sys.exit(0)
 import os
 import pythainlp
 import nltk.tag

@@ -12,7 +12,7 @@ Thai natural language processing in Python.
 PyThaiNLP is a python module similar to `nltk` , but it's working primarily on
 Thai language instead of English.
 
-It supports both Python 3.4+
+It supports Python 3.4+
 
 ### Capability
 

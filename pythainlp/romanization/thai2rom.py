@@ -33,7 +33,7 @@ class thai2rom:
             self.lines = self.f.read().split('\n')
         for self.line in self.lines[: min(self.num_samples, len(self.lines) - 1)]:
             self.input_text, self.target_text = self.line.split('\t')
-            if len(self.input_text)<30 and len(self.target_text)<90:
+            if len(self.input_text)<=30 and len(self.target_text)<90:
                 self.target_text = '\t' + self.target_text + '\n'
                 self.input_texts.append(self.input_text)
                 self.target_texts.append(self.target_text)

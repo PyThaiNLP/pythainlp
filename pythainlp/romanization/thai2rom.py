@@ -9,14 +9,16 @@ except ImportError:
     install_package('keras')
     install_package('numpy')
 
-from pythainlp.corpus import get_file
-from pythainlp.corpus import download
+from pythainlp.corpus import get_file,download
 
 from keras.models import Model, load_model
 from keras.layers import Input
 import numpy as np
 class thai2rom:
     def __init__(self):
+        '''
+        Thai2Rom
+        '''
         self.batch_size = 64
         self.epochs = 100
         self.latent_dim = 256
@@ -106,4 +108,8 @@ class thai2rom:
             self.test_input[0, t, self.input_token_index[char]] = 1.
         return self.test_input
     def romanization(self,text):
+        '''
+        :param str text: Thai text to be romanized
+        :return: English (more or less) text that spells out how the Thai text should read.
+        '''
         return self.decode_sequence(self.encode_input(text))

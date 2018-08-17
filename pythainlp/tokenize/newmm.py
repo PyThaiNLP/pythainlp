@@ -112,6 +112,7 @@ def onecut(text, trie):
               for i in range(p+1, len(text)):
                   if i in allow_pos:   # ใช้ tcc ด้วย
                       ww = [w for w in trie.prefixes(text[i:]) if (i+len(w) in allow_pos)]
+                      ww = [w for w in ww if not re.match('[ก-ฮ]{,2}$', w)]
                       m = pat_eng.match(text[i:])
                       if ww or m:
                           break

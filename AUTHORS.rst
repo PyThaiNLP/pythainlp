@@ -11,10 +11,22 @@ Development Lead
 
 * Charin Polpanumas
 
-TCC & THAI SOUNDEX CODE
-------------
+* Peeradej Tanruangporn
+
+NEWMM (ONECUT), MM , TCC & THAI SOUNDEX CODE
+--------------------------------------------
 
 * Korakot Chaovavanich
+
+Thai2Vec & ulmfit
+-----------------
+
+* Charin Polpanumas
+
+Docs
+----
+
+* Peeradej Tanruangporn
 
 Contributors
 ------------

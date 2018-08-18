@@ -11,13 +11,10 @@ Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statisti
 import re
 def MetaSound(name):
     '''
-    MetaSound(str) ภาษาไทย
+    Thai MetaSound
 
-    >>> MetaSound('รัก')
-    '501'
-    >>> MetaSound('ลัก')
-    '501'
-
+    :param str name: thai text
+    :return: MetaSound for thai text
     '''
     name1=list(name)
     count=len(name1)

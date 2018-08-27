@@ -6,9 +6,7 @@ from future.moves.urllib.request import urlopen
 from tqdm import tqdm
 import requests
 import os
-import math
 import requests
-from nltk.corpus import names
 #__all__ = ["thaipos", "thaiword","alphabet","tone","country","wordnet"]
 path_db_=get_path_db()
 def get_file(name):

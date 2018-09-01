@@ -74,3 +74,13 @@ def download(name,force=False):
                     download_(temp_name['download'],temp_name['file_name'])
                     db.update({'version':temp_name['version']},temp.name==name)
     db.close()
+def remove(name):
+    db=TinyDB(path_db_)
+    temp = Query()
+    data=db.search(temp.name==name)
+    if len(data)>0:
+        path=get_file(name)
+        os.remove(path)
+        db.remove(temp.name==name)
+        return True
+    return False

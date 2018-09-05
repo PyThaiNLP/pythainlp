@@ -71,12 +71,6 @@ def doc2features(doc, i):
         features['EOS'] = True # Special "End of Sequence" tag
     return features
 
-def extract_features(doc):
-    return [doc2features(doc, i) for i in range(len(doc))]
-
-def get_labels(doc):
-    return [tag for (token,postag,tag) in doc]
-
 class thainer:
     def __init__(self):
         self.data_path = get_file('thainer')
@@ -91,8 +85,14 @@ class thainer:
             all_possible_transitions=True,
             model_filename=self.data_path)
     def get_ner(self,text):
-        word_cut=word_tokenize(text,engine=thaicut)
-        list_word=pos_tag(word_cut,engine='perceptron')
-        X_test = extract_features([(data,list_word[i][1]) for i,data in enumerate(word_cut)])
-        y_=self.crf.predict_single(X_test)
-        return [(word_cut[i],list_word[i][1],data) for i,data in enumerate(y_)]
+        self.word_cut=word_tokenize(text,engine=thaicut)
+        self.list_word=pos_tag(self.word_cut,engine='perceptron')
+        self.X_test = self.extract_features([(data,self.list_word[i][1]) for i,data in enumerate(self.word_cut)])
+        self.y_=self.crf.predict_single(self.X_test)
+        return [(self.word_cut[i],self.list_word[i][1],data) for i,data in enumerate(self.y_)]
+    def extract_features(self,doc):
+        return [doc2features(doc, i) for i in range(len(doc))]
+    def get_labels(self,doc):
+        return [tag for (token,postag,tag) in doc]
+    def get_model(self):
+        return self.crf

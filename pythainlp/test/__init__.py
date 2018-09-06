@@ -18,9 +18,10 @@ from collections import namedtuple
 from pythainlp.collation import collation
 from pythainlp.util import normalize,listtext_num2num
 from pythainlp.summarize import summarize_text
+from pythainlp.ner import thainer
 class TestUM(unittest.TestCase):
 	"""
-	ระบบทดสอบการทำงานของโค้ดของ PyThaiNLP 1.6
+	ระบบทดสอบการทำงานของโค้ดของ PyThaiNLP 1.7
 	"""
 	def test_segment(self):
 		self.assertEqual(word_tokenize('ฉันรักภาษาไทยเพราะฉันเป็นคนไทย'),[u'ฉัน', u'รัก', u'ภาษาไทย', u'เพราะ', u'ฉัน', u'เป็น', u'คนไทย'])
@@ -103,5 +104,9 @@ class TestUM(unittest.TestCase):
 		self.assertEqual(pos_tag_sents([["ผม","กิน","ข้าว"],["แมว","วิ่ง"]]),[[('ผม', 'PPRS'), ('กิน', 'VACT'), ('ข้าว', 'NCMN')], [('แมว', 'NCMN'), ('วิ่ง', 'VACT')]])
 		if sys.version_info >= (3,4):
 			self.assertEqual(str(type(pos_tag(word_tokenize("ผมรักคุณ"),engine='artagger'))),"<class 'list'>")
+	def test_ner(self):
+		ner=thainer()
+		self.assertEqual(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"),[('แมว', 'NCMN', 'O'),('ทำ', 'VACT', 'O'),('อะไร', 'PNTR', 'O'),('ตอน', 'NCMN', 'O'),('ห้า', 'VSTA', 'B-TIME'),('โมง', 'NCMN', 'I-TIME'),('เช้า', 'ADVN', 'I-TIME')])
+		self.assertEqual(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า",postag=False),[('แมว', 'O'),('ทำ', 'O'),('อะไร', 'O'),('ตอน', 'O'),('ห้า', 'B-TIME'),('โมง', 'I-TIME'),('เช้า', 'I-TIME')])
 if __name__ == '__main__':
     unittest.main()

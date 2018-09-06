@@ -89,12 +89,15 @@ class thainer:
             max_iterations=500,
             all_possible_transitions=True,
             model_filename=self.data_path)
-    def get_ner(self,text):
+    def get_ner(self,text,postag=True):
         self.word_cut=word_tokenize(text,engine=thaicut)
         self.list_word=pos_tag(self.word_cut,engine='perceptron')
         self.X_test = self.extract_features([(data,self.list_word[i][1]) for i,data in enumerate(self.word_cut)])
         self.y_=self.crf.predict_single(self.X_test)
-        return [(self.word_cut[i],self.list_word[i][1],data) for i,data in enumerate(self.y_)]
+        if postag:
+            return [(self.word_cut[i],self.list_word[i][1],data) for i,data in enumerate(self.y_)]
+        else:
+            return [(self.word_cut[i],data) for i,data in enumerate(self.y_)]
     def extract_features(self,doc):
         return [doc2features(doc, i) for i in range(len(doc))]
     def get_labels(self,doc):

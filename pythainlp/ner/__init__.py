@@ -7,7 +7,12 @@ from pythainlp.tag import pos_tag
 from pythainlp.corpus import stopwords
 thaicut="newmm" # ตัวตัดคำ
 # CRF
-import sklearn_crfsuite
+try:
+    import sklearn_crfsuite
+except ImportError:
+    from pythainlp.tools import install_package
+    install_package('sklearn-crfsuite')
+    import sklearn_crfsuite
 # FILE
 import glob
 import codecs

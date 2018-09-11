@@ -85,6 +85,10 @@
 </ul>
 <p class="caption"><span class="caption-text">Package reference:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="collation.html">pythainlp.collation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="date.html">pythainlp.date</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ner.html">pythainlp.ner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="number.html">pythainlp.number</a></li>
 <li class="toctree-l1"><a class="reference internal" href="romanization.html">pythainlp.romanization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spell.html">pythainlp.spell</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">pythainlp.tag</a></li>
@@ -159,14 +163,14 @@
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pythainlp.tag</span></code> contains functions that are used to tag different parts of a text.</p>
 <dl class="function">
 <dt id="pythainlp.tag.pos_tag">
-<code class="descclassname">pythainlp.tag.</code><code class="descname">pos_tag</code><span class="sig-paren">(</span><em>list</em>, <em>engine='unigram'</em>, <em>corpus='orchid'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/tag.html#pos_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.tag.pos_tag" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pythainlp.tag.</code><code class="descname">pos_tag</code><span class="sig-paren">(</span><em>list_text</em>, <em>engine='unigram'</em>, <em>corpus='orchid'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/tag.html#pos_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.tag.pos_tag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Part of Speech tagging function.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – takes in a list of tokenized words (put differently, a list of string)</li>
+<li><strong>list_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – takes in a list of tokenized words (put differently, a list of string)</li>
 <li><strong>engine</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – <ul>
 <li>unigram - unigram tagger</li>
 <li>perceptron - perceptron tagger</li>
@@ -210,7 +214,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2018, PyThaiNLP (GPL license).
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0).
 
     </p>
   </div>

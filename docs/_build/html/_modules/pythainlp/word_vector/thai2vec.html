@@ -83,8 +83,9 @@
 </ul>
 <p class="caption"><span class="caption-text">Package reference:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../api/collation.html">pythainlp.tokenize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api/date.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/collation.html">pythainlp.collation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/date.html">pythainlp.date</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/ner.html">pythainlp.ner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/number.html">pythainlp.number</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/romanization.html">pythainlp.romanization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/spell.html">pythainlp.spell</a></li>
@@ -168,8 +169,9 @@
 	<span class="kn">from</span> <span class="nn">gensim.models</span> <span class="k">import</span> <span class="n">KeyedVectors</span>
 	<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-	<span class="kn">import</span> <span class="nn">pip</span>
-	<span class="n">pip</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><span class="s1">&#39;install&#39;</span><span class="p">,</span><span class="s1">&#39;gensim&#39;</span><span class="p">,</span><span class="s1">&#39;numpy&#39;</span><span class="p">])</span>
+	<span class="kn">from</span> <span class="nn">pythainlp.tools</span> <span class="k">import</span> <span class="n">install_package</span>
+	<span class="n">install_package</span><span class="p">(</span><span class="s1">&#39;gensim&#39;</span><span class="p">)</span>
+	<span class="n">install_package</span><span class="p">(</span><span class="s1">&#39;numpy&#39;</span><span class="p">)</span>
 	<span class="k">try</span><span class="p">:</span>
 		<span class="kn">from</span> <span class="nn">gensim.models</span> <span class="k">import</span> <span class="n">KeyedVectors</span>
 		<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -237,7 +239,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2018, PyThaiNLP (GPL license).
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0).
 
     </p>
   </div>

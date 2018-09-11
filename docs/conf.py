@@ -25,7 +25,7 @@ copyright = '2018, pythainlp_builders'
 author = 'pythainlp_builders'
 
 curyear = datetime.today().year
-copyright = u'2018-%s, %s (GPL license)' % (curyear, project)
+copyright = u'2017-%s, %s (Apache Software License 2.0)' % (curyear, project)
 
 # The short X.Y version
 version = ''

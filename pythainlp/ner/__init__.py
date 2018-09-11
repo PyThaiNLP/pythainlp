@@ -78,6 +78,9 @@ def doc2features(doc, i):
 
 class thainer:
     def __init__(self):
+        """
+        Thai NER
+        """
         self.data_path = get_file('thainer')
         if self.data_path==None:
             download('thainer')
@@ -90,6 +93,14 @@ class thainer:
             all_possible_transitions=True,
             model_filename=self.data_path)
     def get_ner(self,text,postag=True):
+        """
+        Get NER from Thai NER.
+
+        :param string text: thai text
+        :param boolean postag: get postag (True) or get not postag (False)
+
+        :return: list NER.
+        """
         self.word_cut=word_tokenize(text,engine=thaicut)
         self.list_word=pos_tag(self.word_cut,engine='perceptron')
         self.X_test = self.extract_features([(data,self.list_word[i][1]) for i,data in enumerate(self.word_cut)])

@@ -1,4 +1,7 @@
-![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
+
+<p align="center">
+  <img src="https://avatars0.githubusercontent.com/u/32934255?s=200&v=4">
+</p>
 
 # PyThaiNLP
 

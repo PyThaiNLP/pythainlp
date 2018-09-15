@@ -79,6 +79,8 @@ def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
 	elif engine=='wordcutpy':
 		from .wordcutpy import segment
 		return segment(text, custom_dict_trie.keys())
+	else:
+		raise Exception("error no have engine.")
 	return segment(text, custom_dict_trie)
 def sent_tokenize(text,engine='whitespace+newline'):
 	'''

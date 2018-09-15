@@ -88,6 +88,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api/ner.html">pythainlp.ner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/number.html">pythainlp.number</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/romanization.html">pythainlp.romanization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sentiment.html">pythainlp.sentiment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/spell.html">pythainlp.spell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/tag.html">pythainlp.tag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/tokenizer.html">pythainlp.tokenize</a></li>
@@ -236,6 +237,8 @@
 	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;wordcutpy&#39;</span><span class="p">:</span>
 		<span class="kn">from</span> <span class="nn">.wordcutpy</span> <span class="k">import</span> <span class="n">segment</span>
 		<span class="k">return</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;error no have engine.&quot;</span><span class="p">)</span>
 	<span class="k">return</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="p">)</span></div>
 <div class="viewcode-block" id="sent_tokenize"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.sent_tokenize">[docs]</a><span class="k">def</span> <span class="nf">sent_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;whitespace+newline&#39;</span><span class="p">):</span>
 	<span class="sd">&#39;&#39;&#39;</span>

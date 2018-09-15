@@ -100,6 +100,14 @@ class thainer:
         :param boolean postag: get postag (True) or get not postag (False)
 
         :return: list NER.
+
+        **Example**::
+            >>> from pythainlp.ner import thainer
+            >>> ner=thainer()
+            >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
+            [('วันที่', 'JSBR', 'O'), (' ', 'NCMN', 'O'), ('15', 'NCNM', 'B-DATE'), (' ', 'NCMN', 'I-DATE'), ('ก.ย.', 'CMTR', 'I-DATE'), (' ', 'NCMN', 'I-DATE'), ('61', 'NCNM', 'I-DATE'), (' ', 'NCMN', 'O'), ('ทดสอบ', 'VACT', 'O'), ('ระบบ', 'NCMN', 'O'), ('เวลา', 'NCMN', 'O'), (' ', 'NCMN', 'O'), ('14', 'NCNM', 'B-TIME'), (':', 'PUNC', 'I-TIME'), ('49', 'NCNM', 'I-TIME'), (' ', 'NCMN', 'I-TIME'), ('น.', 'CMTR', 'I-TIME')]
+            >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.",postag=False)
+            [('วันที่', 'O'), (' ', 'O'), ('15', 'B-DATE'), (' ', 'I-DATE'), ('ก.ย.', 'I-DATE'), (' ', 'I-DATE'), ('61', 'I-DATE'), (' ', 'O'), ('ทดสอบ', 'O'), ('ระบบ', 'O'), ('เวลา', 'O'), (' ', 'O'), ('14', 'B-TIME'), (':', 'I-TIME'), ('49', 'I-TIME'), (' ', 'I-TIME'), ('น.', 'I-TIME')]
         """
         self.word_cut=word_tokenize(text,engine=thaicut)
         self.list_word=pos_tag(self.word_cut,engine='perceptron')

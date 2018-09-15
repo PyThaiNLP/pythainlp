@@ -188,6 +188,18 @@
 </tr>
 </tbody>
 </table>
+<dl class="docutils">
+<dt><strong>Example</strong>::</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pythainlp.ner</span> <span class="k">import</span> <span class="n">thainer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ner</span><span class="o">=</span><span class="n">thainer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ner</span><span class="o">.</span><span class="n">get_ner</span><span class="p">(</span><span class="s2">&quot;วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.&quot;</span><span class="p">)</span>
+<span class="go">[(&#39;วันที่&#39;, &#39;JSBR&#39;, &#39;O&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39;15&#39;, &#39;NCNM&#39;, &#39;B-DATE&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;I-DATE&#39;), (&#39;ก.ย.&#39;, &#39;CMTR&#39;, &#39;I-DATE&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;I-DATE&#39;), (&#39;61&#39;, &#39;NCNM&#39;, &#39;I-DATE&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39;ทดสอบ&#39;, &#39;VACT&#39;, &#39;O&#39;), (&#39;ระบบ&#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39;เวลา&#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39;14&#39;, &#39;NCNM&#39;, &#39;B-TIME&#39;), (&#39;:&#39;, &#39;PUNC&#39;, &#39;I-TIME&#39;), (&#39;49&#39;, &#39;NCNM&#39;, &#39;I-TIME&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;I-TIME&#39;), (&#39;น.&#39;, &#39;CMTR&#39;, &#39;I-TIME&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ner</span><span class="o">.</span><span class="n">get_ner</span><span class="p">(</span><span class="s2">&quot;วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.&quot;</span><span class="p">,</span><span class="n">postag</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">[(&#39;วันที่&#39;, &#39;O&#39;), (&#39; &#39;, &#39;O&#39;), (&#39;15&#39;, &#39;B-DATE&#39;), (&#39; &#39;, &#39;I-DATE&#39;), (&#39;ก.ย.&#39;, &#39;I-DATE&#39;), (&#39; &#39;, &#39;I-DATE&#39;), (&#39;61&#39;, &#39;I-DATE&#39;), (&#39; &#39;, &#39;O&#39;), (&#39;ทดสอบ&#39;, &#39;O&#39;), (&#39;ระบบ&#39;, &#39;O&#39;), (&#39;เวลา&#39;, &#39;O&#39;), (&#39; &#39;, &#39;O&#39;), (&#39;14&#39;, &#39;B-TIME&#39;), (&#39;:&#39;, &#39;I-TIME&#39;), (&#39;49&#39;, &#39;I-TIME&#39;), (&#39; &#39;, &#39;I-TIME&#39;), (&#39;น.&#39;, &#39;I-TIME&#39;)]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

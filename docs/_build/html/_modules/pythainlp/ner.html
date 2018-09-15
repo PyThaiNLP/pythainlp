@@ -257,6 +257,14 @@
 <span class="sd">        :param boolean postag: get postag (True) or get not postag (False)</span>
 
 <span class="sd">        :return: list NER.</span>
+
+<span class="sd">        **Example**::</span>
+<span class="sd">            &gt;&gt;&gt; from pythainlp.ner import thainer</span>
+<span class="sd">            &gt;&gt;&gt; ner=thainer()</span>
+<span class="sd">            &gt;&gt;&gt; ner.get_ner(&quot;วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.&quot;)</span>
+<span class="sd">            [(&#39;วันที่&#39;, &#39;JSBR&#39;, &#39;O&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39;15&#39;, &#39;NCNM&#39;, &#39;B-DATE&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;I-DATE&#39;), (&#39;ก.ย.&#39;, &#39;CMTR&#39;, &#39;I-DATE&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;I-DATE&#39;), (&#39;61&#39;, &#39;NCNM&#39;, &#39;I-DATE&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39;ทดสอบ&#39;, &#39;VACT&#39;, &#39;O&#39;), (&#39;ระบบ&#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39;เวลา&#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39;14&#39;, &#39;NCNM&#39;, &#39;B-TIME&#39;), (&#39;:&#39;, &#39;PUNC&#39;, &#39;I-TIME&#39;), (&#39;49&#39;, &#39;NCNM&#39;, &#39;I-TIME&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;I-TIME&#39;), (&#39;น.&#39;, &#39;CMTR&#39;, &#39;I-TIME&#39;)]</span>
+<span class="sd">            &gt;&gt;&gt; ner.get_ner(&quot;วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.&quot;,postag=False)</span>
+<span class="sd">            [(&#39;วันที่&#39;, &#39;O&#39;), (&#39; &#39;, &#39;O&#39;), (&#39;15&#39;, &#39;B-DATE&#39;), (&#39; &#39;, &#39;I-DATE&#39;), (&#39;ก.ย.&#39;, &#39;I-DATE&#39;), (&#39; &#39;, &#39;I-DATE&#39;), (&#39;61&#39;, &#39;I-DATE&#39;), (&#39; &#39;, &#39;O&#39;), (&#39;ทดสอบ&#39;, &#39;O&#39;), (&#39;ระบบ&#39;, &#39;O&#39;), (&#39;เวลา&#39;, &#39;O&#39;), (&#39; &#39;, &#39;O&#39;), (&#39;14&#39;, &#39;B-TIME&#39;), (&#39;:&#39;, &#39;I-TIME&#39;), (&#39;49&#39;, &#39;I-TIME&#39;), (&#39; &#39;, &#39;I-TIME&#39;), (&#39;น.&#39;, &#39;I-TIME&#39;)]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">word_cut</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="n">thaicut</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">list_word</span><span class="o">=</span><span class="n">pos_tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">word_cut</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;perceptron&#39;</span><span class="p">)</span>

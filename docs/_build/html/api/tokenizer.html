@@ -177,14 +177,13 @@
 </tr>
 <tr class="field-even field"><th class="field-name" colspan="2">Parameters for engine:</th></tr>
 <tr class="field-even field"><td>&#160;</td><td class="field-body"><ul class="first simple">
-<li>newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)</li>
-<li>icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)</li>
-<li>longest-matching ใช้ Longest matching ในการตัดคำ</li>
-<li>mm ใช้ Maximum Matching algorithm - โค้ดชุดเก่า</li>
-<li>pylexto - ใช้ LexTo ในการตัดคำ</li>
-<li>deepcut - ใช้ Deep Neural Network ในการตัดคำภาษาไทย</li>
-<li>wordcutpy - ใช้ wordcutpy (<a class="reference external" href="https://github.com/veer66/wordcutpy">https://github.com/veer66/wordcutpy</a>) ในการตัดคำ</li>
-<li>cutkum - ใช้ Deep Neural Network ในการตัดคำภาษาไทย (<a class="reference external" href="https://github.com/pucktada/cutkum">https://github.com/pucktada/cutkum</a>)</li>
+<li>newmm - Maximum Matching algorithm + TCC</li>
+<li>icu -  IBM ICU</li>
+<li>longest-matching - Longest matching</li>
+<li>mm - Maximum Matching algorithm</li>
+<li>pylexto - LexTo</li>
+<li>deepcut - Deep Neural Network</li>
+<li>wordcutpy - wordcutpy (<a class="reference external" href="https://github.com/veer66/wordcutpy">https://github.com/veer66/wordcutpy</a>)</li>
 </ul>
 </td>
 </tr>
@@ -209,23 +208,42 @@
 <dl class="function">
 <dt id="pythainlp.tokenize.dict_word_tokenize">
 <code class="descclassname">pythainlp.tokenize.</code><code class="descname">dict_word_tokenize</code><span class="sig-paren">(</span><em>text</em>, <em>custom_dict_trie</em>, <em>engine='newmm'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/tokenize.html#dict_word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.tokenize.dict_word_tokenize" title="Permalink to this definition">¶</a></dt>
-<dd><p><a class="reference internal" href="#pythainlp.tokenize.dict_word_tokenize" title="pythainlp.tokenize.dict_word_tokenize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict_word_tokenize()</span></code></a> tokenizes word based on the dictionary you provide. The format has to be in trie data structure.</p>
+<dd><blockquote>
+<div><p><a class="reference internal" href="#pythainlp.tokenize.dict_word_tokenize" title="pythainlp.tokenize.dict_word_tokenize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict_word_tokenize()</span></code></a> tokenizes word based on the dictionary you provide. The format has to be in trie data structure.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the text to be tokenized</li>
-<li><strong>custom_dict_trie</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – คือ trie ที่สร้างจาก create_custom_dict_trie</li>
-<li><strong>engine</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">param str text:</th><td class="field-body">the text to be tokenized</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of words, tokenized from a text.</p>
-</td>
+<tr class="field-even field"><th class="field-name" colspan="2">param dict custom_dict_trie:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">คือ trie ที่สร้างจาก create_custom_dict_trie</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">param str engine:</th></tr>
+<tr class="field-odd field"><td>&#160;</td><td class="field-body">choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)</td>
 </tr>
 </tbody>
 </table>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of words, tokenized from a text.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt><strong>Example</strong>::</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pythainlp.tokenize</span> <span class="k">import</span> <span class="n">dict_word_tokenize</span><span class="p">,</span><span class="n">create_custom_dict_trie</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">listword</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;แมว&#39;</span><span class="p">,</span><span class="s2">&quot;ดี&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data_dict</span><span class="o">=</span><span class="n">create_custom_dict_trie</span><span class="p">(</span><span class="n">listword</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dict_word_tokenize</span><span class="p">(</span><span class="s2">&quot;แมวดีดีแมว&quot;</span><span class="p">,</span><span class="n">data_dict</span><span class="p">)</span>
+<span class="go">[&#39;แมว&#39;, &#39;ดี&#39;, &#39;ดี&#39;, &#39;แมว&#39;]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -292,7 +310,7 @@
 <dl class="function">
 <dt id="pythainlp.tokenize.create_custom_dict_trie">
 <code class="descclassname">pythainlp.tokenize.</code><code class="descname">create_custom_dict_trie</code><span class="sig-paren">(</span><em>custom_dict_source</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/tokenize.html#create_custom_dict_trie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.tokenize.create_custom_dict_trie" title="Permalink to this definition">¶</a></dt>
-<dd><p>The function is used to create a custom dict trie which will be used for word_tokenize() function. For more information on the trie data structure, see:https://marisa-trie.readthedocs.io/en/latest/index.html</p>
+<dd><p>The function is used to create a custom dict trie which will be used for word_tokenize() function. For more information on the trie data structure, see: <a class="reference external" href="https://marisa-trie.readthedocs.io/en/latest/index.html">https://marisa-trie.readthedocs.io/en/latest/index.html</a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />

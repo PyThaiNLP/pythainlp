@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pythainlp.romanization &mdash; PyThaiNLP 20180622 documentation</title>
+  <title>pythainlp.romanization &mdash; PyThaiNLP 20180916 documentation</title>
   
 
   
@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../api/number.html">pythainlp.number</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/romanization.html">pythainlp.romanization</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/sentiment.html">pythainlp.sentiment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/soundex.html">pythainlp.soundex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/spell.html">pythainlp.spell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/tag.html">pythainlp.tag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/tokenizer.html">pythainlp.tokenize</a></li>
@@ -177,6 +178,8 @@
     		<span class="kn">from</span> <span class="nn">pythainlp.romanization.thai2rom</span> <span class="k">import</span> <span class="n">thai2rom</span>
     		<span class="n">thai</span><span class="o">=</span><span class="n">thai2rom</span><span class="p">()</span>
     		<span class="k">return</span> <span class="n">thai</span><span class="o">.</span><span class="n">romanization</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+	<span class="k">else</span><span class="p">:</span>
+    		<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;error no have engine.&quot;</span><span class="p">)</span>
 	<span class="k">while</span> <span class="n">i</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">word_list</span><span class="p">):</span>
 		<span class="n">listword</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">romanization</span><span class="p">(</span><span class="n">word_list</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
 		<span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
@@ -215,7 +218,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'20180622',
+            VERSION:'20180916',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

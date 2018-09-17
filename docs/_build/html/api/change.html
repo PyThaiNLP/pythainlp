@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pythainlp.sentiment &mdash; PyThaiNLP 20180917 documentation</title>
+  <title>pythainlp.change &mdash; PyThaiNLP 20180917 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pythainlp.soundex" href="soundex.html" />
-    <link rel="prev" title="pythainlp.romanization" href="romanization.html" /> 
+    <link rel="next" title="pythainlp.collation" href="collation.html" />
+    <link rel="prev" title="Installation" href="../notes/installation.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -85,13 +85,16 @@
 </ul>
 <p class="caption"><span class="caption-text">Package reference:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="change.html">pythainlp.change</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pythainlp.change</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="collation.html">pythainlp.collation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="date.html">pythainlp.date</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ner.html">pythainlp.ner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="number.html">pythainlp.number</a></li>
 <li class="toctree-l1"><a class="reference internal" href="romanization.html">pythainlp.romanization</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">pythainlp.sentiment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sentiment.html">pythainlp.sentiment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="soundex.html">pythainlp.soundex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spell.html">pythainlp.spell</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tag.html">pythainlp.tag</a></li>
@@ -143,13 +146,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>pythainlp.sentiment</li>
+      <li>pythainlp.change</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/api/sentiment.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/change.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -162,46 +165,42 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pythainlp-sentiment">
-<h1>pythainlp.sentiment<a class="headerlink" href="#pythainlp-sentiment" title="Permalink to this headline">¶</a></h1>
-<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">romanization.sentiment</span></code> is sentiment analysis.</p>
+  <div class="section" id="pythainlp-change">
+<h1>pythainlp.change<a class="headerlink" href="#pythainlp-change" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">change</span></code> is fix incorrect input language correction.</p>
+<div class="section" id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="pythainlp.sentiment.sentiment">
-<code class="descclassname">pythainlp.sentiment.</code><code class="descname">sentiment</code><span class="sig-paren">(</span><em>text</em>, <em>engine='old'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/sentiment.html#sentiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.sentiment.sentiment" title="Permalink to this definition">¶</a></dt>
+<dt id="pythainlp.change.texttothai">
+<code class="descclassname">pythainlp.change.</code><code class="descname">texttothai</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/change.html#texttothai"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.change.texttothai" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – thai text</li>
-<li><strong>engine</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – sentiment analysis engine (old or ulmfit)</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Incorrect input language correction (Needs thai but input english)</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">pos or neg</p>
-</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">thai text</td>
 </tr>
 </tbody>
 </table>
-<dl class="docutils">
-<dt><strong>Example</strong>::</dt>
-<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pythainlp.sentiment</span> <span class="k">import</span> <span class="n">sentiment</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;วันนี้อากาศดีจัง&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sentiment</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<span class="go">&#39;pos&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sentiment</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="s1">&#39;ulmfit&#39;</span><span class="p">)</span>
-<span class="go">&#39;pos&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;วันนี้อารมณ์เสียมาก&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sentiment</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<span class="go">&#39;neg&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sentiment</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="s1">&#39;ulmfit&#39;</span><span class="p">)</span>
-<span class="go">&#39;neg&#39;</span>
-</pre></div>
-</div>
-</dd>
-</dl>
 </dd></dl>
 
+<dl class="function">
+<dt id="pythainlp.change.texttoeng">
+<code class="descclassname">pythainlp.change.</code><code class="descname">texttoeng</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/change.html#texttoeng"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.change.texttoeng" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Incorrect input language correction (Needs english but input thai)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">english text</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -212,10 +211,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="soundex.html" class="btn btn-neutral float-right" title="pythainlp.soundex" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="collation.html" class="btn btn-neutral float-right" title="pythainlp.collation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="romanization.html" class="btn btn-neutral" title="pythainlp.romanization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../notes/installation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

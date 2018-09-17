@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pythainlp.ulmfit.utils &mdash; PyThaiNLP 20180916 documentation</title>
+  <title>pythainlp.ulmfit.utils &mdash; PyThaiNLP 20180917 documentation</title>
   
 
   
@@ -213,23 +213,23 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">re_br</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;\s*br\s*/?&gt;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">re_rep</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\S)(\1{3,})&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">sub_br</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">text</span><span class="p">):</span> 
+<div class="viewcode-block" id="ThaiTokenizer.sub_br"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.ThaiTokenizer.sub_br">[docs]</a>    <span class="k">def</span> <span class="nf">sub_br</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">text</span><span class="p">):</span> 
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :meth:`sub_br` replace `&lt;br&gt;` tags with `\n`</span>
 <span class="sd">        :param str text: text to process</span>
 <span class="sd">        :return: procssed text</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_br</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_br</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">tokenize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">text</span><span class="p">):</span>
+<div class="viewcode-block" id="ThaiTokenizer.tokenize"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.ThaiTokenizer.tokenize">[docs]</a>    <span class="k">def</span> <span class="nf">tokenize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">text</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :meth: tokenize text with selected engine</span>
 <span class="sd">        :param str text: text to tokenize</span>
 <span class="sd">        :return: tokenized text</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub_br</span><span class="p">(</span><span class="n">text</span><span class="p">),</span><span class="n">engine</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub_br</span><span class="p">(</span><span class="n">text</span><span class="p">),</span><span class="n">engine</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)]</span></div>
   
-    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ThaiTokenizer.replace_rep"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.ThaiTokenizer.replace_rep">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">replace_rep</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        :meth:`replace_rep` replace 3 or above repetitive characters with `tkrep`</span>
@@ -243,9 +243,9 @@
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">TK_REP</span> <span class="o">=</span> <span class="s1">&#39;tkrep&#39;</span>
         <span class="n">c</span><span class="p">,</span><span class="n">cc</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{TK_REP}</span><span class="s1">{len(cc)+1}</span><span class="si">{c}</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{TK_REP}</span><span class="s1">{len(cc)+1}</span><span class="si">{c}</span><span class="s1">&#39;</span></div>
 
-    <span class="k">def</span> <span class="nf">proc_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<div class="viewcode-block" id="ThaiTokenizer.proc_text"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.ThaiTokenizer.proc_text">[docs]</a>    <span class="k">def</span> <span class="nf">proc_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :meth: `proc_text` procss and tokenize text removing repetitions, special characters, double spaces</span>
 <span class="sd">        :param str text: text to process</span>
@@ -255,9 +255,9 @@
         <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;([/#])&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39; \1 &#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
         <span class="c1">#remvoe double space</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39; {2,}&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
 
-    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ThaiTokenizer.proc_all"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.ThaiTokenizer.proc_all">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">proc_all</span><span class="p">(</span><span class="n">ss</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :meth: `proc_all` runs `proc_text` for multiple sentences</span>
@@ -265,9 +265,9 @@
 <span class="sd">        :return: processed and tokenized text</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tok</span> <span class="o">=</span> <span class="n">ThaiTokenizer</span><span class="p">()</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">tok</span><span class="o">.</span><span class="n">proc_text</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ss</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">tok</span><span class="o">.</span><span class="n">proc_text</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ss</span><span class="p">]</span></div>
 
-    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ThaiTokenizer.proc_all_mp"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.ThaiTokenizer.proc_all_mp">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">proc_all_mp</span><span class="p">(</span><span class="n">ss</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :meth: `proc_all` runs `proc_text` for multiple sentences using multiple cpus</span>
@@ -276,7 +276,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ncpus</span> <span class="o">=</span> <span class="n">num_cpus</span><span class="p">()</span><span class="o">//</span><span class="mi">2</span>
         <span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">ncpus</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">ThaiTokenizer</span><span class="o">.</span><span class="n">proc_all</span><span class="p">,</span> <span class="n">ss</span><span class="p">),</span> <span class="p">[])</span></div>
+            <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">ThaiTokenizer</span><span class="o">.</span><span class="n">proc_all</span><span class="p">,</span> <span class="n">ss</span><span class="p">),</span> <span class="p">[])</span></div></div>
 
 <span class="c1">#ulmfit helper functions</span>
 <span class="n">BOS</span> <span class="o">=</span> <span class="s1">&#39;xbos&#39;</span>  <span class="c1"># beginning-of-sentence tag</span>
@@ -450,7 +450,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'20180916',
+            VERSION:'20180917',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

@@ -26,9 +26,9 @@ setup(
     keywords='pythainlp',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
+        'Programming Language :: Python :: 3',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: Thai',
-        'Topic :: Text Processing :: Linguistic',
-        'Programming Language :: Python :: Implementation']
+        'Topic :: Text Processing :: Linguistic']
 )

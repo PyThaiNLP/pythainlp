@@ -28,7 +28,7 @@ PyThaiNLP is a Python library for natural language processing (NLP) of Thai lang
 ## Install
 
 ```
-pip install https://github.com/PyThaiNLP/pythainlp/archive/1.7b1.zip
+pip install pythainlp
 ```
 
 

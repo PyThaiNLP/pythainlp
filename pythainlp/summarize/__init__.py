@@ -27,9 +27,9 @@ class FrequencySummarizer:
     def _rank(self, ranking, n):
         return nlargest(n, ranking, key=ranking.get)
 
-    def summarize(self, text, n):
+    def summarize(self, text, n,tokenize):
         sents = sent_tokenize(text)
-        word_sent = [word_tokenize(s) for s in sents]
+        word_sent = [word_tokenize(s,tokenize) for s in sents]
         self._freq = self._compute_frequencies(word_sent)
         ranking = defaultdict(int)
         for i, sent in enumerate(word_sent):
@@ -38,15 +38,14 @@ class FrequencySummarizer:
                     ranking[i] += self._freq[w]
         sents_idx = self._rank(ranking,n)
         return [sents[j] for j in sents_idx]
-def summarize_text(text,n,engine='frequency'):
+def summarize_text(text,n,engine='frequency',tokenize='newmm'):
     '''
-    คำสั่งสรุปเอกสารภาษาไทย
-    summarize_text(text,n,engine='frequency')
-    text เป็นข้อความ
-    n คือ จำนวนประโยคสรุป
-    engine ที่รองรับ
-    - frequency
+    Thai text summarize.
+    :param str text: thai text
+    :param int n: sent number
+    :param str engine: Thai text summarize engine.
+    :param str tokenize: thai word tokenize.
     '''
     if engine=='frequency':
-        data=FrequencySummarizer().summarize(text,n)
+        data=FrequencySummarizer().summarize(text,n,tokenize)
     return data

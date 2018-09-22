@@ -31,6 +31,8 @@ PyThaiNLP is a Python library for natural language processing (NLP) of Thai lang
 pip install pythainlp
 ```
 
+**Note for Windows**: marisa-trie wheels can be obtained from https://www.lfd.uci.edu/~gohlke/pythonlibs/#marisa-trie , then install it with pip, for example: `pip install marisa_trie‑0.7.5‑cp36‑cp36m‑win32.whl`
+
 
 
 Docs : https://thainlp.org/pythainlp/docs/1.7/ 

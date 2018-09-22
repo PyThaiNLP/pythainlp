@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Getting Started &mdash; PyThaiNLP 20180917 documentation</title>
+  <title>Getting Started &mdash; PyThaiNLP 1.7 documentation</title>
   
 
   
@@ -166,7 +166,6 @@
   <div class="section" id="getting-started">
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <p>PyThaiNLP is a Python library for natural language processing (NLP) of Thai language. With this package, you can NLP tasks such as classify texts and tokenize words.</p>
-<p>TODO: Add example for classification</p>
 <p><strong>Tokenization Example</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pythainlp.tokenize</span> <span class="k">import</span> <span class="n">word_tokenize</span>
 <span class="n">text</span><span class="o">=</span><span class="s1">&#39;ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด&#39;</span>
@@ -183,6 +182,8 @@
 <li><strong>Start-end of sentence marking</strong> - This is arguably the biggest problem for the field of Thai NLP. The lack of end of sentence marking (EOS) makes it hard for researchers to create training sets, the basis of most research in this field. The root of the problem is two-pronged. In terms of writing system, Thai uses space to indicate both commas and periods. No letter indicates an end of a sentence. In terms of language use, Thais have a habit of starting their sentences with connector terms such as ‘because’, ‘but’, ‘following’, etc, making it often hard even for natives to decide where the end of sentence should be when translating.</li>
 <li><strong>Word segmentation</strong> - Thai does not use space and word segmentation is not easy. It boils down to understanding the context and ruling out words that do not make sense. This is a similar issue that other Asian languages such as Japanese and Chinese face in different degrees. For languages with space, a similar but less extreme problem would be multi-word expressions, like the French word for potato — ‘pomme de terre’. In Thai, the best known example is “ตา-กลม” and “ตาก-ลม”. As of recent, new techniques that capture words, subwords, and letters in vectors seem poised to overcome to issue.</li>
 </ol>
+<p><strong>Example for classification</strong></p>
+<p><a class="reference external" href="https://colab.research.google.com/drive/1cnJ6O3b1jwaHwvsMWW3oQw7f8X2Ka7Sp">https://colab.research.google.com/drive/1cnJ6O3b1jwaHwvsMWW3oQw7f8X2Ka7Sp</a></p>
 </div>
 
 
@@ -227,7 +228,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'20180917',
+            VERSION:'1.7',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

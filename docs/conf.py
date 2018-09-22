@@ -30,7 +30,7 @@ copyright = u'2017-%s, %s (Apache Software License 2.0)' % (curyear, project)
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '20180917'
+release = '1.7'
 
 
 # -- General configuration ---------------------------------------------------

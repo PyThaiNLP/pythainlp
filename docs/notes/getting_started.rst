@@ -2,8 +2,6 @@ Getting Started
 =====================================
 PyThaiNLP is a Python library for natural language processing (NLP) of Thai language. With this package, you can NLP tasks such as classify texts and tokenize words.
 
-TODO: Add example for classification
-
 **Tokenization Example**::
 
     from pythainlp.tokenize import word_tokenize
@@ -21,8 +19,9 @@ Thai has historically faced a lot of NLP challenges. A quick list of them includ
 
 #. **Word segmentation** - Thai does not use space and word segmentation is not easy. It boils down to understanding the context and ruling out words that do not make sense. This is a similar issue that other Asian languages such as Japanese and Chinese face in different degrees. For languages with space, a similar but less extreme problem would be multi-word expressions, like the French word for potato — 'pomme de terre'. In Thai, the best known example is "ตา-กลม" and "ตาก-ลม". As of recent, new techniques that capture words, subwords, and letters in vectors seem poised to overcome to issue.
 
+**Example for classification**
 
-
+https://colab.research.google.com/drive/1cnJ6O3b1jwaHwvsMWW3oQw7f8X2Ka7Sp
 
 
 

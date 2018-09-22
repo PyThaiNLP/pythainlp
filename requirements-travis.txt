@@ -7,3 +7,6 @@ langdetect
 requests
 dill
 pytz
+conllu
+tinydb
+tqdm

@@ -1,13 +1,8 @@
 ﻿# -*- coding: utf-8 -*-
 from __future__ import absolute_import
-__version__ = 1.6
-import six
-if six.PY3:
-	"""
-	ไว้ใส่ความสามารถที่รองรับเฉพาะ Python 3.4+ เท่านั้น
-	"""
-	from pythainlp.sentiment import sentiment
-	from pythainlp.spell import spell
+__version__ = 1.7
+from pythainlp.sentiment import sentiment
+from pythainlp.spell import spell
 from pythainlp.romanization import romanization
 from pythainlp.tokenize import word_tokenize,sent_tokenize,tcc,etcc
 from pythainlp.rank import rank

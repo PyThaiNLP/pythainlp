@@ -1,4 +1,7 @@
-![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
+
+<p align="center">
+  <img src="https://avatars0.githubusercontent.com/u/32934255?s=200&v=4">
+</p>
 
 # PyThaiNLP
 
@@ -6,13 +9,14 @@
 [![Build Status](https://travis-ci.org/PyThaiNLP/pythainlp.svg?branch=develop)](https://travis-ci.org/PyThaiNLP/pythainlp)
 [![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
 [![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Thai natural language processing in Python.
 
 PyThaiNLP is a python module similar to `nltk` , but it's working primarily on
 Thai language instead of English.
 
-It supports both Python 2.7 and Python 3.
+It supports Python 3.4+
 
 ### Capability
 
@@ -48,11 +52,11 @@ Apache Software License 2.0
 
 ประมวลภาษาธรรมชาติภาษาไทยในภาษา Python
 
-Natural language processing หรือ การประมวลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่อพัฒนาการประมวลภาษาธรรมชาติภาษาไทยในภาษา Python และ**มันฟรี (ตลอดไป) เพื่อคนไทยและชาวโลกทุกคน !**
+Natural language processing หรือ การประมวลผลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่อพัฒนาการประมวลผลภาษาธรรมชาติภาษาไทยในภาษา Python และ**มันฟรี (ตลอดไป) เพื่อคนไทยและชาวโลกทุกคน !**
 
 > เพราะโลกขับเคลื่อนต่อไปด้วยการแบ่งปัน
 
-รองรับ Python 2.7 และ Python 3
+รองรับ Python 3.4 ขึ้นไป
 
   - หน้าหลัก GitHub :  [https://github.com/PyThaiNLP/pythainlp/](https://github.com/PyThaiNLP/pythainlp/)
 
@@ -73,12 +77,18 @@ Natural language processing หรือ การประมวลภาษา
 
 ### ติดตั้ง
 
-รองรับ Python 2.7 และ Python 3
+รองรับ Python 3.4 ขึ้นไป
 
 รุ่นเสถียร
 
 ```sh
 $ pip install pythainlp
+```
+
+รุ่นกำลังพัฒนา
+
+```sh
+$ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
 
 ### เอกสารการใช้งาน

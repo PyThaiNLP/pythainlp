@@ -3,8 +3,8 @@ from __future__ import absolute_import,division,unicode_literals,print_function
 '''
 Code from https://github.com/patorn/thai-sentiment/blob/78bf461dfdc8a3f0517712fac56dd921dc0f9dd6/thai_sentiment/tokenizer.py
 '''
+from pythainlp.tokenize import DEFAULT_DICT_TRIE
 import re
-from pythainlp.tools import file_trie
 FRONT_DEP_CHAR = ['ะ', 'ั', 'า ', 'ำ', 'ิ', 'ี', 'ึ', 'ื', 'ุ', 'ู', 'ๅ', '็', '์', 'ํ']
 REAR_DEP_CHAR = ['ั', 'ื', 'เ', 'แ', 'โ', 'ใ', 'ไ', 'ํ']
 TONAL_CHAR = ['่', '้', '๊', '๋']
@@ -12,12 +12,8 @@ ENDING_CHAR = ['ๆ', 'ฯ']
 
 class Tokenizer(object):
 
-    def __init__(self,data=''):
-        if(data==''):
-            self._trie = file_trie(data="old")
-        else:
-            import marisa_trie
-            self._trie = marisa_trie.Trie(data)
+    def __init__(self, trie):
+        self._trie = trie
 
     @property
     def trie(self):
@@ -112,9 +108,8 @@ class Tokenizer(object):
     def tokenize(self, text):
         tokens = self.segment_text(text)
         return tokens
-def segment(s,data=''):
+def segment(s, trie=None):
     """ตัดคำภาษาไทยด้วย Longest matching"""
-    return Tokenizer(data).tokenize(s)
-if __name__ == "__main__":
-	s = 'สวัสดีชาวโลกเข้าใจกันไหมพวกคุณ โอเคกันไหม ยสยา ดีแล้วนะคุณเธอ'
-	print(segment(s))
+    if not trie:
+        trie = DEFAULT_DICT_TRIE
+    return Tokenizer(trie).tokenize(s)

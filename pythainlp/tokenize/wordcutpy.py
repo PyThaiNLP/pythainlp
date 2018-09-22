@@ -11,14 +11,15 @@ except ImportError:
 	'''
     ในกรณีที่ยังไม่ติดตั้ง wordcutpy ในระบบ
     '''
-	import pip
-	pip.main(['install','wordcutpy'])
+	from pythainlp.tools import install_package
+	install_package('wordcutpy')
 	try:
 		from wordcut import Wordcut
 	except ImportError:
 		sys.exit('Error ! using $ pip install wordcutpy')
-def segment(text,data=""):
-    if data=="":
+
+def segment(text, data=None):
+    if not data:
         wordcut = Wordcut.bigthai()
     else:
         word_list = list(set(data))

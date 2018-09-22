@@ -2,11 +2,7 @@
 from __future__ import absolute_import,print_function,unicode_literals
 from builtins import *
 import subprocess
-import six
 import sys
-if six.PY2:
-	print("Not support python 2.7")
-	sys.exit(0)
 
 def spel1(word,lang='th_TH'):
 	"""เป็นคำสั่งตรวจคำผิดโดยใช้ hunspell
@@ -33,7 +29,7 @@ def spel1(word,lang='th_TH'):
 		del get
 		return getoutput
 	except subprocess.CalledProcessError:
-		print('plase install hunspell')
+		print('please install hunspell')
 		return None
 if __name__ == "__main__":
   Input = spell("appoe","")

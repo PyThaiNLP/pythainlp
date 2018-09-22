@@ -1,0 +1,268 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pythainlp.change &mdash; PyThaiNLP 1.7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> PyThaiNLP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Notes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../notes/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Package reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/change.html">pythainlp.change</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/collation.html">pythainlp.collation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/date.html">pythainlp.date</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/ner.html">pythainlp.ner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/number.html">pythainlp.number</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/romanization.html">pythainlp.romanization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sentiment.html">pythainlp.sentiment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/soundex.html">pythainlp.soundex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/summarize.html">pythainlp.summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/tag.html">pythainlp.tag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/tokenizer.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/ulmfit.html">pythainlp.ulmfit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/word_vector.html">pythainlp.word_vector</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PyThaiNLP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pythainlp.change</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pythainlp.change</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span><span class="n">unicode_literals</span>
+<span class="kn">import</span> <span class="nn">six</span>
+<span class="n">dictdata</span><span class="o">=</span><span class="p">{</span><span class="sa">u</span><span class="s1">&#39;Z&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;(&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;z&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ผ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;X&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;)&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;x&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ป&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;C&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฉ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;แ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;V&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฮ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;v&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;อ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;B&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฺ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ิ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;N&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;์&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;n&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ื&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;M&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;?&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;m&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ท&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;&lt;&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฒ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;,u&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ม&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;&gt;&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฬ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;.&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ใ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;?&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฦ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;/&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฝ&#39;</span><span class="p">,</span>
+<span class="s1">&#39;A&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฤ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฟ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;S&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฆ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;s&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ห&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;D&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฏ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;d&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ก&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;F&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;โ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;f&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ด&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;G&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฌ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;g&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;เ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;H&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;็&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;h&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;้&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;J&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;๋&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;j&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;j&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;K&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ษ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;k&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;า&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;L&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ศ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;l&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ส&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;:u&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ซ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;&quot;&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;.&#39;</span><span class="p">,</span><span class="s2">&quot;&#39;&quot;</span><span class="p">:</span><span class="s2">&quot;ง&quot;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;:u&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ซ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;;&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ว&#39;</span><span class="p">,</span>
+<span class="s1">&#39;Q&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;๐&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;q&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ๆ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;W&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;w&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ไ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;E&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฎ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;e&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ำ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;R&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฑ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;r&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;พ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;T&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ธ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;t&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ะ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;Y&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ํ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;y&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ั&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;U&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;๊&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;u&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ี&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;I&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ณ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;i&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ร&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;O&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฯ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;o&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;น&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;P&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ญ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;p&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ย&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;{&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฐ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;[&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;บ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;}&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;,u&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;]&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ล&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;|&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฅ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;]&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ฃ&#39;</span><span class="p">,</span>
+<span class="s1">&#39;~&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;%&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;`&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;@&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;๑&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;2&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;/&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;#&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;๒&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;3&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;$&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;๓&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;4&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ภ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;%&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;๔&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;5&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ถ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;^&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ู&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;6&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ุ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;&amp;&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;฿&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;7&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ึ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;*&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;๕&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;8&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ค&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;(&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;๖&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;9&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ต&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;)&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;๗&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;0&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;จ&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;_&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;๘&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;-&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ข&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;+&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;๙&#39;</span><span class="p">,</span><span class="sa">u</span><span class="s1">&#39;=&#39;</span><span class="p">:</span><span class="sa">u</span><span class="s1">&#39;ช&#39;</span><span class="p">}</span>
+<span class="c1"># แก้ไขพิมพ์ภาษาไทยผิดภาษา</span>
+<div class="viewcode-block" id="texttothai"><a class="viewcode-back" href="../../api/change.html#pythainlp.change.texttothai">[docs]</a><span class="k">def</span> <span class="nf">texttothai</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	:param str data: Incorrect input language correction (Needs thai but input english)</span>
+<span class="sd">	:return: thai text</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+	<span class="n">data2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+	<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">dictdata</span><span class="p">:</span>
+    			<span class="n">a</span> <span class="o">=</span> <span class="n">dictdata</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+		<span class="k">else</span><span class="p">:</span>
+    			<span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
+		<span class="n">data2</span><span class="o">+=</span><span class="n">a</span>
+	<span class="k">del</span> <span class="n">data</span>
+	<span class="k">return</span> <span class="n">data2</span></div>
+<span class="c1"># แก้ไขพิมพ์ภาษาอังกฤษผิดภาษา</span>
+<div class="viewcode-block" id="texttoeng"><a class="viewcode-back" href="../../api/change.html#pythainlp.change.texttoeng">[docs]</a><span class="k">def</span> <span class="nf">texttoeng</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	:param str data: Incorrect input language correction (Needs english but input thai)</span>
+<span class="sd">	:return: english text</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+	<span class="n">data2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+	<span class="n">dictdataeng</span><span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">six</span><span class="o">.</span><span class="n">iteritems</span><span class="p">(</span><span class="n">dictdata</span><span class="p">)}</span>
+	<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">dictdataeng</span><span class="p">:</span>
+    			<span class="n">a</span> <span class="o">=</span> <span class="n">dictdataeng</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+		<span class="k">else</span><span class="p">:</span>
+    			<span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
+		<span class="n">data2</span><span class="o">+=</span><span class="n">a</span>
+	<span class="k">return</span> <span class="n">data2</span></div>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">a</span><span class="o">=</span><span class="s2">&quot;l;ylfu8iy[&quot;</span>
+	<span class="n">a</span><span class="o">=</span><span class="n">texttothai</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+	<span class="n">a</span><span class="o">=</span><span class="n">texttothai</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+	<span class="n">b</span><span class="o">=</span><span class="s2">&quot;นามรสนอำันี&quot;</span>
+	<span class="n">b</span><span class="o">=</span><span class="n">texttoeng</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+	<span class="n">six</span><span class="o">.</span><span class="n">print_</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+	<span class="n">six</span><span class="o">.</span><span class="n">print_</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0).
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.7',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

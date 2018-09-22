@@ -12,8 +12,9 @@ try:
 	from gensim.models import KeyedVectors
 	import numpy as np
 except ImportError:
-	import pip
-	pip.main(['install','gensim','numpy'])
+	from pythainlp.tools import install_package
+	install_package('gensim')
+	install_package('numpy')
 	try:
 		from gensim.models import KeyedVectors
 		import numpy as np
@@ -21,31 +22,35 @@ except ImportError:
 		print("Error ! using 'pip install gensim numpy'")
 		sys.exit(0)
 from pythainlp.tokenize import word_tokenize
+from pythainlp.corpus import get_file
+from pythainlp.corpus import download as download_data
 import os
 
 def download():
-	path = os.path.join(os.path.expanduser("~"), 'pythainlp-data')
-	if not os.path.exists(path):
-		os.makedirs(path)
-	path = os.path.join(path, 'thai2vec.vec')
-	if not os.path.exists(path):
-		print("Download models...")
-		from urllib import request
-		request.urlretrieve("https://www.dropbox.com/s/upnbmiebkfma7oy/thai2vec.vec?dl=1",path)
-		print("OK.")
+	path = get_file('thai2vec02')
+	if path==None:
+		download_data('thai2vec02')
+		path = get_file('thai2vec02')
 	return path
 def get_model():
-	return KeyedVectors.load_word2vec_format(download(),binary=False)
+    '''
+    :return: Downloads the `gensim` model.'''
+    return KeyedVectors.load_word2vec_format(download(),binary=False)
 def most_similar_cosmul(positive,negative):
-	'''
+    '''
 	การใช้งาน
 	input list
 	'''
-	return get_model().most_similar_cosmul(positive=positive, negative=negative)
+    return get_model().most_similar_cosmul(positive=positive, negative=negative)
 def doesnt_match(listdata):
-	return get_model().doesnt_match(listdata)
+    return get_model().doesnt_match(listdata)
 def similarity(word1,word2):
-	return get_model().similarity(word1,word2)
+    '''
+    :param str word1: first word
+    :param str word2: second word
+    :return: the cosine similarity between the two word vectors
+    '''
+    return get_model().similarity(word1,word2)
 def sentence_vectorizer(ss,dim=300,use_mean=False):
     s = word_tokenize(ss)
     vec = np.zeros((1,dim))
@@ -55,10 +60,12 @@ def sentence_vectorizer(ss,dim=300,use_mean=False):
         else: pass
     if use_mean: vec /= len(s)
     return(vec)
+
 def about():
 	return '''
 	thai2vec
-	Language Modeling, Word2Vec and Text Classification in Thai Language. Created as part of pyThaiNLP.
+	State-of-the-Art Language Modeling, Text Feature Extraction and Text Classification in Thai Language.
+    Created as part of pyThaiNLP with ULMFit implementation from fast.ai
 	
 	Development : Charin Polpanumas
 	GitHub : https://github.com/cstorm125/thai2vec

@@ -7,8 +7,10 @@ dictdata={u'Z':u'(',u'z':u'ผ',u'X':u')',u'x':u'ป',u'C':u'ฉ',u'c':u'แ',u'
 '~':u'%',u'`':u'_',u'@':u'๑',u'2':u'/',u'#':u'๒',u'3':u'-',u'$':u'๓',u'4':u'ภ',u'%':u'๔',u'5':u'ถ',u'^':u'ู',u'6':u'ุ',u'&':u'฿',u'7':u'ึ',u'*':u'๕',u'8':u'ค',u'(':u'๖',u'9':u'ต',u')':u'๗',u'0':u'จ',u'_':u'๘',u'-':u'ข',u'+':u'๙',u'=':u'ช'}
 # แก้ไขพิมพ์ภาษาไทยผิดภาษา
 def texttothai(data):
-	"""เป็นคำสั่งแก้ไขข้อความที่พิมพ์ผิดภาษา ต้องการภาษาไทย แต่พิมพ์เป็นภาษาอังกฤษ 
-	รับค่าเป็น ''str'' คืนค่าเป็น ''str''"""
+	"""
+	:param str data: Incorrect input language correction (Needs thai but input english)
+	:return: thai text
+	"""
 	data = list(data)
 	data2 = ""
 	for a in data:
@@ -21,8 +23,10 @@ def texttothai(data):
 	return data2
 # แก้ไขพิมพ์ภาษาอังกฤษผิดภาษา
 def texttoeng(data):
-	"""เป็นคำสั่งแก้ไขข้อความที่พิมพ์ผิดภาษา ต้องการภาษาอังกฤษ แต่พิมพ์เป็นภาษาไทย
-	รับค่าเป็น ''str'' คืนค่าเป็น ''str''"""
+	"""
+	:param str data: Incorrect input language correction (Needs english but input thai)
+	:return: english text
+	"""
 	data = list(data)
 	data2 = ""
 	dictdataeng= {v: k for k, v in six.iteritems(dictdata)}

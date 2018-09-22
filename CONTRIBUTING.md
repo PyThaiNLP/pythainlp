@@ -1,6 +1,6 @@
 # Contributing to PyThaiNLP
 
-Hi! Thanks for your interest in contributing to [PyThaiNLP](https://github.com/wannaphongcom/pythainlp).
+Hi! Thanks for your interest in contributing to [PyThaiNLP](https://github.com/PyThaiNLP/pythainlp).
 In this document we'll try to summarize everything that you need to know to
 do a good job.
 
@@ -38,13 +38,8 @@ branches.
 - Try to write both Python 2 and Python3-friendly code so won't be a pain for
   us to support both versions.
 
-## Code Guidelines
-
-- Use [PEP8](http://www.python.org/dev/peps/pep-0008/);
-- Write tests for your new features (please see "Tests" topic below);
-
 # Discussion
 
-https://www.facebook.com/groups/1997970287091118/ and https://github.com/wannaphongcom/pythainlp/issues
+https://www.facebook.com/groups/thainlp and https://github.com/wannaphongcom/pythainlp/issues
 
 Happy hacking! (;

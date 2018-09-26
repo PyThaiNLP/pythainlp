@@ -93,7 +93,7 @@ $ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 
 ### เอกสารการใช้งาน
 
-อ่านได้ที่  [https://github.com/PyThaiNLP/pythainlp/tree/dev/docs](https://github.com/PyThaiNLP/pythainlp/tree/dev/docs)
+อ่านได้ที่  [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
 
 ### License
 

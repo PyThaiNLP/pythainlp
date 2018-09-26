@@ -42,7 +42,7 @@ $ pip install pythainlp
 
 ### Documentation
 
-Read on [https://github.com/PyThaiNLP/pythainlp/tree/dev/docs](https://github.com/PyThaiNLP/pythainlp/tree/dev/docs)
+Read on [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
 
 ### License
 

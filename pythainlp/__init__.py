@@ -10,7 +10,6 @@ from pythainlp.change import texttothai,texttoeng
 from pythainlp.date import now
 from pythainlp.tag import pos_tag
 from pythainlp.collation import collation
-from pythainlp.test import TestUM
 from pythainlp.Text import Text
 from pythainlp.MetaSound import MetaSound
 from pythainlp.soundex import LK82,Udom83

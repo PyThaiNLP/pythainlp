@@ -9,7 +9,7 @@ with codecs.open('requirements.txt','r',encoding='utf-8') as f:
 
 setup(
     name='pythainlp',
-    version='1.7.0',
+    version='1.7.0.1',
     description="Thai natural language processing in Python package.",
     long_description=readme,
     long_description_content_type='text/markdown',

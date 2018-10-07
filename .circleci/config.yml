@@ -25,9 +25,9 @@ jobs:
           command: |
             . venv/bin/activate
             pip install flake8
-            flake8 tests
+            make lint
       - run:
           name: Run Tests
           command: |
             . venv/bin/activate
-            python setup.py test
+            make test

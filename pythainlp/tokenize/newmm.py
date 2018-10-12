@@ -82,11 +82,7 @@ def onecut(text, trie):
             else:  # skip น้อยที่สุด ที่เป็นไปได้
                 for i in range(p + 1, len(text)):
                     if i in allow_pos:  # ใช้ tcc ด้วย
-                        ww = [
-                            w
-                            for w in trie.prefixes(text[i:])
-                            if (i + len(w) in allow_pos)
-                        ]
+                        ww = [w for w in trie.prefixes(text[i:]) if (i + len(w) in allow_pos)]
                         ww = [w for w in ww if not PAT_TWOCHARS.match(w)]
                         m = PAT_ENG.match(text[i:])
                         if ww or m:

@@ -16,6 +16,10 @@ def collation(data):
     """
     :param list data: a list of thai text
     :return: a list of thai text, sorted alphabetically
+    **Example**::
+        >>> from pythainlp.collation import *
+        >>> collation(['ไก่', 'เป็ด', 'หมู', 'วัว'])
+        ['ไก่', 'เป็ด', 'วัว', 'หมู']
     """
     return sorted(data, key=thkey)
 

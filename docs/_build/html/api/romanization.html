@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pythainlp.romanization &mdash; PyThaiNLP 20180622 documentation</title>
+  <title>pythainlp.romanization &mdash; PyThaiNLP 1.7 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pythainlp.tokenize" href="tokenizer.html" />
-    <link rel="prev" title="Installation" href="../notes/installation.html" /> 
+    <link rel="next" title="pythainlp.sentiment" href="sentiment.html" />
+    <link rel="prev" title="pythainlp.number" href="number.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -85,11 +85,19 @@
 </ul>
 <p class="caption"><span class="caption-text">Package reference:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">pythainlp.romanization</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="change.html">pythainlp.change</a></li>
+<li class="toctree-l1"><a class="reference internal" href="collation.html">pythainlp.collation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="date.html">pythainlp.date</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ner.html">pythainlp.ner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="number.html">pythainlp.number</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pythainlp.romanization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sentiment.html">pythainlp.sentiment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="soundex.html">pythainlp.soundex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="summarize.html">pythainlp.summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tag.html">pythainlp.tag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tokenizer.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ulmfit.html">pythainlp.ulmfit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="word_vector.html">pythainlp.word_vector</a></li>
 </ul>
 
@@ -157,9 +165,7 @@
             
   <div class="section" id="pythainlp-romanization">
 <h1>pythainlp.romanization<a class="headerlink" href="#pythainlp-romanization" title="Permalink to this headline">¶</a></h1>
-<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">word_vector.romanization</span></code> turns thai text into a romanized one (put simply, spelled with English).</p>
-<div class="section" id="modules">
-<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">romanization.romanization</span></code> turns thai text into a romanized one (put simply, spelled with English).</p>
 <dl class="function">
 <dt id="pythainlp.romanization.romanization">
 <code class="descclassname">pythainlp.romanization.</code><code class="descname">romanization</code><span class="sig-paren">(</span><em>data</em>, <em>engine='royin'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/romanization.html#romanization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.romanization.romanization" title="Permalink to this definition">¶</a></dt>
@@ -169,7 +175,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Thai text to be romanized</li>
-<li><strong>engine</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – choose between ‘royin’ and ‘pyicu’. ‘royin’ will romanize according to the standard of Thai Royal Institute. ‘pyicu’ will romanize according to the Internaitonal Phonetic Alphabet.</li>
+<li><strong>engine</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – choose between ‘royin’ , ‘pyicu’ and ‘thai2rom’. ‘royin’ will romanize according to the standard of Thai Royal Institute. ‘pyicu’ will romanize according to the Internaitonal Phonetic Alphabet. ‘thai2rom’ is deep learning thai romanization.</li>
 </ul>
 </td>
 </tr>
@@ -180,7 +186,26 @@
 </table>
 </dd></dl>
 
-</div>
+<dl class="class">
+<dt id="pythainlp.romanization.thai2rom.thai2rom">
+<em class="property">class </em><code class="descclassname">pythainlp.romanization.thai2rom.</code><code class="descname">thai2rom</code><a class="reference internal" href="../_modules/pythainlp/romanization/thai2rom.html#thai2rom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.romanization.thai2rom.thai2rom" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="pythainlp.romanization.thai2rom.thai2rom.romanization">
+<code class="descname">romanization</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/romanization/thai2rom.html#thai2rom.romanization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.romanization.thai2rom.thai2rom.romanization" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Thai text to be romanized</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">English (more or less) text that spells out how the Thai text should read.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -191,10 +216,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tokenizer.html" class="btn btn-neutral float-right" title="pythainlp.tokenize" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="sentiment.html" class="btn btn-neutral float-right" title="pythainlp.sentiment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../notes/installation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="number.html" class="btn btn-neutral" title="pythainlp.number" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -203,7 +228,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2018, PyThaiNLP (GPL license).
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0).
 
     </p>
   </div>
@@ -225,7 +250,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'20180622',
+            VERSION:'1.7',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

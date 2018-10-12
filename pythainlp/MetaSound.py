@@ -15,6 +15,12 @@ def MetaSound(name):
 
     :param str name: thai text
     :return: MetaSound for thai text
+    **Example**::
+        >>> from pythainlp.MetaSound import MetaSound
+        >>> MetaSound('รัก')
+        '501'
+        >>> MetaSound('ลัก')
+        '501'
     '''
     name1=list(name)
     count=len(name1)

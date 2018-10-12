@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pythainlp.romanization &mdash; PyThaiNLP 20180622 documentation</title>
+  <title>pythainlp.romanization &mdash; PyThaiNLP 1.7 documentation</title>
   
 
   
@@ -83,13 +83,19 @@
 </ul>
 <p class="caption"><span class="caption-text">Package reference:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api/collation.html">pythainlp.tokenize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/date.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/change.html">pythainlp.change</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/collation.html">pythainlp.collation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/date.html">pythainlp.date</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/ner.html">pythainlp.ner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/number.html">pythainlp.number</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/romanization.html">pythainlp.romanization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sentiment.html">pythainlp.sentiment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/soundex.html">pythainlp.soundex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/summarize.html">pythainlp.summarize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/tag.html">pythainlp.tag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/tokenizer.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/ulmfit.html">pythainlp.ulmfit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/word_vector.html">pythainlp.word_vector</a></li>
 </ul>
 
@@ -161,7 +167,7 @@
 <div class="viewcode-block" id="romanization"><a class="viewcode-back" href="../../api/romanization.html#pythainlp.romanization.romanization">[docs]</a><span class="k">def</span> <span class="nf">romanization</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;royin&#39;</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">	:param str data: Thai text to be romanized</span>
-<span class="sd">	:param str engine: choose between &#39;royin&#39; and &#39;pyicu&#39;. &#39;royin&#39; will romanize according to the standard of Thai Royal Institute. &#39;pyicu&#39; will romanize according to the Internaitonal Phonetic Alphabet.</span>
+<span class="sd">	:param str engine: choose between &#39;royin&#39; , &#39;pyicu&#39; and &#39;thai2rom&#39;. &#39;royin&#39; will romanize according to the standard of Thai Royal Institute. &#39;pyicu&#39; will romanize according to the Internaitonal Phonetic Alphabet. &#39;thai2rom&#39; is deep learning thai romanization.</span>
 <span class="sd">	:return: English (more or less) text that spells out how the Thai text should read.</span>
 <span class="sd">	&quot;&quot;&quot;</span>
 	<span class="n">word_list</span><span class="o">=</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -171,6 +177,12 @@
     		<span class="kn">from</span> <span class="nn">.royin</span> <span class="k">import</span> <span class="n">romanization</span>
 	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;pyicu&#39;</span><span class="p">:</span>
     		<span class="kn">from</span> <span class="nn">.pyicu</span> <span class="k">import</span> <span class="n">romanization</span>
+	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;thai2rom&#39;</span><span class="p">:</span>
+    		<span class="kn">from</span> <span class="nn">pythainlp.romanization.thai2rom</span> <span class="k">import</span> <span class="n">thai2rom</span>
+    		<span class="n">thai</span><span class="o">=</span><span class="n">thai2rom</span><span class="p">()</span>
+    		<span class="k">return</span> <span class="n">thai</span><span class="o">.</span><span class="n">romanization</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+	<span class="k">else</span><span class="p">:</span>
+    		<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;error no have engine.&quot;</span><span class="p">)</span>
 	<span class="k">while</span> <span class="n">i</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">word_list</span><span class="p">):</span>
 		<span class="n">listword</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">romanization</span><span class="p">(</span><span class="n">word_list</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
 		<span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
@@ -187,7 +199,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2018, PyThaiNLP (GPL license).
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0).
 
     </p>
   </div>
@@ -209,7 +221,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'20180622',
+            VERSION:'1.7',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

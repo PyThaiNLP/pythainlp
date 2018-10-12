@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pythainlp.collation &mdash; PyThaiNLP 20180622 documentation</title>
+  <title>pythainlp.collation &mdash; PyThaiNLP 1.7 documentation</title>
   
 
   
@@ -83,13 +83,19 @@
 </ul>
 <p class="caption"><span class="caption-text">Package reference:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api/collation.html">pythainlp.tokenize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/date.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/change.html">pythainlp.change</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/collation.html">pythainlp.collation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/date.html">pythainlp.date</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/ner.html">pythainlp.ner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/number.html">pythainlp.number</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/romanization.html">pythainlp.romanization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sentiment.html">pythainlp.sentiment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/soundex.html">pythainlp.soundex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/summarize.html">pythainlp.summarize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/tag.html">pythainlp.tag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/tokenizer.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/ulmfit.html">pythainlp.ulmfit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/word_vector.html">pythainlp.word_vector</a></li>
 </ul>
 
@@ -172,6 +178,10 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    :param list data: a list of thai text</span>
 <span class="sd">    :return: a list of thai text, sorted alphabetically</span>
+<span class="sd">    **Example**::</span>
+<span class="sd">        &gt;&gt;&gt; from pythainlp.collation import *</span>
+<span class="sd">        &gt;&gt;&gt; collation([&#39;ไก่&#39;, &#39;เป็ด&#39;, &#39;หมู&#39;, &#39;วัว&#39;])</span>
+<span class="sd">        [&#39;ไก่&#39;, &#39;เป็ด&#39;, &#39;วัว&#39;, &#39;หมู&#39;]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">thkey</span><span class="p">)</span></div>
 
@@ -192,7 +202,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2018, PyThaiNLP (GPL license).
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0).
 
     </p>
   </div>
@@ -214,7 +224,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'20180622',
+            VERSION:'1.7',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

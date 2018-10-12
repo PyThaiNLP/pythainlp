@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pythainlp.tokenize &mdash; PyThaiNLP 20180622 documentation</title>
+  <title>pythainlp.tokenize &mdash; PyThaiNLP 1.7 documentation</title>
   
 
   
@@ -83,13 +83,19 @@
 </ul>
 <p class="caption"><span class="caption-text">Package reference:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../api/collation.html">pythainlp.tokenize</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../api/date.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/change.html">pythainlp.change</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/collation.html">pythainlp.collation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/date.html">pythainlp.date</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/ner.html">pythainlp.ner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/number.html">pythainlp.number</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/romanization.html">pythainlp.romanization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/sentiment.html">pythainlp.sentiment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/soundex.html">pythainlp.soundex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/summarize.html">pythainlp.summarize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/tag.html">pythainlp.tag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/tokenizer.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/ulmfit.html">pythainlp.ulmfit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../api/word_vector.html">pythainlp.word_vector</a></li>
 </ul>
 
@@ -166,42 +172,19 @@
 
 <span class="n">DEFAULT_DICT_TRIE</span> <span class="o">=</span> <span class="n">Trie</span><span class="p">(</span><span class="n">get_dict</span><span class="p">())</span>
 
-
-<div class="viewcode-block" id="dict_word_tokenize"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.dict_word_tokenize">[docs]</a><span class="k">def</span> <span class="nf">dict_word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;newmm&#39;</span><span class="p">):</span>
-	<span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">	:meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.</span>
-
-<span class="sd">	:param str text: the text to be tokenized</span>
-<span class="sd">	:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie</span>
-<span class="sd">	:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)</span>
-
-<span class="sd">	:return: A list of words, tokenized from a text.</span>
-<span class="sd">	&#39;&#39;&#39;</span>
-	<span class="k">if</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;newmm&quot;</span> <span class="ow">or</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;onecut&quot;</span><span class="p">:</span>
-		<span class="kn">from</span> <span class="nn">.newmm</span> <span class="k">import</span> <span class="n">mmcut</span> <span class="k">as</span> <span class="n">segment</span>
-	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;mm&quot;</span> <span class="ow">or</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;multi_cut&quot;</span><span class="p">:</span>
-		<span class="kn">from</span> <span class="nn">.multi_cut</span> <span class="k">import</span> <span class="n">segment</span>
-	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;longest-matching&#39;</span><span class="p">:</span>
-		<span class="kn">from</span> <span class="nn">.longest</span> <span class="k">import</span> <span class="n">segment</span>
-	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;wordcutpy&#39;</span><span class="p">:</span>
-		<span class="kn">from</span> <span class="nn">.wordcutpy</span> <span class="k">import</span> <span class="n">segment</span>
-		<span class="k">return</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-	<span class="k">return</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="p">)</span></div>
-
 <div class="viewcode-block" id="word_tokenize"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.word_tokenize">[docs]</a><span class="k">def</span> <span class="nf">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;newmm&#39;</span><span class="p">,</span><span class="n">whitespaces</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 	<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    :param str text:  the text to be tokenized</span>
 <span class="sd">    :param str engine: the engine to tokenize text</span>
 <span class="sd">    :param bool whitespaces: True to output no whitespace, a common mark of sentence or end of phrase in Thai.</span>
 <span class="sd">    :Parameters for engine:</span>
-<span class="sd">        * newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)</span>
-<span class="sd">        * icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)</span>
-<span class="sd">        * longest-matching ใช้ Longest matching ในการตัดคำ</span>
-<span class="sd">        * mm ใช้ Maximum Matching algorithm - โค้ดชุดเก่า</span>
-<span class="sd">        * pylexto - ใช้ LexTo ในการตัดคำ</span>
-<span class="sd">        * deepcut - ใช้ Deep Neural Network ในการตัดคำภาษาไทย</span>
-<span class="sd">        * wordcutpy - ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ</span>
-<span class="sd">        * cutkum - ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)</span>
+<span class="sd">        * newmm - Maximum Matching algorithm + TCC</span>
+<span class="sd">        * icu -  IBM ICU</span>
+<span class="sd">        * longest-matching - Longest matching</span>
+<span class="sd">        * mm - Maximum Matching algorithm</span>
+<span class="sd">        * pylexto - LexTo</span>
+<span class="sd">        * deepcut - Deep Neural Network</span>
+<span class="sd">        * wordcutpy - wordcutpy (https://github.com/veer66/wordcutpy)</span>
 <span class="sd">    :return: A list of words, tokenized from a text</span>
 
 <span class="sd">    **Example**::</span>
@@ -234,7 +217,33 @@
 	<span class="k">if</span> <span class="n">whitespaces</span><span class="o">==</span><span class="kc">False</span><span class="p">:</span>
 		<span class="k">return</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">!=</span><span class="s1">&#39;&#39;</span><span class="p">]</span>
 	<span class="k">return</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
+<div class="viewcode-block" id="dict_word_tokenize"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.dict_word_tokenize">[docs]</a><span class="k">def</span> <span class="nf">dict_word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;newmm&#39;</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	:meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.</span>
 
+<span class="sd">	:param str text: the text to be tokenized</span>
+<span class="sd">	:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie</span>
+<span class="sd">	:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)</span>
+<span class="sd">    :return: A list of words, tokenized from a text.</span>
+<span class="sd">    **Example**::</span>
+<span class="sd">        &gt;&gt;&gt; from pythainlp.tokenize import dict_word_tokenize,create_custom_dict_trie</span>
+<span class="sd">        &gt;&gt;&gt; listword=[&#39;แมว&#39;,&quot;ดี&quot;]</span>
+<span class="sd">        &gt;&gt;&gt; data_dict=create_custom_dict_trie(listword)</span>
+<span class="sd">        &gt;&gt;&gt; dict_word_tokenize(&quot;แมวดีดีแมว&quot;,data_dict)</span>
+<span class="sd">        [&#39;แมว&#39;, &#39;ดี&#39;, &#39;ดี&#39;, &#39;แมว&#39;]</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">if</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;newmm&quot;</span> <span class="ow">or</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;onecut&quot;</span><span class="p">:</span>
+		<span class="kn">from</span> <span class="nn">.newmm</span> <span class="k">import</span> <span class="n">mmcut</span> <span class="k">as</span> <span class="n">segment</span>
+	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;mm&quot;</span> <span class="ow">or</span> <span class="n">engine</span><span class="o">==</span><span class="s2">&quot;multi_cut&quot;</span><span class="p">:</span>
+		<span class="kn">from</span> <span class="nn">.multi_cut</span> <span class="k">import</span> <span class="n">segment</span>
+	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;longest-matching&#39;</span><span class="p">:</span>
+		<span class="kn">from</span> <span class="nn">.longest</span> <span class="k">import</span> <span class="n">segment</span>
+	<span class="k">elif</span> <span class="n">engine</span><span class="o">==</span><span class="s1">&#39;wordcutpy&#39;</span><span class="p">:</span>
+		<span class="kn">from</span> <span class="nn">.wordcutpy</span> <span class="k">import</span> <span class="n">segment</span>
+		<span class="k">return</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;error no have engine.&quot;</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">segment</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">custom_dict_trie</span><span class="p">)</span></div>
 <div class="viewcode-block" id="sent_tokenize"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.sent_tokenize">[docs]</a><span class="k">def</span> <span class="nf">sent_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">engine</span><span class="o">=</span><span class="s1">&#39;whitespace+newline&#39;</span><span class="p">):</span>
 	<span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">	This function does not yet automatically recognize when a sentence actually ends. Rather it helps split text where white space and a new line is found.</span>
@@ -309,7 +318,7 @@
 	<span class="k">return</span> <span class="n">data</span>
 
 <div class="viewcode-block" id="create_custom_dict_trie"><a class="viewcode-back" href="../../api/tokenizer.html#pythainlp.tokenize.create_custom_dict_trie">[docs]</a><span class="k">def</span> <span class="nf">create_custom_dict_trie</span><span class="p">(</span><span class="n">custom_dict_source</span><span class="p">):</span>
-	<span class="sd">&quot;&quot;&quot;The function is used to create a custom dict trie which will be used for word_tokenize() function. For more information on the trie data structure, see:https://marisa-trie.readthedocs.io/en/latest/index.html</span>
+	<span class="sd">&quot;&quot;&quot;The function is used to create a custom dict trie which will be used for word_tokenize() function. For more information on the trie data structure, see: https://marisa-trie.readthedocs.io/en/latest/index.html</span>
 
 <span class="sd">	:param string/list custom_dict_source:  a list of vocaburaries or a path to source file</span>
 
@@ -364,7 +373,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2018, PyThaiNLP (GPL license).
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0).
 
     </p>
   </div>
@@ -386,7 +395,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'20180622',
+            VERSION:'1.7',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

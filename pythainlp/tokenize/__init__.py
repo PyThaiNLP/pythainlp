@@ -10,42 +10,19 @@ from marisa_trie import Trie
 
 DEFAULT_DICT_TRIE = Trie(get_dict())
 
-
-def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
-	'''
-	:meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
-
-	:param str text: the text to be tokenized
-	:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie
-	:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)
-
-	:return: A list of words, tokenized from a text.
-	'''
-	if engine=="newmm" or engine=="onecut":
-		from .newmm import mmcut as segment
-	elif engine=="mm" or engine=="multi_cut":
-		from .multi_cut import segment
-	elif engine=='longest-matching':
-		from .longest import segment
-	elif engine=='wordcutpy':
-		from .wordcutpy import segment
-		return segment(text, custom_dict_trie.keys())
-	return segment(text, custom_dict_trie)
-
 def word_tokenize(text, engine='newmm',whitespaces=True):
 	"""
     :param str text:  the text to be tokenized
     :param str engine: the engine to tokenize text
     :param bool whitespaces: True to output no whitespace, a common mark of sentence or end of phrase in Thai.
     :Parameters for engine:
-        * newmm - ใช้ Maximum Matching algorithm ในการตัดคำภาษาไทย โค้ดชุดใหม่ (ค่าเริ่มต้น)
-        * icu -  engine ตัวดั้งเดิมของ PyThaiNLP (ความแม่นยำต่ำ)
-        * longest-matching ใช้ Longest matching ในการตัดคำ
-        * mm ใช้ Maximum Matching algorithm - โค้ดชุดเก่า
-        * pylexto - ใช้ LexTo ในการตัดคำ
-        * deepcut - ใช้ Deep Neural Network ในการตัดคำภาษาไทย
-        * wordcutpy - ใช้ wordcutpy (https://github.com/veer66/wordcutpy) ในการตัดคำ
-        * cutkum - ใช้ Deep Neural Network ในการตัดคำภาษาไทย (https://github.com/pucktada/cutkum)
+        * newmm - Maximum Matching algorithm + TCC
+        * icu -  IBM ICU
+        * longest-matching - Longest matching
+        * mm - Maximum Matching algorithm
+        * pylexto - LexTo
+        * deepcut - Deep Neural Network
+        * wordcutpy - wordcutpy (https://github.com/veer66/wordcutpy)
     :return: A list of words, tokenized from a text
 
     **Example**::
@@ -78,7 +55,33 @@ def word_tokenize(text, engine='newmm',whitespaces=True):
 	if whitespaces==False:
 		return [i.strip(' ') for i in segment(text) if i.strip(' ')!='']
 	return segment(text)
+def dict_word_tokenize(text, custom_dict_trie, engine='newmm'):
+	'''
+	:meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
 
+	:param str text: the text to be tokenized
+	:param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie
+	:param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)
+    :return: A list of words, tokenized from a text.
+    **Example**::
+        >>> from pythainlp.tokenize import dict_word_tokenize,create_custom_dict_trie
+        >>> listword=['แมว',"ดี"]
+        >>> data_dict=create_custom_dict_trie(listword)
+        >>> dict_word_tokenize("แมวดีดีแมว",data_dict)
+        ['แมว', 'ดี', 'ดี', 'แมว']
+	'''
+	if engine=="newmm" or engine=="onecut":
+		from .newmm import mmcut as segment
+	elif engine=="mm" or engine=="multi_cut":
+		from .multi_cut import segment
+	elif engine=='longest-matching':
+		from .longest import segment
+	elif engine=='wordcutpy':
+		from .wordcutpy import segment
+		return segment(text, custom_dict_trie.keys())
+	else:
+		raise Exception("error no have engine.")
+	return segment(text, custom_dict_trie)
 def sent_tokenize(text,engine='whitespace+newline'):
 	'''
 	This function does not yet automatically recognize when a sentence actually ends. Rather it helps split text where white space and a new line is found.
@@ -153,7 +156,7 @@ def syllable_tokenize(text):
 	return data
 
 def create_custom_dict_trie(custom_dict_source):
-	"""The function is used to create a custom dict trie which will be used for word_tokenize() function. For more information on the trie data structure, see:https://marisa-trie.readthedocs.io/en/latest/index.html
+	"""The function is used to create a custom dict trie which will be used for word_tokenize() function. For more information on the trie data structure, see: https://marisa-trie.readthedocs.io/en/latest/index.html
 
 	:param string/list custom_dict_source:  a list of vocaburaries or a path to source file
 

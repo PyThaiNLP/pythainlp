@@ -1,4 +1,7 @@
-![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
+
+<p align="center">
+  <img src="https://avatars0.githubusercontent.com/u/32934255?s=200&v=4">
+</p>
 
 # PyThaiNLP
 
@@ -6,6 +9,7 @@
 [![Build Status](https://travis-ci.org/PyThaiNLP/pythainlp.svg?branch=develop)](https://travis-ci.org/PyThaiNLP/pythainlp)
 [![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
 [![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Thai natural language processing in Python.
 
@@ -38,7 +42,7 @@ $ pip install pythainlp
 
 ### Documentation
 
-Read on [https://github.com/PyThaiNLP/pythainlp/tree/dev/docs](https://github.com/PyThaiNLP/pythainlp/tree/dev/docs)
+Read on [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
 
 ### License
 
@@ -89,7 +93,7 @@ $ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 
 ### เอกสารการใช้งาน
 
-อ่านได้ที่  [https://github.com/PyThaiNLP/pythainlp/tree/dev/docs](https://github.com/PyThaiNLP/pythainlp/tree/dev/docs)
+อ่านได้ที่  [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
 
 ### License
 

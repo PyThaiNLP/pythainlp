@@ -1,7 +1,7 @@
 .. currentmodule:: pythainlp.date
 
 
-pythainlp.tokenize
+pythainlp.date
 =====================================
 The :class:`pythainlp.date` helps output dates, as spelled out in Thai.
 

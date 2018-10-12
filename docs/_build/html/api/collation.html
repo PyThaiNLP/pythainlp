@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pythainlp.tokenize &mdash; PyThaiNLP 20180622 documentation</title>
+  <title>pythainlp.collation &mdash; PyThaiNLP 1.7 documentation</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="pythainlp.number" href="number.html" />
-    <link rel="prev" title="Installation" href="../notes/installation.html" /> 
+    <link rel="next" title="pythainlp.date" href="date.html" />
+    <link rel="prev" title="pythainlp.change" href="change.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -85,12 +85,19 @@
 </ul>
 <p class="caption"><span class="caption-text">Package reference:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="change.html">pythainlp.change</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pythainlp.collation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="date.html">pythainlp.date</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ner.html">pythainlp.ner</a></li>
 <li class="toctree-l1"><a class="reference internal" href="number.html">pythainlp.number</a></li>
 <li class="toctree-l1"><a class="reference internal" href="romanization.html">pythainlp.romanization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sentiment.html">pythainlp.sentiment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="soundex.html">pythainlp.soundex</a></li>
 <li class="toctree-l1"><a class="reference internal" href="spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="summarize.html">pythainlp.summarize</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tag.html">pythainlp.tag</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tokenizer.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ulmfit.html">pythainlp.ulmfit</a></li>
 <li class="toctree-l1"><a class="reference internal" href="word_vector.html">pythainlp.word_vector</a></li>
 </ul>
 
@@ -137,7 +144,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>pythainlp.tokenize</li>
+      <li>pythainlp.collation</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -156,8 +163,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pythainlp-tokenize">
-<h1>pythainlp.tokenize<a class="headerlink" href="#pythainlp-tokenize" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="pythainlp-collation">
+<h1>pythainlp.collation<a class="headerlink" href="#pythainlp-collation" title="Permalink to this headline">¶</a></h1>
 <p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pythainlp.collation</span></code> contains a function that sorts Thai text alphabetically</p>
 <dl class="function">
 <dt id="pythainlp.collation.collation">
@@ -172,6 +179,15 @@
 </tr>
 </tbody>
 </table>
+<dl class="docutils">
+<dt><strong>Example</strong>::</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pythainlp.collation</span> <span class="k">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">collation</span><span class="p">([</span><span class="s1">&#39;ไก่&#39;</span><span class="p">,</span> <span class="s1">&#39;เป็ด&#39;</span><span class="p">,</span> <span class="s1">&#39;หมู&#39;</span><span class="p">,</span> <span class="s1">&#39;วัว&#39;</span><span class="p">])</span>
+<span class="go">[&#39;ไก่&#39;, &#39;เป็ด&#39;, &#39;วัว&#39;, &#39;หมู&#39;]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -184,10 +200,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="number.html" class="btn btn-neutral float-right" title="pythainlp.number" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="date.html" class="btn btn-neutral float-right" title="pythainlp.date" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../notes/installation.html" class="btn btn-neutral" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="change.html" class="btn btn-neutral" title="pythainlp.change" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -196,7 +212,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018-2018, PyThaiNLP (GPL license).
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0).
 
     </p>
   </div>
@@ -218,7 +234,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'20180622',
+            VERSION:'1.7',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

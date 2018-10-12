@@ -6,7 +6,7 @@ def spell(word,engine='pn'):
     :param str engine:
         * pn - Peter Norvig's algorithm
         * hunspell - uses hunspell's algorithm, which should already exist in linux
-    :return:
+    :return: list word
     """
     if engine=='pn':
         from .pn import spell as spell1

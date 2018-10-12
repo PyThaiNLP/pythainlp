@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""ตัวตัดคำภาษาไทยโดยใช้หลักการ maximal matching และ TCC
+"""ตัวตัดคำภาษาไทยโดยใช้หลักการ maximal matching และ Thai Character Cluster (TCC)
 พัฒนาโดยคุณ Korakot Chaovavanich
 Notebooks:
 https://colab.research.google.com/notebook#fileId=1V1Z657_5eSWPo8rLfVRwA0A5E4vkg7SI
@@ -14,6 +14,8 @@ from heapq import heappop, heappush  # for priority queue
 
 from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
+from .tcc import tcc_gen
+
 # ช่วยตัดพวกภาษาอังกฤษ เป็นต้น
 PAT_ENG = re.compile(
     r"""(?x)
@@ -24,60 +26,13 @@ PAT_ENG = re.compile(
 """
 )
 
-# TCC
-re_tcc = (
-    """\
-เc็c
-เcctาะ
-เccีtยะ
-เccีtย(?=[เ-ไก-ฮ]|$)
-เcc็c
-เcิc์c
-เcิtc
-เcีtยะ?
-เcืtอะ?
-เc[ิีุู]tย(?=[เ-ไก-ฮ]|$)
-เctา?ะ?
-cัtวะ
-c[ัื]tc[ุิะ]?
-c[ิุู]์
-c[ะ-ู]t
-c็
-ct[ะาำ]?
-แc็c
-แcc์
-แctะ
-แcc็c
-แccc์
-โctะ
-[เ-ไ]ct
-""".replace(
-        "c", "[ก-ฮ]"
-    )
-    .replace("t", "[่-๋]?")
-    .split()
-)
-
-PAT_TCC = re.compile("|".join(re_tcc))
 PAT_TWOCHARS = re.compile("[ก-ฮ]{,2}$")
-
-
-def tcc(w):
-    p = 0
-    while p < len(w):
-        m = PAT_TCC.match(w[p:])
-        if m:
-            n = m.span()[1]
-        else:
-            n = 1
-        yield w[p : p + n]
-        p += n
 
 
 def tcc_pos(text):
     p_set = set()
     p = 0
-    for w in tcc(text):
+    for w in tcc_gen(text):
         p += len(w)
         p_set.add(p)
     return p_set

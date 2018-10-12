@@ -1,14 +1,21 @@
 ﻿# -*- coding: utf-8 -*-
-from __future__ import absolute_import,division,unicode_literals,print_function
-"""
-โปรแกรม TCC ภาษาไทย
-เดติด
-TCC : Mr.Jakkrit TeCho
-grammar : คุณ Wittawat Jitkrittum (https://github.com/wittawatj/jtcc/blob/master/TCC.g)
-โค้ด : คุณ Korakot Chaovavanich
-"""
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import re
-pat_list = """\
+
+"""
+Separate Thai text into Thai Character Cluster (TCC).
+Based on "Character cluster based Thai information retrieval" (Theeramunkong et al. 2002)
+http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548
+
+Credits:
+- TCC: Jakkrit TeCho
+- Grammar: Wittawat Jitkrittum https://github.com/wittawatj/jtcc/blob/master/TCC.g
+- Python code: Korakot Chaovavanich
+"""
+
+RE_TCC = (
+    """\
 เc็c
 เcctาะ
 เccีtยะ
@@ -33,25 +40,34 @@ ct[ะาำ]?
 แccc์
 โctะ
 [เ-ไ]ct
-ๆ
-ฯลฯ
-ฯ
-""".replace('c','[ก-ฮ]').replace('t', '[่-๋]?').split()
-def tcc1(w):
+""".replace(
+        "c", "[ก-ฮ]"
+    )
+    .replace("t", "[่-๋]?")
+    .split()
+)
+
+PAT_TCC = re.compile("|".join(RE_TCC))
+
+
+def tcc_gen(w):
     p = 0
-    pat = re.compile("|".join(pat_list))
-    while p<len(w):
-        m = pat.match(w[p:])
+    while p < len(w):
+        m = PAT_TCC.match(w[p:])
         if m:
             n = m.span()[1]
         else:
             n = 1
-        yield w[p:p+n]
+        yield w[p : p + n]
         p += n
-def tcc(w, sep='/'):
-    return sep.join(tcc1(w))
-if __name__ == '__main__':
-    print(tcc('แมวกิน'))
-    print(tcc('ประชาชน'))
-    print(tcc('ขุดหลุม'))
-    print(tcc('ยินดี'))
+
+
+def tcc(w, sep="/"):
+    return sep.join(tcc_gen(w))
+
+
+if __name__ == "__main__":
+    print(tcc("แมวกิน"))
+    print(tcc("ประชาชน"))
+    print(tcc("ขุดหลุม"))
+    print(tcc("ยินดี"))

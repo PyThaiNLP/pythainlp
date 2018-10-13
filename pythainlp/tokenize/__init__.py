@@ -55,9 +55,11 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
     elif engine == "wordcutpy":
         from .wordcutpy import segment
     else:
-        raise Exception("error no have engine.")
+        raise Exception("Error: Unknown engine: {}".format(engine))
+
     if not whitespaces:
         return [i.strip(" ") for i in segment(text) if i.strip(" ")]
+
     return segment(text)
 
 
@@ -88,7 +90,7 @@ def dict_word_tokenize(text, custom_dict_trie, engine="newmm"):
 
         return segment(text, custom_dict_trie.keys())
     else:
-        raise Exception("Error: Does not have engine '{}'.".format(engine))
+        raise Exception("Error: Unknown engine: {}".format(engine))
 
     return segment(text, custom_dict_trie)
 

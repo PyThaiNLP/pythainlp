@@ -62,6 +62,15 @@ def tcc_gen(w):
         p += n
 
 
+def tcc_pos(text):
+    p_set = set()
+    p = 0
+    for w in tcc_gen(text):
+        p += len(w)
+        p_set.add(p)
+    return p_set
+
+
 def tcc(w, sep="/"):
     return sep.join(tcc_gen(w))
 

@@ -14,7 +14,7 @@ from heapq import heappop, heappush  # for priority queue
 
 from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
-from .tcc import tcc_gen
+from .tcc import tcc_pos
 
 # ช่วยตัดพวกภาษาอังกฤษ เป็นต้น
 PAT_ENG = re.compile(
@@ -27,15 +27,6 @@ PAT_ENG = re.compile(
 )
 
 PAT_TWOCHARS = re.compile("[ก-ฮ]{,2}$")
-
-
-def tcc_pos(text):
-    p_set = set()
-    p = 0
-    for w in tcc_gen(text):
-        p += len(w)
-        p_set.add(p)
-    return p_set
 
 
 def bfs_paths_graph(graph, start, goal):

@@ -78,7 +78,6 @@ def dict_word_tokenize(text, custom_dict_trie, engine="newmm"):
         >>> dict_word_tokenize("แมวดีดีแมว",data_dict)
         ['แมว', 'ดี', 'ดี', 'แมว']
     """
-    engine = engine.strip().lower()
     if engine == "newmm" or engine == "onecut":
         from .newmm import mmcut as segment
     elif engine == "mm" or engine == "multi_cut":
@@ -104,7 +103,6 @@ def sent_tokenize(text, engine="whitespace+newline"):
 
     :return: a list of text, split by whitespace or new line.
     """
-    engine = engine.strip().lower()
     if engine == "whitespace":
         sentences = nltk.tokenize.WhitespaceTokenizer().tokenize(text)
     else:

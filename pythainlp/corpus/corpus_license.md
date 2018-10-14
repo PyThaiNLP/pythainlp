@@ -1,6 +1,6 @@
 # Corpus License
 
-tha-wn.db
+## tha-wn.db
 
 ```
 Copyright: 2011 NICT
@@ -40,9 +40,11 @@ times remain with National Institute of Information and Communications
 Technology and LICENSEE agrees to preserve same.
 ```
 
-thaiword.txt , new-thaidict.txt ,  stopwords-th.txt , stopwords-th1.txt , stopwords-th2.txt , stopwords-th3.txt , stopwords-th4.txt , stopwords-th-old.txt and คำมูล-คำอ่าน.db using Creative Commons Attribution-ShareAlike 4.0 International Public License
+## Dictionaries and Word Lists
 
-## creative commons
+thaiword.txt, new-thaidict.txt, stopwords-th.txt, stopwords-th1.txt, stopwords-th2.txt, stopwords-th3.txt, stopwords-th4.txt, stopwords-th-old.txt, and คำมูล-คำอ่าน.db use Creative Commons Attribution-ShareAlike 4.0 International Public License
+
+## Creative Commons
 
 # Attribution-ShareAlike 4.0 International
 

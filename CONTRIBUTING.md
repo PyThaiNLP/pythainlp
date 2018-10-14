@@ -4,21 +4,18 @@ Hi! Thanks for your interest in contributing to [PyThaiNLP](https://github.com/P
 In this document we'll try to summarize everything that you need to know to
 do a good job.
 
-## Git
+## Contributing to Code and Documentation
 
 ### Git
 
-We use [Git](http://git-scm.com/) as our [version control
-system](http://en.wikipedia.org/wiki/Revision_control), so the best way to
-contribute is to learn how to use it and put your changes on a Git repository.
+We use [Git](http://git-scm.com/) as our [version control system](http://en.wikipedia.org/wiki/Revision_control),
+so the best way to contribute is to learn how to use it and put your changes on a Git repository.
 There's a plenty of documentation about Git -- you can start with the [Pro Git
 book](http://git-scm.com/book/).
 
-### Forks + GitHub Pull requests
+### Forks + GitHub Pull Requests
 
-We use the famous
-[gitflow](http://nvie.com/posts/a-successful-git-branching-model/) to manage our
-branches.
+We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-model/) to manage our branches.
 
 ## Code Guidelines
 
@@ -35,11 +32,40 @@ branches.
   [GitHub issue system](tps://github.com/wannaphongcom/pythainlp/));
 - Run all tests before pushing (just execute `tox`) so you will know if your
   changes broke something;
-- Try to write both Python 2 and Python3-friendly code so won't be a pain for
-  us to support both versions.
+
 
 # Discussion
 
-https://www.facebook.com/groups/thainlp and https://github.com/wannaphongcom/pythainlp/issues
+- Facebook group: https://www.facebook.com/groups/thainlp 
+- GitHub issues: https://github.com/wannaphongcom/pythainlp/issues
 
 Happy hacking! (;
+
+
+# Credits
+
+## Development Lead
+- Wannaphong Phatthiyaphaibun <wannaphong@kkumail.com>
+- Korakot Chaovavanich
+- Charin Polpanumas
+- Peeradej Tanruangporn
+
+## newmm (onecut), mm, TCC, and Thai Soundex Code
+- Korakot Chaovavanich
+
+## Thai2Vec & ulmfit
+- Charin Polpanumas
+
+## Docs
+- Peeradej Tanruangporn
+
+## Contributors
+- See more contributions here https://github.com/wannaphongcom/pythainlp/graphs/contributors
+
+
+# References
+
+- **[Maximum Matching]** -- Manabu Sassano. Deterministic Word Segmentation Using Maximum Matching with Fully Lexicalized Rules. Retrieved from http://www.aclweb.org/anthology/E14-4016
+- **[MetaSound]** -- Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statistical Ontology for Analysing Names Given in Accordance with Thai Astrology. Retrieved from https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf
+- **[Thai Character Cluster]** -- T. Teeramunkong, V. Sornlertlamvanich, T. Tanhermhong and W. Chinnan, “Character cluster based Thai information retrieval,” in IRAL '00 Proceedings of the fifth international workshop on on Information retrieval with Asian languages, 2000. 
+- เพ็ญศิริ ลี้ตระกูล. การเลือกประโยคสำคัญในการสรุปความภาษาไทย โดยใช้แบบจำลองแบบลำดับชั้น (Selection of Important Sentences in Thai Text Summarization Using a Hierarchical Model). Retrieved from http://digi.library.tu.ac.th/thesis/st/0192/

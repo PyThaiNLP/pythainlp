@@ -10,6 +10,10 @@ from pythainlp.tools import get_path_data, get_path_db
 from tinydb import Query, TinyDB
 from tqdm import tqdm
 
+CORPUS_DB_URL = (
+    "https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/master/db.json"
+)
+
 # __all__ = ["thaipos", "thaiword","alphabet","tone","country","wordnet"]
 path_db_ = get_path_db()
 
@@ -58,9 +62,7 @@ def download_(url, dst):
 def download(name, force=False):
     db = TinyDB(path_db_)
     temp = Query()
-    data = requests.get(
-        "https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/master/db.json"
-    )
+    data = requests.get(CORPUS_DB_URL)
     data_json = data.json()
     if name in list(data_json.keys()):
         temp_name = data_json[name]

@@ -16,31 +16,31 @@ class FrequencySummarizer:
         self.__max_cut = max_cut
         self.__stopwords = set(stopwords.words("thai") + list(punctuation))
 
-    def __compute_frequencies(self, word_sent):
-        freq = defaultdict(int)
-        for s in word_sent:
-            for word in s:
+    def __compute_frequencies(self, word_tokenized_sents):
+        word_freqs = defaultdict(int)
+        for sent in word_tokenized_sents:
+            for word in sent:
                 if word not in self.__stopwords:
-                    freq[word] += 1
+                    word_freqs[word] += 1
 
-        m = float(max(freq.values()))
-        for w in list(freq):
-            freq[w] = freq[w] / m
-            if freq[w] >= self.__max_cut or freq[w] <= self.__min_cut:
-                del freq[w]
+        max_freq = float(max(word_freqs.values()))
+        for w in list(word_freqs):
+            word_freqs[w] = word_freqs[w] / max_freq
+            if word_freqs[w] >= self.__max_cut or word_freqs[w] <= self.__min_cut:
+                del word_freqs[w]
 
-        return freq
+        return word_freqs
 
     def __rank(self, ranking, n):
         return nlargest(n, ranking, key=ranking.get)
 
     def summarize(self, text, n, tokenizer):
         sents = sent_tokenize(text)
-        word_sent = [word_tokenize(s, tokenizer) for s in sents]
-        self.__freq = self.__compute_frequencies(word_sent)
+        word_tokenized_sents = [word_tokenize(sent, tokenizer) for sent in sents]
+        self.__freq = self.__compute_frequencies(word_tokenized_sents)
         ranking = defaultdict(int)
 
-        for i, sent in enumerate(word_sent):
+        for i, sent in enumerate(word_tokenized_sents):
             for w in sent:
                 if w in self.__freq:
                     ranking[i] += self.__freq[w]

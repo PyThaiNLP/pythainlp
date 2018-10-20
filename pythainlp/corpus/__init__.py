@@ -67,7 +67,8 @@ def download(name, force=False):
     if name in list(data_json.keys()):
         temp_name = data_json[name]
         print("Download : " + name)
-        if len(db.search(temp.name == name)) == 0:
+
+        if not db.search(temp.name == name):
             print(name + " " + temp_name["version"])
             download_(temp_name["download"], temp_name["file_name"])
             db.insert(
@@ -78,13 +79,8 @@ def download(name, force=False):
                 }
             )
         else:
-            if (
-                len(
-                    db.search(
-                        temp.name == name and temp.version == temp_name["version"]
-                    )
-                )
-                == 0
+            if not db.search(
+                temp.name == name and temp.version == temp_name["version"]
             ):
                 print("have update")
                 print(

@@ -22,7 +22,7 @@ from pythainlp.MetaSound import MetaSound
 from pythainlp.ner import thainer
 from pythainlp.number import numtowords
 from pythainlp.rank import rank
-from pythainlp.romanization import romanization
+from pythainlp.romanization import romanize
 from pythainlp.soundex import LK82, Udom83
 from pythainlp.spell import spell
 from pythainlp.summarize import summarize_text
@@ -139,16 +139,16 @@ class TestUM(unittest.TestCase):
         self.assertEqual(texttoeng('สวัสดีครับ'), 'l;ylfu8iy[')
 
     def test_romanization(self):
-        self.assertEqual(romanization('แมว'), 'maeo')
-        self.assertEqual(romanization('แมว', 'pyicu'), 'mæw')
+        self.assertEqual(romanize('แมว'), 'maeo')
+        self.assertEqual(romanize('แมว', 'pyicu'), 'mæw')
 
     def test_romanization_royin(self):
         engine = 'royin'
-        self.assertEqual(romanization('แมว', engine=engine), 'maeo')
-        self.assertEqual(romanization('เดือน', engine=engine), 'duean')
-        self.assertEqual(romanization('ดู', engine=engine), 'du')
-        self.assertEqual(romanization('ดำ', engine=engine), 'dam')
-        self.assertEqual(romanization('บัว', engine=engine), 'bua')
+        self.assertEqual(romanize('แมว', engine=engine), 'maeo')
+        self.assertEqual(romanize('เดือน', engine=engine), 'duean')
+        self.assertEqual(romanize('ดู', engine=engine), 'du')
+        self.assertEqual(romanize('ดำ', engine=engine), 'dam')
+        self.assertEqual(romanize('บัว', engine=engine), 'bua')
 
     def test_number(self):
         self.assertEqual(

@@ -28,7 +28,7 @@ except ImportError:
         from fastai.text import *
         import dill as pickle
     except ImportError:
-        print("Error installing using 'pip install fastai numpy dill'")
+        print("Error: Try 'pip install fastai numpy dill'")
         sys.exit(0)
 
 # import torch
@@ -281,6 +281,6 @@ def about():
     State-of-the-Art Language Modeling, Text Feature Extraction and Text Classification in Thai Language.
     Created as part of PyThaiNLP with ULMFit implementation from fast.ai
 
-    Development : Charin Polpanumas
-    GitHub : https://github.com/cstorm125/thai2vec
+    Development: Charin Polpanumas
+    GitHub: https://github.com/cstorm125/thai2vec
     """

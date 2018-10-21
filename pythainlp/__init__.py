@@ -3,7 +3,7 @@ from __future__ import absolute_import
 __version__ = 1.7
 from pythainlp.sentiment import sentiment
 from pythainlp.spell import spell
-from pythainlp.romanization import romanization
+from pythainlp.romanization import romanize
 from pythainlp.tokenize import word_tokenize,sent_tokenize,tcc,etcc
 from pythainlp.rank import rank
 from pythainlp.change import texttothai,texttoeng

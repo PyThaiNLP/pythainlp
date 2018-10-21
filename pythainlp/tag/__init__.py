@@ -1,13 +1,21 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import,division,print_function,unicode_literals
+"""
+Part-Of-Speech Tagging
+"""
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import sys
-def pos_tag(list_text,engine='unigram',corpus='orchid'):
+
+ARTAGGER_URL = "https://github.com/wannaphongcom/artagger/archive/master.zip"
+
+
+def pos_tag(words, engine="unigram", corpus="orchid"):
     """
     Part of Speech tagging function.
 
-    :param list list_text: takes in a list of tokenized words (put differently, a list of string)
+    :param list words: takes in a list of tokenized words (put differently, a list of strings)
     :param str engine:
-        * unigram - unigram tagger
+        * unigram - unigram tagger (default)
         * perceptron - perceptron tagger
         * artagger - RDR POS tagger
     :param str corpus:
@@ -15,29 +23,32 @@ def pos_tag(list_text,engine='unigram',corpus='orchid'):
         * pud - Parallel Universal Dependencies (PUD) treebanks
     :return: returns a list of labels regarding which part of speech it is
     """
-    if engine=='old' or engine=='unigram':
-        from .old import tag
-    elif engine=='perceptron':
-        from .perceptron import tag
-    elif engine=='artagger':
-        def tag(text1):
+    if engine == "perceptron":
+        from .perceptron import tag as _tag
+    elif engine == "artagger":
+
+        def _tag(text, corpus=None):
             try:
                 from artagger import Tagger
             except ImportError:
                 from pythainlp.tools import install_package
-                install_package('https://github.com/wannaphongcom/artagger/archive/master.zip')
+
+                install_package(ARTAGGER_URL)
                 try:
                     from artagger import Tagger
                 except ImportError:
-                    print("Error ! using 'pip install https://github.com/wannaphongcom/artagger/archive/master.zip'")
+                    print("Error: Try 'pip install " + ARTAGGER_URL + "'")
                     sys.exit(0)
-            words = Tagger().tag(' '.join(text1))
-            totag=[]
-            for word in words:
-                totag.append((word.word, word.tag))
-            return totag
-        return tag(list_text)
-    return tag(list_text,corpus=corpus)
 
-def pos_tag_sents(sentences,engine='unigram',corpus='orchid'):
-    return [pos_tag(i,engine=engine,corpus=corpus) for i in sentences]
+            words = Tagger().tag(" ".join(text))
+
+            return [(word.word, word.tag) for word in words]
+
+    else:  # default, use "unigram" ("old") engine
+        from .old import tag as _tag
+
+    return _tag(words, corpus=corpus)
+
+
+def pos_tag_sents(sentences, engine="unigram", corpus="orchid"):
+    return [pos_tag(sent, engine=engine, corpus=corpus) for sent in sentences]

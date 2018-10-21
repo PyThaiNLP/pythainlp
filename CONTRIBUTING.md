@@ -29,7 +29,7 @@ We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-mod
   formatting](http://docs.python.org/library/string.html#format-string-syntax)
   (`'{} = {}'.format(a, b)` instead of `'%s = %s' % (a, b)`);
 - All `#TODO` comments should be turned into issues (use our
-  [GitHub issue system](tps://github.com/wannaphongcom/pythainlp/));
+  [GitHub issue system](https://github.com/PyThaiNLP/pythainlp/));
 - Run all tests before pushing (just execute `tox`) so you will know if your
   changes broke something;
 
@@ -37,7 +37,7 @@ We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-mod
 # Discussion
 
 - Facebook group: https://www.facebook.com/groups/thainlp 
-- GitHub issues: https://github.com/wannaphongcom/pythainlp/issues
+- GitHub issues: https://github.com/PyThaiNLP/pythainlp/issues
 
 Happy hacking! (;
 
@@ -60,7 +60,7 @@ Happy hacking! (;
 - Peeradej Tanruangporn
 
 ## Contributors
-- See more contributions here https://github.com/wannaphongcom/pythainlp/graphs/contributors
+- See more contributions here https://github.com/PyThaiNLP/pythainlp/graphs/contributors
 
 
 # References

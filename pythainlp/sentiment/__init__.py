@@ -14,7 +14,7 @@ templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), "sentiment")
 def sentiment(text, engine="old"):
     """
     :param str text: thai text
-    :param str engine: sentiment analysis engine (old or ulmfit)
+    :param str engine: sentiment analysis engine ("old" [default] or "ulmfit")
     :return: pos or neg
 
     **Example**::

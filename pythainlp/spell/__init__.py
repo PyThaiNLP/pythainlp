@@ -9,7 +9,7 @@ def spell(word, engine="pn"):
     """
     :param str word: word to check spelling
     :param str engine:
-        * pn - Peter Norvig's algorithm
+        * pn - Peter Norvig's algorithm (default)
         * hunspell - uses hunspell's algorithm, which should already exist in Linux
     :return: list of words
     """

@@ -35,8 +35,8 @@ def spell(word, lang="th_TH"):
     except subprocess.CalledProcessError:
         print("Error: Please install hunspell.")
         return None
-    except BaseException:
-        print("Errr: Other error.")
+    except BaseException as exception:
+        print("Errr: Other error: {}".format(exception))
         return None
 
 

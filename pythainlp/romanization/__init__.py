@@ -8,7 +8,7 @@ from pythainlp.tokenize import word_tokenize
 def romanize(text, engine="royin"):
     """
     :param str data: Thai text to be romanized
-    :param str engine: choose between 'royin' , 'pyicu' and 'thai2rom'. 'royin' will romanize according to the standard of Thai Royal Institute. 'pyicu' will romanize according to the Internaitonal Phonetic Alphabet. 'thai2rom' is deep learning thai romanization.
+    :param str engine: choose between 'royin' (default), 'pyicu', and 'thai2rom'. 'royin' will romanize according to the standard of Thai Royal Institute. 'pyicu' will romanize according to the Internaitonal Phonetic Alphabet. 'thai2rom' is deep learning Thai romanization.
     :return: English (more or less) text that spells out how the Thai text should read.
     """
     if engine == "pyicu":

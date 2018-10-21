@@ -9,11 +9,11 @@ import sys
 ARTAGGER_URL = "https://github.com/wannaphongcom/artagger/archive/master.zip"
 
 
-def pos_tag(texts, engine="unigram", corpus="orchid"):
+def pos_tag(words, engine="unigram", corpus="orchid"):
     """
     Part of Speech tagging function.
 
-    :param list texts: takes in a list of tokenized words (put differently, a list of strings)
+    :param list words: takes in a list of tokenized words (put differently, a list of strings)
     :param str engine:
         * unigram - unigram tagger (default)
         * perceptron - perceptron tagger
@@ -24,10 +24,10 @@ def pos_tag(texts, engine="unigram", corpus="orchid"):
     :return: returns a list of labels regarding which part of speech it is
     """
     if engine == "perceptron":
-        from .perceptron import tag
+        from .perceptron import tag as _tag
     elif engine == "artagger":
 
-        def tag(text):
+        def _tag(text, corpus=None):
             try:
                 from artagger import Tagger
             except ImportError:
@@ -39,18 +39,16 @@ def pos_tag(texts, engine="unigram", corpus="orchid"):
                 except ImportError:
                     print("Error: Try 'pip install " + ARTAGGER_URL + "'")
                     sys.exit(0)
+
             words = Tagger().tag(" ".join(text))
-            totag = []
-            for word in words:
-                totag.append((word.word, word.tag))
-            return totag
 
-        return tag(texts)
+            return [(word.word, word.tag) for word in words]
+
     else:  # default, use "unigram" ("old") engine
-        from .old import tag
+        from .old import tag as _tag
 
-    return tag(texts, corpus=corpus)
+    return _tag(words, corpus=corpus)
 
 
 def pos_tag_sents(sentences, engine="unigram", corpus="orchid"):
-    return [pos_tag(i, engine=engine, corpus=corpus) for i in sentences]
+    return [pos_tag(sent, engine=engine, corpus=corpus) for sent in sentences]

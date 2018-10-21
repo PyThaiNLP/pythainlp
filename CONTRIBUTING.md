@@ -49,6 +49,7 @@ Happy hacking! (;
 - Korakot Chaovavanich
 - Charin Polpanumas
 - Peeradej Tanruangporn
+- Arthit Suriyawongkul
 
 ## newmm (onecut), mm, TCC, and Thai Soundex Code
 - Korakot Chaovavanich

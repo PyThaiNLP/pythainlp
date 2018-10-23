@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-deepcut wrapper
+Wrapper for deepcut Thai word segmentation
 """
 import sys
 
@@ -14,7 +14,7 @@ except ImportError:
     try:
         import deepcut
     except ImportError:
-        sys.exit("Error: Try 'pip install deepcut'")
+        raise Exception("ImportError: Try 'pip install deepcut'")
 
 
 def segment(text):

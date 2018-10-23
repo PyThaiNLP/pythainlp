@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-WordCut - Thai word segmentation
+Wrapper for WordCut Thai word segmentation
 """
 import sys
 
@@ -16,9 +16,9 @@ except ImportError:
     try:
         from wordcut import Wordcut
     except ImportError:
-        sys.exit("Error: Try 'pip install wordcutpy'")
+		    raise Exception("ImportError: Try 'pip install wordcutpy'")
 
-
+ 
 def segment(text, word_list=None):
     if not word_list:
         wordcut = Wordcut.bigthai()

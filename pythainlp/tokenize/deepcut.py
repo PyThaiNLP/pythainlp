@@ -14,7 +14,7 @@ except ImportError:
     try:
         import deepcut
     except ImportError:
-        raise Exception("ImportError: Try 'pip install deepcut'")
+        raise ImportError("ImportError: Try 'pip install deepcut'")
 
 
 def segment(text):

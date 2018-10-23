@@ -15,7 +15,7 @@ except ImportError:
     try:
         from pylexto import LexTo
     except ImportError:
-        sys.exit("Error: Try pip install '" + _LEXTO_URL + "'")
+        raise ImportError("ImportError: Try pip install '" + _LEXTO_URL + "'")
 
 _LEXTO = LexTo()
 

@@ -21,8 +21,7 @@ except ImportError:
         from gensim.models import KeyedVectors
         import numpy as np
     except ImportError:
-        print("Error: Try 'pip install gensim numpy'")
-        sys.exit(0)
+        raise ImportError("ImportError: Try 'pip install gensim numpy'")
 
 
 def download():

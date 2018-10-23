@@ -12,7 +12,11 @@ except ImportError:
     from pythainlp.tools import install_package
 
     install_package("sklearn-crfsuite")
-    import sklearn_crfsuite
+    try:
+        import sklearn_crfsuite
+    except ImportError:
+        raise ImportError("ImportError: Try 'pip install sklearn-crfsuite'")
+
 
 _WORD_TOKENIZER = "newmm"  # ตัวตัดคำ
 _STOPWORDS = stopwords.words("thai")

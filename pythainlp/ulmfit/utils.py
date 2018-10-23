@@ -25,8 +25,7 @@ except ImportError:
         from fastai.text import *
         import dill as pickle
     except ImportError:
-        print("Error: Try 'pip install fastai numpy dill'")
-        sys.exit(0)
+        raise ImportError("ImportError: Try 'pip install fastai numpy dill'")
 
 # import torch
 try:

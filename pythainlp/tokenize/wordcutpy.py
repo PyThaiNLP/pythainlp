@@ -16,9 +16,9 @@ except ImportError:
     try:
         from wordcut import Wordcut
     except ImportError:
-		    raise Exception("ImportError: Try 'pip install wordcutpy'")
+        raise ImportError("ImportError: Try 'pip install wordcutpy'")
 
- 
+
 def segment(text, word_list=None):
     if not word_list:
         wordcut = Wordcut.bigthai()

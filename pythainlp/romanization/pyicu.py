@@ -11,7 +11,7 @@ except ImportError:
     try:
         import icu
     except ImportError:
-        sys.exit("Error: please pip install pyicu")
+        raise ImportError("ImportError: Try 'pip install pyicu'")
 
 
 # ถอดเสียงภาษาไทยเป็นอักษรละติน

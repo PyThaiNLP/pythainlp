@@ -14,7 +14,7 @@ except ImportError:
     try:
         import icu
     except ImportError:
-        sys.exit("Error: Try 'pip install pyicu'")
+        raise ImportError("ImportError: Try 'pip install pyicu'")
 
 
 def _gen_words(text):

@@ -17,7 +17,7 @@ from pythainlp.corpus import (
 )
 from pythainlp.date import now, reign_year_to_ad
 from pythainlp.keywords import find_keyword
-from pythainlp.metasound import metasound
+from pythainlp.MetaSound import MetaSound
 from pythainlp.ner import ThaiNameRecognizer
 from pythainlp.number import numtowords
 from pythainlp.rank import rank
@@ -172,7 +172,7 @@ class TestUM(unittest.TestCase):
         self.assertEqual(Udom83('รถ'), 'ร800000')
 
     def test_ms(self):
-        self.assertEqual(metasound('คน'), '15')
+        self.assertEqual(MetaSound('คน'), '15')
 
     def test_wordnet(self):
         self.assertEqual(

@@ -81,7 +81,7 @@ def dict_word_tokenize(text, custom_dict_trie, engine="newmm"):
         ['แมว', 'ดี', 'ดี', 'แมว']
     """
     if engine == "newmm" or engine == "onecut":
-        from .pyicu import segment
+        from .newmm import mmcut as segment
     elif engine == "longest" or engine == "longest-matching":
         from .longest import segment
     elif engine == "wordcutpy":

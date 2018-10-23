@@ -11,6 +11,7 @@ from pythainlp.corpus.thaiword import get_data as word_dict
 from marisa_trie import Trie
 
 DEFAULT_DICT_TRIE = Trie(word_dict())
+FROZEN_DICT_TRIE = Trie(word_dict(dict_fname="thaiword_frozen_201810.txt"))
 
 
 def word_tokenize(text, engine="newmm", whitespaces=True):
@@ -29,20 +30,19 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
     :return: A list of words, tokenized from a text
 
     **Example**::
-
-        from pythainlp.tokenize import word_tokenize
-        text='ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด'
-        a=word_tokenize(text,engine='icu') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอ', 'เค', 'บ่', 'พวก', 'เรา', 'เป็น', 'คน', 'ไทย', 'รัก', 'ภาษา', 'ไทย', 'ภาษา', 'บ้าน', 'เกิด']
-        b=word_tokenize(text,engine='dict') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
-        c=word_tokenize(text,engine='mm') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
-        d=word_tokenize(text,engine='pylexto') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
-        e=word_tokenize(text,engine='newmm') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
-        g=word_tokenize(text,engine='wordcutpy') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คน', 'ไทย', 'รัก', 'ภาษา', 'ไทย', 'ภาษา', 'บ้านเกิด']
+    from pythainlp.tokenize import word_tokenize
+    text = "โอเคบ่พวกเรารักภาษาบ้านเกิด"
+    word_tokenize(text, engine="newmm")  # ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
+    word_tokenize(text, engine="icu")  # ['โอ', 'เค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้าน', 'เกิด']
     """
     if engine == "icu":
         from .pyicu import segment
     elif engine == "multi_cut" or engine == "mm":
         from .multi_cut import segment
+    elif engine == "ulmfit":
+        from .newmm import mmcut
+        def segment(text):
+            return mmcut(text, trie=FROZEN_DICT_TRIE)
     elif engine == "longest-matching":
         from .longest import segment
     elif engine == "pylexto":
@@ -55,7 +55,7 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
         from .newmm import mmcut as segment
 
     if not whitespaces:
-        return [i.strip(" ") for i in segment(text) if i.strip(" ")]
+        return [token.strip(" ") for token in segment(text) if token.strip(" ")]
 
     return segment(text)
 

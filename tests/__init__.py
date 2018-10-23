@@ -124,9 +124,6 @@ class TestUM(unittest.TestCase):
     def test_isthai(self):
         self.assertEqual(isthai("ประเทศไทย"), {"thai": 100.0})
 
-    # def test_WhitespaceTokenizer(self):
-    #     self.assertEqual(WhitespaceTokenizer("1 2 3"),['1', '2', '3'])
-
     def test_etcc(self):
         self.assertEqual(etcc.etcc("คืนความสุข"), "/คืน/ความสุข")
 
@@ -136,6 +133,14 @@ class TestUM(unittest.TestCase):
 
     def test_ms(self):
         self.assertEqual(MetaSound("คน"), "15")
+        self.assertEqual(MetaSound("คนA"), "150")
+        self.assertEqual(MetaSound("ดา"), "20")
+        self.assertEqual(MetaSound("ปา"), "30")
+        self.assertEqual(MetaSound("งา"), "40")
+        self.assertEqual(MetaSound("ลา"), "50")
+        self.assertEqual(MetaSound("มา"), "60")
+        self.assertEqual(MetaSound("วา"), "80")
+        self.assertEqual(MetaSound("ลัก"), MetaSound("รัก"))
 
     def test_wordnet(self):
         self.assertEqual(

@@ -10,6 +10,6 @@ TEMPLATE_FILE = os.path.join(TEMPLATES_DIR, "thaipos.json")
 
 
 def get_data():
-    with open(TEMPLATE_FILE, encoding="utf8") as f:
+    with open(TEMPLATE_FILE, encoding="utf-8-sig") as f:
         model = json.load(f)
     return model

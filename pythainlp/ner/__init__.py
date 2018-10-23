@@ -88,7 +88,7 @@ class ThaiNameRecognizer:
         Thai named-entity recognizer
         """
         self.__data_path = get_file("thainer")
-        if self.__data_path == None:
+        if not self.__data_path:
             download("thainer")
             self.__data_path = get_file("thainer")
         self.crf = sklearn_crfsuite.CRF(
@@ -107,15 +107,23 @@ class ThaiNameRecognizer:
         :param string text: Thai text
         :param boolean pos: get Part-Of-Speech tag (True) or get not (False)
 
-        :return: list of names
+        :return: list of strings with name labels (and part-of-speech tags)
 
         **Example**::
             >>> from pythainlp.ner import ThaiNameRecognizer
             >>> ner=ThaiNameRecognizer()
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
-            [('วันที่', 'JSBR', 'O'), (' ', 'NCMN', 'O'), ('15', 'NCNM', 'B-DATE'), (' ', 'NCMN', 'I-DATE'), ('ก.ย.', 'CMTR', 'I-DATE'), (' ', 'NCMN', 'I-DATE'), ('61', 'NCNM', 'I-DATE'), (' ', 'NCMN', 'O'), ('ทดสอบ', 'VACT', 'O'), ('ระบบ', 'NCMN', 'O'), ('เวลา', 'NCMN', 'O'), (' ', 'NCMN', 'O'), ('14', 'NCNM', 'B-TIME'), (':', 'PUNC', 'I-TIME'), ('49', 'NCNM', 'I-TIME'), (' ', 'NCMN', 'I-TIME'), ('น.', 'CMTR', 'I-TIME')]
+            [('วันที่', 'JSBR', 'O'), (' ', 'NCMN', 'O'), ('15', 'NCNM', 'B-DATE'),
+            (' ', 'NCMN', 'I-DATE'), ('ก.ย.', 'CMTR', 'I-DATE'), (' ', 'NCMN', 'I-DATE'),
+            ('61', 'NCNM', 'I-DATE'), (' ', 'NCMN', 'O'), ('ทดสอบ', 'VACT', 'O'),
+            ('ระบบ', 'NCMN', 'O'), ('เวลา', 'NCMN', 'O'), (' ', 'NCMN', 'O'),
+            ('14', 'NCNM', 'B-TIME'), (':', 'PUNC', 'I-TIME'), ('49', 'NCNM', 'I-TIME'),
+            (' ', 'NCMN', 'I-TIME'), ('น.', 'CMTR', 'I-TIME')]
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.",postag=False)
-            [('วันที่', 'O'), (' ', 'O'), ('15', 'B-DATE'), (' ', 'I-DATE'), ('ก.ย.', 'I-DATE'), (' ', 'I-DATE'), ('61', 'I-DATE'), (' ', 'O'), ('ทดสอบ', 'O'), ('ระบบ', 'O'), ('เวลา', 'O'), (' ', 'O'), ('14', 'B-TIME'), (':', 'I-TIME'), ('49', 'I-TIME'), (' ', 'I-TIME'), ('น.', 'I-TIME')]
+            [('วันที่', 'O'), (' ', 'O'), ('15', 'B-DATE'), (' ', 'I-DATE'),
+            ('ก.ย.', 'I-DATE'), (' ', 'I-DATE'), ('61', 'I-DATE'), (' ', 'O'),
+            ('ทดสอบ', 'O'), ('ระบบ', 'O'), ('เวลา', 'O'), (' ', 'O'), ('14', 'B-TIME'),
+            (':', 'I-TIME'), ('49', 'I-TIME'), (' ', 'I-TIME'), ('น.', 'I-TIME')]
         """
         self.__tokens = word_tokenize(text, engine=_WORD_TOKENIZER)
         self.__pos_tags = pos_tag(self.__tokens, engine="perceptron")

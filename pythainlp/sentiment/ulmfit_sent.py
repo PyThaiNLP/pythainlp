@@ -3,7 +3,6 @@
 Sentiment analyzer based on thai2vec ("ulmfit" engine)
 Code by https://github.com/cstorm125/thai2vec/tree/master/notebook
 """
-import sys
 from collections import defaultdict
 
 from pythainlp.corpus import download, get_file

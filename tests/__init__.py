@@ -78,7 +78,7 @@ class TestUM(unittest.TestCase):
 
     def test_segment_longest_matching(self):
         self.assertEqual(
-            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest-matching"),
+            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
 

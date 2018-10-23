@@ -2,7 +2,8 @@
 """
 Longest-matching Thai word segmentation
 
-Based on code from https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py
+Based on code from
+https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py
 """
 import re
 

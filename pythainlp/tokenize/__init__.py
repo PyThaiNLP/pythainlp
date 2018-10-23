@@ -16,42 +16,48 @@ FROZEN_DICT_TRIE = Trie(word_dict(dict_fname="thaiword_frozen_201810.txt"))
 
 def word_tokenize(text, engine="newmm", whitespaces=True):
     """
-    :param str text:  the text to be tokenized
-    :param str engine: the engine to tokenize text
-    :param bool whitespaces: True to output no whitespace, a common mark of sentence or end of phrase in Thai.
+    :param str text: text to be tokenized
+    :param str engine: tokenizer to be used
+    :param bool whitespaces: True to output no whitespace, a common mark of sentence or end of phrase in Thai
     :Parameters for engine:
-        * newmm - Maximum Matching algorithm + TCC
-        * icu -  IBM ICU
-        * longest-matching - Longest matching
-        * mm - Maximum Matching algorithm
-        * pylexto - LexTo
-        * deepcut - Deep Neural Network
-        * wordcutpy - wordcutpy (https://github.com/veer66/wordcutpy)
-    :return: A list of words, tokenized from a text
+        * newmm (default) - dictionary-based, Maximum Matching + TCC
+        * mm - dictionary-based, Maximum Matching
+        * longest - dictionary-based, Longest Matching
+        * icu - wrapper for ICU, dictionary-based
+        * pylexto - wrapper for PyLexTo, dictionary-based, Longest Matching
+        * wordcutpy - wrapper for wordcutpy, dictionary-based https://github.com/veer66/wordcutpy
+        * deepcut - wrapper for deepcut, language-model-based https://github.com/rkcosmos/deepcut
+    :return: list of words, tokenized from the text
 
     **Example**::
-    from pythainlp.tokenize import word_tokenize
-    text = "โอเคบ่พวกเรารักภาษาบ้านเกิด"
-    word_tokenize(text, engine="newmm")  # ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
-    word_tokenize(text, engine="icu")  # ['โอ', 'เค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้าน', 'เกิด']
+        >>> from pythainlp.tokenize import word_tokenize
+        >>> text = "โอเคบ่พวกเรารักภาษาบ้านเกิด"
+        >>> word_tokenize(text, engine="newmm")
+        ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
+        >>> word_tokenize(text, engine="icu")
+        ['โอ', 'เค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้าน', 'เกิด']
     """
-    if engine == "icu":
+    if engine == "newmm" or engine == "onecut":
         from .pyicu import segment
-    elif engine == "multi_cut" or engine == "mm":
-        from .multi_cut import segment
+    elif engine == "longest" or engine == "longest-matching":
+        from .longest import segment
     elif engine == "ulmfit":
         from .newmm import mmcut
+
         def segment(text):
             return mmcut(text, trie=FROZEN_DICT_TRIE)
-    elif engine == "longest-matching":
-        from .longest import segment
-    elif engine == "pylexto":
-        from .pylexto import segment
+
+    elif engine == "icu":
+        from .pyicu import segment
     elif engine == "deepcut":
         from .deepcut import segment
+    elif engine == "pylexto":
+        from .pylexto import segment
     elif engine == "wordcutpy":
         from .wordcutpy import segment
-    else:  # default, use "newmm" ("onecut") engine
+    elif engine == "mm" or engine == "multi_cut":
+        from .multi_cut import segment
+    else:  # default, use "newmm" engine
         from .newmm import mmcut as segment
 
     if not whitespaces:
@@ -66,24 +72,26 @@ def dict_word_tokenize(text, custom_dict_trie, engine="newmm"):
 
     :param str text: the text to be tokenized
     :param dict custom_dict_trie: คือ trie ที่สร้างจาก create_custom_dict_trie
-    :param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)
+    :param str engine: choose between different options of engine to token (newmm, wordcutpy, mm, longest)
     :return: A list of words, tokenized from a text.
     **Example**::
         >>> from pythainlp.tokenize import dict_word_tokenize,create_custom_dict_trie
-        >>> listword=['แมว',"ดี"]
-        >>> data_dict=create_custom_dict_trie(listword)
-        >>> dict_word_tokenize("แมวดีดีแมว",data_dict)
+        >>> listword = ["แมว", "ดี"]
+        >>> data_dict = create_custom_dict_trie(listword)
+        >>> dict_word_tokenize("แมวดีดีแมว", data_dict)
         ['แมว', 'ดี', 'ดี', 'แมว']
     """
-    if engine == "mm" or engine == "multi_cut":
-        from .multi_cut import segment
-    elif engine == "longest-matching":
+    if engine == "newmm" or engine == "onecut":
+        from .pyicu import segment
+    elif engine == "longest" or engine == "longest-matching":
         from .longest import segment
     elif engine == "wordcutpy":
         from .wordcutpy import segment
 
         return segment(text, custom_dict_trie.keys())
-    else:  # default, use "newmm" ("onecut") engine
+    elif engine == "mm" or engine == "multi_cut":
+        from .multi_cut import segment
+    else:  # default, use "newmm" engine
         from .newmm import mmcut as segment
 
     return segment(text, custom_dict_trie)

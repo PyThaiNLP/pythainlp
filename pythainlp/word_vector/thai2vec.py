@@ -3,8 +3,6 @@
 thai2vec - Thai word vector
 Code by https://github.com/cstorm125/thai2vec/blob/master/notebooks/examples.ipynb
 """
-import sys
-
 from pythainlp.corpus import download as download_data
 from pythainlp.corpus import get_file
 from pythainlp.tokenize import word_tokenize

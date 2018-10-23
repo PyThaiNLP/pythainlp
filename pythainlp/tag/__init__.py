@@ -2,9 +2,8 @@
 """
 Part-Of-Speech tagger
 """
-import sys
 
-ARTAGGER_URL = "https://github.com/wannaphongcom/artagger/archive/master.zip"
+_ARTAGGER_URL = "https://github.com/wannaphongcom/artagger/archive/master.zip"
 
 
 def pos_tag(words, engine="unigram", corpus="orchid"):
@@ -31,11 +30,11 @@ def pos_tag(words, engine="unigram", corpus="orchid"):
             except ImportError:
                 from pythainlp.tools import install_package
 
-                install_package(ARTAGGER_URL)
+                install_package(_ARTAGGER_URL)
                 try:
                     from artagger import Tagger
                 except ImportError:
-                    raise ImportError("Error: Try 'pip install " + ARTAGGER_URL + "'")
+                    raise ImportError("Error: Try 'pip install " + _ARTAGGER_URL + "'")
 
             words = Tagger().tag(" ".join(text))
 

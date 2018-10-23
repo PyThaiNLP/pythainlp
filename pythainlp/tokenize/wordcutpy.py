@@ -2,7 +2,6 @@
 """
 Wrapper for WordCut Thai word segmentation
 """
-import sys
 
 try:
     from wordcut import Wordcut

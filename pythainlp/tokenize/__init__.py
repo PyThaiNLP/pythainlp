@@ -12,7 +12,7 @@ from six.moves import zip
 from marisa_trie import Trie
 
 DEFAULT_DICT_TRIE = Trie(word_dict())
-
+FROZEN_DICT_TRIE = Trie(word_dict(dict_fname='thaiword_frozen_201810.txt'))
 
 def word_tokenize(text, engine="newmm", whitespaces=True):
     """
@@ -46,6 +46,11 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
         from .multi_cut import segment
     elif engine == "newmm" or engine == "onecut":
         from .newmm import mmcut as segment
+    elif engine == "ulmfit":
+        from .newmm import mmcut
+        def segment(text):
+            x = mmcut(text, trie = FROZEN_DICT_TRIE)
+            return(x)
     elif engine == "longest-matching":
         from .longest import segment
     elif engine == "pylexto":

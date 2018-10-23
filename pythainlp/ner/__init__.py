@@ -22,14 +22,14 @@ _WORD_TOKENIZER = "newmm"  # ตัวตัดคำ
 _STOPWORDS = stopwords.words("thai")
 
 
-def _is_thaichar(ch):  # เช็คว่าเป็น char ภาษาไทย
+def _is_thaichar(ch):  # เป็นอักษรไทยหรือไม่
     ch_val = ord(ch)
     if ch_val >= 3584 and ch_val <= 3711:
         return True
     return False
 
 
-def _is_thaiword(word):  # เช็คว่าเป็นคำภาษาไทย
+def _is_thaiword(word):  # เป็นคำที่มีแต่อักษรไทยหรือไม่
     for ch in word:
         if ch != "." and not _is_thaichar(ch):
             return False
@@ -52,8 +52,10 @@ def _doc2features(doc, i):
         "postag": postag,
         "word.isdigit()": word.isdigit(),
     }
+
     if word.isdigit() and len(word) == 5:
         features["word.islen5"] = True
+
     if i > 0:
         prevword = doc[i - 1][0]
         postag1 = doc[i - 1][1]
@@ -111,7 +113,7 @@ class ThaiNameRecognizer:
 
         **Example**::
             >>> from pythainlp.ner import ThaiNameRecognizer
-            >>> ner=ThaiNameRecognizer()
+            >>> ner = ThaiNameRecognizer()
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
             [('วันที่', 'JSBR', 'O'), (' ', 'NCMN', 'O'), ('15', 'NCNM', 'B-DATE'),
             (' ', 'NCMN', 'I-DATE'), ('ก.ย.', 'CMTR', 'I-DATE'), (' ', 'NCMN', 'I-DATE'),
@@ -119,7 +121,7 @@ class ThaiNameRecognizer:
             ('ระบบ', 'NCMN', 'O'), ('เวลา', 'NCMN', 'O'), (' ', 'NCMN', 'O'),
             ('14', 'NCNM', 'B-TIME'), (':', 'PUNC', 'I-TIME'), ('49', 'NCNM', 'I-TIME'),
             (' ', 'NCMN', 'I-TIME'), ('น.', 'CMTR', 'I-TIME')]
-            >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.",postag=False)
+            >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.", pos=False)
             [('วันที่', 'O'), (' ', 'O'), ('15', 'B-DATE'), (' ', 'I-DATE'),
             ('ก.ย.', 'I-DATE'), (' ', 'I-DATE'), ('61', 'I-DATE'), (' ', 'O'),
             ('ทดสอบ', 'O'), ('ระบบ', 'O'), ('เวลา', 'O'), (' ', 'O'), ('14', 'B-TIME'),

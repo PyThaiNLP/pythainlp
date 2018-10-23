@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, unicode_literals
-
+"""
+Summarization
+"""
 from collections import defaultdict
 from heapq import nlargest
 from string import punctuation

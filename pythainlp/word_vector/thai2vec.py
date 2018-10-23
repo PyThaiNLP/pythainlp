@@ -3,8 +3,6 @@
 thai2vec - Thai word vector
 Code by https://github.com/cstorm125/thai2vec/blob/master/notebooks/examples.ipynb
 """
-from __future__ import absolute_import, unicode_literals
-
 import sys
 
 from pythainlp.corpus import download as download_data
@@ -23,8 +21,7 @@ except ImportError:
         from gensim.models import KeyedVectors
         import numpy as np
     except ImportError:
-        print("Error: Try 'pip install gensim numpy'")
-        sys.exit(0)
+        raise ImportError("ImportError: Try 'pip install gensim numpy'")
 
 
 def download():

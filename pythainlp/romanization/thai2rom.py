@@ -2,8 +2,6 @@
 """
 Romanization of Thai words based on machine-learnt engine ("thai2rom")
 """
-from __future__ import print_function
-
 from pythainlp.corpus import download, get_file
 
 try:

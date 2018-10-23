@@ -4,7 +4,6 @@ Thai collation (sort according to dictionary order)
 For Unicode collation, please refer to Unicode Common Locale Data Repository (CLDR)
 https://unicode.org/cldr/charts/latest/collation/th.html
 """
-from __future__ import absolute_import, unicode_literals, print_function
 import re
 
 RE_TONE = re.compile(r"[็-์]")

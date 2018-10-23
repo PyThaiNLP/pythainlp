@@ -1,26 +1,24 @@
 # -*- coding: utf-8 -*-
 """
-Perceptron Part-Of-Speech Tagger
+Perceptron Part-Of-Speech tagger
 """
-from __future__ import absolute_import, division, unicode_literals
-
 import os
 
 import dill
 import pythainlp
 
-templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), "corpus")
+TEMPLATES_DIR = os.path.join(os.path.dirname(pythainlp.__file__), "corpus")
 
 
 def orchid_data():
-    template_file = os.path.join(templates_dir, "pt_tagger_1.dill")
+    template_file = os.path.join(TEMPLATES_DIR, "pt_tagger_1.dill")
     with open(template_file, "rb") as handle:
         model = dill.load(handle)
     return model
 
 
 def pud_data():
-    template_file = os.path.join(templates_dir, "ud_thai-pud_pt_tagger.dill")
+    template_file = os.path.join(TEMPLATES_DIR, "ud_thai-pud_pt_tagger.dill")
     with open(template_file, "rb") as handle:
         model = dill.load(handle)
     return model

@@ -3,8 +3,6 @@
 Sentiment analyzer based on thai2vec ("ulmfit" engine)
 Code by https://github.com/cstorm125/thai2vec/tree/master/notebook
 """
-from __future__ import absolute_import, unicode_literals
-
 import sys
 from collections import defaultdict
 
@@ -23,8 +21,7 @@ except ImportError:
         import numpy as np
         import dill as pickle
     except ImportError:
-        print("Error: Try 'pip install numpy dill'")
-        sys.exit(0)
+        raise ImportError("ImportError: Try 'pip install numpy dill'")
 
 try:
     import torch

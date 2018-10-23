@@ -1,17 +1,17 @@
 ﻿# -*- coding: utf-8 -*-
-from __future__ import absolute_import
-__version__ = 1.7
-from pythainlp.sentiment import sentiment
-from pythainlp.spell import spell
-from pythainlp.romanization import romanize
-from pythainlp.tokenize import word_tokenize,sent_tokenize,tcc,etcc
-from pythainlp.rank import rank
-from pythainlp.change import texttothai,texttoeng
-from pythainlp.date import now
-from pythainlp.tag import pos_tag
+from pythainlp.change import texttoeng, texttothai
 from pythainlp.collation import collation
-from pythainlp.Text import Text
-from pythainlp.MetaSound import MetaSound
-from pythainlp.soundex import LK82,Udom83
-from pythainlp.util import ngrams,bigrams,trigram
+from pythainlp.date import now
 from pythainlp.keywords import find_keyword
+from pythainlp.MetaSound import MetaSound
+from pythainlp.rank import rank
+from pythainlp.romanization import romanize
+from pythainlp.sentiment import sentiment
+from pythainlp.soundex import LK82, Udom83
+from pythainlp.spell import spell
+from pythainlp.tag import pos_tag
+from pythainlp.Text import Text
+from pythainlp.tokenize import etcc, sent_tokenize, tcc, word_tokenize
+from pythainlp.util import bigrams, ngrams, trigram
+
+__version__ = 1.7

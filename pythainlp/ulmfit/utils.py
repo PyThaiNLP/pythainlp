@@ -3,9 +3,6 @@
 """
 Code by https://github.com/cstorm125/thai2vec/tree/master/notebook
 """
-
-from __future__ import absolute_import, unicode_literals
-
 import re
 import sys
 
@@ -28,8 +25,7 @@ except ImportError:
         from fastai.text import *
         import dill as pickle
     except ImportError:
-        print("Error: Try 'pip install fastai numpy dill'")
-        sys.exit(0)
+        raise ImportError("ImportError: Try 'pip install fastai numpy dill'")
 
 # import torch
 try:

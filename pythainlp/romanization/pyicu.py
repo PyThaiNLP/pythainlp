@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, unicode_literals
 import sys
 
 try:
@@ -12,7 +11,7 @@ except ImportError:
     try:
         import icu
     except ImportError:
-        sys.exit("Error: please pip install pyicu")
+        raise ImportError("ImportError: Try 'pip install pyicu'")
 
 
 # ถอดเสียงภาษาไทยเป็นอักษรละติน

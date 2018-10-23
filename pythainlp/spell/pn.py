@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Fork from Peter Norvig's Python code at http://norvig.com/spell-correct.html
-"""
-from __future__ import absolute_import, print_function, unicode_literals
+Spell checker
 
+Based on Peter Norvig's Python code at http://norvig.com/spell-correct.html
+"""
 from collections import Counter
 from pythainlp.corpus.thaiword import get_data
 

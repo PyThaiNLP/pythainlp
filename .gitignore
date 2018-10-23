@@ -59,6 +59,10 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# IDE files
+.idea
+.vscode
+
 # macOS generated files
 .DS_Store
 .DS_Store?

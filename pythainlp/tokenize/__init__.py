@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
-
-import codecs
+"""
+Thai tokenizers
+"""
 import re
 
 import nltk
 from pythainlp.corpus.thaisyllable import get_data as syllable_dict
 from pythainlp.corpus.thaiword import get_data as word_dict
-from six.moves import zip
 
 from marisa_trie import Trie
 
 DEFAULT_DICT_TRIE = Trie(word_dict())
-FROZEN_DICT_TRIE = Trie(word_dict(dict_fname='thaiword_frozen_201810.txt'))
+FROZEN_DICT_TRIE = Trie(word_dict(dict_fname="thaiword_frozen_201810.txt"))
+
 
 def word_tokenize(text, engine="newmm", whitespaces=True):
     """
@@ -30,27 +30,19 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
     :return: A list of words, tokenized from a text
 
     **Example**::
-
-        from pythainlp.tokenize import word_tokenize
-        text='ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด'
-        a=word_tokenize(text,engine='icu') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอ', 'เค', 'บ่', 'พวก', 'เรา', 'เป็น', 'คน', 'ไทย', 'รัก', 'ภาษา', 'ไทย', 'ภาษา', 'บ้าน', 'เกิด']
-        b=word_tokenize(text,engine='dict') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
-        c=word_tokenize(text,engine='mm') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
-        d=word_tokenize(text,engine='pylexto') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
-        e=word_tokenize(text,engine='newmm') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
-        g=word_tokenize(text,engine='wordcutpy') # ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คน', 'ไทย', 'รัก', 'ภาษา', 'ไทย', 'ภาษา', 'บ้านเกิด']
+    from pythainlp.tokenize import word_tokenize
+    text = "โอเคบ่พวกเรารักภาษาบ้านเกิด"
+    word_tokenize(text, engine="newmm")  # ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
+    word_tokenize(text, engine="icu")  # ['โอ', 'เค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้าน', 'เกิด']
     """
     if engine == "icu":
         from .pyicu import segment
     elif engine == "multi_cut" or engine == "mm":
         from .multi_cut import segment
-    elif engine == "newmm" or engine == "onecut":
-        from .newmm import mmcut as segment
     elif engine == "ulmfit":
         from .newmm import mmcut
         def segment(text):
-            x = mmcut(text, trie = FROZEN_DICT_TRIE)
-            return(x)
+            return mmcut(text, trie=FROZEN_DICT_TRIE)
     elif engine == "longest-matching":
         from .longest import segment
     elif engine == "pylexto":
@@ -59,11 +51,11 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
         from .deepcut import segment
     elif engine == "wordcutpy":
         from .wordcutpy import segment
-    else:
-        raise Exception("Error: Unknown engine: {}".format(engine))
+    else:  # default, use "newmm" ("onecut") engine
+        from .newmm import mmcut as segment
 
     if not whitespaces:
-        return [i.strip(" ") for i in segment(text) if i.strip(" ")]
+        return [token.strip(" ") for token in segment(text) if token.strip(" ")]
 
     return segment(text)
 
@@ -83,9 +75,7 @@ def dict_word_tokenize(text, custom_dict_trie, engine="newmm"):
         >>> dict_word_tokenize("แมวดีดีแมว",data_dict)
         ['แมว', 'ดี', 'ดี', 'แมว']
     """
-    if engine == "newmm" or engine == "onecut":
-        from .newmm import mmcut as segment
-    elif engine == "mm" or engine == "multi_cut":
+    if engine == "mm" or engine == "multi_cut":
         from .multi_cut import segment
     elif engine == "longest-matching":
         from .longest import segment
@@ -93,8 +83,8 @@ def dict_word_tokenize(text, custom_dict_trie, engine="newmm"):
         from .wordcutpy import segment
 
         return segment(text, custom_dict_trie.keys())
-    else:
-        raise Exception("Error: Unknown engine: {}".format(engine))
+    else:  # default, use "newmm" ("onecut") engine
+        from .newmm import mmcut as segment
 
     return segment(text, custom_dict_trie)
 
@@ -108,10 +98,12 @@ def sent_tokenize(text, engine="whitespace+newline"):
 
     :return: a list of text, split by whitespace or new line.
     """
+    sentences = []
+
     if engine == "whitespace":
         sentences = nltk.tokenize.WhitespaceTokenizer().tokenize(text)
-    else:
-        sentences = re.sub(r"\n+|\s+", "|", text, re.U).split("|")
+    else:  # default, use whitespace + newline
+        sentences = re.sub(r"\n+|\s+", "|", text).split("|")
 
     return sentences
 
@@ -184,7 +176,7 @@ def create_custom_dict_trie(custom_dict_source):
 
     if type(custom_dict_source) is str:
         # Receive a file path of the custom dict to read
-        with codecs.open(custom_dict_source, "r", encoding="utf8") as f:
+        with open(custom_dict_source, "r", encoding="utf8") as f:
             _vocabs = f.read().splitlines()
             return Trie(_vocabs)
     elif isinstance(custom_dict_source, (list, tuple, set)):
@@ -205,17 +197,18 @@ class Tokenizer:
 
         :return: trie_dict - a dictionary in the form of trie data for tokenizing engines
         """
+        self.__trie_dict = None
         if custom_dict:
             if type(custom_dict) is list:
-                self.trie_dict = Trie(custom_dict)
+                self.__trie_dict = Trie(custom_dict)
             elif type(custom_dict) is str:
-                with codecs.open(custom_dict, "r", encoding="utf8") as f:
+                with open(custom_dict, "r", encoding="utf8") as f:
                     vocabs = f.read().splitlines()
-                self.trie_dict = Trie(vocabs)
+                self.__trie_dict = Trie(vocabs)
         else:
-            self.trie_dict = Trie(word_dict())
+            self.__trie_dict = Trie(word_dict())
 
     def word_tokenize(self, text, engine="newmm"):
         from .newmm import mmcut as segment
 
-        return segment(text, self.trie_dict)
+        return segment(text, self.__trie_dict)

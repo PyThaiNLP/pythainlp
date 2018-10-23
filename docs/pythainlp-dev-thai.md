@@ -52,7 +52,7 @@ text คือ ข้อความในรูปแบบสตริง str 
 
 engine คือ ระบบตัดคำ ปัจจุบันมี engine ดังนี้
 
-- newmm (ค่าเริ่มต้น) - ใช้พจนานุกรม ด้วยวิธี Maximum Matching โค้ดชุดใหม่[โดยคุณ Korakot Chaovavanich](https://www.facebook.com/groups/408004796247683/permalink/431283740586455/)
+- newmm (ค่าเริ่มต้น) - ใช้พจนานุกรม ด้วยวิธี Maximum Matching + Thai Character Cluster โค้ดชุดใหม่[โดยคุณ Korakot Chaovavanich](https://www.facebook.com/groups/408004796247683/permalink/431283740586455/)
 - longest - ใช้พจนานุกรม ด้วยวิธี Longest Matching
 - icu - เรียกใช้ตัวตัดคำจาก ICU ใช้พจนานุกรม (ความแม่นยำต่ำ)
 - pylexto - เรียกใช้ตัวตัดคำจาก LexTo ใช้พจนานุกรม ด้วยวิธี Longest Matching

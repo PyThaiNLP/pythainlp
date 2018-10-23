@@ -28,10 +28,10 @@ init:
 
 install:
   # We need wheel installed to build wheels
-  # - "%PYTHON%/python.exe -m pip install wheel"
+ - "%PYTHON%/python.exe -m pip install wheel"
   # FIXME: updating pip fails with PermissionError
   # - "%PYTHON%/python.exe -m pip install -U pip setuptools"
-  - "%PYTHON%/python.exe -m pip install https://get.openlp.org/win-sdk/PyICU-1.9.5-cp34-cp34m-win32.whl"
+  - "%PYTHON%/python.exe -m pip install pyicu"
   - "%PYTHON%/python.exe -m pip install -e ."
   - "chcp 65001"
   - "set PYTHONIOENCODING=utf-8"

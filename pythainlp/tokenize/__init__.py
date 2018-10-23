@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
-
-import codecs
+"""
+Thai tokenizers
+"""
 import re
 
 import nltk
 from pythainlp.corpus.thaisyllable import get_data as syllable_dict
 from pythainlp.corpus.thaiword import get_data as word_dict
-from six.moves import zip
 
 from marisa_trie import Trie
 
@@ -44,8 +43,6 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
         from .pyicu import segment
     elif engine == "multi_cut" or engine == "mm":
         from .multi_cut import segment
-    elif engine == "newmm" or engine == "onecut":
-        from .newmm import mmcut as segment
     elif engine == "longest-matching":
         from .longest import segment
     elif engine == "pylexto":
@@ -54,8 +51,8 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
         from .deepcut import segment
     elif engine == "wordcutpy":
         from .wordcutpy import segment
-    else:
-        raise Exception("Error: Unknown engine: {}".format(engine))
+    else:  # default, use "newmm" ("onecut") engine
+        from .newmm import mmcut as segment
 
     if not whitespaces:
         return [i.strip(" ") for i in segment(text) if i.strip(" ")]
@@ -78,9 +75,7 @@ def dict_word_tokenize(text, custom_dict_trie, engine="newmm"):
         >>> dict_word_tokenize("แมวดีดีแมว",data_dict)
         ['แมว', 'ดี', 'ดี', 'แมว']
     """
-    if engine == "newmm" or engine == "onecut":
-        from .newmm import mmcut as segment
-    elif engine == "mm" or engine == "multi_cut":
+    if engine == "mm" or engine == "multi_cut":
         from .multi_cut import segment
     elif engine == "longest-matching":
         from .longest import segment
@@ -88,8 +83,8 @@ def dict_word_tokenize(text, custom_dict_trie, engine="newmm"):
         from .wordcutpy import segment
 
         return segment(text, custom_dict_trie.keys())
-    else:
-        raise Exception("Error: Unknown engine: {}".format(engine))
+    else:  # default, use "newmm" ("onecut") engine
+        from .newmm import mmcut as segment
 
     return segment(text, custom_dict_trie)
 
@@ -103,10 +98,12 @@ def sent_tokenize(text, engine="whitespace+newline"):
 
     :return: a list of text, split by whitespace or new line.
     """
+    sentences = []
+
     if engine == "whitespace":
         sentences = nltk.tokenize.WhitespaceTokenizer().tokenize(text)
-    else:
-        sentences = re.sub(r"\n+|\s+", "|", text, re.U).split("|")
+    else:  # default, use whitespace + newline
+        sentences = re.sub(r"\n+|\s+", "|", text).split("|")
 
     return sentences
 
@@ -179,7 +176,7 @@ def create_custom_dict_trie(custom_dict_source):
 
     if type(custom_dict_source) is str:
         # Receive a file path of the custom dict to read
-        with codecs.open(custom_dict_source, "r", encoding="utf8") as f:
+        with open(custom_dict_source, "r", encoding="utf8") as f:
             _vocabs = f.read().splitlines()
             return Trie(_vocabs)
     elif isinstance(custom_dict_source, (list, tuple, set)):
@@ -200,17 +197,18 @@ class Tokenizer:
 
         :return: trie_dict - a dictionary in the form of trie data for tokenizing engines
         """
+        self.__trie_dict = None
         if custom_dict:
             if type(custom_dict) is list:
-                self.trie_dict = Trie(custom_dict)
+                self.__trie_dict = Trie(custom_dict)
             elif type(custom_dict) is str:
-                with codecs.open(custom_dict, "r", encoding="utf8") as f:
+                with open(custom_dict, "r", encoding="utf8") as f:
                     vocabs = f.read().splitlines()
-                self.trie_dict = Trie(vocabs)
+                self.__trie_dict = Trie(vocabs)
         else:
-            self.trie_dict = Trie(word_dict())
+            self.__trie_dict = Trie(word_dict())
 
     def word_tokenize(self, text, engine="newmm"):
         from .newmm import mmcut as segment
 
-        return segment(text, self.trie_dict)
+        return segment(text, self.__trie_dict)

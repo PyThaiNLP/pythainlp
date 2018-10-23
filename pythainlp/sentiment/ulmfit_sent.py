@@ -3,8 +3,6 @@
 Sentiment analyzer based on thai2vec ("ulmfit" engine)
 Code by https://github.com/cstorm125/thai2vec/tree/master/notebook
 """
-from __future__ import absolute_import, unicode_literals
-
 import sys
 from collections import defaultdict
 

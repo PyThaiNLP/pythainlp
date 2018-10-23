@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, print_function, unicode_literals
 import os
 import dill
 
@@ -8,7 +7,7 @@ import pythainlp
 from pythainlp.corpus import stopwords
 from pythainlp.tokenize import word_tokenize
 
-templates_dir = os.path.join(os.path.dirname(pythainlp.__file__), "sentiment")
+TEMPLATES_DIR = os.path.join(os.path.dirname(pythainlp.__file__), "sentiment")
 
 
 def sentiment(text, engine="old"):
@@ -36,9 +35,9 @@ def sentiment(text, engine="old"):
         tag = ulmfit_sent.get_sentiment(text)
         return "pos" if tag else "neg"
     else:  # default, use "old" vocabulary-based engine
-        with open(os.path.join(templates_dir, "vocabulary.data"), "rb") as in_strm:
+        with open(os.path.join(TEMPLATES_DIR, "vocabulary.data"), "rb") as in_strm:
             vocabulary = dill.load(in_strm)
-        with open(os.path.join(templates_dir, "sentiment.data"), "rb") as in_strm:
+        with open(os.path.join(TEMPLATES_DIR, "sentiment.data"), "rb") as in_strm:
             classifier = dill.load(in_strm)
         text = set(word_tokenize(text)) - set(stopwords.words("thai"))
         featurized_test_sentence = {i: (i in text) for i in vocabulary}

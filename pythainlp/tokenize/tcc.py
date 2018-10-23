@@ -1,8 +1,4 @@
 ﻿# -*- coding: utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-import re
-
 """
 Separate Thai text into Thai Character Cluster (TCC).
 Based on "Character cluster based Thai information retrieval" (Theeramunkong et al. 2002)
@@ -13,6 +9,7 @@ Credits:
 - Grammar: Wittawat Jitkrittum https://github.com/wittawatj/jtcc/blob/master/TCC.g
 - Python code: Korakot Chaovavanich
 """
+import re
 
 RE_TCC = (
     """\

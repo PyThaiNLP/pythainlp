@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import re
 
 # สระ
-vowel_patterns = """เ*ียว,\\1iao
+_vowel_patterns = """เ*ียว,\\1iao
 แ*็ว,\\1aeo
 เ*ือย,\\1ueai
 แ*ว,\\1aeo
@@ -55,14 +53,14 @@ vowel_patterns = """เ*ียว,\\1iao
 *ะ,\\1a
 #ฤ,\\1rue
 $ฤ,\\1ri"""
-vowel_patterns = vowel_patterns.replace("*", "([ก-ฮ])")
-vowel_patterns = vowel_patterns.replace("#", "([คนพมห])")
-vowel_patterns = vowel_patterns.replace("$", "([กตทปศส])")
+_vowel_patterns = _vowel_patterns.replace("*", "([ก-ฮ])")
+_vowel_patterns = _vowel_patterns.replace("#", "([คนพมห])")
+_vowel_patterns = _vowel_patterns.replace("$", "([กตทปศส])")
 
-VOWELS = [x.split(",") for x in vowel_patterns.split("\n")]
+_VOWELS = [x.split(",") for x in _vowel_patterns.split("\n")]
 
 # พยัญชนะ ต้น สะกด
-CONSONANTS = {
+_CONSONANTS = {
     "ก": ["k", "k"],
     "ข": ["kh", "k"],
     "ฃ": ["kh", "k"],
@@ -111,27 +109,27 @@ CONSONANTS = {
     "ฮ": ["h", ""],
 }
 
-RE_CONSONANT = re.compile(r"[ก-ฮ]")
-RE_KARANT = re.compile(r"จน์|มณ์|ณฑ์|ทร์|ตร์|[ก-ฮ]์|[ก-ฮ][ะ-ู]์")
-RE_KARANT2 = re.compile(r"\w" + r"์")
-RE_YAMOK_PAIYANNOI = re.compile(r"[ๆฯ]")
-RE_TONE = re.compile(r"[่-๋]")
+_RE_CONSONANT = re.compile(r"[ก-ฮ]")
+_RE_KARAN = re.compile(r"จน์|มณ์|ณฑ์|ทร์|ตร์|[ก-ฮ]์|[ก-ฮ][ะ-ู]์")
+_RE_KARAN2 = re.compile(r"\w" + r"์")
+_RE_YAMOK_PAIYANNOI = re.compile(r"[ๆฯ]")
+_RE_TONE = re.compile(r"[่-๋]")
 
 
 def _normalize(text):
     """ตัดอักษรที่ไม่ออกเสียง (การันต์ ไปยาลน้อย ไม้ยมก*) และวรรณยุกต์ทิ้ง"""
-    text = RE_KARANT.sub("", text)
-    text = RE_YAMOK_PAIYANNOI.sub("", text)
-    text = RE_TONE.sub("", text)
-    if re.search(RE_KARANT2, text):
-        karants = re.findall(RE_KARANT2, text)
-        for karant in karants:
-            text = re.sub(karant, "", text)
+    text = _RE_KARAN.sub("", text)
+    text = _RE_YAMOK_PAIYANNOI.sub("", text)
+    text = _RE_TONE.sub("", text)
+    if re.search(_RE_KARAN2, text):
+        karans = re.findall(_RE_KARAN2, text)
+        for karan in karans:
+            text = re.sub(karan, "", text)
     return text
 
 
 def _replace_vowels(word):
-    for vowel in VOWELS:
+    for vowel in _VOWELS:
         word = re.sub(vowel[0], vowel[1], word)
 
     return word
@@ -141,19 +139,19 @@ def _replace_consonants(word, res):
     if res is None:
         pass
     elif len(res) == 1:
-        word = word.replace(res[0], CONSONANTS[res[0]][0])
+        word = word.replace(res[0], _CONSONANTS[res[0]][0])
     else:
         i = 0
         lenword = len(res)
         while i < lenword:
             if i == 0 and res[0] == "ห":
-                word = word.replace(res[0], CONSONANTS[res[0]][0])
+                word = word.replace(res[0], _CONSONANTS[res[0]][0])
                 i += 1
             elif i == 0 and res[0] != "ห":
-                word = word.replace(res[0], CONSONANTS[res[0]][0])
+                word = word.replace(res[0], _CONSONANTS[res[0]][0])
                 i += 1
             elif res[i] == "ร" and (word[i] == "ร" and len(word) == i + 1):
-                word = word.replace(res[i], CONSONANTS[res[i]][1])
+                word = word.replace(res[i], _CONSONANTS[res[i]][1])
             elif res[i] == "ร" and (word[i] == "ร" and word[i + 1] == "ร"):
                 word = list(word)
                 del word[i + 1]
@@ -164,14 +162,14 @@ def _replace_consonants(word, res):
                 word = "".join(word)
                 i += 1
             else:
-                word = word.replace(res[i], CONSONANTS[res[i]][1])
+                word = word.replace(res[i], _CONSONANTS[res[i]][1])
                 i += 1
     return word
 
 
 def romanize(word):
     word2 = _replace_vowels(_normalize(word))
-    res = re.findall(RE_CONSONANT, word2)
+    res = re.findall(_RE_CONSONANT, word2)
     # 2-character word, all consonants
     if len(word2) == 2 and len(res) == 2:
         word2 = list(word2)

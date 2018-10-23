@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Part-Of-Speech Tagging
+Part-Of-Speech tagger
 """
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import sys
 
 ARTAGGER_URL = "https://github.com/wannaphongcom/artagger/archive/master.zip"

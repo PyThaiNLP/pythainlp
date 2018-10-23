@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
 from collections import Counter
 import unittest
 import sys
@@ -18,8 +17,8 @@ from pythainlp.corpus import (
 )
 from pythainlp.date import now, reign_year_to_ad
 from pythainlp.keywords import find_keyword
-from pythainlp.MetaSound import MetaSound
-from pythainlp.ner import thainer
+from pythainlp.metasound import metasound
+from pythainlp.ner import ThaiNameRecognizer
 from pythainlp.number import numtowords
 from pythainlp.rank import rank
 from pythainlp.romanization import romanize
@@ -173,7 +172,7 @@ class TestUM(unittest.TestCase):
         self.assertEqual(Udom83('รถ'), 'ร800000')
 
     def test_ms(self):
-        self.assertEqual(MetaSound('คน'), '15')
+        self.assertEqual(metasound('คน'), '15')
 
     def test_wordnet(self):
         self.assertEqual(
@@ -270,7 +269,7 @@ class TestUM(unittest.TestCase):
             )
 
     def test_ner(self):
-        ner = thainer()
+        ner = ThaiNameRecognizer()
         self.assertEqual(
             ner.get_ner('แมวทำอะไรตอนห้าโมงเช้า'),
             [
@@ -284,7 +283,7 @@ class TestUM(unittest.TestCase):
             ]
         )
         self.assertEqual(
-            ner.get_ner('แมวทำอะไรตอนห้าโมงเช้า', postag=False),
+            ner.get_ner('แมวทำอะไรตอนห้าโมงเช้า', pos=False),
             [
                 ('แมว', 'O'),
                 ('ทำ', 'O'),

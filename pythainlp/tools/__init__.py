@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-
-from __future__ import absolute_import, unicode_literals
-
+"""
+PyThaiNLP package installation and data tools
+"""
 import os
 import subprocess
 import sys

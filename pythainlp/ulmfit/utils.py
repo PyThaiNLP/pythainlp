@@ -3,9 +3,6 @@
 """
 Code by https://github.com/cstorm125/thai2vec/tree/master/notebook
 """
-
-from __future__ import absolute_import, unicode_literals
-
 import re
 import sys
 
@@ -21,7 +18,7 @@ try:
 except ImportError:
     from pythainlp.tools import install_package
 
-    install_package("fastai")
+    install_package("fastai==0.7.0")
     install_package("numpy")
     try:
         import numpy as np

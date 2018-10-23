@@ -1,13 +1,11 @@
 ﻿# -*- coding: utf-8 -*-
 
-import codecs
-
 from setuptools import find_packages, setup
 
-with codecs.open("README-pypi.md", "r", encoding="utf-8") as readme_file:
+with open("README-pypi.md", "r", encoding="utf-8") as readme_file:
     readme = readme_file.read()
 readme_file.close()
-with codecs.open("requirements.txt", "r", encoding="utf-8") as f:
+with open("requirements.txt", "r", encoding="utf-8") as f:
     requirements = f.read().splitlines()
 
 setup(

@@ -8,15 +8,13 @@ import os
 import dill
 import nltk.tag
 import pythainlp
+from pythainlp.corpus.thaipos import get_data
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(pythainlp.__file__), "corpus")
 
 
 def orchid_data():
-    template_file = os.path.join(TEMPLATES_DIR, "thaipos.json")
-    with open(template_file, "r", encoding="utf-8-sig") as handle:
-        model = json.load(handle)
-    return model
+    return get_data()
 
 
 def pud_data():

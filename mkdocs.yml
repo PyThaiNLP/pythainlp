@@ -1,6 +1,10 @@
 site_name: PyThaiNLP
+site_description: A Python library for natural language processing of Thai language.
+site_author: PyThaiNLP team
+copyright: Apache License 2.0
+repo_url: https://github.com/PyThaiNLP/pythainlp
 theme: readthedocs
 pages:
 - Home: index.md
-- English: pythainlp-1-4-eng.md
-- Thai: pythainlp-1-4-thai.md
+- English: pythainlp-1-6-eng.md
+- Thai: pythainlp-1-6-thai.md

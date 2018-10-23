@@ -102,13 +102,13 @@ class TestUM(unittest.TestCase):
 
     def test_romanization(self):
         self.assertEqual(romanize("แมว"), "maeo")
-        self.assertEqual(romanize("แมว", "pyic"), "mæw")
+        self.assertEqual(romanize("แมว", "pyicu"), "mæw")
 
     def test_romanization_royin(self):
         engine = "royin"
         self.assertEqual(romanize("แมว", engine=engine), "maeo")
         self.assertEqual(romanize("เดือน", engine=engine), "duean")
-        self.assertEqual(romanize("ดู", engine=engine), "d")
+        self.assertEqual(romanize("ดู", engine=engine), "du")
         self.assertEqual(romanize("ดำ", engine=engine), "dam")
         self.assertEqual(romanize("บัว", engine=engine), "bua")
 

@@ -12,6 +12,21 @@ environment:
       PYTHON_ARCH: "32"
       PYICU_WHEEL: "https://get.openlp.org/win-sdk/PyICU-1.9.7-cp36-cp36m-win32.whl"
 
+    #- PYTHON: "C:/Python36-x64"
+    #  PYTHON_VERSION: "3.6"
+    #  PYTHON_ARCH: "64"
+    #  PYICU_WHEEL: ""
+
+    #- PYTHON: "C:/Python37"
+    #  PYTHON_VERSION: "3.7"
+    #  PYTHON_ARCH: "32"
+    #  PYICU_WHEEL: ""
+
+    #- PYTHON: "C:/Python37-x64"
+    #  PYTHON_VERSION: "3.7"
+    #  PYTHON_ARCH: "64"
+    #  PYICU_WHEEL: ""
+
 init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"  
   - ps: "ls C:/Python*"

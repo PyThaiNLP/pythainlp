@@ -27,6 +27,10 @@ init:
   - ps: "ls C:/Python*"
 
 install:
+  - "chcp 65001"
+  - "set PYTHONIOENCODING=utf-8"
+  - "set ICU_VERSION=62"
+  - "%PYTHON%/python.exe -m pip install --upgrade pip"
   # We need wheel installed to build wheels
   - "%PYTHON%/python.exe -m pip install wheel"
   # FIXME: updating pip fails with PermissionError
@@ -34,8 +38,6 @@ install:
   # - "%PYTHON%/python.exe -m pip install https://get.openlp.org/win-sdk/PyICU-1.9.5-cp34-cp34m-win32.whl"
   - "%PYTHON%/python.exe -m pip install pyicu"
   - "%PYTHON%/python.exe -m pip install -e ."
-  - "chcp 65001"
-  - "set PYTHONIOENCODING=utf-8"
 
 test_script:
   - "%PYTHON%/python.exe -m pip --version"

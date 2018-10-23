@@ -1,69 +1,98 @@
 # -*- coding: utf-8 -*-
 """
-MetaSound
+MetaSound - Thai soundex system
 
 References:
 Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statistical
 Ontology for Analysing Names Given in Accordance with Thai Astrology.
 https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf
 """
-import re
+
+_CONS_THANTHAKHAT = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ์"
+_THANTHAKHAT = "์"  # \u0e4c
+_C1 = "กขฃคฆฅ"  # sound K -> coded letter 1
+_C2 = "จฉชฌซฐทฒดฎตสศษ"  # D -> 2
+_C3 = "ฟฝพผภบป"  # B -> 3
+_C4 = "ง"  # NG -> 4
+_C5 = "ลฬรนณฦญ"  # N -> 5
+_C6 = "ม"  # M -> 6
+_C7 = "ย"  # Y -> 7
+_C8 = "ว"  # W -> 8
 
 
-def MetaSound(name):
+def metasound(text, length=4):
     """
     Thai MetaSound
 
-    :param str name: thai text
-    :return: MetaSound for thai text
+    :param str text: Thai text
+    :param int length: preferred length of the MetaSound (default is 4)
+    :return: MetaSound for the text
     **Example**::
-        from pythainlp.MetaSound import MetaSound
-        MetaSound('รัก')  # '501'
-        MetaSound('ลัก')  # '501'
+        from pythainlp.metasound import metasound
+        metasound("ลัก")  # 'ล100'
+        metasound("รัก")  # 'ร100'
+        metasound("รักษ์")  # 'ร100'
+        metasound("บูรณการ", 5))  # 'บ5515'
     """
-    name1 = list(name)
-    count = len(name1)
-    word = []
+    # keep only consonants and thanthakhat
+    chars = []
+    for ch in text:
+        if ch in _CONS_THANTHAKHAT:
+            chars.append(ch)
 
+    # remove karan (thanthakhat and a consonant before it)
     i = 0
-    while i < count:
-        if (re.search(r"[ก-ฮ]", name1[i]), re.U):
-            word.append(name1[i])
+    while i < len(chars):
+        if chars[i] == _THANTHAKHAT:
+            if i > 0:
+                chars[i - 1] = " "
+            chars[i] = " "
         i += 1
 
-    i = 0
-    count = len(name1)
-    while i < count:
-        if re.search("์", name1[i], re.U):
-            word[i - 1] = ""
-            word[i] = ""
-        i += 1
-
-    i = 0
-    while i < count:
-        if re.search("[กขฃคฆฅ]", word[i], re.U):
-            name1[i] = "1"
-        elif re.search("[จฉชฌซฐทฒดฎตสศษ]", word[i], re.U):
-            name1[i] = "2"
-        elif re.search("[ฟฝพผภบป]", word[i], re.U):
-            name1[i] = "3"
-        elif re.search("[ง]", word[i], re.U):
-            name1[i] = "4"
-        elif re.search("[ลฬรนณฦญ]", word[i], re.U):
-            name1[i] = "5"
-        elif re.search("[ม]", word[i], re.U):
-            name1[i] = "6"
-        elif re.search("[ย]", word[i], re.U):
-            name1[i] = "7"
-        elif re.search("[ว]", word[i], re.U):
-            name1[i] = "8"
+    # retain first consonant, encode the rest
+    chars = chars[:length]
+    i = 1
+    while i < len(chars):
+        if chars[i] in _C1:
+            chars[i] = "1"
+        elif chars[i] in _C2:
+            chars[i] = "2"
+        elif chars[i] in _C3:
+            chars[i] = "3"
+        elif chars[i] in _C4:
+            chars[i] = "4"
+        elif chars[i] in _C5:
+            chars[i] = "5"
+        elif chars[i] in _C6:
+            chars[i] = "6"
+        elif chars[i] in _C7:
+            chars[i] = "7"
+        elif chars[i] in _C8:
+            chars[i] = "8"
         else:
-            name1[i] = "0"
+            chars[i] = "0"
         i += 1
 
-    return "".join(name1)
+    while len(chars) < length:
+        chars.append("0")
+
+    return "".join(chars)
 
 
 if __name__ == "__main__":
-    print(MetaSound("รัก"))
-    print(MetaSound("ลัก"))
+    print(metasound("บูรณะ"))  # บ550 (an example from the original paper [Figure 4])
+    print(metasound("บูรณการ", 5))  # บ5515
+    print(metasound("ลักษณะ"))  # ล125
+    print(metasound("ลัก"))  # ล100
+    print(metasound("รัก"))  # ร100
+    print(metasound("รักษ์"))  # ร100
+    print(metasound(""))  # 0000
+
+    print(metasound("คน"))
+    print(metasound("คนA"))
+    print(metasound("ดา"))
+    print(metasound("ปา"))
+    print(metasound("งา"))
+    print(metasound("ลา"))
+    print(metasound("มา"))
+    print(metasound("วา"))

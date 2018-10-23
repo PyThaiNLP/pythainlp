@@ -46,6 +46,7 @@ CFLAGS=-I/usr/local/opt/icu4c/include LDFLAGS=-L/usr/local/opt/icu4c/lib pip ins
 
 ```python
 from pythainlp.tokenize import word_tokenize
+
 word_tokenize(text, engine)
 ```
 text คือ ข้อความในรูปแบบสตริง str เท่านั้น
@@ -115,6 +116,7 @@ engine คือ เครื่องมือสำหรับใช้ตั
 
 ```python
 from pythainlp.tokenize import WhitespaceTokenizer
+
 WhitespaceTokenizer("ทดสอบ ตัดคำช่องว่าง")  # ['ทดสอบ', 'ตัดคำช่องว่าง']
 ```
 
@@ -151,6 +153,7 @@ check_all สำหรับส่งคืนค่า True หรือ False 
 
 ```python
 from pythainlp.tokenize import tcc
+
 tcc.tcc("ประเทศไทย")  # 'ป/ระ/เท/ศ/ไท/ย'
 ```
 
@@ -162,6 +165,7 @@ tcc.tcc("ประเทศไทย")  # 'ป/ระ/เท/ศ/ไท/ย'
 
 ```python
 from pythainlp.tokenize import etcc
+
 etcc.etcc('คืนความสุข')  # '/คืน/ความสุข'
 ```
 
@@ -171,6 +175,7 @@ Part-of-speech tagging ภาษาไทย
 
 ```python
 from pythainlp.tag import pos_tag
+
 pos_tag(text, engine="unigram", corpus="orchid")
 ```
 
@@ -204,6 +209,7 @@ engine ที่รองรับ
 
 ```python
 from pythainlp.summarize import summarize_text
+
 summarize_text(text="อาหาร หมายถึง ของแข็งหรือของเหลว ที่กินหรือดื่มเข้าสู่ร่างกายแล้ว จะทำให้เกิดพลังงานและความร้อนยเจริญเติบโต ซ่อมแซมส่วนที่สึกหรอ ควบคุมการเปลี่ยนแปลงต่างๆ ในร่างกาย ช่วยทำให้อวัยวะต่างๆ ทำงานได้อย่างปกติ อาหารจะต้องงกาย", n=1, engine="frequency")
 # ['อาหารจะต้องไม่มีพิษและไม่เกิดโทษต่อร่างกาย']
 ```
@@ -258,6 +264,7 @@ lentext คือ จำนวนคำขั้นต่ำที่ต้อ�
 
 ```python
 from pythainlp.romanization import romanize
+
 romanize(str, engine="royin")
 ```
 
@@ -273,7 +280,8 @@ romanize(str, engine="royin")
 
 ```python
 from pythainlp.romanization import romanize
-romanize("แมว") # 'maew'
+
+romanize("แมว")  # 'maew'
 ```
 
 ### spell
@@ -291,7 +299,8 @@ engine ที่รองรับ
 **ตัวอย่างการใช้งาน**
 
 ```python
-from pythainlp.spell import *
+from pythainlp.spell import spell
+
 a = spell("สี่เหลียม")
 print(a)  # ['สี่เหลี่ยม']
 ```
@@ -307,6 +316,7 @@ correction(word)
 
 ```python
 from pythainlp.spell.pn import correction
+
 a = correction("สี่เหลียม")
 print(a)  # ['สี่เหลี่ยม']
 ```
@@ -346,6 +356,7 @@ print(collation(["ไก่", "ไข่", "กา", "ฮา"]))  # ['กา', '
 
 ```python
 from pythainlp.date import now
+
 now()  # '30 พฤษภาคม 2560 18:45:24'
 ```
 ### rank
@@ -356,6 +367,7 @@ now()  # '30 พฤษภาคม 2560 18:45:24'
 
 ```python
 from pythainlp.rank import rank
+
 rank(list)
 ```
 
@@ -394,6 +406,7 @@ from pythainlp.change import *
 
 ```python
 from pythainlp.soundex import LK82, Udom83
+
 print(LK82("รถ"))  # ร3000
 print(LK82("รด"))  # ร3000
 print(LK82("จัน"))  # จ4000
@@ -410,8 +423,9 @@ Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statisti
 **การใช้งาน**
 
 ```python
-from pythainlp.MetaSound import *
-MetaSound("คน")  # '15'
+from pythainlp.metasound import metasound
+
+metasound("รัก")  # 'ร100'
 ```
 
 ### sentiment
@@ -420,6 +434,7 @@ sentiment analysis ภาษาไทย ใช้ข้อมูลจาก [h
 
 ```python
 from pythainlp.sentiment import sentiment
+
 sentiment(str)
 ```
 

@@ -61,6 +61,7 @@ target/
 
 # IDE files
 .idea
+.vscode
 
 # macOS generated files
 .DS_Store

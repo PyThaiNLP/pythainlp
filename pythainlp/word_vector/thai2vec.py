@@ -38,9 +38,9 @@ def get_model():
 
 def most_similar_cosmul(positive, negative):
     """
-	การใช้งาน
-	input list
-	"""
+    การใช้งาน
+    input list
+    """
     return get_model().most_similar_cosmul(positive=positive, negative=negative)
 
 
@@ -72,10 +72,10 @@ def sentence_vectorizer(text, dim=300, use_mean=False):
 
 def about():
     return """
-	thai2vec
-	State-of-the-Art Language Modeling, Text Feature Extraction and Text Classification in Thai Language.
+    thai2vec
+    State-of-the-Art Language Modeling, Text Feature Extraction and Text Classification in Thai Language.
     Created as part of pyThaiNLP with ULMFit implementation from fast.ai
-	
-	Development: Charin Polpanumas
-	GitHub: https://github.com/cstorm125/thai2vec
-	"""
+
+    Development: Charin Polpanumas
+    GitHub: https://github.com/cstorm125/thai2vec
+    """

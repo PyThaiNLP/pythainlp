@@ -36,7 +36,6 @@ _UNKNOWN = False
 
 
 class Tokenizer(object):
-
     def __init__(self, trie):
         self.__trie = trie
 

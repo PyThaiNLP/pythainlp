@@ -15,7 +15,7 @@ from pythainlp.corpus import (
     tone,
     wordnet,
 )
-from pythainlp.date import now, reign_year_to_ad
+from pythainlp.date import now, reign_year_to_ad, now_reign_year
 from pythainlp.keywords import find_keyword
 from pythainlp.MetaSound import MetaSound
 from pythainlp.ner import ThaiNameRecognizer
@@ -28,7 +28,7 @@ from pythainlp.summarize import summarize_text
 from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import etcc, isthai, syllable_tokenize, tcc, word_tokenize
 from pythainlp.util import listtext_num2num, normalize
-
+from pythainlp.Text import Text
 
 class TestUM(unittest.TestCase):
     """
@@ -152,6 +152,10 @@ class TestUM(unittest.TestCase):
     def test_date(self):
         self.assertIsNotNone(now())
         self.assertEqual(reign_year_to_ad(2, 10), 2017)
+        self.assertIsNotNone(reign_year_to_ad(2, 9))
+        self.assertIsNotNone(reign_year_to_ad(2, 8))
+        self.assertIsNotNone(reign_year_to_ad(2, 7))
+        self.assertIsNotNone(now_reign_year())
 
     def test_summarize(self):
         text = "อาหาร หมายถึง ของแข็งหรือของเหลว "
@@ -242,7 +246,8 @@ class TestUM(unittest.TestCase):
                 ("เช้า", "I-TIME"),
             ],
         )
-
+    def test_Text(self):
+        self.assertIsNotNone(Text("ทดสอบภาษาไทย"))
 
 if __name__ == "__main__":
     unittest.main()

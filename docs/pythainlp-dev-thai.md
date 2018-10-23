@@ -68,42 +68,25 @@ engine คือ ระบบตัดคำ ปัจจุบัน PyThaiNLP 
 ```python
 from pythainlp.tokenize import word_tokenize
 
-text='ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด'
-
-a = word_tokenize(text, engine="icu")
-# ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอ', 'เค', 'บ่', 'พวก', 'เรา', 'เป็น', 'คน', 'ไทย', 'รัก', 'ภาษา', 'ไทย', 'ภาษา', 'บ้าน', 'เกิด']
-
-b = word_tokenize(text, engine="dict")
-# ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
-
-c = word_tokenize(text, engine="mm")
-# ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
-
-d = word_tokenize(text, engine="pylexto")
-# ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
-
-e = word_tokenize(text, engine="newmm")
-# ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คนไทย', 'รัก', 'ภาษาไทย', 'ภาษา', 'บ้านเกิด']
-
-g = word_tokenize(text, engine="wordcutpy")
-# ['ผม', 'รัก', 'คุณ', 'นะ', 'ครับ', 'โอเค', 'บ่', 'พวกเรา', 'เป็น', 'คน', 'ไทย', 'รัก', 'ภาษา', 'ไทย', 'ภาษา', 'บ้านเกิด']
+text = "โอเคบ่เรารักภาษาถิ่น"
+>>> word_tokenize(text, engine="newmm")  # ['โอเค', 'บ่', 'เรา', 'รัก', 'ภาษาถิ่น']
+>>> word_tokenize(text, engine="icu")  # ['โอ', 'เค', 'บ่', 'เรา', 'รัก', 'ภาษา', 'ถิ่น']
 ```
 
 #### dict_word_tokenize
+
+ตัดคำโดยใช้พจนานุกรมที่ผู้ใช้กำหนด
 
 ```python
 from pythainlp.tokenize import dict_word_tokenize
 dict_word_tokenize(text, filename, engine)
 ```
 
-เป็นคำสั่งสำหรับตัดคำโดยใช้ข้อมูลที่ผู้ใช้กำหนด
-
 text คือ ข้อความที่ต้องการตัดคำ
 
 filename คือ ที่ตั้งไฟล์ที่ต้องการมาเป็นฐานข้อมูลตัดคำ
 
 engine คือ เครื่องมือตัดคำ
-
 - newmm ตัดคำด้วย newmm
 - wordcutpy ใช้ [wordcutpy](https://github.com/veer66/wordcutpy) ในการตัดคำ
 - mm ตัดคำด้วย mm
@@ -142,10 +125,10 @@ engine คือ เครื่องมือสำหรับใช้ตั
 
 #### isthai
 
-ใช้เช็คข้อความว่าเป็นภาษาไทยทั้งหมดกี่ %
+ตรวจสอบข้อความว่ามีอักษรไทยร้อยละเท่าใด
 
 ```python
-isthai(text,check_all=False)
+isthai(text, check_all=False)
 ```
 
 text คือ ข้อความหรือ list ตัวอักษร
@@ -171,9 +154,8 @@ Python code: Korakot Chaovavanich
 **การใช้งาน**
 
 ```python
->>> from pythainlp.tokenize import tcc
->>> tcc.tcc('ประเทศไทย')
-'ป/ระ/เท/ศ/ไท/ย'
+from pythainlp.tokenize import tcc
+tcc.tcc("ประเทศไทย")  # 'ป/ระ/เท/ศ/ไท/ย'
 ```
 
 #### Enhanced Thai Character Cluster (ETCC)
@@ -350,12 +332,12 @@ from pythainlp.number import *
 ```
 จัดการกับตัวเลข โดยมีดังนี้
 
-- thai_num_to_num(str)  - เป็นการแปลงเลขไทยสู่เลข
+- thai_num_to_num(str) - เป็นการแปลงเลขไทยสู่เลข
 - thai_num_to_text(str) - เลขไทยสู่ข้อความ
 - num_to_thai_num(str) - เลขสู่เลขไทย
 - num_to_text(str) - เลขสู่ข้อความ
 - text_to_num(str) - ข้อความสู่เลข
-- numtowords(float) -  อ่านจำนวนตัวเลขภาษาไทย (บาท) รับค่าเป็น ''float'' คืนค่าเป็น  'str'
+- numtowords(float) - อ่านจำนวนตัวเลขภาษาไทย (บาท) รับค่าเป็น ''float'' คืนค่าเป็น 'str'
 
 ### collation
 
@@ -363,7 +345,7 @@ from pythainlp.number import *
 
 ```python
 from pythainlp.collation import collation
-print(collation(['ไก่','ไข่','ก','ฮา'])) # ['ก', 'ไก่', 'ไข่', 'ฮา']
+print(collation(["ไก่", "ไข่", "กา", "ฮา"]))  # ['กา', 'ไก่', 'ไข่', 'ฮา']
 ```
 
 รับ list คืนค่า list
@@ -376,7 +358,7 @@ print(collation(['ไก่','ไข่','ก','ฮา'])) # ['ก', 'ไก่'
 
 ```python
 from pythainlp.date import now
-now() # '30 พฤษภาคม 2560 18:45:24'
+now()  # '30 พฤษภาคม 2560 18:45:24'
 ```
 ### rank
 
@@ -415,12 +397,12 @@ from pythainlp.change import *
 
 ### soundex
 
-เดติด คุณ Korakot Chaovavanich (จาก https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8)
+เครดิต Korakot Chaovavanich https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8
 
 กฎที่รองรับในรุ่น 1.4
 
-- กฎการเข้ารหัสซาวน์เด็กซ์ของ วิชิตหล่อจีระชุณห์กุล และ เจริญ  คุวินทร์พันธุ์ - LK82
-- กฎการเข้ารหัสซาวน์เด็กซ์ของ วรรณี อุดมพาณิชย์ - Udom83
+- LK82 - กฎการเข้ารหัสซาวน์เด็กซ์ของ วิชิตหล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์
+- Udom83 - กฎการเข้ารหัสซาวน์เด็กซ์ของ วรรณี อุดมพาณิชย์
 
 **การใช้งาน**
 
@@ -513,8 +495,8 @@ normalize(text)
 **ตัวอย่าง**
 
 ```python
->>> print(normalize("เเปลก") == "แปลก") # เ เ ป ล ก กับ แปลก
-True
+# เ เ ป ล ก กับ แปลก
+normalize("เเปลก") == "แปลก"  # True 
 ```
 
 #### listtext_num2num

@@ -32,6 +32,7 @@ We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-mod
   [GitHub issue system](https://github.com/PyThaiNLP/pythainlp/));
 - Run all tests before pushing (just execute `tox`) so you will know if your
   changes broke something;
+- All source code and all text files should be ended with one empty line. This is [to please git](https://stackoverflow.com/questions/5813311/no-newline-at-end-of-file#5813359) and also [to keep up with POSIX standard](https://stackoverflow.com/questions/729692/why-should-text-files-end-with-a-newline).
 
 
 # Discussion

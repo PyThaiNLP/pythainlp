@@ -16,6 +16,7 @@ from pythainlp.corpus import (
     thaiword,
     tone,
     wordnet,
+    ttc
 )
 from pythainlp.date import now, reign_year_to_ad, now_reign_year
 from pythainlp.keywords import find_keyword
@@ -158,6 +159,9 @@ class TestUM(unittest.TestCase):
 
     def test_tnc(self):
         self.assertIsNotNone(get_word_frequency_all())
+
+    def test_ttc(self):
+        self.assertIsNotNone(ttc.get_word_frequency_all())
 
     def test_date(self):
         self.assertIsNotNone(now())

@@ -70,10 +70,3 @@ def tcc_pos(text):
 
 def tcc(w, sep="/"):
     return sep.join(tcc_gen(w))
-
-
-if __name__ == "__main__":
-    print(tcc("แมวกิน"))
-    print(tcc("ประชาชน"))
-    print(tcc("ขุดหลุม"))
-    print(tcc("ยินดี"))

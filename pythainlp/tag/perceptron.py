@@ -24,7 +24,7 @@ def pud_data():
     return model
 
 
-def tag(text, corpus):
+def tag(text, corpus="pud"):
     """
     รับค่าเป็น ''list'' คืนค่าเป็น ''list'' เช่น [('ข้อความ', 'ชนิดคำ')]"""
     if corpus == "orchid":

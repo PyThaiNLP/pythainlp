@@ -4,7 +4,6 @@
 Code by https://github.com/cstorm125/thai2vec/tree/master/notebook
 """
 import re
-import sys
 
 from pythainlp.corpus import download, get_file
 from pythainlp.tokenize import word_tokenize
@@ -43,12 +42,11 @@ class ThaiTokenizer:
     def __init__(self, engine="newmm"):
         """
         :parameters for tokenization engine:
-            * newmm - Maximum Matching algorithm + TCC
-            * icu - IBM ICU
-            * longest-matching - Longest matching
-            * mm - Maximum Matching algorithm
-            * pylexto - LexTo
-            * deepcut - Deep Neural Network
+            * newmm - dictionary-based, Maximum Matching algorithm + TCC
+            * longest - dictionary-based, Longest Matching
+            * icu - use ICU, dictionary-based
+            * pylexto - use LexTo, dictionary-based
+            * deepcut - use deepcut, language model-based
         """
         self.engine = engine
         self.__RE_BR = re.compile(r"<\s*br\s*/?>", re.IGNORECASE)

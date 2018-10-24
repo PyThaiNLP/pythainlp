@@ -3,7 +3,7 @@ from pythainlp.change import texttoeng, texttothai
 from pythainlp.collation import collation
 from pythainlp.date import now
 from pythainlp.keywords import find_keyword
-from pythainlp.MetaSound import MetaSound
+from pythainlp.metasound import metasound
 from pythainlp.rank import rank
 from pythainlp.romanization import romanize
 from pythainlp.sentiment import sentiment

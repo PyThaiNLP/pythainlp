@@ -3,7 +3,6 @@
 Sentiment analyzer based on thai2vec ("ulmfit" engine)
 Code by https://github.com/cstorm125/thai2vec/tree/master/notebook
 """
-import sys
 from collections import defaultdict
 
 from pythainlp.corpus import download, get_file
@@ -85,7 +84,8 @@ def about():
     return """
     Sentiment analyzer based on thai2vec
     Data is from various online reviews including but not limited to JagerV3 and Wongnai Challenge.
-    89% accuracy based on 15% validation set compared to 72% of fastText and 52% most-frequent-class baseline.
+    89% accuracy based on 15% validation set compared to
+    72% of fastText and 52% most-frequent-class baseline.
 
     Development: Charin Polpanumas
     GitHub: https://github.com/cstorm125/thai2vec

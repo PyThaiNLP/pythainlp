@@ -2,7 +2,6 @@
 """
 Wrapper for deepcut Thai word segmentation
 """
-import sys
 
 try:
     import deepcut

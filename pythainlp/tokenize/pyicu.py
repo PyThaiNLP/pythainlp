@@ -3,7 +3,6 @@
 Wrapper for ICU word segmentation
 """
 import re
-import sys
 
 try:
     import icu

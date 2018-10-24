@@ -2,7 +2,8 @@
 """
 Longest-matching Thai word segmentation
 
-Based on code from https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py
+Based on code from
+https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py
 """
 import re
 
@@ -35,7 +36,6 @@ _UNKNOWN = False
 
 
 class Tokenizer(object):
-
     def __init__(self, trie):
         self.__trie = trie
 

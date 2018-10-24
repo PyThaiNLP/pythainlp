@@ -2,7 +2,6 @@
 """
 Wrapper for LexTo Thai word segmentation
 """
-import sys
 
 _LEXTO_URL = "https://github.com/PyThaiNLP/pylexto/archive/master.zip"
 

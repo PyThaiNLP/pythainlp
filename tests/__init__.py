@@ -19,7 +19,7 @@ from pythainlp.corpus import (
 )
 from pythainlp.date import now, reign_year_to_ad, now_reign_year
 from pythainlp.keywords import find_keyword
-from pythainlp.MetaSound import MetaSound
+from pythainlp.metasound import metasound
 from pythainlp.ner import ThaiNameRecognizer
 from pythainlp.number import numtowords
 from pythainlp.rank import rank
@@ -31,6 +31,7 @@ from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import etcc, isthai, syllable_tokenize, tcc, word_tokenize
 from pythainlp.util import listtext_num2num, normalize
 from pythainlp.Text import Text
+
 
 class TestUM(unittest.TestCase):
     """
@@ -80,7 +81,7 @@ class TestUM(unittest.TestCase):
 
     def test_segment_longest_matching(self):
         self.assertEqual(
-            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest-matching"),
+            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
 
@@ -134,15 +135,11 @@ class TestUM(unittest.TestCase):
         self.assertEqual(Udom83("รถ"), "ร800000")
 
     def test_ms(self):
-        self.assertEqual(MetaSound("คน"), "15")
-        self.assertEqual(MetaSound("คนA"), "150")
-        self.assertEqual(MetaSound("ดา"), "20")
-        self.assertEqual(MetaSound("ปา"), "30")
-        self.assertEqual(MetaSound("งา"), "40")
-        self.assertEqual(MetaSound("ลา"), "50")
-        self.assertEqual(MetaSound("มา"), "60")
-        self.assertEqual(MetaSound("วา"), "80")
-        self.assertEqual(MetaSound("ลัก"), MetaSound("รัก"))
+        self.assertEqual(metasound("บูรณะ"), "บ550")
+        self.assertEqual(metasound("คน"), "ค500")
+        self.assertEqual(metasound("คนA"), "ค500")
+        self.assertEqual(metasound("ดา"), "ด000")
+        self.assertEqual(metasound("รักษ์"), metasound("รัก"))
 
     def test_wordnet(self):
         self.assertEqual(
@@ -259,8 +256,10 @@ class TestUM(unittest.TestCase):
                 ("เช้า", "I-TIME"),
             ],
         )
+
     def test_Text(self):
         self.assertIsNotNone(Text("ทดสอบภาษาไทย"))
+
 
 if __name__ == "__main__":
     unittest.main()

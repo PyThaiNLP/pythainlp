@@ -58,6 +58,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+Untitled*.ipynb
 
 # IDE files
 .idea

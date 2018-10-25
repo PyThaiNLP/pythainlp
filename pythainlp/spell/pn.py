@@ -8,22 +8,17 @@ from collections import Counter
 
 from pythainlp.corpus import tnc
 
-WORDS = Counter(dict(tnc.get_word_frequency_all()))
-WORDS_TOTAL = sum(WORDS.values())
+_WORDS = Counter(dict(tnc.get_word_frequency_all()))
+_WORDS_TOTAL = sum(_WORDS.values())
 
 
-def _prob(word, n=WORDS_TOTAL):
+def _prob(word, n=_WORDS_TOTAL):
     "Probability of `word`."
-    return WORDS[word] / n
-
-
-def _correction(word):
-    "แสดงคำที่เป็นไปได้มากที่สุด"
-    return max(spell(word), key=_prob)
+    return _WORDS[word] / n
 
 
 def _known(words):
-    return list(w for w in words if w in WORDS)
+    return list(w for w in words if w in _WORDS)
 
 
 def _edits1(word):
@@ -110,6 +105,7 @@ def _edits1(word):
     transposes = [L + R[1] + R[0] + R[2:] for L, R in splits if len(R) > 1]
     replaces = [L + c + R[1:] for L, R in splits if R for c in letters]
     inserts = [L + c + R for L, R in splits for c in letters]
+
     return set(deletes + transposes + replaces + inserts)
 
 
@@ -118,7 +114,20 @@ def _edits2(word):
 
 
 def spell(word):
+    """
+    Return set of possible words, according to edit distance
+    """
     if not word:
         return ""
 
-    return _known([word]) or _known(_edits1(word)) or _known(_edits2(word)) or [word]
+    return set(
+        _known([word]) or _known(_edits1(word)) or _known(_edits2(word)) or [word]
+    )
+
+
+def correction(word):
+    """
+    Return the most possible word, according to probability from the corpus
+    แสดงคำที่เป็นไปได้มากที่สุด
+    """
+    return max(spell(word), key=_prob)

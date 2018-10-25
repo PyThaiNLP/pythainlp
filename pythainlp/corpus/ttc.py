@@ -34,6 +34,6 @@ def get_word_frequency_all():
     listword = []
     for line in lines:
         listindata = line.split("	")
-        listword.append((listindata[0], listindata[1]))
+        listword.append((listindata[0], int(listindata[1])))
 
     return listword

@@ -1,30 +1,32 @@
 # -*- coding: utf-8 -*-
 """
-Spell checker
+Spell checker, using Peter Norvig algorithm + word frequency from Thai National Corpus
 
-Based on Peter Norvig's Python code at http://norvig.com/spell-correct.html
+Based on Peter Norvig's Python code from http://norvig.com/spell-correct.html
 """
 from collections import Counter
-from pythainlp.corpus.thaiword import get_data
 
-WORDS = Counter(get_data())
+from pythainlp.corpus import tnc
+
+WORDS = Counter(dict(tnc.get_word_frequency_all()))
+WORDS_TOTAL = sum(WORDS.values())
 
 
-def prob(word, n=sum(WORDS.values())):
+def _prob(word, n=WORDS_TOTAL):
     "Probability of `word`."
     return WORDS[word] / n
 
 
-def correction(word):
+def _correction(word):
     "แสดงคำที่เป็นไปได้มากที่สุด"
-    return max(spell(word), key=prob)
+    return max(spell(word), key=_prob)
 
 
-def known(words):
+def _known(words):
     return list(w for w in words if w in WORDS)
 
 
-def edits1(word):
+def _edits1(word):
     letters = [
         "ก",
         "ข",
@@ -111,12 +113,12 @@ def edits1(word):
     return set(deletes + transposes + replaces + inserts)
 
 
-def edits2(word):
-    return (e2 for e1 in edits1(word) for e2 in edits1(e1))
+def _edits2(word):
+    return (e2 for e1 in _edits1(word) for e2 in _edits1(e1))
 
 
 def spell(word):
     if not word:
         return ""
-    else:
-        return known([word]) or known(edits1(word)) or known(edits2(word)) or [word]
+
+    return _known([word]) or _known(_edits1(word)) or _known(_edits2(word)) or [word]

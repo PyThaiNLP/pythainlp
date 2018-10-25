@@ -3,7 +3,7 @@
 import os
 
 import requests
-from future.moves.urllib.request import urlopen
+from urllib.request import urlopen
 from pythainlp.tools import get_path_data, get_path_db
 from tinydb import Query, TinyDB
 from tqdm import tqdm
@@ -12,7 +12,7 @@ CORPUS_DB_URL = (
     "https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/master/db.json"
 )
 
-# __all__ = ["thaipos", "thaiword","alphabet","tone","country","wordnet"]
+# __all__ = ["thaipos", "thaiword", "alphabet", "tone", "country", "wordnet"]
 path_db_ = get_path_db()
 
 

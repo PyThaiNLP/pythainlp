@@ -3,10 +3,10 @@
 import os
 
 import requests
-from urllib.request import urlopen
 from pythainlp.tools import get_path_data, get_path_db
 from tinydb import Query, TinyDB
 from tqdm import tqdm
+from urllib.request import urlopen
 
 CORPUS_DB_URL = (
     "https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/master/db.json"

@@ -21,13 +21,14 @@ setup(
     test_suite="tests",
     package_data={
         "pythainlp.corpus": [
+            "corpus_license.md",
+            "new-thaidict.txt",
+            "negation.txt",
             "stopwords-th.txt",
             "thaipos.json",
             "thaiword.txt",
-            "corpus_license.md",
+            "thaiword_frozen_201810.txt",
             "tha-wn.db",
-            "new-thaidict.txt",
-            "negation.txt",
             "provinces.csv",
             "pt_tagger_1.dill",
             "ud_thai-pud_pt_tagger.dill",

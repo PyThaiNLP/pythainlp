@@ -1,8 +1,8 @@
+conllu
+dill
 nltk>=3.2.2
 marisa_trie
-requests
-dill
 pytz
-conllu
+requests
 tinydb
 tqdm

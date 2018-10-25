@@ -5,6 +5,8 @@ from collections import Counter
 
 from pythainlp.change import texttoeng, texttothai
 from pythainlp.collation import collation
+from pythainlp.corpus.conceptnet import edges
+from pythainlp.corpus.tnc import get_word_frequency_all
 from pythainlp.corpus import (
     alphabet,
     country,
@@ -14,6 +16,7 @@ from pythainlp.corpus import (
     thaiword,
     tone,
     wordnet,
+    ttc
 )
 from pythainlp.date import now, reign_year_to_ad, now_reign_year
 from pythainlp.keywords import find_keyword
@@ -150,6 +153,15 @@ class TestUM(unittest.TestCase):
 
     def test_spell(self):
         self.assertIsNotNone(spell("เน้ร"))
+
+    def test_conceptnet(self):
+        self.assertIsNotNone(edges("รัก"))
+
+    def test_tnc(self):
+        self.assertIsNotNone(get_word_frequency_all())
+
+    def test_ttc(self):
+        self.assertIsNotNone(ttc.get_word_frequency_all())
 
     def test_date(self):
         self.assertIsNotNone(now())

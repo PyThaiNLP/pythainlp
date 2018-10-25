@@ -116,7 +116,3 @@ def etcc(text):
             text = re.sub(i, ii + "/", text)
 
     return re.sub("//", "/", text)
-
-
-if __name__ == "__main__":
-    print(etcc("พันธุ์เด็กเปียเสือเงินพังมือเพราะเกาะเอาะยีนส์เพราะเรือดีเพราะ"))

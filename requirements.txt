@@ -1,7 +1,7 @@
 conllu
 dill
-nltk>=3.2.2
 marisa_trie
+nltk>=3.2.2
 pytz
 requests
 tinydb

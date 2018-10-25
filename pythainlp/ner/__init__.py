@@ -5,6 +5,7 @@ Named-entity recognizer
 from pythainlp.corpus import download, get_file, stopwords
 from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
+from pythainlp.util import is_thaiword
 
 try:
     import sklearn_crfsuite
@@ -22,20 +23,6 @@ _WORD_TOKENIZER = "newmm"  # ตัวตัดคำ
 _STOPWORDS = stopwords.words("thai")
 
 
-def _is_thaichar(ch):  # เป็นอักษรไทยหรือไม่
-    ch_val = ord(ch)
-    if ch_val >= 3584 and ch_val <= 3711:
-        return True
-    return False
-
-
-def _is_thaiword(word):  # เป็นคำที่มีแต่อักษรไทยหรือไม่
-    for ch in word:
-        if ch != "." and not _is_thaichar(ch):
-            return False
-    return True
-
-
 def _is_stopword(word):  # เช็คว่าเป็นคำฟุ่มเฟือย
     return word in _STOPWORDS
 
@@ -47,7 +34,7 @@ def _doc2features(doc, i):
     features = {
         "word.word": word,
         "word.stopword": _is_stopword(word),
-        "word.isthai": _is_thaiword(word),
+        "word.isthai": is_thaiword(word),
         "word.isspace": word.isspace(),
         "postag": postag,
         "word.isdigit()": word.isdigit(),
@@ -61,7 +48,7 @@ def _doc2features(doc, i):
         postag1 = doc[i - 1][1]
         features["word.prevword"] = prevword
         features["word.previsspace"] = prevword.isspace()
-        features["word.previsthai"] = _is_thaiword(prevword)
+        features["word.previsthai"] = is_thaiword(prevword)
         features["word.prevstopword"] = _is_stopword(prevword)
         features["word.prepostag"] = postag1
         features["word.prevwordisdigit"] = prevword.isdigit()
@@ -75,7 +62,7 @@ def _doc2features(doc, i):
         features["word.nextword"] = nextword
         features["word.nextisspace"] = nextword.isspace()
         features["word.nextpostag"] = postag1
-        features["word.nextisthai"] = _is_thaiword(nextword)
+        features["word.nextisthai"] = is_thaiword(nextword)
         features["word.nextstopword"] = _is_stopword(nextword)
         features["word.nextwordisdigit"] = nextword.isdigit()
     else:

@@ -7,8 +7,27 @@ Based on Peter Norvig's Python code from http://norvig.com/spell-correct.html
 from collections import Counter
 
 from pythainlp.corpus import tnc
+from pythainlp.util import is_thaichar
 
-_WORDS = Counter(dict(tnc.get_word_frequency_all()))
+
+def _keep(word):
+    for ch in word:
+        if ch != "." and not is_thaichar(ch):
+            return False
+        if ch in "๐๑๒๓๔๕๖๗๘๙":
+            return False
+    return True
+
+
+# get word frequency from TNC then filter out non-Thai words and low frequency words
+word_freqs = tnc.get_word_frequency_all()
+word_freqs = [
+    word_freq
+    for word_freq in word_freqs
+    if word_freq[1] > 2 and len(word_freq[0]) <= 40 and _keep(word_freq[0])
+]
+
+_WORDS = Counter(dict(word_freqs))
 _WORDS_TOTAL = sum(_WORDS.values())
 
 

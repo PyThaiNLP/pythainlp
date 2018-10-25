@@ -115,14 +115,12 @@ def _edits2(word):
 
 def spell(word):
     """
-    Return set of possible words, according to edit distance
+    Return a list of possible words, according to edit distance
     """
     if not word:
         return ""
 
-    return set(
-        _known([word]) or _known(_edits1(word)) or _known(_edits2(word)) or [word]
-    )
+    return _known([word]) or _known(_edits1(word)) or _known(_edits2(word)) or [word]
 
 
 def correction(word):

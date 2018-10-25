@@ -1,5 +1,4 @@
 nltk>=3.2.2
-future>=0.16.0
 marisa_trie
 requests
 dill

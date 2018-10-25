@@ -91,11 +91,15 @@ _THAI_CHARS = [
 
 
 def _keep(word):
+    if word[0] == ".":
+        return False
+
     for ch in word:
         if ch != "." and not is_thaichar(ch):
             return False
         if ch in "๐๑๒๓๔๕๖๗๘๙":
             return False
+
     return True
 
 
@@ -104,7 +108,7 @@ word_freqs = tnc.get_word_frequency_all()
 word_freqs = [
     word_freq
     for word_freq in word_freqs
-    if word_freq[1] > 2 and len(word_freq[0]) <= 40 and _keep(word_freq[0])
+    if word_freq[1] > 1 and len(word_freq[0]) <= 40 and _keep(word_freq[0])
 ]
 
 _WORDS = Counter(dict(word_freqs))

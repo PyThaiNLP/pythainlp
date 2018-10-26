@@ -30,6 +30,7 @@ def _is_stopword(word):  # เช็คว่าเป็นคำฟุ่ม�
 def _doc2features(doc, i):
     word = doc[i][0]
     postag = doc[i][1]
+
     # Features from current word
     features = {
         "word.word": word,
@@ -39,32 +40,38 @@ def _doc2features(doc, i):
         "postag": postag,
         "word.isdigit()": word.isdigit(),
     }
-
     if word.isdigit() and len(word) == 5:
         features["word.islen5"] = True
 
+    # Features from previous word
     if i > 0:
         prevword = doc[i - 1][0]
-        postag1 = doc[i - 1][1]
-        features["word.prevword"] = prevword
-        features["word.previsspace"] = prevword.isspace()
-        features["word.previsthai"] = is_thaiword(prevword)
-        features["word.prevstopword"] = _is_stopword(prevword)
-        features["word.prepostag"] = postag1
-        features["word.prevwordisdigit"] = prevword.isdigit()
+        prevpostag = doc[i - 1][1]
+        prev_features = {
+            "word.prevword": prevword,
+            "word.previsspace": prevword.isspace(),
+            "word.previsthai": is_thaiword(prevword),
+            "word.prevstopword": _is_stopword(prevword),
+            "word.prevpostag": prevpostag,
+            "word.prevwordisdigit": prevword.isdigit(),
+        }
+        features.update(prev_features)
     else:
         features["BOS"] = True  # Special "Beginning of Sequence" tag
 
     # Features from next word
     if i < len(doc) - 1:
         nextword = doc[i + 1][0]
-        postag1 = doc[i + 1][1]
-        features["word.nextword"] = nextword
-        features["word.nextisspace"] = nextword.isspace()
-        features["word.nextpostag"] = postag1
-        features["word.nextisthai"] = is_thaiword(nextword)
-        features["word.nextstopword"] = _is_stopword(nextword)
-        features["word.nextwordisdigit"] = nextword.isdigit()
+        nextpostag = doc[i + 1][1]
+        next_features = {
+            "word.nextword": nextword,
+            "word.nextisspace": nextword.isspace(),
+            "word.nextpostag": nextpostag,
+            "word.nextisthai": is_thaiword(nextword),
+            "word.nextstopword": _is_stopword(nextword),
+            "word.nextwordisdigit": nextword.isdigit(),
+        }
+        features.update(next_features)
     else:
         features["EOS"] = True  # Special "End of Sequence" tag
 

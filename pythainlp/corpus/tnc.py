@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Word frequency from Thai National Corpus
+Thai National Corpus word frequency
+
 Credit: Korakot Chaovavanich‎
 https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
 """

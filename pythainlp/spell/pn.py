@@ -91,16 +91,19 @@ _THAI_CHARS = [
 
 
 def _keep(word):
+    keep = True
     if word[0] == ".":
-        return False
+        keep = False
+    else:
+        for ch in word:
+            if ch != "." and not is_thaichar(ch):
+                keep = False
+                break
+            if ch in "๐๑๒๓๔๕๖๗๘๙":
+                keep = False
+                break
 
-    for ch in word:
-        if ch != "." and not is_thaichar(ch):
-            return False
-        if ch in "๐๑๒๓๔๕๖๗๘๙":
-            return False
-
-    return True
+    return keep
 
 
 # get word frequency from TNC then filter out non-Thai words and low frequency words

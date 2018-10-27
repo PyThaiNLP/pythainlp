@@ -91,7 +91,10 @@ _THAI_CHARS = [
 
 
 def _keep(word):
-    if word[0] == ".":
+    """
+    Keep only Thai words with length between 2 and 40 characters
+    """
+    if not word or len(word) < 2 or len(word) > 40 or word[0] == ".":
         return False
 
     for ch in word:
@@ -103,13 +106,9 @@ def _keep(word):
     return True
 
 
-# get word frequency from corpus then filter out non-Thai words and low frequency words
+# TODO: Add spell checker class, so user can provide customized word list
 word_freqs = tnc.get_word_frequency_all()
-word_freqs = [
-    word_freq
-    for word_freq in word_freqs
-    if word_freq[1] > 1 and len(word_freq[0]) <= 40 and _keep(word_freq[0])
-]
+word_freqs = [wf for wf in word_freqs if wf[1] > 1 and _keep(wf[0])]
 
 _WORDS = Counter(dict(word_freqs))
 _WORDS_TOTAL = sum(_WORDS.values())
@@ -143,7 +142,7 @@ def _edits2(word):
     """
     Return a set of words with edit distance of 2 from the input word
     """
-    return (e2 for e1 in _edits1(word) for e2 in _edits1(e1))
+    return set(e2 for e1 in _edits1(word) for e2 in _edits1(e1))
 
 
 def spell(word):

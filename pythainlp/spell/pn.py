@@ -116,7 +116,9 @@ _WORDS_TOTAL = sum(_WORDS.values())
 
 
 def _prob(word, n=_WORDS_TOTAL):
-    "Probability of `word`."
+    """
+    Return probability of an input word, according to the corpus
+    """
     return _WORDS[word] / n
 
 
@@ -125,6 +127,9 @@ def _known(words):
 
 
 def _edits1(word):
+    """
+    Return a set of words with edit distance of 1 from the input word
+    """
     splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
     deletes = [L + R[1:] for L, R in splits if R]
     transposes = [L + R[1] + R[0] + R[2:] for L, R in splits if len(R) > 1]
@@ -135,17 +140,26 @@ def _edits1(word):
 
 
 def _edits2(word):
+    """
+    Return a set of words with edit distance of 2 from the input word
+    """
     return (e2 for e1 in _edits1(word) for e2 in _edits1(e1))
 
 
 def spell(word):
     """
-    Return a list of possible words, according to edit distance of 1 and 2
+    Return a list of possible words, according to edit distance of 1 and 2,
+    sorted by probability of word occurrance
     """
     if not word:
         return ""
 
-    return _known([word]) or _known(_edits1(word)) or _known(_edits2(word)) or [word]
+    candidates = (
+        _known([word]) or _known(_edits1(word)) or _known(_edits2(word)) or [word]
+    )
+    candidates.sort(key=_prob, reverse=True)
+
+    return candidates
 
 
 def correction(word):
@@ -156,4 +170,4 @@ def correction(word):
     if not word:
         return ""
 
-    return max(spell(word), key=_prob)
+    return spell(word)[0]

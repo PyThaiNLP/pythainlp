@@ -103,7 +103,7 @@ def _keep(word):
     return True
 
 
-# get word frequency from TNC then filter out non-Thai words and low frequency words
+# get word frequency from corpus then filter out non-Thai words and low frequency words
 word_freqs = tnc.get_word_frequency_all()
 word_freqs = [
     word_freq
@@ -140,7 +140,7 @@ def _edits2(word):
 
 def spell(word):
     """
-    Return a list of possible words, according to edit distance
+    Return a list of possible words, according to edit distance of 1 and 2
     """
     if not word:
         return ""
@@ -153,4 +153,7 @@ def correction(word):
     Return the most possible word, according to probability from the corpus
     แสดงคำที่เป็นไปได้มากที่สุด
     """
+    if not word:
+        return ""
+
     return max(spell(word), key=_prob)

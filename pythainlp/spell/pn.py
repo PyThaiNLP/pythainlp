@@ -160,7 +160,7 @@ class NorvigSpellChecker:
         if not custom_dict:  # default, use Thai National Corpus
             custom_dict = tnc.get_word_frequency_all()
 
-        if dict_filter is None:
+        if not dict_filter:
             dict_filter = _no_filter
 
         # filter word list

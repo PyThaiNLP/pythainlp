@@ -7,6 +7,20 @@ import re
 from nltk.util import ngrams as ngramsdata
 
 
+def is_thaichar(ch):  # เป็นอักษรไทยหรือไม่
+    ch_val = ord(ch)
+    if ch_val >= 3584 and ch_val <= 3711:
+        return True
+    return False
+
+
+def is_thaiword(word):  # เป็นคำที่มีแต่อักษรไทยหรือไม่
+    for ch in word:
+        if ch != "." and not is_thaichar(ch):
+            return False
+    return True
+
+
 def ngrams(token, num):
     """
     ngrams สร้าง ngrams
@@ -34,7 +48,7 @@ def trigram(token):
     return ngrams(token, 3)
 
 
-RULE1 = [
+_NORMALIZE_RULE1 = [
     "ะ",
     "ั",
     "็",
@@ -61,7 +75,7 @@ RULE1 = [
 ]  # เก็บพวกสระ วรรณยุกต์ที่ซ้ำกันแล้วมีปัญหา
 
 
-RULE2 = [
+_NORMALIZE_RULE2 = [
     ("เเ", "แ"),  # เ เ -> แ
     ("ํ(t)า", "\\1ำ"),
     ("ํา(t)", "\\1ำ"),
@@ -81,9 +95,9 @@ def normalize(text):
     >>> print(normalize("เเปลก")=="แปลก") # เ เ ป ล ก กับ แปลก
     True
     """
-    for data in RULE2:
+    for data in _NORMALIZE_RULE2:
         text = re.sub(data[0].replace("t", "[่้๊๋]"), data[1], text)
-    for data in list(zip(RULE1, RULE1)):
+    for data in list(zip(_NORMALIZE_RULE1, _NORMALIZE_RULE1)):
         text = re.sub(data[0].replace("t", "[่้๊๋]") + "+", data[1], text)
     return text
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Word frequency from Thai National Corpus
+Thai National Corpus word frequency
+
 Credit: Korakot Chaovavanich‎
 https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
 """
@@ -57,6 +58,6 @@ def get_word_frequency_all():
     listword = []
     for line in lines:
         listindata = line.split("	")
-        listword.append((listindata[0], listindata[1]))
+        listword.append((listindata[0], int(listindata[1])))
 
     return listword

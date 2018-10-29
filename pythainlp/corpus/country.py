@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
+"""
+Country list
+"""
 
 
 def get_data():
     """
-    Return list of countries, in Thai language
+    Return a list of countries, in Thai language
     """
     return [
         "อัฟกานิสถาน",

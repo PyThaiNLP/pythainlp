@@ -1,9 +1,13 @@
 ﻿# -*- coding: utf-8 -*-
+"""
+Thai alphabets
+"""
 
 
 def get_data():
-    """เป็นคำสั่งสำหรับดึงตัวอักษร ก - ฮ ในภาษาไทย
-    คืนค่า list
+    """
+    Get a list of Thai alphabets (from Ko Kai \u0e01 to Ho Nokhuk \u0e2e)
+    คืนค่า list ที่มีพญัชนะไทย ก (\u0e01) - ฮ (\u0e2e)
     """
     return [
         "ก",

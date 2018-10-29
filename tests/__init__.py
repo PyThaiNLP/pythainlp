@@ -20,18 +20,17 @@ from pythainlp.corpus import (
 )
 from pythainlp.date import now, reign_year_to_ad, now_reign_year
 from pythainlp.keywords import find_keyword
-from pythainlp.metasound import metasound
 from pythainlp.ner import ThaiNameRecognizer
 from pythainlp.number import numtowords
 from pythainlp.rank import rank
 from pythainlp.romanization import romanize
-from pythainlp.soundex import LK82, Udom83
+from pythainlp.soundex import lk82, metasound, udom83
 from pythainlp.spell import spell
 from pythainlp.summarize import summarize_text
 from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import etcc, isthai, syllable_tokenize, tcc, word_tokenize
 from pythainlp.util import listtext_num2num, normalize
-from pythainlp.Text import Text
+from pythainlp.text import Text
 
 
 class TestUM(unittest.TestCase):
@@ -131,11 +130,9 @@ class TestUM(unittest.TestCase):
     def test_etcc(self):
         self.assertEqual(etcc.etcc("คืนความสุข"), "/คืน/ความสุข")
 
-    def test_lk82(self):
-        self.assertEqual(LK82("รถ"), "ร3000")
-        self.assertEqual(Udom83("รถ"), "ร800000")
-
-    def test_ms(self):
+    def test_soundex(self):
+        self.assertEqual(lk82("รถ"), "ร3000")
+        self.assertEqual(udom83("รถ"), "ร800000")
         self.assertEqual(metasound("บูรณะ"), "บ550")
         self.assertEqual(metasound("คน"), "ค500")
         self.assertEqual(metasound("คนA"), "ค500")

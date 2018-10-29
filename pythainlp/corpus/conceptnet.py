@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-
 """
-นี่คือ API สำหรับดึงข้อมูลมาจาก http://conceptnet.io
+ดึงข้อมูลจาก http://conceptnet.io
 """
 import requests
 

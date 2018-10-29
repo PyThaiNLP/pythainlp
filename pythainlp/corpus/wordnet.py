@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-API ตัวใหม่ เริ่มใช้ตั้งแต่ PyThaiNLP 1.4 เป็นต้นไป
+WordNet
 """
 import nltk
 
 try:
     nltk.data.find("corpora/omw")
+except LookupError:
+    nltk.download("omw")
+
+try:
     nltk.data.find("corpora/wordnet")
 except LookupError:
     nltk.download("wordnet")
-    nltk.download("omw")
 
 from nltk.corpus import wordnet
 

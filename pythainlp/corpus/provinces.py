@@ -6,7 +6,7 @@ Recognizes Thailand provinces in text
 
 def get_data():
     """
-    Return list of provinces in Thailand, in Thai language
+    Return a list of provinces in Thailand, in Thai language
     """
     return [
         "กระบี่",

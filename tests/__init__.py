@@ -30,8 +30,8 @@ from pythainlp.summarize import summarize_text
 from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import etcc, isthai, syllable_tokenize, tcc, word_tokenize
 from pythainlp.util import listtext_num2num, normalize
+from pythainlp.g2p import ipa
 from pythainlp.text import Text
-
 
 class TestUM(unittest.TestCase):
     """
@@ -260,6 +260,12 @@ class TestUM(unittest.TestCase):
 
     def test_Text(self):
         self.assertIsNotNone(Text("ทดสอบภาษาไทย"))
+
+    def test_ipa(self):
+        t=ipa("คน")
+        self.assertEqual(t.str(),'kʰon')
+        self.assertIsNotNone(t.list())
+        self.assertIsNotNone(t.xsampa_list())
 
 
 if __name__ == "__main__":

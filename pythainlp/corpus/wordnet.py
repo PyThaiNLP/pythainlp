@@ -3,7 +3,6 @@
 API ตัวใหม่ เริ่มใช้ตั้งแต่ PyThaiNLP 1.4 เป็นต้นไป
 """
 import nltk
-from nltk.corpus import wordnet
 
 try:
     nltk.data.find("corpora/omw")
@@ -12,6 +11,7 @@ except LookupError:
     nltk.download("wordnet")
     nltk.download("omw")
 
+from nltk.corpus import wordnet
 
 def synsets(word, pos=None, lang="tha"):
     return wordnet.synsets(lemma=word, pos=pos, lang=lang)

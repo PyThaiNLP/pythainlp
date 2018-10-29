@@ -91,6 +91,10 @@ _THAI_CHARS = [
 ]
 
 
+def _no_filter(word):
+    return True
+
+
 def _is_thai_and_not_num(word):
     for ch in word:
         if ch != "." and not is_thaichar(ch):
@@ -100,19 +104,19 @@ def _is_thai_and_not_num(word):
     return True
 
 
-def _keep(wf, min_freq, min_len, max_len, condition_func):
+def _keep(word_freq, min_freq, min_len, max_len, dict_filter):
     """
     Keep only Thai words with at least min_freq frequency
-    and has length between min_len and (max_len characters
+    and has length between min_len and max_len characters
     """
-    if not wf or wf[1] < min_freq:
+    if not word_freq or word_freq[1] < min_freq:
         return False
 
-    word = wf[0]
+    word = word_freq[0]
     if not word or len(word) < min_len or len(word) > max_len or word[0] == ".":
         return False
 
-    return condition_func(word)
+    return dict_filter(word)
 
 
 def _edits1(word):
@@ -138,32 +142,38 @@ def _edits2(word):
 class NorvigSpellChecker:
     def __init__(
         self,
-        word_freqs=None,
+        custom_dict=None,
         min_freq=2,
         min_len=2,
         max_len=40,
-        condition_func=_is_thai_and_not_num,
+        dict_filter=_is_thai_and_not_num,
     ):
         """
         Initialize Peter Norvig's spell checker object
 
-        :param str word_freqs: A list of tuple (word, frequency) to create a spelling dictionary. Default is from Thai National Corpus (around 40,000 words).
+        :param str custom_dict: A list of tuple (word, frequency) to create a spelling dictionary. Default is from Thai National Corpus (around 40,000 words).
         :param int min_freq: Minimum frequency of a word to keep (default = 2)
         :param int min_len: Minimum length (in characters) of a word to keep (default = 2)
         :param int max_len: Maximum length (in characters) of a word to keep (default = 40)
+        :param func dict_filter: A function to filter the dictionary. Default filter removes any word with number or non-Thai characters. If no filter is required, use None.
         """
-        if not word_freqs:  # default, use Thai National Corpus
-            word_freqs = tnc.get_word_frequency_all()
+        if not custom_dict:  # default, use Thai National Corpus
+            custom_dict = tnc.get_word_frequency_all()
+
+        if dict_filter is None:
+            dict_filter = _no_filter
 
         # filter word list
-        word_freqs = [
-            wf
-            for wf in word_freqs
-            if _keep(wf, min_freq, min_len, max_len, condition_func)
+        custom_dict = [
+            word_freq
+            for word_freq in custom_dict
+            if _keep(word_freq, min_freq, min_len, max_len, dict_filter)
         ]
 
-        self.__WORDS = Counter(dict(word_freqs))
+        self.__WORDS = Counter(dict(custom_dict))
         self.__WORDS_TOTAL = sum(self.__WORDS.values())
+        if self.__WORDS_TOTAL < 1:
+            self.__WORDS_TOTAL = 0
 
     def dictionary(self):
         """

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-NLTK Text() wrapper
+NLTK Text class wrapper
 """
 import nltk
 from pythainlp.tokenize import word_tokenize

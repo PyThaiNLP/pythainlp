@@ -74,9 +74,3 @@ def lk82(text):
 
     # 14. เติมศูนย์ให้ครบ ถ้าเกินก็ตัด
     return ("".join(res2) + "0000")[:5]
-
-
-if __name__ == "__main__":
-    texts = ["รถ", "รส", "รด", "จัน", "จันทร์", "มัก", "มัค", "มรรค"]
-    for text in texts:
-        print("{} - LK82:{}".format(text, lk82(text)))

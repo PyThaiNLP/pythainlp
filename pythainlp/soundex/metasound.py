@@ -77,13 +77,3 @@ def metasound(text, length=4):
         chars.append("0")
 
     return "".join(chars)
-
-
-if __name__ == "__main__":
-    print(metasound("บูรณะ"))  # บ550 (an example from the original paper [Figure 4])
-    print(metasound("บูรณการ", 5))  # บ5515
-    print(metasound("ลักษณะ"))  # ล125
-    print(metasound("ลัก"))  # ล100
-    print(metasound("รัก"))  # ร100
-    print(metasound("รักษ์"))  # ร100
-    print(metasound(""))  # 0000

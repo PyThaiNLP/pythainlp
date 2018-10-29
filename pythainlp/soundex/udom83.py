@@ -53,9 +53,3 @@ def udom83(text):
     sd += text[1:].translate(_TRANS2)
 
     return (sd + "000000")[:7]
-
-
-if __name__ == "__main__":
-    texts = ["รถ", "รส", "รด", "จัน", "จันทร์", "มัก", "มัค", "มรรค"]
-    for text in texts:
-        print("{} - Udom83:{}".format(text, udom83(text)))

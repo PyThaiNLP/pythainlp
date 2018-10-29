@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-MetaSound - Thai soundex system
+Thai soundex - MetaSound system
 
 References:
 Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statistical
@@ -87,12 +87,3 @@ if __name__ == "__main__":
     print(metasound("รัก"))  # ร100
     print(metasound("รักษ์"))  # ร100
     print(metasound(""))  # 0000
-
-    print(metasound("คน"))
-    print(metasound("คนA"))
-    print(metasound("ดา"))
-    print(metasound("ปา"))
-    print(metasound("งา"))
-    print(metasound("ลา"))
-    print(metasound("มา"))
-    print(metasound("วา"))

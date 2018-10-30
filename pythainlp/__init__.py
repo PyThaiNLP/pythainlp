@@ -9,7 +9,6 @@ from pythainlp.sentiment import sentiment
 from pythainlp.soundex import lk82, metasound, udom83
 from pythainlp.spell import spell
 from pythainlp.tag import pos_tag
-from pythainlp.text import Text
 from pythainlp.tokenize import etcc, sent_tokenize, tcc, word_tokenize
 from pythainlp.util import bigrams, ngrams, trigram
 

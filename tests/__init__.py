@@ -16,7 +16,7 @@ from pythainlp.corpus import (
     thaiword,
     tone,
     wordnet,
-    ttc
+    ttc,
 )
 from pythainlp.date import now, reign_year_to_ad, now_reign_year
 from pythainlp.keywords import find_keyword
@@ -31,7 +31,7 @@ from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import etcc, isthai, syllable_tokenize, tcc, word_tokenize
 from pythainlp.util import listtext_num2num, normalize
 from pythainlp.g2p import ipa
-from pythainlp.text import Text
+
 
 class TestUM(unittest.TestCase):
     """
@@ -262,8 +262,8 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(Text("ทดสอบภาษาไทย"))
 
     def test_ipa(self):
-        t=ipa("คน")
-        self.assertEqual(t.str(),'kʰon')
+        t = ipa("คน")
+        self.assertEqual(t.str(), "kʰon")
         self.assertIsNotNone(t.list())
         self.assertIsNotNone(t.xsampa_list())
 

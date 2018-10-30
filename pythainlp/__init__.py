@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 from pythainlp.change import texttoeng, texttothai
-from pythainlp.collation import collation
+from pythainlp.collation import collate
 from pythainlp.date import now
 from pythainlp.keywords import find_keyword
 from pythainlp.rank import rank

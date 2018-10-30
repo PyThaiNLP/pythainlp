@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 โปรแกรม ETCC ใน Python
-
 พัฒนาโดย นาย วรรณพงษ์  ภัททิยไพบูลย์
-
 19 มิ.ย. 2560
 
 วิธีใช้งาน
@@ -13,58 +11,13 @@ etcc(คำ)
 
 import re
 
+from pythainlp.corpus.alphabet import get_data as thai_alphas
 
-C = [
-    "ก",
-    "ข",
-    "ฃ",
-    "ค",
-    "ฅ",
-    "ฆ",
-    "ง",
-    "จ",
-    "ฉ",
-    "ช",
-    "ฌ",
-    "ซ",
-    "ศ",
-    "ษ",
-    "ส",
-    "ญ",
-    "ฎ",
-    "ฑ",
-    "ด",
-    "ฏ",
-    "ต",
-    "ฐ",
-    "ฑ",
-    "ฒ",
-    "ถ",
-    "ท",
-    "ธ",
-    "ณ",
-    "น",
-    "บ",
-    "ป",
-    "ผ",
-    "พ",
-    "ภ",
-    "ฝ",
-    "ฟ",
-    "ม",
-    "ย",
-    "ร",
-    "ล",
-    "ฬ",
-    "ว",
-    "ห",
-    "ฮ",
-]
-UV = ["็", "ี", "ื", "ิ"]
-UV1 = ["ั", "ี"]
-LV = ["ุ", "ู"]
-c = "[" + "".join(C) + "]"
-uv2 = "[" + "".join(["ั", "ื"]) + "]"
+_UV = ["็", "ี", "ื", "ิ"]
+_UV1 = ["ั", "ี"]
+_LV = ["ุ", "ู"]
+c = "[" + "".join(thai_alphas()) + "]"
+_UV2 = "[" + "".join(["ั", "ื"]) + "]"
 
 
 def etcc(text):
@@ -74,20 +27,18 @@ def etcc(text):
     รับ str
     ส่งออก str
     """
-    if re.search(r"[เแ]" + c + r"[" + "".join(UV) + r"]" + r"\w", text):
-        search = re.findall(r"[เแ]" + c + r"[" + "".join(UV) + r"]" + r"\w", text)
+    if re.search(r"[เแ]" + c + r"[" + "".join(_UV) + r"]" + r"\w", text):
+        search = re.findall(r"[เแ]" + c + r"[" + "".join(_UV) + r"]" + r"\w", text)
         for i in search:
             text = re.sub(i, "/" + i + "/", text)
 
-    if re.search(c + r"[" + "".join(UV1) + r"]" + c + c + r"ุ" + r"์", text):
-        search = re.findall(
-            c + r"[" + "".join(UV1) + r"]" + c + c + r"ุ" + r"์", text
-        )
+    if re.search(c + r"[" + "".join(_UV1) + r"]" + c + c + r"ุ" + r"์", text):
+        search = re.findall(c + r"[" + "".join(_UV1) + r"]" + c + c + r"ุ" + r"์", text)
         for i in search:
             text = re.sub(i, "//" + i + "/", text)
 
-    if re.search(c + uv2 + c, text):
-        search = re.findall(c + uv2 + c, text)
+    if re.search(c + _UV2 + c, text):
+        search = re.findall(c + _UV2 + c, text)
         for i in search:
             text = re.sub(i, "/" + i + "/", text)
     re.sub("//", "/", text)
@@ -103,8 +54,8 @@ def etcc(text):
             text = re.sub(i, "/" + i + "/", text)
     text = re.sub("//", "/", text)
 
-    if re.search(c + "[" + "".join(UV1) + "]" + c + c + "์", text):
-        search = re.findall(c + "[" + "".join(UV1) + "]" + c + c + "์", text)
+    if re.search(c + "[" + "".join(_UV1) + "]" + c + c + "์", text):
+        search = re.findall(c + "[" + "".join(_UV1) + "]" + c + c + "์", text)
         for i in search:
             text = re.sub(i, "/" + i + "/", text)
 

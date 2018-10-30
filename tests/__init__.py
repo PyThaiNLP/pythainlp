@@ -4,7 +4,7 @@ import unittest
 from collections import Counter
 
 from pythainlp.change import texttoeng, texttothai
-from pythainlp.collation import collation
+from pythainlp.collation import collate
 from pythainlp.corpus.conceptnet import edges
 from pythainlp.corpus.tnc import get_word_frequency_all
 from pythainlp.corpus import (
@@ -188,10 +188,10 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(provinces.get_data())
         self.assertTrue(len(newthaiword.get_data()) > len(thaiword.get_data()))
 
-    def test_collation(self):
-        self.assertEqual(collation(["ไก่", "กก"]), ["กก", "ไก่"])
+    def test_collate(self):
+        self.assertEqual(collate(["ไก่", "กก"]), ["กก", "ไก่"])
         self.assertEqual(
-            collation(["ไก่", "เป็ด", "หมู", "วัว"]), ["ไก่", "เป็ด", "วัว", "หมู"]
+            collate(["ไก่", "เป็ด", "หมู", "วัว"]), ["ไก่", "เป็ด", "วัว", "หมู"]
         )
 
     def test_normalize(self):

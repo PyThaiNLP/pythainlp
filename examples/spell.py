@@ -8,7 +8,6 @@ from pythainlp.spell.pn import spell as pn_tnc_spell
 
 # spell checker from pythainlp.spell module (generic)
 print(spell("สี่เหลียม"))  # ['สี่เหลี่ยม']
-# print(spell("สี่เหลียม", engine="hunspell"))  # available in some Linux systems
 
 # spell checker from pythainlp.spell.pn module (specified algorithm - Peter Norvig's)
 print(pn_tnc_spell("เหลืยม"))

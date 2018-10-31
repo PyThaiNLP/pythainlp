@@ -4,5 +4,6 @@ pythainlp.soundex
 ====================================
 The :class:`pythainlp.soundex` is soundex for thai.
 
-.. autofunction:: LK82
-.. autofunction:: Udom83
+.. autofunction:: lk82
+.. autofunction:: udom83
+.. autofunction:: metasound

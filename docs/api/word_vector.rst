@@ -1,7 +1,5 @@
 .. currentmodule:: pythainlp.word_vector.thai2vec
 
-
-
 pythainlp.word_vector
 ====================================
 The :class:`word_vector.thai2vec` contains functions that makes use of a pre-trained vector public data.

@@ -23,7 +23,6 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
         * newmm (default) - dictionary-based, Maximum Matching + Thai Character Cluster
         * longest - dictionary-based, Longest Matching
         * icu - wrapper for ICU, dictionary-based
-        * wordcutpy - wrapper for wordcutpy, dictionary-based https://github.com/veer66/wordcutpy
         * deepcut - wrapper for deepcut, language-model-based https://github.com/rkcosmos/deepcut
         * ulmfit - use newmm engine with a specific dictionary for use with thai2vec
     :return: list of words, tokenized from the text
@@ -50,8 +49,6 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
         from .pyicu import segment
     elif engine == "deepcut":
         from .deepcut import segment
-    elif engine == "wordcutpy":
-        from .wordcutpy import segment
     elif engine == "mm" or engine == "multi_cut":
         from .multi_cut import segment
     else:  # default, use "newmm" engine
@@ -68,7 +65,7 @@ def dict_word_tokenize(text, custom_dict_trie, engine="newmm"):
     :meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
     :param str text: text to be tokenized
     :param dict custom_dict_trie: a dictionary trie
-    :param str engine: choose between different options of engine to token (newmm, longest, wordcutpy)
+    :param str engine: choose between different options of engine to token (newmm, longest)
     :return: list of words
     **Example**::
         >>> from pythainlp.tokenize import dict_word_tokenize,create_custom_dict_trie
@@ -81,10 +78,6 @@ def dict_word_tokenize(text, custom_dict_trie, engine="newmm"):
         from .newmm import mmcut as segment
     elif engine == "longest" or engine == "longest-matching":
         from .longest import segment
-    elif engine == "wordcutpy":
-        from .wordcutpy import segment
-
-        return segment(text, custom_dict_trie.keys())
     elif engine == "mm" or engine == "multi_cut":
         from .multi_cut import segment
     else:  # default, use "newmm" engine

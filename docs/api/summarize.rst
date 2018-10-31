@@ -7,4 +7,4 @@ The :class:`summarize` is thai text summarize.
 Modules
 -------
 
-.. autofunction:: summarize_text
+.. autofunction:: summarize

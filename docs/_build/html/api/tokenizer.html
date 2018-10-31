@@ -213,28 +213,20 @@
 <dl class="function">
 <dt id="pythainlp.tokenize.dict_word_tokenize">
 <code class="descclassname">pythainlp.tokenize.</code><code class="descname">dict_word_tokenize</code><span class="sig-paren">(</span><em>text</em>, <em>custom_dict_trie</em>, <em>engine='newmm'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/tokenize.html#dict_word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.tokenize.dict_word_tokenize" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p><a class="reference internal" href="#pythainlp.tokenize.dict_word_tokenize" title="pythainlp.tokenize.dict_word_tokenize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict_word_tokenize()</span></code></a> tokenizes word based on the dictionary you provide. The format has to be in trie data structure.</p>
+<dd><p><a class="reference internal" href="#pythainlp.tokenize.dict_word_tokenize" title="pythainlp.tokenize.dict_word_tokenize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict_word_tokenize()</span></code></a> tokenizes word based on the dictionary you provide. The format has to be in trie data structure.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param str text:</th><td class="field-body">the text to be tokenized</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the text to be tokenized</li>
+<li><strong>custom_dict_trie</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – คือ trie ที่สร้างจาก create_custom_dict_trie</li>
+<li><strong>engine</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name" colspan="2">param dict custom_dict_trie:</th></tr>
-<tr class="field-even field"><td>&#160;</td><td class="field-body">คือ trie ที่สร้างจาก create_custom_dict_trie</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">param str engine:</th></tr>
-<tr class="field-odd field"><td>&#160;</td><td class="field-body">choose between different options of engine to token (newmm, wordcutpy, mm, longest-matching)</td>
-</tr>
-</tbody>
-</table>
-</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of words, tokenized from a text.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of words, tokenized from a text.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -350,7 +342,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0).
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0)
 
     </p>
   </div>
@@ -369,21 +361,14 @@
 
   
 
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'1.7',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
 
   
 

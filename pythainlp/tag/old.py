@@ -2,7 +2,6 @@
 """
 Unigram Part-Of-Speech Tagger
 """
-import json
 import os
 
 import dill

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from pythainlp.collation import collation
+from pythainlp.collation import collate
 
-print(collation(["ไก่", "ไข่", "ก", "ฮา"]))  # ['ก', 'ไก่', 'ไข่', 'ฮา']
+print(collate(["ไก่", "ไข่", "ก", "ฮา"]))  # ['ก', 'ไก่', 'ไข่', 'ฮา']

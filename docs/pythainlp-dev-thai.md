@@ -57,7 +57,6 @@ engine คือ ระบบตัดคำ ปัจจุบันมี engi
 - longest - ใช้พจนานุกรม ด้วยวิธี Longest Matching
 - icu - เรียกใช้ตัวตัดคำจาก ICU ใช้พจนานุกรม (ความแม่นยำต่ำ)
 - wordcutpy - เรียกใช้ตัวตัดคำจาก [wordcutpy](https://github.com/veer66/wordcutpy) ใช้พจนานุกรม
-- pylexto - เรียกใช้ตัวตัดคำจาก LexTo ใช้พจนานุกรม ด้วยวิธี Longest Matching
 - deepcut - เรียกใช้ตัวตัดคำจาก [deepcut](https://github.com/rkcosmos/deepcut) ใช้การเรียนรู้ของเครื่อง
 
 คืนค่าเป็น ''list'' เช่น ['แมว', 'กิน']

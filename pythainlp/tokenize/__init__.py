@@ -24,7 +24,6 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
         * longest - dictionary-based, Longest Matching
         * icu - wrapper for ICU, dictionary-based
         * wordcutpy - wrapper for wordcutpy, dictionary-based https://github.com/veer66/wordcutpy
-        * pylexto - wrapper for PyLexTo, dictionary-based, Longest Matching
         * deepcut - wrapper for deepcut, language-model-based https://github.com/rkcosmos/deepcut
         * ulmfit - use newmm engine with a specific dictionary for use with thai2vec
     :return: list of words, tokenized from the text
@@ -53,8 +52,6 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
         from .deepcut import segment
     elif engine == "wordcutpy":
         from .wordcutpy import segment
-    elif engine == "pylexto":
-        from .pylexto import segment
     elif engine == "mm" or engine == "multi_cut":
         from .multi_cut import segment
     else:  # default, use "newmm" engine

@@ -4,9 +4,7 @@ import unittest
 from collections import Counter
 
 from pythainlp.change import texttoeng, texttothai
-from pythainlp.collation import collation
-from pythainlp.corpus.conceptnet import edges
-from pythainlp.corpus.tnc import get_word_frequency_all
+from pythainlp.collation import collate
 from pythainlp.corpus import (
     alphabet,
     country,
@@ -15,10 +13,13 @@ from pythainlp.corpus import (
     stopwords,
     thaiword,
     tone,
+    ttc,
     wordnet,
-    ttc
 )
-from pythainlp.date import now, reign_year_to_ad, now_reign_year
+from pythainlp.corpus.conceptnet import edges
+from pythainlp.corpus.tnc import get_word_frequency_all
+from pythainlp.date import now, now_reign_year, reign_year_to_ad
+from pythainlp.g2p import ipa
 from pythainlp.keywords import find_keyword
 from pythainlp.ner import ThaiNameRecognizer
 from pythainlp.number import numtowords
@@ -30,8 +31,7 @@ from pythainlp.summarize import summarize_text
 from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import etcc, isthai, syllable_tokenize, tcc, word_tokenize
 from pythainlp.util import listtext_num2num, normalize
-from pythainlp.g2p import ipa
-from pythainlp.text import Text
+
 
 class TestUM(unittest.TestCase):
     """
@@ -188,10 +188,10 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(provinces.get_data())
         self.assertTrue(len(newthaiword.get_data()) > len(thaiword.get_data()))
 
-    def test_collation(self):
-        self.assertEqual(collation(["ไก่", "กก"]), ["กก", "ไก่"])
+    def test_collate(self):
+        self.assertEqual(collate(["ไก่", "กก"]), ["กก", "ไก่"])
         self.assertEqual(
-            collation(["ไก่", "เป็ด", "หมู", "วัว"]), ["ไก่", "เป็ด", "วัว", "หมู"]
+            collate(["ไก่", "เป็ด", "หมู", "วัว"]), ["ไก่", "เป็ด", "วัว", "หมู"]
         )
 
     def test_normalize(self):
@@ -258,12 +258,9 @@ class TestUM(unittest.TestCase):
             ],
         )
 
-    def test_Text(self):
-        self.assertIsNotNone(Text("ทดสอบภาษาไทย"))
-
     def test_ipa(self):
-        t=ipa("คน")
-        self.assertEqual(t.str(),'kʰon')
+        t = ipa("คน")
+        self.assertEqual(t.str(), "kʰon")
         self.assertIsNotNone(t.list())
         self.assertIsNotNone(t.xsampa_list())
 

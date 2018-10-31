@@ -49,7 +49,7 @@ class FrequencySummarizer:
         return [sents[j] for j in summaries_idx]
 
 
-def summarize_text(text, n, engine="frequency", tokenizer="newmm"):
+def summarize(text, n, engine="frequency", tokenizer="newmm"):
     """
     Thai text summarization
     :param str text: text to be summarized

@@ -4,9 +4,8 @@ pythainlp.ner
 ====================================
 The :class:`pythainlp.ner` is named entity recognition for thai.
 
-
 Modules
 -------
 
-.. autoclass:: thainer
+.. autoclass:: ThaiNameRecognizer
    :members: get_ner

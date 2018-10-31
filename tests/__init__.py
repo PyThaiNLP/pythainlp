@@ -27,7 +27,7 @@ from pythainlp.rank import rank
 from pythainlp.romanization import romanize
 from pythainlp.soundex import lk82, metasound, udom83
 from pythainlp.spell import spell
-from pythainlp.summarize import summarize_text
+from pythainlp.summarize import summarize
 from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import etcc, isthai, syllable_tokenize, tcc, word_tokenize
 from pythainlp.util import listtext_num2num, normalize
@@ -84,17 +84,6 @@ class TestUM(unittest.TestCase):
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
-
-    def test_segment_wordcut(self):
-        if (
-            sys.version_info >= (3, 4)
-            and sys.platform != "win32"
-            and sys.platform != "win64"
-        ):
-            self.assertEqual(
-                word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="wordcutpy"),
-                ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
-            )
 
     def test_rank(self):
         self.assertEqual(rank(["แมว", "คน", "แมว"]), Counter({"แมว": 2, "คน": 1}))
@@ -177,7 +166,7 @@ class TestUM(unittest.TestCase):
         text += "ช่วยทำให้อวัยวะต่างๆ ทำงานได้อย่างปกติ "
         text += "อาหารจะต้องไม่มีพิษและไม่เกิดโทษต่อร่างกาย"
         self.assertEqual(
-            summarize_text(text=text, n=1, engine="frequency"),
+            summarize(text=text, n=1, engine="frequency"),
             ["อาหารจะต้องไม่มีพิษและไม่เกิดโทษต่อร่างกาย"],
         )
 

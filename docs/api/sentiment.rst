@@ -2,6 +2,6 @@
 
 pythainlp.sentiment
 ====================================
-The :class:`romanization.sentiment` is sentiment analysis.
+The :class:`pythainlp.sentiment` is a sentiment analysis.
 
 .. autofunction:: sentiment

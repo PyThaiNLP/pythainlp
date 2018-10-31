@@ -197,10 +197,18 @@ class NorvigSpellChecker:
         """
         return self.__WORDS[word] / self.__WORDS_TOTAL
 
+    def freq(self, word):
+        """
+        Return frequency of an input word, according to the spelling dictionary
+
+        :param str word: A word to check its frequency
+        """
+        return self.__WORDS[word]
+
     def spell(self, word):
         """
         Return a list of possible words, according to edit distance of 1 and 2,
-        sorted by probability of word occurrance in the spelling dictionary
+        sorted by frequency of word occurrance in the spelling dictionary
 
         :param str word: A word to check its spelling
         """
@@ -213,7 +221,7 @@ class NorvigSpellChecker:
             or self.known(_edits2(word))
             or [word]
         )
-        candidates.sort(key=self.prob, reverse=True)
+        candidates.sort(key=self.freq, reverse=True)
 
         return candidates
 

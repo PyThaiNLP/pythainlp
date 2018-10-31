@@ -19,6 +19,3 @@ Thai has historically faced a lot of NLP challenges. A quick list of them includ
 **Example for classification**
 
 https://colab.research.google.com/drive/1cnJ6O3b1jwaHwvsMWW3oQw7f8X2Ka7Sp
-
-
-

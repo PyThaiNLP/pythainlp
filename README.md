@@ -1,7 +1,4 @@
-
-<p align="center">
-  <img src="https://avatars0.githubusercontent.com/u/32934255?s=200&v=4">
-</p>
+![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
 
 # PyThaiNLP
 
@@ -13,71 +10,72 @@
 
 Thai natural language processing in Python.
 
-PyThaiNLP is a python module similar to `nltk` , but it's working primarily on
-Thai language instead of English.
+PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk`, but with focus on Thai language.
 
-It supports Python 3.4+
+PyThaiNLP supports Python 3.4+. Since version 1.7, PyThaiNLP deprecates its support for Python 2. Python 2 users can still use PyThaiNLP 1.6.
 
-### Capability
+### Capabilities
 
-- Thai word segmentation
-- Thai wordnet
-- Thai Character Clusters (TCC) and ETCC
-- Thai stop word
-- Thai meta sound
-- Thai soundex
-- Thai postaggers
+- Thai word segmentation, including subword segmentation based on Thai Character Cluster (TCC) and ETCC
+- Thai WordNet
+- Thai part-of-speech taggers
 - Thai romanization
-- Thai misspellings detection and correction
-
-and much more.
+- Thai soundex and MetaSound
+- Thai misspellings detection and spelling correction
+- Thai stop words
+- and much more.
 
 ### Install
 
-**using pip.**
+**Using pip**
+
+Stable release
 
 ```sh
 $ pip install pythainlp
 ```
 
+Development release
+
+```sh
+$ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
+```
+
 ### Documentation
 
-Read on [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
+See [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
 
 ### License
 
-Apache Software License 2.0
+[Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
 
 ## ภาษาไทย
 
-ประมวลภาษาธรรมชาติภาษาไทยในภาษา Python
+ประมวลภาษาไทยในภาษา Python
 
-Natural language processing หรือ การประมวลผลภาษาธรรมชาติ  โมดูล PyThaiNLP เป็นโมดูลที่ถูกพัฒนาขึ้นเพื่อพัฒนาการประมวลผลภาษาธรรมชาติภาษาไทยในภาษา Python และ**มันฟรี (ตลอดไป) เพื่อคนไทยและชาวโลกทุกคน !**
+PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่อการประมวลผลภาษาธรรมชาติ โดยเน้นการสนับสนุนภาษาไทย **แจกจ่ายฟรี (ตลอดไป) เพื่อคนไทยและชาวโลกทุกคน!**
 
 > เพราะโลกขับเคลื่อนต่อไปด้วยการแบ่งปัน
 
 รองรับ Python 3.4 ขึ้นไป
 
-  - หน้าหลัก GitHub :  [https://github.com/PyThaiNLP/pythainlp/](https://github.com/PyThaiNLP/pythainlp/)
+  - หน้าหลัก GitHub: [https://github.com/PyThaiNLP/pythainlp/](https://github.com/PyThaiNLP/pythainlp/)
 
 ### ความสามารถ
   - ตัดคำภาษาไทย
-  - ถอดเสียงภาษาไทยเป็น Latin
-  - Postaggers ภาษาไทย
+  - ถอดเสียงภาษาไทยเป็นอักษรละติน
+  - ระบุชนิดคำ (part-of-speech) ภาษาไทย
   - อ่านตัวเลขเป็นข้อความภาษาไทย
   - เรียงจำนวนคำของประโยค
   - แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา
-  - เช็คคำผิดในภาษาไทย
-  - รองรับ  Thai Character Clusters (TCC) และ ETCC
+  - ตรวจคำสะกดผิดในภาษาไทย
+  - รองรับ Thai Character Clusters (TCC) และ ETCC
   - Thai WordNet
-  - Stop Word ภาษาไทย
-  - Meta Sound ภาษาไทย
-  - Thai Soundex
+  - stop word ภาษาไทย
+  - MetaSound และ soundex ภาษาไทย
   - และอื่น ๆ 
 
 ### ติดตั้ง
-
-รองรับ Python 3.4 ขึ้นไป
 
 รุ่นเสถียร
 
@@ -93,13 +91,11 @@ $ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 
 ### เอกสารการใช้งาน
 
-อ่านได้ที่  [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
+อ่านที่ [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
 
 ### License
 
-Apache Software License 2.0
-
-พัฒนาโดย PyThaiNLP
+[Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
 
 ### Logo
 
@@ -107,4 +103,4 @@ Apache Software License 2.0
 
 ### สนับสนุน
 
-คุณสามารถร่วมพัฒนาโครงการนี้ได้ โดยการ Fork และส่ง pull requests กลับมา
+คุณสามารถ[ร่วมพัฒนาโครงการนี้](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)ได้ โดยการ fork และส่ง pull request กลับมา

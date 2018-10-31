@@ -8,11 +8,11 @@
 [![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-
-
 PyThaiNLP is a Python library for natural language processing (NLP) of Thai language.
 
-## What's new in PyThaiNLP 1.7 ?
+PyThaiNLP features include Thai word and subword segmentations, soundex, romanization, part-of-speech taggers, and spelling corrections.
+
+## What's new in version 1.7 ?
 
 - Deprecate Python 2 support
 - Refactor pythainlp.tokenize.pyicu for readability
@@ -22,22 +22,20 @@ PyThaiNLP is a Python library for natural language processing (NLP) of Thai lang
 - Add ULMFit utility to PyThaiNLP
 - Add Thai romanization model thai2rom
 - Retrain POS-tagging model
-- Improve word tokenize (newmm,mm) and dict_word_tokenize
+- Improved word_tokenize (newmm, mm) and dict_word_tokenize
 - Documentation added
 
 ## Install
 
-```
+```sh
 pip install pythainlp
 ```
 
-**Note for Windows**: marisa-trie wheels can be obtained from https://www.lfd.uci.edu/~gohlke/pythonlibs/#marisa-trie , then install it with pip, for example: `pip install marisa_trie‑0.7.5‑cp36‑cp36m‑win32.whl`
+**Note for Windows**: `marisa-trie` wheels can be obtained from https://www.lfd.uci.edu/~gohlke/pythonlibs/#marisa-trie 
+Install it with pip, for example: `pip install marisa_trie‑0.7.5‑cp36‑cp36m‑win32.whl`
 
+## Links
 
-
-Docs : https://thainlp.org/pythainlp/docs/1.7/ 
-
-GitHub : https://github.com/PyThaiNLP/pythainlp
-
-Issues : https://github.com/PyThaiNLP/pythainlp/issues
-
+- Docs: https://thainlp.org/pythainlp/docs/1.7/ 
+- GitHub: https://github.com/PyThaiNLP/pythainlp
+- Issues: https://github.com/PyThaiNLP/pythainlp/issues

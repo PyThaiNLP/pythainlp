@@ -5,13 +5,12 @@ Thai tokenizers
 import re
 
 import nltk
-from pythainlp.corpus.thaisyllable import get_data as syllable_dict
-from pythainlp.corpus.thaiword import get_data as word_dict
+from pythainlp.corpus import get_data, thai_syllables, thai_words
 
 from marisa_trie import Trie
 
-DEFAULT_DICT_TRIE = Trie(word_dict())
-FROZEN_DICT_TRIE = Trie(word_dict(dict_fname="thaiword_frozen_201810.txt"))
+DEFAULT_DICT_TRIE = Trie(thai_words())
+FROZEN_DICT_TRIE = Trie(get_data("words_th_frozen_201810.txt"))
 
 
 def word_tokenize(text, engine="newmm", whitespaces=True):
@@ -153,14 +152,14 @@ def syllable_tokenize(text):
 
     :return: returns list of strings of syllables
     """
-    syllables = []
+    tokens = []
     if text:
         words = word_tokenize(text)
-        trie = create_custom_dict_trie(custom_dict_source=syllable_dict())
+        trie = create_custom_dict_trie(custom_dict_source=thai_syllables())
         for word in words:
-            syllables.extend(dict_word_tokenize(text=word, custom_dict_trie=trie))
+            tokens.extend(dict_word_tokenize(text=word, custom_dict_trie=trie))
 
-    return syllables
+    return tokens
 
 
 def create_custom_dict_trie(custom_dict_source):
@@ -204,7 +203,7 @@ class Tokenizer:
                     vocabs = f.read().splitlines()
                 self.__trie_dict = Trie(vocabs)
         else:
-            self.__trie_dict = Trie(word_dict())
+            self.__trie_dict = Trie(thai_words())
 
     def word_tokenize(self, text, engine="newmm"):
         from .newmm import mmcut as segment

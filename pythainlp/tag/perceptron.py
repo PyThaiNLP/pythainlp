@@ -26,7 +26,8 @@ def pud_data():
 
 def tag(text, corpus="pud"):
     """
-    รับค่าเป็น ''list'' คืนค่าเป็น ''list'' เช่น [('ข้อความ', 'ชนิดคำ')]"""
+    รับค่าเป็น ''list'' คืนค่าเป็น ''list'' เช่น [('คำ', 'ชนิดคำ'), ('คำ', 'ชนิดคำ'), ...]
+    """
     if corpus == "orchid":
         tagger = orchid_data()
         return tagger.tag(text)

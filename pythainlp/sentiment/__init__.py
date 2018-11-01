@@ -3,11 +3,13 @@
 import os
 import dill
 
-import pythainlp
-from pythainlp.corpus import stopwords
+from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
+from pythainlp.tools import get_path_data
 
-TEMPLATES_DIR = os.path.join(os.path.dirname(pythainlp.__file__), "sentiment")
+TEMPLATES_DIR = get_path_data("sentiment")
+
+_STOPWORDS = thai_stopwords()
 
 
 def sentiment(text, engine="old"):
@@ -39,7 +41,7 @@ def sentiment(text, engine="old"):
             vocabulary = dill.load(in_strm)
         with open(os.path.join(TEMPLATES_DIR, "sentiment.data"), "rb") as in_strm:
             classifier = dill.load(in_strm)
-        text = set(word_tokenize(text)) - set(stopwords.words("thai"))
+        text = set(word_tokenize(text)) - _STOPWORDS
         featurized_test_sentence = {i: (i in text) for i in vocabulary}
         return classifier.classify(featurized_test_sentence)
 

@@ -3,6 +3,7 @@
 Spell checking
 """
 
+from .pn import correct as pn_correct
 from .pn import spell as pn_spell
 
 
@@ -15,3 +16,14 @@ def spell(word, engine="pn"):
     """
 
     return pn_spell(word)
+
+
+def correct(word, engine="pn"):
+    """
+    :param str word: word to correct spelling
+    :param str engine:
+        * pn - Peter Norvig's algorithm (default)
+    :return: the corrected word
+    """
+
+    return pn_correct(word)

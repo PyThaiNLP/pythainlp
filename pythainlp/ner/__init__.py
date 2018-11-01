@@ -2,7 +2,7 @@
 """
 Named-entity recognizer
 """
-from pythainlp.corpus import download, get_file, stopwords
+from pythainlp.corpus import download, get_file, thai_stopwords
 from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import is_thaiword
@@ -20,7 +20,7 @@ except ImportError:
 
 
 _WORD_TOKENIZER = "newmm"  # ตัวตัดคำ
-_STOPWORDS = stopwords.words("thai")
+_STOPWORDS = thai_stopwords()
 
 
 def _is_stopword(word):  # เช็คว่าเป็นคำฟุ่มเฟือย

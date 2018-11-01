@@ -393,36 +393,25 @@ from pythainlp.change import *
 
 ### soundex
 
-เครดิต Korakot Chaovavanich https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8
-
 กฎที่รองรับ
-- LK82 - กฎการเข้ารหัสซาวน์เด็กซ์ของ วิชิตหล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์
-- Udom83 - กฎการเข้ารหัสซาวน์เด็กซ์ของ วรรณี อุดมพาณิชย์
+- lk82 - กฎการเข้ารหัสซาวน์เด็กซ์ของ วิชิตหล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์
+- udom83 - กฎการเข้ารหัสซาวน์เด็กซ์ของ วรรณี อุดมพาณิชย์
+
+เครดิต
+- Korakot Chaovavanich https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8
+- Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statistical Ontology for Analysing Names Given in Accordance with Thai Astrology. Retrieved from https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf
 
 **การใช้งาน**
 
 ```python
-from pythainlp.soundex import LK82, Udom83
+from pythainlp.soundex import lk82, metasound, udom83
 
-print(LK82("รถ"))  # ร3000
-print(LK82("รด"))  # ร3000
-print(LK82("จัน"))  # จ4000
-print(LK82("จันทร์"))  # จ4000
-print(Udom83("รถ"))  # ร800000
-```
-
-### MetaSound ภาษาไทย
-
-```
-Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statistical Ontology for Analysing Names Given in Accordance with Thai Astrology. Retrieved from https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf
-```
-
-**การใช้งาน**
-
-```python
-from pythainlp.metasound import metasound
-
-metasound("รัก")  # 'ร100'
+print(lk82("รถ"))  # ร3000
+print(lk82("รด"))  # ร3000
+print(lk82("จัน"))  # จ4000
+print(lk82("จันทร์"))  # จ4000
+print(udom83("รถ"))  # ร800000
+print(metasound("รัก"))  # 'ร100'
 ```
 
 ### sentiment
@@ -447,20 +436,9 @@ sentiment(str)
 from pythainlp.util import *
 ```
 
-#### ngrams
-
-สำหรับสร้าง n-grams
-
-```python
-ngrams(token, num)
-```
-
-- token คือ list
-- num คือ จำนวน ngrams
-
 #### bigrams
 
-สำหรับสร้าง bigrams
+สร้าง bigram
 
 ```python
 bigrams(token)
@@ -473,7 +451,7 @@ bigrams(token)
 สำหรับสร้าง trigram
 
 ```python
-trigram(token)
+trigrams(token)
 ```
 
 - token คือ list
@@ -559,61 +537,52 @@ print(wordnet.synset("spy.n.01").lemma_names("tha"))
 #### stopword ภาษาไทย
 
 ```python
-from pythainlp.corpus import stopwords
-stopwords = stopwords.words("thai")
+from pythainlp.corpus import thai_stopwords
+stopwords = thai_stopwords()
 ```
 
 #### ชื่อประเทศ ภาษาไทย
 
 ```python
-from pythainlp.corpus import country
-country.get_data()
+from pythainlp.corpus import countries
+countries()
 ```
 
-#### ตัววรรณยุกต์ในภาษาไทย
+#### วรรณยุกต์ในภาษาไทย
 
 ```python
-from pythainlp.corpus import tone
-tone.get_data()
+from pythainlp.corpus import THAI_TONEMARKS
 ```
 
-#### ตัวพยัญชนะในภาษาไทย
+#### พยัญชนะในภาษาไทย
 
 ```python
-from pythainlp.corpus import alphabet
-alphabet.get_data()
+from pythainlp.corpus import THAI_ALPHABETS
 ```
 
 #### รายการคำในภาษาไทย
 
 ```python
-from pythainlp.corpus.thaiword import get_data  # ข้อมูลเก่า
-get_data()
-
-from pythainlp.corpus.newthaiword import get_data  # ข้อมูลใหม่
-get_data()
+from pythainlp.corpus import thai_words
+thai_words()
 ```
 
 #### provinces
 
 ข้อมูลชื่อจังหวัดในประเทศไทย
 
-##### get_data
-
-รับข้อมูลชื่อจังหวัดในประเทศไทบ
-
 ```python
-get_data()
+from pythainlp.corpus import provinces
+provinces()
 ```
 
-คืนค่าเป็น list
-
-##### parsed_docs
+##### tag_provinces
 
 สำหรับใช้ติดป้ายกำกับชื่อจังหวัดในประเทศไทย
 
 ```python
-parsed_docs(text_list)
+from pythainlp.ner.locations import tag_provinces
+tag_provinces(text_list)
 ```
 
 text_list คือ ข้อความภาษาไทยที่อยู่ใน list โดยผ่านการตัดคำมาแล้ว

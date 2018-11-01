@@ -4,7 +4,7 @@ Utility functions
 """
 import re
 
-from nltk.util import ngrams as ngramsdata
+from nltk.util import ngrams
 
 
 def is_thaichar(ch):  # เป็นอักษรไทยหรือไม่
@@ -21,31 +21,18 @@ def is_thaiword(word):  # เป็นคำที่มีแต่อักษ
     return True
 
 
-def ngrams(token, num):
-    """
-    ngrams สร้าง ngrams
-    ngrams(token,num)
-    - token คือ list
-    - num คือ จำนวน ngrams
-    """
-    return ngramsdata(token, int(num))
-
-
 def bigrams(sequence):
     """
-    bigrams ใน Python
-    bigrams(sequence)
+    Return list of bigrams
     """
     return ngrams(sequence, 2)
 
 
-def trigram(token):
+def trigrams(sequence):
     """
-    Trigram สร้าง trigram
-    trigram(token)
-    - token คือ list
+    Return list of trigrams
     """
-    return ngrams(token, 3)
+    return ngrams(sequence, 3)
 
 
 _NORMALIZE_RULE1 = [

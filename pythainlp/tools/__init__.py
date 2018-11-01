@@ -6,19 +6,11 @@ import os
 import subprocess
 import sys
 
+PYTHAINLP_DATA_DIR = "pythainlp-data"
+
 
 def install_package(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
-
-
-def get_path_db():
-    path = os.path.join(get_path_pythainlp_data(), "db.json")
-    if not os.path.exists(path):
-        from tinydb import TinyDB
-
-        db = TinyDB(path)
-        # db.insert({'name': 'hi', 'version': '0.1','file':''})
-    return path
 
 
 def get_path_data(filename):
@@ -26,7 +18,7 @@ def get_path_data(filename):
 
 
 def get_path_pythainlp_data():
-    path = os.path.join(os.path.expanduser("~"), "pythainlp-data")
+    path = os.path.join(os.path.expanduser("~"), PYTHAINLP_DATA_DIR)
     if not os.path.exists(path):
         os.makedirs(path)
     return path

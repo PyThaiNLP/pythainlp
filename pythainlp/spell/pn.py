@@ -8,87 +8,8 @@ Based on Peter Norvig's Python code from http://norvig.com/spell-correct.html
 """
 from collections import Counter
 
-from pythainlp.corpus import tnc
+from pythainlp.corpus import THAI_LETTERS, tnc
 from pythainlp.util import is_thaichar
-
-_THAI_CHARS = [
-    "ก",
-    "ข",
-    "ฃ",
-    "ค",
-    "ฅ",
-    "ฆ",
-    "ง",
-    "จ",
-    "ฉ",
-    "ช",
-    "ซ",
-    "ฌ",
-    "ญ",
-    "ฎ",
-    "ฏ",
-    "ฐ",
-    "ฑ",
-    "ฒ",
-    "ณ",
-    "ด",
-    "ต",
-    "ถ",
-    "ท",
-    "ธ",
-    "น",
-    "บ",
-    "ป",
-    "ผ",
-    "ฝ",
-    "พ",
-    "ฟ",
-    "ภ",
-    "ม",
-    "ย",
-    "ร",
-    "ฤ",
-    "ล",
-    "ฦ",
-    "ว",
-    "ศ",
-    "ษ",
-    "ส",
-    "ห",
-    "ฬ",
-    "อ",
-    "ฮ",
-    "ฯ",
-    "ะ",
-    "ั",
-    "า",
-    "ำ",
-    "ิ",
-    "ี",
-    "ึ",
-    "ื",
-    "ุ",
-    "ู",
-    "ฺ",
-    "\u0e3b",
-    "\u0e3c",
-    "\u0e3d",
-    "\u0e3e",
-    "฿",
-    "เ",
-    "แ",
-    "โ",
-    "ใ",
-    "ไ",
-    "ๅ",
-    "ๆ",
-    "็",
-    "่",
-    "้",
-    "๊",
-    "๋",
-    "์",
-]
 
 
 def _no_filter(word):
@@ -126,8 +47,8 @@ def _edits1(word):
     splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
     deletes = [L + R[1:] for L, R in splits if R]
     transposes = [L + R[1] + R[0] + R[2:] for L, R in splits if len(R) > 1]
-    replaces = [L + c + R[1:] for L, R in splits if R for c in _THAI_CHARS]
-    inserts = [L + c + R for L, R in splits for c in _THAI_CHARS]
+    replaces = [L + c + R[1:] for L, R in splits if R for c in THAI_LETTERS]
+    inserts = [L + c + R for L, R in splits for c in THAI_LETTERS]
 
     return set(deletes + transposes + replaces + inserts)
 

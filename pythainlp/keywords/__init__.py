@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from pythainlp.corpus import stopwords
+from pythainlp.corpus import thai_stopwords
 from pythainlp.rank import rank
+
+_STOPWORDS = thai_stopwords()
 
 
 def find_keyword(word_list, lentext=3):
@@ -9,8 +11,6 @@ def find_keyword(word_list, lentext=3):
     :param int lentext: a number of keyword
     :return: dict
     """
-    filtered_words = [
-        word for word in word_list if word not in set(stopwords.words("thai"))
-    ]
+    filtered_words = [word for word in word_list if word not in _STOPWORDS]
     word_list = rank(filtered_words)
     return {k: v for k, v in word_list.items() if v >= lentext}

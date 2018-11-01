@@ -11,12 +11,12 @@ etcc(คำ)
 
 import re
 
-from pythainlp.corpus.alphabet import get_data as thai_alphas
+from pythainlp.corpus import THAI_ALPHABETS
 
 _UV = ["็", "ี", "ื", "ิ"]
 _UV1 = ["ั", "ี"]
 _LV = ["ุ", "ู"]
-c = "[" + "".join(thai_alphas()) + "]"
+c = "[" + THAI_ALPHABETS + "]"
 _UV2 = "[" + "".join(["ั", "ื"]) + "]"
 
 

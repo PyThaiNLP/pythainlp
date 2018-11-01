@@ -6,7 +6,7 @@ import os
 import pythainlp
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(pythainlp.__file__), "corpus")
-TEMPLATE_FILE = os.path.join(TEMPLATES_DIR, "thaipos.json")
+TEMPLATE_FILE = os.path.join(TEMPLATES_DIR, "pos_th.json")
 
 
 def get_data():

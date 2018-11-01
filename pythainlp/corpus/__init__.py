@@ -2,22 +2,94 @@
 
 import os
 
+import pythainlp
 import requests
-from pythainlp.tools import get_path_data, get_path_db
+from pythainlp.tools import get_path_data
 from tinydb import Query, TinyDB
 from tqdm import tqdm
 from urllib.request import urlopen
 
-CORPUS_DB_URL = (
+_CORPUS_DIRNAME = "corpus"
+CORPUS_PATH = os.path.join(os.path.dirname(pythainlp.__file__), _CORPUS_DIRNAME)
+
+_CORPUS_DB_URL = (
     "https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/master/db.json"
 )
+_CORPUS_DB_FILENAME = "db.json"
+CORPUS_DB_PATH = get_path_data(_CORPUS_DB_FILENAME)
+if not os.path.exists(CORPUS_DB_PATH):
+    TinyDB(CORPUS_DB_PATH)
 
-# __all__ = ["thaipos", "thaiword", "alphabet", "tone", "country", "wordnet"]
-path_db_ = get_path_db()
+_THAI_COUNTRIES_FILENAME = "countries_th.txt"
+_THAI_THAILAND_PROVINCES_FILENAME = "thailand_provinces_th.txt"
+_THAI_SYLLABLES_FILENAME = "syllables_th.txt"
+_THAI_WORDS_FILENAME = "words_th.txt"
+_THAI_STOPWORDS_FILENAME = "stopwords_th.txt"
+
+_THAI_NEGATIONS = frozenset(["ไม่", "แต่"])
+
+THAI_NUMBERS = "๐๑๒๓๔๕๖๗๘๙"  # 10
+THAI_ALPHABETS = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44
+THAI_VOWELS = "ฤฦะ\u0e31าำ\u0e34\u0e35\u0e36\u0e37\u0e38\u0e39เแโใไ\u0e45"  # 18
+THAI_SYMBOLS = "ฯ\u0e3a฿ๆ\u0e47\u0e4c\u0e4d\u0e4e\u0e4f\u0e5a\u0e5b"  # 11
+THAI_TONEMARKS = "\u0e48\u0e49\u0e50\u0e51"  # 4
+THAI_LETTERS = "".join(
+    [THAI_ALPHABETS, THAI_VOWELS, THAI_TONEMARKS, THAI_SYMBOLS]
+)  # 77
+
+
+def get_corpus(filename):
+    """
+    Read corpus from file and return a frozenset
+    """
+    lines = []
+    with open(os.path.join(CORPUS_PATH, filename), "r", encoding="utf8") as fh:
+        lines = fh.read().splitlines()
+    return frozenset(lines)
+
+
+def countries():
+    """
+    Return a frozenset of country names in Thai
+    """
+    return get_corpus(_THAI_COUNTRIES_FILENAME)
+
+
+def provinces():
+    """
+    Return a frozenset of Thailand province names in Thai
+    """
+    return get_corpus(_THAI_THAILAND_PROVINCES_FILENAME)
+
+
+def thai_syllables():
+    """
+    Return a frozenset of Thai syllables
+    """
+    return get_corpus(_THAI_SYLLABLES_FILENAME)
+
+
+def thai_words():
+    """
+    Return a frozenset of Thai words
+    """
+    return get_corpus(_THAI_WORDS_FILENAME)
+
+
+def thai_stopwords():
+    """
+    Return a frozenset of Thai stopwords
+    """
+    # TODO: Cache? Not reading the disk everytime
+    return get_corpus(_THAI_STOPWORDS_FILENAME)
+
+
+def thai_negations():
+    return _THAI_NEGATIONS
 
 
 def get_file(name):
-    db = TinyDB(path_db_)
+    db = TinyDB(CORPUS_DB_PATH)
     temp = Query()
     if len(db.search(temp.name == name)) > 0:
         path = get_path_data(db.search(temp.name == name)[0]["file"])
@@ -58,9 +130,9 @@ def download_(url, dst):
 
 
 def download(name, force=False):
-    db = TinyDB(path_db_)
+    db = TinyDB(CORPUS_DB_PATH)
     temp = Query()
-    data = requests.get(CORPUS_DB_URL)
+    data = requests.get(_CORPUS_DB_URL)
     data_json = data.json()
     if name in list(data_json.keys()):
         temp_name = data_json[name]
@@ -119,7 +191,7 @@ def download(name, force=False):
 
 
 def remove(name):
-    db = TinyDB(path_db_)
+    db = TinyDB(CORPUS_DB_PATH)
     temp = Query()
     data = db.search(temp.name == name)
     if len(data) > 0:

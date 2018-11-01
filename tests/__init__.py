@@ -6,13 +6,12 @@ from collections import Counter
 from pythainlp.change import texttoeng, texttothai
 from pythainlp.collation import collate
 from pythainlp.corpus import (
-    alphabet,
-    country,
-    newthaiword,
+    countries,
     provinces,
-    stopwords,
-    thaiword,
-    tone,
+    thai_negations,
+    thai_stopwords,
+    thai_syllables,
+    thai_words,
     ttc,
     wordnet,
 )
@@ -134,9 +133,6 @@ class TestUM(unittest.TestCase):
         )
         self.assertIsNotNone(wordnet.langs())
 
-    def test_stopword(self):
-        self.assertIsNotNone(stopwords.words("thai"))
-
     def test_spell(self):
         self.assertIsNotNone(spell("เน้ร"))
 
@@ -171,11 +167,12 @@ class TestUM(unittest.TestCase):
         )
 
     def test_corpus(self):
-        self.assertIsNotNone(alphabet.get_data())
-        self.assertIsNotNone(country.get_data())
-        self.assertIsNotNone(tone.get_data())
-        self.assertIsNotNone(provinces.get_data())
-        self.assertTrue(len(newthaiword.get_data()) > len(thaiword.get_data()))
+        self.assertIsNotNone(countries())
+        self.assertIsNotNone(provinces())
+        self.assertIsNotNone(thai_syllables())
+        self.assertIsNotNone(thai_words())
+        self.assertIsNotNone(thai_stopwords())
+        self.assertIsNotNone(thai_negations())
 
     def test_collate(self):
         self.assertEqual(collate(["ไก่", "กก"]), ["กก", "ไก่"])
@@ -201,9 +198,9 @@ class TestUM(unittest.TestCase):
         )
         self.assertEqual(find_keyword(word_list), {"แมว": 4})
 
-    def test_tag(self):
+    def test_pos_tag(self):
         self.assertEqual(
-            pos_tag(word_tokenize("คุณกำลังประชุม"), engine="old"),
+            pos_tag(word_tokenize("คุณกำลังประชุม"), engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
         )
         self.assertEqual(

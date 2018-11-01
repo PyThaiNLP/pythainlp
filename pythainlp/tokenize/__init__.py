@@ -5,12 +5,12 @@ Thai tokenizers
 import re
 
 import nltk
-from pythainlp.corpus import get_data, thai_syllables, thai_words
+from pythainlp.corpus import get_corpus, thai_syllables, thai_words
 
 from marisa_trie import Trie
 
 DEFAULT_DICT_TRIE = Trie(thai_words())
-FROZEN_DICT_TRIE = Trie(get_data("words_th_frozen_201810.txt"))
+FROZEN_DICT_TRIE = Trie(get_corpus("words_th_frozen_201810.txt"))
 
 
 def word_tokenize(text, engine="newmm", whitespaces=True):

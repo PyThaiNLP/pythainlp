@@ -2,8 +2,8 @@
 
 import os
 
-import pythainlp
 import requests
+import pythainlp
 from pythainlp.tools import get_path_data
 from tinydb import Query, TinyDB
 from tqdm import tqdm

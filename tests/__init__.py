@@ -30,7 +30,7 @@ from pythainlp.spell import spell, correct
 from pythainlp.summarize import summarize
 from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import etcc, isthai, syllable_tokenize, tcc, word_tokenize
-from pythainlp.util import listtext_num2num, normalize
+from pythainlp.util import deletetone, is_thaichar, is_thaiword, listtext_num2num, normalize
 
 
 class TestUM(unittest.TestCase):
@@ -112,6 +112,20 @@ class TestUM(unittest.TestCase):
 
     def test_isthai(self):
         self.assertEqual(isthai("ประเทศไทย"), {"thai": 100.0})
+    
+    def test_isthaichar(self):
+        self.assertEqual(is_thaichar("ก"), True)
+        self.assertEqual(is_thaichar("a"), False)
+        self.assertEqual(is_thaichar("0"), False)
+
+    def test_isthaiword(self):
+        self.assertEqual(is_thaiword("ไทย"), True)
+        self.assertEqual(is_thaiword("ต.ค."), True)
+        self.assertEqual(is_thaiword("ไทย0"), False)
+
+    def test_deletetone(self):
+        self.assertEqual(deletetone("จิ้น"), "จิน")
+        self.assertEqual(deletetone("เก๋า"), "เกา")
 
     def test_tcc(self):
         self.assertEqual(tcc.tcc("ประเทศไทย"), "ป/ระ/เท/ศ/ไท/ย")

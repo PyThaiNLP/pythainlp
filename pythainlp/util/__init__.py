@@ -5,6 +5,7 @@ Utility functions
 import re
 
 from nltk.util import ngrams
+from pythainlp.corpus import THAI_TONEMARKS
 
 
 def is_thaichar(ch):  # เป็นอักษรไทยหรือไม่
@@ -91,7 +92,7 @@ def normalize(text):
 
 def deletetone(data):
     """โค้ดส่วนตัดวรรณยุกต์ออก"""
-    for tone in ["่", "้", "๊", "๋"]:
+    for tone in THAI_TONEMARKS:
         if re.search(tone, data):
             data = re.sub(tone, "", data)
     if re.search(r"\w" + "์", data):

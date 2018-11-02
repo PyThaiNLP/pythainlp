@@ -90,16 +90,12 @@ def normalize(text):
     return text
 
 
-def deletetone(data):
-    """โค้ดส่วนตัดวรรณยุกต์ออก"""
-    for tone in THAI_TONEMARKS:
-        if re.search(tone, data):
-            data = re.sub(tone, "", data)
-    if re.search(r"\w" + "์", data):
-        search = re.findall(r"\w" + "์", data)
-        for i in search:
-            data = re.sub(i, "", data)
-    return data
+def deletetone(text):
+    """
+    Remove tonemarks
+    """
+    chars = [ch for ch in text if ch not in THAI_TONEMARKS]
+    return "".join(chars)
 
 
 # Notebook : https://colab.research.google.com/drive/148WNIeclf0kOU6QxKd6pcfwpSs8l-VKD#scrollTo=EuVDd0nNuI8Q
@@ -131,7 +127,7 @@ nu_pat = re.compile("(.+)?(สิบ|ร้อย|พัน|หมื่น|แ�
 # assuming that the units are separated already
 
 
-def listtext_num2num_(tokens):
+def _listtext_num2num(tokens):
     len_tokens = len(tokens)
 
     if len_tokens == 0:
@@ -146,13 +142,15 @@ def listtext_num2num_(tokens):
             return thai_int_map[a] * thai_int_map[b]
         else:
             return thai_int_map[a] + thai_int_map[b]
+
     # longer case we use recursive
     a, b = tokens[:2]
     if a in thaiword_units and b != "ล้าน":  # ร้อย แปด
-        return thai_int_map[a] + listtext_num2num_(tokens[1:])
+        return thai_int_map[a] + _listtext_num2num(tokens[1:])
+
     # most common case, a isa num, b isa unit
     if b in thaiword_units:
-        return thai_int_map[a] * thai_int_map[b] + listtext_num2num_(tokens[2:])
+        return thai_int_map[a] * thai_int_map[b] + _listtext_num2num(tokens[2:])
 
 
 def listtext_num2num(tokens):
@@ -166,4 +164,4 @@ def listtext_num2num(tokens):
                 res.extend([t for t in m.groups() if t])  # ตัด None ทิ้ง
             else:
                 pass  # should not be here
-    return listtext_num2num_(res)
+    return _listtext_num2num(res)

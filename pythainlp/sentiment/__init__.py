@@ -5,9 +5,9 @@ import dill
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
-from pythainlp.tools import get_path_data
+from pythainlp.tools import get_full_data_path
 
-TEMPLATES_DIR = get_path_data("sentiment")
+_SENTIMENT_DATA_PATH = get_full_data_path("sentiment")
 
 _STOPWORDS = thai_stopwords()
 
@@ -35,14 +35,16 @@ def sentiment(text, engine="old"):
         from pythainlp.sentiment import ulmfit_sent
 
         tag = ulmfit_sent.get_sentiment(text)
+
         return "pos" if tag else "neg"
     else:  # default, use "old" vocabulary-based engine
-        with open(os.path.join(TEMPLATES_DIR, "vocabulary.data"), "rb") as in_strm:
+        with open(os.path.join(_SENTIMENT_DATA_PATH, "vocabulary.data"), "rb") as in_strm:
             vocabulary = dill.load(in_strm)
-        with open(os.path.join(TEMPLATES_DIR, "sentiment.data"), "rb") as in_strm:
+        with open(os.path.join(_SENTIMENT_DATA_PATH, "sentiment.data"), "rb") as in_strm:
             classifier = dill.load(in_strm)
         text = set(word_tokenize(text)) - _STOPWORDS
         featurized_test_sentence = {i: (i in text) for i in vocabulary}
+
         return classifier.classify(featurized_test_sentence)
 
 

@@ -2,9 +2,9 @@
 
 import os
 
-import requests
 import pythainlp
-from pythainlp.tools import get_path_data
+from pythainlp.tools import get_full_data_path
+import requests
 from tinydb import Query, TinyDB
 from tqdm import tqdm
 from urllib.request import urlopen
@@ -16,7 +16,7 @@ _CORPUS_DB_URL = (
     "https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/master/db.json"
 )
 _CORPUS_DB_FILENAME = "db.json"
-CORPUS_DB_PATH = get_path_data(_CORPUS_DB_FILENAME)
+CORPUS_DB_PATH = get_full_data_path(_CORPUS_DB_FILENAME)
 if not os.path.exists(CORPUS_DB_PATH):
     TinyDB(CORPUS_DB_PATH)
 
@@ -92,7 +92,7 @@ def get_file(name):
     db = TinyDB(CORPUS_DB_PATH)
     temp = Query()
     if len(db.search(temp.name == name)) > 0:
-        path = get_path_data(db.search(temp.name == name)[0]["file"])
+        path = get_full_data_path(db.search(temp.name == name)[0]["file"])
         db.close()
         if not os.path.exists(path):
             download(name)
@@ -120,7 +120,7 @@ def download_(url, dst):
         desc=url.split("/")[-1],
     )
     req = requests.get(url, headers=header, stream=True)
-    with (open(get_path_data(dst), "wb")) as f:
+    with (open(get_full_data_path(dst), "wb")) as f:
         for chunk in req.iter_content(chunk_size=1024):
             if chunk:
                 f.write(chunk)

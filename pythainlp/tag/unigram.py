@@ -2,23 +2,27 @@
 """
 Unigram Part-Of-Speech Tagger
 """
+import json
 import os
 
 import dill
 import nltk.tag
-import pythainlp
-from pythainlp.corpus.thaipos import get_data
+from pythainlp.corpus import CORPUS_PATH
 
-TEMPLATES_DIR = os.path.join(os.path.dirname(pythainlp.__file__), "corpus")
+_THAI_POS_ORCHID_FILENAME = "orchid_pos_th.json"
+_THAI_POS_ORCHID_PATH = os.path.join(CORPUS_PATH, _THAI_POS_ORCHID_FILENAME)
+_THAI_POS_PUD_FILENAME = "ud_thai-pud_unigram_tagger.dill"
+_THAI_POS_PUD_PATH = os.path.join(CORPUS_PATH, _THAI_POS_PUD_FILENAME)
 
 
 def orchid_data():
-    return get_data()
+    with open(_THAI_POS_ORCHID_PATH, encoding="utf-8-sig") as f:
+        model = json.load(f)
+    return model
 
 
 def pud_data():
-    template_file = os.path.join(TEMPLATES_DIR, "ud_thai-pud_unigram_tagger.dill")
-    with open(template_file, "rb") as handle:
+    with open(_THAI_POS_PUD_PATH, "rb") as handle:
         model = dill.load(handle)
     return model
 

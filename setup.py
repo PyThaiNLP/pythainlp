@@ -23,7 +23,7 @@ setup(
         "pythainlp.corpus": [
             "corpus_license.md",
             "countries_th.txt",
-            "pos_th.json",
+            "orchid_pos_th.json",
             "pt_tagger_1.dill",
             "stopwords_th.txt",
             "syllables_th.txt",

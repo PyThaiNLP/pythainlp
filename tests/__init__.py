@@ -3,6 +3,7 @@ import sys
 import unittest
 from collections import Counter
 
+from pytha
 from pythainlp.change import texttoeng, texttothai
 from pythainlp.collation import collate
 from pythainlp.corpus import (
@@ -12,6 +13,7 @@ from pythainlp.corpus import (
     thai_stopwords,
     thai_syllables,
     thai_words,
+    tnc,
     ttc,
     wordnet,
 )
@@ -24,6 +26,7 @@ from pythainlp.ner import ThaiNameRecognizer
 from pythainlp.number import numtowords
 from pythainlp.rank import rank
 from pythainlp.romanization import romanize
+from pythainlp.sentiment import sentiment
 from pythainlp.soundex import lk82, metasound, udom83
 from pythainlp.spell import spell, correct
 from pythainlp.summarize import summarize
@@ -141,7 +144,7 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(edges("รัก"))
 
     def test_tnc(self):
-        self.assertIsNotNone(get_word_frequency_all())
+        self.assertIsNotNone(tnc.get_word_frequency_all())
 
     def test_ttc(self):
         self.assertIsNotNone(ttc.get_word_frequency_all())
@@ -166,6 +169,11 @@ class TestUM(unittest.TestCase):
             summarize(text=text, n=1, engine="frequency"),
             ["อาหารจะต้องไม่มีพิษและไม่เกิดโทษต่อร่างกาย"],
         )
+
+    def test_sentiment(self):
+        text = "เสียใจมาก"
+        self.assertEqual(sentiment(text, engine="old"), "neg")
+        self.assertEqual(sentiment(text, engine="ulmfit"), "neg")
 
     def test_corpus(self):
         self.assertIsNotNone(countries())
@@ -200,9 +208,21 @@ class TestUM(unittest.TestCase):
         self.assertEqual(find_keyword(word_list), {"แมว": 4})
 
     def test_pos_tag(self):
+        tokens = ["คำ"]
+        self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="orchid"))
+        self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
+        self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="orchid"))
+        self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="pud"))
+        self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="orchid"))
+        self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="pud"))
+
         self.assertEqual(
             pos_tag(word_tokenize("คุณกำลังประชุม"), engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
+        )
+        self.assertEqual(
+            str(type(pos_tag(word_tokenize("ผมรักคุณ"), engine="artagger"))),
+            "<class 'list'>",
         )
         self.assertEqual(
             pos_tag_sents([["ผม", "กิน", "ข้าว"], ["แมว", "วิ่ง"]]),
@@ -211,12 +231,6 @@ class TestUM(unittest.TestCase):
                 [("แมว", "NCMN"), ("วิ่ง", "VACT")],
             ],
         )
-
-        if sys.version_info >= (3, 4):
-            self.assertEqual(
-                str(type(pos_tag(word_tokenize("ผมรักคุณ"), engine="artagger"))),
-                "<class 'list'>",
-            )
 
     def test_ner(self):
         ner = ThaiNameRecognizer()

@@ -25,7 +25,7 @@ from pythainlp.number import numtowords
 from pythainlp.rank import rank
 from pythainlp.romanization import romanize
 from pythainlp.soundex import lk82, metasound, udom83
-from pythainlp.spell import spell
+from pythainlp.spell import spell, correct
 from pythainlp.summarize import summarize
 from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import etcc, isthai, syllable_tokenize, tcc, word_tokenize
@@ -109,11 +109,11 @@ class TestUM(unittest.TestCase):
             "ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์",
         )
 
-    def test_tcc(self):
-        self.assertEqual(tcc.tcc("ประเทศไทย"), "ป/ระ/เท/ศ/ไท/ย")
-
     def test_isthai(self):
         self.assertEqual(isthai("ประเทศไทย"), {"thai": 100.0})
+
+    def test_tcc(self):
+        self.assertEqual(tcc.tcc("ประเทศไทย"), "ป/ระ/เท/ศ/ไท/ย")
 
     def test_etcc(self):
         self.assertEqual(etcc.etcc("คืนความสุข"), "/คืน/ความสุข")
@@ -135,6 +135,7 @@ class TestUM(unittest.TestCase):
 
     def test_spell(self):
         self.assertIsNotNone(spell("เน้ร"))
+        self.assertIsNotNone(correct("ทดสอง"))
 
     def test_conceptnet(self):
         self.assertIsNotNone(edges("รัก"))

@@ -11,7 +11,7 @@ from pythainlp.corpus import CORPUS_PATH
 
 _THAI_POS_ORCHID_FILENAME = "orchid_pos_th.json"
 _THAI_POS_ORCHID_PATH = os.path.join(CORPUS_PATH, _THAI_POS_ORCHID_FILENAME)
-_THAI_POS_PUD_FILENAME = "ud_thai-pud_unigram_tagger.dill"
+_THAI_POS_PUD_FILENAME = "ud_thai_pud_unigram_tagger.dill"
 _THAI_POS_PUD_PATH = os.path.join(CORPUS_PATH, _THAI_POS_PUD_FILENAME)
 
 

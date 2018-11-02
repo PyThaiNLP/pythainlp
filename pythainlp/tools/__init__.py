@@ -6,6 +6,8 @@ import os
 import subprocess
 import sys
 
+import pythainlp
+
 PYTHAINLP_DATA_DIR = "pythainlp-data"
 
 
@@ -33,3 +35,10 @@ def get_pythainlp_data_path():
     if not os.path.exists(path):
         os.makedirs(path)
     return path
+
+
+def get_pythainlp_path():
+    """
+    Return full path of PyThaiNLP code
+    """
+    return os.path.dirname(pythainlp.__file__)

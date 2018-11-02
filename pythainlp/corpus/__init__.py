@@ -2,15 +2,14 @@
 
 import os
 
-import pythainlp
-from pythainlp.tools import get_full_data_path
+from pythainlp.tools import get_full_data_path, get_pythainlp_path
 import requests
 from tinydb import Query, TinyDB
 from tqdm import tqdm
 from urllib.request import urlopen
 
 _CORPUS_DIRNAME = "corpus"
-CORPUS_PATH = os.path.join(os.path.dirname(pythainlp.__file__), _CORPUS_DIRNAME)
+CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
 
 _CORPUS_DB_URL = (
     "https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/master/db.json"

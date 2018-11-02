@@ -5,22 +5,20 @@ Perceptron Part-Of-Speech tagger
 import os
 
 import dill
-import pythainlp
-
-TEMPLATES_DIR = os.path.join(os.path.dirname(pythainlp.__file__), "corpus")
+from pythainlp.corpus import CORPUS_PATH
 
 
 def orchid_data():
-    template_file = os.path.join(TEMPLATES_DIR, "pt_tagger_1.dill")
-    with open(template_file, "rb") as handle:
-        model = dill.load(handle)
+    data_filename = os.path.join(CORPUS_PATH, "pt_tagger.dill")
+    with open(data_filename, "rb") as fh:
+        model = dill.load(fh)
     return model
 
 
 def pud_data():
-    template_file = os.path.join(TEMPLATES_DIR, "ud_thai-pud_pt_tagger.dill")
-    with open(template_file, "rb") as handle:
-        model = dill.load(handle)
+    data_filename = os.path.join(CORPUS_PATH, "ud_thai_pud_pt_tagger.dill")
+    with open(data_filename, "rb") as fh:
+        model = dill.load(fh)
     return model
 
 

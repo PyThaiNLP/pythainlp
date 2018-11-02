@@ -9,6 +9,7 @@ import os
 import re
 
 import requests
+from pythainlp.tools import get_full_data_path
 
 _TNC_FREQ_URL = "https://raw.githubusercontent.com/korakot/thainlp/master/tnc_freq.txt"
 
@@ -40,11 +41,7 @@ def get_word_frequency_all():
     ดึงข้อมูลความถี่คำของ Thai National Corpus มาใช้งาน
     โดยจะได้ข้อมูลในรูปแบบ List[Tuple] [(word,frequency),...]
     """
-    path = os.path.join(os.path.expanduser("~"), "pythainlp-data")
-    if not os.path.exists(path):
-        os.makedirs(path)
-
-    path = os.path.join(path, "tnc_freq.txt")  # try local copy first
+    path = get_full_data_path("tnc_freq.txt")  # try local copy first
     if not os.path.exists(path):  # if fail, get from internet
         response = requests.get(_TNC_FREQ_URL)
         with open(path, "wb") as f:

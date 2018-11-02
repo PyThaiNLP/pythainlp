@@ -3,7 +3,6 @@
 WordNet
 """
 import nltk
-from nltk.corpus import wordnet
 
 try:
     nltk.data.find("corpora/omw")
@@ -14,6 +13,8 @@ try:
     nltk.data.find("corpora/wordnet")
 except LookupError:
     nltk.download("wordnet")
+
+from nltk.corpus import wordnet
 
 
 def synsets(word, pos=None, lang="tha"):

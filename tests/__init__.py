@@ -3,10 +3,10 @@ import sys
 import unittest
 from collections import Counter
 
-from pytha
 from pythainlp.change import texttoeng, texttothai
 from pythainlp.collation import collate
 from pythainlp.corpus import (
+    conceptnet,
     countries,
     provinces,
     thai_negations,
@@ -17,8 +17,6 @@ from pythainlp.corpus import (
     ttc,
     wordnet,
 )
-from pythainlp.corpus.conceptnet import edges
-from pythainlp.corpus.tnc import get_word_frequency_all
 from pythainlp.date import now, now_reign_year, reign_year_to_ad
 from pythainlp.g2p import ipa
 from pythainlp.keywords import find_keyword
@@ -141,7 +139,7 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(correct("ทดสอง"))
 
     def test_conceptnet(self):
-        self.assertIsNotNone(edges("รัก"))
+        self.assertIsNotNone(conceptnet.edges("รัก"))
 
     def test_tnc(self):
         self.assertIsNotNone(tnc.get_word_frequency_all())

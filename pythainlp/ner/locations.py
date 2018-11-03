@@ -6,23 +6,25 @@ Recognizes locations in text
 from pythainlp.corpus import provinces
 
 
-def tag_provinces(text_list):
+def tag_provinces(tokens):
     """
-    tag_provinces(text_list)
+    Recognize Thailand provinces in text
 
-    text_list คือ ข้อความภาษาไทยที่อยู่ใน list โดยผ่านการตัดคำมาแล้ว
+    Input is a list of words
+    Return a list of tuples
 
-    ใช้ tag จังหวัดในประเทศไทย
-
-    ตัวอย่าง
-
-    >>> d=['หนองคาย', 'น่าอยู่', 'นอกจากนี้', 'ยัง', 'มี', 'เชียงใหม่']
-    >>> parsed_docs(d)
-    ["[LOC : 'หนองคาย']", 'น่าอยู่', 'นอกจากนี้', 'ยัง', 'มี', "[LOC : 'เชียงใหม่']"]
+    Example:
+    >>> text = ['หนองคาย', 'น่าอยู่']
+    >>> tag_provinces(text)
+    [('หนองคาย', 'B-LOCATION'), ('น่าอยู่', 'O')]
     """
-    i = 0
-    while i < len(text_list):
-        if text_list[i] in provinces():
-            text_list[i] = "[LOC : '" + text_list[i] + "']"
-        i += 1
-    return text_list
+    province_list = provinces()
+
+    output = []
+    for token in tokens:
+        if token in province_list:
+            output.append((token, "B-LOCATION"))
+        else:
+            output.append((token, "O"))
+
+    return output

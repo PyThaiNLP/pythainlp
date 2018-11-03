@@ -28,7 +28,7 @@ def tag(text, corpus="pud"):
     """
     if corpus == "orchid":
         tagger = orchid_data()
-        return tagger.tag(text)
     else:  # default, use "pud" as a corpus
         tagger = pud_data()
-        return tagger.tag(text)
+
+    return tagger.tag(text)

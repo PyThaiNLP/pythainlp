@@ -21,16 +21,23 @@ from pythainlp.date import now, now_reign_year, reign_year_to_ad
 from pythainlp.g2p import ipa
 from pythainlp.keywords import find_keyword
 from pythainlp.ner import ThaiNameRecognizer
+from pythainlp.ner.locations import tag_provinces
 from pythainlp.number import numtowords
 from pythainlp.rank import rank
 from pythainlp.romanization import romanize
 from pythainlp.sentiment import sentiment
 from pythainlp.soundex import lk82, metasound, udom83
-from pythainlp.spell import spell, correct
+from pythainlp.spell import correct, spell
 from pythainlp.summarize import summarize
 from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import etcc, isthai, syllable_tokenize, tcc, word_tokenize
-from pythainlp.util import deletetone, is_thaichar, is_thaiword, listtext_num2num, normalize
+from pythainlp.util import (
+    deletetone,
+    is_thaichar,
+    is_thaiword,
+    listtext_num2num,
+    normalize,
+)
 
 
 class TestUM(unittest.TestCase):
@@ -112,7 +119,7 @@ class TestUM(unittest.TestCase):
 
     def test_isthai(self):
         self.assertEqual(isthai("ประเทศไทย"), {"thai": 100.0})
-    
+
     def test_isthaichar(self):
         self.assertEqual(is_thaichar("ก"), True)
         self.assertEqual(is_thaichar("a"), False)
@@ -269,6 +276,11 @@ class TestUM(unittest.TestCase):
                 ("โมง", "I-TIME"),
                 ("เช้า", "I-TIME"),
             ],
+        )
+
+        self.assertEqual(
+            tag_provinces(["หนองคาย", "น่าอยู่"]),
+            [("หนองคาย", "B-LOCATION"), ("น่าอยู่", "O")],
         )
 
     def test_ipa(self):

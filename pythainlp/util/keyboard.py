@@ -101,7 +101,7 @@ EN_TH_KEYB_PAIRS = {
 TH_EN_KEYB_PAIRS = {v: k for k, v in EN_TH_KEYB_PAIRS.items()}
 
 
-def texttothai(text):
+def eng_to_thai(text):
     """
     แก้พิมพ์ผิดภาษา อังกฤษ -> ไทย
     :param str text: Incorrect input (type Thai with English keyboard)
@@ -112,7 +112,7 @@ def texttothai(text):
     )
 
 
-def texttoeng(text):
+def thai_to_eng(text):
     """
     แก้พิมพ์ผิดภาษา ไทย -> อังกฤษ
     :param str text: Incorrect input (type English with Thai keyboard)
@@ -125,9 +125,9 @@ def texttoeng(text):
 
 if __name__ == "__main__":
     a = "l;ylfu8iy["
-    a = texttothai(a)
-    a = texttothai(a)
+    a = eng_to_thai(a)
+    a = eng_to_thai(a)
     b = "นามรสนอำันี"
-    b = texttoeng(b)
+    b = thai_to_eng(b)
     print(a)
     print(b)

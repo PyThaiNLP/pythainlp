@@ -2,6 +2,8 @@
 """
 Named-entity recognizer
 """
+__all__ = ["ThaiNameRecognizer"]
+
 from pythainlp.corpus import download, get_file, thai_stopwords
 from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
@@ -38,7 +40,7 @@ def _doc2features(doc, i):
         "word.isthai": is_thaiword(word),
         "word.isspace": word.isspace(),
         "postag": postag,
-        "word.isdigit()": word.isdigit(),
+        "word.isdigit": word.isdigit(),
     }
     if word.isdigit() and len(word) == 5:
         features["word.islen5"] = True

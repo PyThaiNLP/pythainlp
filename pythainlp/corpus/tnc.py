@@ -11,6 +11,8 @@ import re
 import requests
 from pythainlp.tools import get_full_data_path
 
+__all__ = ["word_frequency", "get_word_frequency_all"]
+
 _TNC_FREQ_URL = "https://raw.githubusercontent.com/korakot/thainlp/master/tnc_freq.txt"
 
 

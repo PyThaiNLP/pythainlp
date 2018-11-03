@@ -16,7 +16,7 @@ from pythainlp import thai_alphabets
 _UV = ["็", "ี", "ื", "ิ"]
 _UV1 = ["ั", "ี"]
 _LV = ["ุ", "ู"]
-c = "[" + thai_alphabets + "]"
+_C = "[" + thai_alphabets + "]"
 _UV2 = "[" + "".join(["ั", "ื"]) + "]"
 
 
@@ -27,24 +27,26 @@ def etcc(text):
     รับ str
     ส่งออก str
     """
-    if re.search(r"[เแ]" + c + r"[" + "".join(_UV) + r"]" + r"\w", text):
-        search = re.findall(r"[เแ]" + c + r"[" + "".join(_UV) + r"]" + r"\w", text)
+    if re.search(r"[เแ]" + _C + r"[" + "".join(_UV) + r"]" + r"\w", text):
+        search = re.findall(r"[เแ]" + _C + r"[" + "".join(_UV) + r"]" + r"\w", text)
         for i in search:
             text = re.sub(i, "/" + i + "/", text)
 
-    if re.search(c + r"[" + "".join(_UV1) + r"]" + c + c + r"ุ" + r"์", text):
-        search = re.findall(c + r"[" + "".join(_UV1) + r"]" + c + c + r"ุ" + r"์", text)
+    if re.search(_C + r"[" + "".join(_UV1) + r"]" + _C + _C + r"ุ" + r"์", text):
+        search = re.findall(
+            _C + r"[" + "".join(_UV1) + r"]" + _C + _C + r"ุ" + r"์", text
+        )
         for i in search:
             text = re.sub(i, "//" + i + "/", text)
 
-    if re.search(c + _UV2 + c, text):
-        search = re.findall(c + _UV2 + c, text)
+    if re.search(_C + _UV2 + _C, text):
+        search = re.findall(_C + _UV2 + _C, text)
         for i in search:
             text = re.sub(i, "/" + i + "/", text)
     re.sub("//", "/", text)
 
-    if re.search("เ" + c + "า" + "ะ", text):
-        search = re.findall("เ" + c + "า" + "ะ", text)
+    if re.search("เ" + _C + "า" + "ะ", text):
+        search = re.findall("เ" + _C + "า" + "ะ", text)
         for i in search:
             text = re.sub(i, "/" + i + "/", text)
 
@@ -54,14 +56,14 @@ def etcc(text):
             text = re.sub(i, "/" + i + "/", text)
     text = re.sub("//", "/", text)
 
-    if re.search(c + "[" + "".join(_UV1) + "]" + c + c + "์", text):
-        search = re.findall(c + "[" + "".join(_UV1) + "]" + c + c + "์", text)
+    if re.search(_C + "[" + "".join(_UV1) + "]" + _C + _C + "์", text):
+        search = re.findall(_C + "[" + "".join(_UV1) + "]" + _C + _C + "์", text)
         for i in search:
             text = re.sub(i, "/" + i + "/", text)
 
-    if re.search("/" + c + "".join(["ุ", "์"]) + "/", text):
+    if re.search("/" + _C + "".join(["ุ", "์"]) + "/", text):
         """แก้ไขในกรณี พัน/ธุ์"""
-        search = re.findall("/" + c + "".join(["ุ", "์"]) + "/", text)
+        search = re.findall("/" + _C + "".join(["ุ", "์"]) + "/", text)
         for i in search:
             ii = re.sub("/", "", i)
             text = re.sub(i, ii + "/", text)

@@ -8,7 +8,8 @@ Based on Peter Norvig's Python code from http://norvig.com/spell-correct.html
 """
 from collections import Counter
 
-from pythainlp.corpus import THAI_LETTERS, tnc
+from pythainlp import thai_characters
+from pythainlp.corpus import tnc
 from pythainlp.util import is_thaichar
 
 
@@ -47,8 +48,8 @@ def _edits1(word):
     splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
     deletes = [L + R[1:] for L, R in splits if R]
     transposes = [L + R[1] + R[0] + R[2:] for L, R in splits if len(R) > 1]
-    replaces = [L + c + R[1:] for L, R in splits if R for c in THAI_LETTERS]
-    inserts = [L + c + R for L, R in splits for c in THAI_LETTERS]
+    replaces = [L + c + R[1:] for L, R in splits if R for c in thai_characters]
+    inserts = [L + c + R for L, R in splits for c in thai_characters]
 
     return set(deletes + transposes + replaces + inserts)
 

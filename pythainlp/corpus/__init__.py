@@ -27,15 +27,6 @@ _THAI_STOPWORDS_FILENAME = "stopwords_th.txt"
 
 _THAI_NEGATIONS = frozenset(["ไม่", "แต่"])
 
-THAI_NUMBERS = "๐๑๒๓๔๕๖๗๘๙"  # 10
-THAI_ALPHABETS = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44
-THAI_VOWELS = "ฤฦะ\u0e31าำ\u0e34\u0e35\u0e36\u0e37\u0e38\u0e39เแโใไ\u0e45"  # 18
-THAI_SYMBOLS = "ฯ\u0e3a฿ๆ\u0e47\u0e4c\u0e4d\u0e4e\u0e4f\u0e5a\u0e5b"  # 11
-THAI_TONEMARKS = "\u0e48\u0e49\u0e4a\u0e4b"  # 4
-THAI_LETTERS = "".join(
-    [THAI_ALPHABETS, THAI_VOWELS, THAI_TONEMARKS, THAI_SYMBOLS]
-)  # 77
-
 
 def get_corpus(filename):
     """

@@ -534,37 +534,44 @@ print(wordnet.synset("spy.n.01").lemma_names("tha"))
 # ['สปาย', 'สายลับ']
 ```
 
-#### stopword ภาษาไทย
+#### พยัญชนะในภาษาไทย
 
 ```python
-from pythainlp.corpus import thai_stopwords
-stopwords = thai_stopwords()
+from pythainlp import thai_alphabets
 ```
 
-#### ชื่อประเทศ ภาษาไทย
-
-```python
-from pythainlp.corpus import countries
-countries()
-```
+จะได้ str ที่มีพยัญชนะในภาษาไทยทั้งหมด
 
 #### วรรณยุกต์ในภาษาไทย
 
 ```python
-from pythainlp.corpus import THAI_TONEMARKS
+from pythainlp import thai_tonemarks
 ```
+จะได้ str ที่มีวรรณยุกต์ในภาษาไทยทั้งหมด
 
-#### พยัญชนะในภาษาไทย
+#### stopword ภาษาไทย
 
 ```python
-from pythainlp.corpus import THAI_ALPHABETS
+from pythainlp.corpus import thai_stopwords
+
+stopwords = thai_stopwords()
 ```
 
 #### รายการคำในภาษาไทย
 
 ```python
 from pythainlp.corpus import thai_words
-thai_words()
+
+words = thai_words()
+```
+
+#### ชื่อประเทศ ภาษาไทย
+
+```python
+from pythainlp.corpus import countries
+
+for country in countries():
+    print(country)
 ```
 
 #### provinces
@@ -573,7 +580,9 @@ thai_words()
 
 ```python
 from pythainlp.corpus import provinces
-provinces()
+
+for province in provinces():
+    print(province)
 ```
 
 ##### tag_provinces
@@ -582,6 +591,7 @@ provinces()
 
 ```python
 from pythainlp.ner.locations import tag_provinces
+
 tag_provinces(text_list)
 ```
 

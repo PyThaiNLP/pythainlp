@@ -5,7 +5,7 @@ Utility functions
 import re
 
 from nltk.util import ngrams
-from pythainlp.corpus import THAI_TONEMARKS
+from pythainlp import thai_tonemarks
 
 
 def is_thaichar(ch):  # เป็นอักษรไทยหรือไม่
@@ -94,7 +94,7 @@ def deletetone(text):
     """
     Remove tonemarks
     """
-    chars = [ch for ch in text if ch not in THAI_TONEMARKS]
+    chars = [ch for ch in text if ch not in thai_tonemarks]
     return "".join(chars)
 
 

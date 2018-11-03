@@ -29,4 +29,4 @@ from pythainlp.sentiment import sentiment
 from pythainlp.soundex import soundex
 from pythainlp.spell import spell
 from pythainlp.tag import pos_tag
-from pythainlp.tokenize import sent_tokenize, ttc, word_tokenize
+from pythainlp.tokenize import sent_tokenize, tcc, word_tokenize

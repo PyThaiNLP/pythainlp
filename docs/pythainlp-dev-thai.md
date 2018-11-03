@@ -192,7 +192,7 @@ corpus ที่รองรับ
 สรุปเอกสารภาษาไทยแบบง่าย ๆ
 
 ```python
-summarize_text(text, n, engine="frequency")
+summarize(text, n, engine="frequency")
 ```
 
 text เป็นข้อความ
@@ -205,9 +205,9 @@ engine ที่รองรับ
 **การใช้งาน**
 
 ```python
-from pythainlp.summarize import summarize_text
+from pythainlp.summarize import summarize
 
-summarize_text(text="อาหาร หมายถึง ของแข็งหรือของเหลว ที่กินหรือดื่มเข้าสู่ร่างกายแล้ว จะทำให้เกิดพลังงานและความร้อนยเจริญเติบโต ซ่อมแซมส่วนที่สึกหรอ ควบคุมการเปลี่ยนแปลงต่างๆ ในร่างกาย ช่วยทำให้อวัยวะต่างๆ ทำงานได้อย่างปกติ อาหารจะต้องงกาย", n=1, engine="frequency")
+summarize(text="อาหาร หมายถึง ของแข็งหรือของเหลว ที่กินหรือดื่มเข้าสู่ร่างกายแล้ว จะทำให้เกิดพลังงานและความร้อนยเจริญเติบโต ซ่อมแซมส่วนที่สึกหรอ ควบคุมการเปลี่ยนแปลงต่างๆ ในร่างกาย ช่วยทำให้อวัยวะต่างๆ ทำงานได้อย่างปกติ อาหารจะต้องงกาย", n=1, engine="frequency")
 # ['อาหารจะต้องไม่มีพิษและไม่เกิดโทษต่อร่างกาย']
 ```
 
@@ -219,14 +219,13 @@ summarize_text(text="อาหาร หมายถึง ของแข็ง
 from pythainlp.word_vector import thai2vec
 ```
 
-
 ปัจจุบันรองรับเฉพาะ thai2vec (https://github.com/cstorm125/thai2vec)
 
 พัฒนาโดย Charin Polpanumas
 
 #### thai2vec
 
-ความต้องการโมดูล
+ต้องการโมดูล
 - gensim
 - numpy
 
@@ -241,7 +240,7 @@ from pythainlp.word_vector import thai2vec
 
 ### keywords
 
-หาคำสำคัญ (keyword) จากข้อความภาษาไทย
+หาคำสำคัญจากข้อความภาษาไทย
 
 #### find_keyword
 
@@ -291,7 +290,6 @@ spell(word, engine="pn")
 
 engine ที่รองรับ
 - pn (ค่าเริ่มต้น) พัฒนาจาก Peter Norvig
-- hunspell เรียก hunspell ที่ติดตั้งอยู่ในระบบปฏิบัติการ (มีในระบบ Linux)
 
 **ตัวอย่างการใช้งาน**
 
@@ -304,7 +302,7 @@ print(a)  # ['สี่เหลี่ยม']
 #### pn
 
 ```python
-correction(word)
+correct(word)
 ```
 
 จะคืนค่าคำที่เป็นไปได้มากที่สุด
@@ -312,9 +310,9 @@ correction(word)
 **ตัวอย่างการใช้งาน**
 
 ```python
-from pythainlp.spell.pn import correction
+from pythainlp.spell.pn import correct
 
-a = correction("สี่เหลียม")
+a = correct("สี่เหลียม")
 print(a)  # ['สี่เหลี่ยม']
 ```
 
@@ -332,15 +330,23 @@ from pythainlp.number import *
 - num_to_thai_num(str) - เลขอารบิกสู่เลขไทย
 - num_to_text(str) - เลขสู่ข้อความ
 - text_to_num(str) - ข้อความสู่เลข
-- numtowords(float) - อ่านจำนวนภาษาไทย (บาท) รับค่าเป็น ''float'' คืนค่าเป็น 'str'
+- bahttext(float) - อ่านจำนวนภาษาไทย (หน่วยเงินบาท) รับค่าเป็น ''float'' คืนค่าเป็น 'str'
+- num_to_thaiword(float) - อ่านจำนวนภาษาไทย รับค่าเป็น ''float'' คืนค่าเป็น 'str'
+- thaiword_to_num(List[str]) - แปลคำอ่านจำนวนไทยเป็นตัวเลขจำนวนเต็ม รับค่าเป็น ''List[str]'' คืนค่าเป็น int
+
+**ตัวอย่าง**
+
+```python
+thaiword_to_num(["หกหมื่น", "หกพัน", "หกร้อย", "หกสิบ", "หก"])  # 66666
+```
 
 ### collation
 
 เรียงลำดับข้อมูลภาษาไทยใน List
 
 ```python
-from pythainlp.collation import collation
-print(collation(["ไก่", "ไข่", "กา", "ฮา"]))  # ['กา', 'ไก่', 'ไข่', 'ฮา']
+from pythainlp.collation import collate
+print(collate(["ไก่", "ไข่", "กา", "ฮา"]))  # ['กา', 'ไก่', 'ไข่', 'ฮา']
 ```
 
 รับ list คืนค่า list
@@ -376,30 +382,16 @@ rank(list)
 rank(["แมง", "แมง", "คน"])  # Counter({'แมง': 2, 'คน': 1})
 ```
 
-### change
-
-#### แก้ไขปัญหาการลืมเปลี่ยนภาษาแป้นพิมพ์
-
-```python
-from pythainlp.change import *
-```
-
-มีคำสั่งดังนี้
-
-- texttothai(str) แปลงแป้นตัวอักษรอังกฤษเป็นไทย
-- texttoeng(str) แปลงแป้นตัวอักษรไทยเป็นอังกฤษ
-
-คืนค่าออกมาเป็น str
-
 ### soundex
 
 กฎที่รองรับ
 - lk82 - กฎการเข้ารหัสซาวน์เด็กซ์ของ วิชิตหล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์
 - udom83 - กฎการเข้ารหัสซาวน์เด็กซ์ของ วรรณี อุดมพาณิชย์
+- metasound - กฎการเข้ารหัส MetaSoound ของ Snae & Brückner (2009)
 
 เครดิต
-- Korakot Chaovavanich https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8
-- Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statistical Ontology for Analysing Names Given in Accordance with Thai Astrology. Retrieved from https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf
+- โค้ด lk82 และ udom83 - Korakot Chaovavanich https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8
+- โค้ด metasound - Wannaphong Phattiyaphaibun, ปรับปรุงต่อโดย Arthit Suriyawongkul
 
 **การใช้งาน**
 
@@ -430,32 +422,6 @@ sentiment(str)
 
 ### Util
 
-การใช้งาน
-
-```python
-from pythainlp.util import *
-```
-
-#### bigrams
-
-สร้าง bigram
-
-```python
-bigrams(token)
-```
-
-- token คือ list
-
-#### trigram
-
-สำหรับสร้าง trigram
-
-```python
-trigrams(token)
-```
-
-- token คือ list
-
 #### normalize
 
 ซ่อมข้อความภาษาไทย
@@ -467,23 +433,24 @@ normalize(text)
 **ตัวอย่าง**
 
 ```python
+from pythainlp.util import normalize
+
 # เ เ ป ล ก กับ แปลก
 normalize("เเปลก") == "แปลก"  # True
 ```
 
-#### listtext_num2num
-
-แปลง list ข้อความตัวเลขในภาษาไทยให้เป็นตัวเลข
+#### แก้ไขปัญหาการลืมเปลี่ยนภาษาแป้นพิมพ์
 
 ```python
-listtext_num2num(list)
+from pythainlp.util import eng_to_thai, thai_to_eng
 ```
 
-**ตัวอย่าง**
+มีคำสั่งดังนี้
 
-```python
-listtext_num2num(["หกหมื่น", "หกพัน", "หกร้อย", "หกสิบ", "หก"])  # 66666
-```
+- eng_to_thai(str) แปลงแป้นตัวอักษรอังกฤษเป็นไทย
+- thai_to_eng(str) แปลงแป้นตัวอักษรไทยเป็นอังกฤษ
+
+คืนค่าออกมาเป็น str
 
 ### Corpus
 

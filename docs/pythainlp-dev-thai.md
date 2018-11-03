@@ -587,12 +587,12 @@ return dict
 
 สำหรับใช้จัดการกับ Thai National Corpus (http://www.arts.chula.ac.th/~ling/TNC/index.php)
 
-##### word_frequency
+##### word_freq
 
 ใช้วัดความถี่ของคำ
 
 ```python
-word_frequency(word, domain="all")
+word_freq(word, domain="all")
 ```
 
 word คือ คำ

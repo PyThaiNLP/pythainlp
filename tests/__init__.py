@@ -68,11 +68,11 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(thai_words())
 
     def test_tnc(self):
-        self.assertIsNotNone(tnc.get_word_frequency_all())
-        self.assertIsNotNone(tnc.word_frequency("นก"))
+        self.assertIsNotNone(tnc.word_freqs())
+        self.assertIsNotNone(tnc.word_freq("นก"))
 
     def test_ttc(self):
-        self.assertIsNotNone(ttc.get_word_frequency_all())
+        self.assertIsNotNone(ttc.word_freqs())
 
     def test_wordnet(self):
         self.assertEqual(

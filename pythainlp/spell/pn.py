@@ -80,7 +80,7 @@ class NorvigSpellChecker:
         :param func dict_filter: A function to filter the dictionary. Default filter removes any word with number or non-Thai characters. If no filter is required, use None.
         """
         if not custom_dict:  # default, use Thai National Corpus
-            custom_dict = tnc.get_word_frequency_all()
+            custom_dict = tnc.word_freqs()
 
         if not dict_filter:
             dict_filter = _no_filter

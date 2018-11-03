@@ -11,12 +11,17 @@ import re
 import requests
 from pythainlp.tools import get_full_data_path
 
-__all__ = ["word_frequency", "get_word_frequency_all"]
+__all__ = ["word_freq", "word_freqs"]
 
 _TNC_FREQ_URL = "https://raw.githubusercontent.com/korakot/thainlp/master/tnc_freq.txt"
 
 
-def word_frequency(word, domain="all"):
+def word_freq(word, domain="all"):
+    """
+    Get word frequency of a word.
+    This function will make a query to the server of Thai National Corpus.
+    Internet connection is required.
+    """
     listdomain = {
         "all": "",
         "imaginative": "1",
@@ -32,13 +37,20 @@ def word_frequency(word, domain="all"):
     }
     url = "http://www.arts.chula.ac.th/~ling/TNCII/corp.php"
     data = {"genre[]": "", "domain[]": listdomain[domain], "sortby": "perc", "p": word}
+
     r = requests.post(url, data=data)
+
     pat = re.compile('TOTAL</font>(?s).*?#ffffff">(.*?)</font>')
-    n = pat.search(r.text).group(1)
-    return int("0" + n.strip())
+    match = pat.search(r.text)
+
+    n = 0
+    if match:
+        n = int(match.group(1).strip())
+
+    return n
 
 
-def get_word_frequency_all():
+def word_freqs():
     """
     ดึงข้อมูลความถี่คำของ Thai National Corpus มาใช้งาน
     โดยจะได้ข้อมูลในรูปแบบ List[Tuple] [(word,frequency),...]

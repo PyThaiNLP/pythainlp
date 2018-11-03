@@ -15,7 +15,7 @@ print(pn_tnc_correct("เหลืยม"))
 
 
 # spell checker from pythainlp.spell.pn module (specified algorithm, custom dictionary)
-ttc_word_freqs = ttc.get_word_frequency_all()
+ttc_word_freqs = ttc.word_freqs()
 pn_ttc_checker = NorvigSpellChecker(custom_dict=ttc_word_freqs)
 print(pn_ttc_checker.spell("เหลืยม"))
 print(pn_ttc_checker.correct("เหลืยม"))

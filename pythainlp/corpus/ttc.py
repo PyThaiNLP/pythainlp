@@ -10,12 +10,12 @@ import os
 import requests
 from pythainlp.tools import get_full_data_path
 
-__all__ = ["get_word_frequency_all"]
+__all__ = ["word_freqs"]
 
 _TCC_FREQ_URL = "https://raw.githubusercontent.com/korakot/thainlp/master/ttc_freq.txt"
 
 
-def get_word_frequency_all():
+def word_freqs():
     """
     ดึงข้อมูลความถี่คำของ Thai Textbook Corpus (TTC) มาใช้งาน
     โดยมีรูปแบบข้อมูลเป็น List[Tuple] [(word, frequency), ...]

@@ -44,6 +44,8 @@ Development release
 $ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
 
+Note: PyTorch is required for ulmfit sentiment analyser. ```pip install torch``` is needed for the feature.
+
 ## Documentation
 
 See [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
@@ -100,6 +102,8 @@ $ pip install pythainlp
 ```sh
 $ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
+
+หมายเหตุ: เนื่องจาก ulmfit sentiment analyser ต้องใช้ PyTorch จึงต้อง ```pip install torch``` เพื่อติดตั้ง PyTorhc ก่อน
 
 ## เอกสารการใช้งาน
 

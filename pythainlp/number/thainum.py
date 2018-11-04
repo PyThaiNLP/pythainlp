@@ -90,38 +90,38 @@ def bahttext(amount_number):
     """
     Converts a number to Thai text and adds a suffix of "Baht" currency.
 
-    Similar to BAHTTEXT funcation in Excel
+    Similar to BAHTTEXT function in Excel
     """
-    if amount_number is None:
-        return ""
-
-    if amount_number == 0:
-        return "ศูนย์บาทถ้วน"
-
-    amount_number = number_format(amount_number, 2).replace(" ", "")
-    pt = amount_number.find(".")
-    number, fraction = "", ""
-    amount_number1 = amount_number.split(".")
-
-    if not pt:
-        number = amount_number
-    else:
-        amount_number = amount_number.split(".")
-        number = amount_number[0]
-        fraction = int(amount_number1[1])
-
     ret = ""
-    number = ast.literal_eval(number.replace(",", ""))
 
-    baht = num_to_thaiword(number)
-    if baht != "":
-        ret = "".join([ret, baht, "บาท"])
-
-    satang = num_to_thaiword(fraction)
-    if satang != "" and satang != "ศูนย์":
-        ret = "".join([ret, satang, "สตางค์"])
+    if amount_number is None:
+        pass
+    elif amount_number == 0:
+        ret = "ศูนย์บาทถ้วน"
     else:
-        ret = "".join([ret, "ถ้วน"])
+        amount_number = number_format(amount_number, 2).replace(" ", "")
+        pt = amount_number.find(".")
+        number, fraction = "", ""
+        amount_number1 = amount_number.split(".")
+
+        if not pt:
+            number = amount_number
+        else:
+            amount_number = amount_number.split(".")
+            number = amount_number[0]
+            fraction = int(amount_number1[1])
+
+        number = ast.literal_eval(number.replace(",", ""))
+
+        baht = num_to_thaiword(number)
+        if baht != "":
+            ret = "".join([ret, baht, "บาท"])
+
+        satang = num_to_thaiword(fraction)
+        if satang != "" and satang != "ศูนย์":
+            ret = "".join([ret, satang, "สตางค์"])
+        else:
+            ret = "".join([ret, "ถ้วน"])
 
     return ret
 
@@ -131,42 +131,42 @@ def num_to_thaiword(number):
     :param float number: a float number (with decimals) indicating a quantity
     :return: a text that indicates the full amount in word form, properly ending each digit with the right term.
     """
-    if number is None:
-        return ""
-
-    if number == 0:
-        return "ศูนย์"
-
-    position_call = ["แสน", "หมื่น", "พัน", "ร้อย", "สิบ", ""]
-    number_call = ["", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"]
-
     ret = ""
-    if number > 1000000:
-        ret += num_to_thaiword(int(number / 1000000)) + "ล้าน"
-        number = int(math.fmod(number, 1000000))
-    divider = 100000
 
-    pos = 0
-    while number > 0:
-        d = int(number / divider)
+    if number is None:
+        pass
+    elif number == 0:
+        ret = "ศูนย์"
+    else:
+        _POS_CALL = ["แสน", "หมื่น", "พัน", "ร้อย", "สิบ", ""]
+        _NUM_CALL = ["", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"]
 
-        if (divider == 10) and (d == 2):
-            ret += "ยี่"
-        elif (divider == 10) and (d == 1):
-            ret += ""
-        elif (divider == 1) and (d == 1) and (ret != ""):
-            ret += "เอ็ด"
-        else:
-            ret += number_call[d]
+        if number > 1000000:
+            ret += num_to_thaiword(int(number / 1000000)) + "ล้าน"
+            number = int(math.fmod(number, 1000000))
+        divider = 100000
 
-        if d:
-            ret += position_call[pos]
-        else:
-            ret += ""
+        pos = 0
+        while number > 0:
+            d = int(number / divider)
 
-        number = number % divider
-        divider = divider / 10
-        pos += 1
+            if (divider == 10) and (d == 2):
+                ret += "ยี่"
+            elif (divider == 10) and (d == 1):
+                ret += ""
+            elif (divider == 1) and (d == 1) and (ret != ""):
+                ret += "เอ็ด"
+            else:
+                ret += _NUM_CALL[d]
+
+            if d:
+                ret += _POS_CALL[pos]
+            else:
+                ret += ""
+
+            number = number % divider
+            divider = divider / 10
+            pos += 1
 
     return ret
 

@@ -14,18 +14,20 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 PyThaiNLP supports Python 3.4+. Since version 1.7, PyThaiNLP deprecates its support for Python 2. Python 2 users can still use PyThaiNLP 1.6.
 
-### Capabilities
+## Capabilities
 
-- Thai word segmentation, including subword segmentation based on Thai Character Cluster (TCC) and ETCC
+- Thai word segmentation (```word_tokenize```), including subword segmentation based on Thai Character Cluster (```tcc```) and ETCC (```etcc```)
+- Thai romanization (```romanize```)
+- Thai part-of-speech taggers (```pos_tag```)
+- Thai collation (sort by dictionoary order) (```collate```)
+- Thai-English keyboard misswitched fix (```eng_to_thai```, ```thai_to_eng```)
+- Thai misspellings detection and spelling correction (```spell```)
+- Thai soundex (```lk82```, ```udom83```, ```metasound```)
+- Thai stop words (```pythainlp.corpus.thai_stopwords```)
 - Thai WordNet
-- Thai part-of-speech taggers
-- Thai romanization
-- Thai soundex and MetaSound
-- Thai misspellings detection and spelling correction
-- Thai stop words
 - and much more.
 
-### Install
+## Installation
 
 **Using pip**
 
@@ -41,15 +43,24 @@ Development release
 $ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
 
-### Documentation
+## Documentation
 
 See [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
 
-### License
+## License
 
-[Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
+- PyThaiNLP code uses [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
+- Corpus data created by PyThaiNLP project use [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
+- For other corpus that may included with PyThaiNLP distribution, please refer to [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md).
 
-## ภาษาไทย
+## Contribute to PyThaiNLP
+
+Please do fork and create a pull request :)
+
+For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
+
+
+# ภาษาไทย
 
 ประมวลภาษาไทยในภาษา Python
 
@@ -61,21 +72,20 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
   - หน้าหลัก GitHub: [https://github.com/PyThaiNLP/pythainlp/](https://github.com/PyThaiNLP/pythainlp/)
 
-### ความสามารถ
-  - ตัดคำภาษาไทย
-  - ถอดเสียงภาษาไทยเป็นอักษรละติน
-  - ระบุชนิดคำ (part-of-speech) ภาษาไทย
-  - อ่านตัวเลขเป็นข้อความภาษาไทย
-  - เรียงจำนวนคำของประโยค
-  - แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา
-  - ตรวจคำสะกดผิดในภาษาไทย
-  - รองรับ Thai Character Clusters (TCC) และ ETCC
+## ความสามารถ
+  - ตัดคำภาษาไทย (```word_tokenize```) และรองรับ Thai Character Clusters (```tcc```) และ ETCC (```etcc```)
+  - ถอดเสียงภาษาไทยเป็นอักษรละติน (```romanize```)
+  - ระบุชนิดคำ (part-of-speech) ภาษาไทย (```pos_tag```)
+  - อ่านตัวเลขเป็นข้อความภาษาไทย (```bahttext```, ```num_to_thaiword```)
+  - เรียงลำดับคำตามพจนานุกรมไทย (```collate```)
+  - แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา (```eng_to_thai```, ```thai_to_eng```)
+  - ตรวจคำสะกดผิดในภาษาไทย (```spell```)
+  - soundex ภาษาไทย (```lk82```, ```udom83```, ```metasound```)
+  - stop word ภาษาไทย (```pythainlp.corpus.thai_stopwords```)
   - Thai WordNet
-  - stop word ภาษาไทย
-  - MetaSound และ soundex ภาษาไทย
   - และอื่น ๆ 
 
-### ติดตั้ง
+## ติดตั้ง
 
 รุ่นเสถียร
 
@@ -89,18 +99,20 @@ $ pip install pythainlp
 $ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
 
-### เอกสารการใช้งาน
+## เอกสารการใช้งาน
 
 อ่านที่ [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
 
-### License
+## สัญญาอนุญาต
 
-[Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
+- โค้ด PyThaiNLP ใช้สัญญาอนุญาต [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
+- คลังคำและข้อมูลที่สร้างโดยโครงการ PyThaiNLP ใช้สัญญาอนุญาตครีเอทีฟคอมมอนส์แบบแสดงที่มา-อนุญาตแบบเดียวกัน 4.0 [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
+- คลังคำและข้อมูลอื่นๆ ที่อาจแจกจ่ายไปพร้อมกับแพคเกจ PyThaiNLP อาจใช้สัญญาอนุญาตอื่น โปรดดูเอกสาร [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md)
 
-### Logo
+## ตราสัญลักษณ์
 
 ออกแบบโดยคุณ วรุตม์ พสุธาดล จากการประกวดที่ https://www.facebook.com/groups/408004796247683/permalink/475864542795041/ และ https://www.facebook.com/groups/408004796247683/permalink/474262752955220/
 
-### สนับสนุน
+## สนับสนุนและร่วมพัฒนา
 
 คุณสามารถ[ร่วมพัฒนาโครงการนี้](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)ได้ โดยการ fork และส่ง pull request กลับมา

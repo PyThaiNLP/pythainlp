@@ -39,14 +39,10 @@ def sentiment(text, engine="old"):
 
         return "pos" if tag else "neg"
     else:  # default, use "old" vocabulary-based engine
-        with open(
-            os.path.join(_SENTIMENT_PATH, "vocabulary.data"), "rb"
-        ) as in_strm:
+        with open(os.path.join(_SENTIMENT_PATH, "vocabulary.data"), "rb") as in_strm:
             vocabulary = dill.load(in_strm)
 
-        with open(
-            os.path.join(_SENTIMENT_PATH, "sentiment.data"), "rb"
-        ) as in_strm:
+        with open(os.path.join(_SENTIMENT_PATH, "sentiment.data"), "rb") as in_strm:
             classifier = dill.load(in_strm)
 
         text = set(word_tokenize(text)) - _STOPWORDS

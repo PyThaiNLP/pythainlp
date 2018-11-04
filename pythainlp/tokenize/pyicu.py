@@ -31,7 +31,4 @@ def segment(text):
 
 
 if __name__ == "__main__":
-    print(segment("ทดสอบระบบตัดคำด้วยไอซียู"))
-    print(segment("ผมชอบพูดไทยคำEnglishคำ"))
-    print(segment("ไทยEnglish540บาท"))
-    print(segment("ประหยัด ไฟเบอห้า"))
+    print(segment("พูดไทย2คำEnglishคำ"))

@@ -124,10 +124,5 @@ def thai_to_eng(text):
 
 
 if __name__ == "__main__":
-    a = "l;ylfu8iy["
-    a = eng_to_thai(a)
-    a = eng_to_thai(a)
-    b = "นามรสนอำันี"
-    b = thai_to_eng(b)
-    print(a)
-    print(b)
+    print(eng_to_thai("l;ylfu8iy["))
+    print(thai_to_eng("นามรสนอำันี"))

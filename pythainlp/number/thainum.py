@@ -5,12 +5,11 @@ Convert Thai numbers
 Adapted from
 http://justmindthought.blogspot.com/2012/12/code-php.html
 """
-import ast
 import math
 
 __all__ = ["bahttext", "num_to_thaiword"]
 
-p = [
+_p = [
     ["ภาษาไทย", "ตัวเลข", "เลขไทย"],
     ["หนึ่ง", "1", "๑"],
     ["สอง", "2", "๒"],
@@ -22,18 +21,15 @@ p = [
     ["แปด", "8", "๘"],
     ["เก้า", "9", "๙"],
 ]
-thaitonum = dict((x[2], x[1]) for x in p[1:])
-p1 = dict((x[0], x[1]) for x in p[1:])
-d1 = 0
 
 
-# เลขไทยสู่เลข
+# เลขไทยสู่เลขอารบิก
 def thai_num_to_num(text):
     """
     :param str text: Thai number characters such as '๑', '๒', '๓'
     :return: universal numbers such as '1', '2', '3'
     """
-    thaitonum = dict((x[2], x[1]) for x in p[1:])
+    thaitonum = dict((x[2], x[1]) for x in _p[1:])
     return thaitonum[text]
 
 
@@ -42,7 +38,7 @@ def thai_num_to_text(text):
     :param str text: Thai number characters such as '๑', '๒', '๓'
     :return: Thai numbers, spelled out in Thai
     """
-    thaitonum = dict((x[2], x[0]) for x in p[1:])
+    thaitonum = dict((x[2], x[0]) for x in _p[1:])
     return thaitonum[text]
 
 
@@ -51,7 +47,7 @@ def num_to_thai_num(text):
     :param text: universal numbers such as '1', '2', '3'
     :return: Thai number characters such as '๑', '๒', '๓'
     """
-    thaitonum = dict((x[1], x[2]) for x in p[1:])
+    thaitonum = dict((x[1], x[2]) for x in _p[1:])
     return thaitonum[text]
 
 
@@ -60,7 +56,7 @@ def num_to_text(text):
     :param text: universal numbers such as '1', '2', '3'
     :return: Thai numbers, spelled out in Thai
     """
-    thaitonum = dict((x[1], x[0]) for x in p[1:])
+    thaitonum = dict((x[1], x[0]) for x in _p[1:])
     return thaitonum[text]
 
 
@@ -69,7 +65,7 @@ def text_to_num(text):
     :param text: Thai numbers, spelled out in Thai
     :return: universal numbers such as '1', '2', '3'
     """
-    thaitonum = dict((x[0], x[1]) for x in p[1:])
+    thaitonum = dict((x[0], x[1]) for x in _p[1:])
     return thaitonum[text]
 
 
@@ -78,47 +74,34 @@ def text_to_thai_num(text):
     :param text: Thai numbers, spelled out in Thai
     :return: Thai numbers such as '๑', '๒', '๓'
     """
-    thaitonum = dict((x[0], x[2]) for x in p[1:])
+    thaitonum = dict((x[0], x[2]) for x in _p[1:])
     return thaitonum[text]
 
 
-def number_format(num, places=0):
-    return "{:20,.2f}".format(num)
-
-
-def bahttext(amount_number):
+def bahttext(number):
     """
     Converts a number to Thai text and adds a suffix of "Baht" currency.
+    Precision will be fixed at two decimal places (0.00) to fits "Satang" unit.
 
     Similar to BAHTTEXT function in Excel
     """
     ret = ""
 
-    if amount_number is None:
+    if number is None:
         pass
-    elif amount_number == 0:
+    elif number == 0:
         ret = "ศูนย์บาทถ้วน"
     else:
-        amount_number = number_format(amount_number, 2).replace(" ", "")
-        pt = amount_number.find(".")
-        number, fraction = "", ""
-        amount_number1 = amount_number.split(".")
+        num_int, num_dec = "{:.2f}".format(number).split(".")
+        num_int = int(num_int)
+        num_dec = int(num_dec)
 
-        if not pt:
-            number = amount_number
-        else:
-            amount_number = amount_number.split(".")
-            number = amount_number[0]
-            fraction = int(amount_number1[1])
-
-        number = ast.literal_eval(number.replace(",", ""))
-
-        baht = num_to_thaiword(number)
-        if baht != "":
+        baht = num_to_thaiword(num_int)
+        if baht:
             ret = "".join([ret, baht, "บาท"])
 
-        satang = num_to_thaiword(fraction)
-        if satang != "" and satang != "ศูนย์":
+        satang = num_to_thaiword(num_dec)
+        if satang and satang != "ศูนย์":
             ret = "".join([ret, satang, "สตางค์"])
         else:
             ret = "".join([ret, "ถ้วน"])
@@ -139,7 +122,18 @@ def num_to_thaiword(number):
         ret = "ศูนย์"
     else:
         _POS_CALL = ["แสน", "หมื่น", "พัน", "ร้อย", "สิบ", ""]
-        _NUM_CALL = ["", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"]
+        _NUM_CALL = [
+            "",
+            "หนึ่ง",
+            "สอง",
+            "สาม",
+            "สี่",
+            "ห้า",
+            "หก",
+            "เจ็ด",
+            "แปด",
+            "เก้า",
+        ]
 
         if number > 1000000:
             ret += num_to_thaiword(int(number / 1000000)) + "ล้าน"

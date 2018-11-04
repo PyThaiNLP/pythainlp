@@ -92,6 +92,12 @@ def bahttext(amount_number):
 
     Similar to BAHTTEXT funcation in Excel
     """
+    if amount_number is None:
+        return ""
+
+    if amount_number == 0:
+        return "ศูนย์บาทถ้วน"
+
     amount_number = number_format(amount_number, 2).replace(" ", "")
     pt = amount_number.find(".")
     number, fraction = "", ""
@@ -106,11 +112,13 @@ def bahttext(amount_number):
 
     ret = ""
     number = ast.literal_eval(number.replace(",", ""))
+
     baht = num_to_thaiword(number)
     if baht != "":
         ret = "".join([ret, baht, "บาท"])
+
     satang = num_to_thaiword(fraction)
-    if satang != "":
+    if satang != "" and satang != "ศูนย์":
         ret = "".join([ret, satang, "สตางค์"])
     else:
         ret = "".join([ret, "ถ้วน"])
@@ -123,12 +131,16 @@ def num_to_thaiword(number):
     :param float number: a float number (with decimals) indicating a quantity
     :return: a text that indicates the full amount in word form, properly ending each digit with the right term.
     """
+    if number is None:
+        return ""
+
+    if number == 0:
+        return "ศูนย์"
+
     position_call = ["แสน", "หมื่น", "พัน", "ร้อย", "สิบ", ""]
     number_call = ["", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"]
 
     ret = ""
-    if number == 0:
-        return ret
     if number > 1000000:
         ret += num_to_thaiword(int(number / 1000000)) + "ล้าน"
         number = int(math.fmod(number, 1000000))
@@ -137,6 +149,7 @@ def num_to_thaiword(number):
     pos = 0
     while number > 0:
         d = int(number / divider)
+
         if (divider == 10) and (d == 2):
             ret += "ยี่"
         elif (divider == 10) and (d == 1):
@@ -145,10 +158,12 @@ def num_to_thaiword(number):
             ret += "เอ็ด"
         else:
             ret += number_call[d]
+
         if d:
             ret += position_call[pos]
         else:
             ret += ""
+
         number = number % divider
         divider = divider / 10
         pos += 1
@@ -157,4 +172,4 @@ def num_to_thaiword(number):
 
 
 if __name__ == "__main__":
-    print(bahtext(4000.0))
+    print(bahttext(4000.0))

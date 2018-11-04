@@ -10,7 +10,7 @@
 
 Thai Natural Language Processing in Python.
 
-PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk`, but with focus on Thai language.
+PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
 PyThaiNLP supports Python 3.4+. Since version 1.7, PyThaiNLP deprecates its support for Python 2. Python 2 users can still use PyThaiNLP 1.6.
 
@@ -44,7 +44,7 @@ Development release
 $ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
 
-Note: PyTorch is required for ulmfit sentiment analyser. ```pip install torch``` is needed for the feature.
+Note: PyTorch is required for ulmfit sentiment analyser. ```pip install torch``` is needed for the feature. gensim and keras packages may also needed for other modules that rely on these machine learning libraries.
 
 ## Documentation
 
@@ -103,7 +103,7 @@ $ pip install pythainlp
 $ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
 
-หมายเหตุ: เนื่องจาก ulmfit sentiment analyser ต้องใช้ PyTorch จึงต้อง ```pip install torch``` เพื่อติดตั้ง PyTorhc ก่อน
+หมายเหตุ: เนื่องจาก ulmfit sentiment analyser ต้องใช้ PyTorch จึงต้อง ```pip install torch``` เพื่อติดตั้ง PyTorhc ก่อน มอดูลที่อาศัยการเรียนรู้ของเครื่องอื่นๆ อาจจำเป็นต้องติดตั้ง gensim และ keras ก่อนเช่นกัน
 
 ## เอกสารการใช้งาน
 

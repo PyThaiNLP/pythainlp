@@ -19,6 +19,7 @@ PyThaiNLP supports Python 3.4+. Since version 1.7, PyThaiNLP deprecates its supp
 - Thai word segmentation (```word_tokenize```), including subword segmentation based on Thai Character Cluster (```tcc```) and ETCC (```etcc```)
 - Thai romanization (```romanize```)
 - Thai part-of-speech taggers (```pos_tag```)
+- Read out number to Thai words (```bahttext```, ```num_to_thaiword```)
 - Thai collation (sort by dictionoary order) (```collate```)
 - Thai-English keyboard misswitched fix (```eng_to_thai```, ```thai_to_eng```)
 - Thai misspellings detection and spelling correction (```spell```)
@@ -70,20 +71,21 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 รองรับ Python 3.4 ขึ้นไป
 
-  - หน้าหลัก GitHub: [https://github.com/PyThaiNLP/pythainlp/](https://github.com/PyThaiNLP/pythainlp/)
+- หน้าหลัก GitHub: [https://github.com/PyThaiNLP/pythainlp/](https://github.com/PyThaiNLP/pythainlp/)
 
 ## ความสามารถ
-  - ตัดคำภาษาไทย (```word_tokenize```) และรองรับ Thai Character Clusters (```tcc```) และ ETCC (```etcc```)
-  - ถอดเสียงภาษาไทยเป็นอักษรละติน (```romanize```)
-  - ระบุชนิดคำ (part-of-speech) ภาษาไทย (```pos_tag```)
-  - อ่านตัวเลขเป็นข้อความภาษาไทย (```bahttext```, ```num_to_thaiword```)
-  - เรียงลำดับคำตามพจนานุกรมไทย (```collate```)
-  - แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา (```eng_to_thai```, ```thai_to_eng```)
-  - ตรวจคำสะกดผิดในภาษาไทย (```spell```)
-  - soundex ภาษาไทย (```lk82```, ```udom83```, ```metasound```)
-  - stop word ภาษาไทย (```pythainlp.corpus.thai_stopwords```)
-  - Thai WordNet
-  - และอื่น ๆ 
+
+- ตัดคำภาษาไทย (```word_tokenize```) และรองรับ Thai Character Clusters (```tcc```) และ ETCC (```etcc```)
+- ถอดเสียงภาษาไทยเป็นอักษรละติน (```romanize```)
+- ระบุชนิดคำ (part-of-speech) ภาษาไทย (```pos_tag```)
+- อ่านตัวเลขเป็นข้อความภาษาไทย (```bahttext```, ```num_to_thaiword```)
+- เรียงลำดับคำตามพจนานุกรมไทย (```collate```)
+- แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา (```eng_to_thai```, ```thai_to_eng```)
+- ตรวจคำสะกดผิดในภาษาไทย (```spell```)
+- soundex ภาษาไทย (```lk82```, ```udom83```, ```metasound```)
+- stop word ภาษาไทย (```pythainlp.corpus.thai_stopwords```)
+- Thai WordNet
+- และอื่น ๆ 
 
 ## ติดตั้ง
 

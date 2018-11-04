@@ -26,7 +26,7 @@ PyThaiNLP supports Python 3.4+. Since version 1.7, PyThaiNLP deprecates its supp
 - Thai soundex (```lk82```, ```udom83```, ```metasound```)
 - Thai stop words (```pythainlp.corpus.thai_stopwords```)
 - Thai WordNet
-- and much more.
+- and much more - see [examples](https://github.com/PyThaiNLP/pythainlp/tree/dev/examples).
 
 ## Installation
 
@@ -85,7 +85,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 - soundex ภาษาไทย (```lk82```, ```udom83```, ```metasound```)
 - stop word ภาษาไทย (```pythainlp.corpus.thai_stopwords```)
 - Thai WordNet
-- และอื่น ๆ 
+- และอื่น ๆ [ดูตัวอย่าง](https://github.com/PyThaiNLP/pythainlp/tree/dev/examples)
 
 ## ติดตั้ง
 

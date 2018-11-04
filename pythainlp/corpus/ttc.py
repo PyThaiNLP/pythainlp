@@ -8,20 +8,19 @@ https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&t
 import os
 
 import requests
+from pythainlp.tools import get_full_data_path
+
+__all__ = ["word_freqs"]
 
 _TCC_FREQ_URL = "https://raw.githubusercontent.com/korakot/thainlp/master/ttc_freq.txt"
 
 
-def get_word_frequency_all():
+def word_freqs():
     """
     ดึงข้อมูลความถี่คำของ Thai Textbook Corpus (TTC) มาใช้งาน
     โดยมีรูปแบบข้อมูลเป็น List[Tuple] [(word, frequency), ...]
     """
-    path = os.path.join(os.path.expanduser("~"), "pythainlp-data")
-    if not os.path.exists(path):
-        os.makedirs(path)
-
-    path = os.path.join(path, "ttc_freq.txt")  # try local copy first
+    path = get_full_data_path("tnc_freq.txt")  # try local copy first
     if not os.path.exists(path):  # if fail, download from internet
         response = requests.get(_TCC_FREQ_URL)
         with open(path, "wb") as f:

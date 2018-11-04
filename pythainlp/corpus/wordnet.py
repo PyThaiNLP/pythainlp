@@ -16,6 +16,7 @@ except LookupError:
 
 from nltk.corpus import wordnet
 
+
 def synsets(word, pos=None, lang="tha"):
     return wordnet.synsets(lemma=word, pos=pos, lang=lang)
 

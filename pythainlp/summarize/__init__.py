@@ -6,15 +6,17 @@ from collections import defaultdict
 from heapq import nlargest
 from string import punctuation
 
-from pythainlp.corpus import stopwords
+from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import sent_tokenize, word_tokenize
+
+_STOPWORDS = thai_stopwords()
 
 
 class FrequencySummarizer:
     def __init__(self, min_cut=0.1, max_cut=0.9):
         self.__min_cut = min_cut
         self.__max_cut = max_cut
-        self.__stopwords = set(stopwords.words("thai") + list(punctuation))
+        self.__stopwords = set(punctuation).union(_STOPWORDS)
 
     def __compute_frequencies(self, word_tokenized_sents):
         word_freqs = defaultdict(int)

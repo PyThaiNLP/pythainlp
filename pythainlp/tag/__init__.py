@@ -34,14 +34,16 @@ def pos_tag(words, engine="unigram", corpus="orchid"):
                 try:
                     from artagger import Tagger
                 except ImportError:
-                    raise ImportError("Error: Try 'pip install " + _ARTAGGER_URL + "'")
+                    raise ImportError(
+                        "ImportError: Try 'pip install " + _ARTAGGER_URL + "'"
+                    )
 
             words = Tagger().tag(" ".join(text))
 
             return [(word.word, word.tag) for word in words]
 
     else:  # default, use "unigram" ("old") engine
-        from .old import tag as _tag
+        from .unigram import tag as _tag
 
     return _tag(words, corpus=corpus)
 

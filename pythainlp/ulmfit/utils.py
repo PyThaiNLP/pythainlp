@@ -9,7 +9,6 @@ from pythainlp.corpus import download, get_file
 from pythainlp.tokenize import word_tokenize
 
 
-# numpy and fastai
 try:
     import numpy as np
     from fastai.text import *
@@ -26,7 +25,6 @@ except ImportError:
     except ImportError:
         raise ImportError("ImportError: Try 'pip install fastai numpy dill'")
 
-# import torch
 try:
     import torch
 except ImportError:

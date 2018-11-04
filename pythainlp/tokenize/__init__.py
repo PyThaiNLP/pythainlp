@@ -5,13 +5,12 @@ Thai tokenizers
 import re
 
 import nltk
-from pythainlp.corpus.thaisyllable import get_data as syllable_dict
-from pythainlp.corpus.thaiword import get_data as word_dict
+from pythainlp.corpus import get_corpus, thai_syllables, thai_words
 
 from marisa_trie import Trie
 
-DEFAULT_DICT_TRIE = Trie(word_dict())
-FROZEN_DICT_TRIE = Trie(word_dict(dict_fname="thaiword_frozen_201810.txt"))
+DEFAULT_DICT_TRIE = Trie(thai_words())
+FROZEN_DICT_TRIE = Trie(get_corpus("words_th_frozen_201810.txt"))
 
 
 def word_tokenize(text, engine="newmm", whitespaces=True):
@@ -116,73 +115,43 @@ def subword_tokenize(text, engine="tcc"):
     return tcc(text)
 
 
-def isthai(text, check_all=False):
-    """
-    :param str text: input string or list of strings
-    :param bool check_all: checks all character or not
-
-    :return: A dictionary with the first value as proportional of text that is Thai, and the second value being a tuple of all characters, along with true or false.
-    """
-    isthais = []
-    num_isthai = 0
-
-    for ch in text:
-        ch_val = ord(ch)
-        if ch_val >= 3584 and ch_val <= 3711:
-            num_isthai += 1
-            if check_all:
-                isthais.append(True)
-        else:
-            if check_all:
-                isthais.append(False)
-    thai_percent = (num_isthai / len(text)) * 100
-
-    if check_all:
-        chars = list(text)
-        isthai_pairs = tuple(zip(chars, isthais))
-        data = {"thai": thai_percent, "check_all": isthai_pairs}
-    else:
-        data = {"thai": thai_percent}
-
-    return data
-
-
 def syllable_tokenize(text):
     """
     :param str text: input string to be tokenized
 
     :return: returns list of strings of syllables
     """
-    syllables = []
+    tokens = []
     if text:
         words = word_tokenize(text)
-        trie = create_custom_dict_trie(custom_dict_source=syllable_dict())
+        trie = dict_trie(dict_source=thai_syllables())
         for word in words:
-            syllables.extend(dict_word_tokenize(text=word, custom_dict_trie=trie))
+            tokens.extend(dict_word_tokenize(text=word, custom_dict_trie=trie))
 
-    return syllables
+    return tokens
 
 
-def create_custom_dict_trie(custom_dict_source):
+def dict_trie(dict_source):
     """
-    The function is used to create a custom dict trie which will be used for word_tokenize() function.
-    For more information on the trie data structure, see: https://marisa-trie.readthedocs.io/en/latest/index.html
+    Create a dict trie which will be used for word_tokenize() function.
+    For more information on the trie data structure,
+    see: https://marisa-trie.readthedocs.io/en/latest/index.html
 
-    :param string/list custom_dict_source: a list of vocaburaries or a path to source file
-    :return: a trie created from custom dictionary input
+    :param string/list dict_source: a list of vocaburaries or a path to source file
+    :return: a trie created from a dictionary input
     """
 
-    if type(custom_dict_source) is str:
-        # Receive a file path of the custom dict to read
-        with open(custom_dict_source, "r", encoding="utf8") as f:
+    if type(dict_source) is str:
+        # Receive a file path of the dict to read
+        with open(dict_source, "r", encoding="utf8") as f:
             _vocabs = f.read().splitlines()
             return Trie(_vocabs)
-    elif isinstance(custom_dict_source, (list, tuple, set)):
+    elif isinstance(dict_source, (list, tuple, set, frozenset)):
         # Received a sequence type object of vocabs
-        return Trie(custom_dict_source)
+        return Trie(dict_source)
     else:
         raise TypeError(
-            "Type of custom_dict_source must be either str (path to source file) or collections"
+            "Type of dict_source must be either str (path to source file) or collections"
         )
 
 
@@ -197,14 +166,9 @@ class Tokenizer:
         """
         self.__trie_dict = None
         if custom_dict:
-            if type(custom_dict) is list:
-                self.__trie_dict = Trie(custom_dict)
-            elif type(custom_dict) is str:
-                with open(custom_dict, "r", encoding="utf8") as f:
-                    vocabs = f.read().splitlines()
-                self.__trie_dict = Trie(vocabs)
+            self.__trie_dict = dict_trie(custom_dict)
         else:
-            self.__trie_dict = Trie(word_dict())
+            self.__trie_dict = Trie(thai_words())
 
     def word_tokenize(self, text, engine="newmm"):
         from .newmm import mmcut as segment

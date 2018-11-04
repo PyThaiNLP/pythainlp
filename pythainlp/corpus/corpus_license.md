@@ -42,7 +42,7 @@ Technology and LICENSEE agrees to preserve same.
 
 ## Dictionaries and Word Lists
 
-thaiword.txt, new-thaidict.txt, stopwords-th.txt, stopwords-th1.txt, stopwords-th2.txt, stopwords-th3.txt, stopwords-th4.txt, stopwords-th-old.txt, and คำมูล-คำอ่าน.db use Creative Commons Attribution-ShareAlike 4.0 International Public License
+words_th.txt, stopwords_th.txt, and คำมูล-คำอ่าน.db use Creative Commons Attribution-ShareAlike 4.0 International Public License
 
 ## Creative Commons
 

@@ -2,25 +2,87 @@
 
 import os
 
+from pythainlp.tools import get_full_data_path, get_pythainlp_path
 import requests
-from pythainlp.tools import get_path_data, get_path_db
 from tinydb import Query, TinyDB
 from tqdm import tqdm
 from urllib.request import urlopen
 
-CORPUS_DB_URL = (
+_CORPUS_DIRNAME = "corpus"
+CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
+
+_CORPUS_DB_URL = (
     "https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/master/db.json"
 )
+_CORPUS_DB_FILENAME = "db.json"
+CORPUS_DB_PATH = get_full_data_path(_CORPUS_DB_FILENAME)
+if not os.path.exists(CORPUS_DB_PATH):
+    TinyDB(CORPUS_DB_PATH)
 
-# __all__ = ["thaipos", "thaiword", "alphabet", "tone", "country", "wordnet"]
-path_db_ = get_path_db()
+_THAI_COUNTRIES_FILENAME = "countries_th.txt"
+_THAI_THAILAND_PROVINCES_FILENAME = "thailand_provinces_th.txt"
+_THAI_SYLLABLES_FILENAME = "syllables_th.txt"
+_THAI_WORDS_FILENAME = "words_th.txt"
+_THAI_STOPWORDS_FILENAME = "stopwords_th.txt"
+
+_THAI_NEGATIONS = frozenset(["ไม่", "แต่"])
+
+
+def get_corpus(filename):
+    """
+    Read corpus from file and return a frozenset
+    """
+    lines = []
+    with open(os.path.join(CORPUS_PATH, filename), "r", encoding="utf8") as fh:
+        lines = fh.read().splitlines()
+    return frozenset(lines)
+
+
+def countries():
+    """
+    Return a frozenset of country names in Thai
+    """
+    return get_corpus(_THAI_COUNTRIES_FILENAME)
+
+
+def provinces():
+    """
+    Return a frozenset of Thailand province names in Thai
+    """
+    return get_corpus(_THAI_THAILAND_PROVINCES_FILENAME)
+
+
+def thai_syllables():
+    """
+    Return a frozenset of Thai syllables
+    """
+    return get_corpus(_THAI_SYLLABLES_FILENAME)
+
+
+def thai_words():
+    """
+    Return a frozenset of Thai words
+    """
+    return get_corpus(_THAI_WORDS_FILENAME)
+
+
+def thai_stopwords():
+    """
+    Return a frozenset of Thai stopwords
+    """
+    # TODO: Cache? Not reading the disk everytime
+    return get_corpus(_THAI_STOPWORDS_FILENAME)
+
+
+def thai_negations():
+    return _THAI_NEGATIONS
 
 
 def get_file(name):
-    db = TinyDB(path_db_)
+    db = TinyDB(CORPUS_DB_PATH)
     temp = Query()
     if len(db.search(temp.name == name)) > 0:
-        path = get_path_data(db.search(temp.name == name)[0]["file"])
+        path = get_full_data_path(db.search(temp.name == name)[0]["file"])
         db.close()
         if not os.path.exists(path):
             download(name)
@@ -48,7 +110,7 @@ def download_(url, dst):
         desc=url.split("/")[-1],
     )
     req = requests.get(url, headers=header, stream=True)
-    with (open(get_path_data(dst), "wb")) as f:
+    with (open(get_full_data_path(dst), "wb")) as f:
         for chunk in req.iter_content(chunk_size=1024):
             if chunk:
                 f.write(chunk)
@@ -58,9 +120,9 @@ def download_(url, dst):
 
 
 def download(name, force=False):
-    db = TinyDB(path_db_)
+    db = TinyDB(CORPUS_DB_PATH)
     temp = Query()
-    data = requests.get(CORPUS_DB_URL)
+    data = requests.get(_CORPUS_DB_URL)
     data_json = data.json()
     if name in list(data_json.keys()):
         temp_name = data_json[name]
@@ -119,7 +181,7 @@ def download(name, force=False):
 
 
 def remove(name):
-    db = TinyDB(path_db_)
+    db = TinyDB(CORPUS_DB_PATH)
     temp = Query()
     data = db.search(temp.name == name)
     if len(data) > 0:

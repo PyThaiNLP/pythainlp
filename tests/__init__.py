@@ -7,6 +7,7 @@ from pythainlp.corpus import (
     conceptnet,
     countries,
     provinces,
+    remove,
     thai_negations,
     thai_stopwords,
     thai_syllables,
@@ -66,6 +67,7 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(thai_stopwords())
         self.assertIsNotNone(thai_syllables())
         self.assertIsNotNone(thai_words())
+        self.assertIsNotNone(remove("tnc_freq"))
 
     def test_tnc(self):
         self.assertIsNotNone(tnc.word_freqs())
@@ -150,13 +152,25 @@ class TestUM(unittest.TestCase):
             bahttext(5611116.50),
             "ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์",
         )
+        self.assertEqual(bahttext(116), "หนึ่งร้อยสิบหกบาทถ้วน")
+        self.assertEqual(bahttext(0), "ศูนย์บาทถ้วน")
+        self.assertEqual(bahttext(None), "")
+
         self.assertEqual(num_to_thaiword(112), "หนึ่งร้อยสิบสอง")
+        self.assertEqual(num_to_thaiword(0), "ศูนย์")
+        self.assertEqual(num_to_thaiword(None), "")
+
+        self.assertEqual(thaiword_to_num("ร้อยสิบสอง"), 112)
         self.assertEqual(
             thaiword_to_num(
-                ["หก", "ล้าน", "หกแสน", "หกหมื่น", "หกพัน", "หกร้อย", "หกสิบ", "หก"]
+                ["หก", "ล้าน", "หก", "แสน", "หกหมื่น", "หกพัน", "หกร้อย", "หกสิบ", "หก"]
             ),
             6666666,
         )
+        self.assertEqual(thaiword_to_num("ยี่สิบ"), 20)
+        self.assertEqual(thaiword_to_num("ศูนย์"), 0)
+        self.assertEqual(thaiword_to_num(""), None)
+        self.assertEqual(thaiword_to_num(None), None)
 
     # ### pythainlp.rank
 
@@ -181,7 +195,7 @@ class TestUM(unittest.TestCase):
 
     def test_sentiment(self):
         text = "เสียใจมาก"
-        # self.assertEqual(sentiment(text, engine="old"), "neg")
+        self.assertEqual(sentiment(text, engine="old"), "neg")
         # self.assertEqual(sentiment(text, engine="ulmfit"), "neg")
 
     # ### pythainlp.soundex

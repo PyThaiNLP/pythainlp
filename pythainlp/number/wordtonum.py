@@ -7,6 +7,8 @@ https://colab.research.google.com/drive/148WNIeclf0kOU6QxKd6pcfwpSs8l-VKD#scroll
 """
 import re
 
+from pythainlp.tokenize import Tokenizer
+
 _THAIWORD_NUMS = set("ศูนย์ หนึ่ง เอ็ด สอง ยี่ สาม สี่ ห้า หก เจ็ด แปด เก้า".split())
 _THAIWORD_UNITS = set("สิบ ร้อย พัน หมื่น แสน ล้าน".split())
 _THAIWORD_NUMS_UNITS = _THAIWORD_NUMS | _THAIWORD_UNITS
@@ -34,12 +36,14 @@ _THAI_INT_MAP = {
 _NU_PAT = re.compile("(.+)?(สิบ|ร้อย|พัน|หมื่น|แสน|ล้าน)(.+)?")  # หกสิบ, ร้อยเอ็ด
 # assuming that the units are separated already
 
+_TOKENIZER = Tokenizer(custom_dict=_THAIWORD_NUMS_UNITS)
+
 
 def _thaiword_to_num(tokens):
     len_tokens = len(tokens)
 
     if len_tokens == 0:
-        return 0
+        return None
 
     if len_tokens == 1:
         return _THAI_INT_MAP[tokens[0]]
@@ -61,7 +65,17 @@ def _thaiword_to_num(tokens):
         return _THAI_INT_MAP[a] * _THAI_INT_MAP[b] + _thaiword_to_num(tokens[2:])
 
 
-def thaiword_to_num(tokens):
+def thaiword_to_num(thaiword):
+    if not thaiword:
+        return None
+
+    tokens = []
+    if type(thaiword) == str:
+        tokens = _TOKENIZER.word_tokenize(thaiword)
+    elif type(thaiword) in (list, tuple, set, frozenset):
+        for w in thaiword:
+            tokens.extend(_TOKENIZER.word_tokenize(w))
+
     res = []
     for tok in tokens:
         if tok in _THAIWORD_NUMS_UNITS:
@@ -72,4 +86,5 @@ def thaiword_to_num(tokens):
                 res.extend([t for t in m.groups() if t])  # ตัด None ทิ้ง
             else:
                 pass  # should not be here
+
     return _thaiword_to_num(res)

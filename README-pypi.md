@@ -20,7 +20,7 @@ PyThaiNLP features include Thai word and subword segmentations, soundex, romaniz
 - thai2vec v0.2 - larger vocab, benchmarking results on Wongnai dataset
 - Sentiment classifier based on ULMFit and various product review datasets
 - Add ULMFit utility to PyThaiNLP
-- Add Thai romanization model thai2rom
+- Add Thai romanization model ThaiTransliterator
 - Retrain POS-tagging model
 - Improved word_tokenize (newmm, mm) and dict_word_tokenize
 - Documentation added

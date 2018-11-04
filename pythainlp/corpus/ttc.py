@@ -20,7 +20,7 @@ def word_freqs():
     ดึงข้อมูลความถี่คำของ Thai Textbook Corpus (TTC) มาใช้งาน
     โดยมีรูปแบบข้อมูลเป็น List[Tuple] [(word, frequency), ...]
     """
-    path = get_full_data_path("tnc_freq.txt")  # try local copy first
+    path = get_full_data_path("ttc_freq.txt")  # try local copy first
     if not os.path.exists(path):  # if fail, download from internet
         response = requests.get(_TCC_FREQ_URL)
         with open(path, "wb") as f:

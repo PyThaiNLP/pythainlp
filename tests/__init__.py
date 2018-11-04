@@ -7,6 +7,7 @@ from pythainlp.corpus import (
     conceptnet,
     countries,
     provinces,
+    remove,
     thai_negations,
     thai_stopwords,
     thai_syllables,
@@ -66,6 +67,7 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(thai_stopwords())
         self.assertIsNotNone(thai_syllables())
         self.assertIsNotNone(thai_words())
+        self.assertIsNotNone(remove("tnc_freq"))
 
     def test_tnc(self):
         self.assertIsNotNone(tnc.word_freqs())
@@ -150,6 +152,10 @@ class TestUM(unittest.TestCase):
             bahttext(5611116.50),
             "ห้าล้านหกแสนหนึ่งหมื่นหนึ่งพันหนึ่งร้อยสิบหกบาทห้าสิบสตางค์",
         )
+        self.assertEqual(
+            bahttext(116),
+            "หนึ่งร้อยสิบหกบาทถ้วน",
+        )
         self.assertEqual(num_to_thaiword(112), "หนึ่งร้อยสิบสอง")
         self.assertEqual(
             thaiword_to_num(
@@ -181,7 +187,7 @@ class TestUM(unittest.TestCase):
 
     def test_sentiment(self):
         text = "เสียใจมาก"
-        # self.assertEqual(sentiment(text, engine="old"), "neg")
+        self.assertEqual(sentiment(text, engine="old"), "neg")
         # self.assertEqual(sentiment(text, engine="ulmfit"), "neg")
 
     # ### pythainlp.soundex

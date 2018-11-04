@@ -8,7 +8,6 @@ import re
 from pythainlp.corpus import download, get_file
 from pythainlp.tokenize import word_tokenize
 
-
 try:
     import numpy as np
     from fastai.text import *
@@ -43,7 +42,6 @@ class ThaiTokenizer:
             * newmm - dictionary-based, Maximum Matching algorithm + TCC
             * longest - dictionary-based, Longest Matching
             * icu - use ICU, dictionary-based
-            * pylexto - use LexTo, dictionary-based
             * deepcut - use deepcut, language model-based
         """
         self.engine = engine

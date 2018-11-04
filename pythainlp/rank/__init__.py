@@ -5,6 +5,7 @@ from pythainlp.corpus import thai_stopwords
 
 _STOPWORDS = thai_stopwords()
 
+
 # เรียงจำนวนคำของประโยค
 def rank(data, stopword=False):
     """
@@ -20,5 +21,4 @@ def rank(data, stopword=False):
 
 
 if __name__ == "__main__":
-    text = ["แมว", "ชอบ", "ปลา", "แมว", "ชอบ", "นอน", "คน", "เป็น", "ทาส", "แมว"]
-    print(rank(text))
+    print(rank(["แมว", "ชอบ", "ปลา", "แมว", "ชอบ", "นอน", "คน", "เป็น", "ทาส", "แมว"]))

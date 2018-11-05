@@ -1,6 +1,6 @@
 ﻿# -*- coding: utf-8 -*-
 """
-Convert number in words to a computablenumber value
+Convert number in words to a computable number value
 
 Adapted from Korakot Chaovavanich's notebook
 https://colab.research.google.com/drive/148WNIeclf0kOU6QxKd6pcfwpSs8l-VKD#scrollTo=EuVDd0nNuI8Q

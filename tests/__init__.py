@@ -21,7 +21,16 @@ from pythainlp.g2p import ipa
 from pythainlp.keywords import find_keyword
 from pythainlp.ner import ThaiNameRecognizer
 from pythainlp.ner.locations import tag_provinces
-from pythainlp.number import bahttext, num_to_thaiword, thaiword_to_num
+from pythainlp.number import (
+    arabic_digit_to_thai_digit,
+    bahttext,
+    digit_to_text,
+    num_to_thaiword,
+    text_to_arabic_digit,
+    text_to_thai_digit,
+    thai_digit_to_arabic_digit,
+    thaiword_to_num,
+)
 from pythainlp.rank import rank
 from pythainlp.romanization import romanize
 from pythainlp.sentiment import sentiment
@@ -171,6 +180,26 @@ class TestUM(unittest.TestCase):
         self.assertEqual(thaiword_to_num("ศูนย์"), 0)
         self.assertEqual(thaiword_to_num(""), None)
         self.assertEqual(thaiword_to_num(None), None)
+
+        self.assertEqual(arabic_digit_to_thai_digit("ไทยแลนด์ 4.0"), "ไทยแลนด์ ๔.๐")
+        self.assertEqual(arabic_digit_to_thai_digit(""), "")
+        self.assertEqual(arabic_digit_to_thai_digit(None), "")
+
+        self.assertEqual(thai_digit_to_arabic_digit("๔๐๔ Not Found"), "404 Not Found")
+        self.assertEqual(thai_digit_to_arabic_digit(""), "")
+        self.assertEqual(thai_digit_to_arabic_digit(None), "")
+
+        self.assertEqual(digit_to_text("RFC 7258"), "RFC เจ็ดสองห้าแปด")
+        self.assertEqual(digit_to_text(""), "")
+        self.assertEqual(digit_to_text(None), "")
+
+        self.assertEqual(text_to_arabic_digit("เจ็ด"), "7")
+        self.assertEqual(text_to_arabic_digit(""), "")
+        self.assertEqual(text_to_arabic_digit(None), "")
+
+        self.assertEqual(text_to_thai_digit("เก้า"), "๙")
+        self.assertEqual(text_to_thai_digit(""), "")
+        self.assertEqual(text_to_thai_digit(None), "")
 
     # ### pythainlp.rank
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Convert Thai numbers
+Convert number value to Thai read out
 
 Adapted from
 http://justmindthought.blogspot.com/2012/12/code-php.html
@@ -8,74 +8,6 @@ http://justmindthought.blogspot.com/2012/12/code-php.html
 import math
 
 __all__ = ["bahttext", "num_to_thaiword"]
-
-_p = [
-    ["ภาษาไทย", "ตัวเลข", "เลขไทย"],
-    ["หนึ่ง", "1", "๑"],
-    ["สอง", "2", "๒"],
-    ["สาม", "3", "๓"],
-    ["สี่", "4", "๔"],
-    ["ห้า", "5", "๕"],
-    ["หก", "6", "๖"],
-    ["หก", "7", "๗"],
-    ["แปด", "8", "๘"],
-    ["เก้า", "9", "๙"],
-]
-
-
-# เลขไทยสู่เลขอารบิก
-def thai_num_to_num(text):
-    """
-    :param str text: Thai number characters such as '๑', '๒', '๓'
-    :return: universal numbers such as '1', '2', '3'
-    """
-    thaitonum = dict((x[2], x[1]) for x in _p[1:])
-    return thaitonum[text]
-
-
-def thai_num_to_text(text):
-    """
-    :param str text: Thai number characters such as '๑', '๒', '๓'
-    :return: Thai numbers, spelled out in Thai
-    """
-    thaitonum = dict((x[2], x[0]) for x in _p[1:])
-    return thaitonum[text]
-
-
-def num_to_thai_num(text):
-    """
-    :param text: universal numbers such as '1', '2', '3'
-    :return: Thai number characters such as '๑', '๒', '๓'
-    """
-    thaitonum = dict((x[1], x[2]) for x in _p[1:])
-    return thaitonum[text]
-
-
-def num_to_text(text):
-    """
-    :param text: universal numbers such as '1', '2', '3'
-    :return: Thai numbers, spelled out in Thai
-    """
-    thaitonum = dict((x[1], x[0]) for x in _p[1:])
-    return thaitonum[text]
-
-
-def text_to_num(text):
-    """
-    :param text: Thai numbers, spelled out in Thai
-    :return: universal numbers such as '1', '2', '3'
-    """
-    thaitonum = dict((x[0], x[1]) for x in _p[1:])
-    return thaitonum[text]
-
-
-def text_to_thai_num(text):
-    """
-    :param text: Thai numbers, spelled out in Thai
-    :return: Thai numbers such as '๑', '๒', '๓'
-    """
-    thaitonum = dict((x[0], x[2]) for x in _p[1:])
-    return thaitonum[text]
 
 
 def bahttext(number):

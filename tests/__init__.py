@@ -14,7 +14,6 @@ from pythainlp.corpus import (
     thai_words,
     tnc,
     ttc,
-    wordnet,
 )
 from pythainlp.date import now, now_reign_year, reign_year_to_ad
 from pythainlp.g2p import ipa
@@ -84,12 +83,6 @@ class TestUM(unittest.TestCase):
 
     def test_ttc(self):
         self.assertIsNotNone(ttc.word_freqs())
-
-    def test_wordnet(self):
-        self.assertEqual(
-            wordnet.synset("spy.n.01").lemma_names("tha"), ["สปาย", "สายลับ"]
-        )
-        self.assertIsNotNone(wordnet.langs())
 
     # ### pythainlp.date
 

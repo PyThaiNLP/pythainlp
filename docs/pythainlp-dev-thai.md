@@ -259,7 +259,7 @@ lentext คือ จำนวนคำขั้นต่ำที่ต้อ�
 ### romanization
 
 ```python
-from pythainlp.romanization import romanize
+from pythainlp.transliterate import romanize
 
 romanize(str, engine="royin")
 ```
@@ -275,7 +275,7 @@ romanize(str, engine="royin")
 **ตัวอย่าง**
 
 ```python
-from pythainlp.romanization import romanize
+from pythainlp.transliterate import romanize
 
 romanize("แมว")  # 'maew'
 ```

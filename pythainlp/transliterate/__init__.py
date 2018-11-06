@@ -2,6 +2,11 @@
 
 from pythainlp.tokenize import word_tokenize
 
+from .ipa import IPA
+from .thai2rom import ThaiTransliterator
+
+__all__ = ["IPA", "romanize", "ThaiTransliterator"]
+
 
 # ถอดเสียงภาษาไทยเป็นอักษรละติน
 def romanize(text, engine="royin"):

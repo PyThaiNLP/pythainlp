@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from pythainlp.romanization import romanize
+from pythainlp.transliterate import romanize
 
 print(romanize("แมว"))

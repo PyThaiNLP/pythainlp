@@ -14,7 +14,7 @@ PyThaiNLP features include Thai word and subword segmentations, soundex, romaniz
 
 ## What's new in version 1.7 ?
 
-- Deprecate Python 2 support
+- Deprecate Python 2 support. (Python 2 compatibility code will be completely dropped in PyThaiNLP 1.8)
 - Refactor pythainlp.tokenize.pyicu for readability
 - Add Thai NER model to pythainlp.ner
 - thai2vec v0.2 - larger vocab, benchmarking results on Wongnai dataset

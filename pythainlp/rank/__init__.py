@@ -18,9 +18,7 @@ def rank(words, stopword=False):
     if stopword:
         words = [word for word in words if word not in _STOPWORDS]
 
-    rankdata = Counter(words)
-
-    return rankdata
+    return Counter(words)
 
 
 if __name__ == "__main__":

@@ -216,7 +216,7 @@ class TestUM(unittest.TestCase):
 
     def test_romanization_royin(self):
         engine = "royin"
-        self.assertIsNone(romanize("กก", engine=engine))
+        self.assertIsNotNone(romanize("กก", engine=engine))
         self.assertEqual(romanize("แมว", engine=engine), "maeo")
         self.assertEqual(romanize("เดือน", engine=engine), "duean")
         self.assertEqual(romanize("ดู", engine=engine), "du")
@@ -352,6 +352,7 @@ class TestUM(unittest.TestCase):
 
     def test_is_thai(self):
         self.assertEqual(is_thai("ประเทศไทย"), {"thai": 100.0})
+        self.assertIsNotNone(is_thai("เผือก", check_all=True))
 
     def test_is_thaichar(self):
         self.assertEqual(is_thaichar("ก"), True)

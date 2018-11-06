@@ -14,6 +14,8 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 PyThaiNLP supports Python 3.4+. Since version 1.7, PyThaiNLP deprecates its support for Python 2. Python 2 users can still use PyThaiNLP 1.6.
 
+**This is a document for development branch. Things will break. For a document for stable branch, see [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
+
 ## Capabilities
 
 - Thai word segmentation (```word_tokenize```), including subword segmentation based on Thai Character Cluster (```tcc```) and ETCC (```etcc```)
@@ -73,7 +75,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 รองรับ Python 3.4 ขึ้นไป
 
-- หน้าหลัก GitHub: [https://github.com/PyThaiNLP/pythainlp/](https://github.com/PyThaiNLP/pythainlp/)
+**เอกสารนี้สำหรับรุ่นพัฒนา อาจมีการเปลี่ยนแปลงได้ตลอด สำหรับเอกสารรุ่นเสถียร ดูที่ [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
 
 ## ความสามารถ
 

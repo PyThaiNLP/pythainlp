@@ -4,20 +4,11 @@ Wrapper for ICU word segmentation
 """
 import re
 
-try:
-    import icu
-except ImportError:
-    from pythainlp.tools import install_package
-
-    install_package("pyicu")
-    try:
-        import icu
-    except ImportError:
-        raise ImportError("ImportError: Try 'pip install pyicu'")
+from icu import BreakIterator, Locale
 
 
 def _gen_words(text):
-    bd = icu.BreakIterator.createWordInstance(icu.Locale("th"))
+    bd = BreakIterator.createWordInstance(Locale("th"))
     bd.setText(text)
     p = bd.first()
     for q in bd:

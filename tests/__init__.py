@@ -37,7 +37,8 @@ from pythainlp.spell import correct, spell
 from pythainlp.summarize import summarize
 from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import etcc, syllable_tokenize, tcc, word_tokenize
-from pythainlp.transliterate import IPA, ThaiTransliterator, romanize
+from pythainlp.transliterate import romanize
+from pythainlp.transliterate.ipa import IPA
 from pythainlp.util import (
     deletetone,
     eng_to_thai,
@@ -351,7 +352,7 @@ class TestUM(unittest.TestCase):
         self.assertEqual(romanize("แมว"), "maeo")
         self.assertEqual(romanize("แมว", "pyicu"), "mæw")
 
-    def test_romanizeroyin(self):
+    def test_romanize_royin(self):
         engine = "royin"
         self.assertIsNotNone(romanize("กก", engine=engine))
         self.assertEqual(romanize("แมว", engine=engine), "maeo")

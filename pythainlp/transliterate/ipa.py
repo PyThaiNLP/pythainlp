@@ -2,17 +2,7 @@
 """
 Transliterating text to International Phonetic Alphabet (IPA)
 """
-
-try:
-    import epitran
-except ImportError:
-    from pythainlp.tools import install_package
-
-    install_package("epitran")
-    try:
-        import epitran
-    except ImportError:
-        raise ImportError("ImportError: Try 'pip install epitran'")
+import epitran
 
 epi = epitran.Epitran("tha-Thai")
 

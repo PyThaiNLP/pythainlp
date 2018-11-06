@@ -49,8 +49,3 @@ def sentiment(text, engine="old"):
         featurized_test_sentence = {i: (i in text) for i in vocabulary}
 
         return classifier.classify(featurized_test_sentence)
-
-
-if __name__ == "__main__":
-    text = "เสียใจแย่มากเลย"
-    print(sentiment(text))

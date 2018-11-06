@@ -177,7 +177,3 @@ def romanize(word):
         word2 = "".join(word2)
     word2 = _replace_consonants(word2, res)
     return word2
-
-
-if __name__ == "__main__":
-    print(romanize("กร") == romanize("กอน"))

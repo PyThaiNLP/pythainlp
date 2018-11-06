@@ -239,7 +239,9 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(soundex("a", engine="XXX"))
 
         self.assertEqual(lk82("รถ"), "ร3000")
-        self.assertIsNotNone(lk82("เกาะกูร์"))
+        self.assertIsNotNone(lk82("เกาะ"))
+        self.assertIsNotNone(lk82("อุยกูร์"))
+        self.assertIsNotNone(lk82("หยากไย่"))
         self.assertEqual(lk82(""), "")
 
         self.assertEqual(udom83("รถ"), "ร800000")

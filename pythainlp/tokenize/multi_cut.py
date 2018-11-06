@@ -128,10 +128,3 @@ def find_all_segment(text, trie=None):
     """
     ww = list(multicut(text, trie=trie))
     return list(combine(ww))
-
-
-if __name__ == "__main__":
-    text = "ผมรักคุณนะครับโอเคบ่พวกเราเป็นคนไทยรักภาษาไทยภาษาบ้านเกิด"
-    print(mmcut(text))
-    for one in find_all_segment(text):
-        print(one)

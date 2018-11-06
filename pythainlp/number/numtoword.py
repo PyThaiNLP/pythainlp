@@ -95,7 +95,3 @@ def num_to_thaiword(number):
             pos += 1
 
     return ret
-
-
-if __name__ == "__main__":
-    print(bahttext(4000.0))

@@ -19,7 +19,3 @@ def rank(words, stopword=False):
         words = [word for word in words if word not in _STOPWORDS]
 
     return Counter(words)
-
-
-if __name__ == "__main__":
-    print(rank(["แมว", "ชอบ", "ปลา", "แมว", "ชอบ", "นอน", "คน", "เป็น", "ทาส", "แมว"]))

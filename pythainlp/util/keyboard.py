@@ -121,8 +121,3 @@ def thai_to_eng(text):
     return "".join(
         [TH_EN_KEYB_PAIRS[ch] if (ch in TH_EN_KEYB_PAIRS) else ch for ch in text]
     )
-
-
-if __name__ == "__main__":
-    print(eng_to_thai("l;ylfu8iy["))
-    print(thai_to_eng("นามรสนอำันี"))

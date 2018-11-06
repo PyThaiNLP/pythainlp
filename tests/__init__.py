@@ -34,7 +34,7 @@ from pythainlp.number import (
 from pythainlp.rank import rank
 from pythainlp.romanization import romanize
 from pythainlp.sentiment import sentiment
-from pythainlp.soundex import lk82, metasound, udom83
+from pythainlp.soundex import lk82, metasound, soundex, udom83
 from pythainlp.spell import correct, spell
 from pythainlp.summarize import summarize
 from pythainlp.tag import pos_tag, pos_tag_sents
@@ -233,13 +233,24 @@ class TestUM(unittest.TestCase):
     # ### pythainlp.soundex
 
     def test_soundex(self):
+        self.assertIsNotNone(soundex("a", engine="lk82"))
+        self.assertIsNotNone(soundex("a", engine="udom83"))
+        self.assertIsNotNone(soundex("a", engine="metasound"))
+        self.assertIsNotNone(soundex("a", engine="XXX"))
+
         self.assertEqual(lk82("รถ"), "ร3000")
+        self.assertIsNotNone(lk82("เกาะกูร์"))
+        self.assertEqual(lk82(""), "")
+
         self.assertEqual(udom83("รถ"), "ร800000")
+        self.assertEqual(udom83(None), "")
+
         self.assertEqual(metasound("บูรณะ"), "บ550")
         self.assertEqual(metasound("คน"), "ค500")
         self.assertEqual(metasound("คนA"), "ค500")
         self.assertEqual(metasound("ดา"), "ด000")
         self.assertEqual(metasound("รักษ์"), metasound("รัก"))
+        self.assertEqual(metasound(""), "")
 
     # ### pythainlp.spell
 

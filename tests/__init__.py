@@ -14,6 +14,7 @@ from pythainlp.corpus import (
     thai_words,
     tnc,
     ttc,
+    wordnet,
 )
 from pythainlp.date import now, now_reign_year, reign_year_to_ad
 from pythainlp.g2p import ipa
@@ -83,6 +84,12 @@ class TestUM(unittest.TestCase):
 
     def test_ttc(self):
         self.assertIsNotNone(ttc.word_freqs())
+
+    def test_wordnet(self):
+        self.assertEqual(
+            wordnet.synset("spy.n.01").lemma_names("tha"), ["สปาย", "สายลับ"]
+        )
+        self.assertIsNotNone(wordnet.langs())
 
     # ### pythainlp.date
 
@@ -197,7 +204,9 @@ class TestUM(unittest.TestCase):
     # ### pythainlp.rank
 
     def test_rank(self):
+        self.assertEqual(rank([]), None)
         self.assertEqual(rank(["แมว", "คน", "แมว"]), Counter({"แมว": 2, "คน": 1}))
+        self.assertIsNotNone(rank(["แมว", "คน", "แมว"], stopword=True))
 
     # ### pythainlp.romanization
 
@@ -207,6 +216,7 @@ class TestUM(unittest.TestCase):
 
     def test_romanization_royin(self):
         engine = "royin"
+        self.assertIsNone(romanize("กก", engine=engine))
         self.assertEqual(romanize("แมว", engine=engine), "maeo")
         self.assertEqual(romanize("เดือน", engine=engine), "duean")
         self.assertEqual(romanize("ดู", engine=engine), "du")
@@ -355,6 +365,7 @@ class TestUM(unittest.TestCase):
 
     def test_normalize(self):
         self.assertEqual(normalize("เเปลก"), "แปลก")
+        self.assertIsNotNone(normalize("พรรค์จันทร์ab์"))
 
     def test_keyboard(self):
         self.assertEqual(eng_to_thai("l;ylfu8iy["), "สวัสดีครับ")

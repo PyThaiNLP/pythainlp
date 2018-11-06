@@ -44,7 +44,7 @@ def lk82(text):
         res.append(text[0].translate(_TRANS1))
         text = text[1:]
     else:
-        if len(text) > 0:
+        if len(text) > 1:
             res.append(text[1].translate(_TRANS1))
         res.append(text[0].translate(_TRANS2))
         text = text[2:]

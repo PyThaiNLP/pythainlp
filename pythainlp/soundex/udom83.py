@@ -52,6 +52,9 @@ def udom83(text):
     text = _RE_10.sub("", text)
     text = _RE_11.sub("", text)
 
+    if not text:
+        return ""
+
     sd = text[0].translate(_TRANS1)
     sd += text[1:].translate(_TRANS2)
 

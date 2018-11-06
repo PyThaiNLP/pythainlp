@@ -34,7 +34,7 @@ from pythainlp.number import (
 from pythainlp.rank import rank
 from pythainlp.romanization import romanize
 from pythainlp.sentiment import sentiment
-from pythainlp.soundex import lk82, metasound, udom83
+from pythainlp.soundex import lk82, metasound, soundex, udom83
 from pythainlp.spell import correct, spell
 from pythainlp.summarize import summarize
 from pythainlp.tag import pos_tag, pos_tag_sents
@@ -204,7 +204,9 @@ class TestUM(unittest.TestCase):
     # ### pythainlp.rank
 
     def test_rank(self):
+        self.assertEqual(rank([]), None)
         self.assertEqual(rank(["แมว", "คน", "แมว"]), Counter({"แมว": 2, "คน": 1}))
+        self.assertIsNotNone(rank(["แมว", "คน", "แมว"], stopword=True))
 
     # ### pythainlp.romanization
 
@@ -214,6 +216,7 @@ class TestUM(unittest.TestCase):
 
     def test_romanization_royin(self):
         engine = "royin"
+        self.assertIsNotNone(romanize("กก", engine=engine))
         self.assertEqual(romanize("แมว", engine=engine), "maeo")
         self.assertEqual(romanize("เดือน", engine=engine), "duean")
         self.assertEqual(romanize("ดู", engine=engine), "du")
@@ -230,13 +233,26 @@ class TestUM(unittest.TestCase):
     # ### pythainlp.soundex
 
     def test_soundex(self):
+        self.assertIsNotNone(soundex("a", engine="lk82"))
+        self.assertIsNotNone(soundex("a", engine="udom83"))
+        self.assertIsNotNone(soundex("a", engine="metasound"))
+        self.assertIsNotNone(soundex("a", engine="XXX"))
+
         self.assertEqual(lk82("รถ"), "ร3000")
+        self.assertIsNotNone(lk82("เกาะ"))
+        self.assertIsNotNone(lk82("อุยกูร์"))
+        self.assertIsNotNone(lk82("หยากไย่"))
+        self.assertEqual(lk82(""), "")
+
         self.assertEqual(udom83("รถ"), "ร800000")
+        self.assertEqual(udom83(None), "")
+
         self.assertEqual(metasound("บูรณะ"), "บ550")
         self.assertEqual(metasound("คน"), "ค500")
         self.assertEqual(metasound("คนA"), "ค500")
         self.assertEqual(metasound("ดา"), "ด000")
         self.assertEqual(metasound("รักษ์"), metasound("รัก"))
+        self.assertEqual(metasound(""), "")
 
     # ### pythainlp.spell
 
@@ -349,6 +365,7 @@ class TestUM(unittest.TestCase):
 
     def test_is_thai(self):
         self.assertEqual(is_thai("ประเทศไทย"), {"thai": 100.0})
+        self.assertIsNotNone(is_thai("เผือก", check_all=True))
 
     def test_is_thaichar(self):
         self.assertEqual(is_thaichar("ก"), True)
@@ -362,6 +379,7 @@ class TestUM(unittest.TestCase):
 
     def test_normalize(self):
         self.assertEqual(normalize("เเปลก"), "แปลก")
+        self.assertIsNotNone(normalize("พรรค์จันทร์ab์"))
 
     def test_keyboard(self):
         self.assertEqual(eng_to_thai("l;ylfu8iy["), "สวัสดีครับ")

@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-WordNet
+NLTK WordNet wrapper
+
+API here is exactly the same as NLTK API,
+except that lang (language) argument will be "tha" (Thai) by default.
 """
 import nltk
 

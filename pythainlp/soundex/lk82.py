@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Thai soundex - lk82 system
+Thai soundex - LK82 system
 
 Python implementation: Korakot Chaovavanich
 https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8
@@ -23,22 +23,29 @@ _RE_3 = re.compile(r"[็ํฺๆฯ]")
 
 def lk82(text):
     """
-    LK82 - It's a thai soundex rule.
+    LK82 - It's a Thai soundex rule.
 
     :param str text: Thai word
     :return: LK82 soundex
     """
-    res = []
+    if not text:
+        return ""
+
     text = _RE_1.sub("", text)  # 4.ลบวรรณยุกต์
     text = _RE_2.sub("", text)  # 4.ลบตัวการันต์
     text = _RE_3.sub("", text)  # 5.ทิ้งไม้ไต่คู่ ฯลฯ
 
+    if not text:
+        return ""
+
     # 6.เข้ารหัสตัวแรก
+    res = []
     if "ก" <= text[0] <= "ฮ":
         res.append(text[0].translate(_TRANS1))
         text = text[1:]
     else:
-        res.append(text[1].translate(_TRANS1))
+        if len(text) > 1:
+            res.append(text[1].translate(_TRANS1))
         res.append(text[0].translate(_TRANS2))
         text = text[2:]
 

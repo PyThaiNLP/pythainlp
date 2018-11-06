@@ -34,6 +34,9 @@ def metasound(text, length=4):
         metasound("รักษ์")  # 'ร100'
         metasound("บูรณการ", 5))  # 'บ5515'
     """
+    if not text:
+        return ""
+
     # keep only consonants and thanthakhat
     chars = []
     for ch in text:

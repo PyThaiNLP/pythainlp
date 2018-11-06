@@ -138,8 +138,3 @@ def segment(text, trie=None):
     if not trie:
         trie = DEFAULT_DICT_TRIE
     return Tokenizer(trie).tokenize(text)
-
-
-if __name__ == "__main__":
-    text = "รถประจำทาง ลำปาง-แม่เมาะ AB-2390-30"
-    print(segment(text))

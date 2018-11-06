@@ -59,18 +59,18 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
     return segment(text)
 
 
-def dict_word_tokenize(text, custom_dict_trie, engine="newmm"):
+def dict_word_tokenize(text, custom_dict, engine="newmm"):
     """
     :meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
     :param str text: text to be tokenized
-    :param dict custom_dict_trie: a dictionary trie
+    :param dict custom_dict: a dictionary trie
     :param str engine: choose between different options of engine to token (newmm, longest)
     :return: list of words
     **Example**::
-        >>> from pythainlp.tokenize import dict_word_tokenize,create_custom_dict_trie
-        >>> listword = ["แมว", "ดี"]
-        >>> data_dict = create_custom_dict_trie(listword)
-        >>> dict_word_tokenize("แมวดีดีแมว", data_dict)
+        >>> from pythainlp.tokenize import dict_word_tokenize, dict_trie
+        >>> words = ["แมว", "ดี"]
+        >>> trie = dict_trie(words)
+        >>> dict_word_tokenize("แมวดีดีแมว", trie)
         ['แมว', 'ดี', 'ดี', 'แมว']
     """
     if engine == "newmm" or engine == "onecut":
@@ -82,7 +82,7 @@ def dict_word_tokenize(text, custom_dict_trie, engine="newmm"):
     else:  # default, use "newmm" engine
         from .newmm import mmcut as segment
 
-    return segment(text, custom_dict_trie)
+    return segment(text, custom_dict)
 
 
 def sent_tokenize(text, engine="whitespace+newline"):
@@ -126,7 +126,7 @@ def syllable_tokenize(text):
         words = word_tokenize(text)
         trie = dict_trie(dict_source=thai_syllables())
         for word in words:
-            tokens.extend(dict_word_tokenize(text=word, custom_dict_trie=trie))
+            tokens.extend(dict_word_tokenize(text=word, custom_dict=trie))
 
     return tokens
 

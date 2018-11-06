@@ -12,7 +12,11 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
-PyThaiNLP supports Python 3.4+. Since version 1.7, PyThaiNLP deprecates its support for Python 2. Python 2 users can still use PyThaiNLP 1.6.
+PyThaiNLP supports Python 3.4+.
+Since version 1.7, PyThaiNLP deprecates its support for Python 2. The future PyThaiNLP 1.8 will completely drop all supports for Python 2.
+Python 2 users can still use PyThaiNLP 1.6.
+
+**This is a document for development branch (post 1.7.x). Things will break. For a document for stable branch, see [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
 
 ## Capabilities
 
@@ -73,7 +77,10 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 รองรับ Python 3.4 ขึ้นไป
 
-- หน้าหลัก GitHub: [https://github.com/PyThaiNLP/pythainlp/](https://github.com/PyThaiNLP/pythainlp/)
+ตั้งแต่รุ่น 1.7 PyThaiNLP จะเลิกสนับสนุน Python 2 (บางฟังก์ชันอาจยังทำงานได้ แต่จะไม่ได้รับการสนับสนุน) และตั้งแต่รุ่น 1.8 จะยุติการรองรับ Python 2 ทั้งหมด
+ผู้ใช้ Python 2 ยังสามารถใช้ PyThaiNLP 1.6 ได้
+
+**เอกสารนี้สำหรับรุ่นพัฒนา (หลัง 1.7.x) อาจมีการเปลี่ยนแปลงได้ตลอด สำหรับเอกสารรุ่นเสถียร ดูที่ [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
 
 ## ความสามารถ
 
@@ -103,7 +110,7 @@ $ pip install pythainlp
 $ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
 
-หมายเหตุ: เนื่องจาก ulmfit sentiment analyser ต้องใช้ PyTorch จึงต้อง ```pip install torch``` เพื่อติดตั้ง PyTorhc ก่อน มอดูลที่อาศัยการเรียนรู้ของเครื่องอื่นๆ อาจจำเป็นต้องติดตั้ง gensim และ keras ก่อนเช่นกัน
+หมายเหตุ: เนื่องจาก ulmfit sentiment analyser ต้องใช้ PyTorch จึงต้อง ```pip install torch``` เพื่อติดตั้ง PyTorch ก่อน มอดูลที่อาศัยการเรียนรู้ของเครื่องอื่นๆ อาจจำเป็นต้องติดตั้ง gensim และ keras ก่อนเช่นกัน
 
 ## เอกสารการใช้งาน
 

@@ -10,8 +10,8 @@ with open("requirements.txt", "r", encoding="utf-8") as f:
 
 setup(
     name="pythainlp",
-    version="1.7.0.1",
-    description="Thai natural language processing library",
+    version="1.8.0",
+    description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
     author="PyThaiNLP",

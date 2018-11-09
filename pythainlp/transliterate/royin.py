@@ -168,6 +168,9 @@ def _replace_consonants(word, res):
 
 
 def romanize(word):
+    if not word:
+        return ""
+
     word2 = _replace_vowels(_normalize(word))
     res = re.findall(_RE_CONSONANT, word2)
     # 2-character word, all consonants

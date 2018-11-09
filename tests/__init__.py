@@ -107,7 +107,7 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(wordnet.all_synsets(pos=wn.ADJ))
 
         self.assertIsNotNone(wordnet.lemmas("นก"))
-        self.assertIsNotNone(wordnet.all_lemma_names(pos=wn.ADJ))
+        self.assertIsNotNone(wordnet.all_lemma_names(pos=wn.ADV))
 
         self.assertEqual(wordnet.morphy("dogs"), "dog")
 
@@ -316,26 +316,26 @@ class TestUM(unittest.TestCase):
     def test_dict_word_tokenize(self):
         self.assertEqual(dict_word_tokenize("", custom_dict=FROZEN_DICT_TRIE), [])
         self.assertIsNotNone(
-            dict_word_tokenize("รถไฟฟ้ากรุงเทพBTS", custom_dict=FROZEN_DICT_TRIE)
+            dict_word_tokenize("รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE)
         )
         self.assertIsNotNone(
             dict_word_tokenize(
-                "รถไฟฟ้ากรุงเทพBTS", custom_dict=FROZEN_DICT_TRIE, engine="newmm"
+                "รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE, engine="newmm"
             )
         )
         self.assertIsNotNone(
             dict_word_tokenize(
-                "รถไฟฟ้ากรุงเทพBTS", custom_dict=FROZEN_DICT_TRIE, engine="longest"
+                "รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE, engine="longest"
             )
         )
         self.assertIsNotNone(
             dict_word_tokenize(
-                "รถไฟฟ้ากรุงเทพBTS", custom_dict=FROZEN_DICT_TRIE, engine="mm"
+                "รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE, engine="mm"
             )
         )
         self.assertIsNotNone(
             dict_word_tokenize(
-                "รถไฟฟ้ากรุงเทพBTS", custom_dict=FROZEN_DICT_TRIE, engine="XX"
+                "รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE, engine="XX"
             )
         )
 
@@ -422,6 +422,17 @@ class TestUM(unittest.TestCase):
         self.assertEqual(romanize("ดู", engine="royin"), "du")
         self.assertEqual(romanize("ดำ", engine="royin"), "dam")
         self.assertEqual(romanize("บัว", engine="royin"), "bua")
+        self.assertEqual(romanize("กร", engine="royin"), "kon")
+        self.assertEqual(romanize("กรร", engine="royin"), "kan")
+        self.assertEqual(romanize("กรรม", engine="royin"), "kam")
+        self.assertEqual(romanize(""), "")
+        self.assertEqual(romanize(None), "")
+        self.assertIsNotNone(romanize("หาย", engine="royin"))
+        self.assertIsNotNone(romanize("หยาก", engine="royin"))
+        self.assertIsNotNone(romanize("ฝ้าย", engine="royin"))
+        self.assertIsNotNone(romanize("กรม", engine="royin"))
+        self.assertIsNotNone(romanize("ธรรพ์", engine="royin"))
+        self.assertIsNotNone(romanize("กฏa์", engine="royin"))
         # self.assertIsNotNone(romanize("บัว", engine="thai2rom"))
 
     def test_transliterate(self):

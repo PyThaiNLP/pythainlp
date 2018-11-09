@@ -318,8 +318,8 @@ class TestUM(unittest.TestCase):
         self.assertEqual(perceptron.tag(None, corpus="orchid"), [])
         self.assertEqual(perceptron.tag([], corpus="orchid"), [])
 
-        self.assertIsNotNone(pos_tag(tokens, engine="artagger", corpus="orchid"))
-        self.assertIsNotNone(pos_tag(tokens, engine="artagger", corpus="pud"))
+        # self.assertIsNotNone(pos_tag(tokens, engine="artagger", corpus="orchid"))
+        # self.assertIsNotNone(pos_tag(tokens, engine="artagger", corpus="pud"))
 
         self.assertEqual(pos_tag_sents(None), [])
         self.assertEqual(pos_tag_sents([]), [])

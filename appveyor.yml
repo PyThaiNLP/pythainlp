@@ -2,11 +2,6 @@ build: off
 
 environment:
   matrix:
-    - PYTHON: "C:/Python34"
-      PYTHON_VERSION: "3.4"
-      PYTHON_ARCH: "32"
-      PYICU_WHEEL: "https://get.openlp.org/win-sdk/PyICU-1.9.5-cp34-cp34m-win32.whl"
-
     - PYTHON: "C:/Python36"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "32"
@@ -37,7 +32,7 @@ install:
   # - "set ICU_VERSION=62"
   - "%PYTHON%/python.exe -m pip install --upgrade pip"
   - "%PYTHON%/python.exe -m pip install %PYICU_WHEEL%"
-  - "%PYTHON%/python.exe -m pip install -e ."
+  - "%PYTHON%/python.exe -m pip install -e .[icu,ner,pos,tokenize,transliterate]"
 
 test_script:
   - "%PYTHON%/python.exe -m pip --version"

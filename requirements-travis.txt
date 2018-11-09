@@ -1,9 +1,0 @@
-dill
-langdetect
-marisa_trie
-nltk>=3.2.2
-pyicu==1.9.3
-pytz
-requests
-tinydb
-tqdm

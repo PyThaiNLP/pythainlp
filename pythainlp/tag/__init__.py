@@ -25,19 +25,7 @@ def pos_tag(words, engine="unigram", corpus="orchid"):
     elif engine == "artagger":
 
         def _tag(text, corpus=None):
-            try:
-                from artagger import Tagger
-            except ImportError:
-                from pythainlp.tools import install_package
-
-                install_package(_ARTAGGER_URL)
-                try:
-                    from artagger import Tagger
-                except ImportError:
-                    raise ImportError(
-                        "ImportError: Try 'pip install " + _ARTAGGER_URL + "'"
-                    )
-
+            from artagger import Tagger
             words = Tagger().tag(" ".join(text))
 
             return [(word.word, word.tag) for word in words]

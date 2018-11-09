@@ -3,23 +3,11 @@
 thai2vec - Thai word vector
 Code by https://github.com/cstorm125/thai2vec/blob/master/notebooks/examples.ipynb
 """
+import numpy as np
+from gensim.models import KeyedVectors
 from pythainlp.corpus import download as download_data
 from pythainlp.corpus import get_file
 from pythainlp.tokenize import word_tokenize
-
-try:
-    from gensim.models import KeyedVectors
-    import numpy as np
-except ImportError:
-    from pythainlp.tools import install_package
-
-    install_package("gensim")
-    install_package("numpy")
-    try:
-        from gensim.models import KeyedVectors
-        import numpy as np
-    except ImportError:
-        raise ImportError("ImportError: Try 'pip install gensim numpy'")
 
 
 def download():

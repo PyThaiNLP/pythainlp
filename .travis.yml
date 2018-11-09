@@ -3,12 +3,11 @@
 
 language: python
 python:
-  - "3.4"
-  - "3.5"
   - "3.6"
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-  - pip install -r requirements-travis.txt
+  - pip install -r requirements.txt
+  - pip install .[icu,ner,pos,tokenize,transliterate]
   - pip install coveralls
 
 os:

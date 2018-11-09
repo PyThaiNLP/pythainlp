@@ -17,7 +17,6 @@ from pythainlp.corpus import (
     wordnet,
 )
 from pythainlp.date import now, now_reign_year, reign_year_to_ad
-from pythainlp.g2p import ipa
 from pythainlp.keywords import find_keyword
 from pythainlp.ner import ThaiNameRecognizer
 from pythainlp.ner.locations import tag_provinces
@@ -32,13 +31,14 @@ from pythainlp.number import (
     thaiword_to_num,
 )
 from pythainlp.rank import rank
-from pythainlp.romanization import romanize
 from pythainlp.sentiment import sentiment
 from pythainlp.soundex import lk82, metasound, soundex, udom83
 from pythainlp.spell import correct, spell
 from pythainlp.summarize import summarize
 from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import etcc, syllable_tokenize, tcc, word_tokenize
+from pythainlp.transliterate import romanize, transliterate
+from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.util import (
     deletetone,
     eng_to_thai,
@@ -100,14 +100,6 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(reign_year_to_ad(2, 8))
         self.assertIsNotNone(reign_year_to_ad(2, 7))
         self.assertIsNotNone(now_reign_year())
-
-    # ### pythainlp.g2p
-
-    def test_ipa(self):
-        t = ipa("คน")
-        self.assertEqual(t.str(), "kʰon")
-        self.assertIsNotNone(t.list())
-        self.assertIsNotNone(t.xsampa_list())
 
     # ### pythainlp.keywords
 
@@ -208,21 +200,6 @@ class TestUM(unittest.TestCase):
         self.assertEqual(rank(["แมว", "คน", "แมว"]), Counter({"แมว": 2, "คน": 1}))
         self.assertIsNotNone(rank(["แมว", "คน", "แมว"], stopword=True))
 
-    # ### pythainlp.romanization
-
-    def test_romanization(self):
-        self.assertEqual(romanize("แมว"), "maeo")
-        self.assertEqual(romanize("แมว", "pyicu"), "mæw")
-
-    def test_romanization_royin(self):
-        engine = "royin"
-        self.assertIsNotNone(romanize("กก", engine=engine))
-        self.assertEqual(romanize("แมว", engine=engine), "maeo")
-        self.assertEqual(romanize("เดือน", engine=engine), "duean")
-        self.assertEqual(romanize("ดู", engine=engine), "du")
-        self.assertEqual(romanize("ดำ", engine=engine), "dam")
-        self.assertEqual(romanize("บัว", engine=engine), "bua")
-
     # ### pythainlp.sentiment
 
     def test_sentiment(self):
@@ -258,7 +235,12 @@ class TestUM(unittest.TestCase):
 
     def test_spell(self):
         self.assertIsNotNone(spell("เน้ร"))
+        self.assertEqual(spell(""), "")
+        self.assertEqual(spell(None), "")
+
         self.assertIsNotNone(correct("ทดสอง"))
+        self.assertEqual(correct(""), "")
+        self.assertEqual(correct(None), "")
 
     # ### pythainlp.summarize
 
@@ -274,26 +256,25 @@ class TestUM(unittest.TestCase):
             summarize(text=text, n=1, engine="frequency"),
             ["อาหารจะต้องไม่มีพิษและไม่เกิดโทษต่อร่างกาย"],
         )
+        self.assertIsNotNone(summarize(text, 1, engine="XX"))
 
     # ### pythainlp.tag
 
     def test_pos_tag(self):
-        tokens = ["คำ"]
+        tokens = ["ผม", "รัก", "คุณ"]
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="orchid"))
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
-        self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="orchid"))
-        self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="pud"))
-        self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="orchid"))
-        self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="pud"))
-
         self.assertEqual(
             pos_tag(word_tokenize("คุณกำลังประชุม"), engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
         )
-        self.assertEqual(
-            str(type(pos_tag(word_tokenize("ผมรักคุณ"), engine="artagger"))),
-            "<class 'list'>",
-        )
+
+        self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="orchid"))
+        self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="pud"))
+
+        # self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="orchid"))
+        # self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="pud"))
+
         self.assertEqual(
             pos_tag_sents([["ผม", "กิน", "ข้าว"], ["แมว", "วิ่ง"]]),
             [
@@ -356,6 +337,24 @@ class TestUM(unittest.TestCase):
 
     def test_etcc(self):
         self.assertEqual(etcc.etcc("คืนความสุข"), "/คืน/ความสุข")
+
+    # ### pythainlp.transliterate
+
+    def test_romanize(self):
+        self.assertEqual(romanize("แมว"), "maeo")
+        self.assertIsNotNone(romanize("กก", engine="royin"))
+        self.assertEqual(romanize("แมว", engine="royin"), "maeo")
+        self.assertEqual(romanize("เดือน", engine="royin"), "duean")
+        self.assertEqual(romanize("ดู", engine="royin"), "du")
+        self.assertEqual(romanize("ดำ", engine="royin"), "dam")
+        self.assertEqual(romanize("บัว", engine="royin"), "bua")
+        # self.assertIsNotNone(romanize("บัว", engine="thai2rom"))
+
+    def test_transliterate(self):
+        self.assertEqual(transliterate("แมว", "pyicu"), "mæw")
+        self.assertEqual(transliterate("คน", engine="ipa"), "kʰon")
+        self.assertIsNotNone(trans_list("คน"))
+        self.assertIsNotNone(xsampa_list("คน"))
 
     # ### pythainlp.util
 

@@ -5,30 +5,13 @@ Code by https://github.com/cstorm125/thai2vec/tree/master/notebook
 """
 import re
 
+import dill as pickle
+import numpy as np
+import torch
 from pythainlp.corpus import download, get_file
 from pythainlp.tokenize import word_tokenize
 
-try:
-    import numpy as np
-    from fastai.text import *
-    import dill as pickle
-except ImportError:
-    from pythainlp.tools import install_package
-
-    install_package("fastai==0.7.0")
-    install_package("numpy")
-    try:
-        import numpy as np
-        from fastai.text import *
-        import dill as pickle
-    except ImportError:
-        raise ImportError("ImportError: Try 'pip install fastai numpy dill'")
-
-try:
-    import torch
-except ImportError:
-    print("PyTorch required. See https://pytorch.org/.")
-
+from fastai.text import *
 
 MODEL_NAME = "thwiki_model2"
 ITOS_NAME = "itos"

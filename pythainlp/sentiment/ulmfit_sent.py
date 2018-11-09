@@ -5,40 +5,15 @@ Code by https://github.com/cstorm125/thai2vec/tree/master/notebook
 """
 from collections import defaultdict
 
+import dill as pickle
+import numpy as np
+import torch
 from pythainlp.corpus import download, get_file
 from pythainlp.tokenize import word_tokenize
+from torch import LongTensor
+from torch.autograd import Variable
 
-try:
-    import numpy as np
-    import dill as pickle
-except ImportError:
-    from pythainlp.tools import install_package
-
-    install_package("numpy")
-    install_package("dill")
-    try:
-        import numpy as np
-        import dill as pickle
-    except ImportError:
-        raise ImportError("ImportError: Try 'pip install numpy dill'")
-
-try:
-    import torch
-    from torch import LongTensor
-    from torch.autograd import Variable
-except ImportError:
-    print("PyTorch required. See https://pytorch.org/.")
-
-# try:
-#     from fastai.text import multiBatchRNN
-# except ImportError:
-#     print(
-#         """
-#     fastai required for multiBatchRNN.
-#     Run 'pip install https://github.com/fastai/fastai/archive/master.zip'
-#     """
-#     )
-
+# from fastai.text import multiBatchRNN
 
 MODEL_NAME = "sent_model"
 ITOS_NAME = "itos_sent"

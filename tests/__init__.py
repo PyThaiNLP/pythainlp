@@ -458,7 +458,7 @@ class TestUM(unittest.TestCase):
         self.assertEqual(tcc.tcc(""), "")
         self.assertEqual(tcc.tcc("ประเทศไทย"), "ป/ระ/เท/ศ/ไท/ย")
 
-        self.assertEqual(tcc.tcc_gen(""), "")
+        self.assertEqual(list(tcc.tcc_gen("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())
 
     # ### pythainlp.transliterate

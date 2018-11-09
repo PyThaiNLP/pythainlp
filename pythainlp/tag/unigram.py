@@ -15,26 +15,29 @@ _THAI_POS_PUD_FILENAME = "ud_thai_pud_unigram_tagger.dill"
 _THAI_POS_PUD_PATH = os.path.join(CORPUS_PATH, _THAI_POS_PUD_FILENAME)
 
 
-def orchid_data():
+def _orchid_tagger():
     with open(_THAI_POS_ORCHID_PATH, encoding="utf-8-sig") as f:
         model = json.load(f)
     return model
 
 
-def pud_data():
+def _pud_tagger():
     with open(_THAI_POS_PUD_PATH, "rb") as handle:
         model = dill.load(handle)
     return model
 
 
-def tag(text, corpus):
+def tag(words, corpus):
     """
     รับค่าเป็น ''list'' คืนค่าเป็น ''list'' เช่น [('คำ', 'ชนิดคำ'), ('คำ', 'ชนิดคำ'), ...]
     """
+    if not words:
+        return []
+
     if corpus == "orchid":
-        tagger = nltk.tag.UnigramTagger(model=orchid_data())
-        return tagger.tag(text)
+        tagger = nltk.tag.UnigramTagger(model=_orchid_tagger())
+        return tagger.tag(words)
 
     # default, use "pud" as a corpus
-    tagger = pud_data()
-    return tagger.tag(text)
+    tagger = _pud_tagger()
+    return tagger.tag(words)

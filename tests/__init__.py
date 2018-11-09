@@ -37,7 +37,7 @@ from pythainlp.soundex import lk82, metasound, soundex, udom83
 from pythainlp.spell import correct, spell
 from pythainlp.spell.pn import NorvigSpellChecker, dictionary, known, prob
 from pythainlp.summarize import summarize
-from pythainlp.tag import pos_tag, pos_tag_sents
+from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
 from pythainlp.tokenize import (
     FROZEN_DICT_TRIE,
     dict_word_tokenize,
@@ -293,8 +293,19 @@ class TestUM(unittest.TestCase):
 
     def test_pos_tag(self):
         tokens = ["ผม", "รัก", "คุณ"]
+
+        self.assertEqual(pos_tag(None), [])
+        self.assertEqual(pos_tag([]), [])
+
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="orchid"))
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
+        self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="pud"))
+
+        self.assertEqual(unigram.tag(None, corpus="pud"), [])
+        self.assertEqual(unigram.tag([], corpus="pud"), [])
+        self.assertEqual(unigram.tag(None, corpus="orchid"), [])
+        self.assertEqual(unigram.tag([], corpus="orchid"), [])
+
         self.assertEqual(
             pos_tag(word_tokenize("คุณกำลังประชุม"), engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
@@ -302,10 +313,16 @@ class TestUM(unittest.TestCase):
 
         self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="orchid"))
         self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="pud"))
+        self.assertEqual(perceptron.tag(None, corpus="pud"), [])
+        self.assertEqual(perceptron.tag([], corpus="pud"), [])
+        self.assertEqual(perceptron.tag(None, corpus="orchid"), [])
+        self.assertEqual(perceptron.tag([], corpus="orchid"), [])
 
-        # self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="orchid"))
-        # self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="pud"))
+        self.assertIsNotNone(pos_tag(tokens, engine="artagger", corpus="orchid"))
+        self.assertIsNotNone(pos_tag(tokens, engine="artagger", corpus="pud"))
 
+        self.assertEqual(pos_tag_sents(None), [])
+        self.assertEqual(pos_tag_sents([]), [])
         self.assertEqual(
             pos_tag_sents([["ผม", "กิน", "ข้าว"], ["แมว", "วิ่ง"]]),
             [

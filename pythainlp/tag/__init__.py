@@ -20,21 +20,30 @@ def pos_tag(words, engine="unigram", corpus="orchid"):
         * pud - Parallel Universal Dependencies (PUD) treebanks
     :return: returns a list of labels regarding which part of speech it is
     """
+    if not words:
+        return []
+
     if engine == "perceptron":
-        from .perceptron import tag as _tag
+        from .perceptron import tag as tag_
     elif engine == "artagger":
 
-        def _tag(text, corpus=None):
-            from artagger import Tagger
-            words = Tagger().tag(" ".join(text))
+        def tag_(words, corpus=None):
+            if not words:
+                return []
 
-            return [(word.word, word.tag) for word in words]
+            from artagger import Tagger
+            words_ = Tagger().tag(" ".join(words))
+
+            return [(word.word, word.tag) for word in words_]
 
     else:  # default, use "unigram" ("old") engine
-        from .unigram import tag as _tag
+        from .unigram import tag as tag_
 
-    return _tag(words, corpus=corpus)
+    return tag_(words, corpus=corpus)
 
 
 def pos_tag_sents(sentences, engine="unigram", corpus="orchid"):
+    if not sentences:
+        return []
+
     return [pos_tag(sent, engine=engine, corpus=corpus) for sent in sentences]

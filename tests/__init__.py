@@ -298,26 +298,26 @@ class TestUM(unittest.TestCase):
     def test_dict_word_tokenize(self):
         self.assertEqual(dict_word_tokenize("", custom_dict=FROZEN_DICT_TRIE), [])
         self.assertIsNotNone(
-            dict_word_tokenize("รถไฟฟ้ากรุงเทพ", custom_dict=FROZEN_DICT_TRIE)
+            dict_word_tokenize("รถไฟฟ้ากรุงเทพBTS", custom_dict=FROZEN_DICT_TRIE)
         )
         self.assertIsNotNone(
             dict_word_tokenize(
-                "รถไฟฟ้ากรุงเทพ", custom_dict=FROZEN_DICT_TRIE, engine="newmm"
+                "รถไฟฟ้ากรุงเทพBTS", custom_dict=FROZEN_DICT_TRIE, engine="newmm"
             )
         )
         self.assertIsNotNone(
             dict_word_tokenize(
-                "รถไฟฟ้ากรุงเทพ", custom_dict=FROZEN_DICT_TRIE, engine="longest"
+                "รถไฟฟ้ากรุงเทพBTS", custom_dict=FROZEN_DICT_TRIE, engine="longest"
             )
         )
         self.assertIsNotNone(
             dict_word_tokenize(
-                "รถไฟฟ้ากรุงเทพ", custom_dict=FROZEN_DICT_TRIE, engine="mm"
+                "รถไฟฟ้ากรุงเทพBTS", custom_dict=FROZEN_DICT_TRIE, engine="mm"
             )
         )
         self.assertIsNotNone(
             dict_word_tokenize(
-                "รถไฟฟ้ากรุงเทพ", custom_dict=FROZEN_DICT_TRIE, engine="XX"
+                "รถไฟฟ้ากรุงเทพBTS", custom_dict=FROZEN_DICT_TRIE, engine="XX"
             )
         )
 
@@ -325,7 +325,8 @@ class TestUM(unittest.TestCase):
         self.assertEqual(etcc.etcc("คืนความสุข"), "/คืน/ความสุข")
         self.assertIsNotNone(
             etcc.etcc(
-                "หมูแมวเหล่านี้ด้วยเหตุผลเชื่อมโยงทางกรรมพันธุ์มีแขนขาหน้าหัวเราะ"
+                "หมูแมวเหล่านี้ด้วยเหตุผลเชื่อมโยงทางกรรมพันธุ์" +
+                "สัตว์มีแขนขาหน้าหัวเราะเพราะแข็งขืน"
             )
         )
 
@@ -350,7 +351,7 @@ class TestUM(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
 
-        self.assertIsNotNone(multi_cut.find_all_segment("รถไฟฟ้ากรุงเทพมหานคร"))
+        self.assertIsNotNone(multi_cut.find_all_segment("รถไฟฟ้ากรุงเทพมหานครBTS"))
 
     def test_word_tokenize_newmm(self):
         self.assertEqual(

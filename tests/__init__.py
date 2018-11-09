@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from collections import Counter
+from nltk.corpus import wordnet as wn
 
 from pythainlp.collation import collate
 from pythainlp.corpus import (
@@ -97,10 +98,18 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(ttc.word_freqs())
 
     def test_wordnet(self):
+        self.assertIsNotNone(wordnet.langs())
+
         self.assertEqual(
             wordnet.synset("spy.n.01").lemma_names("tha"), ["สปาย", "สายลับ"]
         )
-        self.assertIsNotNone(wordnet.langs())
+        self.assertIsNotNone(wordnet.synsets("นก"))
+        self.assertIsNotNone(wordnet.all_synsets(pos=wn.ADJ))
+
+        self.assertIsNotNone(wordnet.lemmas("นก"))
+        self.assertIsNotNone(wordnet.all_lemma_names(pos=wn.ADJ))
+
+        self.assertEqual(wordnet.morphy("dogs"), "dog")
 
     # ### pythainlp.date
 

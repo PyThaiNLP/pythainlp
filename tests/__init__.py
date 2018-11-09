@@ -40,7 +40,6 @@ from pythainlp.summarize import summarize
 from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
 from pythainlp.tokenize import (
     FROZEN_DICT_TRIE,
-    deepcut,
     dict_word_tokenize,
     etcc,
     longest,
@@ -389,10 +388,10 @@ class TestUM(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
 
-    def test_word_tokenize_deepcut(self):
-        self.assertEqual(deepcut.segment(None), [])
-        self.assertEqual(deepcut.segment(""), [])
-        self.assertIsNotNone(word_tokenize("ลึกลงไปลลลล", engine="deepcut"))
+    # def test_word_tokenize_deepcut(self):
+        # self.assertEqual(deepcut.segment(None), [])
+        # self.assertEqual(deepcut.segment(""), [])
+        # self.assertIsNotNone(word_tokenize("ลึกลงไปลลลล", engine="deepcut"))
 
     def test_word_tokenize_longest_matching(self):
         self.assertEqual(longest.segment(None), [])

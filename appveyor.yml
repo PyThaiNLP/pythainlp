@@ -32,7 +32,7 @@ install:
   # - "set ICU_VERSION=62"
   - "%PYTHON%/python.exe -m pip install --upgrade pip"
   - "%PYTHON%/python.exe -m pip install %PYICU_WHEEL%"
-  - "%PYTHON%/python.exe -m pip install -e .[icu,ner,pos,tokenize,transliterate]"
+  - "%PYTHON%/python.exe -m pip install -e .[icu,ipa,ner]"
 
 test_script:
   - "%PYTHON%/python.exe -m pip --version"

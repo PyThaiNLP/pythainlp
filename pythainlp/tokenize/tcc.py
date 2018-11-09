@@ -60,6 +60,9 @@ def tcc_gen(w):
 
 
 def tcc_pos(text):
+    if not text:
+        return set()
+
     p_set = set()
     p = 0
     for w in tcc_gen(text):
@@ -68,5 +71,8 @@ def tcc_pos(text):
     return p_set
 
 
-def tcc(w, sep="/"):
-    return sep.join(tcc_gen(w))
+def tcc(text, sep="/"):
+    if not text:
+        return ""
+
+    return sep.join(tcc_gen(text))

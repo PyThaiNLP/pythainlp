@@ -34,6 +34,9 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
         >>> word_tokenize(text, engine="icu")
         ['โอ', 'เค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้าน', 'เกิด']
     """
+    if not text:
+        return []
+
     if engine == "newmm" or engine == "onecut":
         from .newmm import mmcut as segment
     elif engine == "longest" or engine == "longest-matching":
@@ -73,6 +76,10 @@ def dict_word_tokenize(text, custom_dict, engine="newmm"):
         >>> dict_word_tokenize("แมวดีดีแมว", trie)
         ['แมว', 'ดี', 'ดี', 'แมว']
     """
+
+    if not text:
+        return []
+
     if engine == "newmm" or engine == "onecut":
         from .newmm import mmcut as segment
     elif engine == "longest" or engine == "longest-matching":
@@ -94,6 +101,10 @@ def sent_tokenize(text, engine="whitespace+newline"):
 
     :return: a list of text, split by whitespace or new line.
     """
+
+    if not text:
+        return []
+
     sentences = []
 
     if engine == "whitespace":
@@ -110,6 +121,9 @@ def subword_tokenize(text, engine="tcc"):
     :param str engine: choosing 'tcc' uses the Thai Character Cluster rule to segment words into the smallest unique units.
     :return: a list of tokenized strings.
     """
+    if not text:
+        return ""
+
     from .tcc import tcc
 
     return tcc(text)
@@ -121,6 +135,10 @@ def syllable_tokenize(text):
 
     :return: returns list of strings of syllables
     """
+
+    if not text:
+        return []
+
     tokens = []
     if text:
         words = word_tokenize(text)

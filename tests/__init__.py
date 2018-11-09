@@ -34,6 +34,7 @@ from pythainlp.rank import rank
 from pythainlp.sentiment import sentiment
 from pythainlp.soundex import lk82, metasound, soundex, udom83
 from pythainlp.spell import correct, spell
+from pythainlp.spell.pn import NorvigSpellChecker, dictionary, known, prob
 from pythainlp.summarize import summarize
 from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import (
@@ -252,6 +253,14 @@ class TestUM(unittest.TestCase):
         self.assertEqual(correct(""), "")
         self.assertEqual(correct(None), "")
 
+        self.assertIsNotNone(dictionary())
+        self.assertGreaterEqual(prob("มี"), 0)
+        self.assertIsNotNone(known(["เกิด", "abc", ""]))
+
+        checker = NorvigSpellChecker(dict_filter="")
+        self.assertIsNotNone(checker.dictionary())
+        self.assertGreaterEqual(checker.prob("มี"), 0)
+
     # ### pythainlp.summarize
 
     def test_summarize(self):
@@ -325,8 +334,8 @@ class TestUM(unittest.TestCase):
         self.assertEqual(etcc.etcc("คืนความสุข"), "/คืน/ความสุข")
         self.assertIsNotNone(
             etcc.etcc(
-                "หมูแมวเหล่านี้ด้วยเหตุผลเชื่อมโยงทางกรรมพันธุ์" +
-                "สัตว์มีแขนขาหน้าหัวเราะเพราะแข็งขืน"
+                "หมูแมวเหล่านี้ด้วยเหตุผลเชื่อมโยงทางกรรมพันธุ์"
+                + "สัตว์มีแขนขาหน้าหัวเราะเพราะแข็งขืน"
             )
         )
 

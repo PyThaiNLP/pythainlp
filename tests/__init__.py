@@ -37,8 +37,8 @@ from pythainlp.spell import correct, spell
 from pythainlp.summarize import summarize
 from pythainlp.tag import pos_tag, pos_tag_sents
 from pythainlp.tokenize import etcc, syllable_tokenize, tcc, word_tokenize
-from pythainlp.transliterate import romanize
-from pythainlp.transliterate.ipa import IPA
+from pythainlp.transliterate import romanize, transliterate
+from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.util import (
     deletetone,
     eng_to_thai,
@@ -266,8 +266,8 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
         self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="orchid"))
         self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="pud"))
-        self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="orchid"))
-        self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="pud"))
+        # self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="orchid"))
+        # self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="pud"))
 
         self.assertEqual(
             pos_tag(word_tokenize("คุณกำลังประชุม"), engine="unigram"),
@@ -342,24 +342,21 @@ class TestUM(unittest.TestCase):
 
     # ### pythainlp.transliterate
 
-    def test_ipa(self):
-        t = IPA("คน")
-        self.assertEqual(t.str(), "kʰon")
-        self.assertIsNotNone(t.list())
-        self.assertIsNotNone(t.xsampa_list())
-
     def test_romanize(self):
         self.assertEqual(romanize("แมว"), "maeo")
-        self.assertEqual(romanize("แมว", "pyicu"), "mæw")
+        self.assertIsNotNone(romanize("กก", engine="royin"))
+        self.assertEqual(romanize("แมว", engine="royin"), "maeo")
+        self.assertEqual(romanize("เดือน", engine="royin"), "duean")
+        self.assertEqual(romanize("ดู", engine="royin"), "du")
+        self.assertEqual(romanize("ดำ", engine="royin"), "dam")
+        self.assertEqual(romanize("บัว", engine="royin"), "bua")
+        # self.assertIsNotNone(romanize("บัว", engine="thai2rom"))
 
-    def test_romanize_royin(self):
-        engine = "royin"
-        self.assertIsNotNone(romanize("กก", engine=engine))
-        self.assertEqual(romanize("แมว", engine=engine), "maeo")
-        self.assertEqual(romanize("เดือน", engine=engine), "duean")
-        self.assertEqual(romanize("ดู", engine=engine), "du")
-        self.assertEqual(romanize("ดำ", engine=engine), "dam")
-        self.assertEqual(romanize("บัว", engine=engine), "bua")
+    def test_transliterate(self):
+        self.assertEqual(transliterate("แมว", "pyicu"), "mæw")
+        self.assertEqual(transliterate("คน", engine="ipa"), "kʰon")
+        self.assertIsNotNone(trans_list("คน"))
+        self.assertIsNotNone(xsampa_list("คน"))
 
     # ### pythainlp.util
 

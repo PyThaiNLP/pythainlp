@@ -4,18 +4,16 @@ Transliterating text to International Phonetic Alphabet (IPA)
 """
 import epitran
 
-epi = epitran.Epitran("tha-Thai")
+_EPI_THA = epitran.Epitran("tha-Thai")
 
 
-class IPA:
-    def __init__(self, text=""):
-        self.text = text
+def transliterate(text):
+    return _EPI_THA.transliterate(text)
 
-    def str(self):
-        return epi.transliterate(self.text)
 
-    def list(self):
-        return epi.trans_list(self.text)
+def trans_list(text):
+    return _EPI_THA.trans_list(text)
 
-    def xsampa_list(self):
-        return epi.xsampa_list(self.text)
+
+def xsampa_list(text):
+    return _EPI_THA.xsampa_list(text)

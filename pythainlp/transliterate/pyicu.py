@@ -2,11 +2,12 @@
 from icu import Transliterator
 
 
+_ICU_THAI_TO_LATIN = Transliterator.createInstance("Thai-Latin")
+
+
 # ถอดเสียงภาษาไทยเป็นอักษรละติน
-def romanize(data):
+def transliterate(text):
     """
     ถอดเสียงภาษาไทยเป็นอักษรละติน รับค่า ''str'' ข้อความ คืนค่า ''str'' อักษรละติน
     """
-    thai2latin = Transliterator.createInstance("Thai-Latin")
-
-    return thai2latin.transliterate(data)
+    return _ICU_THAI_TO_LATIN.transliterate(text)

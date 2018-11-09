@@ -48,12 +48,8 @@ class ThaiTransliterator:
         self.__target_characters = sorted(list(self.__target_characters))
         self.__num_encoder_tokens = len(self.__input_characters)
         self.__num_decoder_tokens = len(self.__target_characters)
-        self.__max_encoder_seq_length = max(
-            [len(text) for text in self.__input_texts]
-        )
-        self.__max_decoder_seq_length = max(
-            [len(text) for text in self.__target_texts]
-        )
+        self.__max_encoder_seq_length = max([len(text) for text in self.__input_texts])
+        self.__max_decoder_seq_length = max([len(text) for text in self.__target_texts])
         """print('Number of samples:', len(self.input_texts))
         print('Number of unique input tokens:', self.num_encoder_tokens)
         print('Number of unique output tokens:', self.num_decoder_tokens)
@@ -127,7 +123,9 @@ class ThaiTransliterator:
                 [self.__target_seq] + self.__states_value
             )
             self.__sampled_token_index = np.argmax(self.__output_tokens[0, -1, :])
-            self.__sampled_char = self.__reverse_target_char_index[self.__sampled_token_index]
+            self.__sampled_char = self.__reverse_target_char_index[
+                self.__sampled_token_index
+            ]
             self.__decoded_sentence += self.__sampled_char
             if (
                 self.__sampled_char == "\n"
@@ -141,7 +139,8 @@ class ThaiTransliterator:
 
     def __encode_input(self, name):
         self.__test_input = np.zeros(
-            (1, self.__max_encoder_seq_length, self.__num_encoder_tokens), dtype="float32"
+            (1, self.__max_encoder_seq_length, self.__num_encoder_tokens),
+            dtype="float32",
         )
         for t, char in enumerate(name):
             self.__test_input[0, t, self.__input_token_index[char]] = 1.
@@ -153,3 +152,10 @@ class ThaiTransliterator:
         :return: English (more or less) text that spells out how the Thai text should read.
         """
         return self.__decode_sequence(self.__encode_input(text))
+
+
+_THAI_TO_ROM = ThaiTransliterator()
+
+
+def romanize(text):
+    return _THAI_TO_ROM.romanize(text)

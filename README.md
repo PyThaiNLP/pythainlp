@@ -21,7 +21,7 @@ Python 2 users can still use PyThaiNLP 1.6.
 ## Capabilities
 
 - Thai word segmentation (```word_tokenize```), including subword segmentation based on Thai Character Cluster (```tcc```) and ETCC (```etcc```)
-- Thai romanization (```romanize```)
+- Thai romanization and transliteration (```romanize```, ```transliterate```)
 - Thai part-of-speech taggers (```pos_tag```)
 - Read out number to Thai words (```bahttext```, ```num_to_thaiword```)
 - Thai collation (sort by dictionoary order) (```collate```)
@@ -85,7 +85,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 ## ความสามารถ
 
 - ตัดคำภาษาไทย (```word_tokenize```) และรองรับ Thai Character Clusters (```tcc```) และ ETCC (```etcc```)
-- ถอดเสียงภาษาไทยเป็นอักษรละติน (```romanize```)
+- ถอดเสียงภาษาไทยเป็นอักษรละตินและสัทอักษร (```romanize```, ```transliterate```)
 - ระบุชนิดคำ (part-of-speech) ภาษาไทย (```pos_tag```)
 - อ่านตัวเลขเป็นข้อความภาษาไทย (```bahttext```, ```num_to_thaiword```)
 - เรียงลำดับคำตามพจนานุกรมไทย (```collate```)

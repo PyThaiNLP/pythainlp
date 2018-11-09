@@ -1,10 +1,10 @@
 .. currentmodule:: pythainlp.romanization
 
-pythainlp.romanization
+pythainlp.transliterate
 ====================================
-The :class:`pythainlp.romanization` turns thai text into a romanized one (put simply, spelled with English).
+The :class:`pythainlp.transliterate` turns Thai text into a romanized one (put simply, spelled with English).
 
-.. autofunction:: romanization
-.. currentmodule:: pythainlp.romanization.thai2rom
+.. autofunction:: transliterate
+.. currentmodule:: pythainlp.transliterate.thai2rom
 .. autoclass:: thai2rom
    :members: romanize

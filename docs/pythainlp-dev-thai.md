@@ -256,12 +256,13 @@ lentext คือ จำนวนคำขั้นต่ำที่ต้อ�
 
 คืนค่าเป็น dict
 
-### romanization
+### transliteration
 
 ```python
-from pythainlp.transliterate import romanize
+from pythainlp.transliterate import romanize, transliterate
 
 romanize(str, engine="royin")
+transliterate(str, engine="pyicu")
 ```
 
 มี engine ดังนี้
@@ -275,9 +276,10 @@ romanize(str, engine="royin")
 **ตัวอย่าง**
 
 ```python
-from pythainlp.transliterate import romanize
+from pythainlp.transliterate import romanize, transliterate
 
 romanize("แมว")  # 'maew'
+transliterate("นก")
 ```
 
 ### spell

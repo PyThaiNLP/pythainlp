@@ -40,6 +40,7 @@ from pythainlp.summarize import summarize
 from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
 from pythainlp.tokenize import (
     FROZEN_DICT_TRIE,
+    deepcut,
     dict_word_tokenize,
     etcc,
     longest,
@@ -388,6 +389,19 @@ class TestUM(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
 
+    def test_word_tokenize_deepcut(self):
+        self.assertEqual(deepcut.segment(None), [])
+        self.assertEqual(deepcut.segment(""), [])
+        self.assertIsNotNone(word_tokenize("ลึกลงไปลลลล", engine="deepcut"))
+
+    def test_word_tokenize_longest_matching(self):
+        self.assertEqual(longest.segment(None), [])
+        self.assertEqual(longest.segment(""), [])
+        self.assertEqual(
+            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
+            ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
+        )
+
     def test_word_tokenize_mm(self):
         self.assertEqual(multi_cut.segment(None), [])
         self.assertEqual(multi_cut.segment(""), [])
@@ -419,14 +433,6 @@ class TestUM(unittest.TestCase):
             ["จุ๋ม", "ง่วง"],
         )
 
-    def test_word_tokenize_longest_matching(self):
-        self.assertEqual(longest.segment(None), [])
-        self.assertEqual(longest.segment(""), [])
-        self.assertEqual(
-            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
-            ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
-        )
-
     def test_sent_tokenize(self):
         self.assertEqual(sent_tokenize(None), [])
         self.assertEqual(sent_tokenize(""), [])
@@ -452,11 +458,15 @@ class TestUM(unittest.TestCase):
         self.assertEqual(tcc.tcc(""), "")
         self.assertEqual(tcc.tcc("ประเทศไทย"), "ป/ระ/เท/ศ/ไท/ย")
 
+        self.assertEqual(tcc.tcc_gen(), "")
+        self.assertEqual(tcc.tcc_pos(""), set())
+
     # ### pythainlp.transliterate
 
     def test_romanize(self):
+        self.assertEqual(romanize(None), "")
+        self.assertEqual(romanize(""), "")
         self.assertEqual(romanize("แมว"), "maeo")
-        self.assertIsNotNone(romanize("กก", engine="royin"))
         self.assertEqual(romanize("แมว", engine="royin"), "maeo")
         self.assertEqual(romanize("เดือน", engine="royin"), "duean")
         self.assertEqual(romanize("ดู", engine="royin"), "du")
@@ -465,8 +475,7 @@ class TestUM(unittest.TestCase):
         self.assertEqual(romanize("กร", engine="royin"), "kon")
         self.assertEqual(romanize("กรร", engine="royin"), "kan")
         self.assertEqual(romanize("กรรม", engine="royin"), "kam")
-        self.assertEqual(romanize(""), "")
-        self.assertEqual(romanize(None), "")
+        self.assertIsNotNone(romanize("กก", engine="royin"))
         self.assertIsNotNone(romanize("หาย", engine="royin"))
         self.assertIsNotNone(romanize("หยาก", engine="royin"))
         self.assertIsNotNone(romanize("ฝ้าย", engine="royin"))
@@ -476,6 +485,7 @@ class TestUM(unittest.TestCase):
         # self.assertIsNotNone(romanize("บัว", engine="thai2rom"))
 
     def test_transliterate(self):
+        self.assertEqual(transliterate(""), "")
         self.assertEqual(transliterate("แมว", "pyicu"), "mæw")
         self.assertEqual(transliterate("คน", engine="ipa"), "kʰon")
         self.assertIsNotNone(trans_list("คน"))

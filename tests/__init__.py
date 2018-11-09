@@ -42,13 +42,16 @@ from pythainlp.tokenize import (
     FROZEN_DICT_TRIE,
     dict_word_tokenize,
     etcc,
+    longest,
     multi_cut,
+    newmm,
     sent_tokenize,
     subword_tokenize,
     syllable_tokenize,
     tcc,
     word_tokenize,
 )
+from pythainlp.tokenize import pyicu as tokenize_pyicu
 from pythainlp.transliterate import romanize, transliterate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.util import (
@@ -325,7 +328,9 @@ class TestUM(unittest.TestCase):
         )
         self.assertIsNotNone(
             dict_word_tokenize(
-                "รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE, engine="longest"
+                "รถไฟฟ้ากรุงเทพBTSหูว์ค์",
+                custom_dict=FROZEN_DICT_TRIE,
+                engine="longest",
             )
         )
         self.assertIsNotNone(
@@ -340,6 +345,7 @@ class TestUM(unittest.TestCase):
         )
 
     def test_etcc(self):
+        self.assertEqual(etcc.etcc(""), "")
         self.assertEqual(etcc.etcc("คืนความสุข"), "/คืน/ความสุข")
         self.assertIsNotNone(
             etcc.etcc(
@@ -349,21 +355,26 @@ class TestUM(unittest.TestCase):
         )
 
     def test_word_tokenize(self):
+        self.assertEqual(word_tokenize(""), [])
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
-        self.assertEqual(word_tokenize(""), [])
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="ulmfit"))
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="XX"))
 
     def test_word_tokenize_icu(self):
+        self.assertEqual(tokenize_pyicu.segment(None), "")
+        self.assertEqual(tokenize_pyicu.segment(""), "")
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="icu"),
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
 
     def test_word_tokenize_mm(self):
+        self.assertEqual(multi_cut.segment(None), [])
+        self.assertEqual(multi_cut.segment(""), [])
+        self.assertEqual(word_tokenize("", engine="mm"), [])
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="mm"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
@@ -372,6 +383,8 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(multi_cut.find_all_segment("รถไฟฟ้ากรุงเทพมหานครBTS"))
 
     def test_word_tokenize_newmm(self):
+        self.assertEqual(newmm.segment(None), [])
+        self.assertEqual(newmm.segment(""), [])
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="newmm"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
@@ -390,26 +403,36 @@ class TestUM(unittest.TestCase):
         )
 
     def test_word_tokenize_longest_matching(self):
+        self.assertEqual(longest.segment(None), [])
+        self.assertEqual(longest.segment(""), [])
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
 
     def test_sent_tokenize(self):
+        self.assertEqual(sent_tokenize(None), [])
+        self.assertEqual(sent_tokenize(""), [])
         self.assertEqual(
             sent_tokenize("รักน้ำ  รักปลา  ", engine="whitespace"), ["รักน้ำ", "รักปลา"]
         )
         self.assertEqual(sent_tokenize("รักน้ำ  รักปลา  "), ["รักน้ำ", "รักปลา"])
 
     def test_subword_tokenize(self):
+        self.assertEqual(subword_tokenize(None), "")
+        self.assertEqual(subword_tokenize(""), "")
         self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร"))
 
     def test_syllable_tokenize(self):
+        self.assertEqual(syllable_tokenize(None), [])
+        self.assertEqual(syllable_tokenize(""), [])
         self.assertEqual(
             syllable_tokenize("สวัสดีชาวโลก"), ["สวัส", "ดี", "ชาว", "โลก"]
         )
 
     def test_tcc(self):
+        self.assertEqual(tcc.tcc(None), "")
+        self.assertEqual(tcc.tcc(""), "")
         self.assertEqual(tcc.tcc("ประเทศไทย"), "ป/ระ/เท/ศ/ไท/ย")
 
     # ### pythainlp.transliterate

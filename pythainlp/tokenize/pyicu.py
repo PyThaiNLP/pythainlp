@@ -17,5 +17,8 @@ def _gen_words(text):
 
 
 def segment(text):
+    if not text:
+        return []
+
     text = re.sub("([^\u0E00-\u0E7F\n ]+)", " \\1 ", text)
     return list(_gen_words(text))

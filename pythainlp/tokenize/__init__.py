@@ -38,14 +38,14 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
         return []
 
     if engine == "newmm" or engine == "onecut":
-        from .newmm import mmcut as segment
+        from .newmm import segment
     elif engine == "longest" or engine == "longest-matching":
         from .longest import segment
     elif engine == "ulmfit":
-        from .newmm import mmcut
+        from .newmm import segment
 
         def segment(text):
-            return mmcut(text, trie=FROZEN_DICT_TRIE)
+            return segment(text, trie=FROZEN_DICT_TRIE)
 
     elif engine == "icu":
         from .pyicu import segment
@@ -54,7 +54,7 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
     elif engine == "mm" or engine == "multi_cut":
         from .multi_cut import segment
     else:  # default, use "newmm" engine
-        from .newmm import mmcut as segment
+        from .newmm import segment
 
     if not whitespaces:
         return [token.strip(" ") for token in segment(text) if token.strip(" ")]
@@ -81,13 +81,13 @@ def dict_word_tokenize(text, custom_dict, engine="newmm"):
         return []
 
     if engine == "newmm" or engine == "onecut":
-        from .newmm import mmcut as segment
+        from .newmm import segment
     elif engine == "longest" or engine == "longest-matching":
         from .longest import segment
     elif engine == "mm" or engine == "multi_cut":
         from .multi_cut import segment
     else:  # default, use "newmm" engine
-        from .newmm import mmcut as segment
+        from .newmm import segment
 
     return segment(text, custom_dict)
 
@@ -189,6 +189,6 @@ class Tokenizer:
             self.__trie_dict = Trie(thai_words())
 
     def word_tokenize(self, text, engine="newmm"):
-        from .newmm import mmcut as segment
+        from .newmm import segment
 
         return segment(text, self.__trie_dict)

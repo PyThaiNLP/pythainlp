@@ -42,10 +42,10 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
     elif engine == "longest" or engine == "longest-matching":
         from .longest import segment
     elif engine == "ulmfit":
-        from .newmm import segment
+        from .newmm import segment as segment_
 
         def segment(text):
-            return segment(text, trie=FROZEN_DICT_TRIE)
+            return segment_(text, trie=FROZEN_DICT_TRIE)
 
     elif engine == "icu":
         from .pyicu import segment

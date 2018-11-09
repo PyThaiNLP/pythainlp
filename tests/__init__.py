@@ -364,8 +364,8 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="XX"))
 
     def test_word_tokenize_icu(self):
-        self.assertEqual(tokenize_pyicu.segment(None), "")
-        self.assertEqual(tokenize_pyicu.segment(""), "")
+        self.assertEqual(tokenize_pyicu.segment(None), [])
+        self.assertEqual(tokenize_pyicu.segment(""), [])
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="icu"),
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],

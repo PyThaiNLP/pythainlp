@@ -10,7 +10,8 @@ with open("requirements.txt", "r", encoding="utf-8") as f:
 
 extras = {
     "icu": ["pyicu"],
-    "ml": ["fastai", "numpy", "sklearn_crfsuite", "torch"],
+    "ml": ["fastai", "numpy", "torch"],
+    "ner": ["sklearn_crfsuite"],
     "pos": ["artagger"],
     "tokenize": ["deepcut", "pyicu"],
     "transliterate": ["epitran", "pyicu"],

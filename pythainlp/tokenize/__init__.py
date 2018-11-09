@@ -99,7 +99,7 @@ def sent_tokenize(text, engine="whitespace+newline"):
     if engine == "whitespace":
         sentences = nltk.tokenize.WhitespaceTokenizer().tokenize(text)
     else:  # default, use whitespace + newline
-        sentences = re.sub(r"\n+|\s+", "|", text).split("|")
+        sentences = re.sub(r"\n+|\s+", "|", text.strip()).split("|")
 
     return sentences
 

@@ -36,7 +36,17 @@ from pythainlp.soundex import lk82, metasound, soundex, udom83
 from pythainlp.spell import correct, spell
 from pythainlp.summarize import summarize
 from pythainlp.tag import pos_tag, pos_tag_sents
-from pythainlp.tokenize import etcc, syllable_tokenize, tcc, word_tokenize
+from pythainlp.tokenize import (
+    FROZEN_DICT_TRIE,
+    dict_word_tokenize,
+    etcc,
+    multi_cut,
+    sent_tokenize,
+    subword_tokenize,
+    syllable_tokenize,
+    tcc,
+    word_tokenize,
+)
 from pythainlp.transliterate import romanize, transliterate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.util import (
@@ -285,9 +295,38 @@ class TestUM(unittest.TestCase):
 
     # ### pythainlp.tokenize
 
-    def test_syllable_tokenize(self):
-        self.assertEqual(
-            syllable_tokenize("สวัสดีชาวโลก"), ["สวัส", "ดี", "ชาว", "โลก"]
+    def test_dict_word_tokenize(self):
+        self.assertEqual(dict_word_tokenize("", custom_dict=FROZEN_DICT_TRIE), [])
+        self.assertIsNotNone(
+            dict_word_tokenize("รถไฟฟ้ากรุงเทพ", custom_dict=FROZEN_DICT_TRIE)
+        )
+        self.assertIsNotNone(
+            dict_word_tokenize(
+                "รถไฟฟ้ากรุงเทพ", custom_dict=FROZEN_DICT_TRIE, engine="newmm"
+            )
+        )
+        self.assertIsNotNone(
+            dict_word_tokenize(
+                "รถไฟฟ้ากรุงเทพ", custom_dict=FROZEN_DICT_TRIE, engine="longest"
+            )
+        )
+        self.assertIsNotNone(
+            dict_word_tokenize(
+                "รถไฟฟ้ากรุงเทพ", custom_dict=FROZEN_DICT_TRIE, engine="mm"
+            )
+        )
+        self.assertIsNotNone(
+            dict_word_tokenize(
+                "รถไฟฟ้ากรุงเทพ", custom_dict=FROZEN_DICT_TRIE, engine="XX"
+            )
+        )
+
+    def test_etcc(self):
+        self.assertEqual(etcc.etcc("คืนความสุข"), "/คืน/ความสุข")
+        self.assertIsNotNone(
+            etcc.etcc(
+                "หมูแมวเหล่านี้ด้วยเหตุผลเชื่อมโยงทางกรรมพันธุ์มีแขนขาหน้าหัวเราะ"
+            )
         )
 
     def test_word_tokenize(self):
@@ -295,6 +334,9 @@ class TestUM(unittest.TestCase):
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
+        self.assertEqual(word_tokenize(""), [])
+        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="ulmfit"))
+        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="XX"))
 
     def test_word_tokenize_icu(self):
         self.assertEqual(
@@ -307,6 +349,8 @@ class TestUM(unittest.TestCase):
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="mm"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
+
+        self.assertIsNotNone(multi_cut.find_all_segment("รถไฟฟ้ากรุงเทพมหานคร"))
 
     def test_word_tokenize_newmm(self):
         self.assertEqual(
@@ -332,11 +376,22 @@ class TestUM(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
 
+    def test_sent_tokenize(self):
+        self.assertEqual(
+            sent_tokenize("รักน้ำ  รักปลา  ", engine="whitespace"), ["รักน้ำ", "รักปลา"]
+        )
+        self.assertEqual(sent_tokenize("รักน้ำ  รักปลา  "), ["รักน้ำ", "รักปลา"])
+
+    def test_subword_tokenize(self):
+        self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร"))
+
+    def test_syllable_tokenize(self):
+        self.assertEqual(
+            syllable_tokenize("สวัสดีชาวโลก"), ["สวัส", "ดี", "ชาว", "โลก"]
+        )
+
     def test_tcc(self):
         self.assertEqual(tcc.tcc("ประเทศไทย"), "ป/ระ/เท/ศ/ไท/ย")
-
-    def test_etcc(self):
-        self.assertEqual(etcc.etcc("คืนความสุข"), "/คืน/ความสุข")
 
     # ### pythainlp.transliterate
 

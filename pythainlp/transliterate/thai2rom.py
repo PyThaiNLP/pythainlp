@@ -2,17 +2,10 @@
 """
 Romanization of Thai words based on machine-learnt engine ("thai2rom")
 """
+import numpy as np
+from keras.layers import Input
+from keras.models import Model, load_model
 from pythainlp.corpus import download, get_file
-
-try:
-    import numpy as np
-    from keras.layers import Input
-    from keras.models import Model, load_model
-except ImportError:
-    from pythainlp.tools import install_package
-
-    install_package("keras")
-    install_package("numpy")
 
 
 class ThaiTransliterator:

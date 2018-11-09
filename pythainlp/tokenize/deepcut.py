@@ -3,17 +3,7 @@
 Wrapper for deepcut Thai word segmentation
 """
 
-try:
-    import deepcut
-except ImportError:
-    """ในกรณีที่ยังไม่ติดตั้ง deepcut ในระบบ"""
-    from pythainlp.tools import install_package
-
-    install_package("deepcut")
-    try:
-        import deepcut
-    except ImportError:
-        raise ImportError("ImportError: Try 'pip install deepcut'")
+import deepcut
 
 
 def segment(text):

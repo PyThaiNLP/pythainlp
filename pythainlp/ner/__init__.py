@@ -4,22 +4,11 @@ Named-entity recognizer
 """
 __all__ = ["ThaiNameRecognizer"]
 
+import sklearn_crfsuite
 from pythainlp.corpus import download, get_file, thai_stopwords
 from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import is_thaiword
-
-try:
-    import sklearn_crfsuite
-except ImportError:
-    from pythainlp.tools import install_package
-
-    install_package("sklearn-crfsuite")
-    try:
-        import sklearn_crfsuite
-    except ImportError:
-        raise ImportError("ImportError: Try 'pip install sklearn-crfsuite'")
-
 
 _WORD_TOKENIZER = "newmm"  # ตัวตัดคำ
 _STOPWORDS = thai_stopwords()

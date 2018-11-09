@@ -4,14 +4,22 @@ from setuptools import find_packages, setup
 
 with open("README-pypi.md", "r", encoding="utf-8") as readme_file:
     readme = readme_file.read()
-readme_file.close()
+
 with open("requirements.txt", "r", encoding="utf-8") as f:
     requirements = f.read().splitlines()
 
+extras = {
+    "icu": ["pyicu"],
+    "ml": ["fastai", "numpy", "sklearn_crfsuite", "torch"],
+    "pos": ["artagger"],
+    "tokenize": ["deepcut", "pyicu"],
+    "transliterate": ["epitran", "pyicu"],
+}
+
 setup(
     name="pythainlp",
-    version="1.7.0.1",
-    description="Thai natural language processing library",
+    version="1.8.0",
+    description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
     author="PyThaiNLP",
@@ -40,6 +48,7 @@ setup(
     },
     include_package_data=True,
     install_requires=requirements,
+    extras_require=extras,
     license="Apache Software License 2.0",
     zip_safe=False,
     keywords="pythainlp",

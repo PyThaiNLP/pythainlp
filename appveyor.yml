@@ -37,8 +37,7 @@ install:
   # - "set ICU_VERSION=62"
   - "%PYTHON%/python.exe -m pip install --upgrade pip"
   - "%PYTHON%/python.exe -m pip install %PYICU_WHEEL%"
-  - "%PYTHON%/python.exe -m pip install epitrain"
-  - "%PYTHON%/python.exe -m pip install -e ."
+  - "%PYTHON%/python.exe -m pip install -e .[icu,ml,pos,tokenize,transliterate]"
 
 test_script:
   - "%PYTHON%/python.exe -m pip --version"

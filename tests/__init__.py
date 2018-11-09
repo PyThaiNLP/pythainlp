@@ -257,13 +257,14 @@ class TestUM(unittest.TestCase):
     # ### pythainlp.spell
 
     def test_spell(self):
-        self.assertIsNotNone(spell("เน้ร"))
-        self.assertEqual(spell(""), "")
         self.assertEqual(spell(None), "")
+        self.assertEqual(spell(""), "")
+        self.assertIsNotNone(spell("เน้ร"))
+        self.assertIsNotNone(spell("เกสมร์"))
 
-        self.assertIsNotNone(correct("ทดสอง"))
-        self.assertEqual(correct(""), "")
         self.assertEqual(correct(None), "")
+        self.assertEqual(correct(""), "")
+        self.assertIsNotNone(correct("ทดสอง"))
 
         self.assertIsNotNone(dictionary())
         self.assertGreaterEqual(prob("มี"), 0)
@@ -457,7 +458,7 @@ class TestUM(unittest.TestCase):
         self.assertEqual(tcc.tcc(""), "")
         self.assertEqual(tcc.tcc("ประเทศไทย"), "ป/ระ/เท/ศ/ไท/ย")
 
-        self.assertEqual(tcc.tcc_gen(), "")
+        self.assertEqual(tcc.tcc_gen(""), "")
         self.assertEqual(tcc.tcc_pos(""), set())
 
     # ### pythainlp.transliterate

@@ -261,22 +261,20 @@ class TestUM(unittest.TestCase):
     # ### pythainlp.tag
 
     def test_pos_tag(self):
-        tokens = ["คำ"]
+        tokens = ["ผม", "รัก", "คุณ"]
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="orchid"))
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
-        self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="orchid"))
-        self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="pud"))
-        # self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="orchid"))
-        # self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="pud"))
-
         self.assertEqual(
             pos_tag(word_tokenize("คุณกำลังประชุม"), engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
         )
-        self.assertEqual(
-            str(type(pos_tag(word_tokenize("ผมรักคุณ"), engine="artagger"))),
-            "<class 'list'>",
-        )
+
+        self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="orchid"))
+        self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="pud"))
+
+        # self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="orchid"))
+        # self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="pud"))
+
         self.assertEqual(
             pos_tag_sents([["ผม", "กิน", "ข้าว"], ["แมว", "วิ่ง"]]),
             [

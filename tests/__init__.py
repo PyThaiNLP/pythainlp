@@ -54,6 +54,7 @@ from pythainlp.tokenize import (
 from pythainlp.tokenize import pyicu as tokenize_pyicu
 from pythainlp.transliterate import romanize, transliterate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
+from pythainlp.transliterate.royin import romanize as romanize_royin
 from pythainlp.util import (
     deletetone,
     eng_to_thai,
@@ -203,6 +204,7 @@ class TestUM(unittest.TestCase):
         )
         self.assertEqual(thaiword_to_num("ยี่สิบ"), 20)
         self.assertEqual(thaiword_to_num("ศูนย์"), 0)
+        self.assertEqual(thaiword_to_num("ศูนย์อะไรนะ"), 0)
         self.assertEqual(thaiword_to_num(""), None)
         self.assertEqual(thaiword_to_num(None), None)
 
@@ -477,6 +479,12 @@ class TestUM(unittest.TestCase):
         self.assertEqual(romanize(None), "")
         self.assertEqual(romanize(""), "")
         self.assertEqual(romanize("แมว"), "maeo")
+
+        self.assertEqual(romanize_royin(None), "")
+        self.assertEqual(romanize_royin(""), "")
+        self.assertEqual(romanize_royin("หาย"), "hai")
+        self.assertEqual(romanize_royin("หยาก"), "yak")
+
         self.assertEqual(romanize("แมว", engine="royin"), "maeo")
         self.assertEqual(romanize("เดือน", engine="royin"), "duean")
         self.assertEqual(romanize("ดู", engine="royin"), "du")
@@ -486,9 +494,8 @@ class TestUM(unittest.TestCase):
         self.assertEqual(romanize("กรร", engine="royin"), "kan")
         self.assertEqual(romanize("กรรม", engine="royin"), "kam")
         self.assertIsNotNone(romanize("กก", engine="royin"))
-        self.assertIsNotNone(romanize("หาย", engine="royin"))
-        self.assertIsNotNone(romanize("หยาก", engine="royin"))
         self.assertIsNotNone(romanize("ฝ้าย", engine="royin"))
+        self.assertIsNotNone(romanize("ทีปกร", engine="royin"))
         self.assertIsNotNone(romanize("กรม", engine="royin"))
         self.assertIsNotNone(romanize("ธรรพ์", engine="royin"))
         self.assertIsNotNone(romanize("กฏa์", engine="royin"))

@@ -145,8 +145,9 @@ def _replace_consonants(word, res):
         lenword = len(res)
         while i < lenword:
             if i == 0 and res[0] == "ห":
-                word = word.replace(res[0], _CONSONANTS[res[0]][0])
-                i += 1
+                word = word.replace(res[0], "")
+                del res[0]
+                lenword -= 1
             elif i == 0 and res[0] != "ห":
                 word = word.replace(res[0], _CONSONANTS[res[0]][0])
                 i += 1

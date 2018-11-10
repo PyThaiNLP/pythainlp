@@ -12,9 +12,9 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
-PyThaiNLP supports Python 3.4+.
-Since version 1.7, PyThaiNLP deprecates its support for Python 2. The future PyThaiNLP 1.8 will completely drop all supports for Python 2.
-Python 2 users can still use PyThaiNLP 1.6.
+PyThaiNLP 1.8 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [PyThaiNLP 1.8 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
+
+Python 2 users can use PyThaiNLP 1.6, our latest released that tested with Python 2.7.
 
 **This is a document for development branch (post 1.7.x). Things will break. For a document for stable branch, see [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
 

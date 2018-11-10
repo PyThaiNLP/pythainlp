@@ -113,14 +113,18 @@ class TestUM(unittest.TestCase):
 
         self.assertIsNotNone(wordnet.lemmas("นก"))
         self.assertIsNotNone(wordnet.all_lemma_names(pos=wn.ADV))
-        self.assertIsNotNone(wordnet.lemma('cat.n.01.cat'))
+        self.assertIsNotNone(wordnet.lemma("cat.n.01.cat"))
 
         self.assertEqual(wordnet.morphy("dogs"), "dog")
 
-        bird = wordnet.synset('bird.n.01')
-        mouse = wordnet.synset('mouse.n.01')
-        self.assertEqual(wordnet.path_similarity(bird, mouse), bird.path_similarity(mouse))
-        self.assertEqual(wordnet.wup_similarity(bird, mouse), bird.wup_similarity(mouse))
+        bird = wordnet.synset("bird.n.01")
+        mouse = wordnet.synset("mouse.n.01")
+        self.assertEqual(
+            wordnet.path_similarity(bird, mouse), bird.path_similarity(mouse)
+        )
+        self.assertEqual(
+            wordnet.wup_similarity(bird, mouse), bird.wup_similarity(mouse)
+        )
 
         cat_key = wordnet.synsets("แมว")[0].lemmas()[0].key()
         self.assertIsNotNone(wordnet.lemma_from_key(cat_key))
@@ -542,7 +546,10 @@ class TestUM(unittest.TestCase):
         self.assertGreaterEqual(thai2vec.similarity("แบคทีเรีย", "คน"), 0)
         self.assertIsNotNone(thai2vec.sentence_vectorizer(""))
         self.assertIsNotNone(thai2vec.sentence_vectorizer("เสรีภาพในการชุมนุม"))
-        self.assertIsNotNone(thai2vec.sentence_vectorizer("I think therefore I am ผ็ฎ์"))
+        self.assertIsNotNone(
+            thai2vec.sentence_vectorizer("เสรีภาพในการสมาคม", use_mean=True)
+        )
+        self.assertIsNotNone(thai2vec.sentence_vectorizer("I คิด therefore I am ผ็ฎ์"))
         self.assertEqual(
             thai2vec.most_similar_cosmul(["ราชา", "ผู้ชาย"], ["ผู้หญิง"])[0][0],
             "ราชินี",

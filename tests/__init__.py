@@ -63,6 +63,7 @@ from pythainlp.util import (
     normalize,
     thai_to_eng,
 )
+from pythainlp.word_vector import thai2vec
 
 
 class TestUM(unittest.TestCase):
@@ -111,8 +112,17 @@ class TestUM(unittest.TestCase):
 
         self.assertIsNotNone(wordnet.lemmas("นก"))
         self.assertIsNotNone(wordnet.all_lemma_names(pos=wn.ADV))
+        self.assertIsNotNone(wordnet.lemma('cat.n.01.cat'))
 
         self.assertEqual(wordnet.morphy("dogs"), "dog")
+
+        bird = wordnet.synset('bird.n.01')
+        mouse = wordnet.synset('mouse.n.01')
+        self.assertEqual(wordnet.path_similarity(bird, mouse), bird.path_similarity(mouse))
+        self.assertEqual(wordnet.wup_similarity(bird, mouse), bird.wup_similarity(mouse))
+
+        cat_key = wordnet.synsets("แมว")[0].lemmas()[0].key()
+        self.assertIsNotNone(wordnet.lemma_from_key(cat_key))
 
     # ### pythainlp.date
 
@@ -390,9 +400,9 @@ class TestUM(unittest.TestCase):
         )
 
     # def test_word_tokenize_deepcut(self):
-        # self.assertEqual(deepcut.segment(None), [])
-        # self.assertEqual(deepcut.segment(""), [])
-        # self.assertIsNotNone(word_tokenize("ลึกลงไปลลลล", engine="deepcut"))
+    # self.assertEqual(deepcut.segment(None), [])
+    # self.assertEqual(deepcut.segment(""), [])
+    # self.assertIsNotNone(word_tokenize("ลึกลงไปลลลล", engine="deepcut"))
 
     def test_word_tokenize_longest_matching(self):
         self.assertEqual(longest.segment(None), [])
@@ -518,6 +528,18 @@ class TestUM(unittest.TestCase):
     def test_keyboard(self):
         self.assertEqual(eng_to_thai("l;ylfu8iy["), "สวัสดีครับ")
         self.assertEqual(thai_to_eng("สวัสดีครับ"), "l;ylfu8iy[")
+
+    # ### pythainlp.word_vector
+
+    def test_thai2vec(self):
+        self.assertGreaterEqual(thai2vec.similarity("แบคทีเรีย", "คน"), 0)
+        self.assertIsNotNone(thai2vec.sentence_vectorizer(""))
+        self.assertIsNotNone(thai2vec.sentence_vectorizer("เสรีภาพในการชุมนุม"))
+        self.assertEqual(
+            thai2vec.most_similar_cosmul(["ราชา", "ผู้ชาย"], ["ผู้หญิง"])[0][0],
+            "ราชินี",
+        )
+        self.assertEqual(thai2vec.doesnt_match(["ญี่ปุ่น", "พม่า", "ไอติม"]), "ไอติม")
 
 
 if __name__ == "__main__":

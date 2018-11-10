@@ -43,6 +43,8 @@ def doesnt_match(listdata):
 
 def similarity(word1, word2):
     """
+    Get cosine similarity between two words.
+    If a word is not in the vocabulary, KeyError will be raised.
     :param str word1: first word
     :param str word2: second word
     :return: the cosine similarity between the two word vectors

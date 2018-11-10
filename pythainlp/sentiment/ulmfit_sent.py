@@ -15,6 +15,8 @@ from torch.autograd import Variable
 
 # from fastai.text import multiBatchRNN
 
+__all__ = ["about", "get_sentiment"]
+
 MODEL_NAME = "sent_model"
 ITOS_NAME = "itos_sent"
 
@@ -29,24 +31,26 @@ def get_path(fname):
 
 
 # load model
-model = torch.load(get_path(MODEL_NAME))
-model.eval()
+MODEL = torch.load(get_path(MODEL_NAME))
+MODEL.eval()
 
 # load itos and stoi
 itos = pickle.load(open(get_path(ITOS_NAME), "rb"))
 stoi = defaultdict(lambda: 0, {v: k for k, v in enumerate(itos)})
 
+
 # get sentiment; 1 for positive and 0 for negative
 # or score if specified return_score=True
-softmax = lambda x: np.exp(x) / np.sum(np.exp(x))
+def softmax(x):
+    return np.exp(x) / np.sum(np.exp(x))
 
 
 def get_sentiment(text, return_score=False):
     words = word_tokenize(text)
     tensor = LongTensor([stoi[word] for word in words]).view(-1, 1).cpu()
     tensor = Variable(tensor, volatile=False)
-    model.reset()
-    pred, *_ = model(tensor)
+    MODEL.reset()
+    pred, *_ = MODEL(tensor)
     result = pred.data.cpu().numpy().reshape(-1)
 
     if return_score:

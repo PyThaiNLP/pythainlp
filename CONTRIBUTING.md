@@ -23,8 +23,8 @@ We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-mod
 - Write tests for your new features (please see "Tests" topic below);
 - Always remember that [commented code is dead
   code](http://www.codinghorror.com/blog/2008/07/coding-without-comments.html);
-- Name identifiers (variables, classes, functions, module names) with readable
-  names (`x` is always wrong);
+- Name identifiers (variables, classes, functions, module names) with meaningful
+  and pronounceable names (`x` is always wrong);
 - When manipulating strings, use [Python's new-style
   formatting](http://docs.python.org/library/string.html#format-string-syntax)
   (`'{} = {}'.format(a, b)` instead of `'%s = %s' % (a, b)`);
@@ -55,7 +55,7 @@ Happy hacking! (;
 ## newmm (onecut), mm, TCC, and Thai Soundex Code
 - Korakot Chaovavanich
 
-## Thai2Vec & ulmfit
+## Thai2Vec & ULMFiT
 - Charin Polpanumas
 
 ## Docs

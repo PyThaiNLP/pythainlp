@@ -27,6 +27,10 @@ def etcc(text):
     รับ str
     ส่งออก str
     """
+
+    if not text:
+        return ""
+
     if re.search(r"[เแ]" + _C + r"[" + "".join(_UV) + r"]" + r"\w", text):
         search = re.findall(r"[เแ]" + _C + r"[" + "".join(_UV) + r"]" + r"\w", text)
         for i in search:

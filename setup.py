@@ -9,21 +9,25 @@ with open("requirements.txt", "r", encoding="utf-8") as f:
     requirements = f.read().splitlines()
 
 extras = {
+    "artagger": ["artagger"],
+    "deepcut": ["deepcut", "keras", "tensorflow"],
     "icu": ["pyicu"],
+    "ipa": ["epitran"],
     "ml": ["fastai==0.7.0", "keras", "numpy", "torch"],
     "ner": ["sklearn_crfsuite"],
-    "pos": ["artagger"],
-    "tokenize": ["deepcut", "pyicu"],
-    "transliterate": ["epitran", "pyicu"],
+    "thai2rom": ["keras", "numpy"],
+    "thai2vec": ["gensim", "numpy"],
     "full": [
         "artagger",
         "deepcut",
         "epitran",
         "fastai==0.7.0",
+        "gensim",
         "keras",
         "numpy",
         "pyicu",
         "sklearn_crfsuite",
+        "tensorflow",
         "torch",
     ],
 }

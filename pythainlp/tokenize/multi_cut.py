@@ -40,7 +40,7 @@ _RE_ENG = r"""(?x)
 _PAT_ENG = re.compile(_RE_ENG)
 
 
-def multicut(text, trie=None):
+def _multicut(text, trie=None):
     """
     ส่งคืน LatticeString คืนมาเป็นก้อนๆ
     """
@@ -95,18 +95,18 @@ def multicut(text, trie=None):
 
 def mmcut(text):
     res = []
-    for w in multicut(text):
+    for w in _multicut(text):
         mm = min(w.multi, key=lambda x: x.count("/"))
         res.extend(mm.split("/"))
     return res
 
 
-def combine(ww):
+def _combine(ww):
     if ww == []:
         yield ""
     else:
         w = ww[0]
-        for tail in combine(ww[1:]):
+        for tail in _combine(ww[1:]):
             if w.unique:
                 yield w + "|" + tail
             else:
@@ -118,13 +118,18 @@ def segment(text, trie=None):
     """
     ใช้ในการหา list ที่สามารถตัดคำได้ทั้งหมด
     """
-    ww = list(multicut(text, trie=trie))
-    return ww
+    if not text:
+        return []
+
+    return list(_multicut(text, trie=trie))
 
 
 def find_all_segment(text, trie=None):
     """
     ใช้ในการหา list ที่สามารถตัดคำได้ทั้งหมด
     """
-    ww = list(multicut(text, trie=trie))
-    return list(combine(ww))
+    if not text:
+        return []
+
+    ww = list(_multicut(text, trie=trie))
+    return list(_combine(ww))

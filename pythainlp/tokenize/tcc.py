@@ -48,6 +48,9 @@ PAT_TCC = re.compile("|".join(RE_TCC))
 
 
 def tcc_gen(w):
+    if not w:
+        return ''
+
     p = 0
     while p < len(w):
         m = PAT_TCC.match(w[p:])
@@ -60,13 +63,20 @@ def tcc_gen(w):
 
 
 def tcc_pos(text):
+    if not text:
+        return set()
+
     p_set = set()
     p = 0
     for w in tcc_gen(text):
         p += len(w)
         p_set.add(p)
+
     return p_set
 
 
-def tcc(w, sep="/"):
-    return sep.join(tcc_gen(w))
+def tcc(text, sep="/"):
+    if not text:
+        return ""
+
+    return sep.join(tcc_gen(text))

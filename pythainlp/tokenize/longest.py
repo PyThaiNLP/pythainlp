@@ -35,7 +35,7 @@ _KNOWN = True
 _UNKNOWN = False
 
 
-class Tokenizer(object):
+class LongestMatchTokenizer(object):
     def __init__(self, trie):
         self.__trie = trie
 
@@ -95,6 +95,9 @@ class Tokenizer(object):
             return ""
 
     def __segment_text(self, text):
+        if not text:
+            return []
+
         begin_pos = 0
         len_text = len(text)
         tokens = []
@@ -137,4 +140,5 @@ def segment(text, trie=None):
     """ตัดคำภาษาไทยด้วยวิธี longest matching"""
     if not trie:
         trie = DEFAULT_DICT_TRIE
-    return Tokenizer(trie).tokenize(text)
+
+    return LongestMatchTokenizer(trie).tokenize(text)

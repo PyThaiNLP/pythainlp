@@ -145,8 +145,9 @@ def _replace_consonants(word, res):
         lenword = len(res)
         while i < lenword:
             if i == 0 and res[0] == "ห":
-                word = word.replace(res[0], _CONSONANTS[res[0]][0])
-                i += 1
+                word = word.replace(res[0], "")
+                del res[0]
+                lenword -= 1
             elif i == 0 and res[0] != "ห":
                 word = word.replace(res[0], _CONSONANTS[res[0]][0])
                 i += 1
@@ -168,6 +169,9 @@ def _replace_consonants(word, res):
 
 
 def romanize(word):
+    if not word:
+        return ""
+
     word2 = _replace_vowels(_normalize(word))
     res = re.findall(_RE_CONSONANT, word2)
     # 2-character word, all consonants

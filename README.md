@@ -12,9 +12,9 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
-PyThaiNLP supports Python 3.4+.
-Since version 1.7, PyThaiNLP deprecates its support for Python 2. The future PyThaiNLP 1.8 will completely drop all supports for Python 2.
-Python 2 users can still use PyThaiNLP 1.6.
+PyThaiNLP 1.8 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [PyThaiNLP 1.8 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
+
+Python 2 users can use PyThaiNLP 1.6, our latest released that tested with Python 2.7.
 
 **This is a document for development branch (post 1.7.x). Things will break. For a document for stable branch, see [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
 
@@ -34,21 +34,40 @@ Python 2 users can still use PyThaiNLP 1.6.
 
 ## Installation
 
-**Using pip**
+PyThaiNLP uses PyPI as its main distribution channel, see https://pypi.org/project/pythainlp/
 
-Stable release
+### Stable release
+
+Standard installation:
 
 ```sh
 $ pip install pythainlp
 ```
 
-Development release
+For some advanced functionalities, like word vector, extra packages may be needed. Install them with these options during pip install:
+
+```sh
+$ pip install pythainlp[extra1,extra2,...]
+```
+
+where ```extras``` can be
+  - ```artagger``` (to support artagger part-of-speech tagger)
+  - ```deepcut``` (to support deepcut machine-learnt tokenizer)
+  - ```icu``` (for ICU support in transliteration and tokenization)
+  - ```ipa``` (for International Phonetic Alphabet support in transliteration)
+  - ```ml``` (to support ULMFit models, like one for sentiment analyser)
+  - ```ner``` (for named-entity recognizer)
+  - ```thai2rom``` (for machine-learnt romanization)
+  - ```thai2vec``` (for Thai word vector)
+  - ```full``` (install everything)
+
+see ```extras``` and ```extras_require``` in [```setup.py```](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) for details.
+
+Development release:
 
 ```sh
 $ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
-
-Note: PyTorch is required for ulmfit sentiment analyser. ```pip install torch``` is needed for the feature. gensim and keras packages may also needed for other modules that rely on these machine learning libraries.
 
 ## Documentation
 

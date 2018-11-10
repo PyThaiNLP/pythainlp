@@ -10,7 +10,7 @@ from pythainlp.corpus import get_file
 from pythainlp.tokenize import word_tokenize
 
 
-def download():
+def _download():
     path = get_file("thai2vec02")
     if not path:
         download_data("thai2vec02")
@@ -20,8 +20,13 @@ def download():
 
 def get_model():
     """
-    :return: Downloads the `gensim` model."""
-    return KeyedVectors.load_word2vec_format(download(), binary=False)
+    Download model
+    :return: `gensim` model
+    """
+    return KeyedVectors.load_word2vec_format(_download(), binary=False)
+
+
+_MODEL = get_model()
 
 
 def most_similar_cosmul(positive, negative):
@@ -29,28 +34,30 @@ def most_similar_cosmul(positive, negative):
     การใช้งาน
     input list
     """
-    return get_model().most_similar_cosmul(positive=positive, negative=negative)
+    return _MODEL.most_similar_cosmul(positive=positive, negative=negative)
 
 
 def doesnt_match(listdata):
-    return get_model().doesnt_match(listdata)
+    return _MODEL.doesnt_match(listdata)
 
 
 def similarity(word1, word2):
     """
+    Get cosine similarity between two words.
+    If a word is not in the vocabulary, KeyError will be raised.
     :param str word1: first word
     :param str word2: second word
     :return: the cosine similarity between the two word vectors
     """
-    return get_model().similarity(word1, word2)
+    return _MODEL.similarity(word1, word2)
 
 
 def sentence_vectorizer(text, dim=300, use_mean=False):
     words = word_tokenize(text)
     vec = np.zeros((1, dim))
     for word in words:
-        if word in get_model().wv.index2word:
-            vec += get_model().wv.word_vec(word)
+        if word in _MODEL.wv.index2word:
+            vec += _MODEL.wv.word_vec(word)
         else:
             pass
     if use_mean:

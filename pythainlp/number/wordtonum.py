@@ -40,10 +40,10 @@ _TOKENIZER = Tokenizer(custom_dict=_THAIWORD_NUMS_UNITS)
 
 
 def _thaiword_to_num(tokens):
-    len_tokens = len(tokens)
-
-    if len_tokens == 0:
+    if not tokens:
         return None
+
+    len_tokens = len(tokens)
 
     if len_tokens == 1:
         return _THAI_INT_MAP[tokens[0]]

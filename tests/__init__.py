@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 from collections import Counter
+from nltk.corpus import wordnet as wn
 
 from pythainlp.collation import collate
 from pythainlp.corpus import (
@@ -34,11 +35,26 @@ from pythainlp.rank import rank
 from pythainlp.sentiment import sentiment
 from pythainlp.soundex import lk82, metasound, soundex, udom83
 from pythainlp.spell import correct, spell
+from pythainlp.spell.pn import NorvigSpellChecker, dictionary, known, prob
 from pythainlp.summarize import summarize
-from pythainlp.tag import pos_tag, pos_tag_sents
-from pythainlp.tokenize import etcc, syllable_tokenize, tcc, word_tokenize
+from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
+from pythainlp.tokenize import (
+    FROZEN_DICT_TRIE,
+    dict_word_tokenize,
+    etcc,
+    longest,
+    multi_cut,
+    newmm,
+    sent_tokenize,
+    subword_tokenize,
+    syllable_tokenize,
+    tcc,
+    word_tokenize,
+)
+from pythainlp.tokenize import pyicu as tokenize_pyicu
 from pythainlp.transliterate import romanize, transliterate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
+from pythainlp.transliterate.royin import romanize as romanize_royin
 from pythainlp.util import (
     deletetone,
     eng_to_thai,
@@ -48,6 +64,7 @@ from pythainlp.util import (
     normalize,
     thai_to_eng,
 )
+from pythainlp.word_vector import thai2vec
 
 
 class TestUM(unittest.TestCase):
@@ -86,10 +103,31 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(ttc.word_freqs())
 
     def test_wordnet(self):
+        self.assertIsNotNone(wordnet.langs())
+
         self.assertEqual(
             wordnet.synset("spy.n.01").lemma_names("tha"), ["สปาย", "สายลับ"]
         )
-        self.assertIsNotNone(wordnet.langs())
+        self.assertIsNotNone(wordnet.synsets("นก"))
+        self.assertIsNotNone(wordnet.all_synsets(pos=wn.ADJ))
+
+        self.assertIsNotNone(wordnet.lemmas("นก"))
+        self.assertIsNotNone(wordnet.all_lemma_names(pos=wn.ADV))
+        self.assertIsNotNone(wordnet.lemma("cat.n.01.cat"))
+
+        self.assertEqual(wordnet.morphy("dogs"), "dog")
+
+        bird = wordnet.synset("bird.n.01")
+        mouse = wordnet.synset("mouse.n.01")
+        self.assertEqual(
+            wordnet.path_similarity(bird, mouse), bird.path_similarity(mouse)
+        )
+        self.assertEqual(
+            wordnet.wup_similarity(bird, mouse), bird.wup_similarity(mouse)
+        )
+
+        cat_key = wordnet.synsets("แมว")[0].lemmas()[0].key()
+        self.assertIsNotNone(wordnet.lemma_from_key(cat_key))
 
     # ### pythainlp.date
 
@@ -170,6 +208,7 @@ class TestUM(unittest.TestCase):
         )
         self.assertEqual(thaiword_to_num("ยี่สิบ"), 20)
         self.assertEqual(thaiword_to_num("ศูนย์"), 0)
+        self.assertEqual(thaiword_to_num("ศูนย์อะไรนะ"), 0)
         self.assertEqual(thaiword_to_num(""), None)
         self.assertEqual(thaiword_to_num(None), None)
 
@@ -234,13 +273,22 @@ class TestUM(unittest.TestCase):
     # ### pythainlp.spell
 
     def test_spell(self):
-        self.assertIsNotNone(spell("เน้ร"))
-        self.assertEqual(spell(""), "")
         self.assertEqual(spell(None), "")
+        self.assertEqual(spell(""), "")
+        self.assertIsNotNone(spell("เน้ร"))
+        self.assertIsNotNone(spell("เกสมร์"))
 
-        self.assertIsNotNone(correct("ทดสอง"))
-        self.assertEqual(correct(""), "")
         self.assertEqual(correct(None), "")
+        self.assertEqual(correct(""), "")
+        self.assertIsNotNone(correct("ทดสอง"))
+
+        self.assertIsNotNone(dictionary())
+        self.assertGreaterEqual(prob("มี"), 0)
+        self.assertIsNotNone(known(["เกิด", "abc", ""]))
+
+        checker = NorvigSpellChecker(dict_filter="")
+        self.assertIsNotNone(checker.dictionary())
+        self.assertGreaterEqual(checker.prob("มี"), 0)
 
     # ### pythainlp.summarize
 
@@ -262,8 +310,19 @@ class TestUM(unittest.TestCase):
 
     def test_pos_tag(self):
         tokens = ["ผม", "รัก", "คุณ"]
+
+        self.assertEqual(pos_tag(None), [])
+        self.assertEqual(pos_tag([]), [])
+
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="orchid"))
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
+        self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="pud"))
+
+        self.assertEqual(unigram.tag(None, corpus="pud"), [])
+        self.assertEqual(unigram.tag([], corpus="pud"), [])
+        self.assertEqual(unigram.tag(None, corpus="orchid"), [])
+        self.assertEqual(unigram.tag([], corpus="orchid"), [])
+
         self.assertEqual(
             pos_tag(word_tokenize("คุณกำลังประชุม"), engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
@@ -271,10 +330,16 @@ class TestUM(unittest.TestCase):
 
         self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="orchid"))
         self.assertIsNotNone(pos_tag(tokens, engine="perceptron", corpus="pud"))
+        self.assertEqual(perceptron.tag(None, corpus="pud"), [])
+        self.assertEqual(perceptron.tag([], corpus="pud"), [])
+        self.assertEqual(perceptron.tag(None, corpus="orchid"), [])
+        self.assertEqual(perceptron.tag([], corpus="orchid"), [])
 
-        # self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="orchid"))
-        # self.assertIsNotNone(pos_tag(tokens, engine="arttagger", corpus="pud"))
+        # self.assertIsNotNone(pos_tag(tokens, engine="artagger", corpus="orchid"))
+        # self.assertIsNotNone(pos_tag(tokens, engine="artagger", corpus="pud"))
 
+        self.assertEqual(pos_tag_sents(None), [])
+        self.assertEqual(pos_tag_sents([]), [])
         self.assertEqual(
             pos_tag_sents([["ผม", "กิน", "ข้าว"], ["แมว", "วิ่ง"]]),
             [
@@ -285,30 +350,88 @@ class TestUM(unittest.TestCase):
 
     # ### pythainlp.tokenize
 
-    def test_syllable_tokenize(self):
-        self.assertEqual(
-            syllable_tokenize("สวัสดีชาวโลก"), ["สวัส", "ดี", "ชาว", "โลก"]
+    def test_dict_word_tokenize(self):
+        self.assertEqual(dict_word_tokenize("", custom_dict=FROZEN_DICT_TRIE), [])
+        self.assertIsNotNone(
+            dict_word_tokenize("รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE)
+        )
+        self.assertIsNotNone(
+            dict_word_tokenize(
+                "รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE, engine="newmm"
+            )
+        )
+        self.assertIsNotNone(
+            dict_word_tokenize(
+                "รถไฟฟ้ากรุงเทพBTSหูว์ค์",
+                custom_dict=FROZEN_DICT_TRIE,
+                engine="longest",
+            )
+        )
+        self.assertIsNotNone(
+            dict_word_tokenize(
+                "รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE, engine="mm"
+            )
+        )
+        self.assertIsNotNone(
+            dict_word_tokenize(
+                "รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE, engine="XX"
+            )
+        )
+
+    def test_etcc(self):
+        self.assertEqual(etcc.etcc(""), "")
+        self.assertEqual(etcc.etcc("คืนความสุข"), "/คืน/ความสุข")
+        self.assertIsNotNone(
+            etcc.etcc(
+                "หมูแมวเหล่านี้ด้วยเหตุผลเชื่อมโยงทางกรรมพันธุ์"
+                + "สัตว์มีแขนขาหน้าหัวเราะเพราะแข็งขืน"
+            )
         )
 
     def test_word_tokenize(self):
+        self.assertEqual(word_tokenize(""), [])
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
+        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="ulmfit"))
+        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="XX"))
 
     def test_word_tokenize_icu(self):
+        self.assertEqual(tokenize_pyicu.segment(None), [])
+        self.assertEqual(tokenize_pyicu.segment(""), [])
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="icu"),
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
 
+    # def test_word_tokenize_deepcut(self):
+    # self.assertEqual(deepcut.segment(None), [])
+    # self.assertEqual(deepcut.segment(""), [])
+    # self.assertIsNotNone(word_tokenize("ลึกลงไปลลลล", engine="deepcut"))
+
+    def test_word_tokenize_longest_matching(self):
+        self.assertEqual(longest.segment(None), [])
+        self.assertEqual(longest.segment(""), [])
+        self.assertEqual(
+            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
+            ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
+        )
+
     def test_word_tokenize_mm(self):
+        self.assertEqual(multi_cut.segment(None), [])
+        self.assertEqual(multi_cut.segment(""), [])
+        self.assertEqual(word_tokenize("", engine="mm"), [])
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="mm"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
 
+        self.assertIsNotNone(multi_cut.find_all_segment("รถไฟฟ้ากรุงเทพมหานครBTS"))
+
     def test_word_tokenize_newmm(self):
+        self.assertEqual(newmm.segment(None), [])
+        self.assertEqual(newmm.segment(""), [])
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="newmm"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
@@ -326,31 +449,64 @@ class TestUM(unittest.TestCase):
             ["จุ๋ม", "ง่วง"],
         )
 
-    def test_word_tokenize_longest_matching(self):
+    def test_sent_tokenize(self):
+        self.assertEqual(sent_tokenize(None), [])
+        self.assertEqual(sent_tokenize(""), [])
         self.assertEqual(
-            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
-            ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
+            sent_tokenize("รักน้ำ  รักปลา  ", engine="whitespace"), ["รักน้ำ", "รักปลา"]
+        )
+        self.assertEqual(sent_tokenize("รักน้ำ  รักปลา  "), ["รักน้ำ", "รักปลา"])
+
+    def test_subword_tokenize(self):
+        self.assertEqual(subword_tokenize(None), "")
+        self.assertEqual(subword_tokenize(""), "")
+        self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร"))
+
+    def test_syllable_tokenize(self):
+        self.assertEqual(syllable_tokenize(None), [])
+        self.assertEqual(syllable_tokenize(""), [])
+        self.assertEqual(
+            syllable_tokenize("สวัสดีชาวโลก"), ["สวัส", "ดี", "ชาว", "โลก"]
         )
 
     def test_tcc(self):
+        self.assertEqual(tcc.tcc(None), "")
+        self.assertEqual(tcc.tcc(""), "")
         self.assertEqual(tcc.tcc("ประเทศไทย"), "ป/ระ/เท/ศ/ไท/ย")
 
-    def test_etcc(self):
-        self.assertEqual(etcc.etcc("คืนความสุข"), "/คืน/ความสุข")
+        self.assertEqual(list(tcc.tcc_gen("")), [])
+        self.assertEqual(tcc.tcc_pos(""), set())
 
     # ### pythainlp.transliterate
 
     def test_romanize(self):
+        self.assertEqual(romanize(None), "")
+        self.assertEqual(romanize(""), "")
         self.assertEqual(romanize("แมว"), "maeo")
-        self.assertIsNotNone(romanize("กก", engine="royin"))
+
+        self.assertEqual(romanize_royin(None), "")
+        self.assertEqual(romanize_royin(""), "")
+        self.assertEqual(romanize_royin("หาย"), "hai")
+        self.assertEqual(romanize_royin("หยาก"), "yak")
+
         self.assertEqual(romanize("แมว", engine="royin"), "maeo")
         self.assertEqual(romanize("เดือน", engine="royin"), "duean")
         self.assertEqual(romanize("ดู", engine="royin"), "du")
         self.assertEqual(romanize("ดำ", engine="royin"), "dam")
         self.assertEqual(romanize("บัว", engine="royin"), "bua")
+        self.assertEqual(romanize("กร", engine="royin"), "kon")
+        self.assertEqual(romanize("กรร", engine="royin"), "kan")
+        self.assertEqual(romanize("กรรม", engine="royin"), "kam")
+        self.assertIsNotNone(romanize("กก", engine="royin"))
+        self.assertIsNotNone(romanize("ฝ้าย", engine="royin"))
+        self.assertIsNotNone(romanize("ทีปกร", engine="royin"))
+        self.assertIsNotNone(romanize("กรม", engine="royin"))
+        self.assertIsNotNone(romanize("ธรรพ์", engine="royin"))
+        self.assertIsNotNone(romanize("กฏa์", engine="royin"))
         # self.assertIsNotNone(romanize("บัว", engine="thai2rom"))
 
     def test_transliterate(self):
+        self.assertEqual(transliterate(""), "")
         self.assertEqual(transliterate("แมว", "pyicu"), "mæw")
         self.assertEqual(transliterate("คน", engine="ipa"), "kʰon")
         self.assertIsNotNone(trans_list("คน"))
@@ -383,6 +539,23 @@ class TestUM(unittest.TestCase):
     def test_keyboard(self):
         self.assertEqual(eng_to_thai("l;ylfu8iy["), "สวัสดีครับ")
         self.assertEqual(thai_to_eng("สวัสดีครับ"), "l;ylfu8iy[")
+
+    # ### pythainlp.word_vector
+
+    def test_thai2vec(self):
+        self.assertGreaterEqual(thai2vec.similarity("แบคทีเรีย", "คน"), 0)
+        self.assertIsNotNone(thai2vec.sentence_vectorizer(""))
+        self.assertIsNotNone(thai2vec.sentence_vectorizer("เสรีภาพในการชุมนุม"))
+        self.assertIsNotNone(
+            thai2vec.sentence_vectorizer("เสรีภาพในการสมาคม", use_mean=True)
+        )
+        self.assertIsNotNone(thai2vec.sentence_vectorizer("I คิด therefore I am ผ็ฎ์"))
+        self.assertEqual(
+            thai2vec.most_similar_cosmul(["ราชา", "ผู้ชาย"], ["ผู้หญิง"])[0][0],
+            "ราชินี",
+        )
+        self.assertEqual(thai2vec.doesnt_match(["ญี่ปุ่น", "พม่า", "ไอติม"]), "ไอติม")
+        self.assertIsNotNone(thai2vec.about())
 
 
 if __name__ == "__main__":

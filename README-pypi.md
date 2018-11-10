@@ -10,20 +10,14 @@
 
 PyThaiNLP is a Python library for natural language processing (NLP) of Thai language.
 
-PyThaiNLP features include Thai word and subword segmentations, soundex, romanization, part-of-speech taggers, and spelling corrections.
+PyThaiNLP includes Thai word tokenizers, transliterators, soundex converters, part-of-speech taggers, and spell checkers.
 
-## What's new in version 1.7 ?
+## What's new in version 1.8 ?
 
-- Deprecate Python 2 support. (Python 2 compatibility code will be completely dropped in PyThaiNLP 1.8)
-- Refactor pythainlp.tokenize.pyicu for readability
-- Add Thai NER model to pythainlp.ner
-- thai2vec v0.2 - larger vocab, benchmarking results on Wongnai dataset
-- Sentiment classifier based on ULMFit and various product review datasets
-- Add ULMFit utility to PyThaiNLP
-- Add Thai romanization model ThaiTransliterator
-- Retrain POS-tagging model
-- Improved word_tokenize (newmm, mm) and dict_word_tokenize
-- Documentation added
+- New NorvigSpellChecker spell checker class, which can be initialized with custom dictionary.
+- Terminate Python 2 support. Remove all Python 2 compatibility code.
+- Remove old, obsolated, deprecated, and experimental code.
+- see [PyThaiNLP 1.8 change log](https://github.com/PyThaiNLP/pythainlp/issues/118)
 
 ## Install
 

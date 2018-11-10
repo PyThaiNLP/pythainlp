@@ -34,15 +34,18 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
         >>> word_tokenize(text, engine="icu")
         ['โอ', 'เค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้าน', 'เกิด']
     """
+    if not text:
+        return []
+
     if engine == "newmm" or engine == "onecut":
-        from .newmm import mmcut as segment
+        from .newmm import segment
     elif engine == "longest" or engine == "longest-matching":
         from .longest import segment
     elif engine == "ulmfit":
-        from .newmm import mmcut
+        from .newmm import segment as segment_
 
         def segment(text):
-            return mmcut(text, trie=FROZEN_DICT_TRIE)
+            return segment_(text, trie=FROZEN_DICT_TRIE)
 
     elif engine == "icu":
         from .pyicu import segment
@@ -51,7 +54,7 @@ def word_tokenize(text, engine="newmm", whitespaces=True):
     elif engine == "mm" or engine == "multi_cut":
         from .multi_cut import segment
     else:  # default, use "newmm" engine
-        from .newmm import mmcut as segment
+        from .newmm import segment
 
     if not whitespaces:
         return [token.strip(" ") for token in segment(text) if token.strip(" ")]
@@ -73,14 +76,18 @@ def dict_word_tokenize(text, custom_dict, engine="newmm"):
         >>> dict_word_tokenize("แมวดีดีแมว", trie)
         ['แมว', 'ดี', 'ดี', 'แมว']
     """
+
+    if not text:
+        return []
+
     if engine == "newmm" or engine == "onecut":
-        from .newmm import mmcut as segment
+        from .newmm import segment
     elif engine == "longest" or engine == "longest-matching":
         from .longest import segment
     elif engine == "mm" or engine == "multi_cut":
         from .multi_cut import segment
     else:  # default, use "newmm" engine
-        from .newmm import mmcut as segment
+        from .newmm import segment
 
     return segment(text, custom_dict)
 
@@ -94,12 +101,16 @@ def sent_tokenize(text, engine="whitespace+newline"):
 
     :return: a list of text, split by whitespace or new line.
     """
+
+    if not text:
+        return []
+
     sentences = []
 
     if engine == "whitespace":
         sentences = nltk.tokenize.WhitespaceTokenizer().tokenize(text)
     else:  # default, use whitespace + newline
-        sentences = re.sub(r"\n+|\s+", "|", text).split("|")
+        sentences = re.sub(r"\n+|\s+", "|", text.strip()).split("|")
 
     return sentences
 
@@ -110,6 +121,9 @@ def subword_tokenize(text, engine="tcc"):
     :param str engine: choosing 'tcc' uses the Thai Character Cluster rule to segment words into the smallest unique units.
     :return: a list of tokenized strings.
     """
+    if not text:
+        return ""
+
     from .tcc import tcc
 
     return tcc(text)
@@ -121,6 +135,10 @@ def syllable_tokenize(text):
 
     :return: returns list of strings of syllables
     """
+
+    if not text:
+        return []
+
     tokens = []
     if text:
         words = word_tokenize(text)
@@ -171,6 +189,6 @@ class Tokenizer:
             self.__trie_dict = Trie(thai_words())
 
     def word_tokenize(self, text, engine="newmm"):
-        from .newmm import mmcut as segment
+        from .newmm import segment
 
         return segment(text, self.__trie_dict)

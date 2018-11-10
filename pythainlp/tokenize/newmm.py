@@ -90,7 +90,11 @@ def onecut(text, trie):
 
 
 # ช่วยให้ไม่ต้องพิมพ์ยาวๆ
-def mmcut(text, trie=None):
+def segment(text, trie=None):
+    if not text:
+        return []
+
     if not trie:
         trie = DEFAULT_DICT_TRIE
+
     return list(onecut(text, trie))

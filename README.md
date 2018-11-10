@@ -34,21 +34,40 @@ Python 2 users can still use PyThaiNLP 1.6.
 
 ## Installation
 
-**Using pip**
+PyThaiNLP uses PyPI as its main distribution channel, see https://pypi.org/project/pythainlp/
 
-Stable release
+### Stable release
+
+Standard installation:
 
 ```sh
 $ pip install pythainlp
 ```
 
-Development release
+For some advanced functionalities, like word vector, extra packages may be needed. Install them with these options during pip install:
+
+```sh
+$ pip install pythainlp[extra1,extra2,...]
+```
+
+where ```extras``` can be
+  - ```artagger``` (to support artagger part-of-speech tagger)
+  - ```deepcut``` (to support deepcut machine-learnt tokenizer)
+  - ```icu``` (for ICU support in transliteration and tokenization)
+  - ```ipa``` (for International Phonetic Alphabet support in transliteration)
+  - ```ml``` (to support ULMFit models, like one for sentiment analyser)
+  - ```ner``` (for named-entity recognizer)
+  - ```thai2rom``` (for machine-learnt romanization)
+  - ```thai2vec``` (for Thai word vector)
+  - ```full``` (install everything)
+
+see ```extras``` and ```extras_require``` in [```setup.py```](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) for details.
+
+Development release:
 
 ```sh
 $ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
-
-Note: PyTorch is required for ulmfit sentiment analyser. ```pip install torch``` is needed for the feature. gensim and keras packages may also needed for other modules that rely on these machine learning libraries.
 
 ## Documentation
 

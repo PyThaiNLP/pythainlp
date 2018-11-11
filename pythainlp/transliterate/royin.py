@@ -110,22 +110,16 @@ _CONSONANTS = {
 }
 
 _RE_CONSONANT = re.compile(r"[ก-ฮ]")
-_RE_KARAN = re.compile(r"จน์|มณ์|ณฑ์|ทร์|ตร์|[ก-ฮ]์|[ก-ฮ][ะ-ู]์")
-_RE_KARAN2 = re.compile(r"\w" + r"์")
-_RE_YAMOK_PAIYANNOI = re.compile(r"[ๆฯ]")
-_RE_TONE = re.compile(r"[่-๋]")
+_RE_NORMALIZE = re.compile(
+    r"จน์|มณ์|ณฑ์|ทร์|ตร์|[ก-ฮ]์|[ก-ฮ][ะ-ู]์"
+    # yamok, paiyannoi, thanthakhat, yamakkan, tonemarks, other signs
+    + r"|[\u0e2f\u0e46\u0e48\u0e49\u0e4a\u0e4b\u0e4c\u0e4d\u0e4e\u0e4f\u0e5a\u0e5b]"
+)
 
 
 def _normalize(text):
     """ตัดอักษรที่ไม่ออกเสียง (การันต์ ไปยาลน้อย ไม้ยมก*) และวรรณยุกต์ทิ้ง"""
-    text = _RE_KARAN.sub("", text)
-    text = _RE_YAMOK_PAIYANNOI.sub("", text)
-    text = _RE_TONE.sub("", text)
-    if re.search(_RE_KARAN2, text):
-        karans = re.findall(_RE_KARAN2, text)
-        for karan in karans:
-            text = re.sub(karan, "", text)
-    return text
+    return _RE_NORMALIZE.sub("", text)
 
 
 def _replace_vowels(word):
@@ -173,11 +167,14 @@ def romanize(word):
         return ""
 
     word2 = _replace_vowels(_normalize(word))
-    res = re.findall(_RE_CONSONANT, word2)
+    res = _RE_CONSONANT.findall(word2)
+
     # 2-character word, all consonants
     if len(word2) == 2 and len(res) == 2:
         word2 = list(word2)
         word2.insert(1, "o")
         word2 = "".join(word2)
+
     word2 = _replace_consonants(word2, res)
+
     return word2

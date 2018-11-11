@@ -3,14 +3,12 @@
 Part-Of-Speech tagger
 """
 
-_ARTAGGER_URL = "https://github.com/wannaphongcom/artagger/archive/master.zip"
-
 
 def pos_tag(words, engine="unigram", corpus="orchid"):
     """
     Part of Speech tagging function.
 
-    :param list words: takes in a list of tokenized words (put differently, a list of strings)
+    :param list words: a list of tokenized words
     :param str engine:
         * unigram - unigram tagger (default)
         * perceptron - perceptron tagger

@@ -51,7 +51,7 @@ $ pip install pythainlp[extra1,extra2,...]
 ```
 
 where ```extras``` can be
-  - ```artagger``` (to support artagger part-of-speech tagger)
+  - ```artagger``` (to support artagger part-of-speech tagger)*
   - ```deepcut``` (to support deepcut machine-learnt tokenizer)
   - ```icu``` (for ICU support in transliteration and tokenization)
   - ```ipa``` (for International Phonetic Alphabet support in transliteration)
@@ -62,6 +62,8 @@ where ```extras``` can be
   - ```full``` (install everything)
 
 see ```extras``` and ```extras_require``` in [```setup.py```](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) for details.
+
+* Note: standard ```artagger``` package from PyPI will not work on Windows, please ```pip install https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger``` instead.
 
 Development release:
 

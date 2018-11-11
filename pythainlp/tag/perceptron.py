@@ -29,6 +29,7 @@ def tag(words, corpus="pud"):
     if not words:
         return []
 
+    # perceptron tagger cannot handle empty string
     words = [word.strip() for word in words if word.strip()]
 
     if corpus == "orchid":

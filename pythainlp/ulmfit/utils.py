@@ -197,11 +197,11 @@ def merge_wgts(em_sz, wgts, itos_pre, itos_cls):
 # feature extractor
 def document_vector(ss, m, stoi, tok_engine="newmm"):
     """
-    :meth: `document_vector` get document vector using pretrained ULMFit model
+    :meth: `document_vector` get document vector using pretrained ULMFiT model
     :param str ss: sentence to extract embeddings
     :param m: pyTorch model
     :param dict stoi: string-to-integer dict e.g. {'_unk_':0, '_pad_':1,'first_word':2,'second_word':3,...}
-    :param str tok_engine: tokenization engine (recommend using `newmm` if you are using pretrained ULMFit model)
+    :param str tok_engine: tokenization engine (recommend using `newmm` if you are using pretrained ULMFiT model)
     :return: `numpy.array` of document vector sized 300
     """
     s = word_tokenize(ss)

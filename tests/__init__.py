@@ -314,15 +314,14 @@ class TestUM(unittest.TestCase):
         self.assertEqual(pos_tag(None), [])
         self.assertEqual(pos_tag([]), [])
 
-        self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="orchid"))
-        self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
-        self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="pud"))
-
         self.assertEqual(unigram.tag(None, corpus="pud"), [])
         self.assertEqual(unigram.tag([], corpus="pud"), [])
         self.assertEqual(unigram.tag(None, corpus="orchid"), [])
         self.assertEqual(unigram.tag([], corpus="orchid"), [])
 
+        self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="orchid"))
+        self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
+        self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="pud"))
         self.assertEqual(
             pos_tag(word_tokenize("คุณกำลังประชุม"), engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
@@ -335,10 +334,13 @@ class TestUM(unittest.TestCase):
         self.assertEqual(perceptron.tag(None, corpus="orchid"), [])
         self.assertEqual(perceptron.tag([], corpus="orchid"), [])
 
-        self.assertIsNotNone(pos_tag(None, engine="artagger", corpus="orchid"))
-        self.assertIsNotNone(pos_tag([], engine="artagger", corpus="orchid"))
-        self.assertIsNotNone(pos_tag(tokens, engine="artagger", corpus="orchid"))
-        self.assertIsNotNone(pos_tag(tokens, engine="artagger", corpus="pud"))
+        self.assertIsNotNone(pos_tag(None, engine="artagger"))
+        self.assertIsNotNone(pos_tag([], engine="artagger"))
+        self.assertIsNotNone(pos_tag(tokens, engine="artagger"))
+        self.assertEqual(
+            pos_tag(word_tokenize("คุณกำลังประชุม"), engine="artagger"),
+            [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
+        )
 
         self.assertEqual(pos_tag_sents(None), [])
         self.assertEqual(pos_tag_sents([]), [])
@@ -504,7 +506,7 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(romanize("ทีปกร", engine="royin"))
         self.assertIsNotNone(romanize("กรม", engine="royin"))
         self.assertIsNotNone(romanize("ธรรพ์", engine="royin"))
-        self.assertIsNotNone(romanize("กฏa์", engine="royin"))
+        self.assertIsNotNone(romanize("กฏa์1์ ์", engine="royin"))
         # self.assertIsNotNone(romanize("บัว", engine="thai2rom"))
 
     def test_transliterate(self):

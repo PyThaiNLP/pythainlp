@@ -69,7 +69,7 @@ def about():
     return """
     thai2vec
     State-of-the-Art Language Modeling, Text Feature Extraction and Text Classification in Thai Language.
-    Created as part of pyThaiNLP with ULMFit implementation from fast.ai
+    Created as part of PyThaiNLP with ULMFiT implementation from fast.ai
 
     Development: Charin Polpanumas
     GitHub: https://github.com/cstorm125/thai2vec

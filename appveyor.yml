@@ -5,22 +5,23 @@ environment:
     - PYTHON: "C:/Python36"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "32"
-      PYICU_WHEEL: "https://get.openlp.org/win-sdk/PyICU-1.9.7-cp36-cp36m-win32.whl"
+      PYICU_PKG: "https://get.openlp.org/win-sdk/PyICU-1.9.7-cp36-cp36m-win32.whl"
+      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
 
     #- PYTHON: "C:/Python36-x64"
     #  PYTHON_VERSION: "3.6"
     #  PYTHON_ARCH: "64"
-    #  PYICU_WHEEL: ""
+    #  PYICU_PKG: ""
 
     #- PYTHON: "C:/Python37"
     #  PYTHON_VERSION: "3.7"
     #  PYTHON_ARCH: "32"
-    #  PYICU_WHEEL: ""
+    #  PYICU_PKG: ""
 
     #- PYTHON: "C:/Python37-x64"
     #  PYTHON_VERSION: "3.7"
     #  PYTHON_ARCH: "64"
-    #  PYICU_WHEEL: ""
+    #  PYICU_PKG: ""
 
 init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"  
@@ -31,8 +32,9 @@ install:
   - "set PYTHONIOENCODING=utf-8"
   # - "set ICU_VERSION=62"
   - "%PYTHON%/python.exe -m pip install --upgrade pip"
-  - "%PYTHON%/python.exe -m pip install %PYICU_WHEEL%"
-  - "%PYTHON%/python.exe -m pip install -e .[icu,ipa,ner,thai2vec]"
+  - "%PYTHON%/python.exe -m pip install %PYICU_PKG%"
+  - "%PYTHON%/python.exe -m pip install %ARTAGGER_PKG%"
+  - "%PYTHON%/python.exe -m pip install -e .[artagger,icu,ipa,ner,thai2vec]"
 
 test_script:
   - "%PYTHON%/python.exe -m pip --version"

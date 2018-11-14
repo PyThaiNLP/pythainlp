@@ -506,7 +506,7 @@ print(wordnet.synset("spy.n.01").lemma_names("tha"))
 #### พยัญชนะในภาษาไทย
 
 ```python
-from pythainlp import thai_alphabets
+from pythainlp import thai_consonants
 ```
 
 จะได้ str ที่มีพยัญชนะในภาษาไทยทั้งหมด

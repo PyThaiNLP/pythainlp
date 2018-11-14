@@ -12,14 +12,15 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
-PyThaiNLP 1.8 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [PyThaiNLP 1.8 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
+- [Current PyThaiNLP release is 1.7.1](https://github.com/PyThaiNLP/pythainlp/tree/master)
+- PyThaiNLP 1.8 will support only Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [PyThaiNLP 1.8 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
+- Python 2 users can use PyThaiNLP 1.6, our latest released that tested with Python 2.7.
 
-Python 2 users can use PyThaiNLP 1.6, our latest released that tested with Python 2.7.
-
-**This is a document for development branch (post 1.7.x). Things will break. For a document for stable branch, see [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
+**This is a document for development branch (post 1.7.x). Things will break. For a stable branch document, see [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
 
 ## Capabilities
 
+- Convenient character and word classes, like Thai consonants (```pythainlp.thai_consonants```), vowels (```pythainlp.thai_vowels```), digits (```pythainlp.thai_digits```), and stop words (```pythainlp.corpus.thai_stopwords```)
 - Thai word segmentation (```word_tokenize```), including subword segmentation based on Thai Character Cluster (```tcc```) and ETCC (```etcc```)
 - Thai romanization and transliteration (```romanize```, ```transliterate```)
 - Thai part-of-speech taggers (```pos_tag```)
@@ -28,8 +29,7 @@ Python 2 users can use PyThaiNLP 1.6, our latest released that tested with Pytho
 - Thai-English keyboard misswitched fix (```eng_to_thai```, ```thai_to_eng```)
 - Thai misspellings detection and spelling correction (```spell```)
 - Thai soundex (```lk82```, ```udom83```, ```metasound```)
-- Thai stop words (```pythainlp.corpus.thai_stopwords```)
-- Thai WordNet
+- Thai WordNet wrapper
 - and much more - see [examples](https://github.com/PyThaiNLP/pythainlp/tree/dev/examples).
 
 ## Installation
@@ -105,6 +105,8 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 ## ความสามารถ
 
+- ชุดค่าคงที่ตัวอักษระและคำไทยที่เรียกใช้ได้สะดวก เช่น พยัญชนะ (```pythainlp.thai_consonants```), สระ (```pythainlp.thai_vowels```), ตัวเลขไทย (```pythainlp.thai_digits```), และ stop word (```pythainlp.corpus.thai_stopwords```)
+- Thai word segmentation (```word_tokenize```), including subword segmentation based on Thai Character Cluster (```tcc```) and ETCC (```etcc```)
 - ตัดคำภาษาไทย (```word_tokenize```) และรองรับ Thai Character Clusters (```tcc```) และ ETCC (```etcc```)
 - ถอดเสียงภาษาไทยเป็นอักษรละตินและสัทอักษร (```romanize```, ```transliterate```)
 - ระบุชนิดคำ (part-of-speech) ภาษาไทย (```pos_tag```)
@@ -113,8 +115,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 - แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา (```eng_to_thai```, ```thai_to_eng```)
 - ตรวจคำสะกดผิดในภาษาไทย (```spell```)
 - soundex ภาษาไทย (```lk82```, ```udom83```, ```metasound```)
-- stop word ภาษาไทย (```pythainlp.corpus.thai_stopwords```)
-- Thai WordNet
+- Thai WordNet wrapper
 - และอื่น ๆ [ดูตัวอย่าง](https://github.com/PyThaiNLP/pythainlp/tree/dev/examples)
 
 ## ติดตั้ง

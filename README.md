@@ -20,7 +20,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 ## Capabilities
 
-- Convenient character and word classes, like Thai consonants (```pythainlp.thai_consonants```), vowels (```pythainlp.thai_vowels```), digits (```pythainlp.thai_digits```), and stop words (```pythainlp.corpus.thai_stopwords```)
+- Convenient character and word classes, like Thai consonants (```pythainlp.thai_consonants```), vowels (```pythainlp.thai_vowels```), digits (```pythainlp.thai_digits```), and stop words (```pythainlp.corpus.thai_stopwords```) -- comparable to constants like ```string.letters```, ```string.digits```, and ```string.punctuation```
 - Thai word segmentation (```word_tokenize```), including subword segmentation based on Thai Character Cluster (```tcc```) and ETCC (```etcc```)
 - Thai romanization and transliteration (```romanize```, ```transliterate```)
 - Thai part-of-speech taggers (```pos_tag```)
@@ -105,7 +105,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 ## ความสามารถ
 
-- ชุดค่าคงที่ตัวอักษระและคำไทยที่เรียกใช้ได้สะดวก เช่น พยัญชนะ (```pythainlp.thai_consonants```), สระ (```pythainlp.thai_vowels```), ตัวเลขไทย (```pythainlp.thai_digits```), และ stop word (```pythainlp.corpus.thai_stopwords```)
+- ชุดค่าคงที่ตัวอักษระและคำไทยที่เรียกใช้ได้สะดวก เช่น พยัญชนะ (```pythainlp.thai_consonants```), สระ (```pythainlp.thai_vowels```), ตัวเลขไทย (```pythainlp.thai_digits```), และ stop word (```pythainlp.corpus.thai_stopwords```) -- เหมือนกับต่าคงที่อย่าง ```string.letters```, ```string.digits```, และ ```string.punctuation```
 - Thai word segmentation (```word_tokenize```), including subword segmentation based on Thai Character Cluster (```tcc```) and ETCC (```etcc```)
 - ตัดคำภาษาไทย (```word_tokenize```) และรองรับ Thai Character Clusters (```tcc```) และ ETCC (```etcc```)
 - ถอดเสียงภาษาไทยเป็นอักษรละตินและสัทอักษร (```romanize```, ```transliterate```)

@@ -147,7 +147,7 @@ $ pip install pythainlp[extra1,extra2,...]
   - ```thai2vec``` (สำหรับ word vector)
   - ```full``` (ติดตั้งทุกอย่าง)
 
-* หมายเหตุ: แพคเกจ ```artagger``` มาตรฐานจาก PyPI อาจมีปัญหาการถอดรหัสข้อความบน Windows กรุณาติดตั้งรุ artagger รุ่นแก้ไขด้วยคำสั่ง ```pip install https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger``` แทน ก่อนจะติดตั้ง PyThaiNLP
+* หมายเหตุ: แพคเกจ ```artagger``` มาตรฐานจาก PyPI อาจมีปัญหาการถอดรหัสข้อความบน Windows กรุณาติดตั้ง artagger รุ่นแก้ไขด้วยคำสั่ง ```pip install https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger``` แทน ก่อนจะติดตั้ง PyThaiNLP
 
 ** นักพัฒนาสามารถดู ```extras``` และ ```extras_require``` ใน [```setup.py```](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) สำหรับรายละเอียดแพคเกจของเสริม
 

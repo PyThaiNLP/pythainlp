@@ -2,7 +2,8 @@
 """
 Named-entity recognizer
 """
-__all__ = ["ThaiNameRecognizer"]
+
+__all__ = ["ThaiNameTagger"]
 
 import sklearn_crfsuite
 from pythainlp.corpus import download, get_file, thai_stopwords
@@ -69,7 +70,7 @@ def _doc2features(doc, i):
     return features
 
 
-class ThaiNameRecognizer:
+class ThaiNameTagger:
     def __init__(self):
         """
         Thai named-entity recognizer

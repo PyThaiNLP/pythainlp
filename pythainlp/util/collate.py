@@ -22,7 +22,7 @@ def collate(data):
     :return: a list of strings, sorted alphabetically, according to Thai rules
     **Example**::
         >>> from pythainlp.util import *
-        >>> collation(['ไก่', 'เป็ด', 'หมู', 'วัว'])
+        >>> collate(['ไก่', 'เป็ด', 'หมู', 'วัว'])
         ['ไก่', 'เป็ด', 'วัว', 'หมู']
     """
     return sorted(data, key=_thkey)

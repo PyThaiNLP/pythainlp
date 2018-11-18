@@ -7,7 +7,7 @@ __all__ = ["ThaiNameTagger"]
 
 import sklearn_crfsuite
 from pythainlp.corpus import download, get_file, thai_stopwords
-from pythainlp.tag import pos_tag
+from pythainlp.tag import perceptron
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import is_thaiword
 
@@ -114,7 +114,7 @@ class ThaiNameTagger:
             (':', 'I-TIME'), ('49', 'I-TIME'), (' ', 'I-TIME'), ('น.', 'I-TIME')]
         """
         self.__tokens = word_tokenize(text, engine=_WORD_TOKENIZER)
-        self.__pos_tags = pos_tag(self.__tokens, engine="perceptron")
+        self.__pos_tags = perceptron.tag(self.__tokens)
         self.__x_test = self.__extract_features(
             [(data, self.__pos_tags[i][1]) for i, data in enumerate(self.__tokens)]
         )

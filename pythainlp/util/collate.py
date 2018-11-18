@@ -21,7 +21,7 @@ def collate(data):
     :param list data: a list of strings
     :return: a list of strings, sorted alphabetically, according to Thai rules
     **Example**::
-        >>> from pythainlp.collation import *
+        >>> from pythainlp.util import *
         >>> collation(['ไก่', 'เป็ด', 'หมู', 'วัว'])
         ['ไก่', 'เป็ด', 'วัว', 'หมู']
     """

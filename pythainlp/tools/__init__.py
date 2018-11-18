@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 PyThaiNLP package installation and data tools
+
+For text processing and text conversion, see pythainlp.util
 """
 import os
 import subprocess

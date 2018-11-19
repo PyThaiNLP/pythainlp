@@ -5,7 +5,6 @@ PyThaiNLP package installation and data tools
 import os
 import subprocess
 import sys
-
 import pythainlp
 
 PYTHAINLP_DATA_DIR = "pythainlp-data"

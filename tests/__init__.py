@@ -27,7 +27,7 @@ from pythainlp.spell.pn import NorvigSpellChecker, dictionary, known, prob
 from pythainlp.summarize import summarize
 from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
 from pythainlp.tag.locations import tag_provinces
-from pythainlp.tag.named_entity import ThaiNameRecognizer
+from pythainlp.tag.named_entity import ThaiNameTagger
 from pythainlp.tokenize import (
     FROZEN_DICT_TRIE,
     dict_word_tokenize,
@@ -251,7 +251,7 @@ class TestUM(unittest.TestCase):
     # ### pythainlp.tag.named_entity
 
     def test_ner(self):
-        ner = ThaiNameRecognizer()
+        ner = ThaiNameTagger()
         self.assertEqual(
             ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"),
             [

@@ -98,8 +98,8 @@ class ThaiNameTagger:
         :return: list of strings with name labels (and part-of-speech tags)
 
         **Example**::
-            >>> from pythainlp.tag import ThaiNameRecognizer
-            >>> ner = ThaiNameRecognizer()
+            >>> from pythainlp.tag import ThaiNameTagger
+            >>> ner = ThaiNameTagger()
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
             [('วันที่', 'JSBR', 'O'), (' ', 'NCMN', 'O'), ('15', 'NCNM', 'B-DATE'),
             (' ', 'NCMN', 'I-DATE'), ('ก.ย.', 'CMTR', 'I-DATE'), (' ', 'NCMN', 'I-DATE'),

@@ -414,20 +414,6 @@ print(udom83("รถ"))  # ร800000
 print(metasound("รัก"))  # 'ร100'
 ```
 
-### sentiment
-
-sentiment analysis ภาษาไทย ใช้ข้อมูลจาก [https://github.com/PyThaiNLP/lexicon-thai/tree/master/ข้อความ/](https://github.com/PyThaiNLP/lexicon-thai/tree/master/ข้อความ/)
-
-```python
-from pythainlp.sentiment import sentiment
-
-sentiment(str)
-```
-
-รับค่า str
-
-คืนค่าเป็น str ซึ่งมีค่า "pos" หรือ "neg"
-
 ### Util
 
 #### normalize

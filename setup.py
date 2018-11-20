@@ -60,7 +60,6 @@ setup(
             "words_th.txt",
             "words_th_frozen_201810.txt",
         ],
-        "pythainlp.sentiment": ["vocabulary.data", "sentiment.data"],
     },
     include_package_data=True,
     install_requires=requirements,

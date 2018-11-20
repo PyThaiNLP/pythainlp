@@ -24,7 +24,6 @@ thai_symbols = "฿"
 thai_characters = "".join([thai_letters, thai_punctuations, thai_digits, thai_symbols])
 
 
-from pythainlp.sentiment import sentiment
 from pythainlp.soundex import soundex
 from pythainlp.spell import spell
 from pythainlp.tag import pos_tag

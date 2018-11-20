@@ -27,7 +27,6 @@ thai_characters = "".join([thai_letters, thai_punctuations, thai_digits, thai_sy
 from pythainlp.collation import collate
 from pythainlp.date import now
 from pythainlp.transliterate import romanize, transliterate
-from pythainlp.sentiment import sentiment
 from pythainlp.soundex import soundex
 from pythainlp.spell import spell
 from pythainlp.tag import pos_tag

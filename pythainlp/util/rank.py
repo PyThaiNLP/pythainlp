@@ -8,7 +8,7 @@ _STOPWORDS = thai_stopwords()
 
 
 # เรียงจำนวนคำของประโยค
-def rank(words: List[str], exclude_stopword: bool = False) -> Counter:
+def rank(words: List[str], exclude_stopwords: bool = False) -> Counter:
     """
     Sort words by frequency
     รับค่าเป็น ''list'' คืนค่าเป็น ''Counter'' Counter({"คำ": จำนวน, "คำ": จำนวน})
@@ -16,7 +16,7 @@ def rank(words: List[str], exclude_stopword: bool = False) -> Counter:
     if not words:
         return None
 
-    if exclude_stopword:
+    if exclude_stopwords:
         words = [word for word in words if word not in _STOPWORDS]
 
     return Counter(words)

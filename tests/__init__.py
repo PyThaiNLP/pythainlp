@@ -499,7 +499,7 @@ class TestUM(unittest.TestCase):
     def test_rank(self):
         self.assertEqual(rank([]), None)
         self.assertEqual(rank(["แมว", "คน", "แมว"]), Counter({"แมว": 2, "คน": 1}))
-        self.assertIsNotNone(rank(["แมว", "คน", "แมว"], stopword=True))
+        self.assertIsNotNone(rank(["แมว", "คน", "แมว"], exclude_stopwords=True))
 
     # ### pythainlp.util.date
 

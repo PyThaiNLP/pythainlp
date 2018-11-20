@@ -10,6 +10,6 @@ def find_keyword(word_list: List[str], min_len: int = 3) -> Dict[str, int]:
     :param int min_len: a mininum length of keywords to look for
     :return: dict
     """
-    word_list = rank(word_list, exclude_stopword=True)
+    word_list = rank(word_list, exclude_stopwords=True)
 
     return {k: v for k, v in word_list.items() if v >= min_len}

@@ -20,7 +20,6 @@ from pythainlp.corpus import (
     ttc,
     wordnet,
 )
-from pythainlp.sentiment import sentiment
 from pythainlp.soundex import lk82, metasound, soundex, udom83
 from pythainlp.spell import correct, spell
 from pythainlp.spell.pn import NorvigSpellChecker, dictionary, known, prob
@@ -126,13 +125,6 @@ class TestUM(unittest.TestCase):
 
         cat_key = wordnet.synsets("แมว")[0].lemmas()[0].key()
         self.assertIsNotNone(wordnet.lemma_from_key(cat_key))
-
-    # ### pythainlp.sentiment
-
-    def test_sentiment(self):
-        text = "เสียใจมาก"
-        self.assertEqual(sentiment(text, engine="old"), "neg")
-        # self.assertEqual(sentiment(text, engine="ulmfit"), "neg")
 
     # ### pythainlp.soundex
 

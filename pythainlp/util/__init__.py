@@ -38,9 +38,8 @@ from .digitconv import (
     thai_digit_to_arabic_digit,
 )
 from .keyboard import eng_to_thai, thai_to_eng
-from .keywords import find_keyword
+from .keywords import find_keyword, rank
 from .normalize import deletetone, normalize
 from .numtoword import bahttext, num_to_thaiword
-from .rank import rank
 from .thai import is_thai, is_thaichar, is_thaiword
 from .wordtonum import thaiword_to_num

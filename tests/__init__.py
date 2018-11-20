@@ -69,7 +69,6 @@ from pythainlp.util import (
     thai_to_eng,
     thaiword_to_num,
 )
-from pythainlp.word_vector import thai2vec
 
 
 class TestUM(unittest.TestCase):
@@ -549,20 +548,20 @@ class TestUM(unittest.TestCase):
 
     # ### pythainlp.word_vector
 
-    def test_thai2vec(self):
-        self.assertGreaterEqual(thai2vec.similarity("แบคทีเรีย", "คน"), 0)
-        self.assertIsNotNone(thai2vec.sentence_vectorizer(""))
-        self.assertIsNotNone(thai2vec.sentence_vectorizer("เสรีภาพในการชุมนุม"))
-        self.assertIsNotNone(
-            thai2vec.sentence_vectorizer("เสรีภาพในการสมาคม", use_mean=True)
-        )
-        self.assertIsNotNone(thai2vec.sentence_vectorizer("I คิด therefore I am ผ็ฎ์"))
-        self.assertEqual(
-            thai2vec.most_similar_cosmul(["ราชา", "ผู้ชาย"], ["ผู้หญิง"])[0][0],
-            "ราชินี",
-        )
-        self.assertEqual(thai2vec.doesnt_match(["ญี่ปุ่น", "พม่า", "ไอติม"]), "ไอติม")
-        self.assertIsNotNone(thai2vec.about())
+    # def test_thai2vec(self):
+    #     self.assertGreaterEqual(thai2vec.similarity("แบคทีเรีย", "คน"), 0)
+    #     self.assertIsNotNone(thai2vec.sentence_vectorizer(""))
+    #     self.assertIsNotNone(thai2vec.sentence_vectorizer("เสรีภาพในการชุมนุม"))
+    #     self.assertIsNotNone(
+    #         thai2vec.sentence_vectorizer("เสรีภาพในการสมาคม", use_mean=True)
+    #     )
+    #     self.assertIsNotNone(thai2vec.sentence_vectorizer("I คิด therefore I am ผ็ฎ์"))
+    #     self.assertEqual(
+    #         thai2vec.most_similar_cosmul(["ราชา", "ผู้ชาย"], ["ผู้หญิง"])[0][0],
+    #         "ราชินี",
+    #     )
+    #     self.assertEqual(thai2vec.doesnt_match(["ญี่ปุ่น", "พม่า", "ไอติม"]), "ไอติม")
+    #     self.assertIsNotNone(thai2vec.about())
 
 
 if __name__ == "__main__":

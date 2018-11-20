@@ -12,12 +12,13 @@ from pythainlp.tokenize import word_tokenize
 
 WV_DIM = 400
 
+
 def _download():
     path = get_file("thai2fit_wv")
     if not path:
         download_data("thai2fit_wv")
         path = get_file("thai2fit_wv")
-    return(path)
+    return path
 
 
 def get_model():
@@ -25,11 +26,13 @@ def get_model():
     Download model
     :return: `gensim` model
     """
-    return(KeyedVectors.load_word2vec_format(_download(), binary=True))
+    return KeyedVectors.load_word2vec_format(_download(), binary=True)
 
-_MODEL = get_model()    
 
-def most_similar_cosmul(positive:list, negative:list):
+_MODEL = get_model()
+
+
+def most_similar_cosmul(positive: list, negative: list):
     """
     Word arithmetic operations
     If a word is not in the vocabulary, KeyError will be raised.
@@ -37,8 +40,9 @@ def most_similar_cosmul(positive:list, negative:list):
     :param list negative: a list of words to substract
     :return: the cosine similarity between the two word vectors
     """
-    
+
     return _MODEL.most_similar_cosmul(positive=positive, negative=negative)
+
 
 def doesnt_match(listdata):
     """
@@ -69,11 +73,13 @@ def sentence_vectorizer(text, use_mean=True):
     :param boolean use_mean: if `True` use mean of all word vectors else use summation
     :return: sentence vector of given input text
     """
-    words = word_tokenize(text, engine='ulmfit')
+    words = word_tokenize(text, engine="ulmfit")
     vec = np.zeros((1, WV_DIM))
     for word in words:
-        if word == ' ': word = 'xxspace'
-        if word == '\n': word == 'xxeol'
+        if word == " ":
+            word = "xxspace"
+        if word == "\n":
+            word == "xxeol"
         if word in _MODEL.wv.index2word:
             vec += _MODEL.wv.word_vec(word)
         else:
@@ -81,4 +87,3 @@ def sentence_vectorizer(text, use_mean=True):
     if use_mean:
         vec /= len(words)
     return vec
-

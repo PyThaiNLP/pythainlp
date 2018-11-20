@@ -215,13 +215,6 @@ summarize(text="อาหาร หมายถึง ของแข็งห�
 
 สร้างเวกเตอร์คำ
 
-```python
-from pythainlp.word_vector import thai2vec
-```
-
-ปัจจุบันรองรับเฉพาะ thai2vec (https://github.com/cstorm125/thai2vec)
-
-พัฒนาโดย Charin Polpanumas
 
 #### thai2vec
 

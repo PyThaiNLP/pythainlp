@@ -79,7 +79,7 @@ def get_path(fname):
 
 #pretrained paths
 THWIKI = [get_path(MODEL_NAME)[:-4], get_path(ITOS_NAME)[:-4]]
-tt = ThaiTokenizer()
+tt = Tokenizer(tok_func = ThaiTokenizer, lang = 'th', rules = thai_rules)
 
 def document_vector(text, learn, data):
     """
@@ -120,6 +120,14 @@ def predict_word(text,learn,data,topk=5):
     return([data.vocab.itos[i] for i in pred_i])
 
 def predict_sentence(text,learn,data,nb_words=10):
+    """
+    :meth: `predict_word` predicts subsequent sentences based on given string, fastai language model and data bunch
+    :param str text: seed text
+    :param learn: fastai language model learner
+    :param data: fastai data bunch
+    :param int nb_words: how many words of sentence to generate
+    :return: string of `nb_words` words
+    """    
     result = []
     s = tt.tokenizer(text)
     t = torch.LongTensor(data.train_ds.vocab.numericalize(s)).view(-1,1).to(device)

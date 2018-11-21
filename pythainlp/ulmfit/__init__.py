@@ -89,7 +89,7 @@ def document_vector(text, learn, data):
     :param data: fastai data bunch
     :return: `numpy.array` of document vector sized 1200 containing last hidden layer as well as its average pooling and max pooling
     """
-    s = tt.tokenizer(text)
+    s = tt.tok_func.tokenizer(tt,text)
     t = torch.tensor(data.vocab.numericalize(s), requires_grad=False)[:,None].to(device)
     m = learn.model[0]
     m.reset()
@@ -110,7 +110,7 @@ def predict_word(text,learn,data,topk=5):
     :param int topk: how many top-k words to generate
     :return: list of top-k words
     """    
-    s = tt.tokenizer(text)
+    s = tt.tok_func.tokenizer(tt,text)
     t = torch.LongTensor(data.train_ds.vocab.numericalize(s)).view(-1,1).to(device)
     t.requires_grad = False
     m = learn.model
@@ -129,7 +129,7 @@ def predict_sentence(text,learn,data,nb_words=10):
     :return: string of `nb_words` words
     """    
     result = []
-    s = tt.tokenizer(text)
+    s = tt.tok_func.tokenizer(tt,text)
     t = torch.LongTensor(data.train_ds.vocab.numericalize(s)).view(-1,1).to(device)
     t.requires_grad = False
     m = learn.model

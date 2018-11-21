@@ -32,7 +32,7 @@ from pythainlp.number import (
     thaiword_to_num,
 )
 from pythainlp.rank import rank
-from pythainlp.sentiment import sentiment
+
 from pythainlp.soundex import lk82, metasound, soundex, udom83
 from pythainlp.spell import correct, spell
 from pythainlp.spell.pn import NorvigSpellChecker, dictionary, known, prob

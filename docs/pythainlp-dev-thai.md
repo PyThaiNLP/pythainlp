@@ -215,13 +215,6 @@ summarize(text="อาหาร หมายถึง ของแข็งห�
 
 สร้างเวกเตอร์คำ
 
-```python
-from pythainlp.word_vector import thai2vec
-```
-
-ปัจจุบันรองรับเฉพาะ thai2vec (https://github.com/cstorm125/thai2vec)
-
-พัฒนาโดย Charin Polpanumas
 
 #### thai2vec
 
@@ -247,6 +240,8 @@ from pythainlp.word_vector import thai2vec
 การทำงาน หาคำที่ถูกใช้งานมากกว่าค่าขั้นต่ำที่กำหนดได้ โดยจะลบ stopword ออก
 
 ```python
+from pythainlp.util import find_keyword
+
 find_keyword(word_list, lentext=3)
 ```
 
@@ -347,7 +342,7 @@ thaiword_to_num(["หกหมื่น", "หกพัน", "หกร้อย
 เรียงลำดับข้อมูลภาษาไทยใน List
 
 ```python
-from pythainlp.collation import collate
+from pythainlp.util import collate
 print(collate(["ไก่", "ไข่", "กา", "ฮา"]))  # ['กา', 'ไก่', 'ไข่', 'ฮา']
 ```
 
@@ -355,14 +350,18 @@ print(collate(["ไก่", "ไข่", "กา", "ฮา"]))  # ['กา', '�
 
 ### date
 
-#### now
+#### thai_strftime
 
-รับเวลาปัจจุบันเป็นภาษาไทย
+จัดรูปแบบข้อความบอกวันที่และเวลาเป็นภาษาไทยและปีพุทธศักราช
 
 ```python
-from pythainlp.date import now
+import datetime
+from pythainlp.util import thai_strftime
 
-now()  # '30 พฤษภาคม 2560 18:45:24'
+fmt = "%Aที่ %-d %B พ.ศ. %Y เวลา %H:%Mน. (%a %d-%b-%y)"
+date = datetime.datetime(1976, 10, 6, 1, 40)
+print(thai_strftime(date, fmt))
+# วันพุธที่ 6 ตุลาคม พ.ศ. 2519 เวลา 01:40น. (พ 06-ต.ค.-19)
 ```
 ### rank
 
@@ -371,7 +370,7 @@ now()  # '30 พฤษภาคม 2560 18:45:24'
 หาคำที่มีจำนวนการใช้งานมากที่สุด
 
 ```python
-from pythainlp.rank import rank
+from pythainlp.util import rank
 
 rank(list)
 ```
@@ -407,20 +406,6 @@ print(lk82("จันทร์"))  # จ4000
 print(udom83("รถ"))  # ร800000
 print(metasound("รัก"))  # 'ร100'
 ```
-
-### sentiment
-
-sentiment analysis ภาษาไทย ใช้ข้อมูลจาก [https://github.com/PyThaiNLP/lexicon-thai/tree/master/ข้อความ/](https://github.com/PyThaiNLP/lexicon-thai/tree/master/ข้อความ/)
-
-```python
-from pythainlp.sentiment import sentiment
-
-sentiment(str)
-```
-
-รับค่า str
-
-คืนค่าเป็น str ซึ่งมีค่า "pos" หรือ "neg"
 
 ### Util
 
@@ -559,7 +544,7 @@ for province in provinces():
 สำหรับใช้ติดป้ายกำกับชื่อจังหวัดในประเทศไทย
 
 ```python
-from pythainlp.ner.locations import tag_provinces
+from pythainlp.tag.locations import tag_provinces
 
 tag_provinces(text_list)
 ```

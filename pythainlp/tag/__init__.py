@@ -1,7 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Part-Of-Speech tagger
+Tagging each token in a sentence with supplementary information,
+such as its part of speech and class of named-entity.
 """
+
+__all__ = [
+    "pos_tag",
+    "pos_tag_sents",
+    "tag_provinces",
+    "ThaiNameTagger",
+]
+
+from .named_entity import ThaiNameTagger
+from .locations import tag_provinces
 
 
 def pos_tag(words, engine="unigram", corpus="orchid"):

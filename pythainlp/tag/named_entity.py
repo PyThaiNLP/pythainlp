@@ -2,11 +2,12 @@
 """
 Named-entity recognizer
 """
-__all__ = ["ThaiNameRecognizer"]
+
+__all__ = ["ThaiNameTagger"]
 
 import sklearn_crfsuite
 from pythainlp.corpus import download, get_file, thai_stopwords
-from pythainlp.tag import pos_tag
+from pythainlp.tag import perceptron
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import is_thaiword
 
@@ -69,7 +70,7 @@ def _doc2features(doc, i):
     return features
 
 
-class ThaiNameRecognizer:
+class ThaiNameTagger:
     def __init__(self):
         """
         Thai named-entity recognizer
@@ -97,8 +98,8 @@ class ThaiNameRecognizer:
         :return: list of strings with name labels (and part-of-speech tags)
 
         **Example**::
-            >>> from pythainlp.ner import ThaiNameRecognizer
-            >>> ner = ThaiNameRecognizer()
+            >>> from pythainlp.tag import ThaiNameTagger
+            >>> ner = ThaiNameTagger()
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
             [('วันที่', 'JSBR', 'O'), (' ', 'NCMN', 'O'), ('15', 'NCNM', 'B-DATE'),
             (' ', 'NCMN', 'I-DATE'), ('ก.ย.', 'CMTR', 'I-DATE'), (' ', 'NCMN', 'I-DATE'),
@@ -113,7 +114,7 @@ class ThaiNameRecognizer:
             (':', 'I-TIME'), ('49', 'I-TIME'), (' ', 'I-TIME'), ('น.', 'I-TIME')]
         """
         self.__tokens = word_tokenize(text, engine=_WORD_TOKENIZER)
-        self.__pos_tags = pos_tag(self.__tokens, engine="perceptron")
+        self.__pos_tags = perceptron.tag(self.__tokens)
         self.__x_test = self.__extract_features(
             [(data, self.__pos_tags[i][1]) for i, data in enumerate(self.__tokens)]
         )

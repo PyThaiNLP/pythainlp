@@ -21,14 +21,29 @@ from pythainlp.util import normalize as normalize_char_order
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-MODEL_NAME = "thai2fit_lm"
-ITOS_NAME = "thai2fit_itos"
+_MODEL_NAME = "thai2fit_lm"
+_ITOS_NAME = "thai2fit_itos"
 
 
-# custom fastai tokenizer
+# Download pretrained models
+def _get_path(fname):
+    """
+    :meth: download get path of file from pythainlp-corpus
+    :param str fname: file name
+    :return: path to downloaded file
+    """
+    path = get_file(fname)
+    if not path:
+        download(fname)
+        path = get_file(fname)
+    return path
+
+
+# Custom fastai tokenizer
 class ThaiTokenizer(BaseTokenizer):
     """
     Wrapper around a frozen newmm tokenizer to make it a fastai `BaseTokenizer`.
+    https://docs.fast.ai/text.transform#BaseTokenizer
     """
 
     def __init__(self, lang: str = "th"):
@@ -46,7 +61,9 @@ class ThaiTokenizer(BaseTokenizer):
         pass
 
 
-# special rules for Thai
+# Preprocessing rules for Thai text
+
+
 def replace_rep_after(t: str) -> str:
     "Replace repetitions at the character level in `t` after the repetition"
 
@@ -71,6 +88,10 @@ def rm_brackets(t: str) -> str:
     return new_line
 
 
+# pretrained paths
+_TH_WIKI = [_get_path(_MODEL_NAME)[:-4], _get_path(_ITOS_NAME)[:-4]]
+_tokenizer = ThaiTokenizer()
+
 # in case we want to add more specific rules for Thai
 thai_rules = [
     fix_html,
@@ -84,34 +105,15 @@ thai_rules = [
 ]
 
 
-# Download pretrained models
-def get_path(fname):
-    """
-    :meth: download get path of file from pythainlp-corpus
-    :param str fname: file name
-    :return: path to downloaded file
-    """
-    path = get_file(fname)
-    if not path:
-        download(fname)
-        path = get_file(fname)
-    return path
-
-
-# pretrained paths
-THWIKI = [get_path(MODEL_NAME)[:-4], get_path(ITOS_NAME)[:-4]]
-tt = ThaiTokenizer()
-
-
-def document_vector(ss, learn, data):
+def document_vector(sentence, learn, data):
     """
     :meth: `document_vector` get document vector using pretrained ULMFiT model
-    :param str ss: sentence to extract embeddings
+    :param str sentence: sentence to extract embeddings
     :param learn: fastai language model learner
     :param data: fastai data bunch
     :return: `numpy.array` of document vector sized 400
     """
-    s = tt.tokenizer(ss)
+    s = _tokenizer.tokenizer(sentence)
     t = torch.tensor(data.vocab.numericalize(s), requires_grad=False)[:, None].to(
         device
     )

@@ -7,7 +7,7 @@ import re
 
 import torch
 from typing import List, Collection
-from fastai.text import BaseTokenizer, TK_REP
+from fastai.text import BaseTokenizer, TK_REP, Tokenizer
 from fastai.text.transform import (
     deal_caps,
     fix_html,

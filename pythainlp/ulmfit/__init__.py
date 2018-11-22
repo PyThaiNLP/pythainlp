@@ -203,6 +203,6 @@ def merge_wgts(em_sz, wgts, itos_pre, itos_new):
         #use pretrianed embedding if present; else use the average
         new_w[i] = enc_wgts[r] if r>=0 else row_m
     wgts['0.encoder.weight'] = torch.tensor(new_w)
-    wgts['0.encoder_dp.embed.weight'] = torch.tensor(np.copy(new_w))
+    wgts['0.encoder_dp.emb.weight'] = torch.tensor(np.copy(new_w))
     wgts['1.decoder.weight'] = torch.tensor(np.copy(new_w))
     return(wgts)

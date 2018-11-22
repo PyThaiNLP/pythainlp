@@ -21,8 +21,10 @@ from pythainlp.util import normalize as normalize_char_order
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-_MODEL_NAME = "thai2fit_lm"
-_ITOS_NAME = "thai2fit_itos"
+_MODEL_NAME_QRNN = "wiki_lm_qrnn"
+_ITOS_NAME_QRNN = "wiki_itos_qrnn"
+_MODEL_NAME_LSTM = "wiki_lm_lstm"
+_ITOS_NAME_LSTM = "wiki_itos_lstm"
 
 
 # Download pretrained models
@@ -89,7 +91,8 @@ def rm_brackets(t: str) -> str:
 
 
 # pretrained paths
-_TH_WIKI = [_get_path(_MODEL_NAME)[:-4], _get_path(_ITOS_NAME)[:-4]]
+_THWIKI_QRNN = [_get_path(_MODEL_NAME_QRNN)[:-4], _get_path(_ITOS_NAME_QRNN)[:-4]]
+_THWIKI_LSTM = [_get_path(_MODEL_NAME_LSTM)[:-4], _get_path(_ITOS_NAME_LSTM)[:-4]]
 
 # in case we want to add more specific rules for Thai
 thai_rules = [
@@ -174,5 +177,31 @@ def predict_sentence(text, learn, data, nb_words=10):
         result.append(data.train_ds.vocab.textify(pred_i))
         t = torch.cat((t,pred_i))
         pred, *_ = m(t)
- 
+
     return(result)
+
+def merge_wgts(em_sz, wgts, itos_pre, itos_new):
+    """
+    :meth: `merge_wgts` insert pretrained weights and vocab into a new set of weights and vocab; 
+    use average if vocab not in pretrained vocab
+    :param int em_sz: embedding size
+    :param wgts: torch model weights
+    :param list itos_pre: pretrained list of vocab
+    :param list itos_new: list of new vocab
+    :return: merged torch model weights
+    """    
+    vocab_size = len(itos_new)
+    enc_wgts = wgts['0.encoder.weight'].numpy()
+    #average weight of encoding
+    row_m = enc_wgts.mean(0)
+    stoi_pre = collections.defaultdict(lambda:-1, {v:k for k,v in enumerate(itos_pre)})
+    #new embedding based on classification dataset
+    new_w = np.zeros((vocab_size, em_sz), dtype=np.float32)
+    for i,w in enumerate(itos_new):
+        r = stoi_pre[w]
+        #use pretrianed embedding if present; else use the average
+        new_w[i] = enc_wgts[r] if r>=0 else row_m
+    wgts['0.encoder.weight'] = torch.tensor(new_w)
+    wgts['0.encoder_dp.embed.weight'] = torch.tensor(np.copy(new_w))
+    wgts['1.decoder.weight'] = torch.tensor(np.copy(new_w))
+    return(wgts)

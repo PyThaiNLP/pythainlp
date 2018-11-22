@@ -4,8 +4,9 @@
 Code by https://github.com/cstorm125/thai2fit/
 """
 import re
-
 import torch
+import collections
+import numpy as np
 from typing import List, Collection
 from fastai.text import BaseTokenizer, TK_REP, Tokenizer
 from fastai.text.transform import (

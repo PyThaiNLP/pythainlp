@@ -75,15 +75,19 @@ def sentence_vectorizer(text, use_mean=True):
     """
     words = word_tokenize(text, engine="ulmfit")
     vec = np.zeros((1, WV_DIM))
+
     for word in words:
         if word == " ":
             word = "xxspace"
-        if word == "\n":
+        elif word == "\n":
             word == "xxeol"
+
         if word in _MODEL.wv.index2word:
             vec += _MODEL.wv.word_vec(word)
         else:
             pass
+
     if use_mean:
         vec /= len(words)
+
     return vec

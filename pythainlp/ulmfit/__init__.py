@@ -4,11 +4,13 @@
 Code by https://github.com/cstorm125/thai2fit/
 """
 import re
+from typing import Collection, List
 
 import torch
-from typing import List, Collection
-from fastai import TK_REP, BaseTokenizer
 from fastai.text.transform import (
+    TK_REP,
+    BaseTokenizer,
+    Tokenizer,
     deal_caps,
     fix_html,
     rm_useless_spaces,
@@ -19,7 +21,6 @@ from pythainlp.tokenize import word_tokenize
 from pythainlp.util import normalize as normalize_char_order
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 
 _MODEL_NAME = "thai2fit_lm"
 _ITOS_NAME = "thai2fit_itos"
@@ -61,9 +62,6 @@ class ThaiTokenizer(BaseTokenizer):
         pass
 
 
-# Preprocessing rules for Thai text
-
-
 def replace_rep_after(t: str) -> str:
     "Replace repetitions at the character level in `t` after the repetition"
 
@@ -88,10 +86,10 @@ def rm_brackets(t: str) -> str:
     return new_line
 
 
-# pretrained paths
+# Pretrained paths
 _TH_WIKI = [_get_path(_MODEL_NAME)[:-4], _get_path(_ITOS_NAME)[:-4]]
 
-# in case we want to add more specific rules for Thai
+# Preprocessing rules for Thai text
 thai_rules = [
     fix_html,
     deal_caps,
@@ -103,7 +101,7 @@ thai_rules = [
     rm_brackets,
 ]
 
-_tokenizer = Tokenizer(tok_func=ThaiTokenizer, lang='th', rules=thai_rules)
+_tokenizer = Tokenizer(tok_func=ThaiTokenizer, lang="th", pre_rules=thai_rules)
 
 
 def document_vector(text, learn, data):
@@ -115,21 +113,23 @@ def document_vector(text, learn, data):
     :return: `numpy.array` of document vector sized 1,200 containing last hidden layer as well as its average pooling and max pooling
     """
     s = _tokenizer.tok_func.tokenizer(_tokenizer, text)
-    t = torch.tensor(data.vocab.numericalize(s), requires_grad=False)[:, None].to(device)
+    t = torch.tensor(data.vocab.numericalize(s), requires_grad=False)[:, None].to(
+        device
+    )
     m = learn.model[0]
     m.reset()
     pred, _ = m(t)
 
-    #return concatenation of last, mean and max
-    last = pred[-1][-1,:,:].squeeze()
+    # return concatenation of last, mean and max
+    last = pred[-1][-1, :, :].squeeze()
     avg_pool = pred[-1].mean(0)[0].squeeze()
     max_pool = pred[-1].max(0)[0].squeeze()
-    res = torch.cat((last,avg_pool,max_pool)).detach().cpu().numpy()
+    res = torch.cat((last, avg_pool, max_pool)).detach().cpu().numpy()
 
-    return(res)
+    return res
 
 
-def predict_word(text, learn, data, topk=5):
+def predict_word(text: str, learn, data, topk: int = 5):
     """
     :meth: `predict_word` predicts top-k most likely words based on given string, fastai language model and data bunch
     :param str text: seed text
@@ -137,7 +137,7 @@ def predict_word(text, learn, data, topk=5):
     :param data: fastai data bunch
     :param int topk: how many top-k words to generate
     :return: list of top-k words
-    """    
+    """
     s = _tokenizer.tok_func.tokenizer(_tokenizer, text)
     t = torch.LongTensor(data.train_ds.vocab.numericalize(s)).view(-1, 1).to(device)
     t.requires_grad = False
@@ -146,10 +146,10 @@ def predict_word(text, learn, data, topk=5):
     pred, *_ = m(t)
     pred_i = pred[-1].topk(topk)[1].cpu().numpy()
 
-    return([data.vocab.itos[i] for i in pred_i])
+    return [data.vocab.itos[i] for i in pred_i]
 
 
-def predict_sentence(text, learn, data, nb_words=10):
+def predict_sentence(text: str, learn, data, nb_words: int = 10):
     """
     :meth: `predict_word` predicts subsequent sentences based on given string, fastai language model and data bunch
     :param str text: seed text
@@ -157,7 +157,7 @@ def predict_sentence(text, learn, data, nb_words=10):
     :param data: fastai data bunch
     :param int nb_words: how many words of sentence to generate
     :return: string of `nb_words` words
-    """    
+    """
     result = []
     s = _tokenizer.tok_func.tokenizer(_tokenizer, text)
     t = torch.LongTensor(data.train_ds.vocab.numericalize(s)).view(-1, 1).to(device)
@@ -166,13 +166,13 @@ def predict_sentence(text, learn, data, nb_words=10):
     m.reset()
     pred, *_ = m(t)
 
-    for i in range(nb_words):
+    for _ in range(nb_words):
         pred_i = pred[-1].topk(2)[1]
-        #get first one if not unknowns, pads, or spaces
+        # get first one if not unknowns, pads, or spaces
         pred_i = pred_i[1] if pred_i.data[0] == 0 else pred_i[0]
-        pred_i = pred_i.view(-1,1)
+        pred_i = pred_i.view(-1, 1)
         result.append(data.train_ds.vocab.textify(pred_i))
-        t = torch.cat((t,pred_i))
+        t = torch.cat((t, pred_i))
         pred, *_ = m(t)
- 
-    return(result)
+
+    return result

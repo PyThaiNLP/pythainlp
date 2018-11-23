@@ -4,13 +4,12 @@
 Code by https://github.com/cstorm125/thai2fit/
 """
 import re
-from typing import Collection, List
-
 import torch
+import collections
+import numpy as np
+from typing import Collection, List
+from fastai.text import BaseTokenizer, TK_REP, Tokenizer
 from fastai.text.transform import (
-    TK_REP,
-    BaseTokenizer,
-    Tokenizer,
     deal_caps,
     fix_html,
     rm_useless_spaces,
@@ -22,8 +21,10 @@ from pythainlp.util import normalize as normalize_char_order
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-_MODEL_NAME = "thai2fit_lm"
-_ITOS_NAME = "thai2fit_itos"
+_MODEL_NAME_QRNN = "wiki_lm_qrnn"
+_ITOS_NAME_QRNN = "wiki_itos_qrnn"
+_MODEL_NAME_LSTM = "wiki_lm_lstm"
+_ITOS_NAME_LSTM = "wiki_itos_lstm"
 
 
 # Download pretrained models
@@ -87,7 +88,8 @@ def rm_brackets(t: str) -> str:
 
 
 # Pretrained paths
-_TH_WIKI = [_get_path(_MODEL_NAME)[:-4], _get_path(_ITOS_NAME)[:-4]]
+_THWIKI_QRNN = [_get_path(_MODEL_NAME_QRNN)[:-4], _get_path(_ITOS_NAME_QRNN)[:-4]]
+_THWIKI_LSTM = [_get_path(_MODEL_NAME_LSTM)[:-4], _get_path(_ITOS_NAME_LSTM)[:-4]]
 
 # Preprocessing rules for Thai text
 thai_rules = [
@@ -104,7 +106,7 @@ thai_rules = [
 _tokenizer = Tokenizer(tok_func=ThaiTokenizer, lang="th", pre_rules=thai_rules)
 
 
-def document_vector(text, learn, data):
+def document_vector(text: str, learn, data):
     """
     :meth: `document_vector` get document vector using fastai language model and data bunch
     :param str text: text to extract embeddings
@@ -175,4 +177,36 @@ def predict_sentence(text: str, learn, data, nb_words: int = 10):
         t = torch.cat((t, pred_i))
         pred, *_ = m(t)
 
-    return result
+    return(result)
+
+
+def merge_wgts(em_sz: int, wgts, itos_pre, itos_new):
+    """
+    :meth: `merge_wgts` insert pretrained weights and vocab into a new set of weights and vocab; 
+    use average if vocab not in pretrained vocab
+    :param int em_sz: embedding size
+    :param wgts: torch model weights
+    :param list itos_pre: pretrained list of vocab
+    :param list itos_new: list of new vocab
+    :return: merged torch model weights
+    """    
+    vocab_size = len(itos_new)
+    enc_wgts = wgts['0.encoder.weight'].numpy()
+
+    # Average weight of encoding
+    row_m = enc_wgts.mean(0)
+    stoi_pre = collections.defaultdict(lambda:-1, {v:k for k, v in enumerate(itos_pre)})
+
+    # New embedding based on classification dataset
+    new_w = np.zeros((vocab_size, em_sz), dtype=np.float32)
+
+    for i, w in enumerate(itos_new):
+        r = stoi_pre[w]
+        # Use pretrianed embedding if present; else use the average
+        new_w[i] = enc_wgts[r] if r >= 0 else row_m
+
+    wgts['0.encoder.weight'] = torch.tensor(new_w)
+    wgts['0.encoder_dp.emb.weight'] = torch.tensor(np.copy(new_w))
+    wgts['1.decoder.weight'] = torch.tensor(np.copy(new_w))
+
+    return(wgts)

@@ -55,7 +55,7 @@ Happy hacking! (;
 ## newmm (onecut), mm, TCC, and Thai Soundex Code
 - Korakot Chaovavanich
 
-## Thai2Vec & ULMFiT
+## thai2fit & ULMFiT
 - Charin Polpanumas
 
 ## Docs

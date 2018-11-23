@@ -8,9 +8,19 @@ from collections import Counter
 
 from nltk.corpus import wordnet as wn
 from pythainlp import word_vector
-from pythainlp.corpus import (conceptnet, countries, provinces, remove,
-                              thai_negations, thai_stopwords, thai_syllables,
-                              thai_words, tnc, ttc, wordnet)
+from pythainlp.corpus import (
+    conceptnet,
+    countries,
+    provinces,
+    remove,
+    thai_negations,
+    thai_stopwords,
+    thai_syllables,
+    thai_words,
+    tnc,
+    ttc,
+    wordnet,
+)
 from pythainlp.soundex import lk82, metasound, soundex, udom83
 from pythainlp.spell import correct, spell
 from pythainlp.spell.pn import NorvigSpellChecker, dictionary, known, prob
@@ -18,21 +28,48 @@ from pythainlp.summarize import summarize
 from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import ThaiNameTagger
-from pythainlp.tokenize import (FROZEN_DICT_TRIE, dict_word_tokenize, etcc,
-                                longest, multi_cut, newmm)
+from pythainlp.tokenize import (
+    FROZEN_DICT_TRIE,
+    dict_word_tokenize,
+    etcc,
+    longest,
+    multi_cut,
+    newmm,
+)
 from pythainlp.tokenize import pyicu as tokenize_pyicu
-from pythainlp.tokenize import (sent_tokenize, subword_tokenize,
-                                syllable_tokenize, tcc, word_tokenize)
+from pythainlp.tokenize import (
+    sent_tokenize,
+    subword_tokenize,
+    syllable_tokenize,
+    tcc,
+    word_tokenize,
+)
 from pythainlp.transliterate import romanize, transliterate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.royin import romanize as romanize_royin
-from pythainlp.util import (arabic_digit_to_thai_digit, bahttext, collate,
-                            deletetone, digit_to_text, eng_to_thai,
-                            find_keyword, is_thai, is_thaichar, is_thaiword,
-                            normalize, now_reign_year, num_to_thaiword, rank,
-                            reign_year_to_ad, text_to_arabic_digit,
-                            text_to_thai_digit, thai_digit_to_arabic_digit,
-                            thai_strftime, thai_to_eng, thaiword_to_num)
+from pythainlp.util import (
+    arabic_digit_to_thai_digit,
+    bahttext,
+    collate,
+    deletetone,
+    digit_to_text,
+    eng_to_thai,
+    find_keyword,
+    is_thai,
+    is_thaichar,
+    is_thaiword,
+    normalize,
+    now_reign_year,
+    num_to_thaiword,
+    rank,
+    reign_year_to_ad,
+    text_to_arabic_digit,
+    text_to_thai_digit,
+    thai_digit_to_arabic_digit,
+    thai_strftime,
+    thai_to_eng,
+    thaiword_to_num,
+)
 
 
 class TestUM(unittest.TestCase):
@@ -519,14 +556,20 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(word_vector.sentence_vectorizer(""))
         self.assertIsNotNone(word_vector.sentence_vectorizer("เสรีภาพในการชุมนุม"))
         self.assertIsNotNone(
-            word_vector.sentence_vectorizer("เสรีภาพในการสมาคม", use_mean=True)
+            word_vector.sentence_vectorizer("เสรีภาพในการรวมตัว\nสมาคม", use_mean=True)
         )
-        self.assertIsNotNone(word_vector.sentence_vectorizer("I คิด therefore I am ผ็ฎ์"))
+        self.assertIsNotNone(
+            word_vector.sentence_vectorizer("I คิด therefore I am ผ็ฎ์")
+        )
         self.assertEqual(
-            word_vector.most_similar_cosmul(["สหรัฐอเมริกา", "ประธานาธิบดี"], ["ประเทศไทย"])[0][0],
+            word_vector.most_similar_cosmul(
+                ["สหรัฐอเมริกา", "ประธานาธิบดี"], ["ประเทศไทย"]
+            )[0][0],
             "นายกรัฐมนตรี",
         )
-        self.assertEqual(word_vector.doesnt_match(["ญี่ปุ่น", "พม่า", "ไอติม"]), "ไอติม")
+        self.assertEqual(
+            word_vector.doesnt_match(["ญี่ปุ่น", "พม่า", "ไอติม"]), "ไอติม"
+        )
 
 
 if __name__ == "__main__":

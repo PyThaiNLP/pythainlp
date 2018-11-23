@@ -58,8 +58,8 @@ where ```extras``` can be
   - ```ipa``` (for International Phonetic Alphabet support in transliteration)
   - ```ml``` (to support ULMFiT models)
   - ```ner``` (for named-entity recognizer)
+  - ```thai2fit``` (for Thai word vector)
   - ```thai2rom``` (for machine-learnt romanization)
-  - ```thai2vec``` (for Thai word vector)
   - ```full``` (install everything)
 
 * Note: standard ```artagger``` package from PyPI will not work on Windows, please ```pip install https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger``` instead.
@@ -143,8 +143,8 @@ $ pip install pythainlp[extra1,extra2,...]
   - ```ipa``` (สำหรับการถอดตัวสะกดเป็นสัทอักษรสากล (IPA))
   - ```ml``` (สำหรับการรองรับโมเดล ULMFiT)
   - ```ner``` (สำหรับการติดป้ายชื่อเฉพาะ (named-entity))
+  - ```thai2fit``` (สำหรับ word vector)
   - ```thai2rom``` (สำหรับการถอดตัวสะกดเป็นอักษรละติน)
-  - ```thai2vec``` (สำหรับ word vector)
   - ```full``` (ติดตั้งทุกอย่าง)
 
 * หมายเหตุ: แพคเกจ ```artagger``` มาตรฐานจาก PyPI อาจมีปัญหาการถอดรหัสข้อความบน Windows กรุณาติดตั้ง artagger รุ่นแก้ไขด้วยคำสั่ง ```pip install https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger``` แทน ก่อนจะติดตั้ง PyThaiNLP

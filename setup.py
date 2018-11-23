@@ -76,3 +76,5 @@ setup(
         "Topic :: Text Processing :: Linguistic",
     ],
 )
+
+# TODO: Check extras and decide to download additional data, like model files

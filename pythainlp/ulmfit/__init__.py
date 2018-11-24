@@ -103,7 +103,7 @@ thai_rules = [
     rm_brackets,
 ]
 
-_tokenizer = Tokenizer(tok_func=ThaiTokenizer, lang="th", pre_rules=thai_rules)
+_tokenizer = Tokenizer(tok_func=ThaiTokenizer, lang="th", rules=thai_rules)
 
 
 def document_vector(text: str, learn, data):

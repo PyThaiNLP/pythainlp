@@ -3,21 +3,30 @@
 """
 Code by https://github.com/cstorm125/thai2fit/
 """
-import re
-import torch
 import collections
-import numpy as np
+import re
 from typing import Collection, List
-from fastai.text import BaseTokenizer, TK_REP, Tokenizer
+
+import numpy as np
+import torch
+from fastai.text import TK_REP, BaseTokenizer, Tokenizer
 from fastai.text.transform import (
     deal_caps,
     fix_html,
     rm_useless_spaces,
     spec_add_spaces,
 )
-from pythainlp.corpus import download, get_file
+from pythainlp.corpus import download, get_corpus_path
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import normalize as normalize_char_order
+
+__all__ = [
+    "ThaiTokenizer",
+    "document_vector",
+    "predict_word",
+    "predict_sentence",
+    "merge_wgts",
+]
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -34,10 +43,10 @@ def _get_path(fname):
     :param str fname: file name
     :return: path to downloaded file
     """
-    path = get_file(fname)
+    path = get_corpus_path(fname)
     if not path:
         download(fname)
-        path = get_file(fname)
+        path = get_corpus_path(fname)
     return path
 
 
@@ -88,6 +97,7 @@ def rm_brackets(t: str) -> str:
 
 
 # Pretrained paths
+# TODO: Let the user decide if they like to download (at setup?)
 _THWIKI_QRNN = [_get_path(_MODEL_NAME_QRNN)[:-4], _get_path(_ITOS_NAME_QRNN)[:-4]]
 _THWIKI_LSTM = [_get_path(_MODEL_NAME_LSTM)[:-4], _get_path(_ITOS_NAME_LSTM)[:-4]]
 
@@ -177,25 +187,27 @@ def predict_sentence(text: str, learn, data, nb_words: int = 10):
         t = torch.cat((t, pred_i))
         pred, *_ = m(t)
 
-    return(result)
+    return result
 
 
 def merge_wgts(em_sz: int, wgts, itos_pre, itos_new):
     """
-    :meth: `merge_wgts` insert pretrained weights and vocab into a new set of weights and vocab; 
+    :meth: `merge_wgts` insert pretrained weights and vocab into a new set of weights and vocab;
     use average if vocab not in pretrained vocab
     :param int em_sz: embedding size
     :param wgts: torch model weights
     :param list itos_pre: pretrained list of vocab
     :param list itos_new: list of new vocab
     :return: merged torch model weights
-    """    
+    """
     vocab_size = len(itos_new)
-    enc_wgts = wgts['0.encoder.weight'].numpy()
+    enc_wgts = wgts["0.encoder.weight"].numpy()
 
     # Average weight of encoding
     row_m = enc_wgts.mean(0)
-    stoi_pre = collections.defaultdict(lambda:-1, {v:k for k, v in enumerate(itos_pre)})
+    stoi_pre = collections.defaultdict(
+        lambda: -1, {v: k for k, v in enumerate(itos_pre)}
+    )
 
     # New embedding based on classification dataset
     new_w = np.zeros((vocab_size, em_sz), dtype=np.float32)
@@ -205,8 +217,8 @@ def merge_wgts(em_sz: int, wgts, itos_pre, itos_new):
         # Use pretrianed embedding if present; else use the average
         new_w[i] = enc_wgts[r] if r >= 0 else row_m
 
-    wgts['0.encoder.weight'] = torch.tensor(new_w)
-    wgts['0.encoder_dp.emb.weight'] = torch.tensor(np.copy(new_w))
-    wgts['1.decoder.weight'] = torch.tensor(np.copy(new_w))
+    wgts["0.encoder.weight"] = torch.tensor(new_w)
+    wgts["0.encoder_dp.emb.weight"] = torch.tensor(np.copy(new_w))
+    wgts["1.decoder.weight"] = torch.tensor(np.copy(new_w))
 
-    return(wgts)
+    return wgts

@@ -7,17 +7,17 @@ Code by https://github.com/cstorm125/thai2fit
 import numpy as np
 from gensim.models import KeyedVectors
 from pythainlp.corpus import download as download_data
-from pythainlp.corpus import get_file
+from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import word_tokenize
 
 WV_DIM = 400
 
 
 def _download():
-    path = get_file("thai2fit_wv")
+    path = get_corpus_path("thai2fit_wv")
     if not path:
         download_data("thai2fit_wv")
-        path = get_file("thai2fit_wv")
+        path = get_corpus_path("thai2fit_wv")
     return path
 
 

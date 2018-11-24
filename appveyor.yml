@@ -34,7 +34,7 @@ install:
   - "%PYTHON%/python.exe -m pip install --upgrade pip"
   - "%PYTHON%/python.exe -m pip install %PYICU_PKG%"
   - "%PYTHON%/python.exe -m pip install %ARTAGGER_PKG%"
-  - "%PYTHON%/python.exe -m pip install -e .[artagger,icu,ipa,ner,thai2vec]"
+  - "%PYTHON%/python.exe -m pip install -e .[artagger,icu,ipa,ner,thai2fit]"
 
 test_script:
   - "%PYTHON%/python.exe -m pip --version"

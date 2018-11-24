@@ -5,7 +5,7 @@ Romanization of Thai words based on machine-learnt engine ("thai2rom")
 import numpy as np
 from keras.layers import Input
 from keras.models import Model, load_model
-from pythainlp.corpus import download, get_file
+from pythainlp.corpus import download, get_corpus_path
 
 
 class ThaiTransliterator:
@@ -18,10 +18,10 @@ class ThaiTransliterator:
         self.__epochs = 100
         self.__latent_dim = 256
         self.__num_samples = 648241
-        self.__data_path = get_file("thai2rom-dataset")
+        self.__data_path = get_corpus_path("thai2rom-dataset")
         if not self.__data_path:
             download("thai2rom-dataset")
-            self.__data_path = get_file("thai2rom-dataset")
+            self.__data_path = get_corpus_path("thai2rom-dataset")
 
         self.__input_texts = []
         self.__target_texts = []
@@ -35,8 +35,8 @@ class ThaiTransliterator:
             input_text, target_text = line.split("\t")
             if len(input_text) < 30 and len(target_text) < 90:
                 target_text = "\t" + target_text + "\n"
-                self.__input_texts.append(self.input_text)
-                self.__target_texts.append(self.target_text)
+                self.__input_texts.append(input_text)
+                self.__target_texts.append(target_text)
                 for char in input_text:
                     if char not in self.__input_characters:
                         self.__input_characters.add(char)
@@ -74,10 +74,10 @@ class ThaiTransliterator:
                 self.__encoder_input_data[i, t, self.__input_token_index[char]] = 1.
 
         # Restore the model and construct the encoder and decoder.
-        self.__filemodel = get_file("thai2rom")
+        self.__filemodel = get_corpus_path("thai2rom")
         if not self.__filemodel:
             download("thai2rom")
-            self.__filemodel = get_file("thai2rom")
+            self.__filemodel = get_corpus_path("thai2rom")
         self.__model = load_model(self.__filemodel)
         self.__encoder_inputs = self.__model.input[0]  # input_1
         self.__encoder_outputs, self.__state_h_enc, self.__state_c_enc = self.__model.layers[

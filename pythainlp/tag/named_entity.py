@@ -6,17 +6,16 @@ Named-entity recognizer
 __all__ = ["ThaiNameTagger"]
 
 import sklearn_crfsuite
-from pythainlp.corpus import download, get_file, thai_stopwords
+from pythainlp.corpus import download, get_corpus_path, thai_stopwords
 from pythainlp.tag import perceptron
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import is_thaiword
 
 _WORD_TOKENIZER = "newmm"  # ตัวตัดคำ
-_STOPWORDS = thai_stopwords()
 
 
 def _is_stopword(word):  # เช็คว่าเป็นคำฟุ่มเฟือย
-    return word in _STOPWORDS
+    return word in thai_stopwords()
 
 
 def _doc2features(doc, i):
@@ -75,10 +74,10 @@ class ThaiNameTagger:
         """
         Thai named-entity recognizer
         """
-        self.__data_path = get_file("thainer")
+        self.__data_path = get_corpus_path("thainer")
         if not self.__data_path:
             download("thainer")
-            self.__data_path = get_file("thainer")
+            self.__data_path = get_corpus_path("thainer")
         self.crf = sklearn_crfsuite.CRF(
             algorithm="lbfgs",
             c1=0.1,

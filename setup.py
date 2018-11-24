@@ -47,6 +47,7 @@ setup(
         "pythainlp.corpus": [
             "corpus_license.md",
             "countries_th.txt",
+            "negations_th.txt",
             "orchid_pos_th.json",
             "orchid_pt_tagger.dill",
             "stopwords_th.txt",

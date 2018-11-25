@@ -7,12 +7,12 @@ import os
 
 import dill
 import nltk.tag
-from pythainlp.corpus import CORPUS_PATH
+from pythainlp.corpus import corpus_path
 
 _THAI_POS_ORCHID_FILENAME = "orchid_pos_th.json"
-_THAI_POS_ORCHID_PATH = os.path.join(CORPUS_PATH, _THAI_POS_ORCHID_FILENAME)
+_THAI_POS_ORCHID_PATH = os.path.join(corpus_path(), _THAI_POS_ORCHID_FILENAME)
 _THAI_POS_PUD_FILENAME = "ud_thai_pud_unigram_tagger.dill"
-_THAI_POS_PUD_PATH = os.path.join(CORPUS_PATH, _THAI_POS_PUD_FILENAME)
+_THAI_POS_PUD_PATH = os.path.join(corpus_path(), _THAI_POS_PUD_FILENAME)
 
 
 def _orchid_tagger():

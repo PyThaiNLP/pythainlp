@@ -43,7 +43,7 @@ setup(
     url="https://github.com/PyThaiNLP/pythainlp",
     packages=find_packages(),
     test_suite="tests",
-    python_requires=">=3.5",
+    python_requires=">=3.6",
     package_data={
         "pythainlp.corpus": [
             "corpus_license.md",

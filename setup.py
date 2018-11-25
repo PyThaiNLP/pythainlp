@@ -13,7 +13,7 @@ extras = {
     "deepcut": ["deepcut", "keras", "tensorflow"],
     "icu": ["pyicu"],
     "ipa": ["epitran"],
-    "ml": ["fastai==0.7.0", "keras", "numpy", "torch"],
+    "ml": ["fastai==1.0.22", "keras", "numpy", "torch"],
     "ner": ["sklearn_crfsuite"],
     "thai2fit": ["gensim", "numpy"],
     "thai2rom": ["keras", "numpy"],
@@ -47,6 +47,7 @@ setup(
         "pythainlp.corpus": [
             "corpus_license.md",
             "countries_th.txt",
+            "negations_th.txt",
             "orchid_pos_th.json",
             "orchid_pt_tagger.dill",
             "stopwords_th.txt",
@@ -76,3 +77,5 @@ setup(
         "Topic :: Text Processing :: Linguistic",
     ],
 )
+
+# TODO: Check extras and decide to download additional data, like model files

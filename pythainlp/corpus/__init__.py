@@ -1,95 +1,69 @@
 # -*- coding: utf-8 -*-
 
 import os
-
-from pythainlp.tools import get_full_data_path, get_pythainlp_path
-import requests
-from tinydb import Query, TinyDB
-from tqdm import tqdm
 from urllib.request import urlopen
 
+import requests
+from pythainlp.tools import get_full_data_path, get_pythainlp_path
+from tinydb import Query, TinyDB
+from tqdm import tqdm
+
+# Remote and local corpus databases
+
 _CORPUS_DIRNAME = "corpus"
-CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
+_CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
 
 _CORPUS_DB_URL = (
     "https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/master/db.json"
 )
+
 _CORPUS_DB_FILENAME = "db.json"
-CORPUS_DB_PATH = get_full_data_path(_CORPUS_DB_FILENAME)
-if not os.path.exists(CORPUS_DB_PATH):
-    TinyDB(CORPUS_DB_PATH)
+_CORPUS_DB_PATH = get_full_data_path(_CORPUS_DB_FILENAME)
 
-_THAI_COUNTRIES_FILENAME = "countries_th.txt"
-_THAI_THAILAND_PROVINCES_FILENAME = "thailand_provinces_th.txt"
-_THAI_SYLLABLES_FILENAME = "syllables_th.txt"
-_THAI_WORDS_FILENAME = "words_th.txt"
-_THAI_STOPWORDS_FILENAME = "stopwords_th.txt"
-
-_THAI_NEGATIONS = frozenset(["ไม่", "แต่"])
+if not os.path.exists(_CORPUS_DB_PATH):
+    TinyDB(_CORPUS_DB_PATH)
 
 
-def get_corpus(filename):
+def corpus_path():
+    return _CORPUS_PATH
+
+
+def corpus_db_url():
+    return _CORPUS_DB_URL
+
+
+def corpus_db_path():
+    return _CORPUS_DB_PATH
+
+
+def get_corpus(filename: str) -> frozenset:
     """
     Read corpus from file and return a frozenset
     """
     lines = []
-    with open(os.path.join(CORPUS_PATH, filename), "r", encoding="utf8") as fh:
+    with open(os.path.join(corpus_path(), filename), "r", encoding="utf-8-sig") as fh:
         lines = fh.read().splitlines()
+
     return frozenset(lines)
 
 
-def countries():
-    """
-    Return a frozenset of country names in Thai
-    """
-    return get_corpus(_THAI_COUNTRIES_FILENAME)
-
-
-def provinces():
-    """
-    Return a frozenset of Thailand province names in Thai
-    """
-    return get_corpus(_THAI_THAILAND_PROVINCES_FILENAME)
-
-
-def thai_syllables():
-    """
-    Return a frozenset of Thai syllables
-    """
-    return get_corpus(_THAI_SYLLABLES_FILENAME)
-
-
-def thai_words():
-    """
-    Return a frozenset of Thai words
-    """
-    return get_corpus(_THAI_WORDS_FILENAME)
-
-
-def thai_stopwords():
-    """
-    Return a frozenset of Thai stopwords
-    """
-    # TODO: Cache? Not reading the disk everytime
-    return get_corpus(_THAI_STOPWORDS_FILENAME)
-
-
-def thai_negations():
-    return _THAI_NEGATIONS
-
-
-def get_file(name):
-    db = TinyDB(CORPUS_DB_PATH)
+def get_corpus_path(name: str) -> [str, None]:
+    db = TinyDB(corpus_db_path())
     temp = Query()
+
     if len(db.search(temp.name == name)) > 0:
         path = get_full_data_path(db.search(temp.name == name)[0]["file"])
         db.close()
+
         if not os.path.exists(path):
             download(name)
+
         return path
 
+    return None
 
-def download_(url, dst):
+
+def download_(url: str, dst: str):
     """
     @param: url to download file
     @param: dst place to put the file
@@ -119,10 +93,10 @@ def download_(url, dst):
     # return file_size
 
 
-def download(name, force=False):
-    db = TinyDB(CORPUS_DB_PATH)
+def download(name: str, force: bool = False):
+    db = TinyDB(corpus_db_path())
     temp = Query()
-    data = requests.get(_CORPUS_DB_URL)
+    data = requests.get(corpus_db_url())
     data_json = data.json()
     if name in list(data_json.keys()):
         temp_name = data_json[name]
@@ -180,13 +154,41 @@ def download(name, force=False):
     db.close()
 
 
-def remove(name):
-    db = TinyDB(CORPUS_DB_PATH)
+def remove(name: str) -> bool:
+    db = TinyDB(corpus_db_path())
     temp = Query()
     data = db.search(temp.name == name)
+
     if len(data) > 0:
-        path = get_file(name)
+        path = get_corpus_path(name)
         os.remove(path)
         db.remove(temp.name == name)
         return True
+
     return False
+
+
+from pythainlp.corpus.common import (
+    countries,
+    provinces,
+    thai_negations,
+    thai_stopwords,
+    thai_syllables,
+    thai_words,
+)
+
+__all__ = [
+    "corpus_path",
+    "corpus_db_path",
+    "corpus_db_url",
+    "countries",
+    "download",
+    "get_corpus",
+    "get_corpus_path",
+    "provinces",
+    "remove",
+    "thai_negations",
+    "thai_stopwords",
+    "thai_syllables",
+    "thai_words",
+]

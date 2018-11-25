@@ -56,7 +56,7 @@ where ```extras``` can be
   - ```deepcut``` (to support deepcut machine-learnt tokenizer)
   - ```icu``` (for ICU support in transliteration and tokenization)
   - ```ipa``` (for International Phonetic Alphabet support in transliteration)
-  - ```ml``` (to support ULMFiT models)
+  - ```ml``` (to support fastai 1.0.22 ULMFiT models)
   - ```ner``` (for named-entity recognizer)
   - ```thai2fit``` (for Thai word vector)
   - ```thai2rom``` (for machine-learnt romanization)

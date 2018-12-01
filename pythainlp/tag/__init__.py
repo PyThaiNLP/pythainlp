@@ -10,8 +10,6 @@ __all__ = [
     "tag_provinces",
     "ThaiNameTagger",
 ]
-
-from .named_entity import ThaiNameTagger
 from .locations import tag_provinces
 
 

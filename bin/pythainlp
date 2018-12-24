@@ -1,0 +1,11 @@
+# -*- coding: utf-8 -*-
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("-txt","--text",default=None, help="text",type=str)
+parser.add_argument("-seg", "--segment", help="word segment",action="store_true")
+parser.add_argument("--engine",default="newmm", help="the engine to tokenize text",type=str)
+args = parser.parse_args()
+if args.text!=None:
+    from pythainlp.tokenize import word_tokenize
+    if args.segment:
+        print('|'.join(word_tokenize(args.text,engine=args.engine)))

@@ -1,11 +1,18 @@
 # -*- coding: utf-8 -*-
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument("-txt","--text",default=None, help="text",type=str)
+parser.add_argument("-t","--text",default=None, help="text",type=str)
 parser.add_argument("-seg", "--segment", help="word segment",action="store_true")
-parser.add_argument("--engine",default="newmm", help="the engine to tokenize text",type=str)
+parser.add_argument("-pos", "--postag", help="postag",action="store_true")
+parser.add_argument("-e","--engine",default="newmm", help="the engine for word tokenize",type=str)
+parser.add_argument("-pos-e","--postag_engine",default="perceptron", help="the engine for word tokenize",type=str)
+parser.add_argument("-pos-c","--postag_corpus",default="orchid", help="corpus for postag",type=str)
 args = parser.parse_args()
 if args.text!=None:
     from pythainlp.tokenize import word_tokenize
+    tokens=word_tokenize(args.text,engine=args.engine)
     if args.segment:
-        print('|'.join(word_tokenize(args.text,engine=args.engine)))
+        print('|'.join(tokens))
+    elif args.postag:
+        from pythainlp.tag import pos_tag
+        print("\t".join([i[0]+"/"+i[1] for i in pos_tag(tokens, engine=args.postag_engine, corpus=args.postag_corpus)]))

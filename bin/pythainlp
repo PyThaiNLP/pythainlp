@@ -16,7 +16,7 @@ if args.corpus:
     print("PyThaiNLP Corpus")
     temp=""
     while temp!="exit":
-        print("\n\nPlease fill this out.\n1. install\n2.remove\n3. update\n4.exit\nex 1 or 2")
+        print("\n\nPlease fill this out.\n1. install\n2. remove\n3. update\n4.exit\nex 1 or 2")
         temp=input("input (1,2,3 or 4) : ")
         if temp=="1":
             name=input("name corpus : ")
@@ -44,3 +44,5 @@ elif args.soundex!=None:
     if args.engine=="newmm":
         args.engine="lk82"
     print(soundex(args.soundex, engine=args.engine))
+else:
+    print("PyThaiNLP")

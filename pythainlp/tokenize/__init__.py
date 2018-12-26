@@ -3,8 +3,6 @@
 Thai tokenizers
 """
 import re
-
-import nltk
 from pythainlp.corpus import get_corpus, thai_syllables, thai_words
 
 from marisa_trie import Trie

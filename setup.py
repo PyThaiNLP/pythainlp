@@ -77,6 +77,7 @@ setup(
         "Natural Language :: Thai",
         "Topic :: Text Processing :: Linguistic",
     ],
+    scripts=['bin/pythainlp']
 )
 
 # TODO: Check extras and decide to download additional data, like model files

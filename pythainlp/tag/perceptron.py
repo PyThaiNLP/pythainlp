@@ -30,7 +30,7 @@ def tag(words, corpus="pud"):
         return []
 
     # perceptron tagger cannot handle empty string
-    words = [word.strip() for word in words if word.strip()]
+    #words = [word.strip() for word in words if word.strip()]
 
     if corpus == "orchid":
         tagger = _ORCHID_TAGGER

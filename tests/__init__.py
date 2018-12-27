@@ -376,7 +376,7 @@ class TestUM(unittest.TestCase):
         self.assertEqual(sent_tokenize(None), [])
         self.assertEqual(sent_tokenize(""), [])
         self.assertEqual(
-            sent_tokenize("รักน้ำ  รักปลา  ", engine="whitespace"), ["รักน้ำ", "รักปลา"]
+            sent_tokenize("รักน้ำ  รักปลา  ", engine="whitespace"), ["รักน้ำ", "รักปลา", ""]
         )
         self.assertEqual(sent_tokenize("รักน้ำ  รักปลา  "), ["รักน้ำ", "รักปลา"])
 

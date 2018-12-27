@@ -113,10 +113,8 @@ class ThaiNameTagger:
             (':', 'I-TIME'), ('49', 'I-TIME'), (' ', 'I-TIME'), ('น.', 'I-TIME')]
         """
         self.__tokens = word_tokenize(text, engine=_WORD_TOKENIZER)
-        self.__pos_tags = perceptron.tag(self.__tokens)
-        self.__x_test = self.__extract_features(
-            [(data, self.__pos_tags[i][1]) for i, data in enumerate(self.__tokens)]
-        )
+        self.__pos_tags = perceptron.tag(self.__tokens, corpus="orchid")
+        self.__x_test = self.__extract_features([(data[0],data[1]) for i, data in enumerate(self.__pos_tags)])
         self.__y = self.crf.predict_single(self.__x_test)
 
         if pos:

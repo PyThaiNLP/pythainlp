@@ -11,6 +11,7 @@ __all__ = [
     "ThaiNameTagger",
 ]
 from .locations import tag_provinces
+from .named_entity import ThaiNameTagger
 
 
 def pos_tag(words, engine="unigram", corpus="orchid"):

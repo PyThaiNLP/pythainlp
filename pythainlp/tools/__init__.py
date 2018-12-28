@@ -5,7 +5,6 @@ PyThaiNLP data tools
 For text processing and text conversion, see pythainlp.util
 """
 import os
-import subprocess
 import sys
 import pythainlp
 

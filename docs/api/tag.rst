@@ -8,5 +8,7 @@ Modules
 -------
 
 .. autofunction:: pos_tag
+.. autofunction:: pos_tag_sents
+.. autofunction:: tag_provinces
 .. autoclass:: ThaiNameTagger
    :members: get_ner

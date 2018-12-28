@@ -93,6 +93,7 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(thai_words())
         download("test")
         self.assertIsNotNone(remove("test"))
+        self.assertIsNotNone(remove("tnc_freq"))
 
     def test_tnc(self):
         self.assertIsNotNone(tnc.word_freqs())

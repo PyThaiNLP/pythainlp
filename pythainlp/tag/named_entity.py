@@ -129,9 +129,3 @@ class ThaiNameTagger:
 
     def __extract_features(self, doc):
         return [_doc2features(doc, i) for i in range(len(doc))]
-
-    def __get_labels(self, doc):
-        return [tag for (token, postag, tag) in doc]
-
-    def __get_model(self):
-        return self.crf

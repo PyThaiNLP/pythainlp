@@ -20,6 +20,7 @@ from pythainlp.corpus import (
     tnc,
     ttc,
     wordnet,
+    download
 )
 from pythainlp.soundex import lk82, metasound, soundex, udom83
 from pythainlp.spell import correct, spell
@@ -90,7 +91,8 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(thai_stopwords())
         self.assertIsNotNone(thai_syllables())
         self.assertIsNotNone(thai_words())
-        self.assertIsNotNone(remove("tnc_freq"))
+        download("test")
+        self.assertIsNotNone(remove("test"))
 
     def test_tnc(self):
         self.assertIsNotNone(tnc.word_freqs())
@@ -246,6 +248,8 @@ class TestUM(unittest.TestCase):
         ner = ThaiNameTagger()
         self.assertEqual(ner.get_ner(""), [])
         self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(ner.get_ner("คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ ที่อยู่ มหาวิทยาลัยขอนแก่น วิทยาเขตหนองคาย 112 หมู่ 7 บ้านหนองเดิ่น ตำบลหนองกอมเกาะ อำเภอเมือง จังหวัดหนองคาย 43000"))
         # self.assertEqual(
         #     ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"),
         #     [

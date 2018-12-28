@@ -24,6 +24,7 @@ def _download():
 def get_model():
     """
     Download model
+    
     :return: `gensim` model
     """
     return KeyedVectors.load_word2vec_format(_download(), binary=True)
@@ -36,8 +37,10 @@ def most_similar_cosmul(positive: list, negative: list):
     """
     Word arithmetic operations
     If a word is not in the vocabulary, KeyError will be raised.
+
     :param list positive: a list of words to add
     :param list negative: a list of words to substract
+
     :return: the cosine similarity between the two word vectors
     """
 
@@ -48,6 +51,7 @@ def doesnt_match(listdata):
     """
     Pick one word that doesn't match other words in the list
     If a word is not in the vocabulary, KeyError will be raised.
+
     :param list listdata: a list of words
     :return: word that doesn't match
     """
@@ -58,8 +62,9 @@ def similarity(word1, word2):
     """
     Get cosine similarity between two words.
     If a word is not in the vocabulary, KeyError will be raised.
-    :param str word1: first word
-    :param str word2: second word
+
+    :param string word1: first word
+    :param string word2: second word
     :return: the cosine similarity between the two word vectors
     """
     return _MODEL.similarity(word1, word2)
@@ -69,8 +74,10 @@ def sentence_vectorizer(text, use_mean=True):
     """
     Get sentence vector from text
     If a word is not in the vocabulary, KeyError will be raised.
-    :param str text: text input
+
+    :param string text: text input
     :param boolean use_mean: if `True` use mean of all word vectors else use summation
+
     :return: sentence vector of given input text
     """
     words = word_tokenize(text, engine="ulmfit")

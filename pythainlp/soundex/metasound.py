@@ -28,11 +28,15 @@ def metasound(text, length=4):
     :param int length: preferred length of the MetaSound (default is 4)
     :return: MetaSound for the text
     **Example**::
-        from pythainlp.metasound import metasound
-        metasound("ลัก")  # 'ล100'
-        metasound("รัก")  # 'ร100'
-        metasound("รักษ์")  # 'ร100'
-        metasound("บูรณการ", 5))  # 'บ5515'
+        >>> from pythainlp.metasound import metasound
+        >>> metasound("ลัก")
+        'ล100'
+        >>> metasound("รัก")
+        'ร100'
+        >>> metasound("รักษ์")
+        'ร100'
+        >>> metasound("บูรณการ", 5))
+        'บ5515'
     """
     if not text:
         return ""

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-PyThaiNLP package installation and data tools
+PyThaiNLP data tools
 
 For text processing and text conversion, see pythainlp.util
 """
@@ -10,16 +10,6 @@ import sys
 import pythainlp
 
 PYTHAINLP_DATA_DIR = "pythainlp-data"
-
-
-def install_package(package):
-    """
-    Install package using pip
-    Use with caution.
-    User may not like their system to be installed with a package they don't explicitly known about.
-    """
-    subprocess.call([sys.executable, "-m", "pip", "install", package])
-
 
 def get_full_data_path(path):
     """

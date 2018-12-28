@@ -2,11 +2,12 @@ build: off
 
 environment:
   matrix:
-    - PYTHON: "C:/Python36"
-      PYTHON_VERSION: "3.6"
-      PYTHON_ARCH: "32"
-      PYICU_PKG: "https://get.openlp.org/win-sdk/PyICU-1.9.7-cp36-cp36m-win32.whl"
+    - PYTHON: "C:/Python37"
+      PYTHON_VERSION: "3.7"
+      PYTHON_ARCH: "64"
+      PYICU_PKG: "https://get.openlp.org/win-sdk/PyICU-2.1-cp37-cp37m-win_amd64.whl"
       ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
+      PYTORCH_PKG: "https://download.pytorch.org/whl/cpu/torch-1.0.0-cp37-cp37m-win_amd64.whl"
 
     #- PYTHON: "C:/Python36-x64"
     #  PYTHON_VERSION: "3.6"
@@ -33,8 +34,9 @@ install:
   # - "set ICU_VERSION=62"
   - "%PYTHON%/python.exe -m pip install --upgrade pip"
   - "%PYTHON%/python.exe -m pip install %PYICU_PKG%"
+  - "%PYTHON%/python.exe -m pip install %PYTORCH_PKG%"
   - "%PYTHON%/python.exe -m pip install %ARTAGGER_PKG%"
-  - "%PYTHON%/python.exe -m pip install -e .[artagger,icu,ipa,ner,thai2fit]"
+  - "%PYTHON%/python.exe -m pip install -e .[artagger,icu,ipa,ner,thai2fit,deepcut]"
 
 test_script:
   - "%PYTHON%/python.exe -m pip --version"

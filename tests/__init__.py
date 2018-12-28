@@ -328,6 +328,8 @@ class TestUM(unittest.TestCase):
         )
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="ulmfit"))
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="XX"))
+        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
+        self.assertIsNotNone(word_tokenize("", engine="deepcut"))
 
     def test_word_tokenize_icu(self):
         self.assertEqual(tokenize_pyicu.segment(None), [])

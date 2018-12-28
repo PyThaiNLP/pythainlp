@@ -36,6 +36,7 @@ from pythainlp.tokenize import (
     longest,
     multi_cut,
     newmm,
+    dict_trie
 )
 from pythainlp.tokenize import pyicu as tokenize_pyicu
 from pythainlp.tokenize import (
@@ -142,6 +143,7 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(lk82("อุยกูร์"))
         self.assertIsNotNone(lk82("หยากไย่"))
         self.assertEqual(lk82(""), "")
+        self.assertEqual(lk82("น์"), "")
 
         self.assertEqual(udom83("รถ"), "ร800000")
         self.assertEqual(udom83(None), "")
@@ -283,6 +285,7 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(
             dict_word_tokenize("รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE)
         )
+        self.assertIsNotNone(dict_trie(()))
         self.assertIsNotNone(
             dict_word_tokenize(
                 "รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE, engine="newmm"
@@ -543,6 +546,7 @@ class TestUM(unittest.TestCase):
     def test_is_thai(self):
         self.assertEqual(is_thai("ประเทศไทย"), {"thai": 100.0})
         self.assertIsNotNone(is_thai("เผือก", check_all=True))
+        self.assertIsNotNone(is_thai("เผือกabc", check_all=True))
 
     def test_is_thaichar(self):
         self.assertEqual(is_thaichar("ก"), True)

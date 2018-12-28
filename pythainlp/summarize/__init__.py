@@ -11,6 +11,7 @@ from .freq import FrequencySummarizer
 def summarize(text, n, engine="frequency", tokenizer="newmm"):
     """
     Thai text summarization
+    
     :param str text: text to be summarized
     :param int n: number of sentences to be included in the summary
     :param str engine: text summarization engine

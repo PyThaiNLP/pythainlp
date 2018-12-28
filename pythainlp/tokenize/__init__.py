@@ -4,7 +4,6 @@ from __future__ import absolute_import, unicode_literals
 import codecs
 import re
 
-import nltk
 from pythainlp.corpus.thaisyllable import get_data as syllable_dict
 from pythainlp.corpus.thaiword import get_data as word_dict
 from six.moves import zip
@@ -104,9 +103,9 @@ def sent_tokenize(text, engine="whitespace+newline"):
     :return: a list of text, split by whitespace or new line.
     """
     if engine == "whitespace":
-        sentences = nltk.tokenize.WhitespaceTokenizer().tokenize(text)
+        sentences = re.split(r' +', text, re.U)
     else:
-        sentences = re.sub(r"\n+|\s+", "|", text, re.U).split("|")
+        sentences = text.split()
 
     return sentences
 

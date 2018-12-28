@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pythainlp.ulmfit.utils &mdash; PyThaiNLP 1.7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PyThaiNLP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Notes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Package reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/change.html">pythainlp.change</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/collation.html">pythainlp.collation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/date.html">pythainlp.date</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/ner.html">pythainlp.ner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/number.html">pythainlp.number</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/romanization.html">pythainlp.romanization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/sentiment.html">pythainlp.sentiment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/soundex.html">pythainlp.soundex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/summarize.html">pythainlp.summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/tag.html">pythainlp.tag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/tokenizer.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/ulmfit.html">pythainlp.ulmfit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/word_vector.html">pythainlp.word_vector</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyThaiNLP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pythainlp.ulmfit.utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pythainlp.ulmfit.utils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Code by https://github.com/cstorm125/thai2vec/tree/master/notebook</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">pythainlp.corpus</span> <span class="k">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">get_file</span>
+<span class="kn">from</span> <span class="nn">pythainlp.tokenize</span> <span class="k">import</span> <span class="n">word_tokenize</span>
+
+
+<span class="c1"># numpy and fastai</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">from</span> <span class="nn">fastai.text</span> <span class="k">import</span> <span class="o">*</span>
+    <span class="kn">import</span> <span class="nn">dill</span> <span class="k">as</span> <span class="nn">pickle</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pythainlp.tools</span> <span class="k">import</span> <span class="n">install_package</span>
+
+    <span class="n">install_package</span><span class="p">(</span><span class="s2">&quot;fastai&quot;</span><span class="p">)</span>
+    <span class="n">install_package</span><span class="p">(</span><span class="s2">&quot;numpy&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+        <span class="kn">from</span> <span class="nn">fastai.text</span> <span class="k">import</span> <span class="o">*</span>
+        <span class="kn">import</span> <span class="nn">dill</span> <span class="k">as</span> <span class="nn">pickle</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error installing using &#39;pip install fastai numpy dill&#39;&quot;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># import torch</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">torch</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PyTorch required. See https://pytorch.org/.&quot;</span><span class="p">)</span>
+
+
+<span class="n">MODEL_NAME</span> <span class="o">=</span> <span class="s2">&quot;thwiki_model2&quot;</span>
+<span class="n">ITOS_NAME</span> <span class="o">=</span> <span class="s2">&quot;itos&quot;</span>
+
+
+<span class="c1"># paralellized Thai tokenizer with some text cleaning</span>
+<div class="viewcode-block" id="ThaiTokenizer"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.ThaiTokenizer">[docs]</a><span class="k">class</span> <span class="nc">ThaiTokenizer</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;newmm&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :parameters for tokenization engine:</span>
+<span class="sd">            * newmm - Maximum Matching algorithm + TCC</span>
+<span class="sd">            * icu - IBM ICU</span>
+<span class="sd">            * longest-matching - Longest matching</span>
+<span class="sd">            * mm - Maximum Matching algorithm</span>
+<span class="sd">            * pylexto - LexTo</span>
+<span class="sd">            * deepcut - Deep Neural Network</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__RE_BR</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;&lt;\s*br\s*/?&gt;&quot;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__RE_REP</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(\S)(\1{3,})&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__RE_SLASH_HASH</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;([/#])&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__RE_DOUBLE_SPACE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot; {2,}&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ThaiTokenizer.sub_br"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.ThaiTokenizer.sub_br">[docs]</a>    <span class="k">def</span> <span class="nf">sub_br</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meth:`sub_br` replace `&lt;br&gt;` tags with `\n`</span>
+<span class="sd">        :param str text: text to process</span>
+<span class="sd">        :return: procssed text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__RE_BR</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ThaiTokenizer.tokenize"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.ThaiTokenizer.tokenize">[docs]</a>    <span class="k">def</span> <span class="nf">tokenize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meth: tokenize text with selected engine</span>
+<span class="sd">        :param str text: text to tokenize</span>
+<span class="sd">        :return: tokenized text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sub_br</span><span class="p">(</span><span class="n">text</span><span class="p">),</span> <span class="n">engine</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="ThaiTokenizer.replace_rep"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.ThaiTokenizer.replace_rep">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">replace_rep</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meth:`replace_rep` replace 3 or above repetitive characters with `tkrep`</span>
+<span class="sd">        :param str text: text to process</span>
+<span class="sd">        :return: processed text where repetitions are replaced by `tkrep` followed by number of repetitions</span>
+<span class="sd">        **Example**::</span>
+<span class="sd">            &gt;&gt;&gt; from pythainlp.ulmfit.utils import ThaiTokenizer</span>
+<span class="sd">            &gt;&gt;&gt; tt = ThaiTokenizer()</span>
+<span class="sd">            &gt;&gt;&gt; tt.replace_rep(&#39;คือดียยยยยย&#39;)</span>
+<span class="sd">            คือดีtkrep6ย</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">TK_REP</span> <span class="o">=</span> <span class="s2">&quot;tkrep&quot;</span>
+        <span class="n">c</span><span class="p">,</span> <span class="n">cc</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;</span><span class="si">{TK_REP}</span><span class="s2">{len(cc)+1}</span><span class="si">{c}</span><span class="s2">&quot;</span></div>
+
+<div class="viewcode-block" id="ThaiTokenizer.proc_text"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.ThaiTokenizer.proc_text">[docs]</a>    <span class="k">def</span> <span class="nf">proc_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meth: `proc_text` procss and tokenize text removing repetitions, special characters, double spaces</span>
+<span class="sd">        :param str text: text to process</span>
+<span class="sd">        :return: processed and tokenized text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__RE_REP</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">ThaiTokenizer</span><span class="o">.</span><span class="n">replace_rep</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__RE_SLASH_HASH</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot; \1 &quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__RE_DOUBLE_SPACE</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ThaiTokenizer.proc_all"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.ThaiTokenizer.proc_all">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">proc_all</span><span class="p">(</span><span class="n">ss</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meth: `proc_all` runs `proc_text` for multiple sentences</span>
+<span class="sd">        :param str text: text to process</span>
+<span class="sd">        :return: processed and tokenized text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tok</span> <span class="o">=</span> <span class="n">ThaiTokenizer</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">tok</span><span class="o">.</span><span class="n">proc_text</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">ss</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ThaiTokenizer.proc_all_mp"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.ThaiTokenizer.proc_all_mp">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">proc_all_mp</span><span class="p">(</span><span class="n">ss</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :meth: `proc_all` runs `proc_text` for multiple sentences using multiple cpus</span>
+<span class="sd">        :param str text: text to process</span>
+<span class="sd">        :return: processed and tokenized text</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ncpus</span> <span class="o">=</span> <span class="n">num_cpus</span><span class="p">()</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">ncpus</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">ThaiTokenizer</span><span class="o">.</span><span class="n">proc_all</span><span class="p">,</span> <span class="n">ss</span><span class="p">),</span> <span class="p">[])</span></div></div>
+
+
+<span class="c1"># ulmfit helper functions</span>
+<span class="n">BOS</span> <span class="o">=</span> <span class="s2">&quot;xbos&quot;</span>  <span class="c1"># beginning-of-sentence tag</span>
+
+
+<div class="viewcode-block" id="get_texts"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.get_texts">[docs]</a><span class="k">def</span> <span class="nf">get_texts</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meth: `get_texts` get tuple of tokenized texts and labels</span>
+<span class="sd">    :param pandas.DataFrame df: `pandas.DataFrame` with `label` as first column and `text` as second column</span>
+<span class="sd">    :return:</span>
+<span class="sd">        * tok - lists of tokenized texts with beginning-of-sentence tag `xbos` as first element of each list</span>
+<span class="sd">        * labels - list of labels</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="n">BOS</span> <span class="o">+</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+    <span class="n">tok</span> <span class="o">=</span> <span class="n">ThaiTokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">proc_all_mp</span><span class="p">(</span><span class="n">partition_by_cores</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="get_all"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.get_all">[docs]</a><span class="k">def</span> <span class="nf">get_all</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meth: `get_all` iterate `get_texts` for all the entire `pandas.DataFrame`</span>
+<span class="sd">    :param pandas.DataFrame df: `pandas.DataFrame` with `label` as first column and `text` as second column</span>
+<span class="sd">    :return:</span>
+<span class="sd">        * tok - lists of tokenized texts with beginning-of-sentence tag `xbos` as first element of each list</span>
+<span class="sd">        * labels - list of labels</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tok</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="n">tok_</span><span class="p">,</span> <span class="n">labels_</span> <span class="o">=</span> <span class="n">get_texts</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="n">tok</span> <span class="o">+=</span> <span class="n">tok_</span>
+        <span class="n">labels</span> <span class="o">+=</span> <span class="n">labels_</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">tok</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="numericalizer"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.numericalizer">[docs]</a><span class="k">def</span> <span class="nf">numericalizer</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">,</span> <span class="n">itos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_vocab</span><span class="o">=</span><span class="mi">60000</span><span class="p">,</span> <span class="n">min_freq</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pad_tok</span><span class="o">=</span><span class="s2">&quot;_pad_&quot;</span><span class="p">,</span> <span class="n">unk_tok</span><span class="o">=</span><span class="s2">&quot;_unk_&quot;</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meth: `numericalize` numericalize tokenized texts for:</span>
+<span class="sd">        * tokens with word frequency more than `min_freq`</span>
+<span class="sd">        * at maximum vocab size of `max_vocab`</span>
+<span class="sd">        * add unknown token `_unk_` and padding token `_pad_` in first and second position</span>
+<span class="sd">        * use integer-to-string list `itos` if avaiable e.g. [&#39;_unk_&#39;, &#39;_pad_&#39;,&#39;first_word&#39;,&#39;second_word&#39;,...]</span>
+<span class="sd">    :param pandas.DataFrame df: `pandas.DataFrame` with `label` as first column and `text` as second column</span>
+<span class="sd">    :param list itos: integer-to-string list</span>
+<span class="sd">    :param int max_vocab: maximum number of vocabulary (default 60000)</span>
+<span class="sd">    :param int min_freq: minimum word frequency to be included (default 2)</span>
+<span class="sd">    :param str pad_tok: padding token</span>
+<span class="sd">    :param str unk_token: unknown token</span>
+<span class="sd">    :return:</span>
+<span class="sd">        * lm - `numpy.array` of numericalized texts</span>
+<span class="sd">        * tok - lists of tokenized texts with beginning-of-sentence tag `xbos` as first element of each list</span>
+<span class="sd">        * labels - list of labels</span>
+<span class="sd">        * itos - integer-to-string list e.g. [&#39;_unk_&#39;, &#39;_pad_&#39;,&#39;first_word&#39;,&#39;second_word&#39;,...]</span>
+<span class="sd">        * stoi - string-to-integer dict e.g. {&#39;_unk_&#39;:0, &#39;_pad_&#39;:1,&#39;first_word&#39;:2,&#39;second_word&#39;:3,...}</span>
+<span class="sd">        * freq - `collections.Counter` for word frequency</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tok</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">get_all</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">freq</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">p</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">tok</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">o</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">itos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">itos</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">freq</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="n">max_vocab</span><span class="p">)</span> <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="n">min_freq</span><span class="p">]</span>
+        <span class="n">itos</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pad_tok</span><span class="p">)</span>
+        <span class="n">itos</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">unk_tok</span><span class="p">)</span>
+    <span class="n">stoi</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">itos</span><span class="p">)})</span>
+    <span class="n">lm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">stoi</span><span class="p">[</span><span class="n">o</span><span class="p">]</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">p</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">tok</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">lm</span><span class="p">,</span> <span class="n">tok</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">itos</span><span class="p">,</span> <span class="n">stoi</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="merge_wgts"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.merge_wgts">[docs]</a><span class="k">def</span> <span class="nf">merge_wgts</span><span class="p">(</span><span class="n">em_sz</span><span class="p">,</span> <span class="n">wgts</span><span class="p">,</span> <span class="n">itos_pre</span><span class="p">,</span> <span class="n">itos_cls</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param pandas.DataFrame df: `pandas.DataFrame` with `label` as first column and `text` as second column</span>
+<span class="sd">    :param int em_sz: size of embedding vectors (pretrained model is at 300)</span>
+<span class="sd">    :param wgts: saved pyTorch weights of pretrained model</span>
+<span class="sd">    :param list itos_pre: integer-to-string list of pretrained model</span>
+<span class="sd">    :param list itos_cls: integer-to-string list of current dataset</span>
+<span class="sd">    :return: merged weights of the model for current dataset</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vocab_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">itos_cls</span><span class="p">)</span>
+    <span class="n">enc_wgts</span> <span class="o">=</span> <span class="n">to_np</span><span class="p">(</span><span class="n">wgts</span><span class="p">[</span><span class="s2">&quot;0.encoder.weight&quot;</span><span class="p">])</span>
+    <span class="c1"># average weight of encoding</span>
+    <span class="n">row_m</span> <span class="o">=</span> <span class="n">enc_wgts</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">stoi_pre</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span>
+        <span class="k">lambda</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">itos_pre</span><span class="p">)}</span>
+    <span class="p">)</span>
+    <span class="c1"># new embedding based on classification dataset</span>
+    <span class="n">new_w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">em_sz</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">itos_cls</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">stoi_pre</span><span class="p">[</span><span class="n">w</span><span class="p">]</span>
+        <span class="c1"># use pretrianed embedding if present; else use the average</span>
+        <span class="n">new_w</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">enc_wgts</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">row_m</span>
+    <span class="n">wgts</span><span class="p">[</span><span class="s2">&quot;0.encoder.weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span><span class="p">(</span><span class="n">new_w</span><span class="p">)</span>
+    <span class="n">wgts</span><span class="p">[</span><span class="s2">&quot;0.encoder_with_dropout.embed.weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">new_w</span><span class="p">))</span>
+    <span class="n">wgts</span><span class="p">[</span><span class="s2">&quot;1.decoder.weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">new_w</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">wgts</span></div>
+
+
+<span class="c1"># feature extractor</span>
+<div class="viewcode-block" id="document_vector"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.document_vector">[docs]</a><span class="k">def</span> <span class="nf">document_vector</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">stoi</span><span class="p">,</span> <span class="n">tok_engine</span><span class="o">=</span><span class="s2">&quot;newmm&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :meth: `document_vector` get document vector using pretrained ULMFit model</span>
+<span class="sd">    :param str ss: sentence to extract embeddings</span>
+<span class="sd">    :param m: pyTorch model</span>
+<span class="sd">    :param dict stoi: string-to-integer dict e.g. {&#39;_unk_&#39;:0, &#39;_pad_&#39;:1,&#39;first_word&#39;:2,&#39;second_word&#39;:3,...}</span>
+<span class="sd">    :param str tok_engine: tokenization engine (recommend using `newmm` if you are using pretrained ULMFit model)</span>
+<span class="sd">    :return: `numpy.array` of document vector sized 300</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">ss</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">LongTensor</span><span class="p">([</span><span class="n">stoi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">s</span><span class="p">])</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">Variable</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">volatile</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">pred</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">t</span><span class="p">)</span>
+    <span class="c1"># get average of last lstm layer along bptt</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">to_np</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">pred</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<span class="k">class</span> <span class="nc">SaveFeatures</span><span class="p">:</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hook</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">register_forward_hook</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hook_fn</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">hook_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="nb">input</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">features</span> <span class="o">=</span> <span class="n">output</span>
+
+    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hook</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+
+
+<span class="c1"># Download pretrained models</span>
+<span class="k">def</span> <span class="nf">get_path</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">get_file</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
+        <span class="n">download</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">get_file</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span>
+
+
+<span class="k">def</span> <span class="nf">load_pretrained_model</span><span class="p">():</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">get_path</span><span class="p">(</span><span class="n">MODEL_NAME</span><span class="p">)</span>
+    <span class="n">wgts</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="k">lambda</span> <span class="n">storage</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="n">storage</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wgts</span>
+
+
+<span class="k">def</span> <span class="nf">load_pretrained_itos</span><span class="p">():</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">get_path</span><span class="p">(</span><span class="n">ITOS_NAME</span><span class="p">)</span>
+    <span class="n">itos</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">itos</span>
+
+
+<div class="viewcode-block" id="about"><a class="viewcode-back" href="../../../api/ulmfit.html#pythainlp.ulmfit.utils.about">[docs]</a><span class="k">def</span> <span class="nf">about</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    thai2vec</span>
+<span class="s2">    State-of-the-Art Language Modeling, Text Feature Extraction and Text Classification in Thai Language.</span>
+<span class="s2">    Created as part of PyThaiNLP with ULMFit implementation from fast.ai</span>
+
+<span class="s2">    Development : Charin Polpanumas</span>
+<span class="s2">    GitHub : https://github.com/cstorm125/thai2vec</span>
+<span class="s2">    &quot;&quot;&quot;</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

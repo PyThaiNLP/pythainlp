@@ -11,7 +11,7 @@ from tinydb import Query, TinyDB
 from tqdm import tqdm
 
 CORPUS_DB_URL = (
-    "https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/master/db.json"
+    "https://github.com/PyThaiNLP/pythainlp-corpus/raw/1.7/db.json"
 )
 
 # __all__ = ["thaipos", "thaiword","alphabet","tone","country","wordnet"]

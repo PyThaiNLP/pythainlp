@@ -12,7 +12,7 @@ with codecs.open("requirements.txt", "r", encoding="utf-8") as f:
 
 setup(
     name="pythainlp",
-    version="1.7.1",
+    version="1.7.2",
     description="Thai natural language processing library",
     long_description=readme,
     long_description_content_type="text/markdown",

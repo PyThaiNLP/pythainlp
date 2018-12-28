@@ -39,6 +39,8 @@ def corpus_db_path():
 def get_corpus(filename: str) -> frozenset:
     """
     Read corpus from file and return a frozenset
+
+    :param string filename: file corpus
     """
     lines = []
     with open(os.path.join(corpus_path(), filename), "r", encoding="utf-8-sig") as fh:
@@ -48,6 +50,11 @@ def get_corpus(filename: str) -> frozenset:
 
 
 def get_corpus_path(name: str) -> [str, None]:
+    """
+    Get corpus path
+
+    :param string name: corpus name
+    """
     db = TinyDB(corpus_db_path())
     temp = Query()
 
@@ -94,6 +101,12 @@ def download_(url: str, dst: str):
 
 
 def download(name: str, force: bool = False):
+    """
+    Download corpus
+
+    :param string name: corpus name
+    :param bool force: force install
+    """
     db = TinyDB(corpus_db_path())
     temp = Query()
     data = requests.get(corpus_db_url())
@@ -116,7 +129,7 @@ def download(name: str, force: bool = False):
             if not db.search(
                 temp.name == name and temp.version == temp_name["version"]
             ):
-                print("have update")
+                print("Update")
                 print(
                     "from "
                     + name
@@ -129,7 +142,7 @@ def download(name: str, force: bool = False):
                 )
                 yes_no = "y"
                 if not force:
-                    yes_no = str(input("y or n : ")).lower()
+                    yes_no = str(input("yes or no (y / n) : ")).lower()
                 if "y" == yes_no:
                     download_(temp_name["download"], temp_name["file_name"])
                     db.update({"version": temp_name["version"]}, temp.name == name)
@@ -147,7 +160,7 @@ def download(name: str, force: bool = False):
                 )
                 yes_no = "y"
                 if not force:
-                    yes_no = str(input("y or n : ")).lower()
+                    yes_no = str(input("yes or no (y / n) : ")).lower()
                 if "y" == yes_no:
                     download_(temp_name["download"], temp_name["file_name"])
                     db.update({"version": temp_name["version"]}, temp.name == name)
@@ -155,6 +168,12 @@ def download(name: str, force: bool = False):
 
 
 def remove(name: str) -> bool:
+    """
+    Remove corpus
+
+    :param string name: corpus name
+    :return: True or False
+    """
     db = TinyDB(corpus_db_path())
     temp = Query()
     data = db.search(temp.name == name)

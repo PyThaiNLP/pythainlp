@@ -142,6 +142,7 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(lk82("เกาะ"))
         self.assertIsNotNone(lk82("อุยกูร์"))
         self.assertIsNotNone(lk82("หยากไย่"))
+        self.assertIsNotNone(lk82("หอ"))
         self.assertEqual(lk82(""), "")
         self.assertEqual(lk82("น์"), "")
 

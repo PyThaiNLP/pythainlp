@@ -1,4 +1,4 @@
-.. currentmodule:: pythainlp.romanization
+.. currentmodule:: pythainlp.transliterate
 
 pythainlp.transliterate
 ====================================
@@ -9,6 +9,3 @@ Modules
 
 .. autofunction:: romanize
 .. autofunction:: transliterate
-.. currentmodule:: pythainlp.transliterate.ThaiTransliterator
-.. autoclass:: ThaiTransliterator
-   :members: romanize

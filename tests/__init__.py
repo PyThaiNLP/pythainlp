@@ -71,6 +71,7 @@ from pythainlp.util import (
     thai_strftime,
     thai_to_eng,
     thaiword_to_num,
+    thaicheck
 )
 #from pythainlp.ulmfit import rm_brackets
 
@@ -560,6 +561,14 @@ class TestUM(unittest.TestCase):
         self.assertEqual(is_thaiword("ไทย"), True)
         self.assertEqual(is_thaiword("ต.ค."), True)
         self.assertEqual(is_thaiword("ไทย0"), False)
+
+    def test_is_thaicheck(self):
+        self.assertEqual(thaicheck("ตา"), True)
+        self.assertEqual(thaicheck("ฆ่า"), True)
+        self.assertEqual(thaicheck("คน"), True)
+        self.assertEqual(thaicheck("มอ"), True)
+        self.assertEqual(thaicheck("เลข"), False)
+        self.assertEqual(thaicheck("ลักษ์"), False)
 
     # ### pythainlp.word_vector
 

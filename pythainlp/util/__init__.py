@@ -25,6 +25,7 @@ __all__ = [
     "thai_to_eng",
     "thai_digit_to_arabic_digit",
     "thaiword_to_num",
+    "thaicheck"
 ]
 
 
@@ -43,3 +44,4 @@ from .normalize import deletetone, normalize
 from .numtoword import bahttext, num_to_thaiword
 from .thai import is_thai, is_thaichar, is_thaiword
 from .wordtonum import thaiword_to_num
+from .thaiwordcheck import thaicheck

@@ -329,8 +329,8 @@ class TestUM(unittest.TestCase):
         )
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="ulmfit"))
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="XX"))
-        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
-        self.assertIsNotNone(word_tokenize("", engine="deepcut"))
+        #self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
+        #self.assertIsNotNone(word_tokenize("", engine="deepcut"))
 
     def test_word_tokenize_icu(self):
         self.assertEqual(tokenize_pyicu.segment(None), [])
@@ -564,10 +564,14 @@ class TestUM(unittest.TestCase):
 
     def test_is_thaicheck(self):
         self.assertEqual(thaicheck("ตา"), True)
+        self.assertEqual(thaicheck("ยา"), True)
         self.assertEqual(thaicheck("ฆ่า"), True)
         self.assertEqual(thaicheck("คน"), True)
         self.assertEqual(thaicheck("มอ"), True)
         self.assertEqual(thaicheck("เลข"), False)
+        self.assertEqual(thaicheck("กะ"), True)
+        self.assertEqual(thaicheck("ศา"), False)
+        self.assertEqual(thaicheck("abc"), False)
         self.assertEqual(thaicheck("ลักษ์"), False)
 
     # ### pythainlp.word_vector

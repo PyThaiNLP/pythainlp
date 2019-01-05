@@ -7,7 +7,4 @@ import deepcut
 
 
 def segment(text):
-    if not text:
-        return []
-
     return deepcut.tokenize(text)

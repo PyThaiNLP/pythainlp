@@ -33,6 +33,8 @@ def thaicheck(word):
 				return True
 			while i<len(word2) and thai==True:
 				thai= _check3(word2[i])
+				if thai==False:
+					return False
 				i+=1
 			return True
 		else:

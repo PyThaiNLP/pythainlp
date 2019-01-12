@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pythainlp.tag.named_entity &mdash; PyThaiNLP 2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PyThaiNLP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Notes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Package reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/corpus.html">pythainlp.corpus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/soundex.html">pythainlp.soundex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/summarize.html">pythainlp.summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/tag.html">pythainlp.tag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/tokenize.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/tools.html">pythainlp.tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/transliterate.html">pythainlp.transliterate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/ulmfit.html">pythainlp.ulmfit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/util.html">pythainlp.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/word_vector.html">pythainlp.word_vector</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyThaiNLP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../tag.html">pythainlp.tag</a> &raquo;</li>
+        
+      <li>pythainlp.tag.named_entity</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pythainlp.tag.named_entity</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Named-entity recognizer</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ThaiNameTagger&quot;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">sklearn_crfsuite</span>
+<span class="kn">from</span> <span class="nn">pythainlp.corpus</span> <span class="k">import</span> <span class="n">download</span><span class="p">,</span> <span class="n">get_corpus_path</span><span class="p">,</span> <span class="n">thai_stopwords</span>
+<span class="kn">from</span> <span class="nn">pythainlp.tag</span> <span class="k">import</span> <span class="n">perceptron</span>
+<span class="kn">from</span> <span class="nn">pythainlp.tokenize</span> <span class="k">import</span> <span class="n">word_tokenize</span>
+<span class="kn">from</span> <span class="nn">pythainlp.util</span> <span class="k">import</span> <span class="n">is_thaiword</span>
+
+<span class="n">_WORD_TOKENIZER</span> <span class="o">=</span> <span class="s2">&quot;newmm&quot;</span>  <span class="c1"># ตัวตัดคำ</span>
+
+
+<span class="k">def</span> <span class="nf">_is_stopword</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>  <span class="c1"># เช็คว่าเป็นคำฟุ่มเฟือย</span>
+    <span class="k">return</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">thai_stopwords</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_doc2features</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">postag</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Features from current word</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;word.word&quot;</span><span class="p">:</span> <span class="n">word</span><span class="p">,</span>
+        <span class="s2">&quot;word.stopword&quot;</span><span class="p">:</span> <span class="n">_is_stopword</span><span class="p">(</span><span class="n">word</span><span class="p">),</span>
+        <span class="s2">&quot;word.isthai&quot;</span><span class="p">:</span> <span class="n">is_thaiword</span><span class="p">(</span><span class="n">word</span><span class="p">),</span>
+        <span class="s2">&quot;word.isspace&quot;</span><span class="p">:</span> <span class="n">word</span><span class="o">.</span><span class="n">isspace</span><span class="p">(),</span>
+        <span class="s2">&quot;postag&quot;</span><span class="p">:</span> <span class="n">postag</span><span class="p">,</span>
+        <span class="s2">&quot;word.isdigit&quot;</span><span class="p">:</span> <span class="n">word</span><span class="o">.</span><span class="n">isdigit</span><span class="p">(),</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="n">features</span><span class="p">[</span><span class="s2">&quot;word.islen5&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Features from previous word</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">prevword</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">prevpostag</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">prev_features</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;word.prevword&quot;</span><span class="p">:</span> <span class="n">prevword</span><span class="p">,</span>
+            <span class="s2">&quot;word.previsspace&quot;</span><span class="p">:</span> <span class="n">prevword</span><span class="o">.</span><span class="n">isspace</span><span class="p">(),</span>
+            <span class="s2">&quot;word.previsthai&quot;</span><span class="p">:</span> <span class="n">is_thaiword</span><span class="p">(</span><span class="n">prevword</span><span class="p">),</span>
+            <span class="s2">&quot;word.prevstopword&quot;</span><span class="p">:</span> <span class="n">_is_stopword</span><span class="p">(</span><span class="n">prevword</span><span class="p">),</span>
+            <span class="s2">&quot;word.prevpostag&quot;</span><span class="p">:</span> <span class="n">prevpostag</span><span class="p">,</span>
+            <span class="s2">&quot;word.prevwordisdigit&quot;</span><span class="p">:</span> <span class="n">prevword</span><span class="o">.</span><span class="n">isdigit</span><span class="p">(),</span>
+        <span class="p">}</span>
+        <span class="n">features</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">prev_features</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">features</span><span class="p">[</span><span class="s2">&quot;BOS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Special &quot;Beginning of Sequence&quot; tag</span>
+
+    <span class="c1"># Features from next word</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">nextword</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">nextpostag</span> <span class="o">=</span> <span class="n">doc</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">next_features</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;word.nextword&quot;</span><span class="p">:</span> <span class="n">nextword</span><span class="p">,</span>
+            <span class="s2">&quot;word.nextisspace&quot;</span><span class="p">:</span> <span class="n">nextword</span><span class="o">.</span><span class="n">isspace</span><span class="p">(),</span>
+            <span class="s2">&quot;word.nextpostag&quot;</span><span class="p">:</span> <span class="n">nextpostag</span><span class="p">,</span>
+            <span class="s2">&quot;word.nextisthai&quot;</span><span class="p">:</span> <span class="n">is_thaiword</span><span class="p">(</span><span class="n">nextword</span><span class="p">),</span>
+            <span class="s2">&quot;word.nextstopword&quot;</span><span class="p">:</span> <span class="n">_is_stopword</span><span class="p">(</span><span class="n">nextword</span><span class="p">),</span>
+            <span class="s2">&quot;word.nextwordisdigit&quot;</span><span class="p">:</span> <span class="n">nextword</span><span class="o">.</span><span class="n">isdigit</span><span class="p">(),</span>
+        <span class="p">}</span>
+        <span class="n">features</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">next_features</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">features</span><span class="p">[</span><span class="s2">&quot;EOS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Special &quot;End of Sequence&quot; tag</span>
+
+    <span class="k">return</span> <span class="n">features</span>
+
+
+<div class="viewcode-block" id="ThaiNameTagger"><a class="viewcode-back" href="../../../api/tag.html#pythainlp.tag.ThaiNameTagger">[docs]</a><span class="k">class</span> <span class="nc">ThaiNameTagger</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Thai named-entity recognizer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data_path</span> <span class="o">=</span> <span class="n">get_corpus_path</span><span class="p">(</span><span class="s2">&quot;thainer&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_path</span><span class="p">:</span>
+            <span class="n">download</span><span class="p">(</span><span class="s2">&quot;thainer&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data_path</span> <span class="o">=</span> <span class="n">get_corpus_path</span><span class="p">(</span><span class="s2">&quot;thainer&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crf</span> <span class="o">=</span> <span class="n">sklearn_crfsuite</span><span class="o">.</span><span class="n">CRF</span><span class="p">(</span>
+            <span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;lbfgs&quot;</span><span class="p">,</span>
+            <span class="n">c1</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">c2</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">max_iterations</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+            <span class="n">all_possible_transitions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">model_filename</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_path</span><span class="p">,</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="ThaiNameTagger.get_ner"><a class="viewcode-back" href="../../../api/tag.html#pythainlp.tag.ThaiNameTagger.get_ner">[docs]</a>    <span class="k">def</span> <span class="nf">get_ner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get named-entities in text</span>
+
+<span class="sd">        :param string text: Thai text</span>
+<span class="sd">        :param boolean pos: get Part-Of-Speech tag (True) or get not (False)</span>
+
+<span class="sd">        :return: list of strings with name labels (and part-of-speech tags)</span>
+
+<span class="sd">        **Example**::</span>
+<span class="sd">            &gt;&gt;&gt; from pythainlp.tag import ThaiNameTagger</span>
+<span class="sd">            &gt;&gt;&gt; ner = ThaiNameTagger()</span>
+<span class="sd">            &gt;&gt;&gt; ner.get_ner(&quot;วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.&quot;)</span>
+<span class="sd">            [(&#39;วันที่&#39;, &#39;JSBR&#39;, &#39;O&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39;15&#39;, &#39;NCNM&#39;, &#39;B-DATE&#39;),</span>
+<span class="sd">            (&#39; &#39;, &#39;NCMN&#39;, &#39;I-DATE&#39;), (&#39;ก.ย.&#39;, &#39;CMTR&#39;, &#39;I-DATE&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;I-DATE&#39;),</span>
+<span class="sd">            (&#39;61&#39;, &#39;NCNM&#39;, &#39;I-DATE&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39;ทดสอบ&#39;, &#39;VACT&#39;, &#39;O&#39;),</span>
+<span class="sd">            (&#39;ระบบ&#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39;เวลา&#39;, &#39;NCMN&#39;, &#39;O&#39;), (&#39; &#39;, &#39;NCMN&#39;, &#39;O&#39;),</span>
+<span class="sd">            (&#39;14&#39;, &#39;NCNM&#39;, &#39;B-TIME&#39;), (&#39;:&#39;, &#39;PUNC&#39;, &#39;I-TIME&#39;), (&#39;49&#39;, &#39;NCNM&#39;, &#39;I-TIME&#39;),</span>
+<span class="sd">            (&#39; &#39;, &#39;NCMN&#39;, &#39;I-TIME&#39;), (&#39;น.&#39;, &#39;CMTR&#39;, &#39;I-TIME&#39;)]</span>
+<span class="sd">            &gt;&gt;&gt; ner.get_ner(&quot;วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.&quot;, pos=False)</span>
+<span class="sd">            [(&#39;วันที่&#39;, &#39;O&#39;), (&#39; &#39;, &#39;O&#39;), (&#39;15&#39;, &#39;B-DATE&#39;), (&#39; &#39;, &#39;I-DATE&#39;),</span>
+<span class="sd">            (&#39;ก.ย.&#39;, &#39;I-DATE&#39;), (&#39; &#39;, &#39;I-DATE&#39;), (&#39;61&#39;, &#39;I-DATE&#39;), (&#39; &#39;, &#39;O&#39;),</span>
+<span class="sd">            (&#39;ทดสอบ&#39;, &#39;O&#39;), (&#39;ระบบ&#39;, &#39;O&#39;), (&#39;เวลา&#39;, &#39;O&#39;), (&#39; &#39;, &#39;O&#39;), (&#39;14&#39;, &#39;B-TIME&#39;),</span>
+<span class="sd">            (&#39;:&#39;, &#39;I-TIME&#39;), (&#39;49&#39;, &#39;I-TIME&#39;), (&#39; &#39;, &#39;I-TIME&#39;), (&#39;น.&#39;, &#39;I-TIME&#39;)]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tokens</span> <span class="o">=</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="n">_WORD_TOKENIZER</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__pos_tags</span> <span class="o">=</span> <span class="n">perceptron</span><span class="o">.</span><span class="n">tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tokens</span><span class="p">,</span> <span class="n">corpus</span><span class="o">=</span><span class="s2">&quot;orchid&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__x_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extract_features</span><span class="p">(</span>
+            <span class="p">[(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pos_tags</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tokens</span><span class="p">)]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">crf</span><span class="o">.</span><span class="n">predict_single</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__x_test</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">pos</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tokens</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pos_tags</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">data</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__y</span><span class="p">)</span>
+            <span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tokens</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">data</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__y</span><span class="p">)]</span></div>
+
+    <span class="k">def</span> <span class="nf">__extract_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">_doc2features</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">doc</span><span class="p">))]</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

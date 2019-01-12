@@ -1,0 +1,408 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pythainlp.util.date &mdash; PyThaiNLP 2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> PyThaiNLP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Notes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../notes/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Package reference:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/corpus.html">pythainlp.corpus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/soundex.html">pythainlp.soundex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/summarize.html">pythainlp.summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/tag.html">pythainlp.tag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/tokenize.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/tools.html">pythainlp.tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/transliterate.html">pythainlp.transliterate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/ulmfit.html">pythainlp.ulmfit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/util.html">pythainlp.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/word_vector.html">pythainlp.word_vector</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PyThaiNLP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>pythainlp.util.date</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pythainlp.util.date</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Thai date/time conversion and formatting</span>
+
+<span class="sd">Note: Does not take into account the change of new year&#39;s day in Thailand</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># BE คือ พ.ศ.</span>
+<span class="c1"># AD คือ ค.ศ.</span>
+<span class="c1"># AH ปีฮิจเราะห์ศักราชเป็นปีพุทธศักราช จะต้องบวกด้วย 1122</span>
+<span class="c1"># ไม่ได้รองรับปี พ.ศ. ก่อนการเปลี่ยนวันขึ้นปีใหม่ของประเทศไทย</span>
+
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;thai_abbr_months&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;thai_abbr_weekdays&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;thai_full_months&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;thai_full_weekdays&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;thai_strftime&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">thai_abbr_weekdays</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;จ&quot;</span><span class="p">,</span> <span class="s2">&quot;อ&quot;</span><span class="p">,</span> <span class="s2">&quot;พ&quot;</span><span class="p">,</span> <span class="s2">&quot;พฤ&quot;</span><span class="p">,</span> <span class="s2">&quot;ศ&quot;</span><span class="p">,</span> <span class="s2">&quot;ส&quot;</span><span class="p">,</span> <span class="s2">&quot;อา&quot;</span><span class="p">]</span>
+<span class="n">thai_full_weekdays</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;วันจันทร์&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;วันอังคาร&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;วันพุธ&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;วันพฤหัสบดี&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;วันศุกร์&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;วันเสาร์&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;วันอาทิตย์&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">thai_abbr_months</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;ม.ค.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ก.พ.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;มี.ค.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;เม.ย.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;พ.ค.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;มิ.ย.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ก.ค.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ส.ค.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ก.ย.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ต.ค.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;พ.ย.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ธ.ค.&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">thai_full_months</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;มกราคม&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;กุมภาพันธ์&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;มีนาคม&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;เมษายน&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;พฤษภาคม&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;มิถุนายน&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;กรกฎาคม&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;สิงหาคม&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;กันยายน&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ตุลาคม&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;พฤศจิกายน&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ธันวาคม&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">_HA_TH_DIGITS</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s2">&quot;0123456789&quot;</span><span class="p">,</span> <span class="s2">&quot;๐๑๒๓๔๕๖๗๘๙&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># Conversion support for thai_strftime()</span>
+<span class="k">def</span> <span class="nf">_thai_strftime</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span> <span class="n">fmt_c</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">fmt_c</span> <span class="o">==</span> <span class="s2">&quot;a&quot;</span><span class="p">:</span>  <span class="c1"># abbreviated weekday</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">thai_abbr_weekdays</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">weekday</span><span class="p">()]</span>
+    <span class="k">elif</span> <span class="n">fmt_c</span> <span class="o">==</span> <span class="s2">&quot;A&quot;</span><span class="p">:</span>  <span class="c1"># full weekday</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">thai_full_weekdays</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">weekday</span><span class="p">()]</span>
+    <span class="k">elif</span> <span class="n">fmt_c</span> <span class="o">==</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span>  <span class="c1"># abbreviated month</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">thai_abbr_months</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">month</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">fmt_c</span> <span class="o">==</span> <span class="s2">&quot;B&quot;</span><span class="p">:</span>  <span class="c1"># full month</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">thai_full_months</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">month</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">fmt_c</span> <span class="o">==</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span>  <span class="c1">#  # year without century</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">year</span> <span class="o">+</span> <span class="mi">543</span><span class="p">)[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">fmt_c</span> <span class="o">==</span> <span class="s2">&quot;Y&quot;</span><span class="p">:</span>  <span class="c1"># year with century</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">year</span> <span class="o">+</span> <span class="mi">543</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">fmt_c</span> <span class="o">==</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span>
+        <span class="c1"># Wed  6 Oct 01:40:00 1976</span>
+        <span class="c1"># พ   6 ต.ค. 01:40:00 2519  &lt;-- left-aligned weekday, right-aligned day</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:&lt;2}</span><span class="s2"> </span><span class="si">{:&gt;2}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">thai_abbr_weekdays</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">weekday</span><span class="p">()],</span>
+            <span class="n">datetime</span><span class="o">.</span><span class="n">day</span><span class="p">,</span>
+            <span class="n">thai_abbr_months</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">month</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H:%M:%S&quot;</span><span class="p">),</span>
+            <span class="n">datetime</span><span class="o">.</span><span class="n">year</span> <span class="o">+</span> <span class="mi">543</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">fmt_c</span> <span class="o">==</span> <span class="s2">&quot;v&quot;</span><span class="p">:</span>  <span class="c1"># undocumented format: &#39; 6-Oct-1976&#39;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:&gt;2}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">datetime</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="n">thai_abbr_months</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">month</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">datetime</span><span class="o">.</span><span class="n">year</span> <span class="o">+</span> <span class="mi">543</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># matched with nothing</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fmt_c</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">text</span>
+
+
+<div class="viewcode-block" id="thai_strftime"><a class="viewcode-back" href="../../../api/util.html#pythainlp.util.thai_strftime">[docs]</a><span class="k">def</span> <span class="nf">thai_strftime</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">thaidigit</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Thai date and time string formatter</span>
+
+<span class="sd">    Formatting directives similar to datetime.strftime()</span>
+
+<span class="sd">    Will use Thai names and Thai Buddhist Era for these directives:</span>
+<span class="sd">    - %a abbreviated weekday name</span>
+<span class="sd">    - %A full weekday name</span>
+<span class="sd">    - %b abbreviated month name</span>
+<span class="sd">    - %B full month name</span>
+<span class="sd">    - %y year without century</span>
+<span class="sd">    - %Y year with century</span>
+<span class="sd">    - %c date and time representation</span>
+<span class="sd">    - %v short date representation (undocumented)</span>
+
+<span class="sd">    Other directives will be passed to datetime.strftime()</span>
+
+<span class="sd">    Note 1:</span>
+<span class="sd">    The Thai Buddhist Era (BE) year is simply converted from AD by adding 543.</span>
+<span class="sd">    This is certainly not accurate for years before 1941 AD,</span>
+<span class="sd">    due to the change in Thai New Year&#39;s Day.</span>
+
+<span class="sd">    Note 2:</span>
+<span class="sd">    This meant to be an interrim solution, since Python standard&#39;s locale module</span>
+<span class="sd">    (which relied on C&#39;s strftime()) does not support &quot;th&quot; or &quot;th_TH&quot; locale yet.</span>
+<span class="sd">    If supported, we can just locale.setlocale(locale.LC_TIME, &quot;th_TH&quot;) and</span>
+<span class="sd">    then use native datetime.strftime().</span>
+
+<span class="sd">    :return: Date and time spelled out in text, with month in Thai name and year in Thai Buddhist Era (BE).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">thaidate_parts</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">fmt_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">fmt_len</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">fmt</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;%&quot;</span><span class="p">:</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">fmt_len</span><span class="p">:</span>
+                <span class="n">fmt_c</span> <span class="o">=</span> <span class="n">fmt</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">fmt_c</span> <span class="ow">in</span> <span class="s2">&quot;aAbByYcv&quot;</span><span class="p">:</span>  <span class="c1"># weekday/month names, years: to be localized</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">_thai_strftime</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span> <span class="n">fmt_c</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">fmt_c</span> <span class="o">==</span> <span class="s2">&quot;-&quot;</span><span class="p">:</span>  <span class="c1"># no padding day or month</span>
+                    <span class="n">k</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">fmt_len</span><span class="p">:</span>
+                        <span class="n">fmt_c_nopad</span> <span class="o">=</span> <span class="n">fmt</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">fmt_c_nopad</span> <span class="ow">in</span> <span class="s2">&quot;aAbByYcv&quot;</span><span class="p">:</span>  <span class="c1"># check if requires localization</span>
+                            <span class="n">text</span> <span class="o">=</span> <span class="n">_thai_strftime</span><span class="p">(</span><span class="n">datetime</span><span class="p">,</span> <span class="n">fmt_c_nopad</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">text</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%-</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fmt_c_nopad</span><span class="p">))</span>
+                        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># consume char after &quot;-&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span>
+                <span class="k">elif</span> <span class="n">fmt_c</span><span class="p">:</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fmt_c</span><span class="p">))</span>
+
+                <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># consume char after &quot;%&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;%&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">fmt</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="n">thaidate_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="n">thaidate_text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">thaidate_parts</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">thaidigit</span><span class="p">:</span>
+        <span class="n">thaidate_text</span> <span class="o">=</span> <span class="n">thaidate_text</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">_HA_TH_DIGITS</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">thaidate_text</span></div>
+
+
+<div class="viewcode-block" id="now_reign_year"><a class="viewcode-back" href="../../../api/util.html#pythainlp.util.now_reign_year">[docs]</a><span class="k">def</span> <span class="nf">now_reign_year</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ปีรัชกาลที่ 10 ณ ปัจจุบัน</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">now_</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">now_</span><span class="o">.</span><span class="n">year</span> <span class="o">-</span> <span class="mi">2015</span></div>
+
+
+<div class="viewcode-block" id="reign_year_to_ad"><a class="viewcode-back" href="../../../api/util.html#pythainlp.util.reign_year_to_ad">[docs]</a><span class="k">def</span> <span class="nf">reign_year_to_ad</span><span class="p">(</span><span class="n">reign_year</span><span class="p">,</span> <span class="n">reign</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    แปลงปีในรัชกาล X เป็น ค.ศ.</span>
+<span class="sd">    reign_year_to_ad(reign_year,reign)</span>
+<span class="sd">    reign_year - ปีที่</span>
+<span class="sd">    reign - รัชกาล</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">reign</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="n">ad</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">reign_year</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2015</span>
+    <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">reign</span><span class="p">)</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="n">ad</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">reign_year</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1945</span>
+    <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">reign</span><span class="p">)</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+        <span class="n">ad</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">reign_year</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1928</span>
+    <span class="k">elif</span> <span class="nb">int</span><span class="p">(</span><span class="n">reign</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span>
+        <span class="n">ad</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">reign_year</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1924</span>
+    <span class="k">return</span> <span class="n">ad</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pythainlp.tokenize &mdash; PyThaiNLP 2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pythainlp.transliterate" href="transliterate.html" />
+    <link rel="prev" title="pythainlp.tag" href="tag.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PyThaiNLP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Notes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notes/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Package reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="corpus.html">pythainlp.corpus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="soundex.html">pythainlp.soundex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="summarize.html">pythainlp.summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tag.html">pythainlp.tag</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pythainlp.tokenize</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="transliterate.html">pythainlp.transliterate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ulmfit.html">pythainlp.ulmfit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">pythainlp.util</a></li>
+<li class="toctree-l1"><a class="reference internal" href="word_vector.html">pythainlp.word_vector</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyThaiNLP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>pythainlp.tokenize</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/tokenize.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pythainlp-tokenize">
+<span id="tokenize-doc"></span><h1>pythainlp.tokenize<a class="headerlink" href="#pythainlp-tokenize" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pythainlp.tokenize</span></code> contains multiple functions for tokenizing a chunk of Thai text into desirable units.</p>
+<div class="section" id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pythainlp.tokenize.word_tokenize">
+<code class="descclassname">pythainlp.tokenize.</code><code class="descname">word_tokenize</code><span class="sig-paren">(</span><em>text</em>, <em>engine='newmm'</em>, <em>whitespaces=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/tokenize.html#word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.tokenize.word_tokenize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – text to be tokenized</li>
+<li><strong>engine</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – tokenizer to be used</li>
+<li><strong>whitespaces</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – True to output no whitespace, a common mark of sentence or end of phrase in Thai</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Parameters for engine:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body"><ul class="first simple">
+<li>newmm (default) - dictionary-based, Maximum Matching + Thai Character Cluster</li>
+<li>longest - dictionary-based, Longest Matching</li>
+<li>icu - wrapper for ICU, dictionary-based</li>
+<li>deepcut - wrapper for deepcut, language-model-based <a class="reference external" href="https://github.com/rkcosmos/deepcut">https://github.com/rkcosmos/deepcut</a></li>
+<li>ulmfit - use newmm engine with a specific dictionary for use with thai2vec</li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of words, tokenized from the text</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt><strong>Example</strong>::</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pythainlp.tokenize</span> <span class="k">import</span> <span class="n">word_tokenize</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;โอเคบ่พวกเรารักภาษาบ้านเกิด&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;newmm&quot;</span><span class="p">)</span>
+<span class="go">[&#39;โอเค&#39;, &#39;บ่&#39;, &#39;พวกเรา&#39;, &#39;รัก&#39;, &#39;ภาษา&#39;, &#39;บ้านเกิด&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;icu&quot;</span><span class="p">)</span>
+<span class="go">[&#39;โอ&#39;, &#39;เค&#39;, &#39;บ่&#39;, &#39;พวก&#39;, &#39;เรา&#39;, &#39;รัก&#39;, &#39;ภาษา&#39;, &#39;บ้าน&#39;, &#39;เกิด&#39;]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.tokenize.dict_word_tokenize">
+<code class="descclassname">pythainlp.tokenize.</code><code class="descname">dict_word_tokenize</code><span class="sig-paren">(</span><em>text</em>, <em>custom_dict</em>, <em>engine='newmm'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/tokenize.html#dict_word_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.tokenize.dict_word_tokenize" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pythainlp.tokenize.dict_word_tokenize" title="pythainlp.tokenize.dict_word_tokenize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict_word_tokenize()</span></code></a> tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
+:param str text: text to be tokenized
+:param dict custom_dict: a dictionary trie
+:param str engine: choose between different options of engine to token (newmm, longest)
+:return: list of words
+<strong>Example</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pythainlp.tokenize</span> <span class="k">import</span> <span class="n">dict_word_tokenize</span><span class="p">,</span> <span class="n">dict_trie</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;แมว&quot;</span><span class="p">,</span> <span class="s2">&quot;ดี&quot;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trie</span> <span class="o">=</span> <span class="n">dict_trie</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dict_word_tokenize</span><span class="p">(</span><span class="s2">&quot;แมวดีดีแมว&quot;</span><span class="p">,</span> <span class="n">trie</span><span class="p">)</span>
+<span class="go">[&#39;แมว&#39;, &#39;ดี&#39;, &#39;ดี&#39;, &#39;แมว&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.tokenize.subword_tokenize">
+<code class="descclassname">pythainlp.tokenize.</code><code class="descname">subword_tokenize</code><span class="sig-paren">(</span><em>text</em>, <em>engine='tcc'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/tokenize.html#subword_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.tokenize.subword_tokenize" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – text to be tokenized</li>
+<li><strong>engine</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – choosing ‘tcc’ uses the Thai Character Cluster rule to segment words into the smallest unique units.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of tokenized strings.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.tokenize.sent_tokenize">
+<code class="descclassname">pythainlp.tokenize.</code><code class="descname">sent_tokenize</code><span class="sig-paren">(</span><em>text</em>, <em>engine='whitespace+newline'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/tokenize.html#sent_tokenize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.tokenize.sent_tokenize" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function does not yet automatically recognize when a sentence actually ends. Rather it helps split text where white space and a new line is found.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the text to be tokenized</li>
+<li><strong>engine</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – choose between ‘whitespace’ or ‘whitespace+newline’</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a list of text, split by whitespace or new line.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.tokenize.dict_trie">
+<code class="descclassname">pythainlp.tokenize.</code><code class="descname">dict_trie</code><span class="sig-paren">(</span><em>dict_source</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/tokenize.html#dict_trie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.tokenize.dict_trie" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a dict trie which will be used for word_tokenize() function.
+For more information on the trie data structure,
+see: <a class="reference external" href="https://marisa-trie.readthedocs.io/en/latest/index.html">https://marisa-trie.readthedocs.io/en/latest/index.html</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dict_source</strong> (<em>string/list</em>) – a list of vocaburaries or a path to source file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a trie created from a dictionary input</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="transliterate.html" class="btn btn-neutral float-right" title="pythainlp.transliterate" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tag.html" class="btn btn-neutral" title="pythainlp.tag" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

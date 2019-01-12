@@ -1,0 +1,498 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pythainlp.util &mdash; PyThaiNLP 2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pythainlp.word_vector" href="word_vector.html" />
+    <link rel="prev" title="pythainlp.ulmfit" href="ulmfit.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> PyThaiNLP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Notes</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../notes/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notes/installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Package reference:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="corpus.html">pythainlp.corpus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="soundex.html">pythainlp.soundex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spell.html">pythainlp.spell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="summarize.html">pythainlp.summarize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tag.html">pythainlp.tag</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tokenize.html">pythainlp.tokenize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transliterate.html">pythainlp.transliterate</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ulmfit.html">pythainlp.ulmfit</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pythainlp.util</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#modules">Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="word_vector.html">pythainlp.word_vector</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">PyThaiNLP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>pythainlp.util</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/util.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pythainlp-util">
+<h1>pythainlp.util<a class="headerlink" href="#pythainlp-util" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pythainlp.util</span></code> contains utility functions, like text conversion and formatting</p>
+<div class="section" id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pythainlp.util.arabic_digit_to_thai_digit">
+<code class="descclassname">pythainlp.util.</code><code class="descname">arabic_digit_to_thai_digit</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/digitconv.html#arabic_digit_to_thai_digit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.arabic_digit_to_thai_digit" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Text with Arabic digits such as ‘1’, ‘2’, ‘3’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Text with Arabic digits being converted to Thai digits such as ‘๑’, ‘๒’, ‘๓’</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.bahttext">
+<code class="descclassname">pythainlp.util.</code><code class="descname">bahttext</code><span class="sig-paren">(</span><em>number</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/numtoword.html#bahttext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.bahttext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a number to Thai text and adds a suffix of “Baht” currency.
+Precision will be fixed at two decimal places (0.00) to fits “Satang” unit.</p>
+<p>Similar to BAHTTEXT function in Excel</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.collate">
+<code class="descclassname">pythainlp.util.</code><code class="descname">collate</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/collate.html#collate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.collate" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – a list of strings</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of strings, sorted alphabetically, according to Thai rules</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt><strong>Example</strong>::</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pythainlp.util</span> <span class="k">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">collate</span><span class="p">([</span><span class="s1">&#39;ไก่&#39;</span><span class="p">,</span> <span class="s1">&#39;เป็ด&#39;</span><span class="p">,</span> <span class="s1">&#39;หมู&#39;</span><span class="p">,</span> <span class="s1">&#39;วัว&#39;</span><span class="p">])</span>
+<span class="go">[&#39;ไก่&#39;, &#39;เป็ด&#39;, &#39;วัว&#39;, &#39;หมู&#39;]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.deletetone">
+<code class="descclassname">pythainlp.util.</code><code class="descname">deletetone</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/normalize.html#deletetone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.deletetone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove tonemarks</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.digit_to_text">
+<code class="descclassname">pythainlp.util.</code><code class="descname">digit_to_text</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/digitconv.html#digit_to_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.digit_to_text" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Text with digits such as ‘1’, ‘2’, ‘๓’, ‘๔’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Text with digits being spelled out in Thai</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.eng_to_thai">
+<code class="descclassname">pythainlp.util.</code><code class="descname">eng_to_thai</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/keyboard.html#eng_to_thai"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.eng_to_thai" title="Permalink to this definition">¶</a></dt>
+<dd><p>แก้พิมพ์ผิดภาษา อังกฤษ -&gt; ไทย
+:param str text: Incorrect input (type Thai with English keyboard)
+:return: Thai text</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.find_keyword">
+<code class="descclassname">pythainlp.util.</code><code class="descname">find_keyword</code><span class="sig-paren">(</span><em>word_list: List[str], min_len: int = 3</em><span class="sig-paren">)</span> &#x2192; Dict[str, int]<a class="reference internal" href="../_modules/pythainlp/util/keywords.html#find_keyword"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.find_keyword" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>word_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a>) – a list of words</li>
+<li><strong>min_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – a mininum length of keywords to look for</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">dict</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.is_thai">
+<code class="descclassname">pythainlp.util.</code><code class="descname">is_thai</code><span class="sig-paren">(</span><em>text</em>, <em>check_all=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/thai.html#is_thai"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.is_thai" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – input string or list of strings</li>
+<li><strong>check_all</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – checks all character or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A dictionary with the first value as proportional of text that is Thai, and the second value being a tuple of all characters, along with true or false.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.is_thaichar">
+<code class="descclassname">pythainlp.util.</code><code class="descname">is_thaichar</code><span class="sig-paren">(</span><em>ch</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/thai.html#is_thaichar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.is_thaichar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.is_thaiword">
+<code class="descclassname">pythainlp.util.</code><code class="descname">is_thaiword</code><span class="sig-paren">(</span><em>word</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/thai.html#is_thaiword"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.is_thaiword" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.normalize">
+<code class="descclassname">pythainlp.util.</code><code class="descname">normalize</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/normalize.html#normalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>จัดการกับข้อความภาษาไทยให้เป็นปกติ
+normalize(text)
+คืนค่า str
+ตัวอย่าง
+&gt;&gt;&gt; print(normalize(“เเปลก”)==”แปลก”) # เ เ ป ล ก กับ แปลก
+True</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.now_reign_year">
+<code class="descclassname">pythainlp.util.</code><code class="descname">now_reign_year</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/date.html#now_reign_year"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.now_reign_year" title="Permalink to this definition">¶</a></dt>
+<dd><p>ปีรัชกาลที่ 10 ณ ปัจจุบัน</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.num_to_thaiword">
+<code class="descclassname">pythainlp.util.</code><code class="descname">num_to_thaiword</code><span class="sig-paren">(</span><em>number</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/numtoword.html#num_to_thaiword"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.num_to_thaiword" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>number</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – a float number (with decimals) indicating a quantity</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a text that indicates the full amount in word form, properly ending each digit with the right term.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.rank">
+<code class="descclassname">pythainlp.util.</code><code class="descname">rank</code><span class="sig-paren">(</span><em>words: List[str], exclude_stopwords: bool = False</em><span class="sig-paren">)</span> &#x2192; collections.Counter<a class="reference internal" href="../_modules/pythainlp/util/keywords.html#rank"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.rank" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort words by frequency
+รับค่าเป็น ‘’list’’ คืนค่าเป็น ‘’Counter’’ Counter({“คำ”: จำนวน, “คำ”: จำนวน})</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.reign_year_to_ad">
+<code class="descclassname">pythainlp.util.</code><code class="descname">reign_year_to_ad</code><span class="sig-paren">(</span><em>reign_year</em>, <em>reign</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/date.html#reign_year_to_ad"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.reign_year_to_ad" title="Permalink to this definition">¶</a></dt>
+<dd><p>แปลงปีในรัชกาล X เป็น ค.ศ.
+reign_year_to_ad(reign_year,reign)
+reign_year - ปีที่
+reign - รัชกาล</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.text_to_arabic_digit">
+<code class="descclassname">pythainlp.util.</code><code class="descname">text_to_arabic_digit</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/digitconv.html#text_to_arabic_digit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.text_to_arabic_digit" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> – A digit spelled out in Thai</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">An Arabic digit such as ‘1’, ‘2’, ‘3’</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.text_to_thai_digit">
+<code class="descclassname">pythainlp.util.</code><code class="descname">text_to_thai_digit</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/digitconv.html#text_to_thai_digit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.text_to_thai_digit" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> – A digit spelled out in Thai</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A Thai digit such as ‘๑’, ‘๒’, ‘๓’</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.thai_strftime">
+<code class="descclassname">pythainlp.util.</code><code class="descname">thai_strftime</code><span class="sig-paren">(</span><em>datetime</em>, <em>fmt</em>, <em>thaidigit=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/date.html#thai_strftime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.thai_strftime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Thai date and time string formatter</p>
+<p>Formatting directives similar to datetime.strftime()</p>
+<p>Will use Thai names and Thai Buddhist Era for these directives:
+- %a abbreviated weekday name
+- %A full weekday name
+- %b abbreviated month name
+- %B full month name
+- %y year without century
+- %Y year with century
+- %c date and time representation
+- %v short date representation (undocumented)</p>
+<p>Other directives will be passed to datetime.strftime()</p>
+<p>Note 1:
+The Thai Buddhist Era (BE) year is simply converted from AD by adding 543.
+This is certainly not accurate for years before 1941 AD,
+due to the change in Thai New Year’s Day.</p>
+<p>Note 2:
+This meant to be an interrim solution, since Python standard’s locale module
+(which relied on C’s strftime()) does not support “th” or “th_TH” locale yet.
+If supported, we can just locale.setlocale(locale.LC_TIME, “th_TH”) and
+then use native datetime.strftime().</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Date and time spelled out in text, with month in Thai name and year in Thai Buddhist Era (BE).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.thai_to_eng">
+<code class="descclassname">pythainlp.util.</code><code class="descname">thai_to_eng</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/keyboard.html#thai_to_eng"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.thai_to_eng" title="Permalink to this definition">¶</a></dt>
+<dd><p>แก้พิมพ์ผิดภาษา ไทย -&gt; อังกฤษ
+:param str text: Incorrect input (type English with Thai keyboard)
+:return: English text</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.thai_digit_to_arabic_digit">
+<code class="descclassname">pythainlp.util.</code><code class="descname">thai_digit_to_arabic_digit</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/digitconv.html#thai_digit_to_arabic_digit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.thai_digit_to_arabic_digit" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Text with Thai digits such as ‘๑’, ‘๒’, ‘๓’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Text with Thai digits being converted to Arabic digits such as ‘1’, ‘2’, ‘3’</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pythainlp.util.thaiword_to_num">
+<code class="descclassname">pythainlp.util.</code><code class="descname">thaiword_to_num</code><span class="sig-paren">(</span><em>thaiword</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pythainlp/util/wordtonum.html#thaiword_to_num"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pythainlp.util.thaiword_to_num" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="word_vector.html" class="btn btn-neutral float-right" title="pythainlp.word_vector" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ulmfit.html" class="btn btn-neutral" title="pythainlp.ulmfit" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017-2018, PyThaiNLP (Apache Software License 2.0)
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

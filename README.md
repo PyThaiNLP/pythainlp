@@ -14,7 +14,7 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
-- [Current PyThaiNLP stable release is 1.7.1](https://github.com/PyThaiNLP/pythainlp/tree/master)
+- [Current PyThaiNLP stable release is 1.7.2](https://github.com/PyThaiNLP/pythainlp/tree/master)
 - PyThaiNLP 2.0 will support only Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [PyThaiNLP 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
 - Python 2 users can use PyThaiNLP 1.6, our latest released that tested with Python 2.7.
 
@@ -46,6 +46,12 @@ Standard installation:
 $ pip install pythainlp
 ```
 
+### Development release:
+
+```sh
+$ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
+```
+
 For some advanced functionalities, like word vector, extra packages may be needed. Install them with these options during pip install:
 
 ```sh
@@ -66,12 +72,6 @@ where ```extras``` can be
 * Note: standard ```artagger``` package from PyPI will not work on Windows, please ```pip install https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger``` instead.
 
 ** see ```extras``` and ```extras_require``` in [```setup.py```](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) for package details.
-
-### Development release:
-
-```sh
-$ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
-```
 
 ## Documentation
 

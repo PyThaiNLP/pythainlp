@@ -66,3 +66,13 @@ target/
 .Spotlight-V100
 .Trashes
 
+
+\.idea/codeStyles/
+
+\.idea/
+
+docs/_build/doctrees/api/
+
+docs/_build/html/
+
+docs/_build/doctrees/

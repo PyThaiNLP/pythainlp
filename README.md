@@ -3,6 +3,7 @@
 # PyThaiNLP
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)[![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
+[![Downloads](https://pepy.tech/badge/pythainlp/month)](https://pepy.tech/project/pythainlp)
 [![Build Status](https://travis-ci.org/PyThaiNLP/pythainlp.svg?branch=develop)](https://travis-ci.org/PyThaiNLP/pythainlp)
 [![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
 [![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev)
@@ -13,7 +14,7 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
-- [Current PyThaiNLP stable release is 1.7.1](https://github.com/PyThaiNLP/pythainlp/tree/master)
+- [Current PyThaiNLP stable release is 1.7.2](https://github.com/PyThaiNLP/pythainlp/tree/master)
 - PyThaiNLP 2.0 will support only Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [PyThaiNLP 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
 - Python 2 users can use PyThaiNLP 1.6, our latest released that tested with Python 2.7.
 
@@ -45,6 +46,12 @@ Standard installation:
 $ pip install pythainlp
 ```
 
+### Development release:
+
+```sh
+$ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
+```
+
 For some advanced functionalities, like word vector, extra packages may be needed. Install them with these options during pip install:
 
 ```sh
@@ -65,12 +72,6 @@ where ```extras``` can be
 * Note: standard ```artagger``` package from PyPI will not work on Windows, please ```pip install https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger``` instead.
 
 ** see ```extras``` and ```extras_require``` in [```setup.py```](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) for package details.
-
-### Development release:
-
-```sh
-$ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
-```
 
 ## Documentation
 
@@ -131,6 +132,12 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 $ pip install pythainlp
 ```
 
+### รุ่นกำลังพัฒนา
+
+```sh
+$ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
+```
+
 สำหรับความสามารถเพิ่มเติมบางอย่าง เช่น word vector จำเป็นต้องติดตั้งแพคเกจสนับสนุนเพิ่มเติม ติดตั้งแพคเพจเหล่านั้นได้ ด้วยการระบุออปชันเหล่านี้ตอน pip install:
 
 ```sh
@@ -151,13 +158,6 @@ $ pip install pythainlp[extra1,extra2,...]
 * หมายเหตุ: แพคเกจ ```artagger``` มาตรฐานจาก PyPI อาจมีปัญหาการถอดรหัสข้อความบน Windows กรุณาติดตั้ง artagger รุ่นแก้ไขด้วยคำสั่ง ```pip install https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger``` แทน ก่อนจะติดตั้ง PyThaiNLP
 
 ** นักพัฒนาสามารถดู ```extras``` และ ```extras_require``` ใน [```setup.py```](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) สำหรับรายละเอียดแพคเกจของเสริม
-
-
-### รุ่นกำลังพัฒนา
-
-```sh
-$ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
-```
 
 ## เอกสารการใช้งาน
 

@@ -33,7 +33,7 @@ install:
   - "%PYTHON%/python.exe -m pip install --upgrade pip"
   - "%PYTHON%/python.exe -m pip install pipwin"
   - "%PYTHON%/python.exe -m pipwin refresh"
-  - "%PYTHON%/python.exe -m pipwin install pyicu"
+  - "%PYTHON%/python.exe -m pipwin install PyICU"
   - "%PYTHON%/python.exe -m pip install %ARTAGGER_PKG%"
   - "%PYTHON%/python.exe -m pip install -e .[artagger,icu,ipa,ner,thai2fit,deepcut]"
 

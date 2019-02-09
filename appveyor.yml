@@ -4,8 +4,7 @@ environment:
   matrix:
     - PYTHON: "C:/Python36"
       PYTHON_VERSION: "3.6"
-      PYTHON_ARCH: "32"
-      PYICU_PKG: "https://get.openlp.org/win-sdk/PyICU-1.9.7-cp36-cp36m-win32.whl"
+      PYTHON_ARCH: "64"
       ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
 
     #- PYTHON: "C:/Python36-x64"
@@ -32,7 +31,8 @@ install:
   - "set PYTHONIOENCODING=utf-8"
   # - "set ICU_VERSION=62"
   - "%PYTHON%/python.exe -m pip install --upgrade pip"
-  - "%PYTHON%/python.exe -m pip install %PYICU_PKG%"
+  - "%PYTHON%/python.exe -m pip install pipwin"
+  - "%PYTHON%/python.exe -m pipwin install pyicu"
   - "%PYTHON%/python.exe -m pip install %ARTAGGER_PKG%"
   - "%PYTHON%/python.exe -m pip install -e .[artagger,icu,ipa,ner,thai2fit,deepcut]"
 

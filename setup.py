@@ -12,8 +12,8 @@ with codecs.open("requirements.txt", "r", encoding="utf-8") as f:
 
 setup(
     name="pythainlp",
-    version="1.7.2",
-    description="Thai natural language processing library",
+    version="1.7.3",
+    description="Thai Natural Language Processing in Python.",
     long_description=readme,
     long_description_content_type="text/markdown",
     author="PyThaiNLP",
@@ -30,6 +30,7 @@ setup(
             "tha-wn.db",
             "new-thaidict.txt",
             "negation.txt",
+            "thai_syllable.txt",
             "provinces.csv",
             "pt_tagger_1.dill",
             "ud_thai-pud_pt_tagger.dill",

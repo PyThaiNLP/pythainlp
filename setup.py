@@ -30,6 +30,7 @@ setup(
             "tha-wn.db",
             "new-thaidict.txt",
             "negation.txt",
+            "thai_syllable.txt",
             "provinces.csv",
             "pt_tagger_1.dill",
             "ud_thai-pud_pt_tagger.dill",

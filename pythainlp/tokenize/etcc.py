@@ -23,7 +23,7 @@ _UV2 = "[" + "".join(["ั", "ื"]) + "]"
 def etcc(text):
     """
     Enhanced Thai Character Cluster (ETCC)
-    
+
     :param string text: word input
 
     :return: etcc

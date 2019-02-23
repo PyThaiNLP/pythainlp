@@ -24,7 +24,7 @@ def _download():
 def get_model():
     """
     Download model
-    
+
     :return: `gensim` model
     """
     return KeyedVectors.load_word2vec_format(_download(), binary=True)

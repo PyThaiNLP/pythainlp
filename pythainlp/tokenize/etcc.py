@@ -23,9 +23,10 @@ _UV2 = "[" + "".join(["ั", "ื"]) + "]"
 def etcc(text):
     """
     Enhanced Thai Character Cluster (ETCC)
-    คั่นด้วย /
-    รับ str
-    ส่งออก str
+    
+    :param string text: word input
+
+    :return: etcc
     """
 
     if not text:
@@ -66,7 +67,7 @@ def etcc(text):
             text = re.sub(i, "/" + i + "/", text)
 
     if re.search("/" + _C + "".join(["ุ", "์"]) + "/", text):
-        """แก้ไขในกรณี พัน/ธุ์"""
+        # แก้ไขในกรณี พัน/ธุ์
         search = re.findall("/" + _C + "".join(["ุ", "์"]) + "/", text)
         for i in search:
             ii = re.sub("/", "", i)

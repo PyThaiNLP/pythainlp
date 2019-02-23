@@ -597,13 +597,6 @@ class TestUM(unittest.TestCase):
         self.assertEqual(
             word_vector.doesnt_match(["ญี่ปุ่น", "พม่า", "ไอติม"]), "ไอติม"
         )
-    '''def test_ulmfit(self):
-        text="""ok
-        ok
-        ok
-        """
-        self.assertIsNotNone(rm_brackets(text))'''
-
 
 if __name__ == "__main__":
     unittest.main()

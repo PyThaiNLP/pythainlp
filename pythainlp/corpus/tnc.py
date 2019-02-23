@@ -8,12 +8,10 @@ https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&t
 import os
 import re
 
-import requests
+from pythainlp.corpus import download as download_data
 from pythainlp.tools import get_full_data_path
 
 __all__ = ["word_freq", "word_freqs"]
-
-_TNC_FREQ_URL = "https://raw.githubusercontent.com/korakot/thainlp/master/tnc_freq.txt"
 
 
 def word_freq(word, domain="all"):
@@ -57,10 +55,7 @@ def word_freqs():
     """
     path = get_full_data_path("tnc_freq.txt")  # try local copy first
     if not os.path.exists(path):  # if fail, get from internet
-        response = requests.get(_TNC_FREQ_URL)
-        with open(path, "wb") as f:
-            f.write(response.content)
-        f.close()
+        download_data("tnc")
 
     with open(path, "r", encoding="utf8") as f:
         lines = f.read().splitlines()

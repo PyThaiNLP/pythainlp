@@ -10,7 +10,7 @@ import re
 
 from pythainlp.corpus import download as download_data
 from pythainlp.tools import get_full_data_path
-
+import requests
 __all__ = ["word_freq", "word_freqs"]
 
 

@@ -24,7 +24,7 @@ def _download():
 def get_model():
     """
     Download model
-    
+
     :return: `gensim` model
     """
     return KeyedVectors.load_word2vec_format(_download(), binary=True)
@@ -87,7 +87,7 @@ def sentence_vectorizer(text, use_mean=True):
         if word == " ":
             word = "xxspace"
         elif word == "\n":
-            word == "xxeol"
+            word = "xxeol"
 
         if word in _MODEL.wv.index2word:
             vec += _MODEL.wv.word_vec(word)

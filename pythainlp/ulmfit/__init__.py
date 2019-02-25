@@ -96,7 +96,7 @@ def rm_brackets(t):
 
 # Pretrained paths
 # TODO: Let the user decide if they like to download (at setup?)
-_THWIKI_LSTM = [_get_path(_MODEL_NAME_LSTM)[:-4], _get_path(_ITOS_NAME_LSTM)[:-4]]
+_THWIKI_LSTM = dict(wgts_fname=_get_path(_MODEL_NAME_LSTM), itos_fname=_get_path(_ITOS_NAME_LSTM))
 
 # Preprocessing rules for Thai text
 pre_rules_th = [fix_html, replace_rep_after, normalize_char_order, 

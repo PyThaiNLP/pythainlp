@@ -26,6 +26,7 @@ __all__ = [
     "merge_wgts",
     "pre_rules_th",
     "post_rules_th",
+    "_THWIKI_LSTM",
 ]
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

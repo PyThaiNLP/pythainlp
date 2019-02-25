@@ -10,7 +10,7 @@ from pythainlp.corpus import download as download_data
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import word_tokenize
 
-WV_DIM = 400
+WV_DIM = 300
 
 
 def _download():

@@ -24,6 +24,8 @@ __all__ = [
     "ThaiTokenizer",
     "document_vector",
     "merge_wgts",
+    "pre_rules_th",
+    "post_rules_th",
 ]
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

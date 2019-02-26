@@ -5,6 +5,5 @@ marisa_trie
 requests
 dill
 pytz
-conllu
 tinydb
 tqdm

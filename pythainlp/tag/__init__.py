@@ -14,14 +14,14 @@ from .locations import tag_provinces
 from .named_entity import ThaiNameTagger
 
 
-def pos_tag(words, engine="unigram", corpus="orchid"):
+def pos_tag(words, engine="perceptron", corpus="orchid"):
     """
     Part of Speech tagging function.
 
     :param list words: a list of tokenized words
     :param str engine:
-        * unigram - unigram tagger (default)
-        * perceptron - perceptron tagger
+        * unigram - unigram tagger
+        * perceptron - perceptron tagger (default)
         * artagger - RDR POS tagger
     :param str corpus:
         * orchid - annotated Thai academic articles

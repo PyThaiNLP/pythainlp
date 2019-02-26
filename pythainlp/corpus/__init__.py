@@ -5,7 +5,7 @@ from __future__ import absolute_import, unicode_literals
 import os
 
 import requests
-from future.moves.urllib.request import urlopen
+from six.moves.urllib.request import urlopen
 from pythainlp.tools import get_path_data, get_path_db
 from tinydb import Query, TinyDB
 from tqdm import tqdm
@@ -82,7 +82,7 @@ def download(name, force=False):
             if not db.search(
                 temp.name == name and temp.version == temp_name["version"]
             ):
-                print("have update")
+                print("Alert: New version is ready to be updated.")
                 print(
                     "from "
                     + name
@@ -100,7 +100,7 @@ def download(name, force=False):
                     download_(temp_name["download"], temp_name["file_name"])
                     db.update({"version": temp_name["version"]}, temp.name == name)
             else:
-                print("re-download")
+                print("Redownload")
                 print(
                     "from "
                     + name

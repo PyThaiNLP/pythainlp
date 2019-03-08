@@ -5,6 +5,7 @@ Code by https://github.com/cstorm125/thai2fit/
 """
 import collections
 import re
+import emoji
 
 import numpy as np
 import torch
@@ -77,7 +78,7 @@ def replace_rep_after(t):
         c, cc = m.groups()
         return f"{c} {TK_REP} {len(cc)+1} "
 
-    re_rep = re.compile(r"(\S)(\1{3,})")
+    re_rep = re.compile(r"(\S)(\1{2,})")
     return re_rep.sub(_replace_rep, t)
 
 
@@ -93,6 +94,21 @@ def rm_brackets(t):
     new_line = re.sub(r"\[\]", "", new_line)
     return new_line
 
+def ungroup_emoji(toks):
+    "Ungroup emojis"
+    res = []
+    for tok in toks:
+        if emoji.emoji_count(tok) == len(tok):
+            for char in tok:
+                res.append(char)
+        else:
+            res.append(tok)
+    return res
+
+def lowercase_all(toks):
+    "lowercase all English words"
+    return [tok.lower() for tok in toks]
+
 
 # Pretrained paths
 # TODO: Let the user decide if they like to download (at setup?)
@@ -101,24 +117,31 @@ _THWIKI_LSTM = dict(wgts_fname=_get_path(_MODEL_NAME_LSTM), itos_fname=_get_path
 # Preprocessing rules for Thai text
 pre_rules_th = [fix_html, replace_rep_after, normalize_char_order, 
                 spec_add_spaces, rm_useless_spaces, rm_useless_newlines, rm_brackets]
-post_rules_th = [replace_all_caps, deal_caps]
+post_rules_th = [replace_all_caps, ungroup_emoji, lowercase_all]
 
 _tokenizer = ThaiTokenizer()
 
 
-def document_vector(text, learn, data):
+def document_vector(text, learn, data, agg='mean'):
     """
     :meth: `document_vector` get document vector using fastai language model and data bunch
     :param str text: text to extract embeddings
     :param learn: fastai language model learner
     :param data: fastai data bunch 
+    :param agg: how to aggregate embeddings
     :return: `numpy.array` of document vector sized 400 based on the encoder of the model
     """
     
     s = _tokenizer.tokenizer(text)
     t = torch.tensor(data.vocab.numericalize(s), requires_grad=False).to(device)
     m = learn.model[0].encoder.to(device)
-    res = m(t).mean(0).cpu().detach().numpy()
+    res = m(t).cpu().detach().numpy()
+    if agg == 'mean':
+        res = res.mean(0)
+    elif agg == 'sum':
+        res = res.sum(0)
+    else:
+        raise ValueError('Aggregate by mean or sum')
     return(res)
 
 

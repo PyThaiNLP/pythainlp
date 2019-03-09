@@ -15,7 +15,7 @@ extras = {
     "ipa": ["epitran"],
     "ml": ["fastai==1.0.22", "keras", "numpy", "torch"],
     "ner": ["sklearn_crfsuite"],
-    "thai2fit": ["gensim", "numpy"],
+    "thai2fit": ["gensim", "numpy","emoji"],
     "thai2rom": ["keras", "numpy"],
     "full": [
         "artagger",

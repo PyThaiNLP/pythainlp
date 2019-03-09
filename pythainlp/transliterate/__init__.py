@@ -11,7 +11,7 @@ def romanize(text, engine="royin"):
     :return: English (more or less) text that spells out how the Thai text should read.
     """
 
-    if not text:
+    if isinstance(text,str)==False:
         return ""
 
     if engine == "thai2rom":

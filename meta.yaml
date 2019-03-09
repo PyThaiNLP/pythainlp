@@ -1,0 +1,35 @@
+{% set version = "1.7.2" %}
+
+package:
+  name: pythainlp
+  version: {{ version }}
+
+
+requirements:
+  build:
+    - pip
+    - python
+    - setuptools
+  run:
+    - python
+    - nltk
+    - future
+    - six
+    - conda-forge::python-marisa-trie
+    - dill
+    - pytz
+    - conda-forge::tinydb
+    - tqdm
+
+test:
+  imports:
+    - pythainlp
+
+about:
+  home: https://github.com/PyThaiNLP/pythainlp
+  license: Apache License 2.0
+  summary: 'Thai Natural Language Processing in Python.'
+
+extra:
+  recipe-maintainers:
+    - pythainlp

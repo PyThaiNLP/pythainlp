@@ -163,6 +163,8 @@ def _replace_consonants(word, res):
 
 
 def romanize(word):
+    if isinstance(word,str)==False:
+        return ""
     word2 = _replace_vowels(_normalize(word))
     res = _RE_CONSONANT.findall(word2)
 

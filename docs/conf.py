@@ -20,7 +20,7 @@ from datetime import datetime
 # -- Project information -----------------------------------------------------
 
 project = 'PyThaiNLP'
-copyright = '2018, pythainlp_builders'
+copyright = '2019, pythainlp_builders'
 author = 'pythainlp_builders'
 
 curyear = datetime.today().year

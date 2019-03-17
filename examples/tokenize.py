@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from pythainlp.tokenize import sent_tokenize, word_tokenize
+from pythainlp.tokenize import sent_tokenize, word_tokenize, Tokenizer
 
 text = "ฉันรักภาษาไทย เพราะฉันใช้ภาษาไทย "
 print(text)
@@ -17,8 +17,13 @@ print(word_tokenize(text, whitespaces=False))
 text2 = "กฎหมายแรงงาน"
 print(text2)
 
-print(word_tokenize(text2))
+print(word_tokenize(text2))  # default engine is "newmm"
 # ['กฎหมายแรงงาน']
 
 print(word_tokenize(text2, engine="longest"))
 # ['กฎหมาย', 'แรงงาน']
+
+words = ["กฎ", "งาน"]
+tokenizer = Tokenizer(words)
+tokenizer.word_tokenize(text2)
+

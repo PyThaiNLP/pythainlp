@@ -9,6 +9,7 @@ import os
 import re
 
 from pythainlp.corpus import download as download_data
+from pythainlp.corpus import get_corpus
 from pythainlp.tools import get_full_data_path
 import requests
 __all__ = ["word_freq", "word_freqs"]
@@ -53,11 +54,7 @@ def word_freqs():
     ดึงข้อมูลความถี่คำของ Thai National Corpus มาใช้งาน
     โดยจะได้ข้อมูลในรูปแบบ List[Tuple] [(word,frequency),...]
     """
-    path = get_full_data_path("tnc_freq.txt")  # try local copy first
-    if not os.path.exists(path):  # if fail, get from internet
-        download_data("tnc")
-
-    with open(path, "r", encoding="utf8") as f:
+    with open(get_corpus("tnc_freq.txt"), "r", encoding="utf-8") as f:
         lines = f.read().splitlines()
     f.close()
 

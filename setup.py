@@ -61,6 +61,7 @@ setup(
             "unigram_tagger.dill",
             "words_th.txt",
             "words_th_frozen_201810.txt",
+            "tnc_freq.txt"
         ],
     },
     include_package_data=True,

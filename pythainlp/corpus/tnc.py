@@ -54,7 +54,7 @@ def word_freqs():
     ดึงข้อมูลความถี่คำของ Thai National Corpus มาใช้งาน
     โดยจะได้ข้อมูลในรูปแบบ List[Tuple] [(word,frequency),...]
     """
-    with open(get_corpus("tnc_freq.txt"), "r", encoding="utf-8") as f:
+    with open(str(get_corpus("tnc_freq.txt")), "r", encoding="utf-8") as f:
         lines = f.read().splitlines()
     f.close()
 

@@ -14,8 +14,7 @@ __all__ = ["word_freqs"]
 
 def word_freqs():
     """
-    ดึงข้อมูลความถี่คำของ Thai Textbook Corpus (TTC) มาใช้งาน
-    โดยมีรูปแบบข้อมูลเป็น List[Tuple] [(word, frequency), ...]
+    Get word frequency from Thai Textbook Corpus (TTC)
     """
     path = get_full_data_path("ttc_freq.txt")  # try local copy first
     if not os.path.exists(path):  # if fail, download from internet

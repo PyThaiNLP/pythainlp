@@ -20,6 +20,9 @@ def word_freq(word, domain="all"):
     Get word frequency of a word.
     This function will make a query to the server of Thai National Corpus.
     Internet connection is required.
+
+    :param string word: word
+    :param string domain: domain
     """
     listdomain = {
         "all": "",
@@ -51,8 +54,7 @@ def word_freq(word, domain="all"):
 
 def word_freqs():
     """
-    ดึงข้อมูลความถี่คำของ Thai National Corpus มาใช้งาน
-    โดยจะได้ข้อมูลในรูปแบบ List[Tuple] [(word,frequency),...]
+    Get word frequency from Thai National Corpus (TNC)
     """
     lines = list(get_corpus("tnc_freq.txt"))
     listword = []

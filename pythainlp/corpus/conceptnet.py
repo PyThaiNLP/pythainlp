@@ -6,5 +6,12 @@ import requests
 
 
 def edges(word, lang="th"):
-    obj = requests.get("http://api.conceptnet.io/c/{}/{}".format(lang, str(word))).json()
-    return obj["edges"]
+	"""
+	Get edges from conceptnet
+
+	:param string word: word
+	:param string lang: language
+	"""
+
+	obj = requests.get("http://api.conceptnet.io/c/{}/{}".format(lang, str(word))).json()
+	return obj["edges"]

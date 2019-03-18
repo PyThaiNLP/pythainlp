@@ -20,6 +20,12 @@ def _check3(word):
 	else:
 		return True
 def thaicheck(word):
+	"""
+	Check is Thai Word
+
+	:param str word: word
+	:return: True or False
+	"""
 	pattern = re.compile(r"[ก-ฬฮ]",re.U) # สำหรับตรวจสอบพยัญชนะ
 	res = re.findall(pattern,word) # ดึงพยัญชนะทัั้งหมดออกมา
 	if res==[]:

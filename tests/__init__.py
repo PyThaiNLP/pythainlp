@@ -155,6 +155,13 @@ class TestUM(unittest.TestCase):
         self.assertEqual(metasound("คน"), "ค500")
         self.assertEqual(metasound("คนA"), "ค500")
         self.assertEqual(metasound("ดา"), "ด000")
+        self.assertIsNotNone(metasound("จะ"))
+        self.assertIsNotNone(metasound("ปา"))
+        self.assertIsNotNone(metasound("งง"))
+        self.assertIsNotNone(metasound("ลา"))
+        self.assertIsNotNone(metasound("มา"))
+        self.assertIsNotNone(metasound("ยา"))
+        self.assertIsNotNone(metasound("วา"))
         self.assertEqual(metasound("รักษ์"), metasound("รัก"))
         self.assertEqual(metasound(""), "")
 

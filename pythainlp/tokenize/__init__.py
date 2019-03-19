@@ -185,7 +185,7 @@ class Tokenizer:
             self.__trie_dict = dict_trie(custom_dict)
         else:
             self.__trie_dict = dict_trie(thai_words())
-    def tokenize(self, text):
+    def word_tokenize(self, text):
         """
         :param str text: text to be tokenized
 

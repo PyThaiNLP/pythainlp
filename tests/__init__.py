@@ -36,7 +36,8 @@ from pythainlp.tokenize import (
     longest,
     multi_cut,
     newmm,
-    dict_trie
+    dict_trie,
+    Tokenizer
 )
 from pythainlp.tokenize import pyicu as tokenize_pyicu
 from pythainlp.tokenize import (
@@ -331,6 +332,9 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="XX"))
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
         self.assertIsNotNone(word_tokenize("", engine="deepcut"))
+    def test_Tokenizer(self):
+        t_test=Tokenizer()
+        self.assertEqual(t_test.word_tokenize(""), [])
 
     def test_word_tokenize_icu(self):
         self.assertEqual(tokenize_pyicu.segment(None), [])

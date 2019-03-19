@@ -13,7 +13,8 @@ def tag_provinces(tokens):
     Input is a list of words
     Return a list of tuples
 
-    Example:
+    Example:::
+
     >>> text = ['หนองคาย', 'น่าอยู่']
     >>> tag_provinces(text)
     [('หนองคาย', 'B-LOCATION'), ('น่าอยู่', 'O')]

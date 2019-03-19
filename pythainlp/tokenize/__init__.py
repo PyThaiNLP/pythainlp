@@ -172,21 +172,28 @@ def dict_trie(dict_source):
 
 
 class Tokenizer:
-    def __init__(self, custom_dict=None):
+    def __init__(self, custom_dict=None,tokenize_engine="newmm"):
         """
         Initialize tokenizer object
 
         :param str custom_dict: a file path or a list of vocaburaies to be used to create a trie (default - original lexitron)
-
-        :return: trie_dict - a dictionary in the form of trie data for tokenizing engines
+        :param str tokenize_engine: choose between different options of engine to token (newmm, mm, longest)
         """
         self.__trie_dict = None
+        self.word_engine=tokenize_engine
         if custom_dict:
             self.__trie_dict = dict_trie(custom_dict)
         else:
-            self.__trie_dict = Trie(thai_words())
+            self.__trie_dict = dict_trie(thai_words())
+    def tokenize(self, text):
+        """
+        :param str text: text to be tokenized
 
-    def word_tokenize(self, text, engine="newmm"):
-        from .newmm import segment
-
-        return segment(text, self.__trie_dict)
+        :return: list of words, tokenized from the text
+        """
+        return dict_word_tokenize(text,custom_dict=self.__trie_dict,engine=self.word_engine)
+    def set_tokenize_engine(self,name_engine):
+        """
+        :param str name_engine: choose between different options of engine to token (newmm, mm, longest)
+        """
+        self.word_engine=name_engine

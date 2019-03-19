@@ -13,3 +13,5 @@ Modules
 .. autofunction:: subword_tokenize
 .. autofunction:: sent_tokenize
 .. autofunction:: dict_trie
+.. autoclass:: Tokenizer
+   :members: tokenize,set_tokenize_engine

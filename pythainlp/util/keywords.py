@@ -10,7 +10,9 @@ _STOPWORDS = thai_stopwords()
 def rank(words: List[str], exclude_stopwords: bool = False) -> Counter:
     """
     Sort words by frequency
-    รับค่าเป็น ''list'' คืนค่าเป็น ''Counter'' Counter({"คำ": จำนวน, "คำ": จำนวน})
+    :param list words: a list of words
+    :param bool exclude_stopwords: exclude stopwords
+    :return: Counter
     """
     if not words:
         return None

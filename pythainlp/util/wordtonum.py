@@ -66,6 +66,12 @@ def _thaiword_to_num(tokens):
 
 
 def thaiword_to_num(thaiword):
+    """
+    Converts a thai word to number
+
+    :param str thaiword: input thai word
+    :return: number
+    """
     if not thaiword:
         return None
 

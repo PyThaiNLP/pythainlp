@@ -7,11 +7,9 @@ such as its part of speech and class of named-entity.
 __all__ = [
     "pos_tag",
     "pos_tag_sents",
-    "tag_provinces",
-    "ThaiNameTagger",
+    "tag_provinces"
 ]
 from .locations import tag_provinces
-from .named_entity import ThaiNameTagger
 
 
 def pos_tag(words, engine="perceptron", corpus="orchid"):

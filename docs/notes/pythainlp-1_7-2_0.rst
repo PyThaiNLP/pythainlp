@@ -70,3 +70,27 @@ stopword
 
 from ``pythainlp.corpus.stopwords.words("thai")`` to
 ``pythainlp.corpus.common.thai_stopwords()``
+
+Tone in Thai
+~~~~~~~~~~~~
+
+from ``pythainlp.corpus.tone.get_data()`` to
+``pythainlp.thai_tonemarks``
+
+Consonant in thai
+~~~~~~~~~~~~~~~~~
+
+from ``pythainlp.corpus.alphabet.get_data()`` to
+``pythainlp.thai_consonants``
+
+Word list in thai
+~~~~~~~~~~~~~~~~~
+
+from ``pythainlp.corpus.thaiword.get_data()`` to
+``pythainlp.corpus.thai_words()``
+
+Thai country name
+~~~~~~~~~~~~~~~~~
+
+from ``pythainlp.corpus.country.get_data()`` to
+``pythainlp.corpus.countries()``

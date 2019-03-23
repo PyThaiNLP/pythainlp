@@ -5,10 +5,29 @@ For stable version::
 
     pip install pythainlp
 
-For development version:
+For some advanced functionalities, like word vector, extra packages may be needed. Install them with these options during pip install::
+
+    pip install pythainlp[extra1,extra2,...]
+
+where extras can be
+
+- ``artagger`` (to support artagger part-of-speech tagger)*
+- ``deepcut`` (to support deepcut machine-learnt tokenizer)
+- ``icu`` (for ICU support in transliteration and tokenization)
+- ``ipa`` (for International Phonetic Alphabet support in transliteration)
+- ``ml`` (to support fastai 1.0.22 ULMFiT models)
+- ``ner`` (for named-entity recognizer)
+- ``thai2fit`` (for Thai word vector)
+- ``thai2rom`` (for machine-learnt romanization)
+- ``full`` (install everything)
+
+Note: standard artagger package from PyPI will not work on Windows, please pip install https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger instead.
+
+For development version::
 
     pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 
+** see extras and extras_require in setup.py for package details.
 
 Note for installation on Windows:
 

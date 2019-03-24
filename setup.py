@@ -14,7 +14,7 @@ extras = {
     "icu": ["pyicu"],
     "ipa": ["epitran"],
     "ml": ["fastai==1.0.22", "keras", "numpy", "torch"],
-    "ner": ["sklearn_crfsuite"],
+    "ner": ["sklearn-crfsuite"],
     "thai2fit": ["gensim", "numpy","emoji"],
     "thai2rom": ["keras", "numpy"],
     "full": [
@@ -26,7 +26,7 @@ extras = {
         "keras",
         "numpy",
         "pyicu",
-        "sklearn_crfsuite",
+        "sklearn-crfsuite",
         "tensorflow",
         "torch",
     ],

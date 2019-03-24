@@ -48,14 +48,14 @@ def pos_tag(words, engine="perceptron", corpus="orchid"):
     return tag_(words, corpus=corpus)
 
 
-def pos_tag_sents(sentences, engine="unigram", corpus="orchid"):
+def pos_tag_sents(sentences, engine="perceptron", corpus="orchid"):
     """
     Part of Speech tagging Sentence function.
 
     :param list sentences: a list of tokenized sentences (a list of tokenized words in sentences)
     :param str engine:
-        * unigram - unigram tagger (default)
-        * perceptron - perceptron tagger
+        * unigram - unigram tagger 
+        * perceptron - perceptron tagger (default)
         * artagger - RDR POS tagger
     :param str corpus:
         * orchid - annotated Thai academic articles

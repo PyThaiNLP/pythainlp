@@ -97,7 +97,7 @@ class ThaiNameTagger:
         :return: list of strings with name labels (and part-of-speech tags)
 
         **Example**::
-            >>> from pythainlp.tag import ThaiNameTagger
+            >>> from pythainlp.tag.named_entity import ThaiNameTagger
             >>> ner = ThaiNameTagger()
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
             [('วันที่', 'JSBR', 'O'), (' ', 'NCMN', 'O'), ('15', 'NCNM', 'B-DATE'),
@@ -113,7 +113,7 @@ class ThaiNameTagger:
             (':', 'I-TIME'), ('49', 'I-TIME'), (' ', 'I-TIME'), ('น.', 'I-TIME')]
         """
         self.__tokens = word_tokenize(text, engine=_WORD_TOKENIZER)
-        self.__pos_tags = pos_tag(self.__tokens,engine="perceptron", corpus="orchid_ud")
+        self.__pos_tags = pos_tag(self.__tokens,engine="perceptron", corpus="orchid")
         self.__x_test = self.__extract_features(
             [(data, self.__pos_tags[i][1]) for i, data in enumerate(self.__tokens)]
         )

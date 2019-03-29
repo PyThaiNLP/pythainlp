@@ -85,13 +85,13 @@ def tag(words, corpus="pud"):
             elif words[i]=='/':
                 words[i]="<slash>"
             i+=1
-        t=tagger.tag(words)
-        temp=[]
+        t2=tagger.tag(words)
+        t=[]
         i=0
-        while i<len(t):
-            word=t[i][0]
-            tag=t[i][1]
-            if word=="<space>":
+        while i<len(t2):
+            word=t2[i][0]
+            tag=t2[i][1]
+            if word=="<space>" or word=='<space>':
                 word=" "
             elif word=="<plus>":
                 word="+"
@@ -139,9 +139,9 @@ def tag(words, corpus="pud"):
                 word=';'
             elif word=="<slash>":
                 word='/'
-            temp.append((word,tag))
+            t.append((word,tag))
             i+=1
-        t=temp
+        #t=temp
     else:  # default, use "pud" as a corpus
         tagger = _PUD_TAGGER
         t=tagger.tag(words)

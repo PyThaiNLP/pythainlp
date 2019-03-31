@@ -73,3 +73,13 @@ Untitled*.ipynb
 
 # Document generator temporary files
 docs/_build/
+
+\.idea/codeStyles/
+
+\.idea/
+
+docs/_build/doctrees/api/
+
+docs/_build/html/
+
+docs/_build/doctrees/

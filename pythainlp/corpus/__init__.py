@@ -129,7 +129,7 @@ def download(name: str, force: bool = False):
             if not db.search(
                 temp.name == name and temp.version == temp_name["version"]
             ):
-                print("Update")
+                print("Alert: New version is ready to be updated.")
                 print(
                     "from "
                     + name
@@ -147,7 +147,7 @@ def download(name: str, force: bool = False):
                     download_(temp_name["download"], temp_name["file_name"])
                     db.update({"version": temp_name["version"]}, temp.name == name)
             else:
-                print("re-download")
+                print("Redownload")
                 print(
                     "from "
                     + name

@@ -1,7 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from pythainlp.soundex import LK82, Udom83
+from pythainlp.soundex import lk82, metasound, udom83
 
-print(LK82("รถ") == LK82("รด"))
+texts = ["บูรณะ", "บูรณการ", "มัก", "มัค", "มรรค", "ลัก", "รัก", "รักษ์", ""]
+for text in texts:
+    print(
+        "{} - lk82: {} - udom83: {} - metasound: {}".format(
+            text, lk82(text), udom83(text), metasound(text)
+        )
+    )
 
-print(Udom83("วรร") == Udom83("วัน"))
+# check equivalence
+print(lk82("รถ") == lk82("รด"))
+print(udom83("วรร") == udom83("วัน"))
+print(metasound("นพ") == metasound("นภ"))

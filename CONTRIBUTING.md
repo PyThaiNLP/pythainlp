@@ -23,21 +23,22 @@ We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-mod
 - Write tests for your new features (please see "Tests" topic below);
 - Always remember that [commented code is dead
   code](http://www.codinghorror.com/blog/2008/07/coding-without-comments.html);
-- Name identifiers (variables, classes, functions, module names) with readable
-  names (`x` is always wrong);
+- Name identifiers (variables, classes, functions, module names) with meaningful
+  and pronounceable names (`x` is always wrong);
 - When manipulating strings, use [Python's new-style
   formatting](http://docs.python.org/library/string.html#format-string-syntax)
   (`'{} = {}'.format(a, b)` instead of `'%s = %s' % (a, b)`);
 - All `#TODO` comments should be turned into issues (use our
-  [GitHub issue system](tps://github.com/wannaphongcom/pythainlp/));
+  [GitHub issue system](https://github.com/PyThaiNLP/pythainlp/));
 - Run all tests before pushing (just execute `tox`) so you will know if your
   changes broke something;
+- All source code and all text files should be ended with one empty line. This is [to please git](https://stackoverflow.com/questions/5813311/no-newline-at-end-of-file#5813359) and also [to keep up with POSIX standard](https://stackoverflow.com/questions/729692/why-should-text-files-end-with-a-newline).
 
 
 # Discussion
 
 - Facebook group: https://www.facebook.com/groups/thainlp 
-- GitHub issues: https://github.com/wannaphongcom/pythainlp/issues
+- GitHub issues: https://github.com/PyThaiNLP/pythainlp/issues
 
 Happy hacking! (;
 
@@ -54,14 +55,14 @@ Happy hacking! (;
 ## newmm (onecut), mm, TCC, and Thai Soundex Code
 - Korakot Chaovavanich
 
-## Thai2Vec & ulmfit
+## thai2fit & ULMFiT
 - Charin Polpanumas
 
 ## Docs
 - Peeradej Tanruangporn
 
 ## Contributors
-- See more contributions here https://github.com/wannaphongcom/pythainlp/graphs/contributors
+- See more contributions here https://github.com/PyThaiNLP/pythainlp/graphs/contributors
 
 
 # References

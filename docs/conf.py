@@ -16,12 +16,11 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 from datetime import datetime
-import sys, os
 
 # -- Project information -----------------------------------------------------
 
 project = 'PyThaiNLP'
-copyright = '2018, pythainlp_builders'
+copyright = '2019, pythainlp_builders'
 author = 'pythainlp_builders'
 
 curyear = datetime.today().year
@@ -30,7 +29,7 @@ copyright = u'2017-%s, %s (Apache Software License 2.0)' % (curyear, project)
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '1.7'
+release = '2.0'
 
 
 # -- General configuration ---------------------------------------------------

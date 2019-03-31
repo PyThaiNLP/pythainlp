@@ -1,9 +1,17 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import,division,unicode_literals,print_function
-'''
-นี่คือ API สำหรับดึงข้อมูลมาจาก http://conceptnet.io
-'''
+"""
+ดึงข้อมูลจาก http://conceptnet.io
+"""
 import requests
-def edges(word,lang='th'):
-    obj = requests.get('http://api.conceptnet.io/c/%s/%s' % (lang,str(word))).json()
-    return obj['edges']
+
+
+def edges(word, lang="th"):
+	"""
+	Get edges from conceptnet
+
+	:param string word: word
+	:param string lang: language
+	"""
+
+	obj = requests.get("http://api.conceptnet.io/c/{}/{}".format(lang, str(word))).json()
+	return obj["edges"]

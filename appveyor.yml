@@ -2,20 +2,39 @@ build: off
 
 environment:
   matrix:
-    - PYTHON: "C:/Python34"
+    - PYTHON: "C:/Python36-x64"
+      PYTHON_VERSION: "3.6"
+      PYTHON_ARCH: "64"
+      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
+
+    #- PYTHON: "C:/Python36-x64"
+    #  PYTHON_VERSION: "3.6"
+    #  PYTHON_ARCH: "64"
+    #  PYICU_PKG: ""
+
+    #- PYTHON: "C:/Python37"
+    #  PYTHON_VERSION: "3.7"
+    #  PYTHON_ARCH: "32"
+    #  PYICU_PKG: ""
+
+    #- PYTHON: "C:/Python37-x64"
+    #  PYTHON_VERSION: "3.7"
+    #  PYTHON_ARCH: "64"
+    #  PYICU_PKG: ""
 
 init:
-  - "ECHO %PYTHON%"
+  - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"  
   - ps: "ls C:/Python*"
 
 install:
-  # FIXME: updating pip fails with PermissionError
-  # - "%PYTHON%/Scripts/pip.exe install -U pip setuptools"
-  - "%PYTHON%/Scripts/pip.exe install https://get.openlp.org/win-sdk/PyICU-1.9.5-cp34-cp34m-win32.whl"
-  - "%PYTHON%/Scripts/pip.exe install -e ."
   - "chcp 65001"
   - "set PYTHONIOENCODING=utf-8"
+  # - "set ICU_VERSION=62"
+  - "%PYTHON%/python.exe -m pip install --upgrade pip"
+  - "%PYTHON%/python.exe -m pip install https://www.dropbox.com/s/g84479l8yhv5ohi/PyICU-2.2-cp36-cp36m-win_amd64.whl?dl=1"
+  - "%PYTHON%/python.exe -m pip install %ARTAGGER_PKG%"
+  - "%PYTHON%/python.exe -m pip install -e .[artagger,icu,ipa,ner,thai2fit,deepcut]"
 
 test_script:
-  - "%PYTHON%/Scripts/pip.exe --version"
+  - "%PYTHON%/python.exe -m pip --version"
   - "%PYTHON%/python.exe setup.py test"

@@ -1,6 +1,4 @@
-.. currentmodule:: pythainlp.ulmfit.utils
-
-
+.. currentmodule:: pythainlp.ulmfit
 
 pythainlp.ulmfit
 ====================================
@@ -9,12 +7,12 @@ The :class:`ulmfit.utils` is utils for ULMFit model.
 Modules
 -------
 
-
-.. autofunction:: get_texts
-.. autofunction:: get_all
-.. autofunction:: numericalizer
+.. autofunction:: replace_rep_after
+.. autofunction:: rm_useless_newlines
+.. autofunction:: rm_brackets
+.. autofunction:: ungroup_emoji
+.. autofunction:: lowercase_all
 .. autofunction:: merge_wgts
 .. autofunction:: document_vector
-.. autofunction:: about
 .. autoclass:: ThaiTokenizer
-   :members: sub_br,tokenize,replace_rep,proc_text,proc_all,proc_all_mp
+   :members: tokenizer

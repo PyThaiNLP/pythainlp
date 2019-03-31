@@ -20,5 +20,5 @@ print(text2)
 print(word_tokenize(text2))
 # ['กฎหมายแรงงาน']
 
-print(word_tokenize(text2, engine="longest-matching"))
+print(word_tokenize(text2, engine="longest"))
 # ['กฎหมาย', 'แรงงาน']

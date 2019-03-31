@@ -1,35 +1,76 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, unicode_literals
-
 import os
+from urllib.request import urlopen
 
 import requests
-from six.moves.urllib.request import urlopen
-from pythainlp.tools import get_path_data, get_path_db
+from pythainlp.tools import get_full_data_path, get_pythainlp_path
 from tinydb import Query, TinyDB
 from tqdm import tqdm
 
-CORPUS_DB_URL = (
-    "https://github.com/PyThaiNLP/pythainlp-corpus/raw/1.7/db.json"
+# Remote and local corpus databases
+
+_CORPUS_DIRNAME = "corpus"
+_CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
+
+_CORPUS_DB_URL = (
+    "https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/2.0/db.json"
 )
 
-# __all__ = ["thaipos", "thaiword","alphabet","tone","country","wordnet"]
-path_db_ = get_path_db()
+_CORPUS_DB_FILENAME = "db.json"
+_CORPUS_DB_PATH = get_full_data_path(_CORPUS_DB_FILENAME)
+
+if not os.path.exists(_CORPUS_DB_PATH):
+    TinyDB(_CORPUS_DB_PATH)
 
 
-def get_file(name):
-    db = TinyDB(path_db_)
+def corpus_path():
+    return _CORPUS_PATH
+
+
+def corpus_db_url():
+    return _CORPUS_DB_URL
+
+
+def corpus_db_path():
+    return _CORPUS_DB_PATH
+
+
+def get_corpus(filename: str) -> frozenset:
+    """
+    Read corpus from file and return a frozenset
+
+    :param string filename: file corpus
+    """
+    lines = []
+    with open(os.path.join(corpus_path(), filename), "r", encoding="utf-8-sig") as fh:
+        lines = fh.read().splitlines()
+
+    return frozenset(lines)
+
+
+def get_corpus_path(name: str) -> [str, None]:
+    """
+    Get corpus path
+
+    :param string name: corpus name
+    """
+    db = TinyDB(corpus_db_path())
     temp = Query()
+
     if len(db.search(temp.name == name)) > 0:
-        path = get_path_data(db.search(temp.name == name)[0]["file"])
+        path = get_full_data_path(db.search(temp.name == name)[0]["file"])
         db.close()
+
         if not os.path.exists(path):
             download(name)
+
         return path
 
+    return None
 
-def download_(url, dst):
+
+def download_(url: str, dst: str):
     """
     @param: url to download file
     @param: dst place to put the file
@@ -50,7 +91,7 @@ def download_(url, dst):
         desc=url.split("/")[-1],
     )
     req = requests.get(url, headers=header, stream=True)
-    with (open(get_path_data(dst), "wb")) as f:
+    with (open(get_full_data_path(dst), "wb")) as f:
         for chunk in req.iter_content(chunk_size=1024):
             if chunk:
                 f.write(chunk)
@@ -59,10 +100,16 @@ def download_(url, dst):
     # return file_size
 
 
-def download(name, force=False):
-    db = TinyDB(path_db_)
+def download(name: str, force: bool = False):
+    """
+    Download corpus
+
+    :param string name: corpus name
+    :param bool force: force install
+    """
+    db = TinyDB(corpus_db_path())
     temp = Query()
-    data = requests.get(CORPUS_DB_URL)
+    data = requests.get(corpus_db_url())
     data_json = data.json()
     if name in list(data_json.keys()):
         temp_name = data_json[name]
@@ -95,7 +142,7 @@ def download(name, force=False):
                 )
                 yes_no = "y"
                 if not force:
-                    yes_no = str(input("y or n : ")).lower()
+                    yes_no = str(input("yes or no (y / n) : ")).lower()
                 if "y" == yes_no:
                     download_(temp_name["download"], temp_name["file_name"])
                     db.update({"version": temp_name["version"]}, temp.name == name)
@@ -113,20 +160,54 @@ def download(name, force=False):
                 )
                 yes_no = "y"
                 if not force:
-                    yes_no = str(input("y or n : ")).lower()
+                    yes_no = str(input("yes or no (y / n) : ")).lower()
                 if "y" == yes_no:
                     download_(temp_name["download"], temp_name["file_name"])
                     db.update({"version": temp_name["version"]}, temp.name == name)
     db.close()
 
 
-def remove(name):
-    db = TinyDB(path_db_)
+def remove(name: str) -> bool:
+    """
+    Remove corpus
+
+    :param string name: corpus name
+    :return: True or False
+    """
+    db = TinyDB(corpus_db_path())
     temp = Query()
     data = db.search(temp.name == name)
+
     if len(data) > 0:
-        path = get_file(name)
+        path = get_corpus_path(name)
         os.remove(path)
         db.remove(temp.name == name)
         return True
+
     return False
+
+
+from pythainlp.corpus.common import (
+    countries,
+    provinces,
+    thai_negations,
+    thai_stopwords,
+    thai_syllables,
+    thai_words,
+)
+
+__all__ = [
+    "corpus_path",
+    "corpus_db_path",
+    "corpus_db_url",
+    "countries",
+    "download",
+    "get_corpus",
+    "get_corpus_path",
+    "provinces",
+    "remove",
+    "thai_negations",
+    "thai_stopwords",
+    "thai_syllables",
+    "thai_words",
+]

@@ -1,10 +1,8 @@
-.. currentmodule:: pythainlp.word_vector.thai2vec
-
-
+.. currentmodule:: pythainlp.word_vector
 
 pythainlp.word_vector
 ====================================
-The :class:`word_vector.thai2vec` contains functions that makes use of a pre-trained vector public data.
+The :class:`word_vector` contains functions that makes use of a pre-trained vector public data.
 
 Dependencies
 ------------
@@ -18,4 +16,3 @@ Modules
 .. autofunction:: doesnt_match
 .. autofunction:: similarity
 .. autofunction:: sentence_vectorizer
-.. autofunction:: about

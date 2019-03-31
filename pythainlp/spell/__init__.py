@@ -1,15 +1,29 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import,unicode_literals
-def spell(word,engine='pn'):
+"""
+Spell checking
+"""
+
+from .pn import correct as pn_correct
+from .pn import spell as pn_spell
+
+
+def spell(word, engine="pn"):
     """
-    :param str word: the word to check spelling
+    :param str word: word to check spelling
     :param str engine:
-        * pn - Peter Norvig's algorithm
-        * hunspell - uses hunspell's algorithm, which should already exist in linux
-    :return: list word
+        * pn - Peter Norvig's algorithm (default)
+    :return: list of words
     """
-    if engine=='pn':
-        from .pn import spell as spell1
-    elif engine=='hunspell':
-        from .hunspell import spell as spell1
-    return spell1(word)
+
+    return pn_spell(word)
+
+
+def correct(word, engine="pn"):
+    """
+    :param str word: word to correct spelling
+    :param str engine:
+        * pn - Peter Norvig's algorithm (default)
+    :return: the corrected word
+    """
+
+    return pn_correct(word)

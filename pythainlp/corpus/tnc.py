@@ -1,42 +1,65 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import,division,unicode_literals,print_function
-'''
-ขอขอบคุณ คุณ Korakot Chaovavanich‎ สำหรับโค้ด word_frequency จาก https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
-'''
-import re
-import requests
+"""
+Thai National Corpus word frequency
+
+Credit: Korakot Chaovavanich‎
+https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
+"""
 import os
-import codecs
-def word_frequency(word,domain='all'):
-    listdomain={'all':'','imaginative':'1','natural-pure-science':'2','applied-science':'3','social-science':'4','world-affairs-history':'5','commerce-finance':'6','arts':'7','belief-thought':'8','leisure':'9','others':'0'}
+import re
+
+from pythainlp.corpus import download as download_data
+from pythainlp.corpus import get_corpus
+from pythainlp.tools import get_full_data_path
+import requests
+__all__ = ["word_freq", "word_freqs"]
+
+
+def word_freq(word, domain="all"):
+    """
+    Get word frequency of a word.
+    This function will make a query to the server of Thai National Corpus.
+    Internet connection is required.
+
+    :param string word: word
+    :param string domain: domain
+    """
+    listdomain = {
+        "all": "",
+        "imaginative": "1",
+        "natural-pure-science": "2",
+        "applied-science": "3",
+        "social-science": "4",
+        "world-affairs-history": "5",
+        "commerce-finance": "6",
+        "arts": "7",
+        "belief-thought": "8",
+        "leisure": "9",
+        "others": "0",
+    }
     url = "http://www.arts.chula.ac.th/~ling/TNCII/corp.php"
-    data = {'genre[]':'','domain[]':listdomain[domain],'sortby':'perc','p':word}
-    r = requests.post(url,data=data)
-    pat = re.compile('TOTAL</font>(?s).*?#ffffff">(.*?)</font>')
-    n = pat.search(r.text).group(1)
-    return int('0'+n.strip())
-def get_word_frequency_all():
-	'''
-	get_word_frequency_all()
-	เป็นคำสั่งสำหรับดึงข้อมูล word frequency ของ TNC มาใช้งาน
-	โดยแสดงผลเป็น [(word,frequency),...]
-	ข้อมูลจาก https://raw.githubusercontent.com/korakot/thainlp/master/tnc_freq.txt
-	'''
-	url="https://raw.githubusercontent.com/korakot/thainlp/master/tnc_freq.txt"
-	path = os.path.join(os.path.expanduser("~"), 'pythainlp-data')#os.path.join(, 'pthainlp_trie.data')
-	if not os.path.exists(path):
-		os.makedirs(path)
-	path = os.path.join(path, 'tnc_freq.txt')
-	if not os.path.exists(path):
-		response = requests.get(url)
-		with open(path, 'wb') as f:
-			f.write(response.content)
-		f.close()
-	with codecs.open(path, 'r',encoding='utf8') as f:
-		lines = f.read().splitlines()
-	f.close()
-	listword=[]
-	for x in lines:
-		listindata=x.split("	")
-		listword.append((listindata[0],listindata[1]))
-	return listword
+    data = {"genre[]": "", "domain[]": listdomain[domain], "sortby": "perc", "p": word}
+
+    r = requests.post(url, data=data)
+
+    pat = re.compile(r'TOTAL</font>(?s).*?#ffffff">(.*?)</font>')
+    match = pat.search(r.text)
+
+    n = 0
+    if match:
+        n = int(match.group(1).strip())
+
+    return n
+
+
+def word_freqs():
+    """
+    Get word frequency from Thai National Corpus (TNC)
+    """
+    lines = list(get_corpus("tnc_freq.txt"))
+    listword = []
+    for line in lines:
+        listindata = line.split("	")
+        listword.append((listindata[0], int(listindata[1])))
+
+    return listword

@@ -14,11 +14,13 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
-- [Current PyThaiNLP stable release is 1.7.2](https://github.com/PyThaiNLP/pythainlp/tree/master)
+- [Current PyThaiNLP stable release is 2.0](https://github.com/PyThaiNLP/pythainlp/tree/master)
 - PyThaiNLP 2.0 will support only Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [PyThaiNLP 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
 - Python 2 users can use PyThaiNLP 1.6, our latest released that tested with Python 2.7.
 
 **This is a document for development branch (post 1.7.x). Things will break. For a stable branch document, see [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
+
+📫 follow us on Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
 
 ## Capabilities
 
@@ -83,7 +85,6 @@ See [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs
 - Corpus data created by PyThaiNLP project use [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
 - For other corpus that may included with PyThaiNLP distribution, please refer to [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md).
 
-
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp?ref=badge_large)
 
 ## Contribute to PyThaiNLP
@@ -108,6 +109,8 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 - ผู้ใช้ Python 2 ยังสามารถใช้ PyThaiNLP 1.6 ได้
 
 **เอกสารนี้สำหรับรุ่นพัฒนา (หลัง 1.7.x) อาจมีการเปลี่ยนแปลงได้ตลอด สำหรับเอกสารรุ่นเสถียร ดูที่ [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
+
+📫 ติดตามข่าวสารได้ที่ Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
 
 ## ความสามารถ
 

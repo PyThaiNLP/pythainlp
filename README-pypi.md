@@ -12,6 +12,12 @@ PyThaiNLP is a Python library for natural language processing (NLP) of Thai lang
 
 PyThaiNLP includes Thai word tokenizers, transliterators, soundex converters, part-of-speech taggers, and spell checkers.
 
+📖 For details on upgrading from PyThaiNLP 1.7 to PyThaiNLP 2.0, see [From PyThaiNLP 1.7 to PyThaiNLP 2.0](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
+
+📖 For ThaiNER user after upgrading from PyThaiNLP 1.7 to PyThaiNLP 2.0, see [Upgrade ThaiNER from PyThaiNLP 1.7 to PyThaiNLP 2.0](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
+
+📫 follow us on Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
+
 ## What's new in version 2.0 ?
 
 - New NorvigSpellChecker spell checker class, which can be initialized with custom dictionary.
@@ -60,3 +66,4 @@ Install it with pip, for example: `pip install marisa_trie‑0.7.5‑cp36‑cp36
 - Docs: https://thainlp.org/pythainlp/docs/2.0/ 
 - GitHub: https://github.com/PyThaiNLP/pythainlp
 - Issues: https://github.com/PyThaiNLP/pythainlp/issues
+- Facebook : [Pythainlp](https://www.facebook.com/pythainlp/)

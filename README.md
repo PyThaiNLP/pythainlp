@@ -75,7 +75,7 @@ where ```extras``` can be
 
 ## Documentation
 
-See [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
+See [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
 
 ## License
 
@@ -161,7 +161,7 @@ $ pip install pythainlp[extra1,extra2,...]
 
 ## เอกสารการใช้งาน
 
-อ่านที่ [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
+อ่านที่ [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
 
 ## สัญญาอนุญาต
 

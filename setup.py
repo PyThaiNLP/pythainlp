@@ -69,13 +69,22 @@ setup(
     extras_require=extras,
     license="Apache Software License 2.0",
     zip_safe=False,
-    keywords="pythainlp",
+    keywords=[
+       "pythainlp",
+       "NLP",
+       "natural language processing",
+       "text analytics",
+       "ThaiNLP",
+    ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Programming Language :: Python :: 3",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
         "Natural Language :: Thai",
+        "Topic :: Scientific/Engineering :: Artificial Intelligence",
+        "Topic :: Text Processing",
+        "Topic :: Text Processing :: General",
         "Topic :: Text Processing :: Linguistic",
     ],
     scripts=['bin/pythainlp']

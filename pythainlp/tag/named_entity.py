@@ -7,7 +7,7 @@ __all__ = ["ThaiNameTagger"]
 
 import sklearn_crfsuite
 from pythainlp.corpus import download, get_corpus_path, thai_stopwords
-from pythainlp.tag import perceptron
+from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import is_thaiword
 
@@ -97,15 +97,15 @@ class ThaiNameTagger:
         :return: list of strings with name labels (and part-of-speech tags)
 
         **Example**::
-            >>> from pythainlp.tag import ThaiNameTagger
+            >>> from pythainlp.tag.named_entity import ThaiNameTagger
             >>> ner = ThaiNameTagger()
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
-            [('วันที่', 'JSBR', 'O'), (' ', 'NCMN', 'O'), ('15', 'NCNM', 'B-DATE'),
-            (' ', 'NCMN', 'I-DATE'), ('ก.ย.', 'CMTR', 'I-DATE'), (' ', 'NCMN', 'I-DATE'),
-            ('61', 'NCNM', 'I-DATE'), (' ', 'NCMN', 'O'), ('ทดสอบ', 'VACT', 'O'),
-            ('ระบบ', 'NCMN', 'O'), ('เวลา', 'NCMN', 'O'), (' ', 'NCMN', 'O'),
-            ('14', 'NCNM', 'B-TIME'), (':', 'PUNC', 'I-TIME'), ('49', 'NCNM', 'I-TIME'),
-            (' ', 'NCMN', 'I-TIME'), ('น.', 'CMTR', 'I-TIME')]
+            [('วันที่', 'NOUN', 'O'), (' ', 'PUNCT', 'O'), ('15', 'NUM', 'B-DATE'),
+            (' ', 'PUNCT', 'I-DATE'), ('ก.ย.', 'NOUN', 'I-DATE'), (' ', 'PUNCT', 'I-DATE'), 
+            ('61', 'NUM', 'I-DATE'), (' ', 'PUNCT', 'O'), ('ทดสอบ', 'VERB', 'O'), 
+            ('ระบบ', 'NOUN', 'O'), ('เวลา', 'NOUN', 'O'), (' ', 'PUNCT', 'O'), 
+            ('14', 'NOUN', 'B-TIME'), (':', 'PUNCT', 'I-TIME'), ('49', 'NUM', 'I-TIME'), 
+            (' ', 'PUNCT', 'I-TIME'), ('น.', 'NOUN', 'I-TIME')]
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.", pos=False)
             [('วันที่', 'O'), (' ', 'O'), ('15', 'B-DATE'), (' ', 'I-DATE'),
             ('ก.ย.', 'I-DATE'), (' ', 'I-DATE'), ('61', 'I-DATE'), (' ', 'O'),
@@ -113,25 +113,17 @@ class ThaiNameTagger:
             (':', 'I-TIME'), ('49', 'I-TIME'), (' ', 'I-TIME'), ('น.', 'I-TIME')]
         """
         self.__tokens = word_tokenize(text, engine=_WORD_TOKENIZER)
-        self.__pos_tags = perceptron.tag(self.__tokens)
-        self.__x_test = self.__extract_features(
-            [(data, self.__pos_tags[i][1]) for i, data in enumerate(self.__tokens)]
-        )
+        self.__pos_tags = pos_tag(self.__tokens,engine="perceptron", corpus="orchid_ud")
+        self.__x_test = self.__extract_features(self.__pos_tags)
         self.__y = self.crf.predict_single(self.__x_test)
 
         if pos:
             return [
-                (self.__tokens[i], self.__pos_tags[i][1], data)
+                (self.__pos_tags[i][0], self.__pos_tags[i][1], data)
                 for i, data in enumerate(self.__y)
             ]
 
-        return [(self.__tokens[i], data) for i, data in enumerate(self.__y)]
+        return [(self.__pos_tags[i][0], data) for i, data in enumerate(self.__y)]
 
     def __extract_features(self, doc):
         return [_doc2features(doc, i) for i in range(len(doc))]
-
-    def __get_labels(self, doc):
-        return [tag for (token, postag, tag) in doc]
-
-    def __get_model(self):
-        return self.crf

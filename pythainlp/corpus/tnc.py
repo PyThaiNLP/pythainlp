@@ -8,12 +8,11 @@ https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&t
 import os
 import re
 
-import requests
+from pythainlp.corpus import download as download_data
+from pythainlp.corpus import get_corpus
 from pythainlp.tools import get_full_data_path
-
+import requests
 __all__ = ["word_freq", "word_freqs"]
-
-_TNC_FREQ_URL = "https://raw.githubusercontent.com/korakot/thainlp/master/tnc_freq.txt"
 
 
 def word_freq(word, domain="all"):
@@ -21,6 +20,9 @@ def word_freq(word, domain="all"):
     Get word frequency of a word.
     This function will make a query to the server of Thai National Corpus.
     Internet connection is required.
+
+    :param string word: word
+    :param string domain: domain
     """
     listdomain = {
         "all": "",
@@ -52,20 +54,9 @@ def word_freq(word, domain="all"):
 
 def word_freqs():
     """
-    ดึงข้อมูลความถี่คำของ Thai National Corpus มาใช้งาน
-    โดยจะได้ข้อมูลในรูปแบบ List[Tuple] [(word,frequency),...]
+    Get word frequency from Thai National Corpus (TNC)
     """
-    path = get_full_data_path("tnc_freq.txt")  # try local copy first
-    if not os.path.exists(path):  # if fail, get from internet
-        response = requests.get(_TNC_FREQ_URL)
-        with open(path, "wb") as f:
-            f.write(response.content)
-        f.close()
-
-    with open(path, "r", encoding="utf8") as f:
-        lines = f.read().splitlines()
-    f.close()
-
+    lines = list(get_corpus("tnc_freq.txt"))
     listword = []
     for line in lines:
         listindata = line.split("	")

@@ -103,7 +103,8 @@ TH_EN_KEYB_PAIRS = {v: k for k, v in EN_TH_KEYB_PAIRS.items()}
 
 def eng_to_thai(text):
     """
-    แก้พิมพ์ผิดภาษา อังกฤษ -> ไทย
+    Correct text in one language that is incorrectly-typed with a keyboard layout in another language. (type Thai with English keyboard)
+
     :param str text: Incorrect input (type Thai with English keyboard)
     :return: Thai text
     """
@@ -114,7 +115,8 @@ def eng_to_thai(text):
 
 def thai_to_eng(text):
     """
-    แก้พิมพ์ผิดภาษา ไทย -> อังกฤษ
+    Correct text in one language that is incorrectly-typed with a keyboard layout in another language. (type Thai with English keyboard)
+
     :param str text: Incorrect input (type English with Thai keyboard)
     :return: English text
     """

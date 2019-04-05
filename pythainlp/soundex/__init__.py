@@ -13,6 +13,17 @@ from pythainlp.soundex.udom83 import udom83 as udom83
 
 
 def soundex(text, engine="udom83"):
+    """
+    Thai Soundex
+
+    :param string text: word
+    :param str engine: soundex engine
+    :Parameters for engine:
+        * udom83 (default)
+        * lk82
+        * metasound
+    :return: soundex code
+    """
     if engine == "udom83":
         _soundex = udom83
     elif engine == "lk82":

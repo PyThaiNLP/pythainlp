@@ -66,13 +66,19 @@ def _thaiword_to_num(tokens):
 
 
 def thaiword_to_num(thaiword):
+    """
+    Converts a thai word to number
+
+    :param str thaiword: input thai word
+    :return: number
+    """
     if not thaiword:
         return None
 
     tokens = []
-    if type(thaiword) == str:
+    if isinstance(thaiword,str):
         tokens = _TOKENIZER.word_tokenize(thaiword)
-    elif type(thaiword) in (list, tuple, set, frozenset):
+    elif isinstance(thaiword,list) or isinstance(thaiword,tuple) or isinstance(thaiword,set) or isinstance(thaiword,frozenset):
         for w in thaiword:
             tokens.extend(_TOKENIZER.word_tokenize(w))
 

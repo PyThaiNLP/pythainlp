@@ -8,5 +8,7 @@ Modules
 -------
 
 .. autofunction:: pos_tag
-.. autoclass:: ThaiNameTagger
+.. autofunction:: pos_tag_sents
+.. autofunction:: tag_provinces
+.. autoclass:: pythainlp.tag.named_entity.ThaiNameTagger
    :members: get_ner

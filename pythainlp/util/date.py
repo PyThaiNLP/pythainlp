@@ -173,19 +173,13 @@ def thai_strftime(datetime, fmt, thaidigit=False):
 
 def now_reign_year():
     """
-    ปีรัชกาลที่ 10 ณ ปัจจุบัน
+    :return: now year reign for King.
     """
     now_ = datetime.datetime.now()
     return now_.year - 2015
 
 
 def reign_year_to_ad(reign_year, reign):
-    """
-    แปลงปีในรัชกาล X เป็น ค.ศ.
-    reign_year_to_ad(reign_year,reign)
-    reign_year - ปีที่
-    reign - รัชกาล
-    """
     if int(reign) == 10:
         ad = int(reign_year) + 2015
     elif int(reign) == 9:

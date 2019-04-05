@@ -46,12 +46,13 @@ _NORMALIZE_RULE2 = [
 
 def normalize(text):
     """
-    จัดการกับข้อความภาษาไทยให้เป็นปกติ
-    normalize(text)
-    คืนค่า str
-    ตัวอย่าง
-    >>> print(normalize("เเปลก")=="แปลก") # เ เ ป ล ก กับ แปลก
-    True
+    Thai text normalize
+
+    :param str text: thai text
+    :return: thai text
+    **Example**::
+     >>> print(normalize("เเปลก")=="แปลก") # เ เ ป ล ก กับ แปลก
+     True
     """
     for data in _NORMALIZE_RULE2:
         text = re.sub(data[0].replace("t", "[่้๊๋]"), data[1], text)
@@ -63,6 +64,9 @@ def normalize(text):
 def deletetone(text):
     """
     Remove tonemarks
+
+    :param str text: thai text
+    :return: thai text
     """
     chars = [ch for ch in text if ch not in thai_tonemarks]
     return "".join(chars)

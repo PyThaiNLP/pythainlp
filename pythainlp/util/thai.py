@@ -5,6 +5,12 @@ Check if it is Thai text
 
 
 def is_thaichar(ch):  # เป็นอักษรไทยหรือไม่
+    """
+    Check if character is Thai
+
+    :param str ch: input character
+    :return: True or False
+    """
     ch_val = ord(ch)
     if ch_val >= 3584 and ch_val <= 3711:
         return True
@@ -12,6 +18,12 @@ def is_thaichar(ch):  # เป็นอักษรไทยหรือไม�
 
 
 def is_thaiword(word):  # เป็นคำที่มีแต่อักษรไทยหรือไม่
+    """
+    Check if all character is Thai
+
+    :param str word: input text
+    :return: True or False
+    """
     for ch in word:
         if ch != "." and not is_thaichar(ch):
             return False

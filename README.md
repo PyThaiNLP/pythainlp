@@ -3,6 +3,7 @@
 # PyThaiNLP
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)[![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
+[![Downloads](https://pepy.tech/badge/pythainlp/month)](https://pepy.tech/project/pythainlp)
 [![Build Status](https://travis-ci.org/PyThaiNLP/pythainlp.svg?branch=develop)](https://travis-ci.org/PyThaiNLP/pythainlp)
 [![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
 [![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev)
@@ -13,11 +14,13 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
-- [Current PyThaiNLP stable release is 1.7.1](https://github.com/PyThaiNLP/pythainlp/tree/master)
+- [Current PyThaiNLP stable release is 2.0](https://github.com/PyThaiNLP/pythainlp/tree/master)
 - PyThaiNLP 2.0 will support only Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [PyThaiNLP 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
 - Python 2 users can use PyThaiNLP 1.6, our latest released that tested with Python 2.7.
 
 **This is a document for development branch (post 1.7.x). Things will break. For a stable branch document, see [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
+
+📫 follow us on Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
 
 ## Capabilities
 
@@ -45,6 +48,12 @@ Standard installation:
 $ pip install pythainlp
 ```
 
+### Development release:
+
+```sh
+$ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
+```
+
 For some advanced functionalities, like word vector, extra packages may be needed. Install them with these options during pip install:
 
 ```sh
@@ -66,22 +75,15 @@ where ```extras``` can be
 
 ** see ```extras``` and ```extras_require``` in [```setup.py```](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) for package details.
 
-### Development release:
-
-```sh
-$ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
-```
-
 ## Documentation
 
-See [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
+See [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
 
 ## License
 
 - PyThaiNLP code uses [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
 - Corpus data created by PyThaiNLP project use [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
 - For other corpus that may included with PyThaiNLP distribution, please refer to [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md).
-
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp?ref=badge_large)
 
@@ -108,9 +110,11 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 **เอกสารนี้สำหรับรุ่นพัฒนา (หลัง 1.7.x) อาจมีการเปลี่ยนแปลงได้ตลอด สำหรับเอกสารรุ่นเสถียร ดูที่ [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
 
+📫 ติดตามข่าวสารได้ที่ Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
+
 ## ความสามารถ
 
-- ชุดค่าคงที่ตัวอักษระและคำไทยที่เรียกใช้ได้สะดวก เช่น พยัญชนะ (```pythainlp.thai_consonants```), สระ (```pythainlp.thai_vowels```), ตัวเลขไทย (```pythainlp.thai_digits```), และ stop word (```pythainlp.corpus.thai_stopwords```) -- เหมือนกับต่าคงที่อย่าง ```string.letters```, ```string.digits```, และ ```string.punctuation```
+- ชุดค่าคงที่ตัวอักษระและคำไทยที่เรียกใช้ได้สะดวก เช่น พยัญชนะ (```pythainlp.thai_consonants```), สระ (```pythainlp.thai_vowels```), ตัวเลขไทย (```pythainlp.thai_digits```), และ stop word (```pythainlp.corpus.thai_stopwords```) -- เหมือนกับค่าคงที่อย่าง ```string.letters```, ```string.digits```, และ ```string.punctuation```
 - Thai word segmentation (```word_tokenize```), including subword segmentation based on Thai Character Cluster (```tcc```) and ETCC (```etcc```)
 - ตัดคำภาษาไทย (```word_tokenize```) และรองรับ Thai Character Clusters (```tcc```) และ ETCC (```etcc```)
 - ถอดเสียงภาษาไทยเป็นอักษรละตินและสัทอักษร (```romanize```, ```transliterate```)
@@ -129,6 +133,12 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 ```sh
 $ pip install pythainlp
+```
+
+### รุ่นกำลังพัฒนา
+
+```sh
+$ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
 
 สำหรับความสามารถเพิ่มเติมบางอย่าง เช่น word vector จำเป็นต้องติดตั้งแพคเกจสนับสนุนเพิ่มเติม ติดตั้งแพคเพจเหล่านั้นได้ ด้วยการระบุออปชันเหล่านี้ตอน pip install:
@@ -152,16 +162,9 @@ $ pip install pythainlp[extra1,extra2,...]
 
 ** นักพัฒนาสามารถดู ```extras``` และ ```extras_require``` ใน [```setup.py```](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) สำหรับรายละเอียดแพคเกจของเสริม
 
-
-### รุ่นกำลังพัฒนา
-
-```sh
-$ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
-```
-
 ## เอกสารการใช้งาน
 
-อ่านที่ [https://thainlp.org/pythainlp/docs/1.7/](https://thainlp.org/pythainlp/docs/1.7/)
+อ่านที่ [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
 
 ## สัญญาอนุญาต
 

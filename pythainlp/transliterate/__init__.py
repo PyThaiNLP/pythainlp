@@ -11,7 +11,7 @@ def romanize(text, engine="royin"):
     :return: English (more or less) text that spells out how the Thai text should read.
     """
 
-    if not text:
+    if isinstance(text,str)==False:
         return ""
 
     if engine == "thai2rom":
@@ -21,8 +21,11 @@ def romanize(text, engine="royin"):
     else:  # use default engine "royin"
         from .royin import romanize
 
-        words = word_tokenize(text)
-        romanized_words = [romanize(word) for word in words]
+        try:
+            words = word_tokenize(text)
+            romanized_words = [romanize(word) for word in words]
+        except:
+            romanized_words =[romanize(text)]
         return "".join(romanized_words)
 
 

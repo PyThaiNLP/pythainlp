@@ -20,7 +20,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 **This is a document for development branch (post 1.7.x). Things will break. For a stable branch document, see [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
 
-📫 follow us on Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
+📫 follow us on Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
 ## Capabilities
 

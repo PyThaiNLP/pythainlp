@@ -113,7 +113,7 @@ def download(name: str, force: bool = False):
     data_json = data.json()
     if name in list(data_json.keys()):
         temp_name = data_json[name]
-        print("Download : " + name)
+        print("Download: " + name)
 
         if not db.search(temp.name == name):
             print(name + " " + temp_name["version"])

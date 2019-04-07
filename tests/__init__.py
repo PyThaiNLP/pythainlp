@@ -562,7 +562,10 @@ class TestUM(unittest.TestCase):
     # ### pythainlp.util.thai
 
     def test_countthai(self):
+        self.assertEqual(countthai(""), 0)
         self.assertEqual(countthai("ประเทศไทย"), 100.0)
+        self.assertEqual(countthai("(กกต.)", ".()"), 100.0)
+        self.assertEqual(countthai("(กกต.)", None), 50.0)
 
     def test_isthaichar(self):
         self.assertEqual(isthaichar("ก"), True)
@@ -574,6 +577,7 @@ class TestUM(unittest.TestCase):
         self.assertEqual(isthai("ไทย0"), False)
         self.assertEqual(isthai("ต.ค."), True)
         self.assertEqual(isthai("(ต.ค.)"), False)
+        self.assertEqual(isthai("ต.ค.", ignore_chars=None), False)
         self.assertEqual(isthai("(ต.ค.)", ignore_chars=".()"), True)
 
     def test_is_thaicheck(self):

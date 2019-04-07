@@ -176,5 +176,5 @@ def romanize(word: str) -> str:
         word2 = "".join(word2)
 
     word2 = _replace_consonants(word2, res)
-
+    
     return word2

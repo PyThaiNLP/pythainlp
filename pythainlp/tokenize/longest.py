@@ -39,14 +39,13 @@ class LongestMatchTokenizer(object):
     def __init__(self, trie):
         self.__trie = trie
 
-    def __search_nonthai(self, text):
+    def __search_nonthai(self, text: str):
         match = _RE_NONTHAI.search(text)
         if match.group(0):
             return match.group(0).lower()
-        else:
-            return None
+        return None
 
-    def __is_next_word_valid(self, text, begin_pos):
+    def __is_next_word_valid(self, text: str, begin_pos: int) -> bool:
         len_text = len(text)
         text = text[begin_pos:len_text].strip()
 
@@ -63,7 +62,7 @@ class LongestMatchTokenizer(object):
 
         return False
 
-    def __longest_matching(self, text, begin_pos):
+    def __longest_matching(self, text: str, begin_pos: int):
         len_text = len(text)
         text = text[begin_pos:len_text]
 
@@ -94,7 +93,7 @@ class LongestMatchTokenizer(object):
         else:
             return ""
 
-    def __segment_text(self, text):
+    def __segment_text(self, text: str):
         if not text:
             return []
 

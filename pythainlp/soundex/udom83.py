@@ -29,7 +29,7 @@ _TRANS2 = str.maketrans(
 )
 
 
-def udom83(text):
+def udom83(text: str) -> str:
     """
     Udom83 - It's a Thai soundex rule.
 

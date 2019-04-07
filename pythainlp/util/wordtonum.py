@@ -6,6 +6,7 @@ Adapted from Korakot Chaovavanich's notebook
 https://colab.research.google.com/drive/148WNIeclf0kOU6QxKd6pcfwpSs8l-VKD#scrollTo=EuVDd0nNuI8Q
 """
 import re
+from typing import Iterable, List
 
 from pythainlp.tokenize import Tokenizer
 
@@ -39,7 +40,7 @@ _NU_PAT = re.compile("(.+)?(สิบ|ร้อย|พัน|หมื่น|แ
 _TOKENIZER = Tokenizer(custom_dict=_THAIWORD_NUMS_UNITS)
 
 
-def _thaiword_to_num(tokens):
+def _thaiword_to_num(tokens: List[str]) -> int:
     if not tokens:
         return None
 
@@ -65,21 +66,21 @@ def _thaiword_to_num(tokens):
         return _THAI_INT_MAP[a] * _THAI_INT_MAP[b] + _thaiword_to_num(tokens[2:])
 
 
-def thaiword_to_num(thaiword):
+def thaiword_to_num(word: str) -> int:
     """
-    Converts a thai word to number
+    Converts a Thai number spellout word to actual number value
 
-    :param str thaiword: input thai word
+    :param str word: a Thai number spellout
     :return: number
     """
-    if not thaiword:
+    if not word:
         return None
 
     tokens = []
-    if isinstance(thaiword,str):
-        tokens = _TOKENIZER.word_tokenize(thaiword)
-    elif isinstance(thaiword,list) or isinstance(thaiword,tuple) or isinstance(thaiword,set) or isinstance(thaiword,frozenset):
-        for w in thaiword:
+    if isinstance(word, str):
+        tokens = _TOKENIZER.word_tokenize(word)
+    elif isinstance(word, Iterable):
+        for w in word:
             tokens.extend(_TOKENIZER.word_tokenize(w))
 
     res = []

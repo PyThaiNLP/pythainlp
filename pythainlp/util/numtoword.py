@@ -10,7 +10,7 @@ import math
 __all__ = ["bahttext", "num_to_thaiword"]
 
 
-def bahttext(number):
+def bahttext(number: float) -> str:
     """
     Converts a number to Thai text and adds a suffix of "Baht" currency.
     Precision will be fixed at two decimal places (0.00) to fits "Satang" unit.
@@ -41,9 +41,9 @@ def bahttext(number):
     return ret
 
 
-def num_to_thaiword(number):
+def num_to_thaiword(number: int) -> str:
     """
-    :param float number: a float number (with decimals) indicating a quantity
+    :param int number: a float number (with decimals) indicating a quantity
     :return: a text that indicates the full amount in word form, properly ending each digit with the right term.
     """
     ret = ""

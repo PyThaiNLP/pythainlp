@@ -419,9 +419,9 @@ class TestUM(unittest.TestCase):
         )
 
     def test_tcc(self):
-        self.assertEqual(tcc.tcc(None), "")
-        self.assertEqual(tcc.tcc(""), "")
-        self.assertEqual(tcc.tcc("ประเทศไทย"), "ป/ระ/เท/ศ/ไท/ย")
+        self.assertEqual(tcc.tcc(None), [])
+        self.assertEqual(tcc.tcc(""), [])
+        self.assertEqual(tcc.tcc("ประเทศไทย"), ["ป", "ระ", "เท" "ศ", "ไท", "ย"])
 
         self.assertEqual(list(tcc.tcc_gen("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())

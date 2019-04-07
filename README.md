@@ -20,7 +20,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 **This is a document for development branch (post 1.7.x). Things will break. For a stable branch document, see [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
 
-📫 follow us on Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
+📫 follow us on Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
 ## Capabilities
 
@@ -34,7 +34,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 - Thai misspellings detection and spelling correction (```spell```)
 - Thai soundex (```lk82```, ```udom83```, ```metasound```)
 - Thai WordNet wrapper
-- and much more - see [examples](https://github.com/PyThaiNLP/pythainlp/tree/dev/examples).
+- and much more - see examples in [PyThaiNLP Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb).
 
 ## Installation
 
@@ -125,7 +125,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 - ตรวจคำสะกดผิดในภาษาไทย (```spell```)
 - soundex ภาษาไทย (```lk82```, ```udom83```, ```metasound```)
 - Thai WordNet wrapper
-- และอื่น ๆ [ดูตัวอย่าง](https://github.com/PyThaiNLP/pythainlp/tree/dev/examples)
+- และอื่น ๆ ดูตัวอย่างได้ใน [PyThaiNLP Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
 
 ## ติดตั้ง
 

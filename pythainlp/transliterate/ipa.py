@@ -7,7 +7,7 @@ import epitran
 _EPI_THA = epitran.Epitran("tha-Thai")
 
 
-def transliterate(text):
+def transliterate(text: str) -> str:
     return _EPI_THA.transliterate(text)
 
 

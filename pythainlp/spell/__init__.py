@@ -3,11 +3,14 @@
 Spell checking
 """
 
-from .pn import correct as pn_correct
-from .pn import spell as pn_spell
+from typing import List
+
+from .pn import DEFAULT_SPELL_CHECKER, NorvigSpellChecker
+
+__all__ = ["DEFAULT_SPELL_CHECKER", "correct", "spell", "NorvigSpellChecker"]
 
 
-def spell(word, engine="pn"):
+def spell(word: str, engine="pn") -> List[str]:
     """
     :param str word: word to check spelling
     :param str engine:
@@ -15,10 +18,10 @@ def spell(word, engine="pn"):
     :return: list of words
     """
 
-    return pn_spell(word)
+    return DEFAULT_SPELL_CHECKER.spell(word)
 
 
-def correct(word, engine="pn"):
+def correct(word: str, engine="pn") -> str:
     """
     :param str word: word to correct spelling
     :param str engine:
@@ -26,4 +29,4 @@ def correct(word, engine="pn"):
     :return: the corrected word
     """
 
-    return pn_correct(word)
+    return DEFAULT_SPELL_CHECKER.correct(word)

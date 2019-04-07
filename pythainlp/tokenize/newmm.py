@@ -9,6 +9,7 @@ https://colab.research.google.com/drive/14Ibg-ngZXj15RKwjNwoZlOT32fQBOrBx#scroll
 import re
 from collections import defaultdict
 from heapq import heappop, heappush  # for priority queue
+from typing import List
 
 from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
@@ -38,7 +39,7 @@ def bfs_paths_graph(graph, start, goal):
                 queue.append((next, path + [next]))
 
 
-def onecut(text, trie):
+def onecut(text: str, trie):
     graph = defaultdict(list)  # main data structure
     allow_pos = tcc_pos(text)  # ตำแหน่งที่ตัด ต้องตรงกับ tcc
 
@@ -90,7 +91,7 @@ def onecut(text, trie):
 
 
 # ช่วยให้ไม่ต้องพิมพ์ยาวๆ
-def segment(text, trie=None):
+def segment(text: str, trie=None) -> List[str]:
     if not text:
         return []
 

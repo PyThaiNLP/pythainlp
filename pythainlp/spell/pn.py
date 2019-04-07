@@ -7,26 +7,33 @@ Default spelling dictionary is based on Thai National Corpus.
 Based on Peter Norvig's Python code from http://norvig.com/spell-correct.html
 """
 from collections import Counter
+from typing import Callable, List, Set, Tuple
 
 from pythainlp import thai_letters
 from pythainlp.corpus import tnc
-from pythainlp.util import is_thaichar
+from pythainlp.util import isthaichar
 
 
-def _no_filter(word):
+def _no_filter(word: str) -> bool:
     return True
 
 
-def _is_thai_and_not_num(word):
+def _is_thai_and_not_num(word: str) -> bool:
     for ch in word:
-        if ch != "." and not is_thaichar(ch):
+        if ch != "." and not isthaichar(ch):
             return False
         if ch in "๐๑๒๓๔๕๖๗๘๙0123456789":
             return False
     return True
 
 
-def _keep(word_freq, min_freq, min_len, max_len, dict_filter):
+def _keep(
+    word_freq: int,
+    min_freq: int,
+    min_len: int,
+    max_len: int,
+    dict_filter: Callable[[str], bool],
+):
     """
     Keep only Thai words with at least min_freq frequency
     and has length between min_len and max_len characters
@@ -41,7 +48,7 @@ def _keep(word_freq, min_freq, min_len, max_len, dict_filter):
     return dict_filter(word)
 
 
-def _edits1(word):
+def _edits1(word: str) -> Set[str]:
     """
     Return a set of words with edit distance of 1 from the input word
     """
@@ -54,7 +61,7 @@ def _edits1(word):
     return set(deletes + transposes + replaces + inserts)
 
 
-def _edits2(word):
+def _edits2(word: str) -> Set[str]:
     """
     Return a set of words with edit distance of 2 from the input word
     """
@@ -64,11 +71,11 @@ def _edits2(word):
 class NorvigSpellChecker:
     def __init__(
         self,
-        custom_dict=None,
-        min_freq=2,
-        min_len=2,
-        max_len=40,
-        dict_filter=_is_thai_and_not_num,
+        custom_dict: List[Tuple[str, int]] = None,
+        min_freq: int = 2,
+        min_len: int = 2,
+        max_len: int = 40,
+        dict_filter: Callable[[str], bool] = _is_thai_and_not_num,
     ):
         """
         Initialize Peter Norvig's spell checker object
@@ -97,13 +104,13 @@ class NorvigSpellChecker:
         if self.__WORDS_TOTAL < 1:
             self.__WORDS_TOTAL = 0
 
-    def dictionary(self):
+    def dictionary(self) -> List[Tuple[str, int]]:
         """
         Return the spelling dictionary currently used by this spell checker
         """
         return self.__WORDS.items()
 
-    def known(self, words):
+    def known(self, words: List[str]) -> List[str]:
         """
         Return a list of given words that found in the spelling dictionary
 
@@ -111,7 +118,7 @@ class NorvigSpellChecker:
         """
         return list(w for w in words if w in self.__WORDS)
 
-    def prob(self, word):
+    def prob(self, word: str) -> float:
         """
         Return probability of an input word, according to the spelling dictionary
 
@@ -119,7 +126,7 @@ class NorvigSpellChecker:
         """
         return self.__WORDS[word] / self.__WORDS_TOTAL
 
-    def freq(self, word):
+    def freq(self, word: str) -> int:
         """
         Return frequency of an input word, according to the spelling dictionary
 
@@ -127,7 +134,7 @@ class NorvigSpellChecker:
         """
         return self.__WORDS[word]
 
-    def spell(self, word):
+    def spell(self, word: str) -> List[str]:
         """
         Return a list of possible words, according to edit distance of 1 and 2,
         sorted by frequency of word occurrance in the spelling dictionary
@@ -147,7 +154,7 @@ class NorvigSpellChecker:
 
         return candidates
 
-    def correct(self, word):
+    def correct(self, word: str) -> str:
         """
         Return the most possible word, using the probability from the spelling dictionary
 
@@ -160,49 +167,3 @@ class NorvigSpellChecker:
 
 
 DEFAULT_SPELL_CHECKER = NorvigSpellChecker()
-
-
-def dictionary():
-    """
-    Return the spelling dictionary currently used by this spell checker.
-    The spelling dictionary is based on words found in the Thai National Corpus.
-    """
-    return DEFAULT_SPELL_CHECKER.dictionary()
-
-
-def known(words):
-    """
-    Return a list of given words that found in the spelling dictionary.
-    The spelling dictionary is based on words found in the Thai National Corpus.
-
-    :param str words: A list of words to check if they are in the spelling dictionary
-    """
-    return DEFAULT_SPELL_CHECKER.known(words)
-
-
-def prob(word):
-    """
-    Return probability of an input word, according to the Thai National Corpus
-
-    :param str word: A word to check its probability of occurrence
-    """
-    return DEFAULT_SPELL_CHECKER.prob(word)
-
-
-def spell(word):
-    """
-    Return a list of possible words, according to edit distance of 1 and 2,
-    sorted by probability of word occurrance in the Thai National Corpus.
-
-    :param str word: A word to check its spelling
-    """
-    return DEFAULT_SPELL_CHECKER.spell(word)
-
-
-def correct(word):
-    """
-    Return the most possible word, according to probability from the Thai National Corpus
-
-    :param str word: A word to correct its spelling
-    """
-    return DEFAULT_SPELL_CHECKER.correct(word)

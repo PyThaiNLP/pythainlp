@@ -18,9 +18,11 @@ install:
 
 os:
   - linux
+
 # command to run tests, e.g. python setup.py test
 script:
   coverage run --source=pythainlp setup.py test
+
 after_success:
   coveralls
 

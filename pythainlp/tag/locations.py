@@ -3,10 +3,12 @@
 Recognizes locations in text
 """
 
+from typing import List, Tuple
+
 from pythainlp.corpus import provinces
 
 
-def tag_provinces(tokens):
+def tag_provinces(tokens: List[str]) -> List[Tuple[str, str]]:
     """
     Recognize Thailand provinces in text
 

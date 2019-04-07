@@ -20,7 +20,7 @@ _C = "[" + thai_consonants + "]"
 _UV2 = "[" + "".join(["ั", "ื"]) + "]"
 
 
-def etcc(text):
+def etcc(text: str) -> str:
     """
     Enhanced Thai Character Cluster (ETCC)
 

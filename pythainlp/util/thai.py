@@ -4,6 +4,8 @@ Check if it is Thai text
 """
 import string
 
+_DEFAULT_IGNORE_CHARS = string.whitespace + string.digits + string.punctuation
+
 
 def isthaichar(ch: str) -> bool:
     """
@@ -37,10 +39,7 @@ def isthai(word: str, ignore_chars: str = ".") -> bool:
     return True
 
 
-def countthai(
-    text: str,
-    ignore_chars: str = string.whitespace + string.digits + string.punctuation,
-) -> float:
+def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
     """
     :param str text: input text
     :return: float, proportion of characters in the text that is Thai character

@@ -41,9 +41,9 @@ def bahttext(number: float) -> str:
     return ret
 
 
-def num_to_thaiword(number: float) -> str:
+def num_to_thaiword(number: int) -> str:
     """
-    :param float number: a float number (with decimals) indicating a quantity
+    :param int number: a float number (with decimals) indicating a quantity
     :return: a text that indicates the full amount in word form, properly ending each digit with the right term.
     """
     ret = ""

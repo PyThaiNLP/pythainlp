@@ -51,14 +51,15 @@ def countthai(
     if not ignore_chars:
         ignore_chars = ""
 
-    text_len = len(text)
-    num_isthai = 0
+    num_thai = 0
     num_ignore = 0
 
     for ch in text:
         if ch in ignore_chars:
             num_ignore += 1
         elif isthaichar(ch):
-            num_isthai += 1
+            num_thai += 1
 
-    return (num_isthai / (text_len - num_ignore)) * 100
+    num_count = len(text) - num_ignore
+
+    return (num_thai / num_count) * 100

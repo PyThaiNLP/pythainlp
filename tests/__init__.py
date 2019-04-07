@@ -23,8 +23,7 @@ from pythainlp.corpus import (
     download,
 )
 from pythainlp.soundex import lk82, metasound, soundex, udom83
-from pythainlp.spell import correct, spell
-from pythainlp.spell.pn import NorvigSpellChecker, dictionary, known, prob
+from pythainlp.spell import correct, spell, NorvigSpellChecker
 from pythainlp.summarize import summarize
 from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
 from pythainlp.tag.locations import tag_provinces
@@ -176,10 +175,6 @@ class TestUM(unittest.TestCase):
         self.assertEqual(correct(None), "")
         self.assertEqual(correct(""), "")
         self.assertIsNotNone(correct("ทดสอง"))
-
-        self.assertIsNotNone(dictionary())
-        self.assertGreaterEqual(prob("มี"), 0)
-        self.assertIsNotNone(known(["เกิด", "abc", ""]))
 
         checker = NorvigSpellChecker(dict_filter="")
         self.assertIsNotNone(checker.dictionary())

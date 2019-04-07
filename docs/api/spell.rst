@@ -8,8 +8,4 @@ Modules
 -------
 
 .. autofunction:: spell
-.. autofunction:: pythainlp.spell.pn.spell
-.. autofunction:: pythainlp.spell.pn.prob
-.. autofunction:: pythainlp.spell.pn.correct
-.. autofunction:: pythainlp.spell.pn.known
-.. autofunction:: pythainlp.spell.pn.dictionary
+.. autofunction:: correct

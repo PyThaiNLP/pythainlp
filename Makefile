@@ -28,7 +28,6 @@ help:
 
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
-
 clean-build: ## remove build artifacts
 	rm -fr build/
 	rm -fr dist/
@@ -51,19 +50,16 @@ lint: ## check style with flake8
 	flake8 pythainlp tests
 
 test: ## run tests quickly with the default Python
-	
-		python setup.py test
+	python setup.py test
 
 test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	
-		coverage run --source pythainlp setup.py test
-	
-		coverage report -m
-		coverage html
-		$(BROWSER) htmlcov/index.html
+	coverage run --source pythainlp setup.py test
+	coverage report -m
+	coverage html
+	$(BROWSER) htmlcov/index.html
 
 release: clean ## package and upload a release
 	python setup.py sdist upload

@@ -101,7 +101,7 @@ EN_TH_KEYB_PAIRS = {
 TH_EN_KEYB_PAIRS = {v: k for k, v in EN_TH_KEYB_PAIRS.items()}
 
 
-def eng_to_thai(text):
+def eng_to_thai(text: str) -> str:
     """
     Correct text in one language that is incorrectly-typed with a keyboard layout in another language. (type Thai with English keyboard)
 
@@ -113,7 +113,7 @@ def eng_to_thai(text):
     )
 
 
-def thai_to_eng(text):
+def thai_to_eng(text: str) -> str:
     """
     Correct text in one language that is incorrectly-typed with a keyboard layout in another language. (type Thai with English keyboard)
 

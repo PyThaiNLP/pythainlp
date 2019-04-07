@@ -44,7 +44,7 @@ _NORMALIZE_RULE2 = [
 ]  # เก็บพวก พิมพ์ลำดับผิดหรือผิดแป้นแต่กลับแสดงผลถูกต้อง ให้ไปเป็นแป้นที่ถูกต้อง เช่น เ + เ ไปเป็น แ
 
 
-def normalize(text):
+def normalize(text: str) -> str:
     """
     Thai text normalize
 
@@ -61,7 +61,7 @@ def normalize(text):
     return text
 
 
-def deletetone(text):
+def deletetone(text: str) -> str:
     """
     Remove tonemarks
 

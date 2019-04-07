@@ -117,20 +117,20 @@ _RE_NORMALIZE = re.compile(
 )
 
 
-def _normalize(text):
+def _normalize(text: str) -> str:
     """ตัดอักษรที่ไม่ออกเสียง (การันต์ ไปยาลน้อย ไม้ยมก*) และวรรณยุกต์ทิ้ง"""
     return _RE_NORMALIZE.sub("", text)
 
 
-def _replace_vowels(word):
+def _replace_vowels(word: str) -> str:
     for vowel in _VOWELS:
         word = re.sub(vowel[0], vowel[1], word)
 
     return word
 
 
-def _replace_consonants(word, res):
-    if res is None:
+def _replace_consonants(word: str, res: str) -> str:
+    if not res:
         pass
     elif len(res) == 1:
         word = word.replace(res[0], _CONSONANTS[res[0]][0])
@@ -162,9 +162,10 @@ def _replace_consonants(word, res):
     return word
 
 
-def romanize(word):
-    if isinstance(word,str)==False:
+def romanize(word: str) -> str:
+    if not isinstance(word, str) or not word:
         return ""
+
     word2 = _replace_vowels(_normalize(word))
     res = _RE_CONSONANT.findall(word2)
 

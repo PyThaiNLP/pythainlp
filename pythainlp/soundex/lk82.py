@@ -21,7 +21,7 @@ _RE_2 = re.compile(r"จน์|มณ์|ณฑ์|ทร์|ตร์|[ก-ฮ]
 _RE_3 = re.compile(r"[็ํฺๆฯ]")
 
 
-def lk82(text):
+def lk82(text: str) -> str:
     """
     LK82 - It's a Thai soundex rule.
 

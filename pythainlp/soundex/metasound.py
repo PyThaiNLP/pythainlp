@@ -20,7 +20,7 @@ _C7 = "ย"  # Y -> 7
 _C8 = "ว"  # W -> 8
 
 
-def metasound(text, length=4):
+def metasound(text: str, length: int = 4) -> str:
     """
     Thai MetaSound
 

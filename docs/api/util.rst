@@ -14,9 +14,9 @@ Modules
 .. autofunction:: digit_to_text
 .. autofunction:: eng_to_thai
 .. autofunction:: find_keyword
-.. autofunction:: is_thai
-.. autofunction:: is_thaichar
-.. autofunction:: is_thaiword
+.. autofunction:: countthai
+.. autofunction:: isthai
+.. autofunction:: isthaichar
 .. autofunction:: normalize
 .. autofunction:: now_reign_year
 .. autofunction:: num_to_thaiword

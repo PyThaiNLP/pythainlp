@@ -11,9 +11,9 @@ __all__ = [
     "digit_to_text",
     "eng_to_thai",
     "find_keyword",
-    "is_thai",
-    "is_thaichar",
-    "is_thaiword",
+    "countthai",
+    "isthai",
+    "isthaichar",
     "normalize",
     "now_reign_year",
     "num_to_thaiword",
@@ -42,6 +42,6 @@ from .keyboard import eng_to_thai, thai_to_eng
 from .keywords import find_keyword, rank
 from .normalize import deletetone, normalize
 from .numtoword import bahttext, num_to_thaiword
-from .thai import is_thai, is_thaichar, is_thaiword
-from .wordtonum import thaiword_to_num
+from .thai import countthai, isthai, isthaichar
 from .thaiwordcheck import thaicheck
+from .wordtonum import thaiword_to_num

@@ -16,7 +16,7 @@ def _gen_words(text):
         p = q
 
 
-def segment(text):
+def segment(text: str) -> :
     if not text:
         return []
 

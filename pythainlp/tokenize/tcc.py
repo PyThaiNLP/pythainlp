@@ -10,6 +10,7 @@ Credits:
 - Python code: Korakot Chaovavanich
 """
 import re
+from typing import List, Set
 
 RE_TCC = (
     """\
@@ -47,9 +48,9 @@ ct[ะาำ]?
 PAT_TCC = re.compile("|".join(RE_TCC))
 
 
-def tcc_gen(w):
+def tcc_gen(w: str) -> str:
     if not w:
-        return ''
+        return ""
 
     p = 0
     while p < len(w):
@@ -62,7 +63,7 @@ def tcc_gen(w):
         p += n
 
 
-def tcc_pos(text):
+def tcc_pos(text: str) -> Set[int]:
     if not text:
         return set()
 
@@ -75,8 +76,5 @@ def tcc_pos(text):
     return p_set
 
 
-def tcc(text, sep="/"):
-    if not text:
-        return ""
-
-    return sep.join(tcc_gen(text))
+def tcc(text: str) -> List[str]:
+    return list(tcc_gen(text))

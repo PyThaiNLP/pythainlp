@@ -3,11 +3,12 @@
 Wrapper for ICU word segmentation
 """
 import re
+from typing import List
 
 from icu import BreakIterator, Locale
 
 
-def _gen_words(text):
+def _gen_words(text: str) -> str:
     bd = BreakIterator.createWordInstance(Locale("th"))
     bd.setText(text)
     p = bd.first()
@@ -16,7 +17,7 @@ def _gen_words(text):
         p = q
 
 
-def segment(text: str) -> :
+def segment(text: str) -> List[str]:
     if not text:
         return []
 

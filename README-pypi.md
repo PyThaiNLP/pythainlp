@@ -1,6 +1,6 @@
 ![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
 
-# PyThaiNLP 2.0
+# PyThaiNLP 2.0.1
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)[![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
 [![Build Status](https://travis-ci.org/PyThaiNLP/pythainlp.svg?branch=develop)](https://travis-ci.org/PyThaiNLP/pythainlp)
@@ -12,9 +12,9 @@ PyThaiNLP is a Python library for natural language processing (NLP) of Thai lang
 
 PyThaiNLP includes Thai word tokenizers, transliterators, soundex converters, part-of-speech taggers, and spell checkers.
 
-📖 For details on upgrading from PyThaiNLP 1.7 to PyThaiNLP 2.0, see [From PyThaiNLP 1.7 to PyThaiNLP 2.0](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
+📖 [Upgrading from PyThaiNLP 1.7 to 2.0](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
 
-📖 For ThaiNER user after upgrading from PyThaiNLP 1.7 to PyThaiNLP 2.0, see [Upgrade ThaiNER from PyThaiNLP 1.7 to PyThaiNLP 2.0](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
+📖 [Upgrade ThaiNER from PyThaiNLP 1.7 to 2.0](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
 
 📫 follow us on Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
 

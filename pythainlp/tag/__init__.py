@@ -54,7 +54,6 @@ _TAG_MAP_UD = {
     "DIAC": "DET",
     "DIBQ": "DET",
     "DIAQ": "DET",
-    "DCNM": "DET",
     # NUM
     "NUM": "NUM",
     "NCNM": "NUM",

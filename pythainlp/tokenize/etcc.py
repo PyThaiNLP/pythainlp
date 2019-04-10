@@ -3,6 +3,8 @@
 โปรแกรม ETCC ใน Python
 พัฒนาโดย นาย วรรณพงษ์  ภัททิยไพบูลย์
 19 มิ.ย. 2560
+Reference: Inrut, Jeeragone, Patiroop Yuanghirun, Sarayut Paludkong, Supot Nitsuwat, and Para Limmaneepraserth. "Thai word segmentation using combination of forward and backward longest matching techniques." In International Symposium on Communications and Information Technology (ISCIT), pp. 37-40. 2001.
+
 
 วิธีใช้งาน
 etcc(คำ)

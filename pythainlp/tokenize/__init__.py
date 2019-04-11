@@ -122,16 +122,24 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
 def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
     """
     :param str text: text to be tokenized
-    :param str engine: choosing 'tcc' uses the Thai Character Cluster rule to segment words into the smallest unique units.
+    :param str engine: subword tokenizer 
+    :Parameters for engine:
+        * tcc (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
+        * etcc - Enhanced Thai Character Cluster (Inrut et al. 2001) [In development] 
     :return: a list of tokenized strings.
     """
     if not text:
         return ""
 
     from .tcc import tcc
+    from .etcc import etcc
 
+    if engine == "tcc":
+        return tcc(text) 
+    elif engine == "etcc":
+        return etcc(text).split("/")
+    #default
     return tcc(text)
-
 
 def syllable_tokenize(text: str) -> List[str]:
     """

@@ -45,4 +45,4 @@ elif args.soundex!=None:
         args.engine="lk82"
     print(soundex(args.soundex, engine=args.engine))
 else:
-    print("PyThaiNLP 2.0")
+    print("PyThaiNLP 2.0.2")

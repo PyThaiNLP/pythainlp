@@ -12,7 +12,7 @@ from pythainlp.soundex.udom83 import udom83 as udom83
 # [KSS97] https://linux.thai.net/~thep/soundex/soundex.html
 
 
-def soundex(text, engine="udom83"):
+def soundex(text: str, engine="udom83") -> str:
     """
     Thai Soundex
 

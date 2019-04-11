@@ -4,6 +4,8 @@
 thai2fit - Thai word vector
 Code by https://github.com/cstorm125/thai2fit
 """
+from typing import List
+
 import numpy as np
 from gensim.models import KeyedVectors
 from pythainlp.corpus import download as download_data
@@ -13,7 +15,7 @@ from pythainlp.tokenize import word_tokenize
 WV_DIM = 300
 
 
-def _download():
+def _download() -> str:
     path = get_corpus_path("thai2fit_wv")
     if not path:
         download_data("thai2fit_wv")
@@ -33,7 +35,7 @@ def get_model():
 _MODEL = get_model()
 
 
-def most_similar_cosmul(positive: list, negative: list):
+def most_similar_cosmul(positive: List[str], negative: List[str]):
     """
     Word arithmetic operations
     If a word is not in the vocabulary, KeyError will be raised.
@@ -47,18 +49,18 @@ def most_similar_cosmul(positive: list, negative: list):
     return _MODEL.most_similar_cosmul(positive=positive, negative=negative)
 
 
-def doesnt_match(listdata):
+def doesnt_match(words: List[str]) -> str:
     """
     Pick one word that doesn't match other words in the list
     If a word is not in the vocabulary, KeyError will be raised.
 
-    :param list listdata: a list of words
+    :param list words: a list of words
     :return: word that doesn't match
     """
-    return _MODEL.doesnt_match(listdata)
+    return _MODEL.doesnt_match(words)
 
 
-def similarity(word1, word2):
+def similarity(word1: str, word2: str) -> float:
     """
     Get cosine similarity between two words.
     If a word is not in the vocabulary, KeyError will be raised.
@@ -70,7 +72,7 @@ def similarity(word1, word2):
     return _MODEL.similarity(word1, word2)
 
 
-def sentence_vectorizer(text, use_mean=True):
+def sentence_vectorizer(text: str, use_mean: bool = True):
     """
     Get sentence vector from text
     If a word is not in the vocabulary, KeyError will be raised.

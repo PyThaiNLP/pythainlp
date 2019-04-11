@@ -157,5 +157,5 @@ class ThaiTransliterator:
 _THAI_TO_ROM = ThaiTransliterator()
 
 
-def romanize(text):
+def romanize(text: str) -> str:
     return _THAI_TO_ROM.romanize(text)

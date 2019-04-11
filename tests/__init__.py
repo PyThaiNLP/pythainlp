@@ -20,11 +20,10 @@ from pythainlp.corpus import (
     tnc,
     ttc,
     wordnet,
-    download
+    download,
 )
 from pythainlp.soundex import lk82, metasound, soundex, udom83
-from pythainlp.spell import correct, spell
-from pythainlp.spell.pn import NorvigSpellChecker, dictionary, known, prob
+from pythainlp.spell import correct, spell, NorvigSpellChecker
 from pythainlp.summarize import summarize
 from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
 from pythainlp.tag.locations import tag_provinces
@@ -37,7 +36,7 @@ from pythainlp.tokenize import (
     multi_cut,
     newmm,
     dict_trie,
-    Tokenizer
+    Tokenizer,
 )
 from pythainlp.tokenize import pyicu as tokenize_pyicu
 from pythainlp.tokenize import (
@@ -58,9 +57,9 @@ from pythainlp.util import (
     digit_to_text,
     eng_to_thai,
     find_keyword,
-    is_thai,
-    is_thaichar,
-    is_thaiword,
+    countthai,
+    isthai,
+    isthaichar,
     normalize,
     now_reign_year,
     num_to_thaiword,
@@ -72,9 +71,9 @@ from pythainlp.util import (
     thai_strftime,
     thai_to_eng,
     thaiword_to_num,
-    thaicheck
+    thaicheck,
 )
-#from pythainlp.ulmfit import rm_brackets
+
 
 class TestUM(unittest.TestCase):
     """
@@ -177,10 +176,6 @@ class TestUM(unittest.TestCase):
         self.assertEqual(correct(""), "")
         self.assertIsNotNone(correct("ทดสอง"))
 
-        self.assertIsNotNone(dictionary())
-        self.assertGreaterEqual(prob("มี"), 0)
-        self.assertIsNotNone(known(["เกิด", "abc", ""]))
-
         checker = NorvigSpellChecker(dict_filter="")
         self.assertIsNotNone(checker.dictionary())
         self.assertGreaterEqual(checker.prob("มี"), 0)
@@ -262,7 +257,13 @@ class TestUM(unittest.TestCase):
         self.assertEqual(ner.get_ner(""), [])
         self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
         self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
-        self.assertIsNotNone(ner.get_ner("คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ ที่อยู่ มหาวิทยาลัยขอนแก่น วิทยาเขตหนองคาย 112 หมู่ 7 บ้านหนองเดิ่น ตำบลหนองกอมเกาะ อำเภอเมือง จังหวัดหนองคาย 43000"))
+        self.assertIsNotNone(
+            ner.get_ner(
+                """คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ มหาวิทยาลัยขอนแก่น
+                วิทยาเขตหนองคาย 112 หมู่ 7 บ้านหนองเดิ่น ตำบลหนองกอมเกาะ อำเภอเมือง
+                จังหวัดหนองคาย 43000"""
+            )
+        )
         # self.assertEqual(
         #     ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"),
         #     [
@@ -339,8 +340,9 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="XX"))
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
         self.assertIsNotNone(word_tokenize("", engine="deepcut"))
+
     def test_Tokenizer(self):
-        t_test=Tokenizer()
+        t_test = Tokenizer()
         self.assertEqual(t_test.word_tokenize(""), [])
 
     def test_word_tokenize_icu(self):
@@ -399,7 +401,8 @@ class TestUM(unittest.TestCase):
         self.assertEqual(sent_tokenize(None), [])
         self.assertEqual(sent_tokenize(""), [])
         self.assertEqual(
-            sent_tokenize("รักน้ำ  รักปลา  ", engine="whitespace"), ["รักน้ำ", "รักปลา", ""]
+            sent_tokenize("รักน้ำ  รักปลา  ", engine="whitespace"),
+            ["รักน้ำ", "รักปลา", ""],
         )
         self.assertEqual(sent_tokenize("รักน้ำ  รักปลา  "), ["รักน้ำ", "รักปลา"])
 
@@ -416,9 +419,9 @@ class TestUM(unittest.TestCase):
         )
 
     def test_tcc(self):
-        self.assertEqual(tcc.tcc(None), "")
-        self.assertEqual(tcc.tcc(""), "")
-        self.assertEqual(tcc.tcc("ประเทศไทย"), "ป/ระ/เท/ศ/ไท/ย")
+        self.assertEqual(tcc.tcc(None), [])
+        self.assertEqual(tcc.tcc(""), [])
+        self.assertEqual(tcc.tcc("ประเทศไทย"), ["ป", "ระ", "เท", "ศ", "ไท", "ย"])
 
         self.assertEqual(list(tcc.tcc_gen("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())
@@ -558,20 +561,24 @@ class TestUM(unittest.TestCase):
 
     # ### pythainlp.util.thai
 
-    def test_is_thai(self):
-        self.assertEqual(is_thai("ประเทศไทย"), {"thai": 100.0})
-        self.assertIsNotNone(is_thai("เผือก", check_all=True))
-        self.assertIsNotNone(is_thai("เผือกabc", check_all=True))
+    def test_countthai(self):
+        self.assertEqual(countthai(""), 0)
+        self.assertEqual(countthai("ประเทศไทย"), 100.0)
+        self.assertEqual(countthai("(กกต.)", ".()"), 100.0)
+        self.assertEqual(countthai("(กกต.)", None), 50.0)
 
-    def test_is_thaichar(self):
-        self.assertEqual(is_thaichar("ก"), True)
-        self.assertEqual(is_thaichar("a"), False)
-        self.assertEqual(is_thaichar("0"), False)
+    def test_isthaichar(self):
+        self.assertEqual(isthaichar("ก"), True)
+        self.assertEqual(isthaichar("a"), False)
+        self.assertEqual(isthaichar("0"), False)
 
-    def test_is_thaiword(self):
-        self.assertEqual(is_thaiword("ไทย"), True)
-        self.assertEqual(is_thaiword("ต.ค."), True)
-        self.assertEqual(is_thaiword("ไทย0"), False)
+    def test_isthai(self):
+        self.assertEqual(isthai("ไทย"), True)
+        self.assertEqual(isthai("ไทย0"), False)
+        self.assertEqual(isthai("ต.ค."), True)
+        self.assertEqual(isthai("(ต.ค.)"), False)
+        self.assertEqual(isthai("ต.ค.", ignore_chars=None), False)
+        self.assertEqual(isthai("(ต.ค.)", ignore_chars=".()"), True)
 
     def test_is_thaicheck(self):
         self.assertEqual(thaicheck("ตา"), True)
@@ -607,6 +614,7 @@ class TestUM(unittest.TestCase):
         self.assertEqual(
             word_vector.doesnt_match(["ญี่ปุ่น", "พม่า", "ไอติม"]), "ไอติม"
         )
+
 
 if __name__ == "__main__":
     unittest.main()

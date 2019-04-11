@@ -15,7 +15,7 @@ extras = {
     "ipa": ["epitran"],
     "ml": ["fastai>=1.0.38", "keras", "numpy", "torch"],
     "ner": ["sklearn-crfsuite"],
-    "thai2fit": ["gensim", "numpy","emoji"],
+    "thai2fit": ["emoji", "gensim", "numpy"],
     "thai2rom": ["keras", "numpy"],
     "full": [
         "artagger",
@@ -34,7 +34,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.0",
+    version="2.0.2",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -54,16 +54,12 @@ setup(
             "stopwords_th.txt",
             "syllables_th.txt",
             "tha-wn.db",
-            "new-thaidict.txt",
-            "negation.txt",
-            "provinces.csv",
-            "pt_tagger_1.dill",
-            "ud_thai-pud_pt_tagger.dill",
-            "ud_thai-pud_unigram_tagger.dill",
-            "unigram_tagger.dill",
-            "words_th.txt",
+            "thailand_provinces_th.txt",
+            "tnc_freq.txt",
+            "ud_thai_pud_pt_tagger.dill",
+            "ud_thai_pud_unigram_tagger.dill",
             "words_th_frozen_201810.txt",
-            "tnc_freq.txt"
+            "words_th.txt",
         ],
     },
     include_package_data=True,
@@ -77,6 +73,8 @@ setup(
        "natural language processing",
        "text analytics",
        "ThaiNLP",
+       "text processing",
+       "localization",
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",

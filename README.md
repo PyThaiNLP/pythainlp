@@ -15,12 +15,12 @@ Thai Natural Language Processing in Python.
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
 - [Current PyThaiNLP stable release is 2.0](https://github.com/PyThaiNLP/pythainlp/tree/master)
-- PyThaiNLP 2.0 will support only Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [PyThaiNLP 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
-- Python 2 users can use PyThaiNLP 1.6, our latest released that tested with Python 2.7.
+- PyThaiNLP 2.0 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [PyThaiNLP 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
+- Python 2.7+ users can use PyThaiNLP 1.6.
 
-**This is a document for development branch (post 1.7.x). Things will break. For a stable branch document, see [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
+**This is a document for development branch (post 2.0). Things will break. For a stable branch document, see [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
 
-📫 follow us on Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
+📫 follow us on Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
 ## Capabilities
 
@@ -34,7 +34,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 - Thai misspellings detection and spelling correction (```spell```)
 - Thai soundex (```lk82```, ```udom83```, ```metasound```)
 - Thai WordNet wrapper
-- and much more - see [examples](https://github.com/PyThaiNLP/pythainlp/tree/dev/examples).
+- and much more - see examples in [PyThaiNLP Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb).
 
 ## Installation
 
@@ -102,13 +102,10 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 > เพราะโลกขับเคลื่อนต่อไปด้วยการแบ่งปัน
 
-รองรับ Python 3.6 ขึ้นไป
+- PyThaiNLP 2.0 รองรับ Python 3.6 ขึ้นไป
+- ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
 
-- ตั้งแต่รุ่น 1.7 PyThaiNLP จะเลิกสนับสนุน Python 2 (บางฟังก์ชันอาจยังทำงานได้ แต่จะไม่ได้รับการสนับสนุน)
-- ตั้งแต่รุ่น 2.0 จะยุติการรองรับ Python 2 ทั้งหมด
-- ผู้ใช้ Python 2 ยังสามารถใช้ PyThaiNLP 1.6 ได้
-
-**เอกสารนี้สำหรับรุ่นพัฒนา (หลัง 1.7.x) อาจมีการเปลี่ยนแปลงได้ตลอด สำหรับเอกสารรุ่นเสถียร ดูที่ [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
+**เอกสารนี้สำหรับรุ่นพัฒนา (หลัง 2.0) อาจมีการเปลี่ยนแปลงได้ตลอด สำหรับเอกสารรุ่นเสถียร ดูที่ [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
 
 📫 ติดตามข่าวสารได้ที่ Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
 
@@ -125,7 +122,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 - ตรวจคำสะกดผิดในภาษาไทย (```spell```)
 - soundex ภาษาไทย (```lk82```, ```udom83```, ```metasound```)
 - Thai WordNet wrapper
-- และอื่น ๆ [ดูตัวอย่าง](https://github.com/PyThaiNLP/pythainlp/tree/dev/examples)
+- และอื่น ๆ ดูตัวอย่างได้ใน [PyThaiNLP Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
 
 ## ติดตั้ง
 

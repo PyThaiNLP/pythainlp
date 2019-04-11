@@ -63,7 +63,7 @@ _HA_TH_DIGITS = str.maketrans("0123456789", "๐๑๒๓๔๕๖๗๘๙")
 
 
 # Conversion support for thai_strftime()
-def _thai_strftime(datetime, fmt_c):
+def _thai_strftime(datetime, fmt_c: str) -> str:
     text = ""
     if fmt_c == "a":  # abbreviated weekday
         text = thai_abbr_weekdays[datetime.weekday()]
@@ -73,7 +73,7 @@ def _thai_strftime(datetime, fmt_c):
         text = thai_abbr_months[datetime.month - 1]
     elif fmt_c == "B":  # full month
         text = thai_full_months[datetime.month - 1]
-    elif fmt_c == "y":  #  # year without century
+    elif fmt_c == "y":  # year without century
         text = str(datetime.year + 543)[2:4]
     elif fmt_c == "Y":  # year with century
         text = str(datetime.year + 543)
@@ -97,7 +97,7 @@ def _thai_strftime(datetime, fmt_c):
     return text
 
 
-def thai_strftime(datetime, fmt, thaidigit=False):
+def thai_strftime(datetime, fmt: str, thaidigit=False) -> str:
     """
     Thai date and time string formatter
 
@@ -126,7 +126,7 @@ def thai_strftime(datetime, fmt, thaidigit=False):
     If supported, we can just locale.setlocale(locale.LC_TIME, "th_TH") and
     then use native datetime.strftime().
 
-    :return: Date and time spelled out in text, with month in Thai name and year in Thai Buddhist Era (BE).
+    :return: Date and time spelled out, with day and month names in Thai and year in Thai Buddhist Era (BE).
     """
     thaidate_parts = []
 

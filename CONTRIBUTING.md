@@ -19,15 +19,14 @@ We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-mod
 
 ## Code Guidelines
 
-- Use [PEP8](http://www.python.org/dev/peps/pep-0008/);
+- Follows [PEP8](http://www.python.org/dev/peps/pep-0008/), use [black](https://github.com/ambv/black);
 - Write tests for your new features (please see "Tests" topic below);
 - Always remember that [commented code is dead
   code](http://www.codinghorror.com/blog/2008/07/coding-without-comments.html);
 - Name identifiers (variables, classes, functions, module names) with meaningful
   and pronounceable names (`x` is always wrong);
-- When manipulating strings, use [Python's new-style
-  formatting](http://docs.python.org/library/string.html#format-string-syntax)
-  (`'{} = {}'.format(a, b)` instead of `'%s = %s' % (a, b)`);
+- When manipulating strings, use [f-String](https://www.python.org/dev/peps/pep-0498/)
+  (use `"{a} = {b}"`, instead of `"{} = {}".format(a, b)` and `"%s = %s' % (a, b)"`);
 - All `#TODO` comments should be turned into issues (use our
   [GitHub issue system](https://github.com/PyThaiNLP/pythainlp/));
 - Run all tests before pushing (just execute `tox`) so you will know if your

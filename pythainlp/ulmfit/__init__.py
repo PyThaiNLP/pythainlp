@@ -35,8 +35,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 _MODEL_NAME_LSTM = "wiki_lm_lstm"
 _ITOS_NAME_LSTM = "wiki_itos_lstm"
 
+
 # Download pretrained models
-def _get_path(fname):
+def _get_path(fname: str) -> str:
     """
     :meth: download get path of file from pythainlp-corpus
     :param str fname: file name
@@ -56,7 +57,7 @@ class ThaiTokenizer(BaseTokenizer):
     https://docs.fast.ai/text.transform#BaseTokenizer
     """
 
-    def __init__(self, lang = "th"):
+    def __init__(self, lang="th"):
         self.lang = lang
 
     def tokenizer(self, t):
@@ -94,6 +95,7 @@ def rm_brackets(t):
     new_line = re.sub(r"\[\]", "", new_line)
     return new_line
 
+
 def ungroup_emoji(toks):
     "Ungroup emojis"
     res = []
@@ -105,6 +107,7 @@ def ungroup_emoji(toks):
             res.append(tok)
     return res
 
+
 def lowercase_all(toks):
     "lowercase all English words"
     return [tok.lower() for tok in toks]
@@ -112,17 +115,26 @@ def lowercase_all(toks):
 
 # Pretrained paths
 # TODO: Let the user decide if they like to download (at setup?)
-_THWIKI_LSTM = dict(wgts_fname=_get_path(_MODEL_NAME_LSTM), itos_fname=_get_path(_ITOS_NAME_LSTM))
+_THWIKI_LSTM = dict(
+    wgts_fname=_get_path(_MODEL_NAME_LSTM), itos_fname=_get_path(_ITOS_NAME_LSTM)
+)
 
 # Preprocessing rules for Thai text
-pre_rules_th = [fix_html, replace_rep_after, normalize_char_order, 
-                spec_add_spaces, rm_useless_spaces, rm_useless_newlines, rm_brackets]
+pre_rules_th = [
+    fix_html,
+    replace_rep_after,
+    normalize_char_order,
+    spec_add_spaces,
+    rm_useless_spaces,
+    rm_useless_newlines,
+    rm_brackets,
+]
 post_rules_th = [replace_all_caps, ungroup_emoji, lowercase_all]
 
 _tokenizer = ThaiTokenizer()
 
 
-def document_vector(text, learn, data, agg='mean'):
+def document_vector(text, learn, data, agg="mean"):
     """
     :meth: `document_vector` get document vector using fastai language model and data bunch
     :param str text: text to extract embeddings
@@ -131,18 +143,18 @@ def document_vector(text, learn, data, agg='mean'):
     :param agg: how to aggregate embeddings
     :return: `numpy.array` of document vector sized 400 based on the encoder of the model
     """
-    
+
     s = _tokenizer.tokenizer(text)
     t = torch.tensor(data.vocab.numericalize(s), requires_grad=False).to(device)
     m = learn.model[0].encoder.to(device)
     res = m(t).cpu().detach().numpy()
-    if agg == 'mean':
+    if agg == "mean":
         res = res.mean(0)
-    elif agg == 'sum':
+    elif agg == "sum":
         res = res.sum(0)
     else:
-        raise ValueError('Aggregate by mean or sum')
-    return(res)
+        raise ValueError("Aggregate by mean or sum")
+    return res
 
 
 def merge_wgts(em_sz, wgts, itos_pre, itos_new):

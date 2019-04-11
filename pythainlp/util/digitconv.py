@@ -56,7 +56,7 @@ _spell_digit = {
 }
 
 
-def thai_digit_to_arabic_digit(text):
+def thai_digit_to_arabic_digit(text: str) -> str:
     """
     :param str text: Text with Thai digits such as '๑', '๒', '๓'
     :return: Text with Thai digits being converted to Arabic digits such as '1', '2', '3'
@@ -74,7 +74,7 @@ def thai_digit_to_arabic_digit(text):
     return "".join(newtext)
 
 
-def arabic_digit_to_thai_digit(text):
+def arabic_digit_to_thai_digit(text: str) -> str:
     """
     :param str text: Text with Arabic digits such as '1', '2', '3'
     :return: Text with Arabic digits being converted to Thai digits such as '๑', '๒', '๓'
@@ -92,7 +92,7 @@ def arabic_digit_to_thai_digit(text):
     return "".join(newtext)
 
 
-def digit_to_text(text):
+def digit_to_text(text: str) -> str:
     """
     :param str text: Text with digits such as '1', '2', '๓', '๔'
     :return: Text with digits being spelled out in Thai
@@ -113,7 +113,7 @@ def digit_to_text(text):
     return "".join(newtext)
 
 
-def text_to_arabic_digit(text):
+def text_to_arabic_digit(text: str) -> str:
     """
     :param text: A digit spelled out in Thai
     :return: An Arabic digit such as '1', '2', '3'
@@ -124,7 +124,7 @@ def text_to_arabic_digit(text):
     return _spell_digit[text]
 
 
-def text_to_thai_digit(text):
+def text_to_thai_digit(text: str) -> str:
     """
     :param text: A digit spelled out in Thai
     :return: A Thai digit such as '๑', '๒', '๓'

@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-โปรแกรม ETCC ใน Python
-พัฒนาโดย นาย วรรณพงษ์  ภัททิยไพบูลย์
-19 มิ.ย. 2560
-Reference: Inrut, Jeeragone, Patiroop Yuanghirun, Sarayut Paludkong, Supot Nitsuwat, and Para Limmaneepraserth. "Thai word segmentation using combination of forward and backward longest matching techniques." In International Symposium on Communications and Information Technology (ISCIT), pp. 37-40. 2001.
+Enhanced Thai Character Cluster (ETCC)
+Python implementation by Wannaphong Phatthiyaphaibun (19 June 2017)
 
-
-วิธีใช้งาน
-etcc(คำ)
-คืนค่า โดยมี / แบ่งกลุ่มคำ
+Reference:
+Inrut, Jeeragone, Patiroop Yuanghirun, Sarayut Paludkong, Supot Nitsuwat, and Para Limmaneepraserth.
+"Thai word segmentation using combination of forward and backward longest matching techniques."
+In International Symposium on Communications and Information Technology (ISCIT), pp. 37-40. 2001.
 """
 
 import re
@@ -22,7 +20,7 @@ _C = "[" + thai_consonants + "]"
 _UV2 = "[" + "".join(["ั", "ื"]) + "]"
 
 
-def etcc(text: str) -> str:
+def segment(text: str) -> str:
     """
     Enhanced Thai Character Cluster (ETCC)
 
@@ -75,4 +73,6 @@ def etcc(text: str) -> str:
             ii = re.sub("/", "", i)
             text = re.sub(i, ii + "/", text)
 
-    return re.sub("//", "/", text)
+    text = re.sub("//", "/", text)
+
+    return text.split("/")

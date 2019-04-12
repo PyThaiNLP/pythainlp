@@ -12,6 +12,7 @@ from pythainlp.tools import get_full_data_path
 
 __all__ = ["word_freqs"]
 
+
 def word_freqs():
     """
     Get word frequency from Thai Textbook Corpus (TTC)

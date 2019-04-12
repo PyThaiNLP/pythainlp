@@ -1,8 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
 """
 Separate Thai text into Thai Character Cluster (TCC).
-Based on "Character cluster based Thai information retrieval" (Theeramunkong et al. 2002)
-http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548
+Based on "Character cluster based Thai information retrieval" (Theeramunkong et al. 2000)
+https://dl.acm.org/citation.cfm?id=355225
+http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548 
 
 Credits:
 - TCC: Jakkrit TeCho

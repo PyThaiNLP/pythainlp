@@ -34,7 +34,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.0.2",
+    version="2.0.3",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -56,6 +56,7 @@ setup(
             "tha-wn.db",
             "thailand_provinces_th.txt",
             "tnc_freq.txt",
+            "ttc_freq.txt",
             "ud_thai_pud_pt_tagger.dill",
             "ud_thai_pud_unigram_tagger.dill",
             "words_th_frozen_201810.txt",

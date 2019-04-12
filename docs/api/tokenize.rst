@@ -14,4 +14,4 @@ Modules
 .. autofunction:: sent_tokenize
 .. autofunction:: dict_trie
 .. autoclass:: Tokenizer
-   :members: word_tokenize,set_tokenize_engine
+   :members: word_tokenize, set_tokenize_engine

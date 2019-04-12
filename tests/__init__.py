@@ -30,22 +30,20 @@ from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import ThaiNameTagger
 from pythainlp.tokenize import (
     FROZEN_DICT_TRIE,
+    Tokenizer,
+    dict_trie,
     dict_word_tokenize,
     etcc,
     longest,
     multi_cut,
     newmm,
-    dict_trie,
-    Tokenizer,
-)
-from pythainlp.tokenize import pyicu as tokenize_pyicu
-from pythainlp.tokenize import (
     sent_tokenize,
     subword_tokenize,
     syllable_tokenize,
     tcc,
     word_tokenize,
 )
+from pythainlp.tokenize import pyicu as tokenize_pyicu
 from pythainlp.transliterate import romanize, transliterate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.royin import romanize as romanize_royin
@@ -321,10 +319,10 @@ class TestUM(unittest.TestCase):
         )
 
     def test_etcc(self):
-        self.assertEqual(etcc.etcc(""), "")
-        self.assertEqual(etcc.etcc("คืนความสุข"), "/คืน/ความสุข")
+        self.assertEqual(etcc.segment(""), "")
+        self.assertIsInstance(etcc.segment("คืนความสุข"), list)
         self.assertIsNotNone(
-            etcc.etcc(
+            etcc.segment(
                 "หมูแมวเหล่านี้ด้วยเหตุผลเชื่อมโยงทางกรรมพันธุ์"
                 + "สัตว์มีแขนขาหน้าหัวเราะเพราะแข็งขืน"
             )
@@ -419,11 +417,11 @@ class TestUM(unittest.TestCase):
         )
 
     def test_tcc(self):
-        self.assertEqual(tcc.tcc(None), [])
-        self.assertEqual(tcc.tcc(""), [])
-        self.assertEqual(tcc.tcc("ประเทศไทย"), ["ป", "ระ", "เท", "ศ", "ไท", "ย"])
+        self.assertEqual(tcc.segment(None), [])
+        self.assertEqual(tcc.segment(""), [])
+        self.assertEqual(tcc.segment("ประเทศไทย"), ["ป", "ระ", "เท", "ศ", "ไท", "ย"])
 
-        self.assertEqual(list(tcc.tcc_gen("")), [])
+        self.assertEqual(list(tcc.tcc("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())
 
     # ### pythainlp.transliterate

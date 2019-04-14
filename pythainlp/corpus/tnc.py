@@ -5,14 +5,14 @@ Thai National Corpus word frequency
 Credit: Korakot Chaovavanich‎
 https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
 """
-import os
 import re
 
-from pythainlp.corpus import download as download_data
-from pythainlp.corpus import get_corpus
-from pythainlp.tools import get_full_data_path
 import requests
+from pythainlp.corpus import get_corpus
+
 __all__ = ["word_freq", "word_freqs"]
+
+_FILENAME = "tnc_freq.txt"
 
 
 def word_freq(word, domain="all"):
@@ -56,10 +56,10 @@ def word_freqs():
     """
     Get word frequency from Thai National Corpus (TNC)
     """
-    lines = list(get_corpus("tnc_freq.txt"))
+    lines = list(get_corpus(_FILENAME))
     listword = []
     for line in lines:
-        listindata = line.split("	")
+        listindata = line.split("\t")
         listword.append((listindata[0], int(listindata[1])))
 
     return listword

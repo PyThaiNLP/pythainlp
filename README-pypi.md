@@ -1,22 +1,12 @@
 ![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
 
-# PyThaiNLP 2.0.2
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)[![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
-[![Build Status](https://travis-ci.org/PyThaiNLP/pythainlp.svg?branch=develop)](https://travis-ci.org/PyThaiNLP/pythainlp)
-[![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
-[![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+# PyThaiNLP 2.0.3
 
 PyThaiNLP is a Python library for natural language processing (NLP) of Thai language.
 
 PyThaiNLP includes Thai word tokenizers, transliterators, soundex converters, part-of-speech taggers, and spell checkers.
 
-📖 [Upgrading from PyThaiNLP 1.7 to 2.0](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
-
-📖 [Upgrade ThaiNER from PyThaiNLP 1.7 to 2.0](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
-
-📫 follow us on Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
+📫 follow us on Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
 ## What's new in version 2.0 ?
 
@@ -28,8 +18,11 @@ PyThaiNLP includes Thai word tokenizers, transliterators, soundex converters, pa
 - Remove sentiment analysis
 - Improved word_tokenize (newmm, mm) and dict_word_tokenize
 - Improved POS-tagging
-- More and improved examples
-- see [PyThaiNLP 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118)
+- See examples in [Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
+- [Full change log](https://github.com/PyThaiNLP/pythainlp/issues/118)
+- [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
+- [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
+
 
 ## Install
 
@@ -62,8 +55,8 @@ Install it with pip, for example: `pip install marisa_trie‑0.7.5‑cp36‑cp36
 
 ## Links
 
-- User guide : [English](https://colab.research.google.com/drive/1MQ10D1mJC5r1vQAHcj4ShoRS14vz8ZF-) , [ภาษาไทย](https://colab.research.google.com/drive/1rEkB2Dcr1UAKPqz4bCghZV7pXx2qxf89)
+- User guide: [English](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb), [ภาษาไทย](https://colab.research.google.com/drive/1rEkB2Dcr1UAKPqz4bCghZV7pXx2qxf89)
 - Docs: https://thainlp.org/pythainlp/docs/2.0/ 
 - GitHub: https://github.com/PyThaiNLP/pythainlp
 - Issues: https://github.com/PyThaiNLP/pythainlp/issues
-- Facebook : [Pythainlp](https://www.facebook.com/pythainlp/)
+- Facebook: [PyThaiNLP](https://www.facebook.com/pythainlp/)

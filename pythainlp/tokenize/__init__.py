@@ -122,24 +122,25 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
 def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
     """
     :param str text: text to be tokenized
-    :param str engine: subword tokenizer 
+    :param str engine: subword tokenizer
     :Parameters for engine:
         * tcc (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
-        * etcc - Enhanced Thai Character Cluster (Inrut et al. 2001) [In development] 
+        * etcc - Enhanced Thai Character Cluster (Inrut et al. 2001) [In development]
     :return: a list of tokenized strings.
     """
     if not text:
         return ""
 
-    from .tcc import tcc
-    from .etcc import etcc
+    if engine == "etcc":
+        from .etcc import segment
 
-    if engine == "tcc":
-        return tcc(text) 
-    elif engine == "etcc":
-        return etcc(text).split("/")
-    #default
-    return tcc(text)
+        return segment(text)
+
+    # default is "tcc"
+    from .tcc import segment
+
+    return segment(text)
+
 
 def syllable_tokenize(text: str) -> List[str]:
     """

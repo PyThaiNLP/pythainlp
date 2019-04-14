@@ -14,11 +14,13 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
-- [Current PyThaiNLP stable release is 2.0](https://github.com/PyThaiNLP/pythainlp/tree/master)
-- PyThaiNLP 2.0 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [PyThaiNLP 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
-- Python 2.7+ users can use PyThaiNLP 1.6.
+**This is a document for development branch (post 2.0). Things will break.**
 
-**This is a document for development branch (post 2.0). Things will break. For a stable branch document, see [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
+- The latest stable release is [2.0.3](https://github.com/PyThaiNLP/pythainlp/tree/master)
+- PyThaiNLP 2 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
+  - [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
+  - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
+- Python 2.7+ users can use PyThaiNLP 1.6.
 
 📫 follow us on Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
@@ -102,10 +104,11 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 > เพราะโลกขับเคลื่อนต่อไปด้วยการแบ่งปัน
 
-- PyThaiNLP 2.0 รองรับ Python 3.6 ขึ้นไป
-- ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
+**เอกสารนี้สำหรับรุ่นพัฒนา อาจมีการเปลี่ยนแปลงได้ตลอด**
 
-**เอกสารนี้สำหรับรุ่นพัฒนา (หลัง 2.0) อาจมีการเปลี่ยนแปลงได้ตลอด สำหรับเอกสารรุ่นเสถียร ดูที่ [master](https://github.com/PyThaiNLP/pythainlp/tree/master).**
+- รุ่นเสถียรล่าสุดคือรุ่น [2.0.3](https://github.com/PyThaiNLP/pythainlp/tree/master)
+- PyThaiNLP 2 รองรับ Python 3.6 ขึ้นไป
+- ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
 
 📫 ติดตามข่าวสารได้ที่ Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
 

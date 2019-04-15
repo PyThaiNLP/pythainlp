@@ -153,7 +153,7 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
     :return: a list of tokenized strings.
     """
     if not text:
-        return ""
+        return []
 
     if engine == "etcc":
         from .etcc import segment

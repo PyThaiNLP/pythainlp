@@ -81,7 +81,6 @@ def dict_word_tokenize(
         >>> dict_word_tokenize("แมวดีดีแมว", trie)
         ['แมว', 'ดี', 'ดี', 'แมว']
     """
-    global DICT_LIST
 
     if not text:
         return []
@@ -94,11 +93,11 @@ def dict_word_tokenize(
         from .multi_cut import segment
     elif engine == "deepcut":
         from .deepcut import segment
-        return segment(text,DICT_LIST)
+        return segment(text,custom_dict[1])
     else:  # default, use "newmm" engine
         from .newmm import segment
 
-    return segment(text, custom_dict)
+    return segment(text, custom_dict[0])
 
 
 def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
@@ -176,18 +175,15 @@ def dict_trie(dict_source: Union[str, Iterable]) -> Trie:
     :param string/list dict_source: a list of vocaburaries or a path to source file
     :return: a trie created from a dictionary input
     """
-    global DICT_LIST
 
     if type(dict_source) is str:
         # Receive a file path of the dict to read
         with open(dict_source, "r", encoding="utf8") as f:
             _vocabs = f.read().splitlines()
-            DICT_LIST=_vocabs
-            return Trie(_vocabs)
+            return (Trie(_vocabs),_vocabs)
     elif isinstance(dict_source, Iterable):
         # Received a sequence type object of vocabs
-        _vocabs=dict_source
-        return Trie(dict_source)
+        return (Trie(dict_source),dict_source)
     else:
         raise TypeError(
             "Type of dict_source must be either str (path to source file) or iterable"

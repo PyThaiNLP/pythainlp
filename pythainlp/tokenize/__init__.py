@@ -92,13 +92,10 @@ def dict_word_tokenize(
         from .multi_cut import segment
     elif engine == "deepcut":
         from .deepcut import segment
-        return segment(text,custom_dict[1])
+        return segment(text,list(custom_dict))
     else:  # default, use "newmm" engine
         from .newmm import segment
-    if type(custom_dict) is tuple:
-        return segment(text, custom_dict[0])
-    else:
-        return segment(text, custom_dict)
+    return segment(text, custom_dict)
 
 
 def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
@@ -181,10 +178,10 @@ def dict_trie(dict_source: Union[str, Iterable]) -> Trie:
         # Receive a file path of the dict to read
         with open(dict_source, "r", encoding="utf8") as f:
             _vocabs = f.read().splitlines()
-            return (Trie(_vocabs),_vocabs)
+            return Trie(_vocabs)
     elif isinstance(dict_source, Iterable):
         # Received a sequence type object of vocabs
-        return (Trie(dict_source),dict_source)
+        return Trie(dict_source)
     else:
         raise TypeError(
             "Type of dict_source must be either str (path to source file) or iterable"

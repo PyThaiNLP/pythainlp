@@ -6,8 +6,11 @@ Based on code from
 https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py
 """
 import re
+from typing import List
 
 from pythainlp.tokenize import DEFAULT_DICT_TRIE
+
+from marisa_trie import Trie
 
 _FRONT_DEP_CHAR = [
     "ะ",
@@ -36,7 +39,7 @@ _UNKNOWN = False
 
 
 class LongestMatchTokenizer(object):
-    def __init__(self, trie):
+    def __init__(self, trie: Trie):
         self.__trie = trie
 
     def __search_nonthai(self, text: str):
@@ -130,14 +133,17 @@ class LongestMatchTokenizer(object):
 
         return tokens
 
-    def tokenize(self, text):
+    def tokenize(self, text: str) -> List[str]:
         tokens = self.__segment_text(text)
         return tokens
 
 
-def segment(text, trie=None):
+def segment(text: str, custom_dict: Trie = None) -> List[str]:
     """ตัดคำภาษาไทยด้วยวิธี longest matching"""
-    if not trie:
-        trie = DEFAULT_DICT_TRIE
+    if not text:
+        return []
 
-    return LongestMatchTokenizer(trie).tokenize(text)
+    if not custom_dict:
+        custom_dict = DEFAULT_DICT_TRIE
+
+    return LongestMatchTokenizer(custom_dict).tokenize(text)

@@ -10,19 +10,18 @@ PyThaiNLP includes Thai word tokenizers, transliterators, soundex converters, pa
 
 ## What's new in version 2.0 ?
 
-- New NorvigSpellChecker spell checker class, which can be initialized with custom dictionary.
 - Terminate Python 2 support. Remove all Python 2 compatibility code.
-- Remove old, obsolated, deprecated, and experimental code.
-- Thai2fit (Upgrade ULMFiT-related codes to fastai 1.0)
-- ThaiNER 1.0
-- Remove sentiment analysis
-- Improved word_tokenize (newmm, mm) and dict_word_tokenize
-- Improved POS-tagging
-- See examples in [Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
+- Improved `word_tokenize` ("newmm" and "mm" engine) and `dict_word_tokenize`
+- Improved Part-Of-Speech tagging
+- New `NorvigSpellChecker` spell checker class, which can be initialized with custom dictionary.
+- New `thai2fit` (replacing `thai2vec`, upgrade ULMFiT-related code to fastai 1.0)
+- Updated ThaiNER to 1.0
+  - You may need to [update your existing ThaiNER models from PyThaiNLP 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
+- Remove old, obsolated, deprecated, duplicated, and experimental code.
+  - Sentiment analysis is no longer part of the library, but rather [a text classification example](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/sentiment_analysis.ipynb).
+- See more examples in [Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
 - [Full change log](https://github.com/PyThaiNLP/pythainlp/issues/118)
 - [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
-- [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
-
 
 ## Install
 

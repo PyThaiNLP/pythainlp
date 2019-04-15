@@ -9,7 +9,6 @@ from pythainlp.corpus import get_corpus, thai_syllables, thai_words
 
 from marisa_trie import Trie
 
-DICT_LIST=thai_words()
 DEFAULT_DICT_TRIE = Trie(thai_words())
 FROZEN_DICT_TRIE = Trie(get_corpus("words_th_frozen_201810.txt"))
 
@@ -96,8 +95,10 @@ def dict_word_tokenize(
         return segment(text,custom_dict[1])
     else:  # default, use "newmm" engine
         from .newmm import segment
-
-    return segment(text, custom_dict[0])
+    if type(custom_dict) is tuple:
+        return segment(text, custom_dict[0])
+    else:
+        return segment(text, custom_dict)
 
 
 def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:

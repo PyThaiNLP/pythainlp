@@ -71,7 +71,7 @@ def dict_word_tokenize(
     :meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
     :param str text: text to be tokenized
     :param dict custom_dict: a dictionary trie
-    :param str engine: choose between different options of engine to token (newmm, longest)
+    :param str engine: choose between different options of engine to token (newmm, mm, longest and deepcut)
     :return: list of words
     **Example**::
         >>> from pythainlp.tokenize import dict_word_tokenize, dict_trie

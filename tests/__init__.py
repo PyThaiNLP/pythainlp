@@ -29,6 +29,7 @@ from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import ThaiNameTagger
 from pythainlp.tokenize import (
+    DEFAULT_DICT_TRIE,
     FROZEN_DICT_TRIE,
     Tokenizer,
     dict_trie,
@@ -43,6 +44,7 @@ from pythainlp.tokenize import (
     tcc,
     word_tokenize,
 )
+from pythainlp.tokenize import deepcut as tokenize_deepcut
 from pythainlp.tokenize import pyicu as tokenize_pyicu
 from pythainlp.transliterate import romanize, transliterate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
@@ -305,6 +307,7 @@ class TestUM(unittest.TestCase):
                 "รถไฟฟ้ากรุงเทพBTSหูว์ค์",
                 custom_dict=FROZEN_DICT_TRIE,
                 engine="longest",
+                whitespaces=False,
             )
         )
         self.assertIsNotNone(
@@ -351,10 +354,15 @@ class TestUM(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
 
-    # def test_word_tokenize_deepcut(self):
-    # self.assertEqual(deepcut.segment(None), [])
-    # self.assertEqual(deepcut.segment(""), [])
-    # self.assertIsNotNone(word_tokenize("ลึกลงไปลลลล", engine="deepcut"))
+    def test_word_tokenize_deepcut(self):
+        self.assertEqual(tokenize_deepcut.segment(None), [])
+        self.assertEqual(tokenize_deepcut.segment(""), [])
+        self.assertIsNotNone(tokenize_deepcut.segment("ทดสอบ", DEFAULT_DICT_TRIE))
+        self.assertIsNotNone(tokenize_deepcut.segment("ทดสอบ", ["ทด", "สอบ"]))
+        self.assertIsNotNone(dict_word_tokenize("ทดสอบ", engine="deepcut"))
+        self.assertIsNotNone(
+            dict_word_tokenize("ทดสอบ", engine="deepcut", custom_dict=["ทด", "สอบ"])
+        )
 
     def test_word_tokenize_longest_matching(self):
         self.assertEqual(longest.segment(None), [])
@@ -405,9 +413,10 @@ class TestUM(unittest.TestCase):
         self.assertEqual(sent_tokenize("รักน้ำ  รักปลา  "), ["รักน้ำ", "รักปลา"])
 
     def test_subword_tokenize(self):
-        self.assertEqual(subword_tokenize(None), "")
-        self.assertEqual(subword_tokenize(""), "")
-        self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร"))
+        self.assertEqual(subword_tokenize(None), [])
+        self.assertEqual(subword_tokenize(""), [])
+        self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"))
+        self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร", engine="etcc"))
 
     def test_syllable_tokenize(self):
         self.assertEqual(syllable_tokenize(None), [])

@@ -8,8 +8,11 @@
 """
 import re
 from collections import defaultdict
+from typing import List
 
 from pythainlp.tokenize import DEFAULT_DICT_TRIE
+
+from marisa_trie import Trie
 
 
 class LatticeString(str):
@@ -40,13 +43,14 @@ _RE_ENG = r"""(?x)
 _PAT_ENG = re.compile(_RE_ENG)
 
 
-def _multicut(text, trie=None):
+def _multicut(text: str, custom_dict: Trie = None):
     """
     ส่งคืน LatticeString คืนมาเป็นก้อนๆ
     """
+    if not custom_dict:
+        custom_dict = DEFAULT_DICT_TRIE
+
     len_text = len(text)
-    if not trie:
-        trie = DEFAULT_DICT_TRIE
     words_at = defaultdict(list)  # main data structure
 
     def serialize(p, p2):  # helper function
@@ -64,7 +68,7 @@ def _multicut(text, trie=None):
         p = min(q)
         q -= {p}  # q.pop, but for set
 
-        for w in trie.prefixes(text[p:]):
+        for w in custom_dict.prefixes(text[p:]):
             words_at[p].append(w)
             q.add(p + len(w))
 
@@ -80,7 +84,7 @@ def _multicut(text, trie=None):
                 i = p + m.span()[1]
             else:  # skip น้อยที่สุด ที่เป็นไปได้
                 for i in range(p, len_text):
-                    ww = trie.prefixes(text[i:])
+                    ww = custom_dict.prefixes(text[i:])
                     m = _PAT_ENG.match(text[i:])
                     if ww or m:
                         break
@@ -93,7 +97,7 @@ def _multicut(text, trie=None):
             q.add(i)
 
 
-def mmcut(text):
+def mmcut(text: str):
     res = []
     for w in _multicut(text):
         mm = min(w.multi, key=lambda x: x.count("/"))
@@ -101,7 +105,7 @@ def mmcut(text):
     return res
 
 
-def _combine(ww):
+def _combine(ww: str):
     if ww == []:
         yield ""
     else:
@@ -114,22 +118,23 @@ def _combine(ww):
                     yield m.replace("/", "|") + "|" + tail
 
 
-def segment(text, trie=None):
+def segment(text: str, custom_dict: Trie = None) -> List[str]:
     """
     ใช้ในการหา list ที่สามารถตัดคำได้ทั้งหมด
     """
     if not text:
         return []
 
-    return list(_multicut(text, trie=trie))
+    return list(_multicut(text, custom_dict=custom_dict))
 
 
-def find_all_segment(text, trie=None):
+def find_all_segment(text: str, custom_dict: Trie = None) -> List[str]:
     """
     ใช้ในการหา list ที่สามารถตัดคำได้ทั้งหมด
     """
     if not text:
         return []
 
-    ww = list(_multicut(text, trie=trie))
+    ww = list(_multicut(text, custom_dict=custom_dict))
+
     return list(_combine(ww))

@@ -1,6 +1,6 @@
 ![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
 
-# PyThaiNLP 2.0.3
+# PyThaiNLP
 
 PyThaiNLP is a Python library for natural language processing (NLP) of Thai language.
 
@@ -8,7 +8,7 @@ PyThaiNLP includes Thai word tokenizers, transliterators, soundex converters, pa
 
 📫 follow us on Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
-## What's new in version 2.0 ?
+## What's new in 2.0 ?
 
 - Terminate Python 2 support. Remove all Python 2 compatibility code.
 - Improved `word_tokenize` ("newmm" and "mm" engine) and `dict_word_tokenize`

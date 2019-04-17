@@ -12,7 +12,7 @@ from pythainlp.soundex.udom83 import udom83 as udom83
 # [KSS97] https://linux.thai.net/~thep/soundex/soundex.html
 
 
-def soundex(text: str, engine="udom83") -> str:
+def soundex(text: str, engine: str = "udom83") -> str:
     """
     Thai Soundex
 
@@ -24,9 +24,7 @@ def soundex(text: str, engine="udom83") -> str:
         * metasound
     :return: soundex code
     """
-    if engine == "udom83":
-        _soundex = udom83
-    elif engine == "lk82":
+    if engine == "lk82":
         _soundex = lk82
     elif engine == "metasound":
         _soundex = metasound

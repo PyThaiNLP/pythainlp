@@ -10,7 +10,7 @@ from .pn import DEFAULT_SPELL_CHECKER, NorvigSpellChecker
 __all__ = ["DEFAULT_SPELL_CHECKER", "correct", "spell", "NorvigSpellChecker"]
 
 
-def spell(word: str, engine="pn") -> List[str]:
+def spell(word: str, engine: str = "pn") -> List[str]:
     """
     :param str word: word to check spelling
     :param str engine:
@@ -21,7 +21,7 @@ def spell(word: str, engine="pn") -> List[str]:
     return DEFAULT_SPELL_CHECKER.spell(word)
 
 
-def correct(word: str, engine="pn") -> str:
+def correct(word: str, engine: str = "pn") -> str:
     """
     :param str word: word to correct spelling
     :param str engine:

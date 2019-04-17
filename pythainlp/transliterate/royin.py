@@ -2,6 +2,8 @@
 
 import re
 
+from pythainlp import word_tokenize
+
 # สระ
 _vowel_patterns = """เ*ียว,\\1iao
 แ*็ว,\\1aeo
@@ -117,9 +119,9 @@ _RE_NORMALIZE = re.compile(
 )
 
 
-def _normalize(text: str) -> str:
+def _normalize(word: str) -> str:
     """ตัดอักษรที่ไม่ออกเสียง (การันต์ ไปยาลน้อย ไม้ยมก*) และวรรณยุกต์ทิ้ง"""
-    return _RE_NORMALIZE.sub("", text)
+    return _RE_NORMALIZE.sub("", word)
 
 
 def _replace_vowels(word: str) -> str:
@@ -162,7 +164,11 @@ def _replace_consonants(word: str, res: str) -> str:
     return word
 
 
-def romanize(word: str) -> str:
+def _romanize(word: str) -> str:
+    """
+    :param str word: Thai word to be romanized, ideally this should have already been tokenized.
+    :return: Spells out how the Thai word should be pronounced.
+    """
     if not isinstance(word, str) or not word:
         return ""
 
@@ -176,5 +182,12 @@ def romanize(word: str) -> str:
         word2 = "".join(word2)
 
     word2 = _replace_consonants(word2, res)
-    
+
     return word2
+
+
+def romanize(text: str) -> str:
+    words = word_tokenize(text)
+    romanized_words = [_romanize(word) for word in words]
+
+    return "".join(romanized_words)

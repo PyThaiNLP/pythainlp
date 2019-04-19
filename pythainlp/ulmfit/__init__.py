@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
-
 """
-Code by https://github.com/cstorm125/thai2fit/
+Code by Charin
+https://github.com/cstorm125/thai2fit/
 """
 import collections
 import re
-import emoji
 
+from typing import List
+
+import emoji
 import numpy as np
 import torch
+
 from fastai.text import TK_REP, BaseTokenizer, Tokenizer
 from fastai.text.transform import (
     deal_caps,
@@ -17,8 +20,8 @@ from fastai.text.transform import (
     spec_add_spaces,
     replace_all_caps,
 )
+from pythainlp import word_tokenize
 from pythainlp.corpus import download, get_corpus_path
-from pythainlp.tokenize import word_tokenize
 from pythainlp.util import normalize as normalize_char_order
 
 __all__ = [
@@ -57,47 +60,51 @@ class ThaiTokenizer(BaseTokenizer):
     https://docs.fast.ai/text.transform#BaseTokenizer
     """
 
-    def __init__(self, lang="th"):
+    def __init__(self, lang: str = "th"):
         self.lang = lang
 
-    def tokenizer(self, t):
+    def tokenizer(self, text: str) -> List[str]:
         """
         :meth: tokenize text with a frozen newmm engine
-        :param str t: text to tokenize
+        :param str text: text to tokenize
         :return: tokenized text
         """
-        return word_tokenize(t, engine="ulmfit")
+        return word_tokenize(text, engine="ulmfit")
 
     def add_special_cases(self, toks):
         pass
 
 
-def replace_rep_after(t):
-    "Replace repetitions at the character level in `t` after the repetition"
+def replace_rep_after(text: str) -> str:
+    "Replace repetitions at the character level in `text` after the repetition"
 
     def _replace_rep(m):
         c, cc = m.groups()
         return f"{c}{TK_REP}{len(cc)+1}"
 
     re_rep = re.compile(r"(\S)(\1{2,})")
-    return re_rep.sub(_replace_rep, t)
+
+    return re_rep.sub(_replace_rep, text)
 
 
-def rm_useless_newlines(t):
-    "Remove multiple newlines in `t`."
-    return re.sub(r"[\n]{2,}", " ", t)
+def rm_useless_newlines(text: str) -> str:
+    "Remove multiple newlines in `text`."
+
+    return re.sub(r"[\n]{2,}", " ", text)
 
 
-def rm_brackets(t):
+def rm_brackets(text: str) -> str:
     "Remove all empty brackets from `t`."
-    new_line = re.sub(r"\(\)", "", t)
+    new_line = re.sub(r"\(\)", "", text)
     new_line = re.sub(r"\{\}", "", new_line)
     new_line = re.sub(r"\[\]", "", new_line)
+
     return new_line
 
 
 def ungroup_emoji(toks):
     "Ungroup emojis"
+
     res = []
     for tok in toks:
         if emoji.emoji_count(tok) == len(tok):
@@ -105,6 +112,7 @@ def ungroup_emoji(toks):
                 res.append(char)
         else:
             res.append(tok)
+
     return res
 
 
@@ -134,7 +142,7 @@ post_rules_th = [replace_all_caps, ungroup_emoji, lowercase_all]
 _tokenizer = ThaiTokenizer()
 
 
-def document_vector(text, learn, data, agg="mean"):
+def document_vector(text: str, learn, data, agg: str = "mean"):
     """
     :meth: `document_vector` get document vector using fastai language model and data bunch
     :param str text: text to extract embeddings
@@ -154,6 +162,7 @@ def document_vector(text, learn, data, agg="mean"):
         res = res.sum(0)
     else:
         raise ValueError("Aggregate by mean or sum")
+
     return res
 
 

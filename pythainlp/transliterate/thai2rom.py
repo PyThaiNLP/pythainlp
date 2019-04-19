@@ -149,7 +149,7 @@ class ThaiTransliterator:
     def romanize(self, text):
         """
         :param str text: Thai text to be romanized
-        :return: English (more or less) text that spells out how the Thai text should read.
+        :return: English (more or less) text that spells out how the Thai text should be pronounced.
         """
         return self.__decode_sequence(self.__encode_input(text))
 

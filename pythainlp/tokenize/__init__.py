@@ -23,7 +23,7 @@ def word_tokenize(
     :Parameters for engine:
         * newmm (default) - dictionary-based, Maximum Matching + Thai Character Cluster
         * longest - dictionary-based, Longest Matching
-        * icu - wrapper for ICU, dictionary-based
+        * icu - wrapper for ICU (International Components for Unicode, using PyICU), dictionary-based
         * deepcut - wrapper for deepcut, language-model-based https://github.com/rkcosmos/deepcut
         * ulmfit - use newmm engine with a specific dictionary for use with thai2vec
     :return: list of words, tokenized from the text

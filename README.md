@@ -65,8 +65,8 @@ $ pip install pythainlp[extra1,extra2,...]
 where ```extras``` can be
   - ```artagger``` (to support artagger part-of-speech tagger)*
   - ```deepcut``` (to support deepcut machine-learnt tokenizer)
-  - ```icu``` (for ICU support in transliteration and tokenization)
-  - ```ipa``` (for International Phonetic Alphabet support in transliteration)
+  - ```icu``` (for ICU, International Components for Unicode, support in transliteration and tokenization)
+  - ```ipa``` (for IPA, International Phonetic Alphabet, support in transliteration)
   - ```ml``` (to support fastai 1.0.22 ULMFiT models)
   - ```ner``` (for named-entity recognizer)
   - ```thai2fit``` (for Thai word vector)

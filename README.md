@@ -28,7 +28,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 - Convenient character and word classes, like Thai consonants (```pythainlp.thai_consonants```), vowels (```pythainlp.thai_vowels```), digits (```pythainlp.thai_digits```), and stop words (```pythainlp.corpus.thai_stopwords```) -- comparable to constants like ```string.letters```, ```string.digits```, and ```string.punctuation```
 - Thai word segmentation (```word_tokenize```), including subword segmentation based on Thai Character Cluster (```tcc```) and ETCC (```etcc```)
-- Thai romanization and transliteration (```romanize```, ```transliterate```)
+- Thai transliteration (```transliterate```) and experimental RTGS romanization (```romanize```)
 - Thai part-of-speech taggers (```pos_tag```)
 - Read out number to Thai words (```bahttext```, ```num_to_thaiword```)
 - Thai collation (sort by dictionoary order) (```collate```)

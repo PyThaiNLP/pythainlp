@@ -126,7 +126,10 @@ _RE_NORMALIZE = re.compile(
 
 
 def _normalize(word: str) -> str:
-    """ตัดอักษรที่ไม่ออกเสียง (การันต์ ไปยาลน้อย ไม้ยมก*) และวรรณยุกต์ทิ้ง"""
+    """
+    Remove silence, no sound, and tonal characters
+    ตัดอักษรที่ไม่ออกเสียง (การันต์ ไปยาลน้อย ไม้ยมก*) และวรรณยุกต์ทิ้ง
+    """
     return _RE_NORMALIZE.sub("", word)
 
 
@@ -173,7 +176,7 @@ def _replace_consonants(word: str, res: str) -> str:
 # Support function for romanize()
 def _romanize(word: str) -> str:
     """
-    :param str word: Thai word to be romanized, ideally this should have already been tokenized.
+    :param str word: Thai word to be romanized, should have already been tokenized.
     :return: Spells out how the Thai word should be pronounced.
     """
     if not isinstance(word, str) or not word:

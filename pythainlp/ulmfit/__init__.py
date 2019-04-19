@@ -12,9 +12,8 @@ import emoji
 import numpy as np
 import torch
 
-from fastai.text import TK_REP, BaseTokenizer, Tokenizer
+from fastai.text import TK_REP, BaseTokenizer
 from fastai.text.transform import (
-    deal_caps,
     fix_html,
     rm_useless_spaces,
     spec_add_spaces,
@@ -147,7 +146,7 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
     :meth: `document_vector` get document vector using fastai language model and data bunch
     :param str text: text to extract embeddings
     :param learn: fastai language model learner
-    :param data: fastai data bunch 
+    :param data: fastai data bunch
     :param agg: how to aggregate embeddings
     :return: `numpy.array` of document vector sized 400 based on the encoder of the model
     """

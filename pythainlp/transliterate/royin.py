@@ -25,6 +25,7 @@ _vowel_patterns = """เ*ียว,\\1iao
 *าย,\\1ai
 ไ*ย,\\1ai
 *ัย,\\1ai
+ไ**,\\1\\2ai
 ไ*,\\1ai
 ใ*,\\1ai
 *ว*,\\1ua\\2
@@ -169,6 +170,7 @@ def _replace_consonants(word: str, res: str) -> str:
     return word
 
 
+# Support function for romanize()
 def _romanize(word: str) -> str:
     """
     :param str word: Thai word to be romanized, ideally this should have already been tokenized.
@@ -177,18 +179,18 @@ def _romanize(word: str) -> str:
     if not isinstance(word, str) or not word:
         return ""
 
-    word2 = _replace_vowels(_normalize(word))
-    res = _RE_CONSONANT.findall(word2)
+    word = _replace_vowels(_normalize(word))
+    res = _RE_CONSONANT.findall(word)
 
     # 2-character word, all consonants
-    if len(word2) == 2 and len(res) == 2:
-        word2 = list(word2)
-        word2.insert(1, "o")
-        word2 = "".join(word2)
+    if len(word) == 2 and len(res) == 2:
+        word = list(word)
+        word.insert(1, "o")
+        word = "".join(word)
 
-    word2 = _replace_consonants(word2, res)
+    word = _replace_consonants(word, res)
 
-    return word2
+    return word
 
 
 def romanize(text: str) -> str:

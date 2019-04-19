@@ -3,12 +3,16 @@
 Summarization
 """
 
+from typing import List
+
 from pythainlp.tokenize import sent_tokenize
 
 from .freq import FrequencySummarizer
 
 
-def summarize(text, n, engine="frequency", tokenizer="newmm"):
+def summarize(
+    text: str, n: int, engine: str = "frequency", tokenizer: str = "newmm"
+) -> List[str]:
     """
     Thai text summarization
 

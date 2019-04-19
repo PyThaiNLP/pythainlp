@@ -5,6 +5,7 @@ Summarization by frequency of words
 from collections import defaultdict
 from heapq import nlargest
 from string import punctuation
+from typing import List
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import sent_tokenize, word_tokenize
@@ -36,7 +37,7 @@ class FrequencySummarizer:
     def __rank(self, ranking, n: int):
         return nlargest(n, ranking, key=ranking.get)
 
-    def summarize(self, text: str, n: int, tokenizer: str):
+    def summarize(self, text: str, n: int, tokenizer: str) -> List[str]:
         sents = sent_tokenize(text)
         word_tokenized_sents = [word_tokenize(sent, tokenizer) for sent in sents]
         self.__freq = self.__compute_frequencies(word_tokenized_sents)

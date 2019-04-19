@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
-
+"""
+The Royal Thai General System of Transcription (RTGS)
+is the official system for rendering Thai words in the Latin alphabet.
+It was published by the Royal Institute of Thailand.
+#https://en.wikipedia.org/wiki/Royal_Thai_General_System_of_Transcription
+"""
 import re
+
+from pythainlp import word_tokenize
 
 # สระ
 _vowel_patterns = """เ*ียว,\\1iao
@@ -118,9 +125,12 @@ _RE_NORMALIZE = re.compile(
 )
 
 
-def _normalize(text: str) -> str:
-    """ตัดอักษรที่ไม่ออกเสียง (การันต์ ไปยาลน้อย ไม้ยมก*) และวรรณยุกต์ทิ้ง"""
-    return _RE_NORMALIZE.sub("", text)
+def _normalize(word: str) -> str:
+    """
+    Remove silence, no sound, and tonal characters
+    ตัดอักษรที่ไม่ออกเสียง (การันต์ ไปยาลน้อย ไม้ยมก*) และวรรณยุกต์ทิ้ง
+    """
+    return _RE_NORMALIZE.sub("", word)
 
 
 def _replace_vowels(word: str) -> str:
@@ -163,19 +173,39 @@ def _replace_consonants(word: str, res: str) -> str:
     return word
 
 
-def romanize(word: str) -> str:
+# Support function for romanize()
+def _romanize(word: str) -> str:
+    """
+    :param str word: Thai word to be romanized, should have already been tokenized.
+    :return: Spells out how the Thai word should be pronounced.
+    """
     if not isinstance(word, str) or not word:
         return ""
 
-    word2 = _replace_vowels(_normalize(word))
-    res = _RE_CONSONANT.findall(word2)
+    word = _replace_vowels(_normalize(word))
+    res = _RE_CONSONANT.findall(word)
 
     # 2-character word, all consonants
-    if len(word2) == 2 and len(res) == 2:
-        word2 = list(word2)
-        word2.insert(1, "o")
-        word2 = "".join(word2)
+    if len(word) == 2 and len(res) == 2:
+        word = list(word)
+        word.insert(1, "o")
+        word = "".join(word)
 
-    word2 = _replace_consonants(word2, res)
-    
-    return word2
+    word = _replace_consonants(word, res)
+
+    return word
+
+
+def romanize(text: str) -> str:
+    """
+    Rendering Thai words in the Latin alphabet or "romanization",
+    using the Royal Thai General System of Transcription (RTGS),
+    which is the official system published by the Royal Institute of Thailand.
+    ถอดเสียงภาษาไทยเป็นอักษรละติน
+    :param str text: Thai text to be romanized
+    :return: A string of Thai words rendered in the Latin alphabet.
+    """
+    words = word_tokenize(text)
+    romanized_words = [_romanize(word) for word in words]
+
+    return "".join(romanized_words)

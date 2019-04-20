@@ -11,8 +11,8 @@ PyThaiNLP includes Thai word tokenizers, transliterators, soundex converters, pa
 ## What's new in 2.0 ?
 
 - Terminate Python 2 support. Remove all Python 2 compatibility code.
-- Improved `word_tokenize` ("newmm" and "mm" engine) and `dict_word_tokenize`
-- Improved Part-Of-Speech tagging
+- Improved `word_tokenize` ("newmm" and "mm" engine), a `custom_dict` dictionary can be provided
+- Improved `pos_tag` Part-Of-Speech tagging
 - New `NorvigSpellChecker` spell checker class, which can be initialized with custom dictionary.
 - New `thai2fit` (replacing `thai2vec`, upgrade ULMFiT-related code to fastai 1.0)
 - Updated ThaiNER to 1.0

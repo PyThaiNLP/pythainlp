@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
-#
-# This file does only contain a selection of the most common options. For a
-# full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
 # -- Path setup --------------------------------------------------------------
@@ -27,9 +24,9 @@ curyear = datetime.today().year
 copyright = u'2017-%s, %s (Apache Software License 2.0)' % (curyear, project)
 
 # The short X.Y version
-version = ''
+version = '2.0'
 # The full version, including alpha/beta/rc tags
-release = '2.0'
+release = '2.0.3'
 
 
 # -- General configuration ---------------------------------------------------

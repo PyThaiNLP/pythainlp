@@ -357,6 +357,7 @@ class TestUM(unittest.TestCase):
     def test_word_tokenize_longest(self):
         self.assertEqual(longest.segment(None), [])
         self.assertEqual(longest.segment(""), [])
+        self.assertIsNotNone(longest.segment("กรุงเทพฯมากๆเพราโพาง BKKฯ"))
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],

@@ -30,7 +30,7 @@ _PAT_ENG = re.compile(
 _PAT_TWOCHARS = re.compile("[ก-ฮ]{,2}$")
 
 
-def bfs_paths_graph(graph, start, goal):
+def _bfs_paths_graph(graph, start, goal):
     queue = [(start, [start])]
     while queue:
         (vertex, path) = queue.pop(0)
@@ -41,9 +41,9 @@ def bfs_paths_graph(graph, start, goal):
                 queue.append((next, path + [next]))
 
 
-def onecut(text: str, custom_dict: Trie):
+def _onecut(text: str, custom_dict: Trie):
     graph = defaultdict(list)  # main data structure
-    allow_pos = tcc_pos(text)  # ตำแหน่งที่ตัด ต้องตรงกับ tcc
+    allow_pos = tcc_pos(text)  # separating position should aligned with TCC
 
     q = [0]  # min-heap queue
     last_p = 0  # last position for yield
@@ -59,7 +59,7 @@ def onecut(text: str, custom_dict: Trie):
 
         # กรณี length 1 คือ ไม่กำกวมแล้ว ส่งผลลัพธ์ก่อนนี้คืนได้
         if len(q) == 1:
-            pp = next(bfs_paths_graph(graph, last_p, q[0]))
+            pp = next(_bfs_paths_graph(graph, last_p, q[0]))
             # เริ่มต้น last_p = pp[0] เอง
             for p in pp[1:]:
                 yield text[last_p:p]
@@ -99,4 +99,4 @@ def segment(text: str, custom_dict: Trie = None) -> List[str]:
     if not custom_dict:
         custom_dict = DEFAULT_DICT_TRIE
 
-    return list(onecut(text, custom_dict))
+    return list(_onecut(text, custom_dict))

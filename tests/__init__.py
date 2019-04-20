@@ -371,7 +371,7 @@ class TestUM(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
 
-        self.assertIsNone(multi_cut.mmcut("ทดสอบ"))
+        self.assertIsNotNone(multi_cut.mmcut("ทดสอบ"))
 
         self.assertIsNotNone(multi_cut.find_all_segment("รถไฟฟ้ากรุงเทพมหานครBTS"))
         self.assertEqual(multi_cut.find_all_segment(None), [])

@@ -372,7 +372,7 @@ class TestUM(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
         self.assertEqual(
-            word_tokenize("สวัสดีครับ สบายดีไหมครับ", engine="newmm"),
+            word_tokenize("สวัสดีครับ สบายดีไหมครับ", engine="newmm", keep_whitespace=True),
             ["สวัสดี", "ครับ", " ", "สบายดี", "ไหม", "ครับ"],
         )
         self.assertEqual(
@@ -380,7 +380,7 @@ class TestUM(unittest.TestCase):
         )
         self.assertEqual(word_tokenize("จุ๋มง่วง", engine="newmm"), ["จุ๋ม", "ง่วง"])
         self.assertEqual(
-            word_tokenize("จุ๋ม   ง่วง", engine="newmm", whitespaces=False),
+            word_tokenize("จุ๋ม   ง่วง", engine="newmm", keep_whitespace=False),
             ["จุ๋ม", "ง่วง"],
         )
 

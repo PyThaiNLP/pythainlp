@@ -15,13 +15,13 @@ FROZEN_DICT_TRIE = Trie(get_corpus("words_th_frozen_201810.txt"))
 
 
 def word_tokenize(
-    text: str, custom_dict: Trie = None, engine: str = "newmm", whitespaces: bool = True
+    text: str, custom_dict: Trie = None, engine: str = "newmm", keep_whitespace: bool = True
 ) -> List[str]:
     """
     :param str text: text to be tokenized
     :param str engine: tokenizer to be used
     :param dict custom_dict: a dictionary trie
-    :param bool whitespaces: True to output no whitespace, a common mark for end of phrase in Thai
+    :param bool keep_whitespace: True to keep whitespaces, a common mark for end of phrase in Thai
     :Parameters for engine:
         * newmm (default) - dictionary-based, Maximum Matching + Thai Character Cluster
         * longest - dictionary-based, Longest Matching
@@ -77,7 +77,7 @@ def word_tokenize(
             custom_dict = dict_trie(custom_dict)
         segments = segment(text, custom_dict)
 
-    if whitespaces:
+    if not keep_whitespace:
         segments = [token.strip(" ") for token in segments if token.strip(" ")]
 
     return segments
@@ -102,7 +102,7 @@ def dict_word_tokenize(
         file=sys.stderr,
     )
     return word_tokenize(
-        text=text, custom_dict=custom_dict, engine=engine, whitespaces=whitespaces
+        text=text, custom_dict=custom_dict, engine=engine, keep_whitespace=whitespaces
     )
 
 

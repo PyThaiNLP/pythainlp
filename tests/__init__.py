@@ -292,34 +292,7 @@ class TestUM(unittest.TestCase):
     # ### pythainlp.tokenize
 
     def test_dict_word_tokenize(self):
-        self.assertEqual(dict_word_tokenize("", custom_dict=FROZEN_DICT_TRIE), [])
-        self.assertIsNotNone(
-            dict_word_tokenize("รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE)
-        )
-        self.assertIsNotNone(dict_trie(()))
-        self.assertIsNotNone(
-            dict_word_tokenize(
-                "รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE, engine="newmm"
-            )
-        )
-        self.assertIsNotNone(
-            dict_word_tokenize(
-                "รถไฟฟ้ากรุงเทพBTSหูว์ค์",
-                custom_dict=FROZEN_DICT_TRIE,
-                engine="longest",
-                whitespaces=False,
-            )
-        )
-        self.assertIsNotNone(
-            dict_word_tokenize(
-                "รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE, engine="mm"
-            )
-        )
-        self.assertIsNotNone(
-            dict_word_tokenize(
-                "รถไฟฟ้ากรุงเทพBTSหูว์ค์", custom_dict=FROZEN_DICT_TRIE, engine="XX"
-            )
-        )
+        self.assertEqual(dict_word_tokenize(""), [])
 
     def test_etcc(self):
         self.assertEqual(etcc.segment(""), "")
@@ -337,10 +310,21 @@ class TestUM(unittest.TestCase):
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
-        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="ulmfit"))
-        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="XX"))
-        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
-        self.assertIsNotNone(word_tokenize("", engine="deepcut"))
+
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="newmm"))
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="mm"))
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="longest"))
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="ulmfit"))
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="icu"))
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="deepcut"))
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="XX"))
+
+        self.assertIsNotNone(dict_trie(()))
+        self.assertIsNotNone(dict_trie(("ทดสอบ", "สร้าง", "Trie")))
+        self.assertIsNotNone(dict_trie(["ทดสอบ", "สร้าง", "Trie"]))
+        self.assertIsNotNone(dict_trie(thai_words()))
+
+        self.assertIsNotNone(word_tokenize("รถไฟฟ้าBTS", custom_dict=DEFAULT_DICT_TRIE))
 
     def test_Tokenizer(self):
         t_test = Tokenizer()
@@ -359,12 +343,9 @@ class TestUM(unittest.TestCase):
         self.assertEqual(tokenize_deepcut.segment(""), [])
         self.assertIsNotNone(tokenize_deepcut.segment("ทดสอบ", DEFAULT_DICT_TRIE))
         self.assertIsNotNone(tokenize_deepcut.segment("ทดสอบ", ["ทด", "สอบ"]))
-        self.assertIsNotNone(dict_word_tokenize("ทดสอบ", engine="deepcut"))
-        self.assertIsNotNone(
-            dict_word_tokenize("ทดสอบ", engine="deepcut", custom_dict=["ทด", "สอบ"])
-        )
+        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
 
-    def test_word_tokenize_longest_matching(self):
+    def test_word_tokenize_longest(self):
         self.assertEqual(longest.segment(None), [])
         self.assertEqual(longest.segment(""), [])
         self.assertEqual(
@@ -444,12 +425,12 @@ class TestUM(unittest.TestCase):
         self.assertEqual(romanize_royin(""), "")
         self.assertEqual(romanize_royin("หาย"), "hai")
         self.assertEqual(romanize_royin("หมอก"), "mok")
-        #self.assertEqual(romanize_royin("มหา"), "maha")  # not pass
-        #self.assertEqual(romanize_royin("หยาก"), "yak")  # not pass
-        #self.assertEqual(romanize_royin("อยาก"), "yak")  # not pass
-        #self.assertEqual(romanize_royin("ยมก"), "yamok")  # not pass
-        #self.assertEqual(romanize_royin("กลัว"), "klua")  # not pass
-        #self.assertEqual(romanize_royin("กลัว"), "klua")  # not pass
+        # self.assertEqual(romanize_royin("มหา"), "maha")  # not pass
+        # self.assertEqual(romanize_royin("หยาก"), "yak")  # not pass
+        # self.assertEqual(romanize_royin("อยาก"), "yak")  # not pass
+        # self.assertEqual(romanize_royin("ยมก"), "yamok")  # not pass
+        # self.assertEqual(romanize_royin("กลัว"), "klua")  # not pass
+        # self.assertEqual(romanize_royin("กลัว"), "klua")  # not pass
 
         self.assertEqual(romanize("แมว", engine="royin"), "maeo")
         self.assertEqual(romanize("เดือน", engine="royin"), "duean")

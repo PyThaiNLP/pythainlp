@@ -29,7 +29,7 @@ def segment(text: str) -> str:
     :return: etcc
     """
 
-    if not text:
+    if not text or not isinstance(text, str):
         return ""
 
     if re.search(r"[เแ]" + _C + r"[" + "".join(_UV) + r"]" + r"\w", text):

@@ -122,7 +122,7 @@ def segment(text: str, custom_dict: Trie = None) -> List[str]:
     """
     ใช้ในการหา list ที่สามารถตัดคำได้ทั้งหมด
     """
-    if not text:
+    if not text or not isinstance(text, str):
         return []
 
     return list(_multicut(text, custom_dict=custom_dict))
@@ -130,9 +130,12 @@ def segment(text: str, custom_dict: Trie = None) -> List[str]:
 
 def find_all_segment(text: str, custom_dict: Trie = None) -> List[str]:
     """
-    ใช้ในการหา list ที่สามารถตัดคำได้ทั้งหมด
+    Get all possible segment variations
+
+    :param str text: input string to be tokenized
+    :return: returns list of segment variations
     """
-    if not text:
+    if not text or not isinstance(text, str):
         return []
 
     ww = list(_multicut(text, custom_dict=custom_dict))

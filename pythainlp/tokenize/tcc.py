@@ -49,23 +49,23 @@ ct[ะาำ]?
 PAT_TCC = re.compile("|".join(RE_TCC))
 
 
-def tcc(w: str) -> str:
-    if not w:
+def tcc(text: str) -> str:
+    if not text or not isinstance(text, str):
         return ""
 
     p = 0
-    while p < len(w):
-        m = PAT_TCC.match(w[p:])
+    while p < len(text):
+        m = PAT_TCC.match(text[p:])
         if m:
             n = m.span()[1]
         else:
             n = 1
-        yield w[p : p + n]
+        yield text[p : p + n]
         p += n
 
 
 def tcc_pos(text: str) -> Set[int]:
-    if not text:
+    if not text or not isinstance(text, str):
         return set()
 
     p_set = set()

@@ -37,9 +37,9 @@ class FrequencySummarizer:
     def __rank(self, ranking, n: int):
         return nlargest(n, ranking, key=ranking.get)
 
-    def summarize(self, text: str, n: int, tokenizer: str) -> List[str]:
+    def summarize(self, text: str, n: int, tokenizer: str = "newmm") -> List[str]:
         sents = sent_tokenize(text)
-        word_tokenized_sents = [word_tokenize(sent, tokenizer) for sent in sents]
+        word_tokenized_sents = [word_tokenize(sent, engine=tokenizer) for sent in sents]
         self.__freq = self.__compute_frequencies(word_tokenized_sents)
         ranking = defaultdict(int)
 

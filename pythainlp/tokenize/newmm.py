@@ -13,6 +13,8 @@ from typing import List
 
 from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
+from marisa_trie import Trie
+
 from .tcc import tcc_pos
 
 # ช่วยตัดพวกภาษาอังกฤษ เป็นต้น
@@ -28,7 +30,7 @@ _PAT_ENG = re.compile(
 _PAT_TWOCHARS = re.compile("[ก-ฮ]{,2}$")
 
 
-def bfs_paths_graph(graph, start, goal):
+def _bfs_paths_graph(graph, start, goal):
     queue = [(start, [start])]
     while queue:
         (vertex, path) = queue.pop(0)
@@ -39,16 +41,16 @@ def bfs_paths_graph(graph, start, goal):
                 queue.append((next, path + [next]))
 
 
-def onecut(text: str, trie):
+def _onecut(text: str, custom_dict: Trie):
     graph = defaultdict(list)  # main data structure
-    allow_pos = tcc_pos(text)  # ตำแหน่งที่ตัด ต้องตรงกับ tcc
+    allow_pos = tcc_pos(text)  # separating position should aligned with TCC
 
     q = [0]  # min-heap queue
     last_p = 0  # last position for yield
     while q[0] < len(text):
         p = heappop(q)
 
-        for w in trie.prefixes(text[p:]):
+        for w in custom_dict.prefixes(text[p:]):
             p_ = p + len(w)
             if p_ in allow_pos:  # เลือกที่สอดคล้อง tcc
                 graph[p].append(p_)
@@ -57,7 +59,7 @@ def onecut(text: str, trie):
 
         # กรณี length 1 คือ ไม่กำกวมแล้ว ส่งผลลัพธ์ก่อนนี้คืนได้
         if len(q) == 1:
-            pp = next(bfs_paths_graph(graph, last_p, q[0]))
+            pp = next(_bfs_paths_graph(graph, last_p, q[0]))
             # เริ่มต้น last_p = pp[0] เอง
             for p in pp[1:]:
                 yield text[last_p:p]
@@ -74,7 +76,7 @@ def onecut(text: str, trie):
                     if i in allow_pos:  # ใช้ tcc ด้วย
                         ww = [
                             w
-                            for w in trie.prefixes(text[i:])
+                            for w in custom_dict.prefixes(text[i:])
                             if (i + len(w) in allow_pos)
                         ]
                         ww = [w for w in ww if not _PAT_TWOCHARS.match(w)]
@@ -90,12 +92,11 @@ def onecut(text: str, trie):
             heappush(q, i)
 
 
-# ช่วยให้ไม่ต้องพิมพ์ยาวๆ
-def segment(text: str, trie=None) -> List[str]:
-    if not text:
+def segment(text: str, custom_dict: Trie = None) -> List[str]:
+    if not text or not isinstance(text, str):
         return []
 
-    if not trie:
-        trie = DEFAULT_DICT_TRIE
+    if not custom_dict:
+        custom_dict = DEFAULT_DICT_TRIE
 
-    return list(onecut(text, trie))
+    return list(_onecut(text, custom_dict))

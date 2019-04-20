@@ -3,7 +3,7 @@
 Separate Thai text into Thai Character Cluster (TCC).
 Based on "Character cluster based Thai information retrieval" (Theeramunkong et al. 2000)
 https://dl.acm.org/citation.cfm?id=355225
-http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548 
+http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548
 
 Credits:
 - TCC: Jakkrit TeCho
@@ -49,33 +49,33 @@ ct[ะาำ]?
 PAT_TCC = re.compile("|".join(RE_TCC))
 
 
-def tcc_gen(w: str) -> str:
-    if not w:
+def tcc(text: str) -> str:
+    if not text or not isinstance(text, str):
         return ""
 
     p = 0
-    while p < len(w):
-        m = PAT_TCC.match(w[p:])
+    while p < len(text):
+        m = PAT_TCC.match(text[p:])
         if m:
             n = m.span()[1]
         else:
             n = 1
-        yield w[p : p + n]
+        yield text[p : p + n]
         p += n
 
 
 def tcc_pos(text: str) -> Set[int]:
-    if not text:
+    if not text or not isinstance(text, str):
         return set()
 
     p_set = set()
     p = 0
-    for w in tcc_gen(text):
+    for w in tcc(text):
         p += len(w)
         p_set.add(p)
 
     return p_set
 
 
-def tcc(text: str) -> List[str]:
-    return list(tcc_gen(text))
+def segment(text: str) -> List[str]:
+    return list(tcc(text))

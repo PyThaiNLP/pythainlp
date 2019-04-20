@@ -93,7 +93,7 @@ def _onecut(text: str, custom_dict: Trie):
 
 
 def segment(text: str, custom_dict: Trie = None) -> List[str]:
-    if not text:
+    if not text or not isinstance(text, str):
         return []
 
     if not custom_dict:

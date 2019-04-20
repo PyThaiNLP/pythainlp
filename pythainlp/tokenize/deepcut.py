@@ -11,7 +11,7 @@ from marisa_trie import Trie
 
 
 def segment(text: str, custom_dict: Union[Trie, List[str], str] = None) -> List[str]:
-    if not text:
+    if not text or not isinstance(text, str):
         return []
 
     if custom_dict:

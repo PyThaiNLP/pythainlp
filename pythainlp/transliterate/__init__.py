@@ -12,7 +12,7 @@ def romanize(text: str, engine: str = "royin") -> str:
     :return: A string of Thai words rendered in the Latin alphabet.
     """
 
-    if not isinstance(text, str) or not text:
+    if not text or not isinstance(text, str):
         return ""
 
     if engine == "thai2rom":
@@ -31,7 +31,7 @@ def transliterate(text: str, engine: str = "ipa") -> str:
     :return: A string of Internaitonal Phonetic Alphabets indicating how the text should be pronounced.
     """
 
-    if not isinstance(text, str) or not text:
+    if not text or not isinstance(text, str):
         return ""
 
     if engine == "icu" or engine == "pyicu":

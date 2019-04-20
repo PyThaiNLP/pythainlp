@@ -28,7 +28,7 @@ def lk82(text: str) -> str:
     :param str text: Thai word
     :return: LK82 soundex
     """
-    if not text:
+    if not text or not isinstance(text, str):
         return ""
 
     text = _RE_1.sub("", text)  # 4.ลบวรรณยุกต์

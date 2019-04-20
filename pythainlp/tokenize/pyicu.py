@@ -19,8 +19,9 @@ def _gen_words(text: str) -> str:
 
 
 def segment(text: str) -> List[str]:
-    if not text:
+    if not text or not isinstance(text, str):
         return []
 
     text = re.sub("([^\u0E00-\u0E7F\n ]+)", " \\1 ", text)
+
     return list(_gen_words(text))

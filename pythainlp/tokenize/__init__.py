@@ -87,22 +87,22 @@ def dict_word_tokenize(
     text: str,
     custom_dict: Trie = DEFAULT_DICT_TRIE,
     engine: str = "newmm",
-    whitespaces: bool = True,
+    keep_whitespace: bool = True,
 ) -> List[str]:
     """
-    :meth: Deprecated. Please use `word_tokenize()` with `custom_dict` argument instead.
+    :meth: DEPRECATED: Please use `word_tokenize()` with a `custom_dict` argument instead
     :param str text: text to be tokenized
     :param dict custom_dict: a dictionary trie, or an iterable of words, or a string of dictionary path
     :param str engine: choose between different options of engine to token (newmm [default], mm, longest, and deepcut)
-    :param bool whitespaces: True to output no whitespace, a common mark of end of phrase in Thai
+    :param bool keep_whitespace: True to keep whitespaces, a common mark for end of phrase in Thai
     :return: list of words
     """
     print(
-        "Deprecated. Use `word_tokenize()` with `custom_dict` argument instead.",
+        "Deprecated. Use word_tokenize() with a custom_dict argument instead.",
         file=sys.stderr,
     )
     return word_tokenize(
-        text=text, custom_dict=custom_dict, engine=engine, keep_whitespace=whitespaces
+        text=text, custom_dict=custom_dict, engine=engine, keep_whitespace=keep_whitespace
     )
 
 
@@ -116,7 +116,7 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
     :return: a list of text, split by whitespace or new line.
     """
 
-    if not text:
+    if not text or not isinstance(text, str):
         return []
 
     sentences = []
@@ -138,7 +138,7 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
         * etcc - Enhanced Thai Character Cluster (Inrut et al. 2001) [In development]
     :return: a list of tokenized strings.
     """
-    if not text:
+    if not text or not isinstance(text, str):
         return []
 
     if engine == "etcc":
@@ -156,7 +156,7 @@ def syllable_tokenize(text: str) -> List[str]:
     :return: returns list of strings of syllables
     """
 
-    if not text:
+    if not text or not isinstance(text, str):
         return []
 
     tokens = []

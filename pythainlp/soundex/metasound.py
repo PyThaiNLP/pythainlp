@@ -38,7 +38,7 @@ def metasound(text: str, length: int = 4) -> str:
         >>> metasound("บูรณการ", 5))
         'บ5515'
     """
-    if not text:
+    if not text or not isinstance(text, str):
         return ""
 
     # keep only consonants and thanthakhat

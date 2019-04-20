@@ -387,7 +387,7 @@ rank(["แมง", "แมง", "คน"])  # Counter({'แมง': 2, 'คน':
 กฎที่รองรับ
 - lk82 - กฎการเข้ารหัสซาวน์เด็กซ์ของ วิชิตหล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์
 - udom83 - กฎการเข้ารหัสซาวน์เด็กซ์ของ วรรณี อุดมพาณิชย์
-- metasound - กฎการเข้ารหัส MetaSoound ของ Snae & Brückner (2009)
+- metasound - กฎการเข้ารหัส MetaSound ของ Snae & Brückner (2009)
 
 เครดิต
 - โค้ด lk82 และ udom83 - Korakot Chaovavanich https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8

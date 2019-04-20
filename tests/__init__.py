@@ -311,13 +311,13 @@ class TestUM(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
 
-        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="newmm"))
-        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="mm"))
-        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="longest"))
-        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="ulmfit"))
-        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="icu"))
-        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="deepcut"))
-        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์", engine="XX"))
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="newmm"))
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="mm"))
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="longest"))
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="ulmfit"))
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="icu"))
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="deepcut"))
+        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX"))
 
         self.assertIsNotNone(dict_trie(()))
         self.assertIsNotNone(dict_trie(("ทดสอบ", "สร้าง", "Trie")))
@@ -334,8 +334,10 @@ class TestUM(unittest.TestCase):
         )
 
     def test_Tokenizer(self):
-        t_test = Tokenizer()
+        t_test = Tokenizer(FROZEN_DICT_TRIE)
         self.assertEqual(t_test.word_tokenize(""), [])
+        t_test.set_tokenize_engine("longest")
+        self.assertEqual(t_test.word_tokenize(None), [])
 
     def test_word_tokenize_icu(self):
         self.assertEqual(tokenize_pyicu.segment(None), [])
@@ -369,7 +371,10 @@ class TestUM(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
 
+        self.assertIsNone(multi_cut.mmcut("ทดสอบ"))
+
         self.assertIsNotNone(multi_cut.find_all_segment("รถไฟฟ้ากรุงเทพมหานครBTS"))
+        self.assertEqual(multi_cut.find_all_segment(None), [])
 
     def test_word_tokenize_newmm(self):
         self.assertEqual(newmm.segment(None), [])

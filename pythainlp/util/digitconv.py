@@ -61,7 +61,7 @@ def thai_digit_to_arabic_digit(text: str) -> str:
     :param str text: Text with Thai digits such as '๑', '๒', '๓'
     :return: Text with Thai digits being converted to Arabic digits such as '1', '2', '3'
     """
-    if not text:
+    if not text or not isinstance(text, str):
         return ""
 
     newtext = []
@@ -79,7 +79,7 @@ def arabic_digit_to_thai_digit(text: str) -> str:
     :param str text: Text with Arabic digits such as '1', '2', '3'
     :return: Text with Arabic digits being converted to Thai digits such as '๑', '๒', '๓'
     """
-    if not text:
+    if not text or not isinstance(text, str):
         return ""
 
     newtext = []
@@ -97,7 +97,7 @@ def digit_to_text(text: str) -> str:
     :param str text: Text with digits such as '1', '2', '๓', '๔'
     :return: Text with digits being spelled out in Thai
     """
-    if not text:
+    if not text or not isinstance(text, str):
         return ""
 
     newtext = []

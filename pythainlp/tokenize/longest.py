@@ -140,7 +140,7 @@ class LongestMatchTokenizer(object):
 
 def segment(text: str, custom_dict: Trie = None) -> List[str]:
     """ตัดคำภาษาไทยด้วยวิธี longest matching"""
-    if not text:
+    if not text or not isinstance(text, str):
         return []
 
     if not custom_dict:

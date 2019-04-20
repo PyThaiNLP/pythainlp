@@ -37,7 +37,7 @@ def udom83(text: str) -> str:
     :return: Udom83 soundex
     """
 
-    if not text:
+    if not text or not isinstance(text, str):
         return ""
 
     text = _RE_1.sub("ัน\\1", text)

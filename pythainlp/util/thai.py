@@ -44,7 +44,7 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
     :param str text: input text
     :return: float, proportion of characters in the text that is Thai character
     """
-    if not text:
+    if not text or not isinstance(text, str):
         return 0
 
     if not ignore_chars:

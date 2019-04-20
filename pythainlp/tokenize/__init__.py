@@ -3,6 +3,7 @@
 Thai tokenizers
 """
 import re
+import sys
 from typing import Iterable, List, Union
 
 from pythainlp.corpus import get_corpus, thai_syllables, thai_words
@@ -14,20 +15,21 @@ FROZEN_DICT_TRIE = Trie(get_corpus("words_th_frozen_201810.txt"))
 
 
 def word_tokenize(
-    text: str, engine: str = "newmm", whitespaces: bool = True
+    text: str, custom_dict: Trie = None, engine: str = "newmm", keep_whitespace: bool = True
 ) -> List[str]:
     """
     :param str text: text to be tokenized
     :param str engine: tokenizer to be used
-    :param bool whitespaces: True to output no whitespace, a common mark of end of phrase in Thai
+    :param dict custom_dict: a dictionary trie
+    :param bool keep_whitespace: True to keep whitespaces, a common mark for end of phrase in Thai
     :Parameters for engine:
         * newmm (default) - dictionary-based, Maximum Matching + Thai Character Cluster
         * longest - dictionary-based, Longest Matching
-        * icu - wrapper for ICU, dictionary-based
         * deepcut - wrapper for deepcut, language-model-based https://github.com/rkcosmos/deepcut
-        * ulmfit - use newmm engine with a specific dictionary for use with thai2vec
+        * icu - wrapper for ICU (International Components for Unicode, using PyICU), dictionary-based
+        * ulmfit - for thai2fit
+        * a custom_dict can be provided for newmm, longest, and deepcut
     :return: list of words, tokenized from the text
-
     **Example**::
         >>> from pythainlp.tokenize import word_tokenize
         >>> text = "โอเคบ่พวกเรารักภาษาบ้านเกิด"
@@ -36,64 +38,72 @@ def word_tokenize(
         >>> word_tokenize(text, engine="icu")
         ['โอ', 'เค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้าน', 'เกิด']
     """
-    if not text:
+    if not text or not isinstance(text, str):
         return []
 
+    segments = []
     if engine == "newmm" or engine == "onecut":
         from .newmm import segment
-    elif engine == "longest" or engine == "longest-matching":
+
+        segments = segment(text, custom_dict)
+    elif engine == "longest":
         from .longest import segment
-    elif engine == "ulmfit":
-        from .newmm import segment as segment_
 
-        def segment(text):
-            return segment_(text, trie=FROZEN_DICT_TRIE)
-
-    elif engine == "icu":
-        from .pyicu import segment
-    elif engine == "deepcut":
-        from .deepcut import segment
+        segments = segment(text, custom_dict)
     elif engine == "mm" or engine == "multi_cut":
         from .multi_cut import segment
+
+        segments = segment(text, custom_dict)
+    elif engine == "deepcut":  # deepcut can optionally use dictionary
+        from .deepcut import segment
+
+        if custom_dict:
+            custom_dict = list(custom_dict)
+            segments = segment(text, custom_dict)
+        else:
+            segments = segment(text)
+    elif engine == "ulmfit":  # ulmfit has its own specific dictionary
+        from .newmm import segment
+
+        segments = segment(text, custom_dict=FROZEN_DICT_TRIE)
+    elif engine == "icu":
+        from .pyicu import segment
+
+        segments = segment(text)
     else:  # default, use "newmm" engine
         from .newmm import segment
 
-    if not whitespaces:
-        return [token.strip(" ") for token in segment(text) if token.strip(" ")]
+        if custom_dict:
+            custom_dict = dict_trie(custom_dict)
+        segments = segment(text, custom_dict)
 
-    return segment(text)
+    if not keep_whitespace:
+        segments = [token.strip(" ") for token in segments if token.strip(" ")]
+
+    return segments
 
 
 def dict_word_tokenize(
-    text: str, custom_dict: Trie, engine: str = "newmm"
+    text: str,
+    custom_dict: Trie = DEFAULT_DICT_TRIE,
+    engine: str = "newmm",
+    keep_whitespace: bool = True,
 ) -> List[str]:
     """
-    :meth:`dict_word_tokenize` tokenizes word based on the dictionary you provide. The format has to be in trie data structure.
+    :meth: DEPRECATED: Please use `word_tokenize()` with a `custom_dict` argument instead
     :param str text: text to be tokenized
-    :param dict custom_dict: a dictionary trie
-    :param str engine: choose between different options of engine to token (newmm, longest)
+    :param dict custom_dict: a dictionary trie, or an iterable of words, or a string of dictionary path
+    :param str engine: choose between different options of engine to token (newmm [default], mm, longest, and deepcut)
+    :param bool keep_whitespace: True to keep whitespaces, a common mark for end of phrase in Thai
     :return: list of words
-    **Example**::
-        >>> from pythainlp.tokenize import dict_word_tokenize, dict_trie
-        >>> words = ["แมว", "ดี"]
-        >>> trie = dict_trie(words)
-        >>> dict_word_tokenize("แมวดีดีแมว", trie)
-        ['แมว', 'ดี', 'ดี', 'แมว']
     """
-
-    if not text:
-        return []
-
-    if engine == "newmm" or engine == "onecut":
-        from .newmm import segment
-    elif engine == "longest" or engine == "longest-matching":
-        from .longest import segment
-    elif engine == "mm" or engine == "multi_cut":
-        from .multi_cut import segment
-    else:  # default, use "newmm" engine
-        from .newmm import segment
-
-    return segment(text, custom_dict)
+    print(
+        "Deprecated. Use word_tokenize() with a custom_dict argument instead.",
+        file=sys.stderr,
+    )
+    return word_tokenize(
+        text=text, custom_dict=custom_dict, engine=engine, keep_whitespace=keep_whitespace
+    )
 
 
 def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
@@ -106,7 +116,7 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
     :return: a list of text, split by whitespace or new line.
     """
 
-    if not text:
+    if not text or not isinstance(text, str):
         return []
 
     sentences = []
@@ -128,16 +138,13 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
         * etcc - Enhanced Thai Character Cluster (Inrut et al. 2001) [In development]
     :return: a list of tokenized strings.
     """
-    if not text:
-        return ""
+    if not text or not isinstance(text, str):
+        return []
 
     if engine == "etcc":
         from .etcc import segment
-
-        return segment(text)
-
-    # default is "tcc"
-    from .tcc import segment
+    else:  # default
+        from .tcc import segment
 
     return segment(text)
 
@@ -149,7 +156,7 @@ def syllable_tokenize(text: str) -> List[str]:
     :return: returns list of strings of syllables
     """
 
-    if not text:
+    if not text or not isinstance(text, str):
         return []
 
     tokens = []
@@ -157,12 +164,12 @@ def syllable_tokenize(text: str) -> List[str]:
         words = word_tokenize(text)
         trie = dict_trie(dict_source=thai_syllables())
         for word in words:
-            tokens.extend(dict_word_tokenize(text=word, custom_dict=trie))
+            tokens.extend(word_tokenize(text=word, custom_dict=trie))
 
     return tokens
 
 
-def dict_trie(dict_source: Union[str, Iterable]) -> Trie:
+def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     """
     Create a dict trie which will be used for word_tokenize() function.
     For more information on the trie data structure,
@@ -171,37 +178,42 @@ def dict_trie(dict_source: Union[str, Iterable]) -> Trie:
     :param string/list dict_source: a list of vocaburaries or a path to source file
     :return: a trie created from a dictionary input
     """
+    trie = None
 
     if type(dict_source) is str:
         # Receive a file path of the dict to read
         with open(dict_source, "r", encoding="utf8") as f:
             _vocabs = f.read().splitlines()
-            return Trie(_vocabs)
+            trie = Trie(_vocabs)
     elif isinstance(dict_source, Iterable):
         # Received a sequence type object of vocabs
-        return Trie(dict_source)
+        trie = Trie(dict_source)
+    elif isinstance(dict_source, Trie):
+        trie = dict_source
     else:
         raise TypeError(
-            "Type of dict_source must be either str (path to source file) or iterable"
+            "Type of dict_source must be marisa_trie.Trie, or Iterable[str], or str (path to source file)"
         )
+
+    return trie
 
 
 class Tokenizer:
     def __init__(
-        self, custom_dict: Union[str, Iterable] = None, tokenize_engine: str = "newmm"
+        self, custom_dict: Union[Trie, Iterable[str], str] = None, engine: str = "newmm"
     ):
         """
         Initialize tokenizer object
 
-        :param str custom_dict: a file path or a list of vocaburaies to be used to create a trie (default - original lexitron)
-        :param str tokenize_engine: choose between different options of engine to token (newmm, mm, longest)
+        :param str custom_dict: a file path or a list of vocaburaies to be used to create a trie
+        :param str engine: choose between different options of engine to token (newmm, mm, longest)
         """
         self.__trie_dict = None
-        self.word_engine = tokenize_engine
+        self.__engine = engine
         if custom_dict:
             self.__trie_dict = dict_trie(custom_dict)
         else:
-            self.__trie_dict = dict_trie(thai_words())
+            self.__trie_dict = DEFAULT_DICT_TRIE
 
     def word_tokenize(self, text: str) -> List[str]:
         """
@@ -209,12 +221,10 @@ class Tokenizer:
 
         :return: list of words, tokenized from the text
         """
-        return dict_word_tokenize(
-            text, custom_dict=self.__trie_dict, engine=self.word_engine
-        )
+        return word_tokenize(text, custom_dict=self.__trie_dict, engine=self.__engine)
 
-    def set_tokenize_engine(self, name_engine: str) -> None:
+    def set_tokenize_engine(self, engine: str) -> None:
         """
-        :param str name_engine: choose between different options of engine to token (newmm, mm, longest)
+        :param str engine: choose between different options of engine to token (newmm, mm, longest)
         """
-        self.word_engine = name_engine
+        self.__engine = engine

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Transliterating text to International Phonetic Alphabet (IPA)
+Using epitran
+https://github.com/dmort27/epitran
 """
 import epitran
 

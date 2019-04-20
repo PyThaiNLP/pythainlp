@@ -323,8 +323,15 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(dict_trie(("ทดสอบ", "สร้าง", "Trie")))
         self.assertIsNotNone(dict_trie(["ทดสอบ", "สร้าง", "Trie"]))
         self.assertIsNotNone(dict_trie(thai_words()))
+        self.assertIsNotNone(dict_trie(FROZEN_DICT_TRIE))
 
         self.assertIsNotNone(word_tokenize("รถไฟฟ้าBTS", custom_dict=DEFAULT_DICT_TRIE))
+        self.assertIsNotNone(
+            word_tokenize("ทดสอบ", engine="deepcut", custom_dict=FROZEN_DICT_TRIE)
+        )
+        self.assertIsNotNone(
+            word_tokenize("ทดสอบ", engine="XX", custom_dict=FROZEN_DICT_TRIE)
+        )
 
     def test_Tokenizer(self):
         t_test = Tokenizer()
@@ -372,7 +379,9 @@ class TestUM(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
         self.assertEqual(
-            word_tokenize("สวัสดีครับ สบายดีไหมครับ", engine="newmm", keep_whitespace=True),
+            word_tokenize(
+                "สวัสดีครับ สบายดีไหมครับ", engine="newmm", keep_whitespace=True
+            ),
             ["สวัสดี", "ครับ", " ", "สบายดี", "ไหม", "ครับ"],
         )
         self.assertEqual(

@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-
 """
-ตัดคำภาษาไทย 
-โดยใช้หลักการ maximal matching และ Thai Character Cluster (TCC)
-พัฒนาโดยคุณ Korakot Chaovavanich
-Notebooks:
+Dictionary-based Thai Word Segmentation
+using maximal matching algorithm and Thai Character Cluster (TCC)
+Based on these notebooks by Korakot Chaovavanich:
 https://colab.research.google.com/notebook#fileId=1V1Z657_5eSWPo8rLfVRwA0A5E4vkg7SI
 https://colab.research.google.com/drive/14Ibg-ngZXj15RKwjNwoZlOT32fQBOrBx#scrollTo=MYZ7NzAR7Dmw
 """
@@ -13,9 +11,8 @@ from collections import defaultdict
 from heapq import heappop, heappush  # for priority queue
 from typing import List
 
-from pythainlp.tokenize import DEFAULT_DICT_TRIE
-
 from marisa_trie import Trie
+from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
 from .tcc import tcc_pos
 
@@ -98,7 +95,7 @@ def segment(text: str, custom_dict: Trie = None) -> List[str]:
     """
     Dictionary-based word segmentation, using maximal matching algorithm and Thai Character Cluster
     :param str text: text to be tokenized to words
-    :return: list of words, tokenized from the text    
+    :return: list of words, tokenized from the text
     """
     if not text or not isinstance(text, str):
         return []

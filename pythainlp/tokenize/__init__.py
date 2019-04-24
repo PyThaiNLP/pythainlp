@@ -186,7 +186,7 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     """
     trie = None
 
-    if type(dict_source) is str:
+    if isinstance(dict_source, str):
         # Receive a file path of the dict to read
         with open(dict_source, "r", encoding="utf8") as f:
             _vocabs = f.read().splitlines()

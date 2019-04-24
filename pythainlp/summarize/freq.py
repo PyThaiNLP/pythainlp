@@ -19,6 +19,10 @@ class FrequencySummarizer:
         self.__max_cut = max_cut
         self.__stopwords = set(punctuation).union(_STOPWORDS)
 
+    @staticmethod
+    def __rank(ranking, n: int):
+        return nlargest(n, ranking, key=ranking.get)
+
     def __compute_frequencies(self, word_tokenized_sents):
         word_freqs = defaultdict(int)
         for sent in word_tokenized_sents:
@@ -33,9 +37,6 @@ class FrequencySummarizer:
                 del word_freqs[w]
 
         return word_freqs
-
-    def __rank(self, ranking, n: int):
-        return nlargest(n, ranking, key=ranking.get)
 
     def summarize(self, text: str, n: int, tokenizer: str = "newmm") -> List[str]:
         sents = sent_tokenize(text)

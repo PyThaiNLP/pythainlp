@@ -42,7 +42,8 @@ class LongestMatchTokenizer(object):
     def __init__(self, trie: Trie):
         self.__trie = trie
 
-    def __search_nonthai(self, text: str):
+    @staticmethod
+    def __search_nonthai(text: str):
         match = _RE_NONTHAI.search(text)
         if match.group(0):
             return match.group(0).lower()

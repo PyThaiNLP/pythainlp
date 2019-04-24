@@ -132,5 +132,6 @@ class ThaiNameTagger:
 
         return [(self.__pos_tags[i][0], data) for i, data in enumerate(self.__y)]
 
-    def __extract_features(self, doc):
+    @staticmethod
+    def __extract_features(doc):
         return [_doc2features(doc, i) for i in range(len(doc))]

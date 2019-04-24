@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-"""ตัวตัดคำภาษาไทยโดยใช้หลักการ maximal matching และ Thai Character Cluster (TCC)
+"""
+ตัดคำภาษาไทย 
+โดยใช้หลักการ maximal matching และ Thai Character Cluster (TCC)
 พัฒนาโดยคุณ Korakot Chaovavanich
 Notebooks:
 https://colab.research.google.com/notebook#fileId=1V1Z657_5eSWPo8rLfVRwA0A5E4vkg7SI
@@ -93,6 +95,11 @@ def _onecut(text: str, custom_dict: Trie):
 
 
 def segment(text: str, custom_dict: Trie = None) -> List[str]:
+    """
+    Dictionary-based word segmentation, using maximal matching algorithm and Thai Character Cluster
+    :param str text: text to be tokenized to words
+    :return: list of words, tokenized from the text    
+    """
     if not text or not isinstance(text, str):
         return []
 

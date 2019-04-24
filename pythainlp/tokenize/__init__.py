@@ -15,22 +15,27 @@ FROZEN_DICT_TRIE = Trie(get_corpus("words_th_frozen_201810.txt"))
 
 
 def word_tokenize(
-    text: str, custom_dict: Trie = None, engine: str = "newmm", keep_whitespace: bool = True
+    text: str,
+    custom_dict: Trie = None,
+    engine: str = "newmm",
+    keep_whitespace: bool = True,
 ) -> List[str]:
     """
     :param str text: text to be tokenized
     :param str engine: tokenizer to be used
     :param dict custom_dict: a dictionary trie
     :param bool keep_whitespace: True to keep whitespaces, a common mark for end of phrase in Thai
-    :Parameters for engine:
+    :return: list of words
+
+    **Options for engine**
         * newmm (default) - dictionary-based, Maximum Matching + Thai Character Cluster
         * longest - dictionary-based, Longest Matching
         * deepcut - wrapper for deepcut, language-model-based https://github.com/rkcosmos/deepcut
         * icu - wrapper for ICU (International Components for Unicode, using PyICU), dictionary-based
         * ulmfit - for thai2fit
         * a custom_dict can be provided for newmm, longest, and deepcut
-    :return: list of words, tokenized from the text
-    **Example**::
+
+    **Example**
         >>> from pythainlp.tokenize import word_tokenize
         >>> text = "โอเคบ่พวกเรารักภาษาบ้านเกิด"
         >>> word_tokenize(text, engine="newmm")
@@ -73,8 +78,6 @@ def word_tokenize(
     else:  # default, use "newmm" engine
         from .newmm import segment
 
-        if custom_dict:
-            custom_dict = dict_trie(custom_dict)
         segments = segment(text, custom_dict)
 
     if not keep_whitespace:
@@ -102,7 +105,10 @@ def dict_word_tokenize(
         file=sys.stderr,
     )
     return word_tokenize(
-        text=text, custom_dict=custom_dict, engine=engine, keep_whitespace=keep_whitespace
+        text=text,
+        custom_dict=custom_dict,
+        engine=engine,
+        keep_whitespace=keep_whitespace,
     )
 
 
@@ -113,7 +119,7 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
     :param str text: the text to be tokenized
     :param str engine: choose between 'whitespace' or 'whitespace+newline'
 
-    :return: a list of text, split by whitespace or new line.
+    :return: list of sentences
     """
 
     if not text or not isinstance(text, str):
@@ -133,10 +139,11 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
     """
     :param str text: text to be tokenized
     :param str engine: subword tokenizer
-    :Parameters for engine:
+    :return: list of subwords
+
+    **Options for engine**
         * tcc (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
         * etcc - Enhanced Thai Character Cluster (Inrut et al. 2001) [In development]
-    :return: a list of tokenized strings.
     """
     if not text or not isinstance(text, str):
         return []
@@ -152,8 +159,7 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
 def syllable_tokenize(text: str) -> List[str]:
     """
     :param str text: input string to be tokenized
-
-    :return: returns list of strings of syllables
+    :return: list of syllables
     """
 
     if not text or not isinstance(text, str):

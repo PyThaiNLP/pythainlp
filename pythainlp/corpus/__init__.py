@@ -24,15 +24,15 @@ if not os.path.exists(_CORPUS_DB_PATH):
     TinyDB(_CORPUS_DB_PATH)
 
 
-def corpus_path():
+def corpus_path() -> str:
     return _CORPUS_PATH
 
 
-def corpus_db_url():
+def corpus_db_url() -> str:
     return _CORPUS_DB_URL
 
 
-def corpus_db_path():
+def corpus_db_path() -> str:
     return _CORPUS_DB_PATH
 
 
@@ -70,7 +70,7 @@ def get_corpus_path(name: str) -> [str, None]:
     return None
 
 
-def download_(url: str, dst: str):
+def _download(url: str, dst: str):
     """
     @param: url to download file
     @param: dst place to put the file
@@ -117,7 +117,7 @@ def download(name: str, force: bool = False):
 
         if not db.search(temp.name == name):
             print(name + " " + temp_name["version"])
-            download_(temp_name["download"], temp_name["file_name"])
+            _download(temp_name["download"], temp_name["file_name"])
             db.insert(
                 {
                     "name": name,
@@ -144,7 +144,7 @@ def download(name: str, force: bool = False):
                 if not force:
                     yes_no = str(input("yes or no (y / n) : ")).lower()
                 if "y" == yes_no:
-                    download_(temp_name["download"], temp_name["file_name"])
+                    _download(temp_name["download"], temp_name["file_name"])
                     db.update({"version": temp_name["version"]}, temp.name == name)
             else:
                 print("Redownload")
@@ -162,7 +162,7 @@ def download(name: str, force: bool = False):
                 if not force:
                     yes_no = str(input("yes or no (y / n) : ")).lower()
                 if "y" == yes_no:
-                    download_(temp_name["download"], temp_name["file_name"])
+                    _download(temp_name["download"], temp_name["file_name"])
                     db.update({"version": temp_name["version"]}, temp.name == name)
     db.close()
 

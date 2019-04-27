@@ -12,7 +12,8 @@ class ThaiTransliterator:
         Transliteration of Thai words
         Now supports Thai to Latin (romanization)
         """
-        self.__input_token_index = {' ': 0, '!': 1, '"': 2, '(': 3, ')': 4,
+        self.__input_token_index = {
+         ' ': 0, '!': 1, '"': 2, '(': 3, ')': 4,
          '-': 5, '.': 6, '0': 7, '1': 8, '2': 9, '3': 10, '4': 11, '5': 12,
          '6': 13, '7': 14, '8': 15, '9': 16, '\xa0': 17, 'ก': 18, 'ข': 19,
          'ฃ': 20, 'ค': 21, 'ฅ': 22, 'ฆ': 23, 'ง': 24, 'จ': 25, 'ฉ': 26,
@@ -24,13 +25,16 @@ class ThaiTransliterator:
          'อ': 62, 'ฮ': 63, 'ฯ': 64, 'ะ': 65, 'ั': 66, 'า': 67, 'ำ': 68,
           'ิ': 69, 'ี': 70, 'ึ': 71, 'ื': 72, 'ุ': 73, 'ู': 74, 'ฺ': 75, 'เ': 76,
           'แ': 77, 'โ': 78, 'ใ': 79, 'ไ': 80, 'ๅ': 81, 'ๆ': 82, '็': 83,
-         '่': 84, '้': 85, '๊': 86, '๋': 87, '์': 88, 'ํ': 89, '๙': 90}
-        self.__target_token_index = {'\t': 0, '\n': 1, ' ': 2, '!': 3, '"': 4,
+         '่': 84, '้': 85, '๊': 86, '๋': 87, '์': 88, 'ํ': 89, '๙': 90
+        }
+        self.__target_token_index = {
+         '\t': 0, '\n': 1, ' ': 2, '!': 3, '"': 4,
          '(': 5, ')': 6, '-': 7, '0': 8, '1': 9, '2': 10, '3': 11, '4': 12,
          '5': 13, '6': 14, '7': 15, '8': 16, '9': 17, 'a': 18, 'b': 19, 'c': 20,
          'd': 21, 'e': 22, 'f': 23, 'g': 24, 'h': 25, 'i': 26, 'k': 27, 'l': 28,
          'm': 29, 'n': 30, 'o': 31, 'p': 32, 'r': 33, 's': 34, 't': 35, 'u': 36,
-         'w': 37, 'y': 38}
+         'w': 37, 'y': 38
+        }
         self.__reverse_input_char_index = dict(
          (i, char) for char, i in self.__input_token_index.items())
         self.__reverse_target_char_index = dict(
@@ -54,10 +58,16 @@ class ThaiTransliterator:
             2
         ].output  # lstm_1
         self.__encoder_states = [self.__state_h_enc, self.__state_c_enc]
-        self.__encoder_model = Model(self.__encoder_inputs, self.__encoder_states)
+        self.__encoder_model = Model(
+            self.__encoder_inputs, self.__encoder_states
+        )
         self.__decoder_inputs = self.__model.input[1]  # input_2
-        self.__decoder_state_input_h = Input(shape=(self.__latent_dim,), name="input_3")
-        self.__decoder_state_input_c = Input(shape=(self.__latent_dim,), name="input_4")
+        self.__decoder_state_input_h = Input(
+            shape=(self.__latent_dim,), name="input_3"
+        )
+        self.__decoder_state_input_c = Input(
+            shape=(self.__latent_dim,), name="input_4"
+        )
         self.__decoder_states_inputs = [
             self.__decoder_state_input_h,
             self.__decoder_state_input_c,
@@ -85,7 +95,9 @@ class ThaiTransliterator:
             self.__output_tokens, self.__h, self.__c = self.__decoder_model.predict(
                 [self.__target_seq] + self.__states_value
             )
-            self.__sampled_token_index = np.argmax(self.__output_tokens[0, -1, :])
+            self.__sampled_token_index = np.argmax(
+                self.__output_tokens[0, -1, :]
+            )
             self.__sampled_char = self.__reverse_target_char_index[
                 self.__sampled_token_index
             ]

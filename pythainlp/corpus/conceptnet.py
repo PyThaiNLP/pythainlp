@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-ดึงข้อมูลจาก http://conceptnet.io
+Get data from ConceptNet API at http://conceptnet.io
 """
 import requests
 
 
-def edges(word, lang="th"):
-	"""
-	Get edges from conceptnet
+def edges(word: str, lang: str = "th"):
+    """
+    Get edges from ConceptNet API
 
-	:param string word: word
-	:param string lang: language
-	"""
+    :param str word: word
+    :param str lang: language
+    """
 
-	obj = requests.get("http://api.conceptnet.io/c/{}/{}".format(lang, str(word))).json()
-	return obj["edges"]
+    obj = requests.get(f"http://api.conceptnet.io/c/{lang}/{word}").json()
+    return obj["edges"]

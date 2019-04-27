@@ -6,6 +6,7 @@ Credit: Korakot Chaovavanich‎
 https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
 """
 import re
+from typing import List, Tuple
 
 import requests
 from pythainlp.corpus import get_corpus
@@ -15,7 +16,7 @@ __all__ = ["word_freq", "word_freqs"]
 _FILENAME = "tnc_freq.txt"
 
 
-def word_freq(word, domain="all"):
+def word_freq(word: str, domain: str = "all") -> int:
     """
     Get word frequency of a word.
     This function will make a query to the server of Thai National Corpus.
@@ -52,7 +53,7 @@ def word_freq(word, domain="all"):
     return n
 
 
-def word_freqs():
+def word_freqs() -> List[Tuple[str, int]]:
     """
     Get word frequency from Thai National Corpus (TNC)
     """

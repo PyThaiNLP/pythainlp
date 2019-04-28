@@ -14,7 +14,7 @@ init:
 install:
   - "chcp 65001"
   - "set PYTHONIOENCODING=utf-8"
-  - "%PYTHON%/python.exe -m python --version"
+  - "%PYTHON%/python.exe --version"
   # - "set ICU_VERSION=62"
   - "%PYTHON%/python.exe -m pip install --upgrade pip"
   - "%PYTHON%/python.exe -m pip install coveralls[yaml]"

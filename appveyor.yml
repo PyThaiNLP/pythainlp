@@ -6,8 +6,6 @@ environment:
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
       ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
-  COVERALLS_TOKEN:
-    secure: "c7aQzdDxtoA0rDDCd4iySJbtCj7nOPNjH"
 
 init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"  
@@ -28,4 +26,4 @@ test_script:
   - "%PYTHON%/python.exe -m coverage run --source=pythainlp setup.py test"
 
 on_success:
-  - "%PYTHON%/python.exe -m coveralls"
+  - "%PYTHON%/python.exe -m COVERALLS_REPO_TOKEN=c7aQzdDxtoA0rDDCd4iySJbtCj7nOPNjH coveralls"

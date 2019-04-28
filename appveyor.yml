@@ -26,6 +26,3 @@ install:
 test_script:
   - "%PYTHON%/python.exe -m pip --version"
   - "%PYTHON%/python.exe -m coverage run --source=pythainlp setup.py test"
-
-on_success:
-  - "%PYTHON%/python.exe -m coveralls"

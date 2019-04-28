@@ -14,19 +14,18 @@ init:
 install:
   - "chcp 65001"
   - "set PYTHONIOENCODING=utf-8"
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-  - "python --version"
+  - "%PYTHON%/python.exe -m python --version"
   # - "set ICU_VERSION=62"
-  - "pip install --upgrade pip"
-  - "pip install coveralls[yaml]"
-  - "pip install coverage"
-  - "pip install https://www.dropbox.com/s/g84479l8yhv5ohi/PyICU-2.2-cp36-cp36m-win_amd64.whl?dl=1"
-  - "pip install %ARTAGGER_PKG%"
-  - "pip install -e .[artagger,icu,ipa,ner,thai2fit,deepcut]"
+  - "%PYTHON%/python.exe -m pip install --upgrade pip"
+  - "%PYTHON%/python.exe -m pip install coveralls[yaml]"
+  - "%PYTHON%/python.exe -m pip install coverage"
+  - "%PYTHON%/python.exe -m pip install https://www.dropbox.com/s/g84479l8yhv5ohi/PyICU-2.2-cp36-cp36m-win_amd64.whl?dl=1"
+  - "%PYTHON%/python.exe -m pip install %ARTAGGER_PKG%"
+  - "%PYTHON%/python.exe -m pip install -e .[artagger,icu,ipa,ner,thai2fit,deepcut]"
 
 test_script:
-  - "pip --version"
-  - "coverage run --source=pythainlp setup.py test"
+  - "%PYTHON%/python.exe -m pip --version"
+  - "%PYTHON%/python.exe -m coverage run --source=pythainlp setup.py test"
 
 on_success:
-  - "coveralls"
+  - "%PYTHON%/python.exe -m coveralls"

@@ -461,7 +461,7 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(romanize("กรม", engine="royin"))
         self.assertIsNotNone(romanize("ธรรพ์", engine="royin"))
         self.assertIsNotNone(romanize("กฏa์1์ ์", engine="royin"))
-        # self.assertIsNotNone(romanize("บัว", engine="thai2rom"))
+        self.assertEqual(romanize("แมว", engine="thai2rom"), "maeo")
 
     def test_transliterate(self):
         self.assertEqual(transliterate(""), "")

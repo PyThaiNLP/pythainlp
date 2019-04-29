@@ -142,19 +142,25 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(soundex("a", engine="metasound"))
         self.assertIsNotNone(soundex("a", engine="XXX"))
 
+        self.assertEqual(lk82(None), "")
+        self.assertEqual(lk82(""), "")
+        self.assertEqual(lk82("เหตุ"), lk82("เหด"))
         self.assertEqual(lk82("รถ"), "ร3000")
         self.assertIsNotNone(lk82("เกาะ"))
         self.assertIsNotNone(lk82("อุยกูร์"))
         self.assertIsNotNone(lk82("หยากไย่"))
         self.assertIsNotNone(lk82("หอ"))
         self.assertEqual(lk82("น์"), "")
-        self.assertEqual(lk82(""), "")
-        self.assertEqual(lk82(None), "")
 
-        self.assertEqual(udom83("รถ"), "ร800000")
-        self.assertEqual(udom83(""), "")
         self.assertEqual(udom83(None), "")
+        self.assertEqual(udom83(""), "")
+        self.assertEqual(udom83("เหตุ"), udom83("เหด"))
+        self.assertEqual(udom83("รถ"), "ร800000")
 
+        self.assertEqual(metasound(None), "")
+        self.assertEqual(metasound(""), "")
+        self.assertEqual(metasound("เหตุ"), metasound("เหด"))
+        self.assertEqual(metasound("รักษ์"), metasound("รัก"))
         self.assertEqual(metasound("บูรณะ"), "บ550")
         self.assertEqual(metasound("คน"), "ค500")
         self.assertEqual(metasound("คนA"), "ค500")
@@ -171,9 +177,6 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(metasound("กาโวกาโว"))
         self.assertIsNotNone(metasound("สุวรรณา"))
         self.assertIsNotNone(metasound("ดอยบอย"))
-        self.assertEqual(metasound("รักษ์"), metasound("รัก"))
-        self.assertEqual(metasound(""), "")
-        self.assertEqual(metasound(None), "")
 
     # ### pythainlp.spell
 

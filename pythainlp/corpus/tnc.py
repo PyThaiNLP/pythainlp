@@ -22,6 +22,9 @@ def word_freq(word: str, domain: str = "all") -> int:
     This function will make a query to the server of Thai National Corpus.
     Internet connection is required.
 
+    **IMPORTANT:** Currently always return 0, as the service URL has been
+    changed and the code is not updated yet.
+
     :param string word: word
     :param string domain: domain
     """
@@ -39,6 +42,7 @@ def word_freq(word: str, domain: str = "all") -> int:
         "others": "0",
     }
     url = "http://www.arts.chula.ac.th/~ling/TNCII/corp.php"
+    # New URL is http://www.arts.chula.ac.th/~ling/tnc3/
     data = {"genre[]": "", "domain[]": listdomain[domain], "sortby": "perc", "p": word}
 
     r = requests.post(url, data=data)

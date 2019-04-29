@@ -353,6 +353,9 @@ class TestUM(unittest.TestCase):
         t_test.set_tokenize_engine("longest")
         self.assertEqual(t_test.word_tokenize(None), [])
 
+        t_test = Tokenizer()
+        self.assertEqual(t_test.word_tokenize("ก"), ["ก"])
+
     def test_word_tokenize_icu(self):
         self.assertEqual(tokenize_pyicu.segment(None), [])
         self.assertEqual(tokenize_pyicu.segment(""), [])

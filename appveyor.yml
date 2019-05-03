@@ -6,6 +6,13 @@ environment:
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
       ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
+      PYICU_PKG: "https://www.dropbox.com/s/g84479l8yhv5ohi/PyICU-2.2-cp36-cp36m-win_amd64.whl?dl=1"
+
+    - PYTHON: "C:/Python37-x64"
+      PYTHON_VERSION: "3.7"
+      PYTHON_ARCH: "64"
+      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
+      PYICU_PKG: "https://www.dropbox.com/s/g84479l8yhv5ohi/PyICU-2.2-cp36-cp36m-win_amd64.whl?dl=1"
 
 init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"  
@@ -19,7 +26,7 @@ install:
   - "%PYTHON%/python.exe -m pip install --upgrade pip"
   - "%PYTHON%/python.exe -m pip install coveralls[yaml]"
   - "%PYTHON%/python.exe -m pip install coverage"
-  - "%PYTHON%/python.exe -m pip install https://www.dropbox.com/s/g84479l8yhv5ohi/PyICU-2.2-cp36-cp36m-win_amd64.whl?dl=1"
+  - "%PYTHON%/python.exe -m pip install %PYICU_PKG%"
   - "%PYTHON%/python.exe -m pip install %ARTAGGER_PKG%"
   - "%PYTHON%/python.exe -m pip install -e .[artagger,icu,ipa,ner,thai2fit,deepcut]"
 

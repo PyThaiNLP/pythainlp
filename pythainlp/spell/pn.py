@@ -34,7 +34,7 @@ def _keep(
     min_len: int,
     max_len: int,
     dict_filter: Callable[[str], bool],
-):
+) -> Callable[[str], bool]:
     """
     Keep only Thai words with at least min_freq frequency
     and has length between min_len and max_len characters

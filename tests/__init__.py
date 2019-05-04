@@ -577,6 +577,7 @@ class TestUM(unittest.TestCase):
             thai_strftime(date, "%Aที่ %d %B พ.ศ. %Y เวลา %H:%Mน. (%a %d-%b-%y) %% %"),
             "วันพุธที่ 06 ตุลาคม พ.ศ. 2519 เวลา 01:40น. (พ 06-ต.ค.-19) % %",
         )
+        self.assertIsNotNone(thai_strftime(date, "%A%a%B%b%C%c%D%F%G%g%v%X%x%Y%y%+"))
 
     # ### pythainlp.util.normalize
 

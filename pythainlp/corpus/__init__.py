@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+from typing import NoReturn, Union
 from urllib.request import urlopen
 
 import requests
@@ -14,9 +15,9 @@ _CORPUS_DIRNAME = "corpus"
 _CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
 
 _CORPUS_DB_URL = (
-    "https://raw.githubusercontent.com/" +
-    "PyThaiNLP/pythainlp-corpus/" +
-    "master/db.json"
+    "https://raw.githubusercontent.com/"
+    + "PyThaiNLP/pythainlp-corpus/"
+    + "master/db.json"
 )
 
 _CORPUS_DB_FILENAME = "db.json"
@@ -51,7 +52,7 @@ def get_corpus(filename: str) -> frozenset:
     return frozenset(lines)
 
 
-def get_corpus_path(name: str) -> [str, None]:
+def get_corpus_path(name: str) -> Union[str, None]:
     """
     Get corpus path
 
@@ -72,18 +73,21 @@ def get_corpus_path(name: str) -> [str, None]:
     return None
 
 
-def _download(url: str, dst: str):
+def _download(url: str, dst: str) -> int:
     """
     @param: url to download file
     @param: dst place to put the file
     """
     file_size = int(urlopen(url).info().get("Content-Length", -1))
+
     if os.path.exists(dst):
         first_byte = os.path.getsize(dst)
     else:
         first_byte = 0
+
     if first_byte >= file_size:
         return file_size
+
     header = {"Range": "bytes=%s-%s" % (first_byte, file_size)}
     pbar = tqdm(
         total=file_size,
@@ -99,10 +103,11 @@ def _download(url: str, dst: str):
                 f.write(chunk)
                 pbar.update(1024)
     pbar.close()
-    # return file_size
+
+    return file_size
 
 
-def download(name: str, force: bool = False):
+def download(name: str, force: bool = False) -> NoReturn:
     """
     Download corpus
 
@@ -113,6 +118,7 @@ def download(name: str, force: bool = False):
     temp = Query()
     data = requests.get(corpus_db_url())
     data_json = data.json()
+
     if name in list(data_json.keys()):
         temp_name = data_json[name]
         print("Download:", name)

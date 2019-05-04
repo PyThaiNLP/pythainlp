@@ -48,7 +48,7 @@ def word_freq(word: str, domain: str = "all") -> int:
 
     r = requests.post(url, data=data)
 
-    pat = re.compile(r'TOTAL</font>(?s).*?#ffffff">(.*?)</font>')
+    pat = re.compile(r'TOTAL</font>.*?#ffffff">(.*?)</font>', flags=re.DOTALL)
     match = pat.search(r.text)
 
     n = 0

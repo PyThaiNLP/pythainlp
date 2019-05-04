@@ -17,7 +17,7 @@ environment:
       ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
       PYICU_PKG: "https://www.dropbox.com/s/7t0rrxwckqbgivi/PyICU-2.3.1-cp36-cp36m-win_amd64.whl?dl=1"
 
-      - PYTHON: "C:/Python37"
+    - PYTHON: "C:/Python37"
       PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "32"
       ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"

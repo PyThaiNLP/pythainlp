@@ -31,7 +31,8 @@ _TRANS2 = str.maketrans(
 
 def udom83(text: str) -> str:
     """
-    Udom83 - It's a Thai soundex rule.
+    Thai soundex, using Udom83 system.
+    Wannee Udompanich [Master Thesis, Chula (1983)]
 
     :param str text: Thai word
     :return: Udom83 soundex
@@ -55,7 +56,6 @@ def udom83(text: str) -> str:
     if not text:
         return ""
 
-    sd = text[0].translate(_TRANS1)
-    sd += text[1:].translate(_TRANS2)
+    sd = "".join([text[0].translate(_TRANS1), text[1:].translate(_TRANS2), "000000"])
 
-    return (sd + "000000")[:7]
+    return sd[:7]

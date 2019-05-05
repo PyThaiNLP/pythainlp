@@ -20,9 +20,10 @@ def word_freqs() -> List[Tuple[str, int]]:
     Get word frequency from Thai Textbook Corpus (TTC)
     """
     lines = list(get_corpus(_FILENAME))
-    listword = []
+    word_freqs = []
     for line in lines:
-        listindata = line.split("\t")
-        listword.append((listindata[0], int(listindata[1])))
+        word_freq = line.split("\t")
+        if len(word_freq) >= 2:
+            word_freqs.append((word_freq[0], int(word_freq[1])))
 
-    return listword
+    return word_freqs

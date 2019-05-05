@@ -10177,7 +10177,6 @@ T.T	127
 คอลัมนิสต์	126
 เว่อร์	126
 กระสือ	126
-_x	126
 แอ่งน้ำ	126
 เฉลียว	126
 โดนัลด์	125
@@ -10881,7 +10880,6 @@ production	111
 เขียง	111
 Information	111
 London	111
-_y	111
 อภิรักษ์	111
 เจียด	111
 แก้ต่าง	111
@@ -12444,7 +12442,6 @@ dB	83
 เตซ	83
 นิติธรรม	83
 ห้อ	83
-^2	83
 ใจลอย	83
 ใต้ฝ่าละอองธุลีพระบาท	83
 พระพุทธเจ้าข้า	83
@@ -12660,7 +12657,6 @@ UDP	80
 ปกปักรักษา	80
 กระได	80
 ฮอ	80
-_n	80
 มำ	80
 นางรม	80
 ปราดเปรื่อง	80
@@ -12774,7 +12770,6 @@ g	78
 ฟูมฟาย	78
 โอ่	78
 ลายสือ	78
-_1	78
 ปุง	78
 เจิ้ล	78
 หอบหืด	78
@@ -12820,7 +12815,6 @@ energy	78
 เจ๊สัว	78
 หนุนหลัง	78
 ชิป	78
-_xy	78
 พระเยาว์	78
 อติ	77
 เนธ	77
@@ -13964,7 +13958,6 @@ more	65
 เกล้ากระหม่อม	64
 อนุปริญญา	64
 สุมน	64
-_2	64
 สราญ	64
 ขี้เหนียว	64
 เดินสะพัด	64
@@ -15658,7 +15651,6 @@ Digital	49
 รามัน	49
 นำจับ	49
 เอี๊ย	49
-r_Y	49
 record	49
 ยุทธหัตถี	49
 เฮียง	49
@@ -15865,7 +15857,6 @@ rK	48
 อลิค	48
 ตั้ว	48
 ใจแคบ	48
-_max	48
 ฉ่อย	48
 สเตท	48
 tone	48
@@ -16939,7 +16930,6 @@ Perfect	41
 ลุน	41
 เมรัย	41
 เป้ย	41
-r_L	41
 พุพอง	41
 อัยการศึก	41
 เม็งราย	41
@@ -17917,7 +17907,6 @@ Three	36
 common	36
 Jose	36
 เยือก	36
-_yp	36
 กระแสไฟ	36
 ตึกระฟ้า	36
 Week	36
@@ -18896,7 +18885,6 @@ Foucault	32
 ไม้เอก	32
 ระบบระเบียบ	32
 แซ่ซ้อง	32
-_3	32
 ไดร์	32
 IMT	32
 หน้าตึง	32
@@ -19461,7 +19449,6 @@ Subsidy	29
 Origin	29
 her	29
 กลางหาว	29
-_c	29
 อัมพวัน	29
 ไถ่บาป	29
 มักกะลีผล	29
@@ -19689,7 +19676,6 @@ experience	29
 เบจ	29
 เปรียว	29
 นภดล	29
-^2+	29
 Guide	28
 ฮีม	28
 เดิร์ก	28
@@ -20361,7 +20347,6 @@ y1	26
 ยาตร	26
 USAID	26
 ละเมียด	26
-_w	26
 มารค	26
 อินทผลัม	26
 เลือ	26
@@ -20541,7 +20526,6 @@ Core	26
 Price	26
 ทสภ.	26
 โมสาร์ท	26
-r_K	26
 ฟอกหนัง	26
 Eco	26
 care	26
@@ -21472,7 +21456,6 @@ Pre	23
 รุ่ย	23
 วราช	23
 เบียร์ส	23
-_1=	23
 สูรย์	23
 เฟลิกซ์	23
 ทางพิเศษ	23
@@ -21822,7 +21805,6 @@ Professional	22
 บ้าระห่ำ	22
 เสวยพระชาติ	22
 เฟ็คส์	22
-_2+	22
 พิณพาทย์	22
 อาห์	22
 info	22
@@ -22706,7 +22688,6 @@ Dot	20
 ควายป่า	20
 พลั่ว	20
 รอเบิร์ต	20
-dP_n	20
 แชมเปียน	20
 ลั่ว	20
 กงสุลใหญ่	20
@@ -22837,7 +22818,6 @@ Competition	20
 ปับลิก	20
 จำกัดจำเขี่ย	20
 จะเกร็ง	20
-C_1	20
 สีสุก	20
 delivery	20
 สมิ	20
@@ -22941,7 +22921,6 @@ Keith	19
 ฟังหูไว้หู	19
 Scientific	19
 พัต	19
-_2=	19
 สืบราชสมบัติ	19
 ลี่น	19
 four	19
@@ -23240,7 +23219,6 @@ Premium	19
 ดำแดง	19
 ความถี่วิทยุ	19
 TVA	19
-_1-	19
 หยอกเอิน	19
 profession	19
 บูโร	19
@@ -23529,7 +23507,6 @@ asphyxia	18
 fail	18
 มิลตัน	18
 ซัลเฟต	18
-_0	18
 เซรามิค	18
 reduction	18
 เบนส์	18
@@ -24087,7 +24064,6 @@ Police	17
 เงินสเตอร์ลิง	17
 ประจำเมือง	17
 legal	17
-r_P	17
 VOICE	17
 สบูร์ก	17
 SFD	17
@@ -24164,7 +24140,6 @@ AHA	17
 เทิ่ล	17
 ฮิพ	17
 Next	17
-_s	17
 สโนว	17
 Li	17
 แบกแดด	17
@@ -24481,7 +24456,6 @@ g2	17
 ลายไม้	17
 มินส์	17
 เหนียน	17
-good_health	17
 ให้ท้าย	17
 พันจ่า	17
 ตะบูน	17
@@ -25363,7 +25337,6 @@ Kofi	15
 MUECK	15
 Charter	15
 สกรรม	15
-r_M	15
 กแล่	15
 Reflection	15
 Congress	15
@@ -25380,7 +25353,6 @@ theorem	15
 เบิกทาง	15
 original	15
 ขอก	15
-^^+	15
 บุณย์	15
 ปพพ.	15
 สัมมาอาชีวะ	15
@@ -25512,7 +25484,6 @@ fiction	15
 Stairway	15
 every	15
 โยต์	15
-
 วริง	15
 Sen	15
 violence	15
@@ -25641,7 +25612,6 @@ View	15
 ก้พ	15
 central	15
 เหว่	15
-air_hostess	15
 แซ็ก	15
 Main	15
 แซกโซโฟน	15
@@ -25830,7 +25800,6 @@ ORGY	14
 ชะลอม	14
 ZEN	14
 เบรลล์	14
-_1+	14
 เศรฐ	14
 technical	14
 ถูลู่ถูกัง	14
@@ -25880,7 +25849,6 @@ Multilight	14
 MMPI	14
 ฮาด	14
 ดินระเบิด	14
-P_n	14
 กราส	14
 Seventh	14
 Step	14
@@ -26044,7 +26012,6 @@ Problem	14
 บูน	14
 ขนมถ้วย	14
 พรินท์	14
-^4	14
 กลละ	14
 pointer	14
 บานแผนก	14
@@ -26397,7 +26364,6 @@ THAILAND	14
 เพริศ	14
 โล้ว	14
 หัวนอนปลายตีน	14
-R_A	14
 argument	14
 รุธ	14
 rhetorical	14
@@ -26905,7 +26871,6 @@ Bachelard	13
 แมคซ์	13
 ซีนูซอยดัล	13
 อุทลุม	13
-^3	13
 Audi	13
 ดริ๊งค์	13
 สแกร์ต	13
@@ -27474,7 +27439,6 @@ Yellow	12
 polite	12
 ประเล้าประโลม	12
 Validity	12
-_u	12
 แต้วแล้ว	12
 เรี่ยราย	12
 มะพร้าวห้าว	12
@@ -28746,7 +28710,6 @@ intellectual	11
 JR	11
 โคนัน	11
 Langley	11
-E_s	11
 ลูกกลิ้ง	11
 เดือนขาด	11
 อุซ	11
@@ -29138,7 +29101,6 @@ big	11
 CCTV	11
 Orient	11
 Takuya	11
-R_B	11
 came	11
 switching	11
 ไส่	11
@@ -29216,7 +29178,6 @@ GOES	11
 Wyatt	11
 กนาฎ	11
 Prevention	11
-w_o	11
 Minnesota	11
 ปร.	11
 Sorry	11
@@ -30378,7 +30339,6 @@ JTEPA	10
 Angeles	10
 แกรนต์	10
 บส	10
-C_2	10
 พระประสงค์	10
 แฟรงกลิน	10
 แมทซ์	10
@@ -30553,7 +30513,6 @@ knife	9
 Damien	9
 comparable	9
 เต็มเหยียด	9
-M_max	9
 เจนด์	9
 ระหาย	9
 Johnston	9
@@ -30866,7 +30825,6 @@ proportion	9
 Tokugawa	9
 รายงานการประชุม	9
 determined	9
-12AB	9
 งานช้าง	9
 เขื่อ	9
 CFC	9
@@ -31070,7 +31028,6 @@ psychic	9
 โหยไห้	9
 ขัตติยมานะ	9
 ฝาละมี	9
-_a	9
 inner	9
 optic	9
 leadership	9
@@ -31400,7 +31357,6 @@ Hypothesis	9
 ยักแย่ยักยัน	9
 ห้าแต้ม	9
 ดุ่ย	9
-No.7’	9
 ding	9
 แคตส์	9
 ลาญ	9
@@ -31602,7 +31558,6 @@ Pearl	9
 ห้ง	9
 เรสท์	9
 Glamour	9
-self_confidence	9
 grammaticalization	9
 ผิต	9
 Lipunan	9
@@ -31689,7 +31644,6 @@ ass	9
 Trace	9
 เจเนอรัล	9
 fly	9
-_A	9
 Langmaid	9
 modifying	9
 took	9
@@ -31811,7 +31765,6 @@ IV6	9
 imagery	9
 fall	9
 Thunder	9
-XF11	9
 Fest	9
 แสนยากร	9
 จริยศึกษา	9
@@ -32246,7 +32199,6 @@ Retention	8
 parole	8
 Warren	8
 Variables	8
-_B	8
 Bon	8
 กะรัง	8
 วชิว	8
@@ -32621,7 +32573,6 @@ Chart	8
 Segmentation	8
 เงยหน้าอ้าปาก	8
 มันปู	8
-CD30	8
 เยนส์	8
 ปัตย	8
 inclusion	8
@@ -33147,7 +33098,6 @@ Actinic	8
 แป้ว	8
 Bilateral	8
 สุนธ์	8
-L^2-	8
 3P	8
 capitalist	8
 เส้นใยแก้ว	8
@@ -33157,7 +33107,6 @@ Tetra	8
 เจ้ากรรมนายเวร	8
 ลูเมน	8
 อีเลิ้ง	8
-_t	8
 ปริเฉท	8
 น้าง	8
 ลิ้นทะเล	8
@@ -33912,7 +33861,6 @@ employment	7
 สวรรณ	7
 เตย์	7
 บร็อกโคลี	7
-r_V	7
 Laneway	7
 มอระกู่	7
 มังคละ	7
@@ -33928,7 +33876,6 @@ Someone	7
 Liability	7
 Andersen	7
 otherness	7
-A_c	7
 labial	7
 เต้นกินรำกิน	7
 Tiffany	7
@@ -34354,7 +34301,6 @@ rock	7
 Flamingo	7
 ปะกน	7
 เกี้ยง	7
-EbN0dB	7
 desire	7
 pa	7
 ใฟ้	7
@@ -34607,7 +34553,6 @@ Christos	7
 คลัตซ์	7
 chaiyan	7
 หร้อ	7
-P_cr	7
 parent	7
 พระทอง	7
 คีรีบูน	7
@@ -34731,7 +34676,6 @@ involved	7
 Ticket	7
 สลาตัน	7
 maintenance	7
-A_s	7
 หวก	7
 ชึม	7
 เชลอต	7
@@ -35070,7 +35014,6 @@ hierarchical	7
 บัวผุด	7
 Hydraulic	7
 PORNOGRAPHY	7
-_3-	7
 ตื่อ	7
 ไค้	7
 โน้ย	7
@@ -35362,11 +35305,9 @@ Acer	7
 CONCEPTUAL	7
 airstream	7
 ฌัฌ	7
-
 communion	7
 Aquilaria	7
 ปรัง	7
-516A	7
 kD	7
 Scaling	7
 จุ่มท์	7
@@ -35544,7 +35485,6 @@ Coding	6
 Won	6
 toxic	6
 No.7	6
-P_2	6
 แหน่ว	6
 ท้องขาว	6
 ทองกร	6
@@ -35614,7 +35554,6 @@ Pattani	6
 ตีตรวน	6
 เอาเป็นธุระ	6
 Referendum	6
-^2-	6
 mediated	6
 ฟาฟร์	6
 Achilles	6
@@ -35707,7 +35646,6 @@ pape	6
 ของค้าง	6
 สานุ	6
 ศนิ	6
-^6	6
 spoon	6
 เพ็ท	6
 Cogeneration	6
@@ -35938,7 +35876,6 @@ BFS	6
 Stern	6
 Textile	6
 Revolt	6
-_BA	6
 เฉพาะพระพักตร์	6
 extent	6
 มาส์	6
@@ -36009,7 +35946,6 @@ BIFF	6
 Krasner	6
 วอลตัน	6
 Capsicum	6
-_AB	6
 ทวารบถ	6
 สหัฐ	6
 ตากบ	6
@@ -36237,7 +36173,6 @@ Loan	6
 สวัน	6
 Demographic	6
 I.Q.ต่ำกว่า	6
-_2-	6
 Aesthetics	6
 สก้า	6
 เป็บ	6
@@ -36365,7 +36300,6 @@ Hemodialysis	6
 เดนิส	6
 เจ่	6
 Structures	6
-C_3	6
 strand	6
 อิศ	6
 Sonia	6
@@ -36387,7 +36321,6 @@ Visayas	6
 อกุศลกรรมบถ	6
 ลวะ	6
 Spatial	6
-20paper.pdf	6
 comte	6
 เบอร์ซา	6
 Crowley	6
@@ -36414,10 +36347,8 @@ Pd	6
 พุทธาวาส	6
 สูก	6
 Butter	6
-423A	6
 ทาล	6
 พลูตอน	6
-_0^L	6
 บิ้ง	6
 ขุ้ม	6
 ระแทะ	6
@@ -36495,7 +36426,6 @@ Miguel	6
 Gaston	6
 ทการ	6
 ขายเผื่อชอบ	6
-P_i	6
 วงศ์ต	6
 ถือศักดินา	6
 iv6	6
@@ -36819,10 +36749,8 @@ PUFF	6
 บูส	6
 Binding	6
 ตปพ.	6
-ii65	6
 สาร์น	6
 สาตร์	6
-1993a	6
 จัดด์	6
 วรรล	6
 Inflated	6
@@ -36884,7 +36812,6 @@ Converter	6
 เฟลด์สปาร์	6
 หรุบ	6
 ขึงพืด	6
-^9	6
 Burberry	6
 Ordinary	6
 น่ง	6
@@ -36930,7 +36857,6 @@ ventricular	6
 แมลงวันหัวเขียว	6
 มัญจา	6
 ใกล	6
-900WD	6
 อริกส์	6
 Tel	6
 though	6
@@ -37413,7 +37339,6 @@ faction	6
 PH	6
 มะกอกฝรั่ง	6
 Restoration	6
-scr_char	6
 UPITN	6
 โฮง	6
 รักขิต	6
@@ -37690,11 +37615,9 @@ Malayan	6
 ตีเสียว่า	6
 สภานายก	6
 gonna	6
-960FWD	6
 Pavlov	6
 เสร่	6
 ผู้หญิงยิงเรือ	6
-P_1	6
 ลันด์	6
 IFC	6
 บรรด	6
@@ -37827,7 +37750,6 @@ Scanning	6
 ถาพ	6
 limits	6
 วมี	6
-^2+4	6
 recommendation	6
 controlled	6
 ชีด	6
@@ -37904,7 +37826,6 @@ ministre	6
 cloth	6
 ซูเปอร์สโตร์	6
 Repression	6
-M_B	6
 subsidies	6
 Z2	6
 instrument	6
@@ -38004,7 +37925,6 @@ Toward	6
 ตจว.	6
 O3	6
 Mike	6
-E_c	6
 synthetic	6
 งงงงงงงงงง	6
 หน้าตูม	6
@@ -38286,7 +38206,6 @@ Cytoplasm	5
 มือมืด	5
 กล้องแกล้ง	5
 ปตอ.	5
-_3=0	5
 เนสต์	5
 offenders	5
 โหยย	5
@@ -38317,7 +38236,6 @@ Universalism	5
 Scribner	5
 Customer	5
 sperm	5
-M_A	5
 Powder	5
 Suchart	5
 เวิร์น	5
@@ -38402,7 +38320,6 @@ mn	5
 บรัท	5
 ม.ป.ป.	5
 Routine	5
-scr_attr	5
 MIM	5
 มีโซ	5
 hr	5
@@ -38558,7 +38475,6 @@ Secrets	5
 Stila	5
 เนทท์	5
 เหล็กส่ง	5
-good_appearance	5
 Becker	5
 ทูรย์	5
 baud	5
@@ -38879,7 +38795,6 @@ holy	5
 บริคณห์	5
 Lodge	5
 วพ	5
-45o	5
 อินเดียม	5
 Reproducibility	5
 tried	5
@@ -38969,7 +38884,6 @@ Vargas	5
 เวิร์ดโปรเซสเซอร์	5
 lists	5
 วัชรปาณี	5
-L_1^2	5
 proposal	5
 Kruger	5
 Allport	5
@@ -39017,7 +38931,6 @@ coverings	5
 ญาบ	5
 มเหย	5
 prototype	5
-upper_lower	5
 เวียก	5
 Payments	5
 Tri	5
@@ -39510,7 +39423,6 @@ enjoy	5
 directly	5
 Annam	5
 โฟล์คซอง	5
-ๆe-005	5
 วระ	5
 กั๊จ	5
 AIG	5
@@ -39652,7 +39564,6 @@ Rafinesque	5
 Brucke	5
 แง่น	5
 กสค.	5
-L_	5
 กดเหลือง	5
 Alcohol	5
 ลัมน์	5
@@ -39713,10 +39624,8 @@ inch	5
 แปร๋	5
 Zingiber	5
 countervailing	5
-1993b	5
 Blog	5
 merely	5
-_b	5
 geography	5
 ฃศ	5
 BONGO	5
@@ -40032,7 +39941,6 @@ Woodrow	5
 Wilder	5
 CAPEX	5
 จุกอุด	5
-หน้าe-005	5
 รุ่	5
 พิฐ	5
 Ryan	5
@@ -40188,7 +40096,6 @@ chocolate	5
 SCAP	5
 CAN	5
 Luce	5
-y_o	5
 toc	5
 Gi	5
 อี่น	5
@@ -40513,7 +40420,6 @@ CBD	5
 เซ็ตต์	5
 Chaplin	5
 ตาช้าง	5
-r_1	5
 ซ้าด	5
 Reflections	5
 เกี๋ยว	5
@@ -40859,7 +40765,6 @@ These	5
 วานส์	5
 keyed	5
 Playboy	5
-r_2	5
 Halevy	5
 ภัทรกัป	5
 Mindoro	5
@@ -40918,7 +40823,6 @@ CentralWorld	5
 Christie	5
 Somchai	5
 Grimm	5
-vii07	5
 ฉ่าน	5
 ตรียัมปวาย	5
 เดปป์	5
@@ -40997,7 +40901,6 @@ injection	5
 เกินการ	5
 รีย์ส	5
 Brussels	5
-^c	5
 อัลเบอร์	5
 Kuno	5
 ขจอง	5
@@ -41793,7 +41696,6 @@ DSU	4
 leave	4
 โชยชาย	4
 MASTER	4
-str_int	4
 แมงดาทะเล	4
 HER	4
 ครัวส์	4
@@ -41987,7 +41889,6 @@ Ph	4
 Strengthening	4
 ตึ่ก	4
 damage	4
-w_2	4
 บุฟเฟ่	4
 แค็ล	4
 กิ๋ม	4
@@ -42252,7 +42153,6 @@ InputString	4
 hierachical	4
 ttoken	4
 ลโล่	4
-ds_1	4
 MRL	4
 เน็ธ	4
 ราชี	4
@@ -42419,7 +42319,6 @@ W.Deutsch	4
 aerator	4
 วิริยภาพ	4
 เฟรดส์	4
-15Ibid	4
 Turismo	4
 NC	4
 O4	4
@@ -42617,7 +42516,6 @@ additives	4
 เสียเนื้อเสียตัว	4
 เง้ง	4
 ข่อน	4
-
 Linked	4
 ฮึกหาญ	4
 ทองอังกฤษ	4
@@ -42631,7 +42529,6 @@ Amphetamine	4
 humilis	4
 Spradley	4
 AUSTRALIA	4
-r^2=	4
 ปดิวรัดา	4
 Mousetrap	4
 Ask	4
@@ -42994,7 +42891,6 @@ Framing	4
 IAU	4
 บราวนิง	4
 MED	4
-_o^2L	4
 Contamination	4
 Compliance	4
 โฮบ	4
@@ -43015,7 +42911,6 @@ BCM	4
 WTSH	4
 Chapel	4
 P.H.	4
-Joann_ann	4
 ETP	4
 presenter	4
 grandfather	4
@@ -43084,7 +42979,6 @@ interlocking	4
 proper	4
 Tatler	4
 ce	4
-P_3-	4
 illustrator	4
 Smyth	4
 Eisnitz	4
@@ -43283,7 +43177,6 @@ Humanitarian	4
 ประแจ	4
 วรรธนา	4
 Kay	4
-r_0^2	4
 certified	4
 PECC	4
 Entities	4
@@ -43311,7 +43204,6 @@ Notes	4
 ลุ่ง	4
 preemption	4
 Agarian	4
-P_3	4
 รุกข์	4
 ตระเวนไพร	4
 โมจ	4
@@ -43715,7 +43607,6 @@ Merleau	4
 eternity	4
 เฮนริก	4
 Resonance	4
-_p	4
 Sulfur	4
 Enhancing	4
 electrophoresis	4
@@ -43856,7 +43747,6 @@ DOUBLE	4
 Stalinism	4
 ออสโมซิส	4
 โกยา	4
-^-	4
 Clostridium	4
 เธนิส	4
 DJ	4
@@ -43879,7 +43769,6 @@ HCl	4
 ลัทธ์	4
 stereoscopic	4
 มนุญ	4
-TM10	4
 วัฟ	4
 PAIR	4
 Stent	4
@@ -44035,7 +43924,6 @@ Mayor	4
 flowers	4
 figures	4
 converter	4
-M^2+	4
 นิวเดลฮี	4
 Stardust	4
 ทศท.	4
@@ -44937,7 +44825,6 @@ continuity	4
 ขานไข	4
 chalazion	4
 fe	4
-P_	4
 Farms	4
 REALISTIC	4
 Beau	4
@@ -44976,7 +44863,6 @@ politeness	4
 Strange	4
 Medieval	4
 ปริม	4
-620F	4
 Deputy	4
 อาจิน	4
 คมน์	4
@@ -45106,7 +44992,6 @@ Locative	4
 Elli	4
 Socio	4
 ล่วม	4
-w_1	4
 Pretty	4
 informed	4
 รกุทส์	4
@@ -45166,7 +45051,6 @@ Spp	4
 ชอล์ค	4
 domains	4
 Variety	4
-M_min	4
 ฮฮฮฮฮฮ	4
 ดโว	4
 มรณภัย	4
@@ -45331,7 +45215,6 @@ Trojan	4
 Reciprocity	4
 ปึ่งชา	4
 ยักษิณี	4
-L_2^2	4
 ครี้ง	4
 Contre	4
 Tante	4
@@ -45564,7 +45447,6 @@ sophisticated	4
 Penny	4
 Shan	4
 cotrimoxazole	4
-P_2,	4
 ปากไก่	4
 virgin	4
 Assigned	4
@@ -45623,7 +45505,6 @@ Lexicase	4
 Workers	4
 Monier	4
 ปรด	4
-^2.	4
 CLS	4
 Markus	4
 Tomb	4
@@ -45826,7 +45707,6 @@ Ax	4
 Moll	4
 ฌะ	4
 ขูดเลือด	4
-L_2	4
 ใช้ท์	4
 Colours	4
 crosstalk	4
@@ -45842,7 +45722,6 @@ Phrygian	4
 สกัณ	4
 ฟิลล์	4
 Noli	4
-SEC27	4
 SOFT	4
 ป๊ก	4
 ภารตวิทยา	4
@@ -45878,7 +45757,6 @@ Canons	4
 realmin	4
 โอช	4
 วิรูปักษ์	4
-17Ibid	4
 GIRL	4
 Antecedent	4
 alphanumeric	4
@@ -45926,7 +45804,6 @@ Thoraya	3
 Coedes	3
 ck	3
 พรูฟ	3
-_pl	3
 vinyle	3
 ทท์	3
 androgyny	3
@@ -45954,7 +45831,6 @@ intervention	3
 ญญ่าย	3
 เชลท์	3
 Utopian	3
-A_1	3
 beef	3
 atmospheric	3
 facto	3
@@ -45981,7 +45857,6 @@ identique	3
 kesari	3
 แทร์	3
 ไพรสัณฑ์	3
-HbA1C	3
 Sanctissima	3
 นวญ	3
 Astruc	3
@@ -46005,7 +45880,6 @@ indicators	3
 เบลเกรด	3
 Stutter	3
 Tele	3
-No.94	3
 มยอง	3
 Readings	3
 ใบเบิกร่อง	3
@@ -46016,7 +45890,6 @@ STONE	3
 Tournament	3
 creaky	3
 ชมท	3
-ว่าe-005	3
 ทฏ	3
 Analyses	3
 แบรนด์ท	3
@@ -46024,7 +45897,6 @@ Carene	3
 เนือ	3
 Alexandra	3
 Required	3
-20s	3
 cooling	3
 Catalog	3
 Binet	3
@@ -46068,7 +45940,6 @@ artists	3
 orange	3
 superscripts	3
 greenhouse	3
-_total	3
 locations	3
 rechtsgut	3
 Pilipinas	3
@@ -46144,7 +46015,6 @@ Conditional	3
 Royalty	3
 กรีธา	3
 wo	3
-
 ซวิ่น	3
 สูบเลือดสูบเนื้อ	3
 ประดนธรรม	3
@@ -46219,7 +46089,6 @@ Relationships	3
 ผ่อย	3
 Luciola	3
 lnA	3
-voice_sample2.wav	3
 เนื้อง	3
 Entering	3
 claw	3
@@ -46309,7 +46178,6 @@ met	3
 Arbus	3
 ฃาว	3
 M7	3
-anet.net.th	3
 Cur	3
 cruris	3
 Electrotechnical	3
@@ -46416,7 +46284,6 @@ Effectiveness	3
 hyperthyroidism	3
 Speaker	3
 พัย	3
-log10	3
 คุมธาตุ	3
 Sick	3
 สปัน	3
@@ -46429,7 +46296,6 @@ J.M.	3
 Haxthausen	3
 reporters	3
 Alyansang	3
-1.1b	3
 ยยยยยยยยยยยยยยยยย	3
 Gnomonic	3
 สมุส	3
@@ -46466,7 +46332,6 @@ Knows	3
 สไต่ล์	3
 Hula	3
 Panax	3
-Co45	3
 illustrious	3
 ผี่	3
 Raffles	3
@@ -46612,7 +46477,6 @@ Dirty	3
 สตอค	3
 กรี๊ดดดดดดด	3
 presentness	3
-R_1	3
 ประเดี๋ยวก่อน	3
 สลัมป์	3
 resented	3
@@ -46640,7 +46504,6 @@ Intervention	3
 สแต็ฟ	3
 BIJOUX	3
 Kenzo	3
-12th	3
 voluntas	3
 กัฏ	3
 ปากนกแก้ว	3
@@ -46676,7 +46539,6 @@ due	3
 กมร	3
 ตะปูควง	3
 ผิววัตถุ	3
-IV64	3
 dedicated	3
 นี่ส์	3
 Sadism	3
@@ -46697,7 +46559,6 @@ polarization	3
 ณวน	3
 Shihabuddin	3
 chakra	3
-^2-4La	3
 เอ็จ	3
 Aoo	3
 TREZ	3
@@ -46707,7 +46568,6 @@ anomala	3
 พืชชั้นต่ำ	3
 เซือ	3
 beneficiary	3
-r_Lk	3
 ก๊อฟ	3
 อาร์มิเนีย	3
 Typing	3
@@ -46851,7 +46711,6 @@ Kohler	3
 Borneol	3
 MASK	3
 AF3	3
-vi42	3
 วั่น	3
 แมทท์	3
 วเราะ	3
@@ -46884,7 +46743,6 @@ GATS	3
 exhibition	3
 Spin	3
 Bontoks	3
-L_1	3
 ซิมบ์	3
 Probe	3
 frames	3
@@ -46974,7 +46832,6 @@ reduced	3
 Zara	3
 Rechtshandlung	3
 ทุธ	3
-no_bit	3
 IRTF	3
 Zikmund	3
 ซาลซ์บูร์ก	3
@@ -47017,7 +46874,6 @@ Clauses	3
 Nuestra	3
 Zola	3
 ไฟนัล	3
-str_real	3
 fractions	3
 แดงน้ำ	3
 Conbach	3
@@ -47080,7 +46936,6 @@ Covkl	3
 Hemorrhage	3
 Pictures	3
 Dramatistic	3
-T_B	3
 สืบศาสนา	3
 Lysmata	3
 accumulation	3
@@ -47189,7 +47044,6 @@ Val	3
 sitting	3
 Wendy	3
 specification	3
-M_x	3
 alliances	3
 Others	3
 Shoji	3
@@ -47197,7 +47051,6 @@ ARQ	3
 Physics	3
 สีญ	3
 พุ้ง	3
-Paitoon2002	3
 จไม่	3
 สความ	3
 Lack	3
@@ -47261,7 +47114,6 @@ corpses	3
 ปัจฉิมยาม	3
 maxk	3
 เมาน์	3
-Z_2=	3
 ดีล์	3
 เก๊ท	3
 อลึ่งฉึ่ง	3
@@ -47874,7 +47726,6 @@ OPTICAL	3
 ดุจหนึ่ง	3
 telling	3
 Transitional	3
-y_1	3
 Angell	3
 Quirk	3
 Dissolve	3
@@ -47946,7 +47797,6 @@ Eros	3
 พัวะ	3
 strauss	3
 Insert	3
-2.0000i	3
 นินห์	3
 amb	3
 ก๊าซเฉื่อย	3
@@ -48020,7 +47870,6 @@ Phongpaichit	3
 shy	3
 SGV	3
 resuscitation	3
-_CB	3
 Marisot	3
 โบร๊ค	3
 SAE	3
@@ -48048,7 +47897,6 @@ Lividity	3
 Francais	3
 Troubled	3
 เลล์	3
-‘80s	3
 Globalism	3
 ภูมิศาสตร์การเมือง	3
 Idealized	3
@@ -48531,7 +48379,6 @@ toast	3
 หรืด	3
 RAW	3
 regulatory	3
-Q_n	3
 Rotterdam	3
 Apperception	3
 Statin	3
@@ -48622,7 +48469,6 @@ SMTOWN	3
 FORCE	3
 Lac	3
 เซห์	3
-clear_facts	3
 VARIG	3
 Growing	3
 Dos	3
@@ -48656,7 +48502,6 @@ myerlangb2	3
 GAME	3
 ปอร์ท	3
 ม้าล	3
-8.2b	3
 Dive	3
 เคิร์ล	3
 กิบบ์ส	3
@@ -48780,7 +48625,6 @@ unknown	3
 DTA	3
 loadings	3
 Woolf	3
-26th	3
 มะดา	3
 โกล์ด	3
 Garbo	3
@@ -48899,7 +48743,6 @@ G.E.	3
 LI	3
 Raul	3
 linern	3
-T_A	3
 Imai	3
 ฉ่อ	3
 Indepth	3
@@ -49087,7 +48930,6 @@ Eucerin	3
 จิรัฐิติกาล	3
 Diagnosis	3
 หนิว	3
-M_2	3
 MBO	3
 ข้าวต้มน้ำวุ้น	3
 มตะ	3
@@ -49156,7 +48998,6 @@ Zo	3
 entrepreneurship	3
 Segal	3
 ธมาร	3
-18K	3
 Certainty	3
 Demille	3
 MEDIUM	3
@@ -49216,7 +49057,6 @@ derivative	3
 ธัญเบญจก	3
 McCann	3
 Homeopathy	3
-1990s	3
 แง้ด	3
 พณิช	3
 Galen	3
@@ -49279,7 +49119,6 @@ jazzy	3
 Signified	3
 AMS	3
 KFC	3
-_xz	3
 Lycanthropy	3
 หมูเทโพ	3
 Reputation	3
@@ -49437,7 +49276,6 @@ Manich	3
 SLAM	3
 Dreaming	3
 predicate4	3
-_i	3
 cycles	3
 Okada	3
 GLOBAL	3
@@ -49501,7 +49339,6 @@ Schinus	3
 Absolutism	3
 PBOC	3
 sg	3
-
 positions	3
 Backspace	3
 ฟูง	3
@@ -49510,7 +49347,6 @@ Palazzo	3
 ม่าร์	3
 เวลเตอร์เวท	3
 น่อ	3
-has_a	3
 สโสน	3
 Meistersinger	3
 ฮูก	3
@@ -49521,7 +49357,6 @@ sympathetic	3
 Arianna	3
 Theravada	3
 RM	3
-1981a	3
 หัวตะกั่ว	3
 ลิร์ต	3
 เชิร์ด	3
@@ -49633,7 +49468,6 @@ Embolism	3
 Stahlke	3
 Phi	3
 Hernan	3
-1998b	3
 TEU	3
 stained	3
 หล้อง	3
@@ -49669,7 +49503,6 @@ build	3
 บิซ	3
 Saab	3
 อุปเทศ	3
-_Ay	3
 ลออท	3
 refused	3
 ฮีมาไทต์	3
@@ -49735,7 +49568,6 @@ Lean	3
 Hobsbawm	3
 สตาซ	3
 award	3
-ds_2	3
 Clarins	3
 Arunya	3
 Mayer	3
@@ -49808,8 +49640,6 @@ visit	3
 Stratford	3
 Slink	3
 truck	3
-50s	3
-1988b	3
 delight	3
 ยบาก	3
 studio	3
@@ -49856,7 +49686,6 @@ parasitism	3
 เฮล์	3
 Vulture	3
 Secularism	3
-d_2^4-	3
 HALSMAN	3
 Encarta	3
 Slave	3
@@ -49867,7 +49696,6 @@ ITU	3
 เบอร์เจส	3
 disulphide	3
 Blocher	3
-_ult	3
 เดดซี	3
 บาทว์	3
 linspace	3
@@ -49885,7 +49713,6 @@ Sensors	3
 Rayne	3
 Registration	3
 โพรไฟล์	3
-4x200	3
 Spellbound	3
 พาบ	3
 ซีโอดี	3
@@ -49959,7 +49786,6 @@ Irrigation	3
 โผฏ	3
 สเตร	3
 ฝึ้ง	3
-5.4e	3
 Aerospace	3
 สส์	3
 คแมร	3
@@ -50027,7 +49853,6 @@ donne	3
 TN	3
 Solvent	3
 Putrefaction	3
-r_	3
 Alter	3
 Brisbane	3
 มิห	3
@@ -50150,7 +49975,6 @@ bedroom	3
 จริย์	3
 2diff	3
 เค็ด	3
-close_university	3
 Epson	3
 สตาร์ด	3
 Ryckman	3
@@ -50202,7 +50026,6 @@ Vox	3
 Raphael	3
 Laure	3
 saturated	3
-20th	3
 Peas	3
 เธลล์	3
 รเจ็กต์	3
@@ -50318,7 +50141,6 @@ BAD	3
 Lunar	3
 Accountability	3
 กระเสียน	3
-^O^+	3
 worse	3
 Boulton	3
 ขค	3
@@ -50494,7 +50316,6 @@ Winkreative	3
 Ars	3
 ย่อย่น	3
 Sleeper	3
-open_university	3
 concerned	3
 Disputing	3
 เคิ้น	3
@@ -50629,7 +50450,6 @@ Liga	3
 Pat	3
 บ้องไฟ	3
 พศจ.	3
-FD3240	3
 เว็นต์	3
 hyper	3
 ควอแดรต	3
@@ -50752,7 +50572,6 @@ teen	3
 Loud	3
 bars	3
 diethyl	3
-employee_address	3
 upside	3
 หรัย	3
 Vol.3	3
@@ -50860,7 +50679,6 @@ utterance	3
 PAUL	3
 Humanistic	3
 director	3
-T_total	3
 CLEAN	3
 บุ้ก	3
 เบ็ง	3
@@ -50869,7 +50687,6 @@ sana	3
 jelly	3
 สวิ	3
 น้ำชุบ	3
-422A	3
 Blackburn	3
 แพ่น	3
 Takeuchi	3
@@ -50880,7 +50697,6 @@ TASTE	3
 จึ๊ย	3
 Falls	3
 ศิทธิ์	3
-b^2-	3
 พสัม	3
 ANZAM	3
 Oops	3
@@ -50906,7 +50722,6 @@ Roma	3
 เตื่อง	3
 Shane	3
 เยศ	3
-BV98	3
 คึ่น	3
 ฬิง	3
 Boost	3
@@ -50955,7 +50770,6 @@ Seymour	3
 แซ่ม	3
 Manta	3
 DX	3
-U_d	3
 believe	3
 กร็อต	3
 ซีเทน	3
@@ -51122,7 +50936,6 @@ quercetin	3
 REALIST	3
 Subdural	3
 infractions	3
-FD3241	3
 stratified	3
 อวัสดา	3
 อุ่ง	3
@@ -51320,7 +51133,6 @@ Counties	3
 ชปล.	3
 Rig	3
 นีลส์	3
-1952b	3
 unexpected	3
 Tretinoin	3
 ปะทะปะทัง	3
@@ -51346,7 +51158,6 @@ Osborn	3
 สเม	3
 Endless	3
 Canis	3
-JVP80	3
 WALL	3
 Schumpeter	3
 PF	3
@@ -51365,7 +51176,6 @@ Inkblot	3
 Precipitator	3
 casual	3
 Mutation	3
-binary_data	3
 มมายด์ท	3
 สเปอ	3
 ขนาม	3
@@ -51462,7 +51272,6 @@ naturalism	3
 XYZ	3
 เสื่อน้ำมัน	3
 emptying	3
-4x106	3
 วับวาบ	3
 PDUs	3
 GLUCK	3
@@ -51471,7 +51280,6 @@ GLUCK	3
 ยวะ	3
 Strategist	3
 ER	3
-
 โข่ย	3
 คุฃ	3
 กร๊ด	3
@@ -51561,7 +51369,6 @@ weathering	3
 พาหน์	3
 ปวินท์	3
 เซ็พ	3
-4.3a	3
 เจียห	3
 Marsh	3
 เกือน	3
@@ -51706,7 +51513,6 @@ isoelectric	3
 ร่ะ	3
 โวลด์	3
 const	3
-3000Hz	3
 RADARSAT	3
 Fell	3
 Psychosocial	3
@@ -51718,7 +51524,6 @@ Suehiro	3
 gen	3
 ชี้ต	3
 สเทค	3
-WTSH_ID	3
 Chance	3
 Beginning	3
 Kambera	3
@@ -51745,7 +51550,6 @@ Hymn	3
 เหมื่อ	3
 Erlbaum	3
 reproductive	3
-10th	3
 รอยซ์	3
 Japonism	3
 ใยยอง	3
@@ -52088,10 +51892,8 @@ Merinid	3
 cosmic	3
 BRITISH	3
 ชพ	3
-หาาาาาาาาาาาาาาาาาาา	3
 Deflection	3
 Consumers	3
-417A	3
 steradian	3
 คุกคลาน	3
 Passivization	3
@@ -52107,7 +51909,6 @@ Althusser	3
 พอม	3
 Usage	3
 Oval	3
-str_char	3
 เน้ก	3
 Topologies	3
 ณาง	3
@@ -52427,7 +52228,6 @@ doubt	3
 Skepticism	3
 มงคลหัตถี	3
 temporary	3
-BMW325i	3
 chymotrypsin	3
 OSKA	3
 Pimentel	3
@@ -52548,7 +52348,6 @@ M.R.	3
 เปลียว	3
 allusion	3
 Dalton	3
-1.0000i	3
 Compromise	3
 BNH	3
 โจล	3
@@ -52596,7 +52395,6 @@ Kochel	3
 Yura	3
 allergy	3
 pages	3
-pp.34-35	3
 Minim	3
 Hassler	3
 เคี่ยวขับ	3
@@ -52706,7 +52504,6 @@ Pelto	3
 Serenade	3
 ราวน์	2
 Weighting	2
-pp221-224,	2
 Leur	2
 Offe	2
 stable	2
@@ -52754,7 +52551,6 @@ Reaching	2
 Deutch	2
 Messaging	2
 ช้างน้าว	2
-BFP1P2	2
 อสิต	2
 IJburg	2
 Mizutani	2
@@ -52824,7 +52620,6 @@ phratry	2
 severe	2
 เตสส์	2
 คอกคัส	2
-งงงงงงงงงงงงงงงงงงงงงง	2
 ทรีส์	2
 Directors	2
 สหัร	2
@@ -52869,15 +52664,12 @@ Cher	2
 Comedogenic	2
 Clearinghouse	2
 มกับ	2
-36Karl	2
 connected	2
 balloon	2
 สตร้า	2
 Nano	2
 Lerner	2
-sec10	2
 Gupta	2
-ds_2=	2
 เบิต	2
 Abbreviation	2
 ๆๆๆๆๆ	2
@@ -52969,7 +52761,6 @@ Advertiser	2
 Aphinob	2
 Eurasian	2
 แมซ	2
-pp.79-80	2
 ฟลู้ท	2
 ปากคัน	2
 ตาลอ	2
@@ -53047,7 +52838,6 @@ Distinguished	2
 Subjugated	2
 เคอร์เซอร์	2
 เคยวร์	2
-25Deutsch	2
 เป้ฃ	2
 จาห์	2
 Hubble	2
@@ -53169,13 +52959,11 @@ outsource	2
 ดร็อพ	2
 visitor	2
 ข่น	2
-pp51-54	2
 เซลมา	2
 งล	2
 กลิ้งกลอก	2
 Heather	2
 Camegie	2
-pp.22-23	2
 Empfangstheorie	2
 Personalizing	2
 วณิชย	2
@@ -53374,7 +53162,6 @@ Breo	2
 cybernetic	2
 Cedar	2
 highpass	2
-pp.41-42	2
 encoder	2
 นัยย์	2
 Hick	2
@@ -53430,7 +53217,6 @@ STRIKES	2
 เจฮ	2
 แลว้	2
 นีว	2
-pp.52-54	2
 งื้ด	2
 circumvention	2
 replaced	2
@@ -53460,7 +53246,6 @@ excite	2
 อะฮ์	2
 belle	2
 raddish	2
-1986U2R	2
 Ellipse	2
 Antony	2
 translocal	2
@@ -53489,8 +53274,6 @@ Gear	2
 เหยี่ยน	2
 stdy	2
 Vertov	2
-pp.336-37	2
-PM10	2
 Dunkel	2
 Liger	2
 Easting	2
@@ -53520,10 +53303,8 @@ Cheat	2
 actualized	2
 กันย์.	2
 CK	2
-35Ibid	2
 Proceedings	2
 ETIC	2
-k^2=	2
 Disini	2
 iceberg	2
 contingent	2
@@ -53552,7 +53333,6 @@ Centrifugal	2
 windward	2
 Rosenbaum	2
 NOA	2
-2.2204e	2
 มาเรียนา	2
 Makibaka	2
 Radiant	2
@@ -53561,7 +53341,6 @@ Cottle	2
 E.G.	2
 brahmina	2
 ทำได้ลงคอ	2
-pp.269-270	2
 Dittman	2
 คปร์	2
 สุดเสียงสังข์	2
@@ -53636,7 +53415,6 @@ Trails	2
 Trumbull	2
 Unilateralism	2
 lies	2
-function27	2
 PROCESSES	2
 Kleinjans	2
 หรัง	2
@@ -53658,7 +53436,6 @@ prie	2
 สเต๊ค	2
 Maid	2
 มสัม	2
-14Jack	2
 Hurts	2
 Schein	2
 Connotative	2
@@ -53742,7 +53519,6 @@ DAC	2
 WHEAT	2
 แพนง	2
 ปรัศน์	2
-Pethelm11	2
 simultaneous	2
 ก๋วน	2
 Hypomixolydian	2
@@ -53809,7 +53585,6 @@ Repubblica	2
 บรอย	2
 IKE	2
 PROF.PRO	2
-27Almond	2
 สีม	2
 gnomonic	2
 mad	2
@@ -53940,7 +53715,6 @@ Dmitry	2
 2David	2
 ฟอร์เกต	2
 ตล่อม	2
-C_4	2
 มโก้	2
 ปริ้นท์	2
 Savile	2
@@ -53958,7 +53732,6 @@ Balaka	2
 Meyer	2
 Pisifera	2
 BCE	2
-pp.93-94.	2
 identified	2
 Sanskrit	2
 tower	2
@@ -54148,7 +53921,6 @@ STARRING	2
 GROSS	2
 สูน์	2
 ตซ.	2
-18Easten	2
 ซอพ	2
 หน้าฉาน	2
 emerge	2
@@ -54165,7 +53937,6 @@ Fibonacci	2
 slips	2
 ออร์วิลล์	2
 dBase	2
-field_attr	2
 สตาร์ส	2
 พ.ช.	2
 climate	2
@@ -54175,7 +53946,6 @@ Encyclopaedia	2
 อุตราวัฏ	2
 Kam	2
 บรันซ์	2
-777A	2
 นิปปอน	2
 Mosel	2
 iRING	2
@@ -54357,7 +54127,6 @@ amoeba	2
 บุ๊กส์	2
 GFR	2
 อินฟอร์เมชั่น	2
-19Pye	2
 Runaways	2
 ภวิชญ์	2
 wage	2
@@ -54370,10 +54139,8 @@ Nihoncha	2
 CLF	2
 ลงทอง	2
 Vietnam	2
-r_k	2
 จอต	2
 thinning	2
-24Charles	2
 สค้า	2
 Thais	2
 Shimashima	2
@@ -54383,7 +54150,6 @@ Hildebrando	2
 ลูกขวัญ	2
 paracetamol	2
 หึ้ง	2
-y_2	2
 Norms	2
 Makes	2
 Blur	2
@@ -54394,13 +54160,11 @@ Veuve	2
 SCH	2
 superstar	2
 Matic	2
-pp.6-9.	2
 กระทุงเหว	2
 formalism	2
 อาทาน	2
 ภณฆ์ถ	2
 Planimetric	2
-31Ibid	2
 ellipsis	2
 ศฮ.	2
 บรื้อ	2
@@ -54457,13 +54221,11 @@ Landis	2
 สังกะตัง	2
 Secant	2
 Lockheed	2
-70‘	2
 เง้ย	2
 กรุ้ง	2
 Elitist	2
 melatonin	2
 Esnips	2
-pp.45-47.	2
 Multiplier	2
 XpreessMusic	2
 อะเกต	2
@@ -54539,7 +54301,6 @@ Eisai	2
 แต๊น	2
 Bactrian	2
 Koji	2
-38Easton	2
 subordinating	2
 Formaldehyde	2
 Ie	2
@@ -54636,7 +54397,6 @@ functor	2
 Fabrics	2
 เค่า	2
 Positron	2
-2003a	2
 ศเร	2
 Ges	2
 ข้พ	2
@@ -54694,7 +54454,6 @@ Soldier	2
 ratios	2
 ครั่นตัว	2
 fundus	2
-str_len	2
 traditionalism	2
 Borax	2
 Petri	2
@@ -54741,9 +54500,7 @@ Jus	2
 SMITH	2
 FLOOR	2
 haume	2
-pp.11-12	2
 Legislative	2
-31James	2
 pornography	2
 bud	2
 Intellectualization	2
@@ -54800,7 +54557,6 @@ Icky	2
 Cu	2
 ดั๊ง	2
 บิสมัธ	2
-pp.85-86	2
 Beachwear	2
 ผยู่	2
 Retire	2
@@ -54829,14 +54585,11 @@ everywhere	2
 ซิวิค	2
 Clip	2
 โด๊ส	2
-8.2c	2
 confession	2
 dwell	2
 Banquet	2
-^n	2
 ควอต	2
 Attic	2
-40Alan	2
 ดื้อดัน	2
 Scarr	2
 Revolts	2
@@ -54895,7 +54648,6 @@ Paliament	2
 argumentum	2
 ฬ่อล	2
 เซ่ห์	2
-no_trial	2
 opal	2
 Hittite	2
 EGV	2
@@ -54921,7 +54673,6 @@ Empowerment	2
 Parke	2
 Marigold	2
 Mulyano	2
-Pp.41-47	2
 JACKSON	2
 Topo	2
 unthought	2
@@ -54976,7 +54727,6 @@ rement	2
 โดก	2
 I.A.	2
 Figured	2
-pp.57-60	2
 Psychosomatic	2
 เทวารัณย์	2
 เสี้ย	2
@@ -54987,7 +54737,6 @@ Belge	2
 หวห	2
 Greenberg	2
 Roszak	2
-EY402	2
 สเก็ด	2
 Empires	2
 ฟอลซิล	2
@@ -55007,7 +54756,6 @@ Teleworking	2
 overaction	2
 BRIDGE	2
 ฒง	2
-15Pye	2
 Tresca	2
 กลัวลาน	2
 Quid	2
@@ -55079,10 +54827,8 @@ Akasaka	2
 Medicinal	2
 andreniformis	2
 Harbold	2
-_tb	2
 สเน	2
 ผู้ไทย	2
-17J	2
 Bopp	2
 crossing	2
 Bounty	2
@@ -55169,7 +54915,6 @@ ACO	2
 สปี๊ค	2
 WEEE	2
 หันธุ์	2
-Feedback41	2
 พันลำ	2
 Congruential	2
 mE	2
@@ -55320,7 +55065,6 @@ fade	2
 เพียฟ	2
 Dornbusch	2
 เจียบ	2
-33Robert	2
 Petrocelium	2
 wines	2
 LSC	2
@@ -55404,7 +55148,6 @@ explicit	2
 Bolivianita	2
 เหนือย	2
 ตเตน	2
-pp.145-146	2
 crept	2
 ตร.ส.	2
 โก๊ด	2
@@ -55519,7 +55262,6 @@ Adapter	2
 Polyvinyl	2
 Photographic	2
 Congintive	2
-AG02726	2
 บลัม	2
 ท่อย	2
 biopsy	2
@@ -55571,7 +55313,6 @@ calculates	2
 ฟองส์	2
 Miracles	2
 เวอร์ธ	2
-Inc.1965	2
 Crapanzano	2
 Extraordinarily	2
 Snack	2
@@ -55606,7 +55347,6 @@ Chalio	2
 ฮ่อน	2
 Falconet	2
 Ringle	2
-35th	2
 lbsen	2
 Giotto	2
 อันติมะ	2
@@ -55764,11 +55504,9 @@ coaxial	2
 Oxide	2
 สเฟิร์น	2
 Crafter	2
-25Ibid	2
 Repeater	2
 pulmonic	2
 Confucian	2
-menu_mult	2
 ปลาต	2
 jellyfish	2
 FRUSTRATION	2
@@ -55785,7 +55523,6 @@ receveur	2
 เอ็มบริโอ	2
 เนื้อเยื่อกล้ามเนื้อ	2
 Cholesterol	2
-capacity40	2
 Atoms	2
 gets	2
 finalist	2
@@ -55892,7 +55629,6 @@ WebKit	2
 ชะงุ้ม	2
 Indianized	2
 PHILIPPE	2
-MENU_LIST	2
 สล็อท	2
 FLOWER	2
 Banahaw	2
@@ -56038,7 +55774,6 @@ Botan	2
 อ๊าาาาาาาาาาาาาา	2
 ทรงเจ้าเข้าผี	2
 Myopia	2
-62nd	2
 ยนันท์	2
 sickle	2
 ช้อค	2
@@ -56048,10 +55783,8 @@ exposed	2
 Hemothorax	2
 สเดล	2
 เขจร	2
-24Austin	2
 allopurinol	2
 esophagus	2
-1887a	2
 Testosterone	2
 Qiu	2
 มัสท์	2
@@ -56110,7 +55843,6 @@ SAD	2
 ชะคราม	2
 เริล	2
 Odegard	2
-pp.267-70	2
 Kirchner	2
 แพ้แรง	2
 แรบ	2
@@ -56128,7 +55860,6 @@ Humphrey	2
 Amanah	2
 บริกซ์	2
 ซานส์	2
-pp.19-20	2
 ไม้สามอัน	2
 วอซท์	2
 VIEW	2
@@ -56150,7 +55881,6 @@ Nasional	2
 Antibody	2
 tune	2
 T4	2
-28Ibid	2
 บังเพลิง	2
 Trail	2
 Zgi	2
@@ -56184,7 +55914,6 @@ Decandra	2
 Fragrans	2
 Koutoubia	2
 Kampuchea	2
-field_str	2
 เชยิว	2
 ขาวพวง	2
 ตะโหงก	2
@@ -56283,7 +56012,6 @@ PERCEPTION	2
 เซ้า	2
 Ztaa	2
 ลีนน์	2
-Frost2Nixon	2
 Agless	2
 หงุ	2
 Royales	2
@@ -56321,7 +56049,6 @@ suitable	2
 นวโลหะ	2
 ถ่านโค้ก	2
 Erklaerung	2
-pp.26-39.	2
 โฐ	2
 K.galanfa	2
 Kitchin	2
@@ -56396,7 +56123,6 @@ mushk	2
 evolutionary	2
 สดับปกรณ์	2
 Dare	2
-22Austin	2
 Spratly	2
 WANTED	2
 reintegration	2
@@ -56409,11 +56135,9 @@ Waltz	2
 IWC	2
 Petroselinum	2
 Berndt	2
-200C	2
 Crippen	2
 Goat	2
 ภ้า	2
-pp.193-194.	2
 Pab	2
 SPDA	2
 วงวัง	2
@@ -56441,7 +56165,6 @@ gcd	2
 อุ้บ	2
 Bernadette	2
 Aloe	2
-pp.250-251.	2
 Stripe	2
 Kroch	2
 Everglades	2
@@ -56538,7 +56261,6 @@ Yann	2
 แดยัน	2
 Communes	2
 พัวร์	2
-pp.86-88	2
 ฐิร	2
 S.Apiana	2
 ซเลย์	2
@@ -56573,7 +56295,6 @@ Rohrer	2
 Olfactory	2
 LOG	2
 อแมร์	2
-711C	2
 Squillidae	2
 สวีค	2
 animism	2
@@ -56610,7 +56331,6 @@ Danny	2
 Parody	2
 Bari	2
 i2	2
-_z	2
 Penzer	2
 Slowness	2
 digeston	2
@@ -56644,7 +56364,6 @@ Mysterious	2
 Vandyke	2
 Suzuka	2
 Disodium	2
-Chula.ac.th	2
 มัชฌิมประเทศ	2
 suffix	2
 DESSERT	2
@@ -56658,7 +56377,6 @@ Mohamad	2
 อกทะเล	2
 Equidistant	2
 ดุ๋ง	2
-ID5232074323	2
 เขร	2
 นุงนัง	2
 PageDown	2
@@ -56709,7 +56427,6 @@ promise	2
 G.W.F.	2
 Kress	2
 ถป	2
-pp.199-200.	2
 Mario	2
 Jacobson	2
 โง่ย	2
@@ -56868,7 +56585,6 @@ Pricha	2
 ทสอฟ	2
 Blahnik	2
 mindedness	2
-13Loc	2
 argueable	2
 L.A	2
 IRC	2
@@ -56920,7 +56636,6 @@ che	2
 anybody	2
 Tetrachloro	2
 เจ๊ยยยยย	2
-1.10b	2
 Ronney	2
 A0	2
 ตพงศ์	2
@@ -57021,7 +56736,6 @@ dermal	2
 Schepellari	2
 Jabe	2
 ษฎี่	2
-71Damien	2
 reverberation	2
 Leanard	2
 antiaging	2
@@ -57047,7 +56761,6 @@ W.A.Western	2
 oxidative	2
 vibration	2
 Hashi	2
-pp.23-26.	2
 รเดง	2
 Loci	2
 Melanocyte	2
@@ -57095,7 +56808,6 @@ Berg	2
 นอนตาไม่หลับ	2
 Surveillance	2
 สุภร	2
-s_1	2
 เจ๋	2
 กแพ็ก	2
 โปรเกรส	2
@@ -57195,7 +56907,6 @@ ADAMSKI	2
 result	2
 YF	2
 Reinsurance	2
-RI10	2
 Buonarroti	2
 Undervoltage	2
 Homicidal	2
@@ -57247,7 +56958,6 @@ Metaphysical	2
 Kahlil	2
 ชยาพ	2
 tasks	2
-15J	2
 ICANN	2
 Navigation	2
 คนธ์	2
@@ -57306,11 +57016,9 @@ Inclusive	2
 Zasulish	2
 มะสัง	2
 Booty	2
-Pet4Home	2
 เหนื้อ	2
 Ejector	2
 อุฏฐาการ	2
-pp32-33	2
 Sleepless	2
 Bytes	2
 Picciotto	2
@@ -57331,7 +57039,6 @@ Commensalism	2
 Thoreau	2
 shari	2
 คาวปลา	2
-29Leeds	2
 เครอะ	2
 วิฒ	2
 Anaheim	2
@@ -57464,7 +57171,6 @@ Yantzi	2
 subsections	2
 Jewels	2
 Fiddle	2
-pp.17-20	2
 เหนจ์	2
 redirect	2
 ชายผ้าสีดา	2
@@ -57503,7 +57209,6 @@ Dows	2
 ทองปลายแขน	2
 citrus	2
 videodisk	2
-pp.93-107	2
 Gaucho	2
 TWG	2
 ไกวส์	2
@@ -57511,7 +57216,6 @@ Overhead	2
 religieux	2
 Shinawatra	2
 teleconferencing	2
-34Karl	2
 เซ็บต์	2
 สเตมส์	2
 สัประ	2
@@ -57587,7 +57291,6 @@ commandant	2
 Darwall	2
 apprendre	2
 Julia	2
-do_it	2
 บูรก์	2
 Botticelli	2
 kindness	2
@@ -57635,7 +57338,6 @@ Sn	2
 Reverie	2
 unused	2
 Bagmati	2
-A_2	2
 Bobbi	2
 Bloomfield	2
 Thadeus	2
@@ -57735,7 +57437,6 @@ Struggle	2
 ณต	2
 เดกซ์ทริน	2
 EEZ	2
-24Grossholtz	2
 ถนัศ	2
 คปท.	2
 -_-^’	2
@@ -57805,7 +57506,6 @@ syntagm	2
 Greco	2
 Callas	2
 ผลู	2
-Crick77	2
 Kapulungan	2
 acknownledge	2
 Agh	2
@@ -57817,13 +57517,11 @@ Dimas	2
 tan^2	2
 Teeth	2
 ผลับ	2
-
 zt	2
 MIDDLE	2
 Cuanahani	2
 โสล่ง	2
 residential	2
-29Ibid	2
 falsetto	2
 จ้อบ	2
 Fechner	2
@@ -57894,7 +57592,6 @@ ventricle	2
 FENG	2
 jia	2
 knuckle	2
-Alias388	2
 McLuhan	2
 catalyst	2
 ฟาว	2
@@ -57907,9 +57604,7 @@ Pachuca	2
 ทองนพคุณ	2
 Chailly	2
 biologists	2
-1992a	2
 notting	2
-11Almond	2
 mating	2
 Hesitation	2
 ECOCEN	2
@@ -57979,7 +57674,6 @@ morel	2
 Kydland	2
 Woodbury	2
 Everly	2
-pp.193-209	2
 บัวขาบ	2
 soi	2
 ปรต	2
@@ -58193,7 +57887,6 @@ Subscriber	2
 blur	2
 กันแซง	2
 uille	2
-16Ibid	2
 ISETON	2
 Suvarnabhumi	2
 Bringing	2
@@ -58204,7 +57897,6 @@ THERE	2
 สูทธิ์	2
 ปัญจวัคคีย์	2
 Fluorescence	2
-1.9a	2
 BAILEY	2
 Pagan	2
 Nomura	2
@@ -58260,7 +57952,6 @@ strainer	2
 เจตภูต	2
 Vagrant	2
 wastes	2
-190T	2
 proff	2
 bouddhisime	2
 Configuration	2
@@ -58416,7 +58107,6 @@ Feeny	2
 Porath	2
 babelling	2
 Hector	2
-16Almond	2
 กรป.กลาง	2
 EN.เข้ามหา	2
 GAUGUIN	2
@@ -58740,7 +58430,6 @@ Aloha	2
 จโน	2
 แกสต	2
 Domicile	2
-Vol.12,	2
 Kuhlen	2
 พลาดิศัย	2
 BIKE	2
@@ -58795,7 +58484,6 @@ mulberry	2
 abscissa	2
 Ptolemy	2
 Punta	2
-27Easton	2
 Kuensel	2
 Aspirational	2
 Rooth	2
@@ -58805,7 +58493,6 @@ SembGas	2
 diction	2
 Davines	2
 unseen	2
-FF01	2
 households	2
 EXTRA	2
 fallible	2
@@ -58823,8 +58510,6 @@ pu	2
 เผียก	2
 เอกส	2
 โมนส์	2
-9m2004:6	2
-1.1a	2
 Ak0	2
 gazetta	2
 คียส์	2
@@ -58878,7 +58563,6 @@ satire	2
 สปอร์ท	2
 ปลิ่ง	2
 expl.var	2
-pp.22-23.	2
 ขละ	2
 อัลด์	2
 เคลท์	2
@@ -58894,7 +58578,6 @@ SLALOM	2
 จดู	2
 Weapons	2
 Hing	2
-1938b	2
 Himself	2
 เชิงกลอน	2
 Isn	2
@@ -59040,7 +58723,6 @@ inclination	2
 ไวส์ส	2
 แช้ด	2
 Tropic	2
-Club21	2
 ครส.	2
 นัตถ์ป	2
 Didier	2
@@ -59049,7 +58731,6 @@ Raptor	2
 อ๊วด	2
 vii7	2
 Deities	2
-BCP1P2	2
 นิต์	2
 Seperation	2
 กเพก	2
@@ -59065,14 +58746,11 @@ telo	2
 Putin	2
 แฮงส์	2
 ตเน	2
-pp.80-85	2
 collaboration	2
 visibility	2
 Evason	2
-1952a	2
 เคิท	2
 servitude	2
-pp.275-276	2
 สวอนน์	2
 Members	2
 คเนท	2
@@ -59315,7 +58993,6 @@ BV1	2
 Johart	2
 ภัญ	2
 Meador	2
-pp.573156	2
 ดต.	2
 KEPCO	2
 กีบแรด	2
@@ -59337,7 +59014,6 @@ Emonds	2
 Snail	2
 ไพร์ซ	2
 Disasters	2
-pp.70-75	2
 WAV	2
 Nanny	2
 FareastDDB	2
@@ -59348,7 +59024,6 @@ FareastDDB	2
 หล้ส	2
 Indexing	2
 starch	2
-pp.163-169.	2
 MINISTER	2
 MNU	2
 มากาปากัล	2
@@ -59404,7 +59079,6 @@ Hooker	2
 Gourd	2
 Rob	2
 Electrolysis	2
-eee004	2
 Trocitionality	2
 yf	2
 6Ibid	2
@@ -59452,7 +59126,6 @@ Mandison	2
 ‘5	2
 นทิ่	2
 โมนอยด์	2
-pp.183-198.	2
 Badfinger	2
 cow	2
 Killers	2
@@ -59483,7 +59156,6 @@ Calendar	2
 Pornography	2
 ปุร	2
 Swinging	2
-_B1=	2
 สกูด	2
 Dobo	2
 HFF5	2
@@ -59504,7 +59176,6 @@ Cawelti	2
 ยันห์	2
 EPAD	2
 produced	2
-13loc.cit.	2
 Santana	2
 Fringe	2
 MLR	2
@@ -59659,7 +59330,6 @@ compose	2
 Basketball	2
 mu	2
 Luminosity	2
-25t	2
 ซาสตร์	2
 สาฬ	2
 Messages	2
@@ -59703,7 +59373,6 @@ ORIENTATION	2
 เฮิร์ทซ์	2
 คนล	2
 เฉ็ม	2
-438th	2
 กพจ.	2
 Reuben	2
 Ivey	2
@@ -59775,7 +59444,6 @@ Immoral	2
 Pittsburgh	2
 5D	2
 เบรธ	2
-Pp.195-196.	2
 สริน	2
 I.L.O.	2
 nn0	2
@@ -59831,7 +59499,6 @@ T.T.	2
 ตเตอ	2
 transplant	2
 creme	2
-18x18	2
 factory	2
 lamino	2
 จิงก์ซ	2
@@ -59862,7 +59529,6 @@ Koh	2
 droit	2
 ทรวม	2
 bas	2
-27Morton	2
 พราฟ	2
 Coliforms	2
 snowball	2
@@ -59933,7 +59599,6 @@ Goldsworthy	2
 ติย์	2
 เล็ฟท์	2
 Vientiane	2
-16x16	2
 frequencies	2
 Seaports	2
 บุทซ์	2
@@ -59985,7 +59650,6 @@ professionalism	2
 รหือ	2
 Titoni	2
 ISCE	2
-14Ibid	2
 YK	2
 fourth	2
 Ketoconazole	2
@@ -60034,8 +59698,6 @@ Cleopatra	2
 untold	2
 thaksinbiz	2
 ตไลต์	2
-pp.172-175	2
-pp.195-196.	2
 ญานน์	2
 เที้ยง	2
 priseur	2
@@ -60073,7 +59735,6 @@ Flynn	2
 Citroen	2
 coeur	2
 Dermalogica	2
-41Young	2
 Forester	2
 SG	2
 confusion	2
@@ -60105,7 +59766,6 @@ Albatross	2
 Rigidity	2
 FTAA	2
 Echocardiogram	2
-pp.57-71	2
 jagged	2
 บริล	2
 tinea	2
@@ -60173,7 +59833,6 @@ Tintin	2
 thrown	2
 วิ้น	2
 ศนท.	2
-KV.545,	2
 Linalool	2
 Kuroda	2
 ลเวิร์ต	2
@@ -60277,7 +59936,6 @@ ALTERNATE	2
 trait	2
 Honky	2
 Benthem	2
-
 Parviflora	2
 nasalization	2
 Jamil	2
@@ -60287,7 +59945,6 @@ overcompensation	2
 ละล้าว	2
 แล็ง	2
 dielectric	2
-2003b	2
 สุ้	2
 ด๊อบ	2
 ครี่ง	2
@@ -60334,7 +59991,6 @@ Vries	2
 absolutism	2
 เม็ญ	2
 Cicely	2
-M_3	2
 โมกมัน	2
 Cardiac	2
 เคาน์เตส	2
@@ -60370,7 +60026,6 @@ ADAPTATION	2
 เกณ์	2
 หลวย	2
 ปฏิภาณกวี	2
-20Everson	2
 Syatems	2
 ดาบลาว	2
 เก็บเล่ม	2
@@ -60405,7 +60060,6 @@ Disclosure	2
 Harrods	2
 sitosterol	2
 ราฮ์ห	2
-29Almond	2
 tweezers	2
 เปบ	2
 Quer	2
@@ -60499,7 +60153,6 @@ Pneumothorax	2
 chromosome	2
 Polit	2
 bleu	2
-Weiner33	2
 ชิปส์	2
 Dicing	2
 Vizcaya	2
@@ -60656,7 +60309,6 @@ wholesaler	2
 SiO2	2
 Conformity	2
 Tariana	2
-_min	2
 Nhu	2
 ณืส	2
 Autologous	2
@@ -60720,7 +60372,6 @@ Introducing	2
 Hypodorian	2
 testicles	2
 ไบ๋	2
-L_1^3	2
 สลี่	2
 รเนต	2
 ภรัตน์	2
@@ -60741,7 +60392,6 @@ PROJECTIONIST	2
 ง้าาา	2
 Mindanoa	2
 Yoshifumi	2
-Pp.5-11.	2
 แฟรต	2
 Satria	2
 Guten	2
@@ -60771,7 +60421,6 @@ Bittner	2
 Ferragamo	2
 Pathan	2
 สเติร์ด	2
-25Gabriel	2
 seriation	2
 Maro	2
 หนาบ	2
@@ -60895,7 +60544,6 @@ nothin	2
 Bylen	2
 เตาสูบ	2
 Adh	2
-500GB	2
 Jadau	2
 ยุล	2
 mantle	2
@@ -60907,7 +60555,6 @@ Clearance	2
 A.H.	2
 Generativity	2
 Resurfacing	2
-C_4=0	2
 acronym	2
 Objectification	2
 Zak	2
@@ -60955,7 +60602,6 @@ R^2	2
 hermaphrodite	2
 Salman	2
 Consolidated	2
-Eee004	2
 appear	2
 Sensing	2
 Discourses	2
@@ -60992,7 +60638,6 @@ Utilization	2
 แฝน	2
 transmit	2
 ชินบุตร	2
-ดดดดดดดดดดดดดดดดดดดด	2
 washing	2
 Holi	2
 Helmcke	2
@@ -61025,7 +60670,6 @@ Adventures	2
 ณาฒ	2
 ทุจ	2
 atrophy	2
-22Lasswell	2
 HILB	2
 ตตัว	2
 Talkie	2
@@ -61033,12 +60677,10 @@ FLARE	2
 โรห์ส	2
 กินแจ	2
 schuld	2
-ISO9001	2
 Professionnel	2
 นึ่บ	2
 Weatherbee	2
 LITERATURE	2
-12Almond	2
 Fermi	2
 arthritis	2
 Sera	2
@@ -61085,7 +60727,6 @@ inspecteeurs	2
 Illustrated	2
 เคลียว	2
 สต้อง	2
-reverse_list	2
 QAM	2
 Tangles	2
 icv	2
@@ -61149,7 +60790,6 @@ MOVEMENT	2
 เสิศ	2
 โลคัส	2
 Roxburghianum	2
-21Karl	2
 Alps	2
 เธจ	2
 Distinction	2
@@ -61193,7 +60833,6 @@ Golap	2
 Fenestella	2
 ASC	2
 PROLOG.ERR	2
-pp.159-160.	2
 ทุกูล	2
 อูร	2
 Thump	2
@@ -61343,7 +60982,6 @@ inoculation	2
 สกะ	2
 เปือ	2
 ARDEL	2
-272894A	2
 Till	2
 Buffers	2
 ‘3	2
@@ -61351,7 +60989,6 @@ ARTEP	2
 labia	2
 รำเท้า	2
 Conwey	2
-hornbill_project2003	2
 Nonrecurring	2
 อัทย์	2
 colonialism	2
@@ -61364,7 +61001,6 @@ quenched	2
 Lupin	2
 Huberman	2
 EQUALIZATION	2
-150•	2
 displayed	2
 HOT	2
 ลบ็อค	2
@@ -61483,7 +61119,6 @@ Rov	2
 torialization	2
 ชอค	2
 เย้อ	2
-34Ibid	2
 ดนี้	2
 multiplicative	2
 easting	2
@@ -61566,11 +61201,9 @@ Masturbation	2
 LONGO	2
 อิสม์	2
 mythos	2
-RI12	2
 bowel	2
 crassna	2
 ศพช.	2
-23Easton	2
 Granie	2
 peril	2
 7Rowe	2
@@ -61623,7 +61256,6 @@ botox	2
 Ska	2
 trachea	2
 Crustacean	2
-24Gabriel	2
 Ervin	2
 Uri	2
 เมมือง	2
@@ -61656,7 +61288,6 @@ cooled	2
 MOON	2
 HIROSHI	2
 Capet	2
-10Hary	2
 Jurong	2
 เพซ	2
 pulverization	2
@@ -61739,7 +61370,6 @@ cort	2
 ศร้า	2
 Aliping	2
 Lakambini	2
-20Peter	2
 คอร์รี	2
 flooding	2
 ห้ส	2
@@ -61751,7 +61381,6 @@ MIC	2
 COLOR	2
 ซุ่ง	2
 อยุ่ร	2
-Op.16,	2
 drier	2
 อาหุดี	2
 Strecker	2
@@ -61778,7 +61407,6 @@ indicum	2
 รียส์	2
 แม่ม่ายทรงเครื่อง	2
 controlvercial	2
-vi65	2
 Altiplano	2
 Mott	2
 COV	2
@@ -61811,7 +61439,6 @@ circulatory	2
 อึ๊	2
 sover	2
 Norimaki	2
-l_3	2
 primordialism	2
 Magnetron	2
 ตั๊ม	2
@@ -61864,7 +61491,6 @@ IMA	2
 SUDER	2
 ปภิป	2
 วูม	2
-pp.154-156	2
 โกร๊ก	2
 n^2	2
 ศูตร	2
@@ -61924,14 +61550,12 @@ considered	2
 ฒุ่	2
 Quintet	2
 croulants	2
-Laswell19	2
 Tempered	2
 Haudricourt	2
 PEOPLE	2
 RIDE	2
 คลินต์	2
 transceiver	2
-12Ibid	2
 นทน์	2
 cathode	2
 delete	2
@@ -61959,7 +61583,6 @@ Klaus	2
 Tutorials	2
 Kaufmann	2
 penicillin	2
-_0^R	2
 Participating	2
 amusement	2
 อเบอ	2
@@ -61969,7 +61592,6 @@ Sever	2
 HAPTICS	2
 นั้่น	2
 รวาณ	2
-F_V	2
 Spica	2
 มเม้าท์	2
 Scalp	2
@@ -62029,7 +61651,6 @@ Seniang	2
 J.A.	2
 Brookstone	2
 Heleioselinon	2
-Z_1=	2
 mutuality	2
 จาส	2
 ฉศก	2
@@ -62098,7 +61719,6 @@ INSTITUTE	2
 Lycopene	2
 photogrammetry	2
 beep	2
-2.0L	2
 สิ้นชีพตักษัย	2
 กษัตรยิ์	2
 ปูต	2
@@ -62108,7 +61728,6 @@ Baa	2
 Plotter	2
 ganglia	2
 SATELLITE	2
-pp.550-554	2
 ยกู๊ด	2
 ฟอย	2
 swimmer	2
@@ -62155,13 +61774,11 @@ Flattening	2
 bronchitis	2
 Emelda	2
 Galor	2
-19Everson	2
 NASDAQ	2
 แผลริมอ่อน	2
 Reloaded	2
 Irube	2
 ยายี	2
-pp.31-34.	2
 รั่น	2
 Ulrike	2
 Electronica	2
@@ -62205,7 +61822,6 @@ Dora	2
 Fiery	2
 Steele	2
 ยองซ์	2
-Chapter3.pdf	2
 Renta	2
 กระจัดพลัดพราย	2
 viandes	2
@@ -62237,7 +61853,6 @@ Polita	2
 probenecid	2
 รีศ	2
 ดูส	2
-5.4c	2
 ตาตั๊กแตน	2
 ไชย์	2
 Anckar	2
@@ -62303,7 +61918,6 @@ Deobeillelo	2
 ทิกซ์	2
 Dwarf	2
 Izakaya	2
-mahidol.ac.th	2
 Na1	2
 Bahamas	2
 Lati	2
@@ -62336,7 +61950,6 @@ PHUKET	2
 biofuels	2
 void	2
 เบียดกรอ	2
-22Easton	2
 COMAC	2
 Momentum	2
 ^_^’	2
@@ -62403,9 +62016,7 @@ scholarly	2
 ริฟฟ์	2
 sons	2
 Symbolism	2
-pp.30-31	2
 facit	2
-pp.385-387	2
 osteopathy	2
 อค่น	2
 Christoph	2
@@ -62448,10 +62059,8 @@ Hierachy	2
 Egon	2
 Shichimi	2
 แหล่ม	2
-Pp.53-56.	2
 ตที่	2
 Salotto	2
-Universityสถาบันเทคโนโลยีนานาชาติสิรินธร	2
 สหิ	2
 Pew	2
 exploited	2
@@ -62524,7 +62133,6 @@ Buffalo	2
 NEAR	2
 pedal	2
 den	2
-t_1	2
 แฮนด์ซัม	2
 Calpurnus	2
 pylori	2
@@ -62575,7 +62183,6 @@ Willie	2
 Spine	2
 tigris	2
 BOAT	2
-16William	2
 Boreas	2
 เกจ์	2
 Motorcycle	2
@@ -62587,24 +62194,20 @@ DAD	2
 Dunst	2
 มุทธา	2
 Lola	2
-10David	2
 ชุมรุม	2
 กู่ล	2
 rationalized	2
 แอ็ต	2
 Soumen	2
 Beliefs	2
-pp.130-149	2
 Shoe	2
 รณัฐ	2
 กะป้ำกะเป๋อ	2
 Dioxins	2
 Hercules	2
 Really	2
-33Ibid	2
 ชวิตซ์	2
 storm	2
-pp.197-200	2
 mosaic	2
 จาวมะพร้าว	2
 เว็จ	2
@@ -62725,7 +62328,6 @@ Tetrachloromercurate	2
 บรีซ	2
 Dubin	2
 actualizing	2
-M_1	2
 AALCC	2
 sexag	2
 NSU	2
@@ -62773,7 +62375,6 @@ infirmity	2
 เตี๋ยน	2
 หม้า	2
 wheels	2
-19Harold	2
 Projectile	2
 Abdominal	2
 homosexual	2
@@ -62822,7 +62423,6 @@ Azur	2
 กษัตย์	2
 CARD	2
 Zona	2
-ABC4dogs	2
 Rider	2
 cinematograph	2
 Gilmour	2
@@ -62830,7 +62430,6 @@ Bloch	2
 brothergood	2
 Occupational	2
 SEOUL	2
-90s	2
 Luminol	2
 8.Telegony	2
 คเนจร	2
@@ -62845,7 +62444,6 @@ Toys	2
 รพงษ์	2
 กาหลิบ	2
 Condol	2
-80th	2
 endrophins	2
 Lott	2
 Cepheus	2
@@ -62889,7 +62487,6 @@ Killenberg	2
 ชแร	2
 Sternberg	2
 INTERNAL	2
-C_2=-	2
 Hidelbrando	2
 Landon	2
 Garde	2
@@ -62898,7 +62495,6 @@ Rr	2
 ฎณ	2
 camp	2
 Isoflavone	2
-’2D2	2
 Foetidum	2
 Periphery	2
 Boyzone	2
@@ -62915,7 +62511,6 @@ Var	2
 moom	2
 ถบ	2
 หอยปากเป็ด	2
-elapsed_time	2
 Caspar	2
 Reframe	2
 Lamia	2
@@ -62945,11 +62540,9 @@ Gabrielle	2
 IOC	2
 แคลฮูน	2
 สันติ์	2
-2.5XT	2
 Intrasystem	2
 rectitude	2
 Qualified	2
-IV65	2
 tACK	2
 Modal	2
 2B	2
@@ -62977,7 +62570,6 @@ Popper	2
 สักก์	2
 Flattened	2
 allegro	2
-pp.96-100	2
 Danielson	2
 โกฐสอ	2
 ตีอวน	2
@@ -63017,7 +62609,6 @@ Keaton	2
 ท่พ	2
 เขะ	2
 มักซ์	2
-ดดดดดดดดดดดดดดดดดดดดดดดดดดด	2
 MENTAL	2
 Dunhill	2
 กนพ.	2
@@ -63045,7 +62636,6 @@ Distributor	2
 Strokes	2
 Turkic	2
 Gregorius	2
-^B	2
 ออนน์	2
 แต็ค	2
 Chuck	2
@@ -63100,7 +62690,6 @@ Nj	2
 STATIC	2
 Civilis	2
 Bou	2
-_y^2+2	2
 กิลส์	2
 GAS	2
 Transient	2
@@ -63119,7 +62708,6 @@ Yasser	2
 KLMN	2
 Laughing	2
 Bates	2
-pp.416-417	2
 Purity	2
 whats	2
 commutative	2
@@ -63129,7 +62717,6 @@ pleural	2
 ฌ้อ	2
 ลอมบาร์ดี	2
 แก๊	2
-35Davies	2
 ขุนเพ็ด	2
 Giardia	2
 PROXEMICS	2
@@ -63174,16 +62761,13 @@ primogeniture	2
 flexible	2
 yu	2
 รัตร	2
-100Hz	2
 กากะเยีย	2
 forty	2
 Wirth	2
 Covent	2
 genius	2
 สัข	2
--_-^+	2
 รตส์	2
-A_a	2
 unpredictable	2
 lande	2
 รวท	2
@@ -63205,7 +62789,6 @@ Pronouns	2
 initiator	2
 peel	2
 คลอสส์	2
-5.4d	2
 MKS	2
 ginsenosides	2
 โจะ	2
@@ -63252,7 +62835,6 @@ S.A.	2
 decin	2
 nat	2
 Faletto	2
-2002:8A	2
 RBV	2
 กลุ๊ม	2
 Angles	2
@@ -63282,7 +62864,6 @@ INK	2
 prompt	2
 DxP	2
 lead	2
-4.3b	2
 ผมทัด	2
 Papaya	2
 Thong	2
@@ -63343,7 +62924,6 @@ rods	2
 ตตาย	2
 Desensitization	2
 Salmonella	2
-12Gabriel	2
 ภยา	2
 Lived	2
 มสาร	2
@@ -63387,7 +62967,6 @@ Frey	2
 Immersion	2
 Synthesis	2
 B.A.D	2
-13Ibid	2
 scala	2
 ธุ๊	2
 Greet	2
@@ -63438,7 +63017,6 @@ antibiotics	2
 Standby	2
 fatter	2
 Mushi	2
-pp.520-543,	2
 doom	2
 Davincy	2
 ญู่	2
@@ -63491,8 +63069,6 @@ Entire	2
 Phosphatase	2
 อดส์	2
 ลวดสปริง	2
-16Plano	2
-29th	2
 กิ้	2
 ToXin	2
 ผ้าสำลี	2
@@ -63602,7 +63178,6 @@ ProFuture	2
 โป่งดิน	2
 informatic	2
 Bubbler	2
-4.55a	2
 Pierce	2
 Outreach	2
 Fragmentation	2
@@ -63733,7 +63308,6 @@ hattat	2
 savoir	2
 เปี้ยง	2
 Lulin	2
-13Easton	2
 ROIC	2
 มาแขก	2
 franche	2
@@ -63823,7 +63397,6 @@ dissonance	2
 สินเทา	2
 journalistic	2
 Liebig	2
-^+	2
 Endothermic	2
 Eryngium	2
 sidereal	2
@@ -63855,7 +63428,6 @@ isomorphics	2
 เอ้ด	2
 ฝาฝ	2
 Hm	2
-8.3a	2
 วลาดีมีร์	2
 ลลี่ส์	2
 ฟิซ	2
@@ -63933,7 +63505,6 @@ Resale	2
 อ้อด	2
 intrafallopian	2
 LFFout	2
-ดดดดดดดดดดดดดดดดดดดดดดด	2
 maximize	2
 discovered	2
 Duran	2
@@ -63956,7 +63527,6 @@ socialist	2
 Sternum	2
 กระเจ้า	2
 Mee	2
-นิ่งe-005	2
 Sanson	2
 determines	2
 เม่อร์	2
@@ -63981,9 +63551,7 @@ informants	2
 DNN	2
 placard	2
 เมียร	2
-d_2=	2
 IBS	2
-16C.A.	2
 รัดช้อง	2
 monozygotic	2
 ISM	2
@@ -64090,7 +63658,6 @@ Dispenser	2
 situational	2
 Sages	2
 Someone.	2
-B_1	2
 Postponement	2
 ตะกู	2
 denim	2
@@ -64123,7 +63690,6 @@ Preparedness	2
 ลต.	2
 COMO	2
 สรส	2
-26Ranney	2
 Zeiler	2
 FRANCESCO	2
 wholeness	2
@@ -64195,7 +63761,6 @@ Marxian	2
 Florentine	2
 เฟนด์	2
 Bato	2
-C_1=-	2
 Aesthetic	2
 พม่ารำขวาน	2
 Loei	2
@@ -64221,7 +63786,6 @@ suffixes	2
 personae	2
 Delvers	2
 dharan	2
-pp.278-279	2
 individualistes	2
 ร็อป	2
 Espinoza	2
@@ -64325,7 +63889,6 @@ NICS	2
 ยุฏ	2
 Taal	2
 quantification	2
-39Ibid	2
 Maggiore	2
 เวสภู	2
 MOVE	2
@@ -64476,7 +64039,6 @@ digitizing	2
 ดิ๋ง	2
 Hisao	2
 Cavalli	2
-1973c	2
 เปรสส์	2
 แนบบ์	2
 อ๊ากกกกกก	2
@@ -64525,7 +64087,6 @@ reject	2
 Chilled	2
 เกลื่อนความ	2
 lemongrass	2
-pp.278-319	2
 Ceramics	2
 AEROBIC	2
 Motown	2
@@ -64556,7 +64117,6 @@ Anethum	2
 Ryutaro	2
 rAjpV	2
 SEAT	2
-_cr	2
 uemura	2
 TOUCH	2
 Waals	2
@@ -64632,7 +64192,6 @@ MIKE	2
 preconditions	2
 FIVE	2
 HAWT	2
-officialmissgrandthailand	2
 พีอี	2
 Neusiedi	2
 opinions	2
@@ -64702,7 +64261,6 @@ condensates	2
 บุรพทิศ	2
 Freiburg	2
 Ozawa	2
-
 Capricon	2
 raja	2
 เนวิล	2
@@ -64723,7 +64281,6 @@ Boudreau	2
 Guell	2
 totalitarian	2
 corrupts	2
-15th	2
 garuda	2
 Drinking	2
 สุชน	2
@@ -64762,7 +64319,6 @@ beta	2
 แรห	2
 challenging	2
 ยแว่	2
-50th	2
 เรดิโอลาเรีย	2
 terrace	2
 Kurokawa	2
@@ -64837,7 +64393,6 @@ interventionist	2
 วอตซ์	2
 Pergamon	2
 viviparous	2
-771A	2
 เคดนซ์	2
 Acrylonitrile	2
 พร้องเพรียก	2
@@ -64866,7 +64421,6 @@ deterrito	2
 Ape	2
 aminobutyric	2
 อภิชาตบุตร	2
-‘70s	2
 เปิ๊ด	2
 DHT	2
 Samaritans	2
@@ -64913,7 +64467,6 @@ univariate	2
 U.S.EPA.	2
 Topological	2
 Beccaria	2
-FD3257	2
 S.Officinalis	2
 Ultrasound	2
 Huan	2
@@ -64924,7 +64477,6 @@ Biklen	2
 โกธ	2
 UNDCP	2
 เศณษ	2
-23Robert	2
 Dobin	2
 เรษ	2
 amoral	2
@@ -65000,7 +64552,6 @@ colors	2
 เนี้ยห	2
 ลูม	2
 listener	2
-0.8y	2
 teaudun	2
 ทวัล	2
 fission	2
@@ -65024,7 +64575,6 @@ Nada	2
 Hidetoshi	2
 เสนหา	2
 Dollard	2
-pp.33-34	2
 Valais	2
 ว้อท	2
 ไฟท์ล	2
@@ -65155,7 +64705,6 @@ Mosieur	2
 Aeration	2
 เพียม	2
 ลลาท	2
-_y^2=	2
 อีเดียท	2
 universes	2
 อั๊ป	2
@@ -65189,7 +64738,6 @@ nursery	2
 perspectival	2
 เง้น	2
 อ๊อ	2
-
 Labs	2
 luck	2
 ศันสนะ	2
@@ -65221,7 +64769,6 @@ Defamiliarization	2
 INDICO	2
 เป็ว	2
 optimistic	2
-last_element	2
 ตะเข็บไต่ขอน	2
 H.Cooper	2
 Oran	2
@@ -65240,7 +64787,6 @@ lactic	2
 เอนไซโคลพีเดีย	2
 Turkish	2
 Pw	2
-item_no	2
 เชทท์	2
 Gentleman	2
 ฑูณ	2
@@ -65343,7 +64889,6 @@ Methylphenidate	2
 Chamblandes	2
 osen	2
 Escondido	2
-Ladner2004	2
 detail	2
 Mandara	2
 Edv.Eriksen	2
@@ -65499,7 +65044,6 @@ Hlomelikusasa	2
 Martino	2
 ภวี	2
 Jessop	2
-SS501	2
 SONG	2
 เวฟส์	2
 แตรรถยนต์	2
@@ -65568,7 +65112,6 @@ BKK	2
 ปตัษ	2
 Achieve	2
 sensed	2
-t_2	2
 Rear	2
 ลางสาด	2
 Peacemaker	2
@@ -65578,7 +65121,6 @@ contiguous	2
 classifier	2
 capacitance	2
 นิสก์	2
-P_c	2
 Sino	2
 ENT	2
 nact	2
@@ -65638,7 +65180,6 @@ Schaffer	2
 แทร็กต์	2
 LeRoy	2
 genuine	2
-Rosenau199	2
 Macaques	2
 Ballon	2
 Dobash	2
@@ -65656,7 +65197,6 @@ Crater	2
 Raffner	2
 พธุ	2
 dirt	2
-_y^2-	2
 ramkhamhang	2
 RESULTS	2
 compass	2
@@ -65725,10 +65265,8 @@ Fermate	2
 มุร	2
 นองด์	2
 undercharge	2
-25Richard	2
 รูจี	2
 Fume	2
-22Ranney	2
 Trompe	2
 ฝด	2
 Opportunities	2
@@ -65810,7 +65348,6 @@ readIn	2
 Inda	2
 Exotica	2
 Somehow	2
-FD3256	2
 Mining	2
 Chidlom	2
 Aligarh	2
@@ -65852,7 +65389,6 @@ Overtone	2
 Unmet	2
 ในซ์	2
 STEP	2
-No.2,	2
 surreal	2
 สเนอร์ส	2
 โล่น	2
@@ -65904,7 +65440,6 @@ Rectangular	2
 เรียงหมอน	2
 Radapat	2
 valuation	2
-360o	2
 havg	2
 เซวียง	2
 sawan	2
@@ -65942,8 +65477,6 @@ ageism	2
 Petty	2
 มมาศย์	2
 Woodcock	2
-18Easton	2
-20Ibid	2
 ท่าห์	2
 เศณ้า	2
 กดขี่บีฑา	2
@@ -65997,7 +65530,6 @@ Durex	2
 บั่ว	2
 Framed	2
 สพาน	2
-pp.221-237	2
 cultura	2
 Homeward	2
 Seuren	2
@@ -66057,7 +65589,6 @@ overloads	2
 Edoucation	2
 Jguanodon	2
 Europa	2
-18Jean	2
 ทุ่ด	2
 chal	2
 cities	2
@@ -66100,7 +65631,6 @@ judging	2
 transit	2
 politician	2
 Emitting	2
-10a	2
 เพ็พ	2
 สพี	2
 rounds	2
@@ -66117,7 +65647,6 @@ gime	2
 ชึบ	2
 Borman	2
 pun	2
-pp.31-37	2
 Galleria	2
 Cawson	2
 ศสพ.	2
@@ -66148,7 +65677,6 @@ blueprint	2
 UNTITLED	2
 หรอบ	2
 3no	2
-ดดดดดดดดดดดดดดดดดดดดดด	2
 Dharmarajika	2
 W1	2
 Dobistvan	2
@@ -66234,7 +65762,6 @@ Sushi	2
 fulfilled	2
 Rl	2
 ribonucleic	2
-pp.2-3.	2
 Weeps	2
 ธุรำ	2
 โอห์ม	2
@@ -66243,8 +65770,6 @@ buckwheat	2
 Visiting	2
 เลกวัด	2
 นภศูล	2
-^L	2
-8.2a	2
 Aladdin	2
 Pleiades	2
 Konnyaku	2
@@ -66334,7 +65859,6 @@ Kone	2
 Couples	2
 Willaert	2
 HISTORY	2
-^0^	2
 Nicos	2
 บั่ม	2
 สนัก	2
@@ -66354,7 +65878,6 @@ Romanticism	2
 ยสูย	2
 วัลล์	2
 IAUP	2
-pp.249-250	2
 Lowpass	2
 อกเมือง	2
 ปริหาร	2
@@ -66407,7 +65930,6 @@ Dies	2
 Meanings	2
 reliant	2
 contented	2
-pp.108-109,	2
 แบลน	2
 Stroop	2
 Regulatory	2
@@ -66448,7 +65970,6 @@ TESTING	2
 ชลี่ย์	2
 โต๊ส	2
 ลกา	2
-ดดดดดดดดดดดดดดดดดดดดดดดด	2
 Schwechat	2
 แบหลา	2
 Kreuger	2
@@ -66554,7 +66075,6 @@ St.Patricia	2
 Shopen	2
 ฟร็อค	2
 นเวลล์	2
-pp.13-29	2
 Marian	2
 กาสัก	2
 supernova	2
@@ -66564,7 +66084,6 @@ Enframing	2
 r0	2
 ออกัสตัส	2
 Perils	2
-$25-30	2
 คอร์เทกซ์	2
 Clovis	2
 ฟรียส์	2
@@ -66580,7 +66099,6 @@ Giverny	2
 รฎฐ์	2
 มาฮ	2
 สาวน้อยเล่นน้ำ	2
-C_	2
 Ver	2
 เมห	2
 Carolyn	2
@@ -66594,7 +66112,6 @@ publicain	2
 declare	2
 PRESENT	2
 plots	2
-pp.43-44	2
 juristic	2
 ครอลล์	2
 Preah	2
@@ -66675,18 +66192,15 @@ conjunctive	2
 Corrupt	2
 รกเรี้ยว	2
 บอลส์	2
-pp.15-16	2
 programme	2
 Submersible	2
 patrilocal	2
-21Robert	2
 Unloader	2
 argent	2
 คทิค	2
 ลแลร์ต	2
 Rosie	2
 ขวัญบิน	2
-1.7977e	2
 อวองท์	2
 Dermabrasion	2
 tipis	2
@@ -66711,14 +66225,10 @@ Mifflin	2
 หตับ	2
 Marathon	2
 PRI	2
-Q_s	2
 Gadmer	2
 RMS	2
-หนฏ	2
-jasmine.ee.eng.chula.ac.th	2
 Lganton	2
 เลาห์	2
-ตตั้ง	2
 DAVID	2
 Ellmore	2
 CUCCI	2
@@ -66731,10 +66241,8 @@ Amino	2
 นว้าน	2
 RPS	2
 ศืพ	2
-ฎึง	2
 ขโมง	2
 ตกหมก	2
-ภุว	2
 primitives	2
 โด้ย	2
 อธิบ	2
@@ -66762,7 +66270,6 @@ handshake	2
 precepteur	2
 labelling	2
 โรโซ	2
-14S.N.Eisenstadt	2
 Linearly	2
 AOL	2
 Trichloroethane	2
@@ -66849,7 +66356,6 @@ prehistoric	1
 contended	1
 เดื่อน	1
 sinuosa	1
-340MW	1
 parer	1
 Bayswater	1
 ปยัด	1
@@ -66858,14 +66364,12 @@ Perlude	1
 ชูตต์	1
 Carcinogenicity	1
 Exhibits	1
-Vim111	1
 Pollutions	1
 hind	1
 Precipitate	1
 LUMIERE	1
 ลลิสต์ผ	1
 exciting	1
-Easter_eggs	1
 แด๋ด	1
 lak	1
 Zhivago	1
@@ -66893,13 +66397,11 @@ projector	1
 Mend	1
 ญั่ย	1
 genera	1
-AHA10	1
 rpm	1
 Dewar	1
 Restaurants	1
 เพนีย	1
 วัชชะ	1
-Mills18	1
 Seriphos	1
 Hebrews	1
 regularis	1
@@ -67088,7 +66590,6 @@ Sheeler	1
 Alkalinity	1
 Microstation	1
 Buller	1
-
 ยึ่ง	1
 incoming	1
 Magsaska	1
@@ -67157,7 +66658,6 @@ bibliography	1
 Blip.tv	1
 Manco	1
 เทรียท	1
-:0:0:8:800:200C	1
 sealing	1
 พรธ์	1
 instantaneous	1
@@ -67208,7 +66708,6 @@ PHONETIC	1
 Grunberg	1
 conciseness	1
 eloquence	1
-ใจe-005	1
 Sankt	1
 V.National	1
 parser	1
@@ -67259,7 +66758,6 @@ Dagger	1
 บอห์ร	1
 Learners	1
 วโคมบ์	1
-75th	1
 โฮโลซีน	1
 อ๊าาาาาาาา	1
 จาบัล	1
@@ -67311,7 +66809,6 @@ Awamori	1
 nox	1
 ฒณ์	1
 วมม	1
-longmenu_leave	1
 EXHIBITOR	1
 Sixtieth	1
 @^-^@	1
@@ -67327,7 +66824,6 @@ Wirkkala	1
 MH	1
 noche	1
 อวัวะ	1
-No.23	1
 ผีตากผ้าอ้อม	1
 Ingalls	1
 Cognition	1
@@ -67439,7 +66935,6 @@ carbohydrates	1
 Computable	1
 ไดว	1
 childhood	1
-car2go	1
 เป๊น	1
 Hungarian	1
 Maruoka	1
@@ -67475,14 +66970,12 @@ sojourner	1
 วาติ์	1
 Structuratism	1
 เคนทร์	1
-BA98	1
 lawfulness	1
 Susanne	1
 สทรีท	1
 CAPACITY	1
 Jackobsen	1
 PANDA	1
-________________ตั้งมั่น	1
 วุ่	1
 Mr.Ryuichiro	1
 Viol	1
@@ -67492,7 +66985,6 @@ EDLIN	1
 Jolly	1
 Narratology	1
 Dialogues	1
-rsu.ac.th	1
 BAR	1
 Everest	1
 ramen	1
@@ -67523,7 +67015,6 @@ LIGHTNEES	1
 ataraxia	1
 Greenstreet	1
 Confetti	1
-
 FakeKennethCole	1
 ผเส	1
 ไฟน์ส	1
@@ -67610,7 +67101,6 @@ avkha	1
 Paulino	1
 อมฤตยู	1
 Lehnert	1
-Warp54	1
 mews	1
 R.K.	1
 conciliator	1
@@ -67701,7 +67191,6 @@ Sonja	1
 Hayek	1
 นโกฏ	1
 Moderation	1
-o_	1
 TheGang	1
 สวดิ์	1
 LHJ	1
@@ -67885,7 +67374,6 @@ bmcl.activities	1
 Nanjamonja	1
 เพชรตาแมว	1
 Shikra	1
-AT01	1
 salafism	1
 Svadhithana	1
 Northrop	1
@@ -67919,12 +67407,10 @@ Namasu	1
 quantk	1
 ขมพ	1
 topher	1
-26.WTO	1
 alle	1
 Puotation	1
 Troppo	1
 CPOT	1
-20Builders.htm.	1
 diseconomy	1
 acknowledged	1
 overtime	1
@@ -67940,7 +67426,6 @@ formats	1
 Elbe	1
 Subtitles	1
 tint	1
-You2Play	1
 plat	1
 กสานติ์	1
 StB	1
@@ -67959,7 +67444,6 @@ WALTER	1
 กรอว์	1
 จานจ่าย	1
 enthymemes	1
-aie_hostess	1
 decrease	1
 เยร	1
 RHCP	1
@@ -68059,7 +67543,6 @@ Fabricants	1
 RYw	1
 SIMULATIONS	1
 ดีดขัน	1
-
 labels	1
 statistic	1
 Stringl	1
@@ -68077,7 +67560,6 @@ cox	1
 Bonfield	1
 Mr.C.M.Blankwaardt	1
 chevalier	1
-56min	1
 พู้ด	1
 Sword	1
 โฉฒ	1
@@ -68095,13 +67577,11 @@ Bligh	1
 ล็องส์	1
 Lutin	1
 เขผ	1
-2.5G	1
 เฮร์ส	1
 CARDS	1
 Extrait	1
 QUO	1
 weep	1
-com.ซึ่งเป็นอีกช่องทางสะดวกในการจอง	1
 MPLt	1
 ซเลอร์	1
 Femoral	1
@@ -68153,7 +67633,6 @@ ASSOCIATES	1
 ปราชน์	1
 เซียนน์	1
 ดี๊ด	1
-_B2=0	1
 binds	1
 P.S.A.	1
 RABBIT	1
@@ -68222,10 +67701,8 @@ Lawapa	1
 pearly	1
 Sisra	1
 1.October	1
-l_c	1
 provocative	1
 chiropractor	1
-870IS	1
 Pingaud	1
 Probation	1
 รวินย์	1
@@ -68353,7 +67830,6 @@ Jourism	1
 โพ่	1
 Yessss	1
 Pengkala	1
-7.9746e	1
 Russ	1
 Braniff	1
 Depsit	1
@@ -68425,7 +67901,6 @@ Omaha	1
 Manok	1
 leaching	1
 stimull	1
-^2-4Lx	1
 molds	1
 CNB	1
 Newhamshire	1
@@ -68452,7 +67927,6 @@ imartine	1
 UNPD	1
 Umbra	1
 Dobson	1
-pp.39-44,	1
 สท่ำ	1
 นโคด	1
 Petet	1
@@ -68483,7 +67957,6 @@ Vinargrette	1
 subjectification	1
 Kugler	1
 Kampen	1
-45C	1
 Meconium	1
 ladle	1
 วเต้ย	1
@@ -68526,7 +67999,6 @@ Femia	1
 Premiere	1
 BREAKDOWN	1
 Reisman	1
-802.11n	1
 reclassification	1
 เสริท	1
 รอนน์	1
@@ -68538,7 +68010,6 @@ TATE	1
 Commissariat	1
 Watanaba	1
 ซิคส์	1
-กลัวe-005	1
 Rep	1
 Asturias	1
 Sattayarak	1
@@ -68584,7 +68055,6 @@ devote	1
 Sougakudo	1
 Neurosis	1
 Diethyl	1
-‘50s	1
 แฟฟ	1
 Bosnia	1
 Cultrue	1
@@ -68609,7 +68079,6 @@ Paws	1
 TRAN	1
 Maccha	1
 จวา	1
-‘60	1
 Linkage	1
 ดอกไม้เจ้า	1
 Timpani	1
@@ -68617,7 +68086,6 @@ Kitagawa	1
 CHIRP	1
 Ve	1
 สเปรซ	1
-S.Ct.678,	1
 สารธรรม	1
 Rilakkuma	1
 Arrangenents	1
@@ -68854,7 +68322,6 @@ cyclone	1
 Guan	1
 กแป้ก	1
 assist	1
-Op.67,	1
 กริฟฟิท	1
 OHD	1
 ranked	1
@@ -68953,7 +68420,6 @@ Grounding	1
 hatit	1
 Camina	1
 BURN	1
-13Hz	1
 จมูฤ	1
 บ้อก	1
 Shokuho	1
@@ -68980,7 +68446,6 @@ Leicester	1
 Polis	1
 wherever	1
 Bizzell	1
-pp.19-51.	1
 เอธ	1
 Nationnal	1
 ชันนะตุ	1
@@ -69004,7 +68469,6 @@ cho	1
 ดอนท์	1
 looses	1
 transpose	1
-Op.23,	1
 Kittikorn	1
 รวัด	1
 เหยย	1
@@ -69039,7 +68503,6 @@ plateau	1
 rethinking	1
 จูร์	1
 vCt	1
-iii46	1
 Kwakaranaka	1
 EVENT	1
 ปลูป	1
@@ -69122,7 +68585,6 @@ Mana	1
 fishery	1
 Metric	1
 ฉลูด	1
-9790d_2=	1
 อจี่ฉ	1
 Suruga	1
 แหน้น	1
@@ -69193,7 +68655,6 @@ acronyms	1
 Turndown	1
 Wattas	1
 Breiter	1
-y_p	1
 ฃัง	1
 Mala	1
 FULL	1
@@ -69391,7 +68852,6 @@ Gotfried	1
 EBV	1
 greedy	1
 พร้อท	1
-o_+	1
 Ozenfant	1
 ยเส้อ	1
 Georgetown	1
@@ -69423,8 +68883,6 @@ adjoining	1
 ดัมพ์	1
 releasing	1
 DRP	1
-1+7i	1
-ฃษ์	1
 Herol	1
 Jiangxi	1
 WX	1
@@ -69538,7 +68996,6 @@ apiculata	1
 Leyline	1
 สวิตต์	1
 glyceride	1
-120•	1
 Custody	1
 Pinatubo	1
 ลลัฟ	1
@@ -69550,7 +69007,6 @@ FlipFlapQ	1
 ตรัสสา	1
 บมั๊ง	1
 BAKER	1
-_P	1
 ค้าต	1
 Shocked	1
 เรโช	1
@@ -69580,8 +69036,6 @@ Dears	1
 แจ็ด	1
 เจิ่น	1
 Veil	1
-mr_Y	1
-AN820	1
 adidas	1
 Thrower	1
 Dobinmushi	1
@@ -69598,7 +69052,6 @@ cylindrica	1
 Ecchymosis	1
 Kanemaru	1
 Knot	1
-AHA20	1
 Saddle	1
 สนท์	1
 HaJek	1
@@ -69818,9 +69271,7 @@ Chasing	1
 Preley	1
 Hilfiger	1
 ตเทา	1
-au.ac.th	1
 SYRINGE	1
-Ristr8to2	1
 mystical	1
 กรัว	1
 Crinton	1
@@ -69876,7 +69327,6 @@ Multilaterralism	1
 Buddy	1
 Airfarewatchdog	1
 คู่ความร่วม	1
-CLUB99	1
 J.M.W.	1
 Questionable	1
 Phonation	1
@@ -69963,13 +69413,11 @@ Basquiat	1
 ไชล์	1
 Fundamentalist	1
 uncover	1
-
 ฑิตร	1
 Pharmacology	1
 discirmination	1
 CHEATER	1
 Esperanto	1
-M_3=0	1
 Tenderloin	1
 Internationalization	1
 Stade	1
@@ -70028,7 +69476,6 @@ recycling	1
 วล่ช	1
 ศพ่าน	1
 จ่วย	1
-FD3239	1
 บรี้น	1
 bidirectional	1
 Biennais	1
@@ -70054,7 +69501,6 @@ nonspecific	1
 Silicon	1
 Priebe	1
 ปปั้น	1
-1959b	1
 จกรรม	1
 ลเอ้นต์	1
 ดรัพ	1
@@ -70065,7 +69511,6 @@ HSPO	1
 Brahminy	1
 BREAK	1
 Lalos	1
-1t	1
 Hutington	1
 stripping	1
 BITROP	1
@@ -70073,14 +69518,12 @@ Workforce	1
 Execution	1
 unforeseen	1
 Prefect	1
-^_+	1
 Caraley	1
 Aldous	1
 ไน้ท์	1
 APWLD	1
 Fods	1
 Intracytoplasmic	1
-มส์	1
 metering	1
 EMLA	1
 Unstable	1
@@ -70091,9 +69534,7 @@ INNER	1
 flavour	1
 expense	1
 proferemtem	1
-fr5om	1
 Leca	1
-Reverse_List	1
 disempewerment	1
 Funk	1
 ฮีธ	1
@@ -70106,7 +69547,6 @@ Almodovar	1
 aij	1
 Galettes	1
 culturalism	1
-me.แล้วท่านก็เดินออกจากห้องไป	1
 Soi	1
 Actualite	1
 reskog	1
@@ -70140,7 +69580,6 @@ Canel	1
 NEWLY	1
 มุกต์	1
 Adverse	1
-I.Q.โดยทั่วไปหมายถึงความฉลาดด้านนี้และการทดสอบ	1
 รตต	1
 บาฮ์	1
 โศล	1
@@ -70166,13 +69605,11 @@ CUCCHI	1
 Plasma	1
 choronic	1
 homorganic	1
-viio64	1
 Shaifuddin	1
 Tobaccology	1
 โจ๋ย	1
 GUIDE	1
 Exuberance	1
-วื่ง	1
 Computerized	1
 Merite	1
 Selectivity	1
@@ -70181,7 +69618,6 @@ Owings	1
 กรรจ์	1
 Stylized	1
 สปร์ต	1
-
 ฑิป	1
 รเย	1
 ทางศ์	1
@@ -70222,7 +69658,6 @@ MANOEUVRE	1
 บรัมส์	1
 เหตช	1
 Flapper	1
-SX70	1
 อโวซ์	1
 blouses	1
 Kaltman	1
@@ -70358,7 +69793,6 @@ cargo	1
 bottarga	1
 conduction	1
 rensiegnment	1
-ดน้อง	1
 Nymph	1
 Matsuura	1
 Fabulous	1
@@ -70380,9 +69814,7 @@ Mastercard	1
 Beastie	1
 inaction	1
 linen	1
-ษณพ	1
 เบี้ยแก้	1
-2On	1
 reserved	1
 cytokines	1
 สิสต์	1
@@ -70400,7 +69832,6 @@ Invano	1
 abang	1
 Devision	1
 เช่ง	1
-
 KETONE	1
 econemy	1
 droppings	1
@@ -70418,13 +69849,11 @@ GTH	1
 Masquer	1
 Pectoris	1
 stigmatization	1
-^-^ยังไงก็เหอะนะ	1
 BH	1
 Mayes	1
 reducing	1
 Portative	1
 Celeb	1
-___________________________สายนน	1
 dit	1
 kekkon	1
 centrifugal	1
@@ -70451,7 +69880,6 @@ overweight	1
 CLAMP	1
 simplified	1
 Aufhebung	1
-0C2	1
 Packard	1
 frottage	1
 Stea	1
@@ -70461,13 +69889,11 @@ Schreder	1
 Thirteenth	1
 fluoronitrobenzene	1
 Tawny	1
-blip.tv	1
 ศูน์	1
 สลิบ	1
 Aopheus	1
 eyon	1
 Potrykus	1
-Op.55,	1
 pelecypod	1
 Brumett	1
 Jobber	1
@@ -70497,7 +69923,6 @@ Ivanovich	1
 ฆ้า	1
 H.L.William	1
 Acrylic	1
-400N	1
 HANSON	1
 Rumanian	1
 Angyal	1
@@ -70505,7 +69930,6 @@ kr	1
 civilis	1
 Yukichi	1
 Maesak	1
-PROLOG.EXE	1
 Dadena	1
 Horquilla	1
 เด๋	1
@@ -70521,8 +69945,6 @@ D.Square	1
 penzias	1
 HDD1	1
 KNOW	1
-
-^$	1
 ฟองมัน	1
 บทิสต์	1
 sulphide	1
@@ -70557,7 +69979,6 @@ FACES	1
 ชานุมาน	1
 hypodermic	1
 สัฆ	1
-Ike_psycho@	1
 ม้ายยยยย	1
 chemistry	1
 ม้าล่อ	1
@@ -70632,7 +70053,6 @@ Supraorbital	1
 Roediger	1
 orality	1
 alhamdulillah	1
-250Hz	1
 Fott	1
 Scissor	1
 Plurilateral	1
@@ -70663,14 +70083,12 @@ MANY	1
 diamonds	1
 fifths	1
 นะท์	1
-d_1=15	1
 hemoglobins	1
 asia.html	1
 Realway	1
 Ayutthaya	1
 BANPU	1
 B.A.	1
-EX5_2	1
 gastropod	1
 Xiao	1
 Nasa	1
@@ -70686,7 +70104,6 @@ Yomiuri	1
 เรียฟ	1
 advancement	1
 ก้นขบ	1
-vii64	1
 GNH	1
 บ้าาา	1
 Braquiarinha	1
@@ -70844,7 +70261,6 @@ Pasto	1
 ขิบ	1
 breeding	1
 speedMatic	1
-
 แชงก์	1
 Kwan	1
 Quitter	1
@@ -70895,7 +70311,6 @@ Timeliness	1
 IDOL	1
 Tanguy	1
 RIFLE	1
-32P^2	1
 Ionains	1
 Eorm	1
 Tennant	1
@@ -70967,7 +70382,6 @@ reproduces	1
 Doryrhamphus	1
 Morales	1
 Collings	1
-^_^+	1
 DOWN	1
 ปรินส์ร	1
 ตริคท์	1
@@ -70986,7 +70400,6 @@ tocopherol	1
 rainfed	1
 สเก๊ตช์	1
 Humphries	1
-RJ45	1
 หมอม	1
 ปอยท์	1
 bombers	1
@@ -71061,7 +70474,6 @@ NLRI	1
 ฟีฌ	1
 ulceration	1
 nslookup	1
-VA80H	1
 Empress	1
 Formulas	1
 ฮูร	1
@@ -71084,7 +70496,6 @@ Sorbonne	1
 Smarter	1
 Punaluan	1
 NITROGEN	1
-L_3=-	1
 STATEMAN	1
 Esty	1
 Gaillard	1
@@ -71109,7 +70520,6 @@ erythema	1
 PRISON	1
 Dash	1
 คลม	1
-kmitl.ac.th	1
 GiRL	1
 ภาวนามัย	1
 Methanol	1
@@ -71132,7 +70542,6 @@ Gradation	1
 เยี้ยว	1
 Frappe	1
 Visceral	1
-I.Q.เป็นเพียงการวัดความฉลาดเพียงด้านเดียวเท่านั้น	1
 Ionic	1
 GEORGES	1
 Kaeru	1
@@ -71157,7 +70566,6 @@ Escroquerie	1
 jest	1
 CONVULSION	1
 ทุซ์	1
-
 ฮัปส์บ	1
 Oliiera	1
 Aibo	1
@@ -71225,7 +70633,6 @@ nonadimpleti	1
 Novelis	1
 WY	1
 Tatco	1
-
 unifying	1
 เณฑ์	1
 natal	1
@@ -71261,7 +70668,6 @@ Marly	1
 ค้อลท์	1
 ตื้ง	1
 เปรี้ย	1
-1991b	1
 กแว่	1
 ทิตยย์	1
 Darren	1
@@ -71301,7 +70707,6 @@ Senz	1
 Shownees	1
 พสิทธิ์	1
 laureate	1
-kanisa2549	1
 THL	1
 lonesco	1
 GYTS	1
@@ -71364,7 +70769,6 @@ Aqueduct	1
 Pechstein	1
 Ledger	1
 Cruce	1
-y_1=-	1
 Brealthrough	1
 จตต	1
 เฉลี่ยน	1
@@ -71504,7 +70908,6 @@ Sweater	1
 รตท.	1
 ทยน	1
 V.I.P.	1
-Look_out	1
 Gruz	1
 ธชิง	1
 ตืบ	1
@@ -71605,7 +71008,6 @@ FIORUCCI	1
 แมกยาร์	1
 Lobbying	1
 Sectarian	1
-10xN	1
 Lomo	1
 ปร่าง	1
 Rorte	1
@@ -71663,7 +71065,6 @@ Haikara	1
 Guulford	1
 Ratko	1
 Gogel	1
-+_+^^	1
 swaraj	1
 Ostler	1
 Tuition	1
@@ -71719,7 +71120,6 @@ openread	1
 sterothermophillus	1
 Lassu	1
 PHENYLPROLPANOLAMINE	1
-____________________________พ	1
 ห้าส	1
 ปว๊ะ	1
 Universite	1
@@ -71782,7 +71182,6 @@ individualization	1
 prophylactic	1
 Keio	1
 กินริน	1
-1986U1R	1
 cola	1
 โค้	1
 ฟิสซ์	1
@@ -71809,7 +71208,6 @@ fate	1
 ลหุม	1
 สรนุก	1
 Chittick	1
-9.17a	1
 Immer	1
 สาระพา	1
 subscibers	1
@@ -71861,8 +71259,6 @@ Steroids	1
 สเคาร์	1
 อนัฆ	1
 disclaims	1
-graph3d	1
-อ้ค	1
 ตักษัย	1
 canopy	1
 Worldfund	1
@@ -71870,7 +71266,6 @@ callers	1
 Cheek	1
 Audioslave	1
 dulled	1
-K0	1
 Joie	1
 salary	1
 INSPECTION	1
@@ -71940,8 +71335,6 @@ gerbera	1
 Mania	1
 วันแข็ง	1
 Ib	1
-go_again	1
-y_2=-	1
 Seafoam	1
 Synopsis	1
 Frankfrt	1
@@ -71956,11 +71349,9 @@ whitehouse.gov	1
 Voluntours	1
 appeals	1
 หวีน	1
-M_	1
 โดอาบ	1
 Neurological	1
 Ruther	1
-110i	1
 Barbon	1
 Romic	1
 Teas	1
@@ -71974,7 +71365,6 @@ Stomach	1
 สม็อก	1
 Aboriginal	1
 กว่อห	1
-www9.si.mahidol.ac.th	1
 Mohawks	1
 Lowenthal	1
 เทวัน	1
@@ -71989,8 +71379,6 @@ Yeardye	1
 เซื้อ	1
 B.1	1
 มรรศ	1
-GX2-15,	1
-CP1A	1
 Rhinesmith	1
 Vung	1
 ขเม	1
@@ -72034,7 +71422,6 @@ Christmes	1
 ฝุก	1
 P.Poti	1
 pamar	1
-type17	1
 Anand	1
 อะเคเซีย	1
 Shallac	1
@@ -72087,7 +71474,6 @@ apothecary	1
 Bach.English	1
 Timesless	1
 Telscope	1
-ต้ส	1
 UPDATE	1
 Artichoke	1
 primaries	1
@@ -72219,9 +71605,7 @@ Crosby	1
 ศณุ	1
 Tulln	1
 ขมัว	1
-3.85a	1
 Viewing	1
-WORM_WALEDAC.AR	1
 Swaps	1
 aptly	1
 Lucus	1
@@ -72307,7 +71691,6 @@ mubalaqha	1
 ฝัว	1
 ori	1
 cute	1
-‘005	1
 Conjuanco	1
 R.G.	1
 Bondaref	1
@@ -72337,7 +71720,6 @@ CINEMASCOPE	1
 ไตก	1
 Luminis	1
 JAWS	1
-y5	1
 champion	1
 CINADCO	1
 คเนท์	1
@@ -72357,11 +71739,9 @@ tum	1
 สคุย	1
 VISIBLE	1
 สับนก	1
-`ระเบียบกรมแรงงานว่าด้วยการพิจารณาการทำงาน	1
 Fabre	1
 ดูฌ	1
 Kal	1
-1965b	1
 accelerated	1
 medici	1
 WET	1
@@ -72374,9 +71754,7 @@ Middletown	1
 MERZ	1
 พิจญ์	1
 possesses	1
-1.33Ab	1
 Dolores	1
-______________________บาตร	1
 Chlostridium	1
 Somwong	1
 DuPont	1
@@ -72429,7 +71807,6 @@ COKEINE	1
 CHERRY	1
 ตกรรม	1
 phia	1
-good_at_number	1
 wildlife	1
 Balancing	1
 ถนอด	1
@@ -72601,7 +71978,6 @@ Kurumba	1
 etiology	1
 B.J.P	1
 protease	1
-oak_ptt	1
 encephalomalacia	1
 Kolkota	1
 แพบ	1
@@ -72624,7 +72000,6 @@ Gernrich	1
 J.K.	1
 marques	1
 pijk	1
-‘2005	1
 วอล์ล	1
 หวิ่ง	1
 หวาาาาาาาาาาาาา	1
@@ -72679,7 +72054,6 @@ lute	1
 Gypsum	1
 pariah	1
 Khon	1
-15S	1
 Croup	1
 วนาดอน	1
 อิศร์	1
@@ -72749,7 +72123,6 @@ Jenk	1
 แบ่น	1
 ตุ๊ป	1
 ปไทด์	1
-TheGreatestSongsOfTheSeventies	1
 comseven	1
 Neural	1
 ปสุ	1
@@ -72818,7 +72191,6 @@ NEDOL	1
 พุทธตันตระ	1
 paranoia	1
 Composer	1
-S_WTSH_NT	1
 SNAKE	1
 วคร	1
 ครัวทาน	1
@@ -72833,7 +72205,6 @@ Uxmal	1
 elicit	1
 seascape	1
 แซนส์	1
-3.9G	1
 Hank	1
 ฉานนน	1
 Ducking	1
@@ -72861,7 +72232,6 @@ Eisa	1
 Delimiter	1
 datagramX	1
 ร่ค	1
-3H2O	1
 pasta	1
 Aratist	1
 GUN	1
@@ -72978,7 +72348,6 @@ Nutshells	1
 ถิว	1
 ก๊านท์	1
 Tarma	1
-y_	1
 Releases	1
 ข้าวเย็นใต้	1
 CLADEM	1
@@ -73202,7 +72571,6 @@ urn	1
 สงย์	1
 NUTRITION	1
 ษาท	1
-3.80a	1
 Overground	1
 จนัญ	1
 Grassroot	1
@@ -73229,7 +72597,6 @@ Lysias	1
 สวีสดิ์	1
 โคล์ม	1
 PLEASURE	1
-=_+^^^	1
 Absorbance	1
 วายน์	1
 Mansperger	1
@@ -73264,7 +72631,6 @@ Desirable	1
 Kulp	1
 Wellman	1
 Neils	1
-ครัวe-005	1
 Rochester	1
 SMILEY	1
 บาร์บูดา	1
@@ -73321,14 +72687,11 @@ HILFIGER	1
 Coyote	1
 โจทย	1
 น้าฟ	1
-‘50’	1
 FUKUDA	1
 ถุ่ง	1
 ฤง	1
 SIDEKICK	1
 Acrux	1
-_ws	1
-Cys14	1
 อิพ	1
 directionality	1
 Micarta	1
@@ -73350,7 +72713,6 @@ M.Haduin	1
 Suhrke	1
 Danes	1
 Wax	1
-Version2000	1
 มมมมมมมมมม	1
 WOLVERTON	1
 Valention	1
@@ -73371,7 +72733,6 @@ Omniyat	1
 KOONX	1
 โรตส์	1
 เรช	1
-Melbourn1996	1
 Hamdle	1
 organizatioal	1
 GIGABASE	1
@@ -73567,14 +72928,12 @@ Airman	1
 Dunaliella	1
 Ricin	1
 วาเนเดียม	1
-035F	1
 Q9	1
 SYMPTOM	1
 Odyssy	1
 RADICAL	1
 M_x^2	1
 Moviola	1
-NV24	1
 nutans	1
 จัตุสดมภ์	1
 ฌาย	1
@@ -73656,7 +73015,6 @@ habitus	1
 Beautyful	1
 zag	1
 enchantment	1
-M_C	1
 WALZER	1
 หุ้ส	1
 กะปง	1
@@ -73746,9 +73104,7 @@ Disqualified	1
 bilinear	1
 Albret	1
 Livable	1
-คคค	1
 GasSaleAgreement	1
-ญืด	1
 joli	1
 CLEMENTE	1
 metalanguage	1
@@ -73796,7 +73152,6 @@ Kates	1
 gabapentin	1
 Decorative	1
 isoeletric	1
-K.แจ๋ว	1
 Condensed	1
 Christoff	1
 descendants	1
@@ -73826,12 +73181,10 @@ Sinitic	1
 Nurese	1
 gaslight	1
 explanations	1
-a^2-	1
 sandalwood	1
 Loas	1
 provides	1
 Ginjoushu	1
-I_0	1
 FOUND	1
 คแน	1
 believers	1
@@ -73891,7 +73244,6 @@ BUTOBARBITAL	1
 Transcript	1
 วั่ด	1
 PRIMA	1
-ch.1,	1
 เปิร์ก	1
 lrgitimacy	1
 Schwarzbrot	1
@@ -73932,7 +73284,6 @@ Aguzan	1
 KU	1
 SEND	1
 decay	1
-I.Q.ที่ทำกันอยู่จะวัดความฉลาดด้านนี้	1
 Bourgas	1
 ลายสอง	1
 ขว้ง	1
@@ -74015,8 +73366,6 @@ Englapril	1
 Culloden	1
 Aphasia	1
 ชล่อ	1
-ษมิ	1
-^^ใช่ไหม	1
 Ogden	1
 เลาร์	1
 Walks	1
@@ -74048,7 +73397,6 @@ theoretically	1
 companion	1
 Meghna	1
 overdeveloped	1
-al.1991	1
 ลึ้ง	1
 Rinaldi	1
 สดองส์	1
@@ -74069,7 +73417,6 @@ Dbb	1
 chatell	1
 เอิส	1
 incaica	1
-กกกกกกกกกกกกกกกกกกกกกก	1
 สรัณ	1
 Trustworthiness	1
 Faroh	1
@@ -74150,7 +73497,6 @@ Iichiro	1
 Hally	1
 เทิญ	1
 PubPar	1
-125-8000Hz	1
 Hypolocrain	1
 Senkaku	1
 Implement	1
@@ -74167,7 +73513,6 @@ Georef	1
 Ames	1
 Beckert	1
 guarantees	1
-RX450h	1
 Spendingpulse	1
 Nocturnal	1
 famine	1
@@ -74185,8 +73530,6 @@ Fans	1
 Dt	1
 clair	1
 Amiodarone	1
-right_just	1
-โกรธe-005	1
 ก๊อปปี้ไรท์	1
 ศริส	1
 โลเวตต์	1
@@ -74329,7 +73672,6 @@ Taxonomy	1
 O.D.	1
 Eyelashes	1
 Martini	1
-pp.305-314.	1
 ASCIT	1
 Nonreactive	1
 Constantine	1
@@ -74390,7 +73732,6 @@ Conniff	1
 ไทร์พ	1
 Chieh	1
 Planetesima	1
-2.5kd	1
 alopecia	1
 Perfectslim	1
 cuspid	1
@@ -74411,7 +73752,6 @@ brighter	1
 Aglipayans	1
 Dr.Fu	1
 Inspector	1
-sec26	1
 Econometrics	1
 เมลวิล	1
 คอนเซนเทรท	1
@@ -74442,7 +73782,6 @@ IDEOS	1
 Harrof	1
 Tprme	1
 ถ่ำ	1
-____________แลวันแล_______________	1
 สก็อซ	1
 ชริฟ	1
 poetics	1
@@ -74510,7 +73849,6 @@ UNDERCOVER	1
 Malinche	1
 Compartmentalization	1
 Restored	1
-R_1=	1
 sharpener	1
 Uniliver	1
 อาร์เอ็นเอ	1
@@ -74581,7 +73919,6 @@ Dencio	1
 Vincente	1
 LTF	1
 Wretheimer	1
-Oct.1998.	1
 แออวย	1
 ELECTRONIC	1
 กรอกแกรก	1
@@ -74590,7 +73927,6 @@ REAGE	1
 piggybacking	1
 Sustained	1
 คเนย์	1
-part_no.	1
 สเคล	1
 speakerhearer	1
 Sardar	1
@@ -74609,7 +73945,6 @@ towers	1
 ELEC	1
 biosphere	1
 แงม	1
-rw6800	1
 Tapio	1
 guinity	1
 ETHYL	1
@@ -74659,7 +73994,6 @@ Karlyn	1
 Adele	1
 Sarbin	1
 Koyasan	1
-vol.31,	1
 ADEX	1
 SLEEP	1
 Timepieces	1
@@ -74680,7 +74014,6 @@ Fraternal	1
 Invertebrate	1
 สินต์	1
 เอ้อร์ห	1
-I.Q.=130	1
 Helvetic	1
 กานติ์	1
 Azidothymidin	1
@@ -74713,7 +74046,6 @@ Kapauku	1
 Enthalpy	1
 VANISHING	1
 Detailing	1
-good_Public_relation	1
 TOU	1
 พภ.	1
 PSYCHICSIDE	1
@@ -74895,17 +74227,14 @@ Juliette	1
 โนวล์ส	1
 Bats	1
 Volk	1
-
 Boesch	1
 TYT	1
-
 Califarnia	1
 gayee	1
 Maruei	1
 compulsory	1
 Ojibwa	1
 alluvial	1
-M_2=0	1
 parametrix	1
 employed	1
 Benfield	1
@@ -74959,8 +74288,6 @@ Tonegawa	1
 Rationality	1
 สตัฟ	1
 Reichtag	1
-15.50C	1
-I.Q.ในระดับปกติธรรมดาแต่หากไม่ได้รับการกระตุ้นให้มีการเรียนรู้ที่ดี	1
 สมิงทอง	1
 bull	1
 IAN	1
@@ -75014,7 +74341,6 @@ IFORM	1
 อีศวร	1
 Pemimsula	1
 micest	1
-เหมี๊ย.ย..ว.. เหมี๊ย.ย..ว...	1
 ปสด	1
 Kapok	1
 Quacquarelli	1
@@ -75022,7 +74348,6 @@ Hutchison	1
 ดร๊ก	1
 Bizayans	1
 Khalil	1
-r_a	1
 fastfood	1
 CONTEXT.request	1
 มนาย์ม	1
@@ -75085,9 +74410,7 @@ Zialiangrong	1
 Vespers	1
 อยู้น	1
 Ethylbenzene	1
-1981b	1
 อ้พ	1
-kyliex2008	1
 บรู๊	1
 causally	1
 ไข้สันนิบาต	1
@@ -75202,7 +74525,6 @@ Greaer	1
 Tsuki	1
 ลวว	1
 บีง	1
-A_b	1
 tetrachlorobenzene	1
 PATRICIA	1
 แผ่นภพ	1
@@ -75237,7 +74559,6 @@ C.D.	1
 Casette	1
 dinitrate	1
 Pele	1
-^o^แต่ตอนนี้ยังไม่ใช่น่ะสิ	1
 มย่อย	1
 สุริเยศ	1
 วรอส	1
@@ -75273,7 +74594,6 @@ Leyte	1
 รชนีกร	1
 qaib	1
 homini	1
-SHB7110	1
 BATSE	1
 Colored	1
 Degrees	1
@@ -75355,7 +74675,6 @@ Sexology	1
 semblant	1
 scenic	1
 applause	1
-Lonelygirl15	1
 Fraulein	1
 สแกนเดียม	1
 Zippo	1
@@ -75375,7 +74694,6 @@ Accepted	1
 ปถมัง	1
 ตู๊ก	1
 ท่บ	1
-EX7_7	1
 Hopping	1
 Dr.Syntax	1
 โมลด์	1
@@ -75438,7 +74756,6 @@ Ronell	1
 เหล็กเหนียว	1
 ปลิ้นปลอก	1
 ANS	1
-Vol.33	1
 Songtsan	1
 คอนกรีตอัดแรง	1
 Ordinariness	1
@@ -75626,7 +74943,6 @@ IUBMB	1
 ตบิล	1
 Rooibos	1
 หภค	1
-
 ต่วม	1
 Poetemkin	1
 kahlo	1
@@ -75659,7 +74975,6 @@ Azhazha	1
 ฟล็อกซ์	1
 เลหว	1
 CNYK	1
-31David	1
 Steir	1
 เลียร	1
 Neemkaurari	1
@@ -75729,7 +75044,6 @@ blepharoplasty	1
 contractuelle	1
 gurnard	1
 Leshn	1
-1973b	1
 ลีนส์	1
 lava	1
 นิซ	1
@@ -75856,7 +75170,6 @@ Runyan	1
 Athens	1
 Nuts	1
 Nutra	1
-l_b	1
 psychophysics	1
 อย้ง	1
 Recommend	1
@@ -75964,7 +75277,6 @@ RAMSAR	1
 Monochoric	1
 adversatives	1
 Megalang	1
-_____________ยุคกลาง_____________ยุคฟื้นฟูศิลปวิทยาการ	1
 PGE1	1
 ดีซ	1
 Vidich	1
@@ -76027,8 +75339,6 @@ Rhyl	1
 educate	1
 Indochinite	1
 KOPS	1
-No.19	1
-y_c	1
 Fuzhi	1
 Dr.Jau	1
 กุญช์	1
@@ -76045,7 +75355,6 @@ zine	1
 countable	1
 Sanitized	1
 r6	1
-Met80	1
 ชู้ท	1
 Assertz	1
 Chiaramonte	1
@@ -76087,7 +75396,6 @@ aneurysm	1
 Hob.XV	1
 Coronado	1
 JDS	1
-ถือe-005	1
 EcoVillage	1
  ว๊าย	1
 Postcard	1
@@ -76202,8 +75510,6 @@ Poof	1
 Jogos	1
 Ranchel	1
 Paltrow	1
-ME320	1
-10.7a	1
 ranging	1
 swifter	1
 selp	1
@@ -76233,7 +75539,6 @@ Shabu	1
 บรีด	1
 ladder	1
 Stax	1
-d_2=22.895	1
 Duvivier	1
 Caovilla	1
 Philippics	1
@@ -76277,7 +75582,6 @@ systeme	1
 CHINESE	1
 mainly	1
 cypress	1
-57.L.T.Q.B.	1
 synchronizing	1
 Fbb	1
 Someday	1
@@ -76294,7 +75598,6 @@ caching	1
 วองต์	1
 Borealis	1
 Crisler	1
-PAT25	1
 ลัสต์	1
 ครั้่ง	1
 Spender	1
@@ -76345,7 +75648,6 @@ Impulsive	1
 Interna	1
 Vigne	1
 unofficial	1
-SEG_PA	1
 Whodunnit	1
 manufactures	1
 ซาโลนิกา	1
@@ -76456,7 +75758,6 @@ Luxar	1
 Progection	1
 Hardware	1
 ascription	1
-ตาe-005	1
 Missingham	1
 cheol	1
 โล้ย	1
@@ -76537,7 +75838,6 @@ Progesterone	1
 Y6	1
 ANHYDRIDE	1
 Maniacs	1
-_zz	1
 Dancehall	1
 Virinia	1
 contractile	1
@@ -76605,7 +75905,6 @@ Aijin	1
 Smotherman	1
 Superius	1
 Ensor	1
-_zx	1
 pdj	1
 Admission	1
 Turus	1
@@ -76649,7 +75948,6 @@ APPCE	1
 Dense	1
 อิเล็คทรอนิคส์	1
 Balestra	1
-
 rewards	1
 catalysts	1
 อัลติเมท	1
@@ -76689,7 +75987,6 @@ Vilcabamba	1
 Loys	1
 ผั้พ	1
 barristers	1
-menu_leave	1
 Okonomi	1
 Rho	1
 Darrieus	1
@@ -76744,13 +76041,11 @@ Amatersu	1
 SURGERY	1
 เทรีย	1
 Devices	1
-P_a	1
 cortisol	1
 scholars	1
 Gentings	1
 crocea	1
 Payu	1
-Chap.7-8	1
 แบตช์	1
 ตวอ	1
 ยก้า	1
@@ -76782,7 +76077,6 @@ Leptodus	1
 พโลว์	1
 กัณฐัศว์	1
 functionalist	1
-30,000-70,000DWT	1
 Akahata	1
 bordered	1
 เซจ	1
@@ -76854,7 +76148,6 @@ Superchunk	1
 Baltes	1
 illusions	1
 Bohnenberger	1
-39th	1
 Overpopulated	1
 RELIGIOUS	1
 ลบ๊อก	1
@@ -76884,7 +76177,6 @@ simulations	1
 Rogier	1
 อักอ่วน	1
 Traning	1
-_Y	1
 Beaulieu	1
 commands	1
 บลินด์	1
@@ -76914,7 +76206,6 @@ NARCOTICS	1
 Beelden	1
 lakes	1
 crosscuts	1
-no.27	1
 ระวังไพร	1
 Pascal	1
 วั่ลย์	1
@@ -77092,7 +76383,6 @@ breaker	1
 Eq	1
 เงินแดง	1
 Representational	1
-No.48.	1
 woodmore	1
 โจ๊บ	1
 spreader	1
@@ -77147,7 +76437,6 @@ church	1
 TMC	1
 scientists	1
 Wurmser	1
-_Ax	1
 สถิล	1
 Vogel	1
 KIRCHNER	1
@@ -77399,7 +76688,6 @@ Leishmaniasis	1
 Polypora	1
 metaphors	1
 ASIJ	1
-P_1+	1
 refinery	1
 Medrol	1
 Eitzen	1
@@ -77443,7 +76731,6 @@ RAYNAUD	1
 ภัสส์	1
 Adelman	1
 decreasing	1
-2004a	1
 Sameep	1
 graphology	1
 catfish	1
@@ -77472,7 +76759,6 @@ Stryker	1
 มุรธาภิเษก	1
 Metamorphism	1
 Discover	1
-Upper_lower	1
 Supermaket	1
 หาสห์ห	1
 ษษษษษ	1
@@ -77575,7 +76861,6 @@ kelp	1
 ราตร	1
 บรึ้น	1
 Vectran	1
-PL4206	1
 Im	1
 พางค์	1
 สเทรซ	1
@@ -77658,7 +76943,6 @@ Cp	1
 canceled	1
 ternative	1
 Reeve	1
-student.chula.ac.th	1
 historicity	1
 Stefflre	1
 transl	1
@@ -77680,7 +76964,6 @@ Ronan	1
 Okum	1
 ซอจ	1
 armoire	1
-70dB	1
 สหกร์	1
 Pochette	1
 Brocade	1
@@ -77780,7 +77063,6 @@ Nace	1
 Shaped	1
 สปอย	1
 consumed	1
-c_1+	1
 daffodil	1
 scoundrel	1
 แฟร์ม	1
@@ -77816,7 +77098,6 @@ Annelida	1
 Perdition	1
 ฏาก	1
 ชาหฺนวี	1
-1990b	1
 กาษา	1
 แอชค	1
 IGCG	1
@@ -77841,9 +77122,7 @@ Valorem	1
 MOTIVE	1
 CONDUCTION	1
 เตรือง	1
-^__^+	1
 CRM	1
-4.31a	1
 Newman	1
 เ - ป - ล - า	1
 amphetamines	1
@@ -77855,7 +77134,6 @@ Barajas	1
 Squalor	1
 reviewing	1
 scheme	1
-computer_specialist	1
 Polynesians	1
 ลวอลล์	1
 กสม.	1
@@ -78003,7 +77281,6 @@ NCC	1
 Burgerbad	1
 SEMILLON	1
 citaions	1
-_AH	1
 Funazushi	1
 unheard	1
 Centaurus	1
@@ -78036,10 +77313,8 @@ Clouds	1
 DAIRY	1
 วจือ	1
 Arguments	1
-1991a	1
 ฟ้อย	1
 PLASTIC	1
-AA4040	1
 Inferior	1
 สตัลล์	1
 monochrome	1
@@ -78076,7 +77351,6 @@ Chaser	1
 Snygg	1
 หาริ	1
 Lingyang	1
-1.2y	1
 SOLEMNLY	1
 เลห็ก	1
 Tsangpo	1
@@ -78105,9 +77379,7 @@ Tocqueille	1
 ศุฟ	1
 SPLASH	1
 contexture	1
-Sl9oper	1
 milligram	1
-
 วสิงห์	1
 Mika	1
 แมกนีเซีย	1
@@ -78120,7 +77392,6 @@ Concorde	1
 อ๊อกว์	1
 Tapping	1
 คณาม	1
-AS7717	1
 Callicles	1
 พิฒน์	1
 elution	1
@@ -78249,11 +77520,9 @@ Lichtblick	1
 Maharaj	1
 residues	1
 Dzongkha	1
-
 ringtone	1
 Deviant	1
 พลด	1
-1974a	1
 noumeae	1
 tsampa	1
 Muntri	1
@@ -78281,7 +77550,6 @@ cycling	1
 Harow	1
 พีพ	1
 คามิลโล	1
-A_1=	1
 สท้อน	1
 Puwersa	1
 tentacles	1
@@ -78333,7 +77601,6 @@ Huns	1
 วแม่	1
 Nondirectional	1
 ฐายี	1
-5.31C	1
 Portillo	1
 chlorophenoxy	1
 Sputter	1
@@ -78416,13 +77683,11 @@ dan	1
 บัวนาง	1
 pearls	1
 Cielo	1
-
 reticular	1
 Expended	1
 Rudd	1
 Bambini	1
 PROF	1
-พูดe-005	1
 ปลล	1
 Prophey	1
 Bottlenose	1
@@ -78457,7 +77722,6 @@ DELORS	1
 ยตน	1
 suggedtive	1
 brud	1
-28th	1
 multiparadigmatic	1
 Berstein	1
 Rafain	1
@@ -78469,7 +77733,6 @@ GASMA	1
 เห็ล	1
 Gaag	1
 Phaethon	1
-pr_rid	1
 คลี่น	1
 RLT	1
 คลุ	1
@@ -78502,7 +77765,6 @@ prowar	1
 ENNDURANCE	1
 Meadow	1
 ชเนศร์	1
-_yz	1
 Sinomastodon	1
 E3	1
 klan	1
@@ -78514,7 +77776,6 @@ seek	1
 Malolos	1
 Laver	1
 Therse	1
-kC_1	1
 clung	1
 HORIZONTAL	1
 พลาม	1
@@ -78660,7 +77921,6 @@ quartiles	1
 เมล็ค	1
 Comin	1
 nominalism	1
-AN801	1
 ริวจ์	1
 freelance	1
 ทานาธิบดี	1
@@ -78683,7 +77943,6 @@ Jacinta	1
 MABE	1
 psychophsical	1
 หน่อว	1
-Op.16	1
 pencolor	1
 prehistory	1
 Huastecs	1
@@ -78848,14 +78107,12 @@ clects	1
 Foodloft	1
 isothiocyanates	1
 Therpy	1
-No.2:	1
 dressy	1
 Apocynaceae	1
 แจ็คท์	1
 prosoidia	1
 meroplankton	1
 Fygi	1
-
 มวก.	1
 esteern	1
 Ordinate	1
@@ -79068,7 +78325,6 @@ Diffuser	1
 anaerobics	1
 VH	1
 sp2	1
-
 สคร้าง	1
 เยบ็น	1
 Vic	1
@@ -79081,7 +78337,6 @@ antibioties	1
 Makatunaw	1
 Wolt	1
 ทช็อป	1
-_AC	1
 democrazy	1
 CHAGALL	1
 WMV	1
@@ -79149,7 +78404,6 @@ technerd	1
 ทามส์	1
 Remix	1
 SEQUENCE	1
-Linguistics10	1
 B0	1
 Synchronizing	1
 ขั่น	1
@@ -79163,9 +78417,7 @@ Summaries	1
 Haramiishi	1
 maketing	1
 Nissho	1
-SPF15	1
 สเสอร์	1
-pp.368-373	1
 Reserch	1
 คอมไพเลอร์	1
 ด้ด	1
@@ -79180,7 +78432,6 @@ Huayna	1
 Mimi	1
 ชาฟฟ์	1
 จฏ	1
-15oC	1
 nw	1
 ปินศ์	1
 Yuchengo	1
@@ -79195,7 +78446,6 @@ Provision	1
 Afp	1
 สตั้นท์	1
 มก้บ	1
-Tambiah1984	1
 LACOSTE	1
 Anselm	1
 CATHOLICISM	1
@@ -79203,7 +78453,6 @@ Vetiver	1
 Reconcilable	1
 ผรัฐ	1
 เทศท	1
-_______________________บาตร	1
 เลี้ยก	1
 Wheaton	1
 Occupancy	1
@@ -79228,7 +78477,6 @@ Unlove	1
 absolutive	1
 endrin	1
 ลอยช้อน	1
-A.D.การทำภำอย่างมีความหมาย	1
 แต่ล	1
 Miamis	1
 Kelsey	1
@@ -79243,7 +78491,6 @@ Lingeria	1
 paprika	1
 Yom	1
 ลูนะ	1
-AN815	1
 depoliticization	1
 intercostals	1
 Def	1
@@ -79314,7 +78561,6 @@ Giordano	1
 arousing	1
 Sorrenti	1
 Venny	1
-EX5_4	1
 หั้ม	1
 Ebbesen	1
 BOTTEGA	1
@@ -79376,7 +78622,6 @@ Narodnichestvo	1
 Mink	1
 GUST	1
 Rightness	1
-VII64	1
 Ilocano	1
 หทาย	1
 Deimos	1
@@ -79425,7 +78670,6 @@ Durkhiem	1
 CRAGG	1
 Shapley	1
 protectrate	1
-description10	1
 ชะช้า	1
 exiger	1
 Achin	1
@@ -79447,7 +78691,6 @@ Khamers	1
 gilet	1
 immortal	1
 Outflows	1
-le308	1
 แด็ง	1
 โษภ	1
 ELISABETH	1
@@ -79512,7 +78755,6 @@ Demonology	1
 Koolhaas	1
 L.T.	1
 Tagetes	1
-Association.Physiotyerapy	1
 Generale	1
 Iberico	1
 cochannel	1
@@ -79541,7 +78783,6 @@ Affine	1
 Mueck	1
 Dr.Dolores	1
 neolithic	1
-
 Lechner	1
 Unrestricted	1
 appearances	1
@@ -79584,7 +78825,6 @@ quarreled	1
 Eurystheus	1
 ไรม์	1
 deskritive	1
-5.31D	1
 2O4	1
 แทนต์	1
 ASPA	1
@@ -79868,7 +79108,6 @@ Reiko	1
 Fue	1
 Craven	1
 Indoamerica	1
-Helix3D	1
 Patnaik	1
 นย.	1
 TM4	1
@@ -79959,7 +79198,6 @@ Wd	1
 C.K.	1
 ham	1
 desserts	1
-360.buy	1
 ณโกฏ	1
 Sb	1
 etre	1
@@ -80024,10 +79262,8 @@ Verse	1
 ฟิสช์	1
 MODE	1
 PELVIS	1
-no.6390	1
 Seiyou	1
 เอลวิน	1
-
 Pinot	1
 CLORAZEPATE	1
 โชต์	1
@@ -80157,7 +79393,6 @@ Camelopardus	1
 Figgis	1
 เซลิม	1
 คเน่ย์	1
-test_speed	1
 decandra	1
 KIKUNO	1
 Manager1	1
@@ -80242,7 +79477,6 @@ arytenoid	1
 ฟุลสแก๊ป	1
 Interpretative	1
 คืพ	1
-17–18	1
 xenography	1
 เจ้ย	1
 Somjin	1
@@ -80428,7 +79662,6 @@ Raise	1
 Tamarin	1
 Vout	1
 CNNGO	1
-Hood.1991	1
 Croc	1
 Interdisciplinary	1
 พอยต์ส	1
@@ -80440,11 +79673,9 @@ Accumulated	1
 ชู้ว์	1
 Tana	1
 Pleione	1
-
 เกียตช์	1
 Tournai	1
 ductile	1
-ecodesign2009	1
 Crouch	1
 หงสฅ์	1
 Wok	1
@@ -80494,7 +79725,6 @@ croissant	1
 Lipsticks	1
 ของอ์	1
 สคิต	1
-75Zi	1
 Palaman	1
 CUBE	1
 แกร์ซ	1
@@ -80617,7 +79847,6 @@ ACA	1
 D.Rueschemeyer.	1
 รนับ	1
 Flyknit	1
-Op.20	1
 PES	1
 Cookint	1
 Volts	1
@@ -80659,7 +79888,6 @@ Rigid	1
 eslective	1
 Dr.Karl	1
 VOIDABLE	1
-ถามe-005	1
 เรเดียล	1
 comportement	1
 ตแลบ	1
@@ -80739,7 +79967,6 @@ TRANSIT	1
 Keo	1
 M.I.T	1
 Tubeculosis	1
-Swartz1997	1
 1.UV	1
 Erickson	1
 CoA	1
@@ -80762,7 +79989,6 @@ Rhynchocinetidae	1
 COPY	1
 Shopahollic	1
 Elmira	1
-11.Total	1
 patriotic	1
 อี้ว์	1
 ล็องส์ช	1
@@ -80799,9 +80025,7 @@ Shklovsky	1
 ลดุล	1
 artichokes	1
 Greenpeace	1
-_____________________________พ	1
 ฝโรค	1
-_3^2-2U	1
 Affachment	1
 Telecom	1
 เกินกิน	1
@@ -80842,7 +80066,6 @@ reclamation	1
 Pm	1
 volts	1
 NPPL	1
-ดดดดดดดดดดดดดดดดดดดดดดดดดดดด	1
 stripe	1
 Merope	1
 Resot	1
@@ -80875,7 +80098,6 @@ Keepers	1
 Cholprapatr	1
 possibility	1
 overseas	1
-AY62	1
 OLFACTICS	1
 เทร์น	1
 ปรอ์ต	1
@@ -80976,7 +80198,6 @@ incresing	1
 Bookmarking	1
 rhyolitic	1
 Iwakara	1
-
 BCDE	1
 เริ๊ด	1
 Moraleda	1
@@ -81056,7 +80277,6 @@ saison	1
 DUAN	1
 SW1	1
 INDEPENDENT	1
-10BASE5	1
 homeostatics	1
 Wescot	1
 Earthing	1
@@ -81115,10 +80335,8 @@ dimethylurea	1
 หยากเยื่อ	1
 Sibling	1
 กะหลีกะหลอ	1
-L_1+	1
 ไปว้	1
 joke	1
-m.l.เพื่อว่าผู้บริดภคตาดำๆ	1
 Promod	1
 Jenner	1
 Mamoulian	1
@@ -81210,7 +80428,6 @@ Alacria	1
 VIRGINITY	1
 Reinvoicing	1
 Stereophile	1
-E_b	1
 REEVE	1
 youthfully	1
 ต๊อ	1
@@ -81238,7 +80455,6 @@ MPB	1
 Bukharin	1
 สสะ	1
 Fol	1
-3.43a	1
 เกือะ	1
 mileage	1
 วส์	1
@@ -81256,7 +80472,6 @@ Harward	1
 Gurry	1
 WINTER	1
 สนุส	1
-พลัดe-005	1
 Heussler	1
 เฟิร์ธ	1
 juin	1
@@ -81274,7 +80489,6 @@ Hyperflexion	1
 เอเลียต	1
 Matukuma	1
 Savannah	1
-5.31B	1
 portuguese	1
 ทรูป	1
 Sindhu	1
@@ -81317,7 +80531,6 @@ Savg	1
 dreamscape	1
 มูกมัน	1
 ไมฅ์	1
-novam.in.th	1
 Buyers	1
 Buitoni	1
 บุนนาก	1
@@ -81328,7 +80541,6 @@ trek	1
 ระยัง	1
 applies	1
 eliminating	1
-กลับe-005	1
 Budhanilkantha	1
 Cowan	1
 Yoshijusa	1
@@ -81464,7 +80676,6 @@ xe	1
 Cryptodendrum	1
 เปปเปอร์มินท์	1
 anywhere	1
-L.Ed.2d	1
 radioactive	1
 cutout	1
 Pongsilp	1
@@ -81534,7 +80745,6 @@ Asianic	1
 G.W.	1
 สกุ๊ป	1
 admitted	1
-24th	1
 อ๊าาาาย	1
 Campania	1
 Ze	1
@@ -81585,7 +80795,6 @@ biobehavioral	1
 DEPRESSIVE	1
 วพิธ	1
 Ronnie	1
-CD30:0:0:0:0	1
 mercury	1
 เหื้อ	1
 pivot	1
@@ -81598,7 +80807,6 @@ Misas	1
 playhouse	1
 TANGGALLERY	1
 ตกาม	1
-1964b	1
 สทร้าวส์ส	1
 Margiela	1
 laque	1
@@ -81624,7 +80832,6 @@ CDG	1
 Dhesar	1
 Taeko	1
 deformation	1
-EX6_3	1
 palettes	1
 Starwar	1
 servant	1
@@ -81639,7 +80846,6 @@ B6	1
 เสิท	1
 IKB	1
 Methodological	1
-tour3billon	1
 สวัม	1
 ksiti	1
 FLATTNED	1
@@ -81701,7 +80907,6 @@ representativeness	1
 Terman	1
 Pax	1
 KCL	1
-Running16	1
 แสยงขน	1
 astigmatism	1
 stones	1
@@ -81758,7 +80963,6 @@ LOCAL	1
 TPROP	1
 Medicalrch	1
 Poncho	1
-1200s	1
 construed	1
 presidencia	1
 Pant	1
@@ -81873,7 +81077,6 @@ Opthalmic	1
 Duslism	1
 PENNZOIL	1
 FINAL	1
-10.7b	1
 ท่ณ	1
 prey	1
 pipelining	1
@@ -81954,7 +81157,6 @@ Ducet	1
 Zouhyoumonogatari	1
 prayers	1
 ตูห์	1
-R_1=0	1
 stupidity	1
 INKON	1
 เงบ	1
@@ -81969,7 +81171,6 @@ Dialing	1
 Elicited	1
 onerous	1
 TJ	1
-dy_2	1
 lasts.Waves	1
 Kleptophobia	1
 เซ่ะ	1
@@ -81984,7 +81185,6 @@ bitchy	1
 งร	1
 nichax	1
 maturational	1
-doro_act2009	1
 tolperisol	1
 เถาคัน	1
 อโนด์	1
@@ -82368,10 +81568,7 @@ Peggy	1
  อ๊าาา	1
 Microcystis	1
 Schallaburg	1
-ii43	1
 Approximate	1
-You2play	1
-1990a	1
 Dia	1
 Reductionism	1
 Geoffry	1
@@ -82381,12 +81578,10 @@ empirically	1
 ซิล์ค	1
 OneWorld	1
 คู่ชัก	1
-ได้e-005	1
 Mr.W	1
 manufactured	1
 Gauss	1
 หรืป	1
-15ans	1
 CROUCHING	1
 Kira	1
 สต็อกกิ้ง	1
@@ -82429,7 +81624,6 @@ Guggenhiem	1
 RATED	1
 Cheong	1
 awakes	1
-15billons	1
 Distinctive	1
 Jaoar	1
 แจบ	1
@@ -82440,7 +81634,6 @@ Photoneutron	1
 COLORS	1
 Antonioni	1
 Wart	1
-20TH	1
 Pseudomonas	1
 PH.D	1
 FITNESS	1
@@ -82474,7 +81667,6 @@ Melior	1
 DS	1
 deliberately	1
 Jiu	1
-10s	1
 Frogg	1
 km2	1
 WRITER	1
@@ -82562,7 +81754,6 @@ Leiden	1
 Gladwell	1
 Ungraviolet	1
 Nani	1
-5.4a	1
 whitening	1
 Peking	1
 USSC	1
@@ -82721,7 +81912,6 @@ shill	1
 แส้ว	1
 อกโรย	1
 RedCross	1
-Marvin.1966	1
 ADMINISTRATION	1
 คอยด์	1
 Floris	1
@@ -82737,7 +81927,6 @@ ROBDRT	1
 `หมวด	1
 momentarily	1
 ตตองส์	1
-WT200	1
 Leenvenheor	1
 Jezowski	1
 Mariachi	1
@@ -82900,7 +82089,6 @@ holm	1
 Renergie	1
 Keb	1
 rheumatoid	1
-5.31A	1
 Ockeghen	1
 JBP	1
 Stafford	1
@@ -82952,7 +82140,6 @@ Substantial	1
 Gastric	1
 STRANIN	1
 BlueBerry	1
-r_1^2	1
 Armenian	1
 Microscopium	1
 Hypo	1
@@ -83136,7 +82323,6 @@ multinodular	1
 DEL	1
 illocutionary	1
 medio	1
-y_max	1
 Healthier	1
 Heidenheimer	1
 unreal	1
@@ -83310,7 +82496,6 @@ allegorical	1
 anitoxidant	1
 aptists	1
 หวุห	1
-AN800	1
 Cobbing	1
 expander	1
 เฝื้อ	1
@@ -83455,7 +82640,6 @@ Shimizu	1
 inconsistency	1
 DIAGONAL	1
 Lanocreme	1
-pp.9-18.	1
 silica	1
 loquitur	1
 Shunten	1
@@ -83485,7 +82669,6 @@ LIFEMINT	1
 grattage	1
 stuarts	1
 HanHan	1
-_ts	1
 Verbid	1
 footage	1
 Enneas	1
@@ -83513,7 +82696,6 @@ vados	1
 COMING	1
 Ovula	1
 Octane	1
-AS05	1
 Dohring	1
 Umesao	1
 enduring	1
@@ -83608,7 +82790,6 @@ T.K.Lutes	1
 มนุฃ	1
 นวการ	1
 Allowances	1
-shape.Australia.1988	1
 fj	1
 ลุง์	1
 pulverized	1
@@ -83638,7 +82819,6 @@ Optimiztion	1
 โฒง	1
 Edible	1
 invasion	1
-Op.31,	1
 Silverdale	1
 Limousine	1
 Artheriovenous	1
@@ -83648,7 +82828,6 @@ Kapuzinerberg	1
 Arlington	1
 Myofascial	1
 Carnival	1
-No.226	1
 Enhancement	1
 เร่ห์	1
 ภฎ	1
@@ -83736,7 +82915,6 @@ Sachem	1
 ionic	1
 `โฆษณาสถานพยาบาล	1
 คูณร่วมน้อย	1
-ch.11	1
 Necked	1
 Hoyle	1
 Momento	1
@@ -83780,7 +82958,6 @@ MCQC	1
 Proton	1
 งุ่ง	1
 ก้ถ	1
-chula.ac.th	1
 Unevening	1
 รวองซ์	1
 Melvill	1
@@ -83847,7 +83024,6 @@ Himeyur	1
 ภวัต	1
 Oshibori	1
 morally	1
-
 ศีพ	1
 Manchuria	1
 Bolivia	1
@@ -83886,7 +83062,6 @@ Isocrates	1
 ซกมา	1
 Skillin	1
 เปียร	1
-ฟังe-005	1
 Pitayoano	1
 มสาร์ต	1
 Thorbecke	1
@@ -84074,7 +83249,6 @@ NBD	1
 Daseinanalyse	1
 Petighial	1
 Matuyama	1
-FJ.1985	1
 KIWI	1
 Superneutral	1
 Chuon	1
@@ -84105,7 +83279,6 @@ blaze	1
 เหลิบ	1
 AirBnB	1
 onboard	1
-GP3H	1
 Petronian	1
 Hagenbach	1
 Chimi	1
@@ -84120,15 +83293,12 @@ Tye	1
 สบั้บ	1
 Efa	1
 irresistible	1
-5.4C	1
 รุฆน์	1
 postmodernist	1
 Brummett	1
 MAGARET	1
 Desaussure	1
 henna	1
-1+2i	1
-
 began	1
 muongthensis	1
 เจกต์	1
@@ -84145,7 +83315,6 @@ NEM	1
 โจฉ	1
 stillness	1
 ทร๊าม	1
-Q_1=240	1
 incorporel	1
 ลิทช์	1
 Geminids	1
@@ -84176,7 +83345,6 @@ Menno	1
 เกรี้ยก	1
 Neans	1
 mutuum	1
-No.27	1
 Postman	1
 Aalto	1
 ผนวด	1
@@ -84256,7 +83424,6 @@ Carboniferous	1
 Dermatological	1
 Lockwood	1
 rikon	1
-SPF50	1
 Westernized	1
 GDZQ	1
 เด้าลม	1
@@ -84310,7 +83477,6 @@ pounds	1
 RCVD	1
 Supervision	1
 Morinosuke	1
-TE10	1
 สูม	1
 ทัท	1
 ฟรอย์ด	1
@@ -84384,7 +83550,6 @@ Hardin	1
 เนิ้ม	1
 วั้ย	1
 Percey	1
-รามe-005	1
 Cariology	1
 Gibert	1
 ดรั้ง	1
@@ -84402,7 +83567,6 @@ Spindle	1
 Kroller	1
 Pinochet	1
 แพตตัน	1
-Op.83	1
 Reprocess	1
 EXCUSAT	1
 Kedena	1
@@ -84458,7 +83622,6 @@ Brahm	1
 Bulgars	1
 กปธ.	1
 แอ็กซ์ต	1
--_-^^^.	1
 Fivefingers	1
 APSEP	1
 bearings	1
@@ -84668,7 +83831,6 @@ Unprocessed	1
 steeper	1
 Fury	1
 ลัญฉกร	1
-420MW	1
 Ravenna	1
 Kentaurus	1
 Tencent	1
@@ -84773,7 +83935,6 @@ Steffler	1
 Seditionaries	1
 sticky	1
 CEMETERY	1
-เลยe-005	1
 เจี๊ยห	1
 claustrophobia	1
 สมัง	1
@@ -84861,7 +84022,6 @@ omnidirectional	1
 Attacks	1
 Oroxylum	1
 2T	1
-บ่นe-005	1
 COCAINE	1
 marche	1
 NPD	1
@@ -84948,7 +84108,6 @@ char	1
 CVE	1
 เชียณ์	1
 EMEA	1
-460km	1
 Gilson	1
 St.Raphael	1
 Playfulness	1
@@ -84979,8 +84138,6 @@ Langan	1
 ริฮ	1
 PLAYER	1
 ปยอก	1
-1994a	1
-GX2-28	1
 ง่ร	1
 Limber	1
 sexist	1
@@ -84999,7 +84156,6 @@ AK	1
 reporter	1
 Wilderbeast	1
 GUNPOWDER	1
-item_no.	1
 Firearm	1
 Denison	1
 Epistomology	1
@@ -85231,7 +84387,6 @@ DEMUTH	1
 Pranic	1
 จก้าน	1
 Theuniverse	1
-1-2U	1
 Jernigan	1
 DEGRADATION	1
 Rizzoli	1
@@ -85294,7 +84449,6 @@ Calandranis	1
 Lupton	1
 Rodrigo	1
 ควม.	1
-
 Brigham	1
 Sussannah	1
 Latifah	1
@@ -85314,7 +84468,6 @@ Ceiling	1
 Folio	1
 Unpublished	1
 ฟลิกร์	1
-Ey_x	1
 Borner	1
 DIF	1
 กิ๊ฟส์	1
@@ -85386,7 +84539,6 @@ Dandy	1
 กลู่ม	1
 ปพท.	1
 Dimond	1
-Deschouwer2001:201	1
 Envolvement	1
 แกร๊ซ	1
 Volkswaken	1
@@ -85395,7 +84547,6 @@ Climax	1
 แด๊ะ	1
 sieur	1
 Nuchibana	1
-GX2-40	1
 diploe	1
 YUKIO	1
 putrefaction	1
@@ -85425,7 +84576,6 @@ Caprd	1
 superlative	1
 Coagulation	1
 เจ้าสำนวน	1
-แ_ก	1
 เบิลร์น	1
 Scone	1
 PMMa	1
@@ -85504,7 +84654,6 @@ Parc	1
 แย่นต์	1
 TEAR	1
 Depreciation	1
-GO269	1
 Jullian	1
 Duan	1
 ceratoph	1
@@ -85521,7 +84670,6 @@ Congruent	1
 ลอด์จ	1
 ไวนน์	1
 แอ่นลม	1
-80‘	1
 delocalize	1
 Tena	1
 Stirr	1
@@ -85537,7 +84685,6 @@ PAID	1
 Improvement	1
 legumes	1
 AKITA	1
-_yp^2=	1
 โฮล์ด	1
 บอบแบบ	1
 Waldsemuller	1
@@ -85562,9 +84709,7 @@ Supawaree	1
 มุค	1
 OX1	1
 Ouster	1
-
 irns	1
-600F	1
 Urartians	1
 ข้าฃ	1
 จลาด	1
@@ -85585,7 +84730,6 @@ Kvale	1
 Bug	1
 tenderly	1
 PHOTOMANTAGE	1
-Anan1992b	1
 McGraw	1
 Fri	1
 ควินซ์	1
@@ -85747,7 +84891,6 @@ Gieber	1
 Paraphrases	1
 preface	1
 Phenotyic	1
-KB121	1
 มาย์	1
 Optima	1
 Knoll	1
@@ -85760,7 +84903,6 @@ Verification	1
 selfdetermination	1
 finasteride	1
 Blackshirts	1
-25th	1
 Hypertext	1
 วลท	1
 meteorite	1
@@ -85820,7 +84962,6 @@ Kohima	1
 BEHAVIORISM	1
 Ultrafast	1
 รรรรรร	1
-20log10s	1
 อเนญ	1
 ROCHE	1
 serialism	1
@@ -85892,7 +85033,6 @@ myelin	1
 Winnington	1
 MATCHING	1
 HAVEL	1
-=_-	1
 ศส	1
 Eliane	1
 Kaye	1
@@ -85929,7 +85069,6 @@ Vabene	1
 เจราด์	1
 CERD	1
 สคูป	1
-h_avg	1
 Deaily	1
 Runge	1
 โอล์	1
@@ -85981,8 +85120,6 @@ DIEGO	1
 protects	1
 Yusanbentou	1
 เทเพนทร์	1
-TT_TT.	1
-voice_sample	1
 มิดิ	1
 virgule	1
 พนาย	1
@@ -86010,7 +85147,6 @@ HDTV	1
 ใบ๊	1
 Canglion	1
 Titles	1
-105,000MW	1
 Hawthorne	1
 P.U.B	1
 Buckner	1
@@ -86060,7 +85196,6 @@ MJB	1
 Caucasus	1
 Homeostasts	1
 Siwa	1
-
 เคิร์ลส์	1
 eicosapentaenoic	1
 Burron	1
@@ -86114,7 +85249,6 @@ Footage	1
 caviier	1
 tranfusion	1
 monde	1
-90o	1
 Dickinson	1
 นกาห์	1
 Monographed	1
@@ -86134,7 +85268,6 @@ rdferences	1
 เฟียง	1
 Leakey	1
 Keisuke	1
-
 sheathing	1
 Maurier	1
 เฝี้ยน	1
@@ -86232,9 +85365,7 @@ comtour	1
 cyanogens	1
 Pictor	1
 yoga	1
-1972L122	1
 pearl	1
-BJU2280	1
 Haskin	1
 Bluesea	1
 ฟริ้น	1
@@ -86254,7 +85385,6 @@ Zeis	1
 เงียะ	1
 เฆี่ยม	1
 Chaucer	1
-1+4i	1
 Erilk	1
 Share5	1
 เรมิ่น	1
@@ -86316,7 +85446,6 @@ ICJ	1
 Bayton	1
 เตส์	1
 BSS	1
-fax.034-837371	1
 shirtdress	1
 Successful	1
 noisy	1
@@ -86382,7 +85511,6 @@ Backstreet	1
 Sancheoneo	1
 AAS	1
 Amir	1
-___________แลวนัแล_____________	1
 Nisbett	1
 pioneers	1
 ปาญ	1
@@ -86421,10 +85549,8 @@ Braiker	1
 พล่จ	1
 Edmond	1
 alarms	1
-9.17c	1
 semiconductor	1
 SKII	1
-I.Q.อยู่ในระดับต่ำกว่าปกติ	1
 veut	1
 Contingent	1
 seedless	1
@@ -86502,7 +85628,6 @@ adhaesivum	1
 Berder	1
 ลิ้งก์	1
 Hergenhahn	1
-13.Shiseido	1
 gesammte	1
 สแต๊ค	1
 Vortex	1
@@ -86525,7 +85650,6 @@ Prayadsap	1
 BOO	1
 H.E.	1
 Sunkoraku	1
-0.577P_cr	1
 Haig	1
 Cramp	1
 แศ็ค	1
@@ -86580,7 +85704,6 @@ A.C.Warwick	1
 Extract	1
 harassment	1
 Consultants	1
-40-100oC	1
 NAUI	1
 Hytchison	1
 terrorist	1
@@ -86664,11 +85787,9 @@ TM.Sidhis	1
 เจิ๊ด	1
 เนรียบ	1
 โฟลว์ม	1
-No.4-5-6	1
 conjunctions	1
 รนวจ	1
 TD	1
-2547–2548	1
 Tally	1
 กระกวด	1
 Montesguieu	1
@@ -86696,7 +85817,6 @@ Charities	1
 resentment	1
 expressly	1
 Arschinor	1
-48EI	1
 มัมต์	1
 React	1
 Longest	1
@@ -86740,7 +85860,6 @@ Adz	1
 Childres	1
 Scientist	1
 Euryale	1
-8.3b	1
 ส้มฟัก	1
 Norimakizushi	1
 asase	1
@@ -86837,7 +85956,6 @@ underindulgence	1
 Lei	1
 Milland	1
 Lighthouse	1
-0.875b	1
 Ishikawa	1
 Ilvico	1
 Dataphone	1
@@ -86994,7 +86112,6 @@ Superrzaaap	1
 เดื่อง	1
 สิถิล	1
 TSP	1
-Mead20	1
 Sudan	1
 Rufous	1
 กมั้ต	1
@@ -87020,7 +86137,6 @@ Sufficiency	1
 Yasaka	1
 M.A	1
 sweeter	1
-16th	1
 TOLERANCE	1
 ฉมบ	1
 Haigh	1
@@ -87042,7 +86158,6 @@ Marter	1
 Remake	1
 Oviparous	1
 แคมเปน	1
-6.5kd	1
 JISHIN	1
 PIGMENT	1
 กรมเกรียม	1
@@ -87122,7 +86237,6 @@ MILK	1
 ดร๊าฟท์	1
 ฟุง์	1
 รสพ	1
-300Hz	1
 Pandapoly	1
 Counterfeit	1
 ชอดท์	1
@@ -87177,13 +86291,11 @@ Guimet	1
 historically	1
 Mainboard	1
 Bergen	1
-24oo	1
 panegyric	1
 Michele	1
 ศณะ	1
 ซี่ว	1
 ญญ่า	1
-24h	1
 FLAVIO	1
 Wasp	1
 snake	1
@@ -87194,7 +86306,6 @@ Extensor	1
 Eximius	1
 besser	1
 Cuilt	1
-R_C	1
 hazy	1
 Austen	1
 ทแก	1
@@ -87278,7 +86389,6 @@ Padmeswar	1
 Circumvention	1
 Saba	1
 Ney	1
-1938a	1
 Mani	1
 MISSION	1
 sulfhemoglobin	1
@@ -87299,7 +86409,6 @@ kokan	1
 disassociate	1
 N.S.Harsha	1
 ซาวร์	1
-CF3COOH	1
 Galerie	1
 Germ	1
 effector	1
@@ -87401,7 +86510,6 @@ iBeat	1
 จุ๊ปส์	1
 Williamberg	1
 Englishman	1
-1994b	1
 คลูห์	1
 DOUGLAS	1
 KANJIO	1
@@ -87439,9 +86547,7 @@ TAPIES	1
 ภระ	1
 Vyahliev	1
 Adriano	1
-HD5450	1
 กี้ว	1
-I.Q.ที่วัดได้มากเกินไป	1
 cations	1
 SCIATEC	1
 indulgence	1
@@ -87525,7 +86631,6 @@ NEURASTHENIA	1
 eventual	1
 Territories	1
 Histological	1
-
 Hampson	1
 utricaria	1
 Nourishing	1
@@ -87569,7 +86674,6 @@ Artsts	1
 cesarean	1
 Satine	1
 Charoenprawat	1
-2001.pp.130-137.	1
 YMF	1
 Gagosian	1
 Reisenzein	1
@@ -87639,8 +86743,6 @@ ford	1
 Shank	1
 Deception	1
 อ.ก.	1
-_A1-	1
-V_C	1
 Castello	1
 BROUGHT	1
 Dorner	1
@@ -87691,7 +86793,6 @@ FATF	1
 conflicting	1
 Reviwe	1
 kknoeledge	1
-1973d	1
 สเจอ	1
 itai	1
 KOT	1
@@ -87715,7 +86816,6 @@ CANNIBALISM	1
 Phuntsoling	1
 Cill	1
 Brainwashed	1
-l_a	1
 PariDelicteest	1
 ขอล	1
 แฟรป	1
@@ -87747,7 +86847,6 @@ OOPS	1
 responder	1
 McCrosky	1
 dejendantis	1
-10D	1
 versa	1
 OME	1
 SCALING	1
@@ -87812,7 +86911,6 @@ equidistance	1
 Tariq	1
 pastel	1
 Cephalus	1
-AsOneA110	1
 Phytopharmaceuticals	1
 PMS	1
 Migima	1
@@ -87861,7 +86959,6 @@ choices	1
 kaleidoscopic	1
 Supplemental	1
 ผ้ส	1
-_น้ำบ่อน้อย	1
 พอยท์ส	1
 nos	1
 durbanensis	1
@@ -87887,7 +86984,6 @@ Marriott	1
 intersection	1
 Azumadonburi	1
 superrodinate	1
-_p1	1
 Linen	1
 Ethnophaulism	1
 Stages	1
@@ -87895,7 +86991,6 @@ Sprague	1
 D.Smythe	1
 ohm	1
 กตาง	1
-
 Centocelli	1
 Dombi	1
 Osterreich	1
@@ -87904,7 +86999,6 @@ Roulette	1
 Attributive	1
 คัมปาลา	1
 grapefruit	1
-M_z	1
 Overlay	1
 ญภ	1
 Plump	1
@@ -87922,7 +87016,6 @@ Moisturizers	1
 indemnification	1
 ชพน.	1
 incurs	1
-1905-1980A.D.	1
 Roosewelt	1
 triller	1
 earliest	1
@@ -88036,7 +87129,6 @@ Y3	1
 Needham	1
 แชช	1
 วณีย์	1
-R_1-	1
 bpi	1
 Bharti	1
 มณืจ	1
@@ -88086,7 +87178,6 @@ adwuma	1
 Mcclelland	1
 Blizzard	1
 ไพร้ซ์	1
-1930s	1
 Apostles	1
 Scandinavia	1
 dulcitol	1
@@ -88105,7 +87196,6 @@ Penicillium	1
 caucasoid	1
 CHLORITE	1
 Hangui	1
-หนึ่งe-005	1
 เขียห	1
 Auditors	1
 F.G.S.	1
@@ -88244,7 +87334,6 @@ Greimas	1
 Ume	1
 Metalic	1
 Bilchik	1
-
 ธนี่	1
 pleasant	1
 Diller	1
@@ -88260,7 +87349,6 @@ proletarianization	1
 ECONOMICALLY	1
 ฝนแสนห่า	1
 เอคส์	1
-PF01	1
 สเฟท	1
 Shulamith	1
 N.4	1
@@ -88337,7 +87425,6 @@ Garnett	1
 ไข้กาฬนกนางแอ่น	1
 คป็อป	1
 สตรีก	1
-No.24	1
 Mongolia	1
 serviam	1
 ดศ	1
@@ -88362,7 +87449,6 @@ Anson	1
 ฑอ.	1
 ธรจน์	1
 เหส	1
-
 Sexsy	1
 Kaotip	1
 apprapproached	1
@@ -88458,7 +87544,6 @@ TWISTED	1
 มหาภิเนษกรมณ์	1
 Knowledges	1
 Professionalism	1
-ku.ac.th	1
 ZIKCSW	1
 multimodel	1
 LOMOND	1
@@ -88546,7 +87631,6 @@ Hudgins	1
 crying	1
 Discant	1
 ห้อน	1
-
 rimming	1
 AGES	1
 กปุ๊ก	1
@@ -88577,7 +87661,6 @@ Attorneyship	1
 Os	1
 ธนน	1
 Hakes	1
-L_1+2M_2	1
 บ้าหว่า	1
 วับวาม	1
 สาหรี	1
@@ -88666,7 +87749,6 @@ visite	1
 Oriraptor	1
 Ambrose	1
 Jacopo	1
-dy_1	1
 chopard	1
 Protagoras	1
 Nowicki	1
@@ -88690,10 +87772,8 @@ DUBUFFET	1
 สถูก	1
 cartographer	1
 atropine	1
-512MB	1
 haru	1
 Yurakucho	1
-
 AVANT	1
 Dweve	1
 ภูมิ์	1
@@ -88708,7 +87788,6 @@ Monixe	1
 ETERITY	1
 กองหัตถศิลป	1
 Kaen	1
-I.Q.เป็นการประเมินความฉลาดที่ไม่ครบถ้วนพอ	1
 หลู้	1
 Anotomical	1
 ซ่าาา	1
@@ -88737,7 +87816,6 @@ Lasagna	1
 SOMATIC	1
 จี๊ฟ	1
 Blastocyte	1
-I.Q.จะไม่มีความหมายเลยหากเราใช้มันเพื่อตัดสินเด็ก	1
 Maxcime	1
 DiscTM	1
 Throttling	1
@@ -88819,7 +87897,6 @@ fro	1
 ดักลัส	1
 Gaosskopf	1
 anhydrous	1
-ยยยยยยยยยยยยยยยยยยยยย	1
 เวิท	1
 Anacrusis	1
 ทรงเครื่องใหญ่	1
@@ -88851,14 +87928,12 @@ Undertaking	1
 dew	1
 berath	1
 Mixtecs	1
-3.81a	1
 S.E.	1
 Gita	1
 Polycystic	1
 Figlia	1
 แคนเทอร์เบอรี	1
 Roadshow	1
-ยยยยยยยยยยยยยยยยยยยยยย	1
 vicharn	1
 กูณฐ์	1
 SALE	1
@@ -88905,7 +87980,6 @@ yearns	1
 Directional	1
 พเจ่า	1
 สด้วย	1
-psu.ac.th	1
 Mager	1
 Jamshid	1
 Pressurized	1
@@ -88926,7 +88000,6 @@ ABF2	1
 รณุส	1
 awards	1
 oedipus	1
-SES2000	1
 Maladie	1
 ริตถ์	1
 Puna	1
@@ -88942,10 +88015,8 @@ internalibe	1
 intrabuccal	1
 ฟร็อม	1
 antithyroid	1
-BFW06	1
 Hyaluronidase	1
 โล้บ	1
-II6-IV	1
 PCC	1
 Anghiari	1
 absorbance	1
@@ -88978,7 +88049,6 @@ Cashel	1
 Geigy	1
 counterstatement	1
 ศมจ.	1
-Sports17	1
 Tracting	1
 ตรบ	1
 introductory	1
@@ -89030,7 +88100,6 @@ Conductus	1
 H.T.AVENUE	1
 lotions	1
 พริ้นต์	1
-20.FTA	1
 Boh	1
 DIRECTIONLESS	1
 ทรัพทย์	1
@@ -89069,7 +88138,6 @@ Complile	1
 SHUI	1
 Malmaison	1
 nRT	1
-CIPK15	1
 Bedet	1
 Obsecure	1
 ร้าซ์	1
@@ -89080,7 +88148,6 @@ Leigh	1
 Sadiya	1
 STANDDARD	1
 pandidiasis	1
-Op.3,	1
 Organs	1
 INCORPORATE	1
 PLOW	1
@@ -89103,7 +88170,6 @@ Coaching	1
 Homers	1
 roar	1
 Steinam	1
-apoc2016	1
 แตค	1
 ภ่าย	1
 หมดพุง	1
@@ -89228,7 +88294,6 @@ Dayak	1
 phenylketonurea	1
 ยอกร์ก	1
 ฉูก	1
-1-2u	1
 เหบียบ	1
 RVI	1
 Aspirate	1
@@ -89237,7 +88302,6 @@ Aspirate	1
 จิต์	1
 encomendero	1
 กุญช์ช	1
-LA32A330J1	1
 MODIS	1
 Hayden	1
 Zlatnik	1
@@ -89260,7 +88324,6 @@ Mira	1
 ลดิทซ์	1
 Foamless	1
 Printemps	1
-
 cape	1
 เขมินท์	1
 นัที	1
@@ -89299,7 +88362,6 @@ nonbeing	1
 connectivity	1
 expressing	1
 สลิส	1
-15ma	1
 SOUTH	1
 chinoises	1
 campaigns	1
@@ -89324,7 +88386,6 @@ COLORFUL	1
 herpetiform	1
 megohm	1
 AmmoniumNitrate	1
-Q_1+	1
 Metropolitians	1
 Craftsmanship	1
 deeply	1
@@ -89345,7 +88406,6 @@ Lodown	1
 Uutagenic	1
 Soired	1
 Mitsuhiro	1
-เขาe-005	1
 transceivers	1
 ฮัตตา	1
 Penaeus	1
@@ -89361,12 +88421,10 @@ diversification	1
 Grasnost	1
 1.Perfect	1
 Dialectically	1
-M_WTSH_NE	1
 แพรท์	1
 ROLF	1
 surfaces	1
 R.Chamberlain	1
-
 dextrin	1
 parfait	1
 โมดห	1
@@ -89387,7 +88445,6 @@ ehtL	1
 Ott	1
 Instantaneous	1
 แวนส์	1
-2.2251e	1
 inspection	1
 Dimensional	1
 ดาวส์	1
@@ -89401,11 +88458,9 @@ lliad	1
 Perspectives	1
 Schizochytrium	1
 ACETIC	1
-CL330.9	1
 มยิ	1
 วยุก	1
 ระหวย	1
-
 Takky	1
 innocence	1
 Parentage	1
@@ -89537,7 +88592,6 @@ capture	1
 Lorre	1
 งด.	1
 Typhon	1
-
 Schuld	1
 operationg	1
 AFED	1
@@ -89566,7 +88620,6 @@ Deaton	1
 Legaspi	1
 ชอล์	1
 Dwright	1
-AS3836	1
 Brute	1
 บานต์	1
 เช่นจ์	1
@@ -89607,7 +88660,6 @@ tribits	1
 ลโด้	1
 อราวด์	1
 sakdina	1
-AS4651	1
 IMMF	1
 depths	1
 Bras	1
@@ -89696,7 +88748,6 @@ Sohrab	1
 Casis	1
 STEER	1
 Polizia	1
-ds_	1
 inutile	1
 C.2	1
 Questa	1
@@ -89707,7 +88758,6 @@ Tyson	1
 Wag	1
 คราวน์ส	1
 Ez	1
-Variddhi_Ungghakorn	1
 gram	1
 Winford	1
 COE	1
@@ -89815,7 +88865,6 @@ oatmeal	1
 Gai	1
 Fournier	1
 รู้ต	1
-1.1c	1
 Mosby	1
 Remove	1
 ทุกพาย	1
@@ -89833,7 +88882,6 @@ BFHE	1
 Chenal	1
 นลาท	1
 ruptured	1
-ดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดด	1
 traffickers	1
 Noda	1
 surcharge	1
@@ -89845,14 +88893,12 @@ aligned	1
 เรติส	1
 วิปส์	1
 Gingrich	1
-‘555	1
 ระแนะ	1
 4e	1
 elocutionists	1
 Bombonera	1
 สหะ	1
 parquet	1
-รรรรรรรรรรรรรรรรรรรรรรรรรรร	1
 Belvedere	1
 หยวง	1
 Orgranizer	1
@@ -89888,7 +88934,6 @@ breezes	1
 tradio	1
 necking	1
 Kilowatt	1
-
 DIAZEPAM	1
 Witches	1
 จน่า	1
@@ -89915,14 +88960,12 @@ Equipments	1
 Shale	1
 Neuve	1
 Itoshii	1
-longmenu_mult	1
 ouest	1
 สร้อยอ่อน	1
 Regel	1
 Steene	1
 อีฟต์	1
 Abscissa	1
-24K	1
 Tashicho	1
 Bikers	1
 Smelts	1
@@ -89933,7 +88976,6 @@ confer	1
 ช.ด.	1
 Boolean	1
 Okayama	1
-+0.2V	1
 Stelton	1
 บูทซ์	1
 Villas	1
@@ -89974,7 +89016,6 @@ Multiperiod	1
 เบลือด	1
 meningitidis	1
 Summarization	1
-Q_1=	1
 กะลอจี๋	1
 กรล	1
 GU	1
@@ -89995,7 +89036,6 @@ Makhmalbaf	1
 ECEAT	1
 I.Q.แบบพร่ำเพรื่อ	1
 หยาว	1
-I.Q.เปลี่ยนแปลงได้อีก	1
 สไง	1
 langh	1
 เฟียม	1
@@ -90028,7 +89068,6 @@ Tellotson	1
 Freckle	1
 ผสาม	1
 Chilham	1
-C_2+	1
 Admit	1
 MILANO	1
 Gown	1
@@ -90129,7 +89168,6 @@ Parndorf	1
 Delquard	1
 อริซ	1
 Submerges	1
-Op.15,	1
 unites	1
 Logics	1
 Realignment	1
@@ -90172,7 +89210,6 @@ freezing	1
 ษาปน์	1
 Cloudburst	1
 Atocha	1
-LA212	1
 สัสถ์	1
 crosscut	1
 weave	1
@@ -90340,7 +89377,6 @@ dollars	1
 digit	1
 Rillettes	1
 lent	1
-3.00GHz	1
 คูนส์	1
 อิเลคตรอน	1
 purify	1
@@ -90403,7 +89439,6 @@ Spotlamp	1
 Slobodan	1
 Exim	1
 misreading	1
-IC434	1
 จะร์จ	1
 Strawberries	1
 เกว๊น	1
@@ -90427,18 +89462,14 @@ TDRS	1
 2.IAU	1
 D.N.A	1
 Sy	1
-Op.114	1
 Ragout	1
 BlackBeery	1
 setters	1
-^+^	1
 Vionnet	1
 Chenery	1
 ม้ม	1
 ลคอต	1
 ตฤณมัย	1
-อกe-005	1
-9.17b	1
 webminar	1
 M.s	1
 Squat	1
@@ -90454,7 +89485,6 @@ MUMMY	1
 สวว	1
 telecommunication	1
 Dowman	1
-40Hz	1
 ยยยยยยยยยยยยย	1
 Sanger	1
 heavy	1
@@ -90509,7 +89539,6 @@ Antjropology	1
 อเดิร	1
 SAMANA	1
 sff	1
-M_2+	1
 บรอซ	1
 Dissonance	1
 PowerSeraya	1
@@ -90521,7 +89550,6 @@ Rotational	1
 Parents	1
 CINEMATOGRAPHE	1
 stirring	1
-pudding_za@	1
 เผยิบ	1
 ตืม	1
 LABoratory	1
@@ -90556,7 +89584,6 @@ Shoot	1
 Insense	1
 ผักปลัง	1
 เซี๊ยม	1
-Q_2=9,000	1
 Preventing	1
 คุฅ	1
 Neff	1
@@ -90652,7 +89679,6 @@ nahm	1
 กวิด	1
 เค๊	1
 Pesticide	1
-16hx	1
 Beardsley	1
 expressive	1
 loving	1
@@ -90677,7 +89703,6 @@ Varies	1
 กลุส	1
 โสตถ์	1
 CEE	1
-10,240Hz	1
 แหล่ว	1
 toi	1
 Fundacion	1
@@ -90687,7 +89712,6 @@ UWC	1
 พีส์	1
 J5	1
 mulatta	1
-5.40c	1
 Singharajwarapan	1
 Undersible	1
 ตั้วเหี่ย	1
@@ -90736,7 +89760,6 @@ Prasartset	1
 media.mix	1
 เซปต์บ	1
 ตรู๊	1
-Strauss12	1
 Triglyceride	1
 มั๊ง	1
 ขดวน	1
@@ -90825,7 +89848,6 @@ hypnotizable	1
 เฟรนด์ชิพ	1
 nuclee	1
 ตตี้ส	1
-50,000DWT	1
 Tolkein	1
 Datchani	1
 Bake	1
@@ -90846,7 +89868,6 @@ UNFDAC	1
 woven	1
 HBS	1
 psychoanalyst	1
-
 triserialis	1
 Streaming	1
 Sociey	1
@@ -90960,7 +89981,6 @@ Sixties	1
 อุยยาม	1
 chrysoprase	1
 sorbet	1
-Sweet_Heart	1
 แก๊ท	1
 Hallmark	1
 Kooru	1
@@ -91073,7 +90093,6 @@ Quaternary	1
 SportMax	1
 methionine	1
 oin	1
-C_1=	1
 Itashimasu	1
 Nachrichten	1
 OUGHT	1
@@ -91101,7 +90120,6 @@ Guilt	1
 phenols	1
 Colllege	1
 Nevia	1
-Op.17,	1
 Weiye	1
 ลวีต	1
 Ecologically	1
@@ -91113,7 +90131,6 @@ Kohn	1
 sparing	1
 oxidize	1
 รพร	1
-21ST	1
 Lesotho	1
 Venecia	1
 BEP2	1
@@ -91197,7 +90214,6 @@ lock	1
 generated	1
 ตบุ	1
 Geary	1
-Sb2S3	1
 ลื้น	1
 เคป็น	1
 economically	1
@@ -91256,7 +90272,6 @@ Scorched	1
 Clapboard	1
 radionuclide	1
 ธนัฐ	1
-1.8m	1
 charters	1
 manah	1
 Hideki	1
@@ -91290,7 +90305,6 @@ Camembert	1
 referring	1
 Dittenhoffer	1
 Hs	1
-M_3+	1
 Harding	1
 เพ่นส์	1
 YEE	1
@@ -91490,9 +90504,7 @@ sonnets	1
 Inheritance	1
 ก.อ.	1
 Chanters	1
-`ระเบียบสำนักนายกรัฐมนตรีว่าด้วยการขอตั้งสำนัก	1
 เวงค์	1
-Maxey1956	1
 tolerant	1
 Polyglot	1
 เบ่ย	1
@@ -91547,7 +90559,6 @@ Swallowing	1
 Princeling	1
 Attained	1
 UCOM	1
-280S	1
 Kelian	1
 Macrovesicular	1
 A.C	1
@@ -91621,7 +90632,6 @@ Myself	1
 conclusions	1
 Saatchi	1
 เขิ๊น	1
-_3^2-2u	1
 universally	1
 รสท์	1
 Vagen	1
@@ -91636,7 +90646,6 @@ Premonition	1
 อคัร	1
 Sontheimer	1
 Centro	1
-pp.38	1
 เตทส์	1
 pendown	1
 ซอร์ด	1
@@ -91680,7 +90689,6 @@ Mex	1
 ITED	1
 Upwelling	1
 desirable	1
-1.9b	1
 mothers	1
 Rondanini	1
 Fremde	1
@@ -91773,7 +90781,6 @@ Raffael	1
 รณรรงค์	1
 Girlfriends	1
 Gosai	1
-Ex3_2	1
 Kidney	1
 สูตร์	1
 มีตาแต่หามีแววไม่	1
@@ -91810,9 +90817,7 @@ Feifei	1
 กัฐ	1
 eustachian	1
 เข้าไหนเข้าได้	1
-0.004826V2	1
 Mercutio	1
-4.35a	1
 CaCO3	1
 MALAYSIA	1
 เต็ฒ	1
@@ -91836,7 +90841,6 @@ Scoring	1
 METEOR	1
 billowy	1
 Beduzzi	1
-8.2e	1
 Aulakh	1
 TCDD	1
 Agraria	1
@@ -91849,16 +90853,13 @@ Prosthesis	1
 gunnel	1
 Patou	1
 L.J	1
-ต่ำe-005	1
 หัวแร้ง	1
 Reade	1
-
 oue	1
 Senada	1
 charming	1
 photographs	1
 Goode	1
-iii65	1
 Holography	1
 Sponge	1
 Foridden	1
@@ -91872,7 +90873,6 @@ trichloroacetic	1
 พ.ค.ว.	1
 Duduit	1
 วังก์	1
-ไกลe-005	1
 Abrahum	1
 gentes	1
 กสิต	1
@@ -91940,7 +90940,6 @@ Playgallery	1
 triphosphate	1
 เฟร็ช	1
 Jacson	1
-K.วีระ	1
 หม่ม	1
 DirectXTM	1
 kasian	1
@@ -92020,7 +91019,6 @@ spectroscope	1
 centralizing	1
 Sains	1
 MgCl2	1
-l_s	1
 Leve	1
 Donmueang	1
 Warhold	1
@@ -92066,7 +91064,6 @@ Racer	1
 theil	1
 Musu	1
 noticeable	1
-12.doc	1
 PLATONIC	1
 นียน์	1
 Starrett	1
@@ -92076,7 +91073,6 @@ supervision	1
 VISUALS	1
 ตบิด	1
 Monarchs	1
-5.46b	1
 เคบย	1
 Obisco	1
 Mohs	1
@@ -92241,7 +91237,6 @@ Amur	1
 ตัวพิสูจน์	1
 Engisch	1
 เยบสต์	1
-
 extraversion	1
 squadron	1
 deemed	1
@@ -92257,7 +91252,6 @@ Pepe	1
 บ้าบ๋า	1
 Memling	1
 divider	1
-AN787	1
 แชงต์	1
 roseola	1
 มนูษย์	1
@@ -92395,7 +91389,6 @@ Ricercar	1
 Neuchatel	1
 ananda	1
 ลบา	1
-250OK	1
 ฟัวร์	1
 ชมน์	1
 Clipboard	1
@@ -92431,7 +91424,6 @@ ARRIVED	1
 มุ้งประทุน	1
 โรซี	1
 ธกัน	1
-
 จ๊าย	1
 Chonburi	1
 Acatl	1
@@ -92473,7 +91465,6 @@ Plurality	1
 ฬศ	1
 บอร์ค	1
 Curved	1
-M_WTSH_	1
 Reno	1
 ทราร์ค	1
 Carkhuff	1
@@ -92492,7 +91483,6 @@ Creep	1
 assimilator	1
 diving	1
 Guillarme	1
-Q_2=	1
 Corneum	1
 Squids	1
 กอจ	1
@@ -92568,7 +91558,6 @@ probabilities	1
 ล้างป่าช้า	1
 สะดม	1
 ทวู้ด	1
-1200gs	1
 Schokkaert	1
 Fighter	1
 ปินว์	1
@@ -92685,14 +91674,12 @@ aconsticform	1
 Molybdenum	1
 ยุพาพาล	1
 ศษ.	1
-
 UNCERTAINTY	1
 Sakdalista	1
 preposition	1
 Fluids	1
 Xindian	1
 M.R.B.	1
-IV42	1
 Aldhelm	1
 บรึ้ม	1
 เกษธ	1
@@ -92760,7 +91747,6 @@ velope	1
 MCNELL	1
 กั๊วะ	1
 คิ้ง	1
-V_c	1
 Nilo	1
 8.Stagflation	1
 รอฟท์	1
@@ -92887,7 +91873,6 @@ Litz	1
 Microdermbrasion	1
 Adios	1
 Shitsurei	1
-1711-1766A.D.	1
 Wolfkind	1
 yantra	1
 Captive	1
@@ -92981,7 +91966,6 @@ AUTEURISM	1
 Melopark	1
 มเร้ด	1
 KONRAD	1
-
 prepaid	1
 TOEFL	1
 charm	1
@@ -93034,7 +92018,6 @@ Tillich	1
 crushed	1
 IDN	1
 1Sakai	1
-Lonellygirl15	1
 poob	1
 Buildings	1
 brasiliensis	1
@@ -93078,7 +92061,6 @@ XR1	1
 Sekai	1
 enamel	1
 Casch	1
-1974b	1
 Freeze	1
 JULES	1
 Vein	1
@@ -93227,7 +92209,6 @@ Demansds	1
 sth	1
 โยนด	1
 Toaster	1
-=_+	1
 บาดหมาย	1
 Noname	1
 Conjugal	1
@@ -93328,7 +92309,6 @@ Der	1
 วิกฤติกาล	1
 ครอฟ	1
 Isolationism	1
-RRIT251	1
 Lajonquiere	1
 Prof.Talamanca	1
 นรราช	1
@@ -93369,7 +92349,6 @@ MUNCH	1
 governor	1
 ปฤๅ	1
 MIRAKU	1
-SC740	1
 REF	1
 เฟ็ตส์	1
 หรัน	1
@@ -93434,8 +92413,6 @@ GENDER	1
 Ringback	1
 carnivorous	1
 pig	1
-ดดดดดดดดดดดดดดดดดดดดดดดดด	1
-2.251e	1
 Notary	1
 galena	1
 ตวด	1
@@ -93484,15 +92461,12 @@ CONSTANCE	1
 fertile	1
 พุ่	1
 Italia	1
-civilization_	1
 Ikkoku	1
 dmvA	1
 OTIS	1
 Aromatherapist	1
 Intracranium	1
 Lanolin	1
-I_y	1
-1998a	1
 Veggie	1
 ลว่าล	1
 Steella	1
@@ -93536,7 +92510,6 @@ embarrassed	1
 Manse	1
 THEMOMIXER	1
 บ็อกซ์ว	1
-CUI8r	1
 IRRC	1
 metrication	1
 trips	1
@@ -93564,7 +92537,6 @@ Toraya	1
 ตะพั้น	1
 นิงห์	1
 PFP	1
-RRIM600	1
 Basadre	1
 รววจ	1
 Toubkal	1
@@ -93625,7 +92597,6 @@ convert	1
 J.Finlay	1
 Chick	1
 Newness	1
-C_1=0	1
 stomach	1
 เฟ็ก	1
 ออกจาก	1
@@ -93711,7 +92682,6 @@ metonymic	1
 โซง	1
 แผลว	1
 อแมด	1
-64L	1
 โกโรโกโรค	1
 Mores	1
 มหิษี	1
@@ -93862,7 +92832,6 @@ ais	1
 เฟลน	1
 discoveries	1
 Yuwaprasart	1
-smr_Y	1
 McGaugh	1
 โดวย	1
 Bartin	1
@@ -93888,7 +92857,6 @@ corporative	1
 Chloroform	1
 peter	1
 lace	1
-_A2=0	1
 หม้น	1
 รัวส์ท	1
 Septicemia	1
@@ -93914,7 +92882,6 @@ Aljazera	1
 Osborne	1
 conferences	1
 Youkan	1
-1.10a	1
 Piata	1
 lekwatchara	1
 Cholangiocarcinoma	1
@@ -93966,7 +92933,6 @@ celestial	1
 เรหือ	1
 sogo	1
 วิสัญญีวิทยา	1
-790i	1
 naively	1
 Obersteiner	1
 Turks	1
@@ -94060,7 +93026,6 @@ Minnelli	1
 จอร์เจตต์	1
 Burman	1
 Opinon	1
-Get_up	1
 Studded	1
 เอลิฟ	1
 แดนนซ์	1
@@ -94165,7 +93130,6 @@ pyelonephritis	1
 ถไล่	1
 Bogatyrev	1
 Struble	1
-190s	1
 Lokinkiike	1
 Walked	1
 Sungkasem0	1
@@ -94176,9 +93140,7 @@ Hckally	1
 มาษ	1
 pit	1
 subculturalist	1
-_d	1
 Archictecture	1
-32P	1
 รน่วม	1
 Coccinell	1
 เม่อง	1
@@ -94265,7 +93227,6 @@ Eccentric	1
 จทาง	1
 Racket	1
 Kntt	1
-Vol.32	1
 PORNO	1
 Dissociation	1
 Muscular	1
@@ -94297,8 +93258,6 @@ Toruism	1
 ฟอแรม	1
 Casmir	1
 เดด	1
-EX6_2	1
-pgs.1192-1201,	1
 Tsuji	1
 Ginsberg	1
 คู่ว	1
@@ -94311,7 +93270,6 @@ prednisolone	1
 Mingsheng	1
 แฉล่ม	1
 Psrk	1
-c_1=	1
 Paitoon	1
 Alters	1
 caloy	1
@@ -94329,7 +93287,6 @@ Zug	1
 Dehavilland	1
 forchette	1
 I.Q.ถึง	1
-Ethnograph22	1
 Mixtama	1
 ฮึ๋ย	1
 Xylenes	1
@@ -94343,7 +93300,6 @@ Khongkhakul	1
 รแก่	1
 สฟถ	1
 Hofstader	1
-pp.20-44	1
 CASTLE	1
 Ludovico	1
 ECM	1
@@ -94374,7 +93330,6 @@ Montri	1
 สปาส์	1
 anud	1
 Theatrical	1
-111+37=เพื่อไทย	1
 dramaturgical	1
 Cleiothyridina	1
 Opitz	1
@@ -94396,7 +93351,6 @@ Brunetti	1
 Sonam	1
 landscape	1
 Engaged	1
-4.5m	1
 Maruti	1
 JOE	1
 ข้างหัวนอน	1
@@ -94463,7 +93417,6 @@ Circulating	1
 Tarde	1
 Modulatory	1
 army	1
-y_1=	1
 EXCLUSIVE	1
 ฟันช้าง	1
 ไดด์	1
@@ -94481,7 +93434,6 @@ milieu	1
 Breguet	1
 Chatelain	1
 จับสั่น	1
-
 เผยิด	1
 Dutton	1
 Amnesia	1
@@ -94504,7 +93456,6 @@ Chrismas	1
 Laika	1
 deprivation	1
 INTO	1
-400MHz	1
 ทรู้ท	1
 Instructional	1
 Ulrich	1
@@ -94570,7 +93521,6 @@ Ibacus	1
 Vidicon	1
 according	1
 vibrating	1
-ค่ะe-005	1
 castrating	1
 capillary	1
 Midway	1
@@ -94620,7 +93570,6 @@ Zaigo	1
 คอรป์	1
 approved	1
 ตื๊บ	1
-ii64	1
 smell	1
 สด์	1
 มุจฉา	1
@@ -94633,7 +93582,6 @@ plagiarism	1
 CSLI	1
 JITAP	1
 chassis	1
-no.1062	1
 Englander	1
 กะเบือ	1
 Mr.Brian	1
@@ -94716,7 +93664,6 @@ Joost	1
 เจื้อ	1
 ผรานซ์	1
 pour	1
-Op.51,	1
 Choosing	1
 Overwrite	1
 Nishioka	1
@@ -94735,7 +93682,6 @@ schematically	1
 Congestive	1
 PROMOTION	1
 ฮื้ดด	1
-Mn3C4	1
 เกลี่ยง	1
 Malena	1
 Rypka	1
@@ -94759,7 +93705,6 @@ J.B.	1
 ดบค	1
 Barbican	1
 RoMela	1
-_y.AC.sin	1
 Adapt	1
 oryzae	1
 Xidan	1
@@ -94788,13 +93733,11 @@ Belinda	1
 CELEBES	1
 ขจัน	1
 ใบเงิน	1
-oct_dream	1
 Adolescent	1
 Jcssop	1
 สเส็กส์	1
 กฎัต	1
 หวอย	1
-Eric.1990.	1
 ROUND	1
 ธส.	1
 Maolism	1
@@ -94822,7 +93765,6 @@ Accipitridae	1
 เล่ห์ก	1
 SKNXXX	1
 CONSTRUCTIVIST	1
-r_h	1
 Planitia	1
 Aftercare	1
 เกล็ดหอย	1
@@ -94981,7 +93923,6 @@ BLOSSOM	1
 Cyanobacteria	1
 LEASH	1
 Daffodil	1
-Preecha2002	1
 Transpose	1
 Earthlink	1
 ดว๊านซ์	1
@@ -94999,7 +93940,6 @@ humanizer	1
 ลอนดรี	1
 ถาม์	1
 สเรา	1
-5+2i	1
 ยวู่	1
 Esmido	1
 Delamboye	1
@@ -95051,7 +93991,6 @@ APPTC	1
 Narxist	1
 Idar	1
 เปียส	1
-k_C	1
 dibits	1
 Nagar	1
 Autist	1
@@ -95062,7 +94001,6 @@ Umm	1
 Alveolar	1
 Verginia	1
 Fukuya	1
-EX3_2	1
 latreille	1
 นอร์ช	1
 แส้ง	1
@@ -95159,7 +94097,6 @@ Bloggie	1
 terpenoids	1
 Nanotechnology	1
 J.V.	1
-M_c	1
 Caroling	1
 Kaosa	1
 CZZCKQ	1
@@ -95218,7 +94155,6 @@ HOA	1
 Slurry	1
 Phyllanthus	1
 eiconal	1
-iv64	1
 subpoenas	1
 เครี้ยด	1
 Gurnsey	1
@@ -95271,7 +94207,6 @@ Sassu	1
 มนุชญ์	1
 แฝ่น	1
 scheduling	1
-r_2=	1
 ค้าา	1
 บลอล	1
 Dio	1
@@ -95305,7 +94240,6 @@ Antiguities	1
 Scream	1
 คี้น	1
 Flyway	1
-
 ตลอง	1
 juxta	1
 กล็อค	1
@@ -95313,7 +94247,6 @@ juxta	1
 จุงก์	1
 tabula	1
 RONEO	1
-_xy^2=	1
 Followships	1
 Tshi	1
 Sikn	1
@@ -95327,13 +94260,11 @@ newcomer	1
 รเชป	1
 OSTEOMETRIC	1
 Pseudopodia	1
-iio65	1
 Scurvy	1
 Endotracheal	1
 เซ็ปส์	1
 Camouflage	1
 quo	1
-voice_sample2’	1
 Disperser	1
 Devas	1
 ศเสจ	1
@@ -95359,7 +94290,6 @@ Housekeeping	1
 เกร็ต	1
 ABORT.indication	1
 หงอด	1
-’1D1	1
 Rudi	1
 พลีส์	1
 TURA	1
@@ -95405,10 +94335,8 @@ Bidault	1
 Utzon	1
 Majors	1
 Homopholy	1
-SM41A	1
 B.X	1
 วตน์	1
-ดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดด	1
 นเริง	1
 Luminance	1
 serendipity	1
@@ -95594,7 +94522,6 @@ deity	1
 rb	1
 Attachment	1
 Funy	1
-_____INFL	1
 exeimer	1
 ขภ	1
 พล็อก	1
@@ -95616,7 +94543,6 @@ fabrication	1
 เญอ	1
 wordt	1
 Cancian	1
-รับe-005	1
 Sapporo	1
 PPACE	1
 หมากลิง	1
@@ -95749,7 +94675,6 @@ Nabota	1
 SFF	1
 hsv	1
 Biga	1
-R_2	1
 ช้างต่อ	1
 xnt	1
 จตอน	1
@@ -95822,7 +94747,6 @@ harvest	1
 นึน	1
 Hemoconcentration	1
 Karagashi	1
-1991c	1
 แผ้ง	1
 erfc	1
 EGGE	1
@@ -95867,7 +94791,6 @@ ZIN	1
 disqualify	1
 กทต.	1
 P.J.O	1
-AHA15	1
 overproduction	1
 แชดส์	1
 2F	1
@@ -95955,7 +94878,6 @@ CNBC	1
 homogeneity	1
 ไอยเรศ	1
 Hinokicho	1
-ป้าบe-005	1
 ฮ๊วงโจ้ว	1
 Boulevards	1
 สกร	1
@@ -95980,7 +94902,6 @@ Crambo	1
 menopausal	1
 Mamas	1
 MRC	1
-
 Governmet	1
 Dye	1
 bouledogue	1
@@ -96021,14 +94942,12 @@ yellowtail	1
 Sonkhraam	1
 เค่ง	1
 เย้ม	1
-Op.25:	1
 dodecyl	1
 games	1
 enlarged	1
 Verifocal	1
 structual	1
 Cavett	1
-16r^4-	1
 Zentaro	1
 wrinkle	1
 เวโรนา	1
@@ -96105,7 +95024,6 @@ AORTA	1
 Decoder	1
 Physiocrats	1
 OSKAR	1
-22.FTA	1
 encardrement	1
 Tempestad	1
 Cathedrals	1
@@ -96152,7 +95070,6 @@ Kurmboltz	1
 สมารท์	1
 ตบอล	1
 สเอว	1
-KV.595	1
 antithesis	1
 คร๊า	1
 พรวพ	1
@@ -96210,7 +95127,6 @@ eV	1
 Hospi	1
 Shinpan	1
 ข้วง	1
-age_less_than_25	1
 Procreation	1
 สรีด	1
 เผื่อขาดเผื่อเหลือ	1
@@ -96283,7 +95199,6 @@ Chavarria	1
 Taruzake	1
 desting	1
 Pingo	1
-P_1-	1
 Broglie	1
 Regeneration	1
 สปก	1
@@ -96338,7 +95253,6 @@ Fortius	1
 Raspail	1
 Searle	1
 oligarchies	1
-
 เฉ้ย	1
 displace	1
 OHH	1
@@ -96397,7 +95311,6 @@ Retroactive	1
 counterphobia	1
 Repigmentation	1
 บทาท	1
-1938c	1
 DXP	1
 Livelihoods	1
 Roddick	1
@@ -96462,7 +95375,6 @@ Sanaichara	1
 LITERACY	1
 กณ์พ	1
 ESK	1
-good_swimmer	1
 Kautman	1
 Bhagawad	1
 รัศน์ม	1
@@ -96509,7 +95421,6 @@ BSBW	1
 Chelonia	1
 Olvidados	1
 ovary	1
-I.Q.=100	1
 สูนย์	1
 Arup	1
 Sustainability	1
@@ -96642,7 +95553,6 @@ O.J.	1
 ดแบนด์	1
 Ayachi	1
 แมนส์ฟิลด์	1
-CLUB21	1
 วุลแฟรไมต์	1
 Arranging	1
 ประกาศก	1
@@ -96989,13 +95899,11 @@ Eurocentric	1
 Willingness	1
 Syphilis	1
 VODKA	1
-ratchakitcha.soc.go.th	1
 conseling	1
 Guha	1
 แว็กส์	1
 Gottardo	1
 เพลว	1
-12‘	1
 คูช	1
 disappear	1
 glance	1
@@ -97015,7 +95923,6 @@ adjunct	1
 tonal	1
 เดอร์ค	1
 D.Ruben	1
-ADEX2000	1
 toys	1
 salle	1
 Specifi	1
@@ -97049,11 +95956,9 @@ Connic	1
 analyser	1
 backchannel	1
 moisture	1
-
 indigeneous	1
 Arrives	1
 Furans	1
-Chap.12	1
 ROMANCE	1
 เล้กซ์	1
 invertebrate	1
@@ -97081,7 +95986,6 @@ Nozzle	1
 เอร์ส	1
 Ancestors	1
 คนุ้น	1
-O_+	1
 ได้ส่วนสัด	1
 ESCAPE	1
 Eley	1
@@ -97160,7 +96064,6 @@ Razor	1
 failed	1
 โฝ่	1
 centripetal	1
-1975a	1
 Dissecting	1
 colourgd	1
 เสิด	1
@@ -97175,7 +96078,6 @@ Agropecuaria	1
 Nichol	1
 ชล่าง	1
 ทรพจ์	1
-F_cr	1
 laberlling	1
 Augsburg	1
 unfamiliar	1
@@ -97209,7 +96111,6 @@ Bunz	1
 ceiling	1
 อวี้ห	1
 Nishimura	1
-b_1	1
 ecriture	1
 Semenov	1
 Dr.Bernard	1
@@ -97258,7 +96159,6 @@ thallium	1
 Som	1
 ZiZek	1
 ete	1
-
 Dencey	1
 REALIS	1
 Filipinism	1
@@ -97286,7 +96186,6 @@ Anil	1
 Syn	1
 Meninger	1
 เถรร	1
-23hr	1
 resetting	1
 อาห์น	1
 Kerensky	1
@@ -97356,7 +96255,6 @@ Shelfen	1
 crystallize	1
 ฮุล	1
 เกณ้ด	1
-125MW	1
 Niemeyer	1
 Shaikh	1
 CELLULAR	1
@@ -97370,7 +96268,6 @@ rightness	1
 Tobolsk	1
 RICA	1
 Dragons	1
-Nr.19	1
 วภูต	1
 ตี่ม	1
 Womens	1
@@ -97550,11 +96447,9 @@ discounting	1
 เจี๊ยต	1
 ไคน์	1
 อเต๋า	1
-V_x	1
 Homophony	1
 Amoeba	1
 Sheherazade	1
-cal_In	1
 nonpersonal	1
 quick	1
 Tuang	1
@@ -97575,7 +96470,6 @@ subprocesses	1
 คอแลน	1
 ดอร์ต	1
 toxins	1
-gxHo9howx	1
 Orthotoluidine	1
 มหง	1
 คทิคซ์	1
@@ -97604,7 +96498,6 @@ MYUSTEPSEQ	1
 Coahuila	1
 nquiaj	1
 feldspathic	1
-ymca_member	1
 มะคำไก่	1
 Baster	1
 แผ้	1
@@ -97629,7 +96522,6 @@ Dujardin	1
 วิศาขา	1
 drupada	1
 มุห์	1
-OP.162	1
 Tottenham	1
 apprentice	1
 hypotroption	1
@@ -97760,7 +96652,6 @@ Biake	1
 Unagi	1
 Hydrocarbons	1
 Interecciato	1
-S_WTSH_NE	1
 เวญ	1
 เบาว์	1
 Fancy	1
@@ -97858,7 +96749,6 @@ Dulac	1
 Scraper	1
 Smirnoff	1
 arrows	1
-MnO2	1
 แก้วหิน	1
 AMLO	1
 Provocative	1
@@ -97889,7 +96779,6 @@ OUI	1
 Guido	1
 gear	1
 Shirumono	1
-140MW	1
 Sid	1
 หนาหูหนาตา	1
 Deepening	1
@@ -97918,7 +96807,6 @@ characterized	1
 notch	1
 Ubermensch	1
 กว๊าง	1
-V_max	1
 Activate	1
 Mate	1
 Podder	1
@@ -97939,7 +96827,6 @@ malice	1
 Lockhart	1
 Pesquisa	1
 biconical	1
-_avg	1
 อง้ด	1
 Trios	1
 Fourplay	1
@@ -97967,9 +96854,7 @@ receptons	1
 Partricia	1
 Decoupage	1
 Roseau	1
-ใง	1
 Handbool	1
-ใหท่	1
 Tumor	1
 bricolage	1
 Jackson5	1
@@ -98039,7 +96924,6 @@ ANTIPASS	1
 wang	1
 feuille	1
 Competing	1
-1992b	1
 mud	1
 anycast	1
 unequal	1
@@ -98067,7 +96951,6 @@ brod	1
 Choy	1
 เจริ้ญ	1
 Lieute	1
-ปลูฤ	1
 Westminter	1
 pinitpaya	1
 ขรุ	1
@@ -98094,8 +96977,6 @@ transactions	1
 วากษ์	1
 ยุก์	1
 Houthakker	1
-สั่งe-005	1
-หลู่ห	1
 Corttrell	1
 Classifications	1
 Gottfried	1
@@ -98130,7 +97011,6 @@ phoneOne	1
 folklorist	1
 Haruqa	1
 concordance	1
-ษธ	1
 ฝึง	1
 Convenient	1
 Tangvayosaurus	1
@@ -98140,9 +97020,7 @@ stairs	1
 Papua	1
 contingently	1
 อร๊อย	1
-วตัว	1
 Myspace	1
-ขง์	1
 ทรรน์	1
 paced	1
 พฤฒ	1
@@ -98156,7 +97034,6 @@ Anjani	1
 Cpp	1
 Lapse	1
 thaiflood	1
-pp.1-3	1
 Willson	1
 สบาร์	1
 ทน้ำ	1
@@ -98168,7 +97045,6 @@ davis	1
 polypeptide	1
 RULES	1
 รวาย	1
-ตนี้	1
 triple	1
 ตต.	1
 KEYSTONE	1
@@ -98217,7 +97093,6 @@ Loaf	1
 VICTORIA	1
 Ekaterinburg	1
 nibble	1
-E_t	1
 quantative	1
 Theoretical	1
 Nox	1
@@ -98274,7 +97149,6 @@ psychocultural	1
 เต้าส่วน	1
 ฟู่ห	1
 Avanzi	1
-4.50b	1
 PAP	1
 SeaPapa	1
 neuropeptide	1
@@ -98345,7 +97219,6 @@ theater	1
 Platforms	1
 Viewer	1
 TISI	1
-zzr1400	1
 ปุยก์	1
 ยวาง	1
 Chargo	1
@@ -98373,8 +97246,6 @@ delicately	1
 PartIII	1
 Laited	1
 Pseudofusulina	1
-Vol.67	1
-วต่อ	1
 hates	1
 nodule	1
 firming	1
@@ -98413,7 +97284,6 @@ Mothers.Australia	1
 Maiberger	1
 Alaska	1
 มึว	1
-vi43	1
 Akerlof	1
 เปื้อง	1
 Lovin	1
@@ -98450,7 +97320,6 @@ ZT	1
 ลล่าส์	1
 primitivism	1
 whc.unesco.	1
-_V	1
 ฉร	1
 ปริส	1
 Tomosynthesis	1
@@ -98461,7 +97330,6 @@ Shoden	1
 poem	1
 ตีน์	1
 deposition	1
-ME32	1
 ท้ายโต่ง	1
 กวัย	1
 โชมพ	1
@@ -98485,13 +97353,11 @@ Macroskelia	1
 depersonalized	1
 lexicography	1
 R.C.U.	1
-Op.28,	1
 Konplott	1
 Lagged	1
 Tungate	1
 Reciever	1
 หนี่ห์	1
-_yp^2=90,000	1
 มวีป	1
 Eyre	1
 auttribute	1
@@ -98544,7 +97410,6 @@ Zipotone	1
 Rosuvastatin	1
 LGT	1
 เท่นส์	1
-T.M.26	1
 Sunleya	1
 Brach	1
 RHAPSODY	1
@@ -98575,7 +97440,6 @@ Czechoslovakia	1
 Irresestible	1
 Headings	1
 ระยาบ	1
-L_2^3	1
 วสนะ	1
 JURLIQUE	1
 เวล์	1
@@ -98773,7 +97637,6 @@ dangling	1
 Utage	1
 Modifications	1
 possess	1
-Cov2,1	1
 ADCCP	1
 ยดิย	1
 Isothiocyanate	1
@@ -98801,7 +97664,6 @@ Nordenham	1
 LSB	1
 Arithmetric	1
 Forgiveness	1
-_xy.tan	1
 PETGANG	1
 pctit	1
 Krim	1
@@ -98855,7 +97717,6 @@ Mamenchisaurus	1
 NOKIA	1
 Lourve	1
 เสส์	1
-OP.99	1
 Malaka	1
 ILLUSTRATOR	1
 Gorbeille	1
@@ -98876,7 +97737,6 @@ Boycott	1
 Wittfogel	1
 tatbstand	1
 VFA	1
-iamyui_3125	1
 บอลท์บ	1
 ASYNCHRONOUS	1
 Kinds	1
@@ -98931,7 +97791,6 @@ RULING	1
 เดย์ค	1
 ฉวบ	1
 heroin	1
-sub.ของดิฉันหมดอายูค่ะ	1
 Dakar	1
 Tiamson	1
 พารค์	1
@@ -99041,7 +97900,6 @@ Dilation	1
 พารท์	1
 proton	1
 ซ้าก	1
-ค้านe-005	1
 Konoe	1
 อาศเลษา	1
 Pheomenology	1
@@ -99146,7 +98004,6 @@ Baroreceptor	1
 admiration	1
 didn	1
 กษษ์	1
-d_2^4-9790d_2-50625=0	1
 Urad	1
 ATrip	1
 Bologna	1
@@ -99213,7 +98070,6 @@ bead	1
 บูย	1
 Dustin	1
 Sheryl	1
-Vol.27	1
 ภนิ	1
 Shiny	1
 autist	1
@@ -99240,13 +98096,11 @@ Ophthalmoscope	1
 อชิ้ว	1
 tavgframe	1
 iospace	1
-
 COSTUMER	1
 คปอ.	1
 commuters	1
 นัลป์	1
 เดื้อ	1
-Data_Driven	1
 Nawawan	1
 Heartach	1
 IME	1
@@ -99316,7 +98170,6 @@ myths	1
 VLADIMIR	1
 Istituto	1
 Caramelized	1
-216b	1
 disengaged	1
 Monolithe	1
 วอห์	1
@@ -99338,13 +98191,11 @@ Departures	1
 W2	1
 dormouse	1
 Assael	1
-23.APEC	1
 Artesian	1
 Sayri	1
 belongings	1
 DST	1
 สเวร์	1
-
 แฉง	1
 Rouen	1
 สโตห์ร	1
@@ -99385,7 +98236,6 @@ Auping	1
 พ่ม	1
 restaurant	1
 homolographic	1
-Ulrich.1999.	1
 Preheated	1
 tack	1
 helminthes	1
@@ -99434,7 +98284,6 @@ orbiculare	1
 Devonport	1
 avian	1
 spy	1
-self_donfidence	1
 สระอื้น	1
 Cantet	1
 seasoned	1
@@ -99442,7 +98291,6 @@ Mipos	1
 นัยน์เนตร	1
 Titus	1
 depositum	1
-C_3=0	1
 laterism	1
 Investigating	1
 Yoke	1
@@ -99471,7 +98319,6 @@ Velociraptor	1
 multiplied	1
 laryngal	1
 Kumite	1
-M_1+	1
 สฬ.	1
 Gaelic	1
 Kapil	1
@@ -99838,7 +98685,6 @@ FOC	1
 รากสาดใหญ่	1
 OAU	1
 เวณุ	1
-EX5_1	1
 Industry.	1
 RedDuck	1
 ลงอาชญา	1
@@ -99871,7 +98717,6 @@ Tagalog	1
 กนาร์	1
 ดันต์	1
 มณฑิร	1
-21s	1
 แกม่	1
 Krystal	1
 สไบนาง	1
@@ -99919,7 +98764,6 @@ DECLARATION	1
 Pazzion	1
 Dreamy	1
 นั่้น	1
-30o	1
 cochlear	1
 Soriano	1
 Hypoglycemia	1
@@ -100071,7 +98915,6 @@ indexed	1
 อีศ	1
 holiday	1
 ทหร	1
-
 interuption	1
 Boosters	1
 ทมิศ	1
@@ -100134,7 +98977,6 @@ Weston	1
 Srirattanaroj	1
 Renegotiating	1
 วาศ์	1
-
 UCSF	1
 localities	1
 purple	1
@@ -100154,7 +98996,6 @@ Ahto	1
 labeling	1
 ‘4	1
 แคลสส์	1
-CH4+2CO	1
 Jolie	1
 ขาร	1
 ขโยง	1
@@ -100200,7 +99041,6 @@ Jonze	1
 Grossman	1
 JoJo	1
 แล้ก	1
-Op.120,	1
 Diad	1
 implicated	1
 Jakoke	1
@@ -100212,7 +99052,6 @@ marina	1
 Systemically	1
 READY	1
 CIEL	1
-EX5_3	1
 differeat	1
 monogamy	1
 TRK	1
@@ -100308,7 +99147,6 @@ Dakwah	1
 Reincarnated	1
 วชา	1
 Laguna	1
-20.02.2002!	1
 Euprasert	1
 ยื่ม	1
 สจม.	1
@@ -100405,7 +99243,6 @@ Snorkelling	1
 cooperate	1
 IBH	1
 Zia	1
-3.46a	1
 Balanciaga	1
 Haricanasses	1
 anoxia	1
@@ -100432,7 +99269,6 @@ Seishu	1
 Popkewitz	1
 สไดล์	1
 มังค์	1
-PL08	1
 Lullabies	1
 Schult	1
 ราสป์	1
@@ -100444,7 +99280,6 @@ tes	1
 คริสต์ต	1
 ถวบ	1
 เฉพียง	1
-‘14	1
 formatting	1
 รนีด	1
 Pressurised	1
@@ -100463,7 +99298,6 @@ POP3	1
 Pinterest	1
 zenhoi	1
 Ost	1
-AT81	1
 Tae	1
 Bamlumpoo	1
 JPL	1
@@ -100523,11 +99357,9 @@ tricuspid	1
 kakaisa	1
 ไซม์	1
 เซศ์	1
-SYN_	1
 พระฮาม	1
 PATRIARCHY	1
 Gorugo	1
-chs.4-5	1
 Desigber	1
 เอียร์	1
 ZSiesta	1
@@ -100564,12 +99396,10 @@ parchemin	1
 psychographic	1
 Ieo	1
 Mergaret	1
-ac.th	1
 กร๊าฟ	1
 uniformite	1
 โอ่ย	1
 USER	1
-1996a	1
 โณจน์	1
 Guilluame	1
 Piaon	1
@@ -100595,7 +99425,6 @@ Thenus	1
 preserve	1
 บรรณศาลา	1
 กล๊อส	1
-myr_Y	1
 weighable	1
 Bloomberg	1
 เบิกไม้	1
@@ -100609,7 +99438,6 @@ Texaco	1
 Almaney	1
 ฟอต	1
 ภัตกิจ	1
-Berman1979	1
 Jouranl	1
 Arshile	1
 เฟียร	1
@@ -100654,7 +99482,6 @@ Rogaly	1
 altresse	1
 Cetane	1
 THERMAL	1
-
 customization	1
 Corbett	1
 อปอล	1
@@ -100749,7 +99576,6 @@ Dorine	1
 zoology	1
 Gnovese	1
 วีเนอร์	1
-SGHi900	1
 ศาตร์ศ	1
 Bellinzona	1
 ทสก	1
@@ -100846,12 +99672,10 @@ matunity	1
 ชวิส	1
 เสมือย	1
 ซึว	1
-1965a	1
 ยกิจ	1
 ตืก	1
 openappend	1
 โประส์	1
-10CC	1
 chaipan	1
 Speer	1
 posturing	1
@@ -100916,7 +99740,6 @@ jthose	1
 ผลาย	1
 MICHIGAN	1
 Kennan	1
-9.4b	1
 Polariod	1
 Larissa	1
 Carb	1
@@ -100951,12 +99774,10 @@ MYERLANGB2	1
 Garofalo	1
 ธูส	1
 pyrophosphate	1
-30kd	1
 Stamford	1
 Iegislation	1
 GiftSet	1
 PlayStation	1
-ed.1963-96-97	1
 เฟล่	1
 เรจินัลด์	1
 เพล็ตต์	1
@@ -101009,7 +99830,6 @@ BLOWER	1
 Flashes	1
 ปุคละ	1
 CIRCUIT	1
-1997:13A	1
 prophecy	1
 ถมอ	1
 recommend	1
@@ -101021,17 +99841,13 @@ forcep	1
 Trickster	1
 นอร์ฟ	1
 Seto	1
-170OK	1
 Pentathlon	1
 Azafa	1
 Phaulkon	1
-ch.2,	1
 Sedone	1
 Theoris	1
 Oscillation	1
 acruginosa	1
-spare_part	1
-1940s	1
 Republics	1
 cephalopod	1
 เฟอร์น	1
@@ -101039,7 +99855,6 @@ LIT	1
 ไร้ศ์	1
 V.G.	1
 Duplum	1
-GP033C0	1
 เขบ็ด	1
 Erland	1
 เบร็ธ	1
@@ -101071,7 +99886,6 @@ Sulfadiazine	1
 บะซอลท์	1
 RECORDS	1
 Rost	1
-new7wonders	1
 badger	1
 จติก	1
 changers	1
@@ -101150,7 +99964,6 @@ Soulful	1
 เวกา	1
 ปลาน	1
 HONS	1
-4.10a	1
 อมความ	1
 กร๊าต	1
 รูดอลฟ์	1
@@ -101195,7 +100008,6 @@ epochal	1
 Gleichgultigkeit	1
 Aliasing	1
 Jampu	1
-c_2=	1
 ภคา	1
 nake	1
 เสร์ฟ	1
@@ -101591,7 +100403,6 @@ ASL	1
 duc	1
 ควอร์ด	1
 Buster	1
-
 เสลือกสลน	1
 ฟ้อแฟ้	1
 เตียซ	1
@@ -101643,20 +100454,16 @@ Tarja	1
 SALLE	1
 Songjiang	1
 โซสท์	1
-cnt_err	1
 สถือ	1
 Allure	1
 Coimmunity	1
 illustration	1
 ณู้	1
-Triller25	1
-AK.47	1
 ตไม่	1
 Kanga	1
 ทรีญ์	1
 Safer	1
 1Hideo	1
-Psychological.ดัดแปลงโดยได้รับอนุญาตจากผู้เขียน	1
 Ranong	1
 NORTH	1
 จรย์ณ	1
@@ -101727,7 +100534,6 @@ entire	1
 Amaranth	1
 Argenteul	1
 Laye	1
-3.42d	1
 Bornstein	1
 incongruity	1
 liaison	1
@@ -101769,7 +100575,6 @@ anolog	1
 thyroxine	1
 Vertion	1
 Cooke	1
-movie_gift1497	1
 alendronate	1
 เหือบ	1
 Domestication	1
@@ -101786,7 +100591,6 @@ Quasars	1
 สตุท	1
 Stretching	1
 Assis	1
-8E88	1
 เคิร์ตซ์ท	1
 HRC	1
 ทกิ้นส์	1
@@ -101801,7 +100605,6 @@ Gallican	1
 มูลภัณฑ์กันชน	1
 Lisi	1
 Lipp	1
-Feb.1992	1
 Bites	1
 Villalobos	1
 Donnell	1
@@ -101829,7 +100632,6 @@ ledge	1
 managed	1
 anagorisis	1
 Crvieto	1
-50p	1
 M.D.มา	1
 opper	1
 sangko	1
@@ -101850,14 +100652,12 @@ Mackerel	1
 hallucination	1
 intraspecific	1
 มายต์	1
-150Hz	1
 สแตท	1
 มิสม์	1
 JUDD	1
 Quatification	1
 OCD	1
 Brune	1
-‘90s	1
 ราฎ	1
 Arie	1
 ณูจน์	1
@@ -101930,7 +100730,6 @@ Euclid	1
 จวร	1
 จารย์จ	1
 myelocyte	1
-window_attr	1
 หนุย	1
 liquar	1
 chemotherapy	1
@@ -102065,7 +100864,6 @@ proboscis	1
 พวัลย์	1
 lindane	1
 depigmentation	1
-1.50Ab	1
 CACE	1
 Typography	1
 pathogenic	1
@@ -102081,7 +100879,6 @@ NODU	1
 เงินตาย	1
 อ้าร์	1
 ซูลท์	1
-30s	1
 ปอล์	1
 PARALLELS	1
 Loopy	1
@@ -102131,7 +100928,6 @@ posterodosum	1
 inevitable	1
 Soma	1
 improvisation	1
-Op.13,	1
 Acropolis	1
 Delusions	1
 อาเศียรพาท	1
@@ -102279,7 +101075,6 @@ Calwelti	1
 Lithtum	1
 Comrades	1
 ภคิน	1
-Ti02	1
 Verit	1
 Appreciation	1
 Chadds	1
@@ -102295,7 +101090,6 @@ AQRF	1
 เยียก	1
 5.video	1
 สกีน	1
-take3sgGENITIVE	1
 INTER	1
 aminated	1
 โรลล์ส	1
@@ -102340,7 +101134,6 @@ SAG	1
 ตาร์ค	1
 Darman	1
 wings	1
-test_tictoc	1
 Marseilles	1
 ABHISIT	1
 Quejas	1
@@ -102379,9 +101172,6 @@ Softball	1
 AESAB	1
 Pimary	1
 jsalud	1
-PC900’	1
-รรดิ์	1
-4principalcategories	1
 codec	1
 Barn	1
 LIMUS	1
@@ -102397,8 +101187,6 @@ Vc	1
 Maura	1
 retrospective	1
 blindside	1
-ฑี่	1
-2.Hall	1
 LANDMARK	1
 sangley	1
 Jouse	1
@@ -102448,7 +101236,6 @@ brittle	1
 สราฟ	1
 V.F.	1
 Skeletalization	1
-
 Smegma	1
 recessive	1
 ยนรต์	1
@@ -102582,7 +101369,6 @@ Wow	1
 แวสตร์	1
 Chalcolithic	1
 Salonga	1
-579computer	1
 Sirkap	1
 Shirts	1
 กัวเดอลูป	1
@@ -102631,7 +101417,6 @@ Ango	1
 TET	1
 พาฬ	1
 Allgood	1
-500A	1
 อสีติมหาสาวก	1
 Francair	1
 UDAAC	1
@@ -102639,7 +101424,6 @@ STAG	1
 อ๊างงง	1
 พยุ่ง	1
 Romani	1
-1928L7-31	1
 โคไซน์	1
 HF	1
 administered	1
@@ -102676,7 +101460,6 @@ Matrilopal	1
 ด็อด	1
 ลัชชา	1
 NHTSA	1
-214mm	1
 สุตกวี	1
 Cortigo	1
 ดีซน์	1
@@ -102753,7 +101536,6 @@ Bronfenbrenner	1
 Analogy	1
 BUTTERFIELD	1
 Aztecs	1
-0.1w	1
 ปาทย์	1
 facets	1
 Varsk	1
@@ -102845,7 +101627,6 @@ Neizsche	1
 RIDA	1
 ดว้าย	1
 ไบโอติน	1
-mesic403	1
 Campeche	1
 มวา	1
 videl	1
@@ -102854,7 +101635,6 @@ Cornish	1
 Refounded	1
 FRANCES	1
 udaka	1
-2500Hz	1
 VCHEQ	1
 airak	1
 Masaccio	1
@@ -102920,7 +101700,6 @@ fiducie	1
 Animated	1
 USMLE	1
 divana	1
-นนนนนนนนนนนนนนนนนนนนนนนนน	1
 asparagus	1
 McCaskill	1
 Redcliffe	1
@@ -102941,9 +101720,7 @@ Choychiang	1
 Smoothie	1
 MIXER	1
 reheated	1
-1500mAh	1
 ซิห์	1
-ดดดดดดดดดดดดดดดดดดดดด	1
 usd	1
 Precursors	1
 Iodine	1
@@ -102961,7 +101738,6 @@ GUGGENHEIM	1
 Akbar	1
 AOUP	1
 Skincolour	1
-เย็นe-005	1
 Oaxaca	1
 Dandelion	1
 Jhon	1
@@ -103131,7 +101907,6 @@ Decentralized	1
 Furusawa	1
 Biodisel	1
 Puyat	1
-_B1-	1
 Medard	1
 Timika	1
 wuman	1
@@ -103210,7 +101985,6 @@ gills	1
 chorizo	1
 Toxin	1
 ฦๅชา	1
-AN809	1
 TTOOOTT	1
 อันส์	1
 ซิกต์	1
@@ -103219,7 +101993,6 @@ TTOOOTT	1
 Kyoubashi	1
 foretell	1
 ชูช	1
-_max^2=	1
 Hiss	1
 เกล้ส	1
 unshielded	1
@@ -103388,7 +102161,6 @@ GARTON	1
 MESSENGER	1
 UPON	1
 Polyphenols	1
-His18	1
 Broker	1
 Caravansarai	1
 ต๊อค	1
@@ -103427,7 +102199,6 @@ Microbalance	1
 ฉาร	1
 โรต	1
 Argent	1
-Club121	1
 Photoblog	1
 loread	1
 Dw	1
@@ -103440,7 +102211,6 @@ Hoople	1
 Nataly	1
 จตัก	1
 fiscal	1
-read_id	1
 Cebueno	1
 INCIDENTAL	1
 ลคอร	1
@@ -103462,7 +102232,6 @@ Naoaki	1
 ใหฒ่	1
 Intersystem	1
 Yurkievics	1
-_p1=30	1
 THEN	1
 bao	1
 วอตส์	1
@@ -103486,9 +102255,6 @@ Rudyard	1
 เมลท์	1
 Cires	1
 films	1
-ยตุง	1
-375MW	1
-มตั๋ง	1
 CDF	1
 แหล็บ	1
 UFOP	1
@@ -103568,11 +102334,9 @@ Wangaki	1
 GAT1	1
 Ngoc	1
 อนุกาชาด	1
--_-^^^^^^	1
 SRG	1
 โหงง	1
 Epipulse	1
-O_________________O	1
 phobic	1
 Austronesean	1
 psyche	1
@@ -103613,7 +102377,6 @@ rable	1
 โอ๋ษฎ์	1
 Wenchang	1
 เญส	1
-
 เฉริ้ว	1
 Iggy	1
 Asis	1
@@ -103648,7 +102411,6 @@ Lightning	1
 rockwool	1
 Imperiale	1
 Woodstock	1
-คลอนe-005	1
 ฝุ่นเมือง	1
 มุซ	1
 elaboration	1
@@ -103687,13 +102449,11 @@ NTA	1
 KANG	1
 COMIC	1
 Lubasz	1
-P_ult	1
 ลบ่อ	1
 MERITOCRACY	1
 sama	1
 แยกแย้ง	1
 ถ้ด	1
-MZ175	1
 Maron	1
 hypocampal	1
 concert	1
@@ -103828,7 +102588,6 @@ Remedy	1
 ถาวรธิรา	1
 Guadalajara	1
 solvolysis	1
-ดดดดดดดดดดดดดดดดดดดดดดดดดดดดด	1
 TSUKUBA	1
 brasileira	1
 โกว้	1
@@ -103836,7 +102595,6 @@ absolution	1
 Cambrideg	1
 สง้า	1
 แนวด์	1
-‘60s	1
 Altaic	1
 CARPET	1
 กโป๊ง	1
@@ -103862,7 +102620,6 @@ stadard	1
 Menomina	1
 toxaphene	1
 d0	1
-l_1+	1
 CLONAZEPAM	1
 disciplined	1
 Saratoga	1
@@ -103870,7 +102627,6 @@ viewing	1
 Sheidon	1
 Guianan	1
 ouate	1
-Op.90	1
 Planner	1
 aldveoli	1
 Picaso	1
@@ -103887,7 +102643,6 @@ Blais	1
 Banhomehug	1
 Striking	1
 AeroCoach	1
-no.77-1948.	1
 Gyuunabe	1
 แคนน์	1
 ดีเนื้อดีใจ	1
@@ -103900,7 +102655,6 @@ Penh	1
 Lowery	1
 Talk1	1
 Cocumber	1
-
 Rowley	1
 เทิจ	1
 radiates	1
@@ -103940,7 +102694,6 @@ Cation	1
 ก้าวเฉียง	1
 PROMISSORY	1
 ปั้กษ์	1
-262k	1
 ดุ๊ยร์	1
 esnips	1
 personalities	1
@@ -103954,7 +102707,6 @@ celebrity	1
 crossover	1
 เรตซ์	1
 EVALUATED	1
-med.cmu.ac.th	1
 SP.ANS	1
 กเล๊ย	1
 Grijalva	1
@@ -104008,7 +102760,6 @@ A.andreniformis	1
 vera	1
 Colorimetry	1
 Natsume	1
-NO32	1
 TheWestern	1
 Shoki	1
 metaphysical	1
@@ -104021,11 +102772,9 @@ Densitometer	1
 paragraphs	1
 WAITING	1
 kamang	1
-ฟท์	1
 โดปป์เลอร์	1
 BV6	1
 วรรณพฤติ	1
-EI_0	1
 Mesdedames	1
 uterine	1
 Birddy	1
@@ -104042,7 +102791,6 @@ Interviewing	1
 Bangkaya	1
 Weyden	1
 trafe	1
-ลส์	1
 Vinei	1
 Pigmentation	1
 Bramani	1
@@ -104138,11 +102886,9 @@ Hormann	1
 เจ้ร	1
 Weary	1
 ผกะ	1
-หญึ่ง	1
 transverse	1
 Sukhim	1
 TECHNICAL	1
-Op.15	1
 ควินน์	1
 YANG	1
 underdog	1
@@ -104156,7 +102902,6 @@ chills	1
 เกนอล์ฟ	1
 Hraaod	1
 supr	1
-2.225le	1
 กวว	1
 ไทรต์	1
 สลอต	1
@@ -104167,7 +102912,6 @@ Prosthodontics	1
 beholds	1
 มอน์	1
 Chak	1
-PROLOG.HLP	1
 เคราะป์	1
 Suggestion	1
 WALDEMAR	1
@@ -104191,7 +102935,6 @@ ringworm	1
 ผลุ	1
 Semu	1
 AUDITORIUM	1
-
 ห่วฃ	1
 มไต	1
 Precipitative	1
@@ -104217,7 +102960,6 @@ MaterialDream	1
 Waved	1
 nationalization	1
 CURMIN	1
-centre.su.ac.th	1
 Twesukdi	1
 Fiorano	1
 Fashions	1
@@ -104287,7 +103029,6 @@ Fluorouracil	1
 Chaerephon	1
 ดุซ	1
 DAEJEON	1
-seedspace.in.th	1
 1.Indexical	1
 changer	1
 หน็อง	1
@@ -104326,7 +103067,6 @@ hedged	1
 yaw	1
 Sorekara	1
 flavone	1
-625MW	1
 POSITIONS	1
 BOOKING	1
 Aids	1
@@ -104370,7 +103110,6 @@ Geras	1
 ชาวร์	1
 PHENOBARBITAL	1
 Thann	1
-
 HOLLOW	1
 Vissarionovich	1
 Dr.Kiyoshi	1
@@ -104416,7 +103155,6 @@ PTU	1
 Yamahana	1
 catalytic	1
 โร่ย	1
-_wc	1
 FELL	1
 ลมูล	1
 Definitive	1
@@ -104451,7 +103189,6 @@ Congratulations	1
 sabbatical	1
 เคาห์	1
 ใภ่	1
-70th	1
 Bulletins	1
 Stalag	1
 Tabestand	1
@@ -104503,7 +103240,6 @@ Interculturation	1
 Maku	1
 Toolkit	1
 Shawl	1
-sec.11	1
 ชะง้ำ	1
 Tonk	1
 ฝรึ่ง	1
@@ -104516,7 +103252,6 @@ Kshaiwat2	1
 BLIMPED	1
 หน้าแว่น	1
 กรีกซ์	1
-0kd14	1
 Mixtec	1
 ยด่วย	1
 เทชียส	1
@@ -104645,12 +103380,10 @@ Ulva	1
 eclipswes	1
 FUTURE	1
 Residenz	1
-27th	1
 ATS	1
 swollen	1
 พั้นซ์	1
 เฟ็น	1
-1642-1727A.D.	1
 indood	1
 เฮิส	1
 ดูว	1
@@ -104737,7 +103470,6 @@ landless	1
 ทรีน	1
 Feste	1
 ชค็อก	1
-Chap.28	1
 FRIEDRICH	1
 lust	1
 ญิบ	1
@@ -104791,7 +103523,6 @@ Cracking	1
 Teikyo	1
 Fiktor	1
 สฟัลท์	1
-tddf.ro.th	1
 Kapadia	1
 Assemblies	1
 Soletanche	1
@@ -104799,7 +103530,6 @@ Soletanche	1
 orexiphobia	1
 Bremond	1
 Dreamer	1
-Pp.40-41.	1
 diplomat	1
 คล้าว	1
 Simulations	1
@@ -104812,7 +103542,6 @@ saumon	1
 Astray	1
 cabildo	1
 Conformality	1
-
 ฟั่นเฝือ	1
 เบ๊าะ	1
 อิต์	1
@@ -104944,7 +103673,6 @@ Duval	1
 kajal	1
 เพ็บ	1
 ACTUALITY	1
-108Design	1
 ลบ้อม	1
 Amritam	1
 Suntoruy	1
@@ -104999,7 +103727,6 @@ Refinisher	1
 dreamed	1
 Kenninji	1
 เกาเหลียง	1
-P_s	1
 บูชากัณฑ์เทศน์	1
 คิดต์	1
 เสดาะ	1
@@ -105027,7 +103754,6 @@ Desing	1
 ลึดส์	1
 nastoika	1
 disputes	1
-LA229	1
 Tectonic	1
 AdFest	1
 JNR	1
@@ -105073,7 +103799,6 @@ plenary	1
 บูรณณ์	1
 ยาคู	1
 ณี่	1
-NV24HD	1
 braid	1
 Natioanl	1
 sciera	1
@@ -105107,7 +103832,6 @@ Borja	1
 เพสศ	1
 imbalances	1
 Khesar	1
-No.21	1
 Zygolophodon	1
 KUO	1
 Itza	1
@@ -105156,7 +103880,6 @@ involving	1
 IDSA	1
 Laureate	1
 Milward	1
-8.2d	1
 Conventionalism	1
 Gainsborough	1
 Cinderella	1
@@ -105203,7 +103926,6 @@ Latitude	1
 Chiangmai	1
 Dugit	1
 MRS.LIU	1
-60th	1
 Bachelrd	1
 continuously	1
 Plebeian	1
@@ -105221,12 +103943,10 @@ din	1
 อแกสท์	1
 Uccello	1
 vase	1
-23B	1
 Mertens	1
 ตตน	1
 phenylthiohydantoin	1
 L.D.	1
-Ex3_1	1
 pancreas	1
 Choirs	1
 บล่าร์	1
@@ -105253,7 +103973,6 @@ Prakan	1
 พรหมคีรี	1
 anions	1
 sitter	1
-92nd	1
 สคอม	1
 cysteic	1
 Foweler	1
@@ -105338,7 +104057,6 @@ Shinny	1
 movere	1
 Earthmaker	1
 Rodolfo	1
-kitahara1996	1
 รก์ก	1
 Saraha	1
 เจ่ม	1
@@ -105445,10 +104163,8 @@ expresses	1
 ความระส่ำระสาย	1
 sanitary	1
 Tenera	1
-_A2=	1
 Querrilla	1
 Mga	1
-Last_element	1
 Collectio	1
 Strato	1
 Infiltration	1
@@ -105628,7 +104344,6 @@ Coins	1
 Collections	1
 ซี้ง	1
 oxygenated	1
-นั้นe-005	1
 Rectification	1
 ASD	1
 Masked	1
@@ -105666,11 +104381,9 @@ captive	1
 Handel	1
 jumping	1
 สอม	1
-Countdown2007	1
 laya	1
 Barak	1
 shrink	1
-O__o	1
 Soutern	1
 shungyoo	1
 Nostalgic	1
@@ -105681,7 +104394,6 @@ BIB2	1
 bellief	1
 precondition	1
 Alpher	1
-Cys17	1
 radistributetive	1
 ปปัญจ	1
 Hafele	1
@@ -105690,7 +104402,6 @@ Hafele	1
 pentabromo	1
 globulin	1
 Diffracted	1
-10Hz	1
 Arta	1
 suspensions	1
 แพล่ง	1
@@ -105723,7 +104434,6 @@ volution	1
 แทนส์	1
 Dassin	1
 Itame	1
-_A1=	1
 Splendid	1
 ขม่อน	1
 รสร	1
@@ -105841,13 +104551,11 @@ Cartney	1
 ข้าวขวัญ	1
 Tivoli	1
 CGIS	1
-1988a	1
 Toma	1
 Garnetted	1
 mater	1
 nightingale	1
 Khao	1
-cmu.ac.th	1
 Concience	1
 Basch	1
 ลม่อม	1
@@ -105855,7 +104563,6 @@ ENGRAVING	1
 เฮิร	1
 แด็จ	1
 รีช	1
-I.Q.เพี่ยงตัวเดียวมาเป็นเครื่องตัดสินเกี่ยวกับเชาวน์ปัญญา	1
 Pressent	1
 Narumi	1
 pulp	1
@@ -105901,7 +104608,6 @@ Katayama	1
 OUNCH	1
 ฟอรฃ์	1
 hispanic	1
-c_2=0.30	1
 ซาร	1
 Ballads	1
 EFFECT	1
@@ -105913,7 +104619,6 @@ medicated	1
 โทรล	1
 Dr.Bauer	1
 สลอว์	1
-1960a	1
 trichlorophenoxyacetic	1
 Makro	1
 กัลส์	1
@@ -105969,7 +104674,6 @@ esters	1
 ปปร.	1
 illegible	1
 คร้ำ	1
-GATT1994	1
 Netscape	1
 Strikes	1
 laepm	1
@@ -105978,7 +104682,6 @@ Arga	1
 วนั้น	1
 Niyekawa	1
 Sfeni	1
-I.Q.เป็นเพียงการวัดความสามารถในปัจจุบันในขณะที่ทำการทดสอบนั้น	1
 required	1
 KILLING	1
 Lon	1
@@ -105997,7 +104700,6 @@ iam.love	1
 เอตท์	1
 ธรูม	1
 Hoops	1
-DISCONNECT.indication	1
 enkephalins	1
 GBAH	1
 duress	1
@@ -106037,12 +104739,10 @@ Antilles	1
 ลบุ	1
 กาสต์	1
 ทองดำ	1
-E_CI	1
 ศาสณ์	1
 Ginmeshi	1
 Khamsing	1
 อ๊อย	1
-
 Hockhey	1
 ซึ้ม	1
 lignin	1
@@ -106079,7 +104779,6 @@ myelomonocytic	1
 Hialeah	1
 Therographic	1
 Mair	1
-`พระราชกฤษฎีกากำหนดให้คนต่างด้าวซึ่งปฏิบัติหน้าที่หรือ	1
 Homeopathic	1
 เม่อะ	1
 mongoloid	1
@@ -106183,7 +104882,6 @@ GAFF	1
 fief	1
 Robes	1
 Hakodate	1
-E_o	1
 Psychosexual	1
 Occidental	1
 Seerestaurant	1
@@ -106191,7 +104889,6 @@ Seerestaurant	1
 interpretivist	1
 รันย์	1
 ภันณ์	1
-
 Bretagne	1
 ไอว๋	1
 Rosemarie	1
@@ -106453,12 +105150,10 @@ transplantation	1
 Azoquero	1
 mentioned	1
 resection	1
-_1.t2.l	1
 Permian	1
 particulars	1
 beatha	1
 workspace	1
-
 ญืก	1
 นแวนด์	1
 หลักตอ	1
@@ -106543,7 +105238,6 @@ Categorization	1
 ปิน์	1
 Knack	1
 Nomad	1
-employ_address	1
 Jarin	1
 FILE	1
 Shiraz	1
@@ -106556,7 +105250,6 @@ Emporiun	1
 ร่ท	1
 methanol	1
 Hidalgos	1
-
 Perregaux	1
 earlier	1
 Suntan	1
@@ -106582,7 +105275,6 @@ visites	1
 MAR	1
 นรั่ง	1
 Jacky	1
-Spring2Summer	1
 Sor	1
 Laid	1
 Sewage	1
@@ -106609,7 +105301,6 @@ Chester	1
 AOU	1
 Drives	1
 Phraya	1
-window_str	1
 ฟรีบาร์	1
 ENVIRONMENT	1
 Ceto	1
@@ -106680,7 +105371,6 @@ Intakul	1
 MoMoyama	1
 มูธ	1
 Futomaki	1
-202p	1
 Boskalis	1
 Znamya	1
 ETCHING	1
@@ -106765,7 +105455,6 @@ taishogun	1
 ซืล	1
 operateive	1
 OHO	1
-19th	1
 Dredge	1
 เสิร์ซ	1
 สโตรล	1
@@ -106778,8 +105467,6 @@ Silbermann	1
 ชุณห์	1
 Praxagoras	1
 Kittiprapas	1
-DDR2-667	1
-Built_in	1
 Schutz	1
 Satay	1
 THEENEMYISEASTTENKM	1
@@ -106807,7 +105494,6 @@ OCAM	1
 Chine	1
 กลิทซ์	1
 importation	1
-b_2	1
 มะหวด	1
 เปรศ	1
 Eries	1
@@ -106869,7 +105555,6 @@ Kiera	1
 แนปส	1
 SCIENTIFIC	1
 m.s.n.	1
-21st	1
 พยาง์	1
 สคก.	1
 redistributive	1
@@ -106902,7 +105587,6 @@ technic	1
 Nip	1
 Stabbing	1
 เซียด	1
-
 TAKEO	1
 Trichobranch	1
 Sttring3	1
@@ -106924,7 +105608,6 @@ A.G	1
 Thiazolidinediones	1
 เฆ	1
 Hypophrygian	1
-RX350	1
 fieldnotes	1
 holistics	1
 plurals	1
@@ -106932,7 +105615,6 @@ Puffendorf	1
 centi	1
 Cinematograph	1
 กัจฉะ	1
-Mythologiques24	1
 Romci	1
 Motorokr	1
 Lactase	1
@@ -107024,7 +105706,6 @@ Borland	1
 oscillations	1
 สตูร์	1
 Nimkoff	1
-Music2Gether	1
 นะะะะ	1
 นมาร์ล	1
 เค๊ย	1
@@ -107044,7 +105725,6 @@ poststructural	1
 GTB	1
 Nevsky	1
 PARALLEL	1
-1996b	1
 Mr.Hilda	1
 ศักพ์	1
 Hydrolyzed	1
@@ -107277,7 +105957,6 @@ verre	1
 METRO	1
 photogrammetric	1
 Barend	1
-I.Q.ของเด็กจะต้องเพิ่มขึ้นอย่างแน่นอน	1
 BALCONY	1
 Tarascans	1
 embedding	1

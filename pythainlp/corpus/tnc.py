@@ -23,8 +23,10 @@ def word_freq(word: str, domain: str = "all") -> int:
     This function will make a query to the server of Thai National Corpus.
     Internet connection is required.
 
-    **IMPORTANT:** Currently (as of 29 April 2019) always return 0,
-    as the service URL has been changed and the code is not updated yet.
+    **IMPORTANT:** Currently (as of 29 April 2019) it is likely to return 0,
+    regardless of the word, as the service URL has been changed and the code
+    is not updated yet.
+    New URL is http://www.arts.chula.ac.th/~ling/tnc3/
 
     :param string word: word
     :param string domain: domain
@@ -42,8 +44,7 @@ def word_freq(word: str, domain: str = "all") -> int:
         "leisure": "9",
         "others": "0",
     }
-    url = "http://www.arts.chula.ac.th/~ling/TNCII/corp.php"
-    # New URL is http://www.arts.chula.ac.th/~ling/tnc3/
+    url = "http://www.arts.chula.ac.th/~ling/tnc3/"
     data = {"genre[]": "", "domain[]": listdomain[domain], "sortby": "perc", "p": word}
 
     r = requests.post(url, data=data)
@@ -63,9 +64,10 @@ def word_freqs() -> List[Tuple[str, int]]:
     Get word frequency from Thai National Corpus (TNC)
     """
     lines = list(get_corpus(_FILENAME))
-    listword = []
+    word_freqs = []
     for line in lines:
-        listindata = line.split("\t")
-        listword.append((listindata[0], int(listindata[1])))
+        word_freq = line.split("\t")
+        if len(word_freq) >= 2:
+            word_freqs.append((word_freq[0], int(word_freq[1])))
 
-    return listword
+    return word_freqs

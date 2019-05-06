@@ -5,6 +5,8 @@ from pythainlp.corpus import get_corpus
 __all__ = [
     "countries",
     "provinces",
+    "thai_female_names",
+    "thai_male_names"
     "thai_negations",
     "thai_stopwords",
     "thai_syllables",
@@ -30,6 +32,11 @@ _THAI_STOPWORDS_FILENAME = "stopwords_th.txt"
 _THAI_NEGATIONS = set()
 _THAI_NEGATIONS_FILENAME = "negations_th.txt"
 
+_THAI_FEMALE_NAMES = set()
+_THAI_FEMALE_NAMES_FILENAME = "female_names_th.txt"
+
+_THAI_MALE_NAMES = set()
+_THAI_MALE_NAMES_FILENAME = "male_names_th.txt"
 
 def countries() -> frozenset:
     """
@@ -95,3 +102,25 @@ def thai_negations() -> frozenset:
         _THAI_NEGATIONS = get_corpus(_THAI_NEGATIONS_FILENAME)
 
     return _THAI_NEGATIONS
+
+
+def thai_female_names() -> frozenset:
+    """
+    Return a frozenset of Thai female names
+    """
+    global _THAI_FEMALE_NAMES
+    if not _THAI_FEMALE_NAMES:
+        _THAI_FEMALE_NAMES = get_corpus(_THAI_FEMALE_NAMES_FILENAME)
+
+    return _THAI_FEMALE_NAMES
+
+
+def thai_male_names() -> frozenset:
+    """
+    Return a frozenset of Thai male names
+    """
+    global _THAI_MALE_NAMES
+    if not _THAI_MALE_NAMES:
+        _THAI_MALE_NAMES = get_corpus(_THAI_MALE_NAMES_FILENAME)
+
+    return _THAI_MALE_NAMES

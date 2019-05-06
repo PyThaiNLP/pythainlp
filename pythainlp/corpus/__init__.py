@@ -198,6 +198,8 @@ def remove(name: str) -> bool:
 from pythainlp.corpus.common import (
     countries,
     provinces,
+    thai_female_names,
+    thai_male_names,
     thai_negations,
     thai_stopwords,
     thai_syllables,
@@ -214,6 +216,8 @@ __all__ = [
     "get_corpus_path",
     "provinces",
     "remove",
+    "thai_female_names",
+    "thai_male_names",
     "thai_negations",
     "thai_stopwords",
     "thai_syllables",

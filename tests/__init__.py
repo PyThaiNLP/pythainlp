@@ -16,6 +16,8 @@ from pythainlp.corpus import (
     download,
     provinces,
     remove,
+    thai_female_names,
+    thai_male_names,
     thai_negations,
     thai_stopwords,
     thai_syllables,
@@ -92,6 +94,8 @@ class TestUM(unittest.TestCase):
     def test_corpus(self):
         self.assertIsNotNone(countries())
         self.assertIsNotNone(provinces())
+        self.assertIsNotNone(thai_female_names())
+        self.assertIsNotNone(thai_male_names())
         self.assertIsNotNone(thai_negations())
         self.assertIsNotNone(thai_stopwords())
         self.assertIsNotNone(thai_syllables())

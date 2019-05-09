@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+from typing import NoReturn, Union
 from urllib.request import urlopen
 
 import requests
@@ -14,7 +15,9 @@ _CORPUS_DIRNAME = "corpus"
 _CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
 
 _CORPUS_DB_URL = (
-    "https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/2.0/db.json"
+    "https://raw.githubusercontent.com/"
+    + "PyThaiNLP/pythainlp-corpus/"
+    + "master/db.json"
 )
 
 _CORPUS_DB_FILENAME = "db.json"
@@ -24,15 +27,15 @@ if not os.path.exists(_CORPUS_DB_PATH):
     TinyDB(_CORPUS_DB_PATH)
 
 
-def corpus_path():
+def corpus_path() -> str:
     return _CORPUS_PATH
 
 
-def corpus_db_url():
+def corpus_db_url() -> str:
     return _CORPUS_DB_URL
 
 
-def corpus_db_path():
+def corpus_db_path() -> str:
     return _CORPUS_DB_PATH
 
 
@@ -49,7 +52,7 @@ def get_corpus(filename: str) -> frozenset:
     return frozenset(lines)
 
 
-def get_corpus_path(name: str) -> [str, None]:
+def get_corpus_path(name: str) -> Union[str, None]:
     """
     Get corpus path
 
@@ -70,18 +73,21 @@ def get_corpus_path(name: str) -> [str, None]:
     return None
 
 
-def download_(url: str, dst: str):
+def _download(url: str, dst: str) -> int:
     """
     @param: url to download file
     @param: dst place to put the file
     """
     file_size = int(urlopen(url).info().get("Content-Length", -1))
+
     if os.path.exists(dst):
         first_byte = os.path.getsize(dst)
     else:
         first_byte = 0
+
     if first_byte >= file_size:
         return file_size
+
     header = {"Range": "bytes=%s-%s" % (first_byte, file_size)}
     pbar = tqdm(
         total=file_size,
@@ -97,10 +103,11 @@ def download_(url: str, dst: str):
                 f.write(chunk)
                 pbar.update(1024)
     pbar.close()
-    # return file_size
+
+    return file_size
 
 
-def download(name: str, force: bool = False):
+def download(name: str, force: bool = False) -> NoReturn:
     """
     Download corpus
 
@@ -111,13 +118,14 @@ def download(name: str, force: bool = False):
     temp = Query()
     data = requests.get(corpus_db_url())
     data_json = data.json()
+
     if name in list(data_json.keys()):
         temp_name = data_json[name]
         print("Download:", name)
 
         if not db.search(temp.name == name):
             print(name + " " + temp_name["version"])
-            download_(temp_name["download"], temp_name["file_name"])
+            _download(temp_name["download"], temp_name["file_name"])
             db.insert(
                 {
                     "name": name,
@@ -144,7 +152,7 @@ def download(name: str, force: bool = False):
                 if not force:
                     yes_no = str(input("yes or no (y / n) : ")).lower()
                 if "y" == yes_no:
-                    download_(temp_name["download"], temp_name["file_name"])
+                    _download(temp_name["download"], temp_name["file_name"])
                     db.update({"version": temp_name["version"]}, temp.name == name)
             else:
                 print("Redownload")
@@ -162,7 +170,7 @@ def download(name: str, force: bool = False):
                 if not force:
                     yes_no = str(input("yes or no (y / n) : ")).lower()
                 if "y" == yes_no:
-                    download_(temp_name["download"], temp_name["file_name"])
+                    _download(temp_name["download"], temp_name["file_name"])
                     db.update({"version": temp_name["version"]}, temp.name == name)
     db.close()
 

@@ -1,7 +1,7 @@
 #!python3
 # -*- coding: utf-8 -*-
 
-_VERSION = "2.0.4"
+_VERSION = "2.0.5"
 
 import argparse
 

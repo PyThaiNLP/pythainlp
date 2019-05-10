@@ -60,6 +60,9 @@ Happy hacking! (;
 ## Docs
 - Peeradej Tanruangporn
 
+## Maintainers
+- Arthit Suriyawongkul
+
 ## Contributors
 - See more contributions here https://github.com/PyThaiNLP/pythainlp/graphs/contributors
 

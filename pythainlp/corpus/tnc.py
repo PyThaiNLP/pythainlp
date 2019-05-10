@@ -6,6 +6,7 @@ Credit: Korakot Chaovavanich‎
 https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
 """
 import re
+from typing import List, Tuple
 
 import requests
 from pythainlp.corpus import get_corpus
@@ -15,11 +16,17 @@ __all__ = ["word_freq", "word_freqs"]
 _FILENAME = "tnc_freq.txt"
 
 
-def word_freq(word, domain="all"):
+def word_freq(word: str, domain: str = "all") -> int:
     """
-    Get word frequency of a word.
+    **Not officially supported.**
+    Get word frequency of a word by domain.
     This function will make a query to the server of Thai National Corpus.
     Internet connection is required.
+
+    **IMPORTANT:** Currently (as of 29 April 2019) it is likely to return 0,
+    regardless of the word, as the service URL has been changed and the code
+    is not updated yet.
+    New URL is http://www.arts.chula.ac.th/~ling/tnc3/
 
     :param string word: word
     :param string domain: domain
@@ -37,12 +44,12 @@ def word_freq(word, domain="all"):
         "leisure": "9",
         "others": "0",
     }
-    url = "http://www.arts.chula.ac.th/~ling/TNCII/corp.php"
+    url = "http://www.arts.chula.ac.th/~ling/tnc3/"
     data = {"genre[]": "", "domain[]": listdomain[domain], "sortby": "perc", "p": word}
 
     r = requests.post(url, data=data)
 
-    pat = re.compile(r'TOTAL</font>(?s).*?#ffffff">(.*?)</font>')
+    pat = re.compile(r'TOTAL</font>.*?#ffffff">(.*?)</font>', flags=re.DOTALL)
     match = pat.search(r.text)
 
     n = 0
@@ -52,14 +59,15 @@ def word_freq(word, domain="all"):
     return n
 
 
-def word_freqs():
+def word_freqs() -> List[Tuple[str, int]]:
     """
     Get word frequency from Thai National Corpus (TNC)
     """
     lines = list(get_corpus(_FILENAME))
-    listword = []
+    word_freqs = []
     for line in lines:
-        listindata = line.split("\t")
-        listword.append((listindata[0], int(listindata[1])))
+        word_freq = line.split("\t")
+        if len(word_freq) >= 2:
+            word_freqs.append((word_freq[0], int(word_freq[1])))
 
-    return listword
+    return word_freqs

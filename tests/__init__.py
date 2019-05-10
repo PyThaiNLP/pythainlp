@@ -3,14 +3,17 @@
 Unit test
 """
 import datetime
+import os
 import unittest
 from collections import Counter
 
 from nltk.corpus import wordnet as wn
 from pythainlp import word_vector
 from pythainlp.corpus import (
+    _CORPUS_PATH,
     conceptnet,
     countries,
+    download,
     provinces,
     remove,
     thai_negations,
@@ -20,32 +23,32 @@ from pythainlp.corpus import (
     tnc,
     ttc,
     wordnet,
-    download,
 )
+from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 from pythainlp.soundex import lk82, metasound, soundex, udom83
-from pythainlp.spell import correct, spell, NorvigSpellChecker
+from pythainlp.spell import NorvigSpellChecker, correct, spell
 from pythainlp.summarize import summarize
 from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import ThaiNameTagger
+from pythainlp.tokenize import DEFAULT_DICT_TRIE, FROZEN_DICT_TRIE, Tokenizer
+from pythainlp.tokenize import deepcut as tokenize_deepcut
 from pythainlp.tokenize import (
-    DEFAULT_DICT_TRIE,
-    FROZEN_DICT_TRIE,
-    Tokenizer,
     dict_trie,
     dict_word_tokenize,
     etcc,
     longest,
     multi_cut,
     newmm,
+)
+from pythainlp.tokenize import pyicu as tokenize_pyicu
+from pythainlp.tokenize import (
     sent_tokenize,
     subword_tokenize,
     syllable_tokenize,
     tcc,
     word_tokenize,
 )
-from pythainlp.tokenize import deepcut as tokenize_deepcut
-from pythainlp.tokenize import pyicu as tokenize_pyicu
 from pythainlp.transliterate import romanize, transliterate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.royin import romanize as romanize_royin
@@ -53,11 +56,11 @@ from pythainlp.util import (
     arabic_digit_to_thai_digit,
     bahttext,
     collate,
+    countthai,
     deletetone,
     digit_to_text,
     eng_to_thai,
     find_keyword,
-    countthai,
     isthai,
     isthaichar,
     normalize,
@@ -70,8 +73,8 @@ from pythainlp.util import (
     thai_digit_to_arabic_digit,
     thai_strftime,
     thai_to_eng,
-    thaiword_to_num,
     thaicheck,
+    thaiword_to_num,
 )
 
 
@@ -139,17 +142,25 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(soundex("a", engine="metasound"))
         self.assertIsNotNone(soundex("a", engine="XXX"))
 
+        self.assertEqual(lk82(None), "")
+        self.assertEqual(lk82(""), "")
+        self.assertEqual(lk82("เหตุ"), lk82("เหด"))
         self.assertEqual(lk82("รถ"), "ร3000")
         self.assertIsNotNone(lk82("เกาะ"))
         self.assertIsNotNone(lk82("อุยกูร์"))
         self.assertIsNotNone(lk82("หยากไย่"))
         self.assertIsNotNone(lk82("หอ"))
-        self.assertEqual(lk82(""), "")
         self.assertEqual(lk82("น์"), "")
 
-        self.assertEqual(udom83("รถ"), "ร800000")
         self.assertEqual(udom83(None), "")
+        self.assertEqual(udom83(""), "")
+        self.assertEqual(udom83("เหตุ"), udom83("เหด"))
+        self.assertEqual(udom83("รถ"), "ร800000")
 
+        self.assertEqual(metasound(None), "")
+        self.assertEqual(metasound(""), "")
+        self.assertEqual(metasound("เหตุ"), metasound("เหด"))
+        self.assertEqual(metasound("รักษ์"), metasound("รัก"))
         self.assertEqual(metasound("บูรณะ"), "บ550")
         self.assertEqual(metasound("คน"), "ค500")
         self.assertEqual(metasound("คนA"), "ค500")
@@ -161,8 +172,11 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(metasound("มา"))
         self.assertIsNotNone(metasound("ยา"))
         self.assertIsNotNone(metasound("วา"))
-        self.assertEqual(metasound("รักษ์"), metasound("รัก"))
-        self.assertEqual(metasound(""), "")
+        self.assertIsNotNone(metasound("บูชา"))
+        self.assertIsNotNone(metasound("กมลา"))
+        self.assertIsNotNone(metasound("กาโวกาโว"))
+        self.assertIsNotNone(metasound("สุวรรณา"))
+        self.assertIsNotNone(metasound("ดอยบอย"))
 
     # ### pythainlp.spell
 
@@ -324,6 +338,9 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(dict_trie(["ทดสอบ", "สร้าง", "Trie"]))
         self.assertIsNotNone(dict_trie(thai_words()))
         self.assertIsNotNone(dict_trie(FROZEN_DICT_TRIE))
+        self.assertIsNotNone(
+            dict_trie(os.path.join(_CORPUS_PATH, _THAI_WORDS_FILENAME))
+        )
 
         self.assertIsNotNone(word_tokenize("รถไฟฟ้าBTS", custom_dict=DEFAULT_DICT_TRIE))
         self.assertIsNotNone(
@@ -338,6 +355,9 @@ class TestUM(unittest.TestCase):
         self.assertEqual(t_test.word_tokenize(""), [])
         t_test.set_tokenize_engine("longest")
         self.assertEqual(t_test.word_tokenize(None), [])
+
+        t_test = Tokenizer()
+        self.assertEqual(t_test.word_tokenize("ก"), ["ก"])
 
     def test_word_tokenize_icu(self):
         self.assertEqual(tokenize_pyicu.segment(None), [])
@@ -461,7 +481,7 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(romanize("กรม", engine="royin"))
         self.assertIsNotNone(romanize("ธรรพ์", engine="royin"))
         self.assertIsNotNone(romanize("กฏa์1์ ์", engine="royin"))
-        # self.assertIsNotNone(romanize("บัว", engine="thai2rom"))
+        self.assertEqual(romanize("แมว", engine="thai2rom"), "maeo")
 
     def test_transliterate(self):
         self.assertEqual(transliterate(""), "")
@@ -557,6 +577,7 @@ class TestUM(unittest.TestCase):
             thai_strftime(date, "%Aที่ %d %B พ.ศ. %Y เวลา %H:%Mน. (%a %d-%b-%y) %% %"),
             "วันพุธที่ 06 ตุลาคม พ.ศ. 2519 เวลา 01:40น. (พ 06-ต.ค.-19) % %",
         )
+        self.assertIsNotNone(thai_strftime(date, "%A%a%B%b%C%c%D%F%G%g%v%X%x%Y%y%+"))
 
     # ### pythainlp.util.normalize
 

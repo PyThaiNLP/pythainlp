@@ -14,4 +14,16 @@ Modules
 .. autofunction:: subword_tokenize
 .. autofunction:: dict_trie
 .. autoclass:: Tokenizer
-   :members: word_tokenize, set_tokenize_engine
+   :members:
+
+NEWMM
+-----
+.. autofunction:: pythainlp.tokenize.newmm.segment
+
+TCC
+---
+Thai Character Cluster
+
+.. autofunction:: pythainlp.tokenize.tcc.segment
+.. autofunction:: pythainlp.tokenize.tcc.tcc
+.. autofunction:: pythainlp.tokenize.tcc.tcc_pos

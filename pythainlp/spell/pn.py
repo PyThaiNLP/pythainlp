@@ -7,9 +7,10 @@ Default spelling dictionary is based on Thai National Corpus.
 Based on Peter Norvig's Python code from http://norvig.com/spell-correct.html
 """
 from collections import Counter
+from string import digits
 from typing import Callable, List, Set, Tuple
 
-from pythainlp import thai_letters
+from pythainlp import thai_digits, thai_letters
 from pythainlp.corpus import tnc
 from pythainlp.util import isthaichar
 
@@ -22,7 +23,7 @@ def _is_thai_and_not_num(word: str) -> bool:
     for ch in word:
         if ch != "." and not isthaichar(ch):
             return False
-        if ch in "๐๑๒๓๔๕๖๗๘๙0123456789":
+        if ch in digits or ch in thai_digits:
             return False
     return True
 
@@ -33,7 +34,7 @@ def _keep(
     min_len: int,
     max_len: int,
     dict_filter: Callable[[str], bool],
-):
+) -> Callable[[str], bool]:
     """
     Keep only Thai words with at least min_freq frequency
     and has length between min_len and max_len characters

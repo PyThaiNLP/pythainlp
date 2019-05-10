@@ -20,7 +20,7 @@ except LookupError:
 from nltk.corpus import wordnet
 
 
-def synsets(word, pos=None, lang="tha"):
+def synsets(word: str, pos: str = None, lang: str = "tha"):
     return wordnet.synsets(lemma=word, pos=pos, lang=lang)
 
 
@@ -28,11 +28,11 @@ def synset(name_synsets):
     return wordnet.synset(name_synsets)
 
 
-def all_lemma_names(pos=None, lang="tha"):
+def all_lemma_names(pos: str = None, lang: str = "tha"):
     return wordnet.all_lemma_names(pos=pos, lang=lang)
 
 
-def all_synsets(pos=None):
+def all_synsets(pos: str = None):
     return wordnet.all_synsets(pos=pos)
 
 
@@ -40,7 +40,7 @@ def langs():
     return wordnet.langs()
 
 
-def lemmas(word, pos=None, lang="tha"):
+def lemmas(word: str, pos: str = None, lang: str = "tha"):
     return wordnet.lemmas(word, pos=pos, lang=lang)
 
 
@@ -64,9 +64,9 @@ def wup_similarity(synsets1, synsets2):
     return wordnet.wup_similarity(synsets1, synsets2)
 
 
-def morphy(form, pos=None):
+def morphy(form, pos: str = None):
     return wordnet.morphy(form, pos=None)
 
 
-def custom_lemmas(tab_file, lang):
+def custom_lemmas(tab_file, lang: str):
     return wordnet.custom_lemmas(tab_file, lang)

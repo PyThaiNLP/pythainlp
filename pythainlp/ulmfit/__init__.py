@@ -62,7 +62,8 @@ class ThaiTokenizer(BaseTokenizer):
     def __init__(self, lang: str = "th"):
         self.lang = lang
 
-    def tokenizer(self, text: str) -> List[str]:
+    @staticmethod
+    def tokenizer(text: str) -> List[str]:
         """
         :meth: tokenize text with a frozen newmm engine
         :param str text: text to tokenize

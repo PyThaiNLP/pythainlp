@@ -5,21 +5,19 @@ https://github.com/cstorm125/thai2fit/
 """
 import collections
 import re
-
 from typing import List
 
 import emoji
 import numpy as np
 import torch
-
 from fastai.text import TK_REP, BaseTokenizer
 from fastai.text.transform import (
     fix_html,
+    replace_all_caps,
     rm_useless_spaces,
     spec_add_spaces,
-    replace_all_caps,
 )
-from pythainlp import word_tokenize
+from pythainlp import FROZEN_DICT_TRIE, Tokenizer
 from pythainlp.corpus import download, get_corpus_path
 from pythainlp.util import normalize as normalize_char_order
 
@@ -37,6 +35,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 _MODEL_NAME_LSTM = "wiki_lm_lstm"
 _ITOS_NAME_LSTM = "wiki_itos_lstm"
 
+_pythainlp_tokenizer = Tokenizer(custom_dict=FROZEN_DICT_TRIE, engine="newmm")
 
 # Download pretrained models
 def _get_path(fname: str) -> str:
@@ -69,7 +68,7 @@ class ThaiTokenizer(BaseTokenizer):
         :param str text: text to tokenize
         :return: tokenized text
         """
-        return word_tokenize(text, engine="ulmfit")
+        return _pythainlp_tokenizer.word_tokenize(text)
 
     def add_special_cases(self, toks):
         pass

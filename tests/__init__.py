@@ -31,7 +31,7 @@ from pythainlp.summarize import summarize
 from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import ThaiNameTagger
-from pythainlp.tokenize import DEFAULT_DICT_TRIE, FROZEN_DICT_TRIE, Tokenizer
+from pythainlp.tokenize import DEFAULT_DICT_TRIE, Tokenizer
 from pythainlp.tokenize import deepcut as tokenize_deepcut
 from pythainlp.tokenize import (
     dict_trie,
@@ -328,7 +328,6 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="newmm"))
         self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="mm"))
         self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="longest"))
-        self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="ulmfit"))
         self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="icu"))
         self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="deepcut"))
         self.assertIsNotNone(word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX"))
@@ -337,21 +336,15 @@ class TestUM(unittest.TestCase):
         self.assertIsNotNone(dict_trie(("ทดสอบ", "สร้าง", "Trie")))
         self.assertIsNotNone(dict_trie(["ทดสอบ", "สร้าง", "Trie"]))
         self.assertIsNotNone(dict_trie(thai_words()))
-        self.assertIsNotNone(dict_trie(FROZEN_DICT_TRIE))
+        self.assertIsNotNone(dict_trie(DEFAULT_DICT_TRIE))
         self.assertIsNotNone(
             dict_trie(os.path.join(_CORPUS_PATH, _THAI_WORDS_FILENAME))
         )
 
         self.assertIsNotNone(word_tokenize("รถไฟฟ้าBTS", custom_dict=DEFAULT_DICT_TRIE))
-        self.assertIsNotNone(
-            word_tokenize("ทดสอบ", engine="deepcut", custom_dict=FROZEN_DICT_TRIE)
-        )
-        self.assertIsNotNone(
-            word_tokenize("ทดสอบ", engine="XX", custom_dict=FROZEN_DICT_TRIE)
-        )
 
     def test_Tokenizer(self):
-        t_test = Tokenizer(FROZEN_DICT_TRIE)
+        t_test = Tokenizer(DEFAULT_DICT_TRIE)
         self.assertEqual(t_test.word_tokenize(""), [])
         t_test.set_tokenize_engine("longest")
         self.assertEqual(t_test.word_tokenize(None), [])

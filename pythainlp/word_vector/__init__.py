@@ -8,11 +8,14 @@ from typing import List
 
 import numpy as np
 from gensim.models import KeyedVectors
+from pythainlp import FROZEN_DICT_TRIE, Tokenizer
 from pythainlp.corpus import download as download_data
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import word_tokenize
 
 WV_DIM = 300
+
+_pythainlp_tokenizer = Tokenizer(custom_dict=FROZEN_DICT_TRIE, engine="newmm")
 
 
 def _download() -> str:
@@ -82,7 +85,8 @@ def sentence_vectorizer(text: str, use_mean: bool = True):
 
     :return: sentence vector of given input text
     """
-    words = word_tokenize(text, engine="ulmfit")
+    words = _pythainlp_tokenizer.word_tokenize(text)
+
     vec = np.zeros((1, WV_DIM))
 
     for word in words:

@@ -17,8 +17,8 @@ from fastai.text.transform import (
     rm_useless_spaces,
     spec_add_spaces,
 )
-from pythainlp import FROZEN_DICT_TRIE, Tokenizer
 from pythainlp.corpus import download, get_corpus_path
+from pythainlp.tokenize import FROZEN_DICT_TRIE, Tokenizer
 from pythainlp.util import normalize as normalize_char_order
 
 __all__ = [

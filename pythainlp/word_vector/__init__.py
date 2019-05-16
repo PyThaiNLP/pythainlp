@@ -8,10 +8,9 @@ from typing import List
 
 import numpy as np
 from gensim.models import KeyedVectors
-from pythainlp import FROZEN_DICT_TRIE, Tokenizer
 from pythainlp.corpus import download as download_data
 from pythainlp.corpus import get_corpus_path
-from pythainlp.tokenize import word_tokenize
+from pythainlp.tokenize import FROZEN_DICT_TRIE, Tokenizer
 
 WV_DIM = 300
 

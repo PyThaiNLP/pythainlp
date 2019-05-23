@@ -32,7 +32,8 @@ _PAT_TWOCHARS = re.compile("[ก-ฮ]{,2}$")
 def _bfs_paths_graph(graph, start, goal):
     queue = [(start, [start])]
     while queue:
-        (vertex, path) = queue.pop(0)
+        # pop queue (slect longest token in queue)
+        (vertex, path) = queue.pop()
         for next in graph[vertex]:
             if next == goal:
                 yield path + [next]

@@ -39,15 +39,21 @@ def corpus_db_path() -> str:
     return _CORPUS_DB_PATH
 
 
+def read_text_corpus(path: str) -> list:
+    lines = []
+    with open(path, "r", encoding="utf-8-sig") as fh:
+        lines = fh.read().splitlines()
+
+    return lines
+
+
 def get_corpus(filename: str) -> frozenset:
     """
     Read corpus from file and return a frozenset
 
     :param string filename: file corpus
     """
-    lines = []
-    with open(os.path.join(corpus_path(), filename), "r", encoding="utf-8-sig") as fh:
-        lines = fh.read().splitlines()
+    lines = read_text_corpus(os.path.join(corpus_path(), filename))
 
     return frozenset(lines)
 

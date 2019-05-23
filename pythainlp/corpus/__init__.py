@@ -66,17 +66,16 @@ def get_corpus_path(name: str) -> Union[str, None]:
     """
     db = TinyDB(corpus_db_path())
     temp = Query()
+    path = None
 
     if len(db.search(temp.name == name)) > 0:
         path = get_full_data_path(db.search(temp.name == name)[0]["file"])
-        db.close()
 
         if not os.path.exists(path):
             download(name)
 
-        return path
-
-    return None
+    db.close()
+    return path
 
 
 def _download(url: str, dst: str) -> int:

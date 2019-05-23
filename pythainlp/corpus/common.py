@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from pythainlp.corpus import download, get_corpus, get_corpus_path, read_text_corpus
+from pythainlp.corpus import download, get_corpus, get_corpus_path, \
+    read_text_corpus
 
 __all__ = [
     "countries",
@@ -53,7 +54,8 @@ def provinces() -> frozenset:
     """
     global _THAI_THAILAND_PROVINCES
     if not _THAI_THAILAND_PROVINCES:
-        _THAI_THAILAND_PROVINCES = get_corpus(_THAI_THAILAND_PROVINCES_FILENAME)
+        _THAI_THAILAND_PROVINCES = get_corpus(
+            _THAI_THAILAND_PROVINCES_FILENAME)
 
     return _THAI_THAILAND_PROVINCES
 

@@ -32,7 +32,6 @@ def word_tokenize(
         * longest - dictionary-based, Longest Matching
         * deepcut - wrapper for deepcut, language-model-based https://github.com/rkcosmos/deepcut
         * icu - wrapper for ICU (International Components for Unicode, using PyICU), dictionary-based
-        * ulmfit - for thai2fit
         * a custom_dict can be provided for newmm, longest, and deepcut
 
     **Example**
@@ -67,10 +66,6 @@ def word_tokenize(
             segments = segment(text, custom_dict)
         else:
             segments = segment(text)
-    elif engine == "ulmfit":  # ulmfit has its own specific dictionary
-        from .newmm import segment
-
-        segments = segment(text, custom_dict=FROZEN_DICT_TRIE)
     elif engine == "icu":
         from .pyicu import segment
 

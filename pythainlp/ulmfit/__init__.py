@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Code by Charin
+Code by Charin Polpanumas
 https://github.com/cstorm125/thai2fit/
 """
 import collections
@@ -17,8 +17,8 @@ from fastai.text.transform import (
     rm_useless_spaces,
     spec_add_spaces,
 )
-from pythainlp.corpus import download, get_corpus_path
-from pythainlp.tokenize import FROZEN_DICT_TRIE, Tokenizer
+from pythainlp.corpus import download, get_corpus, get_corpus_path
+from pythainlp.tokenize import Tokenizer
 from pythainlp.util import normalize as normalize_char_order
 
 __all__ = [
@@ -35,7 +35,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 _MODEL_NAME_LSTM = "wiki_lm_lstm"
 _ITOS_NAME_LSTM = "wiki_itos_lstm"
 
-_pythainlp_tokenizer = Tokenizer(custom_dict=FROZEN_DICT_TRIE, engine="newmm")
+_THAI2FIT_WORDS = get_corpus("words_th_thai2fit_201810.txt")
+_pythainlp_tokenizer = Tokenizer(custom_dict=_THAI2FIT_WORDS, engine="newmm")
 
 # Download pretrained models
 def _get_path(fname: str) -> str:

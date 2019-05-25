@@ -59,7 +59,7 @@ setup(
             "ttc_freq.txt",
             "ud_thai_pud_pt_tagger.dill",
             "ud_thai_pud_unigram_tagger.dill",
-            "words_th_frozen_201810.txt",
+            "words_th_thai2fit_201810.txt",
             "words_th.txt",
         ],
     },

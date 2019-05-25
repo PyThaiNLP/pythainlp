@@ -3,15 +3,13 @@
 Thai tokenizers
 """
 import re
-import sys
+import warnings
 from typing import Iterable, List, Union
 
-from pythainlp.corpus import get_corpus, thai_syllables, thai_words
-
 from marisa_trie import Trie
+from pythainlp.corpus import thai_syllables, thai_words
 
 DEFAULT_DICT_TRIE = Trie(thai_words())
-FROZEN_DICT_TRIE = Trie(get_corpus("words_th_frozen_201810.txt"))
 
 
 def word_tokenize(
@@ -95,10 +93,11 @@ def dict_word_tokenize(
     :param bool keep_whitespace: True to keep whitespaces, a common mark for end of phrase in Thai
     :return: list of words
     """
-    print(
-        "Deprecated. Use word_tokenize() with a custom_dict argument instead.",
-        file=sys.stderr,
+    warnings.warn(
+        "dict_word_tokenize is deprecated. Use word_tokenize with a custom_dict argument instead.",
+        DeprecationWarning,
     )
+
     return word_tokenize(
         text=text,
         custom_dict=custom_dict,

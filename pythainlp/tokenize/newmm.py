@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Dictionary-based Thai Word Segmentation
-using maximal matching algorithm and Thai Character Cluster (TCC)
+Dictionary-based maximal matching Thai word segmentation,
+constrained with Thai Character Cluster (TCC) boundaries
 Based on these notebooks by Korakot Chaovavanich:
 https://colab.research.google.com/notebook#fileId=1V1Z657_5eSWPo8rLfVRwA0A5E4vkg7SI
 https://colab.research.google.com/drive/14Ibg-ngZXj15RKwjNwoZlOT32fQBOrBx#scrollTo=MYZ7NzAR7Dmw
@@ -93,7 +93,7 @@ def _onecut(text: str, custom_dict: Trie):
 
 def segment(text: str, custom_dict: Trie = None) -> List[str]:
     """
-    Dictionary-based word segmentation, using maximal matching algorithm and Thai Character Cluster
+    Dictionary-based maximal matching word segmentation, constrained with Thai Character Cluster boundaries
     :param str text: text to be tokenized to words
     :return: list of words, tokenized from the text
     """

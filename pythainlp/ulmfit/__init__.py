@@ -96,7 +96,7 @@ def replace_wrep_post(toks:Collection):
     previous_word = None
     rep_count = 0
     res = []
-    for current_word in t+['xxend']:
+    for current_word in toks+['xxend']:
         if current_word==previous_word: 
             rep_count+=1
         elif (current_word!=previous_word) & (rep_count>0):

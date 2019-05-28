@@ -86,7 +86,7 @@ def replace_rep_after(text: str) -> str:
         c, cc = m.groups()
         return f"{c} {TK_REP} {len(cc)+1}"
 
-    re_rep = re.compile(r"(\S)(\1{2,})")
+    re_rep = re.compile(r"(\S)(\1{3,})")
 
     return re_rep.sub(_replace_rep, text)
 

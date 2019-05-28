@@ -10,14 +10,13 @@ from typing import List
 import emoji
 import numpy as np
 import torch
-from fastai.text import TK_REP, BaseTokenizer
+from fastai.text import BaseTokenizer
 from fastai.text.transform import (
     fix_html,
     replace_all_caps,
     rm_useless_spaces,
     spec_add_spaces,
     replace_rep,
-    replace_wrep,
 )
 from pythainlp.corpus import download, get_corpus, get_corpus_path
 from pythainlp.tokenize import Tokenizer
@@ -121,14 +120,13 @@ _THWIKI_LSTM = dict(
 pre_rules_th = [
     fix_html,
     replace_rep,
-    replace_wrep,
     normalize_char_order,
     spec_add_spaces,
     rm_useless_spaces,
     rm_useless_newlines,
     rm_brackets,
 ]
-post_rules_th = [replace_all_caps, ungroup_emoji, lowercase_all]
+post_rules_th = [replace_wrep_post,replace_all_caps, ungroup_emoji, lowercase_all]
 
 _tokenizer = ThaiTokenizer()
 

@@ -100,8 +100,7 @@ def replace_wrep_post(toks:Collection):
         if current_word==previous_word: 
             rep_count+=1
         elif (current_word!=previous_word) & (rep_count>0):
-
-            res += ['xxwrep',str(rep_count)] + [previous_word]
+            res += ['xxwrep',str(rep_count),previous_word]
             rep_count=0
         else:
             res.append(previous_word)

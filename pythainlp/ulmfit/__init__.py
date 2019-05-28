@@ -10,7 +10,7 @@ from typing import List,Collection
 import emoji
 import numpy as np
 import torch
-from fastai.text import TK_REP, BaseTokenizer
+from fastai.text import BaseTokenizer, TK_REP, TK_WREP
 from fastai.text.transform import (
     fix_html,
     replace_all_caps,
@@ -100,7 +100,7 @@ def replace_wrep_post(toks:Collection):
         if current_word==previous_word: 
             rep_count+=1
         elif (current_word!=previous_word) & (rep_count>0):
-            res += ['xxwrep',str(rep_count),previous_word]
+            res += [TK_WREP,str(rep_count),previous_word]
             rep_count=0
         else:
             res.append(previous_word)

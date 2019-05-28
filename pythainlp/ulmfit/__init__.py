@@ -16,6 +16,8 @@ from fastai.text.transform import (
     replace_all_caps,
     rm_useless_spaces,
     spec_add_spaces,
+    replace_rep,
+    replace_wrep,
 )
 from pythainlp.corpus import download, get_corpus, get_corpus_path
 from pythainlp.tokenize import Tokenizer
@@ -75,18 +77,6 @@ class ThaiTokenizer(BaseTokenizer):
         pass
 
 
-def replace_rep_after(text: str) -> str:
-    "Replace repetitions at the character level in `text` after the repetition"
-
-    def _replace_rep(m):
-        c, cc = m.groups()
-        return f"{c}{TK_REP}{len(cc)+1}"
-
-    re_rep = re.compile(r"(\S)(\1{2,})")
-
-    return re_rep.sub(_replace_rep, text)
-
-
 def rm_useless_newlines(text: str) -> str:
     "Remove multiple newlines in `text`."
 
@@ -130,7 +120,8 @@ _THWIKI_LSTM = dict(
 # Preprocessing rules for Thai text
 pre_rules_th = [
     fix_html,
-    replace_rep_after,
+    replace_rep,
+    replace_wrep,
     normalize_char_order,
     spec_add_spaces,
     rm_useless_spaces,

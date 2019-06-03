@@ -5,12 +5,12 @@ https://github.com/cstorm125/thai2fit/
 """
 import collections
 import re
-from typing import List
+from typing import List,Collection
 
 import emoji
 import numpy as np
 import torch
-from fastai.text import TK_REP, BaseTokenizer
+from fastai.text import BaseTokenizer, TK_REP, TK_WREP
 from fastai.text.transform import (
     fix_html,
     replace_all_caps,
@@ -76,15 +76,36 @@ class ThaiTokenizer(BaseTokenizer):
 
 
 def replace_rep_after(text: str) -> str:
-    "Replace repetitions at the character level in `text` after the repetition"
+    """
+    Replace repetitions at the character level in `text` after the repetition.
+    This is done to prevent such case as 'น้อยยยยยยยย' becoming 'น้อ xrep 8 ย';
+    instead it will retain the word as 'น้อย xrep 8'
+    """
 
     def _replace_rep(m):
         c, cc = m.groups()
-        return f"{c}{TK_REP}{len(cc)+1}"
+        return f"{c} {TK_REP} {len(cc)+1} "
 
-    re_rep = re.compile(r"(\S)(\1{2,})")
+    re_rep = re.compile(r"(\S)(\1{3,})")
 
     return re_rep.sub(_replace_rep, text)
+
+def replace_wrep_post(toks:Collection):
+    """Replace reptitive words post tokenization; 
+    fastai `replace_wrep` does not work well with Thai."""
+    previous_word = None
+    rep_count = 0
+    res = []
+    for current_word in toks+['xxend']:
+        if current_word==previous_word: 
+            rep_count+=1
+        elif (current_word!=previous_word) & (rep_count>0):
+            res += [TK_WREP,str(rep_count),previous_word]
+            rep_count=0
+        else:
+            res.append(previous_word)
+        previous_word=current_word
+    return res[1:]
 
 
 def rm_useless_newlines(text: str) -> str:
@@ -102,7 +123,7 @@ def rm_brackets(text: str) -> str:
     return new_line
 
 
-def ungroup_emoji(toks):
+def ungroup_emoji(toks:Collection):
     "Ungroup emojis"
 
     res = []
@@ -116,7 +137,7 @@ def ungroup_emoji(toks):
     return res
 
 
-def lowercase_all(toks):
+def lowercase_all(toks:Collection):
     "lowercase all English words"
     return [tok.lower() for tok in toks]
 
@@ -137,7 +158,7 @@ pre_rules_th = [
     rm_useless_newlines,
     rm_brackets,
 ]
-post_rules_th = [replace_all_caps, ungroup_emoji, lowercase_all]
+post_rules_th = [replace_all_caps, ungroup_emoji, lowercase_all, replace_wrep_post]
 
 _tokenizer = ThaiTokenizer()
 

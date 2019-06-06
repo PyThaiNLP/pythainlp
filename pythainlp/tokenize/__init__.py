@@ -22,20 +22,26 @@ def word_tokenize(
 ) -> List[str]:
     """
     :param str text: text to be tokenized
-    :param str engine: tokenizer to be used
-    :param dict custom_dict: a dictionary trie
-    :param bool keep_whitespace: True to keep whitespaces, a common mark for end of phrase in Thai
+    :param str engine: name of the tokenizer  to be used
+    :param marisa_trie.Trie custom_dict: marisa dictionary trie
+    :param bool keep_whitespace: True to keep whitespaces, a common mark for end of phrase in Thai. Otherwise, whitespaces are omitted.
     :return: list of words
 
     **Options for engine**
-        * newmm (default) - dictionary-based, Maximum Matching + Thai Character Cluster
-        * longest - dictionary-based, Longest Matching
-        * deepcut - wrapper for deepcut, language-model-based https://github.com/rkcosmos/deepcut
-        * icu - wrapper for ICU (International Components for Unicode, using PyICU), dictionary-based
-        * ulmfit - for thai2fit
-        * a custom_dict can be provided for newmm, longest, and deepcut
+        * *newmm* (default) - dictionary-based, Maximum Matching + Thai Character Cluster
+        * *longest* - dictionary-based, Longest Matching
+        * *deepcut* - wrapper for deepcut, language-model-based https://github.com/rkcosmos/deepcut
+        * *icu* - wrapper for ICU (International Components for Unicode, using PyICU), dictionary-based
+        * *ulmfit* - for thai2fit
+
+    **Note**
+    
+    The parameter **custom_dict** can be provided as an argument only for *newmm*, *longest*, and *deepcut* engine.
 
     **Example**
+
+        Tokenize text with different tokenizer:
+
         >>> from pythainlp.tokenize import word_tokenize
         >>> text = "โอเคบ่พวกเรารักภาษาบ้านเกิด"
         >>> word_tokenize(text, engine="newmm")
@@ -48,6 +54,29 @@ def word_tokenize(
         ['โอ', 'เค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้าน', 'เกิด']
         >>> word_tokenize(text, engine="ulmfit")
         ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
+
+        Tokenize text by omitiing whitespaces:
+
+        >>> from pythainlp.tokenize import word_tokenize
+        >>> text = "วรรณกรรม ภาพวาด และการแสดงงิ้ว "
+        >>> word_tokenize(text, engine="newmm")
+        ['วรรณกรรม', ' ', 'ภาพวาด', ' ', 'และ', 'การแสดง', 'งิ้ว', ' ']
+        >>> word_tokenize(text, engine="newmm", keep_whitespace=False)
+        ['วรรณกรรม', 'ภาพวาด', 'และ', 'การแสดง', 'งิ้ว']
+
+        Tokenize with default and custom dictionary:
+
+        >>> from pythainlp.corpus.common import thai_words
+        >>> from pythainlp.tokenize import dict_trie, word_tokenize
+        >>> text = 'ชินโซ อาเบะ เกิด 21 กันยายน'
+        >>> word_tokenize(text, engine="newmm") 
+        ​['ชิน', 'โซ', ' ', 'อา', 'เบะ', ' ', 'เกิด', ' ', '21', ' ', 'กันยายน']
+        >>> custom_dict_japanese_name = set(thai_words()) 
+        >>> custom_dict_japanese_name.add('ชินโซ')  
+        >>> custom_dict_japanese_name.add('อาเบะ') 
+        >>> trie = dict_trie(dict_source=custom_dict_japanese_name) 
+        >>> word_tokenize(text, engine="newmm", custom_dict=trie)) 
+        ['ชินโซ', ' ', 'อาเบะ', ' ', 'เกิด', ' ', '21', ' ', 'กันยายน']
     """
     if not text or not isinstance(text, str):
         return []

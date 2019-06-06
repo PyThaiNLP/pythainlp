@@ -52,6 +52,7 @@ PAT_TCC = re.compile("|".join(RE_TCC))
 def tcc(text: str) -> str:
     """
     TCC generator, generates Thai Character Clusters
+
     :param str text: text to be tokenized to character clusters
     :return: subword (character cluster)
     """
@@ -72,6 +73,7 @@ def tcc(text: str) -> str:
 def tcc_pos(text: str) -> Set[int]:
     """
     TCC positions
+
     :param str text: text to be tokenized to character clusters
     :return: list of the end of subwords
     """
@@ -90,6 +92,7 @@ def tcc_pos(text: str) -> Set[int]:
 def segment(text: str) -> List[str]:
     """
     Subword segmentation
+
     :param str text: text to be tokenized to character clusters
     :return: list of subwords (character clusters), tokenized from the text    
     """

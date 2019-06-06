@@ -24,9 +24,9 @@ _TAG_MAP_UD = {
     # VERB
     "VACT": "VERB",
     "VSTA": "VERB",
-    # PRON
-    "PRON": "PRON",
-    "NPRP": "PRON",
+    # PROPN
+    "PROPN": "PROPN",
+    "NPRP": "PROPN",
     # ADJ
     "ADJ": "ADJ",
     "NONM": "ADJ",
@@ -41,10 +41,10 @@ _TAG_MAP_UD = {
     # INT
     "INT": "INTJ",
     # PRON
-    "PROPN": "PROPN",
-    "PPRS": "PROPN",
-    "PDMN": "PROPN",
-    "PNTR": "PROPN",
+    "PRON": "PRON",
+    "PPRS": "PRON",
+    "PDMN": "PRON",
+    "PNTR": "PRON",
     # DET
     "DET": "DET",
     "DDAN": "DET",

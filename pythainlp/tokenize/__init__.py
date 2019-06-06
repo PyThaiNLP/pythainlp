@@ -199,13 +199,46 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
 
 def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
     """
+    This function tokenizes text into inseparable units of Thai contiguous characters namely `Thai Character Clusters (TCCs) <https://www.researchgate.net/publication/2853284_Character_Cluster_Based_Thai_Information_Retrieval>`_
+    
+    TCCs are the units based on Thai spelling feature that could not be separated any character further such as
+    'ก็', 'จะ', 'ไม่', and 'ฝา'. If the following units are separated, they could not be spelled out.
+    
+    This function apply the TCC rules to tokenizes the text into the smallest units. 
+    For example, the word 'ขนมชั้น' would be tokenized into 'ข', 'น', 'ม', and 'ชั้น'
+
     :param str text: text to be tokenized
-    :param str engine: subword tokenizer
+    :param str engine: the name subword tokenizer
     :return: list of subwords
+    :rtype: list[str]
 
     **Options for engine**
-        * tcc (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
-        * etcc - Enhanced Thai Character Cluster (Inrut et al. 2001) [In development]
+        * *tcc* (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
+        * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001) [In development]
+    
+    seealso:
+    **Example**
+
+    Tokenize text into subword based on *tcc*
+
+    >>> from pythainlp.tokenize import subword_tokenize
+    >>> text_1 = "ยุคเริ่มแรกของ ราชวงศ์หมิง"
+    >>> text_2 = "ความแปลกแยกและพัฒนาการ"
+    >>> subword_tokenize(text_1, engine='tcc')
+    ['ยุ', 'ค', 'เริ่ม', 'แร', 'ก', 'ข', 'อ', 'ง', ' ', 'รา', 'ช', 'ว', 'ง', 'ศ', '์', 'ห', 'มิ', 'ง']
+    >>> subword_tokenize(text_2, engine='tcc')
+    ['ค', 'วา', 'ม', 'แป', 'ล', 'ก', 'แย', 'ก', 'และ', 'พัฒ', 'นา', 'กา', 'ร']
+    
+    Tokenize text into subword based on *etcc* **(Work In Progress)**
+
+    >>> from pythainlp.tokenize import subword_tokenize
+    >>> text_1 = "ยุคเริ่มแรกของ ราชวงศ์หมิง"
+    >>> text_2 = "ความแปลกแยกและพัฒนาการ"
+    >>> subword_tokenize(text_1, engine='tcc')
+    ['ยุคเริ่มแรกของ ราชวงศ์หมิง']
+    >>> subword_tokenize(text_2, engine='tcc')
+    ['ความแปลกแยกและ', 'พัฒ', 'นาการ']    
+
     """
     if not text or not isinstance(text, str):
         return []

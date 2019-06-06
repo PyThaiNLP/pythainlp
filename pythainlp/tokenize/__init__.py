@@ -38,19 +38,14 @@ def word_tokenize(
     **Example**
         >>> from pythainlp.tokenize import word_tokenize
         >>> text = "โอเคบ่พวกเรารักภาษาบ้านเกิด"
-
         >>> word_tokenize(text, engine="newmm")
         ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
-
         >>> word_tokenize(text, engine="longest")
         ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
-
         >>> word_tokenize(text, engine="deepcut")
         ['โอเค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้านเกิด']
-
         >>> word_tokenize(text, engine="icu")
         ['โอ', 'เค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้าน', 'เกิด']
-
         >>> word_tokenize(text, engine="ulmfit")
         ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
     """

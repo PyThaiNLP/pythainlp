@@ -26,6 +26,7 @@ def word_tokenize(
     :param marisa_trie.Trie custom_dict: marisa dictionary trie
     :param bool keep_whitespace: True to keep whitespaces, a common mark for end of phrase in Thai. Otherwise, whitespaces are omitted.
     :return: list of words
+    :rtype: list[str]
 
     **Options for engine**
         * *newmm* (default) - dictionary-based, Maximum Matching + Thai Character Cluster

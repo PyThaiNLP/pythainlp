@@ -174,7 +174,7 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
     ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ', '\\nและได้รับมอบหมายให้ประจำในระดับภูมิภาค']
 
     Split the text based on *whitespace* and *newline*
-
+    
     >>> from pythainlp.tokenize import sent_tokenize
     >>> sentence_1 = "ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"
     >>> sentence_2 = "ข้าราชการได้รับการหมุนเวียนเป็นระยะ และได้รับมอบหมายให้ประจำในระดับภูมิภาค"
@@ -231,7 +231,8 @@ def syllable_tokenize(text: str) -> List[str]:
     :param str text: input string to be tokenized
     :return: list of syllables where whitespaces in the text **are included**
     :rtype: list[str]
-    **Examples**
+
+    **Example**
 
     >>> from pythainlp.tokenize import syllable_tokenize
     >>> text = 'รถไฟสมัยใหม่จะใช้กำลังจากหัวรถจักรดีเซล หรือจากไฟฟ้า'

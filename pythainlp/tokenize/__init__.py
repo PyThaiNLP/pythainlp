@@ -193,8 +193,24 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
 
 def syllable_tokenize(text: str) -> List[str]:
     """
+    This function is to tokenize text into syllable (Thai: พยางค์), a unit of pronunciation having one vowel sound. 
+    For example, the word *รถไฟ* contains two syallbles including *รถ*, and *ไฟ*.
+
+    Under the hood, this function uses :func:`pythainlp.tokenize.word_tokenize` with *newmm* as a tokenizer.
+    The function tokenize the text with the dictionary of Thai words from :func:`pythainlp.corpus.common.thai_words` 
+    and then dictionary of Thai syllable from :func:`pythainlp.corpus.common.thai_syllables`. 
+    As a result, only syllables are obtained.
+
     :param str text: input string to be tokenized
-    :return: list of syllables
+    :return: list of syllables where whitespaces in the text **are included**
+    :rtype: list[str]
+    **Examples**
+
+    >>> from pythainlp.tokenize import syllable_tokenize
+    >>> text = 'รถไฟสมัยใหม่จะใช้กำลังจากหัวรถจักรดีเซล หรือจากไฟฟ้า'
+    >>> syllable_tokenize(text)
+    ['รถ', 'ไฟ', 'สมัย', 'ใหม่', 'ใช้', 'กำ', 'ลัง', 'จาก', 'หัว', 'รถ', 'จักร', 'ดี', 'เซล', ' ', 
+    'หรือ', 'จาก', 'ไฟ', 'ฟ้า']
     """
 
     if not text or not isinstance(text, str):

@@ -153,9 +153,35 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
     This function does not yet automatically recognize when a sentence actually ends. Rather it helps split text where white space and a new line is found.
 
     :param str text: the text to be tokenized
-    :param str engine: choose between 'whitespace' or 'whitespace+newline'
+    :param str engine: choose between *'whitespace'* or *'whitespace+newline'*
+    :return: list of splited sentences
+    :rtype: list[str]
 
-    :return: list of sentences
+    **Options for engine**
+        * *whitespace+newline* (default) - split by whitespace token and newline. 
+        * *whitespace*  -  split by whitespace token. Specifiaclly, with :class:`regex` pattern  ``r" +"``
+
+    **Example**
+
+    Split the text based on *whitespace*
+
+    >>> from pythainlp.tokenize import sent_tokenize
+    >>> sentence_1 = "ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"
+    >>> sentence_2 = "ข้าราชการได้รับการหมุนเวียนเป็นระยะ และได้รับมอบหมายให้ประจำในระดับภูมิภาค"
+    >>> sent_tokenize(sentence_1, engine="whitespace")
+    ['ฉันไปประชุมเมื่อวันที่', '11', 'มีนาคม']
+    >>> sent_tokenize(sentence_2, engine="whitespace")
+    ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ', '\\nและได้รับมอบหมายให้ประจำในระดับภูมิภาค']
+
+    Split the text based on *whitespace* and *newline*
+
+    >>> from pythainlp.tokenize import sent_tokenize
+    >>> sentence_1 = "ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"
+    >>> sentence_2 = "ข้าราชการได้รับการหมุนเวียนเป็นระยะ และได้รับมอบหมายให้ประจำในระดับภูมิภาค"
+    >>> sent_tokenize(sentence_1, engine="whitespace")
+    ['ฉันไปประชุมเมื่อวันที่', '11', 'มีนาคม']
+    >>> sent_tokenize(sentence_2, engine="whitespace")
+    ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ', 'และได้รับมอบหมายให้ประจำในระดับภูมิภาค']
     """
 
     if not text or not isinstance(text, str):

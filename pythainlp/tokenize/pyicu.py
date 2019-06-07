@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Wrapper for PyICU word segmentation
+Wrapper for PyICU word segmentation. This wrapper module uses :class:`icu.BreakIterator` with Thai as :class:`icu.Local` to locate boundaries between words from the text.
 
 :See Also:
     * `GitHub repository <https://github.com/ovalhub/pyicu>`_

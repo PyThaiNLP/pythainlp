@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Longest-matching Thai word segmentation
+Dictionary-based longest-matching Thai word segmentation
 
-Based on code from
-https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py
+Based on the code from Patorn Utenpattanun
+
+:See Also:
+    * `GitHub Repository <https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py>`_
+
 """
 import re
 from typing import List

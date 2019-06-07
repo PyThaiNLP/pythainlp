@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 Wrapper for PyICU word segmentation
-https://github.com/ovalhub/pyicu
+
+:See Also:
+    * `GitHub repository <https://github.com/ovalhub/pyicu>`_
 """
 import re
 from typing import List

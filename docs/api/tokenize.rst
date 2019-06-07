@@ -16,13 +16,31 @@ Modules
 .. autoclass:: Tokenizer
    :members:
 
-NEWMM
+newmm
 -----
+.. automodule::  pythainlp.tokenize.newmm
 .. autofunction:: pythainlp.tokenize.newmm.segment
 
-TCC
+
+longest
+-------
+.. automodule::  pythainlp.tokenize.longest
+
+multi_cut
+---------
+.. automodule::  pythainlp.tokenize.multi_cut
+
+pyicu
+-----
+.. automodule::  pythainlp.tokenize.pyicu
+
+deepcut
+-------
+.. automodule::  pythainlp.tokenize.deepcut
+
+tcc
 ---
-Thai Character Cluster
+.. automodule:: pythainlp.tokenize.tcc
 
 .. autofunction:: pythainlp.tokenize.tcc.segment
 .. autofunction:: pythainlp.tokenize.tcc.tcc

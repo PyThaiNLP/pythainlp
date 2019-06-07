@@ -2,9 +2,12 @@
 """
 Dictionary-based Thai Word Segmentation
 using maximal matching algorithm and Thai Character Cluster (TCC)
-Based on these notebooks by Korakot Chaovavanich:
-https://colab.research.google.com/notebook#fileId=1V1Z657_5eSWPo8rLfVRwA0A5E4vkg7SI
-https://colab.research.google.com/drive/14Ibg-ngZXj15RKwjNwoZlOT32fQBOrBx#scrollTo=MYZ7NzAR7Dmw
+
+The code is based on the notebooks created by Korakot Chaovavanich
+
+:See Also:
+    * https://colab.research.google.com/notebook#fileId=1V1Z657_5eSWPo8rLfVRwA0A5E4vkg7SI
+    * https://colab.research.google.com/drive/14Ibg-ngZXj15RKwjNwoZlOT32fQBOrBx#scrollTo=MYZ7NzAR7Dmw
 """
 import re
 from collections import defaultdict

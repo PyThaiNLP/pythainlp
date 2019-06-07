@@ -127,8 +127,8 @@ def pos_tag(
 
     :param list words: a list of tokenized words
     :param str engine:
-        * unigram - unigram tagger
         * perceptron - perceptron tagger (default)
+        * unigram - unigram tagger
         * artagger - RDR POS tagger
     :param str corpus:
         * orchid - annotated Thai academic articles (default)

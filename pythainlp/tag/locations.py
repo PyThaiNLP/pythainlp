@@ -10,15 +10,23 @@ from pythainlp.corpus import provinces
 
 def tag_provinces(tokens: List[str]) -> List[Tuple[str, str]]:
     """
-    Recognize Thailand provinces in text
+    This function recognize Thailand provinces in text.
 
-    Input is a list of words
-    Return a list of tuples
+    :param list[str] tokens: a list of words
+    :reutrn: a list of tuple indicating NER for `LOCATION` in IOB format
+    :rtype: list[tuple[str, str]]
 
-    Example::
-     >>> text = ['หนองคาย', 'น่าอยู่']
-     >>> tag_provinces(text)
-     [('หนองคาย', 'B-LOCATION'), ('น่าอยู่', 'O')]
+    :Example:
+
+        >>> from pythainlp.tag import tag_provinces
+        >>> text = ['หนองคาย', 'น่าอยู่']
+        >>> tag_provinces(text)
+        [('หนองคาย', 'B-LOCATION'), ('น่าอยู่', 'O')]
+        >>>
+        >>> text = ['อำเภอ', 'ฝาง','เป็น','ส่วน','หนึ่ง','ของ', 'จังหวัด', 'เชียงใหม่']
+        >>> tag_provinces(text)
+        [('อำเภอ', 'O'), ('ฝาง', 'O'), ('เป็น', 'O'), ('ส่วน', 'O'), ('หนึ่ง', 'O'), 
+        ('ของ', 'O'), ('จังหวัด', 'O'), ('เชียงใหม่', 'B-LOCATION')]
     """
     province_list = provinces()
 

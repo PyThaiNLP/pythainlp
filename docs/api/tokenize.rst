@@ -16,30 +16,34 @@ Modules
 .. autoclass:: Tokenizer
    :members:
 
+
+Tokenize Engine
+---------------
+
 newmm
------
++++++
 .. automodule::  pythainlp.tokenize.newmm
 .. autofunction:: pythainlp.tokenize.newmm.segment
 
 
 longest
--------
++++++++
 .. automodule::  pythainlp.tokenize.longest
 
 multi_cut
----------
++++++++++
 .. automodule::  pythainlp.tokenize.multi_cut
 
 pyicu
------
++++++
 .. automodule::  pythainlp.tokenize.pyicu
 
 deepcut
--------
++++++++
 .. automodule::  pythainlp.tokenize.deepcut
 
 tcc
----
++++
 .. automodule:: pythainlp.tokenize.tcc
 
 .. autofunction:: pythainlp.tokenize.tcc.segment
@@ -47,5 +51,5 @@ tcc
 .. autofunction:: pythainlp.tokenize.tcc.tcc_pos
 
 etcc
----
+++++
 .. automodule:: pythainlp.tokenize.etcc

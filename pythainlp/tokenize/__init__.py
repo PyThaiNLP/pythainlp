@@ -216,7 +216,6 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
         * *tcc* (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001) [In development]
     
-    seealso:
     **Example**
 
     Tokenize text into subword based on *tcc*
@@ -234,9 +233,9 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
     >>> from pythainlp.tokenize import subword_tokenize
     >>> text_1 = "ยุคเริ่มแรกของ ราชวงศ์หมิง"
     >>> text_2 = "ความแปลกแยกและพัฒนาการ"
-    >>> subword_tokenize(text_1, engine='tcc')
+    >>> subword_tokenize(text_1, engine='etcc')
     ['ยุคเริ่มแรกของ ราชวงศ์หมิง']
-    >>> subword_tokenize(text_2, engine='tcc')
+    >>> subword_tokenize(text_2, engine='etcc')
     ['ความแปลกแยกและ', 'พัฒ', 'นาการ']    
 
     """

@@ -6,7 +6,9 @@ The :class:`pythainlp.tag` contains functions that are used to tag different par
 Part-of-Speech (POS) tags, and Named Entity Recognition (NER) tag.
 
 
-The following table shows the list of Part-of-Speech (POS) tags:
+For the POS tags, there are two set of tags including `Univerral Dependencies (UD) <https://universaldependencies.org/>`_ and ORCHID [Sornlertlamvanich_2000]_ POS tags.
+
+The following table shows the list of Part-of-Speech (POS) tags according to UD POS tags:
 
 ============   ==========================   =============================
 Abbreviation   Part-of-Speech tag           Examples                     
@@ -17,6 +19,7 @@ Abbreviation   Part-of-Speech tag           Examples
  AUX           Auxiliary                    เป็น, ใช่, คือ, คล้าย           
  CCONJ         Coordinating conjunction     แต่, และ, หรือ                
  DET           Determiner                   ที่, นี้, ซึ่ง, ทั้ง, ทุก, หลาย      
+ INTJ          Interjection                 อุ้ย, โอ้ย
  NOUN          Noun                         กำมือ, พวก, สนาม, กีฬา, บัญชี  
  NUM           Numeral                      5,000, 103.7, 2004, หนึ่ง, ร้อย
  PART          Particle                     มา ขึ้น ไม่ ได้ เข้า             
@@ -27,6 +30,68 @@ Abbreviation   Part-of-Speech tag           Examples
  VERB          Verb                         เปิด, ให้, ใช้, เผชิญ, อ่าน      
 ============   ==========================   =============================
 
+The following table shows the list of Part-of-Speech (POS) tags according to ORCHID POS tags from the paper:
+ 
+
+============   =================================================      =================================
+Abbreviation   Part-of-Speech tag                                     Examples                     
+============   =================================================      =================================
+ NPRP          Proper noun                                            วินโดวส์ 95, โคโรน่า, โค้ก
+ NCNM          Cardinal number                                        หนึ่ง, สอง, สาม, 1, 2, 10
+ NONM          Ordinal number                                         ที่หนึ่ง, ที่สอง, ที่สาม, ที่1, ที่2
+ NLBL          Label noun                                             1, 2, 3, 4, ก, ข, a, b
+ NCMN          Common noun                                            หนังสือ, อาหาร, อาคาร, คน
+ NTTL          Title noun                                             ครู, พลเอก
+ PPRS          Personal pronoun                                       คุณ, เขา, ฉัน
+ PDMN          Demonstrative pronoun                                  นี่, นั้น, ที่นั่น, ที่นี่
+ PNTR          Interrogative pronoun                                  ใคร, อะไร, อย่างไร
+ PREL          Relative pronoun                                       ที่, ซึ่ง, อัน, ผู้
+ VACT          Active verb Îµµ,                                       ทำงาน, ร้องเพลง, กิน
+ VSTA          Stative verb                                           เห็น, รู้, คือ
+ VATT          Attributive verb                                       อ้วน, ดี, สวย
+ XVBM          Pre-verb auxiliary, before negator "ไม่"                เกิด, เกือบ, กำลัง
+ XVAM          Pre-verb auxiliary, after negator "ไม่"                 ค่อย, น่า, ได้
+ XVMM          Pre-verb, before or after negator "ไม่"                 ควร, เคย, ต้อง
+ XVBB          Pre-verb auxiliary, in imperative mood                 กรุณา, จง, เชิญ, อย่า, ห้าม
+ XVAE          Post-verb auxiliary Å                                  ไป, มา, ขึ้น
+ DDAN          | Definite determiner, after noun without              ยี่, นั่น, โน่น, ทั้งหมด
+               | classifier in between
+ DDAC          | Definite determiner, allowing classifier             นี้, นั้น, โน้น, นู้น
+               | in between
+ DDBQ          | Definite determiner, between noun and                ทั้ง, อีก, เพียง
+               | classifier or preceding quantitative expression
+ DDAQ          | Definite determiner,                                 พอดี, ถ้วน
+               | following quantitative expression
+ DIAC          | Indefinite determiner, following noun; allowing      ไหน, อื่น, ต่างๆ
+               | classifier in between
+ DIBQ          | Indefinite determiner, between noun and              บาง, ประมาณ, เกือบ
+               | classifier or preceding quantitative expression
+ DIAQ          | Indefinite determiner,                               กว่า, เศษ
+               | following quantitative expression
+ DCNM          Determiner, cardinal number expression                 **หนึ่ง**\ คน, เสือ, **2** ตัว
+ DONM          Determiner, ordinal number expression                  ที่หนึ่ง, ที่สอง, ที่สุดท้สย
+ ADVN          Adverb with normal form                                เก่ง, เร็ว, ช้า, สม่ำเสมอ
+ ADVI          Adverb with iterative form                             เร็วๆ, เสทอๆ, ช้าๆ
+ ADVP          Adverb with prefixed form                              โดยเร็ว
+ ADVS          Sentential adverb                                      โดยปกติ, ธรรมดา
+ CNIT          Unit classifier                                        ตัว, คน, เล่ม
+ CLTV          Collective classifier                                  | คู่, กลุ่ม, ฝูง, เชิง, ทาง, 
+                                                                      | ด้าน, แบบ, รุ่น
+ CMTR          Measurement classifier                                 กิโลกรัม, แก้ว, ชั่วโมง
+ CFQC          Frequency classifier                                   ครั้ง, เที่ยว
+ CVBL          Verbal classifier                                      ม้วน, มัด
+ JCRG          Coordinating conjunction                               และ, หรือ, แต่
+ JCMP          Comparative conjunction                                กว่า, เหมือนกับ, เท่ากับ
+ JSBR          Subordinating conjunction                              เพราะว่า, เนื่องจาก ที่, แม้ว่า, ถ้า
+ RPRE          Preposition                                            จาก, ละ, ของ, ใต้, บน
+ INT           Interjection                                           โอ้บ, โอ้, เออ, เอ๋, อ๋อ
+ FIXN          Nominal prefix                                         **การ**\ ทำงาน, **ความ**\ สนุนสนาน
+ FIXV          Adverbial prefix                                       **อย่าง**\ เร็ว
+ EAFF          Ending for affirmative sentence                        จ๊ะ, จ้ะ, ค่ะ, ครับ, นะ, น่า, เถอะ
+ EITT          Ending for interrogative sentence                      หรือ, เหรอ, ไหม, มั้ย
+ NEG           Negator                                                ไม่, มิได้, ไม่ได้, มิ
+ PUNC          Punctuation                                            (, ), “, ,, ;
+============   =================================================      =================================
 
 For the NER, we use `Inside-outside-beggining (IOB) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`_ format to tag NER for each words.
 For instance, given a sentence "บารัค โอบามาเป็นประธานธิปดี", it would be tag the tokens "บารัค", " ", "โอบามา", "เป็น", "ประธานาธิปดี" as "B-PERSON", "I-PERSON", "I-PERSON", "O", and "O" respectively.
@@ -60,3 +125,22 @@ Modules
 .. autofunction:: tag_provinces
 .. autoclass:: pythainlp.tag.named_entity.ThaiNameTagger
    :members: get_ner
+
+
+
+Tagger Engines
+--------------
+
+percentron
+++++++++++
+
+
+unigram
++++++++
+
+
+artagger
+++++++++
+
+
+.. [Sornlertlamvanich_2000] Takahashi, Naoto & Isahara, Hitoshi & Sornlertlamvanich, Virach. (2000). Building a Thai part-of-speech tagged corpus (ORCHID). Journal of the Acoustical Society of Japan (E). 20. 10.1250/ast.20.189. 

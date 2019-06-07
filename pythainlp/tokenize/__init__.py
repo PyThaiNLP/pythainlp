@@ -44,15 +44,20 @@ def word_tokenize(
         Tokenize text with different tokenizer:
 
         >>> from pythainlp.tokenize import word_tokenize
+        >>>
         >>> text = "โอเคบ่พวกเรารักภาษาบ้านเกิด"
         >>> word_tokenize(text, engine="newmm")
         ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
+        >>>
         >>> word_tokenize(text, engine="longest")
         ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
+        >>>
         >>> word_tokenize(text, engine="deepcut")
         ['โอเค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้านเกิด']
+        >>>
         >>> word_tokenize(text, engine="icu")
         ['โอ', 'เค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้าน', 'เกิด']
+        >>>
         >>> word_tokenize(text, engine="ulmfit")
         ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
 
@@ -267,6 +272,7 @@ def syllable_tokenize(text: str) -> List[str]:
     **Example**
 
     >>> from pythainlp.tokenize import syllable_tokenize
+    >>>
     >>> text = 'รถไฟสมัยใหม่จะใช้กำลังจากหัวรถจักรดีเซล หรือจากไฟฟ้า'
     >>> syllable_tokenize(text)
     ['รถ', 'ไฟ', 'สมัย', 'ใหม่', 'ใช้', 'กำ', 'ลัง', 'จาก', 'หัว', 'รถ', 'จักร', 'ดี', 'เซล', ' ', 

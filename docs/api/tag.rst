@@ -28,9 +28,9 @@ Abbreviation   Part-of-Speech tag           Examples
 ============   ==========================   =============================
 
 
-For the NER, we use `Inside-outside-beggining (IOB) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>` format to tag NER for each words.
+For the NER, we use `Inside-outside-beggining (IOB) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`_ format to tag NER for each words.
 For instance, given a sentence "บารัค โอบามาเป็นประธานธิปดี", it would be tag the tokens "บารัค", " ", "โอบามา", "เป็น", "ประธานาธิปดี" as "B-PERSON", "I-PERSON", "I-PERSON", "O", and "O" respectively.
-The B- prefix indicates begining token for a chunk of person name, "บารัค โอบามา" and I- prefix indicates the intermediate token. However, the term 'O' indicates that a token not belong to any NER chunk.
+The *B-* prefix indicates begining token for a chunk of person name, "บารัค โอบามา" and *I-* prefix indicates the intermediate token. However, the term *O* indicates that a token not belong to any NER chunk.
 
 The following table shows the list of Named Entity Recognition (NER) tags:
 
@@ -49,7 +49,7 @@ Named Entity Recognition tag    Examples
  ZIP                            10400, 11130
  Money                          2.7 ล้านบาท, 2,000 บาท
  LAW                            พ.ร.บ.โรคระบาด พ.ศ.2499, รัฐธรรมนูญ                    
-=============================   =================================   
+============================    =================================   
 
 Modules
 -------

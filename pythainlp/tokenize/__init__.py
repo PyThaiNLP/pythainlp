@@ -31,7 +31,7 @@ def word_tokenize(
     **Options for engine**
         * *newmm* (default) - dictionary-based, Maximum Matching + Thai Character Cluster
         * *longest* - dictionary-based, Longest Matching
-        * *deepcut* - wrapper for deepcut, language-model-based https://github.com/rkcosmos/deepcut
+        * *deepcut* - wrapper for `deepcut <https://github.com/rkcosmos/deepcut>`_, language-model-based 
         * *icu* - wrapper for ICU (International Components for Unicode, using PyICU), dictionary-based
         * *ulmfit* - for thai2fit
 

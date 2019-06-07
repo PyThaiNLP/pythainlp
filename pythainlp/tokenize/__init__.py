@@ -35,11 +35,11 @@ def word_tokenize(
         * *icu* - wrapper for ICU (International Components for Unicode, using PyICU), dictionary-based
         * *ulmfit* - for thai2fit
 
-    **Note**
+    :Note:
     
     The parameter **custom_dict** can be provided as an argument only for *newmm*, *longest*, and *deepcut* engine.
 
-    **Example**
+    :Example:
 
         Tokenize text with different tokenizer:
 
@@ -168,7 +168,7 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
         * *whitespace+newline* (default) - split by whitespace token and newline. 
         * *whitespace*  -  split by whitespace token. Specifiaclly, with :class:`regex` pattern  ``r" +"``
 
-    **Example**
+    :Example:
 
     Split the text based on *whitespace*
 
@@ -223,7 +223,7 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
         * *tcc* (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001) [In development]
     
-    **Example**
+    :Example:
 
     Tokenize text into subword based on *tcc*
 
@@ -271,7 +271,7 @@ def syllable_tokenize(text: str) -> List[str]:
     :return: list of syllables where whitespaces in the text **are included**
     :rtype: list[str]
 
-    **Example**
+    :Example:
 
     >>> from pythainlp.tokenize import syllable_tokenize
     >>>
@@ -330,7 +330,7 @@ class Tokenizer:
     
     It is an wrapper for both two functions including :func:`pythainlp.tokenize.word_tokenize`, and :func:`pythainlp.tokenize.dict_trie`
 
-    **Example**
+    :Example:
 
     Tokenizer object instantiated with :class:`marisa_trie.Trie`
 

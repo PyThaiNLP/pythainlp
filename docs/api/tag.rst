@@ -14,7 +14,7 @@ Abbreviation   Part-of-Speech tag           Examples
  ADJ           Adjective                    ใหม่, พิเศษ , ก่อน, มาก, สูง    
  ADP           Adposition                   แม้, ว่า, เมื่อ, ของ, สำหรับ     
  ADV           Adverb                       ก่อน, ก็, เล็กน้อย, เลย, สุด     
- AUX           Auxilisary                   เป็น, ใช่, คือ, คล้าย           
+ AUX           Auxiliary                    เป็น, ใช่, คือ, คล้าย           
  CCONJ         Coordinating conjunction     แต่, และ, หรือ                
  DET           Determiner                   ที่, นี้, ซึ่ง, ทั้ง, ทุก, หลาย      
  NOUN          Nounn                        กำมือ, พวก, สนาม, กีฬา, บัญชี  

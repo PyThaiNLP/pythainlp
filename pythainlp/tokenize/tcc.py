@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 The implementation of tokenizer accorinding to Thai Character Clusters (TCCs) rules purposed by `Theeramunkong et al. 2000. <http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548>`_
 
@@ -52,6 +52,7 @@ def tcc(text: str) -> str:
 
     :param str text: text to be tokenized to character clusters
     :return: subword (character cluster)
+    :rtype: Iterator[str]
     """
     if not text or not isinstance(text, str):
         return ""
@@ -72,7 +73,8 @@ def tcc_pos(text: str) -> Set[int]:
     TCC positions
 
     :param str text: text to be tokenized to character clusters
-    :return: list of the end of subwords
+    :return: list of the end position of subwords
+    :rtype: set[int]
     """
     if not text or not isinstance(text, str):
         return set()
@@ -92,5 +94,7 @@ def segment(text: str) -> List[str]:
 
     :param str text: text to be tokenized to character clusters
     :return: list of subwords (character clusters), tokenized from the text    
+    :rtype: list[str]
+
     """
     return list(tcc(text))

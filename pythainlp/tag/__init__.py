@@ -125,7 +125,7 @@ def pos_tag(
     words: List[str], engine: str = "perceptron", corpus: str = "orchid"
 ) -> List[Tuple[str, str]]:
     """
-    The function tag a list of words into Part-of-Speech (POS) tags such as 'NOUN', 'VERB', 'ADJ', and 'DET'
+    The function tag a list of tokenized words into Part-of-Speech (POS) tags such as 'NOUN', 'VERB', 'ADJ', and 'DET'.
 
     :param list words: a list of tokenized words
     :param str engine:

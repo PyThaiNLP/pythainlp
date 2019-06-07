@@ -45,3 +45,7 @@ tcc
 .. autofunction:: pythainlp.tokenize.tcc.segment
 .. autofunction:: pythainlp.tokenize.tcc.tcc
 .. autofunction:: pythainlp.tokenize.tcc.tcc_pos
+
+etcc
+---
+.. automodule:: pythainlp.tokenize.etcc

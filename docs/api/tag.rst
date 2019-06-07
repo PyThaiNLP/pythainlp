@@ -17,7 +17,7 @@ Abbreviation   Part-of-Speech tag           Examples
  AUX           Auxiliary                    เป็น, ใช่, คือ, คล้าย           
  CCONJ         Coordinating conjunction     แต่, และ, หรือ                
  DET           Determiner                   ที่, นี้, ซึ่ง, ทั้ง, ทุก, หลาย      
- NOUN          Nounn                        กำมือ, พวก, สนาม, กีฬา, บัญชี  
+ NOUN          Noun                         กำมือ, พวก, สนาม, กีฬา, บัญชี  
  NUM           Numeral                      5,000, 103.7, 2004, หนึ่ง, ร้อย
  PART          Particle                     มา ขึ้น ไม่ ได้ เข้า             
  PRON          Pronoun                      เรา, เขา, ตัวเอง, ใคร, เธอ  

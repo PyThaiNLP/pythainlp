@@ -64,6 +64,7 @@ def word_tokenize(
         Tokenize text by omitiing whitespaces:
 
         >>> from pythainlp.tokenize import word_tokenize
+        >>>
         >>> text = "วรรณกรรม ภาพวาด และการแสดงงิ้ว "
         >>> word_tokenize(text, engine="newmm")
         ['วรรณกรรม', ' ', 'ภาพวาด', ' ', 'และ', 'การแสดง', 'งิ้ว', ' ']
@@ -74,6 +75,7 @@ def word_tokenize(
 
         >>> from pythainlp.corpus.common import thai_words
         >>> from pythainlp.tokenize import dict_trie, word_tokenize
+        >>>
         >>> text = 'ชินโซ อาเบะ เกิด 21 กันยายน'
         >>> word_tokenize(text, engine="newmm") 
         ​['ชิน', 'โซ', ' ', 'อา', 'เบะ', ' ', 'เกิด', ' ', '21', ' ', 'กันยายน']

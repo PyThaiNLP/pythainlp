@@ -218,18 +218,31 @@ def pos_tag_sents(
     sentences: List[List[str]], engine: str = "perceptron", corpus: str = "orchid"
 ) -> List[List[Tuple[str, str]]]:
     """
-    Part of Speech tagging Sentence function.
+    The function tag multiple list of tokenized words into Part-of-Speech (POS) tags.
 
     :param list sentences: a list of lists of tokenized words
     :param str engine:
-        * unigram - unigram tagger
-        * perceptron - perceptron tagger (default)
-        * artagger - RDR POS tagger
+        * *unigram* - unigram tagger
+        * *perceptron* - perceptron tagger (default)
+        * *artagger* - RDR POS tagger
     :param str corpus:
-        * orchid - annotated Thai academic articles (default)
-        * orchid_ud - annotated Thai academic articles using Universal Dependencies Tags
-        * pud - Parallel Universal Dependencies (PUD) treebanks
-    :return: returns a list of labels regarding which part of speech it is
+         * *orchid* - annotated Thai academic articles namedly `Orchid <https://www.academia.edu/9127599/Thai_Treebank>`_ (default)
+        * *orchid_ud* - annotated Thai academic articles using `Universal Dependencies <https://universaldependencies.org/>`_ Tags
+        * *pud* - `Parallel Universal Dependencies (PUD) <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
+    :return: returns a list of labels regarding which part of speech it is for each sentence given.
+    :rtype: list[list[tuple[str, str]]]
+
+    :Example:
+
+        Labels POS for two sentences:
+
+        >>> from pythainlp.tag import pos_tag_sents
+        >>> 
+        >>> sentences = [['เก้าอี้','มี','3','ขา'], 
+        >>>             ['นก', 'บิน', 'กลับ', 'รัง']]
+        >>> pos_tag_sents(sentences, corpus='pud)
+        [[('เก้าอี้', 'PROPN'), ('มี', 'VERB'), ('3', 'NUM'), ('ขา', 'NOUN')],
+        [('นก', 'NOUN'), ('บิน', 'VERB'), ('กลับ', 'VERB'), ('รัง', 'NOUN')]]
     """
     if not sentences:
         return []

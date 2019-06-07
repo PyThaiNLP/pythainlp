@@ -317,14 +317,71 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
 
 
 class Tokenizer:
+    """
+    This class allows users to pre-define custom dictionary along with tokenizer and encapsulate them into one single object.
+    
+    It is an wrapper for both two functions including :func:`pythainlp.tokenize.word_tokenize`, and :func:`pythainlp.tokenize.dict_trie`
+
+    **Example**
+
+    Tokenizer object instantiated with :class:`marisa_trie.Trie`
+
+    >>> from pythainlp.tokenize import Tokenizer
+    >>> from pythainlp.tokenize import Tokenizer, dict_trie
+    >>> from pythainlp.corpus.common import thai_words
+    >>>
+    >>> custom_words_list = set(thai_words())
+    >>> custom_words_list.add('อะเฟเซีย')
+    >>> custom_words_list.add('Aphasia')
+    >>> trie = dict_trie(dict_source=custom_words_list)
+    >>>
+    >>> text = "อะเฟเซีย (Aphasia*) เป็นอาการผิดปกติของการพูด"
+    >>> _tokenizer = Tokenizer(custom_dict=trie, engine='newmm')
+    ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ', 'ผิดปกติ', 'ของ', 'การ', 'พูด']
+
+    Tokenizer object instantiated with a list of words
+
+    >>> from pythainlp.tokenize import Tokenizer
+    >>> from pythainlp.corpus.common import thai_words
+    >>>
+    >>>  text = "อะเฟเซีย (Aphasia) เป็นอาการผิดปกติของการพูด"
+    >>> _tokenizer = Tokenizer(custom_dict=list(thai_words()), engine='newmm')
+    >>> _tokenizer.word_tokenize(text)
+    ['อะ', 'เฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ', 'ผิดปกติ', 'ของ', 'การ', 'พูด']
+
+
+    Tokenizer object instantiated with a file path containing list of word separated with *newline* 
+    and explicitly set a new tokeneizer after initiation.
+
+    >>> from pythainlp.tokenize import Tokenizer
+    >>>
+    >>> PATH_TO_CUSTOM_DICTIONARY = './custom_dictionary.txtt'
+    >>>
+    >>> # write a file
+    >>> with open(PATH_TO_CUSTOM_DICTIONARY, 'w', encoding='utf-8') as f:
+    >>>    f.write('อะเฟเซีย\\nAphasia\\nผิด\\nปกติ')
+    >>> 
+    >>> text = "อะเฟเซีย (Aphasia) เป็นอาการผิดปกติของการพูด"
+    >>>
+    >>> # initate an object from file with `deepcut` as tokenizer
+    >>> _tokenizer = Tokenizer(custom_dict=PATH_TO_CUSTOM_DICTIONARY, engine='deepcut')
+    >>> _tokenizer.word_tokenize(text)
+    ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ', 'ผิด', 'ปกติ', 'ของ', 'การ', 'พูด']
+    >>> 
+    >>> # change tokenizer to `newmm
+    >>> _tokenizer.set_tokenizer_engine(engine='newmm')
+    >>> _tokenizer.word_tokenize(text)
+    ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็นอาการ', 'ผิด', 'ปกติ', 'ของการพูด']
+    """
+
     def __init__(
         self, custom_dict: Union[Trie, Iterable[str], str] = None, engine: str = "newmm"
     ):
         """
         Initialize tokenizer object
 
-        :param str custom_dict: a file path or a list of vocaburaies to be used to create a trie
-        :param str engine: choose between different options of engine to token (newmm, mm, longest)
+        :param str: a file path, a list of vocaburaies* to be used to create a trie, or an instantiated :class:`marisa_trie.Trie` object.
+        :param str engine: choose between different options of engine to token (i.e.  *newmm*, *longest*, *deepcut*)
         """
         self.__trie_dict = None
         self.__engine = engine
@@ -338,11 +395,15 @@ class Tokenizer:
         :param str text: text to be tokenized
 
         :return: list of words, tokenized from the text
+        :rtype: list[str]
         """
         return word_tokenize(text, custom_dict=self.__trie_dict, engine=self.__engine)
 
     def set_tokenize_engine(self, engine: str) -> None:
         """
-        :param str engine: choose between different options of engine to token (newmm, mm, longest)
+        Set the tokenizer
+
+        :param str engine: choose between different options of engine to token (i.e. *newmm*, *longest*, *deepcut*)
+
         """
         self.__engine = engine

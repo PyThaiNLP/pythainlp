@@ -1,14 +1,11 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
-Separate Thai text into Thai Character Cluster (TCC).
-Based on "Character cluster based Thai information retrieval" (Theeramunkong et al. 2000)
-https://dl.acm.org/citation.cfm?id=355225
-http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548
+The implementation of tokenizer accorinding to Thai Character Clusters (TCCs) rules purposed by `Theeramunkong et al. 2000. <http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548>`_
 
 Credits:
-- TCC: Jakkrit TeCho
-- Grammar: Wittawat Jitkrittum https://github.com/wittawatj/jtcc/blob/master/TCC.g
-- Python code: Korakot Chaovavanich
+    * TCC: Jakkrit TeCho
+    * Grammar: Wittawat Jitkrittum (`link to the source file <https://github.com/wittawatj/jtcc/blob/master/TCC.g>`_)
+    * Python code: Korakot Chaovavanich
 """
 import re
 from typing import List, Set

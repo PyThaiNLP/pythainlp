@@ -93,29 +93,44 @@ class ThaiNameTagger:
         self, text: str, pos: bool = True
     ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]]]:
         """
-        Get named-entities in text
+        This function tags named-entitiy from text in IOB format.
 
-        :param string text: Thai text
-        :param boolean pos: get Part-Of-Speech tag (True) or get not (False)
+        :param string text: text in Thai to be tagged
+        :param boolean pos: To include POS tags in the results (`True`) or exclude (`False`). The defualt value is `True`
 
-        :return: list of strings with name labels (and part-of-speech tags)
+        :return: a list of tuple associated with tokenized word, NER tag, and POS tag (if the parameter `pos` is specified as `True`).
+                 Otherwise, return a list of tuple associated with tokenized word and NER tag
+        :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]]]
 
-        **Example**::
+        :Note:
+            * For the POS tags to be included in the results, this function uses :func:`pythainlp.tag.pos_tag` with engine as `perceptron` and corpus as orchid_ud`.
+
+        :Example:
+
             >>> from pythainlp.tag.named_entity import ThaiNameTagger
+            >>>
             >>> ner = ThaiNameTagger()
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
-            [('วันที่', 'NOUN', 'O'), (' ', 'PUNCT', 'O'), ('15', 'NUM', 'B-DATE'),
-            (' ', 'PUNCT', 'I-DATE'), ('ก.ย.', 'NOUN', 'I-DATE'),
-            (' ', 'PUNCT', 'I-DATE'), ('61', 'NUM', 'I-DATE'),
-            (' ', 'PUNCT', 'O'), ('ทดสอบ', 'VERB', 'O'),
-            ('ระบบ', 'NOUN', 'O'), ('เวลา', 'NOUN', 'O'), (' ', 'PUNCT', 'O'),
-            ('14', 'NOUN', 'B-TIME'), (':', 'PUNCT', 'I-TIME'), ('49', 'NUM', 'I-TIME'),
-            (' ', 'PUNCT', 'I-TIME'), ('น.', 'NOUN', 'I-TIME')]
+            [('วันที่', 'NOUN', 'O'), (' ', 'PUNCT', 'O'), 
+            ('15', 'NUM', 'B-DATE'), (' ', 'PUNCT', 'I-DATE'), 
+            ('ก.ย.', 'NOUN', 'I-DATE'), (' ', 'PUNCT', 'I-DATE'), 
+            ('61', 'NUM', 'I-DATE'), (' ', 'PUNCT', 'O'), 
+            ('ทดสอบ', 'VERB', 'O'), ('ระบบ', 'NOUN', 'O'),
+            ('เวลา', 'NOUN', 'O'), (' ', 'PUNCT', 'O'),
+            ('14', 'NOUN', 'B-TIME'), (':', 'PUNCT', 'I-TIME'), 
+            ('49', 'NUM', 'I-TIME'), (' ', 'PUNCT', 'I-TIME'),
+            ('น.', 'NOUN', 'I-TIME')]
+            >>>
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.", pos=False)
-            [('วันที่', 'O'), (' ', 'O'), ('15', 'B-DATE'), (' ', 'I-DATE'),
-            ('ก.ย.', 'I-DATE'), (' ', 'I-DATE'), ('61', 'I-DATE'), (' ', 'O'),
-            ('ทดสอบ', 'O'), ('ระบบ', 'O'), ('เวลา', 'O'), (' ', 'O'), ('14', 'B-TIME'),
-            (':', 'I-TIME'), ('49', 'I-TIME'), (' ', 'I-TIME'), ('น.', 'I-TIME')]
+            [('วันที่', 'O'), (' ', 'O'), 
+            ('15', 'B-DATE'), (' ', 'I-DATE'),
+            ('ก.ย.', 'I-DATE'), (' ', 'I-DATE'), 
+            ('61', 'I-DATE'), (' ', 'O'),
+            ('ทดสอบ', 'O'), ('ระบบ', 'O'), 
+            ('เวลา', 'O'), (' ', 'O'),
+            ('14', 'B-TIME'), (':', 'I-TIME'), 
+            ('49', 'I-TIME'), (' ', 'I-TIME'), 
+            ('น.', 'I-TIME')]
         """
         self.__tokens = word_tokenize(text, engine=_WORD_TOKENIZER)
         self.__pos_tags = pos_tag(

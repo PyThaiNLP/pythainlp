@@ -291,7 +291,7 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     """
     Create a dict trie which will be used for word_tokenize() function.
     For more information on the trie data structure,
-    see: https://marisa-trie.readthedocs.io/en/latest/index.html
+    see: `marisa-trie's Official Documentation <https://marisa-trie.readthedocs.io/en/latest/index.html>`_
 
     :param string/list dict_source: a list of vocaburaries or a path to source file
     :return: a trie created from a dictionary input

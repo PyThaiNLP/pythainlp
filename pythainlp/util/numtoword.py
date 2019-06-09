@@ -74,7 +74,7 @@ def num_to_thaiword(number: int) -> str:
 
     :param int number: an integer number to be converted to Thai text
     :return: text representing the number in Thai
-
+    :rtype: str
 
     :Example:
         >>> from pythainlp.util import num_to_thaiword

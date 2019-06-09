@@ -76,8 +76,19 @@ def thai_digit_to_arabic_digit(text: str) -> str:
 
 def arabic_digit_to_thai_digit(text: str) -> str:
     """
+    This function convert Arabic digits (i.e. 1, 3, 10) into Thai digits (i.e. ๑, ๓, ๑๐).
+
     :param str text: Text with Arabic digits such as '1', '2', '3'
     :return: Text with Arabic digits being converted to Thai digits such as '๑', '๒', '๓'
+    :rtype: str
+
+    :Example:
+
+    >>> from pythainlp.util import arabic_digit_to_thai_digit
+    >>>
+    >>> text = 'เป็นจำนวน 123,400.25 บาท'
+    >>> arabic_digit_to_thai_digit(text)
+    เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท
     """
     if not text or not isinstance(text, str):
         return ""

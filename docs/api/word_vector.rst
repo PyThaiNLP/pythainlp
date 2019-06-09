@@ -6,7 +6,7 @@ The :class:`word_vector` contains functions that makes use of a pre-trained vect
 
 Dependencies
 ------------
-Installation of `numpy` and `gensim` is required.
+Installation of :mod:`numpy` and :mod:`gensim` is required.
 
 Modules
 -------

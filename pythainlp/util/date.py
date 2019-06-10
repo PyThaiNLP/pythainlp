@@ -292,7 +292,24 @@ def now_reign_year():
 
 def reign_year_to_ad(reign_year: int, reign: int) -> int:
     """
-    Reign year of Chakri dynasty, Thailand
+    This function calculate the AD year according to the reign year for the 7th to 10th King of Chakri dynasty, Thailand.
+    For instance, the AD year of the 4th reign year of the 10th King is 2019.
+
+    :param int reign_year: reign year of the King
+    :param int reign: the reign of the King (i.e. 7, 8, 9, and 10)
+
+    :return: the year in AD of the King given the reign and reign year.
+    :rtype: int
+
+    :Example:
+
+        >>> from pythainlp.util import reign_year_to_ad
+        >>>
+        >>> print("The 4th reign year of the King Rama X is in", reign_year_to_ad(10, 4))
+        The 4th reign year of the King Rama X is in 2019
+        >>> 
+        >>> print("The 1st reign year of the King Rama IX is in", reign_year_to_ad(9, 1))
+        The 4th reign year of the King Rama X is in 1946
     """
     if int(reign) == 10:
         ad = int(reign_year) + 2015

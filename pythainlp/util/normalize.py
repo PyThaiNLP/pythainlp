@@ -46,13 +46,25 @@ _NORMALIZE_RULE2 = [
 
 def normalize(text: str) -> str:
     """
-    Thai text normalize
+    This function normalize thai text with normalizing rules as follows:
+    
+        * Remove redudant symbol of tones and vowels.
+        * Subsitute ["เ", "เ"] to "แ".
 
-    :param str text: thai text
-    :return: thai text
-    **Example**::
-     >>> print(normalize("เเปลก")=="แปลก") # เ เ ป ล ก กับ แปลก
-     True
+    :param str text: thai text to be normalized
+    :return: normalized Thai text according to the fules
+    :rtype: str
+
+    :Example:
+     
+        >>> from pythainlp.util import normalize
+        >>>
+        >>> normalize('สระะน้ำ')
+        สระน้ำ
+        >>> normalize('เเปลก')
+        แปลก
+        >>> normalize('นานาาา')
+        นานา
     """
     for data in _NORMALIZE_RULE2:
         text = re.sub(data[0].replace("t", "[่้๊๋]"), data[1], text)

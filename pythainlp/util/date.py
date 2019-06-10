@@ -162,47 +162,49 @@ def thai_strftime(
     datetime: datetime.datetime, fmt: str, thaidigit: bool = False
 ) -> str:
     """
-    Thai date and time string formatter
-    Formatting directives similar to datetime.strftime()
-
-    Will use Thai names and Thai Buddhist Era for these directives:
-    - %a abbreviated weekday name
-    - %A full weekday name
-    - %b abbreviated month name
-    - %B full month name
-    - %y year without century
-    - %Y year with century
-    - %c date and time representation
-    - %v short date representation (undocumented)
+    This function convert :class:`datetime.datetime` into Thai date and time format.
+    The formatting directives are similar to :func:`datatime.strrftime`.
+  
+    This function uses Thai names and Thai Buddhist Era for these directives:
+        * **%a** - abbreviated weekday name (i.e. "จ", "อ", "พ", "พฤ", "ศ", "ส", "อา")
+        * **%A** - full weekday name (i.e. "วันจันทร์", "วันอังคาร", "วันเสาร์", "วันอาทิตย์")
+        * **%b** - abbreviated month name (i.e. "ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.", "ธ.ค.")
+        * **%B** - full month name (i.e. "มกราคม", "กุมภาพันธ์", "พฤศจิกายน", "ธันวาคม",)
+        * **%y** - year without century (i.e. "56", "10")
+        * **%Y** - year with century (i.e. "2556", "2410")
+        * **%c** - date and time representation (i.e. "พ   6 ต.ค. 01:40:00 2519")
+        * **%v** - short date representation (i.e. " 6-ม.ค.-2562", "27-ก.พ.-2555")
 
     Other directives will be passed to datetime.strftime()
 
-    Note 1:
-    The Thai Buddhist Era (BE) year is simply converted from AD by adding 543.
-    This is certainly not accurate for years before 1941 AD,
-    due to the change in Thai New Year's Day.
-
-    Note 2:
-    This meant to be an interrim solution, since Python standard's locale module
-    (which relied on C's strftime()) does not support "th" or "th_TH" locale yet.
-    If supported, we can just locale.setlocale(locale.LC_TIME, "th_TH") and
-    then use native datetime.strftime().
-
-    Note 3:
+    :Note:
+        * The Thai Buddhist Era (BE) year is simply converted from AD by adding 543. This is certainly not accurate for years before 1941 AD, due to the change in Thai New Year's Day.
+        * This meant to be an interrim solution, since Python standard's locale module (which relied on C's strftime()) does not support "th" or "th_TH" locale yet. If supported, we can just locale.setlocale(locale.LC_TIME, "th_TH") and then use native datetime.strftime().
+    
     We trying to make this platform-independent and support extentions as many as possible,
     See these links for strftime() extensions in POSIX, BSD, and GNU libc:
-    - Python https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
-    - C http://www.cplusplus.com/reference/ctime/strftime/
-    - GNU https://metacpan.org/pod/POSIX::strftime::GNU
-    - Linux https://linux.die.net/man/3/strftime
-    - OpenBSD https://man.openbsd.org/strftime.3
-    - FreeBSD https://www.unix.com/man-page/FreeBSD/3/strftime/
-    - macOS https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/strftime.3.html
-    - PHP https://secure.php.net/manual/en/function.strftime.php
-    - JavaScript's implementation https://github.com/samsonjs/strftime
-    - strftime() quick reference http://www.strftime.net/
 
-    :return: Date and time spelled out in text, with month in Thai name and year in Thai Buddhist era. The year is simply converted from AD by adding 543 (will not accurate for years before 1941 AD, due to change in Thai New Year's Day).
+        * Python https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
+        * C http://www.cplusplus.com/reference/ctime/strftime/
+        * GNU https://metacpan.org/pod/POSIX::strftime::GNU
+        * Linux https://linux.die.net/man/3/strftime
+        * OpenBSD https://man.openbsd.org/strftime.3
+        * FreeBSD https://www.unix.com/man-page/FreeBSD/3/strftime/
+        * macOS https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/strftime.3.html
+        * PHP https://secure.php.net/manual/en/function.strftime.php
+        * JavaScript's implementation https://github.com/samsonjs/strftime
+        * strftime() quick reference http://www.strftime.net/
+
+    :param :class`datetime.datetime` datetime: an instantiatetd object of :class`datetime.datetime`
+    :param str fmt: string containing date and time directives
+    :param bool thaidigit: If `thaidigit` is set to **False** (default), number will be represented in Arabic digit. If it is set to **True**, it will be represented in Thai digit.
+
+    :return: Date and time text, with month in Thai name and year in Thai Buddhist era. The year is simply converted from AD by adding 543 (will not accurate for years before 1941 AD, due to change in Thai New Year's Day).
+    :rtype: str
+
+    :Example:
+        >>> from pythainlp.util import thai_strftime
+        >>>
     """
     thaidate_parts = []
 

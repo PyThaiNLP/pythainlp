@@ -44,7 +44,7 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
     This function calculates percentage of Thai characters in the text with an option to ignored some characters.
 
     :param str text: input text
-    :param str ignore_chars: string of characters to ignore from counting. By default, the ignored characers are whitespace, digits, and punctuation.
+    :param str ignore_chars: string of characters to ignore from counting. By default, the ignored characters are whitespace, newline, digits, and punctuation.
 
     :return: percentage of Thai characters in the text
     :rtype: float

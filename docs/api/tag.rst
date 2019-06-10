@@ -93,8 +93,79 @@ Abbreviation   Part-of-Speech tag                                     Examples
  PUNC          Punctuation                                            (, ), “, ,, ;
 ============   =================================================      =================================
 
+ORCHID corpus uses different set of POS tags. Thus, we make UD POS tags version for ORCHID corpus.
+
+The following table shows the mapping of Part-of-Speech (POS) tags from ORCHID POS tags to UD POS tags:
+
+===============     =======================
+ORCHID POS tags     Coresponding UD POS tag
+===============     =======================
+NOUN                NOUN
+NCMN                NOUN
+NTTL                NOUN
+CNIT                NOUN
+CLTV                NOUN
+CMTR                NOUN
+CFQC                NOUN
+CVBL                NOUN
+VACT                VERB
+VSTA                VERB
+PRON                PRON
+NPRP                PRON
+ADJ                 ADJ
+NONM                ADJ
+VATT                ADJ
+DONM                ADJ
+ADV                 ADV
+ADVN                ADV
+ADVI                ADV
+ADVP                ADV
+ADVS                ADV
+INT                 INTJ
+PROPN               PROPN
+PPRS                PROPN
+PDMN                PROPN
+PNTR                PROPN
+DET                 DET
+DDAN                DET
+DDAC                DET
+DDBQ                DET
+DDAQ                DET
+DIAC                DET
+DIBQ                DET
+DIAQ                DET
+NUM                 NUM
+NCNM                NUM
+NLBL                NUM
+DCNM                NUM
+AUX                 AUX
+XVBM                AUX
+XVAM                AUX
+XVMM                AUX
+XVBB                AUX
+XVAE                AUX
+ADP                 ADP
+RPRE                ADP
+CCONJ               CCONJ
+JCRG                CCONJ
+SCONJ               SCONJ
+PREL                SCONJ
+JSBR                SCONJ
+JCMP                SCONJ
+PART                PART
+FIXN                PART
+FIXV                PART
+EAFF                PART
+EITT                PART
+AITT                PART
+NEG                 PART
+PUNCT               PUNCT
+PUNC                PUNCT
+===============     =======================
+
+
 For the NER, we use `Inside-outside-beggining (IOB) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`_ format to tag NER for each words.
-For instance, given a sentence "บารัค โอบามาเป็นประธานธิปดี", it would be tag the tokens "บารัค", " ", "โอบามา", "เป็น", "ประธานาธิปดี" as "B-PERSON", "I-PERSON", "I-PERSON", "O", and "O" respectively.
+For instance, given a sentence "บารัค โอบามาเป็นประธานธิปดี", it would be tag the tokens "บารัค", "โอบามา", "เป็น", "ประธานาธิปดี" as "B-PERSON", "I-PERSON", "I-PERSON", "O", and "O" respectively.
 
 The *B-* prefix indicates begining token for a chunk of person name, "บารัค โอบามา" and *I-* prefix indicates the intermediate token. However, the term *O* indicates that a token not belong to any NER chunk.
 

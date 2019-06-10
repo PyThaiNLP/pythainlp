@@ -144,12 +144,38 @@ _tokenizer = ThaiTokenizer()
 
 def document_vector(text: str, learn, data, agg: str = "mean"):
     """
+    This function vectorize Thai input text into a 400 dimension vector using :class:`fastai` language model and data bunch.
+    
     :meth: `document_vector` get document vector using fastai language model and data bunch
-    :param str text: text to extract embeddings
-    :param learn: fastai language model learner
-    :param data: fastai data bunch
-    :param agg: how to aggregate embeddings
-    :return: `numpy.array` of document vector sized 400 based on the encoder of the model
+    :param str text: text to be vectorized with :class:`fastai` language model.
+    :param learn: :class:`fastai` language model learner
+    :param data: :class:`fastai` data bunch
+    :param str agg: name of aggregation methods for word embeddings. The avialable methods are "mean" and "sum"
+
+    :return: :class:`numpy.array` of document vector sized 400 based on the encoder of the model
+    :rtype: :class:`numpy.ndarray((1, 400))`
+
+    :Example:
+
+        >>> from pythainlp.ulmfit import document_vectorr
+        >>> from fastai import *    
+        >>> from fastai.text import * 
+        >>>
+        >>> # Load Data Bunch
+        >>> data = load_data(MODEL_PATH, 'thwiki_lm_data.pkl')
+        >>>
+        >>> # Initialize language_model_learner
+        >>> config = dict(emb_sz=400, n_hid=1550, n_layers=4, pad_token=1,
+             qrnn=False, tie_weights=True, out_bias=True, output_p=0.25,
+             hidden_p=0.1, input_p=0.2, embed_p=0.02, weight_p=0.15)
+        >>> trn_args = dict(drop_mult=0.9, clip=0.12, alpha=2, beta=1)
+        >>> learn = language_model_learner(data, AWD_LSTM, config=config, 
+                                           pretrained=False, **trn_args)
+        >>> document_vector('วันนี้วันดีปีใหม่', learn, data)
+
+    :See Also:
+        * A notebook showing how to train `ulmfit` language model and its usage, `Jupyter Notebook <https://github.com/cstorm125/thai2fit/blob/master/thwiki_lm/word2vec_examples.ipynb>`_
+
     """
 
     s = _tokenizer.tokenizer(text)

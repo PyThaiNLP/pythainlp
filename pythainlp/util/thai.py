@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Check if it is Thai text
 """
@@ -9,11 +9,34 @@ _DEFAULT_IGNORE_CHARS = string.whitespace + string.digits + string.punctuation
 
 def isthaichar(ch: str) -> bool:
     """
-    Check if a character is Thai
-    เป็นอักษรไทยหรือไม่
+    This function checks if the input character is a Thai character.
 
     :param str ch: input character
-    :return: True or False
+
+    :return: returns **True** if the input character is a Thai characttr, otherwise returns **False**
+    :rtype: bool
+
+    :Example:
+        
+        >>> from pythainlp.util import isthaichar
+        >>>
+        >>> isthaichar("ก") # THAI CHARACTER KO KAI
+        True
+        >>> isthaichar("๐") # THAI DIGIT ZERO
+        True
+        >>> isthaichar("๕") # THAI DIGIT FIVE
+        True
+        >>> isthaichar("฿") # THAI CURRENCY SYMBOL BAHT
+        True
+        >>> isthaichar("๏") # THAI CHARACTER FONGMAN
+        True
+        >>>
+        >>> isthaichar("A") # LATIN CAPITAL LETTER A
+        False
+        >>> isthaichar(",") # COMMA
+        False
+        >>> isthaichar(".") # FULL STOP
+        False
     """
     ch_val = ord(ch)
     if ch_val >= 3584 and ch_val <= 3711:

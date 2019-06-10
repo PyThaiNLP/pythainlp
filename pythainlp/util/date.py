@@ -272,8 +272,20 @@ def thai_strftime(
 
 def now_reign_year():
     """
-    :return: reign year for Rama X of Chakri dynasty
+    This function return the reign year for the 10th King of Chakri dynasty.
+
+    :return: reign year of the 10th King of Chakri dynasty.
+    :rtype: int
+
+    :Example:
+
+        >>> from pythainlp.util import now_reign_year
+        >>> 
+        >>> text = "เป็นปีที่ {reign_year} ในรัชกาลปัจจุบัน".format(reign_year=now_reign_year())
+        >>> print(text)
+        เป็นปีที่ 4 ในรัชการปัจจุบัน
     """
+
     now_ = datetime.datetime.now()
     return now_.year - 2015
 

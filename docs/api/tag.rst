@@ -6,9 +6,9 @@ The :class:`pythainlp.tag` contains functions that are used to tag different par
 Part-of-Speech (POS) tags, and Named Entity Recognition (NER) tag.
 
 
-For the POS tags, there are two set of tags including `Univerral Dependencies (UD) <https://universaldependencies.org/>`_ and ORCHID [Sornlertlamvanich_2000]_ POS tags.
+For the POS tags, there are two set of tags including `Universal Dependencies (UD) <https://universaldependencies.org/>`_ and ORCHID [Sornlertlamvanich_2000]_ POS tags.
 
-The following table shows the list of Part-of-Speech (POS) tags according to UD POS tags:
+The following table shows the list of Part-of-Speech (POS) tags according to Universal Dependencies (UD) POS tags:
 
 ============   ==========================   =============================
 Abbreviation   Part-of-Speech tag           Examples                     

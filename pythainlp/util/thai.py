@@ -41,8 +41,45 @@ def isthai(word: str, ignore_chars: str = ".") -> bool:
 
 def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
     """
+    This function calculates percentage of Thai characters in the text with an option to ignored some characters.
+
     :param str text: input text
-    :return: float, proportion of characters in the text that is Thai character
+    :param str ignore_chars: string of characters to ignore from counting. By default, the ignored characers are whitespace, digits, and punctuation.
+
+    :return: percentage of Thai characters in the text
+    :rtype: float
+
+    :Example:
+
+        Find the percentage of Thai characters in the textt with default ignored characters set (whitespace, newline character, punctuation and digits).
+
+        >>> from pythainlp.util import countthai
+        >>>
+        >>> countthai("ดอนัลด์ จอห์น ทรัมป์ English: Donald John Trump")
+        45.0
+        >>>
+        >>> countthai("ดอนัลด์ จอห์น ทรัมป์ (English: Donald John Trump)")
+        45.0
+        >>>
+        >>> countthai("(English: Donald John Trump)")
+        0.0
+        
+        Find the percentage of Thai characters in the text while ignoring only punctuation but not whitespace, newline character and digits.
+
+        >>> import string
+        >>> from pythainlp.util import countthai
+        >>>
+        >>> string.punctuation
+        !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+        >>>
+        >>> countthai("ดอนัลด์ จอห์น ทรัมป์ English: Donald John Trump", ignore_chars=string.punctuation)
+        39.130434782608695
+        >>>
+        >>> countthai("ดอนัลด์ จอห์น ทรัมป์ (English: Donald John Trump)", ignore_chars=string.punctuation) 
+        39.130434782608695
+        >>>
+        >>> countthai("(English: Donald John Trump)", ignore_chars=string.punctuation)
+        0.0
     """
     if not text or not isinstance(text, str):
         return 0

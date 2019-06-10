@@ -324,10 +324,10 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
 
         >>> from pythainlp.util import reign_year_to_ad
         >>>
-        >>> print("The 4th reign year of the King Rama X is in", reign_year_to_ad(10, 4))
+        >>> print("The 4th reign year of the King Rama X is in", reign_year_to_ad(4, 10))
         The 4th reign year of the King Rama X is in 2019
         >>> 
-        >>> print("The 1st reign year of the King Rama IX is in", reign_year_to_ad(9, 1))
+        >>> print("The 1st reign year of the King Rama IX is in", reign_year_to_ad(1, 9))
         The 4th reign year of the King Rama X is in 1946
     """
     if int(reign) == 10:

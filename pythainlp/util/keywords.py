@@ -60,9 +60,26 @@ def rank(words: List[str], exclude_stopwords: bool = False) -> Counter:
 
 def find_keyword(word_list: List[str], min_len: int = 3) -> Dict[str, int]:
     """
+    This function count the frequency of words in the list where stopword is excluded and returns as a frequency dictionary.
+
     :param list word_list: a list of words
-    :param int min_len: a mininum length of keywords to look for
-    :return: dict
+    :param int min_len: the mininum frequency for words to obtain
+
+    :return: a dictionary object with key-value pair as word and its raw count
+    :rtype: dict[str, int]
+
+    :Example:
+
+        >>> from pythainlp.util import find_keyword
+        >>> 
+        >>> words = ["บันทึก", "เหตุการณ์", "บันทึก", "เหตุการณ์", 
+            " ", "มี", "การ", "บันทึก", "เป็น", " ", "ลายลักษณ์อักษร"
+            "และ", "การ", "บันทึก","เสียง","ใน","เหตุการณ์"]
+        >>> find_keyword(words)
+        {'บันทึก': 4, 'เหตุการณ์': 3}
+        >>>
+        >>> find_keyword(words, min_len=1)
+        {' ': 2, 'บันทึก': 4, 'ลายลักษณ์อักษรและ': 1, 'เสียง': 1, 'เหตุการณ์': 3}
     """
     word_list = rank(word_list, exclude_stopwords=True)
 

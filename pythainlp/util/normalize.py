@@ -63,10 +63,24 @@ def normalize(text: str) -> str:
 
 def deletetone(text: str) -> str:
     """
-    Remove tonemarks
+    This function removes Thai tonemarks from the text. 
+    There are 4 tonemarks indicating 4 tones as follows:
 
-    :param str text: thai text
-    :return: thai text
+        * Down tone (Thai: ไม้เอก  _่ )
+        * Falling tone  (Thai: ไม้โท  _้ )
+        * High tone (Thai: ไม้ตรี  ​_๊ )
+        * Rising tone (Thai: ไม้จัตวา _๋ )
+
+    :param str text: text in Thai language
+    :return: text without Thai tonemarks
+    :rtype: str
+
+    :Example:
+
+        >>> from pythainlp.util import deletetone
+        >>>
+        >>> deletetone('สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด')
+        สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด
     """
     chars = [ch for ch in text if ch not in thai_tonemarks]
     return "".join(chars)

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 Check if it is Thai text
 """
@@ -46,12 +46,40 @@ def isthaichar(ch: str) -> bool:
 
 def isthai(word: str, ignore_chars: str = ".") -> bool:
     """
-    Check if all character is Thai
-    เป็นคำที่มีแต่อักษรไทยหรือไม่
+    This function checks if all character in the input string are Thai character.
 
     :param str word: input text
-    :param str ignore_chars: characters to be ignored (i.e. will be considered as Thai)
-    :return: True or False
+    :param str ignore_chars: string characters to be ignored (i.e. will be considered as Thai)
+
+    :return: returns **True** if the input text all contains Thai characters, otherwise returns **False**
+    :rtype: bool
+
+    :Example:
+
+        Check if all character is Thai character. By default, it ignores only full stop ("."). 
+
+        >>> from pythainlp.util import isthai
+        >>> isthai("กาลเวลา")
+        True
+        >>> isthai("กาลเวลา.")
+        True
+        >>> isthai("กาลเวลา,")
+        False
+        >>> isthai("กาลเวลา ")
+        False
+        >>> isthai("กาลเวลา-")
+        False
+        >>> isthai("กาลเวลา3")
+        False
+        >>> isthai("กาลเวลาDw")
+        False
+
+        Explicitly ignore digits, whitespace, and the following characters ("-", ".", "$", ",").
+
+        >>> from pythainlp.util import isthai
+        >>> isthai("กาลเวลา, การเวลา-ก,  3.75$", ignore_chars="1234567890.-,$ ")
+        True
+
     """
     if not ignore_chars:
         ignore_chars = ""

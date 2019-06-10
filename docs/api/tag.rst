@@ -31,7 +31,6 @@ Abbreviation   Part-of-Speech tag           Examples
 ============   ==========================   =============================
 
 The following table shows the list of Part-of-Speech (POS) tags according to ORCHID POS tags from the paper:
- 
 
 ============   =================================================      =================================
 Abbreviation   Part-of-Speech tag                                     Examples                     

@@ -26,10 +26,37 @@ def _check3(word: str) -> bool:
 
 def thaicheck(word: str) -> bool:
     """
-    Check if a word is an "authentic Thai word"
+    Check if a word is an "authentic Thai word", in Thai it called "คำไทยแท้".
 
     :param str word: word
     :return: True or False
+    :rtype: bool
+
+    :Example:
+
+        English word:
+
+        >>> from pythainlp.util import thaicheck
+        >>> thaicheck("Avocado")
+        False
+
+        Authentic Thai word:
+        
+        >>> from pythainlp.util import thaicheck
+        >>>
+        >>> thaicheck("มะม่วง"))
+        True
+        >>> thaicheck("ตะวัน"))
+        True
+
+        Non authentic Thai word:
+
+        >>> from pythainlp.util import thaicheck
+        >>>
+        >>> thaicheck("สามารถ")
+        False
+        >>> thaicheck("อิสริยาภรณ์")
+        False
     """
     pattern = re.compile(r"[ก-ฬฮ]", re.U)  # สำหรับตรวจสอบพยัญชนะ
     res = re.findall(pattern, word)  # ดึงพยัญชนะทัั้งหมดออกมา

@@ -128,8 +128,18 @@ def thai_to_eng(text: str) -> str:
     """
     Correct text in one language that is incorrectly-typed with a keyboard layout in another language. (type Thai with English keyboard)
 
-    :param str text: Incorrect input (type English with Thai keyboard)
-    :return: English text
+    :param str text: incorrect input (type English with Thai keyboard)
+    :return: English text where incorrect typing with a keyboard layout is corrected
+    :rtype: str
+
+    :Example:
+
+        Intentionally type "Bank of Thailand", but got "ฺฟืา นด ธ้ฟรสฟืก".
+
+        >>> from pythainlp.util import eng_to_thai
+        >>> 
+        >>> thai_to_eng("ฺฟืา นด ธ้ฟรสฟืก")
+        'Bank of Thailand'
     """
     return "".join(
         [TH_EN_KEYB_PAIRS[ch] if (ch in TH_EN_KEYB_PAIRS) else ch for ch in text]

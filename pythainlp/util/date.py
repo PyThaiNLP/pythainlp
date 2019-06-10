@@ -203,8 +203,25 @@ def thai_strftime(
     :rtype: str
 
     :Example:
+        
+        >>> import datetime
         >>> from pythainlp.util import thai_strftime
         >>>
+        >>> datetime_object = datetime.datetime(year=2019, month=6, day=10, hour=15, minute=59, second=0, microsecond=0)
+        >>> print(datetime_object)
+        2019-06-10 15:59:00
+        >>>
+        >>> print(thai_strftime(datetime_object, "%A %d %B %Y "))
+        วันจันทร์ 10 มิถุนายน 2562 
+        >>>
+        >>> print(thai_strftime(datetime_object, "%a %d %b %y "))
+        จ 10 มิ.ย. 62 
+        >>>
+        >>> print(thai_strftime(datetime_object, "%D (%v)"))
+        06/10/62 (10-มิ.ย.-2562)
+        >>>
+        >>> print(thai_strftime(datetime_object, "%D (%c)"))
+        06/10/62 (จ  10 มิ.ย. 15:59:00 2562)
     """
     thaidate_parts = []
 

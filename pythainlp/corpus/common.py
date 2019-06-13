@@ -78,7 +78,11 @@ def thai_syllables() -> frozenset:
 
 def thai_words() -> frozenset:
     """
-    Return a frozenset of Thai words
+    Return a frozenset of Thai words such as "กติกา", "กดดัน", "พิษ", and "พิษภัย".
+    \n(See: `2.0/pythainlp/corpus/words_th.txt <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/words_th.txt>`_)
+
+    :return: :class:`frozenset` containing words in Thai language.
+    :rtype: :class:`frozenset`
     """
     global _THAI_WORDS
     if not _THAI_WORDS:

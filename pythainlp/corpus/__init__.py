@@ -154,10 +154,20 @@ def _download(url: str, dst: str) -> int:
 
 def download(name: str, force: bool = False) -> NoReturn:
     """
-    Download corpus
+    Download corpus. The available corpus names can be seen in `this file <https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json>`_ 
 
     :param string name: corpus name
     :param bool force: force install
+
+    :Example:
+
+        >>> from pythainlp.corpus import download
+        >>>
+        >>> download('ttc', force=True)
+        Download: ttc
+        ttc 0.1
+        ttc_freq.txt:  26%|██▌       | 114k/434k [00:00<00:00, 690kB/s]  
+        /root/pythainlp-data/ttc_freq.txt
     """
     db = TinyDB(corpus_db_path())
     temp = Query()

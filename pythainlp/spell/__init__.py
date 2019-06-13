@@ -12,10 +12,32 @@ __all__ = ["DEFAULT_SPELL_CHECKER", "correct", "spell", "NorvigSpellChecker"]
 
 def spell(word: str, engine: str = "pn") -> List[str]:
     """
+    This function provides a list of possible correct spelling of the given word.
+
     :param str word: word to check spelling
     :param str engine:
         * pn - Peter Norvig's algorithm (default)
-    :return: list of words
+    :return: list of possible correct words
+    :rtype: list[str]
+
+    :Example:
+        >>> from pythainlp.spell import spell
+        >>> 
+        >>> spell("เส้นตรบ")
+        ['เส้นตรง']
+        >>>
+        >>> spell("ครัช")
+        ['ครับ', 'ครัว', 'รัช', 'ครัม', 'ครัน', 'วรัช', 'ครัส', 
+        'ปรัช', 'บรัช', 'ครัง', 'คัช', 'คลัช', 'ครัย', 'ครัด']
+        >>>
+        >>> spell("กระปิ") 
+        ['กะปิ', 'กระบิ']
+        >>>
+        >>> spell("สังเกตุ")
+        ['สังเกต']
+        >>>
+        >>> spell("เหตการณ")
+        ['เหตุการณ์']
     """
 
     return DEFAULT_SPELL_CHECKER.spell(word)
@@ -40,6 +62,8 @@ def correct(word: str, engine: str = "pn") -> str:
         'ครับ'
         >>> correct("สังเกตุ")
         'สังเกต'
+        >>> correct("กระปิ")
+        'กะปิ'
         >>> correct("เหตการณ")
         'เหตุการณ์'
     """

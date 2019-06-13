@@ -63,7 +63,11 @@ def provinces() -> frozenset:
 
 def thai_syllables() -> frozenset:
     """
-    Return a frozenset of Thai syllables
+    Return a frozenset of Thai syllables such as "กรอบ", "ก็", "๑", "โมบ", "โมน", "โม่ง", "กา", "ก่า", and, "ก้า".
+    \n(See: `2.0/pythainlp/corpus/syllables_th.txt <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/syllables_th.txt>`_)
+
+    :return: :class:`frozenset` containing syllables in Thai language.
+    :rtype: :class:`frozenset`
     """
     global _THAI_SYLLABLES
     if not _THAI_SYLLABLES:

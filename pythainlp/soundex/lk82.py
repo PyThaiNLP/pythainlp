@@ -26,7 +26,20 @@ def lk82(text: str) -> str:
     LK82 - It's a Thai soundex rule.
 
     :param str text: Thai word
-    :return: LK82 soundex
+
+    :Example:
+
+        >>> from pythainlp.soundex import lk82
+        >>> lk82("ลัก")
+        'ร1000'
+        >>> lk82("รัก")
+        'ร1000'
+        >>> lk82("รักษ์")
+        'ร1000'
+        >>> lk82("บูรณการ")
+        'บE419'
+        >>> lk82("ปัจจุบัน")
+        'ป3E54'
     """
     if not text or not isinstance(text, str):
         return ""

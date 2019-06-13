@@ -23,9 +23,12 @@ _RE_3 = re.compile(r"[็ํฺๆฯ]")
 
 def lk82(text: str) -> str:
     """
-    LK82 - It's a Thai soundex rule.
+    This function converts Thai text into phonetic code with the a Thai soundex algorithm named **LK82** [lk82]_.
 
     :param str text: Thai word
+
+    :return: LK82 soundex of the given Thai word
+    :rtype: str
 
     :Example:
 

@@ -22,12 +22,15 @@ _C8 = "ว"  # W -> 8
 
 def metasound(text: str, length: int = 4) -> str:
     """
-    Thai MetaSound
+    This function converts Thai text into phonetic code with the mactching technique called **MetaSound** [metasound]_ (combination between Soundex and Metaphone algorithms).
+    MetaSound algorithm was developed specifically for Thai language.
 
     :param str text: Thai text
-    :param int length: preferred length of the MetaSound (default is 4)
-    :return: MetaSound for the text
-    **Example**::
+    :param int length: preferred length of the MetaSound code (default is 4)
+
+    :return: MetaSound for the given text
+    :rtype: str
+
         >>> from pythainlp.metasound import metasound
         >>> metasound("ลัก")
         'ล100'

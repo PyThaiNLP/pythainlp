@@ -76,6 +76,32 @@ def get_corpus_path(name: str) -> Union[str, None]:
     Get corpus path
 
     :param string name: corpus name
+    :return: path to the corpus or **None** of the corpus doesn't exist in the device
+    :rtype: str
+
+    :Example:
+
+        If the corpus already exists.
+
+        >>> from pythainlp.corpus import get_corpus_path
+        >>> 
+        >>> print(get_corpus_path('ttc'))
+        /root/pythainlp-data/ttc_freq.txt
+
+        If the corpus has not been downloaded yet.
+
+        >>> from pythainlp.corpus import download, get_corpus_path
+        >>>
+        >>> print(get_corpus_path('wiki_lm_lstm'))
+        None
+        >>> download('wiki_lm_lstm')
+        Download: wiki_lm_lstm
+        wiki_lm_lstm 0.32
+        thwiki_lm.pth?dl=1: 1.05GB [00:25, 41.5MB/s] 
+        /root/pythainlp-data/thwiki_model_lstm.pth
+        >>>
+        >>> print(get_corpus_path('wiki_lm_lstm'))
+        /root/pythainlp-data/thwiki_model_lstm.pth
     """
     db = TinyDB(corpus_db_path())
     temp = Query()

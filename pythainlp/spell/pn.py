@@ -111,7 +111,7 @@ class NorvigSpellChecker:
 
         :return: spelling dictionary of this instance
         :rtype: list[tuple[str, int]]
-        
+
         :Example:
 
             >>> from pythainlp.spell import NorvigSpellChecker
@@ -145,6 +145,31 @@ class NorvigSpellChecker:
         Return frequency of an input word, according to the spelling dictionary
 
         :param str word: A word to check its frequency
+        :return: frequency of the given word in the spelling dictionary
+        :rtype: int
+
+        :Example:
+
+            >>> from pythainlp.spell import NorvigSpellChecker
+            >>>
+            >>> _spell_checker = NorvigSpellChecker()
+            >>>
+            >>> _spell_checker.freq("ปัญชา")
+            0
+            >>> _spell_checker.freq("ปัญญา")
+            3639
+            >>>
+            >>> _spell_checker.freq("บิญชา")
+            0
+            >>> _spell_checker.freq("บัญชา")
+            335
+            >>>
+            >>> _spell_checker.freq("มิตรภาบ")
+            0
+            >>> _spell_checker.freq("มิตรภาพ")
+            572
+            >>> _spell_checker.freq("มิตร")
+            1923
         """
         return self.__WORDS[word]
 

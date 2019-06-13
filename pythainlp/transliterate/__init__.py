@@ -15,9 +15,28 @@ def romanize(text: str, engine: str = "royin") -> str:
 
     :Options for engines:
         * *royin* - uses the Royal Thai General System of Transcription issued by Royal Institute of Thailand . 
-        * *thai2rom* is a Thai romanization engine based on a deep learning model (require :mod:keras:).
+        * *thai2rom* is a Thai romanization engine based on a deep learning model (require :mod:`keras`).
 
-    
+    :Example:
+        >>> from pythainlp.transliterate import romanize
+        >>>
+        >>> romanize("สามารถ", engine="royin"), romanize("สามารถ", engine="thai2rom")
+        ('samant', 'samat')
+        >>>
+        >>> romanize("ภาพยนตร์", engine="royin"), romanize("ภาพยนตร์", engine="thai2rom")
+        ('phapn', 'phapphayon')
+        >>>
+        >>> romanize("ปัญญา", engine="royin"), romanize("ปัญญา", engine="thai2rom")
+        ('panna', 'panya')
+        >>>
+        >>> romanize("มหาชน", engine="royin"), romanize("มหาชน", engine="thai2rom")
+        ('matn', 'mahachon')
+        >>>
+        >>> romanize("พลอย", engine="royin"), romanize("พลอย", engine="thai2rom")
+        ('phnoi', 'phloi')
+        >>>
+        >>> romanize("นก", engine="royin"), romanize("นก", engine="thai2rom")
+        ('nok', 'nok')
     """
 
     if not text or not isinstance(text, str):

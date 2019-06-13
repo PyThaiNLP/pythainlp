@@ -48,7 +48,11 @@ def countries() -> frozenset:
 
 def provinces() -> frozenset:
     """
-    Return a frozenset of Thailand province names in Thai
+    Return a frozenset of Thailand province names in Thai such as "กระบี่", "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
+    \n(See: `2.0/pythainlp/corpus/thailand_provinces_th.txt <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/thailand_provinces_th.txt>`_)
+    
+    :return: :class:`frozenset` containing province names of Thailand
+    :rtype: :class:`frozenset`
     """
     global _THAI_THAILAND_PROVINCES
     if not _THAI_THAILAND_PROVINCES:

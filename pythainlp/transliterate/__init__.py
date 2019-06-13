@@ -64,6 +64,27 @@ def transliterate(text: str, engine: str = "ipa") -> str:
         * *ipa* - (default) International Phonetic Alphabet (IPA)
         * *icu* - International Components for Unicode (ICU)
 
+
+    :Example:
+        >>> from pythainlp.transliterate import transliterate
+        >>>
+        >>> transliterate("สามารถ", engine="ipa"), transliterate("สามารถ", engine="icu")
+        ('saːmaːrot','s̄āmārt̄h')
+        >>>
+        >>> transliterate("ภาพยนตร์", engine="ipa"), transliterate("ภาพยนตร์", engine="icu")
+        ('pʰaːpjanot','p̣hāphyntr̒')
+        >>>
+        >>> transliterate("ปัญญา", engine="ipa"), transliterate("ปัญญา", engine="icu")
+        ('pajjaː','pạỵỵā')
+        >>>
+        >>> transliterate("มหาชน", engine="ipa"), transliterate("มหาชน", engine="icu")
+        ('mahaːt͡ɕʰon','mh̄āchn')
+        >>>
+        >>> transliterate("พลอย", engine="ipa"), transliterate("พลอย", engine="icu")
+        ('pʰlɔːj','phlxy')        
+        >>>
+        >>> transliterate("นก", engine="ipa"), transliterate("นก", engine="icu")
+        ('nok','nk')
     """
 
     if not text or not isinstance(text, str):

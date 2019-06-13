@@ -2,7 +2,7 @@
 
 pythainlp.soundex
 ====================================
-The :class:`pythainlp.soundex` is soundex for thai.
+The :class:`pythainlp.soundex` is soundex for Thai.
 
 Modules
 -------
@@ -21,3 +21,6 @@ References
 
 .. [udom83] Wannee Udompanich (1983). Search Thai sound-alike string using homonymic approach. 
         Master Thesis. Chulalongkorn University, Thailand.
+
+.. [lk82] วิชิต หล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์. โปรแกรมการสืบค้นคำไทยตามเสียงอ่าน (Thai Soundex).
+        http://guru.sanook.com/1520/

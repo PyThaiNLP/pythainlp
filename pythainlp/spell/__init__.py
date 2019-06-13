@@ -18,7 +18,7 @@ def spell(word: str, engine: str = "pn") -> List[str]:
 
     :param str word: word to check spelling
     :param str engine:
-        * pn - Peter Norvig's algorithm (default)
+        * *pn* - Peter Norvig's algorithm (default)
 
     :return: list of possible correct words within 1 or 2 edit distance and sorted by frequency of word occurence in the spelling dictionary in descending order.
     :rtype: list[str]
@@ -36,10 +36,10 @@ def spell(word: str, engine: str = "pn") -> List[str]:
         >>> spell("กระปิ") 
         ['กะปิ', 'กระบิ']
         >>>
-        >>> spell("สังเกตุ")
+        >>> spell("สังเกตุ", engine="pn")
         ['สังเกต']
         >>>
-        >>> spell("เหตการณ")
+        >>> spell("เหตการณ", engine="pn")
         ['เหตุการณ์']
     """
 

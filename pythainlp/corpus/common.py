@@ -93,7 +93,11 @@ def thai_words() -> frozenset:
 
 def thai_stopwords() -> frozenset:
     """
-    Return a frozenset of Thai stopwords
+    Return a frozenset of Thai stopwords such as "มี", "ไป", "ไง", "ขณะ", "การ", and "ประการหนึ่ง".
+    \n(See: `2.0/pythainlp/corpus/stopwords_th.txt <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/stopwords_th.txt>`_)
+
+    :return: :class:`frozenset` containing stopwords.
+    :rtype: :class:`frozenset`
     """
     global _THAI_STOPWORDS
     if not _THAI_STOPWORDS:

@@ -179,6 +179,26 @@ class NorvigSpellChecker:
         sorted by frequency of word occurrance in the spelling dictionary
 
         :param str word: A word to check its spelling
+
+        :return: list of possible correct words within 1 or 2 edit distance and sorted by frequency of word occurence in the spelling dictionary in descending order.
+        :rtype: list[str]
+
+        :Example:
+
+            >>> from pythainlp.spell import NorvigSpellChecker
+            >>>
+            >>> _spell_checker = NorvigSpellChecker()
+            >>>
+            >>> _spell_checker.spell("เส้นตรบ")
+            ['เส้นตรง']
+            >>>
+            >>> _spell_checker.spell("ครัช")
+            ['ครับ', 'ครัว', 'รัช', 'ครัม', 'ครัน',
+            'วรัช', 'ครัส', 'ปรัช', 'บรัช', 'ครัง',
+            'คัช', 'คลัช', 'ครัย', 'ครัด']
+            >>>
+            >>> _spell_checker.spell("กระปิ") 
+            ['กะปิ', 'กระบิ']
         """
         if not word:
             return ""
@@ -198,6 +218,21 @@ class NorvigSpellChecker:
         Return the most possible word, using the probability from the spelling dictionary
 
         :param str word: A word to correct its spelling
+
+        :return: the corrrect spelling of the given word
+        :rtype: str
+
+        :Example:
+
+            >>> from pythainlp.spell import NorvigSpellChecker
+            >>>
+            >>> _spell_checker = NorvigSpellChecker()
+            >>> _spell_checker.correct("ปัญชา")
+            'ปัญหา'
+            >>> _spell_checker.correct("บิญชา")
+            'บัญชา'
+            >>> _spell_checker.correct("มิตรภาบ")
+            'มิตรภาพ'
         """
         if not word:
             return ""

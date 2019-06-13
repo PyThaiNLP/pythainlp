@@ -13,11 +13,13 @@ __all__ = ["DEFAULT_SPELL_CHECKER", "correct", "spell", "NorvigSpellChecker"]
 def spell(word: str, engine: str = "pn") -> List[str]:
     """
     This function provides a list of possible correct spelling of the given word.
+    The list of words are from the words in the dictionary that have edit distance of 1 or 2.
+    The result is a  list of word by sorted word occurence in the spelling dictionary in descending order.
 
     :param str word: word to check spelling
     :param str engine:
         * pn - Peter Norvig's algorithm (default)
-    :return: list of possible correct words
+    :return: list of possible correct words within 1 or 2 edit distance and sorted by frequency of word occurence in the spelling dictionary in descending order.
     :rtype: list[str]
 
     :Example:

@@ -20,4 +20,4 @@ References
 ----------
 
 .. [norvig_spellchecker]  Peter Norvig. "How to Write a Spelling Corrector".
-            http://norvig.com/spell-correct.html
+            Available at: http://norvig.com/spell-correct.html

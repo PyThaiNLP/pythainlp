@@ -79,7 +79,7 @@ class NorvigSpellChecker:
         dict_filter: Callable[[str], bool] = _is_thai_and_not_num,
     ):
         """
-        Initialize Peter Norvig's spell checker object
+        Initialize Peter Norvig's spell checker object. Spelling dictionary can be customized. By default, spelling dictionary is from `Thai National Corpus <http://www.arts.chula.ac.th/ling/tnc/>`_
 
         :param str custom_dict: A list of tuple (word, frequency) to create a spelling dictionary. Default is from Thai National Corpus (around 40,000 words).
         :param int min_freq: Minimum frequency of a word to keep (default = 2)

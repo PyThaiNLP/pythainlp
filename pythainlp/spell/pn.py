@@ -81,6 +81,9 @@ class NorvigSpellChecker:
         """
         Initialize Peter Norvig's spell checker object. Spelling dictionary can be customized. By default, spelling dictionary is from `Thai National Corpus <http://www.arts.chula.ac.th/ling/tnc/>`_
 
+        Basically, Norvig's spell checker will choose the most likely spelling correction give a word by searching for candidate corrected words based on edit distance. 
+        Then, it selects the candidate with the highest word occurrence probability.
+
         :param str custom_dict: A list of tuple (word, frequency) to create a spelling dictionary. Default is from Thai National Corpus (around 40,000 words).
         :param int min_freq: Minimum frequency of a word to keep (default = 2)
         :param int min_len: Minimum length (in characters) of a word to keep (default = 2)

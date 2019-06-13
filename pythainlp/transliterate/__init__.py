@@ -52,10 +52,18 @@ def romanize(text: str, engine: str = "royin") -> str:
 
 def transliterate(text: str, engine: str = "ipa") -> str:
     """
-    Transliteration of Thai text
+    This function transliterates Thai text.
+
     :param str text: Thai text to be transliterated
     :param str engine: 'ipa' (International Phonetic Alphabet; default) or 'icu'.
+
     :return: A string of Internaitonal Phonetic Alphabets indicating how the text should be pronounced.
+    :rtype: str
+
+    :Options for engines:
+        * *ipa* - (default) International Phonetic Alphabet (IPA)
+        * *icu* - International Components for Unicode (ICU)
+
     """
 
     if not text or not isinstance(text, str):

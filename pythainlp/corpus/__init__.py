@@ -41,9 +41,28 @@ def corpus_db_path() -> str:
 
 def get_corpus(filename: str) -> frozenset:
     """
-    Read corpus from file and return a frozenset
+    Read corpus from file and return a frozenset (Please see the filename from `this file <https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json>`_)
 
-    :param string filename: file corpus
+    :param string filename: filename of the corpus to be read
+    
+    :return: :mod:`frozenset` consist of lines in the file
+    :rtype: :mod:`frozenset`
+
+    :Example:
+        >>> from pythainlp.corpus import get_corpus
+        >>>
+        >>> get_corpus('ttc_freq.txt')
+        frozenset({'โดยนัยนี้\\t1',
+           'ตัวบท\\t10',
+           'หยิบยื่น\\t3',
+           'เอย\\t555',
+           'ค้าน\\t69',
+           'เหนี่ยง\\t3',
+           'ชงฆ์\\t3',
+            ...})
+        >>>
+        >>> get_corpus('negations_th.txt')
+        frozenset({'แต่', 'ไม่'})
     """
     lines = []
     with open(os.path.join(corpus_path(), filename), "r", encoding="utf-8-sig") as fh:

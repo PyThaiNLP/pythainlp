@@ -13,7 +13,17 @@ PYTHAINLP_DATA_DIR = "pythainlp-data"
 
 def get_full_data_path(path: str) -> str:
     """
-    Get filename/path of a dataset, return full path of that filename/path
+        This function joins path of :mod:`pythainlp` data directory and the given path, and returns the full path.
+
+        :return: full path given the name of dataset
+        :rtype: str
+
+        :Example:
+
+            >>> from pythainlp.tools import get_full_data_path
+            >>>
+            >>> get_full_data_path('ttc_freq.txt')
+            '/root/pythainlp-data/ttc_freq.txt'
     """
     return os.path.join(get_pythainlp_data_path(), path)
 

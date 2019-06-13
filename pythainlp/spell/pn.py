@@ -137,6 +137,25 @@ class NorvigSpellChecker:
         Return probability of an input word, according to the spelling dictionary
 
         :param str word: A word to check its probability of occurrence
+
+        :return: word occurrence probability
+        :rtype: float
+
+        :Example:
+
+            >>> from pythainlp.spell import NorvigSpellChecker
+            >>> 
+            >>> _spell_checker = NorvigSpellChecker()
+            >>> _spell_checker.prob("เส้นตรบ")
+            0.0
+            >>> _spell_checker.prob("ครัช")
+            0.0
+            >>> _spell_checker.prob("รัก") 
+            0.0006959172792052158
+            >>> _spell_checker.prob("น่ารัก") 
+            9.482306849763902e-05
+            >>> _spell_checker.prob("เหตุการณ์") 
+            0.00026403687441972634
         """
         return self.__WORDS[word] / self.__WORDS_TOTAL
 

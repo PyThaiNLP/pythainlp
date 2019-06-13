@@ -3,9 +3,8 @@
 
 def romanize(text: str, engine: str = "royin") -> str:
     """
-    This function renders Thai words in the Latin alphabet or "romanization",
-    using the Royal Thai General System of Transcription (RTGS) [rtgs_transcription]_,
-    which is the official system published by the Royal Institute of Thailand.
+    This function renders Thai words in the Latin alphabet or "romanization", using the Royal Thai General System of Transcription (RTGS) [rtgs_transcription]_.
+    RTGS is the official system published by the Royal Institute of Thailand. 
     (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
 
     :param str text: Thai text to be romanized
@@ -13,10 +12,12 @@ def romanize(text: str, engine: str = "royin") -> str:
 
     :return: A string of Thai words rendered in the Latin alphabet.
     :rtype: str
-    
+
     :Options for engines:
         * *royin* - uses the Royal Thai General System of Transcription issued by Royal Institute of Thailand . 
         * *thai2rom* is a Thai romanization engine based on a deep learning model (require :mod:keras:).
+
+    
     """
 
     if not text or not isinstance(text, str):

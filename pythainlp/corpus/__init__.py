@@ -235,7 +235,20 @@ def remove(name: str) -> bool:
     Remove corpus
 
     :param string name: corpus name
-    :return: True or False
+    :return: **True** if the corpus is found and succesfully removed. Otherwise, it returns **False**.
+    :rtype: bool
+
+    :Example:
+
+        >>> from pythainlp.corpus import remove, get_corpus_path, get_corpus
+        >>>
+        >>> print(remove('ttc'))
+        True
+        >>> print(get_corpus_path('ttc'))
+        None
+        >>> get_corpus('ttc')
+        FileNotFoundError: [Errno 2] No such file or directory:
+        '/usr/local/lib/python3.6/dist-packages/pythainlp/corpus/ttc'
     """
     db = TinyDB(corpus_db_path())
     temp = Query()

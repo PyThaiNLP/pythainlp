@@ -33,7 +33,11 @@ _THAI_NEGATIONS_FILENAME = "negations_th.txt"
 
 def countries() -> frozenset:
     """
-    Return a frozenset of country names in Thai
+    Return a frozenset of country names in Thai such as "แคนาดา", "โรมาเนีย", "แอลจีเรีย", and "ลาว".
+    \n(See: `2.0/pythainlp/corpus/countries_th.txt <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/countries_th.txt>`_)
+
+    :return: :class:`frozenset` containing countries names in Thai
+    :rtype: :class:`frozenset`
     """
     global _THAI_COUNTRIES
     if not _THAI_COUNTRIES:

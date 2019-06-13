@@ -128,7 +128,28 @@ class NorvigSpellChecker:
         """
         Return a list of given words that found in the spelling dictionary
 
-        :param str words: A list of words to check if they are in the spelling dictionary
+        :param list[str] words: A list of words to check if they exist in the spelling dictionary
+    
+        :return: intersection of the given words list and words in the spelling dictionary
+        :rtype: list[str]
+
+        :Example:
+
+            >>> from pythainlp.spell import NorvigSpellChecker
+            >>> 
+            >>> _spell_checker = NorvigSpellChecker()
+            >>>
+            >>> _spell_checker.known(["ร้าย"])
+            ['ร้าย']
+            >>>
+            >>> _spell_checker.known(["เพยน", "เพล", "เพลง"])
+            ['เพล', 'เพลง']
+            >>>
+            >>> _spell_checker.known(['ยกไ', 'ไฟล์ม'])
+            []
+            >>>
+            >>> _spell_checker.known(['])
+            []
         """
         return list(w for w in words if w in self.__WORDS)
 

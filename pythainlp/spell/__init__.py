@@ -26,6 +26,8 @@ def spell(word: str, engine: str = "pn") -> List[str]:
     :Example:
         >>> from pythainlp.spell import spell
         >>> 
+        >>> spell("เส้นตรบ",  engine="pn")
+        ['เส้นตรง']
         >>> spell("เส้นตรบ")
         ['เส้นตรง']
         >>>
@@ -36,10 +38,10 @@ def spell(word: str, engine: str = "pn") -> List[str]:
         >>> spell("กระปิ") 
         ['กะปิ', 'กระบิ']
         >>>
-        >>> spell("สังเกตุ", engine="pn")
+        >>> spell("สังเกตุ")
         ['สังเกต']
         >>>
-        >>> spell("เหตการณ", engine="pn")
+        >>> spell("เหตการณ")
         ['เหตุการณ์']
     """
 

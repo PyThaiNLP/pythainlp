@@ -108,6 +108,19 @@ class NorvigSpellChecker:
     def dictionary(self) -> List[Tuple[str, int]]:
         """
         Return the spelling dictionary currently used by this spell checker
+
+        :return: spelling dictionary of this instance
+        :rtype: list[tuple[str, int]]
+        
+        :Example:
+
+            >>> from pythainlp.spell import NorvigSpellChecker
+            >>>
+            >>> dictionary= [("หวาน", 30), ("มะนาว", 2), ("แอบ", 3223)]
+            >>>
+            >>> _spell_checker = NorvigSpellChecker(custom_dict=dictionary)
+            >>> _spell_checker.dictionary()
+            dict_items([('หวาน', 30), ('มะนาว', 2), ('แอบ', 3223)])
         """
         return self.__WORDS.items()
 

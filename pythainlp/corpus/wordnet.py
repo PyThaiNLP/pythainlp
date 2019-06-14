@@ -84,6 +84,40 @@ def synset(name_synsets):
 
 
 def all_lemma_names(pos: str = None, lang: str = "tha"):
+    """
+        This function returns all lemma names for all synsets for the given part of speech tag and language.
+        If part of speech tag is not specified, all synsets for all part of speech will be used.
+
+        :param str pos: the part of speech constraint (i.e. *n* for Noun, *v* for Verb, *a* for Adjective, *s* for Adjective satellites, and *r* for Adverb). By default, *pos* is **None**.
+        :param str lang: abbreviation of language (i.e. *eng*, *tha*). By default, it is *tha*.
+        
+        :return: :class:`Synset` of lemmas names given the pos and language
+        :rtype: list[:class:`Synset`]
+
+        :Example:
+
+            >>> from pythainlp.corpus.wordnet import all_lemma_names
+            >>>
+            >>> all_lemma_names()
+            ['อเมริโก_เวสปุชชี',
+             'เมืองชีย์เอนเน',
+             'การรับเลี้ยงบุตรบุญธรรม',
+             'ผู้กัด',
+             'ตกแต่งเรือด้วยธง',
+             'จิโอวานนิ_เวอร์จินิโอ',...]
+            >>>
+            >>> len(all_lemma_names())
+            80508
+            >>>
+            >>> all_lemma_names(pos="a")
+            ['ซึ่งไม่มีแอลกอฮอล์',
+             'ซึ่งตรงไปตรงมา',
+             'ที่เส้นศูนย์สูตร',
+             'ทางจิตใจ',...]
+            >>>
+            >>> len(all_lemma_names(pos="a"))
+            5277
+    """
     return wordnet.all_lemma_names(pos=pos, lang=lang)
 
 

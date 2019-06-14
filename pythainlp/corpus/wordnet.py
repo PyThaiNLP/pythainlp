@@ -21,6 +21,42 @@ from nltk.corpus import wordnet
 
 
 def synsets(word: str, pos: str = None, lang: str = "tha"):
+    """
+        This function return the synonym sets for all lemmas given the word with an optional argument to constrain the part of speech of the word.
+
+        :param str word: word to find its synsets
+        :param str pos: the part of speech constraint (i.e. *n* for Noun, *v* for Verb, *a* for Adjective, *s* for Adjective satellites, and *r* for Adverb)
+        :param str lang: abbreviation of language (i.e. *eng*, *tha*). By default, it is *tha* 
+        
+        :return: :class:`Synset` for all lemmas for the word constrained with the argument *pos* 
+        :rtype: list[:class:`Synset`]
+
+        :Example:
+
+            >>> from pythainlp.corpus.wordnet import synsets
+            >>>
+            >>> synsets("ทำงาน")
+            [Synset('function.v.01'), Synset('work.v.02'), Synset('work.v.01'), Synset('work.v.08')]
+            >>>
+            >>> synsets("บ้าน", lang="tha"))
+            [Synset('duplex_house.n.01'), Synset('dwelling.n.01'), Synset('house.n.01'),
+             Synset('family.n.01'), Synset('home.n.03'), Synset('base.n.14'), Synset('home.n.01'),
+             Synset('houseful.n.01'), Synset('home.n.07')]
+
+            When specifying the part of speech constrain. For example, the word "แรง" cound be interpreted as force (n.) or hard (adj.).
+
+            >>> from pythainlp.corpus.wordnet import synsets
+            >>> # By default, accept all part of speech
+            >>> synsets("แรง", lang="tha")
+            >>>
+            >>> # only Noun 
+            >>> synsets("แรง", pos="n", lang="tha")
+            [Synset('force.n.03'), Synset('force.n.02')]
+            >>>
+            >>> # only Adjective
+            >>> synsets("แรง", pos="a", lang="tha")
+            [Synset('hard.s.10'), Synset('strong.s.02')]
+    """
     return wordnet.synsets(lemma=word, pos=pos, lang=lang)
 
 

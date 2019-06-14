@@ -122,6 +122,32 @@ def all_lemma_names(pos: str = None, lang: str = "tha"):
 
 
 def all_synsets(pos: str = None):
+    """
+        This function iterates over all synsets constrained by given part of speech tag.
+        
+        :param str pos: part of speech tag
+
+        :return: list of synsets constrained by given part of speech tag.
+        :rtype: Iterable[:class:`Synset`]
+
+        :Example:
+            
+            >>> from pythainlp.corpus.wordnet import all_synsets
+            >>>
+            >>> generator = all_synsets(pos="n")
+            >>> next(generator)
+            Synset('entity.n.01')
+            >>> next(generator)
+            Synset('physical_entity.n.01')
+            >>> next(generator)
+            Synset('abstraction.n.06')
+            >>>
+            >>>  generator = all_synsets()
+            >>> next(generator)
+            Synset('able.a.01')
+            >>> next(generator)
+            Synset('unable.a.01')
+    """
     return wordnet.all_synsets(pos=pos)
 
 

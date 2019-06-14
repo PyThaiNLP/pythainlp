@@ -152,6 +152,21 @@ def all_synsets(pos: str = None):
 
 
 def langs():
+    """
+        This function return a set of ISO-639 language codes.
+
+        :return: ISO-639 language codes
+        :rtype: list[str]
+
+        :Example:
+            >>> from pythainlp.corpus.wordnet import langs
+            >>> langs()
+            ['eng', 'als', 'arb', 'bul', 'cat', 'cmn', 'dan',
+             'ell', 'eus', 'fas', 'fin', 'fra', 'glg', 'heb',
+             'hrv', 'ind', 'ita', 'jpn', 'nld', 'nno', 'nob', 
+             'pol', 'por', 'qcn', 'slv', 'spa', 'swe', 'tha',
+             'zsm']
+    """
     return wordnet.langs()
 
 

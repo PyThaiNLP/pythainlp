@@ -109,8 +109,8 @@ CFQC                NOUN
 CVBL                NOUN
 VACT                VERB
 VSTA                VERB
-PRON                PRON
-NPRP                PRON
+PROPN               PROPN
+NPRP                PROPN
 ADJ                 ADJ
 NONM                ADJ
 VATT                ADJ
@@ -121,10 +121,10 @@ ADVI                ADV
 ADVP                ADV
 ADVS                ADV
 INT                 INTJ
-PROPN               PROPN
-PPRS                PROPN
-PDMN                PROPN
-PNTR                PROPN
+PRON                PRON
+PPRS                PRON
+PDMN                PRON
+PNTR                PRON
 DET                 DET
 DDAN                DET
 DDAC                DET
@@ -201,7 +201,7 @@ Modules
 Tagger Engines
 --------------
 
-percentron
+perceptron
 ++++++++++
 
 
@@ -212,5 +212,9 @@ unigram
 artagger
 ++++++++
 
+References
+----------
 
-.. [Sornlertlamvanich_2000] Takahashi, Naoto & Isahara, Hitoshi & Sornlertlamvanich, Virach. (2000). Building a Thai part-of-speech tagged corpus (ORCHID). Journal of the Acoustical Society of Japan (E). 20. 10.1250/ast.20.189. 
+.. [Sornlertlamvanich_2000] Takahashi, Naoto & Isahara, Hitoshi & Sornlertlamvanich, Virach. (2000).
+            Building a Thai part-of-speech tagged corpus (ORCHID). 
+            ournal of the Acoustical Society of Japan (E). 20. 10.1250/ast.20.189. 

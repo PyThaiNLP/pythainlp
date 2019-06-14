@@ -14,10 +14,21 @@ def summarize(
     text: str, n: int, engine: str = "frequency", tokenizer: str = "newmm"
 ) -> List[str]:
     """
-    Thai text summarization
+        This function summarizes text based on frequency of words.
 
-    :param str text: text to be summarized
-    :param int n: number of sentences to be included in the summary
+        Under the hood, this function first tokenize sentence from the given text with :func:`pythainlp.tokenize.sent_tokenize`.
+        Then, computes frequencies of tokenized words (with :func:`pythainlp.tokenize.word_tokenize`) in all sentences and normalized with maximum word frequency.
+        The words with  normalized frequncy that are less than 0.1 or greater than 0.9 will be filtered out from frequency dictionary. 
+        Finally, it picks *n* sentences with highest sum of normalized frequency from all words in the sentence and also appear in the frequency dictionary.
+
+        :param str text: text to be summarized
+        :param int n: number of sentences to be included in the summary
+        :param str engine: text summarization engine (By default: *frequency*). There is only one engine currently.
+        :param str tokenizer: word tokenizer engine name (refer to :func:`pythainlp.tokenize.word_tokenize`). By default, *engine* is set to *newmm*
+
+        :return: list of selected sentences
+        :rtype: list[str]
+
         :Example:
 
             >>> from pythainlp.summarize import summarize

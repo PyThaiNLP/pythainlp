@@ -30,7 +30,17 @@ def get_full_data_path(path: str) -> str:
 
 def get_pythainlp_data_path() -> str:
     """
-    Return full path where PyThaiNLP keeps its (downloaded) data
+        This function returns full path where PyThaiNLP keeps its (downloaded) data
+
+        :return: full path of directory for :mod:`pythainlp` downloaded data
+        :rtype: str
+
+        :Example:
+
+            >>> from pythainlp.tools import get_pythainlp_data_path
+            >>>
+            >>> get_pythainlp_data_path()
+            '/root/pythainlp-data'
     """
     path = os.path.join(os.path.expanduser("~"), PYTHAINLP_DATA_DIR)
     if not os.path.exists(path):

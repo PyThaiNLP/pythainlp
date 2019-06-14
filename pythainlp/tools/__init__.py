@@ -50,6 +50,16 @@ def get_pythainlp_data_path() -> str:
 
 def get_pythainlp_path() -> str:
     """
-    Return full path of PyThaiNLP code
+        This function returns full path of PyThaiNLP code
+
+        :return: full path of :mod:`pythainlp` code
+        :rtype: str
+
+        :Example:
+
+            >>> from pythainlp.tools import get_pythainlp_path
+            >>>
+            >>> get_pythainlp_path()
+            '/usr/local/lib/python3.6/dist-packages/pythainlp'
     """
     return os.path.dirname(pythainlp.__file__)

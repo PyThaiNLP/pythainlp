@@ -204,13 +204,17 @@ Tagger Engines
 perceptron
 ++++++++++
 
+Perceptron tagger is the part-of-speech tagging using the averaged, structured perceptron algorithm. 
 
 unigram
 +++++++
 
+Unigram tagger doesn't take the ordering of words in the list into account.
 
 artagger
 ++++++++
+
+`artagger <https://github.com/franziz/artagger>`_ is an implementation of `RDRPOSTagger <https://github.com/datquocnguyen/RDRPOSTagger>`_ for tagging POS in Thai language.
 
 References
 ----------

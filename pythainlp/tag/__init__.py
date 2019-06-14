@@ -139,11 +139,6 @@ def pos_tag(
     :return: returns a list of labels regarding which part of speech it is
     :rtype: list[tuple[str, str]]
 
-    :Option for engines:
-        * *perceptron* (default) - perceptron tagger is the part-of-speech tagging using the averaged, structured perceptron algorithm. 
-        * *unigram* - unigram tagger doesn't take the ordering of words in the list into account.
-        * *artagger* - `artagger <https://github.com/franziz/artagger>`_ is an implementation of `RDRPOSTagger <https://github.com/datquocnguyen/RDRPOSTagger>`_ for tagging POS in Thai language.
-
     :Note:
         * *artagger*, only support one sentence and the sentence must be tokenized beforehand.
     
@@ -227,8 +222,8 @@ def pos_tag_sents(
 
     :param list sentences: a list of lists of tokenized words
     :param str engine:
-        * *unigram* - unigram tagger
         * *perceptron* - perceptron tagger (default)
+        * *unigram* - unigram tagger
         * *artagger* - RDR POS tagger
     :param str corpus:
          * *orchid* - annotated Thai academic articles namedly `Orchid <https://www.academia.edu/9127599/Thai_Treebank>`_ (default)

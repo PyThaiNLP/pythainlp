@@ -61,6 +61,25 @@ def synsets(word: str, pos: str = None, lang: str = "tha"):
 
 
 def synset(name_synsets):
+    """
+        This function return the synonym set (synset) given the name of synset (i.e. 'dog.n.01', 'chase.v.01').
+
+        :param str name_synsets: name of the sysset
+    
+        :return: :class:`Synset` of the given name
+        :rtype: :class:`Synset`
+
+        :Example:
+
+            >>> from pythainlp.corpus.wordnet import synset
+            >>>
+            >>> difficult = synset('difficult.a.01')
+            >>> difficult
+            Synset('difficult.a.01')
+            >>>
+            >>> difficult.definition()
+            'not easy; requiring great physical or mental effort to accomplish or comprehend or endure'
+    """
     return wordnet.synset(name_synsets)
 
 

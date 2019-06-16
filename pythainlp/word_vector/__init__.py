@@ -125,10 +125,6 @@ def most_similar_cosmul(positive: List[str], negative: List[str]):
     >>> list_negative = []
     >>> most_similar_cosmul(list_positive, list_negative)
     KeyError: "word 'เมนูอาหารไทย' not in vocabulary"
-
-    .. [OmerLevy_YoavGoldberg_2014] Omer Levy and Yoav Goldberg.
-       Linguistic Regularities in Sparse and Explicit Word Representations,
-       2014.
     """
 
     return _MODEL.most_similar_cosmul(positive=positive, negative=negative)

@@ -16,3 +16,11 @@ Modules
 .. autofunction:: doesnt_match
 .. autofunction:: similarity
 .. autofunction:: sentence_vectorizer
+
+
+
+References
+----------
+
+.. [OmerLevy_YoavGoldberg_2014] Omer Levy and Yoav Goldberg.
+   Linguistic Regularities in Sparse and Explicit Word Representations, 2014.

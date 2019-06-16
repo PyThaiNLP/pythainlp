@@ -79,16 +79,27 @@ class NorvigSpellChecker:
         dict_filter: Callable[[str], bool] = _is_thai_and_not_num,
     ):
         """
-        Initialize Peter Norvig's spell checker object. Spelling dictionary can be customized. By default, spelling dictionary is from `Thai National Corpus <http://www.arts.chula.ac.th/ling/tnc/>`_
+        Initialize Peter Norvig's spell checker object. Spelling dictionary
+        can be customized. By default, spelling dictionary is from
+        `Thai National Corpus <http://www.arts.chula.ac.th/ling/tnc/>`_
 
-        Basically, Norvig's spell checker will choose the most likely spelling correction give a word by searching for candidate corrected words based on edit distance. 
-        Then, it selects the candidate with the highest word occurrence probability.
+        Basically, Norvig's spell checker will choose the most likely
+        spelling correction give a word by searching for candidate
+        corrected words based on edit distance. Then, it selects the candidate
+        with the highest word occurrence probability.
 
-        :param str custom_dict: A list of tuple (word, frequency) to create a spelling dictionary. Default is from Thai National Corpus (around 40,000 words).
+        :param str custom_dict: A list of tuple (word, frequency) to create
+                                a spelling dictionary. Default is from
+                                Thai National Corpus (around 40,000 words).
         :param int min_freq: Minimum frequency of a word to keep (default = 2)
-        :param int min_len: Minimum length (in characters) of a word to keep (default = 2)
-        :param int max_len: Maximum length (in characters) of a word to keep (default = 40)
-        :param func dict_filter: A function to filter the dictionary. Default filter removes any word with number or non-Thai characters. If no filter is required, use None.
+        :param int min_len: Minimum length (in characters) of a word to keep
+                            (default = 2)
+        :param int max_len: Maximum length (in characters) of a word to keep
+                            (default = 40)
+        :param func dict_filter: A function to filter the dictionary.
+                                 Default filter removes any word
+                                 with number or non-Thai characters.
+                                 If no filter is required, use None.
         """
         if not custom_dict:  # default, use Thai National Corpus
             custom_dict = tnc.word_freqs()
@@ -131,9 +142,11 @@ class NorvigSpellChecker:
         """
         Return a list of given words that found in the spelling dictionary
 
-        :param list[str] words: A list of words to check if they exist in the spelling dictionary
+        :param list[str] words: A list of words to check if they exist
+                                in the spelling dictionary
     
-        :return: intersection of the given words list and words in the spelling dictionary
+        :return: intersection of the given words list and words
+                 in the spelling dictionary
         :rtype: list[str]
 
         :Example:
@@ -158,7 +171,8 @@ class NorvigSpellChecker:
 
     def prob(self, word: str) -> float:
         """
-        Return probability of an input word, according to the spelling dictionary
+        Return probability of an input word, according to
+        the spelling dictionary
 
         :param str word: A word to check its probability of occurrence
 
@@ -223,7 +237,9 @@ class NorvigSpellChecker:
 
         :param str word: A word to check its spelling
 
-        :return: list of possible correct words within 1 or 2 edit distance and sorted by frequency of word occurence in the spelling dictionary in descending order.
+        :return: list of possible correct words within 1 or 2 edit distance
+                 and sorted by frequency of word occurence in the
+                 spelling dictionary in descending order.
         :rtype: list[str]
 
         :Example:
@@ -258,7 +274,8 @@ class NorvigSpellChecker:
 
     def correct(self, word: str) -> str:
         """
-        Return the most possible word, using the probability from the spelling dictionary
+        Return the most possible word, using the probability from
+        the spelling dictionary
 
         :param str word: A word to correct its spelling
 

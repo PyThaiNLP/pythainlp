@@ -18,15 +18,20 @@ _FILENAME = "tnc_freq.txt"
 
 def word_freq(word: str, domain: str = "all") -> int:
     """
-    **Not officially supported.**
-    Get word frequency of a word by domain.
-    This function will make a query to the server of Thai National Corpus.
-    Internet connection is required.
 
-    **IMPORTANT:** Currently (as of 29 April 2019) it is likely to return 0,
-    regardless of the word, as the service URL has been changed and the code
-    is not updated yet.
-    New URL is http://www.arts.chula.ac.th/~ling/tnc3/
+    .. note::
+    
+        **Not officially supported.**
+        Get word frequency of a word by domain.
+        This function will make a query to the server of
+        Thai National Corpus.
+        Internet connection is required.
+
+    .. warning::
+        Currently (as of 29 April 2019) it is likely to return 0,
+        regardless of the word, as the service URL has been changed
+        and the code is not updated yet.
+        New URL is http://www.arts.chula.ac.th/~ling/tnc3/
 
     :param string word: word
     :param string domain: domain

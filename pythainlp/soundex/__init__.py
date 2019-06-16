@@ -24,12 +24,11 @@ def soundex(text: str, engine: str = "udom83") -> str:
 
     :Options for engine:
         * *udom83* (default) - Thai soundex algorithm proposed
-                               by Vichit Lorchirachoonkul [udom83]_.
-        * *lk82* - Thai soundex algorithm proposed
-                   by Wannee Udompanich [lk82]_.
+          by Vichit Lorchirachoonkul [udom83]_.
+        * *lk82* - Thai soundex algorithm proposed by
+          Wannee Udompanich [lk82]_.
         * *metasound* - Thai soundex algorithm based on a combination
-                        of Metaphone and Soundex proposed
-                        by Snae & Brückner [metasound]_.
+          of Metaphone and Soundex proposed by Snae & Brückner [metasound]_.
 
     :Example:
 

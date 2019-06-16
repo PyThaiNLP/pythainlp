@@ -12,12 +12,15 @@ __all__ = ["bahttext", "num_to_thaiword"]
 
 def bahttext(number: float) -> str:
     """
-    This function converts a number to Thai text and adds a suffix "บาท" (Baht).
-    The precision will be fixed at two decimal places (0.00) to fits "สตางค์" (Satang) unit.
+    This function converts a number to Thai text and adds
+    a suffix "บาท" (Baht).
+    The precision will be fixed at two decimal places (0.00)
+    to fits "สตางค์" (Satang) unit.
     This function works similar to `BAHTTEXT` function in MS Excel.
-    
+
     :param float number: number to be converted into Thai Baht currency format
-    :return: text representing the amount of money in the format of Thai currency
+    :return: text representing the amount of money in the format
+             of Thai currency
     :rtype: str
     :Example:
 
@@ -78,7 +81,7 @@ def num_to_thaiword(number: int) -> str:
 
     :Example:
         >>> from pythainlp.util import num_to_thaiword
-        >>> 
+        >>>
         >>> num_to_thaiword(1)
         หนึ่ง
         >>>

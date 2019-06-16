@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Wrapper for deepcut Thai word segmentation. deepcut is a Thai word segmentation library using Deep Neural, specifically, 1D Convolution Neural Network.
+Wrapper for deepcut Thai word segmentation. deepcut is a
+Thai word segmentation library using Deep Neural, specifically,
+1D Convolution Neural Network.
 
 :See Also:
     * `GitHub repository <https://github.com/rkcosmos/deepcut>`_

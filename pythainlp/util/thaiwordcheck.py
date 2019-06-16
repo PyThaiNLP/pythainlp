@@ -41,7 +41,7 @@ def thaicheck(word: str) -> bool:
         False
 
         Authentic Thai word:
-        
+
         >>> from pythainlp.util import thaicheck
         >>>
         >>> thaicheck("มะม่วง")

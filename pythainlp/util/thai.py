@@ -13,7 +13,8 @@ def isthaichar(ch: str) -> bool:
 
     :param str ch: input character
 
-    :return: returns **True** if the input character is a Thai characttr, otherwise returns **False**
+    :return: returns **True** if the input character is a Thai characttr,
+             otherwise returns **False**
     :rtype: bool
 
     :Example:
@@ -46,17 +47,21 @@ def isthaichar(ch: str) -> bool:
 
 def isthai(word: str, ignore_chars: str = ".") -> bool:
     """
-    This function checks if all character in the input string are Thai character.
+    This function checks if all character in the input string
+    are Thai character.
 
     :param str word: input text
-    :param str ignore_chars: string characters to be ignored (i.e. will be considered as Thai)
+    :param str ignore_chars: string characters to be ignored
+                             (i.e. will be considered as Thai)
 
-    :return: returns **True** if the input text all contains Thai characters, otherwise returns **False**
+    :return: returns **True** if the input text all contains Thai characters, 
+             otherwise returns **False**
     :rtype: bool
 
     :Example:
 
-        Check if all character is Thai character. By default, it ignores only full stop ("."). 
+        Check if all character is Thai character. By default,
+        it ignores only full stop (".").
 
         >>> from pythainlp.util import isthai
         >>> isthai("กาลเวลา")
@@ -74,10 +79,12 @@ def isthai(word: str, ignore_chars: str = ".") -> bool:
         >>> isthai("กาลเวลาDw")
         False
 
-        Explicitly ignore digits, whitespace, and the following characters ("-", ".", "$", ",").
+        Explicitly ignore digits, whitespace, and the following characters
+        ("-", ".", "$", ",").
 
         >>> from pythainlp.util import isthai
-        >>> isthai("กาลเวลา, การเวลา-ก,  3.75$", ignore_chars="1234567890.-,$ ")
+        >>> isthai("กาลเวลา, การเวลา-ก,  3.75$", \\
+            ignore_chars="1234567890.-,$ ")
         True
 
     """
@@ -92,17 +99,22 @@ def isthai(word: str, ignore_chars: str = ".") -> bool:
 
 def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
     """
-    This function calculates percentage of Thai characters in the text with an option to ignored some characters.
+    This function calculates percentage of Thai characters in the text
+    with an option to ignored some characters.
 
     :param str text: input text
-    :param str ignore_chars: string of characters to ignore from counting. By default, the ignored characters are whitespace, newline, digits, and punctuation.
+    :param str ignore_chars: string of characters to ignore from counting.
+                             By default, the ignored characters are whitespace,
+                             newline, digits, and punctuation.
 
     :return: percentage of Thai characters in the text
     :rtype: float
 
     :Example:
 
-        Find the percentage of Thai characters in the textt with default ignored characters set (whitespace, newline character, punctuation and digits).
+        Find the percentage of Thai characters in the textt with default
+        ignored characters set (whitespace, newline character,
+        punctuation and digits).
 
         >>> from pythainlp.util import countthai
         >>>
@@ -115,7 +127,8 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
         >>> countthai("(English: Donald John Trump)")
         0.0
         
-        Find the percentage of Thai characters in the text while ignoring only punctuation but not whitespace, newline character and digits.
+        Find the percentage of Thai characters in the text while ignoring
+        only punctuation but not whitespace, newline character and digits.
 
         >>> import string
         >>> from pythainlp.util import countthai
@@ -123,13 +136,16 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
         >>> string.punctuation
         !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
         >>>
-        >>> countthai("ดอนัลด์ จอห์น ทรัมป์ English: Donald John Trump", ignore_chars=string.punctuation)
+        >>> countthai("ดอนัลด์ จอห์น ทรัมป์ English: Donald John Trump", \\
+            ignore_chars=string.punctuation)
         39.130434782608695
         >>>
-        >>> countthai("ดอนัลด์ จอห์น ทรัมป์ (English: Donald John Trump)", ignore_chars=string.punctuation) 
+        >>> countthai("ดอนัลด์ จอห์น ทรัมป์ (English: Donald John Trump)", \\
+            ignore_chars=string.punctuation) 
         39.130434782608695
         >>>
-        >>> countthai("(English: Donald John Trump)", ignore_chars=string.punctuation)
+        >>> countthai("(English: Donald John Trump)", \\
+            ignore_chars=string.punctuation)
         0.0
     """
     if not text or not isinstance(text, str):

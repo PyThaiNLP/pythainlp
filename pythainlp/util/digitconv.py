@@ -58,10 +58,12 @@ _spell_digit = {
 
 def thai_digit_to_arabic_digit(text: str) -> str:
     """
-    This function convert Thai digits (i.e. ๑, ๓, ๑๐) to Arabic digits (i.e. 1, 3, 10).
+    This function convert Thai digits (i.e. ๑, ๓, ๑๐) to Arabic digits
+    (i.e. 1, 3, 10).
 
     :param str text: Text with Thai digits such as '๑', '๒', '๓'
-    :return: Text with Thai digits being converted to Arabic digits such as '1', '2', '3'
+    :return: Text with Thai digits being converted to Arabic digits
+             such as '1', '2', '3'
     :rtype: str
 
     :Example:
@@ -87,10 +89,12 @@ def thai_digit_to_arabic_digit(text: str) -> str:
 
 def arabic_digit_to_thai_digit(text: str) -> str:
     """
-    This function convert Arabic digits (i.e. 1, 3, 10) to Thai digits (i.e. ๑, ๓, ๑๐).
+    This function convert Arabic digits (i.e. 1, 3, 10) to Thai digits
+    (i.e. ๑, ๓, ๑๐).
 
     :param str text: Text with Arabic digits such as '1', '2', '3'
-    :return: Text with Arabic digits being converted to Thai digits such as '๑', '๒', '๓'
+    :return: Text with Arabic digits being converted to Thai digits
+             such as '๑', '๒', '๓'
     :rtype: str
 
     :Example:
@@ -140,7 +144,9 @@ def text_to_arabic_digit(text: str) -> str:
     This function convert Thai spelled out digits to Arabic digits.
 
     :param text: A digit spelled out in Thai
-    :return: An Arabic digit such as '1', '2', '3' if the text is Thai digit spelled out (ศูนย์, หนึ่ง, สอง, ..., เก้า). Otherwise, it returns an empty string.
+    :return: An Arabic digit such as '1', '2', '3' if the text is
+             Thai digit spelled out (ศูนย์, หนึ่ง, สอง, ..., เก้า).
+             Otherwise, it returns an empty string.
     :rtype: str
 
     :Example:
@@ -175,7 +181,9 @@ def text_to_thai_digit(text: str) -> str:
     This function convert Thai spelled out digits to Thai digits.
 
     :param text: A digit spelled out in Thai
-    :return: A Thai digit such as '๑', '๒', '๓'  if the text is Thai digit spelled out (ศูนย์, หนึ่ง, สอง, ..., เก้า). Otherwise, it returns an empty string.
+    :return: A Thai digit such as '๑', '๒', '๓'  if the text is Thai digit
+             spelled out (ศูนย์, หนึ่ง, สอง, ..., เก้า).
+             Otherwise, it returns an empty string.
     :rtype: str
 
     :Example:

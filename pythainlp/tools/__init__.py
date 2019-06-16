@@ -13,7 +13,8 @@ PYTHAINLP_DATA_DIR = "pythainlp-data"
 
 def get_full_data_path(path: str) -> str:
     """
-        This function joins path of :mod:`pythainlp` data directory and the given path, and returns the full path.
+        This function joins path of :mod:`pythainlp` data directory and the
+        given path, and returns the full path.
 
         :return: full path given the name of dataset
         :rtype: str
@@ -30,7 +31,8 @@ def get_full_data_path(path: str) -> str:
 
 def get_pythainlp_data_path() -> str:
     """
-        This function returns full path where PyThaiNLP keeps its (downloaded) data
+        This function returns full path where PyThaiNLP keeps its
+        (downloaded) data
 
         :return: full path of directory for :mod:`pythainlp` downloaded data
         :rtype: str

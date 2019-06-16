@@ -47,7 +47,7 @@ _NORMALIZE_RULE2 = [
 def normalize(text: str) -> str:
     """
     This function normalize thai text with normalizing rules as follows:
-    
+
         * Remove redudant symbol of tones and vowels.
         * Subsitute ["เ", "เ"] to "แ".
 
@@ -56,7 +56,7 @@ def normalize(text: str) -> str:
     :rtype: str
 
     :Example:
-     
+
         >>> from pythainlp.util import normalize
         >>>
         >>> normalize('สระะน้ำ')
@@ -75,7 +75,7 @@ def normalize(text: str) -> str:
 
 def deletetone(text: str) -> str:
     """
-    This function removes Thai tonemarks from the text. 
+    This function removes Thai tonemarks from the text.
     There are 4 tonemarks indicating 4 tones as follows:
 
         * Down tone (Thai: ไม้เอก  _่ )
@@ -91,7 +91,8 @@ def deletetone(text: str) -> str:
 
         >>> from pythainlp.util import deletetone
         >>>
-        >>> deletetone('สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด')
+        >>> deletetone(\\
+            'สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด')
         สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด
     """
     chars = [ch for ch in text if ch not in thai_tonemarks]

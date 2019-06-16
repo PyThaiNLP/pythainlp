@@ -5,8 +5,10 @@ Multi cut -- Thai word segmentation with maximum matching
 The original source code is from Korakot Chaovavanich
 
 :See Also:
-    * `Facebook post <https://www.facebook.com/groups/408004796247683/permalink/431283740586455/>`_
-    * `GitHub Gist <https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716>`_
+    * `Facebook post \
+        <https://www.facebook.com/groups/408004796247683/permalink/431283740586455/>`_
+    * `GitHub Gist \
+        <https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716>`_
 """
 
 import re

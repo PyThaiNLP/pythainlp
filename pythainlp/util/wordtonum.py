@@ -70,7 +70,7 @@ def thaiword_to_num(word: str) -> int:
     """
     Converts a Thai number spelled out word to actual number value
 
-    :param str word: Thai number spelled out 
+    :param str word: Thai number spelled out
     :return: number conveted from Thai number spelled out word
     :rtype: int
 

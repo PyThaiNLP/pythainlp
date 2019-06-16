@@ -1,10 +1,13 @@
 ﻿# -*- coding: utf-8 -*-
 """
-The implementation of tokenizer accorinding to Thai Character Clusters (TCCs) rules purposed by `Theeramunkong et al. 2000. <http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548>`_
+The implementation of tokenizer accorinding to Thai Character Clusters (TCCs)
+rules purposed by `Theeramunkong et al. 2000.\
+<http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548>`_
 
 Credits:
     * TCC: Jakkrit TeCho
-    * Grammar: Wittawat Jitkrittum (`link to the source file <https://github.com/wittawatj/jtcc/blob/master/TCC.g>`_)
+    * Grammar: Wittawat Jitkrittum (`link to the source file \
+      <https://github.com/wittawatj/jtcc/blob/master/TCC.g>`_)
     * Python code: Korakot Chaovavanich
 """
 import re

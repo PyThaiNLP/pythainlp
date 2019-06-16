@@ -5,7 +5,8 @@ Dictionary-based longest-matching Thai word segmentation
 Based on the code from Patorn Utenpattanun
 
 :See Also:
-    * `GitHub Repository <https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py>`_
+    * `GitHub Repository \
+       <https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py>`_
 
 """
 import re

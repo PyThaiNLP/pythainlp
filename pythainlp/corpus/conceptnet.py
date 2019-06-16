@@ -17,10 +17,10 @@ def edges(word: str, lang: str = "th"):
     "natural language understanding" which is a part of
     "artificial intelligence".
 
-        | "ConceptNet" --is a--> "knowledge graph" --has--> "common sense"
-            --a part of--> "artificial intelligence"
-        | "ConceptNet" --used for--> "natural language understanding"
-            --a part of--> "artificial intelligence"
+    | "ConceptNet" --is a--> "knowledge graph" --has--> "common sense"
+        --a part of--> "artificial intelligence"
+    | "ConceptNet" --used for--> "natural language understanding"
+        --a part of--> "artificial intelligence"
 
     With this illustration, it shows relationships (represented as *Edge*)
     between the terms (represented as *Node*)

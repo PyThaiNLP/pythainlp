@@ -75,11 +75,10 @@ def transliterate(text: str, engine: str = "ipa") -> str:
         * *ipa* - (default) International Phonetic Alphabet (IPA)
         * *icu* - International Components for Unicode (ICU)
 
-
     :Example:
         >>> from pythainlp.transliterate import transliterate
         >>>
-        >>> transliterate("สามารถ", engine="ipa"), \\ 
+        >>> transliterate("สามารถ", engine="ipa"), \\
             transliterate("สามารถ", engine="icu")
         ('saːmaːrot','s̄āmārt̄h')
         >>>

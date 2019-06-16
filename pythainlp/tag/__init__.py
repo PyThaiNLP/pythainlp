@@ -205,7 +205,7 @@ def pos_tag(
          ('<equal>', 'PUNC'), ('3', 'NCNM')]
     """
 
-    # NOTE: 
+    # NOTE:
     _corpus = corpus
     _tag = []
     if corpus == "orchid_ud":
@@ -256,9 +256,9 @@ def pos_tag_sents(
         Labels POS for two sentences:
 
         >>> from pythainlp.tag import pos_tag_sents
-        >>> 
-        >>> sentences = [['เก้าอี้','มี','3','ขา'], 
-        >>>             ['นก', 'บิน', 'กลับ', 'รัง']]
+        >>>
+        >>> sentences = [['เก้าอี้','มี','3','ขา'], \\
+                         ['นก', 'บิน', 'กลับ', 'รัง']]
         >>> pos_tag_sents(sentences, corpus='pud)
         [[('เก้าอี้', 'PROPN'), ('มี', 'VERB'), ('3', 'NUM'), ('ขา', 'NOUN')],
         [('นก', 'NOUN'), ('บิน', 'VERB'), ('กลับ', 'VERB'), ('รัง', 'NOUN')]]

@@ -79,7 +79,7 @@ def find_keyword(word_list: List[str], min_len: int = 3) -> Dict[str, int]:
     :Example:
 
         >>> from pythainlp.util import find_keyword
-        >>> 
+        >>>
         >>> words = ["บันทึก", "เหตุการณ์", "บันทึก", "เหตุการณ์",
         >>>          " ", "มี", "การ", "บันทึก", "เป็น", " ", "ลายลักษณ์อักษร"
         >>>          "และ", "การ", "บันทึก","เสียง","ใน","เหตุการณ์"]

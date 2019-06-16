@@ -144,7 +144,7 @@ class NorvigSpellChecker:
 
         :param list[str] words: A list of words to check if they exist
                                 in the spelling dictionary
-    
+
         :return: intersection of the given words list and words
                  in the spelling dictionary
         :rtype: list[str]
@@ -152,7 +152,7 @@ class NorvigSpellChecker:
         :Example:
 
             >>> from pythainlp.spell import NorvigSpellChecker
-            >>> 
+            >>>
             >>> _spell_checker = NorvigSpellChecker()
             >>>
             >>> _spell_checker.known(["ร้าย"])
@@ -182,17 +182,17 @@ class NorvigSpellChecker:
         :Example:
 
             >>> from pythainlp.spell import NorvigSpellChecker
-            >>> 
+            >>>
             >>> _spell_checker = NorvigSpellChecker()
             >>> _spell_checker.prob("เส้นตรบ")
             0.0
             >>> _spell_checker.prob("ครัช")
             0.0
-            >>> _spell_checker.prob("รัก") 
+            >>> _spell_checker.prob("รัก")
             0.0006959172792052158
-            >>> _spell_checker.prob("น่ารัก") 
+            >>> _spell_checker.prob("น่ารัก")
             9.482306849763902e-05
-            >>> _spell_checker.prob("เหตุการณ์") 
+            >>> _spell_checker.prob("เหตุการณ์")
             0.00026403687441972634
         """
         return self.__WORDS[word] / self.__WORDS_TOTAL
@@ -256,7 +256,7 @@ class NorvigSpellChecker:
             'วรัช', 'ครัส', 'ปรัช', 'บรัช', 'ครัง',
             'คัช', 'คลัช', 'ครัย', 'ครัด']
             >>>
-            >>> _spell_checker.spell("กระปิ") 
+            >>> _spell_checker.spell("กระปิ")
             ['กะปิ', 'กระบิ']
         """
         if not word:

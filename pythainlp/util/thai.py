@@ -18,7 +18,7 @@ def isthaichar(ch: str) -> bool:
     :rtype: bool
 
     :Example:
-        
+
         >>> from pythainlp.util import isthaichar
         >>>
         >>> isthaichar("ก") # THAI CHARACTER KO KAI
@@ -54,7 +54,7 @@ def isthai(word: str, ignore_chars: str = ".") -> bool:
     :param str ignore_chars: string characters to be ignored
                              (i.e. will be considered as Thai)
 
-    :return: returns **True** if the input text all contains Thai characters, 
+    :return: returns **True** if the input text all contains Thai characters,
              otherwise returns **False**
     :rtype: bool
 
@@ -126,7 +126,7 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
         >>>
         >>> countthai("(English: Donald John Trump)")
         0.0
-        
+
         Find the percentage of Thai characters in the text while ignoring
         only punctuation but not whitespace, newline character and digits.
 
@@ -141,7 +141,7 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
         39.130434782608695
         >>>
         >>> countthai("ดอนัลด์ จอห์น ทรัมป์ (English: Donald John Trump)", \\
-            ignore_chars=string.punctuation) 
+            ignore_chars=string.punctuation)
         39.130434782608695
         >>>
         >>> countthai("(English: Donald John Trump)", \\

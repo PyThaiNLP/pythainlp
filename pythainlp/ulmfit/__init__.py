@@ -55,7 +55,9 @@ def _get_path(fname: str) -> str:
 # Custom fastai tokenizer
 class ThaiTokenizer(BaseTokenizer):
     """
-    Wrapper around a frozen newmm tokenizer to make it a :class:`fastai.BaseTokenizer`. (see: https://docs.fast.ai/text.transform#BaseTokenizer)
+    Wrapper around a frozen newmm tokenizer to make it a
+    :class:`fastai.BaseTokenizer`.
+    (see: https://docs.fast.ai/text.transform#BaseTokenizer)
     """
 
     def __init__(self, lang: str = "th"):
@@ -65,7 +67,7 @@ class ThaiTokenizer(BaseTokenizer):
     def tokenizer(text: str) -> List[str]:
         """
         This function tokenizes text with *newmm* engine and the dictionary
-        specifically for `ulmfit` related functions 
+        specifically for `ulmfit` related functions
         (see: `Dictonary file (.txt) \
         <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/words_th_frozen_201810.txt>`_).
 
@@ -186,8 +188,8 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
     :Example:
 
         >>> from pythainlp.ulmfit import document_vectorr
-        >>> from fastai import *    
-        >>> from fastai.text import * 
+        >>> from fastai import *
+        >>> from fastai.text import *
         >>>
         >>> # Load Data Bunch
         >>> data = load_data(MODEL_PATH, 'thwiki_lm_data.pkl')
@@ -197,7 +199,7 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
              qrnn=False, tie_weights=True, out_bias=True, output_p=0.25,
              hidden_p=0.1, input_p=0.2, embed_p=0.02, weight_p=0.15)
         >>> trn_args = dict(drop_mult=0.9, clip=0.12, alpha=2, beta=1)
-        >>> learn = language_model_learner(data, AWD_LSTM, config=config, 
+        >>> learn = language_model_learner(data, AWD_LSTM, config=config, \\
                                            pretrained=False, **trn_args)
         >>> document_vector('วันนี้วันดีปีใหม่', learn, data)
 

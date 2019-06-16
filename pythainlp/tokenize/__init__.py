@@ -24,7 +24,9 @@ def word_tokenize(
     :param str text: text to be tokenized
     :param str engine: name of the tokenizer  to be used
     :param marisa_trie.Trie custom_dict: marisa dictionary trie
-    :param bool keep_whitespace: True to keep whitespaces, a common mark for end of phrase in Thai. Otherwise, whitespaces are omitted.
+    :param bool keep_whitespace: True to keep whitespaces, a common mark
+                                 for end of phrase in Thai.
+                                 Otherwise, whitespaces are omitted.
     :return: list of words
     :rtype: list[str]
 
@@ -34,7 +36,7 @@ def word_tokenize(
         * *longest* - dictionary-based, Longest Matching
         * *deepcut* - wrapper for
           `deepcut <https://github.com/rkcosmos/deepcut>`_,
-          language-model-based 
+          language-model-based
         * *icu* - wrapper for ICU (International Components for Unicode,
           using PyICU), dictionary-based
         * *ulmfit* - for thai2fit
@@ -87,7 +89,7 @@ def word_tokenize(
          '21', ' ', 'กันยายน']
         >>> custom_dict_japanese_name = set(thai_words()
         >>> custom_dict_japanese_name.add('ชินโซ')
-        >>> custom_dict_japanese_name.add('อาเบะ') 
+        >>> custom_dict_japanese_name.add('อาเบะ')
         >>> trie = dict_trie(dict_source=custom_dict_japanese_name)
         >>> word_tokenize(text, engine="newmm", custom_dict=trie))
         ['ชินโซ', ' ', 'อาเบะ', ' ', 'เกิด', ' ', '21', ' ', 'กันยายน']
@@ -228,11 +230,11 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
     Thai contiguous characters namely
     `Thai Character Clusters (TCCs) \
     <https://www.researchgate.net/publication/2853284_Character_Cluster_Based_Thai_Information_Retrieval>`_
-    
+
     TCCs are the units based on Thai spelling feature that could not be
     separated any character further such as   'ก็', 'จะ', 'ไม่', and 'ฝา'.
     If the following units are separated, they could not be spelled out.
-    
+
     This function apply the TCC rules to tokenizes the text into
     the smallest units. For example, the word 'ขนมชั้น' would be tokenized
     into 'ข', 'น', 'ม', and 'ชั้น'
@@ -244,7 +246,7 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
 
     **Options for engine**
         * *tcc* (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
-        * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001) 
+        * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
           [In development]
 
     :Example:
@@ -259,7 +261,7 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
      'ศ', '์', 'ห', 'มิ', 'ง']
     >>> subword_tokenize(text_2, engine='tcc')
     ['ค', 'วา', 'ม', 'แป', 'ล', 'ก', 'แย', 'ก', 'และ', 'พัฒ', 'นา', 'กา', 'ร']
-    
+
     Tokenize text into subword based on *etcc* **(Work In Progress)**
 
     >>> from pythainlp.tokenize import subword_tokenize
@@ -268,7 +270,7 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
     >>> subword_tokenize(text_1, engine='etcc')
     ['ยุคเริ่มแรกของ ราชวงศ์หมิง']
     >>> subword_tokenize(text_2, engine='etcc')
-    ['ความแปลกแยกและ', 'พัฒ', 'นาการ']    
+    ['ความแปลกแยกและ', 'พัฒ', 'นาการ']
 
     """
     if not text or not isinstance(text, str):
@@ -359,7 +361,7 @@ class Tokenizer:
     """
     This class allows users to pre-define custom dictionary along with
     tokenizer and encapsulate them into one single object.
-    
+
     It is an wrapper for both two functions including
     :func:`pythainlp.tokenize.word_tokenize`,
     and :func:`pythainlp.tokenize.dict_trie`

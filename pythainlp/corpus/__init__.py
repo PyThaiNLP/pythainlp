@@ -171,7 +171,7 @@ def download(name: str, force: bool = False) -> NoReturn:
         >>> download('ttc', force=True)
         Download: ttc
         ttc 0.1
-        ttc_freq.txt:  26%|██▌       | 114k/434k [00:00<00:00, 690kB/s]  
+        ttc_freq.txt:  26%|██▌       | 114k/434k [00:00<00:00, 690kB/s]
         /root/pythainlp-data/ttc_freq.txt
     """
     db = TinyDB(corpus_db_path())

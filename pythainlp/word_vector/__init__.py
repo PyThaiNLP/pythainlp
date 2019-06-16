@@ -58,7 +58,7 @@ def most_similar_cosmul(positive: List[str], negative: List[str]):
            most similar words to the word given (similar
            to :func:`gensim.most_similar`)
         *  If a word in `positive` or `negative` is not in the vocabulary,
-           :clsss:`KeyError` will be raised.
+           :class:`KeyError` will be raised.
 
     :Example:
 

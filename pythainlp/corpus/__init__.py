@@ -41,10 +41,12 @@ def corpus_db_path() -> str:
 
 def get_corpus(filename: str) -> frozenset:
     """
-    Read corpus from file and return a frozenset (Please see the filename from `this file <https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json>`_)
+    Read corpus from file and return a frozenset (Please see the filename from
+    `this file
+    <https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json>`_
 
     :param string filename: filename of the corpus to be read
-    
+
     :return: :mod:`frozenset` consist of lines in the file
     :rtype: :mod:`frozenset`
 
@@ -76,7 +78,8 @@ def get_corpus_path(name: str) -> Union[str, None]:
     Get corpus path
 
     :param string name: corpus name
-    :return: path to the corpus or **None** of the corpus doesn't exist in the device
+    :return: path to the corpus or **None** of the corpus doesn't
+             exist in the device
     :rtype: str
 
     :Example:
@@ -84,7 +87,7 @@ def get_corpus_path(name: str) -> Union[str, None]:
         If the corpus already exists.
 
         >>> from pythainlp.corpus import get_corpus_path
-        >>> 
+        >>>
         >>> print(get_corpus_path('ttc'))
         /root/pythainlp-data/ttc_freq.txt
 
@@ -97,7 +100,7 @@ def get_corpus_path(name: str) -> Union[str, None]:
         >>> download('wiki_lm_lstm')
         Download: wiki_lm_lstm
         wiki_lm_lstm 0.32
-        thwiki_lm.pth?dl=1: 1.05GB [00:25, 41.5MB/s] 
+        thwiki_lm.pth?dl=1: 1.05GB [00:25, 41.5MB/s]
         /root/pythainlp-data/thwiki_model_lstm.pth
         >>>
         >>> print(get_corpus_path('wiki_lm_lstm'))
@@ -154,7 +157,9 @@ def _download(url: str, dst: str) -> int:
 
 def download(name: str, force: bool = False) -> NoReturn:
     """
-    Download corpus. The available corpus names can be seen in `this file <https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json>`_ 
+    Download corpus. The available corpus names can be seen in
+    `this file
+    <https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json>`
 
     :param string name: corpus name
     :param bool force: force install
@@ -235,7 +240,8 @@ def remove(name: str) -> bool:
     Remove corpus
 
     :param string name: corpus name
-    :return: **True** if the corpus is found and succesfully removed. Otherwise, it returns **False**.
+    :return: **True** if the corpus is found and succesfully removed.
+             Otherwise, it returns **False**.
     :rtype: bool
 
     :Example:

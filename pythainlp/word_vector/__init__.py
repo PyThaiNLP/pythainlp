@@ -184,7 +184,7 @@ def similarity(word1: str, word2: str) -> float:
 
     :Note:
         *  If a word in `word1` or `word2` is not in the vocabulary,
-           :clsss:`KeyError` will be raised.
+           :class:`KeyError` will be raised.
 
     :Example:
 

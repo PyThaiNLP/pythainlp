@@ -134,7 +134,7 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
         >>> from pythainlp.util import countthai
         >>>
         >>> string.punctuation
-        !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+        !"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~
         >>>
         >>> countthai("ดอนัลด์ จอห์น ทรัมป์ English: Donald John Trump", \\
             ignore_chars=string.punctuation)

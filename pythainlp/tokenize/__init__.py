@@ -42,9 +42,8 @@ def word_tokenize(
         * *ulmfit* - for thai2fit
 
     :Note:
-    
-    The parameter **custom_dict** can be provided as an argument only for
-    *newmm*, *longest*, and *deepcut* engine.
+        The parameter **custom_dict** can be provided as an argument only for
+        *newmm*, *longest*, and *deepcut* engine.
 
     :Example:
 

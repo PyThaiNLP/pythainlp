@@ -20,7 +20,6 @@ def word_freq(word: str, domain: str = "all") -> int:
     """
 
     .. note::
-    
         **Not officially supported.**
         Get word frequency of a word by domain.
         This function will make a query to the server of

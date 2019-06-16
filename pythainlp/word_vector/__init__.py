@@ -39,11 +39,12 @@ def most_similar_cosmul(positive: List[str], negative: List[str]):
     """
     This function find the top-10 words that are most similar with respect
     to from two lists of words labeled as positive and negative.
-    The top-10 most similar words are obtained using
-    multiplication combination objective from Omer Levy
-    and Yoav Goldberg [OmerLevy_YoavGoldberg_2014]_.
-    We use the function :func:`gensim.most_similar_cosmul`
-    directly from :mod:`gensim`.
+    The top-10 most similar words are obtained using multiplication
+    combination objective from Omer Levy and Yoav Goldberg
+    [OmerLevy_YoavGoldberg_2014]_.
+
+    We use the function :func:`gensim.most_similar_cosmul` directly from
+    :mod:`gensim`.
 
     :param list positive: a list of words to add
     :param list negative: a list of words to substract

@@ -85,8 +85,7 @@ def thai_syllables() -> frozenset:
 def thai_words() -> frozenset:
     """
     Return a frozenset of Thai words such as "กติกา", "กดดัน", "พิษ",
-    and "พิษภัย".
-    \n(See: `2.0/pythainlp/corpus/words_th.txt\
+    and "พิษภัย". \n(See: `2.0/pythainlp/corpus/words_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/words_th.txt>`_)
 
     :return: :class:`frozenset` containing words in Thai language.
@@ -102,8 +101,7 @@ def thai_words() -> frozenset:
 def thai_stopwords() -> frozenset:
     """
     Return a frozenset of Thai stopwords such as "มี", "ไป", "ไง", "ขณะ",
-    "การ", and "ประการหนึ่ง".\n
-    (See: `2.0/pythainlp/corpus/stopwords_th.txt\
+    "การ", and "ประการหนึ่ง". \n(See: `2.0/pythainlp/corpus/stopwords_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/stopwords_th.txt>`_)
 
     :return: :class:`frozenset` containing stopwords.
@@ -118,8 +116,8 @@ def thai_stopwords() -> frozenset:
 
 def thai_negations() -> frozenset:
     """
-    Return a frozenset of Thai negation words including "ไม่" and "แต่".\n
-    (See: `2.0/pythainlp/corpus/negations_th.txt\
+    Return a frozenset of Thai negation words including "ไม่" and "แต่".
+    \n(See: `2.0/pythainlp/corpus/negations_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/negations_th.txt>`_)
 
     :return: :class:`frozenset` containing negations in Thai language.

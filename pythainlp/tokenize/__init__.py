@@ -179,9 +179,9 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
     :rtype: list[str]
 
     **Options for engine**
-        * *whitespace+newline* (default) - split by whitespace token
+        * *whitespace+newline* (default) - split by whitespace token \
                                            and newline.
-        * *whitespace* - split by whitespace token. Specifiaclly, with
+        * *whitespace* - split by whitespace token. Specifiaclly, with \
                          :class:`regex` pattern  ``r" +"``
 
     :Example:

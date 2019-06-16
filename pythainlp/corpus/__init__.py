@@ -157,9 +157,8 @@ def _download(url: str, dst: str) -> int:
 
 def download(name: str, force: bool = False) -> NoReturn:
     """
-    Download corpus. The available corpus names can be seen in
-    `this file
-    <https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json>`
+    Download corpus. The available corpus names can be seen in this file:
+    https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json
 
     :param string name: corpus name
     :param bool force: force install

@@ -199,7 +199,7 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
              qrnn=False, tie_weights=True, out_bias=True, output_p=0.25,
              hidden_p=0.1, input_p=0.2, embed_p=0.02, weight_p=0.15)
         >>> trn_args = dict(drop_mult=0.9, clip=0.12, alpha=2, beta=1)
-        >>> learn = language_model_learner(data, AWD_LSTM, config=config, \\
+        >>> learn = language_model_learner(data, AWD_LSTM, config=config,
                                            pretrained=False, **trn_args)
         >>> document_vector('วันนี้วันดีปีใหม่', learn, data)
 

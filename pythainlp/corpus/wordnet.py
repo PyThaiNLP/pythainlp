@@ -292,8 +292,8 @@ def path_similarity(synsets1, synsets2):
 
         .. math::
 
-            path\_similarity = {1 \over shortest\_path\_distance(synsets1,
-                                synsets2) + 1}
+            path\\_similarity = {1 \\over shortest\\_path\\_distance(synsets1,
+                                 synsets2) + 1}
 
         The shortest path distance is calculated by the connection through
         the is-a (hypernym/hyponym) taxonomy. The score is in the ranage
@@ -334,8 +334,8 @@ def lch_similarity(synsets1, synsets2):
 
         .. math::
 
-            lch\_similarity = {-log(shortest\_path\_distance(synsets1,
-                               synsets2) \over 2 * taxonomy\_depth}
+            lch\\_similarity = {-log(shortest\\_path\\_distance(synsets1,
+                               synsets2) \\over 2 * taxonomy\\_depth}
 
         :param `Synset` synsets1: first synset supplied to measures
                                   the LCH similarity

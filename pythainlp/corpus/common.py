@@ -33,8 +33,10 @@ _THAI_NEGATIONS_FILENAME = "negations_th.txt"
 
 def countries() -> frozenset:
     """
-    Return a frozenset of country names in Thai such as "แคนาดา", "โรมาเนีย", "แอลจีเรีย", and "ลาว".
-    \n(See: `2.0/pythainlp/corpus/countries_th.txt <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/countries_th.txt>`_)
+    Return a frozenset of country names in Thai such as "แคนาดา", "โรมาเนีย",
+    "แอลจีเรีย", and "ลาว".
+    \n(See: `2.0/pythainlp/corpus/countries_th.txt
+    <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/countries_th.txt>`_)
 
     :return: :class:`frozenset` containing countries names in Thai
     :rtype: :class:`frozenset`
@@ -48,8 +50,10 @@ def countries() -> frozenset:
 
 def provinces() -> frozenset:
     """
-    Return a frozenset of Thailand province names in Thai such as "กระบี่", "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
-    \n(See: `2.0/pythainlp/corpus/thailand_provinces_th.txt <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/thailand_provinces_th.txt>`_)
+    Return a frozenset of Thailand province names in Thai such as "กระบี่",
+    "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
+    \n(See: `2.0/pythainlp/corpus/thailand_provinces_th.txt
+    <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/thailand_provinces_th.txt>`_)
     
     :return: :class:`frozenset` containing province names of Thailand
     :rtype: :class:`frozenset`
@@ -63,8 +67,10 @@ def provinces() -> frozenset:
 
 def thai_syllables() -> frozenset:
     """
-    Return a frozenset of Thai syllables such as "กรอบ", "ก็", "๑", "โมบ", "โมน", "โม่ง", "กา", "ก่า", and, "ก้า".
-    \n(See: `2.0/pythainlp/corpus/syllables_th.txt <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/syllables_th.txt>`_)
+    Return a frozenset of Thai syllables such as "กรอบ", "ก็", "๑", "โมบ",
+    "โมน", "โม่ง", "กา", "ก่า", and, "ก้า".
+    \n(See: `2.0/pythainlp/corpus/syllables_th.txt
+    <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/syllables_th.txt>`_)
 
     :return: :class:`frozenset` containing syllables in Thai language.
     :rtype: :class:`frozenset`
@@ -78,8 +84,9 @@ def thai_syllables() -> frozenset:
 
 def thai_words() -> frozenset:
     """
-    Return a frozenset of Thai words such as "กติกา", "กดดัน", "พิษ", and "พิษภัย".
-    \n(See: `2.0/pythainlp/corpus/words_th.txt <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/words_th.txt>`_)
+    Return a frozenset of Thai words such as "กติกา", "กดดัน", "พิษ",
+    and "พิษภัย". \n(See: `2.0/pythainlp/corpus/words_th.txt
+    <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/words_th.txt>`_)
 
     :return: :class:`frozenset` containing words in Thai language.
     :rtype: :class:`frozenset`
@@ -93,8 +100,9 @@ def thai_words() -> frozenset:
 
 def thai_stopwords() -> frozenset:
     """
-    Return a frozenset of Thai stopwords such as "มี", "ไป", "ไง", "ขณะ", "การ", and "ประการหนึ่ง".
-    \n(See: `2.0/pythainlp/corpus/stopwords_th.txt <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/stopwords_th.txt>`_)
+    Return a frozenset of Thai stopwords such as "มี", "ไป", "ไง", "ขณะ",
+    "การ", and "ประการหนึ่ง".\n(See: `2.0/pythainlp/corpus/stopwords_th.txt
+    <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/stopwords_th.txt>`_)
 
     :return: :class:`frozenset` containing stopwords.
     :rtype: :class:`frozenset`
@@ -109,7 +117,8 @@ def thai_stopwords() -> frozenset:
 def thai_negations() -> frozenset:
     """
     Return a frozenset of Thai negation words including "ไม่" and "แต่".
-    \n(See: `2.0/pythainlp/corpus/negations_th.txt <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/negations_th.txt>`_)
+    \n(See: `2.0/pythainlp/corpus/negations_th.txt
+    <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/negations_th.txt>`_)
 
     :return: :class:`frozenset` containing negations in Thai language.
     :rtype: :class:`frozenset`

@@ -211,8 +211,8 @@ def thai_strftime(
         * JavaScript's implementation https://github.com/samsonjs/strftime
         * strftime() quick reference http://www.strftime.net/
 
-    :param :class`datetime.datetime` datetime: an instantiatetd object of
-                                               :class`datetime.datetime`
+    :param datetime.datetime datetime: an instantiatetd object of
+                                           :mod:`datetime.datetime`
     :param str fmt: string containing date and time directives
     :param bool thaidigit: If `thaidigit` is set to **False** (default),
                            number will be represented in Arabic digit.

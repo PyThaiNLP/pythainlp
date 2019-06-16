@@ -125,7 +125,8 @@ def pos_tag(
     words: List[str], engine: str = "perceptron", corpus: str = "orchid"
 ) -> List[Tuple[str, str]]:
     """
-    The function tag a list of tokenized words into Part-of-Speech (POS) tags such as 'NOUN', 'VERB', 'ADJ', and 'DET'.
+    The function tag a list of tokenized words into Part-of-Speech (POS) tags
+    such as 'NOUN', 'VERB', 'ADJ', and 'DET'.
 
     :param list words: a list of tokenized words
     :param str engine:
@@ -133,24 +134,31 @@ def pos_tag(
         * *unigram* - unigram tagger
         * *artagger* - RDR POS tagger
     :param str corpus:
-        * *orchid* - annotated Thai academic articles namedly `Orchid <https://www.academia.edu/9127599/Thai_Treebank>`_ (default)
-        * *orchid_ud* - annotated Thai academic articles *Orchid* but the POS tags are mapped to comply with `Universal Dependencies <https://universaldependencies.org/u/pos> POS  Tags`_
-        * *pud* - `Parallel Universal Dependencies (PUD) <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
+        * *orchid* - annotated Thai academic articles namedly
+          `Orchid <https://www.academia.edu/9127599/Thai_Treebank>`_ (default)
+        * *orchid_ud* - annotated Thai academic articles *Orchid* but the
+          POS tags are mapped to comply with
+          `Universal Dependencies <https://universaldependencies.org/u/pos>`_
+          POS  Tags
+        * *pud* - `Parallel Universal Dependencies (PUD)
+          <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
     :return: returns a list of labels regarding which part of speech it is
     :rtype: list[tuple[str, str]]
 
     :Note:
-        * *artagger*, only support one sentence and the sentence must be tokenized beforehand.
-    
+        * *artagger*, only support one sentence and the sentence must
+          be tokenized beforehand.
+
     :Example:
 
         Tag words with corpus `orchid` (default):
 
         >>> from pythainlp.tag import pos_tag
         >>>
-        >>> words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ','นายก', 'เชอร์ชิล']
+        >>> words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\
+            'นายก', 'เชอร์ชิล']
         >>> pos_tag(words)
-        [('ฉัน', 'PPRS'), ('มี', 'VSTA'), ('ชีวิต', 'NCMN'), ('รอด', 'NCMN'), 
+        [('ฉัน', 'PPRS'), ('มี', 'VSTA'), ('ชีวิต', 'NCMN'), ('รอด', 'NCMN'),
         ('ใน', 'RPRE'), ('อาคาร', 'NCMN'), ('หลบภัย', 'NCMN'), ('ของ', 'RPRE'),
         ('นายก', 'NCMN'), ('เชอร์ชิล', 'NCMN')]
 
@@ -158,9 +166,10 @@ def pos_tag(
 
         >>> from pythainlp.tag import pos_tag
         >>>
-        >>> words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ','นายก', 'เชอร์ชิล']
+        >>> words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\
+            'นายก', 'เชอร์ชิล']
         >>> pos_tag(words, corpus='orchid_ud')
-        [('ฉัน', 'PROPN'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'), ('รอด', 'NOUN'), 
+        [('ฉัน', 'PROPN'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'), ('รอด', 'NOUN'),
         ('ใน', 'ADP'),  ('อาคาร', 'NOUN'), ('หลบภัย', 'NOUN'), ('ของ', 'ADP'),
         ('นายก', 'NOUN'), ('เชอร์ชิล', 'NOUN')]
 
@@ -168,28 +177,32 @@ def pos_tag(
 
         >>> from pythainlp.tag import pos_tag
         >>>
-        >>> words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ','นายก', 'เชอร์ชิล']
+        >>> words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\
+            'นายก', 'เชอร์ชิล']
         >>> pos_tag(words, corpus='pud')
-        [('ฉัน', 'PRON'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'), ('รอด', 'VERB'), 
-        ('ใน', 'ADP'), ('อาคาร', 'NOUN'), ('หลบภัย', 'NOUN'), ('ของ', 'ADP'), 
+        [('ฉัน', 'PRON'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'), ('รอด', 'VERB'),
+        ('ใน', 'ADP'), ('อาคาร', 'NOUN'), ('หลบภัย', 'NOUN'), ('ของ', 'ADP'),
         ('นายก', 'NOUN'), ('เชอร์ชิล', 'PROPN')]
 
-        Tag words with different engines including *perceptron*, *unigram*, and *artagger*:
+        Tag words with different engines including *perceptron*, *unigram*,
+        and *artagger*:
 
         >>> from pythainlp.tag import pos_tag
         >>>
         >>> words = ['เก้าอี้','มี','จำนวน','ขา', ' ', '=', '3']
         >>> pos_tag(words, engine='perceptron', corpus='orchid')
-        [('เก้าอี้', 'NCMN'), ('มี', 'VSTA'), ('จำนวน', 'NCMN'), ('ขา', 'NCMN'),
-        (' ', 'PUNC'), ('=', 'PUNC'), ('3', 'NCNM')]
+        [('เก้าอี้', 'NCMN'), ('มี', 'VSTA'), ('จำนวน', 'NCMN'),
+         ('ขา', 'NCMN'), (' ', 'PUNC'),
+         ('=', 'PUNC'), ('3', 'NCNM')]
         >>>
         >>> pos_tag(words, engine='unigram', corpus='pud')
-        [('เก้าอี้', None), ('มี', 'VERB'), ('จำนวน', 'NOUN'), ('ขา', None), 
+        [('เก้าอี้', None), ('มี', 'VERB'), ('จำนวน', 'NOUN'), ('ขา', None),
         ('<space>', None), ('<equal>', None), ('3', 'NUM')]
         >>>
         >>> pos_tag(words, engine='artagger', corpus='orchid')
-        [('เก้าอี้', 'NCMN'), ('มี', 'VSTA'), ('จำนวน', 'NCMN'), ('ขา', 'NCMN'), 
-        ('<space>', 'PUNC'), ('<equal>', 'PUNC'), ('3', 'NCNM')]
+        [('เก้าอี้', 'NCMN'), ('มี', 'VSTA'), ('จำนวน', 'NCMN'),
+         ('ขา', 'NCMN'), ('<space>', 'PUNC'),
+         ('<equal>', 'PUNC'), ('3', 'NCNM')]
     """
 
     # NOTE: 
@@ -218,7 +231,8 @@ def pos_tag_sents(
     sentences: List[List[str]], engine: str = "perceptron", corpus: str = "orchid"
 ) -> List[List[Tuple[str, str]]]:
     """
-    The function tag multiple list of tokenized words into Part-of-Speech (POS) tags.
+    The function tag multiple list of tokenized words into Part-of-Speech
+    (POS) tags.
 
     :param list sentences: a list of lists of tokenized words
     :param str engine:
@@ -226,10 +240,15 @@ def pos_tag_sents(
         * *unigram* - unigram tagger
         * *artagger* - RDR POS tagger
     :param str corpus:
-         * *orchid* - annotated Thai academic articles namedly `Orchid <https://www.academia.edu/9127599/Thai_Treebank>`_ (default)
-        * *orchid_ud* - annotated Thai academic articles using `Universal Dependencies <https://universaldependencies.org/>`_ Tags
-        * *pud* - `Parallel Universal Dependencies (PUD) <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
-    :return: returns a list of labels regarding which part of speech it is for each sentence given.
+        * *orchid* - annotated Thai academic articles namedly\
+            `Orchid <https://www.academia.edu/9127599/Thai_Treebank>`_\
+            (default)
+        * *orchid_ud* - annotated Thai academic articles using\
+            `Universal Dependencies <https://universaldependencies.org/>`_ Tags
+        * *pud* - `Parallel Universal Dependencies (PUD)\
+            <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
+    :return: returns a list of labels regarding which part of speech it is
+             for each sentence given.
     :rtype: list[list[tuple[str, str]]]
 
     :Example:

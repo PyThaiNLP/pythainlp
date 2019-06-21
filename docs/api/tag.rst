@@ -5,7 +5,6 @@ pythainlp.tag
 The :class:`pythainlp.tag` contains functions that are used to tag different parts of a text including 
 Part-of-Speech (POS) tags, and Named Entity Recognition (NER) tag.
 
-
 For the POS tags, there are two set of tags including `Universal Dependencies (UD) <https://universaldependencies.org/>`_ and ORCHID [Sornlertlamvanich_2000]_ POS tags.
 
 The following table shows the list of Part-of-Speech (POS) tags according to Universal Dependencies (UD) POS tags:
@@ -162,7 +161,6 @@ PUNCT               PUNCT
 PUNC                PUNCT
 ===============     =======================
 
-
 For the NER, we use `Inside-outside-beggining (IOB) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`_ format to tag NER for each words.
 For instance, given a sentence "บารัค โอบามาเป็นประธานธิปดี", it would be tag the tokens "บารัค", "โอบามา", "เป็น", "ประธานาธิปดี" as "B-PERSON", "I-PERSON", "I-PERSON", "O", and "O" respectively.
 
@@ -195,8 +193,6 @@ Modules
 .. autofunction:: tag_provinces
 .. autoclass:: pythainlp.tag.named_entity.ThaiNameTagger
    :members: get_ner
-
-
 
 Tagger Engines
 --------------

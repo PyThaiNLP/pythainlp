@@ -10,7 +10,6 @@ Modules
 .. autofunction:: romanize
 .. autofunction:: transliterate
 
-
 References
 ----------
 

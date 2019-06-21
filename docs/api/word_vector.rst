@@ -17,8 +17,6 @@ Modules
 .. autofunction:: similarity
 .. autofunction:: sentence_vectorizer
 
-
-
 References
 ----------
 

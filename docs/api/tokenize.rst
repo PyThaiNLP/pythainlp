@@ -16,7 +16,6 @@ Modules
 .. autoclass:: Tokenizer
    :members:
 
-
 Tokenization Engines
 --------------------
 

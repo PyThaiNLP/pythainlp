@@ -15,7 +15,6 @@ Modules
 .. autodata:: DEFAULT_SPELL_CHECKER
    :annotation: = Default instance of standard NorvigSpellChecker, using word list from Thai National Corpus: http://www.arts.chula.ac.th/ling/tnc/
 
-
 References
 ----------
 

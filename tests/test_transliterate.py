@@ -10,7 +10,7 @@ from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.royin import romanize as romanize_royin
 
 
-class TestTransliteratePackage(unitest.TestCase):
+class TestTransliteratePackage(unittest.TestCase):
 
     def test_romanize(self):
         self.assertEqual(romanize(None), "")

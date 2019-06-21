@@ -22,7 +22,7 @@ def word_tokenize(
 ) -> List[str]:
     """
     :param str text: text to be tokenized
-    :param str engine: name of the tokenizer  to be used
+    :param str engine: name of the tokenizer to be used
     :param marisa_trie.Trie custom_dict: marisa dictionary trie
     :param bool keep_whitespace: True to keep whitespaces, a common mark
                                  for end of phrase in Thai.

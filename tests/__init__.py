@@ -550,7 +550,7 @@ class TestUM(unittest.TestCase):
         self.assertEqual(thai_to_eng("สวัสดีครับ"), "l;ylfu8iy[")
         self.assertEqual(thai_to_eng("่นีพืฟสรหท"), "journalism")
         self.assertEqual(thai_to_eng("๋นีพืฟสรหท"), "Journalism")
-    
+
     def test_keywords(self):
         word_list = word_tokenize(
             "แมวกินปลาอร่อยรู้ไหมว่าแมวเป็นแมวรู้ไหมนะแมว", engine="newmm"

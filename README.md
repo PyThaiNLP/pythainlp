@@ -2,13 +2,15 @@
 
 # PyThaiNLP
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)[![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
+[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/) 
+[![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
 [![Downloads](https://pepy.tech/badge/pythainlp/month)](https://pepy.tech/project/pythainlp)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp?ref=badge_shield)
 [![Build Status](https://travis-ci.org/PyThaiNLP/pythainlp.svg?branch=develop)](https://travis-ci.org/PyThaiNLP/pythainlp)
 [![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp?ref=badge_shield)
 
 Thai Natural Language Processing in Python.
 
@@ -16,13 +18,14 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 **This is a document for development branch (post 2.0). Things will break.**
 
-- The latest stable release is [2.0.5](https://github.com/PyThaiNLP/pythainlp/tree/master)
+- The latest stable release is [2.0.5](https://github.com/PyThaiNLP/pythainlp/releases)
 - PyThaiNLP 2 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
   - [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
   - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
 - Python 2.7+ users can use PyThaiNLP 1.6.
+- 📫 follow us on Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
-📫 follow us on Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
+[![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
 
 ## Capabilities
 
@@ -106,7 +109,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 **เอกสารนี้สำหรับรุ่นพัฒนา อาจมีการเปลี่ยนแปลงได้ตลอด**
 
-- รุ่นเสถียรล่าสุดคือรุ่น [2.0.5](https://github.com/PyThaiNLP/pythainlp/tree/master)
+- รุ่นเสถียรล่าสุดคือรุ่น [2.0.5](https://github.com/PyThaiNLP/pythainlp/releases)
 - PyThaiNLP 2 รองรับ Python 3.6 ขึ้นไป
 - ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
 

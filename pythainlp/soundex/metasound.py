@@ -27,7 +27,7 @@ def metasound(text: str, length: int = 4) -> str:
     :param str text: Thai text
     :param int length: preferred length of the MetaSound (default is 4)
     :return: MetaSound for the text
-    **Example**::
+    **Example**
         >>> from pythainlp.metasound import metasound
         >>> metasound("ลัก")
         'ล100'
@@ -35,7 +35,7 @@ def metasound(text: str, length: int = 4) -> str:
         'ร100'
         >>> metasound("รักษ์")
         'ร100'
-        >>> metasound("บูรณการ", 5))
+        >>> metasound("บูรณการ", 5)
         'บ5515'
     """
     if not text or not isinstance(text, str):

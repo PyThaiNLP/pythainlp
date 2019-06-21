@@ -3,15 +3,13 @@
 Thai tokenizers
 """
 import re
-import sys
+import warnings
 from typing import Iterable, List, Union
 
-from pythainlp.corpus import get_corpus, thai_syllables, thai_words
-
 from marisa_trie import Trie
+from pythainlp.corpus import thai_syllables, thai_words
 
 DEFAULT_DICT_TRIE = Trie(thai_words())
-FROZEN_DICT_TRIE = Trie(get_corpus("words_th_frozen_201810.txt"))
 
 
 def word_tokenize(
@@ -32,7 +30,6 @@ def word_tokenize(
         * longest - dictionary-based, Longest Matching
         * deepcut - wrapper for deepcut, language-model-based https://github.com/rkcosmos/deepcut
         * icu - wrapper for ICU (International Components for Unicode, using PyICU), dictionary-based
-        * ulmfit - for thai2fit
         * a custom_dict can be provided for newmm, longest, and deepcut
 
     **Example**
@@ -67,10 +64,6 @@ def word_tokenize(
             segments = segment(text, custom_dict)
         else:
             segments = segment(text)
-    elif engine == "ulmfit":  # ulmfit has its own specific dictionary
-        from .newmm import segment
-
-        segments = segment(text, custom_dict=FROZEN_DICT_TRIE)
     elif engine == "icu":
         from .pyicu import segment
 
@@ -100,10 +93,11 @@ def dict_word_tokenize(
     :param bool keep_whitespace: True to keep whitespaces, a common mark for end of phrase in Thai
     :return: list of words
     """
-    print(
-        "Deprecated. Use word_tokenize() with a custom_dict argument instead.",
-        file=sys.stderr,
+    warnings.warn(
+        "dict_word_tokenize is deprecated. Use word_tokenize with a custom_dict argument instead.",
+        DeprecationWarning,
     )
+
     return word_tokenize(
         text=text,
         custom_dict=custom_dict,

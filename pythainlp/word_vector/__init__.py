@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 """
 thai2fit - Thai word vector
 Code by https://github.com/cstorm125/thai2fit
@@ -9,10 +8,13 @@ from typing import List
 import numpy as np
 from gensim.models import KeyedVectors
 from pythainlp.corpus import download as download_data
-from pythainlp.corpus import get_corpus_path
-from pythainlp.tokenize import word_tokenize
+from pythainlp.corpus import get_corpus, get_corpus_path
+from pythainlp.tokenize import Tokenizer
 
 WV_DIM = 300
+
+_THAI2FIT_WORDS = get_corpus("words_th_thai2fit_201810.txt")
+_pythainlp_tokenizer = Tokenizer(custom_dict=_THAI2FIT_WORDS, engine="newmm")
 
 
 def _download() -> str:
@@ -82,7 +84,8 @@ def sentence_vectorizer(text: str, use_mean: bool = True):
 
     :return: sentence vector of given input text
     """
-    words = word_tokenize(text, engine="ulmfit")
+    words = _pythainlp_tokenizer.word_tokenize(text)
+
     vec = np.zeros((1, WV_DIM))
 
     for word in words:

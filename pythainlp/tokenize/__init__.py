@@ -21,6 +21,8 @@ def word_tokenize(
     keep_whitespace: bool = True,
 ) -> List[str]:
     """
+    This function tokenizes running text into words.
+
     :param str text: text to be tokenized
     :param str engine: name of the tokenizer to be used
     :param marisa_trie.Trie custom_dict: marisa dictionary trie

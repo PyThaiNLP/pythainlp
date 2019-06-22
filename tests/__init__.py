@@ -542,7 +542,14 @@ class TestUM(unittest.TestCase):
 
     def test_keyboard(self):
         self.assertEqual(eng_to_thai("l;ylfu8iy["), "สวัสดีครับ")
+        self.assertEqual(
+            eng_to_thai("Tok8kicsj'xitgmLwmp"),
+            "ธนาคารแห่งประเทศไทย"
+        )
+
         self.assertEqual(thai_to_eng("สวัสดีครับ"), "l;ylfu8iy[")
+        self.assertEqual(thai_to_eng("่นีพืฟสรหท"), "journalism")
+        self.assertEqual(thai_to_eng("๋นีพืฟสรหท"), "Journalism")
 
     def test_keywords(self):
         word_list = word_tokenize(

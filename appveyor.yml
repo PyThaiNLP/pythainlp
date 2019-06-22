@@ -24,12 +24,12 @@ environment:
 #      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
 #      PYICU_PKG: "https://www.dropbox.com/s/3xwdnwhdcu619x4/PyICU-2.3.1-cp37-cp37m-win32.whl?dl=1"
 
-    - PYTHON: "C:/Python37-x64"
-      PYTHON_VERSION: "3.7"
-      PYTHON_ARCH: "64"
-      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
-      PYICU_PKG: "https://www.dropbox.com/s/le5dckc3231opqt/PyICU-2.3.1-cp37-cp37m-win_amd64.whl?dl=1"
-      DISTUTILS_USE_SDK: "1"
+#    - PYTHON: "C:/Python37-x64"
+#      PYTHON_VERSION: "3.7"
+#      PYTHON_ARCH: "64"
+#      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
+#      PYICU_PKG: "https://www.dropbox.com/s/le5dckc3231opqt/PyICU-2.3.1-cp37-cp37m-win_amd64.whl?dl=1"
+#     DISTUTILS_USE_SDK: "1"
 
 init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"  
@@ -38,6 +38,8 @@ init:
 install:
   - "chcp 65001"
   - "set PYTHONIOENCODING=utf-8"
+#  - ECHO "Installed SDKs:"
+#  - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
   - "%PYTHON%/python.exe --version"
   # - "set ICU_VERSION=62"
   - "%PYTHON%/python.exe -m pip install --upgrade pip"
@@ -49,4 +51,4 @@ install:
 
 test_script:
   - "%PYTHON%/python.exe -m pip --version"
-  - "build.cmd %PYTHON%/python.exe pythainlp setup.py test"
+  - "%PYTHON%/python.exe pythainlp setup.py test"

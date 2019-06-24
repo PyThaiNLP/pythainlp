@@ -64,8 +64,10 @@ class ThaiTransliterator:
         encoder_outputs, encoder_hidden = self._encoder(input_tensor)
         decoder_input = torch.tensor(
             [self._target_char_to_ix["<start>"]], device=device)
-        decoder_hidden = (encoder_hidden[0].reshape(
-            1, 1, self._encoder.hidden_dim), encoder_hidden[1].reshape(1, 1, self._encoder.hidden_dim))
+        decoder_hidden = (
+            encoder_hidden[0].reshape(
+                1, 1, self._encoder.hidden_dim), encoder_hidden[1].reshape(
+                1, 1, self._encoder.hidden_dim))
 
         decoded_seq = []  # output
 
@@ -100,8 +102,17 @@ class Encoder(nn.Module):
 
     def init_hidden(self):
         # The axes semantics are (num_layers, minibatch_size, hidden_dim)
-        return (torch.zeros(2, 1, self.hidden_dim // 2, requires_grad=True).to(device),
-                torch.zeros(2, 1, self.hidden_dim // 2, requires_grad=True).to(device))
+        return (
+            torch.zeros(
+                2,
+                1,
+                self.hidden_dim // 2,
+                requires_grad=True).to(device),
+            torch.zeros(
+                2,
+                1,
+                self.hidden_dim // 2,
+                requires_grad=True).to(device))
 
 
 class OneStepDecoder(nn.Module):
@@ -124,8 +135,17 @@ class OneStepDecoder(nn.Module):
 
     def init_hidden(self):
         # The axes semantics are (num_layers, minibatch_size, hidden_dim)
-        return (torch.zeros(1, 1, self.hidden_dim, requires_grad=True).to(device),
-                torch.zeros(1, 1, self.hidden_dim, requires_grad=True).to(device))
+        return (
+            torch.zeros(
+                1,
+                1,
+                self.hidden_dim,
+                requires_grad=True).to(device),
+            torch.zeros(
+                1,
+                1,
+                self.hidden_dim,
+                requires_grad=True).to(device))
 
 
 _THAI_TO_ROM = ThaiTransliterator()

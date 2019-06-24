@@ -23,7 +23,6 @@ class ThaiTransliterator:
             download("thai2rom-pytorch")
             self.__filemodel = get_corpus_path("thai2rom-pytorch")
         loader = torch.load(self.__filemodel)
-        print(loader.keys())
         self._n_h = 64  # hidden dimensions for encoder
         self._n_s = 64  # hidden dimensions for decoder
         self._emb_dim = 64  # character embedding size
@@ -32,7 +31,7 @@ class ThaiTransliterator:
         self._ix_to_char = loader['ix_to_char']
         self._target_char_to_ix = loader['target_char_to_ix']
         self._ix_to_target_char = loader['ix_to_target_char']
-        ###encoder/ decoder
+        # encoder/ decoder
         # Restore the model and construct the encoder and decoder.
         self._encoder = Encoder(len(self._char_to_ix),
                                 self._n_h, self._emb_dim).to(device)

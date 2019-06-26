@@ -222,4 +222,5 @@ __all__ = [
     "thai_stopwords",
     "thai_syllables",
     "thai_words",
+    "get_corpus_db_detail",
 ]

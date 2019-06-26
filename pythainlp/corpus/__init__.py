@@ -38,6 +38,10 @@ def corpus_db_url() -> str:
 def corpus_db_path() -> str:
     return _CORPUS_DB_PATH
 
+def get_corpus_db_detail(name: str) -> list:
+    db = TinyDB(corpus_db_path())
+    temp = Query()
+    return db.search(temp.name == name)[0]
 
 def get_corpus(filename: str) -> frozenset:
     """

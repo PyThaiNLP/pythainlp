@@ -99,6 +99,12 @@ Please do fork and create a pull request :)
 For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
 
 
+Made with ❤️
+
+We build Thai NLP.
+
+PyThaiNLP team.
+
 # ภาษาไทย
 
 ประมวลภาษาไทยในภาษา Python
@@ -181,3 +187,10 @@ $ pip install pythainlp[extra1,extra2,...]
 ## สนับสนุนและร่วมพัฒนา
 
 คุณสามารถ[ร่วมพัฒนาโครงการนี้](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)ได้ โดยการ fork และส่ง pull request กลับมา
+
+
+สร้างด้วย ❤️
+
+พวกเราสร้าง Thai NLP
+
+ทีม PyThaiNLP

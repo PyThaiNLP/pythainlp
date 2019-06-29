@@ -16,7 +16,7 @@ extras = {
     "ml": ["fastai>=1.0.38", "keras", "numpy", "torch"],
     "ner": ["sklearn-crfsuite"],
     "thai2fit": ["emoji", "gensim", "numpy"],
-    "thai2rom": ["keras", "numpy"],
+    "thai2rom": ["torch", "numpy"],
     "full": [
         "artagger",
         "deepcut",

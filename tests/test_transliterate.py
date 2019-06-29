@@ -44,7 +44,6 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertIsNotNone(romanize("กฏa์1์ ์", engine="royin"))
 
     def test_romanize_thai2rom(self):
-
         self.assertEqual(romanize("แมว", engine="thai2rom"), "maeo")
         self.assertEqual(romanize("บ้านไร่", engine="thai2rom"), "banrai")
         self.assertEqual(romanize("สุนัข", engine="thai2rom"), "sunak")

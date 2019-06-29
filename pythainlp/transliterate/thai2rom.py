@@ -22,7 +22,7 @@ class ThaiTransliterator:
         if not self.__filemodel:
             download("thai2rom-pytorch")
             self.__filemodel = get_corpus_path("thai2rom-pytorch")
-        loader = torch.load(self.__filemodel)
+        loader = torch.load(self.__filemodel, map_location=device)
         self._n_h = 64  # hidden dimensions for encoder
         self._n_s = 64  # hidden dimensions for decoder
         self._emb_dim = 64  # character embedding size

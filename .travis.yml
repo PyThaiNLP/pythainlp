@@ -2,6 +2,7 @@
 # This file will be regenerated if you run travis_pypi_setup.py
 
 language: python
+dist: bionic
 python:
   - "3.6"
 

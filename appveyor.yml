@@ -47,7 +47,7 @@ install:
   - "%PYTHON%/python.exe -m pip install coverage"
   - "%PYTHON%/python.exe -m pip install %PYICU_PKG%"
   - "%PYTHON%/python.exe -m pip install %ARTAGGER_PKG%"
-  - "%PYTHON%/python.exe -m pip install -e .[artagger,icu,ipa,ner,thai2fit,deepcut]"
+  - "%PYTHON%/python.exe -m pip install -e .[full]"
 
 test_script:
   - "%PYTHON%/python.exe -m pip --version"

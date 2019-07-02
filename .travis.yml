@@ -14,7 +14,7 @@ before_install:
 install:
   - pip install -U numpy
   - pip install -r requirements.txt
-  - pip install .[artagger,icu,ipa,ner,thai2fit,deepcut]
+  - pip install .[full]
   - pip install coveralls
 
 os:

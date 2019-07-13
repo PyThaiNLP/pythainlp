@@ -16,6 +16,16 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
+**News**
+
+>Hello,
+>We are conducting a survey for PyThaiNLP’s users and those who are working in the field of Thai NLP.
+
+>We would love to hear your feedback in order to improve the library. Also, we will prioritize for the implementation of new Thai NLP features such as Thai-English Machine Translation, Speech-to-Text, or Text-to-Speech.
+
+>You could take part in this survey via the Google Form shown below:
+>https://forms.gle/aLdSHnvkNuK5CFyt9
+
 **This is a document for development branch (post 2.0). Things will break.**
 
 - The latest stable release is [2.0.5](https://github.com/PyThaiNLP/pythainlp/releases)

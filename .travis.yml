@@ -34,9 +34,8 @@ deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: wannaphong
-  password:
-    secure: PLEASE_REPLACE_ME
+  password: cat
   on:
     tags: true
-    repo: wannaphongcom/pythainlp
+    repo: pythainlp/pythainlp
     #condition: $TOXENV == py35

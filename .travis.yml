@@ -34,7 +34,8 @@ deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: wannaphong
-  password: cat
+  password:
+    secure: "Your encrypted password"
   on:
     tags: true
     repo: pythainlp/pythainlp

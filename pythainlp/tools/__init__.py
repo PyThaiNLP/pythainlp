@@ -22,7 +22,8 @@ def get_pythainlp_data_path() -> str:
     """
     Return full path where PyThaiNLP keeps its (downloaded) data
     """
-    path = os.path.join(os.path.expanduser("~"), PYTHAINLP_DATA_DIR)
+    path = os.environ('PYTHAINLP_DATA_DIR',
+                      os.path.join(os.path.expanduser("~"), PYTHAINLP_DATA_DIR))
     if not os.path.exists(path):
         os.makedirs(path)
     return path

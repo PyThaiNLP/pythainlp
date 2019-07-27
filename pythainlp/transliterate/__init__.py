@@ -10,7 +10,6 @@ def romanize(text: str, engine: str = "royin") -> str:
 
     :param str text: Thai text to be romanized
     :param str engine: 'royin' (default) or 'thai2rom'.
-
     :return: A string of Thai words rendered in the Latin alphabet.
     :rtype: str
 

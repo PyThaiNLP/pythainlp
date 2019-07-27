@@ -41,12 +41,13 @@ def word_tokenize(
           using PyICU), dictionary-based
 
     .. warning::
-        * the option for engine named *ulmfit* has been deprecated since PyThaiNLP version 2.1
+        * the option for engine named *ulmfit* has been deprecated since \
+          PyThaiNLP version 2.1
 
     :Note:
-        - The parameter **custom_dict** can be provided as an argument only for \
-          *newmm*, *longest*, and *deepcut* engine.
-  
+        - The parameter **custom_dict** can be provided as an argument \
+          only for *newmm*, *longest*, and *deepcut* engine.
+
     :Example:
 
         Tokenize text with different tokenizer:

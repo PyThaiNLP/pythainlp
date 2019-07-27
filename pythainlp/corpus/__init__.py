@@ -38,6 +38,10 @@ def corpus_db_url() -> str:
 def corpus_db_path() -> str:
     return _CORPUS_DB_PATH
 
+def get_corpus_db_detail(name: str) -> dict:
+    db = TinyDB(corpus_db_path())
+    temp = Query()
+    return db.search(temp.name == name)[0]
 
 def get_corpus(filename: str) -> frozenset:
     """
@@ -127,32 +131,30 @@ def _download(url: str, dst: str) -> int:
     @param: dst place to put the file
     """
     file_size = int(urlopen(url).info().get("Content-Length", -1))
-
-    if os.path.exists(dst):
-        first_byte = os.path.getsize(dst)
-    else:
-        first_byte = 0
-
-    if first_byte >= file_size:
-        return file_size
-
-    header = {"Range": "bytes=%s-%s" % (first_byte, file_size)}
-    pbar = tqdm(
-        total=file_size,
-        initial=first_byte,
-        unit="B",
-        unit_scale=True,
-        desc=url.split("/")[-1],
-    )
-    req = requests.get(url, headers=header, stream=True)
-    with (open(get_full_data_path(dst), "wb")) as f:
-        for chunk in req.iter_content(chunk_size=1024):
+    r = requests.get(url, stream=True)
+    with open(get_full_data_path(dst), "wb") as f:
+        pbar = tqdm(total=int(r.headers['Content-Length']))
+        for chunk in r.iter_content(chunk_size=1024):
             if chunk:
                 f.write(chunk)
-                pbar.update(1024)
-    pbar.close()
-
+                pbar.update(len(chunk))
+        pbar.close()
     return file_size
+
+def _check_hash(dst: str, md5: str) -> NoReturn:
+    """
+    @param: dst place to put the file
+    @param: md5 place to hash the file (MD5)
+    """
+    if md5!="-":
+        import hashlib
+        hashfile=hashlib.md5(open(get_full_data_path(dst),'rb').read()).hexdigest()
+        if md5!=hashfile:
+            raise Exception("Hash does not match expected.")
+        else:
+            pass
+    else:
+        pass
 
 
 def download(name: str, force: bool = False) -> NoReturn:
@@ -185,6 +187,7 @@ def download(name: str, force: bool = False) -> NoReturn:
         if not db.search(temp.name == name):
             print(name + " " + temp_name["version"])
             _download(temp_name["download"], temp_name["file_name"])
+            _check_hash(temp_name["file_name"], temp_name["md5"])
             db.insert(
                 {
                     "name": name,
@@ -212,6 +215,7 @@ def download(name: str, force: bool = False) -> NoReturn:
                     yes_no = str(input("yes or no (y / n) : ")).lower()
                 if "y" == yes_no:
                     _download(temp_name["download"], temp_name["file_name"])
+                    _check_hash(temp_name["file_name"], temp_name["md5"])
                     db.update({"version": temp_name["version"]}, temp.name == name)
             else:
                 print("Redownload")
@@ -230,6 +234,7 @@ def download(name: str, force: bool = False) -> NoReturn:
                     yes_no = str(input("yes or no (y / n) : ")).lower()
                 if "y" == yes_no:
                     _download(temp_name["download"], temp_name["file_name"])
+                    _check_hash(temp_name["file_name"], temp_name["md5"])
                     db.update({"version": temp_name["version"]}, temp.name == name)
     db.close()
 
@@ -291,4 +296,5 @@ __all__ = [
     "thai_stopwords",
     "thai_syllables",
     "thai_words",
+    "get_corpus_db_detail",
 ]

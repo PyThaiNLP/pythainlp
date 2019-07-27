@@ -9,8 +9,8 @@ def romanize(text: str, engine: str = "royin") -> str:
     by the Royal Institute of Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
 
     :param str text: Thai text to be romanized
-    :param str engine: 'royin' (default) or 'thai2rom'.
-
+    :param str engine: 'royin' (default) or 'thai2rom'. 'royin' uses the Royal Thai General System of Transcription issued by Royal Institute of Thailand. 'thai2rom' is a deep learning Thai romanization model (require PyTorch).
+    
     :return: A string of Thai words rendered in the Latin alphabet.
     :rtype: str
 

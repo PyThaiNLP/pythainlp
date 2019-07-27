@@ -137,6 +137,7 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
 
     **Options for engine**
         * tcc (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
+        * ssg - CRF syllable segmenter for Thai.
         * etcc - Enhanced Thai Character Cluster (Inrut et al. 2001) [In development]
     """
     if not text or not isinstance(text, str):
@@ -144,27 +145,37 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
 
     if engine == "etcc":
         from .etcc import segment
+    elif engine == "ssg":
+        from .ssg import segment
     else:  # default
         from .tcc import segment
 
     return segment(text)
 
 
-def syllable_tokenize(text: str) -> List[str]:
+def syllable_tokenize(text: str, engine: str = "default") -> List[str]:
     """
     :param str text: input string to be tokenized
+    :param str engine: syllable tokenizer
     :return: list of syllables
+
+    **Options for engine**
+        * default
+        * ssg - CRF syllable segmenter for Thai.
     """
 
     if not text or not isinstance(text, str):
         return []
 
     tokens = []
-    if text:
+    if engine == "default":
         words = word_tokenize(text)
         trie = dict_trie(dict_source=thai_syllables())
         for word in words:
             tokens.extend(word_tokenize(text=word, custom_dict=trie))
+    else:
+        from .ssg import segment
+        tokens = segment(text)
 
     return tokens
 

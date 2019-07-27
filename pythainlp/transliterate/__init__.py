@@ -10,6 +10,7 @@ def romanize(text: str, engine: str = "royin") -> str:
 
     :param str text: Thai text to be romanized
     :param str engine: 'royin' (default) or 'thai2rom'.
+
     :return: A string of Thai words rendered in the Latin alphabet.
     :rtype: str
 
@@ -17,7 +18,7 @@ def romanize(text: str, engine: str = "royin") -> str:
         * *royin* - uses the Royal Thai General System of Transcription issued
           by Royal Institute of Thailand .
         * *thai2rom* is a Thai romanization engine based on a deep learning
-          model (require :mod:`keras`).
+          model (require PyTorch).
 
     :Example:
         >>> from pythainlp.transliterate import romanize

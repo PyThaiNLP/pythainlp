@@ -55,8 +55,9 @@ def _get_path(fname: str) -> str:
 # Custom fastai tokenizer
 class ThaiTokenizer(BaseTokenizer):
     """
-    Wrapper around a frozen newmm tokenizer to make it a fastai `BaseTokenizer`.
-    https://docs.fast.ai/text.transform#BaseTokenizer
+    Wrapper around a frozen newmm tokenizer to make it a
+    :class:`fastai.BaseTokenizer`.
+    (see: https://docs.fast.ai/text.transform#BaseTokenizer)
     """
 
     def __init__(self, lang: str = "th"):
@@ -65,9 +66,34 @@ class ThaiTokenizer(BaseTokenizer):
     @staticmethod
     def tokenizer(text: str) -> List[str]:
         """
+        This function tokenizes text with *newmm* engine and the dictionary
+        specifically for `ulmfit` related functions
+        (see: `Dictonary file (.txt) \
+        <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/words_th_frozen_201810.txt>`_).
+
         :meth: tokenize text with a frozen newmm engine
         :param str text: text to tokenize
         :return: tokenized text
+        :rtype: list[str]
+
+        :Example:
+
+            Using :func:`pythainlp.ulmfit.ThaiTokenizer.tokenizer` is
+            similar to :func:`pythainlp.tokenize.word_tokenize`
+            with *ulmfit* engine.
+
+            >>> from  pythainlp.ulmfit import ThaiTokenizer
+            >>> from  pythainlp.tokenize import word_tokenize
+            >>>
+            >>> text = "อาภรณ์, จินตมยปัญญา ภาวนามยปัญญา"
+            >>> ThaiTokenizer.tokenizer(text)
+            ['อาภรณ์', ',', ' ', 'จิน', 'ตม', 'ย', 'ปัญญา',
+             ' ', 'ภาวนามยปัญญา']
+            >>>
+            >>> word_tokenize(text, engine='ulmfit')
+            ['อาภรณ์', ',', ' ', 'จิน', 'ตม', 'ย', 'ปัญญา',
+             ' ', 'ภาวนามยปัญญา']
+
         """
         return _pythainlp_tokenizer.word_tokenize(text)
 
@@ -165,12 +191,44 @@ _tokenizer = ThaiTokenizer()
 
 def document_vector(text: str, learn, data, agg: str = "mean"):
     """
-    :meth: `document_vector` get document vector using fastai language model and data bunch
-    :param str text: text to extract embeddings
-    :param learn: fastai language model learner
-    :param data: fastai data bunch
-    :param agg: how to aggregate embeddings
-    :return: `numpy.array` of document vector sized 400 based on the encoder of the model
+    This function vectorize Thai input text into a 400 dimension vector using
+    :class:`fastai` language model and data bunch.
+
+    :meth: `document_vector` get document vector using fastai language model
+           and data bunch
+    :param str text: text to be vectorized with :class:`fastai` language model.
+    :param learn: :class:`fastai` language model learner
+    :param data: :class:`fastai` data bunch
+    :param str agg: name of aggregation methods for word embeddings
+                    The avialable methods are "mean" and "sum"
+
+    :return: :class:`numpy.array` of document vector sized 400 based on
+             the encoder of the model
+    :rtype: :class:`numpy.ndarray((1, 400))`
+
+    :Example:
+
+        >>> from pythainlp.ulmfit import document_vectorr
+        >>> from fastai import *
+        >>> from fastai.text import *
+        >>>
+        >>> # Load Data Bunch
+        >>> data = load_data(MODEL_PATH, 'thwiki_lm_data.pkl')
+        >>>
+        >>> # Initialize language_model_learner
+        >>> config = dict(emb_sz=400, n_hid=1550, n_layers=4, pad_token=1,
+             qrnn=False, tie_weights=True, out_bias=True, output_p=0.25,
+             hidden_p=0.1, input_p=0.2, embed_p=0.02, weight_p=0.15)
+        >>> trn_args = dict(drop_mult=0.9, clip=0.12, alpha=2, beta=1)
+        >>> learn = language_model_learner(data, AWD_LSTM, config=config,
+                                           pretrained=False, **trn_args)
+        >>> document_vector('วันนี้วันดีปีใหม่', learn, data)
+
+    :See Also:
+        * A notebook showing how to train `ulmfit` language model and its
+          usage, `Jupyter Notebook \
+          <https://github.com/cstorm125/thai2fit/blob/master/thwiki_lm/word2vec_examples.ipynb>`_
+
     """
 
     s = _tokenizer.tokenizer(text)
@@ -189,12 +247,16 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
 
 def merge_wgts(em_sz, wgts, itos_pre, itos_new):
     """
-    :meth: `merge_wgts` insert pretrained weights and vocab into a new set of weights and vocab;
-    use average if vocab not in pretrained vocab
+    This function is to insert new vocab into an existing model named `wgts`
+    and update the model's weights for new vocab with the average embedding.
+
+    :meth: `merge_wgts` insert pretrained weights and vocab into a new set
+           of weights and vocab; use average if vocab not in pretrained vocab
     :param int em_sz: embedding size
     :param wgts: torch model weights
     :param list itos_pre: pretrained list of vocab
     :param list itos_new: list of new vocab
+
     :return: merged torch model weights
     """
     vocab_size = len(itos_new)

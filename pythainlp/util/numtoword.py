@@ -12,10 +12,40 @@ __all__ = ["bahttext", "num_to_thaiword"]
 
 def bahttext(number: float) -> str:
     """
-    Converts a number to Thai text and adds a suffix of "Baht" currency.
-    Precision will be fixed at two decimal places (0.00) to fits "Satang" unit.
+    This function converts a number to Thai text and adds
+    a suffix "บาท" (Baht).
+    The precision will be fixed at two decimal places (0.00)
+    to fits "สตางค์" (Satang) unit.
+    This function works similar to `BAHTTEXT` function in MS Excel.
 
-    Similar to BAHTTEXT function in Excel
+    :param float number: number to be converted into Thai Baht currency format
+    :return: text representing the amount of money in the format
+             of Thai currency
+    :rtype: str
+    :Example:
+
+        >>> from pythainlp.util import bahttext
+        >>>
+        >>> bahttext(1)
+        หนึ่งบาทถ้วน
+        >>>
+        >>> bahttext(21)
+        ยี่สิบเอ็ดบาทถ้วน
+        >>>
+        >>> bahttext(200)
+        สองร้อยบาทถ้วน
+        >>>
+        >>> bahttext(1299.25)
+        หนึ่งพันสองร้อยเก้าสิบเก้าบาทยี่สิบห้าสตางค์
+        >>>
+        >>> bahttext(2147483647.091)
+        สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ดบาทเก้าสตางค์
+        >>>
+        >>> bahttext(0.16)
+        ศูนย์บาทสิบหกสตางค์
+        >>>
+        >>> bahttext(0)
+        ศูนย์บาทถ้วน
     """
     ret = ""
 
@@ -43,8 +73,35 @@ def bahttext(number: float) -> str:
 
 def num_to_thaiword(number: int) -> str:
     """
-    :param int number: a float number (with decimals) indicating a quantity
-    :return: a text that indicates the full amount in word form, properly ending each digit with the right term.
+    This function convert number to Thai text
+
+    :param int number: an integer number to be converted to Thai text
+    :return: text representing the number in Thai
+    :rtype: str
+
+    :Example:
+        >>> from pythainlp.util import num_to_thaiword
+        >>>
+        >>> num_to_thaiword(1)
+        หนึ่ง
+        >>>
+        >>> num_to_thaiword(11)
+        สิบเอ็ด
+        >>>
+        >>> num_to_thaiword(21)
+        ยี่สิบเอ็ด
+        >>>
+        >>> num_to_thaiword(200)
+        สองร้อย
+        >>>
+        >>> num_to_thaiword(1299.25)
+        หนึ่งพันสองร้อยเก้าสิบเก้า
+        >>>
+        >>> num_to_thaiword(2147483647)
+        สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด
+        >>>
+        >>> num_to_thaiword(0)
+        ศูนย์
     """
     ret = ""
 

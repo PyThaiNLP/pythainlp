@@ -162,47 +162,90 @@ def thai_strftime(
     datetime: datetime.datetime, fmt: str, thaidigit: bool = False
 ) -> str:
     """
-    Thai date and time string formatter
-    Formatting directives similar to datetime.strftime()
+    This function convert :class:`datetime.datetime` into Thai date
+    and time format. The formatting directives are
+    similar to :func:`datatime.strrftime`.
 
-    Will use Thai names and Thai Buddhist Era for these directives:
-    - %a abbreviated weekday name
-    - %A full weekday name
-    - %b abbreviated month name
-    - %B full month name
-    - %y year without century
-    - %Y year with century
-    - %c date and time representation
-    - %v short date representation (undocumented)
+    This function uses Thai names and Thai Buddhist Era for these directives:
+        * **%a** - abbreviated weekday name
+          (i.e. "จ", "อ", "พ", "พฤ", "ศ", "ส", "อา")
+        * **%A** - full weekday name
+          (i.e. "วันจันทร์", "วันอังคาร", "วันเสาร์", "วันอาทิตย์")
+        * **%b** - abbreviated month name
+          (i.e. "ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.", "ธ.ค.")
+        * **%B** - full month name
+          (i.e. "มกราคม", "กุมภาพันธ์", "พฤศจิกายน", "ธันวาคม",)
+        * **%y** - year without century (i.e. "56", "10")
+        * **%Y** - year with century (i.e. "2556", "2410")
+        * **%c** - date and time representation
+          (i.e. "พ   6 ต.ค. 01:40:00 2519")
+        * **%v** - short date representation
+          (i.e. " 6-ม.ค.-2562", "27-ก.พ.-2555")
 
     Other directives will be passed to datetime.strftime()
 
-    Note 1:
-    The Thai Buddhist Era (BE) year is simply converted from AD by adding 543.
-    This is certainly not accurate for years before 1941 AD,
-    due to the change in Thai New Year's Day.
+    :Note:
+        * The Thai Buddhist Era (BE) year is simply converted from AD
+          by adding 543. This is certainly not accurate for years
+          before 1941 AD, due to the change in Thai New Year's Day.
+        * This meant to be an interrim solution, since
+          Python standard's locale module (which relied on C's strftime())
+          does not support "th" or "th_TH" locale yet. If supported,
+          we can just locale.setlocale(locale.LC_TIME, "th_TH")
+          and then use native datetime.strftime().
 
-    Note 2:
-    This meant to be an interrim solution, since Python standard's locale module
-    (which relied on C's strftime()) does not support "th" or "th_TH" locale yet.
-    If supported, we can just locale.setlocale(locale.LC_TIME, "th_TH") and
-    then use native datetime.strftime().
+    We trying to make this platform-independent and support extentions
+    as many as possible, See these links for strftime() extensions
+    in POSIX, BSD, and GNU libc:
 
-    Note 3:
-    We trying to make this platform-independent and support extentions as many as possible,
-    See these links for strftime() extensions in POSIX, BSD, and GNU libc:
-    - Python https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
-    - C http://www.cplusplus.com/reference/ctime/strftime/
-    - GNU https://metacpan.org/pod/POSIX::strftime::GNU
-    - Linux https://linux.die.net/man/3/strftime
-    - OpenBSD https://man.openbsd.org/strftime.3
-    - FreeBSD https://www.unix.com/man-page/FreeBSD/3/strftime/
-    - macOS https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/strftime.3.html
-    - PHP https://secure.php.net/manual/en/function.strftime.php
-    - JavaScript's implementation https://github.com/samsonjs/strftime
-    - strftime() quick reference http://www.strftime.net/
+        * Python
+          https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
+        * C http://www.cplusplus.com/reference/ctime/strftime/
+        * GNU https://metacpan.org/pod/POSIX::strftime::GNU
+        * Linux https://linux.die.net/man/3/strftime
+        * OpenBSD https://man.openbsd.org/strftime.3
+        * FreeBSD https://www.unix.com/man-page/FreeBSD/3/strftime/
+        * macOS
+          https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/strftime.3.html
+        * PHP https://secure.php.net/manual/en/function.strftime.php
+        * JavaScript's implementation https://github.com/samsonjs/strftime
+        * strftime() quick reference http://www.strftime.net/
 
-    :return: Date and time spelled out in text, with month in Thai name and year in Thai Buddhist era. The year is simply converted from AD by adding 543 (will not accurate for years before 1941 AD, due to change in Thai New Year's Day).
+    :param datetime.datetime datetime: an instantiatetd object of
+                                           :mod:`datetime.datetime`
+    :param str fmt: string containing date and time directives
+    :param bool thaidigit: If `thaidigit` is set to **False** (default),
+                           number will be represented in Arabic digit.
+                           If it is set to **True**, it will be represented
+                           in Thai digit.
+
+    :return: Date and time text, with month in Thai name and year in
+             Thai Buddhist era. The year is simply converted from AD
+             by adding 543 (will not accurate for years before 1941 AD,
+             due to change in Thai New Year's Day).
+    :rtype: str
+
+    :Example:
+
+        >>> import datetime
+        >>> from pythainlp.util import thai_strftime
+        >>>
+        >>> datetime_object = datetime.datetime(year=2019, month=6, day=10, \\
+            hour=15, minute=59, second=0, microsecond=0)
+        >>> print(datetime_object)
+        2019-06-10 15:59:00
+        >>>
+        >>> print(thai_strftime(datetime_object, "%A %d %B %Y "))
+        วันจันทร์ 10 มิถุนายน 2562
+        >>>
+        >>> print(thai_strftime(datetime_object, "%a %d %b %y "))
+        จ 10 มิ.ย. 62
+        >>>
+        >>> print(thai_strftime(datetime_object, "%D (%v)"))
+        06/10/62 (10-มิ.ย.-2562)
+        >>>
+        >>> print(thai_strftime(datetime_object, "%D (%c)"))
+        06/10/62 (จ  10 มิ.ย. 15:59:00 2562)
     """
     thaidate_parts = []
 
@@ -272,15 +315,48 @@ def thai_strftime(
 
 def now_reign_year():
     """
-    :return: reign year for Rama X of Chakri dynasty
+    This function return the reign year for the 10th King of Chakri dynasty.
+
+    :return: reign year of the 10th King of Chakri dynasty.
+    :rtype: int
+
+    :Example:
+
+        >>> from pythainlp.util import now_reign_year
+        >>>
+        >>> text = "เป็นปีที่ {reign_year} ในรัชกาลปัจจุบัน"\\
+            .format(reign_year=now_reign_year())
+        >>> print(text)
+        เป็นปีที่ 4 ในรัชการปัจจุบัน
     """
+
     now_ = datetime.datetime.now()
     return now_.year - 2015
 
 
 def reign_year_to_ad(reign_year: int, reign: int) -> int:
     """
-    Reign year of Chakri dynasty, Thailand
+    This function calculate the AD year according to the reign year for
+    the 7th to 10th King of Chakri dynasty, Thailand.
+    For instance, the AD year of the 4th reign year of the 10th King is 2019.
+
+    :param int reign_year: reign year of the King
+    :param int reign: the reign of the King (i.e. 7, 8, 9, and 10)
+
+    :return: the year in AD of the King given the reign and reign year.
+    :rtype: int
+
+    :Example:
+
+        >>> from pythainlp.util import reign_year_to_ad
+        >>>
+        >>> print("The 4th reign year of the King Rama X is in", \\
+            reign_year_to_ad(4, 10))
+        The 4th reign year of the King Rama X is in 2019
+        >>>
+        >>> print("The 1st reign year of the King Rama IX is in", \\
+            reign_year_to_ad(1, 9))
+        The 4th reign year of the King Rama X is in 1946
     """
     if int(reign) == 10:
         ad = int(reign_year) + 2015

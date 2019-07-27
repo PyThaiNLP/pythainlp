@@ -68,10 +68,38 @@ def _thaiword_to_num(tokens: List[str]) -> int:
 
 def thaiword_to_num(word: str) -> int:
     """
-    Converts a Thai number spellout word to actual number value
+    Converts a Thai number spelled out word to actual number value
 
-    :param str word: a Thai number spellout
-    :return: number
+    :param str word: Thai number spelled out
+    :return: number conveted from Thai number spelled out word
+    :rtype: int
+
+    :Example:
+
+        >>> from pythainlp.util import thaiword_to_num
+        >>>
+        >>> thaiword_to_num("ศูนย์")
+        0
+        >>> thaiword_to_num("หนึ่ง")
+        1
+        >>> thaiword_to_num("สิบเอ็ด")
+        11
+        >>> thaiword_to_num("เก้าสิบเอ็ด")
+        91
+        >>> thaiword_to_num("หกร้อยหนึ่ง")
+        601
+        >>> thaiword_to_num("สองพัน")
+        2000
+        >>> thaiword_to_num("สองพัน")
+        2000
+        >>> thaiword_to_num("สองหมื่น")
+        20000
+        >>> thaiword_to_num("สองแสน")
+        200000
+        >>> thaiword_to_num("สองล้าน")
+        2000000
+        >>> thaiword_to_num("สองล้านสามแสนหกร้อยสิบสอง")
+        2300612
     """
     if not word:
         return None

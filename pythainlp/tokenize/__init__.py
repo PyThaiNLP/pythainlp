@@ -260,7 +260,8 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
       ['ยุ', 'ค', 'เริ่ม', 'แร', 'ก', 'ข', 'อ', 'ง', ' ', 'รา', 'ช', 'ว', 'ง',
        'ศ', '์', 'ห', 'มิ', 'ง']
       >>> subword_tokenize(text_2, engine='tcc')
-      ['ค', 'วา', 'ม', 'แป', 'ล', 'ก', 'แย', 'ก', 'และ', 'พัฒ', 'นา', 'กา', 'ร']
+      ['ค', 'วา', 'ม', 'แป', 'ล', 'ก', 'แย', 'ก',
+       'และ', 'พัฒ','นา', 'กา', 'ร']
 
       Tokenize text into subword based on *etcc* **(Work In Progress)**
 
@@ -306,7 +307,7 @@ def syllable_tokenize(text: str, engine: str = "default") -> List[str]:
     **Options for engine**
         * *default*
         * *ssg* - CRF syllable segmenter for Thai.
-        
+
     :Example:
 
       >>> from pythainlp.tokenize import syllable_tokenize

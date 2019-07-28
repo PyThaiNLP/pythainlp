@@ -3,15 +3,13 @@
 Thai tokenizers
 """
 import re
-import sys
+import warnings
 from typing import Iterable, List, Union
 
-from pythainlp.corpus import get_corpus, thai_syllables, thai_words
-
 from marisa_trie import Trie
+from pythainlp.corpus import thai_syllables, thai_words
 
 DEFAULT_DICT_TRIE = Trie(thai_words())
-FROZEN_DICT_TRIE = Trie(get_corpus("words_th_frozen_201810.txt"))
 
 
 def word_tokenize(
@@ -32,7 +30,6 @@ def word_tokenize(
         * longest - dictionary-based, Longest Matching
         * deepcut - wrapper for deepcut, language-model-based https://github.com/rkcosmos/deepcut
         * icu - wrapper for ICU (International Components for Unicode, using PyICU), dictionary-based
-        * ulmfit - for thai2fit
         * a custom_dict can be provided for newmm, longest, and deepcut
 
     **Example**
@@ -67,10 +64,6 @@ def word_tokenize(
             segments = segment(text, custom_dict)
         else:
             segments = segment(text)
-    elif engine == "ulmfit":  # ulmfit has its own specific dictionary
-        from .newmm import segment
-
-        segments = segment(text, custom_dict=FROZEN_DICT_TRIE)
     elif engine == "icu":
         from .pyicu import segment
 
@@ -100,10 +93,11 @@ def dict_word_tokenize(
     :param bool keep_whitespace: True to keep whitespaces, a common mark for end of phrase in Thai
     :return: list of words
     """
-    print(
-        "Deprecated. Use word_tokenize() with a custom_dict argument instead.",
-        file=sys.stderr,
+    warnings.warn(
+        "dict_word_tokenize is deprecated. Use word_tokenize with a custom_dict argument instead.",
+        DeprecationWarning,
     )
+
     return word_tokenize(
         text=text,
         custom_dict=custom_dict,
@@ -143,6 +137,7 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
 
     **Options for engine**
         * tcc (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
+        * ssg - CRF syllable segmenter for Thai.
         * etcc - Enhanced Thai Character Cluster (Inrut et al. 2001) [In development]
     """
     if not text or not isinstance(text, str):
@@ -150,27 +145,37 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
 
     if engine == "etcc":
         from .etcc import segment
+    elif engine == "ssg":
+        from .ssg import segment
     else:  # default
         from .tcc import segment
 
     return segment(text)
 
 
-def syllable_tokenize(text: str) -> List[str]:
+def syllable_tokenize(text: str, engine: str = "default") -> List[str]:
     """
     :param str text: input string to be tokenized
+    :param str engine: syllable tokenizer
     :return: list of syllables
+
+    **Options for engine**
+        * default
+        * ssg - CRF syllable segmenter for Thai.
     """
 
     if not text or not isinstance(text, str):
         return []
 
     tokens = []
-    if text:
+    if engine == "default":
         words = word_tokenize(text)
         trie = dict_trie(dict_source=thai_syllables())
         for word in words:
             tokens.extend(word_tokenize(text=word, custom_dict=trie))
+    else:
+        from .ssg import segment
+        tokens = segment(text)
 
     return tokens
 

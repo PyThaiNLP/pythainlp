@@ -13,10 +13,11 @@ extras = {
     "deepcut": ["deepcut", "keras", "tensorflow"],
     "icu": ["pyicu"],
     "ipa": ["epitran"],
+    "ssg": ["ssg"],
     "ml": ["fastai>=1.0.38", "keras", "numpy", "torch"],
     "ner": ["sklearn-crfsuite"],
     "thai2fit": ["emoji", "gensim", "numpy"],
-    "thai2rom": ["keras", "numpy"],
+    "thai2rom": ["torch", "numpy"],
     "full": [
         "artagger",
         "deepcut",
@@ -29,12 +30,13 @@ extras = {
         "sklearn-crfsuite",
         "tensorflow",
         "torch",
+        "ssg",
     ],
 }
 
 setup(
     name="pythainlp",
-    version="2.0.5",
+    version="2.1.dev2",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -59,7 +61,7 @@ setup(
             "ttc_freq.txt",
             "ud_thai_pud_pt_tagger.dill",
             "ud_thai_pud_unigram_tagger.dill",
-            "words_th_frozen_201810.txt",
+            "words_th_thai2fit_201810.txt",
             "words_th.txt",
         ],
     },

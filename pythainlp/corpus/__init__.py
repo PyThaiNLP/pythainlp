@@ -43,15 +43,21 @@ def get_corpus_db_detail(name: str) -> dict:
     temp = Query()
     return db.search(temp.name == name)[0]
 
+def read_text_corpus(path: str) -> list:
+    lines = []
+    with open(path, "r", encoding="utf-8-sig") as fh:
+        lines = fh.read().splitlines()
+
+    return lines
+
+
 def get_corpus(filename: str) -> frozenset:
     """
     Read corpus from file and return a frozenset
 
     :param string filename: file corpus
     """
-    lines = []
-    with open(os.path.join(corpus_path(), filename), "r", encoding="utf-8-sig") as fh:
-        lines = fh.read().splitlines()
+    lines = read_text_corpus(os.path.join(corpus_path(), filename))
 
     return frozenset(lines)
 
@@ -64,17 +70,16 @@ def get_corpus_path(name: str) -> Union[str, None]:
     """
     db = TinyDB(corpus_db_path())
     temp = Query()
+    path = None
 
     if len(db.search(temp.name == name)) > 0:
         path = get_full_data_path(db.search(temp.name == name)[0]["file"])
-        db.close()
 
         if not os.path.exists(path):
             download(name)
 
-        return path
-
-    return None
+    db.close()
+    return path
 
 
 def _download(url: str, dst: str) -> int:
@@ -203,6 +208,8 @@ def remove(name: str) -> bool:
 from pythainlp.corpus.common import (
     countries,
     provinces,
+    thai_female_names,
+    thai_male_names,
     thai_negations,
     thai_stopwords,
     thai_syllables,
@@ -219,6 +226,8 @@ __all__ = [
     "get_corpus_path",
     "provinces",
     "remove",
+    "thai_female_names",
+    "thai_male_names",
     "thai_negations",
     "thai_stopwords",
     "thai_syllables",

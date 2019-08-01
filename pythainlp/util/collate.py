@@ -19,12 +19,27 @@ def _thkey(word: str) -> str:
 
 def collate(data: Iterable, reverse: bool = False) -> List[str]:
     """
-    :param list data: a list of strings to be sorted
-    :param bool reverse: reverse flag, set to get the result in descending order
-    :return: a list of strings, sorted alphabetically, according to Thai rules
-    **Example**::
-        >>> from pythainlp.util import *
-        >>> collate(['ไก่', 'เป็ด', 'หมู', 'วัว'])
-        ['ไก่', 'เป็ด', 'วัว', 'หมู']
+    This function sorts a list of strings according to Thai alphabets.
+
+    :param list[str] data: a list of words to be sorted
+    :param bool reverse: If `reverse` is set to **True** the result will be
+                         sorted in descending order. Otherwise, the result will
+                         be sorted in ascending order.
+                         By default, the parameter `reverse` is set to
+                         **False**, sorting alphabettically in ascending order.
+
+    :return: a list of strings, sorted alphabetically, according to
+             Thai alphabets
+    :rtype: list[str]
+
+    :Example:
+
+        >>> from pythainlp.util import collate
+        >>> collate(['ไก่', 'เกิด', 'กาล', 'เป็ด', 'หมู', 'วัว', 'วันที่'])
+        ['กาล', 'เกิด', 'ไก่', 'เป็ด', 'วันที่', 'วัว', 'หมู']
+        >>>
+        >>> collate(['ไก่', 'เกิด', 'กาล', 'เป็ด', 'หมู', 'วัว', 'วันที่'], \\
+            reverse=True)
+        ['หมู', 'วัว', 'วันที่', 'เป็ด', 'ไก่', 'เกิด', 'กาล']
     """
     return sorted(data, key=_thkey, reverse=reverse)

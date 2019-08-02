@@ -2,10 +2,15 @@
 """
 Romanization of Thai words based on machine-learnt engine ("thai2rom")
 """
+
 import torch
 import torch.nn as nn
-from torch import optim
 import torch.nn.functional as F
+from torch import optim
+
+import random
+import numpy as np
+
 from pythainlp.corpus import download, get_corpus_path
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -22,23 +27,48 @@ class ThaiTransliterator:
         if not self.__filemodel:
             download("thai2rom-pytorch")
             self.__filemodel = get_corpus_path("thai2rom-pytorch")
+
         loader = torch.load(self.__filemodel, map_location=device)
-        self._n_h = 64  # hidden dimensions for encoder
-        self._n_s = 64  # hidden dimensions for decoder
-        self._emb_dim = 64  # character embedding size
+
+        INPUT_DIM, ENC_EMB_DIM, ENC_HID_DIM, ENC_DROPOUT = loader[
+                                                            "encoder_params"
+                                                           ]
+        OUTPUT_DIM, DEC_EMB_DIM, DEC_HID_DIM, DEC_DROPOUT = loader[
+                                                             "decoder_params"
+                                                            ]
+
         self._maxlength = 100
-        self._char_to_ix = loader['char_to_ix']
-        self._ix_to_char = loader['ix_to_char']
-        self._target_char_to_ix = loader['target_char_to_ix']
-        self._ix_to_target_char = loader['ix_to_target_char']
+
+        self._char_to_ix = loader["char_to_ix"]
+        self._ix_to_char = loader["ix_to_char"]
+        self._target_char_to_ix = loader["target_char_to_ix"]
+        self._ix_to_target_char = loader["ix_to_target_char"]
+
         # encoder/ decoder
         # Restore the model and construct the encoder and decoder.
-        self._encoder = Encoder(len(self._char_to_ix),
-                                self._n_h, self._emb_dim).to(device)
-        self._encoder.load_state_dict(loader['encoder_state_dict'])
-        self._decoder = OneStepDecoder(
-            len(self._target_char_to_ix), self._n_s, self._emb_dim).to(device)
-        self._decoder.load_state_dict(loader['decoder_state_dict'])
+        self._encoder = Encoder(
+            INPUT_DIM,
+            ENC_EMB_DIM,
+            ENC_HID_DIM,
+            ENC_DROPOUT
+        )
+
+        self._decoder = AttentionDecoder(
+            OUTPUT_DIM,
+            DEC_EMB_DIM,
+            DEC_HID_DIM,
+            DEC_DROPOUT
+        )
+
+        self._network = Seq2Seq(
+            self._encoder,
+            self._decoder,
+            self._target_char_to_ix["<start>"],
+            self._target_char_to_ix["<end>"],
+            self._maxlength
+        ).to(device)
+
+        self._network.load_state_dict(loader["model_state_dict"])
 
     def _prepare_sequence_in(self, input_text):
         """
@@ -50,102 +80,304 @@ class ThaiTransliterator:
                 idxs.append(self._char_to_ix[w])
             else:
                 idxs.append(self._char_to_ix["<UNK>"])
-        idxs.append(self._target_char_to_ix["<end>"])
+        idxs.append(self._char_to_ix["<end>"])
         tensor = torch.tensor(idxs, dtype=torch.long)
         return tensor.to(device)
 
     def romanize(self, input_text):
         """
         :param str input_text: Thai text to be romanized
-        :return: English (more or less) text that spells out how the Thai text should be pronounced.
+        :return: English (more or less) text that spells out how the Thai text
+                 should be pronounced.
         """
-        input_tensor = self._prepare_sequence_in(input_text)
-        input_length = input_tensor.size(0)
-        encoder_outputs, encoder_hidden = self._encoder(input_tensor)
-        decoder_input = torch.tensor(
-            [self._target_char_to_ix["<start>"]], device=device)
-        decoder_hidden = (
-            encoder_hidden[0].reshape(
-                1, 1, self._encoder.hidden_dim), encoder_hidden[1].reshape(
-                1, 1, self._encoder.hidden_dim))
+        input_tensor = self._prepare_sequence_in(input_text).view(1, -1)
+        print('input_tensor', input_tensor.size(), input_tensor)
+        input_length = [len(input_text) + 1]
+        print('input_length', input_length)
 
-        decoded_seq = []  # output
+        target_tensor_logits = self._network(input_tensor,
+                                             input_length,
+                                             None, 0)
 
-        for di in range(self._maxlength):
-            decoder_output, decoder_hidden, _ = self._decoder(
-                decoder_input, decoder_hidden, encoder_outputs)
-            topv, topi = decoder_output.data.topk(1)
-            if topi.item() == self._target_char_to_ix["<end>"]:
-                decoded_seq.append('<end>')
-                break
-            else:
-                decoded_seq.append(self._ix_to_target_char[topi.item()])
+        try:
+            target_tensor = (
+                torch.argmax(target_tensor_logits.squeeze(1),
+                             1).cpu().numpy()
+            )
+            target_indices = [t for t in target_tensor]
+            target = [self._ix_to_target_char[t] for t in target_tensor]
+        except:
+            target_indices = [0]
+            target = ["<PAD>"]
 
-            decoder_input = topi.squeeze().detach()
-
-        return "".join(decoded_seq[:-1])
+        return "".join(target)
 
 
 class Encoder(nn.Module):
-    def __init__(self, vocab_size, hidden_dim, emb_dim):
+    def __init__(self, vocabulary_size, embedding_size,
+                 hidden_size, dropout=0.5):
+        """Constructor"""
         super(Encoder, self).__init__()
-        self.hidden_dim = hidden_dim
-        self.char_emb = nn.Embedding(vocab_size, emb_dim)
-        self.lstm = nn.LSTM(emb_dim, self.hidden_dim // 2, bidirectional=True)
+        self.hidden_size = hidden_size
+        self.character_embedding = nn.Embedding(vocabulary_size,
+                                                embedding_size)
+        self.lstm = nn.LSTM(
+            input_size=embedding_size,
+            hidden_size=hidden_size // 2,
+            bidirectional=True,
+            batch_first=True,
+        )
 
-    def forward(self, input_seq):
-        self.hidden = self.init_hidden()
-        embedded = self.char_emb(input_seq)
-        output, self.hidden = self.lstm(
-            embedded.view(len(embedded), 1, -1), self.hidden)
-        return output, self.hidden
+        self.dropout = nn.Dropout(dropout)
 
-    def init_hidden(self):
-        # The axes semantics are (num_layers, minibatch_size, hidden_dim)
-        return (
-            torch.zeros(
-                2,
-                1,
-                self.hidden_dim // 2,
-                requires_grad=True).to(device),
-            torch.zeros(
-                2,
-                1,
-                self.hidden_dim // 2,
-                requires_grad=True).to(device))
+    def forward(self, sequences, sequences_lengths):
+
+        batch_size = sequences.size(0)
+        self.hidden = self.init_hidden(batch_size)
+
+        sequences_lengths = np.sort(sequences_lengths)[::-1]
+        index_sorted = np.argsort(
+            -sequences_lengths
+        )  # use negation in sort in descending order
+        index_unsort = np.argsort(index_sorted)  # to unsorted sequence
+
+        index_sorted = torch.from_numpy(index_sorted)
+        sequences = sequences.index_select(0, index_sorted.to(device))
+
+        sequences = self.character_embedding(sequences)
+        sequences = self.dropout(sequences)
+
+        sequences_packed = nn.utils.rnn.pack_padded_sequence(
+            sequences, sequences_lengths.copy(), batch_first=True
+        )
+
+        sequences_output, self.hidden = self.lstm(sequences_packed,
+                                                  self.hidden)
+
+        sequences_output, _ = nn.utils.rnn.pad_packed_sequence(
+            sequences_output, batch_first=True
+        )
+
+        index_unsort = torch.from_numpy(index_unsort).to(device)
+        sequences_output = sequences_output.index_select(
+                            0, index_unsort.clone().detach()
+                           )
+
+        return sequences_output, self.hidden
+
+    def init_hidden(self, batch_size):
+        h_0 = torch.zeros(
+            [2, batch_size, self.hidden_size // 2], requires_grad=True
+        ).to(device)
+        c_0 = torch.zeros(
+            [2, batch_size, self.hidden_size // 2], requires_grad=True
+        ).to(device)
+
+        return (h_0, c_0)
 
 
-class OneStepDecoder(nn.Module):
-    def __init__(self, vocab_size, hidden_dim, emb_dim):
-        super(OneStepDecoder, self).__init__()
-        self.hidden_dim = hidden_dim
-        self.char_emb = nn.Embedding(vocab_size, emb_dim)
-        self.lstm = nn.LSTM(emb_dim, hidden_dim)
-        self.out = nn.Linear(hidden_dim, vocab_size)
-        self.softmax = nn.LogSoftmax(dim=1)
+class Attn(nn.Module):
+    def __init__(self, method, hidden_size):
+        super(Attn, self).__init__()
 
-    def forward(self, input_step, hidden, encoder_outputs):
+        self.method = method
+        self.hidden_size = hidden_size
 
-        embedded = self.char_emb(input_step).view(1, 1, -1)
-        output = embedded
-        output = F.relu(output)
-        output, hidden = self.lstm(output, hidden)
-        output = F.log_softmax(self.out(output[0]), dim=1)
-        return output, hidden, []  # this empty list should be replaced with decoder attn score
+        if self.method == "general":
+            self.attn = nn.Linear(self.hidden_size, hidden_size)
 
-    def init_hidden(self):
-        # The axes semantics are (num_layers, minibatch_size, hidden_dim)
-        return (
-            torch.zeros(
-                1,
-                1,
-                self.hidden_dim,
-                requires_grad=True).to(device),
-            torch.zeros(
-                1,
-                1,
-                self.hidden_dim,
-                requires_grad=True).to(device))
+        elif self.method == "concat":
+            self.attn = nn.Linear(self.hidden_size * 2, hidden_size)
+            self.other = nn.Parameter(torch.FloatTensor(1, hidden_size))
+
+    def forward(self, hidden, encoder_outputs, mask):
+        # hidden: B x 1 x h ;
+        # encoder_outputs: B x S x h
+
+        # Calculate energies for each encoder output
+        if self.method == "dot":
+            attn_energies = torch.bmm(encoder_outputs,
+                                      hidden.transpose(1, 2)).squeeze(2)
+        elif self.method == "general":
+            attn_energies = self.attn(
+                encoder_outputs.view(-1, encoder_outputs.size(-1))
+            )  # (B * S) x h
+            attn_energies = torch.bmm(
+                attn_energies.view(*encoder_outputs.size()),
+                hidden.transpose(1, 2)
+            ).squeeze(
+                2
+            )  # B x S
+        elif self.method == "concat":
+            attn_energies = self.attn(
+                torch.cat((hidden.expand(*encoder_outputs.size()),
+                          encoder_outputs), 2)
+            )  # B x S x h
+            attn_energies = torch.bmm(
+                attn_energies,
+                self.other.unsqueeze(0).expand(*hidden.size()).transpose(1, 2),
+            ).squeeze(2)
+
+        attn_energies = attn_energies.masked_fill(mask == 0, -1e10)
+
+        # Normalize energies to weights in range 0 to 1
+        return F.softmax(attn_energies, 1)
+
+
+class AttentionDecoder(nn.Module):
+    def __init__(self, vocabulary_size, embedding_size,
+                 hidden_size, dropout=0.5):
+        """Constructor"""
+        super(AttentionDecoder, self).__init__()
+        self.vocabulary_size = vocabulary_size
+        self.hidden_size = hidden_size
+        self.character_embedding = nn.Embedding(vocabulary_size,
+                                                embedding_size)
+        self.lstm = nn.LSTM(
+            input_size=embedding_size + self.hidden_size,
+            hidden_size=hidden_size,
+            bidirectional=False,
+            batch_first=True,
+        )
+
+        self.attn = Attn(method="general", hidden_size=self.hidden_size)
+        self.linear = nn.Linear(hidden_size * 2, vocabulary_size)
+
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, input, last_hidden, last_context, encoder_outputs, mask):
+        """"Defines the forward computation of the decoder"""
+
+        # input: (B, 1)
+        # last_hidden: (num_layers * num_directions, B, hidden_dim)
+        # last_context: (B, 1, hidden_dim)
+        # encoder_outputs: (B, S, hidden_dim)
+        embedded = self.character_embedding(input)
+        embedded = self.dropout(embedded)
+
+        # embedded: (batch_size, emb_dim)
+        rnn_input = torch.cat((embedded, last_context), 2)
+
+        output, hidden = self.lstm(rnn_input, last_hidden)
+        attn_weights = self.attn(output, encoder_outputs, mask)
+
+        #  context = (B, 1, S) x (B, S, hidden_dim)
+        #  context = (B, 1, hidden_dim)
+        context = attn_weights.unsqueeze(1).bmm(encoder_outputs)
+
+        output = torch.cat((context.squeeze(1), output.squeeze(1)), 1)
+        output = self.linear(output)
+
+        return output, hidden, context, attn_weights
+
+
+class Seq2Seq(nn.Module):
+    def __init__(
+        self, encoder, decoder,
+        target_start_token, target_end_token,
+        max_length
+    ):
+        super().__init__()
+
+        self.encoder = encoder
+        self.decoder = decoder
+        self.pad_idx = 0
+        self.target_start_token = target_start_token
+        self.target_end_token = target_end_token
+        self.max_length = max_length
+
+        assert encoder.hidden_size == decoder.hidden_size
+
+    def create_mask(self, source_seq):
+        mask = source_seq != self.pad_idx
+        return mask
+
+    def forward(
+        self, source_seq, source_seq_len, target_seq, teacher_forcing_ratio=0.5
+    ):
+        """
+            Parameters:
+                - source_seq: (batch_size x MAX_LENGTH)
+                - source_seq_len: (batch_size x 1)
+                - target_seq: (batch_size x MAX_LENGTH)
+
+            Returns
+                - outputs: (batch_size, MAX_LENGTH, target_vocab_size) for \
+                  training and (decoded_sequence_length, target_vocab_size) \
+                  for inference
+        """
+        batch_size = source_seq.size(0)
+        start_token = self.target_start_token
+        end_token = self.target_end_token
+        max_len = self.max_length
+        target_vocab_size = self.decoder.vocabulary_size
+
+        # init a tensor to store decoder outputs
+        outputs = torch.zeros(max_len,
+                              batch_size,
+                              target_vocab_size).to(device)
+
+        if target_seq is None:
+            assert teacher_forcing_ratio == 0, "Must be zero during inference"
+            inference = True
+        else:
+            inference = False
+
+        # feed mini-batch source sequences into the `Encoder`
+        encoder_outputs, encoder_hidden = self.encoder(source_seq,
+                                                       source_seq_len)
+
+        # create a Tensor of first input for the decoder
+        decoder_input = (
+            torch.tensor([[start_token] * batch_size])
+                 .view(batch_size, 1)
+                 .to(device)
+        )
+
+        # Initiate decoder output as the last state encoder's hidden state
+        decoder_hidden_0 = torch.cat(
+            [encoder_hidden[0][0], encoder_hidden[0][1]], dim=1
+        ).unsqueeze(dim=0)
+        decoder_hidden_1 = torch.cat(
+            [encoder_hidden[1][0], encoder_hidden[1][1]], dim=1
+        ).unsqueeze(dim=0)
+        decoder_hidden = (
+            decoder_hidden_0,
+            decoder_hidden_1,
+        )  # (hidden state, cell state)
+
+        # define a context vector
+        decoder_context = (
+            torch.zeros(encoder_outputs.size(0), encoder_outputs.size(2))
+            .unsqueeze(1)
+            .to(device)
+        )
+
+        max_source_len = encoder_outputs.size(1)
+        mask = self.create_mask(source_seq[:, 0:max_source_len])
+
+        for di in range(max_len):
+            decoder_output, decoder_hidden, decoder_context, _ = self.decoder(
+                decoder_input, decoder_hidden,
+                decoder_context, encoder_outputs,
+                mask
+            )
+            # decoder_output: (batch_size, target_vocab_size)
+            topv, topi = decoder_output.topk(1)
+            outputs[di] = decoder_output.to(device)
+
+            teacher_force = random.random() < teacher_forcing_ratio
+
+            decoder_input = (
+                target_seq[:, di].reshape(batch_size, 1)
+                if teacher_force
+                else topi.detach()
+            )
+
+            if inference and decoder_input == end_token:
+                return outputs[:di]
+
+        return outputs
 
 
 _THAI_TO_ROM = ThaiTransliterator()

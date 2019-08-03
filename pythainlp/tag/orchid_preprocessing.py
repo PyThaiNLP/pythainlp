@@ -2,7 +2,9 @@
 """
 Data preprocessing for orchid
 """
-def orchid_preprocessing(words):
+from typing import List
+
+def orchid_preprocessing(words: List[str]) -> List[str]:
 	i = 0
 	while i < len(words):
 		if words[i] == " ":
@@ -55,7 +57,7 @@ def orchid_preprocessing(words):
 			words[i] = "<slash>"
 		i += 1
 	return words
-def orchid_tag_to_text(word):
+def orchid_tag_to_text(word: str) -> str:
     if word == "<space>":
         word = " "
     elif word == "<plus>":

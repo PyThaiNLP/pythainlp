@@ -12,7 +12,9 @@ class TestUlmfitPackage(unittest.TestCase):
     def test_ThaiTokenizer(self):
         self.thai = ThaiTokenizer()
         self.assertIsNotNone(self.thai.tokenizer("ทดสอบการตัดคำ"))
-    def test_rm_useless_newlines(self):
-        self.assertIsNotNone(rm_useless_newlines("ผมจะขึ้นบรรทัดใหม่\nคุณโอเคไหม"))
-    def test_lowercase_all(self):
-        self.assertIsNotNone(lowercase_all(["A","B"]))
+    def test_load_pretrained(self):
+        self.assertIsNotNone(_THWIKI_LSTM)
+    def test_pre_rules_th(self):
+        self.assertIsNotNone(pre_rules_th)
+    def test_post_rules_th(self):
+        self.assertIsNotNone(post_rules_th)

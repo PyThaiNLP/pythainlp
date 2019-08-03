@@ -12,6 +12,7 @@ class TestUlmfitPackage(unittest.TestCase):
     def test_ThaiTokenizer(self):
         self.thai = ThaiTokenizer()
         self.assertIsNotNone(self.thai.tokenizer("ทดสอบการตัดคำ"))
+        self.assertIsNone(self.thai.add_special_cases(["แมว"]))
     def test_load_pretrained(self):
         self.assertIsNotNone(_THWIKI_LSTM)
     def test_pre_rules_th(self):

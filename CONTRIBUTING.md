@@ -50,6 +50,8 @@ Happy hacking! (;
 - Charin Polpanumas
 - Peeradej Tanruangporn
 - Arthit Suriyawongkul
+- Chakri Lowphansirikul
+- Pattarawat Chormai
 
 ## newmm (onecut), mm, TCC, and Thai Soundex Code
 - Korakot Chaovavanich
@@ -59,9 +61,15 @@ Happy hacking! (;
 
 ## Docs
 - Peeradej Tanruangporn
+- Chakri Lowphansirikul
 
 ## Maintainers
 - Arthit Suriyawongkul
+- Wannaphong Phatthiyaphaibun
+
+## Benchmark
+- Charin Polpanumas
+- Pattarawat Chormai
 
 ## Contributors
 - See more contributions here https://github.com/PyThaiNLP/pythainlp/graphs/contributors

@@ -92,7 +92,7 @@ class ThaiTransliterator:
             )
             target_indices = [t for t in target_tensor]
             target = [self._ix_to_target_char[t] for t in target_tensor]
-        except Exception as e: 
+        except Exception as e:
             target_indices = [0]
             target = ["<PAD>"]
 

@@ -92,7 +92,7 @@ class ThaiTransliterator:
             )
             target_indices = [t for t in target_tensor]
             target = [self._ix_to_target_char[t] for t in target_tensor]
-        except:
+        except Exception as e: 
             target_indices = [0]
             target = ["<PAD>"]
 
@@ -140,7 +140,7 @@ class Encoder(nn.Module):
             sequences, sequences_lengths.copy(), batch_first=True
         )
 
-        sequences_output, self.hidden = self.rnn(sequences_packed, 
+        sequences_output, self.hidden = self.rnn(sequences_packed,
                                                  self.hidden)
 
         sequences_output, _ = nn.utils.rnn.pad_packed_sequence(

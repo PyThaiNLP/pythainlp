@@ -118,6 +118,9 @@ class Encoder(nn.Module):
 
     def forward(self, sequences, sequences_lengths):
 
+        # sequences: (batch_size, sequence_length=MAX_LENGTH)
+        # sequences_lengths: (batch_size)
+
         batch_size = sequences.size(0)
         self.hidden = self.init_hidden(batch_size)
 
@@ -177,9 +180,6 @@ class Attn(nn.Module):
             self.other = nn.Parameter(torch.FloatTensor(1, hidden_size))
 
     def forward(self, hidden, encoder_outputs, mask):
-        # hidden: B x 1 x h ;
-        # encoder_outputs: B x S x h
-
         # Calculate energies for each encoder output
         if self.method == "dot":
             attn_energies = torch.bmm(encoder_outputs,
@@ -187,18 +187,18 @@ class Attn(nn.Module):
         elif self.method == "general":
             attn_energies = self.attn(
                 encoder_outputs.view(-1, encoder_outputs.size(-1))
-            )  # (B * S) x h
+            )  # (batch_size * sequence_len,  hidden_size)
             attn_energies = torch.bmm(
                 attn_energies.view(
                     *encoder_outputs.size()), hidden.transpose(1, 2)
-                ).squeeze(2)  # B x S
+                ).squeeze(2)  # (batch_size,  sequence_len)
         elif self.method == "concat":
             attn_energies = self.attn(
                 torch.cat((
                     hidden.expand(*encoder_outputs.size()),
                     encoder_outputs
                 ), 2)
-            )  # B x S x h
+            )  # (batch_size, sequence_len,  hidden_size)
             attn_energies = torch.bmm(
                 attn_energies,
                 self.other.unsqueeze(0).expand(*hidden.size()).transpose(1, 2),
@@ -234,36 +234,26 @@ class AttentionDecoder(nn.Module):
     def forward(self, input, last_hidden, encoder_outputs, mask):
         """"Defines the forward computation of the decoder"""
 
-        # input: (B, 1)
-        # last_hidden: (num_layers * num_directions, B, hidden_dim)
-        # encoder_outputs: (B, S, hidden_dim)
+        # input: (batch_size, 1)
+        # last_hidden: (batch_size, hidden_dim)
+        # encoder_outputs: (batch_size, sequence_len, hidden_dim)
+        # mask: (batch_size, sequence_len)
 
-        # last_hidden from  (batch_size, hidden size)
-        # to (batch_size, 1, hidden size)
         hidden = last_hidden.permute(1, 0, 2)
-        attn_weights = self.attn(hidden, encoder_outputs, mask)  # B x S
-        #  context = (B, 1, S) x (B, S, hidden_dim)
-        #  context = (B, 1, hidden_dim)
+        attn_weights = self.attn(hidden, encoder_outputs, mask)
+
         context_vector = attn_weights.unsqueeze(1).bmm(encoder_outputs)
-        #  context after sum = (B, hidden_dim)
         context_vector = torch.sum(context_vector, dim=1)
         context_vector = context_vector.unsqueeze(1)
 
         embedded = self.character_embedding(input)
         embedded = self.dropout(embedded)
 
-        # embedded: (batch_size, emb_dim)
         rnn_input = torch.cat((context_vector, embedded), -1)
 
         output, hidden = self.rnn(rnn_input)
-
-        attn_weights = self.attn(output, encoder_outputs, mask)
-
-        #  context = (B, 1, S) x (B, S, hidden_dim)
-        #  context = (B, 1, hidden_dim)
-        context = attn_weights.unsqueeze(1).bmm(encoder_outputs)
-
         output = output.view(-1, output.size(2))
+
         x = self.linear(output)
 
         return x, hidden[0], attn_weights
@@ -292,24 +282,17 @@ class Seq2Seq(nn.Module):
     def forward(
         self, source_seq, source_seq_len, target_seq, teacher_forcing_ratio=0.5
     ):
-        """
-            Parameters:
-                - source_seq: (batch_size x MAX_LENGTH)
-                - source_seq_len: (batch_size x 1)
-                - target_seq: (batch_size x MAX_LENGTH)
 
-            Returns
-                - outputs: (batch_size, MAX_LENGTH, target_vocab_size) for \
-                  training and (decoded_sequence_length, target_vocab_size) \
-                  for inference
-        """
+        # source_seq: (batch_size, MAX_LENGTH)
+        # source_seq_len: (batch_size, 1)
+        # target_seq: (batch_size, MAX_LENGTH)
+
         batch_size = source_seq.size(0)
         start_token = self.target_start_token
         end_token = self.target_end_token
         max_len = self.max_length
         target_vocab_size = self.decoder.vocabulary_size
 
-        # init a tensor to store decoder outputs
         outputs = torch.zeros(max_len,
                               batch_size,
                               target_vocab_size).to(device)
@@ -320,17 +303,14 @@ class Seq2Seq(nn.Module):
         else:
             inference = False
 
-        # feed mini-batch source sequences into the `Encoder`
         encoder_outputs, encoder_hidden = self.encoder(source_seq,
                                                        source_seq_len)
 
-        # create a Tensor of first input for the decoder
         decoder_input = (
             torch.tensor([[start_token] * batch_size]).view(batch_size,
                                                             1).to(device)
         )
 
-        # Initiate decoder output as the last state encoder's hidden state
         encoder_hidden_h_t = torch.cat(
             [encoder_hidden[0][0], encoder_hidden[0][1]], dim=1
         ).unsqueeze(dim=0)
@@ -343,7 +323,7 @@ class Seq2Seq(nn.Module):
             decoder_output, decoder_hidden, _ = self.decoder(
                 decoder_input, decoder_hidden, encoder_outputs, mask
             )
-            # decoder_output: (batch_size, target_vocab_size)
+
             topv, topi = decoder_output.topk(1)
             outputs[di] = decoder_output.to(device)
 

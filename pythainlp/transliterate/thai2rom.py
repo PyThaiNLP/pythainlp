@@ -121,7 +121,7 @@ class Encoder(nn.Module):
         self.hidden_size = hidden_size
         self.character_embedding = nn.Embedding(vocabulary_size,
                                                 embedding_size)
-        self.lstm = nn.LSTM(
+        self.rnn = nn.LSTM(
             input_size=embedding_size,
             hidden_size=hidden_size // 2,
             bidirectional=True,
@@ -151,7 +151,7 @@ class Encoder(nn.Module):
             sequences, sequences_lengths.copy(), batch_first=True
         )
 
-        sequences_output, self.hidden = self.lstm(sequences_packed,
+        sequences_output, self.hidden = self.rnn(sequences_packed,
                                                   self.hidden)
 
         sequences_output, _ = nn.utils.rnn.pad_packed_sequence(
@@ -233,7 +233,7 @@ class AttentionDecoder(nn.Module):
         self.hidden_size = hidden_size
         self.character_embedding = nn.Embedding(vocabulary_size,
                                                 embedding_size)
-        self.lstm = nn.LSTM(
+        self.rnn = nn.LSTM(
             input_size=embedding_size + self.hidden_size,
             hidden_size=hidden_size,
             bidirectional=False,
@@ -241,34 +241,46 @@ class AttentionDecoder(nn.Module):
         )
 
         self.attn = Attn(method="general", hidden_size=self.hidden_size)
-        self.linear = nn.Linear(hidden_size * 2, vocabulary_size)
+        self.linear = nn.Linear(hidden_size, vocabulary_size)
 
         self.dropout = nn.Dropout(dropout)
 
-    def forward(self, input, last_hidden, last_context, encoder_outputs, mask):
+    def forward(self, input, last_hidden, encoder_outputs, mask):
         """"Defines the forward computation of the decoder"""
 
         # input: (B, 1)
         # last_hidden: (num_layers * num_directions, B, hidden_dim)
-        # last_context: (B, 1, hidden_dim)
         # encoder_outputs: (B, S, hidden_dim)
+
+        # last_hidden from  (batch_size, hidden size)
+        # to (batch_size, 1, hidden size)
+        hidden = last_hidden.permute(1, 0, 2)
+        attn_weights = self.attn(hidden, encoder_outputs, mask)  # B x S
+        #  context = (B, 1, S) x (B, S, hidden_dim)
+        #  context = (B, 1, hidden_dim)
+        context_vector = attn_weights.unsqueeze(1).bmm(encoder_outputs)
+        #  context after sum = (B, hidden_dim)
+        context_vector = torch.sum(context_vector, dim=1)
+        context_vector = context_vector.unsqueeze(1)
+
         embedded = self.character_embedding(input)
         embedded = self.dropout(embedded)
 
         # embedded: (batch_size, emb_dim)
-        rnn_input = torch.cat((embedded, last_context), 2)
+        rnn_input = torch.cat((context_vector, embedded), -1)
 
-        output, hidden = self.lstm(rnn_input, last_hidden)
+        output, hidden = self.rnn(rnn_input)   
+
         attn_weights = self.attn(output, encoder_outputs, mask)
 
         #  context = (B, 1, S) x (B, S, hidden_dim)
         #  context = (B, 1, hidden_dim)
         context = attn_weights.unsqueeze(1).bmm(encoder_outputs)
 
-        output = torch.cat((context.squeeze(1), output.squeeze(1)), 1)
-        output = self.linear(output)
+        output = output.view(-1, output.size(2))
+        x = self.linear(output)
 
-        return output, hidden, context, attn_weights
+        return x, hidden[0], attn_weights
 
 
 class Seq2Seq(nn.Module):
@@ -335,32 +347,18 @@ class Seq2Seq(nn.Module):
         )
 
         # Initiate decoder output as the last state encoder's hidden state
-        decoder_hidden_0 = torch.cat(
-            [encoder_hidden[0][0], encoder_hidden[0][1]], dim=1
-        ).unsqueeze(dim=0)
-        decoder_hidden_1 = torch.cat(
-            [encoder_hidden[1][0], encoder_hidden[1][1]], dim=1
-        ).unsqueeze(dim=0)
-        decoder_hidden = (
-            decoder_hidden_0,
-            decoder_hidden_1,
-        )  # (hidden state, cell state)
-
-        # define a context vector
-        decoder_context = (
-            torch.zeros(encoder_outputs.size(0), encoder_outputs.size(2))
-            .unsqueeze(1)
-            .to(device)
-        )
+        encoder_hidden_h_t = torch.cat([
+                                encoder_hidden[0][0],
+                                encoder_hidden[0][1]], dim=1) .unsqueeze(dim=0)
+        decoder_hidden = encoder_hidden_h_t
 
         max_source_len = encoder_outputs.size(1)
         mask = self.create_mask(source_seq[:, 0:max_source_len])
 
         for di in range(max_len):
-            decoder_output, decoder_hidden, decoder_context, _ = self.decoder(
+            decoder_output, decoder_hidden, _ = self.decoder(
                 decoder_input, decoder_hidden,
-                decoder_context, encoder_outputs,
-                mask
+                encoder_outputs, mask
             )
             # decoder_output: (batch_size, target_vocab_size)
             topv, topi = decoder_output.topk(1)

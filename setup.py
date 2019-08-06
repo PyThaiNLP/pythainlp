@@ -31,6 +31,7 @@ extras = {
         "tensorflow",
         "torch",
         "ssg",
+        "emoji",
     ],
 }
 

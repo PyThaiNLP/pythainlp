@@ -23,10 +23,10 @@ class ThaiTransliterator:
         Now supports Thai to Latin (romanization)
         """
         # Download the model, if it's not on your machine.
-        self.__filemodel = get_corpus_path("thai2rom-pytorch.attn")
+        self.__filemodel = get_corpus_path("thai2rom-pytorch-attn")
         if not self.__filemodel:
-            download("thai2rom-pytorch.attn")
-            self.__filemodel = get_corpus_path("thai2rom-pytorch.attn")
+            download("thai2rom-pytorch-attn")
+            self.__filemodel = get_corpus_path("thai2rom-pytorch-attn")
 
         loader = torch.load(self.__filemodel, map_location=device)
 

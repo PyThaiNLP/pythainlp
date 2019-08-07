@@ -91,7 +91,11 @@ setup(
         "Topic :: Text Processing :: General",
         "Topic :: Text Processing :: Linguistic",
     ],
-    scripts=['bin/pythainlp']
+    scripts=[
+        'bin/pythainlp',
+        'scripts/generate-result-table.py',
+        'scripts/thai-tokenisation-benchmark.py'
+    ]
 )
 
 # TODO: Check extras and decide to download additional data, like model files

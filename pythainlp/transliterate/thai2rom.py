@@ -58,6 +58,7 @@ class ThaiTransliterator:
         ).to(device)
 
         self._network.load_state_dict(loader["model_state_dict"])
+        self._network.eval()
 
     def _prepare_sequence_in(self, input_text):
         """

@@ -13,7 +13,6 @@ extras = {
     "deepcut": ["deepcut", "keras", "tensorflow"],
     "icu": ["pyicu"],
     "ipa": ["epitran"],
-    "ssg": ["ssg"],
     "ml": ["fastai>=1.0.38", "keras", "numpy", "torch"],
     "ner": ["sklearn-crfsuite"],
     "thai2fit": ["emoji", "gensim", "numpy"],

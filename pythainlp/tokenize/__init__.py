@@ -278,15 +278,13 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
 
     if engine == "etcc":
         from .etcc import segment
-    elif engine == "ssg":
-        from .ssg import segment
     else:  # default
         from .tcc import segment
 
     return segment(text)
 
 
-def syllable_tokenize(text: str, engine: str = "default") -> List[str]:
+def syllable_tokenize(text: str) -> List[str]:
     """
     This function is to tokenize text into syllable (Thai: พยางค์), a unit of
     pronunciation having one vowel sound.  For example, the word 'รถไฟ'
@@ -322,14 +320,11 @@ def syllable_tokenize(text: str, engine: str = "default") -> List[str]:
         return []
 
     tokens = []
-    if engine == "default":
+    if text:
         words = word_tokenize(text)
         trie = dict_trie(dict_source=thai_syllables())
         for word in words:
             tokens.extend(word_tokenize(text=word, custom_dict=trie))
-    else:
-        from .ssg import segment
-        tokens = segment(text)
 
     return tokens
 

@@ -202,7 +202,6 @@ class TestTokenizePackage(unittest.TestCase):
             syllable_tokenize("สวัสดีชาวโลก"),
             ["สวัส", "ดี", "ชาว", "โลก"]
         )
-
         self.assertEqual(
             syllable_tokenize("แมวกินปลา", engine="ssg"),
             ['แมว', 'กิน', 'ปลา']

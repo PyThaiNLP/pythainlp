@@ -342,7 +342,6 @@ class Seq2Seq(nn.Module):
 
         return outputs
 
-
 _THAI_TO_ROM = ThaiTransliterator()
 
 

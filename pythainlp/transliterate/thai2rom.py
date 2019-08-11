@@ -86,15 +86,17 @@ class ThaiTransliterator:
                                              input_length,
                                              None, 0)
 
-        try:
-            target_tensor = (
-                torch.argmax(target_tensor_logits.squeeze(1), 1).cpu().numpy()
-            )
-            target_indices = [t for t in target_tensor]
-            target = [self._ix_to_target_char[t] for t in target_tensor]
-        except Exception as e: 
-            target_indices = [0]
+        # Seq2seq model returns <END> as the first token,
+        # As a result, target_tensor_logits.size() is torch.Size([0])
+        if target_tensor_logits.size(0) == 0:
             target = ["<PAD>"]
+        else:
+            target_tensor = (
+                    torch.argmax(
+                        target_tensor_logits.squeeze(1),
+                        1).cpu().numpy()
+                )
+            target = [self._ix_to_target_char[t] for t in target_tensor]
 
         return "".join(target)
 

@@ -203,6 +203,11 @@ class TestTokenizePackage(unittest.TestCase):
             ["สวัส", "ดี", "ชาว", "โลก"]
         )
 
+        self.assertEqual(
+            syllable_tokenize("แมวกินปลา", engine="ssg"),
+            ['แมว', 'กิน', 'ปลา']
+        )
+
     def test_tcc(self):
         self.assertEqual(tcc.segment(None), [])
         self.assertEqual(tcc.segment(""), [])

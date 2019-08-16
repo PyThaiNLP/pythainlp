@@ -101,11 +101,13 @@ for k, v in sorted(results.items(), key=lambda (k, v): k):
             f1 = dd['metrics']['word_level:f1']['mean']
 
         key = REF_KEY.format(ds=dsk, method=k)
-        res.append(BADGE_TEMPLATE.format(ds=dsk.replace("-", ":"), f1=f1, key=key))
+        res.append(BADGE_TEMPLATE.format(
+            ds=dsk.replace("-", ":"), f1=f1, key=key))
         url = URL_TEMPLATE.format(ds=dsk, method=k)
         references.append(REF_TEMPLATE.format(key=key, url=url).strip())
 
-    row = ROW_TEMPLATE.format(vendor=k, desc=desc[k], datasets=" ".join(res)).strip()
+    row = ROW_TEMPLATE.format(
+        vendor=k, desc=desc[k], datasets=" ".join(res)).strip()
     rows.append(row)
 
 print("-------- TABLE ----------")

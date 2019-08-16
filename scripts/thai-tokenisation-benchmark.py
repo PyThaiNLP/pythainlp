@@ -11,24 +11,26 @@ from pythainlp.benchmarks import word_tokenisation
 parser = argparse.ArgumentParser(description='Short sample app')
 
 parser.add_argument('--input',
-    action="store",
-    help="""
+                    action="store",
+                    help="""
         path to file that you want to compare against
         a standard dataset or a custom test file
     """
-)
+                    )
 
 parser.add_argument('--test-file',
-    action="store",
-    help="path to test file"
-)
+                    action="store",
+                    help="path to test file"
+                    )
 
 args = parser.parse_args()
+
 
 def _read_file(path):
     with open(path, "r", encoding="utf-8") as f:
         lines = map(lambda r: r.strip(), f.readlines())
     return list(lines)
+
 
 print(args.input)
 actual = _read_file(args.input)
@@ -38,12 +40,12 @@ assert len(actual) == len(expected), \
     'Input and test files do not have the same number of samples'
 print('Benchmarking %s against %s with %d samples in total' % (
     args.input, args.test_file, len(actual)
-    ))
+))
 
 df_raw = word_tokenisation.benchmark(expected, actual)
 
-df_res =  df_raw\
-    .describe() 
+df_res = df_raw\
+    .describe()
 df_res = df_res[[
     'char_level:tp',
     'char_level:tn',
@@ -106,4 +108,4 @@ with open(res_path, "w") as f:
         samples=samples
     )
 
-    json.dump(details,f, ensure_ascii=False)
+    json.dump(details, f, ensure_ascii=False)

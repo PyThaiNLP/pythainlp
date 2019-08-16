@@ -25,17 +25,14 @@ def _f1(precision, recall):
     return 2*precision*recall / (precision + recall)
 
 
-def flatten_dict(my_dict, parent_key="", sep=":"):
+def _flatten_result(my_dict, parent_key="", sep=":"):
     items = []
-    for k, v in my_dict.items():
-        new_key = "%s%s%s" % (parent_key, sep, k) if parent_key else k
-        if isinstance(v, dict):
-            items.extend(flatten_dict(v, parent_key=new_key).items())
-        else:
+    for k1, kv2 in my_dict.items():
+        for k2, v in kv2.items():
+            new_key = f"{k1}{sep}{k2}"
             items.append((new_key, v))
 
     return dict(items)
-
 
 def benchmark(ref_samples, samples):
     results = []
@@ -44,7 +41,7 @@ def benchmark(ref_samples, samples):
             r, s = preprocessing(r), preprocessing(s)
             if r and s:
                 stats = _compute_stats(r, s)
-                stats = flatten_dict(stats)
+                stats = _flatten_result(stats)
                 stats["expected"] = r
                 stats["actual"] = s
                 results.append(stats)

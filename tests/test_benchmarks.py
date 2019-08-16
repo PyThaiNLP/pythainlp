@@ -17,7 +17,7 @@ class TestBenchmarksPackage(unittest.TestCase):
             sample="ทดสอบ การ ทำ ความสะอาด ข้อมูล<tag>ok</tag>"
         ))
 
-    def test_benchmark(self):
+    def test_benchmark_not_none(self):
         self.assertIsNotNone(word_tokenisation.benchmark(
             ["วัน", "จัน", "ทร์", "สี", "เหลือง"],
             ["วัน", "จันทร์", "สี", "เหลือง"]
@@ -52,8 +52,6 @@ class TestBenchmarksPackage(unittest.TestCase):
 
         df = word_tokenisation.benchmark(expected, actual)
 
-        print(df.describe())
-
         self.assertIsNotNone(df)
 
     def test_count_correctly_tokenised_words(self):
@@ -76,3 +74,12 @@ class TestBenchmarksPackage(unittest.TestCase):
 
         labels = word_tokenisation._find_words_correctly_tokenised(r, s)
         self.assertEqual(expected, "".join(np.array(labels).astype(str)))
+
+    def test_flatten_result(self):
+        result = dict(
+            key1=dict(v1=6),
+            key2=dict(v2=7)
+        )
+
+        actual = word_tokenisation._flatten_result(result)
+        self.assertEqual(actual, {'key1:v1': 6, 'key2:v2': 7})

@@ -8,6 +8,16 @@ import pandas as pd
 
 SEPARATOR = "|"
 
+SURROUNDING_SEPS_RX = re.compile(
+    "{sep}? ?{sep}$".format(sep=re.escape(SEPARATOR))
+)
+
+MULTIPLE_SEPS_RX = re.compile("{sep}+".format(sep=re.escape(SEPARATOR)))
+
+TAG_RX = re.compile("<\/?[A-Z]+>")
+
+TAILING_SEP_RX = re.compile("{sep}$".format(sep=re.escape(SEPARATOR)))
+
 
 def _f1(precision, recall):
     if precision == recall == 0:
@@ -56,39 +66,20 @@ Pair (i=%d)
 
 
 def preprocessing(sample, remove_space=True):
-    # prevent tailing separator and <NE></NE> tag
-    sample = re.sub(
-        re.compile("{sep}? ?{sep}$".format(sep=re.escape(SEPARATOR))),
-        "",
-        sample
-    )
-
-    sample = re.sub(
-        re.compile("^{sep}? ?{sep}".format(sep=re.escape(SEPARATOR))),
-        "",
-        sample
-    )
+    sample = re.sub(SURROUNDING_SEPS_RX, "", sample)
 
     if remove_space:
-        sample = re.sub(
-            "\s+",
-            "",
-            sample
-        )
+        sample = re.sub("\s+", "", sample)
 
     sample = re.sub(
-        re.compile("{sep}+".format(sep=re.escape(SEPARATOR))),
+        MULTIPLE_SEPS_RX,
         SEPARATOR,
         sample
     )
 
-    sample = re.sub(r"<\/?[A-Z]+>", "", sample)
+    sample = re.sub(TAG_RX, "", sample)
 
-    sample = re.sub(
-        re.compile("{sep}$".format(sep=re.escape(SEPARATOR))),
-        "",
-        sample
-    ).strip()
+    sample = re.sub(TAILING_SEP_RX, "", sample).strip()
 
     return sample
 

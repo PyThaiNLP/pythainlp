@@ -93,7 +93,6 @@ setup(
     ],
     scripts=[
         'bin/pythainlp',
-        'scripts/generate-result-table.py',
         'scripts/thai-tokenisation-benchmark.py'
     ]
 )

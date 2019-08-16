@@ -16,7 +16,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 **This is a document for development branch (post 2.0). Things will break.**
 
-- The latest stable release is [2.0.5](https://github.com/PyThaiNLP/pythainlp/tree/master)
+- The latest stable release is [2.0.7](https://github.com/PyThaiNLP/pythainlp/tree/master)
 - PyThaiNLP 2 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
   - [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
   - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
@@ -106,7 +106,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 **เอกสารนี้สำหรับรุ่นพัฒนา อาจมีการเปลี่ยนแปลงได้ตลอด**
 
-- รุ่นเสถียรล่าสุดคือรุ่น [2.0.5](https://github.com/PyThaiNLP/pythainlp/tree/master)
+- รุ่นเสถียรล่าสุดคือรุ่น [2.0.7](https://github.com/PyThaiNLP/pythainlp/tree/master)
 - PyThaiNLP 2 รองรับ Python 3.6 ขึ้นไป
 - ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
 

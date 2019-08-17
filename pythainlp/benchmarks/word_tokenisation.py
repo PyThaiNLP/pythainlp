@@ -34,7 +34,7 @@ def _flatten_result(my_dict, parent_key="", sep=":"):
 
     return dict(items)
 
-def benchmark(ref_samples, samples):
+def benchmark(ref_samples: list, samples: list):
     results = []
     for i, (r, s) in enumerate(zip(ref_samples, samples)):
         try:
@@ -62,7 +62,7 @@ Pair (i=%d)
     return pd.DataFrame(results)
 
 
-def preprocessing(sample, remove_space=True):
+def preprocessing(sample: str, remove_space: bool = True) -> str:
     sample = re.sub(SURROUNDING_SEPS_RX, "", sample)
 
     if remove_space:
@@ -148,7 +148,7 @@ def _compute_stats(ref_sample, raw_sample):
 """
 
 
-def _binary_representation(sample, verbose=False):
+def _binary_representation(sample: list, verbose: bool =False):
     chars = np.array(list(sample))
 
     boundary = np.argwhere(chars == SEPARATOR).reshape(-1)

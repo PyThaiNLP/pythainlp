@@ -19,13 +19,13 @@ TAG_RX = re.compile("<\/?[A-Z]+>")
 TAILING_SEP_RX = re.compile("{sep}$".format(sep=re.escape(SEPARATOR)))
 
 
-def _f1(precision, recall):
+def _f1(precision: float, recall: float) -> float:
     if precision == recall == 0:
         return 0
     return 2*precision*recall / (precision + recall)
 
 
-def _flatten_result(my_dict, parent_key="", sep=":"):
+def _flatten_result(my_dict: dict, parent_key: str = "", sep: str = ":") -> dict:
     items = []
     for k1, kv2 in my_dict.items():
         for k2, v in kv2.items():
@@ -81,7 +81,7 @@ def preprocessing(sample: str, remove_space: bool = True) -> str:
     return sample
 
 
-def _compute_stats(ref_sample, raw_sample):
+def _compute_stats(ref_sample: str, raw_sample: str) -> dict:
     ref_sample, _ = _binary_representation(ref_sample)
     sample, _ = _binary_representation(raw_sample)
 
@@ -173,7 +173,7 @@ return array of (start, stop) indicating starting and ending position of each wo
 """
 
 
-def _find_word_boudaries(sample):
+def _find_word_boudaries(sample) -> list:
     boundary = np.argwhere(sample == 1).reshape(-1)
     start_idx = boundary
     stop_idx = boundary[1:].tolist() + [sample.shape[0]]
@@ -187,7 +187,7 @@ word_boundaries: [ (start, stop), ... ]
 """
 
 
-def _count_correctly_tokenised_words(sample, word_boundaries):
+def _count_correctly_tokenised_words(sample, word_boundaries) -> list:
     count = 0
     for st, end in word_boundaries:
         pend = min(end, sample.shape[0])
@@ -201,7 +201,7 @@ def _count_correctly_tokenised_words(sample, word_boundaries):
     return count
 
 
-def _find_words_correctly_tokenised(ref_boundaries, predicted_boundaries):
+def _find_words_correctly_tokenised(ref_boundaries: list, predicted_boundaries: list) -> tuple:
     ref_b = dict(zip(ref_boundaries, [1]*len(ref_boundaries)))
 
     labels = tuple(map(lambda x: ref_b.get(x, 0), predicted_boundaries))

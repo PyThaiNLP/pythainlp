@@ -2,15 +2,18 @@ import argparse
 
 from pythainlp import corpus
 
+
 class App:
     def __init__(self, argv):
         parser = argparse.ArgumentParser("corpus")
-        parser.add_argument("subcommand",
+        parser.add_argument(
+            "subcommand",
             type=str,
             help="[download|remove]"
         )
 
-        parser.add_argument("--name",
+        parser.add_argument(
+            "--name",
             type=str,
             help="corpus's name",
         )

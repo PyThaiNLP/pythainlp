@@ -102,7 +102,7 @@ Pair (i=%d)
     return pd.DataFrame(results)
 
 
-def preprocessing(sample: str, remove_space: bool = True) -> str:
+def preprocessing(txt: str, remove_space: bool = True) -> str:
     """
     Preprocess text before evaluation
 
@@ -112,22 +112,22 @@ def preprocessing(sample: str, remove_space: bool = True) -> str:
     :return: preprocessed text
     :rtype: str
     """
-    sample = re.sub(SURROUNDING_SEPS_RX, "", sample)
+    txt = re.sub(SURROUNDING_SEPS_RX, "", txt)
 
     if remove_space:
-        sample = re.sub("\s+", "", sample)
+        txt = re.sub("\s+", "", txt)
 
-    sample = re.sub(
+    txt = re.sub(
         MULTIPLE_SEPS_RX,
         SEPARATOR,
-        sample
+        txt
     )
 
-    sample = re.sub(TAG_RX, "", sample)
+    txt = re.sub(TAG_RX, "", txt)
 
-    sample = re.sub(TAILING_SEP_RX, "", sample).strip()
+    txt = re.sub(TAILING_SEP_RX, "", txt).strip()
 
-    return sample
+    return txt
 
 
 def _compute_stats(ref_sample: str, raw_sample: str) -> dict:

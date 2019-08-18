@@ -25,7 +25,7 @@ class TestBenchmarksPackage(unittest.TestCase):
 
     def test_binary_representation(self):
         sentence = "อากาศ|ร้อน|มาก|ครับ"
-        rept, _ = word_tokenisation._binary_representation(sentence)
+        rept = word_tokenisation._binary_representation(sentence)
 
         self.assertEqual(
             [1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0],

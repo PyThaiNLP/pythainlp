@@ -14,7 +14,7 @@ class TestBenchmarksPackage(unittest.TestCase):
 
     def test_preprocessing(self):
         self.assertIsNotNone(word_tokenisation.preprocessing(
-            sample="ทดสอบ การ ทำ ความสะอาด ข้อมูล<tag>ok</tag>"
+            txt="ทดสอบ การ ทำ ความสะอาด ข้อมูล<tag>ok</tag>"
         ))
 
     def test_benchmark_not_none(self):

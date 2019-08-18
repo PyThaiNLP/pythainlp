@@ -18,6 +18,7 @@ extras = {
     "ner": ["sklearn-crfsuite"],
     "thai2fit": ["emoji", "gensim", "numpy"],
     "thai2rom": ["torch", "numpy"],
+    "benchmarks": ["numpy", "pandas"],
     "full": [
         "artagger",
         "deepcut",
@@ -32,6 +33,7 @@ extras = {
         "torch",
         "ssg",
         "emoji",
+        "pandas",
     ],
 }
 

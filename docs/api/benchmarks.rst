@@ -2,10 +2,10 @@
 
 pythainlp.benchmarks
 ====================================
-The :class:`pythainlp.benchmarks` is benchmarks for Thai.
+The :class:`pythainlp.benchmarks` is benchmarks for Thai. Now, the benchmark function is only for word tokenization.
 
 Modules
 -------
 
-.. autofunction:: benchmark
+.. autofunction:: pythainlp.benchmarks.word_tokenisation.benchmark
 .. autofunction:: pythainlp.benchmarks.word_tokenisation.preprocessing

@@ -7,7 +7,7 @@ import sys
 from pythainlp import cli
 
 # todo: get from CLI modules
-available_commands = ['corpus', 'tokenization']
+available_commands = ['corpus', 'tokenization', 'soundex']
 
 parser = argparse.ArgumentParser()
 parser.add_argument(

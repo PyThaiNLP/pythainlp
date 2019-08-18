@@ -2,16 +2,19 @@ import argparse
 
 from pythainlp.soundex import soundex
 
+
 class App:
 
     def __init__(self, argv):
         parser = argparse.ArgumentParser("sounddex")
-        parser.add_argument("--text",
+        parser.add_argument(
+            "--text",
             type=str,
             help="text",
         )
 
-        parser.add_argument("--engine",
+        parser.add_argument(
+            "--engine",
             type=str,
             help="[udom83|lk82|metasound] (default: udom83)",
             default="udom83"

@@ -123,6 +123,7 @@ pre_rules_th = [
     rm_useless_newlines,
     rm_brackets,
 ]
+
 post_rules_th = [replace_all_caps,
                  ungroup_emoji,
                  lowercase_all,

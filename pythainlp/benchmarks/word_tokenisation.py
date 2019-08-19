@@ -68,6 +68,9 @@ def benchmark(ref_samples: list, samples: list):
     """
     Performace benchmark of samples
 
+    Please see :meth:`pythainlp.benchmarks.word_tokenisation.compute_stats` for
+    metrics being computed.
+
     :param list[str] ref_samples: ground truth samples
     :param list[str] samples: samples that we want to evaluate
 
@@ -80,7 +83,7 @@ def benchmark(ref_samples: list, samples: list):
         try:
             r, s = preprocessing(r), preprocessing(s)
             if r and s:
-                stats = _compute_stats(r, s)
+                stats = compute_stats(r, s)
                 stats = _flatten_result(stats)
                 stats["expected"] = r
                 stats["actual"] = s
@@ -104,7 +107,7 @@ Pair (i=%d)
 
 def preprocessing(txt: str, remove_space: bool = True) -> str:
     """
-    Preprocess text before evaluation
+    Clean up text before performing evaluation
 
     :param str text: text to be preprocessed
     :param bool remove_space: whether remove white space
@@ -130,9 +133,19 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
     return txt
 
 
-def _compute_stats(ref_sample: str, raw_sample: str) -> dict:
+def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     """
     Compute statistics for tokenization quality
+
+    These statistics includes:
+
+    **Character-Level**:
+      True Positive, False Positive, True Negative, False Negative, Precision, Recall, and f1
+    **Word-Level**:
+      Precision, Recall, and f1
+    **Other**:
+      - Correct tokenization indicator: {0, 1} sequence indicating the correspoding
+        word is tokenized correctly.
 
     :param str ref_sample: ground truth samples
     :param str samples samples that we want to evaluate

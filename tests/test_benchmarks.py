@@ -36,7 +36,7 @@ class TestBenchmarksPackage(unittest.TestCase):
         for pair in TEST_DATA['sentences']:
             exp, act = pair['expected'], pair['actual']
 
-            result = word_tokenisation._compute_stats(
+            result = word_tokenisation.compute_stats(
                 word_tokenisation.preprocessing(exp),
                 word_tokenisation.preprocessing(act)
             ) 

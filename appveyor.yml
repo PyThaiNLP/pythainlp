@@ -14,7 +14,7 @@ environment:
     - PYTHON: "C:/Python36-x64"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
-      PYTORCH: "https://download.pytorch.org/whl/cpu/torch-1.2.0%2Bcpu-cp36-cp36m-win_amd64.whl",
+      PYTORCH: "https://download.pytorch.org/whl/cpu/torch-1.2.0%2Bcpu-cp36-cp36m-win_amd64.whl"
       ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
       PYICU_PKG: "https://www.dropbox.com/s/7t0rrxwckqbgivi/PyICU-2.3.1-cp36-cp36m-win_amd64.whl?dl=1"
       DISTUTILS_USE_SDK: "1"

@@ -102,8 +102,7 @@ def ungroup_emoji(toks: Collection):
     res = []
     for tok in toks:
         if emoji.emoji_count(tok) == len(tok):
-            for char in tok:
-                res.append(char)
+            res.append([char for char in tok])
         else:
             res.append(tok)
 

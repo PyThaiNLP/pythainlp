@@ -5,7 +5,7 @@ build: off
 
 environment:
   global:
-      WITH_COMPILER: "cmd /E:ON /V:ON /C .\\appveyor\\windows_sdk.cmd"
+      CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
   matrix:
 #    - PYTHON: "C:/Python36"
 #      PYTHON_VERSION: "3.6"
@@ -44,20 +44,21 @@ platform:
 install:
   - "chcp 65001"
   - "set PYTHONIOENCODING=utf-8"
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
 #  - ECHO "Installed SDKs:"
 #  - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
   - IF "%ARCH%"=="32" (call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86) ELSE (ECHO "probably a 64bit build")
   - IF "%ARCH%"=="64" (call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" amd64) ELSE (ECHO "probably a 32bit build")
-  - "%PYTHON%/python.exe --version"
+  - "python --version"
   # - "set ICU_VERSION=62"
 #  - "%PYTHON%/python.exe -m pip install --upgrade pip"
-  - "%PYTHON%/python.exe -m pip install coveralls[yaml]"
-  - "%PYTHON%/python.exe -m pip install coverage"
-  - "%PYTHON%/python.exe -m pip install %PYICU_PKG%"
-  - "%PYTHON%/python.exe -m pip install %ARTAGGER_PKG%"
-  - "%PYTHON%/python.exe -m pip install %PYTORCH%"
-  - "%PYTHON%/python.exe -m pip install -e .[full]"
+  - "pip install coveralls[yaml]"
+  - "pip install coverage"
+  - "pip install %PYICU_PKG%"
+  - "pip install %ARTAGGER_PKG%"
+  - "pip install %PYTORCH%"
+  - "%CMD_IN_ENV% pip install -e .[full]"
 
 test_script:
-  - "%PYTHON%/python.exe -m pip --version"
-  - "%PYTHON%/python.exe setup.py test"
+  - "pip --version"
+  - "python setup.py test"

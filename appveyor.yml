@@ -2,6 +2,7 @@
 # https://www.lfd.uci.edu/~gohlke/pythonlibs/
 
 build: off
+image: Visual Studio 2015
 
 environment:
   global:
@@ -49,6 +50,7 @@ install:
   - "chcp 65001"
   - "set PYTHONIOENCODING=utf-8"
   - "%PYTHON%\\python.exe -m pip install wheel"
+  - '"%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" %PLATFORM%'
   - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
   - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
   - "python --version"
@@ -58,7 +60,7 @@ install:
   - "pip install %PYICU_PKG%"
   - "pip install %ARTAGGER_PKG%"
   - "pip install %PYTORCH%"
-  - "%CMD_IN_ENV% pip install -e .[full]"
+  - "pip install -e .[full]"
 
 test_script:
   - "pip --version"

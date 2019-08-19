@@ -4,6 +4,8 @@
 build: off
 
 environment:
+  global:
+      WITH_COMPILER: "cmd /E:ON /V:ON /C .\\appveyor\\windows_sdk.cmd"
   matrix:
 #    - PYTHON: "C:/Python36"
 #      PYTHON_VERSION: "3.6"
@@ -36,11 +38,16 @@ init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"  
 #  - ps: "ls C:/Python*"
 
+platform:
+  - x64
+
 install:
   - "chcp 65001"
   - "set PYTHONIOENCODING=utf-8"
 #  - ECHO "Installed SDKs:"
 #  - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
+  - IF "%ARCH%"=="32" (call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86) ELSE (ECHO "probably a 64bit build")
+  - IF "%ARCH%"=="64" (call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" amd64) ELSE (ECHO "probably a 32bit build")
   - "%PYTHON%/python.exe --version"
   # - "set ICU_VERSION=62"
 #  - "%PYTHON%/python.exe -m pip install --upgrade pip"

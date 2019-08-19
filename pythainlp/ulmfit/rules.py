@@ -62,8 +62,10 @@ def replace_rep_after(text: str) -> str:
 
 
 def replace_wrep_post(toks: Collection):
-    """Replace reptitive words post tokenization;
-    fastai `replace_wrep` does not work well with Thai."""
+    """
+    Replace reptitive words post tokenization;
+    fastai `replace_wrep` does not work well with Thai.
+    """
     previous_word = None
     rep_count = 0
     res = []
@@ -109,7 +111,7 @@ def ungroup_emoji(toks: Collection):
 
 
 def lowercase_all(toks: Collection):
-    "lowercase all English words"
+    """lowercase all English words"""
     return [tok.lower() for tok in toks]
 
 

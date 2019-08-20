@@ -16,9 +16,19 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
+**News**
+
+>Hello,
+>We are conducting a survey for PyThaiNLP’s users and those who are working in the field of Thai NLP.
+
+>We would love to hear your feedback in order to improve the library. Also, we will prioritize for the implementation of new Thai NLP features such as Thai-English Machine Translation, Speech-to-Text, or Text-to-Speech.
+
+>You could take part in this survey via the Google Form shown below:
+>https://forms.gle/aLdSHnvkNuK5CFyt9
+
 **This is a document for development branch (post 2.0). Things will break.**
 
-- The latest stable release is [2.0.5](https://github.com/PyThaiNLP/pythainlp/releases)
+- The latest stable release is [2.0.7](https://github.com/PyThaiNLP/pythainlp/releases)
 - PyThaiNLP 2 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
   - [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
   - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
@@ -99,6 +109,12 @@ Please do fork and create a pull request :)
 For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
 
 
+Made with ❤️
+
+We build Thai NLP.
+
+PyThaiNLP team.
+
 # ภาษาไทย
 
 ประมวลภาษาไทยในภาษา Python
@@ -107,9 +123,19 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 > เพราะโลกขับเคลื่อนต่อไปด้วยการแบ่งปัน
 
+**ข่าวสาร**
+
+>สวัสดีค่ะ,
+
+>ทางทีมพัฒนา PyThaiNLP อยากขอสอบถามความคิดเห็นของผู้ใช้งาน library PyThaiNLP ปัจจุบัน หรือผู้ที่ทำงานในด้าน NLP ภาษาไทย เพื่อที่เราจะนำไปปรับปรุง library ให้ดียิ่งขึ้น และพัฒนาฟีเจอร์ใหม่ๆ สำหรับ NLP ภาษาไทย เช่น Thai-English Machine Translation, Speech-to-Text หรือ Text-to-Speech
+
+>โดยสามารถตอบแบบสอบถาม ผ่านทาง Google Form ด้านล่างนี้
+
+>https://forms.gle/aLdSHnvkNuK5CFyt9
+
 **เอกสารนี้สำหรับรุ่นพัฒนา อาจมีการเปลี่ยนแปลงได้ตลอด**
 
-- รุ่นเสถียรล่าสุดคือรุ่น [2.0.5](https://github.com/PyThaiNLP/pythainlp/releases)
+- รุ่นเสถียรล่าสุดคือรุ่น [2.0.7](https://github.com/PyThaiNLP/pythainlp/releases)
 - PyThaiNLP 2 รองรับ Python 3.6 ขึ้นไป
 - ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
 
@@ -181,3 +207,10 @@ $ pip install pythainlp[extra1,extra2,...]
 ## สนับสนุนและร่วมพัฒนา
 
 คุณสามารถ[ร่วมพัฒนาโครงการนี้](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)ได้ โดยการ fork และส่ง pull request กลับมา
+
+
+สร้างด้วย ❤️
+
+พวกเราสร้าง Thai NLP
+
+ทีม PyThaiNLP

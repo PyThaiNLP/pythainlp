@@ -1,10 +1,8 @@
 #!python3
 # -*- coding: utf-8 -*-
 
-_VERSION = "2.0.5"
-
 import argparse
-
+from pythainlp import __version__
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", "--text", default=None, help="text", type=str)
 parser.add_argument("-seg", "--segment", help="word segment", action="store_true")
@@ -50,4 +48,4 @@ elif args.soundex!=None:
         args.engine="lk82"
     print(soundex(args.soundex, engine=args.engine))
 else:
-    print(f"PyThaiNLP {_VERSION}")
+    print(f"PyThaiNLP {__version__}")

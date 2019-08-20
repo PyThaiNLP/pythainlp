@@ -79,13 +79,27 @@ class NorvigSpellChecker:
         dict_filter: Callable[[str], bool] = _is_thai_and_not_num,
     ):
         """
-        Initialize Peter Norvig's spell checker object
+        Initialize Peter Norvig's spell checker object. Spelling dictionary
+        can be customized. By default, spelling dictionary is from
+        `Thai National Corpus <http://www.arts.chula.ac.th/ling/tnc/>`_
 
-        :param str custom_dict: A list of tuple (word, frequency) to create a spelling dictionary. Default is from Thai National Corpus (around 40,000 words).
+        Basically, Norvig's spell checker will choose the most likely
+        spelling correction give a word by searching for candidate
+        corrected words based on edit distance. Then, it selects the candidate
+        with the highest word occurrence probability.
+
+        :param str custom_dict: A list of tuple (word, frequency) to create
+                                a spelling dictionary. Default is from
+                                Thai National Corpus (around 40,000 words).
         :param int min_freq: Minimum frequency of a word to keep (default = 2)
-        :param int min_len: Minimum length (in characters) of a word to keep (default = 2)
-        :param int max_len: Maximum length (in characters) of a word to keep (default = 40)
-        :param func dict_filter: A function to filter the dictionary. Default filter removes any word with number or non-Thai characters. If no filter is required, use None.
+        :param int min_len: Minimum length (in characters) of a word to keep
+                            (default = 2)
+        :param int max_len: Maximum length (in characters) of a word to keep
+                            (default = 40)
+        :param func dict_filter: A function to filter the dictionary.
+                                 Default filter removes any word
+                                 with number or non-Thai characters.
+                                 If no filter is required, use None.
         """
         if not custom_dict:  # default, use Thai National Corpus
             custom_dict = tnc.word_freqs()
@@ -108,6 +122,19 @@ class NorvigSpellChecker:
     def dictionary(self) -> List[Tuple[str, int]]:
         """
         Return the spelling dictionary currently used by this spell checker
+
+        :return: spelling dictionary of this instance
+        :rtype: list[tuple[str, int]]
+
+        :Example:
+
+            >>> from pythainlp.spell import NorvigSpellChecker
+            >>>
+            >>> dictionary= [("หวาน", 30), ("มะนาว", 2), ("แอบ", 3223)]
+            >>>
+            >>> _spell_checker = NorvigSpellChecker(custom_dict=dictionary)
+            >>> _spell_checker.dictionary()
+            dict_items([('หวาน', 30), ('มะนาว', 2), ('แอบ', 3223)])
         """
         return self.__WORDS.items()
 
@@ -115,15 +142,58 @@ class NorvigSpellChecker:
         """
         Return a list of given words that found in the spelling dictionary
 
-        :param str words: A list of words to check if they are in the spelling dictionary
+        :param list[str] words: A list of words to check if they exist
+                                in the spelling dictionary
+
+        :return: intersection of the given words list and words
+                 in the spelling dictionary
+        :rtype: list[str]
+
+        :Example:
+
+            >>> from pythainlp.spell import NorvigSpellChecker
+            >>>
+            >>> _spell_checker = NorvigSpellChecker()
+            >>>
+            >>> _spell_checker.known(["ร้าย"])
+            ['ร้าย']
+            >>>
+            >>> _spell_checker.known(["เพยน", "เพล", "เพลง"])
+            ['เพล', 'เพลง']
+            >>>
+            >>> _spell_checker.known(['ยกไ', 'ไฟล์ม'])
+            []
+            >>>
+            >>> _spell_checker.known(['])
+            []
         """
         return list(w for w in words if w in self.__WORDS)
 
     def prob(self, word: str) -> float:
         """
-        Return probability of an input word, according to the spelling dictionary
+        Return probability of an input word, according to
+        the spelling dictionary
 
         :param str word: A word to check its probability of occurrence
+
+        :return: word occurrence probability
+        :rtype: float
+
+        :Example:
+
+            >>> from pythainlp.spell import NorvigSpellChecker
+            >>>
+            >>> _spell_checker = NorvigSpellChecker()
+            >>> _spell_checker.prob("เส้นตรบ")
+            0.0
+            >>> _spell_checker.prob("ครัช")
+            0.0
+            >>> _spell_checker.prob("รัก")
+            0.0006959172792052158
+            >>> _spell_checker.prob("น่ารัก")
+            9.482306849763902e-05
+            >>> _spell_checker.prob("เหตุการณ์")
+            0.00026403687441972634
         """
         return self.__WORDS[word] / self.__WORDS_TOTAL
 
@@ -132,6 +202,31 @@ class NorvigSpellChecker:
         Return frequency of an input word, according to the spelling dictionary
 
         :param str word: A word to check its frequency
+        :return: frequency of the given word in the spelling dictionary
+        :rtype: int
+
+        :Example:
+
+            >>> from pythainlp.spell import NorvigSpellChecker
+            >>>
+            >>> _spell_checker = NorvigSpellChecker()
+            >>>
+            >>> _spell_checker.freq("ปัญชา")
+            0
+            >>> _spell_checker.freq("ปัญญา")
+            3639
+            >>>
+            >>> _spell_checker.freq("บิญชา")
+            0
+            >>> _spell_checker.freq("บัญชา")
+            335
+            >>>
+            >>> _spell_checker.freq("มิตรภาบ")
+            0
+            >>> _spell_checker.freq("มิตรภาพ")
+            572
+            >>> _spell_checker.freq("มิตร")
+            1923
         """
         return self.__WORDS[word]
 
@@ -141,6 +236,28 @@ class NorvigSpellChecker:
         sorted by frequency of word occurrance in the spelling dictionary
 
         :param str word: A word to check its spelling
+
+        :return: list of possible correct words within 1 or 2 edit distance
+                 and sorted by frequency of word occurence in the
+                 spelling dictionary in descending order.
+        :rtype: list[str]
+
+        :Example:
+
+            >>> from pythainlp.spell import NorvigSpellChecker
+            >>>
+            >>> _spell_checker = NorvigSpellChecker()
+            >>>
+            >>> _spell_checker.spell("เส้นตรบ")
+            ['เส้นตรง']
+            >>>
+            >>> _spell_checker.spell("ครัช")
+            ['ครับ', 'ครัว', 'รัช', 'ครัม', 'ครัน',
+            'วรัช', 'ครัส', 'ปรัช', 'บรัช', 'ครัง',
+            'คัช', 'คลัช', 'ครัย', 'ครัด']
+            >>>
+            >>> _spell_checker.spell("กระปิ")
+            ['กะปิ', 'กระบิ']
         """
         if not word:
             return ""
@@ -157,9 +274,25 @@ class NorvigSpellChecker:
 
     def correct(self, word: str) -> str:
         """
-        Return the most possible word, using the probability from the spelling dictionary
+        Return the most possible word, using the probability from
+        the spelling dictionary
 
         :param str word: A word to correct its spelling
+
+        :return: the corrrect spelling of the given word
+        :rtype: str
+
+        :Example:
+
+            >>> from pythainlp.spell import NorvigSpellChecker
+            >>>
+            >>> _spell_checker = NorvigSpellChecker()
+            >>> _spell_checker.correct("ปัญชา")
+            'ปัญหา'
+            >>> _spell_checker.correct("บิญชา")
+            'บัญชา'
+            >>> _spell_checker.correct("มิตรภาบ")
+            'มิตรภาพ'
         """
         if not word:
             return ""

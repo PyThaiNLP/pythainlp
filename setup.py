@@ -18,6 +18,7 @@ extras = {
     "ner": ["sklearn-crfsuite"],
     "thai2fit": ["emoji", "gensim", "numpy"],
     "thai2rom": ["torch", "numpy"],
+    "benchmarks": ["numpy", "pandas"],
     "full": [
         "artagger",
         "deepcut",
@@ -32,6 +33,7 @@ extras = {
         "torch",
         "ssg",
         "emoji",
+        "pandas",
     ],
 }
 
@@ -91,7 +93,10 @@ setup(
         "Topic :: Text Processing :: General",
         "Topic :: Text Processing :: Linguistic",
     ],
-    scripts=['bin/pythainlp']
+    scripts=[
+        'bin/pythainlp',
+        'bin/word-tokenization-benchmark',
+    ]
 )
 
 # TODO: Check extras and decide to download additional data, like model files

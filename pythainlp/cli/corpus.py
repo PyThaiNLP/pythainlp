@@ -2,6 +2,7 @@ import argparse
 
 from pythainlp import corpus, cli
 
+
 class App:
     def __init__(self, argv):
         parser = argparse.ArgumentParser(**cli.make_usage("corpus"))

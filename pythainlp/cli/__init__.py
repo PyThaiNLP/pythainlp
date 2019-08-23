@@ -9,6 +9,7 @@ available_namespaces = sorted(['corpus', 'tokenization', 'soundex', 'tagging'])
 
 cli_name = "pythainlp"
 
+
 def make_usage(s):
     prog = f"{cli_name} {s}"
 

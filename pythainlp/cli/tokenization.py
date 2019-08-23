@@ -6,7 +6,9 @@ from pythainlp.tokenize import word_tokenize, syllable_tokenize
 
 class SubAppBase:
     def __init__(self, name, argv):
-        parser = argparse.ArgumentParser(**cli.make_usage("tokenization " + name))
+        parser = argparse.ArgumentParser(
+            **cli.make_usage("tokenization " + name)
+        )
         parser.add_argument(
             "--text",
             type=str,
@@ -16,7 +18,7 @@ class SubAppBase:
         parser.add_argument(
             "--engine",
             type=str,
-            help="default: %s" % self.default_engine, 
+            help="default: %s" % self.default_engine,
             default=self.default_engine
         )
 

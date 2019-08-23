@@ -3,6 +3,7 @@ import argparse
 from pythainlp import cli
 from pythainlp.tag import pos_tag
 
+
 class SubAppBase:
     def __init__(self, name, argv):
         parser = argparse.ArgumentParser(name)
@@ -15,20 +16,20 @@ class SubAppBase:
         parser.add_argument(
             "--engine",
             type=str,
-            help="default: %s" % self.default_engine, 
+            help="default: %s" % self.default_engine,
             default=self.default_engine
         )
 
         parser.add_argument(
             "--corpus",
             type=str,
-            help="default: %s" % self.default_corpus, 
+            help="default: %s" % self.default_corpus,
         )
 
         parser.add_argument(
             '--sep',
             type=str,
-            help="default: %s" % self.default_sep, 
+            help="default: %s" % self.default_sep,
             default=self.default_sep
         )
 
@@ -67,7 +68,7 @@ class App:
             nargs="?",
             help="[pos]"
         )
-        
+
         args = parser.parse_args(argv[2:3])
         command = args.command
 

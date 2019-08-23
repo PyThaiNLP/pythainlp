@@ -1,16 +1,10 @@
 import argparse
 
-from pythainlp import corpus
-
+from pythainlp import corpus, cli
 
 class App:
     def __init__(self, argv):
-        parser = argparse.ArgumentParser("corpus")
-        parser.add_argument(
-            "subcommand",
-            type=str,
-            help="[download|remove]"
-        )
+        parser = argparse.ArgumentParser(**cli.make_usage("corpus"))
 
         parser.add_argument(
             "--name",
@@ -18,13 +12,23 @@ class App:
             help="corpus's name",
         )
 
-        args = parser.parse_args(argv[2:])
-        subcommand = args.subcommand
+        parser.add_argument(
+            "command",
+            type=str,
+            default="",
+            nargs="?",
+            help="[download|remove]"
+        )
 
-        if hasattr(App, subcommand):
-            getattr(App, subcommand)(args)
+        args = parser.parse_args(argv[2:])
+
+        cli.exit_if_empty(args.command, parser)
+        command = args.command
+
+        if hasattr(App, command):
+            getattr(App, command)(args)
         else:
-            print("No subcommand available: %s" % subcommand)
+            print("No command available: %s" % command)
 
     @staticmethod
     def download(args):

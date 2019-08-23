@@ -1,5 +1,6 @@
 import argparse
 
+from pythainlp import cli
 from pythainlp.tag import pos_tag
 
 class SubAppBase:
@@ -14,22 +15,21 @@ class SubAppBase:
         parser.add_argument(
             "--engine",
             type=str,
-            help="text", 
+            help="default: %s" % self.default_engine, 
             default=self.default_engine
         )
 
         parser.add_argument(
             "--corpus",
             type=str,
-            help="text", 
-            default=self.default_corpus
+            help="default: %s" % self.default_corpus, 
         )
 
         parser.add_argument(
             '--sep',
             type=str,
-            help="separator",
-            default="|"
+            help="default: %s" % self.default_sep, 
+            default=self.default_sep
         )
 
         args = parser.parse_args(argv)
@@ -52,6 +52,7 @@ class POSTaggingApp(SubAppBase):
 
         self.default_engine = "perceptron"
         self.default_corpus = "orchid"
+        self.default_sep = "|"
         self.run = pos_tag
 
         super().__init__(*args, **kwargs)
@@ -59,21 +60,22 @@ class POSTaggingApp(SubAppBase):
 
 class App:
     def __init__(self, argv):
-        parser = argparse.ArgumentParser("tagging")
+        parser = argparse.ArgumentParser(**cli.make_usage("tagging"))
         parser.add_argument(
-            "subcommand",
+            "command",
             type=str,
+            nargs="?",
             help="[pos]"
         )
-
-        ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', 'นายก', 'เชอร์ชิล']
-
+        
         args = parser.parse_args(argv[2:3])
-        subcommand = args.subcommand
+        command = args.command
+
+        cli.exit_if_empty(args.command, parser)
 
         argv = argv[3:]
 
-        if subcommand == "pos":
+        if command == "pos":
             POSTaggingApp("Part-of-Speech tagging", argv)
         else:
             raise ValueError(f"no command:{subcommand}")

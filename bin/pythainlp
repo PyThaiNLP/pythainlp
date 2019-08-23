@@ -6,17 +6,26 @@ import sys
 
 from pythainlp import cli
 
-# todo: get from CLI modules
-available_commands = ['corpus', 'tokenization', 'soundex']
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(
+    usage="pythainlp namespace command [options]"
+)
+
 parser.add_argument(
-    "command", type=str,
-    help="[%s]" % "|".join(available_commands)
+    "namespace",
+    type=str,
+    default="",
+    nargs="?",
+    help="[%s]" % "|".join(cli.available_namespaces)
 )
 
 args = parser.parse_args(sys.argv[1:2])
 
-command = getattr(cli, args.command)
+cli.exit_if_empty(args.namespace, parser)
 
-subcommand = command.App(sys.argv)
+if hasattr(cli, args.namespace):
+    namespace = getattr(cli, args.namespace)
+    namespace.App(sys.argv)
+else:
+    print(f"Namespace not available: {args.namespace}\nPlease run with --help for alternatives")
+

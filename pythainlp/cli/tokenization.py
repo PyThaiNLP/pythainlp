@@ -1,28 +1,32 @@
 import argparse
 
+from pythainlp import cli
 from pythainlp.tokenize import word_tokenize, syllable_tokenize
 
 
 class SubAppBase:
     def __init__(self, name, argv):
-        parser = argparse.ArgumentParser(name)
-        parser.add_argument("--text",
-                            type=str,
-                            help="input text",
-                            )
+        parser = argparse.ArgumentParser(**cli.make_usage("tokenization " + name))
+        parser.add_argument(
+            "--text",
+            type=str,
+            help="input text",
+        )
 
-        parser.add_argument("--engine",
-                            type=str,
-                            help="text",  # TODO: add all available engines
-                            default=self.default_engine
-                            )
+        parser.add_argument(
+            "--engine",
+            type=str,
+            help="default: %s" % self.default_engine, 
+            default=self.default_engine
+        )
 
         args = parser.parse_args(argv)
 
-        print(f"Using engine={args.engine}")
-
         self.args = args
 
+        cli.exit_if_empty(args.text, parser)
+
+        print(f"Using engine={args.engine}")
         result = self.run(args.text, engine=args.engine)
         print(self.separator.join(result))
 
@@ -49,18 +53,22 @@ class SyllableTokenizationApp(SubAppBase):
 
 class App:
     def __init__(self, argv):
-        parser = argparse.ArgumentParser("corpus")
-        parser.add_argument("subcommand",
-                            type=str,
-                            help="[word|syllable]"
-                            )
+        parser = argparse.ArgumentParser(**cli.make_usage("tokenization"))
+        parser.add_argument(
+            "command",
+            type=str,
+            nargs="?",
+            help="[word|syllable]"
+        )
 
         args = parser.parse_args(argv[2:3])
-        subcommand = args.subcommand
+        command = args.command
+
+        cli.exit_if_empty(command, parser)
 
         argv = argv[3:]
 
-        if subcommand == "word":
-            WordTokenizationApp("word tokenization", argv)
-        elif subcommand == "syllable":
-            SyllableTokenizationApp("syllable tokenization", argv)
+        if command == "word":
+            WordTokenizationApp("word", argv)
+        elif command == "syllable":
+            SyllableTokenizationApp("syllable", argv)

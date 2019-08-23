@@ -1,5 +1,6 @@
 import argparse
 
+from pythainlp import cli
 from pythainlp.soundex import soundex
 
 
@@ -21,6 +22,8 @@ class App:
         )
 
         args = parser.parse_args(argv[2:])
+
+        cli.exit_if_empty(args.text, parser)
 
         sx = soundex(args.text, engine=args.engine)
         print(sx)

@@ -78,6 +78,7 @@ $ pip install pythainlp[extra1,extra2,...]
 where `extras` can be
   - `artagger` (to support artagger part-of-speech tagger)*
   - `deepcut` (to support deepcut machine-learnt tokenizer)
+  - `deepcut_gpu` (to support deepcut machine-learnt tokenizer, using tensorflow-gpu backend)
   - `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
   - `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
   - `ml` (to support fastai 1.0.22 ULMFiT models)
@@ -85,6 +86,7 @@ where `extras` can be
   - `thai2fit` (for Thai word vector)
   - `thai2rom` (for machine-learnt romanization)
   - `full` (install everything)
+  - `full_gpu` (install everything, using tensorflow-gpu backend)
 
 * Note: standard `artagger` package from PyPI will not work on Windows, please ```pip install https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger``` instead.
 

@@ -54,3 +54,7 @@ coverage.xml
 
 # PyBuilder
 target/
+
+# System Files
+.vscode
+.DS_Store

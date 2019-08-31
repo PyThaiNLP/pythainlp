@@ -4,7 +4,25 @@ import datetime
 import os
 import unittest
 
-from pythainlp.ulmfit import *
+from pythainlp.ulmfit import (
+    ThaiTokenizer,
+    BaseTokenizer,
+    fix_html,
+    _THWIKI_LSTM,
+    pre_rules_th,
+    post_rules_th,
+    rm_useless_spaces,
+    spec_add_spaces,
+    rm_useless_newlines,
+    rm_brackets,
+    ungroup_emoji,
+    lowercase_all,
+    replace_rep_nonum,
+    replace_rep_after,
+    replace_wrep_post,
+    replace_wrep_post_nonum,
+    remove_space
+)
 
 
 class TestUlmfitPackage(unittest.TestCase):
@@ -43,15 +61,38 @@ class TestUlmfitPackage(unittest.TestCase):
                 spec_add_spaces("I #like to #put #hashtags #everywhere!"),
                 "I  # like to  # put  # hashtags  # everywhere!")
 
-    def test_replace_all_caps(self):
-        self.assertEqual(
-                replace_all_caps(["Mark", "CAPITALIZED", "Only"]),
-                ["Mark", "xxup", "capitalized", "Only"])
-
     def test_replace_rep_after(self):
         self.assertEqual(
                 replace_rep_after("น้อยยยยยยยย"),
-                "น้อย xxrep 8 ")
+                "น้อยxxrep8 ")
+
+    def test_replace_rep_nonum(self):
+        self.assertEqual(
+                replace_rep_nonum("น้อยยยยยยยย"),
+                "น้อย xxrep ")
+
+    def test_replace_wrep_post(self):
+        self.assertEqual(
+                replace_wrep_post(["น้อย", "น้อย"]),
+                ["xxwrep", "1", "น้อย"])
+
+        self.assertEqual(
+                replace_wrep_post(["นก", "กา", "กา", "กา"]),
+                ["นก", "xxwrep", "2", "กา"])
+
+    def test_replace_wrep_post_nonum(self):
+        self.assertEqual(
+                replace_wrep_post_nonum(["น้อย", "น้อย"]),
+                ["xxwrep", "น้อย"])
+
+        self.assertEqual(
+                replace_wrep_post_nonum(["นก", "กา", "กา", "กา"]),
+                ["นก", "xxwrep", "กา"])
+
+    def test_remove_space(self):
+        self.assertEqual(
+                remove_space([" ", "น้อย", " ", "."]),
+                ["น้อย", "."])
 
     def test_rm_useless_newlines(self):
         self.assertEqual(
@@ -78,3 +119,4 @@ class TestUlmfitPackage(unittest.TestCase):
         self.assertEqual(
                 lowercase_all("HeLlO ."),
                 ['h', 'e', 'l', 'l', 'o', ' ', '.'])
+

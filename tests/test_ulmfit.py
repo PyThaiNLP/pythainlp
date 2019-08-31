@@ -4,6 +4,8 @@ import datetime
 import os
 import unittest
 
+from pythainlp.corpus import get_corpus
+from pythainlp.tokenize import Tokenizer
 from pythainlp.ulmfit import (
     ThaiTokenizer,
     BaseTokenizer,
@@ -11,6 +13,8 @@ from pythainlp.ulmfit import (
     _THWIKI_LSTM,
     pre_rules_th,
     post_rules_th,
+    pre_rules_th_sparse,
+    post_rules_th_sparse,
     rm_useless_spaces,
     spec_add_spaces,
     rm_useless_newlines,
@@ -21,8 +25,12 @@ from pythainlp.ulmfit import (
     replace_rep_after,
     replace_wrep_post,
     replace_wrep_post_nonum,
-    remove_space
+    remove_space,
+    process_thai
 )
+
+_THAI2FIT_WORDS = get_corpus("words_th_thai2fit_201810.txt")
+_pythainlp_tokenizer = Tokenizer(custom_dict=_THAI2FIT_WORDS, engine="newmm")
 
 
 class TestUlmfitPackage(unittest.TestCase):
@@ -45,6 +53,12 @@ class TestUlmfitPackage(unittest.TestCase):
 
     def test_post_rules_th(self):
         self.assertIsNotNone(post_rules_th)
+
+    def test_pre_rules_th(self):
+        self.assertIsNotNone(pre_rules_th_sparse)
+
+    def test_post_rules_th(self):
+        self.assertIsNotNone(post_rules_th_sparse)
 
     def test_fix_html(self):
         self.assertEqual(
@@ -120,3 +134,44 @@ class TestUlmfitPackage(unittest.TestCase):
                 lowercase_all("HeLlO ."),
                 ['h', 'e', 'l', 'l', 'o', ' ', '.'])
 
+    def test_process_thai_1(self):
+        """rules for sparse features"""
+
+        text = "👍👍👍 #AnA มากกกก น้อยน้อย ().1146"
+
+        actual = process_thai(text)
+        expect = ["xxwrep", "👍", "#", "ana", "มาก", "xxrep",
+                  "  ", "xxwrep", "น้อย", ".", "1146"]
+
+        self.assertEqual(actual, expect)
+
+    def test_process_thai_2(self):
+        """rules for dense features"""
+
+        text = "👍👍👍 #AnA มากกกก น้อยน้อย ().1146"
+
+        actual = process_thai(text,
+                              pre_rules=pre_rules_th,
+                              post_rules=post_rules_th,
+                              tok_func=_pythainlp_tokenizer.word_tokenize)
+
+        # after pre_rules_th
+        # >>> "👍👍👍 # ana มาก xxrep 4 น้้อย xxwrep 1 .1146"
+        #
+        # after tokenize with word_tokenize(engine="newmm")
+        # >>> ["👍👍👍", " ", "#", "ana", " ", "มาก", "xxrep", "4",
+        #             " ", "น้อย", "น้อย", " ", ".", "1146"]
+        # after post_rules_th
+        # -- because it performs `replace_wrep_post` before `ungroup_emoji`,
+        #    3 repetitive emoji are not marked with special token "xxwrep <num>"
+        #
+        # >>> ["👍", "👍","👍", " ", "#", "ana", " ", "มาก", 
+        #       "xxrep", "4", " ", "xxwrep", "1", "น้อย", " ",
+        #       ".", "1146"]
+
+        expect = ["👍", "👍", "👍", " ", "#", " ",
+                  "ana", " ", "มาก", "xxrep", "4",
+                  " ", "xxwrep", "1", "น้อย", " ",
+                  ".", "1146"]
+
+        self.assertEqual(actual, expect)

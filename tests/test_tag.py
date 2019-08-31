@@ -127,11 +127,11 @@ class TestTagPackage(unittest.TestCase):
 
         self.assertEqual(
             ner.get_ner(
-                "อาจารย์เอกพล ประจำคณะวิสกรรมศาสตร์ ",
+                "อาจารย์เอกพล ประจำคณะวิศวกรรมศาสตร์ ",
                 tag=True
             ),
             "<PERSON>อาจารย์เอกพล</PERSON> ประจำ<ORGANIZATION>"
-            "คณะวิสกรรมศาสตร์</ORGANIZATION> ")
+            "คณะวิศวกรรมศาสตร์</ORGANIZATION> ")
 
         self.assertEqual(
             ner.get_ner(

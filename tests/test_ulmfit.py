@@ -2,11 +2,9 @@
 
 import datetime
 import os
-import sys
 import unittest
 
 from pythainlp.ulmfit import *
-from pythainlp.ulmfit.rules import *
 
 
 class TestUlmfitPackage(unittest.TestCase):

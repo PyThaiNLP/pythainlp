@@ -120,10 +120,10 @@ class TestTagPackage(unittest.TestCase):
 
         self.assertEqual(
             ner.get_ner(
-                "เบอร์โทรศัพท์ 00-120-1100",
+                "เบอร์โทรศัพท์ 091-123-4567",
                 tag=True
             ),
-            "เบอร์โทรศัพท์ <PHONE>00-120-1100</PHONE>")
+            "เบอร์โทรศัพท์ <PHONE>091-123-4567</PHONE>")
 
         self.assertEqual(
             ner.get_ner(
@@ -135,11 +135,12 @@ class TestTagPackage(unittest.TestCase):
 
         self.assertEqual(
             ner.get_ner(
-                "มาตรา 80 ให้ใช้อัตราภาษีร้อยละ 10.0"
+                "มาตรา 80 ปพพ ให้ใช้อัตราภาษีร้อยละ 10.0"
                 " ในการคำนวณภาษีมูลค่าเพิ่ม",
                 tag=True
             ),
-            "<LAW>มาตรา 80</LAW> ให้ใช้อัตราภาษี<PERCENT>ร้อยละ 10.0</PERCENT>"
+            "<LAW>มาตรา 80 ปพพ</LAW> "
+            "ให้ใช้อัตราภาษี<PERCENT>ร้อยละ 10.0</PERCENT>"
             " ในการคำนวณภาษีมูลค่าเพิ่ม")
 
         self.assertEqual(

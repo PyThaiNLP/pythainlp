@@ -156,16 +156,16 @@ class TestUlmfitPackage(unittest.TestCase):
                               tok_func=_pythainlp_tokenizer.word_tokenize)
 
         # after pre_rules_th
-        # >>> "👍👍👍 # ana มาก xxrep 4 น้้อย xxwrep 1 .1146"
+        # >>> "👍👍👍 # ana มากxxrep4 น้้อยน้อย .1146"
         #
         # after tokenize with word_tokenize(engine="newmm")
         # >>> ["👍👍👍", " ", "#", "ana", " ", "มาก", "xxrep", "4",
         #             " ", "น้อย", "น้อย", " ", ".", "1146"]
         # after post_rules_th
         # -- because it performs `replace_wrep_post` before `ungroup_emoji`,
-        #    3 repetitive emoji are not marked with special token "xxwrep <num>"
+        #    3 repetitive emoji are not marked with special token "xxwrep num"
         #
-        # >>> ["👍", "👍","👍", " ", "#", "ana", " ", "มาก", 
+        # >>> ["👍", "👍","👍", " ", "#", "ana", " ", "มาก",
         #       "xxrep", "4", " ", "xxwrep", "1", "น้อย", " ",
         #       ".", "1146"]
 

@@ -140,6 +140,19 @@ class TestUlmfitPackage(unittest.TestCase):
         text = "👍👍👍 #AnA มากกกก น้อยน้อย ().1146"
 
         actual = process_thai(text)
+
+        # after pre_rules_th_sparse
+        # >>> "👍👍👍 # Ana มาก xxrep  น้้อยน้อย .1146"
+        #
+        # after tokenize with word_tokenize(engine="newmm")
+        # >>> ["👍👍👍", " ", "#", " ","Ana", " ", "มาก", "xxrep",
+        #      "  ", "น้อย", "น้อย", " ", ".", "1146"]
+        #
+        # after post_rules_th
+        # - remove whitespace token (" ")
+        # >>> ["xxwrep, "👍", "#", "ana", "มาก",
+        #       "xxrep", "  ", "xxwrep", "น้อย", ".", "1146"]
+
         expect = ["xxwrep", "👍", "#", "ana", "มาก", "xxrep",
                   "  ", "xxwrep", "น้อย", ".", "1146"]
 
@@ -156,10 +169,10 @@ class TestUlmfitPackage(unittest.TestCase):
                               tok_func=_pythainlp_tokenizer.word_tokenize)
 
         # after pre_rules_th
-        # >>> "👍👍👍 # ana มากxxrep4 น้้อยน้อย .1146"
+        # >>> "👍👍👍 # Ana มากxxrep4 น้้อยน้อย .1146"
         #
         # after tokenize with word_tokenize(engine="newmm")
-        # >>> ["👍👍👍", " ", "#", "ana", " ", "มาก", "xxrep", "4",
+        # >>> ["👍👍👍", " ", "#", "Ana", " ", "มาก", "xxrep", "4",
         #             " ", "น้อย", "น้อย", " ", ".", "1146"]
         # after post_rules_th
         # -- because it performs `replace_wrep_post` before `ungroup_emoji`,

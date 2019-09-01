@@ -1,6 +1,6 @@
 # Corpus License
 
-tha-wn.db
+## tha-wn.db
 
 ```
 Copyright: 2011 NICT
@@ -40,9 +40,11 @@ times remain with National Institute of Information and Communications
 Technology and LICENSEE agrees to preserve same.
 ```
 
-thaiword.txt , new-thaidict.txt ,  stopwords-th.txt , stopwords-th1.txt , stopwords-th2.txt , stopwords-th3.txt , stopwords-th4.txt , stopwords-th-old.txt and คำมูล-คำอ่าน.db using Creative Commons Attribution-ShareAlike 4.0 International Public License
+## Dictionaries and Word Lists
 
-## creative commons
+words_th.txt and stopwords_th.txt use Creative Commons Attribution-ShareAlike 4.0 International Public License
+
+## Creative Commons
 
 # Attribution-ShareAlike 4.0 International
 
@@ -117,9 +119,9 @@ a. ___License grant.___
 b. ___Other rights.___
 
       1. Moral rights, such as the right of integrity, are not licensed under this Public License, nor are publicity, privacy, and/or other similar personality rights; however, to the extent possible, the Licensor waives and/or agrees not to assert any such rights held by the Licensor to the limited extent necessary to allow You to exercise the Licensed Rights, but not otherwise.
-
+    
       2. Patent and trademark rights are not licensed under this Public License.
-
+    
       3. To the extent possible, the Licensor waives any right to collect royalties from You for the exercise of the Licensed Rights, whether directly or through a collecting society under any voluntary or waivable statutory or compulsory licensing scheme. In all other cases the Licensor expressly reserves any right to collect such royalties.
 
 ### Section 3 – License Conditions.
@@ -187,7 +189,7 @@ a. This Public License applies for the term of the Copyright and Similar Rights 
 b. Where Your right to use the Licensed Material has terminated under Section 6(a), it reinstates:
 
       1. automatically as of the date the violation is cured, provided it is cured within 30 days of Your discovery of the violation; or
-
+    
       2. upon express reinstatement by the Licensor.
 
    For the avoidance of doubt, this Section 6(b) does not affect any right the Licensor may have to seek remedies for Your violations of this Public License.

@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 #
 # Configuration file for the Sphinx documentation builder.
-#
-# This file does only contain a selection of the most common options. For a
-# full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
 # -- Path setup --------------------------------------------------------------
@@ -12,25 +9,24 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+sys.path.insert(0, os.path.abspath('..'))
 from datetime import datetime
-import sys, os
 
 # -- Project information -----------------------------------------------------
 
 project = 'PyThaiNLP'
-copyright = '2018, pythainlp_builders'
+copyright = '2019, pythainlp_builders'
 author = 'pythainlp_builders'
 
 curyear = datetime.today().year
-copyright = u'2018-%s, %s (GPL license)' % (curyear, project)
+copyright = u'2017-%s, %s (Apache Software License 2.0)' % (curyear, project)
 
 # The short X.Y version
-version = ''
+version = '2.0'
 # The full version, including alpha/beta/rc tags
-release = '20180622'
+release = '2.0.3'
 
 
 # -- General configuration ---------------------------------------------------

@@ -1,87 +1,69 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import,unicode_literals
-import os
-import dill
-from pythainlp.tokenize import tcc
-import marisa_trie
-import subprocess
-import sys
+"""
+PyThaiNLP data tools
 
-def install_package(package):
-    subprocess.call([sys.executable, "-m", "pip", "install", package])
-def get_path_db():
-	path = os.path.join(get_path_pythainlp_data(), "db.json")
-	if not os.path.exists(path):
-		from tinydb import TinyDB
-		db=TinyDB(path)
-		#db.insert({'name': 'hi', 'version': '0.1','file':''})
-	return path
-def get_path_data(filename):
-	return os.path.join(get_path_pythainlp_data(), filename)
-def get_path_pythainlp_data():
-	path= os.path.join(os.path.expanduser("~"), 'pythainlp-data')
-	if not os.path.exists(path):
-		os.makedirs(path)
-	return path
-def file_trie(data):
-	'''
-	ใช้สร้างไฟล์ข้อมูลสำหรับระบบที่ใช้ trie
-	'''
-	path = get_path_pythainlp_data()
-	if not os.path.exists(path):
-		os.makedirs(path)
-	if data=="newmm":
-		path = os.path.join(path, 'pythainlp_trie-tcc1.data')
-	elif data=="old":
-		path = os.path.join(path, 'pythainlp_trie2.data')
-	else:
-		path = os.path.join(path, 'pythainlp_trie2.data')
-	if not os.path.exists(path):
-		#ถ้าไม่มีไฟล์
-		if data=="newmm":
-			from pythainlp.corpus.thaiword import get_data # ข้อมูลเก่า
-			data2=get_data()
-			i=0
-			while i<len(data2):
-				data2[i]=tcc.tcc(data2[i],sep='#')
-				if(data2[len(data2[i])-1]!="#"):
-					data2[i]+="#"
-				i+=1
-			data=data2
-		elif data=='old':
-			from pythainlp.corpus.thaiword import get_data # ข้อมูลเก่า
-			data=get_data()
-		else:
-			from pythainlp.corpus.newthaiword import get_data # ข้อมูลใหม่
-			data=get_data()
-		with open(path,'wb') as dill_file:
-			dill.dump(marisa_trie.Trie(data),dill_file)
-		dill_file.close()
-	with open(path,'rb') as dill_file:
-		data=dill.load(dill_file)
-	dill_file.close()
-	return data
-def test_segmenter(segmenter, test):
-    '''
-    ระบบทดสอบการตัดคำ
-    '''
-    words = test
-    result = segmenter
-    correct = (result == words)
-    if not correct:
-        print ('expected', words)
-        print('got     ', result)
-    return correct
-if __name__ == "__main__":
-    from pythainlp.tokenize import word_tokenize
-    text="ฉันเป็นคนและฉันรักภาษาไทยฉันอยู่ประเทศไทยฉันศึกษาอยู่ที่มหาวิทยาลัยพายุฝนกำลังมาต้องหลบแล้วล่ะคุณสบายดีไหม"
-    test=["ฉัน","เป็น","คน","และ","ฉัน","รัก","ภาษาไทย","ฉัน","อยู่","ประเทศไทย","ฉัน","ศึกษา","อยู่","ที่","มหาวิทยาลัย","พายุฝน","กำลัง","มา","ต้อง","หลบ","แล้ว","ล่ะ","คุณ","สบายดี","ไหม"]
-    print("icu :")
-    pyicu=test_segmenter(word_tokenize(text,engine='icu'),test)
-    print(pyicu)
-    print("newmm :")
-    newmm=test_segmenter(word_tokenize(text,engine='newmm'),test)
-    print(newmm)
-    print("mm :")
-    mm=test_segmenter(word_tokenize(text,engine='mm'),test)
-    print(mm)
+For text processing and text conversion, see pythainlp.util
+"""
+import os
+
+import pythainlp
+
+PYTHAINLP_DATA_DIR = "pythainlp-data"
+
+
+def get_full_data_path(path: str) -> str:
+    """
+        This function joins path of :mod:`pythainlp` data directory and the
+        given path, and returns the full path.
+
+        :return: full path given the name of dataset
+        :rtype: str
+
+        :Example:
+
+            >>> from pythainlp.tools import get_full_data_path
+            >>>
+            >>> get_full_data_path('ttc_freq.txt')
+            '/root/pythainlp-data/ttc_freq.txt'
+    """
+    return os.path.join(get_pythainlp_data_path(), path)
+
+
+def get_pythainlp_data_path() -> str:
+    """
+        This function returns full path where PyThaiNLP keeps its
+        (downloaded) data
+
+        :return: full path of directory for :mod:`pythainlp` downloaded data
+        :rtype: str
+
+        :Example:
+
+            >>> from pythainlp.tools import get_pythainlp_data_path
+            >>>
+            >>> get_pythainlp_data_path()
+            '/root/pythainlp-data'
+    """
+    path = os.getenv('PYTHAINLP_DATA_DIR',
+                     os.path.join("~", PYTHAINLP_DATA_DIR))
+    path = os.path.expanduser(path)
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return path
+
+
+def get_pythainlp_path() -> str:
+    """
+        This function returns full path of PyThaiNLP code
+
+        :return: full path of :mod:`pythainlp` code
+        :rtype: str
+
+        :Example:
+
+            >>> from pythainlp.tools import get_pythainlp_path
+            >>>
+            >>> get_pythainlp_path()
+            '/usr/local/lib/python3.6/dist-packages/pythainlp'
+    """
+    return os.path.dirname(pythainlp.__file__)

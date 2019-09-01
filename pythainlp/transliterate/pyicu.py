@@ -1,0 +1,20 @@
+# -*- coding: utf-8 -*-
+"""
+Transliterating text to International Phonetic Alphabet (IPA)
+Using International Components for Unicode (ICU)
+https://github.com/ovalhub/pyicu
+"""
+from icu import Transliterator
+
+_ICU_THAI_TO_LATIN = Transliterator.createInstance("Thai-Latin")
+
+
+# ถอดเสียงภาษาไทยเป็นอักษรละติน
+def transliterate(text: str) -> str:
+    """
+    Use ICU (International Components for Unicode) for transliteration
+    ถอดเสียงภาษาไทยเป็นอักษรละติน รับค่า ''str'' ข้อความ คืนค่า ''str'' อักษรละติน
+    :param str text: Thai text to be transliterated.
+    :return: A string of Internaitonal Phonetic Alphabets indicating how the text should be pronounced.
+    """
+    return _ICU_THAI_TO_LATIN.transliterate(text)

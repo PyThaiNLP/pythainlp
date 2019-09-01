@@ -1,0 +1,51 @@
+#!python3
+# -*- coding: utf-8 -*-
+
+import argparse
+from pythainlp import __version__
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", "--text", default=None, help="text", type=str)
+parser.add_argument("-seg", "--segment", help="word segment", action="store_true")
+parser.add_argument("-c", "--corpus", help="mange corpus", action="store_true")
+parser.add_argument("-pos", "--postag", help="postag", action="store_true")
+parser.add_argument("-soundex", "--soundex", help="soundex", default=None)
+parser.add_argument("-e", "--engine", default="newmm", help="the engine", type=str)
+parser.add_argument("-pos-e", "--postag_engine", default="perceptron", help="the engine for word tokenize", type=str)
+parser.add_argument("-pos-c", "--postag_corpus", default="orchid", help="corpus for postag", type=str)
+args = parser.parse_args()
+
+if args.corpus:
+    from pythainlp.corpus import *
+    print("PyThaiNLP Corpus")
+    temp=""
+    while temp!="exit":
+        print("\n1. Install\n2. Remove\n3. Update\n4. Exit\n")
+        temp=input("Choose 1, 2, 3, or 4: ")
+        if temp=="1":
+            name=input("Corpus name:")
+            download(name)
+        elif temp=="2":
+            name=input("Corpus name:")
+            remove(name)
+        elif temp=="3":
+            name=input("Corpus name:")
+            download(name)
+        elif temp=="4":
+            break
+        else:
+            print("Choose 1, 2, 3, or 4:")
+elif args.text!=None:
+    from pythainlp.tokenize import word_tokenize
+    tokens=word_tokenize(args.text, engine=args.engine)
+    if args.segment:
+        print("|".join(tokens))
+    elif args.postag:
+        from pythainlp.tag import pos_tag
+        print("\t".join([i[0]+"/"+i[1] for i in pos_tag(tokens, engine=args.postag_engine, corpus=args.postag_corpus)]))
+elif args.soundex!=None:
+    from pythainlp.soundex import soundex
+    if args.engine=="newmm":
+        args.engine="lk82"
+    print(soundex(args.soundex, engine=args.engine))
+else:
+    print(f"PyThaiNLP {__version__}")

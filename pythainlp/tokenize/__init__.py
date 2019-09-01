@@ -429,3 +429,4 @@ class Tokenizer:
                            (i.e. *newmm*, *longest*, *deepcut*)
         """
         self.__engine = engine
+        

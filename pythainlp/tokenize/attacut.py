@@ -13,8 +13,5 @@ except ImportError:
         sys.exit('Error ! using pip install attacut')
 
 
-def segment(text, model='attacut-sc'):
-    # TODO
-    # Implement model options: 'attacut-sc'/'attacut-c'
-    Tokenizer = attacut.Tokenizer(model=model)
-    return Tokenizer.tokenize(text)
+def segment(text):
+    return attacut.tokenize(text)

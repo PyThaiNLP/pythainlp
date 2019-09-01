@@ -6,7 +6,7 @@ The :class:`word_vector` contains functions that makes use of a pre-trained vect
 
 Dependencies
 ------------
-Installation of `numpy` and `gensim` is required.
+Installation of :mod:`numpy` and :mod:`gensim` is required.
 
 Modules
 -------
@@ -16,3 +16,9 @@ Modules
 .. autofunction:: doesnt_match
 .. autofunction:: similarity
 .. autofunction:: sentence_vectorizer
+
+References
+----------
+
+.. [OmerLevy_YoavGoldberg_2014] Omer Levy and Yoav Goldberg.
+   Linguistic Regularities in Sparse and Explicit Word Representations, 2014.

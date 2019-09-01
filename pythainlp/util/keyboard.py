@@ -37,7 +37,7 @@ EN_TH_KEYB_PAIRS = {
     "H": "็",
     "h": "้",
     "J": "๋",
-    "j": "j",
+    "j": "่",
     "K": "ษ",
     "k": "า",
     "L": "ศ",
@@ -103,11 +103,24 @@ TH_EN_KEYB_PAIRS = {v: k for k, v in EN_TH_KEYB_PAIRS.items()}
 
 def eng_to_thai(text: str) -> str:
     """
-    Correct text in one language that is incorrectly-typed with a keyboard layout in another language. (type Thai with English keyboard)
+    Correct text in one language that is incorrectly-typed with
+    a keyboard layout in another language. (type Thai with English keyboard)
 
-    :param str text: Incorrect input (type Thai with English keyboard)
-    :return: Thai text
+    :param str text: incorrect input (type Thai with English keyboard)
+    :return: Thai text where incorrect typing with
+             a keyboard layout is corrected
+    :rtype: str
+
+    :Example:
+
+        Intentionally type "ธนาคารแห่งประเทศไทย", but got "Tok8kicsj'xitgmLwmp"
+
+        >>> from pythainlp.util import eng_to_thai
+        >>>
+        >>> eng_to_thai("Tok8kicsj'xitgmLwmp")
+        ธนาคารแห่งประเทศไทย
     """
+
     return "".join(
         [EN_TH_KEYB_PAIRS[ch] if (ch in EN_TH_KEYB_PAIRS) else ch for ch in text]
     )
@@ -115,10 +128,22 @@ def eng_to_thai(text: str) -> str:
 
 def thai_to_eng(text: str) -> str:
     """
-    Correct text in one language that is incorrectly-typed with a keyboard layout in another language. (type Thai with English keyboard)
+    Correct text in one language that is incorrectly-typed with
+    a keyboard layout in another language. (type Thai with English keyboard)
 
-    :param str text: Incorrect input (type English with Thai keyboard)
-    :return: English text
+    :param str text: incorrect input (type English with Thai keyboard)
+    :return: English text where incorrect typing with
+             a keyboard layout is corrected
+    :rtype: str
+
+    :Example:
+
+        Intentionally type "Bank of Thailand", but got "ฺฟืา นด ธ้ฟรสฟืก".
+
+        >>> from pythainlp.util import eng_to_thai
+        >>>
+        >>> thai_to_eng("ฺฟืา นด ธ้ฟรสฟืก")
+        'Bank of Thailand'
     """
     return "".join(
         [TH_EN_KEYB_PAIRS[ch] if (ch in TH_EN_KEYB_PAIRS) else ch for ch in text]

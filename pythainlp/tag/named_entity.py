@@ -76,10 +76,10 @@ class ThaiNameTagger:
         """
         Thai named-entity recognizer
         """
-        self.__data_path = get_corpus_path("thainer")
+        self.__data_path = get_corpus_path("thainer-1-2")
         if not self.__data_path:
-            download("thainer")
-            self.__data_path = get_corpus_path("thainer")
+            download("thainer-1-2")
+            self.__data_path = get_corpus_path("thainer-1-2")
         self.crf = sklearn_crfsuite.CRF(
             algorithm="lbfgs",
             c1=0.1,
@@ -90,32 +90,58 @@ class ThaiNameTagger:
         )
 
     def get_ner(
-        self, text: str, pos: bool = True
+        self, text: str, pos: bool = True, tag: bool = False
     ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]]]:
         """
-        Get named-entities in text
+        This function tags named-entitiy from text in IOB format.
 
-        :param string text: Thai text
-        :param boolean pos: get Part-Of-Speech tag (True) or get not (False)
+        :param string text: text in Thai to be tagged
+        :param boolean pos: To include POS tags in the results (`True`) or
+                            exclude (`False`). The defualt value is `True`
+        :param boolean tag: output like html tag.
+        :return: a list of tuple associated with tokenized word, NER tag,
+                 POS tag (if the parameter `pos` is specified as `True`),
+                 and output like html tag (if the parameter `tag` is
+                 specified as `True`).
+                 Otherwise, return a list of tuple associated with tokenized
+                 word and NER tag
+        :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]]], str
 
-        :return: list of strings with name labels (and part-of-speech tags)
+        :Note:
+            * For the POS tags to be included in the results, this function
+              uses :func:`pythainlp.tag.pos_tag` with engine as `perceptron`
+              and corpus as orchid_ud`.
 
-        **Example**::
+        :Example:
+
             >>> from pythainlp.tag.named_entity import ThaiNameTagger
+            >>>
             >>> ner = ThaiNameTagger()
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
-            [('วันที่', 'NOUN', 'O'), (' ', 'PUNCT', 'O'), ('15', 'NUM', 'B-DATE'),
-            (' ', 'PUNCT', 'I-DATE'), ('ก.ย.', 'NOUN', 'I-DATE'),
-            (' ', 'PUNCT', 'I-DATE'), ('61', 'NUM', 'I-DATE'),
-            (' ', 'PUNCT', 'O'), ('ทดสอบ', 'VERB', 'O'),
-            ('ระบบ', 'NOUN', 'O'), ('เวลา', 'NOUN', 'O'), (' ', 'PUNCT', 'O'),
-            ('14', 'NOUN', 'B-TIME'), (':', 'PUNCT', 'I-TIME'), ('49', 'NUM', 'I-TIME'),
-            (' ', 'PUNCT', 'I-TIME'), ('น.', 'NOUN', 'I-TIME')]
-            >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.", pos=False)
-            [('วันที่', 'O'), (' ', 'O'), ('15', 'B-DATE'), (' ', 'I-DATE'),
-            ('ก.ย.', 'I-DATE'), (' ', 'I-DATE'), ('61', 'I-DATE'), (' ', 'O'),
-            ('ทดสอบ', 'O'), ('ระบบ', 'O'), ('เวลา', 'O'), (' ', 'O'), ('14', 'B-TIME'),
-            (':', 'I-TIME'), ('49', 'I-TIME'), (' ', 'I-TIME'), ('น.', 'I-TIME')]
+            [('วันที่', 'NOUN', 'O'), (' ', 'PUNCT', 'O'),
+            ('15', 'NUM', 'B-DATE'), (' ', 'PUNCT', 'I-DATE'),
+            ('ก.ย.', 'NOUN', 'I-DATE'), (' ', 'PUNCT', 'I-DATE'),
+            ('61', 'NUM', 'I-DATE'), (' ', 'PUNCT', 'O'),
+            ('ทดสอบ', 'VERB', 'O'), ('ระบบ', 'NOUN', 'O'),
+            ('เวลา', 'NOUN', 'O'), (' ', 'PUNCT', 'O'),
+            ('14', 'NOUN', 'B-TIME'), (':', 'PUNCT', 'I-TIME'),
+            ('49', 'NUM', 'I-TIME'), (' ', 'PUNCT', 'I-TIME'),
+            ('น.', 'NOUN', 'I-TIME')]
+            >>>
+            >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.",
+                            pos=False)
+            [('วันที่', 'O'), (' ', 'O'),
+            ('15', 'B-DATE'), (' ', 'I-DATE'),
+            ('ก.ย.', 'I-DATE'), (' ', 'I-DATE'),
+            ('61', 'I-DATE'), (' ', 'O'),
+            ('ทดสอบ', 'O'), ('ระบบ', 'O'),
+            ('เวลา', 'O'), (' ', 'O'),
+            ('14', 'B-TIME'), (':', 'I-TIME'),
+            ('49', 'I-TIME'), (' ', 'I-TIME'),
+            ('น.', 'I-TIME')]
+            >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.",
+                            tag=True)
+            'วันที่ <DATE>15 ก.ย. 61</DATE> ทดสอบระบบเวลา <TIME>14:49 น.</TIME>'
         """
         self.__tokens = word_tokenize(text, engine=_WORD_TOKENIZER)
         self.__pos_tags = pos_tag(
@@ -124,13 +150,29 @@ class ThaiNameTagger:
         self.__x_test = self.__extract_features(self.__pos_tags)
         self.__y = self.crf.predict_single(self.__x_test)
 
-        if pos:
+        self.sent_ner = [(self.__pos_tags[i][0], data)
+                         for i, data in enumerate(self.__y)]
+        if tag:
+            self.temp = ""
+            self.sent = ""
+            for idx, (word, ner) in enumerate(self.sent_ner):
+                if "B-" in ner:
+                    self.temp = ner.replace("B-", "")
+                    self.sent += "<"+self.temp+">"
+                elif "O" == ner and self.temp != "":
+                    self.sent += "</"+self.temp+">"
+                    self.temp = ""
+                self.sent += word
+                if idx == len(self.sent_ner)-1 and self.temp != "":
+                    self.sent += "</"+self.temp+">"
+            return self.sent
+        elif pos:
             return [
                 (self.__pos_tags[i][0], self.__pos_tags[i][1], data)
                 for i, data in enumerate(self.__y)
             ]
-
-        return [(self.__pos_tags[i][0], data) for i, data in enumerate(self.__y)]
+        else:
+            return self.sent_ner
 
     @staticmethod
     def __extract_features(doc):

@@ -1,6 +1,5 @@
 ﻿# -*- coding: utf-8 -*-
-
-__version__ = "2.0.5"
+__version__ = "2.1"
 
 thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44 chars
 thai_vowels = "ฤฦะ\u0e31าำ\u0e34\u0e35\u0e36\u0e37\u0e38\u0e39เแโใไ\u0e45\u0e47"  # 19
@@ -35,3 +34,4 @@ from pythainlp.tokenize import (
 )
 from pythainlp.transliterate import romanize, transliterate
 from pythainlp.util import collate, thai_strftime
+from pythainlp.benchmarks import benchmark

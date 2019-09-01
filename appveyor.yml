@@ -1,21 +1,67 @@
+# Use unofficial Windows Binaries for Python Extension Packages from
+# https://www.lfd.uci.edu/~gohlke/pythonlibs/
+
 build: off
+image: Visual Studio 2015
 
 environment:
+  global:
+      CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
   matrix:
-    - PYTHON: "C:/Python34"
+#    - PYTHON: "C:/Python36"
+#      PYTHON_VERSION: "3.6"
+#      PYTHON_ARCH: "32"
+#      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
+#      PYICU_PKG: "https://www.dropbox.com/s/pahorbq29y9cura/PyICU-2.3.1-cp36-cp36m-win32.whl?dl=1"
+
+    - PYTHON: "C:/Python36-x64"
+      PYTHON_VERSION: "3.6"
+      PYTHON_ARCH: "64"
+      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
+      PYICU_PKG: "https://www.dropbox.com/s/7t0rrxwckqbgivi/PyICU-2.3.1-cp36-cp36m-win_amd64.whl?dl=1"
+      DISTUTILS_USE_SDK: "1"
+
+#    - PYTHON: "C:/Python37"
+#      PYTHON_VERSION: "3.7"
+#      PYTHON_ARCH: "32"
+#      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
+#      PYICU_PKG: "https://www.dropbox.com/s/3xwdnwhdcu619x4/PyICU-2.3.1-cp37-cp37m-win32.whl?dl=1"
+
+    - PYTHON: "C:/Python37-x64"
+      PYTHON_VERSION: "3.7"
+      PYTHON_ARCH: "64"
+      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
+      PYICU_PKG: "https://www.dropbox.com/s/le5dckc3231opqt/PyICU-2.3.1-cp37-cp37m-win_amd64.whl?dl=1"
+      DISTUTILS_USE_SDK: "1"
 
 init:
-  - "ECHO %PYTHON%"
-  - ps: "ls C:/Python*"
+  - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"  
+#  - ps: "ls C:/Python*"
+
+platform:
+  - x64
 
 install:
-  # FIXME: updating pip fails with PermissionError
-  # - "%PYTHON%/Scripts/pip.exe install -U pip setuptools"
-  - "%PYTHON%/Scripts/pip.exe install https://get.openlp.org/win-sdk/PyICU-1.9.5-cp34-cp34m-win32.whl"
-  - "%PYTHON%/Scripts/pip.exe install -e ."
   - "chcp 65001"
   - "set PYTHONIOENCODING=utf-8"
+  - "%PYTHON%\\python.exe -m pip install wheel"
+#  - ECHO "Installed SDKs:"
+#  - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
+  - IF "%ARCH%"=="32" (call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86) ELSE (ECHO "probably a 64bit build")
+  - IF "%ARCH%"=="64" (call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" amd64) ELSE (ECHO "probably a 32bit build")
+  - '"%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" %PLATFORM%'
+  - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  - "python --version"
+  # - "set ICU_VERSION=62"
+  - "pip install --disable-pip-version-check --user --upgrade pip setuptools"
+  - "pip install coveralls[yaml]"
+  - "pip install coverage"
+  - "pip install torch==1.2.0+cpu torchvision==0.4.0+cpu -f https://download.pytorch.org/whl/torch_stable.html"
+  - "pip install %PYICU_PKG%"
+  - "pip install %ARTAGGER_PKG%"
+  - "pip install -e .[full]"
 
 test_script:
-  - "%PYTHON%/Scripts/pip.exe --version"
-  - "%PYTHON%/python.exe setup.py test"
+  - "pip --version"
+  - "python setup.py test"

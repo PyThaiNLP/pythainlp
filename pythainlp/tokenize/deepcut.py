@@ -12,6 +12,5 @@ except ImportError:
     except ImportError:
         sys.exit('Error ! using pip install deepcut')
 
-
 def segment(text):
     return deepcut.tokenize(text)

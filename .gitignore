@@ -9,6 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+venv/
 build/
 develop-eggs/
 dist/
@@ -25,8 +26,8 @@ var/
 *.egg
 
 # PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+# Usually these files are written by a python script from a template
+# before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
 
@@ -55,6 +56,30 @@ coverage.xml
 # PyBuilder
 target/
 
-# System Files
+# Jupyter Notebook
+.ipynb_checkpoints
+Untitled*.ipynb
+
+# IDE files
+.idea
 .vscode
+
+# macOS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Document generator temporary files
+docs/_build/
+
+\.idea/codeStyles/
+
+\.idea/
+
+docs/_build/doctrees/api/
+
+docs/_build/html/
+
+docs/_build/doctrees/

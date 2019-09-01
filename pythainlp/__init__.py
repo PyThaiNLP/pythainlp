@@ -1,23 +1,37 @@
 ﻿# -*- coding: utf-8 -*-
-from __future__ import absolute_import
-__version__ = 1.7
-import six
-if six.PY3:
-	"""
-	ไว้ใส่ความสามารถที่รองรับเฉพาะ Python 3.4+ เท่านั้น
-	"""
-	from pythainlp.sentiment import sentiment
-	from pythainlp.spell import spell
-from pythainlp.romanization import romanization
-from pythainlp.tokenize import word_tokenize,sent_tokenize,tcc,etcc
-from pythainlp.rank import rank
-from pythainlp.change import texttothai,texttoeng
-from pythainlp.date import now
+__version__ = "2.1"
+
+thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44 chars
+thai_vowels = "ฤฦะ\u0e31าำ\u0e34\u0e35\u0e36\u0e37\u0e38\u0e39เแโใไ\u0e45\u0e47"  # 19
+thai_tonemarks = "\u0e48\u0e49\u0e4a\u0e4b"  # 4
+
+# Thai Characters: Paiyannoi, Maiyamok, Phinthu, Thanthakhat, Nikhahit, Yamakkan
+# These signs can be part of a word
+thai_signs = "ฯๆ\u0e3a\u0e4c\u0e4d\u0e4e"  # 6 chars
+
+# Any Thai character that can be part of a word
+thai_letters = "".join([thai_consonants, thai_vowels, thai_tonemarks, thai_signs])  # 73
+
+# Thai Characters Fongman, Angkhankhu, Khomut
+# These characters are section markers
+thai_punctuations = "\u0e4f\u0e5a\u0e5b"  # 3 chars
+
+thai_digits = "๐๑๒๓๔๕๖๗๘๙"  # 10
+thai_symbols = "฿"
+
+# All Thai characters that presented in Unicode
+thai_characters = "".join([thai_letters, thai_punctuations, thai_digits, thai_symbols])
+
+
+from pythainlp.soundex import soundex
+from pythainlp.spell import correct, spell
 from pythainlp.tag import pos_tag
-from pythainlp.collation import collation
-from pythainlp.test import TestUM
-from pythainlp.Text import Text
-from pythainlp.MetaSound import MetaSound
-from pythainlp.soundex import LK82,Udom83
-from pythainlp.util import ngrams,bigrams,trigram
-from pythainlp.keywords import find_keyword
+from pythainlp.tokenize import (
+    Tokenizer,
+    sent_tokenize,
+    subword_tokenize,
+    word_tokenize,
+)
+from pythainlp.transliterate import romanize, transliterate
+from pythainlp.util import collate, thai_strftime
+from pythainlp.benchmarks import benchmark

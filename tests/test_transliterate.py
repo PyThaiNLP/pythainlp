@@ -59,7 +59,7 @@ class TestTransliteratePackage(unittest.TestCase):
         transliterater = ThaiTransliterator()
 
         UNK_TOKEN = 1  # UNK_TOKEN or <UNK> is represented by 1
-        END_TOKEN = 3  # END_TOKEN or <end> is represented by 1
+        END_TOKEN = 3  # END_TOKEN or <end> is represented by 3
 
         self.assertListEqual(
             transliterater._prepare_sequence_in(

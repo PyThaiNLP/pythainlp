@@ -36,8 +36,8 @@ We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-mod
 
 # Discussion
 
-- Facebook group: https://www.facebook.com/groups/thainlp 
-- GitHub issues: https://github.com/PyThaiNLP/pythainlp/issues
+- Facebook group (for Thai NLP Discussion only): https://www.facebook.com/groups/thainlp 
+- GitHub issues (Problems and suggestions): https://github.com/PyThaiNLP/pythainlp/issues
 
 Happy hacking! (;
 
@@ -50,6 +50,8 @@ Happy hacking! (;
 - Charin Polpanumas
 - Peeradej Tanruangporn
 - Arthit Suriyawongkul
+- Chakri Lowphansirikul
+- Pattarawat Chormai
 
 ## newmm (onecut), mm, TCC, and Thai Soundex Code
 - Korakot Chaovavanich
@@ -59,9 +61,15 @@ Happy hacking! (;
 
 ## Docs
 - Peeradej Tanruangporn
+- Chakri Lowphansirikul
 
 ## Maintainers
 - Arthit Suriyawongkul
+- Wannaphong Phatthiyaphaibun
+
+## Benchmark
+- Charin Polpanumas
+- Pattarawat Chormai
 
 ## Contributors
 - See more contributions here https://github.com/PyThaiNLP/pythainlp/graphs/contributors

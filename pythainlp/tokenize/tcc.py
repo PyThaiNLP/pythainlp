@@ -96,8 +96,9 @@ def segment(text: str) -> List[str]:
     Subword segmentation
 
     :param str text: text to be tokenized to character clusters
-    :return: list of subwords (character clusters), tokenized from the text    
+    :return: list of subwords (character clusters), tokenized from the text
     :rtype: list[str]
 
     """
+
     return list(tcc(text))

@@ -3,15 +3,13 @@
 Thai tokenizers
 """
 import re
-import sys
+import warnings
 from typing import Iterable, List, Union
 
-from pythainlp.corpus import get_corpus, thai_syllables, thai_words
-
 from marisa_trie import Trie
+from pythainlp.corpus import thai_syllables, thai_words
 
 DEFAULT_DICT_TRIE = Trie(thai_words())
-FROZEN_DICT_TRIE = Trie(get_corpus("words_th_frozen_201810.txt"))
 
 
 def word_tokenize(
@@ -41,11 +39,14 @@ def word_tokenize(
           language-model-based
         * *icu* - wrapper for ICU (International Components for Unicode,
           using PyICU), dictionary-based
-        * *ulmfit* - for thai2fit
+
+    .. warning::
+        * the option for engine named *ulmfit* has been deprecated since \
+          PyThaiNLP version 2.1
 
     :Note:
-        The parameter **custom_dict** can be provided as an argument only for
-        *newmm*, *longest*, and *deepcut* engine.
+        - The parameter **custom_dict** can be provided as an argument \
+          only for *newmm*, *longest*, and *deepcut* engine.
 
     :Example:
 
@@ -119,10 +120,6 @@ def word_tokenize(
             segments = segment(text, custom_dict)
         else:
             segments = segment(text)
-    elif engine == "ulmfit":  # ulmfit has its own specific dictionary
-        from .newmm import segment
-
-        segments = segment(text, custom_dict=FROZEN_DICT_TRIE)
     elif engine == "icu":
         from .pyicu import segment
 
@@ -156,10 +153,11 @@ def dict_word_tokenize(
                                  for end of phrase in Thai
     :return: list of words
     """
-    print(
-        "Deprecated. Use word_tokenize() with a custom_dict argument instead.",
-        file=sys.stderr,
+    warnings.warn(
+        "dict_word_tokenize is deprecated. Use word_tokenize with a custom_dict argument instead.",
+        DeprecationWarning,
     )
+
     return word_tokenize(
         text=text,
         custom_dict=custom_dict,
@@ -247,45 +245,48 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
 
     **Options for engine**
         * *tcc* (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
+        * *ssg* - CRF syllable segmenter for Thai.
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
           [In development]
 
     :Example:
 
-    Tokenize text into subword based on *tcc*
+      Tokenize text into subword based on *tcc*
 
-    >>> from pythainlp.tokenize import subword_tokenize
-    >>> text_1 = "ยุคเริ่มแรกของ ราชวงศ์หมิง"
-    >>> text_2 = "ความแปลกแยกและพัฒนาการ"
-    >>> subword_tokenize(text_1, engine='tcc')
-    ['ยุ', 'ค', 'เริ่ม', 'แร', 'ก', 'ข', 'อ', 'ง', ' ', 'รา', 'ช', 'ว', 'ง',
-     'ศ', '์', 'ห', 'มิ', 'ง']
-    >>> subword_tokenize(text_2, engine='tcc')
-    ['ค', 'วา', 'ม', 'แป', 'ล', 'ก', 'แย', 'ก', 'และ', 'พัฒ', 'นา', 'กา', 'ร']
+      >>> from pythainlp.tokenize import subword_tokenize
+      >>> text_1 = "ยุคเริ่มแรกของ ราชวงศ์หมิง"
+      >>> text_2 = "ความแปลกแยกและพัฒนาการ"
+      >>> subword_tokenize(text_1, engine='tcc')
+      ['ยุ', 'ค', 'เริ่ม', 'แร', 'ก', 'ข', 'อ', 'ง', ' ', 'รา', 'ช', 'ว', 'ง',
+       'ศ', '์', 'ห', 'มิ', 'ง']
+      >>> subword_tokenize(text_2, engine='tcc')
+      ['ค', 'วา', 'ม', 'แป', 'ล', 'ก', 'แย', 'ก',
+       'และ', 'พัฒ','นา', 'กา', 'ร']
 
-    Tokenize text into subword based on *etcc* **(Work In Progress)**
+      Tokenize text into subword based on *etcc* **(Work In Progress)**
 
-    >>> from pythainlp.tokenize import subword_tokenize
-    >>> text_1 = "ยุคเริ่มแรกของ ราชวงศ์หมิง"
-    >>> text_2 = "ความแปลกแยกและพัฒนาการ"
-    >>> subword_tokenize(text_1, engine='etcc')
-    ['ยุคเริ่มแรกของ ราชวงศ์หมิง']
-    >>> subword_tokenize(text_2, engine='etcc')
-    ['ความแปลกแยกและ', 'พัฒ', 'นาการ']
-
+      >>> from pythainlp.tokenize import subword_tokenize
+      >>> text_1 = "ยุคเริ่มแรกของ ราชวงศ์หมิง"
+      >>> text_2 = "ความแปลกแยกและพัฒนาการ"
+      >>> subword_tokenize(text_1, engine='etcc')
+      ['ยุคเริ่มแรกของ ราชวงศ์หมิง']
+      >>> subword_tokenize(text_2, engine='etcc')
+      ['ความแปลกแยกและ', 'พัฒ', 'นาการ']
     """
     if not text or not isinstance(text, str):
         return []
 
     if engine == "etcc":
         from .etcc import segment
+    elif engine == "ssg":
+        from .ssg import segment
     else:  # default
         from .tcc import segment
 
     return segment(text)
 
 
-def syllable_tokenize(text: str) -> List[str]:
+def syllable_tokenize(text: str, engine: str = "default") -> List[str]:
     """
     This function is to tokenize text into syllable (Thai: พยางค์), a unit of
     pronunciation having one vowel sound.  For example, the word 'รถไฟ'
@@ -303,25 +304,32 @@ def syllable_tokenize(text: str) -> List[str]:
     :return: list of syllables where whitespaces in the text **are included**
     :rtype: list[str]
 
+    **Options for engine**
+        * *default*
+        * *ssg* - CRF syllable segmenter for Thai.
+
     :Example:
 
-    >>> from pythainlp.tokenize import syllable_tokenize
-    >>>
-    >>> text = 'รถไฟสมัยใหม่จะใช้กำลังจากหัวรถจักรดีเซล หรือจากไฟฟ้า'
-    >>> syllable_tokenize(text)
-    ['รถ', 'ไฟ', 'สมัย', 'ใหม่', 'ใช้', 'กำ', 'ลัง', 'จาก', 'หัว',
-    'รถ', 'จักร', 'ดี', 'เซล', ' ', 'หรือ', 'จาก', 'ไฟ', 'ฟ้า']
+      >>> from pythainlp.tokenize import syllable_tokenize
+      >>>
+      >>> text = 'รถไฟสมัยใหม่จะใช้กำลังจากหัวรถจักรดีเซล หรือจากไฟฟ้า'
+      >>> syllable_tokenize(text)
+      ['รถ', 'ไฟ', 'สมัย', 'ใหม่', 'ใช้', 'กำ', 'ลัง', 'จาก', 'หัว',
+      'รถ', 'จักร', 'ดี', 'เซล', ' ', 'หรือ', 'จาก', 'ไฟ', 'ฟ้า']
     """
 
     if not text or not isinstance(text, str):
         return []
 
     tokens = []
-    if text:
+    if engine == "default":
         words = word_tokenize(text)
         trie = dict_trie(dict_source=thai_syllables())
         for word in words:
             tokens.extend(word_tokenize(text=word, custom_dict=trie))
+    else:
+        from .ssg import segment
+        tokens = segment(text)
 
     return tokens
 

@@ -43,7 +43,7 @@ def metasound(text: str, length: int = 4) -> str:
         'ร100'
         >>> metasound("รักษ์")
         'ร100'
-        >>> metasound("บูรณการ", 5))
+        >>> metasound("บูรณการ", 5)
         'บ5515'
         >>> metasound("บูรณการ", 6))
         'บ55150'

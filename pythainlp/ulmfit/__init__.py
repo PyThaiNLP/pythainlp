@@ -1,27 +1,58 @@
 # -*- coding: utf-8 -*-
 """
-Code by Charin
+Code by Charin Polpanumas
 https://github.com/cstorm125/thai2fit/
 """
 import collections
 import re
-
-from typing import List
+from typing import List, Collection, Callable
 
 import emoji
+import html
 import numpy as np
 import torch
 
-from fastai.text import TK_REP, BaseTokenizer
-from fastai.text.transform import (
-    fix_html,
-    rm_useless_spaces,
-    spec_add_spaces,
-    replace_all_caps,
-)
-from pythainlp import word_tokenize
-from pythainlp.corpus import download, get_corpus_path
+from pythainlp.corpus import download, get_corpus, get_corpus_path
+from pythainlp.tokenize import Tokenizer
 from pythainlp.util import normalize as normalize_char_order
+
+'''
+# Fastai dependencies
+The following codes are copied from copied from https://github.com/fastai/fastai/blob/master/fastai/text/transform.py
+in order to avoid importing the entire fastai library
+'''
+
+UNK = 'xxunk'
+TK_REP = 'xxrep'
+TK_WREP = 'xxwrep'
+TK_END = 'xxend'
+
+class BaseTokenizer():
+    "Basic class for a tokenizer function."
+    def __init__(self, lang:str):                      self.lang = lang
+    def tokenizer(self, t:str) -> List[str]:           return t.split(' ')
+    def add_special_cases(self, toks:Collection[str]): pass
+    
+def fix_html(x:str) -> str:
+    "List of replacements from html strings in `x`."
+    re1 = re.compile(r'  +')
+    x = x.replace('#39;', "'").replace('amp;', '&').replace('#146;', "'").replace(
+        'nbsp;', ' ').replace('#36;', '$').replace('\\n', "\n").replace('quot;', "'").replace(
+        '<br />', "\n").replace('\\"', '"').replace('<unk>',UNK).replace(' @.@ ','.').replace(
+        ' @-@ ','-').replace(' @,@ ',',').replace('\\', ' \\ ')
+    return re1.sub(' ', html.unescape(x))
+
+def rm_useless_spaces(t:str) -> str:
+    "Remove multiple spaces in `t`."
+    return re.sub(' {2,}', ' ', t)
+
+def spec_add_spaces(t:str) -> str:
+    "Add spaces around / and # in `t`. \n"
+    return re.sub(r'([/#\n])', r' \1 ', t)
+
+'''
+End of fastai codes
+'''
 
 __all__ = [
     "ThaiTokenizer",
@@ -29,6 +60,9 @@ __all__ = [
     "merge_wgts",
     "pre_rules_th",
     "post_rules_th",
+    "pre_rules_th_sparse",
+    "post_rules_th_sparse",
+    "process_thai",
     "_THWIKI_LSTM",
 ]
 
@@ -37,6 +71,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 _MODEL_NAME_LSTM = "wiki_lm_lstm"
 _ITOS_NAME_LSTM = "wiki_itos_lstm"
 
+_THAI2FIT_WORDS = get_corpus("words_th_thai2fit_201810.txt")
+_pythainlp_tokenizer = Tokenizer(custom_dict=_THAI2FIT_WORDS, engine="newmm")
 
 # Download pretrained models
 def _get_path(fname: str) -> str:
@@ -69,8 +105,7 @@ class ThaiTokenizer(BaseTokenizer):
         This function tokenizes text with *newmm* engine and the dictionary
         specifically for `ulmfit` related functions
         (see: `Dictonary file (.txt) \
-        <https://github.com/PyThaiNLP/pythainlp/blob/2.0/pythainlp/corpus/words_th_frozen_201810.txt>`_).
-
+        <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/words_th_thai2fit_201810.txt>`_).
         :meth: tokenize text with a frozen newmm engine
         :param str text: text to tokenize
         :return: tokenized text
@@ -95,22 +130,45 @@ class ThaiTokenizer(BaseTokenizer):
              ' ', 'ภาวนามยปัญญา']
 
         """
-        return word_tokenize(text, engine="ulmfit")
+        return _pythainlp_tokenizer.word_tokenize(text)
 
     def add_special_cases(self, toks):
         pass
 
 
 def replace_rep_after(text: str) -> str:
-    "Replace repetitions at the character level in `text` after the repetition"
+    """
+    Replace repetitions at the character level in `text` after the repetition.
+    This is done to prevent such case as 'น้อยยยยยยยย' becoming 'น้อ xxrep 8 ย';
+    instead it will retain the word as 'น้อย xxrep 8'
+    """
 
     def _replace_rep(m):
         c, cc = m.groups()
-        return f"{c}{TK_REP}{len(cc)+1}"
+        return f"{c}{TK_REP}{len(cc)+1} "
 
-    re_rep = re.compile(r"(\S)(\1{2,})")
+    re_rep = re.compile(r"(\S)(\1{3,})")
 
     return re_rep.sub(_replace_rep, text)
+
+def replace_wrep_post(toks:Collection):
+    """
+    Replace reptitive words post tokenization; 
+    fastai `replace_wrep` does not work well with Thai.
+    """
+    previous_word = None
+    rep_count = 0
+    res = []
+    for current_word in toks+[TK_END]:
+        if current_word==previous_word: 
+            rep_count+=1
+        elif (current_word!=previous_word) & (rep_count>0):
+            res += [TK_WREP,str(rep_count),previous_word]
+            rep_count=0
+        else:
+            res.append(previous_word)
+        previous_word=current_word
+    return res[1:]
 
 
 def rm_useless_newlines(text: str) -> str:
@@ -128,9 +186,8 @@ def rm_brackets(text: str) -> str:
     return new_line
 
 
-def ungroup_emoji(toks):
+def ungroup_emoji(toks:Collection):
     "Ungroup emojis"
-
     res = []
     for tok in toks:
         if emoji.emoji_count(tok) == len(tok):
@@ -138,14 +195,53 @@ def ungroup_emoji(toks):
                 res.append(char)
         else:
             res.append(tok)
-
     return res
 
-
-def lowercase_all(toks):
-    "lowercase all English words"
+def lowercase_all(toks:Collection):
+    """Lowercase all English words; 
+    English words in Thai texts don't usually have nuances of capitalization.
+    """
     return [tok.lower() for tok in toks]
 
+def replace_rep_nonum(text: str) -> str:
+    """
+    Replace repetitions at the character level in `text` after the repetition.
+    This is done to prevent such case as 'น้อยยยยยยยย' becoming 'น้อ xrep 8 ย';
+    instead it will retain the word as 'น้อย xrep 8'
+    """
+    def _replace_rep(m):
+        c, cc = m.groups()
+        return f"{c} {TK_REP} "
+    re_rep = re.compile(r"(\S)(\1{3,})")
+    return re_rep.sub(_replace_rep, text)
+
+def replace_wrep_post_nonum(toks:Collection):
+    """
+    Replace reptitive words post tokenization; 
+    fastai `replace_wrep` does not work well with Thai.
+    """
+    previous_word = None
+    rep_count = 0
+    res = []
+    for current_word in toks+[TK_END]:
+        if current_word==previous_word: 
+            rep_count+=1
+        elif (current_word!=previous_word) & (rep_count>0):
+            res += [TK_WREP,previous_word]
+            rep_count=0
+        else:
+            res.append(previous_word)
+        previous_word=current_word
+    return res[1:]
+
+def remove_space(toks:Collection):
+    """
+    Do not include space for bag-of-word models.
+    """
+    res = []
+    for t in toks:
+        if t!=' ': res.append(t)
+    return res
 
 # Pretrained paths
 # TODO: Let the user decide if they like to download (at setup?)
@@ -154,19 +250,38 @@ _THWIKI_LSTM = dict(
 )
 
 # Preprocessing rules for Thai text
+# dense features
 pre_rules_th = [
-    fix_html,
     replace_rep_after,
+    fix_html,
     normalize_char_order,
     spec_add_spaces,
     rm_useless_spaces,
     rm_useless_newlines,
     rm_brackets,
 ]
-post_rules_th = [replace_all_caps, ungroup_emoji, lowercase_all]
+post_rules_th = [replace_wrep_post, ungroup_emoji, lowercase_all,]
+# sparse features
+pre_rules_th_sparse = pre_rules_th[1:] + [replace_rep_nonum]
+post_rules_th_sparse =  post_rules_th[1:] + [replace_wrep_post_nonum, remove_space] 
+
+def process_thai(text: str, pre_rules: Collection = pre_rules_th_sparse, tok_func:Callable = _pythainlp_tokenizer.word_tokenize,
+                post_rules: Collection = post_rules_th_sparse) -> Collection[str]:
+    """
+    Process Thai texts for models (with sparse features as default)
+    :param str text: text to be cleaned
+    :param pre_rules List: rules to apply before tokenization
+    :param tok_func Callable: tokenization function
+    :param post_rules List: rules to apply after tokenization
+    :return: a list of cleaned tokenized texts
+    """
+    res = text
+    for pre in pre_rules: res = pre(res)
+    res = tok_func(res)
+    for post in post_rules: res = post(res)
+    return res
 
 _tokenizer = ThaiTokenizer()
-
 
 def document_vector(text: str, learn, data, agg: str = "mean"):
     """

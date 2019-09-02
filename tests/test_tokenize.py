@@ -174,6 +174,16 @@ class TestTokenizePackage(unittest.TestCase):
             ["จุ๋ม", "ง่วง"],
         )
 
+
+    def test_word_tokenize_attacut(self):
+        self.assertEqual(attacut.segment(None), [])
+        self.assertEqual(attacut.segment(""), [])
+        self.assertEqual(
+            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="attacut"),
+            ['ฉัน', 'รัก', 'ภาษาไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คนไทย'],
+        )
+
+
     def test_sent_tokenize(self):
         self.assertEqual(sent_tokenize(None), [])
         self.assertEqual(sent_tokenize(""), [])

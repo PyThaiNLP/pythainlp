@@ -63,6 +63,9 @@ def word_tokenize(
         >>>
         >>> word_tokenize(text, engine="ulmfit")
         ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
+        >>> tokenize.word_tokenize('โอเคบ่พวกเรารักภาษาบ้านเกิด', engine='attacut')
+        ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
+        >>>
         Tokenize text by omitiing whitespaces:
         >>> from pythainlp.tokenize import word_tokenize
         >>>

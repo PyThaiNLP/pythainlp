@@ -23,7 +23,6 @@ extras = {
         "artagger",
         "deepcut",
         "epitran",
-        "fastai>=1.0.38",
         "gensim",
         "keras",
         "numpy",

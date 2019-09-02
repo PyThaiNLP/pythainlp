@@ -8,20 +8,12 @@ PyThaiNLP includes Thai word tokenizers, transliterators, soundex converters, pa
 
 📫 follow us on Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
-## What's new in 2.0 ?
+## What's new in 2.1 ?
 
-- Terminate Python 2 support. Remove all Python 2 compatibility code.
 - Improved `word_tokenize` ("newmm" and "mm" engine), a `custom_dict` dictionary can be provided
-- Improved `pos_tag` Part-Of-Speech tagging
-- New `NorvigSpellChecker` spell checker class, which can be initialized with custom dictionary.
-- New `thai2fit` (replacing `thai2vec`, upgrade ULMFiT-related code to fastai 1.0)
-- Updated ThaiNER to 1.0
-  - You may need to [update your existing ThaiNER models from PyThaiNLP 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
-- Remove old, obsolated, deprecated, duplicated, and experimental code.
-  - Sentiment analysis is no longer part of the library, but rather [a text classification example](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/sentiment_analysis.ipynb).
+- Add AttaCut to be options for engine.
 - See more examples in [Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
-- [Full change log](https://github.com/PyThaiNLP/pythainlp/issues/118)
-- [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
+- [Full change log](https://github.com/PyThaiNLP/pythainlp/issues/181)
 
 ## Install
 
@@ -40,6 +32,7 @@ pip install pythainlp[extra1,extra2,...]
 where extras can be
 
 - `artagger` (to support artagger part-of-speech tagger)*
+- `attacut` - Wrapper for AttaCut (https://github.com/PyThaiNLP/attacut)
 - `deepcut` (to support deepcut machine-learnt tokenizer)
 - `icu` (for ICU support in transliteration and tokenization)
 - `ipa` (for International Phonetic Alphabet support in transliteration)
@@ -54,8 +47,10 @@ Install it with pip, for example: `pip install marisa_trie‑0.7.5‑cp36‑cp36
 
 ## Links
 
-- User guide: [English](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb), [ภาษาไทย](https://colab.research.google.com/drive/1rEkB2Dcr1UAKPqz4bCghZV7pXx2qxf89)
-- Docs: https://thainlp.org/pythainlp/docs/2.0/ 
+- User guide: [English](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
+- Docs: https://thainlp.org/pythainlp/docs/2.1/ 
 - GitHub: https://github.com/PyThaiNLP/pythainlp
 - Issues: https://github.com/PyThaiNLP/pythainlp/issues
 - Facebook: [PyThaiNLP](https://www.facebook.com/pythainlp/)
+
+PyThaiNLP Team

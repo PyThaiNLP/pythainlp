@@ -1,7 +1,7 @@
-dill
-marisa-trie==0.7.4
-nltk>=3.2.2
-pytz
-requests
-tinydb
-tqdm
+dill==0.3.*
+marisa-trie==0.7.*
+nltk==3.4.*
+pytz==2019.2
+requests==2.22.*
+tinydb==3.13.*
+tqdm==4.35.*

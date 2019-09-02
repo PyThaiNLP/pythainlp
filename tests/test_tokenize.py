@@ -12,6 +12,7 @@ from pythainlp.corpus import (
 )
 from pythainlp.tokenize import DEFAULT_DICT_TRIE, Tokenizer
 from pythainlp.tokenize import deepcut as tokenize_deepcut
+from pythainlp.tokenize import attacut
 from pythainlp.tokenize import (
     dict_trie,
     dict_word_tokenize,

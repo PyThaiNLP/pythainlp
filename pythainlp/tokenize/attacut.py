@@ -1,7 +1,7 @@
 """
-Wrapper for AttaCut - a resonable fast thai word segmentation
+Wrapper for AttaCut - Fast and Reasonably Accurate Word Tokenizer for Thai
 :See Also:
-    * `GitHub repository <https://github.com/rkcosmos/deepcut>`_
+    * `GitHub repository <https://github.com/PyThaiNLP/attacut>`_
 """
 from typing import List, Union
 

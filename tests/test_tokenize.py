@@ -71,6 +71,9 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(
             word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX")
         )
+        self.assertIsNotNone(
+            word_tokenize("หมอนทองตากลมหูว์MBK39", engine="attacut")
+        )
 
         self.assertIsNotNone(dict_trie(()))
         self.assertIsNotNone(dict_trie(("ทดสอบ", "สร้าง", "Trie")))

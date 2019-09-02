@@ -10,6 +10,7 @@ with open("requirements.txt", "r", encoding="utf-8") as f:
 
 extras = {
     "artagger": ["artagger"],
+    "attacut": ["attacut"],
     "deepcut": ["deepcut", "keras", "tensorflow"],
     "icu": ["pyicu"],
     "ipa": ["epitran"],
@@ -21,6 +22,7 @@ extras = {
     "benchmarks": ["numpy", "pandas"],
     "full": [
         "artagger",
+        "attacut",
         "deepcut",
         "epitran",
         "fastai>=1.0.38",

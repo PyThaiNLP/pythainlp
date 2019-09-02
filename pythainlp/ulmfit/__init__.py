@@ -38,7 +38,20 @@ class BaseTokenizer():
 
 
 def fix_html(x: str) -> str:
-    """List of replacements from html strings in `x`. (code from `fastai`)"""
+    """
+        List of replacements from html strings in `x`. (code from `fastai`)
+
+        :param str x: text to replace html string
+
+        :return: text where html strings are replaced
+        :rtype: str
+
+        :Example:
+
+            >>> from pythainlp.ulmfit import fix_html
+            >>> fix_html("Anbsp;amp;nbsp;B @.@ ")
+            A & B.
+    """
     re1 = re.compile(r'  +')
     x = x.replace('#39;', "'").replace('amp;', '&').replace(
         '#146;', "'").replace('nbsp;', ' ').replace(
@@ -150,6 +163,20 @@ def replace_rep_after(text: str) -> str:
     Replace repetitions at the character level in `text` after the repetition.
     This is done to prevent such case as 'น้อยยยยยยยย' becoming 'น้อ xxrep 8 ย'
     ;instead it will retain the word as 'น้อย xxrep 8'
+
+    :param str text: input text to replace character repetition
+
+    :return: text with repetitive token **xxrep** and the counter
+             after character repetition
+
+    :rtype: str
+    :Example:
+
+        >>> from pythainlp.ulmfit import replace_rep_after
+        >>>
+        >>> text = "กาาาาาาา"
+        >>> replace_rep_after(text)
+        'กาxxrep7 '
     """
 
     def _replace_rep(m):
@@ -163,8 +190,23 @@ def replace_rep_after(text: str) -> str:
 
 def replace_wrep_post(toks: Collection):
     """
-    Replace reptitive words post tokenization; 
+    Replace reptitive words post tokenization;
     fastai `replace_wrep` does not work well with Thai.
+
+    :param list[str] toks: list of tokens
+
+    :return: list of tokens where **xxwrep** token and the counter
+             is added in front of repetitive words.
+    :rtype: list[str]
+
+    :Example:    
+
+        >>> from pythainlp.ulmfit import replace_wrep_post_nonum
+        >>>
+        >>> toks = ["กา", "น้ำ", "น้ำ", "น้ำ", "น้ำ"]
+        >>> replace_wrep_post(toks)
+        ['กา', 'xxwrep', '3', 'น้ำ']
+
     """
     previous_word = None
     rep_count = 0
@@ -218,8 +260,23 @@ def lowercase_all(toks: Collection):
 def replace_rep_nonum(text: str) -> str:
     """
     Replace repetitions at the character level in `text` after the repetition.
-    This is done to prevent such case as 'น้อยยยยยยยย' becoming 'น้อ xrep 8 ย';
-    instead it will retain the word as 'น้อย xrep 8'
+    This is done to prevent such case as 'น้อยยยยยยยย' becoming 'น้อ xxrep ย';
+    instead it will retain the word as 'น้อย xxrep '
+
+    :param str text: input text to replace character repetition
+
+    :return: text with repetitive token **xxrep** after
+             character repetition
+    :rtype: str
+
+    :Example:
+
+        >>> from pythainlp.ulmfit import replace_rep_nonum
+        >>>
+        >>> text = "กาาาาาาา"
+        >>> replace_rep_nonum(text)
+        'กา xxrep '
+
     """
     def _replace_rep(m):
         c, cc = m.groups()
@@ -232,6 +289,21 @@ def replace_wrep_post_nonum(toks: Collection):
     """
     Replace reptitive words post tokenization;
     fastai `replace_wrep` does not work well with Thai.
+
+    :param list[str] toks: list of tokens
+
+    :return: list of tokens where **xxwrep** token is added in front of
+             repetitive words.
+    :rtype: list[str]
+
+    :Example:
+
+        >>> from pythainlp.ulmfit import replace_wrep_post_nonum
+        >>>
+        >>> toks = ["กา", "น้ำ", "น้ำ", "น้ำ", "น้ำ"]
+        >>> replace_wrep_post_nonum(toks)
+        ['กา', 'xxwrep', 'น้ำ']
+
     """
     previous_word = None
     rep_count = 0
@@ -251,6 +323,11 @@ def replace_wrep_post_nonum(toks: Collection):
 def remove_space(toks: Collection):
     """
     Do not include space for bag-of-word models.
+
+    :param list[str] toks: list of tokens
+
+    :return: list of tokens where space tokens (" ") are filtered out
+    :rtype: list[str]
     """
     res = []
     for t in toks:
@@ -289,11 +366,63 @@ def process_thai(text: str, pre_rules: Collection = pre_rules_th_sparse,
                  post_rules: Collection = post_rules_th_sparse) -> Collection[str]:
     """
     Process Thai texts for models (with sparse features as default)
+
     :param str text: text to be cleaned
-    :param pre_rules List: rules to apply before tokenization
-    :param tok_func Callable: tokenization function
-    :param post_rules List: rules to apply after tokenizations
+    :param list[func] pre_rules: rules to apply before tokenization. 
+    :param func tok_func: tokenization function (by default, **tok_func** is
+                          :func:`pythainlp.tokenize.word_tokenize`)
+
+    :param list[func]  post_rules: rules to apply after tokenizations
+
     :return: a list of cleaned tokenized texts
+    :rtype: list[str]
+
+
+    :Note:
+      - The default **pre-rules** consists of :func:`fix_html`,
+        :func:`pythainlp.util.normalize`,
+        :func:`spec_add_spaces`,
+        :func:`rm_useless_spaces`,
+        :func:`rm_useless_newlines`,
+        :func:`rm_brackets`
+        and :func:`replace_rep_nonum`.
+
+      - The default **post-rules** consists of :func:`ungroup_emoji`,
+        :func:`lowercase_all`,  :func:`replace_wrep_post_nonum`,
+        and :func:`remove_space`.
+
+    :Example:
+
+        1. Use default pre-rules and post-rules:
+
+        >>> from pythainlp.ulmfit import process_thai
+        >>> text = "บ้านนนนน () อยู่นานนานนาน 😂🤣😃😄😅 PyThaiNLP amp;     "
+        >>> process_thai(text)
+        [บ้าน', 'xxrep', '   ', 'อยู่', 'xxwrep', 'นาน', '😂', '🤣',
+        '😃', '😄', '😅', 'pythainlp', '&']
+
+        2. Modify pre_rules and post_rules arugments with
+           rules provided in :mod:`pythainlp.ulmfit`:
+
+        >>> from pythainlp.ulmfit import (
+            process_thai,
+            replace_rep_after,
+            fix_html,
+            ungroup_emoji,
+            replace_wrep_post,
+            remove_space)
+        >>>
+        >>> text = "บ้านนนนน () อยู่นานนานนาน 😂🤣😃😄😅 PyThaiNLP amp;     "
+        >>> process_thai(text,
+                         pre_rules=[replace_rep_after, fix_html],
+                         post_rules=[ungroup_emoji,
+                                     replace_wrep_post,
+                                     remove_space]
+                        )
+        ['บ้าน', 'xxrep', '5', '()', 'อยู่', 'xxwrep', '2', 'นาน', '😂', '🤣',
+         '😃', '😄', '😅', 'PyThaiNLP', '&']
+
+
     """
     res = text
     for pre in pre_rules:

@@ -14,16 +14,14 @@ extras = {
     "icu": ["pyicu"],
     "ipa": ["epitran"],
     "ssg": ["ssg"],
-    "ml": ["fastai>=1.0.38", "keras", "numpy", "torch"],
+    "ml": ["keras", "numpy", "torch"],
     "ner": ["sklearn-crfsuite"],
     "thai2fit": ["emoji", "gensim", "numpy"],
     "thai2rom": ["torch", "numpy"],
-    "benchmarks": ["numpy", "pandas"],
     "full": [
         "artagger",
         "deepcut",
         "epitran",
-        "fastai>=1.0.38",
         "gensim",
         "keras",
         "numpy",
@@ -33,7 +31,6 @@ extras = {
         "torch",
         "ssg",
         "emoji",
-        "pandas",
     ],
 }
 
@@ -93,10 +90,7 @@ setup(
         "Topic :: Text Processing :: General",
         "Topic :: Text Processing :: Linguistic",
     ],
-    scripts=[
-        'bin/pythainlp',
-        'bin/word-tokenization-benchmark',
-    ]
+    scripts=['bin/pythainlp']
 )
 
 # TODO: Check extras and decide to download additional data, like model files

@@ -36,8 +36,8 @@ We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-mod
 
 # Discussion
 
-- Facebook group (for Thai NLP Discussion only): https://www.facebook.com/groups/thainlp 
-- GitHub issues (Problems and suggestions): https://github.com/PyThaiNLP/pythainlp/issues
+- Facebook group: https://www.facebook.com/groups/thainlp 
+- GitHub issues: https://github.com/PyThaiNLP/pythainlp/issues
 
 Happy hacking! (;
 

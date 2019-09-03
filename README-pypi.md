@@ -11,7 +11,10 @@ PyThaiNLP includes Thai word tokenizers, transliterators, soundex converters, pa
 ## What's new in 2.1 ?
 
 - Improved `word_tokenize` ("newmm" and "mm" engine), a `custom_dict` dictionary can be provided
-- Add AttaCut to be options for engine.
+- Add AttaCut to be options for `word_tokenize` engine.
+- New Thai2rom (PyTorch)
+- New Command Line
+- Add word tokenization benchmark to PyThaiNLP
 - See more examples in [Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
 - [Full change log](https://github.com/PyThaiNLP/pythainlp/issues/181)
 
@@ -53,4 +56,9 @@ Install it with pip, for example: `pip install marisa_trie‑0.7.5‑cp36‑cp36
 - Issues: https://github.com/PyThaiNLP/pythainlp/issues
 - Facebook: [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
-PyThaiNLP Team
+
+Made with ❤️
+
+We build Thai NLP.
+
+PyThaiNLP Team.

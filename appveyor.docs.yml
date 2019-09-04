@@ -14,7 +14,7 @@ install:
 # 2. upload to thainlp.org/pythainlp/docs/<brnach_bane>
 
 only_commits:
-  message: /(build and deloy docs)/    
+  message: /(build and deploy docs)/    
 
 build_script: 
   - cd docs

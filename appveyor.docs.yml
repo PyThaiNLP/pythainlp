@@ -22,7 +22,7 @@ build_script:
   - echo "Done building HTML files for the branch -- $APPVEYOR_REPO_BRANCH"
   - echo "Start cleaning the directory /docs/$APPVEYOR_REPO_BRANCH"
   - sudo bash ./clean_directory.sh $FTP_USER $FTP_PASSWORD $FTP_HOST $APPVEYOR_REPO_BRANCH
-  - echo "Start Uploading files to `thainlp.org/pythainlp/docs/$APPVEYOR_REPO_BRANCH"
+  - echo "Start Uploading files to thainlp.org/pythainlp/docs/$APPVEYOR_REPO_BRANCH"
   - cd ./_build/html
   - echo "cd to ./build/html"
   - find . -type f -name "*" -print -exec curl --ftp-create-dir --ipv4 -T {} ftp://${FTP_USER}:${FTP_PASSWORD}@${FTP_HOST}/public_html/pythainlp/docs/$APPVEYOR_REPO_BRANCH/{} \;

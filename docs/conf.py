@@ -23,10 +23,24 @@ author = 'pythainlp_builders'
 curyear = datetime.today().year
 copyright = u'2017-%s, %s (Apache Software License 2.0)' % (curyear, project)
 
+# -- Get version information and date from Git ----------------------------
+
+try:
+    from subprocess import check_output
+    release = check_output(['git', 'describe', '--tags', '--always'])
+    release = release.decode().strip()
+    today = check_output(['git', 'show', '-s', '--format=%ad', '--date=short'])
+    today = today.decode().strip()
+except Exception:
+    release = '<unknown>'
+    today = '<unknown date>'
+
+
 # The short X.Y version
-version = '2.1'
+version = release
+
 # The full version, including alpha/beta/rc tags
-release = '2.1.0'
+# release = '2.1.0'
 
 
 # -- General configuration ---------------------------------------------------

@@ -17,16 +17,17 @@ only_commits:
   message: /(build and deploy docs)/    
 
 build_script: 
-  - cd docs
+  - cd ./docs
   - sudo make html
   - echo "Done building HTML files for the branch -- $APPVEYOR_REPO_BRANCH"
-  - echo "Start cleaning the directory /tutorials"
+  - echo "Start cleaning the directory /docs/$APPVEYOR_REPO_BRANCH"
   - sudo bash ./clean_directory.sh $FTP_USER $FTP_PASSWORD $FTP_HOST $APPVEYOR_REPO_BRANCH
-  - echo "Uploading files to `thainlp.org/pythainlp/docs/$APPVEYOR_REPO_BRANCH"
+  - echo "Start Uploading files to `thainlp.org/pythainlp/docs/$APPVEYOR_REPO_BRANCH"
   - cd ./_build/html
-  - find . -type f -name "*" -print -exec curl --ftp-create-dir --ipv4 -T {} ftp://${FTP_USER}:${FTP_PASSWORD}@${FTP_HOST}/public_html/pythainlp/docs/${APPVEYOR_REPO_BRANCH}/{} \;
+  - echo "cd to ./build/html"
+  - find . -type f -name "*" -print -exec curl --ftp-create-dir --ipv4 -T {} ftp://${FTP_USER}:${FTP_PASSWORD}@${FTP_HOST}/public_html/pythainlp/docs/$APPVEYOR_REPO_BRANCH/{} \;
   - echo "Done uploading"
-  - echo "Done uploading files to -- thainlp.orgpythainlp/docs/${APPVEYOR_REPO_BRANCH}"
+  - echo "Done uploading files to -- thainlp.orgpythainlp/docs/$APPVEYOR_REPO_BRANCH"
 
 artifacts:
   - path: ./build/html

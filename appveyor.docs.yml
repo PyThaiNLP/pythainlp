@@ -7,56 +7,16 @@ install:
   - sudo apt-get update && sudo apt-get install -y pandoc python3
   - sudo apt-get install -y python3-sphinx
   - sudo pip install -r requirements.txt
-  
-# configuration for staging mode
-# only build documents and upload HTML files to Appveyor's storage
--
-  only_commits:
-    message: /\(build docs\)/    
-  
-  configuration: Staging
 
-  build_script: 
-    - sudo make html
 
-    - echo "Done building HTML files for the branch -- ${APPVEYOR_REPO_BRANCH}"
-    - echo "Start cleaning the directory /tutorials"
-    - sudo bash ./clean_directory.sh $FTP_USER $FTP_PASSWORD $FTP_HOST $APPVEYOR_REPO_BRANCH
-    - echo "Uploading files to `thainlp.org/pythainlp/docs<version>`"
-    - cd ./build/html
-    - find . -type f -name "*" -print -exec curl --ftp-create-dir --ipv4 -T {} ftp://${FTP_USER}:${FTP_PASSWORD}@${FTP_HOST}/public_html/pythainlp/docs/${APPVEYOR_REPO_BRANCH}/{} \;
-    - echo "Done uploading"
-    - echo "Done uploading files to -- thainlp.orgpythainlp/docs/${APPVEYOR_REPO_BRANCH}"
-  
-  artifacts:
-    - path: ./build/html
-      name: document
-
-# configuration for deploy mode 
+# configuration for deploy mode, commit message with /(build and deloy docs)/
 # 1. build documents and upload HTML files to Appveyor's storage
 # 2. upload to thainlp.org/pythainlp/docs/<brnach_bane>
 
--
-  only_commits:
-    message: /\(build and deloy docs\)/    
-  
-  configuration: Staging
-  
-  build_script: 
-    - sudo make html
+only_commits:
+  message: /\(build and deloy docs\)/    
 
-    - echo "Done building HTML files for the branch -- ${APPVEYOR_REPO_BRANCH}"
-    - echo "Start cleaning the directory /tutorials"
-    - sudo bash ./clean_directory.sh $FTP_USER $FTP_PASSWORD $FTP_HOST $APPVEYOR_REPO_BRANCH
-    - echo "Uploading files to `thainlp.org/pythainlp/docs<version>`"
-    - cd ./build/html
-    - find . -type f -name "*" -print -exec curl --ftp-create-dir --ipv4 -T {} ftp://${FTP_USER}:${FTP_PASSWORD}@${FTP_HOST}/public_html/pythainlp/docs/${APPVEYOR_REPO_BRANCH}/{} \;
-    - echo "Done uploading"
-    - echo "Done uploading files to -- thainlp.orgpythainlp/docs/${APPVEYOR_REPO_BRANCH}"
-  
-  artifacts:
-    - path: ./build/html
-      name: document
+configuration: Deploy
 
 build_script: 
   - sudo make html
@@ -73,3 +33,19 @@ build_script:
 artifacts:
   - path: ./build/html
     name: document
+
+build_script: 
+- sudo make html
+
+- echo "Done building HTML files for the branch -- ${APPVEYOR_REPO_BRANCH}"
+- echo "Start cleaning the directory /tutorials"
+- sudo bash ./clean_directory.sh $FTP_USER $FTP_PASSWORD $FTP_HOST $APPVEYOR_REPO_BRANCH
+- echo "Uploading files to `thainlp.org/pythainlp/docs<version>`"
+- cd ./build/html
+- find . -type f -name "*" -print -exec curl --ftp-create-dir --ipv4 -T {} ftp://${FTP_USER}:${FTP_PASSWORD}@${FTP_HOST}/public_html/pythainlp/docs/${APPVEYOR_REPO_BRANCH}/{} \;
+- echo "Done uploading"
+- echo "Done uploading files to -- thainlp.orgpythainlp/docs/${APPVEYOR_REPO_BRANCH}"
+
+artifacts:
+- path: ./build/html
+  name: document

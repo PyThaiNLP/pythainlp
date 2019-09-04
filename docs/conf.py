@@ -24,9 +24,9 @@ curyear = datetime.today().year
 copyright = u'2017-%s, %s (Apache Software License 2.0)' % (curyear, project)
 
 # The short X.Y version
-version = '2.0'
+version = '2.1'
 # The full version, including alpha/beta/rc tags
-release = '2.0.3'
+release = '2.1.0'
 
 
 # -- General configuration ---------------------------------------------------

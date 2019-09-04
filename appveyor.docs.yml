@@ -17,6 +17,7 @@ only_commits:
   message: /(build and deloy docs)/    
 
 build_script: 
+  - cd docs
   - sudo make html
   - echo "Done building HTML files for the branch -- ${APPVEYOR_REPO_BRANCH}"
   - echo "Start cleaning the directory /tutorials"

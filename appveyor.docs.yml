@@ -14,7 +14,7 @@ install:
 # 2. upload to thainlp.org/pythainlp/docs/<brnach_bane>
 
 only_commits:
-  message: /\(build and deloy docs\)/    
+  message: /(build and deloy docs)/    
 
 build_script: 
   - sudo make html

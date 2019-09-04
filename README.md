@@ -113,7 +113,7 @@ Made with ❤️
 
 We build Thai NLP.
 
-PyThaiNLP team.
+PyThaiNLP Team.
 
 # ภาษาไทย
 

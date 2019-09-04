@@ -12,6 +12,7 @@ from pythainlp.corpus import (
 )
 from pythainlp.tokenize import DEFAULT_DICT_TRIE, Tokenizer
 from pythainlp.tokenize import deepcut as tokenize_deepcut
+from pythainlp.tokenize import attacut
 from pythainlp.tokenize import (
     dict_trie,
     dict_word_tokenize,
@@ -69,6 +70,9 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertIsNotNone(
             word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX")
+        )
+        self.assertIsNotNone(
+            word_tokenize("หมอนทองตากลมหูว์MBK39", engine="attacut")
         )
 
         self.assertIsNotNone(dict_trie(()))
@@ -173,6 +177,16 @@ class TestTokenizePackage(unittest.TestCase):
             ),
             ["จุ๋ม", "ง่วง"],
         )
+
+
+    def test_word_tokenize_attacut(self):
+        self.assertEqual(attacut.segment(None), [])
+        self.assertEqual(attacut.segment(""), [])
+        self.assertEqual(
+            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="attacut"),
+            ['ฉัน', 'รัก', 'ภาษา', 'ไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คน', 'ไทย'],
+        )
+
 
     def test_sent_tokenize(self):
         self.assertEqual(sent_tokenize(None), [])

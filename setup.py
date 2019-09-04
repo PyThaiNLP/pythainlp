@@ -10,6 +10,7 @@ with open("requirements.txt", "r", encoding="utf-8") as f:
 
 extras = {
     "artagger": ["artagger"],
+    "attacut": ["attacut"],
     "deepcut": ["deepcut", "keras", "tensorflow"],
     "icu": ["pyicu"],
     "ipa": ["epitran"],
@@ -18,8 +19,10 @@ extras = {
     "ner": ["sklearn-crfsuite"],
     "thai2fit": ["emoji", "gensim", "numpy"],
     "thai2rom": ["torch", "numpy"],
+    "benchmarks": ["numpy", "pandas"],
     "full": [
         "artagger",
+        "attacut",
         "deepcut",
         "epitran",
         "gensim",
@@ -31,12 +34,13 @@ extras = {
         "torch",
         "ssg",
         "emoji",
+        "pandas",
     ],
 }
 
 setup(
     name="pythainlp",
-    version="2.1.dev2",
+    version="2.1.dev3",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -90,7 +94,10 @@ setup(
         "Topic :: Text Processing :: General",
         "Topic :: Text Processing :: Linguistic",
     ],
-    scripts=['bin/pythainlp']
+    scripts=[
+        'bin/pythainlp',
+        'bin/word-tokenization-benchmark',
+    ]
 )
 
 # TODO: Check extras and decide to download additional data, like model files

@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 """
 Wrapper for deepcut Thai word segmentation. deepcut is a
 Thai word segmentation library using Deep Neural, specifically,
 1D Convolution Neural Network.
-
 :See Also:
     * `GitHub repository <https://github.com/rkcosmos/deepcut>`_
 """
@@ -26,3 +24,4 @@ def segment(text: str, custom_dict: Union[Trie, List[str], str] = None) -> List[
         return deepcut.tokenize(text, custom_dict)
 
     return deepcut.tokenize(text)
+

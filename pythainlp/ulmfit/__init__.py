@@ -18,7 +18,8 @@ from pythainlp.util import normalize as normalize_char_order
 
 '''
 # Fastai dependencies
-The following codes are copied from https://github.com/fastai/fastai/blob/master/fastai/text/transform.py
+The following codes are copied from
+https://github.com/fastai/fastai/blob/master/fastai/text/transform.py
 in order to avoid importing the entire fastai library
 '''
 
@@ -199,7 +200,7 @@ def replace_wrep_post(toks: Collection):
              is added in front of repetitive words.
     :rtype: list[str]
 
-    :Example:    
+    :Example:
 
         >>> from pythainlp.ulmfit import replace_wrep_post_nonum
         >>>
@@ -368,7 +369,7 @@ def process_thai(text: str, pre_rules: Collection = pre_rules_th_sparse,
     Process Thai texts for models (with sparse features as default)
 
     :param str text: text to be cleaned
-    :param list[func] pre_rules: rules to apply before tokenization. 
+    :param list[func] pre_rules: rules to apply before tokenization.
     :param func tok_func: tokenization function (by default, **tok_func** is
                           :func:`pythainlp.tokenize.word_tokenize`)
 

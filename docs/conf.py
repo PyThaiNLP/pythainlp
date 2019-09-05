@@ -27,6 +27,8 @@ copyright = u'2017-%s, %s (Apache Software License 2.0)' % (curyear, project)
 
 try:
     from subprocess import check_output
+    current_branch = check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD'])
+    current_branch = current_branch.decode().strip()
     release = check_output(['git', 'describe', '--tags', '--always'])
     release = release.decode().strip()
     today = check_output(['git', 'show', '-s', '--format=%ad', '--date=short'])
@@ -34,13 +36,13 @@ try:
 except Exception:
     release = '<unknown>'
     today = '<unknown date>'
-
+    current_branch = '<unknown>'
 
 # The short X.Y version
-version = release
+version = current_branch
 
 # The full version, including alpha/beta/rc tags
-# release = '2.1.0'
+release = release
 
 
 # -- General configuration ---------------------------------------------------
@@ -102,7 +104,9 @@ html_theme = 'sphinx_rtd_theme'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+    'display_version': True,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

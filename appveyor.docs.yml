@@ -1,5 +1,9 @@
 image: ubuntu1604
 
+branchs:
+  only:
+    - /2.*/
+    - dev
 skip_commits:
   message: /\(skip ci docs\)/     # Skip a new build if message contains '(skip ci docs)'
 

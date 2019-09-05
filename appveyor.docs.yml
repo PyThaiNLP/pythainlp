@@ -34,5 +34,5 @@ build_script:
   - echo "Done uploading files to -- thainlp.orgpythainlp/docs/$APPVEYOR_REPO_BRANCH"
 
 artifacts:
-  - path: ./build/html
+  - path: ./_build/html
     name: document

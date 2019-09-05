@@ -30,7 +30,7 @@ try:
     current_branch = check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD'])
     current_branch = current_branch.decode().strip()
     release = check_output(['git', 'describe', '--tags', '--always'])
-    release = release.decode().strip()
+    release = release.decode().strip().split('-')[0]
     today = check_output(['git', 'show', '-s', '--format=%ad', '--date=short'])
     today = today.decode().strip()
 except Exception:
@@ -39,7 +39,7 @@ except Exception:
     current_branch = '<unknown>'
 
 # The short X.Y version
-version = current_branch
+version = '{} </br> ({})'.format(current_branch, release)
 
 # The full version, including alpha/beta/rc tags
 release = release

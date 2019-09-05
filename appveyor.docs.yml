@@ -51,8 +51,12 @@ build_script:
   - echo "Done uploading"
   - echo "Done uploading files to -- thainlp.org/pythainlp/docs/$APPVEYOR_REPO_BRANCH"
 
-test: off
-
 artifacts:
   - path: ./docs/_build/html
     name: document
+  
+after_build:
+  - echo "Done build and deploy"
+  - appveyor exit
+
+test: off

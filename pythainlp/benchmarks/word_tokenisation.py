@@ -173,16 +173,9 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     c_f1 = _f1(c_precision, c_recall)
 
     # Compute word-level statistics
+
+    # Find correctly tokenized words in the reference sample
     word_boundaries = _find_word_boudaries(ref_sample)
-
-    correctly_tokenised_words = _count_correctly_tokenised_words(
-        sample,
-        word_boundaries
-    )
-
-    w_precision = correctly_tokenised_words / np.sum(sample)
-    w_recall = correctly_tokenised_words / np.sum(ref_sample)
-    w_f1 = _f1(w_precision, w_recall)
 
     # Find correctly tokenized words in the sample
     ss_boundaries = _find_word_boudaries(sample)
@@ -190,6 +183,12 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
         word_boundaries,
         ss_boundaries
     )
+
+    correctly_tokenised_words = np.sum(tokenisation_indicators)
+
+    w_precision = correctly_tokenised_words / np.sum(sample)
+    w_recall = correctly_tokenised_words / np.sum(ref_sample)
+    w_f1 = _f1(w_precision, w_recall)
 
     tokenisation_indicators = list(
         map(lambda x: str(x), tokenisation_indicators)
@@ -265,29 +264,6 @@ def _find_word_boudaries(bin_reps) -> list:
     end_idx = boundary[1:].tolist() + [bin_reps.shape[0]]
 
     return list(zip(start_idx, end_idx))
-
-
-def _count_correctly_tokenised_words(bin_reps, word_boundaries) -> list:
-    """
-    Count how many words are tokenized correctly
-
-    :param str bin_reps: binary representation of a text
-    :param list[tuple(int, int)] word_boundaries: list of when each word starts and ends
-
-    :return: no. correctly tokenized words
-    :rtype: int
-    """
-    count = 0
-    for st, end in word_boundaries:
-        pend = min(end, bin_reps.shape[0])
-        if (bin_reps[st] == 1 and np.sum(bin_reps[st+1:pend]) == 0) \
-            and (
-                (pend == bin_reps.shape[0]) or
-                (pend != bin_reps.shape[0] and bin_reps[pend] == 1)
-        ):
-            count = count + 1
-
-    return count
 
 
 def _find_words_correctly_tokenised(

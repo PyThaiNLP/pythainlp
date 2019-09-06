@@ -59,10 +59,15 @@ class TestBenchmarksPackage(unittest.TestCase):
             sample = np.array(list(d['actual'])).astype(int)
             ref_sample = np.array(list(d['expected'])).astype(int)
 
-            wb = list(word_tokenisation._find_word_boudaries(ref_sample))
+            sb = list(word_tokenisation._find_word_boudaries(sample))
+            rb = list(word_tokenisation._find_word_boudaries(ref_sample))
+
+            # in binary [{0, 1}, ...]
+            correctly_tokenized_words = word_tokenisation\
+                ._find_words_correctly_tokenised(rb, sb)
 
             self.assertEqual(
-                word_tokenisation._count_correctly_tokenised_words(sample, wb),
+                np.sum(correctly_tokenized_words),
                 d['expected_count']
             )
 

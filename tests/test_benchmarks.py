@@ -1,9 +1,5 @@
-import datetime
-import os
-import sys
 import unittest
 
-import numpy as np
 import yaml
 from pythainlp.benchmarks import word_tokenisation
 

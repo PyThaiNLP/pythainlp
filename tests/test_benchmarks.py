@@ -2,12 +2,13 @@ import datetime
 import os
 import sys
 import unittest
-import yaml
-import numpy as np
 
+import numpy as np
+import yaml
 from pythainlp.benchmarks import word_tokenisation
 
-with open("./tests/data/sentences.yml", 'r') as stream:
+
+with open("./tests/data/sentences.yml", "rb") as stream:
     TEST_DATA = yaml.safe_load(stream)
 
 class TestBenchmarksPackage(unittest.TestCase):

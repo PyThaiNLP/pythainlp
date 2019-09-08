@@ -19,6 +19,6 @@ Quality
 
    Qualitative evaluation of word tokenization.
 
-.. autofunction:: pythainlp.benchmarks.word_tokenisation.compute_stats
-.. autofunction:: pythainlp.benchmarks.word_tokenisation.benchmark
-.. autofunction:: pythainlp.benchmarks.word_tokenisation.preprocessing
+.. autofunction:: pythainlp.benchmarks.word_tokenization.compute_stats
+.. autofunction:: pythainlp.benchmarks.word_tokenization.benchmark
+.. autofunction:: pythainlp.benchmarks.word_tokenization.preprocessing

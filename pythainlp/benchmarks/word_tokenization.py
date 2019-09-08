@@ -69,7 +69,7 @@ def benchmark(ref_samples: list, samples: list):
     """
     Performace benchmark of samples
 
-    Please see :meth:`pythainlp.benchmarks.word_tokenisation.compute_stats` for
+    Please see :meth:`pythainlp.benchmarks.word_tokenization.compute_stats` for
     metrics being computed.
 
     :param list[str] ref_samples: ground truth samples
@@ -180,19 +180,19 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
 
     # Find correctly tokenized words in the sample
     ss_boundaries = _find_word_boudaries(sample)
-    tokenisation_indicators = _find_words_correctly_tokenised(
+    tokenization_indicators = _find_words_correctly_tokenised(
         word_boundaries,
         ss_boundaries
     )
 
-    correctly_tokenised_words = np.sum(tokenisation_indicators)
+    correctly_tokenised_words = np.sum(tokenization_indicators)
 
     w_precision = correctly_tokenised_words / np.sum(sample)
     w_recall = correctly_tokenised_words / np.sum(ref_sample)
     w_f1 = _f1(w_precision, w_recall)
 
-    tokenisation_indicators = list(
-        map(lambda x: str(x), tokenisation_indicators)
+    tokenization_indicators = list(
+        map(lambda x: str(x), tokenization_indicators)
     )
 
     return {
@@ -211,7 +211,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
             'f1': w_f1
         },
         'global': {
-            'tokenisation_indicators': "".join(tokenisation_indicators)
+            'tokenisation_indicators': "".join(tokenization_indicators)
         }
     }
 

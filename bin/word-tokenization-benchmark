@@ -6,7 +6,7 @@ import json
 import os
 
 import yaml
-from pythainlp.benchmarks import word_tokenisation
+from pythainlp.benchmarks import word_tokenization
 
 parser = argparse.ArgumentParser(
     description="Script for benchmarking tokenizaiton results"
@@ -52,7 +52,7 @@ print(
     % (args.input_file, args.test_file, len(actual))
 )
 
-df_raw = word_tokenisation.benchmark(expected, actual)
+df_raw = word_tokenization.benchmark(expected, actual)
 
 df_res = df_raw.describe()
 df_res = df_res[

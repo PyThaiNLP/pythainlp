@@ -90,11 +90,11 @@ class ThaiNameTagger:
         )
 
     def get_ner(
-        self, text: str, pos: bool = True, tag: bool = False
+         self, text: str, pos: bool = True, tag: bool = False
     ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]]]:
         """
         This function tags named-entitiy from text in IOB format.
-
+        
         :param string text: text in Thai to be tagged
         :param boolean pos: To include POS tags in the results (`True`) or
                             exclude (`False`). The defualt value is `True`

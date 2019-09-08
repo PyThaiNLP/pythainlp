@@ -21,7 +21,7 @@ parser.add_argument(
 parser.add_argument(
     "--test-file",
     action="store",
-    help="Path to test file i.e. ground truth"
+    help="Path to test file i.e. ground truth",
 )
 
 parser.add_argument(

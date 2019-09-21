@@ -4,4 +4,4 @@ nltk==3.4.*
 pytz==2019.2
 requests==2.22.*
 tinydb==3.13.*
-tqdm==4.34.*
+tqdm==4.35.*

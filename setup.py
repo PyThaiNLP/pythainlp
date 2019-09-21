@@ -10,20 +10,21 @@ with open("requirements.txt", "r", encoding="utf-8") as f:
 
 extras = {
     "artagger": ["artagger"],
+    "attacut": ["attacut"],
     "deepcut": ["deepcut", "keras", "tensorflow"],
     "icu": ["pyicu"],
     "ipa": ["epitran"],
     "ssg": ["ssg"],
-    "ml": ["fastai>=1.0.38", "keras", "numpy", "torch"],
+    "ml": ["keras", "numpy", "torch"],
     "ner": ["sklearn-crfsuite"],
     "thai2fit": ["emoji", "gensim", "numpy"],
     "thai2rom": ["torch", "numpy"],
     "benchmarks": ["numpy", "pandas"],
     "full": [
         "artagger",
+        "attacut",
         "deepcut",
         "epitran",
-        "fastai>=1.0.38",
         "gensim",
         "keras",
         "numpy",
@@ -39,7 +40,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.1.dev2",
+    version="2.1.dev4",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",

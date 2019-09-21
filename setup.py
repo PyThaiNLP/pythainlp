@@ -2,24 +2,48 @@
 
 from setuptools import find_packages, setup
 
-with open("README-pypi.md", "r", encoding="utf-8") as readme_file:
-    readme = readme_file.read()
+readme = """
+![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
 
-with open("requirements.txt", "r", encoding="utf-8") as f:
-    requirements = f.read().splitlines()
+PyThaiNLP is a Python library for Thai natural language processing.
+It includes word tokenizers, transliterators, soundex converters, part-of-speech taggers, and spell checkers.
+
+## Install
+
+For stable version:
+
+```sh
+pip install pythainlp
+```
+
+Some functionalities, like word vector, required extra packages. See https://github.com/PyThaiNLP/pythainlp for installation options.
+
+**Note for Windows**: `marisa-trie` wheels can be obtained from https://www.lfd.uci.edu/~gohlke/pythonlibs/#marisa-trie
+Install it with pip, for example: `pip install marisa_trie‑xxx.whl`
+"""
+
+requirements = [
+    "dill=>0.3.*,<1",
+    "marisa-trie=>0.7.*,<1",
+    "nltk=>3.4.*,<4",
+    "requests=>2.22.*,<3",
+    "tinydb=>3.13.*,<4",
+    "tqdm=>4.35.*,<5",
+]
 
 extras = {
     "artagger": ["artagger"],
     "attacut": ["attacut"],
+    "benchmarks": ["numpy", "pandas"],
     "deepcut": ["deepcut", "keras", "tensorflow"],
     "icu": ["pyicu"],
     "ipa": ["epitran"],
-    "ssg": ["ssg"],
     "ml": ["keras", "numpy", "torch"],
     "ner": ["sklearn-crfsuite"],
+    "ssg": ["ssg"],
     "thai2fit": ["emoji", "gensim", "numpy"],
     "thai2rom": ["torch", "numpy"],
-    "benchmarks": ["numpy", "pandas"],
+    "wordnet": ["nltk"],
     "full": [
         "artagger",
         "attacut",

@@ -371,9 +371,10 @@ pre_rules_th = [
     rm_useless_spaces,
     rm_useless_newlines,
     rm_brackets,
+    replace_url,
 ]
 
-post_rules_th = [replace_wrep_post, ungroup_emoji, lowercase_all, replace_url]
+post_rules_th = [replace_wrep_post, ungroup_emoji, lowercase_all,]
 # sparse features
 pre_rules_th_sparse = pre_rules_th[1:] + [replace_rep_nonum]
 post_rules_th_sparse = post_rules_th[1:] + [replace_wrep_post_nonum,

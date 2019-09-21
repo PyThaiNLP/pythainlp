@@ -23,12 +23,12 @@ Install it with pip, for example: `pip install marisa_trie‑xxx.whl`
 """
 
 requirements = [
-    "dill => 0.3.0, <1",
-    "marisa-trie => 0.7.5, <1",
-    "nltk => 3.4.5, <4",
-    "requests => 2.22.0, <3",
-    "tinydb => 3.13.0, <4",
-    "tqdm => 4.35.0, <5",
+    "dill>=0.3.0,<1",
+    "marisa-trie>=0.7.5,<1",
+    "nltk>=3.4.5,<4",
+    "requests>=2.22.0,<3",
+    "tinydb>=3.13.0,<4",
+    "tqdm>=4.35.0,<5",
 ]
 
 extras = {

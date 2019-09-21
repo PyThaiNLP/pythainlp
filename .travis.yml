@@ -1,41 +1,22 @@
-# Config file for automatic testing at travis-ci.org
-# This file will be regenerated if you run travis_pypi_setup.py
-
 language: python
 python:
-  - "3.6"
-
-# workaround to make boto work on travis
-# from https://github.com/travis-ci/travis-ci/issues/7940
+- '3.6'
 before_install:
-  - sudo rm -f /etc/boto.cfg
-
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+- sudo rm -f /etc/boto.cfg
 install:
-  - pip install -U numpy
-  - pip install -r requirements.txt
-  - pip install .[artagger,icu,ipa,ner,thai2fit,deepcut]
-  - pip install coveralls
-
+- pip install -U numpy
+- pip install -r requirements.txt
+- pip install .[artagger,icu,ipa,ner,thai2fit,deepcut]
+- pip install coveralls
 os:
-  - linux
-
-# command to run tests, e.g. python setup.py test
-script:
-  coverage run --source=pythainlp setup.py test
-
-after_success:
-  coveralls
-
-# After you create the Github repo and add it to Travis, run the
-# travis_pypi_setup.py script to finish PyPI deployment setup
+- linux
+script: coverage run --source=pythainlp setup.py test
+after_success: coveralls
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: wannaphong
   password:
-    secure: PLEASE_REPLACE_ME
+    secure: Tj3VA05qopp0mkzWu6EFTlvijAoisd0BN/gD2c/vaaDCUy6fTXBkYk+dTkjbmYkEBl/WrsrW1T/QxCt2uc6bv7QTz+qL243Edv4FFQbBKvMSNlUO+hh1jI9zv3/QzwOaNHXOsI4JGeUaN5cULfxBjsBEFN+v6E0mkgBwJ0Qdb0/yuMybLWZ9dJI8iUKiaWNIr+NQoa9a+Sxw6Ltl/mdCKPppgOYPpVMCsDDdLqZdjkgXmzsjH9+Nfe6R+mYbdmeigy3ePNsIKbPkzZrY+E/I0lPZOVUgrs6gvZwlD3gESJgTROrUH6E2lBP9yYvFUE3KB0O+rdT5GyFq3MH1uD2ocrPCTQku6577wK31FzGoex6vtT4y2b39fLbhRmZDOJW8IFO7MLybazuRsNhaXn9hQU4HBRM2GQZc41bLkiEhsUX9/b2ujcn4PJKDZy91LnBw/93bgZJ7KweDzKywmcZSNeuBsGWgXdPqYiizzcf8DdvJAYytydhf8RxqdemTiS7GE7XBoXhj1/9Vfrt3lZXZbfYpTjNZeyxu7FrUJpm/I23wCw46qaRWzKXv2sRRUleNqQ1jIKEVupIa9sruHvG7DZecErhO9rMkGdsf4CIjolZ0A2BE+eAPEEY6/H1WFUWHxzxuELbUJwxnl1By677hBkLJaVs1YMGc2enGWzOnUYI=
   on:
     tags: true
-    repo: wannaphongcom/pythainlp
-    #condition: $TOXENV == py35

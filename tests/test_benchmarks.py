@@ -1,31 +1,29 @@
-import datetime
-import os
-import sys
 import unittest
-import yaml
+
 import numpy as np
+import yaml
+from pythainlp.benchmarks import word_tokenization
 
-from pythainlp.benchmarks import word_tokenisation
 
-with open("./tests/data/sentences.yml", 'r') as stream:
+with open("./tests/data/sentences.yml", "r", encoding="utf8") as stream:
     TEST_DATA = yaml.safe_load(stream)
 
 class TestBenchmarksPackage(unittest.TestCase):
 
     def test_preprocessing(self):
-        self.assertIsNotNone(word_tokenisation.preprocessing(
+        self.assertIsNotNone(word_tokenization.preprocessing(
             txt="ทดสอบ การ ทำ ความสะอาด ข้อมูล<tag>ok</tag>"
         ))
 
     def test_benchmark_not_none(self):
-        self.assertIsNotNone(word_tokenisation.benchmark(
+        self.assertIsNotNone(word_tokenization.benchmark(
             ["วัน", "จัน", "ทร์", "สี", "เหลือง"],
             ["วัน", "จันทร์", "สี", "เหลือง"]
         ))
 
     def test_binary_representation(self):
         sentence = "อากาศ|ร้อน|มาก|ครับ"
-        rept = word_tokenisation._binary_representation(sentence)
+        rept = word_tokenization._binary_representation(sentence)
 
         self.assertEqual(
             [1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
@@ -36,9 +34,9 @@ class TestBenchmarksPackage(unittest.TestCase):
         for pair in TEST_DATA['sentences']:
             exp, act = pair['expected'], pair['actual']
 
-            result = word_tokenisation.compute_stats(
-                word_tokenisation.preprocessing(exp),
-                word_tokenisation.preprocessing(act)
+            result = word_tokenization.compute_stats(
+                word_tokenization.preprocessing(exp),
+                word_tokenization.preprocessing(act)
             ) 
 
             self.assertIsNotNone(result)
@@ -50,7 +48,7 @@ class TestBenchmarksPackage(unittest.TestCase):
             expected.append(pair['expected'])
             actual.append(pair['actual'])
 
-        df = word_tokenisation.benchmark(expected, actual)
+        df = word_tokenization.benchmark(expected, actual)
 
         self.assertIsNotNone(df)
 
@@ -59,10 +57,15 @@ class TestBenchmarksPackage(unittest.TestCase):
             sample = np.array(list(d['actual'])).astype(int)
             ref_sample = np.array(list(d['expected'])).astype(int)
 
-            wb = list(word_tokenisation._find_word_boudaries(ref_sample))
+            sb = list(word_tokenization._find_word_boudaries(sample))
+            rb = list(word_tokenization._find_word_boudaries(ref_sample))
+
+            # in binary [{0, 1}, ...]
+            correctly_tokenized_words = word_tokenization\
+                ._find_words_correctly_tokenised(rb, sb)
 
             self.assertEqual(
-                word_tokenisation._count_correctly_tokenised_words(sample, wb),
+                np.sum(correctly_tokenized_words),
                 d['expected_count']
             )
 
@@ -72,7 +75,7 @@ class TestBenchmarksPackage(unittest.TestCase):
 
         expected = "01"
 
-        labels = word_tokenisation._find_words_correctly_tokenised(r, s)
+        labels = word_tokenization._find_words_correctly_tokenised(r, s)
         self.assertEqual(expected, "".join(np.array(labels).astype(str)))
 
     def test_flatten_result(self):
@@ -81,5 +84,5 @@ class TestBenchmarksPackage(unittest.TestCase):
             key2=dict(v2=7)
         )
 
-        actual = word_tokenisation._flatten_result(result)
+        actual = word_tokenization._flatten_result(result)
         self.assertEqual(actual, {'key1:v1': 6, 'key2:v2': 7})

@@ -1,0 +1,62 @@
+image: ubuntu1604
+
+branches:
+  only:
+    - /2.*/
+    - dev
+
+skip_commits:
+  message: /(skip ci docs)/     # Skip a new build if message contains '(skip ci docs)'
+
+install:
+  - sudo add-apt-repository ppa:jonathonf/python-3.6 -y
+  - sudo apt-get update
+  - sudo apt install -y python3.6 
+  - sudo apt install -y python3.6-dev
+  - sudo apt install -y python3.6-venv
+  - wget https://bootstrap.pypa.io/get-pip.py
+  - sudo python3.6 get-pip.py
+  - sudo ln -s /usr/bin/python3.6 /usr/local/bin/python
+  - sudo apt-get install -y pandoc libicu-dev
+  - python -V
+  - python3 -V
+  - pip -V
+  - sudo pip install -r requirements.txt
+  - export LD_LIBRARY_PATH=/usr/local/lib
+  - sudo pip install torch==1.2.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+  - sudo pip install sphinx sphinx-rtd-theme typing artagger deepcut epitran keras numpy pyicu sklearn-crfsuite tensorflow ssg emoji pandas 
+  - sudo pip install --upgrade gensim smart_open boto
+
+# configuration for deploy mode, commit message with /(build and deloy docs)/
+# 1. build documents and upload HTML files to Appveyor's storage
+# 2. upload to thainlp.org/pythainlp/docs/<brnach_bane>
+
+only_commits:
+  message: /(build and deploy docs)/    
+
+build_script: 
+  - cd ./docs
+  - export CURRENT_BRANCH=$APPVEYOR_REPO_BRANCH
+  - export RELEASE=$(git describe --tags --always)
+  - export RELEASE=$(echo $RELEASE | cut -d'-' -f1)
+  - export TODAY=$(date +'%Y-%m-%d')
+  - make html
+  - echo "Done building HTML files for the branch -- $APPVEYOR_REPO_BRANCH"
+  - echo "Start cleaning the directory /docs/$APPVEYOR_REPO_BRANCH"
+  - sudo bash ./clean_directory.sh $FTP_USER $FTP_PASSWORD $FTP_HOST $APPVEYOR_REPO_BRANCH
+  - echo "Start Uploading files to thainlp.org/pythainlp/docs/$APPVEYOR_REPO_BRANCH"
+  - cd ./_build/html
+  - echo "cd to ./build/html"
+  - find . -type f -name "*" -print -exec curl --ftp-create-dir --ipv4 -T {} ftp://${FTP_USER}:${FTP_PASSWORD}@${FTP_HOST}/public_html/pythainlp/docs/$APPVEYOR_REPO_BRANCH/{} \;
+  - echo "Done uploading"
+  - echo "Done uploading files to -- thainlp.org/pythainlp/docs/$APPVEYOR_REPO_BRANCH"
+
+artifacts:
+  - path: ./docs/_build/html
+    name: document
+  
+after_build:
+  - echo "Done build and deploy"
+  - appveyor exit
+
+test: off

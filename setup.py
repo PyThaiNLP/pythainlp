@@ -43,7 +43,6 @@ extras = {
     "ssg": ["ssg"],
     "thai2fit": ["emoji", "gensim", "numpy"],
     "thai2rom": ["torch", "numpy"],
-    "wordnet": ["nltk"],
     "full": [
         "artagger",
         "attacut",

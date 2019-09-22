@@ -2,39 +2,65 @@
 
 from setuptools import find_packages, setup
 
-with open("README-pypi.md", "r", encoding="utf-8") as readme_file:
-    readme = readme_file.read()
+readme = """
+![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
 
-with open("requirements.txt", "r", encoding="utf-8") as f:
-    requirements = f.read().splitlines()
+PyThaiNLP is a Python library for Thai natural language processing.
+The library provides functions like word tokenization, part-of-speech tagging,
+transliteration, soundex generation, and spell checking.
+
+## Install
+
+For stable version:
+
+```sh
+pip install pythainlp
+```
+
+Some functionalities, like word vector, required extra packages.
+See https://github.com/PyThaiNLP/pythainlp for installation options.
+
+**Note for Windows**: `marisa-trie` wheels can be obtained from
+https://www.lfd.uci.edu/~gohlke/pythonlibs/#marisa-trie
+Install it with pip, for example: `pip install marisa_trie‑xxx.whl`
+"""
+
+requirements = [
+    "dill>=0.3.0,<1",
+    "marisa-trie>=0.7.5,<1",
+    "nltk>=3.4.5,<4",
+    "requests>=2.22.0,<3",
+    "tinydb>=3.13.0,<4",
+    "tqdm>=4.35.0,<5",
+]
 
 extras = {
-    "artagger": ["artagger"],
-    "attacut": ["attacut"],
-    "deepcut": ["deepcut", "keras", "tensorflow"],
-    "icu": ["pyicu"],
-    "ipa": ["epitran"],
-    "ssg": ["ssg"],
-    "ml": ["keras", "numpy", "torch"],
-    "ner": ["sklearn-crfsuite"],
-    "thai2fit": ["emoji", "gensim", "numpy"],
-    "thai2rom": ["torch", "numpy"],
-    "benchmarks": ["numpy", "pandas"],
+    "artagger": ["artagger>=0.1.0.3"],
+    "attacut": ["attacut>=1.0.2"],
+    "benchmarks": ["numpy>=1.17.2", "pandas>=0.25.1"],
+    "deepcut": ["deepcut>=0.6.1.0", "keras>=2.3.0", "tensorflow>=1.14.0"],
+    "icu": ["pyicu>=2.3.1"],
+    "ipa": ["epitran>=1.1"],
+    "ml": ["keras>=2.3.0", "numpy>=1.17.2", "torch>=1.2.0"],
+    "ner": ["sklearn-crfsuite>=0.3.6"],
+    "ssg": ["ssg>=0.0.4"],
+    "thai2fit": ["emoji>0.5.4", "gensim>=3.8.0", "numpy>=1.17.2"],
+    "thai2rom": ["torch>=1.2.0", "numpy>=1.17.2"],
     "full": [
-        "artagger",
-        "attacut",
-        "deepcut",
-        "epitran",
-        "gensim",
-        "keras",
-        "numpy",
-        "pyicu",
-        "sklearn-crfsuite",
-        "tensorflow",
-        "torch",
-        "ssg",
-        "emoji",
-        "pandas",
+        "artagger>=0.1.0.3",
+        "attacut>=1.0.2",
+        "deepcut>=0.6.1.0",
+        "epitran>=1.1",
+        "gensim>=3.8.0",
+        "keras>=2.3.0",
+        "numpy>=1.17.2",
+        "pyicu>=2.3.1",
+        "sklearn-crfsuite>=0.3.6",
+        "tensorflow>=1.14.0",
+        "torch>=1.2.0",
+        "ssg>=0.0.4",
+        "emoji>=0.5.4",
+        "pandas>=0.25.1",
     ],
 }
 

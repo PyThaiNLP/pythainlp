@@ -16,7 +16,7 @@ from collections import defaultdict
 from heapq import heappop, heappush  # for priority queue
 from typing import List
 
-from marisa_trie import Trie
+from .trie import Trie
 from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
 from .tcc import tcc_pos

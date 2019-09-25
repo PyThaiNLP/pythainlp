@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 class Trie:
-    
+
     class Node(object):
         __slots__ = 'end', 'children'
+
         def __init__(self):
             self.end = False
             self.children = {}

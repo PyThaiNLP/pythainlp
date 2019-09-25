@@ -77,6 +77,7 @@ $ pip install pythainlp[extra1,extra2,...]
 
 where `extras` can be
   - `artagger` (to support artagger part-of-speech tagger)*
+  - `attacut` Fast and Reasonably Accurate Word Tokenizer for Thai (**6x faster than DeepCut**)
   - `deepcut` (to support deepcut machine-learnt tokenizer)
   - `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
   - `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
@@ -177,6 +178,7 @@ $ pip install pythainlp[extra1,extra2,...]
 
 โดยที่ `extras` คือ
   - `artagger` (สำหรับตัวติดป้ายกำกับชนิดคำ artagger)*
+  - `attacut` ตัวตัดคำแบบ Deep Learning ที่**เร็วกว่า deepcut 6 เท่า** และประสิทธิภาพการตัดคำแม่นกว่า `newmm` เมื่อเทียบกับชุดข้อมูล BEST
   - `deepcut` (สำหรับตัวตัดคำ deepcut)
   - `icu` (สำหรับการถอดตัวสะกดเป็นสัทอักษรและการตัดคำด้วย ICU)
   - `ipa` (สำหรับการถอดตัวสะกดเป็นสัทอักษรสากล (IPA))

@@ -12,6 +12,7 @@ For some advanced functionalities, like word vector, extra packages may be neede
 where extras can be
 
 - ``artagger`` (to support artagger part-of-speech tagger)*
+- ``attacut`` - Fast and Reasonably Accurate Word Tokenizer for Thai (https://github.com/PyThaiNLP/attacut)
 - ``deepcut`` (to support deepcut machine-learnt tokenizer)
 - ``icu`` (for ICU support in transliteration and tokenization)
 - ``ipa`` (for International Phonetic Alphabet support in transliteration)
@@ -39,7 +40,7 @@ Note for installation on Windows:
     - Install them with pip. For example: `pip install marisa_trie‑0.7.5‑cp36‑cp36m‑win32.whl`
     
 - Option 2 (advanced):
-    - You can also try to install them with a command: `pip install marisa-trie pyicu`
+    - You can also try to install them with a command: `pip install pyicu`
     - With this, pip will try to build the libraries directly from source files.
     - This will take some time and need a set of build tools to be installed in your system, for example Microsoft Visual C++ Compiler. It also requires some technical skills on how things are getting built on Windows system, as you may need to configure some environment variables to accommodate the build process.
     - For PyICU, before the installation, you have to set ``ICU_VERSION`` environment variable to ICU version in your system. For example, ``set ICU_VERSION=62.1``.

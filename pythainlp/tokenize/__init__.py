@@ -6,7 +6,7 @@ import re
 import warnings
 from typing import Iterable, List, Union
 
-from marisa_trie import Trie
+from .trie import Trie
 from pythainlp.corpus import thai_syllables, thai_words
 
 DEFAULT_DICT_TRIE = Trie(thai_words())

@@ -17,7 +17,7 @@ from typing import List
 
 from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
-from marisa_trie import Trie
+from .trie import Trie
 
 
 class LatticeString(str):

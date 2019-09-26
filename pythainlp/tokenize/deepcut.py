@@ -10,7 +10,7 @@ from typing import List, Union
 
 import deepcut
 
-from marisa_trie import Trie
+from .trie import Trie
 
 
 def segment(text: str, custom_dict: Union[Trie, List[str], str] = None) -> List[str]:

@@ -27,7 +27,6 @@ Install it with pip, for example: `pip install marisa_trie‑xxx.whl`
 
 requirements = [
     "dill>=0.3.0,<1",
-    "marisa-trie>=0.7.5,<1",
     "nltk>=3.4.5,<4",
     "requests>=2.22.0,<3",
     "tinydb>=3.13.0,<4",
@@ -66,7 +65,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.1.dev5",
+    version="2.1.dev6",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",

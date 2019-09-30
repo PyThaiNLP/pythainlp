@@ -40,5 +40,5 @@ class Trie:
     def __contains__(self, key: str) -> bool:
         return key in self.words
 
-    def __iter__(self) -> str:
+    def __iter__(self) -> Iterable[str]:
         yield from self.words

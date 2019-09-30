@@ -2,41 +2,42 @@
 """
 Code by Charin Polpanumas
 https://github.com/cstorm125/thai2fit/
+
+Some pre-processing functions are from fastai (Apache 2.0)
+https://github.com/fastai/fastai/blob/master/fastai/text/transform.py
 """
 import collections
-import re
-
-from typing import List, Collection, Callable
-import emoji
 import html
+import re
+from typing import Callable, Collection, List
+
+import emoji
 import numpy as np
 import torch
-
 from pythainlp.corpus import download, get_corpus, get_corpus_path
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util import normalize as normalize_char_order
 
-'''
-# Fastai dependencies
-The following codes are copied from
-https://github.com/fastai/fastai/blob/master/fastai/text/transform.py
-in order to avoid importing the entire fastai library
-'''
+UNK = "xxunk"
+TK_REP = "xxrep"
+TK_WREP = "xxwrep"
+TK_END = "xxend"
+TK_URL = "xxurl"
 
-UNK = 'xxunk'
-TK_REP = 'xxrep'
-TK_WREP = 'xxwrep'
-TK_END = 'xxend'
-TK_URL ='xxurl'
 
-class BaseTokenizer():
+class BaseTokenizer:
     """Basic class for a tokenizer function. (code from `fastai`)"""
-    def __init__(self, lang: str): self.lang = lang
 
-    def tokenizer(self, t: str) -> List[str]: return t.split(' ')
+    def __init__(self, lang: str):
+        self.lang = lang
 
-    def add_special_cases(self, toks: Collection[str]): pass
-    
+    def tokenizer(self, t: str) -> List[str]:
+        return t.split(" ")
+
+    def add_special_cases(self, toks: Collection[str]):
+        pass
+
+
 def replace_url(x):
     """
         Replace url in `x` with TK_URL
@@ -51,7 +52,7 @@ def replace_url(x):
             >>> from pythainlp.ulmfit import replace_url
             >>> replace_url("go to github.com")
             go to xxurl
-    """    
+    """
     URL_PATTERN = r"""(?i)\b((?:https?:(?:/{1,3}|[a-z0-9%])|[a-z0-9.\-]+[.](?:com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|post|pro|tel|travel|xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|Ja|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)/)(?:[^\s()<>{}\[\]]+|\([^\s()]*?\([^\s()]+\)[^\s()]*?\)|\([^\s]+?\))+(?:\([^\s()]*?\([^\s()]+\)[^\s()]*?\)|\([^\s]+?\)|[^\s`!()\[\]{};:'".,<>?«»“”‘’])|(?:(?<!@)[a-z0-9]+(?:[.\-][a-z0-9]+)*[.](?:com|net|org|edu|gov|mil|aero|asia|biz|cat|coop|info|int|jobs|mobi|museum|name|post|pro|tel|travel|xxx|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cs|cu|cv|cx|cy|cz|dd|de|dj|dk|dm|do|dz|ec|ee|eg|eh|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|Ja|sk|sl|sm|sn|so|sr|ss|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)\b/?(?!@)))"""
     return re.sub(URL_PATTERN, TK_URL, x)
 
@@ -71,28 +72,39 @@ def fix_html(x: str) -> str:
             >>> fix_html("Anbsp;amp;nbsp;B @.@ ")
             A & B.
     """
-    re1 = re.compile(r'  +')
-    x = x.replace('#39;', "'").replace('amp;', '&').replace(
-        '#146;', "'").replace('nbsp;', ' ').replace(
-        '#36;', '$').replace('\\n', "\n").replace('quot;', "'").replace(
-        '<br />', "\n").replace('\\"', '"').replace('<unk>', UNK).replace(
-        ' @.@ ', '.').replace(' @-@ ', '-').replace(' @,@ ', ',').replace(
-        '\\', ' \\ ')
-    return re1.sub(' ', html.unescape(x))
+    re1 = re.compile(r"  +")
+    x = (
+        x.replace("#39;", "'")
+        .replace("amp;", "&")
+        .replace("#146;", "'")
+        .replace("nbsp;", " ")
+        .replace("#36;", "$")
+        .replace("\\n", "\n")
+        .replace("quot;", "'")
+        .replace("<br />", "\n")
+        .replace('\\"', '"')
+        .replace("<unk>", UNK)
+        .replace(" @.@ ", ".")
+        .replace(" @-@ ", "-")
+        .replace(" @,@ ", ",")
+        .replace("\\", " \\ ")
+    )
+    return re1.sub(" ", html.unescape(x))
 
 
 def rm_useless_spaces(t: str) -> str:
     """Remove multiple spaces in `t`. (code from `fastai`)"""
-    return re.sub(' {2,}', ' ', t)
+    return re.sub(" {2,}", " ", t)
 
 
 def spec_add_spaces(t: str) -> str:
     """Add spaces around / and # in `t`. \n (code from `fastai`)"""
-    return re.sub(r'([/#\n])', r' \1 ', t)
+    return re.sub(r"([/#\n])", r" \1 ", t)
 
-'''
+
+"""
 End of fastai codes
-'''
+"""
 
 __all__ = [
     "ThaiTokenizer",
@@ -230,7 +242,7 @@ def replace_wrep_post(toks: Collection):
     previous_word = None
     rep_count = 0
     res = []
-    for current_word in toks+[TK_END]:
+    for current_word in toks + [TK_END]:
         if current_word == previous_word:
             rep_count += 1
         elif (current_word != previous_word) & (rep_count > 0):
@@ -297,9 +309,11 @@ def replace_rep_nonum(text: str) -> str:
         'กา xxrep '
 
     """
+
     def _replace_rep(m):
         c, cc = m.groups()
         return f"{c} {TK_REP} "
+
     re_rep = re.compile(r"(\S)(\1{3,})")
     return re_rep.sub(_replace_rep, text)
 
@@ -327,7 +341,7 @@ def replace_wrep_post_nonum(toks: Collection):
     previous_word = None
     rep_count = 0
     res = []
-    for current_word in toks+[TK_END]:
+    for current_word in toks + [TK_END]:
         if current_word == previous_word:
             rep_count += 1
         elif (current_word != previous_word) & (rep_count > 0):
@@ -350,15 +364,15 @@ def remove_space(toks: Collection):
     """
     res = []
     for t in toks:
-        if t != ' ':
+        if t != " ":
             res.append(t)
     return res
+
 
 # Pretrained paths
 # TODO: Let the user decide if they like to download (at setup?)
 _THWIKI_LSTM = dict(
-    wgts_fname=_get_path(_MODEL_NAME_LSTM),
-    itos_fname=_get_path(_ITOS_NAME_LSTM)
+    wgts_fname=_get_path(_MODEL_NAME_LSTM), itos_fname=_get_path(_ITOS_NAME_LSTM)
 )
 
 # Preprocessing rules for Thai text
@@ -374,16 +388,18 @@ pre_rules_th = [
     replace_url,
 ]
 
-post_rules_th = [replace_wrep_post, ungroup_emoji, lowercase_all,]
+post_rules_th = [replace_wrep_post, ungroup_emoji, lowercase_all]
 # sparse features
 pre_rules_th_sparse = pre_rules_th[1:] + [replace_rep_nonum]
-post_rules_th_sparse = post_rules_th[1:] + [replace_wrep_post_nonum,
-                                            remove_space]
+post_rules_th_sparse = post_rules_th[1:] + [replace_wrep_post_nonum, remove_space]
 
 
-def process_thai(text: str, pre_rules: Collection = pre_rules_th_sparse,
-                 tok_func: Callable = _pythainlp_tokenizer.word_tokenize,
-                 post_rules: Collection = post_rules_th_sparse) -> Collection[str]:
+def process_thai(
+    text: str,
+    pre_rules: Collection = pre_rules_th_sparse,
+    tok_func: Callable = _pythainlp_tokenizer.word_tokenize,
+    post_rules: Collection = post_rules_th_sparse,
+) -> Collection[str]:
     """
     Process Thai texts for models (with sparse features as default)
 
@@ -451,6 +467,7 @@ def process_thai(text: str, pre_rules: Collection = pre_rules_th_sparse,
     for post in post_rules:
         res = post(res)
     return res
+
 
 _tokenizer = ThaiTokenizer()
 

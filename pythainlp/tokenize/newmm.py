@@ -14,7 +14,7 @@ The code is based on the notebooks created by Korakot Chaovavanich
 import re
 from collections import defaultdict
 from heapq import heappop, heappush  # for priority queue
-from typing import List
+from typing import Iterable, List
 
 from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
@@ -45,7 +45,7 @@ def _bfs_paths_graph(graph, start, goal):
                 queue.append((next, path + [next]))
 
 
-def _onecut(text: str, custom_dict: Trie):
+def _onecut(text: str, custom_dict: Trie) -> Iterable[str]:
     graph = defaultdict(list)  # main data structure
     allow_pos = tcc_pos(text)  # separating position should aligned with TCC
 

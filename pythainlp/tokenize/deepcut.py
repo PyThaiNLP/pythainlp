@@ -24,4 +24,3 @@ def segment(text: str, custom_dict: Union[Trie, List[str], str] = None) -> List[
         return deepcut.tokenize(text, custom_dict)
 
     return deepcut.tokenize(text)
-

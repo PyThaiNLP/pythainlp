@@ -6,8 +6,9 @@ import re
 import warnings
 from typing import Iterable, List, Union
 
-from .trie import Trie
 from pythainlp.corpus import thai_syllables, thai_words
+
+from .trie import Trie
 
 DEFAULT_DICT_TRIE = Trie(thai_words())
 
@@ -432,4 +433,3 @@ class Tokenizer:
                            (i.e. *newmm*, *longest*, *deepcut*)
         """
         self.__engine = engine
-        

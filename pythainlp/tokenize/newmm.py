@@ -16,10 +16,10 @@ from collections import defaultdict
 from heapq import heappop, heappush  # for priority queue
 from typing import List
 
-from .trie import Trie
 from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
 from .tcc import tcc_pos
+from .trie import Trie
 
 # ช่วยตัดพวกภาษาอังกฤษ เป็นต้น
 _PAT_ENG = re.compile(

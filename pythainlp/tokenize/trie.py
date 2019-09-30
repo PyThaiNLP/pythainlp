@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
-class Trie:
 
+from typing import Iterable, List
+
+
+class Trie:
     class Node(object):
-        __slots__ = 'end', 'children'
+        __slots__ = "end", "children"
 
         def __init__(self):
             self.end = False
             self.children = {}
 
-    def __init__(self, words):
+    def __init__(self, words: Iterable[str]):
         self.words = words
         self.root = Trie.Node()
+
         for word in words:
             cur = self.root
             for ch in word:
@@ -21,7 +25,7 @@ class Trie:
                 cur = node
             cur.end = True
 
-    def prefixes(self, text):
+    def prefixes(self, text: str) -> List[str]:
         res = []
         cur = self.root
         for i, ch in enumerate(text):
@@ -29,12 +33,12 @@ class Trie:
             if not node:
                 break
             if node.end:
-                res.append(text[:i+1])
+                res.append(text[: i + 1])
             cur = node
         return res
 
-    def __contains__(self, key):
+    def __contains__(self, key: str) -> bool:
         return key in self.words
 
-    def __iter__(self):
+    def __iter__(self) -> str:
         yield from self.words

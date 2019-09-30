@@ -77,17 +77,15 @@ $ pip install pythainlp[extra1,extra2,...]
 
 where `extras` can be
   - `artagger` (to support artagger part-of-speech tagger)*
-  - `attacut` Fast and Reasonably Accurate Word Tokenizer for Thai (**6x faster than DeepCut**)
-  - `deepcut` (to support deepcut machine-learnt tokenizer)
+  - `attacut` (to support attacut tokenizer, accurate and x6 faster than deepcut)
+  - `deepcut` (to support deepcut tokenizer, more accurate for BEST standard)
   - `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
   - `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
-  - `ml` (to support fastai 1.0.22 ULMFiT models)
+  - `ml` (to support ULMFiT models for classification)
   - `ner` (for named-entity recognizer)
   - `thai2fit` (for Thai word vector)
   - `thai2rom` (for machine-learnt romanization)
   - `full` (install everything)
-
-* Note: standard `artagger` package from PyPI will not work on Windows, please ```pip install https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger``` instead.
 
 ** see `extras` and `extras_require` in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) for package details.
 

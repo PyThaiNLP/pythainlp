@@ -77,18 +77,17 @@ $ pip install pythainlp[extra1,extra2,...]
 
 where `extras` can be
   - `artagger` (to support artagger part-of-speech tagger)*
+  - `attacut` (to support attacut tokenizer, accurate and x6 faster than deepcut)
   - `deepcut` (to support deepcut machine-learnt tokenizer)
   - `deepcut_gpu` (to support deepcut machine-learnt tokenizer, using tensorflow-gpu backend)
   - `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
   - `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
-  - `ml` (to support fastai 1.0.22 ULMFiT models)
+  - `ml` (to support ULMFiT models for classification)
   - `ner` (for named-entity recognizer)
   - `thai2fit` (for Thai word vector)
   - `thai2rom` (for machine-learnt romanization)
   - `full` (install everything)
   - `full_gpu` (install everything, using tensorflow-gpu backend)
-
-* Note: standard `artagger` package from PyPI will not work on Windows, please ```pip install https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger``` instead.
 
 ** see `extras` and `extras_require` in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) for package details.
 
@@ -115,7 +114,7 @@ Made with ❤️
 
 We build Thai NLP.
 
-PyThaiNLP team.
+PyThaiNLP Team.
 
 # ภาษาไทย
 
@@ -179,6 +178,7 @@ $ pip install pythainlp[extra1,extra2,...]
 
 โดยที่ `extras` คือ
   - `artagger` (สำหรับตัวติดป้ายกำกับชนิดคำ artagger)*
+  - `attacut` ตัวตัดคำแบบ Deep Learning ที่**เร็วกว่า deepcut 6 เท่า** และประสิทธิภาพการตัดคำแม่นกว่า `newmm` เมื่อเทียบกับชุดข้อมูล BEST
   - `deepcut` (สำหรับตัวตัดคำ deepcut)
   - `icu` (สำหรับการถอดตัวสะกดเป็นสัทอักษรและการตัดคำด้วย ICU)
   - `ipa` (สำหรับการถอดตัวสะกดเป็นสัทอักษรสากล (IPA))

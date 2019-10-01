@@ -11,6 +11,7 @@
 #
 import os
 import sys
+import traceback
 sys.path.insert(0, os.path.abspath('..'))
 from datetime import datetime
 
@@ -23,10 +24,24 @@ author = 'pythainlp_builders'
 curyear = datetime.today().year
 copyright = u'2017-%s, %s (Apache Software License 2.0)' % (curyear, project)
 
+# -- Get version information and date from Git ----------------------------
+
+try:
+    from subprocess import check_output, STDOUT
+    current_branch = os.environ["CURRENT_BRANCH"] if "CURRENT_BRANCH" in os.environ else check_output(['git', 'symbolic-ref', 'HEAD'], shell=False, stderr=STDOUT).decode().strip().split('/')[-1]
+    release = os.environ["RELEASE"] if "RELEASE" in os.environ else check_output(['git', 'describe', '--tags', '--always'], shell=False, stderr=STDOUT).decode().strip().split('-')[0]
+    today = os.environ["TODAY"] if "TODAY" in os.environ else check_output(['git', 'show', '-s', '--format=%ad', '--date=short'], shell=False, stderr=STDOUT).decode().strip()
+except Exception as e:
+    traceback.print_exc()
+    release = '<unknown>'
+    today = '<unknown date>'
+    current_branch = '<unknown>'
+
 # The short X.Y version
-version = '2.0'
+version = '{} ({}) </br> Published date: {}'.format(current_branch, release, today)
+
 # The full version, including alpha/beta/rc tags
-release = '2.0.3'
+release = release
 
 
 # -- General configuration ---------------------------------------------------
@@ -88,7 +103,9 @@ html_theme = 'sphinx_rtd_theme'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+    'display_version': True,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

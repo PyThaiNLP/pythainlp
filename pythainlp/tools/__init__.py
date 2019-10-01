@@ -47,8 +47,7 @@ def get_pythainlp_data_path() -> str:
     path = os.getenv('PYTHAINLP_DATA_DIR',
                      os.path.join("~", PYTHAINLP_DATA_DIR))
     path = os.path.expanduser(path)
-    if not os.path.exists(path):
-        os.makedirs(path)
+    os.makedirs(path, exist_ok=True)
     return path
 
 

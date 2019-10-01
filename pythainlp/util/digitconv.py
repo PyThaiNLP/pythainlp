@@ -55,6 +55,10 @@ _spell_digit = {
     "เก้า": "9",
 }
 
+_arabic_thai_translate_table = str.maketrans(_arabic_thai)
+_thai_arabic_translate_table = str.maketrans(_thai_arabic)
+_digit_spell_translate_table = str.maketrans(_digit_spell)
+
 
 def thai_digit_to_arabic_digit(text: str) -> str:
     """
@@ -77,14 +81,7 @@ def thai_digit_to_arabic_digit(text: str) -> str:
     if not text or not isinstance(text, str):
         return ""
 
-    newtext = []
-    for ch in text:
-        if ch in _thai_arabic:
-            newtext.append(_thai_arabic[ch])
-        else:
-            newtext.append(ch)
-
-    return "".join(newtext)
+    return text.translate(_thai_arabic_translate_table)
 
 
 def arabic_digit_to_thai_digit(text: str) -> str:
@@ -108,14 +105,8 @@ def arabic_digit_to_thai_digit(text: str) -> str:
     if not text or not isinstance(text, str):
         return ""
 
-    newtext = []
-    for ch in text:
-        if ch in _arabic_thai:
-            newtext.append(_arabic_thai[ch])
-        else:
-            newtext.append(ch)
-
-    return "".join(newtext)
+    # Convert Arabic to Thai numerals
+    return text.translate(_arabic_thai_translate_table)
 
 
 def digit_to_text(text: str) -> str:
@@ -126,17 +117,11 @@ def digit_to_text(text: str) -> str:
     if not text or not isinstance(text, str):
         return ""
 
-    newtext = []
-    for ch in text:
-        if ch in _thai_arabic:
-            ch = _thai_arabic[ch]
-
-        if ch in _digit_spell:
-            newtext.append(_digit_spell[ch])
-        else:
-            newtext.append(ch)
-
-    return "".join(newtext)
+    # Convert Thai numerals to Arabic
+    text = text.translate(_thai_arabic_translate_table)
+    # Spell out Arabic numerals in Thai text
+    text = text.translate(_digit_spell_translate_table)
+    return text
 
 
 def text_to_arabic_digit(text: str) -> str:

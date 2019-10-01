@@ -49,28 +49,28 @@ platform:
   - x64
 
 install:
-  - "chcp 65001"
-  - "set PYTHONIOENCODING=utf-8"
-  - "%PYTHON%\\python.exe -m pip install wheel"
-#  - ECHO "Installed SDKs:"
+  - chcp 65001
+  - set PYTHONIOENCODING=utf-8
+  - %PYTHON%\\python.exe -m pip install wheel
+#  - ECHO Installed SDKs:
 #  - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
   - IF "%ARCH%"=="32" (call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86) ELSE (ECHO "probably a 64bit build")
   - IF "%ARCH%"=="64" (call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" amd64) ELSE (ECHO "probably a 32bit build")
   - '"%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" %PLATFORM%'
   - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-  - "python --version"
-  # - "set ICU_VERSION=62"
-  - "pip install --disable-pip-version-check --user --upgrade pip setuptools"
-  - "pip install coveralls[yaml]"
-  - "pip install coverage"
-  - "pip install 'tensorflow<2' deepcut"
+  - SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%
+  - python --version
+  # - set ICU_VERSION=62
+  - pip install --disable-pip-version-check --user --upgrade pip setuptools
+  - pip install coveralls[yaml]
+  - pip install coverage
+  - pip install "tensorflow<2" deepcut
   # There is no 32-bit build for torch
-  - "pip install torch==1.2.0+cpu torchvision==0.4.0+cpu -f https://download.pytorch.org/whl/torch_stable.html"
-  - "pip install %PYICU_PKG%"
-  - "pip install %ARTAGGER_PKG%"
-  - "pip install -e .[full]"
+  - pip install torch==1.2.0+cpu torchvision==0.4.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+  - pip install %PYICU_PKG%
+  - pip install %ARTAGGER_PKG%
+  - pip install -e .[full]
 
 test_script:
-  - "pip --version"
-  - "python setup.py test"
+  - pip --version
+  - python setup.py test

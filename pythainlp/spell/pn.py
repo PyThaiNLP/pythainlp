@@ -8,7 +8,7 @@ Based on Peter Norvig's Python code from http://norvig.com/spell-correct.html
 """
 from collections import Counter
 from string import digits
-from typing import Callable, Iterable, ItemsView, List, Set, Tuple
+from typing import Callable, Iterable, ItemsView, List, Optional, Set, Tuple
 
 from pythainlp import thai_digits, thai_letters
 from pythainlp.corpus import tnc
@@ -77,7 +77,7 @@ class NorvigSpellChecker:
         min_freq: int = 2,
         min_len: int = 2,
         max_len: int = 40,
-        dict_filter: Callable[[str], bool] = _is_thai_and_not_num,
+        dict_filter: Optional[Callable[[str], bool]] = _is_thai_and_not_num,
     ):
         """
         Initializes Peter Norvig's spell checker object.
@@ -274,7 +274,7 @@ class NorvigSpellChecker:
             ['กะปิ', 'กระบิ']
         """
         if not word:
-            return []
+            return [""]
 
         candidates = (
             self.known([word])

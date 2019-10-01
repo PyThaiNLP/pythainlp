@@ -7,7 +7,7 @@ before_install:
 install:
 - pip install -r requirements.txt
 - pip install .[full]
-- pip install "tensorflow<2" deepcut
+- pip install "tensorflow>=1.14,<2" deepcut
 - pip install coveralls
 os:
 - linux

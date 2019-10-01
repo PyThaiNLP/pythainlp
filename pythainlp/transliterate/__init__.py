@@ -5,7 +5,7 @@ def romanize(text: str, engine: str = "royin") -> str:
     """
     This function renders Thai words in the Latin alphabet or "romanization",
     using the Royal Thai General System of Transcription (RTGS)
-    [rtgs_transcription]_. RTGS is the official system published
+    [#rtgs_transcription]_. RTGS is the official system published
     by the Royal Institute of Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
 
     :param str text: Thai text to be romanized

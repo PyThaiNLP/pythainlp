@@ -24,8 +24,8 @@ install:
   - sudo pip install -r requirements.txt
   - export LD_LIBRARY_PATH=/usr/local/lib
   - sudo pip install torch==1.2.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
-  - sudo pip install sphinx sphinx-rtd-theme typing artagger deepcut epitran keras numpy pyicu sklearn-crfsuite tensorflow ssg emoji pandas 
-  - sudo pip install --upgrade gensim smart_open boto
+  - sudo pip install --upgrade artagger emoji epitran gensim numpy pandas pyicu sklearn-crfsuite ssg
+  - sudo pip install --upgrade boto smart_open sphinx sphinx-rtd-theme
 
 # configuration for deploy mode, commit message with /(build and deloy docs)/
 # 1. build documents and upload HTML files to Appveyor's storage

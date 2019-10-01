@@ -100,13 +100,17 @@ EN_TH_KEYB_PAIRS = {
 
 TH_EN_KEYB_PAIRS = {v: k for k, v in EN_TH_KEYB_PAIRS.items()}
 
+EN_TH_TRANSLATE_TABLE = str.maketrans(EN_TH_KEYB_PAIRS)
+TH_EN_TRANSLATE_TABLE = str.maketrans(TH_EN_KEYB_PAIRS)
+
 
 def eng_to_thai(text: str) -> str:
     """
-    Correct text in one language that is incorrectly-typed with
-    a keyboard layout in another language. (type Thai with English keyboard)
+    Corrects the given text that was incorrectly typed using English-US
+    Qwerty keyboard layout to the originally intended keyboard layout
+    that is the Thai Kedmanee keyboard.
 
-    :param str text: incorrect input (type Thai with English keyboard)
+    :param str text: incorrect text input (type Thai with English keyboard)
     :return: Thai text where incorrect typing with
              a keyboard layout is corrected
     :rtype: str
@@ -120,18 +124,16 @@ def eng_to_thai(text: str) -> str:
         >>> eng_to_thai("Tok8kicsj'xitgmLwmp")
         ธนาคารแห่งประเทศไทย
     """
-
-    return "".join(
-        [EN_TH_KEYB_PAIRS[ch] if (ch in EN_TH_KEYB_PAIRS) else ch for ch in text]
-    )
+    return text.translate(EN_TH_TRANSLATE_TABLE)
 
 
 def thai_to_eng(text: str) -> str:
     """
-    Correct text in one language that is incorrectly-typed with
-    a keyboard layout in another language. (type Thai with English keyboard)
+    Corrects the given text that was incorrectly typed using Thai Kedmanee
+    keyboard layout to the originally intended keyboard layout
+    that is the English-US Qwerty keyboard.
 
-    :param str text: incorrect input (type English with Thai keyboard)
+    :param str text: incorrect text input (type English with Thai keyboard)
     :return: English text where incorrect typing with
              a keyboard layout is corrected
     :rtype: str
@@ -145,6 +147,4 @@ def thai_to_eng(text: str) -> str:
         >>> thai_to_eng("ฺฟืา นด ธ้ฟรสฟืก")
         'Bank of Thailand'
     """
-    return "".join(
-        [TH_EN_KEYB_PAIRS[ch] if (ch in TH_EN_KEYB_PAIRS) else ch for ch in text]
-    )
+    return text.translate(TH_EN_TRANSLATE_TABLE)

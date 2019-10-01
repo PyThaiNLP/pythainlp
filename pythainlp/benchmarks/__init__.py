@@ -1,3 +1,3 @@
-from .word_tokenisation import benchmark
+from .word_tokenization import benchmark
 
 __all__ = ["benchmark"]

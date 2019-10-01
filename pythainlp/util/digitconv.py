@@ -105,6 +105,7 @@ def arabic_digit_to_thai_digit(text: str) -> str:
     if not text or not isinstance(text, str):
         return ""
 
+    # Convert Arabic to Thai numerals
     return text.translate(_arabic_thai_translate_table)
 
 
@@ -116,7 +117,9 @@ def digit_to_text(text: str) -> str:
     if not text or not isinstance(text, str):
         return ""
 
+    # Convert Thai numerals to Arabic
     text = text.translate(_thai_arabic_translate_table)
+    # Spell out Arabic numerals in Thai text
     text = text.translate(_digit_spell_translate_table)
     return text
 

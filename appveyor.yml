@@ -34,12 +34,12 @@ environment:
       PYICU_PKG: "https://www.dropbox.com/s/le5dckc3231opqt/PyICU-2.3.1-cp37-cp37m-win_amd64.whl?dl=1"
       DISTUTILS_USE_SDK: "1"
 
-    - PYTHON: "C:/Python38-x64"
-      PYTHON_VERSION: "3.8"
-      PYTHON_ARCH: "64"
-      ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
-      PYICU_PKG: "https://www.dropbox.com/s/o6p2sj5z50iim1e/PyICU-2.3.1-cp38-cp38-win_amd64.whl?dl=0"
-      DISTUTILS_USE_SDK: "1"
+#    - PYTHON: "C:/Python38-x64"
+#      PYTHON_VERSION: "3.8"
+#      PYTHON_ARCH: "64"
+#      ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
+#      PYICU_PKG: "https://www.dropbox.com/s/o6p2sj5z50iim1e/PyICU-2.3.1-cp38-cp38-win_amd64.whl?dl=0"
+#      DISTUTILS_USE_SDK: "1"
 
 init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"  

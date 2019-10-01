@@ -51,7 +51,7 @@ platform:
 install:
   - chcp 65001
   - set PYTHONIOENCODING=utf-8
-  - %PYTHON%\\python.exe -m pip install wheel
+  - "%PYTHON%\\python.exe -m pip install wheel"
 #  - ECHO Installed SDKs:
 #  - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
   - IF "%ARCH%"=="32" (call "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\vcvarsall.bat" x86) ELSE (ECHO "probably a 64bit build")

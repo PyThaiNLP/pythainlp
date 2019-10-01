@@ -19,10 +19,6 @@ pip install pythainlp
 
 Some functionalities, like word vector, required extra packages.
 See https://github.com/PyThaiNLP/pythainlp for installation options.
-
-**Note for Windows**: `marisa-trie` wheels can be obtained from
-https://www.lfd.uci.edu/~gohlke/pythonlibs/#marisa-trie
-Install it with pip, for example: `pip install marisa_trie‑xxx.whl`
 """
 
 requirements = [

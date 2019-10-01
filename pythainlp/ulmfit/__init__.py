@@ -102,10 +102,6 @@ def spec_add_spaces(t: str) -> str:
     return re.sub(r"([/#\n])", r" \1 ", t)
 
 
-"""
-End of fastai codes
-"""
-
 __all__ = [
     "ThaiTokenizer",
     "document_vector",
@@ -141,7 +137,7 @@ def _get_path(fname: str) -> str:
     return path
 
 
-# Custom fastai tokenizer
+# Custom tokenizer
 class ThaiTokenizer(BaseTokenizer):
     """
     Wrapper around a frozen newmm tokenizer to make it a

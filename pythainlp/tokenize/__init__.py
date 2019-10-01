@@ -98,6 +98,10 @@ def word_tokenize(
         from .newmm import segment
 
         segments = segment(text, custom_dict)
+    elif engine == 'attacut':
+        from .attacut import segment
+
+        segments = segment(text)
     elif engine == "longest":
         from .longest import segment
 
@@ -118,10 +122,6 @@ def word_tokenize(
         from .pyicu import segment
 
         segments = segment(text)
-    elif engine == 'attacut':
-        from .attacut import segment
-
-        segments = segment(text)
     else:  # default, use "newmm" engine
         from .newmm import segment
 
@@ -131,6 +131,7 @@ def word_tokenize(
         segments = [token.strip(" ") for token in segments if token.strip(" ")]
 
     return segments
+
 
 def dict_word_tokenize(
     text: str,
@@ -339,7 +340,6 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
         )
 
     return trie
-
 
 
 class Tokenizer:

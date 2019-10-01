@@ -36,7 +36,7 @@ Run Command Line and type the commands:::
 
 **Soundex**::
 
-    pythainlp  soundex --text TEXT
+    pythainlp soundex --text TEXT
 
 *Example*::
 

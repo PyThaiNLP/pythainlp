@@ -11,28 +11,35 @@ environment:
 #    - PYTHON: "C:/Python36"
 #      PYTHON_VERSION: "3.6"
 #      PYTHON_ARCH: "32"
-#      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
+#      ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
 #      PYICU_PKG: "https://www.dropbox.com/s/pahorbq29y9cura/PyICU-2.3.1-cp36-cp36m-win32.whl?dl=1"
 
     - PYTHON: "C:/Python36-x64"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
-      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
+      ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
       PYICU_PKG: "https://www.dropbox.com/s/7t0rrxwckqbgivi/PyICU-2.3.1-cp36-cp36m-win_amd64.whl?dl=1"
       DISTUTILS_USE_SDK: "1"
 
 #    - PYTHON: "C:/Python37"
 #      PYTHON_VERSION: "3.7"
 #      PYTHON_ARCH: "32"
-#      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
+#      ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
 #      PYICU_PKG: "https://www.dropbox.com/s/3xwdnwhdcu619x4/PyICU-2.3.1-cp37-cp37m-win32.whl?dl=1"
 
     - PYTHON: "C:/Python37-x64"
       PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "64"
-      ARTAGGER_PKG: "https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger"
+      ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
       PYICU_PKG: "https://www.dropbox.com/s/le5dckc3231opqt/PyICU-2.3.1-cp37-cp37m-win_amd64.whl?dl=1"
       DISTUTILS_USE_SDK: "1"
+
+#    - PYTHON: "C:/Python38-x64"
+#      PYTHON_VERSION: "3.8"
+#      PYTHON_ARCH: "64"
+#      ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
+#      PYICU_PKG: "https://www.dropbox.com/s/o6p2sj5z50iim1e/PyICU-2.3.1-cp38-cp38-win_amd64.whl?dl=0"
+#      DISTUTILS_USE_SDK: "1"
 
 init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"  
@@ -57,6 +64,7 @@ install:
   - "pip install --disable-pip-version-check --user --upgrade pip setuptools"
   - "pip install coveralls[yaml]"
   - "pip install coverage"
+  # There is no 32-bit build for torch
   - "pip install torch==1.2.0+cpu torchvision==0.4.0+cpu -f https://download.pytorch.org/whl/torch_stable.html"
   - "pip install %PYICU_PKG%"
   - "pip install %ARTAGGER_PKG%"

@@ -19,10 +19,6 @@ pip install pythainlp
 
 Some functionalities, like word vector, required extra packages.
 See https://github.com/PyThaiNLP/pythainlp for installation options.
-
-**Note for Windows**: `marisa-trie` wheels can be obtained from
-https://www.lfd.uci.edu/~gohlke/pythonlibs/#marisa-trie
-Install it with pip, for example: `pip install marisa_trie‑xxx.whl`
 """
 
 requirements = [
@@ -30,36 +26,32 @@ requirements = [
     "nltk>=3.4.5,<4",
     "requests>=2.22.0,<3",
     "tinydb>=3.13.0,<4",
-    "tqdm>=4.35.0,<5",
+    "tqdm>=4.32.2,<5",
 ]
 
 extras = {
     "artagger": ["artagger>=0.1.0.3"],
-    "attacut": ["attacut>=1.0.2"],
-    "benchmarks": ["numpy>=1.17.2", "pandas>=0.25.1"],
-    "deepcut": ["deepcut>=0.6.1.0", "keras>=2.3.0", "tensorflow>=1.14.0,<2"],
+    "attacut": ["attacut>=1.0.4"],
+    "benchmarks": ["numpy>=1.17", "pandas>=0.25"],
     "icu": ["pyicu>=2.3.1"],
     "ipa": ["epitran>=1.1"],
-    "ml": ["keras>=2.3.0", "numpy>=1.17.2", "torch>=1.2.0"],
+    "ml": ["numpy>=1.17", "torch>=1.2.0"],
     "ner": ["sklearn-crfsuite>=0.3.6"],
     "ssg": ["ssg>=0.0.4"],
-    "thai2fit": ["emoji>0.5.4", "gensim>=3.8.0", "numpy>=1.17.2"],
-    "thai2rom": ["torch>=1.2.0", "numpy>=1.17.2"],
+    "thai2fit": ["emoji>0.5.4", "gensim>=3.8.0", "numpy>=1.17"],
+    "thai2rom": ["torch>=1.2.0", "numpy>=1.17"],
     "full": [
         "artagger>=0.1.0.3",
-        "attacut>=1.0.2",
-        "deepcut>=0.6.1.0",
+        "attacut>=1.0.4",
+        "emoji>=0.5.4",
         "epitran>=1.1",
         "gensim>=3.8.0",
-        "keras>=2.3.0",
-        "numpy>=1.17.2",
+        "numpy>=1.17",
+        "pandas>=0.25",
         "pyicu>=2.3.1",
         "sklearn-crfsuite>=0.3.6",
-        "tensorflow>=1.14.0,<2",
-        "torch>=1.2.0",
         "ssg>=0.0.4",
-        "emoji>=0.5.4",
-        "pandas>=0.25.1",
+        "torch>=1.2.0",
     ],
 }
 

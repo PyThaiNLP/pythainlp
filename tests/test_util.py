@@ -79,6 +79,18 @@ class TestUtilPackage(unittest.TestCase):
             thaiword_to_num("สิบห้าล้านล้านเจ็ดสิบสอง"),
             15000000000072,
         )
+        self.assertEqual(
+            thaiword_to_num("หนึ่งล้านล้าน"),
+            1000000000000,
+        )
+        self.assertEqual(
+            thaiword_to_num("สองแสนสี่หมื่นสามสิบล้านสี่พันล้าน"),
+            240030004000000000,
+        )
+        self.assertEqual(
+            thaiword_to_num("ร้อยสิบล้านแปดแสนห้าพัน"),
+            110805000,
+        )
         with self.assertRaises(ValueError):
             thaiword_to_num("ศูนย์อะไรนะ")
         with self.assertRaises(ValueError):

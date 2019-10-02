@@ -59,19 +59,36 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(num_to_thaiword(0), "ศูนย์")
         self.assertEqual(num_to_thaiword(None), "")
 
+        self.assertEqual(thaiword_to_num("ศูนย์"), 0)
+        self.assertEqual(thaiword_to_num("แปด"), 8)
+        self.assertEqual(thaiword_to_num("ยี่สิบ"), 20)
         self.assertEqual(thaiword_to_num("ร้อยสิบสอง"), 112)
         self.assertEqual(
-            thaiword_to_num(
-                ["หก", "ล้าน", "หก", "แสน", "หกหมื่น",
-                 "หกพัน", "หกร้อย", "หกสิบ", "หก"]
-            ),
+            thaiword_to_num("หกล้านหกแสนหกหมื่นหกพันหกร้อยหกสิบหก"),
             6666666,
         )
-        self.assertEqual(thaiword_to_num("ยี่สิบ"), 20)
-        self.assertEqual(thaiword_to_num("ศูนย์"), 0)
-        self.assertEqual(thaiword_to_num("ศูนย์อะไรนะ"), 0)
-        self.assertEqual(thaiword_to_num(""), None)
-        self.assertEqual(thaiword_to_num(None), None)
+        self.assertEqual(
+            thaiword_to_num("สองล้านสามแสนหกร้อยสิบสอง"),
+            2300612,
+        )
+        self.assertEqual(
+            thaiword_to_num("หนึ่งร้อยสิบล้าน"),
+            110000000,
+        )
+        self.assertEqual(
+            thaiword_to_num("สิบห้าล้านล้านเจ็ดสิบสอง"),
+            15000000000072,
+        )
+        with self.assertRaises(ValueError):
+            thaiword_to_num("ศูนย์อะไรนะ")
+        with self.assertRaises(ValueError):
+            thaiword_to_num("")
+        with self.assertRaises(ValueError):
+            thaiword_to_num("ห้าพันสี่หมื่น")
+        with self.assertRaises(TypeError):
+            thaiword_to_num(None)
+        with self.assertRaises(TypeError):
+            thaiword_to_num(["หนึ่ง"])
 
         self.assertEqual(
             arabic_digit_to_thai_digit("ไทยแลนด์ 4.0"),

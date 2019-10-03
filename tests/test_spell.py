@@ -25,6 +25,9 @@ class TestSpellPackage(unittest.TestCase):
     def test_word_correct(self):
         self.assertEqual(correct(None), "")
         self.assertEqual(correct(""), "")
+        self.assertEqual(correct("1"), "1")
+        self.assertEqual(correct("56"), "56")
+        self.assertEqual(correct("1.01"), "1.01")
 
         result = correct("ทดสอง")
         self.assertIsInstance(result, str)

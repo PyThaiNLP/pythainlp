@@ -5,10 +5,12 @@ https://github.com/wannaphongcom/open-thai-nlp-document/blob/master/check_thai_w
 """
 import re
 
-_TH_TRUE_FINALS = ["ก", "ด", "บ", "น", "ง", "ม", "ย", "ว"] # ตัวสะกดตรงตามาตรา
-_TH_NON_THAI_CHARS = ['ฆ', 'ณ', 'ฌ', 'ฎ', 'ฏ', 'ฐ', 'ฑ', 'ฒ', 'ธ', 'ศ', 'ษ', 'ฬ'] # ตัวอักษรที่ไม่ใช่ไทยแท้
-_TH_PREFIX_DIPHTHONG = ["กะ", "กระ", "ปะ", "ประ"] # คำควบกล้ำขึ้นตัน
-_KARAN_CHAR = "\u0e4c" # ตัวการันต์
+_TH_TRUE_FINALS = ["ก", "ด", "บ", "น", "ง", "ม", "ย", "ว"]  # ตัวสะกดตรงตามาตรา
+_TH_NON_THAI_CHARS = ['ฆ', 'ณ', 'ฌ', 'ฎ', 'ฏ', 'ฐ', 'ฑ',
+                      'ฒ', 'ธ', 'ศ', 'ษ', 'ฬ']  # ตัวอักษรที่ไม่ใช่ไทยแท้
+_TH_PREFIX_DIPHTHONG = ["กะ", "กระ", "ปะ", "ประ"]  # คำควบกล้ำขึ้นตัน
+_KARAN_CHAR = "\u0e4c"  # ตัวการันต์
+
 
 def _check1(word: str) -> bool:  # เช็คตัวสะกดว่าตรงตามมาตราไหม
     if word in _TH_TRUE_FINALS:

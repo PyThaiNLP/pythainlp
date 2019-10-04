@@ -118,8 +118,8 @@ def _thai_strftime(datetime: datetime.datetime, fmt_char: str) -> str:
                               str(datetime.year + _BE_AD_DIFFERENCE)[-2:])
     elif fmt_char == "F":
         # Equivalent to ``%Y-%m-%d''
-        str_ = "{}-{}".format(str(datetime.year +
-                                  _BE_AD_DIFFERENCE), datetime.strftime("%m-%d"))
+        str_ = "{}-{}".format(str(datetime.year + _BE_AD_DIFFERENCE),
+                              datetime.strftime("%m-%d"))
     elif fmt_char == "G":
         # ISO 8601 year with century representing the year that contains the greater part of the ISO week (%V). Monday as the first day of the week.
         str_ = str(int(datetime.strftime("%G")) + _BE_AD_DIFFERENCE)
@@ -128,10 +128,9 @@ def _thai_strftime(datetime: datetime.datetime, fmt_char: str) -> str:
         str_ = str(int(datetime.strftime("%G")) + _BE_AD_DIFFERENCE)[-2:]
     elif fmt_char == "v":
         # BSD extension, ' 6-Oct-1976'
-        str_ = "{:>2}-{}-{}".format(
-            datetime.day, thai_abbr_months[datetime.month -
-                                           1], datetime.year + _BE_AD_DIFFERENCE
-        )
+        str_ = "{:>2}-{}-{}".format(datetime.day,
+                                    thai_abbr_months[datetime.month - 1],
+                                    datetime.year + _BE_AD_DIFFERENCE)
     elif fmt_char == "X":
         # Locale’s appropriate time representation.
         str_ = datetime.strftime("%H:%M:%S")

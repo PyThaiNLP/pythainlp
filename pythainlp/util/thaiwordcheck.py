@@ -5,21 +5,25 @@ https://github.com/wannaphongcom/open-thai-nlp-document/blob/master/check_thai_w
 """
 import re
 
+_TH_TRUE_FINALS = ["ก", "ด", "บ", "น", "ง", "ม", "ย", "ว"] # ตัวสะกดตรงตามาตรา
+_TH_NON_THAI_CHARS = ['ฆ', 'ณ', 'ฌ', 'ฎ', 'ฏ', 'ฐ', 'ฑ', 'ฒ', 'ธ', 'ศ', 'ษ', 'ฬ'] # ตัวอักษรที่ไม่ใช่ไทยแท้
+_TH_PREFIX_DIPHTHONG = ["กะ", "กระ", "ปะ", "ประ"] # คำควบกล้ำขึ้นตัน
+_KARAN_CHAR = "\u0e4c" # ตัวการันต์
 
 def _check1(word: str) -> bool:  # เช็คตัวสะกดว่าตรงตามมาตราไหม
-    if word in ["ก", "ด", "บ", "น", "ง", "ม", "ย", "ว"]:
+    if word in _TH_TRUE_FINALS:
         return True
     return False
 
 
 def _check2(word: str) -> bool:  # เช็คตัวการันต์ ถ้ามี ไม่ใช่คำไทยแท้
-    if "์" in word:
+    if _KARAN_CHAR in word:
         return False
     return True
 
 
 def _check3(word: str) -> bool:
-    if word in list("ฆณฌฎฏฐฑฒธศษฬ"):  # ถ้ามี แสดงว่าไม่ใช่คำไทยแท้
+    if word in _TH_NON_THAI_CHARS:  # ถ้ามี แสดงว่าไม่ใช่คำไทยแท้
         return False
     return True
 
@@ -97,7 +101,7 @@ def thaicheck(word: str) -> bool:
 
         return False
 
-    if word in ["กะ", "กระ", "ปะ", "ประ"]:
+    if word in _TH_PREFIX_DIPHTHONG:
         return True
 
     return False

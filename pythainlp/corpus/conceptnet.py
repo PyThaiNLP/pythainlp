@@ -40,7 +40,7 @@ def edges(word: str, lang: str = "th"):
         from pythainlp.corpus.conceptnet import edges
 
         edges('hello', lang='en')
-        # output: 
+        # output:
         # [{
         #   '@id': '/a/[/r/IsA/,/c/en/hello/,/c/en/greeting/]',
         #   '@type': 'Edge',
@@ -54,10 +54,10 @@ def edges(word: str, lang: str = "th"):
         #   'rel': {'@id': '/r/IsA', '@type': 'Relation', 'label': 'IsA'},
         #   'sources': [
         #   {
-        #     '@id': '/and/[/s/activity/omcs/vote/,/s/contributor/omcs/bmsacr/]',
-        #     '@type': 'Source',
-        #     'activity': '/s/activity/omcs/vote',
-        #     'contributor': '/s/contributor/omcs/bmsacr'
+        #   '@id': '/and/[/s/activity/omcs/vote/,/s/contributor/omcs/bmsacr/]',
+        #   '@type': 'Source',
+        #   'activity': '/s/activity/omcs/vote',
+        #   'contributor': '/s/contributor/omcs/bmsacr'
         #   },
         #   {
         #     '@id': '/and/[/s/activity/omcs/vote/,/s/contributor/omcs/test/]',
@@ -77,31 +77,31 @@ def edges(word: str, lang: str = "th"):
         edges('สวัสดี', lang='th')
         # output:
         # [{
-        #   '@id': '/a/[/r/RelatedTo/,/c/th/สวัสดี/n/,/c/en/prosperity/]',
-        #   '@type': 'Edge',
-        #   'dataset': '/d/wiktionary/en',
-        #   'end': {'@id': '/c/en/prosperity',
-        #   '@type': 'Node',
-        #   'label': 'prosperity',
-        #   'language': 'en',
-        #   'term': '/c/en/prosperity'},
-        #   'license': 'cc:by-sa/4.0',
-        #   'rel': {
-        #       '@id': '/r/RelatedTo', '@type': 'Relation',
-        #       'label': 'RelatedTo'},
-        #   'sources': [{
-        #    '@id': '/and/[/s/process/wikiparsec/2/,/s/resource/wiktionary/en/]',
-        #    '@type': 'Source',
-        #    'contributor': '/s/resource/wiktionary/en',
-        #    'process': '/s/process/wikiparsec/2'}],
-        #   'start': {'@id': '/c/th/สวัสดี/n',
-        #   '@type': 'Node',
-        #   'label': 'สวัสดี',
-        #   'language': 'th',
-        #   'sense_label': 'n',
-        #   'term': '/c/th/สวัสดี'},
-        #   'surfaceText': None,
-        #   'weight': 1.0
+        #  '@id': '/a/[/r/RelatedTo/,/c/th/สวัสดี/n/,/c/en/prosperity/]',
+        #  '@type': 'Edge',
+        #  'dataset': '/d/wiktionary/en',
+        #  'end': {'@id': '/c/en/prosperity',
+        #  '@type': 'Node',
+        #  'label': 'prosperity',
+        #  'language': 'en',
+        #  'term': '/c/en/prosperity'},
+        #  'license': 'cc:by-sa/4.0',
+        #  'rel': {
+        #      '@id': '/r/RelatedTo', '@type': 'Relation',
+        #      'label': 'RelatedTo'},
+        #  'sources': [{
+        #  '@id': '/and/[/s/process/wikiparsec/2/,/s/resource/wiktionary/en/]',
+        #  '@type': 'Source',
+        #  'contributor': '/s/resource/wiktionary/en',
+        #  'process': '/s/process/wikiparsec/2'}],
+        #  'start': {'@id': '/c/th/สวัสดี/n',
+        #  '@type': 'Node',
+        #  'label': 'สวัสดี',
+        #  'language': 'th',
+        #  'sense_label': 'n',
+        #  'term': '/c/th/สวัสดี'},
+        #  'surfaceText': None,
+        #  'weight': 1.0
         # }, ...]
     """
 

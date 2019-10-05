@@ -171,9 +171,10 @@ def pos_tag(
             'นายก', 'เชอร์ชิล']
         pos_tag(words, corpus='orchid_ud')
         # output:
-        # [('ฉัน', 'PROPN'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'), ('รอด', 'NOUN'),
-        #   ('ใน', 'ADP'),  ('อาคาร', 'NOUN'), ('หลบภัย', 'NOUN'),
-        #   ('ของ', 'ADP'), ('นายก', 'NOUN'), ('เชอร์ชิล', 'NOUN')]
+        # [('ฉัน', 'PROPN'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'),
+        #   ('รอด', 'NOUN'), ('ใน', 'ADP'),  ('อาคาร', 'NOUN'),
+        #   ('หลบภัย', 'NOUN'), ('ของ', 'ADP'), ('นายก', 'NOUN'),
+        #   ('เชอร์ชิล', 'NOUN')]
 
     Tag words with corpus `pud`::
 
@@ -267,8 +268,9 @@ def pos_tag_sents(
                             ['นก', 'บิน', 'กลับ', 'รัง']]
         pos_tag_sents(sentences, corpus='pud)
         # output:
-        # [[('เก้าอี้', 'PROPN'), ('มี', 'VERB'), ('3', 'NUM'), ('ขา', 'NOUN')],
-        # [('นก', 'NOUN'), ('บิน', 'VERB'), ('กลับ', 'VERB'), ('รัง', 'NOUN')]]
+        # [[('เก้าอี้', 'PROPN'), ('มี', 'VERB'), ('3', 'NUM'),
+        #   ('ขา', 'NOUN')], [('นก', 'NOUN'), ('บิน', 'VERB'),
+        #   ('กลับ', 'VERB'), ('รัง', 'NOUN')]]
     """
     if not sentences:
         return []

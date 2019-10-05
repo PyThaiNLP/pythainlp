@@ -15,8 +15,8 @@ def romanize(text: str, engine: str = "royin") -> str:
     :rtype: str
 
     :Options for engines:
-        * *royin* - based on the Royal Thai General System of Transcription issued
-          by Royal Institute of Thailand .
+        * *royin* - based on the Royal Thai General System of Transcription
+          issued by Royal Institute of Thailand.
         * *thai2rom* - a deep learning-based Thai romanization engine
           (require PyTorch).
 
@@ -30,7 +30,7 @@ def romanize(text: str, engine: str = "royin") -> str:
 
         romanize("สามารถ", engine="thai2rom")
         # output: 'samat'
-        
+
         romanize("ภาพยนตร์", engine="royin")
         # output: 'phapn'
 

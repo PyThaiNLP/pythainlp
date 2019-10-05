@@ -71,7 +71,8 @@ def word_tokenize(
         text = "วรรณกรรม ภาพวาด และการแสดงงิ้ว "
 
         word_tokenize(text, engine="newmm")
-        # output: ['วรรณกรรม', ' ', 'ภาพวาด', ' ', 'และ', 'การแสดง', 'งิ้ว', ' ']
+        # output:
+        # ['วรรณกรรม', ' ', 'ภาพวาด', ' ', 'และ', 'การแสดง', 'งิ้ว', ' ']
 
         word_tokenize(text, engine="newmm", keep_whitespace=False)
         # output: ['วรรณกรรม', 'ภาพวาด', 'และ', 'การแสดง', 'งิ้ว']
@@ -84,7 +85,9 @@ def word_tokenize(
         text = 'ชินโซ อาเบะ เกิด 21 กันยายน'
 
         word_tokenize(text, engine="newmm")
-        # output: ​['ชิน', 'โซ', ' ', 'อา', 'เบะ', ' ', 'เกิด', ' ', '21', ' ', 'กันยายน']
+        # output:
+        # ​['ชิน', 'โซ', ' ', 'อา', 'เบะ', ' ',
+        #   'เกิด', ' ', '21', ' ', 'กันยายน']
 
         custom_dict_japanese_name = set(thai_words()
         custom_dict_japanese_name.add('ชินโซ')
@@ -93,7 +96,9 @@ def word_tokenize(
         trie = dict_trie(dict_source=custom_dict_japanese_name)
 
         word_tokenize(text, engine="newmm", custom_dict=trie))
-        # output: ['ชินโซ', ' ', 'อาเบะ', ' ', 'เกิด', ' ', '21', ' ', 'กันยายน']
+        # output:
+        # ['ชินโซ', ' ', 'อาเบะ',
+        #   ' ', 'เกิด', ' ', '21', ' ', 'กันยายน']
     """
     if not text or not isinstance(text, str):
         return []
@@ -260,8 +265,9 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
         text_2 = "ความแปลกแยกและพัฒนาการ"
 
         subword_tokenize(text_1, engine='tcc')
-        # output: ['ยุ', 'ค', 'เริ่ม', 'แร', 'ก', 'ข', 'อ', 'ง', ' ', 'รา', 'ช', 'ว', 'ง',
-        'ศ', '์', 'ห', 'มิ', 'ง']
+        # output: ['ยุ', 'ค', 'เริ่ม', 'แร', 'ก',
+        #   'ข', 'อ', 'ง', ' ', 'รา', 'ช', 'ว', 'ง',
+        #   'ศ', '์', 'ห', 'มิ', 'ง']
 
         subword_tokenize(text_2, engine='tcc')
         # output: ['ค', 'วา', 'ม', 'แป', 'ล', 'ก', 'แย', 'ก',
@@ -315,7 +321,7 @@ def syllable_tokenize(text: str, engine: str = "default") -> List[str]:
     ::
 
         from pythainlp.tokenize import syllable_tokenize
-        
+
         text = 'รถไฟสมัยใหม่จะใช้กำลังจากหัวรถจักรดีเซล หรือจากไฟฟ้า'
         syllable_tokenize(text)
         ['รถ', 'ไฟ', 'สมัย', 'ใหม่', 'ใช้', 'กำ', 'ลัง', 'จาก', 'หัว',
@@ -385,12 +391,12 @@ class Tokenizer:
         from pythainlp.tokenize import Tokenizer
         from pythainlp.tokenize import Tokenizer, dict_trie
         from pythainlp.corpus.common import thai_words
-        
+
         custom_words_list = set(thai_words())
         custom_words_list.add('อะเฟเซีย')
         custom_words_list.add('Aphasia')
         trie = dict_trie(dict_source=custom_words_list)
-        
+
         text = "อะเฟเซีย (Aphasia*) เป็นอาการผิดปกติของการพูด"
         _tokenizer = Tokenizer(custom_dict=trie, engine='newmm')
         # output: ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ',
@@ -401,34 +407,37 @@ class Tokenizer:
         text = "อะเฟเซีย (Aphasia) เป็นอาการผิดปกติของการพูด"
         _tokenizer = Tokenizer(custom_dict=list(thai_words()), engine='newmm')
         _tokenizer.word_tokenize(text)
-        # output: ['อะ', 'เฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ',
-        'ผิดปกติ', 'ของ', 'การ', 'พูด']
+        # output:
+        # ['อะ', 'เฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ',
+        #   'ผิดปกติ', 'ของ', 'การ', 'พูด']
 
     Tokenizer object instantiated with a file path containing list of
     word separated with *newline*  and explicitly set a new tokeneizer
     after initiation::
 
         PATH_TO_CUSTOM_DICTIONARY = './custom_dictionary.txtt'
-    
+
         # write a file
         with open(PATH_TO_CUSTOM_DICTIONARY, 'w', encoding='utf-8') as f:
             f.write('อะเฟเซีย\\nAphasia\\nผิด\\nปกติ')
-    
+
         text = "อะเฟเซีย (Aphasia) เป็นอาการผิดปกติของการพูด"
-        
+
         # initate an object from file with `deepcut` as tokenizer
         _tokenizer = Tokenizer(custom_dict=PATH_TO_CUSTOM_DICTIONARY, \\
             engine='deepcut')
 
         _tokenizer.word_tokenize(text)
-        # output: ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ', 'ผิด',
-        'ปกติ', 'ของ', 'การ', 'พูด']
-    
+        # output:
+        # ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ', 'ผิด',
+        #   'ปกติ', 'ของ', 'การ', 'พูด']
+
         # change tokenizer to `newmm`
         _tokenizer.set_tokenizer_engine(engine='newmm')
         _tokenizer.word_tokenize(text)
-        # output: ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็นอาการ', 'ผิด',
-        'ปกติ', 'ของการพูด']
+        # output:
+        # ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็นอาการ', 'ผิด',
+        #   'ปกติ', 'ของการพูด']
     """
 
     def __init__(

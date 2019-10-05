@@ -98,7 +98,8 @@ def _onecut(text: str, custom_dict: Trie) -> Iterable[str]:
 
 def segment(text: str, custom_dict: Trie = None) -> List[str]:
     """
-    Dictionary-based maximal matching word segmentation, constrained with Thai Character Cluster boundaries.
+    Dictionary-based maximal matching word segmentation, constrained with
+    Thai Character Cluster boundaries.
 
     :param str text: text to be tokenized to words
     :return: list of words, tokenized from the text

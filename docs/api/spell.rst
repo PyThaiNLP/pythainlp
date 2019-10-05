@@ -18,5 +18,4 @@ Modules
 References
 ----------
 
-.. [norvig_spellchecker]  Peter Norvig. "How to Write a Spelling Corrector".
-            Available at: http://norvig.com/spell-correct.html
+.. [#norvig_spellchecker]  Peter Norvig (2007). `How to Write a Spelling Corrector <http://norvig.com/spell-correct.html>`_.

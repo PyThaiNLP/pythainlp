@@ -42,15 +42,15 @@ extras = {
     "benchmarks": ["numpy>=1.16,<1.17", "pandas>=0.24,<0.25"],
     "icu": ["pyicu>=2.3"],
     "ipa": ["epitran>=1.1"],
-    "ml": ["numpy>=1.16,<1.17", "torch>=1.0,<1.2"],
+    "ml": ["numpy>=1.16,<1.17", "torch==1.0.0"],
     "ner": ["sklearn-crfsuite>=0.3.6"],
     "ssg": ["ssg>=0.0.6"],
-    "thai2fit": ["emoji==0.5", "gensim==3.0", "numpy>=1.16,<1.17"],
-    "thai2rom": ["torch>=1.0<1.1", "numpy>=1.16,<1.17"],
+    "thai2fit": ["emoji==0.5.1", "gensim==3.0", "numpy>=1.16,<1.17"],
+    "thai2rom": ["torch==1.0.0", "numpy>=1.16,<1.17"],
     "full": [
         "artagger>=0.1.0.3",
         "attacut>=1.0.4",
-        "emoji==0.5",
+        "emoji==0.5.1",
         "epitran>=1.1",
         "gensim==3.0",
         "numpy>=1.16,<1.17",
@@ -58,7 +58,7 @@ extras = {
         "pyicu>=2.3",
         "sklearn-crfsuite>=0.3.6",
         "ssg>=0.0.6",
-        "torch>=1.0,<1.1",
+        "torch==1.0.0",
     ],
 }
 

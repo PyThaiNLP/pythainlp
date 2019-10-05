@@ -5,6 +5,8 @@ Check if it is Thai text
 import string
 
 _DEFAULT_IGNORE_CHARS = string.whitespace + string.digits + string.punctuation
+_TH_FIRST_CHAR_ASCII = 3584
+_TH_LAST_CHAR_ASCII = 3711
 
 
 def isthaichar(ch: str) -> bool:
@@ -40,7 +42,7 @@ def isthaichar(ch: str) -> bool:
         False
     """
     ch_val = ord(ch)
-    if ch_val >= 3584 and ch_val <= 3711:
+    if ch_val >= _TH_FIRST_CHAR_ASCII and ch_val <= _TH_LAST_CHAR_ASCII:
         return True
     return False
 

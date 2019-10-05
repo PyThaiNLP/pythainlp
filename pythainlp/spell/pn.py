@@ -130,14 +130,15 @@ class NorvigSpellChecker:
         :rtype: list[tuple[str, int]]
 
         :Example:
+        ::
 
-            >>> from pythainlp.spell import NorvigSpellChecker
-            >>>
-            >>> dictionary= [("หวาน", 30), ("มะนาว", 2), ("แอบ", 3223)]
-            >>>
-            >>> _spell_checker = NorvigSpellChecker(custom_dict=dictionary)
-            >>> _spell_checker.dictionary()
-            dict_items([('หวาน', 30), ('มะนาว', 2), ('แอบ', 3223)])
+            from pythainlp.spell import NorvigSpellChecker
+
+            dictionary= [("หวาน", 30), ("มะนาว", 2), ("แอบ", 3223)]
+
+            _spell_checker = NorvigSpellChecker(custom_dict=dictionary)
+            _spell_checker.dictionary()
+            # output: dict_items([('หวาน', 30), ('มะนาว', 2), ('แอบ', 3223)])
         """
         return self.__WORDS.items()
 
@@ -153,22 +154,23 @@ class NorvigSpellChecker:
         :rtype: list[str]
 
         :Example:
+        ::
 
-            >>> from pythainlp.spell import NorvigSpellChecker
-            >>>
-            >>> _spell_checker = NorvigSpellChecker()
-            >>>
-            >>> _spell_checker.known(["ร้าย"])
-            ['ร้าย']
-            >>>
-            >>> _spell_checker.known(["เพยน", "เพล", "เพลง"])
-            ['เพล', 'เพลง']
-            >>>
-            >>> _spell_checker.known(['ยกไ', 'ไฟล์ม'])
-            []
-            >>>
-            >>> _spell_checker.known([])
-            []
+            from pythainlp.spell import NorvigSpellChecker
+
+            _spell_checker = NorvigSpellChecker()
+
+            _spell_checker.known(["ร้าย"])
+            # output: ['ร้าย']
+
+            _spell_checker.known(["เพยน", "เพล", "เพลง"])
+            # output: ['เพล', 'เพลง']
+
+            _spell_checker.known(['ยกไ', 'ไฟล์ม'])
+            # output: []
+
+            _spell_checker.known([])
+            # output: []
         """
         return list(w for w in words if w in self.__WORDS)
 
@@ -183,20 +185,25 @@ class NorvigSpellChecker:
         :rtype: float
 
         :Example:
+        ::
 
-            >>> from pythainlp.spell import NorvigSpellChecker
-            >>>
-            >>> _spell_checker = NorvigSpellChecker()
-            >>> _spell_checker.prob("เส้นตรบ")
-            0.0
-            >>> _spell_checker.prob("ครัช")
-            0.0
-            >>> _spell_checker.prob("รัก")
-            0.0006959172792052158
-            >>> _spell_checker.prob("น่ารัก")
-            9.482306849763902e-05
-            >>> _spell_checker.prob("เหตุการณ์")
-            0.00026403687441972634
+            from pythainlp.spell import NorvigSpellChecker
+
+            _spell_checker = NorvigSpellChecker()
+            _spell_checker.prob("เส้นตรบ")
+            # output: 0.0
+
+            _spell_checker.prob("ครัช")
+            # output: 0.0
+
+            _spell_checker.prob("รัก")
+            # output: 0.0006959172792052158
+
+            _spell_checker.prob("น่ารัก")
+            # output: 9.482306849763902e-05
+
+            _spell_checker.prob("เหตุการณ์")
+            # output: 0.00026403687441972634
         """
         return self.__WORDS[word] / self.__WORDS_TOTAL
 
@@ -210,27 +217,32 @@ class NorvigSpellChecker:
         :rtype: int
 
         :Example:
+        ::
 
-            >>> from pythainlp.spell import NorvigSpellChecker
-            >>>
-            >>> _spell_checker = NorvigSpellChecker()
-            >>>
-            >>> _spell_checker.freq("ปัญชา")
-            0
-            >>> _spell_checker.freq("ปัญญา")
-            3639
-            >>>
-            >>> _spell_checker.freq("บิญชา")
-            0
-            >>> _spell_checker.freq("บัญชา")
-            335
-            >>>
-            >>> _spell_checker.freq("มิตรภาบ")
-            0
-            >>> _spell_checker.freq("มิตรภาพ")
-            572
-            >>> _spell_checker.freq("มิตร")
-            1923
+            from pythainlp.spell import NorvigSpellChecker
+
+            _spell_checker = NorvigSpellChecker()
+
+            _spell_checker.freq("ปัญชา")
+            # output: 0
+
+            _spell_checker.freq("ปัญญา")
+            # output: 3639
+
+            _spell_checker.freq("บิญชา")
+            # output: 0
+
+            _spell_checker.freq("บัญชา")
+            # output: 335
+
+            _spell_checker.freq("มิตรภาบ")
+            # output: 0
+
+            _spell_checker.freq("มิตรภาพ")
+            # output: 572
+
+            _spell_checker.freq("มิตร")
+            # output: 1923
         """
         return self.__WORDS[word]
 
@@ -257,21 +269,22 @@ class NorvigSpellChecker:
         :rtype: list[str]
 
         :Example:
+        ::
 
-            >>> from pythainlp.spell import NorvigSpellChecker
-            >>>
-            >>> _spell_checker = NorvigSpellChecker()
-            >>>
-            >>> _spell_checker.spell("เส้นตรบ")
-            ['เส้นตรง']
-            >>>
-            >>> _spell_checker.spell("ครัช")
-            ['ครับ', 'ครัว', 'รัช', 'ครัม', 'ครัน',
-            'วรัช', 'ครัส', 'ปรัช', 'บรัช', 'ครัง',
-            'คัช', 'คลัช', 'ครัย', 'ครัด']
-            >>>
-            >>> _spell_checker.spell("กระปิ")
-            ['กะปิ', 'กระบิ']
+            from pythainlp.spell import NorvigSpellChecker
+
+            _spell_checker = NorvigSpellChecker()
+
+            _spell_checker.spell("เส้นตรบ")
+            # output: ['เส้นตรง']
+
+            _spell_checker.spell("ครัช")
+            # output: ['ครับ', 'ครัว', 'รัช', 'ครัม', 'ครัน',
+            # 'วรัช', 'ครัส', 'ปรัช', 'บรัช', 'ครัง',
+            #'คัช', 'คลัช', 'ครัย', 'ครัด']
+
+            _spell_checker.spell("กระปิ")
+            # output: ['กะปิ', 'กระบิ']
         """
         if not word:
             return [""]
@@ -297,16 +310,19 @@ class NorvigSpellChecker:
         :rtype: str
 
         :Example:
+        ::
 
-            >>> from pythainlp.spell import NorvigSpellChecker
-            >>>
-            >>> _spell_checker = NorvigSpellChecker()
-            >>> _spell_checker.correct("ปัญชา")
-            'ปัญหา'
-            >>> _spell_checker.correct("บิญชา")
-            'บัญชา'
-            >>> _spell_checker.correct("มิตรภาบ")
-            'มิตรภาพ'
+            from pythainlp.spell import NorvigSpellChecker
+
+            _spell_checker = NorvigSpellChecker()
+            _spell_checker.correct("ปัญชา")
+            # output: 'ปัญหา'
+
+            _spell_checker.correct("บิญชา")
+            # output: 'บัญชา'
+
+            _spell_checker.correct("มิตรภาบ")
+            # output: 'มิตรภาพ'
         """
         if not word:
             return ""

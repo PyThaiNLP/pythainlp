@@ -23,29 +23,18 @@ def bahttext(number: float) -> str:
              of Thai currency
     :rtype: str
     :Example:
+    ::
 
-        >>> from pythainlp.util import bahttext
-        >>>
-        >>> bahttext(1)
-        หนึ่งบาทถ้วน
-        >>>
-        >>> bahttext(21)
-        ยี่สิบเอ็ดบาทถ้วน
-        >>>
-        >>> bahttext(200)
-        สองร้อยบาทถ้วน
-        >>>
-        >>> bahttext(1299.25)
-        หนึ่งพันสองร้อยเก้าสิบเก้าบาทยี่สิบห้าสตางค์
-        >>>
-        >>> bahttext(2147483647.091)
-        สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ดบาทเก้าสตางค์
-        >>>
-        >>> bahttext(0.16)
-        ศูนย์บาทสิบหกสตางค์
-        >>>
-        >>> bahttext(0)
-        ศูนย์บาทถ้วน
+        from pythainlp.util import bahttext
+
+        bahttext(1)
+        # output: หนึ่งบาทถ้วน
+
+        bahttext(21)
+        # output: ยี่สิบเอ็ดบาทถ้วน
+
+        bahttext(200)
+        # output: สองร้อยบาทถ้วน
     """
     ret = ""
 
@@ -80,28 +69,15 @@ def num_to_thaiword(number: int) -> str:
     :rtype: str
 
     :Example:
-        >>> from pythainlp.util import num_to_thaiword
-        >>>
-        >>> num_to_thaiword(1)
-        หนึ่ง
-        >>>
-        >>> num_to_thaiword(11)
-        สิบเอ็ด
-        >>>
-        >>> num_to_thaiword(21)
-        ยี่สิบเอ็ด
-        >>>
-        >>> num_to_thaiword(200)
-        สองร้อย
-        >>>
-        >>> num_to_thaiword(1299.25)
-        หนึ่งพันสองร้อยเก้าสิบเก้า
-        >>>
-        >>> num_to_thaiword(2147483647)
-        สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด
-        >>>
-        >>> num_to_thaiword(0)
-        ศูนย์
+    ::
+
+        from pythainlp.util import num_to_thaiword
+
+        num_to_thaiword(1)
+        # output: หนึ่ง
+
+        num_to_thaiword(11)
+        # output: สิบเอ็ด
     """
     ret = ""
 

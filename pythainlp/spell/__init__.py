@@ -20,7 +20,7 @@ def spell(word: str, engine: str = "pn") -> List[str]:
 
     :param str word: Word to spell check
     :param str engine:
-        * *pn* - Peter Norvig's algorithm [norvig_spellchecker]_ (default)
+        * *pn* - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
 
     :return: list of possible correct words within 1 or 2 edit distance and
              sorted by frequency of word occurrences in the spelling dictionary
@@ -28,25 +28,28 @@ def spell(word: str, engine: str = "pn") -> List[str]:
     :rtype: list[str]
 
     :Example:
-        >>> from pythainlp.spell import spell
-        >>>
-        >>> spell("เส้นตรบ",  engine="pn")
-        ['เส้นตรง']
-        >>> spell("เส้นตรบ")
-        ['เส้นตรง']
-        >>>
-        >>> spell("ครัช")
-        ['ครับ', 'ครัว', 'รัช', 'ครัม', 'ครัน', 'วรัช', 'ครัส',
-         'ปรัช', 'บรัช', 'ครัง', 'คัช', 'คลัช', 'ครัย', 'ครัด']
-        >>>
-        >>> spell("กระปิ")
-        ['กะปิ', 'กระบิ']
-        >>>
-        >>> spell("สังเกตุ")
-        ['สังเกต']
-        >>>
-        >>> spell("เหตการณ")
-        ['เหตุการณ์']
+    ::
+
+        from pythainlp.spell import spell
+
+        spell("เส้นตรบ",  engine="pn")
+        # output: ['เส้นตรง']
+
+        spell("เส้นตรบ")
+        # output: ['เส้นตรง']
+
+        spell("ครัช")
+        # output: ['ครับ', 'ครัว', 'รัช', 'ครัม', 'ครัน', 'วรัช', 'ครัส',
+        # 'ปรัช', 'บรัช', 'ครัง', 'คัช', 'คลัช', 'ครัย', 'ครัด']
+
+        spell("กระปิ")
+        # output: ['กะปิ', 'กระบิ']
+
+        spell("สังเกตุ")
+        # output:  ['สังเกต']
+
+        spell("เหตการณ")
+        # output:  ['เหตุการณ์']
     """
 
     return DEFAULT_SPELL_CHECKER.spell(word)
@@ -59,23 +62,29 @@ def correct(word: str, engine: str = "pn") -> str:
 
     :param str word: word to correct spelling
     :param str engine:
-        * pn - Peter Norvig's algorithm [norvig_spellchecker]_ (default)
+        * pn - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
     :return: the corrected word
     :rtype: str
 
     :Example:
-        >>> from pythainlp.spell import correct
-        >>>
-        >>> correct("เส้นตรบ")
-        'เส้นตรง'
-        >>> correct("ครัช")
-        'ครับ'
-        >>> correct("สังเกตุ")
-        'สังเกต'
-        >>> correct("กระปิ")
-        'กะปิ'
-        >>> correct("เหตการณ")
-        'เหตุการณ์'
+    ::
+
+        from pythainlp.spell import correct
+
+        correct("เส้นตรบ")
+        # output: 'เส้นตรง'
+
+        correct("ครัช")
+        # output: 'ครับ'
+
+        correct("สังเกตุ")
+        # output: 'สังเกต'
+
+        correct("กระปิ")
+        # output: 'กะปิ'
+
+        correct("เหตการณ")
+        # output: 'เหตุการณ์'
     """
 
     return DEFAULT_SPELL_CHECKER.correct(word)

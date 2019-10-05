@@ -75,31 +75,15 @@ def thaiword_to_num(word: str) -> int:
     :rtype: int
 
     :Example:
+    ::
 
-        >>> from pythainlp.util import thaiword_to_num
-        >>>
-        >>> thaiword_to_num("ศูนย์")
-        0
-        >>> thaiword_to_num("หนึ่ง")
-        1
-        >>> thaiword_to_num("สิบเอ็ด")
-        11
-        >>> thaiword_to_num("เก้าสิบเอ็ด")
-        91
-        >>> thaiword_to_num("หกร้อยหนึ่ง")
-        601
-        >>> thaiword_to_num("สองพัน")
-        2000
-        >>> thaiword_to_num("สองพัน")
-        2000
-        >>> thaiword_to_num("สองหมื่น")
-        20000
-        >>> thaiword_to_num("สองแสน")
-        200000
-        >>> thaiword_to_num("สองล้าน")
-        2000000
-        >>> thaiword_to_num("สองล้านสามแสนหกร้อยสิบสอง")
-        2300612
+        from pythainlp.util import thaiword_to_num
+
+        thaiword_to_num("ศูนย์")
+        # output: 0
+
+        thaiword_to_num("สองล้านสามแสนหกร้อยสิบสอง")
+        # output: 2300612
     """
     if not word:
         return None

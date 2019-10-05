@@ -151,58 +151,64 @@ def pos_tag(
 
     :Example:
 
-        Tag words with corpus `orchid` (default):
+    Tag words with corpus `orchid` (default)::
 
-        >>> from pythainlp.tag import pos_tag
-        >>>
-        >>> words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\
+        from pythainlp.tag import pos_tag
+
+        words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\
             'นายก', 'เชอร์ชิล']
-        >>> pos_tag(words)
-        [('ฉัน', 'PPRS'), ('มี', 'VSTA'), ('ชีวิต', 'NCMN'), ('รอด', 'NCMN'),
-        ('ใน', 'RPRE'), ('อาคาร', 'NCMN'), ('หลบภัย', 'NCMN'), ('ของ', 'RPRE'),
-        ('นายก', 'NCMN'), ('เชอร์ชิล', 'NCMN')]
+        pos_tag(words)
+        # output:
+        # [('ฉัน', 'PPRS'), ('มี', 'VSTA'), ('ชีวิต', 'NCMN'), ('รอด', 'NCMN'),
+        #   ('ใน', 'RPRE'), ('อาคาร', 'NCMN'), ('หลบภัย', 'NCMN'),
+        #   ('ของ', 'RPRE'), ('นายก', 'NCMN'), ('เชอร์ชิล', 'NCMN')]
 
-        Tag words with corpus `orchid_ud`:
+    Tag words with corpus `orchid_ud`::
 
-        >>> from pythainlp.tag import pos_tag
-        >>>
-        >>> words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\
+        from pythainlp.tag import pos_tag
+
+        words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\
             'นายก', 'เชอร์ชิล']
-        >>> pos_tag(words, corpus='orchid_ud')
-        [('ฉัน', 'PROPN'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'), ('รอด', 'NOUN'),
-        ('ใน', 'ADP'),  ('อาคาร', 'NOUN'), ('หลบภัย', 'NOUN'), ('ของ', 'ADP'),
-        ('นายก', 'NOUN'), ('เชอร์ชิล', 'NOUN')]
+        pos_tag(words, corpus='orchid_ud')
+        # output:
+        # [('ฉัน', 'PROPN'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'), ('รอด', 'NOUN'),
+        #   ('ใน', 'ADP'),  ('อาคาร', 'NOUN'), ('หลบภัย', 'NOUN'),
+        #   ('ของ', 'ADP'), ('นายก', 'NOUN'), ('เชอร์ชิล', 'NOUN')]
 
-        Tag words with corpus `pud`:
+    Tag words with corpus `pud`::
 
-        >>> from pythainlp.tag import pos_tag
-        >>>
-        >>> words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\
+        from pythainlp.tag import pos_tag
+
+        words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\
             'นายก', 'เชอร์ชิล']
-        >>> pos_tag(words, corpus='pud')
-        [('ฉัน', 'PRON'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'), ('รอด', 'VERB'),
-        ('ใน', 'ADP'), ('อาคาร', 'NOUN'), ('หลบภัย', 'NOUN'), ('ของ', 'ADP'),
-        ('นายก', 'NOUN'), ('เชอร์ชิล', 'PROPN')]
+        pos_tag(words, corpus='pud')
+        # [('ฉัน', 'PRON'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'), ('รอด', 'VERB'),
+        #   ('ใน', 'ADP'), ('อาคาร', 'NOUN'), ('หลบภัย', 'NOUN'),
+        #   ('ของ', 'ADP'), ('นายก', 'NOUN'), ('เชอร์ชิล', 'PROPN')]
 
-        Tag words with different engines including *perceptron*, *unigram*,
-        and *artagger*:
+    Tag words with different engines including *perceptron*, *unigram*,
+    and *artagger*::
 
-        >>> from pythainlp.tag import pos_tag
-        >>>
-        >>> words = ['เก้าอี้','มี','จำนวน','ขา', ' ', '=', '3']
-        >>> pos_tag(words, engine='perceptron', corpus='orchid')
-        [('เก้าอี้', 'NCMN'), ('มี', 'VSTA'), ('จำนวน', 'NCMN'),
-         ('ขา', 'NCMN'), (' ', 'PUNC'),
-         ('=', 'PUNC'), ('3', 'NCNM')]
-        >>>
-        >>> pos_tag(words, engine='unigram', corpus='pud')
-        [('เก้าอี้', None), ('มี', 'VERB'), ('จำนวน', 'NOUN'), ('ขา', None),
-        ('<space>', None), ('<equal>', None), ('3', 'NUM')]
-        >>>
-        >>> pos_tag(words, engine='artagger', corpus='orchid')
-        [('เก้าอี้', 'NCMN'), ('มี', 'VSTA'), ('จำนวน', 'NCMN'),
-         ('ขา', 'NCMN'), ('<space>', 'PUNC'),
-         ('<equal>', 'PUNC'), ('3', 'NCNM')]
+        from pythainlp.tag import pos_tag
+
+        words = ['เก้าอี้','มี','จำนวน','ขา', ' ', '=', '3']
+
+        pos_tag(words, engine='perceptron', corpus='orchid')
+        # output:
+        # [('เก้าอี้', 'NCMN'), ('มี', 'VSTA'), ('จำนวน', 'NCMN'),
+        #   ('ขา', 'NCMN'), (' ', 'PUNC'),
+        #   ('=', 'PUNC'), ('3', 'NCNM')]
+
+        pos_tag(words, engine='unigram', corpus='pud')
+        # output:
+        # [('เก้าอี้', None), ('มี', 'VERB'), ('จำนวน', 'NOUN'), ('ขา', None),
+        #   ('<space>', None), ('<equal>', None), ('3', 'NUM')]
+
+        pos_tag(words, engine='artagger', corpus='orchid')
+        # output:
+        # [('เก้าอี้', 'NCMN'), ('มี', 'VSTA'), ('จำนวน', 'NCMN'),
+        #   ('ขา', 'NCMN'), ('<space>', 'PUNC'),
+        #   ('<equal>', 'PUNC'), ('3', 'NCNM')]
     """
 
     # NOTE:
@@ -253,15 +259,16 @@ def pos_tag_sents(
 
     :Example:
 
-        Labels POS for two sentences:
+    Labels POS for two sentences::
 
-        >>> from pythainlp.tag import pos_tag_sents
-        >>>
-        >>> sentences = [['เก้าอี้','มี','3','ขา'], \\
-                         ['นก', 'บิน', 'กลับ', 'รัง']]
-        >>> pos_tag_sents(sentences, corpus='pud)
-        [[('เก้าอี้', 'PROPN'), ('มี', 'VERB'), ('3', 'NUM'), ('ขา', 'NOUN')],
-        [('นก', 'NOUN'), ('บิน', 'VERB'), ('กลับ', 'VERB'), ('รัง', 'NOUN')]]
+        from pythainlp.tag import pos_tag_sents
+
+        sentences = [['เก้าอี้','มี','3','ขา'], \\
+                            ['นก', 'บิน', 'กลับ', 'รัง']]
+        pos_tag_sents(sentences, corpus='pud)
+        # output:
+        # [[('เก้าอี้', 'PROPN'), ('มี', 'VERB'), ('3', 'NUM'), ('ขา', 'NOUN')],
+        # [('นก', 'NOUN'), ('บิน', 'VERB'), ('กลับ', 'VERB'), ('รัง', 'NOUN')]]
     """
     if not sentences:
         return []

@@ -41,6 +41,10 @@ deepcut
 +++++++
 .. automodule::  pythainlp.tokenize.deepcut
 
+attacut
++++++++
+.. automodule::  pythainlp.tokenize.attacut
+
 tcc
 +++
 .. automodule:: pythainlp.tokenize.tcc

@@ -117,12 +117,12 @@ def eng_to_thai(text: str) -> str:
 
     :Example:
 
-        Intentionally type "ธนาคารแห่งประเทศไทย", but got "Tok8kicsj'xitgmLwmp"
+    Intentionally type "ธนาคารแห่งประเทศไทย", but got "Tok8kicsj'xitgmLwmp"::
 
-        >>> from pythainlp.util import eng_to_thai
-        >>>
-        >>> eng_to_thai("Tok8kicsj'xitgmLwmp")
-        ธนาคารแห่งประเทศไทย
+        from pythainlp.util import eng_to_thai
+
+        eng_to_thai("Tok8kicsj'xitgmLwmp")
+        # output: ธนาคารแห่งประเทศไทย
     """
     return text.translate(EN_TH_TRANSLATE_TABLE)
 
@@ -140,11 +140,11 @@ def thai_to_eng(text: str) -> str:
 
     :Example:
 
-        Intentionally type "Bank of Thailand", but got "ฺฟืา นด ธ้ฟรสฟืก".
+    Intentionally type "Bank of Thailand", but got "ฺฟืา นด ธ้ฟรสฟืก"::
 
-        >>> from pythainlp.util import eng_to_thai
-        >>>
-        >>> thai_to_eng("ฺฟืา นด ธ้ฟรสฟืก")
-        'Bank of Thailand'
+        from pythainlp.util import eng_to_thai
+
+        thai_to_eng("ฺฟืา นด ธ้ฟรสฟืก")
+        # output: 'Bank of Thailand'
     """
     return text.translate(TH_EN_TRANSLATE_TABLE)

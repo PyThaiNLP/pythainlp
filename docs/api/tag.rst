@@ -5,7 +5,7 @@ pythainlp.tag
 The :class:`pythainlp.tag` contains functions that are used to tag different parts of a text including 
 Part-of-Speech (POS) tags, and Named Entity Recognition (NER) tag.
 
-For the POS tags, there are two set of tags including `Universal Dependencies (UD) <https://universaldependencies.org/>`_ and ORCHID [Sornlertlamvanich_2000]_ POS tags.
+For the POS tags, there are two set of tags including `Universal Dependencies (UD) <https://universaldependencies.org/>`_ and ORCHID [#Sornlertlamvanich_2000]_ POS tags.
 
 The following table shows the list of Part-of-Speech (POS) tags according to Universal Dependencies (UD) POS tags:
 
@@ -215,6 +215,6 @@ artagger
 References
 ----------
 
-.. [Sornlertlamvanich_2000] Takahashi, Naoto & Isahara, Hitoshi & Sornlertlamvanich, Virach. (2000).
+.. [#Sornlertlamvanich_2000] Takahashi, Naoto & Isahara, Hitoshi & Sornlertlamvanich, Virach. (2000).
             Building a Thai part-of-speech tagged corpus (ORCHID). 
             ournal of the Acoustical Society of Japan (E). 20. 10.1250/ast.20.189. 

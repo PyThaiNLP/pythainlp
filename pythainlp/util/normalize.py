@@ -56,15 +56,18 @@ def normalize(text: str) -> str:
     :rtype: str
 
     :Example:
+    ::
 
-        >>> from pythainlp.util import normalize
-        >>>
-        >>> normalize('สระะน้ำ')
-        สระน้ำ
-        >>> normalize('เเปลก')
-        แปลก
-        >>> normalize('นานาาา')
-        นานา
+        from pythainlp.util import normalize
+
+        normalize('สระะน้ำ')
+        # output: สระน้ำ
+
+        normalize('เเปลก')
+        # output: แปลก
+
+        normalize('นานาาา')
+        # output: นานา
     """
     for data in _NORMALIZE_RULE2:
         text = re.sub(data[0].replace("t", "[่้๊๋]"), data[1], text)
@@ -88,12 +91,12 @@ def deletetone(text: str) -> str:
     :rtype: str
 
     :Example:
+    ::
 
-        >>> from pythainlp.util import deletetone
-        >>>
-        >>> deletetone(\\
-            'สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด')
-        สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด
+        from pythainlp.util import deletetone
+
+        deletetone('สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด')
+        # output: สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด
     """
     chars = [ch for ch in text if ch not in thai_tonemarks]
     return "".join(chars)

@@ -52,35 +52,16 @@ def thaiword_to_num(word: str) -> int:
     :rtype: int
 
     :Example:
+    ::
 
-        >>> from pythainlp.util import thaiword_to_num
-        >>>
-        >>> thaiword_to_num("ศูนย์")
-        0
-        >>> thaiword_to_num("หนึ่ง")
-        1
-        >>> thaiword_to_num("สิบเอ็ด")
-        11
-        >>> thaiword_to_num("เก้าสิบเอ็ด")
-        91
-        >>> thaiword_to_num("หกร้อยหนึ่ง")
-        601
-        >>> thaiword_to_num("สองพัน")
-        2000
-        >>> thaiword_to_num("สองพัน")
-        2000
-        >>> thaiword_to_num("สองหมื่น")
-        20000
-        >>> thaiword_to_num("สองแสน")
-        200000
-        >>> thaiword_to_num("สองล้าน")
-        2000000
-        >>> thaiword_to_num("สองล้านสามแสนหกร้อยสิบสอง")
-        2300612
-        >>> thaiword_to_num("หนึ่งร้อยล้าน")
-        100000000
-        >>> thaiword_to_num("สิบห้าล้านล้าน")
-        15000000000000
+        from pythainlp.util import thaiword_to_num
+
+        thaiword_to_num("ศูนย์")
+        # output: 0
+
+        thaiword_to_num("สองล้านสามแสนหกร้อยสิบสอง")
+        # output: 2300612
+
     """
     if not isinstance(word, str):
         raise TypeError(f"the input must be a string; given {word!r}")

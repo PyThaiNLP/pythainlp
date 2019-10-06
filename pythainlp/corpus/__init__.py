@@ -63,20 +63,24 @@ def get_corpus(filename: str) -> frozenset:
     :rtype: :mod:`frozenset`
 
     :Example:
-        >>> from pythainlp.corpus import get_corpus
-        >>>
-        >>> get_corpus('ttc_freq.txt')
-        frozenset({'โดยนัยนี้\\t1',
-           'ตัวบท\\t10',
-           'หยิบยื่น\\t3',
-           'เอย\\t555',
-           'ค้าน\\t69',
-           'เหนี่ยง\\t3',
-           'ชงฆ์\\t3',
-            ...})
-        >>>
-        >>> get_corpus('negations_th.txt')
-        frozenset({'แต่', 'ไม่'})
+    ::
+
+        from pythainlp.corpus import get_corpus
+
+        get_corpus('ttc_freq.txt')
+        # output:
+        # frozenset({'โดยนัยนี้\\t1',
+        #    'ตัวบท\\t10',
+        #    'หยิบยื่น\\t3',
+        #    'เอย\\t555',
+        #    'ค้าน\\t69',
+        #    'เหนี่ยง\\t3',
+        #    'ชงฆ์\\t3',
+        #     ...})
+
+        get_corpus('negations_th.txt')
+        # output:
+        # frozenset({'แต่', 'ไม่'})
     """
     lines = read_text_corpus(os.path.join(corpus_path(), filename))
 
@@ -94,27 +98,29 @@ def get_corpus_path(name: str) -> Union[str, None]:
 
     :Example:
 
-        If the corpus already exists.
+    If the corpus already exists::
 
-        >>> from pythainlp.corpus import get_corpus_path
-        >>>
-        >>> print(get_corpus_path('ttc'))
-        /root/pythainlp-data/ttc_freq.txt
+        from pythainlp.corpus import get_corpus_path
 
-        If the corpus has not been downloaded yet.
+        print(get_corpus_path('ttc'))
+        # output: /root/pythainlp-data/ttc_freq.txt
 
-        >>> from pythainlp.corpus import download, get_corpus_path
-        >>>
-        >>> print(get_corpus_path('wiki_lm_lstm'))
-        None
-        >>> download('wiki_lm_lstm')
-        Download: wiki_lm_lstm
-        wiki_lm_lstm 0.32
-        thwiki_lm.pth?dl=1: 1.05GB [00:25, 41.5MB/s]
-        /root/pythainlp-data/thwiki_model_lstm.pth
-        >>>
-        >>> print(get_corpus_path('wiki_lm_lstm'))
-        /root/pythainlp-data/thwiki_model_lstm.pth
+    If the corpus has not been downloaded yet::
+
+        from pythainlp.corpus import download, get_corpus_path
+
+        print(get_corpus_path('wiki_lm_lstm'))
+        # output: None
+
+        download('wiki_lm_lstm')
+        # output:
+        # Download: wiki_lm_lstm
+        # wiki_lm_lstm 0.32
+        # thwiki_lm.pth?dl=1: 1.05GB [00:25, 41.5MB/s]
+        # /root/pythainlp-data/thwiki_model_lstm.pth
+
+        print(get_corpus_path('wiki_lm_lstm'))
+        # output: /root/pythainlp-data/thwiki_model_lstm.pth
     """
     db = TinyDB(corpus_db_path())
     temp = Query()
@@ -171,14 +177,16 @@ def download(name: str, force: bool = False) -> NoReturn:
     :param bool force: force install
 
     :Example:
+    ::
 
-        >>> from pythainlp.corpus import download
-        >>>
-        >>> download('ttc', force=True)
-        Download: ttc
-        ttc 0.1
-        ttc_freq.txt:  26%|██▌       | 114k/434k [00:00<00:00, 690kB/s]
-        /root/pythainlp-data/ttc_freq.txt
+        from pythainlp.corpus import download
+
+        download('ttc', force=True)
+        # output:
+        # Download: ttc
+        # ttc 0.1
+        # ttc_freq.txt:  26%|██▌       | 114k/434k [00:00<00:00, 690kB/s]
+        # /root/pythainlp-data/ttc_freq.txt
     """
     db = TinyDB(corpus_db_path())
     temp = Query()
@@ -254,16 +262,20 @@ def remove(name: str) -> bool:
     :rtype: bool
 
     :Example:
+    ::
 
-        >>> from pythainlp.corpus import remove, get_corpus_path, get_corpus
-        >>>
-        >>> print(remove('ttc'))
-        True
-        >>> print(get_corpus_path('ttc'))
-        None
-        >>> get_corpus('ttc')
-        FileNotFoundError: [Errno 2] No such file or directory:
-        '/usr/local/lib/python3.6/dist-packages/pythainlp/corpus/ttc'
+        from pythainlp.corpus import remove, get_corpus_path, get_corpus
+
+        print(remove('ttc'))
+        # output: True
+
+        print(get_corpus_path('ttc'))
+        # output: None
+
+        get_corpus('ttc')
+        # output:
+        # FileNotFoundError: [Errno 2] No such file or directory:
+        # '/usr/local/lib/python3.6/dist-packages/pythainlp/corpus/ttc'
     """
     db = TinyDB(corpus_db_path())
     temp = Query()

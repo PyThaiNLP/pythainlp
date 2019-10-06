@@ -21,6 +21,7 @@ def word_tokenize(
 ) -> List[str]:
     """
     This function tokenizes running text into words.
+
     :param str text: text to be tokenized
     :param str engine: name of the tokenizer to be used
     :param marisa_trie.Trie custom_dict: marisa dictionary trie
@@ -33,12 +34,15 @@ def word_tokenize(
         * *newmm* (default) - dictionary-based, Maximum Matching +
           Thai Character Cluster
         * *longest* - dictionary-based, Longest Matching
-        * *deepcut* - wrapper for
-          `deepcut <https://github.com/rkcosmos/deepcut>`_,
-          language-model-based
         * *icu* - wrapper for ICU (International Components for Unicode,
           using PyICU), dictionary-based
-        * attacut - Wrapper for `AttaCut (https://github.com/PyThaiNLP/attacut)`
+        * *deepcut* - wrapper for
+          `DeepCut <https://github.com/rkcosmos/deepcut>`_,
+          learning-based approach
+        * *attacut* - wrapper for
+          `AttaCut <https://github.com/PyThaiNLP/attacut>`_.,
+          learning-based approach
+
     .. warning::
         * the option for engine named *ulmfit* has been deprecated since \
           PyThaiNLP version 2.1
@@ -46,49 +50,55 @@ def word_tokenize(
         - The parameter **custom_dict** can be provided as an argument \
           only for *newmm*, *longest*, and *deepcut* engine.
     :Example:
-        Tokenize text with different tokenizer:
-        >>> from pythainlp.tokenize import word_tokenize
-        >>>
-        >>> text = "โอเคบ่พวกเรารักภาษาบ้านเกิด"
-        >>> word_tokenize(text, engine="newmm")
-        ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
-        >>>
-        >>> word_tokenize(text, engine="longest")
-        ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
-        >>>
-        >>> word_tokenize(text, engine="deepcut")
-        ['โอเค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้านเกิด']
-        >>>
-        >>> word_tokenize(text, engine="icu")
-        ['โอ', 'เค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้าน', 'เกิด']
-        >>>
-        >>> word_tokenize(text, engine="ulmfit")
-        ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
-        >>> tokenize.word_tokenize('โอเคบ่พวกเรารักภาษาบ้านเกิด', engine='attacut')
-        ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
-        >>>
-        Tokenize text by omitiing whitespaces:
-        >>> from pythainlp.tokenize import word_tokenize
-        >>>
-        >>> text = "วรรณกรรม ภาพวาด และการแสดงงิ้ว "
-        >>> word_tokenize(text, engine="newmm")
-        ['วรรณกรรม', ' ', 'ภาพวาด', ' ', 'และ', 'การแสดง', 'งิ้ว', ' ']
-        >>> word_tokenize(text, engine="newmm", keep_whitespace=False)
-        ['วรรณกรรม', 'ภาพวาด', 'และ', 'การแสดง', 'งิ้ว']
-        Tokenize with default and custom dictionary:
-        >>> from pythainlp.corpus.common import thai_words
-        >>> from pythainlp.tokenize import dict_trie, word_tokenize
-        >>>
-        >>> text = 'ชินโซ อาเบะ เกิด 21 กันยายน'
-        >>> word_tokenize(text, engine="newmm")
-        ​['ชิน', 'โซ', ' ', 'อา', 'เบะ', ' ', 'เกิด', ' ',
-         '21', ' ', 'กันยายน']
-        >>> custom_dict_japanese_name = set(thai_words()
-        >>> custom_dict_japanese_name.add('ชินโซ')
-        >>> custom_dict_japanese_name.add('อาเบะ')
-        >>> trie = dict_trie(dict_source=custom_dict_japanese_name)
-        >>> word_tokenize(text, engine="newmm", custom_dict=trie))
-        ['ชินโซ', ' ', 'อาเบะ', ' ', 'เกิด', ' ', '21', ' ', 'กันยายน']
+
+    Tokenize text with different tokenizer::
+
+        from pythainlp.tokenize import word_tokenize
+
+        text = "โอเคบ่พวกเรารักภาษาบ้านเกิด"
+
+        word_tokenize(text, engine="newmm")
+        # output: ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
+
+        word_tokenize(text, engine="deepcut")
+        # output: ['โอเค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้านเกิด']
+
+        word_tokenize(text, engine='attacut')
+        # output: ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
+
+    Tokenize text by omiting whitespaces::
+
+        text = "วรรณกรรม ภาพวาด และการแสดงงิ้ว "
+
+        word_tokenize(text, engine="newmm")
+        # output:
+        # ['วรรณกรรม', ' ', 'ภาพวาด', ' ', 'และ', 'การแสดง', 'งิ้ว', ' ']
+
+        word_tokenize(text, engine="newmm", keep_whitespace=False)
+        # output: ['วรรณกรรม', 'ภาพวาด', 'และ', 'การแสดง', 'งิ้ว']
+
+    Tokenize with default and custom dictionary::
+
+        from pythainlp.corpus.common import thai_words
+        from pythainlp.tokenize import dict_trie
+
+        text = 'ชินโซ อาเบะ เกิด 21 กันยายน'
+
+        word_tokenize(text, engine="newmm")
+        # output:
+        # ​['ชิน', 'โซ', ' ', 'อา', 'เบะ', ' ',
+        #   'เกิด', ' ', '21', ' ', 'กันยายน']
+
+        custom_dict_japanese_name = set(thai_words()
+        custom_dict_japanese_name.add('ชินโซ')
+        custom_dict_japanese_name.add('อาเบะ')
+
+        trie = dict_trie(dict_source=custom_dict_japanese_name)
+
+        word_tokenize(text, engine="newmm", custom_dict=trie))
+        # output:
+        # ['ชินโซ', ' ', 'อาเบะ',
+        #   ' ', 'เกิด', ' ', '21', ' ', 'กันยายน']
     """
     if not text or not isinstance(text, str):
         return []
@@ -169,6 +179,7 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
     This function does not yet automatically recognize when a sentence
     actually ends. Rather it helps split text where white space and
     a new line is found.
+
     :param str text: the text to be tokenized
     :param str engine: choose between *'whitespace'* or *'whitespace+newline'*
     :return: list of splited sentences
@@ -179,26 +190,31 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
         * *whitespace* - split by whitespace token. Specifiaclly, with \
                          :class:`regex` pattern  ``r" +"``
     :Example:
-    Split the text based on *whitespace*
-    >>> from pythainlp.tokenize import sent_tokenize
-    >>> sentence_1 = "ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"
-    >>> sentence_2 = "ข้าราชการได้รับการหมุนเวียนเป็นระยะ \\
+
+    Split the text based on *whitespace*::
+
+        from pythainlp.tokenize import sent_tokenize
+
+        sentence_1 = "ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"
+        sentence_2 = "ข้าราชการได้รับการหมุนเวียนเป็นระยะ \\
         และได้รับมอบหมายให้ประจำในระดับภูมิภาค"
-    >>> sent_tokenize(sentence_1, engine="whitespace")
-    ['ฉันไปประชุมเมื่อวันที่', '11', 'มีนาคม']
-    >>> sent_tokenize(sentence_2, engine="whitespace")
-    ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ',
-    '\\nและได้รับมอบหมายให้ประจำในระดับภูมิภาค']
-    Split the text based on *whitespace* and *newline*
-    >>> from pythainlp.tokenize import sent_tokenize
-    >>> sentence_1 = "ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"
-    >>> sentence_2 = "ข้าราชการได้รับการหมุนเวียนเป็นระยะ \\
-        และได้รับมอบหมายให้ประจำในระดับภูมิภาค"
-    >>> sent_tokenize(sentence_1, engine="whitespace")
-    ['ฉันไปประชุมเมื่อวันที่', '11', 'มีนาคม']
-    >>> sent_tokenize(sentence_2, engine="whitespace")
-    ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ',
-     'และได้รับมอบหมายให้ประจำในระดับภูมิภาค']
+
+        sent_tokenize(sentence_1, engine="whitespace")
+        # output: ['ฉันไปประชุมเมื่อวันที่', '11', 'มีนาคม']
+
+        sent_tokenize(sentence_2, engine="whitespace")
+        # output: ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ',
+        #   '\\nและได้รับมอบหมายให้ประจำในระดับภูมิภาค']
+
+    Split the text based on *whitespace* and *newline*::
+
+        sent_tokenize(sentence_1, engine="whitespace+newline")
+        # output: ['ฉันไปประชุมเมื่อวันที่', '11', 'มีนาคม']
+
+        sent_tokenize(sentence_2, engine="whitespace+newline")
+        # output: ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ',
+        '\\nและได้รับมอบหมายให้ประจำในระดับภูมิภาค']
+
     """
 
     if not text or not isinstance(text, str):
@@ -224,8 +240,11 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
     separated any character further such as   'ก็', 'จะ', 'ไม่', and 'ฝา'.
     If the following units are separated, they could not be spelled out.
     This function apply the TCC rules to tokenizes the text into
-    the smallest units. For example, the word 'ขนมชั้น' would be tokenized
-    into 'ข', 'น', 'ม', and 'ชั้น'
+    the smallest units.
+
+    For example, the word 'ขนมชั้น' would be tokenized
+    into 'ข', 'น', 'ม', and 'ชั้น'.
+
     :param str text: text to be tokenized
     :param str engine: the name subword tokenizer
     :return: list of subwords
@@ -235,25 +254,35 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
         * *ssg* - CRF syllable segmenter for Thai.
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
           [In development]
+
     :Example:
-      Tokenize text into subword based on *tcc*
-      >>> from pythainlp.tokenize import subword_tokenize
-      >>> text_1 = "ยุคเริ่มแรกของ ราชวงศ์หมิง"
-      >>> text_2 = "ความแปลกแยกและพัฒนาการ"
-      >>> subword_tokenize(text_1, engine='tcc')
-      ['ยุ', 'ค', 'เริ่ม', 'แร', 'ก', 'ข', 'อ', 'ง', ' ', 'รา', 'ช', 'ว', 'ง',
-       'ศ', '์', 'ห', 'มิ', 'ง']
-      >>> subword_tokenize(text_2, engine='tcc')
-      ['ค', 'วา', 'ม', 'แป', 'ล', 'ก', 'แย', 'ก',
-       'และ', 'พัฒ','นา', 'กา', 'ร']
-      Tokenize text into subword based on *etcc* **(Work In Progress)**
-      >>> from pythainlp.tokenize import subword_tokenize
-      >>> text_1 = "ยุคเริ่มแรกของ ราชวงศ์หมิง"
-      >>> text_2 = "ความแปลกแยกและพัฒนาการ"
-      >>> subword_tokenize(text_1, engine='etcc')
-      ['ยุคเริ่มแรกของ ราชวงศ์หมิง']
-      >>> subword_tokenize(text_2, engine='etcc')
-      ['ความแปลกแยกและ', 'พัฒ', 'นาการ']
+
+    Tokenize text into subword based on *tcc*::
+
+        from pythainlp.tokenize import subword_tokenize
+
+        text_1 = "ยุคเริ่มแรกของ ราชวงศ์หมิง"
+        text_2 = "ความแปลกแยกและพัฒนาการ"
+
+        subword_tokenize(text_1, engine='tcc')
+        # output: ['ยุ', 'ค', 'เริ่ม', 'แร', 'ก',
+        #   'ข', 'อ', 'ง', ' ', 'รา', 'ช', 'ว', 'ง',
+        #   'ศ', '์', 'ห', 'มิ', 'ง']
+
+        subword_tokenize(text_2, engine='tcc')
+        # output: ['ค', 'วา', 'ม', 'แป', 'ล', 'ก', 'แย', 'ก',
+        'และ', 'พัฒ','นา', 'กา', 'ร']
+
+    Tokenize text into subword based on *etcc* **(Work In Progress)**::
+
+        text_1 = "ยุคเริ่มแรกของ ราชวงศ์หมิง"
+        text_2 = "ความแปลกแยกและพัฒนาการ"
+
+        subword_tokenize(text_1, engine='etcc')
+        # output: ['ยุคเริ่มแรกของ ราชวงศ์หมิง']
+
+        subword_tokenize(text_2, engine='etcc')
+        # output: ['ความแปลกแยกและ', 'พัฒ', 'นาการ']
     """
     if not text or not isinstance(text, str):
         return []
@@ -280,19 +309,23 @@ def syllable_tokenize(text: str, engine: str = "default") -> List[str]:
     and then dictionary of Thai syllable from
     :func:`pythainlp.corpus.common.thai_syllables`.
     As a result, only syllables are obtained.
+
     :param str text: input string to be tokenized
+    :param str engine: name of the syllable tokenizer
     :return: list of syllables where whitespaces in the text **are included**
     :rtype: list[str]
     **Options for engine**
         * *default*
         * *ssg* - CRF syllable segmenter for Thai.
-    :Example:
-      >>> from pythainlp.tokenize import syllable_tokenize
-      >>>
-      >>> text = 'รถไฟสมัยใหม่จะใช้กำลังจากหัวรถจักรดีเซล หรือจากไฟฟ้า'
-      >>> syllable_tokenize(text)
-      ['รถ', 'ไฟ', 'สมัย', 'ใหม่', 'ใช้', 'กำ', 'ลัง', 'จาก', 'หัว',
-      'รถ', 'จักร', 'ดี', 'เซล', ' ', 'หรือ', 'จาก', 'ไฟ', 'ฟ้า']
+    :Example::
+    ::
+
+        from pythainlp.tokenize import syllable_tokenize
+
+        text = 'รถไฟสมัยใหม่จะใช้กำลังจากหัวรถจักรดีเซล หรือจากไฟฟ้า'
+        syllable_tokenize(text)
+        ['รถ', 'ไฟ', 'สมัย', 'ใหม่', 'ใช้', 'กำ', 'ลัง', 'จาก', 'หัว',
+        'รถ', 'จักร', 'ดี', 'เซล', ' ', 'หรือ', 'จาก', 'ไฟ', 'ฟ้า']
     """
 
     if not text or not isinstance(text, str):
@@ -317,6 +350,7 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     For more information on the trie data structure,
     see: `marisa-trie's Official Documentation \
     <https://marisa-trie.readthedocs.io/en/latest/index.html>`_
+
     :param string/list dict_source: a list of vocaburaries or a path
                                     to source file
     :return: a trie created from a dictionary input
@@ -349,55 +383,61 @@ class Tokenizer:
     It is an wrapper for both two functions including
     :func:`pythainlp.tokenize.word_tokenize`,
     and :func:`pythainlp.tokenize.dict_trie`
+
     :Example:
-    Tokenizer object instantiated with :class:`marisa_trie.Trie`
-    >>> from pythainlp.tokenize import Tokenizer
-    >>> from pythainlp.tokenize import Tokenizer, dict_trie
-    >>> from pythainlp.corpus.common import thai_words
-    >>>
-    >>> custom_words_list = set(thai_words())
-    >>> custom_words_list.add('อะเฟเซีย')
-    >>> custom_words_list.add('Aphasia')
-    >>> trie = dict_trie(dict_source=custom_words_list)
-    >>>
-    >>> text = "อะเฟเซีย (Aphasia*) เป็นอาการผิดปกติของการพูด"
-    >>> _tokenizer = Tokenizer(custom_dict=trie, engine='newmm')
-    ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ',
-     'ผิดปกติ', 'ของ', 'การ', 'พูด']
-    Tokenizer object instantiated with a list of words
-    >>> from pythainlp.tokenize import Tokenizer
-    >>> from pythainlp.corpus.common import thai_words
-    >>>
-    >>>  text = "อะเฟเซีย (Aphasia) เป็นอาการผิดปกติของการพูด"
-    >>> _tokenizer = Tokenizer(custom_dict=list(thai_words()), engine='newmm')
-    >>> _tokenizer.word_tokenize(text)
-    ['อะ', 'เฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ',
-     'ผิดปกติ', 'ของ', 'การ', 'พูด']
+
+    Tokenizer object instantiated with :class:`marisa_trie.Trie`::
+
+        from pythainlp.tokenize import Tokenizer
+        from pythainlp.tokenize import Tokenizer, dict_trie
+        from pythainlp.corpus.common import thai_words
+
+        custom_words_list = set(thai_words())
+        custom_words_list.add('อะเฟเซีย')
+        custom_words_list.add('Aphasia')
+        trie = dict_trie(dict_source=custom_words_list)
+
+        text = "อะเฟเซีย (Aphasia*) เป็นอาการผิดปกติของการพูด"
+        _tokenizer = Tokenizer(custom_dict=trie, engine='newmm')
+        # output: ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ',
+        'ผิดปกติ', 'ของ', 'การ', 'พูด']
+
+    Tokenizer object instantiated with a list of words::
+
+        text = "อะเฟเซีย (Aphasia) เป็นอาการผิดปกติของการพูด"
+        _tokenizer = Tokenizer(custom_dict=list(thai_words()), engine='newmm')
+        _tokenizer.word_tokenize(text)
+        # output:
+        # ['อะ', 'เฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ',
+        #   'ผิดปกติ', 'ของ', 'การ', 'พูด']
+
     Tokenizer object instantiated with a file path containing list of
     word separated with *newline*  and explicitly set a new tokeneizer
-    after initiation.
-    >>> from pythainlp.tokenize import Tokenizer
-    >>>
-    >>> PATH_TO_CUSTOM_DICTIONARY = './custom_dictionary.txtt'
-    >>>
-    >>> # write a file
-    >>> with open(PATH_TO_CUSTOM_DICTIONARY, 'w', encoding='utf-8') as f:
-    >>>    f.write('อะเฟเซีย\\nAphasia\\nผิด\\nปกติ')
-    >>>
-    >>> text = "อะเฟเซีย (Aphasia) เป็นอาการผิดปกติของการพูด"
-    >>>
-    >>> # initate an object from file with `deepcut` as tokenizer
-    >>> _tokenizer = Tokenizer(custom_dict=PATH_TO_CUSTOM_DICTIONARY, \\
-        engine='deepcut')
-    >>> _tokenizer.word_tokenize(text)
-    ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ', 'ผิด',
-     'ปกติ', 'ของ', 'การ', 'พูด']
-    >>>
-    >>> # change tokenizer to `newmm
-    >>> _tokenizer.set_tokenizer_engine(engine='newmm')
-    >>> _tokenizer.word_tokenize(text)
-    ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็นอาการ', 'ผิด',
-     'ปกติ', 'ของการพูด']
+    after initiation::
+
+        PATH_TO_CUSTOM_DICTIONARY = './custom_dictionary.txtt'
+
+        # write a file
+        with open(PATH_TO_CUSTOM_DICTIONARY, 'w', encoding='utf-8') as f:
+            f.write('อะเฟเซีย\\nAphasia\\nผิด\\nปกติ')
+
+        text = "อะเฟเซีย (Aphasia) เป็นอาการผิดปกติของการพูด"
+
+        # initate an object from file with `deepcut` as tokenizer
+        _tokenizer = Tokenizer(custom_dict=PATH_TO_CUSTOM_DICTIONARY, \\
+            engine='deepcut')
+
+        _tokenizer.word_tokenize(text)
+        # output:
+        # ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ', 'ผิด',
+        #   'ปกติ', 'ของ', 'การ', 'พูด']
+
+        # change tokenizer to `newmm`
+        _tokenizer.set_tokenizer_engine(engine='newmm')
+        _tokenizer.word_tokenize(text)
+        # output:
+        # ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็นอาการ', 'ผิด',
+        #   'ปกติ', 'ของการพูด']
     """
 
     def __init__(

@@ -40,29 +40,26 @@ def thaicheck(word: str) -> bool:
 
     :Example:
 
-        English word:
+    English word::
 
-        >>> from pythainlp.util import thaicheck
-        >>> thaicheck("Avocado")
-        False
+        from pythainlp.util import thaicheck
 
-        Authentic Thai word:
+        thaicheck("Avocado")
+        # output: False
 
-        >>> from pythainlp.util import thaicheck
-        >>>
-        >>> thaicheck("มะม่วง")
-        True
-        >>> thaicheck("ตะวัน")
-        True
+    Authentic Thai word::
 
-        Non authentic Thai word:
+        thaicheck("มะม่วง")
+        # output: True
+        thaicheck("ตะวัน")
+        # output: True
 
-        >>> from pythainlp.util import thaicheck
-        >>>
-        >>> thaicheck("สามารถ")
-        False
-        >>> thaicheck("อิสริยาภรณ์")
-        False
+    Non authentic Thai word:
+
+        thaicheck("สามารถ")
+        # output: False
+        thaicheck("อิสริยาภรณ์")
+        # output: False
     """
     pattern = re.compile(r"[ก-ฬฮ]", re.U)  # สำหรับตรวจสอบพยัญชนะ
     res = re.findall(pattern, word)  # ดึงพยัญชนะทัั้งหมดออกมา

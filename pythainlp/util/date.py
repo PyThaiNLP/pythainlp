@@ -231,26 +231,28 @@ def thai_strftime(
     :rtype: str
 
     :Example:
+    ::
 
-        >>> import datetime
-        >>> from pythainlp.util import thai_strftime
-        >>>
-        >>> datetime_object = datetime.datetime(year=2019, month=6, day=10, \\
+        import datetime
+        from pythainlp.util import thai_strftime
+
+        datetime_object = datetime.datetime(year=2019, month=6, day=10, \\
             hour=15, minute=59, second=0, microsecond=0)
-        >>> print(datetime_object)
-        2019-06-10 15:59:00
-        >>>
-        >>> print(thai_strftime(datetime_object, "%A %d %B %Y "))
-        วันจันทร์ 10 มิถุนายน 2562
-        >>>
-        >>> print(thai_strftime(datetime_object, "%a %d %b %y "))
-        จ 10 มิ.ย. 62
-        >>>
-        >>> print(thai_strftime(datetime_object, "%D (%v)"))
-        06/10/62 (10-มิ.ย.-2562)
-        >>>
-        >>> print(thai_strftime(datetime_object, "%D (%c)"))
-        06/10/62 (จ  10 มิ.ย. 15:59:00 2562)
+
+        print(datetime_object)
+        # output: 2019-06-10 15:59:00
+
+        print(thai_strftime(datetime_object, "%A %d %B %Y "))
+        # output: วันจันทร์ 10 มิถุนายน 2562
+
+        print(thai_strftime(datetime_object, "%a %d %b %y "))
+        # output: จ 10 มิ.ย. 62
+
+        print(thai_strftime(datetime_object, "%D (%v)"))
+        # output: 06/10/62 (10-มิ.ย.-2562)
+
+        print(thai_strftime(datetime_object, "%D (%c)"))
+        # output: 06/10/62 (จ  10 มิ.ย. 15:59:00 2562)
     """
     thaidate_parts = []
 
@@ -326,13 +328,15 @@ def now_reign_year():
     :rtype: int
 
     :Example:
+    ::
 
-        >>> from pythainlp.util import now_reign_year
-        >>>
-        >>> text = "เป็นปีที่ {reign_year} ในรัชกาลปัจจุบัน"\\
+        from pythainlp.util import now_reign_year
+
+        text = "เป็นปีที่ {reign_year} ในรัชกาลปัจจุบัน"\\
             .format(reign_year=now_reign_year())
-        >>> print(text)
-        เป็นปีที่ 4 ในรัชการปัจจุบัน
+
+        print(text)
+        # output: เป็นปีที่ 4 ในรัชการปัจจุบัน
     """
 
     now_ = datetime.datetime.now()
@@ -352,16 +356,17 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
     :rtype: int
 
     :Example:
+    ::
 
-        >>> from pythainlp.util import reign_year_to_ad
-        >>>
-        >>> print("The 4th reign year of the King Rama X is in", \\
+        from pythainlp.util import reign_year_to_ad
+
+        print("The 4th reign year of the King Rama X is in", \\
             reign_year_to_ad(4, 10))
-        The 4th reign year of the King Rama X is in 2019
-        >>>
-        >>> print("The 1st reign year of the King Rama IX is in", \\
+        # output: The 4th reign year of the King Rama X is in 2019
+
+        print("The 1st reign year of the King Rama IX is in", \\
             reign_year_to_ad(1, 9))
-        The 4th reign year of the King Rama X is in 1946
+        # output: The 4th reign year of the King Rama X is in 1946
     """
     if int(reign) == 10:
         ad = int(reign_year) + 2015

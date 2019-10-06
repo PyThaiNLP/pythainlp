@@ -33,13 +33,15 @@ def collate(data: Iterable, reverse: bool = False) -> List[str]:
     :rtype: list[str]
 
     :Example:
+    ::
 
-        >>> from pythainlp.util import collate
-        >>> collate(['ไก่', 'เกิด', 'กาล', 'เป็ด', 'หมู', 'วัว', 'วันที่'])
-        ['กาล', 'เกิด', 'ไก่', 'เป็ด', 'วันที่', 'วัว', 'หมู']
-        >>>
-        >>> collate(['ไก่', 'เกิด', 'กาล', 'เป็ด', 'หมู', 'วัว', 'วันที่'], \\
+        from pythainlp.util import collate
+
+        collate(['ไก่', 'เกิด', 'กาล', 'เป็ด', 'หมู', 'วัว', 'วันที่'])
+        # output: ['กาล', 'เกิด', 'ไก่', 'เป็ด', 'วันที่', 'วัว', 'หมู']
+
+        collate(['ไก่', 'เกิด', 'กาล', 'เป็ด', 'หมู', 'วัว', 'วันที่'], \\
             reverse=True)
-        ['หมู', 'วัว', 'วันที่', 'เป็ด', 'ไก่', 'เกิด', 'กาล']
+        # output: ['หมู', 'วัว', 'วันที่', 'เป็ด', 'ไก่', 'เกิด', 'กาล']
     """
     return sorted(data, key=_thkey, reverse=reverse)

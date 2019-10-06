@@ -327,6 +327,16 @@ class NorvigSpellChecker:
         if not word:
             return ""
 
+        # Check for numeric type
+        try:
+            if "." in word:
+                float(word)
+            else:
+                int(word)
+            return word
+        except ValueError:
+            pass
+
         return self.spell(word)[0]
 
 

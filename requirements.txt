@@ -1,5 +1,5 @@
-dill==0.3.0
-nltk==3.4
+dill==0.3.*
+nltk==3.4.*
 requests==2.22.*
-tinydb==3.0.*
-tqdm==4.1.*
+tinydb==3.14.*
+tqdm==4.36.*

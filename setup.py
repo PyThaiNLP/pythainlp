@@ -21,44 +21,37 @@ Some functionalities, like word vector, required extra packages.
 See https://github.com/PyThaiNLP/pythainlp for installation options.
 """
 
-#requirements = [
-#    "dill>=0.3.0,<1",
-#    "nltk>=3.4.5,<4",
-#    "requests>=2.22.0,<3",
-#    "tinydb>=3.13.0,<4",
-#    "tqdm>=4.32.2,<5",
-#]
 requirements = [
-    "dill==0.3.0",
-    "nltk==3.4.*",
-    "requests==2.22.0",
-    "tinydb==3.0",
-    "tqdm==4.1",
+    "dill>=0.3.0",
+    "nltk>=3.4",
+    "requests>=2.22.0",
+    "tinydb>=3.0",
+    "tqdm>=4.1",
 ]
 
 extras = {
     "artagger": ["artagger>=0.1.0.3"],
     "attacut": ["attacut>=1.0.4"],
-    "benchmarks": ["numpy>=1.16,<1.17", "pandas>=0.24,<0.25"],
+    "benchmarks": ["numpy>=1.16", "pandas>=0.24"],
     "icu": ["pyicu>=2.3"],
     "ipa": ["epitran>=1.1"],
-    "ml": ["numpy>=1.16,<1.17", "torch==1.0.0"],
+    "ml": ["numpy>=1.16", "torch>=1.0.0"],
     "ner": ["sklearn-crfsuite>=0.3.6"],
     "ssg": ["ssg>=0.0.6"],
-    "thai2fit": ["emoji==0.5.1", "gensim==3.2.0", "numpy>=1.16,<1.17"],
-    "thai2rom": ["torch==1.0.0", "numpy>=1.16,<1.17"],
+    "thai2fit": ["emoji>=0.5.1", "gensim>=3.2.0", "numpy>=1.16"],
+    "thai2rom": ["torch>=1.0.0", "numpy>=1.16"],
     "full": [
         "artagger>=0.1.0.3",
         "attacut>=1.0.4",
-        "emoji==0.5.1",
+        "emoji>=0.5.1",
         "epitran>=1.1",
-        "gensim==3.2.0",
-        "numpy>=1.16,<1.17",
-        "pandas>=0.24,<0.25",
+        "gensim>=3.2.0",
+        "numpy>=1.16",
+        "pandas>=0.24",
         "pyicu>=2.3",
         "sklearn-crfsuite>=0.3.6",
         "ssg>=0.0.6",
-        "torch==1.0.0",
+        "torch>=1.0.0",
     ],
 }
 

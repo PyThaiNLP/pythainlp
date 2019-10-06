@@ -123,9 +123,10 @@ def num_to_thaiword(number: int) -> str:
             "แปด",
             "เก้า",
         ]
+        _MIL_CALL = "ล้าน"
 
         if number > 1000000:
-            ret += num_to_thaiword(int(number / 1000000)) + "ล้าน"
+            ret += num_to_thaiword(int(number / 1000000)) + _MIL_CALL
             number = int(math.fmod(number, 1000000))
         divider = 100000
 

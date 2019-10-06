@@ -23,7 +23,7 @@ See https://github.com/PyThaiNLP/pythainlp for installation options.
 
 requirements = [
     "dill>=0.3.0",
-    "nltk>=3.4",
+    "nltk>=3.3",
     "requests>=2.22.0",
     "tinydb>=3.0",
     "tqdm>=4.1",

@@ -11,7 +11,7 @@ from pythainlp.util import (
     bahttext,
     collate,
     countthai,
-    deletetone,
+    delete_tone,
     digit_to_text,
     eng_to_thai,
     find_keyword,
@@ -182,9 +182,9 @@ class TestUtilPackage(unittest.TestCase):
 
     # ### pythainlp.util.normalize
 
-    def test_deletetone(self):
-        self.assertEqual(deletetone("จิ้น"), "จิน")
-        self.assertEqual(deletetone("เก๋า"), "เกา")
+    def test_delete_tone(self):
+        self.assertEqual(delete_tone("จิ้น"), "จิน")
+        self.assertEqual(delete_tone("เก๋า"), "เกา")
 
     def test_normalize(self):
         self.assertEqual(normalize("เเปลก"), "แปลก")

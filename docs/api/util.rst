@@ -10,7 +10,7 @@ Modules
 .. autofunction:: arabic_digit_to_thai_digit
 .. autofunction:: bahttext
 .. autofunction:: collate
-.. autofunction:: deletetone
+.. autofunction:: delete_tone
 .. autofunction:: digit_to_text
 .. autofunction:: eng_to_thai
 .. autofunction:: find_keyword

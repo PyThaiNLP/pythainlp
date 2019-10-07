@@ -89,15 +89,16 @@ The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variabl
 ## Documentation
 
 - [PyThaiNLP Get Started notebook](https://github.com/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp-get-started.ipynb)
+- More tutorials at https://www.thainlp.org/pythainlp/tutorials/
 - See full documentation at [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
 
 
 ## Python 2 Users
+
 - PyThaiNLP 2 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [1.7 -> 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
   - [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
   - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
-
-- Python 2.7 users can use PyThaiNLP 1.6.
+- Python 2.7 users can use PyThaiNLP 1.6
 
 
 ## License
@@ -108,6 +109,7 @@ The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variabl
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp?ref=badge_large)
 
+
 ## Contribute to PyThaiNLP
 
 Please do fork and create a pull request :) For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
@@ -116,9 +118,8 @@ Made with ❤️<br />
 PyThaiNLP Team<br />
 "We build Thai NLP"
 
-# ภาษาไทย
 
-ประมวลภาษาไทยในภาษา Python
+# ภาษาไทย
 
 PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่อการประมวลผลภาษาธรรมชาติ โดยเน้นการสนับสนุนภาษาไทย **แจกจ่ายฟรี (ตลอดไป) เพื่อคนไทยและชาวโลกทุกคน!**
 
@@ -142,6 +143,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 📫 ติดตามข่าวสารได้ที่ Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
 
+
 ## ความสามารถ
 
 - ชุดค่าคงที่ตัวอักษระและคำไทยที่เรียกใช้ได้สะดวก เช่น พยัญชนะ (`pythainlp.thai_consonants`), สระ (`pythainlp.thai_vowels`), ตัวเลขไทย (`pythainlp.thai_digits`), และ stop word (`pythainlp.corpus.thai_stopwords`) -- เหมือนกับค่าคงที่อย่าง `string.letters`, `string.digits`, และ `string.punctuation`
@@ -155,6 +157,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 - soundex ภาษาไทย (`soundex`) 3 วิธีการ (`lk82`, `udom83`, `metasound`)
 - Thai WordNet wrapper
 - และอื่น ๆ ดูตัวอย่างได้ใน [PyThaiNLP Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
+
 
 ## ติดตั้ง
 
@@ -177,7 +180,7 @@ $ pip install pythainlp[extra1,extra2,...]
 ```
 
 โดยที่ `extras` คือ
-  - `artagger` (สำหรับตัวติดป้ายกำกับชนิดคำ artagger)*
+  - `artagger` (สำหรับตัวติดป้ายกำกับชนิดคำ artagger)
   - `attacut` (ตัวตัดคำที่แม่นกว่า `newmm` เมื่อเทียบกับชุดข้อมูล BEST)
   - `icu` (สำหรับการถอดตัวสะกดเป็นสัทอักษรและการตัดคำด้วย ICU)
   - `ipa` (สำหรับการถอดตัวสะกดเป็นสัทอักษรสากล (IPA))
@@ -187,13 +190,15 @@ $ pip install pythainlp[extra1,extra2,...]
   - `thai2rom` (สำหรับการถอดตัวสะกดเป็นอักษรละติน)
   - `full` (ติดตั้งทุกอย่าง)
 
-* หมายเหตุ: แพคเกจ `artagger` มาตรฐานจาก PyPI อาจมีปัญหาการถอดรหัสข้อความบน Windows กรุณาติดตั้ง artagger รุ่นแก้ไขด้วยคำสั่ง ```pip install https://github.com/wannaphongcom/artagger/tarball/master#egg=artagger``` แทน ก่อนจะติดตั้ง PyThaiNLP
+สำหรับรายละเอียดแพคเกจของเสริม สามารถดูได้ในตัวแปรชื่อ `extras` ใน [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) 
 
-** สามารถดู `extras` และ `extras_require` ใน [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) สำหรับรายละเอียดแพคเกจของเสริม
 
 ## เอกสารการใช้งาน
 
-อ่านที่ [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
+- [notebook เริ่มต้นใช้งาน PyThaiNLP](https://github.com/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp-get-started.ipynb)
+- สอนการใช้งานเพิ่มเติม ในรูปแบบ notebook https://www.thainlp.org/pythainlp/tutorials/
+- เอกสารตัวเต็ม [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
+
 
 ## สัญญาอนุญาต
 

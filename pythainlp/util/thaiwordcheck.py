@@ -1,36 +1,47 @@
 # -*- coding: utf-8 -*-
 """
-From
+Check if it's an "authentic Thai word"
+Adapted from
 https://github.com/wannaphongcom/open-thai-nlp-document/blob/master/check_thai_word.md
 """
 import re
 
-_TH_TRUE_THAI_WORD = ["ฆ่า", "เฆี่ยน", "ศึก", "ศอก", "เศิก", "เศร้า", "ธ",
-                      "ณ", "ฯพณฯ", "ใหญ่", "หญ้า", "ควาย", "ความ",
-                      "กริ่งเกรง", "ผลิ"]  # คำไทยแท้
-_TH_TRUE_FINALS = ["ก", "ด", "บ", "น", "ง", "ม", "ย", "ว"]  # ตัวสะกดตรงตามาตรา
-_TH_NON_THAI_CHARS = ['ฆ', 'ณ', 'ฌ', 'ฎ', 'ฏ', 'ฐ', 'ฑ',
-                      'ฒ', 'ธ', 'ศ', 'ษ', 'ฬ']  # ตัวอักษรที่ไม่ใช่ไทยแท้
-_TH_PREFIX_DIPHTHONG = ["กะ", "กระ", "ปะ", "ประ"]  # คำควบกล้ำขึ้นตัน
-_KARAN_CHAR = "\u0e4c"  # ตัวการันต์
+_TH_TRUE_THAI_WORD = {
+    "ฆ่า",
+    "เฆี่ยน",
+    "ศึก",
+    "ศอก",
+    "เศิก",
+    "เศร้า",
+    "ธ",
+    "ณ",
+    "ฯพณฯ",
+    "ใหญ่",
+    "หญ้า",
+    "ควาย",
+    "ความ",
+    "กริ่งเกรง",
+    "ผลิ",
+}  # คำไทยแท้
+_TH_TRUE_FINALS = {"ก", "ด", "บ", "น", "ง", "ม", "ย", "ว"}  # ตัวสะกดตรงตามาตรา
+_TH_NON_THAI_CHARS = {
+    "ฆ",
+    "ณ",
+    "ฌ",
+    "ฎ",
+    "ฏ",
+    "ฐ",
+    "ฑ",
+    "ฒ",
+    "ธ",
+    "ศ",
+    "ษ",
+    "ฬ",
+}  # ตัวอักษรที่ไม่ใช่ไทยแท้
+_TH_PREFIX_DIPHTHONG = {"กะ", "กระ", "ปะ", "ประ"}  # คำควบกล้ำขึ้นตัน
+_THANTHAKHAT_CHAR = "\u0e4c"  # Thanthakhat (cancellation of sound)
 
-
-def _check1(word: str) -> bool:  # เช็คตัวสะกดว่าตรงตามมาตราไหม
-    if word in _TH_TRUE_FINALS:
-        return True
-    return False
-
-
-def _check2(word: str) -> bool:  # เช็คตัวการันต์ ถ้ามี ไม่ใช่คำไทยแท้
-    if _KARAN_CHAR in word:
-        return False
-    return True
-
-
-def _check3(word: str) -> bool:
-    if word in _TH_NON_THAI_CHARS:  # ถ้ามี แสดงว่าไม่ใช่คำไทยแท้
-        return False
-    return True
+_TH_CONSONANTS_PATTERN = re.compile(r"[ก-ฬฮ]", re.U)  # สำหรับตรวจสอบพยัญชนะ
 
 
 def thaicheck(word: str) -> bool:
@@ -64,28 +75,28 @@ def thaicheck(word: str) -> bool:
         thaicheck("อิสริยาภรณ์")
         # output: False
     """
-    pattern = re.compile(r"[ก-ฬฮ]", re.U)  # สำหรับตรวจสอบพยัญชนะ
-    res = re.findall(pattern, word)  # ดึงพยัญชนะทัั้งหมดออกมา
+    if word in _TH_TRUE_THAI_WORD:  # ข้อยกเว้น คำเหล่านี้เป็นคำไทยแท้
+        return True
 
+    res = re.findall(_TH_CONSONANTS_PATTERN, word)  # ดึงพยัญชนะทัั้งหมดออกมา
     if res == []:
         return False
 
-    if _check1(res[len(res) - 1]) or len(res) == 1:
-        if _check2(word):
-            word2 = list(word)
+    # If a word does not end with true final, it is not an authentic Thai
+    if (len(res) == 1) or (res[len(res) - 1] in _TH_TRUE_FINALS):
+        # If a word contains Thanthakhat, it is not an authentic Thai
+        if _THANTHAKHAT_CHAR in word:
+            return False
+        else:
+            chs = list(word)
             i = 0
-            thai = True
-            if word in _TH_TRUE_THAI_WORD:  # ข้อยกเว้น คำเหล่านี้เป็นคำไทยแท้
-                return True
-
-            while i < len(word2) and thai:
-                thai = _check3(word2[i])
-                if not thai:
+            while i < len(chs):
+                # If a word contains non-Thai char, it is not an authentic Thai
+                if chs[i] not in _TH_NON_THAI_CHARS:
                     return False
                 i += 1
-            return True
 
-        return False
+            return True
 
     if word in _TH_PREFIX_DIPHTHONG:
         return True

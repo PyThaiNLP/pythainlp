@@ -88,7 +88,8 @@ The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variabl
 
 ## Documentation
 
-See [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
+- [PyThaiNLP Get Started notebook](https://github.com/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp-get-started.ipynb)
+- See full documentation at [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
 
 
 ## Python 2 Users

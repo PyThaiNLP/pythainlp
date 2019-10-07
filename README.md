@@ -18,13 +18,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 **News**
 
->Hello,
->We are conducting a survey for PyThaiNLP’s users and those who are working in the field of Thai NLP.
-
->We would love to hear your feedback in order to improve the library. Also, we will prioritize for the implementation of new Thai NLP features such as Thai-English Machine Translation, Speech-to-Text, or Text-to-Speech.
-
->You could take part in this survey via the Google Form shown below:
->https://forms.gle/aLdSHnvkNuK5CFyt9
+>We are conducting a 2-minute survey to know more about your experience using the library and your expectations regarding what the library should be able to do. Take part in this survey: https://forms.gle/aLdSHnvkNuK5CFyt9
 
 **This is a document for development branch (post 2.0). Things will break.**
 
@@ -32,7 +26,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 - PyThaiNLP 2 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
   - [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
   - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
-- Python 2.7+ users can use PyThaiNLP 1.6.
+- Python 2.7 users can use PyThaiNLP 1.6.
 - 📫 follow us on Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
 [![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
@@ -50,6 +44,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 - Thai soundex (`soundex`) with three engines (`lk82`, `udom83`, `metasound`)
 - Thai WordNet wrapper
 - and much more - see examples in [PyThaiNLP Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb).
+
 
 ## Installation
 
@@ -69,7 +64,7 @@ $ pip install pythainlp
 $ pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
 
-For some advanced functionalities, like word vector, extra packages may be needed. Install them with these options during pip install:
+For some functionalities, like named entity recognition, extra packages may be needed. Install them with these options during pip install:
 
 ```sh
 $ pip install pythainlp[extra1,extra2,...]
@@ -87,6 +82,13 @@ where `extras` can be
   - `full` (install everything)
 
 ** see `extras` and `extras_require` in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) for package details.
+
+### Data directory
+
+Some additional data (like word lists and language models) maybe automatically downloaded by the library during runtime and it will be kept under the directory `~/pythainlp-data` by default.
+
+The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variable.
+
 
 ## Documentation
 

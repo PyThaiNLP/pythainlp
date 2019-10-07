@@ -12,6 +12,7 @@ __all__ = [
     "eng_to_thai",
     "find_keyword",
     "countthai",
+    "is_authentic_thai",
     "isthai",
     "isthaichar",
     "normalize",
@@ -25,7 +26,6 @@ __all__ = [
     "thai_to_eng",
     "thai_digit_to_arabic_digit",
     "thaiword_to_num",
-    "thaicheck"
 ]
 
 

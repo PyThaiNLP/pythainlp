@@ -1,5 +1,5 @@
 Installation
-=====================================
+============
 
 For stable version::
 
@@ -43,3 +43,15 @@ Note for installation on Windows:
     - This will take some time and need a set of build tools to be installed in your system, for example Microsoft Visual C++ Compiler. It also requires some technical skills on how things are getting built on Windows system, as you may need to configure some environment variables to accommodate the build process.
     - For PyICU, before the installation, you have to set ``ICU_VERSION`` environment variable to ICU version in your system. For example, ``set ICU_VERSION=62.1``.
     - This approach is obviously take more time and effort, but the good side is the library will be optimized for your system. This could mean a better performance.
+
+
+Runtime Configurations
+----------------------
+
+.. envvar:: PYTHAINLP_DATA_DIR
+
+   This environment variable specifies the location where the downloaded data
+   and the corpus database information are stored. If this directory
+   does not exist, PyThaiNLP will automatically create a new one.
+   By default, it is specified to the directory called ``pythainlp-data``
+   within the home directory.

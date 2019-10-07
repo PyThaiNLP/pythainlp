@@ -77,7 +77,7 @@ where `extras` can be
   - `thai2rom` (for machine-learnt romanization)
   - `full` (install everything)
 
-* see `extras` in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) for dependency details.
+For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
 
 ### Data directory
 

@@ -88,14 +88,10 @@ def thaicheck(word: str) -> bool:
         if _THANTHAKHAT_CHAR in word:
             return False
         else:
-            chs = list(word)
-            i = 0
-            while i < len(chs):
-                # If a word contains non-Thai char, it is not an authentic Thai
-                if chs[i] not in _TH_NON_THAI_CHARS:
+            # If a word contains non-Thai char, it is not an authentic Thai
+            for ch in word:
+                if ch not in _TH_NON_THAI_CHARS:
                     return False
-                i += 1
-
             return True
 
     if word in _TH_PREFIX_DIPHTHONG:

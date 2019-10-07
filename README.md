@@ -44,7 +44,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 ## Installation
 
-PyThaiNLP uses PyPI as its main distribution channel, see https://pypi.org/project/pythainlp/
+PyThaiNLP uses PyPI as its main distribution channel, see [https://pypi.org/project/pythainlp/](https://pypi.org/project/pythainlp/)
 
 ### Stable release
 
@@ -89,7 +89,7 @@ The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variabl
 ## Documentation
 
 - [PyThaiNLP Get Started notebook](https://github.com/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp-get-started.ipynb)
-- More tutorials at https://www.thainlp.org/pythainlp/tutorials/
+- More tutorials at [https://www.thainlp.org/pythainlp/tutorials/](https://www.thainlp.org/pythainlp/tutorials/)
 - See full documentation at [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
 
 
@@ -196,7 +196,7 @@ $ pip install pythainlp[extra1,extra2,...]
 ## เอกสารการใช้งาน
 
 - [notebook เริ่มต้นใช้งาน PyThaiNLP](https://github.com/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp-get-started.ipynb)
-- สอนการใช้งานเพิ่มเติม ในรูปแบบ notebook https://www.thainlp.org/pythainlp/tutorials/
+- สอนการใช้งานเพิ่มเติม ในรูปแบบ notebook [https://www.thainlp.org/pythainlp/tutorials/](https://www.thainlp.org/pythainlp/tutorials/)
 - เอกสารตัวเต็ม [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
 
 

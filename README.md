@@ -67,8 +67,8 @@ $ pip install pythainlp[extra1,extra2,...]
 ```
 
 where `extras` can be
-  - `artagger` (to support artagger part-of-speech tagger)*
-  - `attacut` (to support attacut tokenizer, accurate and x6 faster than deepcut)
+  - `artagger` (to support artagger part-of-speech tagger)
+  - `attacut` (to support attacut, a fast and accurate tokenizer)
   - `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
   - `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
   - `ml` (to support ULMFiT models for classification)
@@ -77,7 +77,7 @@ where `extras` can be
   - `thai2rom` (for machine-learnt romanization)
   - `full` (install everything)
 
-** see `extras` and `extras_require` in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) for package details.
+* see `extras` in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) for dependency details.
 
 ### Data directory
 

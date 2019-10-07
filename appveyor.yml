@@ -5,7 +5,7 @@ build: off
 image: Visual Studio 2015
 
 skip_commits:
-  message: /(skip ci)/  # Skip a new build if message contains '(skip ci)'
+  message: /(skip ci)/  # skip a new build if message contains '(skip ci)'
 
 environment:
   global:

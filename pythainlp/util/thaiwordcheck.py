@@ -100,7 +100,7 @@ def is_authentic_thai(word: str) -> bool:
                 return False
         return True
 
-    # Note: This check will not work, as it check the whole word, not the prefix.
+    # Note: This will not work, as it check the whole word, not the prefix.
     # Prefix-sentitive tokenization is required in order to able to check this.
     if word in _TH_PREFIX_DIPHTHONG:
         return True
@@ -110,6 +110,7 @@ def is_authentic_thai(word: str) -> bool:
 
 def thaicheck(word: str) -> bool:
     warnings.warn(
-        "thaicheck is deprecated, use is_authentic_thai instead", DeprecationWarning
+        "thaicheck is deprecated, use is_authentic_thai instead",
+        DeprecationWarning
     )
     return is_authentic_thai(word)

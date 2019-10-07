@@ -24,7 +24,7 @@ def word_tokenize(
 
     :param str text: text to be tokenized
     :param str engine: name of the tokenizer to be used
-    :param pythainlp.tokenize.trie.Trie custom_dict: dictionary trie
+    :param pythainlp.tokenize.Trie custom_dict: dictionary trie
     :param bool keep_whitespace: True to keep whitespaces, a common mark
                                  for end of phrase in Thai.
                                  Otherwise, whitespaces are omitted.
@@ -36,11 +36,11 @@ def word_tokenize(
         * *longest* - dictionary-based, Longest Matching
         * *icu* - wrapper for ICU (International Components for Unicode,
           using PyICU), dictionary-based
-        * *deepcut* - wrapper for
-          `DeepCut <https://github.com/rkcosmos/deepcut>`_,
-          learning-based approach
         * *attacut* - wrapper for
           `AttaCut <https://github.com/PyThaiNLP/attacut>`_.,
+          learning-based approach
+        * *deepcut* - wrapper for
+          `DeepCut <https://github.com/rkcosmos/deepcut>`_,
           learning-based approach
 
     .. warning::
@@ -48,7 +48,7 @@ def word_tokenize(
           PyThaiNLP version 2.1
     :Note:
         - The parameter **custom_dict** can be provided as an argument \
-          only for *newmm*, *longest*, and *deepcut* engine.
+          only for *newmm*, *longest*, and *attacut* engine.
     :Example:
 
     Tokenize text with different tokenizer::
@@ -59,9 +59,6 @@ def word_tokenize(
 
         word_tokenize(text, engine="newmm")
         # output: ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
-
-        word_tokenize(text, engine="deepcut")
-        # output: ['โอเค', 'บ่', 'พวก', 'เรา', 'รัก', 'ภาษา', 'บ้านเกิด']
 
         word_tokenize(text, engine='attacut')
         # output: ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
@@ -156,7 +153,7 @@ def dict_word_tokenize(
     :param dict custom_dict: a dictionary trie, or an iterable of words,
                              or a string of dictionary path
     :param str engine: choose between different options of engine to token
-                       (newmm [default], mm, longest, and deepcut)
+                       (newmm [default], longest, and attacut)
     :param bool keep_whitespace: True to keep whitespaces, a common mark
                                  for end of phrase in Thai
     :return: list of words
@@ -367,7 +364,7 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
         trie = Trie(dict_source)
     else:
         raise TypeError(
-            "Type of dict_source must be pythainlp.tokenize.trie.Trie, or Iterable[str], or str (path to source file)"
+            "Type of dict_source must be pythainlp.tokenize.Trie, or Iterable[str], or str (path to source file)"
         )
 
     return trie
@@ -383,7 +380,7 @@ class Tokenizer:
 
     :Example:
 
-    Tokenizer object instantiated with :class:`pythainlp.tokenize.trie.Trie`::
+    Tokenizer object instantiated with :class:`pythainlp.tokenize.Trie`::
 
         from pythainlp.tokenize import Tokenizer
         from pythainlp.tokenize import Tokenizer, dict_trie
@@ -420,9 +417,9 @@ class Tokenizer:
 
         text = "อะเฟเซีย (Aphasia) เป็นอาการผิดปกติของการพูด"
 
-        # initate an object from file with `deepcut` as tokenizer
+        # initate an object from file with `attacut` as tokenizer
         _tokenizer = Tokenizer(custom_dict=PATH_TO_CUSTOM_DICTIONARY, \\
-            engine='deepcut')
+            engine='attacut')
 
         _tokenizer.word_tokenize(text)
         # output:
@@ -444,7 +441,7 @@ class Tokenizer:
         Initialize tokenizer object
         :param str: a file path, a list of vocaburaies* to be
                     used to create a trie, or an instantiated
-                    :class:`pythainlp.tokenize.trie.Trie` object.
+                    :class:`pythainlp.tokenize.Trie` object.
         :param str engine: choose between different options of engine to token
                            (i.e.  *newmm*, *longest*, *attacut*)
         """
@@ -467,6 +464,6 @@ class Tokenizer:
         """
         Set the tokenizer
         :param str engine: choose between different options of engine to token
-                           (i.e. *newmm*, *longest*, *deepcut*)
+                           (i.e. *newmm*, *longest*, *attacut*)
         """
         self.__engine = engine

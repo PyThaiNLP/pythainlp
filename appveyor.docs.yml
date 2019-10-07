@@ -5,9 +5,6 @@ branches:
     - /2.*/
     - dev
 
-skip_commits:
-  message: /(skip ci docs)/     # Skip a new build if message contains '(skip ci docs)'
-
 install:
   - sudo add-apt-repository ppa:jonathonf/python-3.6 -y
   - sudo apt-get update

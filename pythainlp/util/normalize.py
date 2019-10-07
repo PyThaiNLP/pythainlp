@@ -3,6 +3,7 @@
 Text normalization
 """
 import re
+import warnings
 
 from pythainlp import thai_tonemarks
 
@@ -100,3 +101,10 @@ def delete_tone(text: str) -> str:
     """
     chars = [ch for ch in text if ch not in thai_tonemarks]
     return "".join(chars)
+
+
+def deletetone(text: str) -> str:
+    warnings.warn(
+        "deletetone is deprecated, use delete_tone instead", DeprecationWarning
+    )
+    return delete_tone(text)

@@ -10,7 +10,8 @@
 [![Build Status](https://travis-ci.org/PyThaiNLP/pythainlp.svg?branch=develop)](https://travis-ci.org/PyThaiNLP/pythainlp)
 [![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)
-[![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev)
+[![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev) [![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
+
 
 Thai Natural Language Processing in Python.
 
@@ -23,13 +24,9 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 **This is a document for development branch (post 2.0). Things will break.**
 
 - The latest stable release is [2.0.7](https://github.com/PyThaiNLP/pythainlp/releases)
-- PyThaiNLP 2 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
-  - [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
-  - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
-- Python 2.7 users can use PyThaiNLP 1.6.
-- 📫 follow us on Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
+- The latest development release is [2.1.dev6](https://github.com/PyThaiNLP/pythainlp/releases). See [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
+- 📫 follow our [PyThaiNLP](https://www.facebook.com/pythainlp/) Facebook page
 
-[![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
 
 ## Capabilities
 
@@ -94,6 +91,15 @@ The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variabl
 
 See [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
 
+
+## Python 2 Users
+- PyThaiNLP 2 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [1.7 -> 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
+  - [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
+  - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
+
+- Python 2.7 users can use PyThaiNLP 1.6.
+
+
 ## License
 
 - PyThaiNLP code uses [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
@@ -104,16 +110,11 @@ See [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs
 
 ## Contribute to PyThaiNLP
 
-Please do fork and create a pull request :)
+Please do fork and create a pull request :) For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
 
-For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
-
-
-Made with ❤️
-
-We build Thai NLP.
-
-PyThaiNLP Team.
+Made with ❤️<br />
+PyThaiNLP Team<br />
+"We build Thai NLP"
 
 # ภาษาไทย
 
@@ -208,9 +209,6 @@ $ pip install pythainlp[extra1,extra2,...]
 
 คุณสามารถ[ร่วมพัฒนาโครงการนี้](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)ได้ โดยการ fork และส่ง pull request กลับมา
 
-
-สร้างด้วย ❤️
-
-พวกเราสร้าง Thai NLP
-
-ทีม PyThaiNLP
+สร้างด้วย ❤️<br />
+ทีม PyThaiNLP<br />
+"พวกเราสร้าง Thai NLP"

@@ -5,6 +5,24 @@ Adapted from
 https://github.com/wannaphongcom/open-thai-nlp-document/blob/master/check_thai_word.md
 """
 import re
+import warnings
+
+_THANTHAKHAT_CHAR = "\u0e4c"  # Thanthakhat (cancellation of sound)
+
+_TH_NON_THAI_CHARS = {
+    "ฆ",
+    "ณ",
+    "ฌ",
+    "ฎ",
+    "ฏ",
+    "ฐ",
+    "ฑ",
+    "ฒ",
+    "ธ",
+    "ศ",
+    "ษ",
+    "ฬ",
+}  # ตัวอักษรที่ไม่ใช่ไทยแท้
 
 _TH_TRUE_THAI_WORD = {
     "ฆ่า",
@@ -23,28 +41,15 @@ _TH_TRUE_THAI_WORD = {
     "กริ่งเกรง",
     "ผลิ",
 }  # คำไทยแท้
+
 _TH_TRUE_FINALS = {"ก", "ด", "บ", "น", "ง", "ม", "ย", "ว"}  # ตัวสะกดตรงตามาตรา
-_TH_NON_THAI_CHARS = {
-    "ฆ",
-    "ณ",
-    "ฌ",
-    "ฎ",
-    "ฏ",
-    "ฐ",
-    "ฑ",
-    "ฒ",
-    "ธ",
-    "ศ",
-    "ษ",
-    "ฬ",
-}  # ตัวอักษรที่ไม่ใช่ไทยแท้
+
 _TH_PREFIX_DIPHTHONG = {"กะ", "กระ", "ปะ", "ประ"}  # คำควบกล้ำขึ้นตัน
-_THANTHAKHAT_CHAR = "\u0e4c"  # Thanthakhat (cancellation of sound)
 
 _TH_CONSONANTS_PATTERN = re.compile(r"[ก-ฬฮ]", re.U)  # สำหรับตรวจสอบพยัญชนะ
 
 
-def thaicheck(word: str) -> bool:
+def is_authentic_thai(word: str) -> bool:
     """
     Check if a word is an "authentic Thai word", in Thai it called "คำไทยแท้".
 
@@ -56,23 +61,23 @@ def thaicheck(word: str) -> bool:
 
     English word::
 
-        from pythainlp.util import thaicheck
+        from pythainlp.util import is_authentic_thai
 
-        thaicheck("Avocado")
+        is_authentic_thai("Avocado")
         # output: False
 
     Authentic Thai word::
 
-        thaicheck("มะม่วง")
+        is_authentic_thai("มะม่วง")
         # output: True
-        thaicheck("ตะวัน")
+        is_authentic_thai("ตะวัน")
         # output: True
 
     Non authentic Thai word:
 
-        thaicheck("สามารถ")
+        is_authentic_thai("สามารถ")
         # output: False
-        thaicheck("อิสริยาภรณ์")
+        is_authentic_thai("อิสริยาภรณ์")
         # output: False
     """
     if word in _TH_TRUE_THAI_WORD:  # ข้อยกเว้น คำเหล่านี้เป็นคำไทยแท้
@@ -90,7 +95,7 @@ def thaicheck(word: str) -> bool:
         else:
             # If a word contains non-Thai char, it is not an authentic Thai
             for ch in word:
-                if ch not in _TH_NON_THAI_CHARS:
+                if ch in _TH_NON_THAI_CHARS:
                     return False
             return True
 
@@ -98,3 +103,10 @@ def thaicheck(word: str) -> bool:
         return True
 
     return False
+
+
+def thaicheck(word: str) -> bool:
+    warnings.warn(
+        "thaicheck is deprecated, use is_authentic_thai instead", DeprecationWarning
+    )
+    return is_authentic_thai(word)

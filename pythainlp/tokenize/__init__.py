@@ -24,7 +24,7 @@ def word_tokenize(
 
     :param str text: text to be tokenized
     :param str engine: name of the tokenizer to be used
-    :param marisa_trie.Trie custom_dict: marisa dictionary trie
+    :param pythainlp.tokenize.trie.Trie custom_dict: dictionary trie
     :param bool keep_whitespace: True to keep whitespaces, a common mark
                                  for end of phrase in Thai.
                                  Otherwise, whitespaces are omitted.
@@ -86,8 +86,8 @@ def word_tokenize(
 
         word_tokenize(text, engine="newmm")
         # output:
-        # ​['ชิน', 'โซ', ' ', 'อา', 'เบะ', ' ',
-        #   'เกิด', ' ', '21', ' ', 'กันยายน']
+        # ['ชิน', 'โซ', ' ', 'อา', 'เบะ', ' ',
+        #  'เกิด', ' ', '21', ' ', 'กันยายน']
 
         custom_dict_japanese_name = set(thai_words()
         custom_dict_japanese_name.add('ชินโซ')
@@ -108,7 +108,7 @@ def word_tokenize(
         from .newmm import segment
 
         segments = segment(text, custom_dict)
-    elif engine == 'attacut':
+    elif engine == "attacut":
         from .attacut import segment
 
         segments = segment(text)
@@ -346,10 +346,7 @@ def syllable_tokenize(text: str, engine: str = "default") -> List[str]:
 
 def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     """
-    Create a dict trie which will be used for word_tokenize() function.
-    For more information on the trie data structure,
-    see: `marisa-trie's Official Documentation \
-    <https://marisa-trie.readthedocs.io/en/latest/index.html>`_
+    Create a dictionary trie which will be used for word_tokenize() function.
 
     :param string/list dict_source: a list of vocaburaries or a path
                                     to source file
@@ -370,7 +367,7 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
         trie = Trie(dict_source)
     else:
         raise TypeError(
-            "Type of dict_source must be marisa_trie.Trie, or Iterable[str], or str (path to source file)"
+            "Type of dict_source must be pythainlp.tokenize.trie.Trie, or Iterable[str], or str (path to source file)"
         )
 
     return trie
@@ -386,7 +383,7 @@ class Tokenizer:
 
     :Example:
 
-    Tokenizer object instantiated with :class:`marisa_trie.Trie`::
+    Tokenizer object instantiated with :class:`pythainlp.tokenize.trie.Trie`::
 
         from pythainlp.tokenize import Tokenizer
         from pythainlp.tokenize import Tokenizer, dict_trie
@@ -447,9 +444,9 @@ class Tokenizer:
         Initialize tokenizer object
         :param str: a file path, a list of vocaburaies* to be
                     used to create a trie, or an instantiated
-                    :class:`marisa_trie.Trie` object.
+                    :class:`pythainlp.tokenize.trie.Trie` object.
         :param str engine: choose between different options of engine to token
-                           (i.e.  *newmm*, *longest*, *deepcut*)
+                           (i.e.  *newmm*, *longest*, *attacut*)
         """
         self.__trie_dict = None
         self.__engine = engine

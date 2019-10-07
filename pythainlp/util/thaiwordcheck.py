@@ -88,23 +88,23 @@ def is_authentic_thai(word: str) -> bool:
     if _THANTHAKHAT_CHAR in word:
         return False
 
+    # If a word contains non-Thai char, it is not an authentic Thai
+    for char in word:
+        if char in _TH_NON_THAI_CHARS:
+            return False
+
     res = re.findall(_TH_CONSONANTS_PATTERN, word)  # ดึงพยัญชนะทัั้งหมดออกมา
-    if res == []:
+    if res == []:  # Do not contain any thai alphabets -> english word
         return False
 
     # If a word does not end with true final, it is not an authentic Thai
     if (len(res) == 1) or (res[len(res) - 1] in _TH_TRUE_FINALS):
-        # If a word contains non-Thai char, it is not an authentic Thai
-        for ch in word:
-            if ch in _TH_NON_THAI_CHARS:
-                return False
         return True
 
     # Note: This will not work, as it check the whole word, not the prefix.
     # Prefix-sentitive tokenization is required in order to able to check this.
     if word in _TH_PREFIX_DIPHTHONG:
         return True
-
     return False
 
 

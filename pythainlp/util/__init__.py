@@ -43,5 +43,5 @@ from .keywords import find_keyword, rank
 from .normalize import delete_tone, normalize
 from .numtoword import bahttext, num_to_thaiword
 from .thai import countthai, isthai, isthaichar
-from .thaiwordcheck import thaicheck
+from .thaiwordcheck import is_authentic_thai
 from .wordtonum import thaiword_to_num

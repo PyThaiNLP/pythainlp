@@ -35,8 +35,8 @@ def get_pythainlp_data_path() -> str:
     Returns the full path where PyThaiNLP keeps its (downloaded) data.
     If the directory does not yet exist, it will be created.
     The path can be specified through the environment variable
-    :envvar:`PYTHAINLP_DATA_DIR`. By default, a directory within
-    the home directory is used.
+    :envvar:`PYTHAINLP_DATA_DIR`. By default, `~/pythainlp-data`
+    will be used.
 
     :return: full path of directory for :mod:`pythainlp` downloaded data
     :rtype: str

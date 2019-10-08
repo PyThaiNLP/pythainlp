@@ -1,6 +1,7 @@
-build: off
-
 image: Visual Studio 2019
+
+platform:
+  - x64
 
 # Shallow clone to speed up, see docs at
 # https://www.appveyor.com/docs/how-to/repository-shallow-clone/
@@ -10,6 +11,9 @@ cache:
   - '%LOCALAPPDATA%\pip\Cache'
   - '%APPDATA%\nltk_data'
   - '%LOCALAPPDATA%\pythainlp-data'
+
+matrix:
+  fast_finish: true
 
 skip_commits:
   message: /(skip ci)/  
@@ -50,9 +54,6 @@ environment:
   #    PYTHON_ARCH: "64"
   #    PYICU_PKG: "https://www.dropbox.com/s/o6p2sj5z50iim1e/PyICU-2.3.1-cp38-cp38-win_amd64.whl?dl=0"
 
-matrix:
-  fast_finish: true
-
 init:
   - ECHO %APPVEYOR_SCHEDULED_BUILD%
   # If there is a newer build queued for the same PR, cancel this one.
@@ -63,9 +64,8 @@ init:
   - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
         https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
         Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
-          Write-Host "There are newer queued builds for this pull request, skipping build."
-          Exit-AppveyorBuild
-        }
+          throw "There are newer queued builds for this pull request, failing early." }
+          
   - ps: |
       If (($env:SKIP_NOTAG -eq "true") -and ($env:APPVEYOR_REPO_TAG -ne "true")) {
           Write-Host "Skipping build, not at a tag."
@@ -78,9 +78,6 @@ init:
 #  - ECHO "Installed SDKs:"
 #  - ps: "ls C:/Python*"
 #  - ps: "ls \"C:/Program Files (x86)/Microsoft SDKs/Windows\""
-
-platform:
-  - x64
 
 install:
   - chcp 65001
@@ -98,6 +95,9 @@ install:
   - pip install %PYICU_PKG%
   - pip install %ARTAGGER_PKG%
   - pip install -e .[full]
+
+# Skip .NET project specific build phase.
+build: off
 
 test_script:
   - python --version

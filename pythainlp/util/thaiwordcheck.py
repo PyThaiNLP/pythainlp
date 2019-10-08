@@ -1,14 +1,20 @@
 # -*- coding: utf-8 -*-
 """
 Check if it's an "authentic Thai word"
+
 Adapted from
 https://github.com/wannaphongcom/open-thai-nlp-document/blob/master/check_thai_word.md
+
+References
+- ทีมงานทรูปลูกปัญญา 2015. ลักษณะของคำไทยแท้ http://www.trueplookpanya.com/learning/detail/30589-043067
+- วารุณี บำรุงรส 2010. คำไทยแท้ https://www.gotoknow.org/posts/377619
 """
 import re
 import warnings
 
 _THANTHAKHAT_CHAR = "\u0e4c"  # Thanthakhat (cancellation of sound)
 
+# Non-authentic Thai characters
 _TH_NON_THAI_CHARS = {
     "ฆ",
     "ณ",
@@ -22,8 +28,9 @@ _TH_NON_THAI_CHARS = {
     "ศ",
     "ษ",
     "ฬ",
-}  # ตัวอักษรที่ไม่ใช่ไทยแท้
+}
 
+ # Known authentic Thai words (exceptions)
 _TH_TRUE_THAI_WORD = {
     "ฆ่า",
     "เฆี่ยน",
@@ -40,18 +47,21 @@ _TH_TRUE_THAI_WORD = {
     "ความ",
     "กริ่งเกรง",
     "ผลิ",
-}  # คำไทยแท้
+}
 
-_TH_TRUE_FINALS = {"ก", "ด", "บ", "น", "ง", "ม", "ย", "ว"}  # ตัวสะกดตรงตามาตรา
+# Authentic Thai final consonants
+_TH_TRUE_FINALS = {"ก", "ด", "บ", "น", "ง", "ม", "ย", "ว"}
 
-_TH_PREFIX_DIPHTHONG = {"กะ", "กระ", "ปะ", "ประ"}  # คำควบกล้ำขึ้นตัน
+# Diphthong prefixes (can starts authentic Thai word)
+_TH_PREFIX_DIPHTHONG = {"กะ", "กระ", "ปะ", "ประ"}
 
-_TH_CONSONANTS_PATTERN = re.compile(r"[ก-ฬฮ]", re.U)  # สำหรับตรวจสอบพยัญชนะ
+# Thai alpabets filter
+_TH_CONSONANTS_PATTERN = re.compile(r"[ก-ฬฮ]", re.U)
 
 
 def is_authentic_thai(word: str) -> bool:
     """
-    Check if a word is an "authentic Thai word", in Thai it called "คำไทยแท้".
+    Check if a word is an "authentic Thai word" (Thai: "คำไทยแท้")
 
     :param str word: word
     :return: True or False
@@ -80,7 +90,7 @@ def is_authentic_thai(word: str) -> bool:
         is_authentic_thai("อิสริยาภรณ์")
         # output: False
     """
-    # Exceptions
+    # Known authentic Thai words (exceptions)
     if word in _TH_TRUE_THAI_WORD:
         return True
 
@@ -89,22 +99,23 @@ def is_authentic_thai(word: str) -> bool:
         return False
 
     # If a word contains non-Thai char, it is not an authentic Thai
-    for char in word:
-        if char in _TH_NON_THAI_CHARS:
+    for ch in word:
+        if ch in _TH_NON_THAI_CHARS:
             return False
 
-    res = re.findall(_TH_CONSONANTS_PATTERN, word)  # ดึงพยัญชนะทัั้งหมดออกมา
-    if res == []:  # Do not contain any thai alphabets -> english word
+    chs = re.findall(_TH_CONSONANTS_PATTERN, word)  # get only Thai alphabets
+    if not chs:  # If do not contain any Thai alphabets -> cannot be Thai
         return False
 
     # If a word does not end with true final, it is not an authentic Thai
-    if (len(res) == 1) or (res[len(res) - 1] in _TH_TRUE_FINALS):
+    if (len(chs) == 1) or (chs[len(chs) - 1] in _TH_TRUE_FINALS):
         return True
 
     # Note: This will not work, as it check the whole word, not the prefix.
     # Prefix-sentitive tokenization is required in order to able to check this.
     if word in _TH_PREFIX_DIPHTHONG:
         return True
+
     return False
 
 

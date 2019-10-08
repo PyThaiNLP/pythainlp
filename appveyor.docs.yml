@@ -30,8 +30,8 @@ install:
   - sudo pip install --upgrade boto smart_open sphinx sphinx-rtd-theme
 
 # Configuration for deploy mode, commit message with /(build and deloy docs)/
-# 1. Build documents and upload HTML files to Appveyor's storage
-# 2. Upload to thainlp.org/pythainlp/docs/<brnach_bane>
+# 1. Build documents and upload HTML files to AppVeyor's storage
+# 2. Upload to thainlp.org/pythainlp/docs/<branch>
 
 only_commits:
   message: /(build and deploy docs)/    

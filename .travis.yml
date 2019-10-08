@@ -12,6 +12,7 @@ cache:
   directories:
     - ~/.cache/pip
     - ~/nltk_data
+    - ~/pythainlp-data
 
 before_install:
 - sudo rm -f /etc/boto.cfg

@@ -53,13 +53,12 @@ init:
   - ECHO %PYTHON%
   - ECHO %PYTHON_VERSION%
   - ECHO %PYTHON_ARCH%
+  - ECHO %PYTHONIOENCODING%
+  - ECHO %ICU_VERSION%
   - ECHO "Installed SDKs:"
   - ps: "ls C:/Python*"
   - ps: "ls \"C:/Program Files (x86)/Microsoft SDKs/Windows\""
-  - IF "%ARCH%"=="32" (call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x86) ELSE (ECHO "Probably a 64-bit build")
-  - IF "%ARCH%"=="64" (call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" amd64) ELSE (ECHO "Probably a 32-bit build")
 
-  
 platform:
   - x64
 

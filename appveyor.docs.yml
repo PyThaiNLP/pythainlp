@@ -5,6 +5,9 @@ branches:
     - /2.*/
     - dev
 
+cache:
+  - '~/.cache/pip'
+
 install:
   - sudo apt-get install -y pandoc libicu-dev
   - python -V

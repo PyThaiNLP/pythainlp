@@ -7,6 +7,7 @@ branches:
 
 cache:
   - '~/.cache/pip'
+  - '~/nltk_data'
 
 install:
   - sudo apt-get install -y pandoc libicu-dev

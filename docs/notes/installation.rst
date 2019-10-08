@@ -5,28 +5,26 @@ For stable version::
 
     pip install pythainlp
 
-For some advanced functionalities, like word vector, extra packages may be needed. Install them with these options during pip install::
+For development version::
+
+    pip install --upgrade --pre pythainlp
+
+For some functionalities, like named entity recognition, extra packages may be needed. Install them with these install options:
 
     pip install pythainlp[extra1,extra2,...]
 
-where extras can be
+where ``extras`` can be
+  - ``artagger`` (to support artagger part-of-speech tagger)
+  - ``attacut`` (to support attacut, a fast and accurate tokenizer)
+  - ``icu`` (for ICU, International Components for Unicode, support in transliteration and tokenization)
+  - ``ipa`` (for IPA, International Phonetic Alphabet, support in transliteration)
+  - ``ml`` (to support ULMFiT models for classification)
+  - ``ner`` (for named-entity recognizer)
+  - ``thai2fit`` (for Thai word vector)
+  - ``thai2rom`` (for machine-learnt romanization)
+  - ``full`` (install everything)
 
-- ``artagger`` (to support artagger part-of-speech tagger)*
-- ``attacut`` (to support attacut tokenizer, accurate and x6 faster than deepcut)
-- ``deepcut`` (to support deepcut tokenizer, more accurate for BEST standard)
-- ``icu`` (for ICU support in transliteration and tokenization)
-- ``ipa`` (for International Phonetic Alphabet support in transliteration)
-- ``ml`` (to support ULMFiT models for classification)
-- ``ner`` (for named-entity recognizer)
-- ``thai2fit`` (for Thai word vector)
-- ``thai2rom`` (for machine-learnt romanization)
-- ``full`` (install everything)
-
-For development version::
-
-    pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
-
-** see extras and extras_require in setup.py for package details.
+For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
 
 Note for installation on Windows:
 

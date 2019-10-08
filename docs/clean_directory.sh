@@ -15,13 +15,13 @@ BRANCH_NAME=$4
 remove_all_files()
 {
     # DIRECTORY=$1
-    echo "delete files in: $1"
-    for f in `curl  --list-only --ftp-create-dirs --ipv4 ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST/$1/`; do
+    echo "Delete files in: $1"
+    for f in `curl --list-only --ftp-create-dirs --ipv4 ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST/$1/`; do
         if [[ -d "$f" ]] || [[ "$f" = _* ]] || [[ "$f" = .doctree ]] || [[ "$f" != *"."* ]]; then
             echo "--- deleting files in folder: $1/$f";
             remove_all_files $1/$f
         else
-            echo "delete a file: $f"
+            echo "Delete a file: $f"
             curl --ipv4 ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST -Q "DELE $1/$f"
         fi
     done
@@ -30,25 +30,25 @@ remove_all_files()
 remove_empty_folders()
 {
 
-  echo "delete empty folders in: $1"
-    for f in `curl  --list-only --ftp-create-dirs --ipv4 ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST/$1/`; do
+  echo "Delete empty folders in: $1"
+    for f in `curl --list-only --ftp-create-dirs --ipv4 ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST/$1/`; do
         if [[ -d "$f" ]] || [[ "$f" = _* ]] || [[ "$f" = fonts ]] || [[ "$f" = pythainlp ]] || [[ "$f" = .doctree ]] || [[ "$f" != *"."* ]]; then
-            echo "--- deleting folders in: $1/$f";
+            echo "--- Deleting folders in: $1/$f";
             remove_empty_folders $1/$f
             curl --ipv4 ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST -Q "RMD $1/$f"
         else
-            echo "delete a folder: $f"
+            echo "Delete a folder: $f"
             curl --ipv4 ftp://$FTP_USER:$FTP_PASSWORD@$FTP_HOST -Q "RMD $1/$f"
         fi
     done
 }
 
-echo "Start removing all files within 'public_html/pythainlp/docs/$BRANCH_NAME/'";
+echo "Start removing all files within: public_html/pythainlp/docs/$BRANCH_NAME/";
 
 remove_all_files public_html/pythainlp/docs/$BRANCH_NAME;
 
-echo "Start removing all empty folders within 'public_html/pythainlp/docs/$BRANCH_NAME/'";
+echo "Start removing all empty folders within: public_html/pythainlp/docs/$BRANCH_NAME/";
 
 remove_empty_folders public_html/pythainlp/docs/$BRANCH_NAME;
 
-echo "Done";
+echo "Done.";

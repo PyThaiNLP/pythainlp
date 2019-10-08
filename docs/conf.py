@@ -38,7 +38,7 @@ except Exception as e:
     current_branch = '<unknown>'
 
 # The short X.Y version
-version = '{} ({}) </br> Published date: {}'.format(current_branch, release, today)
+version = '{} ({}) <br /> Published date: {}'.format(current_branch, release, today)
 
 # The full version, including alpha/beta/rc tags
 release = release
@@ -186,7 +186,7 @@ texinfo_documents = [
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'python': ('https://docs.python.org/', None),
-                       'NLTK': ('http://nltk.org', None),
+                       'NLTK': ('http://www.nltk.org', None),
                        }
 
 # -- Options for todo extension ----------------------------------------------

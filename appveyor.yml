@@ -2,7 +2,7 @@
 # https://www.lfd.uci.edu/~gohlke/pythonlibs/
 
 build: off
-image: Visual Studio 2015
+image: Visual Studio 2019
 
 skip_commits:
   message: /(skip ci)/  

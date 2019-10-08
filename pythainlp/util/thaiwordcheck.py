@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Check if it's an "native Thai word"
+Check if a word is a "native Thai word"
 
 Adapted from
 https://github.com/wannaphongcom/open-thai-nlp-document/blob/master/check_thai_word.md
@@ -28,6 +28,7 @@ _TH_NON_NATIVE_CHARS = {
     "ศ",
     "ษ",
     "ฬ",
+    _THANTHAKHAT_CHAR,
 }
 
 # Native Thai final consonants
@@ -63,6 +64,8 @@ _TH_CONSONANTS_PATTERN = re.compile(r"[ก-ฬฮ]", re.U)
 def is_native_thai(word: str) -> bool:
     """
     Check if a word is an "native Thai word" (Thai: "คำไทยแท้")
+    This function based on a simple heuristic algorithm
+    and cannot be entirely reliable.
 
     :param str word: word
     :return: True or False
@@ -100,21 +103,16 @@ def is_native_thai(word: str) -> bool:
     if word in _TH_NATIVE_WORDS:
         return True
 
-    # If a word contains Thanthakhat, it is not a native Thai
-    if _THANTHAKHAT_CHAR in word:
-        return False
-
     # If a word contains non-Thai char, it is not a native Thai
-    for ch in word:
-        if ch in _TH_NON_NATIVE_CHARS:
-            return False
-
-    chs = re.findall(_TH_CONSONANTS_PATTERN, word)  # get only consonants
-    if not chs:  # If do not contain any Thai consonants -> cannot be Thai
+    if any(ch in word for ch in _TH_NON_NATIVE_CHARS):
         return False
 
-    # If a word does not end with true final, it is not a native Thai
-    if (len(chs) == 1) or (chs[len(chs) - 1] in _TH_NATIVE_FINALS):
+    # If does not contain any Thai consonants -> cannot be Thai
+    if not re.findall(_TH_CONSONANTS_PATTERN, word):
+        return False
+
+    # If a word ends with native final, it can be a native Thai
+    if word[-1] in _TH_NATIVE_FINALS:
         return True
 
     # Note: This will not work, as it check the whole word, not the prefix.

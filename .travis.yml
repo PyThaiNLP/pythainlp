@@ -10,15 +10,16 @@ python:
 
 cache:
   directories:
-    - '%LOCALAPPDATA%\pip\Cache'
+    - ~/.cache/pip
+    - /usr/share/nltk_data
 
 before_install:
 - sudo rm -f /etc/boto.cfg
 
 install:
+- pip install "tensorflow>=1.14,<2" deepcut
 - pip install -r requirements.txt
 - pip install .[full]
-- pip install "tensorflow>=1.14,<2" deepcut
 - pip install coveralls
 
 script: coverage run --source=pythainlp setup.py test

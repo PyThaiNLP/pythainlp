@@ -17,7 +17,7 @@ For stable version:
 pip install pythainlp
 ```
 
-Some functionalities, like word vector, required extra packages.
+Some functionalities, like named-entity recognition, required extra packages.
 See https://github.com/PyThaiNLP/pythainlp for installation options.
 """
 

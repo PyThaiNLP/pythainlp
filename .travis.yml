@@ -11,7 +11,7 @@ python:
 cache:
   directories:
     - ~/.cache/pip
-    - /usr/share/nltk_data
+    - ~/nltk_data
 
 before_install:
 - sudo rm -f /etc/boto.cfg

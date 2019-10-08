@@ -1,8 +1,13 @@
-# Use unofficial Windows Binaries for Python Extension Packages from
-# https://www.lfd.uci.edu/~gohlke/pythonlibs/
-
 build: off
+
 image: Visual Studio 2019
+
+# Shallow clone to speed up, see docs at
+# https://www.appveyor.com/docs/how-to/repository-shallow-clone/
+shallow_clone: true
+
+cache:
+  - '%LOCALAPPDATA%\pip\Cache'
 
 skip_commits:
   message: /(skip ci)/  
@@ -13,51 +18,45 @@ environment:
       CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
       PYTHONIOENCODING: "utf-8"
       ICU_VERSION: "64.2"
+      DISTUTILS_USE_SDK: "1"
+      ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
 
   matrix:
+    fast_finish: true
+    allow_failures:
 #    - PYTHON: "C:/Python36"
 #      PYTHON_VERSION: "3.6"
 #      PYTHON_ARCH: "32"
-#      ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
 #      PYICU_PKG: "https://www.dropbox.com/s/pahorbq29y9cura/PyICU-2.3.1-cp36-cp36m-win32.whl?dl=1"
 
     - PYTHON: "C:/Python36-x64"
       PYTHON_VERSION: "3.6"
       PYTHON_ARCH: "64"
-      ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
       PYICU_PKG: "https://www.dropbox.com/s/7t0rrxwckqbgivi/PyICU-2.3.1-cp36-cp36m-win_amd64.whl?dl=1"
-      DISTUTILS_USE_SDK: "1"
 
 #    - PYTHON: "C:/Python37"
 #      PYTHON_VERSION: "3.7"
 #      PYTHON_ARCH: "32"
-#      ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
 #      PYICU_PKG: "https://www.dropbox.com/s/3xwdnwhdcu619x4/PyICU-2.3.1-cp37-cp37m-win32.whl?dl=1"
 
     - PYTHON: "C:/Python37-x64"
       PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "64"
-      ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
       PYICU_PKG: "https://www.dropbox.com/s/le5dckc3231opqt/PyICU-2.3.1-cp37-cp37m-win_amd64.whl?dl=1"
-      DISTUTILS_USE_SDK: "1"
 
 #    - PYTHON: "C:/Python38-x64"
 #      PYTHON_VERSION: "3.8"
 #      PYTHON_ARCH: "64"
-#      ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
 #      PYICU_PKG: "https://www.dropbox.com/s/o6p2sj5z50iim1e/PyICU-2.3.1-cp38-cp38-win_amd64.whl?dl=0"
-#      DISTUTILS_USE_SDK: "1"
 
 init:
   - ECHO %APPVEYOR_BUILD_WORKER_IMAGE%
   - ECHO %PYTHON%
-  - ECHO %PYTHON_VERSION%
-  - ECHO %PYTHON_ARCH%
   - ECHO %PYTHONIOENCODING%
   - ECHO %ICU_VERSION%
-  - ECHO "Installed SDKs:"
-  - ps: "ls C:/Python*"
-  - ps: "ls \"C:/Program Files (x86)/Microsoft SDKs/Windows\""
+#  - ECHO "Installed SDKs:"
+#  - ps: "ls C:/Python*"
+#  - ps: "ls \"C:/Program Files (x86)/Microsoft SDKs/Windows\""
 
 platform:
   - x64
@@ -67,7 +66,7 @@ install:
   - '"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
   - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
   - SET PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%
-  - ECHO %PATH
+  - ECHO %PATH%
   - python --version
   - pip --version
   - pip install --disable-pip-version-check --user --upgrade pip setuptools
@@ -75,7 +74,7 @@ install:
   - pip install coverage
   - pip install "tensorflow>=1.14,<2" deepcut
   - pip install torch==1.2.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
-#  - pip install %PYICU_PKG%
+  - pip install %PYICU_PKG%
   - pip install %ARTAGGER_PKG%
   - pip install -e .[full]
 

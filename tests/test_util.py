@@ -11,10 +11,11 @@ from pythainlp.util import (
     bahttext,
     collate,
     countthai,
-    deletetone,
+    delete_tone,
     digit_to_text,
     eng_to_thai,
     find_keyword,
+    is_native_thai,
     isthai,
     isthaichar,
     normalize,
@@ -27,7 +28,6 @@ from pythainlp.util import (
     thai_digit_to_arabic_digit,
     thai_strftime,
     thai_to_eng,
-    thaicheck,
     thaiword_to_num,
 )
 from pythainlp.tokenize import (
@@ -182,9 +182,9 @@ class TestUtilPackage(unittest.TestCase):
 
     # ### pythainlp.util.normalize
 
-    def test_deletetone(self):
-        self.assertEqual(deletetone("จิ้น"), "จิน")
-        self.assertEqual(deletetone("เก๋า"), "เกา")
+    def test_delete_tone(self):
+        self.assertEqual(delete_tone("จิ้น"), "จิน")
+        self.assertEqual(delete_tone("เก๋า"), "เกา")
 
     def test_normalize(self):
         self.assertEqual(normalize("เเปลก"), "แปลก")
@@ -211,16 +211,23 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(isthai("ต.ค.", ignore_chars=None), False)
         self.assertEqual(isthai("(ต.ค.)", ignore_chars=".()"), True)
 
-    def test_is_thaicheck(self):
-        self.assertEqual(thaicheck("ตา"), True)
-        self.assertEqual(thaicheck("ยา"), True)
-        self.assertEqual(thaicheck("ฆ่า"), True)
-        self.assertEqual(thaicheck("คน"), True)
-        self.assertEqual(thaicheck("กะ"), True)
-        self.assertEqual(thaicheck("มอ"), True)
-        self.assertEqual(thaicheck("มาร์ค"), False)
-        self.assertEqual(thaicheck("เลข"), False)
-        self.assertEqual(thaicheck("กะ"), True)
-        self.assertEqual(thaicheck("ศา"), False)
-        self.assertEqual(thaicheck("abc"), False)
-        self.assertEqual(thaicheck("ลักษ์"), False)
+    def test_is_native_thai(self):
+        self.assertEqual(is_native_thai(None), False)
+        self.assertEqual(is_native_thai(""), False)
+        self.assertEqual(is_native_thai("116"), False)
+        self.assertEqual(is_native_thai("abc"), False)
+        self.assertEqual(is_native_thai("ตา"), True)
+        self.assertEqual(is_native_thai("ยา"), True)
+        self.assertEqual(is_native_thai("ฆ่า"), True)
+        self.assertEqual(is_native_thai("คน"), True)
+        self.assertEqual(is_native_thai("กะ"), True)
+        self.assertEqual(is_native_thai("มอ"), True)
+        self.assertEqual(is_native_thai("กะ"), True)
+        self.assertEqual(is_native_thai("กระ"), True)
+        self.assertEqual(is_native_thai("ประท้วง"), True)
+        self.assertEqual(is_native_thai("ศา"), False)
+        self.assertEqual(is_native_thai("ลักษ์"), False)
+        self.assertEqual(is_native_thai("มาร์ค"), False)
+        self.assertEqual(is_native_thai("เลข"), False)
+        self.assertEqual(is_native_thai("เทเวศน์"), False)
+        self.assertEqual(is_native_thai("เทเวศร์"), False)

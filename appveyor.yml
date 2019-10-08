@@ -14,44 +14,46 @@ skip_commits:
   # skip a new build if the commit message contains "(skip ci)"
 
 environment:
-  APPVEYOR_SAVE_CACHE_ON_ERROR: true
-  CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
-  PYTHONIOENCODING: "utf-8"
-  ICU_VERSION: "64.2"
-  DISTUTILS_USE_SDK: "1"
-  ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
+  global:
+    APPVEYOR_SAVE_CACHE_ON_ERROR: true
+    CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
+    PYTHONIOENCODING: "utf-8"
+    ICU_VERSION: "64.2"
+    DISTUTILS_USE_SDK: "1"
+    ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
+
+  matrix:
+  #  - PYTHON: "C:/Python36"
+  #    PYTHON_VERSION: "3.6"
+  #    PYTHON_ARCH: "32"
+  #    PYICU_PKG: "https://www.dropbox.com/s/pahorbq29y9cura/PyICU-2.3.1-cp36-cp36m-win32.whl?dl=1"
+
+    - PYTHON: "C:/Python36-x64"
+      PYTHON_VERSION: "3.6"
+      PYTHON_ARCH: "64"
+      PYICU_PKG: "https://www.dropbox.com/s/7t0rrxwckqbgivi/PyICU-2.3.1-cp36-cp36m-win_amd64.whl?dl=1"
+
+  #  - PYTHON: "C:/Python37"
+  #    PYTHON_VERSION: "3.7"
+  #    PYTHON_ARCH: "32"
+  #    PYICU_PKG: "https://www.dropbox.com/s/3xwdnwhdcu619x4/PyICU-2.3.1-cp37-cp37m-win32.whl?dl=1"
+
+    - PYTHON: "C:/Python37-x64"
+      PYTHON_VERSION: "3.7"
+      PYTHON_ARCH: "64"
+      PYICU_PKG: "https://www.dropbox.com/s/le5dckc3231opqt/PyICU-2.3.1-cp37-cp37m-win_amd64.whl?dl=1"
+
+  #  - PYTHON: "C:/Python38-x64"
+  #    PYTHON_VERSION: "3.8"
+  #    PYTHON_ARCH: "64"
+  #    PYICU_PKG: "https://www.dropbox.com/s/o6p2sj5z50iim1e/PyICU-2.3.1-cp38-cp38-win_amd64.whl?dl=0"
 
 matrix:
   fast_finish: true
-  allow_failures:
-#  - PYTHON: "C:/Python36"
-#    PYTHON_VERSION: "3.6"
-#    PYTHON_ARCH: "32"
-#    PYICU_PKG: "https://www.dropbox.com/s/pahorbq29y9cura/PyICU-2.3.1-cp36-cp36m-win32.whl?dl=1"
-
-  - PYTHON: "C:/Python36-x64"
-    PYTHON_VERSION: "3.6"
-    PYTHON_ARCH: "64"
-    PYICU_PKG: "https://www.dropbox.com/s/7t0rrxwckqbgivi/PyICU-2.3.1-cp36-cp36m-win_amd64.whl?dl=1"
-
-#  - PYTHON: "C:/Python37"
-#    PYTHON_VERSION: "3.7"
-#    PYTHON_ARCH: "32"
-#    PYICU_PKG: "https://www.dropbox.com/s/3xwdnwhdcu619x4/PyICU-2.3.1-cp37-cp37m-win32.whl?dl=1"
-
-  - PYTHON: "C:/Python37-x64"
-    PYTHON_VERSION: "3.7"
-    PYTHON_ARCH: "64"
-    PYICU_PKG: "https://www.dropbox.com/s/le5dckc3231opqt/PyICU-2.3.1-cp37-cp37m-win_amd64.whl?dl=1"
-
-#  - PYTHON: "C:/Python38-x64"
-#    PYTHON_VERSION: "3.8"
-#    PYTHON_ARCH: "64"
-#    PYICU_PKG: "https://www.dropbox.com/s/o6p2sj5z50iim1e/PyICU-2.3.1-cp38-cp38-win_amd64.whl?dl=0"
 
 init:
   - ECHO %APPVEYOR_BUILD_WORKER_IMAGE%
-  - ECHO %PYTHON%
+  - "ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%"
   - ECHO %PYTHONIOENCODING%
   - ECHO %ICU_VERSION%
 #  - ECHO "Installed SDKs:"
@@ -68,8 +70,8 @@ install:
   - SET PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%
   - ECHO %PATH%
   - python --version
-  - pip --version
   - pip install --disable-pip-version-check --user --upgrade pip setuptools
+  - pip --version
   - pip install coveralls[yaml]
   - pip install coverage
   - pip install "tensorflow>=1.14,<2" deepcut

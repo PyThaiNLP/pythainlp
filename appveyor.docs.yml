@@ -12,6 +12,7 @@ shallow_clone: true
 cache:
   - '~/.cache/pip'
   - '~/nltk_data'
+  - '~/pythainlp-data'
 
 matrix:
   fast_finish: true

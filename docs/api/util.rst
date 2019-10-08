@@ -15,7 +15,7 @@ Modules
 .. autofunction:: eng_to_thai
 .. autofunction:: find_keyword
 .. autofunction:: countthai
-.. autofunction:: is_authentic_thai
+.. autofunction:: is_native_thai
 .. autofunction:: isthai
 .. autofunction:: isthaichar
 .. autofunction:: normalize

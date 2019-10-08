@@ -91,6 +91,11 @@ def is_native_thai(word: str) -> bool:
         is_native_thai("อิสริยาภรณ์")
         # output: False
     """
+    if not isinstance(word, str) or not word.strip():
+        return False
+
+    word = word.strip()
+
     # Known native Thai words (exceptions)
     if word in _TH_NATIVE_WORDS:
         return True

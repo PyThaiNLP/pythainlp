@@ -49,12 +49,13 @@ environment:
 #      DISTUTILS_USE_SDK: "1"
 
 init:
-  - ECHO "PYTHON %PYTHON%"
-  - ECHO "PYTHON_VERSION %PYTHON_VERSION%"
-  - ECHO "PYTHON_ARCH %PYTHON_ARCH%"
+  - ECHO %APPVEYOR_BUILD_WORKER_IMAGE%
+  - ECHO %PYTHON%
+  - ECHO %PYTHON_VERSION%
+  - ECHO %PYTHON_ARCH%
   - ECHO "Installed SDKs:"
   - ps: "ls C:/Python*"
-  - ps: "ls \"C:/Program Files/Microsoft SDKs/Windows\""
+  - ps: "ls \"C:/Program Files (x86)/Microsoft SDKs/Windows\""
   - IF "%ARCH%"=="32" (call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86) ELSE (ECHO "Probably a 64-bit build")
   - IF "%ARCH%"=="64" (call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" amd64) ELSE (ECHO "Probably a 32-bit build")
 

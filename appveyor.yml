@@ -101,7 +101,10 @@ install:
 # Skip .NET project specific build phase.
 build: off
 
-after_build:
+test_script:
+  - python setup.py test
+
+on_success:
   # Remove old or huge cache files to hopefully not exceed the 1GB cache limit.
   #
   # If the cache limit is reached, the cache will not be updated (of not even
@@ -112,8 +115,13 @@ after_build:
   - C:\msys64\bin\find "%LOCALAPPDATA%\pip" -type f -mtime +360 -delete
   - C:\msys64\bin\find "%LOCALAPPDATA%\pip" -type f -size +10M -delete
   - C:\msys64\bin\find "%LOCALAPPDATA%\pip" -empty -delete
+  - C:\msys64\bin\find "%LOCALAPPDATA%\pythainlp-data" -type f -mtime +360 -delete
+  - C:\msys64\bin\find "%LOCALAPPDATA%\pythainlp-data" -type f -size +10M -delete
+  - C:\msys64\bin\find "%LOCALAPPDATA%\pythainlp-data" -empty -delete
+  - C:\msys64\bin\find "%APPDATA%/nltk_data" -type f -mtime +360 -delete
+  - C:\msys64\bin\find "%APPDATA%/nltk_data" -type f -size +10M -delete
+  - C:\msys64\bin\find "%APPDATA%/nltk_data" -empty -delete  
   # Show size of cache
   - C:\msys64\bin\du -hs "%LOCALAPPDATA%\pip\Cache"
-
-test_script:
-  - python setup.py test
+  - C:\msys64\bin\du -hs "%LOCALAPPDATA%/pythainlp-data"
+  - C:\msys64\bin\du -hs "%APPDATA%/nltk_data"

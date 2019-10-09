@@ -93,8 +93,6 @@ install:
   - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
   - SET PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%
 #  - ECHO %PATH%
-  - C:\cygwin\bin\find "%APPDATA%/nltk_data" -type f -delete
-  - C:\cygwin\bin\find "%APPDATA%/nltk_data" -empty -delete  
   - python --version
   - pip install --disable-pip-version-check --user --upgrade pip setuptools
   - pip --version
@@ -135,9 +133,12 @@ on_success:
   # current and having a cache at all.
   # NB: This is done only `on_success` since the cache in uploaded only on
   # success anyway.
+  # Note: Cygwin is not available on Visual Studio 2019, can try Msys2.
   - "ECHO Remove old or huge cache"
-  - C:\cygwin\bin\find "%LOCALAPPDATA%\pip" -type f -mtime +360 -delete
-  - C:\cygwin\bin\find "%LOCALAPPDATA%\pip" -type f -size +50M -delete
-  - C:\cygwin\bin\find "%LOCALAPPDATA%\pip" -empty -delete
+  - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -type f -mtime +360 -delete
+  - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -type f -size +50M -delete
+  - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -empty -delete
   # Show size of cache
-  - C:\cygwin\bin\du -hs "%LOCALAPPDATA%\pip\Cache"
+  - C:\cygwin\bin\du -hs "%LOCALAPPDATA%/pip/Cache"
+  - C:\cygwin\bin\du -hs "%LOCALAPPDATA%/pythainlp-data"
+  - C:\cygwin\bin\du -hs "%APPDATA%/nltk_data"

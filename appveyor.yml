@@ -112,16 +112,17 @@ on_success:
   # current and having a cache at all.
   # NB: This is done only `on_success` since the cache in uploaded only on
   # success anyway.
-  - C:\msys64\bin\find "%LOCALAPPDATA%\pip" -type f -mtime +360 -delete
-  - C:\msys64\bin\find "%LOCALAPPDATA%\pip" -type f -size +10M -delete
-  - C:\msys64\bin\find "%LOCALAPPDATA%\pip" -empty -delete
-  - C:\msys64\bin\find "%LOCALAPPDATA%\pythainlp-data" -type f -mtime +360 -delete
-  - C:\msys64\bin\find "%LOCALAPPDATA%\pythainlp-data" -type f -size +10M -delete
-  - C:\msys64\bin\find "%LOCALAPPDATA%\pythainlp-data" -empty -delete
-  - C:\msys64\bin\find "%APPDATA%/nltk_data" -type f -mtime +360 -delete
-  - C:\msys64\bin\find "%APPDATA%/nltk_data" -type f -size +10M -delete
-  - C:\msys64\bin\find "%APPDATA%/nltk_data" -empty -delete  
+  - "ECHO Remove old or huge cache"
+  - C:\msys64\mingw64\bin\find "%LOCALAPPDATA%\pip" -type f -mtime +360 -delete
+  - C:\msys64\mingw64\bin\find "%LOCALAPPDATA%\pip" -type f -size +10M -delete
+  - C:\msys64\mingw64\bin\find "%LOCALAPPDATA%\pip" -empty -delete
+  - C:\msys64\mingw64\bin\find "%LOCALAPPDATA%\pythainlp-data" -type f -mtime +360 -delete
+  - C:\msys64\mingw64\bin\find "%LOCALAPPDATA%\pythainlp-data" -type f -size +10M -delete
+  - C:\msys64\mingw64\bin\find "%LOCALAPPDATA%\pythainlp-data" -empty -delete
+  - C:\msys64\mingw64\bin\find "%APPDATA%/nltk_data" -type f -mtime +360 -delete
+  - C:\msys64\mingw64\bin\find "%APPDATA%/nltk_data" -type f -size +10M -delete
+  - C:\msys64\mingw64\bin\find "%APPDATA%/nltk_data" -empty -delete  
   # Show size of cache
-  - C:\msys64\bin\du -hs "%LOCALAPPDATA%\pip\Cache"
-  - C:\msys64\bin\du -hs "%LOCALAPPDATA%/pythainlp-data"
-  - C:\msys64\bin\du -hs "%APPDATA%/nltk_data"
+  - C:\msys64\mingw64\bin\du -hs "%LOCALAPPDATA%\pip\Cache"
+  - C:\msys64\mingw64\bin\du -hs "%LOCALAPPDATA%/pythainlp-data"
+  - C:\msys64\mingw64\bin\du -hs "%APPDATA%/nltk_data"

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-
 import hashlib
 import os
+import queue
+import threading
 from typing import NoReturn, Union
 from urllib.request import urlopen
 
@@ -139,6 +140,25 @@ def get_corpus_path(name: str) -> Union[str, None]:
     return path
 
 
+def _get_input(message, channel):
+    response = input(message)
+    channel.put(response)
+
+
+def _input_with_timeout(message, timeout, default_response):
+    channel = queue.Queue()
+    thread = threading.Thread(target=_get_input, args=(message, channel))
+    thread.daemon = True
+    thread.start()
+
+    try:
+        response = channel.get(True, timeout)
+        return response
+    except queue.Empty:
+        pass
+    return default_response
+
+
 def _download(url: str, dst: str) -> int:
     """
     @param: url to download file
@@ -186,11 +206,11 @@ def download(name: str, force: bool = False) -> NoReturn:
 
         from pythainlp.corpus import download
 
-        download('ttc', force=True)
+        download('wiki_lm_lstm', force=True)
         # output:
-        # Corpus: ttc
-        # - Downloading: ttc 0.1
-        # ttc_freq.txt:  26%|██▌       | 114k/434k [00:00<00:00, 690kB/s]
+        # Corpus: wiki_lm_lstm
+        # - Downloading: wiki_lm_lstm 0.1
+        # thwiki_lm.pth:  26%|██▌       | 114k/434k [00:00<00:00, 690kB/s]
         # /root/pythainlp-data/ttc_freq.txt
     """
     local_db = TinyDB(corpus_db_path())
@@ -234,12 +254,19 @@ def download(name: str, force: bool = False) -> NoReturn:
             else:
                 # Has the corpus but different version, update
                 current_ver = local_db.search(query.name == name)[0]["version"]
-                print(f"- Updating: {name} {current_ver} to {corpus['version']}")
-                _download(corpus["download"], corpus["file_name"])
-                _check_hash(corpus["file_name"], corpus["md5"])
-                local_db.update(
-                    {"version": corpus["version"]}, query.name == name
-                )
+                message = f"- Update from {current_ver} to {corpus['version']} [y/n]?"
+                response = _input_with_timeout(message, 10, "n")
+                response = response.lower()
+
+                if force or response == "y":
+                    print(f"- Downloading: {name} {corpus['version']}")
+                    _download(corpus["download"], corpus["file_name"])
+                    _check_hash(corpus["file_name"], corpus["md5"])
+                    local_db.update(
+                        {"version": corpus["version"]}, query.name == name
+                    )
+                else:
+                    print("- Not update.")
 
     local_db.close()
 

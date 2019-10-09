@@ -1,22 +1,44 @@
-image: Visual Studio 2017
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
 
 skip_commits:
   message: /(skip ci)/  # skip if the commit message contains "(skip ci)"
 
-# Shallow clone to speed up, see docs at
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+image: Visual Studio 2017
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  # If there is a newer build queued for the same PR, cancel this one.
+  # The AppVeyor 'rollout builds' option is supposed to serve the same
+  # purpose but it is problematic because it tends to cancel builds pushed
+  # directly to master instead of just PR builds (or the converse).
+  # credits: JuliaLang developers.
+  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
+        https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
+        Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
+          throw "There are newer queued builds for this pull request, skipping build." }
+          
+  - ps: |
+      If (($env:SKIP_NOTAG -eq "true") -and ($env:APPVEYOR_REPO_TAG -ne "true")) {
+          Write-Host "Skipping build, not at a tag."
+          Exit-AppveyorBuild
+      }
+  - ECHO %APPVEYOR_BUILD_WORKER_IMAGE%
+  - "ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%"
+  - ECHO %PYTHONIOENCODING%
+  - ECHO %ICU_VERSION%
+#  - ECHO "Installed SDKs:"
+#  - ps: "ls C:/Python*"
+#  - ps: "ls \"C:/Program Files (x86)/Microsoft SDKs/Windows\""
+
+# fetch repository as zip archive
 # https://www.appveyor.com/docs/how-to/repository-shallow-clone/
 shallow_clone: true
-
-cache:
-  - "%LOCALAPPDATA%/pip/Cache"
-  - "%LOCALAPPDATA%/pythainlp-data"
-  - "%APPDATA%/nltk_data"
-
-matrix:
-  fast_finish: true
-
-platform:
-  - x64
 
 environment:
   global:
@@ -55,29 +77,13 @@ environment:
   #    PYTHON_ARCH: "64"
   #    PYICU_PKG: "https://www.dropbox.com/s/o6p2sj5z50iim1e/PyICU-2.3.1-cp38-cp38-win_amd64.whl?dl=0"
 
-init:
-  # If there is a newer build queued for the same PR, cancel this one.
-  # The AppVeyor 'rollout builds' option is supposed to serve the same
-  # purpose but it is problematic because it tends to cancel builds pushed
-  # directly to master instead of just PR builds (or the converse).
-  # credits: JuliaLang developers.
-  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
-        https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
-        Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
-          throw "There are newer queued builds for this pull request, skipping build." }
-          
-  - ps: |
-      If (($env:SKIP_NOTAG -eq "true") -and ($env:APPVEYOR_REPO_TAG -ne "true")) {
-          Write-Host "Skipping build, not at a tag."
-          Exit-AppveyorBuild
-      }
-  - ECHO %APPVEYOR_BUILD_WORKER_IMAGE%
-  - "ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%"
-  - ECHO %PYTHONIOENCODING%
-  - ECHO %ICU_VERSION%
-#  - ECHO "Installed SDKs:"
-#  - ps: "ls C:/Python*"
-#  - ps: "ls \"C:/Program Files (x86)/Microsoft SDKs/Windows\""
+matrix:
+  fast_finish: true
+
+cache:
+  - "%LOCALAPPDATA%/pip/Cache"
+  - "%LOCALAPPDATA%/pythainlp-data"
+  - "%APPDATA%/nltk_data"
 
 install:
   - chcp 65001
@@ -98,13 +104,24 @@ install:
   - pip install %ARTAGGER_PKG%
   - pip install -e .[full]
 
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+platform:
+  - x64
+
 # Skip .NET project specific build phase.
 build: off
+
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
 
 test_script:
   - python setup.py test
 
-on_success:
+after_test:
   # Remove old or huge cache files to hopefully not exceed the 1GB cache limit.
   #
   # If the cache limit is reached, the cache will not be updated (of not even

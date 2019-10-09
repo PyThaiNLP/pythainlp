@@ -1,4 +1,4 @@
-image: Visual Studio 2019
+image: Visual Studio 2017
 
 platform:
   - x64
@@ -82,7 +82,7 @@ init:
 
 install:
   - chcp 65001
-  - '"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
+  - '"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
   - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
   - SET PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%
 #  - ECHO %PATH%

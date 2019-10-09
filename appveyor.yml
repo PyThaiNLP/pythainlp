@@ -82,8 +82,8 @@ matrix:
 
 cache:
   - "%LOCALAPPDATA%/pip/Cache"
-  - "%LOCALAPPDATA%/pythainlp-data"
   - "%APPDATA%/nltk_data"
+#  - "%LOCALAPPDATA%/pythainlp-data"
 
 install:
   - chcp 65001
@@ -140,5 +140,5 @@ on_success:
   - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -empty -delete
   # Show size of cache
   - C:\cygwin\bin\du -hs "%LOCALAPPDATA%/pip/Cache"
-  - C:\cygwin\bin\du -hs "%LOCALAPPDATA%/pythainlp-data"
   - C:\cygwin\bin\du -hs "%APPDATA%/nltk_data"
+  - C:\cygwin\bin\du -hs "%LOCALAPPDATA%/pythainlp-data"

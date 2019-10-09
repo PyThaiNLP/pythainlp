@@ -21,6 +21,7 @@ platform:
 environment:
   global:
     APPVEYOR_SAVE_CACHE_ON_ERROR: true
+    APPVEYOR_SKIP_FINALIZE_ON_EXIT: true
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
     PYTHONIOENCODING: "utf-8"
     ICU_VERSION: "64.2"
@@ -63,7 +64,7 @@ init:
   - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
         https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
         Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
-          throw "There are newer queued builds for this pull request, failing early." }
+          throw "There are newer queued builds for this pull request, skipping build." }
           
   - ps: |
       If (($env:SKIP_NOTAG -eq "true") -and ($env:APPVEYOR_REPO_TAG -ne "true")) {
@@ -99,6 +100,20 @@ install:
 
 # Skip .NET project specific build phase.
 build: off
+
+after_build:
+  # Remove old or huge cache files to hopefully not exceed the 1GB cache limit.
+  #
+  # If the cache limit is reached, the cache will not be updated (of not even
+  # created in the first run). So this is a trade of between keeping the cache
+  # current and having a cache at all.
+  # NB: This is done only `on_success` since the cache in uploaded only on
+  # success anyway.
+  - C:\msys64\bin\find "%LOCALAPPDATA%\pip" -type f -mtime +360 -delete
+  - C:\msys64\bin\find "%LOCALAPPDATA%\pip" -type f -size +10M -delete
+  - C:\msys64\bin\find "%LOCALAPPDATA%\pip" -empty -delete
+  # Show size of cache
+  - C:\msys64\bin\du -hs "%LOCALAPPDATA%\pip\Cache"
 
 test_script:
   - python setup.py test

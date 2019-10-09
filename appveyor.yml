@@ -10,7 +10,7 @@ shallow_clone: true
 cache:
   - '%LOCALAPPDATA%\pip\Cache'
   - '%APPDATA%\nltk_data'
-  - '%LOCALAPPDATA%\pythainlp-data'
+  - '%APPDATA%\pythainlp-data'
 
 matrix:
   fast_finish: true

@@ -162,10 +162,11 @@ def _check_hash(dst: str, md5: str) -> NoReturn:
     @param: md5 place to hash the file (MD5)
     """
     if md5 and md5 != "-":
-        hashfile = hashlib.md5(
-            open(get_full_data_path(dst), "rb").read()
-        ).hexdigest()
-        if md5 != hashfile:
+        f = open(get_full_data_path(dst), "rb")
+        content = f.read()
+        file_md5 = hashlib.md5(content).hexdigest()
+
+        if md5 != file_md5:
             raise Exception("Hash does not match expected.")
         else:
             pass

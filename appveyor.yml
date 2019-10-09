@@ -1,7 +1,7 @@
-image: Visual Studio 2017
+image: Visual Studio 2015
 
-platform:
-  - x64
+skip_commits:
+  message: /(skip ci)/  # skip if the commit message contains "(skip ci)"
 
 # Shallow clone to speed up, see docs at
 # https://www.appveyor.com/docs/how-to/repository-shallow-clone/
@@ -15,9 +15,8 @@ cache:
 matrix:
   fast_finish: true
 
-skip_commits:
-  message: /(skip ci)/  
-  # skip a new build if the commit message contains "(skip ci)"
+platform:
+  - x64
 
 environment:
   global:
@@ -82,7 +81,9 @@ init:
 
 install:
   - chcp 65001
-  - '"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
+  - '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %PLATFORM%'
+#  - '"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
+#  - '"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
   - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
   - SET PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%
 #  - ECHO %PATH%

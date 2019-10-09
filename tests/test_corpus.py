@@ -1,19 +1,17 @@
 # -*- coding: utf-8 -*-
 
-import datetime
-import os
-import sys
 import unittest
 
 from nltk.corpus import wordnet as wn
-
 from pythainlp.corpus import (
-    _CORPUS_PATH,
     conceptnet,
     countries,
     download,
+    get_corpus_db_detail,
     provinces,
     remove,
+    thai_female_names,
+    thai_male_names,
     thai_negations,
     thai_stopwords,
     thai_syllables,
@@ -21,15 +19,10 @@ from pythainlp.corpus import (
     tnc,
     ttc,
     wordnet,
-    thai_female_names,
-    thai_male_names,
-    get_corpus_db_detail
 )
-from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 
 
 class TestCorpusPackage(unittest.TestCase):
-
     def test_conceptnet(self):
         self.assertIsNotNone(conceptnet.edges("รัก"))
 

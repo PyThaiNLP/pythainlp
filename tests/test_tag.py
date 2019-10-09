@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import datetime
-import os
-import sys
 import unittest
 
 from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram

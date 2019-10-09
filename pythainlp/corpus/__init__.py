@@ -144,11 +144,13 @@ def _download(url: str, dst: str) -> int:
     @param: url to download file
     @param: dst place to put the file
     """
+    _CHUNK_SIZE = 1024 * 64
+
     file_size = int(urlopen(url).info().get("Content-Length", -1))
     r = requests.get(url, stream=True)
     with open(get_full_data_path(dst), "wb") as f:
         pbar = tqdm(total=int(r.headers["Content-Length"]))
-        for chunk in r.iter_content(chunk_size=1024):
+        for chunk in r.iter_content(chunk_size=_CHUNK_SIZE):
             if chunk:
                 f.write(chunk)
                 pbar.update(len(chunk))
@@ -168,10 +170,6 @@ def _check_hash(dst: str, md5: str) -> NoReturn:
 
         if md5 != file_md5:
             raise Exception("Hash does not match expected.")
-        else:
-            pass
-    else:
-        pass
 
 
 def download(name: str, force: bool = False) -> NoReturn:
@@ -190,8 +188,8 @@ def download(name: str, force: bool = False) -> NoReturn:
 
         download('ttc', force=True)
         # output:
-        # Download: ttc
-        # ttc 0.1
+        # Corpus: ttc
+        # - Downloading: ttc 0.1
         # ttc_freq.txt:  26%|██▌       | 114k/434k [00:00<00:00, 690kB/s]
         # /root/pythainlp-data/ttc_freq.txt
     """
@@ -213,11 +211,11 @@ def download(name: str, force: bool = False) -> NoReturn:
 
     if name in list(corpus_data.keys()):
         corpus = corpus_data[name]
-        print("Download:", name)
+        print("Corpus:", name)
 
         # If not found in local, download
         if not local_db.search(query.name == name):
-            print(f"Downloading: {name} {corpus['version']}")
+            print(f"- Downloading: {name} {corpus['version']}")
             _download(corpus["download"], corpus["file_name"])
             _check_hash(corpus["file_name"], corpus["md5"])
             local_db.insert(
@@ -231,12 +229,12 @@ def download(name: str, force: bool = False) -> NoReturn:
             if local_db.search(
                 query.name == name and query.version == corpus["version"]
             ):
-                # Already as the same version
-                print("Already up to date.")
+                # Already has the same version
+                print("- Already up to date.")
             else:
                 # Has the corpus but different version, update
                 current_ver = local_db.search(query.name == name)[0]["version"]
-                print(f"Updating: {name} {current_ver} to {corpus['version']}")
+                print(f"- Updating: {name} {current_ver} to {corpus['version']}")
                 _download(corpus["download"], corpus["file_name"])
                 _check_hash(corpus["file_name"], corpus["md5"])
                 local_db.update(

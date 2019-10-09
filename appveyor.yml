@@ -101,6 +101,4 @@ install:
 build: off
 
 test_script:
-  - python --version
-  - pip --version
   - python setup.py test

@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import hashlib
 import os
 from typing import NoReturn, Union
 from urllib.request import urlopen
 
 import requests
 from pythainlp.tools import get_full_data_path, get_pythainlp_path
+from requests.exceptions import HTTPError
 from tinydb import Query, TinyDB
 from tqdm import tqdm
 
@@ -38,16 +40,17 @@ def corpus_db_url() -> str:
 def corpus_db_path() -> str:
     return _CORPUS_DB_PATH
 
+
 def get_corpus_db_detail(name: str) -> dict:
     db = TinyDB(corpus_db_path())
-    temp = Query()
-    return db.search(temp.name == name)[0]
+    query = Query()
+    return db.search(query.name == name)[0]
+
 
 def read_text_corpus(path: str) -> list:
     lines = []
     with open(path, "r", encoding="utf-8-sig") as fh:
         lines = fh.read().splitlines()
-
     return lines
 
 
@@ -123,11 +126,11 @@ def get_corpus_path(name: str) -> Union[str, None]:
         # output: /root/pythainlp-data/thwiki_model_lstm.pth
     """
     db = TinyDB(corpus_db_path())
-    temp = Query()
+    query = Query()
     path = None
 
-    if len(db.search(temp.name == name)) > 0:
-        path = get_full_data_path(db.search(temp.name == name)[0]["file"])
+    if db.search(query.name == name):
+        path = get_full_data_path(db.search(query.name == name)[0]["file"])
 
         if not os.path.exists(path):
             download(name)
@@ -144,7 +147,7 @@ def _download(url: str, dst: str) -> int:
     file_size = int(urlopen(url).info().get("Content-Length", -1))
     r = requests.get(url, stream=True)
     with open(get_full_data_path(dst), "wb") as f:
-        pbar = tqdm(total=int(r.headers['Content-Length']))
+        pbar = tqdm(total=int(r.headers["Content-Length"]))
         for chunk in r.iter_content(chunk_size=1024):
             if chunk:
                 f.write(chunk)
@@ -152,15 +155,17 @@ def _download(url: str, dst: str) -> int:
         pbar.close()
     return file_size
 
+
 def _check_hash(dst: str, md5: str) -> NoReturn:
     """
     @param: dst place to put the file
     @param: md5 place to hash the file (MD5)
     """
-    if md5!="-":
-        import hashlib
-        hashfile=hashlib.md5(open(get_full_data_path(dst),'rb').read()).hexdigest()
-        if md5!=hashfile:
+    if md5 and md5 != "-":
+        hashfile = hashlib.md5(
+            open(get_full_data_path(dst), "rb").read()
+        ).hexdigest()
+        if md5 != hashfile:
             raise Exception("Hash does not match expected.")
         else:
             pass
@@ -170,7 +175,8 @@ def _check_hash(dst: str, md5: str) -> NoReturn:
 
 def download(name: str, force: bool = False) -> NoReturn:
     """
-    Download corpus. The available corpus names can be seen in this file:
+    Download corpus.
+    The available corpus names can be seen in this file:
     https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json
 
     :param string name: corpus name
@@ -188,68 +194,55 @@ def download(name: str, force: bool = False) -> NoReturn:
         # ttc_freq.txt:  26%|██▌       | 114k/434k [00:00<00:00, 690kB/s]
         # /root/pythainlp-data/ttc_freq.txt
     """
-    db = TinyDB(corpus_db_path())
-    temp = Query()
-    data = requests.get(corpus_db_url())
-    data_json = data.json()
+    local_db = TinyDB(corpus_db_path())
+    query = Query()
 
-    if name in list(data_json.keys()):
-        temp_name = data_json[name]
+    try:
+        corpus_data = requests.get(corpus_db_url())
+    except HTTPError as http_err:
+        print(f"Cannot download corpus data from: {corpus_db_url()}")
+        print(f"HTTP error occurred: {http_err}")
+        return
+    except Exception as err:
+        print(f"Cannot download corpus data from: {corpus_db_url()}")
+        print(f"Non-HTTP error occurred: {err}")
+        return
+
+    corpus_data = corpus_data.json()
+
+    if name in list(corpus_data.keys()):
+        corpus = corpus_data[name]
         print("Download:", name)
 
-        if not db.search(temp.name == name):
-            print(name + " " + temp_name["version"])
-            _download(temp_name["download"], temp_name["file_name"])
-            _check_hash(temp_name["file_name"], temp_name["md5"])
-            db.insert(
+        # If not found in local, download
+        if not local_db.search(query.name == name):
+            print(f"Downloading: {name} {corpus['version']}")
+            _download(corpus["download"], corpus["file_name"])
+            _check_hash(corpus["file_name"], corpus["md5"])
+            local_db.insert(
                 {
                     "name": name,
-                    "version": temp_name["version"],
-                    "file": temp_name["file_name"],
+                    "version": corpus["version"],
+                    "file": corpus["file_name"],
                 }
             )
         else:
-            if not db.search(
-                temp.name == name and temp.version == temp_name["version"]
+            if local_db.search(
+                query.name == name and query.version == corpus["version"]
             ):
-                print("Alert: New version is ready to be updated.")
-                print(
-                    "from "
-                    + name
-                    + " "
-                    + db.search(temp.name == name)[0]["version"]
-                    + " update to "
-                    + name
-                    + " "
-                    + temp_name["version"]
-                )
-                yes_no = "y"
-                if not force:
-                    yes_no = str(input("yes or no (y / n) : ")).lower()
-                if "y" == yes_no:
-                    _download(temp_name["download"], temp_name["file_name"])
-                    _check_hash(temp_name["file_name"], temp_name["md5"])
-                    db.update({"version": temp_name["version"]}, temp.name == name)
+                # Already as the same version
+                print("Already up to date.")
             else:
-                print("Redownload")
-                print(
-                    "from "
-                    + name
-                    + " "
-                    + db.search(temp.name == name)[0]["version"]
-                    + " update to "
-                    + name
-                    + " "
-                    + temp_name["version"]
+                # Has the corpus but different version, update
+                current_ver = local_db.search(query.name == name)[0]["version"]
+                print(f"Updating: {name} {current_ver} to {corpus['version']}")
+                _download(corpus["download"], corpus["file_name"])
+                _check_hash(corpus["file_name"], corpus["md5"])
+                local_db.update(
+                    {"version": corpus["version"]}, query.name == name
                 )
-                yes_no = "y"
-                if not force:
-                    yes_no = str(input("yes or no (y / n) : ")).lower()
-                if "y" == yes_no:
-                    _download(temp_name["download"], temp_name["file_name"])
-                    _check_hash(temp_name["file_name"], temp_name["md5"])
-                    db.update({"version": temp_name["version"]}, temp.name == name)
-    db.close()
+
+    local_db.close()
 
 
 def remove(name: str) -> bool:
@@ -278,13 +271,13 @@ def remove(name: str) -> bool:
         # '/usr/local/lib/python3.6/dist-packages/pythainlp/corpus/ttc'
     """
     db = TinyDB(corpus_db_path())
-    temp = Query()
-    data = db.search(temp.name == name)
+    query = Query()
+    data = db.search(query.name == name)
 
-    if len(data) > 0:
+    if data:
         path = get_corpus_path(name)
         os.remove(path)
-        db.remove(temp.name == name)
+        db.remove(query.name == name)
         return True
 
     return False
@@ -300,6 +293,7 @@ from pythainlp.corpus.common import (
     thai_syllables,
     thai_words,
 )
+
 
 __all__ = [
     "corpus_path",

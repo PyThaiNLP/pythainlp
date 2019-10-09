@@ -93,7 +93,8 @@ install:
   - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
   - SET PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%
 #  - ECHO %PATH%
-  - C:\cygwin\bin\find "%PYTHAINLP_DATA_DIR%" -type f -delete
+  - C:\cygwin\bin\find "%APPDATA%/nltk_data" -type f -delete
+  - C:\cygwin\bin\find "%APPDATA%/nltk_data" -empty -delete  
   - python --version
   - pip install --disable-pip-version-check --user --upgrade pip setuptools
   - pip --version

@@ -137,13 +137,5 @@ on_success:
   - C:\cygwin\bin\find "%LOCALAPPDATA%\pip" -type f -mtime +360 -delete
   - C:\cygwin\bin\find "%LOCALAPPDATA%\pip" -type f -size +50M -delete
   - C:\cygwin\bin\find "%LOCALAPPDATA%\pip" -empty -delete
-  - C:\cygwin\bin\find "%LOCALAPPDATA%\pythainlp-data" -type f -mtime +360 -delete
-  - C:\cygwin\bin\find "%LOCALAPPDATA%\pythainlp-data" -type f -size +50M -delete
-  - C:\cygwin\bin\find "%LOCALAPPDATA%\pythainlp-data" -empty -delete
-  - C:\cygwin\bin\find "%APPDATA%/nltk_data" -type f -mtime +360 -delete
-  - C:\cygwin\bin\find "%APPDATA%/nltk_data" -type f -size +50M -delete
-  - C:\cygwin\bin\find "%APPDATA%/nltk_data" -empty -delete  
   # Show size of cache
   - C:\cygwin\bin\du -hs "%LOCALAPPDATA%\pip\Cache"
-  - C:\cygwin\bin\du -hs "%LOCALAPPDATA%/pythainlp-data"
-  - C:\cygwin\bin\du -hs "%APPDATA%/nltk_data"

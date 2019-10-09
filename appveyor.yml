@@ -8,9 +8,9 @@ platform:
 shallow_clone: true
 
 cache:
-  - "%LOCALAPPDATA%\pip\Cache"
-  - "%LOCALAPPDATA%\pythainlp-data"
-  - "%APPDATA%\nltk_data"
+  - "%LOCALAPPDATA%/pip/Cache"
+  - "%LOCALAPPDATA%/pythainlp-data"
+  - "%APPDATA%/nltk_data"
 
 matrix:
   fast_finish: true
@@ -27,7 +27,7 @@ environment:
     ICU_VERSION: "64.2"
     DISTUTILS_USE_SDK: "1"
     ARTAGGER_PKG: "https://github.com/franziz/artagger/archive/master.zip"
-    PYTHAINLP_DATA_DIR: "%LOCALAPPDATA%\pythainlp-data"
+    PYTHAINLP_DATA_DIR: "%LOCALAPPDATA%/pythainlp-data"
 
   matrix:
   #  - PYTHON: "C:/Python36"

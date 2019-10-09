@@ -40,12 +40,12 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsNotNone(thai_stopwords())
         self.assertIsNotNone(thai_syllables())
         self.assertIsNotNone(thai_words())
-        self.assertIsNone(download("test"))
-        self.assertIsNone(download("test",force=True))
-        self.assertIsNotNone(get_corpus_db_detail("test"))
-        self.assertIsNotNone(remove("test"))
         self.assertIsNotNone(thai_female_names())
         self.assertIsNotNone(thai_male_names())
+        self.assertIsNone(download("test"))
+        self.assertIsNone(download("test", force=True))
+        self.assertIsNotNone(get_corpus_db_detail("test"))
+        self.assertIsNotNone(remove("test"))
 
     def test_tnc(self):
         self.assertIsNotNone(tnc.word_freqs())

@@ -1,24 +1,36 @@
-image: ubuntu1804
+# Configuration for deploy mode, commit message with /(build and deloy docs)/
+# 1. Build documents and upload HTML files to AppVeyor's storage
+# 2. Upload to thainlp.org/pythainlp/docs/<branch>
 
-only_commits:
-  message: /(build and deploy docs)/    
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
 
 branches:
   only:
     - /2.*/
     - dev
 
-# Shallow clone to speed up, see docs at
+only_commits:
+  message: /(build and deploy docs)/    
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+image: ubuntu1804
+
+# fetch repository as zip archive
 # https://www.appveyor.com/docs/how-to/repository-shallow-clone/
 shallow_clone: true
+
+matrix:
+  fast_finish: true
 
 cache:
   - '~/.cache/pip'
   - '~/nltk_data'
 #  - '~/pythainlp-data'
-
-matrix:
-  fast_finish: true
 
 install:
   - sudo apt-get install -y pandoc libicu-dev
@@ -32,9 +44,9 @@ install:
   - sudo pip install --upgrade "tensorflow>=1.14,<2" deepcut
   - sudo pip install --upgrade boto smart_open sphinx sphinx-rtd-theme
 
-# Configuration for deploy mode, commit message with /(build and deloy docs)/
-# 1. Build documents and upload HTML files to AppVeyor's storage
-# 2. Upload to thainlp.org/pythainlp/docs/<branch>
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
 
 build_script: 
   - cd ./docs
@@ -60,5 +72,9 @@ artifacts:
 after_build:
   - echo "Done build and deploy."
   - appveyor exit
+
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
 
 test: off

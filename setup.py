@@ -17,6 +17,12 @@ For stable version:
 pip install pythainlp
 ```
 
+For development version:
+
+```sh
+pip install --upgrade --pre pythainlp
+```
+
 Some functionalities, like word vector, required extra packages.
 See https://github.com/PyThaiNLP/pythainlp for installation options.
 """
@@ -74,6 +80,8 @@ setup(
             "negations_th.txt",
             "orchid_pos_th.json",
             "orchid_pt_tagger.dill",
+            "person_names_female_th.txt",
+            "person_names_male_th.txt",
             "stopwords_th.txt",
             "syllables_th.txt",
             "tha-wn.db",

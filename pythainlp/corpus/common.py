@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from pythainlp.corpus import get_corpus
+
 __all__ = [
     "countries",
     "provinces",
     "thai_female_names",
-    "thai_male_names"
+    "thai_male_names",
     "thai_negations",
     "thai_stopwords",
     "thai_syllables",
@@ -66,7 +68,8 @@ def provinces() -> frozenset:
     global _THAI_THAILAND_PROVINCES
     if not _THAI_THAILAND_PROVINCES:
         _THAI_THAILAND_PROVINCES = get_corpus(
-            _THAI_THAILAND_PROVINCES_FILENAME)
+            _THAI_THAILAND_PROVINCES_FILENAME
+        )
 
     return _THAI_THAILAND_PROVINCES
 
@@ -141,8 +144,9 @@ def thai_female_names() -> frozenset:
     Return a frozenset of Thai female names
     \n(See: `dev/pythainlp/corpus/person_names_female_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/person_names_female_th.txt>`_)
-    \nFrom `Thai Names Corpus <https://github.com/korkeatw/thai-names-corpus/>`_\
-    compiled by Korkeat Wannapat. 
+    \nFrom `Thai Names Corpus\
+    <https://github.com/korkeatw/thai-names-corpus/>`_\
+    compiled by Korkeat Wannapat.
 
     :return: :class:`frozenset` containing Thai female names.
     :rtype: :class:`frozenset`
@@ -159,8 +163,9 @@ def thai_male_names() -> frozenset:
     Return a frozenset of Thai male names
     \n(See: `dev/pythainlp/corpus/person_names_male_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/person_names_male_th.txt>`_)
-    \nFrom `Thai Names Corpus <https://github.com/korkeatw/thai-names-corpus/>`_\
-    compiled by Korkeat Wannapat. 
+    \nFrom `Thai Names Corpus\
+    <https://github.com/korkeatw/thai-names-corpus/>`_\
+    compiled by Korkeat Wannapat.
 
     :return: :class:`frozenset` containing Thai male names.
     :rtype: :class:`frozenset`

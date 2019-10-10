@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import datetime
 import os
-import sys
 import unittest
 
 from pythainlp.corpus.common import _THAI_WORDS_FILENAME

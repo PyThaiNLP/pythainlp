@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-import os
-import sys
 import unittest
 from collections import Counter
 

@@ -60,7 +60,7 @@ pip install --upgrade --pre pythainlp
 
 ### Install options
 
-For some functionalities, like named entity recognition, extra packages may be needed. Install them with these install options:
+For some functionalities, like named-entity recognition, extra packages may be needed. Install them with these install options:
 
 ```sh
 pip install pythainlp[extra1,extra2,...]
@@ -169,7 +169,7 @@ pip install --upgrade --pre pythainlp
 
 ### การติดตั้งความสามารถเพิ่มเติม
 
-สำหรับความสามารถเพิ่มเติมบางอย่าง เช่น name-entity recognition จำเป็นต้องติดตั้งแพคเกจสนับสนุนเพิ่มเติม ติดตั้งแพคเกจเหล่านั้นได้ ด้วยการระบุออปชันเหล่านี้ตอน pip install:
+สำหรับความสามารถเพิ่มเติมบางอย่าง เช่น named-entity recognition จำเป็นต้องติดตั้งแพคเกจสนับสนุนเพิ่มเติม ติดตั้งแพคเกจเหล่านั้นได้ ด้วยการระบุออปชันเหล่านี้ตอน pip install:
 
 ```sh
 pip install pythainlp[extra1,extra2,...]

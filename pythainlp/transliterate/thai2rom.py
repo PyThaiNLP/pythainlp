@@ -3,14 +3,12 @@
 Romanization of Thai words based on machine-learnt engine ("thai2rom")
 """
 
+import random
+
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch import optim
-
-import random
-import numpy as np
-
 from pythainlp.corpus import download, get_corpus_path
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -60,28 +58,28 @@ class ThaiTransliterator:
         self._network.load_state_dict(loader["model_state_dict"])
         self._network.eval()
 
-    def _prepare_sequence_in(self, input_text):
+    def _prepare_sequence_in(self, text: str):
         """
         Prepare input sequence for PyTorch
         """
         idxs = []
-        for w in input_text:
-            if w in self._char_to_ix:
-                idxs.append(self._char_to_ix[w])
+        for ch in text:
+            if ch in self._char_to_ix:
+                idxs.append(self._char_to_ix[ch])
             else:
                 idxs.append(self._char_to_ix["<UNK>"])
         idxs.append(self._char_to_ix["<end>"])
         tensor = torch.tensor(idxs, dtype=torch.long)
         return tensor.to(device)
 
-    def romanize(self, input_text):
+    def romanize(self, text: str) -> str:
         """
-        :param str input_text: Thai text to be romanized
+        :param str text: Thai text to be romanized
         :return: English (more or less) text that spells out how the Thai text
                  should be pronounced.
         """
-        input_tensor = self._prepare_sequence_in(input_text).view(1, -1)
-        input_length = [len(input_text) + 1]
+        input_tensor = self._prepare_sequence_in(text).view(1, -1)
+        input_length = [len(text) + 1]
 
         target_tensor_logits = self._network(input_tensor,
                                              input_length,

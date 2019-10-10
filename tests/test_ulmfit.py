@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import datetime
-import os
 import unittest
 
 from pythainlp.corpus import get_corpus

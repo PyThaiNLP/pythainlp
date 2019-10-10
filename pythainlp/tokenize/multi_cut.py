@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Multi cut -- Thai word segmentation with maximum matching
-
-The original source code is from Korakot Chaovavanich
+Multi cut -- Thai word segmentation with maximum matching. The original source
+code is from Korakot Chaovavanich.
 
 :See Also:
     * `Facebook post \
@@ -17,7 +16,7 @@ from typing import List
 
 from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
-from marisa_trie import Trie
+from .trie import Trie
 
 
 class LatticeString(str):

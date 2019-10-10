@@ -3,6 +3,7 @@
 Text normalization
 """
 import re
+import warnings
 
 from pythainlp import thai_tonemarks
 
@@ -56,15 +57,18 @@ def normalize(text: str) -> str:
     :rtype: str
 
     :Example:
+    ::
 
-        >>> from pythainlp.util import normalize
-        >>>
-        >>> normalize('สระะน้ำ')
-        สระน้ำ
-        >>> normalize('เเปลก')
-        แปลก
-        >>> normalize('นานาาา')
-        นานา
+        from pythainlp.util import normalize
+
+        normalize('สระะน้ำ')
+        # output: สระน้ำ
+
+        normalize('เเปลก')
+        # output: แปลก
+
+        normalize('นานาาา')
+        # output: นานา
     """
     for data in _NORMALIZE_RULE2:
         text = re.sub(data[0].replace("t", "[่้๊๋]"), data[1], text)
@@ -73,7 +77,7 @@ def normalize(text: str) -> str:
     return text
 
 
-def deletetone(text: str) -> str:
+def delete_tone(text: str) -> str:
     """
     This function removes Thai tonemarks from the text.
     There are 4 tonemarks indicating 4 tones as follows:
@@ -88,12 +92,19 @@ def deletetone(text: str) -> str:
     :rtype: str
 
     :Example:
+    ::
 
-        >>> from pythainlp.util import deletetone
-        >>>
-        >>> deletetone(\\
-            'สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด')
-        สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด
+        from pythainlp.util import delete_tone
+
+        delete_tone('สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด')
+        # output: สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด
     """
     chars = [ch for ch in text if ch not in thai_tonemarks]
     return "".join(chars)
+
+
+def deletetone(text: str) -> str:
+    warnings.warn(
+        "deletetone is deprecated, use delete_tone instead", DeprecationWarning
+    )
+    return delete_tone(text)

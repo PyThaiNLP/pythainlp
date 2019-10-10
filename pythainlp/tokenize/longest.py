@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Dictionary-based longest-matching Thai word segmentation
-
-Based on the code from Patorn Utenpattanun
+Dictionary-based longest-matching Thai word segmentation. Implementation based
+on the code from Patorn Utenpattanun.
 
 :See Also:
     * `GitHub Repository \
@@ -14,7 +13,7 @@ from typing import List
 
 from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
-from marisa_trie import Trie
+from .trie import Trie
 
 _FRONT_DEP_CHAR = [
     "ะ",

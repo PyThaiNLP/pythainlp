@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from pythainlp.corpus import download, get_corpus, get_corpus_path, \
-    read_text_corpus
+from pythainlp.corpus import get_corpus
 
 __all__ = [
     "countries",
     "provinces",
     "thai_female_names",
-    "thai_male_names"
+    "thai_male_names",
     "thai_negations",
     "thai_stopwords",
     "thai_syllables",
@@ -34,7 +33,9 @@ _THAI_NEGATIONS = set()
 _THAI_NEGATIONS_FILENAME = "negations_th.txt"
 
 _THAI_FEMALE_NAMES = set()
+_THAI_FEMALE_NAMES_FILENAME = "person_names_female_th.txt"
 _THAI_MALE_NAMES = set()
+_THAI_MALE_NAMES_FILENAME = "person_names_male_th.txt"
 
 
 def countries() -> frozenset:
@@ -67,7 +68,8 @@ def provinces() -> frozenset:
     global _THAI_THAILAND_PROVINCES
     if not _THAI_THAILAND_PROVINCES:
         _THAI_THAILAND_PROVINCES = get_corpus(
-            _THAI_THAILAND_PROVINCES_FILENAME)
+            _THAI_THAILAND_PROVINCES_FILENAME
+        )
 
     return _THAI_THAILAND_PROVINCES
 
@@ -137,21 +139,18 @@ def thai_negations() -> frozenset:
     return _THAI_NEGATIONS
 
 
-def _get_thai_names(corpus_name: str) -> frozenset:
-    download(corpus_name)
-    names = read_text_corpus(get_corpus_path(corpus_name))
-
-    return frozenset(names)
-
-
 def thai_female_names() -> frozenset:
     """
     Return a frozenset of Thai female names
+    \n(See: `dev/pythainlp/corpus/person_names_female_th.txt\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/person_names_female_th.txt>`_)
+
+    :return: :class:`frozenset` containing Thai female names.
+    :rtype: :class:`frozenset`
     """
     global _THAI_FEMALE_NAMES
-    corpus_name = "female_names_th"
     if not _THAI_FEMALE_NAMES:
-        _THAI_FEMALE_NAMES = _get_thai_names(corpus_name)
+        _THAI_FEMALE_NAMES = get_corpus(_THAI_FEMALE_NAMES_FILENAME)
 
     return _THAI_FEMALE_NAMES
 
@@ -159,10 +158,14 @@ def thai_female_names() -> frozenset:
 def thai_male_names() -> frozenset:
     """
     Return a frozenset of Thai male names
+    \n(See: `dev/pythainlp/corpus/person_names_male_th.txt\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/person_names_male_th.txt>`_)
+
+    :return: :class:`frozenset` containing Thai male names.
+    :rtype: :class:`frozenset`
     """
     global _THAI_MALE_NAMES
-    corpus_name = "male_names_th"
     if not _THAI_MALE_NAMES:
-        _THAI_MALE_NAMES = _get_thai_names(corpus_name)
+        _THAI_MALE_NAMES = get_corpus(_THAI_MALE_NAMES_FILENAME)
 
     return _THAI_MALE_NAMES

@@ -68,6 +68,8 @@ _HA_TH_DIGITS = str.maketrans(_HA_DIGITS, _TH_DIGITS)
 _NEED_L10N = "AaBbCcDFGgvXxYy+"  # flags that need localization
 _EXTENSIONS = "EO-_0#"  # extension flags
 
+_BE_AD_DIFFERENCE = 543
+
 
 def _padding(n: int, length: int = 2, pad_char: str = "0") -> str:
     str_ = str(n)
@@ -98,7 +100,7 @@ def _thai_strftime(datetime: datetime.datetime, fmt_char: str) -> str:
         str_ = thai_abbr_months[datetime.month - 1]
     elif fmt_char == "C":
         # Thai Buddhist century (AD+543)/100 + 1 as decimal number;
-        str_ = str(int((datetime.year + 543) / 100) + 1)
+        str_ = str(int((datetime.year + _BE_AD_DIFFERENCE) / 100) + 1)
     elif fmt_char == "c":
         # Locale’s appropriate date and time representation
         # Wed  6 Oct 01:40:00 1976
@@ -108,39 +110,42 @@ def _thai_strftime(datetime: datetime.datetime, fmt_char: str) -> str:
             datetime.day,
             thai_abbr_months[datetime.month - 1],
             datetime.strftime("%H:%M:%S"),
-            datetime.year + 543,
+            datetime.year + _BE_AD_DIFFERENCE,
         )
     elif fmt_char == "D":
         # Equivalent to ``%m/%d/%y''
-        str_ = "{}/{}".format(datetime.strftime("%m/%d"), str(datetime.year + 543)[-2:])
+        str_ = "{}/{}".format(datetime.strftime("%m/%d"),
+                              str(datetime.year + _BE_AD_DIFFERENCE)[-2:])
     elif fmt_char == "F":
         # Equivalent to ``%Y-%m-%d''
-        str_ = "{}-{}".format(str(datetime.year + 543), datetime.strftime("%m-%d"))
+        str_ = "{}-{}".format(str(datetime.year + _BE_AD_DIFFERENCE),
+                              datetime.strftime("%m-%d"))
     elif fmt_char == "G":
         # ISO 8601 year with century representing the year that contains the greater part of the ISO week (%V). Monday as the first day of the week.
-        str_ = str(int(datetime.strftime("%G")) + 543)
+        str_ = str(int(datetime.strftime("%G")) + _BE_AD_DIFFERENCE)
     elif fmt_char == "g":
         # Same year as in ``%G'', but as a decimal number without century (00-99).
-        str_ = str(int(datetime.strftime("%G")) + 543)[-2:]
+        str_ = str(int(datetime.strftime("%G")) + _BE_AD_DIFFERENCE)[-2:]
     elif fmt_char == "v":
         # BSD extension, ' 6-Oct-1976'
-        str_ = "{:>2}-{}-{}".format(
-            datetime.day, thai_abbr_months[datetime.month - 1], datetime.year + 543
-        )
+        str_ = "{:>2}-{}-{}".format(datetime.day,
+                                    thai_abbr_months[datetime.month - 1],
+                                    datetime.year + _BE_AD_DIFFERENCE)
     elif fmt_char == "X":
         # Locale’s appropriate time representation.
         str_ = datetime.strftime("%H:%M:%S")
     elif fmt_char == "x":
         # Locale’s appropriate date representation.
         str_ = "{}/{}/{}".format(
-            _padding(datetime.day), _padding(datetime.month), datetime.year + 543
+            _padding(datetime.day), _padding(
+                datetime.month), datetime.year + _BE_AD_DIFFERENCE
         )
     elif fmt_char == "Y":
         # Year with century
-        str_ = str(datetime.year + 543)
+        str_ = str(datetime.year + _BE_AD_DIFFERENCE)
     elif fmt_char == "y":
         # Year without century
-        str_ = str(datetime.year + 543)[2:4]
+        str_ = str(datetime.year + _BE_AD_DIFFERENCE)[2:4]
     elif fmt_char == "+":
         # National representation of the date and time (the format is similar to that produced by date(1))
         # Wed  6 Oct 1976 01:40:00
@@ -148,7 +153,7 @@ def _thai_strftime(datetime: datetime.datetime, fmt_char: str) -> str:
             thai_abbr_weekdays[datetime.weekday()],
             datetime.day,
             thai_abbr_months[datetime.month - 1],
-            datetime.year + 543,
+            datetime.year + _BE_AD_DIFFERENCE,
             datetime.strftime("%H:%M:%S"),
         )
     else:
@@ -226,26 +231,28 @@ def thai_strftime(
     :rtype: str
 
     :Example:
+    ::
 
-        >>> import datetime
-        >>> from pythainlp.util import thai_strftime
-        >>>
-        >>> datetime_object = datetime.datetime(year=2019, month=6, day=10, \\
+        import datetime
+        from pythainlp.util import thai_strftime
+
+        datetime_object = datetime.datetime(year=2019, month=6, day=10, \\
             hour=15, minute=59, second=0, microsecond=0)
-        >>> print(datetime_object)
-        2019-06-10 15:59:00
-        >>>
-        >>> print(thai_strftime(datetime_object, "%A %d %B %Y "))
-        วันจันทร์ 10 มิถุนายน 2562
-        >>>
-        >>> print(thai_strftime(datetime_object, "%a %d %b %y "))
-        จ 10 มิ.ย. 62
-        >>>
-        >>> print(thai_strftime(datetime_object, "%D (%v)"))
-        06/10/62 (10-มิ.ย.-2562)
-        >>>
-        >>> print(thai_strftime(datetime_object, "%D (%c)"))
-        06/10/62 (จ  10 มิ.ย. 15:59:00 2562)
+
+        print(datetime_object)
+        # output: 2019-06-10 15:59:00
+
+        print(thai_strftime(datetime_object, "%A %d %B %Y "))
+        # output: วันจันทร์ 10 มิถุนายน 2562
+
+        print(thai_strftime(datetime_object, "%a %d %b %y "))
+        # output: จ 10 มิ.ย. 62
+
+        print(thai_strftime(datetime_object, "%D (%v)"))
+        # output: 06/10/62 (10-มิ.ย.-2562)
+
+        print(thai_strftime(datetime_object, "%D (%c)"))
+        # output: 06/10/62 (จ  10 มิ.ย. 15:59:00 2562)
     """
     thaidate_parts = []
 
@@ -321,13 +328,15 @@ def now_reign_year():
     :rtype: int
 
     :Example:
+    ::
 
-        >>> from pythainlp.util import now_reign_year
-        >>>
-        >>> text = "เป็นปีที่ {reign_year} ในรัชกาลปัจจุบัน"\\
+        from pythainlp.util import now_reign_year
+
+        text = "เป็นปีที่ {reign_year} ในรัชกาลปัจจุบัน"\\
             .format(reign_year=now_reign_year())
-        >>> print(text)
-        เป็นปีที่ 4 ในรัชการปัจจุบัน
+
+        print(text)
+        # output: เป็นปีที่ 4 ในรัชการปัจจุบัน
     """
 
     now_ = datetime.datetime.now()
@@ -347,16 +356,17 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
     :rtype: int
 
     :Example:
+    ::
 
-        >>> from pythainlp.util import reign_year_to_ad
-        >>>
-        >>> print("The 4th reign year of the King Rama X is in", \\
+        from pythainlp.util import reign_year_to_ad
+
+        print("The 4th reign year of the King Rama X is in", \\
             reign_year_to_ad(4, 10))
-        The 4th reign year of the King Rama X is in 2019
-        >>>
-        >>> print("The 1st reign year of the King Rama IX is in", \\
+        # output: The 4th reign year of the King Rama X is in 2019
+
+        print("The 1st reign year of the King Rama IX is in", \\
             reign_year_to_ad(1, 9))
-        The 4th reign year of the King Rama X is in 1946
+        # output: The 4th reign year of the King Rama X is in 1946
     """
     if int(reign) == 10:
         ad = int(reign_year) + 2015

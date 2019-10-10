@@ -10,11 +10,12 @@ Modules
 .. autofunction:: arabic_digit_to_thai_digit
 .. autofunction:: bahttext
 .. autofunction:: collate
-.. autofunction:: deletetone
+.. autofunction:: delete_tone
 .. autofunction:: digit_to_text
 .. autofunction:: eng_to_thai
 .. autofunction:: find_keyword
 .. autofunction:: countthai
+.. autofunction:: is_native_thai
 .. autofunction:: isthai
 .. autofunction:: isthaichar
 .. autofunction:: normalize
@@ -28,4 +29,3 @@ Modules
 .. autofunction:: thai_to_eng
 .. autofunction:: thai_digit_to_arabic_digit
 .. autofunction:: thaiword_to_num
-.. autofunction:: thaicheck

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-import os
-import sys
 import unittest
 from collections import Counter
 
@@ -11,10 +9,11 @@ from pythainlp.util import (
     bahttext,
     collate,
     countthai,
-    deletetone,
+    delete_tone,
     digit_to_text,
     eng_to_thai,
     find_keyword,
+    is_native_thai,
     isthai,
     isthaichar,
     normalize,
@@ -27,7 +26,6 @@ from pythainlp.util import (
     thai_digit_to_arabic_digit,
     thai_strftime,
     thai_to_eng,
-    thaicheck,
     thaiword_to_num,
 )
 from pythainlp.tokenize import (
@@ -59,19 +57,48 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(num_to_thaiword(0), "ศูนย์")
         self.assertEqual(num_to_thaiword(None), "")
 
+        self.assertEqual(thaiword_to_num("ศูนย์"), 0)
+        self.assertEqual(thaiword_to_num("แปด"), 8)
+        self.assertEqual(thaiword_to_num("ยี่สิบ"), 20)
         self.assertEqual(thaiword_to_num("ร้อยสิบสอง"), 112)
         self.assertEqual(
-            thaiword_to_num(
-                ["หก", "ล้าน", "หก", "แสน", "หกหมื่น",
-                 "หกพัน", "หกร้อย", "หกสิบ", "หก"]
-            ),
+            thaiword_to_num("หกล้านหกแสนหกหมื่นหกพันหกร้อยหกสิบหก"),
             6666666,
         )
-        self.assertEqual(thaiword_to_num("ยี่สิบ"), 20)
-        self.assertEqual(thaiword_to_num("ศูนย์"), 0)
-        self.assertEqual(thaiword_to_num("ศูนย์อะไรนะ"), 0)
-        self.assertEqual(thaiword_to_num(""), None)
-        self.assertEqual(thaiword_to_num(None), None)
+        self.assertEqual(
+            thaiword_to_num("สองล้านสามแสนหกร้อยสิบสอง"),
+            2300612,
+        )
+        self.assertEqual(
+            thaiword_to_num("หนึ่งร้อยสิบล้าน"),
+            110000000,
+        )
+        self.assertEqual(
+            thaiword_to_num("สิบห้าล้านล้านเจ็ดสิบสอง"),
+            15000000000072,
+        )
+        self.assertEqual(
+            thaiword_to_num("หนึ่งล้านล้าน"),
+            1000000000000,
+        )
+        self.assertEqual(
+            thaiword_to_num("สองแสนสี่หมื่นสามสิบล้านสี่พันล้าน"),
+            240030004000000000,
+        )
+        self.assertEqual(
+            thaiword_to_num("ร้อยสิบล้านแปดแสนห้าพัน"),
+            110805000,
+        )
+        with self.assertRaises(ValueError):
+            thaiword_to_num("ศูนย์อะไรนะ")
+        with self.assertRaises(ValueError):
+            thaiword_to_num("")
+        with self.assertRaises(ValueError):
+            thaiword_to_num("ห้าพันสี่หมื่น")
+        with self.assertRaises(TypeError):
+            thaiword_to_num(None)
+        with self.assertRaises(TypeError):
+            thaiword_to_num(["หนึ่ง"])
 
         self.assertEqual(
             arabic_digit_to_thai_digit("ไทยแลนด์ 4.0"),
@@ -153,9 +180,9 @@ class TestUtilPackage(unittest.TestCase):
 
     # ### pythainlp.util.normalize
 
-    def test_deletetone(self):
-        self.assertEqual(deletetone("จิ้น"), "จิน")
-        self.assertEqual(deletetone("เก๋า"), "เกา")
+    def test_delete_tone(self):
+        self.assertEqual(delete_tone("จิ้น"), "จิน")
+        self.assertEqual(delete_tone("เก๋า"), "เกา")
 
     def test_normalize(self):
         self.assertEqual(normalize("เเปลก"), "แปลก")
@@ -182,16 +209,23 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(isthai("ต.ค.", ignore_chars=None), False)
         self.assertEqual(isthai("(ต.ค.)", ignore_chars=".()"), True)
 
-    def test_is_thaicheck(self):
-        self.assertEqual(thaicheck("ตา"), True)
-        self.assertEqual(thaicheck("ยา"), True)
-        self.assertEqual(thaicheck("ฆ่า"), True)
-        self.assertEqual(thaicheck("คน"), True)
-        self.assertEqual(thaicheck("กะ"), True)
-        self.assertEqual(thaicheck("มอ"), True)
-        self.assertEqual(thaicheck("มาร์ค"), False)
-        self.assertEqual(thaicheck("เลข"), False)
-        self.assertEqual(thaicheck("กะ"), True)
-        self.assertEqual(thaicheck("ศา"), False)
-        self.assertEqual(thaicheck("abc"), False)
-        self.assertEqual(thaicheck("ลักษ์"), False)
+    def test_is_native_thai(self):
+        self.assertEqual(is_native_thai(None), False)
+        self.assertEqual(is_native_thai(""), False)
+        self.assertEqual(is_native_thai("116"), False)
+        self.assertEqual(is_native_thai("abc"), False)
+        self.assertEqual(is_native_thai("ตา"), True)
+        self.assertEqual(is_native_thai("ยา"), True)
+        self.assertEqual(is_native_thai("ฆ่า"), True)
+        self.assertEqual(is_native_thai("คน"), True)
+        self.assertEqual(is_native_thai("กะ"), True)
+        self.assertEqual(is_native_thai("มอ"), True)
+        self.assertEqual(is_native_thai("กะ"), True)
+        self.assertEqual(is_native_thai("กระ"), True)
+        self.assertEqual(is_native_thai("ประท้วง"), True)
+        self.assertEqual(is_native_thai("ศา"), False)
+        self.assertEqual(is_native_thai("ลักษ์"), False)
+        self.assertEqual(is_native_thai("มาร์ค"), False)
+        self.assertEqual(is_native_thai("เลข"), False)
+        self.assertEqual(is_native_thai("เทเวศน์"), False)
+        self.assertEqual(is_native_thai("เทเวศร์"), False)

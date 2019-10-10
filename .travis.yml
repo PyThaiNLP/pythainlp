@@ -1,18 +1,32 @@
 language: python
+
 dist: bionic
-python:
-- '3.6'
-before_install:
-- sudo rm -f /etc/boto.cfg
-install:
-- pip install -U numpy
-- pip install -q -r requirements.txt
-- pip install -q .[full]
-- pip install coveralls
+
 os:
 - linux
+
+python:
+- '3.6'
+
+cache:
+  directories:
+    - ~/.cache/pip
+    - ~/nltk_data
+#    - ~/pythainlp-data
+
+before_install:
+- sudo rm -f /etc/boto.cfg
+
+install:
+- pip install "tensorflow>=1.14,<2" deepcut
+- pip install -r requirements.txt
+- pip install .[full]
+- pip install coveralls
+
 script: coverage run --source=pythainlp setup.py test
+
 after_success: coveralls
+
 deploy:
   provider: pypi
   distributions: bdist_wheel

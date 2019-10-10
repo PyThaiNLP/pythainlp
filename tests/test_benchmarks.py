@@ -4,9 +4,9 @@ import numpy as np
 import yaml
 from pythainlp.benchmarks import word_tokenization
 
-
 with open("./tests/data/sentences.yml", "r", encoding="utf8") as stream:
     TEST_DATA = yaml.safe_load(stream)
+
 
 class TestBenchmarksPackage(unittest.TestCase):
 

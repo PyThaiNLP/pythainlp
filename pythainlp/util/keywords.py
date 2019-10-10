@@ -23,38 +23,42 @@ def rank(words: List[str], exclude_stopwords: bool = False) -> Counter:
 
     :Example:
 
-        Include stopwords in counting word frequency:
+    Include stopwords in counting word frequency::
 
-        >>> from pythainlp.util import rank
-        >>>
-        >>> words = ["บันทึก", "เหตุการณ์", " ", "มี", "การ", "บันทึก", \\
+        from pythainlp.util import rank
+
+        words = ["บันทึก", "เหตุการณ์", " ", "มี", "การ", "บันทึก", \\
+        "เป็น", " ", "ลายลักษณ์อักษร"]
+
+        rank(words)
+        # output:
+        # Counter(
+        #     {
+        #         ' ': 2,
+        #         'การ': 1,
+        #         'บันทึก': 2,
+        #         'มี': 1,
+        #         'ลายลักษณ์อักษร': 1,
+        #         'เป็น': 1,
+        #         'เหตุการณ์': 1
+        #     })
+
+    Exclude stopword in counting word frequency::
+
+        from pythainlp.util import rank
+
+        words = ["บันทึก", "เหตุการณ์", " ", "มี", "การ", "บันทึก", \\
             "เป็น", " ", "ลายลักษณ์อักษร"]
-        >>> rank(words)
-        Counter(
-            {
-                ' ': 2,
-                'การ': 1,
-                'บันทึก': 2,
-                'มี': 1,
-                'ลายลักษณ์อักษร': 1,
-                'เป็น': 1,
-                'เหตุการณ์': 1
-            })
 
-        Exclude stopword in counting word frequency:
-
-        >>> from pythainlp.util import rank
-        >>>
-        >>> words = ["บันทึก", "เหตุการณ์", " ", "มี", "การ", "บันทึก", \\
-            "เป็น", " ", "ลายลักษณ์อักษร"]
-        >>> rank(words)
-        Counter(
-            {
-                ' ': 2,
-                'บันทึก': 2,
-                'ลายลักษณ์อักษร': 1,
-                'เหตุการณ์': 1
-            })
+        rank(words)
+        # output:
+        # Counter(
+        #     {
+        #         ' ': 2,
+        #         'บันทึก': 2,
+        #         'ลายลักษณ์อักษร': 1,
+        #         'เหตุการณ์': 1
+        #     })
     """
     if not words:
         return None
@@ -77,17 +81,19 @@ def find_keyword(word_list: List[str], min_len: int = 3) -> Dict[str, int]:
     :rtype: dict[str, int]
 
     :Example:
+    ::
 
-        >>> from pythainlp.util import find_keyword
-        >>>
-        >>> words = ["บันทึก", "เหตุการณ์", "บันทึก", "เหตุการณ์",
-        >>>          " ", "มี", "การ", "บันทึก", "เป็น", " ", "ลายลักษณ์อักษร"
-        >>>          "และ", "การ", "บันทึก","เสียง","ใน","เหตุการณ์"]
-        >>> find_keyword(words)
-        {'บันทึก': 4, 'เหตุการณ์': 3}
-        >>>
-        >>> find_keyword(words, min_len=1)
-        {' ': 2, 'บันทึก': 4, 'ลายลักษณ์อักษรและ': 1,
+        from pythainlp.util import find_keyword
+
+        words = ["บันทึก", "เหตุการณ์", "บันทึก", "เหตุการณ์",
+                 " ", "มี", "การ", "บันทึก", "เป็น", " ", "ลายลักษณ์อักษร"
+                 "และ", "การ", "บันทึก","เสียง","ใน","เหตุการณ์"]
+
+        find_keyword(words)
+        # output: {'บันทึก': 4, 'เหตุการณ์': 3}
+
+        find_keyword(words, min_len=1)
+        # output: {' ': 2, 'บันทึก': 4, 'ลายลักษณ์อักษรและ': 1,
          'เสียง': 1, 'เหตุการณ์': 3}
     """
     word_list = rank(word_list, exclude_stopwords=True)

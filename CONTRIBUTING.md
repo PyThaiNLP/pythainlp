@@ -72,6 +72,13 @@ Happy hacking! (;
 - Pattarawat Chormai
 
 ## Contributors
+
+<a href="https://github.com/PyThaiNLP/pythainlp/graphs/contributors">
+  <img src="https://contributors-img.firebaseapp.com/image?repo=PyThaiNLP/pythainlp" />
+</a>
+
+Made with [contributors-img](https://contributors-img.firebaseapp.com).
+
 - See more contributions here https://github.com/PyThaiNLP/pythainlp/graphs/contributors
 
 

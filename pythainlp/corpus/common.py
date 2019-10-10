@@ -141,7 +141,8 @@ def thai_female_names() -> frozenset:
     Return a frozenset of Thai female names
     \n(See: `dev/pythainlp/corpus/person_names_female_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/person_names_female_th.txt>`_)
-    \nNames compiled by Korkeat Wannapat https://github.com/korkeatw/thai-names-corpus/
+    \nFrom `Thai Names Corpus <https://github.com/korkeatw/thai-names-corpus/>`_\
+    compiled by Korkeat Wannapat. 
 
     :return: :class:`frozenset` containing Thai female names.
     :rtype: :class:`frozenset`
@@ -158,7 +159,8 @@ def thai_male_names() -> frozenset:
     Return a frozenset of Thai male names
     \n(See: `dev/pythainlp/corpus/person_names_male_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/person_names_male_th.txt>`_)
-    \nNames compiled by Korkeat Wannapat https://github.com/korkeatw/thai-names-corpus/
+    \nFrom `Thai Names Corpus <https://github.com/korkeatw/thai-names-corpus/>`_\
+    compiled by Korkeat Wannapat. 
 
     :return: :class:`frozenset` containing Thai male names.
     :rtype: :class:`frozenset`

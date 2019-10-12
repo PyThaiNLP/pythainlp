@@ -111,4 +111,47 @@ def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
     if not custom_dict:
         custom_dict = DEFAULT_DICT_TRIE
 
-    return list(_onecut(text, custom_dict))
+    TEXT_LIMIT = 100
+    TEXT_SCAN_LEFT = 25
+    TEXT_SCAN_RIGHT = 25
+    text_len = len(text)
+
+    # if the text is longer than the limit,
+    # breaks them into smaller chunks then tokenizes each chunk
+    if text_len >= (TEXT_LIMIT + TEXT_SCAN_RIGHT):
+        text_parts = []
+        while text_len >= (TEXT_LIMIT + TEXT_SCAN_RIGHT):
+            sample_start = TEXT_LIMIT - TEXT_SCAN_LEFT
+            sample_end = TEXT_LIMIT + TEXT_SCAN_RIGHT
+            sample = text[sample_start:sample_end]
+
+            # find possible break positions
+            tokens = list(_onecut(sample, custom_dict))
+            token_max_idx = 0
+            for i, token in enumerate(tokens):
+                token_max_len = 0
+                if len(token) > token_max_len:
+                    token_max_len = len(token)
+                    token_max_idx = i
+
+            # choose the position that covers longest token
+            cut_pos = sample_start
+            for i in range(0, token_max_idx):
+                cut_pos = cut_pos + len(tokens[i])
+
+            text_parts.append(text[:cut_pos])
+            text = text[cut_pos:]
+            text_len = len(text)
+
+        # append remaining text
+        if text_len:
+            text_parts.append(text)
+
+        # tokenizes each text parts
+        tokens = []
+        for text_part in text_parts:
+            tokens.extend(list(_onecut(text_part, custom_dict)))
+
+        return tokens
+    else:
+        return list(_onecut(text, custom_dict))

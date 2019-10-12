@@ -24,7 +24,7 @@ from .trie import Trie
 # ช่วยตัดพวกภาษาอังกฤษ เป็นต้น
 _PAT_ENG = re.compile(
     r"""(?x)
-[-a-zA-Z]+|   # english
+[-a-zA-Z]+|   # English
 \d[\d,\.]*|   # number
 [ \t]+|       # space
 \r?\n         # newline
@@ -96,12 +96,13 @@ def _onecut(text: str, custom_dict: Trie) -> Iterable[str]:
             heappush(q, i)
 
 
-def segment(text: str, custom_dict: Trie = None) -> List[str]:
+def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
     """
     Dictionary-based maximal matching word segmentation, constrained with
     Thai Character Cluster boundaries.
 
     :param str text: text to be tokenized to words
+    :param pythainlp.trie.Trie custom_dict: dictionary to be used for tokenization
     :return: list of words, tokenized from the text
     """
     if not text or not isinstance(text, str):

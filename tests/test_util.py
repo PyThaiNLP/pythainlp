@@ -27,6 +27,7 @@ from pythainlp.util import (
     thai_strftime,
     thai_to_eng,
     thaiword_to_num,
+    thai_time,
 )
 from pythainlp.tokenize import (
     word_tokenize,
@@ -178,6 +179,26 @@ class TestUtilPackage(unittest.TestCase):
             thai_strftime(date, "%A%a%B%b%C%c%D%F%G%g%v%X%x%Y%y%+")
         )
 
+    def test_thai_time(self):
+        self.assertEqual(thai_time("8:17").get_time(),"แปดนาฬิกาสิบเจ็ดนาที")
+        self.assertEqual(thai_time("8:17",types="6-hour").get_time(),"สองโมงเช้าสิบเจ็ดนาที")
+        self.assertEqual(thai_time("8:17",types="modified-6-hour").get_time(),"แปดโมงสิบเจ็ดนาที")
+        self.assertIsNotNone(thai_time("0:30").get_time())
+        self.assertIsNotNone(thai_time("0:30",types="6-hour").get_time())
+        self.assertIsNotNone(thai_time("0:30",types="modified-6-hour").get_time())
+        self.assertIsNotNone(thai_time("4:30").get_time())
+        self.assertIsNotNone(thai_time("4:30",types="6-hour").get_time())
+        self.assertIsNotNone(thai_time("4:30",types="modified-6-hour").get_time())
+        self.assertIsNotNone(thai_time("12:30").get_time())
+        self.assertIsNotNone(thai_time("12:30",types="6-hour").get_time())
+        self.assertIsNotNone(thai_time("12:30",types="modified-6-hour").get_time())
+        self.assertIsNotNone(thai_time("13:30").get_time())
+        self.assertIsNotNone(thai_time("13:30",types="6-hour").get_time())
+        self.assertIsNotNone(thai_time("13:30",types="modified-6-hour").get_time())
+        self.assertIsNotNone(thai_time("19:30").get_time())
+        self.assertIsNotNone(thai_time("19:30",types="6-hour").get_time())
+        self.assertIsNotNone(thai_time("19:30",types="modified-6-hour").get_time())
+    
     # ### pythainlp.util.normalize
 
     def test_delete_tone(self):

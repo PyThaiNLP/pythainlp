@@ -26,6 +26,7 @@ __all__ = [
     "thai_to_eng",
     "thai_digit_to_arabic_digit",
     "thaiword_to_num",
+    "thai_time",
 ]
 
 
@@ -45,3 +46,4 @@ from .numtoword import bahttext, num_to_thaiword
 from .thai import countthai, isthai, isthaichar
 from .thaiwordcheck import is_native_thai
 from .wordtonum import thaiword_to_num
+from .thai_time import thai_time

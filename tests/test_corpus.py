@@ -42,7 +42,6 @@ class TestCorpusPackage(unittest.TestCase):
 
     def test_tnc(self):
         self.assertIsNotNone(tnc.word_freqs())
-        self.assertIsNotNone(tnc.word_freq("นก"))
 
     def test_ttc(self):
         self.assertIsNotNone(ttc.word_freqs())

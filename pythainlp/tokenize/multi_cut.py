@@ -124,7 +124,11 @@ def _combine(ww: str):
 
 def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
     """
-    ใช้ในการหา list ที่สามารถตัดคำได้ทั้งหมด
+    Dictionary-based maximum matching word segmentation.
+
+    :param str text: text to be tokenized to words
+    :param pythainlp.trie.Trie custom_dict: dictionary for tokenization
+    :return: list of words, tokenized from the text
     """
     if not text or not isinstance(text, str):
         return []
@@ -132,7 +136,9 @@ def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
     return list(_multicut(text, custom_dict=custom_dict))
 
 
-def find_all_segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
+def find_all_segment(
+    text: str, custom_dict: Trie = DEFAULT_DICT_TRIE
+) -> List[str]:
     """
     Get all possible segment variations
 

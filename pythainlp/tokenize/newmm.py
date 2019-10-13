@@ -102,7 +102,7 @@ def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
     Thai Character Cluster boundaries.
 
     :param str text: text to be tokenized to words
-    :param pythainlp.trie.Trie custom_dict: dictionary to be used for tokenization
+    :param pythainlp.trie.Trie custom_dict: dictionary for tokenization
     :return: list of words, tokenized from the text
     """
     if not text or not isinstance(text, str):

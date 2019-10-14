@@ -29,5 +29,4 @@ Modules
 .. autofunction:: thai_to_eng
 .. autofunction:: thai_digit_to_arabic_digit
 .. autofunction:: thaiword_to_num
-.. autoclass:: thai_time
-   :members:
+.. autofunction:: thai_time

@@ -82,15 +82,15 @@ def thai_time(time: str, types: str = "24-hour") -> str:
 
     :Example:
 
-        thai_time("8:17").get_time()
+        thai_time("8:17")
         # output:
         # แปดนาฬิกาสิบเจ็ดนาที
 
-        thai_time("8:17",types="6-hour").get_time()
+        thai_time("8:17", types="6-hour")
         # output:
         # สองโมงเช้าสิบเจ็ดนาที
 
-        thai_time("8:17",types="modified-6-hour").get_time()
+        thai_time("8:17", types="modified-6-hour")
         # output:
         # แปดโมงสิบเจ็ดนาที
     """

@@ -7,7 +7,6 @@ os:
 
 python:
 - '3.6'
-- 'pypy3'
 
 cache:
   directories:

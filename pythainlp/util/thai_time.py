@@ -6,108 +6,109 @@ by Wannaphong Phatthiyaphaibun
 from .numtoword import num_to_thaiword
 
 
-class thai_time(object):
-    def __init__(self, time: str, types: str = "24-hour"):
-        """
-        Convert time to Thai words.
+def _type_6hr(h: int, m: int) -> str:
+    """
+    Thai time (6-hour clock)
+    """
+    text = ""
+    if h == 0:
+        text += "เที่ยงคืน"
+    elif h < 7:
+        text += "ตี" + num_to_thaiword(h)
+    elif h < 12:
+        text += num_to_thaiword(h - 6) + "โมงเช้า"
+    elif h == 12:
+        text += "เที่ยง"
+    elif h < 18:
+        text += "บ่าย" + num_to_thaiword(h - 12) + "โมง"
+    elif h == 18:
+        text += "หกโมงเย็น"
+    else:
+        text += num_to_thaiword(h - 18) + "ทุ่ม"
+    if m == 30:
+        text += "ครึ่ง"
+    elif m != 0:
+        text += num_to_thaiword(m) + "นาที"
 
-        :param str time: time (H:m)
-        :param str types: Thai time type
-            * *24-hour* - 24-hour clock (default)
-            * *6-hour* - 6-hour clock
-            * *modified-6-hour* - Modified 6-hour clock
-        :return: Thai time
-        :rtype: str
+    return text
 
-        :Example:
 
-            thai_time("8:17").get_time()
-            # output:
-            # แปดนาฬิกาสิบเจ็ดนาที
+def _type_m6hr(h: int, m: int) -> str:
+    """
+    Thai time (modified 6-hour clock)
+    """
+    text = ""
+    if h == 0:
+        text += "เที่ยงคืน"
+    elif h < 6:
+        text += "ตี" + num_to_thaiword(h)
+    elif h < 12:
+        text += num_to_thaiword(h) + "โมง"
+    elif h == 12:
+        text += "เที่ยง"
+    elif h < 19:
+        text += num_to_thaiword(h - 12) + "โมง"
+    else:
+        text += num_to_thaiword(h - 18) + "ทุ่ม"
+    if m == 30:
+        text += "ครึ่ง"  # +"นาที"
+    elif m != 0:
+        text += num_to_thaiword(m) + "นาที"
 
-            thai_time("8:17",types="6-hour").get_time()
-            # output:
-            # สองโมงเช้าสิบเจ็ดนาที
+    return text
 
-            thai_time("8:17",types="modified-6-hour").get_time()
-            # output:
-            # แปดโมงสิบเจ็ดนาที
-        """
-        self.time = time
-        if not isinstance(self.time, str):
-            raise TypeError("please input string (H:m)")
-        if ":" not in self.time:
-            raise TypeError("please input string (H:m)")
 
-        self.types = types
-        self.temp = self.time.split(":")
-        self.h = int(self.temp[0])
-        self.m = int(self.temp[1])
+def _type_24hr(h: int, m: int) -> str:
+    """
+    Thai time (24-hour clock)
+    """
+    text = num_to_thaiword(h) + "นาฬิกา"
+    if m != 0:
+        text += num_to_thaiword(m) + "นาที"
+    return text
 
-        self.sent = ""
-        if self.types == "6-hour":
-            self._type_6hr()
-        elif self.types == "modified-6-hour":
-            self._type_m6hr()
-        elif self.types == "24-hour":
-            self._type_24hr()
-        else:
-            raise NotImplementedError(self.types)
 
-    def get_time(self):
-        return self.sent
+def thai_time(time: str, types: str = "24-hour") -> str:
+    """
+    Convert time to Thai words.
 
-    def _type_6hr(self):
-        """
-        Thai time (6-hour clock)
-        """
-        self.sent = ""
-        if self.h == 0:
-            self.sent += "เที่ยงคืน"
-        elif self.h < 7:
-            self.sent += "ตี" + num_to_thaiword(self.h)
-        elif self.h < 12:
-            self.sent += num_to_thaiword(self.h - 6) + "โมงเช้า"
-        elif self.h == 12:
-            self.sent += "เที่ยง"
-        elif self.h < 18:
-            self.sent += "บ่าย" + num_to_thaiword(self.h - 12) + "โมง"
-        elif self.h == 18:
-            self.sent += "หกโมงเย็น"
-        else:
-            self.sent += num_to_thaiword(self.h - 18) + "ทุ่ม"
-        if self.m == 30:
-            self.sent += "ครึ่ง"
-        elif self.m != 0:
-            self.sent += num_to_thaiword(self.m) + "นาที"
+    :param str time: time (H:m)
+    :param str types: Thai time type
+        * *24-hour* - 24-hour clock (default)
+        * *6-hour* - 6-hour clock
+        * *modified-6-hour* - Modified 6-hour clock
+    :return: Thai time
+    :rtype: str
 
-    def _type_m6hr(self):
-        """
-        Thai time (modified 6-hour clock)
-        """
-        self.sent = ""
-        if self.h == 0:
-            self.sent += "เที่ยงคืน"
-        elif self.h < 6:
-            self.sent += "ตี" + num_to_thaiword(self.h)
-        elif self.h < 12:
-            self.sent += num_to_thaiword(self.h) + "โมง"
-        elif self.h == 12:
-            self.sent += "เที่ยง"
-        elif self.h < 19:
-            self.sent += num_to_thaiword(self.h - 12) + "โมง"
-        else:
-            self.sent += num_to_thaiword(self.h - 18) + "ทุ่ม"
-        if self.m == 30:
-            self.sent += "ครึ่ง"  # +"นาที"
-        elif self.m != 0:
-            self.sent += num_to_thaiword(self.m) + "นาที"
+    :Example:
 
-    def _type_24hr(self):
-        """
-        Thai time (24-hour clock)
-        """
-        self.sent = ""
-        self.sent += num_to_thaiword(self.h) + "นาฬิกา"
-        if self.m != 0:
-            self.sent += num_to_thaiword(self.m) + "นาที"
+        thai_time("8:17").get_time()
+        # output:
+        # แปดนาฬิกาสิบเจ็ดนาที
+
+        thai_time("8:17",types="6-hour").get_time()
+        # output:
+        # สองโมงเช้าสิบเจ็ดนาที
+
+        thai_time("8:17",types="modified-6-hour").get_time()
+        # output:
+        # แปดโมงสิบเจ็ดนาที
+    """
+    if not time or not isinstance(time, str) or ":" not in time:
+        raise TypeError("Input string should be in H:m format")
+
+    temp = time.split(":")
+    h = int(temp[0])
+    m = int(temp[1])
+
+    text = ""
+    if types == "6-hour":
+        text = _type_6hr(h, m)
+    elif types == "modified-6-hour":
+        text = _type_m6hr(h, m)
+    elif types == "24-hour":
+        text = _type_24hr(h, m)
+    else:
+        raise NotImplementedError(types)
+
+    return text

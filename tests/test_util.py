@@ -183,27 +183,23 @@ class TestUtilPackage(unittest.TestCase):
 
     def test_thai_time(self):
         self.assertEqual(thai_time("8:17"), "แปดนาฬิกาสิบเจ็ดนาที")
-        self.assertEqual(
-            thai_time("8:17", format="6-hour"), "สองโมงเช้าสิบเจ็ดนาที"
-        )
-        self.assertEqual(
-            thai_time("8:17", format="modified-6-hour"), "แปดโมงสิบเจ็ดนาที"
-        )
+        self.assertEqual(thai_time("8:17", "6-hour"), "สองโมงเช้าสิบเจ็ดนาที")
+        self.assertEqual(thai_time("8:17", "modified-6-hour"), "แปดโมงสิบเจ็ดนาที")
         self.assertIsNotNone(thai_time("0:30"))
-        self.assertIsNotNone(thai_time("0:30", format="6-hour"))
-        self.assertIsNotNone(thai_time("0:30", format="modified-6-hour"))
+        self.assertIsNotNone(thai_time("0:30", "6-hour"))
+        self.assertIsNotNone(thai_time("0:30", "modified-6-hour"))
         self.assertIsNotNone(thai_time("4:30"))
-        self.assertIsNotNone(thai_time("4:30", format="6-hour"))
-        self.assertIsNotNone(thai_time("4:30", format="modified-6-hour"))
+        self.assertIsNotNone(thai_time("4:30", fmt="6-hour"))
+        self.assertIsNotNone(thai_time("4:30", fmt="modified-6-hour"))
         self.assertIsNotNone(thai_time("12:30"))
-        self.assertIsNotNone(thai_time("12:30", format="6-hour"))
-        self.assertIsNotNone(thai_time("12:30", format="modified-6-hour"))
+        self.assertIsNotNone(thai_time("12:30", fmt="6-hour"))
+        self.assertIsNotNone(thai_time("12:30", fmt="modified-6-hour"))
         self.assertIsNotNone(thai_time("13:30"))
-        self.assertIsNotNone(thai_time("13:30", format="6-hour"))
-        self.assertIsNotNone(thai_time("13:30", format="modified-6-hour"))
+        self.assertIsNotNone(thai_time("13:30", fmt="6-hour"))
+        self.assertIsNotNone(thai_time("13:30", fmt="modified-6-hour"))
         self.assertIsNotNone(thai_time("19:30"))
-        self.assertIsNotNone(thai_time("19:30", format="6-hour"))
-        self.assertIsNotNone(thai_time("19:30", format="modified-6-hour"))
+        self.assertIsNotNone(thai_time("19:30", fmt="6-hour"))
+        self.assertIsNotNone(thai_time("19:30", fmt="modified-6-hour"))
 
     # ### pythainlp.util.normalize
 

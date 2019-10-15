@@ -68,12 +68,12 @@ def _type_24hr(h: int, m: int) -> str:
     return text
 
 
-def thai_time(time: str, types: str = "24-hour") -> str:
+def thai_time(time: str, fmt: str = "24-hour") -> str:
     """
     Convert time to Thai words.
 
     :param str time: time (H:m)
-    :param str types: Thai time type
+    :param str fmt: Thai time type
         * *24-hour* - 24-hour clock (default)
         * *6-hour* - 6-hour clock
         * *modified-6-hour* - Modified 6-hour clock
@@ -86,29 +86,32 @@ def thai_time(time: str, types: str = "24-hour") -> str:
         # output:
         # แปดนาฬิกาสิบเจ็ดนาที
 
-        thai_time("8:17", types="6-hour")
+        thai_time("8:17", fmt="6-hour")
         # output:
         # สองโมงเช้าสิบเจ็ดนาที
 
-        thai_time("8:17", types="modified-6-hour")
+        thai_time("8:17", fmt="modified-6-hour")
         # output:
         # แปดโมงสิบเจ็ดนาที
     """
-    if not time or not isinstance(time, str) or ":" not in time:
-        raise TypeError("Input string should be in H:m format")
+    if not isinstance(time, str):
+        raise TypeError("Input should be a string.")
+
+    if not time or or ":" not in time:
+        raise ValueError("Input string should be in H:m format")
 
     temp = time.split(":")
     h = int(temp[0])
     m = int(temp[1])
 
     text = ""
-    if types == "6-hour":
+    if fmt == "6-hour":
         text = _type_6hr(h, m)
-    elif types == "modified-6-hour":
+    elif fmt == "modified-6-hour":
         text = _type_m6hr(h, m)
-    elif types == "24-hour":
+    elif fmt == "24-hour":
         text = _type_24hr(h, m)
     else:
-        raise NotImplementedError(types)
+        raise NotImplementedError(fmt)
 
     return text

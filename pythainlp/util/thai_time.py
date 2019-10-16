@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Thai Time
+thai_time() - Spell out time to Thai words
 by Wannaphong Phatthiyaphaibun
 """
 from datetime import datetime, time
@@ -12,7 +12,7 @@ _TIME_FORMAT_WITH_SEC = "%H:%M:%S"
 _TIME_FORMAT_WITHOUT_SEC = "%H:%M"
 
 
-def _format_6h(h: int, m: int, s: int) -> str:
+def _format_6h(h: int) -> str:
     """
     Thai time (6-hour clock)
     """
@@ -27,21 +27,19 @@ def _format_6h(h: int, m: int, s: int) -> str:
     elif h == 12:
         text += "เที่ยง"
     elif h < 18:
-        text += "บ่าย" + num_to_thaiword(h - 12) + "โมง"
+        if h == 13:
+            text += "บ่ายโมง"
+        else:
+            text += "บ่าย" + num_to_thaiword(h - 12) + "โมง"
     elif h == 18:
         text += "หกโมงเย็น"
     else:
         text += num_to_thaiword(h - 18) + "ทุ่ม"
 
-    if m == 30:
-        text += "ครึ่ง"
-    elif m != 0:
-        text += num_to_thaiword(m) + "นาที"
-
     return text
 
 
-def _format_m6h(h: int, m: int, s: int) -> str:
+def _format_m6h(h: int) -> str:
     """
     Thai time (modified 6-hour clock)
     """
@@ -60,27 +58,64 @@ def _format_m6h(h: int, m: int, s: int) -> str:
     else:
         text += num_to_thaiword(h - 18) + "ทุ่ม"
 
-    if m == 30:
-        text += "ครึ่ง"  # +"นาที"
-    elif m != 0:
-        text += num_to_thaiword(m) + "นาที"
-
     return text
 
 
-def _format_24h(h: int, m: int, s: int) -> str:
+def _format_24h(h: int) -> str:
     """
     Thai time (24-hour clock)
     """
     text = num_to_thaiword(h) + "นาฬิกา"
-    if m != 0:
-        text += num_to_thaiword(m) + "นาที"
     return text
 
 
-def thai_time(time_data: Union[time, datetime, str], fmt: str = "24h") -> str:
+def _format(
+    h: int,
+    m: int,
+    s: int,
+    fmt: str = "24h",
+    precision: Union[str, None] = None,
+) -> str:
+    text = ""
+    if fmt == "6h":
+        text = _format_6h(h)
+    elif fmt == "m6h":
+        text = _format_m6h(h)
+    elif fmt == "24h":
+        text = _format_24h(h)
+    else:
+        raise NotImplementedError(fmt)
+
+    if precision == "minute" or precision == "second":
+        if (
+            m == 30
+            and (s == 0 or precision == "minute")
+            and (fmt == "6h" or fmt == "m6h")
+        ):
+            text += "ครึ่ง"
+        else:
+            text += num_to_thaiword(m) + "นาที"
+            if precision == "second":
+                text += num_to_thaiword(s) + "วินาที"
+    else:
+        if m:
+            if (fmt == "6h" or fmt == "m6h") and m == 30 and s == 0:
+                text += "ครึ่ง"
+            else:
+                text += num_to_thaiword(m) + "นาที"
+        if s:
+            text += num_to_thaiword(s) + "วินาที"
+
+    return text
+
+
+def thai_time(
+    time_data: Union[time, datetime, str],
+    fmt: str = "24h",
+    precision: Union[str, None] = None,
+) -> str:
     """
-    Convert time to Thai words.
+    Spell out time to Thai words.
 
     :param str time_data: time input, can be a datetime.time object \
         or a datetime.datetime object \
@@ -106,9 +141,17 @@ def thai_time(time_data: Union[time, datetime, str], fmt: str = "24h") -> str:
         # output:
         # แปดโมงสิบเจ็ดนาที
 
-        thai_time(datetime.time(12, 3))
+        thai_time("18:30", fmt="m6h")
+        # output:
+        # หกโมงครึ่ง
+
+        thai_time(datetime.time(12, 3, 0))
         # output:
         # สิบสองนาฬิกาสามนาที
+
+        thai_time(datetime.time(12, 3, 0), precision="second")
+        # output:
+        # สิบสองนาฬิกาสามนาทีศูนย์วินาที
     """
     _time = None
 
@@ -136,14 +179,6 @@ def thai_time(time_data: Union[time, datetime, str], fmt: str = "24h") -> str:
                 f"Time string '{time_data}' does not match H:M or H:M:S format."
             )
 
-    format_func = None
-    if fmt == "6h":
-        format_func = _format_6h
-    elif fmt == "m6h":
-        format_func = _format_m6h
-    elif fmt == "24h":
-        format_func = _format_24h
-    else:
-        raise NotImplementedError(fmt)
+    text = _format(_time.hour, _time.minute, _time.second, fmt, precision)
 
-    return format_func(_time.hour, _time.minute, _time.second)
+    return text

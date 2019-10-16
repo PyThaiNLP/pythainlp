@@ -3,7 +3,7 @@
 Thai Time
 by Wannaphong Phatthiyaphaibun
 """
-from datetime import date, datetime
+from datetime import date, datetime, time
 from typing import Union
 
 from pythainlp.util.numtoword import num_to_thaiword
@@ -78,17 +78,18 @@ def _format_24h(h: int, m: int, s: int) -> str:
     return text
 
 
-def thai_time(time: Union[str, date], fmt: str = "24h") -> str:
+def thai_time(time_string: Union[time, date, str], fmt: str = "24h") -> str:
     """
     Convert time to Thai words.
 
-    :param str time: time input, can be either a datetime.date object \
+    :param str time_string: time input, can be a datetime.time object \
+        or a datetime.date object \
         or a string (in H:M or H:M:S format, using 24-hour clock)
     :param str fmt: time output format
         * *24h* - 24-hour clock (default)
         * *6h* - 6-hour clock
         * *m6h* - Modified 6-hour clock
-    :return: Thai time
+    :return: Time in Thai words
     :rtype: str
 
     :Example:
@@ -104,25 +105,32 @@ def thai_time(time: Union[str, date], fmt: str = "24h") -> str:
         thai_time("8:17", "m6h")
         # output:
         # แปดโมงสิบเจ็ดนาที
+
+        thai_time(datetime.time(12, 3))
+        # output:
+        # สิบสองนาฬิกาสามนาที
     """
     _time = None
 
-    if isinstance(time, date):
-        _time = time
+    if isinstance(time_string, time) or isinstance(time_string, date):
+        _time = time_string
     else:
-        if not isinstance(time, str):
+        if not isinstance(time_string, str):
             raise TypeError(
-                "Input must be either a datetime.date object or a string."
+                "Input must be a datetime.time object, \
+                    a datetime.date object, or a string."
             )
 
-        if not time:
+        if not time_string:
             raise ValueError("Input string cannot be empty.")
 
         try:
-            _time = datetime.strptime(time, _TIME_FORMAT_WITH_SEC)
+            _time = datetime.strptime(time_string, _TIME_FORMAT_WITH_SEC)
         except ValueError:
             try:
-                _time = datetime.strptime(time, _TIME_FORMAT_WITHOUT_SEC)
+                _time = datetime.strptime(
+                    time_string, _TIME_FORMAT_WITHOUT_SEC
+                )
             except ValueError:
                 pass
 

@@ -3,7 +3,7 @@
 Thai Time
 by Wannaphong Phatthiyaphaibun
 """
-from datetime import date, datetime, time
+from datetime import datetime, time
 from typing import Union
 
 from pythainlp.util.numtoword import num_to_thaiword
@@ -78,12 +78,12 @@ def _format_24h(h: int, m: int, s: int) -> str:
     return text
 
 
-def thai_time(time_string: Union[time, date, str], fmt: str = "24h") -> str:
+def thai_time(time_string: Union[time, datetime, str], fmt: str = "24h") -> str:
     """
     Convert time to Thai words.
 
     :param str time_string: time input, can be a datetime.time object \
-        or a datetime.date object \
+        or a datetime.datetime object \
         or a string (in H:M or H:M:S format, using 24-hour clock)
     :param str fmt: time output format
         * *24h* - 24-hour clock (default)
@@ -112,13 +112,12 @@ def thai_time(time_string: Union[time, date, str], fmt: str = "24h") -> str:
     """
     _time = None
 
-    if isinstance(time_string, time) or isinstance(time_string, date):
+    if isinstance(time_string, time) or isinstance(time_string, datetime):
         _time = time_string
     else:
         if not isinstance(time_string, str):
             raise TypeError(
-                "Input must be a datetime.time object, \
-                    a datetime.date object, or a string."
+                "Input must be a datetime.time object, a datetime.datetime object, or a string."
             )
 
         if not time_string:
@@ -126,13 +125,12 @@ def thai_time(time_string: Union[time, date, str], fmt: str = "24h") -> str:
 
         try:
             _time = datetime.strptime(time_string, _TIME_FORMAT_WITH_SEC)
-        except ValueError:
-            try:
+            if not _time:
                 _time = datetime.strptime(
                     time_string, _TIME_FORMAT_WITHOUT_SEC
                 )
-            except ValueError:
-                pass
+        except ValueError:
+            pass
 
         if not _time:
             raise ValueError(

@@ -124,7 +124,11 @@ def thai_time(
         * *24h* - 24-hour clock (default)
         * *6h* - 6-hour clock
         * *m6h* - Modified 6-hour clock
-    :return: Time in Thai words
+    :param str precision: precision of the spell out
+        * *minute* - always spell out to minute level
+        * *second* - always spell out to second level
+        * None - spell out only non-zero parts
+    :return: Time spell out in Thai words
     :rtype: str
 
     :Example:

@@ -78,11 +78,11 @@ def _format_24h(h: int, m: int, s: int) -> str:
     return text
 
 
-def thai_time(time_string: Union[time, datetime, str], fmt: str = "24h") -> str:
+def thai_time(time_data: Union[time, datetime, str], fmt: str = "24h") -> str:
     """
     Convert time to Thai words.
 
-    :param str time_string: time input, can be a datetime.time object \
+    :param str time_data: time input, can be a datetime.time object \
         or a datetime.datetime object \
         or a string (in H:M or H:M:S format, using 24-hour clock)
     :param str fmt: time output format
@@ -112,29 +112,28 @@ def thai_time(time_string: Union[time, datetime, str], fmt: str = "24h") -> str:
     """
     _time = None
 
-    if isinstance(time_string, time) or isinstance(time_string, datetime):
-        _time = time_string
+    if isinstance(time_data, time) or isinstance(time_data, datetime):
+        _time = time_data
     else:
-        if not isinstance(time_string, str):
+        if not isinstance(time_data, str):
             raise TypeError(
-                "Input must be a datetime.time object, a datetime.datetime object, or a string."
+                "Time data must be a datetime.time object, a datetime.datetime object, or a string."
             )
 
-        if not time_string:
-            raise ValueError("Input string cannot be empty.")
+        if not time_data:
+            raise ValueError("Time string cannot be empty.")
 
         try:
-            _time = datetime.strptime(time_string, _TIME_FORMAT_WITH_SEC)
-            if not _time:
-                _time = datetime.strptime(
-                    time_string, _TIME_FORMAT_WITHOUT_SEC
-                )
+            _time = datetime.strptime(time_data, _TIME_FORMAT_WITH_SEC)
         except ValueError:
-            pass
+            try:
+                _time = datetime.strptime(time_data, _TIME_FORMAT_WITHOUT_SEC)
+            except ValueError:
+                pass
 
         if not _time:
             raise ValueError(
-                "Input string must be in either H:M or H:M:S format."
+                f"Time string '{time_data}' does not match H:M or H:M:S format."
             )
 
     format_func = None

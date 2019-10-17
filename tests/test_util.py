@@ -151,7 +151,6 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_strftime(date, "%d", True), "๐๖")  # Thai digit
         self.assertEqual(thai_strftime(date, "%%"), "%")  # % escape
         self.assertEqual(thai_strftime(date, "%-"), "-")  # Lone dash
-        self.assertEqual(thai_strftime(date, "%Q"), "Q")  # Not support
         self.assertEqual(thai_strftime(date, "%c"), "พ   6 ต.ค. 01:40:00 2519")
         self.assertEqual(
             thai_strftime(date, "%c", True), "พ   ๖ ต.ค. ๐๑:๔๐:๐๐ ๒๕๑๙"

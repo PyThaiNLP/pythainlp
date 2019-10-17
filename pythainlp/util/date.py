@@ -114,31 +114,38 @@ def _thai_strftime(datetime: datetime.datetime, fmt_char: str) -> str:
         )
     elif fmt_char == "D":
         # Equivalent to ``%m/%d/%y''
-        str_ = "{}/{}".format(datetime.strftime("%m/%d"),
-                              str(datetime.year + _BE_AD_DIFFERENCE)[-2:])
+        str_ = "{}/{}".format(
+            datetime.strftime("%m/%d"),
+            str(datetime.year + _BE_AD_DIFFERENCE)[-2:],
+        )
     elif fmt_char == "F":
         # Equivalent to ``%Y-%m-%d''
-        str_ = "{}-{}".format(str(datetime.year + _BE_AD_DIFFERENCE),
-                              datetime.strftime("%m-%d"))
+        str_ = "{}-{}".format(
+            str(datetime.year + _BE_AD_DIFFERENCE), datetime.strftime("%m-%d")
+        )
     elif fmt_char == "G":
-        # ISO 8601 year with century representing the year that contains the greater part of the ISO week (%V). Monday as the first day of the week.
+        # ISO 8601 year with century representing the year that contains the
+        # greater part of the ISO week (%V). Monday as the first day of the week.
         str_ = str(int(datetime.strftime("%G")) + _BE_AD_DIFFERENCE)
     elif fmt_char == "g":
         # Same year as in ``%G'', but as a decimal number without century (00-99).
         str_ = str(int(datetime.strftime("%G")) + _BE_AD_DIFFERENCE)[-2:]
     elif fmt_char == "v":
         # BSD extension, ' 6-Oct-1976'
-        str_ = "{:>2}-{}-{}".format(datetime.day,
-                                    thai_abbr_months[datetime.month - 1],
-                                    datetime.year + _BE_AD_DIFFERENCE)
+        str_ = "{:>2}-{}-{}".format(
+            datetime.day,
+            thai_abbr_months[datetime.month - 1],
+            datetime.year + _BE_AD_DIFFERENCE,
+        )
     elif fmt_char == "X":
         # Locale’s appropriate time representation.
         str_ = datetime.strftime("%H:%M:%S")
     elif fmt_char == "x":
         # Locale’s appropriate date representation.
         str_ = "{}/{}/{}".format(
-            _padding(datetime.day), _padding(
-                datetime.month), datetime.year + _BE_AD_DIFFERENCE
+            _padding(datetime.day),
+            _padding(datetime.month),
+            datetime.year + _BE_AD_DIFFERENCE,
         )
     elif fmt_char == "Y":
         # Year with century
@@ -147,7 +154,8 @@ def _thai_strftime(datetime: datetime.datetime, fmt_char: str) -> str:
         # Year without century
         str_ = str(datetime.year + _BE_AD_DIFFERENCE)[2:4]
     elif fmt_char == "+":
-        # National representation of the date and time (the format is similar to that produced by date(1))
+        # National representation of the date and time
+        # (the format is similar to that produced by date(1))
         # Wed  6 Oct 1976 01:40:00
         str_ = "{:<2} {:>2} {} {} {}".format(
             thai_abbr_weekdays[datetime.weekday()],
@@ -278,10 +286,13 @@ def thai_strftime(
                             ):  # check if requires localization
                                 str_ = _thai_strftime(datetime, fmt_char_nopad)
                             else:
+                                # Windows may not support this
                                 str_ = datetime.strftime(f"%-{fmt_char_nopad}")
                             i = i + 1  # consume char after "-"
                         else:
-                            str_ = "-"  # "-" at the end of string has no meaning
+                            str_ = (
+                                "-"
+                            )  # "-" at the end of string has no meaning
                     elif fmt_char == "_":
                         # GNU libc extension, explicitly specify space (" ") for padding
                         # Not implemented yet

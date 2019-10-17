@@ -94,7 +94,6 @@ install:
   - SET PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%
 #  - ECHO %PATH%
   - python --version
-  - pip install --disable-pip-version-check --user --upgrade pip setuptools
   - pip --version
   - pip install coveralls[yaml]
   - pip install coverage
@@ -136,7 +135,7 @@ on_success:
   # Note: Cygwin is not available on Visual Studio 2019, can try Msys2.
   - "ECHO Remove old or huge cache"
   - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -type f -mtime +360 -delete
-  - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -type f -size +100M -delete
+  - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -type f -size +50M -delete
   - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -empty -delete
   # Show size of cache
   - C:\cygwin\bin\du -hs "%LOCALAPPDATA%/pip/Cache"

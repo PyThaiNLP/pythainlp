@@ -10,6 +10,8 @@ from pythainlp.corpus import thai_syllables, thai_words
 
 from .trie import Trie
 
+from .ngrams import n_grams
+
 DEFAULT_DICT_TRIE = Trie(thai_words())
 
 

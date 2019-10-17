@@ -94,6 +94,7 @@ install:
   - SET PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%
 #  - ECHO %PATH%
   - python --version
+#  - pip install --disable-pip-version-check --user --upgrade pip setuptools
   - pip --version
   - pip install coveralls[yaml]
   - pip install coverage

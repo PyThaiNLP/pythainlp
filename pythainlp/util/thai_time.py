@@ -99,7 +99,7 @@ def _format(
                 text += num_to_thaiword(s) + "วินาที"
     else:
         if m:
-            if (fmt == "6h" or fmt == "m6h") and m == 30 and s == 0:
+            if m == 30 and s == 0 and (fmt == "6h" or fmt == "m6h"):
                 text += "ครึ่ง"
             else:
                 text += num_to_thaiword(m) + "นาที"

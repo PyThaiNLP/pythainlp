@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 thai_time() - Spell out time to Thai words
-by Wannaphong Phatthiyaphaibun
 """
 from datetime import datetime, time
 from typing import Union

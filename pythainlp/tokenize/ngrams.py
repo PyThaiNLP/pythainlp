@@ -1,5 +1,5 @@
-#text='hello everyone i am subarna lamsal from nepal'
-#num=int(input("Enter the number of n_grams required"))
+# text='hello everyone i am subarna lamsal from nepal'
+# num=int(input("Enter the number of n_grams required"))
 
 
 def n_grams(text, ngram_num, i=0):

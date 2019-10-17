@@ -4,12 +4,14 @@ import datetime
 import unittest
 from collections import Counter
 
+from pythainlp.tokenize import word_tokenize
 from pythainlp.util import (
     arabic_digit_to_thai_digit,
     bahttext,
     collate,
     countthai,
     delete_tone,
+    deletetone,
     digit_to_text,
     eng_to_thai,
     find_keyword,
@@ -25,11 +27,11 @@ from pythainlp.util import (
     text_to_thai_digit,
     thai_digit_to_arabic_digit,
     thai_strftime,
-    thai_to_eng,
-    thaiword_to_num,
     thai_time,
+    thai_to_eng,
+    thaicheck,
+    thaiword_to_num,
 )
-from pythainlp.tokenize import word_tokenize
 
 
 class TestUtilPackage(unittest.TestCase):
@@ -144,6 +146,12 @@ class TestUtilPackage(unittest.TestCase):
 
     def test_thai_strftime(self):
         date = datetime.datetime(1976, 10, 6, 1, 40)
+        self.assertEqual(thai_strftime(date, "%d"), "06")
+        self.assertEqual(thai_strftime(date, "%-d"), "6")
+        self.assertEqual(thai_strftime(date, "%-d", True), "๖")
+        self.assertEqual(thai_strftime(date, "%%"), "%")
+        self.assertEqual(thai_strftime(date, "%-"), "-")
+        self.assertEqual(thai_strftime(date, "%P"), "P")
         self.assertEqual(thai_strftime(date, "%c"), "พ   6 ต.ค. 01:40:00 2519")
         self.assertEqual(
             thai_strftime(date, "%c", True), "พ   ๖ ต.ค. ๐๑:๔๐:๐๐ ๒๕๑๙"
@@ -155,7 +163,7 @@ class TestUtilPackage(unittest.TestCase):
             "วันพุธที่ 06 ตุลาคม พ.ศ. 2519 เวลา 01:40น. (พ 06-ต.ค.-19) % %",
         )
         self.assertIsNotNone(
-            thai_strftime(date, "%A%a%B%b%C%c%D%F%G%g%v%X%x%Y%y%+")
+            thai_strftime(date, "%A%a%B%b%C%c%D%F%G%g%v%X%x%Y%y%+%%")
         )
 
     # ### pythainlp.util.thai_time
@@ -168,6 +176,10 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_time("13:30:01", "6h", "minute"), "บ่ายโมงครึ่ง")
         self.assertEqual(
             thai_time(datetime.time(12, 3, 0)), "สิบสองนาฬิกาสามนาที"
+        )
+        self.assertEqual(
+            thai_time(datetime.time(12, 3, 1)),
+            "สิบสองนาฬิกาสามนาทีหนึ่งวินาที",
         )
         self.assertEqual(
             thai_time(
@@ -208,6 +220,7 @@ class TestUtilPackage(unittest.TestCase):
     def test_delete_tone(self):
         self.assertEqual(delete_tone("จิ้น"), "จิน")
         self.assertEqual(delete_tone("เก๋า"), "เกา")
+        self.assertEqual(delete_tone("จิ้น"), deletetone("จิ้น"))
 
     def test_normalize(self):
         self.assertEqual(normalize("เเปลก"), "แปลก")
@@ -235,6 +248,7 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(isthai("(ต.ค.)", ignore_chars=".()"), True)
 
     def test_is_native_thai(self):
+        self.assertEqual(is_native_thai("เลข"), thaicheck("เลข"))
         self.assertEqual(is_native_thai(None), False)
         self.assertEqual(is_native_thai(""), False)
         self.assertEqual(is_native_thai("116"), False)

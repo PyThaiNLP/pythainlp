@@ -111,7 +111,7 @@ def is_native_thai(word: str) -> bool:
     chs = re.findall(_TH_CONSONANTS_PATTERN, word)
     if not chs:
         return False
-    
+
     # If there's only one Thai consonant -> it can be a native Thai
     if len(chs) == 1:
         return True

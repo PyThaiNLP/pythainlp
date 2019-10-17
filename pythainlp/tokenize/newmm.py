@@ -33,6 +33,10 @@ _PAT_ENG = re.compile(
 
 _PAT_TWOCHARS = re.compile("[ก-ฮ]{,2}$")
 
+_TEXT_LIMIT = 100
+_TEXT_SCAN_LEFT = 20
+_TEXT_SCAN_RIGHT = 20
+
 
 def _bfs_paths_graph(graph, start, goal):
     queue = [(start, [start])]
@@ -111,18 +115,17 @@ def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
     if not custom_dict:
         custom_dict = DEFAULT_DICT_TRIE
 
-    TEXT_LIMIT = 100
-    TEXT_SCAN_LEFT = 25
-    TEXT_SCAN_RIGHT = 25
     text_len = len(text)
 
     # if the text is longer than the limit,
     # breaks them into smaller chunks then tokenizes each chunk
-    if text_len >= (TEXT_LIMIT + TEXT_SCAN_RIGHT):
+    if text_len >= (_TEXT_LIMIT + _TEXT_SCAN_RIGHT):
         text_parts = []
-        while text_len >= (TEXT_LIMIT + TEXT_SCAN_RIGHT):
-            sample_start = TEXT_LIMIT - TEXT_SCAN_LEFT
-            sample_end = TEXT_LIMIT + TEXT_SCAN_RIGHT
+        # May try to break by spaces first, using text.find(" ")
+
+        while text_len >= (_TEXT_LIMIT + _TEXT_SCAN_RIGHT):
+            sample_start = _TEXT_LIMIT - _TEXT_SCAN_LEFT
+            sample_end = _TEXT_LIMIT + _TEXT_SCAN_RIGHT
             sample = text[sample_start:sample_end]
 
             # find possible break positions

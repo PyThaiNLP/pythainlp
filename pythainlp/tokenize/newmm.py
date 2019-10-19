@@ -144,6 +144,7 @@ def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
                         token_max_idx = i
 
                 # choose the position that covers longest token
+                cut_pos = sample_start
                 for i in range(0, token_max_idx):
                     cut_pos = cut_pos + len(tokens[i])
 

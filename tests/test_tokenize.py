@@ -210,9 +210,17 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(subword_tokenize(None), [])
         self.assertEqual(subword_tokenize(""), [])
         self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"))
+
+        self.assertEqual(subword_tokenize(None, engine="etcc"), [])
+        self.assertEqual(subword_tokenize("", engine="etcc"), [])
         self.assertIsNotNone(
-            subword_tokenize("สวัสดีดาวอังคาร", engine="etcc")
+            subword_tokenize("สวัสดิีดาวอังคาร", engine="etcc")
         )
+        self.assertIsNotNone(subword_tokenize("เบียร์สิงห์", engine="etcc"))
+
+        self.assertEqual(subword_tokenize(None, engine="ssg"), [])
+        self.assertEqual(subword_tokenize("", engine="ssg"), [])
+        self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
 
     def test_syllable_tokenize(self):
         self.assertEqual(syllable_tokenize(None), [])

@@ -65,7 +65,7 @@ def _onecut(text: str, custom_dict: Trie) -> Iterable[str]:
                 if p_ not in q:
                     heappush(q, p_)
 
-        # กรณี length 1 คือ ไม่กำกวมแล้ว ส่งผลลัพธ์ก่อนนี้คืนได้
+        # if length == 1 means no longer ambiguous, return previous result
         if len(q) == 1:
             pp = next(_bfs_paths_graph(graph, last_p, q[0]))
             # เริ่มต้น last_p = pp[0] เอง
@@ -74,7 +74,7 @@ def _onecut(text: str, custom_dict: Trie) -> Iterable[str]:
                 last_p = p
             # สุดท้าย last_p == q[0] เอง
 
-        # กรณี length 0 คือ ไม่มีใน dict
+        # if length == 0 means not found in dictionary
         if len(q) == 0:
             m = _PAT_ENG.match(text[p:])
             if m:  # อังกฤษ, เลข, ว่าง
@@ -121,7 +121,6 @@ def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
     # breaks them into smaller chunks then tokenizes each chunk
     if text_len >= (_TEXT_LIMIT + _TEXT_SCAN_RIGHT):
         text_parts = []
-        # May try to break by spaces first, using text.find(" ")
 
         while text_len >= (_TEXT_LIMIT + _TEXT_SCAN_RIGHT):
             sample_start = _TEXT_LIMIT - _TEXT_SCAN_LEFT
@@ -129,18 +128,24 @@ def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
             sample = text[sample_start:sample_end]
 
             # find possible break positions
-            tokens = list(_onecut(sample, custom_dict))
-            token_max_idx = 0
-            for i, token in enumerate(tokens):
-                token_max_len = 0
-                if len(token) > token_max_len:
-                    token_max_len = len(token)
-                    token_max_idx = i
+            cut_pos = sample_end
 
-            # choose the position that covers longest token
-            cut_pos = sample_start
-            for i in range(0, token_max_idx):
-                cut_pos = cut_pos + len(tokens[i])
+            # try to break by space first
+            space_idx = sample.rfind(" ")
+            if space_idx >= 0:
+                cut_pos = space_idx + 1
+            else:
+                tokens = list(_onecut(sample, custom_dict))
+                token_max_idx = 0
+                for i, token in enumerate(tokens):
+                    token_max_len = 0
+                    if len(token) > token_max_len:
+                        token_max_len = len(token)
+                        token_max_idx = i
+
+                # choose the position that covers longest token
+                for i in range(0, token_max_idx):
+                    cut_pos = cut_pos + len(tokens[i])
 
             text_parts.append(text[:cut_pos])
             text = text[cut_pos:]

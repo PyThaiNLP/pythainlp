@@ -142,8 +142,14 @@ class LongestMatchTokenizer(object):
         return tokens
 
 
-def segment(text: str, custom_dict: Trie = None) -> List[str]:
-    """ตัดคำภาษาไทยด้วยวิธี longest matching"""
+def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
+    """
+    Dictionary-based longest matching word segmentation.
+
+    :param str text: text to be tokenized to words
+    :param pythainlp.trie.Trie custom_dict: dictionary for tokenization
+    :return: list of words, tokenized from the text
+    """
     if not text or not isinstance(text, str):
         return []
 

@@ -21,10 +21,10 @@ from pythainlp.tokenize import DEFAULT_DICT_TRIE
 from .tcc import tcc_pos
 from .trie import Trie
 
-# ช่วยตัดพวกภาษาอังกฤษ เป็นต้น
+# To tokenizes English words, for example
 _PAT_ENG = re.compile(
     r"""(?x)
-[-a-zA-Z]+|   # English
+[-a-zA-Z]+|   # Latin
 \d[\d,\.]*|   # number
 [ \t]+|       # space
 \r?\n         # newline
@@ -60,7 +60,7 @@ def _onecut(text: str, custom_dict: Trie) -> Iterable[str]:
 
         for w in custom_dict.prefixes(text[p:]):
             p_ = p + len(w)
-            if p_ in allow_pos:  # เลือกที่สอดคล้อง tcc
+            if p_ in allow_pos:  # only pick one that is TCC-valid
                 graph[p].append(p_)
                 if p_ not in q:
                     heappush(q, p_)
@@ -68,20 +68,20 @@ def _onecut(text: str, custom_dict: Trie) -> Iterable[str]:
         # if length == 1 means no longer ambiguous, return previous result
         if len(q) == 1:
             pp = next(_bfs_paths_graph(graph, last_p, q[0]))
-            # เริ่มต้น last_p = pp[0] เอง
+            # will eventually start at last_p = pp[0]
             for p in pp[1:]:
                 yield text[last_p:p]
                 last_p = p
-            # สุดท้าย last_p == q[0] เอง
+            # will eventually stop at last_p == q[0]
 
         # if length == 0 means not found in dictionary
         if len(q) == 0:
             m = _PAT_ENG.match(text[p:])
-            if m:  # อังกฤษ, เลข, ว่าง
+            if m:  # Latin characters, numeric, space
                 i = p + m.end()
-            else:  # skip น้อยที่สุด ที่เป็นไปได้
+            else:  # as mininum skip as possible
                 for i in range(p + 1, len(text)):
-                    if i in allow_pos:  # ใช้ tcc ด้วย
+                    if i in allow_pos:  # only if TCC-valid
                         ww = [
                             w
                             for w in custom_dict.prefixes(text[i:])

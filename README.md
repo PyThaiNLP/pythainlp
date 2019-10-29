@@ -40,7 +40,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 - Thai spelling suggestion and correction (`spell` and `correct`)
 - Thai soundex (`soundex`) with three engines (`lk82`, `udom83`, `metasound`)
 - Thai WordNet wrapper
-- and much more - see examples in [PyThaiNLP Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb).
+- and much more - see examples in [tutorials](https://www.thainlp.org/pythainlp/tutorials/).
 
 
 ## Installation
@@ -151,7 +151,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 - ตรวจคำสะกดผิดในภาษาไทย (`spell`, `correct`)
 - soundex ภาษาไทย (`soundex`) 3 วิธีการ (`lk82`, `udom83`, `metasound`)
 - Thai WordNet wrapper
-- และอื่น ๆ ดูตัวอย่างได้ใน [PyThaiNLP Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
+- และอื่น ๆ ดูตัวอย่างได้ใน [tutorials สอนวิธีใช้งาน](https://www.thainlp.org/pythainlp/tutorials/)
 
 
 ## ติดตั้ง

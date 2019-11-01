@@ -57,15 +57,15 @@ build_script:
   - export RELEASE=$(echo $RELEASE | cut -d'-' -f1)
   - export TODAY=$(date +'%Y-%m-%d')
   - make html
-  - echo "Done building HTML files for the branch: $APPVEYOR_REPO_BRANCH"
-  - echo "Start cleaning the directory: /docs/$APPVEYOR_REPO_BRANCH"
-  - sudo bash ./clean_directory.sh $FTP_USER $FTP_PASSWORD $FTP_HOST $APPVEYOR_REPO_BRANCH
+  - echo "Done building HTML files for the branch: $CURRENT_BRANCH"
+  - echo "Start cleaning the directory: /docs/$CURRENT_BRANCH"
+  - sudo bash ./clean_directory.sh $FTP_USER $FTP_PASSWORD $FTP_HOST $CURRENT_BRANCH
   - echo "Start uploading files from: ./build/html"
-  - echo "to: thainlp.org/pythainlp/docs/$APPVEYOR_REPO_BRANCH"
+  - echo "to: thainlp.org/pythainlp/docs/$CURRENT_BRANCH"
   - cd ./_build/html
-  - find . -type f -name "*" -print -exec curl --ftp-create-dir --ipv4 -T {} ftp://${FTP_USER}:${FTP_PASSWORD}@${FTP_HOST}/public_html/pythainlp/docs/$APPVEYOR_REPO_BRANCH/{} \;
+  - find . -type f -name "*" -print -exec curl --ftp-create-dir --ipv4 -T {} ftp://${FTP_USER}:${FTP_PASSWORD}@${FTP_HOST}/public_html/pythainlp/docs/$CURRENT_BRANCH/{} \;
   - echo "Done uploading."
-  - echo "Files uploaded to: thainlp.org/pythainlp/docs/$APPVEYOR_REPO_BRANCH"
+  - echo "Files uploaded to: thainlp.org/pythainlp/docs/$CURRENT_BRANCH"
 
 artifacts:
   - path: ./docs/_build/html

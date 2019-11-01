@@ -33,17 +33,18 @@ cache:
 #  - '~/pythainlp-data'
 
 install:
-  - sudo apt-get install -y pandoc libicu-dev
+  - sudo apt-get update
+  - sudo apt-get install -y pandoc libicu-dev python3-pip
   - python -V
   - python3 -V
   - pip -V
   - pip3 -V
   - export LD_LIBRARY_PATH=/usr/local/lib
-  - sudo pip3 install -r requirements.txt
-  - sudo pip3 install torch==1.2.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
-  - sudo pip3 install --upgrade artagger emoji epitran gensim numpy pandas pyicu sklearn-crfsuite ssg
-  - sudo pip3 install --upgrade "tensorflow==1.14,<2"deepcut
-  - sudo pip3 install --upgrade boto smart_open sphinx sphinx-rtd-theme
+  - sudo pip install -r requirements.txt
+  - sudo pip install torch==1.2.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+  - sudo pip install --upgrade artagger emoji epitran gensim numpy pandas pyicu sklearn-crfsuite ssg
+  - sudo pip install --upgrade "tensorflow==1.14,<2"deepcut
+  - sudo pip install --upgrade boto smart_open sphinx sphinx-rtd-theme
 
 #---------------------------------#
 #       build configuration       #

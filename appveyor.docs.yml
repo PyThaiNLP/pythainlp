@@ -41,7 +41,7 @@ install:
   - sudo pip install -r requirements.txt
   - sudo pip install torch==1.2.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
   - sudo pip install --upgrade artagger emoji epitran gensim numpy pandas pyicu sklearn-crfsuite ssg
-  - sudo pip install --upgrade "tensorflow>=1.14,<2" deepcut
+  - sudo pip install --upgrade tensorflow==1.15 deepcut
   - sudo pip install --upgrade boto smart_open sphinx sphinx-rtd-theme
 
 #---------------------------------#

@@ -23,10 +23,10 @@ Modules
 .. autofunction:: num_to_thaiword
 .. autofunction:: rank
 .. autofunction:: reign_year_to_ad
+.. autofunction:: thai_time
 .. autofunction:: text_to_arabic_digit
 .. autofunction:: text_to_thai_digit
 .. autofunction:: thai_strftime
 .. autofunction:: thai_to_eng
 .. autofunction:: thai_digit_to_arabic_digit
 .. autofunction:: thaiword_to_num
-.. autofunction:: thai_time

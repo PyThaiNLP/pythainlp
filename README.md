@@ -11,6 +11,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev) [![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp-get-started.ipynb)
+[![DOI](https://zenodo.org/badge/61813823.svg)](https://zenodo.org/badge/latestdoi/61813823)
 
 Thai Natural Language Processing in Python.
 
@@ -23,7 +24,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 **This is a document for development branch (post 2.0). Things will break.**
 
 - The latest stable release is [2.0.7](https://github.com/PyThaiNLP/pythainlp/releases)
-- The latest development release is [2.1.dev6](https://github.com/PyThaiNLP/pythainlp/releases). See [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
+- The latest development release is [2.1.dev7](https://github.com/PyThaiNLP/pythainlp/releases). See [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
 - 📫 follow our [PyThaiNLP](https://www.facebook.com/pythainlp/) Facebook page
 
 
@@ -39,7 +40,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 - Thai spelling suggestion and correction (`spell` and `correct`)
 - Thai soundex (`soundex`) with three engines (`lk82`, `udom83`, `metasound`)
 - Thai WordNet wrapper
-- and much more - see examples in [PyThaiNLP Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb).
+- and much more - see examples in [tutorials](https://www.thainlp.org/pythainlp/tutorials/).
 
 
 ## Installation
@@ -150,7 +151,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 - ตรวจคำสะกดผิดในภาษาไทย (`spell`, `correct`)
 - soundex ภาษาไทย (`soundex`) 3 วิธีการ (`lk82`, `udom83`, `metasound`)
 - Thai WordNet wrapper
-- และอื่น ๆ ดูตัวอย่างได้ใน [PyThaiNLP Get Started notebook](https://github.com/PyThaiNLP/pythainlp/blob/dev/notebooks/pythainlp-get-started.ipynb)
+- และอื่น ๆ ดูตัวอย่างได้ใน [tutorials สอนวิธีใช้งาน](https://www.thainlp.org/pythainlp/tutorials/)
 
 
 ## ติดตั้ง

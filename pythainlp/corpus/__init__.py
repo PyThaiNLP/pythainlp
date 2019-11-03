@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import hashlib
 import os
-import queue
-import threading
 from typing import NoReturn, Union
 from urllib.request import urlopen
 
@@ -26,6 +24,7 @@ _CORPUS_DB_URL = (
 _CORPUS_DB_FILENAME = "db.json"
 _CORPUS_DB_PATH = get_full_data_path(_CORPUS_DB_FILENAME)
 
+# Create a local corpus database if it does not already exist
 if not os.path.exists(_CORPUS_DB_PATH):
     TinyDB(_CORPUS_DB_PATH)
 
@@ -45,14 +44,12 @@ def corpus_db_path() -> str:
 def get_corpus_db_detail(name: str) -> dict:
     db = TinyDB(corpus_db_path())
     query = Query()
-    return db.search(query.name == name)[0]
 
-
-def read_text_corpus(path: str) -> list:
-    lines = []
-    with open(path, "r", encoding="utf-8-sig") as fh:
-        lines = fh.read().splitlines()
-    return lines
+    res = db.search(query.name == name)
+    if res:
+        return res[0]
+    else:
+        return dict()
 
 
 def get_corpus(filename: str) -> frozenset:
@@ -71,6 +68,10 @@ def get_corpus(filename: str) -> frozenset:
 
         from pythainlp.corpus import get_corpus
 
+        get_corpus('negations_th.txt')
+        # output:
+        # frozenset({'แต่', 'ไม่'})
+
         get_corpus('ttc_freq.txt')
         # output:
         # frozenset({'โดยนัยนี้\\t1',
@@ -81,12 +82,11 @@ def get_corpus(filename: str) -> frozenset:
         #    'เหนี่ยง\\t3',
         #    'ชงฆ์\\t3',
         #     ...})
-
-        get_corpus('negations_th.txt')
-        # output:
-        # frozenset({'แต่', 'ไม่'})
     """
-    lines = read_text_corpus(os.path.join(corpus_path(), filename))
+    path = os.path.join(corpus_path(), filename)
+    lines = []
+    with open(path, "r", encoding="utf-8-sig") as fh:
+        lines = fh.read().splitlines()
 
     return frozenset(lines)
 
@@ -140,25 +140,6 @@ def get_corpus_path(name: str) -> Union[str, None]:
     return path
 
 
-def _get_input(message, channel):
-    response = input(message)
-    channel.put(response)
-
-
-def _input_with_timeout(message, timeout, default_response):
-    channel = queue.Queue()
-    thread = threading.Thread(target=_get_input, args=(message, channel))
-    thread.daemon = True
-    thread.start()
-
-    try:
-        response = channel.get(True, timeout)
-        return response
-    except queue.Empty:
-        pass
-    return default_response
-
-
 def _download(url: str, dst: str) -> int:
     """
     @param: url to download file
@@ -199,7 +180,7 @@ def download(name: str, force: bool = False) -> NoReturn:
     https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json
 
     :param string name: corpus name
-    :param bool force: force install
+    :param bool force: force download
 
     :Example:
     ::
@@ -234,19 +215,26 @@ def download(name: str, force: bool = False) -> NoReturn:
     if name in list(corpus_data.keys()):
         corpus = corpus_data[name]
         print("Corpus:", name)
+        found = local_db.search(query.name == name)
 
         # If not found in local, download
-        if not local_db.search(query.name == name):
+        if force or not found:
             print(f"- Downloading: {name} {corpus['version']}")
             _download(corpus["download"], corpus["file_name"])
             _check_hash(corpus["file_name"], corpus["md5"])
-            local_db.insert(
-                {
-                    "name": name,
-                    "version": corpus["version"],
-                    "file": corpus["file_name"],
-                }
-            )
+
+            if found:
+                local_db.update(
+                    {"version": corpus["version"]}, query.name == name
+                )
+            else:
+                local_db.insert(
+                    {
+                        "name": name,
+                        "version": corpus["version"],
+                        "file": corpus["file_name"],
+                    }
+                )
         else:
             if local_db.search(
                 query.name == name and query.version == corpus["version"]
@@ -254,21 +242,13 @@ def download(name: str, force: bool = False) -> NoReturn:
                 # Already has the same version
                 print("- Already up to date.")
             else:
-                # Has the corpus but different version, update
+                # Has the corpus but different version
                 current_ver = local_db.search(query.name == name)[0]["version"]
-                message = f"- Update from {current_ver} to {corpus['version']} [y/n]?"
-                response = _input_with_timeout(message, 10, "n")
-                response = response.lower()
-
-                if force or response == "y":
-                    print(f"- Downloading: {name} {corpus['version']}")
-                    _download(corpus["download"], corpus["file_name"])
-                    _check_hash(corpus["file_name"], corpus["md5"])
-                    local_db.update(
-                        {"version": corpus["version"]}, query.name == name
-                    )
-                else:
-                    print("- Not update.")
+                print(f"- Existing version: {current_ver}")
+                print(f"- New version available: {corpus['version']}")
+                print("- Use download(data_name, force=True) to update")
+    else:
+        print("Corpus not found:", name)
 
     local_db.close()
 

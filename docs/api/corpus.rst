@@ -22,7 +22,6 @@ Modules
 TNC
 ---
 
-.. autofunction:: pythainlp.corpus.tnc.word_freq
 .. autofunction:: pythainlp.corpus.tnc.word_freqs
 
 TTC

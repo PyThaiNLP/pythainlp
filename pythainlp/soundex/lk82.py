@@ -23,10 +23,27 @@ _RE_3 = re.compile(r"[็ํฺๆฯ]")
 
 def lk82(text: str) -> str:
     """
-    LK82 - It's a Thai soundex rule.
+    This function converts Thai text into phonetic code with the a
+    Thai soundex algorithm named **LK82** [lk82]_.
 
     :param str text: Thai word
-    :return: LK82 soundex
+
+    :return: LK82 soundex of the given Thai word
+    :rtype: str
+
+    :Example:
+
+        >>> from pythainlp.soundex import lk82
+        >>> lk82("ลัก")
+        'ร1000'
+        >>> lk82("รัก")
+        'ร1000'
+        >>> lk82("รักษ์")
+        'ร1000'
+        >>> lk82("บูรณการ")
+        'บE419'
+        >>> lk82("ปัจจุบัน")
+        'ป3E54'
     """
     if not text or not isinstance(text, str):
         return ""

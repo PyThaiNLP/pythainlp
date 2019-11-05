@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-โปรแกรม multi-cut
-ตัดคำภาษาไทยโดยใช้วิธี Maximum Matching
-โค้ดต้นฉบับโดย คุณ Korakot Chaovavanich
-จาก https://www.facebook.com/groups/408004796247683/permalink/431283740586455/
-และ https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716
+Multi cut -- Thai word segmentation with maximum matching
+
+The original source code is from Korakot Chaovavanich
+
+:See Also:
+    * `Facebook post \
+        <https://www.facebook.com/groups/408004796247683/permalink/431283740586455/>`_
+    * `GitHub Gist \
+        <https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716>`_
 """
+
 import re
 from collections import defaultdict
 from typing import List

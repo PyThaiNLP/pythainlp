@@ -2,11 +2,8 @@
 """
 Unit test
 """
-import datetime
-import os
+import sys
 import unittest
-from collections import Counter
-
 from nltk.corpus import wordnet as wn
 from pythainlp import word_vector
 from pythainlp.corpus import (

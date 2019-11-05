@@ -1,27 +1,58 @@
 # -*- coding: utf-8 -*-
 """
-Code by Charin
+Code by Charin Polpanumas
 https://github.com/cstorm125/thai2fit/
 """
 import collections
 import re
-
-from typing import List
+from typing import List, Collection, Callable
 
 import emoji
+import html
 import numpy as np
 import torch
 
-from fastai.text import TK_REP, BaseTokenizer
-from fastai.text.transform import (
-    fix_html,
-    rm_useless_spaces,
-    spec_add_spaces,
-    replace_all_caps,
-)
-from pythainlp import word_tokenize
-from pythainlp.corpus import download, get_corpus_path
+from pythainlp.corpus import download, get_corpus, get_corpus_path
+from pythainlp.tokenize import Tokenizer
 from pythainlp.util import normalize as normalize_char_order
+
+'''
+# Fastai dependencies
+The following codes are copied from copied from https://github.com/fastai/fastai/blob/master/fastai/text/transform.py
+in order to avoid importing the entire fastai library
+'''
+
+UNK = 'xxunk'
+TK_REP = 'xxrep'
+TK_WREP = 'xxwrep'
+TK_END = 'xxend'
+
+class BaseTokenizer():
+    "Basic class for a tokenizer function."
+    def __init__(self, lang:str):                      self.lang = lang
+    def tokenizer(self, t:str) -> List[str]:           return t.split(' ')
+    def add_special_cases(self, toks:Collection[str]): pass
+    
+def fix_html(x:str) -> str:
+    "List of replacements from html strings in `x`."
+    re1 = re.compile(r'  +')
+    x = x.replace('#39;', "'").replace('amp;', '&').replace('#146;', "'").replace(
+        'nbsp;', ' ').replace('#36;', '$').replace('\\n', "\n").replace('quot;', "'").replace(
+        '<br />', "\n").replace('\\"', '"').replace('<unk>',UNK).replace(' @.@ ','.').replace(
+        ' @-@ ','-').replace(' @,@ ',',').replace('\\', ' \\ ')
+    return re1.sub(' ', html.unescape(x))
+
+def rm_useless_spaces(t:str) -> str:
+    "Remove multiple spaces in `t`."
+    return re.sub(' {2,}', ' ', t)
+
+def spec_add_spaces(t:str) -> str:
+    "Add spaces around / and # in `t`. \n"
+    return re.sub(r'([/#\n])', r' \1 ', t)
+
+'''
+End of fastai codes
+'''
 
 __all__ = [
     "ThaiTokenizer",
@@ -29,6 +60,9 @@ __all__ = [
     "merge_wgts",
     "pre_rules_th",
     "post_rules_th",
+    "pre_rules_th_sparse",
+    "post_rules_th_sparse",
+    "process_thai",
     "_THWIKI_LSTM",
 ]
 
@@ -37,6 +71,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 _MODEL_NAME_LSTM = "wiki_lm_lstm"
 _ITOS_NAME_LSTM = "wiki_itos_lstm"
 
+_THAI2FIT_WORDS = get_corpus("words_th_thai2fit_201810.txt")
+_pythainlp_tokenizer = Tokenizer(custom_dict=_THAI2FIT_WORDS, engine="newmm")
 
 # Download pretrained models
 def _get_path(fname: str) -> str:
@@ -55,8 +91,9 @@ def _get_path(fname: str) -> str:
 # Custom fastai tokenizer
 class ThaiTokenizer(BaseTokenizer):
     """
-    Wrapper around a frozen newmm tokenizer to make it a fastai `BaseTokenizer`.
-    https://docs.fast.ai/text.transform#BaseTokenizer
+    Wrapper around a frozen newmm tokenizer to make it a
+    :class:`fastai.BaseTokenizer`.
+    (see: https://docs.fast.ai/text.transform#BaseTokenizer)
     """
 
     def __init__(self, lang: str = "th"):
@@ -65,26 +102,73 @@ class ThaiTokenizer(BaseTokenizer):
     @staticmethod
     def tokenizer(text: str) -> List[str]:
         """
+        This function tokenizes text with *newmm* engine and the dictionary
+        specifically for `ulmfit` related functions
+        (see: `Dictonary file (.txt) \
+        <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/words_th_thai2fit_201810.txt>`_).
         :meth: tokenize text with a frozen newmm engine
         :param str text: text to tokenize
         :return: tokenized text
+        :rtype: list[str]
+
+        :Example:
+
+            Using :func:`pythainlp.ulmfit.ThaiTokenizer.tokenizer` is
+            similar to :func:`pythainlp.tokenize.word_tokenize`
+            with *ulmfit* engine.
+
+            >>> from  pythainlp.ulmfit import ThaiTokenizer
+            >>> from  pythainlp.tokenize import word_tokenize
+            >>>
+            >>> text = "อาภรณ์, จินตมยปัญญา ภาวนามยปัญญา"
+            >>> ThaiTokenizer.tokenizer(text)
+            ['อาภรณ์', ',', ' ', 'จิน', 'ตม', 'ย', 'ปัญญา',
+             ' ', 'ภาวนามยปัญญา']
+            >>>
+            >>> word_tokenize(text, engine='ulmfit')
+            ['อาภรณ์', ',', ' ', 'จิน', 'ตม', 'ย', 'ปัญญา',
+             ' ', 'ภาวนามยปัญญา']
+
         """
-        return word_tokenize(text, engine="ulmfit")
+        return _pythainlp_tokenizer.word_tokenize(text)
 
     def add_special_cases(self, toks):
         pass
 
 
 def replace_rep_after(text: str) -> str:
-    "Replace repetitions at the character level in `text` after the repetition"
+    """
+    Replace repetitions at the character level in `text` after the repetition.
+    This is done to prevent such case as 'น้อยยยยยยยย' becoming 'น้อ xxrep 8 ย';
+    instead it will retain the word as 'น้อย xxrep 8'
+    """
 
     def _replace_rep(m):
         c, cc = m.groups()
-        return f"{c}{TK_REP}{len(cc)+1}"
+        return f"{c}{TK_REP}{len(cc)+1} "
 
-    re_rep = re.compile(r"(\S)(\1{2,})")
+    re_rep = re.compile(r"(\S)(\1{3,})")
 
     return re_rep.sub(_replace_rep, text)
+
+def replace_wrep_post(toks:Collection):
+    """
+    Replace reptitive words post tokenization; 
+    fastai `replace_wrep` does not work well with Thai.
+    """
+    previous_word = None
+    rep_count = 0
+    res = []
+    for current_word in toks+[TK_END]:
+        if current_word==previous_word: 
+            rep_count+=1
+        elif (current_word!=previous_word) & (rep_count>0):
+            res += [TK_WREP,str(rep_count),previous_word]
+            rep_count=0
+        else:
+            res.append(previous_word)
+        previous_word=current_word
+    return res[1:]
 
 
 def rm_useless_newlines(text: str) -> str:
@@ -102,9 +186,8 @@ def rm_brackets(text: str) -> str:
     return new_line
 
 
-def ungroup_emoji(toks):
+def ungroup_emoji(toks:Collection):
     "Ungroup emojis"
-
     res = []
     for tok in toks:
         if emoji.emoji_count(tok) == len(tok):
@@ -112,14 +195,53 @@ def ungroup_emoji(toks):
                 res.append(char)
         else:
             res.append(tok)
-
     return res
 
-
-def lowercase_all(toks):
-    "lowercase all English words"
+def lowercase_all(toks:Collection):
+    """Lowercase all English words; 
+    English words in Thai texts don't usually have nuances of capitalization.
+    """
     return [tok.lower() for tok in toks]
 
+def replace_rep_nonum(text: str) -> str:
+    """
+    Replace repetitions at the character level in `text` after the repetition.
+    This is done to prevent such case as 'น้อยยยยยยยย' becoming 'น้อ xrep 8 ย';
+    instead it will retain the word as 'น้อย xrep 8'
+    """
+    def _replace_rep(m):
+        c, cc = m.groups()
+        return f"{c} {TK_REP} "
+    re_rep = re.compile(r"(\S)(\1{3,})")
+    return re_rep.sub(_replace_rep, text)
+
+def replace_wrep_post_nonum(toks:Collection):
+    """
+    Replace reptitive words post tokenization; 
+    fastai `replace_wrep` does not work well with Thai.
+    """
+    previous_word = None
+    rep_count = 0
+    res = []
+    for current_word in toks+[TK_END]:
+        if current_word==previous_word: 
+            rep_count+=1
+        elif (current_word!=previous_word) & (rep_count>0):
+            res += [TK_WREP,previous_word]
+            rep_count=0
+        else:
+            res.append(previous_word)
+        previous_word=current_word
+    return res[1:]
+
+def remove_space(toks:Collection):
+    """
+    Do not include space for bag-of-word models.
+    """
+    res = []
+    for t in toks:
+        if t!=' ': res.append(t)
+    return res
 
 # Pretrained paths
 # TODO: Let the user decide if they like to download (at setup?)
@@ -128,28 +250,79 @@ _THWIKI_LSTM = dict(
 )
 
 # Preprocessing rules for Thai text
+# dense features
 pre_rules_th = [
-    fix_html,
     replace_rep_after,
+    fix_html,
     normalize_char_order,
     spec_add_spaces,
     rm_useless_spaces,
     rm_useless_newlines,
     rm_brackets,
 ]
-post_rules_th = [replace_all_caps, ungroup_emoji, lowercase_all]
+post_rules_th = [replace_wrep_post, ungroup_emoji, lowercase_all,]
+# sparse features
+pre_rules_th_sparse = pre_rules_th[1:] + [replace_rep_nonum]
+post_rules_th_sparse =  post_rules_th[1:] + [replace_wrep_post_nonum, remove_space] 
+
+def process_thai(text: str, pre_rules: Collection = pre_rules_th_sparse, tok_func:Callable = _pythainlp_tokenizer.word_tokenize,
+                post_rules: Collection = post_rules_th_sparse) -> Collection[str]:
+    """
+    Process Thai texts for models (with sparse features as default)
+    :param str text: text to be cleaned
+    :param pre_rules List: rules to apply before tokenization
+    :param tok_func Callable: tokenization function
+    :param post_rules List: rules to apply after tokenization
+    :return: a list of cleaned tokenized texts
+    """
+    res = text
+    for pre in pre_rules: res = pre(res)
+    res = tok_func(res)
+    for post in post_rules: res = post(res)
+    return res
 
 _tokenizer = ThaiTokenizer()
 
-
 def document_vector(text: str, learn, data, agg: str = "mean"):
     """
-    :meth: `document_vector` get document vector using fastai language model and data bunch
-    :param str text: text to extract embeddings
-    :param learn: fastai language model learner
-    :param data: fastai data bunch
-    :param agg: how to aggregate embeddings
-    :return: `numpy.array` of document vector sized 400 based on the encoder of the model
+    This function vectorize Thai input text into a 400 dimension vector using
+    :class:`fastai` language model and data bunch.
+
+    :meth: `document_vector` get document vector using fastai language model
+           and data bunch
+    :param str text: text to be vectorized with :class:`fastai` language model.
+    :param learn: :class:`fastai` language model learner
+    :param data: :class:`fastai` data bunch
+    :param str agg: name of aggregation methods for word embeddings
+                    The avialable methods are "mean" and "sum"
+
+    :return: :class:`numpy.array` of document vector sized 400 based on
+             the encoder of the model
+    :rtype: :class:`numpy.ndarray((1, 400))`
+
+    :Example:
+
+        >>> from pythainlp.ulmfit import document_vectorr
+        >>> from fastai import *
+        >>> from fastai.text import *
+        >>>
+        >>> # Load Data Bunch
+        >>> data = load_data(MODEL_PATH, 'thwiki_lm_data.pkl')
+        >>>
+        >>> # Initialize language_model_learner
+        >>> config = dict(emb_sz=400, n_hid=1550, n_layers=4, pad_token=1,
+             qrnn=False, tie_weights=True, out_bias=True, output_p=0.25,
+             hidden_p=0.1, input_p=0.2, embed_p=0.02, weight_p=0.15)
+        >>> trn_args = dict(drop_mult=0.9, clip=0.12, alpha=2, beta=1)
+        >>> learn = language_model_learner(data, AWD_LSTM, config=config,
+                                           pretrained=False, **trn_args)
+        >>> document_vector('วันนี้วันดีปีใหม่', learn, data)
+
+    :See Also:
+        * A notebook showing how to train `ulmfit` language model and its
+          usage, `Jupyter Notebook \
+          <https://github.com/cstorm125/thai2fit/blob/master/thwiki_lm/word2vec_examples.ipynb>`_
+
     """
 
     s = _tokenizer.tokenizer(text)
@@ -168,12 +341,16 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
 
 def merge_wgts(em_sz, wgts, itos_pre, itos_new):
     """
-    :meth: `merge_wgts` insert pretrained weights and vocab into a new set of weights and vocab;
-    use average if vocab not in pretrained vocab
+    This function is to insert new vocab into an existing model named `wgts`
+    and update the model's weights for new vocab with the average embedding.
+
+    :meth: `merge_wgts` insert pretrained weights and vocab into a new set
+           of weights and vocab; use average if vocab not in pretrained vocab
     :param int em_sz: embedding size
     :param wgts: torch model weights
     :param list itos_pre: pretrained list of vocab
     :param list itos_new: list of new vocab
+
     :return: merged torch model weights
     """
     vocab_size = len(itos_new)

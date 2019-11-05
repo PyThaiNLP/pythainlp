@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from pythainlp.corpus import get_corpus
+from pythainlp.corpus import download, get_corpus, get_corpus_path, \
+    read_text_corpus
 
 __all__ = [
     "countries",
     "provinces",
+    "thai_female_names",
+    "thai_male_names"
     "thai_negations",
     "thai_stopwords",
     "thai_syllables",
@@ -30,10 +33,19 @@ _THAI_STOPWORDS_FILENAME = "stopwords_th.txt"
 _THAI_NEGATIONS = set()
 _THAI_NEGATIONS_FILENAME = "negations_th.txt"
 
+_THAI_FEMALE_NAMES = set()
+_THAI_MALE_NAMES = set()
+
 
 def countries() -> frozenset:
     """
-    Return a frozenset of country names in Thai
+    Return a frozenset of country names in Thai such as "แคนาดา", "โรมาเนีย",
+    "แอลจีเรีย", and "ลาว".
+    \n(See: `dev/pythainlp/corpus/countries_th.txt\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/countries_th.txt>`_)
+
+    :return: :class:`frozenset` containing countries names in Thai
+    :rtype: :class:`frozenset`
     """
     global _THAI_COUNTRIES
     if not _THAI_COUNTRIES:
@@ -44,18 +56,31 @@ def countries() -> frozenset:
 
 def provinces() -> frozenset:
     """
-    Return a frozenset of Thailand province names in Thai
+    Return a frozenset of Thailand province names in Thai such as "กระบี่",
+    "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
+    \n(See: `dev/pythainlp/corpus/thailand_provinces_th.txt\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/thailand_provinces_th.txt>`_)
+
+    :return: :class:`frozenset` containing province names of Thailand
+    :rtype: :class:`frozenset`
     """
     global _THAI_THAILAND_PROVINCES
     if not _THAI_THAILAND_PROVINCES:
-        _THAI_THAILAND_PROVINCES = get_corpus(_THAI_THAILAND_PROVINCES_FILENAME)
+        _THAI_THAILAND_PROVINCES = get_corpus(
+            _THAI_THAILAND_PROVINCES_FILENAME)
 
     return _THAI_THAILAND_PROVINCES
 
 
 def thai_syllables() -> frozenset:
     """
-    Return a frozenset of Thai syllables
+    Return a frozenset of Thai syllables such as "กรอบ", "ก็", "๑", "โมบ",
+    "โมน", "โม่ง", "กา", "ก่า", and, "ก้า".
+    \n(See: `dev/pythainlp/corpus/syllables_th.txt\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/syllables_th.txt>`_)
+
+    :return: :class:`frozenset` containing syllables in Thai language.
+    :rtype: :class:`frozenset`
     """
     global _THAI_SYLLABLES
     if not _THAI_SYLLABLES:
@@ -66,7 +91,12 @@ def thai_syllables() -> frozenset:
 
 def thai_words() -> frozenset:
     """
-    Return a frozenset of Thai words
+    Return a frozenset of Thai words such as "กติกา", "กดดัน", "พิษ",
+    and "พิษภัย". \n(See: `dev/pythainlp/corpus/words_th.txt\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/words_th.txt>`_)
+
+    :return: :class:`frozenset` containing words in Thai language.
+    :rtype: :class:`frozenset`
     """
     global _THAI_WORDS
     if not _THAI_WORDS:
@@ -77,7 +107,12 @@ def thai_words() -> frozenset:
 
 def thai_stopwords() -> frozenset:
     """
-    Return a frozenset of Thai stopwords
+    Return a frozenset of Thai stopwords such as "มี", "ไป", "ไง", "ขณะ",
+    "การ", and "ประการหนึ่ง". \n(See: `dev/pythainlp/corpus/stopwords_th.txt\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/stopwords_th.txt>`_)
+
+    :return: :class:`frozenset` containing stopwords.
+    :rtype: :class:`frozenset`
     """
     global _THAI_STOPWORDS
     if not _THAI_STOPWORDS:
@@ -88,10 +123,46 @@ def thai_stopwords() -> frozenset:
 
 def thai_negations() -> frozenset:
     """
-    Return a frozenset of Thai negation words
+    Return a frozenset of Thai negation words including "ไม่" and "แต่".
+    \n(See: `dev/pythainlp/corpus/negations_th.txt\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/negations_th.txt>`_)
+
+    :return: :class:`frozenset` containing negations in Thai language.
+    :rtype: :class:`frozenset`
     """
     global _THAI_NEGATIONS
     if not _THAI_NEGATIONS:
         _THAI_NEGATIONS = get_corpus(_THAI_NEGATIONS_FILENAME)
 
     return _THAI_NEGATIONS
+
+
+def _get_thai_names(corpus_name: str) -> frozenset:
+    download(corpus_name)
+    names = read_text_corpus(get_corpus_path(corpus_name))
+
+    return frozenset(names)
+
+
+def thai_female_names() -> frozenset:
+    """
+    Return a frozenset of Thai female names
+    """
+    global _THAI_FEMALE_NAMES
+    corpus_name = "female_names_th"
+    if not _THAI_FEMALE_NAMES:
+        _THAI_FEMALE_NAMES = _get_thai_names(corpus_name)
+
+    return _THAI_FEMALE_NAMES
+
+
+def thai_male_names() -> frozenset:
+    """
+    Return a frozenset of Thai male names
+    """
+    global _THAI_MALE_NAMES
+    corpus_name = "male_names_th"
+    if not _THAI_MALE_NAMES:
+        _THAI_MALE_NAMES = _get_thai_names(corpus_name)
+
+    return _THAI_MALE_NAMES

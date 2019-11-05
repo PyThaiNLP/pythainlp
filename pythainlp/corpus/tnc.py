@@ -11,53 +11,9 @@ from typing import List, Tuple
 import requests
 from pythainlp.corpus import get_corpus
 
-__all__ = ["word_freq", "word_freqs"]
+__all__ = ["word_freqs"]
 
 _FILENAME = "tnc_freq.txt"
-
-
-def word_freq(word: str, domain: str = "all") -> int:
-    """
-    **Not officially supported.**
-    Get word frequency of a word by domain.
-    This function will make a query to the server of Thai National Corpus.
-    Internet connection is required.
-
-    **IMPORTANT:** Currently (as of 29 April 2019) it is likely to return 0,
-    regardless of the word, as the service URL has been changed and the code
-    is not updated yet.
-    New URL is http://www.arts.chula.ac.th/~ling/tnc3/
-
-    :param string word: word
-    :param string domain: domain
-    """
-    listdomain = {
-        "all": "",
-        "imaginative": "1",
-        "natural-pure-science": "2",
-        "applied-science": "3",
-        "social-science": "4",
-        "world-affairs-history": "5",
-        "commerce-finance": "6",
-        "arts": "7",
-        "belief-thought": "8",
-        "leisure": "9",
-        "others": "0",
-    }
-    url = "http://www.arts.chula.ac.th/~ling/tnc3/"
-    data = {"genre[]": "", "domain[]": listdomain[domain], "sortby": "perc", "p": word}
-
-    r = requests.post(url, data=data)
-
-    pat = re.compile(r'TOTAL</font>.*?#ffffff">(.*?)</font>', flags=re.DOTALL)
-    match = pat.search(r.text)
-
-    n = 0
-    if match:
-        n = int(match.group(1).strip())
-
-    return n
-
 
 def word_freqs() -> List[Tuple[str, int]]:
     """

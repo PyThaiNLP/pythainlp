@@ -33,6 +33,8 @@ def word_tokenize(
     **Options for engine**
         * *newmm* (default) - dictionary-based, Maximum Matching +
           Thai Character Cluster
+        * *newmm-safe* (default) - newmm, with mechanism to avoid long
+          processing time for long continuous text without spaces
         * *longest* - dictionary-based, Longest Matching
         * *icu* - wrapper for ICU (International Components for Unicode,
           using PyICU), dictionary-based
@@ -105,6 +107,10 @@ def word_tokenize(
         from .newmm import segment
 
         segments = segment(text, custom_dict)
+    if engine == "newmm-safe":
+        from .newmm import segment
+
+        segments = segment(text, custom_dict, safe_mode=True)
     elif engine == "attacut":
         from .attacut import segment
 

@@ -100,13 +100,17 @@ def _onecut(text: str, custom_dict: Trie) -> Iterable[str]:
             heappush(q, i)
 
 
-def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
+def segment(
+    text: str, custom_dict: Trie = DEFAULT_DICT_TRIE, safe_mode: bool = False
+) -> List[str]:
     """
     Dictionary-based maximal matching word segmentation, constrained with
     Thai Character Cluster boundaries.
 
     :param str text: text to be tokenized to words
     :param pythainlp.trie.Trie custom_dict: dictionary for tokenization
+    :param bool safe_mode: True to avoid long wait for long continuous text (edge case);\
+        Default is False
     :return: list of words, tokenized from the text
     """
     if not text or not isinstance(text, str):
@@ -115,11 +119,18 @@ def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
     if not custom_dict:
         custom_dict = DEFAULT_DICT_TRIE
 
+    if not safe_mode:
+        return list(_onecut(text, custom_dict))
+
     text_len = len(text)
 
-    # if the text is longer than the limit,
-    # breaks them into smaller chunks then tokenizes each chunk
-    if text_len >= (_TEXT_LIMIT + _TEXT_SCAN_RIGHT):
+    if text_len < (_TEXT_LIMIT + _TEXT_SCAN_RIGHT):
+        # if the text is shorter than the limit,
+        # tokenizes the whole text at once
+        return list(_onecut(text, custom_dict))
+    else:
+        # if the text is longer than the limit,
+        # breaks them into smaller chunks then tokenizes each chunk
         text_parts = []
 
         while text_len >= (_TEXT_LIMIT + _TEXT_SCAN_RIGHT):
@@ -162,5 +173,3 @@ def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
             tokens.extend(list(_onecut(text_part, custom_dict)))
 
         return tokens
-    else:
-        return list(_onecut(text, custom_dict))

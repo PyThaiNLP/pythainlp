@@ -17,18 +17,20 @@ def tag_provinces(tokens: List[str]) -> List[Tuple[str, str]]:
     :rtype: list[tuple[str, str]]
 
     :Example:
+    ::
 
-        >>> from pythainlp.tag import tag_provinces
-        >>> text = ['หนองคาย', 'น่าอยู่']
-        >>> tag_provinces(text)
-        [('หนองคาย', 'B-LOCATION'), ('น่าอยู่', 'O')]
-        >>>
-        >>> text = ['อำเภอ', 'ฝาง','เป็น','ส่วน','หนึ่ง','ของ', 'จังหวัด', \\
+        from pythainlp.tag import tag_provinces
+
+        text = ['หนองคาย', 'น่าอยู่']
+        tag_provinces(text)
+        # output: [('หนองคาย', 'B-LOCATION'), ('น่าอยู่', 'O')]
+
+        text = ['อำเภอ', 'ฝาง','เป็น','ส่วน','หนึ่ง','ของ', 'จังหวัด', \\
             'เชียงใหม่']
-        >>> tag_provinces(text)
-        [('อำเภอ', 'O'), ('ฝาง', 'O'), ('เป็น', 'O'), ('ส่วน', 'O'),
-        ('หนึ่ง', 'O'), ('ของ', 'O'), ('จังหวัด', 'O'),
-        ('เชียงใหม่', 'B-LOCATION')]
+        tag_provinces(text)
+        # output: [('อำเภอ', 'O'), ('ฝาง', 'O'), ('เป็น', 'O'), ('ส่วน', 'O'),
+        #   ('หนึ่ง', 'O'), ('ของ', 'O'), ('จังหวัด', 'O'),
+        #   ('เชียงใหม่', 'B-LOCATION')]
     """
     province_list = provinces()
 

@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import datetime
-import os
-import sys
 import unittest
 
 from pythainlp.soundex import lk82, metasound, soundex, udom83

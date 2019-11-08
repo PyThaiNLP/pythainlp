@@ -1,0 +1,46 @@
+sentences:
+    -
+        expected: >-
+            ผม|ไม่|ชอบ|กิน|ผัก
+        actual: >-
+            ผม|ไม่|ชอบ|กิน|ผัก
+    -
+        expected: >-
+            ผม|ไม่|ชอบ|กิน|ผัก
+        actual: >-
+            ผม|ไม่|ชอบ|กินผัก
+    -
+        expected: >-
+            ผม|ไม่|ชอบ|กิน|ผัก|
+        actual: >-
+            ผม|ไม่|ชอบ|กินผัก|
+    -
+        expected: >-
+            ผม|ไม่|ชอบ|กินผัก|
+        actual: >-
+            ผม|ไม่|ชอบ|กิน|ผัก|
+binary_sentences:
+    - 
+        expected: "10001010"
+        actual:   "10001010"
+        expected_count: 3
+    -
+        expected: "10001010"
+        actual: "10101010"
+        expected_count: 2
+    -
+        expected: "10101010"
+        actual: "10001010"
+        expected_count: 2
+    - 
+        expected: "10001010"
+        actual:   "10001000"
+        expected_count: 1
+    -
+        expected: "10001010"
+        actual:   "10101000"
+        expected_count: 0
+    -
+        expected: "10101001000" # "ฝน|ตก|ที่|ทะเล
+        actual:   "10001001010" # "ฝนตก|ที่|ทะ|เล"
+        expected_count: 1

@@ -20,5 +20,5 @@ Modules
 References
 ----------
 
-.. [OmerLevy_YoavGoldberg_2014] Omer Levy and Yoav Goldberg.
-   Linguistic Regularities in Sparse and Explicit Word Representations, 2014.
+.. [#OmerLevy_YoavGoldberg_2014] Omer Levy and Yoav Goldberg (2014).
+   Linguistic Regularities in Sparse and Explicit Word Representations.

@@ -25,8 +25,8 @@ We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-mod
   code](http://www.codinghorror.com/blog/2008/07/coding-without-comments.html);
 - Name identifiers (variables, classes, functions, module names) with meaningful
   and pronounceable names (`x` is always wrong);
-- When manipulating strings, use [f-String](https://www.python.org/dev/peps/pep-0498/)
-  (use `"{a} = {b}"`, instead of `"{} = {}".format(a, b)` and `"%s = %s' % (a, b)"`);
+- When appropriate, use [f-String](https://www.python.org/dev/peps/pep-0498/)
+  (use `f"{a} = {b}"`, instead of `"{} = {}".format(a, b)` and `"%s = %s' % (a, b)"`);
 - All `#TODO` comments should be turned into issues (use our
   [GitHub issue system](https://github.com/PyThaiNLP/pythainlp/));
 - Run all tests before pushing (just execute `tox`) so you will know if your
@@ -36,8 +36,8 @@ We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-mod
 
 # Discussion
 
-- Facebook group: https://www.facebook.com/groups/thainlp 
-- GitHub issues: https://github.com/PyThaiNLP/pythainlp/issues
+- GitHub issues (PyThaiNLP problems and suggestions): https://github.com/PyThaiNLP/pythainlp/issues
+- Facebook group (Thai NLP discussion in general, not specific to PyThaiNLP): https://www.facebook.com/groups/thainlp 
 
 Happy hacking! (;
 
@@ -72,6 +72,13 @@ Happy hacking! (;
 - Pattarawat Chormai
 
 ## Contributors
+
+<a href="https://github.com/PyThaiNLP/pythainlp/graphs/contributors">
+  <img src="https://contributors-img.firebaseapp.com/image?repo=PyThaiNLP/pythainlp" />
+</a>
+
+Made with [contributors-img](https://contributors-img.firebaseapp.com).
+
 - See more contributions here https://github.com/PyThaiNLP/pythainlp/graphs/contributors
 
 

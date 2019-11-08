@@ -1,24 +1,37 @@
 language: python
+
 dist: bionic
-python:
-- '3.6'
-before_install:
-- sudo rm -f /etc/boto.cfg
-install:
-- pip install -U numpy
-- pip install -q -r requirements.txt
-- pip install -q .[full]
-- pip install coveralls
+
 os:
 - linux
+
+python:
+- '3.6'
+
+cache:
+  directories:
+    - ~/.cache/pip
+    - ~/nltk_data
+#    - ~/pythainlp-data
+
+before_install:
+- sudo rm -f /etc/boto.cfg
+
+install:
+- pip install tensorflow deepcut
+- pip install -r requirements.txt
+- pip install .[full]
+- pip install coveralls
+
 script: coverage run --source=pythainlp setup.py test
+
 after_success: coveralls
+
 deploy:
   provider: pypi
-  distributions: sdist bdist_wheel
+  distributions: bdist_wheel
   user: wannaphong
   password:
-    secure: zX35+8niw5W9H8XbFwacrDAhqyIibdUdC/cARnHlmxLN/2H9IynK0NW04UZwkBlrwrIZrU/g+cqYXFQXu6jE1ozlBKBxUd3xG8d1kixuntI0j9e+erPTs8Ju/KazUZtlknJPvnDMP+/1Dq+RMnMCP3RRlBrH6lvG70OgZ1aBpgx8FxRfs0xHfBIZvo5CVtR/QlDzhDJM1cgEyWkSgnlAhPxpv8qIQbh4/Rw89jXIZqv0bGCVJorrrcTA1oCzkr/4E4u/WZaARnvPjUr2a9U1w7C2IysDHiBfqQWlovdMmpoSLFE56YlG3smbmXfldWjmiMRQoWL+Ifu+smisvOLmR0ja78UMrrhHWP4mdzIeBVVRnT6eHUv0ChmLT2uCkOLE0newhtEJIYToot2TSoLFavXXIQB1fIHt6e74KRTV6WGnm0nFfHuGP+b5SgSPQFgqx8tBpn0rBOeqZ1y3pRISc/drF0F4reWMnlqoQfZZFmLmU1UmDZbvWNvXPu6MWyyuZ1F6fE9jyb3mG+kDuJf1PZ4ejC/sdIvpLlwUGLFGzRMa2TtxXqGq5CWsywPxo8Sx+bpMPCOImuW60PB9K/xKgfLhAtb7gZwndzUGqDbtSJCd5PmTkfEH8fawv/XnydvsssYUpipBCmFDZlNREyAkgOcLlL099Y5fAO8l2gOLyKs=
+    secure: Tj3VA05qopp0mkzWu6EFTlvijAoisd0BN/gD2c/vaaDCUy6fTXBkYk+dTkjbmYkEBl/WrsrW1T/QxCt2uc6bv7QTz+qL243Edv4FFQbBKvMSNlUO+hh1jI9zv3/QzwOaNHXOsI4JGeUaN5cULfxBjsBEFN+v6E0mkgBwJ0Qdb0/yuMybLWZ9dJI8iUKiaWNIr+NQoa9a+Sxw6Ltl/mdCKPppgOYPpVMCsDDdLqZdjkgXmzsjH9+Nfe6R+mYbdmeigy3ePNsIKbPkzZrY+E/I0lPZOVUgrs6gvZwlD3gESJgTROrUH6E2lBP9yYvFUE3KB0O+rdT5GyFq3MH1uD2ocrPCTQku6577wK31FzGoex6vtT4y2b39fLbhRmZDOJW8IFO7MLybazuRsNhaXn9hQU4HBRM2GQZc41bLkiEhsUX9/b2ujcn4PJKDZy91LnBw/93bgZJ7KweDzKywmcZSNeuBsGWgXdPqYiizzcf8DdvJAYytydhf8RxqdemTiS7GE7XBoXhj1/9Vfrt3lZXZbfYpTjNZeyxu7FrUJpm/I23wCw46qaRWzKXv2sRRUleNqQ1jIKEVupIa9sruHvG7DZecErhO9rMkGdsf4CIjolZ0A2BE+eAPEEY6/H1WFUWHxzxuELbUJwxnl1By677hBkLJaVs1YMGc2enGWzOnUYI=
   on:
     tags: true
-    repo: pythainlp/pythainlp

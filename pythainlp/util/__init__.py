@@ -7,11 +7,13 @@ __all__ = [
     "arabic_digit_to_thai_digit",
     "bahttext",
     "collate",
-    "deletetone",
+    "countthai",
+    "delete_tone",
+    "deletetone",  # Will deprecated after version 2.1
     "digit_to_text",
     "eng_to_thai",
     "find_keyword",
-    "countthai",
+    "is_native_thai",
     "isthai",
     "isthaichar",
     "normalize",
@@ -21,11 +23,12 @@ __all__ = [
     "reign_year_to_ad",
     "text_to_arabic_digit",
     "text_to_thai_digit",
-    "thai_strftime",
-    "thai_to_eng",
     "thai_digit_to_arabic_digit",
+    "thai_strftime",
+    "thai_time",
+    "thai_to_eng",
+    "thaicheck",  # Will deprecated after version 2.1
     "thaiword_to_num",
-    "thaicheck"
 ]
 
 
@@ -40,8 +43,9 @@ from .digitconv import (
 )
 from .keyboard import eng_to_thai, thai_to_eng
 from .keywords import find_keyword, rank
-from .normalize import deletetone, normalize
+from .normalize import delete_tone, deletetone, normalize
 from .numtoword import bahttext, num_to_thaiword
 from .thai import countthai, isthai, isthaichar
-from .thaiwordcheck import thaicheck
+from .thai_time import thai_time
+from .thaiwordcheck import is_native_thai, thaicheck
 from .wordtonum import thaiword_to_num

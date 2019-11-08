@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import argparse
+import json
+import os
+
+import yaml
+from pythainlp.benchmarks import word_tokenization
+
+parser = argparse.ArgumentParser(
+    description="Script for benchmarking tokenizaiton results"
+)
+
+parser.add_argument(
+    "--input-file",
+    action="store",
+    help="Path to input file to compare against the test file",
+)
+
+parser.add_argument(
+    "--test-file",
+    action="store",
+    help="Path to test file i.e. ground truth",
+)
+
+parser.add_argument(
+    "--save-details",
+    default=False,
+    action="store_true",
+    help="Save comparison details to files (eval-XXX.json and eval-details-XXX.json)",
+)
+
+args = parser.parse_args()
+
+
+def _read_file(path):
+    with open(path, "r", encoding="utf-8") as f:
+        lines = map(lambda r: r.strip(), f.readlines())
+    return list(lines)
+
+
+print(args.input_file)
+actual = _read_file(args.input_file)
+expected = _read_file(args.test_file)
+
+assert len(actual) == len(
+    expected
+), "Input and test files do not have the same number of samples"
+print(
+    "Benchmarking %s against %s with %d samples in total"
+    % (args.input_file, args.test_file, len(actual))
+)
+
+df_raw = word_tokenization.benchmark(expected, actual)
+
+df_res = df_raw.describe()
+df_res = df_res[
+    [
+        "char_level:tp",
+        "char_level:tn",
+        "char_level:fp",
+        "char_level:fn",
+        "char_level:precision",
+        "char_level:recall",
+        "char_level:f1",
+        "word_level:precision",
+        "word_level:recall",
+        "word_level:f1",
+    ]
+]
+
+df_res = df_res.T.reset_index(0)
+
+df_res["mean±std"] = df_res.apply(
+    lambda r: "%2.2f±%2.2f" % (r["mean"], r["std"]), axis=1
+)
+
+df_res["metric"] = df_res["index"]
+
+print("============== Benchmark Result ==============")
+print(df_res[["metric", "mean±std", "min", "max"]].to_string(index=False))
+
+
+if args.save_details:
+    data = {}
+    for r in df_res.to_dict("records"):
+        metric = r["index"]
+        del r["index"]
+        data[metric] = r
+
+    dir_name = os.path.dirname(args.input_file)
+    file_name = args.input_file.split("/")[-1].split(".")[0]
+
+    res_path = "%s/eval-%s.yml" % (dir_name, file_name)
+    print("Evaluation result is saved to %s" % res_path)
+
+    with open(res_path, "w", encoding="utf-8") as outfile:
+        yaml.dump(data, outfile, default_flow_style=False)
+
+    res_path = "%s/eval-details-%s.json" % (dir_name, file_name)
+    print("Details of comparisons is saved to %s" % res_path)
+
+    with open(res_path, "w", encoding="utf-8") as f:
+        samples = []
+        for i, r in enumerate(df_raw.to_dict("records")):
+            expected, actual = r["expected"], r["actual"]
+            del r["expected"]
+            del r["actual"]
+
+            samples.append(dict(metrics=r, expected=expected, actual=actual, id=i))
+
+        details = dict(metrics=data, samples=samples)
+
+        json.dump(details, f, ensure_ascii=False)

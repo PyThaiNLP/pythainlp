@@ -23,6 +23,7 @@ thai_symbols = "฿"
 thai_characters = "".join([thai_letters, thai_punctuations, thai_digits, thai_symbols])
 
 
+from pythainlp.benchmarks import benchmark
 from pythainlp.soundex import soundex
 from pythainlp.spell import correct, spell
 from pythainlp.tag import pos_tag

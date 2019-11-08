@@ -76,10 +76,10 @@ class ThaiNameTagger:
         """
         Thai named-entity recognizer
         """
-        self.__data_path = get_corpus_path("thainer-1-2")
+        self.__data_path = get_corpus_path("thainer-1-3")
         if not self.__data_path:
-            download("thainer-1-2")
-            self.__data_path = get_corpus_path("thainer-1-2")
+            download("thainer-1-3")
+            self.__data_path = get_corpus_path("thainer-1-3")
         self.crf = sklearn_crfsuite.CRF(
             algorithm="lbfgs",
             c1=0.1,

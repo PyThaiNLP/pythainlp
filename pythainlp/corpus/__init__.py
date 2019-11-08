@@ -18,7 +18,7 @@ _CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
 _CORPUS_DB_URL = (
     "https://raw.githubusercontent.com/"
     + "PyThaiNLP/pythainlp-corpus/"
-    + "master/db.json"
+    + "2.1/db.json"
 )
 
 _CORPUS_DB_FILENAME = "db.json"

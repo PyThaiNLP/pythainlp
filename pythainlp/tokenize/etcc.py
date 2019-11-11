@@ -75,5 +75,4 @@ def segment(text: str) -> str:
             text = re.sub(i, ii + "/", text)
 
     text = re.sub("//", "/", text)
-
     return text.split("/")

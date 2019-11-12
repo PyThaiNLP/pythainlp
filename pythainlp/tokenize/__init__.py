@@ -33,8 +33,8 @@ def word_tokenize(
     **Options for engine**
         * *newmm* (default) - dictionary-based, Maximum Matching +
           Thai Character Cluster
-        * *newmm-safe* (default) - newmm, with mechanism to avoid long
-          processing time for long continuous text without spaces
+        * *newmm-safe* - newmm, with a mechanism to avoid long
+          processing time for some long continuous text without spaces
         * *longest* - dictionary-based, Longest Matching
         * *icu* - wrapper for ICU (International Components for Unicode,
           using PyICU), dictionary-based

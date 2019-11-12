@@ -21,7 +21,7 @@ from pythainlp.tokenize import DEFAULT_DICT_TRIE
 from .tcc import tcc_pos
 from .trie import Trie
 
-# To tokenizes English words, for example
+# To tokenize English words, for example
 _PAT_ENG = re.compile(
     r"""(?x)
 [-a-zA-Z]+|   # Latin
@@ -33,7 +33,7 @@ _PAT_ENG = re.compile(
 
 _PAT_TWOCHARS = re.compile("[ก-ฮ]{,2}$")
 
-_TEXT_LIMIT = 100
+_TEXT_LIMIT = 120
 _TEXT_SCAN_LEFT = 20
 _TEXT_SCAN_RIGHT = 20
 

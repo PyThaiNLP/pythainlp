@@ -40,7 +40,7 @@ _TEXT_SCAN_RIGHT = 20
 
 def _bfs_paths_graph(
     graph: defaultdict, start: int, goal: List[int]
-) -> Generator[List[int]]:
+) -> Generator[List[int], None, None]:
     queue = [(start, [start])]
     while queue:
         (vertex, path) = queue.pop(0)
@@ -51,7 +51,7 @@ def _bfs_paths_graph(
                 queue.append((next, path + [next]))
 
 
-def _onecut(text: str, custom_dict: Trie) -> Generator[str]:
+def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
     graph = defaultdict(list)  # main data structure
     allow_pos = tcc_pos(text)  # separating position should aligned with TCC
 

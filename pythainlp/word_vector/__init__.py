@@ -3,10 +3,11 @@
 thai2fit - Thai word vector
 Code by https://github.com/cstorm125/thai2fit
 """
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
 from gensim.models import KeyedVectors
+from gensim.models.keyedvectors import Word2VecKeyedVectors
 from pythainlp.corpus import download as download_data
 from pythainlp.corpus import get_corpus, get_corpus_path
 from pythainlp.tokenize import Tokenizer
@@ -25,11 +26,12 @@ def _download() -> str:
     return path
 
 
-def get_model():
+def get_model() -> Word2VecKeyedVectors:
     """
     Download model
 
-    :return: `gensim` model
+    :return: `gensim` word2vec model
+    :rtype: gensim.models.keyedvectors.Word2VecKeyedVectors
     """
     return KeyedVectors.load_word2vec_format(_download(), binary=True)
 
@@ -37,7 +39,9 @@ def get_model():
 _MODEL = get_model()
 
 
-def most_similar_cosmul(positive: List[str], negative: List[str]):
+def most_similar_cosmul(
+    positive: List[str], negative: List[str]
+) -> List[Tuple[str, float]]:
     """
     This function find the top-10 words that are most similar with respect
     to from two lists of words labeled as positive and negative.
@@ -209,7 +213,7 @@ def similarity(word1: str, word2: str) -> float:
     return _MODEL.similarity(word1, word2)
 
 
-def sentence_vectorizer(text: str, use_mean: bool = True):
+def sentence_vectorizer(text: str, use_mean: bool = True) -> np.ndarray:
     """
     This function convert a Thai sentence into vector.
     Specifically, it first tokenize that text and map each tokenized words
@@ -261,8 +265,6 @@ def sentence_vectorizer(text: str, use_mean: bool = True):
 
         if word in _MODEL.wv.index2word:
             vec += _MODEL.wv.word_vec(word)
-        else:
-            pass
 
     if use_mean:
         vec /= len(words)

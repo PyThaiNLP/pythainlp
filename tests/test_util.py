@@ -210,9 +210,18 @@ class TestUtilPackage(unittest.TestCase):
         self.assertIsNotNone(thai_time("13:30"))
         self.assertIsNotNone(thai_time("13:30", "6h"))
         self.assertIsNotNone(thai_time("13:30", "m6h"))
+        self.assertIsNotNone(thai_time("15:30"))
+        self.assertIsNotNone(thai_time("15:30", "6h"))
+        self.assertIsNotNone(thai_time("15:30", "m6h"))
+        self.assertIsNotNone(thai_time("18:30"))
+        self.assertIsNotNone(thai_time("18:30", "6h"))
+        self.assertIsNotNone(thai_time("18:30", "m6h"))
         self.assertIsNotNone(thai_time("19:30"))
         self.assertIsNotNone(thai_time("19:30", "6h"))
         self.assertIsNotNone(thai_time("19:30", "m6h"))
+
+        with self.assertRaises(NotImplementedError):
+            thai_time("8:17", fmt="xx")
 
     # ### pythainlp.util.normalize
 

@@ -111,8 +111,8 @@ def segment(
 
     :param str text: text to be tokenized to words
     :param pythainlp.trie.Trie custom_dict: dictionary for tokenization
-    :param bool safe_mode: True to avoid long wait for long continuous text
-        (edge case);\ Default is False
+    :param bool safe_mode: True to avoid long wait for long continuous text\
+        (edge case); Default is False
     :return: list of words, tokenized from the text
     """
     if not text or not isinstance(text, str):

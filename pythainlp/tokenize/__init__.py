@@ -33,6 +33,8 @@ def word_tokenize(
     **Options for engine**
         * *newmm* (default) - dictionary-based, Maximum Matching +
           Thai Character Cluster
+        * *newmm-safe* - newmm, with a mechanism to avoid long
+          processing time for some long continuous text without spaces
         * *longest* - dictionary-based, Longest Matching
         * *icu* - wrapper for ICU (International Components for Unicode,
           using PyICU), dictionary-based
@@ -105,6 +107,10 @@ def word_tokenize(
         from .newmm import segment
 
         segments = segment(text, custom_dict)
+    if engine == "newmm-safe":
+        from .newmm import segment
+
+        segments = segment(text, custom_dict, safe_mode=True)
     elif engine == "attacut":
         from .attacut import segment
 
@@ -157,6 +163,7 @@ def dict_word_tokenize(
     :param bool keep_whitespace: True to keep whitespaces, a common mark
                                  for end of phrase in Thai
     :return: list of words
+    :rtype: list[str]
     """
     warnings.warn(
         "dict_word_tokenize is deprecated. Use word_tokenize with a custom_dict argument instead.",
@@ -336,6 +343,7 @@ def syllable_tokenize(text: str, engine: str = "default") -> List[str]:
             tokens.extend(word_tokenize(text=word, custom_dict=trie))
     else:
         from .ssg import segment
+
         tokens = segment(text)
 
     return tokens
@@ -345,9 +353,10 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     """
     Create a dictionary trie which will be used for word_tokenize() function.
 
-    :param string/list dict_source: a list of vocaburaries or a path
-                                    to source file
+    :param str|Iterable[str]|pythainlp.tokenize.Trie dict_source: a list of words or
+        a path to source file
     :return: a trie created from a dictionary input
+    :rtype: pythainlp.tokenize.Trie
     """
     trie = None
 
@@ -359,7 +368,9 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
             _vocabs = f.read().splitlines()
             trie = Trie(_vocabs)
     elif isinstance(dict_source, Iterable):
-        # Note: Trie and str are both Iterable, Iterable check should be here
+        # Note: Since Trie and str are both Iterable,
+        # so the Iterable check should be here, at the very end,
+        # because it has less specificality
         # Received a sequence type object of vocabs
         trie = Trie(dict_source)
     else:
@@ -435,7 +446,9 @@ class Tokenizer:
     """
 
     def __init__(
-        self, custom_dict: Union[Trie, Iterable[str], str] = None, engine: str = "newmm"
+        self,
+        custom_dict: Union[Trie, Iterable[str], str] = None,
+        engine: str = "newmm",
     ):
         """
         Initialize tokenizer object
@@ -458,7 +471,9 @@ class Tokenizer:
         :return: list of words, tokenized from the text
         :rtype: list[str]
         """
-        return word_tokenize(text, custom_dict=self.__trie_dict, engine=self.__engine)
+        return word_tokenize(
+            text, custom_dict=self.__trie_dict, engine=self.__engine
+        )
 
     def set_tokenize_engine(self, engine: str) -> None:
         """

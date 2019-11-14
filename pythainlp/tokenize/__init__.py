@@ -353,9 +353,9 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     """
     Create a dictionary trie which will be used for word_tokenize() function.
 
-    :param str|Iterable[str]|pythainlp.tokenize.Trie dict_source: a list of words or
-        a path to source file
-    :return: a trie created from a dictionary input
+    :param str|Iterable[str]|pythainlp.tokenize.Trie dict_source: a path to
+        dictionary file or a list of words or a pythainlp.tokenize.Trie object
+    :return: a trie object created from a dictionary input
     :rtype: pythainlp.tokenize.Trie
     """
     trie = None

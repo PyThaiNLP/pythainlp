@@ -189,10 +189,18 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(word_tokenize(long_text, engine="newmm"))
         self.assertIsNotNone(word_tokenize(long_text, engine="newmm-safe"))
 
-        short_danger_text = "ด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้าน"
-        long_danger_text = "ด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก"
-        self.assertIsNotNone(word_tokenize(short_danger_text, engine="newmm-safe"))
-        self.assertIsNotNone(word_tokenize(long_danger_text, engine="newmm-safe"))
+        short_danger_text = """
+    ด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้าน
+    """
+        long_danger_text = """
+    ด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก
+    """
+        self.assertIsNotNone(
+            word_tokenize(short_danger_text, engine="newmm-safe")
+        )
+        self.assertIsNotNone(
+            word_tokenize(long_danger_text, engine="newmm-safe")
+        )
 
     def test_word_tokenize_attacut(self):
         self.assertEqual(attacut.segment(None), [])

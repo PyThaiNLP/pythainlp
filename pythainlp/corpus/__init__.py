@@ -18,7 +18,7 @@ _CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
 _CORPUS_DB_URL = (
     "https://raw.githubusercontent.com/"
     + "PyThaiNLP/pythainlp-corpus/"
-    + "master/db.json"
+    + "2.1/db.json"
 )
 
 _CORPUS_DB_FILENAME = "db.json"
@@ -165,12 +165,12 @@ def _check_hash(dst: str, md5: str) -> NoReturn:
     @param: md5 place to hash the file (MD5)
     """
     if md5 and md5 != "-":
-        f = open(get_full_data_path(dst), "rb")
-        content = f.read()
-        file_md5 = hashlib.md5(content).hexdigest()
+        with open(get_full_data_path(dst), "rb") as f:
+            content = f.read()
+            file_md5 = hashlib.md5(content).hexdigest()
 
-        if md5 != file_md5:
-            raise Exception("Hash does not match expected.")
+            if md5 != file_md5:
+                raise Exception("Hash does not match expected.")
 
 
 def download(name: str, force: bool = False) -> NoReturn:

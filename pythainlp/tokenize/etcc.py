@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Enhanced Thai Character Cluster (ETCC)
+Enhanced Thai Character Cluster (ETCC) (In progress)
 Python implementation by Wannaphong Phatthiyaphaibun (19 June 2017)
 
 :See Also:
@@ -75,5 +75,4 @@ def segment(text: str) -> str:
             text = re.sub(i, ii + "/", text)
 
     text = re.sub("//", "/", text)
-
     return text.split("/")

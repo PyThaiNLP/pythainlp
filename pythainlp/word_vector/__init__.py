@@ -263,8 +263,8 @@ def sentence_vectorizer(text: str, use_mean: bool = True) -> np.ndarray:
         elif word == "\n":
             word = "xxeol"
 
-        if word in _MODEL.wv.index2word:
-            vec += _MODEL.wv.word_vec(word)
+        if word in _MODEL.index2word:
+            vec += _MODEL.word_vec(word)
 
     if use_mean:
         vec /= len(words)

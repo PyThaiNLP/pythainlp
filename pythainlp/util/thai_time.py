@@ -85,16 +85,16 @@ def _format(
     else:
         raise NotImplementedError(fmt)
 
-    if precision == "minute" or precision == "second":
+    if precision == "m" or precision == "s":
         if (
             m == 30
-            and (s == 0 or precision == "minute")
+            and (s == 0 or precision == "m")
             and (fmt == "6h" or fmt == "m6h")
         ):
             text += "ครึ่ง"
         else:
             text += num_to_thaiword(m) + "นาที"
-            if precision == "second":
+            if precision == "s":
                 text += num_to_thaiword(s) + "วินาที"
     else:
         if m:
@@ -124,8 +124,8 @@ def thai_time(
         * *6h* - 6-hour clock
         * *m6h* - Modified 6-hour clock
     :param str precision: precision of the spell out
-        * *minute* - always spell out to minute level
-        * *second* - always spell out to second level
+        * *m* - always spell out to minute level
+        * *s* - always spell out to second level
         * None - spell out only non-zero parts
     :return: Time spell out in Thai words
     :rtype: str
@@ -152,7 +152,7 @@ def thai_time(
         # output:
         # สิบสองนาฬิกาสามนาที
 
-        thai_time(datetime.time(12, 3, 0), precision="second")
+        thai_time(datetime.time(12, 3, 0), precision="s")
         # output:
         # สิบสองนาฬิกาสามนาทีศูนย์วินาที
     """

@@ -172,7 +172,7 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_time("8:17", "6h"), "สองโมงเช้าสิบเจ็ดนาที")
         self.assertEqual(thai_time("8:17", "m6h"), "แปดโมงสิบเจ็ดนาที")
         self.assertEqual(thai_time("18:30", "m6h"), "หกโมงครึ่ง")
-        self.assertEqual(thai_time("13:30:01", "6h", "minute"), "บ่ายโมงครึ่ง")
+        self.assertEqual(thai_time("13:30:01", "6h", "m"), "บ่ายโมงครึ่ง")
         self.assertEqual(
             thai_time(datetime.time(12, 3, 0)), "สิบสองนาฬิกาสามนาที"
         )
@@ -182,19 +182,19 @@ class TestUtilPackage(unittest.TestCase):
         )
         self.assertEqual(
             thai_time(
-                datetime.datetime(2014, 5, 22, 12, 3, 0), precision="second"
+                datetime.datetime(2014, 5, 22, 12, 3, 0), precision="s"
             ),
             "สิบสองนาฬิกาสามนาทีศูนย์วินาที",
         )
         self.assertEqual(
             thai_time(
-                datetime.datetime(2014, 5, 22, 12, 3, 1), precision="minute"
+                datetime.datetime(2014, 5, 22, 12, 3, 1), precision="m"
             ),
             "สิบสองนาฬิกาสามนาที",
         )
         self.assertEqual(
             thai_time(
-                datetime.datetime(1976, 10, 6, 12, 30, 1), "6h", "minute"
+                datetime.datetime(1976, 10, 6, 12, 30, 1), "6h", "m"
             ),
             "เที่ยงครึ่ง",
         )

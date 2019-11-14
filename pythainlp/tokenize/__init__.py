@@ -103,11 +103,12 @@ def word_tokenize(
         return []
 
     segments = []
+
     if engine == "newmm" or engine == "onecut":
         from .newmm import segment
 
         segments = segment(text, custom_dict)
-    if engine == "newmm-safe":
+    elif engine == "newmm-safe":
         from .newmm import segment
 
         segments = segment(text, custom_dict, safe_mode=True)

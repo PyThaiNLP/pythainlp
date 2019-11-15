@@ -59,27 +59,34 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("หมอนทองตากลมหูว์MBK39", engine="deepcut")
         )
         self.assertIsNotNone(
-            word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX")
-        )
-        self.assertIsNotNone(
             word_tokenize("หมอนทองตากลมหูว์MBK39", engine="attacut")
         )
+        self.assertIsNotNone(
+            word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX")
+        )  # XX engine is not existed
 
         self.assertIsNotNone(dict_trie(()))
         self.assertIsNotNone(dict_trie(("ทดสอบ", "สร้าง", "Trie")))
         self.assertIsNotNone(dict_trie(["ทดสอบ", "สร้าง", "Trie"]))
+        self.assertIsNotNone(dict_trie({"ทดสอบ", "สร้าง", "Trie"}))
         self.assertIsNotNone(dict_trie(thai_words()))
         self.assertIsNotNone(dict_trie(DEFAULT_DICT_TRIE))
         self.assertIsNotNone(
             dict_trie(os.path.join(_CORPUS_PATH, _THAI_WORDS_FILENAME))
         )
 
-        self.assertIsNotNone(
-            word_tokenize("รถไฟฟ้าBTS", custom_dict=DEFAULT_DICT_TRIE)
+        self.assertTrue(
+            "ไฟ" in word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"]))
         )
 
-        with self.assertWarns(DeprecationWarning):
-            dict_word_tokenize("เลิกใช้แล้ว")
+        # Commented out until this unittest bug get fixed:
+        # https://bugs.python.org/issue29620
+        # with self.assertWarns(DeprecationWarning):
+        #     dict_word_tokenize("เลิกใช้แล้ว", custom_dict=DEFAULT_DICT_TRIE)
+        self.assertEqual(
+            word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"])),
+            dict_word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"])),
+        )
 
     def test_Tokenizer(self):
         t_test = Tokenizer(DEFAULT_DICT_TRIE)

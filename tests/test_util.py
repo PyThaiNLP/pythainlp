@@ -244,8 +244,11 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(delete_tone("จิ้น"), "จิน")
         self.assertEqual(delete_tone("เก๋า"), "เกา")
 
-        with self.assertWarns(DeprecationWarning):
-            deletetone("จิ้น")
+        # Commented out until this unittest bug get fixed:
+        # https://bugs.python.org/issue29620
+        # with self.assertWarns(DeprecationWarning):
+        #     deletetone("จิ้น")
+        self.assertEqual(deletetone("จิ้น"), delete_tone("จิ้น"))
 
     def test_normalize(self):
         self.assertEqual(normalize("เเปลก"), "แปลก")
@@ -293,5 +296,8 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(is_native_thai("เทเวศน์"), False)
         self.assertEqual(is_native_thai("เทเวศร์"), False)
 
-        with self.assertWarns(DeprecationWarning):
-            thaicheck("เลข")
+        # Commented out until this unittest bug get fixed:
+        # https://bugs.python.org/issue29620
+        # with self.assertWarns(DeprecationWarning):
+        #     thaicheck("เลข")
+        self.assertEqual(thaicheck("เลข"), is_native_thai("เลข"))

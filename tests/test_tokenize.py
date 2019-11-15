@@ -26,9 +26,6 @@ from pythainlp.tokenize import (
 
 
 class TestTokenizePackage(unittest.TestCase):
-    def test_dict_word_tokenize(self):
-        self.assertEqual(dict_word_tokenize(""), [])
-
     def test_etcc(self):
         self.assertEqual(etcc.segment(""), "")
         self.assertIsInstance(etcc.segment("คืนความสุข"), list)
@@ -80,6 +77,9 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(
             word_tokenize("รถไฟฟ้าBTS", custom_dict=DEFAULT_DICT_TRIE)
         )
+
+        with self.assertRaises(DeprecationWarning):
+            dict_word_tokenize("เลิกใช้แล้ว")
 
     def test_Tokenizer(self):
         t_test = Tokenizer(DEFAULT_DICT_TRIE)

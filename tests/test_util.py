@@ -243,7 +243,9 @@ class TestUtilPackage(unittest.TestCase):
     def test_delete_tone(self):
         self.assertEqual(delete_tone("จิ้น"), "จิน")
         self.assertEqual(delete_tone("เก๋า"), "เกา")
-        self.assertEqual(delete_tone("จิ้น"), deletetone("จิ้น"))
+
+        with self.assertRaises(DeprecationWarning):
+            deletetone("จิ้น")
 
     def test_normalize(self):
         self.assertEqual(normalize("เเปลก"), "แปลก")
@@ -271,7 +273,6 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(isthai("(ต.ค.)", ignore_chars=".()"), True)
 
     def test_is_native_thai(self):
-        self.assertEqual(is_native_thai("เลข"), thaicheck("เลข"))
         self.assertEqual(is_native_thai(None), False)
         self.assertEqual(is_native_thai(""), False)
         self.assertEqual(is_native_thai("116"), False)
@@ -291,3 +292,6 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(is_native_thai("เลข"), False)
         self.assertEqual(is_native_thai("เทเวศน์"), False)
         self.assertEqual(is_native_thai("เทเวศร์"), False)
+
+        with self.assertRaises(DeprecationWarning):
+            thaicheck("เลข")

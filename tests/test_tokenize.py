@@ -235,7 +235,7 @@ class TestTokenizePackage(unittest.TestCase):
 
         self.assertEqual(subword_tokenize(None, engine="ssg"), [])
         self.assertEqual(subword_tokenize("", engine="ssg"), [])
-        self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
+        self.assertTrue("ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
 
     def test_syllable_tokenize(self):
         self.assertEqual(syllable_tokenize(None), [])

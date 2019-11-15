@@ -168,10 +168,10 @@ class TestUtilPackage(unittest.TestCase):
     # ### pythainlp.util.thai_time
 
     def test_thai_time(self):
+        self.assertEqual(thai_time("8:17"), thai_time("08:17"))
         self.assertEqual(thai_time("8:17"), "แปดนาฬิกาสิบเจ็ดนาที")
         self.assertEqual(thai_time("8:17", "6h"), "สองโมงเช้าสิบเจ็ดนาที")
         self.assertEqual(thai_time("8:17", "m6h"), "แปดโมงสิบเจ็ดนาที")
-        self.assertEqual(thai_time("18:30", "m6h"), "หกโมงครึ่ง")
         self.assertEqual(thai_time("13:30:01", "6h", "m"), "บ่ายโมงครึ่ง")
         self.assertEqual(
             thai_time(datetime.time(12, 3, 0)), "สิบสองนาฬิกาสามนาที"
@@ -181,22 +181,37 @@ class TestUtilPackage(unittest.TestCase):
             "สิบสองนาฬิกาสามนาทีหนึ่งวินาที",
         )
         self.assertEqual(
-            thai_time(
-                datetime.datetime(2014, 5, 22, 12, 3, 0), precision="s"
-            ),
+            thai_time(datetime.datetime(2014, 5, 22, 12, 3, 0), precision="s"),
             "สิบสองนาฬิกาสามนาทีศูนย์วินาที",
         )
         self.assertEqual(
-            thai_time(
-                datetime.datetime(2014, 5, 22, 12, 3, 1), precision="m"
-            ),
+            thai_time(datetime.datetime(2014, 5, 22, 12, 3, 1), precision="m"),
             "สิบสองนาฬิกาสามนาที",
         )
         self.assertEqual(
-            thai_time(
-                datetime.datetime(1976, 10, 6, 12, 30, 1), "6h", "m"
-            ),
+            thai_time(datetime.datetime(1976, 10, 6, 12, 30, 1), "6h", "m"),
             "เที่ยงครึ่ง",
+        )
+        self.assertEqual(thai_time("18:30"), "สิบแปดนาฬิกาสามสิบนาที")
+        self.assertEqual(thai_time("18:30:00"), "สิบแปดนาฬิกาสามสิบนาที")
+        self.assertEqual(
+            thai_time("18:30:01"), "สิบแปดนาฬิกาสามสิบนาทีหนึ่งวินาที"
+        )
+        self.assertEqual(
+            thai_time("18:30:01", precision="m"), "สิบแปดนาฬิกาสามสิบนาที"
+        )
+        self.assertEqual(
+            thai_time("18:30:01", precision="s"),
+            "สิบแปดนาฬิกาสามสิบนาทีหนึ่งวินาที",
+        )
+        self.assertEqual(
+            thai_time("18:30:01", fmt="m6h", precision="m"), "หกโมงครึ่ง"
+        )
+        self.assertEqual(
+            thai_time("18:30:01", fmt="m6h"), "หกโมงสามสิบนาทีหนึ่งวินาที"
+        )
+        self.assertEqual(
+            thai_time("18:30:01", fmt="m6h", precision="m"), "หกโมงครึ่ง"
         )
         self.assertIsNotNone(thai_time("0:30"))
         self.assertIsNotNone(thai_time("0:30", "6h"))

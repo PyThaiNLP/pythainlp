@@ -282,14 +282,15 @@ def remove(name: str) -> bool:
     db = TinyDB(corpus_db_path())
     query = Query()
     data = db.search(query.name == name)
-    db.close()
 
     if data:
         path = get_corpus_path(name)
         os.remove(path)
         db.remove(query.name == name)
+        db.close()
         return True
 
+    db.close()
     return False
 
 

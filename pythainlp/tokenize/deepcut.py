@@ -9,7 +9,7 @@ User need to install deepcut (and its dependency: tensorflow) by themselves.
 
 from typing import List, Union
 
-import deepcut
+from deepcut import tokenize
 
 from .trie import Trie
 
@@ -22,6 +22,6 @@ def segment(text: str, custom_dict: Union[Trie, List[str], str] = None) -> List[
         if isinstance(custom_dict, Trie):
             custom_dict = list(custom_dict)
 
-        return deepcut.tokenize(text, custom_dict)
+        return tokenize(text, custom_dict)
 
-    return deepcut.tokenize(text)
+    return tokenize(text)

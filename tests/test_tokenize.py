@@ -224,18 +224,30 @@ class TestTokenizePackage(unittest.TestCase):
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])
         self.assertEqual(subword_tokenize(""), [])
+
         self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"))
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tcc")
+        )
 
         self.assertEqual(subword_tokenize(None, engine="etcc"), [])
         self.assertEqual(subword_tokenize("", engine="etcc"), [])
         self.assertIsNotNone(
             subword_tokenize("สวัสดิีดาวอังคาร", engine="etcc")
         )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="etcc")
+        )
         self.assertIsNotNone(subword_tokenize("เบียร์สิงห์", engine="etcc"))
 
         self.assertEqual(subword_tokenize(None, engine="ssg"), [])
         self.assertEqual(subword_tokenize("", engine="ssg"), [])
-        self.assertTrue("ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
+        self.assertTrue(
+            "ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
 
     def test_syllable_tokenize(self):
         self.assertEqual(syllable_tokenize(None), [])
@@ -243,12 +255,14 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             syllable_tokenize("สวัสดีชาวโลก"), ["สวัส", "ดี", "ชาว", "โลก"]
         )
+        self.assertFalse("า" in syllable_tokenize("สวัสดีชาวโลก"))
 
         self.assertEqual(syllable_tokenize(None, engine="ssg"), [])
         self.assertEqual(syllable_tokenize("", engine="ssg"), [])
         self.assertEqual(
             syllable_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
         )
+        self.assertFalse("า" in syllable_tokenize("แมวกินปลา", engine="etcc"))
 
     def test_tcc(self):
         self.assertEqual(tcc.segment(None), [])

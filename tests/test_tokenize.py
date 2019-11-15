@@ -26,9 +26,6 @@ from pythainlp.tokenize import (
 
 
 class TestTokenizePackage(unittest.TestCase):
-    def test_dict_word_tokenize(self):
-        self.assertEqual(dict_word_tokenize(""), [])
-
     def test_etcc(self):
         self.assertEqual(etcc.segment(""), "")
         self.assertIsInstance(etcc.segment("คืนความสุข"), list)
@@ -62,23 +59,33 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("หมอนทองตากลมหูว์MBK39", engine="deepcut")
         )
         self.assertIsNotNone(
-            word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX")
-        )
-        self.assertIsNotNone(
             word_tokenize("หมอนทองตากลมหูว์MBK39", engine="attacut")
         )
+        self.assertIsNotNone(
+            word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX")
+        )  # XX engine is not existed
 
         self.assertIsNotNone(dict_trie(()))
         self.assertIsNotNone(dict_trie(("ทดสอบ", "สร้าง", "Trie")))
         self.assertIsNotNone(dict_trie(["ทดสอบ", "สร้าง", "Trie"]))
+        self.assertIsNotNone(dict_trie({"ทดสอบ", "สร้าง", "Trie"}))
         self.assertIsNotNone(dict_trie(thai_words()))
         self.assertIsNotNone(dict_trie(DEFAULT_DICT_TRIE))
         self.assertIsNotNone(
             dict_trie(os.path.join(_CORPUS_PATH, _THAI_WORDS_FILENAME))
         )
 
-        self.assertIsNotNone(
-            word_tokenize("รถไฟฟ้าBTS", custom_dict=DEFAULT_DICT_TRIE)
+        self.assertTrue(
+            "ไฟ" in word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"]))
+        )
+
+        # Commented out until this unittest bug get fixed:
+        # https://bugs.python.org/issue29620
+        # with self.assertWarns(DeprecationWarning):
+        #     dict_word_tokenize("เลิกใช้แล้ว", custom_dict=DEFAULT_DICT_TRIE)
+        self.assertEqual(
+            word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"])),
+            dict_word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"])),
         )
 
     def test_Tokenizer(self):
@@ -224,18 +231,30 @@ class TestTokenizePackage(unittest.TestCase):
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])
         self.assertEqual(subword_tokenize(""), [])
+
         self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"))
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tcc")
+        )
 
         self.assertEqual(subword_tokenize(None, engine="etcc"), [])
         self.assertEqual(subword_tokenize("", engine="etcc"), [])
         self.assertIsNotNone(
             subword_tokenize("สวัสดิีดาวอังคาร", engine="etcc")
         )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="etcc")
+        )
         self.assertIsNotNone(subword_tokenize("เบียร์สิงห์", engine="etcc"))
 
         self.assertEqual(subword_tokenize(None, engine="ssg"), [])
         self.assertEqual(subword_tokenize("", engine="ssg"), [])
-        self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
+        self.assertTrue(
+            "ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
 
     def test_syllable_tokenize(self):
         self.assertEqual(syllable_tokenize(None), [])
@@ -243,12 +262,14 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             syllable_tokenize("สวัสดีชาวโลก"), ["สวัส", "ดี", "ชาว", "โลก"]
         )
+        self.assertFalse("า" in syllable_tokenize("สวัสดีชาวโลก"))
 
         self.assertEqual(syllable_tokenize(None, engine="ssg"), [])
         self.assertEqual(syllable_tokenize("", engine="ssg"), [])
         self.assertEqual(
             syllable_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
         )
+        self.assertFalse("า" in syllable_tokenize("แมวกินปลา", engine="etcc"))
 
     def test_tcc(self):
         self.assertEqual(tcc.segment(None), [])

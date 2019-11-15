@@ -5,11 +5,11 @@ Wrapper for AttaCut - Fast and Reasonably Accurate Word Tokenizer for Thai
 """
 from typing import List
 
-import attacut
+from attacut import tokenize
 
 
 def segment(text: str) -> List[str]:
     if not text or not isinstance(text, str):
         return []
 
-    return attacut.tokenize(text)
+    return tokenize(text)

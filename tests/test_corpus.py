@@ -35,10 +35,12 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsNotNone(thai_words())
         self.assertIsNotNone(thai_female_names())
         self.assertIsNotNone(thai_male_names())
+        self.assertEqual(get_corpus_db_detail("XXX"), {})
         self.assertIsNone(download("test"))
         self.assertIsNone(download("test", force=True))
         self.assertIsNotNone(get_corpus_db_detail("test"))
         self.assertIsNotNone(remove("test"))
+        self.assertFalse(remove("test"))
 
     def test_tnc(self):
         self.assertIsNotNone(tnc.word_freqs())
@@ -48,6 +50,7 @@ class TestCorpusPackage(unittest.TestCase):
 
     def test_wordnet(self):
         self.assertIsNotNone(wordnet.langs())
+        self.assertTrue("tha" in wordnet.langs())
 
         self.assertEqual(
             wordnet.synset("spy.n.01").lemma_names("tha"), ["สปาย", "สายลับ"]
@@ -68,6 +71,9 @@ class TestCorpusPackage(unittest.TestCase):
         )
         self.assertEqual(
             wordnet.wup_similarity(bird, mouse), bird.wup_similarity(mouse)
+        )
+        self.assertEqual(
+            wordnet.lch_similarity(bird, mouse), bird.lch_similarity(mouse)
         )
 
         cat_key = wordnet.synsets("แมว")[0].lemmas()[0].key()

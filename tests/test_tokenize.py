@@ -78,7 +78,7 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("รถไฟฟ้าBTS", custom_dict=DEFAULT_DICT_TRIE)
         )
 
-        with self.assertRaises(DeprecationWarning):
+        with self.assertWarns(DeprecationWarning):
             dict_word_tokenize("เลิกใช้แล้ว")
 
     def test_Tokenizer(self):

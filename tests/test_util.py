@@ -244,7 +244,7 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(delete_tone("จิ้น"), "จิน")
         self.assertEqual(delete_tone("เก๋า"), "เกา")
 
-        with self.assertRaises(DeprecationWarning):
+        with self.assertWarns(DeprecationWarning):
             deletetone("จิ้น")
 
     def test_normalize(self):
@@ -293,5 +293,5 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(is_native_thai("เทเวศน์"), False)
         self.assertEqual(is_native_thai("เทเวศร์"), False)
 
-        with self.assertRaises(DeprecationWarning):
+        with self.assertWarns(DeprecationWarning):
             thaicheck("เลข")

@@ -25,6 +25,13 @@ pip install --upgrade --pre pythainlp
 
 Some functionalities, like named-entity recognition, required extra packages.
 See https://github.com/PyThaiNLP/pythainlp for installation options.
+
+
+Made with ❤️
+
+PyThaiNLP Team
+
+"We build Thai NLP"
 """
 
 requirements = [
@@ -63,7 +70,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.1.dev7",
+    version="2.1.dev8",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",

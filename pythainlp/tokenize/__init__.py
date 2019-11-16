@@ -418,7 +418,7 @@ class Tokenizer:
         #   'ผิดปกติ', 'ของ', 'การ', 'พูด']
 
     Tokenizer object instantiated with a file path containing list of
-    word separated with *newline*  and explicitly set a new tokeneizer
+    word separated with *newline* and explicitly set a new tokenizer
     after initiation::
 
         PATH_TO_CUSTOM_DICTIONARY = './custom_dictionary.txtt'

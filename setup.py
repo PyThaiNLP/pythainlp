@@ -43,7 +43,6 @@ requirements = [
 ]
 
 extras = {
-    "artagger": ["artagger>=0.1.0.3"],
     "attacut": ["attacut>=1.0.4"],
     "benchmarks": ["numpy>=1.16", "pandas>=0.24"],
     "icu": ["pyicu>=2.3"],
@@ -54,7 +53,6 @@ extras = {
     "thai2fit": ["emoji>=0.5.1", "gensim>=3.2.0", "numpy>=1.16"],
     "thai2rom": ["torch>=1.0.0", "numpy>=1.16"],
     "full": [
-        "artagger>=0.1.0.3",
         "attacut>=1.0.4",
         "emoji>=0.5.1",
         "epitran>=1.1",

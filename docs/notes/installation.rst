@@ -14,7 +14,6 @@ For some functionalities, like named entity recognition, extra packages may be n
     pip install pythainlp[extra1,extra2,...]
 
 where ``extras`` can be
-  - ``artagger`` (to support artagger part-of-speech tagger)
   - ``attacut`` (to support attacut, a fast and accurate tokenizer)
   - ``icu`` (for ICU, International Components for Unicode, support in transliteration and tokenization)
   - ``ipa`` (for IPA, International Phonetic Alphabet, support in transliteration)

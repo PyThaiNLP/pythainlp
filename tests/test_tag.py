@@ -44,14 +44,6 @@ class TestTagPackage(unittest.TestCase):
         self.assertEqual(perceptron.tag(None, corpus="orchid"), [])
         self.assertEqual(perceptron.tag([], corpus="orchid"), [])
 
-        self.assertIsNotNone(pos_tag(None, engine="artagger"))
-        self.assertIsNotNone(pos_tag([], engine="artagger"))
-        self.assertIsNotNone(pos_tag(tokens, engine="artagger"))
-        self.assertEqual(
-            pos_tag(word_tokenize("คุณกำลังประชุม"), engine="artagger"),
-            [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
-        )
-
         self.assertEqual(pos_tag_sents(None), [])
         self.assertEqual(pos_tag_sents([]), [])
         self.assertEqual(

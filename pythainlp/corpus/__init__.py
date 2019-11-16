@@ -44,8 +44,9 @@ def corpus_db_path() -> str:
 def get_corpus_db_detail(name: str) -> dict:
     db = TinyDB(corpus_db_path())
     query = Query()
-
     res = db.search(query.name == name)
+    db.close()
+
     if res:
         return res[0]
     else:
@@ -286,8 +287,10 @@ def remove(name: str) -> bool:
         path = get_corpus_path(name)
         os.remove(path)
         db.remove(query.name == name)
+        db.close()
         return True
 
+    db.close()
     return False
 
 

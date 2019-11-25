@@ -7,7 +7,7 @@ from pythainlp.soundex import soundex
 class App:
 
     def __init__(self, argv):
-        parser = argparse.ArgumentParser("sounddex")
+        parser = argparse.ArgumentParser("soundex")
         parser.add_argument(
             "--text",
             type=str,

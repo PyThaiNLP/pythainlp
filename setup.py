@@ -43,7 +43,7 @@ requirements = [
 ]
 
 extras = {
-    "attacut": ["attacut>=1.0.4"],
+    "attacut": ["attacut>=1.0.6"],
     "benchmarks": ["numpy>=1.16", "pandas>=0.24"],
     "icu": ["pyicu>=2.3"],
     "ipa": ["epitran>=1.1"],

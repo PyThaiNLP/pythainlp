@@ -208,6 +208,13 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(
             word_tokenize(long_danger_text, engine="newmm-safe")
         )
+        text = "ชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิ"
+        self.assertIsNotNone(
+            word_tokenize(text, engine="newmm")
+        )
+        self.assertIsNotNone(
+            word_tokenize(text, engine="newmm-safe")
+        )
 
     def test_word_tokenize_attacut(self):
         self.assertEqual(attacut.segment(None), [])

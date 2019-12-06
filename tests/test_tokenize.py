@@ -196,17 +196,26 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(word_tokenize(long_text, engine="newmm"))
         self.assertIsNotNone(word_tokenize(long_text, engine="newmm-safe"))
 
-        short_danger_text = """
+        danger_text1 = """
+    ชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิ
+    """
+        danger_text2 = """
     ด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้าน
     """
-        long_danger_text = """
+        danger_text3 = """
     ด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก
     """
         self.assertIsNotNone(
-            word_tokenize(short_danger_text, engine="newmm-safe")
+            word_tokenize(danger_text1, engine="newmm")
         )
         self.assertIsNotNone(
-            word_tokenize(long_danger_text, engine="newmm-safe")
+            word_tokenize(danger_text1, engine="newmm-safe")
+        )
+        self.assertIsNotNone(
+            word_tokenize(danger_text2, engine="newmm-safe")
+        )
+        self.assertIsNotNone(
+            word_tokenize(danger_text3, engine="newmm-safe")
         )
 
     def test_word_tokenize_attacut(self):

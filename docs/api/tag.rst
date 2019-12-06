@@ -207,14 +207,10 @@ unigram
 
 Unigram tagger doesn't take the ordering of words in the list into account.
 
-artagger
-++++++++
-
-`artagger <https://github.com/franziz/artagger>`_ is an implementation of `RDRPOSTagger <https://github.com/datquocnguyen/RDRPOSTagger>`_ for tagging POS in Thai language.
 
 References
 ----------
 
 .. [#Sornlertlamvanich_2000] Takahashi, Naoto & Isahara, Hitoshi & Sornlertlamvanich, Virach. (2000).
             Building a Thai part-of-speech tagged corpus (ORCHID). 
-            ournal of the Acoustical Society of Japan (E). 20. 10.1250/ast.20.189. 
+            Journal of the Acoustical Society of Japan (E). 20. 10.1250/ast.20.189. 

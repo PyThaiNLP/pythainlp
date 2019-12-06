@@ -24,7 +24,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 **This is a document for development branch (post 2.0). Things will break.**
 
 - The latest stable release is [2.0.7](https://github.com/PyThaiNLP/pythainlp/releases)
-- The latest development release is [2.1.dev7](https://github.com/PyThaiNLP/pythainlp/releases). See the ongoing [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
+- The latest development release is [2.1.dev8](https://github.com/PyThaiNLP/pythainlp/releases). See the ongoing [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
 - 📫 follow our [PyThaiNLP](https://www.facebook.com/pythainlp/) Facebook page
 
 
@@ -68,7 +68,6 @@ pip install pythainlp[extra1,extra2,...]
 ```
 
 where `extras` can be
-  - `artagger` (to support artagger part-of-speech tagger)
   - `attacut` (to support attacut, a fast and accurate tokenizer)
   - `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
   - `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
@@ -177,7 +176,6 @@ pip install pythainlp[extra1,extra2,...]
 ```
 
 โดยที่ `extras` คือ
-  - `artagger` (สำหรับตัวติดป้ายกำกับชนิดคำ artagger)
   - `attacut` (ตัวตัดคำที่แม่นกว่า `newmm` เมื่อเทียบกับชุดข้อมูล BEST)
   - `icu` (สำหรับการถอดตัวสะกดเป็นสัทอักษรและการตัดคำด้วย ICU)
   - `ipa` (สำหรับการถอดตัวสะกดเป็นสัทอักษรสากล (IPA))

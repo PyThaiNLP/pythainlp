@@ -9,6 +9,7 @@
 branches:
   only:
     - /2.*/
+    - 2.1
     - dev
 
 only_commits:

@@ -43,7 +43,7 @@ install:
   - sudo pip3 install -r requirements.txt
   - sudo pip3 install torch==1.2.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
   - sudo pip3 install --upgrade emoji epitran gensim numpy pandas pyicu sklearn-crfsuite ssg
-  - sudo pip3 install --upgrade "tensorflow>=2,<3"deepcut
+  - sudo pip3 install --upgrade "deepcut>=2,tensorflow<3"
   - sudo pip3 install --upgrade boto smart_open sphinx sphinx-rtd-theme
 
 #---------------------------------#

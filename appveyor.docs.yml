@@ -6,11 +6,10 @@
 #      general configuration      #
 #---------------------------------#
 
-# branches:
-#   only:
-#     - 2.0
-#     - 2.1
-#     - dev
+branches:
+  only:
+    - /2\.\d*/
+    - dev
 
 only_commits:
   message: /(build and deploy docs)/    

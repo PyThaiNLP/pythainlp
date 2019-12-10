@@ -21,7 +21,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 >We are conducting a 2-minute survey to know more about your experience using the library and your expectations regarding what the library should be able to do. Take part in this survey: https://forms.gle/aLdSHnvkNuK5CFyt9
 
-**This is a document for development branch (post 2.0). Things will break.**
+**This is a document for development branch (post 2.1). Things will break.**
 
 - The latest stable release is [2.1](https://github.com/PyThaiNLP/pythainlp/releases). See [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
 - For latest development, see [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch. See ongoing [2.2 change log](https://github.com/PyThaiNLP/pythainlp/issues/330).

@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 from setuptools import find_packages, setup
 
@@ -68,7 +68,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.1.dev8",
+    version="2.1",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",

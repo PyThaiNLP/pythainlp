@@ -11,7 +11,7 @@ python:
 cache:
   directories:
     - ~/.cache/pip
-    - ~/nltk_data
+#    - ~/nltk_data
 #    - ~/pythainlp-data
 
 before_install:

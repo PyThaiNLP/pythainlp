@@ -3,7 +3,7 @@
 #---------------------------------#
 
 skip_commits:
-  message: /(skip ci)/  # skip if the commit message contains "(skip ci)"
+  message: /[skip ci]/  # skip if the commit message contains "(skip ci)"
 
 #---------------------------------#
 #    environment configuration    #

@@ -21,10 +21,10 @@ from pythainlp.tokenize import DEFAULT_DICT_TRIE
 from .tcc import tcc_pos
 from .trie import Trie
 
-# To tokenize English words, for example
+# To tokenize non-Thai words, for example
 _PAT_ENG = re.compile(
     r"""(?x)
-[-a-zA-Z]+|   # Latin
+[-a-zA-Z]+|   # Latin characters
 \d[\d,\.]*|   # number
 [ \t]+|       # space
 \r?\n         # newline
@@ -33,13 +33,15 @@ _PAT_ENG = re.compile(
 
 _PAT_TWOCHARS = re.compile("[ก-ฮ]{,2}$")
 
+
+# chunk size and window size for safe mode
 _TEXT_LIMIT = 120
 _TEXT_SCAN_LEFT = 20
 _TEXT_SCAN_RIGHT = 20
 
 
 def _bfs_paths_graph(
-    graph: defaultdict, start: int, goal: List[int]
+    graph: defaultdict, start: int, goal: int
 ) -> Generator[List[int], None, None]:
     queue = [(start, [start])]
     while queue:
@@ -53,52 +55,56 @@ def _bfs_paths_graph(
 
 def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
     graph = defaultdict(list)  # main data structure
-    allow_pos = tcc_pos(text)  # separating position should aligned with TCC
+    allow_pos = tcc_pos(text)  # breaking positions that aligned with TCC
 
     q = [0]  # min-heap queue
-    last_p = 0  # last position for yield
+    last_pos = 0  # last position for yield
     while q[0] < len(text):
-        p = heappop(q)
+        pos = heappop(q)
 
-        for w in custom_dict.prefixes(text[p:]):
-            p_ = p + len(w)
-            if p_ in allow_pos:  # only pick one that is TCC-valid
-                graph[p].append(p_)
-                if p_ not in q:
-                    heappush(q, p_)
+        for word in custom_dict.prefixes(text[pos:]):
+            candidate_pos = pos + len(word)
+            if candidate_pos in allow_pos:  # only pick one that is TCC-valid
+                graph[pos].append(candidate_pos)
+                if candidate_pos not in q:
+                    heappush(q, candidate_pos)
 
         # if length == 1 means no longer ambiguous, return previous result
         if len(q) == 1:
-            pp = next(_bfs_paths_graph(graph, last_p, q[0]))
-            # will eventually start at last_p = pp[0]
-            for p in pp[1:]:
-                yield text[last_p:p]
-                last_p = p
-            # will eventually stop at last_p == q[0]
+            pp = next(_bfs_paths_graph(graph, last_pos, q[0]))
+            # will eventually start at last_pos = pp[0]
+            for pos in pp[1:]:
+                yield text[last_pos:pos]
+                last_pos = pos
+            # will eventually stop at last_pos == q[0]
 
         # if length == 0 means not found in dictionary
         if len(q) == 0:
-            m = _PAT_ENG.match(text[p:])
-            if m:  # Latin characters, numeric, space
-                i = p + m.end()
-            else:  # as mininum skip as possible
-                for i in range(p + 1, len(text)):
-                    if i in allow_pos:  # only if TCC-valid
-                        ww = [
-                            w
-                            for w in custom_dict.prefixes(text[i:])
-                            if (i + len(w) in allow_pos)
+            m = _PAT_ENG.match(text[pos:])
+            if m:  # non-Thai token, skip to the end
+                i = pos + m.end()
+            else:  # Thai token, find minimum skip
+                for i in range(pos + 1, len(text)):
+                    if i in allow_pos:  # only if TCC-valid,
+                        # and longer than 2 characters,
+                        _words = [
+                            _word
+                            for _word in custom_dict.prefixes(text[i:])
+                            if ((i + len(_word) in allow_pos) and
+                                not _PAT_TWOCHARS.match(_word))
                         ]
-                        ww = [w for w in ww if not _PAT_TWOCHARS.match(w)]
-                        m = _PAT_ENG.match(text[i:])
-                        if ww or m:
+                        if _words:
+                            break
+                        # or a non-Thai token
+                        if _PAT_ENG.match(text[i:]):
                             break
                 else:
                     i = len(text)
-            w = text[p:i]
-            graph[p].append(i)
-            yield w
-            last_p = i
+
+            word = text[pos:i]
+            graph[pos].append(i)
+            yield word
+            last_pos = i
             heappush(q, i)
 
 

@@ -18,6 +18,7 @@ __all__ = [
     "thai_full_months",
     "thai_full_weekdays",
     "thai_strftime",
+    "thai_day2datetime"
 ]
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
@@ -388,3 +389,34 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
     elif int(reign) == 7:
         ad = int(reign_year) + 1924
     return ad
+
+tomorrow = ["พรุ่งนี้", "วันพรุ่งนี้","คืนหน้า"]
+daynow = ["วันนี้","คืนนี้"]
+day_after_tomorrow = ["วันมะรืนนี้", "มะรืน", "มะรืนนี้"]
+yesterday = ["เมื่อวาน", "เมื่อวานนี้", "เมื่อวันก่อน", "วานนี้"]
+day2 = ["เมื่อวานซืน", "เมื่อวานก่อน", "เมื่อวานของเมื่อวาน"]
+def thai_day2datetime(day:str, date:datetime.datetime=datetime.datetime.now())->datetime.datetime:
+    """
+    This function convert thai day into :class:`datetime.datetime`
+
+    :param str day: thai day
+    :param datetime.datetime date: date (default is datetime.datetime.now())
+
+    :return: datetime.datetime from thai day.
+    :rtype: datetime.datetime
+    """
+    global tomorrow, daynow, day_after_tomorrow, yesterday, day2
+    day_num = 0
+    if day in tomorrow:
+        day_num = 1
+    elif day in day_after_tomorrow:
+        day_num = 2
+    elif day in yesterday:
+        day_num = -1
+    elif day in day2:
+        day_num = -2
+    elif day in day:
+        day_num = 0
+    
+    datetime_data = date
+    return datetime_data+datetime.timedelta(days=day_num)

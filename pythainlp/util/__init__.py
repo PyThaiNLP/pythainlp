@@ -46,6 +46,6 @@ from .keywords import find_keyword, rank
 from .normalize import delete_tone, deletetone, normalize
 from .numtoword import bahttext, num_to_thaiword
 from .thai import countthai, isthai, isthaichar
-from .thai_time import thai_time
+from .time import thai_time
 from .thaiwordcheck import is_native_thai, thaicheck
 from .wordtonum import thaiword_to_num

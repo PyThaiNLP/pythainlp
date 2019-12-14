@@ -38,12 +38,15 @@ _PAT_THAI_TWOCHARS = re.compile("[ก-ฮ]{,2}$")
 # maximum graph size before cutoff
 _MAX_GRAPH_SIZE = 50
 
-# chunk size and window size for safe mode
+# window size for safe mode
 _TEXT_SCAN_POINT = 120
 _TEXT_SCAN_LEFT = 20
 _TEXT_SCAN_RIGHT = 20
 _TEXT_SCAN_BEGIN = _TEXT_SCAN_POINT - _TEXT_SCAN_LEFT
 _TEXT_SCAN_END = _TEXT_SCAN_POINT + _TEXT_SCAN_RIGHT
+del _TEXT_SCAN_POINT
+del _TEXT_SCAN_LEFT
+del _TEXT_SCAN_RIGHT
 
 
 def _bfs_paths_graph(

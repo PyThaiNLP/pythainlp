@@ -5,6 +5,7 @@ from . import tokenization
 from . import soundex
 from . import tagging
 
+# TODO: change namespaces to verbs (actions) when possible
 available_namespaces = sorted(['corpus', 'tokenization', 'soundex', 'tagging'])
 
 cli_name = "pythainlp"

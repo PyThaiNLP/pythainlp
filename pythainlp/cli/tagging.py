@@ -35,7 +35,7 @@ class SubAppBase:
 
         args = parser.parse_args(argv)
 
-        print(f"Using engine={args.engine}")
+        #print(f"Engine: {args.engine}")
 
         self.args = args
 
@@ -79,4 +79,4 @@ class App:
         if command == "pos":
             POSTaggingApp("Part-of-Speech tagging", argv)
         else:
-            raise ValueError(f"no command:{subcommand}")
+            raise ValueError(f"No command: {subcommand}")

@@ -28,7 +28,7 @@ class SubAppBase:
 
         cli.exit_if_empty(args.text, parser)
 
-        print(f"Using engine={args.engine}")
+        #print(f"Engine: {args.engine}")
         result = self.run(args.text, engine=args.engine)
         print(self.separator.join(result))
 

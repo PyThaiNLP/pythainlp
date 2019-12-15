@@ -394,7 +394,7 @@ tomorrow = ["พรุ่งนี้", "วันพรุ่งนี้","ค
 daynow = ["วันนี้","คืนนี้"]
 day_after_tomorrow = ["วันมะรืนนี้", "มะรืน", "มะรืนนี้"]
 yesterday = ["เมื่อวาน", "เมื่อวานนี้", "เมื่อวันก่อน", "วานนี้"]
-day2 = ["เมื่อวานซืน", "เมื่อวานก่อน", "เมื่อวานของเมื่อวาน"]
+day2 = ["เมื่อวานซืน", "เมื่อวานก่อน", "เมื่อวานของเมื่อวาน", "วานซืน"]
 def thai_day2datetime(day:str, date:datetime.datetime=datetime.datetime.now())->datetime.datetime:
     """
     This function convert thai day into :class:`datetime.datetime`
@@ -404,6 +404,12 @@ def thai_day2datetime(day:str, date:datetime.datetime=datetime.datetime.now())->
 
     :return: datetime.datetime from thai day.
     :rtype: datetime.datetime
+
+    :Example:
+
+        thai_day2datetime("พรุ่งนี้")
+        # output:
+        # datetime of tomorrow
     """
     global tomorrow, daynow, day_after_tomorrow, yesterday, day2
     day_num = 0
@@ -417,6 +423,8 @@ def thai_day2datetime(day:str, date:datetime.datetime=datetime.datetime.now())->
         day_num = -2
     elif day in day:
         day_num = 0
+    else:
+        raise NotImplementedError
     
     datetime_data = date
-    return datetime_data+datetime.timedelta(days=day_num)
+    return datetime_data + datetime.timedelta(days=day_num)

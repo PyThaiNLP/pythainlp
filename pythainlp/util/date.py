@@ -390,12 +390,12 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
         ad = int(reign_year) + 1924
     return ad
 
-tomorrow = ["พรุ่งนี้", "วันพรุ่งนี้","คืนหน้า"]
-daynow = ["วันนี้","คืนนี้"]
+tomorrow = ["พรุ่งนี้", "วันพรุ่งนี้", "คืนหน้า"]
+daynow = ["วันนี้", "คืนนี้"]
 day_after_tomorrow = ["วันมะรืนนี้", "มะรืน", "มะรืนนี้"]
 yesterday = ["เมื่อวาน", "เมื่อวานนี้", "เมื่อวันก่อน", "วานนี้"]
 day2 = ["เมื่อวานซืน", "เมื่อวานก่อน", "เมื่อวานของเมื่อวาน", "วานซืน"]
-def thai_day2datetime(day:str, date:datetime.datetime=datetime.datetime.now())->datetime.datetime:
+def thai_day2datetime(day:str, date:datetime.datetime = datetime.datetime.now())->datetime.datetime:
     """
     This function convert thai day into :class:`datetime.datetime`
 

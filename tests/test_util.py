@@ -323,4 +323,3 @@ class TestUtilPackage(unittest.TestCase):
         self.assertIsNotNone(thai_day2datetime("วันนี้"))
         self.assertIsNotNone(thai_day2datetime("เมื่อวาน"))
         self.assertIsNotNone(thai_day2datetime("วานซืน"))
-

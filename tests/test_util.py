@@ -317,6 +317,7 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_time2time("หนึ่งทุ่มสามสิบแปดนาที"), '19:38')
         self.assertEqual(thai_time2time("ทุ่มสามสิบแปด"), '19:38')
         self.assertEqual(thai_time2time("สองโมงเช้าสิบสองนาที"), '8:12')
+        self.assertEqual(thai_time2time("สิบโมงเช้า"), '10:00')
 
     def test_thai_day2datetime(self):
         self.assertIsNotNone(thai_day2datetime("พรุ่งนี้"))

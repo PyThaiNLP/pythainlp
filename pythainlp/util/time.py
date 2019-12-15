@@ -301,4 +301,6 @@ def thai_time2time(time):
             time += str(n)
         else:
             time += "0"+str(n)
+    else:
+        time += "00"
     return time

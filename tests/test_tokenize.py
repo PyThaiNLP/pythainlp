@@ -236,6 +236,13 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             sent_tokenize("รักน้ำ  รักปลา  "), ["รักน้ำ", "รักปลา"]
         )
+        self.assertEqual(
+            sent_tokenize("ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"), ["ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"]
+        )
+        self.assertEqual(
+            sent_tokenize("ข้าราชการได้รับการหมุนเวียนเป็นระยะ และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค"), 
+            ["ข้าราชการได้รับการหมุนเวียนเป็นระยะ ", "และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค"]
+        )
 
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])

@@ -19,10 +19,11 @@ before_install:
 
 install:
 - pip install -U pip setuptools
+- pip install "tensorflow>=2,<3" deepcut
 - pip install -r requirements.txt
 - pip install .[full]
 - pip install -U coveralls
-#- pip install "tensorflow>=2,<3" deepcut
+
 script: coverage run --source=pythainlp setup.py test
 
 after_success: coveralls

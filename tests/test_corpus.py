@@ -18,7 +18,7 @@ from pythainlp.corpus import (
     thai_words,
     tnc,
     ttc,
-    #wordnet,
+    # wordnet,
 )
 
 

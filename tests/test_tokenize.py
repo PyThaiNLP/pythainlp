@@ -226,21 +226,21 @@ class TestTokenizePackage(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
 
-    def test_sent_tokenize(self):
-        self.assertEqual(sent_tokenize(None), [])
-        self.assertEqual(sent_tokenize(""), [])
-        self.assertEqual(
-            sent_tokenize("รักน้ำ  รักปลา  ", engine="whitespace"),
-            ["รักน้ำ", "รักปลา", ""],
-        )
-        self.assertEqual(sent_tokenize("รักน้ำ  รักปลา  ",
-                                       engine="whitespace+newline"), ["รักน้ำ", "รักปลา"])
-        self.assertEqual(
-            sent_tokenize("ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"),
-            ["ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"])
-        self.assertEqual(
-            sent_tokenize("ข้าราชการได้รับการหมุนเวียนเป็นระยะ และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค"), [
-                "ข้าราชการได้รับการหมุนเวียนเป็นระยะ ", "และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค"])
+    # def test_sent_tokenize(self):
+    #     self.assertEqual(sent_tokenize(None), [])
+    #     self.assertEqual(sent_tokenize(""), [])
+    #     self.assertEqual(
+    #         sent_tokenize("รักน้ำ  รักปลา  ", engine="whitespace"),
+    #         ["รักน้ำ", "รักปลา", ""],
+    #     )
+    #     self.assertEqual(sent_tokenize("รักน้ำ  รักปลา  ",
+    #                                    engine="whitespace+newline"), ["รักน้ำ", "รักปลา"])
+    #     self.assertEqual(
+    #         sent_tokenize("ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"),
+    #         ["ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"])
+    #     self.assertEqual(
+    #         sent_tokenize("ข้าราชการได้รับการหมุนเวียนเป็นระยะ และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค"), [
+    #             "ข้าราชการได้รับการหมุนเวียนเป็นระยะ ", "และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค"])
 
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])

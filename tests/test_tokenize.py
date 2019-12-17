@@ -234,19 +234,24 @@ class TestTokenizePackage(unittest.TestCase):
             ["รักน้ำ", "รักปลา", ""],
         )
         self.assertEqual(
-            sent_tokenize("รักน้ำ  รักปลา  ", engine="whitespace+newline"), ["รักน้ำ", "รักปลา"]
+            sent_tokenize("รักน้ำ  รักปลา  ",
+                          engine="whitespace+newline"), ["รักน้ำ", "รักปลา"]
         )
         self.assertEqual(
-            sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน", engine="crfcut"), ["วันนี้ฉันกินข้าว และโดดเรียน"]
+            sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน", engine="crfcut"), [
+                "วันนี้ฉันกินข้าว และโดดเรียน"]
         )
         self.assertEqual(
-            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า", engine="crfcut"), ["น้ำพึ่งเรือ ","แต่เสือพึ่งป่า"]
+            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า", engine="crfcut"), [
+                "น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"]
         )
         self.assertEqual(
-            sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน"), ["วันนี้ฉันกินข้าว และโดดเรียน"]
+            sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน"), [
+                "วันนี้ฉันกินข้าว และโดดเรียน"]
         )
         self.assertEqual(
-            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า"), ["น้ำพึ่งเรือ ","แต่เสือพึ่งป่า"]
+            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า"), [
+                "น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"]
         )
 
     def test_subword_tokenize(self):

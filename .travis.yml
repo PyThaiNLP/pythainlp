@@ -14,6 +14,13 @@ cache:
 #    - ~/nltk_data
 #    - ~/pythainlp-data
 
+addons:
+  apt:
+    packages:
+    - sqlite3
+    sources:
+    - travis-ci/sqlite3
+    
 before_install:
 - sudo rm -f /etc/boto.cfg
 

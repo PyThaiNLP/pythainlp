@@ -12,6 +12,7 @@ import pycrfsuite
 from pythainlp.corpus import download, get_corpus_path
 from pythainlp.tokenize import word_tokenize
 
+
 def _download() -> str:
     path = get_corpus_path("crfcut")
     if not path:
@@ -19,26 +20,30 @@ def _download() -> str:
         path = get_corpus_path("crfcut")
     return path
 
-enders = ["ครับ","ค่ะ","คะ","นะคะ","นะ","จ้ะ","จ้า","จ๋า","ฮะ", #ending honorifics
-          #enders
-          "ๆ","ได้","แล้ว","ด้วย","เลย","มาก","น้อย","กัน","เช่นกัน","เท่านั้น",
-          "อยู่","ลง","ขึ้น","มา","ไป","ไว้","เอง","อีก","ใหม่","จริงๆ",
-          "บ้าง","หมด","ทีเดียว","เดียว",
-          #demonstratives
-          "นั้น","นี้","เหล่านี้","เหล่านั้น",
-          #questions
-          "อย่างไร","ยังไง","หรือไม่","มั้ย","ไหน","อะไร","ทำไม","เมื่อไหร่"]
-starters = ["ผม","ฉัน","ดิฉัน","ชั้น","คุณ","มัน","เขา","เค้า",
-            "เธอ","เรา","พวกเรา","พวกเขา", #pronouns
-            #connectors
-            "และ","หรือ","แต่","เมื่อ","ถ้า","ใน",
-            "ด้วย","เพราะ","เนื่องจาก","ซึ่ง","ไม่",
-            "ตอนนี้","ทีนี้","ดังนั้น","เพราะฉะนั้น","ฉะนั้น",
-            "ตั้งแต่","ในที่สุด",
-            #demonstratives
-            "นั้น","นี้","เหล่านี้","เหล่านั้น"]
 
-def extract_features(doc: List[str], window: int=2, max_n_gram: int=3) -> List[List[str]]:
+enders = ["ครับ", "ค่ะ", "คะ", "นะคะ", "นะ", "จ้ะ", "จ้า", "จ๋า", "ฮะ",  # ending honorifics
+          # enders
+          "ๆ", "ได้", "แล้ว", "ด้วย", "เลย", "มาก", "น้อย", "กัน", "เช่นกัน", "เท่านั้น",
+          "อยู่", "ลง", "ขึ้น", "มา", "ไป", "ไว้", "เอง", "อีก", "ใหม่", "จริงๆ",
+          "บ้าง", "หมด", "ทีเดียว", "เดียว",
+          # demonstratives
+          "นั้น", "นี้", "เหล่านี้", "เหล่านั้น",
+          # questions
+          "อย่างไร", "ยังไง", "หรือไม่", "มั้ย", "ไหน", "อะไร", "ทำไม", "เมื่อไหร่"]
+starters = ["ผม", "ฉัน", "ดิฉัน", "ชั้น", "คุณ", "มัน", "เขา", "เค้า",
+            "เธอ", "เรา", "พวกเรา", "พวกเขา",  # pronouns
+            # connectors
+            "และ", "หรือ", "แต่", "เมื่อ", "ถ้า", "ใน",
+            "ด้วย", "เพราะ", "เนื่องจาก", "ซึ่ง", "ไม่",
+            "ตอนนี้", "ทีนี้", "ดังนั้น", "เพราะฉะนั้น", "ฉะนั้น",
+            "ตั้งแต่", "ในที่สุด",
+            # demonstratives
+            "นั้น", "นี้", "เหล่านี้", "เหล่านั้น"]
+
+
+def extract_features(doc: List[str],
+                     window: int = 2,
+                     max_n_gram: int = 3) -> List[List[str]]:
     """
     Extract features for CRF by sliding `max_n_gram` of tokens for +/- `window` from the current token
 
@@ -48,43 +53,46 @@ def extract_features(doc: List[str], window: int=2, max_n_gram: int=3) -> List[L
     :return: list of lists of features to be fed to CRF
     """
     doc_features = []
-    doc = ['xxpad' for i in range(window)] + doc + ['xxpad' for i in range(window)]
+    doc = ['xxpad' for i in range(window)] + \
+        doc + ['xxpad' for i in range(window)]
     doc_ender = []
     doc_starter = []
-    #add enders
+    # add enders
     for i in range(len(doc)):
         if doc[i] in enders:
             doc_ender.append('ender')
         else:
             doc_ender.append('normal')
-    #add starters
+    # add starters
     for i in range(len(doc)):
         if doc[i] in starters:
             doc_starter.append('starter')
         else:
             doc_starter.append('normal')
-    #for each word
-    for i in range(window, len(doc)-window):
-        #bias term
-        word_features = ['bias'] 
-        #ngram features
-        for n_gram in range(1, min(max_n_gram+1,2+window*2)):
-            for j in range(i-window,i+window+2-n_gram):
+    # for each word
+    for i in range(window, len(doc) - window):
+        # bias term
+        word_features = ['bias']
+        # ngram features
+        for n_gram in range(1, min(max_n_gram + 1, 2 + window * 2)):
+            for j in range(i - window, i + window + 2 - n_gram):
                 feature_position = f'{n_gram}_{j-i}_{j-i+n_gram}'
                 word_ = f'{"|".join(doc[j:(j+n_gram)])}'
                 word_features += [f'word_{feature_position}={word_}']
-                ender_ =  f'{"|".join(doc_ender[j:(j+n_gram)])}'
+                ender_ = f'{"|".join(doc_ender[j:(j+n_gram)])}'
                 word_features += [f'ender_{feature_position}={ender_}']
-                starter_ =  f'{"|".join(doc_starter[j:(j+n_gram)])}'
+                starter_ = f'{"|".join(doc_starter[j:(j+n_gram)])}'
                 word_features += [f'starter_{feature_position}={starter_}']
-        #append to feature per word
+        # append to feature per word
         doc_features.append(word_features)
     return doc_features
+
 
 _tagger = pycrfsuite.Tagger()
 _tagger.open(_download())
 
-def segment(text: str)->List[str]:
+
+def segment(text: str) -> List[str]:
     """
     CRF-based sentence segmentation.
 
@@ -98,7 +106,7 @@ def segment(text: str)->List[str]:
     sentence = ''
     for i, w in enumerate(toks):
         sentence = sentence + w
-        if labs[i]=='E':
+        if labs[i] == 'E':
             sentences.append(sentence)
-            sentence=''
+            sentence = ''
     return sentences

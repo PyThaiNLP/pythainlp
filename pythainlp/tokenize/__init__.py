@@ -215,7 +215,7 @@ def sent_tokenize(text: str, engine: str = "crfcut") -> List[str]:
         sentence_1 = "ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"
         sentence_2 = "ข้าราชการได้รับการหมุนเวียนเป็นระยะ \\
         และได้รับมอบหมายให้ประจำในระดับภูมิภาค"
-        
+
         sent_tokenize(sentence_1, engine="whitespace+newline")
         # output: ['ฉันไปประชุมเมื่อวันที่', '11', 'มีนาคม']
         sent_tokenize(sentence_2, engine="whitespace+newline")
@@ -247,10 +247,10 @@ def sent_tokenize(text: str, engine: str = "crfcut") -> List[str]:
     elif engine == "whitespace+newline":
         sentences = text.split()
     else:
-        #default to crfcut
+        # default to crfcut
         from .crfcut import segment
         sentences = segment(text)
-        
+
     return sentences
 
 

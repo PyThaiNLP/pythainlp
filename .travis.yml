@@ -19,7 +19,7 @@ before_install:
 
 install:
 - pip install -U pip setuptools
-- pip install "tensorflow>=2,<3" deepcut
+- pip install -U "tensorflow>=2,<3" deepcut
 - pip install -r requirements.txt
 - pip install .[full]
 - pip install -U coveralls

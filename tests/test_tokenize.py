@@ -6,7 +6,7 @@ import unittest
 from pythainlp.corpus import _CORPUS_PATH, thai_words
 from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 from pythainlp.tokenize import DEFAULT_DICT_TRIE, Tokenizer, attacut
-from pythainlp.tokenize import deepcut as tokenize_deepcut
+# from pythainlp.tokenize import deepcut as tokenize_deepcut
 from pythainlp.tokenize import (
     dict_trie,
     dict_word_tokenize,
@@ -55,9 +55,9 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(
             word_tokenize("หมอนทองตากลมหูว์MBK39", engine="icu")
         )
-        self.assertIsNotNone(
-            word_tokenize("หมอนทองตากลมหูว์MBK39", engine="deepcut")
-        )
+        # self.assertIsNotNone(
+        #     word_tokenize("หมอนทองตากลมหูว์MBK39", engine="deepcut")
+        # )
         self.assertIsNotNone(
             word_tokenize("หมอนทองตากลมหูว์MBK39", engine="attacut")
         )
@@ -105,19 +105,19 @@ class TestTokenizePackage(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
 
-    def test_word_tokenize_deepcut(self):
-        self.assertEqual(tokenize_deepcut.segment(None), [])
-        self.assertEqual(tokenize_deepcut.segment(""), [])
-        self.assertIsNotNone(
-            tokenize_deepcut.segment("ทดสอบ", DEFAULT_DICT_TRIE)
-        )
-        self.assertIsNotNone(tokenize_deepcut.segment("ทดสอบ", ["ทด", "สอบ"]))
-        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
-        self.assertIsNotNone(
-            word_tokenize(
-                "ทดสอบ", engine="deepcut", custom_dict=DEFAULT_DICT_TRIE
-            )
-        )
+    # def test_word_tokenize_deepcut(self):
+    #     self.assertEqual(tokenize_deepcut.segment(None), [])
+    #     self.assertEqual(tokenize_deepcut.segment(""), [])
+    #     self.assertIsNotNone(
+    #         tokenize_deepcut.segment("ทดสอบ", DEFAULT_DICT_TRIE)
+    #     )
+    #     self.assertIsNotNone(tokenize_deepcut.segment("ทดสอบ", ["ทด", "สอบ"]))
+    #     self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
+    #     self.assertIsNotNone(
+    #         word_tokenize(
+    #             "ทดสอบ", engine="deepcut", custom_dict=DEFAULT_DICT_TRIE
+    #         )
+    #     )
 
     def test_word_tokenize_longest(self):
         self.assertEqual(longest.segment(None), [])

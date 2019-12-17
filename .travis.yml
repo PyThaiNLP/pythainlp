@@ -17,10 +17,14 @@ cache:
 
 before_install:
 - sudo rm -f /etc/boto.cfg
-- sudo apt-add-repository -y ppa:travis-ci/sqlite3
-- sudo apt-get -y update
-- sudo apt-get -y install sqlite3=3.7.15.1-1~travis1
 
+addons:
+  apt:
+    sources:
+      - travis-ci/sqlite3
+    packages:
+      - sqlite3
+      
 install:
 - pip install "tensorflow>=2,<3" deepcut
 - pip install -r requirements.txt

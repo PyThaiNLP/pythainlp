@@ -179,17 +179,16 @@ def dict_word_tokenize(
     )
 
 
-def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
+def sent_tokenize(text: str, engine: str = "crfcut") -> List[str]:
     """
-    This function does not yet automatically recognize when a sentence
-    actually ends. Rather it helps split text where white space and
-    a new line is found.
+    This function tokenizes running text into "sentences"
 
     :param str text: the text to be tokenized
-    :param str engine: choose between *'whitespace'* or *'whitespace+newline'*
+    :param str engine: choose among *'crfcut'*, *'whitespace'*, *'whitespace+newline'*
     :return: list of splited sentences
     :rtype: list[str]
     **Options for engine**
+        * *crfcut* - split by CRF trained on TED dataset
         * *whitespace+newline* (default) - split by whitespace token \
                                            and newline.
         * *whitespace* - split by whitespace token. Specifiaclly, with \
@@ -213,13 +212,26 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
 
     Split the text based on *whitespace* and *newline*::
 
+        sentence_1 = "ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"
+        sentence_2 = "ข้าราชการได้รับการหมุนเวียนเป็นระยะ \\
+        และได้รับมอบหมายให้ประจำในระดับภูมิภาค"
+
         sent_tokenize(sentence_1, engine="whitespace+newline")
         # output: ['ฉันไปประชุมเมื่อวันที่', '11', 'มีนาคม']
-
         sent_tokenize(sentence_2, engine="whitespace+newline")
         # output: ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ',
         '\\nและได้รับมอบหมายให้ประจำในระดับภูมิภาค']
 
+    Split the text using CRF trained on TED dataset::
+
+        sentence_1 = "ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"
+        sentence_2 = "ข้าราชการได้รับการหมุนเวียนเป็นระยะ และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค"
+
+        sent_tokenize(sentence_1, engine="crfcut")
+        # output: ['ฉันไปประชุมเมื่อวันที่ 11 มีนาคม']
+
+        sent_tokenize(sentence_2, engine="crfcut")
+        # output: ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ ', 'และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค']
     """
 
     if not text or not isinstance(text, str):
@@ -227,10 +239,17 @@ def sent_tokenize(text: str, engine: str = "whitespace+newline") -> List[str]:
 
     sentences = []
 
-    if engine == "whitespace":
+    if engine == "crfcut":
+        from .crfcut import segment
+        sentences = segment(text)
+    elif engine == "whitespace":
         sentences = re.split(r" +", text, re.U)
-    else:  # default, use whitespace + newline
+    elif engine == "whitespace+newline":
         sentences = text.split()
+    else:
+        # default to crfcut
+        from .crfcut import segment
+        sentences = segment(text)
 
     return sentences
 

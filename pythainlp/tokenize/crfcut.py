@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 """
 CRFCut -- Thai sentence segmentation with conditional random field, default trained on TED dataset
-ORCHID - space-correct accuracy 87% vs 95% state-of-the-art (Zhou et al, 2016; https://www.aclweb.org/anthology/C16-1031.pdf)
-TED dataset - space-correct accuracy 82%
+
+Performance:
+- ORCHID - space-correct accuracy 87% vs 95% state-of-the-art (Zhou et al, 2016;
+  https://www.aclweb.org/anthology/C16-1031.pdf)
+- TED dataset - space-correct accuracy 82%
+
 See development notebooks at https://github.com/vistec-AI/ted_crawler;
 POS features are not used due to unreliable POS tagging available
 """
@@ -13,32 +17,38 @@ from pythainlp.corpus import download, get_corpus_path
 from pythainlp.tokenize import word_tokenize
 
 
+ENDERS = [
+    # ending honorifics
+    "ครับ", "ค่ะ", "คะ", "นะคะ", "นะ", "จ้ะ", "จ้า", "จ๋า", "ฮะ",
+    # enders
+    "ๆ", "ได้", "แล้ว", "ด้วย", "เลย", "มาก", "น้อย", "กัน", "เช่นกัน", "เท่านั้น",
+    "อยู่", "ลง", "ขึ้น", "มา", "ไป", "ไว้", "เอง", "อีก", "ใหม่", "จริงๆ",
+    "บ้าง", "หมด", "ทีเดียว", "เดียว",
+    # demonstratives
+    "นั้น", "นี้", "เหล่านี้", "เหล่านั้น",
+    # questions
+    "อย่างไร", "ยังไง", "หรือไม่", "มั้ย", "ไหน", "อะไร", "ทำไม", "เมื่อไหร่"
+    ]
+STARTERS = [
+    # pronouns
+    "ผม", "ฉัน", "ดิฉัน", "ชั้น", "คุณ", "มัน", "เขา", "เค้า",
+    "เธอ", "เรา", "พวกเรา", "พวกเขา",
+    # connectors
+    "และ", "หรือ", "แต่", "เมื่อ", "ถ้า", "ใน",
+    "ด้วย", "เพราะ", "เนื่องจาก", "ซึ่ง", "ไม่",
+    "ตอนนี้", "ทีนี้", "ดังนั้น", "เพราะฉะนั้น", "ฉะนั้น",
+    "ตั้งแต่", "ในที่สุด",
+    # demonstratives
+    "นั้น", "นี้", "เหล่านี้", "เหล่านั้น"
+    ]
+
+
 def _download() -> str:
     path = get_corpus_path("crfcut")
     if not path:
         download("crfcut")
         path = get_corpus_path("crfcut")
     return path
-
-
-enders = ["ครับ", "ค่ะ", "คะ", "นะคะ", "นะ", "จ้ะ", "จ้า", "จ๋า", "ฮะ",  # ending honorifics
-          # enders
-          "ๆ", "ได้", "แล้ว", "ด้วย", "เลย", "มาก", "น้อย", "กัน", "เช่นกัน", "เท่านั้น",
-          "อยู่", "ลง", "ขึ้น", "มา", "ไป", "ไว้", "เอง", "อีก", "ใหม่", "จริงๆ",
-          "บ้าง", "หมด", "ทีเดียว", "เดียว",
-          # demonstratives
-          "นั้น", "นี้", "เหล่านี้", "เหล่านั้น",
-          # questions
-          "อย่างไร", "ยังไง", "หรือไม่", "มั้ย", "ไหน", "อะไร", "ทำไม", "เมื่อไหร่"]
-starters = ["ผม", "ฉัน", "ดิฉัน", "ชั้น", "คุณ", "มัน", "เขา", "เค้า",
-            "เธอ", "เรา", "พวกเรา", "พวกเขา",  # pronouns
-            # connectors
-            "และ", "หรือ", "แต่", "เมื่อ", "ถ้า", "ใน",
-            "ด้วย", "เพราะ", "เนื่องจาก", "ซึ่ง", "ไม่",
-            "ตอนนี้", "ทีนี้", "ดังนั้น", "เพราะฉะนั้น", "ฉะนั้น",
-            "ตั้งแต่", "ในที่สุด",
-            # demonstratives
-            "นั้น", "นี้", "เหล่านี้", "เหล่านั้น"]
 
 
 def extract_features(doc: List[str],
@@ -55,20 +65,21 @@ def extract_features(doc: List[str],
     doc_features = []
     doc = ['xxpad' for i in range(window)] + \
         doc + ['xxpad' for i in range(window)]
+
+    # add enders and starters
     doc_ender = []
     doc_starter = []
-    # add enders
     for i in range(len(doc)):
-        if doc[i] in enders:
+        if doc[i] in ENDERS:
             doc_ender.append('ender')
         else:
             doc_ender.append('normal')
-    # add starters
-    for i in range(len(doc)):
-        if doc[i] in starters:
+
+        if doc[i] in STARTERS:
             doc_starter.append('starter')
         else:
             doc_starter.append('normal')
+
     # for each word
     for i in range(window, len(doc) - window):
         # bias term
@@ -85,6 +96,7 @@ def extract_features(doc: List[str],
                 word_features += [f'starter_{feature_position}={starter_}']
         # append to feature per word
         doc_features.append(word_features)
+
     return doc_features
 
 

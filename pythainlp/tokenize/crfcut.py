@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-CRFCut -- Thai sentence segmentation with conditional random field, default trained on TED dataset
+CRFCut
+Thai sentence segmentation using conditional random field,
+default model trained on TED dataset
 
 Performance:
-- ORCHID - space-correct accuracy 87% vs 95% state-of-the-art (Zhou et al, 2016;
-  https://www.aclweb.org/anthology/C16-1031.pdf)
+- ORCHID - space-correct accuracy 87% vs 95% state-of-the-art
+  (Zhou et al, 2016; https://www.aclweb.org/anthology/C16-1031.pdf)
 - TED dataset - space-correct accuracy 82%
 
 See development notebooks at https://github.com/vistec-AI/ted_crawler;
@@ -21,9 +23,9 @@ ENDERS = [
     # ending honorifics
     "ครับ", "ค่ะ", "คะ", "นะคะ", "นะ", "จ้ะ", "จ้า", "จ๋า", "ฮะ",
     # enders
-    "ๆ", "ได้", "แล้ว", "ด้วย", "เลย", "มาก", "น้อย", "กัน", "เช่นกัน", "เท่านั้น",
-    "อยู่", "ลง", "ขึ้น", "มา", "ไป", "ไว้", "เอง", "อีก", "ใหม่", "จริงๆ",
-    "บ้าง", "หมด", "ทีเดียว", "เดียว",
+    "ๆ", "ได้", "แล้ว", "ด้วย", "เลย", "มาก", "น้อย", "กัน", "เช่นกัน",
+    "เท่านั้น", "อยู่", "ลง", "ขึ้น", "มา", "ไป", "ไว้", "เอง", "อีก",
+    "ใหม่", "จริงๆ", "บ้าง", "หมด", "ทีเดียว", "เดียว",
     # demonstratives
     "นั้น", "นี้", "เหล่านี้", "เหล่านั้น",
     # questions
@@ -55,11 +57,13 @@ def extract_features(doc: List[str],
                      window: int = 2,
                      max_n_gram: int = 3) -> List[List[str]]:
     """
-    Extract features for CRF by sliding `max_n_gram` of tokens for +/- `window` from the current token
+    Extract features for CRF by sliding `max_n_gram` of tokens
+    for +/- `window` from the current token
 
     :param List[str] doc: tokens from which features are to be extracted from
     :param int window: size of window before and after the current token
-    :param int max_n_gram: create n_grams from 1-gram to `max_n_gram`-gram within the `window`
+    :param int max_n_gram: create n_grams from 1-gram to `max_n_gram`-gram \
+    within the `window`
     :return: list of lists of features to be fed to CRF
     """
     doc_features = []

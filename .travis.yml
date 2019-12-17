@@ -8,9 +8,9 @@ os:
 python:
 - '3.6'
 
-cache:
-  directories:
-    - ~/.cache/pip
+#cache:
+#  directories:
+#    - ~/.cache/pip
 #    - ~/nltk_data
 #    - ~/pythainlp-data
 

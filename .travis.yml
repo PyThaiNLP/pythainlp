@@ -18,6 +18,7 @@ cache:
 before_install:
 - sudo rm -f /etc/boto.cfg
 
+sudo: required
 addons:
   apt:
     sources:

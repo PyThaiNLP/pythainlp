@@ -12,6 +12,13 @@ from typing import List
 from pythainlp.corpus import download, get_corpus_path
 from pythainlp.tokenize import word_tokenize
 
+CRFCUT_PATH = get_corpus_path("crfcut")
+if not CRFCUT_PATH:
+    download("crfcut")
+    CRFCUT_PATH = get_corpus_path("crfcut")
+
+_tagger = pycrfsuite.Tagger()
+_tagger.open(CRFCUT_PATH)
 
 def _download() -> str:
     path = get_corpus_path("crfcut")

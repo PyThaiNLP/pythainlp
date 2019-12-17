@@ -18,13 +18,6 @@ cache:
 before_install:
 - sudo rm -f /etc/boto.cfg
 
-addons:
-  apt:
-    sources:
-      - sourceline: 'ppa:travis-ci/sqlite3'
-    packages:
-      - sqlite3
-      
 install:
 - pip install "tensorflow>=2,<3" deepcut
 - pip install -r requirements.txt

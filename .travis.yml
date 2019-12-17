@@ -22,7 +22,7 @@ sudo: required
 addons:
   apt:
     sources:
-      - travis-ci/sqlite3
+      - sourceline: 'ppa:travis-ci/sqlite3'
     packages:
       - sqlite3
       

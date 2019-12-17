@@ -24,7 +24,9 @@ install:
 - pip install .[full]
 - pip install -U pytest-xdist coveralls
 
-script: coverage run --source=pythainlp setup.py test
+script:
+- coverage run --concurrency=multiprocessing --source=pythainlp setup.py test
+- coverage combine
 
 after_success: coveralls
 

@@ -184,7 +184,8 @@ def sent_tokenize(text: str, engine: str = "crfcut") -> List[str]:
     This function tokenizes running text into "sentences"
 
     :param str text: the text to be tokenized
-    :param str engine: choose among *'crfcut'*, *'whitespace'*, *'whitespace+newline'*
+    :param str engine: choose among *'crfcut'*, *'whitespace'*, \
+    *'whitespace+newline'*
     :return: list of splited sentences
     :rtype: list[str]
     **Options for engine**
@@ -225,13 +226,15 @@ def sent_tokenize(text: str, engine: str = "crfcut") -> List[str]:
     Split the text using CRF trained on TED dataset::
 
         sentence_1 = "ฉันไปประชุมเมื่อวันที่ 11 มีนาคม"
-        sentence_2 = "ข้าราชการได้รับการหมุนเวียนเป็นระยะ และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค"
+        sentence_2 = "ข้าราชการได้รับการหมุนเวียนเป็นระยะ \\
+        และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค"
 
         sent_tokenize(sentence_1, engine="crfcut")
         # output: ['ฉันไปประชุมเมื่อวันที่ 11 มีนาคม']
 
         sent_tokenize(sentence_2, engine="crfcut")
-        # output: ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ ', 'และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค']
+        # output: ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ ',
+        'และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค']
     """
 
     if not text or not isinstance(text, str):

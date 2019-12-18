@@ -117,7 +117,7 @@ build: off
 #---------------------------------#
 
 test_script:
-  - python setup.py test
+  - python -m unittest discover
 
 #---------------------------------#
 #        global handlers          #

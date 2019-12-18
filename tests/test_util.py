@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-
+"""
+Unit tests for pythainlp.util module.
+"""
 import datetime
 import unittest
 from collections import Counter

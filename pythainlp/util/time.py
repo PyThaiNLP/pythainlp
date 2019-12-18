@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-thai_time() - Spell out time to Thai words
+Spell out time to Thai words.
+
+Convert time string or time object to Thai words.
 """
 from datetime import datetime, time
 from typing import Union
@@ -39,7 +41,7 @@ _DICT_THAI_TIME = {
     "ครึ่ง": 30,
 }
 _THAI_TIME_CUT = Tokenizer(
-    custom_dict=list(_DICT_THAI_TIME.keys()), engine="longest"
+    custom_dict=list(_DICT_THAI_TIME.keys()), engine="newmm"
 )
 
 
@@ -189,7 +191,8 @@ def thai_time(
     else:
         if not isinstance(time_data, str):
             raise TypeError(
-                "Time data must be a datetime.time object, a datetime.datetime object, or a string."
+                "Time data must be a datetime.time object, \
+                    a datetime.datetime object, or a string."
             )
 
         if not time_data:

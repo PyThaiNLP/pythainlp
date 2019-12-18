@@ -330,7 +330,7 @@ def thai_strftime(
 
 def now_reign_year():
     """
-    Returns the reign year for the 10th King of Chakri dynasty.
+    Return the reign year of the 10th King of Chakri dynasty.
 
     :return: reign year of the 10th King of Chakri dynasty.
     :rtype: int

@@ -30,12 +30,17 @@ __all__ = [
     "thai_to_eng",
     "thaicheck",  # Will deprecated after version 2.1
     "thaiword_to_num",
-    "thai_day2datetime"
+    "thai_day2datetime",
 ]
 
 
 from .collate import collate
-from .date import now_reign_year, reign_year_to_ad, thai_strftime, thai_day2datetime
+from .date import (
+    now_reign_year,
+    reign_year_to_ad,
+    thai_strftime,
+    thai_day2datetime,
+)
 from .digitconv import (
     arabic_digit_to_thai_digit,
     digit_to_text,

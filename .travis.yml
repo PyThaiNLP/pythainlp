@@ -22,7 +22,7 @@ install:
 - pip install -U "tensorflow>=2,<3" deepcut
 - pip install -U -r requirements.txt
 - pip install .[full]
-- pip install -U pytest-xdist coveralls
+- pip install -U pytest pytest-xdist coverage coveralls
 
 script:
 - coverage run setup.py test

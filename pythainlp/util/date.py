@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Thai date/time conversion and formatting
+Thai date/time conversion and formatting.
 
 Note: Does not take into account the change of new year's day in Thailand
 """
@@ -18,6 +18,7 @@ __all__ = [
     "thai_full_months",
     "thai_full_weekdays",
     "thai_strftime",
+    "thai_day2datetime",
 ]
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
@@ -82,9 +83,7 @@ def _padding(n: int, length: int = 2, pad_char: str = "0") -> str:
 
 
 def _thai_strftime(datetime: datetime.datetime, fmt_char: str) -> str:
-    """
-    Conversion support for thai_strftime()
-    """
+    """Conversion support for thai_strftime()."""
     str_ = ""
     if fmt_char == "A":
         # National representation of the full weekday name
@@ -175,9 +174,9 @@ def thai_strftime(
     datetime: datetime.datetime, fmt: str, thaidigit: bool = False
 ) -> str:
     """
-    This function convert :class:`datetime.datetime` into Thai date
-    and time format. The formatting directives are
-    similar to :func:`datatime.strrftime`.
+    Convert :class:`datetime.datetime` into Thai date and time format.
+
+    The formatting directives are similar to :func:`datatime.strrftime`.
 
     This function uses Thai names and Thai Buddhist Era for these directives:
         * **%a** - abbreviated weekday name
@@ -290,9 +289,7 @@ def thai_strftime(
                                 str_ = datetime.strftime(f"%-{fmt_char_nopad}")
                             i = i + 1  # consume char after "-"
                         else:
-                            str_ = (
-                                "-"
-                            )  # "-" at the end of string has no meaning
+                            str_ = "-"  # "-" at string's end has no meaning
                     elif fmt_char == "_":
                         # GNU libc extension, explicitly specify space (" ") for padding
                         # Not implemented yet
@@ -333,7 +330,7 @@ def thai_strftime(
 
 def now_reign_year():
     """
-    This function return the reign year for the 10th King of Chakri dynasty.
+    Return the reign year of the 10th King of Chakri dynasty.
 
     :return: reign year of the 10th King of Chakri dynasty.
     :rtype: int
@@ -349,14 +346,15 @@ def now_reign_year():
         print(text)
         # output: เป็นปีที่ 4 ในรัชการปัจจุบัน
     """
-
     now_ = datetime.datetime.now()
     return now_.year - 2015
 
 
 def reign_year_to_ad(reign_year: int, reign: int) -> int:
     """
-    This function calculate the AD year according to the reign year for
+    Convert reigh year to AD.
+
+    Return AD year according to the reign year for
     the 7th to 10th King of Chakri dynasty, Thailand.
     For instance, the AD year of the 4th reign year of the 10th King is 2019.
 
@@ -388,3 +386,45 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
     elif int(reign) == 7:
         ad = int(reign_year) + 1924
     return ad
+
+
+DAY_0 = ["วันนี้", "คืนนี้"]
+DAY_PLUS_1 = ["พรุ่งนี้", "วันพรุ่งนี้", "คืนหน้า"]
+DAY_PLUS_2 = ["วันมะรืนนี้", "มะรืน", "มะรืนนี้", "ถัดจากวันพรุ่งนี้"]
+DAY_MINUS_1 = ["เมื่อวาน", "เมื่อวานนี้", "วานนี้"]
+DAY_MINUS_2 = ["เมื่อวานซืน", "เมื่อวานของเมื่อวาน", "วานซืน"]
+
+
+def thai_day2datetime(
+    day: str, date: datetime.datetime = datetime.datetime.now()
+) -> datetime.datetime:
+    """
+    Convert Thai day into :class:`datetime.datetime`.
+
+    :param str day: thai day
+    :param datetime.datetime date: date (default is datetime.datetime.now())
+
+    :return: datetime.datetime from thai day.
+    :rtype: datetime.datetime
+
+    :Example:
+
+        thai_day2datetime("พรุ่งนี้")
+        # output:
+        # datetime of tomorrow
+    """
+    day_num = 0
+    if day in DAY_0:
+        day_num = 0
+    elif day in DAY_PLUS_1:
+        day_num = 1
+    elif day in DAY_PLUS_2:
+        day_num = 2
+    elif day in DAY_MINUS_1:
+        day_num = -1
+    elif day in DAY_MINUS_2:
+        day_num = -2
+    else:
+        raise NotImplementedError
+
+    return date + datetime.timedelta(days=day_num)

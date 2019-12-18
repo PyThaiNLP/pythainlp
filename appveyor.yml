@@ -95,9 +95,9 @@ install:
   - python --version
 #  - pip install --disable-pip-version-check --user --upgrade pip setuptools
   - pip --version
-  - pip install coveralls[yaml]
-  - pip install coverage
-  - pip install "tensorflow>=2,<3" deepcut
+  - pip install -U coveralls[yaml]
+  - pip install -U coverage
+  - pip install -U "tensorflow>=2,<3" deepcut
   - pip install torch==1.3.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
   - pip install %PYICU_PKG%
   - pip install -e .[full]
@@ -117,7 +117,7 @@ build: off
 #---------------------------------#
 
 test_script:
-  - python setup.py test
+  - python -m unittest discover
 
 #---------------------------------#
 #        global handlers          #

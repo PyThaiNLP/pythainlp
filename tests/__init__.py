@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-Unit test
+Unit test.
+
+Each file in tests/ is for each main package.
+#TODO Test for CLI
 """
 import sys
 import unittest
 
-sys.path.append('../pythainlp')
+sys.path.append("../pythainlp")
 
 loader = unittest.TestLoader()
-testSuite = loader.discover('tests')
+testSuite = loader.discover("tests")
 testRunner = unittest.TextTestRunner(verbosity=2)
 testRunner.run(testSuite)

@@ -93,6 +93,16 @@ The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variabl
 - See full documentation at [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
 
 
+## Testing
+
+To run unit tests:
+
+(from main `pythainlp/` directory)
+```sh
+python setup.py test
+```
+
+
 ## Python 2 Users
 
 - PyThaiNLP 2 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [1.7 -> 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).

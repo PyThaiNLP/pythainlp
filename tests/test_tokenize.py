@@ -209,6 +209,12 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize(danger_text1, engine="newmm")
         )
         self.assertIsNotNone(
+            word_tokenize(danger_text2, engine="newmm")
+        )
+        self.assertIsNotNone(
+            word_tokenize(danger_text3, engine="newmm")
+        )
+        self.assertIsNotNone(
             word_tokenize(danger_text1, engine="newmm-safe")
         )
         self.assertIsNotNone(

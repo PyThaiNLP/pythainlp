@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-
+"""
+Unit tests for pythainlp.util module.
+"""
 import datetime
 import unittest
 from collections import Counter
@@ -31,6 +33,8 @@ from pythainlp.util import (
     thai_to_eng,
     thaicheck,
     thaiword_to_num,
+    thai_time2time,
+    thai_day2datetime,
 )
 
 
@@ -301,3 +305,40 @@ class TestUtilPackage(unittest.TestCase):
         # with self.assertWarns(DeprecationWarning):
         #     thaicheck("เลข")
         self.assertEqual(thaicheck("เลข"), is_native_thai("เลข"))
+
+    def test_thai_time2time(self):
+        self.assertEqual(thai_time2time("บ่ายโมงครึ่ง"), "13:30")
+        self.assertEqual(thai_time2time("บ่ายสามโมงสิบสองนาที"), "15:12")
+        self.assertEqual(thai_time2time("สิบโมงเช้าสิบสองนาที"), "10:12")
+        self.assertEqual(thai_time2time("บ่ายโมงสิบสามนาที"), "13:13")
+        self.assertEqual(thai_time2time("ศูนย์นาฬิกาสิบเอ็ดนาที"), "00:11")
+        self.assertEqual(thai_time2time("บ่ายโมงเย็นสามสิบเอ็ดนาที"), "13:31")
+        self.assertEqual(thai_time2time("เที่ยงคืนหนึ่งนาที"), "00:01")
+        self.assertEqual(thai_time2time("เที่ยงครึ่ง"), "12:30")
+        self.assertEqual(thai_time2time("ห้าโมงเย็นสามสิบสี่นาที"), "17:34")
+        self.assertEqual(thai_time2time("หนึ่งทุ่มสามสิบแปดนาที"), "19:38")
+        self.assertEqual(thai_time2time("ทุ่มสามสิบแปด"), "19:38")
+        self.assertEqual(thai_time2time("สองโมงเช้าสิบสองนาที"), "8:12")
+        self.assertEqual(thai_time2time("สิบโมงเช้า"), "10:00")
+
+    def test_thai_day2datetime(self):
+        now = datetime.datetime.now()
+
+        self.assertEqual(
+            now + datetime.timedelta(days=0), thai_day2datetime("วันนี้", now)
+        )
+        self.assertEqual(
+            now + datetime.timedelta(days=1), thai_day2datetime("พรุ่งนี้", now)
+        )
+        self.assertEqual(
+            now + datetime.timedelta(days=2), thai_day2datetime("มะรืนนี้", now)
+        )
+        self.assertEqual(
+            now + datetime.timedelta(days=-1), thai_day2datetime("เมื่อวาน", now)
+        )
+        self.assertEqual(
+            now + datetime.timedelta(days=-2), thai_day2datetime("วานซืน", now)
+        )
+
+        with self.assertRaises(NotImplementedError):
+            thai_day2datetime("ศุกร์ที่แล้ว")

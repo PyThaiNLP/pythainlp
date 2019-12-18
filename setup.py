@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
+"""
+Setup script for PyThaiNLP.
 
+https://github.com/PyThaiNLP/pythainlp
+"""
 from setuptools import find_packages, setup
 
 readme = """

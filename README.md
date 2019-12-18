@@ -95,11 +95,21 @@ The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variabl
 
 ## Testing
 
-To run unit tests:
+To run unit tests together with code coverage test:
 
 (from main `pythainlp/` directory)
 ```sh
-python setup.py test
+coverage run -m unittest discover
+```
+
+See code coverage test:
+```sh
+coverage report
+```
+
+Generate code coverage test in HTML (files will be available in `htmlcov/` directory):
+```sh
+coverage html
 ```
 
 

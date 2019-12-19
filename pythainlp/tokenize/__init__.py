@@ -11,6 +11,7 @@ from pythainlp.corpus import thai_syllables, thai_words
 from .trie import Trie
 
 DEFAULT_DICT_TRIE = Trie(thai_words())
+SYLLABLE_DICT_TRIE = Trie(thai_syllables())
 
 
 def word_tokenize(
@@ -179,7 +180,7 @@ def dict_word_tokenize(
     )
 
 
-def sent_tokenize(text: str, engine: str = "crfcut") -> List[str]:
+def sent_tokenize(text: str, engine: str = "crfcut", keep_whitespace: bool = True) -> List[str]:
     """
     This function tokenizes running text into "sentences"
 
@@ -189,10 +190,9 @@ def sent_tokenize(text: str, engine: str = "crfcut") -> List[str]:
     :return: list of splited sentences
     :rtype: list[str]
     **Options for engine**
-        * *crfcut* - split by CRF trained on TED dataset
-        * *whitespace+newline* (default) - split by whitespace token \
-                                           and newline.
-        * *whitespace* - split by whitespace token. Specifiaclly, with \
+        * *crfcut* - (default) split by CRF trained on TED dataset
+        * *whitespace+newline* - split by whitespaces and newline.
+        * *whitespace* - split by whitespaces. Specifiaclly, with \
                          :class:`regex` pattern  ``r" +"``
     :Example:
 
@@ -240,24 +240,26 @@ def sent_tokenize(text: str, engine: str = "crfcut") -> List[str]:
     if not text or not isinstance(text, str):
         return []
 
-    sentences = []
+    segments = []
 
     if engine == "crfcut":
         from .crfcut import segment
-        sentences = segment(text)
+        segments = segment(text)
     elif engine == "whitespace":
-        sentences = re.split(r" +", text, re.U)
+        segments = re.split(r" +", text, re.U)
     elif engine == "whitespace+newline":
-        sentences = text.split()
-    else:
-        # default to crfcut
+        segments = text.split()
+    else:  # default to crfcut
         from .crfcut import segment
-        sentences = segment(text)
+        segments = segment(text)
 
-    return sentences
+    if not keep_whitespace:
+        segments = [token.strip(" ") for token in segments if token.strip(" ")]
+
+    return segments
 
 
-def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
+def subword_tokenize(text: str, engine: str = "tcc", keep_whitespace: bool = True) -> List[str]:
     """
     This function tokenizes text into inseparable units of
     Thai contiguous characters namely
@@ -278,7 +280,6 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
     :rtype: list[str]
     **Options for engine**
         * *tcc* (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
-        * *ssg* - CRF syllable segmenter for Thai.
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
           [In development]
 
@@ -313,18 +314,23 @@ def subword_tokenize(text: str, engine: str = "tcc") -> List[str]:
     """
     if not text or not isinstance(text, str):
         return []
-
+    
+    if engine == "tcc":
+        from .tcc import segment
     if engine == "etcc":
         from .etcc import segment
-    elif engine == "ssg":
-        from .ssg import segment
     else:  # default
         from .tcc import segment
 
-    return segment(text)
+    segments = segment(text)
+
+    if not keep_whitespace:
+        segments = [token.strip(" ") for token in segments if token.strip(" ")]
+
+    return segments
 
 
-def syllable_tokenize(text: str, engine: str = "default") -> List[str]:
+def syllable_tokenize(text: str, engine: str = "default", keep_whitespace: bool = True) -> List[str]:
     """
     This function is to tokenize text into syllable (Thai: พยางค์), a unit of
     pronunciation having one vowel sound.  For example, the word 'รถไฟ'
@@ -358,18 +364,22 @@ def syllable_tokenize(text: str, engine: str = "default") -> List[str]:
     if not text or not isinstance(text, str):
         return []
 
-    tokens = []
-    if engine == "default":
-        words = word_tokenize(text)
-        trie = dict_trie(dict_source=thai_syllables())
-        for word in words:
-            tokens.extend(word_tokenize(text=word, custom_dict=trie))
-    else:
+    segments = []
+
+    if engine == "ssg":
         from .ssg import segment
 
-        tokens = segment(text)
+        segments = segment(text)
+    else:  # default
+        words = word_tokenize(text)
+        for word in words:
+            segments.extend(word_tokenize(
+                text=word, custom_dict=SYLLABLE_DICT_TRIE))
 
-    return tokens
+    if not keep_whitespace:
+        segments = [token.strip(" ") for token in segments if token.strip(" ")]
+
+    return segments
 
 
 def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
@@ -472,6 +482,7 @@ class Tokenizer:
         self,
         custom_dict: Union[Trie, Iterable[str], str] = None,
         engine: str = "newmm",
+        keep_whitespace: bool = True,
     ):
         """
         Initialize tokenizer object
@@ -482,11 +493,12 @@ class Tokenizer:
                            (i.e.  *newmm*, *longest*, *attacut*)
         """
         self.__trie_dict = None
-        self.__engine = engine
         if custom_dict:
             self.__trie_dict = dict_trie(custom_dict)
         else:
             self.__trie_dict = DEFAULT_DICT_TRIE
+        self.__engine = engine
+        self.__keep_whitespace = keep_whitespace
 
     def word_tokenize(self, text: str) -> List[str]:
         """
@@ -495,7 +507,10 @@ class Tokenizer:
         :rtype: list[str]
         """
         return word_tokenize(
-            text, custom_dict=self.__trie_dict, engine=self.__engine
+            text,
+            custom_dict=self.__trie_dict,
+            engine=self.__engine,
+            keep_whitespace=self.__keep_whitespace
         )
 
     def set_tokenize_engine(self, engine: str) -> None:

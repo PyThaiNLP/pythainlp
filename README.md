@@ -17,7 +17,7 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
-- This is [2.1 stable release](https://github.com/PyThaiNLP/pythainlp/releases). See [change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
+- This is [2.1.1 stable release](https://github.com/PyThaiNLP/pythainlp/releases). See [change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
 - For latest development, see [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch.
 - 📫 follow our [PyThaiNLP](https://www.facebook.com/pythainlp/) Facebook page
 
@@ -119,7 +119,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 > เพราะโลกขับเคลื่อนต่อไปด้วยการแบ่งปัน
 
-- รุ่นนี้คือรุ่นเสถียร [2.1](https://github.com/PyThaiNLP/pythainlp/releases) ดูความเปลี่ยนแปลงในรุ่นนี้ที่ [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
+- รุ่นนี้คือรุ่นเสถียร [2.1.1](https://github.com/PyThaiNLP/pythainlp/releases) ดูความเปลี่ยนแปลงในรุ่นนี้ที่ [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
 - สำหรับรุ่นที่กำลังพัฒนา ดูใน [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch
 - PyThaiNLP 2.1 รองรับ Python 3.6 ขึ้นไป ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
 - 📫 ติดตามข่าวสารได้ที่ Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)

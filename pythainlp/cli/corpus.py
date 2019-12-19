@@ -29,7 +29,7 @@ class App:
         if hasattr(App, command):
             getattr(App, command)(args)
         else:
-            print("No command available: %s" % command)
+            print(f"No command available: {command}")
 
     @staticmethod
     def download(args):

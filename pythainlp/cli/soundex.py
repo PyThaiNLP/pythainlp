@@ -9,15 +9,17 @@ class App:
     def __init__(self, argv):
         parser = argparse.ArgumentParser("soundex")
         parser.add_argument(
+            "-t",
             "--text",
             type=str,
-            help="text",
+            help="input text",
         )
 
         parser.add_argument(
+            "-e",
             "--engine",
             type=str,
-            help="[udom83|lk82|metasound] (default: udom83)",
+            help="soundex engine [udom83|lk82|metasound] (default: udom83)",
             default="udom83"
         )
 

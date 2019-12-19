@@ -16,21 +16,23 @@ class SubAppBase:
         parser.add_argument(
             "--engine",
             type=str,
-            help="default: %s" % self.default_engine,
-            default=self.default_engine
+            help=f"default: {self.engine}",
+            default=self.engine
         )
 
         parser.add_argument(
             "--corpus",
             type=str,
-            help="default: %s" % self.default_corpus,
+            help=f"default: {self.corpus}",
+            default=self.corpus
         )
 
         parser.add_argument(
-            '--sep',
+            "-s",
+            "--sep",
             type=str,
-            help="default: %s" % self.default_sep,
-            default=self.default_sep
+            help=f"default: {self.sep}",
+            default=self.sep
         )
 
         args = parser.parse_args(argv)
@@ -43,7 +45,7 @@ class SubAppBase:
             args.text.split(args.sep), engine=args.engine, corpus=args.corpus
         )
 
-        result_str = map(lambda x: "%s/%s" % x, result)
+        result_str = map(lambda x: f"{x}/{result}")
 
         print(" ".join(result_str))
 
@@ -51,9 +53,9 @@ class SubAppBase:
 class POSTaggingApp(SubAppBase):
     def __init__(self, *args, **kwargs):
 
-        self.default_engine = "perceptron"
-        self.default_corpus = "orchid"
-        self.default_sep = "|"
+        self.engine = "perceptron"
+        self.corpus = "orchid"
+        self.sep = "|"
         self.run = pos_tag
 
         super().__init__(*args, **kwargs)
@@ -61,7 +63,7 @@ class POSTaggingApp(SubAppBase):
 
 class App:
     def __init__(self, argv):
-        parser = argparse.ArgumentParser(**cli.make_usage("tagging"))
+        parser = argparse.ArgumentParser(**cli.make_usage("tag"))
         parser.add_argument(
             "command",
             type=str,

@@ -122,7 +122,7 @@ class TestTokenizePackage(unittest.TestCase):
     def test_word_tokenize_longest(self):
         self.assertEqual(longest.segment(None), [])
         self.assertEqual(longest.segment(""), [])
-        self.assertIsNotNone(longest.segment("กรุงเทพฯมากๆเพราโพาง BKKฯ"))
+        self.assertIsInstance(longest.segment("กรุงเทพฯมากๆเพราโพาง BKKฯ"), list)
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
@@ -193,8 +193,8 @@ class TestTokenizePackage(unittest.TestCase):
     ในขณะที่ความสัมพันธ์ทางการเมืองระหว่างสองจีนในสายตาชาวโลกเลวร้ายลง จีนทั้งสองกลับมีการติดต่อทางการค้ากันมากขึ้น มีการผ่อนปรนอนุญาตให้ชาวไต้หวันเดินทางไปจีนแผ่นดินใหญ่เพื่อเยี่ยมญาติได้ เกิดปรากฏการสำคัญคือนักธุรกิจไต้หวันหอบเงินทุนมากกว่า 20,000 ล้านดอลลาร์สหรัฐ ไปลงทุนดำเนินธุรกิจทางตอนใต้ของจีนแผ่นดินใหญ่ จนกระทั่งขณะนี้ชาวไต้หวันกลายเป็นนักลงทุนรายใหญ่เป็นลำดับ 2 ของจีน
     วันที่ 24 พฤษภาคม 2560 ศาลรัฐธรรมนูญวินิจฉัยว่ากฎหมายสมรสปัจจุบันในเวลานั้นละเมิดรัฐธรรมนูญโดยปฏิเสธสิทธิสมรสของคู่รักเพศเดียวกันชาวไต้หวัน ศาลวินิจฉัยว่าหากสภานิติบัญญัติไม่ผ่านการแก้ไขกฎหมายที่เพียงพอต่อกฎหมายสมรสของไต้หวันภายในสองปี การสมรสเพศเดียวกันจะชอบด้วยกฎหมายโดยอัตโนมัติในไต้หวัน[17] วันที่ 17 พฤษภาคม 2562 สภานิติบัญญัติไต้หวันอนุมัติร่างกฎหมายทำให้การสมรสเพศเดียวกันชอบด้วยกฎหมาย ทำให้เป็นประเทศแรกในทวีปเอเชียที่ผ่านกฎหมายดังกล่าว[18][19]
     """
-        self.assertIsNotNone(word_tokenize(long_text, engine="newmm"))
-        self.assertIsNotNone(word_tokenize(long_text, engine="newmm-safe"))
+        self.assertIsInstance(word_tokenize(long_text, engine="newmm"), list)
+        self.assertIsInstance(word_tokenize(long_text, engine="newmm-safe"), list)
 
         danger_text1 = """
     ชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิ
@@ -205,23 +205,23 @@ class TestTokenizePackage(unittest.TestCase):
         danger_text3 = """
     ด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก
     """
-        self.assertIsNotNone(
-            word_tokenize(danger_text1, engine="newmm")
+        self.assertIsInstance(
+            word_tokenize(danger_text1, engine="newmm"), list
         )
-        self.assertIsNotNone(
-            word_tokenize(danger_text2, engine="newmm")
+        self.assertIsInstance(
+            word_tokenize(danger_text2, engine="newmm"), list
         )
-        self.assertIsNotNone(
-            word_tokenize(danger_text3, engine="newmm")
+        self.assertIsInstance(
+            word_tokenize(danger_text3, engine="newmm"), list
         )
-        self.assertIsNotNone(
-            word_tokenize(danger_text1, engine="newmm-safe")
+        self.assertIsInstance(
+            word_tokenize(danger_text1, engine="newmm-safe"), list
         )
-        self.assertIsNotNone(
-            word_tokenize(danger_text2, engine="newmm-safe")
+        self.assertIsInstance(
+            word_tokenize(danger_text2, engine="newmm-safe"), list
         )
-        self.assertIsNotNone(
-            word_tokenize(danger_text3, engine="newmm-safe")
+        self.assertIsInstance(
+            word_tokenize(danger_text3, engine="newmm-safe"), list
         )
 
     def test_word_tokenize_attacut(self):
@@ -264,29 +264,20 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(subword_tokenize(None), [])
         self.assertEqual(subword_tokenize(""), [])
 
-        self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"))
+        self.assertIsInstance(subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"), list)
         self.assertFalse(
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tcc")
         )
 
         self.assertEqual(subword_tokenize(None, engine="etcc"), [])
         self.assertEqual(subword_tokenize("", engine="etcc"), [])
-        self.assertIsNotNone(
-            subword_tokenize("สวัสดิีดาวอังคาร", engine="etcc")
+        self.assertIsInstance(
+            subword_tokenize("สวัสดิีดาวอังคาร", engine="etcc"), list
         )
         self.assertFalse(
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="etcc")
         )
-        self.assertIsNotNone(subword_tokenize("เบียร์สิงห์", engine="etcc"))
-
-        self.assertEqual(subword_tokenize(None, engine="ssg"), [])
-        self.assertEqual(subword_tokenize("", engine="ssg"), [])
-        self.assertTrue(
-            "ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
-        )
-        self.assertFalse(
-            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
-        )
+        self.assertIsInstance(subword_tokenize("เบียร์สิงห์", engine="etcc"), list)
 
     def test_syllable_tokenize(self):
         self.assertEqual(syllable_tokenize(None), [])
@@ -301,7 +292,12 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             syllable_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
         )
-        self.assertFalse("า" in syllable_tokenize("แมวกินปลา", engine="etcc"))
+        self.assertTrue(
+            "ดาว" in syllable_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
+        self.assertFalse(
+            "า" in syllable_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
 
     def test_tcc(self):
         self.assertEqual(tcc.segment(None), [])

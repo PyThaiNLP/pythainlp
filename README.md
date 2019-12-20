@@ -53,10 +53,16 @@ PyThaiNLP uses PyPI as its main distribution channel, see [https://pypi.org/proj
 pip install pythainlp
 ```
 
-### Development release
+### Development pre-release
 
 ```sh
 pip install --upgrade --pre pythainlp
+```
+
+### Fresh from dev branch
+
+```sh
+pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
 ```
 
 ### Install options

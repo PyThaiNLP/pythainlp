@@ -15,9 +15,8 @@ POS features are not used due to unreliable POS tagging available
 
 import pycrfsuite
 from typing import List
-from pythainlp.corpus import download, get_corpus_path
+from pythainlp.corpus import corpus_path
 from pythainlp.tokenize import word_tokenize
-
 
 ENDERS = [
     # ending honorifics
@@ -43,14 +42,6 @@ STARTERS = [
     # demonstratives
     "นั้น", "นี้", "เหล่านี้", "เหล่านั้น"
     ]
-
-
-def _download() -> str:
-    path = get_corpus_path("crfcut")
-    if not path:
-        download("crfcut")
-        path = get_corpus_path("crfcut")
-    return path
 
 
 def extract_features(doc: List[str],
@@ -103,10 +94,9 @@ def extract_features(doc: List[str],
 
     return doc_features
 
-
+_CRFCUT_DATA_FILENAME = 'sentenceseg-ted.model'
 _tagger = pycrfsuite.Tagger()
-_tagger.open(_download())
-
+_tagger.open(os.path.join(corpus_path(), _CRFCUT_DATA_FILENAME))
 
 def segment(text: str) -> List[str]:
     """

@@ -17,7 +17,7 @@ Hi! Thanks for your interest in contributing to [PyThaiNLP](https://github.com/P
 - Name identifiers (variables, classes, functions, module names) with meaningful
   and pronounceable names (`x` is always wrong);
   - Please follow this [naming convention](https://namingconvention.org/python/). For example, global constant variables must be in `ALL_CAPS`;
-<img src="https://i.stack.imgur.com/uBr10.png" />
+  <img src="https://i.stack.imgur.com/uBr10.png" />
 - Write tests for your new features. Test suites are in `tests/` directory. (see "Testing" section below);
 - Run all tests before pushing (just execute `tox`) so you will know if your
   changes broke something;

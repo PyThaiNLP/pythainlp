@@ -41,7 +41,7 @@ PyThaiNLP Team
 requirements = [
     "dill>=0.3.0",
     "nltk>=3.3",
-    "python-crfsuite>=0.9.6"
+    "python-crfsuite>=0.9.6",
     "requests>=2.22.0",
     "tinydb>=3.0",
     "tqdm>=4.1",
@@ -73,7 +73,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.1",
+    version="2.2dev0",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -111,13 +111,16 @@ setup(
     license="Apache Software License 2.0",
     zip_safe=False,
     keywords=[
-       "pythainlp",
-       "NLP",
-       "natural language processing",
-       "text analytics",
-       "ThaiNLP",
-       "text processing",
-       "localization",
+        "pythainlp",
+        "NLP",
+        "natural language processing",
+        "text analytics",
+        "text processing",
+        "localization",
+        "computational linguistics",
+        "ThaiNLP",
+        "Thai NLP",
+        "Thai language",
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -131,9 +134,9 @@ setup(
         "Topic :: Text Processing :: Linguistic",
     ],
     scripts=[
-        'bin/pythainlp',
-        'bin/word-tokenization-benchmark',
-    ]
+        "bin/pythainlp",
+        "bin/word-tokenization-benchmark",
+    ],
 )
 
 # TODO: Check extras and decide to download additional data, like model files

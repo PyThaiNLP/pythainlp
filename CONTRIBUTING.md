@@ -16,7 +16,9 @@ Hi! Thanks for your interest in contributing to [PyThaiNLP](https://github.com/P
 - Follows [PEP8](http://www.python.org/dev/peps/pep-0008/), use [black](https://github.com/ambv/black) with `--line-length` = 79;
 - Name identifiers (variables, classes, functions, module names) with meaningful
   and pronounceable names (`x` is always wrong);
-- Write tests for your new features (please see "Tests" topic below);
+  - Please follow this [naming convention](https://namingconvention.org/python/). For example, global constant variables must be in `ALL_CAPS`;
+<img src="https://i.stack.imgur.com/uBr10.png" />
+- Write tests for your new features. Test suites are in `tests/` directory. (see "Testing" section below);
 - Run all tests before pushing (just execute `tox`) so you will know if your
   changes broke something;
 - Commented code is [dead
@@ -42,6 +44,10 @@ book](http://git-scm.com/book/) (free!).
 We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-model/)
 to manage our branches.
 
+When you do pull request on GitHub, Travis CI and AppVeyor will run tests
+and several checks automatically. Click the "Details" link at the end of
+each check to see what needs to be fixed.
+
 
 ## Documentation
 
@@ -53,9 +59,11 @@ A docstring should start with one summary line, ended with a full stop (period),
 then followed by a blank line before start new paragraph.
 
 
-## Test
+## Testing
 
-To run unit tests together with code coverage test:
+We use standard Python `unittest`. Test suites are in `tests/` directory.
+
+To run unit tests locally together with code coverage test:
 
 (from main `pythainlp/` directory)
 ```sh
@@ -71,6 +79,8 @@ Generate code coverage test in HTML (files will be available in `htmlcov/` direc
 ```sh
 coverage html
 ```
+
+Make sure the same tests pass on Travis CI and AppVeyor.
 
 
 ## Credits

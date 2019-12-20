@@ -122,7 +122,9 @@ class TestTokenizePackage(unittest.TestCase):
     def test_word_tokenize_longest(self):
         self.assertEqual(longest.segment(None), [])
         self.assertEqual(longest.segment(""), [])
-        self.assertIsInstance(longest.segment("กรุงเทพฯมากๆเพราโพาง BKKฯ"), list)
+        self.assertIsInstance(
+            longest.segment("กรุงเทพฯมากๆเพราโพาง BKKฯ"), list
+        )
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
@@ -194,7 +196,9 @@ class TestTokenizePackage(unittest.TestCase):
     วันที่ 24 พฤษภาคม 2560 ศาลรัฐธรรมนูญวินิจฉัยว่ากฎหมายสมรสปัจจุบันในเวลานั้นละเมิดรัฐธรรมนูญโดยปฏิเสธสิทธิสมรสของคู่รักเพศเดียวกันชาวไต้หวัน ศาลวินิจฉัยว่าหากสภานิติบัญญัติไม่ผ่านการแก้ไขกฎหมายที่เพียงพอต่อกฎหมายสมรสของไต้หวันภายในสองปี การสมรสเพศเดียวกันจะชอบด้วยกฎหมายโดยอัตโนมัติในไต้หวัน[17] วันที่ 17 พฤษภาคม 2562 สภานิติบัญญัติไต้หวันอนุมัติร่างกฎหมายทำให้การสมรสเพศเดียวกันชอบด้วยกฎหมาย ทำให้เป็นประเทศแรกในทวีปเอเชียที่ผ่านกฎหมายดังกล่าว[18][19]
     """
         self.assertIsInstance(word_tokenize(long_text, engine="newmm"), list)
-        self.assertIsInstance(word_tokenize(long_text, engine="newmm-safe"), list)
+        self.assertIsInstance(
+            word_tokenize(long_text, engine="newmm-safe"), list
+        )
 
         danger_text1 = """
     ชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิ
@@ -240,31 +244,33 @@ class TestTokenizePackage(unittest.TestCase):
             ["รักน้ำ", "รักปลา", ""],
         )
         self.assertEqual(
-            sent_tokenize("รักน้ำ  รักปลา  ",
-                          engine="whitespace+newline"), ["รักน้ำ", "รักปลา"]
+            sent_tokenize("รักน้ำ  รักปลา  ", engine="whitespace+newline"),
+            ["รักน้ำ", "รักปลา"],
         )
         self.assertEqual(
-            sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน", engine="crfcut"), [
-                "วันนี้ฉันกินข้าว และโดดเรียน"]
+            sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน", engine="crfcut"),
+            ["วันนี้ฉันกินข้าว และโดดเรียน"],
         )
         self.assertEqual(
-            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า", engine="crfcut"), [
-                "น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"]
+            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า", engine="crfcut"),
+            ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
         )
         self.assertEqual(
-            sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน"), [
-                "วันนี้ฉันกินข้าว และโดดเรียน"]
+            sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน"),
+            ["วันนี้ฉันกินข้าว และโดดเรียน"],
         )
         self.assertEqual(
-            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า"), [
-                "น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"]
+            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า"),
+            ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
         )
 
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])
         self.assertEqual(subword_tokenize(""), [])
 
-        self.assertIsInstance(subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"), list)
+        self.assertIsInstance(
+            subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"), list
+        )
         self.assertFalse(
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tcc")
         )
@@ -277,7 +283,9 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertFalse(
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="etcc")
         )
-        self.assertIsInstance(subword_tokenize("เบียร์สิงห์", engine="etcc"), list)
+        self.assertIsInstance(
+            subword_tokenize("เบียร์สิงห์", engine="etcc"), list
+        )
 
     def test_syllable_tokenize(self):
         self.assertEqual(syllable_tokenize(None), [])

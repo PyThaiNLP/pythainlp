@@ -92,6 +92,7 @@ setup(
             "orchid_pt_tagger.dill",
             "person_names_female_th.txt",
             "person_names_male_th.txt",
+            "sentenceseg-ted.model",
             "stopwords_th.txt",
             "syllables_th.txt",
             "tha-wn.db",

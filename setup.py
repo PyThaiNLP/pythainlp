@@ -41,10 +41,10 @@ PyThaiNLP Team
 requirements = [
     "dill>=0.3.0",
     "nltk>=3.3",
+    "python-crfsuite>=0.9.6"
     "requests>=2.22.0",
     "tinydb>=3.0",
     "tqdm>=4.1",
-    "python-crfsuite>=0.9.6"
 ]
 
 extras = {

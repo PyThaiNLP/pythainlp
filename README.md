@@ -23,7 +23,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 **This is a document for development branch (post 2.1). Things will break.**
 
-- The latest stable release is [2.1](https://github.com/PyThaiNLP/pythainlp/releases). See [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
+- The latest stable release is [2.1.1](https://github.com/PyThaiNLP/pythainlp/releases). See [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
 - For latest development, see [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch. See ongoing [2.2 change log](https://github.com/PyThaiNLP/pythainlp/issues/330).
 - 📫 follow our [PyThaiNLP](https://www.facebook.com/pythainlp/) Facebook page
 
@@ -95,11 +95,21 @@ The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variabl
 
 ## Testing
 
-To run unit tests:
+To run unit tests together with code coverage test:
 
 (from main `pythainlp/` directory)
 ```sh
-python setup.py test
+coverage run -m unittest discover
+```
+
+See code coverage test:
+```sh
+coverage report
+```
+
+Generate code coverage test in HTML (files will be available in `htmlcov/` directory):
+```sh
+coverage html
 ```
 
 
@@ -141,7 +151,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 **เอกสารนี้สำหรับรุ่นพัฒนา อาจมีการเปลี่ยนแปลงได้ตลอด**
 
-- รุ่นเสถียรล่าสุดคือรุ่น [2.1](https://github.com/PyThaiNLP/pythainlp/releases)
+- รุ่นเสถียรล่าสุดคือรุ่น [2.1.1](https://github.com/PyThaiNLP/pythainlp/releases)
 - PyThaiNLP 2 รองรับ Python 3.6 ขึ้นไป
 - ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
 

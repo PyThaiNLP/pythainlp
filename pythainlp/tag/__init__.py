@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
+Linguistic tagger.
+
 Tagging each token in a sentence with supplementary information,
 such as its Part-of-Speech (POS) tag, and Named Entity Recognition (NER) tag.
-
-
 """
 
 from typing import List, Tuple

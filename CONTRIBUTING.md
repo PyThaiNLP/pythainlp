@@ -30,9 +30,9 @@ Hi! Thanks for your interest in contributing to [PyThaiNLP](https://github.com/P
 
 ### Version Control System
 
-We use [Git](http://git-scm.com/) as our [version control system](http://en.wikipedia.org/wiki/Revision_control),
-so it may be a good idea to familiarize yourself with it. You can start with the [Pro Git
-book](http://git-scm.com/book/) (free!).
+- We use [Git](http://git-scm.com/) as our [version control system](http://en.wikipedia.org/wiki/Revision_control),
+so it may be a good idea to familiarize yourself with it.
+- You can start with the [Pro Git book](http://git-scm.com/book/) (free!).
 
 ### Commit Comment
 
@@ -41,22 +41,20 @@ book](http://git-scm.com/book/) (free!).
 
 ### Pull Request
 
-We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-model/)
+- We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-model/)
 to manage our branches.
-
-When you do pull request on GitHub, Travis CI and AppVeyor will run tests
+- When you do pull request on GitHub, Travis CI and AppVeyor will run tests
 and several checks automatically. Click the "Details" link at the end of
 each check to see what needs to be fixed.
 
 
 ## Documentation
 
-We use [Sphinx](https://www.sphinx-doc.org/en/master/) to generate API document
+- We use [Sphinx](https://www.sphinx-doc.org/en/master/) to generate API document
 automatically from "docstring" comments in source code. This means the comment
 section in the source code is important for the quality of documentation.
-
-A docstring should start with one summary line, ended with a full stop (period),
-then followed by a blank line before start new paragraph.
+- A docstring should start with one summary line, ended the line with a full stop (period),
+then followed by a blank line before the start new paragraph.
 
 
 ## Testing

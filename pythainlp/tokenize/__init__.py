@@ -21,7 +21,9 @@ def word_tokenize(
     keep_whitespace: bool = True,
 ) -> List[str]:
     """
-    This function tokenizes running text into words.
+    Word tokenizer.
+
+    Tokenizes running text into words (list of strings).
 
     :param str text: text to be tokenized
     :param str engine: name of the tokenizer to be used
@@ -155,6 +157,8 @@ def dict_word_tokenize(
     keep_whitespace: bool = True,
 ) -> List[str]:
     """
+    Word tokenizer, with custom dictionary. DEPRECATED.
+
     :meth: DEPRECATED: Please use `word_tokenize()` with a `custom_dict`
            argument instead
     :param str text: text to be tokenized
@@ -180,9 +184,13 @@ def dict_word_tokenize(
     )
 
 
-def sent_tokenize(text: str, engine: str = "crfcut", keep_whitespace: bool = True) -> List[str]:
+def sent_tokenize(
+    text: str, engine: str = "crfcut", keep_whitespace: bool = True
+) -> List[str]:
     """
-    This function tokenizes running text into "sentences"
+    Sentence tokenizer.
+
+    Tokenizes running text into "sentences"
 
     :param str text: the text to be tokenized
     :param str engine: choose among *'crfcut'*, *'whitespace'*, \
@@ -244,6 +252,7 @@ def sent_tokenize(text: str, engine: str = "crfcut", keep_whitespace: bool = Tru
 
     if engine == "crfcut":
         from .crfcut import segment
+
         segments = segment(text)
     elif engine == "whitespace":
         segments = re.split(r" +", text, re.U)
@@ -251,6 +260,7 @@ def sent_tokenize(text: str, engine: str = "crfcut", keep_whitespace: bool = Tru
         segments = text.split()
     else:  # default to crfcut
         from .crfcut import segment
+
         segments = segment(text)
 
     if not keep_whitespace:
@@ -259,9 +269,13 @@ def sent_tokenize(text: str, engine: str = "crfcut", keep_whitespace: bool = Tru
     return segments
 
 
-def subword_tokenize(text: str, engine: str = "tcc", keep_whitespace: bool = True) -> List[str]:
+def subword_tokenize(
+    text: str, engine: str = "tcc", keep_whitespace: bool = True
+) -> List[str]:
     """
-    This function tokenizes text into inseparable units of
+    Subword tokenizer. Can be smaller than syllable.
+
+    Tokenizes text into inseparable units of
     Thai contiguous characters namely
     `Thai Character Clusters (TCCs) \
     <https://www.researchgate.net/publication/2853284_Character_Cluster_Based_Thai_Information_Retrieval>`_
@@ -314,7 +328,7 @@ def subword_tokenize(text: str, engine: str = "tcc", keep_whitespace: bool = Tru
     """
     if not text or not isinstance(text, str):
         return []
-    
+
     if engine == "tcc":
         from .tcc import segment
     if engine == "etcc":
@@ -330,11 +344,16 @@ def subword_tokenize(text: str, engine: str = "tcc", keep_whitespace: bool = Tru
     return segments
 
 
-def syllable_tokenize(text: str, engine: str = "default", keep_whitespace: bool = True) -> List[str]:
+def syllable_tokenize(
+    text: str, engine: str = "default", keep_whitespace: bool = True
+) -> List[str]:
     """
-    This function is to tokenize text into syllable (Thai: พยางค์), a unit of
+    Syllable tokenizer.
+
+    Tokenizes text into syllable (Thai: พยางค์), a unit of
     pronunciation having one vowel sound.  For example, the word 'รถไฟ'
     contains two syallbles including 'รถ', and 'ไฟ'.
+
     Under the hood, this function uses :func:`pythainlp.tokenize.word_tokenize`
     with *newmm* as a tokenizer. The function tokenize the text with
     the dictionary of Thai words from
@@ -373,8 +392,9 @@ def syllable_tokenize(text: str, engine: str = "default", keep_whitespace: bool 
     else:  # default
         words = word_tokenize(text)
         for word in words:
-            segments.extend(word_tokenize(
-                text=word, custom_dict=SYLLABLE_DICT_TRIE))
+            segments.extend(
+                word_tokenize(text=word, custom_dict=SYLLABLE_DICT_TRIE)
+            )
 
     if not keep_whitespace:
         segments = [token.strip(" ") for token in segments if token.strip(" ")]
@@ -416,6 +436,8 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
 
 class Tokenizer:
     """
+    Tokenizer class, for a custom tokenizer.
+
     This class allows users to pre-define custom dictionary along with
     tokenizer and encapsulate them into one single object.
     It is an wrapper for both two functions including
@@ -485,7 +507,8 @@ class Tokenizer:
         keep_whitespace: bool = True,
     ):
         """
-        Initialize tokenizer object
+        Initialize tokenizer object.
+
         :param str: a file path, a list of vocaburaies* to be
                     used to create a trie, or an instantiated
                     :class:`pythainlp.tokenize.Trie` object.
@@ -502,6 +525,8 @@ class Tokenizer:
 
     def word_tokenize(self, text: str) -> List[str]:
         """
+        Main tokenization function.
+
         :param str text: text to be tokenized
         :return: list of words, tokenized from the text
         :rtype: list[str]
@@ -510,12 +535,13 @@ class Tokenizer:
             text,
             custom_dict=self.__trie_dict,
             engine=self.__engine,
-            keep_whitespace=self.__keep_whitespace
+            keep_whitespace=self.__keep_whitespace,
         )
 
     def set_tokenize_engine(self, engine: str) -> None:
         """
-        Set the tokenizer
+        Set the engine for the tokenizer.
+
         :param str engine: choose between different options of engine to token
                            (i.e. *newmm*, *longest*, *attacut*)
         """

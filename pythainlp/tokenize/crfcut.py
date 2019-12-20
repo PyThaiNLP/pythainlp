@@ -15,6 +15,7 @@ POS features are not used due to unreliable POS tagging available
 
 import pycrfsuite
 from typing import List
+import os
 from pythainlp.corpus import corpus_path
 from pythainlp.tokenize import word_tokenize
 

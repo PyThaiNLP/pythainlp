@@ -41,6 +41,7 @@ PyThaiNLP Team
 requirements = [
     "dill>=0.3.0",
     "nltk>=3.3",
+    "python-crfsuite>=0.9.6",
     "requests>=2.22.0",
     "tinydb>=3.0",
     "tqdm>=4.1",
@@ -72,7 +73,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.2.dev0",
+    version="2.2dev0",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -91,6 +92,7 @@ setup(
             "orchid_pt_tagger.dill",
             "person_names_female_th.txt",
             "person_names_male_th.txt",
+            "sentenceseg-ted.model",
             "stopwords_th.txt",
             "syllables_th.txt",
             "tha-wn.db",
@@ -113,9 +115,12 @@ setup(
         "NLP",
         "natural language processing",
         "text analytics",
-        "ThaiNLP",
         "text processing",
         "localization",
+        "computational linguistics",
+        "ThaiNLP",
+        "Thai NLP",
+        "Thai language",
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",

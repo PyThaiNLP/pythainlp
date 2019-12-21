@@ -72,7 +72,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.2.dev",
+    version="2.2.dev0",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -109,13 +109,13 @@ setup(
     license="Apache Software License 2.0",
     zip_safe=False,
     keywords=[
-       "pythainlp",
-       "NLP",
-       "natural language processing",
-       "text analytics",
-       "ThaiNLP",
-       "text processing",
-       "localization",
+        "pythainlp",
+        "NLP",
+        "natural language processing",
+        "text analytics",
+        "ThaiNLP",
+        "text processing",
+        "localization",
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -129,14 +129,13 @@ setup(
         "Topic :: Text Processing :: Linguistic",
     ],
     scripts=[
-        "bin/pythainlp",
         "bin/word-tokenization-benchmark",
     ],
     entry_points={
         "console_scripts": [
-#            "foo = my_package.some_module:main_func",
-#            "bar = other_module:some_func",
-    ],
+            "thainlp = pythainlp.__main__:main",
+        ],
+    },
 )
 
 # TODO: Check extras and decide to download additional data, like model files

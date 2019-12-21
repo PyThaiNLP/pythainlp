@@ -98,20 +98,27 @@ class App:
     def __init__(self, argv):
         parser = argparse.ArgumentParser(**cli.make_usage("tokenize"))
         parser.add_argument(
-            "command",
+            "subcommand",
             type=str,
             nargs="?",
             help="[subword|syllable|word|sent]"
         )
 
         args = parser.parse_args(argv[2:3])
-        command = args.command
 
-        cli.exit_if_empty(command, parser)
+        cli.exit_if_empty(args.subcommand, parser)
+        subcommand = str.lower(args.subcommand)
 
         argv = argv[3:]
 
-        if command == "word":
+        if subcommand.startswith("word"):
             WordTokenizationApp("word", argv)
-        elif command == "syllable":
+        elif subcommand.startswith("syl"):
             SyllableTokenizationApp("syllable", argv)
+        elif subcommand.startswith("subw"):
+            SubwordTokenizationApp("subword", argv)
+        elif subcommand.startswith("sent"):
+            SubwordTokenizationApp("sent", argv)
+        else:
+            raise NotImplementedError(f"Subcommand not available: {subcommand}")
+

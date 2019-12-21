@@ -295,7 +295,9 @@ def subword_tokenize(text: str, engine: str = "tcc", keep_whitespace: bool = Tru
     if not text or not isinstance(text, str):
         return []
 
-    if engine == "etcc":
+    if engine == "tcc":
+        from .tcc import segment
+    elif engine == "etcc":
         from .etcc import segment
     else:  # default
         from .tcc import segment

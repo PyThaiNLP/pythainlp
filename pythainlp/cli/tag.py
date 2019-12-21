@@ -36,9 +36,6 @@ class SubAppBase:
         )
 
         args = parser.parse_args(argv)
-
-        #print(f"Engine: {args.engine}")
-
         self.args = args
 
         result = self.run(
@@ -65,20 +62,20 @@ class App:
     def __init__(self, argv):
         parser = argparse.ArgumentParser(**cli.make_usage("tag"))
         parser.add_argument(
-            "command",
+            "subcommand",
             type=str,
             nargs="?",
             help="[pos]"
         )
 
         args = parser.parse_args(argv[2:3])
-        command = args.command
 
-        cli.exit_if_empty(args.command, parser)
+        cli.exit_if_empty(args.subcommand, parser)
+        subcommand= str.lower(args.subcommand)
 
         argv = argv[3:]
 
-        if command == "pos":
+        if subcommand == "pos":
             POSTaggingApp("Part-of-Speech tagging", argv)
         else:
-            raise ValueError(f"No command: {subcommand}")
+            raise NotImplementedError(f"Subcommand not available: {subcommand}")

@@ -13,7 +13,7 @@ PyThaiNLP is a Python library for Thai natural language processing.
 The library provides functions like word tokenization, part-of-speech tagging,
 transliteration, soundex generation, and spell checking.
 
-## Install
+# Install
 
 For stable version:
 
@@ -134,9 +134,13 @@ setup(
         "Topic :: Text Processing :: Linguistic",
     ],
     scripts=[
-        "bin/pythainlp",
         "bin/word-tokenization-benchmark",
     ],
+    entry_points={
+        "console_scripts": [
+            "thainlp = pythainlp.__main__:main",
+        ],
+    },
 )
 
 # TODO: Check extras and decide to download additional data, like model files

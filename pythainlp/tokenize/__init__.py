@@ -331,7 +331,7 @@ def subword_tokenize(
 
     if engine == "tcc":
         from .tcc import segment
-    if engine == "etcc":
+    elif engine == "etcc":
         from .etcc import segment
     else:  # default
         from .tcc import segment
@@ -540,7 +540,7 @@ class Tokenizer:
 
     def set_tokenize_engine(self, engine: str) -> None:
         """
-        Set the engine for the tokenizer.
+        Set the tokenizer's engine.
 
         :param str engine: choose between different options of engine to token
                            (i.e. *newmm*, *longest*, *attacut*)

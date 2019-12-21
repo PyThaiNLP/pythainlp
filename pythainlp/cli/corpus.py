@@ -8,28 +8,28 @@ class App:
         parser = argparse.ArgumentParser(**cli.make_usage("corpus"))
 
         parser.add_argument(
+            "subcommand",
+            type=str,
+            default="",
+            nargs="?",
+            help="[download|remove]"  # there should be a "list" subcommand
+        )
+
+        parser.add_argument(
             "--name",
             type=str,
             help="corpus's name",
         )
 
-        parser.add_argument(
-            "command",
-            type=str,
-            default="",
-            nargs="?",
-            help="[download|remove]"
-        )
-
         args = parser.parse_args(argv[2:])
 
-        cli.exit_if_empty(args.command, parser)
-        command = args.command
+        cli.exit_if_empty(args.subcommand, parser)
+        subcommand = str.lower(args.subcommand)
 
-        if hasattr(App, command):
-            getattr(App, command)(args)
+        if hasattr(App, subcommand):
+            getattr(App, subcommand)(args)
         else:
-            print("No command available: %s" % command)
+            raise NotImplementedError(f"Subcommand not available: {subcommand}")
 
     @staticmethod
     def download(args):

@@ -16,8 +16,8 @@ class App:
         parser.add_argument(
             "subcommand",
             type=str,
-            # choices=["info", "download", "remove", "path"],  # TODO: list
-            help="action on dataset/corpus (info, download, remove, path, catalog)",
+            # choices=["catalog", "info", "get", "rm", "path", "ls"],
+            help="action on dataset/corpus (catalog, info, download, remove, path)",
         )
 
         args = parser.parse_args(argv[2:3])
@@ -72,6 +72,7 @@ class App:
             print("Not found.")
 
     def catalog(self, argv):
+        """Print dataset/corpus available for download."""
         corpus_db = corpus.get_corpus_db(corpus.corpus_db_url())
         corpus_db = corpus_db.json()
         corpus_names = sorted(corpus_db.keys())
@@ -82,4 +83,5 @@ class App:
         print("example: thainlp data download crfcut")
 
     def path(self, argv):
+        """Print path for local dataset."""
         print(get_pythainlp_data_path())

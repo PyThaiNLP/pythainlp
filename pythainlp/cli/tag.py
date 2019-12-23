@@ -1,3 +1,6 @@
+"""
+thainlp tag command line.
+"""
 import argparse
 
 from pythainlp import cli

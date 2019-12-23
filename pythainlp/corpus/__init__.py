@@ -47,6 +47,18 @@ def corpus_db_path() -> str:
     return _CORPUS_DB_PATH
 
 
+def get_corpus_db(url: str):
+    corpus_db = None
+    try:
+        corpus_db = requests.get(url)
+    except HTTPError as http_err:
+        print(f"HTTP error occurred: {http_err}")
+    except Exception as err:
+        print(f"Non-HTTP error occurred: {err}")
+
+    return corpus_db
+
+
 def get_corpus_db_detail(name: str) -> dict:
     db = TinyDB(corpus_db_path())
     query = Query()
@@ -56,7 +68,7 @@ def get_corpus_db_detail(name: str) -> dict:
     if res:
         return res[0]
     else:
-        return dict()
+        return {}
 
 
 def get_corpus(filename: str) -> frozenset:
@@ -186,7 +198,7 @@ def _check_hash(dst: str, md5: str) -> NoReturn:
                 raise Exception("Hash does not match expected.")
 
 
-def download(name: str, force: bool = False) -> NoReturn:
+def download(name: str, force: bool = False) -> bool:
     """
     Download corpus.
 
@@ -195,6 +207,9 @@ def download(name: str, force: bool = False) -> NoReturn:
 
     :param string name: corpus name
     :param bool force: force download
+    :return: **True** if the corpus is downloaded or already existed.
+             Otherwise, it returns **False**.
+    :rtype: bool
 
     :Example:
     ::
@@ -210,24 +225,18 @@ def download(name: str, force: bool = False) -> NoReturn:
     By default, downloaded corpus and model will be saved in ``$HOME/pythainlp-data/``
     (e.g. ``/Users/bact/pythainlp-data/wiki_lm_lstm.pth``).
     """
-    local_db = TinyDB(corpus_db_path())
-    query = Query()
+    corpus_db = get_corpus_db(corpus_db_url())
+    if not corpus_db:
+        print(f"Cannot download corpus database from: {corpus_db_url()}")
+        return False
 
-    try:
-        corpus_data = requests.get(corpus_db_url())
-    except HTTPError as http_err:
-        print(f"Cannot download corpus data from: {corpus_db_url()}")
-        print(f"HTTP error occurred: {http_err}")
-        return
-    except Exception as err:
-        print(f"Cannot download corpus data from: {corpus_db_url()}")
-        print(f"Non-HTTP error occurred: {err}")
-        return
+    corpus_db = corpus_db.json()
 
-    corpus_data = corpus_data.json()
+    if name in list(corpus_db.keys()):
+        local_db = TinyDB(corpus_db_path())
+        query = Query()
 
-    if name in list(corpus_data.keys()):
-        corpus = corpus_data[name]
+        corpus = corpus_db[name]
         print("Corpus:", name)
         found = local_db.search(query.name == name)
 
@@ -261,10 +270,12 @@ def download(name: str, force: bool = False) -> NoReturn:
                 print(f"- Existing version: {current_ver}")
                 print(f"- New version available: {corpus['version']}")
                 print("- Use download(data_name, force=True) to update")
-    else:
-        print("Corpus not found:", name)
 
-    local_db.close()
+        local_db.close()
+        return True
+
+    print("Corpus not found:", name)
+    return False
 
 
 def remove(name: str) -> bool:
@@ -326,6 +337,8 @@ __all__ = [
     "countries",
     "download",
     "get_corpus",
+    "get_corpus_db",
+    "get_corpus_db_detail",
     "get_corpus_path",
     "provinces",
     "remove",
@@ -335,5 +348,4 @@ __all__ = [
     "thai_stopwords",
     "thai_syllables",
     "thai_words",
-    "get_corpus_db_detail",
 ]

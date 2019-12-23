@@ -1,19 +1,22 @@
+"""
+thainlp tokenize command line.
+"""
 import argparse
 
 from pythainlp import cli
-from pythainlp.tokenize import word_tokenize, subword_tokenize, syllable_tokenize, sent_tokenize
+from pythainlp.tokenize import (
+    word_tokenize,
+    subword_tokenize,
+    syllable_tokenize,
+    sent_tokenize,
+)
 
 
 class SubAppBase:
     def __init__(self, name, argv):
-        parser = argparse.ArgumentParser(
-            **cli.make_usage("tokenize " + name)
-        )
+        parser = argparse.ArgumentParser(**cli.make_usage("tokenize " + name))
         parser.add_argument(
-            "-t",
-            "--text",
-            type=str,
-            help="input text",
+            "-t", "--text", type=str, help="input text",
         )
 
         parser.add_argument(
@@ -21,7 +24,7 @@ class SubAppBase:
             "--sep",
             type=bool,
             help=f"default: {self.separator}",
-            default=self.separator
+            default=self.separator,
         )
 
         parser.add_argument(
@@ -29,7 +32,7 @@ class SubAppBase:
             "--engine",
             type=str,
             help=f"default: {self.engine}",
-            default=self.engine
+            default=self.engine,
         )
 
         parser.add_argument(
@@ -37,7 +40,7 @@ class SubAppBase:
             "--keep-whitespace",
             type=bool,
             help=f"default: {self.keep_whitespace}",
-            default=self.keep_whitespace
+            default=self.keep_whitespace,
         )
 
         args = parser.parse_args(argv)
@@ -101,7 +104,7 @@ class App:
             "subcommand",
             type=str,
             nargs="?",
-            help="[subword|syllable|word|sent]"
+            help="[subword|syllable|word|sent]",
         )
 
         args = parser.parse_args(argv[2:3])
@@ -120,5 +123,7 @@ class App:
         elif subcommand.startswith("sent"):
             SubwordTokenizationApp("sent", argv)
         else:
-            raise NotImplementedError(f"Subcommand not available: {subcommand}")
+            raise NotImplementedError(
+                f"Subcommand not available: {subcommand}"
+            )
 

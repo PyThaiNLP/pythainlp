@@ -8,7 +8,7 @@
 
 branches:
   only:
-    - /2.*/
+    - /2\.\d*/
     - dev
 
 only_commits:

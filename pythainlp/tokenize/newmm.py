@@ -2,9 +2,7 @@
 """
 Dictionary-based Thai Word Segmentation
 using maximal matching algorithm and Thai Character Cluster (TCC).
-
 The code is based on the notebooks created by Korakot Chaovavanich.
-
 :See Also:
     * \
         https://colab.research.google.com/notebook#fileId=1V1Z657_5eSWPo8rLfVRwA0A5E4vkg7SI
@@ -33,7 +31,6 @@ _PAT_NONTHAI = re.compile(
 
 # match 2-char Thai tokens
 _PAT_THAI_TWOCHARS = re.compile("[ก-ฮ]{,2}$")
-
 
 # maximum graph size before cutoff
 _MAX_GRAPH_SIZE = 50
@@ -132,7 +129,6 @@ def segment(
     """
     Dictionary-based maximal matching word segmentation, constrained with
     Thai Character Cluster boundaries.
-
     :param str text: text to be tokenized to words
     :param pythainlp.trie.Trie custom_dict: dictionary for tokenization
     :param bool safe_mode: True to help avoid long wait for text with long\

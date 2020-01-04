@@ -86,7 +86,7 @@ def num_to_thaiword(number: int) -> str:
     output = ''
     number_temp = number
     if number == None:
-        number = ''
+        return ''
     elif number == 0:
         output = "ศูนย์"
     

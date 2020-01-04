@@ -10,12 +10,6 @@ import math
 
 __all__ = ["bahttext", "num_to_thaiword"]
 
-_POS_CALL = ["แสน", "หมื่น", "พัน", "ร้อย", "สิบ", ""]
-_NUM_CALL = ["", "หนึ่ง", "สอง", "สาม", "สี่",
-             "ห้า", "หก", "เจ็ด", "แปด", "เก้า", ]
-_MIL_CALL = "ล้าน"
-
-
 def bahttext(number: float) -> str:
     """
     This function converts a number to Thai text and adds

@@ -45,10 +45,6 @@ def bahttext(number: float) -> str:
     else:
         num_int, num_dec = "{:.2f}".format(number).split(".")
         num_int = int(num_int)
-        if num_int < 0:
-          ret = "ลบ"
-          num_int *= -1
-
         num_dec = int(num_dec)
 
         baht = num_to_thaiword(num_int)
@@ -88,12 +84,13 @@ def num_to_thaiword(number: int) -> str:
     exceptions = {'หนึ่งสิบ' : 'สิบ', 'สองสิบ' : 'ยี่สิบ', 'สิบหนึ่ง' : 'สิบเอ็ด'}
 
     output = ''
+    number_temp = number
     if number == None:
         number = ''
-    if number == 0:
+    elif number == 0:
         output = "ศูนย์"
     
-    number = str(number)
+    number = str(abs(number))
     for place,value in enumerate(list(number[::-1])):
         if (place % 6 == 0 and place > 0):
             output = places[6] + output
@@ -104,4 +101,6 @@ def num_to_thaiword(number: int) -> str:
     for search,replac in exceptions.items():
         output = output.replace(search,replac)
     
+    if number_temp < 0:
+        output = "ลบ" + output
     return output

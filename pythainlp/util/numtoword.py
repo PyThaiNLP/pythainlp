@@ -88,6 +88,8 @@ def num_to_thaiword(number: int) -> str:
     exceptions = {'หนึ่งสิบ' : 'สิบ', 'สองสิบ' : 'ยี่สิบ', 'สิบหนึ่ง' : 'สิบเอ็ด'}
 
     output = ''
+    if number == None:
+        number = ''
     if number == 0:
         output = "ศูนย์"
     

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 Setup script for PyThaiNLP.
 
@@ -141,6 +141,10 @@ setup(
             "thainlp = pythainlp.__main__:main",
         ],
     },
+    project_urls={
+        'Documentation': 'https://www.thainlp.org/pythainlp/docs/dev/',
+        'Source': 'https://github.com/PyThaiNLP/pythainlp'
+    }
 )
 
 # TODO: Check extras and decide to download additional data, like model files

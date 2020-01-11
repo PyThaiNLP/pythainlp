@@ -68,7 +68,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.1.2",
+    version="2.1.3",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -127,7 +127,12 @@ setup(
     scripts=[
         'bin/pythainlp',
         'bin/word-tokenization-benchmark',
-    ]
+    ],
+    project_urls={
+        'Documentation': 'https://www.thainlp.org/pythainlp/docs/2.1/',
+        'Source': 'https://github.com/PyThaiNLP/pythainlp',
+        'Bug Reports': 'https://github.com/PyThaiNLP/pythainlp/issues'
+    }
 )
 
 # TODO: Check extras and decide to download additional data, like model files

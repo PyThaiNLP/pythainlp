@@ -4,16 +4,11 @@ Convert number value to Thai read out
 
 Adapted from
 http://justmindthought.blogspot.com/2012/12/code-php.html
+https://suksit.com/post/writing-bahttext-in-php/
 """
 import math
 
 __all__ = ["bahttext", "num_to_thaiword"]
-
-_POS_CALL = ["แสน", "หมื่น", "พัน", "ร้อย", "สิบ", ""]
-_NUM_CALL = ["", "หนึ่ง", "สอง", "สาม", "สี่",
-             "ห้า", "หก", "เจ็ด", "แปด", "เก้า", ]
-_MIL_CALL = "ล้าน"
-
 
 def bahttext(number: float) -> str:
     """
@@ -84,39 +79,28 @@ def num_to_thaiword(number: int) -> str:
         num_to_thaiword(11)
         # output: สิบเอ็ด
     """
-    ret = ""
+    values = ['', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า']
+    places = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน']
+    exceptions = {'หนึ่งสิบ' : 'สิบ', 'สองสิบ' : 'ยี่สิบ', 'สิบหนึ่ง' : 'สิบเอ็ด'}
 
-    if number is None:
-        pass
+    output = ''
+    number_temp = number
+    if number == None:
+        return ''
     elif number == 0:
-        ret = "ศูนย์"
-    else:
+        output = "ศูนย์"
+    
+    number = str(abs(number))
+    for place,value in enumerate(list(number[::-1])):
+        if (place % 6 == 0 and place > 0):
+            output = places[6] + output
 
-        if number > 1000000:
-            ret += num_to_thaiword(int(number / 1000000)) + _MIL_CALL
-            number = int(math.fmod(number, 1000000))
-        divider = 100000
+        if (value != '0'):
+            output = values[int(value)] + places[place % 6] + output
 
-        pos = 0
-        while number > 0:
-            d = int(number / divider)
-
-            if (divider == 10) and (d == 2):
-                ret += "ยี่"
-            elif (divider == 10) and (d == 1):
-                ret += ""
-            elif (divider == 1) and (d == 1) and (ret != ""):
-                ret += "เอ็ด"
-            else:
-                ret += _NUM_CALL[d]
-
-            if d:
-                ret += _POS_CALL[pos]
-            else:
-                ret += ""
-
-            number = number % divider
-            divider = divider / 10
-            pos += 1
-
-    return ret
+    for search,replac in exceptions.items():
+        output = output.replace(search,replac)
+    
+    if number_temp < 0:
+        output = "ลบ" + output
+    return output

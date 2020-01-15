@@ -10,13 +10,30 @@ import math
 
 __all__ = ["bahttext", "num_to_thaiword"]
 
+
+_VALUES = [
+    "",
+    "หนึ่ง",
+    "สอง",
+    "สาม",
+    "สี่",
+    "ห้า",
+    "หก",
+    "เจ็ด",
+    "แปด",
+    "เก้า",
+]
+_PLACES = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"]
+_EXCEPTIONS = {"หนึ่งสิบ": "สิบ", "สองสิบ": "ยี่สิบ", "สิบหนึ่ง": "สิบเอ็ด"}
+
+
 def bahttext(number: float) -> str:
     """
     This function converts a number to Thai text and adds
     a suffix "บาท" (Baht).
     The precision will be fixed at two decimal places (0.00)
     to fits "สตางค์" (Satang) unit.
-    This function works similar to `BAHTTEXT` function in MS Excel.
+    This function works similar to `BAHTTEXT` function in Microsoft Excel.
 
     :param float number: number to be converted into Thai Baht currency format
     :return: text representing the amount of money in the format
@@ -79,26 +96,23 @@ def num_to_thaiword(number: int) -> str:
         num_to_thaiword(11)
         # output: สิบเอ็ด
     """
-    values = ['', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า']
-    places = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน']
-    exceptions = {'หนึ่งสิบ': 'สิบ', 'สองสิบ': 'ยี่สิบ', 'สิบหนึ่ง': 'สิบเอ็ด'}
 
-    output = ''
+    output = ""
     number_temp = number
     if number is None:
-        return ''
+        return ""
     elif number == 0:
         output = "ศูนย์"
 
     number = str(abs(number))
     for place, value in enumerate(list(number[::-1])):
-        if (place % 6 == 0 and place > 0):
-            output = places[6] + output
+        if place % 6 == 0 and place > 0:
+            output = _PLACES[6] + output
 
-        if (value != '0'):
-            output = values[int(value)] + places[place % 6] + output
+        if value != "0":
+            output = _VALUES[int(value)] + _PLACES[place % 6] + output
 
-    for search, replac in exceptions.items():
+    for search, replac in _EXCEPTIONS.items():
         output = output.replace(search, replac)
 
     if number_temp < 0:

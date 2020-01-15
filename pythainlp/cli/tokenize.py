@@ -56,7 +56,9 @@ class SubAppBase:
         cli.exit_if_empty(args.text, parser)
 
         result = self.run(
-            args.text, engine=args.algorithm, keep_whitespace=args.keep_whitespace
+            args.text,
+            engine=args.algorithm,
+            keep_whitespace=args.keep_whitespace,
         )
         print(args.separator.join(result) + args.separator)
 
@@ -109,9 +111,7 @@ class App:
     def __init__(self, argv):
         parser = argparse.ArgumentParser(**cli.make_usage("tokenize"))
         parser.add_argument(
-            "subcommand",
-            type=str,
-            help="[subword|syllable|word|sent]",
+            "subcommand", type=str, help="[subword|syllable|word|sent]",
         )
 
         args = parser.parse_args(argv[2:3])

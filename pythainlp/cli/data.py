@@ -16,7 +16,7 @@ class App:
             "subcommand",
             type=str,
             # choices=["catalog", "info", "get", "rm", "path", "ls"],
-            help="action on dataset/corpus (catalog, info, download, remove, path)",
+            help="action on dataset/corpus (catalog, info, get, rm, path)",
         )
 
         args = parser.parse_args(argv[2:3])
@@ -27,10 +27,10 @@ class App:
 
         getattr(self, args.subcommand)(argv)
 
-    def download(self, argv):
+    def get(self, argv):
         parser = argparse.ArgumentParser(
-            description="Download dataset",
-            usage="thainlp data download <dataset_name>",
+            description="Download a dataset",
+            usage="thainlp data get <dataset_name>",
         )
         parser.add_argument(
             "dataset_name", type=str, help="dataset/corpus's name",
@@ -41,10 +41,10 @@ class App:
         else:
             print("Not found.")
 
-    def remove(self, argv):
+    def rm(self, argv):
         parser = argparse.ArgumentParser(
-            description="Remove dataset",
-            usage="thainlp data remove <dataset_name>",
+            description="Remove a dataset",
+            usage="thainlp data rm <dataset_name>",
         )
         parser.add_argument(
             "dataset_name", type=str, help="dataset/corpus's name",
@@ -57,7 +57,7 @@ class App:
 
     def info(self, argv):
         parser = argparse.ArgumentParser(
-            description="Dataset info",
+            description="Print information about a dataset",
             usage="thainlp data info <dataset_name>",
         )
         parser.add_argument(

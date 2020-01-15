@@ -12,7 +12,6 @@ class App:
         parser = argparse.ArgumentParser(
             prog="data", usage="thainlp data <subcommand>",
         )
-
         parser.add_argument(
             "subcommand",
             type=str,

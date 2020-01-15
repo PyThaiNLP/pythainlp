@@ -81,26 +81,27 @@ def num_to_thaiword(number: int) -> str:
     """
     values = ['', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า']
     places = ['', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน']
-    exceptions = {'หนึ่งสิบ' : 'สิบ', 'สองสิบ' : 'ยี่สิบ', 'สิบหนึ่ง' : 'สิบเอ็ด'}
+    exceptions = {'หนึ่งสิบ': 'สิบ', 'สองสิบ': 'ยี่สิบ', 'สิบหนึ่ง': 'สิบเอ็ด'}
 
     output = ''
     number_temp = number
-    if number == None:
+    if number is None:
         return ''
     elif number == 0:
         output = "ศูนย์"
-    
+
     number = str(abs(number))
-    for place,value in enumerate(list(number[::-1])):
+    for place, value in enumerate(list(number[::-1])):
         if (place % 6 == 0 and place > 0):
             output = places[6] + output
 
         if (value != '0'):
             output = values[int(value)] + places[place % 6] + output
 
-    for search,replac in exceptions.items():
-        output = output.replace(search,replac)
-    
+    for search, replac in exceptions.items():
+        output = output.replace(search, replac)
+
     if number_temp < 0:
         output = "ลบ" + output
+
     return output

@@ -45,7 +45,6 @@ requirements = [
     "requests>=2.22.0",
     "tinydb>=3.0",
     "tqdm>=4.1",
-    "numpy",
 ]
 
 extras = {
@@ -134,19 +133,13 @@ setup(
         "Topic :: Text Processing :: General",
         "Topic :: Text Processing :: Linguistic",
     ],
-    scripts=[
-        "bin/word-tokenization-benchmark",
-    ],
-    entry_points={
-        "console_scripts": [
-            "thainlp = pythainlp.__main__:main",
-        ],
-    },
+    scripts=["bin/word-tokenization-benchmark",],
+    entry_points={"console_scripts": ["thainlp = pythainlp.__main__:main",],},
     project_urls={
-        'Documentation': 'https://www.thainlp.org/pythainlp/docs/dev/',
-        'Source': 'https://github.com/PyThaiNLP/pythainlp',
-        'Bug Reports': 'https://github.com/PyThaiNLP/pythainlp/issues'
-    }
+        "Documentation": "https://www.thainlp.org/pythainlp/docs/dev/",
+        "Source": "https://github.com/PyThaiNLP/pythainlp",
+        "Bug Reports": "https://github.com/PyThaiNLP/pythainlp/issues",
+    },
 )
 
 # TODO: Check extras and decide to download additional data, like model files

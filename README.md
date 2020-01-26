@@ -97,7 +97,7 @@ The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variabl
 
 - [PyThaiNLP Get Started](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html)
 - More tutorials at [https://www.thainlp.org/pythainlp/tutorials/](https://www.thainlp.org/pythainlp/tutorials/)
-- See full documentation at [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
+- See full documentation at [https://thainlp.org/pythainlp/docs/2.1/](https://thainlp.org/pythainlp/docs/2.1/)
 
 
 ## Testing
@@ -226,7 +226,7 @@ pip install pythainlp[extra1,extra2,...]
 
 - [เริ่มต้นใช้งาน PyThaiNLP](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html)
 - สอนการใช้งานเพิ่มเติม ในรูปแบบ notebook [https://www.thainlp.org/pythainlp/tutorials/](https://www.thainlp.org/pythainlp/tutorials/)
-- เอกสารตัวเต็ม [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
+- เอกสารตัวเต็ม [https://thainlp.org/pythainlp/docs/2.1/](https://thainlp.org/pythainlp/docs/2.1/)
 
 
 ## สัญญาอนุญาต

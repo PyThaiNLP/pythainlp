@@ -23,7 +23,7 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 **This is a document for development branch (post 2.1). Things will break.**
 
-- The latest stable release is [2.1.1](https://github.com/PyThaiNLP/pythainlp/releases). See [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
+- The latest stable release is [2.1.3](https://github.com/PyThaiNLP/pythainlp/releases). See [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
 - For latest development, see [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch. See ongoing [2.2 change log](https://github.com/PyThaiNLP/pythainlp/issues/330).
 - 📫 follow our [PyThaiNLP](https://www.facebook.com/pythainlp/) Facebook page
 
@@ -75,6 +75,7 @@ pip install pythainlp[extra1,extra2,...]
 
 where `extras` can be
   - `attacut` (to support attacut, a fast and accurate tokenizer)
+  - `benchmarks` (for word tokenization benchmarking)
   - `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
   - `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
   - `ml` (to support ULMFiT models for classification)
@@ -96,7 +97,7 @@ The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variabl
 
 - [PyThaiNLP Get Started](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html)
 - More tutorials at [https://www.thainlp.org/pythainlp/tutorials/](https://www.thainlp.org/pythainlp/tutorials/)
-- See full documentation at [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
+- See full documentation at [https://thainlp.org/pythainlp/docs/2.1/](https://thainlp.org/pythainlp/docs/2.1/)
 
 
 ## Testing
@@ -157,7 +158,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 **เอกสารนี้สำหรับรุ่นพัฒนา อาจมีการเปลี่ยนแปลงได้ตลอด**
 
-- รุ่นเสถียรล่าสุดคือรุ่น [2.1.1](https://github.com/PyThaiNLP/pythainlp/releases)
+- รุ่นเสถียรล่าสุดคือรุ่น [2.1.3](https://github.com/PyThaiNLP/pythainlp/releases)
 - PyThaiNLP 2 รองรับ Python 3.6 ขึ้นไป
 - ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
 
@@ -203,6 +204,7 @@ pip install pythainlp[extra1,extra2,...]
 
 โดยที่ `extras` คือ
   - `attacut` (ตัวตัดคำที่แม่นกว่า `newmm` เมื่อเทียบกับชุดข้อมูล BEST)
+  - `benchmarks` (สำหรับเครื่องมือวัดความแม่นยำของตัวตัดคำ)
   - `icu` (สำหรับการถอดตัวสะกดเป็นสัทอักษรและการตัดคำด้วย ICU)
   - `ipa` (สำหรับการถอดตัวสะกดเป็นสัทอักษรสากล (IPA))
   - `ml` (สำหรับการรองรับโมเดล ULMFiT)
@@ -224,7 +226,7 @@ pip install pythainlp[extra1,extra2,...]
 
 - [เริ่มต้นใช้งาน PyThaiNLP](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html)
 - สอนการใช้งานเพิ่มเติม ในรูปแบบ notebook [https://www.thainlp.org/pythainlp/tutorials/](https://www.thainlp.org/pythainlp/tutorials/)
-- เอกสารตัวเต็ม [https://thainlp.org/pythainlp/docs/2.0/](https://thainlp.org/pythainlp/docs/2.0/)
+- เอกสารตัวเต็ม [https://thainlp.org/pythainlp/docs/2.1/](https://thainlp.org/pythainlp/docs/2.1/)
 
 
 ## สัญญาอนุญาต

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 Setup script for PyThaiNLP.
 
@@ -140,6 +140,11 @@ setup(
         "console_scripts": [
             "thainlp = pythainlp.__main__:main",
         ],
+    },
+    project_urls={
+        "Documentation": "https://www.thainlp.org/pythainlp/docs/dev/",
+        "Source": "https://github.com/PyThaiNLP/pythainlp",
+        "Bug Reports": "https://github.com/PyThaiNLP/pythainlp/issues",
     },
 )
 

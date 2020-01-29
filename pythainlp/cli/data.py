@@ -15,16 +15,10 @@ class App:
         parser.add_argument(
             "subcommand",
             type=str,
-            # choices=["catalog", "info", "get", "rm", "path", "ls"],
-            help="action on dataset/corpus (catalog, info, get, rm, path)",
+            choices=["catalog", "info", "get", "rm", "path"],
+            help="action on dataset/corpus",
         )
-
         args = parser.parse_args(argv[2:3])
-        if not hasattr(App, args.subcommand):
-            print(f"Subcommand not available: {args.subcommand}")
-            parser.print_help()
-            exit(1)
-
         getattr(self, args.subcommand)(argv)
 
     def get(self, argv):

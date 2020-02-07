@@ -17,6 +17,8 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
+PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่อการประมวลผลภาษาธรรมชาติ โดยเน้นการสนับสนุนภาษาไทย อ่านรายละเอียดภาษาไทยเพิ่มเติมด้านล่าง
+
 **News**
 
 >We are conducting a 2-minute survey to know more about your experience using the library and your expectations regarding what the library should be able to do. Take part in this survey: https://forms.gle/aLdSHnvkNuK5CFyt9
@@ -119,6 +121,9 @@ Generate code coverage test in HTML (files will be available in `htmlcov/` direc
 coverage html
 ```
 
+## Benchmark
+
+See [tokenization benchmark](tokenization-benchmark.md).
 
 ## Python 2 Users
 

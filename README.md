@@ -53,7 +53,7 @@ PyThaiNLP uses PyPI as its main distribution channel, see [https://pypi.org/proj
 pip install pythainlp
 ```
 
-### Development release
+### Development pre-release
 
 ```sh
 pip install --upgrade --pre pythainlp
@@ -69,6 +69,7 @@ pip install pythainlp[extra1,extra2,...]
 
 where `extras` can be
   - `attacut` (to support attacut, a fast and accurate tokenizer)
+  - `benchmarks` (for word tokenization benchmarking)
   - `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
   - `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
   - `ml` (to support ULMFiT models for classification)
@@ -177,6 +178,7 @@ pip install pythainlp[extra1,extra2,...]
 
 โดยที่ `extras` คือ
   - `attacut` (ตัวตัดคำที่แม่นกว่า `newmm` เมื่อเทียบกับชุดข้อมูล BEST)
+  - `benchmarks` (สำหรับเครื่องมือวัดความแม่นยำของตัวตัดคำ)
   - `icu` (สำหรับการถอดตัวสะกดเป็นสัทอักษรและการตัดคำด้วย ICU)
   - `ipa` (สำหรับการถอดตัวสะกดเป็นสัทอักษรสากล (IPA))
   - `ml` (สำหรับการรองรับโมเดล ULMFiT)

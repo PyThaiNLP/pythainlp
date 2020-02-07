@@ -17,14 +17,8 @@ Thai Natural Language Processing in Python.
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
-**News**
-
->We are conducting a 2-minute survey to know more about your experience using the library and your expectations regarding what the library should be able to do. Take part in this survey: https://forms.gle/aLdSHnvkNuK5CFyt9
-
-**This is a document for development branch (post 2.0). Things will break.**
-
-- The latest stable release is [2.1](https://github.com/PyThaiNLP/pythainlp/releases)
-- The latest development release is [2.1.dev8](https://github.com/PyThaiNLP/pythainlp/releases). See the ongoing [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
+- This is [2.1.3 stable release](https://github.com/PyThaiNLP/pythainlp/releases). See [change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
+- For latest development, see [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch.
 - 📫 follow our [PyThaiNLP](https://www.facebook.com/pythainlp/) Facebook page
 
 
@@ -126,17 +120,10 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 > เพราะโลกขับเคลื่อนต่อไปด้วยการแบ่งปัน
 
-**ข่าวสาร**
-
->สวัสดีค่ะ ทีมพัฒนา PyThaiNLP ขอสอบถามความคิดเห็นของผู้ใช้งาน PyThaiNLP หรือผู้ที่ทำงานในด้านการประมวลผลภาษาไทย เพื่อนำข้อมูลไปปรับปรุงและพัฒนาฟีเจอร์ใหม่ๆ ให้ตรงกับความต้องการใช้งานมากขึ้น สามารถตอบแบบสอบถามได้ที่ https://forms.gle/aLdSHnvkNuK5CFyt9 (ใช้เวลาประมาณ 2-5 นาที)
-
-**เอกสารนี้สำหรับรุ่นพัฒนา อาจมีการเปลี่ยนแปลงได้ตลอด**
-
-- รุ่นเสถียรล่าสุดคือรุ่น [2.1](https://github.com/PyThaiNLP/pythainlp/releases)
-- PyThaiNLP 2 รองรับ Python 3.6 ขึ้นไป
-- ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
-
-📫 ติดตามข่าวสารได้ที่ Facebook [Pythainlp](https://www.facebook.com/pythainlp/)
+- รุ่นนี้คือรุ่นเสถียร [2.1.3(https://github.com/PyThaiNLP/pythainlp/releases) ดูความเปลี่ยนแปลงในรุ่นนี้ที่ [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
+- สำหรับรุ่นที่กำลังพัฒนา ดูใน [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch
+- PyThaiNLP 2.1 รองรับ Python 3.6 ขึ้นไป ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
+- 📫 ติดตามข่าวสารได้ที่ Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
 
 ## ความสามารถ

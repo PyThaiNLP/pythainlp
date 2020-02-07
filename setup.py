@@ -40,6 +40,7 @@ requirements = [
     "requests>=2.22.0",
     "tinydb>=3.0",
     "tqdm>=4.1",
+    "numpy",
 ]
 
 extras = {
@@ -68,7 +69,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.1",
+    version="2.1.3",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -126,7 +127,7 @@ setup(
     ],
     scripts=["bin/pythainlp", "bin/word-tokenization-benchmark",],
     project_urls={
-        "Documentation": "https://www.thainlp.org/pythainlp/docs/dev/",
+        "Documentation": "https://www.thainlp.org/pythainlp/docs/2.1/",
         "Source": "https://github.com/PyThaiNLP/pythainlp",
         "Bug Reports": "https://github.com/PyThaiNLP/pythainlp/issues",
     },

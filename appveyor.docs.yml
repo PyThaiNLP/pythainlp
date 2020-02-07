@@ -8,7 +8,7 @@
 
 branches:
   only:
-    - /2.*/
+    - /2\.\d*/
     - dev
 
 only_commits:
@@ -41,11 +41,11 @@ install:
   - pip3 -V
   - export LD_LIBRARY_PATH=/usr/local/lib
   - sudo pip3 install -r requirements.txt
-  - sudo pip3 install torch==1.2.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
-  - sudo pip3 install --upgrade emoji epitran gensim numpy pandas pyicu sklearn-crfsuite ssg
-  - sudo pip3 install --upgrade attacut
-  - sudo pip3 install --upgrade "tensorflow>=1.14,<2" deepcut
-  - sudo pip3 install --upgrade boto smart_open sphinx sphinx-rtd-theme
+  - sudo pip3 install torch==1.3.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
+  - sudo pip3 install -U emoji epitran gensim numpy pandas pyicu sklearn-crfsuite ssg
+  - sudo pip3 install -U attacut
+  - sudo pip3 install -U "tensorflow>=2,<3" deepcut
+  - sudo pip3 install -U boto smart_open sphinx sphinx-rtd-theme
 
 #---------------------------------#
 #       build configuration       #

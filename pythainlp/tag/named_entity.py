@@ -156,7 +156,11 @@ class ThaiNameTagger:
             self.temp = ""
             self.sent = ""
             for idx, (word, ner) in enumerate(self.sent_ner):
-                if "B-" in ner:
+                if "B-" in ner and self.temp != "":
+                    self.sent += "</"+self.temp+">"
+                    self.temp = ner.replace("B-", "")
+                    self.sent += "<"+self.temp+">"
+                elif "B-" in ner:
                     self.temp = ner.replace("B-", "")
                     self.sent += "<"+self.temp+">"
                 elif "O" == ner and self.temp != "":

@@ -125,7 +125,10 @@ setup(
         "Topic :: Text Processing :: General",
         "Topic :: Text Processing :: Linguistic",
     ],
-    scripts=["bin/pythainlp", "bin/word-tokenization-benchmark",],
+    scripts=[
+        "bin/pythainlp",
+        "bin/word-tokenization-benchmark",
+    ],
     project_urls={
         "Documentation": "https://www.thainlp.org/pythainlp/docs/2.1/",
         "Source": "https://github.com/PyThaiNLP/pythainlp",

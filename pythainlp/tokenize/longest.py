@@ -33,7 +33,7 @@ _FRONT_DEP_CHAR = [
 ]
 _REAR_DEP_CHAR = ["ั", "ื", "เ", "แ", "โ", "ใ", "ไ", "ํ"]
 _TONAL_CHAR = ["่", "้", "๊", "๋"]
-_ENDING_CHAR = ["ๆ", "ฯ"]
+_TRAILING_CHAR = ["ๆ", "ฯ"]
 
 _RE_NONTHAI = re.compile(r"[A-Za-z\d]*")
 
@@ -53,8 +53,7 @@ class LongestMatchTokenizer(object):
         return None
 
     def __is_next_word_valid(self, text: str, begin_pos: int) -> bool:
-        len_text = len(text)
-        text = text[begin_pos:len_text].strip()
+        text = text[begin_pos:].strip()
 
         if not text:
             return True
@@ -63,15 +62,14 @@ class LongestMatchTokenizer(object):
         if match:
             return True
 
-        for pos in range(len_text):
+        for pos in range(len(text) + 1):
             if text[0:pos] in self.__trie:
                 return True
 
         return False
 
     def __longest_matching(self, text: str, begin_pos: int):
-        len_text = len(text)
-        text = text[begin_pos:len_text]
+        text = text[begin_pos:]
 
         match = self.__search_nonthai(text)
         if match:
@@ -80,7 +78,7 @@ class LongestMatchTokenizer(object):
         word = None
         word_valid = None
 
-        for pos in range(len_text):
+        for pos in range(len(text) + 1):
             if text[0:pos] in self.__trie:
                 word = text[0:pos]
                 if self.__is_next_word_valid(text, pos):
@@ -91,7 +89,7 @@ class LongestMatchTokenizer(object):
                 word_valid = word
 
             try:
-                if text[len(word_valid)] in _ENDING_CHAR:
+                if text[len(word_valid)] in _TRAILING_CHAR:
                     return text[0 : (len(word_valid) + 1)]
                 else:
                     return word_valid

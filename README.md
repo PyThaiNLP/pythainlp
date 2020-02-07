@@ -25,7 +25,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 **This is a document for development branch (post 2.1). Things will break.**
 
-- The latest stable release is [2.1.3](https://github.com/PyThaiNLP/pythainlp/releases). See [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
+- The latest stable release is [2.1.4](https://github.com/PyThaiNLP/pythainlp/releases). See [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
 - For latest development, see [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch. See ongoing [2.2 change log](https://github.com/PyThaiNLP/pythainlp/issues/330).
 - 📫 follow our [PyThaiNLP](https://www.facebook.com/pythainlp/) Facebook page
 
@@ -163,7 +163,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 **เอกสารนี้สำหรับรุ่นพัฒนา อาจมีการเปลี่ยนแปลงได้ตลอด**
 
-- รุ่นเสถียรล่าสุดคือรุ่น [2.1.3](https://github.com/PyThaiNLP/pythainlp/releases)
+- รุ่นเสถียรล่าสุดคือรุ่น [2.1.4](https://github.com/PyThaiNLP/pythainlp/releases)
 - PyThaiNLP 2 รองรับ Python 3.6 ขึ้นไป
 - ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
 

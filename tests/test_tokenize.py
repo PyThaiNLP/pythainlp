@@ -129,6 +129,11 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
+        longest_tokenizer = Tokenizer(["ปวด", "เฉียบ", "พลัน", "เฉียบพลัน"])
+        self.assertEqual(
+            longest_tokenizer.word_tokenize("ปวดเฉียบพลัน"),
+            ["ปวด", "เฉียบพลัน"],
+        )
 
     def test_word_tokenize_mm(self):
         self.assertEqual(multi_cut.segment(None), [])

@@ -106,13 +106,13 @@ setup(
     license="Apache Software License 2.0",
     zip_safe=False,
     keywords=[
-       "pythainlp",
-       "NLP",
-       "natural language processing",
-       "text analytics",
-       "ThaiNLP",
-       "text processing",
-       "localization",
+        "pythainlp",
+        "NLP",
+        "natural language processing",
+        "text analytics",
+        "ThaiNLP",
+        "text processing",
+        "localization",
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -126,14 +126,14 @@ setup(
         "Topic :: Text Processing :: Linguistic",
     ],
     scripts=[
-        'bin/pythainlp',
-        'bin/word-tokenization-benchmark',
+        "bin/pythainlp",
+        "bin/word-tokenization-benchmark",
     ],
     project_urls={
-        'Documentation': 'https://www.thainlp.org/pythainlp/docs/2.1/',
-        'Source': 'https://github.com/PyThaiNLP/pythainlp',
-        'Bug Reports': 'https://github.com/PyThaiNLP/pythainlp/issues'
-    }
+        "Documentation": "https://www.thainlp.org/pythainlp/docs/2.1/",
+        "Source": "https://github.com/PyThaiNLP/pythainlp",
+        "Bug Reports": "https://github.com/PyThaiNLP/pythainlp/issues",
+    },
 )
 
 # TODO: Check extras and decide to download additional data, like model files

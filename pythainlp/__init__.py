@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__version__ = "2.2dev0"
+__version__ = "2.2.0-dev0"
 
 thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44 chars
 thai_vowels = (

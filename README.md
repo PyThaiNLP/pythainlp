@@ -1,6 +1,6 @@
 ![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
 
-# PyThaiNLP
+# PyThaiNLP: Thai Natural Language Processing in Python
 
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/) 
 [![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
@@ -13,8 +13,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev) [![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp_get_started.ipynb)
 [![DOI](https://zenodo.org/badge/61813823.svg)](https://zenodo.org/badge/latestdoi/61813823)
 
-Thai Natural Language Processing in Python.
-
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
 
 PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่อการประมวลผลภาษาธรรมชาติ โดยเน้นการสนับสนุนภาษาไทย อ่านรายละเอียดภาษาไทยเพิ่มเติมด้านล่าง
@@ -23,10 +21,16 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนเพื่�
 
 >We are conducting a 2-minute survey to know more about your experience using the library and your expectations regarding what the library should be able to do. Take part in this survey: https://forms.gle/aLdSHnvkNuK5CFyt9
 
-**This is a document for development branch (post 2.1). Things will break.**
-
 - The latest stable release is [2.1.4](https://github.com/PyThaiNLP/pythainlp/releases). See [2.1 change log](https://github.com/PyThaiNLP/pythainlp/issues/181).
-- For latest development, see [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch. See ongoing [2.2 change log](https://github.com/PyThaiNLP/pythainlp/issues/330).
+- For latest development, see [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch. See ongoing [2.2 development change log](https://github.com/PyThaiNLP/pythainlp/issues/330).
+
+Using PyThaiNLP:
+- [PyThaiNLP Get Started](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html)
+- More tutorials at [https://www.thainlp.org/pythainlp/tutorials/](https://www.thainlp.org/pythainlp/tutorials/)
+- See full documentation at [https://thainlp.org/pythainlp/docs/2.1/](https://thainlp.org/pythainlp/docs/2.1/)
+- Some additional data (like word lists and language models) maybe automatically downloaded by the library during runtime and it will be kept under the directory `~/pythainlp-data` by default.
+  - The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variable.
+- For PyThaiNLP tokenization performance and measurement methods, see [tokenization benchmark](tokenization-benchmark.md)
 - 📫 follow our [PyThaiNLP](https://www.facebook.com/pythainlp/) Facebook page
 
 
@@ -88,42 +92,6 @@ where `extras` can be
 
 For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
 
-### Data directory
-
-Some additional data (like word lists and language models) maybe automatically downloaded by the library during runtime and it will be kept under the directory `~/pythainlp-data` by default.
-
-The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variable.
-
-
-## Documentation
-
-- [PyThaiNLP Get Started](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html)
-- More tutorials at [https://www.thainlp.org/pythainlp/tutorials/](https://www.thainlp.org/pythainlp/tutorials/)
-- See full documentation at [https://thainlp.org/pythainlp/docs/2.1/](https://thainlp.org/pythainlp/docs/2.1/)
-
-
-## Testing
-
-To run unit tests together with code coverage test:
-
-(from main `pythainlp/` directory)
-```sh
-coverage run -m unittest discover
-```
-
-See code coverage test:
-```sh
-coverage report
-```
-
-Generate code coverage test in HTML (files will be available in `htmlcov/` directory):
-```sh
-coverage html
-```
-
-## Benchmark
-
-See [tokenization benchmark](tokenization-benchmark.md).
 
 ## Python 2 Users
 
@@ -133,15 +101,6 @@ See [tokenization benchmark](tokenization-benchmark.md).
 - Python 2.7 users can use PyThaiNLP 1.6
 
 
-## License
-
-- PyThaiNLP code uses [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
-- Corpus data created by PyThaiNLP project use [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
-- For other corpus that may included with PyThaiNLP distribution, please refer to [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md).
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp?ref=badge_large)
-
-
 ## Contribute to PyThaiNLP
 
 Please do fork and create a pull request :) For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
@@ -149,6 +108,15 @@ Please do fork and create a pull request :) For style guide and other informatio
 Made with ❤️<br />
 PyThaiNLP Team<br />
 "We build Thai NLP"
+
+
+## License
+
+- PyThaiNLP code uses [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
+- Corpus data created by PyThaiNLP project use [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
+- For other corpus that may included with PyThaiNLP distribution, please refer to [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md).
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp?ref=badge_large)
 
 
 # ภาษาไทย

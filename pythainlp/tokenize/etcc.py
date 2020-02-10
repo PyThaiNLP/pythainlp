@@ -11,11 +11,12 @@ Inrut, Jeeragone, Patiroop Yuanghirun, Sarayut Paludkong, Supot Nitsuwat, and Pa
 "Thai word segmentation using combination of forward and backward longest matching techniques."
 In International Symposium on Communications and Information Technology (ISCIT), pp. 37-40. 2001.
 """
-
-import re
 from typing import List
-from pythainlp.tokenize import Tokenizer,Trie
+import re
+
 from pythainlp.corpus import get_corpus
+from pythainlp.tokenize import Tokenizer,Trie
+
 _etcc_trie = Trie(list(get_corpus("etcc.dict")))
 _cut_etcc = Tokenizer(_etcc_trie, engine='longest')
 
@@ -25,9 +26,7 @@ def _cut_subword(listword: list) -> List[str]:
   while True:
     if _i == _j:
       break
-    if (re.search("[ะาๆฯๅำ]", listword[_i]) 
-    and _i > 0 
-    and len(listword[_i]) == 1):
+    if (re.search("[ะาๆฯๅำ]", listword[_i]) and _i > 0 and len(listword[_i]) == 1):
       listword[_i - 1] += listword[_i]
       del listword[_i]
       _j -= 1
@@ -38,9 +37,9 @@ def segment(text: str) -> List[str]:
     """
     Enhanced Thai Character Cluster (ETCC)
 
-    :param string text: word input
-
-    :return: etcc
+    :param str text: text to be tokenized to character clusters
+    :return: list of subwords (Enhanced Thai Character Cluster), tokenized from the text
+    :return: list[str]
     """
 
     if not text or not isinstance(text, str):

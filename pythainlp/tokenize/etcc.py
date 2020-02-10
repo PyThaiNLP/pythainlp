@@ -25,8 +25,10 @@ def _cut_subword(listword: list) -> List[str]:
   while True:
     if _i == _j:
       break
-    if re.search("[ะาๆฯๅำ]", listword[_i]) and _i > 0 and len(listword[_i]) == 1:
-      listword[_i-1] += listword[_i]
+    if (re.search("[ะาๆฯๅำ]", listword[_i]) 
+    and _i > 0 
+    and len(listword[_i]) == 1):
+      listword[_i - 1] += listword[_i]
       del listword[_i]
       _j -= 1
     _i += 1

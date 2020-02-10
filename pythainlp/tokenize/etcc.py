@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Enhanced Thai Character Cluster (ETCC) (In progress)
-Python implementation by Wannaphong Phatthiyaphaibun (19 June 2017)
+Enhanced Thai Character Cluster (ETCC)
+Python implementation by Wannaphong Phatthiyaphaibun
+
+Notebook : https://colab.research.google.com/drive/1UTQgxxMRxOr9Jp1B1jcq1frBNvorhtBQ
 
 :See Also:
 
@@ -11,17 +13,26 @@ In International Symposium on Communications and Information Technology (ISCIT),
 """
 
 import re
+from typing import List
+from pythainlp.tokenize import Tokenizer,Trie
+from pythainlp.corpus import get_corpus
+_etcc_trie = Trie(list(get_corpus("etcc.dict")))
+_cut_etcc = Tokenizer(_etcc_trie, engine='longest')
 
-from pythainlp import thai_consonants
+def _cut_subword(listword: list) -> List[str]:
+  _j = len(listword)
+  _i = 0
+  while True:
+    if _i == _j:
+      break
+    if re.search("[ะาๆฯๅำ]", listword[_i]) and _i > 0 and len(listword[_i]) == 1:
+      listword[_i-1] += listword[_i]
+      del listword[_i]
+      _j -= 1
+    _i += 1
+  return listword
 
-_UV = ["็", "ี", "ื", "ิ"]
-_UV1 = ["ั", "ี"]
-_LV = ["ุ", "ู"]
-_C = "[" + thai_consonants + "]"
-_UV2 = "[" + "".join(["ั", "ื"]) + "]"
-
-
-def segment(text: str) -> str:
+def segment(text: str) -> List[str]:
     """
     Enhanced Thai Character Cluster (ETCC)
 
@@ -33,46 +44,4 @@ def segment(text: str) -> str:
     if not text or not isinstance(text, str):
         return ""
 
-    if re.search(r"[เแ]" + _C + r"[" + "".join(_UV) + r"]" + r"\w", text):
-        search = re.findall(r"[เแ]" + _C + r"[" + "".join(_UV) + r"]" + r"\w", text)
-        for i in search:
-            text = re.sub(i, "/" + i + "/", text)
-
-    if re.search(_C + r"[" + "".join(_UV1) + r"]" + _C + _C + r"ุ" + r"์", text):
-        search = re.findall(
-            _C + r"[" + "".join(_UV1) + r"]" + _C + _C + r"ุ" + r"์", text
-        )
-        for i in search:
-            text = re.sub(i, "//" + i + "/", text)
-
-    if re.search(_C + _UV2 + _C, text):
-        search = re.findall(_C + _UV2 + _C, text)
-        for i in search:
-            text = re.sub(i, "/" + i + "/", text)
-    re.sub("//", "/", text)
-
-    if re.search("เ" + _C + "า" + "ะ", text):
-        search = re.findall("เ" + _C + "า" + "ะ", text)
-        for i in search:
-            text = re.sub(i, "/" + i + "/", text)
-
-    if re.search("เ" + r"\w\w" + "า" + "ะ", text):
-        search = re.findall("เ" + r"\w\w" + "า" + "ะ", text)
-        for i in search:
-            text = re.sub(i, "/" + i + "/", text)
-    text = re.sub("//", "/", text)
-
-    if re.search(_C + "[" + "".join(_UV1) + "]" + _C + _C + "์", text):
-        search = re.findall(_C + "[" + "".join(_UV1) + "]" + _C + _C + "์", text)
-        for i in search:
-            text = re.sub(i, "/" + i + "/", text)
-
-    if re.search("/" + _C + "".join(["ุ", "์"]) + "/", text):
-        # แก้ไขในกรณี พัน/ธุ์
-        search = re.findall("/" + _C + "".join(["ุ", "์"]) + "/", text)
-        for i in search:
-            ii = re.sub("/", "", i)
-            text = re.sub(i, ii + "/", text)
-
-    text = re.sub("//", "/", text)
-    return text.split("/")
+    return _cut_subword(_cut_etcc.word_tokenize(text))

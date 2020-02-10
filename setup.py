@@ -103,6 +103,7 @@ setup(
             "ud_thai_pud_unigram_tagger.dill",
             "words_th_thai2fit_201810.txt",
             "words_th.txt",
+            "etcc.dict",
         ],
     },
     include_package_data=True,

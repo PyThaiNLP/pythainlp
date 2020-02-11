@@ -148,7 +148,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
         word is tokenized correctly.
 
     :param str ref_sample: ground truth samples
-    :param str samples samples that we want to evaluate
+    :param str samples: samples that we want to evaluate
 
     :return: metrics in character and word-level and correctly tokenized word indicators
     :rtype: dict[str, float | str]

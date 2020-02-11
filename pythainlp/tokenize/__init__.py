@@ -509,11 +509,13 @@ class Tokenizer:
         """
         Initialize tokenizer object.
 
-        :param str: a file path, a list of vocaburaies* to be
+        :param str custom_dict: a file path, a list of vocaburaies* to be
                     used to create a trie, or an instantiated
                     :class:`pythainlp.tokenize.Trie` object.
         :param str engine: choose between different options of engine to token
                            (i.e.  *newmm*, *longest*, *attacut*)
+        :param bool keep_whitespace: True to keep whitespaces, a common mark
+                                    for end of phrase in Thai
         """
         self.__trie_dict = None
         if custom_dict:

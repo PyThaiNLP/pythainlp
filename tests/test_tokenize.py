@@ -29,6 +29,14 @@ class TestTokenizePackage(unittest.TestCase):
     def test_etcc(self):
         self.assertEqual(etcc.segment(""), "")
         self.assertIsInstance(etcc.segment("คืนความสุข"), list)
+        self.assertEqual(
+            etcc.segment("หาเงินเพื่อเรียน"),
+            ['หา', 'เงิน', 'เพื่', 'อ', 'เรีย', 'น']
+        )
+        self.assertEqual(
+            etcc.segment("หนังสือ"),
+            ['ห', 'นัง', 'สือ']
+        )
         self.assertIsNotNone(
             etcc.segment(
                 "หมูแมวเหล่านี้ด้วยเหตุผลเชื่อมโยงทางกรรมพันธุ์"

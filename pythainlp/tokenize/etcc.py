@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Enhanced Thai Character Cluster (ETCC)
+Segmenting text to Enhanced Thai Character Cluster (ETCC)
 Python implementation by Wannaphong Phatthiyaphaibun
 
-Notebook : https://colab.research.google.com/drive/1UTQgxxMRxOr9Jp1B1jcq1frBNvorhtBQ
+Notebook: https://colab.research.google.com/drive/1UTQgxxMRxOr9Jp1B1jcq1frBNvorhtBQ
 
 :See Also:
 
@@ -57,6 +57,6 @@ def segment(text: str) -> List[str]:
     """
 
     if not text or not isinstance(text, str):
-        return ""
+        return []
 
     return _cut_subword(_cut_etcc.word_tokenize(text))

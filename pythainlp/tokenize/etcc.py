@@ -3,7 +3,8 @@
 Segmenting text to Enhanced Thai Character Cluster (ETCC)
 Python implementation by Wannaphong Phatthiyaphaibun
 
-Notebook: https://colab.research.google.com/drive/1UTQgxxMRxOr9Jp1B1jcq1frBNvorhtBQ
+Notebook:
+https://colab.research.google.com/drive/1UTQgxxMRxOr9Jp1B1jcq1frBNvorhtBQ
 
 :See Also:
 
@@ -22,7 +23,7 @@ _PAT_ENDING_CHAR = "[ะาๆฯๅำ]"
 _RE_ENDING_CHAR = re.compile(_PAT_ENDING_CHAR)
 
 
-def _cut_subword(tokens: list) -> List[str]:
+def _cut_subword(tokens: List[str]) -> List[str]:
     _j = len(tokens)
     _i = 0
     while True:

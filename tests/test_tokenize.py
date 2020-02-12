@@ -120,7 +120,7 @@ class TestTokenizePackage(unittest.TestCase):
                 "ทดสอบ", engine="deepcut", custom_dict=DEFAULT_DICT_TRIE
             )
         )
- 
+
     def test_word_tokenize_icu(self):
         self.assertEqual(tokenize_pyicu.segment(None), [])
         self.assertEqual(tokenize_pyicu.segment(""), [])

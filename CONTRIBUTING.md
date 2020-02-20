@@ -130,7 +130,7 @@ Thanks all the [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/cont
 - Peeradej Tanruangporn - documentation
 - Arthit Suriyawongkul - packaging, distribution and maintainance 
 - Chakri Lowphansirikul - documentation
-- Pattarawat Chormaikul - benchmarking
+- Pattarawat Chormai - benchmarking
 
 ### Maintainers
 - Arthit Suriyawongkul

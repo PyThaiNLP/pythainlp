@@ -3,13 +3,14 @@ Wrapper for deepcut Thai word segmentation. deepcut is a
 Thai word segmentation library using 1D Convolution Neural Network.
 
 User need to install deepcut (and its dependency: tensorflow) by themselves.
+
 :See Also:
     * `GitHub repository <https://github.com/rkcosmos/deepcut>`_
 """
 
 from typing import List, Union
 
-import deepcut
+from deepcut import tokenize
 
 from .trie import Trie
 
@@ -22,6 +23,6 @@ def segment(text: str, custom_dict: Union[Trie, List[str], str] = None) -> List[
         if isinstance(custom_dict, Trie):
             custom_dict = list(custom_dict)
 
-        return deepcut.tokenize(text, custom_dict)
+        return tokenize(text, custom_dict)
 
-    return deepcut.tokenize(text)
+    return tokenize(text)

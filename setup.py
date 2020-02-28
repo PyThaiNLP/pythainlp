@@ -1,5 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
+"""
+Setup script for PyThaiNLP.
 
+https://github.com/PyThaiNLP/pythainlp
+"""
 from setuptools import find_packages, setup
 
 readme = """
@@ -9,7 +13,7 @@ PyThaiNLP is a Python library for Thai natural language processing.
 The library provides functions like word tokenization, part-of-speech tagging,
 transliteration, soundex generation, and spell checking.
 
-## Install
+# Install
 
 For stable version:
 
@@ -25,19 +29,26 @@ pip install --upgrade --pre pythainlp
 
 Some functionalities, like named-entity recognition, required extra packages.
 See https://github.com/PyThaiNLP/pythainlp for installation options.
+
+
+Made with ❤️
+
+PyThaiNLP Team
+
+"We build Thai NLP"
 """
 
 requirements = [
     "dill>=0.3.0",
     "nltk>=3.3",
+    "python-crfsuite>=0.9.6",
     "requests>=2.22.0",
     "tinydb>=3.0",
     "tqdm>=4.1",
 ]
 
 extras = {
-    "artagger": ["artagger>=0.1.0.3"],
-    "attacut": ["attacut>=1.0.4"],
+    "attacut": ["attacut>=1.0.6"],
     "benchmarks": ["numpy>=1.16", "pandas>=0.24"],
     "icu": ["pyicu>=2.3"],
     "ipa": ["epitran>=1.1"],
@@ -47,7 +58,6 @@ extras = {
     "thai2fit": ["emoji>=0.5.1", "gensim>=3.2.0", "numpy>=1.16"],
     "thai2rom": ["torch>=1.0.0", "numpy>=1.16"],
     "full": [
-        "artagger>=0.1.0.3",
         "attacut>=1.0.4",
         "emoji>=0.5.1",
         "epitran>=1.1",
@@ -63,7 +73,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.1.dev7",
+    version="2.2.0-dev0",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -82,6 +92,7 @@ setup(
             "orchid_pt_tagger.dill",
             "person_names_female_th.txt",
             "person_names_male_th.txt",
+            "sentenceseg-ted.model",
             "stopwords_th.txt",
             "syllables_th.txt",
             "tha-wn.db",
@@ -99,13 +110,16 @@ setup(
     license="Apache Software License 2.0",
     zip_safe=False,
     keywords=[
-       "pythainlp",
-       "NLP",
-       "natural language processing",
-       "text analytics",
-       "ThaiNLP",
-       "text processing",
-       "localization",
+        "pythainlp",
+        "NLP",
+        "natural language processing",
+        "text analytics",
+        "text processing",
+        "localization",
+        "computational linguistics",
+        "ThaiNLP",
+        "Thai NLP",
+        "Thai language",
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -119,9 +133,18 @@ setup(
         "Topic :: Text Processing :: Linguistic",
     ],
     scripts=[
-        'bin/pythainlp',
-        'bin/word-tokenization-benchmark',
-    ]
+        "bin/word-tokenization-benchmark",
+    ],
+    entry_points={
+        "console_scripts": [
+            "thainlp = pythainlp.__main__:main",
+        ],
+    },
+    project_urls={
+        "Documentation": "https://www.thainlp.org/pythainlp/docs/dev/",
+        "Source": "https://github.com/PyThaiNLP/pythainlp",
+        "Bug Reports": "https://github.com/PyThaiNLP/pythainlp/issues",
+    },
 )
 
 # TODO: Check extras and decide to download additional data, like model files

@@ -30,3 +30,5 @@ Modules
 .. autofunction:: thai_to_eng
 .. autofunction:: thai_digit_to_arabic_digit
 .. autofunction:: thaiword_to_num
+.. autofunction:: thai_day2datetime
+.. autofunction:: thai_time2time

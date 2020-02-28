@@ -26,9 +26,6 @@ from pythainlp.tokenize import (
 
 
 class TestTokenizePackage(unittest.TestCase):
-    def test_dict_word_tokenize(self):
-        self.assertEqual(dict_word_tokenize(""), [])
-
     def test_etcc(self):
         self.assertEqual(etcc.segment(""), "")
         self.assertIsInstance(etcc.segment("คืนความสุข"), list)
@@ -62,23 +59,33 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("หมอนทองตากลมหูว์MBK39", engine="deepcut")
         )
         self.assertIsNotNone(
-            word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX")
-        )
-        self.assertIsNotNone(
             word_tokenize("หมอนทองตากลมหูว์MBK39", engine="attacut")
         )
+        self.assertIsNotNone(
+            word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX")
+        )  # XX engine is not existed
 
         self.assertIsNotNone(dict_trie(()))
         self.assertIsNotNone(dict_trie(("ทดสอบ", "สร้าง", "Trie")))
         self.assertIsNotNone(dict_trie(["ทดสอบ", "สร้าง", "Trie"]))
+        self.assertIsNotNone(dict_trie({"ทดสอบ", "สร้าง", "Trie"}))
         self.assertIsNotNone(dict_trie(thai_words()))
         self.assertIsNotNone(dict_trie(DEFAULT_DICT_TRIE))
         self.assertIsNotNone(
             dict_trie(os.path.join(_CORPUS_PATH, _THAI_WORDS_FILENAME))
         )
 
-        self.assertIsNotNone(
-            word_tokenize("รถไฟฟ้าBTS", custom_dict=DEFAULT_DICT_TRIE)
+        self.assertTrue(
+            "ไฟ" in word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"]))
+        )
+
+        # Commented out until this unittest bug get fixed:
+        # https://bugs.python.org/issue29620
+        # with self.assertWarns(DeprecationWarning):
+        #     dict_word_tokenize("เลิกใช้แล้ว", custom_dict=DEFAULT_DICT_TRIE)
+        self.assertEqual(
+            word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"])),
+            dict_word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"])),
         )
 
     def test_Tokenizer(self):
@@ -115,10 +122,21 @@ class TestTokenizePackage(unittest.TestCase):
     def test_word_tokenize_longest(self):
         self.assertEqual(longest.segment(None), [])
         self.assertEqual(longest.segment(""), [])
-        self.assertIsNotNone(longest.segment("กรุงเทพฯมากๆเพราโพาง BKKฯ"))
+        self.assertIsInstance(
+            longest.segment("กรุงเทพฯมากๆเพราโพาง BKKฯ"), list
+        )
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
+        )
+        longest_tokenizer = Tokenizer(["ปวด", "เฉียบ", "พลัน", "เฉียบพลัน"])
+        self.assertEqual(
+            longest_tokenizer.word_tokenize("ปวดเฉียบพลัน"),
+            ["ปวด", "เฉียบพลัน"],
+        )
+        self.assertEqual(
+            longest_tokenizer.word_tokenize("เฉียบพลัน"),
+            ["เฉียบพลัน"],
         )
 
     def test_word_tokenize_mm(self):
@@ -165,6 +183,7 @@ class TestTokenizePackage(unittest.TestCase):
             ),
             ["จุ๋ม", "ง่วง"],
         )
+
         long_text = """
     ไต้หวัน (แป่ะเอ๋ยี้: Tâi-oân; ไต่อวัน) หรือ ไถวาน (อักษรโรมัน: Taiwan; จีนตัวย่อ: 台湾; จีนตัวเต็ม: 臺灣/台灣; พินอิน: Táiwān; ไถวาน) หรือชื่อทางการว่า สาธารณรัฐจีน (อังกฤษ: Republic of China; จีนตัวย่อ: 中华民国; จีนตัวเต็ม: 中華民國; พินอิน: Zhōnghuá Mínguó) เป็นรัฐในทวีปเอเชียตะวันออก[7][8][9] ปัจจุบันประกอบด้วยเกาะใหญ่ 5 แห่ง คือ จินเหมิน (金門), ไต้หวัน, เผิงหู (澎湖), หมาจู่ (馬祖), และอูชิว (烏坵) กับทั้งเกาะเล็กเกาะน้อยอีกจำนวนหนึ่ง ท้องที่ดังกล่าวเรียกรวมกันว่า "พื้นที่ไต้หวัน" (臺灣地區)
     ไต้หวันด้านตะวันตกติดกับจีนแผ่นดินใหญ่ ด้านตะวันออกและตะวันออกเฉียงเหนือติดกับญี่ปุ่น และด้านใต้ติดกับฟิลิปปินส์ กรุงไทเปเป็นเมืองหลวง[10] ส่วนไทเปใหม่เป็นเขตปกครองที่จัดตั้งขึ้นใหม่ กินพื้นที่กรุงไทเป และเป็นเขตซึ่งประชากรหนาแน่นที่สุดในเวลานี้
@@ -185,7 +204,38 @@ class TestTokenizePackage(unittest.TestCase):
     ในขณะที่ความสัมพันธ์ทางการเมืองระหว่างสองจีนในสายตาชาวโลกเลวร้ายลง จีนทั้งสองกลับมีการติดต่อทางการค้ากันมากขึ้น มีการผ่อนปรนอนุญาตให้ชาวไต้หวันเดินทางไปจีนแผ่นดินใหญ่เพื่อเยี่ยมญาติได้ เกิดปรากฏการสำคัญคือนักธุรกิจไต้หวันหอบเงินทุนมากกว่า 20,000 ล้านดอลลาร์สหรัฐ ไปลงทุนดำเนินธุรกิจทางตอนใต้ของจีนแผ่นดินใหญ่ จนกระทั่งขณะนี้ชาวไต้หวันกลายเป็นนักลงทุนรายใหญ่เป็นลำดับ 2 ของจีน
     วันที่ 24 พฤษภาคม 2560 ศาลรัฐธรรมนูญวินิจฉัยว่ากฎหมายสมรสปัจจุบันในเวลานั้นละเมิดรัฐธรรมนูญโดยปฏิเสธสิทธิสมรสของคู่รักเพศเดียวกันชาวไต้หวัน ศาลวินิจฉัยว่าหากสภานิติบัญญัติไม่ผ่านการแก้ไขกฎหมายที่เพียงพอต่อกฎหมายสมรสของไต้หวันภายในสองปี การสมรสเพศเดียวกันจะชอบด้วยกฎหมายโดยอัตโนมัติในไต้หวัน[17] วันที่ 17 พฤษภาคม 2562 สภานิติบัญญัติไต้หวันอนุมัติร่างกฎหมายทำให้การสมรสเพศเดียวกันชอบด้วยกฎหมาย ทำให้เป็นประเทศแรกในทวีปเอเชียที่ผ่านกฎหมายดังกล่าว[18][19]
     """
-        self.assertIsNotNone(word_tokenize(long_text, engine="newmm"))
+        self.assertIsInstance(word_tokenize(long_text, engine="newmm"), list)
+        self.assertIsInstance(
+            word_tokenize(long_text, engine="newmm-safe"), list
+        )
+
+        danger_text1 = """
+    ชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิชิ
+    """
+        danger_text2 = """
+    ด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้าน
+    """
+        danger_text3 = """
+    ด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก
+    """
+        self.assertIsInstance(
+            word_tokenize(danger_text1, engine="newmm"), list
+        )
+        self.assertIsInstance(
+            word_tokenize(danger_text2, engine="newmm"), list
+        )
+        self.assertIsInstance(
+            word_tokenize(danger_text3, engine="newmm"), list
+        )
+        self.assertIsInstance(
+            word_tokenize(danger_text1, engine="newmm-safe"), list
+        )
+        self.assertIsInstance(
+            word_tokenize(danger_text2, engine="newmm-safe"), list
+        )
+        self.assertIsInstance(
+            word_tokenize(danger_text3, engine="newmm-safe"), list
+        )
 
     def test_word_tokenize_attacut(self):
         self.assertEqual(attacut.segment(None), [])
@@ -203,24 +253,48 @@ class TestTokenizePackage(unittest.TestCase):
             ["รักน้ำ", "รักปลา", ""],
         )
         self.assertEqual(
-            sent_tokenize("รักน้ำ  รักปลา  "), ["รักน้ำ", "รักปลา"]
+            sent_tokenize("รักน้ำ  รักปลา  ", engine="whitespace+newline"),
+            ["รักน้ำ", "รักปลา"],
+        )
+        self.assertEqual(
+            sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน", engine="crfcut"),
+            ["วันนี้ฉันกินข้าว และโดดเรียน"],
+        )
+        self.assertEqual(
+            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า", engine="crfcut"),
+            ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
+        )
+        self.assertEqual(
+            sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน"),
+            ["วันนี้ฉันกินข้าว และโดดเรียน"],
+        )
+        self.assertEqual(
+            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า"),
+            ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
         )
 
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])
         self.assertEqual(subword_tokenize(""), [])
-        self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"))
+
+        self.assertIsInstance(
+            subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"), list
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tcc")
+        )
 
         self.assertEqual(subword_tokenize(None, engine="etcc"), [])
         self.assertEqual(subword_tokenize("", engine="etcc"), [])
-        self.assertIsNotNone(
-            subword_tokenize("สวัสดิีดาวอังคาร", engine="etcc")
+        self.assertIsInstance(
+            subword_tokenize("สวัสดิีดาวอังคาร", engine="etcc"), list
         )
-        self.assertIsNotNone(subword_tokenize("เบียร์สิงห์", engine="etcc"))
-
-        self.assertEqual(subword_tokenize(None, engine="ssg"), [])
-        self.assertEqual(subword_tokenize("", engine="ssg"), [])
-        self.assertIsNotNone(subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="etcc")
+        )
+        self.assertIsInstance(
+            subword_tokenize("เบียร์สิงห์", engine="etcc"), list
+        )
 
     def test_syllable_tokenize(self):
         self.assertEqual(syllable_tokenize(None), [])
@@ -228,8 +302,18 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             syllable_tokenize("สวัสดีชาวโลก"), ["สวัส", "ดี", "ชาว", "โลก"]
         )
+        self.assertFalse("า" in syllable_tokenize("สวัสดีชาวโลก"))
+
+        self.assertEqual(syllable_tokenize(None, engine="ssg"), [])
+        self.assertEqual(syllable_tokenize("", engine="ssg"), [])
         self.assertEqual(
             syllable_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
+        )
+        self.assertTrue(
+            "ดาว" in syllable_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
+        self.assertFalse(
+            "า" in syllable_tokenize("สวัสดีดาวอังคาร", engine="ssg")
         )
 
     def test_tcc(self):

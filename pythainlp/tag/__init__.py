@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
+Linguistic tagger.
+
 Tagging each token in a sentence with supplementary information,
 such as its Part-of-Speech (POS) tag, and Named Entity Recognition (NER) tag.
-
-
 """
 
 from typing import List, Tuple
@@ -104,21 +104,12 @@ def _orchid_to_ud(tag) -> List[Tuple[str, str]]:
     _i = 0
     temp = []
     while _i < len(tag):
-        temp.append((tag[_i][0], _UD_Exception(tag[_i][0], _TAG_MAP_UD[tag[_i][1]])))
+        temp.append(
+            (tag[_i][0], _UD_Exception(tag[_i][0], _TAG_MAP_UD[tag[_i][1]]))
+        )
         _i += 1
 
     return temp
-
-
-def _artagger_tag(words: List[str], corpus: str = None) -> List[Tuple[str, str]]:
-    if not words:
-        return []
-
-    from artagger import Tagger
-
-    words_ = Tagger().tag(" ".join(words))
-
-    return [(word.word, word.tag) for word in words_]
 
 
 def pos_tag(
@@ -132,7 +123,6 @@ def pos_tag(
     :param str engine:
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
-        * *artagger* - RDR POS tagger
     :param str corpus:
         * *orchid* - annotated Thai academic articles namedly
           `Orchid <https://www.academia.edu/9127599/Thai_Treebank>`_ (default)
@@ -144,10 +134,6 @@ def pos_tag(
           <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
     :return: returns a list of labels regarding which part of speech it is
     :rtype: list[tuple[str, str]]
-
-    :Note:
-        * *artagger*, only support one sentence and the sentence must
-          be tokenized beforehand.
 
     :Example:
 
@@ -187,8 +173,7 @@ def pos_tag(
         #   ('ใน', 'ADP'), ('อาคาร', 'NOUN'), ('หลบภัย', 'NOUN'),
         #   ('ของ', 'ADP'), ('นายก', 'NOUN'), ('เชอร์ชิล', 'PROPN')]
 
-    Tag words with different engines including *perceptron*, *unigram*,
-    and *artagger*::
+    Tag words with different engines including *perceptron* and *unigram*::
 
         from pythainlp.tag import pos_tag
 
@@ -204,12 +189,6 @@ def pos_tag(
         # output:
         # [('เก้าอี้', None), ('มี', 'VERB'), ('จำนวน', 'NOUN'), ('ขา', None),
         #   ('<space>', None), ('<equal>', None), ('3', 'NUM')]
-
-        pos_tag(words, engine='artagger', corpus='orchid')
-        # output:
-        # [('เก้าอี้', 'NCMN'), ('มี', 'VSTA'), ('จำนวน', 'NCMN'),
-        #   ('ขา', 'NCMN'), ('<space>', 'PUNC'),
-        #   ('<equal>', 'PUNC'), ('3', 'NCNM')]
     """
 
     # NOTE:
@@ -222,8 +201,6 @@ def pos_tag(
 
     if engine == "perceptron":
         from .perceptron import tag as tag_
-    elif engine == "artagger":
-        tag_ = _artagger_tag
     else:  # default, use "unigram" ("old") engine
         from .unigram import tag as tag_
     _tag = tag_(words, corpus=corpus)
@@ -235,7 +212,9 @@ def pos_tag(
 
 
 def pos_tag_sents(
-    sentences: List[List[str]], engine: str = "perceptron", corpus: str = "orchid"
+    sentences: List[List[str]],
+    engine: str = "perceptron",
+    corpus: str = "orchid",
 ) -> List[List[Tuple[str, str]]]:
     """
     The function tag multiple list of tokenized words into Part-of-Speech
@@ -245,7 +224,6 @@ def pos_tag_sents(
     :param str engine:
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
-        * *artagger* - RDR POS tagger
     :param str corpus:
         * *orchid* - annotated Thai academic articles namedly\
             `Orchid <https://www.academia.edu/9127599/Thai_Treebank>`_\

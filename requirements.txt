@@ -1,5 +1,6 @@
 dill==0.3.*
 nltk==3.4.*
+python-crfsuite==0.9.*
 requests==2.22.*
 tinydb==3.14.*
 tqdm==4.36.*

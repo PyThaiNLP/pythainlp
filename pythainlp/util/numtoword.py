@@ -4,15 +4,27 @@ Convert number value to Thai read out
 
 Adapted from
 http://justmindthought.blogspot.com/2012/12/code-php.html
+https://suksit.com/post/writing-bahttext-in-php/
 """
 import math
 
 __all__ = ["bahttext", "num_to_thaiword"]
 
-_POS_CALL = ["แสน", "หมื่น", "พัน", "ร้อย", "สิบ", ""]
-_NUM_CALL = ["", "หนึ่ง", "สอง", "สาม", "สี่",
-             "ห้า", "หก", "เจ็ด", "แปด", "เก้า", ]
-_MIL_CALL = "ล้าน"
+
+_VALUES = [
+    "",
+    "หนึ่ง",
+    "สอง",
+    "สาม",
+    "สี่",
+    "ห้า",
+    "หก",
+    "เจ็ด",
+    "แปด",
+    "เก้า",
+]
+_PLACES = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"]
+_EXCEPTIONS = {"หนึ่งสิบ": "สิบ", "สองสิบ": "ยี่สิบ", "สิบหนึ่ง": "สิบเอ็ด"}
 
 
 def bahttext(number: float) -> str:
@@ -21,7 +33,7 @@ def bahttext(number: float) -> str:
     a suffix "บาท" (Baht).
     The precision will be fixed at two decimal places (0.00)
     to fits "สตางค์" (Satang) unit.
-    This function works similar to `BAHTTEXT` function in MS Excel.
+    This function works similar to `BAHTTEXT` function in Microsoft Excel.
 
     :param float number: number to be converted into Thai Baht currency format
     :return: text representing the amount of money in the format
@@ -84,39 +96,26 @@ def num_to_thaiword(number: int) -> str:
         num_to_thaiword(11)
         # output: สิบเอ็ด
     """
-    ret = ""
 
+    output = ""
+    number_temp = number
     if number is None:
-        pass
+        return ""
     elif number == 0:
-        ret = "ศูนย์"
-    else:
+        output = "ศูนย์"
 
-        if number > 1000000:
-            ret += num_to_thaiword(int(number / 1000000)) + _MIL_CALL
-            number = int(math.fmod(number, 1000000))
-        divider = 100000
+    number = str(abs(number))
+    for place, value in enumerate(list(number[::-1])):
+        if place % 6 == 0 and place > 0:
+            output = _PLACES[6] + output
 
-        pos = 0
-        while number > 0:
-            d = int(number / divider)
+        if value != "0":
+            output = _VALUES[int(value)] + _PLACES[place % 6] + output
 
-            if (divider == 10) and (d == 2):
-                ret += "ยี่"
-            elif (divider == 10) and (d == 1):
-                ret += ""
-            elif (divider == 1) and (d == 1) and (ret != ""):
-                ret += "เอ็ด"
-            else:
-                ret += _NUM_CALL[d]
+    for search, replac in _EXCEPTIONS.items():
+        output = output.replace(search, replac)
 
-            if d:
-                ret += _POS_CALL[pos]
-            else:
-                ret += ""
+    if number_temp < 0:
+        output = "ลบ" + output
 
-            number = number % divider
-            divider = divider / 10
-            pos += 1
-
-    return ret
+    return output

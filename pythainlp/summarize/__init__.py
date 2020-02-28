@@ -71,6 +71,6 @@ def summarize(
     if engine == "frequency":
         sents = FrequencySummarizer().summarize(text, n, tokenizer)
     else:  # if engine not found, return first n sentences
-        sents = sent_tokenize(text)[:n]
+        sents = sent_tokenize(text, engine="whitespace+newline")[:n]
 
     return sents

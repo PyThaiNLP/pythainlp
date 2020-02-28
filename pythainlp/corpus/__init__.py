@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+Corpus related functions.
+
+Access to dictionaries, word lists, and language models.
+Including download manager.
+"""
 import hashlib
 import os
 from typing import NoReturn, Union
@@ -44,8 +50,9 @@ def corpus_db_path() -> str:
 def get_corpus_db_detail(name: str) -> dict:
     db = TinyDB(corpus_db_path())
     query = Query()
-
     res = db.search(query.name == name)
+    db.close()
+
     if res:
         return res[0]
     else:
@@ -54,7 +61,9 @@ def get_corpus_db_detail(name: str) -> dict:
 
 def get_corpus(filename: str) -> frozenset:
     """
-    Read corpus from file and return a frozenset (Please see the filename from
+    Read corpus from file and return a frozenset.
+
+    (Please see the filename from
     `this file
     <https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json>`_
 
@@ -93,7 +102,7 @@ def get_corpus(filename: str) -> frozenset:
 
 def get_corpus_path(name: str) -> Union[str, None]:
     """
-    Get corpus path
+    Get corpus path.
 
     :param string name: corpus name
     :return: path to the corpus or **None** of the corpus doesn't
@@ -142,6 +151,8 @@ def get_corpus_path(name: str) -> Union[str, None]:
 
 def _download(url: str, dst: str) -> int:
     """
+    Download helper.
+
     @param: url to download file
     @param: dst place to put the file
     """
@@ -161,21 +172,24 @@ def _download(url: str, dst: str) -> int:
 
 def _check_hash(dst: str, md5: str) -> NoReturn:
     """
+    Check hash helper.
+
     @param: dst place to put the file
     @param: md5 place to hash the file (MD5)
     """
     if md5 and md5 != "-":
-        f = open(get_full_data_path(dst), "rb")
-        content = f.read()
-        file_md5 = hashlib.md5(content).hexdigest()
+        with open(get_full_data_path(dst), "rb") as f:
+            content = f.read()
+            file_md5 = hashlib.md5(content).hexdigest()
 
-        if md5 != file_md5:
-            raise Exception("Hash does not match expected.")
+            if md5 != file_md5:
+                raise Exception("Hash does not match expected.")
 
 
 def download(name: str, force: bool = False) -> NoReturn:
     """
     Download corpus.
+
     The available corpus names can be seen in this file:
     https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json
 
@@ -286,8 +300,10 @@ def remove(name: str) -> bool:
         path = get_corpus_path(name)
         os.remove(path)
         db.remove(query.name == name)
+        db.close()
         return True
 
+    db.close()
     return False
 
 

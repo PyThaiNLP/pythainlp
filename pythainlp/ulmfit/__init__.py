@@ -257,11 +257,23 @@ def rm_useless_newlines(text: str) -> str:
 
 
 def rm_brackets(text: str) -> str:
-    "Remove all empty brackets from `t`."
+    "Remove all empty brackets and artifacts within brackets from `text`."
+    #remove empty brackets
     new_line = re.sub(r"\(\)", "", text)
     new_line = re.sub(r"\{\}", "", new_line)
     new_line = re.sub(r"\[\]", "", new_line)
-
+    #brakets with only punctuations
+    new_line = re.sub(r"\([^a-zA-Z0-9ก-๙]+\)", "", new_line)
+    new_line = re.sub(r"\{[^a-zA-Z0-9ก-๙]+\}", "", new_line)
+    new_line = re.sub(r"\[[^a-zA-Z0-9ก-๙]+\]", "", new_line)
+    #artifiacts after (
+    new_line = re.sub(r"(?<=\()[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])","",new_line)
+    new_line = re.sub(r"(?<=\{)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])","",new_line)
+    new_line = re.sub(r"(?<=\[)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])","",new_line)
+    #artifacts before )
+    new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\))","",new_line)
+    new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\})","",new_line)
+    new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\])","",new_line)
     return new_line
 
 

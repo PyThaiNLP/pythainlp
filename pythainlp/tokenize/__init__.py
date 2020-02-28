@@ -139,10 +139,8 @@ def word_tokenize(
         from .pyicu import segment
 
         segments = segment(text)
-    else:  # default, use "newmm" engine
-        from .newmm import segment
-
-        segments = segment(text, custom_dict)
+    else:
+        raise AttributeError()
 
     if not keep_whitespace:
         segments = [token.strip(" ") for token in segments if token.strip(" ")]

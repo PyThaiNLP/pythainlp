@@ -62,7 +62,7 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("หมอนทองตากลมหูว์MBK39", engine="attacut")
         )
         self.assertRaises(
-            ValueError, 
+            ValueError,
             lambda: word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX")
         )  # XX engine does not exist.
 

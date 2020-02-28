@@ -140,7 +140,7 @@ def word_tokenize(
 
         segments = segment(text)
     else:
-        raise AttributeError()
+        raise ValueError()
 
     if not keep_whitespace:
         segments = [token.strip(" ") for token in segments if token.strip(" ")]

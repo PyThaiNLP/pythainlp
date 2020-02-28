@@ -140,7 +140,7 @@ def word_tokenize(
 
         segments = segment(text)
     else:
-        raise ValueError()
+        raise ValueError(f"\"{engine}\" not found.  It might be a typo; if not, please consult our document.")
 
     if not keep_whitespace:
         segments = [token.strip(" ") for token in segments if token.strip(" ")]

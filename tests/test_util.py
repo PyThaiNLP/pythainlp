@@ -256,6 +256,7 @@ class TestUtilPackage(unittest.TestCase):
 
     def test_normalize(self):
         self.assertEqual(normalize("เเปลก"), "แปลก")
+        self.assertEqual(normalize("นํา"), "นำ")
         self.assertIsNotNone(normalize("พรรค์จันทร์ab์"))
 
     # ### pythainlp.util.thai

@@ -18,7 +18,7 @@ from typing import List
 from pythainlp.corpus import get_corpus
 from pythainlp.tokenize import Tokenizer
 
-_cut_etcc = Tokenizer(get_corpus("etcc.dict"), engine="longest")
+_cut_etcc = Tokenizer(get_corpus("etcc.txt"), engine="longest")
 _PAT_ENDING_CHAR = "[ะาๆฯๅำ]"
 _RE_ENDING_CHAR = re.compile(_PAT_ENDING_CHAR)
 

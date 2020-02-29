@@ -87,7 +87,7 @@ setup(
         "pythainlp.corpus": [
             "corpus_license.md",
             "countries_th.txt",
-            "etcc.dict",
+            "etcc.txt",
             "negations_th.txt",
             "orchid_pos_th.json",
             "orchid_pt_tagger.dill",

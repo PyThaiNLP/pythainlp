@@ -26,9 +26,28 @@ from pythainlp.tokenize import (
 
 
 class TestTokenizePackage(unittest.TestCase):
+
+    def test_Tokenizer(self):
+        t_test = Tokenizer(DEFAULT_DICT_TRIE)
+        self.assertEqual(t_test.word_tokenize(""), [])
+        t_test.set_tokenize_engine("longest")
+        self.assertEqual(t_test.word_tokenize(None), [])
+
+        t_test = Tokenizer()
+        self.assertEqual(t_test.word_tokenize("ก"), ["ก"])
+
     def test_etcc(self):
-        self.assertEqual(etcc.segment(""), "")
+        self.assertEqual(etcc.segment(None), [])
+        self.assertEqual(etcc.segment(""), [])
         self.assertIsInstance(etcc.segment("คืนความสุข"), list)
+        self.assertEqual(
+            etcc.segment("หาเงินเพื่อเรียน"),
+            ["หา", "เงิน", "เพื่", "อ", "เรีย", "น"]
+        )
+        self.assertEqual(
+            etcc.segment("หนังสือ"),
+            ["ห", "นัง", "สือ"]
+        )
         self.assertIsNotNone(
             etcc.segment(
                 "หมูแมวเหล่านี้ด้วยเหตุผลเชื่อมโยงทางกรรมพันธุ์"
@@ -89,23 +108,6 @@ class TestTokenizePackage(unittest.TestCase):
             dict_word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"])),
         )
 
-    def test_Tokenizer(self):
-        t_test = Tokenizer(DEFAULT_DICT_TRIE)
-        self.assertEqual(t_test.word_tokenize(""), [])
-        t_test.set_tokenize_engine("longest")
-        self.assertEqual(t_test.word_tokenize(None), [])
-
-        t_test = Tokenizer()
-        self.assertEqual(t_test.word_tokenize("ก"), ["ก"])
-
-    def test_word_tokenize_icu(self):
-        self.assertEqual(tokenize_pyicu.segment(None), [])
-        self.assertEqual(tokenize_pyicu.segment(""), [])
-        self.assertEqual(
-            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="icu"),
-            ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
-        )
-
     def test_word_tokenize_deepcut(self):
         self.assertEqual(tokenize_deepcut.segment(None), [])
         self.assertEqual(tokenize_deepcut.segment(""), [])
@@ -118,6 +120,14 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize(
                 "ทดสอบ", engine="deepcut", custom_dict=DEFAULT_DICT_TRIE
             )
+        )
+
+    def test_word_tokenize_icu(self):
+        self.assertEqual(tokenize_pyicu.segment(None), [])
+        self.assertEqual(tokenize_pyicu.segment(""), [])
+        self.assertEqual(
+            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="icu"),
+            ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
 
     def test_word_tokenize_longest(self):

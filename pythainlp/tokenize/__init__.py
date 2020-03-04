@@ -296,7 +296,6 @@ def subword_tokenize(
     **Options for engine**
         * *tcc* (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
-          [In development]
 
     :Example:
 

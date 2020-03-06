@@ -54,41 +54,49 @@ print(
 
 df_raw = word_tokenization.benchmark(expected, actual)
 
-df_res = df_raw.describe()
-df_res = df_res[
-    [
-        "char_level:tp",
-        "char_level:tn",
-        "char_level:fp",
-        "char_level:fn",
-        "char_level:precision",
-        "char_level:recall",
-        "char_level:f1",
-        "word_level:precision",
-        "word_level:recall",
-        "word_level:f1",
-    ]
+
+columns = [
+    "char_level:tp",
+    "char_level:fp",
+    "char_level:tn",
+    "char_level:fn",
+    "word_level:correctly_tokenised_words",
+    "word_level:total_words_in_sample",
+    "word_level:total_words_in_ref_sample",
 ]
 
-df_res = df_res.T.reset_index(0)
+statistics = dict()
 
-df_res["mean±std"] = df_res.apply(
-    lambda r: "%2.2f±%2.2f" % (r["mean"], r["std"]), axis=1
+for c in columns:
+    statistics[c] = float(df_raw[c].sum())
+
+statistics["char_level:precision"] = statistics["char_level:tp"] / (
+    statistics["char_level:tp"] + statistics["char_level:fp"]
 )
 
-df_res["metric"] = df_res["index"]
+statistics["char_level:recall"] = statistics["char_level:tp"] / (
+    statistics["char_level:tp"] + statistics["char_level:fn"]
+)
+
+statistics["word_level:precision"] = statistics["word_level:correctly_tokenised_words"] \
+    / statistics["word_level:total_words_in_sample"]
+
+statistics["word_level:recall"] = statistics["word_level:correctly_tokenised_words"] \
+    / statistics["word_level:total_words_in_ref_sample"]
 
 print("============== Benchmark Result ==============")
-print(df_res[["metric", "mean±std", "min", "max"]].to_string(index=False))
 
+for c in ["tp", "fn", "tn", "fp", "precision", "recall"]:
+    c = f"char_level:{c}"
+    v = statistics[c]
+    print(f"{c:>40s} {v:.4f}")
+
+for c in ["total_words_in_sample", "total_words_in_ref_sample", "correctly_tokenised_words", "precision", "recall"]:
+    c = f"word_level:{c}"
+    v = statistics[c]
+    print(f"{c:>40s} {v:.4f}")
 
 if args.save_details:
-    data = {}
-    for r in df_res.to_dict("records"):
-        metric = r["index"]
-        del r["index"]
-        data[metric] = r
-
     dir_name = os.path.dirname(args.input_file)
     file_name = args.input_file.split("/")[-1].split(".")[0]
 
@@ -96,7 +104,7 @@ if args.save_details:
     print("Evaluation result is saved to %s" % res_path)
 
     with open(res_path, "w", encoding="utf-8") as outfile:
-        yaml.dump(data, outfile, default_flow_style=False)
+        yaml.dump(statistics, outfile, default_flow_style=False)
 
     res_path = "%s/eval-details-%s.json" % (dir_name, file_name)
     print("Details of comparisons is saved to %s" % res_path)
@@ -110,6 +118,6 @@ if args.save_details:
 
             samples.append(dict(metrics=r, expected=expected, actual=actual, id=i))
 
-        details = dict(metrics=data, samples=samples)
+        details = dict(metrics=statistics, samples=samples)
 
         json.dump(details, f, ensure_ascii=False)

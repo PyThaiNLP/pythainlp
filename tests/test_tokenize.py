@@ -23,6 +23,7 @@ from pythainlp.tokenize import (
     tcc,
     word_tokenize,
 )
+from pythainlp.tokenize.ssg import segment as ssg_segment
 
 
 class TestTokenizePackage(unittest.TestCase):
@@ -283,7 +284,12 @@ class TestTokenizePackage(unittest.TestCase):
             sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า"),
             ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
         )
-
+    def test_ssg_tokenize(self):
+        self.assertEqual(ssg_segment(None), [])
+        self.assertEqual(ssg_segment(""), [])
+        self.assertTrue(
+            "ดาว" in syllable_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])
         self.assertEqual(subword_tokenize(""), [])

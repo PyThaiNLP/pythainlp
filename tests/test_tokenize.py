@@ -277,12 +277,21 @@ class TestTokenizePackage(unittest.TestCase):
             ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
         )
         self.assertEqual(
+            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า", engine=""),
+            ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
+        )
+        self.assertEqual(
             sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน"),
             ["วันนี้ฉันกินข้าว และโดดเรียน"],
         )
         self.assertEqual(
             sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า"),
             ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
+        )
+        self.assertIsNotNone(
+            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า", 
+            keep_whitespace = False,
+            engine = "whitespace"),
         )
     def test_ssg_tokenize(self):
         self.assertEqual(ssg_segment(None), [])

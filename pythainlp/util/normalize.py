@@ -5,35 +5,35 @@ Text normalization
 import re
 import warnings
 
-from pythainlp import (
-    thai_above_vowels,
-    thai_below_vowels,
-    thai_follow_vowels,
-    thai_lead_vowels,
-    thai_tonemarks,
-)
+from pythainlp import thai_above_vowels as above_v
+from pythainlp import thai_below_vowels as below_v
+from pythainlp import thai_follow_vowels as follow_v
+from pythainlp import thai_lead_vowels as lead_v
+from pythainlp import thai_tonemarks as tonemarks
 
-_NO_REPEAT_CHARS = f"{thai_follow_vowels}{thai_lead_vowels}{thai_above_vowels}{thai_below_vowels}\u0e3a\u0e4c\u0e4d\u0e4e"
+
 # VOWELS + Phinthu,Thanthakhat, Nikhahit, Yamakkan
+_NO_REPEAT_CHARS = (
+    f"{follow_v}{lead_v}{above_v}{below_v}\u0e3a\u0e4c\u0e4d\u0e4e"
+)
 _NORMALIZE_REPETITION = list(
     zip([ch + "+" for ch in _NO_REPEAT_CHARS], _NO_REPEAT_CHARS)
 )
 
 _NORMALIZE_REORDER = [
     ("\u0e40\u0e40", "\u0e41"),  # Sara E + Sara E -> Sara Ae
-    (f"(\u0e4c)([{thai_above_vowels}{thai_below_vowels}])", "\\2\\1"),
     (
-        f"\u0e4d([{thai_tonemarks}]*)\u0e32",
+        f"\u0e4d([{tonemarks}]*)\u0e32",
         "\\1\u0e33",
     ),  # Nikhahit + TONEMARK* + Sara Aa -> TONEMARK* + Sara Am
     (
-        f"([{thai_follow_vowels}]+)([{thai_tonemarks}]+)",
+        f"([{follow_v}]+)([{tonemarks}]+)",
         "\\2\\1",
     ),  # FOLLOWVOWEL+ + TONEMARK+ -> TONEMARK+ + FOLLOWVOWEL+
     (
-        f"([{thai_tonemarks}]+)([{thai_above_vowels}{thai_below_vowels}]+)",
+        f"([{tonemarks}\u0e4c]+)([{above_v}{below_v}]+)",
         "\\2\\1",
-    ),  # TONEMARK+ + ABOVE/BELOWVOWEL+ -> ABOVE/BELOWVOWEL+ + TONEMARK+
+    ),  # TONEMARK/Thanthakhat+ + ABOVE/BELOWVOWEL+ -> ABOVE/BELOWVOWEL+ + TONEMARK/Thanthakhat+
 ]
 
 
@@ -91,7 +91,7 @@ def delete_tone(text: str) -> str:
         delete_tone('สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด')
         # output: สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด
     """
-    chars = [ch for ch in text if ch not in thai_tonemarks]
+    chars = [ch for ch in text if ch not in tonemarks]
     return "".join(chars)
 
 

@@ -5,53 +5,44 @@ Text normalization
 import re
 import warnings
 
-from pythainlp import thai_tonemarks
+from pythainlp import (
+    thai_above_vowels,
+    thai_below_vowels,
+    thai_follow_vowels,
+    thai_lead_vowels,
+    thai_tonemarks,
+)
 
-_NORMALIZE_RULE1 = [
-    "ะ",
-    "ั",
-    "็",
-    "า",
-    "ิ",
-    "ี",
-    "ึ",
-    "่",
-    "ํ",
-    "ุ",
-    "ู",
-    "ใ",
-    "ไ",
-    "โ",
-    "ื",
-    "่",
-    "้",
-    "๋",
-    "๊",
-    "ึ",
-    "์",
-    "๋",
-    "ำ",
-]  # เก็บพวกสระ วรรณยุกต์ที่ซ้ำกันแล้วมีปัญหา
+_NO_REPEAT_CHARS = f"{thai_follow_vowels}{thai_lead_vowels}{thai_above_vowels}{thai_below_vowels}\u0e3a\u0e4c\u0e4d\u0e4e"
+# VOWELS + Phinthu,Thanthakhat, Nikhahit, Yamakkan
+_NORMALIZE_REPETITION = list(
+    zip([ch + "+" for ch in _NO_REPEAT_CHARS], _NO_REPEAT_CHARS)
+)
 
-
-_NORMALIZE_RULE2 = [
-    ("เเ", "แ"),  # เ เ -> แ
-    ("ํา", "ำ"),  # นิคหิต + สระอา -> สระอำ
-    ("ํ(t)า", "\\1ำ"),
-    ("ํา(t)", "\\1ำ"),
-    ("([่-๋])([ัิ-ื])", "\\2\\1"),
-    ("([่-๋])([ูุ])", "\\2\\1"),
-    ("ำ([่-๋])", "\\1ำ"),
-    ("(์)([ัิ-ู])", "\\2\\1"),
-]  # เก็บพวก พิมพ์ลำดับผิดหรือผิดแป้นแต่กลับแสดงผลถูกต้อง ให้ไปเป็นแป้นที่ถูกต้อง เช่น เ + เ ไปเป็น แ
+_NORMALIZE_REORDER = [
+    ("\u0e40\u0e40", "\u0e41"),  # Sara E + Sara E -> Sara Ae
+    (f"(\u0e4c)([{thai_above_vowels}{thai_below_vowels}])", "\\2\\1"),
+    (
+        f"\u0e4d([{thai_tonemarks}]*)\u0e32",
+        "\\1\u0e33",
+    ),  # Nikhahit + TONEMARK* + Sara Aa -> TONEMARK* + Sara Am
+    (
+        f"([{thai_follow_vowels}]+)([{thai_tonemarks}]+)",
+        "\\2\\1",
+    ),  # FOLLOWVOWEL+ + TONEMARK+ -> TONEMARK+ + FOLLOWVOWEL+
+    (
+        f"([{thai_tonemarks}]+)([{thai_above_vowels}{thai_below_vowels}]+)",
+        "\\2\\1",
+    ),  # TONEMARK+ + ABOVE/BELOWVOWEL+ -> ABOVE/BELOWVOWEL+ + TONEMARK+
+]
 
 
 def normalize(text: str) -> str:
     """
     This function normalize thai text with normalizing rules as follows:
 
-        * Remove redudant symbol of tones and vowels.
-        * Subsitute ["เ", "เ"] to "แ".
+        * Remove redundant vowels and tonemarks
+        * Subsitute "เ" + "เ" with "แ"
 
     :param str text: thai text to be normalized
     :return: normalized Thai text according to the fules
@@ -71,10 +62,10 @@ def normalize(text: str) -> str:
         normalize('นานาาา')
         # output: นานา
     """
-    for data in _NORMALIZE_RULE2:
-        text = re.sub(data[0].replace("t", "[่้๊๋]"), data[1], text)
-    for data in list(zip(_NORMALIZE_RULE1, _NORMALIZE_RULE1)):
-        text = re.sub(data[0].replace("t", "[่้๊๋]") + "+", data[1], text)
+    for data in _NORMALIZE_REORDER:
+        text = re.sub(data[0], data[1], text)
+    for data in _NORMALIZE_REPETITION:
+        text = re.sub(data[0], data[1], text)
     return text
 
 

@@ -33,7 +33,7 @@ _NORMALIZE_REORDER = [
     (
         f"([{tonemarks}\u0e4c]+)([{above_v}{below_v}]+)",
         "\\2\\1",
-    ),  # TONEMARK/Thanthakhat+ + ABOVE/BELOWVOWEL+ -> ABOVE/BELOWVOWEL+ + TONEMARK/Thanthakhat+
+    ),  # TONE/Thanthakhat+ + A/BVOWELV+ -> A/BVOWEL+ + TONE/Thanthakhat+
 ]
 
 

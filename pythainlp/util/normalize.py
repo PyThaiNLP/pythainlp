@@ -23,6 +23,10 @@ _NORMALIZE_REPETITION = list(
 _NORMALIZE_REORDER = [
     ("\u0e40\u0e40", "\u0e41"),  # Sara E + Sara E -> Sara Ae
     (
+        f"([{tonemarks}\u0e4c]+)([{above_v}{below_v}]+)",
+        "\\2\\1",
+    ),  # TONE/Thanthakhat+ + A/BVOWELV+ -> A/BVOWEL+ + TONE/Thanthakhat+
+    (
         f"\u0e4d([{tonemarks}]*)\u0e32",
         "\\1\u0e33",
     ),  # Nikhahit + TONEMARK* + Sara Aa -> TONEMARK* + Sara Am
@@ -30,10 +34,6 @@ _NORMALIZE_REORDER = [
         f"([{follow_v}]+)([{tonemarks}]+)",
         "\\2\\1",
     ),  # FOLLOWVOWEL+ + TONEMARK+ -> TONEMARK+ + FOLLOWVOWEL+
-    (
-        f"([{tonemarks}\u0e4c]+)([{above_v}{below_v}]+)",
-        "\\2\\1",
-    ),  # TONE/Thanthakhat+ + A/BVOWELV+ -> A/BVOWEL+ + TONE/Thanthakhat+
 ]
 
 

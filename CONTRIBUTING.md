@@ -82,7 +82,7 @@ Make sure the same tests pass on Travis CI and AppVeyor.
 
 
 ## Releasing
-- We use (semantic versioning](https://semver.org/): MAJOR.MINOR.PATCH, with development build suffix: MAJOR.MINOR.PATCH-devBUILD
+- We use [semantic versioning](https://semver.org/): MAJOR.MINOR.PATCH, with development build suffix: MAJOR.MINOR.PATCH-devBUILD
 - Use [`bumpversion`](https://pypi.org/project/bumpversion/) to manage versioning.
   - `bumpversion [major|minor|patch|release|build]`
   - Example:
@@ -128,7 +128,7 @@ Thanks all the [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/cont
 - Korakot Chaovavanich - initial tokenization and soundex code
 - Charin Polpanumas - classification and benchmarking
 - Peeradej Tanruangporn - documentation
-- Arthit Suriyawongkul - packaging, distribution and maintainance 
+- Arthit Suriyawongkul - refactoring, packaging, distribution, and maintainance 
 - Chakri Lowphansirikul - documentation
 - Pattarawat Chormai - benchmarking
 

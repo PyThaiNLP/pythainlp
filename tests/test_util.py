@@ -267,10 +267,14 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(normalize("\u0e01\u0e4d\u0e32"), "\u0e01\u0e33")
 
         # consonant + nikhahit + tonemark + sara aa
-        self.assertEqual(normalize("\u0e01\u0e4d\u0e48\u0e32"), "\u0e01\u0e48\u0e33")
+        self.assertEqual(
+            normalize("\u0e01\u0e4d\u0e48\u0e32"), "\u0e01\u0e48\u0e33"
+        )
 
         # consonant + tonemark + nikhahit + sara aa
-        self.assertEqual(normalize("\u0e01\u0e48\u0e4d\u0e32"), "\u0e01\u0e48\u0e33")
+        self.assertEqual(
+            normalize("\u0e01\u0e48\u0e4d\u0e32"), "\u0e01\u0e48\u0e33"
+        )
 
         # consonant + follow vowel + tonemark
         self.assertEqual(normalize("\u0e01\u0e32\u0e48"), "\u0e01\u0e48\u0e32")
@@ -345,13 +349,16 @@ class TestUtilPackage(unittest.TestCase):
             now + datetime.timedelta(days=0), thai_day2datetime("วันนี้", now)
         )
         self.assertEqual(
-            now + datetime.timedelta(days=1), thai_day2datetime("พรุ่งนี้", now)
+            now + datetime.timedelta(days=1),
+            thai_day2datetime("พรุ่งนี้", now),
         )
         self.assertEqual(
-            now + datetime.timedelta(days=2), thai_day2datetime("มะรืนนี้", now)
+            now + datetime.timedelta(days=2),
+            thai_day2datetime("มะรืนนี้", now),
         )
         self.assertEqual(
-            now + datetime.timedelta(days=-1), thai_day2datetime("เมื่อวาน", now)
+            now + datetime.timedelta(days=-1),
+            thai_day2datetime("เมื่อวาน", now),
         )
         self.assertEqual(
             now + datetime.timedelta(days=-2), thai_day2datetime("วานซืน", now)

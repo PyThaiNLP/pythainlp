@@ -23,12 +23,32 @@ from pythainlp.tokenize import (
     tcc,
     word_tokenize,
 )
+from pythainlp.tokenize.ssg import segment as ssg_segment
 
 
 class TestTokenizePackage(unittest.TestCase):
+
+    def test_Tokenizer(self):
+        t_test = Tokenizer(DEFAULT_DICT_TRIE)
+        self.assertEqual(t_test.word_tokenize(""), [])
+        t_test.set_tokenize_engine("longest")
+        self.assertEqual(t_test.word_tokenize(None), [])
+
+        t_test = Tokenizer()
+        self.assertEqual(t_test.word_tokenize("ก"), ["ก"])
+
     def test_etcc(self):
-        self.assertEqual(etcc.segment(""), "")
+        self.assertEqual(etcc.segment(None), [])
+        self.assertEqual(etcc.segment(""), [])
         self.assertIsInstance(etcc.segment("คืนความสุข"), list)
+        self.assertEqual(
+            etcc.segment("หาเงินเพื่อเรียน"),
+            ["หา", "เงิน", "เพื่", "อ", "เรีย", "น"]
+        )
+        self.assertEqual(
+            etcc.segment("หนังสือ"),
+            ["ห", "นัง", "สือ"]
+        )
         self.assertIsNotNone(
             etcc.segment(
                 "หมูแมวเหล่านี้ด้วยเหตุผลเชื่อมโยงทางกรรมพันธุ์"
@@ -61,9 +81,10 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(
             word_tokenize("หมอนทองตากลมหูว์MBK39", engine="attacut")
         )
-        self.assertIsNotNone(
-            word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX")
-        )  # XX engine is not existed
+        self.assertRaises(
+            ValueError,
+            lambda: word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX")
+        )  # XX engine does not exist.
 
         self.assertIsNotNone(dict_trie(()))
         self.assertIsNotNone(dict_trie(("ทดสอบ", "สร้าง", "Trie")))
@@ -88,23 +109,6 @@ class TestTokenizePackage(unittest.TestCase):
             dict_word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"])),
         )
 
-    def test_Tokenizer(self):
-        t_test = Tokenizer(DEFAULT_DICT_TRIE)
-        self.assertEqual(t_test.word_tokenize(""), [])
-        t_test.set_tokenize_engine("longest")
-        self.assertEqual(t_test.word_tokenize(None), [])
-
-        t_test = Tokenizer()
-        self.assertEqual(t_test.word_tokenize("ก"), ["ก"])
-
-    def test_word_tokenize_icu(self):
-        self.assertEqual(tokenize_pyicu.segment(None), [])
-        self.assertEqual(tokenize_pyicu.segment(""), [])
-        self.assertEqual(
-            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="icu"),
-            ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
-        )
-
     def test_word_tokenize_deepcut(self):
         self.assertEqual(tokenize_deepcut.segment(None), [])
         self.assertEqual(tokenize_deepcut.segment(""), [])
@@ -117,6 +121,14 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize(
                 "ทดสอบ", engine="deepcut", custom_dict=DEFAULT_DICT_TRIE
             )
+        )
+
+    def test_word_tokenize_icu(self):
+        self.assertEqual(tokenize_pyicu.segment(None), [])
+        self.assertEqual(tokenize_pyicu.segment(""), [])
+        self.assertEqual(
+            word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="icu"),
+            ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
 
     def test_word_tokenize_longest(self):
@@ -265,6 +277,10 @@ class TestTokenizePackage(unittest.TestCase):
             ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
         )
         self.assertEqual(
+            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า", engine=""),
+            ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
+        )
+        self.assertEqual(
             sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน"),
             ["วันนี้ฉันกินข้าว และโดดเรียน"],
         )
@@ -272,7 +288,17 @@ class TestTokenizePackage(unittest.TestCase):
             sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า"),
             ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
         )
-
+        self.assertIsNotNone(
+            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า", 
+            keep_whitespace = False,
+            engine = "whitespace"),
+        )
+    def test_ssg_tokenize(self):
+        self.assertEqual(ssg_segment(None), [])
+        self.assertEqual(ssg_segment(""), [])
+        self.assertTrue(
+            "ดาว" in syllable_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])
         self.assertEqual(subword_tokenize(""), [])

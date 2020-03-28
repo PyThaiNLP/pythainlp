@@ -87,6 +87,7 @@ setup(
         "pythainlp.corpus": [
             "corpus_license.md",
             "countries_th.txt",
+            "etcc.txt",
             "negations_th.txt",
             "orchid_pos_th.json",
             "orchid_pt_tagger.dill",
@@ -105,7 +106,6 @@ setup(
             "words_th.txt",
         ],
     },
-    include_package_data=True,
     install_requires=requirements,
     extras_require=extras,
     license="Apache Software License 2.0",

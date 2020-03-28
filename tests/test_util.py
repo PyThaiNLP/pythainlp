@@ -264,6 +264,7 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(normalize("\u0e01\u0e30\u0e48"), "\u0e01\u0e48\u0e30")
 
         # consonant + nikhahit + sara aa
+        self.assertEqual(normalize("นํา"), "นำ")
         self.assertEqual(normalize("\u0e01\u0e4d\u0e32"), "\u0e01\u0e33")
 
         # consonant + nikhahit + tonemark + sara aa

@@ -139,10 +139,11 @@ def word_tokenize(
         from .pyicu import segment
 
         segments = segment(text)
-    else:  # default, use "newmm" engine
-        from .newmm import segment
-
-        segments = segment(text, custom_dict)
+    else:
+        raise ValueError(
+            f"""Tokenizer \"{engine}\" not found.
+            It might be a typo; if not, please consult our document."""
+        )
 
     if not keep_whitespace:
         segments = [token.strip(" ") for token in segments if token.strip(" ")]
@@ -295,7 +296,6 @@ def subword_tokenize(
     **Options for engine**
         * *tcc* (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
-          [In development]
 
     :Example:
 

@@ -255,9 +255,30 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(deletetone("จิ้น"), delete_tone("จิ้น"))
 
     def test_normalize(self):
-        self.assertEqual(normalize("เเปลก"), "แปลก")
-        self.assertEqual(normalize("นํา"), "นำ")
         self.assertIsNotNone(normalize("พรรค์จันทร์ab์"))
+
+        # sara e + sara e
+        self.assertEqual(normalize("เเปลก"), "แปลก")
+
+        # consonant + follow vowel + tonemark
+        self.assertEqual(normalize("\u0e01\u0e30\u0e48"), "\u0e01\u0e48\u0e30")
+
+        # consonant + nikhahit + sara aa
+        self.assertEqual(normalize("นํา"), "นำ")
+        self.assertEqual(normalize("\u0e01\u0e4d\u0e32"), "\u0e01\u0e33")
+
+        # consonant + nikhahit + tonemark + sara aa
+        self.assertEqual(
+            normalize("\u0e01\u0e4d\u0e48\u0e32"), "\u0e01\u0e48\u0e33"
+        )
+
+        # consonant + tonemark + nikhahit + sara aa
+        self.assertEqual(
+            normalize("\u0e01\u0e48\u0e4d\u0e32"), "\u0e01\u0e48\u0e33"
+        )
+
+        # consonant + follow vowel + tonemark
+        self.assertEqual(normalize("\u0e01\u0e32\u0e48"), "\u0e01\u0e48\u0e32")
 
     # ### pythainlp.util.thai
 
@@ -329,13 +350,16 @@ class TestUtilPackage(unittest.TestCase):
             now + datetime.timedelta(days=0), thai_day2datetime("วันนี้", now)
         )
         self.assertEqual(
-            now + datetime.timedelta(days=1), thai_day2datetime("พรุ่งนี้", now)
+            now + datetime.timedelta(days=1),
+            thai_day2datetime("พรุ่งนี้", now),
         )
         self.assertEqual(
-            now + datetime.timedelta(days=2), thai_day2datetime("มะรืนนี้", now)
+            now + datetime.timedelta(days=2),
+            thai_day2datetime("มะรืนนี้", now),
         )
         self.assertEqual(
-            now + datetime.timedelta(days=-1), thai_day2datetime("เมื่อวาน", now)
+            now + datetime.timedelta(days=-1),
+            thai_day2datetime("เมื่อวาน", now),
         )
         self.assertEqual(
             now + datetime.timedelta(days=-2), thai_day2datetime("วานซืน", now)

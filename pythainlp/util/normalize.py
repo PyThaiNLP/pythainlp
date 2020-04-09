@@ -93,10 +93,3 @@ def delete_tone(text: str) -> str:
     """
     chars = [ch for ch in text if ch not in tonemarks]
     return "".join(chars)
-
-
-def deletetone(text: str) -> str:
-    warnings.warn(
-        "deletetone is deprecated, use delete_tone instead", DeprecationWarning
-    )
-    return delete_tone(text)

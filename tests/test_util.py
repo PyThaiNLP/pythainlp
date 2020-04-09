@@ -13,7 +13,6 @@ from pythainlp.util import (
     collate,
     countthai,
     delete_tone,
-    deletetone,
     digit_to_text,
     eng_to_thai,
     find_keyword,
@@ -31,7 +30,6 @@ from pythainlp.util import (
     thai_strftime,
     thai_time,
     thai_to_eng,
-    thaicheck,
     thaiword_to_num,
     thai_time2time,
     thai_day2datetime,
@@ -252,7 +250,6 @@ class TestUtilPackage(unittest.TestCase):
         # https://bugs.python.org/issue29620
         # with self.assertWarns(DeprecationWarning):
         #     deletetone("จิ้น")
-        self.assertEqual(deletetone("จิ้น"), delete_tone("จิ้น"))
 
     def test_normalize(self):
         self.assertIsNotNone(normalize("พรรค์จันทร์ab์"))
@@ -326,7 +323,6 @@ class TestUtilPackage(unittest.TestCase):
         # https://bugs.python.org/issue29620
         # with self.assertWarns(DeprecationWarning):
         #     thaicheck("เลข")
-        self.assertEqual(thaicheck("เลข"), is_native_thai("เลข"))
 
     def test_thai_time2time(self):
         self.assertEqual(thai_time2time("บ่ายโมงครึ่ง"), "13:30")

@@ -9,7 +9,6 @@ from pythainlp.tokenize import DEFAULT_DICT_TRIE, Tokenizer, attacut
 from pythainlp.tokenize import deepcut as tokenize_deepcut
 from pythainlp.tokenize import (
     dict_trie,
-    dict_word_tokenize,
     etcc,
     longest,
     multi_cut,
@@ -104,10 +103,6 @@ class TestTokenizePackage(unittest.TestCase):
         # https://bugs.python.org/issue29620
         # with self.assertWarns(DeprecationWarning):
         #     dict_word_tokenize("เลิกใช้แล้ว", custom_dict=DEFAULT_DICT_TRIE)
-        self.assertEqual(
-            word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"])),
-            dict_word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"])),
-        )
 
     def test_word_tokenize_deepcut(self):
         self.assertEqual(tokenize_deepcut.segment(None), [])

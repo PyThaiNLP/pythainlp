@@ -98,7 +98,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertTrue(
             "ไฟ" in word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"]))
         )
-        
+
     def test_word_tokenize_deepcut(self):
         self.assertEqual(tokenize_deepcut.segment(None), [])
         self.assertEqual(tokenize_deepcut.segment(""), [])

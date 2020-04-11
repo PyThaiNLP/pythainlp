@@ -246,11 +246,6 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(delete_tone("จิ้น"), "จิน")
         self.assertEqual(delete_tone("เก๋า"), "เกา")
 
-        # Commented out until this unittest bug get fixed:
-        # https://bugs.python.org/issue29620
-        # with self.assertWarns(DeprecationWarning):
-        #     deletetone("จิ้น")
-
     def test_normalize(self):
         self.assertIsNotNone(normalize("พรรค์จันทร์ab์"))
 
@@ -318,11 +313,6 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(is_native_thai("เลข"), False)
         self.assertEqual(is_native_thai("เทเวศน์"), False)
         self.assertEqual(is_native_thai("เทเวศร์"), False)
-
-        # Commented out until this unittest bug get fixed:
-        # https://bugs.python.org/issue29620
-        # with self.assertWarns(DeprecationWarning):
-        #     thaicheck("เลข")
 
     def test_thai_time2time(self):
         self.assertEqual(thai_time2time("บ่ายโมงครึ่ง"), "13:30")

@@ -98,12 +98,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertTrue(
             "ไฟ" in word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"]))
         )
-
-        # Commented out until this unittest bug get fixed:
-        # https://bugs.python.org/issue29620
-        # with self.assertWarns(DeprecationWarning):
-        #     dict_word_tokenize("เลิกใช้แล้ว", custom_dict=DEFAULT_DICT_TRIE)
-
+        
     def test_word_tokenize_deepcut(self):
         self.assertEqual(tokenize_deepcut.segment(None), [])
         self.assertEqual(tokenize_deepcut.segment(""), [])

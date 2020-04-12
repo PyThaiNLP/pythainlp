@@ -35,6 +35,7 @@ cache:
 install:
   - sudo apt-get update
   - sudo apt-get install -y pandoc libicu-dev python3-pip
+  - sudo pip3 install --upgrade pip
   - python -V
   - python3 -V
   - pip -V

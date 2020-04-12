@@ -2,14 +2,14 @@
 #      general configuration      #
 #---------------------------------#
 
-skip_commits:
-  message: /[skip ci]/  # skip if the commit message contains "(skip ci)"
+#skip_commits:
+#  message: /[skip ci]/  # skip if the commit message contains "(skip ci)"
 
 #---------------------------------#
 #    environment configuration    #
 #---------------------------------#
 
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 # scripts that are called at very beginning, before repo cloning
 init:

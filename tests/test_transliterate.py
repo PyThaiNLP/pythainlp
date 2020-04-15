@@ -7,6 +7,7 @@ from pythainlp.transliterate import romanize, transliterate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.royin import romanize as romanize_royin
 from pythainlp.transliterate.thai2rom import ThaiTransliterator
+from pythainlp.corpus import download
 
 
 class TestTransliteratePackage(unittest.TestCase):
@@ -89,8 +90,10 @@ class TestTransliteratePackage(unittest.TestCase):
         )
 
     def test_transliterate(self):
+        download("thai-g2p", force = True)
         self.assertEqual(transliterate(""), "")
         self.assertEqual(transliterate("แมว", "pyicu"), "mæw")
         self.assertEqual(transliterate("คน", engine="ipa"), "kʰon")
+        self.assertIsNotNone(transliterate("คน", engine="thaig2p"))
         self.assertIsNotNone(trans_list("คน"))
         self.assertIsNotNone(xsampa_list("คน"))

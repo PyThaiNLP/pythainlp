@@ -63,6 +63,7 @@ def transliterate(text: str, engine: str = "ipa") -> str:
 
     :Options for engines:
         * *ipa* - (default) International Phonetic Alphabet (IPA)
+        * *thaig2p* - Thai Grapheme to Phoneme by deep learning in PyTorch
         * *icu* - International Components for Unicode (ICU)
 
     :Example:
@@ -88,6 +89,8 @@ def transliterate(text: str, engine: str = "ipa") -> str:
 
     if engine == "icu" or engine == "pyicu":
         from .pyicu import transliterate
+    elif engine == "thaig2p":
+        from .thaig2p import transliterate
     else:
         from .ipa import transliterate
 

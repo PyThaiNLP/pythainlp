@@ -150,41 +150,6 @@ def word_tokenize(
 
     return segments
 
-
-def dict_word_tokenize(
-    text: str,
-    custom_dict: Trie = DEFAULT_DICT_TRIE,
-    engine: str = "newmm",
-    keep_whitespace: bool = True,
-) -> List[str]:
-    """
-    Word tokenizer, with custom dictionary. DEPRECATED.
-
-    :meth: DEPRECATED: Please use `word_tokenize()` with a `custom_dict`
-           argument instead
-    :param str text: text to be tokenized
-    :param dict custom_dict: a dictionary trie, or an iterable of words,
-                             or a string of dictionary path
-    :param str engine: choose between different options of engine to token
-                       (newmm [default], longest, and attacut)
-    :param bool keep_whitespace: True to keep whitespaces, a common mark
-                                 for end of phrase in Thai
-    :return: list of words
-    :rtype: list[str]
-    """
-    warnings.warn(
-        "dict_word_tokenize is deprecated. Use word_tokenize with a custom_dict argument instead.",
-        DeprecationWarning,
-    )
-
-    return word_tokenize(
-        text=text,
-        custom_dict=custom_dict,
-        engine=engine,
-        keep_whitespace=keep_whitespace,
-    )
-
-
 def sent_tokenize(
     text: str, engine: str = "crfcut", keep_whitespace: bool = True
 ) -> List[str]:

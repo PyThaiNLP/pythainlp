@@ -9,7 +9,6 @@ __all__ = [
     "collate",
     "countthai",
     "delete_tone",
-    "deletetone",  # Will deprecated after version 2.1
     "digit_to_text",
     "eng_to_thai",
     "find_keyword",
@@ -28,7 +27,6 @@ __all__ = [
     "thai_time",
     "thai_time2time",
     "thai_to_eng",
-    "thaicheck",  # Will deprecated after version 2.1
     "thaiword_to_num",
     "thai_day2datetime",
 ]
@@ -50,9 +48,9 @@ from .digitconv import (
 )
 from .keyboard import eng_to_thai, thai_to_eng
 from .keywords import find_keyword, rank
-from .normalize import delete_tone, deletetone, normalize
+from .normalize import delete_tone, normalize
 from .numtoword import bahttext, num_to_thaiword
 from .thai import countthai, isthai, isthaichar
 from .time import thai_time, thai_time2time
-from .thaiwordcheck import is_native_thai, thaicheck
+from .thaiwordcheck import is_native_thai
 from .wordtonum import thaiword_to_num

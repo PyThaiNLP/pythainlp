@@ -90,7 +90,7 @@ class TestTransliteratePackage(unittest.TestCase):
         )
 
     def test_transliterate(self):
-        download("thai-g2p", force = True)
+        download("thai-g2p", force=True)
         self.assertEqual(transliterate(""), "")
         self.assertEqual(transliterate("แมว", "pyicu"), "mæw")
         self.assertEqual(transliterate("คน", engine="ipa"), "kʰon")

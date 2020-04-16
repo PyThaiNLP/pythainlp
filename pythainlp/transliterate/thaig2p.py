@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Thai G2P code from PyThaiNLP https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/transliterate/thai2rom.py
+Thai Grapheme-to-Phoneme (Thai G2P)
 """
 
 import random
@@ -340,6 +340,7 @@ class Seq2Seq(nn.Module):
                 return outputs[:di]
 
         return outputs
+
 
 _THAI_G2P = ThaiG2P()
 

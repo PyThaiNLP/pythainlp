@@ -9,14 +9,14 @@ def romanize(text: str, engine: str = "royin") -> str:
     by the Royal Institute of Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
 
     :param str text: Thai text to be romanized
-    :param str engine: 'royin' (default) or 'thai2rom'.
+    :param str engine: 'royin' (default) or 'thai2rom'
 
     :return: A string of Thai words rendered in the Latin alphabet.
     :rtype: str
 
     :Options for engines:
-        * *royin* - based on the Royal Thai General System of Transcription
-          issued by Royal Institute of Thailand.
+        * *royin* - (default) based on the Royal Thai General System of
+          Transcription issued by Royal Institute of Thailand.
         * *thai2rom* - a deep learning-based Thai romanization engine
           (require PyTorch).
 
@@ -54,18 +54,18 @@ def transliterate(text: str, engine: str = "ipa") -> str:
     This function transliterates Thai text.
 
     :param str text: Thai text to be transliterated
-    :param str engine: 'ipa' (International Phonetic Alphabet; default)
-                       or 'icu'.
+    :param str engine: 'icu', 'ipa' (default), or 'thaig2p'
 
-    :return: A string of Internaitonal Phonetic Alphabets indicating
-             how the text should be pronounced.
+    :return: A string of phonetic alphabets indicating
+             how the input text should be pronounced.
     :rtype: str
 
     :Options for engines:
-        * *ipa* - (default) International Phonetic Alphabet (IPA)
-        * *thaig2p* - Thai Grapheme to Phoneme by deep learning in PyTorch
         * *icu* - International Components for Unicode (ICU)
-
+        * *ipa* - (default) International Phonetic Alphabet (IPA)
+        * *thaig2p* - Thai Grapheme to Phoneme by deep learning
+          (require PyTorch)
+          
     :Example:
     ::
 

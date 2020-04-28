@@ -93,7 +93,7 @@ class ThaiTransliterator:
             target_tensor = (
                     torch.argmax(
                         target_tensor_logits.squeeze(1),
-                        1).cpu().numpy()
+                        1).cpu().detach().numpy()
                 )
             target = [self._ix_to_target_char[t] for t in target_tensor]
 

@@ -5,6 +5,9 @@ from ssg import syllable_tokenize
 
 
 def segment(text: str) -> List[str]:
+    """
+    Syllable tokenizer using ssg
+    """
     if not text or not isinstance(text, str):
         return []
 

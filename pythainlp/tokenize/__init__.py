@@ -3,7 +3,6 @@
 Thai tokenizers
 """
 import re
-import warnings
 from typing import Iterable, List, Union
 
 from pythainlp.corpus import thai_syllables, thai_words

@@ -14,9 +14,8 @@ import re
 from collections import defaultdict
 from typing import List
 
-from pythainlp.tokenize import DEFAULT_DICT_TRIE
-
-from .trie import Trie
+from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
+from pythainlp.util import Trie
 
 
 class LatticeString(str):
@@ -47,12 +46,12 @@ _RE_ENG = r"""(?x)
 _PAT_ENG = re.compile(_RE_ENG)
 
 
-def _multicut(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE):
+def _multicut(text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE):
     """
     ส่งคืน LatticeString คืนมาเป็นก้อนๆ
     """
     if not custom_dict:
-        custom_dict = DEFAULT_DICT_TRIE
+        custom_dict = DEFAULT_WORD_DICT_TRIE
 
     len_text = len(text)
     words_at = defaultdict(list)  # main data structure
@@ -122,7 +121,9 @@ def _combine(ww: str):
                     yield m.replace("/", "|") + "|" + tail
 
 
-def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
+def segment(
+    text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE
+) -> List[str]:
     """
     Dictionary-based maximum matching word segmentation.
 
@@ -137,7 +138,7 @@ def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
 
 
 def find_all_segment(
-    text: str, custom_dict: Trie = DEFAULT_DICT_TRIE
+    text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE
 ) -> List[str]:
     """
     Get all possible segment variations

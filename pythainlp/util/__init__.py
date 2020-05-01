@@ -4,11 +4,13 @@ Utility functions, like date conversion and digit conversion
 """
 
 __all__ = [
+    "Trie",
     "arabic_digit_to_thai_digit",
     "bahttext",
     "collate",
     "countthai",
     "delete_tone",
+    "dict_trie",
     "digit_to_text",
     "eng_to_thai",
     "find_keyword",
@@ -52,5 +54,6 @@ from .normalize import delete_tone, normalize
 from .numtoword import bahttext, num_to_thaiword
 from .thai import countthai, isthai, isthaichar
 from .time import thai_time, thai_time2time
+from .trie import Trie, dict_trie
 from .thaiwordcheck import is_native_thai
 from .wordtonum import thaiword_to_num

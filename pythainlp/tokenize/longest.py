@@ -11,9 +11,8 @@ on the code from Patorn Utenpattanun.
 import re
 from typing import List
 
-from pythainlp.tokenize import DEFAULT_DICT_TRIE
-
-from .trie import Trie
+from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
+from pythainlp.util import Trie
 
 _FRONT_DEP_CHAR = [
     "ะ",
@@ -140,7 +139,7 @@ class LongestMatchTokenizer(object):
         return tokens
 
 
-def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
+def segment(text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE) -> List[str]:
     """
     Dictionary-based longest matching word segmentation.
 
@@ -152,6 +151,6 @@ def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
         return []
 
     if not custom_dict:
-        custom_dict = DEFAULT_DICT_TRIE
+        custom_dict = DEFAULT_WORD_DICT_TRIE
 
     return LongestMatchTokenizer(custom_dict).tokenize(text)

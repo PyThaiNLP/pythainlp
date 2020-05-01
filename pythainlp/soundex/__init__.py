@@ -11,8 +11,10 @@ from pythainlp.soundex.udom83 import udom83 as udom83
 # Other Thai soundex systems (not implemented yet): Arun91, KSS97
 # [KSS97] https://linux.thai.net/~thep/soundex/soundex.html
 
+DEFAULT_SOUNDEX_ENGINE = "udom83"
 
-def soundex(text: str, engine: str = "udom83") -> str:
+
+def soundex(text: str, engine: str = DEFAULT_SOUNDEX_ENGINE) -> str:
     """
     This function converts Thai text into phonetic code.
 

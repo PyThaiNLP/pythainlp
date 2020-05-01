@@ -16,10 +16,10 @@ from collections import defaultdict
 from heapq import heappop, heappush
 from typing import Generator, List
 
-from pythainlp.tokenize import DEFAULT_DICT_TRIE
+from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
+from pythainlp.util import Trie
 
 from .tcc import tcc_pos
-from .trie import Trie
 
 # match non-Thai tokens
 _PAT_NONTHAI = re.compile(
@@ -127,7 +127,7 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
 
 def segment(
-    text: str, custom_dict: Trie = DEFAULT_DICT_TRIE, safe_mode: bool = False
+    text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE, safe_mode: bool = False
 ) -> List[str]:
     """
     Dictionary-based maximal matching word segmentation, constrained with
@@ -144,7 +144,7 @@ def segment(
         return []
 
     if not custom_dict:
-        custom_dict = DEFAULT_DICT_TRIE
+        custom_dict = DEFAULT_WORD_DICT_TRIE
 
     if not safe_mode or len(text) < _TEXT_SCAN_END:
         return list(_onecut(text, custom_dict))

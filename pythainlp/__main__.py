@@ -19,7 +19,7 @@ def main(args=None):
         type=str,
         default="",
         nargs="?",
-        help="[%s]" % "|".join(cli.COMMANDS)
+        help="[%s]" % "|".join(cli.COMMANDS),
     )
 
     args = parser.parse_args(sys.argv[1:2])
@@ -30,12 +30,10 @@ def main(args=None):
         command = getattr(cli, args.command)
         command.App(sys.argv)
     else:
-        print(f"Command not available: {args.command}\nPlease run with --help for alternatives")
-
+        print(
+            f"Command not available: {args.command}\nPlease run with --help for alternatives"
+        )
 
 
 if __name__ == "__main__":
     main()
-
-
-

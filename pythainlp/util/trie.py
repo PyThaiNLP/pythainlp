@@ -69,7 +69,8 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
         trie = Trie(dict_source)
     else:
         raise TypeError(
-            "Type of dict_source must be pythainlp.tokenize.Trie, or Iterable[str], or str (path to source file)"
+            "Type of dict_source must be pythainlp.tokenize.Trie, "
+            "or Iterable[str], or str (path to source file)"
         )
 
     return trie

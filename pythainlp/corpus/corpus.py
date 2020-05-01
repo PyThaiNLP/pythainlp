@@ -177,7 +177,8 @@ def download(name: str, force: bool = False) -> NoReturn:
         # - Downloading: wiki_lm_lstm 0.1
         # thwiki_lm.pth:  26%|██▌       | 114k/434k [00:00<00:00, 690kB/s]
 
-    By default, downloaded corpus and model will be saved in ``$HOME/pythainlp-data/``
+    By default, downloaded corpus and model will be saved in
+    ``$HOME/pythainlp-data/``
     (e.g. ``/Users/bact/pythainlp-data/wiki_lm_lstm.pth``).
     """
     local_db = TinyDB(corpus_db_path())

@@ -4,9 +4,9 @@ Thai soundex
 
 Has three systems to choose from: Udom83 (default), LK82, and MetaSound
 """
-from pythainlp.soundex.lk82 import lk82 as lk82
-from pythainlp.soundex.metasound import metasound as metasound
-from pythainlp.soundex.udom83 import udom83 as udom83
+from pythainlp.soundex.lk82 import lk82
+from pythainlp.soundex.metasound import metasound
+from pythainlp.soundex.udom83 import udom83
 
 # Other Thai soundex systems (not implemented yet): Arun91, KSS97
 # [KSS97] https://linux.thai.net/~thep/soundex/soundex.html

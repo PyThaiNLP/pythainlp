@@ -139,7 +139,9 @@ class LongestMatchTokenizer(object):
         return tokens
 
 
-def segment(text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE) -> List[str]:
+def segment(
+    text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE
+) -> List[str]:
     """
     Dictionary-based longest matching word segmentation.
 

@@ -65,7 +65,7 @@ def transliterate(text: str, engine: str = "ipa") -> str:
         * *ipa* - (default) International Phonetic Alphabet (IPA)
         * *thaig2p* - Thai Grapheme to Phoneme by deep learning
           (require PyTorch)
-          
+
     :Example:
     ::
 

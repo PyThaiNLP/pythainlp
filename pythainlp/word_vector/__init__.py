@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-thai2fit - Thai word vector
-Code by https://github.com/cstorm125/thai2fit
+thai2fit - Thai word vector.
+
+Initial code from https://github.com/cstorm125/thai2fit
 """
 from typing import List, Tuple
 

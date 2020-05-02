@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+"""
+Trie data structure.
+
+Designed to use for tokenizer's dictionary, but can be for other purposes.
+"""
 from typing import Iterable, List, Union
 
 
@@ -45,7 +50,7 @@ class Trie:
 
 def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     """
-    Create a dictionary trie which will be used for word_tokenize() function.
+    Create a dictionary trie from a string or an iterable.
 
     :param str|Iterable[str]|pythainlp.tokenize.Trie dict_source: a path to
         dictionary file or a list of words or a pythainlp.tokenize.Trie object

@@ -8,12 +8,12 @@ from typing import Iterable, List, Union
 from pythainlp.tokenize import (
     DEFAULT_SENT_TOKENIZE_ENGINE,
     DEFAULT_SUBWORD_TOKENIZE_ENGINE,
-    DEFAULT_SYLLABLE_DICT_TRIE,
     DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
-    DEFAULT_WORD_DICT_TRIE,
     DEFAULT_WORD_TOKENIZE_ENGINE,
+    DEFAULT_WORD_DICT_TRIE,
+    DEFAULT_SYLLABLE_DICT_TRIE,
 )
-from pythainlp.util import Trie, dict_trie
+from pythainlp.util.trie import Trie, dict_trie
 
 
 def word_tokenize(
@@ -368,7 +368,7 @@ def syllable_tokenize(
         for word in words:
             segments.extend(
                 word_tokenize(
-                    text=word, custom_dict=DEFAULT_SYLLABLE_DICT_TRIE
+                    text=word, custom_dict=get_default_syllable_dict_trie()
                 )
             )
     elif engine == "ssg":
@@ -474,7 +474,7 @@ class Tokenizer:
         if custom_dict:
             self.__trie_dict = dict_trie(custom_dict)
         else:
-            self.__trie_dict = DEFAULT_WORD_DICT_TRIE
+            self.__trie_dict = get_default_word_dict_trie()
         self.__engine = engine
         self.__keep_whitespace = keep_whitespace
 

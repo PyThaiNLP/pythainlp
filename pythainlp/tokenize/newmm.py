@@ -91,7 +91,8 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
         if len(pos_list) == 1:  # one candidate, no longer ambiguous
             end_pos_candidates = next(
-                _bfs_paths_graph(graph, end_pos, pos_list[0]))
+                _bfs_paths_graph(graph, end_pos, pos_list[0])
+            )
             graph_size = 0
             for _pos in end_pos_candidates[1:]:
                 yield text[end_pos:_pos]
@@ -106,8 +107,10 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
                         words = [
                             word
                             for word in custom_dict.prefixes(text[_pos:])
-                            if ((_pos + len(word) in valid_poss) and
-                                not _PAT_THAI_TWOCHARS.match(word))
+                            if (
+                                (_pos + len(word) in valid_poss)
+                                and not _PAT_THAI_TWOCHARS.match(word)
+                            )
                         ]
                         if words:  # is a Thai token that longer than 2 chars
                             end_pos = _pos
@@ -127,7 +130,9 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
 
 def segment(
-    text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE, safe_mode: bool = False
+    text: str,
+    custom_dict: Trie = DEFAULT_WORD_DICT_TRIE,
+    safe_mode: bool = False,
 ) -> List[str]:
     """
     Dictionary-based maximal matching word segmentation, constrained with

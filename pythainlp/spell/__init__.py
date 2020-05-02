@@ -4,9 +4,10 @@ Spell checking
 """
 
 from .pn import NorvigSpellChecker
-from .spell import correct, spell
 
 DEFAULT_SPELL_CHECKER = NorvigSpellChecker()
+
+from .spell import correct, spell
 
 __all__ = [
     "DEFAULT_SPELL_CHECKER",

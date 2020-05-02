@@ -3,16 +3,21 @@
 Unit tests for pythainlp.util module.
 """
 import datetime
+import os
 import unittest
 from collections import Counter
 
-from pythainlp.tokenize import word_tokenize
+from pythainlp.corpus import _CORPUS_PATH, thai_words
+from pythainlp.corpus.common import _THAI_WORDS_FILENAME
+from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE, word_tokenize
 from pythainlp.util import (
+    Trie,
     arabic_digit_to_thai_digit,
     bahttext,
     collate,
     countthai,
     delete_tone,
+    dict_trie,
     digit_to_text,
     eng_to_thai,
     find_keyword,
@@ -26,13 +31,13 @@ from pythainlp.util import (
     reign_year_to_ad,
     text_to_arabic_digit,
     text_to_thai_digit,
+    thai_day2datetime,
     thai_digit_to_arabic_digit,
     thai_strftime,
     thai_time,
+    thai_time2time,
     thai_to_eng,
     thaiword_to_num,
-    thai_time2time,
-    thai_day2datetime,
 )
 
 
@@ -239,6 +244,20 @@ class TestUtilPackage(unittest.TestCase):
 
         with self.assertRaises(NotImplementedError):
             thai_time("8:17", fmt="xx")
+
+    def test_trie(self):
+        self.assertIsNotNone(Trie([]))
+        self.assertIsNotNone(Trie(["ทดสอบ", "ทด", "ทอด", "ทอผ้า"]))
+
+        self.assertIsNotNone(dict_trie(()))
+        self.assertIsNotNone(dict_trie(("ทดสอบ", "สร้าง", "Trie")))
+        self.assertIsNotNone(dict_trie(["ทดสอบ", "สร้าง", "Trie"]))
+        self.assertIsNotNone(dict_trie({"ทดสอบ", "สร้าง", "Trie"}))
+        self.assertIsNotNone(dict_trie(thai_words()))
+        self.assertIsNotNone(dict_trie(DEFAULT_WORD_DICT_TRIE))
+        self.assertIsNotNone(
+            dict_trie(os.path.join(_CORPUS_PATH, _THAI_WORDS_FILENAME))
+        )
 
     # ### pythainlp.util.normalize
 

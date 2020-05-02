@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import os
 import unittest
 
-from pythainlp.corpus import _CORPUS_PATH, thai_words
-from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE, Tokenizer, attacut
 from pythainlp.tokenize import deepcut as tokenize_deepcut
 from pythainlp.tokenize import etcc, longest, multi_cut, newmm
@@ -75,16 +72,6 @@ class TestTokenizePackage(unittest.TestCase):
             ValueError,
             lambda: word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX"),
         )  # XX engine does not exist.
-
-        self.assertIsNotNone(dict_trie(()))
-        self.assertIsNotNone(dict_trie(("ทดสอบ", "สร้าง", "Trie")))
-        self.assertIsNotNone(dict_trie(["ทดสอบ", "สร้าง", "Trie"]))
-        self.assertIsNotNone(dict_trie({"ทดสอบ", "สร้าง", "Trie"}))
-        self.assertIsNotNone(dict_trie(thai_words()))
-        self.assertIsNotNone(dict_trie(DEFAULT_WORD_DICT_TRIE))
-        self.assertIsNotNone(
-            dict_trie(os.path.join(_CORPUS_PATH, _THAI_WORDS_FILENAME))
-        )
 
         self.assertTrue(
             "ไฟ" in word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"]))

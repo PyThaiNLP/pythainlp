@@ -263,23 +263,23 @@ class TestTokenizePackage(unittest.TestCase):
             ["วันนี้ฉันกินข้าว และโดดเรียน"],
         )
         self.assertEqual(
-            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า", engine="crfcut"),
-            ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
+            sent_tokenize("ฉันไปโรงเรียน เธอไปโรงพยาบาล", engine="crfcut"),
+            ['ฉันไปโรงเรียน ', 'เธอไปโรงพยาบาล'],
         )
         self.assertEqual(
-            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า", engine=""),
-            ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
+            sent_tokenize("ฉันไปโรงเรียน เธอไปโรงพยาบาล", engine=""),
+            ['ฉันไปโรงเรียน ', 'เธอไปโรงพยาบาล'],
         )
         self.assertEqual(
             sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน"),
             ["วันนี้ฉันกินข้าว และโดดเรียน"],
         )
         self.assertEqual(
-            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า"),
-            ["น้ำพึ่งเรือ ", "แต่เสือพึ่งป่า"],
+            sent_tokenize("ฉันไปโรงเรียน เธอไปโรงพยาบาล"),
+            ['ฉันไปโรงเรียน ', 'เธอไปโรงพยาบาล'],
         )
         self.assertIsNotNone(
-            sent_tokenize("น้ำพึ่งเรือ แต่เสือพึ่งป่า", 
+            sent_tokenize("ฉันไปโรงเรียน เธอไปโรงพยาบาล", 
             keep_whitespace = False,
             engine = "whitespace"),
         )

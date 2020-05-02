@@ -368,7 +368,7 @@ def syllable_tokenize(
         for word in words:
             segments.extend(
                 word_tokenize(
-                    text=word, custom_dict=get_default_syllable_dict_trie()
+                    text=word, custom_dict=DEFAULT_SYLLABLE_DICT_TRIE
                 )
             )
     elif engine == "ssg":
@@ -474,7 +474,7 @@ class Tokenizer:
         if custom_dict:
             self.__trie_dict = dict_trie(custom_dict)
         else:
-            self.__trie_dict = get_default_word_dict_trie()
+            self.__trie_dict = DEFAULT_WORD_DICT_TRIE
         self.__engine = engine
         self.__keep_whitespace = keep_whitespace
 

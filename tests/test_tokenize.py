@@ -241,11 +241,7 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertEqual(
             sent_tokenize("ฉันไปโรงเรียน เธอไปโรงพยาบาล", engine="crfcut"),
-            ['ฉันไปโรงเรียน ', 'เธอไปโรงพยาบาล'],
-        )
-        self.assertEqual(
-            sent_tokenize("ฉันไปโรงเรียน เธอไปโรงพยาบาล", engine=""),
-            ['ฉันไปโรงเรียน ', 'เธอไปโรงพยาบาล'],
+            ["ฉันไปโรงเรียน ", "เธอไปโรงพยาบาล"],
         )
         self.assertEqual(
             sent_tokenize("วันนี้ฉันกินข้าว และโดดเรียน"),
@@ -253,12 +249,14 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertEqual(
             sent_tokenize("ฉันไปโรงเรียน เธอไปโรงพยาบาล"),
-            ['ฉันไปโรงเรียน ', 'เธอไปโรงพยาบาล'],
+            ["ฉันไปโรงเรียน ", "เธอไปโรงพยาบาล"],
         )
         self.assertIsNotNone(
-            sent_tokenize("ฉันไปโรงเรียน เธอไปโรงพยาบาล", 
-            keep_whitespace = False,
-            engine = "whitespace"),
+            sent_tokenize(
+                "ฉันไปโรงเรียน เธอไปโรงพยาบาล",
+                keep_whitespace=False,
+                engine="whitespace",
+            ),
         )
 
     def test_ssg_tokenize(self):

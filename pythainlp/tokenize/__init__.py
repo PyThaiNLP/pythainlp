@@ -24,6 +24,7 @@ from pythainlp.tokenize.tokenize import (
 
 __all__ = [
     "Tokenizer",
+    "Trie",
     "sent_tokenize",
     "subword_tokenize",
     "syllable_tokenize",

@@ -1,7 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-Thai tokenizers
+Tokenizers at different level of linguistic analysis.
 """
+
+__all__ = [
+    "Tokenizer",
+    "Trie",
+    "sent_tokenize",
+    "subword_tokenize",
+    "syllable_tokenize",
+    "word_tokenize",
+]
+
 from pythainlp.corpus import thai_syllables, thai_words
 from pythainlp.util.trie import Trie
 
@@ -21,12 +31,3 @@ from pythainlp.tokenize.tokenize import (
     syllable_tokenize,
     word_tokenize,
 )
-
-__all__ = [
-    "Tokenizer",
-    "Trie",
-    "sent_tokenize",
-    "subword_tokenize",
-    "syllable_tokenize",
-    "word_tokenize",
-]

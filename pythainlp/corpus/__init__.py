@@ -5,6 +5,26 @@ Corpus related functions.
 Access to dictionaries, word lists, and language models.
 Including download manager.
 """
+
+__all__ = [
+    "corpus_path",
+    "corpus_db_path",
+    "corpus_db_url",
+    "countries",
+    "download",
+    "get_corpus",
+    "get_corpus_path",
+    "provinces",
+    "remove",
+    "thai_female_names",
+    "thai_male_names",
+    "thai_negations",
+    "thai_stopwords",
+    "thai_syllables",
+    "thai_words",
+    "get_corpus_db_detail",
+]
+
 import os
 from tinydb import TinyDB
 
@@ -58,22 +78,3 @@ from pythainlp.corpus.common import (
     thai_syllables,
     thai_words,
 )
-
-__all__ = [
-    "corpus_path",
-    "corpus_db_path",
-    "corpus_db_url",
-    "countries",
-    "download",
-    "get_corpus",
-    "get_corpus_path",
-    "provinces",
-    "remove",
-    "thai_female_names",
-    "thai_male_names",
-    "thai_negations",
-    "thai_stopwords",
-    "thai_syllables",
-    "thai_words",
-    "get_corpus_db_detail",
-]

@@ -150,25 +150,26 @@ class ThaiNameTagger:
         self.__x_test = self.__extract_features(self.__pos_tags)
         self.__y = self.crf.predict_single(self.__x_test)
 
-        self.sent_ner = [(self.__pos_tags[i][0], data)
-                         for i, data in enumerate(self.__y)]
+        self.sent_ner = [
+            (self.__pos_tags[i][0], data) for i, data in enumerate(self.__y)
+        ]
         if tag:
             self.temp = ""
             self.sent = ""
             for idx, (word, ner) in enumerate(self.sent_ner):
                 if "B-" in ner and self.temp != "":
-                    self.sent += "</"+self.temp+">"
+                    self.sent += "</" + self.temp + ">"
                     self.temp = ner.replace("B-", "")
-                    self.sent += "<"+self.temp+">"
+                    self.sent += "<" + self.temp + ">"
                 elif "B-" in ner:
                     self.temp = ner.replace("B-", "")
-                    self.sent += "<"+self.temp+">"
+                    self.sent += "<" + self.temp + ">"
                 elif "O" == ner and self.temp != "":
-                    self.sent += "</"+self.temp+">"
+                    self.sent += "</" + self.temp + ">"
                     self.temp = ""
                 self.sent += word
-                if idx == len(self.sent_ner)-1 and self.temp != "":
-                    self.sent += "</"+self.temp+">"
+                if idx == len(self.sent_ner) - 1 and self.temp != "":
+                    self.sent += "</" + self.temp + ">"
             return self.sent
         elif pos:
             return [

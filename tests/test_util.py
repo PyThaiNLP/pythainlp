@@ -257,10 +257,12 @@ class TestUtilPackage(unittest.TestCase):
         self.assertIsNotNone(
             dict_trie(os.path.join(_CORPUS_PATH, _THAI_WORDS_FILENAME))
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             dict_trie("")
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             dict_trie(None)
+        with self.assertRaises(TypeError):
+            dict_trie(42)
 
     # ### pythainlp.util.normalize
 

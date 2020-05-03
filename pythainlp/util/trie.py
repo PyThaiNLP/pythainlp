@@ -59,7 +59,7 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     """
     trie = None
 
-    if isinstance(dict_source, str) and not dict_source:
+    if isinstance(dict_source, str) and len(dict_source) > 0:
         # dict_source is a path to dictionary text file
         with open(dict_source, "r", encoding="utf8") as f:
             _vocabs = f.read().splitlines()

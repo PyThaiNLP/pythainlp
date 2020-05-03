@@ -71,7 +71,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertRaises(
             ValueError,
             lambda: word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX"),
-        )  # XX engine does not exist.
+        )  # XX engine does not exist
 
         self.assertTrue(
             "ไฟ" in word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"]))
@@ -121,6 +121,8 @@ class TestTokenizePackage(unittest.TestCase):
     def test_word_tokenize_mm(self):
         self.assertEqual(multi_cut.segment(None), [])
         self.assertEqual(multi_cut.segment(""), [])
+        self.assertIsNotNone(multi_cut.segment("ตัด", dict_trie([""])))
+
         self.assertEqual(word_tokenize("", engine="mm"), [])
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="mm"),
@@ -258,6 +260,10 @@ class TestTokenizePackage(unittest.TestCase):
                 engine="whitespace",
             ),
         )
+        self.assertRaises(
+            ValueError,
+            lambda: sent_tokenize("กินข้าว กินปลา", engine="XX"),
+        )  # XX engine does not exist
 
     def test_ssg_tokenize(self):
         self.assertEqual(ssg_segment(None), [])
@@ -286,8 +292,12 @@ class TestTokenizePackage(unittest.TestCase):
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="etcc")
         )
         self.assertIsInstance(
-            subword_tokenize("เบียร์สิงห์", engine="etcc"), list
+            subword_tokenize("โควิด19", engine="etcc"), list
         )
+        self.assertRaises(
+            ValueError,
+            lambda: subword_tokenize("นกแก้ว", engine="XX"),
+        )  # XX engine does not exist
 
     def test_syllable_tokenize(self):
         self.assertEqual(syllable_tokenize(None), [])
@@ -308,6 +318,10 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertFalse(
             "า" in syllable_tokenize("สวัสดีดาวอังคาร", engine="ssg")
         )
+        self.assertRaises(
+            ValueError,
+            lambda: syllable_tokenize("กรอเทป", engine="XX"),
+        )  # XX engine does not exist
 
     def test_tcc(self):
         self.assertEqual(tcc.segment(None), [])

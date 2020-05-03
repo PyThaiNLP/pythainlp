@@ -15,7 +15,7 @@ class Trie:
             self.end = False
             self.children = {}
 
-    def __init__(self, words: Union[Iterable[str], Trie]):
+    def __init__(self, words: Iterable[str]):
         self.words = words
         self.root = Trie.Node()
 
@@ -59,17 +59,16 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     """
     trie = None
 
-    if isinstance(dict_source, Iterable) or isinstance(dict_source, Trie):
-        # Note: Since Trie and str are both Iterable,
-        # so the Iterable check should be here, at the very end,
-        # because it has less specificality
-        # Received a sequence type object of vocabs
-        trie = Trie(dict_source)
-    elif isinstance(dict_source, str) and not dict_source:
-        # Receive a file path of the dict to read
+    if isinstance(dict_source, str) and not dict_source:
+        # dict_source is a path to dictionary text file
         with open(dict_source, "r", encoding="utf8") as f:
             _vocabs = f.read().splitlines()
             trie = Trie(_vocabs)
+    elif isinstance(dict_source, Iterable):
+        # Note: Since Trie and str are both Iterable,
+        # so the Iterable check should be here, at the very end,
+        # because it has less specificality
+        trie = Trie(dict_source)
     else:
         raise TypeError(
             "Type of dict_source must be pythainlp.util.Trie, "

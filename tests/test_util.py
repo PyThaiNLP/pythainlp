@@ -245,7 +245,9 @@ class TestUtilPackage(unittest.TestCase):
     def test_trie(self):
         self.assertIsNotNone(Trie([]))
         self.assertIsNotNone(Trie(["ทดสอบ", "ทด", "ทอด", "ทอผ้า"]))
-        self.assertIsNotNone(Trie(Trie({"ทอด", "ทอง", "ทาง"})))
+        self.assertIsNotNone(Trie({"ทอด", "ทอง", "ทาง"}))
+        self.assertIsNotNone(Trie(("ทอด", "ทอง", "ทาง")))
+        self.assertIsNotNone(Trie(Trie(["ทดสอบ", "ทดลอง"])))
 
         self.assertIsNotNone(dict_trie(Trie(["ลอง", "ลาก"])))
         self.assertIsNotNone(dict_trie(("ลอง", "สร้าง", "Trie", "ลน")))

@@ -64,7 +64,7 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
         with open(dict_source, "r", encoding="utf8") as f:
             _vocabs = f.read().splitlines()
             trie = Trie(_vocabs)
-    elif isinstance(dict_source, Iterable):
+    elif isinstance(dict_source, Iterable) and not isinstance(dict_source, str):
         # Note: Since Trie and str are both Iterable,
         # so the Iterable check should be here, at the very end,
         # because it has less specificality

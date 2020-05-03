@@ -162,6 +162,9 @@ class TestTokenizePackage(unittest.TestCase):
             ),
             ["จุ๋ม", "ง่วง"],
         )
+        self.assertFalse(
+            " " in word_tokenize("จุ๋มง่วง", keep_whitespace=False,)
+        )
 
         long_text = """
     ไต้หวัน (แป่ะเอ๋ยี้: Tâi-oân; ไต่อวัน) หรือ ไถวาน (อักษรโรมัน: Taiwan; จีนตัวย่อ: 台湾; จีนตัวเต็ม: 臺灣/台灣; พินอิน: Táiwān; ไถวาน) หรือชื่อทางการว่า สาธารณรัฐจีน (อังกฤษ: Republic of China; จีนตัวย่อ: 中华民国; จีนตัวเต็ม: 中華民國; พินอิน: Zhōnghuá Mínguó) เป็นรัฐในทวีปเอเชียตะวันออก[7][8][9] ปัจจุบันประกอบด้วยเกาะใหญ่ 5 แห่ง คือ จินเหมิน (金門), ไต้หวัน, เผิงหู (澎湖), หมาจู่ (馬祖), และอูชิว (烏坵) กับทั้งเกาะเล็กเกาะน้อยอีกจำนวนหนึ่ง ท้องที่ดังกล่าวเรียกรวมกันว่า "พื้นที่ไต้หวัน" (臺灣地區)
@@ -258,6 +261,14 @@ class TestTokenizePackage(unittest.TestCase):
                 engine="whitespace",
             ),
         )
+        self.assertFalse(
+            " "
+            in sent_tokenize(
+                "ฉันไปโรงเรียน เธอไปโรงพยาบาล",
+                engine="whitespace",
+                keep_whitespace=False,
+            )
+        )
         with self.assertRaises(ValueError):
             sent_tokenize("ฉันไป กิน", engine="XX")  # engine does not exist
 
@@ -286,6 +297,9 @@ class TestTokenizePackage(unittest.TestCase):
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="etcc")
         )
         self.assertIsInstance(subword_tokenize("โควิด19", engine="etcc"), list)
+        self.assertFalse(
+            " " in subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
+        )
         with self.assertRaises(ValueError):
             subword_tokenize("นกแก้ว", engine="XX")  # engine does not exist
 
@@ -306,6 +320,9 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertFalse(
             "า" in syllable_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
+        self.assertFalse(
+            " " in syllable_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
         )
         with self.assertRaises(ValueError):
             syllable_tokenize("กรอเทป", engine="XX")  # engine does not exist

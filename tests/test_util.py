@@ -9,7 +9,6 @@ from collections import Counter
 
 from pythainlp.corpus import _CORPUS_PATH, thai_words
 from pythainlp.corpus.common import _THAI_WORDS_FILENAME
-from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE, word_tokenize
 from pythainlp.util import (
     Trie,
     arabic_digit_to_thai_digit,
@@ -129,10 +128,8 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_to_eng("๋นีพืฟสรหท"), "Journalism")
 
     def test_keywords(self):
-        word_list = word_tokenize(
-            "แมวกินปลาอร่อยรู้ไหมว่าแมวเป็นแมวรู้ไหมนะแมว", engine="newmm"
-        )
-        self.assertEqual(find_keyword(word_list), {"แมว": 4})
+        word_list = ["แมว", "กิน", "ปลา", "อร่อย", "แมว", "เป็น", "แมว"]
+        self.assertEqual(find_keyword(word_list), {"แมว": 3})
 
     def test_rank(self):
         self.assertEqual(rank([]), None)
@@ -248,16 +245,20 @@ class TestUtilPackage(unittest.TestCase):
     def test_trie(self):
         self.assertIsNotNone(Trie([]))
         self.assertIsNotNone(Trie(["ทดสอบ", "ทด", "ทอด", "ทอผ้า"]))
+        self.assertIsNotNone(Trie(Trie({"ทอด", "ทอง", "ทาง"})))
 
-        self.assertIsNotNone(dict_trie(()))
-        self.assertIsNotNone(dict_trie(("ทดสอบ", "สร้าง", "Trie")))
-        self.assertIsNotNone(dict_trie(["ทดสอบ", "สร้าง", "Trie"]))
-        self.assertIsNotNone(dict_trie({"ทดสอบ", "สร้าง", "Trie"}))
+        self.assertIsNotNone(dict_trie(Trie(["ลอง", "ลาก"])))
+        self.assertIsNotNone(dict_trie(("ลอง", "สร้าง", "Trie", "ลน")))
+        self.assertIsNotNone(dict_trie(["ลอง", "สร้าง", "Trie", "ลน"]))
+        self.assertIsNotNone(dict_trie({"ลอง", "สร้าง", "Trie", "ลน"}))
         self.assertIsNotNone(dict_trie(thai_words()))
-        self.assertIsNotNone(dict_trie(DEFAULT_WORD_DICT_TRIE))
         self.assertIsNotNone(
             dict_trie(os.path.join(_CORPUS_PATH, _THAI_WORDS_FILENAME))
         )
+        with self.assertRaises(ValueError):
+            dict_trie("")
+        with self.assertRaises(ValueError):
+            dict_trie(None)
 
     # ### pythainlp.util.normalize
 

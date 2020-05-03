@@ -29,7 +29,7 @@ def word_tokenize(
 
     :param str text: text to be tokenized
     :param str engine: name of the tokenizer to be used
-    :param pythainlp.tokenize.Trie custom_dict: dictionary trie
+    :param pythainlp.util.Trie custom_dict: dictionary trie
     :param bool keep_whitespace: True to keep whitespaces, a common mark
                                  for end of phrase in Thai.
                                  Otherwise, whitespaces are omitted.
@@ -399,7 +399,7 @@ class Tokenizer:
 
     :Example:
 
-    Tokenizer object instantiated with :class:`pythainlp.tokenize.Trie`::
+    Tokenizer object instantiated with :class:`pythainlp.util.Trie`::
 
         from pythainlp.tokenize import Tokenizer
         from pythainlp.tokenize import Tokenizer, dict_trie
@@ -464,7 +464,7 @@ class Tokenizer:
 
         :param str custom_dict: a file path, a list of vocaburaies* to be
                     used to create a trie, or an instantiated
-                    :class:`pythainlp.tokenize.Trie` object.
+                    :class:`pythainlp.util.Trie` object.
         :param str engine: choose between different options of engine to token
                            (i.e.  *newmm*, *longest*, *attacut*)
         :param bool keep_whitespace: True to keep whitespaces, a common mark

@@ -15,7 +15,7 @@ class Trie:
             self.end = False
             self.children = {}
 
-    def __init__(self, words: Iterable[str]):
+    def __init__(self, words: Union[Iterable[str], Trie]):
         self.words = words
         self.root = Trie.Node()
 
@@ -52,30 +52,28 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     """
     Create a dictionary trie from a string or an iterable.
 
-    :param str|Iterable[str]|pythainlp.tokenize.Trie dict_source: a path to
-        dictionary file or a list of words or a pythainlp.tokenize.Trie object
+    :param str|Iterable[str]|pythainlp.util.Trie dict_source: a path to
+        dictionary file or a list of words or a pythainlp.util.Trie object
     :return: a trie object created from a dictionary input
-    :rtype: pythainlp.tokenize.Trie
+    :rtype: pythainlp.util.Trie
     """
     trie = None
 
-    if isinstance(dict_source, Trie):
-        trie = dict_source
-    elif isinstance(dict_source, str):
-        # Receive a file path of the dict to read
-        with open(dict_source, "r", encoding="utf8") as f:
-            _vocabs = f.read().splitlines()
-            trie = Trie(_vocabs)
-    elif isinstance(dict_source, Iterable):
+    if isinstance(dict_source, Iterable) or isinstance(dict_source, Trie):
         # Note: Since Trie and str are both Iterable,
         # so the Iterable check should be here, at the very end,
         # because it has less specificality
         # Received a sequence type object of vocabs
         trie = Trie(dict_source)
+    elif isinstance(dict_source, str) and not dict_source:
+        # Receive a file path of the dict to read
+        with open(dict_source, "r", encoding="utf8") as f:
+            _vocabs = f.read().splitlines()
+            trie = Trie(_vocabs)
     else:
         raise TypeError(
-            "Type of dict_source must be pythainlp.tokenize.Trie, "
-            "or Iterable[str], or str (path to source file)"
+            "Type of dict_source must be pythainlp.util.Trie, "
+            "or Iterable[str], or non-empty str (path to source file)"
         )
 
     return trie

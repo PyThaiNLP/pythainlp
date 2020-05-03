@@ -68,10 +68,8 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(
             word_tokenize("หมอนทองตากลมหูว์MBK39", engine="attacut")
         )
-        self.assertRaises(
-            ValueError,
-            lambda: word_tokenize("หมอนทองตากลมหูว์MBK39", engine="XX"),
-        )  # XX engine does not exist
+        with self.assertRaises(ValueError):
+            word_tokenize("หมอนทอง", engine="XX")  # engine does not exist
 
         self.assertTrue(
             "ไฟ" in word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"]))
@@ -260,10 +258,8 @@ class TestTokenizePackage(unittest.TestCase):
                 engine="whitespace",
             ),
         )
-        self.assertRaises(
-            ValueError,
-            lambda: sent_tokenize("กินข้าว กินปลา", engine="XX"),
-        )  # XX engine does not exist
+        with self.assertRaises(ValueError):
+            sent_tokenize("ฉันไป กิน", engine="XX")  # engine does not exist
 
     def test_ssg_tokenize(self):
         self.assertEqual(ssg_segment(None), [])
@@ -275,14 +271,12 @@ class TestTokenizePackage(unittest.TestCase):
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])
         self.assertEqual(subword_tokenize(""), [])
-
         self.assertIsInstance(
             subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"), list
         )
         self.assertFalse(
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tcc")
         )
-
         self.assertEqual(subword_tokenize(None, engine="etcc"), [])
         self.assertEqual(subword_tokenize("", engine="etcc"), [])
         self.assertIsInstance(
@@ -291,13 +285,9 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertFalse(
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="etcc")
         )
-        self.assertIsInstance(
-            subword_tokenize("โควิด19", engine="etcc"), list
-        )
-        self.assertRaises(
-            ValueError,
-            lambda: subword_tokenize("นกแก้ว", engine="XX"),
-        )  # XX engine does not exist
+        self.assertIsInstance(subword_tokenize("โควิด19", engine="etcc"), list)
+        with self.assertRaises(ValueError):
+            subword_tokenize("นกแก้ว", engine="XX")  # engine does not exist
 
     def test_syllable_tokenize(self):
         self.assertEqual(syllable_tokenize(None), [])
@@ -306,7 +296,6 @@ class TestTokenizePackage(unittest.TestCase):
             syllable_tokenize("สวัสดีชาวโลก"), ["สวัส", "ดี", "ชาว", "โลก"]
         )
         self.assertFalse("า" in syllable_tokenize("สวัสดีชาวโลก"))
-
         self.assertEqual(syllable_tokenize(None, engine="ssg"), [])
         self.assertEqual(syllable_tokenize("", engine="ssg"), [])
         self.assertEqual(
@@ -318,10 +307,8 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertFalse(
             "า" in syllable_tokenize("สวัสดีดาวอังคาร", engine="ssg")
         )
-        self.assertRaises(
-            ValueError,
-            lambda: syllable_tokenize("กรอเทป", engine="XX"),
-        )  # XX engine does not exist
+        with self.assertRaises(ValueError):
+            syllable_tokenize("กรอเทป", engine="XX")  # engine does not exist
 
     def test_tcc(self):
         self.assertEqual(tcc.segment(None), [])
@@ -329,6 +316,5 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             tcc.segment("ประเทศไทย"), ["ป", "ระ", "เท", "ศ", "ไท", "ย"]
         )
-
         self.assertEqual(list(tcc.tcc("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())

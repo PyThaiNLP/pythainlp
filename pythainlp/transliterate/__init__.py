@@ -8,4 +8,4 @@ __all__ = [
     "transliterate",
 ]
 
-from .transliterate import romanize, transliterate
+from pythainlp.transliterate.core import romanize, transliterate

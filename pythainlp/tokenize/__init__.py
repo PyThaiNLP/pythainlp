@@ -24,7 +24,7 @@ DEFAULT_WORD_DICT_TRIE = Trie(thai_words())
 DEFAULT_SYLLABLE_DICT_TRIE = Trie(thai_syllables())
 DEFAULT_DICT_TRIE = DEFAULT_WORD_DICT_TRIE
 
-from pythainlp.tokenize.tokenize import (
+from pythainlp.tokenize.core import (
     Tokenizer,
     sent_tokenize,
     subword_tokenize,

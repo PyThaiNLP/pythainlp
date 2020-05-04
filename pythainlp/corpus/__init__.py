@@ -61,7 +61,7 @@ def corpus_db_path() -> str:
     return _CORPUS_DB_PATH
 
 
-from pythainlp.corpus.corpus import (
+from pythainlp.corpus.core import (
     download,
     get_corpus,
     get_corpus_db_detail,

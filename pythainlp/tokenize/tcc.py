@@ -13,7 +13,7 @@ Credits:
 import re
 from typing import List, Set
 
-RE_TCC = (
+_RE_TCC = (
     """\
 เc็c
 เcctาะ
@@ -46,7 +46,7 @@ ct[ะาำ]?
     .split()
 )
 
-PAT_TCC = re.compile("|".join(RE_TCC))
+_PAT_TCC = re.compile("|".join(_RE_TCC))
 
 
 def tcc(text: str) -> str:
@@ -54,7 +54,7 @@ def tcc(text: str) -> str:
     TCC generator, generates Thai Character Clusters
 
     :param str text: text to be tokenized to character clusters
-    :return: subword (character cluster)
+    :return: subwords (character clusters)
     :rtype: Iterator[str]
     """
     if not text or not isinstance(text, str):
@@ -62,7 +62,7 @@ def tcc(text: str) -> str:
 
     p = 0
     while p < len(text):
-        m = PAT_TCC.match(text[p:])
+        m = _PAT_TCC.match(text[p:])
         if m:
             n = m.span()[1]
         else:

@@ -3,16 +3,20 @@
 Unit tests for pythainlp.util module.
 """
 import datetime
+import os
 import unittest
 from collections import Counter
 
-from pythainlp.tokenize import word_tokenize
+from pythainlp.corpus import _CORPUS_PATH, thai_words
+from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 from pythainlp.util import (
+    Trie,
     arabic_digit_to_thai_digit,
     bahttext,
     collate,
     countthai,
     delete_tone,
+    dict_trie,
     digit_to_text,
     eng_to_thai,
     find_keyword,
@@ -26,13 +30,13 @@ from pythainlp.util import (
     reign_year_to_ad,
     text_to_arabic_digit,
     text_to_thai_digit,
+    thai_day2datetime,
     thai_digit_to_arabic_digit,
     thai_strftime,
     thai_time,
+    thai_time2time,
     thai_to_eng,
     thaiword_to_num,
-    thai_time2time,
-    thai_day2datetime,
 )
 
 
@@ -124,10 +128,8 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_to_eng("๋นีพืฟสรหท"), "Journalism")
 
     def test_keywords(self):
-        word_list = word_tokenize(
-            "แมวกินปลาอร่อยรู้ไหมว่าแมวเป็นแมวรู้ไหมนะแมว", engine="newmm"
-        )
-        self.assertEqual(find_keyword(word_list), {"แมว": 4})
+        word_list = ["แมว", "กิน", "ปลา", "อร่อย", "แมว", "เป็น", "แมว"]
+        self.assertEqual(find_keyword(word_list), {"แมว": 3})
 
     def test_rank(self):
         self.assertEqual(rank([]), None)
@@ -239,6 +241,28 @@ class TestUtilPackage(unittest.TestCase):
 
         with self.assertRaises(NotImplementedError):
             thai_time("8:17", fmt="xx")
+
+    def test_trie(self):
+        self.assertIsNotNone(Trie([]))
+        self.assertIsNotNone(Trie(["ทดสอบ", "ทด", "ทอด", "ทอผ้า"]))
+        self.assertIsNotNone(Trie({"ทอด", "ทอง", "ทาง"}))
+        self.assertIsNotNone(Trie(("ทอด", "ทอง", "ทาง")))
+        self.assertIsNotNone(Trie(Trie(["ทดสอบ", "ทดลอง"])))
+
+        self.assertIsNotNone(dict_trie(Trie(["ลอง", "ลาก"])))
+        self.assertIsNotNone(dict_trie(("ลอง", "สร้าง", "Trie", "ลน")))
+        self.assertIsNotNone(dict_trie(["ลอง", "สร้าง", "Trie", "ลน"]))
+        self.assertIsNotNone(dict_trie({"ลอง", "สร้าง", "Trie", "ลน"}))
+        self.assertIsNotNone(dict_trie(thai_words()))
+        self.assertIsNotNone(
+            dict_trie(os.path.join(_CORPUS_PATH, _THAI_WORDS_FILENAME))
+        )
+        with self.assertRaises(TypeError):
+            dict_trie("")
+        with self.assertRaises(TypeError):
+            dict_trie(None)
+        with self.assertRaises(TypeError):
+            dict_trie(42)
 
     # ### pythainlp.util.normalize
 

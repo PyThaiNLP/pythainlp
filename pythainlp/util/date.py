@@ -10,8 +10,6 @@ Note: Does not take into account the change of new year's day in Thailand
 # AH ปีฮิจเราะห์ศักราชเป็นปีพุทธศักราช จะต้องบวกด้วย 1122
 # ไม่ได้รองรับปี พ.ศ. ก่อนการเปลี่ยนวันขึ้นปีใหม่ของประเทศไทย
 
-import datetime
-
 __all__ = [
     "thai_abbr_months",
     "thai_abbr_weekdays",
@@ -20,6 +18,8 @@ __all__ = [
     "thai_strftime",
     "thai_day2datetime",
 ]
+
+import datetime
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
 thai_full_weekdays = [

@@ -52,10 +52,10 @@ class TestUlmfitPackage(unittest.TestCase):
     def test_post_rules_th(self):
         self.assertIsNotNone(post_rules_th)
 
-    def test_pre_rules_th(self):
+    def test_pre_rules_th_sparse(self):
         self.assertIsNotNone(pre_rules_th_sparse)
 
-    def test_post_rules_th(self):
+    def test_post_rules_th_sparse(self):
         self.assertIsNotNone(post_rules_th_sparse)
 
     def test_fix_html(self):

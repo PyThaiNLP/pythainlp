@@ -7,6 +7,6 @@ __all__ = [
     "summarize",
 ]
 
-DEFAULT_SUMMARIZE_ENGINE = "freq"
+DEFAULT_SUMMARIZE_ENGINE = "frequency"
 
 from pythainlp.summarize.core import summarize

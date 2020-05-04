@@ -16,18 +16,19 @@ class Trie:
             self.children = {}
 
     def __init__(self, words: Iterable[str]):
-        self.words = words
+        self.words = set(words)
         self.root = Trie.Node()
 
         for word in words:
-            self.add_word(word)
+            self.add(word)
 
-    def add_word(self, word: str) -> None:
+    def add(self, word: str) -> None:
         """
         Add a word to the trie.
 
         :param str text: a word
         """
+        self.words.add(word)
         cur = self.root
         for ch in word:
             child = cur.children.get(ch)
@@ -61,6 +62,9 @@ class Trie:
 
     def __iter__(self) -> Iterable[str]:
         yield from self.words
+
+    def __len__(self) -> int:
+        return len(self.words)
 
 
 def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:

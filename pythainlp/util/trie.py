@@ -14,7 +14,7 @@ class Trie:
         def __init__(self):
             self.end = False
             self.children = {}
-        
+
         def add(self, word: str):
             cur = self
             for ch in word:
@@ -33,6 +33,13 @@ class Trie:
             self.root.add(word)
 
     def prefixes(self, text: str) -> List[str]:
+        """
+        List all possible words from first sequence of characters in a word.
+        
+        :param str text: a word
+        :return: a list of possible words
+        :rtype: List[str]
+        """
         res = []
         cur = self.root
         for i, ch in enumerate(text):

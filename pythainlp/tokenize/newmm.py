@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Dictionary-based Thai Word Segmentation
-using maximal matching algorithm and Thai Character Cluster (TCC).
+Dictionary-based maximal matching word segmentation, constrained with
+Thai Character Cluster (TCC) boundaries.
 
-The code is based on the notebooks created by Korakot Chaovavanich.
+The code is based on the notebooks created by Korakot Chaovavanich,
+with heuristic graph size limit added to avoid exponential wait time.
 
 :See Also:
     * \

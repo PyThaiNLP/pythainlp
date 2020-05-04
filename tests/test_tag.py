@@ -76,6 +76,14 @@ class TestTagPackage(unittest.TestCase):
                 จังหวัดหนองคาย 43000"""
             )
         )
+        self.assertIsNotNone(
+            ner.get_ner(
+                """คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ มหาวิทยาลัยขอนแก่น
+                วิทยาเขตหนองคาย 112 หมู่ 7 บ้านหนองเดิ่น ตำบลหนองกอมเกาะ อำเภอเมือง
+                จังหวัดหนองคาย 43000""",
+                tag=True
+            )
+        )
 
         # arguement `tag` is True
         self.assertEqual(

@@ -81,6 +81,40 @@ coverage html
 Make sure the same tests pass on Travis CI and AppVeyor.
 
 
+## Releasing
+- We use [semantic versioning](https://semver.org/): MAJOR.MINOR.PATCH, with development build suffix: MAJOR.MINOR.PATCH-devBUILD
+- Use [`bumpversion`](https://pypi.org/project/bumpversion/) to manage versioning.
+  - `bumpversion [major|minor|patch|release|build]`
+  - Example:
+  ```
+  #current_version = 2.2.2-dev0
+
+  bumpversion build
+  #current_version = 2.2.2-dev1
+
+  bumpversion build
+  #current_version = 2.2.2-dev2
+
+  bumpversion release
+  #current_version = 2.2.2
+
+  bumpversion patch
+  #current_version = 2.2.3-dev0
+
+  bumpversion minor
+  #current_version = 2.3.0-dev0
+
+  bumpversion build
+  #current_version = 2.3.0-dev1
+
+  bumpversion major
+  #current_version = 3.0.0-dev0
+
+  bumpversion release
+  #current_version = 3.0.0
+  ```
+
+
 ## Credits
 
 <a href="https://github.com/PyThaiNLP/pythainlp/graphs/contributors">
@@ -94,9 +128,9 @@ Thanks all the [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/cont
 - Korakot Chaovavanich - initial tokenization and soundex code
 - Charin Polpanumas - classification and benchmarking
 - Peeradej Tanruangporn - documentation
-- Arthit Suriyawongkul - packaging, distribution and maintainance 
+- Arthit Suriyawongkul - refactoring, packaging, distribution, and maintainance 
 - Chakri Lowphansirikul - documentation
-- Pattarawat Chormaikul - benchmarking
+- Pattarawat Chormai - benchmarking
 
 ### Maintainers
 - Arthit Suriyawongkul

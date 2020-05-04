@@ -5,13 +5,15 @@ Thai National Corpus word frequency
 Credit: Korakot Chaovavanich‎
 https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
 """
+
+__all__ = ["word_freqs"]
+
 from typing import List, Tuple
 
 from pythainlp.corpus import get_corpus
 
-__all__ = ["word_freqs"]
-
 _FILENAME = "tnc_freq.txt"
+
 
 def word_freqs() -> List[Tuple[str, int]]:
     """

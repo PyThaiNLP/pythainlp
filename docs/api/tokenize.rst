@@ -12,7 +12,6 @@ Modules
 .. autofunction:: word_tokenize
 .. autofunction:: syllable_tokenize
 .. autofunction:: subword_tokenize
-.. autofunction:: dict_trie
 .. autoclass:: Tokenizer
    :members:
 

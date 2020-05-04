@@ -3,17 +3,20 @@
 Unit tests for pythainlp.util module.
 """
 import datetime
+import os
 import unittest
 from collections import Counter
 
-from pythainlp.tokenize import word_tokenize
+from pythainlp.corpus import _CORPUS_PATH, thai_words
+from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 from pythainlp.util import (
+    Trie,
     arabic_digit_to_thai_digit,
     bahttext,
     collate,
     countthai,
     delete_tone,
-    deletetone,
+    dict_trie,
     digit_to_text,
     eng_to_thai,
     find_keyword,
@@ -27,14 +30,13 @@ from pythainlp.util import (
     reign_year_to_ad,
     text_to_arabic_digit,
     text_to_thai_digit,
+    thai_day2datetime,
     thai_digit_to_arabic_digit,
     thai_strftime,
     thai_time,
-    thai_to_eng,
-    thaicheck,
-    thaiword_to_num,
     thai_time2time,
-    thai_day2datetime,
+    thai_to_eng,
+    thaiword_to_num,
 )
 
 
@@ -126,10 +128,8 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_to_eng("๋นีพืฟสรหท"), "Journalism")
 
     def test_keywords(self):
-        word_list = word_tokenize(
-            "แมวกินปลาอร่อยรู้ไหมว่าแมวเป็นแมวรู้ไหมนะแมว", engine="newmm"
-        )
-        self.assertEqual(find_keyword(word_list), {"แมว": 4})
+        word_list = ["แมว", "กิน", "ปลา", "อร่อย", "แมว", "เป็น", "แมว"]
+        self.assertEqual(find_keyword(word_list), {"แมว": 3})
 
     def test_rank(self):
         self.assertEqual(rank([]), None)
@@ -242,21 +242,59 @@ class TestUtilPackage(unittest.TestCase):
         with self.assertRaises(NotImplementedError):
             thai_time("8:17", fmt="xx")
 
+    def test_trie(self):
+        self.assertIsNotNone(Trie([]))
+        self.assertIsNotNone(Trie(["ทดสอบ", "ทด", "ทอด", "ทอผ้า"]))
+        self.assertIsNotNone(Trie({"ทอด", "ทอง", "ทาง"}))
+        self.assertIsNotNone(Trie(("ทอด", "ทอง", "ทาง")))
+        self.assertIsNotNone(Trie(Trie(["ทดสอบ", "ทดลอง"])))
+
+        self.assertIsNotNone(dict_trie(Trie(["ลอง", "ลาก"])))
+        self.assertIsNotNone(dict_trie(("ลอง", "สร้าง", "Trie", "ลน")))
+        self.assertIsNotNone(dict_trie(["ลอง", "สร้าง", "Trie", "ลน"]))
+        self.assertIsNotNone(dict_trie({"ลอง", "สร้าง", "Trie", "ลน"}))
+        self.assertIsNotNone(dict_trie(thai_words()))
+        self.assertIsNotNone(
+            dict_trie(os.path.join(_CORPUS_PATH, _THAI_WORDS_FILENAME))
+        )
+        with self.assertRaises(TypeError):
+            dict_trie("")
+        with self.assertRaises(TypeError):
+            dict_trie(None)
+        with self.assertRaises(TypeError):
+            dict_trie(42)
+
     # ### pythainlp.util.normalize
 
     def test_delete_tone(self):
         self.assertEqual(delete_tone("จิ้น"), "จิน")
         self.assertEqual(delete_tone("เก๋า"), "เกา")
 
-        # Commented out until this unittest bug get fixed:
-        # https://bugs.python.org/issue29620
-        # with self.assertWarns(DeprecationWarning):
-        #     deletetone("จิ้น")
-        self.assertEqual(deletetone("จิ้น"), delete_tone("จิ้น"))
-
     def test_normalize(self):
-        self.assertEqual(normalize("เเปลก"), "แปลก")
         self.assertIsNotNone(normalize("พรรค์จันทร์ab์"))
+
+        # sara e + sara e
+        self.assertEqual(normalize("เเปลก"), "แปลก")
+
+        # consonant + follow vowel + tonemark
+        self.assertEqual(normalize("\u0e01\u0e30\u0e48"), "\u0e01\u0e48\u0e30")
+
+        # consonant + nikhahit + sara aa
+        self.assertEqual(normalize("นํา"), "นำ")
+        self.assertEqual(normalize("\u0e01\u0e4d\u0e32"), "\u0e01\u0e33")
+
+        # consonant + nikhahit + tonemark + sara aa
+        self.assertEqual(
+            normalize("\u0e01\u0e4d\u0e48\u0e32"), "\u0e01\u0e48\u0e33"
+        )
+
+        # consonant + tonemark + nikhahit + sara aa
+        self.assertEqual(
+            normalize("\u0e01\u0e48\u0e4d\u0e32"), "\u0e01\u0e48\u0e33"
+        )
+
+        # consonant + follow vowel + tonemark
+        self.assertEqual(normalize("\u0e01\u0e32\u0e48"), "\u0e01\u0e48\u0e32")
 
     # ### pythainlp.util.thai
 
@@ -300,12 +338,6 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(is_native_thai("เทเวศน์"), False)
         self.assertEqual(is_native_thai("เทเวศร์"), False)
 
-        # Commented out until this unittest bug get fixed:
-        # https://bugs.python.org/issue29620
-        # with self.assertWarns(DeprecationWarning):
-        #     thaicheck("เลข")
-        self.assertEqual(thaicheck("เลข"), is_native_thai("เลข"))
-
     def test_thai_time2time(self):
         self.assertEqual(thai_time2time("บ่ายโมงครึ่ง"), "13:30")
         self.assertEqual(thai_time2time("บ่ายสามโมงสิบสองนาที"), "15:12")
@@ -328,13 +360,16 @@ class TestUtilPackage(unittest.TestCase):
             now + datetime.timedelta(days=0), thai_day2datetime("วันนี้", now)
         )
         self.assertEqual(
-            now + datetime.timedelta(days=1), thai_day2datetime("พรุ่งนี้", now)
+            now + datetime.timedelta(days=1),
+            thai_day2datetime("พรุ่งนี้", now),
         )
         self.assertEqual(
-            now + datetime.timedelta(days=2), thai_day2datetime("มะรืนนี้", now)
+            now + datetime.timedelta(days=2),
+            thai_day2datetime("มะรืนนี้", now),
         )
         self.assertEqual(
-            now + datetime.timedelta(days=-1), thai_day2datetime("เมื่อวาน", now)
+            now + datetime.timedelta(days=-1),
+            thai_day2datetime("เมื่อวาน", now),
         )
         self.assertEqual(
             now + datetime.timedelta(days=-2), thai_day2datetime("วานซืน", now)

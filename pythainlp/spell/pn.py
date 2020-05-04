@@ -338,6 +338,3 @@ class NorvigSpellChecker:
             pass
 
         return self.spell(word)[0]
-
-
-DEFAULT_SPELL_CHECKER = NorvigSpellChecker()

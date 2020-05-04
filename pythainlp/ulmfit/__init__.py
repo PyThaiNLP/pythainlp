@@ -6,6 +6,19 @@ https://github.com/cstorm125/thai2fit/
 Some pre-processing functions are from fastai (Apache 2.0)
 https://github.com/fastai/fastai/blob/master/fastai/text/transform.py
 """
+
+__all__ = [
+    "ThaiTokenizer",
+    "document_vector",
+    "merge_wgts",
+    "pre_rules_th",
+    "post_rules_th",
+    "pre_rules_th_sparse",
+    "post_rules_th_sparse",
+    "process_thai",
+    "_THWIKI_LSTM",
+]
+
 import collections
 import html
 import re
@@ -101,18 +114,6 @@ def spec_add_spaces(t: str) -> str:
     """Add spaces around / and # in `t`. \n (code from `fastai`)"""
     return re.sub(r"([/#\n])", r" \1 ", t)
 
-
-__all__ = [
-    "ThaiTokenizer",
-    "document_vector",
-    "merge_wgts",
-    "pre_rules_th",
-    "post_rules_th",
-    "pre_rules_th_sparse",
-    "post_rules_th_sparse",
-    "process_thai",
-    "_THWIKI_LSTM",
-]
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -257,11 +258,35 @@ def rm_useless_newlines(text: str) -> str:
 
 
 def rm_brackets(text: str) -> str:
-    "Remove all empty brackets from `t`."
+    "Remove all empty brackets and artifacts within brackets from `text`."
+    # remove empty brackets
     new_line = re.sub(r"\(\)", "", text)
     new_line = re.sub(r"\{\}", "", new_line)
     new_line = re.sub(r"\[\]", "", new_line)
-
+    # brakets with only punctuations
+    new_line = re.sub(r"\([^a-zA-Z0-9ก-๙]+\)", "", new_line)
+    new_line = re.sub(r"\{[^a-zA-Z0-9ก-๙]+\}", "", new_line)
+    new_line = re.sub(r"\[[^a-zA-Z0-9ก-๙]+\]", "", new_line)
+    # artifiacts after (
+    new_line = re.sub(
+        r"(?<=\()[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
+    )
+    new_line = re.sub(
+        r"(?<=\{)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
+    )
+    new_line = re.sub(
+        r"(?<=\[)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
+    )
+    # artifacts before )
+    new_line = re.sub(
+        r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\))", "", new_line
+    )
+    new_line = re.sub(
+        r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\})", "", new_line
+    )
+    new_line = re.sub(
+        r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\])", "", new_line
+    )
     return new_line
 
 
@@ -368,7 +393,8 @@ def remove_space(toks: Collection):
 # Pretrained paths
 # TODO: Let the user decide if they like to download (at setup?)
 _THWIKI_LSTM = dict(
-    wgts_fname=_get_path(_MODEL_NAME_LSTM), itos_fname=_get_path(_ITOS_NAME_LSTM)
+    wgts_fname=_get_path(_MODEL_NAME_LSTM),
+    itos_fname=_get_path(_ITOS_NAME_LSTM),
 )
 
 # Preprocessing rules for Thai text
@@ -387,7 +413,10 @@ pre_rules_th = [
 post_rules_th = [replace_wrep_post, ungroup_emoji, lowercase_all]
 # sparse features
 pre_rules_th_sparse = pre_rules_th[1:] + [replace_rep_nonum]
-post_rules_th_sparse = post_rules_th[1:] + [replace_wrep_post_nonum, remove_space]
+post_rules_th_sparse = post_rules_th[1:] + [
+    replace_wrep_post_nonum,
+    remove_space,
+]
 
 
 def process_thai(
@@ -511,8 +540,9 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
     """
 
     s = _tokenizer.tokenizer(text)
-    t = torch.tensor(data.vocab.numericalize(s),
-                     requires_grad=False).to(device)
+    t = torch.tensor(data.vocab.numericalize(s), requires_grad=False).to(
+        device
+    )
     m = learn.model[0].encoder.to(device)
     res = m(t).cpu().detach().numpy()
     if agg == "mean":

@@ -11,6 +11,7 @@ Modules
 .. autofunction:: bahttext
 .. autofunction:: collate
 .. autofunction:: delete_tone
+.. autofunction:: dict_trie
 .. autofunction:: digit_to_text
 .. autofunction:: eng_to_thai
 .. autofunction:: find_keyword
@@ -32,3 +33,5 @@ Modules
 .. autofunction:: thaiword_to_num
 .. autofunction:: thai_day2datetime
 .. autofunction:: thai_time2time
+.. autoclass:: Trie
+   :members:

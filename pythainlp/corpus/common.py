@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-
-from pythainlp.corpus import get_corpus
+"""
+Common list of words.
+"""
 
 __all__ = [
     "countries",
@@ -13,6 +14,7 @@ __all__ = [
     "thai_words",
 ]
 
+from pythainlp.corpus import get_corpus
 
 _THAI_COUNTRIES = set()
 _THAI_COUNTRIES_FILENAME = "countries_th.txt"

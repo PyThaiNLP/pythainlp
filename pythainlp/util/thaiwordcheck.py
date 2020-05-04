@@ -126,11 +126,3 @@ def is_native_thai(word: str) -> bool:
         return True
 
     return False
-
-
-def thaicheck(word: str) -> bool:
-    warnings.warn(
-        "thaicheck is deprecated, use is_native_thai instead",
-        DeprecationWarning,
-    )
-    return is_native_thai(word)

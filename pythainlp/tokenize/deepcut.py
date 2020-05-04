@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Wrapper for deepcut Thai word segmentation. deepcut is a
 Thai word segmentation library using 1D Convolution Neural Network.
@@ -11,11 +12,12 @@ User need to install deepcut (and its dependency: tensorflow) by themselves.
 from typing import List, Union
 
 from deepcut import tokenize
+from pythainlp.util import Trie
 
-from .trie import Trie
 
-
-def segment(text: str, custom_dict: Union[Trie, List[str], str] = None) -> List[str]:
+def segment(
+    text: str, custom_dict: Union[Trie, List[str], str] = None
+) -> List[str]:
     if not text or not isinstance(text, str):
         return []
 

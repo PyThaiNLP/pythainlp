@@ -73,7 +73,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.2dev0",
+    version="2.2.0-dev0",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -87,12 +87,13 @@ setup(
         "pythainlp.corpus": [
             "corpus_license.md",
             "countries_th.txt",
+            "etcc.txt",
             "negations_th.txt",
             "orchid_pos_th.json",
             "orchid_pt_tagger.dill",
             "person_names_female_th.txt",
             "person_names_male_th.txt",
-            "sentenceseg-ted.model",
+            "sentenceseg-crfcut-v2.model",
             "stopwords_th.txt",
             "syllables_th.txt",
             "tha-wn.db",
@@ -105,7 +106,6 @@ setup(
             "words_th.txt",
         ],
     },
-    include_package_data=True,
     install_requires=requirements,
     extras_require=extras,
     license="Apache Software License 2.0",

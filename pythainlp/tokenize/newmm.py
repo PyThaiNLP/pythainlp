@@ -139,7 +139,7 @@ def segment(
     Thai Character Cluster boundaries.
 
     :param str text: text to be tokenized to words
-    :param pythainlp.trie.Trie custom_dict: dictionary for tokenization
+    :param pythainlp.util.Trie custom_dict: dictionary for tokenization
     :param bool safe_mode: True to help avoid long wait for text with long\
         and continuous ambiguous breaking points. Long wait may still able\
         to occur. Default is False.

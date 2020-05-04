@@ -13,7 +13,7 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     DEFAULT_SYLLABLE_DICT_TRIE,
 )
-from pythainlp.util.trie import Trie, dict_trie
+from pythainlp.util import Trie, dict_trie
 
 
 def word_tokenize(
@@ -395,15 +395,15 @@ class Tokenizer:
     tokenizer and encapsulate them into one single object.
     It is an wrapper for both two functions including
     :func:`pythainlp.tokenize.word_tokenize`,
-    and :func:`pythainlp.tokenize.dict_trie`
+    and :func:`pythainlp.util.dict_trie`
 
     :Example:
 
     Tokenizer object instantiated with :class:`pythainlp.util.Trie`::
 
         from pythainlp.tokenize import Tokenizer
-        from pythainlp.tokenize import Tokenizer, dict_trie
         from pythainlp.corpus.common import thai_words
+        from pythainlp.util import dict_trie
 
         custom_words_list = set(thai_words())
         custom_words_list.add('อะเฟเซีย')

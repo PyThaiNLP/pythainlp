@@ -13,7 +13,7 @@ __all__ = [
 ]
 
 from pythainlp.corpus import thai_syllables, thai_words
-from pythainlp.util.trie import Trie
+from pythainlp.util import Trie
 
 DEFAULT_WORD_TOKENIZE_ENGINE = "newmm"
 DEFAULT_SENT_TOKENIZE_ENGINE = "crfcut"

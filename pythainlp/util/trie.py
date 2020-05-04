@@ -35,7 +35,7 @@ class Trie:
     def prefixes(self, text: str) -> List[str]:
         """
         List all possible words from first sequence of characters in a word.
-        
+
         :param str text: a word
         :return: a list of possible words
         :rtype: List[str]

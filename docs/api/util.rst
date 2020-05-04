@@ -11,7 +11,7 @@ Modules
 .. autofunction:: bahttext
 .. autofunction:: collate
 .. autofunction:: delete_tone
-.. autofunction:: eng_to_thai
+.. autofunction:: dict_trie
 .. autofunction:: digit_to_text
 .. autofunction:: eng_to_thai
 .. autofunction:: find_keyword

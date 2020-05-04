@@ -13,7 +13,7 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     DEFAULT_SYLLABLE_DICT_TRIE,
 )
-from pythainlp.util import Trie, dict_trie
+from pythainlp.util.trie import Trie, dict_trie
 
 
 def word_tokenize(

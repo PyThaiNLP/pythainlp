@@ -15,22 +15,27 @@ class Trie:
             self.end = False
             self.children = {}
 
-        def add(self, word: str):
-            cur = self
-            for ch in word:
-                child = cur.children.get(ch)
-                if not child:
-                    child = Trie.Node()
-                    cur.children[ch] = child
-                cur = child
-            cur.end = True
-
     def __init__(self, words: Iterable[str]):
         self.words = words
         self.root = Trie.Node()
 
         for word in words:
-            self.root.add(word)
+            self.add_word(word)
+
+    def add_word(self, word: str) -> None:
+        """
+        Add a word to the trie.
+
+        :param str text: a word
+        """
+        cur = self.root
+        for ch in word:
+            child = cur.children.get(ch)
+            if not child:
+                child = Trie.Node()
+                cur.children[ch] = child
+            cur = child
+        cur.end = True
 
     def prefixes(self, text: str) -> List[str]:
         """

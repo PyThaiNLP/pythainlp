@@ -6,20 +6,19 @@ from pythainlp import cli
 
 
 def main(args=None):
-    """The main routine of PyThaiNLP command line."""
+    """ThaiNLP command line."""
     if args is None:
         args = sys.argv[1:]
 
     parser = argparse.ArgumentParser(
-        usage="pythainlp command [subcommand] [options]"
+        "thainlp", usage="thainlp <command> [options]"
     )
 
     parser.add_argument(
         "command",
         type=str,
-        default="",
-        nargs="?",
-        help="[%s]" % "|".join(cli.COMMANDS),
+        choices=cli.COMMANDS,
+        help="text processing action",
     )
 
     args = parser.parse_args(sys.argv[1:2])

@@ -13,6 +13,8 @@ __all__ = [
     "countries",
     "download",
     "get_corpus",
+    "get_corpus_db",
+    "get_corpus_db_detail",
     "get_corpus_path",
     "provinces",
     "remove",
@@ -22,7 +24,6 @@ __all__ = [
     "thai_stopwords",
     "thai_syllables",
     "thai_words",
-    "get_corpus_db_detail",
 ]
 
 import os
@@ -64,6 +65,7 @@ def corpus_db_path() -> str:
 from pythainlp.corpus.core import (
     download,
     get_corpus,
+    get_corpus_db,
     get_corpus_db_detail,
     get_corpus_path,
     remove,

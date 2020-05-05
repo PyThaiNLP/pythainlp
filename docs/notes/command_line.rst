@@ -5,48 +5,56 @@ You can use PyThaiNLP from Command Line.
 
 Run Command Line and type the commands:::
 
-    pythainlp
+    thainlp
 
 **Word tokenization**::
 
-    pythainlp tokenization word --text TEXT
+    thainlp tokenize word TEXT
 
 *Example*::
 
-    $ pythainlp tokenization word --text "ผมร<0e31>กประเทศไทย? สามารถ" --engine newmm
-    ผม|รัก|ประเทศไทย|?| |สามารถ
-
+    $ thainlp tokenize word สภาพการจ้างและสภาพการทำงาน
+    สภาพการจ้าง|และ|สภาพ|การทำงาน|
 
 **Syllable tokenization**::
 
-    pythainlp tokenization syllable --text TEXT
+    thainlp tokenize syllable TEXT
 
 *Example*::
 
-    $ pythainlp tokenization syllable --text "ผมร<0e31>กประเทศไทย? สามารถ"
-    ผม~รัก~ประ~เทศ~ไทย~? ~สา~มารถ
+    $ thainlp tokenize syllable สภาพการจ้างและสภาพการทำงาน
+    สภาพ~การ~จ้าง~และ~สภาพ~การ~ทำ~งาน~
+
+**Subword tokenization**::
+
+    thainlp tokenize subword TEXT
+
+*Example*::
+
+    $ thainlp tokenize subword สภาพการจ้างและสภาพการทำงาน
+    ส/ภา/พ/กา/ร/จ้า/ง/และ/ส/ภา/พ/กา/ร/ทำ/งา/น/
 
 **Part-Of-Speech tagging**::
 
-    pythainlp tagging pos --text TEXT
+    pythainlp tagg pos -s SEPARATOR TEXT
 
 *Example*::
 
-    $ pythainlp tagging pos --text "ผม|ไม่|กิน|เผ็ด"
+    $ thainlp tag pos -s . ผม.ไม่.กิน.เผ็ด
 
 **Soundex**::
 
-    pythainlp soundex --text TEXT
+    thainlp soundex TEXT
 
 *Example*::
 
-    $ pythainlp soundex --text "บ<0e39>รณการ" --engine lk82
-    บE419
+    $ thainlp soundex บรรณการ
+    บ319000
 
 **Mange corpus**::
 
-    pythainlp corpus
+    thainlp data
 
 **Help**::
 
-    pythainlp --help
+    thainlp --help

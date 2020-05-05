@@ -59,12 +59,9 @@ class SubAppBase:
         parser.set_defaults(keep_whitespace=True)
 
         args = parser.parse_args(argv)
-
         self.args = args
-        print(args)
 
         cli.exit_if_empty(args.text, parser)
-
         result = self.run(
             args.text,
             engine=args.algorithm,
@@ -96,7 +93,7 @@ class SentenceTokenizationApp(SubAppBase):
         self.keep_whitespace = True
         self.algorithm = DEFAULT_SENT_TOKENIZE_ENGINE
         self.separator = DEFAULT_SENT_TOKEN_SEPARATOR
-        self.run = syllable_tokenize
+        self.run = sent_tokenize
         super().__init__(*args, **kwargs)
 
 
@@ -105,7 +102,7 @@ class SubwordTokenizationApp(SubAppBase):
         self.keep_whitespace = True
         self.algorithm = DEFAULT_SUBWORD_TOKENIZE_ENGINE
         self.separator = DEFAULT_SUBWORD_TOKEN_SEPARATOR
-        self.run = syllable_tokenize
+        self.run = subword_tokenize
         super().__init__(*args, **kwargs)
 
 

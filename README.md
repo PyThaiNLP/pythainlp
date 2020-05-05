@@ -125,7 +125,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 - รุ่นเสถียรล่าสุดคือรุ่น [2.1.4](https://github.com/PyThaiNLP/pythainlp/releases)
 - PyThaiNLP 2 รองรับ Python 3.6 ขึ้นไป
-  - ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
+  - ผู้ใช้ Python 2.7+ ยังสามารถใช้ [PyThaiNLP 1.6](https://github.com/PyThaiNLP/pythainlp/blob/007e644daab4ac8379a13f26065e2d9492af0536/docs/pythainlp-1-6-thai.md) ได้
 - 📫 ติดตามข่าวสารได้ที่ Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
 ใช้งาน PyThaiNLP:

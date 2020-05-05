@@ -14,25 +14,38 @@ class Trie:
         def __init__(self):
             self.end = False
             self.children = {}
-        
-        def add(self, ch: str):
-            child = self.children.get(ch)
-            if not child:
-                child = Trie.Node()
-                self.children[ch] = child
-            return child
 
     def __init__(self, words: Iterable[str]):
-        self.words = words
+        self.words = set(words)
         self.root = Trie.Node()
 
         for word in words:
-            cur = self.root
-            for ch in word:
-                cur = cur.add(ch)
-            cur.end = True
+            self.add(word)
+
+    def add(self, word: str) -> None:
+        """
+        Add a word to the trie.
+
+        :param str text: a word
+        """
+        self.words.add(word)
+        cur = self.root
+        for ch in word:
+            child = cur.children.get(ch)
+            if not child:
+                child = Trie.Node()
+                cur.children[ch] = child
+            cur = child
+        cur.end = True
 
     def prefixes(self, text: str) -> List[str]:
+        """
+        List all possible words from first sequence of characters in a word.
+
+        :param str text: a word
+        :return: a list of possible words
+        :rtype: List[str]
+        """
         res = []
         cur = self.root
         for i, ch in enumerate(text):
@@ -49,6 +62,9 @@ class Trie:
 
     def __iter__(self) -> Iterable[str]:
         yield from self.words
+
+    def __len__(self) -> int:
+        return len(self.words)
 
 
 def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:

@@ -50,5 +50,8 @@ Runtime Configurations
    This environment variable specifies the location where the downloaded data
    and the corpus database information are stored. If this directory
    does not exist, PyThaiNLP will automatically create a new one.
+   
    By default, it is specified to the directory called ``pythainlp-data``
    within the home directory.
+   
+   Type `thainlp data path` at command line to see current PYTHAINLP_DATA_DIR.

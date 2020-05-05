@@ -6,7 +6,7 @@ Take input text from command line.
 import argparse
 
 from pythainlp import cli
-from pythainlp.soundex import soundex
+from pythainlp.soundex import DEFAULT_SOUNDEX_ENGINE, soundex
 
 
 class App:
@@ -22,7 +22,7 @@ class App:
             type=str,
             choices=["udom83", "lk82", "metasound"],
             help="soundex algorithm",
-            default="udom83",
+            default=DEFAULT_SOUNDEX_ENGINE,
         )
         parser.add_argument(
             "text", type=str, help="input text",

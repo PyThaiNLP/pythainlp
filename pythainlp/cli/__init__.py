@@ -1,21 +1,22 @@
 """Command line helpers."""
 import sys
+from argparse import ArgumentParser
 
 from . import data, soundex, tag, tokenize
 
-# commands should be verb when possible
+# a command should be a verb when possible
 COMMANDS = sorted(["data", "soundex", "tag", "tokenize"])
 
 CLI_NAME = "thainlp"
 
 
-def make_usage(s):
-    prog = f"{CLI_NAME} {s}"
+def make_usage(command: str) -> dict:
+    prog = f"{CLI_NAME} {command}"
 
-    return dict(prog=prog, usage="%(prog)s [options]")
+    return dict(prog=prog, usage=f"{prog} [options]")
 
 
-def exit_if_empty(d, parser):
-    if not d:
+def exit_if_empty(command: str, parser: ArgumentParser) -> None:
+    if not command:
         parser.print_help()
         sys.exit(0)

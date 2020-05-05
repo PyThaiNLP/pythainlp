@@ -5,7 +5,7 @@ Corpus related functions.
 
 import hashlib
 import os
-from typing import NoReturn, Union
+from typing import Union
 from urllib.request import urlopen
 
 import requests
@@ -17,11 +17,23 @@ from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
 
 
+def get_corpus_db(url: str) -> requests.Response:
+    corpus_db = None
+    try:
+        corpus_db = requests.get(url)
+    except HTTPError as http_err:
+        print(f"HTTP error occurred: {http_err}")
+    except Exception as err:
+        print(f"Non-HTTP error occurred: {err}")
+
+    return corpus_db
+
+
 def get_corpus_db_detail(name: str) -> dict:
-    db = TinyDB(corpus_db_path())
+    local_db = TinyDB(corpus_db_path())
     query = Query()
-    res = db.search(query.name == name)
-    db.close()
+    res = local_db.search(query.name == name)
+    local_db.close()
 
     if res:
         return res[0]
@@ -56,10 +68,6 @@ def get_corpus(filename: str) -> frozenset:
         # frozenset({'โดยนัยนี้\\t1',
         #    'ตัวบท\\t10',
         #    'หยิบยื่น\\t3',
-        #    'เอย\\t555',
-        #    'ค้าน\\t69',
-        #    'เหนี่ยง\\t3',
-        #    'ชงฆ์\\t3',
         #     ...})
     """
     path = os.path.join(corpus_path(), filename)
@@ -140,7 +148,7 @@ def _download(url: str, dst: str) -> int:
     return file_size
 
 
-def _check_hash(dst: str, md5: str) -> NoReturn:
+def _check_hash(dst: str, md5: str) -> None:
     """
     Check hash helper.
 
@@ -156,7 +164,7 @@ def _check_hash(dst: str, md5: str) -> NoReturn:
                 raise Exception("Hash does not match expected.")
 
 
-def download(name: str, force: bool = False) -> NoReturn:
+def download(name: str, force: bool = False) -> None:
     """
     Download corpus.
 
@@ -181,24 +189,19 @@ def download(name: str, force: bool = False) -> NoReturn:
     ``$HOME/pythainlp-data/``
     (e.g. ``/Users/bact/pythainlp-data/wiki_lm_lstm.pth``).
     """
-    local_db = TinyDB(corpus_db_path())
-    query = Query()
+    corpus_db = get_corpus_db(corpus_db_url())
+    if not corpus_db:
+        print(f"Cannot download corpus database from: {corpus_db_url()}")
+        return False
 
-    try:
-        corpus_data = requests.get(corpus_db_url())
-    except HTTPError as http_err:
-        print(f"Cannot download corpus data from: {corpus_db_url()}")
-        print(f"HTTP error occurred: {http_err}")
-        return
-    except Exception as err:
-        print(f"Cannot download corpus data from: {corpus_db_url()}")
-        print(f"Non-HTTP error occurred: {err}")
-        return
+    corpus_db = corpus_db.json()
 
-    corpus_data = corpus_data.json()
+    # Check if corpus is available
+    if name in list(corpus_db.keys()):
+        local_db = TinyDB(corpus_db_path())
+        query = Query()
 
-    if name in list(corpus_data.keys()):
-        corpus = corpus_data[name]
+        corpus = corpus_db[name]
         print("Corpus:", name)
         found = local_db.search(query.name == name)
 
@@ -232,10 +235,12 @@ def download(name: str, force: bool = False) -> NoReturn:
                 print(f"- Existing version: {current_ver}")
                 print(f"- New version available: {corpus['version']}")
                 print("- Use download(data_name, force=True) to update")
-    else:
-        print("Corpus not found:", name)
 
-    local_db.close()
+        local_db.close()
+        return True
+
+    print("Corpus not found:", name)
+    return False
 
 
 def remove(name: str) -> bool:

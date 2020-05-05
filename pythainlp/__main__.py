@@ -11,7 +11,7 @@ def main(args=None):
         args = sys.argv[1:]
 
     parser = argparse.ArgumentParser(
-        "thainlp", usage="thainlp command [options]"
+        "thainlp", usage="thainlp <command> [options]"
     )
 
     parser.add_argument(

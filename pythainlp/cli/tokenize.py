@@ -1,15 +1,25 @@
 """
 thainlp tokenize command line.
 """
+
 import argparse
 
 from pythainlp import cli
 from pythainlp.tokenize import (
-    word_tokenize,
+    DEFAULT_SENT_TOKENIZE_ENGINE,
+    DEFAULT_SUBWORD_TOKENIZE_ENGINE,
+    DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
+    DEFAULT_WORD_TOKENIZE_ENGINE,
+    sent_tokenize,
     subword_tokenize,
     syllable_tokenize,
-    sent_tokenize,
+    word_tokenize,
 )
+
+DEFAULT_SENT_TOKEN_SEPARATOR = "^"
+DEFAULT_SUBWORD_TOKEN_SEPARATOR = "/"
+DEFAULT_SYLLABLE_TOKEN_SEPARATOR = "~"
+DEFAULT_WORD_TOKEN_SEPARATOR = "|"
 
 
 class SubAppBase:
@@ -65,45 +75,37 @@ class SubAppBase:
 
 class WordTokenizationApp(SubAppBase):
     def __init__(self, *args, **kwargs):
-
         self.keep_whitespace = True
-        self.algorithm = "newmm"
-        self.separator = "|"
+        self.algorithm = DEFAULT_WORD_TOKENIZE_ENGINE
+        self.separator = DEFAULT_WORD_TOKEN_SEPARATOR
         self.run = word_tokenize
-
         super().__init__(*args, **kwargs)
 
 
 class SyllableTokenizationApp(SubAppBase):
     def __init__(self, *args, **kwargs):
-
         self.keep_whitespace = True
-        self.algorithm = "ssg"
-        self.separator = "~"
+        self.algorithm = DEFAULT_SYLLABLE_TOKENIZE_ENGINE
+        self.separator = DEFAULT_SYLLABLE_TOKEN_SEPARATOR
         self.run = syllable_tokenize
-
         super().__init__(*args, **kwargs)
 
 
 class SentenceTokenizationApp(SubAppBase):
     def __init__(self, *args, **kwargs):
-
         self.keep_whitespace = True
-        self.algorithm = "crfcut"
-        self.separator = "^"
+        self.algorithm = DEFAULT_SENT_TOKENIZE_ENGINE
+        self.separator = DEFAULT_SENT_TOKEN_SEPARATOR
         self.run = syllable_tokenize
-
         super().__init__(*args, **kwargs)
 
 
 class SubwordTokenizationApp(SubAppBase):
     def __init__(self, *args, **kwargs):
-
         self.keep_whitespace = True
-        self.algorithm = "tcc"
-        self.separator = "/"
+        self.algorithm = DEFAULT_SUBWORD_TOKENIZE_ENGINE
+        self.separator = DEFAULT_SUBWORD_TOKEN_SEPARATOR
         self.run = syllable_tokenize
-
         super().__init__(*args, **kwargs)
 
 

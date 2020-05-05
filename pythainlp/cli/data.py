@@ -71,9 +71,15 @@ class App:
         corpus_names = sorted(corpus_db.keys())
         print("Dataset/corpus available for download:")
         for name in corpus_names:
-            print("-", name, corpus_db[name]["version"])
-        print("\nUse subcommand 'download' to download dataset.")
-        print("example: thainlp data download crfcut")
+            print(f"- {name} {corpus_db[name]['version']}", end="")
+            corpus_info = corpus.get_corpus_db_detail(name)
+            if corpus_info:
+                print(f"  (Local: {corpus_info['version']})")
+            else:
+                print()
+
+        print("\nUse subcommand 'get' to download dataset.")
+        print("Example: thainlp data get crfcut")
 
     def path(self, argv):
         """Print path for local dataset."""

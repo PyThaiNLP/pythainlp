@@ -16,7 +16,7 @@ from pythainlp.tokenize import (
     word_tokenize,
 )
 
-DEFAULT_SENT_TOKEN_SEPARATOR = "^"
+DEFAULT_SENT_TOKEN_SEPARATOR = "@@"
 DEFAULT_SUBWORD_TOKEN_SEPARATOR = "/"
 DEFAULT_SYLLABLE_TOKEN_SEPARATOR = "~"
 DEFAULT_WORD_TOKEN_SEPARATOR = "|"
@@ -127,6 +127,6 @@ class App:
         elif subcommand.startswith("su"):
             SubwordTokenizationApp("subword", argv)
         elif subcommand.startswith("se"):
-            SubwordTokenizationApp("sent", argv)
+            SentenceTokenizationApp("sent", argv)
         else:
             print(f"Subcommand not available: {subcommand}")

@@ -11,7 +11,6 @@ from pythainlp import thai_follow_vowels as follow_v
 from pythainlp import thai_lead_vowels as lead_v
 from pythainlp import thai_tonemarks as tonemarks
 
-
 _PHANTOM_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
 
 _REORDER_PAIRS = [
@@ -39,6 +38,7 @@ _NOREPEAT_PAIRS = list(
 )
 
 _RE_NOREPEAT_TONEMARKS = re.compile(f"[{tonemarks}]+")
+
 
 # to be used with _RE_NOREPEAT_TONEMARKS
 def last_char(matchobj):

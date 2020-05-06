@@ -76,7 +76,8 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
     pos_list = [0]  # priority queue of possible breaking positions
     end_pos = 0
-    while pos_list[0] < len(text):
+    _text_len = len(text)
+    while pos_list[0] < _text_len:
         begin_pos = heappop(pos_list)
         for word in custom_dict.prefixes(text[begin_pos:]):
             end_pos_candidate = begin_pos + len(word)
@@ -89,8 +90,10 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
                 if graph_size > _MAX_GRAPH_SIZE:
                     break
+        
+        _pos_list_len = len(pos_list)
 
-        if len(pos_list) == 1:  # one candidate, no longer ambiguous
+        if _pos_list_len == 1:  # one candidate, no longer ambiguous
             end_pos_candidates = next(
                 _bfs_paths_graph(graph, end_pos, pos_list[0])
             )
@@ -98,12 +101,12 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
             for _pos in end_pos_candidates[1:]:
                 yield text[end_pos:_pos]
                 end_pos = _pos
-        elif len(pos_list) == 0:  # no candidate, deal with non-dictionary word
+        elif _pos_list_len == 0:  # no candidate, deal with non-dictionary word
             m = _PAT_NONTHAI.match(text[begin_pos:])
             if m:  # non-Thai token, skip to the end
                 end_pos = begin_pos + m.end()
             else:  # Thai token, find minimum skip
-                for _pos in range(begin_pos + 1, len(text)):
+                for _pos in range(begin_pos + 1, _text_len):
                     if _pos in valid_poss:
                         words = [
                             word
@@ -122,7 +125,7 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
                             end_pos = _pos
                             break
                 else:
-                    end_pos = len(text)
+                    end_pos = _text_len
 
             graph[begin_pos].append(end_pos)
             graph_size = graph_size + 1
@@ -146,19 +149,20 @@ def segment(
         to occur. Default is False.
     :return: list of words, tokenized from the text
     """
+    _text_len = len(text)
     if not text or not isinstance(text, str):
         return []
 
     if not custom_dict:
         custom_dict = DEFAULT_WORD_DICT_TRIE
 
-    if not safe_mode or len(text) < _TEXT_SCAN_END:
+    if not safe_mode or _text_len < _TEXT_SCAN_END:
         return list(_onecut(text, custom_dict))
 
     # if the text is longer than the limit,
     # breaks them into smaller chunks then tokenizes each chunk
     text_parts = []
-    while len(text) >= _TEXT_SCAN_END:
+    while _text_len >= _TEXT_SCAN_END:
         sample = text[_TEXT_SCAN_BEGIN:_TEXT_SCAN_END]
 
         # find possible break positions
@@ -186,7 +190,7 @@ def segment(
         text = text[cut_pos:]
 
     # append remaining text
-    if len(text):
+    if _text_len:
         text_parts.append(text)
 
     # tokenizes each text parts

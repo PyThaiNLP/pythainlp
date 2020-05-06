@@ -74,14 +74,16 @@ def _multicut(text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE):
         for w in custom_dict.prefixes(text[p:]):
             words_at[p].append(w)
             q.add(p + len(w))
+        
+        _q_len = len(q)
 
-        if len(q) == 1:
+        if _q_len == 1:
             q0 = min(q)
             yield LatticeString(text[last_p:q0], serialize(last_p, q0))
             last_p = q0
 
         # กรณี len(q) == 0  คือ ไม่มีใน dict
-        if len(q) == 0:
+        if _q_len == 0:
             m = _PAT_ENG.match(text[p:])
             if m:  # อังกฤษ, เลข, ว่าง
                 i = p + m.span()[1]

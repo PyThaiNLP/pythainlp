@@ -149,10 +149,10 @@ def segment(
         to occur. Default is False.
     :return: list of words, tokenized from the text
     """
-    _text_len = len(text)
     if not text or not isinstance(text, str):
         return []
-
+    
+    _text_len = len(text)
     if not custom_dict:
         custom_dict = DEFAULT_WORD_DICT_TRIE
 

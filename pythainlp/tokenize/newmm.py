@@ -90,7 +90,7 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
                 if graph_size > _MAX_GRAPH_SIZE:
                     break
-        
+
         _pos_list_len = len(pos_list)
 
         if _pos_list_len == 1:  # one candidate, no longer ambiguous

@@ -74,7 +74,7 @@ def _multicut(text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE):
         for w in custom_dict.prefixes(text[p:]):
             words_at[p].append(w)
             q.add(p + len(w))
-        
+
         _q_len = len(q)
 
         if _q_len == 1:

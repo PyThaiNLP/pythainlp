@@ -272,6 +272,23 @@ class TestUtilPackage(unittest.TestCase):
         # consonant + follow vowel + tonemark
         self.assertEqual(normalize("\u0e01\u0e32\u0e48"), "\u0e01\u0e48\u0e32")
 
+        # repeating tonemarks
+        self.assertEqual(normalize("\u0e01\u0e48\u0e48"), "\u0e01\u0e48")
+
+        # repeating different tonemarks
+        self.assertEqual(normalize("\u0e01\u0e48\u0e49"), "\u0e01\u0e49")
+        self.assertEqual(
+            normalize("\u0e01\u0e48\u0e49\u0e48\u0e49"), "\u0e01\u0e49"
+        )
+
+        # tonemark at the beginning of text
+        self.assertEqual(normalize("\u0e48\u0e01"), "\u0e01")
+
+        # repeating following vowels
+        self.assertEqual(normalize("กาา"), "กา")
+        self.assertEqual(normalize("กา า  า  า"), "กา")
+        self.assertEqual(normalize("กา าาะา"), "กาะา")
+
     # ### pythainlp.util.thai
 
     def test_countthai(self):

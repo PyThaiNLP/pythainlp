@@ -12,15 +12,9 @@ from pythainlp import thai_lead_vowels as lead_v
 from pythainlp import thai_tonemarks as tonemarks
 
 
-# VOWELS + Phinthu, Thanthakhat, Nikhahit, Yamakkan
-_NO_REPEAT_CHARS = (
-    f"{follow_v}{lead_v}{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
-)
-_NORMALIZE_REPETITION = list(
-    zip([ch + "+" for ch in _NO_REPEAT_CHARS], _NO_REPEAT_CHARS)
-)
+_PHANTOM_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
 
-_NORMALIZE_REORDER = [
+_REORDER_PAIRS = [
     ("\u0e40\u0e40", "\u0e41"),  # Sara E + Sara E -> Sara Ae
     (
         f"([{tonemarks}\u0e4c]+)([{above_v}{below_v}]+)",
@@ -36,7 +30,19 @@ _NORMALIZE_REORDER = [
     ),  # FOLLOW VOWEL + TONEMARK+ -> TONEMARK + FOLLOW VOWEL
 ]
 
-_PHANTOM_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
+# VOWELS + Phinthu, Thanthakhat, Nikhahit, Yamakkan
+_NOREPEAT_CHARS = (
+    f"{follow_v}{lead_v}{above_v}{below_v}\u0e3a\u0e4c\u0e4d\u0e4e"
+)
+_NOREPEAT_PAIRS = list(
+    zip([f"({ch}[ ]*)+" for ch in _NOREPEAT_CHARS], _NOREPEAT_CHARS)
+)
+
+_RE_NOREPEAT_TONEMARKS = re.compile(f"[{tonemarks}]+")
+
+# to be used with _RE_NOREPEAT_TONEMARKS
+def last_char(matchobj):
+    return matchobj.group(0)[-1]
 
 
 def normalize(text: str) -> str:
@@ -64,13 +70,18 @@ def normalize(text: str) -> str:
         normalize('นานาาา')
         # output: นานา
     """
-    for data in _NORMALIZE_REORDER:
-        text = re.sub(data[0], data[1], text)
-    for data in _NORMALIZE_REPETITION:
-        text = re.sub(data[0], data[1], text)
+    for pair in _REORDER_PAIRS:
+        text = re.sub(pair[0], pair[1], text)
+    for pair in _NOREPEAT_PAIRS:
+        text = re.sub(pair[0], pair[1], text)
+
+    # remove repeating tonemarks, use last tonemark
+    text = _RE_NOREPEAT_TONEMARKS.sub(last_char, text)
+
     # remove a char that may have been accidentally typed in at the beginning
-    if text[0] in _PHANTOM_CHARS:  
+    if text[0] in _PHANTOM_CHARS:
         text = text[1:]
+
     return text
 
 

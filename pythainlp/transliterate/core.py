@@ -49,7 +49,7 @@ def romanize(text: str, engine: str = "royin") -> str:
     return romanize(text)
 
 
-def transliterate(text: str, engine: str = "ipa") -> str:
+def transliterate(text: str, engine: str = "thaig2p") -> str:
     """
     This function transliterates Thai text.
 
@@ -62,20 +62,27 @@ def transliterate(text: str, engine: str = "ipa") -> str:
 
     :Options for engines:
         * *icu* - International Components for Unicode (ICU)
-        * *ipa* - (default) International Phonetic Alphabet (IPA)
-        * *thaig2p* - Thai Grapheme to Phoneme by deep learning
+        * *ipa* - International Phonetic Alphabet (IPA) by epitran
+        * *thaig2p* - (default) Thai Grapheme to Phoneme by deep learning
+          output is International Phonetic Alphabet (IPA)
           (require PyTorch)
 
     :Example:
     ::
 
         from pythainlp.transliterate import transliterate
+        
+        transliterate("สามารถ", engine="thaig2p")
+        # output: 's aː ˩˩˦ . m aː t̚ ˥˩'
 
         transliterate("สามารถ", engine="ipa")
         # output: 'saːmaːrot'
 
         transliterate("สามารถ", engine="icu")
         # output: 's̄āmārt̄h'
+
+        transliterate("ภาพยนตร์", engine="thaig2p")
+        # output:'pʰ aː p̚ ˥˩ . pʰ a ˦˥ . j o n ˧'
 
         transliterate("ภาพยนตร์", engine="ipa")
         # output: 'pʰaːpjanot'

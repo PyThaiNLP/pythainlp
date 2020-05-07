@@ -11,7 +11,11 @@ from pythainlp import thai_follow_vowels as follow_v
 from pythainlp import thai_lead_vowels as lead_v
 from pythainlp import thai_tonemarks as tonemarks
 
+
 _PHANTOM_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
+
+_ZERO_WIDTH_CHARS = "\u200c\u200b"
+_RE_REMOVE_ZERO_WIDTHS = re.compile(f"[{_ZERO_WIDTH_CHARS}]+")
 
 _REORDER_PAIRS = [
     ("\u0e40\u0e40", "\u0e41"),  # Sara E + Sara E -> Sara Ae
@@ -38,7 +42,6 @@ _NOREPEAT_PAIRS = list(
 )
 
 _RE_NOREPEAT_TONEMARKS = re.compile(f"[{tonemarks}]+")
-
 
 # to be used with _RE_NOREPEAT_TONEMARKS
 def last_char(matchobj):
@@ -70,6 +73,8 @@ def normalize(text: str) -> str:
         normalize('นานาาา')
         # output: นานา
     """
+    text = _RE_REMOVE_ZERO_WIDTHS.sub("", text)
+
     for pair in _REORDER_PAIRS:
         text = re.sub(pair[0], pair[1], text)
     for pair in _NOREPEAT_PAIRS:

@@ -289,6 +289,12 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(normalize("กา า  า  า"), "กา")
         self.assertEqual(normalize("กา าาะา"), "กาะา")
 
+        # zero width chars
+        self.assertEqual(normalize("กา\u200b"), "กา")
+        self.assertEqual(normalize("ก\u200cา"), "กา")
+        self.assertEqual(normalize("\u200bกา"), "กา")
+        self.assertEqual(normalize("กา\u200b\u200c\u200b"), "กา")
+
     # ### pythainlp.util.thai
 
     def test_countthai(self):

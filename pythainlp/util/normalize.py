@@ -43,9 +43,25 @@ _NOREPEAT_PAIRS = list(
 
 _RE_TONEMARKS = re.compile(f"[{tonemarks}]+")
 
+_RE_REMOVE_NEWLINES = re.compile("[ \n]*\n[ \n]*")
+
 
 def _last_char(matchobj):  # to be used with _RE_NOREPEAT_TONEMARKS
     return matchobj.group(0)[-1]
+
+
+def remove_dup_spaces(text: str) -> str:
+    """
+    Remove duplicate spaces. Replace multiple spaces with one space.
+
+    Multiple newline characters and empty lines will be replaced
+    with one newline character.
+    """
+    while "  " in text:
+        text = text.replace("  ", " ")
+    text = _RE_REMOVE_NEWLINES.sub("\n", text)
+    text = text.strip()
+    return text
 
 
 def remove_phantom(text: str) -> str:
@@ -120,6 +136,7 @@ def normalize(text: str) -> str:
         # output: นานา
     """
     text = remove_zw(text)
+    text = remove_dup_spaces(text)
 
     for pair in _REORDER_PAIRS:
         text = re.sub(pair[0], pair[1], text)

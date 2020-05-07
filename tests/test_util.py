@@ -27,6 +27,7 @@ from pythainlp.util import (
     num_to_thaiword,
     rank,
     reign_year_to_ad,
+    remove_dup_spaces,
     remove_phantom,
     remove_tonemark,
     remove_zw,
@@ -319,6 +320,10 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(remove_phantom("\u0e48\u0e48\u0e01"), "\u0e01")
         self.assertEqual(remove_phantom("\u0e48\u0e49\u0e01"), "\u0e01")
         self.assertEqual(remove_phantom("\u0e48\u0e01\u0e48"), "\u0e01\u0e48")
+
+        # remove duplicate spaces
+        self.assertEqual(remove_dup_spaces("  ab  c d  "), "ab c d")
+        self.assertEqual(remove_dup_spaces("\nab  c   \n d \n"), "ab c\nd")
 
         # removing tonemarks
         self.assertEqual(remove_tonemark("จิ้น"), "จิน")

@@ -22,6 +22,7 @@ __all__ = [
     "num_to_thaiword",
     "rank",
     "reign_year_to_ad",
+    "remove_dup_spaces",
     "remove_phantom",
     "remove_tonemark",
     "remove_zw",
@@ -55,6 +56,7 @@ from pythainlp.util.keywords import find_keyword, rank
 from pythainlp.util.normalize import (
     delete_tone,
     normalize,
+    remove_dup_spaces,
     remove_phantom,
     remove_tonemark,
     remove_zw,

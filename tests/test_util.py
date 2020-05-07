@@ -24,6 +24,8 @@ from pythainlp.util import (
     num_to_thaiword,
     rank,
     reign_year_to_ad,
+    remove_phantom,
+    remove_zw,
     text_to_arabic_digit,
     text_to_thai_digit,
     thai_digit_to_arabic_digit,
@@ -282,7 +284,7 @@ class TestUtilPackage(unittest.TestCase):
         )
 
         # tonemark at the beginning of text
-        self.assertEqual(normalize("\u0e48\u0e01"), "\u0e01")
+        self.assertEqual(remove_phantom("\u0e48\u0e01"), "\u0e01")
 
         # repeating following vowels
         self.assertEqual(normalize("กาา"), "กา")
@@ -290,10 +292,10 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(normalize("กา าาะา"), "กาะา")
 
         # zero width chars
-        self.assertEqual(normalize("กา\u200b"), "กา")
-        self.assertEqual(normalize("ก\u200cา"), "กา")
-        self.assertEqual(normalize("\u200bกา"), "กา")
-        self.assertEqual(normalize("กา\u200b\u200c\u200b"), "กา")
+        self.assertEqual(remove_zw("กา\u200b"), "กา")
+        self.assertEqual(remove_zw("ก\u200cา"), "กา")
+        self.assertEqual(remove_zw("\u200bกา"), "กา")
+        self.assertEqual(remove_zw("กา\u200b\u200c\u200b"), "กา")
 
     # ### pythainlp.util.thai
 

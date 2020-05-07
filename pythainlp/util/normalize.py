@@ -48,6 +48,22 @@ def last_char(matchobj):
     return matchobj.group(0)[-1]
 
 
+def remove_phantom(text: str) -> str:
+    """
+    Remove a char that may have been accidentally typed at the text beginning.
+    """
+    if text[0] in _PHANTOM_CHARS:
+        text = text[1:]
+    return text
+
+
+def remove_zw(text: str) -> str:
+    """
+    Remove zero-width characters.
+    """
+    return _RE_REMOVE_ZERO_WIDTHS.sub("", text)
+
+
 def normalize(text: str) -> str:
     """
     This function normalize thai text with normalizing rules as follows:
@@ -73,7 +89,7 @@ def normalize(text: str) -> str:
         normalize('นานาาา')
         # output: นานา
     """
-    text = _RE_REMOVE_ZERO_WIDTHS.sub("", text)
+    text = remove_zw(text)
 
     for pair in _REORDER_PAIRS:
         text = re.sub(pair[0], pair[1], text)
@@ -83,9 +99,7 @@ def normalize(text: str) -> str:
     # remove repeating tonemarks, use last tonemark
     text = _RE_NOREPEAT_TONEMARKS.sub(last_char, text)
 
-    # remove a char that may have been accidentally typed in at the beginning
-    if text[0] in _PHANTOM_CHARS:
-        text = text[1:]
+    text = remove_phantom(text)
 
     return text
 

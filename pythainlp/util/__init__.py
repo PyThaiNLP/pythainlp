@@ -23,7 +23,7 @@ __all__ = [
     "rank",
     "reign_year_to_ad",
     "remove_phantom",
-    "remove_tonemarks",
+    "remove_tonemark",
     "remove_zw",
     "text_to_arabic_digit",
     "text_to_thai_digit",
@@ -56,7 +56,7 @@ from pythainlp.util.normalize import (
     delete_tone,
     normalize,
     remove_phantom,
-    remove_tonemarks,
+    remove_tonemark,
     remove_zw,
 )
 from pythainlp.util.numtoword import bahttext, num_to_thaiword

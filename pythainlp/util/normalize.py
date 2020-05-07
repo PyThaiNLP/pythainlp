@@ -16,7 +16,6 @@ _PHANTOM_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
 _RE_REMOVE_PHANTOMS = re.compile(f"^[{_PHANTOM_CHARS}]+")
 
 _ZERO_WIDTH_CHARS = "\u200c\u200b"
-_RE_REMOVE_ZERO_WIDTHS = re.compile(f"[{_ZERO_WIDTH_CHARS}]+")
 
 _REORDER_PAIRS = [
     ("\u0e40\u0e40", "\u0e41"),  # Sara E + Sara E -> Sara Ae
@@ -56,9 +55,9 @@ def remove_phantom(text: str) -> str:
     return _RE_REMOVE_PHANTOMS.sub("", text)
 
 
-def remove_tonemarks(text: str) -> str:
+def remove_tonemark(text: str) -> str:
     """
-    Remove Thai tonemarks from the text.
+    Remove all Thai tonemarks from the text.
 
     There are 4 tonemarks indicating 4 tones as follows:
 
@@ -79,14 +78,20 @@ def remove_tonemarks(text: str) -> str:
         delete_tone('สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด')
         # output: สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด
     """
-    return _RE_TONEMARKS.sub("", text)
+    for ch in tonemarks:
+        while ch in text:
+            text = text.replace(ch, "")
+    return text
 
 
 def remove_zw(text: str) -> str:
     """
     Remove zero-width characters.
     """
-    return _RE_REMOVE_ZERO_WIDTHS.sub("", text)
+    for ch in _ZERO_WIDTH_CHARS:
+        while ch in text:
+            text = text.replace(ch, "")
+    return text
 
 
 def normalize(text: str) -> str:
@@ -131,6 +136,6 @@ def normalize(text: str) -> str:
 
 def delete_tone(text: str) -> str:
     """
-    DEPRECATED: Please use remove_tonemarks().
+    DEPRECATED: Please use remove_tonemark().
     """
-    return remove_tonemarks(text)
+    return remove_tonemark(text)

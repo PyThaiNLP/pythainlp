@@ -28,7 +28,7 @@ from pythainlp.util import (
     rank,
     reign_year_to_ad,
     remove_phantom,
-    remove_tonemarks,
+    remove_tonemark,
     remove_zw,
     text_to_arabic_digit,
     text_to_thai_digit,
@@ -321,8 +321,8 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(remove_phantom("\u0e48\u0e01\u0e48"), "\u0e01\u0e48")
 
         # removing tonemarks
-        self.assertEqual(remove_tonemarks("จิ้น"), "จิน")
-        self.assertEqual(remove_tonemarks("เก๋า"), "เกา")
+        self.assertEqual(remove_tonemark("จิ้น"), "จิน")
+        self.assertEqual(remove_tonemark("เก๋า"), "เกา")
 
         # removing zero width chars
         self.assertEqual(remove_zw("กา\u200b"), "กา")

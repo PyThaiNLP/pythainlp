@@ -12,7 +12,6 @@ from pythainlp.util import (
     bahttext,
     collate,
     countthai,
-    delete_tone,
     digit_to_text,
     eng_to_thai,
     find_keyword,
@@ -25,6 +24,7 @@ from pythainlp.util import (
     rank,
     reign_year_to_ad,
     remove_phantom,
+    remove_tonemarks,
     remove_zw,
     text_to_arabic_digit,
     text_to_thai_digit,
@@ -244,10 +244,6 @@ class TestUtilPackage(unittest.TestCase):
 
     # ### pythainlp.util.normalize
 
-    def test_delete_tone(self):
-        self.assertEqual(delete_tone("จิ้น"), "จิน")
-        self.assertEqual(delete_tone("เก๋า"), "เกา")
-
     def test_normalize(self):
         self.assertIsNotNone(normalize("พรรค์จันทร์ab์"))
 
@@ -274,6 +270,11 @@ class TestUtilPackage(unittest.TestCase):
         # consonant + follow vowel + tonemark
         self.assertEqual(normalize("\u0e01\u0e32\u0e48"), "\u0e01\u0e48\u0e32")
 
+        # repeating following vowels
+        self.assertEqual(normalize("กาา"), "กา")
+        self.assertEqual(normalize("กา า  า  า"), "กา")
+        self.assertEqual(normalize("กา าาะา"), "กาะา")
+
         # repeating tonemarks
         self.assertEqual(normalize("\u0e01\u0e48\u0e48"), "\u0e01\u0e48")
 
@@ -283,15 +284,17 @@ class TestUtilPackage(unittest.TestCase):
             normalize("\u0e01\u0e48\u0e49\u0e48\u0e49"), "\u0e01\u0e49"
         )
 
-        # tonemark at the beginning of text
+        # remove tonemark at the beginning of text
         self.assertEqual(remove_phantom("\u0e48\u0e01"), "\u0e01")
+        self.assertEqual(remove_phantom("\u0e48\u0e48\u0e01"), "\u0e01")
+        self.assertEqual(remove_phantom("\u0e48\u0e49\u0e01"), "\u0e01")
+        self.assertEqual(remove_phantom("\u0e48\u0e01\u0e48"), "\u0e01\u0e48")
 
-        # repeating following vowels
-        self.assertEqual(normalize("กาา"), "กา")
-        self.assertEqual(normalize("กา า  า  า"), "กา")
-        self.assertEqual(normalize("กา าาะา"), "กาะา")
+        # removing tonemarks
+        self.assertEqual(remove_tonemarks("จิ้น"), "จิน")
+        self.assertEqual(remove_tonemarks("เก๋า"), "เกา")
 
-        # zero width chars
+        # removing zero width chars
         self.assertEqual(remove_zw("กา\u200b"), "กา")
         self.assertEqual(remove_zw("ก\u200cา"), "กา")
         self.assertEqual(remove_zw("\u200bกา"), "กา")

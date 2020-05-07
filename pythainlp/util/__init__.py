@@ -21,6 +21,7 @@ __all__ = [
     "rank",
     "reign_year_to_ad",
     "remove_phantom",
+    "remove_tonemarks",
     "remove_zw",
     "text_to_arabic_digit",
     "text_to_thai_digit",
@@ -50,7 +51,13 @@ from .digitconv import (
 )
 from .keyboard import eng_to_thai, thai_to_eng
 from .keywords import find_keyword, rank
-from .normalize import delete_tone, normalize, remove_phantom, remove_zw
+from .normalize import (
+    delete_tone,
+    normalize,
+    remove_phantom,
+    remove_tonemarks,
+    remove_zw,
+)
 from .numtoword import bahttext, num_to_thaiword
 from .thai import countthai, isthai, isthaichar
 from .thaiwordcheck import is_native_thai

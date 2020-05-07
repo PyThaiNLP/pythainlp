@@ -24,6 +24,9 @@ Modules
 .. autofunction:: num_to_thaiword
 .. autofunction:: rank
 .. autofunction:: reign_year_to_ad
+.. autofunction:: remove_phantom
+.. autofunction:: remove_tonemarks
+.. autofunction:: remove_zw
 .. autofunction:: thai_time
 .. autofunction:: text_to_arabic_digit
 .. autofunction:: text_to_thai_digit

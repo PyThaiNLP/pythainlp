@@ -1,58 +1,41 @@
+"""
+thainlp tag command line.
+"""
 import argparse
 
 from pythainlp import cli
-from pythainlp.tag import pos_tag
+from pythainlp.tag import locations, named_entity, pos_tag
 
 
 class SubAppBase:
     def __init__(self, name, argv):
         parser = argparse.ArgumentParser(name)
         parser.add_argument(
-            "--text",
-            type=str,
-            help="input text",
-        )
-
-        parser.add_argument(
-            "--engine",
-            type=str,
-            help=f"default: {self.engine}",
-            default=self.engine
-        )
-
-        parser.add_argument(
-            "--corpus",
-            type=str,
-            help=f"default: {self.corpus}",
-            default=self.corpus
+            "text", type=str, help="input text",
         )
 
         parser.add_argument(
             "-s",
             "--sep",
+            dest="separator",
             type=str,
-            help=f"default: {self.sep}",
-            default=self.sep
+            help=f"Token separator for input text. default: {self.separator}",
+            default=self.separator,
         )
 
         args = parser.parse_args(argv)
         self.args = args
 
-        result = self.run(
-            args.text.split(args.sep), engine=args.engine, corpus=args.corpus
-        )
+        tokens = args.text.split(args.separator)
+        result = self.run(tokens)
 
-        result_str = map(lambda x: f"{x}/{result}")
-
-        print(" ".join(result_str))
+        for word, tag in result:
+            print(word, "/", tag)
 
 
 class POSTaggingApp(SubAppBase):
     def __init__(self, *args, **kwargs):
-
-        self.engine = "perceptron"
-        self.corpus = "orchid"
-        self.sep = "|"
+        self.separator = "|"
         self.run = pos_tag
 
         super().__init__(*args, **kwargs)
@@ -61,21 +44,16 @@ class POSTaggingApp(SubAppBase):
 class App:
     def __init__(self, argv):
         parser = argparse.ArgumentParser(**cli.make_usage("tag"))
-        parser.add_argument(
-            "subcommand",
-            type=str,
-            nargs="?",
-            help="[pos]"
-        )
+        parser.add_argument("subcommand", type=str, help="[pos]")
 
         args = parser.parse_args(argv[2:3])
 
         cli.exit_if_empty(args.subcommand, parser)
-        subcommand= str.lower(args.subcommand)
+        subcommand = str.lower(args.subcommand)
 
         argv = argv[3:]
 
         if subcommand == "pos":
             POSTaggingApp("Part-of-Speech tagging", argv)
         else:
-            raise NotImplementedError(f"Subcommand not available: {subcommand}")
+            print(f"Tag type not available: {subcommand}")

@@ -15,29 +15,26 @@ In International Symposium on Communications and Information Technology (ISCIT),
 import re
 from typing import List
 
+from pythainlp import thai_follow_vowels
 from pythainlp.corpus import get_corpus
 from pythainlp.tokenize import Tokenizer
 
 _cut_etcc = Tokenizer(get_corpus("etcc.txt"), engine="longest")
-_PAT_ENDING_CHAR = "[ะาๆฯๅำ]"
+_PAT_ENDING_CHAR = f"[{thai_follow_vowels}ๆฯ]"
 _RE_ENDING_CHAR = re.compile(_PAT_ENDING_CHAR)
 
 
 def _cut_subword(tokens: List[str]) -> List[str]:
-    _j = len(tokens)
-    _i = 0
+    len_tokens = len(tokens)
+    i = 0
     while True:
-        if _i == _j:
+        if i == len_tokens:
             break
-        if (
-            _RE_ENDING_CHAR.search(tokens[_i])
-            and _i > 0
-            and len(tokens[_i]) == 1
-        ):
-            tokens[_i - 1] += tokens[_i]
-            del tokens[_i]
-            _j -= 1
-        _i += 1
+        if _RE_ENDING_CHAR.search(tokens[i]) and i > 0 and len(tokens[i]) == 1:
+            tokens[i - 1] += tokens[i]
+            del tokens[i]
+            len_tokens -= 1
+        i += 1
     return tokens
 
 

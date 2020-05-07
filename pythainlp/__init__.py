@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__version__ = "2.2.0-dev0"
+__version__ = "2.2.0-dev1"
 
 thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44 chars
 
@@ -43,6 +43,7 @@ from pythainlp.tokenize import (
     Tokenizer,
     sent_tokenize,
     subword_tokenize,
+    syllable_tokenize,
     word_tokenize,
 )
 from pythainlp.transliterate import romanize, transliterate

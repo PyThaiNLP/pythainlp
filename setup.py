@@ -73,7 +73,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="2.2.0-dev0",
+    version="2.2.0-dev1",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -93,7 +93,7 @@ setup(
             "orchid_pt_tagger.dill",
             "person_names_female_th.txt",
             "person_names_male_th.txt",
-            "sentenceseg-ted.model",
+            "sentenceseg-crfcut-v2.model",
             "stopwords_th.txt",
             "syllables_th.txt",
             "tha-wn.db",

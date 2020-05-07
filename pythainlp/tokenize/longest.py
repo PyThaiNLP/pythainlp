@@ -11,9 +11,9 @@ on the code from Patorn Utenpattanun.
 import re
 from typing import List
 
-from pythainlp.tokenize import DEFAULT_DICT_TRIE
-
-from .trie import Trie
+from pythainlp import thai_tonemarks
+from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
+from pythainlp.util import Trie
 
 _FRONT_DEP_CHAR = [
     "ะ",
@@ -32,7 +32,6 @@ _FRONT_DEP_CHAR = [
     "ํ",
 ]
 _REAR_DEP_CHAR = ["ั", "ื", "เ", "แ", "โ", "ใ", "ไ", "ํ"]
-_TONAL_CHAR = ["่", "้", "๊", "๋"]
 _TRAILING_CHAR = ["ๆ", "ฯ"]
 
 _RE_NONTHAI = re.compile(r"[A-Za-z\d]*")
@@ -115,7 +114,7 @@ class LongestMatchTokenizer(object):
                     and (
                         text[begin_pos] in _FRONT_DEP_CHAR
                         or text[begin_pos - 1] in _REAR_DEP_CHAR
-                        or text[begin_pos] in _TONAL_CHAR
+                        or text[begin_pos] in thai_tonemarks
                         or (token_statuses and token_statuses[-1] == _UNKNOWN)
                     )
                 ):
@@ -140,18 +139,20 @@ class LongestMatchTokenizer(object):
         return tokens
 
 
-def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
+def segment(
+    text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE
+) -> List[str]:
     """
     Dictionary-based longest matching word segmentation.
 
     :param str text: text to be tokenized to words
-    :param pythainlp.trie.Trie custom_dict: dictionary for tokenization
+    :param pythainlp.util.Trie custom_dict: dictionary for tokenization
     :return: list of words, tokenized from the text
     """
     if not text or not isinstance(text, str):
         return []
 
     if not custom_dict:
-        custom_dict = DEFAULT_DICT_TRIE
+        custom_dict = DEFAULT_WORD_DICT_TRIE
 
     return LongestMatchTokenizer(custom_dict).tokenize(text)

@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Dictionary-based Thai Word Segmentation
-using maximal matching algorithm and Thai Character Cluster (TCC).
+Dictionary-based maximal matching word segmentation, constrained with
+Thai Character Cluster (TCC) boundaries.
 
-The code is based on the notebooks created by Korakot Chaovavanich.
+The code is based on the notebooks created by Korakot Chaovavanich,
+with heuristic graph size limit added to avoid exponential wait time.
 
 :See Also:
     * \
@@ -16,10 +17,10 @@ from collections import defaultdict
 from heapq import heappop, heappush
 from typing import Generator, List
 
-from pythainlp.tokenize import DEFAULT_DICT_TRIE
+from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
+from pythainlp.util import Trie
 
 from .tcc import tcc_pos
-from .trie import Trie
 
 # match non-Thai tokens
 _PAT_NONTHAI = re.compile(
@@ -91,7 +92,8 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
         if len(pos_list) == 1:  # one candidate, no longer ambiguous
             end_pos_candidates = next(
-                _bfs_paths_graph(graph, end_pos, pos_list[0]))
+                _bfs_paths_graph(graph, end_pos, pos_list[0])
+            )
             graph_size = 0
             for _pos in end_pos_candidates[1:]:
                 yield text[end_pos:_pos]
@@ -106,8 +108,10 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
                         words = [
                             word
                             for word in custom_dict.prefixes(text[_pos:])
-                            if ((_pos + len(word) in valid_poss) and
-                                not _PAT_THAI_TWOCHARS.match(word))
+                            if (
+                                (_pos + len(word) in valid_poss)
+                                and not _PAT_THAI_TWOCHARS.match(word)
+                            )
                         ]
                         if words:  # is a Thai token that longer than 2 chars
                             end_pos = _pos
@@ -127,14 +131,16 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
 
 def segment(
-    text: str, custom_dict: Trie = DEFAULT_DICT_TRIE, safe_mode: bool = False
+    text: str,
+    custom_dict: Trie = DEFAULT_WORD_DICT_TRIE,
+    safe_mode: bool = False,
 ) -> List[str]:
     """
     Dictionary-based maximal matching word segmentation, constrained with
     Thai Character Cluster boundaries.
 
     :param str text: text to be tokenized to words
-    :param pythainlp.trie.Trie custom_dict: dictionary for tokenization
+    :param pythainlp.util.Trie custom_dict: dictionary for tokenization
     :param bool safe_mode: True to help avoid long wait for text with long\
         and continuous ambiguous breaking points. Long wait may still able\
         to occur. Default is False.
@@ -144,7 +150,7 @@ def segment(
         return []
 
     if not custom_dict:
-        custom_dict = DEFAULT_DICT_TRIE
+        custom_dict = DEFAULT_WORD_DICT_TRIE
 
     if not safe_mode or len(text) < _TEXT_SCAN_END:
         return list(_onecut(text, custom_dict))

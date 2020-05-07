@@ -80,7 +80,7 @@ pip install pythainlp[extra1,extra2,...]
 
 where `extras` can be
   - `attacut` (to support attacut, a fast and accurate tokenizer)
-  - `benchmarks` (for word tokenization benchmarking)
+  - `benchmarks` (for [word tokenization benchmarking](tokenization-benchmark.md))
   - `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
   - `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
   - `ml` (to support ULMFiT models for classification)
@@ -125,7 +125,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 - รุ่นเสถียรล่าสุดคือรุ่น [2.1.4](https://github.com/PyThaiNLP/pythainlp/releases)
 - PyThaiNLP 2 รองรับ Python 3.6 ขึ้นไป
-  - ผู้ใช้ Python 2.7+ ยังสามารถใช้ PyThaiNLP 1.6 ได้
+  - ผู้ใช้ Python 2.7+ ยังสามารถใช้ [PyThaiNLP 1.6](https://github.com/PyThaiNLP/pythainlp/blob/007e644daab4ac8379a13f26065e2d9492af0536/docs/pythainlp-1-6-thai.md) ได้
 - 📫 ติดตามข่าวสารได้ที่ Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
 ใช้งาน PyThaiNLP:
@@ -180,7 +180,7 @@ pip install pythainlp[extra1,extra2,...]
 
 โดยที่ `extras` คือ
   - `attacut` (ตัวตัดคำที่แม่นกว่า `newmm` เมื่อเทียบกับชุดข้อมูล BEST)
-  - `benchmarks` (สำหรับเครื่องมือวัดความแม่นยำของตัวตัดคำ)
+  - `benchmarks` (สำหรับเครื่องมือ[วัดความแม่นยำของตัวตัดคำ](tokenization-benchmark.md))
   - `icu` (สำหรับการถอดตัวสะกดเป็นสัทอักษรและการตัดคำด้วย ICU)
   - `ipa` (สำหรับการถอดตัวสะกดเป็นสัทอักษรสากล (IPA))
   - `ml` (สำหรับการรองรับโมเดล ULMFiT)

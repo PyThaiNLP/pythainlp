@@ -6,10 +6,10 @@ Adapted from
 http://justmindthought.blogspot.com/2012/12/code-php.html
 https://suksit.com/post/writing-bahttext-in-php/
 """
-import math
 
 __all__ = ["bahttext", "num_to_thaiword"]
 
+import math
 
 _VALUES = [
     "",

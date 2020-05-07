@@ -1,44 +1,34 @@
+"""
+thainlp soundex command line.
+
+Take input text from command line.
+"""
 import argparse
 
 from pythainlp import cli
-from pythainlp.soundex import soundex
+from pythainlp.soundex import DEFAULT_SOUNDEX_ENGINE, soundex
 
 
 class App:
-
     def __init__(self, argv):
-        parser = argparse.ArgumentParser("soundex")
-
+        parser = argparse.ArgumentParser(
+            prog="soundex",
+            description="Convert a text to its sound-based index.",
+        )
         parser.add_argument(
-            "subcommand",
+            "-a",
+            "--algo",
+            dest="algorithm",
             type=str,
-            nargs="?",
-            help="[udom83|lk82|metasound]"
+            choices=["udom83", "lk82", "metasound"],
+            help="soundex algorithm",
+            default=DEFAULT_SOUNDEX_ENGINE,
+        )
+        parser.add_argument(
+            "text", type=str, help="input text",
         )
 
-        parser.add_argument(
-            "-t",
-            "--text",
-            type=str,
-            help="input text",
-        )
+        args = parser.parse_args(argv[2:])
 
-        args = parser.parse_args(argv[2:3])
-
-        cli.exit_if_empty(args.subcommand, parser)
-        subcommand = str.lower(args.subcommand)
-
-        cli.exit_if_empty(args.text, parser)
-
-        sdx = ""
-        if subcommand.startswith("udom"):
-            sdx = soundex(args.text, engine="udom83")
-        elif subcommand.startswith("lk"):
-            sdx = soundex(args.text, engine="lk82")
-        elif subcommand.startswith("meta"):
-            sdx = soundex(args.text, engine="metasound")
-        else:
-            raise NotImplementedError(
-                f"Subcommand not available: {subcommand}")
-
+        sdx = soundex(args.text, engine=args.algorithm)
         print(sdx)

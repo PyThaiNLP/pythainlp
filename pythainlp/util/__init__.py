@@ -22,6 +22,10 @@ __all__ = [
     "num_to_thaiword",
     "rank",
     "reign_year_to_ad",
+    "remove_dangling",
+    "remove_dup_spaces",
+    "remove_tonemark",
+    "remove_zw",
     "text_to_arabic_digit",
     "text_to_thai_digit",
     "thai_digit_to_arabic_digit",
@@ -49,7 +53,14 @@ from pythainlp.util.digitconv import (
 )
 from pythainlp.util.keyboard import eng_to_thai, thai_to_eng
 from pythainlp.util.keywords import find_keyword, rank
-from pythainlp.util.normalize import delete_tone, normalize
+from pythainlp.util.normalize import (
+    delete_tone,
+    normalize,
+    remove_dangling,
+    remove_dup_spaces,
+    remove_tonemark,
+    remove_zw,
+)
 from pythainlp.util.numtoword import bahttext, num_to_thaiword
 from pythainlp.util.thai import countthai, isthai, isthaichar
 from pythainlp.util.thaiwordcheck import is_native_thai

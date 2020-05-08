@@ -27,8 +27,8 @@ from pythainlp.util import (
     num_to_thaiword,
     rank,
     reign_year_to_ad,
+    remove_dangling,
     remove_dup_spaces,
-    remove_phantom,
     remove_tonemark,
     remove_zw,
     text_to_arabic_digit,
@@ -281,24 +281,24 @@ class TestUtilPackage(unittest.TestCase):
         # sara e + sara e
         self.assertEqual(normalize("เเปลก"), "แปลก")
 
-        # consonant + follow vowel + tonemark
+        # consonant + follow vowel + tone mark
         self.assertEqual(normalize("\u0e01\u0e30\u0e48"), "\u0e01\u0e48\u0e30")
 
         # consonant + nikhahit + sara aa
         self.assertEqual(normalize("นํา"), "นำ")
         self.assertEqual(normalize("\u0e01\u0e4d\u0e32"), "\u0e01\u0e33")
 
-        # consonant + nikhahit + tonemark + sara aa
+        # consonant + nikhahit + tone mark + sara aa
         self.assertEqual(
             normalize("\u0e01\u0e4d\u0e48\u0e32"), "\u0e01\u0e48\u0e33"
         )
 
-        # consonant + tonemark + nikhahit + sara aa
+        # consonant + tone mark + nikhahit + sara aa
         self.assertEqual(
             normalize("\u0e01\u0e48\u0e4d\u0e32"), "\u0e01\u0e48\u0e33"
         )
 
-        # consonant + follow vowel + tonemark
+        # consonant + follow vowel + tone mark
         self.assertEqual(normalize("\u0e01\u0e32\u0e48"), "\u0e01\u0e48\u0e32")
 
         # repeating following vowels
@@ -306,26 +306,26 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(normalize("กา า  า  า"), "กา")
         self.assertEqual(normalize("กา าาะา"), "กาะา")
 
-        # repeating tonemarks
+        # repeating tone marks
         self.assertEqual(normalize("\u0e01\u0e48\u0e48"), "\u0e01\u0e48")
 
-        # repeating different tonemarks
+        # repeating different ton emarks
         self.assertEqual(normalize("\u0e01\u0e48\u0e49"), "\u0e01\u0e49")
         self.assertEqual(
             normalize("\u0e01\u0e48\u0e49\u0e48\u0e49"), "\u0e01\u0e49"
         )
 
-        # remove tonemark at the beginning of text
-        self.assertEqual(remove_phantom("\u0e48\u0e01"), "\u0e01")
-        self.assertEqual(remove_phantom("\u0e48\u0e48\u0e01"), "\u0e01")
-        self.assertEqual(remove_phantom("\u0e48\u0e49\u0e01"), "\u0e01")
-        self.assertEqual(remove_phantom("\u0e48\u0e01\u0e48"), "\u0e01\u0e48")
+        # remove tone mark at the beginning of text
+        self.assertEqual(remove_dangling("\u0e48\u0e01"), "\u0e01")
+        self.assertEqual(remove_dangling("\u0e48\u0e48\u0e01"), "\u0e01")
+        self.assertEqual(remove_dangling("\u0e48\u0e49\u0e01"), "\u0e01")
+        self.assertEqual(remove_dangling("\u0e48\u0e01\u0e48"), "\u0e01\u0e48")
 
         # remove duplicate spaces
         self.assertEqual(remove_dup_spaces("  ab  c d  "), "ab c d")
         self.assertEqual(remove_dup_spaces("\nab  c   \n d \n"), "ab c\nd")
 
-        # removing tonemarks
+        # removing tone marks
         self.assertEqual(remove_tonemark("จิ้น"), "จิน")
         self.assertEqual(remove_tonemark("เก๋า"), "เกา")
 

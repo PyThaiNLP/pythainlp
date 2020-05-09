@@ -204,6 +204,8 @@ def normalize(text: str) -> str:
     If a user wants to customize the selection or the order of rules
     to be applied, they can choose to call those functions by themselves.
 
+    Note: for Unicode normalization, see unicodedata.normalize().
+
     :param str text: input text
     :return: normalized text according to the fules
     :rtype: str
@@ -213,10 +215,7 @@ def normalize(text: str) -> str:
 
         from pythainlp.util import normalize
 
-        normalize('สระะน้ำ')
-        # output: สระน้ำ
-
-        normalize('เเปลก')
+        normalize('เเปลก')  # starts with two Sara E
         # output: แปลก
 
         normalize('นานาาา')

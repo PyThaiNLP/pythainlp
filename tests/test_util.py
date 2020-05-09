@@ -15,6 +15,7 @@ from pythainlp.util import (
     bahttext,
     collate,
     countthai,
+    delete_tone,
     dict_trie,
     digit_to_text,
     eng_to_thai,
@@ -278,38 +279,38 @@ class TestUtilPackage(unittest.TestCase):
     def test_normalize(self):
         self.assertIsNotNone(normalize("พรรค์จันทร์ab์"))
 
-        # sara e + sara e
+        # normalize sara e + sara e
         self.assertEqual(normalize("เเปลก"), "แปลก")
 
-        # consonant + follow vowel + tone mark
-        self.assertEqual(normalize("\u0e01\u0e30\u0e48"), "\u0e01\u0e48\u0e30")
-
-        # consonant + nikhahit + sara aa
+        # normalize consonant + nikhahit + sara aa
         self.assertEqual(normalize("นํา"), "นำ")
         self.assertEqual(normalize("\u0e01\u0e4d\u0e32"), "\u0e01\u0e33")
 
-        # consonant + nikhahit + tone mark + sara aa
-        self.assertEqual(
-            normalize("\u0e01\u0e4d\u0e48\u0e32"), "\u0e01\u0e48\u0e33"
-        )
-
-        # consonant + tone mark + nikhahit + sara aa
+        # normalize consonant + tone mark + nikhahit + sara aa
         self.assertEqual(
             normalize("\u0e01\u0e48\u0e4d\u0e32"), "\u0e01\u0e48\u0e33"
         )
 
-        # consonant + follow vowel + tone mark
+        # reorder consonant + follow vowel + tone mark
+        self.assertEqual(normalize("\u0e01\u0e30\u0e48"), "\u0e01\u0e48\u0e30")
+
+        # reorder consonant + nikhahit + tone mark + sara aa
+        self.assertEqual(
+            normalize("\u0e01\u0e4d\u0e48\u0e32"), "\u0e01\u0e48\u0e33"
+        )
+
+        # reorder consonant + follow vowel + tone mark
         self.assertEqual(normalize("\u0e01\u0e32\u0e48"), "\u0e01\u0e48\u0e32")
 
-        # repeating following vowels
+        # remove repeating following vowels
         self.assertEqual(normalize("กาา"), "กา")
         self.assertEqual(normalize("กา า  า  า"), "กา")
         self.assertEqual(normalize("กา าาะา"), "กาะา")
 
-        # repeating tone marks
+        # remove epeating tone marks
         self.assertEqual(normalize("\u0e01\u0e48\u0e48"), "\u0e01\u0e48")
 
-        # repeating different ton emarks
+        # remove repeating different ton emarks
         self.assertEqual(normalize("\u0e01\u0e48\u0e49"), "\u0e01\u0e49")
         self.assertEqual(
             normalize("\u0e01\u0e48\u0e49\u0e48\u0e49"), "\u0e01\u0e49"
@@ -325,11 +326,12 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(remove_dup_spaces("  ab  c d  "), "ab c d")
         self.assertEqual(remove_dup_spaces("\nab  c   \n d \n"), "ab c\nd")
 
-        # removing tone marks
+        # remove tone marks
         self.assertEqual(remove_tonemark("จิ้น"), "จิน")
         self.assertEqual(remove_tonemark("เก๋า"), "เกา")
+        self.assertEqual(delete_tone("เจ๋งเป้ง"), remove_tonemark("เจ๋งเป้ง"))
 
-        # removing zero width chars
+        # remove zero width chars
         self.assertEqual(remove_zw("กา\u200b"), "กา")
         self.assertEqual(remove_zw("ก\u200cา"), "กา")
         self.assertEqual(remove_zw("\u200bกา"), "กา")

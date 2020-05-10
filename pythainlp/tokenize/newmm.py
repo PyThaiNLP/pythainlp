@@ -76,8 +76,8 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
     pos_list = [0]  # priority queue of possible breaking positions
     end_pos = 0
-    _text_len = len(text)
-    while pos_list[0] < _text_len:
+    len(text) = len(text)
+    while pos_list[0] < len(text):
         begin_pos = heappop(pos_list)
         for word in custom_dict.prefixes(text[begin_pos:]):
             end_pos_candidate = begin_pos + len(word)
@@ -106,7 +106,7 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
             if m:  # non-Thai token, skip to the end
                 end_pos = begin_pos + m.end()
             else:  # Thai token, find minimum skip
-                for _pos in range(begin_pos + 1, _text_len):
+                for _pos in range(begin_pos + 1, len(text)):
                     if _pos in valid_poss:
                         words = [
                             word
@@ -125,7 +125,7 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
                             end_pos = _pos
                             break
                 else:
-                    end_pos = _text_len
+                    end_pos = len(text)
 
             graph[begin_pos].append(end_pos)
             graph_size = graph_size + 1
@@ -152,17 +152,16 @@ def segment(
     if not text or not isinstance(text, str):
         return []
 
-    _text_len = len(text)
     if not custom_dict:
         custom_dict = DEFAULT_WORD_DICT_TRIE
 
-    if not safe_mode or _text_len < _TEXT_SCAN_END:
+    if not safe_mode or len(text) < _TEXT_SCAN_END:
         return list(_onecut(text, custom_dict))
 
     # if the text is longer than the limit,
     # breaks them into smaller chunks then tokenizes each chunk
     text_parts = []
-    while _text_len >= _TEXT_SCAN_END:
+    while len(text) >= _TEXT_SCAN_END:
         sample = text[_TEXT_SCAN_BEGIN:_TEXT_SCAN_END]
 
         # find possible break positions
@@ -190,7 +189,7 @@ def segment(
         text = text[cut_pos:]
 
     # append remaining text
-    if _text_len:
+    if len(text):
         text_parts.append(text)
 
     # tokenizes each text parts

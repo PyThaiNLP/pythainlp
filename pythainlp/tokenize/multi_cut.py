@@ -37,13 +37,13 @@ class LatticeString(str):
         self.in_dict = in_dict  # บอกว่าเป็นคำมีในดิกหรือเปล่า
 
 
-_RE_ENG = r"""(?x)
-[-a-zA-Z]+|   # english
+_RE_NONTHAI = r"""(?x)
+[-a-zA-Z]+|   # Latin
 \d[\d,\.]*|   # number
 [ \t]+|       # space
 \r?\n         # newline
 """
-_PAT_ENG = re.compile(_RE_ENG)
+_PAT_NONTHAI = re.compile(_RE_NONTHAI)
 
 
 def _multicut(text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE):
@@ -75,22 +75,20 @@ def _multicut(text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE):
             words_at[p].append(w)
             q.add(p + len(w))
 
-        _q_len = len(q)
+        len_q = len(q)
 
-        if _q_len == 1:
+        if len_q == 1:
             q0 = min(q)
             yield LatticeString(text[last_p:q0], serialize(last_p, q0))
             last_p = q0
-
-        # กรณี len(q) == 0  คือ ไม่มีใน dict
-        if _q_len == 0:
-            m = _PAT_ENG.match(text[p:])
-            if m:  # อังกฤษ, เลข, ว่าง
+        elif len_q == 0:  # len(q) == 0  means not found in dictionary
+            m = _PAT_NONTHAI.match(text[p:])
+            if m:  # non-Thai toekn
                 i = p + m.span()[1]
-            else:  # skip น้อยที่สุด ที่เป็นไปได้
+            else:  # non-Thai token, find minimum skip
                 for i in range(p, len_text):
                     ww = custom_dict.prefixes(text[i:])
-                    m = _PAT_ENG.match(text[i:])
+                    m = _PAT_NONTHAI.match(text[i:])
                     if ww or m:
                         break
                 else:

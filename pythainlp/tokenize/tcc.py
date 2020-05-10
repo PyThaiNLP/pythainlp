@@ -60,8 +60,9 @@ def tcc(text: str) -> str:
     if not text or not isinstance(text, str):
         return ""
 
+    len_text = len(text)
     p = 0
-    while p < len(text):
+    while p < len_text:
         m = _PAT_TCC.match(text[p:])
         if m:
             n = m.span()[1]

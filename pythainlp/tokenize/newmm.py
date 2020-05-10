@@ -32,7 +32,7 @@ _PAT_NONTHAI = re.compile(
 """
 )
 
-# match 2-char Thai tokens
+# match 2-consonant Thai tokens
 _PAT_THAI_TWOCHARS = re.compile("[ก-ฮ]{,2}$")
 
 
@@ -74,9 +74,10 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
     valid_poss = tcc_pos(text)  # breaking positions that are TCC-valid
 
+    len_text = len(text)
     pos_list = [0]  # priority queue of possible breaking positions
     end_pos = 0
-    while pos_list[0] < len(text):
+    while pos_list[0] < len_text:
         begin_pos = heappop(pos_list)
         for word in custom_dict.prefixes(text[begin_pos:]):
             end_pos_candidate = begin_pos + len(word)
@@ -90,41 +91,41 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
                 if graph_size > _MAX_GRAPH_SIZE:
                     break
 
-        _pos_list_len = len(pos_list)
-
-        if _pos_list_len == 1:  # one candidate, no longer ambiguous
+        len_pos_list = len(pos_list)
+        if len_pos_list == 1:  # one candidate, no longer ambiguous
             end_pos_candidates = next(
                 _bfs_paths_graph(graph, end_pos, pos_list[0])
             )
             graph_size = 0
-            for _pos in end_pos_candidates[1:]:
-                yield text[end_pos:_pos]
-                end_pos = _pos
-        elif _pos_list_len == 0:  # no candidate, deal with non-dictionary word
+            for pos in end_pos_candidates[1:]:
+                yield text[end_pos:pos]
+                end_pos = pos
+        elif len_pos_list == 0:  # no candidate, deal with non-dictionary word
             m = _PAT_NONTHAI.match(text[begin_pos:])
             if m:  # non-Thai token, skip to the end
                 end_pos = begin_pos + m.end()
             else:  # Thai token, find minimum skip
-                for _pos in range(begin_pos + 1, len(text)):
-                    if _pos in valid_poss:
+                for pos in range(begin_pos + 1, len_text):
+                    if pos in valid_poss:
+                        prefix = text[pos:]
                         words = [
                             word
-                            for word in custom_dict.prefixes(text[_pos:])
+                            for word in custom_dict.prefixes(prefix)
                             if (
-                                (_pos + len(word) in valid_poss)
+                                (pos + len(word) in valid_poss)
                                 and not _PAT_THAI_TWOCHARS.match(word)
                             )
                         ]
                         if words:  # is a Thai token that longer than 2 chars
-                            end_pos = _pos
+                            end_pos = pos
                             break
 
                         # is a non-Thai token
-                        if _PAT_NONTHAI.match(text[_pos:]):
-                            end_pos = _pos
+                        if _PAT_NONTHAI.match(prefix):
+                            end_pos = pos
                             break
                 else:
-                    end_pos = len(text)
+                    end_pos = len_text
 
             graph[begin_pos].append(end_pos)
             graph_size = graph_size + 1

@@ -9,7 +9,7 @@ on the code from Patorn Utenpattanun.
 
 """
 import re
-from typing import List
+from typing import List, Union
 
 from pythainlp import thai_tonemarks
 from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
@@ -45,7 +45,7 @@ class LongestMatchTokenizer(object):
         self.__trie = trie
 
     @staticmethod
-    def __search_nonthai(text: str):
+    def __search_nonthai(text: str) -> Union[None, str]:
         match = _RE_NONTHAI.search(text)
         if match.group(0):
             return match.group(0).lower()
@@ -67,7 +67,7 @@ class LongestMatchTokenizer(object):
 
         return False
 
-    def __longest_matching(self, text: str, begin_pos: int):
+    def __longest_matching(self, text: str, begin_pos: int) -> str:
         text = text[begin_pos:]
 
         match = self.__search_nonthai(text)
@@ -78,18 +78,20 @@ class LongestMatchTokenizer(object):
         word_valid = None
 
         for pos in range(len(text) + 1):
-            if text[0:pos] in self.__trie:
-                word = text[0:pos]
+            w = text[0:pos]
+            if w in self.__trie:
+                word = w
                 if self.__is_next_word_valid(text, pos):
-                    word_valid = text[0:pos]
+                    word_valid = w
 
         if word:
             if not word_valid:
                 word_valid = word
 
             try:
-                if text[len(word_valid)] in _TRAILING_CHAR:
-                    return text[0 : (len(word_valid) + 1)]
+                len_word_valid = len(word_valid)
+                if text[len_word_valid] in _TRAILING_CHAR:
+                    return text[0 : len_word_valid + 1]
                 else:
                     return word_valid
             except BaseException:
@@ -97,10 +99,7 @@ class LongestMatchTokenizer(object):
         else:
             return ""
 
-    def __segment_text(self, text: str):
-        if not text:
-            return []
-
+    def __segment(self, text: str):
         begin_pos = 0
         len_text = len(text)
         tokens = []
@@ -135,7 +134,7 @@ class LongestMatchTokenizer(object):
         return tokens
 
     def tokenize(self, text: str) -> List[str]:
-        tokens = self.__segment_text(text)
+        tokens = self.__segment(text)
         return tokens
 
 

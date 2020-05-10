@@ -18,7 +18,7 @@ SURROUNDING_SEPS_RX = re.compile(
 MULTIPLE_SEPS_RX = re.compile("{sep}+".format(sep=re.escape(SEPARATOR)))
 
 # regex for removing tags, i.e. <NE>, </NE>
-TAG_RX = re.compile("<\/?[A-Z]+>")
+TAG_RX = re.compile(r"<\/?[A-Z]+>")
 
 # regex for tailing separator, i.e.  a|dog| -> a|dog
 TAILING_SEP_RX = re.compile("{sep}$".format(sep=re.escape(SEPARATOR)))
@@ -122,7 +122,7 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
     txt = re.sub(SURROUNDING_SEPS_RX, "", txt)
 
     if remove_space:
-        txt = re.sub("\s+", "", txt)
+        txt = re.sub(r"\s+", "", txt)
 
     txt = re.sub(MULTIPLE_SEPS_RX, SEPARATOR, txt)
 

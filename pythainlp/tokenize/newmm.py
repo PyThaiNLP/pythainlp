@@ -76,7 +76,6 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
     pos_list = [0]  # priority queue of possible breaking positions
     end_pos = 0
-    len(text) = len(text)
     while pos_list[0] < len(text):
         begin_pos = heappop(pos_list)
         for word in custom_dict.prefixes(text[begin_pos:]):

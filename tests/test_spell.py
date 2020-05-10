@@ -46,4 +46,4 @@ class TestSpellPackage(unittest.TestCase):
         checker = NorvigSpellChecker(
             custom_dict=custom_dict, min_freq=2, max_len=5
         )
-        self.assertEqual(checker.dictionary(), 1)
+        self.assertEqual(len(checker.dictionary()), 1)

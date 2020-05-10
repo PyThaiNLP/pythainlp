@@ -39,6 +39,7 @@ class TestSpellPackage(unittest.TestCase):
             ("การงาน", 31),  # longer than max_len
             ("กาม", 1),  # fewer than min_freq
             ("กาล0", 64),  # has digit
+            ("๒๔๗๕", 64),  # has digit
             ("hello", 8),  # not Thai
             ("ลบ", -1),  # negative count
             ("การ", 42),  # OK

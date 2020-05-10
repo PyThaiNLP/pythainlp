@@ -23,7 +23,7 @@ def _is_thai_and_not_num(word: str) -> bool:
     for ch in word:
         if ch != "." and not isthaichar(ch):
             return False
-        if ch in digits or ch in thai_digits:
+        if ch in thai_digits or ch in digits:
             return False
     return True
 

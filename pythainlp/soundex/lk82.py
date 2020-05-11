@@ -74,6 +74,7 @@ def lk82(text: str) -> str:
 
     # เข้ารหัสตัวที่เหลือ
     i_v = None  # ตำแหน่งตัวคั่นล่าสุด (สระ)
+    len_text = len(text)
     for i, c in enumerate(text):
         if c in "ะัิี":  # 7. ตัวคั่นเฉยๆ
             i_v = i
@@ -88,10 +89,10 @@ def lk82(text: str) -> str:
             else:
                 res.append("")
         elif c in "หอ":
-            if i + 1 < len(text) and (text[i + 1] in "ึืุู"):
+            if i + 1 < len_text and (text[i + 1] in "ึืุู"):
                 res.append(c.translate(_TRANS2))
         elif c in "รวยฤฦ":
-            if i_v == i - 1 or (i + 1 < len(text) and (text[i + 1] in "ึืุู")):
+            if i_v == i - 1 or (i + 1 < len_text and (text[i + 1] in "ึืุู")):
                 res.append(c.translate(_TRANS2))
         else:
             res.append(c.translate(_TRANS2))  # 12.

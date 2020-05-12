@@ -6,7 +6,7 @@ import html
 import re
 from typing import Collection, List
 
-import emoji
+#import emoji
 
 _TK_UNK = "xxunk"
 _TK_REP = "xxrep"
@@ -186,12 +186,12 @@ def rm_brackets(text: str) -> str:
 def ungroup_emoji(toks: Collection[str]) -> List[str]:
     "Ungroup emojis"
     res = []
-    for tok in toks:
-        if emoji.emoji_count(tok) == len(tok):
-            for char in tok:
-                res.append(char)
-        else:
-            res.append(tok)
+#    for tok in toks:
+#        if emoji.emoji_count(tok) == len(tok):
+#            for char in tok:
+#                res.append(char)
+#        else:
+#            res.append(tok)
     return res
 
 

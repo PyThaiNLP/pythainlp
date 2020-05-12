@@ -5,6 +5,7 @@ pythainlp.ulmfit
 
 Modules
 -------
+.. autoclass:: ThaiTokenizer
 .. autofunction:: document_vector
 .. autofunction:: fix_html
 .. autofunction:: lowercase_all
@@ -20,3 +21,5 @@ Modules
 .. autofunction:: replace_wrep_post_nonum
 .. autofunction:: spec_add_spaces
 .. autofunction:: ungroup_emoji
+
+:members: tokenizer

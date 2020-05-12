@@ -14,6 +14,7 @@ https://arxiv.org/abs/1801.06146
 
 __all__ = [
     "THWIKI_LSTM",
+    "ThaiTokenizer",
     "document_vector",
     "merge_wgts",
     "post_rules_th",
@@ -33,3 +34,4 @@ from pythainlp.ulmfit.core import (
     pre_rules_th_sparse,
     process_thai,
 )
+from pythainlp.ulmfit.tokenizer import ThaiTokenizer

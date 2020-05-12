@@ -5,6 +5,7 @@ import unittest
 from pythainlp.tokenize import THAI2FIT_TOKENIZER, Tokenizer
 from pythainlp.ulmfit import (
     THWIKI_LSTM,
+    ThaiTokenizer,
     document_vector,
     merge_wgts,
     post_rules_th,
@@ -28,9 +29,20 @@ from pythainlp.ulmfit.preprocess import (
     spec_add_spaces,
     ungroup_emoji,
 )
+from pythainlp.ulmfit.tokenizer import BaseTokenizer
 
 
 class TestUlmfitPackage(unittest.TestCase):
+    def test_ThaiTokenizer(self):
+        self.thai = ThaiTokenizer()
+        self.assertIsNotNone(self.thai.tokenizer("ทดสอบการตัดคำ"))
+        self.assertIsNone(self.thai.add_special_cases(["แมว"]))
+
+    def test_BaseTokenizer(self):
+        self.base = BaseTokenizer(lang="th")
+        self.assertIsNotNone(self.base.tokenizer("ทดสอบ การ ตัด คำ"))
+        self.assertIsNone(self.base.add_special_cases(["แมว"]))
+
     def test_load_pretrained(self):
         self.assertIsNotNone(THWIKI_LSTM)
 

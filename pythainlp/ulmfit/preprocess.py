@@ -184,16 +184,15 @@ def rm_brackets(text: str) -> str:
 
 
 def ungroup_emoji(toks: Collection[str]) -> List[str]:
-    "Ungroup emojis"
-    res = []
-#    for tok in toks:
-#        if emoji.emoji_count(tok) == len(tok):
-#            for char in tok:
-#                res.append(char)
-#        else:
-#            res.append(tok)
-    return res
-
+    "Ungroup Zero Width Joiner (ZVJ) Emojis"
+    #res = []
+    #for tok in toks:
+    #    if emoji.emoji_count(tok) == len(tok):
+    #        res.extend(list(tok))
+    #    else:
+    #        res.append(tok)
+    #return res
+    return toks
 
 def lowercase_all(toks: Collection[str]) -> List[str]:
     """

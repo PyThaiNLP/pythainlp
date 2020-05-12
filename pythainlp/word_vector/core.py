@@ -11,6 +11,9 @@ WV_DIM = 300
 
 _THAI2FIT_WV = "thai2fit_wv"
 
+_TK_SP = "xxspace"
+_TK_EOL = "xxeol"
+
 
 def _download() -> str:
     path = get_corpus_path(_THAI2FIT_WV)
@@ -247,16 +250,20 @@ def sentence_vectorizer(text: str, use_mean: bool = True) -> ndarray:
         0.40506999,  1.58591403,  0.63869202, -0.702155  ,  1.62977601,
         4.52269109, -0.70760502,  0.50952601, -0.914392  ,  0.70673105]])
     """
+
+    def _convert_space_eol(text: str) -> str:
+        if text == " ":
+            text = _TK_SP
+        elif text == "\n":
+            text = _TK_EOL
+        return text
+
     words = THAI2FIT_TOKENIZER.word_tokenize(text)
 
     vec = zeros((1, WV_DIM))
 
     for word in words:
-        if word == " ":
-            word = "xxspace"
-        elif word == "\n":
-            word = "xxeol"
-
+        word = _convert_space_eol(word)
         if word in _MODEL.index2word:
             vec += _MODEL.word_vec(word)
 

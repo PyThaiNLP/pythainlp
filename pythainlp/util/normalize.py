@@ -131,7 +131,7 @@ def remove_zw(text: str) -> str:
     Characters to be removed:
 
         * Zero-width space (ZWSP)
-        * Zero-with non-joiner (ZWJP)
+        * Zero-width non-joiner (ZWJP)
 
     :param str text: input text
     :return: text without zero-width characters

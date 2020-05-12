@@ -26,8 +26,10 @@ Modules
 .. autofunction:: reign_year_to_ad
 .. autofunction:: remove_dangling
 .. autofunction:: remove_dup_spaces
+.. autofunction:: remove_repeat_vowels
 .. autofunction:: remove_tonemark
 .. autofunction:: remove_zw
+.. autofunction:: reorder_vowels
 .. autofunction:: thai_time
 .. autofunction:: text_to_arabic_digit
 .. autofunction:: text_to_thai_digit

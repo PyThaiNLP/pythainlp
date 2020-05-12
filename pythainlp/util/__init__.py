@@ -24,8 +24,10 @@ __all__ = [
     "reign_year_to_ad",
     "remove_dangling",
     "remove_dup_spaces",
+    "remove_repeat_vowels",
     "remove_tonemark",
     "remove_zw",
+    "reorder_vowels",
     "text_to_arabic_digit",
     "text_to_thai_digit",
     "thai_digit_to_arabic_digit",
@@ -58,8 +60,10 @@ from pythainlp.util.normalize import (
     normalize,
     remove_dangling,
     remove_dup_spaces,
+    remove_repeat_vowels,
     remove_tonemark,
     remove_zw,
+    reorder_vowels,
 )
 from pythainlp.util.numtoword import bahttext, num_to_thaiword
 from pythainlp.util.thai import countthai, isthai, isthaichar

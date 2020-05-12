@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Thai2Fit
-based on Universal Language Model Fine-tuning for Text Classification (ULMFiT)
+Universal Language Model Fine-tuning for Text Classification (ULMFiT).
 """
 import collections
-from typing import Callable, Collection, List
+from typing import Callable, Collection
 
 import numpy as np
+import torch
 from pythainlp.corpus import download, get_corpus_path
+from pythainlp.tokenize import THAI2FIT_TOKENIZER
 from pythainlp.ulmfit.preprocess import (
     fix_html,
     lowercase_all,
@@ -23,17 +24,12 @@ from pythainlp.ulmfit.preprocess import (
     spec_add_spaces,
     ungroup_emoji,
 )
-from pythainlp.ulmfit.tokenizer import THAI2FIT_TOKENIZER, ThaiTokenizer
 from pythainlp.util import reorder_vowels
-
-import torch
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 _MODEL_NAME_LSTM = "wiki_lm_lstm"
 _ITOS_NAME_LSTM = "wiki_itos_lstm"
-
-_TOKENIZER = ThaiTokenizer()
 
 
 # Download pretrained models
@@ -198,7 +194,7 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
 
     """
 
-    s = _TOKENIZER.tokenizer(text)
+    s = THAI2FIT_TOKENIZER.word_tokenize(text)
     t = torch.tensor(data.vocab.numericalize(s), requires_grad=False).to(
         device
     )

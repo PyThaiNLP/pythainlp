@@ -2,10 +2,9 @@
 
 import unittest
 
-from pythainlp.tokenize import Tokenizer
+from pythainlp.tokenize import THAI2FIT_TOKENIZER, Tokenizer
 from pythainlp.ulmfit import (
     THWIKI_LSTM,
-    ThaiTokenizer,
     document_vector,
     merge_wgts,
     post_rules_th,
@@ -29,24 +28,9 @@ from pythainlp.ulmfit.preprocess import (
     spec_add_spaces,
     ungroup_emoji,
 )
-from pythainlp.ulmfit.tokenizer import (
-    THAI2FIT_TOKENIZER,
-    BaseTokenizer,
-    ThaiTokenizer,
-)
 
 
 class TestUlmfitPackage(unittest.TestCase):
-    def test_ThaiTokenizer(self):
-        self.thai = ThaiTokenizer()
-        self.assertIsNotNone(self.thai.tokenizer("ทดสอบการตัดคำ"))
-        self.assertIsNone(self.thai.add_special_cases(["แมว"]))
-
-    def test_BaseTokenizer(self):
-        self.base = BaseTokenizer(lang="th")
-        self.assertIsNotNone(self.base.tokenizer("ทดสอบ การ ตัด คำ"))
-        self.assertIsNone(self.base.add_special_cases(["แมว"]))
-
     def test_load_pretrained(self):
         self.assertIsNotNone(THWIKI_LSTM)
 
@@ -124,9 +108,7 @@ class TestUlmfitPackage(unittest.TestCase):
             lowercase_all("HeLlO ."), ["h", "e", "l", "l", "o", " ", "."]
         )
 
-    def test_process_thai_1(self):
-        """rules for sparse features"""
-
+    def test_process_thai_sparse(self):
         text = "👍👍👍 #AnA มากกกก น้อยน้อย ().1146"
 
         actual = process_thai(text)
@@ -158,9 +140,7 @@ class TestUlmfitPackage(unittest.TestCase):
 
         self.assertEqual(actual, expect)
 
-    def test_process_thai_2(self):
-        """rules for dense features"""
-
+    def test_process_thai_dense(self):
         text = "👍👍👍 #AnA มากกกก น้อยน้อย ().1146"
 
         actual = process_thai(

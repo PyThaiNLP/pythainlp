@@ -4,6 +4,7 @@ Tokenizers at different level of linguistic analysis.
 """
 
 __all__ = [
+    "THAI2FIT_TOKENIZER",
     "Tokenizer",
     "Trie",
     "sent_tokenize",
@@ -30,4 +31,10 @@ from pythainlp.tokenize.core import (
     subword_tokenize,
     syllable_tokenize,
     word_tokenize,
+)
+
+from pythainlp.corpus import get_corpus as _get_corpus
+
+THAI2FIT_TOKENIZER = Tokenizer(
+    custom_dict=_get_corpus("words_th_thai2fit_201810.txt"), engine="newmm"
 )

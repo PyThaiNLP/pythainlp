@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Thai2Fit
-based on Universal Language Model Fine-tuning for Text Classification (ULMFiT)
+Universal Language Model Fine-tuning for Text Classification (ULMFiT).
 
 Code by Charin Polpanumas
 https://github.com/cstorm125/thai2fit/
@@ -15,7 +14,6 @@ https://arxiv.org/abs/1801.06146
 
 __all__ = [
     "THWIKI_LSTM",
-    "ThaiTokenizer",
     "document_vector",
     "merge_wgts",
     "post_rules_th",
@@ -27,7 +25,6 @@ __all__ = [
 
 from pythainlp.ulmfit.core import (
     THWIKI_LSTM,
-    ThaiTokenizer,
     document_vector,
     merge_wgts,
     post_rules_th,

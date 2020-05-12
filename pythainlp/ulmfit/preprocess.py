@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Preprocessing for Thai2Fit
+Preprocessing for ULMFiT
 """
 import html
 import re

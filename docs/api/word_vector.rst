@@ -11,11 +11,11 @@ Installation of :mod:`numpy` and :mod:`gensim` is required.
 Modules
 -------
 
+.. autofunction:: doesnt_match
 .. autofunction:: get_model
 .. autofunction:: most_similar_cosmul
-.. autofunction:: doesnt_match
-.. autofunction:: similarity
 .. autofunction:: sentence_vectorizer
+.. autofunction:: similarity
 
 References
 ----------

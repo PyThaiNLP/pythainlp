@@ -7,7 +7,7 @@ from numpy import ndarray, zeros
 from pythainlp.corpus import download, get_corpus_path
 from pythainlp.tokenize import THAI2FIT_TOKENIZER
 
-WV_DIM = 300
+WV_DIM = 300  # word vector dimension
 
 _THAI2FIT_WV = "thai2fit_wv"
 
@@ -258,9 +258,13 @@ def sentence_vectorizer(text: str, use_mean: bool = True) -> ndarray:
             text = _TK_EOL
         return text
 
-    words = THAI2FIT_TOKENIZER.word_tokenize(text)
-
     vec = zeros((1, WV_DIM))
+
+    words = THAI2FIT_TOKENIZER.word_tokenize(text)
+    len_words = len(words)
+
+    if not len_words:
+        return vec
 
     for word in words:
         word = _convert_space_eol(word)
@@ -268,6 +272,6 @@ def sentence_vectorizer(text: str, use_mean: bool = True) -> ndarray:
             vec += _MODEL.word_vec(word)
 
     if use_mean:
-        vec /= len(words)
+        vec /= len_words
 
     return vec

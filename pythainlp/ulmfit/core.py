@@ -24,7 +24,7 @@ from pythainlp.ulmfit.preprocess import (
     ungroup_emoji,
 )
 from pythainlp.ulmfit.tokenizer import THAI2FIT_TOKENIZER, ThaiTokenizer
-from pythainlp.util import normalize as normalize_char_order
+from pythainlp.util import reorder_vowels
 
 import torch
 
@@ -62,7 +62,7 @@ THWIKI_LSTM = dict(
 pre_rules_th = [
     replace_rep_after,
     fix_html,
-    normalize_char_order,
+    reorder_vowels,
     spec_add_spaces,
     rm_useless_spaces,
     rm_useless_newlines,

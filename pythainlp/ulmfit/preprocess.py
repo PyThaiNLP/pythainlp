@@ -6,7 +6,7 @@ import html
 import re
 from typing import Collection, List
 
-#import emoji
+import emoji
 
 _TK_UNK = "xxunk"
 _TK_REP = "xxrep"
@@ -184,15 +184,19 @@ def rm_brackets(text: str) -> str:
 
 
 def ungroup_emoji(toks: Collection[str]) -> List[str]:
-    "Ungroup Zero Width Joiner (ZVJ) Emojis"
-    #res = []
-    #for tok in toks:
-    #    if emoji.emoji_count(tok) == len(tok):
-    #        res.extend(list(tok))
-    #    else:
-    #        res.append(tok)
-    #return res
-    return toks
+    """
+    Ungroup Zero Width Joiner (ZVJ) Emojis
+
+    See https://emojipedia.org/emoji-zwj-sequence/
+    """
+    res = []
+    for tok in toks:
+        if emoji.emoji_count(tok) == len(tok):
+            res.extend(list(tok))
+        else:
+            res.append(tok)
+    return res
+
 
 def lowercase_all(toks: Collection[str]) -> List[str]:
     """

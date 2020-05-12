@@ -141,7 +141,7 @@ class TestUlmfitPackage(unittest.TestCase):
         # after post_rules_th
         # - remove whitespace token (" ")
         # >>> ["xxwrep, "👍", "#", "ana", "มาก",
-        #       "xxrep", "  ", "xxwrep", "น้อย", ".", "1146"]
+        #       "xxrep", "xxwrep", "น้อย", ".", "1146"]
 
         expect = [
             "xxwrep",
@@ -150,7 +150,6 @@ class TestUlmfitPackage(unittest.TestCase):
             "ana",
             "มาก",
             "xxrep",
-            "  ",
             "xxwrep",
             "น้อย",
             ".",

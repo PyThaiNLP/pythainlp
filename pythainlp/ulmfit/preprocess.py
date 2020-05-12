@@ -17,9 +17,9 @@ _TK_URL = "xxurl"
 
 def replace_url(text: str) -> str:
     """
-        Replace url in `x` with TK_URL
+        Replace url in `text` with TK_URL
 
-        :param str x: text to replace url
+        :param str text: text to replace url
 
         :return: text where urls  are replaced
         :rtype: str
@@ -36,9 +36,9 @@ def replace_url(text: str) -> str:
 
 def fix_html(text: str) -> str:
     """
-        List of replacements from html strings in `x`. (code from `fastai`)
+        List of replacements from html strings in `test`. (code from `fastai`)
 
-        :param str x: text to replace html string
+        :param str text: text to replace html string
 
         :return: text where html strings are replaced
         :rtype: str
@@ -70,12 +70,12 @@ def fix_html(text: str) -> str:
 
 
 def rm_useless_spaces(text: str) -> str:
-    """Remove multiple spaces in `t`. (code from `fastai`)"""
+    """Remove multiple spaces in `text`. (code from `fastai`)"""
     return re.sub(" {2,}", " ", text)
 
 
 def spec_add_spaces(text: str) -> str:
-    """Add spaces around / and # in `t`. \n (code from `fastai`)"""
+    """Add spaces around / and # in `text`. \n (code from `fastai`)"""
     return re.sub(r"([/#\n])", r" \1 ", text)
 
 

@@ -127,7 +127,7 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
         # output: 0.0
     """
     if not text or not isinstance(text, str):
-        return 0
+        return 0.0
 
     if not ignore_chars:
         ignore_chars = ""
@@ -142,5 +142,8 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
             num_thai += 1
 
     num_count = len(text) - num_ignore
+
+    if num_count == 0:
+        return 0.0
 
     return (num_thai / num_count) * 100

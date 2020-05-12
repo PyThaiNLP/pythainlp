@@ -340,8 +340,11 @@ class TestUtilPackage(unittest.TestCase):
     # ### pythainlp.util.thai
 
     def test_countthai(self):
-        self.assertEqual(countthai(""), 0)
+        self.assertEqual(countthai(""), 0.0)
+        self.assertEqual(countthai("123"), 0.0)
+        self.assertEqual(countthai("1 2 3"), 0.0)
         self.assertEqual(countthai("ประเทศไทย"), 100.0)
+        self.assertEqual(countthai("โรค COVID-19"), 37.5)
         self.assertEqual(countthai("(กกต.)", ".()"), 100.0)
         self.assertEqual(countthai("(กกต.)", None), 50.0)
 

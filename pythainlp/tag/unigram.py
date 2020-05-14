@@ -15,7 +15,7 @@ _THAI_POS_ORCHID_PATH = os.path.join(corpus_path(), _THAI_POS_ORCHID_FILENAME)
 _THAI_POS_PUD_FILENAME = "ud_thai_pud_unigram_tagger.json"
 _THAI_POS_PUD_PATH = os.path.join(corpus_path(), _THAI_POS_PUD_FILENAME)
 
-def _find_tag(words:list, dictdata:dict):
+def _find_tag(words: List[str], dictdata: dict) -> List[Tuple[str, str]]:
     _temp = []
     _word = list(dictdata.keys())
     for word in words:

@@ -7,7 +7,6 @@ import os
 from typing import List, Tuple
 
 import dill
-import nltk.tag
 from pythainlp.corpus import corpus_path
 from .orchid_preprocessing import orchid_preprocessing, orchid_tag_to_text
 

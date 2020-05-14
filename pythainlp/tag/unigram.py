@@ -6,7 +6,6 @@ import json
 import os
 from typing import List, Tuple
 
-import dill
 from pythainlp.corpus import corpus_path
 from .orchid_preprocessing import orchid_preprocessing, orchid_tag_to_text
 
@@ -14,6 +13,7 @@ _THAI_POS_ORCHID_FILENAME = "orchid_pos_th.json"
 _THAI_POS_ORCHID_PATH = os.path.join(corpus_path(), _THAI_POS_ORCHID_FILENAME)
 _THAI_POS_PUD_FILENAME = "ud_thai_pud_unigram_tagger.json"
 _THAI_POS_PUD_PATH = os.path.join(corpus_path(), _THAI_POS_PUD_FILENAME)
+
 
 def _find_tag(words: List[str], dictdata: dict) -> List[Tuple[str, str]]:
     _temp = []
@@ -24,6 +24,7 @@ def _find_tag(words: List[str], dictdata: dict) -> List[Tuple[str, str]]:
         else:
             _temp.append((word, None))
     return _temp
+
 
 def _orchid_tagger():
     with open(_THAI_POS_ORCHID_PATH, encoding="utf-8-sig") as f:

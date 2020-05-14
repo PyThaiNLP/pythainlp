@@ -13,9 +13,18 @@ from .orchid_preprocessing import orchid_preprocessing, orchid_tag_to_text
 
 _THAI_POS_ORCHID_FILENAME = "orchid_pos_th.json"
 _THAI_POS_ORCHID_PATH = os.path.join(corpus_path(), _THAI_POS_ORCHID_FILENAME)
-_THAI_POS_PUD_FILENAME = "ud_thai_pud_unigram_tagger.dill"
+_THAI_POS_PUD_FILENAME = "ud_thai_pud_unigram_tagger.json"
 _THAI_POS_PUD_PATH = os.path.join(corpus_path(), _THAI_POS_PUD_FILENAME)
 
+def _find_tag(words:list, dictdata:dict):
+    _temp = []
+    _word = list(dictdata.keys())
+    for word in words:
+        if word in _word:
+            _temp.append((word, dictdata[word]))
+        else:
+            _temp.append((word, None))
+    return _temp
 
 def _orchid_tagger():
     with open(_THAI_POS_ORCHID_PATH, encoding="utf-8-sig") as f:
@@ -24,8 +33,8 @@ def _orchid_tagger():
 
 
 def _pud_tagger():
-    with open(_THAI_POS_PUD_PATH, "rb") as handle:
-        model = dill.load(handle)
+    with open(_THAI_POS_PUD_PATH, encoding="utf-8-sig") as f:
+        model = json.load(f)
     return model
 
 
@@ -37,10 +46,9 @@ def tag(words: List[str], corpus: str) -> List[Tuple[str, str]]:
         return []
 
     if corpus == "orchid":
-        tagger = nltk.tag.UnigramTagger(model=_orchid_tagger())
         i = 0
         words = orchid_preprocessing(words)
-        t = tagger.tag(words)
+        t = _find_tag(words, _orchid_tagger())
         temp = []
         i = 0
         while i < len(t):
@@ -50,7 +58,6 @@ def tag(words: List[str], corpus: str) -> List[Tuple[str, str]]:
             i += 1
         t = temp
     else:
-        tagger = _pud_tagger()
-        t = tagger.tag(words)
+        t = _find_tag(words, _pud_tagger())
 
     return t

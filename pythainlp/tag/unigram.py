@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Unigram Part-Of-Speech Tagger
+Unigram Part-Of-Speech tagger
 """
 import json
 import os
 from typing import List, Tuple
 
 from pythainlp.corpus import corpus_path
-from .orchid_preprocessing import orchid_preprocessing, orchid_tag_to_text
+from pythainlp.tag.orchid import tag_signs, tag_to_text
 
 _THAI_POS_ORCHID_FILENAME = "orchid_pos_th.json"
 _THAI_POS_ORCHID_PATH = os.path.join(corpus_path(), _THAI_POS_ORCHID_FILENAME)
@@ -47,12 +47,12 @@ def tag(words: List[str], corpus: str) -> List[Tuple[str, str]]:
 
     if corpus == "orchid":
         i = 0
-        words = orchid_preprocessing(words)
+        words = tag_signs(words)
         t = _find_tag(words, _orchid_tagger())
         temp = []
         i = 0
         while i < len(t):
-            word = orchid_tag_to_text(t[i][0])
+            word = tag_to_text(t[i][0])
             tag = t[i][1]
             temp.append((word, tag))
             i += 1

@@ -7,7 +7,7 @@ from typing import List, Tuple
 
 import dill
 from pythainlp.corpus import corpus_path
-from .orchid_preprocessing import orchid_preprocessing, orchid_tag_to_text
+from pythainlp.tag.orchid import tag_signs, tag_to_text
 
 _ORCHID_DATA_FILENAME = "orchid_pt_tagger.dill"
 _PUD_DATA_FILENAME = "ud_thai_pud_pt_tagger.dill"
@@ -33,12 +33,12 @@ def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
 
     if corpus == "orchid":
         tagger = _ORCHID_TAGGER
-        words = orchid_preprocessing(words)
+        words = tag_signs(words)
         t2 = tagger.tag(words)
         t = []
         i = 0
         while i < len(t2):
-            word = orchid_tag_to_text(t2[i][0])
+            word = tag_to_text(t2[i][0])
             tag = t2[i][1]
             t.append((word, tag))
             i += 1

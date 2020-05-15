@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Data preprocessing for orchid
+Data preprocessing for ORCHID corpus
 """
 from typing import List
 

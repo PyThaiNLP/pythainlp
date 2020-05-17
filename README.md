@@ -99,6 +99,27 @@ For dependency details, look at `extras` variable in [`setup.py`](https://github
   - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
 - Python 2.7 users can use PyThaiNLP 1.6
 
+## Citations
+
+If you use `PyThaiNLP` in your project or publication, please cite the library as follows
+
+```
+Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Chakri Lowphansirikul, & Pattarawat Chormai. (2016, Jun 27). PyThaiNLP: Thai Natural Language Processing in Python. Zenodo. http://doi.org/10.5281/zenodo.3519354
+```
+
+or BibTeX entry:
+
+``` bib
+@misc{Wannaphong,
+    author       = {Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Chakri Lowphansirikul, Pattarawat Chormai},
+    title        = {{PyThaiNLP: Thai Natural Language Processing in Python}},
+    month        = Jun,
+    year         = 2016,
+    doi          = {10.5281/zenodo.3519354},
+    publisher    = {Zenodo},
+    url          = {http://doi.org/10.5281/zenodo.3519354}
+}
+```
 
 ## Contribute to PyThaiNLP
 

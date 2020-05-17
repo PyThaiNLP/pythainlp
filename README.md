@@ -110,7 +110,7 @@ Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Sur
 or BibTeX entry:
 
 ``` bib
-@misc{PyThaiNLP,
+@misc{pythainlp,
     author       = {Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Chakri Lowphansirikul, Pattarawat Chormai},
     title        = {{PyThaiNLP: Thai Natural Language Processing in Python}},
     month        = Jun,

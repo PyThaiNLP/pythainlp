@@ -212,6 +212,27 @@ pip install pythainlp[extra1,extra2,...]
 
 รายละเอียดของแพคเกจเสริมดูได้ในตัวแปรชื่อ `extras` ใน [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) 
 
+## การอ้างอิง
+
+หากคุณใช้ `PyThaiNLP` ในโปรเจคของคุณหรืองานวิจัย คุณสามารถอ้างอิงได้ตามนี้
+
+```
+Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Chakri Lowphansirikul, & Pattarawat Chormai. (2016, Jun 27). PyThaiNLP: Thai Natural Language Processing in Python. Zenodo. http://doi.org/10.5281/zenodo.3519354
+```
+
+หรือ BibTeX entry:
+
+``` bib
+@misc{pythainlp,
+    author       = {Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Chakri Lowphansirikul, Pattarawat Chormai},
+    title        = {{PyThaiNLP: Thai Natural Language Processing in Python}},
+    month        = Jun,
+    year         = 2016,
+    doi          = {10.5281/zenodo.3519354},
+    publisher    = {Zenodo},
+    url          = {http://doi.org/10.5281/zenodo.3519354}
+}
+```
 
 ## สนับสนุนและร่วมพัฒนา
 

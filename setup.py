@@ -40,7 +40,6 @@ PyThaiNLP Team
 
 requirements = [
     "dill>=0.3.0",
-    "nltk>=3.3",
     "python-crfsuite>=0.9.6",
     "requests>=2.22.0",
     "tinydb>=3.0",
@@ -57,6 +56,7 @@ extras = {
     "ssg": ["ssg>=0.0.6"],
     "thai2fit": ["emoji>=0.5.1", "gensim>=3.2.0", "numpy>=1.16"],
     "thai2rom": ["torch>=1.0.0", "numpy>=1.16"],
+    "wordnet": ["nltk>=3.3.*"],
     "full": [
         "attacut>=1.0.4",
         "emoji>=0.5.1",
@@ -133,14 +133,8 @@ setup(
         "Topic :: Text Processing :: General",
         "Topic :: Text Processing :: Linguistic",
     ],
-    scripts=[
-        "bin/word-tokenization-benchmark",
-    ],
-    entry_points={
-        "console_scripts": [
-            "thainlp = pythainlp.__main__:main",
-        ],
-    },
+    scripts=["bin/word-tokenization-benchmark",],
+    entry_points={"console_scripts": ["thainlp = pythainlp.__main__:main",],},
     project_urls={
         "Documentation": "https://www.thainlp.org/pythainlp/docs/dev/",
         "Source": "https://github.com/PyThaiNLP/pythainlp",

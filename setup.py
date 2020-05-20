@@ -133,10 +133,17 @@ setup(
         "Topic :: Text Processing :: General",
         "Topic :: Text Processing :: Linguistic",
     ],
-    scripts=["bin/word-tokenization-benchmark",],
-    entry_points={"console_scripts": ["thainlp = pythainlp.__main__:main",],},
+    scripts=[
+        "bin/word-tokenization-benchmark",
+    ],
+    entry_points={
+        "console_scripts": [
+            "thainlp = pythainlp.__main__:main",
+        ],
+    },
     project_urls={
         "Documentation": "https://www.thainlp.org/pythainlp/docs/dev/",
+        "Tutorials": "https://www.thainlp.org/pythainlp/tutorials/",
         "Source": "https://github.com/PyThaiNLP/pythainlp",
         "Bug Reports": "https://github.com/PyThaiNLP/pythainlp/issues",
     },

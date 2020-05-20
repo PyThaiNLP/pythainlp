@@ -145,8 +145,8 @@ setup(
     project_urls={
         "Documentation": "https://www.thainlp.org/pythainlp/docs/dev/",
         "Tutorials": "https://www.thainlp.org/pythainlp/tutorials/",
-        "Source": "https://github.com/PyThaiNLP/pythainlp",
-        "Bug Reports": "https://github.com/PyThaiNLP/pythainlp/issues",
+        "Source Code": "https://github.com/PyThaiNLP/pythainlp",
+        "Bug Tracker": "https://github.com/PyThaiNLP/pythainlp/issues",
     },
 )
 

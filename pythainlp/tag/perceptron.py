@@ -5,18 +5,18 @@ Perceptron Part-Of-Speech tagger
 import os
 from typing import List, Tuple
 
-import dill
+import pickle
 from pythainlp.corpus import corpus_path
 from pythainlp.tag.orchid import tag_signs, tag_to_text
 
-_ORCHID_DATA_FILENAME = "orchid_pt_tagger.dill"
-_PUD_DATA_FILENAME = "ud_thai_pud_pt_tagger.dill"
+_ORCHID_DATA_FILENAME = "orchid_pt_tagger.pickle"
+_PUD_DATA_FILENAME = "ud_thai_pud_pt_tagger.pickle"
 
 
 def _load_tagger(filename):
     data_filename = os.path.join(corpus_path(), filename)
     with open(data_filename, "rb") as fh:
-        model = dill.load(fh)
+        model = pickle.load(fh)
     return model
 
 

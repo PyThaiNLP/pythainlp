@@ -7,7 +7,6 @@
 [![Downloads](https://pepy.tech/badge/pythainlp/month)](https://pepy.tech/project/pythainlp)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp?ref=badge_shield)
-[![Build Status](https://travis-ci.org/PyThaiNLP/pythainlp.svg?branch=develop)](https://travis-ci.org/PyThaiNLP/pythainlp)
 [![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev) [![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp_get_started.ipynb)
@@ -87,6 +86,7 @@ where `extras` can be
   - `ner` (for named-entity recognizer)
   - `thai2fit` (for Thai word vector)
   - `thai2rom` (for machine-learnt romanization)
+  - `wordnet` (for Thai WordNet API)
   - `full` (install everything)
 
 For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
@@ -99,6 +99,27 @@ For dependency details, look at `extras` variable in [`setup.py`](https://github
   - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
 - Python 2.7 users can use PyThaiNLP 1.6
 
+## Citations
+
+If you use `PyThaiNLP` in your project or publication, please cite the library as follows
+
+```
+Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, & Pattarawat Chormai. (2016, Jun 27). PyThaiNLP: Thai Natural Language Processing in Python. Zenodo. http://doi.org/10.5281/zenodo.3519354
+```
+
+or BibTeX entry:
+
+``` bib
+@misc{pythainlp,
+    author       = {Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, Pattarawat Chormai},
+    title        = {{PyThaiNLP: Thai Natural Language Processing in Python}},
+    month        = Jun,
+    year         = 2016,
+    doi          = {10.5281/zenodo.3519354},
+    publisher    = {Zenodo},
+    url          = {http://doi.org/10.5281/zenodo.3519354}
+}
+```
 
 ## Contribute to PyThaiNLP
 
@@ -187,10 +208,32 @@ pip install pythainlp[extra1,extra2,...]
   - `ner` (สำหรับการติดป้ายชื่อเฉพาะ (named-entity))
   - `thai2fit` (สำหรับ word vector)
   - `thai2rom` (สำหรับการถอดตัวสะกดเป็นอักษรละติน)
+  - `wordnet` (สำหรับ API WordNet ภาษาไทย)
   - `full` (ติดตั้งทุกอย่าง)
 
 รายละเอียดของแพคเกจเสริมดูได้ในตัวแปรชื่อ `extras` ใน [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) 
 
+## การอ้างอิง
+
+หากคุณใช้ `PyThaiNLP` ในโปรเจคของคุณหรืองานวิจัย คุณสามารถอ้างอิงได้ตามนี้
+
+```
+Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, & Pattarawat Chormai. (2016, Jun 27). PyThaiNLP: Thai Natural Language Processing in Python. Zenodo. http://doi.org/10.5281/zenodo.3519354
+```
+
+หรือ BibTeX entry:
+
+``` bib
+@misc{pythainlp,
+    author       = {Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, Pattarawat Chormai},
+    title        = {{PyThaiNLP: Thai Natural Language Processing in Python}},
+    month        = Jun,
+    year         = 2016,
+    doi          = {10.5281/zenodo.3519354},
+    publisher    = {Zenodo},
+    url          = {http://doi.org/10.5281/zenodo.3519354}
+}
+```
 
 ## สนับสนุนและร่วมพัฒนา
 

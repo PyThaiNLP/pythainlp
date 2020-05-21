@@ -9,8 +9,8 @@ import pickle
 from pythainlp.corpus import corpus_path
 from pythainlp.tag.orchid import tag_signs, tag_to_text
 
-_ORCHID_DATA_FILENAME = "orchid_pt_tagger.pickle"
-_PUD_DATA_FILENAME = "ud_thai_pud_pt_tagger.pickle"
+_ORCHID_DATA_FILENAME = "orchid_pt_tagger.pkl"
+_PUD_DATA_FILENAME = "ud_thai_pud_pt_tagger.pkl"
 
 
 def _load_tagger(filename):

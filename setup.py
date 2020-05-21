@@ -40,7 +40,6 @@ PyThaiNLP Team
 
 requirements = [
     "dill>=0.3.0",
-    "nltk>=3.3",
     "python-crfsuite>=0.9.6",
     "requests>=2.22.0",
     "tinydb>=3.0",
@@ -49,20 +48,22 @@ requirements = [
 
 extras = {
     "attacut": ["attacut>=1.0.6"],
-    "benchmarks": ["numpy>=1.16", "pandas>=0.24"],
+    "benchmarks": ["numpy>=1.16.1", "pandas>=0.24"],
     "icu": ["pyicu>=2.3"],
     "ipa": ["epitran>=1.1"],
-    "ml": ["numpy>=1.16", "torch>=1.0.0"],
+    "ml": ["numpy>=1.16.1", "torch>=1.0.0"],
     "ner": ["sklearn-crfsuite>=0.3.6"],
     "ssg": ["ssg>=0.0.6"],
-    "thai2fit": ["emoji>=0.5.1", "gensim>=3.2.0", "numpy>=1.16"],
-    "thai2rom": ["torch>=1.0.0", "numpy>=1.16"],
+    "thai2fit": ["emoji>=0.5.1", "gensim>=3.2.0", "numpy>=1.16.1"],
+    "thai2rom": ["torch>=1.0.0", "numpy>=1.16.1"],
+    "wordnet": ["nltk>=3.3.*"],
     "full": [
         "attacut>=1.0.4",
         "emoji>=0.5.1",
         "epitran>=1.1",
         "gensim>=3.2.0",
-        "numpy>=1.16",
+        "nltk>=3.3.*",
+        "numpy>=1.16.1",
         "pandas>=0.24",
         "pyicu>=2.3",
         "sklearn-crfsuite>=0.3.6",
@@ -142,9 +143,10 @@ setup(
         ],
     },
     project_urls={
-        "Documentation": "https://www.thainlp.org/pythainlp/docs/dev/",
-        "Source": "https://github.com/PyThaiNLP/pythainlp",
-        "Bug Reports": "https://github.com/PyThaiNLP/pythainlp/issues",
+        "Documentation": "https://www.thainlp.org/pythainlp/docs/2.1/",
+        "Tutorials": "https://www.thainlp.org/pythainlp/tutorials/",
+        "Source Code": "https://github.com/PyThaiNLP/pythainlp",
+        "Bug Tracker": "https://github.com/PyThaiNLP/pythainlp/issues",
     },
 )
 

@@ -18,7 +18,6 @@ where ``extras`` can be
   - ``icu`` (for ICU, International Components for Unicode, support in transliteration and tokenization)
   - ``ipa`` (for IPA, International Phonetic Alphabet, support in transliteration)
   - ``ml`` (to support ULMFiT models for classification)
-  - ``ner`` (for named-entity recognizer)
   - ``thai2fit`` (for Thai word vector)
   - ``thai2rom`` (for machine-learnt romanization)
   - ``full`` (install everything)

@@ -11,7 +11,6 @@ from urllib.request import urlopen
 import requests
 from requests.exceptions import HTTPError
 from tinydb import Query, TinyDB
-from tqdm import tqdm
 
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
@@ -134,17 +133,27 @@ def _download(url: str, dst: str) -> int:
     @param: url to download file
     @param: dst place to put the file
     """
-    _CHUNK_SIZE = 1024 * 64
+    _CHUNK_SIZE = 64 * 1024  # 64 KiB
 
     file_size = int(urlopen(url).info().get("Content-Length", -1))
     r = requests.get(url, stream=True)
     with open(get_full_data_path(dst), "wb") as f:
-        pbar = tqdm(total=int(r.headers["Content-Length"]))
+        pbar = None
+        try:
+            from tqdm import tqdm
+            pbar = tqdm(total=int(r.headers["Content-Length"]))
+        except ImportError:
+            pbar = None
+
         for chunk in r.iter_content(chunk_size=_CHUNK_SIZE):
             if chunk:
                 f.write(chunk)
-                pbar.update(len(chunk))
-        pbar.close()
+                if pbar:
+                    pbar.update(len(chunk))
+        if pbar:
+            pbar.close()
+        else:
+            print("Done.")
     return file_size
 
 

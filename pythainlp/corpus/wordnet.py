@@ -2,8 +2,11 @@
 """
 NLTK WordNet wrapper
 
-API here is exactly the same as NLTK API,
+API here is exactly the same as NLTK WordNet API,
 except that lang (language) argument will be "tha" (Thai) by default.
+
+For more on usage, see NLTK Howto:
+https://www.nltk.org/howto/wordnet.html
 """
 import nltk
 

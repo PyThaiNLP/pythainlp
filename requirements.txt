@@ -1,5 +1,4 @@
-nltk==3.4.*
 python-crfsuite==0.9.*
-requests==2.22.*
-tinydb==3.14.*
-tqdm==4.36.*
+requests==2.23.*
+tinydb==4.1.*
+tqdm==4.46.*

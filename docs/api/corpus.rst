@@ -2,7 +2,7 @@
 
 pythainlp.corpus
 ====================================
-The :class:`pythainlp.corpus` is corpus for pythainlp.
+The :class:`pythainlp.corpus` provides access to corpus that comes with PyThaiNLP.
 
 Modules
 -------
@@ -31,6 +31,9 @@ TTC
 
 Wordnet
 -------
+
+PyThaiNLP API is an exact copy of NLTK WordNet API.
+See: https://www.nltk.org/howto/wordnet.html
 
 .. autofunction:: pythainlp.corpus.wordnet.synsets
 .. autofunction:: pythainlp.corpus.wordnet.synset

@@ -3,9 +3,9 @@
 Perceptron Part-Of-Speech tagger
 """
 import os
+import pickle
 from typing import List, Tuple
 
-import pickle
 from pythainlp.corpus import corpus_path
 from pythainlp.tag.orchid import tag_signs, tag_to_text
 

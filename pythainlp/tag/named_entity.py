@@ -7,7 +7,7 @@ __all__ = ["ThaiNameTagger"]
 
 from typing import List, Tuple, Union
 
-import sklearn_crfsuite
+import pycrfsuite
 from pythainlp.corpus import download, get_corpus_path, thai_stopwords
 from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
@@ -76,18 +76,12 @@ class ThaiNameTagger:
         """
         Thai named-entity recognizer
         """
-        self.__data_path = get_corpus_path("thainer-1-3")
+        self.__data_path = get_corpus_path("thainer-1-4")
         if not self.__data_path:
-            download("thainer-1-3")
-            self.__data_path = get_corpus_path("thainer-1-3")
-        self.crf = sklearn_crfsuite.CRF(
-            algorithm="lbfgs",
-            c1=0.1,
-            c2=0.1,
-            max_iterations=500,
-            all_possible_transitions=True,
-            model_filename=self.__data_path,
-        )
+            download("thainer-1-4")
+            self.__data_path = get_corpus_path("thainer-1-4")
+        self.crf = pycrfsuite.Tagger()
+        self.crf.open(self.__data_path)
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False
@@ -148,7 +142,7 @@ class ThaiNameTagger:
             self.__tokens, engine="perceptron", corpus="orchid_ud"
         )
         self.__x_test = self.__extract_features(self.__pos_tags)
-        self.__y = self.crf.predict_single(self.__x_test)
+        self.__y = self.crf.tag(self.__x_test)
 
         self.sent_ner = [
             (self.__pos_tags[i][0], data) for i, data in enumerate(self.__y)

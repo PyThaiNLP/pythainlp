@@ -44,7 +44,7 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertTrue(download(name="test", force=True))  # force download
         self.assertTrue(download(name="test"))  # try download existing
         self.assertFalse(
-            download(name="test", corpus_db_url="wrongurl")
+            download(name="test", url="wrongurl")
         )  # URL not exist
         self.assertFalse(
             download(name="XxxXXxxx817d37sf")

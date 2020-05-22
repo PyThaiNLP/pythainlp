@@ -175,7 +175,7 @@ def _check_hash(dst: str, md5: str) -> None:
 
 
 def download(
-    name: str, force: bool = False, corpus_db_url: str = None
+    name: str, force: bool = False, url: str = None
 ) -> bool:
     """
     Download corpus.
@@ -185,7 +185,7 @@ def download(
 
     :param str name: corpus name
     :param bool force: force download
-    :param str
+    :param str url: URL of the corpus catalog
     :return: **True** if the corpus is found and succesfully downloaded.
              Otherwise, it returns **False**.
     :rtype: bool
@@ -205,12 +205,12 @@ def download(
     ``$HOME/pythainlp-data/``
     (e.g. ``/Users/bact/pythainlp-data/wiki_lm_lstm.pth``).
     """
-    if not corpus_db_url:
-        corpus_db_url = corpus_db_url()
+    if not url:
+        url = corpus_db_url()
 
-    corpus_db = get_corpus_db(corpus_db_url)
+    corpus_db = get_corpus_db(url)
     if not corpus_db:
-        print(f"Cannot download corpus database from: {corpus_db_url}")
+        print(f"Cannot download corpus catalog from: {url}")
         return False
 
     corpus_db = corpus_db.json()

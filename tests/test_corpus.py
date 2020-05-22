@@ -38,6 +38,7 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertEqual(get_corpus_db_detail("XXX"), {})
         self.assertIsNotNone(download("test"))
         self.assertIsNotNone(download("test", force=True))
+        self.assertFalse(download("XxxXXxxx817d37sf"))  # not exist
         self.assertIsNotNone(get_corpus_db_detail("test"))
         self.assertIsNotNone(remove("test"))
         self.assertFalse(remove("test"))

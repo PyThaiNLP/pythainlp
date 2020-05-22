@@ -173,7 +173,7 @@ def _check_hash(dst: str, md5: str) -> None:
                 raise Exception("Hash does not match expected.")
 
 
-def download(name: str, force: bool = False) -> None:
+def download(name: str, force: bool = False) -> bool:
     """
     Download corpus.
 
@@ -182,6 +182,9 @@ def download(name: str, force: bool = False) -> None:
 
     :param string name: corpus name
     :param bool force: force download
+    :return: **True** if the corpus is found and succesfully downloaded.
+             Otherwise, it returns **False**.
+    :rtype: bool
 
     :Example:
     ::

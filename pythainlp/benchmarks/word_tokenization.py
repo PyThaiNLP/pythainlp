@@ -185,10 +185,6 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
 
     correctly_tokenised_words = np.sum(tokenization_indicators)
 
-    w_precision = correctly_tokenised_words / np.sum(sample)
-    w_recall = correctly_tokenised_words / np.sum(ref_sample)
-    w_f1 = _f1(w_precision, w_recall)
-
     tokenization_indicators = list(
         map(lambda x: str(x), tokenization_indicators)
     )
@@ -199,14 +195,11 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
             "fp": c_fp,
             "tn": c_tn,
             "fn": c_fn,
-            "precision": c_precision,
-            "recall": c_recall,
-            "f1": c_f1,
         },
         "word_level": {
-            "precision": w_precision,
-            "recall": w_recall,
-            "f1": w_f1,
+            "correctly_tokenised_words": correctly_tokenised_words,
+            "total_words_in_sample": np.sum(sample),
+            "total_words_in_ref_sample": np.sum(ref_sample)
         },
         "global": {
             "tokenisation_indicators": "".join(tokenization_indicators)

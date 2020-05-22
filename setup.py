@@ -39,7 +39,6 @@ PyThaiNLP Team
 """
 
 requirements = [
-    "dill>=0.3.0",
     "python-crfsuite>=0.9.6",
     "requests>=2.22.0",
     "tinydb>=3.0",
@@ -88,7 +87,7 @@ setup(
             "etcc.txt",
             "negations_th.txt",
             "orchid_pos_th.json",
-            "orchid_pt_tagger.dill",
+            "orchid_pt_tagger.pkl",
             "person_names_female_th.txt",
             "person_names_male_th.txt",
             "sentenceseg-crfcut-v2.model",
@@ -98,7 +97,7 @@ setup(
             "thailand_provinces_th.txt",
             "tnc_freq.txt",
             "ttc_freq.txt",
-            "ud_thai_pud_pt_tagger.dill",
+            "ud_thai_pud_pt_tagger.pkl",
             "ud_thai_pud_unigram_tagger.json",
             "words_th_thai2fit_201810.txt",
             "words_th.txt",

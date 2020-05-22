@@ -16,4 +16,4 @@ class TestToolsPackage(unittest.TestCase):
             get_full_data_path(data_filename).endswith(data_filename)
         )
         self.assertTrue(isinstance(get_pythainlp_data_path(), str))
-        self.assertTrue(isinstance(get_pythainlp_path, str))
+        self.assertTrue(isinstance(get_pythainlp_path(), str))

@@ -48,7 +48,7 @@ def get_corpus(filename: str) -> frozenset:
     `this file
     <https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json>`_
 
-    :param string filename: filename of the corpus to be read
+    :param str filename: filename of the corpus to be read
 
     :return: :mod:`frozenset` consist of lines in the file
     :rtype: :mod:`frozenset`
@@ -81,7 +81,7 @@ def get_corpus_path(name: str) -> Union[str, None]:
     """
     Get corpus path.
 
-    :param string name: corpus name
+    :param str name: corpus name
     :return: path to the corpus or **None** of the corpus doesn't
              exist in the device
     :rtype: str
@@ -141,6 +141,7 @@ def _download(url: str, dst: str) -> int:
         pbar = None
         try:
             from tqdm import tqdm
+
             pbar = tqdm(total=int(r.headers["Content-Length"]))
         except ImportError:
             pbar = None
@@ -173,15 +174,18 @@ def _check_hash(dst: str, md5: str) -> None:
                 raise Exception("Hash does not match expected.")
 
 
-def download(name: str, force: bool = False) -> bool:
+def download(
+    name: str, force: bool = False, corpus_db_url: str = None
+) -> bool:
     """
     Download corpus.
 
     The available corpus names can be seen in this file:
     https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json
 
-    :param string name: corpus name
+    :param str name: corpus name
     :param bool force: force download
+    :param str
     :return: **True** if the corpus is found and succesfully downloaded.
              Otherwise, it returns **False**.
     :rtype: bool
@@ -201,9 +205,12 @@ def download(name: str, force: bool = False) -> bool:
     ``$HOME/pythainlp-data/``
     (e.g. ``/Users/bact/pythainlp-data/wiki_lm_lstm.pth``).
     """
-    corpus_db = get_corpus_db(corpus_db_url())
+    if not corpus_db_url:
+        corpus_db_url = corpus_db_url()
+
+    corpus_db = get_corpus_db(corpus_db_url)
     if not corpus_db:
-        print(f"Cannot download corpus database from: {corpus_db_url()}")
+        print(f"Cannot download corpus database from: {corpus_db_url}")
         return False
 
     corpus_db = corpus_db.json()
@@ -259,7 +266,7 @@ def remove(name: str) -> bool:
     """
     Remove corpus
 
-    :param string name: corpus name
+    :param str name: corpus name
     :return: **True** if the corpus is found and succesfully removed.
              Otherwise, it returns **False**.
     :rtype: bool

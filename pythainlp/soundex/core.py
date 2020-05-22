@@ -17,7 +17,7 @@ def soundex(text: str, engine: str = DEFAULT_SOUNDEX_ENGINE) -> str:
     """
     This function converts Thai text into phonetic code.
 
-    :param string text: word
+    :param str text: word
     :param str engine: soundex engine
     :return: Soundex code
     :rtype: str

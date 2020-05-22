@@ -89,10 +89,10 @@ class ThaiNameTagger:
         """
         This function tags named-entitiy from text in IOB format.
         
-        :param string text: text in Thai to be tagged
-        :param boolean pos: To include POS tags in the results (`True`) or
+        :param str text: text in Thai to be tagged
+        :param bool pos: To include POS tags in the results (`True`) or
                             exclude (`False`). The defualt value is `True`
-        :param boolean tag: output like html tag.
+        :param bool tag: output like html tag.
         :return: a list of tuple associated with tokenized word, NER tag,
                  POS tag (if the parameter `pos` is specified as `True`),
                  and output like html tag (if the parameter `tag` is

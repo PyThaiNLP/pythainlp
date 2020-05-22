@@ -177,8 +177,8 @@ def similarity(word1: str, word2: str) -> float:
     """
     This function computae cosine similarity between two words.
 
-    :param string word1: first word to be compared
-    :param string word2: second word to be compared
+    :param str word1: first word to be compared
+    :param str word2: second word to be compared
 
     :raises KeyError: if either `word1` or `word2` is not in the vocabulary
                       of the model.
@@ -218,8 +218,8 @@ def sentence_vectorizer(text: str, use_mean: bool = True) -> ndarray:
     Then, word vectors are aggregatesd into one vector of 300 dimension
     by calulating either mean, or summation of all word vectors.
 
-    :param string text: text input
-    :param boolean use_mean: if `True` aggregate word vectors with mean of all
+    :param str text: text input
+    :param bool use_mean: if `True` aggregate word vectors with mean of all
                              word vectors. Otherwise, aggregate with summation
                              of all word vectors
 

@@ -2,10 +2,10 @@
 
 import re
 import sys
+from typing import List, Tuple
 
 import numpy as np
 import pandas as pd
-
 
 SEPARATOR = "|"
 
@@ -65,7 +65,7 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
     return dict(items)
 
 
-def benchmark(ref_samples: list, samples: list):
+def benchmark(ref_samples: List[str], samples: List[str]) -> pandas.DataFrame:
     """
     Performace benchmark of samples.
 
@@ -264,8 +264,9 @@ def _find_word_boudaries(bin_reps) -> list:
 
 
 def _find_words_correctly_tokenised(
-    ref_boundaries: list, predicted_boundaries: list
-) -> tuple:
+    ref_boundaries: List[Tuple[int, int]],
+    predicted_boundaries: List[Tuple[int, int]],
+) -> Tuple[int]:
     """
     Find whether each word is correctly tokenized.
 

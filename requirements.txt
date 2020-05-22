@@ -1,4 +1,3 @@
-dill==0.3.*
 python-crfsuite==0.9.*
 requests==2.23.*
 tinydb==4.1.*

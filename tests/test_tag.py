@@ -5,7 +5,6 @@ import unittest
 from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import ThaiNameTagger
-from pythainlp.tokenize import word_tokenize
 
 
 class TestTagPackage(unittest.TestCase):
@@ -26,7 +25,7 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
         self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="pud"))
         self.assertEqual(
-            pos_tag(word_tokenize("คุณกำลังประชุม"), engine="unigram"),
+            pos_tag(["คุณ", "กำลัง", "ประชุม"], engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
         )
 
@@ -40,6 +39,10 @@ class TestTagPackage(unittest.TestCase):
         self.assertEqual(perceptron.tag([], corpus="pud"), [])
         self.assertEqual(perceptron.tag(None, corpus="orchid"), [])
         self.assertEqual(perceptron.tag([], corpus="orchid"), [])
+        self.assertEqual(
+            pos_tag(["นักเรียน", "ถาม", "ครู"]),
+            [("นักเรียน", "NCMN"), ("ถาม", "VACT"), ("ครู", "NCMN")],
+        )
 
         self.assertEqual(pos_tag_sents(None), [])
         self.assertEqual(pos_tag_sents([]), [])

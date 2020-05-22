@@ -65,7 +65,7 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
     return dict(items)
 
 
-def benchmark(ref_samples: List[str], samples: List[str]) -> pandas.DataFrame:
+def benchmark(ref_samples: List[str], samples: List[str]) -> pd.DataFrame:
     """
     Performace benchmark of samples.
 

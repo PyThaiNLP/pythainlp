@@ -27,20 +27,31 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsNotNone(conceptnet.edges("รัก"))
 
     def test_corpus(self):
-        self.assertIsNotNone(countries())
-        self.assertIsNotNone(provinces())
-        self.assertIsNotNone(thai_negations())
-        self.assertIsNotNone(thai_stopwords())
-        self.assertIsNotNone(thai_syllables())
-        self.assertIsNotNone(thai_words())
-        self.assertIsNotNone(thai_female_names())
-        self.assertIsNotNone(thai_male_names())
-        self.assertEqual(get_corpus_db_detail("XXX"), {})
-        self.assertIsNotNone(download("test"))
-        self.assertIsNotNone(download("test", force=True))
-        self.assertIsNotNone(get_corpus_db_detail("test"))
-        self.assertIsNotNone(remove("test"))
-        self.assertFalse(remove("test"))
+        self.assertTrue(isinstance(thai_negations(), frozenset))
+        self.assertTrue(isinstance(thai_stopwords(), frozenset))
+        self.assertTrue(isinstance(thai_syllables(), frozenset))
+        self.assertTrue(isinstance(thai_words(), frozenset))
+
+        self.assertTrue(isinstance(countries(), frozenset))
+        self.assertTrue(isinstance(provinces(), frozenset))
+        self.assertTrue(isinstance(thai_female_names(), frozenset))
+        self.assertTrue(isinstance(thai_male_names(), frozenset))
+
+        self.assertEqual(
+            get_corpus_db_detail("XXX"), {}
+        )  # corpus does not exist
+        self.assertTrue(download("test"))  # download the first time
+        self.assertTrue(download(name="test", force=True))  # force download
+        self.assertTrue(download(name="test"))  # try download existing
+        self.assertFalse(
+            download(name="test", url="wrongurl")
+        )  # URL not exist
+        self.assertFalse(
+            download(name="XxxXXxxx817d37sf")
+        )  # corpus name not exist
+        self.assertIsNotNone(get_corpus_db_detail("test"))  # corpus exists
+        self.assertTrue(remove("test"))  # remove existing
+        self.assertFalse(remove("test"))  # remove non-existing
 
     def test_tnc(self):
         self.assertIsNotNone(tnc.word_freqs())
@@ -49,7 +60,7 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsNotNone(ttc.word_freqs())
 
     def test_wordnet(self):
-        self.assertIsNotNone(wordnet.langs())
+        self.assertTrue(isinstance(wordnet.langs(), list))
         self.assertTrue("tha" in wordnet.langs())
 
         self.assertEqual(

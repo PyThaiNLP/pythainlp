@@ -49,8 +49,9 @@ def get_pythainlp_data_path() -> str:
         get_pythainlp_data_path()
         # output: '/root/pythainlp-data'
     """
-    path = os.getenv('PYTHAINLP_DATA_DIR',
-                     os.path.join("~", PYTHAINLP_DATA_DIR))
+    path = os.getenv(
+        "PYTHAINLP_DATA_DIR", os.path.join("~", PYTHAINLP_DATA_DIR)
+    )
     path = os.path.expanduser(path)
     os.makedirs(path, exist_ok=True)
     return path

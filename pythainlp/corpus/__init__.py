@@ -51,14 +51,23 @@ if not os.path.exists(_CORPUS_DB_PATH):
 
 
 def corpus_path() -> str:
+    """
+    Get path where corpus files are kept locally.
+    """
     return _CORPUS_PATH
 
 
 def corpus_db_url() -> str:
+    """
+    Get remote URL of corpus catalog.
+    """
     return _CORPUS_DB_URL
 
 
 def corpus_db_path() -> str:
+    """
+    Get local path of corpus catalog.
+    """
     return _CORPUS_DB_PATH
 
 

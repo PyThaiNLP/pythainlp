@@ -3,6 +3,7 @@
 DEFAULT_ROMANIZE_ENGINE = "royin"
 DEFAULT_TRANSLITERATE_ENGINE = "thaig2p"
 
+
 def romanize(text: str, engine: str = DEFAULT_ROMANIZE_ENGINE) -> str:
     """
     This function renders Thai words in the Latin alphabet or "romanization",
@@ -51,7 +52,9 @@ def romanize(text: str, engine: str = DEFAULT_ROMANIZE_ENGINE) -> str:
     return romanize(text)
 
 
-def transliterate(text: str, engine: str = DEFAULT_TRANSLITERATE_ENGINE) -> str:
+def transliterate(
+    text: str, engine: str = DEFAULT_TRANSLITERATE_ENGINE
+) -> str:
     """
     This function transliterates Thai text.
 

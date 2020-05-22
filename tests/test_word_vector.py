@@ -6,7 +6,6 @@ from pythainlp import word_vector
 
 
 class TestWordVectorPackage(unittest.TestCase):
-
     def test_thai2vec(self):
         self.assertGreaterEqual(word_vector.similarity("แบคทีเรีย", "คน"), 0)
         self.assertIsNotNone(word_vector.sentence_vectorizer(""))
@@ -15,8 +14,7 @@ class TestWordVectorPackage(unittest.TestCase):
         )
         self.assertIsNotNone(
             word_vector.sentence_vectorizer(
-                "เสรีภาพในการรวมตัว\nสมาคม",
-                use_mean=True
+                "เสรีภาพในการรวมตัว\nสมาคม", use_mean=True
             )
         )
         self.assertIsNotNone(

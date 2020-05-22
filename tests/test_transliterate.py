@@ -3,15 +3,14 @@
 import unittest
 
 import torch
+from pythainlp.corpus import download
 from pythainlp.transliterate import romanize, transliterate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.royin import romanize as romanize_royin
 from pythainlp.transliterate.thai2rom import ThaiTransliterator
-from pythainlp.corpus import download
 
 
 class TestTransliteratePackage(unittest.TestCase):
-
     def test_romanize(self):
         self.assertEqual(romanize(None), "")
         self.assertEqual(romanize(""), "")
@@ -49,7 +48,9 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertEqual(romanize("สุนัข", engine="thai2rom"), "sunak")
         self.assertEqual(romanize("นก", engine="thai2rom"), "nok")
         self.assertEqual(romanize("ความอิ่ม", engine="thai2rom"), "khwam-im")
-        self.assertEqual(romanize("กานต์ ณรงค์", engine="thai2rom"), "kan narong")
+        self.assertEqual(
+            romanize("กานต์ ณรงค์", engine="thai2rom"), "kan narong"
+        )
         self.assertEqual(romanize("สกุนต์", engine="thai2rom"), "sakun")
         self.assertEqual(romanize("ชารินทร์", engine="thai2rom"), "charin")
 
@@ -60,33 +61,42 @@ class TestTransliteratePackage(unittest.TestCase):
         END_TOKEN = 3  # END_TOKEN or <end> is represented by 3
 
         self.assertListEqual(
-            transliterater._prepare_sequence_in(
-                "A"
-            ).cpu().detach().numpy().tolist(),
-            torch.tensor(
-                [UNK_TOKEN, END_TOKEN],
-                dtype=torch.long
-            ).cpu().detach().numpy().tolist()
+            transliterater._prepare_sequence_in("A")
+            .cpu()
+            .detach()
+            .numpy()
+            .tolist(),
+            torch.tensor([UNK_TOKEN, END_TOKEN], dtype=torch.long)
+            .cpu()
+            .detach()
+            .numpy()
+            .tolist(),
         )
 
         self.assertListEqual(
-            transliterater._prepare_sequence_in(
-                "♥"
-            ).cpu().detach().numpy().tolist(),
-            torch.tensor(
-                [UNK_TOKEN, END_TOKEN],
-                dtype=torch.long
-            ).cpu().detach().numpy().tolist()
+            transliterater._prepare_sequence_in("♥")
+            .cpu()
+            .detach()
+            .numpy()
+            .tolist(),
+            torch.tensor([UNK_TOKEN, END_TOKEN], dtype=torch.long)
+            .cpu()
+            .detach()
+            .numpy()
+            .tolist(),
         )
 
         self.assertNotEqual(
-            transliterater._prepare_sequence_in(
-                "ก"
-            ).cpu().detach().numpy().tolist(),
-            torch.tensor(
-                [UNK_TOKEN, END_TOKEN],
-                dtype=torch.long
-            ).cpu().detach().numpy().tolist()
+            transliterater._prepare_sequence_in("ก")
+            .cpu()
+            .detach()
+            .numpy()
+            .tolist(),
+            torch.tensor([UNK_TOKEN, END_TOKEN], dtype=torch.long)
+            .cpu()
+            .detach()
+            .numpy()
+            .tolist(),
         )
 
     def test_transliterate(self):

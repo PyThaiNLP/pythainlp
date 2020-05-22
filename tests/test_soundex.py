@@ -6,7 +6,6 @@ from pythainlp.soundex import lk82, metasound, soundex, udom83
 
 
 class TestSoundexPackage(unittest.TestCase):
-
     def test_soundex(self):
         self.assertIsNotNone(soundex("a", engine="lk82"))
         self.assertIsNotNone(soundex("a", engine="udom83"))

@@ -216,11 +216,12 @@ def thai_time(
     return text
 
 
-def thai_time2time(time: str) -> str:
+def thai_time2time(time: str, padding: bool = True) -> str:
     """
     Convert Thai time into time (H:M).
 
     :param str time: Thai time
+    :param bool padding: Zero padding the hour if True
 
     :return: time
     :rtype: str
@@ -298,8 +299,10 @@ def thai_time2time(time: str) -> str:
     else:
         raise NotImplementedError
 
-    if len(time) == 1:
+    if padding and len(time) == 1:
         time = "0" + time
+    if time == "0":
+        time = "00"
     time += ":"
 
     if minute != 0:

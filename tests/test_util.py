@@ -406,7 +406,9 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_time2time("ห้าโมงเย็นสามสิบสี่นาที"), "17:34")
         self.assertEqual(thai_time2time("หนึ่งทุ่มสามสิบแปดนาที"), "19:38")
         self.assertEqual(thai_time2time("ทุ่มสามสิบแปด"), "19:38")
-        self.assertEqual(thai_time2time("สองโมงเช้าสิบสองนาที"), "8:12")
+        self.assertEqual(
+            thai_time2time("สองโมงเช้าสิบสองนาที", padding=False), "8:12"
+        )
         self.assertEqual(thai_time2time("สิบโมงเช้า"), "10:00")
         self.assertEqual(thai_time2time("ตีสามสิบห้า"), "03:15")
         self.assertEqual(thai_time2time("ตีสามสิบห้านาที"), "03:15")

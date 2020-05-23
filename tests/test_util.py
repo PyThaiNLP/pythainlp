@@ -64,9 +64,10 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(bahttext(0), "ศูนย์บาทถ้วน")
         self.assertEqual(bahttext(None), "")
 
-        self.assertEqual(num_to_thaiword(112), "หนึ่งร้อยสิบสอง")
-        self.assertEqual(num_to_thaiword(0), "ศูนย์")
         self.assertEqual(num_to_thaiword(None), "")
+        self.assertEqual(num_to_thaiword(0), "ศูนย์")
+        self.assertEqual(num_to_thaiword(112), "หนึ่งร้อยสิบสอง")
+        self.assertEqual(num_to_thaiword(-273), "ลบสองร้อยเจ็ดสิบสาม")
 
         self.assertEqual(thaiword_to_num("ศูนย์"), 0)
         self.assertEqual(thaiword_to_num("แปด"), 8)
@@ -86,6 +87,8 @@ class TestUtilPackage(unittest.TestCase):
             240030004000000000,
         )
         self.assertEqual(thaiword_to_num("ร้อยสิบล้านแปดแสนห้าพัน"), 110805000)
+        text = "ลบหนึ่งร้อยล้านสี่แสนห้าพันยี่สิบเอ็ด"
+        self.assertEqual(num_to_thaiword(thaiword_to_num(text)), text)
         with self.assertRaises(ValueError):
             thaiword_to_num("ศูนย์อะไรนะ")
         with self.assertRaises(ValueError):
@@ -244,7 +247,15 @@ class TestUtilPackage(unittest.TestCase):
         self.assertIsNotNone(thai_time("19:30", "m6h"))
 
         with self.assertRaises(NotImplementedError):
-            thai_time("8:17", fmt="xx")
+            thai_time("8:17", fmt="xx")  # format string is not supported
+        with self.assertRaises(TypeError):
+            thai_time(42)  # input is not datetime/time/str
+        with self.assertRaises(ValueError):
+            thai_time("")  # input is empty
+        with self.assertRaises(ValueError):
+            thai_time("13:73:23")  # input is not in H:M:S format
+        with self.assertRaises(ValueError):
+            thai_time("24:00")  # input is not in H:M:S format (over 23:59:59)
 
     def test_trie(self):
         self.assertIsNotNone(Trie([]))
@@ -396,6 +407,8 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_time2time("ทุ่มสามสิบแปด"), "19:38")
         self.assertEqual(thai_time2time("สองโมงเช้าสิบสองนาที"), "8:12")
         self.assertEqual(thai_time2time("สิบโมงเช้า"), "10:00")
+        self.assertEqual(thai_time2time("ตีสามสิบห้า"), "03:15")
+        self.assertEqual(thai_time2time("ตีสามสิบห้านาที"), "03:15")
 
     def test_thai_day2datetime(self):
         now = datetime.datetime.now()

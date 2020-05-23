@@ -14,7 +14,7 @@ _ptn_six_figures = (
     fr"({_ptn_digits}แสน)?({_ptn_digits}หมื่น)?({_ptn_digits}พัน)?"
     fr"({_ptn_digits}ร้อย)?({_ptn_digits}สิบ)?{_ptn_digits}?"
 )
-_ptn_thai_numerals = fr"({_ptn_six_figures}ล้าน)*{_ptn_six_figures}"
+_ptn_thai_numerals = fr"(ลบ)?({_ptn_six_figures}ล้าน)*{_ptn_six_figures}"
 _re_thai_numerals = re.compile(_ptn_thai_numerals)
 
 _digits = {
@@ -39,7 +39,9 @@ _powers_of_10 = {
     "แสน": 100000,
     # "ล้าน" was excluded as a special case
 }
-_valid_tokens = set(_digits.keys()) | set(_powers_of_10.keys()) | {"ล้าน"}
+_valid_tokens = (
+    set(_digits.keys()) | set(_powers_of_10.keys()) | {"ล้าน", "ลบ"}
+)
 _tokenizer = Tokenizer(custom_dict=_valid_tokens)
 
 
@@ -64,17 +66,22 @@ def thaiword_to_num(word: str) -> int:
 
     """
     if not isinstance(word, str):
-        raise TypeError(f"the input must be a string; given {word!r}")
+        raise TypeError(f"The input must be a string; given {word!r}")
     if not word:
-        raise ValueError("the input string cannot be empty")
+        raise ValueError("The input string cannot be empty")
     if word == "ศูนย์":
         return 0
     if not _re_thai_numerals.fullmatch(word):
-        raise ValueError("the input string is not a valid thai numeral")
+        raise ValueError("The input string is not a valid Thai numeral")
 
     tokens = _tokenizer.word_tokenize(word)
     accumulated = 0
     next_digit = 1
+
+    is_minus = False
+    if tokens[0] == "ลบ":
+        is_minus = True
+        tokens.pop(0)
 
     for token in tokens:
         if token in _digits:
@@ -90,5 +97,8 @@ def thaiword_to_num(word: str) -> int:
 
     # Cleaning up trailing digit
     accumulated += next_digit
+
+    if is_minus:
+        accumulated = -accumulated
 
     return accumulated

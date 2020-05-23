@@ -75,9 +75,7 @@ _BE_AD_DIFFERENCE = 543
 def _padding(n: int, length: int = 2, pad_char: str = "0") -> str:
     str_ = str(n)
 
-    pad_len = length - len(str_)
-    if pad_len < 0:
-        pad_len = 0
+    pad_len = abs(length - len(str_))
 
     return (pad_char * pad_len) + str_
 

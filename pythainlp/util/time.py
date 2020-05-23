@@ -191,8 +191,8 @@ def thai_time(
     else:
         if not isinstance(time_data, str):
             raise TypeError(
-                "Time data must be a datetime.time object, \
-                    a datetime.datetime object, or a string."
+                "Time data must be a datetime.time object, "
+                "a datetime.datetime object, or a string."
             )
 
         if not time_data:
@@ -298,8 +298,8 @@ def thai_time2time(time: str) -> str:
     else:
         raise NotImplementedError
 
-    if time == "0":
-        time = "00"
+    if len(time) == 1:
+        time = "0" + time
     time += ":"
 
     if minute != 0:

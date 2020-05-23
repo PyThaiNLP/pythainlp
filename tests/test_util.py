@@ -2,10 +2,10 @@
 """
 Unit tests for pythainlp.util module.
 """
-import datetime
 import os
 import unittest
 from collections import Counter
+from datetime import datetime, time, timezone
 
 from pythainlp.corpus import _CORPUS_PATH, thai_words
 from pythainlp.corpus.common import _THAI_WORDS_FILENAME
@@ -157,9 +157,16 @@ class TestUtilPackage(unittest.TestCase):
         self.assertIsNotNone(reign_year_to_ad(2, 7))
 
     def test_thai_strftime(self):
-        date = datetime.datetime(1976, 10, 6, 1, 40)
+        date = datetime(1976, 10, 6, 1, 40, tzinfo=timezone.utc)
         self.assertEqual(thai_strftime(date, "%d"), "06")
         self.assertEqual(thai_strftime(date, "%-d"), "6")  # no padding
+        self.assertEqual(thai_strftime(date, "%_d"), " 6")  # space padding
+        self.assertEqual(thai_strftime(date, "%0d"), "06")  # zero padding
+        self.assertEqual(thai_strftime(date, "%H"), "05")
+        self.assertEqual(thai_strftime(date, "%-H"), "5")  # no padding
+        self.assertEqual(thai_strftime(date, "%_M"), "59")  # space padding
+        self.assertEqual(thai_strftime(date, "%0M"), "59")  # zero padding
+
         self.assertEqual(
             thai_strftime(date, "%d", thaidigit=True), "๐๖"
         )  # Thai digit
@@ -167,10 +174,6 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_strftime(date, "%"), "%")  # one %
         self.assertEqual(thai_strftime(date, "%-"), "-")  # lone dash
         self.assertEqual(thai_strftime(date, "%c"), "พ   6 ต.ค. 01:40:00 2519")
-        self.assertEqual(
-            thai_strftime(date, "%Q"), "Q"
-        )  # not support in thai_strftime()
-
         self.assertEqual(
             thai_strftime(date, "%c", True), "พ   ๖ ต.ค. ๐๑:๔๐:๐๐ ๒๕๑๙"
         )
@@ -180,9 +183,16 @@ class TestUtilPackage(unittest.TestCase):
             ),
             "วันพุธที่ 06 ตุลาคม พ.ศ. 2519 เวลา 01:40น. (พ 06-ต.ค.-19) % %",
         )
+        self.assertEqual(thai_strftime(date, "%Q"), "Q")  # not support
         self.assertIsNotNone(
             thai_strftime(date, "%A%a%B%b%C%c%D%F%G%g%v%X%x%Y%y%+%%")
         )
+        self.assertEqual(
+            thai_strftime(date, "%p").upper(), thai_strftime(date, "%^p")
+        )  # '^' extension for upper case
+        self.assertEqual(
+            thai_strftime(date, "%Z").swapcase(), thai_strftime(date, "%#Z")
+        )  # '#' extension for swap case
 
     # ### pythainlp.util.thai_time
 
@@ -192,23 +202,20 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_time("8:17", "6h"), "สองโมงเช้าสิบเจ็ดนาที")
         self.assertEqual(thai_time("8:17", "m6h"), "แปดโมงสิบเจ็ดนาที")
         self.assertEqual(thai_time("13:30:01", "6h", "m"), "บ่ายโมงครึ่ง")
+        self.assertEqual(thai_time(time(12, 3, 0)), "สิบสองนาฬิกาสามนาที")
         self.assertEqual(
-            thai_time(datetime.time(12, 3, 0)), "สิบสองนาฬิกาสามนาที"
+            thai_time(time(12, 3, 1)), "สิบสองนาฬิกาสามนาทีหนึ่งวินาที",
         )
         self.assertEqual(
-            thai_time(datetime.time(12, 3, 1)),
-            "สิบสองนาฬิกาสามนาทีหนึ่งวินาที",
-        )
-        self.assertEqual(
-            thai_time(datetime.datetime(2014, 5, 22, 12, 3, 0), precision="s"),
+            thai_time(datetime(2014, 5, 22, 12, 3, 0), precision="s"),
             "สิบสองนาฬิกาสามนาทีศูนย์วินาที",
         )
         self.assertEqual(
-            thai_time(datetime.datetime(2014, 5, 22, 12, 3, 1), precision="m"),
+            thai_time(datetime(2014, 5, 22, 12, 3, 1), precision="m"),
             "สิบสองนาฬิกาสามนาที",
         )
         self.assertEqual(
-            thai_time(datetime.datetime(1976, 10, 6, 12, 30, 1), "6h", "m"),
+            thai_time(datetime(1976, 10, 6, 12, 30, 1), "6h", "m"),
             "เที่ยงครึ่ง",
         )
         self.assertEqual(thai_time("18:30"), "สิบแปดนาฬิกาสามสิบนาที")
@@ -421,7 +428,7 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_time2time("ตีสามสิบห้านาที"), "03:15")
 
     def test_thai_day2datetime(self):
-        now = datetime.datetime.now()
+        now = datetime.now()
 
         self.assertEqual(
             now + datetime.timedelta(days=0), thai_day2datetime("วันนี้", now)

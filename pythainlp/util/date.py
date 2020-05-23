@@ -250,13 +250,13 @@ def thai_strftime(
         thai_strftime(datetime_obj, "%A %d %B %Y")
         # output: 'วันอาทิตย์ 09 มิถุนายน 2562'
 
-        thai_strftime(datetime_obj, "%a %-d %b %y")
+        thai_strftime(datetime_obj, "%a %-d %b %y")  # no padding
         # output: 'อา 9 มิ.ย. 62'
 
-        thai_strftime(datetime_obj, "%a %_d %b %y")
+        thai_strftime(datetime_obj, "%a %_d %b %y")  # space padding
         # output: 'อา  9 มิ.ย. 62'
 
-        thai_strftime(datetime_obj, "%a %0d %b %y")
+        thai_strftime(datetime_obj, "%a %0d %b %y")  # zero padding
         # output: 'อา 09 มิ.ย. 62'
 
         thai_strftime(datetime_obj, "%-H นาฬิกา %-M นาที", thaidigit=True)
@@ -268,10 +268,10 @@ def thai_strftime(
         thai_strftime(datetime_obj, "%c")
         # output: 'อา  9 มิ.ย. 05:59:00 2562'
 
-        thai_strftime(date, "%H:%M %p")
+        thai_strftime(datetime_obj, "%H:%M %p")
         # output: '01:40 AM'
 
-        thai_strftime(date, "%H:%M %#p")
+        thai_strftime(datetime_obj, "%H:%M %#p")
         # output: '01:40 am'
     """
     thaidate_parts = []

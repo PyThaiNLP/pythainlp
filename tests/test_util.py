@@ -162,10 +162,10 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_strftime(date, "%-d"), "6")  # no padding
         self.assertEqual(thai_strftime(date, "%_d"), " 6")  # space padding
         self.assertEqual(thai_strftime(date, "%0d"), "06")  # zero padding
-        self.assertEqual(thai_strftime(date, "%H"), "05")
-        self.assertEqual(thai_strftime(date, "%-H"), "5")  # no padding
-        self.assertEqual(thai_strftime(date, "%_M"), "59")  # space padding
-        self.assertEqual(thai_strftime(date, "%0M"), "59")  # zero padding
+        self.assertEqual(thai_strftime(date, "%H"), "01")
+        self.assertEqual(thai_strftime(date, "%-H"), "1")  # no padding
+        self.assertEqual(thai_strftime(date, "%_M"), "40")  # space padding
+        self.assertEqual(thai_strftime(date, "%0M"), "40")  # zero padding
 
         self.assertEqual(
             thai_strftime(date, "%d", thaidigit=True), "๐๖"

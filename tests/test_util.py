@@ -165,6 +165,10 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_strftime(date, "%-"), "-")  # Lone dash
         self.assertEqual(thai_strftime(date, "%c"), "พ   6 ต.ค. 01:40:00 2519")
         self.assertEqual(
+            thai_strftime(date, "%Q"), "Q"
+        )  # not support in thai_strftime()
+
+        self.assertEqual(
             thai_strftime(date, "%c", True), "พ   ๖ ต.ค. ๐๑:๔๐:๐๐ ๒๕๑๙"
         )
         self.assertEqual(

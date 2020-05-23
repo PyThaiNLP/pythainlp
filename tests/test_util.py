@@ -87,6 +87,7 @@ class TestUtilPackage(unittest.TestCase):
             240030004000000000,
         )
         self.assertEqual(thaiword_to_num("ร้อยสิบล้านแปดแสนห้าพัน"), 110805000)
+        self.assertEqual(thaiword_to_num("ลบหนึ่ง"), -1)
         text = "ลบหนึ่งร้อยล้านสี่แสนห้าพันยี่สิบเอ็ด"
         self.assertEqual(num_to_thaiword(thaiword_to_num(text)), text)
         with self.assertRaises(ValueError):

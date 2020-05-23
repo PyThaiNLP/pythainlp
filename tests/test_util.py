@@ -427,6 +427,11 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_time2time("ตีสามสิบห้า"), "03:15")
         self.assertEqual(thai_time2time("ตีสามสิบห้านาที"), "03:15")
 
+        with self.assertRaises(ValueError):
+            thai_time2time("ไม่มีคำบอกเวลา")
+        with self.assertRaises(ValueError):
+            thai_time2time("ทุ่ม")
+
     def test_thai_day2datetime(self):
         now = datetime.now()
 

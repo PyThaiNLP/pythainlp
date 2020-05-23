@@ -255,7 +255,7 @@ def thai_strftime(
 
         thai_strftime(datetime_obj, "%a %_d %b %y")
         # output: 'อา  9 มิ.ย. 62'
- 
+
         thai_strftime(datetime_obj, "%a %0d %b %y")
         # output: 'อา 09 มิ.ย. 62'
 
@@ -420,7 +420,7 @@ DAY_MINUS_1 = ["เมื่อวาน", "เมื่อวานนี้", 
 DAY_MINUS_2 = ["เมื่อวานซืน", "เมื่อวานของเมื่อวาน", "วานซืน"]
 
 
-def thai_day2datetime(day: str, date: datetime = datetime.now()) -> datetime:
+def thai_day2datetime(day: str, date: datetime = None) -> datetime:
     """
     Convert Thai day into :class:`datetime.datetime`.
 
@@ -436,6 +436,9 @@ def thai_day2datetime(day: str, date: datetime = datetime.now()) -> datetime:
         # output:
         # datetime of tomorrow
     """
+    if not date:
+        date = datetime.now()
+
     day_num = 0
     if day in DAY_0:
         day_num = 0
@@ -450,4 +453,4 @@ def thai_day2datetime(day: str, date: datetime = datetime.now()) -> datetime:
     else:
         raise NotImplementedError
 
-    return date + timedelta(days=day_num)
+    return date + datetime.timedelta(days=day_num)

@@ -111,7 +111,7 @@ def _format(
     elif fmt == "24h":
         text = _format_24h(h)
     else:
-        raise NotImplementedError(fmt)
+        raise NotImplementedError(f"Time format not supported: {fmt}")
 
     if precision == "m" or precision == "s":
         if (
@@ -220,10 +220,10 @@ def thai_time2time(time: str, padding: bool = True) -> str:
     """
     Convert Thai time into time (H:M).
 
-    :param str time: Thai time
+    :param str time: Thai time in words
     :param bool padding: Zero padding the hour if True
 
-    :return: time
+    :return: time string
     :rtype: str
 
     :Example:
@@ -259,7 +259,7 @@ def thai_time2time(time: str, padding: bool = True) -> str:
         else:
             pass
     if "|" not in _time:
-        raise NotImplementedError()
+        raise ValueError("Cannot find any Thai word for time.")
 
     _LIST_THAI_TIME = _time.split("|")
     del _time
@@ -297,7 +297,7 @@ def thai_time2time(time: str, padding: bool = True) -> str:
         else:
             time += str(_DICT_THAI_TIME[hour[0]] + 18)
     else:
-        raise NotImplementedError
+        raise ValueError("Cannot find any Thai word for time.")
 
     if padding and len(time) == 1:
         time = "0" + time

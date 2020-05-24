@@ -318,8 +318,6 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
 
     if padding and len(text) == 1:
         text = "0" + text
-    if text == "0":
-        text = "00"
     text += ":"
 
     if minute != 0:

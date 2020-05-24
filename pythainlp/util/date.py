@@ -21,6 +21,7 @@ __all__ = [
 
 from datetime import datetime, timedelta
 from typing import Union
+import warnings
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
 thai_full_weekdays = [
@@ -164,7 +165,19 @@ def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
         )
     else:
         # No known localization available, use Python's default
-        str_ = dt_obj.strftime(f"%{fmt_char}")
+        # Unsupported directives may raise ValueError on Windows,
+        # in that case just use the fmt_char
+        try:
+            str_ = dt_obj.strftime(f"%{fmt_char}")
+        except ValueError as err:
+            warnings.warn(
+                (
+                    f"String format directive unknown/not support: %{fmt_char}"
+                    f"The system raises this ValueError: {err}"
+                ),
+                UserWarning,
+            )
+            str_ = fmt_char
 
     return str_
 

@@ -192,9 +192,7 @@ class TestUtilPackage(unittest.TestCase):
             ),
             "วันพุธที่ 06 ตุลาคม พ.ศ. 2519 เวลา 01:40น. (พ 06-ต.ค.-19) % %",
         )
-        # self.assertEqual(
-        #    thai_strftime(date, "%Q"), date.strftime("%Q")
-        #)  # not support
+        self.assertEqual(thai_strftime(date, "%Q"), "Q")  # not support
         self.assertIsNotNone(
             thai_strftime(date, "%A%a%B%b%C%c%D%F%G%g%v%X%x%Y%y%+%%")
         )

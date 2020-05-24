@@ -128,7 +128,7 @@ Thanks all the [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/cont
 - Korakot Chaovavanich - initial tokenization and soundex code
 - Charin Polpanumas - classification and benchmarking
 - Peeradej Tanruangporn - documentation
-- Arthit Suriyawongkul - refactoring, packaging, distribution, and maintainance 
+- Arthit Suriyawongkul - refactoring, packaging, distribution, and maintainance
 - Chakri Lowphansirikul - documentation
 - Pattarawat Chormai - benchmarking
 

@@ -13,12 +13,18 @@ class TestTagPackage(unittest.TestCase):
 
         self.assertEqual(pos_tag(None), [])
         self.assertEqual(pos_tag([]), [])
+        self.assertEqual(
+            pos_tag(["นักเรียน", "ถาม", "ครู"]),
+            [("นักเรียน", "NCMN"), ("ถาม", "VACT"), ("ครู", "NCMN")],
+        )
+        self.assertEqual(
+            len(pos_tag(["การ", "เดินทาง", "มี", "ความ", "ท้าทาย"])), 5
+        )
 
         self.assertEqual(unigram.tag(None, corpus="pud"), [])
         self.assertEqual(unigram.tag([], corpus="pud"), [])
         self.assertEqual(unigram.tag(None, corpus="orchid"), [])
         self.assertEqual(unigram.tag([], corpus="orchid"), [])
-
         self.assertIsNotNone(
             pos_tag(tokens, engine="unigram", corpus="orchid")
         )
@@ -29,19 +35,27 @@ class TestTagPackage(unittest.TestCase):
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
         )
 
+        self.assertTrue(
+            pos_tag(["การ", "รัฐประหาร"], corpus="orchid_ud")[0][1], "NOUN"
+        )
+        self.assertTrue(
+            pos_tag(["ความ", "พอเพียง"], corpus="orchid_ud")[0][1], "NOUN"
+        )
+
+        self.assertEqual(perceptron.tag(None, corpus="orchid"), [])
+        self.assertEqual(perceptron.tag([], corpus="orchid"), [])
+        self.assertEqual(perceptron.tag(None, corpus="orchid_ud"), [])
+        self.assertEqual(perceptron.tag([], corpus="orchid_ud"), [])
+        self.assertEqual(perceptron.tag(None, corpus="pud"), [])
+        self.assertEqual(perceptron.tag([], corpus="pud"), [])
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="perceptron", corpus="orchid")
+        )
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="orchid")
         )
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="pud")
-        )
-        self.assertEqual(perceptron.tag(None, corpus="pud"), [])
-        self.assertEqual(perceptron.tag([], corpus="pud"), [])
-        self.assertEqual(perceptron.tag(None, corpus="orchid"), [])
-        self.assertEqual(perceptron.tag([], corpus="orchid"), [])
-        self.assertEqual(
-            pos_tag(["นักเรียน", "ถาม", "ครู"]),
-            [("นักเรียน", "NCMN"), ("ถาม", "VACT"), ("ครู", "NCMN")],
         )
 
         self.assertEqual(pos_tag_sents(None), [])

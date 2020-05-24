@@ -20,7 +20,7 @@ sentences:
         actual: >-
             ผม|ไม่|ชอบ|กิน|ผัก|
 binary_sentences:
-    - 
+    -
         expected: "10001010"
         actual:   "10001010"
         expected_count: 3
@@ -32,7 +32,7 @@ binary_sentences:
         expected: "10101010"
         actual: "10001010"
         expected_count: 2
-    - 
+    -
         expected: "10001010"
         actual:   "10001000"
         expected_count: 1

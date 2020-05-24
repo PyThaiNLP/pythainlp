@@ -12,7 +12,7 @@ the National Institute of Information and Communications Technology
 under the following license.  By obtaining, using and/or copying this
 software and database, you agree that you have read, understood, and
 will comply with these terms and conditions:
-  
+
   Permission to use, copy, modify and distribute this software and
   database and its documentation for any purpose and without fee or
   royalty is hereby granted, provided that you agree to comply with
@@ -20,18 +20,18 @@ will comply with these terms and conditions:
   disclaimer, and that the same appear on ALL copies of the software,
   database and documentation, including modifications that you make
   for internal use or for distribution.
-  
+
 Thai WordNet Copyright 2011 by the National Institute of
 Information and Communications Technology (NICT).  All rights
 reserved.
-  
+
 THIS SOFTWARE AND DATABASE IS PROVIDED "AS IS" AND NICT MAKES NO
 REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED.  BY WAY OF EXAMPLE,
 BUT NOT LIMITATION, NICT MAKES NO REPRESENTATIONS OR WARRANTIES OF
 MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE
 OF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT INFRINGE
 ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
-  
+
 The name of the National Institute of Information and Communications
 Technology may not be used in advertising or publicity pertaining to
 distribution of the software and/or database.  Title to copyright in
@@ -119,9 +119,9 @@ a. ___License grant.___
 b. ___Other rights.___
 
       1. Moral rights, such as the right of integrity, are not licensed under this Public License, nor are publicity, privacy, and/or other similar personality rights; however, to the extent possible, the Licensor waives and/or agrees not to assert any such rights held by the Licensor to the limited extent necessary to allow You to exercise the Licensed Rights, but not otherwise.
-    
+
       2. Patent and trademark rights are not licensed under this Public License.
-    
+
       3. To the extent possible, the Licensor waives any right to collect royalties from You for the exercise of the Licensed Rights, whether directly or through a collecting society under any voluntary or waivable statutory or compulsory licensing scheme. In all other cases the Licensor expressly reserves any right to collect such royalties.
 
 ### Section 3 – License Conditions.
@@ -189,7 +189,7 @@ a. This Public License applies for the term of the Copyright and Similar Rights 
 b. Where Your right to use the Licensed Material has terminated under Section 6(a), it reinstates:
 
       1. automatically as of the date the violation is cured, provided it is cured within 30 days of Your discovery of the violation; or
-    
+
       2. upon express reinstatement by the Licensor.
 
    For the avoidance of doubt, this Section 6(b) does not affect any right the Licensor may have to seek remedies for Your violations of this Public License.

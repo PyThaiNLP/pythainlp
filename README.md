@@ -2,10 +2,10 @@
 
 # PyThaiNLP: Thai Natural Language Processing in Python
 
-[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/) 
+[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
 [![Downloads](https://pepy.tech/badge/pythainlp/month)](https://pepy.tech/project/pythainlp)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp?ref=badge_shield)
 [![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)
@@ -44,6 +44,7 @@ Using PyThaiNLP:
 - Thai-English keyboard misswitched fix (`eng_to_thai`, `thai_to_eng`)
 - Thai spelling suggestion and correction (`spell` and `correct`)
 - Thai soundex (`soundex`) with three engines (`lk82`, `udom83`, `metasound`)
+- Thai datetime formatting (`thai_strftime`)
 - and much more - see examples in [tutorials](https://www.thainlp.org/pythainlp/tutorials/).
 
 
@@ -167,6 +168,7 @@ PyThaiNLP เป็นไลบรารีภาษาไพทอนสำห�
 - แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา (`eng_to_thai`, `thai_to_eng`)
 - ตรวจคำสะกดผิดในภาษาไทย (`spell`, `correct`)
 - soundex ภาษาไทย (`soundex`) 3 วิธีการ (`lk82`, `udom83`, `metasound`)
+- รูปแบบวันที่และเวลาไทย (`thai_strftime`)
 - และอื่น ๆ ดูตัวอย่างได้ใน [tutorials สอนวิธีใช้งาน](https://www.thainlp.org/pythainlp/tutorials/)
 
 
@@ -209,7 +211,7 @@ pip install pythainlp[extra1,extra2,...]
   - `wordnet` (สำหรับ API WordNet ภาษาไทย)
   - `full` (ติดตั้งทุกอย่าง)
 
-รายละเอียดของแพคเกจเสริมดูได้ในตัวแปรชื่อ `extras` ใน [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py) 
+รายละเอียดของแพคเกจเสริมดูได้ในตัวแปรชื่อ `extras` ใน [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py)
 
 ## การอ้างอิง
 

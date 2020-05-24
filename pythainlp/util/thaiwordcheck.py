@@ -10,7 +10,6 @@ References
 - วารุณี บำรุงรส 2010. คำไทยแท้ https://www.gotoknow.org/posts/377619
 """
 import re
-import warnings
 
 _THANTHAKHAT_CHAR = "\u0e4c"  # Thanthakhat (cancellation of sound)
 

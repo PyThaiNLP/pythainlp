@@ -10,7 +10,6 @@ Modules
 .. autofunction:: arabic_digit_to_thai_digit
 .. autofunction:: bahttext
 .. autofunction:: collate
-.. autofunction:: delete_tone
 .. autofunction:: dict_trie
 .. autofunction:: digit_to_text
 .. autofunction:: eng_to_thai
@@ -30,14 +29,14 @@ Modules
 .. autofunction:: remove_tonemark
 .. autofunction:: remove_zw
 .. autofunction:: reorder_vowels
-.. autofunction:: thai_time
 .. autofunction:: text_to_arabic_digit
 .. autofunction:: text_to_thai_digit
 .. autofunction:: thai_strftime
 .. autofunction:: thai_to_eng
 .. autofunction:: thai_digit_to_arabic_digit
+.. autofunction:: thaiword_to_date
 .. autofunction:: thaiword_to_num
-.. autofunction:: thai_day2datetime
-.. autofunction:: thai_time2time
+.. autofunction:: thaiword_to_time
+.. autofunction:: time_to_thaiword
 .. autoclass:: Trie
    :members:

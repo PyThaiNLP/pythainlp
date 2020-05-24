@@ -25,9 +25,11 @@ class Trie:
     def add(self, word: str) -> None:
         """
         Add a word to the trie.
+        Spaces in front of and following the word will be removed.
 
         :param str text: a word
         """
+        word = word.strip()
         self.words.add(word)
         cur = self.root
         for ch in word:

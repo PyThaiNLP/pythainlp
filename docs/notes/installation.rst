@@ -29,10 +29,10 @@ Note for installation on Windows:
 - ``PyICU`` libraries may required. You have two options to get them installed on Windows.
 
 - Option 1 (recommended):
-    - Find a pre-built package ("wheel") from https://www.lfd.uci.edu/~gohlke/pythonlibs/ 
+    - Find a pre-built package ("wheel") from https://www.lfd.uci.edu/~gohlke/pythonlibs/
     - Download a suitable wheel for your Python version (3.5, 3.6, etc.) and CPU architecture ("win32" for 32-bit Windows and "amd64" for 64-bit Windows)
     - Install them with pip. For example: `pip install PyICU-xxx‑cp36‑cp36m‑win32.whl`
-    
+
 - Option 2 (advanced):
     - You can also try to install them with a command: `pip install pyicu`
     - With this, pip will try to build the libraries directly from source files.
@@ -49,8 +49,8 @@ Runtime Configurations
    This environment variable specifies the location where the downloaded data
    and the corpus database information are stored. If this directory
    does not exist, PyThaiNLP will automatically create a new one.
-   
+
    By default, it is specified to the directory called ``pythainlp-data``
    within the home directory.
-   
+
    Type `thainlp data path` at command line to see current PYTHAINLP_DATA_DIR.

@@ -76,7 +76,7 @@ def transliterate(
     ::
 
         from pythainlp.transliterate import transliterate
-        
+
         transliterate("สามารถ", engine="thaig2p")
         # output: 's aː ˩˩˦ . m aː t̚ ˥˩'
 

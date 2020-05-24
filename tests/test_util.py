@@ -2,10 +2,10 @@
 """
 Unit tests for pythainlp.util module.
 """
-import datetime
 import os
 import unittest
 from collections import Counter
+from datetime import datetime, time, timedelta, timezone
 
 from pythainlp.corpus import _CORPUS_PATH, thai_words
 from pythainlp.corpus.common import _THAI_WORDS_FILENAME
@@ -34,11 +34,12 @@ from pythainlp.util import (
     remove_zw,
     text_to_arabic_digit,
     text_to_thai_digit,
-    thai_day2datetime,
+    thaiword_to_date,
     thai_digit_to_arabic_digit,
     thai_strftime,
     thai_time,
-    thai_time2time,
+    thaiword_to_time,
+    time_to_thaiword,
     thai_to_eng,
     thaiword_to_num,
 )
@@ -46,7 +47,7 @@ from pythainlp.util import (
 
 class TestUtilPackage(unittest.TestCase):
 
-    # ### pythainlp.util
+    # ### pythainlp.util.collate
 
     def test_collate(self):
         self.assertEqual(collate(["ไก่", "กก"]), ["กก", "ไก่"])
@@ -54,6 +55,8 @@ class TestUtilPackage(unittest.TestCase):
             collate(["ไก่", "เป็ด", "หมู", "วัว"]),
             ["ไก่", "เป็ด", "วัว", "หมู"],
         )
+
+    # ### pythainlp.util.numtoword
 
     def test_number(self):
         self.assertEqual(
@@ -64,9 +67,10 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(bahttext(0), "ศูนย์บาทถ้วน")
         self.assertEqual(bahttext(None), "")
 
-        self.assertEqual(num_to_thaiword(112), "หนึ่งร้อยสิบสอง")
-        self.assertEqual(num_to_thaiword(0), "ศูนย์")
         self.assertEqual(num_to_thaiword(None), "")
+        self.assertEqual(num_to_thaiword(0), "ศูนย์")
+        self.assertEqual(num_to_thaiword(112), "หนึ่งร้อยสิบสอง")
+        self.assertEqual(num_to_thaiword(-273), "ลบสองร้อยเจ็ดสิบสาม")
 
         self.assertEqual(thaiword_to_num("ศูนย์"), 0)
         self.assertEqual(thaiword_to_num("แปด"), 8)
@@ -86,6 +90,9 @@ class TestUtilPackage(unittest.TestCase):
             240030004000000000,
         )
         self.assertEqual(thaiword_to_num("ร้อยสิบล้านแปดแสนห้าพัน"), 110805000)
+        self.assertEqual(thaiword_to_num("ลบหนึ่ง"), -1)
+        text = "ลบหนึ่งร้อยล้านสี่แสนห้าพันยี่สิบเอ็ด"
+        self.assertEqual(num_to_thaiword(thaiword_to_num(text)), text)
         with self.assertRaises(ValueError):
             thaiword_to_num("ศูนย์อะไรนะ")
         with self.assertRaises(ValueError):
@@ -121,6 +128,8 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(text_to_thai_digit(""), "")
         self.assertEqual(text_to_thai_digit(None), "")
 
+    # ### pythainlp.util.keyboard
+
     def test_keyboard(self):
         self.assertEqual(eng_to_thai("l;ylfu8iy["), "สวัสดีครับ")
         self.assertEqual(
@@ -131,7 +140,9 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_to_eng("่นีพืฟสรหท"), "journalism")
         self.assertEqual(thai_to_eng("๋นีพืฟสรหท"), "Journalism")
 
-    def test_keywords(self):
+    # ### pythainlp.util.keywords
+
+    def test_find_keywords(self):
         word_list = ["แมว", "กิน", "ปลา", "อร่อย", "แมว", "เป็น", "แมว"]
         self.assertEqual(find_keyword(word_list), {"แมว": 3})
 
@@ -144,6 +155,8 @@ class TestUtilPackage(unittest.TestCase):
             rank(["แมว", "คน", "แมว"], exclude_stopwords=True)
         )
 
+    # ### pythainlp.util.date
+
     def test_date(self):
         self.assertIsNotNone(now_reign_year())
 
@@ -153,13 +166,32 @@ class TestUtilPackage(unittest.TestCase):
         self.assertIsNotNone(reign_year_to_ad(2, 7))
 
     def test_thai_strftime(self):
-        date = datetime.datetime(1976, 10, 6, 1, 40)
+        date = datetime(1976, 10, 6, 1, 40, tzinfo=timezone.utc)
         self.assertEqual(thai_strftime(date, "%d"), "06")
-        # self.assertEqual(thai_strftime(date, "%-d"), "6")  # No padding
-        self.assertEqual(thai_strftime(date, "%d", True), "๐๖")  # Thai digit
+        self.assertEqual(thai_strftime(date, "%-d"), "6")  # no padding
+        self.assertEqual(thai_strftime(date, "%_d"), " 6")  # space padding
+        self.assertEqual(thai_strftime(date, "%0d"), "06")  # zero padding
+        self.assertEqual(thai_strftime(date, "%H"), "01")
+        self.assertEqual(thai_strftime(date, "%-H"), "1")  # no padding
+        self.assertEqual(thai_strftime(date, "%_M"), "40")  # space padding
+        self.assertEqual(thai_strftime(date, "%0M"), "40")  # zero padding
+        self.assertEqual(thai_strftime(date, "%e"), " 6")
+        self.assertEqual(thai_strftime(date, "%-e"), "6")  # no padding
+        self.assertEqual(thai_strftime(date, "%_e"), " 6")  # space padding
+        self.assertEqual(thai_strftime(date, "%0e"), "06")  # zero padding
+        self.assertEqual(thai_strftime(date, "%Ed"), "06")  # locale's alt rep
+        self.assertEqual(thai_strftime(date, "%Od"), "๐๖")  # locale's numeric
+
+        self.assertEqual(
+            thai_strftime(date, "%d", thaidigit=True), "๐๖"
+        )  # Thai digit
         self.assertEqual(thai_strftime(date, "%%"), "%")  # % escape
-        self.assertEqual(thai_strftime(date, "%-"), "-")  # Lone dash
+        self.assertEqual(thai_strftime(date, "%"), "%")  # one %
+        self.assertEqual(thai_strftime(date, "%-"), "-")  # lone dash
         self.assertEqual(thai_strftime(date, "%c"), "พ   6 ต.ค. 01:40:00 2519")
+        self.assertEqual(
+            thai_strftime(date, "%0c"), "พ   6 ต.ค. 01:40:00 2519"
+        )
         self.assertEqual(
             thai_strftime(date, "%c", True), "พ   ๖ ต.ค. ๐๑:๔๐:๐๐ ๒๕๑๙"
         )
@@ -169,82 +201,167 @@ class TestUtilPackage(unittest.TestCase):
             ),
             "วันพุธที่ 06 ตุลาคม พ.ศ. 2519 เวลา 01:40น. (พ 06-ต.ค.-19) % %",
         )
+        self.assertEqual(thai_strftime(date, "%Q"), "Q")  # not support
         self.assertIsNotNone(
             thai_strftime(date, "%A%a%B%b%C%c%D%F%G%g%v%X%x%Y%y%+%%")
         )
-
-    # ### pythainlp.util.thai_time
-
-    def test_thai_time(self):
-        self.assertEqual(thai_time("8:17"), thai_time("08:17"))
-        self.assertEqual(thai_time("8:17"), "แปดนาฬิกาสิบเจ็ดนาที")
-        self.assertEqual(thai_time("8:17", "6h"), "สองโมงเช้าสิบเจ็ดนาที")
-        self.assertEqual(thai_time("8:17", "m6h"), "แปดโมงสิบเจ็ดนาที")
-        self.assertEqual(thai_time("13:30:01", "6h", "m"), "บ่ายโมงครึ่ง")
         self.assertEqual(
-            thai_time(datetime.time(12, 3, 0)), "สิบสองนาฬิกาสามนาที"
+            thai_strftime(date, "%p").upper(), thai_strftime(date, "%^p")
+        )  # '^' extension for upper case
+        self.assertEqual(
+            thai_strftime(date, "%Z").swapcase(), thai_strftime(date, "%#Z")
+        )  # '#' extension for swap case
+
+        date = datetime(1, 2, 3)
+        self.assertEqual(thai_strftime(date, "%Y"), "0544")
+        self.assertEqual(thai_strftime(date, "%y"), "44")
+        self.assertEqual(len(thai_strftime(date, "%G")), 4)
+        self.assertEqual(len(thai_strftime(date, "%g")), 2)
+
+    # ### pythainlp.util.time
+
+    def test_time_to_thaiword(self):
+        self.assertEqual(time_to_thaiword("8:17"), time_to_thaiword("08:17"))
+        self.assertEqual(time_to_thaiword("8:17"), "แปดนาฬิกาสิบเจ็ดนาที")
+        self.assertEqual(
+            time_to_thaiword("8:17", "6h"), "สองโมงเช้าสิบเจ็ดนาที"
+        )
+        self.assertEqual(time_to_thaiword("8:17", "m6h"), "แปดโมงสิบเจ็ดนาที")
+        self.assertEqual(
+            time_to_thaiword("13:30:01", "6h", "m"), "บ่ายโมงครึ่ง"
         )
         self.assertEqual(
-            thai_time(datetime.time(12, 3, 1)),
-            "สิบสองนาฬิกาสามนาทีหนึ่งวินาที",
+            time_to_thaiword(time(12, 3, 0)), "สิบสองนาฬิกาสามนาที"
         )
         self.assertEqual(
-            thai_time(datetime.datetime(2014, 5, 22, 12, 3, 0), precision="s"),
+            time_to_thaiword(time(12, 3, 1)), "สิบสองนาฬิกาสามนาทีหนึ่งวินาที",
+        )
+        self.assertEqual(
+            time_to_thaiword(datetime(2014, 5, 22, 12, 3, 0), precision="s"),
             "สิบสองนาฬิกาสามนาทีศูนย์วินาที",
         )
         self.assertEqual(
-            thai_time(datetime.datetime(2014, 5, 22, 12, 3, 1), precision="m"),
+            time_to_thaiword(datetime(2014, 5, 22, 12, 3, 1), precision="m"),
             "สิบสองนาฬิกาสามนาที",
         )
         self.assertEqual(
-            thai_time(datetime.datetime(1976, 10, 6, 12, 30, 1), "6h", "m"),
+            time_to_thaiword(datetime(1976, 10, 6, 12, 30, 1), "6h", "m"),
             "เที่ยงครึ่ง",
         )
-        self.assertEqual(thai_time("18:30"), "สิบแปดนาฬิกาสามสิบนาที")
-        self.assertEqual(thai_time("18:30:00"), "สิบแปดนาฬิกาสามสิบนาที")
+        self.assertEqual(time_to_thaiword("18:30"), "สิบแปดนาฬิกาสามสิบนาที")
         self.assertEqual(
-            thai_time("18:30:01"), "สิบแปดนาฬิกาสามสิบนาทีหนึ่งวินาที"
+            time_to_thaiword("18:30:00"), "สิบแปดนาฬิกาสามสิบนาที"
         )
         self.assertEqual(
-            thai_time("18:30:01", precision="m"), "สิบแปดนาฬิกาสามสิบนาที"
+            time_to_thaiword("18:30:01"), "สิบแปดนาฬิกาสามสิบนาทีหนึ่งวินาที"
         )
         self.assertEqual(
-            thai_time("18:30:01", precision="s"),
+            time_to_thaiword("18:30:01", precision="m"),
+            "สิบแปดนาฬิกาสามสิบนาที",
+        )
+        self.assertEqual(
+            time_to_thaiword("18:30:01", precision="s"),
             "สิบแปดนาฬิกาสามสิบนาทีหนึ่งวินาที",
         )
         self.assertEqual(
-            thai_time("18:30:01", fmt="m6h", precision="m"), "หกโมงครึ่ง"
+            time_to_thaiword("18:30:01", fmt="m6h", precision="m"),
+            "หกโมงครึ่ง",
         )
         self.assertEqual(
-            thai_time("18:30:01", fmt="m6h"), "หกโมงสามสิบนาทีหนึ่งวินาที"
+            time_to_thaiword("18:30:01", fmt="m6h"),
+            "หกโมงสามสิบนาทีหนึ่งวินาที",
         )
         self.assertEqual(
-            thai_time("18:30:01", fmt="m6h", precision="m"), "หกโมงครึ่ง"
+            time_to_thaiword("18:30:01", fmt="m6h", precision="m"),
+            "หกโมงครึ่ง",
         )
-        self.assertIsNotNone(thai_time("0:30"))
-        self.assertIsNotNone(thai_time("0:30", "6h"))
-        self.assertIsNotNone(thai_time("0:30", "m6h"))
-        self.assertIsNotNone(thai_time("4:30"))
-        self.assertIsNotNone(thai_time("4:30", "6h"))
-        self.assertIsNotNone(thai_time("4:30", "m6h"))
-        self.assertIsNotNone(thai_time("12:30"))
-        self.assertIsNotNone(thai_time("12:30", "6h"))
-        self.assertIsNotNone(thai_time("12:30", "m6h"))
-        self.assertIsNotNone(thai_time("13:30"))
-        self.assertIsNotNone(thai_time("13:30", "6h"))
-        self.assertIsNotNone(thai_time("13:30", "m6h"))
-        self.assertIsNotNone(thai_time("15:30"))
-        self.assertIsNotNone(thai_time("15:30", "6h"))
-        self.assertIsNotNone(thai_time("15:30", "m6h"))
-        self.assertIsNotNone(thai_time("18:30"))
-        self.assertIsNotNone(thai_time("18:30", "6h"))
-        self.assertIsNotNone(thai_time("18:30", "m6h"))
-        self.assertIsNotNone(thai_time("19:30"))
-        self.assertIsNotNone(thai_time("19:30", "6h"))
-        self.assertIsNotNone(thai_time("19:30", "m6h"))
+        self.assertIsNotNone(time_to_thaiword("0:30"))
+        self.assertIsNotNone(time_to_thaiword("0:30", "6h"))
+        self.assertIsNotNone(time_to_thaiword("0:30", "m6h"))
+        self.assertIsNotNone(time_to_thaiword("4:30"))
+        self.assertIsNotNone(time_to_thaiword("4:30", "6h"))
+        self.assertIsNotNone(time_to_thaiword("4:30", "m6h"))
+        self.assertIsNotNone(time_to_thaiword("12:30"))
+        self.assertIsNotNone(time_to_thaiword("12:30", "6h"))
+        self.assertIsNotNone(time_to_thaiword("12:30", "m6h"))
+        self.assertIsNotNone(time_to_thaiword("13:30"))
+        self.assertIsNotNone(time_to_thaiword("13:30", "6h"))
+        self.assertIsNotNone(time_to_thaiword("13:30", "m6h"))
+        self.assertIsNotNone(time_to_thaiword("15:30"))
+        self.assertIsNotNone(time_to_thaiword("15:30", "6h"))
+        self.assertIsNotNone(time_to_thaiword("15:30", "m6h"))
+        self.assertIsNotNone(time_to_thaiword("18:30"))
+        self.assertIsNotNone(time_to_thaiword("18:30", "6h"))
+        self.assertIsNotNone(time_to_thaiword("18:30", "m6h"))
+        self.assertIsNotNone(time_to_thaiword("19:30"))
+        self.assertIsNotNone(time_to_thaiword("19:30", "6h"))
+        self.assertIsNotNone(time_to_thaiword("19:30", "m6h"))
 
         with self.assertRaises(NotImplementedError):
-            thai_time("8:17", fmt="xx")
+            time_to_thaiword(
+                "8:17", fmt="xx"
+            )  # format string is not supported
+        with self.assertRaises(TypeError):
+            time_to_thaiword(42)  # input is not datetime/time/str
+        with self.assertRaises(ValueError):
+            time_to_thaiword("")  # input is empty
+        with self.assertRaises(ValueError):
+            time_to_thaiword("13:73:23")  # input is not in H:M:S format
+        with self.assertRaises(ValueError):
+            time_to_thaiword(
+                "24:00"
+            )  # input is not in H:M:S format (over 23:59:59)
+
+        self.assertEqual(thai_time("11:12"), time_to_thaiword("11:12"))
+        with self.assertWarns(DeprecationWarning):
+            thai_time("11:16")
+
+    def test_thaiword_to_time(self):
+        self.assertEqual(thaiword_to_time("บ่ายโมงครึ่ง"), "13:30")
+        self.assertEqual(thaiword_to_time("บ่ายสามโมงสิบสองนาที"), "15:12")
+        self.assertEqual(thaiword_to_time("สิบโมงเช้าสิบสองนาที"), "10:12")
+        self.assertEqual(thaiword_to_time("บ่ายโมงสิบสามนาที"), "13:13")
+        self.assertEqual(thaiword_to_time("ศูนย์นาฬิกาสิบเอ็ดนาที"), "00:11")
+        self.assertEqual(
+            thaiword_to_time("บ่ายโมงเย็นสามสิบเอ็ดนาที"), "13:31"
+        )
+        self.assertEqual(thaiword_to_time("เที่ยงคืนหนึ่งนาที"), "00:01")
+        self.assertEqual(thaiword_to_time("เที่ยงครึ่ง"), "12:30")
+        self.assertEqual(thaiword_to_time("ห้าโมงเย็นสามสิบสี่นาที"), "17:34")
+        self.assertEqual(thaiword_to_time("หนึ่งทุ่มสามสิบแปดนาที"), "19:38")
+        self.assertEqual(thaiword_to_time("ทุ่มสามสิบแปด"), "19:38")
+        self.assertEqual(
+            thaiword_to_time("สองโมงเช้าสิบสองนาที", padding=False), "8:12"
+        )
+        self.assertEqual(thaiword_to_time("สิบโมงเช้า"), "10:00")
+        self.assertEqual(thaiword_to_time("ตีสามสิบห้า"), "03:15")
+        self.assertEqual(thaiword_to_time("ตีสามสิบห้านาที"), "03:15")
+
+        with self.assertRaises(ValueError):
+            thaiword_to_time("ไม่มีคำบอกเวลา")
+        with self.assertRaises(ValueError):
+            thaiword_to_time("นาฬิกา")
+
+    def test_thaiword_to_date(self):
+        now = datetime.now()
+
+        self.assertEqual(
+            now + timedelta(days=0), thaiword_to_date("วันนี้", now)
+        )
+        self.assertEqual(
+            now + timedelta(days=1), thaiword_to_date("พรุ่งนี้", now),
+        )
+        self.assertEqual(
+            now + timedelta(days=2), thaiword_to_date("มะรืนนี้", now),
+        )
+        self.assertEqual(
+            now + timedelta(days=-1), thaiword_to_date("เมื่อวาน", now),
+        )
+        self.assertEqual(
+            now + timedelta(days=-2), thaiword_to_date("วานซืน", now)
+        )
+
+    # ### pythainlp.util.trie
 
     def test_trie(self):
         self.assertIsNotNone(Trie([]))
@@ -330,6 +447,8 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(remove_tonemark("จิ้น"), "จิน")
         self.assertEqual(remove_tonemark("เก๋า"), "เกา")
         self.assertEqual(delete_tone("เจ๋งเป้ง"), remove_tonemark("เจ๋งเป้ง"))
+        with self.assertWarns(DeprecationWarning):
+            delete_tone("ค้าบ")
 
         # remove zero width chars
         self.assertEqual(remove_zw("กา\u200b"), "กา")
@@ -381,43 +500,3 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(is_native_thai("เลข"), False)
         self.assertEqual(is_native_thai("เทเวศน์"), False)
         self.assertEqual(is_native_thai("เทเวศร์"), False)
-
-    def test_thai_time2time(self):
-        self.assertEqual(thai_time2time("บ่ายโมงครึ่ง"), "13:30")
-        self.assertEqual(thai_time2time("บ่ายสามโมงสิบสองนาที"), "15:12")
-        self.assertEqual(thai_time2time("สิบโมงเช้าสิบสองนาที"), "10:12")
-        self.assertEqual(thai_time2time("บ่ายโมงสิบสามนาที"), "13:13")
-        self.assertEqual(thai_time2time("ศูนย์นาฬิกาสิบเอ็ดนาที"), "00:11")
-        self.assertEqual(thai_time2time("บ่ายโมงเย็นสามสิบเอ็ดนาที"), "13:31")
-        self.assertEqual(thai_time2time("เที่ยงคืนหนึ่งนาที"), "00:01")
-        self.assertEqual(thai_time2time("เที่ยงครึ่ง"), "12:30")
-        self.assertEqual(thai_time2time("ห้าโมงเย็นสามสิบสี่นาที"), "17:34")
-        self.assertEqual(thai_time2time("หนึ่งทุ่มสามสิบแปดนาที"), "19:38")
-        self.assertEqual(thai_time2time("ทุ่มสามสิบแปด"), "19:38")
-        self.assertEqual(thai_time2time("สองโมงเช้าสิบสองนาที"), "8:12")
-        self.assertEqual(thai_time2time("สิบโมงเช้า"), "10:00")
-
-    def test_thai_day2datetime(self):
-        now = datetime.datetime.now()
-
-        self.assertEqual(
-            now + datetime.timedelta(days=0), thai_day2datetime("วันนี้", now)
-        )
-        self.assertEqual(
-            now + datetime.timedelta(days=1),
-            thai_day2datetime("พรุ่งนี้", now),
-        )
-        self.assertEqual(
-            now + datetime.timedelta(days=2),
-            thai_day2datetime("มะรืนนี้", now),
-        )
-        self.assertEqual(
-            now + datetime.timedelta(days=-1),
-            thai_day2datetime("เมื่อวาน", now),
-        )
-        self.assertEqual(
-            now + datetime.timedelta(days=-2), thai_day2datetime("วานซืน", now)
-        )
-
-        with self.assertRaises(NotImplementedError):
-            thai_day2datetime("ศุกร์ที่แล้ว")

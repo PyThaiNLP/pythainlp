@@ -9,8 +9,7 @@ from datetime import datetime, time
 from typing import Union
 
 from pythainlp.tokenize import Tokenizer
-from pythainlp.util.numtoword import num_to_thaiword
-from pythainlp.util.wordtonum import thaiword_to_num
+from pythainlp.util import num_to_thaiword, thaiword_to_num
 
 _TIME_FORMAT_WITH_SEC = "%H:%M:%S"
 _TIME_FORMAT_WITHOUT_SEC = "%H:%M"
@@ -44,6 +43,18 @@ _DICT_THAI_TIME = {
 _THAI_TIME_CUT = Tokenizer(
     custom_dict=list(_DICT_THAI_TIME.keys()), engine="newmm"
 )
+_THAI_TIME_AFFIX = [
+    "โมงเช้า",
+    "บ่ายโมง",
+    "โมงเย็น",
+    "โมง",
+    "นาฬิกา",
+    "ทุ่ม",
+    "ตี",
+    "เที่ยงคืน",
+    "เที่ยงวัน",
+    "เที่ยง",
+]
 
 
 def _format_6h(h: int) -> str:
@@ -252,22 +263,11 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
     text = text.replace("กว่า", "").replace("ๆ", "").replace(" ", "")
     _i = ["ตีหนึ่ง", "ตีสอง", "ตีสาม", "ตีสี่", "ตีห้า"]
     _time = ""
-    for time_suffix in [
-        "โมงเช้า",
-        "บ่ายโมง",
-        "โมงเย็น",
-        "โมง",
-        "นาฬิกา",
-        "ทุ่ม",
-        "ตี",
-        "เที่ยงคืน",
-        "เที่ยงวัน",
-        "เที่ยง",
-    ]:
-        if time_suffix in text and time_suffix != "ตี":
-            _time = text.replace(time_suffix, time_suffix + "|")
+    for affix in _THAI_TIME_AFFIX:
+        if affix in text and affix != "ตี":
+            _time = text.replace(affix, affix + "|")
             break
-        elif time_suffix in text and time_suffix == "ตี":
+        elif affix in text and affix == "ตี":
             for j in _i:
                 if j in text:
                     _time = text.replace(j, j + "|")
@@ -275,7 +275,7 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
         else:
             pass
     if "|" not in _time:
-        raise ValueError("Cannot find any Thai word for time.")
+        raise ValueError("Cannot find any Thai word for time affix.")
 
     _LIST_THAI_TIME = _time.split("|")
     del _time
@@ -288,7 +288,8 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
         minute = 0
     text = ""
 
-    if hour[-1] == "นาฬิกา" and hour[0] in keys_dict:
+    # determine hour
+    if hour[-1] == "นาฬิกา" and hour[0] in keys_dict and hour[:-1]:
         text += str(thaiword_to_num("".join(hour[:-1])))
     elif hour[0] == "ตี" and hour[1] in keys_dict:
         text += str(_DICT_THAI_TIME[hour[1]])
@@ -314,21 +315,22 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
             text += str(_DICT_THAI_TIME[hour[0]] + 18)
 
     if not text:
-        raise ValueError("Cannot find any Thai word for time.")
+        raise ValueError("Cannot find any Thai word for hour.")
 
     if padding and len(text) == 1:
         text = "0" + text
     text += ":"
 
-    if minute != 0:
+    # determine minute
+    if minute:
         n = 0
-        for time_suffix in minute:
-            if time_suffix in keys_dict:
-                if time_suffix != "สิบ":
-                    n += _DICT_THAI_TIME[time_suffix]
-                elif time_suffix == "สิบ" and n != 0:
+        for affix in minute:
+            if affix in keys_dict:
+                if affix != "สิบ":
+                    n += _DICT_THAI_TIME[affix]
+                elif affix == "สิบ" and n != 0:
                     n *= 10
-                elif time_suffix == "สิบ" and n == 0:
+                elif affix == "สิบ" and n == 0:
                     n += 10
         if n != 0 and n > 9:
             text += str(n)

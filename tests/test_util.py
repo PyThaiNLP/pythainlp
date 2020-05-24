@@ -324,6 +324,8 @@ class TestUtilPackage(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             thaiword_to_time("ไม่มีคำบอกเวลา")
+        with self.assertRaises(ValueError):
+            thaiword_to_time("นาฬิกา")
 
     def test_thaiword_to_date(self):
         now = datetime.now()

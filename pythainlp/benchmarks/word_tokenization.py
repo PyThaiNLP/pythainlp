@@ -45,7 +45,7 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
 
     Use keys in the first level as a prefix for keys in the two levels.
     For example,
-    my_dict = { "a": { "b": 7 } } 
+    my_dict = { "a": { "b": 7 } }
     flatten(my_dict)
     { "a:b": 7 }
 
@@ -267,7 +267,7 @@ def _find_words_correctly_tokenised(
     :param list[tuple(int, int)] predicted_boundaries: word boundareies of predicted tokenization
 
     :return: binary sequence where 1 indicates the corresponding word is tokenized correctly
-    :rtype: tuple[int] 
+    :rtype: tuple[int]
     """
     ref_b = dict(zip(ref_boundaries, [1] * len(ref_boundaries)))
 

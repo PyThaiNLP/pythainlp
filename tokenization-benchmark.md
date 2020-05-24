@@ -55,7 +55,7 @@ pip ...
 
 ## Usages (to be updated)
 
-1. Command-line Interface 
+1. Command-line Interface
     ```
     PYTHONPATH=`pwd` python scripts/thai-tokenisation-benchmark.py \
     --test-file ./data/best-2010/TEST_100K_ANS.txt \
@@ -87,7 +87,7 @@ pip ...
     # dataframe contains metrics for each sample
     df = bwt.benchmark(ref_samples, tokenised_samples)
     ```
-    
+
 ## Related Work
 - [Thai Tokenisers Docker][docker]: collection of pre-built Thai tokenisers Docker containers.
 

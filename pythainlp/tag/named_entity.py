@@ -88,7 +88,7 @@ class ThaiNameTagger:
     ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]]]:
         """
         This function tags named-entitiy from text in IOB format.
-        
+     
         :param str text: text in Thai to be tagged
         :param bool pos: To include POS tags in the results (`True`) or
                             exclude (`False`). The defualt value is `True`

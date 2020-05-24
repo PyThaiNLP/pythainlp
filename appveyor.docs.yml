@@ -12,7 +12,7 @@ branches:
     - dev
 
 only_commits:
-  message: /(build and deploy docs)/    
+  message: /(build and deploy docs)/
 
 #---------------------------------#
 #    environment configuration    #
@@ -53,7 +53,7 @@ install:
 #       build configuration       #
 #---------------------------------#
 
-build_script: 
+build_script:
   - cd ./docs
   - export CURRENT_BRANCH=$APPVEYOR_REPO_BRANCH
   - export RELEASE=$(git describe --tags --always)
@@ -73,7 +73,7 @@ build_script:
 artifacts:
   - path: ./docs/_build/html
     name: document
-  
+
 after_build:
   - echo "Done build and deploy."
   - appveyor exit

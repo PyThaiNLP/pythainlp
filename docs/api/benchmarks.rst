@@ -2,7 +2,7 @@
 
 pythainlp.benchmarks
 ====================================
-The :class:`pythainlp.benchmarks` contains utility functions for benchmarking 
+The :class:`pythainlp.benchmarks` contains utility functions for benchmarking
 tasked related to Thai NLP. At the moment, we have only for word tokenization.
 Other tasks will be added soon.
 

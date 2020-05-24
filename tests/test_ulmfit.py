@@ -2,7 +2,7 @@
 
 import unittest
 
-from pythainlp.tokenize import THAI2FIT_TOKENIZER, Tokenizer
+from pythainlp.tokenize import THAI2FIT_TOKENIZER
 from pythainlp.ulmfit import (
     THWIKI_LSTM,
     ThaiTokenizer,

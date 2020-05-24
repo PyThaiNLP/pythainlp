@@ -34,7 +34,10 @@ __all__ = [
     "thai_strftime",
     "thai_time",
     "thai_to_eng",
+    "thaiword_to_date",
     "thaiword_to_num",
+    "thaiword_to_time",
+    "time_to_thaiword",
 ]
 
 from pythainlp.util.collate import collate

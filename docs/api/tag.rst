@@ -13,26 +13,26 @@ The following table shows the list of Part-of-Speech (POS) tags according to Uni
 Abbreviation   Part-of-Speech tag           Examples
 ============   ==========================   =============================
  ADJ           Adjective                    ใหม่, พิเศษ , ก่อน, มาก, สูง
- ADP           Adposition                   แม้, ว่า, เมื่อ, ของ, สำหรับ    
- ADV           Adverb                       ก่อน, ก็, เล็กน้อย, เลย, สุด    
- AUX           Auxiliary                    เป็น, ใช่, คือ, คล้าย          
- CCONJ         Coordinating conjunction     แต่, และ, หรือ               
- DET           Determiner                   ที่, นี้, ซึ่ง, ทั้ง, ทุก, หลาย     
+ ADP           Adposition                   แม้, ว่า, เมื่อ, ของ, สำหรับ
+ ADV           Adverb                       ก่อน, ก็, เล็กน้อย, เลย, สุด
+ AUX           Auxiliary                    เป็น, ใช่, คือ, คล้าย
+ CCONJ         Coordinating conjunction     แต่, และ, หรือ
+ DET           Determiner                   ที่, นี้, ซึ่ง, ทั้ง, ทุก, หลาย
  INTJ          Interjection                 อุ้ย, โอ้ย
- NOUN          Noun                         กำมือ, พวก, สนาม, กีฬา, บัญชี 
+ NOUN          Noun                         กำมือ, พวก, สนาม, กีฬา, บัญชี
  NUM           Numeral                      5,000, 103.7, 2004, หนึ่ง, ร้อย
- PART          Particle                     มา ขึ้น ไม่ ได้ เข้า            
- PRON          Pronoun                      เรา, เขา, ตัวเอง, ใคร, เธอ 
+ PART          Particle                     มา ขึ้น ไม่ ได้ เข้า
+ PRON          Pronoun                      เรา, เขา, ตัวเอง, ใคร, เธอ
  PROPN         Proper noun                  โอบามา, แคปิตอลฮิล, จีโอพี, ไมเคิล
- PUNCT         Punctuation                  (, ), ", ', :              
- SCONJ         Subordinating conjunction    หาก                        
- VERB          Verb                         เปิด, ให้, ใช้, เผชิญ, อ่าน     
+ PUNCT         Punctuation                  (, ), ", ', :
+ SCONJ         Subordinating conjunction    หาก
+ VERB          Verb                         เปิด, ให้, ใช้, เผชิญ, อ่าน
 ============   ==========================   =============================
 
 The following table shows the list of Part-of-Speech (POS) tags according to ORCHID POS tags from the paper:
 
 ============   =================================================      =================================
-Abbreviation   Part-of-Speech tag                                     Examples                    
+Abbreviation   Part-of-Speech tag                                     Examples
 ============   =================================================      =================================
  NPRP          Proper noun                                            วินโดวส์ 95, โคโรน่า, โค้ก
  NCNM          Cardinal number                                        หนึ่ง, สอง, สาม, 1, 2, 10
@@ -182,8 +182,8 @@ Named Entity Recognition tag    Examples
  URL                            http://www.bangkokhealth.com/
  ZIP                            10400, 11130
  Money                          2.7 ล้านบาท, 2,000 บาท
- LAW                            พ.ร.บ.โรคระบาด พ.ศ.2499, รัฐธรรมนูญ                   
-============================    =================================  
+ LAW                            พ.ร.บ.โรคระบาด พ.ศ.2499, รัฐธรรมนูญ
+============================    =================================
 
 Modules
 -------

@@ -233,4 +233,7 @@ def delete_tone(text: str) -> str:
     """
     DEPRECATED: Please use remove_tonemark().
     """
+    warnings.warn(
+        "delete_tone is deprecated, use remove_tonemark instead", DeprecationWarning
+    )
     return remove_tonemark(text)

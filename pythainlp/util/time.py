@@ -4,12 +4,13 @@ Spell out time to Thai words.
 
 Convert time string or time object to Thai words.
 """
+import warnings
 from datetime import datetime, time
 from typing import Union
 
+from pythainlp.tokenize import Tokenizer
 from pythainlp.util.numtoword import num_to_thaiword
 from pythainlp.util.wordtonum import thaiword_to_num
-from pythainlp.tokenize import Tokenizer
 
 _TIME_FORMAT_WITH_SEC = "%H:%M:%S"
 _TIME_FORMAT_WITHOUT_SEC = "%H:%M"
@@ -136,7 +137,7 @@ def _format(
     return text
 
 
-def thai_time(
+def time_to_thaiword(
     time_data: Union[time, datetime, str],
     fmt: str = "24h",
     precision: Union[str, None] = None,
@@ -160,27 +161,27 @@ def thai_time(
 
     :Example:
 
-        thai_time("8:17")
+        time_to_thaiword("8:17")
         # output:
         # แปดนาฬิกาสิบเจ็ดนาที
 
-        thai_time("8:17", "6h")
+        time_to_thaiword("8:17", "6h")
         # output:
         # สองโมงเช้าสิบเจ็ดนาที
 
-        thai_time("8:17", "m6h")
+        time_to_thaiword("8:17", "m6h")
         # output:
         # แปดโมงสิบเจ็ดนาที
 
-        thai_time("18:30", fmt="m6h")
+        time_to_thaiword("18:30", fmt="m6h")
         # output:
         # หกโมงครึ่ง
 
-        thai_time(datetime.time(12, 3, 0))
+        time_to_thaiword(datetime.time(12, 3, 0))
         # output:
         # สิบสองนาฬิกาสามนาที
 
-        thai_time(datetime.time(12, 3, 0), precision="s")
+        time_to_thaiword(datetime.time(12, 3, 0), precision="s")
         # output:
         # สิบสองนาฬิกาสามนาทีศูนย์วินาที
     """
@@ -216,11 +217,26 @@ def thai_time(
     return text
 
 
-def thai_time2time(time: str, padding: bool = True) -> str:
+def thai_time(
+    time_data: Union[time, datetime, str],
+    fmt: str = "24h",
+    precision: Union[str, None] = None,
+) -> str:
     """
-    Convert Thai time into time (H:M).
+    DEPRECATED: Please use time_to_thaiword().
+    """
+    warnings.warn(
+        "thai_time is deprecated, use time_to_thaiword instead",
+        DeprecationWarning,
+    )
+    return time_to_thaiword(time_data, fmt, precision)
 
-    :param str time: Thai time in words
+
+def thaiword_to_time(text: str, padding: bool = True) -> str:
+    """
+    Convert Thai time in words into time (H:M).
+
+    :param str text: Thai time in words
     :param bool padding: Zero padding the hour if True
 
     :return: time string
@@ -228,12 +244,12 @@ def thai_time2time(time: str, padding: bool = True) -> str:
 
     :Example:
 
-        thai_time2time("บ่ายโมงครึ่ง")
+        thaiword_to_time"บ่ายโมงครึ่ง")
         # output:
         # 13:30
     """
     keys_dict = list(_DICT_THAI_TIME.keys())
-    time = time.replace("กว่า", "").replace("ๆ", "").replace(" ", "")
+    text = text.replace("กว่า", "").replace("ๆ", "").replace(" ", "")
     _i = ["ตีหนึ่ง", "ตีสอง", "ตีสาม", "ตีสี่", "ตีห้า"]
     _time = ""
     for time_suffix in [
@@ -248,13 +264,13 @@ def thai_time2time(time: str, padding: bool = True) -> str:
         "เที่ยงวัน",
         "เที่ยง",
     ]:
-        if time_suffix in time and time_suffix != "ตี":
-            _time = time.replace(time_suffix, time_suffix + "|")
+        if time_suffix in text and time_suffix != "ตี":
+            _time = text.replace(time_suffix, time_suffix + "|")
             break
-        elif time_suffix in time and time_suffix == "ตี":
+        elif time_suffix in text and time_suffix == "ตี":
             for j in _i:
-                if j in time:
-                    _time = time.replace(j, j + "|")
+                if j in text:
+                    _time = text.replace(j, j + "|")
                     break
         else:
             pass
@@ -270,40 +286,41 @@ def thai_time2time(time: str, padding: bool = True) -> str:
         minute = _THAI_TIME_CUT.word_tokenize(minute)
     else:
         minute = 0
-    time = ""
+    text = ""
 
     if hour[-1] == "นาฬิกา" and hour[0] in keys_dict:
-        time += str(thaiword_to_num("".join(hour[:-1])))
+        text += str(thaiword_to_num("".join(hour[:-1])))
     elif hour[0] == "ตี" and hour[1] in keys_dict:
-        time += str(_DICT_THAI_TIME[hour[1]])
+        text += str(_DICT_THAI_TIME[hour[1]])
     elif hour[-1] == "โมงเช้า" and hour[0] in keys_dict:
         if _DICT_THAI_TIME[hour[0]] < 6:
-            time += str(_DICT_THAI_TIME[hour[0]] + 6)
+            text += str(_DICT_THAI_TIME[hour[0]] + 6)
         else:
-            time += str(_DICT_THAI_TIME[hour[0]])
+            text += str(_DICT_THAI_TIME[hour[0]])
     elif (hour[-1] == "โมงเย็น" or hour[-1] == "โมง") and hour[0] == "บ่าย":
-        time += str(_DICT_THAI_TIME[hour[1]] + 12)
+        text += str(_DICT_THAI_TIME[hour[1]] + 12)
     elif (hour[-1] == "โมงเย็น" or hour[-1] == "โมง") and hour[0] in keys_dict:
-        time += str(_DICT_THAI_TIME[hour[0]] + 12)
+        text += str(_DICT_THAI_TIME[hour[0]] + 12)
     elif hour[-1] == "เที่ยงคืน":
-        time += "0"
+        text += "0"
     elif hour[-1] == "เที่ยงวัน" or hour[-1] == "เที่ยง":
-        time += "12"
+        text += "12"
     elif hour[0] == "บ่ายโมง":
-        time += "13"
+        text += "13"
     elif hour[-1] == "ทุ่ม":
         if len(hour) == 1:
-            time += "19"
+            text += "19"
         else:
-            time += str(_DICT_THAI_TIME[hour[0]] + 18)
-    else:
+            text += str(_DICT_THAI_TIME[hour[0]] + 18)
+
+    if not text:
         raise ValueError("Cannot find any Thai word for time.")
 
-    if padding and len(time) == 1:
-        time = "0" + time
-    if time == "0":
-        time = "00"
-    time += ":"
+    if padding and len(text) == 1:
+        text = "0" + text
+    if text == "0":
+        text = "00"
+    text += ":"
 
     if minute != 0:
         n = 0
@@ -316,10 +333,21 @@ def thai_time2time(time: str, padding: bool = True) -> str:
                 elif time_suffix == "สิบ" and n == 0:
                     n += 10
         if n != 0 and n > 9:
-            time += str(n)
+            text += str(n)
         else:
-            time += "0" + str(n)
+            text += "0" + str(n)
     else:
-        time += "00"
+        text += "00"
 
-    return time
+    return text
+
+
+def thai_time2time(time: str, padding: bool = True) -> str:
+    """
+    DEPRECATED: Please use thaiword_to_time().
+    """
+    warnings.warn(
+        "thai_time2time is deprecated, use thaiword_to_time instead",
+        DeprecationWarning,
+    )
+    return thaiword_to_time(time, padding)

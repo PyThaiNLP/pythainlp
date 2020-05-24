@@ -17,9 +17,11 @@ __all__ = [
     "thai_full_weekdays",
     "thai_strftime",
     "thai_day2datetime",
+    "thaiword_to_date",
 ]
 
-from datetime import datetime
+import warnings
+from datetime import datetime, timedelta
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
 thai_full_weekdays = [
@@ -420,19 +422,19 @@ DAY_MINUS_1 = ["เมื่อวาน", "เมื่อวานนี้", 
 DAY_MINUS_2 = ["เมื่อวานซืน", "เมื่อวานของเมื่อวาน", "วานซืน"]
 
 
-def thai_day2datetime(day: str, date: datetime = None) -> datetime:
+def thaiword_to_date(text: str, date: datetime = None) -> datetime:
     """
-    Convert Thai day into :class:`datetime.datetime`.
+    Convert Thai relative date to :class:`datetime.datetime`.
 
-    :param str day: thai day
+    :param str text: Thai text contains relative date
     :param datetime.datetime date: date (default is datetime.datetime.now())
 
-    :return: datetime.datetime from thai day.
+    :return: datetime object
     :rtype: datetime.datetime
 
     :Example:
 
-        thai_day2datetime("พรุ่งนี้")
+        thaiword_to_date("พรุ่งนี้")
         # output:
         # datetime of tomorrow
     """
@@ -440,17 +442,28 @@ def thai_day2datetime(day: str, date: datetime = None) -> datetime:
         date = datetime.now()
 
     day_num = 0
-    if day in DAY_0:
+    if text in DAY_0:
         day_num = 0
-    elif day in DAY_PLUS_1:
+    elif text in DAY_PLUS_1:
         day_num = 1
-    elif day in DAY_PLUS_2:
+    elif text in DAY_PLUS_2:
         day_num = 2
-    elif day in DAY_MINUS_1:
+    elif text in DAY_MINUS_1:
         day_num = -1
-    elif day in DAY_MINUS_2:
+    elif text in DAY_MINUS_2:
         day_num = -2
     else:
         raise NotImplementedError
 
-    return date + datetime.timedelta(days=day_num)
+    return date + timedelta(days=day_num)
+
+
+def thai_day2datetime(day: str, date: datetime = None) -> datetime:
+    """
+    DEPRECATED: Please use thaiword_to_date().
+    """
+    warnings.warn(
+        "thai_day2datetime is deprecated, use thaiword_to_date instead",
+        DeprecationWarning,
+    )
+    return thaiword_to_date(day, date)

@@ -82,6 +82,33 @@ def _padding(n: int, length: int = 2, pad_char: str = "0") -> str:
     return (pad_char * pad_len) + str_
 
 
+def _std_strftime(dt_obj: datetime, fmt_char: str) -> str:
+    """
+    Standard datetime.strftime() with normalization and exception handling.
+    """
+    str_ = ""
+    try:
+        str_ = dt_obj.strftime(f"%{fmt_char}")
+        if str_ == f"%{fmt_char}":
+            # normalize outputs for unsupported directives
+            # in different platforms
+            # unsupported "%Q" in platform A may return "Q"
+            # unsupported "%Q" in platform A may return "%Q"
+            str_ = fmt_char
+    except ValueError as err:
+        # Unsupported directives may raise ValueError on Windows,
+        # in that case just use the fmt_char
+        warnings.warn(
+            (
+                f"String format directive unknown/not support: %{fmt_char}"
+                f"The system raises this ValueError: {err}"
+            ),
+            UserWarning,
+        )
+        str_ = fmt_char
+    return str_
+
+
 def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
     """Conversion support for thai_strftime()."""
     str_ = ""
@@ -165,19 +192,7 @@ def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
         )
     else:
         # No known localization available, use Python's default
-        # Unsupported directives may raise ValueError on Windows,
-        # in that case just use the fmt_char
-        try:
-            str_ = dt_obj.strftime(f"%{fmt_char}")
-        except ValueError as err:
-            warnings.warn(
-                (
-                    f"String format directive unknown/not support: %{fmt_char}"
-                    f"The system raises this ValueError: {err}"
-                ),
-                UserWarning,
-            )
-            str_ = fmt_char
+        str_ = _std_strftime(dt_obj, fmt_char)
 
     return str_
 
@@ -308,7 +323,7 @@ def thai_strftime(
                         if fmt_char in _NEED_L10N:
                             str_ = _thai_strftime(dt_obj, fmt_char)
                         else:
-                            str_ = dt_obj.strftime(f"%{fmt_char}")
+                            str_ = _std_strftime(dt_obj, fmt_char)
                             if fmt_char_ext == "-":
                                 # GNU libc extension,
                                 # no padding
@@ -346,12 +361,13 @@ def thai_strftime(
                     else:
                         # format char at string's end has no meaning
                         str_ = fmt_char_ext
-                else:
-                    # for the rest of directives,
-                    # just pass to Python's standard strftime()
-                    str_ = dt_obj.strftime(f"%{fmt_char}")
+                else:  # not in _NEED_L10N nor _EXTENSIONS
+                    # no known localization available, use Python's default
+                    str_ = _std_strftime(dt_obj, fmt_char)
+
                 i = i + 1  # consume char after "%"
             else:
+                # % char at string's end has no meaning
                 str_ = "%"
         else:
             str_ = fmt[i]

@@ -22,6 +22,7 @@ __all__ = [
 
 import warnings
 from datetime import datetime, timedelta
+from typing import Union
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
 thai_full_weekdays = [
@@ -418,18 +419,18 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
 DAY_0 = ["วันนี้", "คืนนี้"]
 DAY_PLUS_1 = ["พรุ่งนี้", "วันพรุ่งนี้", "คืนหน้า"]
 DAY_PLUS_2 = ["วันมะรืนนี้", "มะรืน", "มะรืนนี้", "ถัดจากวันพรุ่งนี้"]
-DAY_MINUS_1 = ["เมื่อวาน", "เมื่อวานนี้", "วานนี้"]
+DAY_MINUS_1 = ["เมื่อวาน", "เมื่อวานนี้", "วานนี้", "เมื่อคืน", "เมื่อคืนนี้"]
 DAY_MINUS_2 = ["เมื่อวานซืน", "เมื่อวานของเมื่อวาน", "วานซืน"]
 
 
-def thaiword_to_date(text: str, date: datetime = None) -> datetime:
+def thaiword_to_date(text: str, date: datetime = None) -> Union[datetime, None]:
     """
     Convert Thai relative date to :class:`datetime.datetime`.
 
     :param str text: Thai text contains relative date
     :param datetime.datetime date: date (default is datetime.datetime.now())
 
-    :return: datetime object
+    :return: datetime object, if it can be calculated. Otherwise, None.
     :rtype: datetime.datetime
 
     :Example:
@@ -453,7 +454,7 @@ def thaiword_to_date(text: str, date: datetime = None) -> datetime:
     elif text in DAY_MINUS_2:
         day_num = -2
     else:
-        raise NotImplementedError
+        return None
 
     return date + timedelta(days=day_num)
 

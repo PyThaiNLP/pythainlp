@@ -354,9 +354,6 @@ class TestUtilPackage(unittest.TestCase):
             now + timedelta(days=-2), thaiword_to_date("วานซืน", now)
         )
 
-        with self.assertRaises(NotImplementedError):
-            thaiword_to_date("ศุกร์ที่แล้ว")
-
         self.assertEqual(
             thai_day2datetime("เมื่อวานซืน").date(),
             thaiword_to_date("เมื่อวานซืน").date(),

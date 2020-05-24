@@ -340,14 +340,3 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
         text += "00"
 
     return text
-
-
-def thai_time2time(time: str, padding: bool = True) -> str:
-    """
-    DEPRECATED: Please use thaiword_to_time().
-    """
-    warnings.warn(
-        "thai_time2time is deprecated, use thaiword_to_time instead",
-        DeprecationWarning,
-    )
-    return thaiword_to_time(time, padding)

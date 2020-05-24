@@ -33,17 +33,14 @@ __all__ = [
     "thai_digit_to_arabic_digit",
     "thai_strftime",
     "thai_time",
-    "thai_time2time",
     "thai_to_eng",
     "thaiword_to_num",
-    "thai_day2datetime",
 ]
 
 from pythainlp.util.collate import collate
 from pythainlp.util.date import (
     now_reign_year,
     reign_year_to_ad,
-    thai_day2datetime,
     thai_strftime,
     thaiword_to_date,
 )
@@ -69,11 +66,6 @@ from pythainlp.util.normalize import (
 from pythainlp.util.numtoword import bahttext, num_to_thaiword
 from pythainlp.util.thai import countthai, isthai, isthaichar
 from pythainlp.util.thaiwordcheck import is_native_thai
-from pythainlp.util.time import (
-    thai_time,
-    thai_time2time,
-    thaiword_to_time,
-    time_to_thaiword,
-)
+from pythainlp.util.time import thai_time, thaiword_to_time, time_to_thaiword
 from pythainlp.util.trie import Trie, dict_trie
 from pythainlp.util.wordtonum import thaiword_to_num

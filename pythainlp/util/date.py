@@ -16,11 +16,9 @@ __all__ = [
     "thai_full_months",
     "thai_full_weekdays",
     "thai_strftime",
-    "thai_day2datetime",
     "thaiword_to_date",
 ]
 
-import warnings
 from datetime import datetime, timedelta
 from typing import Union
 
@@ -423,7 +421,9 @@ DAY_MINUS_1 = ["เมื่อวาน", "เมื่อวานนี้", 
 DAY_MINUS_2 = ["เมื่อวานซืน", "เมื่อวานของเมื่อวาน", "วานซืน"]
 
 
-def thaiword_to_date(text: str, date: datetime = None) -> Union[datetime, None]:
+def thaiword_to_date(
+    text: str, date: datetime = None
+) -> Union[datetime, None]:
     """
     Convert Thai relative date to :class:`datetime.datetime`.
 
@@ -457,14 +457,3 @@ def thaiword_to_date(text: str, date: datetime = None) -> Union[datetime, None]:
         return None
 
     return date + timedelta(days=day_num)
-
-
-def thai_day2datetime(day: str, date: datetime = None) -> datetime:
-    """
-    DEPRECATED: Please use thaiword_to_date().
-    """
-    warnings.warn(
-        "thai_day2datetime is deprecated, use thaiword_to_date instead",
-        DeprecationWarning,
-    )
-    return thaiword_to_date(day, date)

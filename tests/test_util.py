@@ -37,9 +37,7 @@ from pythainlp.util import (
     thaiword_to_date,
     thai_digit_to_arabic_digit,
     thai_strftime,
-    thai_day2datetime,
     thai_time,
-    thai_time2time,
     thaiword_to_time,
     time_to_thaiword,
     thai_to_eng,
@@ -329,12 +327,6 @@ class TestUtilPackage(unittest.TestCase):
         with self.assertRaises(ValueError):
             thaiword_to_time("ไม่มีคำบอกเวลา")
 
-        self.assertEqual(
-            thai_time2time("บ่ายโมง"), thaiword_to_time("บ่ายโมง")
-        )
-        with self.assertWarns(DeprecationWarning):
-            thai_time2time("สิบโมงเช้า")
-
     def test_thaiword_to_date(self):
         now = datetime.now()
 
@@ -353,13 +345,6 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(
             now + timedelta(days=-2), thaiword_to_date("วานซืน", now)
         )
-
-        self.assertEqual(
-            thai_day2datetime("เมื่อวานซืน").date(),
-            thaiword_to_date("เมื่อวานซืน").date(),
-        )
-        with self.assertWarns(DeprecationWarning):
-            thaiword_to_date("เมื่อคืน")
 
     # ### pythainlp.util.trie
 
@@ -447,6 +432,8 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(remove_tonemark("จิ้น"), "จิน")
         self.assertEqual(remove_tonemark("เก๋า"), "เกา")
         self.assertEqual(delete_tone("เจ๋งเป้ง"), remove_tonemark("เจ๋งเป้ง"))
+        with self.assertWarns(DeprecationWarning):
+            delete_tone("ค้าบ")
 
         # remove zero width chars
         self.assertEqual(remove_zw("กา\u200b"), "กา")

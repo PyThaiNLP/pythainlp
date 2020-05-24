@@ -9,7 +9,8 @@ from datetime import datetime, time
 from typing import Union
 
 from pythainlp.tokenize import Tokenizer
-from pythainlp.util import num_to_thaiword, thaiword_to_num
+from pythainlp.util.numtoword import num_to_thaiword
+from pythainlp.util.wordtonum import thaiword_to_num
 
 _TIME_FORMAT_WITH_SEC = "%H:%M:%S"
 _TIME_FORMAT_WITHOUT_SEC = "%H:%M"

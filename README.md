@@ -44,6 +44,7 @@ Using PyThaiNLP:
 - Thai-English keyboard misswitched fix (`eng_to_thai`, `thai_to_eng`)
 - Thai spelling suggestion and correction (`spell` and `correct`)
 - Thai soundex (`soundex`) with three engines (`lk82`, `udom83`, `metasound`)
+- Thai datetime formatting (`thai_strftime`)
 - and much more - see examples in [tutorials](https://www.thainlp.org/pythainlp/tutorials/).
 
 
@@ -167,6 +168,7 @@ PyThaiNLP เป็นไลบรารีภาษาไพทอนสำห�
 - แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา (`eng_to_thai`, `thai_to_eng`)
 - ตรวจคำสะกดผิดในภาษาไทย (`spell`, `correct`)
 - soundex ภาษาไทย (`soundex`) 3 วิธีการ (`lk82`, `udom83`, `metasound`)
+- รูปแบบวันที่และเวลาไทย (`thai_strftime`)
 - และอื่น ๆ ดูตัวอย่างได้ใน [tutorials สอนวิธีใช้งาน](https://www.thainlp.org/pythainlp/tutorials/)
 
 

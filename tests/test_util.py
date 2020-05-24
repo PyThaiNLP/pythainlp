@@ -175,6 +175,12 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_strftime(date, "%-H"), "1")  # no padding
         self.assertEqual(thai_strftime(date, "%_M"), "40")  # space padding
         self.assertEqual(thai_strftime(date, "%0M"), "40")  # zero padding
+        self.assertEqual(thai_strftime(date, "%e"), " 6")
+        self.assertEqual(thai_strftime(date, "%-e"), "6")  # no padding
+        self.assertEqual(thai_strftime(date, "%_e"), " 6")  # space padding
+        self.assertEqual(thai_strftime(date, "%0e"), "06")  # zero padding
+        self.assertEqual(thai_strftime(date, "%Ed"), "06")  # locale's alt rep
+        self.assertEqual(thai_strftime(date, "%Od"), "๐๖")  # locale's numeric
 
         self.assertEqual(
             thai_strftime(date, "%d", thaidigit=True), "๐๖"
@@ -211,7 +217,6 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_strftime(date, "%y"), "44")
         self.assertEqual(len(thai_strftime(date, "%G")), 4)
         self.assertEqual(len(thai_strftime(date, "%g")), 2)
-
 
     # ### pythainlp.util.time
 

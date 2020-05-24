@@ -331,7 +331,7 @@ def thai_strftime(
                             if fmt_char_ext == "-":
                                 # GNU libc extension,
                                 # no padding
-                                if str_[0] and str_[0] == "0":
+                                if str_[0] and str_[0] in " 0":
                                     str_ = str_[1:]
                             elif fmt_char_ext == "_":
                                 # GNU libc extension,
@@ -359,8 +359,7 @@ def thai_strftime(
                             elif fmt_char_ext == "O":
                                 # POSIX extension,
                                 # uses the locale's alternative numeric symbols
-                                # str_ = str_.translate(_HA_TH_DIGITS)
-                                pass
+                                str_ = str_.translate(_HA_TH_DIGITS)
                         i = i + 1  # consume char after format char
                     else:
                         # format char at string's end has no meaning

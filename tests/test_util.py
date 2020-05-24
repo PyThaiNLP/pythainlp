@@ -301,8 +301,8 @@ class TestUtilPackage(unittest.TestCase):
                 "24:00"
             )  # input is not in H:M:S format (over 23:59:59)
 
-        self.assertEqual(thai_time("11:12"), time_to_thaiword("11:21"))
-        with self.assertRaises(DeprecationWarning):
+        self.assertEqual(thai_time("11:12"), time_to_thaiword("11:12"))
+        with self.assertWarns(DeprecationWarning):
             thai_time("11:16")
 
     def test_thaiword_to_time(self):
@@ -332,7 +332,7 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(
             thai_time2time("บ่ายโมง"), thaiword_to_time("บ่ายโมง")
         )
-        with self.assertRaises(DeprecationWarning):
+        with self.assertWarns(DeprecationWarning):
             thai_time2time("สิบโมงเช้า")
 
     def test_thaiword_to_date(self):
@@ -358,9 +358,10 @@ class TestUtilPackage(unittest.TestCase):
             thaiword_to_date("ศุกร์ที่แล้ว")
 
         self.assertEqual(
-            thai_day2datetime("เมื่อวานซืน"), thaiword_to_date("เมื่อวานซืน")
+            thai_day2datetime("เมื่อวานซืน").date(),
+            thaiword_to_date("เมื่อวานซืน").date(),
         )
-        with self.assertRaises(DeprecationWarning):
+        with self.assertWarns(DeprecationWarning):
             thaiword_to_date("เมื่อคืน")
 
     # ### pythainlp.util.trie

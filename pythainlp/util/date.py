@@ -74,12 +74,13 @@ _EXTENSIONS = "EO-_0^#"  # extension flags
 _BE_AD_DIFFERENCE = 543
 
 
-def _padding(n: int, length: int = 2, pad_char: str = "0") -> str:
+""" def _padding(n: int, length: int = 2, pad_char: str = "0") -> str:
     str_ = str(n)
 
     pad_len = abs(length - len(str_))
 
     return (pad_char * pad_len) + str_
+ """
 
 
 def _std_strftime(dt_obj: datetime, fmt_char: str) -> str:
@@ -126,7 +127,7 @@ def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
         str_ = thai_abbr_months[dt_obj.month - 1]
     elif fmt_char == "C":
         # Thai Buddhist century (AD+543)/100 + 1 as decimal number;
-        str_ = str(int((dt_obj.year + _BE_AD_DIFFERENCE) / 100) + 1)
+        str_ = str(int((dt_obj.year + _BE_AD_DIFFERENCE) / 100) + 1).zfill(2)
     elif fmt_char == "c":
         # Locale’s appropriate date and time representation
         # Wed  6 Oct 01:40:00 1976
@@ -136,32 +137,35 @@ def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
             dt_obj.day,
             thai_abbr_months[dt_obj.month - 1],
             dt_obj.strftime("%H:%M:%S"),
-            dt_obj.year + _BE_AD_DIFFERENCE,
+            str(dt_obj.year + _BE_AD_DIFFERENCE).zfill(4),
         )
     elif fmt_char == "D":
         # Equivalent to ``%m/%d/%y''
         str_ = "{}/{}".format(
             dt_obj.strftime("%m/%d"),
-            str(dt_obj.year + _BE_AD_DIFFERENCE)[-2:],
+            (str(dt_obj.year + _BE_AD_DIFFERENCE)[-2:]).zfill(2),
         )
     elif fmt_char == "F":
         # Equivalent to ``%Y-%m-%d''
         str_ = "{}-{}".format(
-            str(dt_obj.year + _BE_AD_DIFFERENCE), dt_obj.strftime("%m-%d")
+            str(dt_obj.year + _BE_AD_DIFFERENCE).zfill(4),
+            dt_obj.strftime("%m-%d"),
         )
     elif fmt_char == "G":
         # ISO 8601 year with century representing the year that contains the
         # greater part of the ISO week (%V). Monday as the first day of the week.
-        str_ = str(int(dt_obj.strftime("%G")) + _BE_AD_DIFFERENCE)
+        str_ = str(int(dt_obj.strftime("%G")) + _BE_AD_DIFFERENCE).zfill(4)
     elif fmt_char == "g":
         # Same year as in ``%G'', but as a decimal number without century (00-99).
-        str_ = str(int(dt_obj.strftime("%G")) + _BE_AD_DIFFERENCE)[-2:]
+        str_ = (
+            str(int(dt_obj.strftime("%G")) + _BE_AD_DIFFERENCE)[-2:]
+        ).zfill(2)
     elif fmt_char == "v":
         # BSD extension, ' 6-Oct-1976'
         str_ = "{:>2}-{}-{}".format(
             dt_obj.day,
             thai_abbr_months[dt_obj.month - 1],
-            dt_obj.year + _BE_AD_DIFFERENCE,
+            str(dt_obj.year + _BE_AD_DIFFERENCE).zfill(4),
         )
     elif fmt_char == "X":
         # Locale’s appropriate time representation.
@@ -169,16 +173,16 @@ def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
     elif fmt_char == "x":
         # Locale’s appropriate date representation.
         str_ = "{}/{}/{}".format(
-            _padding(dt_obj.day),
-            _padding(dt_obj.month),
-            dt_obj.year + _BE_AD_DIFFERENCE,
+            str(dt_obj.day).zfill(2),
+            str(dt_obj.month).zfill(2),
+            str(dt_obj.year + _BE_AD_DIFFERENCE).zfill(4),
         )
     elif fmt_char == "Y":
         # Year with century
-        str_ = str(dt_obj.year + _BE_AD_DIFFERENCE)
+        str_ = (str(dt_obj.year + _BE_AD_DIFFERENCE)).zfill(4)
     elif fmt_char == "y":
         # Year without century
-        str_ = str(dt_obj.year + _BE_AD_DIFFERENCE)[2:4]
+        str_ = (str(dt_obj.year + _BE_AD_DIFFERENCE)[-2:]).zfill(2)
     elif fmt_char == "+":
         # National representation of the date and time
         # (the format is similar to that produced by date(1))

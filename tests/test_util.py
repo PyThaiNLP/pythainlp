@@ -184,6 +184,9 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thai_strftime(date, "%-"), "-")  # lone dash
         self.assertEqual(thai_strftime(date, "%c"), "พ   6 ต.ค. 01:40:00 2519")
         self.assertEqual(
+            thai_strftime(date, "%0c"), "พ   6 ต.ค. 01:40:00 2519"
+        )
+        self.assertEqual(
             thai_strftime(date, "%c", True), "พ   ๖ ต.ค. ๐๑:๔๐:๐๐ ๒๕๑๙"
         )
         self.assertEqual(
@@ -202,6 +205,13 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(
             thai_strftime(date, "%Z").swapcase(), thai_strftime(date, "%#Z")
         )  # '#' extension for swap case
+
+        date = datetime(1, 2, 3)
+        self.assertEqual(thai_strftime(date, "%Y"), "0544")
+        self.assertEqual(thai_strftime(date, "%y"), "44")
+        self.assertEqual(len(thai_strftime(date, "%G")), 4)
+        self.assertEqual(len(thai_strftime(date, "%g")), 2)
+
 
     # ### pythainlp.util.time
 

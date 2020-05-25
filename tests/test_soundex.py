@@ -25,6 +25,7 @@ class TestSoundexPackage(unittest.TestCase):
         self.assertIsNotNone(lk82("อย่าง"))
         self.assertIsNotNone(lk82("เหย้า"))
         self.assertIsNotNone(lk82("หยุด"))
+        self.assertIsNotNone(lk82("หืออือ"))
         self.assertEqual(lk82("น์"), "")
 
         self.assertEqual(udom83(None), "")

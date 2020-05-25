@@ -133,7 +133,11 @@ def _std_strftime(dt_obj: datetime, fmt_char: str) -> str:
 
 
 def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
-    """Conversion support for thai_strftime()."""
+    """
+    Conversion support for thai_strftime().
+
+    The fmt_char should be in _NEED_L10N when call this function.
+    """
     str_ = ""
     if fmt_char == "A":
         # National representation of the full weekday name
@@ -486,9 +490,10 @@ def thaiword_to_date(
         # output:
         # datetime of tomorrow
     """
-    day_num = _DAY.get(text)
-    if not day_num:
+    if text not in _DAY:
         return None
+
+    day_num = _DAY.get(text)
 
     if not date:
         date = datetime.now()

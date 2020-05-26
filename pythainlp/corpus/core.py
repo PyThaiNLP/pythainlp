@@ -122,7 +122,8 @@ def get_corpus_path(name: str) -> Union[str, None]:
 
     if not path or not filename or not os.path.exists(path):
         download(name)
-        path = get_full_data_path(name)
+        filename = db.search(query.name == name)[0]["file"]
+        path = get_full_data_path(filename)
 
     db.close()
     return path

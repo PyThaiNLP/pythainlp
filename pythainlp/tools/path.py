@@ -8,7 +8,7 @@ import os
 
 import pythainlp
 
-PYTHAINLP_DATA_DIR = "pythainlp-data"
+PYTHAINLP_DEFAULT_DATA_DIR = "pythainlp-data"
 
 
 def get_full_data_path(path: str) -> str:
@@ -49,10 +49,10 @@ def get_pythainlp_data_path() -> str:
         get_pythainlp_data_path()
         # output: '/root/pythainlp-data'
     """
-    path = os.getenv(
-        "PYTHAINLP_DATA_DIR", os.path.join("~", PYTHAINLP_DATA_DIR)
+    pythainlp_data_dir = os.getenv(
+        "PYTHAINLP_DATA_DIR", os.path.join("~", PYTHAINLP_DEFAULT_DATA_DIR)
     )
-    path = os.path.expanduser(path)
+    path = os.path.expanduser(pythainlp_data_dir)
     os.makedirs(path, exist_ok=True)
     return path
 

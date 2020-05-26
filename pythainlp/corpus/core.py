@@ -117,11 +117,12 @@ def get_corpus_path(name: str) -> Union[str, None]:
     path = None
 
     if db.search(query.name == name):
-        path = get_full_data_path(db.search(query.name == name)[0]["file"])
+        filename = db.search(query.name == name)[0]["file"]
+        path = get_full_data_path(filename)
 
-        if not os.path.exists(path):
-            download(name)
-            path = get_full_data_path(name)
+    if not path or not filename or not os.path.exists(path):
+        download(name)
+        path = get_full_data_path(name)
 
     db.close()
     return path
@@ -175,9 +176,7 @@ def _check_hash(dst: str, md5: str) -> None:
                 raise Exception("Hash does not match expected.")
 
 
-def download(
-    name: str, force: bool = False, url: str = None
-) -> bool:
+def download(name: str, force: bool = False, url: str = None) -> bool:
     """
     Download corpus.
 

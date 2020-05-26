@@ -4,33 +4,26 @@ from typing import List, Tuple
 from gensim.models import KeyedVectors
 from gensim.models.keyedvectors import Word2VecKeyedVectors
 from numpy import ndarray, zeros
-from pythainlp.corpus import download, get_corpus_path
+from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import THAI2FIT_TOKENIZER
 
 WV_DIM = 300  # word vector dimension
 
-_THAI2FIT_WV = "thai2fit_wv"
+_MODEL_NAME = "thai2fit_wv"
 
 _TK_SP = "xxspace"
 _TK_EOL = "xxeol"
 
 
-def _download() -> str:
-    path = get_corpus_path(_THAI2FIT_WV)
-    if not path:
-        download(_THAI2FIT_WV)
-        path = get_corpus_path(_THAI2FIT_WV)
-    return path
-
-
 def get_model() -> Word2VecKeyedVectors:
     """
-    Download model
+    Get word vector model.
 
     :return: `gensim` word2vec model
     :rtype: gensim.models.keyedvectors.Word2VecKeyedVectors
     """
-    return KeyedVectors.load_word2vec_format(_download(), binary=True)
+    path = get_corpus_path(_MODEL_NAME)
+    return KeyedVectors.load_word2vec_format(path, binary=True)
 
 
 _MODEL = get_model()

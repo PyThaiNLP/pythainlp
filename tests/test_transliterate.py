@@ -27,7 +27,7 @@ class TestTransliteratePackage(unittest.TestCase):
         # self.assertEqual(romanize_royin("กลัว"), "klua")  # not pass
         # self.assertEqual(romanize_royin("กลัว"), "klua")  # not pass
 
-        # self.assertEqual(romanize("แมว", engine="royin"), "maeo") # not pass
+        self.assertEqual(romanize("แมว", engine="royin"), "maeo") # not pass
         self.assertEqual(romanize("เดือน", engine="royin"), "duean")
         self.assertEqual(romanize("ดู", engine="royin"), "du")
         self.assertEqual(romanize("ดำ", engine="royin"), "dam")
@@ -37,6 +37,7 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertEqual(romanize("กรรม", engine="royin"), "kam")
         self.assertIsNotNone(romanize("กก", engine="royin"))
         self.assertIsNotNone(romanize("ฝ้าย", engine="royin"))
+        self.assertIsNotNone(romanize("นพพร", engine="royin"))
         self.assertIsNotNone(romanize("ทีปกร", engine="royin"))
         self.assertIsNotNone(romanize("กรม", engine="royin"))
         self.assertIsNotNone(romanize("ธรรพ์", engine="royin"))

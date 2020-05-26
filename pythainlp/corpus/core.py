@@ -35,8 +35,8 @@ def get_corpus_db_detail(name: str) -> dict:
 
     if res:
         return res[0]
-    else:
-        return dict()
+
+    return dict()
 
 
 def get_corpus(filename: str) -> frozenset:
@@ -114,12 +114,9 @@ def get_corpus_path(name: str) -> Union[str, None]:
 
     def _get_path(name: str):
         path = None
-        db = TinyDB(corpus_db_path())
-        query = Query()
-        res = db.search(query.name == name)
-        if res and res[0]["file"] and os.path.exists(res[0]["file"]):
-            path = get_full_data_path(res[0]["file"])
-        db.close()
+        res = get_corpus_db_detail(name)
+        if res and res["file_name"] and os.path.exists(res["file_name"]):
+            path = get_full_data_path(res["file_name"])
         return path
 
     path = _get_path(name)

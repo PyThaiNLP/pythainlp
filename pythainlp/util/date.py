@@ -19,9 +19,9 @@ __all__ = [
     "thaiword_to_date",
 ]
 
+import warnings
 from datetime import datetime, timedelta
 from typing import Union
-import warnings
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
 thai_full_weekdays = [
@@ -73,6 +73,28 @@ _EXTENSIONS = "EO-_0^#"  # extension flags
 
 _BE_AD_DIFFERENCE = 543
 
+_DAY = {
+    "วันนี้": 0,
+    "คืนนี้": 0,
+    "พรุ่งนี้": 1,
+    "วันพรุ่งนี้": 1,
+    "คืนถัดจากนี้": 1,
+    "คืนหน้า": 1,
+    "มะรืน": 2,
+    "มะรืนนี้": 2,
+    "วันมะรืนนี้": 2,
+    "ถัดจากพรุ่งนี้": 2,
+    "ถัดจากวันพรุ่งนี้": 2,
+    "เมื่อวาน": -1,
+    "เมื่อวานนี้": -1,
+    "วานนี้": -1,
+    "เมื่อคืน": -1,
+    "เมื่อคืนนี้": -1,
+    "วานซืน": -2,
+    "เมื่อวานซืน": -2,
+    "เมื่อวานของเมื่อวาน": -2,
+}
+
 
 """ def _padding(n: int, length: int = 2, pad_char: str = "0") -> str:
     str_ = str(n)
@@ -111,7 +133,11 @@ def _std_strftime(dt_obj: datetime, fmt_char: str) -> str:
 
 
 def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
-    """Conversion support for thai_strftime()."""
+    """
+    Conversion support for thai_strftime().
+
+    The fmt_char should be in _NEED_L10N when call this function.
+    """
     str_ = ""
     if fmt_char == "A":
         # National representation of the full weekday name
@@ -446,13 +472,6 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
     return ad
 
 
-DAY_0 = ["วันนี้", "คืนนี้"]
-DAY_PLUS_1 = ["พรุ่งนี้", "วันพรุ่งนี้", "คืนหน้า"]
-DAY_PLUS_2 = ["วันมะรืนนี้", "มะรืน", "มะรืนนี้", "ถัดจากวันพรุ่งนี้"]
-DAY_MINUS_1 = ["เมื่อวาน", "เมื่อวานนี้", "วานนี้", "เมื่อคืน", "เมื่อคืนนี้"]
-DAY_MINUS_2 = ["เมื่อวานซืน", "เมื่อวานของเมื่อวาน", "วานซืน"]
-
-
 def thaiword_to_date(
     text: str, date: datetime = None
 ) -> Union[datetime, None]:
@@ -471,21 +490,12 @@ def thaiword_to_date(
         # output:
         # datetime of tomorrow
     """
+    if text not in _DAY:
+        return None
+
+    day_num = _DAY.get(text)
+
     if not date:
         date = datetime.now()
-
-    day_num = 0
-    if text in DAY_0:
-        day_num = 0
-    elif text in DAY_PLUS_1:
-        day_num = 1
-    elif text in DAY_PLUS_2:
-        day_num = 2
-    elif text in DAY_MINUS_1:
-        day_num = -1
-    elif text in DAY_MINUS_2:
-        day_num = -2
-    else:
-        return None
 
     return date + timedelta(days=day_num)

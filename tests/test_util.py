@@ -361,6 +361,12 @@ class TestUtilPackage(unittest.TestCase):
             now + timedelta(days=-2), thaiword_to_date("วานซืน", now)
         )
 
+        self.assertEqual(
+            thaiword_to_date("วันนี้").day + 1,
+            thaiword_to_date("พรุ่งนี้").day,
+        )
+        self.assertIsNone(thaiword_to_date("วันไหน"))
+
     # ### pythainlp.util.trie
 
     def test_trie(self):

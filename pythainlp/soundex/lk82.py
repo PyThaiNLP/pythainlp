@@ -7,6 +7,8 @@ https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8
 """
 import re
 
+from pythainlp.util import remove_tonemark
+
 _TRANS1 = str.maketrans(
     "กขฃคฅฆงจฉชฌซศษสญยฎดฏตณนฐฑฒถทธบปผพภฝฟมรลฬฤฦวหฮอ",
     "กกกกกกงจชชชซซซซยยดดตตนนททททททบปพพพฟฟมรรรรรวหหอ",
@@ -16,9 +18,12 @@ _TRANS2 = str.maketrans(
     "1111112333333333333333333444444445555555667777889AAABCDEEF",
 )
 
-_RE_1 = re.compile(r"[่-๋]")
-_RE_2 = re.compile(r"จน์|มณ์|ณฑ์|ทร์|ตร์|[ก-ฮ]์|[ก-ฮ][ะ-ู]์")
-_RE_3 = re.compile(r"[็ํฺๆฯ]")
+# silenced
+_RE_KARANT = re.compile(r"จน์|มณ์|ณฑ์|ทร์|ตร์|[ก-ฮ]์|[ก-ฮ][ะ-ู]์")
+
+# signs, symbols, vowel that has no explicit sound
+# Paiyannoi, Phinthu, Maiyamok, Maitaikhu, Nikhahit
+_RE_SIGN = re.compile(r"[\u0e2f\u0e3a\u0e46\u0e47\u0e4d]")
 
 
 def lk82(text: str) -> str:
@@ -54,14 +59,14 @@ def lk82(text: str) -> str:
     if not text or not isinstance(text, str):
         return ""
 
-    text = _RE_1.sub("", text)  # 4.ลบวรรณยุกต์
-    text = _RE_2.sub("", text)  # 4.ลบตัวการันต์
-    text = _RE_3.sub("", text)  # 5.ทิ้งไม้ไต่คู่ ฯลฯ
+    text = remove_tonemark(text)  # 4. remove tone marks
+    text = _RE_KARANT.sub("", text)  # 4. remove "karat" characters
+    text = _RE_SIGN.sub("", text)  # 5. remove Mai tai khu,
 
     if not text:
         return ""
 
-    # 6.เข้ารหัสตัวแรก
+    # 6. encode the first character
     res = []
     if "ก" <= text[0] <= "ฮ":
         res.append(text[0].translate(_TRANS1))
@@ -72,36 +77,45 @@ def lk82(text: str) -> str:
         res.append(text[0].translate(_TRANS2))
         text = text[2:]
 
-    # เข้ารหัสตัวที่เหลือ
+    # encode the rest
     i_v = None  # ตำแหน่งตัวคั่นล่าสุด (สระ)
     len_text = len(text)
     for i, c in enumerate(text):
-        if c in "ะัิี":  # 7. ตัวคั่นเฉยๆ
+        if (
+            c in "\u0e30\u0e31\u0e34\u0e35"
+        ):  # 7. ตัวคั่นเฉยๆ/ Sara A, Mai Han-Akat, Sara I, Sara II
             i_v = i
             res.append("")
-        elif c in "าๅึืู":  # 8.คั่นและใส่
+        elif (
+            c in "\u0e32\u0e36\u0e37\u0e39\u0e45"
+        ):  # 8. คั่นและใส่/ Sara Aa, Sara Ue, Sara Uee, Sara Uu, Lankkhangyao
             i_v = i
             res.append(c.translate(_TRANS2))
-        elif c == "ุ":  # 9.สระอุ
+        elif c == "\u0e38":  # 9. สระอุ / Sara U
             i_v = i
             if i == 0 or (text[i - 1] not in "ตธ"):
                 res.append(c.translate(_TRANS2))
             else:
                 res.append("")
-        elif c in "หอ":
-            if i + 1 < len_text and (text[i + 1] in "ึืุู"):
+        elif c in "\u0e2b\u0e2d":  # หอ
+            if i + 1 < len_text and (
+                text[i + 1] in "\u0e36\u0e37\u0e38\u0e39"
+            ):  # Sara Ue, Sara Uee, Sara U, Sara Uu
                 res.append(c.translate(_TRANS2))
-        elif c in "รวยฤฦ":
-            if i_v == i - 1 or (i + 1 < len_text and (text[i + 1] in "ึืุู")):
+        elif c in "\u0e22\u0e23\u0e24\u0e26\u0e27":
+            if i_v == i - 1 or (
+                i + 1 < len_text
+                and (text[i + 1] in "\u0e36\u0e37\u0e38\u0e39")
+            ):  # Sara Ue, Sara Uee, Sara U, Sara Uu
                 res.append(c.translate(_TRANS2))
         else:
             res.append(c.translate(_TRANS2))  # 12.
 
-    # 13. เอาตัวซ้ำออก
+    # 13. remove repetitives
     res2 = [res[0]]
     for i in range(1, len(res)):
         if res[i] != res[i - 1]:
             res2.append(res[i])
 
-    # 14. เติมศูนย์ให้ครบ ถ้าเกินก็ตัด
+    # 14. fill zeros
     return ("".join(res2) + "0000")[:5]

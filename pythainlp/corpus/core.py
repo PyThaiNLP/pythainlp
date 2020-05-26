@@ -82,7 +82,7 @@ def get_corpus_path(name: str) -> Union[str, None]:
     Get corpus path.
 
     :param str name: corpus name
-    :return: path to the corpus or **None** of the corpus doesn't
+    :return: path to the corpus or **None** of the corpus doesn't \
              exist in the device
     :rtype: str
 
@@ -121,7 +121,7 @@ def get_corpus_path(name: str) -> Union[str, None]:
 
         if not os.path.exists(path):
             download(name)
-            path = get_full_data_path(db.search(query.name == name)[0]["file"])
+            path = get_full_data_path(name)
 
     db.close()
     return path

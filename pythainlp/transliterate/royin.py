@@ -146,32 +146,32 @@ def _replace_vowels(word: str) -> str:
 def _replace_consonants(word: str, consonants: str) -> str:
     _HO_HIP = "\u0e2b"  # ห
     _RO_RUA = "\u0e23"  # ร
+
     if not consonants:
-        pass
-    elif len(consonants) == 1:
-        word = word.replace(consonants[0], _CONSONANTS[consonants[0]][0])
-    else:
-        i = 0
-        len_cons = len(consonants)
-        while i < len_cons:
-            if i == 0 and consonants[0] == _HO_HIP:
+        return word
+
+    if len(consonants) == 1:
+        return word.replace(consonants[0], _CONSONANTS[consonants[0]][0])
+
+    i = 0
+    len_cons = len(consonants)
+    while i < len_cons:
+        if i == 0:
+            if consonants[0] == _HO_HIP:
                 word = word.replace(consonants[0], "")
                 del consonants[0]
                 len_cons -= 1
-            elif i == 0 and consonants[0] != _HO_HIP:
+            else:
                 word = word.replace(
                     consonants[0], _CONSONANTS[consonants[0]][0]
                 )
                 i += 1
-            elif consonants[i] == _RO_RUA and (
-                word[i] == _RO_RUA and len(word) == i + 1
-            ):
+        elif consonants[i] == _RO_RUA and word[i] == _RO_RUA:
+            if len(word) == i + 1:
                 word = word.replace(
                     consonants[i], _CONSONANTS[consonants[i]][1]
                 )
-            elif consonants[i] == _RO_RUA and (
-                word[i] == _RO_RUA and word[i + 1] == _RO_RUA
-            ):
+            elif word[i + 1] == _RO_RUA:
                 word = list(word)
                 del word[i + 1]
                 if i + 2 == len_cons:
@@ -180,11 +180,10 @@ def _replace_consonants(word: str, consonants: str) -> str:
                     word[i] = "a"
                 word = "".join(word)
                 i += 1
-            else:
-                word = word.replace(
-                    consonants[i], _CONSONANTS[consonants[i]][1]
-                )
-                i += 1
+        else:
+            word = word.replace(consonants[i], _CONSONANTS[consonants[i]][1])
+            i += 1
+
     return word
 
 

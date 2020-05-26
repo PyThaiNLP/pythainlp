@@ -16,6 +16,9 @@ from tinydb import Query, TinyDB
 
 
 def get_corpus_db(url: str) -> requests.Response:
+    """
+    Get corpus catalog from server.
+    """
     corpus_db = None
     try:
         corpus_db = requests.get(url)
@@ -28,6 +31,9 @@ def get_corpus_db(url: str) -> requests.Response:
 
 
 def get_corpus_db_detail(name: str) -> dict:
+    """
+    Get details about a corpus, using information from local catalog.
+    """
     local_db = TinyDB(corpus_db_path())
     query = Query()
     res = local_db.search(query.name == name)
@@ -41,7 +47,7 @@ def get_corpus_db_detail(name: str) -> dict:
 
 def get_corpus(filename: str) -> frozenset:
     """
-    Read corpus from file and return a frozenset.
+    Read corpus data from file and return a frozenset.
 
     (Please see the filename from
     `this file
@@ -239,7 +245,7 @@ def download(name: str, force: bool = False, url: str = None) -> bool:
                     {
                         "name": name,
                         "version": corpus["version"],
-                        "file": corpus["file_name"],
+                        "file_name": corpus["file_name"],
                     }
                 )
         else:

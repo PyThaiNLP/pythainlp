@@ -9,11 +9,10 @@ from typing import Union
 from urllib.request import urlopen
 
 import requests
-from requests.exceptions import HTTPError
-from tinydb import Query, TinyDB
-
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
+from requests.exceptions import HTTPError
+from tinydb import Query, TinyDB
 
 
 def get_corpus_db(url: str) -> requests.Response:
@@ -112,20 +111,23 @@ def get_corpus_path(name: str) -> Union[str, None]:
         print(get_corpus_path('wiki_lm_lstm'))
         # output: /root/pythainlp-data/thwiki_model_lstm.pth
     """
-    db = TinyDB(corpus_db_path())
-    query = Query()
-    path = None
 
-    if db.search(query.name == name):
-        filename = db.search(query.name == name)[0]["file"]
-        path = get_full_data_path(filename)
+    def _get_path(name: str):
+        path = None
+        db = TinyDB(corpus_db_path())
+        query = Query()
+        res = db.search(query.name == name)
+        if res and res[0]["file"] and os.path.exists(res[0]["file"]):
+            path = get_full_data_path(res[0]["file"])
+        db.close()
+        return path
 
-    if not path or not filename or not os.path.exists(path):
+    path = _get_path(name)
+
+    if not path:  # if not found, try download once
         download(name)
-        filename = db.search(query.name == name)[0]["file"]
-        path = get_full_data_path(filename)
+        path = _get_path(name)
 
-    db.close()
     return path
 
 
@@ -216,7 +218,7 @@ def download(name: str, force: bool = False, url: str = None) -> bool:
 
     corpus_db = corpus_db.json()
 
-    # Check if corpus is available
+    # check if corpus is available
     if name in list(corpus_db.keys()):
         local_db = TinyDB(corpus_db_path())
         query = Query()

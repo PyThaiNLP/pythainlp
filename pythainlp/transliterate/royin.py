@@ -7,7 +7,7 @@ It was published by the Royal Institute of Thailand.
 """
 import re
 
-from pythainlp import word_tokenize
+from pythainlp import thai_consonants, word_tokenize
 
 # สระ
 _vowel_patterns = """เ*ียว,\\1iao
@@ -61,7 +61,7 @@ _vowel_patterns = """เ*ียว,\\1iao
 *ะ,\\1a
 #ฤ,\\1rue
 $ฤ,\\1ri"""
-_vowel_patterns = _vowel_patterns.replace("*", "([ก-ฮ])")
+_vowel_patterns = _vowel_patterns.replace("*", f"([{thai_consonants}])")
 _vowel_patterns = _vowel_patterns.replace("#", "([คนพมห])")
 _vowel_patterns = _vowel_patterns.replace("$", "([กตทปศส])")
 
@@ -117,17 +117,20 @@ _CONSONANTS = {
     "ฮ": ["h", ""],
 }
 
-_RE_CONSONANT = re.compile(r"[ก-ฮ]")
+_THANTHAKHAT = "\u0e4c"
+_RE_CONSONANT = re.compile(f"[{thai_consonants}]")
 _RE_NORMALIZE = re.compile(
-    r"จน์|มณ์|ณฑ์|ทร์|ตร์|[ก-ฮ]์|[ก-ฮ][ะ-ู]์"
-    # yamok, paiyannoi, thanthakhat, yamakkan, tonemarks, other signs
-    + r"|[\u0e2f\u0e46\u0e48\u0e49\u0e4a\u0e4b\u0e4c\u0e4d\u0e4e\u0e4f\u0e5a\u0e5b]"
+    f"จน์|มณ์|ณฑ์|ทร์|ตร์|[{thai_consonants}]{_THANTHAKHAT}|"
+    f"[{thai_consonants}][\u0e30-\u0e39]{_THANTHAKHAT}"
+    # Paiyannoi, Maiyamok, Tonemarks, Thanthakhat, Nikhahit, other signs
+    r"|[\u0e2f\u0e46\u0e48-\u0e4f\u0e5a\u0e5b]"
 )
 
 
 def _normalize(word: str) -> str:
     """
-    Remove silence, no sound, and tonal characters
+    Remove silence, no sound, and tonal characters.
+
     ตัดอักษรที่ไม่ออกเสียง (การันต์ ไปยาลน้อย ไม้ยมก*) และวรรณยุกต์ทิ้ง
     """
     return _RE_NORMALIZE.sub("", word)
@@ -141,27 +144,33 @@ def _replace_vowels(word: str) -> str:
 
 
 def _replace_consonants(word: str, res: str) -> str:
+    _HO_HIP = "\u0e2b"  # ห
+    _RO_RUA = "\u0e23"  # ร
     if not res:
         pass
     elif len(res) == 1:
         word = word.replace(res[0], _CONSONANTS[res[0]][0])
     else:
         i = 0
-        lenword = len(res)
-        while i < lenword:
-            if i == 0 and res[0] == "ห":
+        len_word = len(res)
+        while i < len_word:
+            if i == 0 and res[0] == _HO_HIP:
                 word = word.replace(res[0], "")
                 del res[0]
-                lenword -= 1
-            elif i == 0 and res[0] != "ห":
+                len_word -= 1
+            elif i == 0 and res[0] != _HO_HIP:
                 word = word.replace(res[0], _CONSONANTS[res[0]][0])
                 i += 1
-            elif res[i] == "ร" and (word[i] == "ร" and len(word) == i + 1):
+            elif res[i] == _RO_RUA and (
+                word[i] == _RO_RUA and len(word) == i + 1
+            ):
                 word = word.replace(res[i], _CONSONANTS[res[i]][1])
-            elif res[i] == "ร" and (word[i] == "ร" and word[i + 1] == "ร"):
+            elif res[i] == _RO_RUA and (
+                word[i] == _RO_RUA and word[i + 1] == _RO_RUA
+            ):
                 word = list(word)
                 del word[i + 1]
-                if i + 2 == lenword:
+                if i + 2 == len_word:
                     word[i] = "an"
                 else:
                     word[i] = "a"
@@ -173,15 +182,12 @@ def _replace_consonants(word: str, res: str) -> str:
     return word
 
 
-# Support function for romanize()
+# support function for romanize()
 def _romanize(word: str) -> str:
     """
     :param str word: Thai word to be romanized, should have already been tokenized.
     :return: Spells out how the Thai word should be pronounced.
     """
-    if not isinstance(word, str) or not word:
-        return ""
-
     word = _replace_vowels(_normalize(word))
     res = _RE_CONSONANT.findall(word)
 

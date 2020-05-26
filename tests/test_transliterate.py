@@ -27,7 +27,7 @@ class TestTransliteratePackage(unittest.TestCase):
         # self.assertEqual(romanize_royin("กลัว"), "klua")  # not pass
         # self.assertEqual(romanize_royin("กลัว"), "klua")  # not pass
 
-        self.assertEqual(romanize("แมว", engine="royin"), "maeo") # not pass
+        self.assertEqual(romanize("แมว", engine="royin"), "maeo")  # not pass
         self.assertEqual(romanize("เดือน", engine="royin"), "duean")
         self.assertEqual(romanize("ดู", engine="royin"), "du")
         self.assertEqual(romanize("ดำ", engine="royin"), "dam")

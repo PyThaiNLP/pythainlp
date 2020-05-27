@@ -131,7 +131,7 @@ def get_corpus_path(name: str) -> Union[str, None]:
             download(name)
         if os.path.exists(path):
             return path
-    
+
     return None
 
 

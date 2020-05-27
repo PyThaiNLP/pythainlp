@@ -118,14 +118,14 @@ def get_corpus_path(name: str) -> Union[str, None]:
         # output: /root/pythainlp-data/thwiki_model_lstm.pth
     """
     corpus_db_detail = get_corpus_db_detail(name)
-    if corpus_db_detail:
-        corpus_filename = corpus_db_detail["file_nane"]
-        if corpus_filename:
-            path = get_full_data_path(corpus_filename)
-            if not os.path.exists(path):  # if not exist, try once
-                download(name)
-            if os.path.exists(path):
-                return path
+    if not corpus_db_detail or not corpus_db_detail.get("file_name"):
+        return None
+
+    path = get_full_data_path(corpus_db_detail["file_name"])
+    if not os.path.exists(path):  # if not exist, try once
+        download(name)
+    if os.path.exists(path):
+        return path
 
     return None
 

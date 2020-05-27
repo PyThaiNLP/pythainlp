@@ -7,7 +7,7 @@ from typing import Callable, Collection
 
 import numpy as np
 import torch
-from pythainlp.corpus import download, get_corpus_path
+from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import THAI2FIT_TOKENIZER
 from pythainlp.ulmfit.preprocess import (
     fix_html,
@@ -32,25 +32,10 @@ _MODEL_NAME_LSTM = "wiki_lm_lstm"
 _ITOS_NAME_LSTM = "wiki_itos_lstm"
 
 
-# Download pretrained models
-def _get_path(fname: str) -> str:
-    """
-    :meth: download get path of file from pythainlp-corpus
-    :param str fname: file name
-    :return: path to downloaded file
-    """
-    path = get_corpus_path(fname)
-    if not path:
-        download(fname)
-        path = get_corpus_path(fname)
-    return path
-
-
-# Pretrained paths
-# TODO: Let the user decide if they like to download (at setup?)
+# Pretrained model paths
 THWIKI_LSTM = dict(
-    wgts_fname=_get_path(_MODEL_NAME_LSTM),
-    itos_fname=_get_path(_ITOS_NAME_LSTM),
+    wgts_fname=get_corpus_path(_MODEL_NAME_LSTM),
+    itos_fname=get_corpus_path(_ITOS_NAME_LSTM),
 )
 
 # Preprocessing rules for Thai text

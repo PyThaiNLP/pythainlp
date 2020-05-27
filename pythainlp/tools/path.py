@@ -6,9 +6,9 @@ For text processing and text conversion, see pythainlp.util
 """
 import os
 
-import pythainlp
+from pythainlp import __file__ as pythainlp_file
 
-PYTHAINLP_DATA_DIR = "pythainlp-data"
+PYTHAINLP_DEFAULT_DATA_DIR = "pythainlp-data"
 
 
 def get_full_data_path(path: str) -> str:
@@ -49,10 +49,10 @@ def get_pythainlp_data_path() -> str:
         get_pythainlp_data_path()
         # output: '/root/pythainlp-data'
     """
-    path = os.getenv(
-        "PYTHAINLP_DATA_DIR", os.path.join("~", PYTHAINLP_DATA_DIR)
+    pythainlp_data_dir = os.getenv(
+        "PYTHAINLP_DATA_DIR", os.path.join("~", PYTHAINLP_DEFAULT_DATA_DIR)
     )
-    path = os.path.expanduser(path)
+    path = os.path.expanduser(pythainlp_data_dir)
     os.makedirs(path, exist_ok=True)
     return path
 
@@ -72,4 +72,4 @@ def get_pythainlp_path() -> str:
         get_pythainlp_path()
         # output: '/usr/local/lib/python3.6/dist-packages/pythainlp'
     """
-    return os.path.dirname(pythainlp.__file__)
+    return os.path.dirname(pythainlp_file)

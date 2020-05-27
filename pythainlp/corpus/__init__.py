@@ -36,16 +36,20 @@ from pythainlp.tools import get_full_data_path, get_pythainlp_path
 _CORPUS_DIRNAME = "corpus"
 _CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
 
+# remote corpus catalog URL
 _CORPUS_DB_URL = (
     "https://raw.githubusercontent.com/"
-    + "PyThaiNLP/pythainlp-corpus/"
-    + "2.2/db.json"
+    "PyThaiNLP/pythainlp-corpus/"
+    "2.2/db.json"
 )
 
+# local corpus catalog filename
 _CORPUS_DB_FILENAME = "db.json"
+
+# local corpus catalog full path
 _CORPUS_DB_PATH = get_full_data_path(_CORPUS_DB_FILENAME)
 
-# Create a local corpus database if it does not already exist
+# create a local corpus database if it does not already exist
 if not os.path.exists(_CORPUS_DB_PATH):
     TinyDB(_CORPUS_DB_PATH)
 

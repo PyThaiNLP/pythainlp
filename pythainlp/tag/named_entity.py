@@ -7,13 +7,14 @@ __all__ = ["ThaiNameTagger"]
 
 from typing import List, Tuple, Union
 
-import pycrfsuite
-from pythainlp.corpus import download, get_corpus_path, thai_stopwords
+from pycrfsuite import Tagger as CRFTagger
+from pythainlp.corpus import get_corpus_path, thai_stopwords
 from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import isthai
 
-_WORD_TOKENIZER = "newmm"  # ตัวตัดคำ
+_CORPUS_NAME = "thainer-1-4"
+_TOKENIZER_ENGINE = "newmm"  # should be the same as one used in training data
 
 
 def _is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำฟุ่มเฟือย
@@ -74,14 +75,10 @@ def _doc2features(doc, i) -> dict:
 class ThaiNameTagger:
     def __init__(self):
         """
-        Thai named-entity recognizer
+        Thai named-entity recognizer.
         """
-        self.__data_path = get_corpus_path("thainer-1-4")
-        if not self.__data_path:
-            download("thainer-1-4")
-            self.__data_path = get_corpus_path("thainer-1-4")
-        self.crf = pycrfsuite.Tagger()
-        self.crf.open(self.__data_path)
+        self.crf = CRFTagger()
+        self.crf.open(get_corpus_path(_CORPUS_NAME))
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False
@@ -137,41 +134,41 @@ class ThaiNameTagger:
                             tag=True)
             'วันที่ <DATE>15 ก.ย. 61</DATE> ทดสอบระบบเวลา <TIME>14:49 น.</TIME>'
         """
-        self.__tokens = word_tokenize(text, engine=_WORD_TOKENIZER)
-        self.__pos_tags = pos_tag(
-            self.__tokens, engine="perceptron", corpus="orchid_ud"
-        )
-        self.__x_test = self.__extract_features(self.__pos_tags)
-        self.__y = self.crf.tag(self.__x_test)
+        tokens = word_tokenize(text, engine=_TOKENIZER_ENGINE)
+        pos_tags = pos_tag(tokens, engine="perceptron", corpus="orchid_ud")
+        x_test = ThaiNameTagger.__extract_features(pos_tags)
+        y = self.crf.tag(x_test)
 
-        self.sent_ner = [
-            (self.__pos_tags[i][0], data) for i, data in enumerate(self.__y)
-        ]
+        sent_ner = [(pos_tags[i][0], data) for i, data in enumerate(y)]
+
         if tag:
-            self.temp = ""
-            self.sent = ""
-            for idx, (word, ner) in enumerate(self.sent_ner):
-                if "B-" in ner and self.temp != "":
-                    self.sent += "</" + self.temp + ">"
-                    self.temp = ner.replace("B-", "")
-                    self.sent += "<" + self.temp + ">"
-                elif "B-" in ner:
-                    self.temp = ner.replace("B-", "")
-                    self.sent += "<" + self.temp + ">"
-                elif "O" == ner and self.temp != "":
-                    self.sent += "</" + self.temp + ">"
-                    self.temp = ""
-                self.sent += word
-                if idx == len(self.sent_ner) - 1 and self.temp != "":
-                    self.sent += "</" + self.temp + ">"
-            return self.sent
-        elif pos:
+            temp = ""
+            sent = ""
+            for idx, (word, ner) in enumerate(sent_ner):
+                if ner.startswith("B-") and temp != "":
+                    sent += "</" + temp + ">"
+                    temp = ner[2:]
+                    sent += "<" + temp + ">"
+                elif ner.startswith("B-"):
+                    temp = ner[2:]
+                    sent += "<" + temp + ">"
+                elif ner == "O" and temp != "":
+                    sent += "</" + temp + ">"
+                    temp = ""
+                sent += word
+
+                if idx == len(sent_ner) - 1 and temp != "":
+                    sent += "</" + temp + ">"
+
+            return sent
+
+        if pos:
             return [
-                (self.__pos_tags[i][0], self.__pos_tags[i][1], data)
-                for i, data in enumerate(self.__y)
+                (pos_tags[i][0], pos_tags[i][1], data)
+                for i, data in enumerate(y)
             ]
-        else:
-            return self.sent_ner
+
+        return sent_ner
 
     @staticmethod
     def __extract_features(doc):

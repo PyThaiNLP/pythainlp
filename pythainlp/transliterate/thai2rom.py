@@ -9,24 +9,24 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from pythainlp.corpus import download, get_corpus_path
+from pythainlp.corpus import get_corpus_path
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+_MODEL_NAME = "thai2rom-pytorch-attn"
 
 
 class ThaiTransliterator:
     def __init__(self):
         """
-        Transliteration of Thai words
+        Transliteration of Thai words.
+
         Now supports Thai to Latin (romanization)
         """
-        # Download the model, if it's not on your machine.
-        self.__filemodel = get_corpus_path("thai2rom-pytorch-attn")
-        if not self.__filemodel:
-            download("thai2rom-pytorch-attn")
-            self.__filemodel = get_corpus_path("thai2rom-pytorch-attn")
+        # get the model, will download if it's not available locally
+        self.__model_filename = get_corpus_path(_MODEL_NAME)
 
-        loader = torch.load(self.__filemodel, map_location=device)
+        loader = torch.load(self.__model_filename, map_location=device)
 
         INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT = loader["encoder_params"]
         OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT = loader["decoder_params"]

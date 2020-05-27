@@ -3,11 +3,49 @@
 import unittest
 
 import torch
-from pythainlp.corpus import download
 from pythainlp.transliterate import romanize, transliterate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
-from pythainlp.transliterate.royin import romanize as romanize_royin
 from pythainlp.transliterate.thai2rom import ThaiTransliterator
+
+_BASIC_TESTS = {
+    None: "",
+    "": "",
+    "หมอก": "mok",
+    "หาย": "hai",
+    "แมว": "maeo",
+    "เดือน": "duean",
+    "ดำ": "dam",
+    "ดู": "du",
+    "บัว": "bua",
+    "กก": "kok",
+    "กร": "kon",
+    "กรร": "kan",
+    "กรรม": "kam",
+    # "กรม": "krom",  # failed
+    "ฝ้าย": "fai",
+    "นพพร": "nopphon",
+    # "ทีปกร": "thipakon",  # failed
+    # "ธรรพ์": "than",  # failed
+    # "ธรรม": "tham",  # failed
+    # "มหา": "maha",  # failed
+    # "หยาก": "yak",  # failed
+    # "อยาก": "yak",  # failed
+    # "ยมก": "yamok",  # failed
+    # "กลัว": "klua",  # failed
+    # "บ้านไร่": "banrai",  # failed
+    # "ชารินทร์": "charin",  # failed
+}
+
+# these are set of two-syllable words,
+# to test if the transliteration/romanization is consistent, say
+# romanize(1+2) = romanize(1) + romanize(2)
+_CONSISTENCY_TESTS = [
+    # ("กระจก", "กระ", "จก"),  # failed
+    # ("ระเบิด", "ระ", "เบิด"),  # failed
+    # ("หยากไย่", "หยาก", "ไย่"),  # failed
+    ("ตากใบ", "ตาก", "ใบ"),
+    # ("จัดสรร", "จัด", "สรร"),  # failed
+]
 
 
 class TestTransliteratePackage(unittest.TestCase):
@@ -16,31 +54,20 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertEqual(romanize(""), "")
         self.assertEqual(romanize("แมว"), "maeo")
 
-        self.assertEqual(romanize_royin(None), "")
-        self.assertEqual(romanize_royin(""), "")
-        self.assertEqual(romanize_royin("หาย"), "hai")
-        self.assertEqual(romanize_royin("หมอก"), "mok")
-        # self.assertEqual(romanize_royin("มหา"), "maha")  # not pass
-        # self.assertEqual(romanize_royin("หยาก"), "yak")  # not pass
-        # self.assertEqual(romanize_royin("อยาก"), "yak")  # not pass
-        # self.assertEqual(romanize_royin("ยมก"), "yamok")  # not pass
-        # self.assertEqual(romanize_royin("กลัว"), "klua")  # not pass
-        # self.assertEqual(romanize_royin("กลัว"), "klua")  # not pass
+    def test_romanize_royin_basic(self):
+        for word in _BASIC_TESTS:
+            expect = _BASIC_TESTS[word]
+            self.assertEqual(romanize(word, engine="royin"), expect)
 
-        # self.assertEqual(romanize("แมว", engine="royin"), "maeo") # not pass
-        self.assertEqual(romanize("เดือน", engine="royin"), "duean")
-        self.assertEqual(romanize("ดู", engine="royin"), "du")
-        self.assertEqual(romanize("ดำ", engine="royin"), "dam")
-        self.assertEqual(romanize("บัว", engine="royin"), "bua")
-        self.assertEqual(romanize("กร", engine="royin"), "kon")
-        self.assertEqual(romanize("กรร", engine="royin"), "kan")
-        self.assertEqual(romanize("กรรม", engine="royin"), "kam")
-        self.assertIsNotNone(romanize("กก", engine="royin"))
-        self.assertIsNotNone(romanize("ฝ้าย", engine="royin"))
-        self.assertIsNotNone(romanize("ทีปกร", engine="royin"))
-        self.assertIsNotNone(romanize("กรม", engine="royin"))
-        self.assertIsNotNone(romanize("ธรรพ์", engine="royin"))
-        self.assertIsNotNone(romanize("กฏa์1์ ์", engine="royin"))
+    def test_romanize_royin_consistency(self):
+        for word, part1, part2 in _CONSISTENCY_TESTS:
+            self.assertEqual(
+                romanize(word, engine="royin"),
+                (
+                    romanize(part1, engine="royin")
+                    + romanize(part2, engine="royin")
+                ),
+            )
 
     def test_romanize_thai2rom(self):
         self.assertEqual(romanize("แมว", engine="thai2rom"), "maeo")
@@ -100,7 +127,6 @@ class TestTransliteratePackage(unittest.TestCase):
         )
 
     def test_transliterate(self):
-        download("thai-g2p", force=True)
         self.assertEqual(transliterate(""), "")
         self.assertEqual(transliterate("แมว", "pyicu"), "mæw")
         self.assertEqual(transliterate("คน", engine="ipa"), "kʰon")

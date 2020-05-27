@@ -6,7 +6,7 @@ For text processing and text conversion, see pythainlp.util
 """
 import os
 
-import pythainlp
+from pythainlp import __file__ as pythainlp_file
 
 PYTHAINLP_DEFAULT_DATA_DIR = "pythainlp-data"
 
@@ -72,4 +72,4 @@ def get_pythainlp_path() -> str:
         get_pythainlp_path()
         # output: '/usr/local/lib/python3.6/dist-packages/pythainlp'
     """
-    return os.path.dirname(pythainlp.__file__)
+    return os.path.dirname(pythainlp_file)

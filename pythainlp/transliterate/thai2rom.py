@@ -15,6 +15,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 _MODEL_NAME = "thai2rom-pytorch-attn"
 
+
 class ThaiTransliterator:
     def __init__(self):
         """

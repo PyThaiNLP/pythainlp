@@ -14,7 +14,7 @@ from pythainlp.tokenize import word_tokenize
 from pythainlp.util import isthai
 
 _CORPUS_NAME = "thainer-1-4"
-_TOKENIZER_ENGINE = "newmm"  # word tokenizer engine
+_TOKENIZER_ENGINE = "newmm"  # should be the same as one used in training data
 
 
 def _is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำฟุ่มเฟือย
@@ -136,7 +136,7 @@ class ThaiNameTagger:
         """
         tokens = word_tokenize(text, engine=_TOKENIZER_ENGINE)
         pos_tags = pos_tag(tokens, engine="perceptron", corpus="orchid_ud")
-        x_test = self.__extract_features(pos_tags)
+        x_test = ThaiNameTagger.__extract_features(pos_tags)
         y = self.crf.tag(x_test)
 
         sent_ner = [(pos_tags[i][0], data) for i, data in enumerate(y)]

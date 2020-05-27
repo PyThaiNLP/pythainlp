@@ -180,14 +180,13 @@ def pos_tag(
         # [('เก้าอี้', None), ('มี', 'VERB'), ('จำนวน', 'NOUN'), ('ขา', None),
         #   ('<space>', None), ('<equal>', None), ('3', 'NUM')]
     """
+    if not words:
+        return []
 
-    # NOTE:
     _corpus = corpus
     _tag = []
     if corpus == "orchid_ud":
         corpus = "orchid"
-    if not words:
-        return []
 
     if engine == "perceptron":
         from .perceptron import tag as tag_

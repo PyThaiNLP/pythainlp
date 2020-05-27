@@ -117,16 +117,21 @@ def get_corpus_path(name: str) -> Union[str, None]:
         print(get_corpus_path('wiki_lm_lstm'))
         # output: /root/pythainlp-data/thwiki_model_lstm.pth
     """
+    # check if the corpus is in local catalog, download if not
     corpus_db_detail = get_corpus_db_detail(name)
     if not corpus_db_detail or not corpus_db_detail.get("file_name"):
-        return None
-
-    path = get_full_data_path(corpus_db_detail["file_name"])
-    if not os.path.exists(path):  # if not exist, try once
         download(name)
-    if os.path.exists(path):
-        return path
+        corpus_db_detail = get_corpus_db_detail(name)
 
+    if corpus_db_detail and corpus_db_detail.get("file_name"):
+        # corpus is in the local catalog, get full path to the file
+        path = get_full_data_path(corpus_db_detail.get("file_name"))
+        # check if the corpus file actually exists, download if not
+        if not os.path.exists(path):
+            download(name)
+        if os.path.exists(path):
+            return path
+    
     return None
 
 

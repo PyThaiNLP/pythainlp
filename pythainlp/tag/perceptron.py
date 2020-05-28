@@ -26,7 +26,10 @@ _PUD_TAGGER = _load_tagger(_PUD_DATA_FILENAME)
 
 def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
     """
-    รับค่าเป็น ''list'' คืนค่าเป็น ''list'' เช่น [('คำ', 'ชนิดคำ'), ('คำ', 'ชนิดคำ'), ...]
+    :param list words: a list of tokenized words
+    :param str corpus: name corpus (orchid or pud)
+    :return: returns a list of labels regarding which part of speech it is
+    :rtype: list[tuple[str, str]]
     """
     if not words:
         return []

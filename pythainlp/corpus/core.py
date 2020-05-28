@@ -18,6 +18,8 @@ from tinydb import Query, TinyDB
 def get_corpus_db(url: str) -> requests.Response:
     """
     Get corpus catalog from server.
+
+    :param str url: URL corpus catalog
     """
     corpus_db = None
     try:
@@ -33,6 +35,10 @@ def get_corpus_db(url: str) -> requests.Response:
 def get_corpus_db_detail(name: str) -> dict:
     """
     Get details about a corpus, using information from local catalog.
+
+    :param str name: name corpus
+    :return: details about a corpus
+    :rtype: dict
     """
     local_db = TinyDB(corpus_db_path())
     query = Query()

@@ -217,9 +217,10 @@ def romanize(text: str) -> str:
     Rendering Thai words in the Latin alphabet or "romanization",
     using the Royal Thai General System of Transcription (RTGS),
     which is the official system published by the Royal Institute of Thailand.
-    ถอดเสียงภาษาไทยเป็นอักษรละติน
+
     :param str text: Thai text to be romanized
     :return: A string of Thai words rendered in the Latin alphabet.
+    :rtype: str
     """
     words = word_tokenize(text)
     romanized_words = [_romanize(word) for word in words]

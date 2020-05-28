@@ -10,6 +10,15 @@ Modules
 .. autofunction:: romanize
 .. autofunction:: transliterate
 
+Romanize Engines
+----------------
+thai2rom
+++++++++
+.. automodule:: pythainlp.transliterate.thai2rom.romanize
+royin
++++++
+.. automodule:: pythainlp.transliterate.royin.romanize
+
 Transliterate Engines
 ---------------------
 

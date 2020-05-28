@@ -34,6 +34,12 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+Citations
+=========
+If you use PyThaiNLP in your project or publication, please cite the library as follows
+
+    Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, & Pattarawat Chormai. (2016, Jun 27). PyThaiNLP: Thai Natural Language Processing in Python. Zenodo. http://doi.org/10.5281/zenodo.3519354
+
 Apache Software License 2.0
 
 Maintained by the PyThaiNLP team.

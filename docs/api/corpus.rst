@@ -8,15 +8,19 @@ Modules
 -------
 
 .. autofunction:: get_corpus
+.. autofunction:: get_corpus_db
+.. autofunction:: get_corpus_db_detail
 .. autofunction:: get_corpus_path
 .. autofunction:: download
 .. autofunction:: remove
+.. autofunction:: pythainlp.corpus.common.countries
+.. autofunction:: pythainlp.corpus.common.provinces
 .. autofunction:: pythainlp.corpus.common.thai_stopwords
 .. autofunction:: pythainlp.corpus.common.thai_words
 .. autofunction:: pythainlp.corpus.common.thai_syllables
 .. autofunction:: pythainlp.corpus.common.thai_negations
-.. autofunction:: pythainlp.corpus.common.countries
-.. autofunction:: pythainlp.corpus.common.provinces
+.. autofunction:: pythainlp.corpus.common.thai_female_names
+.. autofunction:: pythainlp.corpus.common.thai_male_names
 .. autofunction:: pythainlp.corpus.conceptnet.edges
 
 TNC

@@ -10,6 +10,30 @@ Modules
 .. autofunction:: romanize
 .. autofunction:: transliterate
 
+Romanize Engines
+----------------
+thai2rom
+++++++++
+.. automodule:: pythainlp.transliterate.thai2rom.romanize
+royin
++++++
+.. automodule:: pythainlp.transliterate.royin.romanize
+
+Transliterate Engines
+---------------------
+
+icu
++++
+.. automodule::  pythainlp.transliterate.pyicu.transliterate
+ipa
++++
+.. automodule::  pythainlp.transliterate.ipa.transliterate
+.. automodule::  pythainlp.transliterate.ipa.trans_list
+.. automodule::  pythainlp.transliterate.ipa.xsampa_list
+thaig2p
++++++++
+.. automodule::  pythainlp.transliterate.thaig2p.transliterate
+
 References
 ----------
 

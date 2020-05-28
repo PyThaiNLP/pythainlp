@@ -2,7 +2,7 @@ License
 =======
 - PyThaiNLP code uses Apache Software License 2.0
 
-- Corpus data created by PyThaiNLP project use C`reative Commons Attribution-ShareAlike 4.0 International License <https://creativecommons.org/licenses/by-sa/4.0/>`_
+- Corpus data created by PyThaiNLP project use `Creative Commons Attribution-ShareAlike 4.0 International License <https://creativecommons.org/licenses/by-sa/4.0/>`_
 
 
 - For other corpus that may included with PyThaiNLP distribution, please refer to `Corpus License <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md>`_.

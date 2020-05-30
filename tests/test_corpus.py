@@ -52,6 +52,8 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsNotNone(get_corpus_db_detail("test"))  # corpus exists
         self.assertTrue(remove("test"))  # remove existing
         self.assertFalse(remove("test"))  # remove non-existing
+        self.assertTrue(download(name="test", version="0.1"))
+        self.assertTrue(remove("test"))
 
     def test_tnc(self):
         self.assertIsNotNone(tnc.word_freqs())

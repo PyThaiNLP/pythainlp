@@ -191,7 +191,7 @@ def _check_hash(dst: str, md5: str) -> None:
                 raise Exception("Hash does not match expected.")
 
 
-def download(name: str, force: bool = False, url: str = None) -> bool:
+def download(name: str, force: bool = False, url: str = None, version: str = None) -> bool:
     """
     Download corpus.
 
@@ -201,6 +201,7 @@ def download(name: str, force: bool = False, url: str = None) -> bool:
     :param str name: corpus name
     :param bool force: force download
     :param str url: URL of the corpus catalog
+    :param str version: Version of the corpus
     :return: **True** if the corpus is found and succesfully downloaded.
              Otherwise, it returns **False**.
     :rtype: bool
@@ -237,7 +238,11 @@ def download(name: str, force: bool = False, url: str = None) -> bool:
 
         corpus = corpus_db[name]
         print("Corpus:", name)
-        found = local_db.search(query.name == name)
+        if version != None:
+            found = local_db.search((query.name == name) & (query.version == version))
+            corpus['version'] = version
+        else:
+            found = local_db.search(query.name == name)
 
         # If not found in local, download
         if force or not found:

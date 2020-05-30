@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+from argparse import ArgumentError
 from types import ModuleType
 
 from pythainlp import __main__, cli
@@ -12,8 +13,13 @@ class TestMainPackage(unittest.TestCase):
         with self.assertRaises(SystemExit) as ex:
             __main__.main()
         self.assertEqual(ex.exception.code, 2)
+
         self.assertIsNone(__main__.main(["thainlp", "data", "path"]))
-        self.assertIsNone(__main__.main(["thainlp", "NOT_EXIST", "command"]))
+
+        with self.assertRaises(ArgumentError):
+            self.assertIsNone(
+                __main__.main(["thainlp", "NOT_EXIST", "command"])
+            )
 
     def test_cli_data(self):
         self.assertIsInstance(getattr(cli, "data"), ModuleType)

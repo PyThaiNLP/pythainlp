@@ -33,7 +33,7 @@ class App:
             "subcommand",
             type=str,
             choices=["catalog", "info", "get", "rm", "path"],
-            help="action on the dataset",
+            help="action on dataset/corpus",
         )
         args = parser.parse_args(argv[2:3])
         getattr(self, args.subcommand)(argv)

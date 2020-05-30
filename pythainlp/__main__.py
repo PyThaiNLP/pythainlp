@@ -35,7 +35,7 @@ def main(argv=None):
         command.App(argv)
     else:
         print(f"Command not available: {args.command}")
-        print("Please run with --help for alternatives")
+        print("Please run with --help for list of available commands.")
 
 
 if __name__ == "__main__":

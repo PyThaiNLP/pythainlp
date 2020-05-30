@@ -9,11 +9,10 @@ from pythainlp.tag import locations, named_entity, pos_tag
 
 class SubAppBase:
     def __init__(self, name, argv):
-        parser = argparse.ArgumentParser(name)
+        parser = argparse.ArgumentParser(**cli.make_usage("tag " + name))
         parser.add_argument(
             "text", type=str, help="input text",
         )
-
         parser.add_argument(
             "-s",
             "--sep",
@@ -43,17 +42,30 @@ class POSTaggingApp(SubAppBase):
 
 class App:
     def __init__(self, argv):
-        parser = argparse.ArgumentParser(**cli.make_usage("tag"))
-        parser.add_argument("subcommand", type=str, help="[pos]")
+        parser = argparse.ArgumentParser(
+            prog="tag",
+            description="Annotate a text with linguistic information",
+            usage=(
+                'thainlp tag <tag_type> [--sep "<separator>"] "<text>"\n\n'
+                "tag_type:\n\n"
+                "pos                part-of-speech\n\n"
+                "<separator> and <text> should be inside double quotes.\n"
+                "<text> should be a tokenized text, "
+                "with tokens separated by <separator>.\n\n"
+                "Example:\n\n"
+                'thainlp tag pos -s " " "แรงดึงดูด เก็บ หัว คุณ ลง"\n\n'
+                "--"
+            ),
+        )
+        parser.add_argument("tag_type", type=str, help="[pos]")
 
         args = parser.parse_args(argv[2:3])
-
-        cli.exit_if_empty(args.subcommand, parser)
-        subcommand = str.lower(args.subcommand)
+        cli.exit_if_empty(args.tag_type, parser)
+        tag_type = str.lower(args.tag_type)
 
         argv = argv[3:]
 
-        if subcommand == "pos":
+        if tag_type == "pos":
             POSTaggingApp("Part-of-Speech tagging", argv)
         else:
-            print(f"Tag type not available: {subcommand}")
+            print(f"Tag type not available: {tag_type}")

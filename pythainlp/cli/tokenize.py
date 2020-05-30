@@ -108,25 +108,45 @@ class SubwordTokenizationApp(SubAppBase):
 
 class App:
     def __init__(self, argv):
-        parser = argparse.ArgumentParser(**cli.make_usage("tokenize"))
+        parser = argparse.ArgumentParser(
+            prog="tokenize",
+            description="Break a text into small units (tokens).",
+            usage=(
+                'thainlp tokenize <token_type> [options] "<text>"\n\n'
+                "token_type:\n\n"
+                "subword            subword (may not be a linguistic unit)\n"
+                "syllable           syllable\n"
+                "word               word\n"
+                "sent               sentence\n\n"
+                "options:\n\n"
+                "--sep or -s <separator>    specify custom separator\n"
+                "                           (default is a space)\n"
+                "--algo or -a <algorithm>   tokenization algorithm\n"
+                "                           (see API doc for more info)\n"
+                "--keep-whitespace or -w    keep whitespaces in output\n"
+                "                           (default)\n\n"
+                "<separator> and <text> should be inside double quotes.\n\n"
+                "Example:\n\n"
+                'thainlp tokenize word -s "|" "ใต้แสงนีออนเปลี่ยวเหงา"\n\n'
+                "--"
+            ),
+        )
         parser.add_argument(
-            "subcommand", type=str, help="[subword|syllable|word|sent]",
+            "token_type", type=str, help="[subword|syllable|word|sent]",
         )
 
         args = parser.parse_args(argv[2:3])
-
-        cli.exit_if_empty(args.subcommand, parser)
-        subcommand = str.lower(args.subcommand)
+        cli.exit_if_empty(args.token_type, parser)
+        token_type = str.lower(args.token_type)
 
         argv = argv[3:]
-
-        if subcommand.startswith("w"):
+        if token_type.startswith("w"):
             WordTokenizationApp("word", argv)
-        elif subcommand.startswith("sy"):
+        elif token_type.startswith("sy"):
             SyllableTokenizationApp("syllable", argv)
-        elif subcommand.startswith("su"):
+        elif token_type.startswith("su"):
             SubwordTokenizationApp("subword", argv)
-        elif subcommand.startswith("se"):
+        elif token_type.startswith("se"):
             SentenceTokenizationApp("sent", argv)
         else:
-            print(f"Subcommand not available: {subcommand}")
+            print(f"Token type not available: {token_type}")

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
 import unittest
 from types import ModuleType
 
@@ -13,17 +12,6 @@ class TestMainPackage(unittest.TestCase):
         with self.assertRaises(SystemExit) as ex:
             __main__.main()
         self.assertEqual(ex.exception.code, 2)
-
-        res = os.system("thainlp")
-        self.assertEqual(res, 2)
-
-        res = os.system("thainlp data")
-        self.assertEqual(res, 2)
-
-        # proper call, should exit with 0
-        res = os.system("thainlp data catalog")
-        self.assertEqual(res, 0)
-
         self.assertIsNotNone(__main__.main(["thainlp", "data", "path"]))
 
     def test_cli_data(self):

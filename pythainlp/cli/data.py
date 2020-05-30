@@ -26,6 +26,8 @@ class App:
                 f"{get_pythainlp_data_path()}\n\n"
                 "To change PyThaiNLP data path, set the operating system's\n"
                 "PYTHAINLP_DATA_DIR environment variable.\n\n"
+                "For more information about corpora that PyThaiNLP use, see:\n"
+                "https://github.com/PyThaiNLP/pythainlp-corpus/\n\n"
                 "--"
             ),
         )

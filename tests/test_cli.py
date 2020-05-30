@@ -24,7 +24,6 @@ class TestMainPackage(unittest.TestCase):
 
         self.assertIsNone(__main__.main(["thainlp", "data", "path"]))
 
-
     def test_cli_data(self):
         self.assertIsInstance(getattr(cli, "data"), ModuleType)
 

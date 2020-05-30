@@ -33,9 +33,6 @@ def main(argv=None):
     if hasattr(cli, args.command):
         command = getattr(cli, args.command)
         command.App(argv)
-    else:
-        print(f"Command not available: {args.command}")
-        print("Please run with --help for list of available commands.")
 
 
 if __name__ == "__main__":

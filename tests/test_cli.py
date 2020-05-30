@@ -14,12 +14,16 @@ class TestMainPackage(unittest.TestCase):
             __main__.main()
         self.assertEqual(ex.exception.code, 2)
 
-        self.assertIsNone(__main__.main(["thainlp", "data", "path"]))
+        with self.assertRaises((ArgumentError, SystemExit)):
+            self.assertIsNone(__main__.main(["thainlp"]))
 
         with self.assertRaises((ArgumentError, SystemExit)):
             self.assertIsNone(
                 __main__.main(["thainlp", "NOT_EXIST", "command"])
             )
+
+        self.assertIsNone(__main__.main(["thainlp", "data", "path"]))
+
 
     def test_cli_data(self):
         self.assertIsInstance(getattr(cli, "data"), ModuleType)

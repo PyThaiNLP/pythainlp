@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Corpus related functions.
+pythainlp.corpus
 """
 
 import hashlib

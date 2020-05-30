@@ -93,7 +93,7 @@ class TestMainPackage(unittest.TestCase):
 
         self.assertIsNotNone(
             cli.tokenize.App(
-                ["thainlp", "tokenize", "NOT_EXIST", "ไม่มีอยู่ จริง",]
+                ["thainlp", "tokenize", "NOT_EXIST", "ไม่มีอยู่ จริง"]
             )
         )
         self.assertIsNotNone(

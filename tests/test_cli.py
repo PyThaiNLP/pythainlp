@@ -16,7 +16,7 @@ class TestMainPackage(unittest.TestCase):
 
         self.assertIsNone(__main__.main(["thainlp", "data", "path"]))
 
-        with self.assertRaises(ArgumentError):
+        with self.assertRaises((ArgumentError, SystemExit)):
             self.assertIsNone(
                 __main__.main(["thainlp", "NOT_EXIST", "command"])
             )

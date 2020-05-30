@@ -2,6 +2,7 @@
 
 import os
 import unittest
+from types import ModuleType
 
 from pythainlp import __main__, cli
 
@@ -26,15 +27,15 @@ class TestMainPackage(unittest.TestCase):
         self.assertIsNotNone(__main__.main(["thainlp", "data", "path"]))
 
     def test_cli_data(self):
-        self.assertTrue(isinstance(getattr(cli, "data"), cli.data.App))
+        self.assertTrue(isinstance(getattr(cli, "data"), ModuleType))
         self.assertIsNotNone(cli.data.App(["thainlp", "data", "path"]))
 
     def test_cli_soundex(self):
-        self.assertTrue(isinstance(getattr(cli, "soundex"), cli.soundex.App))
+        self.assertTrue(isinstance(getattr(cli, "soundex"), ModuleType))
         self.assertIsNotNone(cli.soundex.App(["thainlp", "soundex", "ทดสอบ"]))
 
     def test_cli_tag(self):
-        self.assertTrue(isinstance(getattr(cli, "tag"), cli.tag.App))
+        self.assertTrue(isinstance(getattr(cli, "tag"), ModuleType))
         self.assertIsNotNone(
             cli.tag.App(
                 [
@@ -49,7 +50,7 @@ class TestMainPackage(unittest.TestCase):
         )
 
     def test_cli_tokenize(self):
-        self.assertTrue(isinstance(getattr(cli, "data"), cli.tokenize.App))
+        self.assertTrue(isinstance(getattr(cli, "data"), ModuleType))
         self.assertIsNotNone(
             cli.tokenize.App(
                 [

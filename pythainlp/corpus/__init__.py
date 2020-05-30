@@ -40,7 +40,7 @@ _CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
 _CORPUS_DB_URL = (
     "https://raw.githubusercontent.com/"
     "PyThaiNLP/pythainlp-corpus/"
-    "fix-thainer/db.json" #2.2
+    "fix-thainer/db.json"  # 2.2
 )
 
 # local corpus catalog filename

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Corpus related functions.
-pythainlp.corpus
+
+pythainlp.corpus.core
 """
 
 import hashlib
@@ -241,8 +242,14 @@ def download(name: str, force: bool = False, url: str = None) -> bool:
         # If not found in local, download
         if force or not found:
             print(f"- Downloading: {name} {corpus['version']}")
-            _download(corpus["release"][corpus['version']]["download"], corpus["file_name"])
-            _check_hash(corpus["file_name"], corpus["release"][corpus['version']]["md5"])
+            _download(
+                corpus["release"][corpus["version"]]["download"],
+                corpus["file_name"],
+            )
+            _check_hash(
+                corpus["file_name"],
+                corpus["release"][corpus["version"]]["md5"],
+            )
 
             if found:
                 local_db.update(

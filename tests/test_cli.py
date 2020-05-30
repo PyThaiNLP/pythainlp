@@ -12,18 +12,18 @@ class TestMainPackage(unittest.TestCase):
         with self.assertRaises(SystemExit) as ex:
             __main__.main()
         self.assertEqual(ex.exception.code, 2)
-        self.assertIsNotNone(__main__.main(["thainlp", "data", "path"]))
+        self.assertIsNone(__main__.main(["thainlp", "data", "path"]))
 
     def test_cli_data(self):
-        self.assertTrue(isinstance(getattr(cli, "data"), ModuleType))
+        self.assertIsInstance(getattr(cli, "data"), ModuleType)
         self.assertIsNotNone(cli.data.App(["thainlp", "data", "path"]))
 
     def test_cli_soundex(self):
-        self.assertTrue(isinstance(getattr(cli, "soundex"), ModuleType))
+        self.assertIsInstance(getattr(cli, "soundex"), ModuleType)
         self.assertIsNotNone(cli.soundex.App(["thainlp", "soundex", "ทดสอบ"]))
 
     def test_cli_tag(self):
-        self.assertTrue(isinstance(getattr(cli, "tag"), ModuleType))
+        self.assertIsInstance(getattr(cli, "tag"), ModuleType)
         self.assertIsNotNone(
             cli.tag.App(
                 [
@@ -38,7 +38,7 @@ class TestMainPackage(unittest.TestCase):
         )
 
     def test_cli_tokenize(self):
-        self.assertTrue(isinstance(getattr(cli, "data"), ModuleType))
+        self.assertIsInstance(getattr(cli, "data"), ModuleType)
         self.assertIsNotNone(
             cli.tokenize.App(
                 [

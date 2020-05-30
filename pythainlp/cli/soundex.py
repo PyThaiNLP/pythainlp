@@ -14,6 +14,18 @@ class App:
         parser = argparse.ArgumentParser(
             prog="soundex",
             description="Convert a text to its sound-based index.",
+            usage=(
+                "thainlp soundex [-a algorithm] <text>\n\n"
+                "algorithms:\n\n"
+                "udom83\n"
+                "lk82\n"
+                "metasound\n\n"
+                f"Default soundex algorithm is {DEFAULT_SOUNDEX_ENGINE}.\n\n"
+                "<text> should be inside double quotes.\n\n"
+                "Example:\n\n"
+                'thainlp soundex -a lk82 "มอเตอร์ไซค์"\n\n'
+                "--"
+            ),
         )
         parser.add_argument(
             "-a",

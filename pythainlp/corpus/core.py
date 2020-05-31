@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Corpus related functions.
-
-pythainlp.corpus.core
 """
 
 import hashlib
@@ -236,7 +234,7 @@ def download(name: str, force: bool = False, url: str = None, version: str = Non
         local_db = TinyDB(corpus_db_path())
         query = Query()
 
-        corpus = corpus_db[name]
+        corpus = corpus_db[name.lower()]
         print("Corpus:", name)
         if version == None:
             version = corpus['latest_version']

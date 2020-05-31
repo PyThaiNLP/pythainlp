@@ -238,19 +238,20 @@ def download(name: str, force: bool = False, url: str = None, version: str = Non
         print("Corpus:", name)
         if version == None:
             version = corpus['latest_version']
-        file_name = corpus["release"][version]["file_name"]
+        corpus_versions = corpus["versions"][version]
+        file_name = corpus_versions["filename"]
         found = local_db.search((query.name == name) & (query.version == version))
 
         # If not found in local, download
         if force or not found:
             print(f"- Downloading: {name} {version}")
             _download(
-                corpus["release"][version]["download"],
+                corpus_versions["download_url"],
                 file_name,
             )
             _check_hash(
                 file_name,
-                corpus["release"][version]["md5"],
+                corpus_versions["md5"],
             )
 
             if found:

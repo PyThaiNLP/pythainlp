@@ -10,7 +10,26 @@ from pythainlp.tools import get_pythainlp_data_path
 class App:
     def __init__(self, argv):
         parser = argparse.ArgumentParser(
-            prog="data", usage="thainlp data <subcommand>",
+            prog="data",
+            description="Manage dataset/corpus.",
+            usage=(
+                "thainlp data <subcommand>\n\n"
+                "subcommands:\n\n"
+                "catalog                show list of available datasets\n"
+                "info <dataset_name>    show information about the dataset\n"
+                "get <dataset_name>     download the dataset\n"
+                "rm <dataset_name>      remove the dataset\n"
+                "path                   show full path to data directory\n\n"
+                "Example:\n\n"
+                "thainlp data get thai2fit_wv\n\n"
+                "Current data path:\n\n"
+                f"{get_pythainlp_data_path()}\n\n"
+                "To change PyThaiNLP data path, set the operating system's\n"
+                "PYTHAINLP_DATA_DIR environment variable.\n\n"
+                "For more information about corpora that PyThaiNLP use, see:\n"
+                "https://github.com/PyThaiNLP/pythainlp-corpus/\n\n"
+                "--"
+            ),
         )
         parser.add_argument(
             "subcommand",
@@ -78,8 +97,10 @@ class App:
             else:
                 print()
 
-        print("\nUse subcommand 'get' to download dataset.")
-        print("Example: thainlp data get crfcut")
+        print(
+            "\nUse subcommand 'get' to download a dataset.\n\n"
+            "Example: thainlp data get crfcut\n"
+        )
 
     def path(self, argv):
         """Print path for local dataset."""

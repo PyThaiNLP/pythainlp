@@ -1,5 +1,8 @@
 # Corpus License
 
+For more information about corpora that PyThaiNLP use,
+see [https://github.com/PyThaiNLP/pythainlp-corpus/](https://github.com/PyThaiNLP/pythainlp-corpus/).
+
 ## tha-wn.db
 
 ```

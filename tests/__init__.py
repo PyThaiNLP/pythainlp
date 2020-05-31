@@ -3,7 +3,6 @@
 Unit test.
 
 Each file in tests/ is for each main package.
-#TODO Test for CLI
 """
 import sys
 import unittest

@@ -27,15 +27,15 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsNotNone(conceptnet.edges("รัก"))
 
     def test_corpus(self):
-        self.assertTrue(isinstance(thai_negations(), frozenset))
-        self.assertTrue(isinstance(thai_stopwords(), frozenset))
-        self.assertTrue(isinstance(thai_syllables(), frozenset))
-        self.assertTrue(isinstance(thai_words(), frozenset))
+        self.assertIsInstance(thai_negations(), frozenset)
+        self.assertIsInstance(thai_stopwords(), frozenset)
+        self.assertIsInstance(thai_syllables(), frozenset)
+        self.assertIsInstance(thai_words(), frozenset)
 
-        self.assertTrue(isinstance(countries(), frozenset))
-        self.assertTrue(isinstance(provinces(), frozenset))
-        self.assertTrue(isinstance(thai_female_names(), frozenset))
-        self.assertTrue(isinstance(thai_male_names(), frozenset))
+        self.assertIsInstance(countries(), frozenset)
+        self.assertIsInstance(provinces(), frozenset)
+        self.assertIsInstance(thai_female_names(), frozenset)
+        self.assertIsInstance(thai_male_names(), frozenset)
 
         self.assertEqual(
             get_corpus_db_detail("XXX"), {}
@@ -62,8 +62,8 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsNotNone(ttc.word_freqs())
 
     def test_wordnet(self):
-        self.assertTrue(isinstance(wordnet.langs(), list))
-        self.assertTrue("tha" in wordnet.langs())
+        self.assertIsInstance(wordnet.langs(), list)
+        self.assertIn("tha", wordnet.langs())
 
         self.assertEqual(
             wordnet.synset("spy.n.01").lemma_names("tha"), ["สปาย", "สายลับ"]

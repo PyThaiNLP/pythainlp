@@ -5,15 +5,21 @@ import sys
 from pythainlp import cli
 
 
-def main(args=None):
+def main(argv=None):
     """ThaiNLP command line."""
-    if args is None:
-        args = sys.argv[1:]
+    if not argv:
+        argv = sys.argv
 
     parser = argparse.ArgumentParser(
-        "thainlp", usage="thainlp <command> [options]"
+        prog="thainlp",
+        description="Thai natural language processing.",
+        usage=(
+            "thainlp <command> [options]\n\n"
+            "Example:\n\n"
+            "thainlp data catalog\n\n"
+            "--"
+        ),
     )
-
     parser.add_argument(
         "command",
         type=str,
@@ -21,17 +27,13 @@ def main(args=None):
         help="text processing action",
     )
 
-    args = parser.parse_args(sys.argv[1:2])
-
+    args = parser.parse_args(argv[1:2])
     cli.exit_if_empty(args.command, parser)
 
     if hasattr(cli, args.command):
         command = getattr(cli, args.command)
-        command.App(sys.argv)
-    else:
-        print(f"Command not available: {args.command}")
-        print("Please run with --help for alternatives")
+        command.App(argv)
 
 
 if __name__ == "__main__":
-    main()
+    main(argv=sys.argv)

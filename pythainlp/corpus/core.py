@@ -238,39 +238,38 @@ def download(name: str, force: bool = False, url: str = None, version: str = Non
 
         corpus = corpus_db[name]
         print("Corpus:", name)
-        if version != None:
-            found = local_db.search((query.name == name) & (query.version == version))
-            corpus['version'] = version
-        else:
-            found = local_db.search(query.name == name)
+        if version == None:
+            version = corpus['latest_version']
+        file_name = corpus["release"][version]["file_name"]
+        found = local_db.search((query.name == name) & (query.version == version))
 
         # If not found in local, download
         if force or not found:
-            print(f"- Downloading: {name} {corpus['version']}")
+            print(f"- Downloading: {name} {version}")
             _download(
-                corpus["release"][corpus["version"]]["download"],
-                corpus["file_name"],
+                corpus["release"][version]["download"],
+                file_name,
             )
             _check_hash(
-                corpus["file_name"],
-                corpus["release"][corpus["version"]]["md5"],
+                file_name,
+                corpus["release"][version]["md5"],
             )
 
             if found:
                 local_db.update(
-                    {"version": corpus["version"]}, query.name == name
+                    {"version": version}, query.name == name
                 )
             else:
                 local_db.insert(
                     {
                         "name": name,
-                        "version": corpus["version"],
-                        "file_name": corpus["file_name"],
+                        "version": version,
+                        "file_name": file_name,
                     }
                 )
         else:
             if local_db.search(
-                query.name == name and query.version == corpus["version"]
+                query.name == name and query.version == version
             ):
                 # Already has the same version
                 print("- Already up to date.")
@@ -278,7 +277,7 @@ def download(name: str, force: bool = False, url: str = None, version: str = Non
                 # Has the corpus but different version
                 current_ver = local_db.search(query.name == name)[0]["version"]
                 print(f"- Existing version: {current_ver}")
-                print(f"- New version available: {corpus['version']}")
+                print(f"- New version available: {version}")
                 print("- Use download(data_name, force=True) to update")
 
         local_db.close()

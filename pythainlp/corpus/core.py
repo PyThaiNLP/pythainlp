@@ -236,7 +236,7 @@ def download(name: str, force: bool = False, url: str = None, version: str = Non
 
         corpus = corpus_db[name.lower()]
         print("Corpus:", name)
-        if version == None:
+        if version is None:
             version = corpus['latest_version']
         corpus_versions = corpus["versions"][version]
         file_name = corpus_versions["filename"]

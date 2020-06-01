@@ -13,7 +13,7 @@ from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import isthai
 
-_CORPUS_NAME = "thainer-1-4"
+_CORPUS_NAME = "thainer"
 _TOKENIZER_ENGINE = "newmm"  # should be the same as one used in training data
 
 

@@ -90,7 +90,7 @@ class App:
         corpus_names = sorted(corpus_db.keys())
         print("Dataset/corpus available for download:")
         for name in corpus_names:
-            print(f"- {name} {corpus_db[name]['version']}", end="")
+            print(f"- {name} {corpus_db[name]['latest_version']}", end="")
             corpus_info = corpus.get_corpus_db_detail(name)
             if corpus_info:
                 print(f"  (Local: {corpus_info['version']})")

@@ -19,6 +19,9 @@ Quality
 
    Qualitative evaluation of word tokenization.
 
+   **Disclaimer**: our current methodology is based on a unpublished work; hence,
+   it is not peer-reviewed, nor standard.
+
 .. autofunction:: pythainlp.benchmarks.word_tokenization.compute_stats
 .. autofunction:: pythainlp.benchmarks.word_tokenization.benchmark
 .. autofunction:: pythainlp.benchmarks.word_tokenization.preprocessing

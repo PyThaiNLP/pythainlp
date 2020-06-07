@@ -10,6 +10,7 @@ import yaml
 from pythainlp import cli
 from pythainlp.benchmarks import word_tokenization
 
+
 def _read_file(path):
     with open(path, "r", encoding="utf-8") as f:
         lines = map(lambda r: r.strip(), f.readlines())
@@ -20,7 +21,10 @@ class App:
     def __init__(self, argv):
         parser = argparse.ArgumentParser(
             prog="benchmark",
-            description="Benchmark for various tasks; currently, we have only for word tokenization.",
+            description=(
+                "Benchmark for various tasks;"
+                "currently, we have only for word tokenization."
+            ),
             usage=(
                 "thainlp benchmark [task] [task-options]\n\n"
                 "tasks:\n\n"
@@ -40,6 +44,7 @@ class App:
         task_argv = argv[3:]
         if task == "word-tokenization":
             WordTokenizationBenchmark(task, task_argv)
+
 
 class WordTokenizationBenchmark:
     def __init__(self, name, argv):
@@ -61,7 +66,10 @@ class WordTokenizationBenchmark:
             "--save-details",
             default=False,
             action="store_true",
-            help="Save comparison details to files (eval-XXX.json and eval-details-XXX.json)",
+            help=(
+                "Save comparison details to files (eval-XXX.json"
+                " and eval-details-XXX.json)"
+            )
         )
 
         args = parser.parse_args(argv)
@@ -69,9 +77,9 @@ class WordTokenizationBenchmark:
         actual = _read_file(args.input_file)
         expected = _read_file(args.test_file)
 
-        assert len(actual) == len(
-            expected
-        ), "Input and test files do not have the same number of samples"
+        assert len(actual) == len(expected), \
+            "Input and test files do not have the same number of samples"
+
         print(
             "Benchmarking %s against %s with %d samples in total"
             % (args.input_file, args.test_file, len(actual))
@@ -102,10 +110,12 @@ class WordTokenizationBenchmark:
             statistics["char_level:tp"] + statistics["char_level:fn"]
         )
 
-        statistics["word_level:precision"] = statistics["word_level:correctly_tokenised_words"] \
+        statistics["word_level:precision"] = \
+            statistics["word_level:correctly_tokenised_words"] \
             / statistics["word_level:total_words_in_sample"]
 
-        statistics["word_level:recall"] = statistics["word_level:correctly_tokenised_words"] \
+        statistics["word_level:recall"] = \
+            statistics["word_level:correctly_tokenised_words"] \
             / statistics["word_level:total_words_in_ref_sample"]
 
         print("============== Benchmark Result ==============")
@@ -115,7 +125,13 @@ class WordTokenizationBenchmark:
             v = statistics[c]
             print(f"{c:>40s} {v:.4f}")
 
-        for c in ["total_words_in_sample", "total_words_in_ref_sample", "correctly_tokenised_words", "precision", "recall"]:
+        for c in [
+                    "total_words_in_sample",
+                    "total_words_in_ref_sample",
+                    "correctly_tokenised_words",
+                    "precision",
+                    "recall"
+                 ]:
             c = f"word_level:{c}"
             v = statistics[c]
             print(f"{c:>40s} {v:.4f}")
@@ -140,7 +156,13 @@ class WordTokenizationBenchmark:
                     del r["expected"]
                     del r["actual"]
 
-                    samples.append(dict(metrics=r, expected=expected, actual=actual, id=i))
+                    samples.append(
+                        dict(
+                            metrics=r,
+                            expected=expected,
+                            actual=actual, id=i
+                        )
+                    )
 
                 details = dict(metrics=statistics, samples=samples)
 

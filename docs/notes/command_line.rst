@@ -73,6 +73,27 @@ You can use some thainlp functions directly from command line.
 
     $ thainlp data --help
 
+**Benchmark**::
+
+    thainlp  benchmark word-tokenization --input-file <source> --test-file <label> [--save-details]
+
+*Example*::
+
+    $thainlp  benchmark word-tokenization --input-file wisesight-1000-deepcut.txt --test-file wisesight-1000.label
+    Benchmarking wisesight-1000-deepcut.txt against .wisesight-1000.label with 993 samples in total
+    ============== Benchmark Result ==============
+                           char_level:tp 17654.0000
+                           char_level:fn 1153.0000
+                           char_level:tn 50755.0000
+                           char_level:fp 1478.0000
+                    char_level:precision 0.9227
+                       char_level:recall 0.9387
+        word_level:total_words_in_sample 19132.0000
+    word_level:total_words_in_ref_sample 18807.0000
+    word_level:correctly_tokenised_words 15637.0000
+                    word_level:precision 0.8173
+                       word_level:recall 0.8314
+
 **Help**::
 
     thainlp --help

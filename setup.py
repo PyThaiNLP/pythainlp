@@ -55,6 +55,7 @@ extras = {
     "thai2rom": ["torch>=1.0.0", "numpy>=1.16.1"],
     "wordnet": ["nltk>=3.3.*"],
     "full": [
+        "PyYAML>=5.3.1",
         "attacut>=1.0.4",
         "emoji>=0.5.1",
         "epitran>=1.1",
@@ -129,9 +130,6 @@ setup(
         "Topic :: Text Processing",
         "Topic :: Text Processing :: General",
         "Topic :: Text Processing :: Linguistic",
-    ],
-    scripts=[
-        "bin/word-tokenization-benchmark",
     ],
     entry_points={
         "console_scripts": [

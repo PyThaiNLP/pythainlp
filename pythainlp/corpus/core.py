@@ -189,7 +189,7 @@ def _check_hash(dst: str, md5: str) -> None:
                 raise Exception("Hash does not match expected.")
 
 
-def download(name: str, force: bool = False, url: str = None) -> bool:
+def download(name: str, force: bool = False, url: str = None, version: str = None) -> bool:
     """
     Download corpus.
 
@@ -199,6 +199,7 @@ def download(name: str, force: bool = False, url: str = None) -> bool:
     :param str name: corpus name
     :param bool force: force download
     :param str url: URL of the corpus catalog
+    :param str version: Version of the corpus
     :return: **True** if the corpus is found and succesfully downloaded.
              Otherwise, it returns **False**.
     :rtype: bool
@@ -233,31 +234,41 @@ def download(name: str, force: bool = False, url: str = None) -> bool:
         local_db = TinyDB(corpus_db_path())
         query = Query()
 
-        corpus = corpus_db[name]
+        corpus = corpus_db[name.lower()]
         print("Corpus:", name)
-        found = local_db.search(query.name == name)
+        if version is None:
+            version = corpus['latest_version']
+        corpus_versions = corpus["versions"][version]
+        file_name = corpus_versions["filename"]
+        found = local_db.search((query.name == name) & (query.version == version))
 
         # If not found in local, download
         if force or not found:
-            print(f"- Downloading: {name} {corpus['version']}")
-            _download(corpus["download"], corpus["file_name"])
-            _check_hash(corpus["file_name"], corpus["md5"])
+            print(f"- Downloading: {name} {version}")
+            _download(
+                corpus_versions["download_url"],
+                file_name,
+            )
+            _check_hash(
+                file_name,
+                corpus_versions["md5"],
+            )
 
             if found:
                 local_db.update(
-                    {"version": corpus["version"]}, query.name == name
+                    {"version": version}, query.name == name
                 )
             else:
                 local_db.insert(
                     {
                         "name": name,
-                        "version": corpus["version"],
-                        "file_name": corpus["file_name"],
+                        "version": version,
+                        "file_name": file_name,
                     }
                 )
         else:
             if local_db.search(
-                query.name == name and query.version == corpus["version"]
+                query.name == name and query.version == version
             ):
                 # Already has the same version
                 print("- Already up to date.")
@@ -265,7 +276,7 @@ def download(name: str, force: bool = False, url: str = None) -> bool:
                 # Has the corpus but different version
                 current_ver = local_db.search(query.name == name)[0]["version"]
                 print(f"- Existing version: {current_ver}")
-                print(f"- New version available: {corpus['version']}")
+                print(f"- New version available: {version}")
                 print("- Use download(data_name, force=True) to update")
 
         local_db.close()

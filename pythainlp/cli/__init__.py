@@ -2,10 +2,10 @@
 import sys
 from argparse import ArgumentParser
 
-from pythainlp.cli import data, soundex, tag, tokenize
+from pythainlp.cli import data, soundex, tag, tokenize, benchmark
 
 # a command should be a verb when possible
-COMMANDS = sorted(["data", "soundex", "tag", "tokenize"])
+COMMANDS = sorted(["data", "soundex", "tag", "tokenize", "benchmark"])
 
 CLI_NAME = "thainlp"
 

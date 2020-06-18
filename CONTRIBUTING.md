@@ -83,7 +83,7 @@ Make sure the same tests pass on Travis CI and AppVeyor.
 
 ## Releasing
 - We use [semantic versioning](https://semver.org/): MAJOR.MINOR.PATCH, with development build suffix: MAJOR.MINOR.PATCH-devBUILD
-- Use [`bumpversion`](https://pypi.org/project/bumpversion/) to manage versioning.
+- Use [`bumpversion`](https://github.com/c4urself/bump2version/#installation) to manage versioning.
   - `bumpversion [major|minor|patch|release|build]`
   - Example:
   ```

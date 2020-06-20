@@ -297,7 +297,7 @@ def thai_strftime(
     :Example:
     ::
 
-        frome datetime import datetime
+        from datetime import datetime
         from pythainlp.util import thai_strftime
 
         datetime_obj = datetime(year=2019, month=6, day=9, \\

@@ -18,6 +18,8 @@ _FILENAME = "ttc_freq.txt"
 def word_freqs() -> List[Tuple[str, int]]:
     """
     Get word frequency from Thai Textbook Corpus (TTC)
+    \n(See: `dev/pythainlp/corpus/ttc_freq.txt\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/ttc_freq.txt>`_)
     """
     lines = list(get_corpus(_FILENAME))
     word_freqs = []

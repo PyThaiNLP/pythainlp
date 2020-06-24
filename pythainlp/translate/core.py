@@ -11,8 +11,8 @@ import tarfile
 from pythainlp.tools import get_pythainlp_data_path, get_full_data_path
 import os
 
-en_word_tokenize = MosesTokenizer('en')
-en_word_detokenize = MosesDetokenizer('en')
+en_word_tokenize = MosesTokenizer("en")
+en_word_detokenize = MosesDetokenizer("en")
 th_word_tokenize = partial(th_word_tokenize, keep_whitespace=False)
 model = None
 model_name = ""
@@ -64,9 +64,9 @@ def load_th2en_word2word():
     global model, model_name
     if model_name != "th2en_word2word":
         model = TransformerModel.from_pretrained(
-            model_name_or_path=get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'models'),
-            checkpoint_file='checkpoint.pt',
-            data_name_or_path=get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'vocab')
+            model_name_or_path=get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", "models"),
+            checkpoint_file="checkpoint.pt",
+            data_name_or_path=get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", "vocab")
         )
         model_name = "th2en_word2word"
 
@@ -75,11 +75,11 @@ def load_th2en_bpe2bpe():
     global model, model_name
     if model_name != "th2en_bpe2bpe":
         model = TransformerModel.from_pretrained(
-            model_name_or_path=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'models'),
-            checkpoint_file='checkpoint.pt',
-            data_name_or_path=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'vocab'),
-            bpe='sentencepiece',
-            sentencepiece_vocab=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'bpe','spm.th.model')
+            model_name_or_path=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", "models"),
+            checkpoint_file="checkpoint.pt",
+            data_name_or_path=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", "vocab"),
+            bpe="sentencepiece",
+            sentencepiece_vocab=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", "bpe", "spm.th.model")
             )
         model_name = "th2en_bpe2bpe"
 
@@ -88,9 +88,9 @@ def load_en2th_word2bpe():
     global model, model_name
     if model_name != "en2th_word2bpe":
         model = TransformerModel.from_pretrained(
-            model_name_or_path=get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'models'),
-            checkpoint_file='checkpoint.pt',
-            data_name_or_path=get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'vocab')
+            model_name_or_path=get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", "models"),
+            checkpoint_file="checkpoint.pt",
+            data_name_or_path=get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", "vocab")
         )
         model_name = "en2th_word2bpe"
 

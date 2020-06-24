@@ -53,6 +53,7 @@ extras = {
     "ssg": ["ssg>=0.0.6"],
     "thai2fit": ["emoji>=0.5.1", "gensim>=3.2.0", "numpy>=1.16.1"],
     "thai2rom": ["torch>=1.0.0", "numpy>=1.16.1"],
+    "translate": ["sacremoses", "fairseq", "sentencepiece", "torch>=1.0.0"],
     "wordnet": ["nltk>=3.3.*"],
     "full": [
         "PyYAML>=5.3.1",

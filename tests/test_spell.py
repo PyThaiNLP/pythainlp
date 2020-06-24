@@ -58,7 +58,7 @@ class TestSpellPackage(unittest.TestCase):
             "การศึกษา",
         ]
         checker = NorvigSpellChecker(custom_dict=user_dict)
-        self.assertEqual(len(checker.dictionary()), 6)
+        self.assertEqual(len(checker.dictionary()), len(user_dict))
 
         user_dict = {
             "พหลโยธิน": 1,
@@ -70,7 +70,9 @@ class TestSpellPackage(unittest.TestCase):
             "สิงหเสนี": 7,
         }
         checker = NorvigSpellChecker(custom_dict=user_dict)
-        self.assertEqual(len(checker.dictionary()), 7)
+        # "พหลโยธิน" will be removed,
+        # as it has frequency less than default min_freq (2)
+        self.assertEqual(len(checker.dictionary()), len(user_dict) - 1)
 
         user_dict = [24, 6, 2475]
         with self.assertRaises(TypeError):

@@ -21,7 +21,7 @@ def get_path(model,path1,path2,file=None):
     if file != None:
         return os.path.join(path,file)
     return os.path.join(path, "")
-def download():
+def download_model():
     print("Download model ...")
     if get_corpus_path("scb_1m_th-en_newmm") == None:
         download("scb_1m_th-en_newmm",force=True,version="1.0")
@@ -51,7 +51,7 @@ def download():
         os.mkdir(get_full_data_path("scb_1m_en-th_moses"))
         with tarfile.open(get_corpus_path("scb_1m_en-th_moses")) as tar:
             tar.extractall(path=get_full_data_path("scb_1m_en-th_moses"))
-download()
+download_model()
 th2en_word2word = TransformerModel.from_pretrained(
     model_name_or_path=get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'models'),
     checkpoint_file='checkpoint.pt',

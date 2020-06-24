@@ -43,15 +43,15 @@ def download_model():
         tar.extractall()
         tar.close()
     print("Install model...")
-    if os.path.isdir(get_full_data_path("scb_1m_th-en_newmm")) is False:
+    if not os.path.exists(get_full_data_path("scb_1m_th-en_newmm")):
         os.mkdir(get_full_data_path("scb_1m_th-en_newmm"))
         with tarfile.open(get_corpus_path("scb_1m_th-en_newmm")) as tar:
             tar.extractall(path=get_full_data_path("scb_1m_th-en_newmm"))
-    if os.path.isdir(get_full_data_path("scb_1m_th-en_spm")) is False:
+    if not os.path.exists(get_full_data_path("scb_1m_th-en_spm")):
         os.mkdir(get_full_data_path("scb_1m_th-en_spm"))
         with tarfile.open(get_corpus_path("scb_1m_th-en_spm")) as tar:
             tar.extractall(path=get_full_data_path("scb_1m_th-en_spm"))
-    if os.path.isdir(get_full_data_path("scb_1m_en-th_moses")) is False:
+    if not os.path.exists(get_full_data_path("scb_1m_en-th_moses")):
         os.mkdir(get_full_data_path("scb_1m_en-th_moses"))
         with tarfile.open(get_corpus_path("scb_1m_en-th_moses")) as tar:
             tar.extractall(path=get_full_data_path("scb_1m_en-th_moses"))

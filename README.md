@@ -28,7 +28,7 @@ Using PyThaiNLP:
 - More tutorials at [https://www.thainlp.org/pythainlp/tutorials/](https://www.thainlp.org/pythainlp/tutorials/)
 - See full documentation at [https://thainlp.org/pythainlp/docs/2.2/](https://thainlp.org/pythainlp/docs/2.2/)
 - Some additional data (like word lists and language models) may get automatically download during runtime and it will be kept under the directory `~/pythainlp-data` by default. See corpus catalog at [https://github.com/PyThaiNLP/pythainlp-corpus](https://github.com/PyThaiNLP/pythainlp-corpus).
-  - The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variable.
+- The data location can be changed, using `PYTHAINLP_DATA_DIR` environment variable.
 - For PyThaiNLP tokenization performance and measurement methods, see [tokenization benchmark](tokenization-benchmark.md)
 - 📫 follow our [PyThaiNLP](https://www.facebook.com/pythainlp/) Facebook page
 

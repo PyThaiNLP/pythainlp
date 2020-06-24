@@ -35,7 +35,7 @@ class TestSpellPackage(unittest.TestCase):
         self.assertTrue(len(checker.dictionary()) > 0)
         self.assertGreaterEqual(checker.prob("มี"), 0)
 
-        custom_dict = [
+        user_dict = [
             ("การงาน", 31),  # longer than max_len
             ("กาม", 1),  # fewer than min_freq
             ("กาล0", 64),  # has digit
@@ -45,6 +45,29 @@ class TestSpellPackage(unittest.TestCase):
             ("การ", 42),  # OK
         ]
         checker = NorvigSpellChecker(
-            custom_dict=custom_dict, min_freq=2, max_len=5
+            custom_dict=user_dict, min_freq=2, max_len=5
         )
         self.assertEqual(len(checker.dictionary()), 1)
+
+        user_dict = [
+            "เอกราช",
+            "ปลอดภัย",
+            "เศรษฐกิจ",
+            "เสมอภาค",
+            "เสรีภาพ",
+            "การศึกษา",
+        ]
+        checker = NorvigSpellChecker(custom_dict=user_dict)
+        self.assertEqual(len(checker.dictionary()), 6)
+
+        user_dict = {
+            "พหลโยธิน": 1,
+            "ขีตตะสังคะ": 2,
+            "พนมยงค์": 3,
+            "ภมรมนตรี": 4,
+            "มิตรภักดี": 5,
+            "ลพานุกรม": 6,
+            "สิงหเสนี": 7,
+        }
+        checker = NorvigSpellChecker(custom_dict=user_dict)
+        self.assertEqual(len(checker.dictionary()), 7)

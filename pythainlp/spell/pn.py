@@ -80,6 +80,47 @@ def _edits2(word: str) -> Set[str]:
     return set(e2 for e1 in _edits1(word) for e2 in _edits1(e1))
 
 
+def _convert_custom_dict(
+    custom_dict: Union[
+        Dict[str, int], Iterable[str], Iterable[Tuple[str, int]]
+    ],
+    min_freq: int,
+    min_len: int,
+    max_len: int,
+    dict_filter: Optional[Callable[[str], bool]],
+) -> List[Tuple[str, int]]:
+    """
+    Converts a custom dictionary to a list of (str, int) tuples
+    """
+    if isinstance(custom_dict, dict):
+        custom_dict = [(word, freq) for word, freq in custom_dict.items()]
+
+    i = iter(custom_dict)
+    first_member = next(i)
+    if isinstance(first_member, str):
+        # create tuples of a word with frequency equal to 1,
+        # and filter word list
+        custom_dict = [
+            (word, 1)
+            for word in custom_dict
+            if _keep((word, 1), 1, min_len, max_len, dict_filter)
+        ]
+    elif isinstance(first_member, tuple):
+        # filter word list
+        custom_dict = [
+            word_freq
+            for word_freq in custom_dict
+            if _keep(word_freq, min_freq, min_len, max_len, dict_filter)
+        ]
+    else:
+        raise TypeError(
+            "custom_dict must be either Dict[str, int], "
+            "Iterable[Tuple[str, int]], or Iterable[str]"
+        )
+
+    return custom_dict
+
+
 class NorvigSpellChecker:
     def __init__(
         self,
@@ -130,31 +171,9 @@ class NorvigSpellChecker:
         if not dict_filter:
             dict_filter = _no_filter
 
-        if isinstance(custom_dict, dict):
-            custom_dict = [(word, freq) for word, freq in custom_dict.items()]
-
-        i = iter(custom_dict)
-        first_member = next(i)
-        if isinstance(first_member, str):
-            # create tuples of a word with frequency equal to 1,
-            # and filter word list
-            custom_dict = [
-                (word, 1)
-                for word in custom_dict
-                if _keep((word, 1), 1, min_len, max_len, dict_filter)
-            ]
-        elif isinstance(first_member, tuple):
-            # filter word list
-            custom_dict = [
-                word_freq
-                for word_freq in custom_dict
-                if _keep(word_freq, min_freq, min_len, max_len, dict_filter)
-            ]
-        else:
-            raise TypeError(
-                "custom_dict must be either Dict[str, int], "
-                "Iterable[Tuple[str, int]], or Iterable[str]"
-            )
+        custom_dict = _convert_custom_dict(
+            custom_dict, min_freq, min_len, max_len, dict_filter
+        )
 
         self.__WORDS = Counter(dict(custom_dict))
         self.__WORDS += Counter()  # remove zero and negative counts

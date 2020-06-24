@@ -4,7 +4,7 @@ Translate.
 """
 
 __all__ = [
-    "Translate",
+    "translate",
 ]
 
-from pythainlp.translate.core import Translate
+from pythainlp.translate.core import translate

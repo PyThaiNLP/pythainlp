@@ -52,37 +52,35 @@ def download_model():
         with tarfile.open(get_corpus_path("scb_1m_en-th_moses")) as tar:
             tar.extractall(path=get_full_data_path("scb_1m_en-th_moses"))
 download_model()
-th2en_word2word = TransformerModel.from_pretrained(
-    model_name_or_path=get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'models'),
-    checkpoint_file='checkpoint.pt',
-    data_name_or_path=get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'vocab')
-)
-th2en_bpe2bpe = TransformerModel.from_pretrained(
-    model_name_or_path=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'models'),
-    checkpoint_file='checkpoint.pt',
-    data_name_or_path=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'vocab'),
-    bpe='sentencepiece',
-    sentencepiece_vocab=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'bpe','spm.th.model')
-)
-en2th_word2bpe = TransformerModel.from_pretrained(
-    model_name_or_path=get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'models'),
-    checkpoint_file='checkpoint.pt',
-    data_name_or_path=get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'vocab')
-)
+
 def load_th2en_word2word():
-    global model,model_name,th2en_word2word
+    global model,model_name
     if model_name != "th2en_word2word":
-        model = th2en_word2word
+        model = TransformerModel.from_pretrained(
+            model_name_or_path=get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'models'),
+            checkpoint_file='checkpoint.pt',
+            data_name_or_path=get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'vocab')
+        )
         model_name = "th2en_word2word"
 def load_th2en_bpe2bpe():
-    global model,model_name,th2en_bpe2bpe
+    global model,model_name
     if model_name != "th2en_bpe2bpe":
-        model = th2en_bpe2bpe
+        model = TransformerModel.from_pretrained(
+            model_name_or_path=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'models'),
+            checkpoint_file='checkpoint.pt',
+            data_name_or_path=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'vocab'),
+            bpe='sentencepiece',
+            sentencepiece_vocab=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'bpe','spm.th.model')
+            )
         model_name = "th2en_bpe2bpe"
 def load_en2th_word2bpe():
-    global model,model_name,en2th_word2bpe
+    global model,model_name
     if model_name != "en2th_word2bpe":
-        model = en2th_word2bpe
+        model = TransformerModel.from_pretrained(
+            model_name_or_path=get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'models'),
+            checkpoint_file='checkpoint.pt',
+            data_name_or_path=get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'vocab')
+        )
         model_name = "en2th_word2bpe"
 def translate(input_sentence, source = "en", target = "tha", tokenizer = "bpe"):
     """

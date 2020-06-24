@@ -61,7 +61,7 @@ class Translate:
                 checkpoint_file='checkpoint.pt',
                 data_name_or_path=self.get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'vocab')
             )
-        self.model_name = "th2en_word2word"
+            self.model_name = "th2en_word2word"
     def load_th2en_bpe2bpe(self):
         if self.model_name != "th2en_bpe2bpe":
             self.model = TransformerModel.from_pretrained(
@@ -71,7 +71,7 @@ class Translate:
                 bpe='sentencepiece',
                 sentencepiece_vocab=self.get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'bpe','spm.th.model')
             )
-        self.model_name = "th2en_bpe2bpe"
+            self.model_name = "th2en_bpe2bpe"
     def load_en2th_word2bpe(self):
         if self.model_name != "en2th_word2bpe":
             self.model = TransformerModel.from_pretrained(
@@ -79,11 +79,11 @@ class Translate:
                 checkpoint_file='checkpoint.pt',
                 data_name_or_path=self.get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'vocab')
             )
-        self.model_name = "en2th_word2bpe"
-    def translate(self, input_sentence, soure = "en", target = "tha", tokenizer = "bpe"):
+            self.model_name = "en2th_word2bpe"
+    def translate(self, input_sentence, source = "en", target = "tha", tokenizer = "bpe"):
         """
         :param str input_sentence: input sentence
-        :param str soure: soure language (en, tha)
+        :param str source: source language (en, tha)
         :param str tokenizer: tokenizer (word,bpe)
         :param str target: target language (en, tha)
 
@@ -91,7 +91,7 @@ class Translate:
         :rtype: str
         """
         self.hypothesis = None
-        if soure == "tha" and target == "en":
+        if source == "tha" and target == "en":
             if tokenizer == "word":
                 self.load_th2en_word2word()
                 tokenized_sentence = ' '.join(self.th_word_tokenize(input_sentence))
@@ -100,7 +100,7 @@ class Translate:
             else:
                 self.load_th2en_bpe2bpe()
                 self.hypothesis = self.model.translate(input_sentence, beam=24)
-        elif soure == "en" and target == "tha" and tokenizer == "bpe":
+        elif source == "en" and target == "tha" and tokenizer == "bpe":
             self.load_en2th_word2bpe()
             tokenized_sentence = ' '.join(self.en_word_tokenize.tokenize(input_sentence))
             self.hypothesis = self.model.translate(tokenized_sentence)

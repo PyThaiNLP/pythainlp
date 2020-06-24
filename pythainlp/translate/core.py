@@ -19,6 +19,7 @@ class Translate:
         self.model = None
         self.model_name = ""
         self.download()
+        self.load_model()
     def get_path(self,model,path1,path2,file=None):
         self.path = os.path.join(os.path.join(os.path.join(get_pythainlp_data_path(), model),path1),path2)
         if file != None:
@@ -54,31 +55,36 @@ class Translate:
             os.mkdir(get_full_data_path("scb_1m_en-th_moses"))
             with tarfile.open(get_corpus_path("scb_1m_en-th_moses")) as tar:
                 tar.extractall(path=get_full_data_path("scb_1m_en-th_moses"))
+    def load_model(self):
+        print("Load Model...")
+        self.th2en_word2word = TransformerModel.from_pretrained(
+            model_name_or_path=self.get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'models'),
+            checkpoint_file='checkpoint.pt',
+            data_name_or_path=self.get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'vocab')
+        )
+        self.th2en_bpe2bpe = TransformerModel.from_pretrained(
+            model_name_or_path=self.get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'models'),
+            checkpoint_file='checkpoint.pt',
+            data_name_or_path=self.get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'vocab'),
+            bpe='sentencepiece',
+            sentencepiece_vocab=self.get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'bpe','spm.th.model')
+        )
+        self.en2th_word2bpe = TransformerModel.from_pretrained(
+            model_name_or_path=self.get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'models'),
+            checkpoint_file='checkpoint.pt',
+            data_name_or_path=self.get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'vocab')
+        )
     def load_th2en_word2word(self):
         if self.model_name != "th2en_word2word":
-            self.model = TransformerModel.from_pretrained(
-                model_name_or_path=self.get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'models'),
-                checkpoint_file='checkpoint.pt',
-                data_name_or_path=self.get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'vocab')
-            )
+            self.model = self.th2en_word2word
             self.model_name = "th2en_word2word"
     def load_th2en_bpe2bpe(self):
         if self.model_name != "th2en_bpe2bpe":
-            self.model = TransformerModel.from_pretrained(
-                model_name_or_path=self.get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'models'),
-                checkpoint_file='checkpoint.pt',
-                data_name_or_path=self.get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'vocab'),
-                bpe='sentencepiece',
-                sentencepiece_vocab=self.get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'bpe','spm.th.model')
-            )
+            self.model = self.th2en_bpe2bpe
             self.model_name = "th2en_bpe2bpe"
     def load_en2th_word2bpe(self):
         if self.model_name != "en2th_word2bpe":
-            self.model = TransformerModel.from_pretrained(
-                model_name_or_path=self.get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'models'),
-                checkpoint_file='checkpoint.pt',
-                data_name_or_path=self.get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'vocab')
-            )
+            self.model = self.en2th_word2bpe
             self.model_name = "en2th_word2bpe"
     def translate(self, input_sentence, source = "en", target = "tha", tokenizer = "bpe"):
         """

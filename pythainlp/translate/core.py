@@ -16,8 +16,10 @@ en_word_detokenize = MosesDetokenizer('en')
 th_word_tokenize = partial(th_word_tokenize, keep_whitespace=False)
 model = None
 model_name = ""
+
+
 def get_path(model, path1, path2, file=None):
-    path = os.path.join(os.path.join(get_full_data_path(model),path1),path2)
+    path = os.path.join(os.path.join(get_full_data_path(model), path1), path2)
     if file is not None:
         return os.path.join(path, file)
     return os.path.join(path, "")
@@ -53,10 +55,13 @@ def download_model():
         os.mkdir(get_full_data_path("scb_1m_en-th_moses"))
         with tarfile.open(get_corpus_path("scb_1m_en-th_moses")) as tar:
             tar.extractall(path=get_full_data_path("scb_1m_en-th_moses"))
+
+
 download_model()
 
+
 def load_th2en_word2word():
-    global model,model_name
+    global model, model_name
     if model_name != "th2en_word2word":
         model = TransformerModel.from_pretrained(
             model_name_or_path=get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'models'),
@@ -64,8 +69,10 @@ def load_th2en_word2word():
             data_name_or_path=get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", 'vocab')
         )
         model_name = "th2en_word2word"
+
+
 def load_th2en_bpe2bpe():
-    global model,model_name
+    global model, model_name
     if model_name != "th2en_bpe2bpe":
         model = TransformerModel.from_pretrained(
             model_name_or_path=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'models'),
@@ -75,8 +82,10 @@ def load_th2en_bpe2bpe():
             sentencepiece_vocab=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", 'bpe','spm.th.model')
             )
         model_name = "th2en_bpe2bpe"
+
+
 def load_en2th_word2bpe():
-    global model,model_name
+    global model, model_name
     if model_name != "en2th_word2bpe":
         model = TransformerModel.from_pretrained(
             model_name_or_path=get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'models'),
@@ -84,7 +93,9 @@ def load_en2th_word2bpe():
             data_name_or_path=get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'vocab')
         )
         model_name = "en2th_word2bpe"
-def translate(input_sentence, source = "en", target = "tha", tokenizer = "bpe"):
+
+
+def translate(input_sentence:str, source:str = "en", target:str = "tha", tokenizer:str = "bpe"):
     """
     :param str input_sentence: input sentence
     :param str source: source language (en, tha)

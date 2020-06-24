@@ -16,38 +16,40 @@ en_word_detokenize = MosesDetokenizer('en')
 th_word_tokenize = partial(th_word_tokenize, keep_whitespace=False)
 model = None
 model_name = ""
-def get_path(model,path1,path2,file=None):
-    path = os.path.join(os.path.join(os.path.join(get_pythainlp_data_path(), model),path1),path2)
-    if file != None:
-        return os.path.join(path,file)
+def get_path(model, path1, path2, file=None):
+    path = os.path.join(os.path.join(get_full_data_path(model),path1),path2)
+    if file is not None:
+        return os.path.join(path, file)
     return os.path.join(path, "")
+
+
 def download_model():
     print("Download model ...")
-    if get_corpus_path("scb_1m_th-en_newmm") == None:
-        download("scb_1m_th-en_newmm",force=True,version="1.0")
+    if get_corpus_path("scb_1m_th-en_newmm") is None:
+        download("scb_1m_th-en_newmm", force=True, version="1.0")
         tar = tarfile.open(get_corpus_path("scb_1m_th-en_newmm"), "r:gz")
         tar.extractall()
         tar.close()
-    if get_corpus_path("scb_1m_th-en_spm") == None:
-        download("scb_1m_th-en_spm",force=True,version="1.0")
+    if get_corpus_path("scb_1m_th-en_spm") is None:
+        download("scb_1m_th-en_spm", force=True, version="1.0")
         tar = tarfile.open(get_corpus_path("scb_1m_th-en_spm"), "r:gz")
         tar.extractall()
         tar.close()
-    if get_corpus_path("scb_1m_en-th_moses") == None:
-        download("scb_1m_en-th_moses",force=True,version="1.0")
+    if get_corpus_path("scb_1m_en-th_moses") is None:
+        download("scb_1m_en-th_moses", force=True, version="1.0")
         tar = tarfile.open(get_corpus_path("scb_1m_en-th_moses"), "r:gz")
         tar.extractall()
         tar.close()
     print("Install model...")
-    if os.path.isdir(get_full_data_path("scb_1m_th-en_newmm")) == False:
+    if os.path.isdir(get_full_data_path("scb_1m_th-en_newmm")) is False:
         os.mkdir(get_full_data_path("scb_1m_th-en_newmm"))
         with tarfile.open(get_corpus_path("scb_1m_th-en_newmm")) as tar:
             tar.extractall(path=get_full_data_path("scb_1m_th-en_newmm"))
-    if os.path.isdir(get_full_data_path("scb_1m_th-en_spm")) == False:
+    if os.path.isdir(get_full_data_path("scb_1m_th-en_spm")) is False:
         os.mkdir(get_full_data_path("scb_1m_th-en_spm"))
         with tarfile.open(get_corpus_path("scb_1m_th-en_spm")) as tar:
             tar.extractall(path=get_full_data_path("scb_1m_th-en_spm"))
-    if os.path.isdir(get_full_data_path("scb_1m_en-th_moses")) == False:
+    if os.path.isdir(get_full_data_path("scb_1m_en-th_moses")) is False:
         os.mkdir(get_full_data_path("scb_1m_en-th_moses"))
         with tarfile.open(get_corpus_path("scb_1m_en-th_moses")) as tar:
             tar.extractall(path=get_full_data_path("scb_1m_en-th_moses"))

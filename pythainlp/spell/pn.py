@@ -8,7 +8,17 @@ Based on Peter Norvig's Python code from http://norvig.com/spell-correct.html
 """
 from collections import Counter
 from string import digits
-from typing import Callable, Iterable, ItemsView, List, Optional, Set, Tuple
+from typing import (
+    Callable,
+    Dict,
+    ItemsView,
+    Iterable,
+    List,
+    Optional,
+    Set,
+    Tuple,
+    Union,
+)
 
 from pythainlp import thai_digits, thai_letters
 from pythainlp.corpus import tnc
@@ -73,7 +83,9 @@ def _edits2(word: str) -> Set[str]:
 class NorvigSpellChecker:
     def __init__(
         self,
-        custom_dict: List[Tuple[str, int]] = None,
+        custom_dict: Union[
+            Dict[str, int], Iterable[str], Iterable[Tuple[str, int]]
+        ] = None,
         min_freq: int = 2,
         min_len: int = 2,
         max_len: int = 40,
@@ -91,9 +103,17 @@ class NorvigSpellChecker:
         Then, it selects the candidate with
         the highest word occurrence probability.
 
-        :param str custom_dict: A list of tuple (word, frequency) to create
-                                a spelling dictionary. Default is from
-                                Thai National Corpus (around 40,000 words).
+        :param str custom_dict: A custom spelling dictionary. This can be:
+                                (1) a dictionary (`dict`), with words (`str`)
+                                    as keys and frequencies (`int`) as values;
+                                (2) an iterable (list, tuple, or set) of word
+                                    (`str`) and frequency (`int`) tuples:
+                                    `(str, int)`; or
+                                (3) an iterable of just words (`str`), without
+                                    frequencies -- in this case `1` will be
+                                    assigned to every words.
+                                Default is from Thai National Corpus (around
+                                40,000 words).
         :param int min_freq: Minimum frequency of a word to keep (default = 2)
         :param int min_len: Minimum length (in characters) of a word to keep
                             (default = 2)
@@ -110,12 +130,29 @@ class NorvigSpellChecker:
         if not dict_filter:
             dict_filter = _no_filter
 
-        # filter word list
-        custom_dict = [
-            word_freq
-            for word_freq in custom_dict
-            if _keep(word_freq, min_freq, min_len, max_len, dict_filter)
-        ]
+        if isinstance(custom_dict, dict):
+            custom_dict = [(word, freq) for word, freq in custom_dict.items()]
+
+        i = iter(custom_dict)
+        first_member = next(i)
+        if isinstance(first_member, str):
+            # create tuples of a word with frequency equal to 1, then filter word list
+            custom_dict = [
+                (word, 1)
+                for word in custom_dict
+                if _keep((word, 1), 1, min_len, max_len, dict_filter)
+            ]
+        elif isinstance(first_member, tuple):
+            # filter word list
+            custom_dict = [
+                word_freq
+                for word_freq in custom_dict
+                if _keep(word_freq, min_freq, min_len, max_len, dict_filter)
+            ]
+        else:
+            raise TypeError(
+                "custom_dict must be either Iterable[Tuple[str, int]] or Iterable[str]"
+            )
 
         self.__WORDS = Counter(dict(custom_dict))
         self.__WORDS += Counter()  # remove zero and negative counts

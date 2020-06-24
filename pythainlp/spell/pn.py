@@ -136,7 +136,8 @@ class NorvigSpellChecker:
         i = iter(custom_dict)
         first_member = next(i)
         if isinstance(first_member, str):
-            # create tuples of a word with frequency equal to 1, then filter word list
+            # create tuples of a word with frequency equal to 1,
+            # and filter word list
             custom_dict = [
                 (word, 1)
                 for word in custom_dict
@@ -151,7 +152,8 @@ class NorvigSpellChecker:
             ]
         else:
             raise TypeError(
-                "custom_dict must be either Iterable[Tuple[str, int]] or Iterable[str]"
+                "custom_dict must be either Dict[str, int], "
+                "Iterable[Tuple[str, int]], or Iterable[str]"
             )
 
         self.__WORDS = Counter(dict(custom_dict))

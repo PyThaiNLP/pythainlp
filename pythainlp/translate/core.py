@@ -70,17 +70,17 @@ en2th_word2bpe = TransformerModel.from_pretrained(
     data_name_or_path=get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", 'vocab')
 )
 def load_th2en_word2word():
-    global model
+    global model,model_name,th2en_word2word
     if model_name != "th2en_word2word":
         model = th2en_word2word
         model_name = "th2en_word2word"
 def load_th2en_bpe2bpe():
-    global model
+    global model,model_name,th2en_bpe2bpe
     if model_name != "th2en_bpe2bpe":
         model = th2en_bpe2bpe
         model_name = "th2en_bpe2bpe"
 def load_en2th_word2bpe():
-    global model
+    global model,model_name,en2th_word2bpe
     if model_name != "en2th_word2bpe":
         model = en2th_word2bpe
         model_name = "en2th_word2bpe"

@@ -71,3 +71,7 @@ class TestSpellPackage(unittest.TestCase):
         }
         checker = NorvigSpellChecker(custom_dict=user_dict)
         self.assertEqual(len(checker.dictionary()), 7)
+
+        user_dict = [24, 6, 2475]
+        with self.assertRaises(TypeError):
+            checker = NorvigSpellChecker(custom_dict=user_dict)

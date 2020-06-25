@@ -44,7 +44,6 @@ from pythainlp.util.collate import collate
 from pythainlp.util.date import (
     now_reign_year,
     reign_year_to_ad,
-    thai_strftime,
     thaiword_to_date,
 )
 from pythainlp.util.digitconv import (
@@ -67,6 +66,7 @@ from pythainlp.util.normalize import (
     reorder_vowels,
 )
 from pythainlp.util.numtoword import bahttext, num_to_thaiword
+from pythainlp.util.strftime import thai_strftime
 from pythainlp.util.thai import countthai, isthai, isthaichar
 from pythainlp.util.thaiwordcheck import is_native_thai
 from pythainlp.util.time import thai_time, thaiword_to_time, time_to_thaiword

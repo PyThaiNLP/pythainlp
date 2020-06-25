@@ -165,6 +165,8 @@ class TestUtilPackage(unittest.TestCase):
         self.assertIsNotNone(reign_year_to_ad(2, 8))
         self.assertIsNotNone(reign_year_to_ad(2, 7))
 
+    # ### pythainlp.util.strftime
+
     def test_thai_strftime(self):
         date = datetime(1976, 10, 6, 1, 40, tzinfo=timezone.utc)
         self.assertEqual(thai_strftime(date, "%d"), "06")

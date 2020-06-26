@@ -129,7 +129,7 @@ def get_corpus_path(name: str) -> Union[str, None]:
         download(name)
         corpus_db_detail = get_corpus_db_detail(name)
 
-    if corpus_db_detail.get("file") != None:
+    if corpus_db_detail.get("file") is not None:
         print("Update Corpus...")
         os.remove(corpus_db_path())
         download(name)

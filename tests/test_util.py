@@ -363,6 +363,8 @@ class TestUtilPackage(unittest.TestCase):
             now + timedelta(days=-2), thaiword_to_date("วานซืน", now)
         )
 
+        self.assertIsNotNone(thaiword_to_date("วันนี้")
+
         # it's error if "พรุ่งนี้" is 1 not 32.
         #self.assertEqual(
         #    thaiword_to_date("วันนี้").day + 1,

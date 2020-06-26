@@ -67,6 +67,9 @@ extras = {
         "pyicu>=2.3",
         "ssg>=0.0.6",
         "torch>=1.0.0",
+        "fairseq",
+        "sacremoses",
+        "sentencepiece",
     ],
 }
 

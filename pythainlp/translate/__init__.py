@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Translate.
+Language translation.
 """
 
 __all__ = [

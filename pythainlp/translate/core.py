@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-from functools import partial
+import os
+import tarfile
 from collections import defaultdict
+from functools import partial
+
+from pythainlp.corpus import download, get_corpus_path
+from pythainlp.tokenize import word_tokenize as th_word_tokenize
+from pythainlp.tools import get_full_data_path, get_pythainlp_data_path
 
 from fairseq.models.transformer import TransformerModel
-
-from sacremoses import MosesTokenizer, MosesDetokenizer
-from pythainlp.tokenize import word_tokenize as th_word_tokenize
-from pythainlp.corpus import get_corpus_path, download
-import tarfile
-from pythainlp.tools import get_pythainlp_data_path, get_full_data_path
-import os
+from sacremoses import MosesDetokenizer, MosesTokenizer
 
 en_word_tokenize = MosesTokenizer("en")
 en_word_detokenize = MosesDetokenizer("en")
@@ -42,6 +42,7 @@ def download_model():
         tar = tarfile.open(get_corpus_path("scb_1m_en-th_moses"), "r:gz")
         tar.extractall()
         tar.close()
+
     print("Install model...")
     if not os.path.exists(get_full_data_path("scb_1m_th-en_newmm")):
         os.mkdir(get_full_data_path("scb_1m_th-en_newmm"))
@@ -64,9 +65,17 @@ def load_th2en_word2word():
     global model, model_name
     if model_name != "th2en_word2word":
         model = TransformerModel.from_pretrained(
-            model_name_or_path=get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", "models"),
+            model_name_or_path=get_path(
+                "scb_1m_th-en_newmm",
+                "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0",
+                "models",
+            ),
             checkpoint_file="checkpoint.pt",
-            data_name_or_path=get_path("scb_1m_th-en_newmm", "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0", "vocab")
+            data_name_or_path=get_path(
+                "scb_1m_th-en_newmm",
+                "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0",
+                "vocab",
+            ),
         )
         model_name = "th2en_word2word"
 
@@ -75,12 +84,25 @@ def load_th2en_bpe2bpe():
     global model, model_name
     if model_name != "th2en_bpe2bpe":
         model = TransformerModel.from_pretrained(
-            model_name_or_path=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", "models"),
+            model_name_or_path=get_path(
+                "scb_1m_th-en_spm",
+                "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
+                "models",
+            ),
             checkpoint_file="checkpoint.pt",
-            data_name_or_path=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", "vocab"),
+            data_name_or_path=get_path(
+                "scb_1m_th-en_spm",
+                "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
+                "vocab",
+            ),
             bpe="sentencepiece",
-            sentencepiece_vocab=get_path("scb_1m_th-en_spm", "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0", "bpe", "spm.th.model")
-            )
+            sentencepiece_vocab=get_path(
+                "scb_1m_th-en_spm",
+                "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
+                "bpe",
+                "spm.th.model",
+            ),
+        )
         model_name = "th2en_bpe2bpe"
 
 
@@ -88,37 +110,54 @@ def load_en2th_word2bpe():
     global model, model_name
     if model_name != "en2th_word2bpe":
         model = TransformerModel.from_pretrained(
-            model_name_or_path=get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", "models"),
+            model_name_or_path=get_path(
+                "scb_1m_en-th_moses",
+                "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0",
+                "models",
+            ),
             checkpoint_file="checkpoint.pt",
-            data_name_or_path=get_path("scb_1m_en-th_moses", "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0", "vocab")
+            data_name_or_path=get_path(
+                "scb_1m_en-th_moses",
+                "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0",
+                "vocab",
+            ),
         )
         model_name = "en2th_word2bpe"
 
 
-def translate(input_sentence:str, source:str = "en", target:str = "tha", tokenizer:str = "bpe"):
+def translate(
+    text: str,
+    source: str = "en",
+    target: str = "th",
+    tokenizer: str = "bpe",
+) -> str:
     """
-    :param str input_sentence: input sentence
-    :param str source: source language (en, tha)
+    :param str text: input text in source language
+    :param str source: source language ("en" or "th")
+    :param str target: target language ("en" or "th")
     :param str tokenizer: tokenizer (word,bpe)
-    :param str target: target language (en, tha)
 
-    :return: translate sentence
+    :return: translated text in target language
     :rtype: str
     """
     global model
     hypothesis = None
-    if source == "tha" and target == "en":
+
+    if source == "th" and target == "en":
         if tokenizer == "word":
             load_th2en_word2word()
-            tokenized_sentence = ' '.join(th_word_tokenize(input_sentence))
+            tokenized_sentence = " ".join(th_word_tokenize(text))
             _hypothesis = model.translate(tokenized_sentence)
             hypothesis = en_word_detokenize.detokenize([_hypothesis])
         else:
             load_th2en_bpe2bpe()
-            hypothesis = model.translate(input_sentence, beam=24)
-    elif source == "en" and target == "tha" and tokenizer == "bpe":
+            hypothesis = model.translate(text, beam=24)
+    elif source == "en" and target == "th" and tokenizer == "bpe":
         load_en2th_word2bpe()
-        tokenized_sentence = ' '.join(en_word_tokenize.tokenize(input_sentence))
+        tokenized_sentence = " ".join(
+            en_word_tokenize.tokenize(text)
+        )
         hypothesis = model.translate(tokenized_sentence)
-        hypothesis = hypothesis.replace(' ', '').replace('▁', ' ')
+        hypothesis = hypothesis.replace(" ", "").replace("▁", " ")
+
     return hypothesis

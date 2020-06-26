@@ -98,11 +98,13 @@ def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
             dt_obj.strftime("%m-%d"),
         )
     elif fmt_char == "G":
-        # ISO 8601 year with century representing the year that contains the
-        # greater part of the ISO week (%V). Monday as the first day of the week.
+        # ISO 8601 year with century representing the year that contains
+        # the greater part of the ISO week (%V). Monday as the first day
+        # of the week.
         str_ = str(int(dt_obj.strftime("%G")) + _BE_AD_DIFFERENCE).zfill(4)
     elif fmt_char == "g":
-        # Same year as in ``%G'', but as a decimal number without century (00-99).
+        # Same year as in ``%G'',
+        # but as a decimal number without century (00-99).
         str_ = (
             str(int(dt_obj.strftime("%G")) + _BE_AD_DIFFERENCE)[-2:]
         ).zfill(2)

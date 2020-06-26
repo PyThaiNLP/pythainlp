@@ -129,6 +129,12 @@ def get_corpus_path(name: str) -> Union[str, None]:
         download(name)
         corpus_db_detail = get_corpus_db_detail(name)
 
+    if corpus_db_detail.get("file") != None:
+        print("Update Corpus...")
+        os.remove(corpus_db_path())
+        download(name)
+        corpus_db_detail = get_corpus_db_detail(name)
+
     if corpus_db_detail and corpus_db_detail.get("file_name"):
         # corpus is in the local catalog, get full path to the file
         path = get_full_data_path(corpus_db_detail.get("file_name"))

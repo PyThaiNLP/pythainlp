@@ -88,6 +88,14 @@ def get_corpus(filename: str) -> frozenset:
     return frozenset(lines)
 
 
+def _update_db(name, path):
+    print("Update Corpus...")
+    local_db = TinyDB(corpus_db_path())
+    query = Query()
+    local_db.update({"filename": path}, query.name == name)
+    local_db.close()
+
+
 def get_corpus_path(name: str) -> Union[str, None]:
     """
     Get corpus path.
@@ -125,19 +133,21 @@ def get_corpus_path(name: str) -> Union[str, None]:
     """
     # check if the corpus is in local catalog, download if not
     corpus_db_detail = get_corpus_db_detail(name)
-    if not corpus_db_detail or not corpus_db_detail.get("file_name"):
+    if corpus_db_detail.get("file_name") is not None and corpus_db_detail.get("filename") is None:
+        _update_db(name, corpus_db_detail.get("file_name"))
+        corpus_db_detail = get_corpus_db_detail(name)
+    elif corpus_db_detail.get("file") is not None and corpus_db_detail.get("filename") is None:
+        _update_db(name, corpus_db_detail.get("file"))
+        corpus_db_detail = get_corpus_db_detail(name)
+
+
+    if not corpus_db_detail or not corpus_db_detail.get("filename"):
         download(name)
         corpus_db_detail = get_corpus_db_detail(name)
 
-    if corpus_db_detail.get("file") is not None:
-        print("Update Corpus...")
-        os.remove(corpus_db_path())
-        download(name)
-        corpus_db_detail = get_corpus_db_detail(name)
-
-    if corpus_db_detail and corpus_db_detail.get("file_name"):
+    if corpus_db_detail and corpus_db_detail.get("filename"):
         # corpus is in the local catalog, get full path to the file
-        path = get_full_data_path(corpus_db_detail.get("file_name"))
+        path = get_full_data_path(corpus_db_detail.get("filename"))
         # check if the corpus file actually exists, download if not
         if not os.path.exists(path):
             download(name)
@@ -269,7 +279,7 @@ def download(name: str, force: bool = False, url: str = None, version: str = Non
                     {
                         "name": name,
                         "version": version,
-                        "file_name": file_name,
+                        "filename": file_name,
                     }
                 )
         else:

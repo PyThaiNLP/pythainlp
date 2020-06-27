@@ -21,7 +21,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 >We are conducting a 2-minute survey to know more about your experience using the library and your expectations regarding what the library should be able to do. Take part in this survey: https://forms.gle/aLdSHnvkNuK5CFyt9
 
 - The latest stable release is [2.2.1](https://github.com/PyThaiNLP/pythainlp/releases). See [2.2 change log](https://github.com/PyThaiNLP/pythainlp/issues/330).
-- For latest development, see [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch. See ongoing [2.3 development change log](https://github.com/PyThaiNLP/pythainlp/issues/330).
+- For latest development, see [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch. See ongoing [2.3 development change log](https://github.com/PyThaiNLP/pythainlp/issues/445).
 
 Using PyThaiNLP:
 - [PyThaiNLP Get Started](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html)

@@ -10,11 +10,13 @@ from pythainlp.tokenize import word_tokenize as th_word_tokenize
 en_word_detokenize = MosesDetokenizer("en")
 th_word_tokenize = partial(th_word_tokenize, keep_whitespace=False)
 
+
 def get_path(model, path1, path2, file=None):
     path = os.path.join(os.path.join(get_full_data_path(model), path1), path2)
     if file is not None:
         return os.path.join(path, file)
-    return os.path.join(path, "")
+    return os.path.join(path, "/")
+
 
 th2en_bpe_model = TransformerModel.from_pretrained(
     model_name_or_path=get_path(
@@ -36,6 +38,7 @@ th2en_bpe_model = TransformerModel.from_pretrained(
         "spm.th.model",
     ),
 )
+
 
 def _translate(text):
     hypothesis = th2en_bpe_model.translate(text, beam=24)

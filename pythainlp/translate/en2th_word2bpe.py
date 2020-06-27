@@ -11,7 +11,7 @@ def get_path(model, path1, path2, file=None):
     path = os.path.join(os.path.join(get_full_data_path(model), path1), path2)
     if file is not None:
         return os.path.join(path, file)
-    return os.path.join(path, "")
+    return os.path.join(path, "/")
 
 
 en2th_word2bpe_model = TransformerModel.from_pretrained(
@@ -27,6 +27,7 @@ en2th_word2bpe_model = TransformerModel.from_pretrained(
         "vocab",
         ),
 )
+
 
 def _translate(text):
     tokenized_sentence = " ".join(

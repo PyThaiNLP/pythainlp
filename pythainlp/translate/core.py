@@ -7,13 +7,6 @@ from pythainlp.corpus import download, get_corpus_path
 from pythainlp.tools import get_full_data_path, get_pythainlp_data_path
 
 
-def get_path(model, path1, path2, file=None):
-    path = os.path.join(os.path.join(get_full_data_path(model), path1), path2)
-    if file is not None:
-        return os.path.join(path, file)
-    return os.path.join(path, "")
-
-
 def download_model():
     print("Download model ...")
     if get_corpus_path("scb_1m_th-en_newmm") is None:

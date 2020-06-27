@@ -88,6 +88,20 @@ def get_corpus(filename: str) -> frozenset:
     return frozenset(lines)
 
 
+def _update_all():
+    print("Update Corpus...")
+    with TinyDB(corpus_db_path()) as local_db:
+        item_all = local_db.all()
+        query = Query()
+        for item in item_all:
+            name = item["name"]
+            if "file_name" in item.keys():
+                local_db.update({"filename": item["file_name"]}, query.name == name)
+            elif "file" in item.keys():
+                local_db.update({"filename": item["file"]}, query.name == name)
+    local_db.close()
+
+
 def get_corpus_path(name: str) -> Union[str, None]:
     """
     Get corpus path.
@@ -125,13 +139,18 @@ def get_corpus_path(name: str) -> Union[str, None]:
     """
     # check if the corpus is in local catalog, download if not
     corpus_db_detail = get_corpus_db_detail(name)
-    if not corpus_db_detail or not corpus_db_detail.get("file_name"):
+    if corpus_db_detail.get("file_name") is not None and corpus_db_detail.get("filename") is None:
+        _update_all()
+    elif corpus_db_detail.get("file") is not None and corpus_db_detail.get("filename") is None:
+        _update_all()
+
+    if not corpus_db_detail or not corpus_db_detail.get("filename"):
         download(name)
         corpus_db_detail = get_corpus_db_detail(name)
 
-    if corpus_db_detail and corpus_db_detail.get("file_name"):
+    if corpus_db_detail and corpus_db_detail.get("filename"):
         # corpus is in the local catalog, get full path to the file
-        path = get_full_data_path(corpus_db_detail.get("file_name"))
+        path = get_full_data_path(corpus_db_detail.get("filename"))
         # check if the corpus file actually exists, download if not
         if not os.path.exists(path):
             download(name)
@@ -263,7 +282,7 @@ def download(name: str, force: bool = False, url: str = None, version: str = Non
                     {
                         "name": name,
                         "version": version,
-                        "file_name": file_name,
+                        "filename": file_name,
                     }
                 )
         else:

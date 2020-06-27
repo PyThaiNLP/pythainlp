@@ -14,7 +14,7 @@ def get_path(model, path1, path2, file=None):
     return os.path.join(path, "")
 
 
-model = TransformerModel.from_pretrained(
+en2th_word2bpe_model = TransformerModel.from_pretrained(
     model_name_or_path=get_path(
         "scb_1m_en-th_moses",
         "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0",
@@ -32,6 +32,6 @@ def _translate(text):
     tokenized_sentence = " ".join(
         en_word_tokenize.tokenize(text)
     )
-    hypothesis = model.translate(tokenized_sentence)
+    hypothesis = en2th_word2bpe_model .translate(tokenized_sentence)
     hypothesis = hypothesis.replace(" ", "").replace("▁", " ")
     return hypothesis

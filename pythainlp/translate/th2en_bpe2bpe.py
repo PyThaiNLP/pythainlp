@@ -16,7 +16,7 @@ def get_path(model, path1, path2, file=None):
         return os.path.join(path, file)
     return os.path.join(path, "")
 
-model = TransformerModel.from_pretrained(
+th2en_bpe_model = TransformerModel.from_pretrained(
     model_name_or_path=get_path(
         "scb_1m_th-en_spm",
         "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
@@ -38,5 +38,5 @@ model = TransformerModel.from_pretrained(
 )
 
 def _translate(text):
-    hypothesis = model.translate(text, beam=24)
+    hypothesis = th2en_bpe_model.translate(text, beam=24)
     return hypothesis

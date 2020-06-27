@@ -2,14 +2,9 @@
 import os
 import tarfile
 from collections import defaultdict
-from functools import partial
 
 from pythainlp.corpus import download, get_corpus_path
-from pythainlp.tokenize import word_tokenize as th_word_tokenize
 from pythainlp.tools import get_full_data_path, get_pythainlp_data_path
-
-from fairseq.models.transformer import TransformerModel
-from sacremoses import MosesDetokenizer, MosesTokenizer
 
 
 def get_path(model, path1, path2, file=None):

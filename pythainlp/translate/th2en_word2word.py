@@ -30,7 +30,7 @@ th2en_word2word_model = TransformerModel.from_pretrained(
 )
 
 
-def _translate(text):
+def _th2en_word2word_translate(text):
     tokenized_sentence = " ".join(th_word_tokenize(text))
     _hypothesis = th2en_word2word_model.translate(tokenized_sentence)
     hypothesis = en_word_detokenize.detokenize([_hypothesis])

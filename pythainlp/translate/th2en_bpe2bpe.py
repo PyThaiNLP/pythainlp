@@ -40,6 +40,6 @@ th2en_bpe_model = TransformerModel.from_pretrained(
 )
 
 
-def _translate(text):
+def _th2en_bpe_translate(text):
     hypothesis = th2en_bpe_model.translate(text, beam=24)
     return hypothesis

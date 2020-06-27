@@ -29,7 +29,7 @@ en2th_word2bpe_model = TransformerModel.from_pretrained(
 )
 
 
-def _translate(text):
+def _en2th_word2bpe_translate(text):
     tokenized_sentence = " ".join(
         en_word_tokenize.tokenize(text)
     )

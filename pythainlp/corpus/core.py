@@ -101,6 +101,7 @@ def _update_all():
                 local_db.update({"filename": item['file']}, query.name == name)
     local_db.close()
 
+
 def get_corpus_path(name: str) -> Union[str, None]:
     """
     Get corpus path.

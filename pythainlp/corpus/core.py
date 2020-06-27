@@ -94,11 +94,11 @@ def _update_all():
         item_all = local_db.all()
         query = Query()
         for item in item_all:
-            name = item['name']
-            if 'file_name' in item.keys():
-                local_db.update({"filename": item['file_name']}, query.name == name)
-            elif 'file' in item.keys():
-                local_db.update({"filename": item['file']}, query.name == name)
+            name = item["name"]
+            if "file_name" in item.keys():
+                local_db.update({"filename": item["file_name"]}, query.name == name)
+            elif "file" in item.keys():
+                local_db.update({"filename": item["file"]}, query.name == name)
     local_db.close()
 
 

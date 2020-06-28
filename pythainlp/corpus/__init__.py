@@ -7,6 +7,7 @@ Including download manager.
 """
 
 __all__ = [
+    "BEST_I",
     "corpus_path",
     "corpus_db_path",
     "corpus_db_url",
@@ -75,6 +76,7 @@ def corpus_db_path() -> str:
     return _CORPUS_DB_PATH
 
 
+from pythainlp.corpus.best import BEST_I
 from pythainlp.corpus.core import (
     download,
     get_corpus,

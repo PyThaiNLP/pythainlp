@@ -4,6 +4,7 @@ import unittest
 
 from nltk.corpus import wordnet as wn
 from pythainlp.corpus import (
+    BEST_I,
     conceptnet,
     countries,
     download,
@@ -25,6 +26,13 @@ from pythainlp.corpus import (
 class TestCorpusPackage(unittest.TestCase):
     def test_conceptnet(self):
         self.assertIsNotNone(conceptnet.edges("รัก"))
+
+    def test_best(self):
+        best_reader = BEST_I("./tests/data/best")
+        self.assertIsNotNone(best_reader.data)
+        self.assertIsNotNone(best_reader.count_word_all())
+        self.assertIsNotNone(best_reader.get_conll_all())
+        self.assertIsNotNone(best_reader.get_words_all())
 
     def test_corpus(self):
         self.assertIsInstance(thai_negations(), frozenset)

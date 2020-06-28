@@ -16,7 +16,6 @@ en_word_tokenize = MosesTokenizer("en")
 th_word_tokenize = partial(th_word_tokenize, keep_whitespace=False)
 
 
-
 def download_model():
     print("Download model ...")
     if get_corpus_path("scb_1m_th-en_newmm") is None:

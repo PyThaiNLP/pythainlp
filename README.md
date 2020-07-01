@@ -13,7 +13,7 @@
 [![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp_get_started.ipynb)
 [![DOI](https://zenodo.org/badge/61813823.svg)](https://zenodo.org/badge/latestdoi/61813823)
 
-PyThaiNLP is a Python package for text processing and linguistic analysis, similar to [NLTK](https://www.nltk.org/) but with focus on Thai language.
+PyThaiNLP is a Python package for text processing and linguistic analysis, similar to [NLTK](https://www.nltk.org/) with focus on Thai language.
 
 PyThaiNLP เป็นไลบารีภาษาไพทอนสำหรับประมวลผลภาษาธรรมชาติ โดยเน้นภาษาไทย ดูรายละเอียดภาษาไทยด้านล่าง
 
@@ -37,15 +37,15 @@ Using PyThaiNLP:
 ## Capabilities
 
 - Convenient character and word classes, like Thai consonants (`pythainlp.thai_consonants`), vowels (`pythainlp.thai_vowels`), digits (`pythainlp.thai_digits`), and stop words (`pythainlp.corpus.thai_stopwords`) -- comparable to constants like `string.letters`, `string.digits`, and `string.punctuation`
-- Thai word segmentation (`word_tokenize`), including subword segmentation based on Thai Character Cluster (`subword_tokenize`)
-- Thai transliteration (`transliterate`)
+- Thai linguistic unit segmentation, including sentence (`sent_tokenize`), word (`word_tokenize`), and subword segmentations based on Thai Character Cluster (`subword_tokenize`)
 - Thai part-of-speech taggers (`pos_tag`)
-- Read out number to Thai words (`bahttext`, `num_to_thaiword`)
-- Thai collation (sort by dictionoary order) (`collate`)
-- Thai-English keyboard misswitched fix (`eng_to_thai`, `thai_to_eng`)
 - Thai spelling suggestion and correction (`spell` and `correct`)
+- Thai transliteration (`transliterate`)
 - Thai soundex (`soundex`) with three engines (`lk82`, `udom83`, `metasound`)
+- Thai collation (sort by dictionoary order) (`collate`)
+- Read out number to Thai words (`bahttext`, `num_to_thaiword`)
 - Thai datetime formatting (`thai_strftime`)
+- Thai-English keyboard misswitched fix (`eng_to_thai`, `thai_to_eng`)
 - and much more - see examples in [tutorials](https://www.thainlp.org/pythainlp/tutorials/).
 
 
@@ -126,9 +126,9 @@ or BibTeX entry:
 
 - Please do fork and create a pull request :)
 - For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
-- PyThaiNLP code uses [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
-- Corpus data created by PyThaiNLP project use [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
-- For other corpus that may included with PyThaiNLP distribution, please refer to [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md).
+- PyThaiNLP is released under [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE).
+- Corpora and datasets created by PyThaiNLP project are released under either [Creative Commons Zero 1.0 Universal Public Domain Dedication License](https://creativecommons.org/publicdomain/zero/1.0/) or [Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/)
+- For other corpora that may included with PyThaiNLP distribution, please advise [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md).
 
 ## Sponsors
 
@@ -169,15 +169,15 @@ PyThaiNLP เป็นไลบรารีภาษาไพทอนสำห�
 ## ความสามารถ
 
 - ชุดค่าคงที่ตัวอักษระและคำไทยที่เรียกใช้ได้สะดวก เช่น พยัญชนะ (`pythainlp.thai_consonants`), สระ (`pythainlp.thai_vowels`), ตัวเลขไทย (`pythainlp.thai_digits`), และ stop word (`pythainlp.corpus.thai_stopwords`) -- เหมือนกับค่าคงที่อย่าง `string.letters`, `string.digits`, และ `string.punctuation`
-- ตัดคำภาษาไทย (`word_tokenize`) และรองรับการตัดระดับต่ำกว่าคำโดยใช้ Thai Character Clusters (`subword_tokenize`)
-- ถอดเสียงภาษาไทยเป็นอักษรละตินและสัทอักษร (`transliterate`)
+- แบ่งหน่วยทางภาษาศาสตร์ในภาษาไทย รวมถึงการแบ่งประโยค (`sent_tokenize`) แบ่งคำ (`word_tokenize`) และการแบ่งระดับต่ำกว่าคำโดยใช้ Thai Character Clusters (`subword_tokenize`)
 - ระบุชนิดคำ (part-of-speech) ภาษาไทย (`pos_tag`)
-- อ่านตัวเลขเป็นข้อความภาษาไทย (`bahttext`, `num_to_thaiword`)
-- เรียงลำดับคำตามพจนานุกรมไทย (`collate`)
-- แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา (`eng_to_thai`, `thai_to_eng`)
-- ตรวจคำสะกดผิดในภาษาไทย (`spell`, `correct`)
+- แนะนำและแก้ตัวสะกดในภาษาไทย (`spell`, `correct`)
+- ถอดเสียงภาษาไทยเป็นอักษรละตินและสัทอักษร (`transliterate`)
 - soundex ภาษาไทย (`soundex`) 3 วิธีการ (`lk82`, `udom83`, `metasound`)
+- เรียงลำดับคำตามพจนานุกรมไทย (`collate`)
+- อ่านตัวเลขเป็นข้อความภาษาไทย (`bahttext`, `num_to_thaiword`)
 - รูปแบบวันที่และเวลาไทย (`thai_strftime`)
+- แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา (`eng_to_thai`, `thai_to_eng`)
 - และอื่น ๆ ดูตัวอย่างได้ใน [tutorials สอนวิธีใช้งาน](https://www.thainlp.org/pythainlp/tutorials/)
 
 
@@ -247,10 +247,11 @@ Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Sur
 ## สนับสนุนและร่วมพัฒนา
 
 - คุณสามารถ[ร่วมพัฒนาโครงการนี้](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)ได้ โดยการ fork และส่ง pull request กลับมา
-- โค้ด PyThaiNLP ใช้สัญญาอนุญาต [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
-- คลังคำและข้อมูลที่สร้างโดยโครงการ PyThaiNLP ใช้สัญญาอนุญาตครีเอทีฟคอมมอนส์แบบแสดงที่มา-อนุญาตแบบเดียวกัน 4.0 [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
+- โค้ด PyThaiNLP เผยแพร่ภายใต้สัญญาอนุญาต [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
+- คลังคำและข้อมูลที่สร้างโดยโครงการ PyThaiNLP เผยแพร่ภายใต้สัญญาอนุญาตมอบให้เป็นสมบัติสาธารณะครีเอทีฟคอมมอนส์ 1.0 ([Creative Commons Zero 1.0 Universal Public Domain Dedication License](https://creativecommons.org/publicdomain/zero/1.0/)) หรือสัญญาอนุญาตครีเอทีฟคอมมอนส์แบบแสดงที่มา 4.0 ([Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/))
 - คลังคำและข้อมูลอื่นที่แจกจ่ายพร้อมกับแพคเกจ PyThaiNLP อาจใช้สัญญาอนุญาตอื่น โปรดดูเอกสาร [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md)
 - ตราสัญลักษณ์ออกแบบโดยคุณ วรุตม์ พสุธาดล จากการประกวดที่ในกลุ่มเฟซบุ๊ก [1](https://www.facebook.com/groups/408004796247683/permalink/475864542795041/) [2](https://www.facebook.com/groups/408004796247683/permalink/474262752955220/)
+
 
 ## ผู้สนับสนุน
 

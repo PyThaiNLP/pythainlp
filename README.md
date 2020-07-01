@@ -37,7 +37,7 @@ Using PyThaiNLP:
 ## Capabilities
 
 - Convenient character and word classes, like Thai consonants (`pythainlp.thai_consonants`), vowels (`pythainlp.thai_vowels`), digits (`pythainlp.thai_digits`), and stop words (`pythainlp.corpus.thai_stopwords`) -- comparable to constants like `string.letters`, `string.digits`, and `string.punctuation`
-- Thai linguistic unit segmentation, including sentence (`sent_tokenize`), word (`word_tokenize`), and subword segmentations based on Thai Character Cluster (`subword_tokenize`)
+- Thai linguistic unit segmentation/tokenization, including sentence (`sent_tokenize`), word (`word_tokenize`), and subword segmentations based on Thai Character Cluster (`subword_tokenize`)
 - Thai part-of-speech taggers (`pos_tag`)
 - Thai spelling suggestion and correction (`spell` and `correct`)
 - Thai transliteration (`transliterate`)
@@ -46,6 +46,7 @@ Using PyThaiNLP:
 - Read out number to Thai words (`bahttext`, `num_to_thaiword`)
 - Thai datetime formatting (`thai_strftime`)
 - Thai-English keyboard misswitched fix (`eng_to_thai`, `thai_to_eng`)
+- Command-line interface for basic functions, like tokenization and pos tagging (run `thainlp` in your shell)
 - and much more - see examples in [tutorials](https://www.thainlp.org/pythainlp/tutorials/).
 
 
@@ -91,6 +92,21 @@ where `extras` can be
   - `full` (install everything)
 
 For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
+
+
+## Command-line
+
+Some of PyThaiNLP functionalities can be used at command line, using `thainlp`
+
+For example, displaying a catalog of datasets:
+```sh
+thainlp data catalog
+```
+
+Showing how to use:
+```sh
+thainlp help
+```
 
 
 ## Python 2 Users
@@ -180,7 +196,6 @@ PyThaiNLP เป็นไลบรารีภาษาไพทอนสำห�
 - แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา (`eng_to_thai`, `thai_to_eng`)
 - และอื่น ๆ ดูตัวอย่างได้ใน [tutorials สอนวิธีใช้งาน](https://www.thainlp.org/pythainlp/tutorials/)
 
-
 ## ติดตั้ง
 
 ### รุ่นเสถียร
@@ -221,6 +236,22 @@ pip install pythainlp[extra1,extra2,...]
   - `full` (ติดตั้งทุกอย่าง)
 
 รายละเอียดของแพคเกจเสริมดูได้ในตัวแปรชื่อ `extras` ใน [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py)
+
+
+## เรียกใช้จากบรรทัดคำสั่ง
+
+ความสามารถบางส่วนของ PyThaiNLP สามารถเรียกใช้ได้จาก command line โดยเรียก `thainlp` ที่เชลล์
+
+เช่น แสดงรายชื่อชุดข้อมูลที่เรียกติดตั้งได้
+```sh
+thainlp data catalog
+```
+
+เรียกดูคำสั่งที่ใช้ได้
+```sh
+thainlp help
+```
+
 
 ## การอ้างอิง
 

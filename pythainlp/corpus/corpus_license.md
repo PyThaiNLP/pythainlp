@@ -10,17 +10,17 @@ The following word lists are created by PyThaiNLP project and released under
 Creative Commons Zero 1.0 Universal Public Domain Dedication License
 https://creativecommons.org/publicdomain/zero/1.0/
 
-- countries_th.txt
-- etcc.txt
-- negations_th.txt
-- stopwords_th.txt
-- syllables_th.txt
-- thailand_provinces_th.csv
-- thailand_provinces_th.txt
-- tnc_freq.txt
-- ttc_freq.txt
-- words_th.txt
-- words_th_thai2fit_201810.txt
+- countries_th.txt List of countries in Thai
+- etcc.txt List of Enhanced Thai Character Clusters
+- negations_th.txt Negation word list
+- stopwords_th.txt Stop word list
+- syllables_th.txt List of Thai syllables
+- thailand_provinces_th.csv List of Thailand provinces in Thai
+- thailand_provinces_th.txt List of Thailand provinces in Thai
+- tnc_freq.txt Words and their frequencies, from Thai National Corpus
+- ttc_freq.txt Words and their frequencies, from Thai Textbook Corpus
+- words_th.txt List of Thai words
+- words_th_thai2fit_201810.txt List of Thai words (frozen)
 
 The following word lists are from Thai Male and Female Names Corpus
 https://github.com/korkeatw/thai-names-corpus/ by Korkeat Wannapat
@@ -28,9 +28,9 @@ and released under their the original license which is
 Creative Commons Attribution-ShareAlike 4.0 International Public License
 https://creativecommons.org/licenses/by-sa/4.0/
 
-- family_names_th.txt
-- person_names_female_th.txt
-- person_names_male_th.txt
+- family_names_th.txt List of family names in Thailand
+- person_names_female_th.txt List of female names in Thailand
+- person_names_male_th.txt List of male names in Thailand
 
 
 ## Models
@@ -40,16 +40,16 @@ and released under
 Creative Commons Attribution 4.0 International Public License
 https://creativecommons.org/licenses/by/4.0/
 
-- sentenceseg-crfcut-v2.model
-- ud_thai_pud_pt_tagger.pkl
-- ud_thai_pud_unigram_tagger.json
+- sentenceseg-crfcut-v2.model Sentence segmentation model
+- ud_thai_pud_pt_tagger.pkl Part-of-speech model
+- ud_thai_pud_unigram_tagger.json Part-of-speech model
 
 
 ## Thai WordNet
 
-tha-wn.db is created by Thai Computational Linguistic Laboratory at
-National Institute of Information and Communications Technology (NICT)
-and released under the following license:
+Thai WordNet (tha-wn.db) is created by Thai Computational Linguistic
+Laboratory at National Institute of Information and Communications
+Technology (NICT) and released under the following license:
 
 ```
 Copyright: 2011 NICT
@@ -88,3 +88,9 @@ this software, database and any associated documentation shall at all
 times remain with National Institute of Information and Communications
 Technology and LICENSEE agrees to preserve same.
 ```
+
+For more information about Thai WordNet, see
+S. Thoongsup et al., ‘Thai WordNet construction’,
+in Proceedings of the 7th Workshop on Asian Language Resources,
+Suntec, Singapore, Aug. 2009, pp. 139–144.
+https://www.aclweb.org/anthology/W09-3420.pdf 

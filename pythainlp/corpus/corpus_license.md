@@ -7,42 +7,48 @@ see [https://github.com/PyThaiNLP/pythainlp-corpus/](https://github.com/PyThaiNL
 ## Dictionaries and Word Lists
 
 The following word lists are created by PyThaiNLP project and released under
-Creative Commons Zero 1.0 Universal Public Domain Dedication License
+**Creative Commons Zero 1.0 Universal Public Domain Dedication License**
 https://creativecommons.org/publicdomain/zero/1.0/
 
-- countries_th.txt List of countries in Thai
-- etcc.txt List of Enhanced Thai Character Clusters
-- negations_th.txt Negation word list
-- stopwords_th.txt Stop word list
-- syllables_th.txt List of Thai syllables
-- thailand_provinces_th.csv List of Thailand provinces in Thai
-- thailand_provinces_th.txt List of Thailand provinces in Thai
-- tnc_freq.txt Words and their frequencies, from Thai National Corpus
-- ttc_freq.txt Words and their frequencies, from Thai Textbook Corpus
-- words_th.txt List of Thai words
-- words_th_thai2fit_201810.txt List of Thai words (frozen)
+Filename | Description
+---------|------------
+countries_th.txt | List of countries in Thai
+etcc.txt List of | Enhanced Thai Character Clusters
+negations_th.txt | Negation word list
+stopwords_th.txt | Stop word list
+syllables_th.txt | List of Thai syllables
+thailand_provinces_th.csv | List of Thailand provinces in Thai
+thailand_provinces_th.txt | List of Thailand provinces in Thai
+tnc_freq.txt | Words and their frequencies, from Thai National Corpus
+ttc_freq.txt | Words and their frequencies, from Thai Textbook Corpus
+words_th.txt | List of Thai words
+words_th_thai2fit_201810.txt | List of Thai words (frozen)
 
-The following word lists are from Thai Male and Female Names Corpus
+The following word lists are from **Thai Male and Female Names Corpus**
 https://github.com/korkeatw/thai-names-corpus/ by Korkeat Wannapat
 and released under their the original license which is
-Creative Commons Attribution-ShareAlike 4.0 International Public License
+**Creative Commons Attribution-ShareAlike 4.0 International Public License**
 https://creativecommons.org/licenses/by-sa/4.0/
 
-- family_names_th.txt List of family names in Thailand
-- person_names_female_th.txt List of female names in Thailand
-- person_names_male_th.txt List of male names in Thailand
+Filename | Description
+---------|------------
+family_names_th.txt | List of family names in Thailand
+person_names_female_th.txt | List of female names in Thailand
+person_names_male_th.txt | List of male names in Thailand
 
 
 ## Models
 
 The following language models are created by PyThaiNLP project
 and released under
-Creative Commons Attribution 4.0 International Public License
+**Creative Commons Attribution 4.0 International Public License**
 https://creativecommons.org/licenses/by/4.0/
 
-- sentenceseg-crfcut-v2.model Sentence segmentation model
-- ud_thai_pud_pt_tagger.pkl Part-of-speech model
-- ud_thai_pud_unigram_tagger.json Part-of-speech model
+Filename | Description
+---------|------------
+sentenceseg-crfcut-v2.model | Sentence segmentation model
+ud_thai_pud_pt_tagger.pkl | Part-of-speech model
+ud_thai_pud_unigram_tagger.json | Part-of-speech model
 
 
 ## Thai WordNet

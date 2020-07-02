@@ -6,31 +6,50 @@ see [https://github.com/PyThaiNLP/pythainlp-corpus/](https://github.com/PyThaiNL
 
 ## Dictionaries and Word Lists
 
-countries_th.txt, etcc.txt, negations_th.txt, stopwords_th.txt,
-syllables_th.txt, thailand_provinces_th.csv, thailand_provinces_th.txt,
-tnc_freq.txt, ttc_freq.txt, words_th.txt, and words_th_thai2fit_201810.txt
-are released under
-Creative Commons Zero 1.0 Universal Public Domain Dedication License.
+The following word lists are created by PyThaiNLP project and released under
+Creative Commons Zero 1.0 Universal Public Domain Dedication License
 https://creativecommons.org/publicdomain/zero/1.0/
 
-family_names_th.txt, person_names_female_th.txt, and person_names_male_th.txt
-are from https://github.com/korkeatw/thai-names-corpus/ and
-released under the original license which is
-Creative Commons Attribution-ShareAlike 4.0 International Public License.
+- countries_th.txt
+- etcc.txt
+- negations_th.txt
+- stopwords_th.txt
+- syllables_th.txt
+- thailand_provinces_th.csv
+- thailand_provinces_th.txt
+- tnc_freq.txt
+- ttc_freq.txt
+- words_th.txt
+- words_th_thai2fit_201810.txt
+
+The following word lists are from Thai Male and Female Names Corpus
+https://github.com/korkeatw/thai-names-corpus/ by Korkeat Wannapat
+and released under their the original license which is
+Creative Commons Attribution-ShareAlike 4.0 International Public License
 https://creativecommons.org/licenses/by-sa/4.0/
 
+- family_names_th.txt
+- person_names_female_th.txt
+- person_names_male_th.txt
 
-## Model
 
-sentenceseg-crfcut-v2.model, ud_thai_pud_pt_tagger.pkl, and
-ud_thai_pud_unigram_tagger.json are released under
-Creative Commons Attribution 4.0 International Public License.
+## Models
+
+The following language models are created by PyThaiNLP project
+and released under
+Creative Commons Attribution 4.0 International Public License
 https://creativecommons.org/licenses/by/4.0/
+
+- sentenceseg-crfcut-v2.model
+- ud_thai_pud_pt_tagger.pkl
+- ud_thai_pud_unigram_tagger.json
 
 
 ## Thai WordNet
 
-tha-wn.db
+tha-wn.db is created by Thai Computational Linguistic Laboratory at
+National Institute of Information and Communications Technology (NICT)
+and released under the following license:
 
 ```
 Copyright: 2011 NICT

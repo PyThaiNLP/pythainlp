@@ -33,8 +33,9 @@ cache:
 #  - '~/pythainlp-data'
 
 install:
-  - sudo awk '!x[$0]++' /etc/apt/sources.list > ./sources.revisedlist
-  - sudo cp ./sources-revised.list /etc/apt/sources.list
+  - sudo touch /home/sources-revised.list
+  - sudo awk '!x[$0]++' /etc/apt/sources.list > /home/sources-revised.list
+  - sudo cp /home/sources-revised.list /etc/apt/sources.list
   - sudo apt-get update
   - sudo apt-get install -y pandoc libicu-dev python3-pip
   - sudo pip3 install --upgrade pip

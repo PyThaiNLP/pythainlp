@@ -55,7 +55,7 @@ ud_thai_pud_unigram_tagger.json | Part-of-speech model
 
 Thai WordNet (tha-wn.db) is created by Thai Computational Linguistic
 Laboratory at National Institute of Information and Communications
-Technology (NICT) and released under the following license:
+Technology (NICT), Japan, and released under the following license:
 
 ```
 Copyright: 2011 NICT

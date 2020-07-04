@@ -3,14 +3,18 @@
 Segmenting text to Enhanced Thai Character Cluster (ETCC)
 Python implementation by Wannaphong Phatthiyaphaibun
 
+This implementation relies on a dictionary of ETCC created from etcc.txt
+in pythainlp/corpus.
+
 Notebook:
 https://colab.research.google.com/drive/1UTQgxxMRxOr9Jp1B1jcq1frBNvorhtBQ
 
 :See Also:
 
-Inrut, Jeeragone, Patiroop Yuanghirun, Sarayut Paludkong, Supot Nitsuwat, and Para Limmaneepraserth.
-"Thai word segmentation using combination of forward and backward longest matching techniques."
-In International Symposium on Communications and Information Technology (ISCIT), pp. 37-40. 2001.
+Inrut, Jeeragone, Patiroop Yuanghirun, Sarayut Paludkong, Supot Nitsuwat, and
+Para Limmaneepraserth. "Thai word segmentation using combination of forward
+and backward longest matching techniques." In International Symposium on
+Communications and Information Technology (ISCIT), pp. 37-40. 2001.
 """
 import re
 from typing import List

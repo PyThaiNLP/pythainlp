@@ -6,15 +6,16 @@
 [![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
 [![Downloads](https://pepy.tech/badge/pythainlp/month)](https://pepy.tech/project/pythainlp)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp?ref=badge_shield)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp)
 [![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)
-[![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev) [![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp_get_started.ipynb)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2)
+[![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev) 
+[![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp_get_started.ipynb)
 [![DOI](https://zenodo.org/badge/61813823.svg)](https://zenodo.org/badge/latestdoi/61813823)
 
-PyThaiNLP is a Python package for text processing and linguistic analysis, similar to `nltk` but with focus on Thai language.
+PyThaiNLP is a Python package for text processing and linguistic analysis, similar to [NLTK](https://www.nltk.org/) with focus on Thai language.
 
-PyThaiNLP เป็นไลบารีภาษาไพทอนสำหรับประมวลผลภาษาธรรมชาติ โดยเน้นภาษาไทย ดูรายละเอียดภาษาไทยเพิ่มเติมด้านล่าง
+PyThaiNLP เป็นไลบารีภาษาไพทอนสำหรับประมวลผลภาษาธรรมชาติ โดยเน้นภาษาไทย ดูรายละเอียดภาษาไทยด้านล่าง
 
 **News**
 
@@ -36,15 +37,16 @@ Using PyThaiNLP:
 ## Capabilities
 
 - Convenient character and word classes, like Thai consonants (`pythainlp.thai_consonants`), vowels (`pythainlp.thai_vowels`), digits (`pythainlp.thai_digits`), and stop words (`pythainlp.corpus.thai_stopwords`) -- comparable to constants like `string.letters`, `string.digits`, and `string.punctuation`
-- Thai word segmentation (`word_tokenize`), including subword segmentation based on Thai Character Cluster (`subword_tokenize`)
-- Thai transliteration (`transliterate`)
+- Thai linguistic unit segmentation/tokenization, including sentence (`sent_tokenize`), word (`word_tokenize`), and subword segmentations based on Thai Character Cluster (`subword_tokenize`)
 - Thai part-of-speech taggers (`pos_tag`)
-- Read out number to Thai words (`bahttext`, `num_to_thaiword`)
-- Thai collation (sort by dictionoary order) (`collate`)
-- Thai-English keyboard misswitched fix (`eng_to_thai`, `thai_to_eng`)
 - Thai spelling suggestion and correction (`spell` and `correct`)
+- Thai transliteration (`transliterate`)
 - Thai soundex (`soundex`) with three engines (`lk82`, `udom83`, `metasound`)
+- Thai collation (sort by dictionoary order) (`collate`)
+- Read out number to Thai words (`bahttext`, `num_to_thaiword`)
 - Thai datetime formatting (`thai_strftime`)
+- Thai-English keyboard misswitched fix (`eng_to_thai`, `thai_to_eng`)
+- Command-line interface for basic functions, like tokenization and pos tagging (run `thainlp` in your shell)
 - and much more - see examples in [tutorials](https://www.thainlp.org/pythainlp/tutorials/).
 
 
@@ -92,6 +94,21 @@ where `extras` can be
 For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
 
 
+## Command-line
+
+Some of PyThaiNLP functionalities can be used at command line, using `thainlp`
+
+For example, displaying a catalog of datasets:
+```sh
+thainlp data catalog
+```
+
+Showing how to use:
+```sh
+thainlp help
+```
+
+
 ## Python 2 Users
 
 - PyThaiNLP 2 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [1.7 -> 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
@@ -125,9 +142,21 @@ or BibTeX entry:
 
 - Please do fork and create a pull request :)
 - For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
-- PyThaiNLP code uses [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
-- Corpus data created by PyThaiNLP project use [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
-- For other corpus that may included with PyThaiNLP distribution, please refer to [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md).
+
+## Licenses
+
+- PyThaiNLP source code and notebooks is released under [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE).
+- Corpora, datasets, and documentation created by PyThaiNLP project are released under [Creative Commons Zero 1.0 Universal Public Domain Dedication License](https://creativecommons.org/publicdomain/zero/1.0/) (CC0).
+- Language models created by PyThaiNLP project are released under [Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/) (CC-by).
+- For other corpora and models that may included with PyThaiNLP distribution, please advise [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md).
+
+## Sponsors
+
+[![VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/assets/img/logo/airesearch-logo.svg)](https://airesearch.in.th/)
+
+Since 2019, Korakot Chaovavanich and Lalita Lowphansirikul contributions to PyThaiNLP are supported by [VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/).
+
+------
 
 Made with ❤️<br />
 PyThaiNLP Team<br />
@@ -154,23 +183,22 @@ PyThaiNLP เป็นไลบรารีภาษาไพทอนสำห�
 - สอนการใช้งานเพิ่มเติม ในรูปแบบ notebook [https://www.thainlp.org/pythainlp/tutorials/](https://www.thainlp.org/pythainlp/tutorials/)
 - เอกสารตัวเต็ม [https://thainlp.org/pythainlp/docs/2.2/](https://thainlp.org/pythainlp/docs/2.2/)
 - ระหว่างการทำงาน PyThaiNLP อาจดาวน์โหลดข้อมูลเพิ่มเติม เช่น ตัวแบบภาษา และรายการคำ ข้อมูลเหล่านี้จะถูกเก็บไว้ที่ไดเรกทอรี `~/pythainlp-data` เป็นตำแหน่งมาตรฐาน
-  - ตำแหน่งเก็บข้อมูลนี้สามารถกำหนดเองได้ โดยการเปลี่ยนแปลงตัวแปรสิ่งแวดล้อม `PYTHAINLP_DATA_DIR` ของระบบปฏิบัติการ
+- ตำแหน่งเก็บข้อมูลนี้สามารถกำหนดเองได้ โดยการเปลี่ยนแปลงตัวแปรสิ่งแวดล้อม `PYTHAINLP_DATA_DIR` ของระบบปฏิบัติการ
 
 
 ## ความสามารถ
 
 - ชุดค่าคงที่ตัวอักษระและคำไทยที่เรียกใช้ได้สะดวก เช่น พยัญชนะ (`pythainlp.thai_consonants`), สระ (`pythainlp.thai_vowels`), ตัวเลขไทย (`pythainlp.thai_digits`), และ stop word (`pythainlp.corpus.thai_stopwords`) -- เหมือนกับค่าคงที่อย่าง `string.letters`, `string.digits`, และ `string.punctuation`
-- ตัดคำภาษาไทย (`word_tokenize`) และรองรับการตัดระดับต่ำกว่าคำโดยใช้ Thai Character Clusters (`subword_tokenize`)
-- ถอดเสียงภาษาไทยเป็นอักษรละตินและสัทอักษร (`transliterate`)
+- แบ่งหน่วยทางภาษาศาสตร์ในภาษาไทย รวมถึงการแบ่งประโยค (`sent_tokenize`) แบ่งคำ (`word_tokenize`) และการแบ่งระดับต่ำกว่าคำโดยใช้ Thai Character Clusters (`subword_tokenize`)
 - ระบุชนิดคำ (part-of-speech) ภาษาไทย (`pos_tag`)
-- อ่านตัวเลขเป็นข้อความภาษาไทย (`bahttext`, `num_to_thaiword`)
-- เรียงลำดับคำตามพจนานุกรมไทย (`collate`)
-- แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา (`eng_to_thai`, `thai_to_eng`)
-- ตรวจคำสะกดผิดในภาษาไทย (`spell`, `correct`)
+- แนะนำและแก้ตัวสะกดในภาษาไทย (`spell`, `correct`)
+- ถอดเสียงภาษาไทยเป็นอักษรละตินและสัทอักษร (`transliterate`)
 - soundex ภาษาไทย (`soundex`) 3 วิธีการ (`lk82`, `udom83`, `metasound`)
+- เรียงลำดับคำตามพจนานุกรมไทย (`collate`)
+- อ่านตัวเลขเป็นข้อความภาษาไทย (`bahttext`, `num_to_thaiword`)
 - รูปแบบวันที่และเวลาไทย (`thai_strftime`)
+- แก้ไขปัญหาการพิมพ์ลืมเปลี่ยนภาษา (`eng_to_thai`, `thai_to_eng`)
 - และอื่น ๆ ดูตัวอย่างได้ใน [tutorials สอนวิธีใช้งาน](https://www.thainlp.org/pythainlp/tutorials/)
-
 
 ## ติดตั้ง
 
@@ -213,6 +241,22 @@ pip install pythainlp[extra1,extra2,...]
 
 รายละเอียดของแพคเกจเสริมดูได้ในตัวแปรชื่อ `extras` ใน [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py)
 
+
+## เรียกใช้จากบรรทัดคำสั่ง
+
+ความสามารถบางส่วนของ PyThaiNLP สามารถเรียกใช้ได้จาก command line โดยเรียก `thainlp` ที่เชลล์
+
+เช่น แสดงรายชื่อชุดข้อมูลที่เรียกติดตั้งได้
+```sh
+thainlp data catalog
+```
+
+เรียกดูคำสั่งที่ใช้ได้
+```sh
+thainlp help
+```
+
+
 ## การอ้างอิง
 
 หากคุณใช้ `PyThaiNLP` ในโปรเจคของคุณหรืองานวิจัย คุณสามารถอ้างอิงได้ตามนี้
@@ -237,11 +281,25 @@ Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Sur
 
 ## สนับสนุนและร่วมพัฒนา
 
-- คุณสามารถ[ร่วมพัฒนาโครงการนี้](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)ได้ โดยการ fork และส่ง pull request กลับมา
-- โค้ด PyThaiNLP ใช้สัญญาอนุญาต [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
-- คลังคำและข้อมูลที่สร้างโดยโครงการ PyThaiNLP ใช้สัญญาอนุญาตครีเอทีฟคอมมอนส์แบบแสดงที่มา-อนุญาตแบบเดียวกัน 4.0 [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
-- คลังคำและข้อมูลอื่นๆ ที่แจกจ่ายไปพร้อมกับแพคเกจ PyThaiNLP อาจใช้สัญญาอนุญาตอื่น โปรดดูเอกสาร [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md)
+- ทุกคนสามารถร่วมพัฒนาโครงการนี้ได้ โดยการ fork และส่ง pull request กลับมา
+- อ่าน[เอกสารแนะนำการพัฒนา](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)
+
+## สัญญาอนุญาต
+
+- รหัสต้นฉบับ (ซอร์สโค้ด) และโน๊ตบุ๊ก (IPython Notebook) ของ PyThaiNLP เผยแพร่ภายใต้สัญญาอนุญาต [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
+- รายการคำและเอกสารที่สร้างโดยโครงการ PyThaiNLP เผยแพร่ภายใต้สัญญาอนุญาตมอบให้เป็นสมบัติสาธารณะครีเอทีฟคอมมอนส์ 1.0 ([Creative Commons Zero 1.0 Universal Public Domain Dedication License](https://creativecommons.org/publicdomain/zero/1.0/)) (CC0)
+- ตัวแบบภาษา (language model) ที่สร้างโดยโครงการ PyThaiNLP เผยแพร่ภายใต้สัญญาอนุญาตครีเอทีฟคอมมอนส์แบบแสดงที่มา 4.0 ([Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/)) (CC-by)
+- คลังคำ ตัวแบบภาษา และข้อมูลอื่น ที่แจกจ่ายพร้อมกับแพคเกจ PyThaiNLP อาจใช้สัญญาอนุญาตอื่น โปรดดูเอกสาร [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md)
 - ตราสัญลักษณ์ออกแบบโดยคุณ วรุตม์ พสุธาดล จากการประกวดที่ในกลุ่มเฟซบุ๊ก [1](https://www.facebook.com/groups/408004796247683/permalink/475864542795041/) [2](https://www.facebook.com/groups/408004796247683/permalink/474262752955220/)
+
+
+## ผู้สนับสนุน
+
+[![VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/assets/img/logo/airesearch-logo.svg)](https://airesearch.in.th/)
+
+ตั้งแต่ปี 2562 การสมทบพัฒนา PyThaiNLP โดย Korakot Chaovavanich และ Lalita Lowphansirikul สนับสนุนโดย [สถาบันวิจัยปัญญาประดิษฐ์ประเทศไทย (VISTEC-depa Thailand Artificial Intelligence Research Institute)](https://airesearch.in.th/)
+
+------
 
 สร้างด้วย ❤️<br />
 ทีม PyThaiNLP<br />

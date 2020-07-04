@@ -1,8 +1,8 @@
 # Corpus License
 
-For more information about corpora that PyThaiNLP use,
-see [https://github.com/PyThaiNLP/pythainlp-corpus/](https://github.com/PyThaiNLP/pythainlp-corpus/).
-
+- Corpora, datasets, and documentation created by PyThaiNLP project are released under [Creative Commons Zero 1.0 Universal Public Domain Dedication License](https://creativecommons.org/publicdomain/zero/1.0/) (CC0).
+- Language models created by PyThaiNLP project are released under [Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/) (CC-by).
+- For more information about corpora that PyThaiNLP use, see [https://github.com/PyThaiNLP/pythainlp-corpus/](https://github.com/PyThaiNLP/pythainlp-corpus/).
 
 ## Dictionaries and Word Lists
 

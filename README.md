@@ -80,16 +80,19 @@ For some functionalities, like named-entity recognition, extra packages may be n
 pip install pythainlp[extra1,extra2,...]
 ```
 
-where `extras` can be
-  - `attacut` (to support attacut, a fast and accurate tokenizer)
-  - `benchmarks` (for [word tokenization benchmarking](tokenization-benchmark.md))
-  - `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
-  - `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
-  - `ml` (to support ULMFiT models for classification)
-  - `thai2fit` (for Thai word vector)
-  - `thai2rom` (for machine-learnt romanization)
-  - `wordnet` (for Thai WordNet API)
-  - `full` (install everything)
+<details>
+  <summary>where `extras` can be</summary>
+  
+-  `attacut` (to support attacut, a fast and accurate tokenizer)
+-  `benchmarks` (for [word tokenization benchmarking](tokenization-benchmark.md))
+-  `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
+-  `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
+-  `ml` (to support ULMFiT models for classification)
+-  `thai2fit` (for Thai word vector)
+-  `thai2rom` (for machine-learnt romanization)
+-  `wordnet` (for Thai WordNet API)
+-  `full` (install everything)
+</details>
 
 For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
 

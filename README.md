@@ -149,8 +149,9 @@ or BibTeX entry:
 ## Licenses
 
 - PyThaiNLP source code and notebooks are released under [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE).
-- Corpora, datasets, and documentation created by PyThaiNLP project are released under [Creative Commons Zero 1.0 Universal Public Domain Dedication License](https://creativecommons.org/publicdomain/zero/1.0/) (CC0).
-- Language models created by PyThaiNLP project are released under [Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/) (CC-by).
+- All corpora, datasets, and documentation created by PyThaiNLP project are released under [Creative Commons Zero 1.0 Universal Public Domain Dedication License](https://creativecommons.org/publicdomain/zero/1.0/) (CC0).
+- All language models created by PyThaiNLP project are released under [Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/) (CC-by).
+- For more information about corpora and models created by PyThaiNLP project, see [PyThaiNLP Corpus](https://github.com/PyThaiNLP/pythainlp-corpus/).
 - For other corpora and models that may included with PyThaiNLP distribution, please advise [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md).
 
 ## Sponsors
@@ -290,8 +291,9 @@ Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Sur
 ## สัญญาอนุญาต
 
 - รหัสต้นฉบับ (ซอร์สโค้ด) และโน๊ตบุ๊ก (IPython Notebook) ของ PyThaiNLP เผยแพร่ภายใต้สัญญาอนุญาต [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE)
-- รายการคำและเอกสารที่สร้างโดยโครงการ PyThaiNLP เผยแพร่ภายใต้สัญญาอนุญาตมอบให้เป็นสมบัติสาธารณะครีเอทีฟคอมมอนส์ 1.0 ([Creative Commons Zero 1.0 Universal Public Domain Dedication License](https://creativecommons.org/publicdomain/zero/1.0/)) (CC0)
+- ทรัพยากรภาษา รายการคำ และเอกสารที่สร้างโดยโครงการ PyThaiNLP เผยแพร่ภายใต้สัญญาอนุญาตมอบให้เป็นสมบัติสาธารณะครีเอทีฟคอมมอนส์ 1.0 ([Creative Commons Zero 1.0 Universal Public Domain Dedication License](https://creativecommons.org/publicdomain/zero/1.0/)) (CC0)
 - ตัวแบบภาษา (language model) ที่สร้างโดยโครงการ PyThaiNLP เผยแพร่ภายใต้สัญญาอนุญาตครีเอทีฟคอมมอนส์แบบแสดงที่มา 4.0 ([Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/)) (CC-by)
+- ข้อมูลเพิ่มเติมเกี่ยวกับทรัพยากรภาษาและตัวแบบภาษาที่สร้างโดยโครงการ PyThaiNLP ดูที่ [PyThaiNLP Corpus](https://github.com/PyThaiNLP/pythainlp-corpus/)
 - คลังคำ ตัวแบบภาษา และข้อมูลอื่น ที่แจกจ่ายพร้อมกับแพคเกจ PyThaiNLP อาจใช้สัญญาอนุญาตอื่น โปรดดูเอกสาร [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md)
 - ตราสัญลักษณ์ออกแบบโดยคุณ วรุตม์ พสุธาดล จากการประกวดที่ในกลุ่มเฟซบุ๊ก [1](https://www.facebook.com/groups/408004796247683/permalink/475864542795041/) [2](https://www.facebook.com/groups/408004796247683/permalink/474262752955220/)
 

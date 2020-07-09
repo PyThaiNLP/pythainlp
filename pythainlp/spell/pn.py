@@ -46,9 +46,8 @@ def _keep(
     dict_filter: Callable[[str], bool],
 ) -> bool:
     """
-    Checks whether a given word with the given accuracy
-    has the required minimum frequency of min_freq
-    and its character length is between min_len and max_len.
+    Checks whether a given word has the required minimum frequency of min_freq
+    and its character length is between min_len and max_len (inclusive).
     """
     if not word_freq or word_freq[1] < min_freq:
         return False

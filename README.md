@@ -21,7 +21,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 >We are conducting a 2-minute survey to know more about your experience using the library and your expectations regarding what the library should be able to do. Take part in this survey: https://forms.gle/aLdSHnvkNuK5CFyt9
 
-- The latest stable release is [2.2.1](https://github.com/PyThaiNLP/pythainlp/releases). See [2.2 change log](https://github.com/PyThaiNLP/pythainlp/issues/330).
+- The latest stable release is [2.2.2](https://github.com/PyThaiNLP/pythainlp/releases). See [2.2 change log](https://github.com/PyThaiNLP/pythainlp/issues/330).
 - For latest development, see [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch. See ongoing [2.3 development change log](https://github.com/PyThaiNLP/pythainlp/issues/445).
 
 Using PyThaiNLP:
@@ -177,7 +177,7 @@ PyThaiNLP เป็นไลบรารีภาษาไพทอนสำห�
 
 >สวัสดีค่ะ ทีมพัฒนา PyThaiNLP ขอสอบถามความคิดเห็นของผู้ใช้งาน PyThaiNLP หรือผู้ที่ทำงานในด้านการประมวลผลภาษาไทย เพื่อนำข้อมูลไปปรับปรุงและพัฒนาฟีเจอร์ใหม่ๆ ให้ตรงกับความต้องการใช้งานมากขึ้น สามารถตอบแบบสอบถามได้ที่ https://forms.gle/aLdSHnvkNuK5CFyt9 (ใช้เวลาประมาณ 2-5 นาที)
 
-- รุ่นเสถียรล่าสุดคือรุ่น [2.2.1](https://github.com/PyThaiNLP/pythainlp/releases)
+- รุ่นเสถียรล่าสุดคือรุ่น [2.2.2](https://github.com/PyThaiNLP/pythainlp/releases)
 - PyThaiNLP 2 รองรับ Python 3.6 ขึ้นไป
   - ผู้ใช้ Python 2.7+ ยังสามารถใช้ [PyThaiNLP 1.6](https://github.com/PyThaiNLP/pythainlp/blob/007e644daab4ac8379a13f26065e2d9492af0536/docs/pythainlp-1-6-thai.md) ได้
 - 📫 ติดตามข่าวสารได้ที่ Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)

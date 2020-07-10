@@ -17,14 +17,13 @@ PyThaiNLP is a Python package for text processing and linguistic analysis, simil
 
 PyThaiNLP เป็นไลบารีภาษาไพทอนสำหรับประมวลผลภาษาธรรมชาติ โดยเน้นภาษาไทย ดูรายละเอียดภาษาไทยด้านล่าง
 
-**News**
-
->We are conducting a 2-minute survey to know more about your experience using the library and your expectations regarding what the library should be able to do. Take part in this survey: https://forms.gle/aLdSHnvkNuK5CFyt9
+## News
 
 - The latest stable release is [2.2.2](https://github.com/PyThaiNLP/pythainlp/releases). See [2.2 change log](https://github.com/PyThaiNLP/pythainlp/issues/330).
 - For latest development, see [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) branch. See ongoing [2.3 development change log](https://github.com/PyThaiNLP/pythainlp/issues/445).
 
-Using PyThaiNLP:
+## Using PyThaiNLP
+
 - [PyThaiNLP Get Started](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html)
 - More tutorials at [https://www.thainlp.org/pythainlp/tutorials/](https://www.thainlp.org/pythainlp/tutorials/)
 - See full documentation at [https://thainlp.org/pythainlp/docs/2.2/](https://thainlp.org/pythainlp/docs/2.2/)
@@ -80,18 +79,20 @@ For some functionalities, like named-entity recognition, extra packages may be n
 pip install pythainlp[extra1,extra2,...]
 ```
 
-<details>
-  <summary>where `extras` can be</summary>
-  
+where `extras` can be:
+-  `full` (install everything)
 -  `attacut` (to support attacut, a fast and accurate tokenizer)
 -  `benchmarks` (for [word tokenization benchmarking](tokenization-benchmark.md))
+<details>
+  <summary>more options</summary>
+
 -  `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
 -  `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
 -  `ml` (to support ULMFiT models for classification)
 -  `thai2fit` (for Thai word vector)
 -  `thai2rom` (for machine-learnt romanization)
 -  `wordnet` (for Thai WordNet API)
--  `full` (install everything)
+
 </details>
 
 For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
@@ -173,16 +174,15 @@ PyThaiNLP เป็นไลบรารีภาษาไพทอนสำห�
 
 > เพราะโลกขับเคลื่อนต่อไปด้วยการแบ่งปัน
 
-**ข่าวสาร**
-
->สวัสดีค่ะ ทีมพัฒนา PyThaiNLP ขอสอบถามความคิดเห็นของผู้ใช้งาน PyThaiNLP หรือผู้ที่ทำงานในด้านการประมวลผลภาษาไทย เพื่อนำข้อมูลไปปรับปรุงและพัฒนาฟีเจอร์ใหม่ๆ ให้ตรงกับความต้องการใช้งานมากขึ้น สามารถตอบแบบสอบถามได้ที่ https://forms.gle/aLdSHnvkNuK5CFyt9 (ใช้เวลาประมาณ 2-5 นาที)
+## ข่าวสาร
 
 - รุ่นเสถียรล่าสุดคือรุ่น [2.2.2](https://github.com/PyThaiNLP/pythainlp/releases)
 - PyThaiNLP 2 รองรับ Python 3.6 ขึ้นไป
   - ผู้ใช้ Python 2.7+ ยังสามารถใช้ [PyThaiNLP 1.6](https://github.com/PyThaiNLP/pythainlp/blob/007e644daab4ac8379a13f26065e2d9492af0536/docs/pythainlp-1-6-thai.md) ได้
 - 📫 ติดตามข่าวสารได้ที่ Facebook [PyThaiNLP](https://www.facebook.com/pythainlp/)
 
-ใช้งาน PyThaiNLP:
+## ใช้งาน PyThaiNLP
+
 - [เริ่มต้นใช้งาน PyThaiNLP](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html)
 - สอนการใช้งานเพิ่มเติม ในรูปแบบ notebook [https://www.thainlp.org/pythainlp/tutorials/](https://www.thainlp.org/pythainlp/tutorials/)
 - เอกสารตัวเต็ม [https://thainlp.org/pythainlp/docs/2.2/](https://thainlp.org/pythainlp/docs/2.2/)

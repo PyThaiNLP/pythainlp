@@ -1,8 +1,7 @@
 
-# PyThaiNLP: Thai Natural Language Processing in Python
-
 <div align="center">
   <img src="https://avatars0.githubusercontent.com/u/32934255?s=200&v=4"/>
+  <h1>PyThaiNLP: Thai Natural Language Processing in Python</h1>
 </div>
 
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
@@ -165,7 +164,6 @@ or BibTeX entry:
 | All corpora, datasets, and documentations created by PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication Licensei (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
 | All language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/)  |
 | Other corpora and models that may included with PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
-
 
 ## Sponsors
 

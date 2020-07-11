@@ -4,14 +4,16 @@
   <h1>PyThaiNLP: Thai Natural Language Processing in Python</h1>
 </div>
 
-[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
-[![Downloads](https://pepy.tech/badge/pythainlp/month)](https://pepy.tech/project/pythainlp)
+[![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp)
+[![Downloads](https://pepy.tech/badge/pythainlp/month)](https://pepy.tech/project/pythainlp)
+
 [![Build status](https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true)](https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2)
 [![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev) 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cb946260c87a4cc5905ca608704406f7)](https://www.codacy.com/app/pythainlp/pythainlp_2)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp)
+
 [![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp_get_started.ipynb)
 [![DOI](https://zenodo.org/badge/61813823.svg)](https://zenodo.org/badge/latestdoi/61813823)
 
@@ -28,13 +30,13 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 | [2.2.2](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/330) |
 | [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 2.3  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/445) |
 
-Please follow our [PyThaiNLP](https://www.facebook.com/pythainlp/) fanpage for more and recent updates.
+Please follow our [PyThaiNLP Facebook page](https://www.facebook.com/pythainlp/) for more updates.
 
 ## Getting Started with PyThaiNLP
 
 We provide [PyThaiNLP Get Started Tutorial](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html) for exploring features in PyThaiNLP; We also have tutorials for specific tasks. Please visit [our tutorial page](https://www.thainlp.org/pythainlp/tutorials).
 
-Latest document can be at [https://thainlp.org/pythainlp/docs/2.2/](https://thainlp.org/pythainlp/docs/2.2/).
+Latest document is available at [https://thainlp.org/pythainlp/docs/2.2/](https://thainlp.org/pythainlp/docs/2.2/).
 
 We try to make the package easy to use as much as possible; therefore, some additional data (like word lists and language models) may get automatically download during runtime. PyThaiNLP caches additional data under the directory `~/pythainlp-data` by default, but the user can change the value by specifying the environment variable `PYTHAINLP_DATA_DIR`. See corpus catalog at [PyThaiNLP/pythainlp-corpus](https://github.com/PyThaiNLP/pythainlp-corpus).
 
@@ -62,37 +64,31 @@ Please see [our tutorials](https://www.thainlp.org/pythainlp/tutorials) on how t
 
 ## Installation
 
-PyThaiNLP uses PyPI as its main distribution channel, see [https://pypi.org/project/pythainlp/](https://pypi.org/project/pythainlp/)
-
-### Stable Release
-
 ```sh
-pip install pythainlp
+pip install --upgrade pythainlp
 ```
 
-### Development Pre-release
+This will install the latest stable release of PyThaiNLP.
+PyThaiNLP uses pip as its package manger and PyPI as its main distribution channel, see [https://pypi.org/project/pythainlp/](https://pypi.org/project/pythainlp/)
 
-```sh
-pip install --upgrade --pre pythainlp
-```
+Install different releases:
 
-### Fresh from Dev Branch
-
-```sh
-pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip
-```
+- Stable release: `pip install --upgrade pythainlp`
+- Pre-release (near ready): `pip install --upgrade --pre pythainlp`
+- Development (likely to break things): `pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip`
 
 ### Installation Options
 
-For some functionalities, like named-entity recognition, extra packages may be needed. Install them with these install options:
+Some functionalities, like named-entity recognition, may require extra packages. To install those requirements, specify a set of                                                                                                                                                                                         `[name]` immediately after `pythainlp`:
 
 ```sh
 pip install pythainlp[extra1,extra2,...]
 ```
 
 <details>
-  <summary>where `extras` can be</summary>
-  
+  <summary>List of possible `extras`</summary>
+
+-  `full` (install everything)
 -  `attacut` (to support attacut, a fast and accurate tokenizer)
 -  `benchmarks` (for [word tokenization benchmarking](tokenization-benchmark.md))
 -  `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
@@ -101,7 +97,6 @@ pip install pythainlp[extra1,extra2,...]
 -  `thai2fit` (for Thai word vector)
 -  `thai2rom` (for machine-learnt romanization)
 -  `wordnet` (for Thai WordNet API)
--  `full` (install everything)
 </details>
 
 For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
@@ -161,8 +156,8 @@ or BibTeX entry:
 | | License |
 |:---|:----|
 | PyThaiNLP Source Code and Notebooks | [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE) |
-| All corpora, datasets, and documentations created by PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication Licensei (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
-| All language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/)  |
+| Corpora, datasets, and documentations created by PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication Licensei (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
+| Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/)  |
 | Other corpora and models that may included with PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
 
 ## Sponsors

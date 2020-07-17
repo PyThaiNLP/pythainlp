@@ -31,7 +31,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 ## เริ่มต้นกับ PyThaiNLP
 
-พวกเราได้จัดทำ [PyThaiNLP Get Started Tutorial](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html) สำหรับสำรวจความสามารถของ PyThaiNLP; พวกเรา have tutorials for specific tasks. Please visit [our tutorial page](https://www.thainlp.org/pythainlp/tutorials).
+พวกเราได้จัดทำ [PyThaiNLP Get Started Tutorial](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html) สำหรับสำรวจความสามารถของ PyThaiNLP; พวกเรา มีเอกสารสอนใช้งาน สามารถศึกษาได้ที่ [หน้า tutorial](https://www.thainlp.org/pythainlp/tutorials).
 
 สามารถอ่านเอกสารล่าสุดได้ที่ [https://thainlp.org/pythainlp/docs/2.2/](https://thainlp.org/pythainlp/docs/2.2/).
 
@@ -39,7 +39,7 @@ We try to make the package easy to use as much as possible; therefore, some addi
 
 ## ความสามารถ
 
-PyThaiNLP provides standard NLP functions for Thai, for example part-of-speec tagging, linguistic unit segmentation (syllable, word, or sentence). Some of these functions are also available via command-line interface.
+PyThaiNLP มีความสามารถพื้นฐานสำหรับการประมวลผลภาษาไทย ตัวอย่างเช่น part-of-speec tagging, linguistic unit segmentation (syllable, word, or sentence) บางความสามารถสามารถใช้งานได้ผ่านทางโหมด command-line
 
 <details>
   <summary>รายการความสามารถ</summary>
@@ -57,7 +57,7 @@ PyThaiNLP provides standard NLP functions for Thai, for example part-of-speec ta
 - Command-line interface for basic functions, like tokenization and pos tagging (run `thainlp` in your shell)
 </details>
 
-Please see [our tutorials](https://www.thainlp.org/pythainlp/tutorials) on how to apply these functions to ML problems.
+อ่านรายละเอียดได้ที่ [tutorials](https://www.thainlp.org/pythainlp/tutorials)
 
 ## การติดตั้ง
 
@@ -65,18 +65,18 @@ Please see [our tutorials](https://www.thainlp.org/pythainlp/tutorials) on how t
 pip install --upgrade pythainlp
 ```
 
-This will install the latest stable release of PyThaiNLP.
-PyThaiNLP uses pip as its package manger and PyPI as its main distribution channel, see [https://pypi.org/project/pythainlp/](https://pypi.org/project/pythainlp/)
+วิธีดังขึ้นเป็นการติดตั้งรุ่นเสถียรของ PyThaiNLP
+PyThaiNLP ใช้ pip สำหรับจัดการโมดูลและใช้ PyPI เป็นช่องทางหลักในการแจกจ่ายโมดูล อ่านรายละเอียดได้ที่ [https://pypi.org/project/pythainlp/](https://pypi.org/project/pythainlp/)
 
 Install different releases:
 
-- Stable release: `pip install --upgrade pythainlp`
+- รุ่นเสถียร: `pip install --upgrade pythainlp`
 - Pre-release (near ready): `pip install --upgrade --pre pythainlp`
 - Development (likely to break things): `pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip`
 
 ### ตัวเลือกการติดตั้ง
 
-Some functionalities, like named-entity recognition, may require extra packages. To install those requirements, specify a set of                                                                                                                                                                                         `[name]` immediately after `pythainlp`:
+บางความสามารถ เช่น named-entity recognition ต้องการโมดูลภายนอกในการทำงานนอกจาก PyThaiNLP คุณจะต้องอาศัย                                                                                                                                                                                         `[name]` หลังจาก `pythainlp`:
 
 ```sh
 pip install pythainlp[extra1,extra2,...]
@@ -101,14 +101,14 @@ For dependency details, look at `extras` variable in [`setup.py`](https://github
 
 ## Command-line
 
-Some of PyThaiNLP functionalities can be used at command line, using `thainlp`
+บางความสามารถของ PyThaiNLP สามารถใช้งานผ่าน command line ได้โดยใช้ `thainlp`
 
-For example, displaying a catalog of datasets:
+ตัวอย่าง, แสดงรายละเอียดของชุดข้อมูล:
 ```sh
 thainlp data catalog
 ```
 
-Showing how to use:
+แสดงวิธีใช้งาน:
 ```sh
 thainlp help
 ```
@@ -116,7 +116,7 @@ thainlp help
 
 ## ผู้ใช้งาน Python 2
 
-- PyThaiNLP 2 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [1.7 -> 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
+- PyThaiNLP 2 สนับสนุน Python 3.6 ขึ้นไป บางความสามารถ สามารถใช้งานกับ Python 3 รุ่นก่อนหน้าได้ แต่ไม่ได้มีการทดสอบว่าใช้งานได้หรือไม่ อ่านเพิ่มเติม [1.7 -> 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
   - [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
   - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
 - ผู้ใช้งาน Python 2.7 สามารถใช้งาน PyThaiNLP 1.6
@@ -143,7 +143,7 @@ Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Sur
 }
 ```
 
-## Contribute to PyThaiNLP
+## ร่วมสนับสนุน PyThaiNLP
 
 - Please do fork and create a pull request :)
 - For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
@@ -166,5 +166,5 @@ Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Sur
 ------
 
 <div align="center">
-  Made with ❤️ | PyThaiNLP Team 💻 |  "We build Thai NLP" 🇹🇭
+  สร้างด้วย ❤️ | ทีม PyThaiNLP 💻 |  "We build Thai NLP" 🇹🇭
 </div>

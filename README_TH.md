@@ -35,7 +35,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 สามารถอ่านเอกสารล่าสุดได้ที่ [https://thainlp.org/pythainlp/docs/2.2/](https://thainlp.org/pythainlp/docs/2.2/).
 
-We try to make the package easy to use as much as possible; therefore, some additional data (like word lists and language models) may get automatically download during runtime. PyThaiNLP caches additional data under the directory `~/pythainlp-data` by default, but the user can change the value by specifying the environment variable `PYTHAINLP_DATA_DIR`. See corpus catalog at [PyThaiNLP/pythainlp-corpus](https://github.com/PyThaiNLP/pythainlp-corpus).
+พวกเราพยายามทำให้การใช้งานโมดูลของเราง่ายที่สุดเท่าที่จะเป็นไปได้; ยกตัวอย่างเช่น บางชุดข้อมูล (เช่น รายการคำและ language models) จะดาวน์โหลดอัตโนมัติเมื่อมีการเรียกใช้งาน โดย PyThaiNLP จะจัดเก็บข้อมูลเหล่านั้นไว้ในโฟลเดอร์ `~/pythainlp-data` เป็นค่าเริ่มต้น แต่ผู้ใช้งานสามารถระบุตำแหน่งที่ต้องการได้เองผ่านค่า environment variable `PYTHAINLP_DATA_DIR` อ่านรายละเอียดคลังข้อมูลเพิ่มเติมได้ที่ [PyThaiNLP/pythainlp-corpus](https://github.com/PyThaiNLP/pythainlp-corpus).
 
 ## ความสามารถ
 
@@ -65,14 +65,14 @@ PyThaiNLP มีความสามารถพื้นฐานสำหร�
 pip install --upgrade pythainlp
 ```
 
-วิธีดังขึ้นเป็นการติดตั้งรุ่นเสถียรของ PyThaiNLP
+วิธีดังกล่าวเป็นการติดตั้งรุ่นเสถียรของ PyThaiNLP
 PyThaiNLP ใช้ pip สำหรับจัดการโมดูลและใช้ PyPI เป็นช่องทางหลักในการแจกจ่ายโมดูล อ่านรายละเอียดได้ที่ [https://pypi.org/project/pythainlp/](https://pypi.org/project/pythainlp/)
 
-Install different releases:
+ความแตกต่างในแต่ละรุ่น:
 
 - รุ่นเสถียร: `pip install --upgrade pythainlp`
-- Pre-release (near ready): `pip install --upgrade --pre pythainlp`
-- Development (likely to break things): `pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip`
+- รุ่นก่อนเสถียร (near ready): `pip install --upgrade --pre pythainlp`
+- รุ่นที่กำลังพัฒนา (likely to break things): `pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip`
 
 ### ตัวเลือกการติดตั้ง
 
@@ -83,20 +83,20 @@ pip install pythainlp[extra1,extra2,...]
 ```
 
 <details>
-  <summary>List of possible `extras`</summary>
+  <summary>รายการสำหรับติดตั้งผ่าน `extras`</summary>
 
--  `full` (install everything)
--  `attacut` (to support attacut, a fast and accurate tokenizer)
--  `benchmarks` (for [word tokenization benchmarking](tokenization-benchmark.md))
--  `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
--  `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
--  `ml` (to support ULMFiT models for classification)
--  `thai2fit` (for Thai word vector)
--  `thai2rom` (for machine-learnt romanization)
--  `wordnet` (for Thai WordNet API)
+-  `full` (ติดตั้งทุกอย่าง)
+-  `attacut` (เพื่อสนับสนุน attacut ซึ่งเป็นตัวตัดคำที่ทำงานได้รวดเร็วและมีประสิทธิภาพ)
+-  `benchmarks` (สำหรับ [word tokenization benchmarking](tokenization-benchmark.md))
+-  `icu` (สำหรับ ICU, International Components for Unicode, support in transliteration and tokenization)
+-  `ipa` (สำหรับ IPA, International Phonetic Alphabet, support in transliteration)
+-  `ml` (เพื่อให้สนับสนุน ULMFiT models สำหรับงาน classification)
+-  `thai2fit` (สำหรับ Thai word vector)
+-  `thai2rom` (สำหรับ machine-learnt romanization)
+-  `wordnet` (สำหรับ Thai WordNet API)
 </details>
 
-For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
+สำหรับโมดูลที่ต้องการ สามารถดูรายละเอียดได้ที่ตัวแปร `extras` ใน [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
 
 
 ## Command-line
@@ -145,8 +145,8 @@ Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Sur
 
 ## ร่วมสนับสนุน PyThaiNLP
 
-- Please do fork and create a pull request :)
-- For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
+- กรุณา fork แล้วพัฒนาต่อ จากนั้นสร้าง pull request กลับมา :)
+- สำหรับเอกสารแนะนำและอื่น ๆ รวมถึงการอ้างอิงขั้นตอนที่เราใช้งาน สามารถเข้าไปศึกษาเพิ่มเติมได้ที่หน้า [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)
 
 ## ใบอนุญาต
 

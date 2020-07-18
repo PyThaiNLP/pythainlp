@@ -9,7 +9,6 @@ from icu import Transliterator
 _ICU_THAI_TO_LATIN = Transliterator.createInstance("Thai-Latin")
 
 
-# ถอดเสียงภาษาไทยเป็นอักษรละติน
 def transliterate(text: str) -> str:
     """
     Use ICU (International Components for Unicode) for transliteration

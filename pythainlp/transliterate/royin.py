@@ -9,7 +9,7 @@ import re
 
 from pythainlp import thai_consonants, word_tokenize
 
-# สระ
+# vowel
 _vowel_patterns = """เ*ียว,\\1iao
 แ*็ว,\\1aeo
 เ*ือย,\\1ueai

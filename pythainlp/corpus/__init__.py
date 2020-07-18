@@ -86,6 +86,7 @@ from pythainlp.corpus.core import (
 from pythainlp.corpus.common import (
     countries,
     provinces,
+    provinces_all,
     thai_female_names,
     thai_male_names,
     thai_negations,

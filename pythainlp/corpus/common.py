@@ -22,6 +22,9 @@ _THAI_COUNTRIES_FILENAME = "countries_th.txt"
 _THAI_THAILAND_PROVINCES = set()
 _THAI_THAILAND_PROVINCES_FILENAME = "thailand_provinces_th.txt"
 
+_THAI_THAILAND_PROVINCES_LIST_ALL = list()
+_THAI_THAILAND_PROVINCES_LIST_ALL_FILENAME = "thailand_provinces_th.csv"
+
 _THAI_SYLLABLES = set()
 _THAI_SYLLABLES_FILENAME = "syllables_th.txt"
 
@@ -74,6 +77,31 @@ def provinces() -> frozenset:
         )
 
     return _THAI_THAILAND_PROVINCES
+
+def provinces_all() -> list:
+    """
+    Return a list dict of Thailand province names in Thai such as [{'provinces_th': 'นนทบุรี', 'abridgement': 'นบ', 'provinces_en': 'Nonthaburi', 'HS': 'NBI'}].
+    \n(See: `dev/pythainlp/corpus/thailand_provinces_th.csv\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/thailand_provinces_th.csv>`_)
+
+    :return: :class:`list` containing province of Thailand
+    :rtype: :class:`list`
+    """
+    global _THAI_THAILAND_PROVINCES_LIST_ALL
+    if not _THAI_THAILAND_PROVINCES_LIST_ALL:
+        _TEMP = list(get_corpus(
+            _THAI_THAILAND_PROVINCES_LIST_ALL_FILENAME
+        ))
+        for i in _TEMP:
+            _data = i.split(",")
+            _dict_data = dict()
+            _dict_data["provinces_th"] = _data[0]
+            _dict_data["abridgement"] = _data[1]
+            _dict_data["provinces_en"] = _data[2]
+            _dict_data["HS"] = _data[3]
+            _THAI_THAILAND_PROVINCES_LIST_ALL.append(_dict_data)
+
+    return _THAI_THAILAND_PROVINCES_LIST_ALL
 
 
 def thai_syllables() -> frozenset:

@@ -7,20 +7,21 @@ The :class:`pythainlp.corpus` provides access to corpus that comes with PyThaiNL
 Modules
 -------
 
+.. autofunction:: countries
 .. autofunction:: get_corpus
 .. autofunction:: get_corpus_db
 .. autofunction:: get_corpus_db_detail
 .. autofunction:: get_corpus_path
 .. autofunction:: download
 .. autofunction:: remove
-.. autofunction:: pythainlp.corpus.common.countries
-.. autofunction:: pythainlp.corpus.common.provinces
-.. autofunction:: pythainlp.corpus.common.thai_stopwords
-.. autofunction:: pythainlp.corpus.common.thai_words
-.. autofunction:: pythainlp.corpus.common.thai_syllables
-.. autofunction:: pythainlp.corpus.common.thai_negations
-.. autofunction:: pythainlp.corpus.common.thai_female_names
-.. autofunction:: pythainlp.corpus.common.thai_male_names
+.. autofunction:: provinces
+.. autofunction:: provinces_all
+.. autofunction:: thai_stopwords
+.. autofunction:: thai_words
+.. autofunction:: thai_syllables
+.. autofunction:: thai_negations
+.. autofunction:: thai_female_names
+.. autofunction:: thai_male_names
 .. autofunction:: pythainlp.corpus.conceptnet.edges
 
 TNC

@@ -16,8 +16,10 @@ en_word_tokenize = MosesTokenizer("en")
 th_word_tokenize = partial(th_word_tokenize, keep_whitespace=False)
 
 
-def download_model():
-    print("Download model ...")
+def download_model()->None:
+    """
+    Download Model
+    """
     if get_corpus_path("scb_1m_th-en_newmm") is None:
         download("scb_1m_th-en_newmm", force=True, version="1.0")
         tar = tarfile.open(get_corpus_path("scb_1m_th-en_newmm"), "r:gz")
@@ -52,7 +54,7 @@ def download_model():
 download_model()
 
 
-def get_path(model, path1, path2, file=None):
+def get_path(model, path1, path2, file=None)->str:
     path = os.path.join(os.path.join(get_full_data_path(model), path1), path2)
     if file is not None:
         return os.path.join(path, file)
@@ -74,7 +76,7 @@ en2th_word2bpe_model = TransformerModel.from_pretrained(
 )
 
 
-def _en2th_word2bpe_translate(text):
+def _en2th_word2bpe_translate(text:str)->str:
     tokenized_sentence = " ".join(
         en_word_tokenize.tokenize(text)
     )
@@ -98,7 +100,7 @@ th2en_word2word_model = TransformerModel.from_pretrained(
 )
 
 
-def _th2en_word2word_translate(text):
+def _th2en_word2word_translate(text:str)->str:
     tokenized_sentence = " ".join(th_word_tokenize(text))
     _hypothesis = th2en_word2word_model.translate(tokenized_sentence)
     hypothesis = en_word_detokenize.detokenize([_hypothesis])
@@ -127,7 +129,7 @@ th2en_bpe_model = TransformerModel.from_pretrained(
 )
 
 
-def _th2en_bpe_translate(text):
+def _th2en_bpe_translate(text:str)->str:
     hypothesis = th2en_bpe_model.translate(text, beam=24)
     return hypothesis
 
@@ -139,6 +141,8 @@ def translate(
     tokenizer: str = "bpe",
 ) -> str:
     """
+    Translate Language
+
     :param str text: input text in source language
     :param str source: source language ("en" or "th")
     :param str target: target language ("en" or "th")

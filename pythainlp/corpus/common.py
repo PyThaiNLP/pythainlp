@@ -22,7 +22,6 @@ _THAI_COUNTRIES_FILENAME = "countries_th.txt"
 _THAI_THAILAND_PROVINCES = set()
 _THAI_THAILAND_PROVINCES_FILENAME = "thailand_provinces_th.txt"
 
-_THAI_THAILAND_PROVINCES_LIST_ALL = list()
 _THAI_THAILAND_PROVINCES_LIST_ALL_FILENAME = "thailand_provinces_th.csv"
 
 _THAI_SYLLABLES = set()
@@ -60,38 +59,26 @@ def countries() -> frozenset:
     return _THAI_COUNTRIES
 
 
-def provinces() -> frozenset:
+def provinces(details: bool = False) -> frozenset:
     """
     Return a frozenset of Thailand province names in Thai such as "กระบี่",
     "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
     \n(See: `dev/pythainlp/corpus/thailand_provinces_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/thailand_provinces_th.txt>`_)
 
-    :return: :class:`frozenset` containing province names of Thailand
-    :rtype: :class:`frozenset`
+    :param bool details: a details of provinces
+
+    :return: :class:`frozenset` containing province names of Thailand (if details is False) or list \
+    dict of Thailand province names in Thai such as\
+    [{'provinces_th': 'นนทบุรี', 'abridgement': 'นบ', 'provinces_en': 'Nonthaburi', 'HS': 'NBI'}].
+    :rtype: :class:`frozenset` or :class:`list`
     """
     global _THAI_THAILAND_PROVINCES
-    if not _THAI_THAILAND_PROVINCES:
-        _THAI_THAILAND_PROVINCES = get_corpus(
-            _THAI_THAILAND_PROVINCES_FILENAME
-        )
-
-    return _THAI_THAILAND_PROVINCES
-
-def provinces_all() -> list:
-    """
-    Return a list dict of Thailand province names in Thai such as [{'provinces_th': 'นนทบุรี', 'abridgement': 'นบ', 'provinces_en': 'Nonthaburi', 'HS': 'NBI'}].
-    \n(See: `dev/pythainlp/corpus/thailand_provinces_th.csv\
-    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/thailand_provinces_th.csv>`_)
-
-    :return: :class:`list` containing province of Thailand
-    :rtype: :class:`list`
-    """
-    global _THAI_THAILAND_PROVINCES_LIST_ALL
-    if not _THAI_THAILAND_PROVINCES_LIST_ALL:
+    if details:
         _TEMP = list(get_corpus(
             _THAI_THAILAND_PROVINCES_LIST_ALL_FILENAME
         ))
+        _THAI_THAILAND_PROVINCES = list()
         for i in _TEMP:
             _data = i.split(",")
             _dict_data = dict()
@@ -99,9 +86,13 @@ def provinces_all() -> list:
             _dict_data["abridgement"] = _data[1]
             _dict_data["provinces_en"] = _data[2]
             _dict_data["HS"] = _data[3]
-            _THAI_THAILAND_PROVINCES_LIST_ALL.append(_dict_data)
+            _THAI_THAILAND_PROVINCES.append(_dict_data)
+    else:
+        _THAI_THAILAND_PROVINCES = get_corpus(
+            _THAI_THAILAND_PROVINCES_FILENAME
+        )
 
-    return _THAI_THAILAND_PROVINCES_LIST_ALL
+    return _THAI_THAILAND_PROVINCES
 
 
 def thai_syllables() -> frozenset:

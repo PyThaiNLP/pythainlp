@@ -9,7 +9,6 @@ from pythainlp.corpus import (
     download,
     get_corpus_db_detail,
     provinces,
-    provinces_all,
     remove,
     thai_female_names,
     thai_male_names,
@@ -35,7 +34,7 @@ class TestCorpusPackage(unittest.TestCase):
 
         self.assertIsInstance(countries(), frozenset)
         self.assertIsInstance(provinces(), frozenset)
-        self.assertIsInstance(provinces_all(), list)
+        self.assertIsInstance(provinces(details=True), list)
         self.assertIsInstance(thai_female_names(), frozenset)
         self.assertIsInstance(thai_male_names(), frozenset)
 

@@ -75,27 +75,27 @@ def provinces(details: bool = False) -> frozenset:
     :rtype: :class:`frozenset` or :class:`list`
     """
     global _THAI_THAILAND_PROVINCES, _THAI_THAILAND_PROVINCES_DETAILS
-    if not _THAI_THAILAND_PROVINCES_DETAILS:
+    if not _THAI_THAILAND_PROVINCES_DETAILS and not _THAI_THAILAND_PROVINCES:
+        _THAI_THAILAND_PROVINCES = list()
         _TEMP = list(get_corpus(
             _THAI_THAILAND_PROVINCES_LIST_ALL_FILENAME
         ))
-        _THAI_THAILAND_PROVINCES = list()
+        _THAI_THAILAND_PROVINCES_DETAILS = list()
         for i in _TEMP:
             _data = i.split(",")
             _dict_data = dict()
             _dict_data["provinces_th"] = _data[0]
+            _THAI_THAILAND_PROVINCES.append(_data[0])
             _dict_data["abridgement"] = _data[1]
             _dict_data["provinces_en"] = _data[2]
             _dict_data["HS"] = _data[3]
-            _THAI_THAILAND_PROVINCES.append(_dict_data)
-    if not _THAI_THAILAND_PROVINCES:
-        _THAI_THAILAND_PROVINCES = get_corpus(
-            _THAI_THAILAND_PROVINCES_FILENAME
-        )
+            _THAI_THAILAND_PROVINCES_DETAILS.append(_dict_data)
+        
+        _THAI_THAILAND_PROVINCES = frozenset(_THAI_THAILAND_PROVINCES)
     if details:
-        return _THAI_THAILAND_PROVINCES
+        return _THAI_THAILAND_PROVINCES_DETAILS
 
-    return _THAI_THAILAND_PROVINCES_DETAILS
+    return _THAI_THAILAND_PROVINCES
 
 
 def thai_syllables() -> frozenset:

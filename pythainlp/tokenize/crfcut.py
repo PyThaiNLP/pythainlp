@@ -137,7 +137,11 @@ def extract_features(
     :return: list of lists of features to be fed to CRF
     """
     doc_features = []
-    doc = ["xxpad" for i in range(window)] + doc + ["xxpad" for i in range(window)]
+    doc = (
+        ["xxpad" for i in range(window)]
+        + doc
+        + ["xxpad" for i in range(window)]
+    )
 
     # add enders and starters
     doc_ender = []

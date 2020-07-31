@@ -310,7 +310,9 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("จุ๋มง่วง", engine="newmm"), ["จุ๋ม", "ง่วง"]
         )
         self.assertEqual(
-            word_tokenize("จุ๋ม   ง่วง", engine="newmm", keep_whitespace=False),
+            word_tokenize(
+                "จุ๋ม   ง่วง", engine="newmm", keep_whitespace=False
+            ),
             ["จุ๋ม", "ง่วง"],
         )
         self.assertFalse(
@@ -370,7 +372,8 @@ class TestTokenizePackage(unittest.TestCase):
         sent_2 = "วันนี้ฉันกินข้าว และโดดเรียน"
         sent_2_toks = ["วันนี้ฉันกินข้าว และโดดเรียน"]
         sent_3 = (
-            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมาจากผลงานวิจัยที่เคยทำมาในอดีต"
+            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา"
+            + "จากผลงานวิจัยที่เคยทำมาในอดีต"
             + " มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด"
             + " จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้"
         )

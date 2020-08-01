@@ -41,7 +41,7 @@ model = None
 model_name = None
 
 
-def get_path(model, path1, path2, file= None) -> str:
+def get_path(model, path1, path2, file=None) -> str:
     path = os.path.join(os.path.join(get_full_data_path(model), path1), path2)
     if file is not None:
         return os.path.join(path, file)
@@ -49,8 +49,8 @@ def get_path(model, path1, path2, file= None) -> str:
 
 
 def en2th_word2bpe_model():
-    global model,model_name
-    download_install("scb_1m_en-th_moses") 
+    global model, model_name
+    download_install("scb_1m_en-th_moses")
     if model_name != "en2th_word2bpe":
         del model
         model = TransformerModel.from_pretrained(
@@ -70,7 +70,7 @@ def en2th_word2bpe_model():
 
 
 def _en2th_word2bpe_translate(text: str) -> str:
-    global model,model_name
+    global model, model_name
     en2th_word2bpe_model()
     tokenized_sentence = " ".join(
         en_word_tokenize.tokenize(text)
@@ -81,7 +81,7 @@ def _en2th_word2bpe_translate(text: str) -> str:
 
 
 def th2en_word2word_model():
-    global model,model_name
+    global model, model_name
     download_install("scb_1m_th-en_newmm")
     if model_name != "th2en_word2word":
         del model
@@ -102,7 +102,7 @@ def th2en_word2word_model():
 
 
 def _th2en_word2word_translate(text: str) -> str:
-    global model,model_name
+    global model, model_name
     th2en_word2word_model()
     tokenized_sentence = " ".join(th_word_tokenize(text))
     _hypothesis = model.translate(tokenized_sentence)
@@ -111,7 +111,7 @@ def _th2en_word2word_translate(text: str) -> str:
 
 
 def th2en_bpe_model():
-    global model,model_name
+    global model, model_name
     download_install("scb_1m_th-en_spm")
     if model_name != "th2en_bpe":
         del model
@@ -139,7 +139,7 @@ def th2en_bpe_model():
 
 
 def _th2en_bpe_translate(text: str) -> str:
-    global model,model_name
+    global model, model_name
     th2en_bpe_model()
     hypothesis = model.translate(text, beam=24)
     return hypothesis

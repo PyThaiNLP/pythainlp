@@ -160,5 +160,7 @@ def translate(
             hypothesis = _th2en_bpe_translate(text)
     elif source == "en" and target == "th" and tokenizer == "bpe":
         hypothesis = _en2th_word2bpe_translate(text)
+    else:
+        return ValueError("the combination of the arguments isn't allowed.")
 
     return hypothesis

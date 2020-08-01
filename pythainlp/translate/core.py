@@ -34,11 +34,12 @@ def download_model_all() -> None:
     """
     download_install("scb_1m_th-en_newmm")
     download_install("scb_1m_th-en_spm")
-    download_install("scb_1m_en-th_moses") 
+    download_install("scb_1m_en-th_moses")
 
 
 model = None
 model_name = None
+
 
 def get_path(model, path1, path2, file= None) -> str:
     path = os.path.join(os.path.join(get_full_data_path(model), path1), path2)
@@ -77,6 +78,7 @@ def _en2th_word2bpe_translate(text: str) -> str:
     hypothesis = model.translate(tokenized_sentence)
     hypothesis = hypothesis.replace(" ", "").replace("▁", " ")
     return hypothesis
+
 
 def th2en_word2word_model():
     global model,model_name

@@ -192,6 +192,7 @@ def segment(text: str) -> List[str]:
     toks = word_tokenize(text)
     feat = extract_features(toks)
     labs = _tagger.tag(feat)
+    labs[-1] = "E"  # make sure it cuts the last sentence
 
     sentences = []
     sentence = ""

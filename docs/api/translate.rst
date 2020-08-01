@@ -2,7 +2,7 @@
 
 pythainlp.translate
 ===================
-The :class:`pythainlp.translate` for translate language.
+The :class:`pythainlp.translate` for language translation.
 
 Modules
 -------

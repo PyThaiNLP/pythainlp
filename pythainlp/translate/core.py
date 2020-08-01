@@ -52,7 +52,8 @@ def download_model() -> None:
 
 
 download_model()
-
+model = None
+model_name = None
 
 def get_path(model, path1, path2, file= None) -> str:
     path = os.path.join(os.path.join(get_full_data_path(model), path1), path2)
@@ -61,76 +62,96 @@ def get_path(model, path1, path2, file= None) -> str:
     return os.path.join(path, "")
 
 
-en2th_word2bpe_model = TransformerModel.from_pretrained(
-    model_name_or_path=get_path(
-        "scb_1m_en-th_moses",
-        "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0",
-        "models",
-    ),
-    checkpoint_file="checkpoint.pt",
-    data_name_or_path=get_path(
-        "scb_1m_en-th_moses",
-        "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0",
-        "vocab",
-        ),
-)
+def en2th_word2bpe_model():
+    global model,model_name
+    if model_name != "en2th_word2bpe":
+        del model
+        model = TransformerModel.from_pretrained(
+            model_name_or_path=get_path(
+                "scb_1m_en-th_moses",
+                "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0",
+                "models",
+            ),
+            checkpoint_file="checkpoint.pt",
+            data_name_or_path=get_path(
+                "scb_1m_en-th_moses",
+                "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0",
+                "vocab",
+                ),
+        )
+        model_name = "en2th_word2bpe"
 
 
 def _en2th_word2bpe_translate(text: str) -> str:
+    global model,model_name
+    en2th_word2bpe_model()
     tokenized_sentence = " ".join(
         en_word_tokenize.tokenize(text)
     )
-    hypothesis = en2th_word2bpe_model .translate(tokenized_sentence)
+    hypothesis = model.translate(tokenized_sentence)
     hypothesis = hypothesis.replace(" ", "").replace("▁", " ")
     return hypothesis
 
-
-th2en_word2word_model = TransformerModel.from_pretrained(
-    model_name_or_path=get_path(
-        "scb_1m_th-en_newmm",
-        "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0",
-        "models",
-    ),
-    checkpoint_file="checkpoint.pt",
-    data_name_or_path=get_path(
-        "scb_1m_th-en_newmm",
-        "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0",
-        "vocab",
-    ),
-)
+def th2en_word2word_model():
+    global model,model_name
+    if model_name != "th2en_word2word":
+        del model
+        model = TransformerModel.from_pretrained(
+            model_name_or_path=get_path(
+                "scb_1m_th-en_newmm",
+                "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0",
+                "models",
+            ),
+            checkpoint_file="checkpoint.pt",
+            data_name_or_path=get_path(
+                "scb_1m_th-en_newmm",
+                "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0",
+                "vocab",
+            ),
+        )
+        model_name = "th2en_word2word"
 
 
 def _th2en_word2word_translate(text: str) -> str:
+    global model,model_name
+    th2en_word2word_model()
     tokenized_sentence = " ".join(th_word_tokenize(text))
-    _hypothesis = th2en_word2word_model.translate(tokenized_sentence)
+    _hypothesis = model.translate(tokenized_sentence)
     hypothesis = en_word_detokenize.detokenize([_hypothesis])
     return hypothesis
 
 
-th2en_bpe_model = TransformerModel.from_pretrained(
-    model_name_or_path=get_path(
-        "scb_1m_th-en_spm",
-        "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
-        "models",
-    ),
-    checkpoint_file="checkpoint.pt",
-    data_name_or_path=get_path(
-        "scb_1m_th-en_spm",
-        "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
-        "vocab",
-    ),
-    bpe="sentencepiece",
-    sentencepiece_vocab=get_path(
-        "scb_1m_th-en_spm",
-        "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
-        "bpe",
-        "spm.th.model",
-    ),
-)
+def th2en_bpe_model():
+    global model,model_name
+    if model_name != "th2en_bpe":
+        del model
+        model = TransformerModel.from_pretrained(
+            model_name_or_path=get_path(
+                "scb_1m_th-en_spm",
+                "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
+                "models",
+            ),
+            checkpoint_file="checkpoint.pt",
+            data_name_or_path=get_path(
+                "scb_1m_th-en_spm",
+                "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
+                "vocab",
+            ),
+            bpe="sentencepiece",
+            sentencepiece_vocab=get_path(
+                "scb_1m_th-en_spm",
+                "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
+                "bpe",
+                "spm.th.model",
+            ),
+        )
+        model_name = "th2en_bpe"
 
 
 def _th2en_bpe_translate(text: str) -> str:
-    hypothesis = th2en_bpe_model.translate(text, beam=24)
+    global model,model_name
+    th2en_bpe_model()
+    hypothesis = model.translate(text, beam=24)
     return hypothesis
 
 

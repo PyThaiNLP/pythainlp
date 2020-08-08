@@ -513,7 +513,6 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(is_native_thai("เทเวศน์"), False)
         self.assertEqual(is_native_thai("เทเวศร์"), False)
 
-
     def test_display_thai_char(self):
         self.assertEqual(display_thai_char("้"), "_้")
         self.assertEqual(display_thai_char("ป"), "ป")

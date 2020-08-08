@@ -4,11 +4,11 @@ Check if it is Thai text
 """
 import string
 
+from pythainlp import thai_above_vowels, thai_tonemarks
+
 _DEFAULT_IGNORE_CHARS = string.whitespace + string.digits + string.punctuation
 _TH_FIRST_CHAR_ASCII = 3584
 _TH_LAST_CHAR_ASCII = 3711
-
-from pythainlp import thai_above_vowels, thai_tonemarks
 
 def isthaichar(ch: str) -> bool:
     """
@@ -167,8 +167,10 @@ def display_thai_char(char: str) -> str:
     # output: "_้"
 
     """
+
     if char in thai_above_vowels or char in thai_tonemarks \
-        or char in '\u0e33\u0e4c\u0e4d\u0e4e': # Sra Aum, Thanthakhat, Nikhahit, Yamakkan
+       or char in '\u0e33\u0e4c\u0e4d\u0e4e':
+        # last condition is Sra Aum, Thanthakhat, Nikhahit, Yamakkan
         return "_" + char
     else:
         return char

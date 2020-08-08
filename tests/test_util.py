@@ -17,6 +17,7 @@ from pythainlp.util import (
     countthai,
     delete_tone,
     dict_trie,
+    display_thai_char,
     digit_to_text,
     eng_to_thai,
     find_keyword,
@@ -511,3 +512,12 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(is_native_thai("เลข"), False)
         self.assertEqual(is_native_thai("เทเวศน์"), False)
         self.assertEqual(is_native_thai("เทเวศร์"), False)
+
+
+    def test_display_thai_char(self):
+        self.assertEqual(display_thai_char("้"), "_้")
+        self.assertEqual(display_thai_char("ป"), "ป")
+        self.assertEqual(display_thai_char("์"), "_์")
+        self.assertEqual(display_thai_char("ำ"), "_ำ")
+        self.assertEqual(display_thai_char("๎"), "_๎")
+        self.assertEqual(display_thai_char("ํ"), "_ํ")

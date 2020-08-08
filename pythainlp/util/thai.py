@@ -8,6 +8,7 @@ _DEFAULT_IGNORE_CHARS = string.whitespace + string.digits + string.punctuation
 _TH_FIRST_CHAR_ASCII = 3584
 _TH_LAST_CHAR_ASCII = 3711
 
+from pythainlp import thai_above_vowels, thai_tonemarks
 
 def isthaichar(ch: str) -> bool:
     """
@@ -147,3 +148,27 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
         return 0.0
 
     return (num_thai / num_count) * 100
+
+
+def display_thai_char(char: str) -> str:
+    """
+    This function adds a underscore (_) prefix to high-position vowels and tone
+    marks to ease readability
+
+    :param str character:
+
+    :return: returns **True** if the input text all contains Thai characters,
+             otherwise returns **False**
+    :rtype: bool
+
+    :Example:
+
+    display_thai_char("้")
+    # output: "_้"
+
+    """
+    if char in thai_above_vowels or char in thai_tonemarks \
+        or char in '\u0e33\u0e4c\u0e4d\u0e4e': # Sra Aum, Thanthakhat, Nikhahit, Yamakkan
+        return "_" + char
+    else:
+        return char

@@ -12,6 +12,7 @@ Modules
 .. autofunction:: collate
 .. autofunction:: dict_trie
 .. autofunction:: digit_to_text
+.. autofunction:: display_thai_char
 .. autofunction:: eng_to_thai
 .. autofunction:: find_keyword
 .. autofunction:: countthai

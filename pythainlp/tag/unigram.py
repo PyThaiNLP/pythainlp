@@ -8,6 +8,7 @@ from typing import List, Tuple
 
 from pythainlp.corpus import corpus_path
 from pythainlp.tag.orchid import tag_signs, tag_to_text
+from pythainlp.tag.lst20 import _lst20_tagger
 
 _THAI_POS_ORCHID_FILENAME = "orchid_pos_th.json"
 _THAI_POS_ORCHID_PATH = os.path.join(corpus_path(), _THAI_POS_ORCHID_FILENAME)
@@ -57,6 +58,8 @@ def tag(words: List[str], corpus: str) -> List[Tuple[str, str]]:
             temp.append((word, tag))
             i += 1
         t = temp
+    elif corpus == "lst20":
+        t = _find_tag(words, _lst20_tagger())
     else:
         t = _find_tag(words, _pud_tagger())
 

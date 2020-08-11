@@ -8,6 +8,7 @@ from typing import List, Tuple
 
 from pythainlp.corpus import corpus_path
 from pythainlp.tag.orchid import tag_signs, tag_to_text
+from pythainlp.tag.lst20 import _lst20_perceptron
 
 _ORCHID_DATA_FILENAME = "orchid_pt_tagger.pkl"
 _PUD_DATA_FILENAME = "ud_thai_pud_pt_tagger.pkl"
@@ -31,6 +32,7 @@ def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
     :return: returns a list of labels regarding which part of speech it is
     :rtype: list[tuple[str, str]]
     """
+    t = []
     if not words:
         return []
 
@@ -38,13 +40,15 @@ def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
         tagger = _ORCHID_TAGGER
         words = tag_signs(words)
         t2 = tagger.tag(words)
-        t = []
         i = 0
         while i < len(t2):
             word = tag_to_text(t2[i][0])
             tag = t2[i][1]
             t.append((word, tag))
             i += 1
+    elif corpus == "lst20":
+        tagger = _load_tagger(_lst20_perceptron())
+        t = tagger.tag(words)
     else:  # default, use "pud" as a corpus
         tagger = _PUD_TAGGER
         t = tagger.tag(words)

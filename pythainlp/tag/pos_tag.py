@@ -122,6 +122,8 @@ def pos_tag(
           POS  Tags
         * *pud* - `Parallel Universal Dependencies (PUD)
           <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
+        * *lst20* - `LST20 Corpus
+          <https://aiforthai.in.th/corpus.php>`_
     :return: returns a list of labels regarding which part of speech it is
     :rtype: list[tuple[str, str]]
 

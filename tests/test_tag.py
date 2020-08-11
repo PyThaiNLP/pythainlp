@@ -25,11 +25,15 @@ class TestTagPackage(unittest.TestCase):
         self.assertEqual(unigram.tag([], corpus="pud"), [])
         self.assertEqual(unigram.tag(None, corpus="orchid"), [])
         self.assertEqual(unigram.tag([], corpus="orchid"), [])
+        self.assertEqual(unigram.tag(None, corpus="lst20"), [])
+        self.assertEqual(unigram.tag([], corpus="lst20"), [])
         self.assertIsNotNone(
             pos_tag(tokens, engine="unigram", corpus="orchid")
         )
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
         self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="pud"))
+        self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="lst20"))
+        self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="lst20"))
         self.assertEqual(
             pos_tag(["คุณ", "กำลัง", "ประชุม"], engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
@@ -48,6 +52,8 @@ class TestTagPackage(unittest.TestCase):
         self.assertEqual(perceptron.tag([], corpus="orchid_ud"), [])
         self.assertEqual(perceptron.tag(None, corpus="pud"), [])
         self.assertEqual(perceptron.tag([], corpus="pud"), [])
+        self.assertEqual(perceptron.tag(None, corpus="lst20"), [])
+        self.assertEqual(perceptron.tag([], corpus="lst20"), [])
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="orchid")
         )
@@ -57,6 +63,9 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="pud")
         )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="perceptron", corpus="lst20")
+        ) # Hi เนคเทค
 
         self.assertEqual(pos_tag_sents(None), [])
         self.assertEqual(pos_tag_sents([]), [])

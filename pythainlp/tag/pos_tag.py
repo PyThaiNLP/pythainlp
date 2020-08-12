@@ -82,6 +82,26 @@ _TAG_MAP_UD = {
     "PUNC": "PUNCT",
 }
 
+# tag map for lst20 to Universal Dependencies
+# from Wannaphong Phatthiyaphaibun & Korakot Chaovavanich
+_LST20_TAG_MAP_UD = {
+    "AJ" : "ADJ",
+    "AV" : "ADV",
+    "AX" : "AUX",
+    "CC" : "CCONJ",
+    "CL" : "NOUN",
+    "FX" : "NOUN",
+    "IJ" : "INTJ",
+    "NN" : "NOUN",
+    "NU" : "NUM",
+    "PA" : "PART",
+    "PR" : "PROPN",
+    "PS" : "ADP",
+    "PU" : "PUNCT",
+    "VV" : "VERB",
+    "XX" : "X"
+}
+
 
 def _UD_Exception(w: str, tag: str) -> str:
     if w == "การ" or w == "ความ":
@@ -96,6 +116,18 @@ def _orchid_to_ud(tag) -> List[Tuple[str, str]]:
     while _i < len(tag):
         temp.append(
             (tag[_i][0], _UD_Exception(tag[_i][0], _TAG_MAP_UD[tag[_i][1]]))
+        )
+        _i += 1
+
+    return temp
+
+
+def _lst20_to_ud(tag) -> List[Tuple[str, str]]:
+    _i = 0
+    temp = []
+    while _i < len(tag):
+        temp.append(
+            (tag[_i][0], _LST20_TAG_MAP_UD[tag[_i][1]])
         )
         _i += 1
 
@@ -125,6 +157,10 @@ def pos_tag(
         * *lst20* - `LST20 Corpus by National Electronics and Computer 
           Technology Center, Thailand
           <https://aiforthai.in.th/corpus.php>`_
+        * *lst20_ud* - annotated *LST20* but the
+          POS tags are mapped to comply with
+          `Universal Dependencies <https://universaldependencies.org/u/pos>`_
+          POS  Tags
     :return: returns a list of labels regarding which part of speech it is
     :rtype: list[tuple[str, str]]
 
@@ -190,6 +226,8 @@ def pos_tag(
     _tag = []
     if corpus == "orchid_ud":
         corpus = "orchid"
+    elif corpus == "lst20_ud":
+        corpus = "lst20"
 
     if engine == "perceptron":
         from .perceptron import tag as tag_
@@ -199,6 +237,8 @@ def pos_tag(
 
     if _corpus == "orchid_ud":
         _tag = _orchid_to_ud(_tag)
+    elif _corpus == "lst20_ud":
+        _tag = _lst20_to_ud(_tag)
 
     return _tag
 

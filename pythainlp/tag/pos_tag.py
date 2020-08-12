@@ -85,21 +85,21 @@ _TAG_MAP_UD = {
 # tag map for lst20 to Universal Dependencies
 # from Wannaphong Phatthiyaphaibun & Korakot Chaovavanich
 _LST20_TAG_MAP_UD = {
-    "AJ" : "ADJ",
-    "AV" : "ADV",
-    "AX" : "AUX",
-    "CC" : "CCONJ",
-    "CL" : "NOUN",
-    "FX" : "NOUN",
-    "IJ" : "INTJ",
-    "NN" : "NOUN",
-    "NU" : "NUM",
-    "PA" : "PART",
-    "PR" : "PROPN",
-    "PS" : "ADP",
-    "PU" : "PUNCT",
-    "VV" : "VERB",
-    "XX" : "X"
+    "AJ": "ADJ",
+    "AV": "ADV",
+    "AX": "AUX",
+    "CC": "CCONJ",
+    "CL": "NOUN",
+    "FX": "NOUN",
+    "IJ": "INTJ",
+    "NN": "NOUN",
+    "NU": "NUM",
+    "PA": "PART",
+    "PR": "PROPN",
+    "PS": "ADP",
+    "PU": "PUNCT",
+    "VV": "VERB",
+    "XX": "X"
 }
 
 
@@ -154,7 +154,7 @@ def pos_tag(
           POS  Tags
         * *pud* - `Parallel Universal Dependencies (PUD)
           <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
-        * *lst20* - `LST20 Corpus by National Electronics and Computer 
+        * *lst20* - `LST20 Corpus by National Electronics and Computer
           Technology Center, Thailand
           <https://aiforthai.in.th/corpus.php>`_
         * *lst20_ud* - annotated *LST20* but the
@@ -264,6 +264,13 @@ def pos_tag_sents(
             `Universal Dependencies <https://universaldependencies.org/>`_ Tags
         * *pud* - `Parallel Universal Dependencies (PUD)\
             <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
+        * *lst20* - `LST20 Corpus by National Electronics and Computer 
+          Technology Center, Thailand
+          <https://aiforthai.in.th/corpus.php>`_
+        * *lst20_ud* - annotated *LST20* but the
+          POS tags are mapped to comply with
+          `Universal Dependencies <https://universaldependencies.org/u/pos>`_
+          POS  Tags
     :return: returns a list of labels regarding which part of speech it is
              for each sentence given.
     :rtype: list[list[tuple[str, str]]]

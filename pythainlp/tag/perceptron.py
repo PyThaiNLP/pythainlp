@@ -24,11 +24,12 @@ def _load_tagger(filename):
 _ORCHID_TAGGER = _load_tagger(_ORCHID_DATA_FILENAME)
 _PUD_TAGGER = _load_tagger(_PUD_DATA_FILENAME)
 
+
 def _postag_clean(words, tagger, tag_sign, to_text):
     _t = []
     words = tag_sign(words)
     t2 = tagger.tag(words)
-    i=0
+    i = 0
     while i < len(t2):
         word = to_text(t2[i][0])
         tag = t2[i][1]

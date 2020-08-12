@@ -5,13 +5,14 @@ import json
 from pythainlp.corpus import get_corpus_path
 
 
-def get_path(model:str) -> str:
+def get_path(model: str) -> str:
     if model == "perceptron":
         path = get_corpus_path("lst20_pt_tagger")
     elif model == "unigram":
         path = get_corpus_path("lst20_unigram_tagger")
-    
+
     return path
+
 
 LST20_SIGN_TAGS = {
     " ": "_"

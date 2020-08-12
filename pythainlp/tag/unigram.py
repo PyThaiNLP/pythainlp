@@ -8,7 +8,7 @@ from typing import List, Tuple
 
 from pythainlp.corpus import corpus_path
 from pythainlp.tag.orchid import tag_signs, tag_to_text
-from pythainlp.tag.lst20 import _lst20_tagger
+from pythainlp.tag.lst20 import _lst20_tagger, lst20_tag_signs, lst20_tag_to_text
 
 _THAI_POS_ORCHID_FILENAME = "orchid_pos_th.json"
 _THAI_POS_ORCHID_PATH = os.path.join(corpus_path(), _THAI_POS_ORCHID_FILENAME)
@@ -39,27 +39,32 @@ def _pud_tagger():
     return model
 
 
+def _postag_clean(words, tagger, tag_sign, to_text):
+    words = tag_sign(words)
+    _t = _find_tag(words, tagger())
+    i = 0
+    temp = []
+    while i < len(_t):
+        word = tag_to_text(_t[i][0])
+        tag = _t[i][1]
+        temp.append((word, tag))
+        i += 1
+
+    return temp
+
+
 def tag(words: List[str], corpus: str) -> List[Tuple[str, str]]:
     """
     รับค่าเป็น ''list'' คืนค่าเป็น ''list'' เช่น [('คำ', 'ชนิดคำ'), ('คำ', 'ชนิดคำ'), ...]
     """
+    t = []
     if not words:
         return []
 
     if corpus == "orchid":
-        i = 0
-        words = tag_signs(words)
-        t = _find_tag(words, _orchid_tagger())
-        temp = []
-        i = 0
-        while i < len(t):
-            word = tag_to_text(t[i][0])
-            tag = t[i][1]
-            temp.append((word, tag))
-            i += 1
-        t = temp
+        t = _postag_clean(words, _orchid_tagger, tag_signs, tag_to_text)
     elif corpus == "lst20":
-        t = _find_tag(words, _lst20_tagger())
+        t = _postag_clean(words, _lst20_tagger, lst20_tag_signs, lst20_tag_to_text)
     else:
         t = _find_tag(words, _pud_tagger())
 

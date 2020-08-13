@@ -35,6 +35,9 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsInstance(countries(), frozenset)
         self.assertIsInstance(provinces(), frozenset)
         self.assertIsInstance(provinces(details=True), list)
+        self.assertEqual(
+            len(provinces(details=False)), len(provinces(details=True))
+        )
         self.assertIsInstance(thai_female_names(), frozenset)
         self.assertIsInstance(thai_male_names(), frozenset)
 

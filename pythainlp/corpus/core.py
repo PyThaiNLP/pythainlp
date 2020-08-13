@@ -57,8 +57,8 @@ def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
 
     Each line in the file will be a member of the set or the list.
 
-    By default, a frozenset will be return, with whitespaces stripped, and 
-    empty values and duplicates removed. 
+    By default, a frozenset will be return, with whitespaces stripped, and
+    empty values and duplicates removed.
 
     If as_is is True, a list will be return, with no modifications
     in member values and their orders.
@@ -299,7 +299,7 @@ def download(
                 local_db.update({"version": version}, query.name == name)
             else:
                 local_db.insert(
-                    {"name": name, "version": version, "filename": file_name,}
+                    {"name": name, "version": version, "filename": file_name}
                 )
         else:
             if local_db.search(

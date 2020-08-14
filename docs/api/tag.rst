@@ -161,7 +161,7 @@ PUNCT               PUNCT
 PUNC                PUNCT
 ===============     =======================
 
-You could read a the list of Part-of-Speech (POS) tags according to ORCHID POS tags from the paper [#Prachya_2020]_.
+You could read a the list of Part-of-Speech (POS) tags according to LST20 POS tags from the paper [#Prachya_2020]_.
 
 The following table shows the mapping of Part-of-Speech (POS) tags from LST20 POS tags to UD POS tags:
 

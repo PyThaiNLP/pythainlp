@@ -5,7 +5,7 @@ pythainlp.tag
 The :class:`pythainlp.tag` contains functions that are used to tag different parts of a text including
 Part-of-Speech (POS) tags, and Named Entity Recognition (NER) tag.
 
-For the POS tags, there are two set of tags including `Universal Dependencies (UD) <https://universaldependencies.org/>`_ and ORCHID [#Sornlertlamvanich_2000]_ POS tags.
+For the POS tags, there are two set of tags including `Universal Dependencies (UD) <https://universaldependencies.org/>`_, ORCHID [#Sornlertlamvanich_2000]_ POS tags and LST20 [#Prachya_2020]_ POS tags.
 
 The following table shows the list of Part-of-Speech (POS) tags according to Universal Dependencies (UD) POS tags:
 
@@ -161,6 +161,42 @@ PUNCT               PUNCT
 PUNC                PUNCT
 ===============     =======================
 
+The following table shows the mapping of Part-of-Speech (POS) tags from LST20 POS tags to UD POS tags:
+
++----------------+-------------------------+
+| LST20 POS tags | Coresponding UD POS tag |
++================+=========================+
+| AJ             | ADJ                     |
++----------------+-------------------------+
+| AV             | ADV                     |
++----------------+-------------------------+
+| AX             | AUX                     |
++----------------+-------------------------+
+| CC             | CCONJ                   |
++----------------+-------------------------+
+| CL             | NOUN                    |
++----------------+-------------------------+
+| FX             | NOUN                    |
++----------------+-------------------------+
+| IJ             | INTJ                    |
++----------------+-------------------------+
+| NN             | NOUN                    |
++----------------+-------------------------+
+| NU             | NUM                     |
++----------------+-------------------------+
+| PA             | PART                    |
++----------------+-------------------------+
+| PR             | PROPN                   |
++----------------+-------------------------+
+| PS             | ADP                     |
++----------------+-------------------------+
+| PU             | PUNCT                   |
++----------------+-------------------------+
+| VV             | VERB                    |
++----------------+-------------------------+
+| XX             | X                       |
++----------------+-------------------------+
+
 For the NER, we use `Inside-outside-beggining (IOB) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`_ format to tag NER for each words.
 For instance, given a sentence "บารัค โอบามาเป็นประธานธิปดี", it would be tag the tokens "บารัค", "โอบามา", "เป็น", "ประธานาธิปดี" as "B-PERSON", "I-PERSON", "I-PERSON", "O", and "O" respectively.
 
@@ -214,3 +250,6 @@ References
 .. [#Sornlertlamvanich_2000] Takahashi, Naoto & Isahara, Hitoshi & Sornlertlamvanich, Virach. (2000).
             Building a Thai part-of-speech tagged corpus (ORCHID).
             Journal of the Acoustical Society of Japan (E). 20. 10.1250/ast.20.189.
+.. [#Prachya_2020] Prachya Boonkwan and Vorapon Luantangsrisuk and Sitthaa Phaholphinyo and Kanyanat Kriengket and Dhanon Leenoi and Charun Phrombut and Monthika Boriboon and Krit Kosawat and Thepchai Supnithi. (2020).
+            The Annotation Guideline of LST20 Corpus.
+            arXiv:2008.05055

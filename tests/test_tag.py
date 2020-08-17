@@ -8,6 +8,9 @@ from pythainlp.tag.named_entity import ThaiNameTagger
 
 
 class TestTagPackage(unittest.TestCase):
+
+    # ### pythainlp.tag.pos_tag
+
     def test_pos_tag(self):
         tokens = ["ผม", "รัก", "คุณ"]
 
@@ -58,14 +61,17 @@ class TestTagPackage(unittest.TestCase):
             pos_tag(tokens, engine="perceptron", corpus="orchid")
         )
         self.assertIsNotNone(
-            pos_tag(tokens, engine="perceptron", corpus="orchid")
+            pos_tag(tokens, engine="perceptron", corpus="orchid_ud")
         )
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="pud")
         )
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="lst20")
-        )  # Hi เนคเทค
+        )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="perceptron", corpus="lst20_ud")
+        )
 
         self.assertEqual(pos_tag_sents(None), [])
         self.assertEqual(pos_tag_sents([]), [])
@@ -165,6 +171,11 @@ class TestTagPackage(unittest.TestCase):
 
         self.assertEqual(
             ner.get_ner("ไทย", pos=False, tag=True), "<LOCATION>ไทย</LOCATION>"
+        )
+
+        self.assertEqual(
+            ner.get_ner("บางแสนกรุงเทพ", pos=False, tag=True),
+            "<LOCATION>บางแสน</LOCATION><LOCATION>กรุงเทพ</LOCATION>",
         )
 
         # arguement `tag` is False and `pos` is True

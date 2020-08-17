@@ -110,28 +110,12 @@ def _UD_Exception(w: str, tag: str) -> str:
     return tag
 
 
-def _orchid_to_ud(tag) -> List[Tuple[str, str]]:
-    _i = 0
-    temp = []
-    while _i < len(tag):
-        temp.append(
-            (tag[_i][0], _UD_Exception(tag[_i][0], _TAG_MAP_UD[tag[_i][1]]))
-        )
-        _i += 1
-
-    return temp
+def _orchid_to_ud(word_tags: List[Tuple[str, str]]) -> List[Tuple[str, str]]:
+    return [(word_tag[0], UD_Exception(word_tag[0], _TAG_MAP_UD[word_tag[1]])) for word_tag in word_tags]
 
 
-def _lst20_to_ud(tag) -> List[Tuple[str, str]]:
-    _i = 0
-    temp = []
-    while _i < len(tag):
-        temp.append(
-            (tag[_i][0], _LST20_TAG_MAP_UD[tag[_i][1]])
-        )
-        _i += 1
-
-    return temp
+def _lst20_to_ud(word_tags: List[Tuple[str, str]]) -> List[Tuple[str, str]]:
+    return [(word_tag[0], _LST20_TAG_MAP_UP[word_tag[1]) for word_tag in word_tags]
 
 
 def pos_tag(
@@ -223,7 +207,6 @@ def pos_tag(
         return []
 
     _corpus = corpus
-    _tag = []
     if corpus == "orchid_ud":
         corpus = "orchid"
     elif corpus == "lst20_ud":
@@ -233,14 +216,16 @@ def pos_tag(
         from .perceptron import tag as tag_
     else:  # default, use "unigram" ("old") engine
         from .unigram import tag as tag_
-    _tag = tag_(words, corpus=corpus)
 
+    word_tags = tag_(words, corpus=corpus)
+
+    # convert to UD tags
     if _corpus == "orchid_ud":
-        _tag = _orchid_to_ud(_tag)
+        word_tags = _orchid_to_ud(word_tags)
     elif _corpus == "lst20_ud":
-        _tag = _lst20_to_ud(_tag)
+        word_tags = _lst20_to_ud(word_tags)
 
-    return _tag
+    return word_tags
 
 
 def pos_tag_sents(

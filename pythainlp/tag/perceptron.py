@@ -7,8 +7,8 @@ import pickle
 from typing import List, Tuple
 
 from pythainlp.corpus import corpus_path
-from pythainlp.tag.orchid import tag_signs, tag_to_text
 from pythainlp.tag.lst20 import _lst20_perceptron, lst20_tag_signs, lst20_tag_to_text
+from pythainlp.tag.orchid import tag_signs, tag_to_text
 
 _ORCHID_DATA_FILENAME = "orchid_pt_tagger.pkl"
 _PUD_DATA_FILENAME = "ud_thai_pud_pt_tagger.pkl"
@@ -25,18 +25,11 @@ _ORCHID_TAGGER = _load_tagger(_ORCHID_DATA_FILENAME)
 _PUD_TAGGER = _load_tagger(_PUD_DATA_FILENAME)
 
 
-def _postag_clean(words, tagger, tag_sign, to_text):
-    _t = []
-    words = tag_sign(words)
-    t2 = tagger.tag(words)
-    i = 0
-    while i < len(t2):
-        word = to_text(t2[i][0])
-        tag = t2[i][1]
-        _t.append((word, tag))
-        i += 1
+def _postag_clean(words: List[str], tagger, tag_signs, to_text):
+    words = tag_signs(words)
+    word_tags = tagger.tag(words)
 
-    return _t
+    return [(to_text(word_tag[0]), word_tag[1]) for word_tag in word_tags]
 
 
 def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
@@ -46,10 +39,10 @@ def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
     :return: returns a list of labels regarding which part of speech it is
     :rtype: list[tuple[str, str]]
     """
-    t = []
     if not words:
         return []
 
+    t = []
     if corpus == "orchid":
         tagger = _ORCHID_TAGGER
         t = _postag_clean(words, tagger, tag_signs, tag_to_text)

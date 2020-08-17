@@ -127,8 +127,8 @@ def pos_tag(
     words: List[str], engine: str = "perceptron", corpus: str = "orchid"
 ) -> List[Tuple[str, str]]:
     """
-    The function tag a list of tokenized words into Part-of-Speech (POS) tags
-    such as 'NOUN', 'VERB', 'ADJ', and 'DET'.
+    The function marks a list of tokenized words with part-of-speech (POS)\
+    tags such as 'NOUN', 'VERB', 'ADJ', and 'DET'.
 
     :param list words: a list of tokenized words
     :param str engine:
@@ -239,7 +239,7 @@ def pos_tag_sents(
     corpus: str = "orchid",
 ) -> List[List[Tuple[str, str]]]:
     """
-    The function tag multiple list of tokenized words into Part-of-Speech
+    The function marks multiple list of tokenized words with part-of-speech
     (POS) tags.
 
     :param list sentences: a list of lists of tokenized words
@@ -251,10 +251,11 @@ def pos_tag_sents(
             `Orchid <https://www.academia.edu/9127599/Thai_Treebank>`_\
             (default)
         * *orchid_ud* - annotated Thai academic articles using\
-            `Universal Dependencies <https://universaldependencies.org/>`_ Tags
+            Universal POS tags from \
+            `Universal Dependencies <https://universaldependencies.org/>`
         * *pud* - `Parallel Universal Dependencies (PUD)\
             <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
-        * *lst20* - `LST20 Corpus by National Electronics and Computer 
+        * *lst20* - `LST20 Corpus by National Electronics and Computer
           Technology Center, Thailand
           <https://aiforthai.in.th/corpus.php>`_
         * *lst20_ud* - annotated *LST20* but the

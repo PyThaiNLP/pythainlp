@@ -2,12 +2,12 @@
 
 pythainlp.tag
 =====================================
-The :class:`pythainlp.tag` contains functions that are used to tag different parts of a text including
-Part-of-Speech (POS) tags, and Named Entity Recognition (NER) tag.
+The :class:`pythainlp.tag` contains functions that are used to mark linguistic and other annotation to different parts of a text including
+part-of-speech (POS) tag and named entity (NE) tag.
 
-For the POS tags, there are two set of tags including `Universal Dependencies (UD) <https://universaldependencies.org/>`_, ORCHID [#Sornlertlamvanich_2000]_ POS tags and LST20 [#Prachya_2020]_ POS tags.
+For POS tags, there are three set of available tags: `Universal POS tags <https://universaldependencies.org/>`_, ORCHID POS tags [#Sornlertlamvanich_2000]_, and LST20 POS tags [#Prachya_2020]_.
 
-The following table shows the list of Part-of-Speech (POS) tags according to Universal Dependencies (UD) POS tags:
+The following table shows Universal POS tags as used in Universal Dependencies (UD):
 
 ============   ==========================   =============================
 Abbreviation   Part-of-Speech tag           Examples
@@ -29,7 +29,7 @@ Abbreviation   Part-of-Speech tag           Examples
  VERB          Verb                         เปิด, ให้, ใช้, เผชิญ, อ่าน
 ============   ==========================   =============================
 
-The following table shows the list of Part-of-Speech (POS) tags according to ORCHID POS tags from the paper:
+The following table shows POS tags as used in ORCHID:
 
 ============   =================================================      =================================
 Abbreviation   Part-of-Speech tag                                     Examples
@@ -93,7 +93,7 @@ Abbreviation   Part-of-Speech tag                                     Examples
 
 ORCHID corpus uses different set of POS tags. Thus, we make UD POS tags version for ORCHID corpus.
 
-The following table shows the mapping of Part-of-Speech (POS) tags from ORCHID POS tags to UD POS tags:
+The following table shows the mapping of POS tags from ORCHID to UD:
 
 ===============     =======================
 ORCHID POS tags     Coresponding UD POS tag
@@ -161,9 +161,9 @@ PUNCT               PUNCT
 PUNC                PUNCT
 ===============     =======================
 
-You could read a the list of Part-of-Speech (POS) tags according to LST20 POS tags from the paper [#Prachya_2020]_.
+Details about LST20 POS tags are available in [#Prachya_2020]_.
 
-The following table shows the mapping of Part-of-Speech (POS) tags from LST20 POS tags to UD POS tags:
+The following table shows the mapping of POS tags from LST20 to UD:
 
 +----------------+-------------------------+
 | LST20 POS tags | Coresponding UD POS tag |
@@ -199,15 +199,16 @@ The following table shows the mapping of Part-of-Speech (POS) tags from LST20 PO
 | XX             | X                       |
 +----------------+-------------------------+
 
-For the NER, we use `Inside-outside-beggining (IOB) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`_ format to tag NER for each words.
-For instance, given a sentence "บารัค โอบามาเป็นประธานธิปดี", it would be tag the tokens "บารัค", "โอบามา", "เป็น", "ประธานาธิปดี" as "B-PERSON", "I-PERSON", "I-PERSON", "O", and "O" respectively.
+For the NE, we use `Inside-outside-beggining (IOB) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`_ format to tag NE for each word.
 
-The *B-* prefix indicates begining token for a chunk of person name, "บารัค โอบามา" and *I-* prefix indicates the intermediate token. However, the term *O* indicates that a token not belong to any NER chunk.
+*B-* prefix indicates the begining token of the chunk. *I-* prefix indicates the intermediate token within the chunk. *O* indicates that the token does not belong to any NE chunk.
 
-The following table shows the list of Named Entity Recognition (NER) tags:
+For instance, given a sentence "บารัค โอบามาเป็นประธานธิปดี", it would tag the tokens "บารัค", "โอบามา", "เป็น", "ประธานาธิปดี" with "B-PERSON", "I-PERSON", "O", and "O" respectively.
+
+The following table shows named entity (NE) tags as used PyThaiNLP:
 
 ============================    =================================
-Named Entity Recognition tag    Examples
+Named Entity tag                Examples
 ============================    =================================
  DATE                           2/21/2004, 16 ก.พ., จันทร์
  TIME                           16.30 น., 5 วัน, 1-3 ปี

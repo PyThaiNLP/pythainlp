@@ -99,7 +99,7 @@ _LST20_TAG_MAP_UD = {
     "PS": "ADP",
     "PU": "PUNCT",
     "VV": "VERB",
-    "XX": "X"
+    "XX": "X",
 }
 
 
@@ -111,11 +111,16 @@ def _UD_Exception(w: str, tag: str) -> str:
 
 
 def _orchid_to_ud(word_tags: List[Tuple[str, str]]) -> List[Tuple[str, str]]:
-    return [(word_tag[0], UD_Exception(word_tag[0], _TAG_MAP_UD[word_tag[1]])) for word_tag in word_tags]
+    return [
+        (word_tag[0], _UD_Exception(word_tag[0], _TAG_MAP_UD[word_tag[1]]))
+        for word_tag in word_tags
+    ]
 
 
 def _lst20_to_ud(word_tags: List[Tuple[str, str]]) -> List[Tuple[str, str]]:
-    return [(word_tag[0], _LST20_TAG_MAP_UP[word_tag[1]) for word_tag in word_tags]
+    return [
+        (word_tag[0], _LST20_TAG_MAP_UD[word_tag[1]]) for word_tag in word_tags
+    ]
 
 
 def pos_tag(

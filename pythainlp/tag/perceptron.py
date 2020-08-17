@@ -7,7 +7,11 @@ import pickle
 from typing import List, Tuple
 
 from pythainlp.corpus import corpus_path
-from pythainlp.tag.lst20 import _lst20_perceptron, lst20_tag_signs, lst20_tag_to_text
+from pythainlp.tag.lst20 import (
+    _lst20_perceptron,
+    lst20_tag_signs,
+    lst20_tag_to_text,
+)
 from pythainlp.tag.orchid import tag_signs, tag_to_text
 
 _ORCHID_DATA_FILENAME = "orchid_pt_tagger.pkl"

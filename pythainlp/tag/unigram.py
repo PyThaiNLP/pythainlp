@@ -45,33 +45,31 @@ def _pud_tagger():
 
 def _postag_clean(words, tagger, tag_sign, to_text):
     words = tag_sign(words)
-    _t = _find_tag(words, tagger())
-    i = 0
-    temp = []
-    while i < len(_t):
-        word = tag_to_text(_t[i][0])
-        tag = _t[i][1]
-        temp.append((word, tag))
-        i += 1
+    word_tags = _find_tag(words, tagger())
+    word_tags = [
+        (tag_to_text(word_tag[0]), word_tag[1]) for word_tag in word_tags
+    ]
 
-    return temp
+    return word_tags
 
 
 def tag(words: List[str], corpus: str) -> List[Tuple[str, str]]:
     """
     รับค่าเป็น ''list'' คืนค่าเป็น ''list'' เช่น [('คำ', 'ชนิดคำ'), ('คำ', 'ชนิดคำ'), ...]
     """
-    t = []
     if not words:
         return []
 
+    word_tags = []
     if corpus == "orchid":
-        t = _postag_clean(words, _orchid_tagger, tag_signs, tag_to_text)
+        word_tags = _postag_clean(
+            words, _orchid_tagger, tag_signs, tag_to_text
+        )
     elif corpus == "lst20":
-        t = _postag_clean(
+        word_tags = _postag_clean(
             words, _lst20_tagger, lst20_tag_signs, lst20_tag_to_text
         )
     else:
-        t = _find_tag(words, _pud_tagger())
+        word_tags = _find_tag(words, _pud_tagger())
 
-    return t
+    return word_tags

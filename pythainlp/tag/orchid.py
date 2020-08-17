@@ -37,11 +37,10 @@ def tag_signs(words: List[str]) -> List[str]:
     Tag signs and symbols with their tags.
     This function is to be used a preprocessing before the actual POS tagging.
     """
-    i = 0
-    while i < len(words):
-        if words[i] in ORCHID_SIGN_TAGS.keys():
-            words[i] = ORCHID_SIGN_TAGS[words[i]]
-        i += 1
+    keys = ORCHID_SIGN_TAGS.keys()
+    words = [
+        ORCHID_SIGN_TAGS[word] if word in keys else word for word in words
+    ]
     return words
 
 

@@ -33,12 +33,8 @@ def tag_provinces(tokens: List[str]) -> List[Tuple[str, str]]:
         #   ('เชียงใหม่', 'B-LOCATION')]
     """
     province_list = provinces()
-
-    output = []
-    for token in tokens:
-        if token in province_list:
-            output.append((token, "B-LOCATION"))
-        else:
-            output.append((token, "O"))
-
+    output = [
+        (token, "B-LOCATION") if token in province_list else (token, "O")
+        for token in tokens
+    ]
     return output

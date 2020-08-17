@@ -21,14 +21,11 @@ _THAI_POS_PUD_PATH = os.path.join(corpus_path(), _THAI_POS_PUD_FILENAME)
 
 
 def _find_tag(words: List[str], dictdata: dict) -> List[Tuple[str, str]]:
-    _temp = []
-    _word = list(dictdata.keys())
-    for word in words:
-        if word in _word:
-            _temp.append((word, dictdata[word]))
-        else:
-            _temp.append((word, None))
-    return _temp
+    keys = list(dictdata.keys())
+    return [
+        (word, dictdata[word]) if word in keys else (word, None)
+        for word in words
+    ]
 
 
 def _orchid_tagger():
@@ -46,11 +43,7 @@ def _pud_tagger():
 def _postag_clean(words, tagger, tag_sign, to_text):
     words = tag_sign(words)
     word_tags = _find_tag(words, tagger())
-    word_tags = [
-        (tag_to_text(word_tag[0]), word_tag[1]) for word_tag in word_tags
-    ]
-
-    return word_tags
+    return [(tag_to_text(word_tag[0]), word_tag[1]) for word_tag in word_tags]
 
 
 def tag(words: List[str], corpus: str) -> List[Tuple[str, str]]:

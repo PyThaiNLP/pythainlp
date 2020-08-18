@@ -15,7 +15,7 @@ _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
 _PUD_FILENAME = "ud_thai_pud_pt_tagger.pkl"
 _PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
 
-_LST20_TAGGER_NAME = "lst20_unigram_tagger"
+_LST20_TAGGER_NAME = "lst20_pt_tagger"
 
 _ORCHID_TAGGER = None
 _PUD_TAGGER = None

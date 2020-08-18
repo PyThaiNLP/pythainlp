@@ -15,7 +15,7 @@ _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
 _PUD_FILENAME = "pos_ud_perceptron.pkl"
 _PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
 
-_LST20_TAGGER_NAME = "lst20_pt_tagger"
+_LST20_TAGGER_NAME = "pos_lst20_perceptron"
 
 _ORCHID_TAGGER = None
 _PUD_TAGGER = None

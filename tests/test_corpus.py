@@ -7,7 +7,9 @@ from pythainlp.corpus import (
     conceptnet,
     countries,
     download,
+    get_corpus_db,
     get_corpus_db_detail,
+    get_corpus_path,
     provinces,
     remove,
     thai_female_names,
@@ -20,6 +22,7 @@ from pythainlp.corpus import (
     ttc,
     wordnet,
 )
+from requests.exceptions import HTTPError
 
 
 class TestCorpusPackage(unittest.TestCase):
@@ -37,8 +40,14 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsInstance(thai_female_names(), frozenset)
         self.assertIsInstance(thai_male_names(), frozenset)
 
+        with self.assertRaises(HTTPError):
+            get_corpus_db(
+                "https://example.com/XXXXXX0lkjasd/SXfmskdjKKXXX"
+            )  # URL does not exist
+        with self.assertRaises(Exception):
+            get_corpus_db("XXXlkja3sfdXX")  # Invalid URL
         self.assertEqual(
-            get_corpus_db_detail("XXX"), {}
+            get_corpus_db_detail("XXXmx3KSXX"), {}
         )  # corpus does not exist
         self.assertTrue(download("test"))  # download the first time
         self.assertTrue(download(name="test", force=True))  # force download
@@ -50,8 +59,10 @@ class TestCorpusPackage(unittest.TestCase):
             download(name="XxxXXxxx817d37sf")
         )  # corpus name not exist
         self.assertIsNotNone(get_corpus_db_detail("test"))  # corpus exists
+        self.assertIsNotNone(get_corpus_path("test"))  # corpus exists
         self.assertTrue(remove("test"))  # remove existing
         self.assertFalse(remove("test"))  # remove non-existing
+        self.assertIsNone(get_corpus_path("test"))  # query non-existing
         self.assertTrue(download(name="test", version="0.1"))
         self.assertTrue(remove("test"))
 

@@ -1,38 +1,56 @@
 # -*- coding: utf-8 -*-
 """
-Perceptron Part-Of-Speech tagger
+Perceptron part-of-speech tagger
 """
 import os
 import pickle
 from typing import List, Tuple
 
-from pythainlp.corpus import corpus_path
-from pythainlp.tag.lst20 import (
-    _lst20_perceptron,
-    lst20_tag_signs,
-    lst20_tag_to_text,
-)
-from pythainlp.tag.orchid import tag_signs, tag_to_text
-
-_ORCHID_DATA_FILENAME = "orchid_pt_tagger.pkl"
-_PUD_DATA_FILENAME = "ud_thai_pud_pt_tagger.pkl"
+from pythainlp.corpus import corpus_path, get_corpus_path
 
 
-def _load_tagger(filename):
-    data_filename = os.path.join(corpus_path(), filename)
-    with open(data_filename, "rb") as fh:
-        model = pickle.load(fh)
-    return model
+_ORCHID_FILENAME = "orchid_pt_tagger.pkl"
+_ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
+
+_PUD_FILENAME = "ud_thai_pud_pt_tagger.pkl"
+_PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
+
+_LST20_TAGGER_NAME = "lst20_unigram_tagger"
+
+_ORCHID_TAGGER = None
+_PUD_TAGGER = None
+_LST20_TAGGER = None
 
 
-_ORCHID_TAGGER = _load_tagger(_ORCHID_DATA_FILENAME)
-_PUD_TAGGER = _load_tagger(_PUD_DATA_FILENAME)
+def _orchid_tagger():
+    global _ORCHID_TAGGER
+    if not _ORCHID_TAGGER:
+        with open(_ORCHID_PATH, "rb") as fh:
+            _ORCHID_TAGGER = pickle.load(fh)
+    return _ORCHID_TAGGER
 
 
+def _pud_tagger():
+    global _PUD_TAGGER
+    if not _PUD_TAGGER:
+        with open(_PUD_PATH, "rb") as fh:
+            _PUD_TAGGER = pickle.load(fh)
+    return _PUD_TAGGER
+
+
+def _lst20_tagger():
+    global _LST20_TAGGER
+    if not _LST20_TAGGER:
+        path = get_corpus_path(_LST20_TAGGER_NAME)
+        with open(path, "rb") as fh:
+            _LST20_TAGGER = pickle.load(fh)
+    return _LST20_TAGGER
+
+
+# actual tagging work happens here
 def _postag_clean(words: List[str], tagger, tag_signs, to_text):
     words = tag_signs(words)
     word_tags = tagger.tag(words)
-
     return [(to_text(word_tag[0]), word_tag[1]) for word_tag in word_tags]
 
 
@@ -46,15 +64,23 @@ def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
     if not words:
         return []
 
-    t = []
-    if corpus == "orchid":
-        tagger = _ORCHID_TAGGER
-        t = _postag_clean(words, tagger, tag_signs, tag_to_text)
-    elif corpus == "lst20":
-        tagger = _load_tagger(_lst20_perceptron())
-        t = _postag_clean(words, tagger, lst20_tag_signs, lst20_tag_to_text)
-    else:  # default, use "pud" as a corpus
-        tagger = _PUD_TAGGER
-        t = tagger.tag(words)
+    word_tags = []
+    if corpus == "orchid" or corpus == "orchid_ud":
+        from pythainlp.tag.orchid import tag_signs, tag_to_text, to_ud
 
-    return t
+        tagger = _orchid_tagger()
+        word_tags = _postag_clean(words, tagger, tag_signs, tag_to_text)
+        if corpus == "orchid_ud":
+            word_tags = to_ud(word_tags)
+    elif corpus == "lst20" or corpus == "lst20_ud":
+        from pythainlp.tag.lst20 import tag_signs, tag_to_text, to_ud
+
+        tagger = _lst20_tagger()
+        word_tags = _postag_clean(words, tagger, tag_signs, tag_to_text)
+        if corpus == "lst20_ud":
+            word_tags = to_ud(word_tags)
+    else:  # default, use "pud" as a corpus
+        tagger = _pud_tagger()
+        word_tags = tagger.tag(words)
+
+    return word_tags

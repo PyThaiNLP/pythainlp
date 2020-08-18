@@ -1,127 +1,6 @@
 # -*- coding: utf-8 -*-
 from typing import List, Tuple
 
-# tag map for orchid to Universal Dependencies
-# from Korakot Chaovavanich
-_TAG_MAP_UD = {
-    # NOUN
-    "NOUN": "NOUN",
-    "NCMN": "NOUN",
-    "NTTL": "NOUN",
-    "CNIT": "NOUN",
-    "CLTV": "NOUN",
-    "CMTR": "NOUN",
-    "CFQC": "NOUN",
-    "CVBL": "NOUN",
-    # VERB
-    "VACT": "VERB",
-    "VSTA": "VERB",
-    # PROPN
-    "PROPN": "PROPN",
-    "NPRP": "PROPN",
-    # ADJ
-    "ADJ": "ADJ",
-    "NONM": "ADJ",
-    "VATT": "ADJ",
-    "DONM": "ADJ",
-    # ADV
-    "ADV": "ADV",
-    "ADVN": "ADV",
-    "ADVI": "ADV",
-    "ADVP": "ADV",
-    "ADVS": "ADV",
-    # INT
-    "INT": "INTJ",
-    # PRON
-    "PRON": "PRON",
-    "PPRS": "PRON",
-    "PDMN": "PRON",
-    "PNTR": "PRON",
-    # DET
-    "DET": "DET",
-    "DDAN": "DET",
-    "DDAC": "DET",
-    "DDBQ": "DET",
-    "DDAQ": "DET",
-    "DIAC": "DET",
-    "DIBQ": "DET",
-    "DIAQ": "DET",
-    # NUM
-    "NUM": "NUM",
-    "NCNM": "NUM",
-    "NLBL": "NUM",
-    "DCNM": "NUM",
-    # AUX
-    "AUX": "AUX",
-    "XVBM": "AUX",
-    "XVAM": "AUX",
-    "XVMM": "AUX",
-    "XVBB": "AUX",
-    "XVAE": "AUX",
-    # ADP
-    "ADP": "ADP",
-    "RPRE": "ADP",
-    # CCONJ
-    "CCONJ": "CCONJ",
-    "JCRG": "CCONJ",
-    # SCONJ
-    "SCONJ": "SCONJ",
-    "PREL": "SCONJ",
-    "JSBR": "SCONJ",
-    "JCMP": "SCONJ",
-    # PART
-    "PART": "PART",
-    "FIXN": "PART",
-    "FIXV": "PART",
-    "EAFF": "PART",
-    "EITT": "PART",
-    "AITT": "PART",
-    "NEG": "PART",
-    # PUNCT
-    "PUNCT": "PUNCT",
-    "PUNC": "PUNCT",
-}
-
-# tag map for lst20 to Universal Dependencies
-# from Wannaphong Phatthiyaphaibun & Korakot Chaovavanich
-_LST20_TAG_MAP_UD = {
-    "AJ": "ADJ",
-    "AV": "ADV",
-    "AX": "AUX",
-    "CC": "CCONJ",
-    "CL": "NOUN",
-    "FX": "NOUN",
-    "IJ": "INTJ",
-    "NN": "NOUN",
-    "NU": "NUM",
-    "PA": "PART",
-    "PR": "PROPN",
-    "PS": "ADP",
-    "PU": "PUNCT",
-    "VV": "VERB",
-    "XX": "X",
-}
-
-
-def _UD_Exception(w: str, tag: str) -> str:
-    if w == "การ" or w == "ความ":
-        return "NOUN"
-
-    return tag
-
-
-def _orchid_to_ud(word_tags: List[Tuple[str, str]]) -> List[Tuple[str, str]]:
-    return [
-        (word_tag[0], _UD_Exception(word_tag[0], _TAG_MAP_UD[word_tag[1]]))
-        for word_tag in word_tags
-    ]
-
-
-def _lst20_to_ud(word_tags: List[Tuple[str, str]]) -> List[Tuple[str, str]]:
-    return [
-        (word_tag[0], _LST20_TAG_MAP_UD[word_tag[1]]) for word_tag in word_tags
-    ]
-
 
 def pos_tag(
     words: List[str], engine: str = "perceptron", corpus: str = "orchid"
@@ -216,14 +95,7 @@ def pos_tag(
     else:  # default, use "unigram" ("old") engine
         from .unigram import tag as tag_
 
-    if corpus == "orchid_ud":
-        word_tags = tag_(words, corpus="orchid")
-        word_tags = _orchid_to_ud(word_tags)
-    elif corpus == "lst20_ud":
-        word_tags = tag_(words, corpus="lst20")
-        word_tags = _lst20_to_ud(word_tags)
-    else:
-        word_tags = tag_(words, corpus=corpus)
+    word_tags = tag_(words, corpus=corpus)
 
     return word_tags
 

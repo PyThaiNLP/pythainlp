@@ -22,7 +22,7 @@ from pythainlp.corpus import (
     ttc,
     wordnet,
 )
-from requests.exceptions import HTTPError
+from requests import Response
 
 
 class TestCorpusPackage(unittest.TestCase):
@@ -40,15 +40,16 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsInstance(thai_female_names(), frozenset)
         self.assertIsInstance(thai_male_names(), frozenset)
 
-        with self.assertRaises(HTTPError):
-            get_corpus_db(
-                "https://example.com/XXXXXX0lkjasd/SXfmskdjKKXXX"
-            )  # URL does not exist
-        with self.assertRaises(Exception):
-            get_corpus_db("XXXlkja3sfdXX")  # Invalid URL
+        self.assertIsInstance(
+            get_corpus_db("https://example.com/XXXXXX0lkjasd/SXfmskdjKKXXX"),
+            Response,
+        )  # URL does not exist, should get 404 response
+        self.assertIsNone(get_corpus_db("XXXlkja3sfdXX"))  # Invalid URL
+
         self.assertEqual(
             get_corpus_db_detail("XXXmx3KSXX"), {}
         )  # corpus does not exist
+
         self.assertTrue(download("test"))  # download the first time
         self.assertTrue(download(name="test", force=True))  # force download
         self.assertTrue(download(name="test"))  # try download existing

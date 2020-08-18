@@ -79584,7 +79584,6 @@ Wishbone	1
 Rubik	1
 Petesch	1
 Consider	1
-assertiveperson	1
 bait	1
 บรอง	1
 Elsevier	1

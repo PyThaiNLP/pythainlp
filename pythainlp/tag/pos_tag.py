@@ -211,24 +211,19 @@ def pos_tag(
     if not words:
         return []
 
-    _corpus = corpus
-    if corpus == "orchid_ud":
-        corpus = "orchid"
-    elif corpus == "lst20_ud":
-        corpus = "lst20"
-
     if engine == "perceptron":
         from .perceptron import tag as tag_
     else:  # default, use "unigram" ("old") engine
         from .unigram import tag as tag_
 
-    word_tags = tag_(words, corpus=corpus)
-
-    # convert to UD tags
-    if _corpus == "orchid_ud":
+    if corpus == "orchid_ud":
+        word_tags = tag_(words, corpus="orchid")
         word_tags = _orchid_to_ud(word_tags)
-    elif _corpus == "lst20_ud":
+    elif corpus == "lst20_ud":
+        word_tags = tag_(words, corpus="lst20")
         word_tags = _lst20_to_ud(word_tags)
+    else:
+        word_tags = tag_(words, corpus=corpus)
 
     return word_tags
 

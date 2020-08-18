@@ -46,14 +46,14 @@ https://creativecommons.org/licenses/by/4.0/
 
 Filename | Description
 ---------|------------
-sentenceseg-crfcut-v2.model | Sentence segmentation model
-ud_thai_pud_pt_tagger.pkl | Part-of-speech model
-ud_thai_pud_unigram_tagger.json | Part-of-speech model
+sentenceseg_crfcut.model | Sentence segmentation model
+pos_ud_perceptron.pkl | Part-of-speech tagging model
+pos_ud__unigram.json | Part-of-speech tagging model
 
 
 ## Thai WordNet
 
-Thai WordNet (tha-wn.db) is created by Thai Computational Linguistic
+Thai WordNet (wordnet_th.db) is created by Thai Computational Linguistic
 Laboratory at National Institute of Information and Communications
 Technology (NICT), Japan, and released under the following license:
 

@@ -9,10 +9,10 @@ from typing import List, Tuple
 from pythainlp.corpus import corpus_path, get_corpus_path
 
 
-_ORCHID_FILENAME = "orchid_pt_tagger.pkl"
+_ORCHID_FILENAME = "pos_orchid_perceptron.pkl"
 _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
 
-_PUD_FILENAME = "ud_thai_pud_pt_tagger.pkl"
+_PUD_FILENAME = "pos_ud_perceptron.pkl"
 _PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
 
 _LST20_TAGGER_NAME = "lst20_pt_tagger"

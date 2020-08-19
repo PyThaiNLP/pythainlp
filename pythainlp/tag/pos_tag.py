@@ -6,8 +6,7 @@ def pos_tag(
     words: List[str], engine: str = "perceptron", corpus: str = "orchid"
 ) -> List[Tuple[str, str]]:
     """
-    The function marks a list of tokenized words with part-of-speech (POS)\
-    tags such as 'NOUN', 'VERB', 'ADJ', and 'DET'.
+    Marks words with part-of-speech (POS) tags, such as 'NOUN' and 'VERB'.
 
     :param list words: a list of tokenized words
     :param str engine:
@@ -15,16 +14,17 @@ def pos_tag(
         * *unigram* - unigram tagger
     :param str corpus:
         the corpus that used to create the language model for tagger
-        * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus\
+        * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
             by National Electronics and Computer Technology Center, Thailand
-        * *lst20_ud* - LST20 text, with tags mapped to Universal POS tags
+        * *lst20_ud* - LST20 text, with tags mapped to Universal POS tags \
             from `Universal Dependencies <https://universaldependencies.org/>`
-        * *orchid* - `ORCHID <https://www.academia.edu/9127599/Thai_Treebank>`_\
-            corpus, text from Thai academic articles (default)
+        * *orchid* - `ORCHID \
+            <https://www.academia.edu/9127599/Thai_Treebank>`_ corpus, \
+            text from Thai academic articles (default)
         * *orchid_ud* - ORCHID text, with tags mapped to Universal POS tags
         * *pud* - `Parallel Universal Dependencies (PUD)\
-            <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks,\
-            natively use Universal POS tags
+            <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ \
+            treebanks, natively use Universal POS tags
     :return: a list of (word, POS) as their members
     :rtype: list[tuple[str, str]]
 
@@ -102,8 +102,7 @@ def pos_tag_sents(
     corpus: str = "orchid",
 ) -> List[List[Tuple[str, str]]]:
     """
-    The function marks multiple list of tokenized words with part-of-speech
-    (POS) tags.
+    Marks sentences with part-of-speech (POS) tags.
 
     :param list sentences: a list of lists of tokenized words
     :param str engine:
@@ -111,16 +110,17 @@ def pos_tag_sents(
         * *unigram* - unigram tagger
     :param str corpus:
         the corpus that used to create the language model for tagger
-        * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus\
+        * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
             by National Electronics and Computer Technology Center, Thailand
-        * *lst20_ud* - LST20 text, with tags mapped to Universal POS tags
+        * *lst20_ud* - LST20 text, with tags mapped to Universal POS tags \
             from `Universal Dependencies <https://universaldependencies.org/>`
-        * *orchid* - `ORCHID <https://www.academia.edu/9127599/Thai_Treebank>`_\
-            corpus, text from Thai academic articles (default)
-        * *orchid_ud* - ORCHID text, with tags mapped to Universal POS tags 
+        * *orchid* - `ORCHID \
+            <https://www.academia.edu/9127599/Thai_Treebank>`_ corpus, \
+            text from Thai academic articles (default)
+        * *orchid_ud* - ORCHID text, with tags mapped to Universal POS tags
         * *pud* - `Parallel Universal Dependencies (PUD)\
-            <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks,\
-            natively use Universal POS tags
+            <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ \
+            treebanks, natively use Universal POS tags
     :return: returns a list of lists with (word, POS) as their members
     :rtype: list[list[tuple[str, str]]]
 

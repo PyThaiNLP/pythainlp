@@ -7,6 +7,7 @@ import pickle
 from typing import List, Tuple
 
 from pythainlp.corpus import corpus_path, get_corpus_path
+from pythainlp.tag import lst20, orchid
 
 
 _ORCHID_FILENAME = "pos_orchid_perceptron.pkl"
@@ -47,11 +48,13 @@ def _lst20_tagger():
     return _LST20_TAGGER
 
 
-# actual tagging work happens here
-def _postag_clean(words: List[str], tagger, tag_signs, to_text):
-    words = tag_signs(words)
+def _tag(
+    words: List[str], tagger, pre_process, post_process, to_ud: bool = False
+):
+    words = pre_process(words)
     word_tags = tagger.tag(words)
-    return [(to_text(word_tag[0]), word_tag[1]) for word_tag in word_tags]
+    word_tags = post_process(word_tags, to_ud)
+    return word_tags
 
 
 def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
@@ -64,21 +67,27 @@ def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
     if not words:
         return []
 
+    to_ud = False
+    if corpus[-3:] == "_ud":
+        to_ud = True
+
     word_tags = []
     if corpus == "orchid" or corpus == "orchid_ud":
-        from pythainlp.tag.orchid import tag_signs, tag_to_text, to_ud
-
-        tagger = _orchid_tagger()
-        word_tags = _postag_clean(words, tagger, tag_signs, tag_to_text)
-        if corpus == "orchid_ud":
-            word_tags = to_ud(word_tags)
+        word_tags = _tag(
+            words,
+            _orchid_tagger(),
+            orchid.pre_process,
+            orchid.post_process,
+            to_ud,
+        )
     elif corpus == "lst20" or corpus == "lst20_ud":
-        from pythainlp.tag.lst20 import tag_signs, tag_to_text, to_ud
-
-        tagger = _lst20_tagger()
-        word_tags = _postag_clean(words, tagger, tag_signs, tag_to_text)
-        if corpus == "lst20_ud":
-            word_tags = to_ud(word_tags)
+        word_tags = _tag(
+            words,
+            _lst20_tagger(),
+            lst20.pre_process,
+            lst20.post_process,
+            to_ud,
+        )
     else:  # default, use "pud" as a corpus
         tagger = _pud_tagger()
         word_tags = tagger.tag(words)

@@ -4,8 +4,9 @@ Data preprocessing for ORCHID corpus
 """
 from typing import List, Tuple
 
-# ORCHID part-of-speech tags
-ORCHID_SIGN_TAGS = {
+# defined strings for special characters,
+# from Table 4 in ORCHID paper
+CHAR_TO_ESCAPE = {
     " ": "<space>",
     "+": "<plus>",
     "-": "<minus>",
@@ -30,11 +31,12 @@ ORCHID_SIGN_TAGS = {
     ";": "<semi_colon>",
     "/": "<slash>",
 }
-ORCHID_SIGN_TEXTS = dict((v, k) for k, v in ORCHID_SIGN_TAGS.items())
+ESCAPE_TO_CHAR = dict((v, k) for k, v in CHAR_TO_ESCAPE.items())
 
 # map from ORCHID POS tag to Universal POS tag
 # from Korakot Chaovavanich
-ORCHID_TO_UD = {
+TO_UD = {
+    "": "",
     # NOUN
     "NOUN": "NOUN",
     "NCMN": "NOUN",
@@ -121,30 +123,37 @@ def ud_exception(w: str, tag: str) -> str:
     return tag
 
 
-def to_ud(word_tags: List[Tuple[str, str]]) -> List[Tuple[str, str]]:
-    return [
-        (word_tag[0], ud_exception(word_tag[0], ORCHID_TO_UD[word_tag[1]]))
-        for word_tag in word_tags
-    ]
-
-
-def tag_signs(words: List[str]) -> List[str]:
+def pre_process(words: List[str]) -> List[str]:
     """
-    Mark signs and symbols with their tags.
-    This function is to be used a preprocessing before the actual POS tagging.
+    Convert signs and symbols with their defined strings.
+    This function is to be used as a preprocessing step,
+    before the actual POS tagging.
     """
-    keys = ORCHID_SIGN_TAGS.keys()
-    words = [
-        ORCHID_SIGN_TAGS[word] if word in keys else word for word in words
-    ]
+    keys = CHAR_TO_ESCAPE.keys()
+    words = [CHAR_TO_ESCAPE[word] if word in keys else word for word in words]
     return words
 
 
-def tag_to_text(word: str) -> str:
+def post_process(
+    word_tags: List[Tuple[str, str]], to_ud: bool = False
+) -> List[Tuple[str, str]]:
     """
-    Return a corresponding text for the word, if found.
-    If not found, return the word itself.
+    Convert defined strings back to corresponding signs and symbols.
+    This function is to be used as a post-processing step,
+    after the actual POS tagging.
     """
-    if word in ORCHID_SIGN_TEXTS.keys():
-        word = ORCHID_SIGN_TEXTS[word]
-    return word
+    keys = ESCAPE_TO_CHAR.keys()
+
+    if not to_ud:
+        word_tags = [
+            (ESCAPE_TO_CHAR[word], tag) if word in keys else (word, tag)
+            for word, tag in word_tags
+        ]
+    else:
+        word_tags = [
+            (ESCAPE_TO_CHAR[word], ud_exception(word, TO_UD[tag]))
+            if word in keys
+            else (word, ud_exception(word, TO_UD[tag]))
+            for word, tag in word_tags
+        ]
+    return word_tags

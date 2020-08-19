@@ -59,15 +59,6 @@ def _find_tag(
     ]
 
 
-def _tag(
-    words: List[str], tagger, pre_process, post_process, to_ud: bool = False
-):
-    words = pre_process(words)
-    word_tags = _find_tag(words, tagger())
-    word_tags = post_process(word_tags, to_ud)
-    return word_tags
-
-
 def tag(words: List[str], corpus: str) -> List[Tuple[str, str]]:
     """
     รับค่าเป็น ''list'' คืนค่าเป็น ''list'' เช่น [('คำ', 'ชนิดคำ'), ('คำ', 'ชนิดคำ'), ...]
@@ -81,17 +72,13 @@ def tag(words: List[str], corpus: str) -> List[Tuple[str, str]]:
 
     word_tags = []
     if corpus == "orchid" or corpus == "orchid_ud":
-        word_tags = _tag(
-            words,
-            _orchid_tagger,
-            orchid.pre_process,
-            orchid.post_process,
-            to_ud,
-        )
+        words = orchid.pre_process(words)
+        word_tags = _find_tag(words, _orchid_tagger())
+        word_tags = orchid.post_process(word_tags, to_ud)
     elif corpus == "lst20" or corpus == "lst20_ud":
-        word_tags = _tag(
-            words, _lst20_tagger, lst20.pre_process, lst20.post_process, to_ud
-        )
+        words = lst20.pre_process(words)
+        word_tags = _find_tag(words, _lst20_tagger())
+        word_tags = lst20.post_process(word_tags, to_ud)
     else:  # default, use "pud" as a corpus
         word_tags = _find_tag(words, _pud_tagger())
 

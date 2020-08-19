@@ -48,15 +48,6 @@ def _lst20_tagger():
     return _LST20_TAGGER
 
 
-def _tag(
-    words: List[str], tagger, pre_process, post_process, to_ud: bool = False
-):
-    words = pre_process(words)
-    word_tags = tagger.tag(words)
-    word_tags = post_process(word_tags, to_ud)
-    return word_tags
-
-
 def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
     """
     :param list words: a list of tokenized words
@@ -73,21 +64,13 @@ def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
 
     word_tags = []
     if corpus == "orchid" or corpus == "orchid_ud":
-        word_tags = _tag(
-            words,
-            _orchid_tagger(),
-            orchid.pre_process,
-            orchid.post_process,
-            to_ud,
-        )
+        words = orchid.pre_process(words)
+        word_tags = _orchid_tagger().tag(words)
+        word_tags = orchid.post_process(word_tags, to_ud)
     elif corpus == "lst20" or corpus == "lst20_ud":
-        word_tags = _tag(
-            words,
-            _lst20_tagger(),
-            lst20.pre_process,
-            lst20.post_process,
-            to_ud,
-        )
+        words = lst20.pre_process(words)
+        word_tags = _lst20_tagger().tag(words)
+        word_tags = lst20.post_process(word_tags, to_ud)
     else:  # default, use "pud" as a corpus
         tagger = _pud_tagger()
         word_tags = tagger.tag(words)

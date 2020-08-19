@@ -14,22 +14,18 @@ def pos_tag(
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
     :param str corpus:
-        * *orchid* - annotated Thai academic articles namedly
-          `Orchid <https://www.academia.edu/9127599/Thai_Treebank>`_ (default)
-        * *orchid_ud* - annotated Thai academic articles *Orchid* but the
-          POS tags are mapped to comply with
-          `Universal Dependencies <https://universaldependencies.org/u/pos>`_
-          POS  Tags
-        * *pud* - `Parallel Universal Dependencies (PUD)
-          <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
-        * *lst20* - `LST20 Corpus by National Electronics and Computer
-          Technology Center, Thailand
-          <https://aiforthai.in.th/corpus.php>`_
-        * *lst20_ud* - annotated *LST20* but the
-          POS tags are mapped to comply with
-          `Universal Dependencies <https://universaldependencies.org/u/pos>`_
-          POS  Tags
-    :return: returns a list of labels regarding which part of speech it is
+        the corpus that used to create the language model for tagger
+        * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus\
+            by National Electronics and Computer Technology Center, Thailand
+        * *lst20_ud* - LST20 text, with tags mapped to Universal POS tags
+            from `Universal Dependencies <https://universaldependencies.org/>`
+        * *orchid* - `ORCHID <https://www.academia.edu/9127599/Thai_Treebank>`_\
+            corpus, text from Thai academic articles (default)
+        * *orchid_ud* - ORCHID text, with tags mapped to Universal POS tags
+        * *pud* - `Parallel Universal Dependencies (PUD)\
+            <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks,\
+            natively use Universal POS tags
+    :return: a list of (word, POS) as their members
     :rtype: list[tuple[str, str]]
 
     :Example:
@@ -114,23 +110,18 @@ def pos_tag_sents(
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
     :param str corpus:
-        * *orchid* - annotated Thai academic articles namedly\
-            `Orchid <https://www.academia.edu/9127599/Thai_Treebank>`_\
-            (default)
-        * *orchid_ud* - annotated Thai academic articles using\
-            Universal POS tags from \
-            `Universal Dependencies <https://universaldependencies.org/>`
+        the corpus that used to create the language model for tagger
+        * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus\
+            by National Electronics and Computer Technology Center, Thailand
+        * *lst20_ud* - LST20 text, with tags mapped to Universal POS tags
+            from `Universal Dependencies <https://universaldependencies.org/>`
+        * *orchid* - `ORCHID <https://www.academia.edu/9127599/Thai_Treebank>`_\
+            corpus, text from Thai academic articles (default)
+        * *orchid_ud* - ORCHID text, with tags mapped to Universal POS tags 
         * *pud* - `Parallel Universal Dependencies (PUD)\
-            <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
-        * *lst20* - `LST20 Corpus by National Electronics and Computer
-          Technology Center, Thailand
-          <https://aiforthai.in.th/corpus.php>`_
-        * *lst20_ud* - annotated *LST20* but the
-          POS tags are mapped to comply with
-          `Universal Dependencies <https://universaldependencies.org/u/pos>`_
-          POS  Tags
-    :return: returns a list of labels regarding which part of speech it is
-             for each sentence given.
+            <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks,\
+            natively use Universal POS tags
+    :return: returns a list of lists with (word, POS) as their members
     :rtype: list[list[tuple[str, str]]]
 
     :Example:

@@ -33,10 +33,16 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(
             pos_tag(tokens, engine="unigram", corpus="orchid")
         )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="unigram", corpus="orchid_ud")
+        )
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
         self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="pud"))
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="lst20"))
         self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="lst20"))
+        self.assertIsNotNone(
+            pos_tag([""], engine="unigram", corpus="lst20_ud")
+        )
         self.assertEqual(
             pos_tag(["คุณ", "กำลัง", "ประชุม"], engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],

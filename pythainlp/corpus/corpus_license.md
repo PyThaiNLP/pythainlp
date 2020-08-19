@@ -22,7 +22,7 @@ thailand_provinces_th.txt | List of Thailand provinces in Thai
 tnc_freq.txt | Words and their frequencies, from Thai National Corpus
 ttc_freq.txt | Words and their frequencies, from Thai Textbook Corpus
 words_th.txt | List of Thai words
-words_th_thai2fit_201810.txt | List of Thai words (frozen)
+words_th_thai2fit_201810.txt | List of Thai words (frozen for thai2fit)
 
 The following word lists are from **Thai Male and Female Names Corpus**
 https://github.com/korkeatw/thai-names-corpus/ by Korkeat Wannapat
@@ -48,7 +48,7 @@ Filename | Description
 ---------|------------
 sentenceseg_crfcut.model | Sentence segmentation model
 pos_ud_perceptron.pkl | Part-of-speech tagging model
-pos_ud__unigram.json | Part-of-speech tagging model
+pos_ud_unigram.json | Part-of-speech tagging model
 
 
 ## Thai WordNet

@@ -59,9 +59,12 @@ def _find_tag(
     ]
 
 
-def tag(words: List[str], corpus: str) -> List[Tuple[str, str]]:
+def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
     """
-    รับค่าเป็น ''list'' คืนค่าเป็น ''list'' เช่น [('คำ', 'ชนิดคำ'), ('คำ', 'ชนิดคำ'), ...]
+    :param list words: a list of tokenized words
+    :param str corpus: corpus name (orchid, pud, or lst20)
+    :return: a list of tuples (word, POS tag)
+    :rtype: list[tuple[str, str]]
     """
     if not words:
         return []

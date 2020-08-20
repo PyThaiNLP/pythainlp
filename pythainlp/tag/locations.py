@@ -12,6 +12,8 @@ def tag_provinces(tokens: List[str]) -> List[Tuple[str, str]]:
     """
     This function recognize Thailand provinces in text.
 
+    Note that it uses exact match and considers no context.
+
     :param list[str] tokens: a list of words
     :reutrn: a list of tuple indicating NER for `LOCATION` in IOB format
     :rtype: list[tuple[str, str]]
@@ -24,13 +26,6 @@ def tag_provinces(tokens: List[str]) -> List[Tuple[str, str]]:
         text = ['หนองคาย', 'น่าอยู่']
         tag_provinces(text)
         # output: [('หนองคาย', 'B-LOCATION'), ('น่าอยู่', 'O')]
-
-        text = ['อำเภอ', 'ฝาง','เป็น','ส่วน','หนึ่ง','ของ', 'จังหวัด', \\
-            'เชียงใหม่']
-        tag_provinces(text)
-        # output: [('อำเภอ', 'O'), ('ฝาง', 'O'), ('เป็น', 'O'), ('ส่วน', 'O'),
-        #   ('หนึ่ง', 'O'), ('ของ', 'O'), ('จังหวัด', 'O'),
-        #   ('เชียงใหม่', 'B-LOCATION')]
     """
     province_list = provinces()
     output = [

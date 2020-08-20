@@ -25,7 +25,7 @@ def pos_tag(
         * *pud* - `Parallel Universal Dependencies (PUD)\
             <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ \
             treebanks, natively use Universal POS tags
-    :return: a list of (word, POS) as their members
+    :return: a list of tuples (word, POS tag)
     :rtype: list[tuple[str, str]]
 
     :Example:
@@ -121,7 +121,7 @@ def pos_tag_sents(
         * *pud* - `Parallel Universal Dependencies (PUD)\
             <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ \
             treebanks, natively use Universal POS tags
-    :return: returns a list of lists with (word, POS) as their members
+    :return: a list of lists of tuples (word, POS tag)
     :rtype: list[list[tuple[str, str]]]
 
     :Example:

@@ -51,8 +51,8 @@ def _lst20_tagger():
 def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
     """
     :param list words: a list of tokenized words
-    :param str corpus: name corpus (orchid or pud)
-    :return: returns a list of labels regarding which part of speech it is
+    :param str corpus: corpus name (orchid, pud, or lst20)
+    :return: a list of tuples (word, POS tag)
     :rtype: list[tuple[str, str]]
     """
     if not words:

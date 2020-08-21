@@ -11,10 +11,10 @@ from pythainlp.tag import lst20, orchid
 from pythainlp.tag._tag_perceptron import PerceptronTagger
 
 
-_ORCHID_FILENAME = "pos_orchid_perceptron_pythainlp.pkl"
+_ORCHID_FILENAME = "pos_orchid_perceptron.pkl"
 _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
 
-_PUD_FILENAME = "pos_ud_perceptron_pythainlp.pkl"
+_PUD_FILENAME = "pos_ud_perceptron.pkl"
 _PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
 
 _LST20_TAGGER_NAME = "pos_lst20_perceptron"

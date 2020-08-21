@@ -35,8 +35,7 @@ class PerceptronTagger:
             self.load(self.AP_MODEL_LOC)
 
     def tag(self, tokens):
-        '''Tags a string `corpus`.'''
-        # Assume untokenized corpus has \n between sentences and ' ' between words
+        '''Tags a string `tokens`.'''
         prev, prev2 = self.START
         output = []
 
@@ -89,8 +88,8 @@ class PerceptronTagger:
             data['weights']=self.model.weights
             data['tagdict']=self.tagdict
             data['classes']=self.classes
-            pickle.dump(data,
-                         open(save_loc, 'wb'), -1)
+            with open(save_loc, 'wb') as f:
+                pickle.dump(data, f, -1)
         return None
 
     def load(self, loc):

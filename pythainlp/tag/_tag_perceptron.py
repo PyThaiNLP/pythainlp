@@ -30,7 +30,7 @@ class PerceptronTagger:
         self.model = AveragedPerceptron()
         self.tagdict = {}
         self.classes = set()
-        if path is not '':
+        if path != '':
             self.AP_MODEL_LOC = path
             self.load(self.AP_MODEL_LOC)
 

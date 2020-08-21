@@ -12,14 +12,16 @@ import random
 
 class AveragedPerceptron(object):
 
-    '''An averaged perceptron, as implemented by Matthew Honnibal.
+    """
+    An averaged perceptron, as implemented by Matthew Honnibal.
 
     See more implementation details here:
         http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
-    '''
+    """
 
     def __init__(self):
-        # Each feature gets its own weight vector, so weights is a dict-of-dicts
+        # Each feature gets its own weight vector,
+        # so weights is a dict-of-dicts
         self.weights = {}
         self.classes = set()
         # The accumulated values, for the averaging. These will be keyed by
@@ -33,7 +35,10 @@ class AveragedPerceptron(object):
         self.i = 0
 
     def predict(self, features):
-        '''Dot-product the features and current weights and return the best label.'''
+        """
+        Dot-product the features and current weights and return the best \
+        label.
+        """
         scores = defaultdict(float)
         for feat, value in features.items():
             if feat not in self.weights or value == 0:
@@ -45,7 +50,8 @@ class AveragedPerceptron(object):
         return max(self.classes, key=lambda label: (scores[label], label))
 
     def update(self, truth, guess, features):
-        '''Update the feature weights.'''
+        """Update the feature weights."""
+
         def upd_feat(c, f, w, v):
             param = (f, c)
             self._totals[param] += (self.i - self._tstamps[param]) * w
@@ -62,7 +68,7 @@ class AveragedPerceptron(object):
         return None
 
     def average_weights(self):
-        '''Average weights from all iterations.'''
+        """Average weights from all iterations."""
         for feat, weights in self.weights.items():
             new_feat_weights = {}
             for clas, weight in weights.items():
@@ -76,19 +82,19 @@ class AveragedPerceptron(object):
         return None
 
     def save(self, path):
-        '''Save the pickled model weights.'''
-        return pickle.dump(dict(self.weights), open(path, 'w'))
+        """Save the pickled model weights."""
+        return pickle.dump(dict(self.weights), open(path, "w"))
 
     def load(self, path):
-        '''Load the pickled model weights.'''
+        """Load the pickled model weights."""
         self.weights = pickle.load(open(path))
         return None
 
 
 def train(nr_iter, examples):
-    '''Return an averaged perceptron model trained on ``examples`` for
+    """Return an averaged perceptron model trained on ``examples`` for
     ``nr_iter`` iterations.
-    '''
+    """
     model = AveragedPerceptron()
     for i in range(nr_iter):
         random.shuffle(examples)

@@ -8,13 +8,14 @@ import random
 from collections import defaultdict
 import pickle
 import logging
+from typing import List, Tuple, Union
 
 from pythainlp.tag._perceptron import AveragedPerceptron
 
 
 class PerceptronTagger:
-
-    """Greedy Averaged Perceptron tagger, as implemented by Matthew Honnibal.
+    """
+    Greedy Averaged Perceptron tagger, as implemented by Matthew Honnibal.
 
     See more implementation details here:
         http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
@@ -26,7 +27,7 @@ class PerceptronTagger:
     END = ["-END-", "-END2-"]
     AP_MODEL_LOC = ""
 
-    def __init__(self, path=""):
+    def __init__(self, path: str = ""):
         self.model = AveragedPerceptron()
         self.tagdict = {}
         self.classes = set()
@@ -34,7 +35,7 @@ class PerceptronTagger:
             self.AP_MODEL_LOC = path
             self.load(self.AP_MODEL_LOC)
 
-    def tag(self, tokens):
+    def tag(self, tokens: List[str]) -> List[Tuple[str, str]]:
         """Tags a string `tokens`."""
         prev, prev2 = self.START
         output = []
@@ -50,7 +51,12 @@ class PerceptronTagger:
             prev = tag
         return output
 
-    def train(self, sentences, save_loc=None, nr_iter=5):
+    def train(
+        self,
+        sentences: List[List[Tuple[str, str]]],
+        save_loc: Union[str, None] = None,
+        nr_iter: int = 5,
+    ):
         """
         Train a model from sentences, and save it at ``save_loc``.
         ``nr_iter`` controls the number of Perceptron training iterations.
@@ -99,7 +105,7 @@ class PerceptronTagger:
                 pickle.dump(data, f, -1)
         return None
 
-    def load(self, loc):
+    def load(self, loc: str):
         """Load a pickled model."""
         try:
             with open(loc, "rb") as f:
@@ -113,8 +119,9 @@ class PerceptronTagger:
         self.model.classes = self.classes
         return None
 
-    def _normalize(self, word):
-        """Normalization used in pre-processing.
+    def _normalize(self, word: str) -> str:
+        """
+        Normalization used in pre-processing.
 
         - All words are lower cased
         - Digits in the range 1800-2100 are represented as !YEAR;
@@ -131,13 +138,16 @@ class PerceptronTagger:
         else:
             return word.lower()
 
-    def _get_features(self, i, word, context, prev, prev2):
-        """Map tokens into a feature representation, implemented as a
+    def _get_features(
+        self, i: int, word: str, context: List[str], prev: str, prev2: str
+    ):
+        """
+        Map tokens into a feature representation, implemented as a
         {hashable: float} dict. If the features change, a new model must be
         trained.
         """
 
-        def add(name, *args):
+        def add(name: str, *args):
             features[" ".join((name,) + tuple(args))] += 1
 
         i += len(self.START)
@@ -159,7 +169,7 @@ class PerceptronTagger:
         add("i+2 word", context[i + 2])
         return features
 
-    def _make_tagdict(self, sentences):
+    def _make_tagdict(self, sentences: List[List[Tuple[str, str]]]):
         """Make a tag dictionary for single-tag words."""
         counts = defaultdict(lambda: defaultdict(int))
         for words, tags in sentences:

@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Averaged perceptron classifier. Implementation geared for simplicity rather than
-efficiency.
+Averaged perceptron classifier.
+Implementation geared for simplicity rather than efficiency.
 
 Code from https://github.com/sloria/textblob-aptagger/blob/master/textblob_aptagger/_perceptron.py
 """
 from collections import defaultdict
 import pickle
 import random
+from typing import Dict
 
 
 class AveragedPerceptron(object):
@@ -25,18 +26,18 @@ class AveragedPerceptron(object):
         self.weights = {}
         self.classes = set()
         # The accumulated values, for the averaging. These will be keyed by
-        # feature/clas tuples
+        # feature/class tuples
         self._totals = defaultdict(int)
         # The last time the feature was changed, for the averaging. Also
-        # keyed by feature/clas tuples
+        # keyed by feature/class tuples
         # (tstamps is short for timestamps)
         self._tstamps = defaultdict(int)
         # Number of instances seen
         self.i = 0
 
-    def predict(self, features):
+    def predict(self, features: Dict):
         """
-        Dot-product the features and current weights and return the best \
+        Dot-product the features and current weights and return the best
         label.
         """
         scores = defaultdict(float)
@@ -49,7 +50,7 @@ class AveragedPerceptron(object):
         # Do a secondary alphabetic sort, for stability
         return max(self.classes, key=lambda label: (scores[label], label))
 
-    def update(self, truth, guess, features):
+    def update(self, truth, guess, features: Dict):
         """Update the feature weights."""
 
         def upd_feat(c, f, w, v):
@@ -81,18 +82,19 @@ class AveragedPerceptron(object):
             self.weights[feat] = new_feat_weights
         return None
 
-    def save(self, path):
+    def save(self, path: str):
         """Save the pickled model weights."""
         return pickle.dump(dict(self.weights), open(path, "w"))
 
-    def load(self, path):
+    def load(self, path: str):
         """Load the pickled model weights."""
         self.weights = pickle.load(open(path))
         return None
 
 
 def train(nr_iter, examples):
-    """Return an averaged perceptron model trained on ``examples`` for
+    """
+    Return an averaged perceptron model trained on ``examples`` for
     ``nr_iter`` iterations.
     """
     model = AveragedPerceptron()

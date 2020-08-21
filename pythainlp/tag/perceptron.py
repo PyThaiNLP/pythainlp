@@ -8,12 +8,13 @@ from typing import List, Tuple
 
 from pythainlp.corpus import corpus_path, get_corpus_path
 from pythainlp.tag import lst20, orchid
+from pythainlp.tag._tag_perceptron import PerceptronTagger
 
 
-_ORCHID_FILENAME = "pos_orchid_perceptron.pkl"
+_ORCHID_FILENAME = "pos_orchid_perceptron_pythainlp.pkl"
 _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
 
-_PUD_FILENAME = "pos_ud_perceptron.pkl"
+_PUD_FILENAME = "pos_ud_perceptron_pythainlp.pkl"
 _PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
 
 _LST20_TAGGER_NAME = "pos_lst20_perceptron"
@@ -26,16 +27,14 @@ _LST20_TAGGER = None
 def _orchid_tagger():
     global _ORCHID_TAGGER
     if not _ORCHID_TAGGER:
-        with open(_ORCHID_PATH, "rb") as fh:
-            _ORCHID_TAGGER = pickle.load(fh)
+        _ORCHID_TAGGER = PerceptronTagger(path=_ORCHID_PATH)
     return _ORCHID_TAGGER
 
 
 def _pud_tagger():
     global _PUD_TAGGER
     if not _PUD_TAGGER:
-        with open(_PUD_PATH, "rb") as fh:
-            _PUD_TAGGER = pickle.load(fh)
+        _PUD_TAGGER = PerceptronTagger(path=_PUD_PATH)
     return _PUD_TAGGER
 
 

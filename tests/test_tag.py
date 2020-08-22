@@ -2,7 +2,13 @@
 
 import unittest
 
-from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
+from pythainlp.tag import (
+    PerceptronTagger,
+    perceptron,
+    pos_tag,
+    pos_tag_sents,
+    unigram,
+)
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import ThaiNameTagger
 
@@ -88,6 +94,20 @@ class TestTagPackage(unittest.TestCase):
                 [("แมว", "NCMN"), ("วิ่ง", "VACT")],
             ],
         )
+
+    # ### pythainlp.tag.PerceptronTagger
+
+    def test_perceptron_tagger(self):
+        tagger = PerceptronTagger()
+        data = [
+            [("คน", "N"), ("เดิน", "V")],
+            [("แมว", "N"), ("เดิน", "V")],
+            [("คน", "V"), ("กาแฟ", "N")],
+            [("แมว", "N"), ("วิ่ง", "V")],
+            [("นก", "N"), ("นก", "V")],
+        ]
+        tagger.train(data)
+        self.assertEqual(len(tagger.tag(["นก", "เดิน"])), 2)
 
     # ### pythainlp.tag.locations
 

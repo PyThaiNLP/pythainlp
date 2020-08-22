@@ -7,8 +7,7 @@ import pickle
 from typing import List, Tuple
 
 from pythainlp.corpus import corpus_path, get_corpus_path
-from pythainlp.tag import lst20, orchid
-from pythainlp.tag._tag_perceptron import PerceptronTagger
+from pythainlp.tag import PerceptronTagger, lst20, orchid
 
 _ORCHID_FILENAME = "pos_orchid_perceptron.pkl"
 _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)

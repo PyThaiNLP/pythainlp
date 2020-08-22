@@ -4,12 +4,13 @@ Code from
 https://github.com/sloria/textblob-aptagger/blob/master/textblob_aptagger/taggers.py
 """
 from __future__ import absolute_import
+
+import logging
 import os
+import pickle
 import random
 from collections import defaultdict
-import pickle
-import logging
-from typing import List, Tuple, Union
+from typing import Dict, List, Tuple, Union
 
 from pythainlp.tag._perceptron import AveragedPerceptron
 
@@ -26,7 +27,7 @@ class PerceptronTagger:
     END = ["-END-", "-END2-"]
     AP_MODEL_LOC = ""
 
-    def __init__(self, path: str = ""):
+    def __init__(self, path: str = "") -> None:
         """
         :param str path: model path
         """
@@ -58,7 +59,7 @@ class PerceptronTagger:
         sentences: List[List[Tuple[str, str]]],
         save_loc: Union[str, None] = None,
         nr_iter: int = 5,
-    ):
+    ) -> None:
         """
         Train a model from sentences, and save it at ``save_loc``.
         ``nr_iter`` controls the number of Perceptron training iterations.
@@ -105,9 +106,8 @@ class PerceptronTagger:
             data["classes"] = self.classes
             with open(save_loc, "wb") as f:
                 pickle.dump(data, f, -1)
-        return None
 
-    def load(self, loc: str):
+    def load(self, loc: str) -> None:
         """
         Load a pickled model.
         :param str loc: model path
@@ -122,7 +122,6 @@ class PerceptronTagger:
         self.tagdict = w_td_c["tagdict"]
         self.classes = w_td_c["classes"]
         self.model.classes = self.classes
-        return None
 
     def _normalize(self, word: str) -> str:
         """
@@ -145,7 +144,7 @@ class PerceptronTagger:
 
     def _get_features(
         self, i: int, word: str, context: List[str], prev: str, prev2: str
-    ):
+    ) -> Dict:
         """
         Map tokens into a feature representation, implemented as a
         {hashable: float} dict. If the features change, a new model must be
@@ -158,7 +157,7 @@ class PerceptronTagger:
         i += len(self.START)
         features = defaultdict(int)
         # It's useful to have a constant feature,
-        #  which acts sort of like a prior
+        # which acts sort of like a prior
         add("bias")
         add("i suffix", word[-3:])
         add("i pref1", word[0])
@@ -175,7 +174,7 @@ class PerceptronTagger:
         add("i+2 word", context[i + 2])
         return features
 
-    def _make_tagdict(self, sentences: List[List[Tuple[str, str]]]):
+    def _make_tagdict(self, sentences: List[List[Tuple[str, str]]]) -> None:
         """Make a tag dictionary for single-tag words."""
         counts = defaultdict(lambda: defaultdict(int))
         for sentence in sentences:
@@ -193,5 +192,5 @@ class PerceptronTagger:
                 self.tagdict[word] = tag
 
 
-def _pc(n, d):
+def _pc(n, d) -> float:
     return (float(n) / d) * 100

@@ -10,7 +10,6 @@ from pythainlp.corpus import corpus_path, get_corpus_path
 from pythainlp.tag import lst20, orchid
 from pythainlp.tag._tag_perceptron import PerceptronTagger
 
-
 _ORCHID_FILENAME = "pos_orchid_perceptron.pkl"
 _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
 

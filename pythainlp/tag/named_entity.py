@@ -5,7 +5,7 @@ Named-entity recognizer
 
 __all__ = ["ThaiNameTagger"]
 
-from typing import List, Tuple, Union
+from typing import Dict, List, Tuple, Union
 
 from pycrfsuite import Tagger as CRFTagger
 from pythainlp.corpus import get_corpus_path, thai_stopwords
@@ -21,7 +21,7 @@ def _is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำ�
     return word in thai_stopwords()
 
 
-def _doc2features(doc, i) -> dict:
+def _doc2features(doc, i) -> Dict:
     word = doc[i][0]
     postag = doc[i][1]
 
@@ -73,7 +73,7 @@ def _doc2features(doc, i) -> dict:
 
 
 class ThaiNameTagger:
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Thai named-entity recognizer.
         """

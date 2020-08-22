@@ -6,9 +6,9 @@ Implementation geared for simplicity rather than efficiency.
 Code from
 https://github.com/sloria/textblob-aptagger/blob/master/textblob_aptagger/_perceptron.py
 """
-from collections import defaultdict
 import pickle
 import random
+from collections import defaultdict
 from typing import Dict
 
 
@@ -21,7 +21,7 @@ class AveragedPerceptron(object):
         http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         # Each feature gets its own weight vector,
         # so weights is a dict-of-dicts
         self.weights = {}
@@ -51,7 +51,7 @@ class AveragedPerceptron(object):
         # Do a secondary alphabetic sort, for stability
         return max(self.classes, key=lambda label: (scores[label], label))
 
-    def update(self, truth, guess, features: Dict):
+    def update(self, truth, guess, features: Dict) -> None:
         """Update the feature weights."""
 
         def upd_feat(c, f, w, v):
@@ -62,14 +62,13 @@ class AveragedPerceptron(object):
 
         self.i += 1
         if truth == guess:
-            return None
+            return
         for f in features:
             weights = self.weights.setdefault(f, {})
             upd_feat(truth, f, weights.get(truth, 0.0), 1.0)
             upd_feat(guess, f, weights.get(guess, 0.0), -1.0)
-        return None
 
-    def average_weights(self):
+    def average_weights(self) -> None:
         """Average weights from all iterations."""
         for feat, weights in self.weights.items():
             new_feat_weights = {}
@@ -81,16 +80,14 @@ class AveragedPerceptron(object):
                 if averaged:
                     new_feat_weights[clas] = averaged
             self.weights[feat] = new_feat_weights
-        return None
 
-    def save(self, path: str):
+    def save(self, path: str) -> None:
         """Save the pickled model weights."""
-        return pickle.dump(dict(self.weights), open(path, "w"))
+        pickle.dump(dict(self.weights), open(path, "w"))
 
-    def load(self, path: str):
+    def load(self, path: str) -> None:
         """Load the pickled model weights."""
         self.weights = pickle.load(open(path))
-        return None
 
 
 def train(nr_iter, examples):

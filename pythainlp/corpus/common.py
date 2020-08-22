@@ -15,12 +15,14 @@ __all__ = [
 ]
 
 from pythainlp.corpus import get_corpus
+from typing import Union
 
 _THAI_COUNTRIES = set()
 _THAI_COUNTRIES_FILENAME = "countries_th.txt"
 
 _THAI_THAILAND_PROVINCES = set()
-_THAI_THAILAND_PROVINCES_FILENAME = "thailand_provinces_th.txt"
+_THAI_THAILAND_PROVINCES_DETAILS = list()
+_THAI_THAILAND_PROVINCES_FILENAME = "thailand_provinces_th.csv"
 
 _THAI_SYLLABLES = set()
 _THAI_SYLLABLES_FILENAME = "syllables_th.txt"
@@ -57,21 +59,45 @@ def countries() -> frozenset:
     return _THAI_COUNTRIES
 
 
-def provinces() -> frozenset:
+def provinces(details: bool = False) -> Union[frozenset, list]:
     """
     Return a frozenset of Thailand province names in Thai such as "กระบี่",
     "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
     \n(See: `dev/pythainlp/corpus/thailand_provinces_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/thailand_provinces_th.txt>`_)
 
-    :return: :class:`frozenset` containing province names of Thailand
-    :rtype: :class:`frozenset`
+    :param bool details: return details of provinces or not
+
+    :return: :class:`frozenset` containing province names of Thailand \
+    (if details is False) or :class:`list` containing :class:`dict` of \
+    province names and details such as \
+    [{'name_th': 'นนทบุรี', 'abbr_th': 'นบ', 'name_en': 'Nonthaburi', \
+    'abbr_en': 'NBI'}].
+    :rtype: :class:`frozenset` or :class:`list`
     """
-    global _THAI_THAILAND_PROVINCES
-    if not _THAI_THAILAND_PROVINCES:
-        _THAI_THAILAND_PROVINCES = get_corpus(
-            _THAI_THAILAND_PROVINCES_FILENAME
-        )
+    global _THAI_THAILAND_PROVINCES, _THAI_THAILAND_PROVINCES_DETAILS
+
+    if not _THAI_THAILAND_PROVINCES or not _THAI_THAILAND_PROVINCES_DETAILS:
+        provs = set()
+        prov_details = list()
+
+        for line in get_corpus(_THAI_THAILAND_PROVINCES_FILENAME, as_is=True):
+            p = line.split(",")
+
+            prov = dict()
+            prov["name_th"] = p[0]
+            prov["abbr_th"] = p[1]
+            prov["name_en"] = p[2]
+            prov["abbr_en"] = p[3]
+
+            provs.add(prov["name_th"])
+            prov_details.append(prov)
+
+        _THAI_THAILAND_PROVINCES = frozenset(provs)
+        _THAI_THAILAND_PROVINCES_DETAILS = prov_details
+
+    if details:
+        return _THAI_THAILAND_PROVINCES_DETAILS
 
     return _THAI_THAILAND_PROVINCES
 

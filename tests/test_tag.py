@@ -8,6 +8,9 @@ from pythainlp.tag.named_entity import ThaiNameTagger
 
 
 class TestTagPackage(unittest.TestCase):
+
+    # ### pythainlp.tag.pos_tag
+
     def test_pos_tag(self):
         tokens = ["ผม", "รัก", "คุณ"]
 
@@ -25,11 +28,21 @@ class TestTagPackage(unittest.TestCase):
         self.assertEqual(unigram.tag([], corpus="pud"), [])
         self.assertEqual(unigram.tag(None, corpus="orchid"), [])
         self.assertEqual(unigram.tag([], corpus="orchid"), [])
+        self.assertEqual(unigram.tag(None, corpus="lst20"), [])
+        self.assertEqual(unigram.tag([], corpus="lst20"), [])
         self.assertIsNotNone(
             pos_tag(tokens, engine="unigram", corpus="orchid")
         )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="unigram", corpus="orchid_ud")
+        )
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
         self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="pud"))
+        self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="lst20"))
+        self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="lst20"))
+        self.assertIsNotNone(
+            pos_tag([""], engine="unigram", corpus="lst20_ud")
+        )
         self.assertEqual(
             pos_tag(["คุณ", "กำลัง", "ประชุม"], engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
@@ -48,14 +61,22 @@ class TestTagPackage(unittest.TestCase):
         self.assertEqual(perceptron.tag([], corpus="orchid_ud"), [])
         self.assertEqual(perceptron.tag(None, corpus="pud"), [])
         self.assertEqual(perceptron.tag([], corpus="pud"), [])
+        self.assertEqual(perceptron.tag(None, corpus="lst20"), [])
+        self.assertEqual(perceptron.tag([], corpus="lst20"), [])
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="orchid")
         )
         self.assertIsNotNone(
-            pos_tag(tokens, engine="perceptron", corpus="orchid")
+            pos_tag(tokens, engine="perceptron", corpus="orchid_ud")
         )
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="pud")
+        )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="perceptron", corpus="lst20")
+        )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="perceptron", corpus="lst20_ud")
         )
 
         self.assertEqual(pos_tag_sents(None), [])
@@ -156,6 +177,11 @@ class TestTagPackage(unittest.TestCase):
 
         self.assertEqual(
             ner.get_ner("ไทย", pos=False, tag=True), "<LOCATION>ไทย</LOCATION>"
+        )
+
+        self.assertEqual(
+            ner.get_ner("บางแสนกรุงเทพ", pos=False, tag=True),
+            "<LOCATION>บางแสน</LOCATION><LOCATION>กรุงเทพ</LOCATION>",
         )
 
         # arguement `tag` is False and `pos` is True

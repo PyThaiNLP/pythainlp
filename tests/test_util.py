@@ -17,6 +17,7 @@ from pythainlp.util import (
     countthai,
     delete_tone,
     dict_trie,
+    display_thai_char,
     digit_to_text,
     eng_to_thai,
     find_keyword,
@@ -164,6 +165,8 @@ class TestUtilPackage(unittest.TestCase):
         self.assertIsNotNone(reign_year_to_ad(2, 9))
         self.assertIsNotNone(reign_year_to_ad(2, 8))
         self.assertIsNotNone(reign_year_to_ad(2, 7))
+
+    # ### pythainlp.util.strftime
 
     def test_thai_strftime(self):
         date = datetime(1976, 10, 6, 1, 40, tzinfo=timezone.utc)
@@ -361,11 +364,13 @@ class TestUtilPackage(unittest.TestCase):
             now + timedelta(days=-2), thaiword_to_date("วานซืน", now)
         )
 
+        self.assertIsNotNone(thaiword_to_date("วันนี้"))
+
         # it's error if "พรุ่งนี้" is 1 not 32.
-        #self.assertEqual(
+        # self.assertEqual(
         #    thaiword_to_date("วันนี้").day + 1,
         #    thaiword_to_date("พรุ่งนี้").day,
-        #)
+        # )
         self.assertIsNone(thaiword_to_date("วันไหน"))
 
     # ### pythainlp.util.trie
@@ -507,3 +512,11 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(is_native_thai("เลข"), False)
         self.assertEqual(is_native_thai("เทเวศน์"), False)
         self.assertEqual(is_native_thai("เทเวศร์"), False)
+
+    def test_display_thai_char(self):
+        self.assertEqual(display_thai_char("้"), "_้")
+        self.assertEqual(display_thai_char("ป"), "ป")
+        self.assertEqual(display_thai_char("์"), "_์")
+        self.assertEqual(display_thai_char("ำ"), "_ำ")
+        self.assertEqual(display_thai_char("๎"), "_๎")
+        self.assertEqual(display_thai_char("ํ"), "_ํ")

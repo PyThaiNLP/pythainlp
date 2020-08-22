@@ -371,6 +371,18 @@ class TestTokenizePackage(unittest.TestCase):
         sent_1_toks = ["ฉันไปโรงเรียน ", "เธอไปโรงพยาบาล"]
         sent_2 = "วันนี้ฉันกินข้าว และโดดเรียน"
         sent_2_toks = ["วันนี้ฉันกินข้าว และโดดเรียน"]
+        sent_3 = (
+            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา"
+            + "จากผลงานวิจัยที่เคยทำมาในอดีต"
+            + " มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด"
+            + " จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้"
+        )
+        sent_3_toks = [
+            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา"
+            + "จากผลงานวิจัยที่เคยทำมาในอดีต ",
+            "มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด ",
+            "จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้",
+        ]
 
         self.assertEqual(
             sent_tokenize(sent_1, engine="crfcut"), sent_1_toks,
@@ -379,24 +391,24 @@ class TestTokenizePackage(unittest.TestCase):
             sent_tokenize(sent_2, engine="crfcut"), sent_2_toks,
         )
         self.assertEqual(
+            sent_tokenize(sent_3, engine="crfcut"), sent_3_toks,
+        )
+        self.assertEqual(
             sent_tokenize(sent_1), sent_1_toks,
         )
         self.assertEqual(
             sent_tokenize(sent_2), sent_2_toks,
         )
+        self.assertEqual(
+            sent_tokenize(sent_3), sent_3_toks,
+        )
         self.assertIsNotNone(
-            sent_tokenize(
-                sent_1,
-                keep_whitespace=False,
-                engine="whitespace",
-            ),
+            sent_tokenize(sent_1, keep_whitespace=False, engine="whitespace",),
         )
         self.assertFalse(
             " "
             in sent_tokenize(
-                sent_1,
-                engine="whitespace",
-                keep_whitespace=False,
+                sent_1, engine="whitespace", keep_whitespace=False,
             )
         )
         with self.assertRaises(ValueError):

@@ -177,7 +177,7 @@ def extract_features(
     return doc_features
 
 
-_CRFCUT_DATA_FILENAME = "sentenceseg-crfcut-v2.model"
+_CRFCUT_DATA_FILENAME = "sentenceseg_crfcut.model"
 _tagger = pycrfsuite.Tagger()
 _tagger.open(os.path.join(corpus_path(), _CRFCUT_DATA_FILENAME))
 
@@ -192,6 +192,7 @@ def segment(text: str) -> List[str]:
     toks = word_tokenize(text)
     feat = extract_features(toks)
     labs = _tagger.tag(feat)
+    labs[-1] = "E"  # make sure it cuts the last sentence
 
     sentences = []
     sentence = ""

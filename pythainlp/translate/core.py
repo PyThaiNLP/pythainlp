@@ -147,8 +147,8 @@ def _th2en_bpe_translate(text: str) -> str:
 
 def translate(
     text: str,
-    source: str = "en",
-    target: str = "th",
+    source: str,
+    target: str,
     tokenizer: str = "bpe",
 ) -> str:
     """

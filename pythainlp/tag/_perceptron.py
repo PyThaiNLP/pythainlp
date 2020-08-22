@@ -3,7 +3,8 @@
 Averaged perceptron classifier.
 Implementation geared for simplicity rather than efficiency.
 
-Code from https://github.com/sloria/textblob-aptagger/blob/master/textblob_aptagger/_perceptron.py
+Code from
+https://github.com/sloria/textblob-aptagger/blob/master/textblob_aptagger/_perceptron.py
 """
 from collections import defaultdict
 import pickle

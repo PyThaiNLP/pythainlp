@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Code from https://github.com/sloria/textblob-aptagger/blob/master/textblob_aptagger/taggers.py
+Code from
+https://github.com/sloria/textblob-aptagger/blob/master/textblob_aptagger/taggers.py
 """
 from __future__ import absolute_import
 import os
@@ -152,7 +153,8 @@ class PerceptronTagger:
 
         i += len(self.START)
         features = defaultdict(int)
-        # It's useful to have a constant feature, which acts sort of like a prior
+        # It's useful to have a constant feature,
+        #  which acts sort of like a prior
         add("bias")
         add("i suffix", word[-3:])
         add("i pref1", word[0])

@@ -5,7 +5,7 @@ https://github.com/sloria/textblob-aptagger/blob/master/textblob_aptagger/tagger
 """
 from __future__ import absolute_import
 
-import logging
+# import logging
 import os
 import pickle
 import random
@@ -94,9 +94,9 @@ class PerceptronTagger:
                     c += guess == tags[i]
                     n += 1
             random.shuffle(sentences)
-            logging.info(
-                "Iter {0}: {1}/{2}={3}".format(iter_, c, n, _pc(c, n))
-            )
+            # logging.info(
+            #     "Iter {0}: {1}/{2}={3}".format(iter_, c, n, _pc(c, n))
+            # )
         self.model.average_weights()
         # Pickle as a binary file
         if save_loc is not None:

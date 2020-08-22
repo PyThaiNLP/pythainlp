@@ -20,8 +20,6 @@ class PerceptronTagger:
 
     See more implementation details here:
         http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
-
-    :param load: Load the pickled model upon instantiation.
     """
 
     START = ["-START-", "-START2-"]
@@ -29,6 +27,9 @@ class PerceptronTagger:
     AP_MODEL_LOC = ""
 
     def __init__(self, path: str = ""):
+        """
+        :param str path: model path
+        """
         self.model = AveragedPerceptron()
         self.tagdict = {}
         self.classes = set()
@@ -107,7 +108,10 @@ class PerceptronTagger:
         return None
 
     def load(self, loc: str):
-        """Load a pickled model."""
+        """
+        Load a pickled model.
+        :param str loc: model path
+        """
         try:
             with open(loc, "rb") as f:
                 w_td_c = pickle.load(f)

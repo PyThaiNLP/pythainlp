@@ -172,8 +172,8 @@ class PerceptronTagger:
     def _make_tagdict(self, sentences: List[List[Tuple[str, str]]]):
         """Make a tag dictionary for single-tag words."""
         counts = defaultdict(lambda: defaultdict(int))
-        for words, tags in sentences:
-            for word, tag in zip(words, tags):
+        for sentence in sentences:
+            for word, tag in sentence:
                 counts[word][tag] += 1
                 self.classes.add(tag)
         freq_thresh = 20

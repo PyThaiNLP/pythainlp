@@ -41,7 +41,7 @@ model = None
 model_name = None
 
 
-def get_path(model, path1, path2, file=None) -> str:
+def get_translate_path(model, path1, path2, file=None) -> str:
     path = os.path.join(os.path.join(get_full_data_path(model), path1), path2)
     if file is not None:
         return os.path.join(path, file)
@@ -54,13 +54,13 @@ def en2th_word2bpe_model():
     if model_name != "en2th_word2bpe":
         del model
         model = TransformerModel.from_pretrained(
-            model_name_or_path=get_path(
+            model_name_or_path=get_translate_path(
                 "scb_1m_en-th_moses",
                 "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0",
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
-            data_name_or_path=get_path(
+            data_name_or_path=get_translate_path(
                 "scb_1m_en-th_moses",
                 "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0",
                 "vocab",
@@ -86,13 +86,13 @@ def th2en_word2word_model():
     if model_name != "th2en_word2word":
         del model
         model = TransformerModel.from_pretrained(
-            model_name_or_path=get_path(
+            model_name_or_path=get_translate_path(
                 "scb_1m_th-en_newmm",
                 "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0",
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
-            data_name_or_path=get_path(
+            data_name_or_path=get_translate_path(
                 "scb_1m_th-en_newmm",
                 "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0",
                 "vocab",
@@ -116,19 +116,19 @@ def th2en_bpe_model():
     if model_name != "th2en_bpe":
         del model
         model = TransformerModel.from_pretrained(
-            model_name_or_path=get_path(
+            model_name_or_path=get_translate_path(
                 "scb_1m_th-en_spm",
                 "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
-            data_name_or_path=get_path(
+            data_name_or_path=get_translate_path(
                 "scb_1m_th-en_spm",
                 "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
                 "vocab",
             ),
             bpe="sentencepiece",
-            sentencepiece_vocab=get_path(
+            sentencepiece_vocab=get_translate_path(
                 "scb_1m_th-en_spm",
                 "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
                 "bpe",

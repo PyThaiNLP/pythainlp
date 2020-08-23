@@ -32,10 +32,8 @@ def download_model_all() -> None:
     """
     Download Model
     """
-    _download_install("scb_1m_th-en_newmm")
-    _download_install("scb_1m_th-en_spm")
-    _download_install("scb_1m_en-th_moses")
-    _download_install("scb_1m_en-th_spm")
+    _download_install("scb_th_en")
+    _download_install("scb_en_th")
 
 
 model = None

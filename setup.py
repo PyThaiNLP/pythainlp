@@ -46,30 +46,35 @@ requirements = [
 
 extras = {
     "attacut": ["attacut>=1.0.6"],
-    "benchmarks": ["numpy>=1.16.1", "pandas>=0.24", "PyYAML>=5.3.1"],
+    "benchmarks": ["PyYAML>=5.3.1", "numpy>=1.16.1", "pandas>=0.24"],
     "icu": ["pyicu>=2.3"],
     "ipa": ["epitran>=1.1"],
     "ml": ["numpy>=1.16", "torch>=1.0.0"],
     "ssg": ["ssg>=0.0.6"],
     "thai2fit": ["emoji>=0.5.1", "gensim>=3.2.0", "numpy>=1.16.1"],
-    "thai2rom": ["torch>=1.0.0", "numpy>=1.16.1"],
-    "translate": ["sacremoses", "fairseq", "sentencepiece", "torch>=1.0.0"],
+    "thai2rom": ["numpy>=1.16.1", "torch>=1.0.0"],
+    "translate": [
+        "fairseq>=0.9.0",
+        "sacremoses>=0.0.41",
+        "sentencepiece>=0.1.91",
+        "torch>=1.0.0",
+    ],
     "wordnet": ["nltk>=3.3.*"],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
         "emoji>=0.5.1",
         "epitran>=1.1",
+        "fairseq>=0.9.0",
         "gensim>=3.2.0",
         "nltk>=3.3.*",
         "numpy>=1.16.1",
         "pandas>=0.24",
         "pyicu>=2.3",
+        "sacremoses>=0.0.41",
+        "sentencepiece>=0.1.91",
         "ssg>=0.0.6",
         "torch>=1.0.0",
-        "fairseq",
-        "sacremoses",
-        "sentencepiece",
     ],
 }
 
@@ -135,11 +140,7 @@ setup(
         "Topic :: Text Processing :: General",
         "Topic :: Text Processing :: Linguistic",
     ],
-    entry_points={
-        "console_scripts": [
-            "thainlp = pythainlp.__main__:main",
-        ],
-    },
+    entry_points={"console_scripts": ["thainlp = pythainlp.__main__:main",],},
     project_urls={
         "Documentation": "https://www.thainlp.org/pythainlp/docs/2.2/",
         "Tutorials": "https://www.thainlp.org/pythainlp/tutorials/",

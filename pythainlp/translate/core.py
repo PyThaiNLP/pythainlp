@@ -5,15 +5,18 @@ from collections import defaultdict
 from functools import partial
 
 from pythainlp.corpus import download, get_corpus_path
-from pythainlp.tools import get_full_data_path, get_pythainlp_data_path
-from fairseq.models.transformer import TransformerModel
-from sacremoses import MosesTokenizer, MosesDetokenizer
-from pythainlp.tools import get_full_data_path, get_pythainlp_data_path
 from pythainlp.tokenize import word_tokenize as th_word_tokenize
+from pythainlp.tools import get_full_data_path, get_pythainlp_data_path
+
+from fairseq.models.transformer import TransformerModel
+from sacremoses import MosesDetokenizer, MosesTokenizer
 
 en_word_detokenize = MosesDetokenizer("en")
 en_word_tokenize = MosesTokenizer("en")
 th_word_tokenize = partial(th_word_tokenize, keep_whitespace=False)
+
+model = None
+model_name = None
 
 
 def _download_install(name):
@@ -36,11 +39,9 @@ def download_model_all() -> None:
     _download_install("scb_en_th")
 
 
-model = None
-model_name = None
-
-
-def _get_translate_path(model:str, path1:str, path2:str, file:str=None) -> str:
+def _get_translate_path(
+    model: str, path1: str, path2: str, file: str = None
+) -> str:
     path = os.path.join(os.path.join(get_full_data_path(model), path1), path2)
     if file is not None:
         return os.path.join(path, file)
@@ -49,7 +50,9 @@ def _get_translate_path(model:str, path1:str, path2:str, file:str=None) -> str:
 
 def _scb_en_th_model():
     global model, model_name
-    _download_install("scb_en_th") #SCB_1M-MT_OPUS+TBASE_en-th_moses-newmm_space_130000-130000_v1.0.tar.gz
+    _download_install(
+        "scb_en_th"
+    )  # SCB_1M-MT_OPUS+TBASE_en-th_moses-newmm_space_130000-130000_v1.0.tar.gz
     if model_name != "scb_en_th":
         del model
         model = TransformerModel.from_pretrained(
@@ -63,7 +66,7 @@ def _scb_en_th_model():
                 "scb_en_th",
                 "SCB_1M-MT_OPUS+TBASE_en-th_moses-newmm_space_130000-130000_v1.0",
                 "vocab",
-                ),
+            ),
         )
         model_name = "scb_en_th"
 
@@ -71,9 +74,7 @@ def _scb_en_th_model():
 def _scb_en_th_translate(text: str) -> str:
     global model, model_name
     _scb_en_th_model()
-    tokenized_sentence = " ".join(
-        en_word_tokenize.tokenize(text)
-    )
+    tokenized_sentence = " ".join(en_word_tokenize.tokenize(text))
     hypothesis = model.translate(tokenized_sentence)
     hypothesis = hypothesis.replace("▁", " ")
     return hypothesis
@@ -81,7 +82,9 @@ def _scb_en_th_translate(text: str) -> str:
 
 def _scb_th_en_model():
     global model, model_name
-    _download_install("scb_th_en")#SCB_1M-MT_OPUS+TBASE_th-en_spm-moses_16000-130000_v1.0.tar.gz
+    _download_install(
+        "scb_th_en"
+    )  # SCB_1M-MT_OPUS+TBASE_th-en_spm-moses_16000-130000_v1.0.tar.gz
     if model_name != "scb_th_en":
         del model
         model = TransformerModel.from_pretrained(
@@ -95,14 +98,14 @@ def _scb_th_en_model():
                 "scb_th_en",
                 "SCB_1M-MT_OPUS+TBASE_th-en_spm-moses_16000-130000_v1.0",
                 "vocab",
-                ),
-            bpe='sentencepiece',
+            ),
+            bpe="sentencepiece",
             sentencepiece_vocab=_get_translate_path(
                 "scb_th_en",
                 "SCB_1M-MT_OPUS+TBASE_th-en_spm-moses_16000-130000_v1.0",
                 "bpe",
-                "spm.th.model"
-                ),
+                "spm.th.model",
+            ),
         )
         model_name = "scb_th_en"
 
@@ -150,11 +153,7 @@ def _th2en_bpe_translate(text: str) -> str:
     return hypothesis
 
 
-def translate(
-    text: str,
-    source: str,
-    target: str
-) -> str:
+def translate(text: str, source: str, target: str) -> str:
     """
     Translate Language
 

@@ -12,16 +12,14 @@ class TestTranslatePackage(unittest.TestCase):
             translate(
                 "แมวกินปลา",
                 source="th",
-                target="en",
-                tokenizer="word"
+                target="en"
             )
         )
         self.assertIsNotNone(
             translate(
                 "แมวกินปลา",
                 source="th",
-                target="en",
-                tokenizer="bpe"
+                target="en"
             )
         )
         self.assertIsNotNone(
@@ -35,7 +33,6 @@ class TestTranslatePackage(unittest.TestCase):
             translate(
                 "the cat eats fish.",
                 source="en",
-                target="th",
-                tokenizer="bpe"
+                target="th"
             )
         )

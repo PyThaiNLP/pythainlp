@@ -49,30 +49,30 @@ def _get_translate_path(model:str, path1:str, path2:str, file:str=None) -> str:
     return os.path.join(path, "")
 
 
-def _en2th_word2bpe_model():
+def _scb_en_th_model():
     global model, model_name
-    _download_install("scb_1m_en-th_moses")
-    if model_name != "en2th_word2bpe":
+    _download_install("scb_en_th") #SCB_1M-MT_OPUS+TBASE_en-th_moses-newmm_space_130000-130000_v1.0.tar.gz
+    if model_name != "scb_en_th":
         del model
         model = TransformerModel.from_pretrained(
             model_name_or_path=_get_translate_path(
-                "scb_1m_en-th_moses",
-                "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0",
+                "scb_en_th",
+                "SCB_1M-MT_OPUS+TBASE_en-th_moses-newmm_space_130000-130000_v1.0",
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
             data_name_or_path=_get_translate_path(
-                "scb_1m_en-th_moses",
-                "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0",
+                "scb_en_th",
+                "SCB_1M-MT_OPUS+TBASE_en-th_moses-newmm_space_130000-130000_v1.0",
                 "vocab",
                 ),
         )
-        model_name = "en2th_word2bpe"
+        model_name = "scb_en_th"
 
 
-def _en2th_word2bpe_translate(text: str) -> str:
+def _scb_en_th_translate(text: str) -> str:
     global model, model_name
-    _en2th_word2bpe_model()
+    _scb_en_th_model()
     tokenized_sentence = " ".join(
         en_word_tokenize.tokenize(text)
     )
@@ -81,67 +81,38 @@ def _en2th_word2bpe_translate(text: str) -> str:
     return hypothesis
 
 
-def _en2th_bpe2bpe_model():
+def _scb_th_en_model():
     global model, model_name
-    _download_install("scb_1m_en-th_spm")
-    if model_name != "en2th_bpe2bpe":
+    _download_install("scb_th_en")#SCB_1M-MT_OPUS+TBASE_th-en_spm-moses_16000-130000_v1.0.tar.gz
+    if model_name != "scb_th_en":
         del model
         model = TransformerModel.from_pretrained(
             model_name_or_path=_get_translate_path(
-                "scb_1m_en-th_spm",
-                "SCB_1M-MT_OPUS+TBASE_en-th_spm-spm_32000-joined_v1.0",
+                "scb_th_en",
+                "SCB_1M-MT_OPUS+TBASE_th-en_spm-moses_16000-130000_v1.0",
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
             data_name_or_path=_get_translate_path(
-                "scb_1m_en-th_spm",
-                "SCB_1M-MT_OPUS+TBASE_en-th_spm-spm_32000-joined_v1.0",
+                "scb_th_en",
+                "SCB_1M-MT_OPUS+TBASE_th-en_spm-moses_16000-130000_v1.0",
                 "vocab",
                 ),
             bpe='sentencepiece',
             sentencepiece_vocab=_get_translate_path(
-                "scb_1m_en-th_spm",
-                "SCB_1M-MT_OPUS+TBASE_en-th_spm-spm_32000-joined_v1.0",
+                "scb_th_en",
+                "SCB_1M-MT_OPUS+TBASE_th-en_spm-moses_16000-130000_v1.0",
                 "bpe",
-                "spm.en.model"
+                "spm.th.model"
                 ),
         )
-        model_name = "en2th_bpe2bpe"
+        model_name = "scb_th_en"
 
 
-def _en2th_bpe2bpe_translate(text: str) -> str:
+def _scb_th_en_translate(text: str) -> str:
     global model, model_name
-    _en2th_bpe2bpe_model()
-    hypothesis = model.translate(text)
-    return hypothesis
-
-
-def _th2en_word2word_model():
-    global model, model_name
-    _download_install("scb_1m_th-en_newmm")
-    if model_name != "th2en_word2word":
-        del model
-        model = TransformerModel.from_pretrained(
-            model_name_or_path=_get_translate_path(
-                "scb_1m_th-en_newmm",
-                "SCB_1M-MT_OPUS+TBASE_th-en_newmm-moses_130000-130000_v1.0",
-                "models",
-            ),
-            checkpoint_file="checkpoint.pt",
-            data_name_or_path=_get_translate_path(
-                "scb_1m_th-en_newmm",
-                "SCB_1M-MT_OPUS+TBASE_th-en_newmm-moses_130000-130000_v1.0",
-                "vocab",
-            ),
-        )
-        model_name = "th2en_word2word"
-
-
-def _th2en_word2word_translate(text: str) -> str:
-    global model, model_name
-    _th2en_word2word_model()
-    tokenized_sentence = " ".join(th_word_tokenize(text))
-    _hypothesis = model.translate(tokenized_sentence)
+    _scb_th_en_model()
+    _hypothesis = model.translate(text)
     hypothesis = en_word_detokenize.detokenize([_hypothesis])
     return hypothesis
 
@@ -184,8 +155,7 @@ def _th2en_bpe_translate(text: str) -> str:
 def translate(
     text: str,
     source: str,
-    target: str,
-    tokenizer: str = "bpe",
+    target: str
 ) -> str:
     """
     Translate Language
@@ -193,7 +163,6 @@ def translate(
     :param str text: input text in source language
     :param str source: source language ("en" or "th")
     :param str target: target language ("en" or "th")
-    :param str tokenizer: tokenizer (word,bpe)
 
     :return: translated text in target language
     :rtype: str
@@ -201,14 +170,9 @@ def translate(
     hypothesis = None
 
     if source == "th" and target == "en":
-        if tokenizer == "word":
-            hypothesis = _th2en_word2word_translate(text)
-        else:
-            hypothesis = _th2en_bpe_translate(text)
-    elif source == "en" and target == "th" and tokenizer == "word":
-        hypothesis = _en2th_word2bpe_translate(text)
-    elif source == "en" and target == "th" and tokenizer == "bpe":
-        hypothesis = _en2th_bpe2bpe_translate(text)
+        hypothesis = _scb_th_en_translate(text)
+    elif source == "en" and target == "th":
+        hypothesis = _scb_en_th_translate(text)
     else:
         return ValueError("the combination of the arguments isn't allowed.")
 

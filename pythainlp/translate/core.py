@@ -42,26 +42,26 @@ model = None
 model_name = None
 
 
-def get_translate_path(model, path1, path2, file=None) -> str:
+def _get_translate_path(model:str, path1:str, path2:str, file:str=None) -> str:
     path = os.path.join(os.path.join(get_full_data_path(model), path1), path2)
     if file is not None:
         return os.path.join(path, file)
     return os.path.join(path, "")
 
 
-def en2th_word2bpe_model():
+def _en2th_word2bpe_model():
     global model, model_name
     _download_install("scb_1m_en-th_moses")
     if model_name != "en2th_word2bpe":
         del model
         model = TransformerModel.from_pretrained(
-            model_name_or_path=get_translate_path(
+            model_name_or_path=_get_translate_path(
                 "scb_1m_en-th_moses",
                 "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0",
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
-            data_name_or_path=get_translate_path(
+            data_name_or_path=_get_translate_path(
                 "scb_1m_en-th_moses",
                 "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0",
                 "vocab",
@@ -72,7 +72,7 @@ def en2th_word2bpe_model():
 
 def _en2th_word2bpe_translate(text: str) -> str:
     global model, model_name
-    en2th_word2bpe_model()
+    _en2th_word2bpe_model()
     tokenized_sentence = " ".join(
         en_word_tokenize.tokenize(text)
     )
@@ -81,25 +81,25 @@ def _en2th_word2bpe_translate(text: str) -> str:
     return hypothesis
 
 
-def en2th_bpe2bpe_model():
+def _en2th_bpe2bpe_model():
     global model, model_name
     _download_install("scb_1m_en-th_spm")
     if model_name != "en2th_bpe2bpe":
         del model
         model = TransformerModel.from_pretrained(
-            model_name_or_path=get_translate_path(
+            model_name_or_path=_get_translate_path(
                 "scb_1m_en-th_spm",
                 "SCB_1M-MT_OPUS+TBASE_en-th_spm-spm_32000-joined_v1.0",
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
-            data_name_or_path=get_translate_path(
+            data_name_or_path=_get_translate_path(
                 "scb_1m_en-th_spm",
                 "SCB_1M-MT_OPUS+TBASE_en-th_spm-spm_32000-joined_v1.0",
                 "vocab",
                 ),
             bpe='sentencepiece',
-            sentencepiece_vocab=get_translate_path(
+            sentencepiece_vocab=_get_translate_path(
                 "scb_1m_en-th_spm",
                 "SCB_1M-MT_OPUS+TBASE_en-th_spm-spm_32000-joined_v1.0",
                 "bpe",
@@ -111,24 +111,24 @@ def en2th_bpe2bpe_model():
 
 def _en2th_bpe2bpe_translate(text: str) -> str:
     global model, model_name
-    en2th_bpe2bpe_model()
+    _en2th_bpe2bpe_model()
     hypothesis = model.translate(text)
     return hypothesis
 
 
-def th2en_word2word_model():
+def _th2en_word2word_model():
     global model, model_name
     _download_install("scb_1m_th-en_newmm")
     if model_name != "th2en_word2word":
         del model
         model = TransformerModel.from_pretrained(
-            model_name_or_path=get_translate_path(
+            model_name_or_path=_get_translate_path(
                 "scb_1m_th-en_newmm",
                 "SCB_1M-MT_OPUS+TBASE_th-en_newmm-moses_130000-130000_v1.0",
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
-            data_name_or_path=get_translate_path(
+            data_name_or_path=_get_translate_path(
                 "scb_1m_th-en_newmm",
                 "SCB_1M-MT_OPUS+TBASE_th-en_newmm-moses_130000-130000_v1.0",
                 "vocab",
@@ -139,32 +139,32 @@ def th2en_word2word_model():
 
 def _th2en_word2word_translate(text: str) -> str:
     global model, model_name
-    th2en_word2word_model()
+    _th2en_word2word_model()
     tokenized_sentence = " ".join(th_word_tokenize(text))
     _hypothesis = model.translate(tokenized_sentence)
     hypothesis = en_word_detokenize.detokenize([_hypothesis])
     return hypothesis
 
 
-def th2en_bpe_model():
+def _th2en_bpe_model():
     global model, model_name
     _download_install("scb_1m_th-en_spm")
     if model_name != "th2en_bpe":
         del model
         model = TransformerModel.from_pretrained(
-            model_name_or_path=get_translate_path(
+            model_name_or_path=_get_translate_path(
                 "scb_1m_th-en_spm",
                 "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0",
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
-            data_name_or_path=get_translate_path(
+            data_name_or_path=_get_translate_path(
                 "scb_1m_th-en_spm",
                 "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0",
                 "vocab",
             ),
             bpe="sentencepiece",
-            sentencepiece_vocab=get_translate_path(
+            sentencepiece_vocab=_get_translate_path(
                 "scb_1m_th-en_spm",
                 "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0",
                 "bpe",
@@ -176,7 +176,7 @@ def th2en_bpe_model():
 
 def _th2en_bpe_translate(text: str) -> str:
     global model, model_name
-    th2en_bpe_model()
+    _th2en_bpe_model()
     hypothesis = model.translate(text, beam=24)
     return hypothesis
 

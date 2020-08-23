@@ -145,9 +145,19 @@ class TestTagPackage(unittest.TestCase):
             [("เม่น", "N"), ("กิน", "V")],
             [("หนอน", "N"), ("กิน", "V")],
         ]
-        tagger.train(data, save_loc="temp.pkl")
-        self.assertTrue(path.exists("temp.pkl"))
-        self.assertEqual(len(tagger.tag(["นก", "เดิน"])), 2)
+        filename = "ptagger_temp4XcDf.pkl"
+        tagger.train(data, save_loc=filename)
+        self.assertTrue(path.exists(filename))
+
+        words = ["นก", "เดิน"]
+        word_tags = tagger.tag(words)
+        self.assertEqual(len(words), len(word_tags))
+
+        words2, _ = zip(*word_tags)
+        self.assertEqual(words, list(words2))
+
+        with self.assertRaises(IOError):
+            tagger.load("ptagger_notexistX4AcOcX.pkl")  # file does not exist
 
     # ### pythainlp.tag.locations
 

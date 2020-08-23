@@ -75,7 +75,7 @@ def _scb_en_th_translate(text: str) -> str:
         en_word_tokenize.tokenize(text)
     )
     hypothesis = model.translate(tokenized_sentence)
-    hypothesis = hypothesis.replace(" ", "").replace("▁", " ")
+    hypothesis = hypothesis.replace("▁", " ")
     return hypothesis
 
 

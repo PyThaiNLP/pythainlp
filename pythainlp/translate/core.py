@@ -35,6 +35,7 @@ def download_model_all() -> None:
     download_install("scb_1m_th-en_newmm")
     download_install("scb_1m_th-en_spm")
     download_install("scb_1m_en-th_moses")
+    download_install("scb_1m_en-th_spm")
 
 
 model = None
@@ -56,13 +57,13 @@ def en2th_word2bpe_model():
         model = TransformerModel.from_pretrained(
             model_name_or_path=get_translate_path(
                 "scb_1m_en-th_moses",
-                "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0",
+                "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0",
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
             data_name_or_path=get_translate_path(
                 "scb_1m_en-th_moses",
-                "SCB_1M+TBASE_en-th_moses-spm_130000-16000_v1.0",
+                "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0",
                 "vocab",
                 ),
         )
@@ -88,19 +89,19 @@ def en2th_bpe2bpe_model():
         model = TransformerModel.from_pretrained(
             model_name_or_path=get_translate_path(
                 "scb_1m_en-th_spm",
-                "SCB_1M+TBASE_en-th_spm-spm_32000-joined_v1.0",
+                "SCB_1M-MT_OPUS+TBASE_en-th_spm-spm_32000-joined_v1.0",
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
             data_name_or_path=get_translate_path(
                 "scb_1m_en-th_spm",
-                "SCB_1M+TBASE_en-th_spm-spm_32000-joined_v1.0",
+                "SCB_1M-MT_OPUS+TBASE_en-th_spm-spm_32000-joined_v1.0",
                 "vocab",
                 ),
             bpe='sentencepiece',
             sentencepiece_vocab=get_translate_path(
                 "scb_1m_en-th_spm",
-                "SCB_1M+TBASE_en-th_spm-spm_32000-joined_v1.0",
+                "SCB_1M-MT_OPUS+TBASE_en-th_spm-spm_32000-joined_v1.0",
                 "bpe",
                 "spm.en.model"
                 ),
@@ -123,13 +124,13 @@ def th2en_word2word_model():
         model = TransformerModel.from_pretrained(
             model_name_or_path=get_translate_path(
                 "scb_1m_th-en_newmm",
-                "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0",
+                "SCB_1M-MT_OPUS+TBASE_th-en_newmm-moses_130000-130000_v1.0",
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
             data_name_or_path=get_translate_path(
                 "scb_1m_th-en_newmm",
-                "SCB_1M+TBASE_th-en_newmm-moses_130000-130000_v1.0",
+                "SCB_1M-MT_OPUS+TBASE_th-en_newmm-moses_130000-130000_v1.0",
                 "vocab",
             ),
         )
@@ -153,19 +154,19 @@ def th2en_bpe_model():
         model = TransformerModel.from_pretrained(
             model_name_or_path=get_translate_path(
                 "scb_1m_th-en_spm",
-                "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
+                "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0",
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
             data_name_or_path=get_translate_path(
                 "scb_1m_th-en_spm",
-                "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
+                "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0",
                 "vocab",
             ),
             bpe="sentencepiece",
             sentencepiece_vocab=get_translate_path(
                 "scb_1m_th-en_spm",
-                "SCB_1M+TBASE_th-en_spm-spm_32000-joined_v1.0",
+                "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0",
                 "bpe",
                 "spm.th.model",
             ),

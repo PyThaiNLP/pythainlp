@@ -80,28 +80,3 @@ class AveragedPerceptron(object):
                 if averaged:
                     new_feat_weights[clas] = averaged
             self.weights[feat] = new_feat_weights
-
-    def save(self, path: str) -> None:
-        """Save the pickled model weights."""
-        pickle.dump(dict(self.weights), open(path, "w"))
-
-    def load(self, path: str) -> None:
-        """Load the pickled model weights."""
-        self.weights = pickle.load(open(path))
-
-
-def train(nr_iter, examples):
-    """
-    Return an averaged perceptron model trained on ``examples`` for
-    ``nr_iter`` iterations.
-    """
-    model = AveragedPerceptron()
-    for i in range(nr_iter):
-        random.shuffle(examples)
-        for features, class_ in examples:
-            scores = model.predict(features)
-            guess, score = max(scores.items(), key=lambda i: i[1])
-            if guess != class_:
-                model.update(class_, guess, features)
-    model.average_weights()
-    return model

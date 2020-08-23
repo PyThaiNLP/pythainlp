@@ -100,7 +100,8 @@ class TestTagPackage(unittest.TestCase):
 
     def test_perceptron_tagger(self):
         tagger = PerceptronTagger()
-        # train data, with "กิน" > 20 instances to trigger conditions in _make_tagdict()
+        # train data, with "กิน" > 20 instances to trigger conditions
+        # in _make_tagdict()
         data = [
             [("คน", "N"), ("เดิน", "V")],
             [("ฉัน", "N"), ("เดิน", "V")],

@@ -80,6 +80,41 @@ def _en2th_word2bpe_translate(text: str) -> str:
     return hypothesis
 
 
+def en2th_bpe2bpe_model():
+    global model, model_name
+    download_install("scb_1m_en-th_spm")
+    if model_name != "en2th_bpe2bpe":
+        del model
+        model = TransformerModel.from_pretrained(
+            model_name_or_path=get_translate_path(
+                "scb_1m_en-th_spm",
+                "SCB_1M+TBASE_en-th_spm-spm_32000-joined_v1.0",
+                "models",
+            ),
+            checkpoint_file="checkpoint.pt",
+            data_name_or_path=get_translate_path(
+                "scb_1m_en-th_spm",
+                "SCB_1M+TBASE_en-th_spm-spm_32000-joined_v1.0",
+                "vocab",
+                ),
+            bpe='sentencepiece',
+            sentencepiece_vocab=get_translate_path(
+                "scb_1m_en-th_spm",
+                "SCB_1M+TBASE_en-th_spm-spm_32000-joined_v1.0",
+                "bpe",
+                "spm.en.model"
+                ),
+        )
+        model_name = "en2th_bpe2bpe"
+
+
+def _en2th_bpe2bpe_translate(text: str) -> str:
+    global model, model_name
+    en2th_bpe2bpe_model()
+    hypothesis = model.translate(text)
+    return hypothesis
+
+
 def th2en_word2word_model():
     global model, model_name
     download_install("scb_1m_th-en_newmm")
@@ -169,8 +204,10 @@ def translate(
             hypothesis = _th2en_word2word_translate(text)
         else:
             hypothesis = _th2en_bpe_translate(text)
-    elif source == "en" and target == "th" and tokenizer == "bpe":
+    elif source == "en" and target == "th" and tokenizer == "word":
         hypothesis = _en2th_word2bpe_translate(text)
+    elif source == "en" and target == "th" and tokenizer == "bpe":
+        hypothesis = _en2th_bpe2bpe_translate(text)
     else:
         return ValueError("the combination of the arguments isn't allowed.")
 

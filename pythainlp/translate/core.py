@@ -16,7 +16,7 @@ en_word_tokenize = MosesTokenizer("en")
 th_word_tokenize = partial(th_word_tokenize, keep_whitespace=False)
 
 
-def download_install(name):
+def _download_install(name):
     if get_corpus_path(name) is None:
         download(name, force=True, version="1.0")
         tar = tarfile.open(get_corpus_path(name), "r:gz")
@@ -32,10 +32,10 @@ def download_model_all() -> None:
     """
     Download Model
     """
-    download_install("scb_1m_th-en_newmm")
-    download_install("scb_1m_th-en_spm")
-    download_install("scb_1m_en-th_moses")
-    download_install("scb_1m_en-th_spm")
+    _download_install("scb_1m_th-en_newmm")
+    _download_install("scb_1m_th-en_spm")
+    _download_install("scb_1m_en-th_moses")
+    _download_install("scb_1m_en-th_spm")
 
 
 model = None
@@ -51,7 +51,7 @@ def get_translate_path(model, path1, path2, file=None) -> str:
 
 def en2th_word2bpe_model():
     global model, model_name
-    download_install("scb_1m_en-th_moses")
+    _download_install("scb_1m_en-th_moses")
     if model_name != "en2th_word2bpe":
         del model
         model = TransformerModel.from_pretrained(
@@ -83,7 +83,7 @@ def _en2th_word2bpe_translate(text: str) -> str:
 
 def en2th_bpe2bpe_model():
     global model, model_name
-    download_install("scb_1m_en-th_spm")
+    _download_install("scb_1m_en-th_spm")
     if model_name != "en2th_bpe2bpe":
         del model
         model = TransformerModel.from_pretrained(
@@ -118,7 +118,7 @@ def _en2th_bpe2bpe_translate(text: str) -> str:
 
 def th2en_word2word_model():
     global model, model_name
-    download_install("scb_1m_th-en_newmm")
+    _download_install("scb_1m_th-en_newmm")
     if model_name != "th2en_word2word":
         del model
         model = TransformerModel.from_pretrained(
@@ -148,7 +148,7 @@ def _th2en_word2word_translate(text: str) -> str:
 
 def th2en_bpe_model():
     global model, model_name
-    download_install("scb_1m_th-en_spm")
+    _download_install("scb_1m_th-en_spm")
     if model_name != "th2en_bpe":
         del model
         model = TransformerModel.from_pretrained(

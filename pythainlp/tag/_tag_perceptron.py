@@ -71,7 +71,7 @@ class PerceptronTagger:
         """
         self._make_tagdict(sentences)
         self.model.classes = self.classes
-        for iter_ in range(nr_iter):
+        for _ in range(nr_iter):
             c = 0
             n = 0
             for sentence in sentences:
@@ -192,5 +192,6 @@ class PerceptronTagger:
                 self.tagdict[word] = tag
 
 
-def _pc(n, d) -> float:
-    return (float(n) / d) * 100
+# for logging
+# def _pc(n, d) -> float:
+#     return (float(n) / d) * 100

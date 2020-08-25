@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+from os import path
 
-from pythainlp.tag import perceptron, pos_tag, pos_tag_sents, unigram
+from pythainlp.tag import (
+    PerceptronTagger,
+    perceptron,
+    pos_tag,
+    pos_tag_sents,
+    unigram,
+)
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import ThaiNameTagger
 
@@ -88,6 +95,70 @@ class TestTagPackage(unittest.TestCase):
                 [("แมว", "NCMN"), ("วิ่ง", "VACT")],
             ],
         )
+
+    # ### pythainlp.tag.PerceptronTagger
+
+    def test_perceptron_tagger(self):
+        tagger = PerceptronTagger()
+        # train data, with "กิน" > 20 instances to trigger conditions
+        # in _make_tagdict()
+        data = [
+            [("คน", "N"), ("เดิน", "V")],
+            [("ฉัน", "N"), ("เดิน", "V")],
+            [("แมว", "N"), ("เดิน", "V")],
+            [("คน", "N"), ("วิ่ง", "V")],
+            [("ปลา", "N"), ("ว่าย", "V")],
+            [("นก", "N"), ("บิน", "V")],
+            [("คน", "N"), ("พูด", "V")],
+            [("C-3PO", "N"), ("พูด", "V")],
+            [("คน", "N"), ("กิน", "V")],
+            [("แมว", "N"), ("กิน", "V")],
+            [("นก", "N"), ("กิน", "V")],
+            [("นก", "N"), ("นก", "V")],
+            [("คน", "N"), ("นก", "V")],
+            [("คน", "N"), ("กิน", "V"), ("นก", "N")],
+            [("คน", "N"), ("กิน", "V"), ("ปลา", "N")],
+            [("นก", "N"), ("กิน", "V"), ("ปลา", "N")],
+            [("คน", "N"), ("กิน", "V"), ("กาแฟ", "N")],
+            [("คน", "N"), ("คน", "V"), ("กาแฟ", "N")],
+            [("พระ", "N"), ("ฉัน", "V"), ("กาแฟ", "N")],
+            [("พระ", "N"), ("คน", "V"), ("กาแฟ", "N")],
+            [("พระ", "N"), ("ฉัน", "V"), ("ข้าว", "N")],
+            [("ฉัน", "N"), ("กิน", "V"), ("ข้าว", "N")],
+            [("เธอ", "N"), ("กิน", "V"), ("ปลา", "N")],
+            [("ปลา", "N"), ("กิน", "V"), ("แมลง", "N")],
+            [("แมวน้ำ", "N"), ("กิน", "V"), ("ปลา", "N")],
+            [("หนู", "N"), ("กิน", "V")],
+            [("เสือ", "N"), ("กิน", "V")],
+            [("ยีราฟ", "N"), ("กิน", "V")],
+            [("แรด", "N"), ("กิน", "V")],
+            [("หมู", "N"), ("กิน", "V")],
+            [("แมลง", "N"), ("กิน", "V")],
+            [("สิงโต", "N"), ("กิน", "V")],
+            [("เห็บ", "N"), ("กิน", "V")],
+            [("เหา", "N"), ("กิน", "V")],
+            [("เต่า", "N"), ("กิน", "V")],
+            [("กระต่าย", "N"), ("กิน", "V")],
+            [("จิ้งจก", "N"), ("กิน", "V")],
+            [("หมี", "N"), ("กิน", "V")],
+            [("หมา", "N"), ("กิน", "V")],
+            [("ตะพาบ", "N"), ("กิน", "V")],
+            [("เม่น", "N"), ("กิน", "V")],
+            [("หนอน", "N"), ("กิน", "V")],
+        ]
+        filename = "ptagger_temp4XcDf.pkl"
+        tagger.train(data, save_loc=filename)
+        self.assertTrue(path.exists(filename))
+
+        words = ["นก", "เดิน"]
+        word_tags = tagger.tag(words)
+        self.assertEqual(len(words), len(word_tags))
+
+        words2, _ = zip(*word_tags)
+        self.assertEqual(words, list(words2))
+
+        with self.assertRaises(IOError):
+            tagger.load("ptagger_notexistX4AcOcX.pkl")  # file does not exist
 
     # ### pythainlp.tag.locations
 

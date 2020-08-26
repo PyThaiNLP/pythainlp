@@ -39,7 +39,7 @@ We try to make the package easy to use as much as possible; therefore, some addi
 
 ## Capabilities
 
-PyThaiNLP provides standard NLP functions for Thai, for example part-of-speec tagging, linguistic unit segmentation (syllable, word, or sentence). Some of these functions are also available via command-line interface.
+PyThaiNLP provides standard NLP functions for Thai, for example part-of-speech tagging, linguistic unit segmentation (syllable, word, or sentence). Some of these functions are also available via command-line interface.
 
 <details>
   <summary>List of Features</summary>
@@ -50,7 +50,7 @@ PyThaiNLP provides standard NLP functions for Thai, for example part-of-speec ta
 - Thai spelling suggestion and correction (`spell` and `correct`)
 - Thai transliteration (`transliterate`)
 - Thai soundex (`soundex`) with three engines (`lk82`, `udom83`, `metasound`)
-- Thai collation (sort by dictionoary order) (`collate`)
+- Thai collation (sort by dictionary order) (`collate`)
 - Read out number to Thai words (`bahttext`, `num_to_thaiword`)
 - Thai datetime formatting (`thai_strftime`)
 - Thai-English keyboard misswitched fix (`eng_to_thai`, `thai_to_eng`)
@@ -66,7 +66,7 @@ pip install --upgrade pythainlp
 ```
 
 This will install the latest stable release of PyThaiNLP.
-PyThaiNLP uses pip as its package manger and PyPI as its main distribution channel, see [https://pypi.org/project/pythainlp/](https://pypi.org/project/pythainlp/)
+PyThaiNLP uses pip as its package manager and PyPI as its main distribution channel, see [https://pypi.org/project/pythainlp/](https://pypi.org/project/pythainlp/)
 
 Install different releases:
 

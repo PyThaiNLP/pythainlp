@@ -140,7 +140,11 @@ setup(
         "Topic :: Text Processing :: General",
         "Topic :: Text Processing :: Linguistic",
     ],
-    entry_points={"console_scripts": ["thainlp = pythainlp.__main__:main",],},
+    entry_points={
+        "console_scripts": [
+            "thainlp = pythainlp.__main__:main",
+        ],
+    },
     project_urls={
         "Documentation": "https://www.thainlp.org/pythainlp/docs/2.2/",
         "Tutorials": "https://www.thainlp.org/pythainlp/tutorials/",

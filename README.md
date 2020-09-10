@@ -174,9 +174,10 @@ Since 2019, our contributors Korakot Chaovavanich and Lalita Lowphansirikul have
   Made with ❤️ | PyThaiNLP Team 💻 |  "We build Thai NLP" 🇹🇭
 </div>
 
+------
+
 <div align="center">
   <strong>We have only one official repository at https://github.com/PyThaiNLP/pythainlp</strong>
-  Beware of malware if you use code from other mirrors.</strong>
 </div>
 
 <div align="center">

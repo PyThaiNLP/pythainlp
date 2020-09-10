@@ -177,9 +177,9 @@ Since 2019, our contributors Korakot Chaovavanich and Lalita Lowphansirikul have
 ------
 
 <div align="center">
-  <strong>We have only one official repository at https://github.com/PyThaiNLP/pythainlp</strong>
+  <strong>We have only one official repository at https://github.com/PyThaiNLP/pythainlp and another mirror at https://gitlab.com/pythainlp/pythainlp </strong>
 </div>
 
 <div align="center">
-  <strong>Beware of malware if you use code from mirrors other than official one at GitHub.</strong>
+  <strong>Beware of malware if you use code from mirrors other than the official two at GitHub and GitLab.</strong>
 </div>

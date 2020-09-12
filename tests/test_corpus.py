@@ -12,6 +12,7 @@ from pythainlp.corpus import (
     get_corpus_path,
     provinces,
     remove,
+    thai_family_names,
     thai_female_names,
     thai_male_names,
     thai_negations,
@@ -41,6 +42,8 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertEqual(
             len(provinces(details=False)), len(provinces(details=True))
         )
+        self.assertIsInstance(thai_family_names(), frozenset)
+        self.assertIsInstance(list(thai_family_names())[0], str)
         self.assertIsInstance(thai_female_names(), frozenset)
         self.assertIsInstance(thai_male_names(), frozenset)
 

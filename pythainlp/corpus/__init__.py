@@ -18,6 +18,7 @@ __all__ = [
     "get_corpus_path",
     "provinces",
     "remove",
+    "thai_family_names",
     "thai_female_names",
     "thai_male_names",
     "thai_negations",
@@ -86,6 +87,7 @@ from pythainlp.corpus.core import (
 from pythainlp.corpus.common import (
     countries,
     provinces,
+    thai_family_names,
     thai_female_names,
     thai_male_names,
     thai_negations,

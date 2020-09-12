@@ -6,6 +6,7 @@ Common list of words.
 __all__ = [
     "countries",
     "provinces",
+    "thai_family_names",
     "thai_female_names",
     "thai_male_names",
     "thai_negations",
@@ -14,8 +15,9 @@ __all__ = [
     "thai_words",
 ]
 
-from pythainlp.corpus import get_corpus
 from typing import Union
+
+from pythainlp.corpus import get_corpus
 
 _THAI_COUNTRIES = set()
 _THAI_COUNTRIES_FILENAME = "countries_th.txt"
@@ -36,6 +38,8 @@ _THAI_STOPWORDS_FILENAME = "stopwords_th.txt"
 _THAI_NEGATIONS = set()
 _THAI_NEGATIONS_FILENAME = "negations_th.txt"
 
+_THAI_FAMLIY_NAMES = set()
+_THAI_FAMLIY_NAMES_FILENAME = "family_names_th.txt"
 _THAI_FEMALE_NAMES = set()
 _THAI_FEMALE_NAMES_FILENAME = "person_names_female_th.txt"
 _THAI_MALE_NAMES = set()
@@ -165,6 +169,22 @@ def thai_negations() -> frozenset:
         _THAI_NEGATIONS = get_corpus(_THAI_NEGATIONS_FILENAME)
 
     return _THAI_NEGATIONS
+
+
+def thai_family_names() -> frozenset:
+    """
+    Return a frozenset of Thai family names
+    \n(See: `dev/pythainlp/corpus/family_names_th.txt\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/family_names_th.txt>`_)
+
+    :return: :class:`frozenset` containing Thai family names.
+    :rtype: :class:`frozenset`
+    """
+    global _THAI_FAMLIY_NAMES
+    if not _THAI_FAMLIY_NAMES:
+        _THAI_FAMLIY_NAMES = get_corpus(_THAI_FAMLIY_NAMES_FILENAME)
+
+    return _THAI_FAMLIY_NAMES
 
 
 def thai_female_names() -> frozenset:

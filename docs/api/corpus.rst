@@ -19,6 +19,7 @@ Modules
 .. autofunction:: thai_words
 .. autofunction:: thai_syllables
 .. autofunction:: thai_negations
+.. autofunction:: thai_family_names
 .. autofunction:: thai_female_names
 .. autofunction:: thai_male_names
 .. autofunction:: pythainlp.corpus.conceptnet.edges

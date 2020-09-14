@@ -211,6 +211,6 @@ Unigram tagger doesn't take the ordering of words in the list into account.
 References
 ----------
 
-.. [#Sornlertlamvanich_2000] Takahashi, Naoto & Isahara, Hitoshi & Sornlertlamvanich, Virach. (2000).
-            Building a Thai part-of-speech tagged corpus (ORCHID).
-            Journal of the Acoustical Society of Japan (E). 20. 10.1250/ast.20.189.
+.. [#Sornlertlamvanich_2000] Virach Sornlertlamvanich, Naoto Takahashi and Hitoshi Isahara. (2000).
+            Building a Thai Part-Of-Speech Tagged Corpus (ORCHID).
+            The Journal of the Acoustical Society of Japan (E), Vol.20, No.3, pp 189-198, May 1999.

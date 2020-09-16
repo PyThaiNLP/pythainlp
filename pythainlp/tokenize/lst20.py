@@ -4,6 +4,7 @@ from pythainlp.tag import pos_tag
 from pythainlp.corpus import get_corpus_path
 import pycrfsuite
 
+
 def _doc2features(doc, i):
     word = doc[i][0]
     postag = doc[i][1]
@@ -35,15 +36,15 @@ def _doc2features(doc, i):
         features['EOS'] = True # Special "End of Sequence" tag
     return features
 
+
 def _extract_features(doc):
     return [_doc2features(doc, i) for i in range(len(doc))]
 
-def _get_labels(doc):
-    return [tag for (token,postag,tag) in doc]
 
 _CORPUS_NAME = "lst20-cls"
 tagger = pycrfsuite.Tagger()
 tagger.open(get_corpus_path(_CORPUS_NAME))
+
 
 def clause_tokenize(doc: List[str]):
     _postag = pos_tag(doc, corpus="lst20")

@@ -186,7 +186,7 @@ class TestTokenizePackage(unittest.TestCase):
         )
 
     def test_clause_tokenize(self):
-        self.assertIsNone(clause_tokenize(["ฉัน","ทดสอบ"]))
+        self.assertIsNotNone(clause_tokenize(["ฉัน","ทดสอบ"]))
         self.assertIsInstance(
             clause_tokenize(["ฉัน","ทดสอบ"]),
             list

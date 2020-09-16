@@ -15,6 +15,7 @@ from pythainlp.tokenize import (
 )
 from pythainlp.tokenize.ssg import segment as ssg_segment
 from pythainlp.util import dict_trie
+from pythainlp.tokenize.lst20 import clause_tokenize
 
 
 class TestTokenizePackage(unittest.TestCase):
@@ -182,6 +183,13 @@ class TestTokenizePackage(unittest.TestCase):
             "ด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้าด้านหน้า"
             "ด้านหน้าด้านหน้าด้านกกกกกก"
             "กกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก"
+        )
+
+    def test_clause_tokenize(self):
+        self.assertIsNone(clause_tokenize(["ฉัน","ทดสอบ"]))
+        self.assertIsInstance(
+            clause_tokenize(["ฉัน","ทดสอบ"]),
+            list
         )
 
     def test_Tokenizer(self):

@@ -52,7 +52,8 @@ def clause_tokenize(doc: List[str]):
     _list_cls = []
     _temp = []
     _len_doc = len(doc) - 1
-    for i,w,t in enumerate(_tag):
+    for i,item in enumerate(_tag):
+        w,t = item
         if t == "E_CLS" or i == _len_doc:
             _temp.append(w)
             _list_cls.append(_temp)

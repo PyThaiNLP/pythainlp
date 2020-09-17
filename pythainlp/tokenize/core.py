@@ -8,10 +8,10 @@ from typing import Iterable, List, Union
 from pythainlp.tokenize import (
     DEFAULT_SENT_TOKENIZE_ENGINE,
     DEFAULT_SUBWORD_TOKENIZE_ENGINE,
-    DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
-    DEFAULT_WORD_TOKENIZE_ENGINE,
-    DEFAULT_WORD_DICT_TRIE,
     DEFAULT_SYLLABLE_DICT_TRIE,
+    DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
+    DEFAULT_WORD_DICT_TRIE,
+    DEFAULT_WORD_TOKENIZE_ENGINE,
 )
 from pythainlp.util.trie import Trie, dict_trie
 
@@ -20,7 +20,7 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
     """
     Clause tokenizer. (or Clause segmentation)
 
-    Tokenizes running word list into list of claues (list of strings).
+    Tokenizes running word list into list of clauses (list of strings).
     split by CRF trained on LST20 Corpus.
 
     :param str doc: word list to be clause
@@ -36,8 +36,9 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
         ['และ', 'คุณ', 'เล่น', 'มือถือ'],
         ['ส่วน', 'น้อง', 'เขียน', 'โปรแกรม']]
     """
-    from .lst20 import clause_tokenize as cla
-    return cla(doc)
+    from .crfcls import segment
+
+    return segment(doc)
 
 
 def word_tokenize(

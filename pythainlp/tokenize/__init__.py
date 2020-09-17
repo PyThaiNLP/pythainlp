@@ -7,6 +7,7 @@ __all__ = [
     "THAI2FIT_TOKENIZER",
     "Tokenizer",
     "Trie",
+    "clause_tokenize",
     "sent_tokenize",
     "subword_tokenize",
     "syllable_tokenize",

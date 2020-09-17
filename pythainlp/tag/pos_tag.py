@@ -1,128 +1,31 @@
 # -*- coding: utf-8 -*-
 from typing import List, Tuple
 
-# tag map for orchid to Universal Dependencies
-# from Korakot Chaovavanich
-_TAG_MAP_UD = {
-    # NOUN
-    "NOUN": "NOUN",
-    "NCMN": "NOUN",
-    "NTTL": "NOUN",
-    "CNIT": "NOUN",
-    "CLTV": "NOUN",
-    "CMTR": "NOUN",
-    "CFQC": "NOUN",
-    "CVBL": "NOUN",
-    # VERB
-    "VACT": "VERB",
-    "VSTA": "VERB",
-    # PROPN
-    "PROPN": "PROPN",
-    "NPRP": "PROPN",
-    # ADJ
-    "ADJ": "ADJ",
-    "NONM": "ADJ",
-    "VATT": "ADJ",
-    "DONM": "ADJ",
-    # ADV
-    "ADV": "ADV",
-    "ADVN": "ADV",
-    "ADVI": "ADV",
-    "ADVP": "ADV",
-    "ADVS": "ADV",
-    # INT
-    "INT": "INTJ",
-    # PRON
-    "PRON": "PRON",
-    "PPRS": "PRON",
-    "PDMN": "PRON",
-    "PNTR": "PRON",
-    # DET
-    "DET": "DET",
-    "DDAN": "DET",
-    "DDAC": "DET",
-    "DDBQ": "DET",
-    "DDAQ": "DET",
-    "DIAC": "DET",
-    "DIBQ": "DET",
-    "DIAQ": "DET",
-    # NUM
-    "NUM": "NUM",
-    "NCNM": "NUM",
-    "NLBL": "NUM",
-    "DCNM": "NUM",
-    # AUX
-    "AUX": "AUX",
-    "XVBM": "AUX",
-    "XVAM": "AUX",
-    "XVMM": "AUX",
-    "XVBB": "AUX",
-    "XVAE": "AUX",
-    # ADP
-    "ADP": "ADP",
-    "RPRE": "ADP",
-    # CCONJ
-    "CCONJ": "CCONJ",
-    "JCRG": "CCONJ",
-    # SCONJ
-    "SCONJ": "SCONJ",
-    "PREL": "SCONJ",
-    "JSBR": "SCONJ",
-    "JCMP": "SCONJ",
-    # PART
-    "PART": "PART",
-    "FIXN": "PART",
-    "FIXV": "PART",
-    "EAFF": "PART",
-    "EITT": "PART",
-    "AITT": "PART",
-    "NEG": "PART",
-    # PUNCT
-    "PUNCT": "PUNCT",
-    "PUNC": "PUNCT",
-}
-
-
-def _UD_Exception(w: str, tag: str) -> str:
-    if w == "การ" or w == "ความ":
-        return "NOUN"
-
-    return tag
-
-
-def _orchid_to_ud(tag) -> List[Tuple[str, str]]:
-    _i = 0
-    temp = []
-    while _i < len(tag):
-        temp.append(
-            (tag[_i][0], _UD_Exception(tag[_i][0], _TAG_MAP_UD[tag[_i][1]]))
-        )
-        _i += 1
-
-    return temp
-
 
 def pos_tag(
     words: List[str], engine: str = "perceptron", corpus: str = "orchid"
 ) -> List[Tuple[str, str]]:
     """
-    The function tag a list of tokenized words into Part-of-Speech (POS) tags
-    such as 'NOUN', 'VERB', 'ADJ', and 'DET'.
+    Marks words with part-of-speech (POS) tags, such as 'NOUN' and 'VERB'.
 
     :param list words: a list of tokenized words
     :param str engine:
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
     :param str corpus:
-        * *orchid* - annotated Thai academic articles namedly
-          `Orchid <https://www.academia.edu/9127599/Thai_Treebank>`_ (default)
-        * *orchid_ud* - annotated Thai academic articles *Orchid* but the
-          POS tags are mapped to comply with
-          `Universal Dependencies <https://universaldependencies.org/u/pos>`_
-          POS  Tags
-        * *pud* - `Parallel Universal Dependencies (PUD)
-          <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
-    :return: returns a list of labels regarding which part of speech it is
+        the corpus that used to create the language model for tagger
+        * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
+            by National Electronics and Computer Technology Center, Thailand
+        * *lst20_ud* - LST20 text, with tags mapped to Universal POS tags \
+            from `Universal Dependencies <https://universaldependencies.org/>`
+        * *orchid* - `ORCHID \
+            <https://www.academia.edu/9127599/Thai_Treebank>`_ corpus, \
+            text from Thai academic articles (default)
+        * *orchid_ud* - ORCHID text, with tags mapped to Universal POS tags
+        * *pud* - `Parallel Universal Dependencies (PUD)\
+            <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ \
+            treebanks, natively use Universal POS tags
+    :return: a list of tuples (word, POS tag)
     :rtype: list[tuple[str, str]]
 
     :Example:
@@ -183,21 +86,14 @@ def pos_tag(
     if not words:
         return []
 
-    _corpus = corpus
-    _tag = []
-    if corpus == "orchid_ud":
-        corpus = "orchid"
-
     if engine == "perceptron":
         from .perceptron import tag as tag_
     else:  # default, use "unigram" ("old") engine
         from .unigram import tag as tag_
-    _tag = tag_(words, corpus=corpus)
 
-    if _corpus == "orchid_ud":
-        _tag = _orchid_to_ud(_tag)
+    word_tags = tag_(words, corpus=corpus)
 
-    return _tag
+    return word_tags
 
 
 def pos_tag_sents(
@@ -206,23 +102,26 @@ def pos_tag_sents(
     corpus: str = "orchid",
 ) -> List[List[Tuple[str, str]]]:
     """
-    The function tag multiple list of tokenized words into Part-of-Speech
-    (POS) tags.
+    Marks sentences with part-of-speech (POS) tags.
 
     :param list sentences: a list of lists of tokenized words
     :param str engine:
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
     :param str corpus:
-        * *orchid* - annotated Thai academic articles namedly\
-            `Orchid <https://www.academia.edu/9127599/Thai_Treebank>`_\
-            (default)
-        * *orchid_ud* - annotated Thai academic articles using\
-            `Universal Dependencies <https://universaldependencies.org/>`_ Tags
+        the corpus that used to create the language model for tagger
+        * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
+            by National Electronics and Computer Technology Center, Thailand
+        * *lst20_ud* - LST20 text, with tags mapped to Universal POS tags \
+            from `Universal Dependencies <https://universaldependencies.org/>`
+        * *orchid* - `ORCHID \
+            <https://www.academia.edu/9127599/Thai_Treebank>`_ corpus, \
+            text from Thai academic articles (default)
+        * *orchid_ud* - ORCHID text, with tags mapped to Universal POS tags
         * *pud* - `Parallel Universal Dependencies (PUD)\
-            <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ treebanks
-    :return: returns a list of labels regarding which part of speech it is
-             for each sentence given.
+            <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ \
+            treebanks, natively use Universal POS tags
+    :return: a list of lists of tuples (word, POS tag)
     :rtype: list[list[tuple[str, str]]]
 
     :Example:

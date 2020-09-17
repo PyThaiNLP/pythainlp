@@ -18,11 +18,10 @@ negations_th.txt | Negation word list
 stopwords_th.txt | Stop word list
 syllables_th.txt | List of Thai syllables
 thailand_provinces_th.csv | List of Thailand provinces in Thai
-thailand_provinces_th.txt | List of Thailand provinces in Thai
 tnc_freq.txt | Words and their frequencies, from Thai National Corpus
 ttc_freq.txt | Words and their frequencies, from Thai Textbook Corpus
 words_th.txt | List of Thai words
-words_th_thai2fit_201810.txt | List of Thai words (frozen)
+words_th_thai2fit_201810.txt | List of Thai words (frozen for thai2fit)
 
 The following word lists are from **Thai Male and Female Names Corpus**
 https://github.com/korkeatw/thai-names-corpus/ by Korkeat Wannapat
@@ -46,14 +45,16 @@ https://creativecommons.org/licenses/by/4.0/
 
 Filename | Description
 ---------|------------
-sentenceseg-crfcut-v2.model | Sentence segmentation model
-ud_thai_pud_pt_tagger.pkl | Part-of-speech model
-ud_thai_pud_unigram_tagger.json | Part-of-speech model
+pos_orchid_perceptron.pkl | Part-of-speech tagging model, trained from ORCHID data, using perceptron
+pos_orchid_unigram.json | Part-of-speech tagging model, trained from ORCHID data, using unigram
+pos_ud_perceptron.pkl | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using perceptron
+pos_ud_unigram.json | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using unigram
+sentenceseg_crfcut.model | Sentence segmentation model, trained from TED subtitles, using CRF
 
 
 ## Thai WordNet
 
-Thai WordNet (tha-wn.db) is created by Thai Computational Linguistic
+Thai WordNet (wordnet_th.db) is created by Thai Computational Linguistic
 Laboratory at National Institute of Information and Communications
 Technology (NICT), Japan, and released under the following license:
 

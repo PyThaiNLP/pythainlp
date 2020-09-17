@@ -1,77 +1,77 @@
-กระบี่,กบ,KBI
-กรุงเทพมหานคร,กทม,BKK
-กาญจนบุรี,กจ,KRI
-กาฬสินธุ์,กส,KSN
-กำแพงเพชร,กพ,KPT
-ขอนแก่น,ขก,KKN
-จันทบุรี,จบ,CTI
-ฉะเชิงเทรา,ฉช,CCO
-ชลบุรี,ชบ,CBI
-ชัยนาท,ชน,CNT
-ชัยภูมิ,ชย,CPM
-ชุมพร,ชพ,CPN
-เชียงราย,ชร,CRI
-เชียงใหม่,ชม,CMI
-ตรัง,ตง,TRG
-ตราด,ตร,TRT
-ตาก,ตก,TAK
-นครนายก,นย,NYK
-นครปฐม,นฐ,NPT
-นครพนม,นพ,NPM
-นครราชสีมา,นม,NMA
-นครศรีธรรมราช,นศ,NRT
-นครสวรรค์,นว,NSN
-นนทบุรี,นบ,NBI
-นราธิวาส,นธ,NWT
-น่าน,นน,NAN
-บึงกาฬ,บก,BKN
-บุรีรัมย์,บร,BRM
-ปทุมธานี,ปท,PTE
-ประจวบคีรีขันธ์,ปข,PKN
-ปราจีนบุรี,ปจ,PRI
-ปัตตานี,ปน,PTN
-พะเยา,พย,PYO
-พระนครศรีอยุธยา,อย,AYA
-พังงา,พง,PNA
-พัทลุง,พท,PLG
-พิจิตร,พจ,PCK
-พิษณุโลก,พล,PLK
-เพชรบุรี,พบ,PBI
-เพชรบูรณ์,พช,PNB
-แพร่,พร,PRE
-ภูเก็ต,ภก,PKT
-มหาสารคาม,มค,MKM
-มุกดาหาร,มห,MDH
-แม่ฮ่องสอน,มส,MSN
-ยโสธร,ยส,YST
-ยะลา,ยล,YLA
-ร้อยเอ็ด,รอ,RET
-ระนอง,รน,RNG
-ระยอง,รย,RYG
-ราชบุรี,รบ,RBR
-ลพบุรี,ลบ,LRI
-ลำปาง,ลป,LPG
-ลำพูน,ลพ,LPN
-เลย,ลย,LEI
-ศรีสะเกษ,ศก,SSK
-สกลนคร,สน,SNK
-สงขลา,สข,SKA
-สตูล,สต,STN
-สมุทรปราการ,สป,SPK
-สมุทรสงคราม,สส,SKM
-สมุทรสาคร,สค,SKN
-สระแก้ว,สก,SKW
-สระบุรี,สบ,SRI
-สิงห์บุรี,สห,SBR
-สุโขทัย,สท,STI
-สุพรรณบุรี,สพ,SPB
-สุราษฎร์ธานี,สฎ,SNI
-สุรินทร์,สร,SRN
-หนองคาย,นค,NKI
-หนองบัวลำภู,นภ,NBP
-อ่างทอง,อท,ATG
-อำนาจเจริญ,อจ,ACR
-อุดรธานี,อด,UDN
-อุตรดิตถ์,อต,UTT
-อุทัยธานี,อน,UTI
-อุบลราชธานี,อบ,UBN
+กระบี่,กบ,Krabi,KBI
+กรุงเทพมหานคร,กทม,Bangkok,BKK
+กาญจนบุรี,กจ,Kanchanaburi,KRI
+กาฬสินธุ์,กส,Kalasin,KSN
+กำแพงเพชร,กพ,Kamphaeng Phet,KPT
+ขอนแก่น,ขก,Khon Kaen,KKN
+จันทบุรี,จบ,Chanthaburi,CTI
+ฉะเชิงเทรา,ฉช,Chachoengsao,CCO
+ชลบุรี,ชบ,Chon Buri,CBI
+ชัยนาท,ชน,Chai Nat,CNT
+ชัยภูมิ,ชย,Chaiyaphum,CPM
+ชุมพร,ชพ,Chumphon,CPN
+เชียงราย,ชร,Chiang Rai,CRI
+เชียงใหม่,ชม,Chiang Mai,CMI
+ตรัง,ตง,Trang,TRG
+ตราด,ตร,Trat,TRT
+ตาก,ตก,Tak,TAK
+นครนายก,นย,Nakhon Nayok,NYK
+นครปฐม,นฐ,Nakhon Pathom,NPT
+นครพนม,นพ,Nakhon Phanom,NPM
+นครราชสีมา,นม,Nakhon Ratchasima,NMA
+นครศรีธรรมราช,นศ,Nakhon Si Thammarat,NRT
+นครสวรรค์,นว,Nakhon Sawan,NSN
+นนทบุรี,นบ,Nonthaburi,NBI
+นราธิวาส,นธ,Narathiwat,NWT
+น่าน,นน,Nan,NAN
+บึงกาฬ,บก,Bueng Kan,BKN
+บุรีรัมย์,บร,Buri Ram,BRM
+ปทุมธานี,ปท,Pathum Thani,PTE
+ประจวบคีรีขันธ์,ปข,Prachuap Khiri Khan,PKN
+ปราจีนบุรี,ปจ,Prachin Buri,PRI
+ปัตตานี,ปน,Pattani,PTN
+พะเยา,พย,Phayao,PYO
+พระนครศรีอยุธยา,อย,Phra Nakhon Si Ayutthaya,AYA
+พังงา,พง,Phangnga,PNA
+พัทลุง,พท,Phatthalung,PLG
+พิจิตร,พจ,Phichit,PCK
+พิษณุโลก,พล,Phitsanulok,PLK
+เพชรบุรี,พบ,Phetchaburi,PBI
+เพชรบูรณ์,พช,Phetchabun,PNB
+แพร่,พร,Phrae,PRE
+ภูเก็ต,ภก,Phuket,PKT
+มหาสารคาม,มค,Maha Sarakham,MKM
+มุกดาหาร,มห,Mukdahan,MDH
+แม่ฮ่องสอน,มส,Mae Hong Son,MSN
+ยโสธร,ยส,Yasothon,YST
+ยะลา,ยล,Yala,YLA
+ร้อยเอ็ด,รอ,Roi Et,RET
+ระนอง,รน,Ranong,RNG
+ระยอง,รย,Rayong,RYG
+ราชบุรี,รบ,Ratchaburi,RBR
+ลพบุรี,ลบ,Lop Buri,LRI
+ลำปาง,ลป,Lampang,LPG
+ลำพูน,ลพ,Lamphun,LPN
+เลย,ลย,Loei,LEI
+ศรีสะเกษ,ศก,Si Sa Ket,SSK
+สกลนคร,สน,Sakon Nakhon,SNK
+สงขลา,สข,Songkhla,SKA
+สตูล,สต,Satun,STN
+สมุทรปราการ,สป,Samut Prakan,SPK
+สมุทรสงคราม,สส,Samut Songkhram,SKM
+สมุทรสาคร,สค,Samut Sakhon,SKN
+สระแก้ว,สก,Sa Kaeo,SKW
+สระบุรี,สบ,Saraburi,SRI
+สิงห์บุรี,สห,Sing Buri,SBR
+สุโขทัย,สท,Sukhothai,STI
+สุพรรณบุรี,สพ,Suphan Buri,SPB
+สุราษฎร์ธานี,สฎ,Surat Thani,SNI
+สุรินทร์,สร,Surin,SRN
+หนองคาย,นค,Nong Khai,NKI
+หนองบัวลำภู,นภ,Nong Bua Lam Phu,NBP
+อ่างทอง,อท,Ang Thong,ATG
+อำนาจเจริญ,อจ,Amnat Charoen,ACR
+อุดรธานี,อด,Udon Thani,UDN
+อุตรดิตถ์,อต,Uttaradit,UTT
+อุทัยธานี,อน,Uthai Thani,UTI
+อุบลราชธานี,อบ,Ubon Ratchathani,UBN

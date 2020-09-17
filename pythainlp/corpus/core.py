@@ -32,7 +32,7 @@ def get_corpus_db(url: str) -> requests.Response:
     return corpus_db
 
 
-def get_corpus_db_detail(name: str) -> dict:
+def get_corpus_db_detail(name: str, version: str = None) -> dict:
     """
     Get details about a corpus, using information from local catalog.
 
@@ -42,7 +42,10 @@ def get_corpus_db_detail(name: str) -> dict:
     """
     local_db = TinyDB(corpus_db_path())
     query = Query()
-    res = local_db.search(query.name == name)
+    if version is None:
+        res = local_db.search(query.name == name)
+    else:
+        res = local_db.search((query.name == name) & (query.version == version))
     local_db.close()
 
     if res:
@@ -51,9 +54,17 @@ def get_corpus_db_detail(name: str) -> dict:
     return dict()
 
 
-def get_corpus(filename: str) -> frozenset:
+def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
     """
-    Read corpus data from file and return a frozenset.
+    Read corpus data from file and return a frozenset or a list.
+
+    Each line in the file will be a member of the set or the list.
+
+    By default, a frozenset will be return, with whitespaces stripped, and
+    empty values and duplicates removed.
+
+    If as_is is True, a list will be return, with no modifications
+    in member values and their orders.
 
     (Please see the filename from
     `this file
@@ -61,8 +72,8 @@ def get_corpus(filename: str) -> frozenset:
 
     :param str filename: filename of the corpus to be read
 
-    :return: :mod:`frozenset` consist of lines in the file
-    :rtype: :mod:`frozenset`
+    :return: :class:`frozenset` or :class:`list` consists of lines in the file
+    :rtype: :class:`frozenset` or :class:`list`
 
     :Example:
     ::
@@ -85,7 +96,11 @@ def get_corpus(filename: str) -> frozenset:
     with open(path, "r", encoding="utf-8-sig") as fh:
         lines = fh.read().splitlines()
 
-    return frozenset(lines)
+    if as_is:
+        return lines
+
+    lines = [line.strip() for line in lines]
+    return frozenset(filter(None, lines))
 
 
 def _update_all():
@@ -96,13 +111,15 @@ def _update_all():
         for item in item_all:
             name = item["name"]
             if "file_name" in item.keys():
-                local_db.update({"filename": item["file_name"]}, query.name == name)
+                local_db.update(
+                    {"filename": item["file_name"]}, query.name == name
+                )
             elif "file" in item.keys():
                 local_db.update({"filename": item["file"]}, query.name == name)
     local_db.close()
 
 
-def get_corpus_path(name: str) -> Union[str, None]:
+def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:
     """
     Get corpus path.
 
@@ -139,13 +156,19 @@ def get_corpus_path(name: str) -> Union[str, None]:
     """
     # check if the corpus is in local catalog, download if not
     corpus_db_detail = get_corpus_db_detail(name)
-    if corpus_db_detail.get("file_name") is not None and corpus_db_detail.get("filename") is None:
+    if (
+        corpus_db_detail.get("file_name") is not None
+        and corpus_db_detail.get("filename") is None
+    ):
         _update_all()
-    elif corpus_db_detail.get("file") is not None and corpus_db_detail.get("filename") is None:
+    elif (
+        corpus_db_detail.get("file") is not None
+        and corpus_db_detail.get("filename") is None
+    ):
         _update_all()
 
     if not corpus_db_detail or not corpus_db_detail.get("filename"):
-        download(name)
+        download(name,  version =  version)
         corpus_db_detail = get_corpus_db_detail(name)
 
     if corpus_db_detail and corpus_db_detail.get("filename"):
@@ -208,7 +231,9 @@ def _check_hash(dst: str, md5: str) -> None:
                 raise Exception("Hash does not match expected.")
 
 
-def download(name: str, force: bool = False, url: str = None, version: str = None) -> bool:
+def download(
+    name: str, force: bool = False, url: str = None, version: str = None
+) -> bool:
     """
     Download corpus.
 
@@ -256,34 +281,28 @@ def download(name: str, force: bool = False, url: str = None, version: str = Non
         corpus = corpus_db[name.lower()]
         print("Corpus:", name)
         if version is None:
-            version = corpus['latest_version']
+            version = corpus["latest_version"]
         corpus_versions = corpus["versions"][version]
         file_name = corpus_versions["filename"]
-        found = local_db.search((query.name == name) & (query.version == version))
+        found = local_db.search(
+            (query.name == name) & (query.version == version)
+        )
 
         # If not found in local, download
         if force or not found:
             print(f"- Downloading: {name} {version}")
             _download(
-                corpus_versions["download_url"],
-                file_name,
+                corpus_versions["download_url"], file_name,
             )
             _check_hash(
-                file_name,
-                corpus_versions["md5"],
+                file_name, corpus_versions["md5"],
             )
 
             if found:
-                local_db.update(
-                    {"version": version}, query.name == name
-                )
+                local_db.update({"version": version}, query.name == name)
             else:
                 local_db.insert(
-                    {
-                        "name": name,
-                        "version": version,
-                        "filename": file_name,
-                    }
+                    {"name": name, "version": version, "filename": file_name}
                 )
         else:
             if local_db.search(

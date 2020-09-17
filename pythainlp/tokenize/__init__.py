@@ -27,6 +27,7 @@ DEFAULT_DICT_TRIE = DEFAULT_WORD_DICT_TRIE
 
 from pythainlp.tokenize.core import (
     Tokenizer,
+    clause_tokenize,
     sent_tokenize,
     subword_tokenize,
     syllable_tokenize,

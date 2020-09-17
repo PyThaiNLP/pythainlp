@@ -16,6 +16,11 @@ from pythainlp.tokenize import (
 from pythainlp.util.trie import Trie, dict_trie
 
 
+def clause_tokenize(doc: List[str]) -> List[List[str]]:
+    from .lst20 import clause_tokenize as cla
+    return cla(doc)
+
+
 def word_tokenize(
     text: str,
     custom_dict: Trie = None,

@@ -15,7 +15,7 @@ from pythainlp.tokenize import (
 )
 from pythainlp.tokenize.ssg import segment as ssg_segment
 from pythainlp.util import dict_trie
-from pythainlp.tokenize.lst20 import clause_tokenize
+from pythainlp.tokenize import clause_tokenize
 
 
 class TestTokenizePackage(unittest.TestCase):

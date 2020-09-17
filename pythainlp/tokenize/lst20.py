@@ -9,31 +9,31 @@ def _doc2features(doc, i):
     word = doc[i][0]
     postag = doc[i][1]
     # Features from current word
-    features={
+    features = {
         'word.word': word,
-        'word.isspace':word.isspace(),
-        'postag':postag,
+        'word.isspace': word.isspace(),
+        'postag': postag,
         'word.isdigit()': word.isdigit()
     }
     if i > 0:
         prevword = doc[i-1][0]
         postag1 = doc[i-1][1]
         features['word.prevword'] = prevword
-        features['word.previsspace']=prevword.isspace()
+        features['word.previsspace'] = prevword.isspace()
         features['word.prepostag'] = postag1
         features['word.prevwordisdigit'] = prevword.isdigit()
     else:
-        features['BOS'] = True # Special "Beginning of Sequence" tag
+        features['BOS'] = True  # Special "Beginning of Sequence" tag
     # Features from next word
     if i < len(doc)-1:
         nextword = doc[i+1][0]
         postag1 = doc[i+1][1]
         features['word.nextword'] = nextword
-        features['word.nextisspace']=nextword.isspace()
+        features['word.nextisspace'] = nextword.isspace()
         features['word.nextpostag'] = postag1
         features['word.nextwordisdigit'] = nextword.isdigit()
     else:
-        features['EOS'] = True # Special "End of Sequence" tag
+        features['EOS'] = True  # Special "End of Sequence" tag
     return features
 
 
@@ -53,8 +53,8 @@ def clause_tokenize(doc: List[str]):
     _list_cls = []
     _temp = []
     _len_doc = len(doc) - 1
-    for i,item in enumerate(_tag):
-        w,t = item
+    for i, item in enumerate(_tag):
+        w, t = item
         if t == "E_CLS" or i == _len_doc:
             _temp.append(w)
             _list_cls.append(_temp)

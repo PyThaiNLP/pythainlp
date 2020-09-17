@@ -39,7 +39,7 @@ def _pud_tagger():
 def _lst20_tagger():
     global _LST20_TAGGER
     if not _LST20_TAGGER:
-        _LST20_TAGGER = PerceptronTagger(path=get_corpus_path(_LST20_TAGGER_NAME))
+        _LST20_TAGGER = PerceptronTagger(path=get_corpus_path(_LST20_TAGGER_NAME, version="0.2.3"))
     return _LST20_TAGGER
 
 

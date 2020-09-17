@@ -32,7 +32,7 @@ def get_corpus_db(url: str) -> requests.Response:
     return corpus_db
 
 
-def get_corpus_db_detail(name: str) -> dict:
+def get_corpus_db_detail(name: str, version: str = None) -> dict:
     """
     Get details about a corpus, using information from local catalog.
 
@@ -42,7 +42,10 @@ def get_corpus_db_detail(name: str) -> dict:
     """
     local_db = TinyDB(corpus_db_path())
     query = Query()
-    res = local_db.search(query.name == name)
+    if version is None:
+        res = local_db.search(query.name == name)
+    else:
+        res = local_db.search((query.name == name) & (query.version == version))
     local_db.close()
 
     if res:
@@ -116,7 +119,7 @@ def _update_all():
     local_db.close()
 
 
-def get_corpus_path(name: str) -> Union[str, None]:
+def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:
     """
     Get corpus path.
 
@@ -165,7 +168,7 @@ def get_corpus_path(name: str) -> Union[str, None]:
         _update_all()
 
     if not corpus_db_detail or not corpus_db_detail.get("filename"):
-        download(name)
+        download(name,  version =  version)
         corpus_db_detail = get_corpus_db_detail(name)
 
     if corpus_db_detail and corpus_db_detail.get("filename"):

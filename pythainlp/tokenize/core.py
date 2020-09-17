@@ -17,6 +17,25 @@ from pythainlp.util.trie import Trie, dict_trie
 
 
 def clause_tokenize(doc: List[str]) -> List[List[str]]:
+    """
+    Clause tokenizer. (or Clause segmentation)
+
+    Tokenizes running word list into list of claues (list of strings).
+    split by CRF trained on LST20 Corpus.
+
+    :param str doc: word list to be clause
+    :return: list of claues
+    :rtype: list[list[str]]
+
+    :Example:
+
+        from pythainlp.tokenize import clause_tokenize
+
+        clause_tokenize(["ฉัน","นอน","และ","คุณ","เล่น","มือถือ","ส่วน","น้อง","เขียน","โปรแกรม"])
+        [['ฉัน', 'นอน'],
+        ['และ', 'คุณ', 'เล่น', 'มือถือ'],
+        ['ส่วน', 'น้อง', 'เขียน', 'โปรแกรม']]
+    """
     from .lst20 import clause_tokenize as cla
     return cla(doc)
 
@@ -55,9 +74,6 @@ def word_tokenize(
           `DeepCut <https://github.com/rkcosmos/deepcut>`_,
           learning-based approach
 
-    .. warning::
-        * the option for engine named *ulmfit* has been deprecated since \
-          PyThaiNLP version 2.1
     :Note:
         - The parameter **custom_dict** can be provided as an argument \
           only for *newmm*, *longest*, and *attacut* engine.

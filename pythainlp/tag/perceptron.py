@@ -39,9 +39,7 @@ def _pud_tagger():
 def _lst20_tagger():
     global _LST20_TAGGER
     if not _LST20_TAGGER:
-        path = get_corpus_path(_LST20_TAGGER_NAME)
-        with open(path, "rb") as fh:
-            _LST20_TAGGER = pickle.load(fh)
+        _LST20_TAGGER = PerceptronTagger(path=get_corpus_path(_LST20_TAGGER_NAME))
     return _LST20_TAGGER
 
 

@@ -40,12 +40,10 @@ def download_model_all() -> None:
 
 
 def _get_translate_path(
-    model: str, path1: str, path2: str, file: str = None
+    model: str, *path1: str
 ) -> str:
-    path = os.path.join(os.path.join(get_full_data_path(model), path1), path2)
-    if file is not None:
-        return os.path.join(path, file)
-    return os.path.join(path, "")
+    path = os.path.join(get_full_data_path(model), *path1)
+    return path
 
 
 def _scb_en_th_model():

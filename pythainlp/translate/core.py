@@ -147,7 +147,7 @@ def _th2en_bpe_model():
 def _th2en_bpe_translate(text: str) -> str:
     global model, model_name
     _th2en_bpe_model()
-    hypothesis = model.translate(text, beam=24)
+    hypothesis = model.translate(text)
     return hypothesis
 
 

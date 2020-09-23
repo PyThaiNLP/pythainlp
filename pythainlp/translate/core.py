@@ -110,37 +110,9 @@ def _scb_th_en_model():
 
 def _scb_th_en_translate(text: str) -> str:
     global model, model_name
-    _th2en_bpe_model()
+    _scb_th_en_model()
     hypothesis = model.translate(text)
     return hypothesis
-
-
-def _th2en_bpe_model():
-    global model, model_name
-    _download_install("scb_1m_th-en_spm")
-    if model_name != "th2en_bpe":
-        del model
-        model = TransformerModel.from_pretrained(
-            model_name_or_path=_get_translate_path(
-                "scb_1m_th-en_spm",
-                "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0",
-                "models",
-            ),
-            checkpoint_file="checkpoint.pt",
-            data_name_or_path=_get_translate_path(
-                "scb_1m_th-en_spm",
-                "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0",
-                "vocab",
-            ),
-            bpe="sentencepiece",
-            sentencepiece_vocab=_get_translate_path(
-                "scb_1m_th-en_spm",
-                "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0",
-                "bpe",
-                "spm.th.model",
-            ),
-        )
-        model_name = "th2en_bpe"
 
 
 def translate(text: str, source: str, target: str) -> str:

@@ -111,7 +111,7 @@ def _scb_th_en_model():
 def _scb_th_en_translate(text: str) -> str:
     global model, model_name
     _scb_th_en_model()
-    hypothesis = model.translate(text)
+    hypothesis = model.translate(text,beam=4)
     return hypothesis
 
 

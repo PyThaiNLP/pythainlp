@@ -110,9 +110,8 @@ def _scb_th_en_model():
 
 def _scb_th_en_translate(text: str) -> str:
     global model, model_name
-    _scb_th_en_model()
-    _hypothesis = model.translate(text)
-    hypothesis = en_word_detokenize.detokenize([_hypothesis])
+    _th2en_bpe_model()
+    hypothesis = model.translate(text)
     return hypothesis
 
 
@@ -142,13 +141,6 @@ def _th2en_bpe_model():
             ),
         )
         model_name = "th2en_bpe"
-
-
-def _th2en_bpe_translate(text: str) -> str:
-    global model, model_name
-    _th2en_bpe_model()
-    hypothesis = model.translate(text)
-    return hypothesis
 
 
 def translate(text: str, source: str, target: str) -> str:

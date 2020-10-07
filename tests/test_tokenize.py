@@ -2,7 +2,12 @@
 
 import unittest
 
-from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE, Tokenizer, attacut
+from pythainlp.tokenize import (
+    DEFAULT_WORD_DICT_TRIE,
+    Tokenizer,
+    attacut,
+    clause_tokenize,
+)
 from pythainlp.tokenize import deepcut as tokenize_deepcut
 from pythainlp.tokenize import etcc, longest, multi_cut, newmm
 from pythainlp.tokenize import pyicu as tokenize_pyicu
@@ -183,6 +188,10 @@ class TestTokenizePackage(unittest.TestCase):
             "ด้านหน้าด้านหน้าด้านกกกกกก"
             "กกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกกก"
         )
+
+    def test_clause_tokenize(self):
+        self.assertIsNotNone(clause_tokenize(["ฉัน", "ทดสอบ"]))
+        self.assertIsInstance(clause_tokenize(["ฉัน", "ทดสอบ"]), list)
 
     def test_Tokenizer(self):
         t_test = Tokenizer(DEFAULT_WORD_DICT_TRIE)

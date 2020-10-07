@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-CRFCut - Thai sentence segmentor.
+CRFCut - Thai sentence segmenter.
 
 Thai sentence segmentation using conditional random field,
 default model trained on TED dataset

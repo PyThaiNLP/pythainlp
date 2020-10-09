@@ -7,16 +7,22 @@ Wrapper for AttaCut - Fast and Reasonably Accurate Word Tokenizer for Thai
 """
 from typing import List
 
-from attacut import tokenize
+from attacut import Tokenizer
+_MODEL_NAME = "attacut-sc"
+_tokenize = Tokenizer(model=_MODEL_NAME)
 
-
-def segment(text: str) -> List[str]:
+def segment(text: str, model: str = "attacut-sc") -> List[str]:
     """
     Wrapper for AttaCut - Fast and Reasonably Accurate Word Tokenizer for Thai
     :param str text: text to be tokenized to words
+    :param str model:  word tokenizer model to be tokenized to words
     :return: list of words, tokenized from the text
     """
     if not text or not isinstance(text, str):
         return []
 
-    return tokenize(text)
+    if model != _MODEL_NAME:
+        _MODEL_NAME = model
+        _tokenize = Tokenizer(model=_MODEL_NAME)
+
+    return _tokenize.tokenize(text)

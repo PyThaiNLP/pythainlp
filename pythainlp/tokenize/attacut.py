@@ -23,6 +23,7 @@ def segment(text: str, model: str = "attacut-sc") -> List[str]:
         * *attacut-sc* (default)
         * *attacut-c*
     """
+    global _MODEL_NAME, _tokenize
     if not text or not isinstance(text, str):
         return []
 

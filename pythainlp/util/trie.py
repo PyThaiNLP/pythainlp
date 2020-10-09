@@ -53,15 +53,15 @@ class Trie:
         self.words.remove(word)
         # then remove from nodes
         parent = self.root
-        threes = []  # track path to leaf
+        data = []  # track path to leaf
         for ch in word:
             child = parent.children[ch]
-            threes.append((parent, child, ch))
+            data.append((parent, child, ch))
             parent = child
         # remove the last one
         child.end = False
         # prune up the tree
-        for parent, child, ch in reversed(threes):
+        for parent, child, ch in reversed(data):
             if child.end or child.children:
                 break
             del parent.children[ch]   # remove from parent dict

@@ -17,6 +17,10 @@ def segment(text: str, model: str = "attacut-sc") -> List[str]:
     :param str text: text to be tokenized to words
     :param str model:  word tokenizer model to be tokenized to words
     :return: list of words, tokenized from the text
+    :rtype: list[str]
+    **Options for model**
+        * *attacut-sc* (default)
+        * *attacut-c*
     """
     if not text or not isinstance(text, str):
         return []

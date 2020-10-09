@@ -11,6 +11,7 @@ from attacut import Tokenizer
 _MODEL_NAME = "attacut-sc"
 _tokenize = Tokenizer(model=_MODEL_NAME)
 
+
 def segment(text: str, model: str = "attacut-sc") -> List[str]:
     """
     Wrapper for AttaCut - Fast and Reasonably Accurate Word Tokenizer for Thai

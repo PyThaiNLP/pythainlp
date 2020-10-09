@@ -62,7 +62,7 @@ class Trie:
         child.end = False
         # prune up the tree
         for parent, child, ch in reversed(threes):
-            if child.end or child.children: 
+            if child.end or child.children:
                 break
             del parent.children[ch]   # remove from parent dict
 
@@ -97,11 +97,11 @@ class Trie:
 
 def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     """
-    Create a dictionary trie from a string or an iterable.
+    Create a dictionary trie from a file or an iterable.
 
     :param str|Iterable[str]|pythainlp.util.Trie dict_source: a path to
         dictionary file or a list of words or a pythainlp.util.Trie object
-    :return: a trie object created from a dictionary input
+    :return: a trie object
     :rtype: pythainlp.util.Trie
     """
     trie = None

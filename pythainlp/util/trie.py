@@ -62,7 +62,8 @@ class Trie:
         child.end = False
         # prune up the tree
         for parent, child, ch in reversed(threes):
-            if child.end or child.children: break
+            if child.end or child.children: 
+                break
             del parent.children[ch]   # remove from parent dict
 
     def prefixes(self, text: str) -> List[str]:

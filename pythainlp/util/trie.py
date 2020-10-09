@@ -40,6 +40,31 @@ class Trie:
             cur = child
         cur.end = True
 
+    def remove(self, word: str) -> None:
+        """
+        Remove a word from the trie.
+        If the word is not found, do nothing.
+
+        :param str text: a word
+        """
+        # remove from set first
+        if word not in self.words:
+            return
+        self.words.remove(word)
+        # then remove from nodes
+        parent = self.root
+        threes = []  # track path to leaf
+        for ch in word:
+            child = parent.children[ch]
+            threes.append((parent, child, ch))
+            parent = child
+        # remove the last one
+        child.end = False
+        # prune up the tree
+        for parent, child, ch in reversed(threes):
+            if child.end or child.children: break
+            del parent.children[ch]   # remove from parent dict
+
     def prefixes(self, text: str) -> List[str]:
         """
         List all possible words from first sequence of characters in a word.

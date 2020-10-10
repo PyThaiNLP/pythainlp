@@ -8,8 +8,9 @@ Wrapper for AttaCut - Fast and Reasonably Accurate Word Tokenizer for Thai
 from typing import List
 
 from attacut import Tokenizer
+
 _MODEL_NAME = "attacut-sc"
-_tokenize = Tokenizer(model=_MODEL_NAME)
+_tokenizer = Tokenizer(model=_MODEL_NAME)
 
 
 def segment(text: str, model: str = "attacut-sc") -> List[str]:
@@ -20,15 +21,15 @@ def segment(text: str, model: str = "attacut-sc") -> List[str]:
     :return: list of words, tokenized from the text
     :rtype: list[str]
     **Options for model**
-        * *attacut-sc* (default)
-        * *attacut-c*
+        * *attacut-sc* (default) using both syllable and character features
+        * *attacut-c* using only character feature
     """
-    global _MODEL_NAME, _tokenize
+    global _MODEL_NAME, _tokenizer
     if not text or not isinstance(text, str):
         return []
 
     if model != _MODEL_NAME:
         _MODEL_NAME = model
-        _tokenize = Tokenizer(model=_MODEL_NAME)
+        _tokenizer = Tokenizer(model=_MODEL_NAME)
 
-    return _tokenize.tokenize(text)
+    return _tokenizer.tokenize(text)

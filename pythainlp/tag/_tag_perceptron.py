@@ -193,10 +193,9 @@ class PerceptronTagger:
             data = {}
             data["weights"] = self.model.weights
             data["tagdict"] = self.tagdict
-            data["classes"] = self.classes
-            new_d = {'weights':dict(data['weights']),'tagdict':dict(data['tagdict']),'classes':list(data['classes'])}
+            data["classes"] = list(self.classes)
             with open(save_loc, 'w', encoding='utf-8') as f:
-                json.dump(new_d, f, ensure_ascii=False)
+                json.dump(data, f, ensure_ascii=False)
 
     def load(self, loc: str) -> None:
         """
@@ -212,7 +211,7 @@ class PerceptronTagger:
         self.model.weights = w_td_c["weights"]
         self.tagdict = w_td_c["tagdict"]
         self.classes = w_td_c["classes"]
-        self.model.classes = self.classes
+        self.model.classes = set(self.classes)
 
     def _normalize(self, word: str) -> str:
         """

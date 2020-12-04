@@ -206,7 +206,7 @@ class PerceptronTagger:
             with open(loc, "r", encoding='utf-8') as f:
                 w_td_c = json.load(f)
         except IOError:
-            msg = "Missing trontagger.pickle file."
+            msg = "Missing trontagger.json file."
             raise IOError(msg)
         self.model.weights = w_td_c["weights"]
         self.tagdict = w_td_c["tagdict"]

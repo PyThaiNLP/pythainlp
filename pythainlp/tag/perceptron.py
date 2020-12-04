@@ -9,13 +9,14 @@ from typing import List, Tuple
 from pythainlp.corpus import corpus_path, get_corpus_path
 from pythainlp.tag import PerceptronTagger, lst20, orchid
 
-_ORCHID_FILENAME = "pos_orchid_perceptron.pkl"
+_ORCHID_FILENAME = "pos_orchid_perceptron.json"
 _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
 
-_PUD_FILENAME = "pos_ud_perceptron.pkl"
+_PUD_FILENAME = "pos_ud_perceptron.json"
 _PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
 
-_LST20_TAGGER_NAME = "pos_lst20_perceptron"
+_LST20_TAGGER_NAME = "pos_lst20_perceptron-v0.2.3.json"
+_LST20_TAGGERD_PATH = os.path.join(corpus_path(), _LST20_TAGGER_NAME)
 
 _ORCHID_TAGGER = None
 _PUD_TAGGER = None
@@ -39,7 +40,7 @@ def _pud_tagger():
 def _lst20_tagger():
     global _LST20_TAGGER
     if not _LST20_TAGGER:
-        _LST20_TAGGER = PerceptronTagger(path=get_corpus_path(_LST20_TAGGER_NAME, version = "0.2.3"))
+        _LST20_TAGGER = PerceptronTagger(path=_LST20_TAGGERD_PATH)
     return _LST20_TAGGER
 
 

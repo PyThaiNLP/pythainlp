@@ -18,7 +18,7 @@ This tagger is provided under the terms of the MIT License.
 from __future__ import absolute_import
 
 import os
-import pickle
+import json
 import random
 from collections import defaultdict
 from typing import Dict, Iterable, List, Tuple, Union
@@ -193,9 +193,9 @@ class PerceptronTagger:
             data = {}
             data["weights"] = self.model.weights
             data["tagdict"] = self.tagdict
-            data["classes"] = self.classes
-            with open(save_loc, "wb") as f:
-                pickle.dump(data, f, -1)
+            data["classes"] = list(self.classes)
+            with open(save_loc, 'w', encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False)
 
     def load(self, loc: str) -> None:
         """
@@ -203,15 +203,15 @@ class PerceptronTagger:
         :param str loc: model path
         """
         try:
-            with open(loc, "rb") as f:
-                w_td_c = pickle.load(f)
+            with open(loc, "r", encoding='utf-8') as f:
+                w_td_c = json.load(f)
         except IOError:
-            msg = "Missing trontagger.pickle file."
+            msg = "Missing trontagger.json file."
             raise IOError(msg)
         self.model.weights = w_td_c["weights"]
         self.tagdict = w_td_c["tagdict"]
         self.classes = w_td_c["classes"]
-        self.model.classes = self.classes
+        self.model.classes = set(self.classes)
 
     def _normalize(self, word: str) -> str:
         """

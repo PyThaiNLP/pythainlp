@@ -240,9 +240,6 @@ class TestTokenizePackage(unittest.TestCase):
     def test_word_tokenize_deepcut(self):
         self.assertEqual(tokenize_deepcut.segment(None), [])
         self.assertEqual(tokenize_deepcut.segment(""), [])
-        self.assertIsNotNone(
-            tokenize_deepcut.segment("ทดสอบ", list(DEFAULT_WORD_DICT_TRIE))
-        )
         self.assertIsNotNone(tokenize_deepcut.segment("ทดสอบ", ["ทด", "สอบ"]))
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
         self.assertIsNotNone(

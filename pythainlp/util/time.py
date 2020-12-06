@@ -229,21 +229,6 @@ def time_to_thaiword(
     return text
 
 
-def thai_time(
-    time_data: Union[time, datetime, str],
-    fmt: str = "24h",
-    precision: Union[str, None] = None,
-) -> str:
-    """
-    DEPRECATED: Please use time_to_thaiword().
-    """
-    warnings.warn(
-        "thai_time is deprecated, use time_to_thaiword instead",
-        DeprecationWarning,
-    )
-    return time_to_thaiword(time_data, fmt, precision)
-
-
 def thaiword_to_time(text: str, padding: bool = True) -> str:
     """
     Convert Thai time in words into time (H:M).

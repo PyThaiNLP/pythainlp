@@ -162,6 +162,10 @@ or BibTeX entry:
 | Other corpora and models that may included with PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
 
 
+## Model Cards
+
+For technical details, caveats, and ethical considerations of the models developed and used in PyThaiNLP, see [Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards).
+
 ## Sponsors
 
 [![VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/assets/img/logo/airesearch-logo.svg)](https://airesearch.in.th/)

@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Propose a change or an addition
+about: Propose a change or an addition เสนอความสามารถใหม่
 ---
 
 ## Detailed description

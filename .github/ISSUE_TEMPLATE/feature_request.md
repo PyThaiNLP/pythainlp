@@ -13,7 +13,7 @@ about: Propose a change or an addition
 ## Possible implementation
 <!--- Not obligatory, but suggest an idea for implementing addition or change -->
 
-**Your environment**
+## Your environment
 * PyThaiNLP version:
 * Python version:
 * Operating system and version (distro, 32/64-bit):

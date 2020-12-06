@@ -97,7 +97,7 @@ install:
   - pip --version
   - pip install -U coveralls[yaml]
   - pip install -U coverage
-  - pip install -U "tensorflow>=2.3.1,<3 keras>=2.3.1,<3 h5py>=2.10.0,<3 deepcut"
+  - pip install -U "h5py>=2.10.0,<3" "tensorflow>=2.3.1,<3" "keras>=2.3.1,<3" "deepcut"
   - pip install torch==1.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
   - pip install %PYICU_PKG%
   - pip install -e .[full]

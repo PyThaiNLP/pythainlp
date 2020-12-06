@@ -146,7 +146,7 @@ class TestTagPackage(unittest.TestCase):
             [("เม่น", "N"), ("กิน", "V")],
             [("หนอน", "N"), ("กิน", "V")],
         ]
-        filename = "ptagger_temp4XcDf.pkl"
+        filename = "ptagger_temp4XcDf.json"
         tagger.train(data, save_loc=filename)
         self.assertTrue(path.exists(filename))
 

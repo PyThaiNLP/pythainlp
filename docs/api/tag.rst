@@ -155,7 +155,6 @@ FIXN                PART
 FIXV                PART
 EAFF                PART
 EITT                PART
-AITT                PART
 NEG                 PART
 PUNCT               PUNCT
 PUNC                PUNCT

@@ -10,20 +10,17 @@ from typing import List
 from attacut import Tokenizer
 
 
-class attacut:
-    def __init__(self, model= "attacut-sc"):
-        if model == "attacut-sc":
-            self.load_attacut_sc()
-        else:
-            self.load_attacut_c()
-    def tokenize(self,text:str) -> List[str]:
-        return self._tokenizer.tokenize(text)
-    def load_attacut_sc(self):
+class AttacutTokenizer:
+    def __init__(self, model="attacut-sc"):
         self._MODEL_NAME = "attacut-sc"
+
+        if model == "attacut-c":
+            self._MODEL_NAME = "attacut-c"
+
         self._tokenizer = Tokenizer(model=self._MODEL_NAME)
-    def load_attacut_c(self):
-        self._MODEL_NAME = "attacut-c"
-        self._tokenizer = Tokenizer(model=self._MODEL_NAME)
+
+    def tokenize(self, text: str) -> List[str]:
+        return self._tokenizer.tokenize(text)
 
 
 def segment(text: str, model: str = "attacut-sc") -> List[str]:
@@ -40,6 +37,6 @@ def segment(text: str, model: str = "attacut-sc") -> List[str]:
     if not text or not isinstance(text, str):
         return []
 
-    _tokenizer = attacut(model)
+    _tokenizer = AttacutTokenizer(model)
 
     return _tokenizer.tokenize(text)

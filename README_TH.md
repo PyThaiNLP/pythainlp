@@ -1,4 +1,3 @@
-
 <div align="center">
   <img src="https://avatars0.githubusercontent.com/u/32934255?s=200&v=4"/>
   <h1>PyThaiNLP: Thai Natural Language Processing in Python</h1>
@@ -27,6 +26,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 ติดตามพวกเราบน [PyThaiNLP Facebook page](https://www.facebook.com/pythainlp/) เพื่อรับข่าวสารเพิ่มเติม
 
+
 ## เริ่มต้นกับ PyThaiNLP
 
 พวกเราได้จัดทำ [PyThaiNLP Get Started Tutorial](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html) สำหรับสำรวจความสามารถของ PyThaiNLP; พวกเรามีเอกสารสอนใช้งาน สามารถศึกษาได้ที่ [หน้า tutorial](https://www.thainlp.org/pythainlp/tutorials).
@@ -35,6 +35,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 พวกเราพยายามทำให้โมดูลใช้งานได้ง่ายที่สุดเท่าที่จะเป็นไปได้; ตัวอย่างเช่น บางชุดข้อมูล (เช่น รายการคำและตัวแบบภาษา) จะถูกดาวน์โหลดอัตโนมัติเมื่อมีการเรียกใช้งาน โดย PyThaiNLP จะจัดเก็บข้อมูลเหล่านั้นไว้ในโฟลเดอร์ `~/pythainlp-data` เป็นค่าเริ่มต้น แต่ผู้ใช้งานสามารถระบุตำแหน่งที่ต้องการได้เองผ่านค่า environment variable `PYTHAINLP_DATA_DIR` อ่านรายละเอียดคลังข้อมูลเพิ่มเติมได้ที่ [PyThaiNLP/pythainlp-corpus](https://github.com/PyThaiNLP/pythainlp-corpus).
 
+
 ## ความสามารถ
 
 PyThaiNLP มีความสามารถพื้นฐานสำหรับการประมวลผลภาษาไทย ตัวอย่างเช่นการกำกับหน้าที่ของคำ (part-of-speech tagging) การแบ่งหน่วยของข้อความตามหลักภาษาศาสตร์ (พยางค์ คำ และประโยค) บางความสามารถสามารถใช้งานได้ผ่านทางคอมมานด์ไลน์
@@ -42,7 +43,7 @@ PyThaiNLP มีความสามารถพื้นฐานสำหร�
 <details>
   <summary>รายการความสามารถ</summary>
 
-- Convenient character and word classes, like Thai consonants (`pythainlp.thai_consonants`), vowels (`pythainlp.thai_vowels`), digits (`pythainlp.thai_digits`), and stop words (`pythainlp.corpus.thai_stopwords`) -- comparable to constants like `string.letters`, `string.digits`, and `string.punctuation`
+- ชุดตัวอักขระและคำภาษาไทยที่เรียกใช้ได้สะดวก เช่น พยัญชนะ (`pythainlp.thai_consonants`), สระ (`pythainlp.thai_vowels`), ตัวเลข (`pythainlp.thai_digits`), และคำหยุด (stop word) (`pythainlp.corpus.thai_stopwords`) -- ซึ่งเทียบได้กับค่าคงที่มาตรฐานในไพทอนอย่าง `string.letters`, `string.digits`, และ `string.punctuation`
 - Thai linguistic unit segmentation/tokenization, including sentence (`sent_tokenize`), word (`word_tokenize`), and subword segmentations based on Thai Character Cluster (`subword_tokenize`)
 - Thai part-of-speech taggers (`pos_tag`)
 - Thai spelling suggestion and correction (`spell` and `correct`)
@@ -56,6 +57,7 @@ PyThaiNLP มีความสามารถพื้นฐานสำหร�
 </details>
 
 อ่านรายละเอียดได้ที่ [tutorials](https://www.thainlp.org/pythainlp/tutorials)
+
 
 ## การติดตั้ง
 
@@ -119,6 +121,7 @@ thainlp help
   - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
 - ผู้ใช้งาน Python 2.7 สามารถใช้งาน PyThaiNLP 1.6
 
+
 ## การอ้างอิง
 
 ถ้าคุณใช้ `PyThaiNLP` ในโปรเจคหรืองานวิจัยของคุณ คุณสามารถอ้างอิงได้ตามนี้
@@ -146,23 +149,40 @@ Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Sur
 - กรุณา fork แล้วพัฒนาต่อ จากนั้นสร้าง pull request กลับมา :)
 - สำหรับเอกสารแนะนำและอื่น ๆ รวมถึงการอ้างอิงขั้นตอนที่เราใช้งาน สามารถเข้าไปศึกษาเพิ่มเติมได้ที่หน้า [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)
 
-## ใบอนุญาต
 
-| | ใบอนุญาต |
+## สัญญาอนุญาต
+
+| | สัญญาอนุญาต |
 |:---|:----|
 | PyThaiNLP Source Code and Notebooks | [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE) |
 | Corpora, datasets, and documentations created by PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication License (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
 | Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/)  |
 | Other corpora and models that may included with PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
 
+
+## บัตรโมเดล
+
+สำหรับรายละเอียดทางเทคนิค ข้อควรระวัง และข้อคำนึงทางจริยธรรมของตัวแบบ (โมเดล) ที่ใช้ใน PyThaiNLP กรุณาดูที่ [Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards)
+
+
 ## ผู้สนับสนุน
 
 [![VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/assets/img/logo/airesearch-logo.svg)](https://airesearch.in.th/)
 
-ตั้งแต่ปี 2562 การสมทบพัฒนา PyThaiNLP โดย Korakot Chaovavanich และ Lalita Lowphansirikul สนับสนุนโดย [VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/).
+ตั้งแต่ปี 2562 การสมทบพัฒนา PyThaiNLP โดย กรกฎ เชาวะวณิช และ ลลิตา โล่พันธุ์ศิริกุล สนับสนุนโดย [VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/)
 
 ------
 
 <div align="center">
-  สร้างด้วย ❤️ | ทีม PyThaiNLP 💻 |  "We build Thai NLP" 🇹🇭
+  สร้างด้วย ❤️ | ทีม PyThaiNLP 💻 |  "เราสร้างการประมวลผลภาษาไทย" 🇹🇭
+</div>
+
+------
+
+<div align="center">
+  <strong>เรามีที่เก็บข้อมูลอย่างเป็นทางการที่เดียวที่ https://github.com/PyThaiNLP/pythainlp และมีที่เก็บสำเนาอีกแห่งที่ https://gitlab.com/pythainlp/pythainlp</strong>
+</div>
+
+<div align="center">
+  <strong>โปรดระมัดระวังซอฟต์แวร์ประสงค์ร้ายหรือมัลแวร์ ถ้าคุณใช้โค้ดจากที่เก็บข้อมูลอื่นนอกเหนือจากที่ GitHub และ GitLab ข้างต้น</strong>
 </div>

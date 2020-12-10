@@ -1,6 +1,6 @@
 name: Unit test and code coverage
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:

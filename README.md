@@ -166,6 +166,7 @@ or BibTeX entry:
 
 For technical details, caveats, and ethical considerations of the models developed and used in PyThaiNLP, see [Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards).
 
+
 ## Sponsors
 
 [![VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/assets/img/logo/airesearch-logo.svg)](https://airesearch.in.th/)
@@ -181,7 +182,7 @@ Since 2019, our contributors Korakot Chaovavanich and Lalita Lowphansirikul have
 ------
 
 <div align="center">
-  <strong>We have only one official repository at https://github.com/PyThaiNLP/pythainlp and another mirror at https://gitlab.com/pythainlp/pythainlp </strong>
+  <strong>We have only one official repository at https://github.com/PyThaiNLP/pythainlp and another mirror at https://gitlab.com/pythainlp/pythainlp</strong>
 </div>
 
 <div align="center">

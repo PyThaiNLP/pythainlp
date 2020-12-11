@@ -103,7 +103,7 @@ Make sure the same tests pass on Travis CI and AppVeyor.
   #current_version = 2.2.3
 
   bumpversion patch
-  #current_version = 2.2.5-dev0
+  #current_version = 2.2.6-dev0
 
   bumpversion minor
   #current_version = 2.3.0-dev0

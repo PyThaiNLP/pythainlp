@@ -156,7 +156,7 @@ def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:
     """
     # Customize your the corpus path then close the line after lines 164 through 190.
     _CUSTOMIZE = {
-        #"the corpus name":"path"
+        # "the corpus name":"path"
     }
     if name in list(_CUSTOMIZE.keys()):
         return _CUSTOMIZE[name]

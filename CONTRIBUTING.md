@@ -5,6 +5,7 @@ Hi! Thanks for your interest in contributing to [PyThaiNLP](https://github.com/P
 
 ## Issue Report and Discussion
 
+- Discussion: https://github.com/PyThaiNLP/pythainlp/discussions
 - GitHub issues (problems and suggestions): https://github.com/PyThaiNLP/pythainlp/issues
 - Facebook group (not specific to PyThaiNLP, can be Thai NLP discussion in general): https://www.facebook.com/groups/thainlp
 

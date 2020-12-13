@@ -23,7 +23,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 | Version | Description | Status |
 |:------:|:--:|:------:|
-| [2.2.4](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/330) |
+| [2.2.6](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/330) |
 | [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 2.3  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/445) |
 
 Please follow our [PyThaiNLP Facebook page](https://www.facebook.com/pythainlp/) for more updates.
@@ -162,6 +162,11 @@ or BibTeX entry:
 | Other corpora and models that may included with PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
 
 
+## Model Cards
+
+For technical details, caveats, and ethical considerations of the models developed and used in PyThaiNLP, see [Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards).
+
+
 ## Sponsors
 
 [![VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/assets/img/logo/airesearch-logo.svg)](https://airesearch.in.th/)
@@ -177,7 +182,7 @@ Since 2019, our contributors Korakot Chaovavanich and Lalita Lowphansirikul have
 ------
 
 <div align="center">
-  <strong>We have only one official repository at https://github.com/PyThaiNLP/pythainlp and another mirror at https://gitlab.com/pythainlp/pythainlp </strong>
+  <strong>We have only one official repository at https://github.com/PyThaiNLP/pythainlp and another mirror at https://gitlab.com/pythainlp/pythainlp</strong>
 </div>
 
 <div align="center">

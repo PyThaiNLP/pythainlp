@@ -154,6 +154,13 @@ def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:
         print(get_corpus_path('wiki_lm_lstm'))
         # output: /root/pythainlp-data/thwiki_model_lstm.pth
     """
+    # Customize your the corpus path then close the line after lines 164 through 190.
+    _CUSTOMIZE = {
+        # "the corpus name":"path"
+    }
+    if name in list(_CUSTOMIZE.keys()):
+        return _CUSTOMIZE[name]
+
     # check if the corpus is in local catalog, download if not
     corpus_db_detail = get_corpus_db_detail(name)
     if (

@@ -1,6 +1,7 @@
 include CONTRIBUTING.md
 include LICENSE
 include README.md
+include README_TH.md
 
 recursive-include tests *
 recursive-exclude * __pycache__

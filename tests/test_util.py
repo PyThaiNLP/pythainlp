@@ -388,6 +388,15 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(len(trie), 4)
         self.assertEqual(len(trie.prefixes("ทดสอบ")), 2)
 
+        trie.remove("ทบ")
+        trie.remove("ทด")
+        self.assertEqual(len(trie), 2)
+
+        trie = Trie([])
+        self.assertEqual(len(trie), 0)
+        trie.remove("หมด")
+        self.assertEqual(len(trie), 0)
+
         self.assertIsNotNone(dict_trie(Trie(["ลอง", "ลาก"])))
         self.assertIsNotNone(dict_trie(("ลอง", "สร้าง", "Trie", "ลน")))
         self.assertIsNotNone(dict_trie(["ลอง", "สร้าง", "Trie", "ลน"]))

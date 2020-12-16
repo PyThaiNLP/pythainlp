@@ -43,8 +43,9 @@ htmlcov/
 .cache
 nosetests.xml
 coverage.xml
-*,cover
+*.cover
 .hypothesis/
+tests/ptagger_temp*
 
 # Translations
 *.mo
@@ -62,6 +63,8 @@ Untitled*.ipynb
 
 # IDE files
 .idea
+\.idea/codeStyles/
+\.idea/
 .vscode
 
 # macOS generated files
@@ -73,13 +76,6 @@ Untitled*.ipynb
 
 # Document generator temporary files
 docs/_build/
-
-\.idea/codeStyles/
-
-\.idea/
-
 docs/_build/doctrees/api/
-
 docs/_build/html/
-
 docs/_build/doctrees/

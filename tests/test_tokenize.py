@@ -20,6 +20,7 @@ from pythainlp.tokenize import (
 )
 from pythainlp.tokenize.ssg import segment as ssg_segment
 from pythainlp.util import dict_trie
+from pythainlp.tokenize import nercut as tokenize_nercut
 
 
 class TestTokenizePackage(unittest.TestCase):
@@ -230,6 +231,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(word_tokenize(self.text_1, engine="icu"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="deepcut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="attacut"))
+        self.assertIsNotNone(word_tokenize(self.text_1, engine="nercut"))
         with self.assertRaises(ValueError):
             word_tokenize("หมอนทอง", engine="XX")  # engine does not exist
 
@@ -363,6 +365,15 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="attacut"),
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
+
+    def test_word_tokenize_nercut(self):
+        self.assertEqual(tokenize_nercut.segment(None), [])
+        self.assertEqual(tokenize_nercut.segment(""), [])
+        self.assertIsNotNone(
+            tokenize_nercut.segment("ทดสอบ")
+        )
+        self.assertIsNotNone(tokenize_nercut.segment("ทดสอบ"))
+        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="nercut"))
 
     def test_sent_tokenize(self):
         self.assertEqual(sent_tokenize(None), [])

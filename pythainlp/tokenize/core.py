@@ -163,6 +163,10 @@ def word_tokenize(
         from .pyicu import segment
 
         segments = segment(text)
+    elif engine == "nercut":
+        from .nercut import segment
+
+        segments = segment(text)
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.

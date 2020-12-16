@@ -55,28 +55,23 @@ def segment(
             tag = "O"
 
         if curr_tag.startswith("B-") and tag in taglist:
-            if combining_word != "" and combining_word in taglist:
+            if combining_word != "":
                 words.append(combining_word)
-            combining_word = ""
-            combining_word += curr_word
-            combining_word = curr_tag[2:]
+            combining_word = curr_word
         elif (
             curr_tag.startswith("I-")
-            and curr_tag[2:] == combining_word
+            and combining_word != ""
             and tag in taglist
         ):
             combining_word += curr_word
         elif (
             curr_tag == "O"
             and combining_word != ""
-            and combining_word in taglist
         ):
             words.append(combining_word)
             combining_word = ""
-            combining_word = ""
             words.append(curr_word)
         else:
-            combining_word = ""
             combining_word = ""
             words.append(curr_word)
 

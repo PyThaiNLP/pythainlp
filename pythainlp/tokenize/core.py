@@ -74,6 +74,9 @@ def word_tokenize(
         * *deepcut* - wrapper for
           `DeepCut <https://github.com/rkcosmos/deepcut>`_,
           learning-based approach
+        * *nercut* - Dictionary-based maximal matching word segmentation,
+          constrained with Thai Character Cluster (TCC) boundaries,
+          and combining tokens that are parts of the same named-entity.
 
     :Note:
         - The parameter **custom_dict** can be provided as an argument \

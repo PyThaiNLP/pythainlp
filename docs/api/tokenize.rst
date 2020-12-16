@@ -22,6 +22,7 @@ Tokenization Engines
 newmm
 +++++
 .. automodule::  pythainlp.tokenize.newmm
+
 .. autofunction:: pythainlp.tokenize.newmm.segment
 
 
@@ -29,9 +30,14 @@ longest
 +++++++
 .. automodule::  pythainlp.tokenize.longest
 
+.. autofunction:: pythainlp.tokenize.longest.segment
+
 multi_cut
 +++++++++
 .. automodule::  pythainlp.tokenize.multi_cut
+
+.. autofunction:: pythainlp.tokenize.multi_cut.segment
+.. autofunction:: pythainlp.tokenize.multi_cut.find_all_segment
 
 pyicu
 +++++
@@ -44,6 +50,12 @@ deepcut
 attacut
 +++++++
 .. automodule::  pythainlp.tokenize.attacut
+
+nercut
+++++++
+.. automodule::  pythainlp.tokenize.nercut
+
+.. autofunction:: pythainlp.tokenize.nercut.segment
 
 tcc
 +++

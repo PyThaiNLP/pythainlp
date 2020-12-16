@@ -11,30 +11,44 @@ code is from Korakot Chaovavanich.
 """
 
 from collections import Counter
-from typing import List
-from pythainlp import word_tokenize, Tokenizer, corpus
+from typing import List, Iterator, Tuple
 
-def extract_pairs(words: List[str]) -> None:
-  i = 0
-  for w in words:
-    yield i, i + len(w)
-    i += len(w)
+from pythainlp import Tokenizer, corpus, word_tokenize
+
+
+def extract_pairs(words: List[str]) -> Iterator[Tuple[int, int]]:
+    """
+    Return begining and ending index pairs of words
+    """
+    i = 0
+    for w in words:
+        yield i, i + len(w)
+        i += len(w)
+
 
 def create_wordlist(training_data: List[List[str]]) -> List[str]:
-  right = Counter()
-  wrong = Counter()
-  for r_words in training_data:
-    r_set = set(extract_pairs(r_words))
-    t_words = word_tokenize(''.join(r_words))
-    t_pairs = extract_pairs(t_words)
-    for w, p in zip(t_words, t_pairs):
-      if p in r_set:
-        right[w] += 1
-      else:
-        wrong[w] += 1
-  # after collect stat, remove bad words
-  rem_words = []
-  for w, v in wrong.items():
-    if v > right[w]:
-      rem_words.append(w)
-  return sorted(set(corpus.thai_words()) - set(rem_words))
+    """
+    Create a word list based on pythainlp.corpus.thai_words()
+    (a PyThaiNLP default Thai word list), substracting words that do not
+    matched well with the provided training_data.
+    """
+    right = Counter()
+    wrong = Counter()
+
+    for train_words in training_data:
+        train_set = set(extract_pairs(train_words))
+        test_words = word_tokenize("".join(train_words))
+        test_pairs = extract_pairs(test_words)
+        for w, p in zip(test_words, test_pairs):
+            if p in train_set:
+                right[w] += 1
+            else:
+                wrong[w] += 1
+
+    # if wrong more than right, then it's a bad word
+    bad_words = []
+    for w, count in wrong.items():
+        if count > right[w]:
+            bad_words.append(w)
+
+    return sorted(set(corpus.thai_words()) - set(bad_words))

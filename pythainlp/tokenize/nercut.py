@@ -2,65 +2,85 @@
 """
 nercut 0.1
 
+Dictionary-based maximal matching word segmentation, constrained with
+Thai Character Cluster (TCC) boundaries, and combining tokens that are
+parts of the same named-entity.
+
 Code by Wannaphong Phatthiyaphaibun
 """
 from typing import List
+
 from pythainlp.tag.named_entity import ThaiNameTagger
 
 _thainer = ThaiNameTagger()
 
+
 def segment(
     text: str,
-    tag:List[str] = [
+    taglist: List[str] = [
         "ORGANIZATION",
         "PERSON",
         "PHONE",
         "EMAIL",
         "DATE",
-        "TIME"
-    ]
+        "TIME",
+    ],
 ) -> List[str]:
     """
     nercut 0.1
 
     Code by Wannaphong Phatthiyaphaibun
 
-    neww+thainer word segmentation.
+    Dictionary-based maximal matching word segmentation, constrained with
+    Thai Character Cluster (TCC) boundaries, and combining tokens that are
+    parts of the same named-entity.
 
     :param str text: text to be tokenized to words
-    :parm list tag: ThaiNER tag
+    :parm list taglist: a list of named-entity tags to be used
     :return: list of words, tokenized from the text
     """
-    global _thainer
     if not text or not isinstance(text, str):
         return []
 
-    _ws = _thainer.get_ner(text, pos = False)
-    _list_w = []
-    _bi = ""
-    _tag = ""
-    for i,t in _ws:
-        if t != "O":
-            _tag_temp = t.split('-')[1]
+    global _thainer
+    tagged_words = _thainer.get_ner(text, pos=False)
+
+    words = []
+    combining_word = ""
+    combining_word = ""
+    for curr_word, curr_tag in tagged_words:
+        if curr_tag != "O":
+            tag = curr_tag[2:]
         else:
-            _tag_temp = "O"
-        if t.startswith('B-') and _tag_temp in tag:
-            if _bi!="" and _tag in tag:
-                _list_w.append(_bi)
-            _bi=""
-            _bi += i
-            _tag = t.replace('B-','')
-        elif t.startswith('I-') and t.replace('I-','') == _tag and _tag_temp in tag:
-            _bi += i
-        elif t == "O" and _tag != "" and _tag in tag:
-            _list_w.append(_bi)
-            _bi=""
-            _tag = ""
-            _list_w.append(i)
+            tag = "O"
+
+        if curr_tag.startswith("B-") and tag in taglist:
+            if combining_word != "" and combining_word in taglist:
+                words.append(combining_word)
+            combining_word = ""
+            combining_word += curr_word
+            combining_word = curr_tag[2:]
+        elif (
+            curr_tag.startswith("I-")
+            and curr_tag[2:] == combining_word
+            and tag in taglist
+        ):
+            combining_word += curr_word
+        elif (
+            curr_tag == "O"
+            and combining_word != ""
+            and combining_word in taglist
+        ):
+            words.append(combining_word)
+            combining_word = ""
+            combining_word = ""
+            words.append(curr_word)
         else:
-            _bi=""
-            _tag = ""
-            _list_w.append(i)
-    if _bi!="":
-        _list_w.append(_bi)
-    return _list_w
+            combining_word = ""
+            combining_word = ""
+            words.append(curr_word)
+
+    if combining_word != "":
+        words.append(combining_word)
+
+    return words

@@ -95,8 +95,3 @@ from pythainlp.corpus.common import (
     thai_syllables,
     thai_words,
 )
-from pythainlp.corpus.util import (
-    find_badwords,
-    revise_newmm_default_wordset,
-    revise_wordset,
-)

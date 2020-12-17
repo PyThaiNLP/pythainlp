@@ -45,6 +45,9 @@ attacut
 +++++++
 .. automodule::  pythainlp.tokenize.attacut
 
+.. autoclass:: pythainlp.tokenize.attacut.AttacutTokenizer
+   :members:
+
 tcc
 +++
 .. automodule:: pythainlp.tokenize.tcc

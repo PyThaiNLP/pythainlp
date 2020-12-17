@@ -28,9 +28,9 @@ __all__ = [
 ]
 
 import os
-from tinydb import TinyDB
 
 from pythainlp.tools import get_full_data_path, get_pythainlp_path
+from tinydb import TinyDB
 
 # Remote and local corpus databases
 
@@ -94,4 +94,9 @@ from pythainlp.corpus.common import (
     thai_stopwords,
     thai_syllables,
     thai_words,
+)
+from pythainlp.corpus.util import (
+    find_badwords,
+    revise_newmm_default_wordset,
+    revise_wordset,
 )

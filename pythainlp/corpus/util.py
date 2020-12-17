@@ -90,8 +90,8 @@ def revise_wordset(
     ::
 
     from pythainlp.corpus import thai_words
+    from pythainlp.corpus.util import revise_wordset
     from pythainlp.tokenize.longest import segment
-    from pythainlp.util.words import revise_wordset
 
     base_words = thai_words()
     more_words = {

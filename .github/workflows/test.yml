@@ -1,6 +1,18 @@
 name: Unit test and code coverage
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - dev
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  pull_request:
+    branches:
+      - dev
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
 
 jobs:
   build:
@@ -8,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7]
+        python-version: [3.6]
 
     steps:
     - uses: actions/checkout@v2

@@ -133,6 +133,9 @@ def revise_newmm_default_wordset(
     """
     orig_words = thai_words()
     trie = Trie(orig_words)
-    tokenize = lambda text: newmm.segment(text, custom_dict=trie)
+
+    def tokenize(text):
+        return newmm.segment(text, custom_dict=trie)
+
     revised_words = revise_wordset(tokenize, orig_words, training_data)
     return revised_words

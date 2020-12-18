@@ -56,6 +56,9 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertEqual(
             get_corpus_db_detail("XXXmx3KSXX"), {}
         )  # corpus does not exist
+        self.assertEqual(
+            get_corpus_db_detail("XXXmx3KSXX", version="0.2"), {}
+        )  # corpus does not exist
 
         self.assertTrue(download("test"))  # download the first time
         self.assertTrue(download(name="test", force=True))  # force download

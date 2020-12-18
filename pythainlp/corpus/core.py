@@ -238,18 +238,18 @@ def _check_hash(dst: str, md5: str) -> None:
             if md5 != file_md5:
                 raise Exception("Hash does not match expected.")
 
-def _version2int(v:str)->int:
+def _version2int(v: str) -> int:
     """
     X.X.X => X0X0X
     """
     v2f = None
     if v.endswith(".*"):
-        v = v.replace(".*",".0") # X.X.* => X.X.0
+        v = v.replace(".*", ".0") # X.X.* => X.X.0
     v_list = v.split(".")
     if len(v_list) < 3:
         v_list.append('0')
     v_new = ""
-    for i,value in enumerate(v_list):
+    for i, value in enumerate(v_list):
         if i != 0:
             if len(value) < 2:
                 v_new += "0"+value
@@ -267,25 +267,25 @@ def _check_version(cause: str) -> bool:
     if cause == "*":
         check = True
     elif cause.startswith("==") and '>' not in cause and '<' not in cause:
-        temp = cause.replace("==",'')
+        temp = cause.replace("==", '')
         check = v == _version2int(temp)
     elif cause.startswith(">=") and '<' not in cause:
-        temp = cause.replace(">=",'')
+        temp = cause.replace(">=", '')
         check = v >= _version2int(temp)
     elif cause.startswith(">") and '<' not in cause:
-        temp = cause.replace(">",'')
+        temp = cause.replace(">", '')
         check = v > _version2int(temp)
     elif cause.startswith(">=") and '<=' not in cause and '<' in cause:
-        temp = cause.replace(">=",'').split('<')
+        temp = cause.replace(">=", '').split('<')
         check = v >= _version2int(temp[0]) and v < _version2int(temp[1])
     elif cause.startswith(">=") and '<=' in cause:
-        temp = cause.replace(">=",'').split('<=')
+        temp = cause.replace(">=", '').split('<=')
         check = v >= _version2int(temp[0]) and v <= _version2int(temp[1])
     elif cause.startswith("<="):
-        temp = cause.replace("<=",'')
+        temp = cause.replace("<=", '')
         check = v <= _version2int(temp[0])
     elif cause.startswith("<"):
-        temp = cause.replace("<",'')
+        temp = cause.replace("<", '')
         check = v < _version2int(temp[0])
 
     return check
@@ -347,7 +347,9 @@ def download(
             if version not in list(corpus["versions"].keys()):
                 print("Not found corpus")
                 return False
-            elif _check_version(corpus["versions"][version]["pythainlp_version"]) == False:
+            elif _check_version(
+                corpus["versions"][version]["pythainlp_version"]
+                ) is False:
                 print("Versions Corpus not support")
                 return False
         corpus_versions = corpus["versions"][version]

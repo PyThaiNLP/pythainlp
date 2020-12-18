@@ -8,7 +8,7 @@ parts of the same named-entity.
 
 Code by Wannaphong Phatthiyaphaibun
 """
-from typing import List
+from typing import Iterable, List
 
 from pythainlp.tag.named_entity import ThaiNameTagger
 
@@ -17,7 +17,7 @@ _thainer = ThaiNameTagger()
 
 def segment(
     text: str,
-    taglist: List[str] = [
+    taglist: Iterable[str] = [
         "ORGANIZATION",
         "PERSON",
         "PHONE",
@@ -27,10 +27,6 @@ def segment(
     ],
 ) -> List[str]:
     """
-    nercut 0.1
-
-    Code by Wannaphong Phatthiyaphaibun
-
     Dictionary-based maximal matching word segmentation, constrained with
     Thai Character Cluster (TCC) boundaries, and combining tokens that are
     parts of the same named-entity.

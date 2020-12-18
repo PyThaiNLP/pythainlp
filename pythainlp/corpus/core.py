@@ -325,9 +325,11 @@ def download(
         else:
             if version not in list(corpus["versions"].keys()):
                 print("Not found corpus")
+                local_db.close()
                 return False
             elif _check_version(corpus["versions"][version]["pythainlp_version"]) is False:
                 print("Versions Corpus not support")
+                local_db.close()
                 return False
         corpus_versions = corpus["versions"][version]
         file_name = corpus_versions["filename"]

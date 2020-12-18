@@ -9,7 +9,9 @@ from pythainlp.tokenize import (
     clause_tokenize,
 )
 from pythainlp.tokenize import deepcut as tokenize_deepcut
-from pythainlp.tokenize import etcc, longest, multi_cut, newmm
+from pythainlp.tokenize import etcc, longest, multi_cut
+from pythainlp.tokenize import nercut as tokenize_nercut
+from pythainlp.tokenize import newmm
 from pythainlp.tokenize import pyicu as tokenize_pyicu
 from pythainlp.tokenize import (
     sent_tokenize,
@@ -20,7 +22,6 @@ from pythainlp.tokenize import (
 )
 from pythainlp.tokenize.ssg import segment as ssg_segment
 from pythainlp.util import dict_trie
-from pythainlp.tokenize import nercut as tokenize_nercut
 
 
 class TestTokenizePackage(unittest.TestCase):
@@ -366,19 +367,21 @@ class TestTokenizePackage(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
         self.assertEqual(
-            attacut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-sc"),
+            attacut.segment(
+                "ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-sc"
+            ),
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
         self.assertIsNotNone(
-            attacut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-c")
+            attacut.segment(
+                "ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-c"
+            )
         )
 
     def test_word_tokenize_nercut(self):
         self.assertEqual(tokenize_nercut.segment(None), [])
         self.assertEqual(tokenize_nercut.segment(""), [])
-        self.assertIsNotNone(
-            tokenize_nercut.segment("ทดสอบ")
-        )
+        self.assertIsNotNone(tokenize_nercut.segment("ทดสอบ"))
         self.assertIsNotNone(tokenize_nercut.segment("ทดสอบ"))
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="nercut"))
 

@@ -365,6 +365,13 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="attacut"),
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
+        self.assertEqual(
+            attacut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-sc"),
+            ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
+        )
+        self.assertIsNotNone(
+            attacut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-c")
+        )
 
     def test_word_tokenize_nercut(self):
         self.assertEqual(tokenize_nercut.segment(None), [])

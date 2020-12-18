@@ -256,6 +256,9 @@ def _check_version(cause: str) -> bool:
     elif cause.startswith(">=") and '<=' in cause:
         temp = cause.replace(">=", '').split('<=')
         check = v >= _version2int(temp[0]) and v <= _version2int(temp[1])
+    elif cause.startswith(">") and '<' in cause:
+        temp = cause.replace(">", '').split('<')
+        check = v > _version2int(temp[0]) and v < _version2int(temp[1])
     elif cause.startswith("<="):
         temp = cause.replace("<=", '')
         check = v <= _version2int(temp[0])

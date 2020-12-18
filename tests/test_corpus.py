@@ -72,6 +72,13 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertFalse(remove("test"))  # remove non-existing
         self.assertIsNone(get_corpus_path("XXXkdjfBzc"))  # query non-existing
         self.assertFalse(download(name="test", version="0.0"))
+        self.assertFalse(download(name="test", version="0.0.1"))
+        self.assertFalse(download(name="test", version="0.0.2"))
+        self.assertFalse(download(name="test", version="0.0.3"))
+        self.assertFalse(download(name="test", version="0.0.4"))
+        self.assertTrue(download(name="test", version="0.0.5"))
+        self.assertTrue(remove("test"))  # remove existing
+        self.assertTrue(download(name="test", version="0.0.6"))
         self.assertTrue(download(name="test", version="0.1"))
         self.assertTrue(remove("test"))
 

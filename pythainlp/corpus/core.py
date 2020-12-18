@@ -104,22 +104,6 @@ def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
     return frozenset(filter(None, lines))
 
 
-def _update_all():
-    print("Update Corpus...")
-    with TinyDB(corpus_db_path()) as local_db:
-        item_all = local_db.all()
-        query = Query()
-        for item in item_all:
-            name = item["name"]
-            if "file_name" in item.keys():
-                local_db.update(
-                    {"filename": item["file_name"]}, query.name == name
-                )
-            elif "file" in item.keys():
-                local_db.update({"filename": item["file"]}, query.name == name)
-    local_db.close()
-
-
 def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:
     """
     Get corpus path.
@@ -164,16 +148,6 @@ def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:
 
     # check if the corpus is in local catalog, download if not
     corpus_db_detail = get_corpus_db_detail(name)
-    if (
-        corpus_db_detail.get("file_name") is not None
-        and corpus_db_detail.get("filename") is None
-    ):
-        _update_all()
-    elif (
-        corpus_db_detail.get("file") is not None
-        and corpus_db_detail.get("filename") is None
-    ):
-        _update_all()
 
     if not corpus_db_detail or not corpus_db_detail.get("filename"):
         download(name,  version =  version)

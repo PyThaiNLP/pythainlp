@@ -69,7 +69,7 @@ def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
 
     (Please see the filename from
     `this file
-    <https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json>`_
+    <https://pythainlp.github.io/pythainlp-corpus/db.json>`_
 
     :param str filename: filename of the corpus to be read
 
@@ -300,7 +300,7 @@ def download(
     Download corpus.
 
     The available corpus names can be seen in this file:
-    https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json
+    https://pythainlp.github.io/pythainlp-corpus/db.json
 
     :param str name: corpus name
     :param bool force: force download

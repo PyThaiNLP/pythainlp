@@ -238,13 +238,14 @@ def _check_hash(dst: str, md5: str) -> None:
             if md5 != file_md5:
                 raise Exception("Hash does not match expected.")
 
+
 def _version2int(v: str) -> int:
     """
     X.X.X => X0X0X
     """
     v2f = None
     if v.endswith(".*"):
-        v = v.replace(".*", ".0") # X.X.* => X.X.0
+        v = v.replace(".*", ".0")  # X.X.* => X.X.0
     v_list = v.split(".")
     if len(v_list) < 3:
         v_list.append('0')
@@ -256,8 +257,9 @@ def _version2int(v: str) -> int:
             else:
                 v_new += value
         else:
-            v_new+=value
+            v_new += value
     return int(v_new)
+
 
 def _check_version(cause: str) -> bool:
     temp = cause
@@ -289,6 +291,7 @@ def _check_version(cause: str) -> bool:
         check = v < _version2int(temp[0])
 
     return check
+
 
 def download(
     name: str, force: bool = False, url: str = None, version: str = None
@@ -347,9 +350,7 @@ def download(
             if version not in list(corpus["versions"].keys()):
                 print("Not found corpus")
                 return False
-            elif _check_version(
-                corpus["versions"][version]["pythainlp_version"]
-                ) is False:
+            elif _check_version(corpus["versions"][version]["pythainlp_version"]) is False:
                 print("Versions Corpus not support")
                 return False
         corpus_versions = corpus["versions"][version]

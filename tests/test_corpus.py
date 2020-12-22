@@ -74,7 +74,27 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertTrue(remove("test"))  # remove existing
         self.assertFalse(remove("test"))  # remove non-existing
         self.assertIsNone(get_corpus_path("XXXkdjfBzc"))  # query non-existing
-        self.assertTrue(download(name="test", version="0.1"))
+        self.assertFalse(download(name="test", version="0.0"))
+        self.assertFalse(download(name="test", version="0.0.0"))
+        self.assertFalse(download(name="test", version="0.0.1"))
+        self.assertFalse(download(name="test", version="0.0.2"))
+        self.assertFalse(download(name="test", version="0.0.3"))
+        self.assertFalse(download(name="test", version="0.0.4"))
+        self.assertTrue(download(name="test", version="0.0.5"))
+        self.assertTrue(remove("test"))  # remove existing
+        self.assertIsNotNone(download(name="test", version="0.0.6"))
+        self.assertIsNotNone(download(name="test", version="0.0.7"))
+        self.assertIsNotNone(download(name="test", version="0.0.8"))
+        self.assertIsNotNone(download(name="test", version="0.0.9"))
+        self.assertIsNotNone(download(name="test", version="0.0.10"))
+        with self.assertRaises(Exception) as context:
+            self.assertIsNotNone(download(name="test", version="0.0.11"))
+        self.assertTrue(
+            "Hash does not match expected."
+            in
+            str(context.exception)
+        )
+        self.assertIsNotNone(download(name="test", version="0.1"))
         self.assertTrue(remove("test"))
 
     def test_tnc(self):

@@ -13,6 +13,7 @@ from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
 from requests.exceptions import HTTPError
 from tinydb import Query, TinyDB
+from pythainlp import __version__
 
 
 def get_corpus_db(url: str) -> requests.Response:
@@ -68,7 +69,7 @@ def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
 
     (Please see the filename from
     `this file
-    <https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json>`_
+    <https://pythainlp.github.io/pythainlp-corpus/db.json>`_
 
     :param str filename: filename of the corpus to be read
 
@@ -101,22 +102,6 @@ def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
 
     lines = [line.strip() for line in lines]
     return frozenset(filter(None, lines))
-
-
-def _update_all():
-    print("Update Corpus...")
-    with TinyDB(corpus_db_path()) as local_db:
-        item_all = local_db.all()
-        query = Query()
-        for item in item_all:
-            name = item["name"]
-            if "file_name" in item.keys():
-                local_db.update(
-                    {"filename": item["file_name"]}, query.name == name
-                )
-            elif "file" in item.keys():
-                local_db.update({"filename": item["file"]}, query.name == name)
-    local_db.close()
 
 
 def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:
@@ -163,16 +148,6 @@ def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:
 
     # check if the corpus is in local catalog, download if not
     corpus_db_detail = get_corpus_db_detail(name)
-    if (
-        corpus_db_detail.get("file_name") is not None
-        and corpus_db_detail.get("filename") is None
-    ):
-        _update_all()
-    elif (
-        corpus_db_detail.get("file") is not None
-        and corpus_db_detail.get("filename") is None
-    ):
-        _update_all()
 
     if not corpus_db_detail or not corpus_db_detail.get("filename"):
         download(name,  version =  version)
@@ -238,6 +213,62 @@ def _check_hash(dst: str, md5: str) -> None:
                 raise Exception("Hash does not match expected.")
 
 
+def _version2int(v: str) -> int:
+    """
+    X.X.X => X0X0X
+    """
+    if v.endswith(".*"):
+        v = v.replace(".*", ".0")  # X.X.* => X.X.0
+    v_list = v.split(".")
+    if len(v_list) < 3:
+        v_list.append('0')
+    v_new = ""
+    for i, value in enumerate(v_list):
+        if i != 0:
+            if len(value) < 2:
+                v_new += "0"+value
+            else:
+                v_new += value
+        else:
+            v_new += value
+    return int(v_new)
+
+
+def _check_version(cause: str) -> bool:
+    temp = cause
+    check = False
+    v = _version2int(__version__)
+
+    if cause == "*":
+        check = True
+    elif cause.startswith("==") and '>' not in cause and '<' not in cause:
+        temp = cause.replace("==", '')
+        check = v == _version2int(temp)
+    elif cause.startswith(">=") and '<' not in cause:
+        temp = cause.replace(">=", '')
+        check = v >= _version2int(temp)
+    elif cause.startswith(">") and '<' not in cause:
+        temp = cause.replace(">", '')
+        check = v > _version2int(temp)
+    elif cause.startswith(">=") and '<=' not in cause and '<' in cause:
+        temp = cause.replace(">=", '').split('<')
+        check = v >= _version2int(temp[0]) and v < _version2int(temp[1])
+    elif cause.startswith(">=") and '<=' in cause:
+        temp = cause.replace(">=", '').split('<=')
+        check = v >= _version2int(temp[0]) and v <= _version2int(temp[1])
+    elif cause.startswith(">") and '<' in cause:
+        temp = cause.replace(">", '').split('<')
+        check = v > _version2int(temp[0]) and v < _version2int(temp[1])
+    elif cause.startswith("<="):
+        temp = cause.replace("<=", '')
+        check = v <= _version2int(temp[0])
+    elif cause.startswith("<"):
+        temp = cause.replace("<", '')
+        check = v < _version2int(temp[0])
+
+    return check
+
+
 def download(
     name: str, force: bool = False, url: str = None, version: str = None
 ) -> bool:
@@ -245,7 +276,7 @@ def download(
     Download corpus.
 
     The available corpus names can be seen in this file:
-    https://github.com/PyThaiNLP/pythainlp-corpus/blob/master/db.json
+    https://pythainlp.github.io/pythainlp-corpus/db.json
 
     :param str name: corpus name
     :param bool force: force download
@@ -288,7 +319,20 @@ def download(
         corpus = corpus_db[name.lower()]
         print("Corpus:", name)
         if version is None:
-            version = corpus["latest_version"]
+            for v in corpus["versions"]:
+                if _check_version(corpus["versions"][v]["pythainlp_version"]):
+                    version = v
+        else:
+            if version not in list(corpus["versions"].keys()):
+                print("Not found corpus")
+                local_db.close()
+                return False
+            elif _check_version(
+                corpus["versions"][version]["pythainlp_version"]
+            ) is False:
+                print("Versions Corpus not support")
+                local_db.close()
+                return False
         corpus_versions = corpus["versions"][version]
         file_name = corpus_versions["filename"]
         found = local_db.search(

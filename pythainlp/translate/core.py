@@ -18,12 +18,12 @@ _en_word_tokenize = MosesTokenizer("en")
 _model = None
 _model_name = None
 
-# SCB_1M-MT_OPUS+TBASE_en-th_moses-newmm_space_130000-130000_v1.0.tar.gz
+# SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0.tar.gz
 _EN_TH_FILE_NAME = (
     "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0"
 )
-# SCB_1M-MT_OPUS+TBASE_th-en_spm-moses_16000-130000_v1.0.tar.gz
-_TH_EN_FILE_NAME = "SCB_1M-MT_OPUS+TBASE_th-en_spm-moses_16000-130000_v1.0"
+# SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0.tar.gz
+_TH_EN_FILE_NAME = "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0"
 
 
 def _download_install(name):
@@ -42,7 +42,7 @@ def download_model_all() -> None:
     """
     Download Model
     """
-    _download_install("scb_th_en")
+    _download_install("scb_1m_th-en_spm")
     _download_install("scb_1m_en-th_moses")
 
 
@@ -75,15 +75,15 @@ def _scb_en_th_translate(text: str) -> str:
 
     tokens = " ".join(_en_word_tokenize.tokenize(text))
     translated = _model.translate(tokens)
-    return translated#.replace("▁", "")
+    return translated.replace(' ', '').replace('▁', ' ').strip()
 
 
 def _scb_th_en_model_init():
     global _model, _model_name
 
-    if _model_name != "scb_th_en":
+    if _model_name != "scb_1m_th-en_spm":
         del _model
-        _model_name = "scb_th_en"
+        _model_name = "scb_1m_th-en_spm"
         _download_install(_model_name)
         _model = TransformerModel.from_pretrained(
             model_name_or_path=_get_translate_path(
@@ -105,7 +105,7 @@ def _scb_th_en_translate(text: str) -> str:
 
     _scb_th_en_model_init()
 
-    return _model.translate(text, beam=4)
+    return _model.translate(text)
 
 
 def translate(text: str, source: str, target: str) -> str:

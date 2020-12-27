@@ -28,9 +28,9 @@ __all__ = [
 ]
 
 import os
-from tinydb import TinyDB
 
 from pythainlp.tools import get_full_data_path, get_pythainlp_path
+from tinydb import TinyDB
 
 # Remote and local corpus databases
 

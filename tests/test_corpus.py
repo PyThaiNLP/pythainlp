@@ -23,6 +23,7 @@ from pythainlp.corpus import (
     ttc,
     wordnet,
 )
+from pythainlp.corpus.util import revise_newmm_default_wordset
 from requests import Response
 
 
@@ -133,3 +134,13 @@ class TestCorpusPackage(unittest.TestCase):
 
         cat_key = wordnet.synsets("แมว")[0].lemmas()[0].key()
         self.assertIsNotNone(wordnet.lemma_from_key(cat_key))
+
+    def test_revise_wordset(self):
+        training_data = [
+            ["ถวิล อุดล", " ", "เป็น", "นักการเมือง", "หนึ่ง", "ใน"],
+            ["สี่เสืออีสาน", " ", "ซึ่ง", "ประกอบ", "ด้วย", "ตัว", "นายถวิล"],
+            ["เอง", " ", "นายทองอินทร์ ภูริพัฒน์", " ", "นายเตียง ศิริขันธ์"],
+            [" ", "และ", "นายจำลอง ดาวเรือง", " ", "และ", "เป็น", "รัฐมนตรี"],
+            ["ที่", "ถูก", "สังหาร", "เมื่อ", "ปี", " ", "พ.ศ.", " ", "2492"],
+        ]
+        self.assertIsInstance(revise_newmm_default_wordset(training_data), set)

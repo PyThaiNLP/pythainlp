@@ -75,7 +75,7 @@ def _scb_en_th_translate(text: str) -> str:
 
     tokens = " ".join(_en_word_tokenize.tokenize(text))
     translated = _model.translate(tokens)
-    return translated.replace("▁", " ")
+    return translated.replace("▁", "")
 
 
 def _scb_th_en_model_init():

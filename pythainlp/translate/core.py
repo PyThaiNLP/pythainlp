@@ -13,7 +13,7 @@ from sacremoses import MosesDetokenizer, MosesTokenizer
 
 _en_word_detokenize = MosesDetokenizer("en")
 _en_word_tokenize = MosesTokenizer("en")
-_th_word_tokenize = partial(_th_word_tokenize, keep_whitespace=False)
+#_th_word_tokenize = partial(_th_word_tokenize, keep_whitespace=False)
 
 _model = None
 _model_name = None

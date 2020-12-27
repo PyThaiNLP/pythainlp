@@ -54,7 +54,7 @@ extras = {
     "thai2fit": ["emoji>=0.5.1", "gensim>=3.2.0", "numpy>=1.16.1"],
     "thai2rom": ["numpy>=1.16.1", "torch>=1.0.0"],
     "translate": [
-        "fairseq>=0.9.0",
+        "fairseq>=0.10.0",
         "sacremoses>=0.0.41",
         "sentencepiece>=0.1.91",
         "torch>=1.0.0",

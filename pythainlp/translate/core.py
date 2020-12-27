@@ -94,7 +94,7 @@ def _scb_th_en_model_init():
                 _model_name, _TH_EN_FILE_NAME, "vocab",
             ),
             bpe="sentencepiece",
-            sentencepiece_vocab=_get_translate_path(
+            sentencepiece_model=_get_translate_path(
                 _model_name, _TH_EN_FILE_NAME, "bpe", "spm.th.model",
             ),
         )

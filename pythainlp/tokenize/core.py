@@ -36,6 +36,9 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
         ['และ', 'คุณ', 'เล่น', 'มือถือ'],
         ['ส่วน', 'น้อง', 'เขียน', 'โปรแกรม']]
     """
+    if not doc or not isinstance(doc, str):
+        return []
+
     from .crfcls import segment
 
     return segment(doc)
@@ -74,6 +77,9 @@ def word_tokenize(
         * *deepcut* - wrapper for
           `DeepCut <https://github.com/rkcosmos/deepcut>`_,
           learning-based approach
+        * *nercut* - Dictionary-based maximal matching word segmentation,
+          constrained with Thai Character Cluster (TCC) boundaries,
+          and combining tokens that are parts of the same named-entity.
 
     :Note:
         - The parameter **custom_dict** can be provided as an argument \
@@ -161,6 +167,10 @@ def word_tokenize(
             segments = segment(text)
     elif engine == "icu":
         from .pyicu import segment
+
+        segments = segment(text)
+    elif engine == "nercut":
+        from .nercut import segment
 
         segments = segment(text)
     else:

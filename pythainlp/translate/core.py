@@ -53,9 +53,9 @@ def _get_translate_path(model: str, *path: str) -> str:
 def _scb_en_th_model_init():
     global _model, _model_name
 
-    if _model_name != "scb_en_th":
+    if _model_name != "scb_1m_en-th_moses":
         del _model
-        _model_name = "scb_en_th"
+        _model_name = "scb_1m_en-th_moses"
         _download_install(_model_name)
         _model = TransformerModel.from_pretrained(
             model_name_or_path=_get_translate_path(

@@ -20,7 +20,7 @@ _model_name = None
 
 # SCB_1M-MT_OPUS+TBASE_en-th_moses-newmm_space_130000-130000_v1.0.tar.gz
 _EN_TH_FILE_NAME = (
-    "SCB_1M-MT_OPUS+TBASE_en-th_moses-newmm_space_130000-130000_v1.0"
+    "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0"
 )
 # SCB_1M-MT_OPUS+TBASE_th-en_spm-moses_16000-130000_v1.0.tar.gz
 _TH_EN_FILE_NAME = "SCB_1M-MT_OPUS+TBASE_th-en_spm-moses_16000-130000_v1.0"
@@ -43,7 +43,7 @@ def download_model_all() -> None:
     Download Model
     """
     _download_install("scb_th_en")
-    _download_install("scb_en_th")
+    _download_install("scb_1m_en-th_moses")
 
 
 def _get_translate_path(model: str, *path: str) -> str:

@@ -94,12 +94,13 @@ install:
   - SET PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%
   - ECHO %PATH%
   - python --version
-  - conda install -y -c conda-forge fairseq
   - python -m pip install --disable-pip-version-check --user --upgrade pip setuptools
   - python -m pip --version
+  - python -m pip install pyyaml
   - python -m pip install -U "h5py>=2.10.0,<3" "tensorflow>=2.3.1,<3" deepcut
   - python -m pip install torch==1.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
   - python -m pip install %PYICU_PKG%
+  - conda install -y -c conda-forge fairseq
   - python -m pip install -e .[full]
 
 #---------------------------------#

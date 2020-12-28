@@ -79,9 +79,6 @@ environment:
 matrix:
   fast_finish: true
 
-install:
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-
 cache:
   - "%LOCALAPPDATA%/pip/Cache"
   - "%APPDATA%/nltk_data"
@@ -89,6 +86,7 @@ cache:
 
 install:
   - chcp 65001
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
 #  - '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %PLATFORM%'
 #  - '"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
   - '"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'

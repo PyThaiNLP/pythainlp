@@ -42,6 +42,9 @@ init:
 # https://www.appveyor.com/docs/how-to/repository-shallow-clone/
 shallow_clone: true
 
+# set clone depth
+clone_depth: 5                      # clone entire repository history if not defined
+
 environment:
   global:
     APPVEYOR_SAVE_CACHE_ON_ERROR: false

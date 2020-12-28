@@ -91,7 +91,6 @@ install:
 #  - '"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
   - '"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
   - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
-  - SET PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%
   - ECHO %PATH%
   - python --version
   - python -m pip install --disable-pip-version-check --user --upgrade pip setuptools

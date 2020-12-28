@@ -2,18 +2,14 @@
 import os
 import tarfile
 from collections import defaultdict
-from functools import partial
 
 from pythainlp.corpus import download, get_corpus_path
-from pythainlp.tokenize import word_tokenize as th_word_tokenize
 from pythainlp.tools import get_full_data_path, get_pythainlp_data_path
 
 from fairseq.models.transformer import TransformerModel
-from sacremoses import MosesDetokenizer, MosesTokenizer
+from sacremoses import MosesTokenizer
 
-_en_word_detokenize = MosesDetokenizer("en")
-_en_word_tokenize = MosesTokenizer("en")
-#_th_word_tokenize = partial(_th_word_tokenize, keep_whitespace=False)
+_en_tokenizer = MosesTokenizer("en")
 
 _model = None
 _model_name = None
@@ -73,7 +69,7 @@ def _scb_en_th_translate(text: str) -> str:
 
     _scb_en_th_model_init()
 
-    tokens = " ".join(_en_word_tokenize.tokenize(text))
+    tokens = " ".join(_en_tokenizer.tokenize(text))
     translated = _model.translate(tokens)
     return translated.replace(' ', '').replace('▁', ' ').strip()
 

@@ -11,7 +11,8 @@ readme = """
 
 PyThaiNLP is a Python library for Thai natural language processing.
 The library provides functions like word tokenization, part-of-speech tagging,
-transliteration, soundex generation, and spell checking.
+transliteration, soundex generation, spell checking, and
+date and time parsing/formatting.
 
 # Install
 
@@ -29,13 +30,6 @@ pip install --upgrade --pre pythainlp
 
 Some functionalities, like named-entity recognition, required extra packages.
 See https://github.com/PyThaiNLP/pythainlp for installation options.
-
-
-Made with ❤️
-
-PyThaiNLP Team
-
-"We build Thai NLP"
 """
 
 requirements = [

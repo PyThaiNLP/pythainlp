@@ -79,8 +79,8 @@ environment:
 matrix:
   fast_finish: true
 
-cache:
-  - "%LOCALAPPDATA%/pip/Cache"
+#cache:
+#  - "%LOCALAPPDATA%/pip/Cache"
 #  - "%APPDATA%/nltk_data"
 #  - "%LOCALAPPDATA%/pythainlp-data"
 

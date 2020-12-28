@@ -50,7 +50,7 @@ _CORPUS_DB_PATH = get_full_data_path(_CORPUS_DB_FILENAME)
 
 # create a local corpus database if it does not already exist
 if not os.path.exists(_CORPUS_DB_PATH):
-    TinyDB(_CORPUS_DB_PATH)
+    TinyDB(_CORPUS_DB_PATH).close()
 
 
 def corpus_path() -> str:

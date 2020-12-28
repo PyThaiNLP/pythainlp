@@ -7,16 +7,16 @@ import pickle
 from typing import List, Tuple
 
 from pythainlp.corpus import corpus_path, get_corpus_path
-from pythainlp.tag import lst20, orchid
+from pythainlp.tag import PerceptronTagger, lst20, orchid
 
-
-_ORCHID_FILENAME = "pos_orchid_perceptron.pkl"
+_ORCHID_FILENAME = "pos_orchid_perceptron.json"
 _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
 
-_PUD_FILENAME = "pos_ud_perceptron.pkl"
+_PUD_FILENAME = "pos_ud_perceptron.json"
 _PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
 
-_LST20_TAGGER_NAME = "pos_lst20_perceptron"
+_LST20_TAGGER_NAME = "pos_lst20_perceptron-v0.2.3.json"
+_LST20_TAGGERD_PATH = os.path.join(corpus_path(), _LST20_TAGGER_NAME)
 
 _ORCHID_TAGGER = None
 _PUD_TAGGER = None
@@ -26,25 +26,21 @@ _LST20_TAGGER = None
 def _orchid_tagger():
     global _ORCHID_TAGGER
     if not _ORCHID_TAGGER:
-        with open(_ORCHID_PATH, "rb") as fh:
-            _ORCHID_TAGGER = pickle.load(fh)
+        _ORCHID_TAGGER = PerceptronTagger(path=_ORCHID_PATH)
     return _ORCHID_TAGGER
 
 
 def _pud_tagger():
     global _PUD_TAGGER
     if not _PUD_TAGGER:
-        with open(_PUD_PATH, "rb") as fh:
-            _PUD_TAGGER = pickle.load(fh)
+        _PUD_TAGGER = PerceptronTagger(path=_PUD_PATH)
     return _PUD_TAGGER
 
 
 def _lst20_tagger():
     global _LST20_TAGGER
     if not _LST20_TAGGER:
-        path = get_corpus_path(_LST20_TAGGER_NAME)
-        with open(path, "rb") as fh:
-            _LST20_TAGGER = pickle.load(fh)
+        _LST20_TAGGER = PerceptronTagger(path=_LST20_TAGGERD_PATH)
     return _LST20_TAGGER
 
 

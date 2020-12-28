@@ -19,8 +19,16 @@ Modules
 .. autofunction:: thai_words
 .. autofunction:: thai_syllables
 .. autofunction:: thai_negations
+.. autofunction:: thai_family_names
 .. autofunction:: thai_female_names
 .. autofunction:: thai_male_names
+
+ConceptNet
+----------
+
+ConceptNet is an open, multilingual knowledge graph
+See: https://github.com/commonsense/conceptnet5/wiki/API
+
 .. autofunction:: pythainlp.corpus.conceptnet.edges
 
 TNC
@@ -33,7 +41,14 @@ TTC
 
 .. autofunction:: pythainlp.corpus.ttc.word_freqs
 
-Wordnet
+Util
+----
+
+.. autofunction:: pythainlp.corpus.util.find_badwords
+.. autofunction:: pythainlp.corpus.util.revise_wordset
+.. autofunction:: pythainlp.corpus.util.revise_newmm_default_wordset
+
+WordNet
 -------
 
 PyThaiNLP API is an exact copy of NLTK WordNet API.

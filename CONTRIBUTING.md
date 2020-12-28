@@ -5,6 +5,7 @@ Hi! Thanks for your interest in contributing to [PyThaiNLP](https://github.com/P
 
 ## Issue Report and Discussion
 
+- Discussion: https://github.com/PyThaiNLP/pythainlp/discussions
 - GitHub issues (problems and suggestions): https://github.com/PyThaiNLP/pythainlp/issues
 - Facebook group (not specific to PyThaiNLP, can be Thai NLP discussion in general): https://www.facebook.com/groups/thainlp
 
@@ -103,7 +104,7 @@ Make sure the same tests pass on Travis CI and AppVeyor.
   #current_version = 2.2.3
 
   bumpversion patch
-  #current_version = 2.2.4-dev0
+  #current_version = 2.2.6-dev0
 
   bumpversion minor
   #current_version = 2.3.0-dev0

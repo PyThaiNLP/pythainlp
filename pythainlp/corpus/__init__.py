@@ -18,6 +18,7 @@ __all__ = [
     "get_corpus_path",
     "provinces",
     "remove",
+    "thai_family_names",
     "thai_female_names",
     "thai_male_names",
     "thai_negations",
@@ -27,9 +28,9 @@ __all__ = [
 ]
 
 import os
-from tinydb import TinyDB
 
 from pythainlp.tools import get_full_data_path, get_pythainlp_path
+from tinydb import TinyDB
 
 # Remote and local corpus databases
 
@@ -38,9 +39,7 @@ _CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
 
 # remote corpus catalog URL
 _CORPUS_DB_URL = (
-    "https://raw.githubusercontent.com/"
-    "PyThaiNLP/pythainlp-corpus/"
-    "2.2/db.json"
+    "https://pythainlp.github.io/pythainlp-corpus/db.json"
 )
 
 # local corpus catalog filename
@@ -86,6 +85,7 @@ from pythainlp.corpus.core import (
 from pythainlp.corpus.common import (
     countries,
     provinces,
+    thai_family_names,
     thai_female_names,
     thai_male_names,
     thai_negations,

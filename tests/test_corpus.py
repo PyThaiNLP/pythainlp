@@ -12,6 +12,7 @@ from pythainlp.corpus import (
     get_corpus_path,
     provinces,
     remove,
+    thai_family_names,
     thai_female_names,
     thai_male_names,
     thai_negations,
@@ -22,6 +23,7 @@ from pythainlp.corpus import (
     ttc,
     wordnet,
 )
+from pythainlp.corpus.util import revise_newmm_default_wordset
 from requests import Response
 
 
@@ -41,6 +43,8 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertEqual(
             len(provinces(details=False)), len(provinces(details=True))
         )
+        self.assertIsInstance(thai_family_names(), frozenset)
+        self.assertIsInstance(list(thai_family_names())[0], str)
         self.assertIsInstance(thai_female_names(), frozenset)
         self.assertIsInstance(thai_male_names(), frozenset)
 
@@ -52,6 +56,9 @@ class TestCorpusPackage(unittest.TestCase):
 
         self.assertEqual(
             get_corpus_db_detail("XXXmx3KSXX"), {}
+        )  # corpus does not exist
+        self.assertEqual(
+            get_corpus_db_detail("XXXmx3KSXX", version="0.2"), {}
         )  # corpus does not exist
 
         self.assertTrue(download("test"))  # download the first time
@@ -68,7 +75,27 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertTrue(remove("test"))  # remove existing
         self.assertFalse(remove("test"))  # remove non-existing
         self.assertIsNone(get_corpus_path("XXXkdjfBzc"))  # query non-existing
-        self.assertTrue(download(name="test", version="0.1"))
+        self.assertFalse(download(name="test", version="0.0"))
+        self.assertFalse(download(name="test", version="0.0.0"))
+        self.assertFalse(download(name="test", version="0.0.1"))
+        self.assertFalse(download(name="test", version="0.0.2"))
+        self.assertFalse(download(name="test", version="0.0.3"))
+        self.assertFalse(download(name="test", version="0.0.4"))
+        self.assertTrue(download(name="test", version="0.0.5"))
+        self.assertTrue(remove("test"))  # remove existing
+        self.assertIsNotNone(download(name="test", version="0.0.6"))
+        self.assertIsNotNone(download(name="test", version="0.0.7"))
+        self.assertIsNotNone(download(name="test", version="0.0.8"))
+        self.assertIsNotNone(download(name="test", version="0.0.9"))
+        self.assertIsNotNone(download(name="test", version="0.0.10"))
+        with self.assertRaises(Exception) as context:
+            self.assertIsNotNone(download(name="test", version="0.0.11"))
+        self.assertTrue(
+            "Hash does not match expected."
+            in
+            str(context.exception)
+        )
+        self.assertIsNotNone(download(name="test", version="0.1"))
         self.assertTrue(remove("test"))
 
     def test_tnc(self):
@@ -107,3 +134,13 @@ class TestCorpusPackage(unittest.TestCase):
 
         cat_key = wordnet.synsets("แมว")[0].lemmas()[0].key()
         self.assertIsNotNone(wordnet.lemma_from_key(cat_key))
+
+    def test_revise_wordset(self):
+        training_data = [
+            ["ถวิล อุดล", " ", "เป็น", "นักการเมือง", "หนึ่ง", "ใน"],
+            ["สี่เสืออีสาน", " ", "ซึ่ง", "ประกอบ", "ด้วย", "ตัว", "นายถวิล"],
+            ["เอง", " ", "นายทองอินทร์ ภูริพัฒน์", " ", "นายเตียง ศิริขันธ์"],
+            [" ", "และ", "นายจำลอง ดาวเรือง", " ", "และ", "เป็น", "รัฐมนตรี"],
+            ["ที่", "ถูก", "สังหาร", "เมื่อ", "ปี", " ", "พ.ศ.", " ", "2492"],
+        ]
+        self.assertIsInstance(revise_newmm_default_wordset(training_data), set)

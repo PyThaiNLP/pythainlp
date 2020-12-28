@@ -18,7 +18,6 @@ negations_th.txt | Negation word list
 stopwords_th.txt | Stop word list
 syllables_th.txt | List of Thai syllables
 thailand_provinces_th.csv | List of Thailand provinces in Thai
-thailand_provinces_th.txt | List of Thailand provinces in Thai
 tnc_freq.txt | Words and their frequencies, from Thai National Corpus
 ttc_freq.txt | Words and their frequencies, from Thai Textbook Corpus
 words_th.txt | List of Thai words
@@ -46,9 +45,11 @@ https://creativecommons.org/licenses/by/4.0/
 
 Filename | Description
 ---------|------------
-sentenceseg_crfcut.model | Sentence segmentation model
-pos_ud_perceptron.pkl | Part-of-speech tagging model
-pos_ud_unigram.json | Part-of-speech tagging model
+pos_orchid_perceptron.pkl | Part-of-speech tagging model, trained from ORCHID data, using perceptron
+pos_orchid_unigram.json | Part-of-speech tagging model, trained from ORCHID data, using unigram
+pos_ud_perceptron.pkl | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using perceptron
+pos_ud_unigram.json | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using unigram
+sentenceseg_crfcut.model | Sentence segmentation model, trained from TED subtitles, using CRF
 
 
 ## Thai WordNet

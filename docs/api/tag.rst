@@ -40,18 +40,18 @@ Abbreviation   Part-of-Speech tag                                     Examples
  NLBL          Label noun                                             1, 2, 3, 4, ก, ข, a, b
  NCMN          Common noun                                            หนังสือ, อาหาร, อาคาร, คน
  NTTL          Title noun                                             ครู, พลเอก
- PPRS          Personal pronoun                                       คุณ, เขา, ฉัน
- PDMN          Demonstrative pronoun                                  นี่, นั้น, ที่นั่น, ที่นี่
+ PPRS          Personal pronoun                                       คุณ, เขา, ฉัน
+ PDMN          Demonstrative pronoun                                  นี่, นั้น, ที่นั่น, ที่นี่
  PNTR          Interrogative pronoun                                  ใคร, อะไร, อย่างไร
- PREL          Relative pronoun                                       ที่, ซึ่ง, อัน, ผู้
- VACT          Active verb Îµµ,                                       ทำงาน, ร้องเพลง, กิน
+ PREL          Relative pronoun                                       ที่, ซึ่ง, อัน, ผู้
+ VACT          Active verb                                            ทำงาน, ร้องเพลง, กิน
  VSTA          Stative verb                                           เห็น, รู้, คือ
  VATT          Attributive verb                                       อ้วน, ดี, สวย
  XVBM          Pre-verb auxiliary, before negator "ไม่"                เกิด, เกือบ, กำลัง
  XVAM          Pre-verb auxiliary, after negator "ไม่"                 ค่อย, น่า, ได้
  XVMM          Pre-verb, before or after negator "ไม่"                 ควร, เคย, ต้อง
  XVBB          Pre-verb auxiliary, in imperative mood                 กรุณา, จง, เชิญ, อย่า, ห้าม
- XVAE          Post-verb auxiliary Å                                  ไป, มา, ขึ้น
+ XVAE          Post-verb auxiliary                                    ไป, มา, ขึ้น
  DDAN          | Definite determiner, after noun without              ยี่, นั่น, โน่น, ทั้งหมด
                | classifier in between
  DDAC          | Definite determiner, allowing classifier             นี้, นั้น, โน้น, นู้น
@@ -76,12 +76,12 @@ Abbreviation   Part-of-Speech tag                                     Examples
  CLTV          Collective classifier                                  | คู่, กลุ่ม, ฝูง, เชิง, ทาง,
                                                                       | ด้าน, แบบ, รุ่น
  CMTR          Measurement classifier                                 กิโลกรัม, แก้ว, ชั่วโมง
- CFQC          Frequency classifier                                   ครั้ง, เที่ยว
+ CFQC          Frequency classifier                                   ครั้ง, เที่ยว
  CVBL          Verbal classifier                                      ม้วน, มัด
  JCRG          Coordinating conjunction                               และ, หรือ, แต่
- JCMP          Comparative conjunction                                กว่า, เหมือนกับ, เท่ากับ
+ JCMP          Comparative conjunction                                กว่า, เหมือนกับ, เท่ากับ
  JSBR          Subordinating conjunction                              เพราะว่า, เนื่องจาก ที่, แม้ว่า, ถ้า
- RPRE          Preposition                                            จาก, ละ, ของ, ใต้, บน
+ RPRE          Preposition                                            จาก, ละ, ของ, ใต้, บน
  INT           Interjection                                           โอ้บ, โอ้, เออ, เอ๋, อ๋อ
  FIXN          Nominal prefix                                         **การ**\ ทำงาน, **ความ**\ สนุนสนาน
  FIXV          Adverbial prefix                                       **อย่าง**\ เร็ว
@@ -155,7 +155,6 @@ FIXN                PART
 FIXV                PART
 EAFF                PART
 EITT                PART
-AITT                PART
 NEG                 PART
 PUNCT               PUNCT
 PUNC                PUNCT
@@ -250,9 +249,9 @@ Unigram tagger doesn't take the ordering of words in the list into account.
 References
 ----------
 
-.. [#Sornlertlamvanich_2000] Takahashi, Naoto & Isahara, Hitoshi & Sornlertlamvanich, Virach. (2000).
-            Building a Thai part-of-speech tagged corpus (ORCHID).
-            Journal of the Acoustical Society of Japan (E). 20. 10.1250/ast.20.189.
+.. [#Sornlertlamvanich_2000] Virach Sornlertlamvanich, Naoto Takahashi and Hitoshi Isahara. (2000).
+            Building a Thai Part-Of-Speech Tagged Corpus (ORCHID).
+            The Journal of the Acoustical Society of Japan (E), Vol.20, No.3, pp 189-198, May 1999.
 .. [#Prachya_2020] Prachya Boonkwan and Vorapon Luantangsrisuk and Sitthaa Phaholphinyo and Kanyanat Kriengket and Dhanon Leenoi and Charun Phrombut and Monthika Boriboon and Krit Kosawat and Thepchai Supnithi. (2020).
             The Annotation Guideline of LST20 Corpus.
             arXiv:2008.05055

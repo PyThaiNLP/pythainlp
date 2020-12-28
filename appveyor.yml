@@ -81,7 +81,7 @@ matrix:
 
 cache:
   - "%LOCALAPPDATA%/pip/Cache"
-  - "%APPDATA%/nltk_data"
+#  - "%APPDATA%/nltk_data"
 #  - "%LOCALAPPDATA%/pythainlp-data"
 
 install:

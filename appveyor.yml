@@ -11,6 +11,8 @@
 
 image: Visual Studio 2019
 
+skip_branch_with_pr: true
+
 # scripts that are called at very beginning, before repo cloning
 init:
   # If there is a newer build queued for the same PR, cancel this one.

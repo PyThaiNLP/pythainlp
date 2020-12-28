@@ -2,8 +2,8 @@
 #      general configuration      #
 #---------------------------------#
 
-skip_commits:
-  message: /[skip ci]/  # skip if the commit message contains "(skip ci)"
+#skip_commits:
+#  message: /[skip ci]/  # skip if the commit message contains "(skip ci)"
 
 #---------------------------------#
 #    environment configuration    #

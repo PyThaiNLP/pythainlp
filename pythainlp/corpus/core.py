@@ -316,7 +316,7 @@ def download(
         local_db = TinyDB(corpus_db_path())
         query = Query()
 
-        corpus = corpus_db[name.lower()]
+        corpus = corpus_db[name]
         print("Corpus:", name)
         if version is None:
             for v in corpus["versions"]:

@@ -6,6 +6,7 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     Tokenizer,
     attacut,
+    crfcls,
     clause_tokenize,
     deepcut,
     etcc,
@@ -205,6 +206,8 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(clause_tokenize(""), [])
         self.assertIsNotNone(clause_tokenize(["ฉัน", "ทดสอบ"]))
         self.assertIsInstance(clause_tokenize(["ฉัน", "ทดสอบ"]), list)
+        self.assertIsNotNone(crfcls.segment(["ฉัน", "ทดสอบ"]))
+        self.assertIsInstance(crfcls.segment(["ฉัน", "ทดสอบ"]), list)
 
     def test_sent_tokenize(self):
         self.assertEqual(sent_tokenize(None), [])

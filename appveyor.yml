@@ -32,9 +32,9 @@ init:
   - "ECHO Python %PYTHON_VERSION% (%PYTHON_ARCH%bit) from %PYTHON%"
   - ECHO %PYTHONIOENCODING%
   - ECHO %ICU_VERSION%
-#  - ECHO "Installed SDKs:"
-#  - ps: "ls C:/Python*"
-#  - ps: "ls \"C:/Program Files (x86)/Microsoft SDKs/Windows\""
+  - ECHO "Installed SDKs:"
+  - ps: "ls C:/Python*"
+  - ps: "ls \"C:/Program Files (x86)/Microsoft SDKs/Windows\""
 
 # fetch repository as zip archive
 # https://www.appveyor.com/docs/how-to/repository-shallow-clone/
@@ -91,7 +91,7 @@ install:
   - '"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
   - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
   - SET PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%
-#  - ECHO %PATH%
+  - ECHO %PATH%
   - python --version
   - python -m pip install --disable-pip-version-check --user --upgrade pip setuptools
   - python -m pip --version

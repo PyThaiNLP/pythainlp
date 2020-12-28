@@ -42,7 +42,7 @@ shallow_clone: true
 
 environment:
   global:
-    APPVEYOR_SAVE_CACHE_ON_ERROR: true
+    APPVEYOR_SAVE_CACHE_ON_ERROR: false
     APPVEYOR_SKIP_FINALIZE_ON_EXIT: true
     CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\appveyor\\run_with_env.cmd"
     PYTHONIOENCODING: "utf-8"
@@ -123,20 +123,20 @@ test_script:
 #        global handlers          #
 #---------------------------------#
 
-on_success:
-  # Remove old or huge cache files to hopefully not exceed the 1GB cache limit.
-  #
-  # If the cache limit is reached, the cache will not be updated (of not even
-  # created in the first run). So this is a trade of between keeping the cache
-  # current and having a cache at all.
-  # NB: This is done only `on_success` since the cache in uploaded only on
-  # success anyway.
-  # Note: Cygwin is not available on Visual Studio 2019, can try Msys2.
-  - "ECHO Remove old or huge cache"
-  - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -type f -mtime +360 -delete
-  - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -type f -size +50M -delete
-  - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -empty -delete
-  # Show size of cache
-  - C:\cygwin\bin\du -hs "%LOCALAPPDATA%/pip/Cache"
-  - C:\cygwin\bin\du -hs "%APPDATA%/nltk_data"
-  - C:\cygwin\bin\du -hs "%LOCALAPPDATA%/pythainlp-data"
+#on_success:
+#  # Remove old or huge cache files to hopefully not exceed the 1GB cache limit.
+#  #
+#  # If the cache limit is reached, the cache will not be updated (of not even
+#  # created in the first run). So this is a trade of between keeping the cache
+#  # current and having a cache at all.
+#  # NB: This is done only `on_success` since the cache in uploaded only on
+#  # success anyway.
+#  # Note: Cygwin is not available on Visual Studio 2019, can try Msys2.
+#  - "ECHO Remove old or huge cache"
+#  - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -type f -mtime +360 -delete
+#  - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -type f -size +50M -delete
+#  - C:\cygwin\bin\find "%LOCALAPPDATA%/pip" -empty -delete
+#  # Show size of cache
+#  - C:\cygwin\bin\du -hs "%LOCALAPPDATA%/pip/Cache"
+#  - C:\cygwin\bin\du -hs "%APPDATA%/nltk_data"
+#  - C:\cygwin\bin\du -hs "%LOCALAPPDATA%/pythainlp-data"

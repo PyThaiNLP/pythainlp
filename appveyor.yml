@@ -2,14 +2,14 @@
 #      general configuration      #
 #---------------------------------#
 
-#skip_commits:
-#  message: /[skip ci]/  # skip if the commit message contains "(skip ci)"
+skip_commits:
+  message: /[skip ci]/  # skip if the commit message contains "(skip ci)"
 
 #---------------------------------#
 #    environment configuration    #
 #---------------------------------#
 
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 # scripts that are called at very beginning, before repo cloning
 init:
@@ -66,15 +66,15 @@ environment:
   #    PYTHON_ARCH: "32"
   #    PYICU_PKG: "https://www.dropbox.com/s/3xwdnwhdcu619x4/PyICU-2.3.1-cp37-cp37m-win32.whl?dl=1"
 
-    - PYTHON: "C:/Python37-x64"
-      PYTHON_VERSION: "3.7"
-      PYTHON_ARCH: "64"
-      PYICU_PKG: "https://www.dropbox.com/s/le5dckc3231opqt/PyICU-2.3.1-cp37-cp37m-win_amd64.whl?dl=1"
-
-  #  - PYTHON: "C:/Python38-x64"
-  #    PYTHON_VERSION: "3.8"
+  #  - PYTHON: "C:/Python37-x64"
+  #    PYTHON_VERSION: "3.7"
   #    PYTHON_ARCH: "64"
-  #    PYICU_PKG: "https://www.dropbox.com/s/o6p2sj5z50iim1e/PyICU-2.3.1-cp38-cp38-win_amd64.whl?dl=0"
+  #    PYICU_PKG: "https://www.dropbox.com/s/le5dckc3231opqt/PyICU-2.3.1-cp37-cp37m-win_amd64.whl?dl=1"
+
+    - PYTHON: "C:/Python38-x64"
+      PYTHON_VERSION: "3.8"
+      PYTHON_ARCH: "64"
+      PYICU_PKG: "https://www.dropbox.com/s/o6p2sj5z50iim1e/PyICU-2.3.1-cp38-cp38-win_amd64.whl?dl=1"
 
 matrix:
   fast_finish: true
@@ -87,20 +87,18 @@ cache:
 install:
   - chcp 65001
 #  - '"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" %PLATFORM%'
-  - '"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
-#  - '"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
+#  - '"C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
+  - '"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" %PLATFORM%'
   - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
   - SET PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%
 #  - ECHO %PATH%
   - python --version
   - python -m pip install --disable-pip-version-check --user --upgrade pip setuptools
-  - pip --version
-  - pip install -U coveralls[yaml]
-  - pip install -U coverage
-  - pip install -U "tensorflow>=2,<3" deepcut
-  - pip install torch==1.3.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
-  - pip install %PYICU_PKG%
-  - pip install -e .[full]
+  - python -m pip --version
+  - python -m pip install -U "h5py>=2.10.0,<3" "tensorflow>=2.3.1,<3" deepcut
+  - python -m pip install torch==1.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+  - python -m pip install %PYICU_PKG%
+  - python -m pip install -e .[full]
 
 #---------------------------------#
 #       build configuration       #

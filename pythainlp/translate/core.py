@@ -97,7 +97,7 @@ class Translate:
         :param str text: input text in source language
         :param str source: source language ("en" or "th")
         :param str target: target language ("en" or "th")
-        
+
         :return: translated text in target language
         :rtype: str
         """
@@ -107,5 +107,7 @@ class Translate:
         elif source == "en" and target == "th":
             translated = self._scb_en_th_translate(text)
         else:
-            return ValueError("The combination of the arguments isn't allowed.")
+            return ValueError(
+                "The combination of the arguments isn't allowed."
+            )
         return translated

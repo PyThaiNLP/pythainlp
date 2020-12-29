@@ -132,5 +132,7 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertEqual(transliterate("คน", engine="ipa"), "kʰon")
         self.assertIsNotNone(transliterate("คน", engine="thaig2p"))
         self.assertIsNotNone(transliterate("แมว", engine="thaig2p"))
+        self.assertIsNotNone(transliterate("คน", engine="w2p"))
+        self.assertIsNotNone(transliterate("แมว", engine="w2p"))
         self.assertIsNotNone(trans_list("คน"))
         self.assertIsNotNone(xsampa_list("คน"))

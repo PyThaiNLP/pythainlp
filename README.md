@@ -151,6 +151,10 @@ or BibTeX entry:
 - Please do fork and create a pull request :)
 - For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
 
+## Who uses PyThaiNLP?
+
+You can read [INTHEWILD.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md).
+
 
 ## Licenses
 

@@ -10,6 +10,7 @@ import os
 import re
 from pythainlp.corpus import download, get_corpus_path
 
+
 class Hparams:
     batch_size = 256
     enc_maxlen = 30*2
@@ -21,7 +22,9 @@ class Hparams:
     phonemes = ["<pad>", "<unk>", "<s>", "</s>"] + list('-พจใงต้ืฮแาฐฒฤูศฅถฺฎหคสุขเึดฟำฝยลอ็ม ณิฑชฉซทรํฬฏ–ัฃวก่ปผ์ฆบี๊ธฌญะไษ๋นโภ?')
     lr = 0.001
 
+
 hp = Hparams()
+
 
 def load_vocab():
     g2idx = {g: idx for idx, g in enumerate(hp.graphemes)}
@@ -110,7 +113,8 @@ class G2P(object):
             h = self.grucell(dec, h, self.dec_w_ih, self.dec_w_hh, self.dec_b_ih, self.dec_b_hh)  # (b, h)
             logits = np.matmul(h, self.fc_w.T) + self.fc_b
             pred = logits.argmax()
-            if pred == 3: break  # 3: </s>
+            if pred == 3:
+                break
             preds.append(pred)
             dec = np.take(self.dec_emb, [pred], axis=0)
 
@@ -127,6 +131,7 @@ class G2P(object):
 
         return ''.join(pron)
 
-def transliterate(text : str) -> str:
+
+def transliterate(text: str) -> str:
     _g2p = G2P()
     return _g2p(text)

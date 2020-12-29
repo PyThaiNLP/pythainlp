@@ -128,7 +128,6 @@ def translate(text: str, source: str, target: str) -> str:
 
 class Translate:
     def __init__(self):
-        self.target = None
         self._model = None
         self._model_name = None
     def _scb_en_th_model_init(self):
@@ -137,15 +136,11 @@ class Translate:
             _download_install(self._model_name)
             self._model = TransformerModel.from_pretrained(
                 model_name_or_path=_get_translate_path(
-                    self._model_name, _TH_EN_FILE_NAME, "models",
+                    self._model_name, _EN_TH_FILE_NAME, "models",
                 ),
                 checkpoint_file="checkpoint.pt",
                 data_name_or_path=_get_translate_path(
-                    self._model_name, _TH_EN_FILE_NAME, "vocab",
-                ),
-                bpe="sentencepiece",
-                sentencepiece_model=_get_translate_path(
-                    self._model_name, _TH_EN_FILE_NAME, "bpe", "spm.th.model",
+                    self._model_name, _EN_TH_FILE_NAME, "vocab",
                 ),
             )
     def _scb_en_th_translate(self, text: str) -> str:

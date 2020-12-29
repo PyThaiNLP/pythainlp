@@ -2,9 +2,11 @@
 
 pythainlp.translate
 ===================
-The :class:`pythainlp.translate` for language translation.
+The :class:`pythainlp.translate` for machine translation.
 
 Modules
 -------
 
-.. autofunction:: translate
+.. autofunction:: download_model_all
+.. autoclass:: Translate
+   :members: translate

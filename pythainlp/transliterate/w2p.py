@@ -34,6 +34,7 @@ def load_vocab():
     idx2p = {idx: p for idx, p in enumerate(hp.phonemes)}
     return g2idx, idx2g, p2idx, idx2p  # note that g and p mean grapheme and phoneme, respectively.
 
+
 class G2P(object):
     def __init__(self):
         super().__init__()
@@ -41,7 +42,7 @@ class G2P(object):
         self.phonemes = hp.phonemes
         self.g2idx, self.idx2g, self.p2idx, self.idx2p = load_vocab()
         self.checkpoint = get_corpus_path('thai_w2p')
-        if self.checkpoint == None:
+        if self.checkpoint is None:
             download('thai_w2p')
             self.checkpoint = get_corpus_path('thai_w2p')
         self.load_variables()
@@ -126,7 +127,7 @@ class G2P(object):
         word = text
         if not any(letter in word for letter in self.graphemes):
             pron = [word]
-        else: # predict for oov
+        else:  # predict for oov
             pron = self.predict(word)
 
         return ''.join(pron)

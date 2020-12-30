@@ -68,7 +68,8 @@ def transliterate(
     :Options for engines:
         * *icu* - International Components for Unicode (ICU)
         * *ipa* - International Phonetic Alphabet (IPA) by epitran
-        * *w2t* - Thai Word-to-Phoneme converter. It's converter thai word to thai phoneme.
+        * *w2p* - Thai Word-to-Phoneme converter.
+          It's converter thai word to thai phoneme.
         * *thaig2p* - (default) Thai Grapheme to Phoneme by deep learning
           output is International Phonetic Alphabet (IPA)
           (require PyTorch)

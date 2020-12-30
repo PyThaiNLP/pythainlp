@@ -2,22 +2,20 @@
 
 import unittest
 
-from pythainlp.translate import translate
+from pythainlp.translate import EnThTranslator, ThEnTranslator
 
 
 class TestTranslatePackage(unittest.TestCase):
     def test_translate(self):
+        self.th_en_translator = ThEnTranslator()
         self.assertIsNotNone(
-            translate(
+            self.th_en_translator.translate(
                 "แมวกินปลา",
-                source="th",
-                target="en"
             )
         )
+        self.en_th_translator = EnThTranslator()
         self.assertIsNotNone(
-            translate(
+            self.en_th_translator.translate(
                 "the cat eats fish.",
-                source="en",
-                target="th"
             )
         )

@@ -19,6 +19,7 @@ from pythainlp.util import (
     dict_trie,
     display_thai_char,
     digit_to_text,
+    emoji_to_thai,
     eng_to_thai,
     find_keyword,
     is_native_thai,

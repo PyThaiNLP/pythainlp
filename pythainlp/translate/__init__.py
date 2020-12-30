@@ -3,9 +3,10 @@
 Language translation.
 """
 
-__all__ = [
-    "Translate",
-    "download_model_all"
-]
+__all__ = ["EnThTranslator", "ThEnTranslator", "download_model_all"]
 
-from pythainlp.translate.core import Translate, download_model_all
+from pythainlp.translate.core import (
+    EnThTranslator,
+    ThEnTranslator,
+    download_model_all,
+)

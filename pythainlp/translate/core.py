@@ -9,14 +9,18 @@ from pythainlp.tools import get_full_data_path, get_pythainlp_data_path
 from fairseq.models.transformer import TransformerModel
 from sacremoses import MosesTokenizer
 
-_en_tokenizer = MosesTokenizer("en")
 
+_EN_TH_MODEL_NAME = "scb_1m_en-th_moses"
 # SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0.tar.gz
-_EN_TH_FILE_NAME = (
-    "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0"
-)
+_EN_TH_FILE_NAME = "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0"
+
+_TH_EN_MODEL_NAME = "scb_1m_th-en_spm"
 # SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0.tar.gz
 _TH_EN_FILE_NAME = "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0"
+
+
+def _get_translate_path(model: str, *path: str) -> str:
+    return os.path.join(get_full_data_path(model), *path)
 
 
 def _download_install(name: str) -> None:
@@ -33,81 +37,79 @@ def _download_install(name: str) -> None:
 
 def download_model_all() -> None:
     """
-    Download Model
+    Download all translation models in advanced
     """
-    _download_install("scb_1m_th-en_spm")
-    _download_install("scb_1m_en-th_moses")
+    _download_install(_EN_TH_MODEL_NAME)
+    _download_install(_TH_EN_MODEL_NAME)
 
 
-def _get_translate_path(model: str, *path: str) -> str:
-    return os.path.join(get_full_data_path(model), *path)
-
-
-class Translate:
+class EnThTranslator:
     def __init__(self):
-        self._model = None
-        self._model_name = None
+        self._tokenizer = MosesTokenizer("en")
 
-    def _scb_en_th_model_init(self):
-        if self._model_name != "scb_1m_en-th_moses":
-            self._model_name = "scb_1m_en-th_moses"
-            _download_install(self._model_name)
-            self._model = TransformerModel.from_pretrained(
-                model_name_or_path=_get_translate_path(
-                    self._model_name, _EN_TH_FILE_NAME, "models",
-                ),
-                checkpoint_file="checkpoint.pt",
-                data_name_or_path=_get_translate_path(
-                    self._model_name, _EN_TH_FILE_NAME, "vocab",
-                ),
-            )
+        self._model_name = _EN_TH_MODEL_NAME
 
-    def _scb_en_th_translate(self, text: str) -> str:
-        self._scb_en_th_model_init()
-        tokens = " ".join(_en_tokenizer.tokenize(text))
-        translated = self._model.translate(tokens)
-        return translated.replace(' ', '').replace('▁', ' ').strip()
+        _download_install(self._model_name)
+        self._model = TransformerModel.from_pretrained(
+            model_name_or_path=_get_translate_path(
+                self._model_name,
+                _EN_TH_FILE_NAME,
+                "models",
+            ),
+            checkpoint_file="checkpoint.pt",
+            data_name_or_path=_get_translate_path(
+                self._model_name,
+                _EN_TH_FILE_NAME,
+                "vocab",
+            ),
+        )
 
-    def _scb_th_en_model_init(self):
-        if self._model_name != "scb_1m_th-en_spm":
-            self._model_name = "scb_1m_th-en_spm"
-            _download_install(self._model_name)
-            self._model = TransformerModel.from_pretrained(
-                model_name_or_path=_get_translate_path(
-                    self._model_name, _TH_EN_FILE_NAME, "models",
-                ),
-                checkpoint_file="checkpoint.pt",
-                data_name_or_path=_get_translate_path(
-                    self._model_name, _TH_EN_FILE_NAME, "vocab",
-                ),
-                bpe="sentencepiece",
-                sentencepiece_model=_get_translate_path(
-                    self._model_name, _TH_EN_FILE_NAME, "bpe", "spm.th.model",
-                ),
-            )
-
-    def _scb_th_en_translate(self, text: str) -> str:
-        self._scb_th_en_model_init()
-        return self._model.translate(text)
-
-    def translate(self, text: str, source: str, target: str) -> str:
+    def translate(self, text: str) -> str:
         """
-        Translate Language
+        Translate text from English to Thai
 
         :param str text: input text in source language
-        :param str source: source language ("en" or "th")
-        :param str target: target language ("en" or "th")
-
         :return: translated text in target language
         :rtype: str
         """
-        translated = None
-        if source == "th" and target == "en":
-            translated = self._scb_th_en_translate(text)
-        elif source == "en" and target == "th":
-            translated = self._scb_en_th_translate(text)
-        else:
-            return ValueError(
-                "The combination of the arguments isn't allowed."
-            )
-        return translated
+        tokens = " ".join(self._tokenizer.tokenize(text))
+        translated = self._model.translate(tokens)
+        return translated.replace(" ", "").replace("▁", " ").strip()
+
+
+class ThEnTranslator:
+    def __init__(self):
+        self._model_name = _TH_EN_MODEL_NAME
+
+        _download_install(self._model_name)
+        self._model = TransformerModel.from_pretrained(
+            model_name_or_path=_get_translate_path(
+                self._model_name,
+                _TH_EN_FILE_NAME,
+                "models",
+            ),
+            checkpoint_file="checkpoint.pt",
+            data_name_or_path=_get_translate_path(
+                self._model_name,
+                _TH_EN_FILE_NAME,
+                "vocab",
+            ),
+            bpe="sentencepiece",
+            sentencepiece_model=_get_translate_path(
+                self._model_name,
+                _TH_EN_FILE_NAME,
+                "bpe",
+                "spm.th.model",
+            ),
+        )
+
+    def translate(self, text: str) -> str:
+        """
+        Translate text from Thai to English
+
+        :param str text: input text in source language
+        :return: translated text in target language
+        :rtype: str
+        """
+        self._model_init()
+        return self._model.translate(text)

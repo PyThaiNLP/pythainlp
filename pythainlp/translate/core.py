@@ -111,5 +111,4 @@ class ThEnTranslator:
         :return: translated text in target language
         :rtype: str
         """
-        self._model_init()
         return self._model.translate(text)

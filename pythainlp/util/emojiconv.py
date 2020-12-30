@@ -3640,7 +3640,7 @@ _th_emoji = {
 }
 
 _emojis = sorted(_emoji_th.keys(), key=len, reverse=True)
-_delimiter =":"
+_delimiter = ":"
 
 
 def emoji_to_thai(text: str, delimiters=(_delimiter, _delimiter)) -> str:

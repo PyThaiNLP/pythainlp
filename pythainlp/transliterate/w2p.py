@@ -10,6 +10,15 @@ import os
 import re
 from pythainlp.corpus import download, get_corpus_path
 
+_graphemes = list(
+    'พจใงต้ืฮแาฐฒฤๅูศฅถฺฎหคสุขเึดฟำฝยลอ็ม' +
+    ' ณิฑชฉซทรฏฬํัฃวก่ป์ผฆบี๊ธญฌษะไ๋นโภ?'
+)
+_phonemes = list(
+    '-พจใงต้ืฮแาฐฒฤูศฅถฺฎหคสุขเึดฟำฝยลอ็ม' +
+    ' ณิฑชฉซทรํฬฏ–ัฃวก่ปผ์ฆบี๊ธฌญะไษ๋นโภ?'
+)
+
 
 class Hparams:
     batch_size = 256
@@ -18,8 +27,17 @@ class Hparams:
     num_epochs = 50*2
     hidden_units = 64*8
     emb_units = 64*4
-    graphemes = ["<pad>", "<unk>", "</s>"] + list('พจใงต้ืฮแาฐฒฤๅูศฅถฺฎหคสุขเึดฟำฝยลอ็ม ณิฑชฉซทรฏฬํัฃวก่ป์ผฆบี๊ธญฌษะไ๋นโภ?')
-    phonemes = ["<pad>", "<unk>", "<s>", "</s>"] + list('-พจใงต้ืฮแาฐฒฤูศฅถฺฎหคสุขเึดฟำฝยลอ็ม ณิฑชฉซทรํฬฏ–ัฃวก่ปผ์ฆบี๊ธฌญะไษ๋นโภ?')
+    graphemes = [
+        "<pad>",
+        "<unk>",
+        "</s>"
+    ] + _graphemes
+    phonemes = [
+        "<pad>",
+        "<unk>",
+        "<s>",
+        "</s>"
+    ] + _phonemes
     lr = 0.001
 
 
@@ -32,7 +50,8 @@ def load_vocab():
 
     p2idx = {p: idx for idx, p in enumerate(hp.phonemes)}
     idx2p = {idx: p for idx, p in enumerate(hp.phonemes)}
-    return g2idx, idx2g, p2idx, idx2p  # note that g and p mean grapheme and phoneme, respectively.
+    # note that g and p mean grapheme and phoneme, respectively.
+    return g2idx, idx2g, p2idx, idx2p
 
 
 class G2P(object):
@@ -49,19 +68,31 @@ class G2P(object):
 
     def load_variables(self):
         self.variables = np.load(self.checkpoint, allow_pickle=True)
-        self.enc_emb = self.variables.item().get("encoder.emb.weight")  # (29, 64). (len(graphemes), emb)
-        self.enc_w_ih = self.variables.item().get("encoder.rnn.weight_ih_l0")  # (3*128, 64)
-        self.enc_w_hh = self.variables.item().get("encoder.rnn.weight_hh_l0")  # (3*128, 128)
-        self.enc_b_ih = self.variables.item().get("encoder.rnn.bias_ih_l0")  # (3*128,)
-        self.enc_b_hh = self.variables.item().get("encoder.rnn.bias_hh_l0")  # (3*128,)
+        # (29, 64). (len(graphemes), emb)
+        self.enc_emb = self.variables.item().get("encoder.emb.weight")
+        # (3*128, 64)
+        self.enc_w_ih = self.variables.item().get("encoder.rnn.weight_ih_l0")
+        # (3*128, 128)
+        self.enc_w_hh = self.variables.item().get("encoder.rnn.weight_hh_l0")
+        # (3*128,)
+        self.enc_b_ih = self.variables.item().get("encoder.rnn.bias_ih_l0")
+        # (3*128,)
+        self.enc_b_hh = self.variables.item().get("encoder.rnn.bias_hh_l0")
 
-        self.dec_emb = self.variables.item().get("decoder.emb.weight")  # (74, 64). (len(phonemes), emb)
-        self.dec_w_ih = self.variables.item().get("decoder.rnn.weight_ih_l0")  # (3*128, 64)
-        self.dec_w_hh = self.variables.item().get("decoder.rnn.weight_hh_l0")  # (3*128, 128)
-        self.dec_b_ih = self.variables.item().get("decoder.rnn.bias_ih_l0")  # (3*128,)
-        self.dec_b_hh = self.variables.item().get("decoder.rnn.bias_hh_l0")  # (3*128,)
-        self.fc_w = self.variables.item().get("decoder.fc.weight")  # (74, 128)
-        self.fc_b = self.variables.item().get("decoder.fc.bias")  # (74,)
+        # (74, 64). (len(phonemes), emb)
+        self.dec_emb = self.variables.item().get("decoder.emb.weight")
+        # (3*128, 64)
+        self.dec_w_ih = self.variables.item().get("decoder.rnn.weight_ih_l0")
+        # (3*128, 128)
+        self.dec_w_hh = self.variables.item().get("decoder.rnn.weight_hh_l0")
+        # (3*128,)
+        self.dec_b_ih = self.variables.item().get("decoder.rnn.bias_ih_l0")
+        # (3*128,)
+        self.dec_b_hh = self.variables.item().get("decoder.rnn.bias_hh_l0")
+        # (74, 128)
+        self.fc_w = self.variables.item().get("decoder.fc.weight")
+        # (74,)
+        self.fc_b = self.variables.item().get("decoder.fc.bias")
 
     def sigmoid(self, x):
         return 1 / (1 + np.exp(-x))
@@ -70,8 +101,20 @@ class G2P(object):
         rzn_ih = np.matmul(x, w_ih.T) + b_ih
         rzn_hh = np.matmul(h, w_hh.T) + b_hh
 
-        rz_ih, n_ih = rzn_ih[:, :rzn_ih.shape[-1] * 2 // 3], rzn_ih[:, rzn_ih.shape[-1] * 2 // 3:]
-        rz_hh, n_hh = rzn_hh[:, :rzn_hh.shape[-1] * 2 // 3], rzn_hh[:, rzn_hh.shape[-1] * 2 // 3:]
+        rz_ih, n_ih = rzn_ih[
+            :,
+            :rzn_ih.shape[-1] * 2 // 3
+        ], rzn_ih[
+            :,
+            rzn_ih.shape[-1] * 2 // 3:
+        ]
+        rz_hh, n_hh = rzn_hh[
+            :,
+            :rzn_hh.shape[-1] * 2 // 3
+        ], rzn_hh[
+            :,
+            rzn_hh.shape[-1] * 2 // 3:
+        ]
 
         rz = self.sigmoid(rz_ih + rz_hh)
         r, z = np.split(rz, 2, -1)
@@ -101,8 +144,15 @@ class G2P(object):
     def predict(self, word: str):
         # encoder
         enc = self.encode(word)
-        enc = self.gru(enc, len(word) + 1, self.enc_w_ih, self.enc_w_hh,
-                       self.enc_b_ih, self.enc_b_hh, h0=np.zeros((1, self.enc_w_hh.shape[-1]), np.float32))
+        enc = self.gru(
+            enc,
+            len(word) + 1,
+            self.enc_w_ih,
+            self.enc_w_hh,
+            self.enc_b_ih,
+            self.enc_b_hh,
+            h0=np.zeros((1, self.enc_w_hh.shape[-1]), np.float32)
+        )
         last_hidden = enc[:, -1, :]
 
         # decoder
@@ -110,8 +160,15 @@ class G2P(object):
         h = last_hidden
 
         preds = []
-        for i in range(20):
-            h = self.grucell(dec, h, self.dec_w_ih, self.dec_w_hh, self.dec_b_ih, self.dec_b_hh)  # (b, h)
+        for _i in range(20):
+            h = self.grucell(
+                dec,
+                h,
+                self.dec_w_ih,
+                self.dec_w_hh,
+                self.dec_b_ih,
+                self.dec_b_hh
+            )  # (b, h)
             logits = np.matmul(h, self.fc_w.T) + self.fc_b
             pred = logits.argmax()
             if pred == 3:

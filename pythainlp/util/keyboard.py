@@ -103,6 +103,20 @@ TH_EN_KEYB_PAIRS = {v: k for k, v in EN_TH_KEYB_PAIRS.items()}
 EN_TH_TRANSLATE_TABLE = str.maketrans(EN_TH_KEYB_PAIRS)
 TH_EN_TRANSLATE_TABLE = str.maketrans(TH_EN_KEYB_PAIRS)
 
+TH_QWERTY = [
+  "-", "ๅ", "/", "_", "ภ", "ถ", "ุ", "ึ", "ค", "ต", "จ", "ข", "ช", 
+  "ๆ", "ไ", "ำ", "พ", "ะ", "ั", "ี", "ร", "น", "ย", "บ", "ล", "ฃ", 
+  "ฟ", "ห", "ก", "ด", "เ", "้", "่", "า", "ส", "ว", "ง", 
+  "ผ", "ป", "แ", "อ", "ิ", "ื", "ท", "ม", "ใ", "ฝ"
+]
+
+TH_SHIFT_QWERTY = [
+  "%", "+", "๑", "๒", "๓", "๔", "ู", "฿", "๕", "๖", "๗", "๘", "๙", 
+  "๐", "\"", "ฎ", "ฑ", "ธ", "ํ", "๊", "ณ", "ฯ", "ญ", "ฐ", ",", "ฅ", 
+  "ฤ", "ฆ", "ฏ", "โ", "ฌ", "็", "๋", "ษ", "ศ", "ซ", ".", 
+  "(", ")", "ฉ", "ฮ", "ฺ", "์", "?", "ฒ", "ฬ", "ฦ"
+]
+
 
 def eng_to_thai(text: str) -> str:
     """
@@ -148,3 +162,42 @@ def thai_to_eng(text: str) -> str:
         # output: 'Bank of Thailand'
     """
     return text.translate(TH_EN_TRANSLATE_TABLE)
+
+
+def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
+    """
+    Calculate euclidean distance between two Thai characters
+
+    :param str c1: first character
+    :param str c2: second character
+    :param str shift_dist: return value if they're shifted
+    :return: euclidean distance between two characters 
+    :rtype: float
+
+    :Example:
+
+        from pythainlp.util import thai_keyboard_dist
+        thai_keyboard_dist("ฟ", "ฤ")
+        # output: 0.0
+        thai_keyboard_dist("ฟ", "ห")
+        # output: 1.0
+        thai_keyboard_dist("ฟ", "ก")
+        # output: 2.0
+        thai_keyboard_dist("ฟ", "ฤ", 0.5)
+        # output: 0.5
+    """
+    def get_char_coord(ch: str, layouts = [TH_QWERTY, TH_SHIFT_QWERTY]):
+        for layout in layouts:
+            for row in layout:
+                if ch in row:
+                    r = layout.index(row)
+                    c = row.index(ch)
+                    return (r, c)
+        raise ValueError(c + " not found in given keyboard layout")
+
+    coord1 = get_char_coord(c1)
+    coord2 = get_char_coord(c2)
+    distance = ((coord1[0] - coord2[0])**2 + (coord1[1] - coord2[1])**2)**(0.5)
+    if distance == 0 and c1 != c2:
+        return shift_dist
+    return distance

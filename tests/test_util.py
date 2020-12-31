@@ -43,6 +43,7 @@ from pythainlp.util import (
     time_to_thaiword,
     thai_to_eng,
     thaiword_to_num,
+    thai_keyboard_dist,
 )
 
 
@@ -155,7 +156,15 @@ class TestUtilPackage(unittest.TestCase):
         self.assertIsNotNone(
             rank(["แมว", "คน", "แมว"], exclude_stopwords=True)
         )
-
+    
+    # ### pythainlp.util.keyboard
+    
+    def test_thai_keyboard_dist(self):
+        self.assertEqual(thai_keyboard_dist("ฟ", "ฤ"), 0.0)
+        self.assertEqual(thai_keyboard_dist("ฟ", "ห"), 1.0)
+        self.assertEqual(thai_keyboard_dist("ฟ", "ก"), 2.0)
+        self.assertEqual(thai_keyboard_dist("ฟ", "ฤ", 0.5), 0.5)
+    
     # ### pythainlp.util.date
 
     def test_date(self):

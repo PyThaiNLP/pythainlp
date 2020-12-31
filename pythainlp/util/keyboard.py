@@ -112,7 +112,7 @@ TH_QWERTY = [
 
 TH_SHIFT_QWERTY = [
   "%", "+", "๑", "๒", "๓", "๔", "ู", "฿", "๕", "๖", "๗", "๘", "๙",
-  "๐", "\"", "ฎ", "ฑ", "ธ", "ํ", "๊", "ณ", "ฯ", "ญ", "ฐ", ",", "ฅ", 
+  "๐", "\"", "ฎ", "ฑ", "ธ", "ํ", "๊", "ณ", "ฯ", "ญ", "ฐ", ",", "ฅ",
   "ฤ", "ฆ", "ฏ", "โ", "ฌ", "็", "๋", "ษ", "ศ", "ซ", ".",
   "(", ")", "ฉ", "ฮ", "ฺ", "์", "?", "ฒ", "ฬ", "ฦ"
 ]
@@ -171,7 +171,7 @@ def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
     :param str c1: first character
     :param str c2: second character
     :param str shift_dist: return value if they're shifted
-    :return: euclidean distance between two characters 
+    :return: euclidean distance between two characters
     :rtype: float
 
     :Example:

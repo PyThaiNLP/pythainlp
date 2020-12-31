@@ -55,7 +55,11 @@ from pythainlp.util.digitconv import (
     text_to_thai_digit,
     thai_digit_to_arabic_digit,
 )
-from pythainlp.util.keyboard import eng_to_thai, thai_keyboard_dist, thai_to_eng
+from pythainlp.util.keyboard import (
+    eng_to_thai,
+    thai_keyboard_dist,
+    thai_to_eng,
+)
 from pythainlp.util.keywords import find_keyword, rank
 from pythainlp.util.normalize import (
     delete_tone,

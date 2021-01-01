@@ -1825,6 +1825,7 @@ _emoji_th = {
 _th_emoji = {v: k for k, v in _emoji_th.items()}
 
 _emojis = sorted(_emoji_th.keys(), key=len, reverse=True)
+_emoji_regex = re.compile("|".join(map(re.escape, _emojis)))
 _delimiter = ":"
 
 
@@ -1852,8 +1853,7 @@ def emoji_to_thai(text: str, delimiters=(_delimiter, _delimiter)) -> str:
         # output: :ธง_ไทย: นี่คิือธงประเทศไทย
     """
 
-    emoji_regex = re.compile("|".join(map(re.escape, _emojis)))
-    return emoji_regex.sub(
+    return _emoji_regex.sub(
         lambda match: delimiters[0]
         + _emoji_th[match.group(0)]
         + delimiters[1],

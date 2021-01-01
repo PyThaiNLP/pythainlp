@@ -4,4 +4,4 @@ We'd like to keep track of who is using the package. Please send a PR with your 
 
 Currently, officially using PyThaiNLP:
 
-1. wait
+1. [Hope Data Annotations Co., Ltd.](https://hopedata.org) ([@hopedataannotations](https://github.com/hopedataannotaions))

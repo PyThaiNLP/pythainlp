@@ -242,7 +242,7 @@ def _check_version(cause: str) -> bool:
         __version = __version.split('dev')[0]
     elif 'beta' in __version:
         __version = __version.split('beta')[0]
-    v = _version2int(__version__)
+    v = _version2int(__version)
 
     if cause == "*":
         check = True

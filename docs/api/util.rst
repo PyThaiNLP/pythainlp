@@ -13,6 +13,7 @@ Modules
 .. autofunction:: dict_trie
 .. autofunction:: digit_to_text
 .. autofunction:: display_thai_char
+.. autofunction:: emoji_to_thai
 .. autofunction:: eng_to_thai
 .. autofunction:: find_keyword
 .. autofunction:: countthai

@@ -22,6 +22,19 @@ __all__ = [
     "pre_rules_th",
     "pre_rules_th_sparse",
     "process_thai",
+    "fix_html",
+    "lowercase_all",
+    "remove_space",
+    "replace_rep_after",
+    "replace_rep_nonum",
+    "replace_url",
+    "replace_wrep_post",
+    "replace_wrep_post_nonum",
+    "rm_brackets",
+    "rm_useless_newlines",
+    "rm_useless_spaces",
+    "spec_add_spaces",
+    "ungroup_emoji"
 ]
 
 from pythainlp.ulmfit.core import (
@@ -33,5 +46,20 @@ from pythainlp.ulmfit.core import (
     pre_rules_th,
     pre_rules_th_sparse,
     process_thai,
+)
+from pythainlp.ulmfit.preprocess import (
+    fix_html,
+    lowercase_all,
+    remove_space,
+    replace_rep_after,
+    replace_rep_nonum,
+    replace_url,
+    replace_wrep_post,
+    replace_wrep_post_nonum,
+    rm_brackets,
+    rm_useless_newlines,
+    rm_useless_spaces,
+    spec_add_spaces,
+    ungroup_emoji,
 )
 from pythainlp.ulmfit.tokenizer import ThaiTokenizer

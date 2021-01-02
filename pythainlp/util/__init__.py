@@ -13,6 +13,7 @@ __all__ = [
     "dict_trie",
     "digit_to_text",
     "display_thai_char",
+    "emoji_to_thai",
     "eng_to_thai",
     "find_keyword",
     "is_native_thai",
@@ -60,6 +61,8 @@ from pythainlp.util.keyboard import (
     thai_keyboard_dist,
     thai_to_eng,
 )
+from pythainlp.util.emojiconv import emoji_to_thai
+from pythainlp.util.keyboard import eng_to_thai, thai_to_eng
 from pythainlp.util.keywords import find_keyword, rank
 from pythainlp.util.normalize import (
     delete_tone,

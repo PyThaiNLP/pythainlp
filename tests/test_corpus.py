@@ -82,7 +82,7 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertFalse(download(name="test", version="0.0.3"))
         self.assertFalse(download(name="test", version="0.0.4"))
         self.assertIsNotNone(download(name="test", version="0.0.5"))
-        self.assertTrue(download("test")) 
+        self.assertTrue(download("test"))
         self.assertIsNotNone(remove("test"))  # remove existing
         self.assertIsNotNone(download(name="test", version="0.0.6"))
         self.assertIsNotNone(download(name="test", version="0.0.7"))

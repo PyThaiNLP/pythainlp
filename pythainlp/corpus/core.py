@@ -237,6 +237,11 @@ def _version2int(v: str) -> int:
 def _check_version(cause: str) -> bool:
     temp = cause
     check = False
+    __version = __version__
+    if 'dev' in __version:
+        __version = __version.split('dev')[0]
+    elif 'beta' in __version:
+        __version = __version.split('beta')[0]
     v = _version2int(__version__)
 
     if cause == "*":

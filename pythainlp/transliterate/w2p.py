@@ -141,7 +141,17 @@ class G2P(object):
 
         return x
 
+    def short_word(self, word: str):
+        self.word = word
+        if self.word.endswith('.'):
+            self.word = self.word.replace('.', '')
+            self.word = '-'.join([_j+"อ" for _j in list(self.word)])
+            return self.word
+
     def predict(self, word: str):
+        _short_word = self.short_word(word)
+        if _short_word != None:
+            return _short_word
         # encoder
         enc = self.encode(word)
         enc = self.gru(

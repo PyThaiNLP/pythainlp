@@ -81,7 +81,7 @@ setup(
     author="PyThaiNLP",
     author_email="wannaphong@kkumail.com",
     url="https://github.com/PyThaiNLP/pythainlp",
-    packages=find_packages(),
+    packages=find_packages(exclude=["tests", "tests.*"]),
     test_suite="tests",
     python_requires=">=3.6",
     package_data={

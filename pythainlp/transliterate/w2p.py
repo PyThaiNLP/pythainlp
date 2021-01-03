@@ -54,7 +54,7 @@ def load_vocab():
     return g2idx, idx2g, p2idx, idx2p
 
 
-class G2P(object):
+class Thai_W2P(object):
     def __init__(self):
         super().__init__()
         self.graphemes = hp.graphemes
@@ -145,12 +145,12 @@ class G2P(object):
         self.word = word
         if self.word.endswith('.'):
             self.word = self.word.replace('.', '')
-            self.word = '-'.join([_j+"อ" for _j in list(self.word)])
+            self.word = '-'.join([_j + "อ" for _j in list(self.word)])
             return self.word
 
-    def predict(self, word: str):
+    def predict(self, word: str) -> str:
         _short_word = self.short_word(word)
-        if _short_word != None:
+        if _short_word is not None:
             return _short_word
         # encoder
         enc = self.encode(word)
@@ -189,9 +189,7 @@ class G2P(object):
         preds = [self.idx2p.get(idx, "<unk>") for idx in preds]
         return preds
 
-    def __call__(self, text: str):
-        # tokenization
-        word = text
+    def __call__(self, word: str) -> str:
         if not any(letter in word for letter in self.graphemes):
             pron = [word]
         else:  # predict for oov
@@ -201,5 +199,5 @@ class G2P(object):
 
 
 def transliterate(text: str) -> str:
-    _g2p = G2P()
+    _g2p = Thai_W2P()
     return _g2p(text)

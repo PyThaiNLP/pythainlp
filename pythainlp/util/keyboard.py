@@ -103,18 +103,17 @@ TH_EN_KEYB_PAIRS = {v: k for k, v in EN_TH_KEYB_PAIRS.items()}
 EN_TH_TRANSLATE_TABLE = str.maketrans(EN_TH_KEYB_PAIRS)
 TH_EN_TRANSLATE_TABLE = str.maketrans(TH_EN_KEYB_PAIRS)
 
-TIS_820_2538 = [
-  "_", "ๅ", "/", "-", "ภ", "ถ", "ุ", "ึ", "ค", "ต", "จ", "ข", "ช",
-  "ๆ", "ไ", "ำ", "พ", "ะ", "ั", "ี", "ร", "น", "ย", "บ", "ล", "ฃ",
-  "ฟ", "ห", "ก", "ด", "เ", "้", "่", "า", "ส", "ว", "ง",
-  "ผ", "ป", "แ", "อ", "ิ", "ื", "ท", "ม", "ใ", "ฝ"
+TIS_820_2531_MOD = [
+  ["-", "ๅ", "/", "", "_", "ภ", "ถ", "ุ", "ึ", "ค", "ต", "จ", "ข", "ช",],
+  ["ๆ", "ไ", "ำ", "พ", "ะ", "ั", "ี", "ร", "น", "ย", "บ", "ล", "ฃ",],
+  ["ฟ", "ห", "ก", "ด", "เ", "้", "่", "า", "ส", "ว", "ง",],
+  ["ผ", "ป", "แ", "อ", "ิ", "ื", "ท", "ม", "ใ", "ฝ",],
 ]
-
-TIS_820_2538_SHIFT = [
-  "%", "+", "๑", "๒", "๓", "๔", "ู", "฿", "๕", "๖", "๗", "๘", "๙",
-  "๐", "\"", "ฎ", "ฑ", "ธ", "ํ", "๊", "ณ", "ฯ", "ญ", "ฐ", ",", "ฅ",
-  "ฤ", "ฆ", "ฏ", "โ", "ฌ", "็", "๋", "ษ", "ศ", "ซ", ".",
-  "(", ")", "ฉ", "ฮ", "ฺ", "์", "?", "ฒ", "ฬ", "ฦ"
+TIS_820_2531_MOD_SHIFT = [
+  ["%", "+", "๑", "๒", "๓", "๔", "ู", "฿", "๕", "๖", "๗", "๘", "๙",],
+  ["๐", "\"", "ฎ", "ฑ", "ธ", "ํ", "๊", "ณ", "ฯ", "ญ", "ฐ", ",", "ฅ",],
+  ["ฤ", "ฆ", "ฏ", "โ", "ฌ", "็", "๋", "ษ", "ศ", "ซ", ".",],
+  ["(", ")", "ฉ", "ฮ", "ฺ", "์", "?", "ฒ", "ฬ", "ฦ"],
 ]
 
 
@@ -167,6 +166,21 @@ def thai_to_eng(text: str) -> str:
 def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
     """
     Calculate euclidean distance between two Thai characters
+    according to their location on a keyboard layout.
+
+    A modified TIS 820-2531 standard keyboard layout, which is a development
+    from Kedmanee layout, is used in distance calculation
+
+    The most widespread Thai keyboard layout is a keyboard layout using
+    TIS 820-2531 layout with key extensions proposed in TIS 820-2536 Draft.
+    See Figure 4 in
+    https://www.nectec.or.th/it-standards/keyboard_layout/thai-key.html
+
+    Please be noted that the latest TIS 820-2538 standard has slight
+    changes in layout (notice the Thai Baht sign) and difference in shift
+    position (notice ฅ and ฃ pair).
+    See Figure 2 in
+    https://www.nectec.or.th/it-standards/std820/std820.html
 
     :param str c1: first character
     :param str c2: second character
@@ -186,18 +200,22 @@ def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
         thai_keyboard_dist("ฟ", "ฤ", 0.5)
         # output: 0.5
     """
-    def get_char_coord(ch: str, layouts=[TIS_820_2538, TIS_820_2538_SHIFT]):
+    def get_char_coord(
+        ch: str, layouts=[TIS_820_2531_MOD, TIS_820_2531_MOD_SHIFT]
+    ):
         for layout in layouts:
             for row in layout:
                 if ch in row:
                     r = layout.index(row)
                     c = row.index(ch)
                     return (r, c)
-        raise ValueError(c + " not found in given keyboard layout")
+        raise ValueError(ch + " not found in given keyboard layout")
 
     coord1 = get_char_coord(c1)
     coord2 = get_char_coord(c2)
-    distance = ((coord1[0] - coord2[0])**2 + (coord1[1] - coord2[1])**2)**(0.5)
+    distance = (
+        (coord1[0] - coord2[0]) ** 2 + (coord1[1] - coord2[1]) ** 2
+    ) ** (0.5)
     if distance == 0 and c1 != c2:
         return shift_dist
     return distance

@@ -166,21 +166,21 @@ def thai_to_eng(text: str) -> str:
 def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
     """
     Calculate euclidean distance between two Thai characters
-    according to their location on a keyboard layout.
+    according to their location on a Thai keyboard layout.
 
-    A modified TIS 820-2531 standard keyboard layout, which is a development
-    from Kedmanee layout, is used in distance calculation
+    A modified TIS 820-2531 standard keyboard layout, which is developed
+    from Kedmanee layout and is the most commonly used Thai keyboard layout,
+    is used in distance calculation.
 
-    The most widespread Thai keyboard layout is a keyboard layout using
-    TIS 820-2531 layout with key extensions proposed in TIS 820-2536 Draft.
-    See Figure 4 in
+    The modified TIS 820-2531 is TIS 820-2531 with few key extensions
+    proposed in TIS 820-2536 draft. See Figure 4, notice grey keys, in
     https://www.nectec.or.th/it-standards/keyboard_layout/thai-key.html
 
-    Please be noted that the latest TIS 820-2538 standard has slight
-    changes in layout (notice the Thai Baht sign) and difference in shift
-    position (notice ฅ and ฃ pair).
-    See Figure 2 in
+    Noted that the latest TIS 820-2538 has slight changes in layout from
+    TIS 820-2531. See Figure 2, notice the Thai Baht sign and ฅ-ฃ pair, in
     https://www.nectec.or.th/it-standards/std820/std820.html
+    Since TIS 820-2538 is not widely adopted by keyboard manufacturer,
+    this function uses the de facto standard modified TIS 820-2531 instead.
 
     :param str c1: first character
     :param str c2: second character
@@ -191,6 +191,8 @@ def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
     :Example:
 
         from pythainlp.util import thai_keyboard_dist
+        thai_keyboard_dist("ด", "ะ")
+        # 1.4142135623730951
         thai_keyboard_dist("ฟ", "ฤ")
         # output: 0.0
         thai_keyboard_dist("ฟ", "ห")

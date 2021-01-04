@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Correct text in one language that is incorrectly-typed
-with a keyboard layout in another language.
+Functions related to keyboard layout.
 """
+
 EN_TH_KEYB_PAIRS = {
     "Z": "(",
     "z": "ผ",
@@ -192,7 +192,7 @@ def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
 
         from pythainlp.util import thai_keyboard_dist
         thai_keyboard_dist("ด", "ะ")
-        # 1.4142135623730951
+        # output: 1.4142135623730951
         thai_keyboard_dist("ฟ", "ฤ")
         # output: 0.0
         thai_keyboard_dist("ฟ", "ห")

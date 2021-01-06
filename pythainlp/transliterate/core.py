@@ -72,7 +72,6 @@ def transliterate(
         * *thaig2p* - (default) Thai Grapheme-to-Phoneme
           output is International Phonetic Alphabet (IPA)
           (require PyTorch)
-        * *w2p* - Thai Word-to-Phoneme, output is Thai letter
 
     :Example:
     ::
@@ -88,9 +87,6 @@ def transliterate(
         transliterate("สามารถ", engine="icu")
         # output: 's̄āmārt̄h'
 
-        transliterate("สามารถ", engine="w2p")
-        # output: 'สา-มาด'
-
         transliterate("ภาพยนตร์", engine="thaig2p")
         # output:'pʰ aː p̚ ˥˩ . pʰ a ˦˥ . j o n ˧'
 
@@ -99,9 +95,6 @@ def transliterate(
 
         transliterate("ภาพยนตร์", engine="icu")
         # output: 'p̣hāphyntr̒'
-
-        transliterate("ภาพยนตร์", engine="w2p")
-        # output: 'พาบ-พะ-ยน'
     """
 
     if not text or not isinstance(text, str):
@@ -111,8 +104,6 @@ def transliterate(
         from .pyicu import transliterate
     elif engine == "thaig2p":
         from .thaig2p import transliterate
-    elif engine == "w2p":
-        from .w2p import transliterate
     else:
         from .ipa import transliterate
 

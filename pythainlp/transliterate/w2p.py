@@ -4,17 +4,18 @@ Thai Word-to-Phoneme (Thai W2P)
 GitHub : https://github.com/wannaphong/Thai_W2P
 """
 
-import numpy as np
 import codecs
 import os
 import re
+
+import numpy as np
 from pythainlp.corpus import download, get_corpus_path
 
-_graphemes = list(
+_GRAPHEMES = list(
     "พจใงต้ืฮแาฐฒฤๅูศฅถฺฎหคสุขเึดฟำฝยลอ็ม"
     + " ณิฑชฉซทรฏฬํัฃวก่ป์ผฆบี๊ธญฌษะไ๋นโภ?"
 )
-_phonemes = list(
+_PHONEMES = list(
     "-พจใงต้ืฮแาฐฒฤูศฅถฺฎหคสุขเึดฟำฝยลอ็ม"
     + " ณิฑชฉซทรํฬฏ–ัฃวก่ปผ์ฆบี๊ธฌญะไษ๋นโภ?"
 )
@@ -27,15 +28,15 @@ class Hparams:
     num_epochs = 50 * 2
     hidden_units = 64 * 8
     emb_units = 64 * 4
-    graphemes = ["<pad>", "<unk>", "</s>"] + _graphemes
-    phonemes = ["<pad>", "<unk>", "<s>", "</s>"] + _phonemes
+    graphemes = ["<pad>", "<unk>", "</s>"] + _GRAPHEMES
+    phonemes = ["<pad>", "<unk>", "<s>", "</s>"] + _PHONEMES
     lr = 0.001
 
 
 hp = Hparams()
 
 
-def load_vocab():
+def _load_vocab():
     g2idx = {g: idx for idx, g in enumerate(hp.graphemes)}
     idx2g = {idx: g for idx, g in enumerate(hp.graphemes)}
 
@@ -50,14 +51,14 @@ class Thai_W2P(object):
         super().__init__()
         self.graphemes = hp.graphemes
         self.phonemes = hp.phonemes
-        self.g2idx, self.idx2g, self.p2idx, self.idx2p = load_vocab()
+        self.g2idx, self.idx2g, self.p2idx, self.idx2p = _load_vocab()
         self.checkpoint = get_corpus_path("thai_w2p")
         if self.checkpoint is None:
             download("thai_w2p")
             self.checkpoint = get_corpus_path("thai_w2p")
-        self.load_variables()
+        self.__load_variables()
 
-    def load_variables(self):
+    def __load_variables(self):
         self.variables = np.load(self.checkpoint, allow_pickle=True)
         # (29, 64). (len(graphemes), emb)
         self.enc_emb = self.variables.item().get("encoder.emb.weight")
@@ -85,10 +86,10 @@ class Thai_W2P(object):
         # (74,)
         self.fc_b = self.variables.item().get("decoder.fc.bias")
 
-    def sigmoid(self, x):
+    def __sigmoid(self, x):
         return 1 / (1 + np.exp(-x))
 
-    def grucell(self, x, h, w_ih, w_hh, b_ih, b_hh):
+    def __grucell(self, x, h, w_ih, w_hh, b_ih, b_hh):
         rzn_ih = np.matmul(x, w_ih.T) + b_ih
         rzn_hh = np.matmul(h, w_hh.T) + b_hh
 
@@ -101,7 +102,7 @@ class Thai_W2P(object):
             rzn_hh[:, rzn_hh.shape[-1] * 2 // 3 :],
         )
 
-        rz = self.sigmoid(rz_ih + rz_hh)
+        rz = self.__sigmoid(rz_ih + rz_hh)
         r, z = np.split(rz, 2, -1)
 
         n = np.tanh(n_ih + r * n_hh)
@@ -109,37 +110,37 @@ class Thai_W2P(object):
 
         return h
 
-    def gru(self, x, steps, w_ih, w_hh, b_ih, b_hh, h0=None):
+    def __gru(self, x, steps, w_ih, w_hh, b_ih, b_hh, h0=None):
         if h0 is None:
             h0 = np.zeros((x.shape[0], w_hh.shape[1]), np.float32)
         h = h0  # initial hidden state
         outputs = np.zeros((x.shape[0], steps, w_hh.shape[1]), np.float32)
         for t in range(steps):
-            h = self.grucell(x[:, t, :], h, w_ih, w_hh, b_ih, b_hh)  # (b, h)
+            h = self.__grucell(x[:, t, :], h, w_ih, w_hh, b_ih, b_hh)  # (b, h)
             outputs[:, t, ::] = h
         return outputs
 
-    def encode(self, word: str):
+    def __encode(self, word: str):
         chars = list(word) + ["</s>"]
         x = [self.g2idx.get(char, self.g2idx["<unk>"]) for char in chars]
         x = np.take(self.enc_emb, np.expand_dims(x, 0), axis=0)
 
         return x
 
-    def short_word(self, word: str):
+    def __short_word(self, word: str) -> str:
         self.word = word
         if self.word.endswith("."):
             self.word = self.word.replace(".", "")
             self.word = "-".join([_j + "อ" for _j in list(self.word)])
             return self.word
 
-    def predict(self, word: str) -> str:
-        _short_word = self.short_word(word)
-        if _short_word is not None:
-            return _short_word
+    def __predict(self, word: str) -> str:
+        short_word = self.__short_word(word)
+        if short_word is not None:
+            return short_word
         # encoder
-        enc = self.encode(word)
-        enc = self.gru(
+        enc = self.__encode(word)
+        enc = self.__gru(
             enc,
             len(word) + 1,
             self.enc_w_ih,
@@ -156,7 +157,7 @@ class Thai_W2P(object):
 
         preds = []
         for _i in range(20):
-            h = self.grucell(
+            h = self.__grucell(
                 dec,
                 h,
                 self.dec_w_ih,
@@ -178,7 +179,7 @@ class Thai_W2P(object):
         if not any(letter in word for letter in self.graphemes):
             pron = [word]
         else:  # predict for oov
-            pron = self.predict(word)
+            pron = self.__predict(word)
 
         return "".join(pron)
 

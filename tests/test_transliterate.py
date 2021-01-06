@@ -3,7 +3,7 @@
 import unittest
 
 import torch
-from pythainlp.transliterate import romanize, transliterate
+from pythainlp.transliterate import romanize, transliterate, pronunciate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.thai2rom import ThaiTransliterator
 

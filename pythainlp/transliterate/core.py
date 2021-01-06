@@ -2,6 +2,7 @@
 
 DEFAULT_ROMANIZE_ENGINE = "royin"
 DEFAULT_TRANSLITERATE_ENGINE = "thaig2p"
+DEFAULT_PRONUNCIATE_ENGINE = "w2p"
 
 
 def romanize(text: str, engine: str = DEFAULT_ROMANIZE_ENGINE) -> str:
@@ -116,3 +117,39 @@ def transliterate(
         from .ipa import transliterate
 
     return transliterate(text)
+
+
+def pronunciate(
+    word: str, engine: str = DEFAULT_PRONUNCIATE_ENGINE
+) -> str:
+    """
+    This function pronunciates Thai word.
+
+    :param str text: Thai text to be transliterated
+    :param str engine: 'icu', 'ipa', 'thaig2p' (default), or 'w2p'
+
+    :return: A string of phonetic alphabets indicating
+             how the input text should be pronounced.
+    :rtype: str
+
+    :Options for engines:
+        * *w2p* - Thai Word-to-Phoneme, output is Thai letter
+
+    :Example:
+    ::
+
+        from pythainlp.transliterate import pronunciate
+
+        pronunciate("สามารถ", engine="w2p")
+        # output: 'สา-มาด'
+
+        pronunciate("ภาพยนตร์", engine="w2p")
+        # output: 'พาบ-พะ-ยน'
+    """
+    if not word or not isinstance(word, str):
+        return ""
+
+    if engine == "w2p":
+        from .w2p import pronunciate
+
+    return pronunciate(word)

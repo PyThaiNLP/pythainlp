@@ -186,6 +186,6 @@ class Thai_W2P(object):
 _THAI_W2P = Thai_W2P()
 
 
-def transliterate(text: str) -> str:
+def pronunciate(text: str) -> str:
     global _THAI_W2P
     return _THAI_W2P(text)

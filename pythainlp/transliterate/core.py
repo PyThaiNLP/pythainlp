@@ -47,7 +47,7 @@ def romanize(text: str, engine: str = DEFAULT_ROMANIZE_ENGINE) -> str:
 
     if engine == "thai2rom":
         from .thai2rom import romanize
-    else:  # use default engine "royin"
+    else:  # use default engine: "royin"
         from .royin import romanize
 
     return romanize(text)
@@ -60,41 +60,40 @@ def transliterate(
     This function transliterates Thai text.
 
     :param str text: Thai text to be transliterated
-    :param str engine: 'icu', 'ipa', 'thaig2p' (default), or 'w2p'
+    :param str engine: 'icu', 'ipa', or 'thaig2p' (default)
 
     :return: A string of phonetic alphabets indicating
              how the input text should be pronounced.
     :rtype: str
 
     :Options for engines:
-        * *icu* - International Components for Unicode (ICU)
-        * *ipa* - International Phonetic Alphabet (IPA) by epitran
-        * *thaig2p* - (default) Thai Grapheme-to-Phoneme
-          output is International Phonetic Alphabet (IPA)
-          (require PyTorch)
+        * *icu* - pyicu, based on International Components for Unicode (ICU)
+        * *ipa* - epitran, output is International Phonetic Alphabet (IPA)
+        * *thaig2p* - (default) Thai Grapheme-to-Phoneme,
+          output is IPA (require PyTorch)
 
     :Example:
     ::
 
         from pythainlp.transliterate import transliterate
 
-        transliterate("สามารถ", engine="thaig2p")
-        # output: 's aː ˩˩˦ . m aː t̚ ˥˩'
+        transliterate("สามารถ", engine="icu")
+        # output: 's̄āmārt̄h'
 
         transliterate("สามารถ", engine="ipa")
         # output: 'saːmaːrot'
 
-        transliterate("สามารถ", engine="icu")
-        # output: 's̄āmārt̄h'
+        transliterate("สามารถ", engine="thaig2p")
+        # output: 's aː ˩˩˦ . m aː t̚ ˥˩'
 
-        transliterate("ภาพยนตร์", engine="thaig2p")
-        # output:'pʰ aː p̚ ˥˩ . pʰ a ˦˥ . j o n ˧'
+        transliterate("ภาพยนตร์", engine="icu")
+        # output: 'p̣hāphyntr̒'
 
         transliterate("ภาพยนตร์", engine="ipa")
         # output: 'pʰaːpjanot'
 
-        transliterate("ภาพยนตร์", engine="icu")
-        # output: 'p̣hāphyntr̒'
+        transliterate("ภาพยนตร์", engine="thaig2p")
+        # output:'pʰ aː p̚ ˥˩ . pʰ a ˦˥ . j o n ˧'
     """
 
     if not text or not isinstance(text, str):
@@ -102,17 +101,15 @@ def transliterate(
 
     if engine == "icu" or engine == "pyicu":
         from .pyicu import transliterate
-    elif engine == "thaig2p":
-        from .thaig2p import transliterate
-    else:
+    elif engine == "ipa":
         from .ipa import transliterate
+    else:  # use default engine: "thaig2p"
+        from .thaig2p import transliterate
 
     return transliterate(text)
 
 
-def pronunciate(
-    word: str, engine: str = DEFAULT_PRONUNCIATE_ENGINE
-) -> str:
+def pronunciate(word: str, engine: str = DEFAULT_PRONUNCIATE_ENGINE) -> str:
     """
     This function pronunciates Thai word.
 
@@ -140,7 +137,7 @@ def pronunciate(
     if not word or not isinstance(word, str):
         return ""
 
-    if engine == "w2p":
-        from .w2p import pronunciate
+    # if engine == "w2p":  # has only one engine
+    from .w2p import pronunciate
 
     return pronunciate(word)

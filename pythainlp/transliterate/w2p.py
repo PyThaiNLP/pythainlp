@@ -110,17 +110,19 @@ class Thai_W2P(object):
 
         return h
 
-    def _gru(self, x, steps, w_ih, w_hh, b_ih, b_hh, h0=None):
+    def _gru(self, x, steps, w_ih, w_hh, b_ih, b_hh, h0=None) -> np.ndarray:
         if h0 is None:
             h0 = np.zeros((x.shape[0], w_hh.shape[1]), np.float32)
         h = h0  # initial hidden state
+
         outputs = np.zeros((x.shape[0], steps, w_hh.shape[1]), np.float32)
         for t in range(steps):
             h = self._grucell(x[:, t, :], h, w_ih, w_hh, b_ih, b_hh)  # (b, h)
             outputs[:, t, ::] = h
+
         return outputs
 
-    def _encode(self, word: str):
+    def _encode(self, word: str) -> np.ndarray:
         chars = list(word) + ["</s>"]
         x = [self.g2idx.get(char, self.g2idx["<unk>"]) for char in chars]
         x = np.take(self.enc_emb, np.expand_dims(x, 0), axis=0)
@@ -132,7 +134,8 @@ class Thai_W2P(object):
         if self.word.endswith("."):
             self.word = self.word.replace(".", "")
             self.word = "-".join([_j + "อ" for _j in list(self.word)])
-            return self.word
+
+        return self.word
 
     def _predict(self, word: str) -> str:
         short_word = self._short_word(word)
@@ -156,7 +159,7 @@ class Thai_W2P(object):
         h = last_hidden
 
         preds = []
-        for _i in range(20):
+        for _ in range(20):
             h = self._grucell(
                 dec,
                 h,
@@ -173,6 +176,7 @@ class Thai_W2P(object):
             dec = np.take(self.dec_emb, [pred], axis=0)
 
         preds = [self.idx2p.get(idx, "<unk>") for idx in preds]
+
         return preds
 
     def __call__(self, word: str) -> str:

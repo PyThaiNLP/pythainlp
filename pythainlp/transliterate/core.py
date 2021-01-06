@@ -116,15 +116,15 @@ def pronunciate(
     """
     This function pronunciates Thai word.
 
-    :param str text: Thai text to be transliterated
-    :param str engine: 'icu', 'ipa', 'thaig2p' (default), or 'w2p'
+    :param str text: Thai text to be pronunciated
+    :param str engine: 'w2p' (default)
 
-    :return: A string of phonetic alphabets indicating
+    :return: A string of Thai letters indicating
              how the input text should be pronounced.
     :rtype: str
 
     :Options for engines:
-        * *w2p* - Thai Word-to-Phoneme, output is Thai letter
+        * *w2p* - Thai Word-to-Phoneme
 
     :Example:
     ::

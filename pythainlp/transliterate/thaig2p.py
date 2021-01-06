@@ -18,12 +18,11 @@ _MODEL_NAME = "thai-g2p"
 
 
 class ThaiG2P:
-    def __init__(self):
-        """
-        Transliteration of Thai words.
+    """
+    Latin transliteration of Thai words (romanization)
+    """
 
-        Now supports Thai to Latin (romanization)
-        """
+    def __init__(self):
         # get the model, will download if it's not available locally
         self.__model_filename = get_corpus_path(_MODEL_NAME)
 

@@ -59,7 +59,7 @@ def transliterate(
     This function transliterates Thai text.
 
     :param str text: Thai text to be transliterated
-    :param str engine: 'icu', 'ipa' (default), or 'thaig2p'
+    :param str engine: 'icu', 'ipa', 'thaig2p' (default), or 'w2p'
 
     :return: A string of phonetic alphabets indicating
              how the input text should be pronounced.
@@ -68,11 +68,10 @@ def transliterate(
     :Options for engines:
         * *icu* - International Components for Unicode (ICU)
         * *ipa* - International Phonetic Alphabet (IPA) by epitran
-        * *w2p* - Thai Word-to-Phoneme converter.
-          It's converter thai word to thai phoneme.
-        * *thaig2p* - (default) Thai Grapheme to Phoneme by deep learning
+        * *thaig2p* - (default) Thai Grapheme-to-Phoneme
           output is International Phonetic Alphabet (IPA)
           (require PyTorch)
+        * *w2p* - Thai Word-to-Phoneme, output is Thai letter
 
     :Example:
     ::

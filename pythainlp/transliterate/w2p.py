@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Thai Word-to-Phoneme
-GitHub : https://github.com/wannaphong/Thai_G2P
+Thai Word-to-Phoneme (Thai W2P)
+GitHub : https://github.com/wannaphong/Thai_W2P
 """
 
 import numpy as np
@@ -11,33 +11,24 @@ import re
 from pythainlp.corpus import download, get_corpus_path
 
 _graphemes = list(
-    'พจใงต้ืฮแาฐฒฤๅูศฅถฺฎหคสุขเึดฟำฝยลอ็ม' +
-    ' ณิฑชฉซทรฏฬํัฃวก่ป์ผฆบี๊ธญฌษะไ๋นโภ?'
+    "พจใงต้ืฮแาฐฒฤๅูศฅถฺฎหคสุขเึดฟำฝยลอ็ม"
+    + " ณิฑชฉซทรฏฬํัฃวก่ป์ผฆบี๊ธญฌษะไ๋นโภ?"
 )
 _phonemes = list(
-    '-พจใงต้ืฮแาฐฒฤูศฅถฺฎหคสุขเึดฟำฝยลอ็ม' +
-    ' ณิฑชฉซทรํฬฏ–ัฃวก่ปผ์ฆบี๊ธฌญะไษ๋นโภ?'
+    "-พจใงต้ืฮแาฐฒฤูศฅถฺฎหคสุขเึดฟำฝยลอ็ม"
+    + " ณิฑชฉซทรํฬฏ–ัฃวก่ปผ์ฆบี๊ธฌญะไษ๋นโภ?"
 )
 
 
 class Hparams:
     batch_size = 256
-    enc_maxlen = 30*2
-    dec_maxlen = 40*2
-    num_epochs = 50*2
-    hidden_units = 64*8
-    emb_units = 64*4
-    graphemes = [
-        "<pad>",
-        "<unk>",
-        "</s>"
-    ] + _graphemes
-    phonemes = [
-        "<pad>",
-        "<unk>",
-        "<s>",
-        "</s>"
-    ] + _phonemes
+    enc_maxlen = 30 * 2
+    dec_maxlen = 40 * 2
+    num_epochs = 50 * 2
+    hidden_units = 64 * 8
+    emb_units = 64 * 4
+    graphemes = ["<pad>", "<unk>", "</s>"] + _graphemes
+    phonemes = ["<pad>", "<unk>", "<s>", "</s>"] + _phonemes
     lr = 0.001
 
 
@@ -60,10 +51,10 @@ class Thai_W2P(object):
         self.graphemes = hp.graphemes
         self.phonemes = hp.phonemes
         self.g2idx, self.idx2g, self.p2idx, self.idx2p = load_vocab()
-        self.checkpoint = get_corpus_path('thai_w2p')
+        self.checkpoint = get_corpus_path("thai_w2p")
         if self.checkpoint is None:
-            download('thai_w2p')
-            self.checkpoint = get_corpus_path('thai_w2p')
+            download("thai_w2p")
+            self.checkpoint = get_corpus_path("thai_w2p")
         self.load_variables()
 
     def load_variables(self):
@@ -101,20 +92,14 @@ class Thai_W2P(object):
         rzn_ih = np.matmul(x, w_ih.T) + b_ih
         rzn_hh = np.matmul(h, w_hh.T) + b_hh
 
-        rz_ih, n_ih = rzn_ih[
-            :,
-            :rzn_ih.shape[-1] * 2 // 3
-        ], rzn_ih[
-            :,
-            rzn_ih.shape[-1] * 2 // 3:
-        ]
-        rz_hh, n_hh = rzn_hh[
-            :,
-            :rzn_hh.shape[-1] * 2 // 3
-        ], rzn_hh[
-            :,
-            rzn_hh.shape[-1] * 2 // 3:
-        ]
+        rz_ih, n_ih = (
+            rzn_ih[:, : rzn_ih.shape[-1] * 2 // 3],
+            rzn_ih[:, rzn_ih.shape[-1] * 2 // 3 :],
+        )
+        rz_hh, n_hh = (
+            rzn_hh[:, : rzn_hh.shape[-1] * 2 // 3],
+            rzn_hh[:, rzn_hh.shape[-1] * 2 // 3 :],
+        )
 
         rz = self.sigmoid(rz_ih + rz_hh)
         r, z = np.split(rz, 2, -1)
@@ -143,9 +128,9 @@ class Thai_W2P(object):
 
     def short_word(self, word: str):
         self.word = word
-        if self.word.endswith('.'):
-            self.word = self.word.replace('.', '')
-            self.word = '-'.join([_j + "อ" for _j in list(self.word)])
+        if self.word.endswith("."):
+            self.word = self.word.replace(".", "")
+            self.word = "-".join([_j + "อ" for _j in list(self.word)])
             return self.word
 
     def predict(self, word: str) -> str:
@@ -161,7 +146,7 @@ class Thai_W2P(object):
             self.enc_w_hh,
             self.enc_b_ih,
             self.enc_b_hh,
-            h0=np.zeros((1, self.enc_w_hh.shape[-1]), np.float32)
+            h0=np.zeros((1, self.enc_w_hh.shape[-1]), np.float32),
         )
         last_hidden = enc[:, -1, :]
 
@@ -177,7 +162,7 @@ class Thai_W2P(object):
                 self.dec_w_ih,
                 self.dec_w_hh,
                 self.dec_b_ih,
-                self.dec_b_hh
+                self.dec_b_hh,
             )  # (b, h)
             logits = np.matmul(h, self.fc_w.T) + self.fc_b
             pred = logits.argmax()
@@ -195,9 +180,12 @@ class Thai_W2P(object):
         else:  # predict for oov
             pron = self.predict(word)
 
-        return ''.join(pron)
+        return "".join(pron)
+
+
+_THAI_W2P = Thai_W2P()
 
 
 def transliterate(text: str) -> str:
-    _g2p = Thai_W2P()
-    return _g2p(text)
+    global _THAI_W2P
+    return _THAI_W2P(text)

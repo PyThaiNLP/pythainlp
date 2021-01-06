@@ -19,7 +19,7 @@ _MODEL_NAME = "thai-g2p"
 
 class ThaiG2P:
     """
-    Latin transliteration of Thai words (romanization)
+    Latin transliteration of Thai words, using International Phonetic Alphabet
     """
 
     def __init__(self):

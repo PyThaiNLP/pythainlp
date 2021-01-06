@@ -21,7 +21,7 @@ _PHONEMES = list(
 )
 
 
-class Hparams:
+class _Hparams:
     batch_size = 256
     enc_maxlen = 30 * 2
     dec_maxlen = 40 * 2
@@ -33,7 +33,7 @@ class Hparams:
     lr = 0.001
 
 
-hp = Hparams()
+hp = _Hparams()
 
 
 def _load_vocab():
@@ -56,9 +56,9 @@ class Thai_W2P(object):
         if self.checkpoint is None:
             download("thai_w2p")
             self.checkpoint = get_corpus_path("thai_w2p")
-        self.__load_variables()
+        self._load_variables()
 
-    def __load_variables(self):
+    def _load_variables(self):
         self.variables = np.load(self.checkpoint, allow_pickle=True)
         # (29, 64). (len(graphemes), emb)
         self.enc_emb = self.variables.item().get("encoder.emb.weight")
@@ -86,23 +86,23 @@ class Thai_W2P(object):
         # (74,)
         self.fc_b = self.variables.item().get("decoder.fc.bias")
 
-    def __sigmoid(self, x):
+    def _sigmoid(self, x):
         return 1 / (1 + np.exp(-x))
 
-    def __grucell(self, x, h, w_ih, w_hh, b_ih, b_hh):
+    def _grucell(self, x, h, w_ih, w_hh, b_ih, b_hh):
         rzn_ih = np.matmul(x, w_ih.T) + b_ih
         rzn_hh = np.matmul(h, w_hh.T) + b_hh
 
         rz_ih, n_ih = (
             rzn_ih[:, : rzn_ih.shape[-1] * 2 // 3],
-            rzn_ih[:, rzn_ih.shape[-1] * 2 // 3:],
+            rzn_ih[:, rzn_ih.shape[-1] * 2 // 3 :],
         )
         rz_hh, n_hh = (
             rzn_hh[:, : rzn_hh.shape[-1] * 2 // 3],
-            rzn_hh[:, rzn_hh.shape[-1] * 2 // 3:],
+            rzn_hh[:, rzn_hh.shape[-1] * 2 // 3 :],
         )
 
-        rz = self.__sigmoid(rz_ih + rz_hh)
+        rz = self._sigmoid(rz_ih + rz_hh)
         r, z = np.split(rz, 2, -1)
 
         n = np.tanh(n_ih + r * n_hh)
@@ -110,37 +110,37 @@ class Thai_W2P(object):
 
         return h
 
-    def __gru(self, x, steps, w_ih, w_hh, b_ih, b_hh, h0=None):
+    def _gru(self, x, steps, w_ih, w_hh, b_ih, b_hh, h0=None):
         if h0 is None:
             h0 = np.zeros((x.shape[0], w_hh.shape[1]), np.float32)
         h = h0  # initial hidden state
         outputs = np.zeros((x.shape[0], steps, w_hh.shape[1]), np.float32)
         for t in range(steps):
-            h = self.__grucell(x[:, t, :], h, w_ih, w_hh, b_ih, b_hh)  # (b, h)
+            h = self._grucell(x[:, t, :], h, w_ih, w_hh, b_ih, b_hh)  # (b, h)
             outputs[:, t, ::] = h
         return outputs
 
-    def __encode(self, word: str):
+    def _encode(self, word: str):
         chars = list(word) + ["</s>"]
         x = [self.g2idx.get(char, self.g2idx["<unk>"]) for char in chars]
         x = np.take(self.enc_emb, np.expand_dims(x, 0), axis=0)
 
         return x
 
-    def __short_word(self, word: str) -> str:
+    def _short_word(self, word: str) -> str:
         self.word = word
         if self.word.endswith("."):
             self.word = self.word.replace(".", "")
             self.word = "-".join([_j + "อ" for _j in list(self.word)])
             return self.word
 
-    def __predict(self, word: str) -> str:
-        short_word = self.__short_word(word)
+    def _predict(self, word: str) -> str:
+        short_word = self._short_word(word)
         if short_word is not None:
             return short_word
         # encoder
-        enc = self.__encode(word)
-        enc = self.__gru(
+        enc = self._encode(word)
+        enc = self._gru(
             enc,
             len(word) + 1,
             self.enc_w_ih,
@@ -157,7 +157,7 @@ class Thai_W2P(object):
 
         preds = []
         for _i in range(20):
-            h = self.__grucell(
+            h = self._grucell(
                 dec,
                 h,
                 self.dec_w_ih,
@@ -179,7 +179,7 @@ class Thai_W2P(object):
         if not any(letter in word for letter in self.graphemes):
             pron = [word]
         else:  # predict for oov
-            pron = self.__predict(word)
+            pron = self._predict(word)
 
         return "".join(pron)
 

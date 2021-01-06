@@ -7,6 +7,7 @@ GitHub : https://github.com/wannaphong/Thai_W2P
 import codecs
 import os
 import re
+from typing import Union
 
 import numpy as np
 from pythainlp.corpus import download, get_corpus_path
@@ -19,6 +20,8 @@ _PHONEMES = list(
     "-พจใงต้ืฮแาฐฒฤูศฅถฺฎหคสุขเึดฟำฝยลอ็ม"
     + " ณิฑชฉซทรํฬฏ–ัฃวก่ปผ์ฆบี๊ธฌญะไษ๋นโภ?"
 )
+
+_MODEL_NAME = "thai_w2p"
 
 
 class _Hparams:
@@ -52,10 +55,10 @@ class Thai_W2P(object):
         self.graphemes = hp.graphemes
         self.phonemes = hp.phonemes
         self.g2idx, self.idx2g, self.p2idx, self.idx2p = _load_vocab()
-        self.checkpoint = get_corpus_path("thai_w2p")
+        self.checkpoint = get_corpus_path(_MODEL_NAME)
         if self.checkpoint is None:
-            download("thai_w2p")
-            self.checkpoint = get_corpus_path("thai_w2p")
+            download(_MODEL_NAME)
+            self.checkpoint = get_corpus_path(_MODEL_NAME)
         self._load_variables()
 
     def _load_variables(self):
@@ -129,18 +132,19 @@ class Thai_W2P(object):
 
         return x
 
-    def _short_word(self, word: str) -> str:
+    def _short_word(self, word: str) -> Union[str, None]:
         self.word = word
         if self.word.endswith("."):
             self.word = self.word.replace(".", "")
-            self.word = "-".join([_j + "อ" for _j in list(self.word)])
-
-        return self.word
+            self.word = "-".join([i + "อ" for i in list(self.word)])
+            return self.word
+        return None
 
     def _predict(self, word: str) -> str:
         short_word = self._short_word(word)
         if short_word is not None:
             return short_word
+
         # encoder
         enc = self._encode(word)
         enc = self._gru(

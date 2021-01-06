@@ -132,10 +132,13 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertEqual(transliterate("คน", engine="ipa"), "kʰon")
         self.assertIsNotNone(transliterate("คน", engine="thaig2p"))
         self.assertIsNotNone(transliterate("แมว", engine="thaig2p"))
-        self.assertIsNotNone(transliterate("คน", engine="w2p"))
-        self.assertIsNotNone(transliterate("แมว", engine="w2p"))
-        self.assertIsNotNone(transliterate("มข.", engine="w2p"))
-        self.assertIsNotNone(transliterate("มช.", engine="w2p"))
-        self.assertIsNotNone(transliterate("jks", engine="w2p"))
         self.assertIsNotNone(trans_list("คน"))
         self.assertIsNotNone(xsampa_list("คน"))
+
+    def test_pronunciate(self):
+        self.assertEqual(pronunciate(""), "")
+        self.assertIsNotNone(pronunciate("คน", engine="w2p"))
+        self.assertIsNotNone(pronunciate("แมว", engine="w2p"))
+        self.assertIsNotNone(pronunciate("มข.", engine="w2p"))
+        self.assertIsNotNone(pronunciate("มช.", engine="w2p"))
+        self.assertIsNotNone(pronunciate("jks", engine="w2p"))

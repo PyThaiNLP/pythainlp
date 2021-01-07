@@ -98,11 +98,11 @@ class Thai_W2P(object):
 
         rz_ih, n_ih = (
             rzn_ih[:, : rzn_ih.shape[-1] * 2 // 3],
-            rzn_ih[:, rzn_ih.shape[-1] * 2 // 3 :],
+            rzn_ih[:, rzn_ih.shape[-1] * 2 // 3:],
         )
         rz_hh, n_hh = (
             rzn_hh[:, : rzn_hh.shape[-1] * 2 // 3],
-            rzn_hh[:, rzn_hh.shape[-1] * 2 // 3 :],
+            rzn_hh[:, rzn_hh.shape[-1] * 2 // 3:],
         )
 
         rz = self._sigmoid(rz_ih + rz_hh)
@@ -196,5 +196,10 @@ _THAI_W2P = Thai_W2P()
 
 
 def pronunciate(text: str) -> str:
+    """
+    Convert a Thai word to its pronunciation in Thai letters.
+
+    Input should be one single word.
+    """
     global _THAI_W2P
     return _THAI_W2P(text)

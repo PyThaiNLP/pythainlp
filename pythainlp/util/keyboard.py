@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Correct text in one language that is incorrectly-typed
-with a keyboard layout in another language.
+Functions related to keyboard layout.
 """
+
 EN_TH_KEYB_PAIRS = {
     "Z": "(",
     "z": "ผ",
@@ -103,6 +103,19 @@ TH_EN_KEYB_PAIRS = {v: k for k, v in EN_TH_KEYB_PAIRS.items()}
 EN_TH_TRANSLATE_TABLE = str.maketrans(EN_TH_KEYB_PAIRS)
 TH_EN_TRANSLATE_TABLE = str.maketrans(TH_EN_KEYB_PAIRS)
 
+TIS_820_2531_MOD = [
+  ["-", "ๅ", "/", "", "_", "ภ", "ถ", "ุ", "ึ", "ค", "ต", "จ", "ข", "ช"],
+  ["ๆ", "ไ", "ำ", "พ", "ะ", "ั", "ี", "ร", "น", "ย", "บ", "ล", "ฃ"],
+  ["ฟ", "ห", "ก", "ด", "เ", "้", "่", "า", "ส", "ว", "ง"],
+  ["ผ", "ป", "แ", "อ", "ิ", "ื", "ท", "ม", "ใ", "ฝ"],
+]
+TIS_820_2531_MOD_SHIFT = [
+  ["%", "+", "๑", "๒", "๓", "๔", "ู", "฿", "๕", "๖", "๗", "๘", "๙"],
+  ["๐", "\"", "ฎ", "ฑ", "ธ", "ํ", "๊", "ณ", "ฯ", "ญ", "ฐ", ",", "ฅ"],
+  ["ฤ", "ฆ", "ฏ", "โ", "ฌ", "็", "๋", "ษ", "ศ", "ซ", "."],
+  ["(", ")", "ฉ", "ฮ", "ฺ", "์", "?", "ฒ", "ฬ", "ฦ"],
+]
+
 
 def eng_to_thai(text: str) -> str:
     """
@@ -148,3 +161,63 @@ def thai_to_eng(text: str) -> str:
         # output: 'Bank of Thailand'
     """
     return text.translate(TH_EN_TRANSLATE_TABLE)
+
+
+def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
+    """
+    Calculate euclidean distance between two Thai characters
+    according to their location on a Thai keyboard layout.
+
+    A modified TIS 820-2531 standard keyboard layout, which is developed
+    from Kedmanee layout and is the most commonly used Thai keyboard layout,
+    is used in distance calculation.
+
+    The modified TIS 820-2531 is TIS 820-2531 with few key extensions
+    proposed in TIS 820-2536 draft. See Figure 4, notice grey keys, in
+    https://www.nectec.or.th/it-standards/keyboard_layout/thai-key.html
+
+    Noted that the latest TIS 820-2538 has slight changes in layout from
+    TIS 820-2531. See Figure 2, notice the Thai Baht sign and ฅ-ฃ pair, in
+    https://www.nectec.or.th/it-standards/std820/std820.html
+    Since TIS 820-2538 is not widely adopted by keyboard manufacturer,
+    this function uses the de facto standard modified TIS 820-2531 instead.
+
+    :param str c1: first character
+    :param str c2: second character
+    :param str shift_dist: return value if they're shifted
+    :return: euclidean distance between two characters
+    :rtype: float
+
+    :Example:
+
+        from pythainlp.util import thai_keyboard_dist
+        thai_keyboard_dist("ด", "ะ")
+        # output: 1.4142135623730951
+        thai_keyboard_dist("ฟ", "ฤ")
+        # output: 0.0
+        thai_keyboard_dist("ฟ", "ห")
+        # output: 1.0
+        thai_keyboard_dist("ฟ", "ก")
+        # output: 2.0
+        thai_keyboard_dist("ฟ", "ฤ", 0.5)
+        # output: 0.5
+    """
+    def get_char_coord(
+        ch: str, layouts=[TIS_820_2531_MOD, TIS_820_2531_MOD_SHIFT]
+    ):
+        for layout in layouts:
+            for row in layout:
+                if ch in row:
+                    r = layout.index(row)
+                    c = row.index(ch)
+                    return (r, c)
+        raise ValueError(ch + " not found in given keyboard layout")
+
+    coord1 = get_char_coord(c1)
+    coord2 = get_char_coord(c2)
+    distance = (
+        (coord1[0] - coord2[0]) ** 2 + (coord1[1] - coord2[1]) ** 2
+    ) ** (0.5)
+    if distance == 0 and c1 != c2:
+        return shift_dist
+    return distance

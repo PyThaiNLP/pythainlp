@@ -49,6 +49,7 @@ install:
   - sudo pip3 install -U attacut
   - sudo pip3 install -U deepcut
   - sudo pip3 install -U boto smart_open sphinx sphinx-rtd-theme
+  - sudo pip3 install -e .[full]
 
 #---------------------------------#
 #       build configuration       #

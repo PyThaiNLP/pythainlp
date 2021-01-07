@@ -13,6 +13,7 @@ __all__ = [
     "dict_trie",
     "digit_to_text",
     "display_thai_char",
+    "emoji_to_thai",
     "eng_to_thai",
     "find_keyword",
     "is_native_thai",
@@ -32,6 +33,7 @@ __all__ = [
     "text_to_arabic_digit",
     "text_to_thai_digit",
     "thai_digit_to_arabic_digit",
+    "thai_keyboard_dist",
     "thai_strftime",
     "thai_time",
     "thai_to_eng",
@@ -54,6 +56,12 @@ from pythainlp.util.digitconv import (
     text_to_thai_digit,
     thai_digit_to_arabic_digit,
 )
+from pythainlp.util.keyboard import (
+    eng_to_thai,
+    thai_keyboard_dist,
+    thai_to_eng,
+)
+from pythainlp.util.emojiconv import emoji_to_thai
 from pythainlp.util.keyboard import eng_to_thai, thai_to_eng
 from pythainlp.util.keywords import find_keyword, rank
 from pythainlp.util.normalize import (

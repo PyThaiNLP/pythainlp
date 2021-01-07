@@ -2,7 +2,7 @@
 
 pythainlp.tools
 ====================================
-The :class:`pythainlp.tools` is tool for pythainlp.
+The :class:`pythainlp.tools` contains miscellaneous functions for PyThaiNLP internal use.
 
 Modules
 -------

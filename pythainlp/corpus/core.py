@@ -237,7 +237,12 @@ def _version2int(v: str) -> int:
 def _check_version(cause: str) -> bool:
     temp = cause
     check = False
-    v = _version2int(__version__)
+    __version = __version__
+    if 'dev' in __version:
+        __version = __version.split('dev')[0]
+    elif 'beta' in __version:
+        __version = __version.split('beta')[0]
+    v = _version2int(__version)
 
     if cause == "*":
         check = True
@@ -316,7 +321,7 @@ def download(
         local_db = TinyDB(corpus_db_path())
         query = Query()
 
-        corpus = corpus_db[name.lower()]
+        corpus = corpus_db[name]
         print("Corpus:", name)
         if version is None:
             for v in corpus["versions"]:

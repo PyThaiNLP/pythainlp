@@ -149,6 +149,10 @@ Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Sur
 - กรุณา fork แล้วพัฒนาต่อ จากนั้นสร้าง pull request กลับมา :)
 - สำหรับเอกสารแนะนำและอื่น ๆ รวมถึงการอ้างอิงขั้นตอนที่เราใช้งาน สามารถเข้าไปศึกษาเพิ่มเติมได้ที่หน้า [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)
 
+## ใครใช้ PyThaiNLP?
+
+คุณสามารถอ่านได้ที่ [INTHEWILD.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md)
+
 
 ## สัญญาอนุญาต
 

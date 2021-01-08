@@ -56,7 +56,7 @@ install:
 #---------------------------------#
 
 build_script:
-  - python3 setup.py test
+  - sudo python3 setup.py test
   - cd ./docs
   - export CURRENT_BRANCH=$APPVEYOR_REPO_BRANCH
   - export RELEASE=$(git describe --tags --always)

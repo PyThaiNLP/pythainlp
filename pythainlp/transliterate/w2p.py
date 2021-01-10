@@ -200,6 +200,11 @@ def pronunciate(text: str) -> str:
     Convert a Thai word to its pronunciation in Thai letters.
 
     Input should be one single word.
+
+    :param str text: Thai text to be pronunciated
+
+    :return: A string of Thai letters indicating
+             how the input text should be pronounced.
     """
     global _THAI_W2P
     return _THAI_W2P(text)

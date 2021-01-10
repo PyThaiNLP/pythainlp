@@ -113,7 +113,7 @@ def pronunciate(word: str, engine: str = DEFAULT_PRONUNCIATE_ENGINE) -> str:
     """
     This function pronunciates Thai word.
 
-    :param str text: Thai text to be pronunciated
+    :param str word: Thai text to be pronunciated
     :param str engine: 'w2p' (default)
 
     :return: A string of Thai letters indicating

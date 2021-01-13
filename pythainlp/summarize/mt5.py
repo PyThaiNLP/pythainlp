@@ -14,8 +14,7 @@ class mT5Summarizer:
             no_repeat_ngram_size: int = 2,
             min_length: int = 30,
             max_length: int = 100,
-            skip_special_tokens: bool = True
-        ):
+            skip_special_tokens: bool = True):
         self.model = T5ForConditionalGeneration.from_pretrained('google/mt5-%s' % model_size)
         self.tokenizer = T5Tokenizer.from_pretrained('google/mt5-%s' % model_size)
         self.num_beams = num_beams
@@ -25,9 +24,12 @@ class mT5Summarizer:
         self.skip_special_tokens = skip_special_tokens
 
     def summarize(self, text: str) -> List[str]:
-        preprocess_text = text.strip().replace("\n","")
+        preprocess_text = text.strip().replace("\n", "")
         t5_prepared_Text = "summarize: "+preprocess_text
-        tokenized_text = self.tokenizer.encode(t5_prepared_Text, return_tensors="pt")
+        tokenized_text = self.tokenizer.encode(
+            t5_prepared_Text,
+            return_tensors="pt"
+        )
         summary_ids = self.model.generate(
             tokenized_text,
             num_beams=self.num_beams,
@@ -36,5 +38,8 @@ class mT5Summarizer:
             max_length=self.max_length,
             early_stopping=True
         )
-        output = self.tokenizer.decode(summary_ids[0], skip_special_tokens=self.skip_special_tokens)
+        output = self.tokenizer.decode(
+            summary_ids[0],
+            skip_special_tokens=self.skip_special_tokens
+        )
         return output

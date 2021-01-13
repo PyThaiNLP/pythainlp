@@ -74,8 +74,8 @@ def summarize(
 
     if engine == DEFAULT_SUMMARIZE_ENGINE:
         sents = FrequencySummarizer().summarize(text, n, tokenizer)
-    elif engine.startswith('mt5-') :
-        size = engine.replace('mt5-','')
+    elif engine.startswith('mt5-'):
+        size = engine.replace('mt5-', '')
         from .mt5 import mT5Summarizer
         sents = mT5Summarizer(model_size=size).summarize(text)
     elif engine == "mt5-small":

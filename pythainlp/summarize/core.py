@@ -13,7 +13,7 @@ from pythainlp.tokenize import sent_tokenize
 
 def summarize(
     text: str,
-    n: int,
+    n: int = 1,
     engine: str = DEFAULT_SUMMARIZE_ENGINE,
     tokenizer: str = "newmm",
 ) -> List[str]:
@@ -74,6 +74,13 @@ def summarize(
 
     if engine == DEFAULT_SUMMARIZE_ENGINE:
         sents = FrequencySummarizer().summarize(text, n, tokenizer)
+    elif engine.startswith('mt5-') :
+        size = engine.replace('mt5-','')
+        from .mt5 import mT5Summarizer
+        sents = mT5Summarizer(model_size=size).summarize(text)
+    elif engine == "mt5-small":
+        from .mt5 import mT5Summarizer
+        sents = mT5Summarizer().summarize(text)
     else:  # if engine not found, return first n sentences
         sents = sent_tokenize(text, engine="whitespace+newline")[:n]
 

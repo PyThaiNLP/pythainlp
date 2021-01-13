@@ -15,8 +15,12 @@ class mT5Summarizer:
             min_length: int = 30,
             max_length: int = 100,
             skip_special_tokens: bool = True):
-        self.model = T5ForConditionalGeneration.from_pretrained('google/mt5-%s' % model_size)
-        self.tokenizer = T5Tokenizer.from_pretrained('google/mt5-%s' % model_size)
+        self.model = T5ForConditionalGeneration.from_pretrained(
+            'google/mt5-%s' % model_size
+        )
+        self.tokenizer = T5Tokenizer.from_pretrained(
+            'google/mt5-%s' % model_size
+        )
         self.num_beams = num_beams
         self.no_repeat_ngram_size = no_repeat_ngram_size
         self.min_length = min_length

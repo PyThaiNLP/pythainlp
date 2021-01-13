@@ -5,8 +5,17 @@ Summarization by mT5 model
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 from typing import List
 
+
 class mT5Summarizer:
-    def __init__(self, model_size: str = "small", num_beams: int = 4, no_repeat_ngram_size: int = 2, min_length: int = 30, max_length: int = 100, skip_special_tokens: bool = True):
+    def __init__(
+            self,
+            model_size: str = "small",
+            num_beams: int = 4,
+            no_repeat_ngram_size: int = 2,
+            min_length: int = 30,
+            max_length: int = 100,
+            skip_special_tokens: bool = True
+        ):
         self.model = T5ForConditionalGeneration.from_pretrained('google/mt5-%s' % model_size)
         self.tokenizer = T5Tokenizer.from_pretrained('google/mt5-%s' % model_size)
         self.num_beams = num_beams

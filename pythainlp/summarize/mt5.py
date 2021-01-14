@@ -21,10 +21,10 @@ class mT5Summarizer:
                 It might be a typo; if not, please consult our document."""
             )
         self.model = T5ForConditionalGeneration.from_pretrained(
-            'google/mt5-%s' % model_size
+            f'google/mt5-{model_size}'
         )
         self.tokenizer = T5Tokenizer.from_pretrained(
-            'google/mt5-%s' % model_size
+            f'google/mt5-{model_size}'
         )
         self.num_beams = num_beams
         self.no_repeat_ngram_size = no_repeat_ngram_size

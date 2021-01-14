@@ -81,7 +81,7 @@ def summarize(
 
             summarize(text, engine="mt5-small")
             # output: ['<extra_id_0> ท่าช้าง หรือ วังถนนพระอาทิตย์
-            # เขตพระนคร กรุงเทพมหานคร ฯลฯ ดังนี้: 
+            # เขตพระนคร กรุงเทพมหานคร ฯลฯ ดังนี้:
             # ที่อยู่ - ศิลปวัฒนธรรม']
     """
     if not text or not isinstance(text, str):

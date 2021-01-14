@@ -15,6 +15,11 @@ class mT5Summarizer:
             min_length: int = 30,
             max_length: int = 100,
             skip_special_tokens: bool = True):
+        if model_size not in ["small", "base", "large", "xl", "xxl"]:
+            raise ValueError(
+                f"""model_size \"{model_size}\" not found.
+                It might be a typo; if not, please consult our document."""
+            )
         self.model = T5ForConditionalGeneration.from_pretrained(
             'google/mt5-%s' % model_size
         )
@@ -46,4 +51,4 @@ class mT5Summarizer:
             summary_ids[0],
             skip_special_tokens=self.skip_special_tokens
         )
-        return output
+        return [output]

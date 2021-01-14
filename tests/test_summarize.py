@@ -20,5 +20,7 @@ class TestSummarizePackage(unittest.TestCase):
             summarize(text=text, n=1),
             ["อาหารจะต้องไม่มีพิษและไม่เกิดโทษต่อร่างกาย"],
         )
+        self.assertIsNotNone(summarize(text, engine="mt5-small"))
+        self.assertIsNotNone(summarize([]))
         self.assertIsNotNone(summarize(text, 1, engine="mt5-small"))
         self.assertIsNotNone(summarize(text, 1, engine="XX"))

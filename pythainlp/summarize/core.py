@@ -31,15 +31,22 @@ def summarize(
         in the sentence and also appear in the frequency dictionary.
 
         :param str text: text to be summarized
-        :param int n: number of sentences to be included in the summary
+        :param int n: number of sentences to be included in the summary (By default: *1*)
         :param str engine: text summarization engine (By default: *frequency*).
                            There is only one engine currently.
         :param str tokenizer: word tokenizer engine name (refer to
                               :func:`pythainlp.tokenize.word_tokenize`).
-                              By default, *engine* is set to *newmm*
+                              By default, *engine* is set to *newmm* (frequency engine only)
 
         :return: list of selected sentences
-        :rtype: list[str]
+        **Options for engine**
+            * *frequency* (default) - Summarization by frequency of words
+            * *mt5* - Summarization by mT5-small model
+            * *mt5-small* - Summarization by mT5-small model
+            * *mt5-base* - Summarization by mT5-base model
+            * *mt5-large* - Summarization by mT5-large model
+            * *mt5-xl* - Summarization by mT5-xl model
+            * *mt5-xxl* - Summarization by mT5-xxl model
 
         :Example:
         ::
@@ -69,18 +76,20 @@ def summarize(
             # output: ['บุตรเจ้าพระยามหาโยธานราธิบดีศรีพิชัยณรงค์',
             # 'เดิมเป็นบ้านของเจ้าพระยามหาโยธา',
             # 'เจ้าพระยามหาโยธา']
+
+            summarize(text, engine="mt5-small")
+            # output: ['<extra_id_0> ท่าช้าง หรือ วังถนนพระอาทิตย์ เขตพระนคร กรุงเทพมหานคร ฯลฯ ดังนี้: ที่อยู่ - ศิลปวัฒนธรรม']
     """
+    if not text or not isinstance(text, str):
+        return []
     sents = []
 
     if engine == DEFAULT_SUMMARIZE_ENGINE:
         sents = FrequencySummarizer().summarize(text, n, tokenizer)
-    elif engine.startswith('mt5-'):
+    elif engine.startswith('mt5-') or engine == "mt5":
         size = engine.replace('mt5-', '')
         from .mt5 import mT5Summarizer
         sents = mT5Summarizer(model_size=size).summarize(text)
-    elif engine == "mt5-small":
-        from .mt5 import mT5Summarizer
-        sents = mT5Summarizer().summarize(text)
     else:  # if engine not found, return first n sentences
         sents = sent_tokenize(text, engine="whitespace+newline")[:n]
 

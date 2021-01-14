@@ -32,11 +32,13 @@ def summarize(
 
         :param str text: text to be summarized
         :param int n: number of sentences to be included in the summary (By default: *1*)
+                      (frequency engine only)
         :param str engine: text summarization engine (By default: *frequency*).
                            There is only one engine currently.
         :param str tokenizer: word tokenizer engine name (refer to
                               :func:`pythainlp.tokenize.word_tokenize`).
-                              By default, *engine* is set to *newmm* (frequency engine only)
+                              By default, *engine* is set to *newmm*
+                              (frequency engine only)
 
         :return: list of selected sentences
         **Options for engine**
@@ -78,7 +80,9 @@ def summarize(
             # 'เจ้าพระยามหาโยธา']
 
             summarize(text, engine="mt5-small")
-            # output: ['<extra_id_0> ท่าช้าง หรือ วังถนนพระอาทิตย์ เขตพระนคร กรุงเทพมหานคร ฯลฯ ดังนี้: ที่อยู่ - ศิลปวัฒนธรรม']
+            # output: ['<extra_id_0> ท่าช้าง หรือ วังถนนพระอาทิตย์
+            #  เขตพระนคร กรุงเทพมหานคร ฯลฯ ดังนี้: 
+            # ที่อยู่ - ศิลปวัฒนธรรม']
     """
     if not text or not isinstance(text, str):
         return []

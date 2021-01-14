@@ -2,7 +2,7 @@
 """
 Summarization by mT5 model
 """
-from transformers import T5Tokenizer, T5ForConditionalGeneration
+from transformers import T5Tokenizer, MT5ForConditionalGeneration
 from typing import List
 
 
@@ -20,7 +20,7 @@ class mT5Summarizer:
                 f"""model_size \"{model_size}\" not found.
                 It might be a typo; if not, please consult our document."""
             )
-        self.model = T5ForConditionalGeneration.from_pretrained(
+        self.model = MT5ForConditionalGeneration.from_pretrained(
             f'google/mt5-{model_size}'
         )
         self.tokenizer = T5Tokenizer.from_pretrained(

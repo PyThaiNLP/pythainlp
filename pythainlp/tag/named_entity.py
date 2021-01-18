@@ -78,7 +78,7 @@ class ThaiNameTagger:
         Thai named-entity recognizer.
         """
         self.crf = CRFTagger()
-        self.crf.open(get_corpus_path(_CORPUS_NAME))
+        self.crf.open(get_corpus_path(_CORPUS_NAME, version="1.5"))
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False
@@ -135,7 +135,7 @@ class ThaiNameTagger:
             'วันที่ <DATE>15 ก.ย. 61</DATE> ทดสอบระบบเวลา <TIME>14:49 น.</TIME>'
         """
         tokens = word_tokenize(text, engine=_TOKENIZER_ENGINE)
-        pos_tags = pos_tag(tokens, engine="perceptron", corpus="orchid_ud")
+        pos_tags = pos_tag(tokens, engine="perceptron", corpus="lst20")
         x_test = ThaiNameTagger.__extract_features(pos_tags)
         y = self.crf.tag(x_test)
 

@@ -216,11 +216,6 @@ class TestTagPackage(unittest.TestCase):
         )
 
         self.assertEqual(
-            ner.get_ner("เบอร์โทรศัพท์ 091-123-4567", tag=True),
-            "เบอร์โทรศัพท์ <PHONE>091-123-4567</PHONE>",
-        )
-
-        self.assertEqual(
             ner.get_ner("อาจารย์เอกพล ประจำคณะวิศวกรรมศาสตร์ ", tag=True),
             "<PERSON>อาจารย์เอกพล</PERSON> ประจำ<ORGANIZATION>"
             "คณะวิศวกรรมศาสตร์</ORGANIZATION> ",

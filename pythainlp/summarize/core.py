@@ -32,23 +32,22 @@ def summarize(
 
         :param str text: text to be summarized
         :param int n: number of sentences to be included in the summary
-                      (By default: *1*) (frequency engine only)
+                      By default, n is *1* (effective for frequency engine only)
         :param str engine: text summarization engine (By default: *frequency*).
-                           There is only one engine currently.
         :param str tokenizer: word tokenizer engine name (refer to
                               :func:`pythainlp.tokenize.word_tokenize`).
-                              By default, *engine* is set to *newmm*
-                              (frequency engine only)
+                              By default, tokenizer is *newmm*
+                              (effective for frequency engine only)
 
         :return: list of selected sentences
         **Options for engine**
-            * *frequency* (default) - Summarization by frequency of words
-            * *mt5* - Summarization by mT5-small model
-            * *mt5-small* - Summarization by mT5-small model
-            * *mt5-base* - Summarization by mT5-base model
-            * *mt5-large* - Summarization by mT5-large model
-            * *mt5-xl* - Summarization by mT5-xl model
-            * *mt5-xxl* - Summarization by mT5-xxl model
+            * *frequency* (default) - frequency of words
+            * *mt5* - mT5-small model
+            * *mt5-small* - mT5-small model
+            * *mt5-base* - mT5-base model
+            * *mt5-large* - mT5-large model
+            * *mt5-xl* - mT5-xl model
+            * *mt5-xxl* - mT5-xxl model
 
         :Example:
         ::

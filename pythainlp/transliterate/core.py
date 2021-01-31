@@ -45,9 +45,9 @@ def romanize(text: str, engine: str = DEFAULT_ROMANIZE_ENGINE) -> str:
         return ""
 
     if engine == "thai2rom":
-        from .thai2rom import romanize
+        from pythainlp.transliterate.thai2rom import romanize
     else:  # use default engine "royin"
-        from .royin import romanize
+        from pythainlp.transliterate.royin import romanize
 
     return romanize(text)
 
@@ -100,10 +100,10 @@ def transliterate(
         return ""
 
     if engine == "icu" or engine == "pyicu":
-        from .pyicu import transliterate
+        from pythainlp.transliterate.pyicu import transliterate
     elif engine == "thaig2p":
-        from .thaig2p import transliterate
+        from pythainlp.transliterate.thaig2p import transliterate
     else:
-        from .ipa import transliterate
+        from pythainlp.transliterate.ipa import transliterate
 
     return transliterate(text)

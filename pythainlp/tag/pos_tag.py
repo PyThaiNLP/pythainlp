@@ -87,9 +87,9 @@ def pos_tag(
         return []
 
     if engine == "perceptron":
-        from .perceptron import tag as tag_
+        from pythainlp.tag.perceptron import tag as tag_
     else:  # default, use "unigram" ("old") engine
-        from .unigram import tag as tag_
+        from pythainlp.tag.unigram import tag as tag_
 
     word_tags = tag_(words, corpus=corpus)
 

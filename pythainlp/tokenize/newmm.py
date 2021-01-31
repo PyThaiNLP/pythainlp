@@ -20,7 +20,7 @@ from typing import Generator, List
 from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
 from pythainlp.util import Trie
 
-from .tcc import tcc_pos
+from pythainlp.tokenize.tcc import tcc_pos
 
 # match non-Thai tokens
 _PAT_NONTHAI = re.compile(

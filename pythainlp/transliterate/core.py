@@ -138,6 +138,6 @@ def pronunciate(word: str, engine: str = DEFAULT_PRONUNCIATE_ENGINE) -> str:
         return ""
 
     # if engine == "w2p":  # has only one engine
-    from .w2p import pronunciate
+    from pythainlp.transliterate.w2p import pronunciate
 
     return pronunciate(word)

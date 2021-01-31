@@ -170,7 +170,7 @@ def word_tokenize(
 
         segments = segment(text)
     elif engine == "nercut":
-        from .nercut import segment
+        from pythainlp.tokenize.nercut import segment
 
         segments = segment(text)
     else:

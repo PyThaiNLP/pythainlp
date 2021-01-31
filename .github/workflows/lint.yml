@@ -1,6 +1,18 @@
 name: Lint
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - dev
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  pull_request:
+    branches:
+      - dev
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
 
 jobs:
   build:

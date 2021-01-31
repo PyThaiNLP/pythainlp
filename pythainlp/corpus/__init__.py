@@ -28,9 +28,9 @@ __all__ = [
 ]
 
 import os
-from tinydb import TinyDB
 
 from pythainlp.tools import get_full_data_path, get_pythainlp_path
+from tinydb import TinyDB
 
 # Remote and local corpus databases
 
@@ -39,9 +39,7 @@ _CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
 
 # remote corpus catalog URL
 _CORPUS_DB_URL = (
-    "https://raw.githubusercontent.com/"
-    "PyThaiNLP/pythainlp-corpus/"
-    "2.2/db.json"
+    "https://pythainlp.github.io/pythainlp-corpus/db.json"
 )
 
 # local corpus catalog filename
@@ -52,7 +50,7 @@ _CORPUS_DB_PATH = get_full_data_path(_CORPUS_DB_FILENAME)
 
 # create a local corpus database if it does not already exist
 if not os.path.exists(_CORPUS_DB_PATH):
-    TinyDB(_CORPUS_DB_PATH)
+    TinyDB(_CORPUS_DB_PATH).close()
 
 
 def corpus_path() -> str:

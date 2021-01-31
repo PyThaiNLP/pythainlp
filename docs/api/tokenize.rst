@@ -19,31 +19,54 @@ Modules
 Tokenization Engines
 --------------------
 
-newmm
-+++++
-.. automodule::  pythainlp.tokenize.newmm
-.. autofunction:: pythainlp.tokenize.newmm.segment
+Word level
+----------
 
-
-longest
+attacut
 +++++++
-.. automodule::  pythainlp.tokenize.longest
+.. automodule::  pythainlp.tokenize.attacut
 
-multi_cut
-+++++++++
-.. automodule::  pythainlp.tokenize.multi_cut
-
-pyicu
-+++++
-.. automodule::  pythainlp.tokenize.pyicu
+.. autoclass:: pythainlp.tokenize.attacut.AttacutTokenizer
+   :members:
 
 deepcut
 +++++++
 .. automodule::  pythainlp.tokenize.deepcut
 
-attacut
+multi_cut
++++++++++
+.. automodule::  pythainlp.tokenize.multi_cut
+
+.. autofunction:: pythainlp.tokenize.multi_cut.segment
+.. autofunction:: pythainlp.tokenize.multi_cut.find_all_segment
+
+longest
 +++++++
-.. automodule::  pythainlp.tokenize.attacut
+.. automodule::  pythainlp.tokenize.longest
+
+.. autofunction:: pythainlp.tokenize.longest.segment
+
+pyicu
++++++
+.. automodule::  pythainlp.tokenize.pyicu
+
+nercut
+++++++
+.. automodule::  pythainlp.tokenize.nercut
+
+.. autofunction:: pythainlp.tokenize.nercut.segment
+
+newmm
++++++
+
+The default word tokenization engine.
+
+.. automodule::  pythainlp.tokenize.newmm
+
+.. autofunction:: pythainlp.tokenize.newmm.segment
+
+Subword level
+-------------
 
 tcc
 +++

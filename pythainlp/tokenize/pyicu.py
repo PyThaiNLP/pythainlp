@@ -23,6 +23,10 @@ def _gen_words(text: str) -> str:
 
 
 def segment(text: str) -> List[str]:
+    """
+    :param str text: text to be tokenized to words
+    :return: list of words, tokenized from the text
+    """
     if not text or not isinstance(text, str):
         return []
 

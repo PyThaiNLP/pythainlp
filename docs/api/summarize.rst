@@ -2,7 +2,7 @@
 
 pythainlp.summarize
 ====================================
-The :class:`summarize` is thai text summarize.
+The :class:`summarize` is Thai text summarizer.
 
 Modules
 -------

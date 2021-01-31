@@ -36,7 +36,7 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
         ['และ', 'คุณ', 'เล่น', 'มือถือ'],
         ['ส่วน', 'น้อง', 'เขียน', 'โปรแกรม']]
     """
-    from .crfcls import segment
+    from pythainlp.tokenize.crfcls import segment
 
     return segment(doc)
 
@@ -132,27 +132,27 @@ def word_tokenize(
     segments = []
 
     if engine == "newmm" or engine == "onecut":
-        from .newmm import segment
+        from pythainlp.tokenize.newmm import segment
 
         segments = segment(text, custom_dict)
     elif engine == "newmm-safe":
-        from .newmm import segment
+        from pythainlp.tokenize.newmm import segment
 
         segments = segment(text, custom_dict, safe_mode=True)
     elif engine == "attacut":
-        from .attacut import segment
+        from pythainlp.tokenize.attacut import segment
 
         segments = segment(text)
     elif engine == "longest":
-        from .longest import segment
+        from pythainlp.tokenize.longest import segment
 
         segments = segment(text, custom_dict)
     elif engine == "mm" or engine == "multi_cut":
-        from .multi_cut import segment
+        from pythainlp.tokenize.multi_cut import segment
 
         segments = segment(text, custom_dict)
     elif engine == "deepcut":  # deepcut can optionally use dictionary
-        from .deepcut import segment
+        from pythainlp.tokenize.deepcut import segment
 
         if custom_dict:
             custom_dict = list(custom_dict)
@@ -160,7 +160,7 @@ def word_tokenize(
         else:
             segments = segment(text)
     elif engine == "icu":
-        from .pyicu import segment
+        from pythainlp.tokenize.pyicu import segment
 
         segments = segment(text)
     else:
@@ -244,7 +244,7 @@ def sent_tokenize(
     segments = []
 
     if engine == "crfcut":
-        from .crfcut import segment
+        from pythainlp.tokenize.crfcut import segment
 
         segments = segment(text)
     elif engine == "whitespace":
@@ -325,9 +325,9 @@ def subword_tokenize(
         return []
 
     if engine == "tcc":
-        from .tcc import segment
+        from pythainlp.tokenize.tcc import segment
     elif engine == "etcc":
-        from .etcc import segment
+        from pythainlp.tokenize.etcc import segment
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
@@ -394,7 +394,7 @@ def syllable_tokenize(
                 )
             )
     elif engine == "ssg":
-        from .ssg import segment
+        from pythainlp.tokenize.ssg import segment
 
         segments = segment(text)
     else:

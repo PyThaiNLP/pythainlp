@@ -81,8 +81,9 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertFalse(download(name="test", version="0.0.2"))
         self.assertFalse(download(name="test", version="0.0.3"))
         self.assertFalse(download(name="test", version="0.0.4"))
-        self.assertTrue(download(name="test", version="0.0.5"))
-        self.assertTrue(remove("test"))  # remove existing
+        self.assertIsNotNone(download(name="test", version="0.0.5"))
+        self.assertTrue(download("test"))
+        self.assertIsNotNone(remove("test"))  # remove existing
         self.assertIsNotNone(download(name="test", version="0.0.6"))
         self.assertIsNotNone(download(name="test", version="0.0.7"))
         self.assertIsNotNone(download(name="test", version="0.0.8"))
@@ -96,7 +97,7 @@ class TestCorpusPackage(unittest.TestCase):
             str(context.exception)
         )
         self.assertIsNotNone(download(name="test", version="0.1"))
-        self.assertTrue(remove("test"))
+        self.assertIsNotNone(remove("test"))
 
     def test_tnc(self):
         self.assertIsNotNone(tnc.word_freqs())

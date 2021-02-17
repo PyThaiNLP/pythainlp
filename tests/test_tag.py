@@ -253,9 +253,8 @@ class TestTagPackage(unittest.TestCase):
             ner.get_ner("ไทย", pos=False, tag=True), "<LOCATION>ไทย</LOCATION>"
         )
 
-        self.assertEqual(
-            ner.get_ner("บางแสนกรุงเทพ", pos=False, tag=True),
-            "<LOCATION>บางแสน</LOCATION><LOCATION>กรุงเทพ</LOCATION>",
+        self.assertIsNone(
+            ner.get_ner("บางแสนกรุงเทพ", pos=False, tag=True)
         )
 
         # arguement `tag` is False and `pos` is True

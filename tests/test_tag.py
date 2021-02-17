@@ -4,6 +4,7 @@ import unittest
 from os import path
 
 from pythainlp.tag import (
+    chunk_parse,
     PerceptronTagger,
     perceptron,
     pos_tag,
@@ -15,6 +16,13 @@ from pythainlp.tag.named_entity import ThaiNameTagger
 
 
 class TestTagPackage(unittest.TestCase):
+    # ### pythainlp.tag.PerceptronTagger
+
+    def test_chunk_parse(self):
+        tokens = ["ผม", "รัก", "คุณ"]
+
+        w_p = pos_tag(tokens, engine="perceptron", corpus="orchid")
+        self.assertIsNotNone(chunk_parse(w_p))
 
     # ### pythainlp.tag.pos_tag
 

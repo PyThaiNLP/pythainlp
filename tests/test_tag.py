@@ -260,7 +260,7 @@ class TestTagPackage(unittest.TestCase):
         # arguement `tag` is False and `pos` is True
         self.assertEqual(
             ner.get_ner("ไทย", pos=True, tag=False),
-            [("ไทย", "PROPN", "B-LOCATION")],
+            [("ไทย", "NN", "B-LOCATION")],
         )
 
         # arguement `tag` is False and `pos` is False

@@ -38,12 +38,7 @@ jobs:
     - name: Install PyTorch
       shell: bash -l {0}
       run: |
-        if [ "$RUNNER_OS" == "Linux" ]; then
-          pip install torch==1.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
-        else
-          pip install torch==1.7.0
-        fi
-      shell: bash
+        pip install torch==1.7.0
     - name: Install dependencies
       shell: bash -l {0}
       run: |

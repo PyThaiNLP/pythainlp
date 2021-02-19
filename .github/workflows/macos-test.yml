@@ -1,4 +1,4 @@
-name: Unit test and code coverage
+name: macOS Unit test and code coverage
 
 on:
   push:

@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: macos-latest
+        os: [ubuntu-latest, macos-latest]
         python-version: [3.6]
 
     steps:

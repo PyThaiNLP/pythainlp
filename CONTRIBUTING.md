@@ -2,6 +2,7 @@
 
 Hi! Thanks for your interest in contributing to [PyThaiNLP](https://github.com/PyThaiNLP/pythainlp).
 
+Please refer to our [Contributor Covenant Code of Conduct](https://github.com/PyThaiNLP/pythainlp/blob/dev/CODE_OF_CONDUCT.md).
 
 ## Issue Report and Discussion
 

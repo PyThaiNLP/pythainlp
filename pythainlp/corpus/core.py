@@ -55,6 +55,18 @@ def get_corpus_db_detail(name: str, version: str = None) -> dict:
     return dict()
 
 
+def path_pythainlp_corpus(filename: str) -> str:
+    """
+    Get path pythainlp.corpus data
+
+    :param str filename: filename of the corpus to be read
+
+    :return: : path of corpus
+    :rtype: str
+    """
+    return os.path.join(corpus_path(), filename)
+
+
 def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
     """
     Read corpus data from file and return a frozenset or a list.
@@ -67,9 +79,6 @@ def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
     If as_is is True, a list will be return, with no modifications
     in member values and their orders.
 
-    (Please see the filename from
-    `this file
-    <https://pythainlp.github.io/pythainlp-corpus/db.json>`_
 
     :param str filename: filename of the corpus to be read
 
@@ -114,6 +123,10 @@ def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:
     :rtype: str
 
     :Example:
+
+    (Please see the filename from
+    `this file
+    <https://pythainlp.github.io/pythainlp-corpus/db.json>`_
 
     If the corpus already exists::
 

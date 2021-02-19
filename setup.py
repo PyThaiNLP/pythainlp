@@ -53,6 +53,7 @@ extras = {
         "sentencepiece>=0.1.91",
         "torch>=1.0.0",
     ],
+    "mt5": ["transformers>=4.1.1", "sentencepiece>=0.1.91"],
     "wordnet": ["nltk>=3.3.*"],
     "full": [
         "PyYAML>=5.3.1",
@@ -69,12 +70,13 @@ extras = {
         "sentencepiece>=0.1.91",
         "ssg>=0.0.6",
         "torch>=1.0.0",
+        "transformers>=4.1.1"
     ],
 }
 
 setup(
     name="pythainlp",
-    version="2.2.6",
+    version="2.3.0dev0",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",

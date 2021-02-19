@@ -9,6 +9,7 @@ Modules
 
 .. autofunction:: romanize
 .. autofunction:: transliterate
+.. autofunction:: pronunciate
 
 Romanize Engines
 ----------------

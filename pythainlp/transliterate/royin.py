@@ -166,7 +166,7 @@ def _replace_consonants(word: str, consonants: str) -> str:
                     consonants[0], _CONSONANTS[consonants[0]][0]
                 )
                 i += 1
-        elif consonants[i] == _RO_RUA and i >= len(word) and word[i - 1] == _RO_RUA:
+        elif consonants[i] == _RO_RUA and i == len(word) and word[i - 1] == _RO_RUA:
             word = word.replace(
                     consonants[i], _CONSONANTS[consonants[i]][1]
             )
@@ -175,15 +175,16 @@ def _replace_consonants(word: str, consonants: str) -> str:
                 word = word.replace(
                     consonants[i], _CONSONANTS[consonants[i]][1]
                 )
-            elif word[i + 1] == _RO_RUA and word[i] == _RO_RUA:
-                word = list(word)
-                del word[i + 1]
-                if i + 2 == len_cons:
-                    word[i] = "an"
-                else:
-                    word[i] = "a"
-                word = "".join(word)
-                i += 1
+            elif word[i] == _RO_RUA and i + 1 < len(word):
+                if word[i + 1] == _RO_RUA:
+                    word = list(word)
+                    del word[i + 1]
+                    if i + 2 == len_cons:
+                        word[i] = "an"
+                    else:
+                        word[i] = "a"
+                    word = "".join(word)
+                    i += 1
             elif word[i] == _RO_RUA:
                 word = word.replace(
                     consonants[i], _CONSONANTS[consonants[i]][1]

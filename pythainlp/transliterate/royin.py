@@ -189,6 +189,7 @@ def _replace_consonants(word: str, consonants: str) -> str:
                     word = word.replace(
                         consonants[i], _CONSONANTS[consonants[i]][1]
                     )
+                    i += 1
                 else:
                     word = word.replace(consonants[i], _CONSONANTS[consonants[i]][1])
                     i += 1

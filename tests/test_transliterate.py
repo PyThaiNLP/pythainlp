@@ -10,6 +10,7 @@ from pythainlp.transliterate.thai2rom import ThaiTransliterator
 _BASIC_TESTS = {
     None: "",
     "": "",
+    "abc": "abc",
     "หมอก": "mok",
     "หาย": "hai",
     "แมว": "maeo",
@@ -18,12 +19,14 @@ _BASIC_TESTS = {
     "ดู": "du",
     "บัว": "bua",
     "กก": "kok",
+    "พร": "phon",
     "กร": "kon",
     "กรร": "kan",
     "กรรม": "kam",
     # "กรม": "krom",  # failed
     "ฝ้าย": "fai",
     "นพพร": "nopphon",
+    "อัก": "ak",
     # "ทีปกร": "thipakon",  # failed
     # "ธรรพ์": "than",  # failed
     # "ธรรม": "tham",  # failed

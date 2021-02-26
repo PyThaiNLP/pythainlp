@@ -44,7 +44,7 @@ class PosTagTransformers:
         self.json_pos = self.classify_tokens(text)
         self.output = ""
         if grouped_word:
-            self.sent_pos = [(i['word'].replace("<_>", " "),i['entity_group']) for i in self.json_pos]
+            self.sent_pos = [(i['word'].replace("<_>", " "), i['entity_group']) for i in self.json_pos]
         else:
             self.sent_pos = [(i['word'].replace("<_>", " ").replace('▁',''), i['entity']) for i in self.json_pos if i['word'] != '▁']
         return self.sent_pos
@@ -54,12 +54,15 @@ _grouped_word = False
 _postag = PosTagTransformers(corpus=_corpus, grouped_word = _grouped_word)
 
 def pos_tag(
-    text: str, corpus: str = "lst20", grouped_word = False
+    text: str, corpus: str = "lst20", grouped_word: bool = False
 ) -> List[Tuple[str, str]]:
-    global _grouped_word,_postag
+    global _grouped_word, _postag
     if corpus not in ["lst20"]:
         raise NotImplementedError()
     if _grouped_word != grouped_word:
-        _postag = PosTagTransformers(corpus=corpus, grouped_word = grouped_word)
+        _postag = PosTagTransformers(
+            corpus=corpus,
+            grouped_word = grouped_word
+        )
         _grouped_word = grouped_word
     return _postag.tag(text)

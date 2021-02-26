@@ -53,7 +53,7 @@ extras = {
         "sentencepiece>=0.1.91",
         "torch>=1.0.0",
     ],
-    "transformers": ["transformers"],
+    "wangchanberta": ["transformers", "sentencepiece"],
     "mt5": ["transformers>=4.1.1", "sentencepiece>=0.1.91"],
     "wordnet": ["nltk>=3.3.*"],
     "full": [

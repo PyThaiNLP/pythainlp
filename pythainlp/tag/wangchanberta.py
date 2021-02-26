@@ -6,11 +6,11 @@ from transformers import (
     pipeline,
 )
 
+
 class ThaiNameTagger:
     def __init__(self,
                 dataset_name: str = "thainer",
-                model_name:str = "wangchanberta-base-att-spm-uncased"
-                ) -> None:
+                model_name: str = "wangchanberta-base-att-spm-uncased"):
         self.model_name = model_name
         self.tokenizer = CamembertTokenizer.from_pretrained(
                                     f'airesearch/{self.model_name}',

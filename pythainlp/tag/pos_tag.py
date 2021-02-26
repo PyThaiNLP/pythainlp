@@ -90,7 +90,7 @@ def pos_tag(
     if engine == "perceptron":
         from pythainlp.tag.perceptron import tag as tag_
     elif engine == "wangchanberta" and corpus == "lst20":
-        from pythainlp.tag.wangchanberta import wangchanberta_pos_tag as tag_
+        import pythainlp.wangchanberta.pos_tag as tag_
         words = ''.join(words)
     else:  # default, use "unigram" ("old") engine
         from pythainlp.tag.unigram import tag as tag_

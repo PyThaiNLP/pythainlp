@@ -6,24 +6,24 @@ from transformers import (
     pipeline,
 )
 
+_model_name = "wangchanberta-base-att-spm-uncased"
+_tokenizer = CamembertTokenizer.from_pretrained(
+        f'airesearch/{_model_name}',
+        revision='main')
+if _model_name == "wangchanberta-base-att-spm-uncased":
+    _tokenizer.additional_special_tokens = ['<s>NOTUSED', '</s>NOTUSED', '<_>']
+
 
 class ThaiNameTagger:
     def __init__(self,
                 dataset_name: str = "thainer",
-                model_name: str = "wangchanberta-base-att-spm-uncased",
                 grouped_entities: bool = True):
-        self.model_name = model_name
         self.dataset_name = dataset_name
         self.grouped_entities = grouped_entities
-        self.tokenizer = CamembertTokenizer.from_pretrained(
-                                    f'airesearch/{self.model_name}',
-                                    revision='main')
-        if self.model_name == "wangchanberta-base-att-spm-uncased":
-            self.tokenizer.additional_special_tokens = ['<s>NOTUSED', '</s>NOTUSED', '<_>']
         self.classify_tokens = pipeline(
             task='ner',
-            tokenizer=self.tokenizer,
-            model = f'airesearch/{self.model_name}',
+            tokenizer=_tokenizer,
+            model = f'airesearch/{_model_name}',
             revision = f'finetuned@{self.dataset_name}-ner',
             ignore_labels=[], 
             grouped_entities=self.grouped_entities
@@ -84,24 +84,17 @@ class ThaiNameTagger:
 class PosTagTransformers:
     def __init__(self,
                 corpus: str = "lst20",
-                model_name:str = "wangchanberta-base-att-spm-uncased",
                 grouped_word: bool = False
                 ) -> None:
-        self.model_name = model_name
         self.corpus = corpus
         self.grouped_word = grouped_word
-        self.tokenizer = CamembertTokenizer.from_pretrained(
-                                    f'airesearch/{self.model_name}',
-                                    revision='main')
-        if self.model_name == "wangchanberta-base-att-spm-uncased":
-            self.tokenizer.additional_special_tokens = ['<s>NOTUSED', '</s>NOTUSED', '<_>']
         self.load()
 
     def load(self):
         self.classify_tokens = pipeline(
             task='ner',
-            tokenizer=self.tokenizer,
-            model = f'airesearch/{self.model_name}',
+            tokenizer=_tokenizer,
+            model = f'airesearch/{_model_name}',
             revision = f'finetuned@{self.corpus}-pos',
             ignore_labels=[], 
             grouped_entities=self.grouped_word
@@ -123,11 +116,5 @@ class PosTagTransformers:
             self.sent_pos = [(i['word'].replace("<_>", " ").replace('▁',''), i['entity']) for i in self.json_pos if i['word'] != '▁']
         return self.sent_pos
 
-
-def wangchanberta_pos_tag(
-    text: str, corpus: str = "lst20", grouped_word = False
-) -> List[Tuple[str, str]]:
-    if corpus not in ["lst20"]:
-        raise NotImplementedError()
-    _tag = PosTagTransformers(corpus=corpus, grouped_word = grouped_word)
-    return _tag.tag(text)
+def segment(text):
+    return _tokenizer.tokenize(text)

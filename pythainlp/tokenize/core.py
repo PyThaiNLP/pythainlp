@@ -301,6 +301,7 @@ def subword_tokenize(
     **Options for engine**
         * *tcc* (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
+        * *wangchanberta* - SentencePiece from wangchanberta model.
 
     :Example:
 
@@ -338,6 +339,8 @@ def subword_tokenize(
         from pythainlp.tokenize.tcc import segment
     elif engine == "etcc":
         from pythainlp.tokenize.etcc import segment
+    elif engine == "wangchanberta":
+        from pythainlp.wangchanberta import segment
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.

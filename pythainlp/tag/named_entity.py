@@ -77,9 +77,9 @@ class ThaiNameTagger:
         """
         Thai named-entity recognizer.
 
-        :param str version: Thai NER version. It's support 
-                                Thai NER 1.4 & 1.5.
-                                The defualt value is `1.5`
+        :param str version: Thai NER version.
+                            It's support Thai NER 1.4 & 1.5.
+                            The defualt value is `1.5`
         """
         self.crf = CRFTagger()
 
@@ -145,7 +145,11 @@ class ThaiNameTagger:
             'วันที่ <DATE>15 ก.ย. 61</DATE> ทดสอบระบบเวลา <TIME>14:49 น.</TIME>'
         """
         tokens = word_tokenize(text, engine=_TOKENIZER_ENGINE)
-        pos_tags = pos_tag(tokens, engine="perceptron", corpus=self.pos_tag_name)
+        pos_tags = pos_tag(
+            tokens,
+            engine="perceptron",
+            corpus=self.pos_tag_name
+        )
         x_test = ThaiNameTagger.__extract_features(pos_tags)
         y = self.crf.tag(x_test)
 

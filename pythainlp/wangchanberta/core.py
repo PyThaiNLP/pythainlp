@@ -87,6 +87,13 @@ class ThaiNameTagger:
 
 
 def segment(text: str) -> List[str]:
+    """
+    Subword tokenize. SentencePiece from wangchanberta model.
+
+    :param str text: text to be tokenized
+    :return: list of subwords
+    :rtype: list[str]
+    """
     if not text or not isinstance(text, str):
         return []
 

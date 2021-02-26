@@ -321,7 +321,7 @@ def subword_tokenize(
         # output: ['ค', 'วา', 'ม', 'แป', 'ล', 'ก', 'แย', 'ก',
         'และ', 'พัฒ','นา', 'กา', 'ร']
 
-    Tokenize text into subword based on *etcc* **(Work In Progress)**::
+    Tokenize text into subword based on *etcc*::
 
         text_1 = "ยุคเริ่มแรกของ ราชวงศ์หมิง"
         text_2 = "ความแปลกแยกและพัฒนาการ"
@@ -331,6 +331,17 @@ def subword_tokenize(
 
         subword_tokenize(text_2, engine='etcc')
         # output: ['ความแปลกแยกและ', 'พัฒ', 'นาการ']
+
+    Tokenize text into subword based on *wangchanberta*::
+
+        text_1 = "ยุคเริ่มแรกของ ราชวงศ์หมิง"
+        text_2 = "ความแปลกแยกและพัฒนาการ"
+
+        subword_tokenize(text_1, engine='wangchanberta')
+        # output: ['▁', 'ยุค', 'เริ่มแรก', 'ของ', '▁', 'ราชวงศ์', 'หมิง']
+
+        subword_tokenize(text_2, engine='wangchanberta')
+        # output: ['▁ความ', 'แปลก', 'แยก', 'และ', 'พัฒนาการ']
     """
     if not text or not isinstance(text, str):
         return []

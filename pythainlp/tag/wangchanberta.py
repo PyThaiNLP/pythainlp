@@ -56,7 +56,7 @@ class ThaiNameTagger:
         if self.grouped_entities:
             self.sent_ner = [(i['word'].replace("<_>", " "), self.IOB(i['entity_group'])) for i in self.json_ner]
         else:
-            self.sent_ner = [(i['word'].replace("<_>", " "), i['entity']) for i in self.json_ner]
+            self.sent_ner = [(i['word'].replace("<_>", " "), i['entity']) for i in self.json_ner if i['word'] != '▁']
         if tag:
             temp = ""
             sent = ""

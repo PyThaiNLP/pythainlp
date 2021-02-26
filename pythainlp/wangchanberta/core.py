@@ -53,10 +53,15 @@ class ThaiNameTagger:
         text = re.sub(" ", "<_>", text)
         self.json_ner = self.classify_tokens(text)
         self.output = ""
-        if self.grouped_entities:
+        if self.grouped_entities and self.dataset_name == "thainer":
             self.sent_ner = [(i['word'].replace("<_>", " "), self.IOB(i['entity_group'])) for i in self.json_ner]
-        else:
+        elif self.dataset_name == "thainer":
             self.sent_ner = [(i['word'].replace("<_>", " "), i['entity']) for i in self.json_ner if i['word'] != '▁']
+        elif self.grouped_entities and self.dataset_name == "lst20":
+            self.sent_ner = [(i['word'].replace("<_>", " "), self.IOB(i['entity_group'].replace('_','-').replace('E-','I-'))) for i in self.json_ner]
+        else:
+            self.sent_ner = [(i['word'].replace("<_>", " "), i['entity_group'].replace('_','-').replace('E-','I-')) for i in self.json_ner]
+
         if tag:
             temp = ""
             sent = ""

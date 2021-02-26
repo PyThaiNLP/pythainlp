@@ -86,41 +86,6 @@ class ThaiNameTagger:
         return self.sent_ner
 
 
-class PosTagTransformers:
-    def __init__(self,
-                corpus: str = "lst20",
-                grouped_word: bool = False
-                ) -> None:
-        self.corpus = corpus
-        self.grouped_word = grouped_word
-        self.load()
-
-    def load(self):
-        self.classify_tokens = pipeline(
-            task='ner',
-            tokenizer=_tokenizer,
-            model = f'airesearch/{_model_name}',
-            revision = f'finetuned@{self.corpus}-pos',
-            ignore_labels=[], 
-            grouped_entities=self.grouped_word
-        )
-
-    def tag(
-        self, text: str, corpus: str = False, grouped_word: bool = False
-    ) -> List[Tuple[str, str]]:
-        if (corpus != self.corpus and corpus in ['lst20']) or grouped_word != self.grouped_word:
-            self.grouped_word = grouped_word
-            self.corpus = corpus
-            self.load()
-        text = re.sub(" ", "<_>", text)
-        self.json_pos = self.classify_tokens(text)
-        self.output = ""
-        if grouped_word:
-            self.sent_pos = [(i['word'].replace("<_>", " "),i['entity_group']) for i in self.json_pos]
-        else:
-            self.sent_pos = [(i['word'].replace("<_>", " ").replace('▁',''), i['entity']) for i in self.json_pos if i['word'] != '▁']
-        return self.sent_pos
-
 def segment(text: str) -> List[str]:
     if not text or not isinstance(text, str):
         return []

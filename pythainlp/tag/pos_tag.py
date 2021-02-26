@@ -12,6 +12,7 @@ def pos_tag(
     :param str engine:
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
+        * *wangchanberta* - wangchanberta model (support lst20 corpus only)
     :param str corpus:
         the corpus that used to create the language model for tagger
         * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
@@ -88,6 +89,9 @@ def pos_tag(
 
     if engine == "perceptron":
         from pythainlp.tag.perceptron import tag as tag_
+    elif engine == "wangchanberta" and corpus == "lst20":
+        from pythainlp.tag.wangchanberta import wangchanberta_pos_tag as tag_
+        words = ''.join(words)
     else:  # default, use "unigram" ("old") engine
         from pythainlp.tag.unigram import tag as tag_
 

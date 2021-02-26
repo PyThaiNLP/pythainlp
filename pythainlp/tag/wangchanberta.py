@@ -25,6 +25,11 @@ class ThaiNameTagger:
             ignore_labels=[], 
             grouped_entities=True
         )
+    
+    def IOB(self, tag):
+        if tag != "O":
+            return "B-"+tag
+        return "O"
 
     def get_ner(
         self, text: str, tag: bool = False
@@ -45,7 +50,7 @@ class ThaiNameTagger:
         text = re.sub(" ", "<_>", text)
         self.json_ner = self.classify_tokens(text)
         self.output = ""
-        self.sent_ner = [(i['word'].replace("<_>", " "),i['entity_group']) for i in self.json_ner]
+        self.sent_ner = [(i['word'].replace("<_>", " "),self.IOB(i['entity_group'])) for i in self.json_ner]
         if tag:
             temp = ""
             sent = ""

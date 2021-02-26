@@ -65,4 +65,4 @@ def pos_tag(
             grouped_word = grouped_word
         )
         _grouped_word = grouped_word
-    return _postag.tag(text)
+    return _postag.tag(text, corpus = corpus,grouped_word = grouped_word)

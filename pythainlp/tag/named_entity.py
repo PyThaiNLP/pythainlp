@@ -73,12 +73,22 @@ def _doc2features(doc, i) -> Dict:
 
 
 class ThaiNameTagger:
-    def __init__(self) -> None:
+    def __init__(self, version: str = "1.5") -> None:
         """
         Thai named-entity recognizer.
+
+        :param str version: Thai NER version.
+                            It's support Thai NER 1.4 & 1.5.
+                            The defualt value is `1.5`
         """
         self.crf = CRFTagger()
-        self.crf.open(get_corpus_path(_CORPUS_NAME, version="1.5"))
+
+        if version == "1.4":
+            self.crf.open(get_corpus_path("thainer-1.4", version="1.4"))
+            self.pos_tag_name = "orchid_ud"
+        else:
+            self.crf.open(get_corpus_path(_CORPUS_NAME, version="1.5"))
+            self.pos_tag_name = "lst20"
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False
@@ -135,7 +145,11 @@ class ThaiNameTagger:
             'วันที่ <DATE>15 ก.ย. 61</DATE> ทดสอบระบบเวลา <TIME>14:49 น.</TIME>'
         """
         tokens = word_tokenize(text, engine=_TOKENIZER_ENGINE)
-        pos_tags = pos_tag(tokens, engine="perceptron", corpus="lst20")
+        pos_tags = pos_tag(
+            tokens,
+            engine="perceptron",
+            corpus=self.pos_tag_name
+        )
         x_test = ThaiNameTagger.__extract_features(pos_tags)
         y = self.crf.tag(x_test)
 

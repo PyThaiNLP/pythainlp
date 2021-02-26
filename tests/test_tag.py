@@ -206,6 +206,35 @@ class TestTagPackage(unittest.TestCase):
             "ทดสอบระบบเวลา <TIME>14:49 น.</TIME>",
         )
 
+        ner = ThaiNameTagger(version="1.4")
+        self.assertEqual(ner.get_ner(""), [])
+        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(
+            ner.get_ner(
+                """คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ มหาวิทยาลัยขอนแก่น
+                วิทยาเขตหนองคาย 112 หมู่ 7 บ้านหนองเดิ่น
+                ตำบลหนองกอมเกาะ อำเภอเมือง
+                จังหวัดหนองคาย 43000"""
+            )
+        )
+        self.assertIsNotNone(
+            ner.get_ner(
+                """คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ มหาวิทยาลัยขอนแก่น
+                วิทยาเขตหนองคาย 112 หมู่ 7 บ้านหนองเดิ่น
+                ตำบลหนองกอมเกาะ อำเภอเมือง
+                จังหวัดหนองคาย 43000""",
+                tag=True,
+            )
+        )
+
+        # arguement `tag` is True
+        self.assertEqual(
+            ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.", tag=True),
+            "วันที่ <DATE>15 ก.ย. 61</DATE> "
+            "ทดสอบระบบเวลา <TIME>14:49 น.</TIME>",
+        )
+
         self.assertEqual(
             ner.get_ner(
                 "url = https://thainlp.org/pythainlp/docs/2.0/", tag=True
@@ -260,7 +289,7 @@ class TestTagPackage(unittest.TestCase):
         # arguement `tag` is False and `pos` is True
         self.assertEqual(
             ner.get_ner("ไทย", pos=True, tag=False),
-            [("ไทย", "NN", "B-LOCATION")],
+            [('ไทย', 'PROPN', 'B-LOCATION')],
         )
 
         # arguement `tag` is False and `pos` is False

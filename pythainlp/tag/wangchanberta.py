@@ -10,8 +10,11 @@ from transformers import (
 class ThaiNameTagger:
     def __init__(self,
                 dataset_name: str = "thainer",
-                model_name: str = "wangchanberta-base-att-spm-uncased"):
+                model_name: str = "wangchanberta-base-att-spm-uncased",
+                grouped_entities: bool = True):
         self.model_name = model_name
+        self.dataset_name = dataset_name
+        self.grouped_entities = grouped_entities
         self.tokenizer = CamembertTokenizer.from_pretrained(
                                     f'airesearch/{self.model_name}',
                                     revision='main')
@@ -21,9 +24,9 @@ class ThaiNameTagger:
             task='ner',
             tokenizer=self.tokenizer,
             model = f'airesearch/{self.model_name}',
-            revision = f'finetuned@{dataset_name}-ner',
+            revision = f'finetuned@{self.dataset_name}-ner',
             ignore_labels=[], 
-            grouped_entities=True
+            grouped_entities=self.grouped_entities
         )
     
     def IOB(self, tag):
@@ -50,7 +53,10 @@ class ThaiNameTagger:
         text = re.sub(" ", "<_>", text)
         self.json_ner = self.classify_tokens(text)
         self.output = ""
-        self.sent_ner = [(i['word'].replace("<_>", " "),self.IOB(i['entity_group'])) for i in self.json_ner]
+        if self.grouped_entities:
+            self.sent_ner = [(i['word'].replace("<_>", " "), self.IOB(i['entity_group'])) for i in self.json_ner]
+        else:
+            self.sent_ner = [(i['word'].replace("<_>", " "), i['entity']) for i in self.json_ner]
         if tag:
             temp = ""
             sent = ""

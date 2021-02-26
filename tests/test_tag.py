@@ -93,6 +93,15 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="lst20_ud")
         )
+        self.assertEqual(
+            pos_tag([], engine="wangchanberta", corpus="lst20"), []
+        )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="wangchanberta", corpus="lst20")
+        )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="wangchanberta", corpus="lst20_ud")
+        )
 
         self.assertEqual(pos_tag_sents(None), [])
         self.assertEqual(pos_tag_sents([]), [])

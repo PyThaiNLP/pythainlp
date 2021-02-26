@@ -286,6 +286,15 @@ class TestTokenizePackage(unittest.TestCase):
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="etcc")
         )
         self.assertIsInstance(subword_tokenize("โควิด19", engine="etcc"), list)
+        self.assertEqual(subword_tokenize(None, engine="wangchanberta"), [])
+        self.assertEqual(subword_tokenize("", engine="wangchanberta"), [])
+        self.assertIsInstance(
+            subword_tokenize("สวัสดิีดาวอังคาร", engine="wangchanberta"), list
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="wangchanberta")
+        )
+        self.assertIsInstance(subword_tokenize("โควิด19", engine="wangchanberta"), list)
         self.assertFalse(
             " " in subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
         )

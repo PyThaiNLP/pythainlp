@@ -121,5 +121,8 @@ class PosTagTransformers:
             self.sent_pos = [(i['word'].replace("<_>", " ").replace('▁',''), i['entity']) for i in self.json_pos if i['word'] != '▁']
         return self.sent_pos
 
-def segment(text):
+def segment(text: str) -> List[str]:
+    if not text or not isinstance(text, str):
+        return []
+
     return _tokenizer.tokenize(text)

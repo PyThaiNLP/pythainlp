@@ -57,6 +57,10 @@ def pos_tag(
     text: str, corpus: str = "lst20", grouped_word: bool = False
 ) -> List[Tuple[str, str]]:
     global _grouped_word, _postag
+    if isinstance(text, list):
+        text = ''.join(text)
+    elif not text or not isinstance(text, str):
+        return []
     if corpus not in ["lst20"]:
         raise NotImplementedError()
     if _grouped_word != grouped_word:

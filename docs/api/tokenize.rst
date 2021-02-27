@@ -79,3 +79,5 @@ tcc
 etcc
 ++++
 .. automodule:: pythainlp.tokenize.etcc
+
+.. autofunction:: pythainlp.tokenize.etcc.segment

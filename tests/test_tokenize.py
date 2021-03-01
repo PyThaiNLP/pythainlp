@@ -294,7 +294,9 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertFalse(
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="wangchanberta")
         )
-        self.assertIsInstance(subword_tokenize("โควิด19", engine="wangchanberta"), list)
+        self.assertIsInstance(
+            subword_tokenize("โควิด19", engine="wangchanberta"), list
+        )
         self.assertFalse(
             " " in subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
         )

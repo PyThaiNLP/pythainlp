@@ -51,7 +51,21 @@ class TestWangchanberta(unittest.TestCase):
             pos_tag("I คิด therefore I am ผ็ฎ์")
         )
         self.assertIsNotNone(
-            pos_tag(['I',' ','คิด',' ','therefore',' ','I',' ','am',' ','ผ็ฎ์'])
+            pos_tag(
+                [
+                    'I',
+                    ' ',
+                    'คิด',
+                    ' ',
+                    'therefore',
+                    ' ',
+                    'I',
+                    ' ',
+                    'am',
+                    ' ',
+                    'ผ็ฎ์'
+                ]
+            )
         )
         self.assertIsNotNone(
             pos_tag(None)

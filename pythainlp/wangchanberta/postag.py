@@ -17,8 +17,7 @@ if _model_name == "wangchanberta-base-att-spm-uncased":
 class PosTagTransformers:
     def __init__(self,
                 corpus: str = "lst20",
-                grouped_word: bool = False
-                ) -> None:
+                grouped_word: bool = False) -> None:
         self.corpus = corpus
         self.grouped_word = grouped_word
         self.load()
@@ -27,9 +26,9 @@ class PosTagTransformers:
         self.classify_tokens = pipeline(
             task='ner',
             tokenizer=_tokenizer,
-            model = f'airesearch/{_model_name}',
-            revision = f'finetuned@{self.corpus}-pos',
-            ignore_labels=[], 
+            model=f'airesearch/{_model_name}',
+            revision=f'finetuned@{self.corpus}-pos',
+            ignore_labels=[],
             grouped_entities=self.grouped_word
         )
 
@@ -44,14 +43,23 @@ class PosTagTransformers:
         self.json_pos = self.classify_tokens(text)
         self.output = ""
         if grouped_word:
-            self.sent_pos = [(i['word'].replace("<_>", " "), i['entity_group']) for i in self.json_pos]
+            self.sent_pos = [
+                (i['word'].replace("<_>", " "),
+                i['entity_group']) for i in self.json_pos
+            ]
         else:
-            self.sent_pos = [(i['word'].replace("<_>", " ").replace('▁',''), i['entity']) for i in self.json_pos if i['word'] != '▁']
+            self.sent_pos = [
+                (i['word'].replace("<_>", " ").replace('▁',''),
+                i['entity'])
+                for i in self.json_pos if i['word'] != '▁'
+            ]
         return self.sent_pos
+
 
 _corpus = "lst20"
 _grouped_word = False
-_postag = PosTagTransformers(corpus=_corpus, grouped_word = _grouped_word)
+_postag = PosTagTransformers(corpus=_corpus, grouped_word=_grouped_word)
+
 
 def pos_tag(
     text: str, corpus: str = "lst20", grouped_word: bool = False
@@ -66,7 +74,11 @@ def pos_tag(
     if _grouped_word != grouped_word:
         _postag = PosTagTransformers(
             corpus=corpus,
-            grouped_word = grouped_word
+            grouped_word=grouped_word
         )
         _grouped_word = grouped_word
-    return _postag.tag(text, corpus = corpus,grouped_word = grouped_word)
+    return _postag.tag(
+        text,
+        corpus=corpus,
+        grouped_word=grouped_word
+    )

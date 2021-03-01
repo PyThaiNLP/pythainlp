@@ -25,7 +25,7 @@ class ThaiNameTagger:
             tokenizer=_tokenizer,
             model = f'airesearch/{_model_name}',
             revision = f'finetuned@{self.dataset_name}-ner',
-            ignore_labels=[], 
+            ignore_labels=[],
             grouped_entities=self.grouped_entities
         )
     
@@ -58,9 +58,9 @@ class ThaiNameTagger:
         elif self.dataset_name == "thainer":
             self.sent_ner = [(i['word'].replace("<_>", " "), i['entity']) for i in self.json_ner if i['word'] != '▁']
         elif self.grouped_entities and self.dataset_name == "lst20":
-            self.sent_ner = [(i['word'].replace("<_>", " "), i['entity_group'].replace('_','-').replace('E-','I-')) for i in self.json_ner]
+            self.sent_ner = [(i['word'].replace("<_>", " "), i['entity_group'].replace('_', '-').replace('E-', 'I-')) for i in self.json_ner]
         else:
-            self.sent_ner = [(i['word'].replace("<_>", " "), i['entity'].replace('_','-').replace('E-','I-')) for i in self.json_ner]
+            self.sent_ner = [(i['word'].replace("<_>", " "), i['entity'].replace('_', '-').replace('E-', 'I-')) for i in self.json_ner]
 
         if tag:
             temp = ""
@@ -82,7 +82,6 @@ class ThaiNameTagger:
                     sent += "</" + temp + ">"
 
             return sent
-        
         return self.sent_ner
 
 

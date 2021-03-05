@@ -15,19 +15,20 @@ if _model_name == "wangchanberta-base-att-spm-uncased":
 
 
 class ThaiNameTagger:
-    def __init__(self,
-                dataset_name: str = "thainer",
-                grouped_entities: bool = True):
+    def __init__(
+        self,
+        dataset_name: str = "thainer",
+        grouped_entities: bool = True
+    ):
         self.dataset_name = dataset_name
         self.grouped_entities = grouped_entities
         self.classify_tokens = pipeline(
             task='ner',
             tokenizer=_tokenizer,
-            model = f'airesearch/{_model_name}',
-            revision = f'finetuned@{self.dataset_name}-ner',
+            model=f'airesearch/{_model_name}',
+            revision=f'finetuned@{self.dataset_name}-ner',
             ignore_labels=[],
-            grouped_entities=self.grouped_entities
-        )
+            grouped_entities=self.grouped_entities)
 
     def IOB(self, tag):
         if tag != "O":
@@ -40,7 +41,8 @@ class ThaiNameTagger:
         """
         This function tags named-entitiy from text in IOB format.
 
-        Powered by wangchanberta from VISTEC-depa AI Research Institute of Thailand
+        Powered by wangchanberta from VISTEC-depa\
+             AI Research Institute of Thailand
         :param str text: text in Thai to be tagged
         :param bool tag: output like html tag.
         :return: a list of tuple associated with tokenized word group, NER tag,
@@ -54,13 +56,31 @@ class ThaiNameTagger:
         self.json_ner = self.classify_tokens(text)
         self.output = ""
         if self.grouped_entities and self.dataset_name == "thainer":
-            self.sent_ner = [(i['word'].replace("<_>", " "), self.IOB(i['entity_group'])) for i in self.json_ner]
+            self.sent_ner = [
+                (
+                    i['word'].replace("<_>", " "), self.IOB(i['entity_group'])
+                ) for i in self.json_ner
+            ]
         elif self.dataset_name == "thainer":
-            self.sent_ner = [(i['word'].replace("<_>", " "), i['entity']) for i in self.json_ner if i['word'] != '▁']
+            self.sent_ner = [
+                (
+                    i['word'].replace("<_>", " "), i['entity']
+                ) for i in self.json_ner if i['word'] != '▁'
+            ]
         elif self.grouped_entities and self.dataset_name == "lst20":
-            self.sent_ner = [(i['word'].replace("<_>", " "), i['entity_group'].replace('_', '-').replace('E-', 'I-')) for i in self.json_ner]
+            self.sent_ner = [
+                (
+                    i['word'].replace("<_>", " "),
+                    i['entity_group'].replace('_', '-').replace('E-', 'I-')
+                ) for i in self.json_ner
+            ]
         else:
-            self.sent_ner = [(i['word'].replace("<_>", " "), i['entity'].replace('_', '-').replace('E-', 'I-')) for i in self.json_ner]
+            self.sent_ner = [
+                (
+                    i['word'].replace("<_>", " "),
+                    i['entity'].replace('_', '-').replace('E-', 'I-')
+                ) for i in self.json_ner
+            ]
 
         if tag:
             temp = ""

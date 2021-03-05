@@ -15,9 +15,11 @@ if _model_name == "wangchanberta-base-att-spm-uncased":
 
 
 class PosTagTransformers:
-    def __init__(self,
-                corpus: str = "lst20",
-                grouped_word: bool = False) -> None:
+    def __init__(
+        self,
+        corpus: str = "lst20",
+        grouped_word: bool = False
+    ) -> None:
         self.corpus = corpus
         self.grouped_word = grouped_word
         self.load()
@@ -35,7 +37,9 @@ class PosTagTransformers:
     def tag(
         self, text: str, corpus: str = "lst20", grouped_word: bool = False
     ) -> List[Tuple[str, str]]:
-        if (corpus != self.corpus and corpus in ['lst20']) or grouped_word != self.grouped_word:
+        if (
+            corpus != self.corpus and corpus in ['lst20']
+        ) or grouped_word != self.grouped_word:
             self.grouped_word = grouped_word
             self.corpus = corpus
             self.load()
@@ -44,8 +48,9 @@ class PosTagTransformers:
         self.output = ""
         if grouped_word:
             self.sent_pos = [
-                (i['word'].replace("<_>", " "),
-                i['entity_group']) for i in self.json_pos
+                (
+                    i['word'].replace("<_>", " "), i['entity_group']
+                ) for i in self.json_pos
             ]
         else:
             self.sent_pos = [

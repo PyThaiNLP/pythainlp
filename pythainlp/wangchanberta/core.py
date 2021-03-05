@@ -28,7 +28,7 @@ class ThaiNameTagger:
             ignore_labels=[],
             grouped_entities=self.grouped_entities
         )
-    
+
     def IOB(self, tag):
         if tag != "O":
             return "B-"+tag

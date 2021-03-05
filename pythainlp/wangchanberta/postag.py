@@ -49,8 +49,10 @@ class PosTagTransformers:
             ]
         else:
             self.sent_pos = [
-                (i['word'].replace("<_>", " ").replace('▁',''),
-                i['entity'])
+                (
+                    i['word'].replace("<_>", " ").replace('▁', ''),
+                    i['entity']
+                )
                 for i in self.json_pos if i['word'] != '▁'
             ]
         return self.sent_pos

@@ -13,12 +13,12 @@ class TestWangchanberta(unittest.TestCase):
         )
         ner = ThaiNameTagger()
         self.assertIsNotNone(
-            ner.get_ner("I คิด therefore I am ผ็ฎ์", tag = True)
+            ner.get_ner("I คิด therefore I am ผ็ฎ์", tag=True)
         )
 
         ner = ThaiNameTagger(grouped_entities=False)
         self.assertIsNotNone(
-            ner.get_ner("I คิด therefore I am ผ็ฎ์", tag = True)
+            ner.get_ner("I คิด therefore I am ผ็ฎ์", tag=True)
         )
 
     def test_lst20_ner_wangchanberta(self):
@@ -27,7 +27,7 @@ class TestWangchanberta(unittest.TestCase):
             ner.get_ner("I คิด therefore I am ผ็ฎ์")
         )
         self.assertIsNotNone(
-            ner.get_ner("I คิด therefore I am ผ็ฎ์", tag = True)
+            ner.get_ner("I คิด therefore I am ผ็ฎ์", tag=True)
         )
 
         ner = ThaiNameTagger(
@@ -35,7 +35,7 @@ class TestWangchanberta(unittest.TestCase):
             grouped_entities=False
         )
         self.assertIsNotNone(
-            ner.get_ner("I คิด therefore I am ผ็ฎ์", tag = True)
+            ner.get_ner("I คิด therefore I am ผ็ฎ์", tag=True)
         )
 
     def test_segment_wangchanberta(self):
@@ -71,8 +71,8 @@ class TestWangchanberta(unittest.TestCase):
             pos_tag(None)
         )
         self.assertIsNotNone(
-            pos_tag("I คิด therefore I am ผ็ฎ์",grouped_word=True)
+            pos_tag("I คิด therefore I am ผ็ฎ์", grouped_word=True)
         )
         self.assertIsNotNone(
-            pos_tag("ทดสอบระบบ",grouped_word=False)
+            pos_tag("ทดสอบระบบ", grouped_word=False)
         )

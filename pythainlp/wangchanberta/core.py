@@ -58,26 +58,26 @@ class ThaiNameTagger:
         if self.grouped_entities and self.dataset_name == "thainer":
             self.sent_ner = [
                 (
-                    i['word'].replace("<_>", " "), self.IOB(i['entity_group'])
+                    i['word'].replace("<_>", " ").replace('▁', ''), self.IOB(i['entity_group'])
                 ) for i in self.json_ner
             ]
         elif self.dataset_name == "thainer":
             self.sent_ner = [
                 (
-                    i['word'].replace("<_>", " "), i['entity']
+                    i['word'].replace("<_>", " ").replace('▁', ''), i['entity']
                 ) for i in self.json_ner if i['word'] != '▁'
             ]
         elif self.grouped_entities and self.dataset_name == "lst20":
             self.sent_ner = [
                 (
-                    i['word'].replace("<_>", " "),
+                    i['word'].replace("<_>", " ").replace('▁', ''),
                     i['entity_group'].replace('_', '-').replace('E-', 'I-')
                 ) for i in self.json_ner
             ]
         else:
             self.sent_ner = [
                 (
-                    i['word'].replace("<_>", " "),
+                    i['word'].replace("<_>", " ").replace('▁', ''),
                     i['entity'].replace('_', '-').replace('E-', 'I-')
                 ) for i in self.json_ner
             ]

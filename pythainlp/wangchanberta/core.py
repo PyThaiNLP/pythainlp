@@ -58,7 +58,8 @@ class ThaiNameTagger:
         if self.grouped_entities and self.dataset_name == "thainer":
             self.sent_ner = [
                 (
-                    i['word'].replace("<_>", " ").replace('▁', ''), self.IOB(i['entity_group'])
+                    i['word'].replace("<_>", " ").replace('▁', ''),
+                    self.IOB(i['entity_group'])
                 ) for i in self.json_ner
             ]
         elif self.dataset_name == "thainer":

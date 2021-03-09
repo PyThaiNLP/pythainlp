@@ -103,7 +103,10 @@ class ThaiNameTagger:
                     sent += "</" + temp + ">"
 
             return sent
-        return self.sent_ner
+        if self.sent_ner[0][0] == '' and len(self.sent_ner)>1:
+            return self.sent_ner[1:]
+        else:
+            return self.sent_ner
 
 
 def segment(text: str) -> List[str]:

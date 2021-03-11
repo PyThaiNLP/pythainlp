@@ -90,9 +90,11 @@ class ThaiNameTagger:
         for idx, (word, ner) in enumerate(self.sent_ner):
             if idx > 0 and ner.startswith("B-"):
                 if (
-                    self.clear_tag(ner) == self.clear_tag(self.sent_ner[idx-1][1])
+                    self.clear_tag(ner) == self.clear_tag(
+                        self.sent_ner[idx-1][1]
+                    )
                 ):
-                    self.sent_ner[idx] = (word,ner.replace('B-', 'I-'))
+                    self.sent_ner[idx] = (word, ner.replace('B-', 'I-'))
         if tag:
             temp = ""
             sent = ""

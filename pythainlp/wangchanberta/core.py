@@ -35,6 +35,9 @@ class ThaiNameTagger:
             return "B-"+tag
         return "O"
 
+    def clear_tag(self, tag):
+        return tag.replace('B-', '').replace('I-', '')
+
     def get_ner(
         self, text: str, tag: bool = False
     ) -> List[Tuple[str, str]]:
@@ -86,7 +89,9 @@ class ThaiNameTagger:
             self.sent_ner = self.sent_ner[1:]
         for idx, (word, ner) in enumerate(self.sent_ner):
             if idx > 0 and ner.startswith("B-"):
-                if ner.replace('B-', '') == self.sent_ner[idx-1][1].replace('B-', '').replace('I-', ''):
+                if (
+                    self.clear_tag(ner) == self.clear_tag(self.sent_ner[idx-1][1])
+                ):
                     self.sent_ner[idx] = (word,ner.replace('B-', 'I-'))
         if tag:
             temp = ""
@@ -108,7 +113,6 @@ class ThaiNameTagger:
                     sent += "</" + temp + ">"
 
             return sent
-        
         else:
             return self.sent_ner
 

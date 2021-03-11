@@ -3,7 +3,7 @@
 pythainlp.wangchanberta
 =======================
 
-WangchanBERTa base model: wangchanberta-base-att-spm-uncased[#Lowphansirikul_2021]_
+WangchanBERTa base model: wangchanberta-base-att-spm-uncased [#Lowphansirikul_2021]_
 
 We used WangchanBERTa for Thai name tagger task, part-of-speech and subword tokenizer.
 

@@ -16,7 +16,10 @@ class TestWangchanberta(unittest.TestCase):
             ner.get_ner("I คิด therefore I am ผ็ฎ์", tag=True)
         )
         self.assertIsNotNone(
-            ner.get_ner("โรงเรียนสวนกุหลาบเป็นโรงเรียนที่ดี แต่ไม่มีสวนกุหลาบ", tag=True)
+            ner.get_ner(
+                "โรงเรียนสวนกุหลาบเป็นโรงเรียนที่ดี แต่ไม่มีสวนกุหลาบ",
+                tag=True
+            )
         )
 
         ner = ThaiNameTagger(grouped_entities=False)
@@ -33,7 +36,10 @@ class TestWangchanberta(unittest.TestCase):
             ner.get_ner("I คิด therefore I am ผ็ฎ์", tag=True)
         )
         self.assertIsNotNone(
-            ner.get_ner("โรงเรียนสวนกุหลาบเป็นโรงเรียนที่ดี แต่ไม่มีสวนกุหลาบ", tag=True)
+            ner.get_ner(
+                "โรงเรียนสวนกุหลาบเป็นโรงเรียนที่ดี แต่ไม่มีสวนกุหลาบ",
+                tag=True
+            )
         )
 
         ner = ThaiNameTagger(

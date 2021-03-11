@@ -103,7 +103,7 @@ class ThaiNameTagger:
                     sent += "</" + temp + ">"
 
             return sent
-        if self.sent_ner[0][0] == '' and len(self.sent_ner)>1:
+        if self.sent_ner[0][0] == '' and len(self.sent_ner) > 1:
             return self.sent_ner[1:]
         else:
             return self.sent_ner

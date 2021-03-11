@@ -82,7 +82,12 @@ class ThaiNameTagger:
                     i['entity'].replace('_', '-').replace('E-', 'I-')
                 ) for i in self.json_ner
             ]
-
+        if self.sent_ner[0][0] == '' and len(self.sent_ner) > 1:
+            self.sent_ner = self.sent_ner[1:]
+        for idx, (word, ner) in enumerate(self.sent_ner):
+            if idx > 0 and ner.startswith("B-"):
+                if ner.replace('B-', '') == self.sent_ner[idx-1][1].replace('B-', '').replace('I-', ''):
+                    self.sent_ner[idx] = (word,ner.replace('B-', 'I-'))
         if tag:
             temp = ""
             sent = ""
@@ -103,8 +108,7 @@ class ThaiNameTagger:
                     sent += "</" + temp + ">"
 
             return sent
-        if self.sent_ner[0][0] == '' and len(self.sent_ner) > 1:
-            return self.sent_ner[1:]
+        
         else:
             return self.sent_ner
 

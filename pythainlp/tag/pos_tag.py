@@ -13,8 +13,8 @@ def pos_tag(
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
         * *wangchanberta* - wangchanberta model (support lst20 corpus only \
-            and it supports a string only. if you input a list of word, it will \
-            convert list word to a string.
+            and it supports a string only. if you input a list of word, \
+            it will convert list word to a string.
     :param str corpus:
         the corpus that used to create the language model for tagger
         * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \

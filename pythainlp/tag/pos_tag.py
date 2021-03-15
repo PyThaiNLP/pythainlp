@@ -12,11 +12,14 @@ def pos_tag(
     :param str engine:
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
+        * *wangchanberta* - wangchanberta model (support lst20 corpus only \
+            and it supports a string only. if you input a list of word, \
+            it will convert list word to a string.
     :param str corpus:
         the corpus that used to create the language model for tagger
         * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
             by National Electronics and Computer Technology Center, Thailand
-        * *lst20_ud* - LST20 text, with tags mapped to Universal POS tags \
+        * *lst20_ud* - LST20 text, with tags mapped to Universal POS tag \
             from `Universal Dependencies <https://universaldependencies.org/>`
         * *orchid* - `ORCHID \
             <https://www.academia.edu/9127599/Thai_Treebank>`_ corpus, \
@@ -88,6 +91,9 @@ def pos_tag(
 
     if engine == "perceptron":
         from pythainlp.tag.perceptron import tag as tag_
+    elif engine == "wangchanberta" and corpus == "lst20":
+        from pythainlp.wangchanberta.postag import pos_tag as tag_
+        words = ''.join(words)
     else:  # default, use "unigram" ("old") engine
         from pythainlp.tag.unigram import tag as tag_
 

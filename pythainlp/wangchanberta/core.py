@@ -54,15 +54,15 @@ class ThaiNameTagger:
     ) -> Union[List[Tuple[str, str]], str]:
         """
         This function tags named-entitiy from text in IOB format.
-
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
+
         :param str text: text in Thai to be tagged
         :param bool tag: output like html tag.
-        :return: a list of tuple associated with tokenized word group, NER tag,
-                 and output like html tag (if the parameter `tag` is
-                 specified as `True`).
-                 Otherwise, return a list of tuple associated with tokenized
+        :return: a list of tuple associated with tokenized word group, NER tag, \
+                 and output like html tag (if the parameter `tag` is \
+                 specified as `True`). \
+                 Otherwise, return a list of tuple associated with tokenized \
                  word and NER tag
         :rtype: Union[list[tuple[str, str]]], str
         """

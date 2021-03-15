@@ -9,21 +9,13 @@ We used WangchanBERTa for Thai name tagger task, part-of-speech and subword toke
 
 **Speed Benchmark**
 
-+-------------------------+-------------------------+----------------+
-| Function                | Named Entity            | Part of Speech |
-|                         | Recognition             |                |
-+=========================+=========================+================+
-| PyThaiNLP basic         | 89.7 ms                 | 312 ms         |
-| function (CRF for NER   |                         |                |
-| and perceptron model    |                         |                |
-| for POS)                |                         |                |
-+-------------------------+-------------------------+----------------+
-| pythainlp.wangchanberta | 9.64 s                  | 9.65 s         |
-| (CPU)                   |                         |                |
-+-------------------------+-------------------------+----------------+
-| pythainlp.wangchanberta | 8.02 s                  | 8 s            |
-| (GPU)                   |                         |                |
-+-------------------------+-------------------------+----------------+
+============================= ======================== ==============
+Function                      Named Entity Recognition Part of Speech
+============================= ======================== ==============
+PyThaiNLP basic function      89.7 ms                  312 ms
+pythainlp.wangchanberta (CPU) 9.64 s                   9.65 s
+pythainlp.wangchanberta (GPU) 8.02 s                   8 s
+============================= ======================== ==============
 
 Notebook:
 
@@ -37,6 +29,7 @@ Notebook:
 Modules
 -------
 .. autoclass:: ThaiNameTagger
+    :members:
 .. autofunction:: pos_tag
 .. autofunction:: segment
 

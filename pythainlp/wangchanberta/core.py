@@ -20,6 +20,17 @@ class ThaiNameTagger:
         dataset_name: str = "thainer",
         grouped_entities: bool = True
     ):
+        """
+        This function tags named-entitiy from text in IOB format.
+
+        Powered by wangchanberta from VISTEC-depa\
+             AI Research Institute of Thailand
+
+        :param str dataset_name:
+            * *thainer* - ThaiNER dataset
+            * *lst20* - LST20 Corpus
+        :param bool grouped_entities: grouped entities
+        """
         self.dataset_name = dataset_name
         self.grouped_entities = grouped_entities
         self.classify_tokens = pipeline(
@@ -30,17 +41,17 @@ class ThaiNameTagger:
             ignore_labels=[],
             grouped_entities=self.grouped_entities)
 
-    def IOB(self, tag):
+    def _IOB(self, tag):
         if tag != "O":
             return "B-"+tag
         return "O"
 
-    def clear_tag(self, tag):
+    def _clear_tag(self, tag):
         return tag.replace('B-', '').replace('I-', '')
 
     def get_ner(
         self, text: str, tag: bool = False
-    ) -> List[Tuple[str, str]]:
+    ) -> Union[List[Tuple[str, str]], str]:
         """
         This function tags named-entitiy from text in IOB format.
 
@@ -62,7 +73,7 @@ class ThaiNameTagger:
             self.sent_ner = [
                 (
                     i['word'].replace("<_>", " ").replace('▁', ''),
-                    self.IOB(i['entity_group'])
+                    self._IOB(i['entity_group'])
                 ) for i in self.json_ner
             ]
         elif self.dataset_name == "thainer":
@@ -90,7 +101,7 @@ class ThaiNameTagger:
         for idx, (word, ner) in enumerate(self.sent_ner):
             if idx > 0 and ner.startswith("B-"):
                 if (
-                    self.clear_tag(ner) == self.clear_tag(
+                    self._clear_tag(ner) == self._clear_tag(
                         self.sent_ner[idx-1][1]
                     )
                 ):

@@ -71,6 +71,16 @@ _postag = PosTagTransformers(corpus=_corpus, grouped_word=_grouped_word)
 def pos_tag(
     text: str, corpus: str = "lst20", grouped_word: bool = False
 ) -> List[Tuple[str, str]]:
+    """
+    Marks words with part-of-speech (POS) tags.
+
+    :param str text: thai text
+    :param str corpus:
+        * *lst20* - a LST20 tagger (default)
+    :param bool grouped_word: grouped word (default is False)
+    :return: a list of tuples (word, POS tag)
+    :rtype: list[tuple[str, str]]
+    """
     global _grouped_word, _postag
     if isinstance(text, list):
         text = ''.join(text)

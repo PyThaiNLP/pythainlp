@@ -126,8 +126,8 @@ setup(
         ],
     },
     project_urls={
-        "Documentation": "https://www.thainlp.org/pythainlp/docs/2.2/",
-        "Tutorials": "https://www.thainlp.org/pythainlp/tutorials/",
+        "Documentation": "https://pythainlp.github.io/docs/2.2/",
+        "Tutorials": "https://pythainlp.github.io/tutorials/",
         "Source Code": "https://github.com/PyThaiNLP/pythainlp",
         "Bug Tracker": "https://github.com/PyThaiNLP/pythainlp/issues",
     },

@@ -33,7 +33,7 @@ Please follow our [PyThaiNLP Facebook page](https://www.facebook.com/pythainlp/)
 
 We provide [PyThaiNLP Get Started Tutorial](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html) for exploring features in PyThaiNLP; We also have tutorials for specific tasks. Please visit [our tutorial page](https://www.thainlp.org/pythainlp/tutorials).
 
-Latest document is available at [https://thainlp.org/pythainlp/docs/2.2/](https://thainlp.org/pythainlp/docs/2.2/).
+Latest document is available at [https://pythainlp.github.io/docs/2.2/](https://pythainlp.github.io/docs/2.2/).
 
 We try to make the package easy to use as much as possible; therefore, some additional data (like word lists and language models) may get automatically download during runtime. PyThaiNLP caches additional data under the directory `~/pythainlp-data` by default, but the user can change the value by specifying the environment variable `PYTHAINLP_DATA_DIR`. See corpus catalog at [PyThaiNLP/pythainlp-corpus](https://github.com/PyThaiNLP/pythainlp-corpus).
 
@@ -58,7 +58,7 @@ PyThaiNLP provides standard NLP functions for Thai, for example part-of-speech t
 - Command-line interface for basic functions, like tokenization and pos tagging (run `thainlp` in your shell)
 </details>
 
-Please see [our tutorials](https://www.thainlp.org/pythainlp/tutorials) on how to apply these functions to machine-learning problems.
+Please see [our tutorials](https://pythainlp.github.io/tutorials) on how to apply these functions to machine-learning problems.
 
 
 ## Installation
@@ -119,7 +119,7 @@ thainlp help
 ## Python 2 Users
 
 - PyThaiNLP 2 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [1.7 -> 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
-  - [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
+  - [Upgrading from 1.7](https://pythainlp.github.io/docs/2.0/notes/pythainlp-1_7-2_0.html)
   - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
 - Python 2.7 users can use PyThaiNLP 1.6
 

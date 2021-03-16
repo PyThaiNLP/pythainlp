@@ -27,7 +27,7 @@ jobs:
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
-        personal_token: ${{ secrets.PERSONAL_TOKEN }
+        personal_token: ${{ secrets.PERSONAL_TOKEN }}
         publish_dir: ./docs/_build/html
         external_repository: PyThaiNLP/dev-docs
         user_name: 'github-actions[bot]'

@@ -8,7 +8,7 @@ Modules
 -------
 
 .. autofunction:: download_model_all
-.. autoclass:: EnThTranslate
+.. autoclass:: EnThTranslator
    :members: translate
-.. autoclass:: ThEnTranslate
+.. autoclass:: ThEnTranslator
    :members: translate

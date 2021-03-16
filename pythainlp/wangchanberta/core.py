@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from typing import Dict, List, Tuple, Union
 import re
 from transformers import (

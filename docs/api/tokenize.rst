@@ -19,6 +19,16 @@ Modules
 Tokenization Engines
 --------------------
 
+Sentence level
+--------------
+
+crfcut
+------
+.. automodule::  pythainlp.tokenize.crfcut
+
+.. autofunction::  pythainlp.tokenize.crfcut.extract_features
+.. autofunction::  pythainlp.tokenize.crfcut.segment
+
 Word level
 ----------
 

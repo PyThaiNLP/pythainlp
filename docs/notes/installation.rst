@@ -15,11 +15,17 @@ For some functionalities, like named entity recognition, extra packages may be n
 
 where ``extras`` can be
   - ``attacut`` (to support attacut, a fast and accurate tokenizer)
+  - ``benchmarks`` (to support benchmarks)
   - ``icu`` (for ICU, International Components for Unicode, support in transliteration and tokenization)
   - ``ipa`` (for IPA, International Phonetic Alphabet, support in transliteration)
   - ``ml`` (to support ULMFiT models for classification)
+  - ``ssg`` (to support ssg for syllable tokenizer)
   - ``thai2fit`` (for Thai word vector)
   - ``thai2rom`` (for machine-learnt romanization)
+  - ``translate`` (to support translate)
+  - ``wangchanberta`` (to support wangchanberta models)
+  - ``mt5`` (to mt5 models for Thai text summarizer)
+  - ``wordnet`` (to support wordnet)
   - ``full`` (install everything)
 
 For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).

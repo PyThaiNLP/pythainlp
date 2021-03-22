@@ -19,5 +19,5 @@ Thai has historically faced a lot of NLP challenges. A quick list of them includ
 
 Tutorial Notebooks
 ==================
-- [PyThaiNLP Get Started](https://pythainlp.github.io/tutorials/notebooks/pythainlp-get-started.html)
-- [Other tutorials](https://pythainlp.github.io/tutorials/)
+- `PyThaiNLP Get Started <https://pythainlp.github.io/tutorials/notebooks/pythainlp-get-started.html>`_
+- `Other tutorials <https://pythainlp.github.io/tutorials/>`_

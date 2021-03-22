@@ -28,7 +28,7 @@ where ``extras`` can be
   - ``wordnet`` (to support wordnet)
   - ``full`` (install everything)
 
-For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
+For dependency details, look at `extras` variable in `setup.py <https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py>`_.
 
 Note for installation on Windows:
 

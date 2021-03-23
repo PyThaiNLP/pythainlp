@@ -230,6 +230,8 @@ def _version2int(v: str) -> int:
     """
     X.X.X => X0X0X
     """
+    if '-' in v:
+        v = v.split("-")[0]
     if v.endswith(".*"):
         v = v.replace(".*", ".0")  # X.X.* => X.X.0
     v_list = v.split(".")

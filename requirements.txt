@@ -1,4 +1,4 @@
-PyYAML==5.3.1
+PyYAML==5.4
 numpy==1.19.*
 python-crfsuite==0.9.*
 requests==2.25.*

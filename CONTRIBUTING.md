@@ -93,6 +93,7 @@ Make sure the same tests pass on Travis CI and AppVeyor.
   #current_version = 2.3.3-dev0
 
   bumpversion build
+  #current_version = 2.3.3-dev1
 
   bumpversion build
   #current_version = 2.3.3-dev2

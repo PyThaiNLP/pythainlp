@@ -90,22 +90,21 @@ Make sure the same tests pass on Travis CI and AppVeyor.
   - `bumpversion [major|minor|patch|release|build]`
   - Example:
   ```
-  #current_version = 2.2.3-dev0
+  #current_version = 2.3.3-dev0
 
   bumpversion build
-  #current_version = 2.2.3-dev1
 
   bumpversion build
-  #current_version = 2.2.3-dev2
+  #current_version = 2.3.3-dev2
 
   bumpversion release
-  #current_version = 2.2.3-beta0
+  #current_version = 2.3.3-beta0
   
   bumpversion release
-  #current_version = 2.2.3
+  #current_version = 2.3.3
 
   bumpversion patch
-  #current_version = 2.2.6-dev0
+  #current_version = 2.3.6-dev0
 
   bumpversion minor
   #current_version = 2.3.0-dev0

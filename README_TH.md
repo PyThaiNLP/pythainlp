@@ -22,7 +22,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 | รุ่น | คำอธิบาย | สถานะ |
 |:------:|:--:|:------:|
-| [2.3.0](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/445) |
+| [2.3.1](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/445) |
 | [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 2.4  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/545) |
 
 ติดตามพวกเราบน [PyThaiNLP Facebook page](https://www.facebook.com/pythainlp/) เพื่อรับข่าวสารเพิ่มเติม

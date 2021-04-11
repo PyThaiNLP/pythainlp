@@ -11,7 +11,10 @@ readme = """
 
 PyThaiNLP is a Python library for Thai natural language processing.
 The library provides functions like word tokenization, part-of-speech tagging,
-transliteration, soundex generation, and spell checking.
+transliteration, soundex generation, spell checking, and
+date and time parsing/formatting.
+
+Website: [pythainlp.github.io](https://pythainlp.github.io/)
 
 # Install
 
@@ -29,13 +32,6 @@ pip install --upgrade --pre pythainlp
 
 Some functionalities, like named-entity recognition, required extra packages.
 See https://github.com/PyThaiNLP/pythainlp for installation options.
-
-
-Made with ❤️
-
-PyThaiNLP Team
-
-"We build Thai NLP"
 """
 
 requirements = [
@@ -46,39 +42,51 @@ requirements = [
 
 extras = {
     "attacut": ["attacut>=1.0.6"],
-    "benchmarks": ["numpy>=1.16.1", "pandas>=0.24", "PyYAML>=5.3.1"],
+    "benchmarks": ["PyYAML>=5.3.1", "numpy>=1.16.1", "pandas>=0.24"],
     "icu": ["pyicu>=2.3"],
     "ipa": ["epitran>=1.1"],
     "ml": ["numpy>=1.16", "torch>=1.0.0"],
     "ssg": ["ssg>=0.0.6"],
     "thai2fit": ["emoji>=0.5.1", "gensim>=3.2.0", "numpy>=1.16.1"],
-    "thai2rom": ["torch>=1.0.0", "numpy>=1.16.1"],
+    "thai2rom": ["numpy>=1.16.1", "torch>=1.0.0"],
+    "translate": [
+        "fairseq>=0.10.0",
+        "sacremoses>=0.0.41",
+        "sentencepiece>=0.1.91",
+        "torch>=1.0.0",
+    ],
+    "wangchanberta": ["transformers", "sentencepiece"],
+    "mt5": ["transformers>=4.1.1", "sentencepiece>=0.1.91"],
     "wordnet": ["nltk>=3.3.*"],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
         "emoji>=0.5.1",
         "epitran>=1.1",
+        "fairseq>=0.10.0",
         "gensim>=3.2.0",
         "nltk>=3.3.*",
         "numpy>=1.16.1",
         "pandas>=0.24",
         "pyicu>=2.3",
+        "sacremoses>=0.0.41",
+        "sentencepiece>=0.1.91",
         "ssg>=0.0.6",
         "torch>=1.0.0",
+        "transformers>=4.1.1",
     ],
 }
 
 setup(
     name="pythainlp",
-    version="2.2.6",
+    version="2.3.1",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
     author="PyThaiNLP",
     author_email="wannaphong@kkumail.com",
     url="https://github.com/PyThaiNLP/pythainlp",
-    packages=find_packages(),
+    packages=find_packages(exclude=["tests", "tests.*"]),
     test_suite="tests",
     python_requires=">=3.6",
     package_data={
@@ -120,8 +128,8 @@ setup(
         ],
     },
     project_urls={
-        "Documentation": "https://www.thainlp.org/pythainlp/docs/2.2/",
-        "Tutorials": "https://www.thainlp.org/pythainlp/tutorials/",
+        "Documentation": "https://pythainlp.github.io/docs/2.3/",
+        "Tutorials": "https://pythainlp.github.io/tutorials/",
         "Source Code": "https://github.com/PyThaiNLP/pythainlp",
         "Bug Tracker": "https://github.com/PyThaiNLP/pythainlp/issues",
     },

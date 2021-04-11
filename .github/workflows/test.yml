@@ -1,6 +1,16 @@
 name: Unit test and code coverage
 
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  pull_request:
+    branches:
+      - dev
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
 
 jobs:
   build:
@@ -8,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7]
+        python-version: [3.6]
 
     steps:
     - uses: actions/checkout@v2
@@ -22,12 +32,13 @@ jobs:
         pip install pytest coverage coveralls
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         pip install "h5py>=2.10.0,<3" "tensorflow>=2.3.1,<3"
-        pip install torch==1.7.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+        pip install torch==1.7.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
         pip install deepcut
         pip install .[full]
     - name: Test
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_SERVICE_NAME: github
       run: |
         coverage run -m unittest discover
-        CI_BRANCH=${GITHUB_REF#"ref/heads"} COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} coveralls
+        coveralls

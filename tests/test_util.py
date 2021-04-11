@@ -19,6 +19,7 @@ from pythainlp.util import (
     dict_trie,
     display_thai_char,
     digit_to_text,
+    emoji_to_thai,
     eng_to_thai,
     find_keyword,
     is_native_thai,
@@ -43,6 +44,7 @@ from pythainlp.util import (
     time_to_thaiword,
     thai_to_eng,
     thaiword_to_num,
+    thai_keyboard_dist,
 )
 
 
@@ -156,6 +158,17 @@ class TestUtilPackage(unittest.TestCase):
             rank(["แมว", "คน", "แมว"], exclude_stopwords=True)
         )
 
+    # ### pythainlp.util.keyboard
+
+    def test_thai_keyboard_dist(self):
+        self.assertEqual(thai_keyboard_dist("ฟ", "ฤ"), 0.0)
+        self.assertEqual(thai_keyboard_dist("ฟ", "ห"), 1.0)
+        self.assertEqual(thai_keyboard_dist("ฟ", "ก"), 2.0)
+        self.assertEqual(thai_keyboard_dist("ฟ", "ฤ", 0.5), 0.5)
+        self.assertNotEqual(
+            thai_keyboard_dist("๘", "๙"), thai_keyboard_dist("๙", "๐")
+        )
+
     # ### pythainlp.util.date
 
     def test_date(self):
@@ -237,7 +250,8 @@ class TestUtilPackage(unittest.TestCase):
             time_to_thaiword(time(12, 3, 0)), "สิบสองนาฬิกาสามนาที"
         )
         self.assertEqual(
-            time_to_thaiword(time(12, 3, 1)), "สิบสองนาฬิกาสามนาทีหนึ่งวินาที",
+            time_to_thaiword(time(12, 3, 1)),
+            "สิบสองนาฬิกาสามนาทีหนึ่งวินาที",
         )
         self.assertEqual(
             time_to_thaiword(datetime(2014, 5, 22, 12, 3, 0), precision="s"),
@@ -352,13 +366,16 @@ class TestUtilPackage(unittest.TestCase):
             now + timedelta(days=0), thaiword_to_date("วันนี้", now)
         )
         self.assertEqual(
-            now + timedelta(days=1), thaiword_to_date("พรุ่งนี้", now),
+            now + timedelta(days=1),
+            thaiword_to_date("พรุ่งนี้", now),
         )
         self.assertEqual(
-            now + timedelta(days=2), thaiword_to_date("มะรืนนี้", now),
+            now + timedelta(days=2),
+            thaiword_to_date("มะรืนนี้", now),
         )
         self.assertEqual(
-            now + timedelta(days=-1), thaiword_to_date("เมื่อวาน", now),
+            now + timedelta(days=-1),
+            thaiword_to_date("เมื่อวาน", now),
         )
         self.assertEqual(
             now + timedelta(days=-2), thaiword_to_date("วานซืน", now)
@@ -529,3 +546,24 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(display_thai_char("ำ"), "_ำ")
         self.assertEqual(display_thai_char("๎"), "_๎")
         self.assertEqual(display_thai_char("ํ"), "_ํ")
+
+    # ### pythainlp.util.emojiconv
+
+    def test_emoji_to_thai(self):
+        self.assertEqual(
+            emoji_to_thai(
+                "จะมานั่งรถเมล์เหมือนผมก็ได้นะครับ ใกล้ชิดประชาชนดี 😀"
+            ),
+            (
+                "จะมานั่งรถเมล์เหมือนผมก็ได้นะครับ "
+                "ใกล้ชิดประชาชนดี :หน้ายิ้มยิงฟัน:"
+            ),
+        )
+        self.assertEqual(
+            emoji_to_thai("หิวข้าวอยากกินอาหารญี่ปุ่น 🍣"),
+            "หิวข้าวอยากกินอาหารญี่ปุ่น :ซูชิ:",
+        )
+        self.assertEqual(
+            emoji_to_thai("🇹🇭 นี่คิือธงประเทศไทย"),
+            ":ธง_ไทย: นี่คิือธงประเทศไทย",
+        )

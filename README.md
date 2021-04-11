@@ -15,27 +15,25 @@
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to [NLTK](https://www.nltk.org/) with focus on Thai language.
 
-PyThaiNLP เป็นไลบารีภาษาไพทอนสำหรับประมวลผลภาษาธรรมชาติ โดยเน้นภาษาไทย [ดูรายละเอียดภาษาไทยได้ที่ README_TH.MD](https://github.com/PyThaiNLP/pythainlp/blob/dev/README_TH.md)
+PyThaiNLP เป็นไลบารีภาษาไพทอนสำหรับประมวลผลภาษาธรรมชาติ คล้ายกับ NLTK โดยเน้นภาษาไทย [ดูรายละเอียดภาษาไทยได้ที่ README_TH.MD](https://github.com/PyThaiNLP/pythainlp/blob/dev/README_TH.md)
 
-**News**
+<!-- **News**
 
->We are conducting a 2-minute survey to know more about your experience using the library and your expectations regarding what the library should be able to do. Take part in [this survey](https://forms.gle/aLdSHnvkNuK5CFyt9).
+>We are conducting a 2-minute survey to know more about your experience using the library and your expectations regarding what the library should be able to do. Take part in [this survey](https://forms.gle/aLdSHnvkNuK5CFyt9). -->
 
 | Version | Description | Status |
 |:------:|:--:|:------:|
-| [2.2.6](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/330) |
-| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 2.3  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/445) |
-
-Please follow our [PyThaiNLP Facebook page](https://www.facebook.com/pythainlp/) for more updates.
+| [2.3.1](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/445) |
+| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 2.4  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/545) |
 
 
-## Getting Started with PyThaiNLP
+## Getting Started
 
-We provide [PyThaiNLP Get Started Tutorial](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html) for exploring features in PyThaiNLP; We also have tutorials for specific tasks. Please visit [our tutorial page](https://www.thainlp.org/pythainlp/tutorials).
-
-Latest document is available at [https://thainlp.org/pythainlp/docs/2.2/](https://thainlp.org/pythainlp/docs/2.2/).
-
-We try to make the package easy to use as much as possible; therefore, some additional data (like word lists and language models) may get automatically download during runtime. PyThaiNLP caches additional data under the directory `~/pythainlp-data` by default, but the user can change the value by specifying the environment variable `PYTHAINLP_DATA_DIR`. See corpus catalog at [PyThaiNLP/pythainlp-corpus](https://github.com/PyThaiNLP/pythainlp-corpus).
+- PyThaiNLP 2 requires Python 3.6+. Python 2.7 users can use PyThaiNLP 1.6. See [2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118) | [Upgrading from 1.7](https://pythainlp.github.io/docs/2.0/notes/pythainlp-1_7-2_0.html) | [Upgrading ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
+- [PyThaiNLP Get Started notebook](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html) | [API document](https://pythainlp.github.io/docs/2.3/) | [Tutorials](https://pythainlp.github.io/tutorials)
+- [Official website](https://pythainlp.github.io/) | [PyPI](https://pypi.org/project/pythainlp/) | [Facebook page](https://www.facebook.com/pythainlp/)
+- [Who uses PyThaiNLP?](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md)
+- [Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards) - for technical details, caveats, and ethical considerations of the models developed and used in PyThaiNLP
 
 
 ## Capabilities
@@ -58,8 +56,6 @@ PyThaiNLP provides standard NLP functions for Thai, for example part-of-speech t
 - Command-line interface for basic functions, like tokenization and pos tagging (run `thainlp` in your shell)
 </details>
 
-Please see [our tutorials](https://www.thainlp.org/pythainlp/tutorials) on how to apply these functions to machine-learning problems.
-
 
 ## Installation
 
@@ -68,7 +64,6 @@ pip install --upgrade pythainlp
 ```
 
 This will install the latest stable release of PyThaiNLP.
-PyThaiNLP uses pip as its package manager and PyPI as its main distribution channel, see [https://pypi.org/project/pythainlp/](https://pypi.org/project/pythainlp/)
 
 Install different releases:
 
@@ -101,6 +96,14 @@ pip install pythainlp[extra1,extra2,...]
 For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
 
 
+## Data directory
+
+- Some additional data, like word lists and language models, may get automatically download during runtime.
+- PyThaiNLP caches these data under the directory `~/pythainlp-data` by default.
+- Data directory can be changed by specifying the environment variable `PYTHAINLP_DATA_DIR`.
+- See the data catalog (`db.json`) at https://github.com/PyThaiNLP/pythainlp-corpus
+
+
 ## Command-Line Interface
 
 Some of PyThaiNLP functionalities can be used at command line, using `thainlp` command.
@@ -116,12 +119,20 @@ thainlp help
 ```
 
 
-## Python 2 Users
+## Licenses
 
-- PyThaiNLP 2 supports Python 3.6+. Some functions may work with older version of Python 3, but it is not well-tested and will not be supported. See [1.7 -> 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
-  - [Upgrading from 1.7](https://thainlp.org/pythainlp/docs/2.0/notes/pythainlp-1_7-2_0.html)
-  - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
-- Python 2.7 users can use PyThaiNLP 1.6
+| | License |
+|:---|:----|
+| PyThaiNLP Source Code and Notebooks | [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE) |
+| Corpora, datasets, and documentations created by PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication License (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
+| Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/)  |
+| Other corpora and models that may included with PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
+
+
+## Contribute to PyThaiNLP
+
+- Please do fork and create a pull request :)
+- For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
 
 
 ## Citations
@@ -145,26 +156,6 @@ or BibTeX entry:
     url          = {http://doi.org/10.5281/zenodo.3519354}
 }
 ```
-
-## Contribute to PyThaiNLP
-
-- Please do fork and create a pull request :)
-- For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
-
-
-## Licenses
-
-| | License |
-|:---|:----|
-| PyThaiNLP Source Code and Notebooks | [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE) |
-| Corpora, datasets, and documentations created by PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication License (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
-| Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/)  |
-| Other corpora and models that may included with PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
-
-
-## Model Cards
-
-For technical details, caveats, and ethical considerations of the models developed and used in PyThaiNLP, see [Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards).
 
 
 ## Sponsors

@@ -257,7 +257,7 @@ def sentence_vectorizer(text: str, use_mean: bool = True) -> ndarray:
         elif word == "\n":
             word = _TK_EOL
 
-        if word in _MODEL.index2word:
+        if word in _MODEL.index_to_key:
             vec += _MODEL.word_vec(word)
 
     if use_mean:

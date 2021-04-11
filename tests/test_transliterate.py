@@ -3,13 +3,14 @@
 import unittest
 
 import torch
-from pythainlp.transliterate import romanize, transliterate
+from pythainlp.transliterate import romanize, transliterate, pronunciate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.thai2rom import ThaiTransliterator
 
 _BASIC_TESTS = {
     None: "",
     "": "",
+    "abc": "abc",
     "หมอก": "mok",
     "หาย": "hai",
     "แมว": "maeo",
@@ -18,12 +19,14 @@ _BASIC_TESTS = {
     "ดู": "du",
     "บัว": "bua",
     "กก": "kok",
+    "พร": "phon",
     "กร": "kon",
     "กรร": "kan",
     "กรรม": "kam",
     # "กรม": "krom",  # failed
     "ฝ้าย": "fai",
     "นพพร": "nopphon",
+    "อัก": "ak",
     # "ทีปกร": "thipakon",  # failed
     # "ธรรพ์": "than",  # failed
     # "ธรรม": "tham",  # failed
@@ -134,3 +137,11 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertIsNotNone(transliterate("แมว", engine="thaig2p"))
         self.assertIsNotNone(trans_list("คน"))
         self.assertIsNotNone(xsampa_list("คน"))
+
+    def test_pronunciate(self):
+        self.assertEqual(pronunciate(""), "")
+        self.assertIsNotNone(pronunciate("คน", engine="w2p"))
+        self.assertIsNotNone(pronunciate("แมว", engine="w2p"))
+        self.assertIsNotNone(pronunciate("มข.", engine="w2p"))
+        self.assertIsNotNone(pronunciate("มช.", engine="w2p"))
+        self.assertIsNotNone(pronunciate("jks", engine="w2p"))

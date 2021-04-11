@@ -1,0 +1,34 @@
+name: Deploy Docs dev
+on:
+  push:
+    branches:
+    - dev
+
+jobs:
+  release:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+    - name: Install dependencies
+      run: |
+        sudo apt install pandoc
+        python -m pip install --upgrade pip
+        pip install -e .[full]
+        pip install boto smart_open sphinx sphinx-rtd-theme
+    - name: Build sphinx documentation
+      run: |
+        cd docs && make html
+        cd ..
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        personal_token: ${{ secrets.PERSONAL_TOKEN }}
+        publish_dir: ./docs/_build/html
+        external_repository: PyThaiNLP/dev-docs
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'

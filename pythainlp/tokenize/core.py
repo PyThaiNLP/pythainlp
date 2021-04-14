@@ -422,8 +422,8 @@ def syllable_tokenize(
         'รถ', 'จักร', 'ดี', 'เซล', ' ', 'หรือ', 'จาก', 'ไฟ', 'ฟ้า']
     """
     warnings.warn(
-        "syllable_tokenize is deprecated, use subword_tokenize instead",
-        DeprecationWarning
+        "syllable_tokenize will be deprecated in PyThaiNLP version 2.4, use subword_tokenize instead",
+        PendingDeprecationWarning
     )
 
     if not text or not isinstance(text, str):

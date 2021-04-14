@@ -4,6 +4,7 @@ Tokenizer generic functions
 """
 import re
 from typing import Iterable, List, Union
+import warnings
 
 from pythainlp.tokenize import (
     DEFAULT_SENT_TOKENIZE_ENGINE,
@@ -302,6 +303,8 @@ def subword_tokenize(
         * *tcc* (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
         * *wangchanberta* - SentencePiece from wangchanberta model.
+        * *dict* (default) - newmm word tokenizer with a syllable dictionary
+        * *ssg* - CRF syllable segmenter for Thai
 
     :Example:
 
@@ -346,19 +349,32 @@ def subword_tokenize(
     if not text or not isinstance(text, str):
         return []
 
+    segments = []
+
     if engine == "tcc":
         from pythainlp.tokenize.tcc import segment
     elif engine == "etcc":
         from pythainlp.tokenize.etcc import segment
     elif engine == "wangchanberta":
         from pythainlp.wangchanberta import segment
+    elif engine == "dict":  # use syllable dictionary
+        words = word_tokenize(text)
+        for word in words:
+            segments.extend(
+                word_tokenize(
+                    text=word, custom_dict=DEFAULT_SYLLABLE_DICT_TRIE
+                )
+            )
+    elif engine == "ssg":
+        from pythainlp.tokenize.ssg import segment
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
             It might be a typo; if not, please consult our document."""
         )
 
-    segments = segment(text)
+    if segments == []:
+        segments = segment(text)
 
     if not keep_whitespace:
         segments = [token.strip(" ") for token in segments if token.strip(" ")]
@@ -373,6 +389,8 @@ def syllable_tokenize(
 ) -> List[str]:
     """
     Syllable tokenizer.
+
+    **syllable_tokenize is deprecated, use subword_tokenize instead**
 
     Tokenizes text into syllable (Thai: พยางค์), a unit of
     pronunciation having one vowel sound.  For example, the word 'รถไฟ'
@@ -403,6 +421,10 @@ def syllable_tokenize(
         ['รถ', 'ไฟ', 'สมัย', 'ใหม่', 'ใช้', 'กำ', 'ลัง', 'จาก', 'หัว',
         'รถ', 'จักร', 'ดี', 'เซล', ' ', 'หรือ', 'จาก', 'ไฟ', 'ฟ้า']
     """
+    warnings.warn(
+        "syllable_tokenize is deprecated, use subword_tokenize instead",
+        DeprecationWarning
+    )
 
     if not text or not isinstance(text, str):
         return []

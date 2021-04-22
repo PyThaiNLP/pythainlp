@@ -303,7 +303,7 @@ def subword_tokenize(
         * *tcc* (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
         * *wangchanberta* - SentencePiece from wangchanberta model.
-        * *dict* (default) - newmm word tokenizer with a syllable dictionary
+        * *dict* - newmm word tokenizer with a syllable dictionary
         * *ssg* - CRF syllable segmenter for Thai
 
     :Example:

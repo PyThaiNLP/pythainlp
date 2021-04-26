@@ -161,6 +161,10 @@ def _replace_consonants(word: str, consonants: str) -> str:
                 word = word.replace(consonants[0], "")
                 del consonants[0]
                 len_cons -= 1
+            elif consonants[0] == 'อ':
+                word = word.replace(consonants[0], "")
+                del consonants[0]
+                len_cons -= 1
             else:
                 word = word.replace(
                     consonants[0], _CONSONANTS[consonants[0]][0]
@@ -234,17 +238,16 @@ def _romanize(word: str) -> str:
     return word
 
 
-def romanize(text: str) -> str:
+def romanize(word: str) -> str:
     """
     Rendering Thai words in the Latin alphabet or "romanization",
     using the Royal Thai General System of Transcription (RTGS),
     which is the official system published by the Royal Institute of Thailand.
 
-    :param str text: Thai text to be romanized
-    :return: A string of Thai words rendered in the Latin alphabet.
+    :param str word: Thai word to be romanized
+    :return: A string of Thai word rendered in the Latin alphabet.
     :rtype: str
     """
-    words = word_tokenize(text)
-    romanized_words = [_romanize(word) for word in words]
+    romanized_word = _romanize(word)
 
-    return "".join(romanized_words)
+    return romanized_word

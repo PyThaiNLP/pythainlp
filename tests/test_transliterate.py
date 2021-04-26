@@ -31,8 +31,8 @@ _BASIC_TESTS = {
     # "ธรรพ์": "than",  # failed
     # "ธรรม": "tham",  # failed
     # "มหา": "maha",  # failed
-    # "หยาก": "yak",  # failed
-    # "อยาก": "yak",  # failed
+    "หยาก": "yak",
+    "อยาก": "yak",
     # "ยมก": "yamok",  # failed
     # "กลัว": "klua",  # failed
     # "บ้านไร่": "banrai",  # failed

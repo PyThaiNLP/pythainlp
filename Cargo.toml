@@ -2,7 +2,7 @@
 name = "pythainlp-rust-modules"
 version = "0.1.0"
 edition = "2018"
-include = ["pythainlp/corpus/*.txt"]
+include = ["pythainlp/corpus/*.txt","pyproject.toml"]
 authors = ["Thanathip Suntorntip Gorlph"]
 [lib]
 name = "oxidized_thainlp"

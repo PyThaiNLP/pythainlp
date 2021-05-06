@@ -5,7 +5,7 @@ use std::io::prelude::*;
 use std::io::BufReader;
 use super::trie_custom::Trie;
 const CARGO_PATH:&str = env!("CARGO_MANIFEST_DIR");
-const DEFAULT_DICT_PATH_RELATIVE_CARGO:&str = "../pythainlp/corpus/words_th.txt"; 
+const DEFAULT_DICT_PATH_RELATIVE_CARGO:&str = "pythainlp/corpus/words_th.txt"; 
 pub enum DictSource {
     WordList(Vec<String>),
     FilePath(PathBuf)

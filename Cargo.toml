@@ -2,10 +2,12 @@
 name = "pythainlp-rust-modules"
 version = "0.1.0"
 edition = "2018"
-include = ["pythainlp/corpus/*"]
+include = ["pythainlp/corpus/*.txt"]
+authors = ["Thanathip Suntorntip Gorlph"]
 [lib]
-name = "pythainlp_rust_modules"
+name = "oxidized_thainlp"
 path = "rust_modules/src/lib.rs"
+include = ["pythainlp/corpus/*"]
 # "cdylib" is necessary to produce a shared library for Python to import from.
 #
 # Downstream Rust code (including code in `bin/`, `examples/`, and `tests/`) will not be able

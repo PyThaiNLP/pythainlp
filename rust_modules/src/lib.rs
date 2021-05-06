@@ -22,7 +22,7 @@ fn segment(text:&str,safe:Option<bool>) -> PyResult<Vec<String>> {
 
 /// A Python module implemented in Rust.
 #[pymodule]
-fn pythainlp_rust_modules(_py: Python, m: &PyModule) -> PyResult<()> {
+fn oxidized_thainlp(_py: Python, m: &PyModule) -> PyResult<()> {
 
 
     m.add_function(wrap_pyfunction!(segment, m)?)?;

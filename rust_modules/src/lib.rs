@@ -4,11 +4,12 @@
 pub mod tokenizer;
 pub mod fixed_bytes_str;
 
-use crate::tokenizer::newmm_custom::Newmm;
+use crate::tokenizer::newmm_custom::{Newmm};
 
 
 use pyo3::wrap_pyfunction;
 use pyo3::prelude::*;
+use tokenizer::tokenizer_trait::Tokenizer;
 
 #[pyfunction]
 fn segment(text:&str,safe:Option<bool>) -> PyResult<Vec<String>> {

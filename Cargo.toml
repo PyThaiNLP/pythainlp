@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2018"
 include = ["pythainlp/corpus/*.txt","pyproject.toml"]
 authors = ["Thanathip Suntorntip Gorlph"]
+
 [lib]
 name = "oxidized_thainlp"
 path = "rust_modules/src/lib.rs"
@@ -37,3 +38,7 @@ ahash = "0.7.2"
 [[bin]]
 name = "mybin"
 path = "rust_modules/src/main.rs"
+
+[[test]]
+name = "basic" 
+path = "rust_modules/tests/test_tokenizer.rs"

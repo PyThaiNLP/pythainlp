@@ -35,6 +35,20 @@ pub fn rfind_space(custom_text: &[u8]) -> Option<usize> {
     }
     None
 }
+/** return char index */
+pub fn rfind_space_char_index(custom_text: &[u8]) -> Option<usize> {
+    assert_eq!(custom_text.len() % 4, 0);
+
+    for index in (0..(custom_text.len() / BYTES_PER_CHAR)).rev() {
+        match &custom_text[(index) * BYTES_PER_CHAR..(index + 1) * BYTES_PER_CHAR] {
+            SPACE_BYTE => {
+                return Some(index);
+            }
+            _ => {}
+        }
+    }
+    None
+}
 /**
  bytes length = 32, char len = 8
  index 0..8 reverse
@@ -187,6 +201,9 @@ impl CustomString {
         let length = content.len() / BYTES_PER_CHAR;
         Self { content, length }
     }
+    pub fn substring_as_custom_bytes(&self,char_start:usize,char_end:usize)->&[u8]{
+        &self.content[(char_start*BYTES_PER_CHAR)..(char_end*BYTES_PER_CHAR)]
+    }
     pub fn raw_content(&self) -> &[u8] {
         self.content.borrow()
     }
@@ -220,7 +237,7 @@ impl CustomString {
     /** Modify this object - remove "chars" from start to end index */
     pub fn remove_by_chars_indices(&mut self,start:usize,end:usize){
         self.content.drain((start*BYTES_PER_CHAR)..(end*BYTES_PER_CHAR));
-        self.length = self.content.len() / 4
+        self.length = self.content.len() / 4;
     }
 
     /** modify this string to only have character from index retain_start to retain_end */

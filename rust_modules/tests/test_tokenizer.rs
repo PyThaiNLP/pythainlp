@@ -1,12 +1,12 @@
-use pythainlp_rust_modules::{fixed_bytes_str::four_bytes::CustomString, tokenizer::{dict_reader::{DictSource,create_dict_trie}}};
-use pythainlp_rust_modules::tokenizer::{newmm_custom::{Newmm as NewmmCustom},trie,dict_reader_custom::{DictSource as CustomDictSource,create_dict_trie as create_custom_dict_trie}};
+use oxidized_thainlp::{fixed_bytes_str::four_bytes::CustomString};
+use oxidized_thainlp::tokenizer::{newmm_custom::{Newmm as NewmmCustom},dict_reader_custom::{DictSource as CustomDictSource,create_dict_trie as create_custom_dict_trie}};
 use regex::internal::Inst;
 use std::{fs::canonicalize, path::{Path,PathBuf}};
 use std::env;
 use std::time::Instant;
 const CARGO_PATH:&str = env!("CARGO_MANIFEST_DIR");
-const DEFAULT_DICT_PATH_RELATIVE_CARGO:&str = "../pythainlp/corpus/words_th.txt"; 
-use pythainlp_rust_modules::fixed_bytes_str::four_bytes;
+const DEFAULT_DICT_PATH_RELATIVE_CARGO:&str = "./pythainlp/corpus/words_th.txt"; 
+use oxidized_thainlp::fixed_bytes_str::four_bytes;
 
 const short_text_1:&str ="หมอนทองตากลมหูว์MBK39 :.ฉฺ๐๐๓-#™±";
 const short_text_2:&str = "ทดสอบ";
@@ -14,10 +14,6 @@ const short_text_2:&str = "ทดสอบ";
 
 #[test]
 fn test_long_text_byte_tokenizer(){
-    let example = "กขคง)";
-    
-    let u8vec = four_bytes::to_four_bytes(example);
-    println!("{:?}",u8vec);
     let long_text = [ 
         "ไต้หวัน (แป่ะเอ๋ยี้: Tâi-oân; ไต่อวัน) หรือ ไถวาน ",
         "(อักษรโรมัน: Taiwan; จีนตัวย่อ: 台湾; จีนตัวเต็ม: 臺灣/台灣; พินอิน: ",
@@ -169,12 +165,13 @@ fn test_long_text_byte_tokenizer(){
         println!("time for load dict is {:?}",time_for_load_dict.elapsed());
         println!("{:?}",canonicalize(&default_dict_path) );
         let time = Instant::now();
-        let custom_input = CustomString::new(&long_text);
-        let result = NewmmCustom::internal_segment(&custom_input, &default_dict, false);
+        let mut custom_input = CustomString::new(&long_text);
+        let result = NewmmCustom::internal_segment(&mut custom_input, &default_dict, false);
         println!("time for unsafe segmentation is {:?}",time.elapsed());
         
         let time_safe = Instant::now();
-        let safe_result = NewmmCustom::internal_segment(&custom_input, &default_dict, true);
+        let mut custom_input = CustomString::new(&long_text);
+        let safe_result = NewmmCustom::internal_segment(&mut custom_input, &default_dict, true);
         println!("time for safe segmentation is {:?}",time_safe.elapsed());
         assert_eq!(result.len(),1889);
         assert_eq!(safe_result.len(),2011);

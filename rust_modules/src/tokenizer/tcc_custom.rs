@@ -7,7 +7,7 @@ use regex::bytes::Regex;
 use crate::fixed_bytes_str::four_bytes::{self, CustomString};
 
 use super::super::fixed_bytes_str::four_bytes::{BYTES_PER_CHAR,encode_utf8,to_four_bytes};
-
+use std::mem::size_of;
 
 lazy_static! {
     static ref NON_LOOKAHEAD_TCC: Regex = Regex::new( &[
@@ -162,7 +162,7 @@ pub fn pattern_tcc_lookahead_part() -> Regex {
 }
 
 pub fn tcc_pos(custom_text_type:&[u8]) -> HashSet<usize> {
-    let mut set: HashSet<usize> = HashSet::with_capacity(custom_text_type.len() / BYTES_PER_CHAR);
+    let mut set: HashSet<usize> = HashSet::with_capacity(custom_text_type.len() / BYTES_PER_CHAR / 2);
     if custom_text_type.len() == 0 {
         set
     } else {
@@ -181,7 +181,7 @@ pub fn tcc_pos(custom_text_type:&[u8]) -> HashSet<usize> {
 pub fn segment(custom_text_type:&[u8]) -> Vec<&[u8]> {
     // todo!();
     let mut txt  = custom_text_type.clone();
-    let mut tcc_result: Vec<&[u8]> = Vec::with_capacity(txt.len()*4/5);
+    let mut tcc_result: Vec<&[u8]> = Vec::with_capacity(txt.len() / 10);
     while txt.len() > 0 {
         if let Some(result) = NON_LOOKAHEAD_TCC.find(&txt) {
             //It's all thai;
@@ -231,7 +231,7 @@ fn test_new_pattern() {
     // println!("{:?}",tcc_non_lookahead_pattern.find(&string));
     
 // // println!("{:?}",tcc_pos(string,&tcc_non_lookahead_pattern));
-    let test_1=four_bytes::to_four_bytes("ประเทศไทย");
+    let test_1=four_bytes::to_four_bytes("ประเทศไทย".to_string());
     
     let result = segment(&test_1);
 

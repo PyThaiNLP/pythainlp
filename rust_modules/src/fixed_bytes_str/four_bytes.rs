@@ -72,9 +72,9 @@ fn is_whitespace(custom_bytes: &[u8]) -> bool {
         _ => false,
     }
 }
-pub fn to_four_bytes(input: &str) -> Vec<u8> {
+pub fn to_four_bytes(input: String) -> Vec<u8> {
     let output_size = num_chars(input.as_bytes());
-    let mut output_vec: Vec<u8> = Vec::with_capacity(output_size * 4);
+    let mut output_vec: Vec<u8> = Vec::with_capacity(output_size * BYTES_PER_CHAR);
     // let mut output:&[u8;4] = &[0;output_size];
     for character in input.chars() {
         let mut bytes_buffer: [u8; 4] = [0; 4];
@@ -160,7 +160,7 @@ pub fn trim_to_std_utf8(input: &[u8]) -> Box<[u8]> {
 }
 pub fn to_std_string(input: &[u8]) -> String {
     assert_eq!(input.len() % 4, 0);
-    let mut output_content: Vec<u8> = Vec::with_capacity(input.len());
+    let mut output_content: Vec<u8> = Vec::with_capacity(input.len()/10);
     for index in (0..input.len()).step_by(BYTES_PER_CHAR) {
         let end_offset = index + BYTES_PER_CHAR;
         for byte in trim_to_std_utf8(&input[index..end_offset]).deref() {
@@ -190,13 +190,15 @@ pub struct CustomString {
 }
 
 impl CustomString {
-    pub fn from(slice: &[u8]) -> Self {
+    pub fn from(four_byte_vec: Vec<u8>) -> Self {
+        let content =  four_byte_vec;
+        let length = content.len() / BYTES_PER_CHAR;
         Self {
-            content: Vec::from(slice),
-            length: slice.len() / BYTES_PER_CHAR,
+            content,
+            length
         }
     }
-    pub fn new(base_string: &str) -> Self {
+    pub fn new(base_string: String) -> Self {
         let content = Vec::from(to_four_bytes(base_string));
         let length = content.len() / BYTES_PER_CHAR;
         Self { content, length }
@@ -249,7 +251,7 @@ impl CustomString {
         to_std_string(&self.content)
     }
     pub fn convert_raw_bytes_to_std_string(input: &[u8]) -> String {
-        let mut output_content: Vec<u8> = Vec::with_capacity(input.len());
+        let mut output_content: Vec<u8> = Vec::with_capacity(input.len()/100);
         for index in (0..input.len()).step_by(BYTES_PER_CHAR) {
             let end_offset = index + BYTES_PER_CHAR;
             for byte in trim_to_std_utf8(&input[index..end_offset]).deref() {

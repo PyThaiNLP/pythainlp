@@ -17,7 +17,7 @@ use regex::bytes::Regex;
 use std::{collections::VecDeque, path::PathBuf};
 const MAX_GRAPH_SIZE: usize = 50;
 const USE_MULTITHREAD_THRESHOLD: usize = 100;
-
+use std::mem::size_of_val;
 // Window size for safe mode
 const TEXT_SCAN_POINT: usize = 120;
 const TEXT_SCAN_LEFT: usize = 20;
@@ -93,8 +93,8 @@ impl Newmm {
         let text = input;
         let input_char_len = text.len() / BYTES_PER_CHAR;
         let mut graph_size: usize = 0;
-        let mut graph: HashMap<usize, Vec<usize>> = HashMap::with_capacity(input_char_len);
-        let mut result_str: Vec<Vec<u8>> = Vec::with_capacity(input_char_len);
+        let mut graph: HashMap<usize, Vec<usize>> = HashMap::with_capacity(input_char_len/100);
+        let mut result_str: Vec<Vec<u8>> = Vec::with_capacity(input_char_len/100);
 
         // all position should be refered as character index
         let valid_position = tcc_custom::tcc_pos(input);
@@ -110,6 +110,7 @@ impl Newmm {
             std::option::Option::Some(_) => true,
             std::option::Option::None => false,
         } {
+          
             let first_pos_list = position_list.peek().unwrap();
             if *first_pos_list < text_length {
                 if let Some(begin_position) = position_list.pop() {
@@ -249,7 +250,9 @@ impl Newmm {
                 break;
             }
         }
+        
         result_str.shrink_to_fit();
+        // println!("result_str size is {}",size_of_val(&result_str));
         result_str
     }
     pub fn internal_segment(input: &CustomString, custom_dict: &Trie, safe: bool) -> Vec<String> {
@@ -277,7 +280,7 @@ impl Newmm {
             };
         } else {
             let mut txt = input.raw_content();
-            let mut txt_parts: Vec<Vec<u8>> = Vec::with_capacity(txt.len() * 8 / 9);
+            let mut txt_parts: Vec<Vec<u8>> = Vec::with_capacity(txt.len() /10);
             while txt.chars_len() >= TEXT_SCAN_END {
                 let sample: &[u8] = txt.slice_by_char_indice(TEXT_SCAN_BEGIN, TEXT_SCAN_END);
 
@@ -311,10 +314,10 @@ impl Newmm {
                 txt_parts.push(txt.to_owned());
             }
             txt_parts
-                .into_par_iter()
+                .par_iter()
                 .flat_map(|part| {
                     Self::one_cut(&part, &custom_dict)
-                        .into_par_iter()
+                        .par_iter()
                         .map(|word| to_std_string(&word))
                         .collect::<Vec<String>>()
                 })
@@ -324,14 +327,13 @@ impl Newmm {
 }
 
 impl Tokenizer for Newmm {
-    fn segment(&self, text: &str, safe: Option<bool>) -> Vec<String> {
+    fn segment(&self, text: String, safe: Option<bool>) -> Vec<String> {
         let safe_flag = match safe {
             Some(val) => val,
             None => false,
         };
         let custom_string = CustomString::new(text);
         let tokens = Self::internal_segment(&custom_string, &self.dict, safe_flag);
-
         tokens
     }
 }

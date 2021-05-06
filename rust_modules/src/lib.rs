@@ -12,7 +12,7 @@ use pyo3::prelude::*;
 use tokenizer::tokenizer_trait::Tokenizer;
 
 #[pyfunction]
-fn segment(text:&str,safe:Option<bool>) -> PyResult<Vec<String>> {
+fn segment(text:String,safe:Option<bool>) -> PyResult<Vec<String>> {
     
     let newmm =  Newmm::new(None);
     let result = newmm.segment(text, safe);

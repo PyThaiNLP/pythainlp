@@ -142,7 +142,7 @@ pub struct Trie {
 impl Trie {
     pub fn new(words: &Vec<CustomString>) -> Self {
         let mut instance = Self {
-            words: HashSet::with_capacity(words.len()),
+            words: HashSet::with_capacity(words.len()/10),
             root: TrieNode::new(),
         };
         for word in words.into_iter() {

@@ -1,19 +1,22 @@
-use crate::fixed_bytes_str::four_bytes::{BYTES_PER_CHAR, CustomString, rfind_space, to_std_string, trim_to_std_utf8};
+use crate::fixed_bytes_str::four_bytes::{
+    rfind_space, rfind_space_char_index, to_std_string, CustomString, FixedCharsLengthByteSlice,
+    BYTES_PER_CHAR,
+};
 
-use super::{tcc_custom, tokenizer_trait::Tokenizer, trie_custom::Trie,dict_reader_custom::{DictSource,create_dict_trie,create_default_dict}};
+use super::{
+    dict_reader_custom::{create_default_dict, create_dict_trie, DictSource},
+    tcc_custom,
+    tokenizer_trait::Tokenizer,
+    trie_custom::Trie,
+};
 use ahash::{AHashMap as HashMap, AHashSet as HashSet};
-use regex::bytes::Regex;
 use binary_heap_plus::{BinaryHeap, MinComparator};
 use lazy_static::lazy_static;
 use rayon::prelude::*;
+use regex::bytes::Regex;
 use std::{collections::VecDeque, path::PathBuf};
 const MAX_GRAPH_SIZE: usize = 50;
 const USE_MULTITHREAD_THRESHOLD: usize = 100;
-
-
-
-
-
 
 // Window size for safe mode
 const TEXT_SCAN_POINT: usize = 120;
@@ -40,24 +43,18 @@ lazy_static! {
     static ref THAI_TWOCHARS_PATTERN: Regex = Regex::new(r"^(\x00[ก-ฮ]){0,2}$").unwrap();
 }
 pub struct Newmm {
-    dict:Box<Trie>
-
+    dict: Box<Trie>,
 }
 
 impl Newmm {
-    pub fn new(dict_path:Option<&str>)->Self{
+    pub fn new(dict_path: Option<&str>) -> Self {
         match dict_path {
-            None => {
-                Self{
-                    dict:Box::from(create_default_dict())
-                }
-
-            }
-            Some(path) => {
-                Self{
-                    dict:Box::from(create_dict_trie(DictSource::FilePath(PathBuf::from(path))))
-                }
-            }
+            None => Self {
+                dict: Box::from(create_default_dict()),
+            },
+            Some(path) => Self {
+                dict: Box::from(create_dict_trie(DictSource::FilePath(PathBuf::from(path)))),
+            },
         }
     }
     #[inline]
@@ -279,42 +276,36 @@ impl Newmm {
                     .collect()
             };
         } else {
-            
             let mut txt = input.raw_content();
             let mut txt_parts: Vec<Vec<u8>> = Vec::with_capacity(txt.len() * 8 / 9);
-            while (txt.len() / BYTES_PER_CHAR) >= TEXT_SCAN_END {
-               
-                let sample: &[u8] =
-                    &txt[TEXT_SCAN_BEGIN * BYTES_PER_CHAR..TEXT_SCAN_END * BYTES_PER_CHAR];
+            while txt.chars_len() >= TEXT_SCAN_END {
+                let sample: &[u8] = txt.slice_by_char_indice(TEXT_SCAN_BEGIN, TEXT_SCAN_END);
+
                 let mut cut_pos = TEXT_SCAN_END;
 
-                let space_byte_index = rfind_space(sample);
+                let space_char_index = rfind_space_char_index(sample);
                 // there is a space
-                if let Some(space_byte_index) = space_byte_index {
-                    cut_pos = (space_byte_index / BYTES_PER_CHAR) + 1;
+                if let Some(space_char_index) = space_char_index {
+                    cut_pos = space_char_index + 1;
                 } else {
                     let word_tokens = Self::one_cut(sample, &custom_dict);
                     let mut token_max_index = 0;
                     for (idx, token) in word_tokens.iter().enumerate() {
                         let mut token_max_length = 0;
 
-                        if (token.len() / BYTES_PER_CHAR) > token_max_length {
-                            token_max_length = token.len() / BYTES_PER_CHAR;
+                        if token.as_slice().chars_len() > token_max_length {
+                            token_max_length = token.as_slice().chars_len();
                             token_max_index = idx;
                         }
                     }
                     // choose the position that covers longest token
                     cut_pos = TEXT_SCAN_BEGIN;
                     for i in 0..token_max_index {
-                        cut_pos = cut_pos + {
-                            let byte_length = word_tokens.get(i).unwrap().len();
-                            byte_length / BYTES_PER_CHAR
-                        };
+                        cut_pos = cut_pos + word_tokens.get(i).unwrap().as_slice().chars_len();
                     }
-
                 }
-                txt_parts.push(txt[0..(cut_pos * BYTES_PER_CHAR)].to_owned());
-                txt = &txt[(cut_pos * BYTES_PER_CHAR)..];
+                txt_parts.push(txt.slice_by_char_indice(0, cut_pos).to_owned());
+                txt = txt.slice_by_char_indice(cut_pos, txt.chars_len());
             }
             if txt.len() > 0 {
                 txt_parts.push(txt.to_owned());
@@ -333,20 +324,14 @@ impl Newmm {
 }
 
 impl Tokenizer for Newmm {
-     fn segment(
-        &self,
-        text: &str,
-        safe: Option<bool>,
-    ) -> Vec<String> {
+    fn segment(&self, text: &str, safe: Option<bool>) -> Vec<String> {
         let safe_flag = match safe {
-            Some(val)=>val,
-            None=>false
+            Some(val) => val,
+            None => false,
         };
         let custom_string = CustomString::new(text);
         let tokens = Self::internal_segment(&custom_string, &self.dict, safe_flag);
-        
+
         tokens
-        
-         
     }
 }

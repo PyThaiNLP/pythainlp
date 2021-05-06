@@ -27,8 +27,7 @@ lazy_static! {
 #[pyfunction]
 fn segment(text:&str,safe:Option<bool>,parallel:Option<bool>) -> PyResult<Vec<String>> {
     
-    let newmm =  Newmm::new(None);
-    let result = newmm.segment(text, safe,parallel);
+    let result = DEFAULT_DICT.segment(text, safe,parallel);
     Ok(result)
 }
 

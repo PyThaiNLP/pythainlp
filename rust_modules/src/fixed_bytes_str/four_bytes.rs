@@ -72,7 +72,7 @@ fn is_whitespace(custom_bytes: &[u8]) -> bool {
         _ => false,
     }
 }
-pub fn to_four_bytes(input: String) -> Vec<u8> {
+pub fn to_four_bytes(input: &str) -> Vec<u8> {
     let output_size = num_chars(input.as_bytes());
     let mut output_vec: Vec<u8> = Vec::with_capacity(output_size * BYTES_PER_CHAR);
     // let mut output:&[u8;4] = &[0;output_size];
@@ -198,7 +198,7 @@ impl CustomString {
             length
         }
     }
-    pub fn new(base_string: String) -> Self {
+    pub fn new(base_string: &str) -> Self {
         let content = Vec::from(to_four_bytes(base_string));
         let length = content.len() / BYTES_PER_CHAR;
         Self { content, length }

@@ -26,7 +26,7 @@ pub fn create_default_dict() -> Trie {
         let mut line = String::with_capacity(50);
         let mut dict:Vec<CustomString> = Vec::with_capacity(600);
         while reader.read_line(&mut line).unwrap() != 0 {
-            dict.push(CustomString::new(line.clone()));
+            dict.push(CustomString::new(&line));
             line.clear();
         }
         dict.shrink_to_fit();
@@ -50,7 +50,7 @@ pub fn create_dict_trie(source:DictSource) -> Trie {
             let mut line = String::with_capacity(50);
             let mut dict:Vec<CustomString> = Vec::with_capacity(600);
             while reader.read_line(&mut line).unwrap() != 0 {
-                dict.push(CustomString::new(line.clone()));
+                dict.push(CustomString::new(&line));
                 line.clear();
             }
             dict.shrink_to_fit();
@@ -58,7 +58,7 @@ pub fn create_dict_trie(source:DictSource) -> Trie {
         },
 
         DictSource::WordList(word_list)=>{
-            let custom_word_list:Vec<CustomString> = word_list.into_iter().map(|word| {CustomString::new(word)}).collect();
+            let custom_word_list:Vec<CustomString> = word_list.into_iter().map(|word| {CustomString::new(&word)}).collect();
             Trie::new(&custom_word_list)
         }
     }

@@ -63,8 +63,6 @@ impl Newmm {
         start: usize,
         goal: usize,
     ) -> Vec<usize> {
-        // println!("graph {:?}",graph);
-        // println!("start and goal {} {}",start,goal);
         let mut current_queue: VecDeque<(usize, Vec<usize>)> = VecDeque::with_capacity(graph.len());
         let mut init_path: Vec<usize> = Vec::with_capacity(goal - start);
         init_path.push(start);
@@ -149,15 +147,10 @@ impl Newmm {
                                 Self::bfs_paths_graph(&graph, end_position, *first_position_list);
                             graph_size = 0; // reset our graph
 
-                            // println!("candidate pos {:?}",group_of_end_position_candidate.iter().skip(1).collect::<Vec<&usize>>());
                             for position in group_of_end_position_candidate.iter().skip(1) {
-                                // it's guarantee to be Thai
-                                // let token:String = text.chars().skip(end_position).take(*position - end_position).collect();
-                                // let token = text.substring(end_position, *position);
                                 let token = &text
                                     [(end_position * BYTES_PER_CHAR)..(*position * BYTES_PER_CHAR)];
                                 result_str.push(Vec::from(token));
-                                // result_str.push(Cow::Owned(token));
                                 end_position = *position;
                             }
                         } else {
@@ -252,7 +245,6 @@ impl Newmm {
         }
         
         result_str.shrink_to_fit();
-        // println!("result_str size is {}",size_of_val(&result_str));
         result_str
     }
     pub fn internal_segment(input: &CustomString, custom_dict: &Trie, safe: bool) -> Vec<String> {
@@ -279,6 +271,7 @@ impl Newmm {
                     .collect()
             };
         } else {
+          
             let mut txt = input.raw_content();
             let mut txt_parts: Vec<Vec<u8>> = Vec::with_capacity(txt.len() /10);
             while txt.chars_len() >= TEXT_SCAN_END {
@@ -316,10 +309,12 @@ impl Newmm {
             txt_parts
                 .par_iter()
                 .flat_map(|part| {
+                    // let mut result_tokens:Vec<String> = Vec::with_capacity(100);
                     Self::one_cut(&part, &custom_dict)
                         .par_iter()
                         .map(|word| to_std_string(&word))
                         .collect::<Vec<String>>()
+                    // result_tokens
                 })
                 .collect::<Vec<String>>()
         }
@@ -327,7 +322,7 @@ impl Newmm {
 }
 
 impl Tokenizer for Newmm {
-    fn segment(&self, text: String, safe: Option<bool>) -> Vec<String> {
+    fn segment(&self, text: &str, safe: Option<bool>) -> Vec<String> {
         let safe_flag = match safe {
             Some(val) => val,
             None => false,

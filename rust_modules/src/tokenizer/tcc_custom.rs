@@ -231,7 +231,7 @@ fn test_new_pattern() {
     // println!("{:?}",tcc_non_lookahead_pattern.find(&string));
     
 // // println!("{:?}",tcc_pos(string,&tcc_non_lookahead_pattern));
-    let test_1=four_bytes::to_four_bytes("ประเทศไทย".to_string());
+    let test_1=four_bytes::to_four_bytes("ประเทศไทย");
     
     let result = segment(&test_1);
 

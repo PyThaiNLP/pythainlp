@@ -1,4 +1,4 @@
-use crate::fixed_bytes_str::four_bytes::{BYTES_PER_CHAR, CustomString, FixedCharsLengthByteSlice, rfind_space, rfind_space_char_index, to_std_string, trim_to_std_utf8};
+use crate::fixed_bytes_str::four_bytes::{BYTES_PER_CHAR, CustomString, rfind_space, to_std_string, trim_to_std_utf8};
 
 use super::{tcc_custom, tokenizer_trait::Tokenizer, trie_custom::Trie,dict_reader_custom::{DictSource,create_dict_trie,create_default_dict}};
 use ahash::{AHashMap as HashMap, AHashSet as HashSet};
@@ -255,10 +255,12 @@ impl Newmm {
         result_str.shrink_to_fit();
         result_str
     }
-    pub fn internal_segment(input: &mut CustomString, custom_dict: &Trie, safe: bool) -> Vec<String> {
+    pub fn internal_segment(input: &CustomString, custom_dict: &Trie, safe: bool) -> Vec<String> {
+        // let text_as_bytes = input.raw_content();
         if input.len() == 0 {
             return vec![];
         }
+
         if !safe || input.chars_len() < TEXT_SCAN_END {
             let result = Self::one_cut(input.raw_content(), custom_dict);
             return if result.len() > USE_MULTITHREAD_THRESHOLD {
@@ -278,24 +280,26 @@ impl Newmm {
             };
         } else {
             
-            let mut txt_parts: Vec<Vec<u8>> = Vec::with_capacity(input.len() * 8 / 9);
-            while input.chars_len() >= TEXT_SCAN_END {
+            let mut txt = input.raw_content();
+            let mut txt_parts: Vec<Vec<u8>> = Vec::with_capacity(txt.len() * 8 / 9);
+            while (txt.len() / BYTES_PER_CHAR) >= TEXT_SCAN_END {
                
-                let sample  = input.substring_as_custom_bytes(TEXT_SCAN_BEGIN,TEXT_SCAN_END);
+                let sample: &[u8] =
+                    &txt[TEXT_SCAN_BEGIN * BYTES_PER_CHAR..TEXT_SCAN_END * BYTES_PER_CHAR];
                 let mut cut_pos = TEXT_SCAN_END;
 
-                let space_char_index = rfind_space_char_index(sample);
+                let space_byte_index = rfind_space(sample);
                 // there is a space
-                if let Some(space_char_index) = space_char_index {
-                    cut_pos = space_char_index  + 1;
+                if let Some(space_byte_index) = space_byte_index {
+                    cut_pos = (space_byte_index / BYTES_PER_CHAR) + 1;
                 } else {
                     let word_tokens = Self::one_cut(sample, &custom_dict);
                     let mut token_max_index = 0;
                     for (idx, token) in word_tokens.iter().enumerate() {
                         let mut token_max_length = 0;
 
-                        if token.as_slice().chars_len() > token_max_length {
-                            token_max_length = token.as_slice().chars_len();
+                        if (token.len() / BYTES_PER_CHAR) > token_max_length {
+                            token_max_length = token.len() / BYTES_PER_CHAR;
                             token_max_index = idx;
                         }
                     }
@@ -303,16 +307,17 @@ impl Newmm {
                     cut_pos = TEXT_SCAN_BEGIN;
                     for i in 0..token_max_index {
                         cut_pos = cut_pos + {
-                           word_tokens.get(i).unwrap().as_slice().chars_len()
+                            let byte_length = word_tokens.get(i).unwrap().len();
+                            byte_length / BYTES_PER_CHAR
                         };
                     }
+
                 }
-                txt_parts.push(input.substring_as_custom_bytes(0, cut_pos).to_owned());
-                // txt = &txt[(cut_pos * BYTES_PER_CHAR)..];
-                input.remove_by_chars_indices(0, cut_pos);
+                txt_parts.push(txt[0..(cut_pos * BYTES_PER_CHAR)].to_owned());
+                txt = &txt[(cut_pos * BYTES_PER_CHAR)..];
             }
-            if input.chars_len() > 0 {
-                txt_parts.push(input.raw_content().to_owned());
+            if txt.len() > 0 {
+                txt_parts.push(txt.to_owned());
             }
             txt_parts
                 .into_par_iter()
@@ -337,8 +342,8 @@ impl Tokenizer for Newmm {
             Some(val)=>val,
             None=>false
         };
-        let mut custom_string = CustomString::new(text);
-        let tokens = Self::internal_segment(&mut custom_string, &self.dict, safe_flag);
+        let custom_string = CustomString::new(text);
+        let tokens = Self::internal_segment(&custom_string, &self.dict, safe_flag);
         
         tokens
         

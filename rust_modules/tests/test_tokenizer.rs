@@ -166,12 +166,12 @@ fn test_long_text_byte_tokenizer(){
         println!("{:?}",canonicalize(&default_dict_path) );
         let time = Instant::now();
         let mut custom_input = CustomString::new(&long_text);
-        let result = NewmmCustom::internal_segment(&mut custom_input, &default_dict, false);
+        let result = NewmmCustom::internal_segment(&custom_input, &default_dict, false,true);
         println!("time for unsafe segmentation is {:?}",time.elapsed());
         
         let time_safe = Instant::now();
         let mut custom_input = CustomString::new(&long_text);
-        let safe_result = NewmmCustom::internal_segment(&mut custom_input, &default_dict, true);
+        let safe_result = NewmmCustom::internal_segment(&custom_input, &default_dict, true,true);
         println!("time for safe segmentation is {:?}",time_safe.elapsed());
         assert_eq!(result.len(),1889);
         assert_eq!(safe_result.len(),2011);

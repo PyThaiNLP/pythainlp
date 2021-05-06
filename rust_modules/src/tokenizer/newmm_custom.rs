@@ -247,7 +247,7 @@ impl Newmm {
         result_str.shrink_to_fit();
         result_str
     }
-    pub fn internal_segment(input: &CustomString, custom_dict: &Trie, safe: bool) -> Vec<String> {
+    pub fn internal_segment(input: &CustomString, custom_dict: &Trie, safe: bool,parallel:bool) -> Vec<String> {
         // let text_as_bytes = input.raw_content();
         if input.len() == 0 {
             return vec![];
@@ -306,7 +306,9 @@ impl Newmm {
             if txt.len() > 0 {
                 txt_parts.push(txt.to_owned());
             }
-            txt_parts
+
+            if parallel {
+                txt_parts
                 .par_iter()
                 .flat_map(|part| {
                     // let mut result_tokens:Vec<String> = Vec::with_capacity(100);
@@ -317,18 +319,37 @@ impl Newmm {
                     // result_tokens
                 })
                 .collect::<Vec<String>>()
+            }
+            else{
+                txt_parts
+                .iter()
+                .flat_map(|part| {
+                    // let mut result_tokens:Vec<String> = Vec::with_capacity(100);
+                    Self::one_cut(&part, &custom_dict)
+                        .iter()
+                        .map(|word| to_std_string(&word))
+                        .collect::<Vec<String>>()
+                    // result_tokens
+                })
+                .collect::<Vec<String>>()
+            }
+            
         }
     }
 }
 
 impl Tokenizer for Newmm {
-    fn segment(&self, text: &str, safe: Option<bool>) -> Vec<String> {
+    fn segment(&self, text: &str, safe: Option<bool>,parallel:Option<bool>) -> Vec<String> {
         let safe_flag = match safe {
             Some(val) => val,
             None => false,
         };
+        let parallel_flag = match parallel {
+            Some(val)=>val,
+            _=>false
+        };
         let custom_string = CustomString::new(text);
-        let tokens = Self::internal_segment(&custom_string, &self.dict, safe_flag);
+        let tokens = Self::internal_segment(&custom_string, &self.dict, safe_flag,parallel_flag);
         tokens
     }
 }

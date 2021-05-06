@@ -159,7 +159,7 @@ fn main(){
         let default_dict_path = cargo_dir.join(dict_path);
         let default_dict =  create_custom_dict_trie(CustomDictSource::FilePath(default_dict_path));
         let mut custom_input = CustomString::new(&long_text);
-        let result = NewmmCustom::internal_segment(&custom_input, &default_dict, false);
+        let result = NewmmCustom::internal_segment(&custom_input, &default_dict, false,true);
         
         assert_eq!(result.len(),1889);
         

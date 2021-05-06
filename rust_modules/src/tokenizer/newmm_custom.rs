@@ -1,5 +1,20 @@
+/**
+Dictionary-based maximal matching word segmentation, constrained with
+Thai Character Cluster (TCC) boundaries.
+
+The code is based on the notebooks created by Korakot Chaovavanich,
+with heuristic graph size limit added to avoid exponential wait time.
+
+:See Also:
+    * \
+        https://colab.research.google.com/notebook#fileId=1V1Z657_5eSWPo8rLfVRwA0A5E4vkg7SI
+    * \
+        https://colab.research.google.com/drive/14Ibg-ngZXj15RKwjNwoZlOT32fQBOrBx#scrollTo=MYZ7NzAR7Dmw
+Rust implementation: ["Thanathip Suntorntip"]
+*/
+
 use crate::fixed_bytes_str::four_bytes::{
-    rfind_space, rfind_space_char_index, to_std_string, CustomString, FixedCharsLengthByteSlice,
+     rfind_space_char_index, to_std_string, CustomString, FixedCharsLengthByteSlice,
     BYTES_PER_CHAR,
 };
 
@@ -17,21 +32,15 @@ use regex::bytes::Regex;
 use std::{collections::VecDeque, path::PathBuf};
 const MAX_GRAPH_SIZE: usize = 50;
 const USE_MULTITHREAD_THRESHOLD: usize = 100;
-use std::mem::size_of_val;
+
+
 // Window size for safe mode
 const TEXT_SCAN_POINT: usize = 120;
 const TEXT_SCAN_LEFT: usize = 20;
 const TEXT_SCAN_RIGHT: usize = 20;
 const TEXT_SCAN_BEGIN: usize = TEXT_SCAN_POINT - TEXT_SCAN_LEFT;
 const TEXT_SCAN_END: usize = TEXT_SCAN_POINT + TEXT_SCAN_RIGHT;
-// _PAT_NONTHAI = re.compile(
-//     r"""(?x)
-// [-a-zA-Z]+|   # Latin characters
-// \d[\d,\.]*|   # number
-// [ \t]+|       # space
-// \r?\n         # newline
-// """
-// )
+
 lazy_static! {
     static ref NON_THAI_PATTERN: Regex = Regex::new(
         r"^(\x00\x00\x00[-a-zA-Z])+|^\x00\x00\x00\d(\x00\x00\x00[\d,\.])*|^(\x00\x00\x00[ \t])+|^(\x00\x00\x00\r)?\x00\x00\x00\n"

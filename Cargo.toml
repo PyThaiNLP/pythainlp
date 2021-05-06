@@ -23,10 +23,7 @@ features = ["extension-module"]
 
 [dependencies]
 regex = "1.4.6"
-hashbrown = "0.3"
-substring = "1.4.5"
 rayon = "1.5"
-halfbrown = "0.1.11"
 binary-heap-plus = "0.4.1"
 lazy_static = "1.4.0"
 bytecount = "0.6.2"
@@ -34,10 +31,6 @@ smol_str = "0.1.17"
 rustc-hash = "1.1.0"
 ahash = "0.7.2"
 
-
-[[bin]]
-name = "mybin"
-path = "rust_modules/src/main.rs"
 
 [[test]]
 name = "basic" 

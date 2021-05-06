@@ -39,9 +39,6 @@ impl TrieNode {
     fn find_mut_child(&mut self, word: &[u8]) -> Option<&mut Self> {
         self.children.get_mut(word)
     }
-    fn add_child(&mut self, word: &[u8], child: Self) {
-        self.children.insert(word.into(), child);
-    }
     fn set_not_end(&mut self) {
         self.end = false;
     }

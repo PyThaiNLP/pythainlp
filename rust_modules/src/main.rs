@@ -4,9 +4,10 @@ use regex::internal::Inst;
 use std::path::{Path,PathBuf};
 use std::env;
 use std::time::Instant;
-const DEFAULT_DICT_PATH_RELATIVE_TO_TEST:&str = "../pythainlp/corpus/words_th.txt"; 
+const DEFAULT_DICT_PATH_RELATIVE_TO_ROOT:&str = "./pythainlp/corpus/words_th.txt"; 
 use pythainlp_rust_modules::fixed_bytes_str::four_bytes;
 
+const CARGO_ROOT:&str = env!("CARGO_MANIFEST_DIR");
 const short_text_1:&str ="หมอนทองตากลมหูว์MBK39 :.ฉฺ๐๐๓-#™±";
 const short_text_2:&str = "ทดสอบ";
 
@@ -153,9 +154,9 @@ fn main(){
         "วันที่ 17 พฤษภาคม 2562 สภานิติบัญญัติไต้หวันอนุมัติ",
         "ร่างกฎหมายทำให้การสมรสเพศเดียวกันชอบด้วยกฎหมาย",
         " ทำให้เป็นประเทศแรกในทวีปเอเชียที่ผ่านกฎหมายดังกล่าว[18][19]"].join("");
-        let CURRENT_DIR = env::current_dir().unwrap();
-        let dict_path = PathBuf::from(DEFAULT_DICT_PATH_RELATIVE_TO_TEST);
-        let default_dict_path = CURRENT_DIR.join(dict_path);
+        let cargo_dir = PathBuf::from(CARGO_ROOT);
+        let dict_path = PathBuf::from(DEFAULT_DICT_PATH_RELATIVE_TO_ROOT);
+        let default_dict_path = cargo_dir.join(dict_path);
         let default_dict =  create_custom_dict_trie(CustomDictSource::FilePath(default_dict_path));
         let custom_input = CustomString::new(&long_text);
         let result = NewmmCustom::internal_segment(custom_input, &default_dict, false);

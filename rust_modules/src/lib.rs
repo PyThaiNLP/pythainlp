@@ -5,12 +5,14 @@ pub mod tokenizer;
 pub mod fixed_bytes_str;
 
 use crate::tokenizer::newmm_custom::{Newmm};
-
+use lazy_static::lazy_static;
 
 use pyo3::wrap_pyfunction;
 use pyo3::prelude::*;
 use tokenizer::tokenizer_trait::Tokenizer;
-
+lazy_static! {
+    static ref DEFAULT_DICT:Newmm = Newmm::new(None);
+}
 
 /// segment(text, safe, parallel, /)
 /// --

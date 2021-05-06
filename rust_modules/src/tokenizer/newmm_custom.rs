@@ -279,6 +279,7 @@ impl Newmm {
                     .collect()
             };
         } else {
+            
             let mut txt = input.raw_content();
             let mut txt_parts: Vec<Vec<u8>> = Vec::with_capacity(txt.len() * 8 / 9);
             while (txt.len() / BYTES_PER_CHAR) >= TEXT_SCAN_END {

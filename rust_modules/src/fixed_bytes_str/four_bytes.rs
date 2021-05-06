@@ -171,19 +171,19 @@ pub fn to_std_string(input: &[u8]) -> String {
 
 #[derive(Clone)]
 pub struct CustomString {
-    content: Box<[u8]>,
+    content: Vec<u8>,
     length: usize,
 }
 
 impl CustomString {
     pub fn from(slice: &[u8]) -> Self {
         Self {
-            content: Box::from(slice),
+            content: Vec::from(slice),
             length: slice.len() / BYTES_PER_CHAR,
         }
     }
     pub fn new(base_string: &str) -> Self {
-        let content: Box<[u8]> = Box::from(to_four_bytes(base_string));
+        let content = Vec::from(to_four_bytes(base_string));
         let length = content.len() / BYTES_PER_CHAR;
         Self { content, length }
     }
@@ -213,9 +213,14 @@ impl CustomString {
         let length = new_content.len() / BYTES_PER_CHAR;
 
         Self {
-            content: Box::from(new_content),
+            content: Vec::from(new_content),
             length,
         }
+    }
+    /** Modify this object - remove "chars" from start to end index */
+    pub fn remove_by_chars_indices(&mut self,start:usize,end:usize){
+        self.content.drain((start*BYTES_PER_CHAR)..(end*BYTES_PER_CHAR));
+        self.length = self.content.len() / 4
     }
 
     /** modify this string to only have character from index retain_start to retain_end */

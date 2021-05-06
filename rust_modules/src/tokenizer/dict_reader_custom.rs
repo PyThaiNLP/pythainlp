@@ -1,4 +1,4 @@
-use std::{error::Error, fs::{File, canonicalize}, path::PathBuf, time::Instant};
+use std::{ fs::{File, canonicalize}, path::PathBuf};
 use crate::fixed_bytes_str::four_bytes::CustomString;
 
 use std::io::prelude::*;

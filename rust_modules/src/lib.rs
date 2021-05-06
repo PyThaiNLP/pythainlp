@@ -9,8 +9,6 @@ use crate::tokenizer::newmm_custom::Newmm;
 
 use pyo3::wrap_pyfunction;
 use pyo3::prelude::*;
-use tokenizer::tokenizer_trait::Tokenizer;
-const CARGO_PATH:&str = env!("CARGO_MANIFEST_DIR");
 
 #[pyfunction]
 fn segment(text:&str,safe:Option<bool>) -> PyResult<Vec<String>> {

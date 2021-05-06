@@ -1,11 +1,11 @@
-use pythainlp_rust_modules::{fixed_bytes_str::four_bytes::CustomString, tokenizer::{dict_reader::{DictSource,create_dict_trie}}};
-use pythainlp_rust_modules::tokenizer::{newmm_custom::{Newmm as NewmmCustom},trie,dict_reader_custom::{DictSource as CustomDictSource,create_dict_trie as create_custom_dict_trie}};
+use oxidized_thainlp::{fixed_bytes_str::four_bytes::CustomString, tokenizer::{dict_reader_custom::{DictSource,create_dict_trie}}};
+use oxidized_thainlp::tokenizer::{newmm_custom::{Newmm as NewmmCustom},trie_custom,dict_reader_custom::{DictSource as CustomDictSource,create_dict_trie as create_custom_dict_trie}};
 use regex::internal::Inst;
 use std::path::{Path,PathBuf};
 use std::env;
 use std::time::Instant;
 const DEFAULT_DICT_PATH_RELATIVE_TO_ROOT:&str = "./pythainlp/corpus/words_th.txt"; 
-use pythainlp_rust_modules::fixed_bytes_str::four_bytes;
+use oxidized_thainlp::fixed_bytes_str::four_bytes;
 
 const CARGO_ROOT:&str = env!("CARGO_MANIFEST_DIR");
 const short_text_1:&str ="หมอนทองตากลมหูว์MBK39 :.ฉฺ๐๐๓-#™±";

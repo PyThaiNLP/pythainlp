@@ -1,13 +1,10 @@
-use crate::fixed_bytes_str::four_bytes::{self, CustomString, BYTES_PER_CHAR};
+use crate::fixed_bytes_str::four_bytes::{CustomString, BYTES_PER_CHAR,FixedCharsLengthByteSlice};
 use ahash::{AHashMap as HashMap, AHashSet as HashSet};
-use bytecount::num_chars;
 use lazy_static::lazy_static;
 use rayon::prelude::*;
 use regex::Regex;
-use smol_str::SmolStr;
 use std::borrow::{Borrow, BorrowMut};
 use std::iter::Iterator;
-use substring::Substring;
 /**
 This module is meant to be a direct implementation of Dict Trie in PythaiNLP.
 
@@ -66,7 +63,7 @@ impl TrieNode {
         let char_count = word.len() / BYTES_PER_CHAR;
         // if has atleast 1 char
         if word.len() >= BYTES_PER_CHAR {
-            let character = &word[0..BYTES_PER_CHAR];
+            let character = &word.slice_by_char_indice(0,1);
             if let Some(child) = self.find_mut_child(character) {
                 // move 1 character
                 word = &word[BYTES_PER_CHAR..];

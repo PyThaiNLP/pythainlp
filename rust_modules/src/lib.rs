@@ -23,9 +23,9 @@ lazy_static! {
 
 /// ***Should be used to tokenize very, very long text (around 5000*30 Thai words est.)***
 
-/// signature:    (text: str, safe = false, parallel = false) -> List[str]
+/// signature:    (text: str, safe = false, parallel = false) -> List[List[u8]]
 #[pyfunction]
-fn segment(text:&str,safe:Option<bool>,parallel:Option<bool>) -> PyResult<Vec<String>> {
+fn segment(text:&str,safe:Option<bool>,parallel:Option<bool>) -> PyResult<Vec<Vec<u8>>> {
     
     let result = DEFAULT_DICT.segment(text, safe,parallel);
     Ok(result)
@@ -34,7 +34,7 @@ fn segment(text:&str,safe:Option<bool>,parallel:Option<bool>) -> PyResult<Vec<St
 
 #[pymodule]
 fn oxidized_thainlp(_py: Python, m: &PyModule) -> PyResult<()> {
-  
+    DEFAULT_DICT.segment("",None,None);
     m.add_function(wrap_pyfunction!(segment, m)?)?;
 
     Ok(())

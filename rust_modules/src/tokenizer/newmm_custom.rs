@@ -256,7 +256,7 @@ impl Newmm {
         result_str.shrink_to_fit();
         result_str
     }
-    pub fn internal_segment(input: &CustomString, custom_dict: &Trie, safe: bool,parallel:bool) -> Vec<String> {
+    pub fn internal_segment(input: &CustomString, custom_dict: &Trie, safe: bool,parallel:bool) ->Vec<Vec<u8>> {
         // let text_as_bytes = input.raw_content();
         if input.len() == 0 {
             return vec![];
@@ -268,14 +268,14 @@ impl Newmm {
                 result
                     .into_par_iter()
                     .map(|custom_string_bytes| {
-                        CustomString::convert_raw_bytes_to_std_string(&custom_string_bytes)
+                        CustomString::convert_raw_bytes_to_utf8_bytes(&custom_string_bytes)
                     })
                     .collect()
             } else {
                 result
                     .into_iter()
                     .map(|custom_string_bytes| {
-                        CustomString::convert_raw_bytes_to_std_string(&custom_string_bytes)
+                        CustomString::convert_raw_bytes_to_utf8_bytes(&custom_string_bytes)
                     })
                     .collect()
             };
@@ -318,16 +318,16 @@ impl Newmm {
 
             if parallel {
                 txt_parts
-                .par_iter()
+                .into_par_iter()
                 .flat_map(|part| {
                     // let mut result_tokens:Vec<String> = Vec::with_capacity(100);
                     Self::one_cut(&part, &custom_dict)
-                        .par_iter()
-                        .map(|word| to_std_string(&word))
-                        .collect::<Vec<String>>()
+                        .into_par_iter()
+                        .map(|word| CustomString::convert_raw_bytes_to_utf8_bytes(&word))
+                        .collect::<Vec<Vec<u8>>>()
                     // result_tokens
                 })
-                .collect::<Vec<String>>()
+                .collect::<Vec<Vec<u8>>>()
             }
             else{
                 txt_parts
@@ -336,11 +336,11 @@ impl Newmm {
                     // let mut result_tokens:Vec<String> = Vec::with_capacity(100);
                     Self::one_cut(&part, &custom_dict)
                         .iter()
-                        .map(|word| to_std_string(&word))
-                        .collect::<Vec<String>>()
+                        .map(|word| CustomString::convert_raw_bytes_to_utf8_bytes(&word))
+                        .collect::<Vec<Vec<u8>>>()
                     // result_tokens
                 })
-                .collect::<Vec<String>>()
+                .collect::<Vec<Vec<u8>>>()
             }
             
         }
@@ -348,7 +348,7 @@ impl Newmm {
 }
 
 impl Tokenizer for Newmm {
-    fn segment(&self, text: &str, safe: Option<bool>,parallel:Option<bool>) -> Vec<String> {
+    fn segment(&self, text: &str, safe: Option<bool>,parallel:Option<bool>) -> Vec<Vec<u8>> {
         let safe_flag = match safe {
             Some(val) => val,
             None => false,

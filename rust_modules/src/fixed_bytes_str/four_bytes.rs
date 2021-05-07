@@ -262,6 +262,17 @@ impl CustomString {
         output.shrink_to_fit();
         output
     }
+    pub fn convert_raw_bytes_to_utf8_bytes(input: &[u8]) -> Vec<u8> {
+        let mut output_content: Vec<u8> = Vec::with_capacity(input.len()/100);
+        for index in (0..input.len()).step_by(BYTES_PER_CHAR) {
+            let end_offset = index + BYTES_PER_CHAR;
+            for byte in trim_to_std_utf8(&input[index..end_offset]).deref() {
+                output_content.push(*byte);
+            }
+        }
+        output_content.shrink_to_fit();
+        output_content.to_vec()
+    }
 }
 // impl PartialEq for CustomString {
 

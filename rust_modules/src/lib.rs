@@ -5,6 +5,7 @@ pub mod tokenizer;
 pub mod fixed_bytes_str;
 
 use crate::tokenizer::newmm_custom::{Newmm};
+use fixed_bytes_str::four_bytes::ValidUTF8BytesVec;
 use lazy_static::lazy_static;
 
 use pyo3::wrap_pyfunction;
@@ -21,12 +22,11 @@ lazy_static! {
 /// Uses only default dict.
 /// Can use multithreading, but takes a lot of memory.
 
-/// ***Should be used to tokenize very, very long text (around 5000*30 Thai words est.)***
 
+/// returns list of valid utf-8 bytes list
 /// signature:    (text: str, safe = false, parallel = false) -> List[List[u8]]
 #[pyfunction]
-fn segment(text:&str,safe:Option<bool>,parallel:Option<bool>) -> PyResult<Vec<Vec<u8>>> {
-    
+fn segment(text:&str,safe:Option<bool>,parallel:Option<bool>) -> PyResult<Vec<ValidUTF8BytesVec>> {
     let result = DEFAULT_DICT.segment(text, safe,parallel);
     Ok(result)
 }

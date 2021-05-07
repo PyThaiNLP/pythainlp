@@ -10,7 +10,10 @@ Consequently, regular expressions must be padded with \x00 for each unicode char
 
 Thai characters are 3-bytes length, so every thai char in regex is padded with \x00 one time.
 
-For "space" in regex, it is padded with \x00\x00\x00;
+For "space" in regex, it is padded with \x00\x00\x00.
 
 
-More on UTF-8 (https://en.wikipedia.org/wiki/UTF-8)
+[More on UTF-8](https://en.wikipedia.org/wiki/UTF-8)
+
+
+*** ALL Vec<u8> or &[u8] operated in tcc_custom, trie_custom and newmm_custom 

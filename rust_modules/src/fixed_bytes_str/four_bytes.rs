@@ -18,6 +18,11 @@ use lazy_static::__Deref;
 use smol_str::SmolStr;
 use std::{borrow::Borrow, str::from_utf8_unchecked};
 
+
+pub type ValidUTF8BytesVec = Vec<u8>;
+pub type CustomStringBytesVec = Vec<u8>;
+pub type ValidUTF8BytesSlice = [u8];
+pub type CustomStringBytesSlice = [u8];
 fn is_in_range<T: PartialEq + PartialOrd>(value: T, range: (T, T)) -> bool {
     value >= range.0 && value <= range.1
 }

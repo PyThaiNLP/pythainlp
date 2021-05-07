@@ -1,12 +1,10 @@
 use oxidized_thainlp::{fixed_bytes_str::four_bytes::CustomString};
 use oxidized_thainlp::tokenizer::{newmm_custom::{Newmm as NewmmCustom},dict_reader_custom::{DictSource as CustomDictSource,create_dict_trie as create_custom_dict_trie}};
-use regex::internal::Inst;
 use std::{fs::canonicalize, path::{Path,PathBuf}};
 use std::env;
 use std::time::Instant;
 const CARGO_PATH:&str = env!("CARGO_MANIFEST_DIR");
 const DEFAULT_DICT_PATH_RELATIVE_CARGO:&str = "./pythainlp/corpus/words_th.txt"; 
-use oxidized_thainlp::fixed_bytes_str::four_bytes;
 
 const short_text_1:&str ="หมอนทองตากลมหูว์MBK39 :.ฉฺ๐๐๓-#™±";
 const short_text_2:&str = "ทดสอบ";
@@ -164,15 +162,11 @@ fn test_long_text_byte_tokenizer(){
         let default_dict =  create_custom_dict_trie(CustomDictSource::FilePath(default_dict_path.clone()));
         println!("time for load dict is {:?}",time_for_load_dict.elapsed());
         println!("{:?}",canonicalize(&default_dict_path) );
-        let time = Instant::now();
         let mut custom_input = CustomString::new(&long_text);
         let result = NewmmCustom::internal_segment(&custom_input, &default_dict, false,true);
-        println!("time for unsafe segmentation is {:?}",time.elapsed());
         
-        let time_safe = Instant::now();
         let mut custom_input = CustomString::new(&long_text);
         let safe_result = NewmmCustom::internal_segment(&custom_input, &default_dict, true,true);
-        println!("time for safe segmentation is {:?}",time_safe.elapsed());
         assert_eq!(result.len(),1889);
         assert_eq!(safe_result.len(),2011);
 }

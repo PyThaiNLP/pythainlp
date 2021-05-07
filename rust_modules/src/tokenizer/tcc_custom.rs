@@ -23,6 +23,11 @@ use regex::bytes::Regex;
 
 use super::super::fixed_bytes_str::four_bytes::{BYTES_PER_CHAR};
 
+// regex crate does not support look-any-direction
+// \x00 is byte value 0, every unicode character in regex is padded with \x00 to 4 bytes length
+// https://www.fileformat.info/info/unicode/
+// Thai characters use 3 bytes per character, so it is padded with \x00 only once.
+// The following regexpressions are translated from pythainlp/tokeniz/tcc.py
 lazy_static! {
     static ref NON_LOOKAHEAD_TCC: Regex = Regex::new( &[
         r"^\x00เ\x00[ก-ฮ]\x00็\x00[ก-ฮ]",
@@ -62,66 +67,6 @@ lazy_static! {
 
 
 
-// to be re-implement
-
-pub fn pattern_tcc_non_lookahead_part() -> Regex {
-
-    // Regex crate does not support look-any-direction
-
-    let reg_tcc_no_lookahead = &[
-        r"^\x00เ\x00[ก-ฮ]\x00็\x00[ก-ฮ]",
-        r"^\x00เ\x00[ก-ฮ]\x00[ก-ฮ](\x00[่-๋])?\x00า\x00ะ",
-        r"^\x00เ\x00[ก-ฮ]\x00[ก-ฮ]\x00ี(\x00[่-๋])?\x00ย\x00ะ",
-        r"^\x00เ\x00[ก-ฮ]\x00[ก-ฮ]\x00ี(\x00[่-๋])?\x00ย\x00[เ-ไก-ฮ]",
-        r"^\x00เ\x00[ก-ฮ]\x00[ก-ฮ]\x00็\x00[ก-ฮ]",
-        r"^\x00เ\x00[ก-ฮ]\x00ิ\x00[ก-ฮ]\x00์\x00[ก-ฮ]",
-        r"^\x00เ\x00[ก-ฮ]\x00ิ(\x00[่-๋])?\x00[ก-ฮ]",
-        r"^\x00เ\x00[ก-ฮ]\x00ี(\x00[่-๋])?\x00ย(\x00ะ)?",
-        r"^\x00เ\x00[ก-ฮ]\x00ื(\x00[่-๋])?\x00อ(\x00ะ)?",
-        r"^\x00เ\x00[ก-ฮ](\x00[่-๋])?(\x00า)?(\x00ะ)?",
-        r"^\x00[ก-ฮ]\x00ั(\x00[่-๋])?\x00ว\x00ะ",
-        r"^[\x00ก-ฮ]\x00[ัื](\x00[่-๋])?\x00[ก-ฮ](\x00[ุิะ])?",
-        r"^[\x00ก-ฮ]\x00[ิุู]\x00์",
-        r"^[\x00ก-ฮ]\x00[ะ-ู](\x00[่-๋])?",
-        r"^\x00[ก-ฮ]\x00็",
-        r"^\x00[ก-ฮ](\x00[่-๋])?(\x00[ะาำ])?",
-        r"^\x00แ\x00[ก-ฮ]\x00็\x00[ก-ฮ]",
-        r"^\x00แ\x00[ก-ฮ]\x00[ก-ฮ]\x00์",
-        r"^\x00แ\x00[ก-ฮ](\x00[่-๋])?\x00ะ",
-        r"^\x00แ\x00[ก-ฮ]\x00[ก-ฮ]\x00็\x00[ก-ฮ]",
-        r"^\x00แ\x00[ก-ฮ]\x00[ก-ฮ]\x00[ก-ฮ]\x00์",
-        r"^\x00โ\x00[ก-ฮ](\x00[่-๋]?)\x00ะ",
-        r"^\x00[เ-ไ]\x00[ก-ฮ](\x00[่-๋])?",
-        r"^\x00เ\x00[ก-ฮ]\x00[ิีุู](\x00[่-๋])?\x00ย\x00[เ-ไก-ฮ]",
-    ]
-    .join("|");
-    match Regex::new(reg_tcc_no_lookahead) {
-        Ok(tcc_regex) => tcc_regex,
-        Err(err) => {
-            println!("{}", err);
-            panic!("incorrect regex");
-        }
-    }
-}
-
-pub fn pattern_tcc_lookahead_part() -> Regex {
-
-    // Regex crate does not support look-any-direction
-
-    let reg_tcc_lookahead = &[
-        r"^\x00เ\x00[ก-ฮ]\x00[ก-ฮ]\x00ี(\x00[่-๋])?\x00ย\x00[เ-ไก-ฮ]",
-        r"^\x00เ\x00[ก-ฮ]\x00[ิีุู](\x00[่-๋])?\x00ย\x00[เ-ไก-ฮ]",
-    ]
-    .join("|");
-    match Regex::new(reg_tcc_lookahead) {
-        Ok(tcc_regex) => tcc_regex,
-        Err(err) => {
-            println!("{}", err);
-            panic!("incorrect regex");
-        }
-    }
-}
-
 pub fn tcc_pos(custom_text_type:&[u8]) -> HashSet<usize> {
     let mut set: HashSet<usize> = HashSet::with_capacity(custom_text_type.len() / BYTES_PER_CHAR / 2);
     if custom_text_type.len() == 0 {
@@ -144,29 +89,23 @@ pub fn segment(custom_text_type:&[u8]) -> Vec<&[u8]> {
     let mut tcc_result: Vec<&[u8]> = Vec::with_capacity(txt.len() / 10);
     while txt.len() > 0 {
         if let Some(result) = NON_LOOKAHEAD_TCC.find(&txt) {
-            //It's all thai;
-            let mut matched = &txt[result.start()..result.end()];
-            
+            let mut matched = &txt[result.start()..result.end()]; 
             let match_length = matched.len();
             if LOOKAHEAD_TCC.is_match(matched) {
-                // trim one more char
-                let end_bytes_index = (match_length-(1*BYTES_PER_CHAR));
+                // trim one more char to the right.
+                let end_bytes_index = match_length-(1*BYTES_PER_CHAR);
                 matched  = &matched[0..end_bytes_index];
                 tcc_result.push(matched);
                 txt = &txt[end_bytes_index..];
             }else{
                 tcc_result.push(matched);
-                // let txt_iter = &mut txt.chars();
-                // let skip = txt_iter.skip(first_match_count);
-                let end_bytes_index = (match_length);
+
+                let end_bytes_index = match_length;
                 txt = &txt[end_bytes_index..];
             }
-            
         } else {
             // not thai
-
             let first_char = &txt[0..BYTES_PER_CHAR];
-
             tcc_result.push(first_char);
             txt = &txt[BYTES_PER_CHAR..];
          

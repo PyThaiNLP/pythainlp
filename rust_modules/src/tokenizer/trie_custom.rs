@@ -1,8 +1,5 @@
-use crate::fixed_bytes_str::four_bytes::{CustomString, BYTES_PER_CHAR,FixedCharsLengthByteSlice};
+use crate::fixed_bytes_str::four_bytes::{CustomString, BYTES_PER_CHAR,FixedCharsLengthByteSlice,CustomStringBytesSlice,CustomStringBytesVec};
 use ahash::{AHashMap as HashMap, AHashSet as HashSet};
-use lazy_static::lazy_static;
-use rayon::prelude::*;
-use regex::Regex;
 use std::borrow::{Borrow, BorrowMut};
 use std::iter::Iterator;
 /**
@@ -16,8 +13,7 @@ Rust Code: Thanathip Suntorntip (Gorlph)
 
 #[derive(Debug)]
 pub struct TrieNode {
-    // text: Option<String>,
-    children: HashMap<Vec<u8>, Self>,
+    children: HashMap<CustomStringBytesVec, Self>,
     end: bool,
 }
 
@@ -30,20 +26,19 @@ impl TrieNode {
             end: false,
         }
     }
-    fn find_child(&self, word: &[u8]) -> Option<&Self> {
+    fn find_child(&self, word: &CustomStringBytesSlice) -> Option<&Self> {
         self.children.get(word)
     }
-    fn remove_child(&mut self, word: &[u8]) {
+    fn remove_child(&mut self, word: &CustomStringBytesSlice) {
         self.children.remove(word);
     }
-    fn find_mut_child(&mut self, word: &[u8]) -> Option<&mut Self> {
+    fn find_mut_child(&mut self, word: &CustomStringBytesSlice) -> Option<&mut Self> {
         self.children.get_mut(word)
     }
     fn set_not_end(&mut self) {
         self.end = false;
     }
-
-    fn add_word(&mut self, input_word: &[u8]) {
+    fn add_word(&mut self, input_word: &CustomStringBytesSlice) {
         // thanks to https://stackoverflow.com/questions/36957286/how-do-you-implement-this-simple-trie-node-in-rust
         if input_word.len() == 0 {
             self.end = true;
@@ -54,8 +49,7 @@ impl TrieNode {
             .or_insert(TrieNode::new())
             .add_word(&input_word[BYTES_PER_CHAR..]);
     }
-
-    fn remove_word_from_node(&mut self, input_word: &[u8]) {
+    fn remove_word_from_node(&mut self, input_word: &CustomStringBytesSlice) {
         let mut word = input_word.clone();
         let char_count = word.len() / BYTES_PER_CHAR;
         // if has atleast 1 char
@@ -75,41 +69,9 @@ impl TrieNode {
             };
         }
     }
-    /** This is slow....*/
-    pub fn list_from_prefix(
-        &self,
-        prefix: &[u8],
-        index: usize,
-        mut accumulate_result: Vec<Box<[u8]>>,
-    ) -> Vec<Box<[u8]>> {
-        //first index is 0 ...it should
-        lazy_static! {
-            static ref all_thai: Regex = Regex::new(r"^\x00[\u0E00-\u0E7F]+$").unwrap();
-        }
-        // if there is still character of that char index..
-        let index_plus_as_byte_index = (index + 1) * BYTES_PER_CHAR;
-
-        if prefix.len() >= index_plus_as_byte_index {
-            let character = &prefix[(index * BYTES_PER_CHAR)..index_plus_as_byte_index];
-            if let Some(child) = self.find_child(character) {
-                if child.end {
-                    let substring_of_prefix = &prefix[0..index_plus_as_byte_index];
-                    // prefix.chars().take(index + 1).collect();
-                    accumulate_result.push(Box::from(substring_of_prefix));
-                }
-                child.list_from_prefix(prefix, index + 1, accumulate_result)
-            } else {
-                accumulate_result
-            }
-        } else {
-            accumulate_result
-        }
-    }
-    pub fn list_prefix(&self, prefix: &[u8]) -> Vec<Vec<u8>> {
-        //first index is 0 ...it should
-        let mut result: Vec<Vec<u8>> = Vec::with_capacity(100);
+    pub fn list_prefix(&self, prefix: &CustomStringBytesSlice) -> Vec<CustomStringBytesVec> {
+        let mut result: Vec<CustomStringBytesVec> = Vec::with_capacity(100);
         let prefix_cpy = prefix;
-        // if there is still character of that char index..
         let mut current_index = 0;
         let mut current_node_wrap = Some(self);
         while (current_index) * BYTES_PER_CHAR <  prefix_cpy.len()   {
@@ -133,7 +95,7 @@ impl TrieNode {
 }
 #[derive(Debug)]
 pub struct Trie {
-    words: HashSet<Vec<u8>>,
+    words: HashSet<CustomStringBytesVec>,
     root: TrieNode,
 }
 impl Trie {
@@ -147,7 +109,7 @@ impl Trie {
         }
         instance
     }
-    fn remove_word_from_set(&mut self, word: &Vec<u8>) {
+    fn remove_word_from_set(&mut self, word: &CustomStringBytesVec) {
         self.words.remove(word);
     }
     pub fn add(&mut self, word: &CustomString) {
@@ -164,10 +126,10 @@ impl Trie {
             self.root.remove_word_from_node(stripped_word_raw);
         }
     }
-    pub fn prefix(&self, prefix: &[u8]) -> Vec<Vec<u8>> {
+    pub fn prefix(&self, prefix: &CustomStringBytesSlice) -> Vec<Vec<u8>> {
         self.root.list_prefix(prefix)
     }
-    pub fn contain(&self, word: &Vec<u8>) -> bool {
+    pub fn contain(&self, word: &CustomStringBytesVec) -> bool {
         self.words.contains(word)
     }
     pub fn iterate(&self) -> std::collections::hash_set::Iter<'_, Vec<u8>> {

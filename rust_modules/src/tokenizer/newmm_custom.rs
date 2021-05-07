@@ -12,12 +12,15 @@ with heuristic graph size limit added to avoid exponential wait time.
         https://colab.research.google.com/drive/14Ibg-ngZXj15RKwjNwoZlOT32fQBOrBx#scrollTo=MYZ7NzAR7Dmw
 Rust implementation: ["Thanathip Suntorntip"]
 */
+// TODO: use slice_by_chars_indice on &[u8]
+
 
 use crate::fixed_bytes_str::four_bytes::{
-     rfind_space_char_index, to_std_string, CustomString, FixedCharsLengthByteSlice,
+     rfind_space_char_index, CustomString, FixedCharsLengthByteSlice,
     BYTES_PER_CHAR,
 };
 
+use super::super::fixed_bytes_str::four_bytes::{CustomStringBytesSlice,CustomStringBytesVec,ValidUTF8BytesSlice,ValidUTF8BytesVec};
 use super::{
     dict_reader_custom::{create_default_dict, create_dict_trie, DictSource},
     tcc_custom,
@@ -40,6 +43,8 @@ const TEXT_SCAN_LEFT: usize = 20;
 const TEXT_SCAN_RIGHT: usize = 20;
 const TEXT_SCAN_BEGIN: usize = TEXT_SCAN_POINT - TEXT_SCAN_LEFT;
 const TEXT_SCAN_END: usize = TEXT_SCAN_POINT + TEXT_SCAN_RIGHT;
+
+type CharacterIndex = usize;
 
 lazy_static! {
     static ref NON_THAI_PATTERN: Regex = Regex::new(
@@ -68,10 +73,10 @@ impl Newmm {
     }
     #[inline]
     fn bfs_paths_graph(
-        graph: &HashMap<usize, Vec<usize>>,
-        start: usize,
-        goal: usize,
-    ) -> Vec<usize> {
+        graph: &HashMap<CharacterIndex, Vec<CharacterIndex>>,
+        start: CharacterIndex,
+        goal: CharacterIndex,
+    ) -> Vec<CharacterIndex> {
         let mut current_queue: VecDeque<(usize, Vec<usize>)> = VecDeque::with_capacity(graph.len());
         let mut init_path: Vec<usize> = Vec::with_capacity(goal - start);
         init_path.push(start);
@@ -96,30 +101,30 @@ impl Newmm {
         panic!("something wrong");
     }
     #[inline]
-    fn one_cut(input: &[u8], custom_dict: &Trie) -> Vec<Vec<u8>> {
+    fn one_cut(input: &CustomStringBytesSlice, custom_dict: &Trie) -> Vec<CustomStringBytesVec> {
         let text = input;
         let input_char_len = text.len() / BYTES_PER_CHAR;
         let mut graph_size: usize = 0;
-        let mut graph: HashMap<usize, Vec<usize>> = HashMap::with_capacity(input_char_len/100);
-        let mut result_str: Vec<Vec<u8>> = Vec::with_capacity(input_char_len/100);
+        let mut graph: HashMap<CharacterIndex, Vec<CharacterIndex>> = HashMap::with_capacity(input_char_len/100);
+        let mut result_str: Vec<CustomStringBytesVec> = Vec::with_capacity(input_char_len/100);
 
         // all position should be refered as character index
         let valid_position = tcc_custom::tcc_pos(input);
         let text_length = input_char_len;
-        let mut position_list: BinaryHeap<usize, MinComparator> = BinaryHeap::new_min();
-        let mut existing_candidate: HashSet<usize> = HashSet::with_capacity(5000);
+        let mut position_list: BinaryHeap<CharacterIndex, MinComparator> = BinaryHeap::new_min();
+        let mut existing_candidate: HashSet<CharacterIndex> = HashSet::with_capacity(50);
         position_list.push(0);
         existing_candidate.insert(0);
         let mut end_position: usize = 0;
         // as long as there is a value in the position_list priority queue
         // AND its value is less than text_length
         while match position_list.peek() {
-            std::option::Option::Some(_) => true,
+            std::option::Option::Some(position) if *position < text_length => true,
             std::option::Option::None => false,
+            _=>false
         } {
           
-            let first_pos_list = position_list.peek().unwrap();
-            if *first_pos_list < text_length {
+
                 if let Some(begin_position) = position_list.pop() {
                     let byte_index_of_begin_char = begin_position * BYTES_PER_CHAR;
                     let sub_text_prefix = &text[byte_index_of_begin_char..];
@@ -248,23 +253,18 @@ impl Newmm {
                         }
                     }
                 }
-            } else {
-                break;
-            }
         }
         
         result_str.shrink_to_fit();
         result_str
     }
-    pub fn internal_segment(input: &CustomString, custom_dict: &Trie, safe: bool,parallel:bool) ->Vec<Vec<u8>> {
-        // let text_as_bytes = input.raw_content();
+    pub fn internal_segment(input: &CustomString, custom_dict: &Trie, safe: bool,parallel:bool) ->Vec<CustomStringBytesVec> {
         if input.len() == 0 {
             return vec![];
         }
-
         if !safe || input.chars_len() < TEXT_SCAN_END {
             let result = Self::one_cut(input.raw_content(), custom_dict);
-            return if result.len() > USE_MULTITHREAD_THRESHOLD {
+            return if parallel {
                 result
                     .into_par_iter()
                     .map(|custom_string_bytes| {
@@ -282,7 +282,7 @@ impl Newmm {
         } else {
           
             let mut txt = input.raw_content();
-            let mut txt_parts: Vec<Vec<u8>> = Vec::with_capacity(txt.len() /10);
+            let mut txt_parts: Vec<CustomStringBytesVec> = Vec::with_capacity(txt.len() /10);
             while txt.chars_len() >= TEXT_SCAN_END {
                 let sample: &[u8] = txt.slice_by_char_indice(TEXT_SCAN_BEGIN, TEXT_SCAN_END);
 
@@ -320,35 +320,30 @@ impl Newmm {
                 txt_parts
                 .into_par_iter()
                 .flat_map(|part| {
-                    // let mut result_tokens:Vec<String> = Vec::with_capacity(100);
                     Self::one_cut(&part, &custom_dict)
                         .into_par_iter()
                         .map(|word| CustomString::convert_raw_bytes_to_utf8_bytes(&word))
-                        .collect::<Vec<Vec<u8>>>()
-                    // result_tokens
+                        .collect::<Vec<ValidUTF8BytesVec>>()
                 })
-                .collect::<Vec<Vec<u8>>>()
+                .collect::<Vec<ValidUTF8BytesVec>>()
             }
             else{
                 txt_parts
                 .iter()
                 .flat_map(|part| {
-                    // let mut result_tokens:Vec<String> = Vec::with_capacity(100);
                     Self::one_cut(&part, &custom_dict)
                         .iter()
                         .map(|word| CustomString::convert_raw_bytes_to_utf8_bytes(&word))
-                        .collect::<Vec<Vec<u8>>>()
-                    // result_tokens
+                        .collect::<Vec<ValidUTF8BytesVec>>()
                 })
-                .collect::<Vec<Vec<u8>>>()
+                .collect::<Vec<ValidUTF8BytesVec>>()
             }
-            
         }
     }
 }
 
 impl Tokenizer for Newmm {
-    fn segment(&self, text: &str, safe: Option<bool>,parallel:Option<bool>) -> Vec<Vec<u8>> {
+    fn segment(&self, text: &str, safe: Option<bool>,parallel:Option<bool>) -> Vec<ValidUTF8BytesVec> {
         let safe_flag = match safe {
             Some(val) => val,
             None => false,

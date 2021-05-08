@@ -163,10 +163,10 @@ fn test_long_text_byte_tokenizer(){
         println!("time for load dict is {:?}",time_for_load_dict.elapsed());
         println!("{:?}",canonicalize(&default_dict_path) );
         let mut custom_input = CustomString::new(&long_text);
-        let result = NewmmCustom::internal_segment(&custom_input, &default_dict, false,true);
+        let result = NewmmCustom::internal_segment(&custom_input, &default_dict.unwrap(), false,true);
         
         let mut custom_input = CustomString::new(&long_text);
-        let safe_result = NewmmCustom::internal_segment(&custom_input, &default_dict, true,true);
+        let safe_result = NewmmCustom::internal_segment(&custom_input, &default_dict.unwrap(), true,true);
         assert_eq!(result.len(),1889);
         assert_eq!(safe_result.len(),2011);
 }

@@ -10,17 +10,17 @@ with heuristic graph size limit added to avoid exponential wait time.
         https://colab.research.google.com/notebook#fileId=1V1Z657_5eSWPo8rLfVRwA0A5E4vkg7SI
     * \
         https://colab.research.google.com/drive/14Ibg-ngZXj15RKwjNwoZlOT32fQBOrBx#scrollTo=MYZ7NzAR7Dmw
+
 Rust implementation: ["Thanathip Suntorntip"]
 */
 // TODO: use slice_by_chars_indice on &[u8]
-
-
 use crate::fixed_bytes_str::four_bytes::{
-     rfind_space_char_index, CustomString, FixedCharsLengthByteSlice,
-    BYTES_PER_CHAR,
+    rfind_space_char_index, CustomString, FixedCharsLengthByteSlice, BYTES_PER_CHAR,
 };
 
-use super::super::fixed_bytes_str::four_bytes::{CustomStringBytesSlice,CustomStringBytesVec,ValidUTF8BytesSlice,ValidUTF8BytesVec};
+use super::super::fixed_bytes_str::four_bytes::{
+    CustomStringBytesSlice, CustomStringBytesVec, ValidUTF8BytesSlice, ValidUTF8BytesVec,
+};
 use super::{
     dict_reader_custom::{create_default_dict, create_dict_trie, DictSource},
     tcc_custom,
@@ -35,7 +35,6 @@ use regex::bytes::Regex;
 use std::{collections::VecDeque, path::PathBuf};
 const MAX_GRAPH_SIZE: usize = 50;
 const USE_MULTITHREAD_THRESHOLD: usize = 100;
-
 
 // Window size for safe mode
 const TEXT_SCAN_POINT: usize = 120;
@@ -67,7 +66,7 @@ impl Newmm {
                 dict: Box::from(create_default_dict()),
             },
             Some(path) => Self {
-                dict: Box::from(create_dict_trie(DictSource::FilePath(PathBuf::from(path)))),
+                dict: Box::from(create_dict_trie(DictSource::FilePath(PathBuf::from(path))).unwrap()),
             },
         }
     }
@@ -105,8 +104,9 @@ impl Newmm {
         let text = input;
         let input_char_len = text.len() / BYTES_PER_CHAR;
         let mut graph_size: usize = 0;
-        let mut graph: HashMap<CharacterIndex, Vec<CharacterIndex>> = HashMap::with_capacity(input_char_len/100);
-        let mut result_str: Vec<CustomStringBytesVec> = Vec::with_capacity(input_char_len/100);
+        let mut graph: HashMap<CharacterIndex, Vec<CharacterIndex>> =
+            HashMap::with_capacity(input_char_len / 100);
+        let mut result_str: Vec<CustomStringBytesVec> = Vec::with_capacity(input_char_len / 100);
 
         // all position should be refered as character index
         let valid_position = tcc_custom::tcc_pos(input);
@@ -121,85 +121,81 @@ impl Newmm {
         while match position_list.peek() {
             std::option::Option::Some(position) if *position < text_length => true,
             std::option::Option::None => false,
-            _=>false
+            _ => false,
         } {
-          
-
-                if let Some(begin_position) = position_list.pop() {
-                    let byte_index_of_begin_char = begin_position * BYTES_PER_CHAR;
-                    let sub_text_prefix = &text[byte_index_of_begin_char..];
-                    let prefixes = custom_dict.prefix(sub_text_prefix);
-                    for word in prefixes {
-                        let word_length = word.len() / BYTES_PER_CHAR;
-                        let end_position_candidate = begin_position + word_length;
-                        if valid_position.contains(&end_position_candidate) {
-                            let target_graph = graph.get_mut(&begin_position);
-                            match target_graph {
-                                Some(existing_path) => {
-                                    existing_path.push(end_position_candidate);
-                                }
-                                None => {
-                                    graph.insert(begin_position, vec![end_position_candidate]);
-                                }
-                            }
-
-                            graph_size += 1;
-                            if !existing_candidate.contains(&end_position_candidate) {
-                                existing_candidate.insert(end_position_candidate);
-                                position_list.push(end_position_candidate);
-                            }
-                            if graph_size > MAX_GRAPH_SIZE {
-                                break;
-                            }
-                        }
-                    }
-                    let position_list_length = position_list.len();
-                    if position_list_length == 1 {
-                        //only one candidate!
-                        if let Some(first_position_list) = position_list.peek() {
-                            let group_of_end_position_candidate =
-                                Self::bfs_paths_graph(&graph, end_position, *first_position_list);
-                            graph_size = 0; // reset our graph
-
-                            for position in group_of_end_position_candidate.iter().skip(1) {
-                                let token = &text
-                                    [(end_position * BYTES_PER_CHAR)..(*position * BYTES_PER_CHAR)];
-                                result_str.push(Vec::from(token));
-                                end_position = *position;
-                            }
-                        } else {
-                            panic!("incorrect position list");
-                        }
-                    } else if position_list_length == 0 {
-                        // no candidate, deal with non-dict word
-                        match NON_THAI_PATTERN.find(sub_text_prefix) {
-                            Some(match_point) => {
-                                //  non thai -> skip to the end of match - this is byte index not char index...
-                                end_position = begin_position
-                                    + sub_text_prefix[match_point.start()..match_point.end()].len()
-                                        / BYTES_PER_CHAR;
+            if let Some(begin_position) = position_list.pop() {
+                let byte_index_of_begin_char = begin_position * BYTES_PER_CHAR;
+                let sub_text_prefix = &text[byte_index_of_begin_char..];
+                let prefixes = custom_dict.prefix(sub_text_prefix);
+                for word in prefixes {
+                    let word_length = word.len() / BYTES_PER_CHAR;
+                    let end_position_candidate = begin_position + word_length;
+                    if valid_position.contains(&end_position_candidate) {
+                        let target_graph = graph.get_mut(&begin_position);
+                        match target_graph {
+                            Some(existing_path) => {
+                                existing_path.push(end_position_candidate);
                             }
                             None => {
-                                // Is thai -> find min skip
-                                let mut finish_without_break = true;
-                                for position in begin_position + 1..text_length {
-                                    if valid_position.contains(&position) {
-                                        // let (prefix_byte_index,_) = text.char_indices().nth(position).unwrap();
-                                        // let prefix = text.substring(position, text_length);
-                                        let prefix = &text[position * BYTES_PER_CHAR
-                                            ..text_length * BYTES_PER_CHAR];
-                                        let list_of_prefixes = custom_dict.prefix(&prefix);
-                                        let valid_word_filter = |word: &Vec<u8>| {
-                                            let new_position =
-                                                position + (word.len() / BYTES_PER_CHAR);
-                                            let is_valid = valid_position.contains(&new_position);
-                                            let is_two_thai_chars =
-                                                THAI_TWOCHARS_PATTERN.is_match(&word);
-                                            is_valid && !is_two_thai_chars
-                                        };
-                                        let valid_words: Vec<Vec<u8>> = if list_of_prefixes.len()
-                                            >= USE_MULTITHREAD_THRESHOLD
-                                        {
+                                graph.insert(begin_position, vec![end_position_candidate]);
+                            }
+                        }
+
+                        graph_size += 1;
+                        if !existing_candidate.contains(&end_position_candidate) {
+                            existing_candidate.insert(end_position_candidate);
+                            position_list.push(end_position_candidate);
+                        }
+                        if graph_size > MAX_GRAPH_SIZE {
+                            break;
+                        }
+                    }
+                }
+                let position_list_length = position_list.len();
+                if position_list_length == 1 {
+                    //only one candidate!
+                    if let Some(first_position_list) = position_list.peek() {
+                        let group_of_end_position_candidate =
+                            Self::bfs_paths_graph(&graph, end_position, *first_position_list);
+                        graph_size = 0; // reset our graph
+
+                        for position in group_of_end_position_candidate.iter().skip(1) {
+                            let token = &text
+                                [(end_position * BYTES_PER_CHAR)..(*position * BYTES_PER_CHAR)];
+                            result_str.push(Vec::from(token));
+                            end_position = *position;
+                        }
+                    } else {
+                        panic!("incorrect position list");
+                    }
+                } else if position_list_length == 0 {
+                    // no candidate, deal with non-dict word
+                    match NON_THAI_PATTERN.find(sub_text_prefix) {
+                        Some(match_point) => {
+                            //  non thai -> skip to the end of match - this is byte index not char index...
+                            end_position = begin_position
+                                + sub_text_prefix[match_point.start()..match_point.end()].len()
+                                    / BYTES_PER_CHAR;
+                        }
+                        None => {
+                            // Is thai -> find min skip
+                            let mut finish_without_break = true;
+                            for position in begin_position + 1..text_length {
+                                if valid_position.contains(&position) {
+                                    // let (prefix_byte_index,_) = text.char_indices().nth(position).unwrap();
+                                    // let prefix = text.substring(position, text_length);
+                                    let prefix = &text
+                                        [position * BYTES_PER_CHAR..text_length * BYTES_PER_CHAR];
+                                    let list_of_prefixes = custom_dict.prefix(&prefix);
+                                    let valid_word_filter = |word: &Vec<u8>| {
+                                        let new_position = position + (word.len() / BYTES_PER_CHAR);
+                                        let is_valid = valid_position.contains(&new_position);
+                                        let is_two_thai_chars =
+                                            THAI_TWOCHARS_PATTERN.is_match(&word);
+                                        is_valid && !is_two_thai_chars
+                                    };
+                                    let valid_words: Vec<Vec<u8>> =
+                                        if list_of_prefixes.len() >= USE_MULTITHREAD_THRESHOLD {
                                             list_of_prefixes
                                                 .into_par_iter()
                                                 .filter(valid_word_filter)
@@ -211,54 +207,59 @@ impl Newmm {
                                                 .collect()
                                         };
 
-                                        if valid_words.len() > 0 {
-                                            end_position = position;
-                                            finish_without_break = false;
-                                            break;
-                                        };
-                                        if NON_THAI_PATTERN.is_match(&prefix) {
-                                            end_position = position;
-                                            finish_without_break = false;
-                                            break;
-                                        }
+                                    if valid_words.len() > 0 {
+                                        end_position = position;
+                                        finish_without_break = false;
+                                        break;
+                                    };
+                                    if NON_THAI_PATTERN.is_match(&prefix) {
+                                        end_position = position;
+                                        finish_without_break = false;
+                                        break;
                                     }
                                 }
-                                if finish_without_break {
-                                    end_position = text_length;
-                                }
                             }
-                        }
-                        let current_graph_opt = graph.get_mut(&begin_position);
-                        match current_graph_opt {
-                            Some(existing_path) => {
-                                existing_path.push(end_position);
-                                graph_size += 1;
-                                let token = &text[begin_position * BYTES_PER_CHAR
-                                    ..end_position * BYTES_PER_CHAR];
-                                result_str.push(Vec::from(token));
-                                position_list.push(end_position);
-                                existing_candidate.insert(end_position);
-                            }
-                            None => {
-                                let mut graph_elem: Vec<usize> = Vec::with_capacity(10);
-                                graph_elem.push(end_position);
-                                graph.insert(begin_position, graph_elem);
-                                graph_size += 1;
-                                let token = &text[begin_position * BYTES_PER_CHAR
-                                    ..end_position * BYTES_PER_CHAR];
-                                result_str.push(Vec::from(token));
-                                position_list.push(end_position);
-                                existing_candidate.insert(end_position);
+                            if finish_without_break {
+                                end_position = text_length;
                             }
                         }
                     }
+                    let current_graph_opt = graph.get_mut(&begin_position);
+                    match current_graph_opt {
+                        Some(existing_path) => {
+                            existing_path.push(end_position);
+                            graph_size += 1;
+                            let token = &text
+                                [begin_position * BYTES_PER_CHAR..end_position * BYTES_PER_CHAR];
+                            result_str.push(Vec::from(token));
+                            position_list.push(end_position);
+                            existing_candidate.insert(end_position);
+                        }
+                        None => {
+                            let mut graph_elem: Vec<usize> = Vec::with_capacity(10);
+                            graph_elem.push(end_position);
+                            graph.insert(begin_position, graph_elem);
+                            graph_size += 1;
+                            let token = &text
+                                [begin_position * BYTES_PER_CHAR..end_position * BYTES_PER_CHAR];
+                            result_str.push(Vec::from(token));
+                            position_list.push(end_position);
+                            existing_candidate.insert(end_position);
+                        }
+                    }
                 }
+            }
         }
-        
+
         result_str.shrink_to_fit();
         result_str
     }
-    pub fn internal_segment(input: &CustomString, custom_dict: &Trie, safe: bool,parallel:bool) ->Vec<CustomStringBytesVec> {
+    pub fn internal_segment(
+        input: &CustomString,
+        custom_dict: &Trie,
+        safe: bool,
+        parallel: bool,
+    ) -> Vec<CustomStringBytesVec> {
         if input.len() == 0 {
             return vec![];
         }
@@ -280,9 +281,8 @@ impl Newmm {
                     .collect()
             };
         } else {
-          
             let mut txt = input.raw_content();
-            let mut txt_parts: Vec<CustomStringBytesVec> = Vec::with_capacity(txt.len() /10);
+            let mut txt_parts: Vec<CustomStringBytesVec> = Vec::with_capacity(txt.len() / 10);
             while txt.chars_len() >= TEXT_SCAN_END {
                 let sample: &[u8] = txt.slice_by_char_indice(TEXT_SCAN_BEGIN, TEXT_SCAN_END);
 
@@ -318,42 +318,46 @@ impl Newmm {
 
             if parallel {
                 txt_parts
-                .into_par_iter()
-                .flat_map(|part| {
-                    Self::one_cut(&part, &custom_dict)
-                        .into_par_iter()
-                        .map(|word| CustomString::convert_raw_bytes_to_utf8_bytes(&word))
-                        .collect::<Vec<ValidUTF8BytesVec>>()
-                })
-                .collect::<Vec<ValidUTF8BytesVec>>()
-            }
-            else{
+                    .into_par_iter()
+                    .flat_map(|part| {
+                        Self::one_cut(&part, &custom_dict)
+                            .into_par_iter()
+                            .map(|word| CustomString::convert_raw_bytes_to_utf8_bytes(&word))
+                            .collect::<Vec<ValidUTF8BytesVec>>()
+                    })
+                    .collect::<Vec<ValidUTF8BytesVec>>()
+            } else {
                 txt_parts
-                .iter()
-                .flat_map(|part| {
-                    Self::one_cut(&part, &custom_dict)
-                        .iter()
-                        .map(|word| CustomString::convert_raw_bytes_to_utf8_bytes(&word))
-                        .collect::<Vec<ValidUTF8BytesVec>>()
-                })
-                .collect::<Vec<ValidUTF8BytesVec>>()
+                    .iter()
+                    .flat_map(|part| {
+                        Self::one_cut(&part, &custom_dict)
+                            .iter()
+                            .map(|word| CustomString::convert_raw_bytes_to_utf8_bytes(&word))
+                            .collect::<Vec<ValidUTF8BytesVec>>()
+                    })
+                    .collect::<Vec<ValidUTF8BytesVec>>()
             }
         }
     }
 }
 
 impl Tokenizer for Newmm {
-    fn segment(&self, text: &str, safe: Option<bool>,parallel:Option<bool>) -> Vec<ValidUTF8BytesVec> {
+    fn segment(
+        &self,
+        text: &str,
+        safe: Option<bool>,
+        parallel: Option<bool>,
+    ) -> Vec<ValidUTF8BytesVec> {
         let safe_flag = match safe {
             Some(val) => val,
             None => false,
         };
         let parallel_flag = match parallel {
-            Some(val)=>val,
-            _=>false
+            Some(val) => val,
+            _ => false,
         };
         let custom_string = CustomString::new(text);
-        let tokens = Self::internal_segment(&custom_string, &self.dict, safe_flag,parallel_flag);
+        let tokens = Self::internal_segment(&custom_string, &self.dict, safe_flag, parallel_flag);
         tokens
     }
 }

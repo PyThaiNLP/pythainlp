@@ -300,6 +300,24 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertFalse(
             " " in subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
         )
+        self.assertEqual(
+            subword_tokenize("สวัสดีชาวโลก", engine="dict"), ["สวัส", "ดี", "ชาว", "โลก"]
+        )
+        self.assertFalse("า" in subword_tokenize("สวัสดีชาวโลก", engine="dict"))
+        self.assertEqual(subword_tokenize(None, engine="ssg"), [])
+        self.assertEqual(syllable_tokenize("", engine="ssg"), [])
+        self.assertEqual(
+            subword_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
+        )
+        self.assertTrue(
+            "ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
+        self.assertFalse(
+            " " in subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
+        )
         with self.assertRaises(ValueError):
             subword_tokenize("นกแก้ว", engine="XX")  # engine does not exist
 

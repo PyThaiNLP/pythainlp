@@ -27,7 +27,6 @@ _PAT_NONTHAI = re.compile(
     r"""(?x)
 [-a-zA-Z]+|   # Latin characters
 \d+([\,\.]\d+)*|   # float number
-\d+| # number
 [ \t]+|       # space
 \r?\n         # newline
 """

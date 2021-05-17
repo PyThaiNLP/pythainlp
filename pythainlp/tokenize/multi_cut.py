@@ -39,8 +39,7 @@ class LatticeString(str):
 
 _RE_NONTHAI = r"""(?x)
 [-a-zA-Z]+|   # Latin characters
-\d+([\,\.]\d+)*|   # float number
-\d+| # number
+\d+([\,\.]\d+)*|   # number
 [ \t]+|       # space
 \r?\n         # newline
 """

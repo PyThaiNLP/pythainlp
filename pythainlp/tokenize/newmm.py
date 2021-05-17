@@ -26,8 +26,8 @@ from pythainlp.tokenize.tcc import tcc_pos
 _PAT_NONTHAI = re.compile(
     r"""(?x)
 [-a-zA-Z]+|   # Latin characters
-\d+\.{1,1}\d+|   # float number
-\d+| # number
+\d+([\,\.]\d+)*|   # float number
+\d*| # number
 [ \t]+|       # space
 \r?\n         # newline
 """

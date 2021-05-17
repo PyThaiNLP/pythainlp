@@ -126,7 +126,8 @@ def segment(
 
     :param text: text to be tokenized
     :type text: str
-    :param custom_dict: tokenization dictionary, defaults to DEFAULT_WORD_DICT_TRIE
+    :param custom_dict: tokenization dictionary,\
+        defaults to DEFAULT_WORD_DICT_TRIE
     :type custom_dict: Trie, optional
     :return: list of segmented tokens
     :rtype: List[str]
@@ -144,7 +145,8 @@ def find_all_segment(
 
     :param text: input string to be tokenized
     :type text: str
-    :param custom_dict: tokenization dictionary, defaults to DEFAULT_WORD_DICT_TRIE
+    :param custom_dict: tokenization dictionary,\
+        defaults to DEFAULT_WORD_DICT_TRIE
     :type custom_dict: Trie, optional
     :return: list of segment variations
     :rtype: List[str]

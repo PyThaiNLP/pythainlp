@@ -141,7 +141,7 @@ def segment(
     """Maximal-matching word segmentation, Thai Character Cluster constrained.
 
     A dictionary-based word segmentation using maximal matching algorithm,
-    constrainted to Thai Character Cluster boundaries.
+    constrained to Thai Character Cluster boundaries.
 
     A custom dictionary can be supplied.
 

@@ -196,11 +196,6 @@ def _replace_consonants(word: str, consonants: str) -> str:
                         _CONSONANTS[consonants[i]][1]
                     )
                     i += 1
-            elif word[i] == _RO_RUA:
-                word = word.replace(
-                    consonants[i], _CONSONANTS[consonants[i]][1]
-                )
-                i += 1
             else:
                 word = word.replace(
                     consonants[i],

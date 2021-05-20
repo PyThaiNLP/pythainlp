@@ -167,10 +167,12 @@ def _replace_consonants(word: str, consonants: str) -> str:
                     consonants[0], _CONSONANTS[consonants[0]][0]
                 )
                 i += 1
-        elif i == len_word and consonants[i] == _RO_RUA and word[i - 1] == _RO_RUA:
-            word = word.replace(
-                    consonants[i], _CONSONANTS[consonants[i]][1]
-            )
+        elif (
+            i == len_word
+            and consonants[i] == _RO_RUA
+            and word[i - 1] == _RO_RUA
+        ):
+            word = word.replace(consonants[i], _CONSONANTS[consonants[i]][1])
         elif i < len_word and consonants[i] == _RO_RUA:
             if i + 1 == len_word and word[i] == _RO_RUA:
                 word = word.replace(
@@ -193,14 +195,12 @@ def _replace_consonants(word: str, consonants: str) -> str:
                     i += 1
                 else:
                     word = word.replace(
-                        consonants[i],
-                        _CONSONANTS[consonants[i]][1]
+                        consonants[i], _CONSONANTS[consonants[i]][1]
                     )
                     i += 1
             else:
                 word = word.replace(
-                    consonants[i],
-                    _CONSONANTS[consonants[i]][1]
+                    consonants[i], _CONSONANTS[consonants[i]][1]
                 )
                 i += 1
         else:
@@ -212,10 +212,6 @@ def _replace_consonants(word: str, consonants: str) -> str:
 
 # support function for romanize()
 def _romanize(word: str) -> str:
-    """
-    :param str word: a Thai word, should have already been tokenized.
-    :return: Spells out how the Thai word should be pronounced.
-    """
     word = _replace_vowels(_normalize(word))
     consonants = _RE_CONSONANT.findall(word)
 
@@ -231,13 +227,14 @@ def _romanize(word: str) -> str:
 
 
 def romanize(text: str) -> str:
-    """
-    Rendering Thai words in the Latin alphabet or "romanization",
-    using the Royal Thai General System of Transcription (RTGS),
-    which is the official system published by the Royal Institute of Thailand.
+    """Render Thai words in Latin alphabet, using RTGS
 
-    :param str text: Thai text to be romanized
-    :return: A string of Thai words rendered in the Latin alphabet.
+    Royal Thai General System of Transcription (RTGS),
+    is the official system by the Royal Institute of Thailand.
+
+    :param text: Thai text to be romanized
+    :type text: str
+    :return: A string of Thai words rendered in the Latin alphabet
     :rtype: str
     """
     words = word_tokenize(text)

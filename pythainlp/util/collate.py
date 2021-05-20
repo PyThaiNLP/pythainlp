@@ -19,18 +19,20 @@ def _thkey(word: str) -> str:
 
 def collate(data: Iterable, reverse: bool = False) -> List[str]:
     """
-    This function sorts a list of strings according to Thai alphabets.
+    This function sorts strings (almost) according to Thai dictionary.
 
-    :param list[str] data: a list of words to be sorted
-    :param bool reverse: If `reverse` is set to **True** the result will be
-                         sorted in descending order. Otherwise, the result will
-                         be sorted in ascending order.
-                         By default, the parameter `reverse` is set to
-                         **False**, sorting alphabettically in ascending order.
+    Important notes: this implementation ignores tone marks and symbols
 
-    :return: a list of strings, sorted alphabetically, according to
-             Thai alphabets
-    :rtype: list[str]
+    :param data: a list of words to be sorted
+    :type data: Iterable
+    :param reverse: If `reverse` is set to **True** the result will be
+                         sorted in descending order. Otherwise, the result
+                         will be sorted in ascending order, defaults to False
+    :type reverse: bool, optional
+
+    :return: a list of strings, sorted alphabetically, (almost) according to
+             Thai dictionary
+    :rtype: List[str]
 
     :Example:
     ::

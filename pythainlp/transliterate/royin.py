@@ -152,10 +152,11 @@ def _replace_consonants(word: str, consonants: str) -> str:
 
     if len(consonants) == 1:
         return word.replace(consonants[0], _CONSONANTS[consonants[0]][0])
+    len_cons = len(consonants)
 
     i = 0
-    len_cons = len(consonants)
     while i < len_cons:
+        len_word = len(word)
         if i == 0:
             if consonants[0] == _HO_HIP:
                 word = word.replace(consonants[0], "")
@@ -170,16 +171,18 @@ def _replace_consonants(word: str, consonants: str) -> str:
                     consonants[0], _CONSONANTS[consonants[0]][0]
                 )
                 i += 1
-        elif consonants[i] == _RO_RUA and i == len(word) and word[i - 1] == _RO_RUA:
-            word = word.replace(
-                    consonants[i], _CONSONANTS[consonants[i]][1]
-            )
-        elif consonants[i] == _RO_RUA and i < len(word):
-            if i + 1 == len(word) and word[i] == _RO_RUA:
+        elif (
+            i == len_word
+            and consonants[i] == _RO_RUA
+            and word[i - 1] == _RO_RUA
+        ):
+            word = word.replace(consonants[i], _CONSONANTS[consonants[i]][1])
+        elif i < len_word and consonants[i] == _RO_RUA:
+            if i + 1 == len_word and word[i] == _RO_RUA:
                 word = word.replace(
                     consonants[i], _CONSONANTS[consonants[i]][1]
                 )
-            elif word[i] == _RO_RUA and i + 1 < len(word):
+            elif i + 1 < len_word and word[i] == _RO_RUA:
                 if word[i + 1] == _RO_RUA:
                     word = list(word)
                     del word[i + 1]
@@ -196,19 +199,12 @@ def _replace_consonants(word: str, consonants: str) -> str:
                     i += 1
                 else:
                     word = word.replace(
-                        consonants[i],
-                        _CONSONANTS[consonants[i]][1]
+                        consonants[i], _CONSONANTS[consonants[i]][1]
                     )
                     i += 1
-            elif word[i] == _RO_RUA:
-                word = word.replace(
-                    consonants[i], _CONSONANTS[consonants[i]][1]
-                )
-                i += 1
             else:
                 word = word.replace(
-                    consonants[i],
-                    _CONSONANTS[consonants[i]][1]
+                    consonants[i], _CONSONANTS[consonants[i]][1]
                 )
                 i += 1
         else:
@@ -220,10 +216,6 @@ def _replace_consonants(word: str, consonants: str) -> str:
 
 # support function for romanize()
 def _romanize(word: str) -> str:
-    """
-    :param str word: a Thai word, should have already been tokenized.
-    :return: Spells out how the Thai word should be pronounced.
-    """
     word = _replace_vowels(_normalize(word))
     consonants = _RE_CONSONANT.findall(word)
 

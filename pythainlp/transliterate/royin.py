@@ -169,14 +169,12 @@ def _replace_consonants(word: str, consonants: str) -> str:
         ):  # The first character must be an initial consonant.
             mod_chars.append(_CONSONANTS[consonants[j]][0])
             j += 1
-        elif (
-            word[j] == _RO_RUA and word[i:] == _DOUBLE_RO_RUA
-        ):  # Double RO RUA is in end of word
+        elif word[i:] == _DOUBLE_RO_RUA:  # Double RO RUA is in end of word
             skip = True
             mod_chars.append("a")
             mod_chars.append("n")
             j += 1
-        elif word[j] == _RO_RUA and word[i : i + 2] == _DOUBLE_RO_RUA:
+        elif word[i : i + 2] == _DOUBLE_RO_RUA:
             skip = True
             mod_chars.append("a")
             j += 1

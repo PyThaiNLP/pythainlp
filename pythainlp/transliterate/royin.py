@@ -146,68 +146,42 @@ def _replace_vowels(word: str) -> str:
 def _replace_consonants(word: str, consonants: str) -> str:
     _HO_HIP = "\u0e2b"  # ห
     _RO_RUA = "\u0e23"  # ร
+    _DOUBLE_RO_RUA = _RO_RUA + _RO_RUA
 
     if not consonants:
         return word
 
-    if len(consonants) == 1:
-        return word.replace(consonants[0], _CONSONANTS[consonants[0]][0])
-    len_cons = len(consonants)
-
-    i = 0
-    while i < len_cons:
-        len_word = len(word)
-        if i == 0:
-            if consonants[0] == _HO_HIP:
-                word = word.replace(consonants[0], "")
-                del consonants[0]
-                len_cons -= 1
-            else:
-                word = word.replace(
-                    consonants[0], _CONSONANTS[consonants[0]][0]
-                )
-                i += 1
+    skip = False
+    mod_chars = []
+    j = 0  # j is the index of consonants
+    for i in range(len(word)):
+        if skip:
+            skip = False
+            j += 1
+        elif word[i] not in _CONSONANTS:  # word[i] is not a Thai consonant.
+            mod_chars.append(word[i])
         elif (
-            i == len_word
-            and consonants[i] == _RO_RUA
-            and word[i - 1] == _RO_RUA
-        ):
-            word = word.replace(consonants[i], _CONSONANTS[consonants[i]][1])
-        elif i < len_word and consonants[i] == _RO_RUA:
-            if i + 1 == len_word and word[i] == _RO_RUA:
-                word = word.replace(
-                    consonants[i], _CONSONANTS[consonants[i]][1]
-                )
-            elif i + 1 < len_word and word[i] == _RO_RUA:
-                if word[i + 1] == _RO_RUA:
-                    word = list(word)
-                    del word[i + 1]
-                    if i + 2 == len_cons:
-                        word[i] = "an"
-                    else:
-                        word[i] = "a"
-                    word = "".join(word)
-                    i += 1
-                elif word[i] == _RO_RUA:
-                    word = word.replace(
-                        consonants[i], _CONSONANTS[consonants[i]][1]
-                    )
-                    i += 1
-                else:
-                    word = word.replace(
-                        consonants[i], _CONSONANTS[consonants[i]][1]
-                    )
-                    i += 1
-            else:
-                word = word.replace(
-                    consonants[i], _CONSONANTS[consonants[i]][1]
-                )
-                i += 1
-        else:
-            word = word.replace(consonants[i], _CONSONANTS[consonants[i]][1])
-            i += 1
-
-    return word
+            len(mod_chars) == 0 and word[i] == _HO_HIP and len(consonants) != 1
+        ):  # Skip HO HIP except that HO HIP is the only one consonant
+            j += 1
+        elif (
+            len(mod_chars) == 0
+        ):  # The first character must be an initial consonant.
+            mod_chars.append(_CONSONANTS[consonants[j]][0])
+            j += 1
+        elif word[i:] == _DOUBLE_RO_RUA:  # Double RO RUA is in end of word
+            skip = True
+            mod_chars.append("a")
+            mod_chars.append("n")
+            j += 1
+        elif word[i : i + 2] == _DOUBLE_RO_RUA:
+            skip = True
+            mod_chars.append("a")
+            j += 1
+        else:  # Assume that the rest are final consonants.
+            mod_chars.append(_CONSONANTS[consonants[j]][1])
+            j += 1
+    return "".join(mod_chars)
 
 
 # support function for romanize()
@@ -222,7 +196,6 @@ def _romanize(word: str) -> str:
         word = "".join(word)
 
     word = _replace_consonants(word, consonants)
-
     return word
 
 

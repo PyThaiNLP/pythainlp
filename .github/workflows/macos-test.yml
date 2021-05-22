@@ -55,4 +55,4 @@ jobs:
         COVERALLS_SERVICE_NAME: github
       run: |
         coverage run -m unittest discover
-        CI_BRANCH=${GITHUB_REF#"ref/heads"} COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} coveralls
+        coveralls

@@ -25,10 +25,10 @@ from pythainlp.tokenize.tcc import tcc_pos
 # match non-Thai tokens
 _PAT_NONTHAI = re.compile(
     r"""(?x)
-[-a-zA-Z]+|   # Latin characters
-\d[\d,\.]*|   # number
-[ \t]+|       # space
-\r?\n         # newline
+[-a-zA-Z]+|        # Latin characters
+\d+([,\.]\d+)*|    # number
+[ \t]+|            # space
+\r?\n              # newline
 """
 )
 
@@ -138,16 +138,23 @@ def segment(
     custom_dict: Trie = DEFAULT_WORD_DICT_TRIE,
     safe_mode: bool = False,
 ) -> List[str]:
-    """
-    Dictionary-based maximal matching word segmentation, constrained with
-    Thai Character Cluster boundaries.
+    """Maximal-matching word segmentation, Thai Character Cluster constrained.
 
-    :param str text: text to be tokenized to words
-    :param pythainlp.util.Trie custom_dict: dictionary for tokenization
-    :param bool safe_mode: True to help avoid long wait for text with long\
-        and continuous ambiguous breaking points. Long wait may still able\
-        to occur. Default is False.
-    :return: list of words, tokenized from the text
+    A dictionary-based word segmentation using maximal matching algorithm,
+    constrained to Thai Character Cluster boundaries.
+
+    A custom dictionary can be supplied.
+
+    :param text: text to be tokenized
+    :type text: str
+    :param custom_dict: tokenization dictionary,\
+        defaults to DEFAULT_WORD_DICT_TRIE
+    :type custom_dict: Trie, optional
+    :param safe_mode: reduce chance for long processing time in long text\
+        with many ambiguous breaking points, defaults to False
+    :type safe_mode: bool, optional
+    :return: list of tokens
+    :rtype: List[str]
     """
     if not text or not isinstance(text, str):
         return []

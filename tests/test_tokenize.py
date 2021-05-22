@@ -450,6 +450,26 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="mm"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
+        self.assertEqual(
+            word_tokenize("19...", engine="mm"),
+            ['19', '...'],
+        )
+        self.assertEqual(
+            word_tokenize("19.", engine="mm"),
+            ['19', '.'],
+        )
+        self.assertEqual(
+            word_tokenize("19.84", engine="mm"),
+            ['19.84'],
+        )
+        self.assertEqual(
+            word_tokenize("127.0.0.1", engine="mm"),
+            ["127.0.0.1"],
+        )
+        self.assertEqual(
+            word_tokenize("USD1,984.42", engine="mm"),
+            ['USD', '1,984.42'],
+        )
 
         self.assertIsNotNone(multi_cut.mmcut("ทดสอบ"))
 
@@ -464,6 +484,26 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="newmm"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
+        )
+        self.assertEqual(
+            word_tokenize("19...", engine="newmm"),
+            ['19', '...'],
+        )
+        self.assertEqual(
+            word_tokenize("19.", engine="newmm"),
+            ['19', '.'],
+        )
+        self.assertEqual(
+            word_tokenize("19.84", engine="newmm"),
+            ['19.84'],
+        )
+        self.assertEqual(
+            word_tokenize("127.0.0.1", engine="newmm"),
+            ["127.0.0.1"],
+        )
+        self.assertEqual(
+            word_tokenize("USD1,984.42", engine="newmm"),
+            ['USD', '1,984.42'],
         )
         self.assertEqual(
             word_tokenize(

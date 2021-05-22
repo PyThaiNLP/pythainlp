@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Multi cut -- Thai word segmentation with maximum matching. The original source
-code is from Korakot Chaovavanich.
+Multi cut -- Thai word segmentation with maximum matching.
+Original code from Korakot Chaovavanich.
 
 :See Also:
     * `Facebook post \
@@ -12,16 +12,14 @@ code is from Korakot Chaovavanich.
 
 import re
 from collections import defaultdict
-from typing import List
+from typing import Iterator, List
 
 from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
 from pythainlp.util import Trie
 
 
 class LatticeString(str):
-    """
-    String subclass เพื่อเก็บวิธีตัดหลายๆ วิธี
-    """
+    """String that keeps possible tokenizations"""
 
     def __new__(cls, value, multi=None, in_dict=True):
         return str.__new__(cls, value)
@@ -34,22 +32,22 @@ class LatticeString(str):
                 self.unique = False
         else:
             self.multi = [value]
-        self.in_dict = in_dict  # บอกว่าเป็นคำมีในดิกหรือเปล่า
+        self.in_dict = in_dict  # if in dictionary
 
 
 _RE_NONTHAI = r"""(?x)
-[-a-zA-Z]+|   # Latin
-\d[\d,\.]*|   # number
-[ \t]+|       # space
-\r?\n         # newline
+[-a-zA-Z]+|       # Latin characters
+\d+([,\.]\d+)*|   # number
+[ \t]+|           # space
+\r?\n             # newline
 """
 _PAT_NONTHAI = re.compile(_RE_NONTHAI)
 
 
-def _multicut(text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE):
-    """
-    ส่งคืน LatticeString คืนมาเป็นก้อนๆ
-    """
+def _multicut(
+    text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE
+) -> Iterator[LatticeString]:
+    """Return LatticeString"""
     if not custom_dict:
         custom_dict = DEFAULT_WORD_DICT_TRIE
 
@@ -100,7 +98,7 @@ def _multicut(text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE):
             q.add(i)
 
 
-def mmcut(text: str):
+def mmcut(text: str) -> List[str]:
     res = []
     for w in _multicut(text):
         mm = min(w.multi, key=lambda x: x.count("/"))
@@ -108,7 +106,7 @@ def mmcut(text: str):
     return res
 
 
-def _combine(ww: str):
+def _combine(ww: List[LatticeString]) -> Iterator[str]:
     if ww == []:
         yield ""
     else:
@@ -124,12 +122,15 @@ def _combine(ww: str):
 def segment(
     text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE
 ) -> List[str]:
-    """
-    Dictionary-based maximum matching word segmentation.
+    """Dictionary-based maximum matching word segmentation.
 
-    :param str text: text to be tokenized to words
-    :param pythainlp.util.Trie custom_dict: dictionary for tokenization
-    :return: list of words, tokenized from the text
+    :param text: text to be tokenized
+    :type text: str
+    :param custom_dict: tokenization dictionary,\
+        defaults to DEFAULT_WORD_DICT_TRIE
+    :type custom_dict: Trie, optional
+    :return: list of segmented tokens
+    :rtype: List[str]
     """
     if not text or not isinstance(text, str):
         return []
@@ -140,11 +141,15 @@ def segment(
 def find_all_segment(
     text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE
 ) -> List[str]:
-    """
-    Get all possible segment variations
+    """Get all possible segment variations.
 
-    :param str text: input string to be tokenized
-    :return: returns list of segment variations
+    :param text: input string to be tokenized
+    :type text: str
+    :param custom_dict: tokenization dictionary,\
+        defaults to DEFAULT_WORD_DICT_TRIE
+    :type custom_dict: Trie, optional
+    :return: list of segment variations
+    :rtype: List[str]
     """
     if not text or not isinstance(text, str):
         return []

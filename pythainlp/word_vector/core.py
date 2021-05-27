@@ -50,7 +50,15 @@ def doesnt_match(words: List[str]) -> str:
     Pick the word "พริกไทย" (name of food) out of the list of meals
     ("อาหารเช้า", "อาหารเที่ยง", "อาหารเย็น").
 
-    >>> from pythainlp.word_vector import doesnt_match
+    >>> from pythainlp.
+    
+    
+    
+    
+    
+    
+    
+    tor import doesnt_match
     >>>
     >>> words = ['อาหารเช้า','อาหารเที่ยง','อาหารเย็น','พริกไทย']
     >>> doesnt_match(words)
@@ -258,7 +266,7 @@ def sentence_vectorizer(text: str, use_mean: bool = True) -> ndarray:
             word = _TK_EOL
 
         if word in _MODEL.index_to_key:
-            vec += _MODEL.word_vec(word)
+            vec += _MODEL.get_vector(word)
 
     if use_mean:
         vec /= len_words

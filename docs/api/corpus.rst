@@ -11,6 +11,7 @@ Modules
 .. autofunction:: get_corpus
 .. autofunction:: get_corpus_db
 .. autofunction:: get_corpus_db_detail
+.. autofunction:: get_corpus_default_db
 .. autofunction:: get_corpus_path
 .. autofunction:: download
 .. autofunction:: remove

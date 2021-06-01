@@ -114,7 +114,7 @@ def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
     return frozenset(filter(None, lines))
 
 
-def get_corpus_default_db(name: str,  version : str = None) -> Union[str, None]:
+def get_corpus_default_db(name: str,  version: str) -> Union[str, None]:
     """
     Get model path from default_db.json
 
@@ -123,8 +123,8 @@ def get_corpus_default_db(name: str,  version : str = None) -> Union[str, None]:
              exist in the device
     :rtype: str
 
-    If you want edit default_db.json,\
-         you can edit in pythainlp/corpus/default_db.json
+    If you want edit default_db.json, \
+        you can edit in pythainlp/corpus/default_db.json
     """
     default_db_path = path_pythainlp_corpus("default_db.json")
     with open(default_db_path, encoding="utf-8-sig") as fh:
@@ -137,7 +137,7 @@ def get_corpus_default_db(name: str,  version : str = None) -> Union[str, None]:
             )
 
 
-def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:
+def get_corpus_path(name: str,  version: str = None) -> Union[str, None]:
     """
     Get corpus path.
 
@@ -182,9 +182,9 @@ def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:
     }
     if name in list(_CUSTOMIZE.keys()):
         return _CUSTOMIZE[name]
-    
+
     default_path = get_corpus_default_db(name=name, version=version)
-    if default_path != None:
+    if default_path is not None:
         return default_path
 
     # check if the corpus is in local catalog, download if not

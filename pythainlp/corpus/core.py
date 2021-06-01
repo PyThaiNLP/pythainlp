@@ -135,12 +135,11 @@ def get_corpus_default_db(name: str, version: str = None) -> Union[str, None]:
             return path_pythainlp_corpus(
                 corpus_db[name]["versions"][version]["filename"]
             )
-        elif version is None: # load latest version
+        elif version is None:  # load latest version
             version = corpus_db[name]["latest_version"]
             return path_pythainlp_corpus(
                 corpus_db[name]["versions"][version]["filename"]
             )
-
 
 
 def get_corpus_path(name: str,  version: str = None) -> Union[str, None]:

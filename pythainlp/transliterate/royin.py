@@ -118,6 +118,13 @@ _CONSONANTS = {
 }
 
 _THANTHAKHAT = "\u0e4c"
+
+_HO_HIP = "\u0e2b"  # ห
+_RO_RUA = "\u0e23"  # ร
+_O_ANG = "\u0e2d"  # อ
+
+_DOUBLE_RO_RUA = _RO_RUA + _RO_RUA
+
 _RE_CONSONANT = re.compile(f"[{thai_consonants}]")
 _RE_NORMALIZE = re.compile(
     f"จน์|มณ์|ณฑ์|ทร์|ตร์|[{thai_consonants}]{_THANTHAKHAT}|"
@@ -144,12 +151,6 @@ def _replace_vowels(word: str) -> str:
 
 
 def _replace_consonants(word: str, consonants: str) -> str:
-    _HO_HIP = "\u0e2b"  # ห
-    _RO_RUA = "\u0e23"  # ร
-    _O_ANG = "\u0e2d"  # อ
-
-    _DOUBLE_RO_RUA = _RO_RUA + _RO_RUA
-
     if not consonants:
         return word
 
@@ -180,7 +181,7 @@ def _replace_consonants(word: str, consonants: str) -> str:
             mod_chars.append("a")
             mod_chars.append("n")
             j += 1
-        elif word[i : i + 2] == _DOUBLE_RO_RUA:
+        elif word[i: i + 2] == _DOUBLE_RO_RUA:
             skip = True
             mod_chars.append("a")
             j += 1
@@ -205,16 +206,16 @@ def _romanize(word: str) -> str:
     return word
 
 
-def romanize(word: str) -> str:
+def romanize(text: str) -> str:
     """
-    Rendering Thai words in the Latin alphabet or "romanization",
-    using the Royal Thai General System of Transcription (RTGS),
-    which is the official system published by the Royal Institute of Thailand.
+    Render Thai text in the Latin alphabet or "romanization",
+    using the official Royal Thai General System of Transcription (RTGS).
 
-    :param str word: Thai word to be romanized
-    :return: A string of Thai word rendered in the Latin alphabet.
+    :param str text: Thai text to be romanized
+    :return: Romanized text, in the Latin alphabet.
     :rtype: str
     """
-    romanized_word = _romanize(word)
+    words = word_tokenize(text)
+    romanized_words = [_romanize(word) for word in words]
 
-    return romanized_word
+    return "".join(romanized_words)

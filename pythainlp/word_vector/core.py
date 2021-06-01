@@ -52,7 +52,7 @@ def doesnt_match(words: List[str]) -> str:
 
     >>> from pythainlp.word_vector import doesnt_match
     >>>
-    >>> words = ['อาหารเช้า','อาหารเที่ยง','อาหารเย็น','พริกไทย']
+    >>> words = ['อาหารเช้า', 'อาหารเที่ยง', 'อาหารเย็น', 'พริกไทย']
     >>> doesnt_match(words)
     พริกไทย
 
@@ -188,7 +188,7 @@ def similarity(word1: str, word2: str) -> float:
     (train and electric train).
 
     >>> from pythainlp.word_vector import similarity
-    >>> similarity('รถไฟ','รถไฟฟ้า')
+    >>> similarity('รถไฟ', 'รถไฟฟ้า')
     0.43387136
 
 
@@ -196,7 +196,7 @@ def similarity(word1: str, word2: str) -> float:
     (leopard and electric train).
 
     >>> from pythainlp.word_vector import similarity
-    >>> similarity('เสือดาว','รถไฟฟ้า')
+    >>> similarity('เสือดาว', 'รถไฟฟ้า')
     0.04300258
 
     """
@@ -258,7 +258,7 @@ def sentence_vectorizer(text: str, use_mean: bool = True) -> ndarray:
             word = _TK_EOL
 
         if word in _MODEL.index_to_key:
-            vec += _MODEL.word_vec(word)
+            vec += _MODEL.get_vector(word)
 
     if use_mean:
         vec /= len_words

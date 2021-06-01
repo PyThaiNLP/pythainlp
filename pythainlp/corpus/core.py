@@ -123,14 +123,18 @@ def get_corpus_default_db(name: str,  version : str = None) -> Union[str, None]:
              exist in the device
     :rtype: str
 
-    If you want edit default_db.json, you can edit in pythainlp/corpus/default_db.json
+    If you want edit default_db.json,\
+         you can edit in pythainlp/corpus/default_db.json
     """
     default_db_path = path_pythainlp_corpus("default_db.json")
     with open(default_db_path, encoding="utf-8-sig") as fh:
-       corpus_db = json.load(fh)
+        corpus_db = json.load(fh)
+
     if name in list(corpus_db.keys()):
         if version in list(corpus_db[name]["versions"].keys()):
-            return path_pythainlp_corpus(corpus_db[name]["versions"][version]["filename"])
+            return path_pythainlp_corpus(
+                corpus_db[name]["versions"][version]["filename"]
+            )
 
 
 def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:

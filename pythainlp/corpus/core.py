@@ -114,7 +114,7 @@ def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
     return frozenset(filter(None, lines))
 
 
-def get_corpus_default_db(name: str,  version: str) -> Union[str, None]:
+def get_corpus_default_db(name: str, version: str = None) -> Union[str, None]:
     """
     Get model path from default_db.json
 
@@ -135,6 +135,12 @@ def get_corpus_default_db(name: str,  version: str) -> Union[str, None]:
             return path_pythainlp_corpus(
                 corpus_db[name]["versions"][version]["filename"]
             )
+        elif version is None: # load latest version
+            version = corpus_db[name]["latest_version"]
+            return path_pythainlp_corpus(
+                corpus_db[name]["versions"][version]["filename"]
+            )
+
 
 
 def get_corpus_path(name: str,  version: str = None) -> Union[str, None]:

@@ -9,6 +9,7 @@ from pythainlp.corpus import (
     download,
     get_corpus_db,
     get_corpus_db_detail,
+    get_corpus_default_db,
     get_corpus_path,
     provinces,
     remove,
@@ -72,6 +73,10 @@ class TestCorpusPackage(unittest.TestCase):
         )  # corpus name not exist
         self.assertIsNotNone(get_corpus_db_detail("test"))  # corpus exists
         self.assertIsNotNone(get_corpus_path("test"))  # corpus exists
+        self.assertIsNone(get_corpus_default_db("test"))
+        self.assertIsNotNone(get_corpus_default_db("thainer", "1.5"))
+        self.assertIsNotNone(get_corpus_default_db("thainer"))
+        self.assertIsNone(get_corpus_default_db("thainer", "1.2"))
         self.assertTrue(remove("test"))  # remove existing
         self.assertFalse(remove("test"))  # remove non-existing
         self.assertIsNone(get_corpus_path("XXXkdjfBzc"))  # query non-existing

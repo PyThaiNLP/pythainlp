@@ -157,6 +157,7 @@ def _replace_consonants(word: str, consonants: str) -> str:
     skip = False
     mod_chars = []
     j = 0  # j is the index of consonants
+
     for i in range(len(word)):
         if skip:
             skip = False
@@ -171,9 +172,7 @@ def _replace_consonants(word: str, consonants: str) -> str:
             len(mod_chars) == 0 and word[i] == _O_ANG and len(consonants) != 1
         ):  # Skip O ANG except that O ANG is the only one consonant
             j += 1
-        elif (
-            len(mod_chars) == 0
-        ):  # The first character must be an initial consonant.
+        elif len(mod_chars) == 0:  # The first character must be an initial consonant.
             mod_chars.append(_CONSONANTS[consonants[j]][0])
             j += 1
         elif word[i:] == _DOUBLE_RO_RUA:  # Double RO RUA is in end of word
@@ -203,19 +202,20 @@ def _romanize(word: str) -> str:
         word = "".join(word)
 
     word = _replace_consonants(word, consonants)
+
     return word
 
 
-def romanize(text: str) -> str:
+def romanize(word: str) -> str:
     """
-    Render Thai text in the Latin alphabet or "romanization",
-    using the official Royal Thai General System of Transcription (RTGS).
+    Rendering Thai words in the Latin alphabet or "romanization",
+    using the Royal Thai General System of Transcription (RTGS),
+    which is the official system published by the Royal Institute of Thailand.
 
-    :param str text: Thai text to be romanized
-    :return: Romanized text, in the Latin alphabet.
+    :param str word: Thai word to be romanized
+    :return: A string of Thai word rendered in the Latin alphabet.
     :rtype: str
     """
-    words = word_tokenize(text)
-    romanized_words = [_romanize(word) for word in words]
+    romanized_word = _romanize(word)
 
-    return "".join(romanized_words)
+    return romanized_word

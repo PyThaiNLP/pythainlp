@@ -7,6 +7,7 @@ import hashlib
 import os
 from typing import Union
 from urllib.request import urlopen
+import json
 
 import requests
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
@@ -101,7 +102,7 @@ def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
         #    'หยิบยื่น\\t3',
         #     ...})
     """
-    path = os.path.join(corpus_path(), filename)
+    path = path_pythainlp_corpus(filename)
     lines = []
     with open(path, "r", encoding="utf-8-sig") as fh:
         lines = fh.read().splitlines()
@@ -113,7 +114,35 @@ def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
     return frozenset(filter(None, lines))
 
 
-def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:
+def get_corpus_default_db(name: str, version: str = None) -> Union[str, None]:
+    """
+    Get model path from default_db.json
+
+    :param str name: corpus name
+    :return: path to the corpus or **None** of the corpus doesn't \
+             exist in the device
+    :rtype: str
+
+    If you want edit default_db.json, \
+        you can edit in pythainlp/corpus/default_db.json
+    """
+    default_db_path = path_pythainlp_corpus("default_db.json")
+    with open(default_db_path, encoding="utf-8-sig") as fh:
+        corpus_db = json.load(fh)
+
+    if name in list(corpus_db.keys()):
+        if version in list(corpus_db[name]["versions"].keys()):
+            return path_pythainlp_corpus(
+                corpus_db[name]["versions"][version]["filename"]
+            )
+        elif version is None:  # load latest version
+            version = corpus_db[name]["latest_version"]
+            return path_pythainlp_corpus(
+                corpus_db[name]["versions"][version]["filename"]
+            )
+
+
+def get_corpus_path(name: str,  version: str = None) -> Union[str, None]:
     """
     Get corpus path.
 
@@ -158,6 +187,10 @@ def get_corpus_path(name: str,  version : str = None) -> Union[str, None]:
     }
     if name in list(_CUSTOMIZE.keys()):
         return _CUSTOMIZE[name]
+
+    default_path = get_corpus_default_db(name=name, version=version)
+    if default_path is not None:
+        return default_path
 
     # check if the corpus is in local catalog, download if not
     corpus_db_detail = get_corpus_db_detail(name)

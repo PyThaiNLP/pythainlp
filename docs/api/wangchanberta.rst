@@ -7,6 +7,8 @@ WangchanBERTa base model: wangchanberta-base-att-spm-uncased [#Lowphansirikul_20
 
 We used WangchanBERTa for Thai name tagger task, part-of-speech and subword tokenizer.
 
+If you want to finetune model, You can read https://github.com/vistec-AI/thai2transformers
+
 **Speed Benchmark**
 
 ============================= ======================== ==============

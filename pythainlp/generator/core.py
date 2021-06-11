@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+"""
+Text generator using Unigram, Bigram and Tigram
+
+code from https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
+"""
 import random
 from pythainlp.corpus.tnc import unigram_word_freqs as tnc_word_freqs_unigram
 from pythainlp.corpus.tnc import bigram_word_freqs as tnc_word_freqs_bigram
@@ -75,7 +80,7 @@ class Bigram:
         self.bi_keys = list(self.bi.keys())
         self.words = [i[-1]  for i in self.bi_keys]
 
-    def prob(self, t1: str, t2: str): # from https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
+    def prob(self, t1: str, t2: str):
         """
         probability word
 
@@ -134,7 +139,7 @@ class Tigram:
         self.ti_keys = list(self.ti.keys())
         self.words = [i[-1] for i in self.bi_keys]
 
-    def prob(self, t1: str, t2: str, t3: str): # from https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
+    def prob(self, t1: str, t2: str, t3: str):
         """
         probability word
         

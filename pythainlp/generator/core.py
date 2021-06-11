@@ -156,7 +156,7 @@ class Tigram:
             v = 0.0
         return v
 
-    def gen_sentence(self, N: int = 4, prob: float = 0.001, start_seq: tuple = None, output_str: bool = True, duplicate: bool = กFalse):
+    def gen_sentence(self, N: int = 4, prob: float = 0.001, start_seq: tuple = None, output_str: bool = True, duplicate: bool = False):
         if start_seq is None:
             start_seq = random.choice(self.bi_keys)
         self.late_word = start_seq

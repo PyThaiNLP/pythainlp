@@ -10,8 +10,6 @@ __all__ = [
 
 import pandas as pd
 import random
-from ast import literal_eval
-from collections import Counter
 import pickle
 
 # fastai
@@ -79,7 +77,8 @@ def gen_sentence(
   start_seq:str=None,
   output_str:bool = True
 ):
-  if start_seq is None: start_seq = random.choice(list(thwiki_itos))
+  if start_seq is None:
+    start_seq = random.choice(list(thwiki_itos))
   list_word = learn.predict(start_seq, N, temperature=0.8, min_p=prob, sep = '-*-').split('-*-')
   if output_str:
     return ''.join(list_word)

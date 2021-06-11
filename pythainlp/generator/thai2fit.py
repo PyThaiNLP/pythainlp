@@ -12,11 +12,12 @@ import pandas as pd
 import random
 from ast import literal_eval
 from collections import Counter
-import re
+import pickle
 
 # fastai
 import fastai
 from fastai.text import *
+from fastai.data.external import *
 
 # pythainlp
 from pythainlp.ulmfit import *

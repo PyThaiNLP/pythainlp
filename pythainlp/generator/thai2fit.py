@@ -17,7 +17,6 @@ import pickle
 # fastai
 import fastai
 from fastai.text import *
-from fastai.data.external import *
 
 # pythainlp
 from pythainlp.ulmfit import *

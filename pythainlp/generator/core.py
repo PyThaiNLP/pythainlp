@@ -33,7 +33,7 @@ class Unigram:
         self.prob = {i:self.counts[i] / self.n for i in self.word}
         self._word_prob = {}
 
-    def gen_sentence(self, N: int = 3,prob: float = 0.001, start_seq: str = None, output_str: bool = True, duplicate: bool = False):
+    def gen_sentence(self, start_seq: str = None, N: int = 3,prob: float = 0.001, output_str: bool = True, duplicate: bool = False):
         """
         :param int N: number of word.
         :param str start_seq: word for begin word.
@@ -96,7 +96,7 @@ class Bigram:
             v = 0.0
         return v
 
-    def gen_sentence(self, N: int = 4, prob: float = 0.001, start_seq: str = None, output_str: bool = True, duplicate: bool = False):
+    def gen_sentence(self, start_seq: str = None, N: int = 4, prob: float = 0.001, output_str: bool = True, duplicate: bool = False):
         if start_seq is None: start_seq = random.choice(self.words)
         self.late_word = start_seq
         self.list_word = []
@@ -156,7 +156,7 @@ class Tigram:
             v = 0.0
         return v
 
-    def gen_sentence(self, N: int = 4, prob: float = 0.001, start_seq: tuple = None, output_str: bool = True, duplicate: bool = False):
+    def gen_sentence(self, start_seq: str = None, N: int = 4, prob: float = 0.001, output_str: bool = True, duplicate: bool = False):
         if start_seq is None:
             start_seq = random.choice(self.bi_keys)
         self.late_word = start_seq

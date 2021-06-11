@@ -10,6 +10,7 @@ from pythainlp.corpus import (
     get_corpus_db,
     get_corpus_db_detail,
     get_corpus_path,
+    oscar,
     provinces,
     remove,
     thai_family_names,
@@ -98,12 +99,20 @@ class TestCorpusPackage(unittest.TestCase):
         )
         self.assertIsNotNone(download(name="test", version="0.1"))
         self.assertIsNotNone(remove("test"))
+    
+    def test_oscar(self):
+        self.assertIsNotNone(oscar.word_freqs())
+        self.assertIsNotNone(oscar.unigram_word_freqs())
 
     def test_tnc(self):
         self.assertIsNotNone(tnc.word_freqs())
+        self.assertIsNotNone(tnc.unigram_word_freqs())
+        self.assertIsNotNone(tnc.bigram_word_freqs())
+        self.assertIsNotNone(tnc.tigram_word_freqs())
 
     def test_ttc(self):
         self.assertIsNotNone(ttc.word_freqs())
+        self.assertIsNotNone(ttc.unigram_word_freqs())
 
     def test_wordnet(self):
         self.assertIsInstance(wordnet.langs(), list)

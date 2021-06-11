@@ -17,7 +17,6 @@ import re
 # fastai
 import fastai
 from fastai.text import *
-from fastai.callbacks import CSVLogger
 
 # pythainlp
 from pythainlp.ulmfit import *

@@ -99,7 +99,7 @@ class TestCorpusPackage(unittest.TestCase):
         )
         self.assertIsNotNone(download(name="test", version="0.1"))
         self.assertIsNotNone(remove("test"))
-    
+
     def test_oscar(self):
         self.assertIsNotNone(oscar.word_freqs())
         self.assertIsNotNone(oscar.unigram_word_freqs())

@@ -44,6 +44,6 @@ def unigram_word_freqs() -> defaultdict:
     for i in lines:
         _temp = i.strip().split("	")
         if len(_temp) >= 2:
-            _word_freqs[(_temp[0],_temp[1])] = int(_temp[-1])
+            _word_freqs[(_temp[0], _temp[1])] = int(_temp[-1])
 
     return _word_freqs

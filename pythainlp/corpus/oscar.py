@@ -25,7 +25,7 @@ def word_freqs() -> List[Tuple[str, int]]:
     """
     word_freqs = []
     _path = get_corpus_path(_FILENAME)
-    with open(_path,"r",encoding="utf-8") as f:
+    with open(_path, "r", encoding="utf-8") as f:
         for line in f.readlines():
             word_freq = line.strip().split(",")
             if len(word_freq) >= 2:
@@ -45,9 +45,9 @@ def unigram_word_freqs() -> defaultdict:
         del _data[0]
         for i in _data:
             _temp = i.strip().split(",")
-            if _temp[0]!=" " and '"' not in _temp[0]:
+            if _temp[0] != " " and '"' not in _temp[0]:
                 _word_freqs[_temp[0]] = int(_temp[-1])
-            elif _temp[0]==" ":
+            elif _temp[0] == " ":
                 _word_freqs["<s/>"] = int(_temp[-1])
 
     return _word_freqs

@@ -24,4 +24,4 @@ class TestGeneratorPackage(unittest.TestCase):
         self.assertIsNotNone(_tigram.gen_sentence("ผม"))
 
     def test_thai2fit(self):
-        self.assertIsNotNone(gen_sentence("ผมชอบไปโรงเรียน"))
+        self.assertIsNotNone(gen_sentence("กาลครั้งหนึ่งนานมาแล้ว"))

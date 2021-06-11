@@ -25,10 +25,10 @@ class Unigram:
         self.n = 0
         for i in self.word:
             self.n += self.counts[i]
-        self.prob = {i:self.counts[i]/self.n for i in self.word}
+        self.prob = {i:self.counts[i] / self.n for i in self.word}
         self._word_prob = {}
 
-    def gen_sentence(self,N:int=3,prob:float=0.001, start_seq:str=None, output_str:bool = True, duplicate:bool=False):
+    def gen_sentence(self, N: int = 3,prob: float = 0.001, start_seq: str = None, output_str: bool = True, duplicate: bool = False):
         """
         :param int N: number of word.
         :param str start_seq: word for begin word.
@@ -38,20 +38,21 @@ class Unigram:
         :return: list words or str words
         :rtype: str,list
         """
-        if start_seq is None: start_seq = random.choice(self.word)
+        if start_seq is None:
+            start_seq = random.choice(self.word)
         rand_text = start_seq.lower()
-        self._word_prob = {i:self.counts[i]/self.n for i in self.word if self.counts[i]/self.n>=prob}
-        return self.next_word(rand_text, N, output_str,prob=prob, duplicate=duplicate)
+        self._word_prob = {i:self.counts[i] / self.n for i in self.word if self.counts[i] / self.n >= prob}
+        return self.next_word(rand_text, N, output_str, prob = prob, duplicate = duplicate)
 
-    def next_word(self,text:str, N:int, output_str:str,prob, duplicate:bool=False):
+    def next_word(self, text: str, N: int, output_str: str, prob: float, duplicate: bool = False):
         self.l = []
         self.l.append(text)
         self._word_list = list(self._word_prob.keys())
-        if N>len(self._word_list):
-            N=len(self._word_list)
+        if N > len(self._word_list):
+            N  =len(self._word_list)
         for i in range(N):
             self._word = random.choice(self._word_list)
-            if duplicate == False:
+            if duplicate is False:
                 while self._word in self.l:
                     self._word = random.choice(self._word_list)
             self.l.append(self._word)
@@ -62,7 +63,7 @@ class Unigram:
 
 
 class Bigram:
-    def __init__(self,name:str="tnc"):
+    def __init__(self, name: str = "tnc"):
         """
         :param str name: corpus name
         :rtype: None
@@ -74,10 +75,10 @@ class Bigram:
         self.bi_keys = list(self.bi.keys())
         self.words = [i[-1]  for i in self.bi_keys]
 
-    def prob(self, t1:str, t2:str): # from https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
+    def prob(self, t1: str, t2: str): # from https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
         """
         probability word
-        
+
         :param int t1: text 1
         :param int t2: text 2
 
@@ -85,12 +86,12 @@ class Bigram:
         :rtype: float
         """
         try:
-            v=self.bi[(t1,t2)]/self.uni[t1]
+            v = self.bi[(t1, t2)] / self.uni[t1]
         except:
-            v=0.0
+            v = 0.0
         return v
 
-    def gen_sentence(self,N:int=4,prob:float=0.001, start_seq:str=None, output_str:bool = True, duplicate:bool=False):
+    def gen_sentence(self, N: int = 4, prob: float = 0.001, start_seq: str = None, output_str: bool = True, duplicate: bool = False):
         if start_seq is None: start_seq = random.choice(self.words)
         self.late_word = start_seq
         self.list_word = []
@@ -98,12 +99,17 @@ class Bigram:
 
         for i in range(N):
             if duplicate:
-                self._temp = [j for j in self.bi_keys if j[0]==self.late_word]
+                self._temp = [
+                    j for j in self.bi_keys if j[0] == self.late_word
+                ]
             else:
-                self._temp = [j for j in self.bi_keys if j[0]==self.late_word and j[1] not in self.list_word]
-            self._probs = [self.prob(self.late_word,l[-1]) for l in self._temp]
-            self._p2 = [j for j in self._probs if j>=prob]
-            if len(self._p2)==0:
+                self._temp = [
+                    j for j in self.bi_keys
+                    if j[0]==self.late_word and j[1] not in self.list_word
+                ]
+            self._probs = [self.prob(self.late_word, l[-1]) for l in self._temp]
+            self._p2 = [j for j in self._probs if j >= prob]
+            if len(self._p2) == 0:
                 break
             self.items = self._temp[self._probs.index(random.choice(self._p2))]
             self.late_word = self.items[-1]
@@ -114,7 +120,7 @@ class Bigram:
 
 
 class Tigram:
-    def __init__(self,name:str="tnc"):
+    def __init__(self, name: str = "tnc"):
         """
         :param str name: corpus name
         :rtype: None
@@ -126,9 +132,9 @@ class Tigram:
         self.uni_keys = list(self.uni.keys())
         self.bi_keys = list(self.bi.keys())
         self.ti_keys = list(self.ti.keys())
-        self.words = [i[-1]  for i in self.bi_keys]
+        self.words = [i[-1] for i in self.bi_keys]
 
-    def prob(self, t1:str, t2:str, t3:str): # from https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
+    def prob(self, t1: str, t2: str, t3: str): # from https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
         """
         probability word
         
@@ -140,25 +146,26 @@ class Tigram:
         :rtype: float
         """
         try:
-            v=self.ti[(t1, t2, t3)]/self.bi[(t1, t2)]
+            v = self.ti[(t1, t2, t3)] / self.bi[(t1, t2)]
         except:
-            v=0.0
+            v = 0.0
         return v
 
-    def gen_sentence(self,N:int=4,prob:float=0.001, start_seq:tuple=None, output_str:bool = True, duplicate:bool=False):
-        if start_seq is None: start_seq = random.choice(self.bi_keys)
+    def gen_sentence(self, N: int = 4, prob: float = 0.001, start_seq: tuple = None, output_str: bool = True, duplicate: bool = กFalse):
+        if start_seq is None:
+            start_seq = random.choice(self.bi_keys)
         self.late_word = start_seq
         self.list_word = []
         self.list_word.append(start_seq)
 
         for i in range(N):
             if duplicate:
-                self._temp = [j for j in self.ti_keys if j[:2]==self.late_word]
+                self._temp = [j for j in self.ti_keys if j[:2] == self.late_word]
             else:
-                self._temp = [j for j in self.ti_keys if j[:2]==self.late_word and j[1:] not in self.list_word]
-            self._probs = [self.prob(l[0],l[1],l[2]) for l in self._temp]
-            self._p2 = [j for j in self._probs if j>=prob]
-            if len(self._p2)==0:
+                self._temp = [j for j in self.ti_keys if j[:2] == self.late_word and j[1:] not in self.list_word]
+            self._probs = [self.prob(l[0], l[1], l[2]) for l in self._temp]
+            self._p2 = [j for j in self._probs if j >= prob]
+            if len(self._p2) == 0:
                 break
             self.items = self._temp[self._probs.index(random.choice(self._p2))]
             self.late_word = self.items[1:]

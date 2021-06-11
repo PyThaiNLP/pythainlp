@@ -4,11 +4,13 @@ from pythainlp.corpus.tnc import unigram_word_freqs as tnc_word_freqs_unigram
 from pythainlp.corpus.tnc import bigram_word_freqs as tnc_word_freqs_bigram
 from pythainlp.corpus.tnc import tigram_word_freqs as tnc_word_freqs_tigram
 from pythainlp.corpus.ttc import unigram_word_freqs as ttc_word_freqs_unigram
-from pythainlp.corpus.oscar import unigram_word_freqs as oscar_word_freqs_unigram
+from pythainlp.corpus.oscar import (
+    unigram_word_freqs as oscar_word_freqs_unigram
+)
 
 
 class Unigram:
-    def __init__(self, name:str="tnc"):
+    def __init__(self, name: str = "tnc"):
         """
         :param str name: corpus name
         :rtype: None

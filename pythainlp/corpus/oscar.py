@@ -27,9 +27,12 @@ def word_freqs() -> List[Tuple[str, int]]:
     _path = get_corpus_path(_FILENAME)
     with open(_path, "r", encoding="utf-8") as f:
         for line in f.readlines():
-            word_freq = line.strip().split(",")
-            if len(word_freq) >= 2:
-                word_freqs.append((word_freq[0], int(word_freq[1])))
+            _temp = line.strip().split(",")
+            if len(_temp) >= 2:
+                if _temp[0] != " " and '"' not in _temp[0]:
+                    word_freqs.append((_temp[0], int(_temp[1])))
+                elif _temp[0] == " ":
+                    word_freqs.append(("<s/>", int(_temp[1])))
 
     return word_freqs
 

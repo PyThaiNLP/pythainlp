@@ -18,24 +18,36 @@ class Thai2transformersAug:
         self.tokenizer = CamembertTokenizer.from_pretrained(
                                     self.model_name,
                                     revision='main')
-        self.tokenizer.additional_special_tokens = ['<s>NOTUSED', '</s>NOTUSED', '<_>']
+        self.tokenizer.additional_special_tokens = [
+            '<s>NOTUSED',
+            '</s>NOTUSED',
+            '<_>'
+        ]
         self.fill_mask = pipeline(
             task='fill-mask',
             tokenizer=self.tokenizer,
-            model = f'{self.model_name}',
-            revision = 'main',)
-    def generate(self, sentence: str, num_replace_tokens: int=3):
+            model=f'{self.model_name}',
+            revision='main'
+        )
+
+    def generate(self, sentence: str, num_replace_tokens: int = 3):
         self.sent2 = []
         self.input_text = sentence
-        sent = [i for i in self.tokenizer.tokenize(self.input_text) if i != '▁']
+        sent = [
+            i for i in self.tokenizer.tokenize(self.input_text) if i != '▁'
+        ]
         if len(sent) < num_replace_tokens:
             num_replace_tokens = len(sent)
         masked_text = self.input_text
         for i in range(num_replace_tokens):
-            replace_token =  [sent.pop(random.randrange(len(sent))) for _ in range(1)][0]
-            masked_text = masked_text.replace(replace_token, f"{self.fill_mask.tokenizer.mask_token}",1)
-            self.sent2+=[
-                str(j['sequence']).replace('<s> ','').replace('</s>','')
+            replace_token =  [
+                sent.pop(random.randrange(len(sent))) for _ in range(1)
+            ][0]
+            masked_text = masked_text.replace(
+                replace_token, f"{self.fill_mask.tokenizer.mask_token}", 1
+            )
+            self.sent2 += [
+                str(j['sequence']).replace('<s> ', '').replace('</s>', '')
                 for j in self.fill_mask(masked_text+'<pad>')
                 if j['sequence'] not in self.sent2
             ]

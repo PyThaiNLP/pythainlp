@@ -43,7 +43,7 @@ class FastTextAug:
         for i in sent:
             if i in self.dict_wv:
                 w = [
-                    j for j,v in self.model.most_similar(i) if v >= p
+                    j for j, v in self.model.most_similar(i) if v >= p
                 ]
                 if w == []:
                     list_sent_new.append([i])
@@ -54,7 +54,7 @@ class FastTextAug:
         return list_sent_new
 
     def augment(
-        self, sentence: str, n_sent: int = 1, p:float = 0.7
+        self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> List[Tuple[str]]:
         """
         Text Augment from FastText

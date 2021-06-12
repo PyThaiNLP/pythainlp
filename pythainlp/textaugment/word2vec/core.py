@@ -17,7 +17,9 @@ class Word2VecAug:
         if type == "file":
             self.model = word2vec.KeyedVectors.load_word2vec_format(model)
         elif type == "binary":
-            self.model = word2vec.KeyedVectors.load_word2vec_format(model, binary=True)
+            self.model = word2vec.KeyedVectors.load_word2vec_format(
+                model, binary=True
+            )
         else:
             self.model = model
         self.dict_wv = list(self.model.key_to_index.keys())
@@ -32,7 +34,7 @@ class Word2VecAug:
         for i in sent:
             if i in self.dict_wv:
                 w = [
-                    j for j,v in self.model.most_similar(i) if v >= p
+                    j for j, v in self.model.most_similar(i) if v >= p
                 ]
                 if w == []:
                     list_sent_new.append([i])

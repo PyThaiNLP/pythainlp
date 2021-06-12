@@ -213,23 +213,32 @@ class TestUlmfitPackage(unittest.TestCase):
         dummy_df = pd.read_csv(imdb/'texts.csv')
         thwiki = ""
         try:
-            thwiki =_THWIKI_LSTM
+            thwiki = _THWIKI_LSTM
         except:
             thwiki = THWIKI_LSTM
         thwiki_itos = pickle.load(open(thwiki['itos_fname'], 'rb'))
         thwiki_vocab = fastai.text.transform.Vocab(thwiki_itos)
         tt = Tokenizer(
-            tok_func = ThaiTokenizer,
-            lang = 'th',
-            pre_rules = pre_rules_th,
-            post_rules = post_rules_th
+            tok_func=ThaiTokenizer,
+            lang='th',
+            pre_rules=pre_rules_th,
+            post_rules=post_rules_th
         )
         processor = [
-            TokenizeProcessor(tokenizer=tt, chunksize=10000, mark_fields=False),
-            NumericalizeProcessor(vocab=thwiki_vocab, max_vocab=60000, min_freq=3)
+            TokenizeProcessor(
+                tokenizer=tt, chunksize=10000, mark_fields=False
+            ),
+            NumericalizeProcessor(
+                vocab=thwiki_vocab, max_vocab=60000, min_freq=3
+            )
         ]
         data_lm = (
-            TextList.from_df(dummy_df, imdb, cols=['text'], processor=processor)
+            TextList.from_df(
+                dummy_df,
+                imdb,
+                cols=['text'],
+                processor=processor
+            )
             .split_by_rand_pct(0.2)
             .label_for_lm()
             .databunch(bs=64)
@@ -258,4 +267,11 @@ class TestUlmfitPackage(unittest.TestCase):
             **trn_args
         )
         learn.load_pretrained(**thwiki)
-        self.assertIsNotNone(document_vector('วันนี้วันดีปีใหม่', learn, data_lm))
+        self.assertIsNotNone(
+            document_vector('วันนี้วันดีปีใหม่', learn, data_lm)
+        )
+        self.assertIsNotNone(
+            document_vector('วันนี้วันดีปีใหม่', learn, data_lm, agg="sum")
+        )
+        with self.assertRaises(ValueError):
+            document_vector('วันนี้วันดีปีใหม่', learn, data_lm,agg='abc')

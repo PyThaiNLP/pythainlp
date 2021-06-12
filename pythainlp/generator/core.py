@@ -30,10 +30,19 @@ class Unigram:
         self.n = 0
         for i in self.word:
             self.n += self.counts[i]
-        self.prob = {i:self.counts[i] / self.n for i in self.word}
+        self.prob = {
+            i:self.counts[i] / self.n for i in self.word
+        }
         self._word_prob = {}
 
-    def gen_sentence(self, start_seq: str = None, N: int = 3,prob: float = 0.001, output_str: bool = True, duplicate: bool = False):
+    def gen_sentence(
+        self,
+        start_seq: str = None,
+        N: int = 3,
+        prob: float = 0.001,
+        output_str: bool = True,
+        duplicate: bool = False
+    ):
         """
         :param int N: number of word.
         :param str start_seq: word for begin word.
@@ -46,25 +55,35 @@ class Unigram:
         if start_seq is None:
             start_seq = random.choice(self.word)
         rand_text = start_seq.lower()
-        self._word_prob = {i:self.counts[i] / self.n for i in self.word if self.counts[i] / self.n >= prob}
-        return self.next_word(rand_text, N, output_str, prob = prob, duplicate = duplicate)
+        self._word_prob = {
+            i:self.counts[i] / self.n for i in self.word
+            if self.counts[i] / self.n >= prob
+        }
+        return self.next_word(rand_text, N, output_str, prob=prob, duplicate=duplicate)
 
-    def next_word(self, text: str, N: int, output_str: str, prob: float, duplicate: bool = False):
-        self.l = []
-        self.l.append(text)
+    def next_word(
+        self,
+        text: str,
+        N: int,
+        output_str: str,
+        prob: float,
+        duplicate: bool = False
+    ):
+        self.words = []
+        self.words.append(text)
         self._word_list = list(self._word_prob.keys())
         if N > len(self._word_list):
             N = len(self._word_list)
         for i in range(N):
             self._word = random.choice(self._word_list)
             if duplicate is False:
-                while self._word in self.l:
+                while self._word in self.words:
                     self._word = random.choice(self._word_list)
-            self.l.append(self._word)
+            self.words.append(self._word)
 
         if output_str:
-            return "".join(self.l)
-        return self.l
+            return "".join(self.words)
+        return self.words
 
 
 class Bigram:
@@ -78,7 +97,7 @@ class Bigram:
             self.bi = tnc_word_freqs_bigram()
         self.uni_keys = list(self.uni.keys())
         self.bi_keys = list(self.bi.keys())
-        self.words = [i[-1]  for i in self.bi_keys]
+        self.words = [i[-1] for i in self.bi_keys]
 
     def prob(self, t1: str, t2: str):
         """
@@ -154,9 +173,17 @@ class Tigram:
             v = self.ti[(t1, t2, t3)] / self.bi[(t1, t2)]
         except:
             v = 0.0
+
         return v
 
-    def gen_sentence(self, start_seq: str = None, N: int = 4, prob: float = 0.001, output_str: bool = True, duplicate: bool = False):
+    def gen_sentence(
+        self,
+        start_seq: str = None,
+        N: int = 4,
+        prob: float = 0.001,
+        output_str: bool = True,
+        duplicate: bool = False
+    ):
         if start_seq is None:
             start_seq = random.choice(self.bi_keys)
         self.late_word = start_seq
@@ -173,7 +200,9 @@ class Tigram:
                     j for j in self.ti_keys
                     if j[:2] == self.late_word and j[1:] not in self.list_word
                 ]
-            self._probs = [self.prob(l[0], l[1], l[2]) for l in self._temp]
+            self._probs = [
+                self.prob(word[0], word[1], word[2]) for word in self._temp
+            ]
             self._p2 = [j for j in self._probs if j >= prob]
             if len(self._p2) == 0:
                 break

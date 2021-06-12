@@ -26,7 +26,7 @@ dummy_df = pd.read_csv(imdb/'texts.csv')
 # get vocab
 thwiki = ""
 try:
-    thwiki =_THWIKI_LSTM
+    thwiki = _THWIKI_LSTM
 except:
     thwiki = THWIKI_LSTM
 
@@ -35,10 +35,10 @@ thwiki_vocab = fastai.text.transform.Vocab(thwiki_itos)
 
 # dummy databunch
 tt = Tokenizer(
-  tok_func = ThaiTokenizer,
-  lang = 'th',
-  pre_rules = pre_rules_th,
-  post_rules = post_rules_th
+  tok_func=ThaiTokenizer,
+  lang='th',
+  pre_rules=pre_rules_th,
+  post_rules=post_rules_th
 )
 processor = [
   TokenizeProcessor(tokenizer=tt, chunksize=10000, mark_fields=False),
@@ -89,14 +89,14 @@ def gen_sentence(
   output_str: bool = True
 ):
     if start_seq is None:
-      start_seq = random.choice(list(thwiki_itos))
+        start_seq = random.choice(list(thwiki_itos))
     list_word = learn.predict(
       start_seq,
       N,
       temperature=0.8,
       min_p=prob,
-      sep = '-*-'
+      sep='-*-'
     ).split('-*-')
     if output_str:
-      return ''.join(list_word)
+        return ''.join(list_word)
     return list_word

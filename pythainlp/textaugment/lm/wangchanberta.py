@@ -15,8 +15,6 @@ from transformers import (
 )
 import random
 from typing import List
-import thai2transformers
-from thai2transformers.preprocess import process_transformers
 
 model_name = "airesearch/wangchanberta-base-att-spm-uncased"
 
@@ -36,7 +34,7 @@ class Thai2transformersAug:
             revision = 'main',)
     def generate(self, sentence: str, num_replace_tokens: int=3):
         self.sent2 = []
-        self.input_text = process_transformers(sentence)
+        self.input_text = sentence
         sent = [i for i in self.tokenizer.tokenize(self.input_text) if i != '▁']
         if len(sent) < num_replace_tokens:
             num_replace_tokens = len(sent)

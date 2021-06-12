@@ -22,7 +22,7 @@ class FastTextAug:
             self.model = FastText_gensim.load(model_path)
         self.dict_wv = list(self.model.key_to_index.keys())
 
-    def tokenize(self, text: str)-> List[str]:
+    def tokenize(self, text: str) -> List[str]:
         """
         Thai text tokenize for fasttext
 
@@ -33,7 +33,7 @@ class FastTextAug:
         """
         return word_tokenize(text, engine='icu')
 
-    def modify_sent(self,sent, p = 0.7) -> List[List[str]]:
+    def modify_sent(self, sent: str, p: float = 0.7) -> List[List[str]]:
         """
         :param str sent: text sentence
         :param float p: probability
@@ -42,7 +42,9 @@ class FastTextAug:
         list_sent_new = []
         for i in sent:
             if i in self.dict_wv:
-                w = [j for j,v in self.model.most_similar(i) if v>=p]
+                w = [
+                    j for j,v in self.model.most_similar(i) if v >= p
+                ]
                 if w == []:
                     list_sent_new.append([i])
                 else:
@@ -51,11 +53,14 @@ class FastTextAug:
                 list_sent_new.append([i])
         return list_sent_new
 
-    def augment(self, sentence: str, n_sent: int = 1, p:float = 0.7) -> List[Tuple[str]]:
+    def augment(
+        self, sentence: str, n_sent: int = 1, p:float = 0.7
+    ) -> List[Tuple[str]]:
         """
         Text Augment from FastText
 
-        You wants to download thai model from https://fasttext.cc/docs/en/crawl-vectors.html.
+        You wants to download thai model
+        from https://fasttext.cc/docs/en/crawl-vectors.html.
 
         :param str sentence: thai sentence
         :param int n_sent: number sentence
@@ -65,7 +70,7 @@ class FastTextAug:
         :rtype: List[Tuple[str]]
         """
         self.sentence = self.tokenize(sentence)
-        self.list_synonym = self.modify_sent(self.sentence, p = p)
+        self.list_synonym = self.modify_sent(self.sentence, p=p)
         new_sentences = []
         for x in list(itertools.product(*self.list_synonym))[0:n_sent]:
             new_sentences.append(x)

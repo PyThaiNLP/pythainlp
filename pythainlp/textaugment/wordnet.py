@@ -124,7 +124,6 @@ def postype2wordnet(pos: str, corpus: str):
         return orchid[pos]
 
 
-
 class WordNetAug:
     def __init__(self):
         pass
@@ -158,7 +157,9 @@ class WordNetAug:
             for self.syn in self.synset.lemma_names(lang='tha'):
                 self.synonyms.append(self.syn)
 
-        self.synonyms_without_duplicates = list(OrderedDict.fromkeys(self.synonyms))
+        self.synonyms_without_duplicates = list(
+            OrderedDict.fromkeys(self.synonyms)
+        )
         return self.synonyms_without_duplicates
 
     def augment(
@@ -193,7 +194,7 @@ class WordNetAug:
                     self.list_synonym.append([word])
                 else:
                     self.list_synonym.append(self.temp)
-                    self.p_all*= len(self.temp)
+                    self.p_all *= len(self.temp)
         else:
             for word in self.list_words:
                 self.temp = self.find_synonyms(word)

@@ -22,13 +22,18 @@ class Thai2fitAug:
         """
         return THAI2FIT_TOKENIZER.word_tokenize(text)
 
-    def load_w2v(self): # insert substitute
+    def load_w2v(self):  # insert substitute
         """
         Load thai2fit word2vec model
         """
         self.aug = Word2VecAug(self.thai2fit_wv, self.tokenizer, type="binary")
 
-    def augment(self, sentence: str, n_sent: int = 1, p: float = 0.7) -> List[Tuple[str]]:
+    def augment(
+        self,
+        sentence: str,
+        n_sent: int = 1,
+        p: float = 0.7
+    ) -> List[Tuple[str]]:
         """
         Text Augment using word2vec from Thai2Fit
 

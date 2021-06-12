@@ -21,7 +21,12 @@ class TestTextaugmentPackage(unittest.TestCase):
         _aug = Thai2fitAug()
         self.assertIsNotNone(_aug.tokenizer(self.text))
         self.assertIsNotNone(_aug.augment(self.text, n_sent=3, p = 0.5))
-
+    
+    def test_BPEmbAug(self):
+        _aug = BPEmbAug()
+        self.assertIsNotNone(_aug.tokenizer(self.text))
+        self.assertIsNotNone(_aug.augment(self.text, n_sent=3, p = 0.5))
+    
     def test_Thai2transformersAug(self):
         _aug = Thai2transformersAug()
         self.assertIsNotNone(_aug.augment(self.text2, num_replace_tokens=1))

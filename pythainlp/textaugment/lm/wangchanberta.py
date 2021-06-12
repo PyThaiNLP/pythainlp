@@ -34,7 +34,6 @@ class Thai2transformersAug:
             tokenizer=self.tokenizer,
             model = f'{self.model_name}',
             revision = 'main',)
-
     def generate(self, sentence: str, num_replace_tokens: int=3):
         self.sent2 = []
         self.input_text = process_transformers(sentence)

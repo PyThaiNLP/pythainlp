@@ -72,9 +72,9 @@ learn.load_pretrained(**thwiki)
 
 
 def gen_sentence(
+  start_seq:str=None,
   N:int=4,
   prob:float=0.001,
-  start_seq:str=None,
   output_str:bool = True
 ):
   if start_seq is None:

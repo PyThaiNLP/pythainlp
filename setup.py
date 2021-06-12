@@ -55,6 +55,11 @@ extras = {
         "sentencepiece>=0.1.91",
         "torch>=1.0.0",
     ],
+    "textaugment": [
+        "bpemb",
+        "gensim>=4.0.0",
+        "thai2transformers"
+    ],
     "wangchanberta": ["transformers", "sentencepiece"],
     "mt5": ["transformers>=4.1.1", "sentencepiece>=0.1.91"],
     "wordnet": ["nltk>=3.3.*"],
@@ -74,6 +79,9 @@ extras = {
         "ssg>=0.0.6",
         "torch>=1.0.0",
         "transformers>=4.1.1",
+        "bpemb",
+        "gensim>=4.0.0",
+        "thai2transformers"
     ],
 }
 

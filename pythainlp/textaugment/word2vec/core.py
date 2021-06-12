@@ -19,6 +19,7 @@ class Word2VecAug:
         else:
             self.model = model
         self.dict_wv = list(self.model.key_to_index.keys())
+
     def modify_sent(self,sent, p = 0.7) -> List[List[str]]:
         """
         :param str sent: text sentence
@@ -36,6 +37,7 @@ class Word2VecAug:
             else:
                 list_sent_new.append([i])
         return list_sent_new
+
     def augment(self, sentence: str, n_sent: int = 1, p:float = 0.7) -> List[Tuple[str]]:
         """
         :param str sentence: text sentence

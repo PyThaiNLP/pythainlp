@@ -21,6 +21,7 @@ class FastTextAug:
         else:
             self.model = FastText_gensim.load(model_path)
         self.dict_wv = list(self.model.key_to_index.keys())
+
     def tokenize(self, text: str)-> List[str]:
         """
         Thai text tokenize for fasttext
@@ -31,6 +32,7 @@ class FastTextAug:
         :rtype: List[str]
         """
         return word_tokenize(text, engine='icu')
+
     def modify_sent(self,sent, p = 0.7) -> List[List[str]]:
         """
         :param str sent: text sentence
@@ -48,6 +50,7 @@ class FastTextAug:
             else:
                 list_sent_new.append([i])
         return list_sent_new
+
     def augment(self, sentence: str, n_sent: int = 1, p:float = 0.7) -> List[Tuple[str]]:
         """
         Text Augment from FastText

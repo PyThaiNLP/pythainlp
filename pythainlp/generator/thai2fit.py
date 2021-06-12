@@ -26,15 +26,20 @@ dummy_df = pd.read_csv(imdb/'texts.csv')
 # get vocab
 thwiki = ""
 try:
-  thwiki =_THWIKI_LSTM
+    thwiki =_THWIKI_LSTM
 except:
-  thwiki = THWIKI_LSTM
+    thwiki = THWIKI_LSTM
 
 thwiki_itos = pickle.load(open(thwiki['itos_fname'], 'rb'))
 thwiki_vocab = fastai.text.transform.Vocab(thwiki_itos)
 
 # dummy databunch
-tt = Tokenizer(tok_func=ThaiTokenizer, lang='th', pre_rules=pre_rules_th, post_rules=post_rules_th)
+tt = Tokenizer(
+  tok_func = ThaiTokenizer,
+  lang = 'th',
+  pre_rules = pre_rules_th,
+  post_rules = post_rules_th
+)
 processor = [
   TokenizeProcessor(tokenizer=tt, chunksize=10000, mark_fields=False),
   NumericalizeProcessor(vocab=thwiki_vocab, max_vocab=60000, min_freq=3)
@@ -65,21 +70,33 @@ config = dict(
 )
 trn_args = dict(drop_mult=0.9, clip=0.12, alpha=2, beta=1)
 
-learn = language_model_learner(data_lm, AWD_LSTM, config=config, pretrained=False, **trn_args)
+learn = language_model_learner(
+  data_lm,
+  AWD_LSTM,
+  config=config,
+  pretrained=False,
+  **trn_args
+)
 
-#load pretrained models
+# load pretrained models
 learn.load_pretrained(**thwiki)
 
 
 def gen_sentence(
-  start_seq:str=None,
-  N:int=4,
-  prob:float=0.001,
-  output_str:bool = True
+  start_seq: str = None,
+  N: int = 4,
+  prob: float = 0.001,
+  output_str: bool = True
 ):
-  if start_seq is None:
-    start_seq = random.choice(list(thwiki_itos))
-  list_word = learn.predict(start_seq, N, temperature=0.8, min_p=prob, sep = '-*-').split('-*-')
-  if output_str:
-    return ''.join(list_word)
-  return list_word
+    if start_seq is None:
+      start_seq = random.choice(list(thwiki_itos))
+    list_word = learn.predict(
+      start_seq,
+      N,
+      temperature=0.8,
+      min_p=prob,
+      sep = '-*-'
+    ).split('-*-')
+    if output_str:
+      return ''.join(list_word)
+    return list_word

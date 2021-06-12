@@ -54,14 +54,14 @@ class Unigram:
         self.l.append(text)
         self._word_list = list(self._word_prob.keys())
         if N > len(self._word_list):
-            N  =len(self._word_list)
+            N = len(self._word_list)
         for i in range(N):
             self._word = random.choice(self._word_list)
             if duplicate is False:
                 while self._word in self.l:
                     self._word = random.choice(self._word_list)
             self.l.append(self._word)
-            
+
         if output_str:
             return "".join(self.l)
         return self.l
@@ -142,7 +142,7 @@ class Tigram:
     def prob(self, t1: str, t2: str, t3: str):
         """
         probability word
-        
+
         :param int t1: text 1
         :param int t2: text 2
         :param int t3: text 3
@@ -165,9 +165,14 @@ class Tigram:
 
         for i in range(N):
             if duplicate:
-                self._temp = [j for j in self.ti_keys if j[:2] == self.late_word]
+                self._temp = [
+                    j for j in self.ti_keys if j[:2] == self.late_word
+                ]
             else:
-                self._temp = [j for j in self.ti_keys if j[:2] == self.late_word and j[1:] not in self.list_word]
+                self._temp = [
+                    j for j in self.ti_keys
+                    if j[:2] == self.late_word and j[1:] not in self.list_word
+                ]
             self._probs = [self.prob(l[0], l[1], l[2]) for l in self._temp]
             self._p2 = [j for j in self._probs if j >= prob]
             if len(self._p2) == 0:

@@ -9,7 +9,7 @@ from pythainlp.textaugment.word2vec import (
 )
 
 class TestTextaugmentPackage(unittest.TestCase):
-    def setup(self):
+    def setUp(self):
         self.text = "เรารักคุณมากที่สุดในโลก"
         self.text2 = "เราอยู่ที่มหาวิทยาลัยขอนแก่น"
 

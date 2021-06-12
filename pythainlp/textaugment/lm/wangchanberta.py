@@ -1,16 +1,8 @@
 # -*- coding: utf-8 -*-
-from datasets import load_dataset
 
 # transformers
 from transformers import (
     CamembertTokenizer,
-    AutoTokenizer,
-    AutoModel,
-    AutoModelForMaskedLM,
-    AutoModelForSequenceClassification,
-    AutoModelForTokenClassification,
-    TrainingArguments,
-    Trainer,
     pipeline,
 )
 import random

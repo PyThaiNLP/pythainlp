@@ -114,6 +114,7 @@ orchid = {
     "PUNC": "",
 }
 
+
 def postype2wordnet(pos: str, corpus: str):
     if corpus not in ['lst20', 'orchid']:
         return None
@@ -127,7 +128,13 @@ def postype2wordnet(pos: str, corpus: str):
 class WordNetAug:
     def __init__(self):
         pass
-    def find_synonyms(self, word: str, pos: str = None, postag_corpus: str = "lst20") -> List[str]:
+
+    def find_synonyms(
+        self,
+        word: str,
+        pos: str = None,
+        postag_corpus: str = "lst20"
+    ) -> List[str]:
         """
         Find synonyms from wordnet
 
@@ -138,7 +145,7 @@ class WordNetAug:
         :rtype: List[str]
         """
         self.synonyms = []
-        if pos == None:
+        if pos is None:
             self.list_synsets = wordnet.synsets(word)
         else:
             self.p2w_pos = postype2wordnet(pos, postag_corpus)
@@ -151,10 +158,17 @@ class WordNetAug:
             for self.syn in self.synset.lemma_names(lang='tha'):
                 self.synonyms.append(self.syn)
 
-        # using this to drop duplicates while maintaining word order (closest synonyms comes first)
         self.synonyms_without_duplicates = list(OrderedDict.fromkeys(self.synonyms))
         return self.synonyms_without_duplicates
-    def augment(self, sentence: str, tokenize: object = word_tokenize, max_syn_sent: int = 6, postag: bool = True, postag_corpus: str = "lst20") -> List[List[str]]:
+
+    def augment(
+        self,
+        sentence: str,
+        tokenize: object = word_tokenize,
+        max_syn_sent: int = 6,
+        postag: bool = True,
+        postag_corpus: str = "lst20"
+    ) -> List[List[str]]:
         """
         Text Augment using wordnet
 
@@ -182,12 +196,12 @@ class WordNetAug:
                     self.p_all*= len(self.temp)
         else:
             for word in self.list_words:
-                self.temp = self.find_synonyms(word) 
+                self.temp = self.find_synonyms(word)
                 if self.temp == []:
                     self.list_synonym.append([word])
                 else:
                     self.list_synonym.append(self.temp)
-                    self.p_all*= len(self.temp)
+                    self.p_all *= len(self.temp)
         if max_syn_sent > self.p_all:
             max_syn_sent = self.p_all
         for x in list(itertools.product(*self.list_synonym))[0:max_syn_sent]:

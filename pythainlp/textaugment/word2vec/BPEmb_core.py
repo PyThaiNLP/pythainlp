@@ -10,22 +10,25 @@ class BPEmbAug:
 
     BPEmb: `github.com/bheinzerling/bpemb <https://github.com/bheinzerling/bpemb>`_
     """
-    def __init__(self, lang: str = "th", vs:int = 100000, dim: int = 300):
+    def __init__(self, lang: str = "th", vs: int = 100000, dim: int = 300):
         self.bpemb_temp = BPEmb(lang=lang, dim=dim, vs= vs)
         self.model = self.bpemb_temp.emb
         self.load_w2v()
+
     def tokenizer(self, text: str) -> List[str]:
         """
         :param str text: thai text
         :rtype: List[str]
         """
         return self.bpemb_temp.encode(text)
+
     def load_w2v(self):
         """
         Load BPEmb model
         """
         self.aug = Word2VecAug(self.model, tokenize=self.tokenizer, type="model")
-    def augment(self, sentence: str, n_sent: int = 1, p: float = 0.7)  -> List[Tuple[str]]:
+
+    def augment(self, sentence: str, n_sent: int = 1, p: float = 0.7) -> List[Tuple[str]]:
         """
         Text Augment using word2vec from BPEmb
 

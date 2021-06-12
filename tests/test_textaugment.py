@@ -9,6 +9,7 @@ from pythainlp.textaugment.word2vec import (
     BPEmbAug
 )
 
+
 class TestTextaugmentPackage(unittest.TestCase):
     def setUp(self):
         self.text = "เรารักคุณมากที่สุดในโลก"
@@ -17,7 +18,7 @@ class TestTextaugmentPackage(unittest.TestCase):
     def test_WordNetAug(self):
         wordnetaug = WordNetAug()
         self.assertIsNotNone(wordnetaug.augment(self.text))
-        self.assertIsNotNone(wordnetaug.find_synonyms("ผม", pos= None))
+        self.assertIsNotNone(wordnetaug.find_synonyms("ผม", pos=None))
         self.assertIsNotNone(wordnetaug.augment(self.text, postag=False))
         self.assertIsNone(postype2wordnet('n', 'abc'))
         self.assertIsNotNone(postype2wordnet('NOUN', 'orchid'))
@@ -25,13 +26,13 @@ class TestTextaugmentPackage(unittest.TestCase):
     def test_Thai2fitAug(self):
         _aug = Thai2fitAug()
         self.assertIsNotNone(_aug.tokenizer(self.text))
-        self.assertIsNotNone(_aug.augment(self.text, n_sent=3, p = 0.5))
-    
+        self.assertIsNotNone(_aug.augment(self.text, n_sent=3, p=0.5))
+
     def test_BPEmbAug(self):
         _aug = BPEmbAug()
         self.assertIsNotNone(_aug.tokenizer(self.text))
-        self.assertIsNotNone(_aug.augment(self.text, n_sent=3, p = 0.5))
-    
+        self.assertIsNotNone(_aug.augment(self.text, n_sent=3, p=0.5))
+
     def test_Thai2transformersAug(self):
         _aug = Thai2transformersAug()
         self.assertIsNotNone(_aug.augment(self.text2, num_replace_tokens=1))

@@ -11,6 +11,7 @@ __all__ = [
 import pandas as pd
 import random
 import pickle
+from typing import List, Union
 
 # fastai
 import fastai
@@ -87,7 +88,18 @@ def gen_sentence(
   N: int = 4,
   prob: float = 0.001,
   output_str: bool = True
-):
+) -> Union[List[str], str]:
+    """
+    Text generator using Thai2fit
+
+    :param str start_seq: word for begin word.
+    :param int N: number of word.
+    :param bool output_str: output is str
+    :param bool duplicate: duplicate word in sent
+
+    :return: list words or str words
+    :rtype: List[str], str
+    """
     if start_seq is None:
         start_seq = random.choice(list(thwiki_itos))
     list_word = learn.predict(

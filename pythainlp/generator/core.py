@@ -12,12 +12,18 @@ from pythainlp.corpus.ttc import unigram_word_freqs as ttc_word_freqs_unigram
 from pythainlp.corpus.oscar import (
     unigram_word_freqs as oscar_word_freqs_unigram
 )
+from typing import List, Union
 
 
 class Unigram:
     def __init__(self, name: str = "tnc"):
         """
+        Text generator using Unigram
+
         :param str name: corpus name
+            * *tnc* - Thai National Corpus (default)
+            * *ttc* - Thai Textbook Corpus (TTC)
+            * *oscar* - OSCAR Corpus
         :rtype: None
         """
         if name == "tnc":
@@ -42,15 +48,15 @@ class Unigram:
         prob: float = 0.001,
         output_str: bool = True,
         duplicate: bool = False
-    ):
+    ) -> Union[List[str], str]:
         """
-        :param int N: number of word.
         :param str start_seq: word for begin word.
+        :param int N: number of word.
         :param bool output_str: output is str
         :param bool duplicate: duplicate word in sent
 
         :return: list words or str words
-        :rtype: str,list
+        :rtype: List[str], str
         """
         if start_seq is None:
             start_seq = random.choice(self.word)
@@ -59,7 +65,7 @@ class Unigram:
             i: self.counts[i] / self.n for i in self.word
             if self.counts[i] / self.n >= prob
         }
-        return self.next_word(
+        return self._next_word(
             rand_text,
             N,
             output_str,
@@ -67,7 +73,7 @@ class Unigram:
             duplicate=duplicate
         )
 
-    def next_word(
+    def _next_word(
         self,
         text: str,
         N: int,
@@ -95,7 +101,10 @@ class Unigram:
 class Bigram:
     def __init__(self, name: str = "tnc"):
         """
+        Text generator using Bigram
+
         :param str name: corpus name
+            * *tnc* - Thai National Corpus (default)
         :rtype: None
         """
         if name == "tnc":
@@ -105,7 +114,7 @@ class Bigram:
         self.bi_keys = list(self.bi.keys())
         self.words = [i[-1] for i in self.bi_keys]
 
-    def prob(self, t1: str, t2: str):
+    def prob(self, t1: str, t2: str) -> float:
         """
         probability word
 
@@ -128,7 +137,16 @@ class Bigram:
         prob: float = 0.001,
         output_str: bool = True,
         duplicate: bool = False
-    ):
+    ) -> Union[List[str], str]:
+        """
+        :param str start_seq: word for begin word.
+        :param int N: number of word.
+        :param bool output_str: output is str
+        :param bool duplicate: duplicate word in sent
+
+        :return: list words or str words
+        :rtype: List[str], str
+        """
         if start_seq is None:
             start_seq = random.choice(self.words)
         self.late_word = start_seq
@@ -162,7 +180,10 @@ class Bigram:
 class Tigram:
     def __init__(self, name: str = "tnc"):
         """
+        Text generator using Tigram
+
         :param str name: corpus name
+            * *tnc* - Thai National Corpus (default)
         :rtype: None
         """
         if name == "tnc":
@@ -174,7 +195,7 @@ class Tigram:
         self.ti_keys = list(self.ti.keys())
         self.words = [i[-1] for i in self.bi_keys]
 
-    def prob(self, t1: str, t2: str, t3: str):
+    def prob(self, t1: str, t2: str, t3: str) -> float:
         """
         probability word
 
@@ -199,7 +220,16 @@ class Tigram:
         prob: float = 0.001,
         output_str: bool = True,
         duplicate: bool = False
-    ):
+    ) -> Union[List[str], str]:
+        """
+        :param str start_seq: word for begin word.
+        :param int N: number of word.
+        :param bool output_str: output is str
+        :param bool duplicate: duplicate word in sent
+
+        :return: list words or str words
+        :rtype: List[str], str
+        """
         if start_seq is None:
             start_seq = random.choice(self.bi_keys)
         self.late_word = start_seq

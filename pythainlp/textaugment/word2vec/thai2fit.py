@@ -9,7 +9,8 @@ class Thai2fitAug:
     """
     Text Augment using word2vec from Thai2Fit
 
-    Thai2Fit: `github.com/cstorm125/thai2fit <https://github.com/cstorm125/thai2fit>`_
+    Thai2Fit:
+    `github.com/cstorm125/thai2fit <https://github.com/cstorm125/thai2fit>`_
     """
     def __init__(self):
         self.thai2fit_wv = get_corpus_path('thai2fit_wv')

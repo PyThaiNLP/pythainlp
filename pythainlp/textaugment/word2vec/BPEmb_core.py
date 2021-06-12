@@ -8,7 +8,8 @@ class BPEmbAug:
     """
     Thai Text Augment using word2vec from BPEmb
 
-    BPEmb: `github.com/bheinzerling/bpemb <https://github.com/bheinzerling/bpemb>`_
+    BPEmb:
+    `github.com/bheinzerling/bpemb <https://github.com/bheinzerling/bpemb>`_
     """
     def __init__(self, lang: str = "th", vs: int = 100000, dim: int = 300):
         self.bpemb_temp = BPEmb(lang=lang, dim=dim, vs=vs)

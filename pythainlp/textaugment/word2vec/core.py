@@ -48,7 +48,7 @@ class Word2VecAug:
         self,
         sentence: str,
         n_sent: int = 1,
-        p:float = 0.7
+        p: float = 0.7
     ) -> List[Tuple[str]]:
         """
         :param str sentence: text sentence

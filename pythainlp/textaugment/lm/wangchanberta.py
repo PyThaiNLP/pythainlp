@@ -40,7 +40,7 @@ class Thai2transformersAug:
             num_replace_tokens = len(sent)
         masked_text = self.input_text
         for i in range(num_replace_tokens):
-            replace_token =  [
+            replace_token = [
                 sent.pop(random.randrange(len(sent))) for _ in range(1)
             ][0]
             masked_text = masked_text.replace(

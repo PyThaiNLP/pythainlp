@@ -31,7 +31,7 @@ class Unigram:
         for i in self.word:
             self.n += self.counts[i]
         self.prob = {
-            i:self.counts[i] / self.n for i in self.word
+            i: self.counts[i] / self.n for i in self.word
         }
         self._word_prob = {}
 
@@ -56,10 +56,16 @@ class Unigram:
             start_seq = random.choice(self.word)
         rand_text = start_seq.lower()
         self._word_prob = {
-            i:self.counts[i] / self.n for i in self.word
+            i: self.counts[i] / self.n for i in self.word
             if self.counts[i] / self.n >= prob
         }
-        return self.next_word(rand_text, N, output_str, prob=prob, duplicate=duplicate)
+        return self.next_word(
+            rand_text,
+            N,
+            output_str,
+            prob=prob,
+            duplicate=duplicate
+        )
 
     def next_word(
         self,
@@ -115,8 +121,16 @@ class Bigram:
             v = 0.0
         return v
 
-    def gen_sentence(self, start_seq: str = None, N: int = 4, prob: float = 0.001, output_str: bool = True, duplicate: bool = False):
-        if start_seq is None: start_seq = random.choice(self.words)
+    def gen_sentence(
+        self,
+        start_seq: str = None,
+        N: int = 4,
+        prob: float = 0.001,
+        output_str: bool = True,
+        duplicate: bool = False
+    ):
+        if start_seq is None:
+            start_seq = random.choice(self.words)
         self.late_word = start_seq
         self.list_word = []
         self.list_word.append(start_seq)
@@ -129,9 +143,11 @@ class Bigram:
             else:
                 self._temp = [
                     j for j in self.bi_keys
-                    if j[0]==self.late_word and j[1] not in self.list_word
+                    if j[0] == self.late_word and j[1] not in self.list_word
                 ]
-            self._probs = [self.prob(self.late_word, l[-1]) for l in self._temp]
+            self._probs = [
+                self.prob(self.late_word, next_word[-1]) for next_word in self._temp
+            ]
             self._p2 = [j for j in self._probs if j >= prob]
             if len(self._p2) == 0:
                 break

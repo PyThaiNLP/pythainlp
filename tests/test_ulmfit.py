@@ -274,4 +274,4 @@ class TestUlmfitPackage(unittest.TestCase):
             document_vector('วันนี้วันดีปีใหม่', learn, data_lm, agg="sum")
         )
         with self.assertRaises(ValueError):
-            document_vector('วันนี้วันดีปีใหม่', learn, data_lm,agg='abc')
+            document_vector('วันนี้วันดีปีใหม่', learn, data_lm, agg='abc')

@@ -88,6 +88,9 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
 
     from pythainlp.util import countthai
 
+    countthai("ไทยเอ็นแอลพี 2.3") 
+    # output: 100.0
+
     countthai("PyThaiNLP 2.3") 
     # output: 0.0
 

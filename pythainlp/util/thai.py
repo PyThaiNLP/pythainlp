@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 Check if it is Thai text
 """
@@ -10,14 +10,13 @@ _DEFAULT_IGNORE_CHARS = string.whitespace + string.digits + string.punctuation
 _TH_FIRST_CHAR_ASCII = 3584
 _TH_LAST_CHAR_ASCII = 3711
 
+
 def isthaichar(ch: str) -> bool:
-    """
-    This function checks if the input character is a Thai character.
+    """Check if a character is a Thai character.
 
-    :param str ch: input character
-
-    :return: returns **True** if the input character is a Thai characttr,
-             otherwise returns **False**
+    :param ch: input character
+    :type ch: str
+    :return: True if ch is a Thai characttr, otherwise False.
     :rtype: bool
 
     :Example:
@@ -25,13 +24,10 @@ def isthaichar(ch: str) -> bool:
 
         from pythainlp.util import isthaichar
 
-        isthaichar("ก") # THAI CHARACTER KO KAI
+        isthaichar("ก")  # THAI CHARACTER KO KAI
         # output: True
 
-        isthaichar("๐") # THAI DIGIT ZERO
-        # output: True
-
-        isthaichar("๕") # THAI DIGIT FIVE
+        isthaichar("๕")  # THAI DIGIT FIVE
         # output: True
     """
     ch_val = ord(ch)
@@ -40,92 +36,66 @@ def isthaichar(ch: str) -> bool:
     return False
 
 
-def isthai(word: str, ignore_chars: str = ".") -> bool:
-    """
-    This function checks if all character in the input string
-    are Thai character.
+def isthai(text: str, ignore_chars: str = ".") -> bool:
+    """Check if every characters in a string are Thai character.
 
-    :param str word: input text
-    :param str ignore_chars: string characters to be ignored
-                             (i.e. will be considered as Thai)
-
-    :return: returns **True** if the input text all contains Thai characters,
-             otherwise returns **False**
+    :param text: input text
+    :type text: str
+    :param ignore_chars: characters to be ignored, defaults to "."
+    :type ignore_chars: str, optional
+    :return: True if every characters in the input string are Thai,
+             otherwise False.
     :rtype: bool
 
     :Example:
 
-    Check if all character is Thai character. By default,
-    it ignores only full stop (".")::
+    from pythainlp.util import isthai
 
-        from pythainlp.util import isthai
+    isthai("กาลเวลา")
+    # output: True
 
-        isthai("กาลเวลา")
-        # output: True
+    isthai("กาลเวลา.")
+    # output: True
 
-        isthai("กาลเวลา.")
-        # output: True
+    isthai("กาล-เวลา")
+    # output: False
 
-    Explicitly ignore digits, whitespace, and the following characters
-    ("-", ".", "$", ",")::
-
-        from pythainlp.util import isthai
-
-        isthai("กาลเวลา, การเวลา-ก,  3.75$", ignore_chars="1234567890.-,$ ")
-        # output: True
+    isthai("กาล-เวลา +66", ignore_chars="01234567890+-.,")
+    # output: True
 
     """
     if not ignore_chars:
         ignore_chars = ""
 
-    for ch in word:
+    for ch in text:
         if ch not in ignore_chars and not isthaichar(ch):
             return False
     return True
 
 
 def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
-    """
-    This function calculates percentage of Thai characters in the text
-    with an option to ignored some characters.
+    """Find proportion of Thai characters in a given text
 
-    :param str text: input text
-    :param str ignore_chars: string of characters to ignore from counting.
-                             By default, the ignored characters are whitespace,
-                             newline, digits, and punctuation.
-
-    :return: percentage of Thai characters in the text
+    :param text: input text
+    :type text: str
+    :param ignore_chars: characters to be ignored, defaults to whitespaces,\\
+        digits, and puntuations.
+    :type ignore_chars: str, optional
+    :return: proportion of Thai characters in the text (percent)
     :rtype: float
 
     :Example:
 
-    Find the percentage of Thai characters in the textt with default
-    ignored characters set (whitespace, newline character,
-    punctuation and digits)::
+    from pythainlp.util import countthai
 
-        from pythainlp.util import countthai
+    countthai("PyThaiNLP 2.3") 
+    # output: 0.0
 
-        countthai("ดอนัลด์ จอห์น ทรัมป์ English: Donald John Trump")
-        # output: 45.0
+    countthai("ใช้งาน PyThaiNLP 2.3") 
+    # output: 40.0
 
-        countthai("(English: Donald John Trump)")
-        # output: 0.0
-
-    Find the percentage of Thai characters in the text while ignoring
-    only punctuation but not whitespace, newline character and digits::
-
-        import string
-
-        string.punctuation
-        # output: !"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~
-
-        countthai("ดอนัลด์ จอห์น ทรัมป์ English: Donald John Trump", \\
-            ignore_chars=string.punctuation)
-        # output: 39.130434782608695
-
-        countthai("ดอนัลด์ จอห์น ทรัมป์ (English: Donald John Trump)", \\
-            ignore_chars=string.punctuation)
-        # output: 0.0
+    countthai("ใช้งาน PyThaiNLP 2.3", ignore_chars="")
+    # output: 30.0
     """
     if not text or not isinstance(text, str):
         return 0.0
@@ -150,27 +120,27 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
     return (num_thai / num_count) * 100
 
 
-def display_thai_char(char: str) -> str:
-    """
-    This function adds a underscore (_) prefix to high-position vowels and tone
-    marks to ease readability
+def display_thai_char(ch: str) -> str:
+    """Prefix an underscore (_) to a high-position vowel or a tone mark,
+    to ease readability.
 
-    :param str character:
-
-    :return: returns **True** if the input text all contains Thai characters,
-             otherwise returns **False**
-    :rtype: bool
+    :param ch: input character
+    :type ch: str
+    :return: "_" + ch
+    :rtype: str
 
     :Example:
 
     display_thai_char("้")
     # output: "_้"
-
     """
 
-    if char in thai_above_vowels or char in thai_tonemarks \
-       or char in '\u0e33\u0e4c\u0e4d\u0e4e':
+    if (
+        ch in thai_above_vowels
+        or ch in thai_tonemarks
+        or ch in "\u0e33\u0e4c\u0e4d\u0e4e"
+    ):
         # last condition is Sra Aum, Thanthakhat, Nikhahit, Yamakkan
-        return "_" + char
+        return "_" + ch
     else:
-        return char
+        return ch

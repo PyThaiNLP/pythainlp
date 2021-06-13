@@ -164,7 +164,9 @@ class Bigram:
                     if j[0] == self.late_word and j[1] not in self.list_word
                 ]
             self._probs = [
-                self.prob(self.late_word, next_word[-1]) for next_word in self._temp
+                self.prob(
+                    self.late_word, next_word[-1]
+                ) for next_word in self._temp
             ]
             self._p2 = [j for j in self._probs if j >= prob]
             if len(self._p2) == 0:

@@ -20,7 +20,9 @@ class TestGeneratorPackage(unittest.TestCase):
         self.assertIsNotNone(_ttc_unigram.gen_sentence(duplicate=True))
         _oscar_unigram = Unigram("oscar")
         self.assertIsNotNone(_oscar_unigram.gen_sentence("ผม"))
-        self.assertIsNotNone(_oscar_unigram.gen_sentence("ผม", output_str=False))
+        self.assertIsNotNone(
+            _oscar_unigram.gen_sentence("ผม", output_str=False)
+        )
         self.assertIsNotNone(_oscar_unigram.gen_sentence())
         self.assertIsNotNone(_oscar_unigram.gen_sentence(duplicate=True))
 

@@ -17,6 +17,8 @@ Modules
     :members:
 .. autoclass:: pythainlp.augment.word2vec.Thai2fitAug
     :members:
+.. autoclass:: pythainlp.augment.word2vec.LTW2VAug
+    :members:
 .. autoclass:: pythainlp.augment.lm.FastTextAug
     :members:
 .. autoclass:: pythainlp.augment.lm.Thai2transformersAug

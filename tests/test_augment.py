@@ -6,7 +6,8 @@ from pythainlp.augment.wordnet import postype2wordnet
 from pythainlp.augment.lm import Thai2transformersAug
 from pythainlp.augment.word2vec import (
     Thai2fitAug,
-    BPEmbAug
+    BPEmbAug,
+    LTW2VAug
 )
 
 
@@ -30,6 +31,11 @@ class TestTextaugmentPackage(unittest.TestCase):
 
     def test_BPEmbAug(self):
         _aug = BPEmbAug()
+        self.assertIsNotNone(_aug.tokenizer(self.text))
+        self.assertIsNotNone(_aug.augment(self.text, n_sent=3, p=0.5))
+
+    def test_LTW2VAug(self):
+        _aug = LTW2VAug()
         self.assertIsNotNone(_aug.tokenizer(self.text))
         self.assertIsNotNone(_aug.augment(self.text, n_sent=3, p=0.5))
 

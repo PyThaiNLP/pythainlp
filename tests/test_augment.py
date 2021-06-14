@@ -4,9 +4,9 @@ import unittest
 from pythainlp.augment import WordNetAug
 from pythainlp.augment.wordnet import postype2wordnet
 from pythainlp.augment.lm import Thai2transformersAug
+from pythainlp.augment.word2vec.bpemb_wv import BPEmbAug
 from pythainlp.augment.word2vec import (
     Thai2fitAug,
-    BPEmbAug,
     LTW2VAug
 )
 

@@ -21,5 +21,5 @@ Modules
     :members:
 .. autoclass:: pythainlp.augment.lm.Thai2transformersAug
     :members:
-.. autoclass:: pythainlp.augment.word2vec.BPEmb_core.BPEmbAug
+.. autoclass:: pythainlp.augment.word2vec.bpemb_wv.BPEmbAug
     :members:

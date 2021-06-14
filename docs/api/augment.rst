@@ -13,8 +13,6 @@ Modules
 .. autofunction:: postype2wordnet
 .. autoclass:: pythainlp.augment.word2vec.Word2VecAug
     :members:
-.. autoclass:: pythainlp.augment.word2vec.BPEmbAug
-    :members:
 .. autoclass:: pythainlp.augment.word2vec.Thai2fitAug
     :members:
 .. autoclass:: pythainlp.augment.word2vec.LTW2VAug
@@ -22,4 +20,6 @@ Modules
 .. autoclass:: pythainlp.augment.lm.FastTextAug
     :members:
 .. autoclass:: pythainlp.augment.lm.Thai2transformersAug
+    :members:
+.. autoclass:: pythainlp.augment.word2vec.BPEmb_core.BPEmbAug
     :members:

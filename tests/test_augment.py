@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from pythainlp.textaugment import WordNetAug
-from pythainlp.textaugment.wordnet import postype2wordnet
-from pythainlp.textaugment.lm import Thai2transformersAug
-from pythainlp.textaugment.word2vec import (
+from pythainlp.augment import WordNetAug
+from pythainlp.augment.wordnet import postype2wordnet
+from pythainlp.augment.lm import Thai2transformersAug
+from pythainlp.augment.word2vec import (
     Thai2fitAug,
     BPEmbAug
 )

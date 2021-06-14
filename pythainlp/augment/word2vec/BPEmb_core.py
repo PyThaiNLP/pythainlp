@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from pythainlp.textaugment.word2vec.core import Word2VecAug
+from pythainlp.augment.word2vec.core import Word2VecAug
 from bpemb import BPEmb
 from typing import List, Tuple
 

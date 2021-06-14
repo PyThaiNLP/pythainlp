@@ -18,7 +18,7 @@ class Word2VecAug:
             self.model = word2vec.KeyedVectors.load_word2vec_format(model)
         elif type == "binary":
             self.model = word2vec.KeyedVectors.load_word2vec_format(
-                model, binary=True
+                model, binary=True, unicode_errors='ignore'
             )
         else:
             self.model = model

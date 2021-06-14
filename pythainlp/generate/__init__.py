@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Thai Text generator
+Thai Text generate
 """
 
 __all__ = [
@@ -9,4 +9,4 @@ __all__ = [
     "Tigram"
 ]
 
-from pythainlp.generator.core import Unigram, Bigram, Tigram
+from pythainlp.generate.core import Unigram, Bigram, Tigram

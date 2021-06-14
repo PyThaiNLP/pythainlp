@@ -58,7 +58,7 @@ extras = {
     "wangchanberta": ["transformers", "sentencepiece"],
     "mt5": ["transformers>=4.1.1", "sentencepiece>=0.1.91"],
     "wordnet": ["nltk>=3.3.*"],
-    "text_generator": ["fastai<2.0"],
+    "generate": ["fastai<2.0"],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",

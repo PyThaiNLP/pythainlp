@@ -2,11 +2,11 @@
 
 import unittest
 
-from pythainlp.generator import Unigram, Bigram, Tigram
-from pythainlp.generator.thai2fit import gen_sentence
+from pythainlp.generate import Unigram, Bigram, Tigram
+from pythainlp.generate.thai2fit import gen_sentence
 
 
-class TestGeneratorPackage(unittest.TestCase):
+class TestGeneratePackage(unittest.TestCase):
     def test_unigram(self):
         _tnc_unigram = Unigram("tnc")
         self.assertIsNotNone(_tnc_unigram.gen_sentence("ผม"))

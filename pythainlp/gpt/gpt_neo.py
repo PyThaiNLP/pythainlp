@@ -80,10 +80,11 @@ class FewShot:
         data: List[str],
         logging_dir: str,
         num_train_epochs = 10,
-        test_on: bool = True,
         train_size: float = 0.95,
         save_steps=1000,
-        save_total_limit=10
+        save_total_limit=10,
+        logging_steps=10,
+        eval_steps=100
     ):
         self.data = data
         self.max_length = max(
@@ -109,6 +110,8 @@ class FewShot:
             load_best_model_at_end=True,
             per_device_train_batch_size=2,
             per_device_eval_batch_size=2,
+            logging_steps=logging_steps,
+            eval_steps=eval_steps,
             warmup_steps=100,
             weight_decay=0.01,
             logging_dir=logging_dir

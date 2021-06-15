@@ -81,10 +81,10 @@ class FewShot:
         logging_dir: str,
         num_train_epochs = 10,
         train_size: float = 0.95,
-        save_steps=1000,
-        save_total_limit=10,
-        logging_steps=10,
-        eval_steps=100
+        save_steps: int = 100,
+        save_total_limit: int = 10,
+        logging_steps: int = 100,
+        eval_steps: int = 100
     ):
         self.data = data
         self.max_length = max(

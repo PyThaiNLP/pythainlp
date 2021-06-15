@@ -500,8 +500,8 @@ class WordVector:
 
         :param str text: text input
         :param bool use_mean: if `True` aggregate word vectors with mean of all
-                                 word vectors. Otherwise, aggregate with summation
-                                 of all word vectors
+                                 word vectors. Otherwise, aggregate with
+                                 summation of all word vectors
 
         :return: 300-dimension vector representing the given sentence
                  in form of :mod:`numpy` array

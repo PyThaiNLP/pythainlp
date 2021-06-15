@@ -34,35 +34,44 @@ class ListDataset(Dataset):
 
 
 class FewShot:
-    def __init__(self, model_dir: str, device: str = 'cuda', size: str = "125M") -> None:
+    def __init__(self, model_dir: str, device: str = "cuda", size: str = "125M") -> None:
+        """
+        :param str model_dir: path of model dir
+        :param str device: device
+        :param str size: model size
+        """
         self.device = device
         self.model_dir = model_dir
-        if os.path.exists(self.model_dir):
+        if not os.path.exists(self.model_dir):
             self.init_model(size)
         else:
             self.load_model()
 
     def init_model(self, size: str = "125M") -> None:
-        self.pretraine = "EleutherAI/gpt-neo-%f{size}"
+        """
+        init GPT-Neo model
+        """
+        self.pretrained = "EleutherAI/gpt-neo-"+str(size)
         self.tokenizer = GPT2Tokenizer.from_pretrained(
-            self.pretraine,
+            self.pretrained,
             bos_token='<|startoftext|>',
             eos_token='<|endoftext|>',
             pad_token='<|pad|>'
         )
-        self.model = GPTNeoForCausalLM.from_pretrained(self.pretraine).to(self.device)
+        self.tokenizer.save_pretrained(self.model_dir)
+        self.model = GPTNeoForCausalLM.from_pretrained(self.pretrained).to(self.device)
         self.model.resize_token_embeddings(len(self.tokenizer))
 
     def load_model(self):
-        self.pretraine = self.model_dir
+        self.model_dir = self.model_dir
         self.tokenizer = GPT2Tokenizer.from_pretrained(
-            self.pretraine,
+            self.model_dir,
             bos_token='<|startoftext|>',
             eos_token='<|endoftext|>',
             pad_token='<|pad|>'
         )
         self.model = GPTNeoForCausalLM.from_pretrained(
-            self.pretraine
+            self.model_dir
         ).to(self.device)
         self.model.resize_token_embeddings(len(self.tokenizer))
 
@@ -72,7 +81,9 @@ class FewShot:
         logging_dir: str,
         num_train_epochs = 10,
         test_on: bool = True,
-        train_size: float = 0.95
+        train_size: float = 0.95,
+        save_steps=1000,
+        save_total_limit=10
     ):
         self.data = data
         self.max_length = max(
@@ -92,13 +103,17 @@ class FewShot:
         self.training_args = TrainingArguments(
             output_dir=self.model_dir,
             num_train_epochs=num_train_epochs,
+            do_predict=True,
+            save_steps=save_steps,
+            save_total_limit=save_total_limit,
+            load_best_model_at_end=True,
             per_device_train_batch_size=2,
             per_device_eval_batch_size=2,
             warmup_steps=100,
             weight_decay=0.01,
             logging_dir=logging_dir
         )
-        Trainer(
+        self.train = Trainer(
             model=self.model,
             args=self.training_args,
             train_dataset=self.train_dataset,
@@ -108,7 +123,9 @@ class FewShot:
                 'attention_mask': torch.stack([f[1] for f in data]),
                 'labels': torch.stack([f[0] for f in data])
             }
-        ).train()
+        )
+        self.train.train()
+        self.train.save_model(self.model_dir)
 
     def gen(
         self,
@@ -131,3 +148,4 @@ class FewShot:
             temperature=temperature,
             num_return_sequences=num_return_sequences
         )
+        return [self.tokenizer.decode(i, skip_special_tokens=True).replace('<|startoftext|>','') for i in self.sample_outputs]

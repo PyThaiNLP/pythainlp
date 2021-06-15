@@ -322,7 +322,7 @@ class WordVector:
         :Note:
             * If a word in `words` is not in the vocabulary, :class:`KeyError`
               will be raised.
-        
+
         :Example:
         Pick the word "พริกไทย" (name of food) out of the list of meals
         ("อาหารเช้า", "อาหารเที่ยง", "อาหารเย็น").
@@ -429,7 +429,8 @@ class WordVector:
         >>> wv.most_similar_cosmul(list_positive, list_negative)
         [('ประเทศไทย', 0.3278159201145172), ('เกาหลี', 0.3201899230480194),
         ('ประเทศจีน', 0.31755179166793823), ('พม่า', 0.30845439434051514),
-        ('ประเทศญี่ปุ่น', 0.306713730096817), ('เกาหลีใต้', 0.3003999888896942),
+        ('ประเทศญี่ปุ่น', 0.306713730096817),
+        ('เกาหลีใต้', 0.3003999888896942),
         ('ลาว', 0.2995176911354065), ('คนไทย', 0.2885020673274994),
         ('เวียดนาม', 0.2878379821777344), ('ชาวไทย', 0.28480708599090576)]
 
@@ -502,30 +503,33 @@ class WordVector:
                                  word vectors. Otherwise, aggregate with summation
                                  of all word vectors
 
-        :return: 300-dimension vector representing the given sentence in form of
-                 :mod:`numpy` array
+        :return: 300-dimension vector representing the given sentence
+                 in form of :mod:`numpy` array
         :rtype: :class:`numpy.ndarray((1,300))`
 
 
         :Example:
 
-        Vectorize the sentence, "อ้วนเสี้ยวเข้ายึดแคว้นกิจิ๋ว ในปี พ.ศ. 735", into
-        one sentence vector with two aggregation meanthods: mean and summation.
+        Vectorize the sentence, "อ้วนเสี้ยวเข้ายึดแคว้นกิจิ๋ว ในปี พ.ศ. 735",
+        into one sentence vector with two aggregation meanthods: mean
+         and summation.
 
         >>> from pythainlp.word_vector import WordVector
         >>>
         >>> wv = WordVector()
         >>> sentence = 'อ้วนเสี้ยวเข้ายึดแคว้นกิจิ๋ว ในปี พ.ศ. 735'
         >>> wv.sentence_vectorizer(sentence, use_mean=True)
-        array([[-0.00421414, -0.08881307,  0.05081136, -0.05632929, -0.06607185,
-            0.03059357, -0.113882  , -0.00074836,  0.05035743,  0.02914307,
-            ...
+        array([[-0.00421414, -0.08881307,  0.05081136, -0.05632929,
+             -0.06607185, 0.03059357, -0.113882  , -0.00074836,  0.05035743,
+             0.02914307,
+             ...
             0.02893357,  0.11327957,  0.04562086, -0.05015393,  0.11641257,
             0.32304936, -0.05054322,  0.03639471, -0.06531371,  0.05048079]])
         >>>
         >>> wv.sentence_vectorizer(sentence, use_mean=False)
-        array([[-0.05899798, -1.24338295,  0.711359  , -0.78861002, -0.92500597,
-            0.42831   , -1.59434797, -0.01047703,  0.705004  ,  0.40800299,
+        array([[-0.05899798, -1.24338295,  0.711359  , -0.78861002,
+             -0.92500597, 0.42831   , -1.59434797, -0.01047703,  0.705004
+            ,  0.40800299,
             ...
             0.40506999,  1.58591403,  0.63869202, -0.702155  ,  1.62977601,
             4.52269109, -0.70760502,  0.50952601, -0.914392  ,  0.70673105]])

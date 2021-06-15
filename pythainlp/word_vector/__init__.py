@@ -10,6 +10,7 @@ __all__ = [
     "most_similar_cosmul",
     "sentence_vectorizer",
     "similarity",
+    "WordVector",
 ]
 
 from pythainlp.word_vector.core import (
@@ -18,4 +19,5 @@ from pythainlp.word_vector.core import (
     most_similar_cosmul,
     sentence_vectorizer,
     similarity,
+    WordVector,
 )

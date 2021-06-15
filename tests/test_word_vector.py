@@ -10,6 +10,7 @@ class TestWordVectorPackage(unittest.TestCase):
     def test_thai2vec(self):
         self.assertGreaterEqual(word_vector.similarity("แบคทีเรีย", "คน"), 0)
         self.assertIsNotNone(word_vector.sentence_vectorizer(""))
+        self.assertIsNotNone(word_vector.get_model())
         self.assertIsNotNone(
             word_vector.sentence_vectorizer("เสรีภาพในการชุมนุม")
         )
@@ -34,6 +35,7 @@ class TestWordVectorPackage(unittest.TestCase):
             _wv.similarity("แบคทีเรีย", "คน"), 0
         )
         self.assertIsNotNone(_wv.sentence_vectorizer(""))
+        self.assertIsNotNone(_wv.get_model())
         self.assertIsNotNone(
             _wv.sentence_vectorizer("เสรีภาพในการชุมนุม")
         )
@@ -60,6 +62,7 @@ class TestWordVectorPackage(unittest.TestCase):
             _wv.similarity("แบคทีเรีย", "คน"), 0
         )
         self.assertIsNotNone(_wv.sentence_vectorizer(""))
+        self.assertIsNotNone(_wv.get_model())
         self.assertIsNotNone(
             _wv.sentence_vectorizer("เสรีภาพในการชุมนุม")
         )

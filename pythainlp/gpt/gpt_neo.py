@@ -42,6 +42,8 @@ class FewShot:
     Few-Shot Learning using GPT-Neo
 
     Hoempage: `EleutherAI/gpt-neo <https://github.com/EleutherAI/gpt-neo>`_
+
+    Thank you code from https://link.medium.com/4FfbALWz8gb
     """
     def __init__(
         self, model_dir: str, device: str = "cuda", size: str = "125M"

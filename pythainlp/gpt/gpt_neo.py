@@ -12,7 +12,7 @@ import os
 
 
 class ListDataset(Dataset):
-    def __init__(self, txt_list, tokenizer, max_length):
+    def __init__(self, txt_list: List[str], tokenizer: GPT2Tokenizer, max_length: int):
         self.input_ids = []
         self.attn_masks = []
         self.labels = []
@@ -29,7 +29,7 @@ class ListDataset(Dataset):
     def __len__(self):
         return len(self.input_ids)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx: int):
         return self.input_ids[idx], self.attn_masks[idx]
 
 
@@ -50,6 +50,8 @@ class FewShot:
     def init_model(self, size: str = "125M") -> None:
         """
         init GPT-Neo model
+
+        :param str size: model size
         """
         self.pretrained = "EleutherAI/gpt-neo-"+str(size)
         self.tokenizer = GPT2Tokenizer.from_pretrained(
@@ -63,6 +65,9 @@ class FewShot:
         self.model.resize_token_embeddings(len(self.tokenizer))
 
     def load_model(self):
+        """
+        Load model from path of model directory
+        """
         self.model_dir = self.model_dir
         self.tokenizer = GPT2Tokenizer.from_pretrained(
             self.model_dir,
@@ -79,13 +84,25 @@ class FewShot:
         self,
         data: List[str],
         logging_dir: str,
-        num_train_epochs = 10,
+        num_train_epochs: int = 10,
         train_size: float = 0.95,
         save_steps: int = 100,
         save_total_limit: int = 10,
         logging_steps: int = 100,
         eval_steps: int = 100
     ):
+        """
+        Train model
+
+        :param str data: List for text
+        :param str logging_dir: logging directory
+        :param int num_train_epochs: Number train epochs
+        :param str train_size: size of train set
+        :param int save_steps: Save is done every steps
+        :param int save_total_limit: limit the total amount of checkpoints.
+        :param int logging_steps: Number of update steps
+        :param int eval_steps: Number of update steps before two evaluations.
+        """
         self.data = data
         self.max_length = max(
             [len(self.tokenizer.encode(i)) for i in self.data]
@@ -128,6 +145,7 @@ class FewShot:
             }
         )
         self.train.train()
+        self.train.evaluate()
         self.train.save_model(self.model_dir)
 
     def gen(
@@ -138,7 +156,17 @@ class FewShot:
         top_p: float = 0.95,
         temperature: int = 1,
         num_return_sequences: int = 5
-    ):
+    ) -> List[str]:
+        """
+        :param str text: text
+        :param int top_k: top k
+        :param int max_length: max length of return sequences
+        :param float top_p: top p
+        :param int temperature: temperature
+        :param int num_return_sequences: number of return sequences
+        :return: return sequences
+        :rtype: List[str]
+        """
         self.generated = self.tokenizer(
             '<|startoftext|>' + text, return_tensors="pt"
         ).input_ids.to(self.device)

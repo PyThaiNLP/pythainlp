@@ -224,11 +224,11 @@ class FewShot:
                 i, skip_special_tokens=skip_special_tokens
             ) for i in self.sample_outputs
         ]
-        if keep_bos and keep_eos:
+        if not keep_bos and not keep_eos:
             return [self.remove_bos_eos(i) for i in _temp]
-        elif keep_bos:
+        elif not keep_bos:
             return [self.remove_bos(i) for i in _temp]
-        elif keep_eos:
+        elif not keep_eos:
             return [self.remove_eos(i) for i in _temp]
         else:
             return _temp

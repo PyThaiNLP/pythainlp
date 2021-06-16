@@ -163,7 +163,8 @@ class FewShot:
         max_length: int = 89,
         top_p: float = 0.95,
         temperature: int = 1,
-        num_return_sequences: int = 5
+        num_return_sequences: int = 5,
+        skip_special_tokens: bool = True
     ) -> List[str]:
         """
         :param str text: text
@@ -172,6 +173,7 @@ class FewShot:
         :param float top_p: top p
         :param int temperature: temperature
         :param int num_return_sequences: number of return sequences
+        :param bool skip_special_tokens: skip special tokens
         :return: return sequences
         :rtype: List[str]
         """
@@ -189,6 +191,6 @@ class FewShot:
         )
         return [
             self.tokenizer.decode(
-                i, skip_special_tokens=True
+                i, skip_special_tokens=skip_special_tokens
             ).replace("<|start|>", "") for i in self.sample_outputs
         ]

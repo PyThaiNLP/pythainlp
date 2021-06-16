@@ -8,7 +8,7 @@ class TestGPTackage(unittest.TestCase):
     def test_gpt_neo_fewshot(self):
         _model = FewShot('./model')
         self.assertIsNotNone(_model)
-        _data= [
+        _data = [
             'txt: คนดี pos: +',
             'txt: คนเลว pos: -'
         ]

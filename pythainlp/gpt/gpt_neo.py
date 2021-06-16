@@ -38,6 +38,11 @@ class ListDataset(Dataset):
 
 
 class FewShot:
+    """
+    Few-Shot Learning using GPT-Neo
+
+    Hoempage: `EleutherAI/gpt-neo <https://github.com/EleutherAI/gpt-neo>`_
+    """
     def __init__(
         self, model_dir: str, device: str = "cuda", size: str = "125M"
     ):
@@ -45,8 +50,15 @@ class FewShot:
         :param str model_dir: path of model dir
         :param str device: device
         :param str size: model size
+        **Options for size**
+            * *125M* (default) - GPT-Neo 125M
+            * *1.3B* - GPT-Neo 1.3B
+            * *2.7B* - GPT-Neo 2.7B
         """
         self.device = device
+        self.bos_token = '<|start|>'
+        self.eos_token = '<|end|>'
+        self.pad_token = '<|pad|>'
         self.model_dir = model_dir
         if not os.path.exists(self.model_dir):
             self.init_model(size)
@@ -58,13 +70,17 @@ class FewShot:
         init GPT-Neo model
 
         :param str size: model size
+        **Options for size**
+            * *125M* (default) - GPT-Neo 125M
+            * *1.3B* - GPT-Neo 1.3B
+            * *2.7B* - GPT-Neo 2.7B
         """
         self.pretrained = "EleutherAI/gpt-neo-"+str(size)
         self.tokenizer = GPT2Tokenizer.from_pretrained(
             self.pretrained,
-            bos_token='<|start|>',
-            eos_token='<|end|>',
-            pad_token='<|pad|>'
+            bos_token=self.bos_token,
+            eos_token=self.eos_token,
+            pad_token=self.pad_token
         )
         self.tokenizer.save_pretrained(self.model_dir)
         self.model = GPTNeoForCausalLM.from_pretrained(
@@ -79,9 +95,9 @@ class FewShot:
         self.model_dir = self.model_dir
         self.tokenizer = GPT2Tokenizer.from_pretrained(
             self.model_dir,
-            bos_token='<|start|>',
-            eos_token='<|end|>',
-            pad_token='<|pad|>'
+            bos_token=self.bos_token,
+            eos_token=self.eos_token,
+            pad_token=self.pad_token
         )
         self.model = GPTNeoForCausalLM.from_pretrained(
             self.model_dir
@@ -156,12 +172,23 @@ class FewShot:
         self.train.evaluate()
         self.train.save_model(self.model_dir)
 
+    def remove_bos(self, txt: str) -> str:
+        return txt.replace(self.bos_token, '')
+
+    def remove_eos(self, txt: str) -> str:
+        return txt.replace(self.eos_token, '')
+
+    def remove_bos_eos(self, txt: str) -> str:
+        return self.remove_eos(self.remove_bos(txt))
+
     def gen(
         self,
         text: str,
         top_k: int = 50,
         max_length: int = 89,
         top_p: float = 0.95,
+        keep_bos: bool = False,
+        keep_eos: bool = False,
         temperature: int = 1,
         num_return_sequences: int = 5,
         skip_special_tokens: bool = True
@@ -171,9 +198,12 @@ class FewShot:
         :param int top_k: top k
         :param int max_length: max length of return sequences
         :param float top_p: top p
+        :param bool keep_bos: keep beginning of a sentence
+        :param bool keep_eos: keep end of a sentence
         :param int temperature: temperature
         :param int num_return_sequences: number of return sequences
         :param bool skip_special_tokens: skip special tokens
+
         :return: return sequences
         :rtype: List[str]
         """
@@ -189,8 +219,16 @@ class FewShot:
             temperature=temperature,
             num_return_sequences=num_return_sequences
         )
-        return [
+        _temp = [
             self.tokenizer.decode(
                 i, skip_special_tokens=skip_special_tokens
-            ).replace("<|start|>", "") for i in self.sample_outputs
+            ) for i in self.sample_outputs
         ]
+        if keep_bos and keep_eos:
+            return [self.remove_bos_eos(i) for i in _temp]
+        elif keep_bos:
+            return [self.remove_bos(i) for i in _temp]
+        elif keep_eos:
+            return [self.remove_eos(i) for i in _temp]
+        else:
+            return _temp

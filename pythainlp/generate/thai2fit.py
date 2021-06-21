@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Thai2fit : Thai Wiki Language Model for Text Generation
+Thai2fit: Thai Wikipeida Language Model for Text Generation
 
-Code from https://github.com/PyThaiNLP/tutorials/blob/master/source/notebooks/text_generation.ipynb
+Code from
+https://github.com/PyThaiNLP/tutorials/blob/master/source/notebooks/text_generation.ipynb
 """
 __all__ = [
     "gen_sentence"

@@ -2,7 +2,7 @@
 """
 Thai National Corpus word frequency
 
-Credit: Korakot Chaovavanich‎
+Credit: Korakot Chaovavanich
 https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
 """
 
@@ -10,7 +10,7 @@ __all__ = [
     "word_freqs",
     "unigram_word_freqs",
     "bigram_word_freqs",
-    "tigram_word_freqs"
+    "trigram_word_freqs"
 ]
 
 from collections import defaultdict
@@ -22,7 +22,7 @@ from pythainlp.corpus import get_corpus_path
 
 _FILENAME = "tnc_freq.txt"
 _BIGRAM = "tnc_bigram_word_freqs"
-_TIGRAM = "tnc_tigram_word_freqs"
+_TRIGRAM = "tnc_trigram_word_freqs"
 
 
 def word_freqs() -> List[Tuple[str, int]]:
@@ -69,11 +69,11 @@ def bigram_word_freqs() -> defaultdict:
     return _word_freqs
 
 
-def tigram_word_freqs() -> defaultdict:
+def trigram_word_freqs() -> defaultdict:
     """
-    Get tigram word frequency from Thai National Corpus (TNC)
+    Get trigram word frequency from Thai National Corpus (TNC)
     """
-    _path = get_corpus_path(_TIGRAM)
+    _path = get_corpus_path(_TRIGRAM)
     _word_freqs = defaultdict(int)
     with open(_path, "r", encoding="utf-8-sig") as fh:
         for i in fh.readlines():

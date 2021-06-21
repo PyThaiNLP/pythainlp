@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Text generator using Unigram, Bigram and Tigram
+Text generator using n-gram language model
 
-code from https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
+code from
+https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
 """
 import random
 from pythainlp.corpus.tnc import unigram_word_freqs as tnc_word_freqs_unigram
 from pythainlp.corpus.tnc import bigram_word_freqs as tnc_word_freqs_bigram
-from pythainlp.corpus.tnc import tigram_word_freqs as tnc_word_freqs_tigram
+from pythainlp.corpus.tnc import trigram_word_freqs as tnc_word_freqs_trigram
 from pythainlp.corpus.ttc import unigram_word_freqs as ttc_word_freqs_unigram
 from pythainlp.corpus.oscar import (
     unigram_word_freqs as oscar_word_freqs_unigram
@@ -179,10 +180,10 @@ class Bigram:
         return self.list_word
 
 
-class Tigram:
+class Trigram:
     def __init__(self, name: str = "tnc"):
         """
-        Text generator using Tigram
+        Text generator using Trigram
 
         :param str name: corpus name
             * *tnc* - Thai National Corpus (default)
@@ -191,7 +192,7 @@ class Tigram:
         if name == "tnc":
             self.uni = tnc_word_freqs_unigram()
             self.bi = tnc_word_freqs_bigram()
-            self.ti = tnc_word_freqs_tigram()
+            self.ti = tnc_word_freqs_trigram()
         self.uni_keys = list(self.uni.keys())
         self.bi_keys = list(self.bi.keys())
         self.ti_keys = list(self.ti.keys())

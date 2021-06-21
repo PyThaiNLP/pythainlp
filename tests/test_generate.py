@@ -2,7 +2,7 @@
 
 import unittest
 
-from pythainlp.generate import Unigram, Bigram, Tigram
+from pythainlp.generate import Unigram, Bigram, Trigram
 from pythainlp.generate.thai2fit import gen_sentence
 
 
@@ -33,12 +33,12 @@ class TestGeneratePackage(unittest.TestCase):
         self.assertIsNotNone(_bigram.gen_sentence())
         self.assertIsNotNone(_bigram.gen_sentence(duplicate=True))
 
-    def test_tigram(self):
-        _tigram = Tigram()
-        self.assertIsNotNone(_tigram.gen_sentence("ผม"))
-        self.assertIsNotNone(_tigram.gen_sentence("ผม", output_str=False))
-        self.assertIsNotNone(_tigram.gen_sentence())
-        self.assertIsNotNone(_tigram.gen_sentence(duplicate=True))
+    def test_trigram(self):
+        _trigram = Trigram()
+        self.assertIsNotNone(_trigram.gen_sentence("ผม"))
+        self.assertIsNotNone(_trigram.gen_sentence("ผม", output_str=False))
+        self.assertIsNotNone(_trigram.gen_sentence())
+        self.assertIsNotNone(_trigram.gen_sentence(duplicate=True))
 
     def test_thai2fit(self):
         self.assertIsNotNone(gen_sentence("กาลครั้งหนึ่งนานมาแล้ว"))

@@ -108,7 +108,7 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsNotNone(tnc.word_freqs())
         self.assertIsNotNone(tnc.unigram_word_freqs())
         self.assertIsNotNone(tnc.bigram_word_freqs())
-        self.assertIsNotNone(tnc.tigram_word_freqs())
+        self.assertIsNotNone(tnc.trigram_word_freqs())
 
     def test_ttc(self):
         self.assertIsNotNone(ttc.word_freqs())

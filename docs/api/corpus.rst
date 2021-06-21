@@ -37,7 +37,7 @@ TNC
 .. autofunction:: pythainlp.corpus.tnc.word_freqs
 .. autofunction:: pythainlp.corpus.tnc.unigram_word_freqs
 .. autofunction:: pythainlp.corpus.tnc.bigram_word_freqs
-.. autofunction:: pythainlp.corpus.tnc.tigram_word_freqs
+.. autofunction:: pythainlp.corpus.tnc.trigram_word_freqs
 
 TTC
 ---

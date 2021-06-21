@@ -11,6 +11,6 @@ Modules
     :members:
 .. autoclass:: Bigram
     :members:
-.. autoclass:: Tigram
+.. autoclass:: Trigram
     :members:
 .. autofunction:: pythainlp.generate.thai2fit.gen_sentence

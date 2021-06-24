@@ -174,9 +174,9 @@ def segment(
         else:
             tokens = list(_onecut(sample, custom_dict))
             token_max_idx = 0
+            token_max_len = 0
             for i, token in enumerate(tokens):
-                token_max_len = 0
-                if len(token) > token_max_len:
+                if len(token) >= token_max_len:
                     token_max_len = len(token)
                     token_max_idx = i
 

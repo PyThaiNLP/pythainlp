@@ -116,6 +116,16 @@ orchid = {
 
 
 def postype2wordnet(pos: str, corpus: str):
+    """
+    convert part-of-speech type to wordnet type
+
+    :param str pos: pos type
+    :param str corpus: part-of-speech corpus
+
+    **Options for corpus**
+        * *lst20* - LST20 Corpus
+        * *orchid* - Orchid Corpus
+    """
     if corpus not in ['lst20', 'orchid']:
         return None
     if corpus == 'lst20':
@@ -138,7 +148,7 @@ class WordNetAug:
         Find synonyms from wordnet
 
         :param str word: word
-        :param str pos: part of speech
+        :param str pos: part-of-speech type
         :param str postag_corpus: postag corpus name
         :return: list of synonyms
         :rtype: List[str]

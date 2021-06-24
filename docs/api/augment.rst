@@ -3,7 +3,7 @@
 pythainlp.augment
 =================
 
-The :class:`textaugment` is Thai text augment.
+The :class:`textaugment` is Thai text augment. This function for text augment task.
 
 Modules
 -------

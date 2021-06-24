@@ -183,7 +183,7 @@ def segment(
             token_max_idx = 0
             token_max_len = 0
             for i, token in enumerate(tokens):
-                if len(token) > token_max_len:
+                if len(token) >= token_max_len:
                     token_max_len = len(token)
                     token_max_idx = i
 

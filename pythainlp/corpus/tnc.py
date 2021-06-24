@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Thai National Corpus word frequency
-
-Credit: Korakot Chaovavanich
-https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
 """
 
 __all__ = [
@@ -30,6 +27,8 @@ def word_freqs() -> List[Tuple[str, int]]:
     Get word frequency from Thai National Corpus (TNC)
     \n(See: `dev/pythainlp/corpus/tnc_freq.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/tnc_freq.txt>`_)
+
+    Credit: Korakot Chaovavanich https://bit.ly/3wSkZsF
     """
     lines = list(get_corpus(_FILENAME))
     word_freqs = []

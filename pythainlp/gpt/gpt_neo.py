@@ -10,7 +10,7 @@ from transformers import (
 )
 import os
 
-
+torch.manual_seed(42)
 class ListDataset(Dataset):
     def __init__(
         self, txt_list: List[str], tokenizer: GPT2Tokenizer, max_length: int, bos_token, eos_token

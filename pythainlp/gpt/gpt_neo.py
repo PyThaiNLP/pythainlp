@@ -13,14 +13,14 @@ import os
 
 class ListDataset(Dataset):
     def __init__(
-        self, txt_list: List[str], tokenizer: GPT2Tokenizer, max_length: int
+        self, txt_list: List[str], tokenizer: GPT2Tokenizer, max_length: int, bos_token, eos_token
     ):
         self.input_ids = []
         self.attn_masks = []
         self.labels = []
         for txt in txt_list:
             encodings_dict = tokenizer(
-                '<|start|>' + txt + '<|end|>',
+                bos_token + txt + eos_token,
                 truncation=True,
                 max_length=max_length,
                 padding="max_length"
@@ -46,28 +46,29 @@ class FewShot:
     Thank you code from https://link.medium.com/4FfbALWz8gb
     """
     def __init__(
-        self, model_dir: str, device: str = "cuda", size: str = "125M"
+        self, model_dir: str, model_name: str = "thaigpt-next", device: str = "cuda", size: str = "125M"
     ):
         """
         :param str model_dir: path of model dir
+        :param str model_name: model name (thaigpt-next or gpt-neo)
         :param str device: device
         :param str size: model size
         **Options for size**
-            * *125M* (default) - GPT-Neo 125M
+            * *125M* (default) - GPT-Neo 125M / thaigpt-next-125M
             * *1.3B* - GPT-Neo 1.3B
             * *2.7B* - GPT-Neo 2.7B
         """
         self.device = device
-        self.bos_token = '<|start|>'
-        self.eos_token = '<|end|>'
+        self.bos_token = '<|startoftext|>'
+        self.eos_token = '<|endoftext|>'
         self.pad_token = '<|pad|>'
         self.model_dir = model_dir
         if not os.path.exists(self.model_dir):
-            self.init_model(size)
+            self.init_model(model_name, size)
         else:
             self.load_model()
 
-    def init_model(self, size: str = "125M") -> None:
+    def init_model(self, model_name : str, size: str = "125M") -> None:
         """
         init GPT-Neo model
 
@@ -77,7 +78,12 @@ class FewShot:
             * *1.3B* - GPT-Neo 1.3B
             * *2.7B* - GPT-Neo 2.7B
         """
-        self.pretrained = "EleutherAI/gpt-neo-"+str(size)
+        if model_name == "thaigpt-next" and size == "125M":
+            self.pretrained = "wannaphong/thaigpt-next-125m"
+        elif model_name == "gpt-neo":
+            self.pretrained = "EleutherAI/gpt-neo-"+str(size)
+        else:
+            raise NotImplementedError()
         self.tokenizer = GPT2Tokenizer.from_pretrained(
             self.pretrained,
             bos_token=self.bos_token,
@@ -111,11 +117,7 @@ class FewShot:
         data: List[str],
         logging_dir: str,
         num_train_epochs: int = 10,
-        train_size: float = 0.95,
-        save_steps: int = 100,
-        save_total_limit: int = 10,
-        logging_steps: int = 100,
-        eval_steps: int = 100
+        train_size: float = 0.95
     ):
         """
         Train model
@@ -124,10 +126,6 @@ class FewShot:
         :param str logging_dir: logging directory
         :param int num_train_epochs: Number train epochs
         :param str train_size: size of train set
-        :param int save_steps: Save is done every steps
-        :param int save_total_limit: limit the total amount of checkpoints.
-        :param int logging_steps: Number of update steps
-        :param int eval_steps: Number of update steps before two evaluations.
         """
         self.data = data
         self.max_length = max(
@@ -136,7 +134,9 @@ class FewShot:
         self.dataset = ListDataset(
             self.data,
             self.tokenizer,
-            max_length=self.max_length
+            max_length=self.max_length,
+            bos_token=self.bos_token,
+            eos_token=self.eos_token
         )
         self.train_size = int(train_size * len(self.dataset))
         self.train_dataset, self.val_dataset = random_split(
@@ -146,17 +146,14 @@ class FewShot:
         )
         self.training_args = TrainingArguments(
             output_dir=self.model_dir,
+            do_train=True,
+            do_eval=True,
+            evaluation_strategy="epoch",
             num_train_epochs=num_train_epochs,
-            do_predict=True,
-            save_steps=save_steps,
-            save_total_limit=save_total_limit,
-            load_best_model_at_end=True,
             per_device_train_batch_size=2,
+            logging_strategy="epoch",
+            save_strategy="epoch",
             per_device_eval_batch_size=2,
-            logging_steps=logging_steps,
-            eval_steps=eval_steps,
-            warmup_steps=100,
-            weight_decay=0.01,
             logging_dir=logging_dir
         )
         self.train = Trainer(
@@ -210,7 +207,7 @@ class FewShot:
         :rtype: List[str]
         """
         self.generated = self.tokenizer(
-            '<|start|>' + text, return_tensors="pt"
+            self.bos_token + text, return_tensors="pt"
         ).input_ids.to(self.device)
         self.sample_outputs = self.model.generate(
             self.generated,

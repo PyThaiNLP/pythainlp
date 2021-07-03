@@ -81,6 +81,8 @@ def word_tokenize(
         * *nercut* - Dictionary-based maximal matching word segmentation,
           constrained with Thai Character Cluster (TCC) boundaries,
           and combining tokens that are parts of the same named-entity.
+        * *sefr_cut* - wrapper for
+          `SEFR CUT <https://github.com/mrpeerat/SEFR_CUT>`_.,
 
     :Note:
         - The parameter **custom_dict** can be provided as an argument \

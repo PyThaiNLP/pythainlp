@@ -21,6 +21,7 @@ from pythainlp.tokenize import (
     syllable_tokenize,
     tcc,
     word_tokenize,
+    sefr_cut,
 )
 from pythainlp.util import dict_trie
 
@@ -358,6 +359,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(word_tokenize(self.text_1, engine="mm"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="nercut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="newmm"))
+        self.assertIsNotNone(word_tokenize(self.text_1, engine="sefr_cut"))
 
         with self.assertRaises(ValueError):
             word_tokenize("หมอนทอง", engine="XX")  # engine does not exist
@@ -580,3 +582,10 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertEqual(list(tcc.tcc("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())
+
+    def test_sefr_cut(self):
+        self.assertEqual(sefr_cut.segment(None), [])
+        self.assertEqual(sefr_cut.segment(""), [])
+        self.assertIsNotNone(
+            sefr_cut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="sefr_cut"),
+        )

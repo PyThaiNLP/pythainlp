@@ -176,6 +176,10 @@ def word_tokenize(
         from pythainlp.tokenize.nercut import segment
 
         segments = segment(text)
+    elif engine == "sefr_cut":
+        from pythainlp.tokenize.sefr_cut import segment
+
+        segments = segment(text)
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.

@@ -10,18 +10,15 @@ from typing import List
 
 import sefr_cut
 
-_engine = 'ws1000'
-sefr_cut.load_model(engine=_engine)
+DEFAULT_ENGINE = 'ws1000'
+sefr_cut.load_model(engine=DEFAULT_ENGINE)
 
 
 def segment(text: str, engine: str = 'ws1000') -> List[str]:
-    """
-    
-    """
-    global _engine
+    global DEFAULT_ENGINE
     if not text or not isinstance(text, str):
         return []
-    if engine != _engine:
-        _engine = engine
-        sefr_cut.load_model(engine=_engine)
+    if engine != DEFAULT_ENGINE:
+        DEFAULT_ENGINE = engine
+        sefr_cut.load_model(engine=DEFAULT_ENGINE)
     return sefr_cut.tokenize(text)[0]

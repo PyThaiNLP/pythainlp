@@ -19,6 +19,8 @@ def segment(text: str, engine: str = 'ws1000') -> List[str]:
     
     """
     global _engine
+    if not text or not isinstance(text, str):
+        return []
     if engine != _engine:
         _engine = engine
         sefr_cut.load_model(engine=_engine)

@@ -51,7 +51,7 @@ def _check_is_thainum(word: str):
     for j in list(_digits.keys()):
         if j in word:
             return (True , 'num')
-    for j in ["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด"]:
+    for j in ["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด", "ลบ"]:
         if j in word:
             return (True, 'unit')
     return (False, None)
@@ -147,36 +147,17 @@ def words_to_num(words: list) -> float:
 
     """
     num = 0
-    _temp = 0
-    _last = None
-    for i,v in enumerate(words):
-        c = _check_is_thainum(v)
-        if c[1] == 'num' and i+1 == len(words) and _last=="จุด" and i+1 != len(words):
-            _temp *= int(thaiword_to_num(v))
-        elif c[1] == 'num' and i+1 == len(words):
-            _temp = int(thaiword_to_num(v))
-            num+=_temp
-        elif c[1] == 'num':
-            _temp = int(thaiword_to_num(v))
-            _last = 'num'
-        elif c[1] == 'unit' and v=="จุด":
-            if _temp!=0:
-                num+=_temp
-            _last = 'จุด'
-            num += _decimal_unit(words[i+1:])
-            break
-        elif c[1] == 'unit'and num != 0 and num < thaiword_to_num(v):
-            num*=thaiword_to_num(v)
-            _last = 'unit'
-        elif c[1] == 'unit' and _last == 'num':
-            _temp*=thaiword_to_num(v)
-            _last = 'unit'
-            num+=_temp
-            _temp = 0
-        elif c[1] == 'unit' and _last != 'num' and _temp == 0:
-            _temp=thaiword_to_num(v)
-            _last = 'num'
-            num+=_temp
+    if "จุด" not in words:
+        num = thaiword_to_num(''.join(words))
+    else:
+        words_int = ''.join(words[:words.index("จุด")])
+        words_float = words[words.index("จุด") + 1:]
+        num = thaiword_to_num(words_int)
+        if num <= -1:
+            num -= _decimal_unit(words_float)
+        else:
+            num += _decimal_unit(words_float)
+
     return num
 
 
@@ -220,6 +201,5 @@ def text_to_num(text: str) -> List[str]:
             list_word_new.append(word)
         else:
             list_word_new.append(word)
-            thainum.append(word)
             last_index = -1
     return list_word_new

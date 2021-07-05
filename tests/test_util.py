@@ -45,6 +45,8 @@ from pythainlp.util import (
     thai_to_eng,
     thaiword_to_num,
     thai_keyboard_dist,
+    text_to_num,
+    words_to_num,
 )
 
 
@@ -106,6 +108,30 @@ class TestUtilPackage(unittest.TestCase):
             thaiword_to_num(None)
         with self.assertRaises(TypeError):
             thaiword_to_num(["หนึ่ง"])
+
+        self.assertEqual(words_to_num("ศูนย์"), 0)
+        self.assertEqual(words_to_num("แปด"), 8)
+        self.assertEqual(words_to_num("ยี่สิบ"), 20)
+        self.assertEqual(words_to_num("ร้อยสิบสอง"), 112)
+        self.assertEqual(
+            words_to_num("หกล้านหกแสนหกหมื่นหกพันหกร้อยหกสิบหก"), 6666666
+        )
+        self.assertEqual(words_to_num("สองล้านสามแสนหกร้อยสิบสอง"), 2300612)
+        self.assertEqual(words_to_num("หนึ่งร้อยสิบล้าน"), 110000000)
+        self.assertEqual(
+            words_to_num("สิบห้าล้านล้านเจ็ดสิบสอง"), 15000000000072
+        )
+        self.assertEqual(words_to_num("หนึ่งล้านล้าน"), 1000000000000)
+        self.assertEqual(
+            words_to_num("สองแสนสี่หมื่นสามสิบล้านสี่พันล้าน"),
+            240030004000000000,
+        )
+        self.assertEqual(words_to_num("ร้อยสิบล้านแปดแสนห้าพัน"), 110805000)
+        self.assertEqual(words_to_num("ลบหนึ่ง"), -1)
+        text = "ลบหนึ่งร้อยล้านสี่แสนห้าพันยี่สิบเอ็ด"
+        self.assertEqual(words_to_num(thaiword_to_num(text)), text)
+        self.assertIsNotNone(text_to_num("เก้าร้อยแปดสิบจุดเก้าห้าบาทนี่คือจำนวนทั้งหมด"))
+        self.assertIsNotNone(text_to_num("สิบล้านสองหมื่นหนึ่งพันแปดร้อยแปดสิบเก้าบาท"))
 
         self.assertEqual(
             arabic_digit_to_thai_digit("ไทยแลนด์ 4.0"), "ไทยแลนด์ ๔.๐"

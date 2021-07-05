@@ -129,7 +129,7 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(words_to_num("ร้อยสิบล้านแปดแสนห้าพัน"), 110805000)
         self.assertEqual(words_to_num("ลบหนึ่ง"), -1)
         text = "ลบหนึ่งร้อยล้านสี่แสนห้าพันยี่สิบเอ็ด"
-        self.assertEqual(words_to_num(thaiword_to_num(text)), text)
+        self.assertEqual(num_to_thaiword(words_to_num(text)), text)
         self.assertIsNotNone(
             text_to_num("เก้าร้อยแปดสิบจุดเก้าห้าบาทนี่คือจำนวนทั้งหมด")
         )

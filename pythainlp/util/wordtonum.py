@@ -50,11 +50,12 @@ _tokenizer = Tokenizer(custom_dict=_valid_tokens)
 def _check_is_thainum(word: str):
     for j in list(_digits.keys()):
         if j in word:
-            return (True , 'num')
+            return (True, 'num')
     for j in ["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด", "ลบ"]:
         if j in word:
             return (True, 'unit')
     return (False, None)
+
 
 _dict_words = [i for i in list(thai_words()) if not _check_is_thainum(i)[0]]
 _dict_words += list(_digits.keys())
@@ -186,7 +187,11 @@ def text_to_num(text: str) -> List[str]:
     last_index = -1
     list_word_new = []
     for i, word in enumerate(_temp):
-        if _check_is_thainum(word)[0] and last_index+1 == i and i+1 == len(_temp):
+        if (
+            _check_is_thainum(word)[0]
+            and last_index+1 == i
+            and i+1 == len(_temp)
+        ):
             thainum.append(word)
             list_word_new.append(str(words_to_num(thainum)))
         elif _check_is_thainum(word)[0] and last_index+1 == i:
@@ -195,7 +200,11 @@ def text_to_num(text: str) -> List[str]:
         elif _check_is_thainum(word)[0]:
             thainum.append(word)
             last_index = i
-        elif not _check_is_thainum(word)[0] and last_index+1 == i and last_index != -1:
+        elif (
+            not _check_is_thainum(word)[0]
+            and last_index+1 == i
+            and last_index != -1
+        ):
             list_word_new.append(str(words_to_num(thainum)))
             thainum = []
             list_word_new.append(word)

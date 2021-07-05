@@ -130,8 +130,12 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(words_to_num("ลบหนึ่ง"), -1)
         text = "ลบหนึ่งร้อยล้านสี่แสนห้าพันยี่สิบเอ็ด"
         self.assertEqual(words_to_num(thaiword_to_num(text)), text)
-        self.assertIsNotNone(text_to_num("เก้าร้อยแปดสิบจุดเก้าห้าบาทนี่คือจำนวนทั้งหมด"))
-        self.assertIsNotNone(text_to_num("สิบล้านสองหมื่นหนึ่งพันแปดร้อยแปดสิบเก้าบาท"))
+        self.assertIsNotNone(
+            text_to_num("เก้าร้อยแปดสิบจุดเก้าห้าบาทนี่คือจำนวนทั้งหมด")
+        )
+        self.assertIsNotNone(
+            text_to_num("สิบล้านสองหมื่นหนึ่งพันแปดร้อยแปดสิบเก้าบาท")
+        )
 
         self.assertEqual(
             arabic_digit_to_thai_digit("ไทยแลนด์ 4.0"), "ไทยแลนด์ ๔.๐"

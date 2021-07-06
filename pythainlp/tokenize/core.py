@@ -33,9 +33,10 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
         from pythainlp.tokenize import clause_tokenize
 
         clause_tokenize(["ฉัน","นอน","และ","คุณ","เล่น","มือถือ","ส่วน","น้อง","เขียน","โปรแกรม"])
-        [['ฉัน', 'นอน'],
-        ['และ', 'คุณ', 'เล่น', 'มือถือ'],
-        ['ส่วน', 'น้อง', 'เขียน', 'โปรแกรม']]
+        # [['ฉัน', 'นอน'],
+        # ['และ', 'คุณ', 'เล่น', 'มือถือ'],
+        # ['ส่วน', 'น้อง', 'เขียน', 'โปรแกรม']]
+
     """
     if not doc or not isinstance(doc, str):
         return []

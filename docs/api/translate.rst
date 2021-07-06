@@ -12,3 +12,7 @@ Modules
    :members: translate
 .. autoclass:: ThEnTranslator
    :members: translate
+.. autoclass:: ThZhTranslator
+   :members: translate
+.. autoclass:: ZhThTranslator
+   :members: translate

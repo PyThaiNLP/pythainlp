@@ -2,7 +2,12 @@
 
 import unittest
 
-from pythainlp.translate import EnThTranslator, ThEnTranslator
+from pythainlp.translate import (
+    EnThTranslator,
+    ThEnTranslator,
+    ThZhTranslator,
+    ZhThTranslator
+)
 from pythainlp.translate.core import download_model_all
 
 
@@ -19,5 +24,17 @@ class TestTranslatePackage(unittest.TestCase):
         self.assertIsNotNone(
             self.en_th_translator.translate(
                 "the cat eats fish.",
+            )
+        )
+        self.th_zh_translator = ThZhTranslator()
+        self.assertIsNotNone(
+            self.th_zh_translator.translate(
+                "ผมรักคุณ",
+            )
+        )
+        self.zh_th_translator = ZhThTranslator()
+        self.assertIsNotNone(
+            self.zh_th_translator.translate(
+                "我爱你",
             )
         )

@@ -1,4 +1,11 @@
 # -*- coding: utf-8 -*-
+"""
+English-Thai Machine Translation
+
+from VISTEC-depa Thailand Artificial Intelligence Research Institute
+
+Website: https://airesearch.in.th/releases/machine-translation-models/
+"""
 import os
 import tarfile
 from collections import defaultdict
@@ -71,6 +78,16 @@ class EnThTranslator:
         :param str text: input text in source language
         :return: translated text in target language
         :rtype: str
+
+        :Example:
+
+            from pythainlp.translate import EnThTranslator
+
+            enth = EnThTranslator()
+
+            enth.translate("I love cat.")
+            # output: ฉันรักแมว
+
         """
         tokens = " ".join(self._tokenizer.tokenize(text))
         translated = self._model.translate(tokens)
@@ -110,5 +127,15 @@ class ThEnTranslator:
         :param str text: input text in source language
         :return: translated text in target language
         :rtype: str
+
+        :Example:
+
+            from pythainlp.translate import ThEnTranslator
+
+            then = ThEnTranslator()
+
+            then.translate("ฉันรักแมว")
+            # output: I love cat.
+
         """
         return self._model.translate(text)

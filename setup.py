@@ -54,9 +54,10 @@ extras = {
         "sacremoses>=0.0.41",
         "sentencepiece>=0.1.91",
         "torch>=1.0.0",
+        "transformers>=4.6.0",
     ],
     "wangchanberta": ["transformers", "sentencepiece"],
-    "mt5": ["transformers>=4.1.1", "sentencepiece>=0.1.91"],
+    "mt5": ["transformers>=4.6.0", "sentencepiece>=0.1.91"],
     "wordnet": ["nltk>=3.3.*"],
     "sefr_cut": ["sefr_cut"],
     "full": [
@@ -74,7 +75,7 @@ extras = {
         "sentencepiece>=0.1.91",
         "ssg>=0.0.6",
         "torch>=1.0.0",
-        "transformers>=4.1.1",
+        "transformers>=4.6.0",
         "sefr_cut"
     ],
 }

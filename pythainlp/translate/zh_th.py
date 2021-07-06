@@ -12,8 +12,8 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 class ThZhTranslator:
     def __init__(self, pretrained: str = "Lalita/marianmt-th-zh_cn") -> None:
-        self.tokenizer = AutoTokenizer.from_pretrained(pretrained)
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        self.tokenizer_thzh = AutoTokenizer.from_pretrained(pretrained)
+        self.model_thzh = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
 
     def translate(self, text: str) -> str:
         """
@@ -33,11 +33,11 @@ class ThZhTranslator:
             # output: 我爱你
 
         """
-        self.translated = self.model.generate(
-            **self.tokenizer(text, return_tensors="pt", padding=True)
+        self.translated = self.model_thzh.generate(
+            **self.tokenizer_thzh(text, return_tensors="pt", padding=True)
         )
         return [
-            self.tokenizer.decode(
+            self.tokenizer_thzh.decode(
                 t, skip_special_tokens=True
             ) for t in self.translated
         ][0]
@@ -45,8 +45,8 @@ class ThZhTranslator:
 
 class ZhThTranslator:
     def __init__(self, pretrained: str = "Lalita/marianmt-zh_cn-th") -> None:
-        self.tokenizer = AutoTokenizer.from_pretrained(pretrained)
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        self.tokenizer_zhth = AutoTokenizer.from_pretrained(pretrained)
+        self.model_zhth = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
 
     def translate(self, text: str) -> str:
         """
@@ -66,11 +66,11 @@ class ZhThTranslator:
             # output: ผมรักคุณนะ
 
         """
-        self.translated = self.model.generate(
-            **self.tokenizer(text, return_tensors="pt", padding=True)
+        self.translated = self.model_zhth.generate(
+            **self.tokenizer_zhth(text, return_tensors="pt", padding=True)
         )
         return [
-            self.tokenizer.decode(
+            self.tokenizer_zhth.decode(
                 t, skip_special_tokens=True
             ) for t in self.translated
         ][0]

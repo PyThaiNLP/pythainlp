@@ -6,9 +6,9 @@ from pythainlp.translate import (
     EnThTranslator,
     ThEnTranslator,
     ThZhTranslator,
-    ZhThTranslator
+    ZhThTranslator,
+    download_model_all
 )
-from pythainlp.translate.core import download_model_all
 
 
 class TestTranslatePackage(unittest.TestCase):

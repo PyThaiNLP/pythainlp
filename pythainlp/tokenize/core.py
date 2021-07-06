@@ -30,6 +30,8 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
 
     :Example:
 
+    Clause tokenizer::
+
         from pythainlp.tokenize import clause_tokenize
 
         clause_tokenize(["ฉัน","นอน","และ","คุณ","เล่น","มือถือ","ส่วน","น้อง","เขียน","โปรแกรม"])

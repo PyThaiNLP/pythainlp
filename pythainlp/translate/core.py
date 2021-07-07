@@ -11,10 +11,11 @@ class Translate:
             * *th* - *en* - Thai to English
             * *en* - *th* - English to Thai
             * *th* - *zh* - Thai to Chinese
-            * *zh* - *th* - Chinese to Thai 
+            * *zh* - *th* - Chinese to Thai
         """
         self.model = None
         self.load_model(src_lang, target_lang)
+
     def load_model(self, src_lang: str, target_lang: str):
         if src_lang == "th" and target_lang == "en":
             from pythainlp.translate.en_th import ThEnTranslator
@@ -30,6 +31,7 @@ class Translate:
             self.model = ZhThTranslator()
         else:
             raise ValueError("Not support language!")
+
     def translate(self, text) -> str:
         """
         Translate text

@@ -16,3 +16,5 @@ Modules
    :members: translate
 .. autoclass:: ZhThTranslator
    :members: translate
+.. autoclass:: Translate
+   :members:

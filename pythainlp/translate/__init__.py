@@ -8,8 +8,11 @@ __all__ = [
     "ThEnTranslator",
     "download_model_all",
     "ThZhTranslator",
-    "ZhThTranslator"
+    "ZhThTranslator",
+    "Translate"
 ]
+
+from pythainlp.translate.core import Translate
 
 from pythainlp.translate.en_th import (
     EnThTranslator,

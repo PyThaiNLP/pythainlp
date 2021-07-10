@@ -12,6 +12,16 @@ class Translate:
             * *en* - *th* - English to Thai
             * *th* - *zh* - Thai to Chinese
             * *zh* - *th* - Chinese to Thai
+        
+        :Example:
+
+        Translate text from Thai to English::
+
+            from pythainlp.translate import Translate
+            th2en = Translate('th', 'en')
+
+            th2en.translate("ฉันรักแมว")
+            # output: I love cat.
         """
         self.model = None
         self.load_model(src_lang, target_lang)

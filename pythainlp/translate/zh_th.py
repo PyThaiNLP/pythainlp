@@ -25,6 +25,8 @@ class ThZhTranslator:
 
         :Example:
 
+        Translate text from Thai to Chinese::
+
             from pythainlp.translate import ThZhTranslator
 
             thzh = ThZhTranslator()
@@ -57,6 +59,8 @@ class ZhThTranslator:
         :rtype: str
 
         :Example:
+
+        Translate text from Chinese to Thai::
 
             from pythainlp.translate import ZhThTranslator
 

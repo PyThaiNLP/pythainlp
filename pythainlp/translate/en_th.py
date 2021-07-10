@@ -81,6 +81,8 @@ class EnThTranslator:
 
         :Example:
 
+        Translate text from English to Thai::
+
             from pythainlp.translate import EnThTranslator
 
             enth = EnThTranslator()
@@ -129,6 +131,8 @@ class ThEnTranslator:
         :rtype: str
 
         :Example:
+
+        Translate text from Thai to English::
 
             from pythainlp.translate import ThEnTranslator
 

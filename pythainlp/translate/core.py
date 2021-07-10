@@ -12,7 +12,7 @@ class Translate:
             * *en* - *th* - English to Thai
             * *th* - *zh* - Thai to Chinese
             * *zh* - *th* - Chinese to Thai
-        
+
         :Example:
 
         Translate text from Thai to English::

@@ -2,6 +2,28 @@
 
 
 class Translate:
+    """
+    Machine Translation
+
+    :param str src_lang: source language
+    :param str target_lang: target language
+
+    **Options for source & target language**
+        * *th* - *en* - Thai to English
+        * *en* - *th* - English to Thai
+        * *th* - *zh* - Thai to Chinese
+        * *zh* - *th* - Chinese to Thai
+
+    :Example:
+
+    Translate text from Thai to English::
+
+        from pythainlp.translate import Translate
+        th2en = Translate('th', 'en')
+
+        th2en.translate("ฉันรักแมว")
+        # output: I love cat.
+    """
     def __init__(self, src_lang: str, target_lang: str) -> None:
         """
         :param str src_lang: source language

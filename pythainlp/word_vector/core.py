@@ -267,6 +267,15 @@ def sentence_vectorizer(text: str, use_mean: bool = True) -> ndarray:
 
 
 class WordVector:
+    """
+    Word Vector class
+
+    :param str model_name: model name
+
+    **Options for model_name**
+        * *thai2fit_wv* (default) - word vector from thai2fit
+        * *ltw2v* - word vector from LTW2V: The Large Thai Word2Vec
+    """
     def __init__(self, model_name: str = "thai2fit_wv") -> None:
         """
         Word Vector class

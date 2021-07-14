@@ -172,6 +172,7 @@ def time_to_thaiword(
     :rtype: str
 
     :Example:
+    ::
 
         time_to_thaiword("8:17")
         # output:
@@ -255,6 +256,7 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
     :rtype: str
 
     :Example:
+    ::
 
         thaiword_to_time"บ่ายโมงครึ่ง")
         # output:

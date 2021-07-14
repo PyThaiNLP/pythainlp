@@ -48,20 +48,21 @@ def isthai(text: str, ignore_chars: str = ".") -> bool:
     :rtype: bool
 
     :Example:
+    ::
 
-    from pythainlp.util import isthai
+        from pythainlp.util import isthai
 
-    isthai("กาลเวลา")
-    # output: True
+        isthai("กาลเวลา")
+        # output: True
 
-    isthai("กาลเวลา.")
-    # output: True
+        isthai("กาลเวลา.")
+        # output: True
 
-    isthai("กาล-เวลา")
-    # output: False
+        isthai("กาล-เวลา")
+        # output: False
 
-    isthai("กาล-เวลา +66", ignore_chars="01234567890+-.,")
-    # output: True
+        isthai("กาล-เวลา +66", ignore_chars="01234567890+-.,")
+        # output: True
 
     """
     if not ignore_chars:
@@ -85,20 +86,21 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
     :rtype: float
 
     :Example:
+    ::
 
-    from pythainlp.util import countthai
+        from pythainlp.util import countthai
 
-    countthai("ไทยเอ็นแอลพี 2.3") 
-    # output: 100.0
+        countthai("ไทยเอ็นแอลพี 2.3") 
+        # output: 100.0
 
-    countthai("PyThaiNLP 2.3") 
-    # output: 0.0
+        countthai("PyThaiNLP 2.3") 
+        # output: 0.0
 
-    countthai("ใช้งาน PyThaiNLP 2.3") 
-    # output: 40.0
+        countthai("ใช้งาน PyThaiNLP 2.3") 
+        # output: 40.0
 
-    countthai("ใช้งาน PyThaiNLP 2.3", ignore_chars="")
-    # output: 30.0
+        countthai("ใช้งาน PyThaiNLP 2.3", ignore_chars="")
+        # output: 30.0
     """
     if not text or not isinstance(text, str):
         return 0.0
@@ -133,9 +135,12 @@ def display_thai_char(ch: str) -> str:
     :rtype: str
 
     :Example:
+    ::
 
-    display_thai_char("้")
-    # output: "_้"
+        from pythainlp.util import display_thai_char
+
+        display_thai_char("้")
+        # output: "_้"
     """
 
     if (

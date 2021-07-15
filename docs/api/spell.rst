@@ -8,7 +8,9 @@ Modules
 -------
 
 .. autofunction:: correct
+.. autofunction:: correct_sent
 .. autofunction:: spell
+.. autofunction:: spell_sent
 .. autoclass:: NorvigSpellChecker
    :special-members:
    :members:

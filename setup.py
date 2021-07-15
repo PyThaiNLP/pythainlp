@@ -60,7 +60,7 @@ extras = {
     "mt5": ["transformers>=4.6.0", "sentencepiece>=0.1.91"],
     "wordnet": ["nltk>=3.3.*"],
     "sefr_cut": ["sefr_cut"],
-    "spell": ["phunspell", "spylls"],
+    "spell": ["phunspell", "spylls", "symspellpy"],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -79,7 +79,8 @@ extras = {
         "transformers>=4.6.0",
         "sefr_cut",
         "phunspell",
-        "spylls"
+        "spylls",
+        "symspellpy"
     ],
 }
 

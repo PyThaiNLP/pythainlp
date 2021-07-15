@@ -3,6 +3,7 @@
 Spell checking functions
 """
 
+import itertools
 from typing import List
 
 from pythainlp.spell import DEFAULT_SPELL_CHECKER
@@ -20,6 +21,7 @@ def spell(word: str, engine: str = "pn") -> List[str]:
     :param str engine:
         * *pn* - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
         * *phunspell* - A spell checker utilizing spylls a port of Hunspell.
+        * *symspellpy* - symspellpy is a Python port of SymSpell v6.5.
 
     :return: list of possible correct words within 1 or 2 edit distance and
              sorted by frequency of word occurrences in the spelling dictionary
@@ -53,6 +55,9 @@ def spell(word: str, engine: str = "pn") -> List[str]:
     if engine == "phunspell":
         from pythainlp.spell.phunspell import spell as SPELL_CHECKER
         text_correct = SPELL_CHECKER(word)
+    elif engine == "symspellpy":
+        from pythainlp.spell.symspellpy import spell as SPELL_CHECKER
+        text_correct = SPELL_CHECKER(word)
     else:
         text_correct = DEFAULT_SPELL_CHECKER.spell(word)
 
@@ -68,6 +73,7 @@ def correct(word: str, engine: str = "pn") -> str:
     :param str engine:
         * *pn* - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
         * *phunspell* - A spell checker utilizing spylls a port of Hunspell.
+        * *symspellpy* - symspellpy is a Python port of SymSpell v6.5.
     :return: the corrected word
     :rtype: str
 
@@ -94,7 +100,70 @@ def correct(word: str, engine: str = "pn") -> str:
     if engine == "phunspell":
         from pythainlp.spell.phunspell import correct as SPELL_CHECKER
         text_correct = SPELL_CHECKER(word)
+    elif engine == "symspellpy":
+        from pythainlp.spell.symspellpy import correct as SPELL_CHECKER
+        text_correct = SPELL_CHECKER(word)
     else:
         text_correct = DEFAULT_SPELL_CHECKER.correct(word)
 
     return text_correct
+
+
+def spell_sent(list_words: List[str], engine: str = "pn") -> List[List[str]]:
+    """
+    Provides a list of possible correct spelling of sentence
+
+    :param List[str] list_words: list word of sentence
+    :param str engine:
+        * *pn* - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
+        * *phunspell* - A spell checker utilizing spylls a port of Hunspell.
+        * *symspellpy* - symspellpy is a Python port of SymSpell v6.5.
+    :return: list of possible correct words
+    :rtype: List[List[str]]
+
+    :Example:
+    ::
+
+        from pythainlp.spell import spell_sent
+
+        spell_sent(["เด็","อินอร์เน็ต","แรง"],engine='symspellpy')
+        # output: [['เด็ก', 'อินเทอร์เน็ต', 'แรง']]
+    """
+    if engine == "symspellpy":
+        from pythainlp.spell.symspellpy import spell_sent as symspellpy_spell
+        list_new = symspellpy_spell(list_words)
+    else:
+        _temp = list(
+            itertools.product(*[spell(i, engine=engine) for i in list_words])
+        )
+        list_new = []
+        for i in _temp:
+            _temp2 = []
+            for j in i:
+                _temp2.append(j)
+            list_new.append(_temp2)
+
+    return list_new
+
+
+def correct_sent(list_words: List[str], engine: str = "pn") -> List[str]:
+    """
+    Corrects the spelling of the given sentence by returning
+
+    :param List[str] list_words: list word of sentence
+    :param str engine:
+        * *pn* - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
+        * *phunspell* - A spell checker utilizing spylls a port of Hunspell.
+        * *symspellpy* - symspellpy is a Python port of SymSpell v6.5.
+    :return: the corrected list sentences of word
+    :rtype: List[str]
+
+    :Example:
+    ::
+
+        from pythainlp.spell import correct_sent
+
+        correct_sent(["เด็","อินอร์เน็ต","แรง"],engine='symspellpy')
+        # output: ['เด็ก', 'อินเทอร์เน็ต', 'แรง']
+    """
+    return spell_sent(list_words, engine=engine)[0]

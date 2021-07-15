@@ -18,6 +18,14 @@ class TestSpellPackage(unittest.TestCase):
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
 
+        result = spell("เน้ร", engine="phunspell")
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+
+        result = spell("เกสมร์", engine="phunspell")
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+
     def test_word_correct(self):
         self.assertEqual(correct(None), "")
         self.assertEqual(correct(""), "")
@@ -27,6 +35,10 @@ class TestSpellPackage(unittest.TestCase):
         self.assertEqual(correct("1.01"), "1.01")
 
         result = correct("ทดสอง")
+        self.assertIsInstance(result, str)
+        self.assertNotEqual(result, "")
+
+        result = correct("ทดสอง", engine="phunspell")
         self.assertIsInstance(result, str)
         self.assertNotEqual(result, "")
 

@@ -19,6 +19,7 @@ def spell(word: str, engine: str = "pn") -> List[str]:
     :param str word: Word to spell check
     :param str engine:
         * *pn* - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
+        * *phunspell* - A spell checker utilizing spylls a port of Hunspell.
 
     :return: list of possible correct words within 1 or 2 edit distance and
              sorted by frequency of word occurrences in the spelling dictionary
@@ -49,8 +50,13 @@ def spell(word: str, engine: str = "pn") -> List[str]:
         spell("เหตการณ")
         # output:  ['เหตุการณ์']
     """
+    if engine == "phunspell":
+        from pythainlp.spell.phunspell import spell as SPELL_CHECKER
+        text_correct = SPELL_CHECKER(word)
+    else:
+        text_correct = DEFAULT_SPELL_CHECKER.spell(word)
 
-    return DEFAULT_SPELL_CHECKER.spell(word)
+    return text_correct
 
 
 def correct(word: str, engine: str = "pn") -> str:
@@ -60,7 +66,8 @@ def correct(word: str, engine: str = "pn") -> str:
 
     :param str word: word to correct spelling
     :param str engine:
-        * pn - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
+        * *pn* - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
+        * *phunspell* - A spell checker utilizing spylls a port of Hunspell.
     :return: the corrected word
     :rtype: str
 
@@ -84,5 +91,10 @@ def correct(word: str, engine: str = "pn") -> str:
         correct("เหตการณ")
         # output: 'เหตุการณ์'
     """
+    if engine == "phunspell":
+        from pythainlp.spell.phunspell import correct as SPELL_CHECKER
+        text_correct = SPELL_CHECKER(word)
+    else:
+        text_correct = DEFAULT_SPELL_CHECKER.correct(word)
 
-    return DEFAULT_SPELL_CHECKER.correct(word)
+    return text_correct

@@ -13,6 +13,6 @@ __all__ = [
 ]
 
 from pythainlp.spell.pn import NorvigSpellChecker
-from pythainlp.spell.core import correct, spell, correct_sent, spell_sent
-
 DEFAULT_SPELL_CHECKER = NorvigSpellChecker()
+
+from pythainlp.spell.core import correct, spell, correct_sent, spell_sent

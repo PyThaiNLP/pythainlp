@@ -2,7 +2,13 @@
 
 import unittest
 
-from pythainlp.spell import NorvigSpellChecker, correct, spell, spell_sent, correct_sent
+from pythainlp.spell import (
+    NorvigSpellChecker,
+    correct,
+    spell,
+    spell_sent,
+    correct_sent
+)
 
 
 class TestSpellPackage(unittest.TestCase):
@@ -103,15 +109,17 @@ class TestSpellPackage(unittest.TestCase):
             checker = NorvigSpellChecker(custom_dict=user_dict)
 
     def test_spell_sent(self):
-        self.spell_sent = ["เด็","อินอร์เน็ต","แรง"]
+        self.spell_sent = ["เด็", "อินอร์เน็ต", "แรง"]
         self.assertIsNotNone(spell_sent(self.spell_sent))
         self.assertIsNotNone(spell_sent(self.spell_sent, engine="pn"))
         self.assertIsNotNone(spell_sent(self.spell_sent, engine="phunspell"))
         self.assertIsNotNone(spell_sent(self.spell_sent, engine="symspellpy"))
 
     def test_correct_sent(self):
-        self.spell_sent = ["เด็","อินอร์เน็ต","แรง"]
+        self.spell_sent = ["เด็", "อินอร์เน็ต", "แรง"]
         self.assertIsNotNone(correct_sent(self.spell_sent))
         self.assertIsNotNone(correct_sent(self.spell_sent, engine="pn"))
         self.assertIsNotNone(correct_sent(self.spell_sent, engine="phunspell"))
-        self.assertIsNotNone(correct_sent(self.spell_sent, engine="symspellpy"))
+        self.assertIsNotNone(
+            correct_sent(self.spell_sent, engine="symspellpy")
+        )

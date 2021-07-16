@@ -74,7 +74,7 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsNotNone(get_corpus_db_detail("test"))  # corpus exists
         self.assertIsNotNone(get_corpus_path("test"))  # corpus exists
         self.assertIsNone(get_corpus_default_db("test"))
-        self.assertIsNotNone(get_corpus_default_db("thainer", "1.5"))
+        self.assertIsNotNone(get_corpus_default_db("thainer", "1.5.1"))
         self.assertIsNotNone(get_corpus_default_db("thainer"))
         self.assertIsNone(get_corpus_default_db("thainer", "1.2"))
         self.assertTrue(remove("test"))  # remove existing

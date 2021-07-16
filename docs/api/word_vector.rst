@@ -16,6 +16,8 @@ Modules
 .. autofunction:: most_similar_cosmul
 .. autofunction:: sentence_vectorizer
 .. autofunction:: similarity
+.. autoclass:: WordVector
+   :members:
 
 References
 ----------

@@ -30,12 +30,15 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
 
     :Example:
 
+    Clause tokenizer::
+
         from pythainlp.tokenize import clause_tokenize
 
         clause_tokenize(["ฉัน","นอน","และ","คุณ","เล่น","มือถือ","ส่วน","น้อง","เขียน","โปรแกรม"])
-        [['ฉัน', 'นอน'],
-        ['และ', 'คุณ', 'เล่น', 'มือถือ'],
-        ['ส่วน', 'น้อง', 'เขียน', 'โปรแกรม']]
+        # [['ฉัน', 'นอน'],
+        # ['และ', 'คุณ', 'เล่น', 'มือถือ'],
+        # ['ส่วน', 'น้อง', 'เขียน', 'โปรแกรม']]
+
     """
     if not doc or not isinstance(doc, str):
         return []
@@ -81,6 +84,8 @@ def word_tokenize(
         * *nercut* - Dictionary-based maximal matching word segmentation,
           constrained with Thai Character Cluster (TCC) boundaries,
           and combining tokens that are parts of the same named-entity.
+        * *sefr_cut* - wrapper for
+          `SEFR CUT <https://github.com/mrpeerat/SEFR_CUT>`_.,
 
     :Note:
         - The parameter **custom_dict** can be provided as an argument \
@@ -172,6 +177,10 @@ def word_tokenize(
         segments = segment(text)
     elif engine == "nercut":
         from pythainlp.tokenize.nercut import segment
+
+        segments = segment(text)
+    elif engine == "sefr_cut":
+        from pythainlp.tokenize.sefr_cut import segment
 
         segments = segment(text)
     else:

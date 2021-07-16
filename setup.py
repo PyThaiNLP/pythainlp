@@ -54,14 +54,16 @@ extras = {
         "sacremoses>=0.0.41",
         "sentencepiece>=0.1.91",
         "torch>=1.0.0",
+        "transformers>=4.6.0",
     ],
     "textaugment": [
         "bpemb",
         "gensim>=4.0.0"
     ],
     "wangchanberta": ["transformers", "sentencepiece"],
-    "mt5": ["transformers>=4.1.1", "sentencepiece>=0.1.91"],
+    "mt5": ["transformers>=4.6.0", "sentencepiece>=0.1.91"],
     "wordnet": ["nltk>=3.3.*"],
+    "sefr_cut": ["sefr_cut"],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -77,8 +79,9 @@ extras = {
         "sentencepiece>=0.1.91",
         "ssg>=0.0.6",
         "torch>=1.0.0",
-        "transformers>=4.1.1",
-        "bpemb"
+        "bpemb",
+        "transformers>=4.6.0",
+        "sefr_cut"
     ],
 }
 

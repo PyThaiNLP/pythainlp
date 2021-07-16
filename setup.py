@@ -54,11 +54,13 @@ extras = {
         "sacremoses>=0.0.41",
         "sentencepiece>=0.1.91",
         "torch>=1.0.0",
+        "transformers>=4.6.0",
     ],
     "wangchanberta": ["transformers", "sentencepiece"],
-    "mt5": ["transformers>=4.1.1", "sentencepiece>=0.1.91"],
+    "mt5": ["transformers>=4.6.0", "sentencepiece>=0.1.91"],
     "wordnet": ["nltk>=3.3.*"],
     "generate": ["fastai<2.0"],
+    "sefr_cut": ["sefr_cut"],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -74,14 +76,15 @@ extras = {
         "sentencepiece>=0.1.91",
         "ssg>=0.0.6",
         "torch>=1.0.0",
-        "transformers>=4.1.1",
-        "fastai<2.0"
+        "fastai<2.0",
+        "transformers>=4.6.0",
+        "sefr_cut"
     ],
 }
 
 setup(
     name="pythainlp",
-    version="2.3.0-beta1",
+    version="2.3.1",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -130,7 +133,7 @@ setup(
         ],
     },
     project_urls={
-        "Documentation": "https://pythainlp.github.io/docs/2.2/",
+        "Documentation": "https://pythainlp.github.io/docs/2.3/",
         "Tutorials": "https://pythainlp.github.io/tutorials/",
         "Source Code": "https://github.com/PyThaiNLP/pythainlp",
         "Bug Tracker": "https://github.com/PyThaiNLP/pythainlp/issues",

@@ -1,0 +1,22 @@
+{
+    "thainer": {
+        "name": "thainer",
+        "latest_version": "1.5.1",
+        "description": "Thai Named Entity Recognition",
+        "long_description": "Thai Named Entity Recognition",
+        "url": "https://github.com/wannaphong/thai-ner/",
+        "authors": [
+            "Wannaphong Phatthiyaphaibun"
+        ],
+        "author_email": "wannaphong@kkumail.com",
+        "license": "cc-by-4.0",
+        "versions": {
+            "1.5.1": {
+                "filename": "thainer_crf_1_5_1.model",
+                "download_url": "https://github.com/wannaphong/thai-ner/releases/download/1.5/thai-ner-1-5-newmm-lst20.crfsuite",
+                "md5": "-",
+                "pythainlp_version": ">=2.2.7"
+            }
+        }
+    }
+}

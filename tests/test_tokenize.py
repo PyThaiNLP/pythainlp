@@ -21,6 +21,7 @@ from pythainlp.tokenize import (
     syllable_tokenize,
     tcc,
     word_tokenize,
+    sefr_cut,
 )
 from pythainlp.util import dict_trie
 
@@ -300,6 +301,24 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertFalse(
             " " in subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
         )
+        self.assertEqual(
+            subword_tokenize("สวัสดีชาวโลก", engine="dict"), ["สวัส", "ดี", "ชาว", "โลก"]
+        )
+        self.assertFalse("า" in subword_tokenize("สวัสดีชาวโลก", engine="dict"))
+        self.assertEqual(subword_tokenize(None, engine="ssg"), [])
+        self.assertEqual(syllable_tokenize("", engine="ssg"), [])
+        self.assertEqual(
+            subword_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
+        )
+        self.assertTrue(
+            "ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
+        self.assertFalse(
+            " " in subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
+        )
         with self.assertRaises(ValueError):
             subword_tokenize("นกแก้ว", engine="XX")  # engine does not exist
 
@@ -340,6 +359,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(word_tokenize(self.text_1, engine="mm"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="nercut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="newmm"))
+        self.assertIsNotNone(word_tokenize(self.text_1, engine="sefr_cut"))
 
         with self.assertRaises(ValueError):
             word_tokenize("หมอนทอง", engine="XX")  # engine does not exist
@@ -432,6 +452,26 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="mm"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
+        self.assertEqual(
+            word_tokenize("19...", engine="mm"),
+            ['19', '...'],
+        )
+        self.assertEqual(
+            word_tokenize("19.", engine="mm"),
+            ['19', '.'],
+        )
+        self.assertEqual(
+            word_tokenize("19.84", engine="mm"),
+            ['19.84'],
+        )
+        self.assertEqual(
+            word_tokenize("127.0.0.1", engine="mm"),
+            ["127.0.0.1"],
+        )
+        self.assertEqual(
+            word_tokenize("USD1,984.42", engine="mm"),
+            ['USD', '1,984.42'],
+        )
 
         self.assertIsNotNone(multi_cut.mmcut("ทดสอบ"))
 
@@ -446,6 +486,26 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="newmm"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
+        )
+        self.assertEqual(
+            word_tokenize("19...", engine="newmm"),
+            ['19', '...'],
+        )
+        self.assertEqual(
+            word_tokenize("19.", engine="newmm"),
+            ['19', '.'],
+        )
+        self.assertEqual(
+            word_tokenize("19.84", engine="newmm"),
+            ['19.84'],
+        )
+        self.assertEqual(
+            word_tokenize("127.0.0.1", engine="newmm"),
+            ["127.0.0.1"],
+        )
+        self.assertEqual(
+            word_tokenize("USD1,984.42", engine="newmm"),
+            ['USD', '1,984.42'],
         )
         self.assertEqual(
             word_tokenize(
@@ -522,3 +582,10 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertEqual(list(tcc.tcc("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())
+
+    def test_sefr_cut(self):
+        self.assertEqual(sefr_cut.segment(None), [])
+        self.assertEqual(sefr_cut.segment(""), [])
+        self.assertIsNotNone(
+            sefr_cut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
+        )

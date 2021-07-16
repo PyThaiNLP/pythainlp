@@ -23,14 +23,14 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 | Version | Description | Status |
 |:------:|:--:|:------:|
-| [2.2.6](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/330) |
-| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 2.3  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/445) |
+| [2.3.1](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/445) |
+| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 2.4  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/545) |
 
 
 ## Getting Started
 
 - PyThaiNLP 2 requires Python 3.6+. Python 2.7 users can use PyThaiNLP 1.6. See [2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118) | [Upgrading from 1.7](https://pythainlp.github.io/docs/2.0/notes/pythainlp-1_7-2_0.html) | [Upgrading ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
-- [PyThaiNLP Get Started notebook](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html) | [API document](https://pythainlp.github.io/docs/2.2/) | [Tutorials](https://pythainlp.github.io/tutorials)
+- [PyThaiNLP Get Started notebook](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html) | [API document](https://pythainlp.github.io/docs/2.3/) | [Tutorials](https://pythainlp.github.io/tutorials)
 - [Official website](https://pythainlp.github.io/) | [PyPI](https://pypi.org/project/pythainlp/) | [Facebook page](https://www.facebook.com/pythainlp/)
 - [Who uses PyThaiNLP?](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md)
 - [Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards) - for technical details, caveats, and ethical considerations of the models developed and used in PyThaiNLP

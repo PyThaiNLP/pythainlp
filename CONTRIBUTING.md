@@ -57,7 +57,7 @@ automatically from "docstring" comments in source code. This means the comment
 section in the source code is important for the quality of documentation.
 - A docstring should start with one summary line, ended the line with a full stop (period),
 then followed by a blank line before the start new paragraph.
-- A commit to release branches (e.g. `2.2`, `2.1`) with a title **"(build and deploy docs)"** (without quotes) will trigger the system to rebuild the documentation files and upload them to the website https://pythainlp.github.io/docs.html
+- A commit to release branches (e.g. `2.2`, `2.1`) with a title **"(build and deploy docs)"** (without quotes) will trigger the system to rebuild the documentation files and upload them to the website https://pythainlp.github.io/docs
 
 
 ## Testing
@@ -90,28 +90,28 @@ Make sure the same tests pass on Travis CI and AppVeyor.
   - `bumpversion [major|minor|patch|release|build]`
   - Example:
   ```
-  #current_version = 2.2.3-dev0
+  #current_version = 2.3.3-dev0
 
   bumpversion build
-  #current_version = 2.2.3-dev1
+  #current_version = 2.3.3-dev1
 
   bumpversion build
-  #current_version = 2.2.3-dev2
+  #current_version = 2.3.3-dev2
 
   bumpversion release
-  #current_version = 2.2.3-beta0
+  #current_version = 2.3.3-beta0
   
   bumpversion release
-  #current_version = 2.2.3
+  #current_version = 2.3.3
 
   bumpversion patch
-  #current_version = 2.2.6-dev0
+  #current_version = 2.3.6-dev0
 
   bumpversion minor
-  #current_version = 2.3.0-dev0
+  #current_version = 2.3.1-dev0
 
   bumpversion build
-  #current_version = 2.3.0-dev1
+  #current_version = 2.3.1-dev1
 
   bumpversion major
   #current_version = 3.0.0-dev0

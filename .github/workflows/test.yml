@@ -2,8 +2,6 @@ name: Unit test and code coverage
 
 on:
   push:
-    branches:
-      - dev
     paths-ignore:
       - '**.md'
       - 'docs/**'

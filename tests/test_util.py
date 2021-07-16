@@ -113,6 +113,9 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(words_to_num("แปด"), 8)
         self.assertEqual(words_to_num("ยี่สิบ"), 20)
         self.assertEqual(words_to_num("ร้อยสิบสอง"), 112)
+        self.assertEqual(words_to_num("ลบแปด"), -8)
+        self.assertEqual(words_to_num("ลบยี่สิบ"), -20)
+        self.assertEqual(words_to_num("ลบร้อยสิบสอง"), -112)
         self.assertEqual(
             words_to_num("หกล้านหกแสนหกหมื่นหกพันหกร้อยหกสิบหก"), 6666666
         )
@@ -135,6 +138,9 @@ class TestUtilPackage(unittest.TestCase):
         )
         self.assertIsNotNone(
             text_to_num("สิบล้านสองหมื่นหนึ่งพันแปดร้อยแปดสิบเก้าบาท")
+        )
+        self.assertIsNotNone(
+            text_to_num("สิบล้านสองหมื่นหนึ่งพันแปดร้อยแปดสิบเก้า")
         )
 
         self.assertEqual(

@@ -17,16 +17,15 @@ from typing import List, Union
 
 
 class Unigram:
-    def __init__(self, name: str = "tnc"):
-        """
-        Text generator using Unigram
+    """
+    Text generator using Unigram
 
-        :param str name: corpus name
-            * *tnc* - Thai National Corpus (default)
-            * *ttc* - Thai Textbook Corpus (TTC)
-            * *oscar* - OSCAR Corpus
-        :rtype: None
-        """
+    :param str name: corpus name
+        * *tnc* - Thai National Corpus (default)
+        * *ttc* - Thai Textbook Corpus (TTC)
+        * *oscar* - OSCAR Corpus
+    """
+    def __init__(self, name: str = "tnc"):
         if name == "tnc":
             self.counts = tnc_word_freqs_unigram()
         elif name == "ttc":
@@ -58,6 +57,16 @@ class Unigram:
 
         :return: list words or str words
         :rtype: List[str], str
+
+        :Example:
+        ::
+
+            from pythainlp.generate import Unigram
+
+            gen = Unigram()
+
+            gen.gen_sentence("แมว")
+            # ouput: 'แมวเวลานะนั้น'
         """
         if start_seq is None:
             start_seq = random.choice(self.word)
@@ -100,14 +109,13 @@ class Unigram:
 
 
 class Bigram:
-    def __init__(self, name: str = "tnc"):
-        """
-        Text generator using Bigram
+    """
+    Text generator using Bigram
 
-        :param str name: corpus name
-            * *tnc* - Thai National Corpus (default)
-        :rtype: None
-        """
+    :param str name: corpus name
+        * *tnc* - Thai National Corpus (default)
+    """
+    def __init__(self, name: str = "tnc"):
         if name == "tnc":
             self.uni = tnc_word_freqs_unigram()
             self.bi = tnc_word_freqs_bigram()
@@ -147,6 +155,16 @@ class Bigram:
 
         :return: list words or str words
         :rtype: List[str], str
+
+        :Example:
+        ::
+
+            from pythainlp.generate import Bigram
+
+            gen = Bigram()
+
+            gen.gen_sentence("แมว")
+            # ouput: 'แมวไม่ได้รับเชื้อมัน'
         """
         if start_seq is None:
             start_seq = random.choice(self.words)
@@ -181,14 +199,13 @@ class Bigram:
 
 
 class Trigram:
-    def __init__(self, name: str = "tnc"):
-        """
-        Text generator using Trigram
+    """
+    Text generator using Trigram
 
-        :param str name: corpus name
-            * *tnc* - Thai National Corpus (default)
-        :rtype: None
-        """
+    :param str name: corpus name
+        * *tnc* - Thai National Corpus (default)
+    """
+    def __init__(self, name: str = "tnc"):
         if name == "tnc":
             self.uni = tnc_word_freqs_unigram()
             self.bi = tnc_word_freqs_bigram()
@@ -232,6 +249,16 @@ class Trigram:
 
         :return: list words or str words
         :rtype: List[str], str
+
+        :Example:
+        ::
+
+            from pythainlp.generate import Trigram
+
+            gen = Trigram()
+
+            gen.gen_sentence()
+            # ouput: 'ยังทำตัวเป็นเซิร์ฟเวอร์คือ'
         """
         if start_seq is None:
             start_seq = random.choice(self.bi_keys)

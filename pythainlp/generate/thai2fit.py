@@ -100,6 +100,17 @@ def gen_sentence(
 
     :return: list words or str words
     :rtype: List[str], str
+
+    :Example:
+    ::
+
+      from pythainlp.generate.thai2fit import gen_sentence
+
+      gen_sentence()
+      # output: 'แคทรียา อิงลิช  (นักแสดง'
+
+      gen_sentence("แมว")
+      # output: 'แมว คุณหลวง '
     """
     if start_seq is None:
         start_seq = random.choice(list(thwiki_itos))

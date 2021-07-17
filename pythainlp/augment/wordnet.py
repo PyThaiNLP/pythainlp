@@ -135,6 +135,9 @@ def postype2wordnet(pos: str, corpus: str):
 
 
 class WordNetAug:
+    """
+    Text Augment using wordnet
+    """
     def __init__(self):
         pass
 
@@ -191,9 +194,23 @@ class WordNetAug:
 
         :return: list of synonyms
         :rtype: List[Tuple[str]]
+
+        :Example:
+        ::
+
+            from pythainlp.augment import WordNetAug
+
+            aug = WordNetAug()
+            aug.augment("เราชอบไปโรงเรียน")
+            # output: [('เรา', 'ชอบ', 'ไป', 'ร.ร.'),
+             ('เรา', 'ชอบ', 'ไป', 'รร.'),
+             ('เรา', 'ชอบ', 'ไป', 'โรงเรียน'),
+             ('เรา', 'ชอบ', 'ไป', 'อาคารเรียน'),
+             ('เรา', 'ชอบ', 'ไปยัง', 'ร.ร.'),
+             ('เรา', 'ชอบ', 'ไปยัง', 'รร.')]
         """
         new_sentences = []
-        self.list_words = word_tokenize(sentence)
+        self.list_words = tokenize(sentence)
         self.list_synonym = []
         self.p_all = 1
         if postag:

@@ -44,5 +44,14 @@ class Thai2fitAug:
 
         :return: list of text augment
         :rtype: List[Tuple[str]]
+
+        :Example:
+        ::
+
+            from pythainlp.augment.word2vec import Thai2fitAug
+
+            aug = Thai2fitAug()
+            aug.augment("ผมเรียน", n_sent=2, p=0.5)
+            # output: [('พวกเรา', 'เรียน'), ('ฉัน', 'เรียน')]
         """
         return self.aug.augment(sentence, n_sent, p)

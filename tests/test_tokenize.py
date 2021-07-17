@@ -589,3 +589,6 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(
             sefr_cut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
         )
+        self.assertIsNotNone(
+            sefr_cut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="tnhc"),
+        )

@@ -2,7 +2,7 @@
   <img src="https://avatars0.githubusercontent.com/u/32934255?s=200&v=4"/>
   <h1>PyThaiNLP: Thai Natural Language Processing in Python</h1>
   <a href="https://pypi.python.org/pypi/pythainlp"><img alt="pypi" src="https://img.shields.io/pypi/v/pythainlp.svg"/></a>
-  <a href="https://www.python.org/downloads/release/python-360/"><img alt="Python 3.6" src="https://img.shields.io/badge/python-3.6-blue.svg"/></a>
+  <a href="https://www.python.org/downloads/release/python-370/"><img alt="Python 3.7" src="https://img.shields.io/badge/python-3.7-blue.svg"/></a>
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
   <a href="https://pepy.tech/project/pythainlp"><img alt="Download" src="https://pepy.tech/badge/pythainlp/month"/></a>
   <a href="https://ci.appveyor.com/project/wannaphongcom/pythainlp-9y1ch"><img alt="Build status" src="https://ci.appveyor.com/api/projects/status/9g3mfcwchi8em40x?svg=true"/></a>

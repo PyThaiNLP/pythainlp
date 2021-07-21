@@ -95,7 +95,7 @@ setup(
     url="https://github.com/PyThaiNLP/pythainlp",
     packages=find_packages(exclude=["tests", "tests.*"]),
     test_suite="tests",
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     package_data={
         "pythainlp": [
             "corpus/*",

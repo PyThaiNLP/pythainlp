@@ -63,6 +63,7 @@ extras = {
     "wangchanberta": ["transformers", "sentencepiece"],
     "mt5": ["transformers>=4.6.0", "sentencepiece>=0.1.91"],
     "wordnet": ["nltk>=3.3.*"],
+    "generate": ["fastai<2.0"],
     "sefr_cut": ["sefr_cut"],
     "full": [
         "PyYAML>=5.3.1",
@@ -79,6 +80,7 @@ extras = {
         "sentencepiece>=0.1.91",
         "ssg>=0.0.6",
         "torch>=1.0.0",
+        "fastai<2.0",
         "bpemb",
         "transformers>=4.6.0",
         "sefr_cut"

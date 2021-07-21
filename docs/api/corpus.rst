@@ -36,11 +36,21 @@ TNC
 ---
 
 .. autofunction:: pythainlp.corpus.tnc.word_freqs
+.. autofunction:: pythainlp.corpus.tnc.unigram_word_freqs
+.. autofunction:: pythainlp.corpus.tnc.bigram_word_freqs
+.. autofunction:: pythainlp.corpus.tnc.trigram_word_freqs
 
 TTC
 ---
 
 .. autofunction:: pythainlp.corpus.ttc.word_freqs
+.. autofunction:: pythainlp.corpus.ttc.unigram_word_freqs
+
+OSCAR
+-----
+
+.. autofunction:: pythainlp.corpus.oscar.word_freqs
+.. autofunction:: pythainlp.corpus.oscar.unigram_word_freqs
 
 Util
 ----

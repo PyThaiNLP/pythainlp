@@ -6,8 +6,10 @@ First version of the code adapted from Korakot Chaovavanich's notebook
 https://colab.research.google.com/drive/148WNIeclf0kOU6QxKd6pcfwpSs8l-VKD#scrollTo=EuVDd0nNuI8Q
 """
 import re
+from typing import List
 
 from pythainlp.tokenize import Tokenizer
+from pythainlp.corpus import thai_words
 
 _ptn_digits = r"(|หนึ่ง|เอ็ด|สอง|ยี่|สาม|สี่|ห้า|หก|เจ็ด|แปด|เก้า)"
 _ptn_six_figures = (
@@ -43,6 +45,23 @@ _valid_tokens = (
     set(_digits.keys()) | set(_powers_of_10.keys()) | {"ล้าน", "ลบ"}
 )
 _tokenizer = Tokenizer(custom_dict=_valid_tokens)
+
+
+def _check_is_thainum(word: str):
+    for j in list(_digits.keys()):
+        if j in word:
+            return (True, 'num')
+    for j in ["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด", "ลบ"]:
+        if j in word:
+            return (True, 'unit')
+    return (False, None)
+
+
+_dict_words = [i for i in list(thai_words()) if not _check_is_thainum(i)[0]]
+_dict_words += list(_digits.keys())
+_dict_words += ["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด"]
+
+_tokenizer_thaiwords = Tokenizer(_dict_words)
 
 
 def thaiword_to_num(word: str) -> int:
@@ -102,3 +121,94 @@ def thaiword_to_num(word: str) -> int:
         accumulated = -accumulated
 
     return accumulated
+
+
+def _decimal_unit(words: list) -> float:
+    _num = 0.0
+    for i, v in enumerate(words):
+        _num += int(thaiword_to_num(v)) / (10**(i+1))
+    return _num
+
+
+def words_to_num(words: list) -> float:
+    """
+    Thai Words to float
+
+    :param str text: Thai words
+    :return: float of words
+    :rtype: float
+
+    :Example:
+    ::
+
+        from pythainlp.util import words_to_num
+
+        words_to_num(["ห้า", "สิบ", "จุด", "เก้า", "ห้า"])
+        # output: 50.95
+
+    """
+    num = 0
+    if "จุด" not in words:
+        num = thaiword_to_num(''.join(words))
+    else:
+        words_int = ''.join(words[:words.index("จุด")])
+        words_float = words[words.index("จุด") + 1:]
+        num = thaiword_to_num(words_int)
+        if num <= -1:
+            num -= _decimal_unit(words_float)
+        else:
+            num += _decimal_unit(words_float)
+
+    return num
+
+
+def text_to_num(text: str) -> List[str]:
+    """
+    Thai text to list thai word with floating point number
+
+    :param str text: Thai text with the spelled-out numerals
+    :return: list of thai words with float value of the input
+    :rtype: List[str]
+
+    :Example:
+    ::
+
+        from pythainlp.util import text_to_num
+
+        text_to_num("เก้าร้อยแปดสิบจุดเก้าห้าบาทนี่คือจำนวนทั้งหมด")
+        # output: ['980.95', 'บาท', 'นี่', 'คือ', 'จำนวน', 'ทั้งหมด']
+
+        text_to_num("สิบล้านสองหมื่นหนึ่งพันแปดร้อยแปดสิบเก้าบาท")
+        # output: ['10021889', 'บาท']
+
+    """
+    _temp = _tokenizer_thaiwords.word_tokenize(text)
+    thainum = []
+    last_index = -1
+    list_word_new = []
+    for i, word in enumerate(_temp):
+        if (
+            _check_is_thainum(word)[0]
+            and last_index+1 == i
+            and i+1 == len(_temp)
+        ):
+            thainum.append(word)
+            list_word_new.append(str(words_to_num(thainum)))
+        elif _check_is_thainum(word)[0] and last_index+1 == i:
+            thainum.append(word)
+            last_index = i
+        elif _check_is_thainum(word)[0]:
+            thainum.append(word)
+            last_index = i
+        elif (
+            not _check_is_thainum(word)[0]
+            and last_index+1 == i
+            and last_index != -1
+        ):
+            list_word_new.append(str(words_to_num(thainum)))
+            thainum = []
+            list_word_new.append(word)
+        else:
+            list_word_new.append(word)
+            last_index = -1
+    return list_word_new

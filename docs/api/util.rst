@@ -32,6 +32,7 @@ Modules
 .. autofunction:: remove_zw
 .. autofunction:: reorder_vowels
 .. autofunction:: text_to_arabic_digit
+.. autofunction:: text_to_num
 .. autofunction:: text_to_thai_digit
 .. autofunction:: thai_strftime
 .. autofunction:: thai_to_eng
@@ -40,5 +41,6 @@ Modules
 .. autofunction:: thaiword_to_num
 .. autofunction:: thaiword_to_time
 .. autofunction:: time_to_thaiword
+.. autofunction:: words_to_num
 .. autoclass:: Trie
    :members:

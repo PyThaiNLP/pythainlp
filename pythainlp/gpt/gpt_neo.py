@@ -11,9 +11,16 @@ from transformers import (
 import os
 
 torch.manual_seed(42)
+
+
 class ListDataset(Dataset):
     def __init__(
-        self, txt_list: List[str], tokenizer: GPT2Tokenizer, max_length: int, bos_token, eos_token
+        self,
+        txt_list: List[str],
+        tokenizer: GPT2Tokenizer,
+        max_length: int,
+        bos_token: str,
+        eos_token: str
     ):
         self.input_ids = []
         self.attn_masks = []
@@ -46,7 +53,11 @@ class FewShot:
     Thank you code from https://link.medium.com/4FfbALWz8gb
     """
     def __init__(
-        self, model_dir: str, model_name: str = "thaigpt-next", device: str = "cuda", size: str = "125M"
+        self,
+        model_dir: str,
+        model_name: str = "thaigpt-next",
+        device: str = "cuda",
+        size: str = "125M"
     ):
         """
         :param str model_dir: path of model dir
@@ -68,7 +79,7 @@ class FewShot:
         else:
             self.load_model()
 
-    def init_model(self, model_name : str, size: str = "125M") -> None:
+    def init_model(self, model_name: str, size: str = "125M") -> None:
         """
         init GPT-Neo model
 

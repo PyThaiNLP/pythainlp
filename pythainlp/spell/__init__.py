@@ -8,10 +8,11 @@ __all__ = [
     "correct",
     "spell",
     "NorvigSpellChecker",
+    "spell_sent",
+    "correct_sent"
 ]
 
 from pythainlp.spell.pn import NorvigSpellChecker
-
 DEFAULT_SPELL_CHECKER = NorvigSpellChecker()
 
-from pythainlp.spell.core import correct, spell
+from pythainlp.spell.core import correct, spell, correct_sent, spell_sent

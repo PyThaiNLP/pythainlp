@@ -65,6 +65,7 @@ extras = {
     "wordnet": ["nltk>=3.3.*"],
     "generate": ["fastai<2.0"],
     "sefr_cut": ["sefr_cut"],
+    "spell": ["phunspell", "spylls", "symspellpy"],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -83,7 +84,10 @@ extras = {
         "fastai<2.0",
         "bpemb",
         "transformers>=4.6.0",
-        "sefr_cut"
+        "sefr_cut",
+        "phunspell",
+        "spylls",
+        "symspellpy"
     ],
 }
 
@@ -98,7 +102,7 @@ setup(
     url="https://github.com/PyThaiNLP/pythainlp",
     packages=find_packages(exclude=["tests", "tests.*"]),
     test_suite="tests",
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     package_data={
         "pythainlp": [
             "corpus/*",

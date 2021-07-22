@@ -2,7 +2,13 @@
 
 import unittest
 
-from pythainlp.spell import NorvigSpellChecker, correct, spell
+from pythainlp.spell import (
+    NorvigSpellChecker,
+    correct,
+    spell,
+    spell_sent,
+    correct_sent
+)
 
 
 class TestSpellPackage(unittest.TestCase):
@@ -18,6 +24,22 @@ class TestSpellPackage(unittest.TestCase):
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
 
+        result = spell("เน้ร", engine="phunspell")
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+
+        result = spell("เกสมร์", engine="phunspell")
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+
+        result = spell("เน้ร", engine="symspellpy")
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+
+        result = spell("เกสมร์", engine="symspellpy")
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+
     def test_word_correct(self):
         self.assertEqual(correct(None), "")
         self.assertEqual(correct(""), "")
@@ -27,6 +49,14 @@ class TestSpellPackage(unittest.TestCase):
         self.assertEqual(correct("1.01"), "1.01")
 
         result = correct("ทดสอง")
+        self.assertIsInstance(result, str)
+        self.assertNotEqual(result, "")
+
+        result = correct("ทดสอง", engine="phunspell")
+        self.assertIsInstance(result, str)
+        self.assertNotEqual(result, "")
+
+        result = correct("ทดสอง", engine="symspellpy")
         self.assertIsInstance(result, str)
         self.assertNotEqual(result, "")
 
@@ -77,3 +107,19 @@ class TestSpellPackage(unittest.TestCase):
         user_dict = [24, 6, 2475]
         with self.assertRaises(TypeError):
             checker = NorvigSpellChecker(custom_dict=user_dict)
+
+    def test_spell_sent(self):
+        self.spell_sent = ["เด็", "อินอร์เน็ต", "แรง"]
+        self.assertIsNotNone(spell_sent(self.spell_sent))
+        self.assertIsNotNone(spell_sent(self.spell_sent, engine="pn"))
+        self.assertIsNotNone(spell_sent(self.spell_sent, engine="phunspell"))
+        self.assertIsNotNone(spell_sent(self.spell_sent, engine="symspellpy"))
+
+    def test_correct_sent(self):
+        self.spell_sent = ["เด็", "อินอร์เน็ต", "แรง"]
+        self.assertIsNotNone(correct_sent(self.spell_sent))
+        self.assertIsNotNone(correct_sent(self.spell_sent, engine="pn"))
+        self.assertIsNotNone(correct_sent(self.spell_sent, engine="phunspell"))
+        self.assertIsNotNone(
+            correct_sent(self.spell_sent, engine="symspellpy")
+        )

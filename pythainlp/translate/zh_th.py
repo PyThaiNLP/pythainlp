@@ -2,7 +2,7 @@
 """
 Lalita Chinese-Thai Machine Translation
 
-from Ai builder
+from AI builder
 
 - GitHub: https://github.com/LalitaDeelert/lalita-mt-zhth
 - Facebook post https://web.facebook.com/aibuildersx/posts/166736255494822
@@ -11,6 +11,14 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 
 class ThZhTranslator:
+    """
+    Thai-Chinese Machine Translation
+
+    from Lalita @ AI builder
+
+    - GitHub: https://github.com/LalitaDeelert/lalita-mt-zhth
+    - Facebook post https://web.facebook.com/aibuildersx/posts/166736255494822
+    """
     def __init__(self, pretrained: str = "Lalita/marianmt-th-zh_cn") -> None:
         self.tokenizer_thzh = AutoTokenizer.from_pretrained(pretrained)
         self.model_thzh = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
@@ -46,6 +54,14 @@ class ThZhTranslator:
 
 
 class ZhThTranslator:
+    """
+    Chinese-Thai Machine Translation
+
+    from Lalita @ AI builder
+
+    - GitHub: https://github.com/LalitaDeelert/lalita-mt-zhth
+    - Facebook post https://web.facebook.com/aibuildersx/posts/166736255494822
+    """
     def __init__(self, pretrained: str = "Lalita/marianmt-zh_cn-th") -> None:
         self.tokenizer_zhth = AutoTokenizer.from_pretrained(pretrained)
         self.model_zhth = AutoModelForSeq2SeqLM.from_pretrained(pretrained)

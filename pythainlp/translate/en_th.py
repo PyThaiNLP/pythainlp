@@ -51,6 +51,13 @@ def download_model_all() -> None:
 
 
 class EnThTranslator:
+    """
+    English-Thai Machine Translation
+
+    from VISTEC-depa Thailand Artificial Intelligence Research Institute
+
+    Website: https://airesearch.in.th/releases/machine-translation-models/
+    """
     def __init__(self):
         self._tokenizer = MosesTokenizer("en")
 
@@ -97,6 +104,13 @@ class EnThTranslator:
 
 
 class ThEnTranslator:
+    """
+    Thai-English Machine Translation
+
+    from VISTEC-depa Thailand Artificial Intelligence Research Institute
+
+    Website: https://airesearch.in.th/releases/machine-translation-models/
+    """
     def __init__(self):
         self._model_name = _TH_EN_MODEL_NAME
 

@@ -7,6 +7,8 @@ The :class:`pythainlp.translate` for machine translation.
 Modules
 -------
 
+.. autoclass:: Translate
+   :members:
 .. autofunction:: download_model_all
 .. autoclass:: EnThTranslator
    :members: translate
@@ -16,5 +18,3 @@ Modules
    :members: translate
 .. autoclass:: ZhThTranslator
    :members: translate
-.. autoclass:: Translate
-   :members:

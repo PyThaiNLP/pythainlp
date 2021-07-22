@@ -42,4 +42,5 @@ class TestGeneratePackage(unittest.TestCase):
 
     def test_thai2fit(self):
         self.assertIsNotNone(gen_sentence("กาลครั้งหนึ่งนานมาแล้ว"))
+        self.assertIsNotNone(gen_sentence("กาลครั้งหนึ่งนานมาแล้ว", output_str=False))
         self.assertIsNotNone(gen_sentence())

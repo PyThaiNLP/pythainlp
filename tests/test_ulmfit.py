@@ -214,7 +214,7 @@ class TestUlmfitPackage(unittest.TestCase):
         thwiki = ""
         try:
             thwiki = _THWIKI_LSTM
-        except:
+        except NameError:
             thwiki = THWIKI_LSTM
         thwiki_itos = pickle.load(open(thwiki['itos_fname'], 'rb'))
         thwiki_vocab = fastai.text.transform.Vocab(thwiki_itos)

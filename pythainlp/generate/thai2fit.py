@@ -29,7 +29,7 @@ dummy_df = pd.read_csv(imdb/'texts.csv')
 thwiki = ""
 try:
     thwiki = _THWIKI_LSTM
-except:
+except NameError:
     thwiki = THWIKI_LSTM
 
 thwiki_itos = pickle.load(open(thwiki['itos_fname'], 'rb'))

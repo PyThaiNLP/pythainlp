@@ -135,7 +135,7 @@ class Bigram:
         """
         try:
             v = self.bi[(t1, t2)] / self.uni[t1]
-        except:
+        except ZeroDivisionError:
             v = 0.0
         return v
 
@@ -228,7 +228,7 @@ class Trigram:
         """
         try:
             v = self.ti[(t1, t2, t3)] / self.bi[(t1, t2)]
-        except:
+        except ZeroDivisionError:
             v = 0.0
 
         return v

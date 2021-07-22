@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-# transformers
 from transformers import (
     CamembertTokenizer,
     pipeline,
@@ -67,13 +65,5 @@ class Thai2transformersAug:
         :rtype: List[str]
         """
         self.sent2 = []
-        try:
-            self.sent2 = self.generate(sentence, num_replace_tokens)
-            if self.sent2 == []:
-                self.sent2 = self.generate(sentence, num_replace_tokens)
-            return self.sent2
-        except:
-            if len(self.sent2) > 0:
-                return self.sent2
-            else:
-                return self.sent2
+        self.sent2 = self.generate(sentence, num_replace_tokens)
+        return self.sent2

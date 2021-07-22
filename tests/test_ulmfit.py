@@ -211,11 +211,7 @@ class TestUlmfitPackage(unittest.TestCase):
     def test_document_vector(self):
         imdb = untar_data(URLs.IMDB_SAMPLE)
         dummy_df = pd.read_csv(imdb/'texts.csv')
-        thwiki = ""
-        try:
-            thwiki = _THWIKI_LSTM
-        except NameError:
-            thwiki = THWIKI_LSTM
+        thwiki = THWIKI_LSTM
         thwiki_itos = pickle.load(open(thwiki['itos_fname'], 'rb'))
         thwiki_vocab = fastai.text.transform.Vocab(thwiki_itos)
         tt = Tokenizer(

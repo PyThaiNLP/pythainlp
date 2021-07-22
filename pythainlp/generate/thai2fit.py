@@ -26,11 +26,7 @@ imdb = untar_data(URLs.IMDB_SAMPLE)
 dummy_df = pd.read_csv(imdb/'texts.csv')
 
 # get vocab
-thwiki = ""
-try:
-    thwiki = _THWIKI_LSTM
-except NameError:
-    thwiki = THWIKI_LSTM
+thwiki = THWIKI_LSTM
 
 thwiki_itos = pickle.load(open(thwiki['itos_fname'], 'rb'))
 thwiki_vocab = fastai.text.transform.Vocab(thwiki_itos)

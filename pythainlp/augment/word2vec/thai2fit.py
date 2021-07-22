@@ -23,7 +23,7 @@ class Thai2fitAug:
         """
         return THAI2FIT_TOKENIZER.word_tokenize(text)
 
-    def load_w2v(self):  # insert substitute
+    def load_w2v(self):
         """
         Load thai2fit word2vec model
         """

@@ -42,7 +42,15 @@ class BPEmbAug:
         :param float p: Probability of word
 
         :return: list of synonyms
-        :rtype: List[Tuple[str]]
+        :rtype: List[str]
+        :Example:
+        ::
+
+            from pythainlp.augment.word2vec.bpemb_wv import BPEmbAug
+
+            aug = BPEmbAug()
+            aug.augment("ผมเรียน", n_sent=2, p=0.5)
+            # output: ['ผมสอน', 'ผมเข้าเรียน']
         """
         self.sentence = sentence.replace(" ", "▁")
         self.temp = self.aug.augment(self.sentence, n_sent, p=p)

@@ -62,6 +62,20 @@ class Thai2transformersAug:
 
         :return: list of text augment
         :rtype: List[str]
+
+        :Example:
+        ::
+
+            from pythainlp.augment.lm import Thai2transformersAug
+
+            aug=Thai2transformersAug()
+
+            aug.augment("ช้างมีทั้งหมด 50 ตัว บน")
+            # output: ['ช้างมีทั้งหมด 50 ตัว บนโลกใบนี้',
+             'ช้างมีทั้งหมด 50 ตัว บนสุด',
+             'ช้างมีทั้งหมด 50 ตัว บนบก',
+             'ช้างมีทั้งหมด 50 ตัว บนนั้น',
+             'ช้างมีทั้งหมด 50 ตัว บนหัว']
         """
         self.sent2 = []
         self.sent2 = self.generate(sentence, num_replace_tokens)

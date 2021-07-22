@@ -41,6 +41,8 @@ __all__ = [
     "thaiword_to_num",
     "thaiword_to_time",
     "time_to_thaiword",
+    "text_to_num",
+    "words_to_num",
 ]
 
 from pythainlp.util.collate import collate
@@ -85,4 +87,4 @@ from pythainlp.util.thai import (
 from pythainlp.util.thaiwordcheck import is_native_thai
 from pythainlp.util.time import thai_time, thaiword_to_time, time_to_thaiword
 from pythainlp.util.trie import Trie, dict_trie
-from pythainlp.util.wordtonum import thaiword_to_num
+from pythainlp.util.wordtonum import thaiword_to_num, text_to_num, words_to_num

@@ -12,13 +12,11 @@
   <a href="https://colab.research.google.com/github/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp_get_started.ipynb"><img alt="Google Colab Badge" src="https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal"/></a>
   <a href="https://zenodo.org/badge/latestdoi/61813823"><img alt="DOI" src="https://zenodo.org/badge/61813823.svg"/></a>
 </div>
-
 PyThaiNLP เป็นไลบารีภาษาไพทอนสำหรับประมวลผลภาษาธรรมชาติ โดยเน้นภาษาไทย
 
-<!--
 **ข่าวสาร**
 
->สวัสดีค่ะ ทีมพัฒนา PyThaiNLP ขอสอบถามความคิดเห็นของผู้ใช้งาน PyThaiNLP หรือผู้ที่ทำงานในด้านการประมวลผลภาษาไทย เพื่อนำข้อมูลไปปรับปรุงและพัฒนาฟีเจอร์ใหม่ๆ ให้ตรงกับความต้องการใช้งานมากขึ้น สามารถตอบแบบสอบถามได้ที่ https://forms.gle/aLdSHnvkNuK5CFyt9 (ใช้เวลาประมาณ 2-5 นาที) -->
+>นับตั้งแต่ PyThaiNLP 2.4 พวกเราจะยุติการสนับสนุน Python 3.6 แล้ว หากคุณจำเป็นต้องใช้ PyThaiNLP บน Python 3.6 คุณสามารถใช้ PyThaiNLP 2.3.1 ได้
 
 | รุ่น | คำอธิบาย | สถานะ |
 |:------:|:--:|:------:|

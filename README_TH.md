@@ -1,5 +1,5 @@
-<div align="center">
-  <img src="https://avatars0.githubusercontent.com/u/32934255?s=200&v=4"/>
+<img src="https://avatars0.githubusercontent.com/u/32934255?s=200&v=4" width="125" height="125" align="right" />
+<div align="left">
   <h1>PyThaiNLP: Thai Natural Language Processing in Python</h1>
   <a href="https://pypi.python.org/pypi/pythainlp"><img alt="pypi" src="https://img.shields.io/pypi/v/pythainlp.svg"/></a>
   <a href="https://www.python.org/downloads/release/python-370/"><img alt="Python 3.7" src="https://img.shields.io/badge/python-3.7-blue.svg"/></a>

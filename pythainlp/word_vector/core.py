@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from typing import List, Tuple
+import warnings
 
 from gensim.models import KeyedVectors
 from gensim.models.keyedvectors import Word2VecKeyedVectors
@@ -17,11 +18,17 @@ _TK_EOL = "xxeol"
 
 def get_model() -> Word2VecKeyedVectors:
     """
+    **DEPRECATED: use WordVector class instead**
+
     Get word vector model.
 
     :return: `gensim` word2vec model
     :rtype: gensim.models.keyedvectors.Word2VecKeyedVectors
     """
+    warnings.warn(
+        "get_model is deprecated, use WordVector class instead",
+        DeprecationWarning,
+    )
     path = get_corpus_path(_MODEL_NAME)
     return KeyedVectors.load_word2vec_format(path, binary=True)
 
@@ -31,6 +38,8 @@ _MODEL = get_model()
 
 def doesnt_match(words: List[str]) -> str:
     """
+    **DEPRECATED: use WordVector class instead**
+
     This function returns one word that is mostly unrelated to other words
     in the list. We use the function :func:`doesnt_match` from :mod:`gensim`.
 
@@ -66,6 +75,10 @@ def doesnt_match(words: List[str]) -> str:
     เรือ
 
     """
+    warnings.warn(
+        "doesnt_match is deprecated, use WordVector class instead",
+        DeprecationWarning,
+    )
     return _MODEL.doesnt_match(words)
 
 
@@ -73,6 +86,8 @@ def most_similar_cosmul(
     positive: List[str], negative: List[str]
 ) -> List[Tuple[str, float]]:
     """
+    **DEPRECATED: use WordVector class instead**
+
     This function find the top-10 words that are most similar with respect
     to from two lists of words labeled as positive and negative.
     The top-10 most similar words are obtained using multiplication
@@ -162,12 +177,17 @@ def most_similar_cosmul(
     >>> most_similar_cosmul(list_positive, list_negative)
     KeyError: "word 'เมนูอาหารไทย' not in vocabulary"
     """
-
+    warnings.warn(
+        "most_similar_cosmul is deprecated, use WordVector class instead",
+        DeprecationWarning,
+    )
     return _MODEL.most_similar_cosmul(positive=positive, negative=negative)
 
 
 def similarity(word1: str, word2: str) -> float:
     """
+    **DEPRECATED: use WordVector class instead**
+
     This function computae cosine similarity between two words.
 
     :param str word1: first word to be compared
@@ -200,11 +220,17 @@ def similarity(word1: str, word2: str) -> float:
     0.04300258
 
     """
+    warnings.warn(
+        "similarity is deprecated, use WordVector class instead",
+        DeprecationWarning,
+    )
     return _MODEL.similarity(word1, word2)
 
 
 def sentence_vectorizer(text: str, use_mean: bool = True) -> ndarray:
     """
+    **DEPRECATED: use WordVector class instead**
+
     This function convert a Thai sentence into vector.
     Specifically, it first tokenize that text and map each tokenized words
     with the word vectors from the model.
@@ -243,6 +269,10 @@ def sentence_vectorizer(text: str, use_mean: bool = True) -> ndarray:
         0.40506999,  1.58591403,  0.63869202, -0.702155  ,  1.62977601,
         4.52269109, -0.70760502,  0.50952601, -0.914392  ,  0.70673105]])
     """
+    warnings.warn(
+        "sentence_vectorizer is deprecated, use WordVector class instead",
+        DeprecationWarning,
+    )
     vec = zeros((1, WV_DIM))
 
     words = THAI2FIT_TOKENIZER.word_tokenize(text)

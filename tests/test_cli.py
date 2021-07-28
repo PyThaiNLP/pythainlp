@@ -27,8 +27,12 @@ class TestMainPackage(unittest.TestCase):
     def test_cli_benchmark(self):
         self.assertIsInstance(getattr(cli, "benchmark"), ModuleType)
 
+        with self.assertRaises(SystemExit) as ex:
+            cli.data.App(["thainlp", "benchmark"])
+        self.assertEqual(ex.exception.code, 2)
+
         self.assertIsNotNone(
-            cli.data.App(
+            cli.benchmark.App(
                 [
                     "thainlp",
                     "benchmark",
@@ -41,10 +45,6 @@ class TestMainPackage(unittest.TestCase):
                 ]
             )
         )
-
-        with self.assertRaises(SystemExit) as ex:
-            cli.data.App(["thainlp", "benchmark"])
-        self.assertEqual(ex.exception.code, 2)
 
     def test_cli_data(self):
         self.assertIsInstance(getattr(cli, "data"), ModuleType)

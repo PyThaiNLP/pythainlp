@@ -162,6 +162,7 @@ class TestTagPackage(unittest.TestCase):
             [("ตะพาบ", "N"), ("กิน", "V")],
             [("เม่น", "N"), ("กิน", "V")],
             [("หนอน", "N"), ("กิน", "V")],
+            [("ปี", "N"), ("2021", "N")],
         ]
         filename = "ptagger_temp4XcDf.json"
         tagger.train(data, save_loc=filename)

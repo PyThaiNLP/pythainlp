@@ -29,7 +29,7 @@ from pythainlp.ulmfit.preprocess import (
     spec_add_spaces,
     ungroup_emoji,
 )
-from pythainlp.ulmfit.tokenizer import BaseTokenizer
+from pythainlp.ulmfit.tokenizer import BaseTokenizer as base_tokenizer
 import pandas as pd
 import random
 import pickle
@@ -49,7 +49,7 @@ class TestUlmfitPackage(unittest.TestCase):
         self.assertIsNone(self.thai.add_special_cases(["แมว"]))
 
     def test_BaseTokenizer(self):
-        self.base = BaseTokenizer(lang="th")
+        self.base = base_tokenizer(lang="th")
         self.assertIsNotNone(self.base.tokenizer("ทดสอบ การ ตัด คำ"))
         self.assertIsNone(self.base.add_special_cases(["แมว"]))
 

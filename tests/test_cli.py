@@ -38,9 +38,9 @@ class TestMainPackage(unittest.TestCase):
                     "benchmark",
                     "word-tokenization",
                     "--input-file",
-                    "./test/data/input.txt",
+                    "./tests/data/input.txt",
                     "--test-file",
-                    "./test/data/test.txt",
+                    "./tests/data/test.txt",
                     "--save-details"
                 ]
             )

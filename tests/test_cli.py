@@ -27,6 +27,21 @@ class TestMainPackage(unittest.TestCase):
     def test_cli_benchmark(self):
         self.assertIsInstance(getattr(cli, "benchmark"), ModuleType)
 
+        self.assertIsNotNone(
+            cli.data.App(
+                [
+                    "thainlp",
+                    "benchmark",
+                    "word-tokenization",
+                    "--input-file",
+                    "./test/data/input.txt",
+                    "--test-file",
+                    "./test/data/test.txt",
+                    "--save-details"
+                ]
+            )
+        )
+
         with self.assertRaises(SystemExit) as ex:
             cli.data.App(["thainlp", "benchmark"])
         self.assertEqual(ex.exception.code, 2)

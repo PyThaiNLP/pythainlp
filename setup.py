@@ -60,12 +60,19 @@ extras = {
         "bpemb",
         "gensim>=4.0.0"
     ],
-    "wangchanberta": ["transformers", "sentencepiece"],
+    "wangchanberta": [
+        "transformers>=4.6.0",
+        "sentencepiece>=0.1.91"
+    ],
     "mt5": ["transformers>=4.6.0", "sentencepiece>=0.1.91"],
     "wordnet": ["nltk>=3.3.*"],
     "generate": ["fastai<2.0"],
-    "sefr_cut": ["sefr_cut"],
-    "spell": ["phunspell", "spylls", "symspellpy"],
+    "sefr_cut": ["sefr_cut>=1.1"],
+    "spell": [
+        "phunspell>=0.1.6",
+        "spylls>=0.1.5",
+        "symspellpy>=6.7.0"
+    ],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -82,12 +89,12 @@ extras = {
         "ssg>=0.0.6",
         "torch>=1.0.0",
         "fastai<2.0",
-        "bpemb",
+        "bpemb>=0.3.2",
         "transformers>=4.6.0",
-        "sefr_cut",
-        "phunspell",
-        "spylls",
-        "symspellpy"
+        "sefr_cut>=1.1",
+        "phunspell>=0.1.6",
+        "spylls>=0.1.5",
+        "symspellpy>=6.7.0"
     ],
 }
 

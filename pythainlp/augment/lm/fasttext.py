@@ -9,6 +9,8 @@ import itertools
 class FastTextAug:
     """
     Text Augment from FastText
+
+    :param str model_path: path of model file
     """
     def __init__(self, model_path: str):
         """

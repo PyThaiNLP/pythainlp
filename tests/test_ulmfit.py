@@ -278,4 +278,4 @@ class TestUlmfitPackage(unittest.TestCase):
         itos_pre = ["แมว", "คน", "หนู"]
         itos_new = ["ปลา", "เต่า", "นก"]
         em_sz = 3
-        self.assertIsNone(merge_wgts(em_sz, wgts, itos_pre, itos_new))
+        self.assertIsNotNone(merge_wgts(em_sz, wgts, itos_pre, itos_new))

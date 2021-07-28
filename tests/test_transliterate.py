@@ -6,6 +6,7 @@ import torch
 from pythainlp.transliterate import romanize, transliterate, pronunciate
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.thai2rom import ThaiTransliterator
+from pythainlp.corpus import remove
 
 _BASIC_TESTS = {
     None: "",
@@ -140,6 +141,7 @@ class TestTransliteratePackage(unittest.TestCase):
 
     def test_pronunciate(self):
         self.assertEqual(pronunciate(""), "")
+        remove("thai_w2p")
         self.assertIsNotNone(pronunciate("คน", engine="w2p"))
         self.assertIsNotNone(pronunciate("แมว", engine="w2p"))
         self.assertIsNotNone(pronunciate("มข.", engine="w2p"))

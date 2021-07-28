@@ -204,6 +204,8 @@ class TestUtilPackage(unittest.TestCase):
         self.assertNotEqual(
             thai_keyboard_dist("๘", "๙"), thai_keyboard_dist("๙", "๐")
         )
+        with self.assertRaises(ValueError):
+            thai_keyboard_dist("ພ","พ")
 
     # ### pythainlp.util.date
 

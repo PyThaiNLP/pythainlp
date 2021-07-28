@@ -10,10 +10,12 @@ from pythainlp.translate import (
     download_model_all,
     Translate
 )
+from pythainlp.corpus import remove
 
 
 class TestTranslatePackage(unittest.TestCase):
     def test_translate(self):
+        remove("scb_1m_th-en_spm")
         self.assertIsNone(download_model_all())
         self.th_en_translator = ThEnTranslator()
         self.assertIsNotNone(

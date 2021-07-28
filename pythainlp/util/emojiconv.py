@@ -1849,8 +1849,8 @@ def emoji_to_thai(text: str, delimiters=(_delimiter, _delimiter)) -> str:
         emoji_to_thai("หิวข้าวอยากกินอาหารญี่ปุ่น 🍣")
         # output: หิวข้าวอยากกินอาหารญี่ปุ่น :ซูชิ:
 
-        emoji_to_thai("🇹🇭 นี่คิือธงประเทศไทย")
-        # output: :ธง_ไทย: นี่คิือธงประเทศไทย
+        emoji_to_thai("🇹🇭 นี่คือธงประเทศไทย")
+        # output: :ธง_ไทย: นี่คือธงประเทศไทย
     """
 
     return _emoji_regex.sub(

@@ -66,6 +66,14 @@ def remove_dangling(text: str) -> str:
     :param str text: input text
     :return: text without dangling Thai characters at the beginning
     :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import remove_dangling
+
+        remove_dangling('๊ก')
+        # output: 'ก'
     """
     return _RE_REMOVE_DANGLINGS.sub("", text)
 
@@ -80,6 +88,14 @@ def remove_dup_spaces(text: str) -> str:
     :param str text: input text
     :return: text without duplicated spaces and newlines
     :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import remove_dup_spaces
+
+        remove_dup_spaces('ก    ข    ค')
+        # output: 'ก ข ค'
     """
     while "  " in text:
         text = text.replace("  ", " ")

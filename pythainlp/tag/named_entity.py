@@ -73,6 +73,23 @@ def _doc2features(doc, i) -> Dict:
 
 
 class ThaiNameTagger:
+    """
+    Thai named-entity recognizer.
+    :param str version: Thai NER version.
+        It's support Thai NER 1.4 & 1.5.
+        The defualt value is `1.5`
+    
+    :Example:
+    ::
+
+        from pythainlp.tag.named_entity import ThaiNameTagger
+
+        thainer15 = ThaiNameTagger(version="1.5")
+        thainer15.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
+
+        thainer14 = ThaiNameTagger(version="1.4")
+        thainer14.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
+    """
     def __init__(self, version: str = "1.5") -> None:
         """
         Thai named-entity recognizer.

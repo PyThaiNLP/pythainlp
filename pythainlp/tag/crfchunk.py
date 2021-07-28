@@ -62,6 +62,6 @@ class CRFchunk:
             self.path = path_pythainlp_corpus("crfchunk_orchidpp.model")
         self.tagger.open(self.path)
 
-    def parse(self, token_pos: List[Tuple[str, str]]):
+    def parse(self, token_pos: List[Tuple[str, str]]) -> List[str]:
         self.xseq = extract_features(token_pos)
         return self.tagger.tag(self.xseq)

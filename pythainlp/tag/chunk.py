@@ -14,6 +14,17 @@ def chunk_parse(
 
     :return: a list of tuple (word,part-of-speech,chunking)
     :rtype: List[str]
+
+    :Example:
+    ::
+
+        from pythainlp.tag import chunk_parse, pos_tag
+
+        tokens = ["ผม", "รัก", "คุณ"]
+        tokens_pos = pos_tag(tokens, engine="perceptron", corpus="orchid")
+
+        print(chunk_parse(tokens_pos))
+        # output: ['B-NP', 'B-VP', 'I-VP']
     """
     from .crfchunk import CRFchunk
     _engine = CRFchunk()

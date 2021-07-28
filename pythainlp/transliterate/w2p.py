@@ -4,9 +4,6 @@ Thai Word-to-Phoneme (Thai W2P)
 GitHub : https://github.com/wannaphong/Thai_W2P
 """
 
-import codecs
-import os
-import re
 from typing import Union
 
 import numpy as np

@@ -105,5 +105,5 @@ def edges(word: str, lang: str = "th"):
         # }, ...]
     """
 
-    obj = requests.get(f"http://api.conceptnet.io/c/{lang}/{word}").json()
+    obj = requests.get(f"https://api.conceptnet.io/c/{lang}/{word}").json()
     return obj["edges"]

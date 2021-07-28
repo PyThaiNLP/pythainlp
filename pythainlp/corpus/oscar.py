@@ -31,7 +31,10 @@ def word_freqs() -> List[Tuple[str, int]]:
         for line in _data:
             _temp = line.strip().split(",")
             if len(_temp) >= 2:
-                word_freqs.append((_temp[0], int(_temp[1])))
+                if _temp[0] != " " and '"' not in _temp[0]:
+                    word_freqs.append((_temp[0], int(_temp[1])))
+                elif _temp[0] == " ":
+                    word_freqs.append(("<s/>", int(_temp[1])))
 
     return word_freqs
 
@@ -47,6 +50,9 @@ def unigram_word_freqs() -> defaultdict:
         del _data[0]
         for i in _data:
             _temp = i.strip().split(",")
-            _word_freqs[_temp[0]] = int(_temp[-1])
+            if _temp[0] != " " and '"' not in _temp[0]:
+                _word_freqs[_temp[0]] = int(_temp[-1])
+            elif _temp[0] == " ":
+                _word_freqs["<s/>"] = int(_temp[-1])
 
     return _word_freqs

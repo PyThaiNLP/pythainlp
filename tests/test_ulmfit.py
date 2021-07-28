@@ -33,6 +33,7 @@ from pythainlp.ulmfit.tokenizer import BaseTokenizer
 import pandas as pd
 import random
 import pickle
+import torch
 # fastai
 import fastai
 from fastai.text import *
@@ -271,3 +272,10 @@ class TestUlmfitPackage(unittest.TestCase):
         )
         with self.assertRaises(ValueError):
             document_vector('วันนี้วันดีปีใหม่', learn, data_lm, agg='abc')
+
+    def test_merge_wgts(self):
+        wgts = {'0.encoder.weight': torch.randn(5,3)}
+        itos_pre = ["แมว", "คน", "หนู"]
+        itos_new = ["ปลา", "เต่า", "นก"]
+        em_sz = 3
+        self.assertIsNone(merge_wgts(em_sz, wgts, itos_pre, itos_new))

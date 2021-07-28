@@ -7,7 +7,6 @@ from pythainlp.tokenize import (
     Tokenizer,
     attacut,
     crfcls,
-    clause_tokenize,
     deepcut,
     etcc,
     longest,
@@ -23,6 +22,7 @@ from pythainlp.tokenize import (
     word_tokenize,
     sefr_cut,
 )
+from pythainlp.tokenize import clause_tokenize as sent_clause_tokenize
 from pythainlp.util import dict_trie
 
 
@@ -203,10 +203,10 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(_tokenizer.word_tokenize("ก"), ["ก"])
 
     def test_clause_tokenize(self):
-        self.assertEqual(clause_tokenize(None), [])
-        self.assertEqual(clause_tokenize(""), [])
-        self.assertIsNotNone(clause_tokenize(["ฉัน", "ทดสอบ"]))
-        self.assertIsInstance(clause_tokenize(["ฉัน", "ทดสอบ"]), list)
+        self.assertEqual(sent_clause_tokenize(None), [])
+        self.assertEqual(sent_clause_tokenize(""), [])
+        self.assertIsNotNone(sent_clause_tokenize(["ฉัน", "ทดสอบ"]))
+        self.assertIsInstance(sent_clause_tokenize(["ฉัน", "ทดสอบ"]), list)
         self.assertIsNotNone(crfcls.segment(["ฉัน", "ทดสอบ"]))
         self.assertIsInstance(crfcls.segment(["ฉัน", "ทดสอบ"]), list)
 

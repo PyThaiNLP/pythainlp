@@ -208,6 +208,29 @@ def merge_wgts(em_sz, wgts, itos_pre, itos_new):
     :param list itos_new: list of new vocab
 
     :return: merged torch model weights
+
+    :Example:
+    ::
+
+        from pythainlp.ulmfit import merge_wgts
+        import torch
+
+        wgts = {'0.encoder.weight': torch.randn(5,3)}
+        itos_pre = ["แมว", "คน", "หนู"]
+        itos_new = ["ปลา", "เต่า", "นก"]
+        em_sz = 3
+
+        merge_wgts(em_sz, wgts, itos_pre, itos_new)
+        # output:
+        # {'0.encoder.weight': tensor([[0.5952, 0.4453, 0.0011],
+        # [0.5952, 0.4453, 0.0011],
+        # [0.5952, 0.4453, 0.0011]]),
+        # '0.encoder_dp.emb.weight': tensor([[0.5952, 0.4453, 0.0011],
+        # [0.5952, 0.4453, 0.0011],
+        # [0.5952, 0.4453, 0.0011]]),
+        # '1.decoder.weight': tensor([[0.5952, 0.4453, 0.0011],
+        # [0.5952, 0.4453, 0.0011],
+        # [0.5952, 0.4453, 0.0011]])}
     """
     vocab_size = len(itos_new)
     enc_wgts = wgts["0.encoder.weight"].numpy()

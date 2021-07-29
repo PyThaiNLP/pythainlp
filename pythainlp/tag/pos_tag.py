@@ -105,7 +105,7 @@ def pos_tag(
     elif engine == "unigram" and corpus in _support_corpus:  # default
         from pythainlp.tag.unigram import tag as tag_
     else:
-        raise NotImplemented(
+        raise ValueError(
             "pos_tag not support {0} engine or {1} corpus.".format(
                 engine,
                 corpus

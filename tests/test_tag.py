@@ -2,6 +2,7 @@
 
 import unittest
 from os import path
+from pythainlp import tag
 
 from pythainlp.tag import (
     chunk_parse,
@@ -117,6 +118,7 @@ class TestTagPackage(unittest.TestCase):
             self.assertIsNotNone(
                 pos_tag(tokens, engine="wangchanberta", corpus="lst20_ud")
             )
+        with self.assertRaises(ValueError):
             self.assertIsNotNone(
                 tltk.pos_tag(tokens, corpus="lst20")
             )
@@ -371,6 +373,12 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(
             tltk.get_ner(
                 "พลเอกประยุกธ์ จันทร์โอชา ประกาศในฐานะหัวหน้า"
+            )
+        )
+        self.assertIsNotNone(
+            tltk.get_ner(
+                "พลเอกประยุกธ์ จันทร์โอชา ประกาศในฐานะหัวหน้า",
+                tag=True,
             )
         )
         self.assertIsNotNone(

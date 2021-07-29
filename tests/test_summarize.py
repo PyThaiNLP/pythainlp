@@ -24,3 +24,5 @@ class TestSummarizePackage(unittest.TestCase):
         self.assertIsNotNone(summarize([]))
         self.assertIsNotNone(summarize(text, 1, engine="mt5-small"))
         self.assertIsNotNone(summarize(text, 1, engine="XX"))
+        with self.assertRaises(ValueError):
+            self.assertIsNotNone(summarize(text, 1, engine="mt5-cat"))

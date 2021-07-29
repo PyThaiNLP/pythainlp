@@ -7,7 +7,8 @@ from pythainlp.spell import (
     correct,
     spell,
     spell_sent,
-    correct_sent
+    correct_sent,
+    symspellpy,
 )
 
 
@@ -130,4 +131,7 @@ class TestSpellPackage(unittest.TestCase):
         self.assertIsNotNone(correct_sent(self.spell_sent, engine="phunspell"))
         self.assertIsNotNone(
             correct_sent(self.spell_sent, engine="symspellpy")
+        )
+        self.assertIsNotNone(
+            symspellpy.correct_sent(self.spell_sent)
         )

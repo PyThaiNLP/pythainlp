@@ -62,6 +62,9 @@ def spell(word: str, engine: str = "pn") -> List[str]:
     elif engine == "symspellpy":
         from pythainlp.spell.symspellpy import spell as SPELL_CHECKER
         text_correct = SPELL_CHECKER(word)
+    elif engine == "tltk":
+        from pythainlp.spell.tltk import spell as SPELL_CHECKER
+        text_correct = SPELL_CHECKER(word)
     else:
         text_correct = DEFAULT_SPELL_CHECKER.spell(word)
 

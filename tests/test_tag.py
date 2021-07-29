@@ -101,9 +101,6 @@ class TestTagPackage(unittest.TestCase):
             pos_tag(tokens, engine="wangchanberta", corpus="lst20")
         )
         self.assertIsNotNone(
-            pos_tag(tokens, engine="wangchanberta", corpus="lst20_ud")
-        )
-        self.assertIsNotNone(
             pos_tag(tokens, engine="tltk")
         )
 
@@ -116,6 +113,10 @@ class TestTagPackage(unittest.TestCase):
                 [("แมว", "NCMN"), ("วิ่ง", "VACT")],
             ],
         )
+        with self.assertRaises(ValueError):
+            self.assertIsNotNone(
+                pos_tag(tokens, engine="wangchanberta", corpus="lst20_ud")
+            )
 
     # ### pythainlp.tag.PerceptronTagger
 

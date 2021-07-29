@@ -44,7 +44,7 @@ class TestSpellPackage(unittest.TestCase):
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
 
-        result = spell("เกสมร์", engine="tltk")
+        result = spell("เดก", engine="tltk")
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
 

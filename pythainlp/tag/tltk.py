@@ -13,6 +13,10 @@ def pos_tag(words: List[str], corpus: str = "tnc") -> List[Tuple[str, str]]:
     return nlp.pos_tag_wordlist(words)
 
 
+def _post_process(text: str) -> str:
+    return text.replace("<s/>", " ")
+
+
 def get_ner(
     text: str,
     pos: bool = True,
@@ -61,9 +65,9 @@ def get_ner(
             i = "<s/>"
         list_word.append(i)
     _pos = nlp.pos_tag_wordlist(list_word)
-    sent_ner = nlp.ner(_pos)
-    if sent_ner[-1][0] == '<s/>':
-        del sent_ner[-1]
+    sent_ner = [
+        (_post_process(word), pos, ner) for word, pos, ner in nlp.ner(_pos)
+    ]
     if tag:
         temp = ""
         sent = ""

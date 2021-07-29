@@ -367,6 +367,11 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(tltk.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
         self.assertIsNotNone(
             tltk.get_ner(
+                "พลเอกประยุกธ์ จันทร์โอชา ประกาศในฐานะหัวหน้า"
+            )
+        )
+        self.assertIsNotNone(
+            tltk.get_ner(
                 """คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ มหาวิทยาลัยขอนแก่น
                 จังหวัดหนองคาย 43000"""
             )

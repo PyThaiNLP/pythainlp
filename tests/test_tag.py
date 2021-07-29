@@ -117,6 +117,9 @@ class TestTagPackage(unittest.TestCase):
             self.assertIsNotNone(
                 pos_tag(tokens, engine="wangchanberta", corpus="lst20_ud")
             )
+            self.assertIsNotNone(
+                tltk.pos_tag(tokens, corpus="lst20")
+            )
 
     # ### pythainlp.tag.PerceptronTagger
 

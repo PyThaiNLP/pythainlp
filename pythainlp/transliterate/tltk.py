@@ -8,7 +8,7 @@ def romanize(text: str) -> str:
 
 
 def tltk_g2p(text: str) -> str:
-    _temp = g2p(text).split("<tr/>")[1].replace("|<s/>","").replace("|", " ")
+    _temp = g2p(text).split("<tr/>")[1].replace("|<s/>", "").replace("|", " ")
     return _temp.replace("<s/>", "")
 
 

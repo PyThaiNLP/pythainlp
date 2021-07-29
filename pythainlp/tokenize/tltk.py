@@ -7,7 +7,7 @@ from tltk.nlp import syl_segment
 def segment(text: str) -> List[str]:
     if not text or not isinstance(text, str):
         return []
-    _temp = tltk_segment(text).replace("<u/>","").replace("<s/>"," ")
+    _temp = tltk_segment(text).replace("<u/>", "").replace("<s/>", " ")
     return _temp.split('|')
 
 

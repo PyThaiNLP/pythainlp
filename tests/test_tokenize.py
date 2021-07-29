@@ -449,7 +449,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(tltk.segment(None), [])
         self.assertEqual(tltk.segment(""), [])
         self.assertEqual(
-            syllable_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="tltk"),
+            tltk.syllable_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="tltk"),
             ['ฉัน', 'รัก', 'ภาษาไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คน', 'ไทย'],
         )
         self.assertEqual(tltk.syllable_tokenize(None), [])

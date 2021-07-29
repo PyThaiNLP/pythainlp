@@ -15,7 +15,9 @@ def pos_tag(words: List[str], corpus: str = "tnc") -> List[Tuple[str, str]]:
 
 def get_ner(
     text: str, pos: bool = True, tag: bool = False
-    ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
+    ) -> Union[
+        List[Tuple[str, str]], List[Tuple[str, str, str]], str
+    ]:
     """
     Named-entity recognizer from **TLTK**
 
@@ -82,6 +84,6 @@ def get_ner(
                 sent += "</" + temp + ">"
 
         return sent
-    if pos == False:
+    if pos is False:
         return [(word, ner) for word, pos, ner in sent_ner]
     return sent_ner

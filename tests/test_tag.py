@@ -10,6 +10,7 @@ from pythainlp.tag import (
     pos_tag,
     pos_tag_sents,
     unigram,
+    tltk,
 )
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import ThaiNameTagger
@@ -101,6 +102,9 @@ class TestTagPackage(unittest.TestCase):
         )
         self.assertIsNotNone(
             pos_tag(tokens, engine="wangchanberta", corpus="lst20_ud")
+        )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="tltk")
         )
 
         self.assertEqual(pos_tag_sents(None), [])
@@ -355,3 +359,23 @@ class TestTagPackage(unittest.TestCase):
         #         ("เช้า", "I-TIME"),
         #     ],
         # )
+
+    def test_tltk_ner(self):
+        self.assertEqual(tltk.get_ner(""), [])
+        self.assertIsNotNone(tltk.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(tltk.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(
+            tltk.get_ner(
+                """คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ มหาวิทยาลัยขอนแก่น
+                วิทยาเขตหนองคาย 112 หมู่ 7 บ้านหนองเดิ่น ตำบลหนองกอมเกาะ อำเภอเมือง
+                จังหวัดหนองคาย 43000"""
+            )
+        )
+        self.assertIsNotNone(
+            tltk.get_ner(
+                """คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ มหาวิทยาลัยขอนแก่น
+                วิทยาเขตหนองคาย 112 หมู่ 7 บ้านหนองเดิ่น ตำบลหนองกอมเกาะ อำเภอเมือง
+                จังหวัดหนองคาย 43000""",
+                tag=True,
+            )
+        )

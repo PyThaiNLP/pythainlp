@@ -221,6 +221,7 @@ def sent_tokenize(
         * *whitespace+newline* - split by whitespaces and newline.
         * *whitespace* - split by whitespaces. Specifiaclly, with \
                          :class:`regex` pattern  ``r" +"``
+        * *tltk* - split by `TLTK <https://pypi.org/project/tltk/>`_.,
     :Example:
 
     Split the text based on *whitespace*::
@@ -277,6 +278,10 @@ def sent_tokenize(
         segments = re.split(r" +", text, re.U)
     elif engine == "whitespace+newline":
         segments = text.split()
+    elif engine == "tltk":
+        from pythainlp.tokenize.tltk import sent_tokenize as segment
+
+        segments = segment(text)
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.

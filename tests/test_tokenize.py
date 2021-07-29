@@ -21,6 +21,7 @@ from pythainlp.tokenize import (
     tcc,
     word_tokenize,
     sefr_cut,
+    tltk,
 )
 from pythainlp.tokenize import clause_tokenize as sent_clause_tokenize
 from pythainlp.util import dict_trie
@@ -260,6 +261,15 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(
             sent_tokenize(sent_1, keep_whitespace=False, engine="whitespace",),
         )
+        self.assertIsNotNone(
+            sent_tokenize(sent_1, engine="tltk",),
+        )
+        self.assertIsNotNone(
+            sent_tokenize(sent_2, engine="tltk",),
+        )
+        self.assertIsNotNone(
+            sent_tokenize(sent_3, engine="tltk",),
+        )
         self.assertFalse(
             " "
             in sent_tokenize(
@@ -434,6 +444,16 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="icu"),
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
+
+    def test_tltk(self):
+        self.assertEqual(tltk.segment(None), [])
+        self.assertEqual(tltk.segment(""), [])
+        self.assertEqual(
+            syllable_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="tltk"),
+            ['ฉัน', 'รัก', 'ภาษาไทย', 'เพราะ', 'ฉัน', 'เป็น', 'คน', 'ไทย'],
+        )
+        self.assertEqual(tltk.syllable_tokenize(None), [])
+        self.assertEqual(tltk.syllable_tokenize(""), [])
 
     def test_longest(self):
         self.assertEqual(longest.segment(None), [])

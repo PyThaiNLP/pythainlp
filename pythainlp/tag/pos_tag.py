@@ -15,6 +15,8 @@ def pos_tag(
         * *wangchanberta* - wangchanberta model (support lst20 corpus only \
             and it supports a string only. if you input a list of word, \
             it will convert list word to a string.
+        * *tltk* - TLTK: Thai Language Toolkit (support TNC corpus only.\
+            if you choose other corpus, It's change to TNC corpus.)
     :param str corpus:
         the corpus that used to create the language model for tagger
         * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
@@ -28,6 +30,7 @@ def pos_tag(
         * *pud* - `Parallel Universal Dependencies (PUD)\
             <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ \
             treebanks, natively use Universal POS tags
+        * *tnc* - Thai National Corpus (support tltk engine only)
     :return: a list of tuples (word, POS tag)
     :rtype: list[tuple[str, str]]
 
@@ -89,13 +92,25 @@ def pos_tag(
     if not words:
         return []
 
-    if engine == "perceptron":
+    _support_corpus = ["lst20", "lst20_ud", "orchid", "orchid_ud", "pud"]
+
+    if engine == "perceptron" and corpus in _support_corpus:
         from pythainlp.tag.perceptron import tag as tag_
     elif engine == "wangchanberta" and corpus == "lst20":
         from pythainlp.wangchanberta.postag import pos_tag as tag_
         words = ''.join(words)
-    else:  # default, use "unigram" ("old") engine
+    elif engine == "tltk":
+        from pythainlp.tag.tltk import pos_tag as tag_
+        corpus = "tnc"
+    elif engine == "unigram" and corpus in _support_corpus:  # default
         from pythainlp.tag.unigram import tag as tag_
+    else:
+        raise NotImplemented(
+            "pos_tag not support {0} engine or {1} corpus.".format(
+                engine,
+                corpus
+            )
+        )
 
     word_tags = tag_(words, corpus=corpus)
 
@@ -114,6 +129,9 @@ def pos_tag_sents(
     :param str engine:
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
+        * *wangchanberta*  - wangchanberta model (support lst20 corpus only)
+        * *tltk* - TLTK: Thai Language Toolkit (support TNC corpus only.\
+            if you choose other corpus, It's change to TNC corpus.)
     :param str corpus:
         the corpus that used to create the language model for tagger
         * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
@@ -127,6 +145,7 @@ def pos_tag_sents(
         * *pud* - `Parallel Universal Dependencies (PUD)\
             <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ \
             treebanks, natively use Universal POS tags
+        * *tnc* - Thai National Corpus (support tltk engine only)
     :return: a list of lists of tuples (word, POS tag)
     :rtype: list[list[tuple[str, str]]]
 

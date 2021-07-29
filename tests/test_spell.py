@@ -40,6 +40,14 @@ class TestSpellPackage(unittest.TestCase):
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
 
+        result = spell("เน้ร", engine="tltk")
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+
+        result = spell("เกสมร์", engine="tltk")
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+
     def test_word_correct(self):
         self.assertEqual(correct(None), "")
         self.assertEqual(correct(""), "")

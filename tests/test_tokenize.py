@@ -319,6 +319,17 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertFalse(
             " " in subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
         )
+        self.assertEqual(subword_tokenize(None, engine="tltk"), [])
+        self.assertEqual(subword_tokenize("", engine="tltk"), [])
+        self.assertIsInstance(
+            subword_tokenize("สวัสดิีดาวอังคาร", engine="tltk"), list
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tltk")
+        )
+        self.assertIsInstance(
+            subword_tokenize("โควิด19", engine="tltk"), list
+        )
         with self.assertRaises(ValueError):
             subword_tokenize("นกแก้ว", engine="XX")  # engine does not exist
 
@@ -360,6 +371,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(word_tokenize(self.text_1, engine="nercut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="newmm"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="sefr_cut"))
+        self.assertIsNotNone(word_tokenize(self.text_1, engine="tltk"))
 
         with self.assertRaises(ValueError):
             word_tokenize("หมอนทอง", engine="XX")  # engine does not exist

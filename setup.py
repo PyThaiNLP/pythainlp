@@ -73,6 +73,7 @@ extras = {
         "spylls>=0.1.5",
         "symspellpy>=6.7.0"
     ],
+    "tltk": ["tltk>=1.3.8"],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -94,7 +95,8 @@ extras = {
         "sefr_cut>=1.1",
         "phunspell>=0.1.6",
         "spylls>=0.1.5",
-        "symspellpy>=6.7.0"
+        "symspellpy>=6.7.0",
+        "tltk>=1.3.8",
     ],
 }
 

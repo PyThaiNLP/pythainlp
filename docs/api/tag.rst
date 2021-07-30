@@ -230,7 +230,9 @@ Modules
 .. autofunction:: pos_tag_sents
 .. autofunction:: tag_provinces
 .. autofunction:: chunk_parse
-.. autoclass:: pythainlp.tag.named_entity.ThaiNameTagger
+.. autoclass:: pythainlp.tag.named_entity.NER
+   :members:
+.. autoclass:: pythainlp.tag.thainer.ThaiNameTagger
    :members: get_ner
 .. autofunction:: pythainlp.tag.tltk.get_ner
 

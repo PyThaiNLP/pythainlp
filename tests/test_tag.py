@@ -315,12 +315,12 @@ class TestTagPackage(unittest.TestCase):
 
     def test_NER_class(self):
         ner = NER(engine="thainer")
-        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
-        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
-        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
         ner = NER(engine="wangchanberta")
-        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
-        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
-        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
         with self.assertRaises(ValueError):
             NER(engine="thainer", corpus="cat")

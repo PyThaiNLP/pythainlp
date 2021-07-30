@@ -90,7 +90,7 @@ class ThaiNameTagger:
     :param str version: Thai NER version.
         It's support Thai NER 1.4 & 1.5.
         The defualt value is `1.5`
-    
+
     :Example:
     ::
 
@@ -171,7 +171,8 @@ class ThaiNameTagger:
             ('น.', 'I-TIME')]
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.",
                             tag=True)
-            'วันที่ <DATE>15 ก.ย. 61</DATE> ทดสอบระบบเวลา <TIME>14:49 น.</TIME>'
+            'วันที่ <DATE>15 ก.ย. 61</DATE> ทดสอบระบบเวลา <TIME>
+            14:49 น.</TIME>'
         """
         tokens = word_tokenize(text, engine=_TOKENIZER_ENGINE)
         pos_tags = pos_tag(

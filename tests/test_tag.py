@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from pythainlp import corpus
 import unittest
 from os import path
 
@@ -10,9 +11,10 @@ from pythainlp.tag import (
     pos_tag,
     pos_tag_sents,
     unigram,
+    NER,
 )
 from pythainlp.tag.locations import tag_provinces
-from pythainlp.tag.named_entity import ThaiNameTagger
+from pythainlp.tag.thainer import ThaiNameTagger
 
 
 class TestTagPackage(unittest.TestCase):
@@ -310,48 +312,15 @@ class TestTagPackage(unittest.TestCase):
                 tag=False,
             )
         )
-        #     [
-        #         ("วันที่", "O"),
-        #         (" ", "O"),
-        #         ("15", "B-DATE"),
-        #         (" ", "I-DATE"),
-        #         ("ก.ย.", "I-DATE"),
-        #         (" ", "I-DATE"),
-        #         ("61", "I-DATE"),
-        #         (" ", "O"),
-        #         ("ทดสอบ", "O"),
-        #         ("ระบบ", "O"),
-        #         ("เวลา", "O"),
-        #         (" ", "O"),
-        #         ("14", "B-TIME"),
-        #         (":", "I-TIME"),
-        #         ("49", "I-TIME"),
-        #         (" ", "I-TIME"),
-        #         ("น.", "I-TIME"),
-        #     ],
-        # )
 
-        # self.assertEqual(
-        #     ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"),
-        #     [
-        #         ("แมว", "NCMN", "O"),
-        #         ("ทำ", "VACT", "O"),
-        #         ("อะไร", "PNTR", "O"),
-        #         ("ตอน", "NCMN", "O"),
-        #         ("ห้า", "VSTA", "B-TIME"),
-        #         ("โมง", "NCMN", "I-TIME"),
-        #         ("เช้า", "ADVN", "I-TIME"),
-        #     ],
-        # )
-        # self.assertEqual(
-        #     ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False),
-        #     [
-        #         ("แมว", "O"),
-        #         ("ทำ", "O"),
-        #         ("อะไร", "O"),
-        #         ("ตอน", "O"),
-        #         ("ห้า", "B-TIME"),
-        #         ("โมง", "I-TIME"),
-        #         ("เช้า", "I-TIME"),
-        #     ],
-        # )
+    def test_NER_class(self):
+        ner = NER(engine="thainer")
+        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
+        ner = NER(engine="wangchanberta")
+        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
+        with self.assertRaises(ValueError):
+            NER(engine="thainer", corpus="cat")

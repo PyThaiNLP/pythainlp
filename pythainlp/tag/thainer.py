@@ -6,6 +6,7 @@ Named-entity recognizer
 __all__ = ["ThaiNameTagger"]
 
 from typing import Dict, List, Tuple, Union
+import warnings
 
 from pycrfsuite import Tagger as CRFTagger
 from pythainlp.corpus import get_corpus_path, thai_stopwords
@@ -15,6 +16,17 @@ from pythainlp.util import isthai
 
 _CORPUS_NAME = "thainer"
 _TOKENIZER_ENGINE = "newmm"  # should be the same as one used in training data
+
+warnings.warn(
+    """
+    ThaiNameTagger class is change from
+    pythainlp.tag.named_entity.ThaiNameTagger
+    to
+    pythainlp.tag.thainer.ThaiNameTagger.
+    This old class will be deprecated in PyThaiNLP version 2.5.
+    """,
+    PendingDeprecationWarning
+)
 
 
 def _is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำฟุ่มเฟือย

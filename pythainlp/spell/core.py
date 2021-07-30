@@ -22,6 +22,7 @@ def spell(word: str, engine: str = "pn") -> List[str]:
         * *pn* - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
         * *phunspell* - A spell checker utilizing spylls a port of Hunspell.
         * *symspellpy* - symspellpy is a Python port of SymSpell v6.5.
+        * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.,
 
     :return: list of possible correct words within 1 or 2 edit distance and
              sorted by frequency of word occurrences in the spelling dictionary
@@ -37,6 +38,9 @@ def spell(word: str, engine: str = "pn") -> List[str]:
         # output: ['เส้นตรง']
 
         spell("เส้นตรบ")
+        # output: ['เส้นตรง']
+
+        spell("เส้นตรบ",  engine="tltk")
         # output: ['เส้นตรง']
 
         spell("ครัช")
@@ -57,6 +61,9 @@ def spell(word: str, engine: str = "pn") -> List[str]:
         text_correct = SPELL_CHECKER(word)
     elif engine == "symspellpy":
         from pythainlp.spell.symspellpy import spell as SPELL_CHECKER
+        text_correct = SPELL_CHECKER(word)
+    elif engine == "tltk":
+        from pythainlp.spell.tltk import spell as SPELL_CHECKER
         text_correct = SPELL_CHECKER(word)
     else:
         text_correct = DEFAULT_SPELL_CHECKER.spell(word)

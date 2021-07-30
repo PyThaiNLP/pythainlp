@@ -57,6 +57,7 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertEqual(romanize(None), "")
         self.assertEqual(romanize(""), "")
         self.assertEqual(romanize("แมว"), "maeo")
+        self.assertEqual(romanize("แมว", engine="tltk"), "maeo")
 
     def test_romanize_royin_basic(self):
         for word in _BASIC_TESTS:
@@ -136,6 +137,10 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertEqual(transliterate("คน", engine="ipa"), "kʰon")
         self.assertIsNotNone(transliterate("คน", engine="thaig2p"))
         self.assertIsNotNone(transliterate("แมว", engine="thaig2p"))
+        self.assertIsNotNone(transliterate("คน", engine="tltk_g2p"))
+        self.assertIsNotNone(transliterate("แมว", engine="tltk_g2p"))
+        self.assertIsNotNone(transliterate("คน", engine="tltk_ipa"))
+        self.assertIsNotNone(transliterate("แมว", engine="tltk_ipa"))
         self.assertIsNotNone(trans_list("คน"))
         self.assertIsNotNone(xsampa_list("คน"))
 

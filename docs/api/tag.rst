@@ -232,6 +232,7 @@ Modules
 .. autofunction:: chunk_parse
 .. autoclass:: pythainlp.tag.named_entity.ThaiNameTagger
    :members: get_ner
+.. autofunction:: pythainlp.tag.tltk.get_ner
 
 Tagger Engines
 --------------

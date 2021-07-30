@@ -21,6 +21,7 @@ from pythainlp.tokenize import (
     tcc,
     word_tokenize,
     sefr_cut,
+    tltk,
 )
 from pythainlp.tokenize import clause_tokenize as sent_clause_tokenize
 from pythainlp.util import dict_trie
@@ -260,6 +261,15 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(
             sent_tokenize(sent_1, keep_whitespace=False, engine="whitespace",),
         )
+        self.assertIsNotNone(
+            sent_tokenize(sent_1, engine="tltk",),
+        )
+        self.assertIsNotNone(
+            sent_tokenize(sent_2, engine="tltk",),
+        )
+        self.assertIsNotNone(
+            sent_tokenize(sent_3, engine="tltk",),
+        )
         self.assertFalse(
             " "
             in sent_tokenize(
@@ -319,6 +329,17 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertFalse(
             " " in subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
         )
+        self.assertEqual(subword_tokenize(None, engine="tltk"), [])
+        self.assertEqual(subword_tokenize("", engine="tltk"), [])
+        self.assertIsInstance(
+            subword_tokenize("สวัสดิีดาวอังคาร", engine="tltk"), list
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tltk")
+        )
+        self.assertIsInstance(
+            subword_tokenize("โควิด19", engine="tltk"), list
+        )
         with self.assertRaises(ValueError):
             subword_tokenize("นกแก้ว", engine="XX")  # engine does not exist
 
@@ -360,6 +381,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(word_tokenize(self.text_1, engine="nercut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="newmm"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="sefr_cut"))
+        self.assertIsNotNone(word_tokenize(self.text_1, engine="tltk"))
 
         with self.assertRaises(ValueError):
             word_tokenize("หมอนทอง", engine="XX")  # engine does not exist
@@ -422,6 +444,29 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="icu"),
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
+
+    def test_tltk(self):
+        self.assertEqual(tltk.segment(None), [])
+        self.assertEqual(tltk.segment(""), [])
+        self.assertEqual(
+            tltk.syllable_tokenize(
+                "ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"
+            ),
+            [
+                'ฉัน',
+                'รัก',
+                'ภา',
+                'ษา',
+                'ไทย',
+                'เพราะ',
+                'ฉัน',
+                'เป็น',
+                'คน',
+                'ไทย'
+            ],
+        )
+        self.assertEqual(tltk.syllable_tokenize(None), [])
+        self.assertEqual(tltk.syllable_tokenize(""), [])
 
     def test_longest(self):
         self.assertEqual(longest.segment(None), [])

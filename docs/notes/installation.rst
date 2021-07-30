@@ -27,6 +27,7 @@ where ``extras`` can be
   - ``mt5`` (to mt5 models for Thai text summarizer)
   - ``wordnet`` (to support wordnet)
   - ``spell`` (to support phunspell & symspellpy)
+  - ``tltk`` (to support tltk)
   - ``full`` (install everything)
 
 For dependency details, look at `extras` variable in `setup.py <https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py>`_.

@@ -2,6 +2,7 @@
 
 import unittest
 from os import path
+from pythainlp import tag
 
 from pythainlp.tag import (
     chunk_parse,
@@ -10,6 +11,7 @@ from pythainlp.tag import (
     pos_tag,
     pos_tag_sents,
     unigram,
+    tltk,
 )
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import ThaiNameTagger
@@ -100,7 +102,7 @@ class TestTagPackage(unittest.TestCase):
             pos_tag(tokens, engine="wangchanberta", corpus="lst20")
         )
         self.assertIsNotNone(
-            pos_tag(tokens, engine="wangchanberta", corpus="lst20_ud")
+            pos_tag(tokens, engine="tltk")
         )
 
         self.assertEqual(pos_tag_sents(None), [])
@@ -112,6 +114,14 @@ class TestTagPackage(unittest.TestCase):
                 [("แมว", "NCMN"), ("วิ่ง", "VACT")],
             ],
         )
+        with self.assertRaises(ValueError):
+            self.assertIsNotNone(
+                pos_tag(tokens, engine="wangchanberta", corpus="lst20_ud")
+            )
+        with self.assertRaises(ValueError):
+            self.assertIsNotNone(
+                tltk.pos_tag(tokens, corpus="lst20")
+            )
 
     # ### pythainlp.tag.PerceptronTagger
 
@@ -355,3 +365,32 @@ class TestTagPackage(unittest.TestCase):
         #         ("เช้า", "I-TIME"),
         #     ],
         # )
+
+    def test_tltk_ner(self):
+        self.assertEqual(tltk.get_ner(""), [])
+        self.assertIsNotNone(tltk.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(tltk.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(
+            tltk.get_ner(
+                "พลเอกประยุกธ์ จันทร์โอชา ประกาศในฐานะหัวหน้า"
+            )
+        )
+        self.assertIsNotNone(
+            tltk.get_ner(
+                "พลเอกประยุกธ์ จันทร์โอชา ประกาศในฐานะหัวหน้า",
+                tag=True,
+            )
+        )
+        self.assertIsNotNone(
+            tltk.get_ner(
+                """คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ มหาวิทยาลัยขอนแก่น
+                จังหวัดหนองคาย 43000"""
+            )
+        )
+        self.assertIsNotNone(
+            tltk.get_ner(
+                """คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ มหาวิทยาลัยขอนแก่น
+                จังหวัดหนองคาย 43000""",
+                tag=True,
+            )
+        )

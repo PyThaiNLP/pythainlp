@@ -86,6 +86,8 @@ def word_tokenize(
           and combining tokens that are parts of the same named-entity.
         * *sefr_cut* - wrapper for
           `SEFR CUT <https://github.com/mrpeerat/SEFR_CUT>`_.,
+        * *tltk* - wrapper for
+          `TLTK <https://pypi.org/project/tltk/>`_.,
 
     :Note:
         - The parameter **custom_dict** can be provided as an argument \
@@ -183,6 +185,10 @@ def word_tokenize(
         from pythainlp.tokenize.sefr_cut import segment
 
         segments = segment(text)
+    elif engine == "tltk":
+        from pythainlp.tokenize.tltk import segment
+
+        segments = segment(text)
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
@@ -215,6 +221,7 @@ def sent_tokenize(
         * *whitespace+newline* - split by whitespaces and newline.
         * *whitespace* - split by whitespaces. Specifiaclly, with \
                          :class:`regex` pattern  ``r" +"``
+        * *tltk* - split by `TLTK <https://pypi.org/project/tltk/>`_.,
     :Example:
 
     Split the text based on *whitespace*::
@@ -271,6 +278,10 @@ def sent_tokenize(
         segments = re.split(r" +", text, re.U)
     elif engine == "whitespace+newline":
         segments = text.split()
+    elif engine == "tltk":
+        from pythainlp.tokenize.tltk import sent_tokenize as segment
+
+        segments = segment(text)
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
@@ -314,6 +325,7 @@ def subword_tokenize(
         * *wangchanberta* - SentencePiece from wangchanberta model.
         * *dict* - newmm word tokenizer with a syllable dictionary
         * *ssg* - CRF syllable segmenter for Thai
+        * *tltk* - syllable tokenizer from tltk
 
     :Example:
 
@@ -376,6 +388,8 @@ def subword_tokenize(
             )
     elif engine == "ssg":
         from pythainlp.tokenize.ssg import segment
+    elif engine == "tltk":
+        from pythainlp.tokenize.tltk import syllable_tokenize as segment
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.

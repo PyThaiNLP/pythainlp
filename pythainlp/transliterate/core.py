@@ -23,6 +23,7 @@ def romanize(text: str, engine: str = DEFAULT_ROMANIZE_ENGINE) -> str:
           Transcription issued by Royal Institute of Thailand.
         * *thai2rom* - a deep learning-based Thai romanization engine
           (require PyTorch).
+        * *tltk* - TLTK: Thai Language Toolkit
 
     :Example:
     ::
@@ -33,6 +34,9 @@ def romanize(text: str, engine: str = DEFAULT_ROMANIZE_ENGINE) -> str:
         # output: 'samant'
 
         romanize("สามารถ", engine="thai2rom")
+        # output: 'samat'
+
+        romanize("สามารถ", engine="tltk")
         # output: 'samat'
 
         romanize("ภาพยนตร์", engine="royin")
@@ -47,6 +51,8 @@ def romanize(text: str, engine: str = DEFAULT_ROMANIZE_ENGINE) -> str:
 
     if engine == "thai2rom":
         from pythainlp.transliterate.thai2rom import romanize
+    elif engine == "tltk":
+        from pythainlp.transliterate.tltk import romanize
     else:  # use default engine "royin"
         from pythainlp.transliterate.royin import romanize
 
@@ -67,10 +73,13 @@ def transliterate(
     :rtype: str
 
     :Options for engines:
-        * *icu* - pyicu, based on International Components for Unicode (ICU)
-        * *ipa* - epitran, output is International Phonetic Alphabet (IPA)
         * *thaig2p* - (default) Thai Grapheme-to-Phoneme,
           output is IPA (require PyTorch)
+        * *icu* - pyicu, based on International Components for Unicode (ICU)
+        * *ipa* - epitran, output is International Phonetic Alphabet (IPA)
+        * *tltk_g2p* - Thai Grapheme-to-Phoneme from\
+            `TLTK <https://pypi.org/project/tltk/>`_.,
+        * *tltk_ipa* - tltk, output is International Phonetic Alphabet (IPA)
 
     :Example:
     ::
@@ -85,6 +94,12 @@ def transliterate(
 
         transliterate("สามารถ", engine="thaig2p")
         # output: 's aː ˩˩˦ . m aː t̚ ˥˩'
+
+        transliterate("สามารถ", engine="tltk_ipa")
+        # output: 'saː5.maːt3'
+
+        transliterate("สามารถ", engine="tltk_g2p")
+        # output: 'saa4~maat2'
 
         transliterate("ภาพยนตร์", engine="icu")
         # output: 'p̣hāphyntr̒'
@@ -103,6 +118,10 @@ def transliterate(
         from pythainlp.transliterate.pyicu import transliterate
     elif engine == "ipa":
         from pythainlp.transliterate.ipa import transliterate
+    elif engine == "tltk_g2p":
+        from pythainlp.transliterate.tltk import tltk_g2p as transliterate
+    elif engine == "tltk_ipa":
+        from pythainlp.transliterate.tltk import tltk_ipa as transliterate
     else:  # use default engine: "thaig2p"
         from pythainlp.transliterate.thaig2p import transliterate
 

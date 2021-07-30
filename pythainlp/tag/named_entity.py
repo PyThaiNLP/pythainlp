@@ -81,8 +81,7 @@ class NER:
         if pos and self.name_engine == "wangchanberta":
             warnings.warn(
                 """wangchanberta is not support part-of-speech tag.
-                It have not part-of-speech tag in output.""",
-                ValueError
+                It have not part-of-speech tag in output."""
             )
         if self.name_engine == "wangchanberta":
             return self.engine.get_ner(text, tag=tag)

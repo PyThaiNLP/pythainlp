@@ -17,10 +17,13 @@ class NER:
     **Options for engine**
         * *thainer* - Thai NER engine
         * *wangchanberta* - wangchanberta model
+        * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.
 
     **Options for corpus**
         * *thaimer* - Thai NER corpus
         * *lst20* - lst20 corpus (wangchanberta only)
+
+    **Note**: for tltk engine, It's support ner model from tltk only.
     """
     def __init__(self, engine: str, corpus: str = "thainer") -> None:
         self.load_engine(engine=engine, corpus=corpus)
@@ -34,6 +37,9 @@ class NER:
         elif engine == "wangchanberta":
             from pythainlp.wangchanberta import ThaiNameTagger
             self.engine = ThaiNameTagger(dataset_name=corpus)
+        elif engine == "tltk":
+            from pythainlp.tag import tltk
+            self.engine = tltk
         else:
             raise ValueError(
                 "NER class not support {0} engine or {1} corpus.".format(

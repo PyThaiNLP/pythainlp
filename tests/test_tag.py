@@ -361,5 +361,9 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
+        ner = NER(engine="tltk")
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
         with self.assertRaises(ValueError):
             NER(engine="thainer", corpus="cat")

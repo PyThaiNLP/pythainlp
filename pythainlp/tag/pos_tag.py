@@ -17,8 +17,7 @@ def pos_tag(
             it will convert list word to a string.
         * *tltk* - TLTK: Thai Language Toolkit (support TNC corpus only.\
             if you choose other corpus, It's change to TNC corpus.)
-    :param str corpus:
-        the corpus that used to create the language model for tagger
+    :param str corpus: the corpus that used to create the language model for tagger
         * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
             by National Electronics and Computer Technology Center, Thailand
         * *lst20_ud* - LST20 text, with tags mapped to Universal POS tag \
@@ -132,8 +131,7 @@ def pos_tag_sents(
         * *wangchanberta*  - wangchanberta model (support lst20 corpus only)
         * *tltk* - TLTK: Thai Language Toolkit (support TNC corpus only.\
             if you choose other corpus, It's change to TNC corpus.)
-    :param str corpus:
-        the corpus that used to create the language model for tagger
+    :param str corpus: the corpus that used to create the language model for tagger
         * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
             by National Electronics and Computer Technology Center, Thailand
         * *lst20_ud* - LST20 text, with tags mapped to Universal POS tags \

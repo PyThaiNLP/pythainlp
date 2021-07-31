@@ -12,7 +12,7 @@ from pythainlp.tag import lst20, orchid
 _ORCHID_FILENAME = "pos_orchid_unigram.json"
 _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
 
-_PUD_FILENAME = "pos_ud_unigram.json"
+_PUD_FILENAME = "pos_ud_unigram-v0.2.json"
 _PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
 
 _LST20_TAGGER_NAME = "pos_lst20_unigram"

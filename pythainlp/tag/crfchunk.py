@@ -4,7 +4,7 @@ from pycrfsuite import Tagger as CRFTagger
 from pythainlp.corpus import path_pythainlp_corpus, thai_stopwords
 
 
-def _is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำฟุ่มเฟือย
+def _is_stopword(word: str) -> bool:  # check thai stopword
     return word in thai_stopwords()
 
 

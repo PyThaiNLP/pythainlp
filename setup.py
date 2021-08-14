@@ -46,7 +46,7 @@ extras = {
     "icu": ["pyicu>=2.3"],
     "ipa": ["epitran>=1.1"],
     "ml": ["numpy>=1.16", "torch>=1.0.0"],
-    "ssg": ["ssg>=0.0.6"],
+    "ssg": ["ssg>=0.0.8"],
     "thai2fit": ["emoji>=0.5.1", "gensim>=4.0.0", "numpy>=1.16.1"],
     "thai2rom": ["numpy>=1.16.1", "torch>=1.0.0"],
     "translate": [
@@ -87,7 +87,7 @@ extras = {
         "pyicu>=2.3",
         "sacremoses>=0.0.41",
         "sentencepiece>=0.1.91",
-        "ssg>=0.0.6",
+        "ssg>=0.0.8",
         "torch>=1.0.0",
         "fastai<2.0",
         "bpemb>=0.3.2",

@@ -66,6 +66,14 @@ nercut
 
 .. autofunction:: pythainlp.tokenize.nercut.segment
 
+sefr_cut
+++++++++
+.. automodule::  pythainlp.tokenize.sefr_cut
+
+oskut
++++++
+.. automodule::  pythainlp.tokenize.oskut
+
 newmm
 +++++
 

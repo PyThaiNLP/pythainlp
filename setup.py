@@ -74,6 +74,7 @@ extras = {
         "symspellpy>=6.7.0"
     ],
     "tltk": ["tltk>=1.3.8"],
+    "oskut": ["oskut>=1.3"],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -97,6 +98,7 @@ extras = {
         "spylls>=0.1.5",
         "symspellpy>=6.7.0",
         "tltk>=1.3.8",
+        "oskut>=1.3",
     ],
 }
 

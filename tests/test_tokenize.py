@@ -22,6 +22,7 @@ from pythainlp.tokenize import (
     word_tokenize,
     sefr_cut,
     tltk,
+    oskut,
 )
 from pythainlp.tokenize import clause_tokenize as sent_clause_tokenize
 from pythainlp.util import dict_trie
@@ -382,6 +383,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(word_tokenize(self.text_1, engine="newmm"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="sefr_cut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="tltk"))
+        self.assertIsNotNone(word_tokenize(self.text_1, engine="oskut"))
 
         with self.assertRaises(ValueError):
             word_tokenize("หมอนทอง", engine="XX")  # engine does not exist
@@ -636,4 +638,14 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertIsNotNone(
             sefr_cut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="tnhc"),
+        )
+
+    def test_oskut(self):
+        self.assertEqual(oskut.segment(None), [])
+        self.assertEqual(oskut.segment(""), [])
+        self.assertIsNotNone(
+            oskut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
+        )
+        self.assertIsNotNone(
+            oskut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="scads"),
         )

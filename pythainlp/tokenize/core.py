@@ -88,6 +88,8 @@ def word_tokenize(
           `SEFR CUT <https://github.com/mrpeerat/SEFR_CUT>`_.,
         * *tltk* - wrapper for
           `TLTK <https://pypi.org/project/tltk/>`_.,
+        * *oskut* - wrapper for
+          `OSKut <https://github.com/mrpeerat/OSKut>`_.,
 
     :Note:
         - The parameter **custom_dict** can be provided as an argument \
@@ -187,6 +189,10 @@ def word_tokenize(
         segments = segment(text)
     elif engine == "tltk":
         from pythainlp.tokenize.tltk import segment
+
+        segments = segment(text)
+    elif engine == "oskut":
+        from pythainlp.tokenize.oskut import segment
 
         segments = segment(text)
     else:

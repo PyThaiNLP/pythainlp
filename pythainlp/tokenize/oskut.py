@@ -22,4 +22,4 @@ def segment(text: str, engine: str = 'ws') -> List[str]:
     if engine != DEFAULT_ENGINE:
         DEFAULT_ENGINE = engine
         oskut.load_model(engine=DEFAULT_ENGINE)
-    return oskut.tokenize(text)[0]
+    return oskut.OSKut(text)

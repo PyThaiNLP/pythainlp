@@ -16,12 +16,12 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 **ข่าวสาร**
 
->นับตั้งแต่ PyThaiNLP 2.4 พวกเราจะยุติการสนับสนุน Python 3.6 แล้ว หากคุณจำเป็นต้องใช้ PyThaiNLP บน Python 3.6 คุณสามารถใช้ PyThaiNLP 2.3.1 ได้
+>นับตั้งแต่ PyThaiNLP 3.0 พวกเราจะยุติการสนับสนุน Python 3.6 แล้ว หากคุณจำเป็นต้องใช้ PyThaiNLP บน Python 3.6 คุณสามารถใช้ PyThaiNLP 2.3.1 ได้
 
 | รุ่น | คำอธิบาย | สถานะ |
 |:------:|:--:|:------:|
 | [2.3.1](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/445) |
-| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 2.4  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/545) |
+| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 3.0  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/545) |
 
 ติดตามพวกเราบน [PyThaiNLP Facebook page](https://www.facebook.com/pythainlp/) เพื่อรับข่าวสารเพิ่มเติม
 

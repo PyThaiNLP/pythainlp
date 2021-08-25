@@ -36,9 +36,6 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
         ['และ', 'คุณ', 'เล่น', 'มือถือ'],
         ['ส่วน', 'น้อง', 'เขียน', 'โปรแกรม']]
     """
-    if not doc or not isinstance(doc, str):
-        return []
-
     from pythainlp.tokenize.crfcls import segment
 
     return segment(doc)

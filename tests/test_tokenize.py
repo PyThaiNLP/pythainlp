@@ -202,8 +202,6 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(_tokenizer.word_tokenize("ก"), ["ก"])
 
     def test_clause_tokenize(self):
-        self.assertEqual(clause_tokenize(None), [])
-        self.assertEqual(clause_tokenize(""), [])
         self.assertIsNotNone(clause_tokenize(["ฉัน", "ทดสอบ"]))
         self.assertIsInstance(clause_tokenize(["ฉัน", "ทดสอบ"]), list)
         self.assertIsNotNone(crfcls.segment(["ฉัน", "ทดสอบ"]))

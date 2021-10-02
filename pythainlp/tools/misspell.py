@@ -61,7 +61,7 @@ def find_neighbour_locations(
     return valid_neighbours
 
 
-def find_potential_misspell_candidates(char: str, verbose: bool = False):
+def find_misspell_candidates(char: str, verbose: bool = False):
     loc = search_location_of_character(char)
     if loc is None:
         return None
@@ -105,7 +105,7 @@ def misspell(sentence: str, ratio: float = 0.05):
     The number of mispelled locations is governed by ratio.
 
     :params str sentence: sentence to be mispelled
-    :params float ratio: number of misspell per 100 characters. Defaults to 0.5.
+    :params float ratio: number of misspells per 100 chars. Defaults to 0.5.
 
     :return: sentence containing some misspelled
     :rtype: str
@@ -126,7 +126,7 @@ def misspell(sentence: str, ratio: float = 0.05):
     # convert strings to array of characters
     misspelled = list(sentence)
     for pos in positions:
-        potential_candidates = find_potential_misspell_candidates(sentence[pos])
+        potential_candidates = find_misspell_candidates(sentence[pos])
         if potential_candidates is None:
             continue
 

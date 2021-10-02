@@ -18,7 +18,10 @@ def _count_difference(st1, st2):
 
 class TestTextMisspellPackage(unittest.TestCase):
     def setUp(self):
-        self.texts = ["เรารักคุณมากที่สุดในโลก", "เราอยู่ที่มหาวิทยาลัยขอนแก่น"]
+        self.texts = [
+            "เรารักคุณมากที่สุดในโลก",
+            "เราอยู่ที่มหาวิทยาลัยขอนแก่น"
+        ]
 
     def test_misspell_naive(self):
         for text in self.texts:
@@ -38,7 +41,10 @@ class TestTextMisspellPackage(unittest.TestCase):
 
             diff = _count_difference(text, misspelled)
 
-            self.assertEqual(diff, 0, "we shouldn't have any  misspell with ratio=0.")
+            self.assertEqual(
+                diff, 0,
+                "we shouldn't have any  misspell with ratio=0."
+            )
 
     def test_misspell_with_ratio_50_percent(self):
         for text in self.texts:
@@ -51,7 +57,7 @@ class TestTextMisspellPackage(unittest.TestCase):
             self.assertLessEqual(
                 np.abs(diff - 0.5 * len(text)),
                 2,
-                f"we should have around 0.5*len(text)±2 number misspell with ratio=0.5. (diff: {diff})",
+                f"expect 0.5*len(text)±2 misspells with ratio=0.5. (Δ={diff})",
             )
 
     def test_misspell_with_ratio_100_percent(self):
@@ -65,5 +71,5 @@ class TestTextMisspellPackage(unittest.TestCase):
             self.assertLessEqual(
                 np.abs(diff - len(text)),
                 2,
-                f"we should have around len(text)-2 number misspell with ratio=1.0. (diff: {diff})",
+                f"expect len(text)-2 misspells with ratio=1.5. (Δ={diff})",
             )

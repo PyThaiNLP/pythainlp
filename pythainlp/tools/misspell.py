@@ -121,7 +121,11 @@ def misspell(sentence: str, ratio: float = 0.05):
             ภาษาไทยปรากฏครั้งแรกในกุทธศักราช 1727 โดยพ่อจุสรามคำแหง
     """
     num_misspells = np.floor(len(sentence) * ratio).astype(int)
-    positions = np.random.choice(len(sentence), size=num_misspells, replace=False)
+    positions = np.random.choice(
+        len(sentence),
+        size=num_misspells,
+        replace=False
+    )
 
     # convert strings to array of characters
     misspelled = list(sentence)

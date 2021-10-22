@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from typing import Dict, List, Tuple, Union
+from typing import List, Tuple, Union
 import re
 from transformers import (
     CamembertTokenizer,
-    AutoTokenizer,
     pipeline,
 )
 

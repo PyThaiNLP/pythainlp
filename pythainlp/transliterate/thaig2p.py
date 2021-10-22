@@ -238,10 +238,10 @@ class AttentionDecoder(nn.Module):
 
         self.dropout = nn.Dropout(dropout)
 
-    def forward(self, input, last_hidden, encoder_outputs, mask):
+    def forward(self, input_character, last_hidden, encoder_outputs, mask):
         """"Defines the forward computation of the decoder"""
 
-        # input: (batch_size, 1)
+        # input_character: (batch_size, 1)
         # last_hidden: (batch_size, hidden_dim)
         # encoder_outputs: (batch_size, sequence_len, hidden_dim)
         # mask: (batch_size, sequence_len)
@@ -253,7 +253,7 @@ class AttentionDecoder(nn.Module):
         context_vector = torch.sum(context_vector, dim=1)
         context_vector = context_vector.unsqueeze(1)
 
-        embedded = self.character_embedding(input)
+        embedded = self.character_embedding(input_character)
         embedded = self.dropout(embedded)
 
         rnn_input = torch.cat((context_vector, embedded), -1)

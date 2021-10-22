@@ -31,7 +31,6 @@ from pythainlp.ulmfit.preprocess import (
 )
 from pythainlp.ulmfit.tokenizer import BaseTokenizer as base_tokenizer
 import pandas as pd
-import random
 import pickle
 import torch
 # fastai
@@ -113,6 +112,9 @@ class TestUlmfitPackage(unittest.TestCase):
 
     def test_remove_space(self):
         self.assertEqual(remove_space([" ", "น้อย", " ", "."]), ["น้อย", "."])
+
+    def test_replace_url(self):
+        self.assertEqual(replace_url("https://thainlp.org web"), "xxurl web")
 
     def test_rm_useless_newlines(self):
         self.assertEqual(rm_useless_newlines("text\n\n"), "text ")

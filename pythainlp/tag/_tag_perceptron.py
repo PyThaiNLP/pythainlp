@@ -17,7 +17,6 @@ This tagger is provided under the terms of the MIT License.
 
 from __future__ import absolute_import
 
-import os
 import json
 import random
 from collections import defaultdict

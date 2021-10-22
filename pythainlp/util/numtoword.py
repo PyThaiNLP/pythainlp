@@ -9,8 +9,6 @@ https://suksit.com/post/writing-bahttext-in-php/
 
 __all__ = ["bahttext", "num_to_thaiword"]
 
-import math
-
 _VALUES = [
     "",
     "หนึ่ง",

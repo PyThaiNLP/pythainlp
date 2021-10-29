@@ -197,7 +197,7 @@ def word_tokenize(
         from pythainlp.tokenize.nlpo3 import segment
         if isinstance(custom_dict, str):
             segments = segment(text, custom_dict=custom_dict)
-        elif not isinstance(custom_dict, str) and custom_dict != None:
+        elif not isinstance(custom_dict, str) and custom_dict is not None:
             raise ValueError(
                 f"""Tokenizer \"{engine}\" not support custom_dict with trie.
                 You can using path of word list."""

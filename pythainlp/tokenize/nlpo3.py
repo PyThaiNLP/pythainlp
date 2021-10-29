@@ -3,6 +3,7 @@ from typing import List
 from nlpo3 import segment as nlpo3_segment
 from pythainlp.corpus import path_pythainlp_corpus, _THAI_WORDS_FILENAME
 
+
 def segment(
     text: str,
     custom_dict: str = path_pythainlp_corpus(_THAI_WORDS_FILENAME),

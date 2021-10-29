@@ -193,12 +193,11 @@ def word_tokenize(
         from pythainlp.tokenize.oskut import segment
 
         segments = segment(text)
-    
     elif engine == "nlpo3":
         from pythainlp.tokenize.nlpo3 import segment
         if isinstance(custom_dict, str):
             segments = segment(text, custom_dict=custom_dict)
-        elif isinstance(custom_dict, str) == False and custom_dict != None:
+        elif not isinstance(custom_dict, str) and custom_dict != None:
             raise ValueError(
                 f"""Tokenizer \"{engine}\" not support custom_dict with trie.
                 You can using path of word list."""

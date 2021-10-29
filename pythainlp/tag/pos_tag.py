@@ -3,7 +3,9 @@ from typing import List, Tuple
 
 
 def pos_tag(
-    words: List[str], engine: str = "perceptron", corpus: str = "orchid"
+    words: List[str],
+    engine: str = "perceptron",
+    corpus: str = "orchid"
 ) -> List[Tuple[str, str]]:
     """
     Marks words with part-of-speech (POS) tags, such as 'NOUN' and 'VERB'.

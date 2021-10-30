@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from typing import List
 from nlpo3 import segment as nlpo3_segment
-from pythainlp.corpus import path_pythainlp_corpus, _THAI_WORDS_FILENAME
+from pythainlp.corpus.common import _THAI_WORDS_FILENAME
+from pythainlp.corpus import path_pythainlp_corpus
 
 
 def segment(

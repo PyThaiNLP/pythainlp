@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from typing import List
+from pathlib import Path
 from nlpo3 import segment as nlpo3_segment
+from nlpo3 import load_dict
 from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 from pythainlp.corpus import path_pythainlp_corpus
 
@@ -29,9 +31,11 @@ def segment(
         * \
             https://github.com/PyThaiNLP/nlpo3
     """
+    _file_name = Path(custom_dict).stem
+    load_dict(custom_dict, _file_name+"_dict")
     return nlpo3_segment(
         text=text,
-        dict_name=custom_dict,
+        dict_name=_file_name+"_dict",
         safe=safe_mode,
         parallel=parallel
     )

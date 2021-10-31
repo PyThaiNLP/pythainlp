@@ -69,6 +69,7 @@ from pythainlp.util.keywords import find_keyword, rank
 from pythainlp.util.normalize import (
     delete_tone,
     normalize,
+    maiyamok,
     remove_dangling,
     remove_dup_spaces,
     remove_repeat_vowels,

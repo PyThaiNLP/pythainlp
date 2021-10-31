@@ -3,6 +3,7 @@
 Text normalization
 """
 import re
+from typing import List, Union
 import warnings
 
 from pythainlp import thai_above_vowels as above_v
@@ -10,6 +11,7 @@ from pythainlp import thai_below_vowels as below_v
 from pythainlp import thai_follow_vowels as follow_v
 from pythainlp import thai_lead_vowels as lead_v
 from pythainlp import thai_tonemarks as tonemarks
+from pythainlp.tokenize import word_tokenize
 
 
 _DANGLING_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
@@ -44,6 +46,24 @@ _NOREPEAT_PAIRS = list(
 _RE_TONEMARKS = re.compile(f"[{tonemarks}]+")
 
 _RE_REMOVE_NEWLINES = re.compile("[ \n]*\n[ \n]*")
+
+_list_phrase="""ไฟไหม้
+ในแต่ละวัน
+ในชั่วพริบตา
+เวรกรรม
+กรรมเวร
+วันหนึ่ง
+อ่านหนังสือ
+กินข้าว
+ดีแต่พูด
+กล้วยไม้ป่า
+ออกดอกสะพรั่ง
+สนุกสนาน
+ร่ำรวย
+ก้องกังวาน
+ทำมาหากิน
+มากมาย""".splitlines()
+_maiyamok_rule="|".join(_list_phrase)
 
 
 def _last_char(matchobj):  # to be used with _RE_NOREPEAT_TONEMARKS
@@ -254,3 +274,45 @@ def delete_tone(text: str) -> str:
         DeprecationWarning,
     )
     return remove_tonemark(text)
+
+
+def maiyamok(sent: Union[str, List[str]]) -> List[str]:
+    """
+    Thai MaiYaMok
+
+    MaiYaMok (ๆ) is the mark of duplicate word in Thai language.
+    This function is preprocessing MaiYaMok in Thai sentence.
+
+    :param Union[str, List[str]] sent: input sentence (list or str)
+    :return: List of words
+    :rtype: List[str]
+
+    :Example:
+    ::
+
+        from pythainlp.util import maiyamok
+
+        maiyamok("เด็กๆชอบไปโรงเรียน")
+        # output: ['เด็ก', 'เด็ก', 'ชอบ', 'ไป', 'โรงเรียน']
+
+        maiyamok(["ทำไม","คน","ดี"," ","ๆ","ๆ"," ","ถึง","ทำ","ไม่ได้"])
+        # output: ['ทำไม', 'คน', 'ดี', 'ดี', 'ดี', ' ', 'ถึง', 'ทำ', 'ไม่ได้']
+    """
+    if isinstance(sent, str):
+        sent = word_tokenize(sent)
+    _list_word = []
+    i=0
+    for j,text in enumerate(sent):
+        if text == " " and sent[j+1] == "ๆ":
+            continue
+        if " ๆ" in text:
+            text = text.replace(" ๆ", "ๆ")
+        if "ๆ" == text:
+            text = _list_word[i-1]
+        elif "ๆ" in text:
+            text = text.replace("ๆ", "")
+            _list_word.append(text)
+            i += 1
+        _list_word.append(text)
+        i += 1
+    return _list_word

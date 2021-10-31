@@ -47,24 +47,6 @@ _RE_TONEMARKS = re.compile(f"[{tonemarks}]+")
 
 _RE_REMOVE_NEWLINES = re.compile("[ \n]*\n[ \n]*")
 
-_list_phrase = """ไฟไหม้
-ในแต่ละวัน
-ในชั่วพริบตา
-เวรกรรม
-กรรมเวร
-วันหนึ่ง
-อ่านหนังสือ
-กินข้าว
-ดีแต่พูด
-กล้วยไม้ป่า
-ออกดอกสะพรั่ง
-สนุกสนาน
-ร่ำรวย
-ก้องกังวาน
-ทำมาหากิน
-มากมาย""".splitlines()
-_maiyamok_rule = "|".join(_list_phrase)
-
 
 def _last_char(matchobj):  # to be used with _RE_NOREPEAT_TONEMARKS
     return matchobj.group(0)[-1]

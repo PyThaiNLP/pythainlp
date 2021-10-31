@@ -47,7 +47,7 @@ _RE_TONEMARKS = re.compile(f"[{tonemarks}]+")
 
 _RE_REMOVE_NEWLINES = re.compile("[ \n]*\n[ \n]*")
 
-_list_phrase="""ไฟไหม้
+_list_phrase = """ไฟไหม้
 ในแต่ละวัน
 ในชั่วพริบตา
 เวรกรรม
@@ -63,7 +63,7 @@ _list_phrase="""ไฟไหม้
 ก้องกังวาน
 ทำมาหากิน
 มากมาย""".splitlines()
-_maiyamok_rule="|".join(_list_phrase)
+_maiyamok_rule = "|".join(_list_phrase)
 
 
 def _last_char(matchobj):  # to be used with _RE_NOREPEAT_TONEMARKS
@@ -301,8 +301,8 @@ def maiyamok(sent: Union[str, List[str]]) -> List[str]:
     if isinstance(sent, str):
         sent = word_tokenize(sent)
     _list_word = []
-    i=0
-    for j,text in enumerate(sent):
+    i = 0
+    for j, text in enumerate(sent):
         if text == " " and sent[j+1] == "ๆ":
             continue
         if " ๆ" in text:

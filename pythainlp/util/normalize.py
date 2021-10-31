@@ -285,7 +285,7 @@ def maiyamok(sent: Union[str, List[str]]) -> List[str]:
     _list_word = []
     i = 0
     for j, text in enumerate(sent):
-        if text == " " and sent[j+1] == "ๆ":
+        if text.isspace() and "ๆ" in sent[j+1]:
             continue
         if " ๆ" in text:
             text = text.replace(" ๆ", "ๆ")

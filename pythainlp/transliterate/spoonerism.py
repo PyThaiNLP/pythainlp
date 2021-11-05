@@ -34,7 +34,7 @@ def puan(word: str, show_pronunciation: bool = True) -> str:
     _list_pron = word.split('-')
     _mix_list = ""
     if len(_list_pron) == 1:
-        return word[0]
+        return word
     if show_pronunciation:
         _mix_list = "-"
     for i in _list_pron:

@@ -9,8 +9,8 @@ def puan(word: str, show_pronunciation: bool = True) -> str:
     """
     Thai Spoonerism
 
-    This function covent Thai word to Thai spoonerism word.
-    This function only supports words with 2 to 3 syllables.
+    This function converts Thai word to spoonerized.
+    It only supports words with 2 to 3 syllables.
 
     :param str word: Thai word to be spoonerism
     :param bool show_pronunciation: True (default) or False
@@ -29,12 +29,12 @@ def puan(word: str, show_pronunciation: bool = True) -> str:
         puan("นาริน", False)
         # output: 'นินรา'
     """
-    _word = pronunciate(word, engine="w2p")
+    word = pronunciate(word, engine="w2p")
     _list_char = []
-    _list_pron = _word.split('-')
+    _list_pron = word.split('-')
     _mix_list = ""
     if len(_list_pron) == 1:
-        return word
+        return word[0]
     if show_pronunciation:
         _mix_list = "-"
     for i in _list_pron:
@@ -63,8 +63,11 @@ def puan(word: str, show_pronunciation: bool = True) -> str:
         _list_w.append(list_w_char[1][0].replace(
             list_w_char[1][1], list_w_char[2][1], 1)
         )
-    else:  # > 3 syllables?
-        return word
+    else:  # > 3 syllables
+        raise ValueError(
+            """{0} is more than 3 syllables.\n
+            It only supports words with 2 to 3 syllables.""".format(word)
+        )
     if not show_pronunciation:
         _list_w = [i.replace("หฺ", "") for i in _list_w]
     return _mix_list.join(_list_w)

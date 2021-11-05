@@ -156,3 +156,7 @@ class TestTransliteratePackage(unittest.TestCase):
     def test_puan(self):
         self.assertEqual(puan("นาริน"), "นิน-รา")
         self.assertEqual(puan("นาริน", False), "นินรา")
+        self.assertEqual(puan("แสงดีนะ"), "แสง-ดะ-นี")
+        self.assertEqual(puan("แสงดีนะ", False), "แสงดะนี")
+        with self.assertRaises(ValueError):
+            self.assertEqual(puan("สวัสดีครับ"), "สวัสดีครับ")

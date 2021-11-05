@@ -63,6 +63,6 @@ def puan(word: str, show_pronunciation: bool = True) -> str:
         _list_w.append(list_w_char[1][0].replace(
             list_w_char[1][1], list_w_char[2][1], 1)
         )
-    else: # > 3 syllables?
+    else:  # > 3 syllables?
         return word
     return _mix_list.join(_list_w)

@@ -152,7 +152,7 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertIsNotNone(pronunciate("มข.", engine="w2p"))
         self.assertIsNotNone(pronunciate("มช.", engine="w2p"))
         self.assertIsNotNone(pronunciate("jks", engine="w2p"))
-    
+
     def test_puan(self):
         self.assertEqual(puan("นาริน"), "นิน-รา")
         self.assertEqual(puan("นาริน", False), "นินรา")

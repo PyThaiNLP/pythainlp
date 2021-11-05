@@ -9,10 +9,10 @@ def puan(word: str, show_pronunciation: bool = True) -> str:
     """
     Thai Spoonerism
 
-    This function converts Thai word to spoonerized.
+    This function converts Thai word to spoonerism word.
     It only supports words with 2 to 3 syllables.
 
-    :param str word: Thai word to be spoonerism
+    :param str word: Thai word to be spoonerized
     :param bool show_pronunciation: True (default) or False
 
     :return: A string of Thai spoonerism word.

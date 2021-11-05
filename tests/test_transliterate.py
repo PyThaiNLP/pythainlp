@@ -3,7 +3,7 @@
 import unittest
 
 import torch
-from pythainlp.transliterate import romanize, transliterate, pronunciate
+from pythainlp.transliterate import romanize, transliterate, pronunciate, puan
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.thai2rom import ThaiTransliterator
 from pythainlp.corpus import remove
@@ -152,3 +152,10 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertIsNotNone(pronunciate("มข.", engine="w2p"))
         self.assertIsNotNone(pronunciate("มช.", engine="w2p"))
         self.assertIsNotNone(pronunciate("jks", engine="w2p"))
+    
+    def test_puan(self):
+        self.assertEqual(puan("นาริน"), "นิน-รา")
+        self.assertEqual(puan("นาริน", False), "นินรา")
+        self.assertEqual(puan("สวัสดี"), "สะ-หี-ดวัด")
+        self.assertEqual(puan("สวัสดี", False), "สะหีดวัด")
+        self.assertEqual(puan("สวัสดีครับ"), "สวัสดีครับ")

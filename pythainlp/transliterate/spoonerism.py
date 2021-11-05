@@ -42,7 +42,7 @@ def puan(word: str, show_pronunciation: bool = True) -> str:
             if j in _list_consonants:
                 _list_char.append(j)
                 break
-            elif "ห" in j and "หฺ" not in j:
+            elif "ห" in j and "หฺ" not in i:
                 _list_char.append(j)
                 break
 
@@ -65,4 +65,6 @@ def puan(word: str, show_pronunciation: bool = True) -> str:
         )
     else:  # > 3 syllables?
         return word
+    if not show_pronunciation:
+        _list_w = [i.replace("หฺ", "") for i in _list_w]
     return _mix_list.join(_list_w)

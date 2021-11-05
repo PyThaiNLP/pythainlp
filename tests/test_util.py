@@ -28,6 +28,7 @@ from pythainlp.util import (
     normalize,
     now_reign_year,
     num_to_thaiword,
+    maiyamok,
     rank,
     reign_year_to_ad,
     remove_dangling,
@@ -531,6 +532,57 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(remove_zw("ก\u200cา"), "กา")
         self.assertEqual(remove_zw("\u200bกา"), "กา")
         self.assertEqual(remove_zw("กา\u200b\u200c\u200b"), "กา")
+
+        # maiyamok
+        self.assertEqual(
+            maiyamok("เด็กๆชอบไปโรงเรียน"),
+            ['เด็ก', 'เด็ก', 'ชอบ', 'ไป', 'โรงเรียน']
+        )
+        self.assertEqual(
+            maiyamok([
+                "ทำไม",
+                "คน",
+                "ดี",
+                " ",
+                "ๆ",
+                "ๆ",
+                " ",
+                "ถึง",
+                "ทำ",
+                "ไม่ได้"
+            ]),
+            ["ทำไม", "คน", "ดี", "ดี", "ดี", " ", "ถึง", "ทำ", "ไม่ได้"]
+        )
+        self.assertEqual(
+            maiyamok([
+                "ทำไม",
+                "คน",
+                "ดี",
+                " ",
+                " ๆ",
+                "ๆ",
+                " ",
+                "ถึง",
+                "ทำ",
+                "ไม่ได้"
+            ]),
+            ["ทำไม", "คน", "ดี", "ดี", "ดี", " ", "ถึง", "ทำ", "ไม่ได้"]
+        )
+        self.assertEqual(
+            maiyamok([
+                "ทำไม",
+                "คน",
+                "ดีๆ",
+                " ",
+                "ๆ",
+                "ๆ",
+                " ",
+                "ถึง",
+                "ทำ",
+                "ไม่ได้"
+            ]),
+            ["ทำไม", "คน", "ดี", "ดี", "ดี", "ดี", " ", "ถึง", "ทำ", "ไม่ได้"]
+        )
 
     # ### pythainlp.util.thai
 

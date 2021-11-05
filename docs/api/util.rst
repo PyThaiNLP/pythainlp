@@ -23,6 +23,7 @@ Modules
 .. autofunction:: normalize
 .. autofunction:: now_reign_year
 .. autofunction:: num_to_thaiword
+.. autofunction:: maiyamok
 .. autofunction:: rank
 .. autofunction:: reign_year_to_ad
 .. autofunction:: remove_dangling

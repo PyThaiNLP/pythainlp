@@ -10,6 +10,7 @@ Modules
 .. autofunction:: romanize
 .. autofunction:: transliterate
 .. autofunction:: pronunciate
+.. autofunction:: puan
 
 Romanize Engines
 ----------------

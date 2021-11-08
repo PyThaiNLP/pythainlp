@@ -75,7 +75,7 @@ extras = {
     ],
     "tltk": ["tltk>=1.3.8"],
     "oskut": ["oskut>=1.3"],
-    "nlpo3": ["nlpo3>=1.1.3"],
+    "nlpo3": ["nlpo3>=1.2.0"],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -100,7 +100,7 @@ extras = {
         "symspellpy>=6.7.0",
         "tltk>=1.3.8",
         "oskut>=1.3",
-        "nlpo3>=1.1.3",
+        "nlpo3>=1.2.0",
     ],
 }
 

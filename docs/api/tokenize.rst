@@ -54,6 +54,7 @@ nlpo3
 +++++
 .. automodule::  pythainlp.tokenize.nlpo3
 
+.. autofunction:: pythainlp.tokenize.nlpo3.load_dict
 .. autofunction:: pythainlp.tokenize.nlpo3.segment
 
 longest

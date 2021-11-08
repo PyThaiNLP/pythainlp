@@ -9,12 +9,16 @@ from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 from pythainlp.corpus import path_pythainlp_corpus
 
 _NLPO3_DEFAULT_DICT_NAME = "_67a47bf9"
-_NLPO3_DEFAULT_DICT = nlpo3_load_dict(path_pythainlp_corpus(_THAI_WORDS_FILENAME), _NLPO3_DEFAULT_DICT_NAME)
+_NLPO3_DEFAULT_DICT = nlpo3_load_dict(
+                        path_pythainlp_corpus(_THAI_WORDS_FILENAME),
+                        _NLPO3_DEFAULT_DICT_NAME
+                      )
+
 
 def load_dict(file_path: str, dict_name: str) -> bool:
     """
     Load a dictionary file into an in-memory dictionary collection.
-    
+
     The loaded dictionary will be accessible throught the assigned dict_name.
     *** This function does not override an existing dict name. ***
 
@@ -30,8 +34,9 @@ def load_dict(file_path: str, dict_name: str) -> bool:
     """
     msg, success = nlpo3_load_dict(filepath=filepath, dict_name=dict_name)
     if bool is False:
-        print(msg, file=sys.stderr)        
+        print(msg, file=sys.stderr)
     return success
+
 
 def segment(
     text: str,

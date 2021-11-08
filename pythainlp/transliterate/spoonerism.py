@@ -42,7 +42,7 @@ def puan(word: str, show_pronunciation: bool = True) -> str:
             if j in _list_consonants:
                 _list_char.append(j)
                 break
-            elif "ห" is j and "หฺ" not in i and len(i) is 2:
+            elif "ห" == j and "หฺ" not in i and len(i) == 2:
                 _list_char.append(j)
                 break
 

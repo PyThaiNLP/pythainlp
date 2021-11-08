@@ -3,7 +3,6 @@
 Perceptron part-of-speech tagger
 """
 import os
-import pickle
 from typing import List, Tuple
 
 from pythainlp.corpus import corpus_path, get_corpus_path

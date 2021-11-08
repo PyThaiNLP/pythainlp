@@ -34,7 +34,7 @@ def load_dict(file_path: str, dict_name: str) -> bool:
     """
     msg, success = nlpo3_load_dict(filepath=filepath, dict_name=dict_name)
     if bool is False:
-        print(msg, file=sys.stderr)
+        print(msg, file=stderr)
     return success
 
 

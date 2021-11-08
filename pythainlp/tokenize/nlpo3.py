@@ -32,7 +32,7 @@ def load_dict(file_path: str, dict_name: str) -> bool:
         * \
             https://github.com/PyThaiNLP/nlpo3
     """
-    msg, success = nlpo3_load_dict(filepath=filepath, dict_name=dict_name)
+    msg, success = nlpo3_load_dict(file_path=file_path, dict_name=dict_name)
     if bool is False:
         print(msg, file=stderr)
     return success

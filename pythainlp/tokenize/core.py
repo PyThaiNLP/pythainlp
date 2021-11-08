@@ -200,7 +200,8 @@ def word_tokenize(
         elif not isinstance(custom_dict, str) and custom_dict is not None:
             raise ValueError(
                 f"""Tokenizer \"{engine}\":
-                Custom_dict must be a dictionary name as assigned with load_dict().
+                custom_dict must be a str.
+                It is a dictionary name as assigned with load_dict().
                 See pythainlp.tokenize.nlpo3.load_dict()"""
             )
         else:

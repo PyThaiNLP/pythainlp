@@ -50,6 +50,13 @@ multi_cut
 .. autofunction:: pythainlp.tokenize.multi_cut.segment
 .. autofunction:: pythainlp.tokenize.multi_cut.find_all_segment
 
+nlpo3
++++++
+.. automodule::  pythainlp.tokenize.nlpo3
+
+.. autofunction:: pythainlp.tokenize.nlpo3.load_dict
+.. autofunction:: pythainlp.tokenize.nlpo3.segment
+
 longest
 +++++++
 .. automodule::  pythainlp.tokenize.longest

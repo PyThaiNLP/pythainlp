@@ -69,6 +69,7 @@ def word_tokenize(
           Thai Character Cluster
         * *newmm-safe* - newmm, with a mechanism to help avoid long
           processing time for text with continuous ambiguous breaking points
+        * *nlpo3* - Python binding for nlpO3. It is newmm engine in Rust.
         * *longest* - dictionary-based, Longest Matching
         * *icu* - wrapper for ICU (International Components for Unicode,
           using PyICU), dictionary-based
@@ -192,6 +193,19 @@ def word_tokenize(
         from pythainlp.tokenize.oskut import segment
 
         segments = segment(text)
+    elif engine == "nlpo3":
+        from pythainlp.tokenize.nlpo3 import segment
+        if isinstance(custom_dict, str):
+            segments = segment(text, custom_dict=custom_dict)
+        elif not isinstance(custom_dict, str) and custom_dict is not None:
+            raise ValueError(
+                f"""Tokenizer \"{engine}\":
+                custom_dict must be a str.
+                It is a dictionary name as assigned with load_dict().
+                See pythainlp.tokenize.nlpo3.load_dict()"""
+            )
+        else:
+            segments = segment(text)
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.

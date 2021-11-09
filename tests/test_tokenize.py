@@ -372,6 +372,7 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
         )
+        self.assertIsNotNone(word_tokenize(self.text_1, engine="nlpo3"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="attacut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="deepcut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="icu"))

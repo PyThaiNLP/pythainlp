@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from pathlib import Path
 from sys import stderr
 from typing import List
 
@@ -16,13 +15,12 @@ _NLPO3_DEFAULT_DICT = nlpo3_load_dict(
 
 
 def load_dict(file_path: str, dict_name: str) -> bool:
-    """
-    Load a dictionary file into an in-memory dictionary collection.
+    """Load a dictionary file into an in-memory dictionary collection.
 
     The loaded dictionary will be accessible throught the assigned dict_name.
     *** This function does not override an existing dict name. ***
 
-    :param file_path: Absolute path to a dictionary file
+    :param file_path: Path to a dictionary file
     :type file_path: str
     :param dict_name: A unique dictionary name, use for reference.
     :type dict_name: str
@@ -44,8 +42,7 @@ def segment(
     safe_mode: bool = False,
     parallel_mode: bool = False
 ) -> List[str]:
-    """
-    Break text into tokens.
+    """Break text into tokens.
 
     Python binding for nlpO3. It is newmm engine in Rust.
 

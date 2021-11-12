@@ -111,7 +111,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     author="PyThaiNLP",
-    author_email="wannaphong@kkumail.com",
+    author_email="email@wannaphong.com",
     url="https://github.com/PyThaiNLP/pythainlp",
     packages=find_packages(exclude=["tests", "tests.*"]),
     test_suite="tests",

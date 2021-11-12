@@ -35,7 +35,6 @@ See https://github.com/PyThaiNLP/pythainlp for installation options.
 """
 
 requirements = [
-    "python-crfsuite>=0.9.6",
     "requests>=2.22.0",
     "tinydb>=3.0",
 ]
@@ -74,6 +73,7 @@ extras = {
         "ssg>=0.0.6",
         "torch>=1.0.0",
         "transformers>=4.1.1",
+        "python-crfsuite>=0.9.6",
     ],
 }
 

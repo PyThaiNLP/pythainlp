@@ -74,7 +74,7 @@ extras = {
     ],
     "tltk": ["tltk>=1.3.8"],
     "oskut": ["oskut>=1.3"],
-    "nlpo3": ["nlpo3>=1.2.1"],
+    "nlpo3": ["nlpo3>=1.2.2"],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -99,8 +99,7 @@ extras = {
         "symspellpy>=6.7.0",
         "tltk>=1.3.8",
         "oskut>=1.3",
-        "nlpo3>=1.2.1",
-        "python-crfsuite>=0.9.6",
+        "nlpo3>=1.2.2",
     ],
 }
 
@@ -111,7 +110,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     author="PyThaiNLP",
-    author_email="wannaphong@kkumail.com",
+    author_email="email@wannaphong.com",
     url="https://github.com/PyThaiNLP/pythainlp",
     packages=find_packages(exclude=["tests", "tests.*"]),
     test_suite="tests",

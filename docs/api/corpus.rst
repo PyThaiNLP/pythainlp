@@ -24,14 +24,6 @@ Modules
 .. autofunction:: thai_female_names
 .. autofunction:: thai_male_names
 
-ConceptNet
-----------
-
-ConceptNet is an open, multilingual knowledge graph
-See: https://github.com/commonsense/conceptnet5/wiki/API
-
-.. autofunction:: pythainlp.corpus.conceptnet.edges
-
 TNC
 ---
 

@@ -4,7 +4,6 @@ import unittest
 
 from nltk.corpus import wordnet as wn
 from pythainlp.corpus import (
-    conceptnet,
     countries,
     download,
     get_corpus_db,
@@ -30,9 +29,6 @@ from requests import Response
 
 
 class TestCorpusPackage(unittest.TestCase):
-    def test_conceptnet(self):
-        self.assertIsNotNone(conceptnet.edges("รัก"))
-
     def test_corpus(self):
         self.assertIsInstance(thai_negations(), frozenset)
         self.assertIsInstance(thai_stopwords(), frozenset)

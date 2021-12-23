@@ -62,3 +62,13 @@ Runtime Configurations
    within the home directory.
 
    Type `thainlp data path` at command line to see current PYTHAINLP_DATA_DIR.
+
+
+FAQ
+===
+
+Q: How to install pythainlp in Python 3.10+?
+A: For Python 3.10+, We have python-crfsuite problem in pythainlp, so you can read about `python-crfsuite dependency fails to build under python 3.10 <https://github.com/PyThaiNLP/pythainlp/issues/626>`_.
+
+Q: How to set the environment variables of each executor node in a distributed environment?
+A: You can read `PermissionError: [Errno 13] Permission denied: /home/pythainlp-data <https://github.com/PyThaiNLP/pythainlp/issues/475>`_.

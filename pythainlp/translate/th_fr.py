@@ -8,7 +8,6 @@ Model from Language Technology Research Group at the University of Helsinki
 
 BLEU 20.4
 
-- GitHub: https://github.com/Helsinki-NLP/OPUS-MT-train/tree/master/models/th-fr
 - Huggingface https://huggingface.co/Helsinki-NLP/opus-mt-th-fr
 """
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
@@ -24,7 +23,6 @@ class ThFrTranslator:
 
     BLEU 20.4
 
-    - GitHub: https://github.com/Helsinki-NLP/OPUS-MT-train/tree/master/models/th-fr
     - Huggingface https://huggingface.co/Helsinki-NLP/opus-mt-th-fr
     """
     def __init__(self, pretrained: str = "Helsinki-NLP/opus-mt-th-fr") -> None:

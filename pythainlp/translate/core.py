@@ -13,6 +13,7 @@ class Translate:
         * *en* - *th* - English to Thai
         * *th* - *zh* - Thai to Chinese
         * *zh* - *th* - Chinese to Thai
+        * *th* - *fr* - Thai to French
 
     :Example:
 
@@ -34,6 +35,7 @@ class Translate:
             * *en* - *th* - English to Thai
             * *th* - *zh* - Thai to Chinese
             * *zh* - *th* - Chinese to Thai
+            * *th* - *fr* - Thai to French
 
         :Example:
 
@@ -61,6 +63,9 @@ class Translate:
         elif src_lang == "zh" and target_lang == "th":
             from pythainlp.translate.zh_th import ZhThTranslator
             self.model = ZhThTranslator()
+        elif src_lang == "th" and target_lang == "fr":
+            from pythainlp.translate.th_fr import ThFrTranslator
+            self.model = ThFrTranslator()
         else:
             raise ValueError("Not support language!")
 

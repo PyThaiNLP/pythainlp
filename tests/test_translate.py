@@ -3,12 +3,14 @@
 import unittest
 
 from pythainlp.translate import (
-    EnThTranslator,
-    ThEnTranslator,
     ThZhTranslator,
     ZhThTranslator,
-    download_model_all,
     Translate
+)
+from pythainlp.translate.en_th import (
+    EnThTranslator,
+    ThEnTranslator,
+    download_model_all
 )
 from pythainlp.corpus import remove
 
@@ -63,6 +65,12 @@ class TestTranslatePackage(unittest.TestCase):
         self.assertIsNotNone(
             self.zh_th_translator.translate(
                 "我爱你",
+            )
+        )
+        self.th_fr_translator = Translate('th', 'fr')
+        self.assertIsNotNone(
+            self.th_fr_translator.translate(
+                "ทดสอบระบบ",
             )
         )
         with self.assertRaises(ValueError):

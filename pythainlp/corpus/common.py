@@ -112,7 +112,7 @@ def thai_syllables() -> FrozenSet[str]:
     "โมน", "โม่ง", "กา", "ก่า", and, "ก้า".
     \n(See: `dev/pythainlp/corpus/syllables_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/syllables_th.txt>`_)
-    We using thai syllables list from `KuCut <https://github.com/Thanabhat/KUCut>`_.
+    We using thai syllables list from `KUCut <https://github.com/Thanabhat/KUCut>`_.
 
     :return: :class:`frozenset` containing syllables in Thai language.
     :rtype: :class:`frozenset`

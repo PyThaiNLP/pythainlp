@@ -144,6 +144,11 @@ def thai_stopwords() -> FrozenSet[str]:
     Return a frozenset of Thai stopwords such as "มี", "ไป", "ไง", "ขณะ",
     "การ", and "ประการหนึ่ง". \n(See: `dev/pythainlp/corpus/stopwords_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/stopwords_th.txt>`_)
+    We using stopword lists by thesis's เพ็ญศิริ ลี้ตระกูล.
+
+    :See Also:
+
+    เพ็ญศิริ ลี้ตระกูล . การเลือกประโยคสำคัญในการสรุปความภาษาไทยโดยใช้แบบจำลองแบบลำดับชั้น. กรุงเทพมหานคร : มหาวิทยาลัยธรรมศาสตร์; 2551.
 
     :return: :class:`frozenset` containing stopwords.
     :rtype: :class:`frozenset`

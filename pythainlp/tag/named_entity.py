@@ -73,7 +73,7 @@ class NER:
             >>> from pythainlp.tag import NER
             >>>
             >>> ner = NER("thainer")
-            >>> ner.tag("ทดสอบยนายวรรณพงษ์ ภัททิยไพบูลย์")
+            >>> ner.tag("ทดสอบนายวรรณพงษ์ ภัททิยไพบูลย์")
             [('ทดสอบ', 'VV', 'O'),
             ('นาย', 'NN', 'B-PERSON'),
             ('วรรณ', 'NN', 'I-PERSON'),
@@ -81,8 +81,8 @@ class NER:
             (' ', 'PU', 'I-PERSON'),
             ('ภัททิย', 'NN', 'I-PERSON'),
             ('ไพบูลย์', 'NN', 'I-PERSON')]
-            >>> ner.tag("ทดสอบยนายวรรณพงษ์ ภัททิยไพบูลย์", tag=True)
-            'ทดสอบย<PERSON>นายวรรณพงษ์ ภัททิยไพบูลย์</PERSON>'
+            >>> ner.tag("ทดสอบนายวรรณพงษ์ ภัททิยไพบูลย์", tag=True)
+            'ทดสอบ<PERSON>นายวรรณพงษ์ ภัททิยไพบูลย์</PERSON>'
         """
         if pos and self.name_engine == "wangchanberta":
             warnings.warn(

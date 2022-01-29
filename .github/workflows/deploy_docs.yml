@@ -16,10 +16,13 @@ jobs:
         python-version: 3.7
     - name: Install dependencies
       run: |
-        sudo apt install pandoc
         python -m pip install --upgrade pip
-        pip install -e .[full]
+        pip install pytest coverage coveralls
+        if [ -f docker_requirements.txt ]; then pip install -r docker_requirements.txt; fi
+        pip install deepcut
+        pip install .[full]
         pip install boto smart_open sphinx sphinx-rtd-theme
+        python -m nltk.downloader omw-1.4
     - name: Build sphinx documentation
       run: |
         cd docs && make html

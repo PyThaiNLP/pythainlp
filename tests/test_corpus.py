@@ -121,7 +121,7 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsNotNone(ttc.unigram_word_freqs())
 
     def test_wordnet(self):
-        nltk.download('omw-1.4')  # load wordnet
+        nltk.download('omw-1.4', force=True)  # load wordnet
         self.assertIsInstance(wordnet.langs(), list)
         self.assertIn("tha", wordnet.langs())
 

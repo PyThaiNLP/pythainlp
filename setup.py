@@ -105,7 +105,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="3.0.0-beta0",
+    version="3.0.0",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -154,7 +154,7 @@ setup(
         ],
     },
     project_urls={
-        "Documentation": "https://pythainlp.github.io/docs/2.3/",
+        "Documentation": "https://pythainlp.github.io/docs/3.0/",
         "Tutorials": "https://pythainlp.github.io/tutorials/",
         "Source Code": "https://github.com/PyThaiNLP/pythainlp",
         "Bug Tracker": "https://github.com/PyThaiNLP/pythainlp/issues",

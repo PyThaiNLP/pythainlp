@@ -9,6 +9,7 @@ from pythainlp.augment.word2vec import (
     Thai2fitAug,
     LTW2VAug
 )
+import nltk
 
 
 class TestTextaugmentPackage(unittest.TestCase):
@@ -17,6 +18,7 @@ class TestTextaugmentPackage(unittest.TestCase):
         self.text2 = "เราอยู่ที่มหาวิทยาลัยขอนแก่น"
 
     def test_WordNetAug(self):
+        nltk.download('omw-1.4', force=True)  # load wordnet
         wordnetaug = WordNetAug()
         self.assertIsNotNone(wordnetaug.augment(self.text))
         self.assertIsNotNone(wordnetaug.find_synonyms("ผม", pos=None))

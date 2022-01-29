@@ -19,12 +19,12 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 **News**
 
->Since PyThaiNLP 3.0, We will end support PyThaiNLP on Python 3.6. Python 3.6 users can use PyThaiNLP 2.3.1
+>Since PyThaiNLP 3.0, We will end support PyThaiNLP on Python 3.6. Python 3.6 users can use PyThaiNLP 2.3.2
 
 | Version | Description | Status |
 |:------:|:--:|:------:|
-| [2.3.2](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/445) |
-| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 3.0  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/545) |
+| [3.0](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/545) |
+| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 3.1  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/545) |
 
 
 ## Getting Started
@@ -133,6 +133,10 @@ thainlp help
 
 - Please do fork and create a pull request :)
 - For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
+
+## Who uses PyThaiNLP?
+
+You can read [INTHEWILD.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md).
 
 
 ## Citations

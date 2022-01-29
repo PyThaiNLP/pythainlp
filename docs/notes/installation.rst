@@ -27,7 +27,11 @@ where ``extras`` can be
   - ``mt5`` (to mt5 models for Thai text summarizer)
   - ``wordnet`` (to support wordnet)
   - ``spell`` (to support phunspell & symspellpy)
+  - ``generate`` (to support text generate with umlfit or thai2fit)
   - ``tltk`` (to support tltk)
+  - ``textaugment`` (to support text augmentation)
+  - ``oskut`` (to support OSKUT)
+  - ``nlpo3`` (to support nlpo3 enging)
   - ``full`` (install everything)
 
 For dependency details, look at `extras` variable in `setup.py <https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py>`_.

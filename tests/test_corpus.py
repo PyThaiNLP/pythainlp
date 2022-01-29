@@ -27,6 +27,7 @@ from pythainlp.corpus import (
 )
 from pythainlp.corpus.util import revise_newmm_default_wordset
 from requests import Response
+import nltk
 
 
 class TestCorpusPackage(unittest.TestCase):
@@ -120,6 +121,7 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsNotNone(ttc.unigram_word_freqs())
 
     def test_wordnet(self):
+        nltk.download('omw-1.4')  # load wordnet
         self.assertIsInstance(wordnet.langs(), list)
         self.assertIn("tha", wordnet.langs())
 

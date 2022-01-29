@@ -33,6 +33,7 @@ jobs:
         if [ -f docker_requirements.txt ]; then pip install -r docker_requirements.txt; fi
         pip install deepcut
         pip install .[full]
+        python -m nltk.downloader omw-1.4
     - name: Test
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

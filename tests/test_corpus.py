@@ -122,7 +122,7 @@ class TestCorpusPackage(unittest.TestCase):
 
     def test_wordnet(self):
         nltk.download('omw-1.4', force=True)  # load wordnet
-        self.assertIsInstance(wordnet.langs(), list)
+        self.assertIsNotNone(wordnet.langs())
         self.assertIn("tha", wordnet.langs())
 
         self.assertEqual(

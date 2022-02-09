@@ -67,6 +67,9 @@ Runtime Configurations
 
    Type `thainlp data path` at command line to see current PYTHAINLP_DATA_DIR.
 
+.. envvar:: PYTHAINLP_READ_MODE
+
+   This environment variable specifies config PyThaiNLP to read-only mode. (0 = False, 1 = True)
 
 FAQ
 ===
@@ -76,3 +79,6 @@ A: For Python 3.10+, We have python-crfsuite problem in pythainlp, so you can re
 
 Q: How to set the environment variables of each executor node in a distributed environment?
 A: You can read `PermissionError: [Errno 13] Permission denied: /home/pythainlp-data <https://github.com/PyThaiNLP/pythainlp/issues/475>`_.
+
+Q: How to fixed PyThaiNLP to read-only mode?
+A: You can config PYTHAINLP_READ_MODE.

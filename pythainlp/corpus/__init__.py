@@ -38,6 +38,7 @@ from tinydb import TinyDB
 
 _CORPUS_DIRNAME = "corpus"
 _CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
+_CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
 
 # remote corpus catalog URL
 _CORPUS_DB_URL = (
@@ -51,7 +52,7 @@ _CORPUS_DB_FILENAME = "db.json"
 _CORPUS_DB_PATH = get_full_data_path(_CORPUS_DB_FILENAME)
 
 # create a local corpus database if it does not already exist
-if not os.path.exists(_CORPUS_DB_PATH):
+if not os.path.exists(_CORPUS_DB_PATH) or _CHECK_MODE != "1":
     TinyDB(_CORPUS_DB_PATH).close()
 
 

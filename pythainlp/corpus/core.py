@@ -17,6 +17,9 @@ from tinydb import Query, TinyDB
 from pythainlp import __version__
 
 
+_CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
+
+
 def get_corpus_db(url: str) -> requests.Response:
     """
     Get corpus catalog from server.
@@ -42,7 +45,10 @@ def get_corpus_db_detail(name: str, version: str = None) -> dict:
     :return: details about a corpus
     :rtype: dict
     """
-    local_db = TinyDB(corpus_db_path())
+    if _CHECK_MODE == "1":
+        local_db = TinyDB(corpus_db_path(), access_mode='r')
+    else:
+        local_db = TinyDB(corpus_db_path(), access_mode='r')
     query = Query()
     if version is None:
         res = local_db.search(query.name == name)

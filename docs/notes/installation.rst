@@ -69,7 +69,7 @@ Runtime Configurations
 
 .. envvar:: PYTHAINLP_READ_MODE
 
-   This environment variable specifies config PyThaiNLP to read-only mode.
+   This environment variable specifies config PyThaiNLP to read-only mode. (0 = False, 1 = True)
 
 FAQ
 ===

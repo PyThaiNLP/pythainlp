@@ -4,7 +4,6 @@ on:
   schedule:
     - cron: '0 0 * * *' # Once per day
 
-
 jobs:
   build:
 
@@ -22,6 +21,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        pip install deepcut
         pip install pythainlp[full]
         python -m nltk.downloader omw-1.4
     - name: Test
@@ -37,4 +37,6 @@ jobs:
         cd $path
         ls
         cd tests
-        python __init__.py
+        mkdir tests
+        mv data tests/
+        python -m unittest discover

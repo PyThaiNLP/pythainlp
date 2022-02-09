@@ -1,9 +1,8 @@
 name: PyPI Unit test
 
 on:
-  push:
-    schedule:
-      - cron: '12 0 * * *' # Once per day at midnight
+  schedule:
+    - cron: '0 0 * * *' # Once per day
 
 
 jobs:

@@ -6,7 +6,6 @@ Named-entity recognizer
 __all__ = ["ThaiNameTagger"]
 
 from typing import Dict, List, Tuple, Union
-import warnings
 
 from pycrfsuite import Tagger as CRFTagger
 from pythainlp.corpus import get_corpus_path, thai_stopwords

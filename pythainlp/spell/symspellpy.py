@@ -53,7 +53,7 @@ def spell_sent(list_words: List[str], max_edit_distance: int = 2) -> List[str]:
     _temp = [str(i).split(',')[0].split(' ') for i in list(
         sym_spell.lookup_compound(
             ' '.join(list_words),
-            split_phrase_by_space=True,
+            split_by_space=True,
             max_edit_distance=max_edit_distance
         ))
     ]

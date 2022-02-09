@@ -70,7 +70,7 @@ extras = {
     "spell": [
         "phunspell>=0.1.6",
         "spylls>=0.1.5",
-        "symspellpy>=6.7.0"
+        "symspellpy>=6.7.6"
     ],
     "tltk": ["tltk>=1.3.8"],
     "oskut": ["oskut>=1.3"],
@@ -96,7 +96,7 @@ extras = {
         "sefr_cut>=1.1",
         "phunspell>=0.1.6",
         "spylls>=0.1.5",
-        "symspellpy>=6.7.0",
+        "symspellpy>=6.7.6",
         "tltk>=1.3.8",
         "oskut>=1.3",
         "nlpo3>=1.2.2",
@@ -105,7 +105,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="3.0.2",
+    version="3.0.3",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",

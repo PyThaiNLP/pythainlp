@@ -48,7 +48,7 @@ def get_corpus_db_detail(name: str, version: str = None) -> dict:
     if _CHECK_MODE == "1":
         local_db = TinyDB(corpus_db_path(), access_mode='r')
     else:
-        local_db = TinyDB(corpus_db_path(), access_mode='r')
+        local_db = TinyDB(corpus_db_path())
     query = Query()
     if version is None:
         res = local_db.search(query.name == name)

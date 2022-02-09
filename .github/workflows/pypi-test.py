@@ -37,6 +37,5 @@ jobs:
         path=${file//.tar.gz/$second}
         cd $path
         ls
-        python -m unittest discover
-        
-        
+        cd tests
+        python __init__.py

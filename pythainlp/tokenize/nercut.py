@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-nercut 0.1
+nercut 0.2
 
 Dictionary-based maximal matching word segmentation, constrained with
 Thai Character Cluster (TCC) boundaries, and combining tokens that are
@@ -10,9 +10,9 @@ Code by Wannaphong Phatthiyaphaibun
 """
 from typing import Iterable, List
 
-from pythainlp.tag.named_entity import ThaiNameTagger
+from pythainlp.tag.named_entity import NER
 
-_thainer = ThaiNameTagger()
+_thainer = NER(engine="thainer")
 
 
 def segment(
@@ -39,7 +39,7 @@ def segment(
         return []
 
     global _thainer
-    tagged_words = _thainer.get_ner(text, pos=False)
+    tagged_words = _thainer.tag(text, pos=False)
 
     words = []
     combining_word = ""

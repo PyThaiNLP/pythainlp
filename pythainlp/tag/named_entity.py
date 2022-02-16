@@ -4,7 +4,6 @@ Named-entity recognizer
 """
 import warnings
 from typing import List, Tuple, Union
-from pythainlp.tag.thainer import ThaiNameTagger
 
 
 class NER:

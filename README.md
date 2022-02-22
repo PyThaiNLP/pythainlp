@@ -151,7 +151,7 @@ or BibTeX entry:
 
 ``` bib
 @misc{pythainlp,
-    author       = {Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, Pattarawat Chormai},
+    author       = {Wannaphong Phatthiyaphaibun and Korakot Chaovavanich and Charin Polpanumas and Arthit Suriyawongkul and Lalita Lowphansirikul and Pattarawat Chormai},
     title        = {{PyThaiNLP: Thai Natural Language Processing in Python}},
     month        = Jun,
     year         = 2016,

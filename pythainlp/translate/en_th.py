@@ -33,7 +33,7 @@ def _get_translate_path(model: str, *path: str) -> str:
 def _download_install(name: str) -> None:
     if get_corpus_path(name) is None:
         download(name, force=True, version="1.0")
-        tar = tarfile.open(get_corpus_path(name), "r:gz")
+        tar = tarfile.open(get_corpus_path(name, version="1.0"), "r:gz")
         tar.extractall()
         tar.close()
     if not os.path.exists(get_full_data_path(name)):

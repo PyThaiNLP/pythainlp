@@ -199,11 +199,11 @@ def get_corpus_path(name: str,  version: str = None) -> Union[str, None]:
         return default_path
 
     # check if the corpus is in local catalog, download if not
-    corpus_db_detail = get_corpus_db_detail(name)
+    corpus_db_detail = get_corpus_db_detail(name, version=version)
 
     if not corpus_db_detail or not corpus_db_detail.get("filename"):
-        download(name,  version =  version)
-        corpus_db_detail = get_corpus_db_detail(name)
+        download(name,  version=version)
+        corpus_db_detail = get_corpus_db_detail(name, version=version)
 
     if corpus_db_detail and corpus_db_detail.get("filename"):
         # corpus is in the local catalog, get full path to the file

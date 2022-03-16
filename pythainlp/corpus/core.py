@@ -432,14 +432,29 @@ def download(
                 foldername = name+"_"+str(version)
                 if not os.path.exists(get_full_data_path(foldername)):
                     os.mkdir(get_full_data_path(foldername))
-                with zipfile.ZipFile(get_full_data_path(file_name), 'r') as zip:
+                with zipfile.ZipFile(
+                    get_full_data_path(file_name), 'r'
+                ) as zip:
                     zip.extractall(path=get_full_data_path(foldername))
 
             if found:
-                local_db.update({"version": version, "is_folder": is_folder, "foldername": foldername}, query.name == name)
+                local_db.update(
+                    {
+                        "version": version,
+                        "is_folder": is_folder,
+                        "foldername": foldername
+                    },
+                    query.name == name
+                )
             else:
                 local_db.insert(
-                    {"name": name, "version": version, "filename": file_name, "is_folder": is_folder, "foldername": foldername}
+                    {
+                        "name": name,
+                        "version": version,
+                        "filename": file_name,
+                        "is_folder": is_folder,
+                        "foldername": foldername
+                    }
                 )
         else:
             if local_db.search(

@@ -14,6 +14,7 @@ from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
 from requests.exceptions import HTTPError
 from tinydb import Query, TinyDB
+import tarfile
 from pythainlp import __version__
 
 
@@ -207,7 +208,10 @@ def get_corpus_path(name: str,  version: str = None) -> Union[str, None]:
 
     if corpus_db_detail and corpus_db_detail.get("filename"):
         # corpus is in the local catalog, get full path to the file
-        path = get_full_data_path(corpus_db_detail.get("filename"))
+        if corpus_db_detail.get("is_folder"):
+            path = get_full_data_path(corpus_db_detail.get("foldername"))
+        else:
+            path = get_full_data_path(corpus_db_detail.get("filename"))
         # check if the corpus file actually exists, download if not
         if not os.path.exists(path):
             download(name)
@@ -411,11 +415,22 @@ def download(
                 file_name, corpus_versions["md5"],
             )
 
+            is_folder = False
+            foldername = None
+
+            if corpus_versions["is_tar_gz"] == "True":
+                is_folder = True
+                foldername = name+"_"+str(version)
+                if not os.path.exists(get_full_data_path(foldername)):
+                    os.mkdir(get_full_data_path(foldername))
+                with tarfile.open(get_full_data_path(file_name)) as tar:
+                    tar.extractall(path=get_full_data_path(foldername))
+
             if found:
-                local_db.update({"version": version}, query.name == name)
+                local_db.update({"version": version, "is_folder": is_folder, "foldername": foldername}, query.name == name)
             else:
                 local_db.insert(
-                    {"name": name, "version": version, "filename": file_name}
+                    {"name": name, "version": version, "filename": file_name, "is_folder": is_folder, "foldername": foldername}
                 )
         else:
             if local_db.search(

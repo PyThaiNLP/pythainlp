@@ -42,7 +42,7 @@ _CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
 
 # remote corpus catalog URL
 _CORPUS_DB_URL = (
-    "https://pythainlp.github.io/pythainlp-corpus/db.json"
+    "https://raw.githubusercontent.com/PyThaiNLP/pythainlp-corpus/test/db.json"
 )
 
 # local corpus catalog filename

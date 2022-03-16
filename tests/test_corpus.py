@@ -28,6 +28,7 @@ from pythainlp.corpus import (
 from pythainlp.corpus.util import revise_newmm_default_wordset
 from requests import Response
 import nltk
+import os
 
 
 class TestCorpusPackage(unittest.TestCase):
@@ -161,3 +162,8 @@ class TestCorpusPackage(unittest.TestCase):
             ["ที่", "ถูก", "สังหาร", "เมื่อ", "ปี", " ", "พ.ศ.", " ", "2492"],
         ]
         self.assertIsInstance(revise_newmm_default_wordset(training_data), set)
+
+    def test_zip(self):
+        _p = get_corpus_path("test_zip")
+        self.assertEqual(os.path.isdir(_p), True)
+        self.assertEqual(remove(_p), True)

@@ -495,8 +495,8 @@ def remove(name: str) -> bool:
 
     if data:
         path = get_corpus_path(name)
-        if data.get("is_folder"):
-            os.remove(get_full_data_path(data.get("filename")))
+        if data[0].get("is_folder"):
+            os.remove(get_full_data_path(data[0].get("filename")))
             shutil.rmtree(path, ignore_errors=True)
         else:
             os.remove(path)

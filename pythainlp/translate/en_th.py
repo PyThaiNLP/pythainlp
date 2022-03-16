@@ -60,11 +60,13 @@ class EnThTranslator:
         self._model = TransformerModel.from_pretrained(
             model_name_or_path=_get_translate_path(
                 self._model_name,
+                _EN_TH_FILE_NAME,
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
             data_name_or_path=_get_translate_path(
                 self._model_name,
+                _EN_TH_FILE_NAME,
                 "vocab",
             ),
         )
@@ -109,16 +111,19 @@ class ThEnTranslator:
         self._model = TransformerModel.from_pretrained(
             model_name_or_path=_get_translate_path(
                 self._model_name,
+                _TH_EN_FILE_NAME,
                 "models",
             ),
             checkpoint_file="checkpoint.pt",
             data_name_or_path=_get_translate_path(
                 self._model_name,
+                _TH_EN_FILE_NAME,
                 "vocab",
             ),
             bpe="sentencepiece",
             sentencepiece_model=_get_translate_path(
                 self._model_name,
+                _TH_EN_FILE_NAME,
                 "bpe",
                 "spm.th.model",
             ),

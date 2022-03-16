@@ -166,4 +166,4 @@ class TestCorpusPackage(unittest.TestCase):
     def test_zip(self):
         _p = get_corpus_path("test_zip")
         self.assertEqual(os.path.isdir(_p), True)
-        self.assertEqual(remove(_p), True)
+        self.assertEqual(remove("test_zip"), True)

@@ -15,6 +15,7 @@ from pythainlp.tools import get_full_data_path
 from requests.exceptions import HTTPError
 from tinydb import Query, TinyDB
 import tarfile
+import zipfile
 from pythainlp import __version__
 
 
@@ -425,6 +426,13 @@ def download(
                     os.mkdir(get_full_data_path(foldername))
                 with tarfile.open(get_full_data_path(file_name)) as tar:
                     tar.extractall(path=get_full_data_path(foldername))
+            elif corpus_versions["is_zip"] == "True":
+                is_folder = True
+                foldername = name+"_"+str(version)
+                if not os.path.exists(get_full_data_path(foldername)):
+                    os.mkdir(get_full_data_path(foldername))
+                with zipfile.open(get_full_data_path(file_name)) as zip:
+                    zip.extractall(path=get_full_data_path(foldername))
 
             if found:
                 local_db.update({"version": version, "is_folder": is_folder, "foldername": foldername}, query.name == name)

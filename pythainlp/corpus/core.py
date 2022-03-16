@@ -16,6 +16,7 @@ from requests.exceptions import HTTPError
 from tinydb import Query, TinyDB
 import tarfile
 import zipfile
+import shutil
 from pythainlp import __version__
 
 
@@ -431,7 +432,7 @@ def download(
                 foldername = name+"_"+str(version)
                 if not os.path.exists(get_full_data_path(foldername)):
                     os.mkdir(get_full_data_path(foldername))
-                with zipfile.open(get_full_data_path(file_name)) as zip:
+                with zipfile.ZipFile(get_full_data_path(file_name), 'r') as zip:
                     zip.extractall(path=get_full_data_path(foldername))
 
             if found:
@@ -494,7 +495,11 @@ def remove(name: str) -> bool:
 
     if data:
         path = get_corpus_path(name)
-        os.remove(path)
+        if data.get("is_folder"):
+            os.remove(get_full_data_path(data.get("filename")))
+            shutil.rmtree(path, ignore_errors=True)
+        else:
+            os.remove(path)
         db.remove(query.name == name)
         db.close()
         return True

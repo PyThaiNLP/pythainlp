@@ -522,3 +522,7 @@ def remove(name: str) -> bool:
 
     db.close()
     return False
+
+
+def get_path_folder_corpus(name, version, *path):
+    return os.path.join(get_corpus_path(name, version), *path)

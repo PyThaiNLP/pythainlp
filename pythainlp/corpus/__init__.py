@@ -27,6 +27,7 @@ __all__ = [
     "thai_syllables",
     "thai_words",
     "path_pythainlp_corpus",
+    "get_path_folder_corpus",
 ]
 
 import os
@@ -84,6 +85,7 @@ from pythainlp.corpus.core import (
     get_corpus_db_detail,
     get_corpus_default_db,
     get_corpus_path,
+    get_path_folder_corpus,
     remove,
     path_pythainlp_corpus,
 )  # these imports must come before other pythainlp.corpus.* imports

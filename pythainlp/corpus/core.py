@@ -427,8 +427,6 @@ def download(
                     os.mkdir(get_full_data_path(foldername))
                 with tarfile.open(get_full_data_path(file_name)) as tar:
                     tar.extractall(path=get_full_data_path(foldername))
-                os.remove(get_full_data_path(file_name))
-                file_name = ""
             elif corpus_versions["is_zip"] == "True":
                 is_folder = True
                 foldername = name+"_"+str(version)
@@ -438,13 +436,12 @@ def download(
                     get_full_data_path(file_name), 'r'
                 ) as zip:
                     zip.extractall(path=get_full_data_path(foldername))
-                os.remove(get_full_data_path(file_name))
-                file_name = ""
 
             if found:
                 local_db.update(
                     {
                         "version": version,
+                        "filename": file_name,
                         "is_folder": is_folder,
                         "foldername": foldername
                     },
@@ -515,6 +512,7 @@ def remove(name: str) -> bool:
     if data:
         path = get_corpus_path(name)
         if data[0].get("is_folder"):
+            os.remove(get_full_data_path(data[0].get("filename")))
             shutil.rmtree(path, ignore_errors=True)
         else:
             os.remove(path)

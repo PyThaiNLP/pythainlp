@@ -105,6 +105,7 @@ extras = {
         "tltk>=1.3.8",
         "oskut>=1.3",
         "nlpo3>=1.2.2",
+        "onnxruntime>=1.10.0",
     ],
 }
 

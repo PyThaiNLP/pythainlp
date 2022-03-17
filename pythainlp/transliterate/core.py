@@ -79,7 +79,7 @@ def transliterate(
         * *ipa* - epitran, output is International Phonetic Alphabet (IPA)
         * *tltk_g2p* - Thai Grapheme-to-Phoneme from\
             `TLTK <https://pypi.org/project/tltk/>`_.,
-        * *iso_11940* - Transliterating Thai text into Latin characters with ISO 11940.
+        * *iso_11940* - Transliterate Thai text into Latin characters with ISO 11940.
         * *tltk_ipa* - tltk, output is International Phonetic Alphabet (IPA)
 
     :Example:

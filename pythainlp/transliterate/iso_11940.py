@@ -79,15 +79,15 @@ _vowels = {
 }
 
 _tone_marks = {
-    "่": "–̀".replace("–",""),
-    "้": "–̂".replace("–",""),
-    "๊": "–́".replace("–",""),
-    "๋": "–̌".replace("–",""),
-    "็": "–̆".replace("–",""),
-    "์": "–̒".replace("–",""),
-    "–๎".replace("–",""): "~",
-    "–ํ".replace("–",""): "–̊".replace("–",""),
-    "–ฺ".replace("–",""): "–̥".replace("–","")
+    "่": "–̀".replace("–", ""),
+    "้": "–̂".replace("–", ""),
+    "๊": "–́".replace("–", ""),
+    "๋": "–̌".replace("–", ""),
+    "็": "–̆".replace("–", ""),
+    "์": "–̒".replace("–", ""),
+    "–๎".replace("–", ""): "~",
+    "–ํ".replace("–", ""): "–̊".replace("–", ""),
+    "–ฺ".replace("–", ""): "–̥".replace("–", "")
 }
 
 _punctuation_and_digits = {

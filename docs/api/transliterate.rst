@@ -35,6 +35,9 @@ ipa
 thaig2p
 +++++++
 .. automodule::  pythainlp.transliterate.thaig2p.transliterate
+iso_11940
++++++++
+.. automodule::  pythainlp.transliterate.iso_11940.transliterate
 
 References
 ----------

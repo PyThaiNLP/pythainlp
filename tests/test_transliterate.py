@@ -141,6 +141,8 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertIsNotNone(transliterate("แมว", engine="tltk_g2p"))
         self.assertIsNotNone(transliterate("คน", engine="tltk_ipa"))
         self.assertIsNotNone(transliterate("แมว", engine="tltk_ipa"))
+        self.assertIsNotNone(transliterate("คน", engine="iso_11940"))
+        self.assertIsNotNone(transliterate("แมว", engine="iso_11940"))
         self.assertIsNotNone(trans_list("คน"))
         self.assertIsNotNone(xsampa_list("คน"))
 

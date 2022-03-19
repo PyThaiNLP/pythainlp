@@ -2,7 +2,9 @@
 """
 Transliterating Thai text with ISO 11940
 
-https://en.wikipedia.org/wiki/ISO_11940
+:See Also:
+    * `Wikipedia \
+        <https://en.wikipedia.org/wiki/ISO_11940>`_
 """
 _consonants = {
     "ก": "k",

@@ -2,7 +2,10 @@
 """
 Transliterating text to International Phonetic Alphabet (IPA)
 Using epitran
-https://github.com/dmort27/epitran
+
+:See Also:
+    * `GitHub \
+        <https://github.com/dmort27/epitran>`_
 """
 from typing import List
 

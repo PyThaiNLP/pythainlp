@@ -112,6 +112,7 @@ def misspell(sentence: str, ratio: float = 0.05):
 
     :Example:
     ::
+
         from pythainlp.tools import misspell
 
         sentence = "ภาษาไทยปรากฏครั้งแรกในพุทธศักราช 1826"

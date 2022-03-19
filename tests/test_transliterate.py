@@ -147,8 +147,14 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertIsNotNone(xsampa_list("คน"))
 
     def test_transliterate_iso11940(self):
-        self.assertEqual(transliterate("เชียงใหม่", engine="iso_11940"), "echīyngıh̄m̀")
-        self.assertEqual(transliterate("ภาษาไทย", engine="iso_11940"), "p̣hās̛̄āịthy")
+        self.assertEqual(
+            transliterate("เชียงใหม่", engine="iso_11940"),
+            "echīyngıh̄m̀"
+        )
+        self.assertEqual(
+            transliterate("ภาษาไทย", engine="iso_11940"),
+            "p̣hās̛̄āịthy"
+        )
 
     def test_pronunciate(self):
         self.assertEqual(pronunciate(""), "")

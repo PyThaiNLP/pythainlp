@@ -102,6 +102,9 @@ def transliterate(
         transliterate("สามารถ", engine="tltk_g2p")
         # output: 'saa4~maat2'
 
+        transliterate("สามารถ", engine="iso_11940")
+        # output: 's̄āmārt̄h'
+
         transliterate("ภาพยนตร์", engine="icu")
         # output: 'p̣hāphyntr̒'
 
@@ -109,7 +112,10 @@ def transliterate(
         # output: 'pʰaːpjanot'
 
         transliterate("ภาพยนตร์", engine="thaig2p")
-        # output:'pʰ aː p̚ ˥˩ . pʰ a ˦˥ . j o n ˧'
+        # output: 'pʰ aː p̚ ˥˩ . pʰ a ˦˥ . j o n ˧'
+
+        transliterate("ภาพยนตร์", engine="iso_11940")
+        # output: 'p̣hāphyntr'
     """
 
     if not text or not isinstance(text, str):

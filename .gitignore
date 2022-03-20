@@ -114,3 +114,4 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+notebooks/iso_11940-dev.ipynb

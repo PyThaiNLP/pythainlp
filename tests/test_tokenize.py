@@ -26,6 +26,9 @@ from pythainlp.tokenize import (
 )
 from pythainlp.tokenize import clause_tokenize as sent_clause_tokenize
 from pythainlp.util import dict_trie
+from pythainlp.corpus import path_pythainlp_corpus
+from pythainlp.corpus.common import _THAI_WORDS_FILENAME
+from pythainlp.tokenize import nlpo3
 
 
 class TestTokenizePackage(unittest.TestCase):
@@ -647,4 +650,14 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertIsNotNone(
             oskut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="scads"),
+        )
+
+    def test_nlpo3(self):
+        self.assertIsNotNone(nlpo3.segment("ทดสอบ"))
+        self.assertEqual(
+            nlpo3.load_dict(
+                path_pythainlp_corpus(_THAI_WORDS_FILENAME),
+                "cat_cut_word"
+            ),
+            True
         )

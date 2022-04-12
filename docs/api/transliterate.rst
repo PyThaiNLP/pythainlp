@@ -26,15 +26,25 @@ Transliterate Engines
 
 icu
 +++
-.. automodule::  pythainlp.transliterate.pyicu.transliterate
+.. automodule::  pythainlp.transliterate.pyicu
+
+.. autofunction:: pythainlp.transliterate.pyicu.transliterate
+
 ipa
 +++
-.. automodule::  pythainlp.transliterate.ipa.transliterate
-.. automodule::  pythainlp.transliterate.ipa.trans_list
-.. automodule::  pythainlp.transliterate.ipa.xsampa_list
+.. automodule::  pythainlp.transliterate.ipa
+.. autofunction::  pythainlp.transliterate.ipa.transliterate
+.. autofunction::  pythainlp.transliterate.ipa.trans_list
+.. autofunction::  pythainlp.transliterate.ipa.xsampa_list
+
 thaig2p
 +++++++
 .. automodule::  pythainlp.transliterate.thaig2p.transliterate
+.. autofunction::  pythainlp.transliterate.thaig2p.transliterate
+
+iso_11940
++++++++++
+.. automodule::  pythainlp.transliterate.iso_11940
 
 References
 ----------

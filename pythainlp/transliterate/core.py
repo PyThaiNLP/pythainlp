@@ -79,6 +79,7 @@ def transliterate(
         * *ipa* - epitran, output is International Phonetic Alphabet (IPA)
         * *tltk_g2p* - Thai Grapheme-to-Phoneme from\
             `TLTK <https://pypi.org/project/tltk/>`_.,
+        * *iso_11940* - Thai text into Latin characters with ISO 11940.
         * *tltk_ipa* - tltk, output is International Phonetic Alphabet (IPA)
 
     :Example:
@@ -101,6 +102,9 @@ def transliterate(
         transliterate("สามารถ", engine="tltk_g2p")
         # output: 'saa4~maat2'
 
+        transliterate("สามารถ", engine="iso_11940")
+        # output: 's̄āmārt̄h'
+
         transliterate("ภาพยนตร์", engine="icu")
         # output: 'p̣hāphyntr̒'
 
@@ -108,7 +112,10 @@ def transliterate(
         # output: 'pʰaːpjanot'
 
         transliterate("ภาพยนตร์", engine="thaig2p")
-        # output:'pʰ aː p̚ ˥˩ . pʰ a ˦˥ . j o n ˧'
+        # output: 'pʰ aː p̚ ˥˩ . pʰ a ˦˥ . j o n ˧'
+
+        transliterate("ภาพยนตร์", engine="iso_11940")
+        # output: 'p̣hāphyntr'
     """
 
     if not text or not isinstance(text, str):
@@ -122,6 +129,8 @@ def transliterate(
         from pythainlp.transliterate.tltk import tltk_g2p as transliterate
     elif engine == "tltk_ipa":
         from pythainlp.transliterate.tltk import tltk_ipa as transliterate
+    elif engine == "iso_11940":
+        from pythainlp.transliterate.iso_11940 import transliterate
     else:  # use default engine: "thaig2p"
         from pythainlp.transliterate.thaig2p import transliterate
 

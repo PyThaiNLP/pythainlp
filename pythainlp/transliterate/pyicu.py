@@ -2,7 +2,10 @@
 """
 Transliterating text to International Phonetic Alphabet (IPA)
 Using International Components for Unicode (ICU)
-https://github.com/ovalhub/pyicu
+
+:See Also:
+    * `GitHub \
+        <https://github.com/ovalhub/pyicu>`_
 """
 from icu import Transliterator
 

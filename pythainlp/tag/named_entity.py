@@ -16,6 +16,7 @@ class NER:
     **Options for engine**
         * *thainer* - Thai NER engine
         * *wangchanberta* - wangchanberta model
+        * *lst20_onnx* - LST20 NER model by wangchanberta with ONNX runtime
         * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.
 
     **Options for corpus**
@@ -33,6 +34,9 @@ class NER:
         if engine == "thainer" and corpus == "thainer":
             from pythainlp.tag.thainer import ThaiNameTagger
             self.engine = ThaiNameTagger()
+        elif engine == "lst20_onnx":
+            from pythainlp.tag.lst20_ner_onnx import LST20_NER_ONNX
+            self.engine = LST20_NER_ONNX()
         elif engine == "wangchanberta":
             from pythainlp.wangchanberta import ThaiNameTagger
             self.engine = ThaiNameTagger(dataset_name=corpus)
@@ -88,7 +92,7 @@ class NER:
                 """wangchanberta is not support part-of-speech tag.
                 It have not part-of-speech tag in output."""
             )
-        if self.name_engine == "wangchanberta":
+        if self.name_engine == "wangchanberta" or self.name_engine == "lst20_onnx":
             return self.engine.get_ner(text, tag=tag)
         else:
             return self.engine.get_ner(text, tag=tag, pos=pos)

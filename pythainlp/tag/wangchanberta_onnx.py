@@ -61,14 +61,7 @@ class WngchanBerta_ONNX:
         return scores
 
     def clean_output(self, list_text):
-        new_list = []
-        for i, j in list_text:
-            if i.startswith("▁") and i != '▁':
-                i = i.replace("▁", "", 1)
-            elif i == '▁':
-                i = " "
-            new_list.append((i, j))
-        return new_list
+        return list_text
 
     def totag(self, post, sent):
         tag = []
@@ -84,10 +77,36 @@ class WngchanBerta_ONNX:
             )
         return tag
 
-    def get_ner(self, text: str):
+    def _config(self, list_ner):
+        return list_ner
+
+    def get_ner(self, text: str, tag: bool = False):
         self._s = self.build_tokenizer(text)
         logits = self.session.run(
             output_names=[self.outputs_name],
             input_feed=self._s
         )[0]
-        return self.clean_output(self.totag(self.postprocess(logits), text))
+        _tag = self.clean_output(self.totag(self.postprocess(logits), text))
+        if tag:
+            _tag = self._config(_tag)
+            temp = ""
+            sent = ""
+            for idx, (word, ner) in enumerate(_tag):
+                if ner.startswith("B-") and temp != "":
+                    sent += "</" + temp + ">"
+                    temp = ner[2:]
+                    sent += "<" + temp + ">"
+                elif ner.startswith("B-"):
+                    temp = ner[2:]
+                    sent += "<" + temp + ">"
+                elif ner == "O" and temp != "":
+                    sent += "</" + temp + ">"
+                    temp = ""
+                sent += word
+
+                if idx == len(_tag) - 1 and temp != "":
+                    sent += "</" + temp + ">"
+
+            return sent
+        else:
+            return _tag

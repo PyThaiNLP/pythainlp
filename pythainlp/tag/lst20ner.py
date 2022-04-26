@@ -9,5 +9,6 @@ class LST20_ONNX(WngchanBerta_ONNX):
             self,
             model_name="onnx_lst20ner",
             model_version="1.0",
-            file_onnx="lst20-ner-model.onnx", providers=providers
+            file_onnx="lst20-ner-model.onnx",
+            providers=providers
         )

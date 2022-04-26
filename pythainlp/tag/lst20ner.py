@@ -60,6 +60,16 @@ class lst20ner_onnx:
         scores = shifted_exp / shifted_exp.sum(axis=-1, keepdims=True)
         return scores
 
+    def clean_output(self, list_text):
+        new_list = []
+        for i,j in list_text:
+            if i.startswith("▁") and i != '▁':
+                i = i.replace("▁", "", 1)
+            elif i == '▁':
+                i = " "
+            new_list.append((i, j))
+        return new_list
+
     def totag(self, post, sent):
         tag = []
         _s = self.sp.EncodeAsPieces(sent)
@@ -75,9 +85,9 @@ class lst20ner_onnx:
         return tag
 
     def get_ner(self, text: str):
-        self._s=self.build_tokenizer(text)
+        self._s = self.build_tokenizer(text)
         logits = self.session.run(
             output_names=[self.outputs_name],
             input_feed=self._s
         )[0]
-        return self.totag(self.postprocess(logits), text)
+        return self.clean_output(self.totag(self.postprocess(logits), text))

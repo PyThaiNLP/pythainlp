@@ -62,7 +62,7 @@ class lst20ner_onnx:
 
     def clean_output(self, list_text):
         new_list = []
-        for i,j in list_text:
+        for i, j in list_text:
             if i.startswith("▁") and i != '▁':
                 i = i.replace("▁", "", 1)
             elif i == '▁':

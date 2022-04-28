@@ -1,0 +1,11 @@
+char_level:fn: 1.0
+char_level:fp: 0.0
+char_level:precision: 1.0
+char_level:recall: 0.8
+char_level:tn: 9.0
+char_level:tp: 4.0
+word_level:correctly_tokenised_words: 3.0
+word_level:precision: 0.75
+word_level:recall: 0.6
+word_level:total_words_in_ref_sample: 5.0
+word_level:total_words_in_sample: 4.0

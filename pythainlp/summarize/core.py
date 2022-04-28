@@ -6,7 +6,7 @@ Text summarization
 
 from typing import List
 
-from pythainlp.summarize import DEFAULT_SUMMARIZE_ENGINE
+from pythainlp.summarize import DEFAULT_SUMMARIZE_ENGINE, CPE_KMUTT_THAI_SENTENCE_SUM
 from pythainlp.summarize.freq import FrequencySummarizer
 from pythainlp.tokenize import sent_tokenize
 
@@ -48,6 +48,7 @@ def summarize(
             * *mt5-large* - mT5-large model
             * *mt5-xl* - mT5-xl model
             * *mt5-xxl* - mT5-xxl model
+            * *mt5-cpe-kmutt-thai-sentence-sum* - mT5 Thai sentence summarization by CPE KMUTT
 
         :Example:
         ::
@@ -82,6 +83,10 @@ def summarize(
             # output: ['<extra_id_0> ท่าช้าง หรือ วังถนนพระอาทิตย์
             # เขตพระนคร กรุงเทพมหานคร ฯลฯ ดังนี้:
             # ที่อยู่ - ศิลปวัฒนธรรม']
+
+            text = "ถ้าพูดถึงขนมหวานในตำนานที่ชื่นใจที่สุดแล้วละก็ต้องไม่พ้น น้ำแข็งใส แน่ๆ เพราะว่าเป็นอะไรที่ชื่นใจสุดๆ"
+            summarize(text, engine="mt5-cpe-kmutt-thai-sentence-sum")
+            # output: ['น้ําแข็งใสเป็นอะไรที่ชื่นใจที่สุด']
     """
     if not text or not isinstance(text, str):
         return []
@@ -89,6 +94,9 @@ def summarize(
 
     if engine == DEFAULT_SUMMARIZE_ENGINE:
         sents = FrequencySummarizer().summarize(text, n, tokenizer)
+    elif engine == CPE_KMUTT_THAI_SENTENCE_SUM:
+        from .mt5 import mT5Summarizer
+        sents = mT5Summarizer(pretrained_mt5_model_name=CPE_KMUTT_THAI_SENTENCE_SUM).summarize(text)
     elif engine.startswith('mt5-') or engine == "mt5":
         size = engine.replace('mt5-', '')
         from .mt5 import mT5Summarizer

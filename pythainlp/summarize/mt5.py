@@ -25,14 +25,12 @@ class mT5Summarizer:
                     f"""model_size \"{model_size}\" not found.
                     It might be a typo; if not, please consult our document."""
                 )
+            model_name = f'google/mt5-{model_size}'
         else:
             if pretrained_mt5_model_name == CPE_KMUTT_THAI_SENTENCE_SUM:
                 model_name = f'thanathorn/{CPE_KMUTT_THAI_SENTENCE_SUM}'
             else:
-                if pretrained_mt5_model_name is not None:
-                    model_name = pretrained_mt5_model_name
-                else:
-                    model_name = f'google/mt5-{model_size}'
+                model_name = pretrained_mt5_model_name
         self.model = MT5ForConditionalGeneration.from_pretrained(
             model_name
         )

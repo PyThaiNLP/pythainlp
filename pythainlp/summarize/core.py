@@ -96,7 +96,7 @@ def summarize(
         sents = FrequencySummarizer().summarize(text, n, tokenizer)
     elif engine == CPE_KMUTT_THAI_SENTENCE_SUM:
         from .mt5 import mT5Summarizer
-        sents = mT5Summarizer(pretrained_mt5_model_name=CPE_KMUTT_THAI_SENTENCE_SUM).summarize(text)
+        sents = mT5Summarizer(pretrained_mt5_model_name=CPE_KMUTT_THAI_SENTENCE_SUM, min_length=5).summarize(text)
     elif engine.startswith('mt5-') or engine == "mt5":
         size = engine.replace('mt5-', '')
         from .mt5 import mT5Summarizer

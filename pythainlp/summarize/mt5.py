@@ -5,6 +5,8 @@ Summarization by mT5 model
 from transformers import T5Tokenizer, MT5ForConditionalGeneration
 from typing import List
 
+from pythainlp.summarize import CPE_KMUTT_THAI_SENTENCE_SUM
+
 
 class mT5Summarizer:
     def __init__(
@@ -16,13 +18,21 @@ class mT5Summarizer:
             max_length: int = 100,
             skip_special_tokens: bool = True,
             pretrained_mt5_model_name: str = None):
+        model_name = ""
         if pretrained_mt5_model_name is None:
             if model_size not in ["small", "base", "large", "xl", "xxl"]:
                 raise ValueError(
                     f"""model_size \"{model_size}\" not found.
                     It might be a typo; if not, please consult our document."""
                 )
-        model_name = pretrained_mt5_model_name if pretrained_mt5_model_name is not None else f'google/mt5-{model_size}'
+        else:
+            if pretrained_mt5_model_name == CPE_KMUTT_THAI_SENTENCE_SUM:
+                model_name = f'thanathorn/{CPE_KMUTT_THAI_SENTENCE_SUM}'
+            else:
+                if pretrained_mt5_model_name is not None:
+                    model_name = pretrained_mt5_model_name
+                else:
+                    model_name = f'google/mt5-{model_size}'
         self.model = MT5ForConditionalGeneration.from_pretrained(
             model_name
         )

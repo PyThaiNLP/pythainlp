@@ -96,3 +96,17 @@ class NER:
             return self.engine.get_ner(text, tag=tag)
         else:
             return self.engine.get_ner(text, tag=tag, pos=pos)
+
+
+class NNER:
+    """
+    Nested Named Entity Recognition
+
+    :param str engine: Nested Named entity recognizer engine
+    :param str corpus: corpus
+    
+    **Options for engine**
+        * *thai_nner* - Thai NER engine
+    """
+    def __init__(self, text) -> None:
+        pass

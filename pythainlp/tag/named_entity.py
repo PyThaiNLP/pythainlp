@@ -108,5 +108,12 @@ class NNER:
     **Options for engine**
         * *thai_nner* - Thai NER engine
     """
-    def __init__(self, text) -> None:
-        pass
+    def __init__(self, engine: str = "thai_nner") -> None:
+        self.load_engine(engine)
+
+    def load_engine(self, engine: str = "thai_nner") -> None:
+        from pythainlp.tag.thai_nner import Thai_NNER
+        self.engine = Thai_NNER()
+
+    def tag(self, text):
+        return self.engine.tag(text)

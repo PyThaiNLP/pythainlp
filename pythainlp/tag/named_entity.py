@@ -104,7 +104,7 @@ class NNER:
 
     :param str engine: Nested Named entity recognizer engine
     :param str corpus: corpus
-    
+
     **Options for engine**
         * *thai_nner* - Thai NER engine
     """
@@ -115,5 +115,52 @@ class NNER:
         from pythainlp.tag.thai_nner import Thai_NNER
         self.engine = Thai_NNER()
 
-    def tag(self, text):
+    def tag(self, text) -> Tuple[List[str], List[dict]]:
+        """
+        This function tags nested named-entitiy.
+
+        :param str text: text in Thai to be tagged
+
+        :return: a list of tuple associated with tokenized word, NNER tag.
+        :rtype: Tuple[List[str], List[dict]]
+
+        :Example:
+
+            >>> from pythainlp.tag.named_entity import NNER
+            >>> nner = NNER()
+            >>> nner.tag("แมวทำอะไรตอนห้าโมงเช้า")
+            ([
+                '<s>',
+                '',
+                'แมว',
+                'ทํา',
+                '',
+                'อะไร',
+                'ตอน',
+                '',
+                'ห้า',
+                '',
+                'โมง',
+                '',
+                'เช้า',
+                '</s>'
+            ],
+            [
+                {
+                    'text': ['', 'ห้า'],
+                    'span': [7, 9],
+                    'entity_type': 'cardinal'
+                },
+                {
+                    'text': ['', 'ห้า', '', 'โมง'],
+                    'span': [7, 11],
+                    'entity_type': 'time'
+                },
+                {
+                    'text': ['', 'โมง'],
+                    'span': [9, 11],
+                    'entity_type': 'unit'
+                }
+            ])
+        """
         return self.engine.tag(text)

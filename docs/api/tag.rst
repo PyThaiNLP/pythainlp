@@ -232,6 +232,8 @@ Modules
 .. autofunction:: chunk_parse
 .. autoclass:: NER
    :members:
+.. autoclass:: NNER
+   :members:
 .. autoclass:: pythainlp.tag.thainer.ThaiNameTagger
    :members: get_ner
 .. autofunction:: pythainlp.tag.tltk.get_ner

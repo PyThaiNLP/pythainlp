@@ -11,6 +11,7 @@
   <a href="https://app.fossa.io/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp"><img alt="FOSSA Status" src="https://app.fossa.io/api/projects/git%2Bgithub.com%2FPyThaiNLP%2Fpythainlp.svg?type=shield"/></a>
   <a href="https://colab.research.google.com/github/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp_get_started.ipynb"><img alt="Google Colab Badge" src="https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal"/></a>
   <a href="https://zenodo.org/badge/latestdoi/61813823"><img alt="DOI" src="https://zenodo.org/badge/61813823.svg"/></a>
+  <a href="https://matrix.to/#/#thainlp:matrix.org" rel="noopener" target="_blank"><img src="https://matrix.to/img/matrix-badge.svg" alt="Chat on Matrix"></a>
 </div>
 
 PyThaiNLP is a Python package for text processing and linguistic analysis, similar to [NLTK](https://www.nltk.org/) with focus on Thai language.
@@ -19,7 +20,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 **News**
 
->Since PyThaiNLP 3.0, We will end support PyThaiNLP on Python 3.6. Python 3.6 users can use PyThaiNLP 2.3.2
+> Now, You can contact or ask any questions you encounter with the PyThaiNLP team. <a href="https://matrix.to/#/#thainlp:matrix.org" rel="noopener" target="_blank"><img src="https://matrix.to/img/matrix-badge.svg" alt="Chat on Matrix"></a>
 
 | Version | Description | Status |
 |:------:|:--:|:------:|
@@ -30,11 +31,10 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 ## Getting Started
 
 - PyThaiNLP 2 requires Python 3.6+. Python 2.7 users can use PyThaiNLP 1.6. See [2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118) | [Upgrading from 1.7](https://pythainlp.github.io/docs/2.0/notes/pythainlp-1_7-2_0.html) | [Upgrading ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
-- [PyThaiNLP Get Started notebook](https://www.thainlp.org/pythainlp/tutorials/notebooks/pythainlp_get_started.html) | [API document](https://pythainlp.github.io/docs/2.3/) | [Tutorials](https://pythainlp.github.io/tutorials)
+- [PyThaiNLP Get Started notebook](https://pythainlp.github.io/tutorials/notebooks/pythainlp_get_started.html) | [API document](https://pythainlp.github.io/docs) | [Tutorials](https://pythainlp.github.io/tutorials)
 - [Official website](https://pythainlp.github.io/) | [PyPI](https://pypi.org/project/pythainlp/) | [Facebook page](https://www.facebook.com/pythainlp/)
 - [Who uses PyThaiNLP?](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md)
 - [Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards) - for technical details, caveats, and ethical considerations of the models developed and used in PyThaiNLP
-
 
 ## Capabilities
 
@@ -151,7 +151,7 @@ or BibTeX entry:
 
 ``` bib
 @misc{pythainlp,
-    author       = {Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, Pattarawat Chormai},
+    author       = {Wannaphong Phatthiyaphaibun and Korakot Chaovavanich and Charin Polpanumas and Arthit Suriyawongkul and Lalita Lowphansirikul and Pattarawat Chormai},
     title        = {{PyThaiNLP: Thai Natural Language Processing in Python}},
     month        = Jun,
     year         = 2016,

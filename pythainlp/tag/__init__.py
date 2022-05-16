@@ -13,10 +13,11 @@ __all__ = [
     "tag_provinces",
     "chunk_parse",
     "NER",
+    "NNER",
 ]
 
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.pos_tag import pos_tag, pos_tag_sents
 from pythainlp.tag._tag_perceptron import PerceptronTagger
 from pythainlp.tag.chunk import chunk_parse
-from pythainlp.tag.named_entity import NER
+from pythainlp.tag.named_entity import NER, NNER

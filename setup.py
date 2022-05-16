@@ -75,6 +75,12 @@ extras = {
     "tltk": ["tltk>=1.3.8"],
     "oskut": ["oskut>=1.3"],
     "nlpo3": ["nlpo3>=1.2.2"],
+    "onnx": [
+        "sentencepiece>=0.1.91",
+        "numpy>=1.16.1",
+        "onnxruntime>=1.10.0"
+    ],
+    "thai_nner": ["thai_nner"],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -100,6 +106,8 @@ extras = {
         "tltk>=1.3.8",
         "oskut>=1.3",
         "nlpo3>=1.2.2",
+        "onnxruntime>=1.10.0",
+        "thai_nner"
     ],
 }
 

@@ -91,7 +91,7 @@ def word_tokenize(
 
     :Note:
         - The parameter **custom_dict** can be provided as an argument \
-          only for *newmm*, *longest*, and *attacut* engine.
+          only for *newmm*, *longest*, and *deepcut* engine.
     :Example:
 
     Tokenize text with different tokenizer::

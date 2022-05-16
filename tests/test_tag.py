@@ -14,6 +14,7 @@ from pythainlp.tag import (
     unigram,
     tltk,
     NER,
+    NNER,
 )
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.thainer import ThaiNameTagger
@@ -361,9 +362,16 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
+        ner = NER(engine="lst20_onnx")
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
         ner = NER(engine="tltk")
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
         with self.assertRaises(ValueError):
             NER(engine="thainer", corpus="cat")
+
+    def test_NNER_class(self):
+        nner = NNER()
+        self.assertIsNotNone(nner.tag("แมวทำอะไรตอนห้าโมงเช้า"))

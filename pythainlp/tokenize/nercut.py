@@ -44,7 +44,7 @@ def segment(
 
     words = []
     combining_word = ""
-    for idx,(curr_word, curr_tag) in enumerate(tagged_words):
+    for idx, (curr_word, curr_tag) in enumerate(tagged_words):
         if curr_tag != "O":
             tag = curr_tag[2:]
         else:
@@ -69,11 +69,13 @@ def segment(
             combining_word = ""
             words.append(curr_word)
         if idx + 1 == len(tagged_words):
-            if (curr_tag.startswith("B-") or curr_tag == "O") and combining_word != "":
+            if (
+                curr_tag.startswith("B-") or curr_tag == "O"
+            ) and combining_word != "":
                 words.append(combining_word)
                 combining_word = ""
                 words.append(curr_word)
-            else: # if tag is O
+            else:  # if tag is O
                 combining_word += curr_word
                 words.append(combining_word)
 

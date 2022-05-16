@@ -610,7 +610,9 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(nercut.segment(None), [])
         self.assertEqual(nercut.segment(""), [])
         self.assertIsNotNone(nercut.segment("ทดสอบ"))
-        self.assertIsNotNone(nercut.segment("ทดสอบ"))
+        self.assertIsNotNone(nercut.segment("ทุ๊กกโคนน"))
+        self.assertIsNotNone(nercut.segment("อือหือ"))
+        self.assertIsNotNone(nercut.segment("อย่าลืมอัพการ์ดนะจ๊ะ"))
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="nercut"))
 
     def test_ssg(self):

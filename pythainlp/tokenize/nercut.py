@@ -65,18 +65,15 @@ def segment(
             words.append(combining_word)
             combining_word = ""
             words.append(curr_word)
-        else:
+        else:  # if tag is O
             combining_word = ""
             words.append(curr_word)
         if idx + 1 == len(tagged_words):
-            if (
-                curr_tag.startswith("B-") or curr_tag == "O"
-            ) and combining_word != "":
+            if curr_tag.startswith("B-") and combining_word != "":
                 words.append(combining_word)
-                combining_word = ""
-                words.append(curr_word)
-            else:  # if tag is O
-                combining_word += curr_word
+            elif curr_tag.startswith("I-") and combining_word != "":
                 words.append(combining_word)
+            else:
+                pass
 
     return words

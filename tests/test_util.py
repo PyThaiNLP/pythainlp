@@ -498,7 +498,7 @@ class TestUtilPackage(unittest.TestCase):
 
         # normalize lakkhangyao to sara aa
         self.assertEqual(normalize("นๅคา"), "นาคา")
-        self.assertEqual(normalize("ฤาษี"), "ฤาษี")
+        self.assertEqual(normalize("ฤๅษี"), "ฤๅษี")
 
         # remove repeating following vowels
         self.assertEqual(normalize("กาา"), "กา")

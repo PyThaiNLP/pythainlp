@@ -33,6 +33,7 @@ _REORDER_PAIRS = [
         f"([{follow_v}]+)([{tonemarks}]+)",
         "\\2\\1",
     ),  # FOLLOW VOWEL + TONEMARK+ -> TONEMARK + FOLLOW VOWEL
+    ("([^\u0e24\u0e26])\u0e45", "\\1\u0e32"),  # Lakkhangyao -> Sara Aa
 ]
 
 # VOWELS + Phinthu, Thanthakhat, Nikhahit, Yamakkan

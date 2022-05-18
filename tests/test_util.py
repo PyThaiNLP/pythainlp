@@ -496,6 +496,10 @@ class TestUtilPackage(unittest.TestCase):
         # reorder consonant + follow vowel + tone mark
         self.assertEqual(normalize("\u0e01\u0e32\u0e48"), "\u0e01\u0e48\u0e32")
 
+        # normalize lakkhangyao to sara aa
+        self.assertEqual(normalize("นๅคา"), "นาคา")
+        self.assertEqual(normalize("ฤๅษี"), "ฤๅษี")
+
         # remove repeating following vowels
         self.assertEqual(normalize("กาา"), "กา")
         self.assertEqual(normalize("กา า  า  า"), "กา")

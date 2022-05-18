@@ -19,10 +19,11 @@ class ThZhTranslator:
     - GitHub: https://github.com/LalitaDeelert/lalita-mt-zhth
     - Facebook post https://web.facebook.com/aibuildersx/posts/166736255494822
     """
-    def __init__(self, pretrained: str = "Lalita/marianmt-th-zh_cn") -> None:
+    def __init__(self, use_gpu: bool, pretrained: str = "Lalita/marianmt-th-zh_cn") -> None:
         self.tokenizer_thzh = AutoTokenizer.from_pretrained(pretrained)
         self.model_thzh = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
-
+        if use_gpu:
+            self.model_thzh.cuda()
     def translate(self, text: str) -> str:
         """
         Translate text from Thai to Chinese
@@ -62,10 +63,11 @@ class ZhThTranslator:
     - GitHub: https://github.com/LalitaDeelert/lalita-mt-zhth
     - Facebook post https://web.facebook.com/aibuildersx/posts/166736255494822
     """
-    def __init__(self, pretrained: str = "Lalita/marianmt-zh_cn-th") -> None:
+    def __init__(self, use_gpu: bool, pretrained: str = "Lalita/marianmt-zh_cn-th") -> None:
         self.tokenizer_zhth = AutoTokenizer.from_pretrained(pretrained)
         self.model_zhth = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
-
+        if use_gpu:
+            self.model_zhth.cuda()
     def translate(self, text: str) -> str:
         """
         Translate text from Chinese to Thai

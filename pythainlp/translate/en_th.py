@@ -51,7 +51,7 @@ class EnThTranslator:
 
     Website: https://airesearch.in.th/releases/machine-translation-models/
     """
-    def __init__(self):
+    def __init__(self, use_gpu: bool):
         self._tokenizer = MosesTokenizer("en")
 
         self._model_name = _EN_TH_MODEL_NAME
@@ -70,6 +70,8 @@ class EnThTranslator:
                 "vocab",
             ),
         )
+        if use_gpu:
+            self._model.cuda()
 
     def translate(self, text: str) -> str:
         """
@@ -104,7 +106,7 @@ class ThEnTranslator:
 
     Website: https://airesearch.in.th/releases/machine-translation-models/
     """
-    def __init__(self):
+    def __init__(self, use_gpu: bool):
         self._model_name = _TH_EN_MODEL_NAME
 
         _download_install(self._model_name)
@@ -128,6 +130,9 @@ class ThEnTranslator:
                 "spm.th.model",
             ),
         )
+        if use_gpu:
+            self._model.cuda()
+    
 
     def translate(self, text: str) -> str:
         """

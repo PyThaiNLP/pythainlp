@@ -28,7 +28,7 @@ class Translate:
     def __init__(self, src_lang: str, target_lang: str, use_gpu=False) -> None:
         """
         :param str src_lang: source language
-        :param str target_lang: target 
+        :param str target_lang: target
         :param bool use_gpu: load model to gpu
 
         **Options for source & target language**

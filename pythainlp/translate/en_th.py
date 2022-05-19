@@ -132,8 +132,7 @@ class ThEnTranslator:
         )
         if use_gpu:
             self._model.cuda()
-    
-
+            
     def translate(self, text: str) -> str:
         """
         Translate text from Thai to English

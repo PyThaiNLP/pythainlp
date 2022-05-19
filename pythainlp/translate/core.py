@@ -7,6 +7,7 @@ class Translate:
 
     :param str src_lang: source language
     :param str target_lang: target language
+    :param bool use_gpu: load model to gpu
 
     **Options for source & target language**
         * *th* - *en* - Thai to English
@@ -25,10 +26,10 @@ class Translate:
         th2en.translate("ฉันรักแมว")
         # output: I love cat.
     """
-    def __init__(self, src_lang: str, target_lang: str, use_gpu=False) -> None:
+    def __init__(self, src_lang: str, target_lang: str, use_gpu: bool=False) -> None:
         """
         :param str src_lang: source language
-        :param str target_lang: target
+        :param str target_lang: target language
         :param bool use_gpu: load model to gpu
 
         **Options for source & target language**

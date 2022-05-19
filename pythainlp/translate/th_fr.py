@@ -24,9 +24,11 @@ class ThFrTranslator:
     BLEU 20.4
 
     - Huggingface https://huggingface.co/Helsinki-NLP/opus-mt-th-fr
+
+    :param bool use_gpu : load model to gpu
     """
     def __init__(self,
-                 use_gpu: bool,
+                 use_gpu: bool = False,
                  pretrained: str = "Helsinki-NLP/opus-mt-th-fr") -> None:
         self.tokenizer_thzh = AutoTokenizer.from_pretrained(pretrained)
         self.model_thzh = AutoModelForSeq2SeqLM.from_pretrained(pretrained)

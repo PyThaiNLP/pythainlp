@@ -50,8 +50,10 @@ class EnThTranslator:
     from VISTEC-depa Thailand Artificial Intelligence Research Institute
 
     Website: https://airesearch.in.th/releases/machine-translation-models/
+
+    :param bool use_gpu : load model to gpu
     """
-    def __init__(self, use_gpu: bool):
+    def __init__(self, use_gpu: bool = False):
         self._tokenizer = MosesTokenizer("en")
 
         self._model_name = _EN_TH_MODEL_NAME
@@ -105,8 +107,10 @@ class ThEnTranslator:
     from VISTEC-depa Thailand Artificial Intelligence Research Institute
 
     Website: https://airesearch.in.th/releases/machine-translation-models/
+
+    :param bool use_gpu : load model to gpu
     """
-    def __init__(self, use_gpu: bool):
+    def __init__(self, use_gpu: bool = False):
         self._model_name = _TH_EN_MODEL_NAME
 
         _download_install(self._model_name)

@@ -25,8 +25,8 @@ class ThFrTranslator:
 
     - Huggingface https://huggingface.co/Helsinki-NLP/opus-mt-th-fr
     """
-    def __init__(self, 
-                 use_gpu: bool, 
+    def __init__(self,
+                 use_gpu: bool,
                  pretrained: str = "Helsinki-NLP/opus-mt-th-fr") -> None:
         self.tokenizer_thzh = AutoTokenizer.from_pretrained(pretrained)
         self.model_thzh = AutoModelForSeq2SeqLM.from_pretrained(pretrained)

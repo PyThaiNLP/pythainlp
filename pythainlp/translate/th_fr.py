@@ -25,7 +25,7 @@ class ThFrTranslator:
 
     - Huggingface https://huggingface.co/Helsinki-NLP/opus-mt-th-fr
 
-    :param bool use_gpu : load model to gpu
+    :param bool use_gpu : load model to gpu (Default is False)
     """
     def __init__(self,
                  use_gpu: bool = False,

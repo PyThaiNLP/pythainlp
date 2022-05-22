@@ -31,6 +31,7 @@ class mT5Summarizer:
                 model_name = f'thanathorn/{CPE_KMUTT_THAI_SENTENCE_SUM}'
             else:
                 model_name = pretrained_mt5_model_name
+        self.model_name = model_name
         self.model = MT5ForConditionalGeneration.from_pretrained(
             model_name
         )
@@ -45,7 +46,10 @@ class mT5Summarizer:
 
     def summarize(self, text: str) -> List[str]:
         preprocess_text = text.strip().replace("\n", "")
-        t5_prepared_Text = "summarize: "+preprocess_text
+        if self.model_name == f'thanathorn/{CPE_KMUTT_THAI_SENTENCE_SUM}':
+            t5_prepared_Text = "simplify: "+preprocess_text
+        else:
+            t5_prepared_Text = "summarize: "+preprocess_text
         tokenized_text = self.tokenizer.encode(
             t5_prepared_Text,
             return_tensors="pt"

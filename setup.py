@@ -41,13 +41,13 @@ requirements = [
 
 extras = {
     "attacut": ["attacut>=1.0.6"],
-    "benchmarks": ["PyYAML>=5.3.1", "numpy>=1.16.1", "pandas>=0.24"],
+    "benchmarks": ["PyYAML>=5.3.1", "numpy>=1.22", "pandas>=0.24"],
     "icu": ["pyicu>=2.3"],
     "ipa": ["epitran>=1.1"],
-    "ml": ["numpy>=1.16", "torch>=1.0.0"],
+    "ml": ["numpy>=1.22", "torch>=1.0.0"],
     "ssg": ["ssg>=0.0.8"],
-    "thai2fit": ["emoji>=0.5.1", "gensim>=4.0.0", "numpy>=1.16.1"],
-    "thai2rom": ["numpy>=1.16.1", "torch>=1.0.0"],
+    "thai2fit": ["emoji>=0.5.1", "gensim>=4.0.0", "numpy>=1.22"],
+    "thai2rom": ["numpy>=1.22", "torch>=1.0.0"],
     "translate": [
         "fairseq>=0.10.0",
         "sacremoses>=0.0.41",
@@ -77,7 +77,7 @@ extras = {
     "nlpo3": ["nlpo3>=1.2.2"],
     "onnx": [
         "sentencepiece>=0.1.91",
-        "numpy>=1.16.1",
+        "numpy>=1.22",
         "onnxruntime>=1.10.0"
     ],
     "thai_nner": ["thai_nner"],
@@ -89,7 +89,7 @@ extras = {
         "fairseq>=0.10.0",
         "gensim>=4.0.0",
         "nltk>=3.3.*",
-        "numpy>=1.16.1",
+        "numpy>=1.22",
         "pandas>=0.24",
         "pyicu>=2.3",
         "sacremoses>=0.0.41",

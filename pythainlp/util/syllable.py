@@ -26,8 +26,8 @@ not_spelling_class = [j for j in thai_consonants_all if j not in _temp]
 
 # vowel's short sound
 short = "ะัิึุ"
-re_short = re.compile("เ(.*)ะ|แ(.*)ะ|เ(.*)อะ|โ(.*)ะ|เ(.*)าะ", re.U)
-pattern = re.compile("เ(.*)า", re.U)  # เ-า is live syllable
+re_short = re.compile("เ([ก-ฉ][่้๊๋]?)ะ|แ([ก-ฉ][่้๊๋]?)ะ|เ([ก-ฉ][่้๊๋]?)อะ|โ([ก-ฉ][่้๊๋]?)ะ|เ([ก-ฉ][่้๊๋]?)าะ", re.U)
+pattern = re.compile("เ([ก-ฉ][่้๊๋]?)า", re.U)  # เ-า is live syllable
 
 _check_1 = []
 # these spelling consonant are live syllable.

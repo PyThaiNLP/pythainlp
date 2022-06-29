@@ -26,45 +26,46 @@ short = "ะัิึุ"
 re_short = re.compile("เ(.*)ะ|แ(.*)ะ|เ(.*)อะ|โ(.*)ะ|เ(.*)าะ", re.U)
 pattern = re.compile("เ(.*)า",re.U)
 
+
 def sound_syllable(syllable:str) -> str:
-  consonants=[i for i in syllable if i in list(thai_consonants_all)]
-  spelling_consonant = consonants[-1]
-  if len(syllable)<2:
-    return "dead"
-  elif (
-    (
-        spelling_consonant in spelling_class["กก"]+spelling_class["กบ"]+spelling_class["กด"])
-        and
+    consonants=[i for i in syllable if i in list(thai_consonants_all)]
+    spelling_consonant = consonants[-1]
+    if len(syllable)<2:
+        return "dead"
+    elif (
         (
-            any((c in set("าีืแูาเโ")) for c in syllable) == False
-            and any((c in set("ำใไ")) for c in syllable)==False
-            and pattern.findall(syllable)!=True
-        )
-    ):
-    return "dead"
-  elif any((c in set("าีืแูาโ")) for c in syllable): # in syllable:
-    if spelling_consonant != syllable[-1]:
-      return "live"
+            spelling_consonant in spelling_class["กก"]+spelling_class["กบ"]+spelling_class["กด"])
+            and
+            (
+                any((c in set("าีืแูาเโ")) for c in syllable) == False
+                and any((c in set("ำใไ")) for c in syllable)==False
+                and pattern.findall(syllable)!=True
+            )
+        ):
+        return "dead"
+    elif any((c in set("าีืแูาโ")) for c in syllable): # in syllable:
+        if spelling_consonant != syllable[-1]:
+            return "live"
+        elif spelling_consonant in spelling_class["กง"]+spelling_class["กน"]+spelling_class["กม"]+spelling_class["เกย"]+spelling_class["เกอว"]:
+            return "live"
+        elif spelling_consonant in spelling_class["กก"]+spelling_class["กบ"]+spelling_class["กด"]:
+            return "dead"
+        elif (re_short.findall(syllable) or any((c in set(short)) for c in syllable)):
+            return "dead"
+        return "live"
+    elif any((c in set("ำใไ")) for c in syllable):
+        return "live"
+    elif pattern.findall(syllable):
+        return "live"
     elif spelling_consonant in spelling_class["กง"]+spelling_class["กน"]+spelling_class["กม"]+spelling_class["เกย"]+spelling_class["เกอว"]:
-      return "live"
-    elif spelling_consonant in spelling_class["กก"]+spelling_class["กบ"]+spelling_class["กด"]:
-      return "dead"
-    elif (re_short.findall(syllable) or any((c in set(short)) for c in syllable)):# and len(consonants)<2:
-      return "dead"
-    return "live"
-  elif any((c in set("ำใไ")) for c in syllable):
-    return "live"
-  elif pattern.findall(syllable):
-    return "live"
-  elif spelling_consonant in spelling_class["กง"]+spelling_class["กน"]+spelling_class["กม"]+spelling_class["เกย"]+spelling_class["เกอว"]:
-    if (
-        re_short.findall(syllable)
-        or
-        any((c in set(short)) for c in syllable)
-    ) and len(consonants)<2:
-      return "dead"
-    return "live"
-  elif re_short.findall(syllable) or any((c in set(short)) for c in syllable):
-    return "dead"
-  else:
-    return "dead"
+        if (
+            re_short.findall(syllable)
+            or
+            any((c in set(short)) for c in syllable)
+        ) and len(consonants)<2:
+            return "dead"
+        return "live"
+    elif re_short.findall(syllable) or any((c in set(short)) for c in syllable):
+        return "dead"
+    else:
+        return "dead"

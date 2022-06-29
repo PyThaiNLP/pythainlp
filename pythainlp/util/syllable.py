@@ -24,19 +24,46 @@ _temp = list(
 )
 not_spelling_class = [j for j in thai_consonants_all if j not in _temp]
 
+# vowel's short sound
 short = "ะัิึุ"
 re_short = re.compile("เ(.*)ะ|แ(.*)ะ|เ(.*)อะ|โ(.*)ะ|เ(.*)าะ", re.U)
-pattern = re.compile("เ(.*)า", re.U)
+pattern = re.compile("เ(.*)า", re.U)  # เ-า is live syllable
 
 _check_1 = []
+# these spelling consonant are live syllable.
 for i in ["กง", "กน", "กม", "เกย", "เกอว"]:
     _check_1.extend(spelling_class[i])
+# these spelling consonant are dead syllable.
 _check_2 = spelling_class["กก"]+spelling_class["กบ"]+spelling_class["กด"]
 
 
 def sound_syllable(syllable: str) -> str:
+    """
+    Sound syllable classification
+
+    This function is sound syllable classification.
+    It is live syllable or dead syllable.
+
+    :param str syllable: Thai syllable
+    :return: syllable's type (live or dead)
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import def sound_syllable
+
+        print(sound_syllable("มา"))
+        # output: live
+
+        print(sound_syllable("เลข"))
+        # output: dead
+    """
+    # get consonants
     consonants = [i for i in syllable if i in list(thai_consonants_all)]
+    # get spelling consonants
     spelling_consonant = consonants[-1]
+    # if len of syllable < 2
     if len(syllable) < 2:
         return "dead"
     elif (
@@ -65,8 +92,8 @@ def sound_syllable(syllable: str) -> str:
             return "dead"
         return "live"
     elif any((c in set("ำใไ")) for c in syllable):
-        return "live"
-    elif pattern.findall(syllable):
+        return "live"  # if these vowel's long sound are live syllable
+    elif pattern.findall(syllable):  # if it is เ-า
         return "live"
     elif spelling_consonant in _check_1:
         if (
@@ -77,9 +104,9 @@ def sound_syllable(syllable: str) -> str:
             return "dead"
         return "live"
     elif (
-        re_short.findall(syllable)
+        re_short.findall(syllable)  # if found vowel's short sound
         or
-        any((c in set(short)) for c in syllable)
+        any((c in set(short)) for c in syllable)  # consonant in short
     ):
         return "dead"
     else:

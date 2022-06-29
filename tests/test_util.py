@@ -48,7 +48,6 @@ from pythainlp.util import (
     thai_keyboard_dist,
     text_to_num,
     words_to_num,
-    sound_syllable,
 )
 
 

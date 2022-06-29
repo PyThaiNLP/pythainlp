@@ -51,7 +51,7 @@ def sound_syllable(syllable: str) -> str:
     :Example:
     ::
 
-        from pythainlp.util import def sound_syllable
+        from pythainlp.util import sound_syllable
 
         print(sound_syllable("มา"))
         # output: live

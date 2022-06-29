@@ -24,8 +24,9 @@ pyicu==2.8
 deepcut==0.7.0.0
 h5py==3.1.0
 tensorflow==2.7.2
-pandas==0.24
+pandas==1.4.*
 tltk==1.3.8
 OSKut==1.3
 nlpo3==1.2.2
 thai-nner==0.3
+spacy==2.3.*

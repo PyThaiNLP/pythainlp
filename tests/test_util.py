@@ -694,6 +694,7 @@ class TestUtilPackage(unittest.TestCase):
             ("เมฆ", "dead"),
             ("เลข", "dead"),
             ("ธูป", "dead"),
+            ("บ", "dead"),
             ("บ่", "dead"),
             ("ก็", "dead"),
         ]

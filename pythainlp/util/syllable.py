@@ -46,7 +46,7 @@ def sound_syllable(syllable: str) -> str:
             (
                 any((c in set("าีืแูาเโ")) for c in syllable) is False
                 and any((c in set("ำใไ")) for c in syllable) is False
-                and pattern.findall(syllable) != True
+                and not pattern.findall(syllable) is True
             )
     ):
         return "dead"
@@ -59,7 +59,7 @@ def sound_syllable(syllable: str) -> str:
             return "dead"
         elif (
             re_short.findall(syllable)
-            or 
+            or
             any((c in set(short)) for c in syllable)
         ):
             return "dead"

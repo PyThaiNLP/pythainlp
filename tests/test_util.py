@@ -664,7 +664,7 @@ class TestUtilPackage(unittest.TestCase):
         )
 
     def test_sound_syllable(self):
-        test=[
+        test = [
             ("มา", "live"),
             ("ดู", "live"),
             ("ปู", "live"),
@@ -697,5 +697,5 @@ class TestUtilPackage(unittest.TestCase):
             ("บ่", "dead"),
             ("ก็", "dead"),
         ]
-        for i,j in test:
+        for i, j in test:
             self.assertEqual(sound_syllable(i), j)

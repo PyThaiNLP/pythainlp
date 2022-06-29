@@ -697,6 +697,9 @@ class TestUtilPackage(unittest.TestCase):
             ("บ", "dead"),
             ("บ่", "dead"),
             ("ก็", "dead"),
+            ("เพราะ", "dead"),
+            ("เกาะ", "dead"),
+            ("แคะ", "dead"),
         ]
         for i, j in test:
             self.assertEqual(sound_syllable(i), j)

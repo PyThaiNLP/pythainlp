@@ -26,8 +26,8 @@ not_spelling_class = [j for j in thai_consonants_all if j not in _temp]
 
 # vowel's short sound
 short = "ะัิึุ"
-re_short = re.compile("เ([ก-ฉ][่้๊๋]?)ะ|แ([ก-ฉ][่้๊๋]?)ะ|เ([ก-ฉ][่้๊๋]?)อะ|โ([ก-ฉ][่้๊๋]?)ะ|เ([ก-ฉ][่้๊๋]?)าะ", re.U)
-pattern = re.compile("เ([ก-ฉ][่้๊๋]?)า", re.U)  # เ-า is live syllable
+re_short = re.compile("เ(.*)ะ|แ(.*)ะ|เ(.*)อะ|โ(.*)ะ|เ(.*)าะ", re.U)
+pattern = re.compile("เ(.*)า", re.U)  # เ-า is live syllable
 
 _check_1 = []
 # these spelling consonant are live syllable.
@@ -73,19 +73,19 @@ def sound_syllable(syllable: str) -> str:
             (
                 any((c in set("าีืแูาเโ")) for c in syllable) == False
                 and any((c in set("ำใไ")) for c in syllable) == False
-                and pattern.findall(syllable) != True
+                and bool(pattern.search(syllable)) != True
             )
     ):
         return "dead"
     elif any((c in set("าีืแูาโ")) for c in syllable):  # in syllable:
-        if spelling_consonant != syllable[-1]:
+        if spelling_consonant in _check_1 and bool(re_short.search(syllable)) != True:
             return "live"
-        elif spelling_consonant in _check_1:
+        elif spelling_consonant != syllable[-1] and bool(re_short.search(syllable)) != True:
             return "live"
         elif spelling_consonant in _check_2:
             return "dead"
         elif (
-            re_short.findall(syllable)
+            bool(re_short.search(syllable))
             or
             any((c in set(short)) for c in syllable)
         ):
@@ -93,18 +93,18 @@ def sound_syllable(syllable: str) -> str:
         return "live"
     elif any((c in set("ำใไ")) for c in syllable):
         return "live"  # if these vowel's long sound are live syllable
-    elif pattern.findall(syllable):  # if it is เ-า
+    elif bool(pattern.search(syllable)):  # if it is เ-า
         return "live"
     elif spelling_consonant in _check_1:
         if (
-            re_short.findall(syllable)
+            bool(re_short.search(syllable))
             or
             any((c in set(short)) for c in syllable)
         ) and len(consonants) < 2:
             return "dead"
         return "live"
     elif (
-        re_short.findall(syllable)  # if found vowel's short sound
+        bool(re_short.search(syllable))  # if found vowel's short sound
         or
         any((c in set(short)) for c in syllable)  # consonant in short
     ):

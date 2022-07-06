@@ -32,6 +32,7 @@ Modules
 .. autofunction:: remove_tonemark
 .. autofunction:: remove_zw
 .. autofunction:: reorder_vowels
+.. autofunction:: sound_syllable
 .. autofunction:: text_to_arabic_digit
 .. autofunction:: text_to_num
 .. autofunction:: text_to_thai_digit

@@ -66,7 +66,7 @@ class WunsenTransliterate:
         """
         if self.lang != lang or self.jp_input != jp_input:
             if lang == "jp":
-                if jp_input == None:
+                if jp_input is None:
                     self.thap_value = ThapSap("ja")
                 else:
                     self.thap_value = ThapSap("ja", input=jp_input)

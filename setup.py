@@ -55,6 +55,7 @@ extras = {
         "torch>=1.0.0",
         "transformers>=4.6.0",
     ],
+    "wunsen": ["wunsen>=0.0.1"],
     "textaugment": [
         "bpemb",
         "gensim>=4.0.0"
@@ -107,7 +108,8 @@ extras = {
         "oskut>=1.3",
         "nlpo3>=1.2.2",
         "onnxruntime>=1.10.0",
-        "thai_nner"
+        "thai_nner",
+        "wunsen>=0.0.1"
     ],
 }
 

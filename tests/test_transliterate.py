@@ -6,6 +6,7 @@ import torch
 from pythainlp.transliterate import romanize, transliterate, pronunciate, puan
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.thai2rom import ThaiTransliterator
+from pythainlp.transliterate.wunsen import WunsenTransliterate
 from pythainlp.corpus import remove
 
 _BASIC_TESTS = {
@@ -155,6 +156,31 @@ class TestTransliteratePackage(unittest.TestCase):
             transliterate("ภาษาไทย", engine="iso_11940"),
             "p̣hās̛̄āịthy"
         )
+
+    def test_transliterate_wunsen(self):
+        wt = WunsenTransliterate()
+        self.assertEqual(
+            wt.transliterate("ohayō", lang="jp"),
+            'โอฮาโย'
+        )
+        self.assertEqual(
+            wt.transliterate(
+                "ohayou",
+                lang="jp",
+                jp_input="Hepburn-no diacritic"
+            ),
+            'โอฮาโย'
+        )
+        self.assertEqual(
+            wt.transliterate("annyeonghaseyo", lang="ko"),
+            'อันนย็องฮาเซโย'
+        )
+        self.assertEqual(
+            wt.transliterate("xin chào", lang="vi"),
+            'ซีน จ่าว'
+        )
+        with self.assertRaises(NotImplementedError):
+            wt.transliterate("xin chào", lang="vii")
 
     def test_pronunciate(self):
         self.assertEqual(pronunciate(""), "")

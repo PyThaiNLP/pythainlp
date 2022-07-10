@@ -42,6 +42,12 @@ thaig2p
 .. automodule::  pythainlp.transliterate.thaig2p.transliterate
 .. autofunction::  pythainlp.transliterate.thaig2p.transliterate
 
+tltk
+++++
+.. autofunction:: pythainlp.transliterate.tltk.romanize
+.. autofunction:: pythainlp.transliterate.tltk.tltk_g2p
+.. autofunction:: pythainlp.transliterate.tltk.tltk_ipa
+
 iso_11940
 +++++++++
 .. automodule::  pythainlp.transliterate.iso_11940

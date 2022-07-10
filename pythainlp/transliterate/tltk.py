@@ -3,6 +3,13 @@ from tltk.nlp import g2p, th2ipa, th2roman
 
 
 def romanize(text: str) -> str:
+    """
+    Transliterating thai text to the Latin alphabet with tltk.
+
+    :param str text: Thai text to be romanized
+    :return: A string of Thai words rendered in the Latin alphabet.
+    :rtype: str
+    """
     _temp = th2roman(text)
     return _temp[:_temp.rfind(" <s/>")].replace("<s/>", "")
 

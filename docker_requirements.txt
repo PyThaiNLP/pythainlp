@@ -31,3 +31,4 @@ nlpo3==1.2.2
 thai-nner==0.3
 spacy==2.3.*
 wunsen==0.0.1
+khanaa==0.0.6

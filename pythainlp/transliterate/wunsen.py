@@ -51,7 +51,11 @@ class WunsenTransliterate:
             wt.transliterate("ohayō", lang="jp")
             # output: 'โอฮาโย'
 
-            wt.transliterate("ohayou", lang="jp", jp_input="Hepburn-no diacritic")
+            wt.transliterate(
+                "ohayou",
+                lang="jp",
+                jp_input="Hepburn-no diacritic"
+            )
             # output: 'โอฮาโย'
 
             wt.transliterate("annyeonghaseyo", lang="ko")
@@ -65,7 +69,7 @@ class WunsenTransliterate:
                 if jp_input == None:
                     self.thap_value = ThapSap("ja")
                 else:
-                    self.thap_value = ThapSap("ja", input = jp_input)
+                    self.thap_value = ThapSap("ja", input=jp_input)
                 self.jp_input = jp_input
             elif lang == "ko" or lang == "vi":
                 self.jp_input = None

@@ -11,7 +11,8 @@ Modules
 .. autofunction:: transliterate
 .. autofunction:: pronunciate
 .. autofunction:: puan
-.. automodule:: pythainlp.transliterate.wunsen.WunsenTransliterate
+.. autoclass:: pythainlp.transliterate.wunsen.WunsenTransliterate
+   :members:
 
 Romanize Engines
 ----------------

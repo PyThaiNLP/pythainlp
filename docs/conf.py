@@ -236,3 +236,10 @@ todo_include_todos = True
 # from recommonmark.parser import CommonMarkParser
 # source_parsers = {'.md': CommonMarkParser}
 # source_suffix = ['.rst', '.md']
+autodoc_default_options = {
+    'members': True,
+    'member-order': 'bysource',
+    'special-members': '__init__',
+    'undoc-members': True,
+    'exclude-members': '__weakref__'
+}

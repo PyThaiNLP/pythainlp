@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+# PyThaiNLP: Thai Natural Language Processing in Python
+#
+# Copyright (C) 2016-2022 PyThaiNLP Project
+# URL: <https://pythainlp.github.io/>
+# For license information, see LICENSE
 __version__ = "3.0.8"
 
 thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44 chars

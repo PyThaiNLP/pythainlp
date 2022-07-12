@@ -203,6 +203,8 @@ class TestTokenizePackage(unittest.TestCase):
 
         _tokenizer = Tokenizer()
         self.assertEqual(_tokenizer.word_tokenize("ก"), ["ก"])
+        with self.assertRaises(NotImplementedError):
+            Tokenizer(engine="catcut")
 
     def test_clause_tokenize(self):
         self.assertIsNotNone(sent_clause_tokenize(["ฉัน", "ทดสอบ"]))

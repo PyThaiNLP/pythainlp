@@ -521,6 +521,7 @@ class Tokenizer:
 
         text = "อะเฟเซีย (Aphasia*) เป็นอาการผิดปกติของการพูด"
         _tokenizer = Tokenizer(custom_dict=trie, engine='newmm')
+        _tokenizer.word_tokenize(text)
         # output: ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ',
         'ผิดปกติ', 'ของ', 'การ', 'พูด']
 
@@ -575,7 +576,7 @@ class Tokenizer:
                     used to create a trie, or an instantiated
                     :class:`pythainlp.util.Trie` object.
         :param str engine: choose between different options of engine to token
-                           (i.e.  *newmm*, *longest*, *attacut*)
+                           (i.e.  *newmm*, *mm*, *longest*, *deepcut*)
         :param bool keep_whitespace: True to keep whitespaces, a common mark
                                     for end of phrase in Thai
         """
@@ -585,6 +586,12 @@ class Tokenizer:
         else:
             self.__trie_dict = DEFAULT_WORD_DICT_TRIE
         self.__engine = engine
+        if self.__engine not in ["newmm", "mm", "longest", "deepcut"]:
+            raise NotImplementedError(
+                """
+                The Tokenizer class is not support %s for custom tokenizer
+                """ % self.__engine
+            )
         self.__keep_whitespace = keep_whitespace
 
     def word_tokenize(self, text: str) -> List[str]:
@@ -607,6 +614,6 @@ class Tokenizer:
         Set the tokenizer's engine.
 
         :param str engine: choose between different options of engine to token
-                           (i.e. *newmm*, *longest*, *attacut*)
+                           (i.e. *newmm*, *mm*, *longest*, *deepcut*)
         """
         self.__engine = engine

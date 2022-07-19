@@ -74,7 +74,7 @@ except Exception as e:
 version = f"{current_branch} ({release}) <br /> Published date: {today}"
 
 # The full version, including alpha/beta/rc tags
-release = release
+# release = release
 
 
 # -- General configuration ---------------------------------------------------
@@ -223,7 +223,7 @@ texinfo_documents = [
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     "python": ("https://docs.python.org/", None),
-    "NLTK": ("http://www.nltk.org", None),
+    "NLTK": ("https://www.nltk.org", None),
 }
 
 # -- Options for todo extension ----------------------------------------------

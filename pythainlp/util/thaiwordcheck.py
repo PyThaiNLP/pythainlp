@@ -3,7 +3,7 @@
 Check if a word is a "native Thai word"
 
 Adapted from
-https://github.com/wannaphongcom/open-thai-nlp-document/blob/master/check_thai_word.md
+https://github.com/wannaphong/open-thai-nlp-document/blob/master/check_thai_word.md
 
 References
 - ทีมงานทรูปลูกปัญญา 2015. ลักษณะของคำไทยแท้ http://www.trueplookpanya.com/learning/detail/30589-043067

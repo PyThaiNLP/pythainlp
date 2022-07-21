@@ -69,6 +69,7 @@ def word_tokenize(
           Thai Character Cluster
         * *newmm-safe* - newmm, with a mechanism to help avoid long
           processing time for text with continuous ambiguous breaking points
+        * *mm* or *multi_cut* - dictionary-based, Maximum Matching.
         * *nlpo3* - Python binding for nlpO3. It is newmm engine in Rust.
         * *longest* - dictionary-based, Longest Matching
         * *icu* - wrapper for ICU (International Components for Unicode,

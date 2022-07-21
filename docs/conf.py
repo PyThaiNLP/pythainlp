@@ -7,6 +7,7 @@ import os
 import sys
 import traceback
 from datetime import datetime
+import pythainlp
 
 # -- Path setup --------------------------------------------------------------
 
@@ -66,7 +67,7 @@ try:
     )
 except Exception as e:
     traceback.print_exc()
-    release = "<unknown>"
+    release = pythainlp.__version__
     today = "<unknown date>"
     current_branch = "<unknown>"
 

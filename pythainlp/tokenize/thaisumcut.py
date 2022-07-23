@@ -10,22 +10,38 @@ Cite:
     author={Chumpolsathien, Nakhun},
     year={2020},
     school={Beijing Institute of Technology}
+
+**ThaiSum License**
+
+   Copyright [2020 [Nakhun Chumpolsathien]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
 """
 
 import re
-from pythainlp.tokenize import word_tokenize
 import operator
 import math
-from timeit import default_timer as timer
+from typing import List
+from pythainlp.tokenize import word_tokenize
 
 
-def list_to_string(list):
+def list_to_string(list:List[str]) -> str:
     string = ''.join(list)
     string = ' '.join(string.split())
     return string
 
 
-def middle_cut(sentences):
+def middle_cut(sentences:List[str]) -> List[str]:
     new_text = ""
     for sentence in sentences:
         sentence_size = len(word_tokenize(sentence, keep_whitespace=False))
@@ -77,7 +93,7 @@ def middle_cut(sentences):
 
 class ThaiSentenceSegmentor:
 
-    def split_into_sentences(self, text, isMiddleCut=False):
+    def split_into_sentences(self, text:str, isMiddleCut:bool=False) -> List[str]:
         # Declare Variables
         th_alphabets = "([ก-๙])"
         th_conjunction = "(ทำให้|โดย|เพราะ|นอกจากนี้|แต่|กรณีที่|หลังจากนี้|ต่อมา|ภายหลัง|นับตั้งแต่|หลังจาก|ซึ่งเหตุการณ์|ผู้สื่อข่าวรายงานอีก|ส่วนที่|ส่วนสาเหตุ|ฉะนั้น|เพราะฉะนั้น|เพื่อ|เนื่องจาก|จากการสอบสวนทราบว่า|จากกรณี|จากนี้|อย่างไรก็ดี)"

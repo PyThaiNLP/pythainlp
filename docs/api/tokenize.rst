@@ -29,6 +29,15 @@ crfcut
 .. autofunction::  pythainlp.tokenize.crfcut.extract_features
 .. autofunction::  pythainlp.tokenize.crfcut.segment
 
+thaisumcut
+----------
+.. automodule::  pythainlp.tokenize.thaisumcut
+
+.. autofunction::  pythainlp.tokenize.thaisumcut.list_to_string
+.. autofunction::  pythainlp.tokenize.thaisumcut.middle_cut
+.. autoclass:: pythainlp.tokenize.thaisumcut.ThaiSentenceSegmentor
+   :members:
+
 Word level
 ----------
 

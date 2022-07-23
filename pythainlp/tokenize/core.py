@@ -240,6 +240,8 @@ def sent_tokenize(
         * *whitespace* - split by whitespaces. Specifiaclly, with \
                          :class:`regex` pattern  ``r" +"``
         * *tltk* - split by `TLTK <https://pypi.org/project/tltk/>`_.,
+        * *thaisum* - The implementation of sentence segmentator from \
+            Nakhun Chumpolsathien, 2020
     :Example:
 
     Split the text based on *whitespace*::

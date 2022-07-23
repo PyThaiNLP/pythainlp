@@ -13,13 +13,10 @@ Cite:
 """
 
 import re
-import pandas as pd
 from pythainlp.tokenize import word_tokenize
 import operator
 import math
-from tqdm import tqdm
 from timeit import default_timer as timer
-import time
 
 
 def list_to_string(list):

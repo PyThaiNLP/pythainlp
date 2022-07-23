@@ -17,6 +17,7 @@ TO_UD = {
     "CL": "NOUN",
     "FX": "NOUN",
     "IJ": "INTJ",
+    "NG": "PART",
     "NN": "NOUN",
     "NU": "NUM",
     "PA": "PART",

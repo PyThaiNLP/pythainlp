@@ -300,6 +300,10 @@ def sent_tokenize(
         from pythainlp.tokenize.tltk import sent_tokenize as segment
 
         segments = segment(text)
+    elif engine == "thaisum":
+        from pythainlp.tokenize.thaisumcut import ThaiSentenceSegmentor as segmentor
+        segment = segmentor()
+        segments = segment.split_into_sentences(text)
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.

@@ -271,6 +271,15 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(
             sent_tokenize(sent_3, engine="tltk",),
         )
+        self.assertIsNotNone(
+            sent_tokenize(sent_1, engine="thaisum",),
+        )
+        self.assertIsNotNone(
+            sent_tokenize(sent_2, engine="thaisum",),
+        )
+        self.assertIsNotNone(
+            sent_tokenize(sent_3, engine="thaisum",),
+        )
         self.assertFalse(
             " "
             in sent_tokenize(

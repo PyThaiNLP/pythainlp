@@ -14,7 +14,7 @@ Cite:
 
 import re
 import pandas as pd
-import pythainlp
+from pythainlp.tokenize import word_tokenize
 import operator
 import math
 from tqdm import tqdm
@@ -31,7 +31,7 @@ def list_to_string(list):
 def middle_cut(sentences):
         new_text = ""
         for sentence in sentences:
-            sentence_size = len(pythainlp.word_tokenize(sentence, keep_whitespace=False))
+            sentence_size = len(word_tokenize(sentence, keep_whitespace=False))
 
             for k in range(0, len(sentence)):
                 if k == 0 or k + 1 >= len(sentence):
@@ -46,7 +46,7 @@ def middle_cut(sentences):
 
             if sentence_size > fixed_text_lenth:
                 partition = math.floor(sentence_size / fixed_text_lenth)
-                tokens = pythainlp.word_tokenize(sentence, keep_whitespace=True)
+                tokens = word_tokenize(sentence, keep_whitespace=True)
                 for i in range(0, partition):
                     middle_space = (sentence_size / (partition+1)*(i+1))
                     white_space_index = []
@@ -155,7 +155,7 @@ class ThaiSentenceSegmentor:
         text = text.replace("โดยสัจจริง", "<doi>สัจจริง")
 
         if "และ" in text:
-            tokens = pythainlp.word_tokenize(text.strip(), keep_whitespace=True)
+            tokens = word_tokenize(text.strip(), keep_whitespace=True)
             and_position = -1
             nearest_space_position = -1
             last_position = len(tokens)
@@ -189,7 +189,7 @@ class ThaiSentenceSegmentor:
             text = list_to_string(tokens)
 
         if "หรือ" in text:
-            tokens = pythainlp.word_tokenize(text.strip(), keep_whitespace=True)
+            tokens = word_tokenize(text.strip(), keep_whitespace=True)
             or_position = -1
             nearest_space_position = -1
             last_position = len(tokens)
@@ -222,7 +222,7 @@ class ThaiSentenceSegmentor:
             text = list_to_string(tokens)
 
         if "จึง" in text:
-            tokens = pythainlp.word_tokenize(text.strip(), keep_whitespace=True)
+            tokens = word_tokenize(text.strip(), keep_whitespace=True)
             cung_position = -1
             nearest_space_position = -1
             pop_split_position = []

@@ -5,10 +5,10 @@ original code from: https://github.com/nakhunchumpolsathien/ThaiSum
 
 Cite:
 
-@mastersthesis{chumpolsathien_2020, 
+@mastersthesis{chumpolsathien_2020,
     title={Using Knowledge Distillation from Keyword Extraction to Improve the Informativeness of Neural Cross-lingual Summarization},
-    author={Chumpolsathien, Nakhun}, 
-    year={2020}, 
+    author={Chumpolsathien, Nakhun},
+    year={2020},
     school={Beijing Institute of Technology}
 """
 
@@ -29,51 +29,53 @@ def list_to_string(list):
 
 
 def middle_cut(sentences):
-        new_text = ""
-        for sentence in sentences:
-            sentence_size = len(word_tokenize(sentence, keep_whitespace=False))
+    new_text = ""
+    for sentence in sentences:
+        sentence_size = len(word_tokenize(sentence, keep_whitespace=False))
 
-            for k in range(0, len(sentence)):
-                if k == 0 or k + 1 >= len(sentence):
-                    continue
-                if sentence[k].isdigit() and sentence[k - 1] == " ":
-                    sentence = sentence[:k - 1] + sentence[k:]
-                if k + 2 <= len(sentence):
-                    if sentence[k].isdigit() and sentence[k + 1] == " ":
-                        sentence = sentence[:k + 1] + sentence[k + 2:]
+        for k in range(0, len(sentence)):
+            if k == 0 or k + 1 >= len(sentence):
+                continue
+            if sentence[k].isdigit() and sentence[k - 1] == " ":
+                sentence = sentence[:k - 1] + sentence[k:]
+            if k + 2 <= len(sentence):
+                if sentence[k].isdigit() and sentence[k + 1] == " ":
+                    sentence = sentence[:k + 1] + sentence[k + 2:]
 
-            fixed_text_lenth = 20
+        fixed_text_lenth = 20
 
-            if sentence_size > fixed_text_lenth:
-                partition = math.floor(sentence_size / fixed_text_lenth)
-                tokens = word_tokenize(sentence, keep_whitespace=True)
-                for i in range(0, partition):
-                    middle_space = (sentence_size / (partition+1)*(i+1))
-                    white_space_index = []
-                    white_space_diff = {}
+        if sentence_size > fixed_text_lenth:
+            partition = math.floor(sentence_size / fixed_text_lenth)
+            tokens = word_tokenize(sentence, keep_whitespace=True)
+            for i in range(0, partition):
+                middle_space = (sentence_size / (partition+1)*(i+1))
+                white_space_index = []
+                white_space_diff = {}
 
-                    for j in range(len(tokens)):
-                        if tokens[j] == ' ':
-                            white_space_index.append(j)
+                for j in range(len(tokens)):
+                    if tokens[j] == ' ':
+                        white_space_index.append(j)
 
-                    for white_space in white_space_index:
-                        white_space_diff.update({white_space: abs(white_space - middle_space)})
+                for white_space in white_space_index:
+                    white_space_diff.update({white_space: abs(white_space - middle_space)})
 
-                    if len(white_space_diff) > 0:
-                        min_diff = min(white_space_diff.items(), key=operator.itemgetter(1))
-                        tokens.pop(min_diff[0])
-                        tokens.insert(min_diff[0], "<stop>")
-                new_text = new_text + list_to_string(tokens) + "<stop>"
-            else:
-                new_text = new_text + sentence + "<stop>"
+                if len(white_space_diff) > 0:
+                    min_diff = min(white_space_diff.items(), key=operator.itemgetter(1))
+                    tokens.pop(min_diff[0])
+                    tokens.insert(min_diff[0], "<stop>")
+            new_text = new_text + list_to_string(tokens) + "<stop>"
+        else:
+            new_text = new_text + sentence + "<stop>"
 
-        sentences = new_text.split("<stop>")
-        sentences = [s.strip() for s in sentences]
-        if '' in sentences: sentences.remove('')
-        if 'nan' in sentences: sentences.remove('nan')
+    sentences = new_text.split("<stop>")
+    sentences = [s.strip() for s in sentences]
+    if '' in sentences: 
+        sentences.remove('')
+    if 'nan' in sentences: 
+        sentences.remove('nan')
 
-        sentences = list(filter(None, sentences))
-        return sentences
+    sentences = list(filter(None, sentences))
+    return sentences
 
 
 class ThaiSentenceSegmentor:
@@ -81,7 +83,7 @@ class ThaiSentenceSegmentor:
     def split_into_sentences(self, text, isMiddleCut=False):
         # Declare Variables
         th_alphabets = "([ก-๙])"
-        th_conjunction = "(เพราะ|ทำให้|โดย|เนื่องจาก|เพราะ|นอกจากนี้|แต่|กรณีที่|หลังจากนี้|ต่อมา|ภายหลัง|นับตั้งแต่|หลังจาก|ซึ่งเหตุการณ์|ผู้สื่อข่าวรายงานอีก|ส่วนที่|ส่วนสาเหตุ|ฉะนั้น|เพราะฉะนั้น|เพื่อ|เนื่องจาก|จากการสอบสวนทราบว่า|จากกรณี|จากนี้|อย่างไรก็ดี)"
+        th_conjunction = "(ทำให้|โดย|เพราะ|นอกจากนี้|แต่|กรณีที่|หลังจากนี้|ต่อมา|ภายหลัง|นับตั้งแต่|หลังจาก|ซึ่งเหตุการณ์|ผู้สื่อข่าวรายงานอีก|ส่วนที่|ส่วนสาเหตุ|ฉะนั้น|เพราะฉะนั้น|เพื่อ|เนื่องจาก|จากการสอบสวนทราบว่า|จากกรณี|จากนี้|อย่างไรก็ดี)"
         th_cite = "(กล่าวว่า|เปิดเผยว่า|รายงานว่า|ให้การว่า|เผยว่า|บนทวิตเตอร์ว่า|แจ้งว่า|พลเมืองดีว่า|อ้างว่า)"
         th_ka_krub = "(ครับ|ค่ะ)"
         th_stop_after = "(หรือไม่|โดยเร็ว|แล้ว|อีกด้วย)"
@@ -264,10 +266,14 @@ class ThaiSentenceSegmentor:
         text = re.sub(" " + degit + "[.]" + th_title, "<stop>\\1.\\2", text)
         text = re.sub(" " + degit + degit + "[.]" + th_title, "<stop>\\1\\2.\\3", text)
         text = re.sub(th_alphabets + th_stop_after + " ", "\\1\\2<stop>", text)
-        if "”" in text: text = text.replace(".”", "”.")
-        if "\"" in text: text = text.replace(".\"", "\".")
-        if "!" in text: text = text.replace("!\"", "\"!")
-        if "?" in text: text = text.replace("?\"", "\"?")
+        if "”" in text: 
+            text = text.replace(".”", "”.")
+        if "\"" in text: 
+            text = text.replace(".\"", "\".")
+        if "!" in text: 
+            text = text.replace("!\"", "\"!")
+        if "?" in text: 
+            text = text.replace("?\"", "\"?")
         text = text.replace("<rth_Doeirew>", "โดยเร็ว")
         text = text.replace("<rth_friend>", "เพื่อน")
         text = text.replace("<rth_but>", "แต่ง")
@@ -332,8 +338,10 @@ class ThaiSentenceSegmentor:
         text = text.replace("<prd>", ".")
         sentences = text.split("<stop>")
         sentences = [s.strip() for s in sentences]
-        if '' in sentences: sentences.remove('')
-        if 'nan' in sentences: sentences.remove('nan')
+        if '' in sentences: 
+            sentences.remove('')
+        if 'nan' in sentences: 
+            sentences.remove('nan')
 
         sentences = list(filter(None, sentences))
 

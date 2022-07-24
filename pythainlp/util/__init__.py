@@ -34,7 +34,6 @@ __all__ = [
     "thai_digit_to_arabic_digit",
     "thai_keyboard_dist",
     "thai_strftime",
-    "thai_time",
     "thai_to_eng",
     "thaiword_to_date",
     "thaiword_to_num",
@@ -85,7 +84,7 @@ from pythainlp.util.thai import (
     isthaichar,
 )
 from pythainlp.util.thaiwordcheck import is_native_thai
-from pythainlp.util.time import thai_time, thaiword_to_time, time_to_thaiword
+from pythainlp.util.time import thaiword_to_time, time_to_thaiword
 from pythainlp.util.trie import Trie, dict_trie
 from pythainlp.util.wordtonum import thaiword_to_num, text_to_num, words_to_num
 from pythainlp.util.syllable import sound_syllable

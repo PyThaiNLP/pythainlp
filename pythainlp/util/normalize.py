@@ -129,9 +129,9 @@ def remove_tonemark(text: str) -> str:
     :Example:
     ::
 
-        from pythainlp.util import delete_tone
+        from pythainlp.util import remove_tonemark
 
-        delete_tone('สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด')
+        remove_tonemark('สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด')
         # output: สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด
     """
     for ch in tonemarks:
@@ -246,17 +246,6 @@ def normalize(text: str) -> str:
     text = remove_dangling(text)
 
     return text
-
-
-def delete_tone(text: str) -> str:
-    """
-    DEPRECATED: Please use remove_tonemark().
-    """
-    warnings.warn(
-        "delete_tone is deprecated, use remove_tonemark instead",
-        DeprecationWarning,
-    )
-    return remove_tonemark(text)
 
 
 def maiyamok(sent: Union[str, List[str]]) -> List[str]:

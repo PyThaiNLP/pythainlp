@@ -17,7 +17,6 @@ from pythainlp.tokenize import (
     sent_tokenize,
     ssg,
     subword_tokenize,
-    syllable_tokenize,
     tcc,
     word_tokenize,
     sefr_cut,
@@ -317,7 +316,6 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertFalse("า" in subword_tokenize("สวัสดีชาวโลก", engine="dict"))
         self.assertEqual(subword_tokenize(None, engine="ssg"), [])
-        self.assertEqual(syllable_tokenize("", engine="ssg"), [])
         self.assertEqual(
             subword_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
         )
@@ -343,30 +341,6 @@ class TestTokenizePackage(unittest.TestCase):
         )
         with self.assertRaises(ValueError):
             subword_tokenize("นกแก้ว", engine="XX")  # engine does not exist
-
-    def test_syllable_tokenize(self):
-        self.assertEqual(syllable_tokenize(None), [])
-        self.assertEqual(syllable_tokenize(""), [])
-        self.assertEqual(
-            syllable_tokenize("สวัสดีชาวโลก"), ["สวัส", "ดี", "ชาว", "โลก"]
-        )
-        self.assertFalse("า" in syllable_tokenize("สวัสดีชาวโลก"))
-        self.assertEqual(syllable_tokenize(None, engine="ssg"), [])
-        self.assertEqual(syllable_tokenize("", engine="ssg"), [])
-        self.assertEqual(
-            syllable_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
-        )
-        self.assertTrue(
-            "ดาว" in syllable_tokenize("สวัสดีดาวอังคาร", engine="ssg")
-        )
-        self.assertFalse(
-            "า" in syllable_tokenize("สวัสดีดาวอังคาร", engine="ssg")
-        )
-        self.assertFalse(
-            " " in syllable_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
-        )
-        with self.assertRaises(ValueError):
-            syllable_tokenize("กรอเทป", engine="XX")  # engine does not exist
 
     def test_word_tokenize(self):
         self.assertEqual(word_tokenize(""), [])
@@ -626,7 +600,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(ssg.segment(None), [])
         self.assertEqual(ssg.segment(""), [])
         self.assertTrue(
-            "ดาว" in syllable_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+            "ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
         )
 
     def test_tcc(self):

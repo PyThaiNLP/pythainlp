@@ -9,7 +9,6 @@ __all__ = [
     "bahttext",
     "collate",
     "countthai",
-    "delete_tone",
     "dict_trie",
     "digit_to_text",
     "display_thai_char",
@@ -68,7 +67,6 @@ from pythainlp.util.emojiconv import emoji_to_thai
 from pythainlp.util.keyboard import eng_to_thai, thai_to_eng
 from pythainlp.util.keywords import find_keyword, rank
 from pythainlp.util.normalize import (
-    delete_tone,
     normalize,
     maiyamok,
     remove_dangling,

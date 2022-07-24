@@ -15,7 +15,6 @@ from pythainlp.util import (
     bahttext,
     collate,
     countthai,
-    delete_tone,
     dict_trie,
     display_thai_char,
     digit_to_text,
@@ -528,9 +527,6 @@ class TestUtilPackage(unittest.TestCase):
         # remove tone marks
         self.assertEqual(remove_tonemark("จิ้น"), "จิน")
         self.assertEqual(remove_tonemark("เก๋า"), "เกา")
-        self.assertEqual(delete_tone("เจ๋งเป้ง"), remove_tonemark("เจ๋งเป้ง"))
-        with self.assertWarns(DeprecationWarning):
-            delete_tone("ค้าบ")
 
         # remove zero width chars
         self.assertEqual(remove_zw("กา\u200b"), "กา")

@@ -237,7 +237,7 @@ def _download(url: str, dst: str) -> int:
     with open(get_full_data_path(dst), "wb") as f:
         pbar = None
         try:
-            from tqdm import tqdm
+            from tqdm.auto import tqdm
 
             pbar = tqdm(total=int(r.headers["Content-Length"]))
         except ImportError:

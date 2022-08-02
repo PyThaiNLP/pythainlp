@@ -242,33 +242,33 @@ def tone_detector(syllable: str) -> str:
         len(consonants) > 1
         and (initial_consonant == "อ" or initial_consonant == "ห")
     ):
-        two_consonants = _check_sonorant_syllable(syllable)
+        consonant_ending = _check_sonorant_syllable(syllable)
         if (
             initial_consonant == "อ"
-            and two_consonants
+            and consonant_ending
             and s == "live"
             and tone_mark == "่"
         ):
             r = "l"
-        elif initial_consonant == "อ" and two_consonants and s == "dead":
+        elif initial_consonant == "อ" and consonant_ending and s == "dead":
             r = "l"
         elif (
             initial_consonant == "ห"
-            and two_consonants
+            and consonant_ending
             and s == "live"
             and tone_mark == "่"
         ):
             r = "l"
         elif (
             initial_consonant == "ห"
-            and two_consonants
+            and consonant_ending
             and s == "live"
             and tone_mark == "้"
         ):
             r = "f"
-        elif initial_consonant == "ห" and two_consonants and s == "dead":
+        elif initial_consonant == "ห" and consonant_ending and s == "dead":
             r = "l"
-        elif initial_consonant == "ห" and two_consonants and s == "live":
+        elif initial_consonant == "ห" and consonant_ending and s == "live":
             r = "r"
     elif (
         initial_consonant_type == "low"

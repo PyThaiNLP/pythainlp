@@ -49,6 +49,9 @@ from pythainlp.util import (
     text_to_num,
     words_to_num,
     sound_syllable,
+    syllable_lenght,
+    syllable_open_close_detector,
+    tone_detector,
 )
 
 
@@ -703,3 +706,31 @@ class TestUtilPackage(unittest.TestCase):
         ]
         for i, j in test:
             self.assertEqual(sound_syllable(i), j)
+
+    def test_tone_detector(self):
+        data = [
+            ("l","กด"),
+            ("l","ต่อ"),
+            ("l","ฉาก"),
+            ("l","ใส่"),
+            ("l","อยาก"),
+            ("l","อยู่"),
+            ("l","หนวก"),
+            ("l","ใหม่"),
+            ("m","ควาย"),
+            ("m","ไป"),
+            ("h","คะ"),
+            ("h","วัด"),
+            ("h","ไม้"),
+            ("h","โต๊ะ"),
+            ("r","เขา"),
+            ("r","ก๋ง"),
+            ("r","หญิง"),
+            ("f","มาก"),
+            ("f","ใช่"),
+            ("f","ไหม้"),
+            ("f","ต้น"),
+            ("f","ผู้"),
+        ]
+        for i,j in data:
+            self.assertEqual(tone_detector(j), i)

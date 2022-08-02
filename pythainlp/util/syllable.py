@@ -3,7 +3,6 @@
 Syllable tools
 """
 import re
-from typing import Tuple
 from pythainlp import thai_consonants, thai_tonemarks, thai_vowels
 
 spelling_class = {

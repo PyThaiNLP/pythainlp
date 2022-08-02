@@ -210,7 +210,7 @@ class TestUtilPackage(unittest.TestCase):
             thai_keyboard_dist("๘", "๙"), thai_keyboard_dist("๙", "๐")
         )
         with self.assertRaises(ValueError):
-            thai_keyboard_dist("ພ","พ")
+            thai_keyboard_dist("ພ", "พ")
 
     # ### pythainlp.util.date
 
@@ -709,36 +709,36 @@ class TestUtilPackage(unittest.TestCase):
 
     def test_tone_detector(self):
         data = [
-            ("l","กด"),
-            ("l","ต่อ"),
-            ("l","ฉาก"),
-            ("l","ใส่"),
-            ("l","อยาก"),
-            ("l","อยู่"),
-            ("l","หนวก"),
-            ("l","ใหม่"),
-            ("m","ควาย"),
-            ("m","ไป"),
-            ("h","คะ"),
-            ("h","วัด"),
-            ("h","ไม้"),
-            ("h","โต๊ะ"),
-            ("r","เขา"),
-            ("r","ก๋ง"),
-            ("r","หญิง"),
-            ("f","มาก"),
-            ("f","ใช่"),
-            ("f","ไหม้"),
-            ("f","ต้น"),
-            ("f","ผู้"),
+            ("l", "กด"),
+            ("l", "ต่อ"),
+            ("l", "ฉาก"),
+            ("l", "ใส่"),
+            ("l", "อยาก"),
+            ("l", "อยู่"),
+            ("l", "หนวก"),
+            ("l", "ใหม่"),
+            ("m", "ควาย"),
+            ("m", "ไป"),
+            ("h", "คะ"),
+            ("h", "วัด"),
+            ("h", "ไม้"),
+            ("h", "โต๊ะ"),
+            ("r", "เขา"),
+            ("r", "ก๋ง"),
+            ("r", "หญิง"),
+            ("f", "มาก"),
+            ("f", "ใช่"),
+            ("f", "ไหม้"),
+            ("f", "ต้น"),
+            ("f", "ผู้"),
         ]
-        for i,j in data:
+        for i, j in data:
             self.assertEqual(tone_detector(j), i)
 
     def test_syllable_length(self):
         self.assertEqual(syllable_length("มาก"), "long")
         self.assertEqual(syllable_length("คะ"), "short")
-    
+
     def test_syllable_open_close_detector(self):
         self.assertEqual(syllable_open_close_detector("มาก"), "close")
         self.assertEqual(syllable_open_close_detector("คะ"), "open")

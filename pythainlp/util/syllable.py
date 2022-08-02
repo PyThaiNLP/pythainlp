@@ -134,9 +134,26 @@ def sound_syllable(syllable: str) -> str:
 
 
 def syllable_open_close_detector(syllable: str) -> str:
-    # TODO
-    # พยางค์เปิด - พยางค์ปิด
-    # return open / close
+    """
+    Thai syllable open/close detector
+
+    This function is use for find Thai syllable that open or closed sound.
+
+    :param str syllable: Thai syllable
+    :return: open / close
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import syllable_open_close_detector
+
+        print(syllable_open_close_detector("มาก"))
+        # output: close
+
+        print(syllable_open_close_detector("คะ"))
+        # output: open
+    """
     consonants = [i for i in syllable if i in list(thai_consonants)]
     if len(consonants) < 2:
         return "open"
@@ -146,8 +163,26 @@ def syllable_open_close_detector(syllable: str) -> str:
 
 
 def syllable_lenght(syllable: str) -> str:
-    # พยางค์เสียงสั้น เสียงยาส
-    # return short / long
+    """
+    Thai syllable lenght
+
+    This function is use for find syllable's lenght. (long or short)
+
+    :param str syllable: Thai syllable
+    :return: syllable's lenght (long or short)
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import syllable_lenght
+
+        print(syllable_lenght("มาก"))
+        # output: long
+
+        print(syllable_lenght("คะ"))
+        # output: short
+    """
     consonants = [i for i in syllable if i in list(thai_consonants)]
     if len(consonants) < 3 and any((c in set(short)) for c in syllable):
         return "short"
@@ -165,7 +200,7 @@ def _tone_mark_detector(syllable: str) -> str:
         return tone_mark[0]
 
 
-def check_sonorant_syllable(syllable: str) -> bool:
+def _check_sonorant_syllable(syllable: str) -> bool:
     _sonorant = [i for i in syllable if i in thai_low_sonorants]
     consonants = [i for i in syllable if i in list(thai_consonants)]
     if _sonorant[-1] == consonants[-2]:
@@ -178,6 +213,21 @@ def check_sonorant_syllable(syllable: str) -> bool:
 def tone_detector(syllable: str) -> str:
     """
     Thai tone detector for syllables
+
+    :param str syllable: Thai syllable
+    :return: syllable's tone (l, m, h, r, f or empty if it cannot detector)
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import tone_detector
+
+        print(tone_detector("มา"))
+        # output: m
+
+        print(tone_detector("ไม้"))
+        # output: h
     """
     s = sound_syllable(syllable)
     # get consonants
@@ -190,7 +240,7 @@ def tone_detector(syllable: str) -> str:
     # r for store value
     r = ""
     if len(consonants) > 1 and (initial_consonant == "อ" or initial_consonant == "ห"):
-        two_consonants = check_sonorant_syllable(syllable)
+        two_consonants = _check_sonorant_syllable(syllable)
         if initial_consonant == "อ" and two_consonants and s == "live" and tone_mark == "่":
             r = "l"
         elif initial_consonant == "อ" and two_consonants and s == "dead":

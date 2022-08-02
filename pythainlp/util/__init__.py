@@ -37,6 +37,7 @@ __all__ = [
     "thai_strftime",
     "thai_time",
     "thai_to_eng",
+    "thai_word_tone_detector",
     "thaiword_to_date",
     "thaiword_to_num",
     "thaiword_to_time",
@@ -88,6 +89,7 @@ from pythainlp.util.thai import (
     display_thai_char,
     isthai,
     isthaichar,
+    thai_word_tone_detector,
 )
 from pythainlp.util.thaiwordcheck import is_native_thai
 from pythainlp.util.time import thai_time, thaiword_to_time, time_to_thaiword

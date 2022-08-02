@@ -40,6 +40,7 @@ Modules
 .. autofunction:: text_to_thai_digit
 .. autofunction:: thai_strftime
 .. autofunction:: thai_to_eng
+.. autofunction:: thai_word_tone_detector
 .. autofunction:: thai_digit_to_arabic_digit
 .. autofunction:: thaiword_to_date
 .. autofunction:: thaiword_to_num

@@ -52,6 +52,7 @@ from pythainlp.util import (
     syllable_length,
     syllable_open_close_detector,
     tone_detector,
+    thai_word_tone_detector,
 )
 
 
@@ -742,3 +743,10 @@ class TestUtilPackage(unittest.TestCase):
     def test_syllable_open_close_detector(self):
         self.assertEqual(syllable_open_close_detector("มาก"), "close")
         self.assertEqual(syllable_open_close_detector("คะ"), "open")
+
+    def test_thai_word_tone_detector(self):
+        self.assertIsNotNone(thai_word_tone_detector("คนดี"))
+        self.assertEqual(
+            thai_word_tone_detector("ราคา"),
+            [('รา', 'm'), ('คา', 'm')]
+        )

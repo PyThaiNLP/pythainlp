@@ -41,7 +41,7 @@ def isthaichar(ch: str) -> bool:
 
 def isthai(text: str, ignore_chars: str = ".") -> bool:
     """Check if every characters in a string are Thai character.
-from pythainlp.util import thai_word_tone_detector
+
     :param text: input text
     :type text: str
     :param ignore_chars: characters to be ignored, defaults to "."

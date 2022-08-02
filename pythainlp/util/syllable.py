@@ -161,7 +161,7 @@ def syllable_open_close_detector(syllable: str) -> str:
     return "close"
 
 
-def syllable_lenght(syllable: str) -> str:
+def syllable_length(syllable: str) -> str:
     """
     Thai syllable lenght
 
@@ -174,12 +174,12 @@ def syllable_lenght(syllable: str) -> str:
     :Example:
     ::
 
-        from pythainlp.util import syllable_lenght
+        from pythainlp.util import syllable_length
 
-        print(syllable_lenght("มาก"))
+        print(syllable_length("มาก"))
         # output: long
 
-        print(syllable_lenght("คะ"))
+        print(syllable_length("คะ"))
         # output: short
     """
     consonants = [i for i in syllable if i in list(thai_consonants)]
@@ -234,7 +234,7 @@ def tone_detector(syllable: str) -> str:
     initial_consonant = consonants[0]
     tone_mark = _tone_mark_detector(syllable)
     syllable_check = syllable_open_close_detector(syllable)
-    syllable_check_lenght = syllable_lenght(syllable)
+    syllable_check_lenght = syllable_length(syllable)
     initial_consonant_type = thai_initial_consonant_to_type[initial_consonant]
     # r for store value
     r = ""

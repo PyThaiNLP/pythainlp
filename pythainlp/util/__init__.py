@@ -45,7 +45,7 @@ __all__ = [
     "tone_detector",
     "words_to_num",
     "sound_syllable",
-    "syllable_lenght",
+    "syllable_length",
     "syllable_open_close_detector",
 ]
 
@@ -93,4 +93,4 @@ from pythainlp.util.thaiwordcheck import is_native_thai
 from pythainlp.util.time import thai_time, thaiword_to_time, time_to_thaiword
 from pythainlp.util.trie import Trie, dict_trie
 from pythainlp.util.wordtonum import thaiword_to_num, text_to_num, words_to_num
-from pythainlp.util.syllable import sound_syllable, tone_detector, syllable_lenght, syllable_open_close_detector
+from pythainlp.util.syllable import sound_syllable, tone_detector, syllable_length, syllable_open_close_detector

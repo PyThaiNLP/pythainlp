@@ -33,7 +33,7 @@ Modules
 .. autofunction:: remove_zw
 .. autofunction:: reorder_vowels
 .. autofunction:: sound_syllable
-.. autofunction:: syllable_lenght
+.. autofunction:: syllable_length
 .. autofunction:: syllable_open_close_detector
 .. autofunction:: text_to_arabic_digit
 .. autofunction:: text_to_num

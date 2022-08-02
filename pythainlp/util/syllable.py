@@ -3,7 +3,8 @@
 Syllable tools
 """
 import re
-from pythainlp import thai_consonants, thai_tonemarks
+from typing import Tuple
+from pythainlp import thai_consonants, thai_tonemarks, thai_vowels
 
 spelling_class = {
     "กง": list("ง"),
@@ -145,10 +146,15 @@ def syllable_open_close_detector(syllable: str) -> str:
 
 
 def syllable_lenght(syllable: str) -> str:
-    # TODO
     # พยางค์เสียงสั้น เสียงยาส
     # return short / long
-    pass
+    consonants = [i for i in syllable if i in list(thai_consonants)]
+    if len(consonants) < 3 and any((c in set(short)) for c in syllable):
+        return "short"
+    elif bool(re_short.search(syllable)):
+        return "short"
+    else:
+        return "long"
 
 
 def _tone_mark_detector(syllable: str) -> str:
@@ -159,10 +165,20 @@ def _tone_mark_detector(syllable: str) -> str:
         return tone_mark[0]
 
 
-def tone_detector(syllable):
-    # TODO
-    # H + open close พวหนี้
-    # F close long
+def check_sonorant_syllable(syllable: str)->bool:
+    _sonorant = [i for i in syllable if i in thai_low_sonorants]
+    consonants = [i for i in syllable if i in list(thai_consonants)]
+    if _sonorant[-1] == consonants[-2]:
+        return True
+    elif _sonorant[-1] == consonants[-1]:
+        return True
+    return False
+
+
+def tone_detector(syllable: str)->str:
+    """
+    Thai tone detector for syllables
+    """
     s = sound_syllable(syllable)
     # get consonants
     consonants = [i for i in syllable if i in list(thai_consonants)]
@@ -171,20 +187,22 @@ def tone_detector(syllable):
     syllable_check= syllable_open_close_detector(syllable)
     syllable_check_lenght = syllable_lenght(syllable)
     initial_consonant_type = thai_initial_consonant_to_type[initial_consonant]
-    # low
+    # r for store value
     r = ""
     if len(consonants) > 1 and (initial_consonant =="อ" or initial_consonant == "ห"):
-        two_consonants = consonants[1]
-        if initial_consonant =="อ" and two_consonants in thai_low_sonorants and s == "dead":
+        two_consonants = check_sonorant_syllable(syllable)
+        if initial_consonant =="อ" and two_consonants and s == "live" and tone_mark == "่":
             r = "l"
-        elif initial_consonant =="อ" and two_consonants in thai_low_sonorants and s == "live" and tone_mark == "่":
+        elif initial_consonant =="อ" and two_consonants and s == "dead":
             r = "l"
-        elif initial_consonant =="ห" and two_consonants in thai_low_sonorants and s == "dead":
+        elif initial_consonant =="ห" and two_consonants and s == "live" and tone_mark == "่":
             r = "l"
-        elif initial_consonant =="ห" and two_consonants in thai_low_sonorants and s == "live" and tone_mark == "่":
-            r = "l"
-        elif initial_consonant =="ห" and two_consonants in thai_low_sonorants and s == "live":
+        elif initial_consonant =="ห" and two_consonants and s == "live" and tone_mark == "้":
             r = "f"
+        elif initial_consonant =="ห" and two_consonants and s == "dead":
+            r = "l"
+        elif initial_consonant =="ห" and two_consonants and s == "live":
+            r = "r"
     elif initial_consonant_type == "low" and syllable_check_lenght == "short" and syllable_check == "close" and s == "dead":
         r = "h"
     elif initial_consonant_type == "low" and syllable_check_lenght == "long" and syllable_check == "close" and s == "dead":
@@ -217,4 +235,4 @@ def tone_detector(syllable):
         r = "m"
     elif initial_consonant_type == "high" and s == "live":
         r = "r"
-    return r,initial_consonant,initial_consonant_type,s,tone_mark,syllable_check,syllable_check_lenght
+    return r

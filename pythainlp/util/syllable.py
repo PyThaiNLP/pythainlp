@@ -3,7 +3,7 @@
 Syllable tools
 """
 import re
-from pythainlp import thai_consonants
+from pythainlp import thai_consonants, thai_tonemarks
 
 spelling_class = {
     "กง": list("ง"),
@@ -35,6 +35,25 @@ for i in ["กง", "กน", "กม", "เกย", "เกอว"]:
     _check_1.extend(spelling_class[i])
 # these spelling consonant are dead syllable.
 _check_2 = spelling_class["กก"]+spelling_class["กบ"]+spelling_class["กด"]
+
+thai_low_sonorants = list("งนมยรลว")
+thai_low_aspirates = list("คชซทพฟฮ")
+thai_low_irregular = list("ฆญณธภฅฌฑฒฬ")
+
+thai_mid_plains = list("กจดตบปอฎฏ")
+
+thai_high_aspirates = list("ขฉถผฝสห")
+thai_high_irregular = list("ศษฃฐ")
+thai_initial_consonant_type = {
+    "low":thai_low_sonorants+thai_low_aspirates+thai_low_irregular,
+    "mid":thai_mid_plains,
+    "high":thai_high_aspirates+thai_high_irregular
+}
+thai_initial_consonant_to_type = {}
+for k,v in thai_initial_consonant_type.items():
+    for i in v:
+        thai_initial_consonant_to_type[i] = k
+
 
 
 def sound_syllable(syllable: str) -> str:
@@ -111,3 +130,91 @@ def sound_syllable(syllable: str) -> str:
         return "dead"
     else:
         return "dead"
+
+
+def syllable_open_close_detector(syllable: str) -> str:
+    # TODO
+    # พยางค์เปิด - พยางค์ปิด
+    # return open / close
+    consonants = [i for i in syllable if i in list(thai_consonants)]
+    if len(consonants) < 2:
+        return "open"
+    elif len(consonants) == 2 and consonants[-1] == "อ":
+        return "open"
+    return "close"
+
+
+def syllable_lenght(syllable: str) -> str:
+    # TODO
+    # พยางค์เสียงสั้น เสียงยาส
+    # return short / long
+    pass
+
+
+def _tone_mark_detector(syllable: str) -> str:
+    tone_mark = [i for i in syllable if i in list(thai_tonemarks)]
+    if tone_mark == []:
+        return ""
+    else:
+        return tone_mark[0]
+
+
+def tone_detector(syllable):
+    # TODO
+    # H + open close พวหนี้
+    # F close long
+    s = sound_syllable(syllable)
+    # get consonants
+    consonants = [i for i in syllable if i in list(thai_consonants)]
+    initial_consonant = consonants[0]
+    tone_mark = _tone_mark_detector(syllable)
+    syllable_check= syllable_open_close_detector(syllable)
+    syllable_check_lenght = syllable_lenght(syllable)
+    initial_consonant_type = thai_initial_consonant_to_type[initial_consonant]
+    # low
+    r = ""
+    if len(consonants) > 1 and (initial_consonant =="อ" or initial_consonant == "ห"):
+        two_consonants = consonants[1]
+        if initial_consonant =="อ" and two_consonants in thai_low_sonorants and s == "dead":
+            r = "l"
+        elif initial_consonant =="อ" and two_consonants in thai_low_sonorants and s == "live" and tone_mark == "่":
+            r = "l"
+        elif initial_consonant =="ห" and two_consonants in thai_low_sonorants and s == "dead":
+            r = "l"
+        elif initial_consonant =="ห" and two_consonants in thai_low_sonorants and s == "live" and tone_mark == "่":
+            r = "l"
+        elif initial_consonant =="ห" and two_consonants in thai_low_sonorants and s == "live":
+            r = "f"
+    elif initial_consonant_type == "low" and syllable_check_lenght == "short" and syllable_check == "close" and s == "dead":
+        r = "h"
+    elif initial_consonant_type == "low" and syllable_check_lenght == "long" and syllable_check == "close" and s == "dead":
+        r = "f"
+    elif initial_consonant_type == "low" and syllable_check_lenght == "short" and syllable_check == "open":
+        r = "h"
+    elif initial_consonant_type == "high" and s == "live" and tone_mark == "่":
+        r = "l"
+    elif initial_consonant_type == "mid" and s == "live" and tone_mark == "่":
+        r = "l"
+    elif initial_consonant_type == "low" and tone_mark == "้":
+        r = "h"
+    elif initial_consonant_type == "mid" and tone_mark == "๋":
+        r = "r"
+    elif initial_consonant_type == "mid" and tone_mark == "๊":
+        r = "h"
+    elif initial_consonant_type == "low" and tone_mark == "่":
+        r = "f"
+    elif initial_consonant_type == "mid" and tone_mark == "้":
+        r = "f"
+    elif initial_consonant_type == "high" and tone_mark == "้":
+        r = "f"
+    elif initial_consonant_type == "mid" and s == "dead":
+        r = "l"
+    elif initial_consonant_type == "high" and s == "dead":
+        r = "l"
+    elif initial_consonant_type == "low" and s == "live":
+        r = "m"
+    elif initial_consonant_type == "mid" and s == "live":
+        r = "m"
+    elif initial_consonant_type == "high" and s == "live":
+        r = "r"
+    return r,initial_consonant,initial_consonant_type,s,tone_mark,syllable_check,syllable_check_lenght

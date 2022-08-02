@@ -163,12 +163,12 @@ def syllable_open_close_detector(syllable: str) -> str:
 
 def syllable_length(syllable: str) -> str:
     """
-    Thai syllable lenght
+    Thai syllable length
 
-    This function is use for find syllable's lenght. (long or short)
+    This function is use for find syllable's length. (long or short)
 
     :param str syllable: Thai syllable
-    :return: syllable's lenght (long or short)
+    :return: syllable's length (long or short)
     :rtype: str
 
     :Example:

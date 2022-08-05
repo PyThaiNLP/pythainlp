@@ -164,10 +164,10 @@ def thai_word_tone_detector(word: str) -> Tuple[str, str]:
     It use pythainlp.transliterate.pronunciate for convert word to\
         pronunciation.
 
-    :param str syllable: Thai word.
+    :param str word: Thai word.
     :return: Thai pronunciation with tone each syllables.\
         (l, m, h, r, f or empty if it cannot detector)
-    :rtype: str
+    :rtype: Tuple[str, str]
 
     :Example:
     ::

@@ -3,8 +3,11 @@
 Check if it is Thai text
 """
 import string
+from typing import Tuple
 
 from pythainlp import thai_above_vowels, thai_tonemarks
+from pythainlp.transliterate import pronunciate
+from pythainlp.util.syllable import tone_detector
 
 _DEFAULT_IGNORE_CHARS = string.whitespace + string.digits + string.punctuation
 _TH_FIRST_CHAR_ASCII = 3584
@@ -152,3 +155,30 @@ def display_thai_char(ch: str) -> str:
         return "_" + ch
     else:
         return ch
+
+
+def thai_word_tone_detector(word: str) -> Tuple[str, str]:
+    """
+    Thai tone detector for word.
+
+    It use pythainlp.transliterate.pronunciate for convert word to\
+        pronunciation.
+
+    :param str word: Thai word.
+    :return: Thai pronunciation with tone each syllables.\
+        (l, m, h, r, f or empty if it cannot detector)
+    :rtype: Tuple[str, str]
+
+    :Example:
+    ::
+
+        from pythainlp.util import thai_word_tone_detector
+
+        print(thai_word_tone_detector("คนดี"))
+        # output: [('คน', 'm'), ('ดี', 'm')]
+
+        print(thai_word_tone_detector("มือถือ"))
+        # output: [('มือ', 'm'), ('ถือ', 'r')]
+    """
+    _pronunciate = pronunciate(word).split('-')
+    return [(i, tone_detector(i.replace('หฺ', 'ห'))) for i in _pronunciate]

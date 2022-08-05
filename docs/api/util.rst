@@ -33,16 +33,20 @@ Modules
 .. autofunction:: remove_zw
 .. autofunction:: reorder_vowels
 .. autofunction:: sound_syllable
+.. autofunction:: syllable_length
+.. autofunction:: syllable_open_close_detector
 .. autofunction:: text_to_arabic_digit
 .. autofunction:: text_to_num
 .. autofunction:: text_to_thai_digit
 .. autofunction:: thai_strftime
 .. autofunction:: thai_to_eng
+.. autofunction:: thai_word_tone_detector
 .. autofunction:: thai_digit_to_arabic_digit
 .. autofunction:: thaiword_to_date
 .. autofunction:: thaiword_to_num
 .. autofunction:: thaiword_to_time
 .. autofunction:: time_to_thaiword
+.. autofunction:: tone_detector
 .. autofunction:: words_to_num
 .. autoclass:: Trie
    :members:

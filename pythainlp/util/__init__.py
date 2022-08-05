@@ -37,13 +37,17 @@ __all__ = [
     "thai_strftime",
     "thai_time",
     "thai_to_eng",
+    "thai_word_tone_detector",
     "thaiword_to_date",
     "thaiword_to_num",
     "thaiword_to_time",
     "time_to_thaiword",
     "text_to_num",
+    "tone_detector",
     "words_to_num",
     "sound_syllable",
+    "syllable_length",
+    "syllable_open_close_detector",
 ]
 
 from pythainlp.util.collate import collate
@@ -85,9 +89,15 @@ from pythainlp.util.thai import (
     display_thai_char,
     isthai,
     isthaichar,
+    thai_word_tone_detector,
 )
 from pythainlp.util.thaiwordcheck import is_native_thai
 from pythainlp.util.time import thai_time, thaiword_to_time, time_to_thaiword
 from pythainlp.util.trie import Trie, dict_trie
 from pythainlp.util.wordtonum import thaiword_to_num, text_to_num, words_to_num
-from pythainlp.util.syllable import sound_syllable
+from pythainlp.util.syllable import (
+    sound_syllable,
+    tone_detector,
+    syllable_length,
+    syllable_open_close_detector,
+)

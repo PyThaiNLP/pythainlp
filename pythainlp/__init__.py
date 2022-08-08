@@ -48,7 +48,6 @@ from pythainlp.tokenize import (
     Tokenizer,
     sent_tokenize,
     subword_tokenize,
-    syllable_tokenize,
     word_tokenize,
 )
 from pythainlp.transliterate import romanize, transliterate

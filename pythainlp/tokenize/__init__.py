@@ -10,7 +10,6 @@ __all__ = [
     "clause_tokenize",
     "sent_tokenize",
     "subword_tokenize",
-    "syllable_tokenize",
     "word_tokenize",
 ]
 
@@ -31,7 +30,6 @@ from pythainlp.tokenize.core import (
     clause_tokenize,
     sent_tokenize,
     subword_tokenize,
-    syllable_tokenize,
     word_tokenize,
 )
 

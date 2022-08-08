@@ -15,7 +15,6 @@ from pythainlp.util import (
     bahttext,
     collate,
     countthai,
-    delete_tone,
     dict_trie,
     display_thai_char,
     digit_to_text,
@@ -40,7 +39,6 @@ from pythainlp.util import (
     thaiword_to_date,
     thai_digit_to_arabic_digit,
     thai_strftime,
-    thai_time,
     thaiword_to_time,
     time_to_thaiword,
     thai_to_eng,
@@ -373,10 +371,6 @@ class TestUtilPackage(unittest.TestCase):
                 "24:00"
             )  # input is not in H:M:S format (over 23:59:59)
 
-        self.assertEqual(thai_time("11:12"), time_to_thaiword("11:12"))
-        with self.assertWarns(DeprecationWarning):
-            thai_time("11:16")
-
     def test_thaiword_to_time(self):
         self.assertEqual(thaiword_to_time("บ่ายโมงครึ่ง"), "13:30")
         self.assertEqual(thaiword_to_time("บ่ายสามโมงสิบสองนาที"), "15:12")
@@ -532,9 +526,6 @@ class TestUtilPackage(unittest.TestCase):
         # remove tone marks
         self.assertEqual(remove_tonemark("จิ้น"), "จิน")
         self.assertEqual(remove_tonemark("เก๋า"), "เกา")
-        self.assertEqual(delete_tone("เจ๋งเป้ง"), remove_tonemark("เจ๋งเป้ง"))
-        with self.assertWarns(DeprecationWarning):
-            delete_tone("ค้าบ")
 
         # remove zero width chars
         self.assertEqual(remove_zw("กา\u200b"), "กา")

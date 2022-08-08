@@ -11,7 +11,6 @@ Modules
 .. autofunction:: clause_tokenize
 .. autofunction:: sent_tokenize
 .. autofunction:: subword_tokenize
-.. autofunction:: syllable_tokenize
 .. autofunction:: word_tokenize
 .. autoclass:: Tokenizer
    :members:

@@ -12,7 +12,6 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_TOKENIZE_ENGINE,
     sent_tokenize,
     subword_tokenize,
-    syllable_tokenize,
     word_tokenize,
 )
 
@@ -79,15 +78,6 @@ class WordTokenizationApp(SubAppBase):
         super().__init__(*args, **kwargs)
 
 
-class SyllableTokenizationApp(SubAppBase):
-    def __init__(self, *args, **kwargs):
-        self.keep_whitespace = True
-        self.algorithm = DEFAULT_SYLLABLE_TOKENIZE_ENGINE
-        self.separator = DEFAULT_SYLLABLE_TOKEN_SEPARATOR
-        self.run = syllable_tokenize
-        super().__init__(*args, **kwargs)
-
-
 class SentenceTokenizationApp(SubAppBase):
     def __init__(self, *args, **kwargs):
         self.keep_whitespace = True
@@ -132,7 +122,7 @@ class App:
             ),
         )
         parser.add_argument(
-            "token_type", type=str, help="[subword|syllable|word|sent]",
+            "token_type", type=str, help="[subword|word|sent]",
         )
 
         args = parser.parse_args(argv[2:3])
@@ -142,8 +132,6 @@ class App:
         argv = argv[3:]
         if token_type.startswith("w"):
             WordTokenizationApp("word", argv)
-        elif token_type.startswith("sy"):
-            SyllableTokenizationApp("syllable", argv)
         elif token_type.startswith("su"):
             SubwordTokenizationApp("subword", argv)
         elif token_type.startswith("se"):

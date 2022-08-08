@@ -9,7 +9,6 @@ __all__ = [
     "bahttext",
     "collate",
     "countthai",
-    "delete_tone",
     "dict_trie",
     "digit_to_text",
     "display_thai_char",
@@ -35,7 +34,6 @@ __all__ = [
     "thai_digit_to_arabic_digit",
     "thai_keyboard_dist",
     "thai_strftime",
-    "thai_time",
     "thai_to_eng",
     "thai_word_tone_detector",
     "thaiword_to_date",
@@ -72,7 +70,6 @@ from pythainlp.util.emojiconv import emoji_to_thai
 from pythainlp.util.keyboard import eng_to_thai, thai_to_eng
 from pythainlp.util.keywords import find_keyword, rank
 from pythainlp.util.normalize import (
-    delete_tone,
     normalize,
     maiyamok,
     remove_dangling,
@@ -92,7 +89,7 @@ from pythainlp.util.thai import (
     thai_word_tone_detector,
 )
 from pythainlp.util.thaiwordcheck import is_native_thai
-from pythainlp.util.time import thai_time, thaiword_to_time, time_to_thaiword
+from pythainlp.util.time import thaiword_to_time, time_to_thaiword
 from pythainlp.util.trie import Trie, dict_trie
 from pythainlp.util.wordtonum import thaiword_to_num, text_to_num, words_to_num
 from pythainlp.util.syllable import (

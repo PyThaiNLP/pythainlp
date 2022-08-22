@@ -36,7 +36,6 @@ See https://github.com/PyThaiNLP/pythainlp for installation options.
 
 requirements = [
     "requests>=2.22.0",
-    "tinydb>=3.0",
 ]
 
 extras = {

@@ -2,7 +2,6 @@ PyYAML==5.4
 numpy==1.22.*
 python-crfsuite==0.9.7
 requests==2.25.*
-tinydb==4.3.*
 gensim==4.0.*
 nltk==3.6.6
 emoji==0.5.2

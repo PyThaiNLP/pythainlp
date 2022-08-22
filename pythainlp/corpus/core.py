@@ -13,7 +13,6 @@ import requests
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
 from requests.exceptions import HTTPError
-from tinydb import Query, TinyDB
 import tarfile
 import zipfile
 import shutil
@@ -48,19 +47,17 @@ def get_corpus_db_detail(name: str, version: str = None) -> dict:
     :return: details about a corpus
     :rtype: dict
     """
-    if _CHECK_MODE == "1":
-        local_db = TinyDB(corpus_db_path(), access_mode='r')
-    else:
-        local_db = TinyDB(corpus_db_path())
-    query = Query()
-    if version is None:
-        res = local_db.search(query.name == name)
-    else:
-        res = local_db.search((query.name == name) & (query.version == version))
-    local_db.close()
+    with open(corpus_db_path(), "r", encoding="utf_8") as f:
+        local_db = json.load(f)
 
-    if res:
-        return res[0]
+    if version is None:
+        for corpus in local_db["_default"].values():
+            if corpus["name"] == name:
+                return corpus
+    else:
+        for corpus in local_db["_default"].values():
+            if corpus["name"] == name and corpus["version"] == version:
+                return corpus
 
     return dict()
 
@@ -380,32 +377,34 @@ def download(
     corpus_db = corpus_db.json()
 
     # check if corpus is available
-    if name in list(corpus_db.keys()):
-        local_db = TinyDB(corpus_db_path())
-        query = Query()
+    if name in corpus_db:
+        with open(corpus_db_path(), "r", encoding="utf_8") as f:
+            local_db = json.load(f)
 
         corpus = corpus_db[name]
         print("Corpus:", name)
         if version is None:
-            for v in corpus["versions"]:
-                if _check_version(corpus["versions"][v]["pythainlp_version"]):
+            for v, file in corpus["versions"].items():
+                if _check_version(file["pythainlp_version"]):
                     version = v
-        else:
-            if version not in list(corpus["versions"].keys()):
-                print("Not found corpus")
-                local_db.close()
-                return False
-            elif _check_version(
-                corpus["versions"][version]["pythainlp_version"]
-            ) is False:
-                print("Versions Corpus not support")
-                local_db.close()
-                return False
+
+        # version may still be None here
+        if version not in corpus["versions"]:
+            print("Not found corpus")
+            return False
+        elif _check_version(
+            corpus["versions"][version]["pythainlp_version"]
+        ) is False:
+            print("Versions Corpus not support")
+            return False
         corpus_versions = corpus["versions"][version]
         file_name = corpus_versions["filename"]
-        found = local_db.search(
-            (query.name == name) & (query.version == version)
-        )
+        found = ''
+        for i, item in local_db["_default"].items():
+            if item["name"] == name and item["version"] == version:
+                # Record corpus no. if found
+                found = i
+                break
 
         # If not found in local, download
         if force or not found:
@@ -433,44 +432,41 @@ def download(
                 if not os.path.exists(get_full_data_path(foldername)):
                     os.mkdir(get_full_data_path(foldername))
                 with zipfile.ZipFile(
-                    get_full_data_path(file_name), 'r'
+                    get_full_data_path(file_name), "r"
                 ) as zip:
                     zip.extractall(path=get_full_data_path(foldername))
 
             if found:
-                local_db.update(
-                    {
-                        "version": version,
-                        "filename": file_name,
-                        "is_folder": is_folder,
-                        "foldername": foldername
-                    },
-                    query.name == name
-                )
+                local_db['_default'][found]["version"] = version
+                local_db['_default'][found]["filename"] = file_name
+                local_db['_default'][found]["is_folder"] = is_folder
+                local_db['_default'][found]["foldername"] = foldername
             else:
-                local_db.insert(
-                    {
-                        "name": name,
-                        "version": version,
-                        "filename": file_name,
-                        "is_folder": is_folder,
-                        "foldername": foldername
-                    }
-                )
+                # This awkward behavior is for backward-compatibility with
+                # database files generated previously using TinyDB
+                corpus_no = max((int(no) for no in local_db["_default"])) + 1
+                local_db["_default"][str(corpus_no)] = {
+                    "name": name,
+                    "version": version,
+                    "filename": file_name,
+                    "is_folder": is_folder,
+                    "foldername": foldername
+                }
+
+            with open(corpus_db_path(), "w", encoding="utf_8") as f:
+                json.dump(local_db, f)
         else:
-            if local_db.search(
-                query.name == name and query.version == version
-            ):
+            current_ver = local_db['_default'][found]["version"]
+
+            if current_ver == version:
                 # Already has the same version
                 print("- Already up to date.")
             else:
                 # Has the corpus but different version
-                current_ver = local_db.search(query.name == name)[0]["version"]
                 print(f"- Existing version: {current_ver}")
                 print(f"- New version available: {version}")
                 print("- Use download(data_name, force=True) to update")
 
-        local_db.close()
         return True
 
     print("Corpus not found:", name)
@@ -505,9 +501,11 @@ def remove(name: str) -> bool:
     if _CHECK_MODE == "1":
         print("PyThaiNLP is read-only mode. It can't remove corpus.")
         return False
-    db = TinyDB(corpus_db_path())
-    query = Query()
-    data = db.search(query.name == name)
+    with open(corpus_db_path(), "r", encoding="utf_8") as f:
+        db = json.load(f)
+    data = [
+        corpus for corpus in db["_default"].values() if corpus["name"] == name
+    ]
 
     if data:
         path = get_corpus_path(name)
@@ -516,11 +514,13 @@ def remove(name: str) -> bool:
             shutil.rmtree(path, ignore_errors=True)
         else:
             os.remove(path)
-        db.remove(query.name == name)
-        db.close()
+        for i, corpus in db["_default"].copy().items():
+            if corpus["name"] == name:
+                del db['_default'][i]
+        with open(corpus_db_path(), 'w', encoding='utf_8') as f:
+            json.dump(db, f)
         return True
 
-    db.close()
     return False
 
 

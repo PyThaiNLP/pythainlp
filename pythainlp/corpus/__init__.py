@@ -33,7 +33,6 @@ __all__ = [
 import os
 
 from pythainlp.tools import get_full_data_path, get_pythainlp_path
-from tinydb import TinyDB
 
 # Remote and local corpus databases
 
@@ -54,7 +53,7 @@ _CORPUS_DB_PATH = get_full_data_path(_CORPUS_DB_FILENAME)
 
 # create a local corpus database if it does not already exist
 if not os.path.exists(_CORPUS_DB_PATH) and _CHECK_MODE != "1":
-    TinyDB(_CORPUS_DB_PATH).close()
+    open(_CORPUS_DB_PATH, "w", encoding="utf_8").close()
 
 
 def corpus_path() -> str:

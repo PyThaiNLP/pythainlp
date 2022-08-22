@@ -47,7 +47,7 @@ def get_corpus_db_detail(name: str, version: str = None) -> dict:
     :return: details about a corpus
     :rtype: dict
     """
-    with open(corpus_db_path(), "r", encoding="utf_8") as f:
+    with open(corpus_db_path(), "r", encoding="utf-8") as f:
         local_db = json.load(f)
 
     if version is None:
@@ -378,7 +378,7 @@ def download(
 
     # check if corpus is available
     if name in corpus_db:
-        with open(corpus_db_path(), "r", encoding="utf_8") as f:
+        with open(corpus_db_path(), "r", encoding="utf-8") as f:
             local_db = json.load(f)
 
         corpus = corpus_db[name]
@@ -437,14 +437,17 @@ def download(
                     zip.extractall(path=get_full_data_path(foldername))
 
             if found:
-                local_db['_default'][found]["version"] = version
-                local_db['_default'][found]["filename"] = file_name
-                local_db['_default'][found]["is_folder"] = is_folder
-                local_db['_default'][found]["foldername"] = foldername
+                local_db["_default"][found]["version"] = version
+                local_db["_default"][found]["filename"] = file_name
+                local_db["_default"][found]["is_folder"] = is_folder
+                local_db["_default"][found]["foldername"] = foldername
             else:
                 # This awkward behavior is for backward-compatibility with
                 # database files generated previously using TinyDB
-                corpus_no = max((int(no) for no in local_db["_default"])) + 1
+                if local_db["_default"]:
+                    corpus_no = max((int(no) for no in local_db["_default"])) + 1
+                else:
+                    corpus_no = 1
                 local_db["_default"][str(corpus_no)] = {
                     "name": name,
                     "version": version,
@@ -453,8 +456,8 @@ def download(
                     "foldername": foldername
                 }
 
-            with open(corpus_db_path(), "w", encoding="utf_8") as f:
-                json.dump(local_db, f)
+            with open(corpus_db_path(), "w", encoding="utf-8") as f:
+                json.dump(local_db, f, ensure_ascii=False)
         else:
             current_ver = local_db['_default'][found]["version"]
 
@@ -501,7 +504,7 @@ def remove(name: str) -> bool:
     if _CHECK_MODE == "1":
         print("PyThaiNLP is read-only mode. It can't remove corpus.")
         return False
-    with open(corpus_db_path(), "r", encoding="utf_8") as f:
+    with open(corpus_db_path(), "r", encoding="utf-8") as f:
         db = json.load(f)
     data = [
         corpus for corpus in db["_default"].values() if corpus["name"] == name
@@ -517,8 +520,8 @@ def remove(name: str) -> bool:
         for i, corpus in db["_default"].copy().items():
             if corpus["name"] == name:
                 del db['_default'][i]
-        with open(corpus_db_path(), 'w', encoding='utf_8') as f:
-            json.dump(db, f)
+        with open(corpus_db_path(), 'w', encoding='utf-8') as f:
+            json.dump(db, f, ensure_ascii=False)
         return True
 
     return False

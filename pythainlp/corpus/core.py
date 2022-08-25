@@ -399,10 +399,11 @@ def download(
             return False
         corpus_versions = corpus["versions"][version]
         file_name = corpus_versions["filename"]
-        found = ''
+        found = ""
         for i, item in local_db["_default"].items():
-            if item["name"] == name and item["version"] == version:
-                # Record corpus no. if found
+            # Do not check version here
+            if item["name"] == name:
+                # Record corpus no. if found in local database
                 found = i
                 break
 
@@ -445,7 +446,9 @@ def download(
                 # This awkward behavior is for backward-compatibility with
                 # database files generated previously using TinyDB
                 if local_db["_default"]:
-                    corpus_no = max((int(no) for no in local_db["_default"])) + 1
+                    corpus_no = max((
+                        int(no) for no in local_db["_default"]
+                    )) + 1
                 else:
                     corpus_no = 1
                 local_db["_default"][str(corpus_no)] = {
@@ -458,8 +461,10 @@ def download(
 
             with open(corpus_db_path(), "w", encoding="utf-8") as f:
                 json.dump(local_db, f, ensure_ascii=False)
+        # Check if versions match if the corpus is found in local database
+        # but a re-download is not forced
         else:
-            current_ver = local_db['_default'][found]["version"]
+            current_ver = local_db["_default"][found]["version"]
 
             if current_ver == version:
                 # Already has the same version
@@ -519,8 +524,8 @@ def remove(name: str) -> bool:
             os.remove(path)
         for i, corpus in db["_default"].copy().items():
             if corpus["name"] == name:
-                del db['_default'][i]
-        with open(corpus_db_path(), 'w', encoding='utf-8') as f:
+                del db["_default"][i]
+        with open(corpus_db_path(), "w", encoding="utf-8") as f:
             json.dump(db, f, ensure_ascii=False)
         return True
 

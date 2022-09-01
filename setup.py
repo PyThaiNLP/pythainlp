@@ -108,7 +108,7 @@ extras = {
         "nlpo3>=1.2.2",
         "onnxruntime>=1.10.0",
         "thai_nner",
-        "wunsen>=0.0.1"
+        "wunsen>=0.0.3"
     ],
 }
 

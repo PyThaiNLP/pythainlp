@@ -172,12 +172,28 @@ class TestTransliteratePackage(unittest.TestCase):
             'โอฮาโย'
         )
         self.assertEqual(
+            wt.transliterate("ohayō", lang="jp", system="RI35"),
+            'โอะฮะโย'
+        )
+        self.assertEqual(
             wt.transliterate("annyeonghaseyo", lang="ko"),
             'อันนย็องฮาเซโย'
         )
         self.assertEqual(
             wt.transliterate("xin chào", lang="vi"),
             'ซีน จ่าว'
+        )
+        self.assertEqual(
+            wt.transliterate("ni3 hao3", lang="zh"),
+            'หนี เห่า'
+        )
+        self.assertEqual(
+            wt.transliterate("ni3 hao3", lang="zh", zh_sandhi=False),
+            'หนี่ เห่า'
+        )
+        self.assertEqual(
+            wt.transliterate("ni3 hao3", lang="zh", system="RI49"),
+            'หนี ห่าว'
         )
         with self.assertRaises(NotImplementedError):
             wt.transliterate("xin chào", lang="vii")

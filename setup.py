@@ -108,13 +108,13 @@ extras = {
         "nlpo3>=1.2.2",
         "onnxruntime>=1.10.0",
         "thai_nner",
-        "wunsen>=0.0.1"
+        "wunsen>=0.0.3"
     ],
 }
 
 setup(
     name="pythainlp",
-    version="3.1.0-dev0",
+    version="3.1.0-dev1",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",

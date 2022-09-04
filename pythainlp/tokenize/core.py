@@ -14,6 +14,7 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     DEFAULT_WORD_TOKENIZE_ENGINE,
 )
+from pythainlp import thai_characters
 from pythainlp.util.trie import Trie, dict_trie
 
 
@@ -43,6 +44,39 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
     from pythainlp.tokenize.crfcls import segment
 
     return segment(doc)
+
+
+def word_detokenize(segments: Union[List[List[str]], List[str]], output: str="str") -> str:
+    _list_all = []
+    if isinstance(segments[0], str):
+        segments = [segments]
+    for i, s in enumerate(segments):
+        _list_sents = []
+        _add_index = []
+        for j, w in enumerate(s):
+            if j > 0:
+                # previous word
+                p_w = s[j-1]
+                # if w is number or other language and not be space (previous word and now word)
+                if w[0] not in thai_characters and w.isspace() != True and p_w.isspace() != True:
+                    _list_sents.append(" ")
+                    _add_index.append(j)
+                # if previous word is number or other language and not be space
+                elif p_w[0] not in thai_characters and p_w.isspace() != True:
+                    _list_sents.append(" ")
+                    _add_index.append(j)
+            _list_sents.append(w)
+        _list_all.append(_list_sents)
+    if output == "list":
+        return _list_all
+    else:
+        _text = []
+        for i in _list_all:
+            _temp = ""
+            for j in i:
+                _temp+=j
+            _text.append(_temp)
+        return ' '.join(_text)
 
 
 def word_tokenize(

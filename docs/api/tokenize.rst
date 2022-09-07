@@ -12,6 +12,7 @@ Modules
 .. autofunction:: sent_tokenize
 .. autofunction:: subword_tokenize
 .. autofunction:: word_tokenize
+.. autofunction:: word_detokenize
 .. autoclass:: Tokenizer
    :members:
 

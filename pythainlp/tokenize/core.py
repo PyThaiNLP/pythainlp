@@ -46,7 +46,17 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
     return segment(doc)
 
 
-def word_detokenize(segments: Union[List[List[str]], List[str]], output: str="str") -> str:
+def word_detokenize(segments: Union[List[List[str]], List[str]], output: str="str") -> Union[str,List[str]]:
+    """
+    Word detokenizer.
+
+    This function will detokenize the list word in each sentence to text.
+
+    :param str segments: List sentences with list words.
+    :param str output: the output type (str or list)
+    :return: the thai text
+    :rtype: Union[str,List[str]]
+    """
     _list_all = []
     if isinstance(segments[0], str):
         segments = [segments]
@@ -65,6 +75,15 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str="st
                 elif p_w[0] not in thai_characters and p_w.isspace() != True:
                     _list_sents.append(" ")
                     _add_index.append(j)
+                # if word is Thai iteration mark
+                elif w == "ๆ":
+                    if not p_w.isspace():
+                        _list_sents.append(" ")
+                        _add_index.append(j)
+                    else:
+                        pass
+                elif j-1 in _add_index:
+                    _list_sents.append(" ")
             _list_sents.append(w)
         _list_all.append(_list_sents)
     if output == "list":
@@ -97,7 +116,7 @@ def word_tokenize(
                                  for end of phrase in Thai.
                                  Otherwise, whitespaces are omitted.
     :return: list of words
-    :rtype: list[str]
+    :rtype: List[str]
     **Options for engine**
         * *newmm* (default) - dictionary-based, Maximum Matching +
           Thai Character Cluster

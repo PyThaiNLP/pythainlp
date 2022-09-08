@@ -46,7 +46,7 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
     return segment(doc)
 
 
-def word_detokenize(segments: Union[List[List[str]], List[str]], output: str="str") -> Union[str,List[str]]:
+def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "str") -> Union[str, List[str]]:
     """
     Word detokenizer.
 
@@ -67,12 +67,12 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str="st
             if j > 0:
                 # previous word
                 p_w = s[j-1]
-                # if w is number or other language and not be space (previous word and now word)
-                if w[0] not in thai_characters and w.isspace() != True and p_w.isspace() != True:
+                # if w is number or other language and not be space
+                if w[0] not in thai_characters and not w.isspace() and not p_w.isspace():
                     _list_sents.append(" ")
                     _add_index.append(j)
                 # if previous word is number or other language and not be space
-                elif p_w[0] not in thai_characters and p_w.isspace() != True:
+                elif p_w[0] not in thai_characters and not p_w.isspace():
                     _list_sents.append(" ")
                     _add_index.append(j)
                 # if word is Thai iteration mark
@@ -93,7 +93,7 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str="st
         for i in _list_all:
             _temp = ""
             for j in i:
-                _temp+=j
+                _temp += j
             _text.append(_temp)
         return ' '.join(_text)
 

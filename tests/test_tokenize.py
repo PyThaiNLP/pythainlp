@@ -644,17 +644,19 @@ class TestTokenizePackage(unittest.TestCase):
 
     def test_word_detokenize(self):
         self.assertEqual(
-            word_detokenize(["ผม","เลี้ยง","5","ตัว"]),
+            word_detokenize(["ผม", "เลี้ยง", "5", "ตัว"]),
             "ผมเลี้ยง 5 ตัว"
         )
         self.assertEqual(word_detokenize(
-            ["ผม","เลี้ยง"," ","5","ตัว"],"list"),
+            ["ผม", "เลี้ยง", " ", "5", "ตัว"], "list"),
             [["ผม", "เลี้ยง", " ", "5", " ", "ตัว"]]
         )
         self.assertEqual(
-            word_detokenize(["ผม","เลี้ยง","5","5","ตัว","ๆ","คน","ดี"]),
+            word_detokenize(
+                ["ผม", "เลี้ยง", "5", "5", "ตัว", "ๆ", "คน", "ดี"]
+            ),
             "ผมเลี้ยง 55 ตัว ๆ คนดี"
         )
         self.assertTrue(
-            isinstance(word_detokenize(["ผม","เลี้ยง","5","ตัว"]),str)
+            isinstance(word_detokenize(["ผม", "เลี้ยง", "5", "ตัว"]), str)
         )

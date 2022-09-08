@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Thai-English Cross-Language Transliterated Word Retrieval using Soundex Technique
+Thai-English Cross-Language Transliterated Word Retrieval
+using Soundex Technique
 
 References:
-Prayut Suwanvisat, Somchai Prasitjutrakul. Thai-English Cross-Language Transliterated Word Retrieval using Soundex Technique. In 1998 [cited 2022 Sep 8]. Available from: https://www.cp.eng.chula.ac.th/~somchai/spj/papers/ThaiText/ncsec98-clir.pdf
+Prayut Suwanvisat, Somchai Prasitjutrakul.Thai-English Cross-Language Transliterated Word Retrieval using Soundex Technique. In 1998 [cited 2022 Sep 8]. Available from: https://www.cp.eng.chula.ac.th/~somchai/spj/papers/ThaiText/ncsec98-clir.pdf
 """
 from pythainlp import thai_characters
 _C0 = "AEIOUHWYอ"
@@ -53,7 +54,7 @@ def prayut_and_somchaip(text: str, length: int = 4) -> str:
 
     i = 0
     while i < len(chars):
-        if i==0 and chars[i] in _C0:
+        if i == 0 and chars[i] in _C0:
             chars[i] = "0"
         elif chars[i] in _C1:
             chars[i] = "1"
@@ -69,16 +70,18 @@ def prayut_and_somchaip(text: str, length: int = 4) -> str:
             chars[i] = "6"
         elif chars[i] in _C52:
             chars[i] = "52"
-        elif chars[i] in _C7 and i!=0:
+        elif chars[i] in _C7 and i != 0:
             chars[i] = "7"
-        elif chars[i] in _C8 and i!=0:
+        elif chars[i] in _C8 and i != 0:
             chars[i] = "8"
-        elif chars[i] in _C1_1 and i!=0:
+        elif chars[i] in _C1_1 and i != 0:
             chars[i] = "1"
-        elif chars[i] in _C9 and i!=0:
+        elif chars[i] in _C9 and i != 0:
             chars[i] = "9"
         else:
             chars[i] = None
         i += 1
-    chars = list(''.join([i for i in chars if i != None]))
+    chars = list(
+        ''.join([i for i in chars if i is not None])
+    )
     return "".join(chars[-length:])

@@ -61,4 +61,4 @@ class TestSoundexPackage(unittest.TestCase):
 
         self.assertEqual(prayut_and_somchaip(None), "")
         self.assertEqual(prayut_and_somchaip(""), "")
-        self.assertEqual(prayut_and_somchaip("vp"), "")
+        self.assertEqual(prayut_and_somchaip("vp"), "11")

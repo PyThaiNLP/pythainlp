@@ -37,7 +37,7 @@ def metasound(text: str, length: int = 4) -> str:
     :Example:
     ::
 
-        from pythainlp.metasound import metasound
+        from pythainlp.soundex.metasound import metasound
 
         metasound("ลัก")
         # output: 'ล100'

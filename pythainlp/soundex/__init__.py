@@ -10,11 +10,13 @@ __all__ = [
     "lk82",
     "metasound",
     "udom83",
+    "prayut_and_somchaip",
 ]
 
 from pythainlp.soundex.lk82 import lk82
 from pythainlp.soundex.metasound import metasound
 from pythainlp.soundex.udom83 import udom83
+from pythainlp.soundex.prayut_and_somchaip import prayut_and_somchaip
 
 DEFAULT_SOUNDEX_ENGINE = "udom83"
 

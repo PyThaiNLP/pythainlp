@@ -81,7 +81,9 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "
                         _list_sents.append(" ")
                         _add_index.append(j)
                     else:
-                        pass
+                        _add_index.append(j)
+                elif w.isspace():
+                    _add_index.append(j)
                 elif j-1 in _add_index:
                     _list_sents.append(" ")
             _list_sents.append(w)

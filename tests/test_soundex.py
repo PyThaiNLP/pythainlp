@@ -2,7 +2,7 @@
 
 import unittest
 
-from pythainlp.soundex import lk82, metasound, soundex, udom83
+from pythainlp.soundex import lk82, metasound, soundex, udom83, prayut_and_somchaip
 
 
 class TestSoundexPackage(unittest.TestCase):
@@ -10,6 +10,10 @@ class TestSoundexPackage(unittest.TestCase):
         self.assertIsNotNone(soundex("a", engine="lk82"))
         self.assertIsNotNone(soundex("a", engine="udom83"))
         self.assertIsNotNone(soundex("a", engine="metasound"))
+        self.assertEqual(
+            soundex("vp", engine="prayut_and_somchaip"),
+            soundex("วีพี", engine="prayut_and_somchaip")
+        )
         self.assertIsNotNone(soundex("a", engine="XXX"))
 
         self.assertEqual(lk82(None), "")
@@ -54,3 +58,18 @@ class TestSoundexPackage(unittest.TestCase):
         self.assertIsNotNone(metasound("กาโวกาโว"))
         self.assertIsNotNone(metasound("สุวรรณา"))
         self.assertIsNotNone(metasound("ดอยบอย"))
+
+        self.assertEqual(prayut_and_somchaip(None), "")
+        self.assertEqual(prayut_and_somchaip(""), "")
+        self.assertEqual(prayut_and_somchaip("vp"), "11")
+        self.assertIsNotNone(prayut_and_somchaip("บา"))
+        self.assertIsNotNone(prayut_and_somchaip("go"))
+        self.assertIsNotNone(prayut_and_somchaip("อด"))
+        self.assertIsNotNone(prayut_and_somchaip("ลน"))
+        self.assertIsNotNone(prayut_and_somchaip("มอ"))
+        self.assertIsNotNone(prayut_and_somchaip("รอ"))
+        self.assertIsNotNone(prayut_and_somchaip("ขอ"))
+        self.assertIsNotNone(prayut_and_somchaip("บน"))
+        self.assertIsNotNone(prayut_and_somchaip("ณาญ"))
+        self.assertIsNotNone(prayut_and_somchaip("กาง"))
+        self.assertIsNotNone(prayut_and_somchaip("ว้าว"))

@@ -24,7 +24,7 @@ _C52 = "ง"
 def prayut_and_somchaip(text: str, length: int = 4) -> str:
     """
     This function converts English-Thai Cross-Language Transliterated Word into
-    phonetic code with the mactching technique called **Soundex**
+    phonetic code with the mactching technique called **Soundex** [#prayut_and_somchaip]_.
 
     :param str text: English-Thai Cross-Language Transliterated Word
     :param int length: preferred length of the Soundex code (default is 4)

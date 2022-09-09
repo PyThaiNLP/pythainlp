@@ -46,10 +46,7 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
     return segment(doc)
 
 
-def word_detokenize(
-    segments: Union[List[List[str]],
-    List[str]],
-    output: str = "str") -> Union[str, List[str]]:
+def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "str") -> Union[str, List[str]]:
     """
     Word detokenizer.
 

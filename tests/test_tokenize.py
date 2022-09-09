@@ -653,10 +653,14 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertEqual(
             word_detokenize(
-                ["ผม", "เลี้ยง", "5", "5", "ตัว", "ๆ", "คน", "ดี"]
+                ["ผม", "เลี้ยง", "5", "10", "ตัว", "ๆ", "คน", "ดี"]
             ),
-            "ผมเลี้ยง 55 ตัว ๆ คนดี"
+            "ผมเลี้ยง 5 10 ตัว ๆ คนดี"
         )
         self.assertTrue(
             isinstance(word_detokenize(["ผม", "เลี้ยง", "5", "ตัว"]), str)
+        )
+        self.assertEqual(
+            word_detokenize(["ม่ายย", " ", "ผม", "เลี้ยง", "5", "ตัว"]),
+            "ม่ายย ผมเลี้ยง 5 ตัว"
         )

@@ -36,7 +36,7 @@ jobs:
     - name: Install PyTorch
       shell: powershell
       run: |
-        pip install torch==1.7.0
+        conda install -c pytorch pytorch==1.7.1
     - name: Install dependencies
       shell: powershell
       run: |

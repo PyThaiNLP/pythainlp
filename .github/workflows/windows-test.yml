@@ -36,7 +36,7 @@ jobs:
     - name: Install PyTorch
       shell: powershell
       run: |
-        conda install -c pytorch pytorch==1.7.1
+        pip install torch==1.7.1
     - name: Install dependencies
       shell: powershell
       run: |
@@ -44,6 +44,7 @@ jobs:
         pip install pytest coverage coveralls
         conda install -c conda-forge icu
         conda install -c conda-forge pyicu
+        pip install nltk
         pip install -r docker_requirements.txt
         pip install deepcut
         pip install .[full]

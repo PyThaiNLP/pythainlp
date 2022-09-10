@@ -63,6 +63,8 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "
     for i, s in enumerate(segments):
         _list_sents = []
         _add_index = []
+        _space_index = []
+        _mark_index = []
         for j, w in enumerate(s):
             if j > 0:
                 # previous word
@@ -83,12 +85,10 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "
                 elif w == "ๆ":
                     if not p_w.isspace():
                         _list_sents.append(" ")
-                        _add_index.append(j)
-                    else:
-                        _add_index.append(j)
-                elif w.isspace():
-                    _add_index.append(j)
-                elif j-1 in _add_index:
+                    _mark_index.append(j)
+                elif w.isspace() and j-1 not in _space_index:
+                    _space_index.append(j)
+                elif j-1 in _mark_index:
                     _list_sents.append(" ")
             _list_sents.append(w)
         _list_all.append(_list_sents)

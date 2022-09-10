@@ -47,7 +47,7 @@ def get_corpus_db_detail(name: str, version: str = None) -> dict:
     :return: details about a corpus
     :rtype: dict
     """
-    with open(corpus_db_path(), "r", encoding="utf-8") as f:
+    with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
         local_db = json.load(f)
 
     if version is None:
@@ -509,7 +509,7 @@ def remove(name: str) -> bool:
     if _CHECK_MODE == "1":
         print("PyThaiNLP is read-only mode. It can't remove corpus.")
         return False
-    with open(corpus_db_path(), "r", encoding="utf-8") as f:
+    with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
         db = json.load(f)
     data = [
         corpus for corpus in db["_default"].values() if corpus["name"] == name

@@ -1,55 +1,55 @@
-name: Windows Unit test and code coverage
+# name: Windows Unit test and code coverage
 
-on:
-  push:
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-  pull_request:
-    branches:
-      - dev
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
+# on:
+#   push:
+#     paths-ignore:
+#       - '**.md'
+#       - 'docs/**'
+#   pull_request:
+#     branches:
+#       - dev
+#     paths-ignore:
+#       - '**.md'
+#       - 'docs/**'
 
-jobs:
-  build:
+# jobs:
+#   build:
 
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-latest]
-        python-version: [3.8]
+#     runs-on: ${{ matrix.os }}
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         os: [windows-latest]
+#         python-version: [3.8]
 
-    steps:
-    - uses: actions/checkout@v2
-    - uses: conda-incubator/setup-miniconda@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-        auto-activate-base: true
-        auto-update-conda: true
-    - shell: powershell
-      run: |
-        conda info
-        conda list
-    - name: Install PyTorch
-      shell: powershell
-      run: |
-        pip install torch==1.8.1
-    - name: Install dependencies
-      shell: powershell
-      run: |
-        pip install pytest coverage coveralls
-        conda install -c conda-forge icu pyicu
-        pip install -r docker_requirements.txt
-        pip install .[full]
-        python -m nltk.downloader omw-1.4
-    - name: Test
-      shell: powershell
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COVERALLS_SERVICE_NAME: github
-      run: |
-        coverage run -m unittest discover
-        coveralls
+#     steps:
+#     - uses: actions/checkout@v2
+#     - uses: conda-incubator/setup-miniconda@v2
+#       with:
+#         python-version: ${{ matrix.python-version }}
+#         auto-activate-base: true
+#         auto-update-conda: true
+#     - shell: powershell
+#       run: |
+#         conda info
+#         conda list
+#     - name: Install PyTorch
+#       shell: powershell
+#       run: |
+#         pip install torch==1.8.1
+#     - name: Install dependencies
+#       shell: powershell
+#       run: |
+#         pip install pytest coverage coveralls
+#         conda install -c conda-forge icu pyicu
+#         pip install -r docker_requirements.txt
+#         pip install .[full]
+#         python -m nltk.downloader omw-1.4
+#     - name: Test
+#       shell: powershell
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         COVERALLS_SERVICE_NAME: github
+#       run: |
+#         coverage run -m unittest discover
+#         coveralls

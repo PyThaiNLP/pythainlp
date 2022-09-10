@@ -48,6 +48,7 @@ jobs:
         python -m pip install -r docker_requirements.txt
         python -m pip install .[full]
         python -m nltk.downloader omw-1.4
+        python -m pip install spacy deepcut
     - name: Test
       shell: powershell
       env:

@@ -378,7 +378,7 @@ def download(
 
     # check if corpus is available
     if name in corpus_db:
-        with open(corpus_db_path(), "r", encoding="utf-8") as f:
+        with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
             local_db = json.load(f)
 
         corpus = corpus_db[name]

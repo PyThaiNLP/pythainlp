@@ -202,7 +202,7 @@ class PerceptronTagger:
         :param str loc: model path
         """
         try:
-            with open(loc, "r", encoding='utf-8') as f:
+            with open(loc, "r", encoding='utf-8-sig') as f:
                 w_td_c = json.load(f)
         except IOError:
             msg = "Missing trontagger.json file."

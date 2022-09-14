@@ -52,10 +52,10 @@ class Thai_W2P(object):
         self.graphemes = hp.graphemes
         self.phonemes = hp.phonemes
         self.g2idx, self.idx2g, self.p2idx, self.idx2p = _load_vocab()
-        self.checkpoint = get_corpus_path(_MODEL_NAME)
+        self.checkpoint = get_corpus_path(_MODEL_NAME, version="0.1")
         if self.checkpoint is None:
-            download(_MODEL_NAME)
-            self.checkpoint = get_corpus_path(_MODEL_NAME)
+            download(_MODEL_NAME, version="0.1")
+            self.checkpoint = get_corpus_path(_MODEL_NAME, version="0.1")
         self._load_variables()
 
     def _load_variables(self):

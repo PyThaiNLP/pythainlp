@@ -20,7 +20,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 **News**
 
-> Now, You can contact or ask any questions you encounter with the PyThaiNLP team. <a href="https://matrix.to/#/#thainlp:matrix.org" rel="noopener" target="_blank"><img src="https://matrix.to/img/matrix-badge.svg" alt="Chat on Matrix"></a>
+> Now, You can contact or ask any questions with the PyThaiNLP team. <a href="https://matrix.to/#/#thainlp:matrix.org" rel="noopener" target="_blank"><img src="https://matrix.to/img/matrix-badge.svg" alt="Chat on Matrix"></a>
 
 | Version | Description | Status |
 |:------:|:--:|:------:|

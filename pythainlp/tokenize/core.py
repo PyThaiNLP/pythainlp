@@ -14,6 +14,7 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     DEFAULT_WORD_TOKENIZE_ENGINE,
 )
+from pythainlp import thai_characters
 from pythainlp.util.trie import Trie, dict_trie
 
 
@@ -45,6 +46,64 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
     return segment(doc)
 
 
+def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "str") -> Union[str, List[str]]:
+    """
+    Word detokenizer.
+
+    This function will detokenize the list word in each sentence to text.
+
+    :param str segments: List sentences with list words.
+    :param str output: the output type (str or list)
+    :return: the thai text
+    :rtype: Union[str,List[str]]
+    """
+    _list_all = []
+    if isinstance(segments[0], str):
+        segments = [segments]
+    for i, s in enumerate(segments):
+        _list_sents = []
+        _add_index = []
+        _space_index = []
+        _mark_index = []
+        for j, w in enumerate(s):
+            if j > 0:
+                # previous word
+                p_w = s[j-1]
+                # if w is number or other language and not be space
+                if (
+                    w[0] not in thai_characters
+                    and not w.isspace()
+                    and not p_w.isspace()
+                ):
+                    _list_sents.append(" ")
+                    _add_index.append(j)
+                # if previous word is number or other language and not be space
+                elif p_w[0] not in thai_characters and not p_w.isspace():
+                    _list_sents.append(" ")
+                    _add_index.append(j)
+                # if word is Thai iteration mark
+                elif w == "ๆ":
+                    if not p_w.isspace():
+                        _list_sents.append(" ")
+                    _mark_index.append(j)
+                elif w.isspace() and j-1 not in _space_index:
+                    _space_index.append(j)
+                elif j-1 in _mark_index:
+                    _list_sents.append(" ")
+            _list_sents.append(w)
+        _list_all.append(_list_sents)
+    if output == "list":
+        return _list_all
+    else:
+        _text = []
+        for i in _list_all:
+            _temp = ""
+            for j in i:
+                _temp += j
+            _text.append(_temp)
+        return ' '.join(_text)
+
+
 def word_tokenize(
     text: str,
     custom_dict: Trie = None,
@@ -63,7 +122,7 @@ def word_tokenize(
                                  for end of phrase in Thai.
                                  Otherwise, whitespaces are omitted.
     :return: list of words
-    :rtype: list[str]
+    :rtype: List[str]
     **Options for engine**
         * *newmm* (default) - dictionary-based, Maximum Matching +
           Thai Character Cluster

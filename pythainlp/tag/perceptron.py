@@ -14,8 +14,7 @@ _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
 _PUD_FILENAME = "pos_ud_perceptron-v0.2.json"
 _PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
 
-_LST20_TAGGER_NAME = "pos_lst20_perceptron-v0.2.3.json"
-_LST20_TAGGERD_PATH = os.path.join(corpus_path(), _LST20_TAGGER_NAME)
+_LST20_TAGGER_NAME = "pos_lst20_perceptron"
 
 _ORCHID_TAGGER = None
 _PUD_TAGGER = None
@@ -39,7 +38,8 @@ def _pud_tagger():
 def _lst20_tagger():
     global _LST20_TAGGER
     if not _LST20_TAGGER:
-        _LST20_TAGGER = PerceptronTagger(path=_LST20_TAGGERD_PATH)
+        path = get_corpus_path(_LST20_TAGGER_NAME, version="0.2.4")
+        _LST20_TAGGER = PerceptronTagger(path=path)
     return _LST20_TAGGER
 
 

@@ -31,3 +31,5 @@ thai-nner==0.3
 spacy==2.3.*
 wunsen==0.0.3
 khanaa==0.0.6
+spacy_thai==0.7.1
+esupar==1.3.8

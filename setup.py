@@ -81,6 +81,12 @@ extras = {
         "onnxruntime>=1.10.0"
     ],
     "thai_nner": ["thai_nner"],
+    "esupar": ["esupar>=1.3.8", "numpy"],
+    "spacy_thai": ["spacy_thai>=0.7.1"],
+    "dependency_parsing": [
+        "esupar>=1.3.8",
+        "spacy_thai>=0.7.1",
+    ],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -108,7 +114,9 @@ extras = {
         "nlpo3>=1.2.2",
         "onnxruntime>=1.10.0",
         "thai_nner",
-        "wunsen>=0.0.3"
+        "wunsen>=0.0.3",
+        "spacy_thai>=0.7.1",
+        "esupar>=1.3.8",
     ],
 }
 

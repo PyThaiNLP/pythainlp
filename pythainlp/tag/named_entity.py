@@ -21,7 +21,12 @@ class NER:
 
     **Options for corpus**
         * *thaimer* - Thai NER corpus
-        * *lst20* - lst20 corpus (wangchanberta only)
+        * *lst20* - lst20 corpus (wangchanberta only). \
+            `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
+            by National Electronics and Computer Technology Center, Thailand \
+            It is free for **non-commercial uses and research only**. \
+            You can read at \
+            `Facebook <https://www.facebook.com/dancearmy/posts/10157641945708284>`_.
 
     **Note**: for tltk engine, It's support ner model from tltk only.
     """
@@ -39,6 +44,12 @@ class NER:
             self.engine = LST20_NER_ONNX()
         elif engine == "wangchanberta":
             from pythainlp.wangchanberta import ThaiNameTagger
+            if corpus=="lst20":
+                print("""
+                LST20 corpus are free for research and open source only.\n
+                If you want to use in Commercial use, please contract NECTEC.\n
+                https://www.facebook.com/dancearmy/posts/10157641945708284
+                """)
             self.engine = ThaiNameTagger(dataset_name=corpus)
         elif engine == "tltk":
             from pythainlp.tag import tltk

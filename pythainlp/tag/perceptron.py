@@ -37,6 +37,11 @@ def _pud_tagger():
 
 def _lst20_tagger():
     global _LST20_TAGGER
+    print("""
+    LST20 corpus are free for research and open source only.\n
+    If you want to use in Commercial use, please contract NECTEC.\n
+    https://www.facebook.com/dancearmy/posts/10157641945708284
+    """)
     if not _LST20_TAGGER:
         path = get_corpus_path(_LST20_TAGGER_NAME, version="0.2.4")
         _LST20_TAGGER = PerceptronTagger(path=path)

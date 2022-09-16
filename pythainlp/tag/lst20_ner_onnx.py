@@ -5,6 +5,11 @@ from pythainlp.tag.wangchanberta_onnx import WngchanBerta_ONNX
 
 class LST20_NER_ONNX(WngchanBerta_ONNX):
     def __init__(self, providers: List[str] = ['CPUExecutionProvider']) -> None:
+        print("""
+        LST20 corpus are free for research and open source only.\n
+        If you want to use in Commercial use, please contract NECTEC.\n
+        https://www.facebook.com/dancearmy/posts/10157641945708284
+        """)
         WngchanBerta_ONNX.__init__(
             self,
             model_name="onnx_lst20ner",

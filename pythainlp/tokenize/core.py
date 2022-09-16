@@ -25,6 +25,9 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
     Tokenizes running word list into list of clauses (list of strings).
     split by CRF trained on LST20 Corpus.
 
+    It is free for **non-commercial uses and research only**. \
+    You can read at `Facebook <https://www.facebook.com/dancearmy/posts/10157641945708284>`_.
+
     :param str doc: word list to be clause
     :return: list of claues
     :rtype: list[list[str]]

@@ -55,6 +55,11 @@ tagger.open(get_corpus_path(_CORPUS_NAME))
 
 
 def segment(doc: List[str]) -> List[List[str]]:
+    print("""
+    LST20 corpus are free for research and open source only.\n
+    If you want to use in Commercial use, please contract NECTEC.\n
+    https://www.facebook.com/dancearmy/posts/10157641945708284
+    """)
     word_tags = pos_tag(doc, corpus="lst20")
     features = _extract_features(word_tags)
     word_markers = list(zip(doc, tagger.tag(features)))

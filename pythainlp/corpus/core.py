@@ -148,11 +148,13 @@ def get_corpus_default_db(name: str, version: str = None) -> Union[str, None]:
             )
 
 
-def get_corpus_path(name: str,  version: str = None) -> Union[str, None]:
+def get_corpus_path(name: str,  version: str = None, force: bool = False) -> Union[str, None]:
     """
     Get corpus path.
 
     :param str name: corpus name
+    :param str version: version
+    :param bool force: force download
     :return: path to the corpus or **None** of the corpus doesn't \
              exist in the device
     :rtype: str
@@ -202,7 +204,7 @@ def get_corpus_path(name: str,  version: str = None) -> Union[str, None]:
     corpus_db_detail = get_corpus_db_detail(name, version=version)
 
     if not corpus_db_detail or not corpus_db_detail.get("filename"):
-        download(name,  version=version)
+        download(name,  version=version, force=force)
         corpus_db_detail = get_corpus_db_detail(name, version=version)
 
     if corpus_db_detail and corpus_db_detail.get("filename"):
@@ -213,7 +215,7 @@ def get_corpus_path(name: str,  version: str = None) -> Union[str, None]:
             path = get_full_data_path(corpus_db_detail.get("filename"))
         # check if the corpus file actually exists, download if not
         if not os.path.exists(path):
-            download(name)
+            download(name,  version=version, force=force)
         if os.path.exists(path):
             return path
 

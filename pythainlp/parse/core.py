@@ -84,5 +84,9 @@ def dependency_parsing(text: str, model: str=None, engine: str="esupar")->str:
         elif engine == "spacy_thai":
             from pythainlp.parse.spacy_thai_engine import Parse
             _tagger = Parse()
+        else:
+            raise NotImplementedError(
+                "The engine doesn't support."
+            )
     _tagger_name = engine
     return _tagger(text)

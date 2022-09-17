@@ -2,11 +2,13 @@
 _tagger = None
 _tagger_name = ""
 
-def dependency_parsing(text: str, engine: str="esupar")->str:
+def dependency_parsing(text: str, model: str=None, engine: str="esupar")->str:
     """
     Dependency Parsing
 
     :param str text: text to do dependency parsing
+    :param str model: model for using with engine \
+        (for esupar and transformers_ud)
     :param str engine: the name dependency parser
     :return: str (conllu)
 
@@ -17,6 +19,41 @@ def dependency_parsing(text: str, engine: str="esupar")->str:
         * *spacy_thai* - Tokenizer, POS-tagger, and dependency-parser \
             for Thai language, working on Universal Dependencies. \
             `GitHub <https://github.com/KoichiYasuoka/spacy-thai>`_
+        * *transformers_ud* - TransformersUD \
+            `GitHub <https://github.com/KoichiYasuoka/>`_
+
+    **Options for model (esupar engine)**
+        * *th* (default) - KoichiYasuoka/roberta-base-thai-spm-upos model \
+            `Huggingface \
+            <https://huggingface.co/KoichiYasuoka/roberta-base-thai-spm-upos>`_
+        * *KoichiYasuoka/deberta-base-thai-upos* - DeBERTa(V2) model \
+            pre-trained on Thai Wikipedia texts for POS-tagging and \
+            dependency-parsing `Huggingface \
+            <https://huggingface.co/KoichiYasuoka/deberta-base-thai-upos>`_
+        * *KoichiYasuoka/roberta-base-thai-syllable-upos* - RoBERTa model \
+            pre-trained on Thai Wikipedia texts for POS-tagging and \
+            dependency-parsing. (syllable level) `Huggingface \
+            <https://huggingface.co/KoichiYasuoka/roberta-base-thai-syllable-upos>`_
+        * *KoichiYasuoka/roberta-base-thai-char-upos* - RoBERTa model \
+            pre-trained on Thai Wikipedia texts for POS-tagging \
+            and dependency-parsing. (char level) `Huggingface \
+            <https://huggingface.co/KoichiYasuoka/roberta-base-thai-char-upos>`_
+
+    If you want to train model for esupar, you can read \
+    `Huggingface <https://github.com/KoichiYasuoka/esupar>`_
+
+    **Options for model (transformers_ud engine)**
+        * *KoichiYasuoka/deberta-base-thai-ud-head* (default) - \
+            DeBERTa(V2) model pretrained on Thai Wikipedia texts \
+            for dependency-parsing (head-detection on Universal \
+            Dependencies) as question-answering, derived from \
+            deberta-base-thai. \
+            trained by th_blackboard.conll. `Huggingface \
+            <https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-head>`_
+        * *KoichiYasuoka/roberta-base-thai-spm-ud-head* - \
+            roberta model pretrained on Thai Wikipedia texts \
+            for dependency-parsing. `Huggingface \
+            <https://huggingface.co/KoichiYasuoka/roberta-base-thai-spm-ud-head>`_
 
     :Example:
     ::
@@ -40,7 +77,10 @@ def dependency_parsing(text: str, engine: str="esupar")->str:
     if _tagger_name != engine:
         if engine == "esupar":
             from pythainlp.parse.esupar_engine import Parse
-            _tagger = Parse()
+            _tagger = Parse(model=model)
+        elif engine == "transformers_ud":
+            from pythainlp.parse.transformers_ud import Parse
+            _tagger = Parse(model=model)
         elif engine == "spacy_thai":
             from pythainlp.parse.spacy_thai_engine import Parse
             _tagger = Parse()

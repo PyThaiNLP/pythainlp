@@ -9,6 +9,8 @@ import esupar
 
 class Parse:
     def __init__(self, model: str="th") -> None:
+        if model == None:
+            model = "th"
         self.nlp=esupar.load(model)
 
     def __call__(self, text):

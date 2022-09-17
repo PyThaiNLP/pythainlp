@@ -11,6 +11,7 @@ The source: https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-head
 GitHub: https://github.com/KoichiYasuoka
 """
 import os
+from typing import List, Union
 import numpy
 import torch
 import ufal.chu_liu_edmonds
@@ -48,7 +49,7 @@ class Parse:
             tokenizer=self.tokenizer
         )
 
-    def __call__(self, text: str)->str:
+    def __call__(self, text: str, tag: str="str")->Union[List[List[str]], str]:
         w=[(t["start"],t["end"],t["entity_group"]) for t in self.deprel(text)]
         z,n={t["start"]:t["entity"].split("|") for t in self.tagger(text)},len(w)
         r,m=[text[s:e] for s,e,p in w],numpy.full((n+1,n+1),numpy.nan)
@@ -73,6 +74,12 @@ class Parse:
             m[0:j,0]=m[j+1:,0]=numpy.nan
             h=ufal.chu_liu_edmonds.chu_liu_edmonds(m)[0]
         u=""
+        if tag == "list":
+            _tag_data=[]
+            for i,(s,e,p) in enumerate(w,1):
+                p="root" if h[i]==0 else "dep" if p=="root" else p
+                _tag_data.append([str(i),r[i-1],"_",z[s][0][2:],"_","|".join(z[s][1:]),str(h[i]),p,"_","_" if i<n and e<w[i][0] else "SpaceAfter=No"])
+            return _tag_data
         for i,(s,e,p) in enumerate(w,1):
             p="root" if h[i]==0 else "dep" if p=="root" else p
             u+="\t".join(

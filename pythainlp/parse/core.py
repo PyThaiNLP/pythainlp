@@ -1,16 +1,21 @@
 # -*- coding: utf-8 -*-
+from typing import List, Union
+
+
 _tagger = None
 _tagger_name = ""
 
-def dependency_parsing(text: str, model: str=None, engine: str="esupar")->str:
+def dependency_parsing(text: str, model: str=None, tag: str="str", engine: str="esupar")->Union[List[List[str]], str]:
     """
     Dependency Parsing
 
     :param str text: text to do dependency parsing
     :param str model: model for using with engine \
         (for esupar and transformers_ud)
+    :param str tag: output type (str or list)
     :param str engine: the name dependency parser
-    :return: str (conllu)
+    :return: str (conllu) or List
+    :rtype: Union[List[List[str]], str]
 
     **Options for engine**
         * *esupar* (default) - Tokenizer POS-tagger and Dependency-parser \
@@ -89,4 +94,4 @@ def dependency_parsing(text: str, model: str=None, engine: str="esupar")->str:
                 "The engine doesn't support."
             )
     _tagger_name = engine
-    return _tagger(text)
+    return _tagger(text, tag=tag)

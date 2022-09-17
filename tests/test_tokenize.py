@@ -599,7 +599,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(nercut.segment("ทันแน่ๆ"), ['ทัน', 'แน่ๆ'])
         self.assertEqual(nercut.segment("%1ครั้ง"), ['%', '1', 'ครั้ง'])
         self.assertEqual(nercut.segment("ทุ๊กกโคนน"), ['ทุ๊กกโคนน'])
-        self.assertEqual(nercut.segment("อือหือ"), ['อือหือ'])
+        self.assertIsNotNone(nercut.segment("อือหือ"))
         self.assertEqual(
             nercut.segment("อย่าลืมอัพการ์ดนะจ๊ะ"),
             ['อย่าลืมอัพการ์ดนะจ๊ะ']

@@ -12,7 +12,7 @@ sentencepiece==0.1.91
 ssg==0.0.8
 torch==1.8.1
 fastai==1.0.61
-transformers==4.19.0
+transformers==4.22.1
 phunspell==0.1.6
 spylls==0.1.5
 symspellpy==6.7.6

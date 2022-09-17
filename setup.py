@@ -81,6 +81,22 @@ extras = {
         "onnxruntime>=1.10.0"
     ],
     "thai_nner": ["thai_nner"],
+    "esupar": [
+        "esupar>=1.3.8",
+        "numpy",
+        "transformers>=4.22.1",
+    ],
+    "spacy_thai": ["spacy_thai>=0.7.1"],
+    "transformers_ud": [
+        "ufal.chu-liu-edmonds>=1.0.2",
+        "transformers>=4.22.1",
+    ],
+    "dependency_parsing": [
+        "esupar>=1.3.8",
+        "spacy_thai>=0.7.1",
+        "ufal.chu-liu-edmonds>=1.0.2",
+        "transformers>=4.22.1",
+    ],
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -98,7 +114,7 @@ extras = {
         "torch>=1.0.0",
         "fastai<2.0",
         "bpemb>=0.3.2",
-        "transformers>=4.6.0",
+        "transformers>=4.22.1",
         "sefr_cut>=1.1",
         "phunspell>=0.1.6",
         "spylls>=0.1.5",
@@ -108,7 +124,10 @@ extras = {
         "nlpo3>=1.2.2",
         "onnxruntime>=1.10.0",
         "thai_nner",
-        "wunsen>=0.0.3"
+        "wunsen>=0.0.3",
+        "spacy_thai>=0.7.1",
+        "esupar>=1.3.8",
+        "ufal.chu-liu-edmonds>=1.0.2",
     ],
 }
 

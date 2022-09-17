@@ -18,8 +18,8 @@
                 "pythainlp_version": ">=2.2.7"
             },
             "1.5.2": {
-                "filename": "thainer_crf_1_5_2.model",
-                "download_url": "https://github.com/wannaphong/thai-ner/releases/download/1.5.2/thainer_crf_1_5_2.model",
+                "filename": "thainer_crf_1_5_2-orchid_ud.model",
+                "download_url": "https://github.com/wannaphong/thai-ner/releases/download/1.5.2/thainer_crf_1_5_2-orchid_ud.model",
                 "md5": "-",
                 "pythainlp_version": ">=3.1.0"
             }

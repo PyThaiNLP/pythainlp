@@ -107,8 +107,8 @@ class ThaiNameTagger:
             self.crf.open(get_corpus_path(_CORPUS_NAME, version="1.5"))
             if version=="1.5" or version=="1.5.1":
                 self.pos_tag_name = "lst20"
-            else:
-                self.pos_tag_name = "orchid"
+            else: # 1.5.2
+                self.pos_tag_name = "orchid_ud"
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False

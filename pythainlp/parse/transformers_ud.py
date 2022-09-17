@@ -72,7 +72,7 @@ class Parse:
             j=i+1 if i<n else numpy.nanargmax(m[:,0])
             m[0:j,0]=m[j+1:,0]=numpy.nan
             h=ufal.chu_liu_edmonds.chu_liu_edmonds(m)[0]
-        u="# text = "+text.replace("\n"," ")+"\n"
+        u=""
         for i,(s,e,p) in enumerate(w,1):
             p="root" if h[i]==0 else "dep" if p=="root" else p
             u+="\t".join(

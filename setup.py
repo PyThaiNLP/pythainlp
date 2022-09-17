@@ -83,9 +83,13 @@ extras = {
     "thai_nner": ["thai_nner"],
     "esupar": ["esupar>=1.3.8", "numpy"],
     "spacy_thai": ["spacy_thai>=0.7.1"],
+    "transformers_ud": [
+        "ufal.chu-liu-edmonds>=1.0.2"
+    ],
     "dependency_parsing": [
         "esupar>=1.3.8",
         "spacy_thai>=0.7.1",
+        "ufal.chu-liu-edmonds>=1.0.2"
     ],
     "full": [
         "PyYAML>=5.3.1",
@@ -117,6 +121,7 @@ extras = {
         "wunsen>=0.0.3",
         "spacy_thai>=0.7.1",
         "esupar>=1.3.8",
+        "ufal.chu-liu-edmonds>=1.0.2",
     ],
 }
 

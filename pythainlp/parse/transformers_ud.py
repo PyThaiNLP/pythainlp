@@ -39,12 +39,12 @@ class Parse:
             s=AutoConfig.from_pretrained(cached_file(model,"tagger/config.json"))
             t=x(cached_file(model,"tagger/pytorch_model.bin"),config=s)
         self.deprel=TokenClassificationPipeline(
-            model=d
+            model=d,
             tokenizer=self.tokenizer,
             aggregation_strategy="simple"
         )
         self.tagger=TokenClassificationPipeline(
-            model=t
+            model=t,
             tokenizer=self.tokenizer
         )
 

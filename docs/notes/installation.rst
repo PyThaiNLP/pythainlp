@@ -34,6 +34,7 @@ where ``extras`` can be
   - ``nlpo3`` (to support nlpo3 engine)
   - ``spacy_thai`` (to support spacy_thai engine)
   - ``esupar`` (to support esupar engine)
+  - ``transformers_ud`` (to support transformers_ud engine)
   - ``dependency_parsing`` (to support dependency parsing with all engine)
   - ``full`` (install everything)
 

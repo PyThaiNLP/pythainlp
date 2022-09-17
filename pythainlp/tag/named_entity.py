@@ -20,7 +20,7 @@ class NER:
         * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.
 
     **Options for corpus**
-        * *thaimer* - Thai NER corpus
+        * *thainer* - Thai NER corpus
         * *lst20* - lst20 corpus (wangchanberta only). \
             `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
             by National Electronics and Computer Technology Center, Thailand \

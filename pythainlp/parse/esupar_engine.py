@@ -5,7 +5,10 @@ esupar: Tokenizer POS-tagger and Dependency-parser with BERT/RoBERTa/DeBERTa mod
 GitHub: https://github.com/KoichiYasuoka/esupar
 """
 from typing import List, Union
-import esupar
+try:
+    import esupar
+except ImportError:
+    raise ImportError("Import Error; Install esupar by pip install esupar")
 
 
 class Parse:

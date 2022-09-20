@@ -5,6 +5,7 @@ Unigram Part-Of-Speech tagger
 import json
 import os
 from typing import List, Tuple
+import warnings
 
 from pythainlp.corpus import corpus_path, get_corpus_path
 from pythainlp.tag import lst20, orchid
@@ -41,7 +42,7 @@ def _pud_tagger():
 
 def _lst20_tagger():
     global _LST20_TAGGER
-    print("""
+    warnings.warn("""
     LST20 corpus are free for research and open source only.\n
     If you want to use in Commercial use, please contract NECTEC.\n
     https://www.facebook.com/dancearmy/posts/10157641945708284

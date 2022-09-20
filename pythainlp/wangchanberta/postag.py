@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import Dict, List, Tuple, Union
 import re
+import warnings
 from transformers import (
     CamembertTokenizer,
     AutoTokenizer,
@@ -22,6 +23,12 @@ class PosTagTransformers:
         grouped_word: bool = False
     ) -> None:
         self.corpus = corpus
+        if corpus=="lst20":
+            warnings.warn("""
+            LST20 corpus are free for research and open source only.\n
+            If you want to use in Commercial use, please contract NECTEC.\n
+            https://www.facebook.com/dancearmy/posts/10157641945708284
+            """)
         self.grouped_word = grouped_word
         self.load()
 

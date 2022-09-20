@@ -3,6 +3,7 @@
 Clause segmenter
 """
 from typing import List
+import warnings
 
 import pycrfsuite
 from pythainlp.corpus import get_corpus_path
@@ -55,7 +56,7 @@ tagger.open(get_corpus_path(_CORPUS_NAME))
 
 
 def segment(doc: List[str]) -> List[List[str]]:
-    print("""
+    warnings.warn("""
     LST20 corpus are free for research and open source only.\n
     If you want to use in Commercial use, please contract NECTEC.\n
     https://www.facebook.com/dancearmy/posts/10157641945708284

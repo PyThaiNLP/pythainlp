@@ -92,7 +92,6 @@ extras = {
         "transformers>=4.22.1",
     ],
     "dependency_parsing": [
-        "esupar>=1.3.8",
         "spacy_thai>=0.7.1",
         "ufal.chu-liu-edmonds>=1.0.2",
         "transformers>=4.22.1",
@@ -126,7 +125,6 @@ extras = {
         "thai_nner",
         "wunsen>=0.0.3",
         "spacy_thai>=0.7.1",
-        "esupar>=1.3.8",
         "ufal.chu-liu-edmonds>=1.0.2",
     ],
 }

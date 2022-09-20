@@ -45,7 +45,7 @@ class NER:
         elif engine == "wangchanberta":
             from pythainlp.wangchanberta import ThaiNameTagger
             if corpus=="lst20":
-                print("""
+                warnings.warn("""
                 LST20 corpus are free for research and open source only.\n
                 If you want to use in Commercial use, please contract NECTEC.\n
                 https://www.facebook.com/dancearmy/posts/10157641945708284

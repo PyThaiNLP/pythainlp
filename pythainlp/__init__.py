@@ -4,7 +4,7 @@
 # Copyright (C) 2016-2022 PyThaiNLP Project
 # URL: <https://pythainlp.github.io/>
 # For license information, see LICENSE
-__version__ = "3.1.0-beta0"
+__version__ = "3.1.0"
 
 thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44 chars
 

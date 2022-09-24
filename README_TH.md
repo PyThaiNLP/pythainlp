@@ -16,11 +16,11 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 **ข่าวสาร**
 
-> คุณสามารถพูดคุยหรือแชทกับทีม PyThaiNLP หรือผู้สนับสนุนคนแื่น ๆ ได้ที่ <a href="https://matrix.to/#/#thainlp:matrix.org" rel="noopener" target="_blank"><img src="https://matrix.to/img/matrix-badge.svg" alt="Chat on Matrix"></a>
+> คุณสามารถพูดคุยหรือแชทกับทีม PyThaiNLP หรือผู้สนับสนุนคนอื่น ๆ ได้ที่ <a href="https://matrix.to/#/#thainlp:matrix.org" rel="noopener" target="_blank"><img src="https://matrix.to/img/matrix-badge.svg" alt="Chat on Matrix"></a>
 
 | รุ่น | คำอธิบาย | สถานะ |
 |:------:|:--:|:------:|
-| [3.1](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/643 |
+| [3.1](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/643) |
 | [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 3.2  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/714) |
 
 ติดตามพวกเราบน [PyThaiNLP Facebook page](https://www.facebook.com/pythainlp/) เพื่อรับข่าวสารเพิ่มเติม

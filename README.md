@@ -20,12 +20,12 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 **News**
 
-> Now, You can contact or ask any questions you encounter with the PyThaiNLP team. <a href="https://matrix.to/#/#thainlp:matrix.org" rel="noopener" target="_blank"><img src="https://matrix.to/img/matrix-badge.svg" alt="Chat on Matrix"></a>
+> Now, You can contact or ask any questions with the PyThaiNLP team. <a href="https://matrix.to/#/#thainlp:matrix.org" rel="noopener" target="_blank"><img src="https://matrix.to/img/matrix-badge.svg" alt="Chat on Matrix"></a>
 
 | Version | Description | Status |
 |:------:|:--:|:------:|
-| [3.0](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/545) |
-| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 3.1  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/643) |
+| [3.1](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/643) |
+| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 3.2  | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/714) |
 
 
 ## Getting Started

@@ -189,7 +189,10 @@ def segment(text: str) -> List[str]:
     :param str text: text to be tokenized to sentences
     :return: list of words, tokenized from the text
     """
-    toks = word_tokenize(text)
+    if isinstance(text, str):
+        toks = word_tokenize(text)
+    else:
+        toks = text
     feat = extract_features(toks)
     labs = _tagger.tag(feat)
     labs[-1] = "E"  # make sure it cuts the last sentence

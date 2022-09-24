@@ -21,7 +21,10 @@ def pos_tag(
             if you choose other corpus, It's change to TNC corpus.)
     :param str corpus: the corpus that used to create the language model for tagger
         * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
-            by National Electronics and Computer Technology Center, Thailand
+            by National Electronics and Computer Technology Center, Thailand \
+            It is free for **non-commercial uses and research only**. \
+            You can read at \
+            `Facebook <https://www.facebook.com/dancearmy/posts/10157641945708284>`_.
         * *lst20_ud* - LST20 text, with tags mapped to Universal POS tag \
             from `Universal Dependencies <https://universaldependencies.org/>`
         * *orchid* - `ORCHID \

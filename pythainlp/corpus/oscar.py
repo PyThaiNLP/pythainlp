@@ -25,7 +25,7 @@ def word_freqs() -> List[Tuple[str, int]]:
     """
     word_freqs = []
     _path = get_corpus_path(_FILENAME)
-    with open(_path, "r", encoding="utf-8") as f:
+    with open(_path, "r", encoding="utf-8-sig") as f:
         _data = [i for i in f.readlines()]
         del _data[0]
         for line in _data:

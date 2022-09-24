@@ -11,6 +11,7 @@ Modules
 .. autofunction:: lk82
 .. autofunction:: udom83
 .. autofunction:: metasound
+.. autofunction:: prayut_and_somchaip
 
 References
 ----------
@@ -23,3 +24,5 @@ References
         Master Thesis. Chulalongkorn University, Thailand.
 
 .. [#lk82] วิชิต หล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์. `โปรแกรมการสืบค้นคำไทยตามเสียงอ่าน (Thai Soundex) <http://guru.sanook.com/1520/>`_.
+
+.. [#prayut_and_somchaip] Prayut Suwanvisat, Somchai Prasitjutrakul. Thai-English Cross-Language Transliterated Word Retrieval using Soundex Technique. In 1998 [cited 2022 Sep 8]. Available from: https://www.cp.eng.chula.ac.th/~somchai/spj/papers/ThaiText/ncsec98-clir.pdf

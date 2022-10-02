@@ -1,5 +1,6 @@
-import numpy as np
+# -*- coding: utf-8 -*-
 from typing import List
+import numpy as np
 
 THAI_CHARACTERS_WITHOUT_SHIFT = [
     "ผปแอิืทมใฝ",
@@ -113,7 +114,7 @@ def misspell(sentence: str, ratio: float = 0.05):
     :Example:
     ::
 
-        from pythainlp.tools import misspell
+        from pythainlp.tools.misspell import misspell
 
         sentence = "ภาษาไทยปรากฏครั้งแรกในพุทธศักราช 1826"
 

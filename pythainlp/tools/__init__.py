@@ -4,7 +4,6 @@ __all__ = [
     "get_full_data_path",
     "get_pythainlp_data_path",
     "get_pythainlp_path",
-    "misspell",
 ]
 
 from pythainlp.tools.path import (
@@ -13,5 +12,3 @@ from pythainlp.tools.path import (
     get_pythainlp_data_path,
     get_pythainlp_path,
 )
-
-from pythainlp.tools.misspell import misspell

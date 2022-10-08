@@ -4,7 +4,6 @@ Spell out time to Thai words.
 
 Convert time string or time object to Thai words.
 """
-import warnings
 from datetime import datetime, time
 from typing import Union
 

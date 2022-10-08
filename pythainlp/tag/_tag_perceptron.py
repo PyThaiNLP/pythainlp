@@ -14,11 +14,7 @@ PyThaiNLP modifications Copyright 2020 PyThaiNLP Project
 
 This tagger is provided under the terms of the MIT License.
 """
-
-from __future__ import absolute_import
-
 import json
-import random
 from collections import defaultdict
 from typing import Dict, Iterable, List, Tuple, Union
 
@@ -160,6 +156,7 @@ class PerceptronTagger:
             location.
         :param nr_iter: Number of training iterations.
         """
+        import random
         self._make_tagdict(sentences)
         self.model.classes = self.classes
         for _ in range(nr_iter):

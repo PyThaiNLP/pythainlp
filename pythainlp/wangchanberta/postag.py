@@ -4,7 +4,6 @@ import re
 import warnings
 from transformers import (
     CamembertTokenizer,
-    AutoTokenizer,
     pipeline,
 )
 

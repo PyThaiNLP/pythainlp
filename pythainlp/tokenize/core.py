@@ -4,7 +4,6 @@ Tokenizer generic functions
 """
 import re
 from typing import Iterable, List, Union
-import warnings
 
 from pythainlp.tokenize import (
     DEFAULT_SENT_TOKENIZE_ENGINE,
@@ -14,7 +13,6 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     DEFAULT_WORD_TOKENIZE_ENGINE,
 )
-from pythainlp import thai_characters
 from pythainlp.util.trie import Trie, dict_trie
 
 
@@ -63,6 +61,7 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "
     _list_all = []
     if isinstance(segments[0], str):
         segments = [segments]
+    from pythainlp import thai_characters
     for i, s in enumerate(segments):
         _list_sents = []
         _add_index = []

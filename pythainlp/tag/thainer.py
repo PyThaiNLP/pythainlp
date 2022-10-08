@@ -7,7 +7,6 @@ __all__ = ["ThaiNameTagger"]
 
 from typing import Dict, List, Tuple, Union
 
-from pycrfsuite import Tagger as CRFTagger
 from pythainlp.corpus import get_corpus_path, thai_stopwords
 from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
@@ -98,6 +97,7 @@ class ThaiNameTagger:
                             It's support Thai NER 1.4 & 1.5.
                             The defualt value is `1.5`
         """
+        from pycrfsuite import Tagger as CRFTagger
         self.crf = CRFTagger()
 
         if version == "1.4":

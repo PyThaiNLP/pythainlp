@@ -6,7 +6,6 @@ import os
 from typing import Union
 import json
 
-import requests
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
 from pythainlp import __version__
@@ -15,12 +14,13 @@ from pythainlp import __version__
 _CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
 
 
-def get_corpus_db(url: str) -> requests.Response:
+def get_corpus_db(url: str):
     """
     Get corpus catalog from server.
 
     :param str url: URL corpus catalog
     """
+    import requests
     corpus_db = None
     try:
         corpus_db = requests.get(url)
@@ -224,6 +224,7 @@ def _download(url: str, dst: str) -> int:
     """
     _CHUNK_SIZE = 64 * 1024  # 64 KiB
 
+    import requests
     from urllib.request import urlopen
     file_size = int(urlopen(url).info().get("Content-Length", -1))
     r = requests.get(url, stream=True)

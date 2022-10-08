@@ -2,20 +2,13 @@
 """
 Corpus related functions.
 """
-
-import hashlib
 import os
 from typing import Union
-from urllib.request import urlopen
 import json
 
 import requests
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
-from requests.exceptions import HTTPError
-import tarfile
-import zipfile
-import shutil
 from pythainlp import __version__
 
 
@@ -31,7 +24,7 @@ def get_corpus_db(url: str) -> requests.Response:
     corpus_db = None
     try:
         corpus_db = requests.get(url)
-    except HTTPError as http_err:
+    except requests.exceptions.HTTPError as http_err:
         print(f"HTTP error occurred: {http_err}")
     except Exception as err:
         print(f"Non-HTTP error occurred: {err}")
@@ -231,6 +224,7 @@ def _download(url: str, dst: str) -> int:
     """
     _CHUNK_SIZE = 64 * 1024  # 64 KiB
 
+    from urllib.request import urlopen
     file_size = int(urlopen(url).info().get("Content-Length", -1))
     r = requests.get(url, stream=True)
     with open(get_full_data_path(dst), "wb") as f:
@@ -262,6 +256,7 @@ def _check_hash(dst: str, md5: str) -> None:
     @param: md5 place to hash the file (MD5)
     """
     if md5 and md5 != "-":
+        import hashlib
         with open(get_full_data_path(dst), "rb") as f:
             content = f.read()
             file_md5 = hashlib.md5(content).hexdigest()
@@ -423,6 +418,7 @@ def download(
             foldername = None
 
             if corpus_versions["is_tar_gz"] == "True":
+                import tarfile
                 is_folder = True
                 foldername = name+"_"+str(version)
                 if not os.path.exists(get_full_data_path(foldername)):
@@ -430,6 +426,7 @@ def download(
                 with tarfile.open(get_full_data_path(file_name)) as tar:
                     tar.extractall(path=get_full_data_path(foldername))
             elif corpus_versions["is_zip"] == "True":
+                import zipfile
                 is_folder = True
                 foldername = name+"_"+str(version)
                 if not os.path.exists(get_full_data_path(foldername)):
@@ -520,6 +517,7 @@ def remove(name: str) -> bool:
     if data:
         path = get_corpus_path(name)
         if data[0].get("is_folder"):
+            import shutil
             os.remove(get_full_data_path(data[0].get("filename")))
             shutil.rmtree(path, ignore_errors=True)
         else:

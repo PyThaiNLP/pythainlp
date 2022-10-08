@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from typing import List, Tuple
-import gensim.models.keyedvectors as word2vec
 import itertools
 
 
@@ -13,6 +12,7 @@ class Word2VecAug:
         :param object tokenize: tokenize function
         :param str type: moodel type (file, binary)
         """
+        import gensim.models.keyedvectors as word2vec
         self.tokenizer = tokenize
         if type == "file":
             self.model = word2vec.KeyedVectors.load_word2vec_format(model)

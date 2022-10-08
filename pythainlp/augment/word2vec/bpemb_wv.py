@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from pythainlp.augment.word2vec.core import Word2VecAug
-from bpemb import BPEmb
 from typing import List, Tuple
 
 
@@ -12,6 +11,7 @@ class BPEmbAug:
     `github.com/bheinzerling/bpemb <https://github.com/bheinzerling/bpemb>`_
     """
     def __init__(self, lang: str = "th", vs: int = 100000, dim: int = 300):
+        from bpemb import BPEmb
         self.bpemb_temp = BPEmb(lang=lang, dim=dim, vs=vs)
         self.model = self.bpemb_temp.emb
         self.load_w2v()

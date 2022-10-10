@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Phatthiyaphaibun"
+  given-names: "Wannaphong"
+  orcid: "https://orcid.org/0000-0002-4153-4354"
+- family-names: "Chaovavanich"
+  given-names: "Korakot"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+- family-names: "Polpanumas"
+  given-names: "Charin"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+- family-names: "Suriyawongkul"
+  given-names: "Arthit"
+  orcid: "https://orcid.org/0000-0002-9698-1899"
+- family-names: "Lowphansirikul"
+  given-names: "Lalita"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+- family-names: "Chormai"
+  given-names: "Pattarawat"
+  orcid: "https://orcid.org/0000-0000-0000-0000"
+title: "PyThaiNLP: Thai Natural Language Processing in Python"
+doi: 10.5281/zenodo.3519354
+date-released: 2016-06-27
+url: "https://github.com/PyThaiNLP/pythainlp"

@@ -242,48 +242,78 @@ class TestTokenizePackage(unittest.TestCase):
         ]
 
         self.assertEqual(
-            sent_tokenize(sent_1, engine="crfcut"), sent_1_toks,
+            sent_tokenize(sent_1, engine="crfcut"),
+            sent_1_toks,
         )
         self.assertEqual(
-            sent_tokenize(sent_2, engine="crfcut"), sent_2_toks,
+            sent_tokenize(sent_2, engine="crfcut"),
+            sent_2_toks,
         )
         self.assertEqual(
-            sent_tokenize(sent_3, engine="crfcut"), sent_3_toks,
+            sent_tokenize(sent_3, engine="crfcut"),
+            sent_3_toks,
         )
         self.assertEqual(
-            sent_tokenize(sent_1), sent_1_toks,
+            sent_tokenize(sent_1),
+            sent_1_toks,
         )
         self.assertEqual(
-            sent_tokenize(sent_2), sent_2_toks,
+            sent_tokenize(sent_2),
+            sent_2_toks,
         )
         self.assertEqual(
-            sent_tokenize(sent_3), sent_3_toks,
+            sent_tokenize(sent_3),
+            sent_3_toks,
         )
         self.assertIsNotNone(
-            sent_tokenize(sent_1, keep_whitespace=False, engine="whitespace",),
+            sent_tokenize(
+                sent_1,
+                keep_whitespace=False,
+                engine="whitespace",
+            ),
         )
         self.assertIsNotNone(
-            sent_tokenize(sent_1, engine="tltk",),
+            sent_tokenize(
+                sent_1,
+                engine="tltk",
+            ),
         )
         self.assertIsNotNone(
-            sent_tokenize(sent_2, engine="tltk",),
+            sent_tokenize(
+                sent_2,
+                engine="tltk",
+            ),
         )
         self.assertIsNotNone(
-            sent_tokenize(sent_3, engine="tltk",),
+            sent_tokenize(
+                sent_3,
+                engine="tltk",
+            ),
         )
         self.assertIsNotNone(
-            sent_tokenize(sent_1, engine="thaisum",),
+            sent_tokenize(
+                sent_1,
+                engine="thaisum",
+            ),
         )
         self.assertIsNotNone(
-            sent_tokenize(sent_2, engine="thaisum",),
+            sent_tokenize(
+                sent_2,
+                engine="thaisum",
+            ),
         )
         self.assertIsNotNone(
-            sent_tokenize(sent_3, engine="thaisum",),
+            sent_tokenize(
+                sent_3,
+                engine="thaisum",
+            ),
         )
         self.assertFalse(
             " "
             in sent_tokenize(
-                sent_1, engine="whitespace", keep_whitespace=False,
+                sent_1,
+                engine="whitespace",
+                keep_whitespace=False,
             )
         )
         with self.assertRaises(ValueError):
@@ -322,9 +352,12 @@ class TestTokenizePackage(unittest.TestCase):
             " " in subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
         )
         self.assertEqual(
-            subword_tokenize("สวัสดีชาวโลก", engine="dict"), ["สวัส", "ดี", "ชาว", "โลก"]
+            subword_tokenize("สวัสดีชาวโลก", engine="dict"),
+            ["สวัส", "ดี", "ชาว", "โลก"],
         )
-        self.assertFalse("า" in subword_tokenize("สวัสดีชาวโลก", engine="dict"))
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีชาวโลก", engine="dict")
+        )
         self.assertEqual(subword_tokenize(None, engine="ssg"), [])
         self.assertEqual(
             subword_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
@@ -346,9 +379,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertFalse(
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tltk")
         )
-        self.assertIsInstance(
-            subword_tokenize("โควิด19", engine="tltk"), list
-        )
+        self.assertIsInstance(subword_tokenize("โควิด19", engine="tltk"), list)
         with self.assertRaises(ValueError):
             subword_tokenize("นกแก้ว", engine="XX")  # engine does not exist
 
@@ -436,20 +467,18 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(tltk.segment(None), [])
         self.assertEqual(tltk.segment(""), [])
         self.assertEqual(
-            tltk.syllable_tokenize(
-                "ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"
-            ),
+            tltk.syllable_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
             [
-                'ฉัน',
-                'รัก',
-                'ภา',
-                'ษา',
-                'ไทย',
-                'เพราะ',
-                'ฉัน',
-                'เป็น',
-                'คน',
-                'ไทย'
+                "ฉัน",
+                "รัก",
+                "ภา",
+                "ษา",
+                "ไทย",
+                "เพราะ",
+                "ฉัน",
+                "เป็น",
+                "คน",
+                "ไทย",
             ],
         )
         self.assertEqual(tltk.syllable_tokenize(None), [])
@@ -471,7 +500,8 @@ class TestTokenizePackage(unittest.TestCase):
             ["ปวด", "เฉียบพลัน"],
         )
         self.assertEqual(
-            longest_tokenizer.word_tokenize("เฉียบพลัน"), ["เฉียบพลัน"],
+            longest_tokenizer.word_tokenize("เฉียบพลัน"),
+            ["เฉียบพลัน"],
         )
 
     def test_mm(self):
@@ -486,15 +516,15 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertEqual(
             word_tokenize("19...", engine="mm"),
-            ['19', '...'],
+            ["19", "..."],
         )
         self.assertEqual(
             word_tokenize("19.", engine="mm"),
-            ['19', '.'],
+            ["19", "."],
         )
         self.assertEqual(
             word_tokenize("19.84", engine="mm"),
-            ['19.84'],
+            ["19.84"],
         )
         self.assertEqual(
             word_tokenize("127.0.0.1", engine="mm"),
@@ -502,7 +532,7 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertEqual(
             word_tokenize("USD1,984.42", engine="mm"),
-            ['USD', '1,984.42'],
+            ["USD", "1,984.42"],
         )
 
         self.assertIsNotNone(multi_cut.mmcut("ทดสอบ"))
@@ -521,15 +551,15 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertEqual(
             word_tokenize("19...", engine="newmm"),
-            ['19', '...'],
+            ["19", "..."],
         )
         self.assertEqual(
             word_tokenize("19.", engine="newmm"),
-            ['19', '.'],
+            ["19", "."],
         )
         self.assertEqual(
             word_tokenize("19.84", engine="newmm"),
-            ['19.84'],
+            ["19.84"],
         )
         self.assertEqual(
             word_tokenize("127.0.0.1", engine="newmm"),
@@ -537,7 +567,7 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertEqual(
             word_tokenize("USD1,984.42", engine="newmm"),
-            ['USD', '1,984.42'],
+            ["USD", "1,984.42"],
         )
         self.assertEqual(
             word_tokenize(
@@ -561,7 +591,11 @@ class TestTokenizePackage(unittest.TestCase):
             ["จุ๋ม", "ง่วง"],
         )
         self.assertFalse(
-            " " in word_tokenize("จุ๋มง่วง", keep_whitespace=False,)
+            " "
+            in word_tokenize(
+                "จุ๋มง่วง",
+                keep_whitespace=False,
+            )
         )
 
     def test_newmm_longtext(self):
@@ -596,13 +630,12 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(nercut.segment(None), [])
         self.assertEqual(nercut.segment(""), [])
         self.assertIsNotNone(nercut.segment("ทดสอบ"))
-        self.assertEqual(nercut.segment("ทันแน่ๆ"), ['ทัน', 'แน่ๆ'])
-        self.assertEqual(nercut.segment("%1ครั้ง"), ['%', '1', 'ครั้ง'])
-        self.assertEqual(nercut.segment("ทุ๊กกโคนน"), ['ทุ๊กกโคนน'])
-        self.assertEqual(nercut.segment("อือหือ"), ['อือหือ'])
+        self.assertEqual(nercut.segment("ทันแน่ๆ"), ["ทัน", "แน่ๆ"])
+        self.assertEqual(nercut.segment("%1ครั้ง"), ["%", "1", "ครั้ง"])
+        self.assertEqual(nercut.segment("ทุ๊กกโคนน"), ["ทุ๊กกโคนน"])
+        self.assertEqual(nercut.segment("อือหือ"), ["อือหือ"])
         self.assertEqual(
-            nercut.segment("อย่าลืมอัพการ์ดนะจ๊ะ"),
-            ['อย่าลืมอัพการ์ดนะจ๊ะ']
+            nercut.segment("อย่าลืมอัพการ์ดนะจ๊ะ"), ["อย่าลืมอัพการ์ดนะจ๊ะ"]
         )
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="nercut"))
 
@@ -644,29 +677,55 @@ class TestTokenizePackage(unittest.TestCase):
 
     def test_word_detokenize(self):
         self.assertEqual(
-            word_detokenize(["ผม", "เลี้ยง", "5", "ตัว"]),
-            "ผมเลี้ยง 5 ตัว"
+            word_detokenize(["ผม", "เลี้ยง", "5", "ตัว"]), "ผมเลี้ยง 5 ตัว"
         )
-        self.assertEqual(word_detokenize(
-            ["ผม", "เลี้ยง", " ", "5", "ตัว"], "list"),
-            [["ผม", "เลี้ยง", " ", "5", " ", "ตัว"]]
+        self.assertEqual(
+            word_detokenize(["ผม", "เลี้ยง", " ", "5", "ตัว"], "list"),
+            [["ผม", "เลี้ยง", " ", "5", " ", "ตัว"]],
         )
         self.assertEqual(
             word_detokenize(
                 ["ผม", "เลี้ยง", "5", "10", "ตัว", "ๆ", "คน", "ดี"]
             ),
-            "ผมเลี้ยง 5 10 ตัว ๆ คนดี"
+            "ผมเลี้ยง 5 10 ตัว ๆ คนดี",
         )
         self.assertEqual(
             word_detokenize(
                 ["ผม", "เลี้ยง", "5", "ตัว", " ", "ๆ", "คน", "ดี"]
             ),
-            "ผมเลี้ยง 5 ตัว ๆ คนดี"
+            "ผมเลี้ยง 5 ตัว ๆ คนดี",
         )
         self.assertTrue(
             isinstance(word_detokenize(["ผม", "เลี้ยง", "5", "ตัว"]), str)
         )
         self.assertEqual(
             word_detokenize(["ม่ายย", " ", "ผม", "เลี้ยง", "5", "ตัว"]),
-            "ม่ายย ผมเลี้ยง 5 ตัว"
+            "ม่ายย ผมเลี้ยง 5 ตัว",
         )
+
+    def test_numeric_data_format(self):
+        engines = ["attacut", "deepcut", "newmm", "sefr_cut"]
+
+        for engine in engines:
+            self.assertIn(
+                "127.0.0.1",
+                word_tokenize("ไอพีของคุณคือ 127.0.0.1 ครับ", engine=engine),
+            )
+
+            tokens = word_tokenize(
+                "เวลา 12:12pm มีโปรโมชั่น 11.11", engine=engine
+            )
+            self.assertTrue(
+                any([value in tokens for value in ["12:12pm", "12:12"]]),
+                msg=f"{engine}: {tokens}",
+            )
+            self.assertIn("11.11", tokens)
+
+            self.assertIn(
+                "1,234,567.89",
+                word_tokenize("รางวัลมูลค่า 1,234,567.89 บาท", engine=engine),
+            )
+
+            tokens = word_tokenize("อัตราส่วน 2.5:1 คือ 5:2", engine=engine)
+            self.assertIn("2.5:1", tokens)
+            self.assertIn("5:2", tokens)

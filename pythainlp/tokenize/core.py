@@ -13,7 +13,7 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     DEFAULT_WORD_TOKENIZE_ENGINE,
 )
-from pythainlp.tokenize._utils import apply_postprocessors, fix_broken_numeric_data_format
+from pythainlp.tokenize._utils import apply_postprocessors, fix_numeric_data_format, strip_whitespace
 from pythainlp.util.trie import Trie, dict_trie
 
 
@@ -295,12 +295,12 @@ def word_tokenize(
 
     postprocessors = []
     if join_broken_numeric_format:
-        postprocessors.append(fix_broken_numeric_data_format)
+        postprocessors.append(fix_numeric_data_format)
+    
+    if not keep_whitespace:
+        postprocessors.append(strip_whitespace)
 
     segments = apply_postprocessors(segments, postprocessors)
-
-    if not keep_whitespace:
-        segments = [token.strip(" ") for token in segments if token.strip(" ")]
 
     return segments
 
@@ -402,7 +402,7 @@ def sent_tokenize(
         )
 
     if not keep_whitespace:
-        segments = [token.strip(" ") for token in segments if token.strip(" ")]
+        segments = strip_whitespace(segments)
 
     return segments
 
@@ -513,7 +513,7 @@ def subword_tokenize(
         segments = segment(text)
 
     if not keep_whitespace:
-        segments = [token.strip(" ") for token in segments if token.strip(" ")]
+        segments = strip_whitespace(segments)
 
     return segments
 
@@ -590,6 +590,7 @@ class Tokenizer:
         custom_dict: Union[Trie, Iterable[str], str] = None,
         engine: str = "newmm",
         keep_whitespace: bool = True,
+        join_broken_numeric_format: bool = True
     ):
         """
         Initialize tokenizer object.
@@ -616,6 +617,7 @@ class Tokenizer:
                 % self.__engine
             )
         self.__keep_whitespace = keep_whitespace
+        self.__join_broken_numeric_format = join_broken_numeric_format
 
     def word_tokenize(self, text: str) -> List[str]:
         """
@@ -630,6 +632,7 @@ class Tokenizer:
             custom_dict=self.__trie_dict,
             engine=self.__engine,
             keep_whitespace=self.__keep_whitespace,
+            join_broken_numeric_format=self.__join_broken_numeric_format
         )
 
     def set_tokenize_engine(self, engine: str) -> None:

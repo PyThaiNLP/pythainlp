@@ -33,14 +33,14 @@ def fix_numeric_data_format(segments: List[str]) -> List[str]:
     :rtype: List[str]
 
     :Example:
-        text = ['ขณะ', 'นี้', 'เวลา', ' ', '12', ':', '00น', ' ', 'อัตรา',
+        tokens = ['ขณะ', 'นี้', 'เวลา', ' ', '12', ':', '00น', ' ', 'อัตรา',
                 'แลกเปลี่ยน', ' ', '1', ',', '234', '.', '5', ' ', 'baht/zeny']
-        fix_numeric_data_format(text)
+        fix_numeric_data_format(tokens)
         # output:
         # ['ขณะ', 'นี้', 'เวลา', ' ', '12:00น', ' ', 'อัตรา', 'แลกเปลี่ยน', ' ', '1,234.5', ' ', 'baht/zeny']
 
-        text = ['IP', ' ', 'address', ' ', 'ของ', 'คุณ', 'คือ', ' ', '127', '.', '0', '.', '0', '.', '1', ' ', 'ครับ']
-        fix_numeric_data_format(text)
+        tokens = ['IP', ' ', 'address', ' ', 'ของ', 'คุณ', 'คือ', ' ', '127', '.', '0', '.', '0', '.', '1', ' ', 'ครับ']
+        fix_numeric_data_format(tokens)
         # output:
         # ['IP', ' ', 'address', ' ', 'ของ', 'คุณ', 'คือ', ' ', '127.0.0.1', ' ', 'ครับ']
     """
@@ -69,3 +69,20 @@ def fix_numeric_data_format(segments: List[str]) -> List[str]:
             pos += len(token)
     tokens_joined += segments[segment_idx:]
     return tokens_joined
+
+
+def strip_whitespace(segments: List[str]) -> List[str]:
+    """
+    Strip whitespace(s) off each token and remove whitespace tokens.
+    :param List[str] segments: result from word tokenizer
+    :return: a list of tokens
+    :rtype: List[str]
+
+    :Example:
+        tokens = [" ", "วันนี้ ", "เวลา ", "19.00น"]
+        strip_whitespace(tokens)
+        # ["วันนี้", "เวลา", "19.00น"]
+
+    """
+    segments = [token.strip(" ") for token in segments if token.strip(" ")]
+    return segments

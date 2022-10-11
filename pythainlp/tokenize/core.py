@@ -13,6 +13,7 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     DEFAULT_WORD_TOKENIZE_ENGINE,
 )
+from pythainlp.tokenize._utils import postprocess_word_tokenize
 from pythainlp.util.trie import Trie, dict_trie
 
 
@@ -47,7 +48,9 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
     return segment(doc)
 
 
-def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "str") -> Union[str, List[str]]:
+def word_detokenize(
+    segments: Union[List[List[str]], List[str]], output: str = "str"
+) -> Union[str, List[str]]:
     """
     Word detokenizer.
 
@@ -62,6 +65,7 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "
     if isinstance(segments[0], str):
         segments = [segments]
     from pythainlp import thai_characters
+
     for i, s in enumerate(segments):
         _list_sents = []
         _add_index = []
@@ -70,7 +74,7 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "
         for j, w in enumerate(s):
             if j > 0:
                 # previous word
-                p_w = s[j-1]
+                p_w = s[j - 1]
                 # if w is number or other language and not be space
                 if (
                     w[0] not in thai_characters
@@ -88,9 +92,9 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "
                     if not p_w.isspace():
                         _list_sents.append(" ")
                     _mark_index.append(j)
-                elif w.isspace() and j-1 not in _space_index:
+                elif w.isspace() and j - 1 not in _space_index:
                     _space_index.append(j)
-                elif j-1 in _mark_index:
+                elif j - 1 in _mark_index:
                     _list_sents.append(" ")
             _list_sents.append(w)
         _list_all.append(_list_sents)
@@ -103,7 +107,7 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "
             for j in i:
                 _temp += j
             _text.append(_temp)
-        return ' '.join(_text)
+        return " ".join(_text)
 
 
 def word_tokenize(
@@ -257,6 +261,7 @@ def word_tokenize(
         segments = segment(text)
     elif engine == "nlpo3":
         from pythainlp.tokenize.nlpo3 import segment
+
         if isinstance(custom_dict, str):
             segments = segment(text, custom_dict=custom_dict)
         elif not isinstance(custom_dict, str) and custom_dict is not None:
@@ -273,6 +278,8 @@ def word_tokenize(
             f"""Tokenizer \"{engine}\" not found.
             It might be a typo; if not, please consult our document."""
         )
+
+    segments = postprocess_word_tokenize(segments)
 
     if not keep_whitespace:
         segments = [token.strip(" ") for token in segments if token.strip(" ")]
@@ -364,7 +371,10 @@ def sent_tokenize(
 
         segments = segment(text)
     elif engine == "thaisum":
-        from pythainlp.tokenize.thaisumcut import ThaiSentenceSegmentor as segmentor
+        from pythainlp.tokenize.thaisumcut import (
+            ThaiSentenceSegmentor as segmentor,
+        )
+
         segment = segmentor()
         segments = segment.split_into_sentences(text)
     else:
@@ -584,7 +594,8 @@ class Tokenizer:
             raise NotImplementedError(
                 """
                 The Tokenizer class is not support %s for custom tokenizer
-                """ % self.__engine
+                """
+                % self.__engine
             )
         self.__keep_whitespace = keep_whitespace
 

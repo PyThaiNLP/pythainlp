@@ -21,10 +21,10 @@ def apply_postprocessors(
     return segments
 
 
-def fix_numeric_data_format(segments: List[str]) -> List[str]:
+def rejoin_formatted_num(segments: List[str]) -> List[str]:
     """
-    Fix well-known numeric formats that are over-tokenized.
-    The numeric formats are numbers separated by either ":", ",", or ".".
+    Rejoin well-known formatted numeric that are over-tokenized.
+    The formatted numeric are numbers separated by ":", ",", or ".",
     such as time, decimal number, comma-added number, and IP address.
 
     :param List[str] segments: result from word tokenizer
@@ -34,12 +34,12 @@ def fix_numeric_data_format(segments: List[str]) -> List[str]:
     :Example:
         tokens = ['ขณะ', 'นี้', 'เวลา', ' ', '12', ':', '00น', ' ', 'อัตรา',
                 'แลกเปลี่ยน', ' ', '1', ',', '234', '.', '5', ' ', 'baht/zeny']
-        fix_numeric_data_format(tokens)
+        rejoin_formatted_num(tokens)
         # output:
         # ['ขณะ', 'นี้', 'เวลา', ' ', '12:00น', ' ', 'อัตรา', 'แลกเปลี่ยน', ' ', '1,234.5', ' ', 'baht/zeny']
 
         tokens = ['IP', ' ', 'address', ' ', 'ของ', 'คุณ', 'คือ', ' ', '127', '.', '0', '.', '0', '.', '1', ' ', 'ครับ']
-        fix_numeric_data_format(tokens)
+        rejoin_formatted_num(tokens)
         # output:
         # ['IP', ' ', 'address', ' ', 'ของ', 'คุณ', 'คือ', ' ', '127.0.0.1', ' ', 'ครับ']
     """

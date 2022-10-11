@@ -730,14 +730,14 @@ class TestTokenizePackage(unittest.TestCase):
             self.assertIn("2.5:1", tokens)
             self.assertIn("5:2", tokens)
 
-        # try turning off `join_broken_numeric_format`
+        # try turning off `join_broken_num`
         engine = "attacut"
         self.assertNotIn(
             "127.0.0.1",
             word_tokenize(
                 "ไอพีของคุณคือ 127.0.0.1 ครับ",
                 engine=engine,
-                join_broken_numeric_format=False,
+                join_broken_num=False,
             ),
         )
         self.assertNotIn(
@@ -745,6 +745,6 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize(
                 "รางวัลมูลค่า 1,234,567.89 บาท",
                 engine=engine,
-                join_broken_numeric_format=False,
+                join_broken_num=False,
             ),
         )

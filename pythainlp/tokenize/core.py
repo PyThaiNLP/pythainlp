@@ -15,7 +15,7 @@ from pythainlp.tokenize import (
 )
 from pythainlp.tokenize._utils import (
     apply_postprocessors,
-    fix_numeric_data_format,
+    rejoin_formatted_num,
     strip_whitespace,
 )
 from pythainlp.util.trie import Trie, dict_trie
@@ -119,7 +119,7 @@ def word_tokenize(
     custom_dict: Trie = None,
     engine: str = DEFAULT_WORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
-    join_broken_numeric_format: bool = True,
+    join_broken_num: bool = True,
 ) -> List[str]:
     """
     Word tokenizer.
@@ -132,7 +132,7 @@ def word_tokenize(
     :param bool keep_whitespace: True to keep whitespaces, a common mark
                                  for end of phrase in Thai.
                                  Otherwise, whitespaces are omitted.
-    :param bool join_broken_numeric_format: True to ensure that tokens in numeric format are not separated. See examples below for more details.
+    :param bool join_broken_num: True to ensure that tokens in numeric format are not separated. See examples below for more details.
                                             
     :return: list of words
     :rtype: List[str]
@@ -190,11 +190,11 @@ def word_tokenize(
         word_tokenize(text, engine="newmm", keep_whitespace=False)
         # output: ['วรรณกรรม', 'ภาพวาด', 'และ', 'การแสดง', 'งิ้ว']
 
-    Always join broken numeric tokens (e.g. time, decimals, IP address) are not separated::
+    Join broken formatted numeric tokens (e.g. time, decimals, IP address)::
 
         text = "ยอดเงิน1,234.56บาท19:32น จาก127.0.0.1"
 
-        word_tokenize(text, join_broken_numeric_format=True)
+        word_tokenize(text, join_broken_num=True)
         # output:
         # ['ยอดเงิน', '1,234.56', 'บาท', '19:32น', ' ', 'จาก', '127.0.0.1']
 
@@ -298,8 +298,8 @@ def word_tokenize(
         )
 
     postprocessors = []
-    if join_broken_numeric_format:
-        postprocessors.append(fix_numeric_data_format)
+    if join_broken_num:
+        postprocessors.append(rejoin_formatted_num)
 
     if not keep_whitespace:
         postprocessors.append(strip_whitespace)
@@ -594,7 +594,7 @@ class Tokenizer:
         custom_dict: Union[Trie, Iterable[str], str] = None,
         engine: str = "newmm",
         keep_whitespace: bool = True,
-        join_broken_numeric_format: bool = True,
+        join_broken_num: bool = True,
     ):
         """
         Initialize tokenizer object.
@@ -621,7 +621,7 @@ class Tokenizer:
                 % self.__engine
             )
         self.__keep_whitespace = keep_whitespace
-        self.__join_broken_numeric_format = join_broken_numeric_format
+        self.__join_broken_num = join_broken_num
 
     def word_tokenize(self, text: str) -> List[str]:
         """
@@ -636,7 +636,7 @@ class Tokenizer:
             custom_dict=self.__trie_dict,
             engine=self.__engine,
             keep_whitespace=self.__keep_whitespace,
-            join_broken_numeric_format=self.__join_broken_numeric_format,
+            join_broken_num=self.__join_broken_num,
         )
 
     def set_tokenize_engine(self, engine: str) -> None:

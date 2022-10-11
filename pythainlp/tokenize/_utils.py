@@ -9,21 +9,20 @@ from typing import List, Callable
 _DIGITS_WITH_SEPARATOR = re.compile(r"(\d+(\.|\,|:))+\d+")
 
 
-def postprocess_word_tokenize(segments: List[str]) -> List[str]:
+def apply_postprocessors(
+        segments: List[str], 
+        postprocessors: Callable[[List[str]], List[str]]
+    ) -> List[str]:
     """
-    A list of callables to apply on a raw word segmentation result.
+    A list of callables to apply on a raw segmentation result.
     """
-    post_processors: Callable[[List[str]], List[str]] = [
-        _fix_broken_numeric_data_format
-    ]
-
-    for func in post_processors:
+    for func in postprocessors:
         segments = func(segments)
 
     return segments
 
 
-def _fix_broken_numeric_data_format(segments: List[str]) -> List[str]:
+def fix_broken_numeric_data_format(segments: List[str]) -> List[str]:
     """
     Fix well-known numeric formats that are over-tokenized.
     The numeric formats are numbers separated by either ":", ",", or ".".

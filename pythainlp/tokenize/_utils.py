@@ -22,7 +22,7 @@ def apply_postprocessors(
     return segments
 
 
-def fix_broken_numeric_data_format(segments: List[str]) -> List[str]:
+def fix_numeric_data_format(segments: List[str]) -> List[str]:
     """
     Fix well-known numeric formats that are over-tokenized.
     The numeric formats are numbers separated by either ":", ",", or ".".
@@ -35,12 +35,12 @@ def fix_broken_numeric_data_format(segments: List[str]) -> List[str]:
     :Example:
         text = ['ขณะ', 'นี้', 'เวลา', ' ', '12', ':', '00น', ' ', 'อัตรา',
                 'แลกเปลี่ยน', ' ', '1', ',', '234', '.', '5', ' ', 'baht/zeny']
-        _fix_broken_digits(text)
+        fix_numeric_data_format(text)
         # output:
         # ['ขณะ', 'นี้', 'เวลา', ' ', '12:00น', ' ', 'อัตรา', 'แลกเปลี่ยน', ' ', '1,234.5', ' ', 'baht/zeny']
 
         text = ['IP', ' ', 'address', ' ', 'ของ', 'คุณ', 'คือ', ' ', '127', '.', '0', '.', '0', '.', '1', ' ', 'ครับ']
-        _fix_broken_digits(text)
+        fix_numeric_data_format(text)
         # output:
         # ['IP', ' ', 'address', ' ', 'ของ', 'คุณ', 'คือ', ' ', '127.0.0.1', ' ', 'ครับ']
     """

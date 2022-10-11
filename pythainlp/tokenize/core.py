@@ -13,7 +13,7 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     DEFAULT_WORD_TOKENIZE_ENGINE,
 )
-from pythainlp.tokenize._utils import postprocess_word_tokenize
+from pythainlp.tokenize._utils import apply_postprocessors, fix_broken_numeric_data_format
 from pythainlp.util.trie import Trie, dict_trie
 
 
@@ -115,6 +115,7 @@ def word_tokenize(
     custom_dict: Trie = None,
     engine: str = DEFAULT_WORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
+    join_broken_numeric_format: bool = True
 ) -> List[str]:
     """
     Word tokenizer.
@@ -127,6 +128,8 @@ def word_tokenize(
     :param bool keep_whitespace: True to keep whitespaces, a common mark
                                  for end of phrase in Thai.
                                  Otherwise, whitespaces are omitted.
+    :param bool join_broken_numeric_format: True to ensure that tokens in numeric format are not separated. See examples below for more details.
+                                            
     :return: list of words
     :rtype: List[str]
     **Options for engine**
@@ -179,6 +182,17 @@ def word_tokenize(
         word_tokenize(text, engine="newmm")
         # output:
         # ['วรรณกรรม', ' ', 'ภาพวาด', ' ', 'และ', 'การแสดง', 'งิ้ว', ' ']
+
+        word_tokenize(text, engine="newmm", keep_whitespace=False)
+        # output: ['วรรณกรรม', 'ภาพวาด', 'และ', 'การแสดง', 'งิ้ว']
+
+    Always join broken numeric tokens (e.g. time, decimals, IP address) are not separated::
+
+        text = "ยอดเงิน1,234.56บาท19:32น จาก127.0.0.1"
+
+        word_tokenize(text, join_broken_numeric_format=True)
+        # output:
+        # ['ยอดเงิน', '1,234.56', 'บาท', '19:32น', ' ', 'จาก', '127.0.0.1']
 
         word_tokenize(text, engine="newmm", keep_whitespace=False)
         # output: ['วรรณกรรม', 'ภาพวาด', 'และ', 'การแสดง', 'งิ้ว']
@@ -279,7 +293,11 @@ def word_tokenize(
             It might be a typo; if not, please consult our document."""
         )
 
-    segments = postprocess_word_tokenize(segments)
+    postprocessors = []
+    if join_broken_numeric_format:
+        postprocessors.append(fix_broken_numeric_data_format)
+
+    segments = apply_postprocessors(segments, postprocessors)
 
     if not keep_whitespace:
         segments = [token.strip(" ") for token in segments if token.strip(" ")]

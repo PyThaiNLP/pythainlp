@@ -132,8 +132,9 @@ def word_tokenize(
     :param bool keep_whitespace: True to keep whitespaces, a common mark
                                  for end of phrase in Thai.
                                  Otherwise, whitespaces are omitted.
-    :param bool join_broken_num: True to ensure that tokens in numeric format are not separated. See examples below for more details.
-                                            
+    :param bool join_broken_num: True to rejoin formatted numeric that could be wrongly separated.
+                                 Otherwise, formatted numeric could be separated.
+
     :return: list of words
     :rtype: List[str]
     **Options for engine**
@@ -163,8 +164,8 @@ def word_tokenize(
           `OSKut <https://github.com/mrpeerat/OSKut>`_.,
 
     :Note:
-        - The parameter **custom_dict** can be provided as an argument \
-          only for *newmm*, *longest*, and *deepcut* engine.
+        - The **custom_dict** parameter only works for \
+          *newmm*, *longest*, and *deepcut* engine.
     :Example:
 
     Tokenize text with different tokenizer::
@@ -189,17 +190,19 @@ def word_tokenize(
 
         word_tokenize(text, engine="newmm", keep_whitespace=False)
         # output: ['วรรณกรรม', 'ภาพวาด', 'และ', 'การแสดง', 'งิ้ว']
+        
+    Join broken formatted numeric (e.g. time, decimals, IP address)::
 
-    Join broken formatted numeric tokens (e.g. time, decimals, IP address)::
+        text = "เงิน1,234บาท19:32น 127.0.0.1"
 
-        text = "ยอดเงิน1,234.56บาท19:32น จาก127.0.0.1"
-
-        word_tokenize(text, join_broken_num=True)
+        word_tokenize(text, engine="attacut", join_broken_num=False)
         # output:
-        # ['ยอดเงิน', '1,234.56', 'บาท', '19:32น', ' ', 'จาก', '127.0.0.1']
+        # ['เงิน', '1', ',', '234', 'บาท', '19', ':', '32น', ' ',
+        #  '127', '.', '0', '.', '0', '.', '1']
 
-        word_tokenize(text, engine="newmm", keep_whitespace=False)
-        # output: ['วรรณกรรม', 'ภาพวาด', 'และ', 'การแสดง', 'งิ้ว']
+        word_tokenize(text, engine="attacut", join_broken_num=True)
+        # output:
+        # ['เงิน', '1,234', 'บาท', '19:32น', ' ', '127.0.0.1']
 
     Tokenize with default and custom dictionary::
 
@@ -221,8 +224,8 @@ def word_tokenize(
 
         word_tokenize(text, engine="newmm", custom_dict=trie))
         # output:
-        # ['ชินโซ', ' ', 'อาเบะ',
-        #   ' ', 'เกิด', ' ', '21', ' ', 'กันยายน']
+        # ['ชินโซ', ' ', 'อาเบะ', ' ',
+        #  'เกิด', ' ', '21', ' ', 'กันยายน']
     """
     if not text or not isinstance(text, str):
         return []

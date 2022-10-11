@@ -235,7 +235,8 @@ class TestTokenizePackage(unittest.TestCase):
             + " จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้"
         )
         sent_3_toks = [
-            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา" + "จากผลงานวิจัยที่เคยทำมาในอดีต ",
+            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา"
+            + "จากผลงานวิจัยที่เคยทำมาในอดีต ",
             "มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด ",
             "จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้",
         ]
@@ -321,12 +322,20 @@ class TestTokenizePackage(unittest.TestCase):
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])
         self.assertEqual(subword_tokenize(""), [])
-        self.assertIsInstance(subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"), list)
-        self.assertFalse("า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"))
+        self.assertIsInstance(
+            subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"), list
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tcc")
+        )
         self.assertEqual(subword_tokenize(None, engine="etcc"), [])
         self.assertEqual(subword_tokenize("", engine="etcc"), [])
-        self.assertIsInstance(subword_tokenize("สวัสดิีดาวอังคาร", engine="etcc"), list)
-        self.assertFalse("า" in subword_tokenize("สวัสดีดาวอังคาร", engine="etcc"))
+        self.assertIsInstance(
+            subword_tokenize("สวัสดิีดาวอังคาร", engine="etcc"), list
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="etcc")
+        )
         self.assertIsInstance(subword_tokenize("โควิด19", engine="etcc"), list)
         self.assertEqual(subword_tokenize(None, engine="wangchanberta"), [])
         self.assertEqual(subword_tokenize("", engine="wangchanberta"), [])
@@ -336,7 +345,9 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertFalse(
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="wangchanberta")
         )
-        self.assertIsInstance(subword_tokenize("โควิด19", engine="wangchanberta"), list)
+        self.assertIsInstance(
+            subword_tokenize("โควิด19", engine="wangchanberta"), list
+        )
         self.assertFalse(
             " " in subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
         )
@@ -344,20 +355,30 @@ class TestTokenizePackage(unittest.TestCase):
             subword_tokenize("สวัสดีชาวโลก", engine="dict"),
             ["สวัส", "ดี", "ชาว", "โลก"],
         )
-        self.assertFalse("า" in subword_tokenize("สวัสดีชาวโลก", engine="dict"))
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีชาวโลก", engine="dict")
+        )
         self.assertEqual(subword_tokenize(None, engine="ssg"), [])
         self.assertEqual(
             subword_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
         )
-        self.assertTrue("ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
-        self.assertFalse("า" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
+        self.assertTrue(
+            "ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
         self.assertFalse(
             " " in subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)
         )
         self.assertEqual(subword_tokenize(None, engine="tltk"), [])
         self.assertEqual(subword_tokenize("", engine="tltk"), [])
-        self.assertIsInstance(subword_tokenize("สวัสดิีดาวอังคาร", engine="tltk"), list)
-        self.assertFalse("า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tltk"))
+        self.assertIsInstance(
+            subword_tokenize("สวัสดิีดาวอังคาร", engine="tltk"), list
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tltk")
+        )
         self.assertIsInstance(subword_tokenize("โควิด19", engine="tltk"), list)
         with self.assertRaises(ValueError):
             subword_tokenize("นกแก้ว", engine="XX")  # engine does not exist
@@ -383,7 +404,9 @@ class TestTokenizePackage(unittest.TestCase):
         with self.assertRaises(ValueError):
             word_tokenize("หมอนทอง", engine="XX")  # engine does not exist
 
-        self.assertTrue("ไฟ" in word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"])))
+        self.assertTrue(
+            "ไฟ" in word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"]))
+        )
 
     def test_attacut(self):
         self.assertEqual(attacut.segment(None), [])
@@ -393,11 +416,15 @@ class TestTokenizePackage(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
         self.assertEqual(
-            attacut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-sc"),
+            attacut.segment(
+                "ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-sc"
+            ),
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
         self.assertIsNotNone(
-            attacut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-c")
+            attacut.segment(
+                "ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-c"
+            )
         )
 
     def test_deepcut(self):
@@ -407,7 +434,9 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(deepcut.segment("ทดสอบ", ["ทด", "สอบ"]))
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
         self.assertIsNotNone(
-            word_tokenize("ทดสอบ", engine="deepcut", custom_dict=DEFAULT_WORD_DICT_TRIE)
+            word_tokenize(
+                "ทดสอบ", engine="deepcut", custom_dict=DEFAULT_WORD_DICT_TRIE
+            )
         )
 
     def test_etcc(self):
@@ -439,7 +468,18 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(tltk.segment(""), [])
         self.assertEqual(
             tltk.syllable_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
-            ["ฉัน", "รัก", "ภา", "ษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
+            [
+                "ฉัน",
+                "รัก",
+                "ภา",
+                "ษา",
+                "ไทย",
+                "เพราะ",
+                "ฉัน",
+                "เป็น",
+                "คน",
+                "ไทย",
+            ],
         )
         self.assertEqual(tltk.syllable_tokenize(None), [])
         self.assertEqual(tltk.syllable_tokenize(""), [])
@@ -447,7 +487,9 @@ class TestTokenizePackage(unittest.TestCase):
     def test_longest(self):
         self.assertEqual(longest.segment(None), [])
         self.assertEqual(longest.segment(""), [])
-        self.assertIsInstance(longest.segment("กรุงเทพฯมากๆเพราโพาง BKKฯ"), list)
+        self.assertIsInstance(
+            longest.segment("กรุงเทพฯมากๆเพราโพาง BKKฯ"), list
+        )
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="longest"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],
@@ -495,7 +537,9 @@ class TestTokenizePackage(unittest.TestCase):
 
         self.assertIsNotNone(multi_cut.mmcut("ทดสอบ"))
 
-        self.assertIsNotNone(multi_cut.find_all_segment("รถไฟฟ้ากรุงเทพมหานครBTS"))
+        self.assertIsNotNone(
+            multi_cut.find_all_segment("รถไฟฟ้ากรุงเทพมหานครBTS")
+        )
         self.assertEqual(multi_cut.find_all_segment(None), [])
 
     def test_newmm(self):
@@ -537,9 +581,13 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("จุ๋มง่วงนอนยัง", engine="newmm"),
             ["จุ๋ม", "ง่วงนอน", "ยัง"],
         )
-        self.assertEqual(word_tokenize("จุ๋มง่วง", engine="newmm"), ["จุ๋ม", "ง่วง"])
         self.assertEqual(
-            word_tokenize("จุ๋ม   ง่วง", engine="newmm", keep_whitespace=False),
+            word_tokenize("จุ๋มง่วง", engine="newmm"), ["จุ๋ม", "ง่วง"]
+        )
+        self.assertEqual(
+            word_tokenize(
+                "จุ๋ม   ง่วง", engine="newmm", keep_whitespace=False
+            ),
             ["จุ๋ม", "ง่วง"],
         )
         self.assertFalse(
@@ -551,13 +599,23 @@ class TestTokenizePackage(unittest.TestCase):
         )
 
     def test_newmm_longtext(self):
-        self.assertIsInstance(word_tokenize(self.long_text, engine="newmm"), list)
-        self.assertIsInstance(word_tokenize(self.long_text, engine="newmm-safe"), list)
+        self.assertIsInstance(
+            word_tokenize(self.long_text, engine="newmm"), list
+        )
+        self.assertIsInstance(
+            word_tokenize(self.long_text, engine="newmm-safe"), list
+        )
 
     def test_newmm_dangertext(self):
-        self.assertIsInstance(word_tokenize(self.danger_text1, engine="newmm"), list)
-        self.assertIsInstance(word_tokenize(self.danger_text2, engine="newmm"), list)
-        self.assertIsInstance(word_tokenize(self.danger_text3, engine="newmm"), list)
+        self.assertIsInstance(
+            word_tokenize(self.danger_text1, engine="newmm"), list
+        )
+        self.assertIsInstance(
+            word_tokenize(self.danger_text2, engine="newmm"), list
+        )
+        self.assertIsInstance(
+            word_tokenize(self.danger_text3, engine="newmm"), list
+        )
         self.assertIsInstance(
             word_tokenize(self.danger_text1, engine="newmm-safe"), list
         )
@@ -584,12 +642,16 @@ class TestTokenizePackage(unittest.TestCase):
     def test_ssg(self):
         self.assertEqual(ssg.segment(None), [])
         self.assertEqual(ssg.segment(""), [])
-        self.assertTrue("ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
+        self.assertTrue(
+            "ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
 
     def test_tcc(self):
         self.assertEqual(tcc.segment(None), [])
         self.assertEqual(tcc.segment(""), [])
-        self.assertEqual(tcc.segment("ประเทศไทย"), ["ป", "ระ", "เท", "ศ", "ไท", "ย"])
+        self.assertEqual(
+            tcc.segment("ประเทศไทย"), ["ป", "ระ", "เท", "ศ", "ไท", "ย"]
+        )
         self.assertEqual(list(tcc.tcc("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())
 
@@ -622,14 +684,20 @@ class TestTokenizePackage(unittest.TestCase):
             [["ผม", "เลี้ยง", " ", "5", " ", "ตัว"]],
         )
         self.assertEqual(
-            word_detokenize(["ผม", "เลี้ยง", "5", "10", "ตัว", "ๆ", "คน", "ดี"]),
+            word_detokenize(
+                ["ผม", "เลี้ยง", "5", "10", "ตัว", "ๆ", "คน", "ดี"]
+            ),
             "ผมเลี้ยง 5 10 ตัว ๆ คนดี",
         )
         self.assertEqual(
-            word_detokenize(["ผม", "เลี้ยง", "5", "ตัว", " ", "ๆ", "คน", "ดี"]),
+            word_detokenize(
+                ["ผม", "เลี้ยง", "5", "ตัว", " ", "ๆ", "คน", "ดี"]
+            ),
             "ผมเลี้ยง 5 ตัว ๆ คนดี",
         )
-        self.assertTrue(isinstance(word_detokenize(["ผม", "เลี้ยง", "5", "ตัว"]), str))
+        self.assertTrue(
+            isinstance(word_detokenize(["ผม", "เลี้ยง", "5", "ตัว"]), str)
+        )
         self.assertEqual(
             word_detokenize(["ม่ายย", " ", "ผม", "เลี้ยง", "5", "ตัว"]),
             "ม่ายย ผมเลี้ยง 5 ตัว",
@@ -644,7 +712,9 @@ class TestTokenizePackage(unittest.TestCase):
                 word_tokenize("ไอพีของคุณคือ 127.0.0.1 ครับ", engine=engine),
             )
 
-            tokens = word_tokenize("เวลา 12:12pm มีโปรโมชั่น 11.11", engine=engine)
+            tokens = word_tokenize(
+                "เวลา 12:12pm มีโปรโมชั่น 11.11", engine=engine
+            )
             self.assertTrue(
                 any([value in tokens for value in ["12:12pm", "12:12"]]),
                 msg=f"{engine}: {tokens}",

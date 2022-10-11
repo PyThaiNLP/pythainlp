@@ -499,7 +499,9 @@ def subword_tokenize(
         words = word_tokenize(text)
         for word in words:
             segments.extend(
-                word_tokenize(text=word, custom_dict=DEFAULT_SYLLABLE_DICT_TRIE)
+                word_tokenize(
+                    text=word, custom_dict=DEFAULT_SYLLABLE_DICT_TRIE
+                )
             )
     elif engine == "ssg":
         from pythainlp.tokenize.ssg import segment

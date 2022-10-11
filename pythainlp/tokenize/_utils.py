@@ -6,13 +6,12 @@ Utility functions for tokenize module.
 import re
 from typing import List, Callable
 
-_DIGITS_WITH_SEPARATOR = re.compile(r"(\d+(\.|\,|:))+\d+")
+_DIGITS_WITH_SEPARATOR = re.compile(r"(\d+[\.\,:])+\d+")
 
 
 def apply_postprocessors(
-        segments: List[str], 
-        postprocessors: Callable[[List[str]], List[str]]
-    ) -> List[str]:
+    segments: List[str], postprocessors: Callable[[List[str]], List[str]]
+) -> List[str]:
     """
     A list of callables to apply on a raw segmentation result.
     """

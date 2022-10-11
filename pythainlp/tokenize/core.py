@@ -13,7 +13,11 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     DEFAULT_WORD_TOKENIZE_ENGINE,
 )
-from pythainlp.tokenize._utils import apply_postprocessors, fix_numeric_data_format, strip_whitespace
+from pythainlp.tokenize._utils import (
+    apply_postprocessors,
+    fix_numeric_data_format,
+    strip_whitespace,
+)
 from pythainlp.util.trie import Trie, dict_trie
 
 
@@ -115,7 +119,7 @@ def word_tokenize(
     custom_dict: Trie = None,
     engine: str = DEFAULT_WORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
-    join_broken_numeric_format: bool = True
+    join_broken_numeric_format: bool = True,
 ) -> List[str]:
     """
     Word tokenizer.
@@ -296,7 +300,7 @@ def word_tokenize(
     postprocessors = []
     if join_broken_numeric_format:
         postprocessors.append(fix_numeric_data_format)
-    
+
     if not keep_whitespace:
         postprocessors.append(strip_whitespace)
 
@@ -495,9 +499,7 @@ def subword_tokenize(
         words = word_tokenize(text)
         for word in words:
             segments.extend(
-                word_tokenize(
-                    text=word, custom_dict=DEFAULT_SYLLABLE_DICT_TRIE
-                )
+                word_tokenize(text=word, custom_dict=DEFAULT_SYLLABLE_DICT_TRIE)
             )
     elif engine == "ssg":
         from pythainlp.tokenize.ssg import segment
@@ -590,7 +592,7 @@ class Tokenizer:
         custom_dict: Union[Trie, Iterable[str], str] = None,
         engine: str = "newmm",
         keep_whitespace: bool = True,
-        join_broken_numeric_format: bool = True
+        join_broken_numeric_format: bool = True,
     ):
         """
         Initialize tokenizer object.
@@ -632,7 +634,7 @@ class Tokenizer:
             custom_dict=self.__trie_dict,
             engine=self.__engine,
             keep_whitespace=self.__keep_whitespace,
-            join_broken_numeric_format=self.__join_broken_numeric_format
+            join_broken_numeric_format=self.__join_broken_numeric_format,
         )
 
     def set_tokenize_engine(self, engine: str) -> None:

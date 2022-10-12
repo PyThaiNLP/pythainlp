@@ -16,17 +16,10 @@ class NER:
     **Options for engine**
         * *thainer* - Thai NER engine
         * *wangchanberta* - wangchanberta model
-        * *lst20_onnx* - LST20 NER model by wangchanberta with ONNX runtime
         * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.
 
     **Options for corpus**
         * *thaimer* - Thai NER corpus
-        * *lst20* - lst20 corpus (wangchanberta only). \
-            `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
-            by National Electronics and Computer Technology Center, Thailand \
-            It is free for **non-commercial uses and research only**. \
-            You can read at \
-            `Facebook <https://www.facebook.com/dancearmy/posts/10157641945708284>`_.
 
     **Note**: for tltk engine, It's support ner model from tltk only.
     """
@@ -39,17 +32,8 @@ class NER:
         if engine == "thainer" and corpus == "thainer":
             from pythainlp.tag.thainer import ThaiNameTagger
             self.engine = ThaiNameTagger()
-        elif engine == "lst20_onnx":
-            from pythainlp.tag.lst20_ner_onnx import LST20_NER_ONNX
-            self.engine = LST20_NER_ONNX()
         elif engine == "wangchanberta":
             from pythainlp.wangchanberta import ThaiNameTagger
-            if corpus=="lst20":
-                warnings.warn("""
-                LST20 corpus are free for research and open source only.\n
-                If you want to use in Commercial use, please contract NECTEC.\n
-                https://www.facebook.com/dancearmy/posts/10157641945708284
-                """)
             self.engine = ThaiNameTagger(dataset_name=corpus)
         elif engine == "tltk":
             from pythainlp.tag import tltk
@@ -103,10 +87,7 @@ class NER:
                 """wangchanberta is not support part-of-speech tag.
                 It have not part-of-speech tag in output."""
             )
-        if self.name_engine == "wangchanberta" or self.name_engine == "lst20_onnx":
-            return self.engine.get_ner(text, tag=tag)
-        else:
-            return self.engine.get_ner(text, tag=tag, pos=pos)
+        return self.engine.get_ner(text, tag=tag, pos=pos)
 
 
 class NNER:

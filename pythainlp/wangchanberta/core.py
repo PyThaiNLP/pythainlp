@@ -28,7 +28,6 @@ class ThaiNameTagger:
 
         :param str dataset_name:
             * *thainer* - ThaiNER dataset
-            * *lst20* - LST20 Corpus
         :param bool grouped_entities: grouped entities
         """
         self.dataset_name = dataset_name

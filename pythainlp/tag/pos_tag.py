@@ -14,19 +14,10 @@ def pos_tag(
     :param str engine:
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
-        * *wangchanberta* - wangchanberta model (support lst20 corpus only \
-            and it supports a string only. if you input a list of word, \
-            it will convert list word to a string.
+        * *wangchanberta* - wangchanberta model.
         * *tltk* - TLTK: Thai Language Toolkit (support TNC corpus only.\
             if you choose other corpus, It's change to TNC corpus.)
     :param str corpus: the corpus that used to create the language model for tagger
-        * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
-            by National Electronics and Computer Technology Center, Thailand \
-            It is free for **non-commercial uses and research only**. \
-            You can read at \
-            `Facebook <https://www.facebook.com/dancearmy/posts/10157641945708284>`_.
-        * *lst20_ud* - LST20 text, with tags mapped to Universal POS tag \
-            from `Universal Dependencies <https://universaldependencies.org/>`
         * *orchid* - `ORCHID \
             <https://www.academia.edu/9127599/Thai_Treebank>`_ corpus, \
             text from Thai academic articles (default)
@@ -96,13 +87,10 @@ def pos_tag(
     if not words:
         return []
 
-    _support_corpus = ["lst20", "lst20_ud", "orchid", "orchid_ud", "pud"]
+    _support_corpus = ["orchid", "orchid_ud", "pud"]
 
     if engine == "perceptron" and corpus in _support_corpus:
         from pythainlp.tag.perceptron import tag as tag_
-    elif engine == "wangchanberta" and corpus == "lst20":
-        from pythainlp.wangchanberta.postag import pos_tag as tag_
-        words = ''.join(words)
     elif engine == "tltk":
         from pythainlp.tag.tltk import pos_tag as tag_
         corpus = "tnc"
@@ -137,10 +125,6 @@ def pos_tag_sents(
         * *tltk* - TLTK: Thai Language Toolkit (support TNC corpus only.\
             if you choose other corpus, It's change to TNC corpus.)
     :param str corpus: the corpus that used to create the language model for tagger
-        * *lst20* - `LST20 <https://aiforthai.in.th/corpus.php>`_ corpus \
-            by National Electronics and Computer Technology Center, Thailand
-        * *lst20_ud* - LST20 text, with tags mapped to Universal POS tags \
-            from `Universal Dependencies <https://universaldependencies.org/>`
         * *orchid* - `ORCHID \
             <https://www.academia.edu/9127599/Thai_Treebank>`_ corpus, \
             text from Thai academic articles (default)

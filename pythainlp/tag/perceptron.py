@@ -4,9 +4,8 @@ Perceptron part-of-speech tagger
 """
 import os
 from typing import List, Tuple
-import warnings
 
-from pythainlp.corpus import corpus_path, get_corpus_path
+from pythainlp.corpus import corpus_path
 from pythainlp.tag import PerceptronTagger, orchid
 
 _ORCHID_FILENAME = "pos_orchid_perceptron.json"

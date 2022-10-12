@@ -6,7 +6,6 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     Tokenizer,
     attacut,
-    crfcls,
     deepcut,
     etcc,
     longest,

@@ -123,7 +123,7 @@ class WordNetAug:
         self,
         word: str,
         pos: str = None,
-        postag_corpus: str = ""
+        postag_corpus: str = "orchid"
     ) -> List[str]:
         """
         Find synonyms from wordnet
@@ -159,7 +159,7 @@ class WordNetAug:
         tokenize: object = word_tokenize,
         max_syn_sent: int = 6,
         postag: bool = True,
-        postag_corpus: str = ""
+        postag_corpus: str = "orchid"
     ) -> List[List[str]]:
         """
         Text Augment using wordnet

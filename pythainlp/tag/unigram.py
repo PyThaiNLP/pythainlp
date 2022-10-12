@@ -5,13 +5,15 @@ Unigram Part-Of-Speech tagger
 import json
 import os
 from typing import List, Tuple
-import warnings
 
 from pythainlp.corpus import corpus_path, get_corpus_path
 from pythainlp.tag import orchid
 
 _ORCHID_FILENAME = "pos_orchid_unigram.json"
 _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
+
+_PUD_FILENAME = "pos_ud_unigram-v0.2.json"
+_PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
 
 _ORCHID_TAGGER = None
 _PUD_TAGGER = None

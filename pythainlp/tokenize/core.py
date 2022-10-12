@@ -13,6 +13,11 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     DEFAULT_WORD_TOKENIZE_ENGINE,
 )
+from pythainlp.tokenize._utils import (
+    apply_postprocessors,
+    rejoin_formatted_num,
+    strip_whitespace,
+)
 from pythainlp.util.trie import Trie, dict_trie
 
 
@@ -47,7 +52,9 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
     return segment(doc)
 
 
-def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "str") -> Union[str, List[str]]:
+def word_detokenize(
+    segments: Union[List[List[str]], List[str]], output: str = "str"
+) -> Union[str, List[str]]:
     """
     Word detokenizer.
 
@@ -62,6 +69,7 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "
     if isinstance(segments[0], str):
         segments = [segments]
     from pythainlp import thai_characters
+
     for i, s in enumerate(segments):
         _list_sents = []
         _add_index = []
@@ -70,7 +78,7 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "
         for j, w in enumerate(s):
             if j > 0:
                 # previous word
-                p_w = s[j-1]
+                p_w = s[j - 1]
                 # if w is number or other language and not be space
                 if (
                     w[0] not in thai_characters
@@ -88,9 +96,9 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "
                     if not p_w.isspace():
                         _list_sents.append(" ")
                     _mark_index.append(j)
-                elif w.isspace() and j-1 not in _space_index:
+                elif w.isspace() and j - 1 not in _space_index:
                     _space_index.append(j)
-                elif j-1 in _mark_index:
+                elif j - 1 in _mark_index:
                     _list_sents.append(" ")
             _list_sents.append(w)
         _list_all.append(_list_sents)
@@ -103,7 +111,7 @@ def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "
             for j in i:
                 _temp += j
             _text.append(_temp)
-        return ' '.join(_text)
+        return " ".join(_text)
 
 
 def word_tokenize(
@@ -111,6 +119,7 @@ def word_tokenize(
     custom_dict: Trie = None,
     engine: str = DEFAULT_WORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
+    join_broken_num: bool = True,
 ) -> List[str]:
     """
     Word tokenizer.
@@ -123,37 +132,47 @@ def word_tokenize(
     :param bool keep_whitespace: True to keep whitespaces, a common mark
                                  for end of phrase in Thai.
                                  Otherwise, whitespaces are omitted.
+    :param bool join_broken_num: True to rejoin formatted numeric that could be wrongly separated.
+                                 Otherwise, formatted numeric could be wrongly separated.
+
     :return: list of words
     :rtype: List[str]
     **Options for engine**
-        * *newmm* (default) - dictionary-based, Maximum Matching +
-          Thai Character Cluster
-        * *newmm-safe* - newmm, with a mechanism to help avoid long
-          processing time for text with continuous ambiguous breaking points
-        * *mm* or *multi_cut* - dictionary-based, Maximum Matching.
-        * *nlpo3* - Python binding for nlpO3. It is newmm engine in Rust.
-        * *longest* - dictionary-based, Longest Matching
-        * *icu* - wrapper for ICU (International Components for Unicode,
-          using PyICU), dictionary-based
         * *attacut* - wrapper for
           `AttaCut <https://github.com/PyThaiNLP/attacut>`_.,
           learning-based approach
         * *deepcut* - wrapper for
           `DeepCut <https://github.com/rkcosmos/deepcut>`_,
           learning-based approach
-        * *nercut* - Dictionary-based maximal matching word segmentation,
+        * *icu* - wrapper for a word tokenizer in
+          `PyICU <https://gitlab.pyicu.org/main/pyicu>`_.,
+          from ICU (International Components for Unicode),
+          dictionary-based          
+        * *longest* - dictionary-based, longest matching
+        * *mm* - "multi-cut", dictionary-based, maximum matching
+        * *nercut* - dictionary-based, maximal matching,
           constrained with Thai Character Cluster (TCC) boundaries,
-          and combining tokens that are parts of the same named-entity.
-        * *sefr_cut* - wrapper for
-          `SEFR CUT <https://github.com/mrpeerat/SEFR_CUT>`_.,
-        * *tltk* - wrapper for
-          `TLTK <https://pypi.org/project/tltk/>`_.,
+          combining tokens that are parts of the same named-entity
+        * *newmm* (default) - "new multi-cut",
+          dictionary-based, maximum matching,
+          constrained with Thai Character Cluster (TCC) boundaries
+        * *newmm-safe* - newmm, with a mechanism to avoid long
+          processing time for text with continuous ambiguous breaking points
+        * *nlpo3* - wrapper for a word tokenizer in
+          `nlpO3 <https://github.com/PyThaiNLP/nlpo3>`_.,
+          newmm adaptation in Rust (2.5x faster)
         * *oskut* - wrapper for
           `OSKut <https://github.com/mrpeerat/OSKut>`_.,
-
+          Out-of-domain StacKed cut for Word Segmentation
+        * *sefr_cut* - wrapper for
+          `SEFR CUT <https://github.com/mrpeerat/SEFR_CUT>`_.,
+          Stacked Ensemble Filter and Refine for Word Segmentation
+        * *tltk* - wrapper for
+          `TLTK <https://pypi.org/project/tltk/>`_.,
+           maximum collocation approach
     :Note:
-        - The parameter **custom_dict** can be provided as an argument \
-          only for *newmm*, *longest*, and *deepcut* engine.
+        - The **custom_dict** parameter only works for \
+          *deepcut*, *longest*, *newmm*, and *newmm-safe* engines.
     :Example:
 
     Tokenize text with different tokenizer::
@@ -178,6 +197,19 @@ def word_tokenize(
 
         word_tokenize(text, engine="newmm", keep_whitespace=False)
         # output: ['วรรณกรรม', 'ภาพวาด', 'และ', 'การแสดง', 'งิ้ว']
+        
+    Join broken formatted numeric (e.g. time, decimals, IP address)::
+
+        text = "เงิน1,234บาท19:32น 127.0.0.1"
+
+        word_tokenize(text, engine="attacut", join_broken_num=False)
+        # output:
+        # ['เงิน', '1', ',', '234', 'บาท', '19', ':', '32น', ' ',
+        #  '127', '.', '0', '.', '0', '.', '1']
+
+        word_tokenize(text, engine="attacut", join_broken_num=True)
+        # output:
+        # ['เงิน', '1,234', 'บาท', '19:32น', ' ', '127.0.0.1']
 
     Tokenize with default and custom dictionary::
 
@@ -199,8 +231,8 @@ def word_tokenize(
 
         word_tokenize(text, engine="newmm", custom_dict=trie))
         # output:
-        # ['ชินโซ', ' ', 'อาเบะ',
-        #   ' ', 'เกิด', ' ', '21', ' ', 'กันยายน']
+        # ['ชินโซ', ' ', 'อาเบะ', ' ',
+        #  'เกิด', ' ', '21', ' ', 'กันยายน']
     """
     if not text or not isinstance(text, str):
         return []
@@ -257,6 +289,7 @@ def word_tokenize(
         segments = segment(text)
     elif engine == "nlpo3":
         from pythainlp.tokenize.nlpo3 import segment
+
         if isinstance(custom_dict, str):
             segments = segment(text, custom_dict=custom_dict)
         elif not isinstance(custom_dict, str) and custom_dict is not None:
@@ -274,8 +307,14 @@ def word_tokenize(
             It might be a typo; if not, please consult our document."""
         )
 
+    postprocessors = []
+    if join_broken_num:
+        postprocessors.append(rejoin_formatted_num)
+
     if not keep_whitespace:
-        segments = [token.strip(" ") for token in segments if token.strip(" ")]
+        postprocessors.append(strip_whitespace)
+
+    segments = apply_postprocessors(segments, postprocessors)
 
     return segments
 
@@ -297,12 +336,12 @@ def sent_tokenize(
     :rtype: list[str]
     **Options for engine**
         * *crfcut* - (default) split by CRF trained on TED dataset
+        * *thaisum* - The implementation of sentence segmentator from \
+            Nakhun Chumpolsathien, 2020
+        * *tltk* - split by `TLTK <https://pypi.org/project/tltk/>`_.,
         * *whitespace+newline* - split by whitespaces and newline.
         * *whitespace* - split by whitespaces. Specifiaclly, with \
                          :class:`regex` pattern  ``r" +"``
-        * *tltk* - split by `TLTK <https://pypi.org/project/tltk/>`_.,
-        * *thaisum* - The implementation of sentence segmentator from \
-            Nakhun Chumpolsathien, 2020
     :Example:
 
     Split the text based on *whitespace*::
@@ -364,7 +403,10 @@ def sent_tokenize(
 
         segments = segment(text)
     elif engine == "thaisum":
-        from pythainlp.tokenize.thaisumcut import ThaiSentenceSegmentor as segmentor
+        from pythainlp.tokenize.thaisumcut import (
+            ThaiSentenceSegmentor as segmentor,
+        )
+
         segment = segmentor()
         segments = segment.split_into_sentences(text)
     else:
@@ -374,7 +416,7 @@ def sent_tokenize(
         )
 
     if not keep_whitespace:
-        segments = [token.strip(" ") for token in segments if token.strip(" ")]
+        segments = strip_whitespace(segments)
 
     return segments
 
@@ -405,13 +447,12 @@ def subword_tokenize(
     :return: list of subwords
     :rtype: list[str]
     **Options for engine**
-        * *tcc* (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
-        * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
-        * *wangchanberta* - SentencePiece from wangchanberta model.
         * *dict* - newmm word tokenizer with a syllable dictionary
+        * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
         * *ssg* - CRF syllable segmenter for Thai
+        * *tcc* (default) - Thai Character Cluster (Theeramunkong et al. 2000)
         * *tltk* - syllable tokenizer from tltk
-
+        * *wangchanberta* - SentencePiece from wangchanberta model
     :Example:
 
     Tokenize text into subword based on *tcc*::
@@ -485,7 +526,7 @@ def subword_tokenize(
         segments = segment(text)
 
     if not keep_whitespace:
-        segments = [token.strip(" ") for token in segments if token.strip(" ")]
+        segments = strip_whitespace(segments)
 
     return segments
 
@@ -562,6 +603,7 @@ class Tokenizer:
         custom_dict: Union[Trie, Iterable[str], str] = None,
         engine: str = "newmm",
         keep_whitespace: bool = True,
+        join_broken_num: bool = True,
     ):
         """
         Initialize tokenizer object.
@@ -584,9 +626,11 @@ class Tokenizer:
             raise NotImplementedError(
                 """
                 The Tokenizer class is not support %s for custom tokenizer
-                """ % self.__engine
+                """
+                % self.__engine
             )
         self.__keep_whitespace = keep_whitespace
+        self.__join_broken_num = join_broken_num
 
     def word_tokenize(self, text: str) -> List[str]:
         """
@@ -601,6 +645,7 @@ class Tokenizer:
             custom_dict=self.__trie_dict,
             engine=self.__engine,
             keep_whitespace=self.__keep_whitespace,
+            join_broken_num=self.__join_broken_num,
         )
 
     def set_tokenize_engine(self, engine: str) -> None:

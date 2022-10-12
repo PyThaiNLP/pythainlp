@@ -133,39 +133,46 @@ def word_tokenize(
                                  for end of phrase in Thai.
                                  Otherwise, whitespaces are omitted.
     :param bool join_broken_num: True to rejoin formatted numeric that could be wrongly separated.
-                                 Otherwise, formatted numeric could be separated.
+                                 Otherwise, formatted numeric could be wrongly separated.
 
     :return: list of words
     :rtype: List[str]
     **Options for engine**
-        * *newmm* (default) - dictionary-based, Maximum Matching +
-          Thai Character Cluster
-        * *newmm-safe* - newmm, with a mechanism to help avoid long
-          processing time for text with continuous ambiguous breaking points
-        * *mm* or *multi_cut* - dictionary-based, Maximum Matching.
-        * *nlpo3* - Python binding for nlpO3. It is newmm engine in Rust.
-        * *longest* - dictionary-based, Longest Matching
-        * *icu* - wrapper for ICU (International Components for Unicode,
-          using PyICU), dictionary-based
         * *attacut* - wrapper for
           `AttaCut <https://github.com/PyThaiNLP/attacut>`_.,
           learning-based approach
         * *deepcut* - wrapper for
           `DeepCut <https://github.com/rkcosmos/deepcut>`_,
           learning-based approach
-        * *nercut* - Dictionary-based maximal matching word segmentation,
+        * *icu* - wrapper for a word tokenizer in
+          `PyICU <https://gitlab.pyicu.org/main/pyicu>`_.,
+          from ICU (International Components for Unicode),
+          dictionary-based          
+        * *longest* - dictionary-based, longest matching
+        * *mm* - "multi-cut", dictionary-based, maximum matching
+        * *nercut* - dictionary-based, maximal matching,
           constrained with Thai Character Cluster (TCC) boundaries,
-          and combining tokens that are parts of the same named-entity.
-        * *sefr_cut* - wrapper for
-          `SEFR CUT <https://github.com/mrpeerat/SEFR_CUT>`_.,
-        * *tltk* - wrapper for
-          `TLTK <https://pypi.org/project/tltk/>`_.,
+          combining tokens that are parts of the same named-entity
+        * *newmm* (default) - "new multi-cut",
+          dictionary-based, maximum matching,
+          constrained with Thai Character Cluster (TCC) boundaries
+        * *newmm-safe* - newmm, with a mechanism to avoid long
+          processing time for text with continuous ambiguous breaking points
+        * *nlpo3* - wrapper for a word tokenizer in
+          `nlpO3 <https://github.com/PyThaiNLP/nlpo3>`_.,
+          newmm adaptation in Rust (2.5x faster)
         * *oskut* - wrapper for
           `OSKut <https://github.com/mrpeerat/OSKut>`_.,
-
+          Out-of-domain StacKed cut for Word Segmentation
+        * *sefr_cut* - wrapper for
+          `SEFR CUT <https://github.com/mrpeerat/SEFR_CUT>`_.,
+          Stacked Ensemble Filter and Refine for Word Segmentation
+        * *tltk* - wrapper for
+          `TLTK <https://pypi.org/project/tltk/>`_.,
+           maximum collocation approach
     :Note:
         - The **custom_dict** parameter only works for \
-          *newmm*, *longest*, and *deepcut* engine.
+          *deepcut*, *longest*, *newmm*, and *newmm-safe* engines.
     :Example:
 
     Tokenize text with different tokenizer::
@@ -329,12 +336,12 @@ def sent_tokenize(
     :rtype: list[str]
     **Options for engine**
         * *crfcut* - (default) split by CRF trained on TED dataset
+        * *thaisum* - The implementation of sentence segmentator from \
+            Nakhun Chumpolsathien, 2020
+        * *tltk* - split by `TLTK <https://pypi.org/project/tltk/>`_.,
         * *whitespace+newline* - split by whitespaces and newline.
         * *whitespace* - split by whitespaces. Specifiaclly, with \
                          :class:`regex` pattern  ``r" +"``
-        * *tltk* - split by `TLTK <https://pypi.org/project/tltk/>`_.,
-        * *thaisum* - The implementation of sentence segmentator from \
-            Nakhun Chumpolsathien, 2020
     :Example:
 
     Split the text based on *whitespace*::
@@ -440,13 +447,12 @@ def subword_tokenize(
     :return: list of subwords
     :rtype: list[str]
     **Options for engine**
-        * *tcc* (default) -  Thai Character Cluster (Theeramunkong et al. 2000)
-        * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
-        * *wangchanberta* - SentencePiece from wangchanberta model.
         * *dict* - newmm word tokenizer with a syllable dictionary
+        * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
         * *ssg* - CRF syllable segmenter for Thai
+        * *tcc* (default) - Thai Character Cluster (Theeramunkong et al. 2000)
         * *tltk* - syllable tokenizer from tltk
-
+        * *wangchanberta* - SentencePiece from wangchanberta model
     :Example:
 
     Tokenize text into subword based on *tcc*::

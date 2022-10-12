@@ -36,7 +36,7 @@ def _pud_tagger():
 def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
     """
     :param list words: a list of tokenized words
-    :param str corpus: corpus name (orchid, pud, or lst20)
+    :param str corpus: corpus name (orchid, pud)
     :return: a list of tuples (word, POS tag)
     :rtype: list[tuple[str, str]]
     """

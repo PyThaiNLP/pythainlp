@@ -21,6 +21,28 @@ from pythainlp.tokenize._utils import (
 from pythainlp.util.trie import Trie, dict_trie
 
 
+def clause_tokenize(doc: List[str]) -> List[List[str]]:
+    """
+    Clause tokenizer. (or Clause segmentation)
+    Tokenizes running word list into list of clauses (list of strings).
+    split by CRF trained on Blackboard Treebank.
+
+    :param str doc: word list to be clause
+    :return: list of claues
+    :rtype: list[list[str]]
+    :Example:
+    Clause tokenizer::
+        from pythainlp.tokenize import clause_tokenize
+        clause_tokenize(["ฉัน","นอน","และ","คุณ","เล่น","มือถือ","ส่วน","น้อง","เขียน","โปรแกรม"])
+        # [['ฉัน', 'นอน'],
+        # ['และ', 'คุณ', 'เล่น', 'มือถือ'],
+        # ['ส่วน', 'น้อง', 'เขียน', 'โปรแกรม']]
+    """
+    from pythainlp.tokenize.crfcls import segment
+
+    return segment(doc)
+
+
 def word_detokenize(segments: Union[List[List[str]], List[str]], output: str = "str") -> Union[str, List[str]]:
     """
     Word detokenizer.

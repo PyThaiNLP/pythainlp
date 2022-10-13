@@ -121,7 +121,6 @@ def pos_tag_sents(
     :param str engine:
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
-        * *wangchanberta*  - wangchanberta model (support lst20 corpus only)
         * *tltk* - TLTK: Thai Language Toolkit (support TNC corpus only.\
             if you choose other corpus, It's change to TNC corpus.)
     :param str corpus: the corpus that used to create the language model for tagger

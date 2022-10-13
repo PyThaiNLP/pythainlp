@@ -2,8 +2,7 @@
 
 import unittest
 
-from pythainlp.wangchanberta import ThaiNameTagger, pos_tag, segment
-from pythainlp.wangchanberta.postag import PosTagTransformers
+from pythainlp.wangchanberta import ThaiNameTagger, segment
 
 
 class TestWangchanberta(unittest.TestCase):
@@ -36,42 +35,3 @@ class TestWangchanberta(unittest.TestCase):
             segment([])
         )
 
-    def test_pos_tag_wangchanberta(self):
-        self.assertIsNotNone(
-            pos_tag("I คิด therefore I am ผ็ฎ์")
-        )
-        self.assertIsNotNone(
-            pos_tag(
-                [
-                    'I',
-                    ' ',
-                    'คิด',
-                    ' ',
-                    'therefore',
-                    ' ',
-                    'I',
-                    ' ',
-                    'am',
-                    ' ',
-                    'ผ็ฎ์'
-                ]
-            )
-        )
-        self.assertIsNotNone(
-            pos_tag(None)
-        )
-        self.assertIsNotNone(
-            pos_tag("I คิด therefore I am ผ็ฎ์", grouped_word=True)
-        )
-        self.assertIsNotNone(
-            pos_tag("ทดสอบระบบ", grouped_word=False)
-        )
-        _pos = PosTagTransformers()
-        self.assertIsNotNone(
-            _pos.tag("ทดสอบระบบ", grouped_word=False)
-        )
-        self.assertIsNotNone(
-            _pos.tag("ทดสอบระบบ", grouped_word=True)
-        )
-        with self.assertRaises(NotImplementedError):
-            pos_tag("I คิด therefore I am ผ็ฎ์", grouped_word=True, corpus="cat")

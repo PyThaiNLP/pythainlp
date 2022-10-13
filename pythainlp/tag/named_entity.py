@@ -15,7 +15,6 @@ class NER:
 
     **Options for engine**
         * *thainer* - Thai NER engine
-        * *wangchanberta* - wangchanberta model
         * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.
 
     **Options for corpus**
@@ -32,9 +31,6 @@ class NER:
         if engine == "thainer" and corpus == "thainer":
             from pythainlp.tag.thainer import ThaiNameTagger
             self.engine = ThaiNameTagger()
-        elif engine == "wangchanberta":
-            from pythainlp.wangchanberta import ThaiNameTagger
-            self.engine = ThaiNameTagger(dataset_name=corpus)
         elif engine == "tltk":
             from pythainlp.tag import tltk
             self.engine = tltk
@@ -82,11 +78,6 @@ class NER:
             >>> ner.tag("ทดสอบนายวรรณพงษ์ ภัททิยไพบูลย์", tag=True)
             'ทดสอบ<PERSON>นายวรรณพงษ์ ภัททิยไพบูลย์</PERSON>'
         """
-        if pos and self.name_engine == "wangchanberta":
-            warnings.warn(
-                """wangchanberta is not support part-of-speech tag.
-                It have not part-of-speech tag in output."""
-            )
         return self.engine.get_ner(text, tag=tag, pos=pos)
 
 

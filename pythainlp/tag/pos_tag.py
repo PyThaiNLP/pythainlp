@@ -22,6 +22,9 @@ def pos_tag(
             <https://www.academia.edu/9127599/Thai_Treebank>`_ corpus, \
             text from Thai academic articles (default)
         * *orchid_ud* - ORCHID text, with tags mapped to Universal POS tags
+        * *blackboard* - `blackboard treebank <https://bitbucket.org/kaamanita/blackboard-treebank/src/master/>`_
+        * *blackboard_ud* - blackboard text, with tags mapped to Universal POS tag \
+            from `Universal Dependencies <https://universaldependencies.org/>`
         * *pud* - `Parallel Universal Dependencies (PUD)\
             <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ \
             treebanks, natively use Universal POS tags
@@ -87,7 +90,7 @@ def pos_tag(
     if not words:
         return []
 
-    _support_corpus = ["orchid", "orchid_ud", "pud"]
+    _support_corpus = ["blackboard", "blackboard_ud", "orchid", "orchid_ud", "pud"]
 
     if engine == "perceptron" and corpus in _support_corpus:
         from pythainlp.tag.perceptron import tag as tag_
@@ -128,6 +131,9 @@ def pos_tag_sents(
             <https://www.academia.edu/9127599/Thai_Treebank>`_ corpus, \
             text from Thai academic articles (default)
         * *orchid_ud* - ORCHID text, with tags mapped to Universal POS tags
+        * *blackboard* - `blackboard treebank <https://bitbucket.org/kaamanita/blackboard-treebank/src/master/>`_
+        * *blackboard_ud* - blackboard text, with tags mapped to Universal POS tag \
+            from `Universal Dependencies <https://universaldependencies.org/>`
         * *pud* - `Parallel Universal Dependencies (PUD)\
             <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ \
             treebanks, natively use Universal POS tags

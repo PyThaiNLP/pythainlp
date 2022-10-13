@@ -48,6 +48,8 @@ class TestTagPackage(unittest.TestCase):
         self.assertEqual(unigram.tag([], corpus="pud"), [])
         self.assertEqual(unigram.tag(None, corpus="orchid"), [])
         self.assertEqual(unigram.tag([], corpus="orchid"), [])
+        self.assertEqual(unigram.tag(None, corpus="blackboard"), [])
+        self.assertEqual(unigram.tag([], corpus="blackboard"), [])
         self.assertIsNotNone(
             pos_tag(tokens, engine="unigram", corpus="orchid")
         )
@@ -56,6 +58,11 @@ class TestTagPackage(unittest.TestCase):
         )
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
         self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="pud"))
+        self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="blackboard"))
+        self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="blackboard"))
+        self.assertIsNotNone(
+            pos_tag([""], engine="unigram", corpus="blackboard_ud")
+        )
         self.assertEqual(
             pos_tag(["คุณ", "กำลัง", "ประชุม"], engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
@@ -74,6 +81,8 @@ class TestTagPackage(unittest.TestCase):
         self.assertEqual(perceptron.tag([], corpus="orchid_ud"), [])
         self.assertEqual(perceptron.tag(None, corpus="pud"), [])
         self.assertEqual(perceptron.tag([], corpus="pud"), [])
+        self.assertEqual(perceptron.tag(None, corpus="blackboard"), [])
+        self.assertEqual(perceptron.tag([], corpus="blackboard"), [])
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="orchid")
         )
@@ -82,6 +91,12 @@ class TestTagPackage(unittest.TestCase):
         )
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="pud")
+        )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="perceptron", corpus="blackboard")
+        )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="perceptron", corpus="blackboard_ud")
         )
         self.assertIsNotNone(
             pos_tag(tokens, engine="tltk")
@@ -96,6 +111,10 @@ class TestTagPackage(unittest.TestCase):
                 [("แมว", "NCMN"), ("วิ่ง", "VACT")],
             ],
         )
+        with self.assertRaises(ValueError):
+            self.assertIsNotNone(
+                tltk.pos_tag(tokens, corpus="blackboard")
+            )
 
     # ### pythainlp.tag.PerceptronTagger
 

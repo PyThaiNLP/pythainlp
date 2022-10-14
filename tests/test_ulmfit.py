@@ -212,7 +212,7 @@ class TestUlmfitPackage(unittest.TestCase):
         self.assertEqual(actual, expect)
 
     def test_document_vector(self):
-        imdb = untar_data(URLs.IMDB_SAMPLE)
+        imdb = untar_data("https://github.com/PyThaiNLP/pythainlp-corpus/releases/download/fastai-imdb_sample.tgz/imdb_sample.tgz")
         dummy_df = pd.read_csv(imdb/'texts.csv')
         thwiki = THWIKI_LSTM
         thwiki_itos = pickle.load(open(thwiki['itos_fname'], 'rb'))

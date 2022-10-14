@@ -22,7 +22,7 @@ from fastai.text import *
 from pythainlp.ulmfit import *
 
 # get dummy data
-imdb = untar_data(URLs.IMDB_SAMPLE)
+imdb = untar_data("https://github.com/PyThaiNLP/pythainlp-corpus/releases/download/fastai-imdb_sample.tgz/imdb_sample.tgz")
 dummy_df = pd.read_csv(imdb/'texts.csv')
 
 # get vocab

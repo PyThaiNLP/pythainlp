@@ -38,7 +38,7 @@ def _pud_tagger():
 def _blackboard_tagger():
     global _BLACKBOARD_TAGGER
     if not _BLACKBOARD_TAGGER:
-        path = get_corpus_path(_BLACKBOARD_NAME, version="0.2.4")
+        path = get_corpus_path(_BLACKBOARD_NAME)
         _LST20_TAGGER = PerceptronTagger(path=path)
     return _LST20_TAGGER
 

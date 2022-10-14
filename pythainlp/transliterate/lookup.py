@@ -13,7 +13,6 @@ from pythainlp.corpus.th_en_translit import (
     TRANSLITERATE_EN,
     TRANSLITERATE_FOLLOW_RTSG,
 )
-from pythainlp.tokenize import word_tokenize
 
 
 _TRANSLITERATE_IDX = 0

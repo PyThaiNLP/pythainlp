@@ -5,7 +5,11 @@ DEFAULT_TRANSLITERATE_ENGINE = "thaig2p"
 DEFAULT_PRONUNCIATE_ENGINE = "w2p"
 
 
-def romanize(text: str, engine: str = DEFAULT_ROMANIZE_ENGINE) -> str:
+def romanize(
+    text: str,
+    engine: str = DEFAULT_ROMANIZE_ENGINE,
+    fallback_engine: str = DEFAULT_ROMANIZE_ENGINE,
+) -> str:
     """
     This function renders Thai words in the Latin alphabet or "romanization",
     using the Royal Thai General System of Transcription (RTGS)
@@ -13,7 +17,9 @@ def romanize(text: str, engine: str = DEFAULT_ROMANIZE_ENGINE) -> str:
     by the Royal Institute of Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
 
     :param str text: Thai text to be romanized
-    :param str engine: 'royin' (default) or 'thai2rom'
+    :param str engine: One of 'royin' (default), 'thai2rom', 'tltk', and 'lookup'. See more in options for engine section.
+    :param str fallback_engine: If engine equals 'lookup', use `fallback_engine` for words that are not in the transliteration dict.
+                                No effect on other engines. Default to 'royin'.
 
     :return: A string of Thai words rendered in the Latin alphabet.
     :rtype: str
@@ -24,6 +30,7 @@ def romanize(text: str, engine: str = DEFAULT_ROMANIZE_ENGINE) -> str:
         * *thai2rom* - a deep learning-based Thai romanization engine
           (require PyTorch).
         * *tltk* - TLTK: Thai Language Toolkit
+        * *lookup* - Look up on Thai-English Transliteration dictionary v1.4 compiled by Wannaphong.
 
     :Example:
     ::
@@ -44,19 +51,32 @@ def romanize(text: str, engine: str = DEFAULT_ROMANIZE_ENGINE) -> str:
 
         romanize("ภาพยนตร์", engine="thai2rom")
         # output: 'phapphayon'
+
+        romanize("ก็อปปี้", engine="lookup")
+        # output: 'copy'
+
     """
+
+    def select_romanize_engine(engine: str):
+        if engine == "thai2rom":
+            from pythainlp.transliterate.thai2rom import romanize
+        elif engine == "tltk":
+            from pythainlp.transliterate.tltk import romanize
+        else:  # use default engine "royin"
+            from pythainlp.transliterate.royin import romanize
+
+        return romanize
 
     if not text or not isinstance(text, str):
         return ""
 
-    if engine == "thai2rom":
-        from pythainlp.transliterate.thai2rom import romanize
-    elif engine == "tltk":
-        from pythainlp.transliterate.tltk import romanize
-    else:  # use default engine "royin"
-        from pythainlp.transliterate.royin import romanize
+    if engine == "lookup":
+        from pythainlp.transliterate.lookup import romanize
 
-    return romanize(text)
+        fallback = select_romanize_engine(fallback_engine)
+        return romanize(text, fallback_func=fallback)
+    else:
+        return select_romanize_engine(engine)(text)
 
 
 def transliterate(

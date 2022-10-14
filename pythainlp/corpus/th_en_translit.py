@@ -2,8 +2,8 @@
 """
 Thai-English Transliteratation Dictionary v1.4
 
-Wannaphong Phatthiyaphaibun. (2022). 
-wannaphong/thai-english-transliteration-dictionary: v1.4 (v1.4). 
+Wannaphong Phatthiyaphaibun. (2022).
+wannaphong/thai-english-transliteration-dictionary: v1.4 (v1.4).
 Zenodo. https://doi.org/10.5281/zenodo.6716672
 """
 

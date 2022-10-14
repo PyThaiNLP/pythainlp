@@ -2,8 +2,8 @@
 """
 Look up romanized Thai words in a predefined dictionary compiled by Wannaphong, 2022.
 
-Wannaphong Phatthiyaphaibun. (2022). 
-wannaphong/thai-english-transliteration-dictionary: v1.4 (v1.4). 
+Wannaphong Phatthiyaphaibun. (2022).
+wannaphong/thai-english-transliteration-dictionary: v1.4 (v1.4).
 Zenodo. https://doi.org/10.5281/zenodo.6716672
 """
 

@@ -87,6 +87,35 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertEqual(romanize("สกุนต์", engine="thai2rom"), "sakun")
         self.assertEqual(romanize("ชารินทร์", engine="thai2rom"), "charin")
 
+    def test_romanize_lookup(self):
+        # found in v1.4
+        self.assertEqual(romanize("บอล", engine="lookup"), "ball")
+        self.assertEqual(romanize("บอยแบนด์", engine="lookup"), "boyband")
+        self.assertEqual(romanize("กาแล็กซี", engine="lookup"), "galaxy")
+        self.assertEqual(romanize("กีย์เซอไรต์", engine="lookup"), "geyserite")
+        self.assertEqual(romanize("พลีโอนาสต์", engine="lookup"), "pleonaste")
+        self.assertEqual(
+            romanize("คาราเมล คาปูชิโน่", engine="lookup"),
+            "caramel cappuccino",
+        )
+        ## found individually, but needs tokenization
+        self.assertEqual(
+            romanize("คาราเมลคาปูชิโน่", engine="lookup"), "khanamenkhapuchino"
+        )
+        # not found in v1.4
+        ## default fallback
+        self.assertEqual(romanize("ภาพยนตร์", engine="lookup"), "phapn")
+        self.assertEqual(romanize("แมว", engine="lookup"), "maeo")
+        ## fallback = 'thai2rom'
+        self.assertEqual(
+            romanize("ความอิ่ม", engine="lookup", fallback_engine="thai2rom"),
+            "khwam-im",
+        )
+        self.assertEqual(
+            romanize("สามารถ", engine="lookup", fallback_engine="thai2rom"),
+            "samat",
+        )
+
     def test_thai2rom_prepare_sequence(self):
         transliterater = ThaiTransliterator()
 
@@ -149,51 +178,35 @@ class TestTransliteratePackage(unittest.TestCase):
 
     def test_transliterate_iso11940(self):
         self.assertEqual(
-            transliterate("เชียงใหม่", engine="iso_11940"),
-            "echīyngıh̄m̀"
+            transliterate("เชียงใหม่", engine="iso_11940"), "echīyngıh̄m̀"
         )
         self.assertEqual(
-            transliterate("ภาษาไทย", engine="iso_11940"),
-            "p̣hās̛̄āịthy"
+            transliterate("ภาษาไทย", engine="iso_11940"), "p̣hās̛̄āịthy"
         )
 
     def test_transliterate_wunsen(self):
         wt = WunsenTransliterate()
-        self.assertEqual(
-            wt.transliterate("ohayō", lang="jp"),
-            'โอฮาโย'
-        )
+        self.assertEqual(wt.transliterate("ohayō", lang="jp"), "โอฮาโย")
         self.assertEqual(
             wt.transliterate(
-                "ohayou",
-                lang="jp",
-                jp_input="Hepburn-no diacritic"
+                "ohayou", lang="jp", jp_input="Hepburn-no diacritic"
             ),
-            'โอฮาโย'
+            "โอฮาโย",
         )
         self.assertEqual(
-            wt.transliterate("ohayō", lang="jp", system="RI35"),
-            'โอะฮะโย'
+            wt.transliterate("ohayō", lang="jp", system="RI35"), "โอะฮะโย"
         )
         self.assertEqual(
-            wt.transliterate("annyeonghaseyo", lang="ko"),
-            'อันนย็องฮาเซโย'
+            wt.transliterate("annyeonghaseyo", lang="ko"), "อันนย็องฮาเซโย"
         )
-        self.assertEqual(
-            wt.transliterate("xin chào", lang="vi"),
-            'ซีน จ่าว'
-        )
-        self.assertEqual(
-            wt.transliterate("ni3 hao3", lang="zh"),
-            'หนี เห่า'
-        )
+        self.assertEqual(wt.transliterate("xin chào", lang="vi"), "ซีน จ่าว")
+        self.assertEqual(wt.transliterate("ni3 hao3", lang="zh"), "หนี เห่า")
         self.assertEqual(
             wt.transliterate("ni3 hao3", lang="zh", zh_sandhi=False),
-            'หนี่ เห่า'
+            "หนี่ เห่า",
         )
         self.assertEqual(
-            wt.transliterate("ni3 hao3", lang="zh", system="RI49"),
-            'หนี ห่าว'
+            wt.transliterate("ni3 hao3", lang="zh", system="RI49"), "หนี ห่าว"
         )
         with self.assertRaises(NotImplementedError):
             wt.transliterate("xin chào", lang="vii")
@@ -212,5 +225,5 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertEqual(puan("นาริน"), "นิน-รา")
         self.assertEqual(puan("นาริน", show_pronunciation=False), "นินรา")
         self.assertEqual(
-             puan("การทำความดี", show_pronunciation=False), "ดานทำความกี"
+            puan("การทำความดี", show_pronunciation=False), "ดานทำความกี"
         )

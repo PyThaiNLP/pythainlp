@@ -5,8 +5,8 @@ Perceptron part-of-speech tagger
 import os
 from typing import List, Tuple
 
-from pythainlp.corpus import corpus_path
-from pythainlp.tag import PerceptronTagger, orchid
+from pythainlp.corpus import corpus_path, get_corpus_path
+from pythainlp.tag import PerceptronTagger, blackboard, orchid
 
 _ORCHID_FILENAME = "pos_orchid_perceptron.json"
 _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
@@ -14,9 +14,11 @@ _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
 _PUD_FILENAME = "pos_ud_perceptron-v0.2.json"
 _PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
 
+_BLACKBOARD_NAME = "blackboard_pt_tagger"
 
 _ORCHID_TAGGER = None
 _PUD_TAGGER = None
+_BLACKBOARD_TAGGER = None
 
 
 def _orchid_tagger():
@@ -31,6 +33,14 @@ def _pud_tagger():
     if not _PUD_TAGGER:
         _PUD_TAGGER = PerceptronTagger(path=_PUD_PATH)
     return _PUD_TAGGER
+
+
+def _blackboard_tagger():
+    global _BLACKBOARD_TAGGER
+    if not _BLACKBOARD_TAGGER:
+        path = get_corpus_path(_BLACKBOARD_NAME)
+        _LST20_TAGGER = PerceptronTagger(path=path)
+    return _LST20_TAGGER
 
 
 def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
@@ -52,6 +62,10 @@ def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
         words = orchid.pre_process(words)
         word_tags = _orchid_tagger().tag(words)
         word_tags = orchid.post_process(word_tags, to_ud)
+    elif corpus == "blackboard" or corpus == "blackboard_ud":
+        words = blackboard.pre_process(words)
+        word_tags = _blackboard_tagger().tag(words)
+        word_tags = blackboard.post_process(word_tags, to_ud)
     else:  # default, use "pud" as a corpus
         tagger = _pud_tagger()
         word_tags = tagger.tag(words)

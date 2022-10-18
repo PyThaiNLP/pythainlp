@@ -6,7 +6,6 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     Tokenizer,
     attacut,
-    crfcls,
     deepcut,
     etcc,
     longest,
@@ -24,7 +23,6 @@ from pythainlp.tokenize import (
     oskut,
     word_detokenize,
 )
-from pythainlp.tokenize import clause_tokenize as sent_clause_tokenize
 from pythainlp.util import dict_trie
 
 
@@ -205,12 +203,6 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(_tokenizer.word_tokenize("ก"), ["ก"])
         with self.assertRaises(NotImplementedError):
             Tokenizer(engine="catcut")
-
-    def test_clause_tokenize(self):
-        self.assertIsNotNone(sent_clause_tokenize(["ฉัน", "ทดสอบ"]))
-        self.assertIsInstance(sent_clause_tokenize(["ฉัน", "ทดสอบ"]), list)
-        self.assertIsNotNone(crfcls.segment(["ฉัน", "ทดสอบ"]))
-        self.assertIsInstance(crfcls.segment(["ฉัน", "ทดสอบ"]), list)
 
     def test_sent_tokenize(self):
         self.assertEqual(sent_tokenize(None), [])
@@ -630,12 +622,11 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(nercut.segment(None), [])
         self.assertEqual(nercut.segment(""), [])
         self.assertIsNotNone(nercut.segment("ทดสอบ"))
-        self.assertEqual(nercut.segment("ทันแน่ๆ"), ["ทัน", "แน่ๆ"])
-        self.assertEqual(nercut.segment("%1ครั้ง"), ["%", "1", "ครั้ง"])
-        self.assertEqual(nercut.segment("ทุ๊กกโคนน"), ["ทุ๊กกโคนน"])
-        self.assertEqual(nercut.segment("อือหือ"), ["อือหือ"])
-        self.assertEqual(
-            nercut.segment("อย่าลืมอัพการ์ดนะจ๊ะ"), ["อย่าลืมอัพการ์ดนะจ๊ะ"]
+        self.assertEqual(nercut.segment("ทันแน่ๆ"), ['ทัน', 'แน่ๆ'])
+        self.assertEqual(nercut.segment("%1ครั้ง"), ['%', '1', 'ครั้ง'])
+        self.assertEqual(nercut.segment("ทุ๊กกโคนน"), ['ทุ๊กกโคนน'])
+        self.assertIsNotNone(
+            nercut.segment("อย่าลืมอัพการ์ดนะจ๊ะ")
         )
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="nercut"))
 

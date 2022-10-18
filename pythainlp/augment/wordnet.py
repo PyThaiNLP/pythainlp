@@ -15,25 +15,6 @@ from typing import List
 from nltk.corpus import wordnet as wn
 import itertools
 
-lst20 = {
-    "": "",
-    "AJ": wn.ADJ,
-    "AV": wn.ADV,
-    "AX": "",
-    "CC": "",
-    "CL": wn.NOUN,
-    "FX": wn.NOUN,
-    "IJ": "",
-    "NN": wn.NOUN,
-    "NU": "",
-    "NG": "",
-    "PA": "",
-    "PR": "",
-    "PS": "",
-    "PU": "",
-    "VV": wn.VERB,
-    "XX": "",
-}
 
 orchid = {
     "": "",
@@ -124,15 +105,11 @@ def postype2wordnet(pos: str, corpus: str):
     :param str corpus: part-of-speech corpus
 
     **Options for corpus**
-        * *lst20* - LST20 Corpus
         * *orchid* - Orchid Corpus
     """
-    if corpus not in ['lst20', 'orchid']:
+    if corpus not in ['orchid']:
         return None
-    if corpus == 'lst20':
-        return lst20[pos]
-    else:
-        return orchid[pos]
+    return orchid[pos]
 
 
 class WordNetAug:
@@ -146,7 +123,7 @@ class WordNetAug:
         self,
         word: str,
         pos: str = None,
-        postag_corpus: str = "lst20"
+        postag_corpus: str = "orchid"
     ) -> List[str]:
         """
         Find synonyms from wordnet
@@ -182,7 +159,7 @@ class WordNetAug:
         tokenize: object = word_tokenize,
         max_syn_sent: int = 6,
         postag: bool = True,
-        postag_corpus: str = "lst20"
+        postag_corpus: str = "orchid"
     ) -> List[List[str]]:
         """
         Text Augment using wordnet

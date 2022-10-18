@@ -28,7 +28,6 @@ class ThaiNameTagger:
 
         :param str dataset_name:
             * *thainer* - ThaiNER dataset
-            * *lst20* - LST20 Corpus
         :param bool grouped_entities: grouped entities
         """
         self.dataset_name = dataset_name
@@ -81,13 +80,6 @@ class ThaiNameTagger:
                 (
                     i['word'].replace("<_>", " ").replace('▁', ''), i['entity']
                 ) for i in self.json_ner if i['word'] != '▁'
-            ]
-        elif self.grouped_entities and self.dataset_name == "lst20":
-            self.sent_ner = [
-                (
-                    i['word'].replace("<_>", " ").replace('▁', ''),
-                    i['entity_group'].replace('_', '-').replace('E-', 'I-')
-                ) for i in self.json_ner
             ]
         else:
             self.sent_ner = [

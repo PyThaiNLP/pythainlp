@@ -8,7 +8,6 @@ The :class:`pythainlp.tokenize` contains multiple functions for tokenizing a chu
 Modules
 -------
 
-.. autofunction:: clause_tokenize
 .. autofunction:: sent_tokenize
 .. autofunction:: subword_tokenize
 .. autofunction:: word_tokenize

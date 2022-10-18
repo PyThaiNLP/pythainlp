@@ -30,9 +30,6 @@ Notebook:
 
 Modules
 -------
-.. autoclass:: ThaiNameTagger
-    :members:
-.. autofunction:: pos_tag
 .. autofunction:: segment
 
 References

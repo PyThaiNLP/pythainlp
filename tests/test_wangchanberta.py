@@ -2,8 +2,7 @@
 
 import unittest
 
-from pythainlp.wangchanberta import ThaiNameTagger, pos_tag, segment
-from pythainlp.wangchanberta.postag import PosTagTransformers
+from pythainlp.wangchanberta import ThaiNameTagger, segment
 
 
 class TestWangchanberta(unittest.TestCase):
@@ -28,29 +27,6 @@ class TestWangchanberta(unittest.TestCase):
             ner.get_ner("I คิด therefore I am ผ็ฎ์", tag=True)
         )
 
-    def test_lst20_ner_wangchanberta(self):
-        ner = ThaiNameTagger(dataset_name="lst20")
-        self.assertIsNotNone(
-            ner.get_ner("I คิด therefore I am ผ็ฎ์")
-        )
-        self.assertIsNotNone(
-            ner.get_ner("I คิด therefore I am ผ็ฎ์", tag=True)
-        )
-        self.assertIsNotNone(
-            ner.get_ner(
-                "โรงเรียนสวนกุหลาบเป็นโรงเรียนที่ดี แต่ไม่มีสวนกุหลาบ",
-                tag=True
-            )
-        )
-
-        ner = ThaiNameTagger(
-            dataset_name="lst20",
-            grouped_entities=False
-        )
-        self.assertIsNotNone(
-            ner.get_ner("I คิด therefore I am ผ็ฎ์", tag=True)
-        )
-
     def test_segment_wangchanberta(self):
         self.assertIsNotNone(
             segment("I คิด therefore I am ผ็ฎ์")
@@ -59,42 +35,3 @@ class TestWangchanberta(unittest.TestCase):
             segment([])
         )
 
-    def test_pos_tag_wangchanberta(self):
-        self.assertIsNotNone(
-            pos_tag("I คิด therefore I am ผ็ฎ์")
-        )
-        self.assertIsNotNone(
-            pos_tag(
-                [
-                    'I',
-                    ' ',
-                    'คิด',
-                    ' ',
-                    'therefore',
-                    ' ',
-                    'I',
-                    ' ',
-                    'am',
-                    ' ',
-                    'ผ็ฎ์'
-                ]
-            )
-        )
-        self.assertIsNotNone(
-            pos_tag(None)
-        )
-        self.assertIsNotNone(
-            pos_tag("I คิด therefore I am ผ็ฎ์", grouped_word=True)
-        )
-        self.assertIsNotNone(
-            pos_tag("ทดสอบระบบ", grouped_word=False)
-        )
-        _pos = PosTagTransformers()
-        self.assertIsNotNone(
-            _pos.tag("ทดสอบระบบ", grouped_word=False)
-        )
-        self.assertIsNotNone(
-            _pos.tag("ทดสอบระบบ", grouped_word=True)
-        )
-        with self.assertRaises(NotImplementedError):
-            pos_tag("I คิด therefore I am ผ็ฎ์", grouped_word=True, corpus="cat")

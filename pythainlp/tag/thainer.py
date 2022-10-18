@@ -75,21 +75,18 @@ class ThaiNameTagger:
     """
     Thai named-entity recognizer.
     :param str version: Thai NER version.
-        It's support Thai NER 1.4 & 1.5.
-        The defualt value is `1.5`
+        It's support Thai NER 1.4.
+        The defualt value is `1.4`
 
     :Example:
     ::
 
         from pythainlp.tag.named_entity import ThaiNameTagger
 
-        thainer15 = ThaiNameTagger(version="1.5")
-        thainer15.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
-
         thainer14 = ThaiNameTagger(version="1.4")
         thainer14.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
     """
-    def __init__(self, version: str = "1.5") -> None:
+    def __init__(self, version: str = "1.4") -> None:
         """
         Thai named-entity recognizer.
 
@@ -103,9 +100,6 @@ class ThaiNameTagger:
         if version == "1.4":
             self.crf.open(get_corpus_path("thainer-1.4", version="1.4"))
             self.pos_tag_name = "orchid_ud"
-        else:
-            self.crf.open(get_corpus_path(_CORPUS_NAME, version="1.5"))
-            self.pos_tag_name = "lst20"
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False

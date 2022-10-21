@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 The implementation of tokenizer accorinding to Thai Character Clusters (TCCs)
 rules purposed by `Theeramunkong et al. 2000. \
@@ -15,24 +15,24 @@ from typing import List, Set
 
 _RE_TCC = (
     """\
-เc็c
-เcctาะ
-เccีtยะ
-เccีtย(?=[เ-ไก-ฮ]|$)
-เcc็c
-เcิc์c
-เcิtc
-เcีtยะ?
-เcืtอะ?
+เc็ck
+เcctาะk
+เccีtยะk
+เccีtย(?=[เ-ไก-ฮ]|$)k
+เcc็ck
+เcิc์ck
+เcิtck
+เcีtยะ?k
+เcืtอะ?k
 เc[ิีุู]tย(?=[เ-ไก-ฮ]|$)
-เctา?ะ?
-cัtวะ
-c[ัื]tc[ุิะ]?
+เctา?ะ?k
+cัtวะk
+c[ัื]tc[ุิะ]?k
 c[ิุู]์
-c[ะ-ู]t
+c[ะ-ู]tk
 c็
-c์
-ct[ะาำ]?
+ck
+ct[ะาำ]?(์?)
 แc็c
 แcc์
 แctะ
@@ -40,10 +40,14 @@ ct[ะาำ]?
 แccc์
 โctะ
 [เ-ไ]ct
+ก็
+อึ
+หึ
 """.replace(
         "c", "[ก-ฮ]"
     )
     .replace("t", "[่-๋]?")
+    .replace("k","((cc|c)?[ะ]?[์])?")
     .split()
 )
 

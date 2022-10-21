@@ -31,8 +31,8 @@ c[ัื]tc[ุิะ]?k
 c[ิุู]์
 c[ะ-ู]tk
 c็
-ck
 ct[ะาำ]?(์?)
+ck
 แc็c
 แcc์
 แctะ
@@ -47,7 +47,8 @@ ct[ะาำ]?(์?)
         "c", "[ก-ฮ]"
     )
     .replace("t", "[่-๋]?")
-    .replace("k","((cc|c)?[ะ]?[์])?")
+    .replace("k","(cc?[d|ิ]?[์])?")
+    .replace("d","ุ") # DSara: lower vowel
     .split()
 )
 

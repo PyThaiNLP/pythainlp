@@ -648,6 +648,9 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             tcc.segment("ประเทศไทย"), ["ป", "ระ", "เท", "ศ", "ไท", "ย"]
         )
+        self.assertEqual(
+            tcc.segment("พิสูจน์ได้ค่ะ"), ['พิ', 'สูจน์', 'ได้', 'ค่ะ']
+        )
         self.assertEqual(list(tcc.tcc("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())
 

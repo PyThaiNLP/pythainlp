@@ -44,10 +44,12 @@ ck
 อึ
 หึ
 """.replace(
+        "k","(cc?[d|ิ]?[์])?"
+    )
+    .replace(
         "c", "[ก-ฮ]"
     )
     .replace("t", "[่-๋]?")
-    .replace("k","(cc?[d|ิ]?[์])?")
     .replace("d","ุ") # DSara: lower vowel
     .split()
 )

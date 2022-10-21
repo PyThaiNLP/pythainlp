@@ -50,7 +50,7 @@ ck
         "c", "[ก-ฮ]"
     )
     .replace("t", "[่-๋]?")
-    .replace("d","ุ") # DSara: lower vowel
+    .replace("d","อูอุ".replace("อ", "")) # DSara: lower vowel
     .split()
 )
 

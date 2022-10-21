@@ -51,7 +51,7 @@ _RE_TCC = (
     .split()
 )
 
-_PAT_TCC = re.compile("|".join(_RE_TCC))
+_PAT_TCC = re.compile("|".join([i for i in _RE_TCC if not i.startswith("#")]))
 
 
 def tcc(text: str) -> str:

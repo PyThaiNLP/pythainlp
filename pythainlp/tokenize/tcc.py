@@ -15,6 +15,8 @@ from typing import List, Set
 
 _RE_TCC = (
     """\
+c[ั]([่-๋]c)?
+c[ั]([่-๋]c)?k
 เc็ck
 เcctาะk
 เccีtยะk
@@ -26,13 +28,11 @@ _RE_TCC = (
 เcีtยะ?k
 เcืtอะ?k
 เctา?ะ?k
-c[ั]([่-๋]c)?k
 c[ะ-ู]tk
 c[ิุู]์
 cรรc์
 c็
 ct[ะาำ]?k
-ck
 แc็ck
 แcc์k
 แctะk

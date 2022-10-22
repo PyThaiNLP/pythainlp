@@ -144,6 +144,9 @@ html_theme_options = {"display_version": True}
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
 
+# Custom css file
+html_css_files = ["style.css"]
+
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
 #

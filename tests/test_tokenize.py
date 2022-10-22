@@ -652,7 +652,7 @@ class TestTokenizePackage(unittest.TestCase):
             tcc.segment("พิสูจน์ได้ค่ะ"), ['พิ', 'สูจน์', 'ได้', 'ค่ะ']
         )
         self.assertEqual(
-            tcc.segment("หอมรดกไทย"), ['ห', 'อ', 'ม', 'ร', 'ด', 'ก', 'ไ', 'ท', 'ย']
+            tcc.segment("หอมรดกไทย"), ['ห', 'อ', 'ม', 'ร', 'ด', 'ก', 'ไท', 'ย']
         )
         self.assertEqual(
             tcc.segment("เรือน้อยลอยอยู่"), ['เรือ', 'น้', 'อ', 'ย', 'ล', 'อ', 'ย', 'อ', 'ยู่']

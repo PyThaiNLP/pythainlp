@@ -13,29 +13,46 @@ Credits:
 import re
 from typing import List, Set
 
+
+_RE_TCC1 = (
+    """\
+<DSara><Tone>?
+<Tone>?๋า
+[อึอื]<Tone>?<BCons>
+อั(<Tone>[อุอิ])?
+อ็<BCons>
+<Tone>[<TSara><DSara>]ว?<BCons>
+อิ(<Tone><BCons>?)?
+อี<Tone>
+<Tone>?(า|าะ|ะ)
+""".split()
+)
+
+_RE_TCC2= (
+    """\
+<Cons>าะ
+อ็<BCons>
+<USara><Tone>?<BCons>[า|ะ]
+<Tone>?[า|าะ|ะ]?
+""".split()
+)
+
 _RE_TCC = (
     """\
 ก็
 อึ
 หึ
-<Cons>รร<Cons>์
-<Cons><BCons><Cons>์
-# TCC1
-<Cons><DSara><Tone>?<Karan>
-<Cons><Tone>?๋า<Karan>
-<Cons>[อึอื]<Tone>?<BCons><Karan>
-<Cons>อั(<Tone>[อุอิ])?<Karan>
-<Cons>อ็<BCons><Karan>
-<Cons><Tone>[<TSara><DSara>]ว?<BCons><Karan>
-<Cons>อิ(<Tone><BCons>?)?<Karan>
-<Cons>อี<Tone><Karan>
-<Cons><Tone>?<Bsara><Karan>
-# TCC2
-<FSara><Cons><Cons>าะ<Karan>
-<FSara><Cons>อ็<BCons><Karan>
-<FSara><Cons><USara><Tone>?<BCons>[า|ะ]<Karan>
-<FSara><Cons><Tone>?[า|าะ|ะ]<Karan>
+<Cons>รร<Cons>อ์
+<Cons><BCons><Cons>อ์
+<Cons><TCC1>?<Karan>
+<FSara><Cons><TCC2>?<Karan>
 """.replace(
+        "<TCC1>", "|".join([i for i in _RE_TCC1])
+    )
+    .replace(
+        "<TCC2>", "|".join([i for i in _RE_TCC2])
+    )
+    .replace(
         "<Karan>","(<Cons><Cons>?[<DSara>ิ]?อ์)?"
     )
     .replace("อ","")
@@ -50,7 +67,7 @@ _RE_TCC = (
     .replace("<DSara>","อูอุ".replace("อ", "")) # DSara: lower vowel
     .split()
 )
-
+print("|".join([i for i in _RE_TCC if not i.startswith("#")]))
 _PAT_TCC = re.compile("|".join([i for i in _RE_TCC if not i.startswith("#")]))
 
 

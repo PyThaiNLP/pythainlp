@@ -15,36 +15,37 @@ from typing import List, Set
 
 _RE_TCC = (
     """\
-c[ั]([่-๋]c)?
-c[ั]([่-๋]c)?k
 เc็ck
 เcctาะk
 เccีtยะk
 เccีtย(?=[เ-ไก-ฮ]|$)k
-เc[ิีุู]tย(?=[เ-ไก-ฮ]|$)k
 เcc็ck
 เcิc์ck
 เcิtck
 เcีtยะ?k
 เcืtอะ?k
+เc[ิีุู]tย(?=[เ-ไก-ฮ]|$)
 เctา?ะ?k
-c[ะ-ู]tk
+cัtวะk
+c[ัื]tc[ุิะ]?k
 c[ิุู]์
+c[ะ-ู]tk
 cรรc์
 c็
 ct[ะาำ]?k
-แc็ck
-แcc์k
-แctะk
-แcc็ck
-แccc์k
-โctะk
-[เ-ไ]ctk
+ck
+แc็c
+แcc์
+แctะ
+แcc็c
+แccc์
+โctะ
+[เ-ไ]ct
 ก็
 อึ
 หึ
 """.replace(
-        "k","(cc?[d|ิ]?[์])?"
+        "k","(cc?[dิ]?[์])?"
     )
     .replace(
         "c", "[ก-ฮ]"

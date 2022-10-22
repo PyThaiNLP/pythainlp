@@ -13,62 +13,49 @@ Credits:
 import re
 from typing import List, Set
 
-
-_RE_TCC1 = (
-    """\
-<DSara><Tone>?
-<Tone>?๋า
-[อึอื]<Tone>?<BCons>
-อั(<Tone>[อุอิ])?
-อ็<BCons>
-<Tone>[<TSara><DSara>]ว?<BCons>
-อิ(<Tone><BCons>?)?
-อี<Tone>
-<Tone>?(า|าะ|ะ)
-""".split()
-)
-
-_RE_TCC2= (
-    """\
-<Cons>าะ
-อ็<BCons>
-<USara><Tone>?<BCons>[า|ะ]
-<Tone>?[า|าะ|ะ]?
-""".split()
-)
-
 _RE_TCC = (
     """\
+เc็ck
+เcctาะk
+เccีtยะk
+เccีtย(?=[เ-ไก-ฮ]|$)k
+เcc็ck
+เcิc์ck
+เcิtck
+เcีtยะ?k
+เcืtอะ?k
+เc[ิีุู]tย(?=[เ-ไก-ฮ]|$)
+เctา?ะ?k
+cัtวะk
+c[ัื]tc[ุิะ]?k
+c[ิุู]์
+c[ะ-ู]tk
+cรรc์
+c็
+ct[ะาำ]?k
+ck
+แc็c
+แcc์
+แctะ
+แcc็c
+แccc์
+โctะ
+[เ-ไ]ct
 ก็
 อึ
 หึ
-<Cons>รร<Cons>อ์
-<Cons><BCons><Cons>อ์
-<Cons><TCC1>?<Karan>
-<FSara><Cons><TCC2>?<Karan>
 """.replace(
-        "<TCC1>", "|".join([i for i in _RE_TCC1])
+        "k","(cc?[d|ิ]?[์])?"
     )
     .replace(
-        "<TCC2>", "|".join([i for i in _RE_TCC2])
+        "c", "[ก-ฮ]"
     )
-    .replace(
-        "<Karan>","(<Cons><Cons>?[<DSara>ิ]?อ์)?"
-    )
-    .replace("อ","")
-    .replace(
-        "<Cons>", "[ก-ฮ]"
-    )
-    .replace("<Tone>", "[่-๋]")
-    .replace("<FSsara>","เแโใไ")
-    .replace("<TSara>", "าําๅๆะฯๅๆ")
-    .replace("<USara>","อ็อ้อ์อิอีอือึอํอัอ่อ๋อ๊".replace('อ',''))
-    .replace("<BCons>","[กขคฆงจชซญฎฏฐฑฒณดตถทธนบปพฟภมยรลวศษวฬอ]")
-    .replace("<DSara>","อูอุ".replace("อ", "")) # DSara: lower vowel
+    .replace("t", "[่-๋]?")
+    .replace("d","อูอุ".replace("อ", "")) # DSara: lower vowel
     .split()
 )
-print("|".join([i for i in _RE_TCC if not i.startswith("#")]))
-_PAT_TCC = re.compile("|".join([i for i in _RE_TCC if not i.startswith("#")]))
+
+_PAT_TCC = re.compile("|".join(_RE_TCC))
 
 
 def tcc(text: str) -> str:

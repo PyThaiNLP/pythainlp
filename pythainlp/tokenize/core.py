@@ -145,6 +145,7 @@ def word_tokenize(
         * *newmm* (default) - "new multi-cut",
           dictionary-based, maximum matching,
           constrained with Thai Character Cluster (TCC) boundaries
+          with improve the TCC rule that used in newmm.
         * *newmm-safe* - newmm, with a mechanism to avoid long
           processing time for text with continuous ambiguous breaking points
         * *nlpo3* - wrapper for a word tokenizer in
@@ -440,6 +441,7 @@ def subword_tokenize(
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
         * *ssg* - CRF syllable segmenter for Thai
         * *tcc* (default) - Thai Character Cluster (Theeramunkong et al. 2000)
+        * *tcc_p* - Thai Character Cluster + improve the rule that used in newmm
         * *tltk* - syllable tokenizer from tltk
         * *wangchanberta* - SentencePiece from wangchanberta model
     :Example:
@@ -489,6 +491,8 @@ def subword_tokenize(
 
     if engine == "tcc":
         from pythainlp.tokenize.tcc import segment
+    elif engine == "tcc_p":
+        from pythainlp.tokenize.tcc_p import segment
     elif engine == "etcc":
         from pythainlp.tokenize.etcc import segment
     elif engine == "wangchanberta":

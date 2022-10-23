@@ -662,18 +662,18 @@ class TestTokenizePackage(unittest.TestCase):
             tcc.segment("หอมรดกไทย"), ['ห', 'อ', 'ม', 'ร', 'ด', 'ก', 'ไท', 'ย']
         )
         self.assertEqual(
-            tcc.segment("เรือน้อยลอยอยู่"), ['เรือ', 'น้', 'อ', 'ย', 'ล', 'อ', 'ย', 'อ', 'ยู่']
+            tcc.segment("เรือน้อยลอยอยู่"), ['เรื', 'อ', 'น้', 'อ', 'ย', 'ล', 'อ', 'ย', 'อ', 'ยู่']
         )
         # Not implementation
-        # self.assertEqual(
-        #     tcc.segment("ประสานงานกับลูกค้า"), ['ป', 'ระ', 'สา', 'น', 'งา', 'น', 'กั', 'บ', 'ลู', 'ก', 'ค้า']
-        # )
-        # self.assertEqual(
-        #     tcc.segment("ประกันภัยสัมพันธ์"), ['ป', 'ระ', 'กั', 'น', 'ภั', 'ย', 'สั', 'ม', 'พั','น','ธ์']
-        # )
-        # self.assertEqual(
-        #     tcc.segment("ตากลม"), ['ตา', 'ก', 'ล', 'ม']
-        # )
+        self.assertEqual(
+             tcc.segment("ประสานงานกับลูกค้า"), ['ป', 'ระ', 'สา', 'น', 'งา', 'น', 'กั', 'บ', 'ลู', 'ก', 'ค้า']
+        )
+        self.assertEqual(
+             tcc.segment("ประกันภัยสัมพันธ์"), ['ป', 'ระ', 'กั', 'น', 'ภั', 'ย', 'สั', 'ม', 'พั','นธ์'] # It don't look like TCC in ETCC paper
+        )
+        self.assertEqual(
+             tcc.segment("ตากลม"), ['ตา', 'ก', 'ล', 'ม']
+        )
         self.assertEqual(list(tcc.tcc("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())
 

@@ -674,6 +674,25 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
              tcc.segment("ตากลม"), ['ตา', 'ก', 'ล', 'ม']
         )
+        self.assertEqual(
+             tcc.segment("เครื่องมือสื่อสารมีหลายชนิด"),
+             [
+                'เค',
+                'รื่อ',
+                'ง',
+                'มือ',
+                'สื่อ',
+                'สา',
+                'ร',
+                'มี',
+                'ห',
+                'ลา',
+                'ย',
+                'ช',
+                'นิ',
+                'ด'
+            ]
+        )
         self.assertEqual(list(tcc.tcc("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())
 

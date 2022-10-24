@@ -60,6 +60,8 @@ def romanize(
     def select_romanize_engine(engine: str):
         if engine == "thai2rom":
             from pythainlp.transliterate.thai2rom import romanize
+        elif engine == "thai2rom_onnx":
+            from pythainlp.transliterate.thai2rom import romanize_onnx as romanize
         elif engine == "tltk":
             from pythainlp.transliterate.tltk import romanize
         else:  # use default engine "royin"

@@ -5,7 +5,6 @@ Romanization of Thai words based on machine-learnt engine ("thai2rom")
 
 import random
 
-import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -78,10 +77,9 @@ class ThaiTransliterator:
                  should be pronounced.
         """
         input_tensor = self._prepare_sequence_in(text).view(1, -1)
-        input_length = [len(text) + 1]
-
+        input_length = torch.Tensor([len(text) + 1]).int()
         target_tensor_logits = self._network(
-            input_tensor, input_length, None, 0
+            input_tensor, input_length
         )
 
         # Seq2seq model returns <END> as the first token,
@@ -127,20 +125,16 @@ class Encoder(nn.Module):
         batch_size = sequences.size(0)
         self.hidden = self.init_hidden(batch_size)
 
-        sequences_lengths = np.sort(sequences_lengths)[::-1]
-        index_sorted = np.argsort(
-            -sequences_lengths
-        )  # use negation in sort in descending order
-        index_unsort = np.argsort(index_sorted)  # to unsorted sequence
-
-        index_sorted = torch.from_numpy(index_sorted)
+        sequences_lengths = torch.flip(torch.sort(sequences_lengths).values, dims = (0,))
+        index_sorted = torch.sort(-1 * sequences_lengths).indices
+        index_unsort = torch.sort(index_sorted).indices  # to unsorted sequence
         sequences = sequences.index_select(0, index_sorted.to(device))
 
         sequences = self.character_embedding(sequences)
         sequences = self.dropout(sequences)
 
         sequences_packed = nn.utils.rnn.pack_padded_sequence(
-            sequences, sequences_lengths.copy(), batch_first=True
+            sequences, sequences_lengths.clone(), batch_first=True
         )
 
         sequences_output, self.hidden = self.rnn(sequences_packed, self.hidden)
@@ -149,11 +143,9 @@ class Encoder(nn.Module):
             sequences_output, batch_first=True
         )
 
-        index_unsort = torch.from_numpy(index_unsort).to(device)
         sequences_output = sequences_output.index_select(
             0, index_unsort.clone().detach()
         )
-
         return sequences_output, self.hidden
 
     def init_hidden(self, batch_size):
@@ -291,7 +283,7 @@ class Seq2Seq(nn.Module):
         return mask
 
     def forward(
-        self, source_seq, source_seq_len, target_seq, teacher_forcing_ratio=0.5
+        self, source_seq, source_seq_len
     ):
 
         # source_seq: (batch_size, MAX_LENGTH)
@@ -307,12 +299,6 @@ class Seq2Seq(nn.Module):
         outputs = torch.zeros(max_len, batch_size, target_vocab_size).to(
             device
         )
-
-        if target_seq is None:
-            assert teacher_forcing_ratio == 0, "Must be zero during inference"
-            inference = True
-        else:
-            inference = False
 
         encoder_outputs, encoder_hidden = self.encoder(
             source_seq, source_seq_len
@@ -340,19 +326,12 @@ class Seq2Seq(nn.Module):
             topv, topi = decoder_output.topk(1)
             outputs[di] = decoder_output.to(device)
 
-            teacher_force = random.random() < teacher_forcing_ratio
+            decoder_input = (topi.detach())
 
-            decoder_input = (
-                target_seq[:, di].reshape(batch_size, 1)
-                if teacher_force
-                else topi.detach()
-            )
-
-            if inference and decoder_input == end_token:
+            if decoder_input == end_token:
                 return outputs[:di]
 
         return outputs
-
 
 _THAI_TO_ROM = ThaiTransliterator()
 

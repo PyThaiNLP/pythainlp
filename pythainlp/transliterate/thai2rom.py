@@ -77,7 +77,9 @@ class ThaiTransliterator:
         """
         input_tensor = self._prepare_sequence_in(text).view(1, -1)
         input_length = torch.Tensor([len(text) + 1]).int()
-        target_tensor_logits = self._network(input_tensor, input_length, None, 0)
+        target_tensor_logits = self._network(
+            input_tensor, input_length, None, 0
+        )
 
         # Seq2seq model returns <END> as the first token,
         # As a result, target_tensor_logits.size() is torch.Size([0])

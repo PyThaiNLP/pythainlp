@@ -29,6 +29,7 @@ def romanize(
           Transcription issued by Royal Institute of Thailand.
         * *thai2rom* - a deep learning-based Thai romanization engine
           (require PyTorch).
+        * *thai2rom_onnx* - a deep learning-based Thai romanization engine with ONNX runtime
         * *tltk* - TLTK: Thai Language Toolkit
         * *lookup* - Look up on Thai-English Transliteration dictionary v1.4 compiled by Wannaphong.
 
@@ -61,7 +62,7 @@ def romanize(
         if engine == "thai2rom":
             from pythainlp.transliterate.thai2rom import romanize
         elif engine == "thai2rom_onnx":
-            from pythainlp.transliterate.thai2rom import romanize_onnx as romanize
+            from pythainlp.transliterate.thai2rom_onnx import romanize
         elif engine == "tltk":
             from pythainlp.transliterate.tltk import romanize
         else:  # use default engine "royin"

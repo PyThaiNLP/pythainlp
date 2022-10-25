@@ -86,6 +86,18 @@ class TestTransliteratePackage(unittest.TestCase):
         )
         self.assertEqual(romanize("สกุนต์", engine="thai2rom"), "sakun")
         self.assertEqual(romanize("ชารินทร์", engine="thai2rom"), "charin")
+    
+    def test_romanize_thai2rom_onnx(self):
+        self.assertEqual(romanize("แมว", engine="thai2rom_onnx"), "maeo")
+        self.assertEqual(romanize("บ้านไร่", engine="thai2rom_onnx"), "banrai")
+        self.assertEqual(romanize("สุนัข", engine="thai2rom_onnx"), "sunak")
+        self.assertEqual(romanize("นก", engine="thai2rom_onnx"), "nok")
+        self.assertEqual(romanize("ความอิ่ม", engine="thai2rom_onnx"), "khwam-im")
+        self.assertEqual(
+            romanize("กานต์ ณรงค์", engine="thai2rom_onnx"), "kan narong"
+        )
+        self.assertEqual(romanize("สกุนต์", engine="thai2rom_onnx"), "sakun")
+        self.assertEqual(romanize("ชารินทร์", engine="thai2rom_onnx"), "charin")
 
     def test_romanize_lookup(self):
         # found in v1.4

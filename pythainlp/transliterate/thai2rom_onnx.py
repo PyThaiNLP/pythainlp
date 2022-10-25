@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Romanization of Thai words based on machine-learnt engine ("thai2rom")
+Romanization of Thai words based on machine-learnt engine in ONNX runtime ("thai2rom")
 """
-
-import random
-
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
 from pythainlp.corpus import get_corpus_path
+import numpy as np
+import json
 
 from onnxruntime import InferenceSession
-
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 _MODEL_NAME = "thai2rom-pytorch-attn"
 
@@ -26,10 +20,11 @@ class ThaiTransliterator_ONNX:
         # get the model, will download if it's not available locally
         self.__model_filename = get_corpus_path(_MODEL_NAME)
 
-        loader = torch.load(self.__model_filename, map_location=device)
+        # loader = torch.load(self.__model_filename, map_location=device)
+        with open('./thai2rom_loader_onnx.json') as f:
+            loader = json.load(f) 
 
-        # INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT = loader["encoder_params"]
-        OUTPUT_DIM = loader["decoder_params"][0]
+        OUTPUT_DIM = loader["output_dim"]
 
         self._maxlength = 100
 
@@ -39,8 +34,7 @@ class ThaiTransliterator_ONNX:
         self._ix_to_target_char = loader["ix_to_target_char"]
 
         # encoder/ decoder
-        # Restore the model and construct the encoder and decoder.
-        # self._encoder = Encoder(INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT)
+        # Load encoder decoder onnx models.
         self._encoder = InferenceSession('./thai2rom_encoder.onnx')
 
         self._decoder = InferenceSession('./thai2rom_decoder.onnx')
@@ -56,7 +50,7 @@ class ThaiTransliterator_ONNX:
     
     def _prepare_sequence_in(self, text: str):
         """
-        Prepare input sequence for PyTorch
+        Prepare input sequence for ONNX
         """
         idxs = []
         for ch in text:
@@ -65,8 +59,7 @@ class ThaiTransliterator_ONNX:
             else:
                 idxs.append(self._char_to_ix["<UNK>"])
         idxs.append(self._char_to_ix["<end>"])
-        tensor = torch.tensor(idxs, dtype=torch.long)
-        return tensor.to(device)
+        return np.array(idxs)
 
     def romanize(self, text: str) -> str:
         """
@@ -74,24 +67,21 @@ class ThaiTransliterator_ONNX:
         :return: English (more or less) text that spells out how the Thai text
                  should be pronounced.
         """
-        input_tensor = self._prepare_sequence_in(text).view(1, -1)
-        input_length = torch.Tensor([len(text) + 1]).int()
+        input_tensor = self._prepare_sequence_in(text).reshape(1, -1)
+        input_length = [len(text) + 1]
         target_tensor_logits = self._network.run(
             input_tensor, input_length
         )
 
         # Seq2seq model returns <END> as the first token,
         # As a result, target_tensor_logits.size() is torch.Size([0])
-        if target_tensor_logits.size(0) == 0:
+        if target_tensor_logits.shape[0] == 0:
             target = ["<PAD>"]
         else:
             target_tensor = (
-                torch.argmax(target_tensor_logits.squeeze(1), 1)
-                .cpu()
-                .detach()
-                .numpy()
+                np.argmax(target_tensor_logits.squeeze(1), 1)
             )
-            target = [self._ix_to_target_char[t] for t in target_tensor]
+            target = [self._ix_to_target_char[str(t)] for t in target_tensor]
 
         return "".join(target)
 
@@ -128,60 +118,52 @@ class Seq2Seq_ONNX:
         # source_seq_len: (batch_size, 1)
         # target_seq: (batch_size, MAX_LENGTH)
 
-        batch_size = source_seq.size(0)
+        batch_size = source_seq.shape[0]
         start_token = self.target_start_token
         end_token = self.target_end_token
         max_len = self.max_length
         # target_vocab_size = self.decoder.vocabulary_size
 
-        outputs = torch.zeros(max_len, batch_size, self.target_vocab_size).to(
-            device
-        )
+        outputs = np.zeros((max_len, batch_size, self.target_vocab_size))
         
         expected_encoder_outputs = list(map(lambda output: output.name, self.encoder.get_outputs()))
         encoder_outputs, encoder_hidden, _ = self.encoder.run(
             input_feed = {
-                'input_tensor': source_seq.numpy(),
-                'input_lengths': source_seq_len.numpy()
+                'input_tensor': source_seq,
+                'input_lengths': source_seq_len
             },
             output_names = expected_encoder_outputs
         )
-        #@Todo: Remove torch
-        encoder_outputs = torch.Tensor(encoder_outputs)
-        encoder_hidden = torch.Tensor(encoder_hidden)
 
         decoder_input = (
-            torch.tensor([[start_token] * batch_size])
-            .view(batch_size, 1)
-            .to(device)
+            np.array([[start_token] * batch_size])
+            .reshape(batch_size, 1)
         )
-        encoder_hidden_h_t = torch.cat(
+        encoder_hidden_h_t = np.expand_dims(np.concatenate(
             # [encoder_hidden_1, encoder_hidden_2], dim=1
-            [encoder_hidden[0], encoder_hidden[1]], dim=1
-        ).unsqueeze(dim=0)
+            (encoder_hidden[0], encoder_hidden[1]), axis=1
+        ), axis=0)
         decoder_hidden = encoder_hidden_h_t
 
-        max_source_len = encoder_outputs.size(1)
+        max_source_len = encoder_outputs.shape[1]
         mask = self.create_mask(source_seq[:, 0:max_source_len])
 
 
         for di in range(max_len):
             decoder_output, decoder_hidden = self.decoder.run(
                 input_feed={
-                    'decoder_input': decoder_input.numpy().astype('int32'),
-                    'decoder_hidden_1': decoder_hidden.numpy(),
-                    'encoder_outputs': encoder_outputs.numpy(),
-                    'mask': mask.numpy().tolist()
+                    'decoder_input': decoder_input.astype('int32'),
+                    'decoder_hidden_1': decoder_hidden,
+                    'encoder_outputs': encoder_outputs,
+                    'mask': mask.tolist()
                 },
                 output_names= [self.decoder.get_outputs()[0].name, self.decoder.get_outputs()[1].name]
             )
-            decoder_output = torch.Tensor(decoder_output)
-            decoder_hidden = torch.Tensor(decoder_hidden)
 
-            topv, topi = decoder_output.topk(1)
-            outputs[di] = decoder_output.to(device)
+            topi = np.argmax(decoder_output, axis = 1)
+            outputs[di] = decoder_output
 
-            decoder_input = (topi.detach())
+            decoder_input = np.array([topi])
 
             if decoder_input == end_token:
                 return outputs[:di]

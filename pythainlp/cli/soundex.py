@@ -37,7 +37,9 @@ class App:
             default=DEFAULT_SOUNDEX_ENGINE,
         )
         parser.add_argument(
-            "text", type=str, help="input text",
+            "text",
+            type=str,
+            help="input text",
         )
 
         args = parser.parse_args(argv[2:])

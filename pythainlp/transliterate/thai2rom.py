@@ -239,7 +239,7 @@ class AttentionDecoder(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, input_character, last_hidden, encoder_outputs, mask):
-        """"Defines the forward computation of the decoder"""
+        """ "Defines the forward computation of the decoder"""
 
         # input_character: (batch_size, 1)
         # last_hidden: (batch_size, hidden_dim)

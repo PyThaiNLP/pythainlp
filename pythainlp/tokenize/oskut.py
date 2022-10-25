@@ -11,11 +11,11 @@ from typing import List
 
 import oskut
 
-DEFAULT_ENGINE = 'ws'
+DEFAULT_ENGINE = "ws"
 oskut.load_model(engine=DEFAULT_ENGINE)
 
 
-def segment(text: str, engine: str = 'ws') -> List[str]:
+def segment(text: str, engine: str = "ws") -> List[str]:
     global DEFAULT_ENGINE
     if not text or not isinstance(text, str):
         return []

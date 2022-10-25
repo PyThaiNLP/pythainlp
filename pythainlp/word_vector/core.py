@@ -25,6 +25,7 @@ class WordVector:
         * *thai2fit_wv* (default) - word vector from thai2fit
         * *ltw2v* - word vector from LTW2V: The Large Thai Word2Vec
     """
+
     def __init__(self, model_name: str = "thai2fit_wv") -> None:
         """
         Word Vector class
@@ -47,7 +48,7 @@ class WordVector:
         self.model = KeyedVectors.load_word2vec_format(
             get_corpus_path(self.model_name),
             binary=True,
-            unicode_errors="ignore"
+            unicode_errors="ignore",
         )
         self.WV_DIM = self.model.vector_size
 
@@ -246,9 +247,7 @@ class WordVector:
         """
         return self.model.similarity(word1, word2)
 
-    def sentence_vectorizer(
-        self, text: str, use_mean: bool = True
-    ) -> ndarray:
+    def sentence_vectorizer(self, text: str, use_mean: bool = True) -> ndarray:
         """
         This function convert a Thai sentence into vector.
         Specifically, it first tokenize that text and map each tokenized words

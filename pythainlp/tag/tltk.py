@@ -18,9 +18,7 @@ def _post_process(text: str) -> str:
 
 
 def get_ner(
-    text: str,
-    pos: bool = True,
-    tag: bool = False
+    text: str, pos: bool = True, tag: bool = False
 ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
     """
     Named-entity recognizer from **TLTK**

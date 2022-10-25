@@ -3,9 +3,7 @@ from typing import List, Tuple
 
 
 def pos_tag(
-    words: List[str],
-    engine: str = "perceptron",
-    corpus: str = "orchid"
+    words: List[str], engine: str = "perceptron", corpus: str = "orchid"
 ) -> List[Tuple[str, str]]:
     """
     Marks words with part-of-speech (POS) tags, such as 'NOUN' and 'VERB'.
@@ -90,20 +88,26 @@ def pos_tag(
     if not words:
         return []
 
-    _support_corpus = ["blackboard", "blackboard_ud", "orchid", "orchid_ud", "pud"]
+    _support_corpus = [
+        "blackboard",
+        "blackboard_ud",
+        "orchid",
+        "orchid_ud",
+        "pud",
+    ]
 
     if engine == "perceptron" and corpus in _support_corpus:
         from pythainlp.tag.perceptron import tag as tag_
     elif engine == "tltk":
         from pythainlp.tag.tltk import pos_tag as tag_
+
         corpus = "tnc"
     elif engine == "unigram" and corpus in _support_corpus:  # default
         from pythainlp.tag.unigram import tag as tag_
     else:
         raise ValueError(
             "pos_tag not support {0} engine or {1} corpus.".format(
-                engine,
-                corpus
+                engine, corpus
             )
         )
 

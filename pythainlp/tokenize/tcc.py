@@ -46,13 +46,11 @@ ct[ะาำ]?k
 อึ
 หึ
 """.replace(
-        "k","(cc?[d|ิ]?[์])?"
+        "k", "(cc?[d|ิ]?[์])?"
     )
-    .replace(
-        "c", "[ก-ฮ]"
-    )
+    .replace("c", "[ก-ฮ]")
     .replace("t", "[่-๋]?")
-    .replace("d","อูอุ".replace("อ", "")) # DSara: lower vowel
+    .replace("d", "อูอุ".replace("อ", ""))  # DSara: lower vowel
     .split()
 )
 

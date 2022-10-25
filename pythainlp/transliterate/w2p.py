@@ -95,11 +95,11 @@ class Thai_W2P(object):
 
         rz_ih, n_ih = (
             rzn_ih[:, : rzn_ih.shape[-1] * 2 // 3],
-            rzn_ih[:, rzn_ih.shape[-1] * 2 // 3:],
+            rzn_ih[:, rzn_ih.shape[-1] * 2 // 3 :],
         )
         rz_hh, n_hh = (
             rzn_hh[:, : rzn_hh.shape[-1] * 2 // 3],
-            rzn_hh[:, rzn_hh.shape[-1] * 2 // 3:],
+            rzn_hh[:, rzn_hh.shape[-1] * 2 // 3 :],
         )
 
         rz = self._sigmoid(rz_ih + rz_hh)

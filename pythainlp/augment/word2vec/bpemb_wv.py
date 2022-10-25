@@ -10,8 +10,10 @@ class BPEmbAug:
     BPEmb:
     `github.com/bheinzerling/bpemb <https://github.com/bheinzerling/bpemb>`_
     """
+
     def __init__(self, lang: str = "th", vs: int = 100000, dim: int = 300):
         from bpemb import BPEmb
+
         self.bpemb_temp = BPEmb(lang=lang, dim=dim, vs=vs)
         self.model = self.bpemb_temp.emb
         self.load_w2v()
@@ -58,6 +60,6 @@ class BPEmbAug:
         for i in self.temp:
             self.t = ""
             for j in i:
-                self.t += j.replace('▁', '')
+                self.t += j.replace("▁", "")
             self.temp_new.append(self.t)
         return self.temp_new

@@ -12,13 +12,14 @@ class FastTextAug:
 
     :param str model_path: path of model file
     """
+
     def __init__(self, model_path: str):
         """
         :param str model_path: path of model file
         """
-        if model_path.endswith('.bin'):
+        if model_path.endswith(".bin"):
             self.model = FastText_gensim.load_facebook_vectors(model_path)
-        elif model_path.endswith('.vec'):
+        elif model_path.endswith(".vec"):
             self.model = KeyedVectors.load_word2vec_format(model_path)
         else:
             self.model = FastText_gensim.load(model_path)
@@ -33,7 +34,7 @@ class FastTextAug:
         :return: list of word
         :rtype: List[str]
         """
-        return word_tokenize(text, engine='icu')
+        return word_tokenize(text, engine="icu")
 
     def modify_sent(self, sent: str, p: float = 0.7) -> List[List[str]]:
         """
@@ -44,9 +45,7 @@ class FastTextAug:
         list_sent_new = []
         for i in sent:
             if i in self.dict_wv:
-                w = [
-                    j for j, v in self.model.most_similar(i) if v >= p
-                ]
+                w = [j for j, v in self.model.most_similar(i) if v >= p]
                 if w == []:
                     list_sent_new.append([i])
                 else:

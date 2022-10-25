@@ -25,7 +25,7 @@ def segment(
         "DATE",
         "TIME",
     ],
-    tagger=_thainer
+    tagger=_thainer,
 ) -> List[str]:
     """
     Dictionary-based maximal matching word segmentation, constrained with
@@ -58,10 +58,7 @@ def segment(
             and tag in taglist
         ):
             combining_word += curr_word
-        elif (
-            curr_tag == "O"
-            and combining_word != ""
-        ):
+        elif curr_tag == "O" and combining_word != "":
             words.append(combining_word)
             combining_word = ""
             words.append(curr_word)

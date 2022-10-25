@@ -11,7 +11,7 @@ def romanize(text: str) -> str:
     :rtype: str
     """
     _temp = th2roman(text)
-    return _temp[:_temp.rfind(" <s/>")].replace("<s/>", "")
+    return _temp[: _temp.rfind(" <s/>")].replace("<s/>", "")
 
 
 def tltk_g2p(text: str) -> str:
@@ -21,4 +21,4 @@ def tltk_g2p(text: str) -> str:
 
 def tltk_ipa(text: str) -> str:
     _temp = th2ipa(text)
-    return _temp[:_temp.rfind(" <s/>")].replace("<s/>", "")
+    return _temp[: _temp.rfind(" <s/>")].replace("<s/>", "")

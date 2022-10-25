@@ -6,10 +6,7 @@ Credit: Korakot Chaovavanich
 https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
 """
 
-__all__ = [
-    "word_freqs",
-    "unigram_word_freqs"
-]
+__all__ = ["word_freqs", "unigram_word_freqs"]
 
 from collections import defaultdict
 from typing import List, Tuple

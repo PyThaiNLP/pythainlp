@@ -9,9 +9,8 @@ from pythainlp.corpus import path_pythainlp_corpus
 
 _NLPO3_DEFAULT_DICT_NAME = "_67a47bf9"
 _NLPO3_DEFAULT_DICT = nlpo3_load_dict(
-                        path_pythainlp_corpus(_THAI_WORDS_FILENAME),
-                        _NLPO3_DEFAULT_DICT_NAME
-                      )
+    path_pythainlp_corpus(_THAI_WORDS_FILENAME), _NLPO3_DEFAULT_DICT_NAME
+)
 
 
 def load_dict(file_path: str, dict_name: str) -> bool:
@@ -40,7 +39,7 @@ def segment(
     text: str,
     custom_dict: str = _NLPO3_DEFAULT_DICT_NAME,
     safe_mode: bool = False,
-    parallel_mode: bool = False
+    parallel_mode: bool = False,
 ) -> List[str]:
     """Break text into tokens.
 
@@ -64,5 +63,5 @@ def segment(
         text=text,
         dict_name=custom_dict,
         safe=safe_mode,
-        parallel=parallel_mode
+        parallel=parallel_mode,
     )

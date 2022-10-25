@@ -5,7 +5,10 @@ from typing import List, Union
 _tagger = None
 _tagger_name = ""
 
-def dependency_parsing(text: str, model: str=None, tag: str="str", engine: str="esupar")->Union[List[List[str]], str]:
+
+def dependency_parsing(
+    text: str, model: str = None, tag: str = "str", engine: str = "esupar"
+) -> Union[List[List[str]], str]:
     """
     Dependency Parsing
 
@@ -82,16 +85,17 @@ def dependency_parsing(text: str, model: str=None, tag: str="str", engine: str="
     if _tagger_name != engine:
         if engine == "esupar":
             from pythainlp.parse.esupar_engine import Parse
+
             _tagger = Parse(model=model)
         elif engine == "transformers_ud":
             from pythainlp.parse.transformers_ud import Parse
+
             _tagger = Parse(model=model)
         elif engine == "spacy_thai":
             from pythainlp.parse.spacy_thai_engine import Parse
+
             _tagger = Parse()
         else:
-            raise NotImplementedError(
-                "The engine doesn't support."
-            )
+            raise NotImplementedError("The engine doesn't support.")
     _tagger_name = engine
     return _tagger(text, tag=tag)

@@ -7,50 +7,55 @@ from pythainlp.corpus import get_path_folder_corpus
 
 
 class WngchanBerta_ONNX:
-    def __init__(self, model_name: str, model_version: str, file_onnx: str, providers: List[str] = ['CPUExecutionProvider']) -> None:
+    def __init__(
+        self,
+        model_name: str,
+        model_version: str,
+        file_onnx: str,
+        providers: List[str] = ["CPUExecutionProvider"],
+    ) -> None:
         import sentencepiece as spm
         from onnxruntime import (
-            InferenceSession, SessionOptions, GraphOptimizationLevel
+            InferenceSession,
+            SessionOptions,
+            GraphOptimizationLevel,
         )
+
         self.model_name = model_name
         self.model_version = model_version
         self.options = SessionOptions()
-        self.options.graph_optimization_level = GraphOptimizationLevel.ORT_ENABLE_ALL
+        self.options.graph_optimization_level = (
+            GraphOptimizationLevel.ORT_ENABLE_ALL
+        )
         self.session = InferenceSession(
             get_path_folder_corpus(
-                self.model_name,
-                self.model_version,
-                file_onnx
+                self.model_name, self.model_version, file_onnx
             ),
             sess_options=self.options,
-            providers=providers
+            providers=providers,
         )
         self.session.disable_fallback()
         self.outputs_name = self.session.get_outputs()[0].name
         self.sp = spm.SentencePieceProcessor(
             model_file=get_path_folder_corpus(
-                self.model_name,
-                self.model_version,
-                "sentencepiece.bpe.model"
+                self.model_name, self.model_version, "sentencepiece.bpe.model"
             )
         )
         with open(
             get_path_folder_corpus(
-                self.model_name,
-                self.model_version,
-                "config.json"
+                self.model_name, self.model_version, "config.json"
             ),
-            encoding='utf-8-sig'
+            encoding="utf-8-sig",
         ) as fh:
             self._json = json.load(fh)
-            self.id2tag = self._json['id2label']
+            self.id2tag = self._json["id2label"]
 
     def build_tokenizer(self, sent):
-        _t = [5]+[i+4 for i in self.sp.encode(sent)]+[6]
+        _t = [5] + [i + 4 for i in self.sp.encode(sent)] + [6]
         model_inputs = {}
         model_inputs["input_ids"] = np.array([_t], dtype=np.int64)
         model_inputs["attention_mask"] = np.array(
-            [[1]*len(_t)], dtype=np.int64
+            [[1] * len(_t)], dtype=np.int64
         )
         return model_inputs
 
@@ -72,8 +77,8 @@ class WngchanBerta_ONNX:
                 (
                     _s[i],
                     self.id2tag[
-                        str(list(post[i+1]).index(max(list(post[i+1]))))
-                    ]
+                        str(list(post[i + 1]).index(max(list(post[i + 1]))))
+                    ],
                 )
             )
         return tag
@@ -84,8 +89,7 @@ class WngchanBerta_ONNX:
     def get_ner(self, text: str, tag: bool = False):
         self._s = self.build_tokenizer(text)
         logits = self.session.run(
-            output_names=[self.outputs_name],
-            input_feed=self._s
+            output_names=[self.outputs_name], input_feed=self._s
         )[0]
         _tag = self.clean_output(self.totag(self.postprocess(logits), text))
         if tag:

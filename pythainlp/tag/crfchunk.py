@@ -15,34 +15,34 @@ def _doc2features(tokens: List[Tuple[str, str]], index: int) -> Dict:
     """
     word, pos = tokens[index]
     f = {
-        'word': word,
-        'word_is_stopword': _is_stopword(word),
-        'pos': pos,
+        "word": word,
+        "word_is_stopword": _is_stopword(word),
+        "pos": pos,
     }
     if index > 0 and index > 1:
         prevprevword, prevprevpos = tokens[index - 2]
-        f['prev-prev-word'] = prevprevword
-        f['prev-prevz-word_is_stopword'] = _is_stopword(prevprevword)
-        f['prev-prevz-pos'] = prevprevpos
+        f["prev-prev-word"] = prevprevword
+        f["prev-prevz-word_is_stopword"] = _is_stopword(prevprevword)
+        f["prev-prevz-pos"] = prevprevpos
     if index > 0:
-        prevword, prevpos = tokens[index-1]
-        f['prev-word'] = prevword
-        f['prev-word_is_stopword'] = _is_stopword(prevword)
-        f['prev-pos'] = prevpos
+        prevword, prevpos = tokens[index - 1]
+        f["prev-word"] = prevword
+        f["prev-word_is_stopword"] = _is_stopword(prevword)
+        f["prev-pos"] = prevpos
     else:
-        f['BOS'] = True
-    if index < len(tokens)-2:
+        f["BOS"] = True
+    if index < len(tokens) - 2:
         nextnextword, nextnextpos = tokens[index + 2]
-        f['nextnext-word'] = nextnextword
-        f['nextnext-word_is_stopword'] = _is_stopword(nextnextword)
-        f['nextnext-pos'] = nextnextpos
-    if index < len(tokens)-1:
-        nextword, nextpos = tokens[index+1]
-        f['next-word'] = nextword
-        f['next-word_is_stopword'] = _is_stopword(nextword)
-        f['next-pos'] = nextpos
+        f["nextnext-word"] = nextnextword
+        f["nextnext-word_is_stopword"] = _is_stopword(nextnextword)
+        f["nextnext-pos"] = nextnextpos
+    if index < len(tokens) - 1:
+        nextword, nextpos = tokens[index + 1]
+        f["next-word"] = nextword
+        f["next-word_is_stopword"] = _is_stopword(nextword)
+        f["next-pos"] = nextpos
     else:
-        f['EOS'] = True
+        f["EOS"] = True
 
     return f
 

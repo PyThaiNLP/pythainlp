@@ -17,7 +17,7 @@ def romanize(
     by the Royal Institute of Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
 
     :param str text: Thai text to be romanized
-    :param str engine: One of 'royin' (default), 'thai2rom', 'tltk', and 'lookup'. See more in options for engine section.
+    :param str engine: One of 'royin' (default), 'thai2rom', 'thai2rom_onnx, 'tltk', and 'lookup'. See more in options for engine section.
     :param str fallback_engine: If engine equals 'lookup', use `fallback_engine` for words that are not in the transliteration dict.
                                 No effect on other engines. Default to 'royin'.
 
@@ -51,6 +51,9 @@ def romanize(
         # output: 'phapn'
 
         romanize("ภาพยนตร์", engine="thai2rom")
+        # output: 'phapphayon'
+
+        romanize("ภาพยนตร์", engine="thai2rom_onnx")
         # output: 'phapphayon'
 
         romanize("ก็อปปี้", engine="lookup")

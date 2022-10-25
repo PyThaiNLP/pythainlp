@@ -3,14 +3,10 @@
 Romanization of Thai words based on machine-learnt engine ("thai2rom")
 """
 
-import random
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from pythainlp.corpus import get_corpus_path
-
-from onnxruntime import InferenceSession
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 

@@ -80,9 +80,7 @@ class ThaiTransliterator:
         """
         input_tensor = self._prepare_sequence_in(text).view(1, -1)
         input_length = torch.Tensor([len(text) + 1]).int()
-        target_tensor_logits = self._network(
-            input_tensor, input_length
-        )
+        target_tensor_logits = self._network(input_tensor, input_length)
 
         # Seq2seq model returns <END> as the first token,
         # As a result, target_tensor_logits.size() is torch.Size([0])
@@ -127,7 +125,9 @@ class Encoder(nn.Module):
         batch_size = sequences.size(0)
         self.hidden = self.init_hidden(batch_size)
 
-        sequences_lengths = torch.flip(torch.sort(sequences_lengths).values, dims = (0,))
+        sequences_lengths = torch.flip(
+            torch.sort(sequences_lengths).values, dims=(0,)
+        )
         index_sorted = torch.sort(-1 * sequences_lengths).indices
         index_unsort = torch.sort(index_sorted).indices  # to unsorted sequence
         sequences = sequences.index_select(0, index_sorted.to(device))
@@ -233,7 +233,7 @@ class AttentionDecoder(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, input_character, last_hidden, encoder_outputs, mask):
-        """"Defines the forward computation of the decoder"""
+        """ "Defines the forward computation of the decoder"""
 
         # input_character: (batch_size, 1)
         # last_hidden: (batch_size, hidden_dim)
@@ -284,9 +284,7 @@ class Seq2Seq(nn.Module):
         mask = source_seq != self.pad_idx
         return mask
 
-    def forward(
-        self, source_seq, source_seq_len
-    ):
+    def forward(self, source_seq, source_seq_len):
 
         # source_seq: (batch_size, MAX_LENGTH)
         # source_seq_len: (batch_size, 1)
@@ -327,7 +325,7 @@ class Seq2Seq(nn.Module):
             topv, topi = decoder_output.topk(1)
             outputs[di] = decoder_output.to(device)
 
-            decoder_input = (topi.detach())
+            decoder_input = topi.detach()
 
             if decoder_input == end_token:
                 return outputs[:di]
@@ -340,4 +338,3 @@ _THAI_TO_ROM = ThaiTransliterator()
 
 def romanize(text: str) -> str:
     return _THAI_TO_ROM.romanize(text)
-    

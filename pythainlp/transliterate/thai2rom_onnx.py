@@ -12,6 +12,7 @@ _MODEL_ENCODER_NAME = "thai2rom_encoder_onnx"
 _MODEL_DECODER_NAME = "thai2rom_decoder_onnx"
 _MODEL_CONFIG_NAME = "thai2rom_config_onnx"
 
+
 class ThaiTransliterator_ONNX:
     def __init__(self):
         """
@@ -28,7 +29,7 @@ class ThaiTransliterator_ONNX:
 
         # loader = torch.load(self.__model_filename, map_location=device)
         with open(str(self.__config_filename)) as f:
-            loader = json.load(f) 
+            loader = json.load(f)
 
         OUTPUT_DIM = loader["output_dim"]
 
@@ -51,9 +52,9 @@ class ThaiTransliterator_ONNX:
             self._target_char_to_ix["<start>"],
             self._target_char_to_ix["<end>"],
             self._maxlength,
-            target_vocab_size=OUTPUT_DIM
+            target_vocab_size=OUTPUT_DIM,
         )
-    
+
     def _prepare_sequence_in(self, text: str):
         """
         Prepare input sequence for ONNX
@@ -75,18 +76,14 @@ class ThaiTransliterator_ONNX:
         """
         input_tensor = self._prepare_sequence_in(text).reshape(1, -1)
         input_length = [len(text) + 1]
-        target_tensor_logits = self._network.run(
-            input_tensor, input_length
-        )
+        target_tensor_logits = self._network.run(input_tensor, input_length)
 
         # Seq2seq model returns <END> as the first token,
         # As a result, target_tensor_logits.size() is torch.Size([0])
         if target_tensor_logits.shape[0] == 0:
             target = ["<PAD>"]
         else:
-            target_tensor = (
-                np.argmax(target_tensor_logits.squeeze(1), 1)
-            )
+            target_tensor = np.argmax(target_tensor_logits.squeeze(1), 1)
             target = [self._ix_to_target_char[str(t)] for t in target_tensor]
 
         return "".join(target)
@@ -100,7 +97,7 @@ class Seq2Seq_ONNX:
         target_start_token,
         target_end_token,
         max_length,
-        target_vocab_size
+        target_vocab_size,
     ):
         super().__init__()
 
@@ -117,9 +114,7 @@ class Seq2Seq_ONNX:
         mask = source_seq != self.pad_idx
         return mask
 
-    def run(
-        self, source_seq, source_seq_len
-    ):
+    def run(self, source_seq, source_seq_len):
         # source_seq: (batch_size, MAX_LENGTH)
         # source_seq_len: (batch_size, 1)
         # target_seq: (batch_size, MAX_LENGTH)
@@ -131,42 +126,49 @@ class Seq2Seq_ONNX:
         # target_vocab_size = self.decoder.vocabulary_size
 
         outputs = np.zeros((max_len, batch_size, self.target_vocab_size))
-        
-        expected_encoder_outputs = list(map(lambda output: output.name, self.encoder.get_outputs()))
+
+        expected_encoder_outputs = list(
+            map(lambda output: output.name, self.encoder.get_outputs())
+        )
         encoder_outputs, encoder_hidden, _ = self.encoder.run(
-            input_feed = {
-                'input_tensor': source_seq,
-                'input_lengths': source_seq_len
+            input_feed={
+                "input_tensor": source_seq,
+                "input_lengths": source_seq_len,
             },
-            output_names = expected_encoder_outputs
+            output_names=expected_encoder_outputs,
         )
 
-        decoder_input = (
-            np.array([[start_token] * batch_size])
-            .reshape(batch_size, 1)
+        decoder_input = np.array([[start_token] * batch_size]).reshape(
+            batch_size, 1
         )
-        encoder_hidden_h_t = np.expand_dims(np.concatenate(
-            # [encoder_hidden_1, encoder_hidden_2], dim=1
-            (encoder_hidden[0], encoder_hidden[1]), axis=1
-        ), axis=0)
+        encoder_hidden_h_t = np.expand_dims(
+            np.concatenate(
+                # [encoder_hidden_1, encoder_hidden_2], dim=1
+                (encoder_hidden[0], encoder_hidden[1]),
+                axis=1,
+            ),
+            axis=0,
+        )
         decoder_hidden = encoder_hidden_h_t
 
         max_source_len = encoder_outputs.shape[1]
         mask = self.create_mask(source_seq[:, 0:max_source_len])
 
-
         for di in range(max_len):
             decoder_output, decoder_hidden = self.decoder.run(
                 input_feed={
-                    'decoder_input': decoder_input.astype('int32'),
-                    'decoder_hidden_1': decoder_hidden,
-                    'encoder_outputs': encoder_outputs,
-                    'mask': mask.tolist()
+                    "decoder_input": decoder_input.astype("int32"),
+                    "decoder_hidden_1": decoder_hidden,
+                    "encoder_outputs": encoder_outputs,
+                    "mask": mask.tolist(),
                 },
-                output_names= [self.decoder.get_outputs()[0].name, self.decoder.get_outputs()[1].name]
+                output_names=[
+                    self.decoder.get_outputs()[0].name,
+                    self.decoder.get_outputs()[1].name,
+                ],
             )
 
-            topi = np.argmax(decoder_output, axis = 1)
+            topi = np.argmax(decoder_output, axis=1)
             outputs[di] = decoder_output
 
             decoder_input = np.array([topi])
@@ -176,7 +178,9 @@ class Seq2Seq_ONNX:
 
         return outputs
 
+
 _THAI_TO_ROM_ONNX = ThaiTransliterator_ONNX()
+
 
 def romanize(text: str) -> str:
     return _THAI_TO_ROM_ONNX.romanize(text)

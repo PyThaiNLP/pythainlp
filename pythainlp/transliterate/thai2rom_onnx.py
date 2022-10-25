@@ -8,7 +8,9 @@ import json
 
 from onnxruntime import InferenceSession
 
-_MODEL_NAME = "thai2rom-pytorch-attn"
+_MODEL_ENCODER_NAME = "thai2rom_encoder_onnx"
+_MODEL_DECODER_NAME = "thai2rom_decoder_onnx"
+_MODEL_CONFIG_NAME = "thai2rom_config_onnx"
 
 class ThaiTransliterator_ONNX:
     def __init__(self):
@@ -18,10 +20,14 @@ class ThaiTransliterator_ONNX:
         Now supports Thai to Latin (romanization)
         """
         # get the model, will download if it's not available locally
-        self.__model_filename = get_corpus_path(_MODEL_NAME)
+        self.__encoder_filename = get_corpus_path(_MODEL_ENCODER_NAME)
+        self.__decoder_filename = get_corpus_path(_MODEL_DECODER_NAME)
+        self.__config_filename = get_corpus_path(_MODEL_CONFIG_NAME)
+
+        print(get_corpus_path(_MODEL_DECODER_NAME))
 
         # loader = torch.load(self.__model_filename, map_location=device)
-        with open('./thai2rom_loader_onnx.json') as f:
+        with open(str(self.__config_filename)) as f:
             loader = json.load(f) 
 
         OUTPUT_DIM = loader["output_dim"]
@@ -35,9 +41,9 @@ class ThaiTransliterator_ONNX:
 
         # encoder/ decoder
         # Load encoder decoder onnx models.
-        self._encoder = InferenceSession('./thai2rom_encoder.onnx')
+        self._encoder = InferenceSession(self.__encoder_filename)
 
-        self._decoder = InferenceSession('./thai2rom_decoder.onnx')
+        self._decoder = InferenceSession(self.__decoder_filename)
 
         self._network = Seq2Seq_ONNX(
             self._encoder,

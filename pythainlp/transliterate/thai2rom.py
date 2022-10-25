@@ -2,6 +2,7 @@
 """
 Romanization of Thai words based on machine-learnt engine ("thai2rom")
 """
+import random
 
 import torch
 import torch.nn as nn
@@ -76,7 +77,7 @@ class ThaiTransliterator:
         """
         input_tensor = self._prepare_sequence_in(text).view(1, -1)
         input_length = torch.Tensor([len(text) + 1]).int()
-        target_tensor_logits = self._network(input_tensor, input_length)
+        target_tensor_logits = self._network(input_tensor, input_length, None, 0)
 
         # Seq2seq model returns <END> as the first token,
         # As a result, target_tensor_logits.size() is torch.Size([0])
@@ -280,7 +281,9 @@ class Seq2Seq(nn.Module):
         mask = source_seq != self.pad_idx
         return mask
 
-    def forward(self, source_seq, source_seq_len):
+    def forward(
+        self, source_seq, source_seq_len, target_seq, teacher_forcing_ratio=0.5
+    ):
 
         # source_seq: (batch_size, MAX_LENGTH)
         # source_seq_len: (batch_size, 1)
@@ -296,6 +299,12 @@ class Seq2Seq(nn.Module):
             device
         )
 
+        if target_seq is None:
+            assert teacher_forcing_ratio == 0, "Must be zero during inference"
+            inference = True
+        else:
+            inference = False
+
         encoder_outputs, encoder_hidden = self.encoder(
             source_seq, source_seq_len
         )
@@ -305,6 +314,7 @@ class Seq2Seq(nn.Module):
             .view(batch_size, 1)
             .to(device)
         )
+
         encoder_hidden_h_t = torch.cat(
             [encoder_hidden[0][0], encoder_hidden[0][1]], dim=1
         ).unsqueeze(dim=0)
@@ -321,9 +331,17 @@ class Seq2Seq(nn.Module):
             topv, topi = decoder_output.topk(1)
             outputs[di] = decoder_output.to(device)
 
+            teacher_force = random.random() < teacher_forcing_ratio
+
+            decoder_input = (
+                target_seq[:, di].reshape(batch_size, 1)
+                if teacher_force
+                else topi.detach()
+            )
+
             decoder_input = topi.detach()
 
-            if decoder_input == end_token:
+            if inference and decoder_input == end_token:
                 return outputs[:di]
 
         return outputs

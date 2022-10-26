@@ -6,6 +6,7 @@ import torch
 from pythainlp.transliterate import romanize, transliterate, pronunciate, puan
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.thai2rom import ThaiTransliterator
+from pythainlp.transliterate.thai2rom_onnx import ThaiTransliterator_ONNX
 from pythainlp.transliterate.wunsen import WunsenTransliterate
 from pythainlp.corpus import remove
 
@@ -165,6 +166,43 @@ class TestTransliteratePackage(unittest.TestCase):
             .cpu()
             .detach()
             .numpy()
+            .tolist(),
+            torch.tensor([UNK_TOKEN, END_TOKEN], dtype=torch.long)
+            .cpu()
+            .detach()
+            .numpy()
+            .tolist(),
+        )
+
+
+    def test_thai2rom_onnx_prepare_sequence(self):
+        transliterater = ThaiTransliterator_ONNX()
+
+        UNK_TOKEN = 1  # UNK_TOKEN or <UNK> is represented by 1
+        END_TOKEN = 3  # END_TOKEN or <end> is represented by 3
+
+        self.assertListEqual(
+            transliterater._prepare_sequence_in("A")
+            .tolist(),
+            torch.tensor([UNK_TOKEN, END_TOKEN], dtype=torch.long)
+            .cpu()
+            .detach()
+            .numpy()
+            .tolist(),
+        )
+
+        self.assertListEqual(
+            transliterater._prepare_sequence_in("♥")
+            .tolist(),
+            torch.tensor([UNK_TOKEN, END_TOKEN], dtype=torch.long)
+            .cpu()
+            .detach()
+            .numpy()
+            .tolist(),
+        )
+
+        self.assertNotEqual(
+            transliterater._prepare_sequence_in("ก")
             .tolist(),
             torch.tensor([UNK_TOKEN, END_TOKEN], dtype=torch.long)
             .cpu()

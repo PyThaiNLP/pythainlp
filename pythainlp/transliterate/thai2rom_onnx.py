@@ -25,8 +25,6 @@ class ThaiTransliterator_ONNX:
         self.__decoder_filename = get_corpus_path(_MODEL_DECODER_NAME)
         self.__config_filename = get_corpus_path(_MODEL_CONFIG_NAME)
 
-        print(get_corpus_path(_MODEL_DECODER_NAME))
-
         # loader = torch.load(self.__model_filename, map_location=device)
         with open(str(self.__config_filename)) as f:
             loader = json.load(f)

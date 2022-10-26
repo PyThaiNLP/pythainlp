@@ -274,12 +274,12 @@ def maiyamok(sent: Union[str, List[str]]) -> List[str]:
     _list_word = []
     i = 0
     for j, text in enumerate(sent):
-        if text.isspace() and "ๆ" in sent[j+1]:
+        if text.isspace() and "ๆ" in sent[j + 1]:
             continue
         if " ๆ" in text:
             text = text.replace(" ๆ", "ๆ")
         if "ๆ" == text:
-            text = _list_word[i-1]
+            text = _list_word[i - 1]
         elif "ๆ" in text:
             text = text.replace("ๆ", "")
             _list_word.append(text)

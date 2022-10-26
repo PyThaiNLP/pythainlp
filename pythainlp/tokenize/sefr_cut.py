@@ -10,11 +10,11 @@ from typing import List
 
 import sefr_cut
 
-DEFAULT_ENGINE = 'ws1000'
+DEFAULT_ENGINE = "ws1000"
 sefr_cut.load_model(engine=DEFAULT_ENGINE)
 
 
-def segment(text: str, engine: str = 'ws1000') -> List[str]:
+def segment(text: str, engine: str = "ws1000") -> List[str]:
     global DEFAULT_ENGINE
     if not text or not isinstance(text, str):
         return []

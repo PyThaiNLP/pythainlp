@@ -7,7 +7,7 @@ __all__ = [
     "word_freqs",
     "unigram_word_freqs",
     "bigram_word_freqs",
-    "trigram_word_freqs"
+    "trigram_word_freqs",
 ]
 
 from collections import defaultdict

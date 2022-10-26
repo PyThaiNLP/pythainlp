@@ -37,6 +37,7 @@ def _pud_tagger():
             _PUD_TAGGER = json.load(fh)
     return _PUD_TAGGER
 
+
 def _blackboard_tagger():
     global _BLACKBOARD_TAGGER
     if not _BLACKBOARD_TAGGER:

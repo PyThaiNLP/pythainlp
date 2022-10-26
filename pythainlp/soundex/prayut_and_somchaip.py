@@ -7,6 +7,7 @@ References:
 Prayut Suwanvisat, Somchai Prasitjutrakul.Thai-English Cross-Language Transliterated Word Retrieval using Soundex Technique. In 1998 [cited 2022 Sep 8]. Available from: https://www.cp.eng.chula.ac.th/~somchai/spj/papers/ThaiText/ncsec98-clir.pdf
 """
 from pythainlp import thai_characters
+
 _C0 = "AEIOUHWYอ"
 _C1 = "BFPVบฝฟปผพภว"
 _C2 = "CGJKQSXZขฃคฅฆฉขฌกจซศษส"
@@ -49,7 +50,7 @@ def prayut_and_somchaip(text: str, length: int = 4) -> str:
     # keep only consonants (English-Thai)
     chars = []
     for ch in text:
-        if ch in thai_characters+"ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        if ch in thai_characters + "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
             chars.append(ch)
 
     i = 0
@@ -81,7 +82,5 @@ def prayut_and_somchaip(text: str, length: int = 4) -> str:
         else:
             chars[i] = None
         i += 1
-    chars = list(
-        ''.join([i for i in chars if i is not None])
-    )
+    chars = list("".join([i for i in chars if i is not None]))
     return "".join(chars[-length:])

@@ -199,7 +199,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
         "word_level": {
             "correctly_tokenised_words": correctly_tokenised_words,
             "total_words_in_sample": np.sum(sample),
-            "total_words_in_ref_sample": np.sum(ref_sample)
+            "total_words_in_ref_sample": np.sum(ref_sample),
         },
         "global": {
             "tokenisation_indicators": "".join(tokenization_indicators)

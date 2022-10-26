@@ -149,7 +149,9 @@ def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
 
 
 def thai_strftime(
-    dt_obj: datetime, fmt: str = "%-d %b %y", thaidigit: bool = False,
+    dt_obj: datetime,
+    fmt: str = "%-d %b %y",
+    thaidigit: bool = False,
 ) -> str:
     """
     Convert :class:`datetime.datetime` into Thai date and time format.

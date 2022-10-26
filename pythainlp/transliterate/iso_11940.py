@@ -52,7 +52,7 @@ _consonants = {
     "ห": "h̄",
     "ฬ": "ḷ",
     "อ": "x",
-    "ฮ": "ḥ"
+    "ฮ": "ḥ",
 }
 
 _vowels = {
@@ -77,7 +77,7 @@ _vowels = {
     "ฦๅ": "łɨ",
     "ย": "y",
     "ว": "w",
-    "อ": "x"
+    "อ": "x",
 }
 
 _tone_marks = {
@@ -89,7 +89,7 @@ _tone_marks = {
     "์": "–̒".replace("–", ""),
     "–๎".replace("–", ""): "~",
     "–ํ".replace("–", ""): "–̊".replace("–", ""),
-    "–ฺ".replace("–", ""): "–̥".replace("–", "")
+    "–ฺ".replace("–", ""): "–̥".replace("–", ""),
 }
 
 _punctuation_and_digits = {
@@ -108,14 +108,14 @@ _punctuation_and_digits = {
     "๖": "6",
     "๗": "7",
     "๘": "8",
-    "๙": "9"
+    "๙": "9",
 }
 
 _all_dict = {
     **_consonants,
     **_vowels,
     **_tone_marks,
-    **_punctuation_and_digits
+    **_punctuation_and_digits,
 }
 _list_k = _all_dict.keys()
 

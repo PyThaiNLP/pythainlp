@@ -3,9 +3,7 @@ from typing import List, Tuple
 
 
 def chunk_parse(
-    sent: List[Tuple[str, str]],
-    engine: str="crf",
-    corpus: str="orchidpp"
+    sent: List[Tuple[str, str]], engine: str = "crf", corpus: str = "orchidpp"
 ) -> List[str]:
     """
     This function parse thai sentence to phrase structure in IOB format.
@@ -29,5 +27,6 @@ def chunk_parse(
         # output: ['B-NP', 'B-VP', 'I-VP']
     """
     from .crfchunk import CRFchunk
+
     _engine = CRFchunk()
     return _engine.parse(sent)

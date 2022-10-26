@@ -124,9 +124,7 @@ def misspell(sentence: str, ratio: float = 0.05):
     """
     num_misspells = np.floor(len(sentence) * ratio).astype(int)
     positions = np.random.choice(
-        len(sentence),
-        size=num_misspells,
-        replace=False
+        len(sentence), size=num_misspells, replace=False
     )
 
     # convert strings to array of characters

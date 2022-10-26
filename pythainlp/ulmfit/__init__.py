@@ -34,7 +34,7 @@ __all__ = [
     "rm_useless_newlines",
     "rm_useless_spaces",
     "spec_add_spaces",
-    "ungroup_emoji"
+    "ungroup_emoji",
 ]
 
 from pythainlp.ulmfit.core import (

@@ -180,5 +180,5 @@ def thai_word_tone_detector(word: str) -> Tuple[str, str]:
         print(thai_word_tone_detector("มือถือ"))
         # output: [('มือ', 'm'), ('ถือ', 'r')]
     """
-    _pronunciate = pronunciate(word).split('-')
-    return [(i, tone_detector(i.replace('หฺ', 'ห'))) for i in _pronunciate]
+    _pronunciate = pronunciate(word).split("-")
+    return [(i, tone_detector(i.replace("หฺ", "ห"))) for i in _pronunciate]

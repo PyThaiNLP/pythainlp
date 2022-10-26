@@ -664,7 +664,6 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             tcc.segment("เรือน้อยลอยอยู่"), ['เรื', 'อ', 'น้', 'อ', 'ย', 'ล', 'อ', 'ย', 'อ', 'ยู่']
         )
-        # Not implementation
         self.assertEqual(
              tcc.segment("ประสานงานกับลูกค้า"), ['ป', 'ระ', 'สา', 'น', 'งา', 'น', 'กั', 'บ', 'ลู', 'ก', 'ค้า']
         )
@@ -692,6 +691,18 @@ class TestTokenizePackage(unittest.TestCase):
                 'นิ',
                 'ด'
             ]
+        )
+        self.assertEqual(
+             tcc.segment("ประชาชน"), ['ป', 'ระ', 'ชา', 'ช', 'น']
+        )
+        self.assertEqual(
+             tcc.segment("ไหมไทย"), ['ไห', 'ม', 'ไท', 'ย']
+        )
+        self.assertEqual(
+             tcc.segment("ยินดี"), ['ยิ', 'น', 'ดี']
+        )
+        self.assertEqual(
+             tcc.segment("ขุดหลุม"), ['ขุ', 'ด', 'ห', 'ลุ', 'ม']
         )
         self.assertEqual(list(tcc.tcc("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())

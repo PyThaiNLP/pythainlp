@@ -6,6 +6,7 @@ import torch
 from pythainlp.transliterate import romanize, transliterate, pronunciate, puan
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.thai2rom import ThaiTransliterator
+from pythainlp.transliterate.thai2rom_onnx import ThaiTransliterator_ONNX
 from pythainlp.transliterate.wunsen import WunsenTransliterate
 from pythainlp.corpus import remove
 
@@ -87,6 +88,22 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertEqual(romanize("สกุนต์", engine="thai2rom"), "sakun")
         self.assertEqual(romanize("ชารินทร์", engine="thai2rom"), "charin")
 
+    def test_romanize_thai2rom_onnx(self):
+        self.assertEqual(romanize("แมว", engine="thai2rom_onnx"), "maeo")
+        self.assertEqual(romanize("บ้านไร่", engine="thai2rom_onnx"), "banrai")
+        self.assertEqual(romanize("สุนัข", engine="thai2rom_onnx"), "sunak")
+        self.assertEqual(romanize("นก", engine="thai2rom_onnx"), "nok")
+        self.assertEqual(
+            romanize("ความอิ่ม", engine="thai2rom_onnx"), "khwam-im"
+        )
+        self.assertEqual(
+            romanize("กานต์ ณรงค์", engine="thai2rom_onnx"), "kan narong"
+        )
+        self.assertEqual(romanize("สกุนต์", engine="thai2rom_onnx"), "sakun")
+        self.assertEqual(
+            romanize("ชารินทร์", engine="thai2rom_onnx"), "charin"
+        )
+
     def test_romanize_lookup(self):
         # found in v1.4
         self.assertEqual(romanize("บอล", engine="lookup"), "ball")
@@ -154,6 +171,39 @@ class TestTransliteratePackage(unittest.TestCase):
             .detach()
             .numpy()
             .tolist(),
+            torch.tensor([UNK_TOKEN, END_TOKEN], dtype=torch.long)
+            .cpu()
+            .detach()
+            .numpy()
+            .tolist(),
+        )
+
+    def test_thai2rom_onnx_prepare_sequence(self):
+        transliterater = ThaiTransliterator_ONNX()
+
+        UNK_TOKEN = 1  # UNK_TOKEN or <UNK> is represented by 1
+        END_TOKEN = 3  # END_TOKEN or <end> is represented by 3
+
+        self.assertListEqual(
+            transliterater._prepare_sequence_in("A").tolist(),
+            torch.tensor([UNK_TOKEN, END_TOKEN], dtype=torch.long)
+            .cpu()
+            .detach()
+            .numpy()
+            .tolist(),
+        )
+
+        self.assertListEqual(
+            transliterater._prepare_sequence_in("♥").tolist(),
+            torch.tensor([UNK_TOKEN, END_TOKEN], dtype=torch.long)
+            .cpu()
+            .detach()
+            .numpy()
+            .tolist(),
+        )
+
+        self.assertNotEqual(
+            transliterater._prepare_sequence_in("ก").tolist(),
             torch.tensor([UNK_TOKEN, END_TOKEN], dtype=torch.long)
             .cpu()
             .detach()

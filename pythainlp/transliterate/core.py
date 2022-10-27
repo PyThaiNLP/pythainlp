@@ -17,7 +17,7 @@ def romanize(
     by the Royal Institute of Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
 
     :param str text: Thai text to be romanized
-    :param str engine: One of 'royin' (default), 'thai2rom', 'tltk', and 'lookup'. See more in options for engine section.
+    :param str engine: One of 'royin' (default), 'thai2rom', 'thai2rom_onnx, 'tltk', and 'lookup'. See more in options for engine section.
     :param str fallback_engine: If engine equals 'lookup', use `fallback_engine` for words that are not in the transliteration dict.
                                 No effect on other engines. Default to 'royin'.
 
@@ -29,6 +29,7 @@ def romanize(
           Transcription issued by Royal Institute of Thailand.
         * *thai2rom* - a deep learning-based Thai romanization engine
           (require PyTorch).
+        * *thai2rom_onnx* - a deep learning-based Thai romanization engine with ONNX runtime
         * *tltk* - TLTK: Thai Language Toolkit
         * *lookup* - Look up on Thai-English Transliteration dictionary v1.4 compiled by Wannaphong.
 
@@ -52,6 +53,9 @@ def romanize(
         romanize("ภาพยนตร์", engine="thai2rom")
         # output: 'phapphayon'
 
+        romanize("ภาพยนตร์", engine="thai2rom_onnx")
+        # output: 'phapphayon'
+
         romanize("ก็อปปี้", engine="lookup")
         # output: 'copy'
 
@@ -60,6 +64,8 @@ def romanize(
     def select_romanize_engine(engine: str):
         if engine == "thai2rom":
             from pythainlp.transliterate.thai2rom import romanize
+        elif engine == "thai2rom_onnx":
+            from pythainlp.transliterate.thai2rom_onnx import romanize
         elif engine == "tltk":
             from pythainlp.transliterate.tltk import romanize
         else:  # use default engine "royin"

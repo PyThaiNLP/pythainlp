@@ -229,38 +229,38 @@ def count_thai_chars(text: str) -> dict:
     """
     _dict = {
         "vowels": 0,
-        "lead_vowels":0,
-        "follow_vowels":0,
-        "above_vowels":0,
-        "below_vowels":0,
-        "consonants":0,
-        "tonemarks":0,
-        "signs":0,
-        "thai_digits":0,
-        "punctuations":0,
-        "non_thai":0
+        "lead_vowels": 0,
+        "follow_vowels": 0,
+        "above_vowels": 0,
+        "below_vowels": 0,
+        "consonants": 0,
+        "tonemarks": 0,
+        "signs": 0,
+        "thai_digits": 0,
+        "punctuations": 0,
+        "non_thai": 0,
     }
     for c in text:
         if c in thai_vowels:
-            _dict["vowels"]+=1
+            _dict["vowels"] += 1
         if c in thai_lead_vowels:
-            _dict["lead_vowels"]+=1
+            _dict["lead_vowels"] += 1
         elif c in thai_follow_vowels:
-            _dict["follow_vowels"]+=1
+            _dict["follow_vowels"] += 1
         elif c in thai_above_vowels:
-            _dict["above_vowels"]+=1
+            _dict["above_vowels"] += 1
         elif c in thai_below_vowels:
-            _dict["below_vowels"]+=1
+            _dict["below_vowels"] += 1
         elif c in thai_consonants:
-            _dict["consonants"]+=1
+            _dict["consonants"] += 1
         elif c in thai_tonemarks:
-            _dict["tonemarks"]+=1
+            _dict["tonemarks"] += 1
         elif c in thai_signs:
-            _dict["signs"]+=1
+            _dict["signs"] += 1
         elif c in thai_digits:
-            _dict["thai_digits"]+=1
+            _dict["thai_digits"] += 1
         elif c in thai_punctuations:
-            _dict["punctuations"]+=1
+            _dict["punctuations"] += 1
         else:
-            _dict["non_thai"]+=1
+            _dict["non_thai"] += 1
     return _dict

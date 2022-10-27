@@ -5,7 +5,18 @@ Check if it is Thai text
 import string
 from typing import Tuple
 
-from pythainlp import thai_above_vowels, thai_tonemarks
+from pythainlp import (
+    thai_lead_vowels,
+    thai_follow_vowels,
+    thai_above_vowels,
+    thai_below_vowels,
+    thai_consonants,
+    thai_vowels,
+    thai_tonemarks,
+    thai_signs,
+    thai_digits,
+    thai_punctuations,
+)
 from pythainlp.transliterate import pronunciate
 from pythainlp.util.syllable import tone_detector
 
@@ -182,3 +193,74 @@ def thai_word_tone_detector(word: str) -> Tuple[str, str]:
     """
     _pronunciate = pronunciate(word).split("-")
     return [(i, tone_detector(i.replace("หฺ", "ห"))) for i in _pronunciate]
+
+
+def count_thai_chars(text: str) -> dict:
+    """
+    Count Thai characters by type
+
+    This function will give you numbers of Thai characters by type\
+        (consonants, vowels, lead_vowels, follow_vowels, above_vowels,\
+        below_vowels, tonemarks, signs, thai_digits, punctuations, non_thai)
+
+    :param str text: Text
+    :return: Dict with numbers of Thai characters by type
+    :rtype: dict
+
+    :Example:
+    ::
+
+        from pythainlp.util import count_thai_chars
+
+        count_thai_chars("ทดสอบภาษาไทย")
+        # output: {
+        # 'vowels': 3,
+        # 'lead_vowels': 1,
+        # 'follow_vowels': 2,
+        # 'above_vowels': 0,
+        # 'below_vowels': 0,
+        # 'consonants': 9,
+        # 'tonemarks': 0,
+        # 'signs': 0,
+        # 'thai_digits': 0,
+        # 'punctuations': 0,
+        # 'non_thai': 0
+        # }
+    """
+    _dict = {
+        "vowels": 0,
+        "lead_vowels": 0,
+        "follow_vowels": 0,
+        "above_vowels": 0,
+        "below_vowels": 0,
+        "consonants": 0,
+        "tonemarks": 0,
+        "signs": 0,
+        "thai_digits": 0,
+        "punctuations": 0,
+        "non_thai": 0,
+    }
+    for c in text:
+        if c in thai_vowels:
+            _dict["vowels"] += 1
+        if c in thai_lead_vowels:
+            _dict["lead_vowels"] += 1
+        elif c in thai_follow_vowels:
+            _dict["follow_vowels"] += 1
+        elif c in thai_above_vowels:
+            _dict["above_vowels"] += 1
+        elif c in thai_below_vowels:
+            _dict["below_vowels"] += 1
+        elif c in thai_consonants:
+            _dict["consonants"] += 1
+        elif c in thai_tonemarks:
+            _dict["tonemarks"] += 1
+        elif c in thai_signs:
+            _dict["signs"] += 1
+        elif c in thai_digits:
+            _dict["thai_digits"] += 1
+        elif c in thai_punctuations:
+            _dict["punctuations"] += 1
+        else:
+            _dict["non_thai"] += 1
+    return _dict

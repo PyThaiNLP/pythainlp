@@ -616,10 +616,10 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEquals(
             count_thai_chars("มี ๕ บาทไหม๏ เกมส์หรือเกมกันแน่ที่กรุเทพฯ ใช้"),
             {
-                'vowels': 13,
+                'vowels': 12,
                 'lead_vowels': 6,
                 'follow_vowels': 1,
-                'above_vowels': 5,
+                'above_vowels': 4,
                 'below_vowels': 1,
                 'consonants': 22,
                 'tonemarks': 3,

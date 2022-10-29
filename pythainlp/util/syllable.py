@@ -13,7 +13,7 @@ spelling_class = {
     "กน": list("นญณรลฬ"),
     "กก": list("กขคฆ"),
     "กด": list("ดจชซฎฏฐฑฒตถทธศษส"),
-    "กบ": list("บปภพฟ")
+    "กบ": list("บปภพฟ"),
 }
 
 thai_consonants_all = list(thai_consonants)
@@ -34,7 +34,7 @@ _check_1 = []
 for i in ["กง", "กน", "กม", "เกย", "เกอว"]:
     _check_1.extend(spelling_class[i])
 # these spelling consonant are dead syllable.
-_check_2 = spelling_class["กก"]+spelling_class["กบ"]+spelling_class["กด"]
+_check_2 = spelling_class["กก"] + spelling_class["กบ"] + spelling_class["กด"]
 
 thai_low_sonorants = list("งนมยรลว")
 thai_low_aspirates = list("คชซทพฟฮ")
@@ -45,15 +45,14 @@ thai_mid_plains = list("กจดตบปอฎฏ")
 thai_high_aspirates = list("ขฉถผฝสห")
 thai_high_irregular = list("ศษฃฐ")
 thai_initial_consonant_type = {
-    "low": thai_low_sonorants+thai_low_aspirates+thai_low_irregular,
+    "low": thai_low_sonorants + thai_low_aspirates + thai_low_irregular,
     "mid": thai_mid_plains,
-    "high": thai_high_aspirates+thai_high_irregular
+    "high": thai_high_aspirates + thai_high_irregular,
 }
 thai_initial_consonant_to_type = {}
 for k, v in thai_initial_consonant_type.items():
     for i in v:
         thai_initial_consonant_to_type[i] = k
-
 
 
 def sound_syllable(syllable: str) -> str:
@@ -85,28 +84,27 @@ def sound_syllable(syllable: str) -> str:
     # if len of syllable < 2
     if len(syllable) < 2:
         return "dead"
-    elif (
-        (
-            spelling_consonant in _check_2)
-            and
-            (
-                any((c in set("าีืแูาเโ")) for c in syllable) == False
-                and any((c in set("ำใไ")) for c in syllable) == False
-                and bool(pattern.search(syllable)) != True
-            )
+    elif (spelling_consonant in _check_2) and (
+        any((c in set("าีืแูาเโ")) for c in syllable) == False
+        and any((c in set("ำใไ")) for c in syllable) == False
+        and bool(pattern.search(syllable)) != True
     ):
         return "dead"
     elif any((c in set("าีืแูาโ")) for c in syllable):  # in syllable:
-        if spelling_consonant in _check_1 and bool(re_short.search(syllable)) != True:
+        if (
+            spelling_consonant in _check_1
+            and bool(re_short.search(syllable)) != True
+        ):
             return "live"
-        elif spelling_consonant != syllable[-1] and bool(re_short.search(syllable)) != True:
+        elif (
+            spelling_consonant != syllable[-1]
+            and bool(re_short.search(syllable)) != True
+        ):
             return "live"
         elif spelling_consonant in _check_2:
             return "dead"
-        elif (
-            bool(re_short.search(syllable))
-            or
-            any((c in set(short)) for c in syllable)
+        elif bool(re_short.search(syllable)) or any(
+            (c in set(short)) for c in syllable
         ):
             return "dead"
         return "live"
@@ -117,16 +115,15 @@ def sound_syllable(syllable: str) -> str:
     elif spelling_consonant in _check_1:
         if (
             bool(re_short.search(syllable))
-            or
-            any((c in set(short)) for c in syllable)
+            or any((c in set(short)) for c in syllable)
         ) and len(consonants) < 2:
             return "dead"
         return "live"
-    elif (
-        bool(re_short.search(syllable))  # if found vowel's short sound
-        or
-        any((c in set(short)) for c in syllable)  # consonant in short
-    ):
+    elif bool(
+        re_short.search(syllable)
+    ) or any(  # if found vowel's short sound
+        (c in set(short)) for c in syllable
+    ):  # consonant in short
         return "dead"
     else:
         return "dead"
@@ -238,9 +235,8 @@ def tone_detector(syllable: str) -> str:
     initial_consonant_type = thai_initial_consonant_to_type[initial_consonant]
     # r for store value
     r = ""
-    if (
-        len(consonants) > 1
-        and (initial_consonant == "อ" or initial_consonant == "ห")
+    if len(consonants) > 1 and (
+        initial_consonant == "อ" or initial_consonant == "ห"
     ):
         consonant_ending = _check_sonorant_syllable(syllable)
         if (

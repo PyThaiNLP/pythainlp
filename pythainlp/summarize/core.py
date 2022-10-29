@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Text summarization
+Text summarization and Keyword extraction
 """
-
 
 from typing import List, Iterable, Optional, Tuple
 
 from pythainlp.summarize import (
     DEFAULT_SUMMARIZE_ENGINE,
     CPE_KMUTT_THAI_SENTENCE_SUM,
-    DEFAULT_KEYWORD_EXTRACTION_ENGINE,
+    DEFAULT_KEYWORD_EXTRACTION_ENGINE
 )
 from pythainlp.summarize.freq import FrequencySummarizer
 from pythainlp.tokenize import sent_tokenize

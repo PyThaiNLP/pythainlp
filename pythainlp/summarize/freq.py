@@ -14,7 +14,7 @@ _STOPWORDS = thai_stopwords()
 
 
 class FrequencySummarizer:
-    def __init__(self, min_cut: float=0.1, max_cut: float=0.9):
+    def __init__(self, min_cut: float = 0.1, max_cut: float = 0.9):
         self.__min_cut = min_cut
         self.__max_cut = max_cut
         self.__stopwords = set(punctuation).union(_STOPWORDS)
@@ -23,7 +23,9 @@ class FrequencySummarizer:
     def __rank(ranking, n: int):
         return nlargest(n, ranking, key=ranking.get)
 
-    def __compute_frequencies(self, word_tokenized_sents: List[List[str]]) -> defaultdict:
+    def __compute_frequencies(
+        self, word_tokenized_sents: List[List[str]]
+    ) -> defaultdict:
         word_freqs = defaultdict(int)
         for sent in word_tokenized_sents:
             for word in sent:
@@ -33,14 +35,21 @@ class FrequencySummarizer:
         max_freq = float(max(word_freqs.values()))
         for w in list(word_freqs):
             word_freqs[w] = word_freqs[w] / max_freq
-            if word_freqs[w] >= self.__max_cut or word_freqs[w] <= self.__min_cut:
+            if (
+                word_freqs[w] >= self.__max_cut
+                or word_freqs[w] <= self.__min_cut
+            ):
                 del word_freqs[w]
 
         return word_freqs
 
-    def summarize(self, text: str, n: int, tokenizer: str = "newmm") -> List[str]:
+    def summarize(
+        self, text: str, n: int, tokenizer: str = "newmm"
+    ) -> List[str]:
         sents = sent_tokenize(text, engine="whitespace+newline")
-        word_tokenized_sents = [word_tokenize(sent, engine=tokenizer) for sent in sents]
+        word_tokenized_sents = [
+            word_tokenize(sent, engine=tokenizer) for sent in sents
+        ]
         self.__freq = self.__compute_frequencies(word_tokenized_sents)
         ranking = defaultdict(int)
 

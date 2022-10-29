@@ -21,6 +21,7 @@ def get_corpus_db(url: str):
     :param str url: URL corpus catalog
     """
     import requests
+
     corpus_db = None
     try:
         corpus_db = requests.get(url)
@@ -141,7 +142,9 @@ def get_corpus_default_db(name: str, version: str = None) -> Union[str, None]:
             )
 
 
-def get_corpus_path(name: str,  version: str = None, force: bool = False) -> Union[str, None]:
+def get_corpus_path(
+    name: str, version: str = None, force: bool = False
+) -> Union[str, None]:
     """
     Get corpus path.
 
@@ -197,7 +200,7 @@ def get_corpus_path(name: str,  version: str = None, force: bool = False) -> Uni
     corpus_db_detail = get_corpus_db_detail(name, version=version)
 
     if not corpus_db_detail or not corpus_db_detail.get("filename"):
-        download(name,  version=version, force=force)
+        download(name, version=version, force=force)
         corpus_db_detail = get_corpus_db_detail(name, version=version)
 
     if corpus_db_detail and corpus_db_detail.get("filename"):
@@ -208,7 +211,7 @@ def get_corpus_path(name: str,  version: str = None, force: bool = False) -> Uni
             path = get_full_data_path(corpus_db_detail.get("filename"))
         # check if the corpus file actually exists, download if not
         if not os.path.exists(path):
-            download(name,  version=version, force=force)
+            download(name, version=version, force=force)
         if os.path.exists(path):
             return path
 
@@ -226,6 +229,7 @@ def _download(url: str, dst: str) -> int:
 
     import requests
     from urllib.request import urlopen
+
     file_size = int(urlopen(url).info().get("Content-Length", -1))
     r = requests.get(url, stream=True)
     with open(get_full_data_path(dst), "wb") as f:
@@ -258,6 +262,7 @@ def _check_hash(dst: str, md5: str) -> None:
     """
     if md5 and md5 != "-":
         import hashlib
+
         with open(get_full_data_path(dst), "rb") as f:
             content = f.read()
             file_md5 = hashlib.md5(content).hexdigest()
@@ -270,18 +275,18 @@ def _version2int(v: str) -> int:
     """
     X.X.X => X0X0X
     """
-    if '-' in v:
+    if "-" in v:
         v = v.split("-")[0]
     if v.endswith(".*"):
         v = v.replace(".*", ".0")  # X.X.* => X.X.0
     v_list = v.split(".")
     if len(v_list) < 3:
-        v_list.append('0')
+        v_list.append("0")
     v_new = ""
     for i, value in enumerate(v_list):
         if i != 0:
             if len(value) < 2:
-                v_new += "0"+value
+                v_new += "0" + value
             else:
                 v_new += value
         else:
@@ -293,37 +298,37 @@ def _check_version(cause: str) -> bool:
     temp = cause
     check = False
     __version = __version__
-    if 'dev' in __version:
-        __version = __version.split('dev')[0]
-    elif 'beta' in __version:
-        __version = __version.split('beta')[0]
+    if "dev" in __version:
+        __version = __version.split("dev")[0]
+    elif "beta" in __version:
+        __version = __version.split("beta")[0]
     v = _version2int(__version)
 
     if cause == "*":
         check = True
-    elif cause.startswith("==") and '>' not in cause and '<' not in cause:
-        temp = cause.replace("==", '')
+    elif cause.startswith("==") and ">" not in cause and "<" not in cause:
+        temp = cause.replace("==", "")
         check = v == _version2int(temp)
-    elif cause.startswith(">=") and '<' not in cause:
-        temp = cause.replace(">=", '')
+    elif cause.startswith(">=") and "<" not in cause:
+        temp = cause.replace(">=", "")
         check = v >= _version2int(temp)
-    elif cause.startswith(">") and '<' not in cause:
-        temp = cause.replace(">", '')
+    elif cause.startswith(">") and "<" not in cause:
+        temp = cause.replace(">", "")
         check = v > _version2int(temp)
-    elif cause.startswith(">=") and '<=' not in cause and '<' in cause:
-        temp = cause.replace(">=", '').split('<')
+    elif cause.startswith(">=") and "<=" not in cause and "<" in cause:
+        temp = cause.replace(">=", "").split("<")
         check = v >= _version2int(temp[0]) and v < _version2int(temp[1])
-    elif cause.startswith(">=") and '<=' in cause:
-        temp = cause.replace(">=", '').split('<=')
+    elif cause.startswith(">=") and "<=" in cause:
+        temp = cause.replace(">=", "").split("<=")
         check = v >= _version2int(temp[0]) and v <= _version2int(temp[1])
-    elif cause.startswith(">") and '<' in cause:
-        temp = cause.replace(">", '').split('<')
+    elif cause.startswith(">") and "<" in cause:
+        temp = cause.replace(">", "").split("<")
         check = v > _version2int(temp[0]) and v < _version2int(temp[1])
     elif cause.startswith("<="):
-        temp = cause.replace("<=", '')
+        temp = cause.replace("<=", "")
         check = v <= _version2int(temp[0])
     elif cause.startswith("<"):
-        temp = cause.replace("<", '')
+        temp = cause.replace("<", "")
         check = v < _version2int(temp[0])
 
     return check
@@ -390,9 +395,10 @@ def download(
         if version not in corpus["versions"]:
             print("Not found corpus")
             return False
-        elif _check_version(
-            corpus["versions"][version]["pythainlp_version"]
-        ) is False:
+        elif (
+            _check_version(corpus["versions"][version]["pythainlp_version"])
+            is False
+        ):
             print("Versions Corpus not support")
             return False
         corpus_versions = corpus["versions"][version]
@@ -409,10 +415,12 @@ def download(
         if force or not found:
             print(f"- Downloading: {name} {version}")
             _download(
-                corpus_versions["download_url"], file_name,
+                corpus_versions["download_url"],
+                file_name,
             )
             _check_hash(
-                file_name, corpus_versions["md5"],
+                file_name,
+                corpus_versions["md5"],
             )
 
             is_folder = False
@@ -420,16 +428,18 @@ def download(
 
             if corpus_versions["is_tar_gz"] == "True":
                 import tarfile
+
                 is_folder = True
-                foldername = name+"_"+str(version)
+                foldername = name + "_" + str(version)
                 if not os.path.exists(get_full_data_path(foldername)):
                     os.mkdir(get_full_data_path(foldername))
                 with tarfile.open(get_full_data_path(file_name)) as tar:
                     tar.extractall(path=get_full_data_path(foldername))
             elif corpus_versions["is_zip"] == "True":
                 import zipfile
+
                 is_folder = True
-                foldername = name+"_"+str(version)
+                foldername = name + "_" + str(version)
                 if not os.path.exists(get_full_data_path(foldername)):
                     os.mkdir(get_full_data_path(foldername))
                 with zipfile.ZipFile(
@@ -446,9 +456,9 @@ def download(
                 # This awkward behavior is for backward-compatibility with
                 # database files generated previously using TinyDB
                 if local_db["_default"]:
-                    corpus_no = max((
-                        int(no) for no in local_db["_default"]
-                    )) + 1
+                    corpus_no = (
+                        max((int(no) for no in local_db["_default"])) + 1
+                    )
                 else:
                     corpus_no = 1
                 local_db["_default"][str(corpus_no)] = {
@@ -456,7 +466,7 @@ def download(
                     "version": version,
                     "filename": file_name,
                     "is_folder": is_folder,
-                    "foldername": foldername
+                    "foldername": foldername,
                 }
 
             with open(corpus_db_path(), "w", encoding="utf-8") as f:
@@ -519,6 +529,7 @@ def remove(name: str) -> bool:
         path = get_corpus_path(name)
         if data[0].get("is_folder"):
             import shutil
+
             os.remove(get_full_data_path(data[0].get("filename")))
             shutil.rmtree(path, ignore_errors=True)
         else:

@@ -157,6 +157,7 @@ class PerceptronTagger:
         :param nr_iter: Number of training iterations.
         """
         import random
+
         self._make_tagdict(sentences)
         self.model.classes = self.classes
         for _ in range(nr_iter):
@@ -190,7 +191,7 @@ class PerceptronTagger:
             data["weights"] = self.model.weights
             data["tagdict"] = self.tagdict
             data["classes"] = list(self.classes)
-            with open(save_loc, 'w', encoding='utf-8') as f:
+            with open(save_loc, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False)
 
     def load(self, loc: str) -> None:
@@ -199,7 +200,7 @@ class PerceptronTagger:
         :param str loc: model path
         """
         try:
-            with open(loc, "r", encoding='utf-8-sig') as f:
+            with open(loc, "r", encoding="utf-8-sig") as f:
                 w_td_c = json.load(f)
         except IOError:
             msg = "Missing trontagger.json file."

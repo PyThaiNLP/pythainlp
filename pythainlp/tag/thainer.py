@@ -86,6 +86,7 @@ class ThaiNameTagger:
         thainer14 = ThaiNameTagger(version="1.4")
         thainer14.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
     """
+
     def __init__(self, version: str = "1.4") -> None:
         """
         Thai named-entity recognizer.
@@ -95,6 +96,7 @@ class ThaiNameTagger:
                             The defualt value is `1.5`
         """
         from pycrfsuite import Tagger as CRFTagger
+
         self.crf = CRFTagger()
 
         if version == "1.4":
@@ -158,9 +160,7 @@ class ThaiNameTagger:
         """
         tokens = word_tokenize(text, engine=_TOKENIZER_ENGINE)
         pos_tags = pos_tag(
-            tokens,
-            engine="perceptron",
-            corpus=self.pos_tag_name
+            tokens, engine="perceptron", corpus=self.pos_tag_name
         )
         x_test = ThaiNameTagger.__extract_features(pos_tags)
         y = self.crf.tag(x_test)

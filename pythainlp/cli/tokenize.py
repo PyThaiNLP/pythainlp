@@ -25,7 +25,10 @@ class SubAppBase:
     def __init__(self, name, argv):
         parser = argparse.ArgumentParser(**cli.make_usage("tokenize " + name))
         parser.add_argument(
-            "text", type=str, nargs="?", help="input text",
+            "text",
+            type=str,
+            nargs="?",
+            help="input text",
         )
         parser.add_argument(
             "-s",
@@ -122,7 +125,9 @@ class App:
             ),
         )
         parser.add_argument(
-            "token_type", type=str, help="[subword|word|sent]",
+            "token_type",
+            type=str,
+            help="[subword|word|sent]",
         )
 
         args = parser.parse_args(argv[2:3])

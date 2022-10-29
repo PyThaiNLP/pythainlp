@@ -14,7 +14,9 @@ from pythainlp.soundex import DEFAULT_SOUNDEX_ENGINE
 # [KSS97] https://linux.thai.net/~thep/soundex/soundex.html
 
 
-def soundex(text: str, engine: str = DEFAULT_SOUNDEX_ENGINE, length: int = 4) -> str:
+def soundex(
+    text: str, engine: str = DEFAULT_SOUNDEX_ENGINE, length: int = 4
+) -> str:
     """
     This function converts Thai text into phonetic code.
 

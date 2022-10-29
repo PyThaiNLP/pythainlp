@@ -9,6 +9,7 @@ __all__ = [
     "bahttext",
     "collate",
     "countthai",
+    "count_thai_chars",
     "dict_trie",
     "digit_to_text",
     "display_thai_char",
@@ -83,6 +84,7 @@ from pythainlp.util.numtoword import bahttext, num_to_thaiword
 from pythainlp.util.strftime import thai_strftime
 from pythainlp.util.thai import (
     countthai,
+    count_thai_chars,
     display_thai_char,
     isthai,
     isthaichar,

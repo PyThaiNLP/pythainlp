@@ -22,6 +22,7 @@ class NER:
 
     **Note**: for tltk engine, It's support ner model from tltk only.
     """
+
     def __init__(self, engine: str, corpus: str = "thainer") -> None:
         self.load_engine(engine=engine, corpus=corpus)
 
@@ -30,23 +31,21 @@ class NER:
         self.engine = None
         if engine == "thainer" and corpus == "thainer":
             from pythainlp.tag.thainer import ThaiNameTagger
+
             self.engine = ThaiNameTagger()
         elif engine == "tltk":
             from pythainlp.tag import tltk
+
             self.engine = tltk
         else:
             raise ValueError(
                 "NER class not support {0} engine or {1} corpus.".format(
-                    engine,
-                    corpus
+                    engine, corpus
                 )
             )
 
     def tag(
-        self,
-        text,
-        pos=True,
-        tag=False
+        self, text, pos=True, tag=False
     ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
         """
         This function tags named-entitiy from text in IOB format.
@@ -91,11 +90,13 @@ class NNER:
     **Options for engine**
         * *thai_nner* - Thai NER engine
     """
+
     def __init__(self, engine: str = "thai_nner") -> None:
         self.load_engine(engine)
 
     def load_engine(self, engine: str = "thai_nner") -> None:
         from pythainlp.tag.thai_nner import Thai_NNER
+
         self.engine = Thai_NNER()
 
     def tag(self, text) -> Tuple[List[str], List[dict]]:

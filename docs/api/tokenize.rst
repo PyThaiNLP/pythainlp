@@ -110,6 +110,14 @@ tcc
 .. autofunction:: pythainlp.tokenize.tcc.tcc
 .. autofunction:: pythainlp.tokenize.tcc.tcc_pos
 
+tcc+
++++
+.. automodule:: pythainlp.tokenize.tcc_p
+
+.. autofunction:: pythainlp.tokenize.tcc_p.segment
+.. autofunction:: pythainlp.tokenize.tcc_p.tcc
+.. autofunction:: pythainlp.tokenize.tcc_p.tcc_pos
+
 etcc
 ++++
 .. automodule:: pythainlp.tokenize.etcc

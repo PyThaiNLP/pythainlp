@@ -11,7 +11,7 @@ from pythainlp.corpus.tnc import bigram_word_freqs as tnc_word_freqs_bigram
 from pythainlp.corpus.tnc import trigram_word_freqs as tnc_word_freqs_trigram
 from pythainlp.corpus.ttc import unigram_word_freqs as ttc_word_freqs_unigram
 from pythainlp.corpus.oscar import (
-    unigram_word_freqs as oscar_word_freqs_unigram
+    unigram_word_freqs as oscar_word_freqs_unigram,
 )
 from typing import List, Union
 
@@ -25,6 +25,7 @@ class Unigram:
         * *ttc* - Thai Textbook Corpus (TTC)
         * *oscar* - OSCAR Corpus
     """
+
     def __init__(self, name: str = "tnc"):
         if name == "tnc":
             self.counts = tnc_word_freqs_unigram()
@@ -36,9 +37,7 @@ class Unigram:
         self.n = 0
         for i in self.word:
             self.n += self.counts[i]
-        self.prob = {
-            i: self.counts[i] / self.n for i in self.word
-        }
+        self.prob = {i: self.counts[i] / self.n for i in self.word}
         self._word_prob = {}
 
     def gen_sentence(
@@ -47,7 +46,7 @@ class Unigram:
         N: int = 3,
         prob: float = 0.001,
         output_str: bool = True,
-        duplicate: bool = False
+        duplicate: bool = False,
     ) -> Union[List[str], str]:
         """
         :param str start_seq: word for begin word.
@@ -72,15 +71,12 @@ class Unigram:
             start_seq = random.choice(self.word)
         rand_text = start_seq.lower()
         self._word_prob = {
-            i: self.counts[i] / self.n for i in self.word
+            i: self.counts[i] / self.n
+            for i in self.word
             if self.counts[i] / self.n >= prob
         }
         return self._next_word(
-            rand_text,
-            N,
-            output_str,
-            prob=prob,
-            duplicate=duplicate
+            rand_text, N, output_str, prob=prob, duplicate=duplicate
         )
 
     def _next_word(
@@ -89,7 +85,7 @@ class Unigram:
         N: int,
         output_str: str,
         prob: float,
-        duplicate: bool = False
+        duplicate: bool = False,
     ):
         self.words = []
         self.words.append(text)
@@ -115,6 +111,7 @@ class Bigram:
     :param str name: corpus name
         * *tnc* - Thai National Corpus (default)
     """
+
     def __init__(self, name: str = "tnc"):
         if name == "tnc":
             self.uni = tnc_word_freqs_unigram()
@@ -145,7 +142,7 @@ class Bigram:
         N: int = 4,
         prob: float = 0.001,
         output_str: bool = True,
-        duplicate: bool = False
+        duplicate: bool = False,
     ) -> Union[List[str], str]:
         """
         :param str start_seq: word for begin word.
@@ -179,13 +176,13 @@ class Bigram:
                 ]
             else:
                 self._temp = [
-                    j for j in self.bi_keys
+                    j
+                    for j in self.bi_keys
                     if j[0] == self.late_word and j[1] not in self.list_word
                 ]
             self._probs = [
-                self.prob(
-                    self.late_word, next_word[-1]
-                ) for next_word in self._temp
+                self.prob(self.late_word, next_word[-1])
+                for next_word in self._temp
             ]
             self._p2 = [j for j in self._probs if j >= prob]
             if len(self._p2) == 0:
@@ -194,7 +191,7 @@ class Bigram:
             self.late_word = self.items[-1]
             self.list_word.append(self.late_word)
         if output_str:
-            return ''.join(self.list_word)
+            return "".join(self.list_word)
         return self.list_word
 
 
@@ -205,6 +202,7 @@ class Trigram:
     :param str name: corpus name
         * *tnc* - Thai National Corpus (default)
     """
+
     def __init__(self, name: str = "tnc"):
         if name == "tnc":
             self.uni = tnc_word_freqs_unigram()
@@ -239,7 +237,7 @@ class Trigram:
         N: int = 4,
         prob: float = 0.001,
         output_str: bool = True,
-        duplicate: bool = False
+        duplicate: bool = False,
     ) -> Union[List[str], str]:
         """
         :param str start_seq: word for begin word.
@@ -273,7 +271,8 @@ class Trigram:
                 ]
             else:
                 self._temp = [
-                    j for j in self.ti_keys
+                    j
+                    for j in self.ti_keys
                     if j[:2] == self.late_word and j[1:] not in self.list_word
                 ]
             self._probs = [
@@ -291,5 +290,5 @@ class Trigram:
                 if j not in self.listdata:
                     self.listdata.append(j)
         if output_str:
-            return ''.join(self.listdata)
+            return "".join(self.listdata)
         return self.listdata

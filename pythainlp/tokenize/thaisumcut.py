@@ -35,13 +35,13 @@ from typing import List
 from pythainlp.tokenize import word_tokenize
 
 
-def list_to_string(list:List[str]) -> str:
-    string = ''.join(list)
-    string = ' '.join(string.split())
+def list_to_string(list: List[str]) -> str:
+    string = "".join(list)
+    string = " ".join(string.split())
     return string
 
 
-def middle_cut(sentences:List[str]) -> List[str]:
+def middle_cut(sentences: List[str]) -> List[str]:
     new_text = ""
     for sentence in sentences:
         sentence_size = len(word_tokenize(sentence, keep_whitespace=False))
@@ -50,10 +50,10 @@ def middle_cut(sentences:List[str]) -> List[str]:
             if k == 0 or k + 1 >= len(sentence):
                 continue
             if sentence[k].isdigit() and sentence[k - 1] == " ":
-                sentence = sentence[:k - 1] + sentence[k:]
+                sentence = sentence[: k - 1] + sentence[k:]
             if k + 2 <= len(sentence):
                 if sentence[k].isdigit() and sentence[k + 1] == " ":
-                    sentence = sentence[:k + 1] + sentence[k + 2:]
+                    sentence = sentence[: k + 1] + sentence[k + 2 :]
 
         fixed_text_lenth = 20
 
@@ -61,19 +61,23 @@ def middle_cut(sentences:List[str]) -> List[str]:
             partition = math.floor(sentence_size / fixed_text_lenth)
             tokens = word_tokenize(sentence, keep_whitespace=True)
             for i in range(0, partition):
-                middle_space = (sentence_size / (partition+1)*(i+1))
+                middle_space = sentence_size / (partition + 1) * (i + 1)
                 white_space_index = []
                 white_space_diff = {}
 
                 for j in range(len(tokens)):
-                    if tokens[j] == ' ':
+                    if tokens[j] == " ":
                         white_space_index.append(j)
 
                 for white_space in white_space_index:
-                    white_space_diff.update({white_space: abs(white_space - middle_space)})
+                    white_space_diff.update(
+                        {white_space: abs(white_space - middle_space)}
+                    )
 
                 if len(white_space_diff) > 0:
-                    min_diff = min(white_space_diff.items(), key=operator.itemgetter(1))
+                    min_diff = min(
+                        white_space_diff.items(), key=operator.itemgetter(1)
+                    )
                     tokens.pop(min_diff[0])
                     tokens.insert(min_diff[0], "<stop>")
             new_text = new_text + list_to_string(tokens) + "<stop>"
@@ -82,18 +86,19 @@ def middle_cut(sentences:List[str]) -> List[str]:
 
     sentences = new_text.split("<stop>")
     sentences = [s.strip() for s in sentences]
-    if '' in sentences: 
-        sentences.remove('')
-    if 'nan' in sentences: 
-        sentences.remove('nan')
+    if "" in sentences:
+        sentences.remove("")
+    if "nan" in sentences:
+        sentences.remove("nan")
 
     sentences = list(filter(None, sentences))
     return sentences
 
 
 class ThaiSentenceSegmentor:
-
-    def split_into_sentences(self, text:str, isMiddleCut:bool=False) -> List[str]:
+    def split_into_sentences(
+        self, text: str, isMiddleCut: bool = False
+    ) -> List[str]:
         # Declare Variables
         th_alphabets = "([ก-๙])"
         th_conjunction = "(ทำให้|โดย|เพราะ|นอกจากนี้|แต่|กรณีที่|หลังจากนี้|ต่อมา|ภายหลัง|นับตั้งแต่|หลังจาก|ซึ่งเหตุการณ์|ผู้สื่อข่าวรายงานอีก|ส่วนที่|ส่วนสาเหตุ|ฉะนั้น|เพราะฉะนั้น|เพื่อ|เนื่องจาก|จากการสอบสวนทราบว่า|จากกรณี|จากนี้|อย่างไรก็ดี)"
@@ -163,7 +168,9 @@ class ThaiSentenceSegmentor:
         text = text.replace("ทั้งนี้เพื่อ", "ทั้งนี้<rth_for>")
         text = text.replace("เวลาต่อมา", "เวลา<rth_toma>")
         text = text.replace("อย่างไรก็ตาม", "อย่างไรก็ตาม")
-        text = text.replace("อย่างไรก็ตามหลังจาก", "<stop>อย่างไรก็ตาม<rth_langjak>")
+        text = text.replace(
+            "อย่างไรก็ตามหลังจาก", "<stop>อย่างไรก็ตาม<rth_langjak>"
+        )
         text = text.replace("ซึ่งทำให้", "ซึ่ง<rth_tamhai>")
         text = text.replace("โดยประมาท", "<doi>ประมาท")
         text = text.replace("โดยธรรม", "<doi>ธรรม")
@@ -180,7 +187,12 @@ class ThaiSentenceSegmentor:
                 if tokens[i] == "และ":
                     and_position = i
 
-                if and_position != -1 and i > and_position and tokens[i] == " " and nearest_space_position == -1:
+                if (
+                    and_position != -1
+                    and i > and_position
+                    and tokens[i] == " "
+                    and nearest_space_position == -1
+                ):
                     if i - and_position != 1:
                         nearest_space_position = i
 
@@ -213,7 +225,12 @@ class ThaiSentenceSegmentor:
             for i in range(len(tokens)):
                 if tokens[i] == "หรือ":
                     or_position = i
-                if or_position != -1 and i > or_position and tokens[i] == " " and nearest_space_position == -1:
+                if (
+                    or_position != -1
+                    and i > or_position
+                    and tokens[i] == " "
+                    and nearest_space_position == -1
+                ):
                     if i - or_position != 1:
                         nearest_space_position = i
 
@@ -247,7 +264,12 @@ class ThaiSentenceSegmentor:
                 if tokens[i] == "จึง":
                     cung_position = i
 
-                if cung_position != -1 and tokens[i] == " " and i > cung_position and nearest_space_position == -1:
+                if (
+                    cung_position != -1
+                    and tokens[i] == " "
+                    and i > cung_position
+                    and nearest_space_position == -1
+                ):
                     if i - cung_position != 1:
                         nearest_space_position = i
 
@@ -277,16 +299,18 @@ class ThaiSentenceSegmentor:
         text = re.sub(th_conjunction, "<stop>\\1", text)
         text = re.sub(th_cite, "\\1<stop>", text)
         text = re.sub(" " + degit + "[.]" + th_title, "<stop>\\1.\\2", text)
-        text = re.sub(" " + degit + degit + "[.]" + th_title, "<stop>\\1\\2.\\3", text)
+        text = re.sub(
+            " " + degit + degit + "[.]" + th_title, "<stop>\\1\\2.\\3", text
+        )
         text = re.sub(th_alphabets + th_stop_after + " ", "\\1\\2<stop>", text)
-        if "”" in text: 
+        if "”" in text:
             text = text.replace(".”", "”.")
-        if "\"" in text: 
-            text = text.replace(".\"", "\".")
-        if "!" in text: 
-            text = text.replace("!\"", "\"!")
-        if "?" in text: 
-            text = text.replace("?\"", "\"?")
+        if '"' in text:
+            text = text.replace('."', '".')
+        if "!" in text:
+            text = text.replace('!"', '"!')
+        if "?" in text:
+            text = text.replace('?"', '"?')
         text = text.replace("<rth_Doeirew>", "โดยเร็ว")
         text = text.replace("<rth_friend>", "เพื่อน")
         text = text.replace("<rth_but>", "แต่ง")
@@ -341,7 +365,10 @@ class ThaiSentenceSegmentor:
         text = text.replace("อีกทั้ง<rth_for>", "อีกทั้งเพื่อ")
         text = text.replace("ทั้งนี้<rth_for>", "ทั้งนี้เพื่อ")
         text = text.replace("เวลา<rth_toma>", "เวลาต่อมา")
-        text = text.replace("อย่างไรก็ตาม<rth_langjak>", "อย่างไรก็ตามหลังจาก", )
+        text = text.replace(
+            "อย่างไรก็ตาม<rth_langjak>",
+            "อย่างไรก็ตามหลังจาก",
+        )
         text = text.replace("ซึ่ง<rth_tamhai>", "ซึ่งทำให้")
         text = text.replace("<doi>ประมาท", "โดยประมาท")
         text = text.replace("<doi>ธรรม", "โดยธรรม")
@@ -351,10 +378,10 @@ class ThaiSentenceSegmentor:
         text = text.replace("<prd>", ".")
         sentences = text.split("<stop>")
         sentences = [s.strip() for s in sentences]
-        if '' in sentences: 
-            sentences.remove('')
-        if 'nan' in sentences: 
-            sentences.remove('nan')
+        if "" in sentences:
+            sentences.remove("")
+        if "nan" in sentences:
+            sentences.remove("nan")
 
         sentences = list(filter(None, sentences))
 

@@ -139,6 +139,8 @@ Thanks all the [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/cont
 - Arthit Suriyawongkul - refactoring, packaging, distribution, and maintainance
 - Chakri Lowphansirikul - documentation
 - Pattarawat Chormai - benchmarking
+- Thanathip Suntorntip - nlpO3 maintainance, Rust Developer
+- Can Udomcharoenchaikit - documentation and code
 
 ### Maintainers
 - Arthit Suriyawongkul

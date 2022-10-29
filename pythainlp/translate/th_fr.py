@@ -27,13 +27,17 @@ class ThFrTranslator:
 
     :param bool use_gpu : load model to gpu (Default is False)
     """
-    def __init__(self,
-                 use_gpu: bool = False,
-                 pretrained: str = "Helsinki-NLP/opus-mt-th-fr") -> None:
+
+    def __init__(
+        self,
+        use_gpu: bool = False,
+        pretrained: str = "Helsinki-NLP/opus-mt-th-fr",
+    ) -> None:
         self.tokenizer_thzh = AutoTokenizer.from_pretrained(pretrained)
         self.model_thzh = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
         if use_gpu:
             self.model_thzh.cuda()
+
     def translate(self, text: str) -> str:
         """
         Translate text from Thai to French
@@ -58,7 +62,6 @@ class ThFrTranslator:
             **self.tokenizer_thzh(text, return_tensors="pt", padding=True)
         )
         return [
-            self.tokenizer_thzh.decode(
-                t, skip_special_tokens=True
-            ) for t in self.translated
+            self.tokenizer_thzh.decode(t, skip_special_tokens=True)
+            for t in self.translated
         ][0]

@@ -13,10 +13,10 @@ from pythainlp.corpus import thai_words
 
 _ptn_digits = r"(|หนึ่ง|เอ็ด|สอง|ยี่|สาม|สี่|ห้า|หก|เจ็ด|แปด|เก้า)"
 _ptn_six_figures = (
-    fr"({_ptn_digits}แสน)?({_ptn_digits}หมื่น)?({_ptn_digits}พัน)?"
-    fr"({_ptn_digits}ร้อย)?({_ptn_digits}สิบ)?{_ptn_digits}?"
+    rf"({_ptn_digits}แสน)?({_ptn_digits}หมื่น)?({_ptn_digits}พัน)?"
+    rf"({_ptn_digits}ร้อย)?({_ptn_digits}สิบ)?{_ptn_digits}?"
 )
-_ptn_thai_numerals = fr"(ลบ)?({_ptn_six_figures}ล้าน)*{_ptn_six_figures}"
+_ptn_thai_numerals = rf"(ลบ)?({_ptn_six_figures}ล้าน)*{_ptn_six_figures}"
 _re_thai_numerals = re.compile(_ptn_thai_numerals)
 
 _digits = {
@@ -50,10 +50,10 @@ _tokenizer = Tokenizer(custom_dict=_valid_tokens)
 def _check_is_thainum(word: str):
     for j in list(_digits.keys()):
         if j in word:
-            return (True, 'num')
+            return (True, "num")
     for j in ["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด", "ลบ"]:
         if j in word:
-            return (True, 'unit')
+            return (True, "unit")
     return (False, None)
 
 
@@ -126,7 +126,7 @@ def thaiword_to_num(word: str) -> int:
 def _decimal_unit(words: list) -> float:
     _num = 0.0
     for i, v in enumerate(words):
-        _num += int(thaiword_to_num(v)) / (10**(i+1))
+        _num += int(thaiword_to_num(v)) / (10 ** (i + 1))
     return _num
 
 
@@ -149,10 +149,10 @@ def words_to_num(words: list) -> float:
     """
     num = 0
     if "จุด" not in words:
-        num = thaiword_to_num(''.join(words))
+        num = thaiword_to_num("".join(words))
     else:
-        words_int = ''.join(words[:words.index("จุด")])
-        words_float = words[words.index("จุด") + 1:]
+        words_int = "".join(words[: words.index("จุด")])
+        words_float = words[words.index("จุด") + 1 :]
         num = thaiword_to_num(words_int)
         if num <= -1:
             num -= _decimal_unit(words_float)
@@ -189,12 +189,12 @@ def text_to_num(text: str) -> List[str]:
     for i, word in enumerate(_temp):
         if (
             _check_is_thainum(word)[0]
-            and last_index+1 == i
-            and i+1 == len(_temp)
+            and last_index + 1 == i
+            and i + 1 == len(_temp)
         ):
             thainum.append(word)
             list_word_new.append(str(words_to_num(thainum)))
-        elif _check_is_thainum(word)[0] and last_index+1 == i:
+        elif _check_is_thainum(word)[0] and last_index + 1 == i:
             thainum.append(word)
             last_index = i
         elif _check_is_thainum(word)[0]:
@@ -202,7 +202,7 @@ def text_to_num(text: str) -> List[str]:
             last_index = i
         elif (
             not _check_is_thainum(word)[0]
-            and last_index+1 == i
+            and last_index + 1 == i
             and last_index != -1
         ):
             list_word_new.append(str(words_to_num(thainum)))

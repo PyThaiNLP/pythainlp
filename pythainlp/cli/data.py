@@ -46,7 +46,9 @@ class App:
             usage="thainlp data get <dataset_name>",
         )
         parser.add_argument(
-            "dataset_name", type=str, help="dataset/corpus's name",
+            "dataset_name",
+            type=str,
+            help="dataset/corpus's name",
         )
         args = parser.parse_args(argv[3:])
         if corpus.download(args.dataset_name):
@@ -60,7 +62,9 @@ class App:
             usage="thainlp data rm <dataset_name>",
         )
         parser.add_argument(
-            "dataset_name", type=str, help="dataset/corpus's name",
+            "dataset_name",
+            type=str,
+            help="dataset/corpus's name",
         )
         args = parser.parse_args(argv[3:])
         if corpus.remove(args.dataset_name):
@@ -74,7 +78,9 @@ class App:
             usage="thainlp data info <dataset_name>",
         )
         parser.add_argument(
-            "dataset_name", type=str, help="dataset/corpus's name",
+            "dataset_name",
+            type=str,
+            help="dataset/corpus's name",
         )
         args = parser.parse_args(argv[3:])
         info = corpus.get_corpus_db_detail(args.dataset_name)

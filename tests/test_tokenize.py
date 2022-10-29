@@ -17,6 +17,7 @@ from pythainlp.tokenize import (
     ssg,
     subword_tokenize,
     tcc,
+    tcc_p,
     word_tokenize,
     sefr_cut,
     tltk,
@@ -324,6 +325,12 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertFalse(
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tcc")
+        )
+        self.assertIsInstance(
+            subword_tokenize("สวัสดีดาวอังคาร", engine="tcc_p"), list
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tcc_p")
         )
         self.assertEqual(subword_tokenize(None, engine="etcc"), [])
         self.assertEqual(subword_tokenize("", engine="etcc"), [])
@@ -648,8 +655,85 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             tcc.segment("ประเทศไทย"), ["ป", "ระ", "เท", "ศ", "ไท", "ย"]
         )
+        self.assertEqual(
+            tcc.segment("พิสูจน์ได้ค่ะ"), ['พิ', 'สูจน์', 'ได้', 'ค่ะ']
+        )
+        self.assertEqual(
+            tcc.segment("หอมรดกไทย"), ['ห', 'อ', 'ม', 'ร', 'ด', 'ก', 'ไท', 'ย']
+        )
+        self.assertEqual(
+            tcc.segment("เรือน้อยลอยอยู่"), ['เรื', 'อ', 'น้', 'อ', 'ย', 'ล', 'อ', 'ย', 'อ', 'ยู่']
+        )
+        self.assertEqual(
+             tcc.segment("ประสานงานกับลูกค้า"), ['ป', 'ระ', 'สา', 'น', 'งา', 'น', 'กั', 'บ', 'ลู', 'ก', 'ค้า']
+        )
+        self.assertEqual(
+             tcc.segment("ประกันภัยสัมพันธ์"), ['ป', 'ระ', 'กั', 'น', 'ภั', 'ย', 'สั', 'ม', 'พั','นธ์'] # It don't look like TCC in ETCC paper
+        )
+        self.assertEqual(
+             tcc.segment("ตากลม"), ['ตา', 'ก', 'ล', 'ม']
+        )
+        self.assertEqual(
+             tcc.segment("เครื่องมือสื่อสารมีหลายชนิด"),
+             [
+                'เค',
+                'รื่อ',
+                'ง',
+                'มือ',
+                'สื่อ',
+                'สา',
+                'ร',
+                'มี',
+                'ห',
+                'ลา',
+                'ย',
+                'ช',
+                'นิ',
+                'ด'
+            ]
+        )
+        self.assertEqual(
+             tcc.segment("ประชาชน"), ['ป', 'ระ', 'ชา', 'ช', 'น']
+        )
+        self.assertEqual(
+             tcc.segment("ไหมไทย"), ['ไห', 'ม', 'ไท', 'ย']
+        )
+        self.assertEqual(
+             tcc.segment("ยินดี"), ['ยิ', 'น', 'ดี']
+        )
+        self.assertEqual(
+             tcc.segment("ขุดหลุม"), ['ขุ', 'ด', 'ห', 'ลุ', 'ม']
+        )
         self.assertEqual(list(tcc.tcc("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())
+
+    def test_tcc_p(self):
+        self.assertEqual(tcc_p.segment(None), [])
+        self.assertEqual(tcc_p.segment(""), [])
+        self.assertEqual(
+            tcc_p.segment("ประเทศไทย"), ["ป", "ระ", "เท", "ศ", "ไท", "ย"]
+        )
+        self.assertEqual(
+            tcc_p.segment("พิสูจน์ได้ค่ะ"), ['พิ', 'สูจน์', 'ได้', 'ค่ะ']
+        )
+        self.assertEqual(
+            tcc_p.segment("หอมรดกไทย"), ['ห', 'อ', 'ม', 'ร', 'ด', 'ก', 'ไท', 'ย']
+        )
+        self.assertEqual(
+            tcc_p.segment("เรือน้อยลอยอยู่"), ['เรือ', 'น้', 'อ', 'ย', 'ล', 'อ', 'ย', 'อ', 'ยู่']
+        )
+        # Not implementation
+        # self.assertEqual(
+        #     tcc.segment("ประสานงานกับลูกค้า"), ['ป', 'ระ', 'สา', 'น', 'งา', 'น', 'กั', 'บ', 'ลู', 'ก', 'ค้า']
+        # )
+        # self.assertEqual(
+        #     tcc.segment("ประกันภัยสัมพันธ์"), ['ป', 'ระ', 'กั', 'น', 'ภั', 'ย', 'สั', 'ม', 'พั','น','ธ์']
+        # )
+        # self.assertEqual(
+        #     tcc.segment("ตากลม"), ['ตา', 'ก', 'ล', 'ม']
+        # )
+        self.assertEqual(list(tcc_p.tcc("")), [])
+        self.assertEqual(tcc_p.tcc_pos(""), set())
 
     def test_sefr_cut(self):
         self.assertEqual(sefr_cut.segment(None), [])

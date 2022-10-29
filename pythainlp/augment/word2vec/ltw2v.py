@@ -12,8 +12,9 @@ class LTW2VAug:
     LTW2V:
     `github.com/PyThaiNLP/large-thaiword2vec <https://github.com/PyThaiNLP/large-thaiword2vec>`_
     """
+
     def __init__(self):
-        self.ltw2v_wv = get_corpus_path('ltw2v')
+        self.ltw2v_wv = get_corpus_path("ltw2v")
         self.load_w2v()
 
     def tokenizer(self, text: str) -> List[str]:
@@ -21,7 +22,7 @@ class LTW2VAug:
         :param str text: thai text
         :rtype: List[str]
         """
-        return word_tokenize(text, engine='newmm')
+        return word_tokenize(text, engine="newmm")
 
     def load_w2v(self):  # insert substitute
         """
@@ -30,10 +31,7 @@ class LTW2VAug:
         self.aug = Word2VecAug(self.ltw2v_wv, self.tokenizer, type="binary")
 
     def augment(
-        self,
-        sentence: str,
-        n_sent: int = 1,
-        p: float = 0.7
+        self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> List[Tuple[str]]:
         """
         Text Augment using word2vec from Thai2Fit

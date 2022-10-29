@@ -15,6 +15,7 @@ from pythainlp.util import (
     bahttext,
     collate,
     countthai,
+    count_thai_chars,
     dict_trie,
     display_thai_char,
     digit_to_text,
@@ -594,6 +595,40 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(countthai("โรค COVID-19"), 37.5)
         self.assertEqual(countthai("(กกต.)", ".()"), 100.0)
         self.assertEqual(countthai("(กกต.)", None), 50.0)
+
+    def test_count_thai_chars(self):
+        self.assertEquals(
+            count_thai_chars("ทดสอบภาษาไทย"),
+            {
+                'vowels': 3, 
+                'lead_vowels': 1,
+                'follow_vowels': 2,
+                'above_vowels': 0,
+                'below_vowels': 0,
+                'consonants': 9,
+                'tonemarks': 0,
+                'signs': 0,
+                'thai_digits': 0,
+                'punctuations': 0,
+                'non_thai': 0,
+            }
+        )
+        self.assertEquals(
+            count_thai_chars("มี ๕ บาทไหม๏ เกมส์หรือเกมกันแน่ที่กรุเทพฯ ใช้"),
+            {
+                'vowels': 12,
+                'lead_vowels': 6,
+                'follow_vowels': 1,
+                'above_vowels': 4,
+                'below_vowels': 1,
+                'consonants': 22,
+                'tonemarks': 3,
+                'signs': 2,
+                'thai_digits': 1,
+                'punctuations': 1,
+                'non_thai': 4,
+            }
+        )
 
     def test_isthaichar(self):
         self.assertEqual(isthaichar("ก"), True)

@@ -13,12 +13,13 @@ class Word2VecAug:
         :param str type: moodel type (file, binary)
         """
         import gensim.models.keyedvectors as word2vec
+
         self.tokenizer = tokenize
         if type == "file":
             self.model = word2vec.KeyedVectors.load_word2vec_format(model)
         elif type == "binary":
             self.model = word2vec.KeyedVectors.load_word2vec_format(
-                model, binary=True, unicode_errors='ignore'
+                model, binary=True, unicode_errors="ignore"
             )
         else:
             self.model = model
@@ -33,9 +34,7 @@ class Word2VecAug:
         list_sent_new = []
         for i in sent:
             if i in self.dict_wv:
-                w = [
-                    j for j, v in self.model.most_similar(i) if v >= p
-                ]
+                w = [j for j, v in self.model.most_similar(i) if v >= p]
                 if w == []:
                     list_sent_new.append([i])
                 else:
@@ -45,10 +44,7 @@ class Word2VecAug:
         return list_sent_new
 
     def augment(
-        self,
-        sentence: str,
-        n_sent: int = 1,
-        p: float = 0.7
+        self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> List[Tuple[str]]:
         """
         :param str sentence: text sentence

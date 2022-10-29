@@ -11,7 +11,7 @@ A pure Python spell checker utilizing spylls a port of Hunspell.
 from typing import List
 import phunspell
 
-pspell = phunspell.Phunspell('th_TH')
+pspell = phunspell.Phunspell("th_TH")
 
 
 def spell(text: str) -> List[str]:

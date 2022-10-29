@@ -64,7 +64,7 @@ class Trie:
         for parent, child, ch in reversed(data):
             if child.end or child.children:
                 break
-            del parent.children[ch]   # remove from parent dict
+            del parent.children[ch]  # remove from parent dict
 
     def prefixes(self, text: str) -> List[str]:
         """

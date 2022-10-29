@@ -11,7 +11,7 @@ __all__ = [
     "sent_tokenize",
     "subword_tokenize",
     "word_tokenize",
-    "word_detokenize"
+    "word_detokenize",
 ]
 
 from pythainlp.corpus import thai_syllables, thai_words

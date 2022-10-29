@@ -11,7 +11,9 @@ class SubAppBase:
     def __init__(self, name, argv):
         parser = argparse.ArgumentParser(**cli.make_usage("tag " + name))
         parser.add_argument(
-            "text", type=str, help="input text",
+            "text",
+            type=str,
+            help="input text",
         )
         parser.add_argument(
             "-s",

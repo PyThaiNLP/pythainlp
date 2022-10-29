@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Dictionary-based maximal matching word segmentation, constrained with
-Thai Character Cluster (TCC) boundaries.
+Thai Character Cluster (TCC) boundaries with improve the rules.
 
 The code is based on the notebooks created by Korakot Chaovavanich,
 with heuristic graph size limit added to avoid exponential wait time.
@@ -20,7 +20,7 @@ from typing import Generator, List
 from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
 from pythainlp.util import Trie
 
-from pythainlp.tokenize.tcc import tcc_pos
+from pythainlp.tokenize.tcc_p import tcc_pos
 
 # match non-Thai tokens
 _PAT_NONTHAI = re.compile(

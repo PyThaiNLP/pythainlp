@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
 The implementation of tokenizer accorinding to Thai Character Clusters (TCCs)
 rules purposed by `Theeramunkong et al. 2000. \
@@ -15,34 +15,42 @@ from typing import List, Set
 
 _RE_TCC = (
     """\
-เc็c
-เcctาะ
-เccีtยะ
-เccีtย(?=[เ-ไก-ฮ]|$)
-เcc็c
-เcิc์c
-เcิtc
-เcีtยะ?
-เcืtอะ?
-เc[ิีุู]tย(?=[เ-ไก-ฮ]|$)
-เctา?ะ?
-cัtวะ
-c[ัื]tc[ุิะ]?
+c[ั]([่-๋]c)?
+c[ั]([่-๋]c)?k
+เc็ck
+เcctาะk
+เccีtยะk
+เccีtย(?=[เ-ไก-ฮ]|$)k
+เc[ิีุู]tย(?=[เ-ไก-ฮ]|$)k
+เcc็ck
+เcิc์ck
+เcิtck
+เcีtยะ?k
+เcืtอะk
+เcื
+เctา?ะ?k
+c[ึื]tck
+c[ะ-ู]tk
 c[ิุู]์
-c[ะ-ู]t
+cรรc์
 c็
-ct[ะาำ]?
-แc็c
-แcc์
-แctะ
-แcc็c
-แccc์
-โctะ
-[เ-ไ]ct
+ct[ะาำ]?k
+แc็ck
+แcc์k
+แctะk
+แcc็ck
+แccc์k
+โctะk
+[เ-ไ]ctk
+ก็
+อึ
+หึ
 """.replace(
-        "c", "[ก-ฮ]"
+        "k", "(cc?[d|ิ]?[์])?"
     )
+    .replace("c", "[ก-ฮ]")
     .replace("t", "[่-๋]?")
+    .replace("d", "อูอุ".replace("อ", ""))  # DSara: lower vowel
     .split()
 )
 

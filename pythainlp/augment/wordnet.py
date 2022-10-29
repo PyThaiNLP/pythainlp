@@ -107,7 +107,7 @@ def postype2wordnet(pos: str, corpus: str):
     **Options for corpus**
         * *orchid* - Orchid Corpus
     """
-    if corpus not in ['orchid']:
+    if corpus not in ["orchid"]:
         return None
     return orchid[pos]
 
@@ -116,14 +116,12 @@ class WordNetAug:
     """
     Text Augment using wordnet
     """
+
     def __init__(self):
         pass
 
     def find_synonyms(
-        self,
-        word: str,
-        pos: str = None,
-        postag_corpus: str = "orchid"
+        self, word: str, pos: str = None, postag_corpus: str = "orchid"
     ) -> List[str]:
         """
         Find synonyms from wordnet
@@ -139,13 +137,13 @@ class WordNetAug:
             self.list_synsets = wordnet.synsets(word)
         else:
             self.p2w_pos = postype2wordnet(pos, postag_corpus)
-            if self.p2w_pos != '':
+            if self.p2w_pos != "":
                 self.list_synsets = wordnet.synsets(word, pos=self.p2w_pos)
             else:
                 self.list_synsets = wordnet.synsets(word)
 
         for self.synset in wordnet.synsets(word):
-            for self.syn in self.synset.lemma_names(lang='tha'):
+            for self.syn in self.synset.lemma_names(lang="tha"):
                 self.synonyms.append(self.syn)
 
         self.synonyms_without_duplicates = list(
@@ -159,7 +157,7 @@ class WordNetAug:
         tokenize: object = word_tokenize,
         max_syn_sent: int = 6,
         postag: bool = True,
-        postag_corpus: str = "orchid"
+        postag_corpus: str = "orchid",
     ) -> List[List[str]]:
         """
         Text Augment using wordnet

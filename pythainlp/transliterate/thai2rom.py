@@ -2,10 +2,8 @@
 """
 Romanization of Thai words based on machine-learnt engine ("thai2rom")
 """
-
 import random
 
-import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -78,8 +76,7 @@ class ThaiTransliterator:
                  should be pronounced.
         """
         input_tensor = self._prepare_sequence_in(text).view(1, -1)
-        input_length = [len(text) + 1]
-
+        input_length = torch.Tensor([len(text) + 1]).int()
         target_tensor_logits = self._network(
             input_tensor, input_length, None, 0
         )
@@ -127,20 +124,18 @@ class Encoder(nn.Module):
         batch_size = sequences.size(0)
         self.hidden = self.init_hidden(batch_size)
 
-        sequences_lengths = np.sort(sequences_lengths)[::-1]
-        index_sorted = np.argsort(
-            -sequences_lengths
-        )  # use negation in sort in descending order
-        index_unsort = np.argsort(index_sorted)  # to unsorted sequence
-
-        index_sorted = torch.from_numpy(index_sorted)
+        sequences_lengths = torch.flip(
+            torch.sort(sequences_lengths).values, dims=(0,)
+        )
+        index_sorted = torch.sort(-1 * sequences_lengths).indices
+        index_unsort = torch.sort(index_sorted).indices  # to unsorted sequence
         sequences = sequences.index_select(0, index_sorted.to(device))
 
         sequences = self.character_embedding(sequences)
         sequences = self.dropout(sequences)
 
         sequences_packed = nn.utils.rnn.pack_padded_sequence(
-            sequences, sequences_lengths.copy(), batch_first=True
+            sequences, sequences_lengths.clone(), batch_first=True
         )
 
         sequences_output, self.hidden = self.rnn(sequences_packed, self.hidden)
@@ -149,11 +144,9 @@ class Encoder(nn.Module):
             sequences_output, batch_first=True
         )
 
-        index_unsort = torch.from_numpy(index_unsort).to(device)
         sequences_output = sequences_output.index_select(
             0, index_unsort.clone().detach()
         )
-
         return sequences_output, self.hidden
 
     def init_hidden(self, batch_size):
@@ -239,7 +232,7 @@ class AttentionDecoder(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, input_character, last_hidden, encoder_outputs, mask):
-        """"Defines the forward computation of the decoder"""
+        """ "Defines the forward computation of the decoder"""
 
         # input_character: (batch_size, 1)
         # last_hidden: (batch_size, hidden_dim)
@@ -347,6 +340,8 @@ class Seq2Seq(nn.Module):
                 if teacher_force
                 else topi.detach()
             )
+
+            decoder_input = topi.detach()
 
             if inference and decoder_input == end_token:
                 return outputs[:di]

@@ -5,11 +5,13 @@ on:
     paths-ignore:
       - '**.md'
       - 'docs/**'
+      - '**.yml'
   pull_request:
     branches:
       - dev
     paths-ignore:
       - '**.md'
+      - '**.yml'
       - 'docs/**'
 
 jobs:

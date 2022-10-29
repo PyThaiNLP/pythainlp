@@ -14,18 +14,18 @@ class Thai2transformersAug:
         self.model_name = "airesearch/wangchanberta-base-att-spm-uncased"
         self.target_tokenizer = CamembertTokenizer
         self.tokenizer = CamembertTokenizer.from_pretrained(
-                                    self.model_name,
-                                    revision='main')
+            self.model_name, revision="main"
+        )
         self.tokenizer.additional_special_tokens = [
-            '<s>NOTUSED',
-            '</s>NOTUSED',
-            '<_>'
+            "<s>NOTUSED",
+            "</s>NOTUSED",
+            "<_>",
         ]
         self.fill_mask = pipeline(
-            task='fill-mask',
+            task="fill-mask",
             tokenizer=self.tokenizer,
-            model=f'{self.model_name}',
-            revision='main'
+            model=f"{self.model_name}",
+            revision="main",
         )
         self.MASK_TOKEN = self.tokenizer.mask_token
 
@@ -33,7 +33,7 @@ class Thai2transformersAug:
         self.sent2 = []
         self.input_text = sentence
         sent = [
-            i for i in self.tokenizer.tokenize(self.input_text) if i != '▁'
+            i for i in self.tokenizer.tokenize(self.input_text) if i != "▁"
         ]
         if len(sent) < num_replace_tokens:
             num_replace_tokens = len(sent)
@@ -42,18 +42,16 @@ class Thai2transformersAug:
             replace_token = [
                 sent.pop(random.randrange(len(sent))) for _ in range(1)
             ][0]
-            masked_text = masked_text+self.MASK_TOKEN
+            masked_text = masked_text + self.MASK_TOKEN
             self.sent2 += [
-                str(j['sequence']).replace('<s> ', '').replace('</s>', '')
+                str(j["sequence"]).replace("<s> ", "").replace("</s>", "")
                 for j in self.fill_mask(masked_text)
-                if j['sequence'] not in self.sent2
+                if j["sequence"] not in self.sent2
             ]
             masked_text = self.input_text
         return self.sent2
 
-    def augment(
-        self, sentence: str, num_replace_tokens: int = 3
-    ) -> List[str]:
+    def augment(self, sentence: str, num_replace_tokens: int = 3) -> List[str]:
         """
         Text Augment from wangchanberta
 

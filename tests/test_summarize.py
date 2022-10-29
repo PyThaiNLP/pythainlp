@@ -43,7 +43,6 @@ class TestSummarizePackage(unittest.TestCase):
 
         # test default engine, common case
         keywords = extract_keywords(text)
-        
         expected = ["ซ่อมแซมส่วน", "เจริญเติบโต", "อวัยวะต่างๆ", "ควบคุมการเปลี่ยนแปลง"]
         for exp_kw in expected:
             self.assertIn(exp_kw, keywords)
@@ -51,7 +50,7 @@ class TestSummarizePackage(unittest.TestCase):
         # test another engine
         for max_kw in (5, 10):
             keywords = extract_keywords(text, engine="frequency", max_keywords=max_kw)
-            self.assertEqual(len(keywords), max_kw)    
+            self.assertEqual(len(keywords), max_kw)
 
         # test invalid engine
         with self.assertRaises(ValueError):
@@ -94,7 +93,6 @@ class TestSummarizePackage(unittest.TestCase):
 
         # test max_keywords
         max_kws = 10
-        
         keywords = keybert.extract_keywords(text, max_keywords=max_kws)
         self.assertLessEqual(len(keywords), max_kws)
 

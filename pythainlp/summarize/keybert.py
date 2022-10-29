@@ -2,8 +2,8 @@
 """
 Minimal re-implementation of KeyBERT.
 
-KeyBERT is a minimal and easy-to-use keyword extraction technique 
-that leverages BERT embeddings to create keywords and keyphrases 
+KeyBERT is a minimal and easy-to-use keyword extraction technique
+that leverages BERT embeddings to create keywords and keyphrases
 that are most similar to a document.
 
 https://github.com/MaartenGr/KeyBERT

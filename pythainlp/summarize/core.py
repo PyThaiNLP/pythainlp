@@ -4,9 +4,9 @@ Text summarization
 """
 
 
-from typing import List
+from typing import List, Iterable, Optional, Tuple
 
-from pythainlp.summarize import DEFAULT_SUMMARIZE_ENGINE, CPE_KMUTT_THAI_SENTENCE_SUM
+from pythainlp.summarize import DEFAULT_SUMMARIZE_ENGINE, CPE_KMUTT_THAI_SENTENCE_SUM, DEFAULT_KEYWORD_EXTRACTION_ENGINE
 from pythainlp.summarize.freq import FrequencySummarizer
 from pythainlp.tokenize import sent_tokenize
 
@@ -105,3 +105,102 @@ def summarize(
         sents = sent_tokenize(text, engine="whitespace+newline")[:n]
 
     return sents
+
+
+def extract_keywords(
+        text: str, 
+        keyphrase_ngram_range: Tuple[int, int]=(1, 2), 
+        max_keywords: int=5,
+        min_df: int=1, 
+        engine: str=DEFAULT_KEYWORD_EXTRACTION_ENGINE,
+        tokenizer: str='newmm',
+        stop_words: Optional[Iterable[str]]=None,
+    ) -> List[Tuple[str, float]]:
+    """
+        This function returns most-relevant keywords (and/or keyphrases) from the input document.
+        Each algorithm may produce completely different keywords from each other, 
+        so please be careful when choosing the algorithm.
+
+        *Note*: Calling :func: `extract_keywords()` is expensive. For repetitive use of KeyBERT (the default engine), 
+        creating KeyBERT object is highly recommended.
+
+        :param str text: text to be summarized
+        :param Tuple[int, int] keyphrase_ngram_range: Number of token units to be defined as keyword.
+                                The token unit varies w.r.t. `tokenizer_engine`.
+                                For instance, (1, 1) means each token (unigram) can be a keyword (e.g. "เสา", "ไฟฟ้า"), 
+                                (1, 2) means one and two consecutive tokens (unigram and bigram) can be keywords
+                                (e.g. "เสา", "ไฟฟ้า", "เสาไฟฟ้า")  (default: (1, 2))
+        :param int max_keywords: Number of maximum keywords to be returned. (default: 5)
+        :param int min_df: Minimum frequency required to be a keyword. (default: 1)
+        :param str engine: Name of algorithm to use for keyword extraction. (default: 'keybert')
+        :param str tokenizer: Name of tokenizer engine to use. 
+                                Refer to options in :func: `pythainlp.tokenize.word_tokenizer() (default: 'newmm')
+        :param Optional[Iterable[str]] stop_words: A list of stop words (a.k.a words to be ignored). 
+                                If not specified, :func:`pythainlp.corpus.thai_stopwords` is used. (default: None)
+
+        :return: list of selected sentences
+        **Options for engine**
+            * *keybert* (default) - KeyBERT keyword extraction algorithm
+            * *frequency* - frequency of words
+
+        :Example:
+        ::
+
+            from pythainlp.summarize import extract_keywords
+
+            text = '''
+                อาหาร หมายถึง ของแข็งหรือของเหลว 
+                ที่กินหรือดื่มเข้าสู่ร่างกายแล้ว 
+                จะทำให้เกิดพลังงานและความร้อนแก่ร่างกาย 
+                ทำให้ร่างกายเจริญเติบโต 
+                ซ่อมแซมส่วนที่สึกหรอ ควบคุมการเปลี่ยนแปลงต่างๆ ในร่างกาย 
+                ช่วยทำให้อวัยวะต่างๆ ทำงานได้อย่างปกติ 
+                อาหารจะต้องไม่มีพิษและไม่เกิดโทษต่อร่างกาย
+            '''
+
+            keywords = extract_keywords(text)
+
+            # output: [('อวัยวะต่างๆ', 0.3228477063109462),
+            # ('ซ่อมแซมส่วน', 0.31320597838000375),
+            # ('เจริญเติบโต', 0.29115434699705506),
+            # ('ควบคุมการเปลี่ยนแปลง', 0.2678430841321016),
+            # ('มีพิษ', 0.24996827960821494)]
+
+            keywords = extract_keywords(text, max_keywords=10)
+
+            # output: [('อวัยวะต่างๆ', 0.3228477063109462),
+            # ('ซ่อมแซมส่วน', 0.31320597838000375),
+            # ('เจริญเติบโต', 0.29115434699705506),
+            # ('ควบคุมการเปลี่ยนแปลง', 0.2678430841321016),
+            # ('มีพิษ', 0.24996827960821494),
+            # ('ทำให้ร่างกาย', 0.23876962942443258),
+            # ('ร่างกายเจริญเติบโต', 0.23191285218852364),
+            # ('จะทำให้เกิด', 0.22425422716846247),
+            # ('มีพิษและ', 0.22162962875299588),
+            # ('เกิดโทษ', 0.20773497763458507)]            
+
+    """
+
+    engines = ["keybert", "frequency"]
+    
+    if engine == "keybert":
+        from .keybert import KeyBERT
+        keywords = KeyBERT().extract_keywords(
+            text, 
+            keyphrase_ngram_range=keyphrase_ngram_range, 
+            max_keywords=max_keywords,
+            min_df=min_df,
+            tokenizer=tokenizer,
+            stop_words=stop_words
+        )
+    elif engine == "frequency":
+        from pythainlp.summarize.freq import FrequencySummarizer
+        return  FrequencySummarizer().summarize(text, max_keywords, tokenizer=tokenizer)
+    else:
+        # currently not supported
+        raise ValueError(
+            f"Keyword extractor {repr(engine)} is currently not supported. "
+            f"Use one of {engines}."
+        )
+
+    return keywords

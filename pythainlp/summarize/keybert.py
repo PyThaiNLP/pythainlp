@@ -12,7 +12,7 @@ from typing import List, Optional, Iterable, Tuple, Union
 from collections import Counter
 
 import numpy as np
-from transformers import AutoTokenizer, pipeline
+from transformers import pipeline
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
@@ -22,45 +22,101 @@ class KeyBERT:
     def __init__(
         self, model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
     ):
-        tokenizer = AutoTokenizer.from_pretrained(model_name, revision="main")
         self.ft_pipeline = pipeline(
             "feature-extraction",
-            tokenizer=tokenizer,
+            tokenizer=model_name,
             model=model_name,
             revision="main",
         )
 
     def extract_keywords(
         self,
-        doc: str,
+        text: str,
         keyphrase_ngram_range: Tuple[int, int] = (1, 2),
         max_keywords: int = 5,
         min_df: int = 1,
         tokenizer: str = "newmm",
+        return_similarity=False,
         stop_words: Optional[Iterable[str]] = None,
-    ) -> List[Tuple[str, float]]:
+    ) -> Union[List[str], List[Tuple[str, float]]]:
         """
-        Extract Thai keywords and/or keyphrases
+        Extract Thai keywords and/or keyphrases with KeyBERT algorithm.
+        See https://github.com/MaartenGr/KeyBERT.
+
+        :param str text: text to be summarized
+        :param Tuple[int, int] keyphrase_ngram_range: Number of token units to be defined as keyword.
+                                The token unit varies w.r.t. `tokenizer_engine`.
+                                For instance, (1, 1) means each token (unigram) can be a keyword (e.g. "เสา", "ไฟฟ้า"),
+                                (1, 2) means one and two consecutive tokens (unigram and bigram) can be keywords
+                                (e.g. "เสา", "ไฟฟ้า", "เสาไฟฟ้า")  (default: (1, 2))
+        :param int max_keywords: Number of maximum keywords to be returned. (default: 5)
+        :param int min_df: Minimum frequency required to be a keyword. (default: 1)
+        :param str tokenizer: Name of tokenizer engine to use.
+                                Refer to options in :func: `pythainlp.tokenize.word_tokenizer() (default: 'newmm')
+        :param bool return_similarity: If `True`, return keyword scores. (default: False)
+        :param Optional[Iterable[str]] stop_words: A list of stop words (a.k.a words to be ignored).
+                                If not specified, :func:`pythainlp.corpus.thai_stopwords` is used. (default: None)
+
+        :return: list of keywords with score
+
+        :Example:
+        ::
+
+            from pythainlp.summarize.keybert import KeyBERT
+
+            text = '''
+                อาหาร หมายถึง ของแข็งหรือของเหลว
+                ที่กินหรือดื่มเข้าสู่ร่างกายแล้ว
+                จะทำให้เกิดพลังงานและความร้อนแก่ร่างกาย
+                ทำให้ร่างกายเจริญเติบโต
+                ซ่อมแซมส่วนที่สึกหรอ ควบคุมการเปลี่ยนแปลงต่างๆ ในร่างกาย
+                ช่วยทำให้อวัยวะต่างๆ ทำงานได้อย่างปกติ
+                อาหารจะต้องไม่มีพิษและไม่เกิดโทษต่อร่างกาย
+            '''
+
+            kb = KeyBERT()
+
+            keywords = kb.extract_keyword(text)
+
+            # output: ['อวัยวะต่างๆ',
+            # 'ซ่อมแซมส่วน',
+            # 'เจริญเติบโต',
+            # 'ควบคุมการเปลี่ยนแปลง',
+            # 'มีพิษ']
+
+            keywords = kb.extract_keyword(text, max_keywords=10, return_similarity=True)
+
+            # output: [('อวัยวะต่างๆ', 0.3228477063109462),
+            # ('ซ่อมแซมส่วน', 0.31320597838000375),
+            # ('เจริญเติบโต', 0.29115434699705506),
+            # ('ควบคุมการเปลี่ยนแปลง', 0.2678430841321016),
+            # ('มีพิษ', 0.24996827960821494),
+            # ('ทำให้ร่างกาย', 0.23876962942443258),
+            # ('ร่างกายเจริญเติบโต', 0.23191285218852364),
+            # ('จะทำให้เกิด', 0.22425422716846247),
+            # ('มีพิษและ', 0.22162962875299588),
+            # ('เกิดโทษ', 0.20773497763458507)]
+
         """
         try:
-            doc = doc.strip()
+            text = text.strip()
         except AttributeError:
             raise AttributeError(
-                f"Unable to process data of type {type(doc)}. "
+                f"Unable to process data of type {type(text)}. "
                 f"Please provide input of string type."
             )
 
-        if not doc:
+        if not text:
             return []
 
         # generate all list of keyword / keyphrases
         stop_words_ = stop_words if stop_words else thai_stopwords()
         kw_candidates = _generate_ngrams(
-            doc, keyphrase_ngram_range, min_df, tokenizer, stop_words_
+            text, keyphrase_ngram_range, min_df, tokenizer, stop_words_
         )
 
         # create document and word vectors
-        doc_vector = self.embed(doc)
+        doc_vector = self.embed(text)
         kw_vectors = self.embed(kw_candidates)
 
         # rank keywords
@@ -68,7 +124,10 @@ class KeyBERT:
             doc_vector, kw_vectors, kw_candidates, max_keywords
         )
 
-        return keywords
+        if return_similarity:
+            return keywords
+        else:
+            return [kw for kw, _ in keywords]
 
     def embed(self, docs: Union[str, List[str]]) -> np.ndarray:
         embs = self.ft_pipeline(docs)

@@ -123,7 +123,7 @@ def extract_keywords(
     engine: str = DEFAULT_KEYWORD_EXTRACTION_ENGINE,
     tokenizer: str = "newmm",
     stop_words: Optional[Iterable[str]] = None,
-) -> List[Tuple[str, float]]:
+) -> List[str]:
     """
     This function returns most-relevant keywords (and/or keyphrases) from the input document.
     Each algorithm may produce completely different keywords from each other,
@@ -146,7 +146,8 @@ def extract_keywords(
     :param Optional[Iterable[str]] stop_words: A list of stop words (a.k.a words to be ignored).
                             If not specified, :func:`pythainlp.corpus.thai_stopwords` is used. (default: None)
 
-    :return: list of selected sentences
+    :return: list of keywords
+
     **Options for engine**
         * *keybert* (default) - KeyBERT keyword extraction algorithm
         * *frequency* - frequency of words
@@ -168,24 +169,24 @@ def extract_keywords(
 
         keywords = extract_keywords(text)
 
-        # output: [('อวัยวะต่างๆ', 0.3228477063109462),
-        # ('ซ่อมแซมส่วน', 0.31320597838000375),
-        # ('เจริญเติบโต', 0.29115434699705506),
-        # ('ควบคุมการเปลี่ยนแปลง', 0.2678430841321016),
-        # ('มีพิษ', 0.24996827960821494)]
+        # output: ['อวัยวะต่างๆ',
+        # 'ซ่อมแซมส่วน',
+        # 'เจริญเติบโต',
+        # 'ควบคุมการเปลี่ยนแปลง',
+        # 'มีพิษ']
 
         keywords = extract_keywords(text, max_keywords=10)
 
-        # output: [('อวัยวะต่างๆ', 0.3228477063109462),
-        # ('ซ่อมแซมส่วน', 0.31320597838000375),
-        # ('เจริญเติบโต', 0.29115434699705506),
-        # ('ควบคุมการเปลี่ยนแปลง', 0.2678430841321016),
-        # ('มีพิษ', 0.24996827960821494),
-        # ('ทำให้ร่างกาย', 0.23876962942443258),
-        # ('ร่างกายเจริญเติบโต', 0.23191285218852364),
-        # ('จะทำให้เกิด', 0.22425422716846247),
-        # ('มีพิษและ', 0.22162962875299588),
-        # ('เกิดโทษ', 0.20773497763458507)]
+        # output: ['อวัยวะต่างๆ',
+        # 'ซ่อมแซมส่วน',
+        # 'เจริญเติบโต',
+        # 'ควบคุมการเปลี่ยนแปลง',
+        # 'มีพิษ',
+        # 'ทำให้ร่างกาย',
+        # 'ร่างกายเจริญเติบโต',
+        # 'จะทำให้เกิด',
+        # 'มีพิษและ',
+        # 'เกิดโทษ']
 
     """
 
@@ -200,6 +201,7 @@ def extract_keywords(
             max_keywords=max_keywords,
             min_df=min_df,
             tokenizer=tokenizer,
+            return_similarity=False,
             stop_words=stop_words,
         )
     elif engine == "frequency":

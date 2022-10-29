@@ -3,10 +3,7 @@
 Text summarization
 """
 
-__all__ = [
-    "summarize",
-    "extract_keywords"
-]
+__all__ = ["summarize", "extract_keywords"]
 
 DEFAULT_SUMMARIZE_ENGINE = "frequency"
 CPE_KMUTT_THAI_SENTENCE_SUM = "mt5-cpe-kmutt-thai-sentence-sum"

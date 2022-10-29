@@ -8,7 +8,7 @@ from typing import List, Iterable, Optional, Tuple
 from pythainlp.summarize import (
     DEFAULT_SUMMARIZE_ENGINE,
     CPE_KMUTT_THAI_SENTENCE_SUM,
-    DEFAULT_KEYWORD_EXTRACTION_ENGINE
+    DEFAULT_KEYWORD_EXTRACTION_ENGINE,
 )
 from pythainlp.summarize.freq import FrequencySummarizer
 from pythainlp.tokenize import sent_tokenize
@@ -189,6 +189,33 @@ def extract_keywords(
 
     """
 
+    def rank_by_frequency(
+        text: str,
+        max_keywords: int = 5,
+        min_df: int = 5,
+        tokenizer: str = "newmm",
+        stop_words: Optional[Iterable[str]] = None,
+    ):
+        from pythainlp.util.keywords import rank
+        from pythainlp.tokenize import word_tokenize
+
+        tokens = word_tokenize(text, engine=tokenizer, keep_whitespace=False)
+
+        use_custom_stop_words = stop_words is not None
+
+        if use_custom_stop_words:
+            tokens = [token for token in tokens if token not in stop_words]
+
+        word_rank = rank(tokens, exclude_stopwords=not use_custom_stop_words)
+
+        keywords = [
+            kw
+            for kw, cnt in word_rank.most_common(max_keywords)
+            if cnt >= min_df
+        ]
+
+        return keywords
+
     engines = ["keybert", "frequency"]
 
     if engine == "keybert":
@@ -204,11 +231,14 @@ def extract_keywords(
             stop_words=stop_words,
         )
     elif engine == "frequency":
-        from pythainlp.summarize.freq import FrequencySummarizer
-
-        return FrequencySummarizer().summarize(
-            text, max_keywords, tokenizer=tokenizer
+        return rank_by_frequency(
+            text,
+            max_keywords=max_keywords,
+            min_df=min_df,
+            tokenizer=tokenizer,
+            stop_words=stop_words,
         )
+
     else:
         # currently not supported
         raise ValueError(

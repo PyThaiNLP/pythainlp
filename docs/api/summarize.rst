@@ -8,3 +8,14 @@ Modules
 -------
 
 .. autofunction:: summarize
+.. autofunction:: extract_keywords
+
+Keyword Extraction Engines
+--------------------------
+
+KeyBERT
++++++++
+
+.. automodule:: pythainlp.summarize.keybert
+.. autoclass::  pythainlp.summarize.keybert.KeyBERT
+    :members:

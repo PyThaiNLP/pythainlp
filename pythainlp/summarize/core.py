@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Text summarization
+Text summarization and Keyword extraction
 """
 
-
-from typing import List
+from typing import List, Iterable, Optional, Tuple
 
 from pythainlp.summarize import (
     DEFAULT_SUMMARIZE_ENGINE,
     CPE_KMUTT_THAI_SENTENCE_SUM,
+    DEFAULT_KEYWORD_EXTRACTION_ENGINE,
 )
 from pythainlp.summarize.freq import FrequencySummarizer
 from pythainlp.tokenize import sent_tokenize
@@ -112,3 +112,138 @@ def summarize(
         sents = sent_tokenize(text, engine="whitespace+newline")[:n]
 
     return sents
+
+
+def extract_keywords(
+    text: str,
+    keyphrase_ngram_range: Tuple[int, int] = (1, 2),
+    max_keywords: int = 5,
+    min_df: int = 1,
+    engine: str = DEFAULT_KEYWORD_EXTRACTION_ENGINE,
+    tokenizer: str = "newmm",
+    stop_words: Optional[Iterable[str]] = None,
+) -> List[str]:
+    """
+    This function returns most-relevant keywords (and/or keyphrases) from the input document.
+    Each algorithm may produce completely different keywords from each other,
+    so please be careful when choosing the algorithm.
+
+    *Note*: Calling :func: `extract_keywords()` is expensive. For repetitive use of KeyBERT (the default engine),
+    creating KeyBERT object is highly recommended.
+
+    :param str text: text to be summarized
+    :param Tuple[int, int] keyphrase_ngram_range: Number of token units to be defined as keyword.
+                            The token unit varies w.r.t. `tokenizer_engine`.
+                            For instance, (1, 1) means each token (unigram) can be a keyword (e.g. "เสา", "ไฟฟ้า"),
+                            (1, 2) means one and two consecutive tokens (unigram and bigram) can be keywords
+                            (e.g. "เสา", "ไฟฟ้า", "เสาไฟฟ้า")  (default: (1, 2))
+    :param int max_keywords: Number of maximum keywords to be returned. (default: 5)
+    :param int min_df: Minimum frequency required to be a keyword. (default: 1)
+    :param str engine: Name of algorithm to use for keyword extraction. (default: 'keybert')
+    :param str tokenizer: Name of tokenizer engine to use.
+                            Refer to options in :func: `pythainlp.tokenize.word_tokenizer() (default: 'newmm')
+    :param Optional[Iterable[str]] stop_words: A list of stop words (a.k.a words to be ignored).
+                            If not specified, :func:`pythainlp.corpus.thai_stopwords` is used. (default: None)
+
+    :return: list of keywords
+
+    **Options for engine**
+        * *keybert* (default) - KeyBERT keyword extraction algorithm
+        * *frequency* - frequency of words
+
+    :Example:
+    ::
+
+        from pythainlp.summarize import extract_keywords
+
+        text = '''
+            อาหาร หมายถึง ของแข็งหรือของเหลว
+            ที่กินหรือดื่มเข้าสู่ร่างกายแล้ว
+            จะทำให้เกิดพลังงานและความร้อนแก่ร่างกาย
+            ทำให้ร่างกายเจริญเติบโต
+            ซ่อมแซมส่วนที่สึกหรอ ควบคุมการเปลี่ยนแปลงต่างๆ ในร่างกาย
+            ช่วยทำให้อวัยวะต่างๆ ทำงานได้อย่างปกติ
+            อาหารจะต้องไม่มีพิษและไม่เกิดโทษต่อร่างกาย
+        '''
+
+        keywords = extract_keywords(text)
+
+        # output: ['อวัยวะต่างๆ',
+        # 'ซ่อมแซมส่วน',
+        # 'เจริญเติบโต',
+        # 'ควบคุมการเปลี่ยนแปลง',
+        # 'มีพิษ']
+
+        keywords = extract_keywords(text, max_keywords=10)
+
+        # output: ['อวัยวะต่างๆ',
+        # 'ซ่อมแซมส่วน',
+        # 'เจริญเติบโต',
+        # 'ควบคุมการเปลี่ยนแปลง',
+        # 'มีพิษ',
+        # 'ทำให้ร่างกาย',
+        # 'ร่างกายเจริญเติบโต',
+        # 'จะทำให้เกิด',
+        # 'มีพิษและ',
+        # 'เกิดโทษ']
+
+    """
+
+    def rank_by_frequency(
+        text: str,
+        max_keywords: int = 5,
+        min_df: int = 5,
+        tokenizer: str = "newmm",
+        stop_words: Optional[Iterable[str]] = None,
+    ):
+        from pythainlp.util.keywords import rank
+        from pythainlp.tokenize import word_tokenize
+
+        tokens = word_tokenize(text, engine=tokenizer, keep_whitespace=False)
+
+        use_custom_stop_words = stop_words is not None
+
+        if use_custom_stop_words:
+            tokens = [token for token in tokens if token not in stop_words]
+
+        word_rank = rank(tokens, exclude_stopwords=not use_custom_stop_words)
+
+        keywords = [
+            kw
+            for kw, cnt in word_rank.most_common(max_keywords)
+            if cnt >= min_df
+        ]
+
+        return keywords
+
+    engines = ["keybert", "frequency"]
+
+    if engine == "keybert":
+        from .keybert import KeyBERT
+
+        keywords = KeyBERT().extract_keywords(
+            text,
+            keyphrase_ngram_range=keyphrase_ngram_range,
+            max_keywords=max_keywords,
+            min_df=min_df,
+            tokenizer=tokenizer,
+            return_similarity=False,
+            stop_words=stop_words,
+        )
+    elif engine == "frequency":
+        return rank_by_frequency(
+            text,
+            max_keywords=max_keywords,
+            min_df=min_df,
+            tokenizer=tokenizer,
+            stop_words=stop_words,
+        )
+
+    else:
+        # currently not supported
+        raise ValueError(
+            f"Keyword extractor {repr(engine)} is currently not supported. "
+            f"Use one of {engines}."
+        )
+
+    return keywords

@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 from typing import List
 import json
-import sentencepiece as spm
+
 import numpy as np
-from onnxruntime import (
-    InferenceSession, SessionOptions, GraphOptimizationLevel
-)
 from pythainlp.corpus import get_path_folder_corpus
 
 
 class WngchanBerta_ONNX:
     def __init__(self, model_name: str, model_version: str, file_onnx: str, providers: List[str] = ['CPUExecutionProvider']) -> None:
+        import sentencepiece as spm
+        from onnxruntime import (
+            InferenceSession, SessionOptions, GraphOptimizationLevel
+        )
         self.model_name = model_name
         self.model_version = model_version
         self.options = SessionOptions()

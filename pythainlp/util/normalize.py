@@ -4,7 +4,6 @@ Text normalization
 """
 import re
 from typing import List, Union
-import warnings
 
 from pythainlp import thai_above_vowels as above_v
 from pythainlp import thai_below_vowels as below_v

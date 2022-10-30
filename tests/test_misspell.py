@@ -2,7 +2,7 @@
 
 import unittest
 import numpy as np
-from pythainlp.tools import misspell
+from pythainlp.tools.misspell import misspell
 
 
 def _count_difference(st1, st2):

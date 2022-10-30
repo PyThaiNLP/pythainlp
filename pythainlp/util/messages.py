@@ -28,7 +28,6 @@ def deprecation_message(
         )
 
     dep_msg += f" of {module_name}"
-
     dep_msg += f" will be deprecated in version {last_effective_version}."
 
     if recommended_action:

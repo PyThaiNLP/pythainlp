@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from typing import List, Tuple
+import warnings
+
+from pythainlp.util.messages import deprecation_message
 
 
 def pos_tag(
-    words: List[str],
-    engine: str = "perceptron",
-    corpus: str = "orchid"
+    words: List[str], engine: str = "perceptron", corpus: str = "orchid"
 ) -> List[Tuple[str, str]]:
     """
     Marks words with part-of-speech (POS) tags, such as 'NOUN' and 'VERB'.
@@ -98,21 +99,29 @@ def pos_tag(
 
     _support_corpus = ["lst20", "lst20_ud", "orchid", "orchid_ud", "pud"]
 
+    if corpus.startswith("lst20"):
+        dep_msg = deprecation_message(
+            [("corpus", "lst20"), ("corpus", "lst20_ud")],
+            "function `pos_tag.pos_tag`",
+            "4.0.0",
+        )
+
     if engine == "perceptron" and corpus in _support_corpus:
         from pythainlp.tag.perceptron import tag as tag_
     elif engine == "wangchanberta" and corpus == "lst20":
         from pythainlp.wangchanberta.postag import pos_tag as tag_
-        words = ''.join(words)
+
+        words = "".join(words)
     elif engine == "tltk":
         from pythainlp.tag.tltk import pos_tag as tag_
+
         corpus = "tnc"
     elif engine == "unigram" and corpus in _support_corpus:  # default
         from pythainlp.tag.unigram import tag as tag_
     else:
         raise ValueError(
             "pos_tag not support {0} engine or {1} corpus.".format(
-                engine,
-                corpus
+                engine, corpus
             )
         )
 
@@ -168,5 +177,13 @@ def pos_tag_sents(
     """
     if not sentences:
         return []
+
+    if corpus.startswith("lst20"):
+        dep_msg = deprecation_message(
+            [("corpus", "lst20"), ("corpus", "lst20_ud")],
+            "function `pos_tag.pos_tag_sents`",
+            "4.0.0",
+        )
+        warnings.warn(dep_msg, DeprecationWarning, stacklevel=2)
 
     return [pos_tag(sent, engine=engine, corpus=corpus) for sent in sentences]

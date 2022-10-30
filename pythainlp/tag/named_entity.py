@@ -5,6 +5,8 @@ Named-entity recognizer
 import warnings
 from typing import List, Tuple, Union
 
+from pythainlp.util.messages import deprecation_message
+
 
 class NER:
     """
@@ -30,7 +32,15 @@ class NER:
 
     **Note**: for tltk engine, It's support ner model from tltk only.
     """
+
     def __init__(self, engine: str, corpus: str = "thainer") -> None:
+        if any([arg.startswith("lst20") for arg in (engine, corpus)]):
+            dep_msg = deprecation_message(
+                [("engine", "lst20_onnx"), ("corpus", "lst20")],
+                "`named_entity.NER`",
+                "4.0.0",
+            )
+            warnings.warn(dep_msg, DeprecationWarning, stacklevel=2)
         self.load_engine(engine=engine, corpus=corpus)
 
     def load_engine(self, engine: str, corpus: str) -> None:
@@ -38,35 +48,37 @@ class NER:
         self.engine = None
         if engine == "thainer" and corpus == "thainer":
             from pythainlp.tag.thainer import ThaiNameTagger
+
             self.engine = ThaiNameTagger()
         elif engine == "lst20_onnx":
             from pythainlp.tag.lst20_ner_onnx import LST20_NER_ONNX
+
             self.engine = LST20_NER_ONNX()
         elif engine == "wangchanberta":
             from pythainlp.wangchanberta import ThaiNameTagger
-            if corpus=="lst20":
-                warnings.warn("""
+
+            if corpus == "lst20":
+                warnings.warn(
+                    """
                 LST20 corpus are free for research and open source only.\n
                 If you want to use in Commercial use, please contract NECTEC.\n
                 https://www.facebook.com/dancearmy/posts/10157641945708284
-                """)
+                """
+                )
             self.engine = ThaiNameTagger(dataset_name=corpus)
         elif engine == "tltk":
             from pythainlp.tag import tltk
+
             self.engine = tltk
         else:
             raise ValueError(
                 "NER class not support {0} engine or {1} corpus.".format(
-                    engine,
-                    corpus
+                    engine, corpus
                 )
             )
 
     def tag(
-        self,
-        text,
-        pos=True,
-        tag=False
+        self, text, pos=True, tag=False
     ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
         """
         This function tags named-entitiy from text in IOB format.
@@ -103,7 +115,10 @@ class NER:
                 """wangchanberta is not support part-of-speech tag.
                 It have not part-of-speech tag in output."""
             )
-        if self.name_engine == "wangchanberta" or self.name_engine == "lst20_onnx":
+        if (
+            self.name_engine == "wangchanberta"
+            or self.name_engine == "lst20_onnx"
+        ):
             return self.engine.get_ner(text, tag=tag)
         else:
             return self.engine.get_ner(text, tag=tag, pos=pos)
@@ -119,11 +134,13 @@ class NNER:
     **Options for engine**
         * *thai_nner* - Thai NER engine
     """
+
     def __init__(self, engine: str = "thai_nner") -> None:
         self.load_engine(engine)
 
     def load_engine(self, engine: str = "thai_nner") -> None:
         from pythainlp.tag.thai_nner import Thai_NNER
+
         self.engine = Thai_NNER()
 
     def tag(self, text) -> Tuple[List[str], List[dict]]:

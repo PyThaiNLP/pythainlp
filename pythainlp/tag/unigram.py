@@ -9,6 +9,7 @@ import warnings
 
 from pythainlp.corpus import corpus_path, get_corpus_path
 from pythainlp.tag import lst20, orchid
+from pythainlp.util.messages import deprecation_message
 
 _ORCHID_FILENAME = "pos_orchid_unigram.json"
 _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
@@ -42,11 +43,13 @@ def _pud_tagger():
 
 def _lst20_tagger():
     global _LST20_TAGGER
-    warnings.warn("""
+    warnings.warn(
+        """
     LST20 corpus are free for research and open source only.\n
     If you want to use in Commercial use, please contract NECTEC.\n
     https://www.facebook.com/dancearmy/posts/10157641945708284
-    """)
+    """
+    )
     if not _LST20_TAGGER:
         path = get_corpus_path(_LST20_TAGGER_NAME)
         with open(path, encoding="utf-8-sig") as fh:
@@ -84,6 +87,12 @@ def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
         word_tags = _find_tag(words, _orchid_tagger())
         word_tags = orchid.post_process(word_tags, to_ud)
     elif corpus == "lst20" or corpus == "lst20_ud":
+        dep_msg = deprecation_message(
+            [("corpus", "lst20"), ("corpus", "lst20_ud")],
+            "function `unigram.tag`",
+            "4.0.0",
+        )
+        warnings.warn(dep_msg, DeprecationWarning, stacklevel=2)
         words = lst20.pre_process(words)
         word_tags = _find_tag(words, _lst20_tagger())
         word_tags = lst20.post_process(word_tags, to_ud)

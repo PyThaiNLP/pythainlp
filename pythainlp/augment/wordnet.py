@@ -6,11 +6,12 @@ __all__ = [
     "WordNetAug",
     "postype2wordnet",
 ]
-
+import warnings
 from pythainlp.corpus import wordnet
 from collections import OrderedDict
 from pythainlp.tokenize import word_tokenize
 from pythainlp.tag import pos_tag
+from pythainlp.util.messages import deprecation_message
 from typing import List
 from nltk.corpus import wordnet as wn
 import itertools
@@ -127,9 +128,15 @@ def postype2wordnet(pos: str, corpus: str):
         * *lst20* - LST20 Corpus
         * *orchid* - Orchid Corpus
     """
-    if corpus not in ['lst20', 'orchid']:
+    if corpus not in ["lst20", "orchid"]:
         return None
-    if corpus == 'lst20':
+    if corpus == "lst20":
+        dep_msg = deprecation_message(
+            [("corpus", "lst20")],
+            "function `wordnet.postype2wordnet`",
+            "4.0.0",
+        )
+        warnings.warn(dep_msg, DeprecationWarning, stacklevel=2)
         return lst20[pos]
     else:
         return orchid[pos]
@@ -139,14 +146,12 @@ class WordNetAug:
     """
     Text Augment using wordnet
     """
+
     def __init__(self):
         pass
 
     def find_synonyms(
-        self,
-        word: str,
-        pos: str = None,
-        postag_corpus: str = "lst20"
+        self, word: str, pos: str = None, postag_corpus: str = "lst20"
     ) -> List[str]:
         """
         Find synonyms from wordnet
@@ -162,13 +167,13 @@ class WordNetAug:
             self.list_synsets = wordnet.synsets(word)
         else:
             self.p2w_pos = postype2wordnet(pos, postag_corpus)
-            if self.p2w_pos != '':
+            if self.p2w_pos != "":
                 self.list_synsets = wordnet.synsets(word, pos=self.p2w_pos)
             else:
                 self.list_synsets = wordnet.synsets(word)
 
         for self.synset in wordnet.synsets(word):
-            for self.syn in self.synset.lemma_names(lang='tha'):
+            for self.syn in self.synset.lemma_names(lang="tha"):
                 self.synonyms.append(self.syn)
 
         self.synonyms_without_duplicates = list(
@@ -182,7 +187,7 @@ class WordNetAug:
         tokenize: object = word_tokenize,
         max_syn_sent: int = 6,
         postag: bool = True,
-        postag_corpus: str = "lst20"
+        postag_corpus: str = "lst20",
     ) -> List[List[str]]:
         """
         Text Augment using wordnet
@@ -210,10 +215,19 @@ class WordNetAug:
              ('เรา', 'ชอบ', 'ไปยัง', 'ร.ร.'),
              ('เรา', 'ชอบ', 'ไปยัง', 'รร.')]
         """
+        if postag_corpus.startswith("lst20"):
+            dep_msg = deprecation_message(
+                [("postag_corpus", "lst20")],
+                "method `WordNetAug.augment`",
+                "4.0.0",
+            )
+            warnings.warn(dep_msg, DeprecationWarning, stacklevel=2)
+
         new_sentences = []
         self.list_words = tokenize(sentence)
         self.list_synonym = []
         self.p_all = 1
+
         if postag:
             self.list_pos = pos_tag(self.list_words, corpus=postag_corpus)
             for word, pos in self.list_pos:

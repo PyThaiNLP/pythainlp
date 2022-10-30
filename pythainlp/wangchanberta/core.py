@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import List, Tuple, Union
 import re
+import warnings
 from transformers import (
     CamembertTokenizer,
     pipeline,
@@ -35,6 +36,7 @@ class ThaiNameTagger:
             dep_msg = deprecation_message(
                 [("dataset_name", "lst20")], "class `ThaiNameTagger`", "4.0.0"
             )
+            warnings.warn(dep_msg, DeprecationWarning, stacklevel=2)
         self.dataset_name = dataset_name
         self.grouped_entities = grouped_entities
         self.classify_tokens = pipeline(

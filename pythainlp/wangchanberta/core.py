@@ -1,24 +1,25 @@
 # -*- coding: utf-8 -*-
 from typing import List, Tuple, Union
 import re
+import warnings
 from transformers import (
     CamembertTokenizer,
     pipeline,
 )
 
+from pythainlp.util.messages import deprecation_message
+
 _model_name = "wangchanberta-base-att-spm-uncased"
 _tokenizer = CamembertTokenizer.from_pretrained(
-        f'airesearch/{_model_name}',
-        revision='main')
+    f"airesearch/{_model_name}", revision="main"
+)
 if _model_name == "wangchanberta-base-att-spm-uncased":
-    _tokenizer.additional_special_tokens = ['<s>NOTUSED', '</s>NOTUSED', '<_>']
+    _tokenizer.additional_special_tokens = ["<s>NOTUSED", "</s>NOTUSED", "<_>"]
 
 
 class ThaiNameTagger:
     def __init__(
-        self,
-        dataset_name: str = "thainer",
-        grouped_entities: bool = True
+        self, dataset_name: str = "thainer", grouped_entities: bool = True
     ):
         """
         This function tags named-entitiy from text in IOB format.
@@ -31,23 +32,29 @@ class ThaiNameTagger:
             * *lst20* - LST20 Corpus
         :param bool grouped_entities: grouped entities
         """
+        if dataset_name == "lst20":
+            dep_msg = deprecation_message(
+                [("dataset_name", "lst20")], "class `ThaiNameTagger`", "4.0.0"
+            )
+            warnings.warn(dep_msg, DeprecationWarning, stacklevel=2)
         self.dataset_name = dataset_name
         self.grouped_entities = grouped_entities
         self.classify_tokens = pipeline(
-            task='ner',
+            task="ner",
             tokenizer=_tokenizer,
-            model=f'airesearch/{_model_name}',
-            revision=f'finetuned@{self.dataset_name}-ner',
+            model=f"airesearch/{_model_name}",
+            revision=f"finetuned@{self.dataset_name}-ner",
             ignore_labels=[],
-            grouped_entities=self.grouped_entities)
+            grouped_entities=self.grouped_entities,
+        )
 
     def _IOB(self, tag):
         if tag != "O":
-            return "B-"+tag
+            return "B-" + tag
         return "O"
 
     def _clear_tag(self, tag):
-        return tag.replace('B-', '').replace('I-', '')
+        return tag.replace("B-", "").replace("I-", "")
 
     def get_ner(
         self, text: str, tag: bool = False
@@ -72,40 +79,41 @@ class ThaiNameTagger:
         if self.grouped_entities and self.dataset_name == "thainer":
             self.sent_ner = [
                 (
-                    i['word'].replace("<_>", " ").replace('▁', ''),
-                    self._IOB(i['entity_group'])
-                ) for i in self.json_ner
+                    i["word"].replace("<_>", " ").replace("▁", ""),
+                    self._IOB(i["entity_group"]),
+                )
+                for i in self.json_ner
             ]
         elif self.dataset_name == "thainer":
             self.sent_ner = [
-                (
-                    i['word'].replace("<_>", " ").replace('▁', ''), i['entity']
-                ) for i in self.json_ner if i['word'] != '▁'
+                (i["word"].replace("<_>", " ").replace("▁", ""), i["entity"])
+                for i in self.json_ner
+                if i["word"] != "▁"
             ]
         elif self.grouped_entities and self.dataset_name == "lst20":
             self.sent_ner = [
                 (
-                    i['word'].replace("<_>", " ").replace('▁', ''),
-                    i['entity_group'].replace('_', '-').replace('E-', 'I-')
-                ) for i in self.json_ner
+                    i["word"].replace("<_>", " ").replace("▁", ""),
+                    i["entity_group"].replace("_", "-").replace("E-", "I-"),
+                )
+                for i in self.json_ner
             ]
         else:
             self.sent_ner = [
                 (
-                    i['word'].replace("<_>", " ").replace('▁', ''),
-                    i['entity'].replace('_', '-').replace('E-', 'I-')
-                ) for i in self.json_ner
+                    i["word"].replace("<_>", " ").replace("▁", ""),
+                    i["entity"].replace("_", "-").replace("E-", "I-"),
+                )
+                for i in self.json_ner
             ]
-        if self.sent_ner[0][0] == '' and len(self.sent_ner) > 1:
+        if self.sent_ner[0][0] == "" and len(self.sent_ner) > 1:
             self.sent_ner = self.sent_ner[1:]
         for idx, (word, ner) in enumerate(self.sent_ner):
             if idx > 0 and ner.startswith("B-"):
-                if (
-                    self._clear_tag(ner) == self._clear_tag(
-                        self.sent_ner[idx-1][1]
-                    )
+                if self._clear_tag(ner) == self._clear_tag(
+                    self.sent_ner[idx - 1][1]
                 ):
-                    self.sent_ner[idx] = (word, ner.replace('B-', 'I-'))
+                    self.sent_ner[idx] = (word, ner.replace("B-", "I-"))
         if tag:
             temp = ""
             sent = ""

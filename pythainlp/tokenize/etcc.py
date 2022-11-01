@@ -11,7 +11,7 @@ https://colab.research.google.com/drive/1UTQgxxMRxOr9Jp1B1jcq1frBNvorhtBQ
 
 :See Also:
 
-Inrut, Jeeragone, Patiroop Yuanghirun, Sarayut Paludkong, Supot Nitsuwat, and
+Jeeragone Inrut, Patiroop Yuanghirun, Sarayut Paludkong, Supot Nitsuwat, and
 Para Limmaneepraserth. "Thai word segmentation using combination of forward
 and backward longest matching techniques." In International Symposium on
 Communications and Information Technology (ISCIT), pp. 37-40. 2001.

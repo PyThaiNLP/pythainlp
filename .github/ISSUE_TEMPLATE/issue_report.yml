@@ -1,5 +1,5 @@
-name: Issue report
-description:  Create a report to help us improve รายงานปัญหา
+name: "Issue report"
+description:  "Create a report to help us improve รายงานปัญหา"
 title: "bug: "
 labels: ["NEED_TO_LABEL", "type:bug"]
 

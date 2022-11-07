@@ -1,0 +1,80 @@
+name: Issue report
+description:  Create a report to help us improve รายงานปัญหา
+title: "bug: "
+labels: ["NEED_TO_LABEL", "type:bug"]
+
+body:
+- type: textarea
+  attributes:
+    label: Description
+    description: Why you consider it to be an issue or a bug?
+    value: "Provide a more detailed introduction to the issue itself."
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Expected results
+    description: Tell us what should happen.
+    value: ""
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Expected results
+    description: Tell us what should happen.
+    value: ""
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Current results
+    description: Tell us what happens instead.
+    value: "You can also put screenshot here."
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Steps to reproduce
+    description: Steps to reproduce the behavior.
+    value: "You can also put a source code here."
+  validations:
+    required: true
+- type: input
+  id: "version"
+  attributes:
+    label: "PyThaiNLP"
+  validations:
+    required: true
+- type: input
+  id: "python"
+  attributes:
+    label: "Python version"
+  validations:
+    required: true
+- type: input
+  id: "os"
+  attributes:
+    label: "Operating system and version"
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: More info
+    description: (Docker, VM, etc.)
+    value: ""
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: Possible solution
+    description: (Optional) Suggest a fix for the issue, or ideas how to implement the change.
+    value: ""
+  validations:
+    required: false
+- type: textarea
+  attributes:
+    label: Files
+    description: (Optional) A list of relevant files for this issue.
+    value: "This will help people navigate the project and offer some clues of where to start. "
+  validations:
+    required: false

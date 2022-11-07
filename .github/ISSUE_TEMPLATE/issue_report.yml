@@ -15,7 +15,6 @@ body:
   attributes:
     label: "Expected results"
     description: "Tell us what should happen."
-    value: ""
   validations:
     required: true
 - type: textarea
@@ -54,14 +53,12 @@ body:
   attributes:
     label: More info
     description: (Docker, VM, etc.)
-    value: ""
   validations:
     required: false
 - type: textarea
   attributes:
     label: "Possible solution"
     description: "(Optional) Suggest a fix for the issue, or ideas how to implement the change."
-    value: ""
   validations:
     required: false
 - type: textarea

@@ -6,43 +6,43 @@ labels: ["NEED_TO_LABEL", "type:bug"]
 body:
 - type: textarea
   attributes:
-    label: Description
-    description: Why you consider it to be an issue or a bug?
+    label: "Description"
+    description: "Why you consider it to be an issue or a bug?"
     value: "Provide a more detailed introduction to the issue itself."
   validations:
     required: true
 - type: textarea
   attributes:
-    label: Expected results
-    description: Tell us what should happen.
+    label: "Expected results"
+    description: "Tell us what should happen."
     value: ""
   validations:
     required: true
 - type: textarea
   attributes:
-    label: Expected results
-    description: Tell us what should happen.
+    label: "Expected results"
+    description: "Tell us what should happen."
     value: ""
   validations:
     required: true
 - type: textarea
   attributes:
-    label: Current results
-    description: Tell us what happens instead.
+    label: "Current results"
+    description: "Tell us what happens instead."
     value: "You can also put screenshot here."
   validations:
     required: true
 - type: textarea
   attributes:
-    label: Steps to reproduce
-    description: Steps to reproduce the behavior.
+    label: "Steps to reproduce"
+    description: "Steps to reproduce the behavior."
     value: "You can also put a source code here."
   validations:
     required: true
 - type: input
   id: "version"
   attributes:
-    label: "PyThaiNLP"
+    label: "PyThaiNLP version"
   validations:
     required: true
 - type: input
@@ -66,15 +66,15 @@ body:
     required: false
 - type: textarea
   attributes:
-    label: Possible solution
-    description: (Optional) Suggest a fix for the issue, or ideas how to implement the change.
+    label: "Possible solution"
+    description: "(Optional) Suggest a fix for the issue, or ideas how to implement the change."
     value: ""
   validations:
     required: false
 - type: textarea
   attributes:
-    label: Files
-    description: (Optional) A list of relevant files for this issue.
+    label: "Files"
+    description: "(Optional) A list of relevant files for this issue."
     value: "This will help people navigate the project and offer some clues of where to start. "
   validations:
     required: false

@@ -20,13 +20,6 @@ body:
     required: true
 - type: textarea
   attributes:
-    label: "Expected results"
-    description: "Tell us what should happen."
-    value: ""
-  validations:
-    required: true
-- type: textarea
-  attributes:
     label: "Current results"
     description: "Tell us what happens instead."
     value: "You can also put screenshot here."

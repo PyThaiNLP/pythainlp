@@ -31,6 +31,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
         auto-activate-base: false
         auto-update-conda: true
+        miniconda-version: "latest"
     - shell: bash -l {0}
       run: |
         conda info

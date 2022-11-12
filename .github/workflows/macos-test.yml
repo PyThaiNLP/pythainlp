@@ -5,7 +5,7 @@ on:
     paths-ignore:
       - '**.md'
       - 'docs/**'
-      - '**.yml'
+#       - '**.yml'
   pull_request:
     branches:
       - dev
@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest]
+        os: [macos-latest, self-hosted]
         python-version: [3.8]
 
     steps:

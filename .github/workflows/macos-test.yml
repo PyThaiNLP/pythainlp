@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-latest, self-hosted]
-        python-version: [3.8]
+        python-version: [3.9]
 
     steps:
     - uses: actions/checkout@v2
@@ -30,8 +30,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         auto-activate-base: false
-        auto-update-conda: true
-        miniconda-version: "latest"
+        auto-update-conda: false
     - shell: bash -l {0}
       run: |
         conda info

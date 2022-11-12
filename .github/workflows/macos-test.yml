@@ -37,9 +37,9 @@ jobs:
         python-version: ${{ matrix.python-version }}
         auto-activate-base: false
         auto-update-conda: true
-        architecture: ["arm64"]
-        miniconda-version: ["latest"]
-      if: matrix.os == 'macos-latest'
+        architecture: 'arm64'
+        miniconda-version: 'latest'
+      if: matrix.os == 'self-hosted'
     - shell: bash -l {0}
       run: |
         conda info

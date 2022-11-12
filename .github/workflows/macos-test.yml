@@ -31,7 +31,15 @@ jobs:
         python-version: ${{ matrix.python-version }}
         auto-activate-base: false
         auto-update-conda: true
-        miniconda-version: "latest"
+      if: matrix.os == 'macos-latest'
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+        auto-activate-base: false
+        auto-update-conda: true
+        architecture: ["arm64"]
+        miniconda-version: ["latest"]
+      if: matrix.os == 'macos-latest'
     - shell: bash -l {0}
       run: |
         conda info

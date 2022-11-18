@@ -32,15 +32,15 @@ jobs:
         auto-activate-base: false
         auto-update-conda: true
       if: matrix.os == 'macos-latest'
-    - name: Install mac m1
-      run: |
-        mkdir -p ~/miniconda3
-        wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-MacOSX-arm64.sh
-        chmod +x Miniconda3-py38_4.12.0-MacOSX-arm64.sh
-        bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-        ~/miniconda3/bin/conda init bash
-        ~/miniconda3/bin/conda init zsh
-      if: matrix.os == 'self-hosted'
+#     - name: Install mac m1
+#       run: |
+#         mkdir -p ~/miniconda3
+#         wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-MacOSX-arm64.sh
+#         chmod +x Miniconda3-py38_4.12.0-MacOSX-arm64.sh
+#         bash Miniconda3-py38_4.12.0-MacOSX-arm64.sh -b -u -p ~/miniconda3
+#         ~/miniconda3/bin/conda init bash
+#         ~/miniconda3/bin/conda init zsh
+#       if: matrix.os == 'self-hosted'
     - shell: bash -l {0}
       run: |
         conda info

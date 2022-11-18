@@ -48,7 +48,7 @@ jobs:
     - name: Install PyTorch
       shell: bash -l {0}
       run: |
-        pip install torch==1.9.1
+        pip install torch==1.10.0
     - name: Install dependencies
       shell: bash -l {0}
       run: |

@@ -29,6 +29,8 @@ def dependency_parsing(
             `GitHub <https://github.com/KoichiYasuoka/spacy-thai>`_
         * *transformers_ud* - TransformersUD \
             `GitHub <https://github.com/KoichiYasuoka/>`_
+        * *ud_goeswith* - POS-tagging and dependency-parsing with \
+            using `goeswith` for subwords
 
     **Options for model (esupar engine)**
         * *th* (default) - KoichiYasuoka/roberta-base-thai-spm-upos model \
@@ -63,6 +65,12 @@ def dependency_parsing(
             for dependency-parsing. `Huggingface \
             <https://huggingface.co/KoichiYasuoka/roberta-base-thai-spm-ud-head>`_
 
+    **Options for model (ud_goeswith engine)**
+        * *KoichiYasuoka/deberta-base-thai-ud-goeswith* (default) - \
+            This is a DeBERTa(V2) model pre-trained on Thai Wikipedia \
+            texts for POS-tagging and dependency-parsing (using goeswith for subwords) \
+            `Huggingface <https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-goeswith>`_
+
     :Example:
     ::
 
@@ -95,6 +103,10 @@ def dependency_parsing(
             from pythainlp.parse.spacy_thai_engine import Parse
 
             _tagger = Parse()
+        elif engine == "ud_goeswith":
+            from pythainlp.parse.ud_goeswith import Parse
+
+            _tagger = Parse(model=model)
         else:
             raise NotImplementedError("The engine doesn't support.")
     _tagger_name = engine

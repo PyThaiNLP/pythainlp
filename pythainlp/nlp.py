@@ -2,11 +2,16 @@
 from collections import Counter
 
 
+class Word(str):
+    def __init__(self, word):
+        self.text = str(word)
+
+
 class WordList(list):
     def __init__(self, collection):
-        super(WordList, self).__init__(collection)
+        super(WordList, self).__init__([Word(w) for w in collection])
     def __str__(self):
-        return '|'.join(self)
+        return "|".join(self)
 
 
 class nlp(object):
@@ -32,5 +37,8 @@ class nlp(object):
         return [tuple(self.words[i:i+n]) for i in range(len(self.words)-n+1)]
     def __repr__(self):
         return self.text
+    def __iter__(self):
+        for word in self.words:
+            yield word
     def __str__(self):
         return "|".join(self.words)

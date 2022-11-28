@@ -11,7 +11,7 @@ The source: https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-goeswith
 GitHub: https://github.com/KoichiYasuoka
 """
 from typing import List, Union
-from transformers import AutoTokenizer,AutoModelForTokenClassification
+from transformers import AutoTokenizer, AutoModelForTokenClassification
 import numpy as np
 import torch
 import ufal.chu_liu_edmonds
@@ -19,8 +19,7 @@ import ufal.chu_liu_edmonds
 
 class Parse:
   def __init__(
-    self,
-    model: str="KoichiYasuoka/deberta-base-thai-ud-goeswith"
+    self, model:str = "KoichiYasuoka/deberta-base-thai-ud-goeswith"
   ) -> None:
     if model == None:
       model = "KoichiYasuoka/deberta-base-thai-ud-goeswith"
@@ -88,9 +87,9 @@ class Parse:
         )
       return _tag_data
     else:
-      for i,(s,e) in enumerate(v,1):
-        q = self.model.config.id2label[p[i,h[i]]].split("|")
-        u+="\t".join([
+      for i, (s, e) in enumerate(v, 1):
+        q = self.model.config.id2label[p[i, h[i]]].split("|")
+        u += "\t".join([
           str(i),
           text[s:e],
           "_",
@@ -100,6 +99,6 @@ class Parse:
           str(h[i]),
           q[-1],
           "_",
-          "_" if i<len(v) and e<v[i][0] else "SpaceAfter=No"
+          "_" if i < len(v) and e < v[i][0] else "SpaceAfter=No"
         ])+"\n"
-      return u+"\n"
+      return u + "\n"

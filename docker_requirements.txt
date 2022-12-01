@@ -26,7 +26,7 @@ tensorflow==2.7.2
 pandas==1.4.*
 tltk==1.3.8
 OSKut==1.3
-nlpo3==1.2.2
+nlpo3==1.2.6
 thai-nner==0.3
 spacy==2.3.*
 wunsen==0.0.3

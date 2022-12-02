@@ -51,7 +51,8 @@ jobs:
         python -m pip install --upgrade pip
         pip uninstall --y pythainlp
         pip install --no-deps fastai==1.0.61
-        pip install .[full]
+        pip install PyYAML attacut emoji epitran gensim nltk numpy pandas sacremoses sentencepiece ssg bpemb transformers sefr_cut phunspell spylls symspellpy tltk oskut nlpo3 onnxruntime thai_nner wunsen spacy_thai ufal.chu-liu-edmonds
+        pip install -e .
         python -m nltk.downloader omw-1.4
         python -m unittest discover
       if: matrix.os == 'self-hosted'

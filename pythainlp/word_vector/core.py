@@ -23,7 +23,9 @@ class WordVector:
 
     **Options for model_name**
         * *thai2fit_wv* (default) - word vector from thai2fit
-        * *ltw2v* - word vector from LTW2V: The Large Thai Word2Vec
+        * *ltw2v* - word vector from LTW2V: The Large Thai Word2Vec v0.1
+        * *ltw2v_v1.0_15_window* - word vector from LTW2V v1.0 and 15 window
+        * *ltw2v_v1.0_5_window* - word vector from LTW2V v1.0 and 5 window
     """
 
     def __init__(self, model_name: str = "thai2fit_wv") -> None:
@@ -35,6 +37,8 @@ class WordVector:
         **Options for model_name**
             * *thai2fit_wv* (default) - word vector from thai2fit
             * *ltw2v* - word vector from LTW2V: The Large Thai Word2Vec
+            * *ltw2v_v1.0_15_window* - word2vec from LTW2V 1.0 and 15 window
+            * *ltw2v_v1.0_5_window* - word2vec from LTW2V v1.0 and 5 window
         """
         self.load_wordvector(model_name)
 

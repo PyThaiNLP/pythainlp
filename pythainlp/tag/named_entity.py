@@ -18,7 +18,7 @@ class NER:
         * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.
 
     **Options for corpus**
-        * *thaimer* - Thai NER corpus
+        * *thainer* - Thai NER corpus
 
     **Note**: for tltk engine, It's support ner model from tltk only.
     """

@@ -224,7 +224,7 @@ class PerceptronTagger:
             return "!HYPHEN"
         elif word.isdigit() and len(word) == 4:
             return "!YEAR"
-        elif word[0].isdigit():
+        elif word.isdigit():
             return "!DIGITS"
         else:
             return word.lower()

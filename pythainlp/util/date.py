@@ -150,9 +150,9 @@ def thai_strptime(text, type, tzinfo=ZoneInfo("Asia/Bangkok")):
     if "%Y" in type:
         type = type.replace("%Y", year_all_regex)
     if "%H" in type:
-        type = type.replace("%H", "(\d\d)")
+        type = type.replace("%H", "(\d\d|\d)")
     if "%M" in type:
-        type = type.replace("%M", "(\d\d)")
+        type = type.replace("%M", "(\d\d|\d)")
     if "%S" in type:
         type = type.replace("%S", "(\d\d|\d)")
     if "%f" in type:

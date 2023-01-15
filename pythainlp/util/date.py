@@ -202,6 +202,15 @@ def thai_strptime(text: str, fmt: str, year:str="be", add_year:int=None, tzinfo=
     :param object tzinfo: tzinfo (default is Asia/Bangkok)
     :return: The years that be convert to datetime.datetime
     :rtype: datetime.datetime
+
+    The fmt char that support:
+        * *%d* - Day (1 - 31)
+        * *%B* - Thai month (03, 3, มี.ค., or มีนาคม)
+        * *%Y* - Year (66, 2566, or 2023)
+        * *%H* - Hour (0 - 23)
+        * *%M* - Minute (0 - 59)
+        * *%S* - Second (0 - 59)
+        * *%f* - Microsecond 
     """
     d = ""
     m = ""

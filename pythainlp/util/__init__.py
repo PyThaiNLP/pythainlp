@@ -7,7 +7,7 @@ __all__ = [
     "Trie",
     "arabic_digit_to_thai_digit",
     "bahttext",
-    "bc2ad",
+    "convert_years",
     "collate",
     "countthai",
     "count_thai_chars",
@@ -56,7 +56,7 @@ from pythainlp.util.date import (
     now_reign_year,
     reign_year_to_ad,
     thaiword_to_date,
-    bc2ad,
+    convert_years,
     thai_strptime,
 )
 from pythainlp.util.digitconv import (

@@ -11,7 +11,7 @@ Note: Does not take into account the change of new year's day in Thailand
 # ไม่ได้รองรับปี พ.ศ. ก่อนการเปลี่ยนวันขึ้นปีใหม่ของประเทศไทย
 
 __all__ = [
-    "bc2ad",
+    "convert_years",
     "thai_abbr_months",
     "thai_abbr_weekdays",
     "thai_full_months",
@@ -116,17 +116,61 @@ _DAY = {
 }
 
 
-def be2ad(year: str) -> str:
+def convert_years(year: str, src="be", target="ad") -> str:
     """
-    Convert Buddhist Era to Anno Domin
+    Convert years
 
     *Warning: This function works properly only after 1941 \
     because Thailand has change the Thai calendar in 1941.
     If you are the time traveler or the historian, you should care about the correct calendar.
     - https://krunongpasathai.com/2017/12/25/do-you-know-when-thailand-changed-its-new-year-to-the-1st-of-january/
     """
-    return str(int(year) - 543)
-
+    output_year = None
+    if src=="be":
+        # พ.ศ. - 543  = ค.ศ.
+        if target == "ad":
+            output_year = str(int(year) - 543)
+        # พ.ศ. - 2324 = ร.ศ. 
+        elif target == "re":
+            output_year = str(int(year) - 2324)
+        # พ.ศ. - 1164 = ฮ.ศ.
+        elif target == "ah":
+            output_year = str(int(year) - 1164)
+    elif src == "ad":
+        # ค.ศ. + 543 = พ.ศ.
+        if target == "be":
+            output_year = str(int(year) + 543)
+        # ค.ศ. + 543 - 2324 = ร.ศ.
+        elif target == "re":
+            output_year = str(int(year) + 543 - 2324)
+        # ค.ศ. - 621   = ฮ.ศ.
+        elif target == "ah":
+            output_year = str(int(year) - 621)
+    elif src == "re":
+        # ร.ศ. + 2324 = พ.ศ.
+        if target == "be":
+            output_year = str(int(year) + 2324)
+        # ร.ศ. + 2324 - 543  = ค.ศ.
+        elif target == "ad":
+            output_year = str(int(year) + 2324 - 543)
+        # ร.ศ. + 2324 - 621  = ฮ.ศ.
+        elif target == "ah":
+            output_year = str(int(year) + 2324 - 621)
+    elif src == "ah":
+        # ฮ.ศ. + 1164 = พ.ศ.
+        if target == "be":
+            output_year = str(int(year) + 1164)
+        # ฮ.ศ. + 621  = ค.ศ.
+        elif target == "ad":
+            output_year = str(int(year) + 621)
+        # ฮ.ศ. + 1164 - 2324 = ร.ศ.
+        elif target == "re":
+            output_year = str(int(year) + 1164 - 2324)
+    if output_year == None:
+        raise NotImplementedError(
+            f"This function doesn't support {src} to {target}"
+        )
+    return output_year
 
 def _find_month(text):
     for i,m in enumerate(thai_full_month_lists):
@@ -189,7 +233,7 @@ def thai_strptime(text, type, year="be", add_year=None, tzinfo=ZoneInfo("Asia/Ba
         else:
             y = str(int(add_year)+int(y))
     if year=="be":
-        y = be2ad(y)
+        y = convert_years(y, src="be", target="ad")
     return datetime(
         year=int(y),
         month=int(m),

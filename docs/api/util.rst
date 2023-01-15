@@ -8,8 +8,8 @@ Modules
 -------
 
 .. autofunction:: arabic_digit_to_thai_digit
-.. autofunction:: bc2ad
 .. autofunction:: bahttext
+.. autofunction:: convert_years
 .. autofunction:: collate
 .. autofunction:: dict_trie
 .. autofunction:: digit_to_text

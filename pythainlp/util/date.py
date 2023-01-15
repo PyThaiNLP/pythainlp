@@ -88,7 +88,9 @@ thai_full_month_lists_regex = "("+'|'.join(
 )+")"
 year_all_regex = "(\d\d\d\d|\d\d)"
 dates_list = "("+'|'.join(
-    [""+str(i)+"" for i in range(32,0,-1)]
+    [str(i) for i in range(32,0,-1)]+[
+        "0"+str(i) for i in range(1,10)
+    ]
 )+")"
 
 _DAY = {

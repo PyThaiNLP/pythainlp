@@ -602,7 +602,7 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEquals(
             count_thai_chars("ทดสอบภาษาไทย"),
             {
-                'vowels': 3, 
+                'vowels': 3,
                 'lead_vowels': 1,
                 'follow_vowels': 2,
                 'above_vowels': 0,
@@ -780,8 +780,20 @@ class TestUtilPackage(unittest.TestCase):
         )
 
     def test_thai_strptime(self):
-        self.assertIsNotNone(thai_strptime("05-7-65 09:00:01.10600","%d-%B-%Y %H:%M:%S.%f",year="be"))
-        self.assertIsNotNone(thai_strptime("05-7-22 09:00:01.10600","%d-%B-%Y %H:%M:%S.%f",year="ad"))
+        self.assertIsNotNone(
+            thai_strptime(
+                "05-7-65 09:00:01.10600",
+                "%d-%B-%Y %H:%M:%S.%f",
+                year="be"
+            )
+        )
+        self.assertIsNotNone(
+            thai_strptime(
+                "05-7-22 09:00:01.10600",
+                "%d-%B-%Y %H:%M:%S.%f",
+                year="ad"
+            )
+        )
 
     def test_convert_years(self):
         self.assertIsNotNone(convert_years("2566", src="be", target="ad"))

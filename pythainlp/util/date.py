@@ -86,10 +86,10 @@ thai_full_month_lists = [
 thai_full_month_lists_regex = "("+'|'.join(
     [str('|'.join([j for j in i])) for i in thai_full_month_lists]
 )+")"
-year_all_regex = "(\d\d\d\d|\d\d)"
+year_all_regex = r"(\d\d\d\d|\d\d)"
 dates_list = "("+'|'.join(
-    [str(i) for i in range(32,0,-1)]+[
-        "0"+str(i) for i in range(1,10)
+    [str(i) for i in range(32, 0, -1)]+[
+        "0"+str(i) for i in range(1, 10)
     ]
 )+")"
 
@@ -138,7 +138,7 @@ def convert_years(year: str, src="be", target="ad") -> str:
     you should care about the correct calendar.
     """
     output_year = None
-    if src=="be":
+    if src == "be":
         # พ.ศ. - 543  = ค.ศ.
         if target == "ad":
             output_year = str(int(year) - 543)
@@ -178,26 +178,34 @@ def convert_years(year: str, src="be", target="ad") -> str:
         # ฮ.ศ. + 1164 - 2324 = ร.ศ.
         elif target == "re":
             output_year = str(int(year) + 1164 - 2324)
-    if output_year == None:
+    if output_year is None:
         raise NotImplementedError(
             f"This function doesn't support {src} to {target}"
         )
     return output_year
 
+
 def _find_month(text):
-    for i,m in enumerate(thai_full_month_lists):
+    for i, m in enumerate(thai_full_month_lists):
         for j in m:
             if j in text:
                 return i+1
 
 
-def thai_strptime(text: str, fmt: str, year:str="be", add_year:int=None, tzinfo=ZoneInfo("Asia/Bangkok")):
+def thai_strptime(
+    text: str,
+    fmt: str,
+    year: str = "be",
+    add_year: int = None,
+    tzinfo=ZoneInfo("Asia/Bangkok")
+):
     """
     Thai strptime
 
     :param str text: text
     :param str fmt: string containing date and time directives
-    :param str year: year of the text (ad isAnno Domini and be is Buddhist calendar)
+    :param str year: year of the text \
+        (ad isAnno Domini and be is Buddhist calendar)
     :param int add_year: add year convert to ad
     :param object tzinfo: tzinfo (default is Asia/Bangkok)
     :return: The years that be convert to datetime.datetime
@@ -218,15 +226,24 @@ def thai_strptime(text: str, fmt: str, year:str="be", add_year:int=None, tzinfo=
         from pythainlp.util import thai_strptime
 
         thai_strptime("15 ก.ค. 2565 09:00:01","%d %B %Y %H:%M:%S")
-        # output: datetime.datetime(2022, 7, 15, 9, 0, 1, tzinfo=backports.zoneinfo.ZoneInfo(key='Asia/Bangkok'))
+        # output:
+        # datetime.datetime(
+        #   2022,
+        #   7,
+        #   15,
+        #   9,
+        #   0,
+        #   1,
+        #   tzinfo=backports.zoneinfo.ZoneInfo(key='Asia/Bangkok')
+        # )
     """
     d = ""
     m = ""
-    y= ""
-    fmt = fmt.replace("%-m","%m")
-    fmt = fmt.replace("%-d","%d")
-    fmt = fmt.replace("%b","%B")
-    fmt = fmt.replace("%-y","%y")
+    y = ""
+    fmt = fmt.replace("%-m", "%m")
+    fmt = fmt.replace("%-d", "%d")
+    fmt = fmt.replace("%b", "%B")
+    fmt = fmt.replace("%-y", "%y")
     data = {}
     _old = fmt
     if "%d" in fmt:
@@ -236,24 +253,27 @@ def thai_strptime(text: str, fmt: str, year:str="be", add_year:int=None, tzinfo=
     if "%Y" in fmt:
         fmt = fmt.replace("%Y", year_all_regex)
     if "%H" in fmt:
-        fmt = fmt.replace("%H", "(\d\d|\d)")
+        fmt = fmt.replace("%H", r"(\d\d|\d)")
     if "%M" in fmt:
-        fmt = fmt.replace("%M", "(\d\d|\d)")
+        fmt = fmt.replace("%M", r"(\d\d|\d)")
     if "%S" in fmt:
-        fmt = fmt.replace("%S", "(\d\d|\d)")
+        fmt = fmt.replace("%S", r"(\d\d|\d)")
     if "%f" in fmt:
-        fmt = fmt.replace("%f", "(\d+)")
-    keys = [i.strip().strip('-').strip(':').strip('.') for i in _old.split("%") if i!='']
-    y = re.findall(fmt,text)
-    
-    data = {i:''.join(list(j)) for i,j in zip(keys,y[0])}
-    H=0
-    M=0
-    S=0
-    f=0
-    d=data['d']
-    m=_find_month(data['B'])
-    y=data['Y']
+        fmt = fmt.replace("%f", r"(\d+)")
+    keys = [
+        i.strip().strip('-').strip(':').strip('.')
+        for i in _old.split("%") if i != ''
+    ]
+    y = re.findall(fmt, text)
+
+    data = {i: ''.join(list(j)) for i, j in zip(keys, y[0])}
+    H = 0
+    M = 0
+    S = 0
+    f = 0
+    d = data['d']
+    m = _find_month(data['B'])
+    y = data['Y']
     if "H" in keys:
         H = data['H']
     if "M" in keys:
@@ -262,17 +282,17 @@ def thai_strptime(text: str, fmt: str, year:str="be", add_year:int=None, tzinfo=
         S = data['S']
     if "f" in keys:
         f = data['f']
-    if int(y) < 100 and year=="be":
-        if add_year == None:
+    if int(y) < 100 and year == "be":
+        if add_year is None:
             y = str(2500+int(y))
         else:
             y = str(int(add_year)+int(y))
-    elif int(y) < 100 and year=="ad":
-        if add_year == None:
+    elif int(y) < 100 and year == "ad":
+        if add_year is None:
             y = str(2000+int(y))
         else:
             y = str(int(add_year)+int(y))
-    if year=="be":
+    if year == "be":
         y = convert_years(y, src="be", target="ad")
     return datetime(
         year=int(y),

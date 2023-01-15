@@ -210,7 +210,15 @@ def thai_strptime(text: str, fmt: str, year:str="be", add_year:int=None, tzinfo=
         * *%H* - Hour (0 - 23)
         * *%M* - Minute (0 - 59)
         * *%S* - Second (0 - 59)
-        * *%f* - Microsecond 
+        * *%f* - Microsecond
+
+    :Example:
+    ::
+
+        from pythainlp.util import thai_strptime
+
+        thai_strptime("15 ก.ค. 2565 09:00:01","%d %B %Y %H:%M:%S")
+        # output: datetime.datetime(2022, 7, 15, 9, 0, 1, tzinfo=backports.zoneinfo.ZoneInfo(key='Asia/Bangkok'))
     """
     d = ""
     m = ""

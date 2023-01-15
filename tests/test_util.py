@@ -52,6 +52,8 @@ from pythainlp.util import (
     syllable_open_close_detector,
     tone_detector,
     thai_word_tone_detector,
+    convert_years,
+    thai_strptime,
 )
 
 
@@ -776,3 +778,11 @@ class TestUtilPackage(unittest.TestCase):
             thai_word_tone_detector("ราคา"),
             [('รา', 'm'), ('คา', 'm')]
         )
+
+    def test_thai_strptime(self):
+        self.assertIsNotNone(thai_strptime("05-7-65 09:00:01.10600","%d-%B-%Y %H:%M:%S.%f",year="be"))
+        self.assertIsNotNone(thai_strptime("05-7-22 09:00:01.10600","%d-%B-%Y %H:%M:%S.%f",year="ad"))
+
+    def test_convert_years(self):
+        self.assertIsNotNone(convert_years("2566", src="be", target="ad"))
+        self.assertIsNotNone(convert_years("2023", src="ad", target="be"))

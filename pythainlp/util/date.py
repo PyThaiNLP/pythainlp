@@ -24,7 +24,11 @@ from datetime import datetime, timedelta
 from typing import Union
 import re
 
-import pytz
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:
+    from backports.zoneinfo import ZoneInfo
+
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
 thai_full_weekdays = [
@@ -129,7 +133,7 @@ def _find_month(text):
                 return i+1
 
 
-def thai_strptime(text, type, tzinfo=pytz.timezone("Asia/Bangkok")):
+def thai_strptime(text, type, tzinfo=ZoneInfo("Asia/Bangkok")):
     d = ""
     m = ""
     y= ""

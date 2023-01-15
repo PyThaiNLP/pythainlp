@@ -154,11 +154,12 @@ def thai_strptime(text, type, tzinfo=ZoneInfo("Asia/Bangkok")):
     if "%M" in type:
         type = type.replace("%M", "(\d\d)")
     if "%S" in type:
-        type = type.replace("%S", "(\d\d)")
+        type = type.replace("%S", "(\d\d|\d)")
     if "%f" in type:
         type = type.replace("%f", "(\d+)")
-    keys = [i.strip().strip('-').strip(':') for i in _old.split("%") if i!='']
+    keys = [i.strip().strip('-').strip(':').strip('.') for i in _old.split("%") if i!='']
     y = re.findall(type,text)
+    
     data = {i:''.join(list(j)) for i,j in zip(keys,y[0])}
     H=0
     M=0
@@ -172,7 +173,7 @@ def thai_strptime(text, type, tzinfo=ZoneInfo("Asia/Bangkok")):
     if "M" in keys:
         M = data['M']
     if "S" in keys:
-        M = data['S']
+        S = data['S']
     if "f" in keys:
         f = data['f']
     if int(y) < 100:

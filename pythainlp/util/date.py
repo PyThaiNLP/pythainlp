@@ -133,7 +133,7 @@ def _find_month(text):
                 return i+1
 
 
-def thai_strptime(text, type, tzinfo=ZoneInfo("Asia/Bangkok")):
+def thai_strptime(text, type, year="bc", add_year=None, tzinfo=ZoneInfo("Asia/Bangkok")):
     d = ""
     m = ""
     y= ""
@@ -176,8 +176,16 @@ def thai_strptime(text, type, tzinfo=ZoneInfo("Asia/Bangkok")):
         S = data['S']
     if "f" in keys:
         f = data['f']
-    if int(y) < 100:
-        y = "25"+y
+    if int(y) < 100 and year=="bc":
+        if add_year == None:
+            y = str(2500+int(y))
+        else:
+            y = str(int(add_year)+int(y))
+    elif int(y) < 100 and year=="ad":
+        if add_year == None:
+            y = str(2000+int(y))
+        else:
+            y = str(int(add_year)+int(y))
     if int(y) > 2112:
         y = bc2ad(y)
     return datetime(

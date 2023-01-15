@@ -177,7 +177,7 @@ def thai_strptime(text, type, tzinfo=ZoneInfo("Asia/Bangkok")):
         f = data['f']
     if int(y) < 100:
         y = "25"+y
-    if int(y) > 2022:
+    if int(y) > 2112:
         y = bc2ad(y)
     return datetime(
         year=int(y),

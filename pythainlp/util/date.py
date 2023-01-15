@@ -5,7 +5,7 @@ Thai date/time conversion.
 Note: Does not take into account the change of new year's day in Thailand
 """
 
-# BC คือ พ.ศ.
+# BE คือ พ.ศ.
 # AD คือ ค.ศ.
 # AH ปีฮิจเราะห์ศักราชเป็นปีพุทธศักราช จะต้องบวกด้วย 1122
 # ไม่ได้รองรับปี พ.ศ. ก่อนการเปลี่ยนวันขึ้นปีใหม่ของประเทศไทย
@@ -120,10 +120,22 @@ def convert_years(year: str, src="be", target="ad") -> str:
     """
     Convert years
 
-    *Warning: This function works properly only after 1941 \
+    :param int year: year
+    :param str src: The src year
+    :param str target: The target year
+    :return: The years that be convert
+    :rtype: str
+
+    **Options for year**
+        * *be* - Buddhist calendar
+        * *ad* - Anno Domini
+        * *re* - Rattanakosin era
+        * *ah* - Anno Hejira
+
+    **Warning**: This function works properly only after 1941 \
     because Thailand has change the Thai calendar in 1941.
-    If you are the time traveler or the historian, you should care about the correct calendar.
-    - https://krunongpasathai.com/2017/12/25/do-you-know-when-thailand-changed-its-new-year-to-the-1st-of-january/
+    If you are the time traveler or the historian, \
+    you should care about the correct calendar.
     """
     output_year = None
     if src=="be":

@@ -11,15 +11,20 @@ Note: Does not take into account the change of new year's day in Thailand
 # ไม่ได้รองรับปี พ.ศ. ก่อนการเปลี่ยนวันขึ้นปีใหม่ของประเทศไทย
 
 __all__ = [
+    "bc2ad",
     "thai_abbr_months",
     "thai_abbr_weekdays",
     "thai_full_months",
     "thai_full_weekdays",
+    "thai_strptime",
     "thaiword_to_date",
 ]
 
 from datetime import datetime, timedelta
 from typing import Union
+import re
+
+import pytz
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
 thai_full_weekdays = [
@@ -60,6 +65,27 @@ thai_full_months = [
     "พฤศจิกายน",
     "ธันวาคม",
 ]
+thai_full_month_lists = [
+    ["มกราคม", "มกรา", "ม.ค.", "1"],
+    ["กุมภาพันธ์", "กุมภา", "ก.w.", "2"],
+    ["มีนาคม", "มีนา", "มี.ค.", "3"],
+    ["เมษายน", "เมษา", "เม.ย.", "4"],
+    ["พฤษภาคม", "พฤษภา", "พ.ค.", "5"],
+    ["มิถุนายน", "มิถุนา", "มิ.ย.", "6"],
+    ["กรกฎาคม", "ก.ค.", "7"],
+    ["สิงหาคม", "สิงหา", "ส.ค.", "8"],
+    ["กันยายน", "กันยา", "ก.ย.", "9"],
+    ["ตุลาคม", "ตุลา", "ต.ค.", "10"],
+    ["พฤศจิกายน", "พฤศจิกา", "พ.ย.", "11"],
+    ["ธันวาคม", "ธันวา", "ธ.ค.", "12"]
+]
+thai_full_month_lists_regex = "("+'|'.join(
+    [str('|'.join([j for j in i])) for i in thai_full_month_lists]
+)+")"
+year_all_regex = "(\d\d\d\d|\d\d)"
+dates_list = "("+'|'.join(
+    [""+str(i)+"" for i in range(32,0,-1)]
+)+")"
 
 _DAY = {
     "วันนี้": 0,
@@ -82,6 +108,83 @@ _DAY = {
     "เมื่อวานซืน": -2,
     "เมื่อวานของเมื่อวาน": -2,
 }
+
+
+def bc2ad(year: str) -> str:
+    """
+    Convert Buddhist calendar year to Anno Domin year
+
+    *Warning: This function works properly only after 1941.
+    because Thailand has change the Thai calendar in 1941.
+    If you are the time traveler or the historian, you should care about the correct calendar.
+    - https://krunongpasathai.com/2017/12/25/do-you-know-when-thailand-changed-its-new-year-to-the-1st-of-january/
+    """
+    return str(int(year) - 543)
+
+
+def _find_month(text):
+    for i,m in enumerate(thai_full_month_lists):
+        for j in m:
+            if j in text:
+                return i+1
+
+
+def thai_strptime(text, type, tzinfo=pytz.timezone("Asia/Bangkok")):
+    d = ""
+    m = ""
+    y= ""
+    type = type.replace("%-m","%m")
+    type = type.replace("%-d","%d")
+    type = type.replace("%b","%B")
+    type = type.replace("%-y","%y")
+    data = {}
+    _old = type
+    if "%d" in type:
+        type = type.replace("%d", dates_list)
+    if "%B" in type:
+        type = type.replace("%B", thai_full_month_lists_regex)
+    if "%Y" in type:
+        type = type.replace("%Y", year_all_regex)
+    if "%H" in type:
+        type = type.replace("%H", "(\d\d)")
+    if "%M" in type:
+        type = type.replace("%M", "(\d\d)")
+    if "%S" in type:
+        type = type.replace("%S", "(\d\d)")
+    if "%f" in type:
+        type = type.replace("%f", "(\d+)")
+    keys = [i.strip().strip('-').strip(':') for i in _old.split("%") if i!='']
+    y = re.findall(type,text)
+    data = {i:''.join(list(j)) for i,j in zip(keys,y[0])}
+    H=0
+    M=0
+    S=0
+    f=0
+    d=data['d']
+    m=_find_month(data['B'])
+    y=data['Y']
+    if "H" in keys:
+        H = data['H']
+    if "M" in keys:
+        M = data['M']
+    if "S" in keys:
+        M = data['S']
+    if "f" in keys:
+        f = data['f']
+    if int(y) < 100:
+        y = "25"+y
+    if int(y) > 2022:
+        y = bc2ad(y)
+    return datetime(
+        year=int(y),
+        month=int(m),
+        day=int(d),
+        hour=int(H),
+        minute=int(M),
+        second=int(S),
+        microsecond=int(f),
+        tzinfo=tzinfo
+    )
 
 
 def now_reign_year() -> int:

@@ -8,6 +8,7 @@ Modules
 -------
 
 .. autofunction:: arabic_digit_to_thai_digit
+.. autofunction:: bc2ad
 .. autofunction:: bahttext
 .. autofunction:: collate
 .. autofunction:: dict_trie
@@ -40,6 +41,7 @@ Modules
 .. autofunction:: text_to_num
 .. autofunction:: text_to_thai_digit
 .. autofunction:: thai_strftime
+.. autofunction:: thai_strptime
 .. autofunction:: thai_to_eng
 .. autofunction:: thai_word_tone_detector
 .. autofunction:: thai_digit_to_arabic_digit

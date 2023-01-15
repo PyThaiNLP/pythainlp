@@ -191,32 +191,43 @@ def _find_month(text):
                 return i+1
 
 
-def thai_strptime(text, type, year="be", add_year=None, tzinfo=ZoneInfo("Asia/Bangkok")):
+def thai_strptime(text: str, fmt: str, year:str="be", add_year:int=None, tzinfo=ZoneInfo("Asia/Bangkok")):
+    """
+    Thai strptime
+
+    :param str text: text
+    :param str fmt: string containing date and time directives
+    :param str year: year of the text (ad isAnno Domini and be is Buddhist calendar)
+    :param int add_year: add year convert to ad
+    :param object tzinfo: tzinfo (default is Asia/Bangkok)
+    :return: The years that be convert to datetime.datetime
+    :rtype: datetime.datetime
+    """
     d = ""
     m = ""
     y= ""
-    type = type.replace("%-m","%m")
-    type = type.replace("%-d","%d")
-    type = type.replace("%b","%B")
-    type = type.replace("%-y","%y")
+    fmt = fmt.replace("%-m","%m")
+    fmt = fmt.replace("%-d","%d")
+    fmt = fmt.replace("%b","%B")
+    fmt = fmt.replace("%-y","%y")
     data = {}
-    _old = type
-    if "%d" in type:
-        type = type.replace("%d", dates_list)
-    if "%B" in type:
-        type = type.replace("%B", thai_full_month_lists_regex)
-    if "%Y" in type:
-        type = type.replace("%Y", year_all_regex)
-    if "%H" in type:
-        type = type.replace("%H", "(\d\d|\d)")
-    if "%M" in type:
-        type = type.replace("%M", "(\d\d|\d)")
-    if "%S" in type:
-        type = type.replace("%S", "(\d\d|\d)")
-    if "%f" in type:
-        type = type.replace("%f", "(\d+)")
+    _old = fmt
+    if "%d" in fmt:
+        fmt = fmt.replace("%d", dates_list)
+    if "%B" in fmt:
+        fmt = fmt.replace("%B", thai_full_month_lists_regex)
+    if "%Y" in fmt:
+        fmt = fmt.replace("%Y", year_all_regex)
+    if "%H" in fmt:
+        fmt = fmt.replace("%H", "(\d\d|\d)")
+    if "%M" in fmt:
+        fmt = fmt.replace("%M", "(\d\d|\d)")
+    if "%S" in fmt:
+        fmt = fmt.replace("%S", "(\d\d|\d)")
+    if "%f" in fmt:
+        fmt = fmt.replace("%f", "(\d+)")
     keys = [i.strip().strip('-').strip(':').strip('.') for i in _old.split("%") if i!='']
-    y = re.findall(type,text)
+    y = re.findall(fmt,text)
     
     data = {i:''.join(list(j)) for i,j in zip(keys,y[0])}
     H=0

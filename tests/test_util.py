@@ -789,12 +789,30 @@ class TestUtilPackage(unittest.TestCase):
         )
         self.assertIsNotNone(
             thai_strptime(
+                "24-6-75 09:00:00",
+                "%d-%B-%Y %H:%M:%S",
+                year="be",
+                add_year="2400"
+            )
+        )
+        self.assertIsNotNone(
+            thai_strptime(
                 "05-7-22 09:00:01.10600",
                 "%d-%B-%Y %H:%M:%S.%f",
                 year="ad"
             )
         )
+        self.assertIsNotNone(
+            thai_strptime(
+                "05-7-99 09:00:01.10600",
+                "%d-%B-%Y %H:%M:%S.%f",
+                year="ad",
+                add_year="1900"
+            )
+        )
 
     def test_convert_years(self):
-        self.assertIsNotNone(convert_years("2566", src="be", target="ad"))
-        self.assertIsNotNone(convert_years("2023", src="ad", target="be"))
+        self.assertEqual(convert_years("2566", src="be", target="ad"), "2023")
+        self.assertEqual(convert_years("2023", src="ad", target="be"), "2566")
+        with self.assertRaises(NotImplementedError):
+            self.assertIsNotNone(convert_years("2023", src="cat", target="dog"))

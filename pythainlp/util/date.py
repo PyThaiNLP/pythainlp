@@ -5,7 +5,7 @@ Thai date/time conversion.
 Note: Does not take into account the change of new year's day in Thailand
 """
 
-# BE คือ พ.ศ.
+# BC คือ พ.ศ.
 # AD คือ ค.ศ.
 # AH ปีฮิจเราะห์ศักราชเป็นปีพุทธศักราช จะต้องบวกด้วย 1122
 # ไม่ได้รองรับปี พ.ศ. ก่อนการเปลี่ยนวันขึ้นปีใหม่ของประเทศไทย
@@ -116,11 +116,11 @@ _DAY = {
 }
 
 
-def bc2ad(year: str) -> str:
+def be2ad(year: str) -> str:
     """
-    Convert Buddhist calendar year to Anno Domin year
+    Convert Buddhist Era to Anno Domin
 
-    *Warning: This function works properly only after 1941.
+    *Warning: This function works properly only after 1941 \
     because Thailand has change the Thai calendar in 1941.
     If you are the time traveler or the historian, you should care about the correct calendar.
     - https://krunongpasathai.com/2017/12/25/do-you-know-when-thailand-changed-its-new-year-to-the-1st-of-january/
@@ -135,7 +135,7 @@ def _find_month(text):
                 return i+1
 
 
-def thai_strptime(text, type, year="bc", add_year=None, tzinfo=ZoneInfo("Asia/Bangkok")):
+def thai_strptime(text, type, year="be", add_year=None, tzinfo=ZoneInfo("Asia/Bangkok")):
     d = ""
     m = ""
     y= ""
@@ -178,7 +178,7 @@ def thai_strptime(text, type, year="bc", add_year=None, tzinfo=ZoneInfo("Asia/Ba
         S = data['S']
     if "f" in keys:
         f = data['f']
-    if int(y) < 100 and year=="bc":
+    if int(y) < 100 and year=="be":
         if add_year == None:
             y = str(2500+int(y))
         else:
@@ -188,8 +188,8 @@ def thai_strptime(text, type, year="bc", add_year=None, tzinfo=ZoneInfo("Asia/Ba
             y = str(2000+int(y))
         else:
             y = str(int(add_year)+int(y))
-    if int(y) > 2112:
-        y = bc2ad(y)
+    if year=="be":
+        y = be2ad(y)
     return datetime(
         year=int(y),
         month=int(m),

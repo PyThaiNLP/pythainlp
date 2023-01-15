@@ -83,15 +83,15 @@ thai_full_month_lists = [
     ["พฤศจิกายน", "พฤศจิกา", "พ.ย.", "11"],
     ["ธันวาคม", "ธันวา", "ธ.ค.", "12"]
 ]
-thai_full_month_lists_regex = "("+'|'.join(
+thai_full_month_lists_regex = "(" + '|'.join(
     [str('|'.join([j for j in i])) for i in thai_full_month_lists]
-)+")"
+) + ")"
 year_all_regex = r"(\d\d\d\d|\d\d)"
-dates_list = "("+'|'.join(
-    [str(i) for i in range(32, 0, -1)]+[
-        "0"+str(i) for i in range(1, 10)
+dates_list = "(" + '|'.join(
+    [str(i) for i in range(32, 0, -1)] + [
+        "0" + str(i) for i in range(1, 10)
     ]
-)+")"
+) + ")"
 
 _DAY = {
     "วันนี้": 0,
@@ -189,7 +189,7 @@ def _find_month(text):
     for i, m in enumerate(thai_full_month_lists):
         for j in m:
             if j in text:
-                return i+1
+                return i + 1
 
 
 def thai_strptime(
@@ -284,14 +284,14 @@ def thai_strptime(
         f = data['f']
     if int(y) < 100 and year == "be":
         if add_year is None:
-            y = str(2500+int(y))
+            y = str(2500 + int(y))
         else:
-            y = str(int(add_year)+int(y))
+            y = str(int(add_year) + int(y))
     elif int(y) < 100 and year == "ad":
         if add_year is None:
-            y = str(2000+int(y))
+            y = str(2000 + int(y))
         else:
-            y = str(int(add_year)+int(y))
+            y = str(int(add_year) + int(y))
     if year == "be":
         y = convert_years(y, src="be", target="ad")
     return datetime(

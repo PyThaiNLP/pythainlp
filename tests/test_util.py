@@ -813,6 +813,16 @@ class TestUtilPackage(unittest.TestCase):
 
     def test_convert_years(self):
         self.assertEqual(convert_years("2566", src="be", target="ad"), "2023")
+        self.assertEqual(convert_years("2566", src="be", target="re"), "242")
+        self.assertEqual(convert_years("2566", src="be", target="ah"), "1444")
         self.assertEqual(convert_years("2023", src="ad", target="be"), "2566")
+        self.assertEqual(convert_years("2023", src="ad", target="ah"), "1444")
+        self.assertEqual(convert_years("2023", src="ad", target="re"), "242")
+        self.assertEqual(convert_years("1444", src="ah", target="be"), "2566")
+        self.assertEqual(convert_years("1444", src="ah", target="ad"), "2023")
+        self.assertEqual(convert_years("1444", src="ah", target="re"), "242")
+        self.assertEqual(convert_years("242", src="re", target="be"), "2566")
+        self.assertEqual(convert_years("242", src="re", target="ad"), "2023")
+        self.assertEqual(convert_years("242", src="re", target="ah"), "1444")
         with self.assertRaises(NotImplementedError):
             self.assertIsNotNone(convert_years("2023", src="cat", target="dog"))

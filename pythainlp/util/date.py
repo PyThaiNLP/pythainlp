@@ -145,9 +145,9 @@ def convert_years(year: str, src="be", target="ad") -> str:
         # พ.ศ. - 2324 = ร.ศ. 
         elif target == "re":
             output_year = str(int(year) - 2324)
-        # พ.ศ. - 1164 = ฮ.ศ.
+        # พ.ศ. - 1122 = ฮ.ศ.
         elif target == "ah":
-            output_year = str(int(year) - 1164)
+            output_year = str(int(year) - 1122)
     elif src == "ad":
         # ค.ศ. + 543 = พ.ศ.
         if target == "be":
@@ -155,9 +155,9 @@ def convert_years(year: str, src="be", target="ad") -> str:
         # ค.ศ. + 543 - 2324 = ร.ศ.
         elif target == "re":
             output_year = str(int(year) + 543 - 2324)
-        # ค.ศ. - 621   = ฮ.ศ.
+        # ค.ศ. +543- 1122   = ฮ.ศ.
         elif target == "ah":
-            output_year = str(int(year) - 621)
+            output_year = str(int(year) + 543 - 1122)
     elif src == "re":
         # ร.ศ. + 2324 = พ.ศ.
         if target == "be":
@@ -165,19 +165,19 @@ def convert_years(year: str, src="be", target="ad") -> str:
         # ร.ศ. + 2324 - 543  = ค.ศ.
         elif target == "ad":
             output_year = str(int(year) + 2324 - 543)
-        # ร.ศ. + 2324 - 621  = ฮ.ศ.
+        # ร.ศ. + 2324 - 1122  = ฮ.ศ.
         elif target == "ah":
-            output_year = str(int(year) + 2324 - 621)
+            output_year = str(int(year) + 2324 - 1122)
     elif src == "ah":
-        # ฮ.ศ. + 1164 = พ.ศ.
+        # ฮ.ศ. + 1122 = พ.ศ.
         if target == "be":
-            output_year = str(int(year) + 1164)
-        # ฮ.ศ. + 621  = ค.ศ.
+            output_year = str(int(year) + 1122)
+        # ฮ.ศ. +1122 - 543= ค.ศ.
         elif target == "ad":
-            output_year = str(int(year) + 621)
-        # ฮ.ศ. + 1164 - 2324 = ร.ศ.
+            output_year = str(int(year) + 1122 - 543)
+        # ฮ.ศ. +1122 - 2324 = ร.ศ.
         elif target == "re":
-            output_year = str(int(year) + 1164 - 2324)
+            output_year = str(int(year) + 1122 - 2324)
     if output_year is None:
         raise NotImplementedError(
             f"This function doesn't support {src} to {target}"

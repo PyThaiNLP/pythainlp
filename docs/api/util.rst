@@ -9,6 +9,7 @@ Modules
 
 .. autofunction:: arabic_digit_to_thai_digit
 .. autofunction:: bahttext
+.. autofunction:: convert_years
 .. autofunction:: collate
 .. autofunction:: dict_trie
 .. autofunction:: digit_to_text
@@ -40,6 +41,7 @@ Modules
 .. autofunction:: text_to_num
 .. autofunction:: text_to_thai_digit
 .. autofunction:: thai_strftime
+.. autofunction:: thai_strptime
 .. autofunction:: thai_to_eng
 .. autofunction:: thai_word_tone_detector
 .. autofunction:: thai_digit_to_arabic_digit

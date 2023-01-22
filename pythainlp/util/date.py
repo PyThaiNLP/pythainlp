@@ -11,15 +11,24 @@ Note: Does not take into account the change of new year's day in Thailand
 # ไม่ได้รองรับปี พ.ศ. ก่อนการเปลี่ยนวันขึ้นปีใหม่ของประเทศไทย
 
 __all__ = [
+    "convert_years",
     "thai_abbr_months",
     "thai_abbr_weekdays",
     "thai_full_months",
     "thai_full_weekdays",
+    "thai_strptime",
     "thaiword_to_date",
 ]
 
 from datetime import datetime, timedelta
 from typing import Union
+import re
+
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:
+    from backports.zoneinfo import ZoneInfo
+
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
 thai_full_weekdays = [
@@ -60,6 +69,29 @@ thai_full_months = [
     "พฤศจิกายน",
     "ธันวาคม",
 ]
+thai_full_month_lists = [
+    ["มกราคม", "มกรา", "ม.ค.", "01", "1"],
+    ["กุมภาพันธ์", "กุมภา", "ก.w.", "02", "2"],
+    ["มีนาคม", "มีนา", "มี.ค.", "03", "3"],
+    ["เมษายน", "เมษา", "เม.ย.", "04", "4"],
+    ["พฤษภาคม", "พฤษภา", "พ.ค.", "05", "5"],
+    ["มิถุนายน", "มิถุนา", "มิ.ย.", "06", "6"],
+    ["กรกฎาคม", "ก.ค.", "07", "7"],
+    ["สิงหาคม", "สิงหา", "ส.ค.", "08", "8"],
+    ["กันยายน", "กันยา", "ก.ย.", "09", "9"],
+    ["ตุลาคม", "ตุลา", "ต.ค.", "10"],
+    ["พฤศจิกายน", "พฤศจิกา", "พ.ย.", "11"],
+    ["ธันวาคม", "ธันวา", "ธ.ค.", "12"]
+]
+thai_full_month_lists_regex = "(" + '|'.join(
+    [str('|'.join([j for j in i])) for i in thai_full_month_lists]
+) + ")"
+year_all_regex = r"(\d\d\d\d|\d\d)"
+dates_list = "(" + '|'.join(
+    [str(i) for i in range(32, 0, -1)] + [
+        "0" + str(i) for i in range(1, 10)
+    ]
+) + ")"
 
 _DAY = {
     "วันนี้": 0,
@@ -82,6 +114,196 @@ _DAY = {
     "เมื่อวานซืน": -2,
     "เมื่อวานของเมื่อวาน": -2,
 }
+
+
+def convert_years(year: str, src="be", target="ad") -> str:
+    """
+    Convert years
+
+    :param int year: year
+    :param str src: The src year
+    :param str target: The target year
+    :return: The years that be convert
+    :rtype: str
+
+    **Options for year**
+        * *be* - Buddhist calendar
+        * *ad* - Anno Domini
+        * *re* - Rattanakosin era
+        * *ah* - Anno Hejira
+
+    **Warning**: This function works properly only after 1941 \
+    because Thailand has change the Thai calendar in 1941.
+    If you are the time traveler or the historian, \
+    you should care about the correct calendar.
+    """
+    output_year = None
+    if src == "be":
+        # พ.ศ. - 543  = ค.ศ.
+        if target == "ad":
+            output_year = str(int(year) - 543)
+        # พ.ศ. - 2324 = ร.ศ. 
+        elif target == "re":
+            output_year = str(int(year) - 2324)
+        # พ.ศ. - 1122 = ฮ.ศ.
+        elif target == "ah":
+            output_year = str(int(year) - 1122)
+    elif src == "ad":
+        # ค.ศ. + 543 = พ.ศ.
+        if target == "be":
+            output_year = str(int(year) + 543)
+        # ค.ศ. + 543 - 2324 = ร.ศ.
+        elif target == "re":
+            output_year = str(int(year) + 543 - 2324)
+        # ค.ศ. +543- 1122   = ฮ.ศ.
+        elif target == "ah":
+            output_year = str(int(year) + 543 - 1122)
+    elif src == "re":
+        # ร.ศ. + 2324 = พ.ศ.
+        if target == "be":
+            output_year = str(int(year) + 2324)
+        # ร.ศ. + 2324 - 543  = ค.ศ.
+        elif target == "ad":
+            output_year = str(int(year) + 2324 - 543)
+        # ร.ศ. + 2324 - 1122  = ฮ.ศ.
+        elif target == "ah":
+            output_year = str(int(year) + 2324 - 1122)
+    elif src == "ah":
+        # ฮ.ศ. + 1122 = พ.ศ.
+        if target == "be":
+            output_year = str(int(year) + 1122)
+        # ฮ.ศ. +1122 - 543= ค.ศ.
+        elif target == "ad":
+            output_year = str(int(year) + 1122 - 543)
+        # ฮ.ศ. +1122 - 2324 = ร.ศ.
+        elif target == "re":
+            output_year = str(int(year) + 1122 - 2324)
+    if output_year is None:
+        raise NotImplementedError(
+            f"This function doesn't support {src} to {target}"
+        )
+    return output_year
+
+
+def _find_month(text):
+    for i, m in enumerate(thai_full_month_lists):
+        for j in m:
+            if j in text:
+                return i + 1
+
+
+def thai_strptime(
+    text: str,
+    fmt: str,
+    year: str = "be",
+    add_year: int = None,
+    tzinfo=ZoneInfo("Asia/Bangkok")
+):
+    """
+    Thai strptime
+
+    :param str text: text
+    :param str fmt: string containing date and time directives
+    :param str year: year of the text \
+        (ad isAnno Domini and be is Buddhist calendar)
+    :param int add_year: add year convert to ad
+    :param object tzinfo: tzinfo (default is Asia/Bangkok)
+    :return: The years that be convert to datetime.datetime
+    :rtype: datetime.datetime
+
+    The fmt char that support:
+        * *%d* - Day (1 - 31)
+        * *%B* - Thai month (03, 3, มี.ค., or มีนาคม)
+        * *%Y* - Year (66, 2566, or 2023)
+        * *%H* - Hour (0 - 23)
+        * *%M* - Minute (0 - 59)
+        * *%S* - Second (0 - 59)
+        * *%f* - Microsecond
+
+    :Example:
+    ::
+
+        from pythainlp.util import thai_strptime
+
+        thai_strptime("15 ก.ค. 2565 09:00:01","%d %B %Y %H:%M:%S")
+        # output:
+        # datetime.datetime(
+        #   2022,
+        #   7,
+        #   15,
+        #   9,
+        #   0,
+        #   1,
+        #   tzinfo=backports.zoneinfo.ZoneInfo(key='Asia/Bangkok')
+        # )
+    """
+    d = ""
+    m = ""
+    y = ""
+    fmt = fmt.replace("%-m", "%m")
+    fmt = fmt.replace("%-d", "%d")
+    fmt = fmt.replace("%b", "%B")
+    fmt = fmt.replace("%-y", "%y")
+    data = {}
+    _old = fmt
+    if "%d" in fmt:
+        fmt = fmt.replace("%d", dates_list)
+    if "%B" in fmt:
+        fmt = fmt.replace("%B", thai_full_month_lists_regex)
+    if "%Y" in fmt:
+        fmt = fmt.replace("%Y", year_all_regex)
+    if "%H" in fmt:
+        fmt = fmt.replace("%H", r"(\d\d|\d)")
+    if "%M" in fmt:
+        fmt = fmt.replace("%M", r"(\d\d|\d)")
+    if "%S" in fmt:
+        fmt = fmt.replace("%S", r"(\d\d|\d)")
+    if "%f" in fmt:
+        fmt = fmt.replace("%f", r"(\d+)")
+    keys = [
+        i.strip().strip('-').strip(':').strip('.')
+        for i in _old.split("%") if i != ''
+    ]
+    y = re.findall(fmt, text)
+
+    data = {i: ''.join(list(j)) for i, j in zip(keys, y[0])}
+    H = 0
+    M = 0
+    S = 0
+    f = 0
+    d = data['d']
+    m = _find_month(data['B'])
+    y = data['Y']
+    if "H" in keys:
+        H = data['H']
+    if "M" in keys:
+        M = data['M']
+    if "S" in keys:
+        S = data['S']
+    if "f" in keys:
+        f = data['f']
+    if int(y) < 100 and year == "be":
+        if add_year is None:
+            y = str(2500 + int(y))
+        else:
+            y = str(int(add_year) + int(y))
+    elif int(y) < 100 and year == "ad":
+        if add_year is None:
+            y = str(2000 + int(y))
+        else:
+            y = str(int(add_year) + int(y))
+    if year == "be":
+        y = convert_years(y, src="be", target="ad")
+    return datetime(
+        year=int(y),
+        month=int(m),
+        day=int(d),
+        hour=int(H),
+        minute=int(M),
+        second=int(S),
+        microsecond=int(f),
+        tzinfo=tzinfo
+    )
 
 
 def now_reign_year() -> int:

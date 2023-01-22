@@ -52,6 +52,8 @@ from pythainlp.util import (
     syllable_open_close_detector,
     tone_detector,
     thai_word_tone_detector,
+    convert_years,
+    thai_strptime,
 )
 
 
@@ -600,7 +602,7 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEquals(
             count_thai_chars("ทดสอบภาษาไทย"),
             {
-                'vowels': 3, 
+                'vowels': 3,
                 'lead_vowels': 1,
                 'follow_vowels': 2,
                 'above_vowels': 0,
@@ -776,3 +778,51 @@ class TestUtilPackage(unittest.TestCase):
             thai_word_tone_detector("ราคา"),
             [('รา', 'm'), ('คา', 'm')]
         )
+
+    def test_thai_strptime(self):
+        self.assertIsNotNone(
+            thai_strptime(
+                "05-7-65 09:00:01.10600",
+                "%d-%B-%Y %H:%M:%S.%f",
+                year="be"
+            )
+        )
+        self.assertIsNotNone(
+            thai_strptime(
+                "24-6-75 09:00:00",
+                "%d-%B-%Y %H:%M:%S",
+                year="be",
+                add_year="2400"
+            )
+        )
+        self.assertIsNotNone(
+            thai_strptime(
+                "05-7-22 09:00:01.10600",
+                "%d-%B-%Y %H:%M:%S.%f",
+                year="ad"
+            )
+        )
+        self.assertIsNotNone(
+            thai_strptime(
+                "05-7-99 09:00:01.10600",
+                "%d-%B-%Y %H:%M:%S.%f",
+                year="ad",
+                add_year="1900"
+            )
+        )
+
+    def test_convert_years(self):
+        self.assertEqual(convert_years("2566", src="be", target="ad"), "2023")
+        self.assertEqual(convert_years("2566", src="be", target="re"), "242")
+        self.assertEqual(convert_years("2566", src="be", target="ah"), "1444")
+        self.assertEqual(convert_years("2023", src="ad", target="be"), "2566")
+        self.assertEqual(convert_years("2023", src="ad", target="ah"), "1444")
+        self.assertEqual(convert_years("2023", src="ad", target="re"), "242")
+        self.assertEqual(convert_years("1444", src="ah", target="be"), "2566")
+        self.assertEqual(convert_years("1444", src="ah", target="ad"), "2023")
+        self.assertEqual(convert_years("1444", src="ah", target="re"), "242")
+        self.assertEqual(convert_years("242", src="re", target="be"), "2566")
+        self.assertEqual(convert_years("242", src="re", target="ad"), "2023")
+        self.assertEqual(convert_years("242", src="re", target="ah"), "1444")
+        with self.assertRaises(NotImplementedError):
+            self.assertIsNotNone(convert_years("2023", src="cat", target="dog"))

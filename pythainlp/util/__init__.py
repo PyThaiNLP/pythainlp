@@ -7,6 +7,7 @@ __all__ = [
     "Trie",
     "arabic_digit_to_thai_digit",
     "bahttext",
+    "convert_years",
     "collate",
     "countthai",
     "count_thai_chars",
@@ -34,6 +35,7 @@ __all__ = [
     "text_to_thai_digit",
     "thai_digit_to_arabic_digit",
     "thai_keyboard_dist",
+    "thai_strptime",
     "thai_strftime",
     "thai_to_eng",
     "thai_word_tone_detector",
@@ -54,6 +56,8 @@ from pythainlp.util.date import (
     now_reign_year,
     reign_year_to_ad,
     thaiword_to_date,
+    convert_years,
+    thai_strptime,
 )
 from pythainlp.util.digitconv import (
     arabic_digit_to_thai_digit,

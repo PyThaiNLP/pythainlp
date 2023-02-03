@@ -173,7 +173,7 @@ dict_ipa_rtgs_final = {
     "w":"o"
 }
 trie = Trie(list(dict_ipa_rtgs.keys())+list(dict_ipa_rtgs_final.keys()))
-_ipa_cut = Tokenizer(custom_dict=trie, engine="newmm")
+ipa_cut = Tokenizer(custom_dict=trie, engine="newmm")
 
 
 def ipa_to_rtgs(ipa: str) -> str:
@@ -195,7 +195,7 @@ def ipa_to_rtgs(ipa: str) -> str:
 
     """
     _temp=[]
-    for i,p in enumerate(_ipa_cut.word_tokenize(ipa)):
+    for i,p in enumerate(ipa_cut.word_tokenize(ipa)):
         if i == len(ipa) -1 and p in list(dict_ipa_rtgs_final.keys()):
             _temp.append(dict_ipa_rtgs_final[p])
         elif p in list(dict_ipa_rtgs.keys()):

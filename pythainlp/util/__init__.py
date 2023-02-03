@@ -50,6 +50,7 @@ __all__ = [
     "syllable_length",
     "syllable_open_close_detector",
     "nectec_to_ipa",
+    "ipa_to_rtgs",
 ]
 
 from pythainlp.util.collate import collate
@@ -105,4 +106,4 @@ from pythainlp.util.syllable import (
     syllable_length,
     syllable_open_close_detector,
 )
-from pythainlp.util.phoneme import nectec_to_ipa
+from pythainlp.util.phoneme import nectec_to_ipa, ipa_to_rtgs

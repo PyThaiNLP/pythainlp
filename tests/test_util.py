@@ -55,6 +55,7 @@ from pythainlp.util import (
     convert_years,
     thai_strptime,
     nectec_to_ipa,
+    ipa_to_rtgs,
 )
 
 
@@ -830,3 +831,6 @@ class TestUtilPackage(unittest.TestCase):
 
     def test_nectec_to_ipa(self):
         self.assertEqual(nectec_to_ipa("kl-uua-j^-2"), 'kl uua j ˥˩')
+
+    def test_ipa_to_rtgs(self):
+        self.assertEqual(ipa_to_rtgs("kluaj"), "kluai")

@@ -51,5 +51,6 @@ Modules
 .. autofunction:: time_to_thaiword
 .. autofunction:: tone_detector
 .. autofunction:: words_to_num
+.. autofunction:: nectec_to_ipa
 .. autoclass:: Trie
    :members:

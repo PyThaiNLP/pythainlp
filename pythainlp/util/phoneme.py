@@ -71,7 +71,7 @@ tones_ipa_nectec = [
 dict_nectec_to_ipa = {i[1]:i[0] for i in consonants_ipa_nectec+monophthong_ipa_nectec+diphthong_ipa_nectec+tones_ipa_nectec}
 dict_nectec_to_ipa.update({i[2]:i[0] for i in consonants_ipa_nectec if len(i)>2})
 
-def nectec_to_ipa(pronunciation):
+def nectec_to_ipa(pronunciation: str) -> str:
     """
     Converter NECTEC system to IPA system
 

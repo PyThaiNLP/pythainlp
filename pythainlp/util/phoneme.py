@@ -194,9 +194,10 @@ def ipa_to_rtgs(ipa: str) -> str:
         # output : 'kluai'
 
     """
-    _temp=[]
-    for i,p in enumerate(ipa_cut.word_tokenize(ipa)):
-        if i == len(ipa) -1 and p in list(dict_ipa_rtgs_final.keys()):
+    _temp = []
+    _list_ipa = ipa_cut.word_tokenize(ipa)
+    for i,p in enumerate(_list_ipa):
+        if i == len(_list_ipa) -1 and p in list(dict_ipa_rtgs_final.keys()):
             _temp.append(dict_ipa_rtgs_final[p])
         elif p in list(dict_ipa_rtgs.keys()):
             _temp.append(dict_ipa_rtgs[p])

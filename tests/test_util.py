@@ -54,6 +54,8 @@ from pythainlp.util import (
     thai_word_tone_detector,
     convert_years,
     thai_strptime,
+    nectec_to_ipa,
+    ipa_to_rtgs,
 )
 
 
@@ -826,3 +828,11 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(convert_years("242", src="re", target="ah"), "1444")
         with self.assertRaises(NotImplementedError):
             self.assertIsNotNone(convert_years("2023", src="cat", target="dog"))
+
+    def test_nectec_to_ipa(self):
+        self.assertEqual(nectec_to_ipa("kl-uua-j^-2"), 'kl uua j ˥˩')
+
+    def test_ipa_to_rtgs(self):
+        self.assertEqual(ipa_to_rtgs("kluaj"), "kluai")
+        self.assertEqual(ipa_to_rtgs("waːw"), "wao")
+        self.assertEqual(ipa_to_rtgs("/naː˥˩/"), "/na˥˩/")

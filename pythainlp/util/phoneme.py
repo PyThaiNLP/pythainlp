@@ -2,6 +2,7 @@
 """
 Phonemes util
 """
+import unicodedata
 from pythainlp.util.trie import Trie
 from pythainlp.tokenize import Tokenizer
 
@@ -166,7 +167,7 @@ dict_ipa_rtgs = {
     "iaw":"iao",
     "uaj":"uai",
     "ɯaj":"ueai",
-    ".":"."
+    ".":".",
 }
 
 dict_ipa_rtgs_final = {
@@ -203,4 +204,6 @@ def ipa_to_rtgs(ipa: str) -> str:
             _temp.append(dict_ipa_rtgs[p])
         else:
             _temp.append(p)
-    return ''.join(_temp)
+    _text = ''.join(_temp)
+    _text = unicodedata.normalize('NFKD', _text).encode('ascii', 'ignore')
+    return _text.decode("utf-8")

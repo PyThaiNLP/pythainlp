@@ -53,5 +53,6 @@ Modules
 .. autofunction:: words_to_num
 .. autofunction:: nectec_to_ipa
 .. autofunction:: ipa_to_rtgs
+.. autofunction:: remove_tone_ipa
 .. autoclass:: Trie
    :members:

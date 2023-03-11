@@ -207,3 +207,25 @@ def ipa_to_rtgs(ipa: str) -> str:
     _text = ''.join(_temp)
     _text = unicodedata.normalize('NFKD', _text).encode('ascii', 'ignore')
     return _text.decode("utf-8")
+
+
+def remove_tone_ipa(ipa: str) -> str:
+    """
+    Remove Thai Tone from IPA system
+
+    :param str ipa: IPA phoneme
+    :return: IPA phoneme that deleted tone
+    :rtype: str
+
+    :Example:
+    ::
+        from pythainlp.util import remove_tone_ipa
+ 
+        print(remove_tone_ipa("laː˦˥.sa˨˩.maj˩˩˦"))
+        # output : laː.sa.maj
+
+    """
+    _list_tone = ["˩˩˦", "˥˩", "˨˩", "˦˥", "˧"]
+    for tone in _list_tone:
+        ipa = ipa.replace(tone, "")
+    return ipa

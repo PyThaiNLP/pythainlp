@@ -56,6 +56,7 @@ from pythainlp.util import (
     thai_strptime,
     nectec_to_ipa,
     ipa_to_rtgs,
+    remove_tone_ipa,
 )
 
 
@@ -836,3 +837,6 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(ipa_to_rtgs("kluaj"), "kluai")
         self.assertEqual(ipa_to_rtgs("waːw"), "wao")
         self.assertEqual(ipa_to_rtgs("/naː˥˩/"), "/na˥˩/")
+
+    def test_remove_tone_ipa(self):
+        self.assertEqual(remove_tone_ipa("laː˦˥.sa˨˩.maj˩˩˦"), "laː.sa.maj")

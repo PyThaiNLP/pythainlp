@@ -25,3 +25,9 @@ class TestKhaveePackage(unittest.TestCase):
             kv.check_klon('''ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง เอ๋งเอ๋งเสียงหมา มีคนจับจอง เขาชื่อน้องเธียร''',k_type=4),
             ["Cant find rhyme between paragraphs ('หมา', 'จอง')in paragraph 2", "Cant find rhyme between paragraphs ('หมา', 'ทอง')in paragraph 2"]
         )
+
+    def test_check_aek_too(self):
+        self.assertEqual(kv.check_aek_too('ไกด์'), False)
+        self.assertEqual(kv.check_aek_too('ไก่'), 'aek')
+        self.assertEqual(kv.check_aek_too('ไก้'), 'too')
+        self.assert_(kv.check_aek_too(['หนม', 'หน่ม', 'หน้ม']), [False, 'aek', 'too'])

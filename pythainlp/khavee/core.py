@@ -382,7 +382,7 @@ class KhaveeVerifier:
 
     def check_aek_too(self, text: Union[List[str], str]) -> Union[List[bool], List[str], bool, str]:
         """
-        Check if the word is aek or too or False(not both)
+        Thai tonal word checker
 
         :param str or list[str] text: Thai word or list of Thai words
         :return: the check if the word is aek or too or False(not both) or list of the check if input is list

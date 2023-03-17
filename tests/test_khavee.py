@@ -31,3 +31,4 @@ class TestKhaveePackage(unittest.TestCase):
         self.assertEqual(kv.check_aek_too('ไก่'), 'aek')
         self.assertEqual(kv.check_aek_too('ไก้'), 'too')
         self.assert_(kv.check_aek_too(['หนม', 'หน่ม', 'หน้ม']), [False, 'aek', 'too'])
+

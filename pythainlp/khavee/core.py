@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from typing import List
+from typing import List, Union
 from pythainlp.tokenize import subword_tokenize
 
 
@@ -265,14 +265,14 @@ class KhaveeVerifier:
         else:
             return False
 
-    def check_klon(self, text: str,k_type: int=8) -> str:
+    def check_klon(self, text: str,k_type: int=8) -> Union[List[str], str]:
         """
         Check the suitability of the poem according to Thai principles.
 
         :param str text: Thai poem
         :param int k_type: Type of Thai poem
         :return: the check of the suitability of the poem according to Thai principles.
-        :rtype: str
+        :rtype: Union[List[str], str]
 
         :Example:
         ::

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import core 
 kv = core.KhaveeVerifier()
 

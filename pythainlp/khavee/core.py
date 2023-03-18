@@ -379,3 +379,38 @@ class KhaveeVerifier:
             
         else:
             return 'Something went wrong Make sure you enter it in correct form.'
+
+    def check_aek_too(self, text: Union[List[str], str]) -> Union[List[bool], List[str], bool, str]:
+        """
+        Thai tonal word checker
+
+        :param str or list[str] text: Thai word or list of Thai words
+        :return: the check if the word is aek or too or False(not both) or list of the check if input is list
+        :rtype: Union[List[bool], List[str], bool, str]
+
+        :Example:
+        ::
+
+            from pythainlp.khavee import KhaveeVerifier
+
+            kv = KhaveeVerifier()
+
+            # การเช็คคำเอกโท
+            print(kv.check_aek_too('เอง'), kv.check_aek_too('เอ่ง'), kv.check_aek_too('เอ้ง'))
+            ## -> False, aek, too
+            print(kv.check_aek_too(['เอง', 'เอ่ง', 'เอ้ง'])) # ใช้ List ได้เหมือนกัน
+            ## -> [False, 'aek', 'too']
+        """
+        if isinstance(text, list):
+            return [self.check_aek_too(t) for t in text]
+
+        if not isinstance(text, str):
+            raise TypeError('text must be str or iterable list[str]')
+
+        word_characters = [*text]
+        if '่' in word_characters and not '้' in word_characters:
+            return 'aek'
+        elif '้' in word_characters and not '่' in word_characters:
+            return 'too'
+        else:
+            return False

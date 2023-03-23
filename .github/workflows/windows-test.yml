@@ -43,6 +43,7 @@ jobs:
       shell: powershell
       run: |
         python -m pip install --disable-pip-version-check --user --upgrade pip setuptools
+        python -m pip install backports.zoneinfo[tzdata]
         python -m pip --version
         python -m pip install pytest coverage coveralls
         conda install -y -c conda-forge fairseq

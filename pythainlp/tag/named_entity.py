@@ -16,6 +16,7 @@ class NER:
     **Options for engine**
         * *thainer* - Thai NER engine
         * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.
+        * *thainer-v2* - Thai NER engine v2.0 for Thai NER 2.0
 
     **Options for corpus**
         * *thainer* - Thai NER corpus
@@ -33,6 +34,9 @@ class NER:
             from pythainlp.tag.thainer import ThaiNameTagger
 
             self.engine = ThaiNameTagger()
+        elif engine == "thainer-v2" and corpus == "thainer":
+            from pythainlp.wangchanberta import NamedEntityRecognition
+            self.engine = NamedEntityRecognition(model="pythainlp/thainer-corpus-v2-base-model")
         elif engine == "tltk":
             from pythainlp.tag import tltk
 
@@ -49,7 +53,7 @@ class NER:
             )
 
     def tag(
-        self, text, pos=True, tag=False
+        self, text, pos=False, tag=False
     ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
         """
         This function tags named-entitiy from text in IOB format.
@@ -71,13 +75,13 @@ class NER:
             >>>
             >>> ner = NER("thainer")
             >>> ner.tag("ทดสอบนายวรรณพงษ์ ภัททิยไพบูลย์")
-            [('ทดสอบ', 'VV', 'O'),
-            ('นาย', 'NN', 'B-PERSON'),
-            ('วรรณ', 'NN', 'I-PERSON'),
-            ('พงษ์', 'NN', 'I-PERSON'),
-            (' ', 'PU', 'I-PERSON'),
-            ('ภัททิย', 'NN', 'I-PERSON'),
-            ('ไพบูลย์', 'NN', 'I-PERSON')]
+            [('ทดสอบ', 'O'),
+            ('นาย', 'B-PERSON'),
+            ('วรรณ', 'I-PERSON'),
+            ('พงษ์', 'I-PERSON'),
+            (' ', 'I-PERSON'),
+            ('ภัททิย', 'I-PERSON'),
+            ('ไพบูลย์', 'I-PERSON')]
             >>> ner.tag("ทดสอบนายวรรณพงษ์ ภัททิยไพบูลย์", tag=True)
             'ทดสอบ<PERSON>นายวรรณพงษ์ ภัททิยไพบูลย์</PERSON>'
         """

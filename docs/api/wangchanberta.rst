@@ -30,6 +30,10 @@ Notebook:
 
 Modules
 -------
+.. autoclass:: NamedEntityRecognition
+   :members:
+.. autoclass:: ThaiNameTagger
+   :members:
 .. autofunction:: segment
 
 References

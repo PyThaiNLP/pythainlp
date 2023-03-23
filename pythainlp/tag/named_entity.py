@@ -37,6 +37,10 @@ class NER:
             from pythainlp.tag import tltk
 
             self.engine = tltk
+        elif engine == "wangchanberta" and corpus == "thainer":
+            from pythainlp.wangchanberta import ThaiNameTagger
+
+            self.engine = ThaiNameTagger(dataset_name=corpus)
         else:
             raise ValueError(
                 "NER class not support {0} engine or {1} corpus.".format(

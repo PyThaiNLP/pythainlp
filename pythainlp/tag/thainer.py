@@ -73,10 +73,11 @@ def _doc2features(doc, i) -> Dict:
 
 class ThaiNameTagger:
     """
-    Thai named-entity recognizer.
+    Thai named-entity recognizer or Thai NER.
+    This function support Thai NER 1.4 and 1.5 only.
     :param str version: Thai NER version.
         It's support Thai NER 1.4 & 1.5.
-        The defualt value is `1.4`
+        The defualt value is `1.4
 
     :Example:
     ::

@@ -2,6 +2,7 @@
 __all__ = [
     "ThaiNameTagger",
     "segment",
+    "NamedEntityRecognition",
 ]
 
-from pythainlp.wangchanberta.core import ThaiNameTagger, segment
+from pythainlp.wangchanberta.core import ThaiNameTagger, segment, NamedEntityRecognition

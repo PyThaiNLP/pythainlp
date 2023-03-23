@@ -75,7 +75,7 @@ class ThaiNameTagger:
     """
     Thai named-entity recognizer.
     :param str version: Thai NER version.
-        It's support Thai NER 1.4.
+        It's support Thai NER 1.4 & 1.5.
         The defualt value is `1.4`
 
     :Example:
@@ -93,7 +93,7 @@ class ThaiNameTagger:
 
         :param str version: Thai NER version.
                             It's support Thai NER 1.4 & 1.5.
-                            The defualt value is `1.5`
+                            The defualt value is `1.4`
         """
         from pycrfsuite import Tagger as CRFTagger
 
@@ -102,6 +102,9 @@ class ThaiNameTagger:
         if version == "1.4":
             self.crf.open(get_corpus_path("thainer-1.4", version="1.4"))
             self.pos_tag_name = "orchid_ud"
+        elif version == "1.5":
+            self.crf.open(get_corpus_path("thainer", version="1.5"))
+            self.pos_tag_name = "blackboard"
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False

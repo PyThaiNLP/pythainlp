@@ -192,7 +192,7 @@ class TestTagPackage(unittest.TestCase):
     # ### pythainlp.tag.named_entity
 
     def test_ner(self):
-        ner = ThaiNameTagger()
+        ner = ThaiNameTagger(version="1.5")
         self.assertEqual(ner.get_ner(""), [])
         self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
         self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))

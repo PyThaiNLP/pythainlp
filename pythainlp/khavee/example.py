@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import core 
+import core
 kv = core.KhaveeVerifier()
 
 

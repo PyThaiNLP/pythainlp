@@ -1,5 +1,4 @@
 from pythainlp.tokenize import subword_tokenize
-
 class KhaveeVerifier:
     def check_sara(self,word):
         sara = []
@@ -74,10 +73,6 @@ class KhaveeVerifier:
             sara.remove('เอ')
             sara.remove('อิ')
             sara.append('เออ')        
-        elif 'เอะ' in sara and 'อา' in sara:
-            sara.remove('เอะ')
-            sara.remove('ออ')
-            sara.append('เอาะ')
         elif 'เอ' in sara and 'ออ' in sara and 'อ' in word[-1]:
             sara.remove('เอ')
             sara.remove('ออ')
@@ -98,6 +93,9 @@ class KhaveeVerifier:
             sara.remove('เอ')
             sara.remove('อา')
             sara.append('เอา') 
+        elif 'เ' in word and 'า' in word and 'ะ' in word:
+            sara = []
+            sara.append('เอาะ')
         if 'อือ' in sara and 'เออ' in sara: 
             sara.remove('เออ')
             sara.remove('อือ')
@@ -139,6 +137,7 @@ class KhaveeVerifier:
                 sara.append('ออ') 
         elif sara == [] and len(word) == 3:
             sara.append('ออ') 
+        
         if sara == []:
             return 'Cant find Sara in this word'
         else:
@@ -204,6 +203,19 @@ class KhaveeVerifier:
         else:
             return False
 
+    def get_pronounce(self,text):
+        wak_pronounce = []
+        for word in word_tokenize(text, engine='deepcut',keep_whitespace=False):
+            word = remove_tonemark(remove_dangling(word)) # remove dangling and tone mark to made easier to get payang
+            if len(word) <= 1:
+                wak_pronounce.append(word)
+                # print(1,word)
+                continue
+            for pron in pronunciate(word).split('-'):
+                # print(2,word)
+                wak_pronounce.append(pron)
+        return wak_pronounce
+
     def check_klon(self,text,k_type=8):
         if k_type == 8:
             try:
@@ -214,7 +226,7 @@ class KhaveeVerifier:
                 list_sumpus_sent3 = []
                 list_sumpus_sent4 = []
                 for i, sent in enumerate(text.split()):
-                    sub_sent = subword_tokenize(sent, engine='dict')
+                    sub_sent = subword_tokenize(sent,engine='dict')
                     # print(i)
                     if len(sub_sent) > 10:
                         error.append('In the sentence'+str(i+2)+'there are more than 10 words.'+str(sub_sent))
@@ -248,7 +260,7 @@ class KhaveeVerifier:
                     else:
                         return error
             except:
-                return 'Something went wrong Make sure you enter it in correct form of klon4.'
+                return 'Something went wrong Make sure you enter it in correct form of klon 8.'
         elif k_type == 4:
             try:
                 error = []
@@ -258,7 +270,7 @@ class KhaveeVerifier:
                 list_sumpus_sent3 = []
                 list_sumpus_sent4 = []
                 for i, sent in enumerate(text.split()):
-                    sub_sent = subword_tokenize(sent, engine='dict')
+                    sub_sent = subword_tokenize(sent,engine='dict')
                     if len(sub_sent) > 5:
                         error.append('In the sentence'+str(i+2)+'there are more than 4 words.'+str(sub_sent))
                     if (i+1) % 4 == 1:

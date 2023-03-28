@@ -98,6 +98,7 @@ def nectec_to_ipa(pronunciation: str) -> str:
 
     :Example:
     ::
+
         from pythainlp.util import nectec_to_ipa
  
         print(nectec_to_ipa("kl-uua-j^-2"))
@@ -202,6 +203,7 @@ def ipa_to_rtgs(ipa: str) -> str:
 
     :Example:
     ::
+
         from pythainlp.util import ipa_to_rtgs
  
         print(ipa_to_rtgs("kluaj"))
@@ -232,6 +234,7 @@ def remove_tone_ipa(ipa: str) -> str:
 
     :Example:
     ::
+
         from pythainlp.util import remove_tone_ipa
  
         print(remove_tone_ipa("laː˦˥.sa˨˩.maj˩˩˦"))

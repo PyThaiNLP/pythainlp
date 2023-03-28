@@ -123,6 +123,9 @@ class KhaveeVerifier:
         elif word == 'เอา':
             sara = []
             sara.append('เอา')
+        elif word == 'เอาะ':
+            sara = []
+            sara.append('เอาะ')
         if 'ฤา' in word or 'ฦา' in word:
             sara = []
             sara.append('อือ') 
@@ -202,20 +205,7 @@ class KhaveeVerifier:
             return True
         else:
             return False
-
-    def get_pronounce(self,text):
-        wak_pronounce = []
-        for word in word_tokenize(text, engine='deepcut',keep_whitespace=False):
-            word = remove_tonemark(remove_dangling(word)) # remove dangling and tone mark to made easier to get payang
-            if len(word) <= 1:
-                wak_pronounce.append(word)
-                # print(1,word)
-                continue
-            for pron in pronunciate(word).split('-'):
-                # print(2,word)
-                wak_pronounce.append(pron)
-        return wak_pronounce
-
+            
     def check_klon(self,text,k_type=8):
         if k_type == 8:
             try:

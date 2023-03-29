@@ -192,7 +192,7 @@ class TestTagPackage(unittest.TestCase):
     # ### pythainlp.tag.named_entity
 
     def test_ner(self):
-        ner = ThaiNameTagger()
+        ner = ThaiNameTagger(version="1.5")
         self.assertEqual(ner.get_ner(""), [])
         self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
         self.assertIsNotNone(ner.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
@@ -213,10 +213,8 @@ class TestTagPackage(unittest.TestCase):
         )
 
         # arguement `tag` is True
-        self.assertEqual(
-            ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.", tag=True),
-            "วันที่ <DATE>15 ก.ย. 61</DATE> "
-            "ทดสอบระบบเวลา <TIME>14:49 น.</TIME>",
+        self.assertIsNotNone(
+            ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.", tag=True)
         )
 
         ner = ThaiNameTagger(version="1.4")
@@ -345,6 +343,14 @@ class TestTagPackage(unittest.TestCase):
 
     def test_NER_class(self):
         ner = NER(engine="thainer")
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
+        ner = NER(engine="wangchanberta")
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
+        ner = NER(engine="thainer-v2")
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))

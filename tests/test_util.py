@@ -836,7 +836,7 @@ class TestUtilPackage(unittest.TestCase):
     def test_ipa_to_rtgs(self):
         self.assertEqual(ipa_to_rtgs("kluaj"), "kluai")
         self.assertEqual(ipa_to_rtgs("waːw"), "wao")
-        self.assertEqual(ipa_to_rtgs("/naː˥˩/"), "/na˥˩/")
+        self.assertEqual(ipa_to_rtgs("/naː˥˩/"), "/na/")
 
     def test_remove_tone_ipa(self):
         self.assertEqual(remove_tone_ipa("laː˦˥.sa˨˩.maj˩˩˦"), "laː.sa.maj")

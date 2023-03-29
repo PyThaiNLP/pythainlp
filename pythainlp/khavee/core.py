@@ -1,6 +1,46 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2016-2023 PyThaiNLP Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+from typing import List, Union
 from pythainlp.tokenize import subword_tokenize
+
+
 class KhaveeVerifier:
-    def check_sara(self,word):
+    def __init__(self):
+        """
+        KhaveeVerifier: Thai Poetry verifier
+        """
+        pass
+
+    def check_sara(self, word: str)-> str:
+        """
+        Check the vowels in the Thai word.
+
+        :param str word: Thai word
+        :return: name vowel of the word.
+        :rtype: str
+
+        :Example:
+        ::
+
+            from pythainlp.khavee import KhaveeVerifier
+
+            kv = KhaveeVerifier()
+
+            print(kv.check_sara('เริง'))
+            # output: 'เออ'
+        """
         sara = []
         countoa = 0
         # In case การันย์
@@ -147,10 +187,26 @@ class KhaveeVerifier:
             return sara[0]
 
 
-    def check_marttra(self,word):
+    def check_marttra(self, word: str) -> str:
+        """
+        Check the Thai spelling Section in the Thai word.
+
+        :param str word: Thai word
+        :return: name spelling Section of the word.
+        :rtype: str
+
+        :Example:
+        ::
+
+            from pythainlp.khavee import KhaveeVerifier
+
+            kv = KhaveeVerifier()
+
+            print(kv.check_marttra('สาว'))
+            # output: 'เกอว'
+        """
         if word[-1] == 'ร' and word[-2] in ['ต','ท'] :
             word = word[:-1]
-            # print(word)
         if '์' in word[-1]:
             if 'ิ' in word[-2] or 'ุ' in word[-2]:
                 word = word[:-3]
@@ -182,7 +238,28 @@ class KhaveeVerifier:
         else:
            return 'Cant find Marttra in this word'
 
-    def check_sumpus(self,word1,word2):
+    def check_sumpus(self, word1: str,word2: str) -> bool:
+        """
+        Check the rhyme between two words.
+
+        :param str word1: Thai word
+        :param str word2: Thai word
+        :return: boolen
+        :rtype: bool
+
+        :Example:
+        ::
+
+            from pythainlp.khavee import KhaveeVerifier
+
+            kv = KhaveeVerifier()
+
+            print(kv.check_sumpus('สรร','อัน'))
+            # output: True
+
+            print(kv.check_sumpus('สรร','แมว'))
+            # output: False
+        """
         marttra1 = self.check_marttra(word1)
         marttra2 = self.check_marttra(word2)
         sara1 = self.check_sara(word1)
@@ -199,14 +276,33 @@ class KhaveeVerifier:
         elif sara2 == 'อำ' and marttra2 == 'กม':
             sara2 = 'อำ'
             marttra2 = 'กา'
-        # print(marttra1,marttra2)
-        # print(sara1,sara2)
         if marttra1 == marttra2 and sara1 == sara2:
             return True
         else:
             return False
-            
-    def check_klon(self,text,k_type=8):
+
+    def check_klon(self, text: str,k_type: int=8) -> Union[List[str], str]:
+        """
+        Check the suitability of the poem according to Thai principles.
+
+        :param str text: Thai poem
+        :param int k_type: Type of Thai poem
+        :return: the check of the suitability of the poem according to Thai principles.
+        :rtype: Union[List[str], str]
+
+        :Example:
+        ::
+
+            from pythainlp.khavee import KhaveeVerifier
+
+            kv = KhaveeVerifier()
+
+            print(kv.check_klon('''ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง เอ๋งเอ๋งคะนอง มีคนจับจอง เขาชื่อน้องเธียร''', k_type=4))
+            # output: The poem is correct according to the principle.
+
+            print(kv.check_klon('''ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง เอ๋งเอ๋งเสียงหมา มีคนจับจอง เขาชื่อน้องเธียร''',k_type=4))
+            # # -> ["Cant find rhyme between paragraphs ('หมา', 'จอง')in paragraph 2", "Cant find rhyme between paragraphs ('หมา', 'ทอง')in paragraph 2"]
+        """
         if k_type == 8:
             try:
                 error = []
@@ -299,3 +395,38 @@ class KhaveeVerifier:
             
         else:
             return 'Something went wrong Make sure you enter it in correct form.'
+
+    def check_aek_too(self, text: Union[List[str], str]) -> Union[List[bool], List[str], bool, str]:
+        """
+        Thai tonal word checker
+
+        :param str or list[str] text: Thai word or list of Thai words
+        :return: the check if the word is aek or too or False(not both) or list of the check if input is list
+        :rtype: Union[List[bool], List[str], bool, str]
+
+        :Example:
+        ::
+
+            from pythainlp.khavee import KhaveeVerifier
+
+            kv = KhaveeVerifier()
+
+            # การเช็คคำเอกโท
+            print(kv.check_aek_too('เอง'), kv.check_aek_too('เอ่ง'), kv.check_aek_too('เอ้ง'))
+            ## -> False, aek, too
+            print(kv.check_aek_too(['เอง', 'เอ่ง', 'เอ้ง'])) # ใช้ List ได้เหมือนกัน
+            ## -> [False, 'aek', 'too']
+        """
+        if isinstance(text, list):
+            return [self.check_aek_too(t) for t in text]
+
+        if not isinstance(text, str):
+            raise TypeError('text must be str or iterable list[str]')
+
+        word_characters = [*text]
+        if '่' in word_characters and not '้' in word_characters:
+            return 'aek'
+        elif '้' in word_characters and not '่' in word_characters:
+            return 'too'
+        else:
+            return False

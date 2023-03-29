@@ -113,10 +113,6 @@ class KhaveeVerifier:
             sara.remove('เอ')
             sara.remove('อิ')
             sara.append('เออ')        
-        elif 'เอะ' in sara and 'อา' in sara:
-            sara.remove('เอะ')
-            sara.remove('ออ')
-            sara.append('เอาะ')
         elif 'เอ' in sara and 'ออ' in sara and 'อ' in word[-1]:
             sara.remove('เอ')
             sara.remove('ออ')
@@ -137,6 +133,9 @@ class KhaveeVerifier:
             sara.remove('เอ')
             sara.remove('อา')
             sara.append('เอา') 
+        elif 'เ' in word and 'า' in word and 'ะ' in word:
+            sara = []
+            sara.append('เอาะ')
         if 'อือ' in sara and 'เออ' in sara: 
             sara.remove('เออ')
             sara.remove('อือ')
@@ -164,6 +163,9 @@ class KhaveeVerifier:
         elif word == 'เอา':
             sara = []
             sara.append('เอา')
+        elif word == 'เอาะ':
+            sara = []
+            sara.append('เอาะ')
         if 'ฤา' in word or 'ฦา' in word:
             sara = []
             sara.append('อือ') 
@@ -178,6 +180,7 @@ class KhaveeVerifier:
                 sara.append('ออ') 
         elif sara == [] and len(word) == 3:
             sara.append('ออ') 
+        
         if sara == []:
             return 'Cant find Sara in this word'
         else:
@@ -309,7 +312,7 @@ class KhaveeVerifier:
                 list_sumpus_sent3 = []
                 list_sumpus_sent4 = []
                 for i, sent in enumerate(text.split()):
-                    sub_sent = subword_tokenize(sent, engine='dict')
+                    sub_sent = subword_tokenize(sent,engine='dict')
                     # print(i)
                     if len(sub_sent) > 10:
                         error.append('In the sentence'+str(i+2)+'there are more than 10 words.'+str(sub_sent))
@@ -343,7 +346,7 @@ class KhaveeVerifier:
                     else:
                         return error
             except:
-                return 'Something went wrong Make sure you enter it in correct form of klon4.'
+                return 'Something went wrong Make sure you enter it in correct form of klon 8.'
         elif k_type == 4:
             try:
                 error = []
@@ -353,7 +356,7 @@ class KhaveeVerifier:
                 list_sumpus_sent3 = []
                 list_sumpus_sent4 = []
                 for i, sent in enumerate(text.split()):
-                    sub_sent = subword_tokenize(sent, engine='dict')
+                    sub_sent = subword_tokenize(sent,engine='dict')
                     if len(sub_sent) > 5:
                         error.append('In the sentence'+str(i+2)+'there are more than 4 words.'+str(sub_sent))
                     if (i+1) % 4 == 1:

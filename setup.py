@@ -132,7 +132,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="4.0.0dev0",
+    version="4.0.0beta1",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -165,7 +165,7 @@ setup(
         "Thai language",
     ],
     classifiers=[
-        "Development Status :: 5 - Production/Stable",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python :: 3",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",

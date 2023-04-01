@@ -65,7 +65,7 @@ extras = {
         "sentencepiece>=0.1.91"
     ],
     "mt5": ["transformers>=4.6.0", "sentencepiece>=0.1.91"],
-    "wordnet": ["nltk>=3.3.*"],
+    "wordnet": ["nltk>=3.3"],
     "generate": ["fastai<2.0"],
     "sefr_cut": ["sefr_cut>=1.1"],
     "spell": [
@@ -104,7 +104,7 @@ extras = {
         "epitran>=1.1",
         "fairseq>=0.10.0",
         "gensim>=4.0.0",
-        "nltk>=3.3.*",
+        "nltk>=3.3",
         "numpy>=1.22",
         "pandas>=0.24",
         "pyicu>=2.3",

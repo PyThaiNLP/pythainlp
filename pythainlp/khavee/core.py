@@ -79,13 +79,15 @@ class KhaveeVerifier:
                 sara.append('อัว')
             elif i == 'ไ' or i == 'ใ':
                 sara.append('ไอ') 
+            elif i == '็':
+                sara.append('ออ')
             elif 'รร' in word:
                 if self.check_marttra(word) == 'กม':
                     sara.append('อำ')
                 else:
                     sara.append('อะ')
         # Incase ออ
-        if countoa == 1 and 'อ' in word[-1]:
+        if countoa == 1 and 'อ' in word[-1] and 'เ' not in word:
             sara.remove('ออ')
         # In case เอ เอ 
         countA = 0
@@ -181,7 +183,12 @@ class KhaveeVerifier:
         elif sara == [] and len(word) == 3:
             sara.append('ออ') 
         
-        if sara == []:
+        # incase บ่ 
+        if 'บ่' in word:
+            sara = []
+            sara.append('ออ')
+
+        if sara == []:  
             return 'Cant find Sara in this word'
         else:
             return sara[0]
@@ -236,9 +243,13 @@ class KhaveeVerifier:
         elif word[-1] in ['บ', 'ป', 'พ', 'ฟ', 'ภ']:
             return 'กบ'
         else:
-           return 'Cant find Marttra in this word'
+           if '็' in word:
+               return 'กา'
+           else:
+               return 'Cant find Marttra in this word'
+           
 
-    def check_sumpus(self, word1: str,word2: str) -> bool:
+    def is_sumpus(self, word1: str,word2: str) -> bool:
         """
         Check the rhyme between two words.
 
@@ -254,10 +265,10 @@ class KhaveeVerifier:
 
             kv = KhaveeVerifier()
 
-            print(kv.check_sumpus('สรร','อัน'))
+            print(kv.is_sumpus('สรร','อัน'))
             # output: True
 
-            print(kv.check_sumpus('สรร','แมว'))
+            print(kv.is_sumpus('สรร','แมว'))
             # output: False
         """
         marttra1 = self.check_marttra(word1)
@@ -280,7 +291,13 @@ class KhaveeVerifier:
             return True
         else:
             return False
-
+        
+    def check_karu_lahu(self,text):
+        if (self.check_marttra(text) != 'กา' or (self.check_marttra(text) == 'กา' and self.check_sara(text) in ['อา','อี', 'อือ', 'อู', 'เอ', 'แอ', 'โอ', 'ออ', 'เออ', 'เอีย', 'เอือ' ,'อัว']) or self.check_sara(text) in ['อำ','ไอ','เอา']) and text not in ['บ่','ณ','ธ','ก็']:
+            return 'karu'
+        else:
+            return 'lahu'
+        
     def check_klon(self, text: str,k_type: int=8) -> Union[List[str], str]:
         """
         Check the suitability of the poem according to Thai principles.
@@ -331,15 +348,15 @@ class KhaveeVerifier:
                     for i in range(len(list_sumpus_sent1)):
                         countwrong = 0
                         for j in list_sumpus_sent2h[i]:
-                            if self.check_sumpus(list_sumpus_sent1[i],j) == False:
+                            if self.is_sumpus(list_sumpus_sent1[i],j) == False:
                                     countwrong +=1
                         if  countwrong > 3:
                             error.append('Cant find rhyme between paragraphs '+str((list_sumpus_sent1[i],list_sumpus_sent2h[i]))+'in paragraph '+str(i+1))
-                        if self.check_sumpus(list_sumpus_sent2l[i],list_sumpus_sent3[i]) == False:
+                        if self.is_sumpus(list_sumpus_sent2l[i],list_sumpus_sent3[i]) == False:
                             # print(sumpus_sent2l,sumpus_sent3)
                             error.append('Cant find rhyme between paragraphs '+str((list_sumpus_sent2l[i],list_sumpus_sent3[i]))+'in paragraph '+str(i+1))
                         if i > 0:
-                            if self.check_sumpus(list_sumpus_sent2l[i],list_sumpus_sent4[i-1]) == False:
+                            if self.is_sumpus(list_sumpus_sent2l[i],list_sumpus_sent4[i-1]) == False:
                                 error.append('Cant find rhyme between paragraphs '+str((list_sumpus_sent2l[i],list_sumpus_sent4[i-1]))+'in paragraph '+str(i+1))
                     if error == []:
                         return 'The poem is correct according to the principle.'
@@ -376,15 +393,15 @@ class KhaveeVerifier:
                         countwrong = 0
                         for j in list_sumpus_sent2h[i]:
                             # print(list_sumpus_sent1[i],j)
-                            if self.check_sumpus(list_sumpus_sent1[i],j) == False:
+                            if self.is_sumpus(list_sumpus_sent1[i],j) == False:
                                     countwrong +=1
                         if  countwrong > 1:
                             error.append('Cant find rhyme between paragraphs '+str((list_sumpus_sent1[i],list_sumpus_sent2h[i]))+'in paragraph '+str(i+1))
-                        if self.check_sumpus(list_sumpus_sent2l[i],list_sumpus_sent3[i]) == False:
+                        if self.is_sumpus(list_sumpus_sent2l[i],list_sumpus_sent3[i]) == False:
                             # print(sumpus_sent2l,sumpus_sent3)
                             error.append('Cant find rhyme between paragraphs '+str((list_sumpus_sent2l[i],list_sumpus_sent3[i]))+'in paragraph '+str(i+1))
                         if i > 0:
-                            if self.check_sumpus(list_sumpus_sent2l[i],list_sumpus_sent4[i-1]) == False:
+                            if self.is_sumpus(list_sumpus_sent2l[i],list_sumpus_sent4[i-1]) == False:
                                 error.append('Cant find rhyme between paragraphs '+str((list_sumpus_sent2l[i],list_sumpus_sent4[i-1]))+'in paragraph '+str(i+1))
                     if error == []:
                         return 'The poem is correct according to the principle.'

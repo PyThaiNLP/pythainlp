@@ -4,20 +4,27 @@ kv = core.KhaveeVerifier()
 
 
 # การเช็คสระ
-print('เริง',kv.check_sara('เริง'))
+print('เออ',kv.check_sara('เมอ'))
 # 'เออ'
 
 # การเช็คมาตราตัวสะกด
-print('สาว',kv.check_marttra('สาว'))
+print('เทอว',kv.check_marttra('เทอว'))
 # 'เกอว'
 
 # การตรวจสอบคำสำผัสที่ถูกต้อง
-print('สรร อัน',kv.check_sumpus('สรร','อัน'))
+print('สรร อัน',kv.is_sumpus('สรร','อัน'))
 # True
 
 # การตรวจสอบคำสำผัสที่ผิด
-print('สรร อัน',kv.check_sumpus('หมัน','อัน'))
+print('สรร ขวาน',kv.is_sumpus('สรร','ขวาน'))
 # False
+
+# การตรวจสอบคำ ครุ ลหุ 
+print('สรร',kv.check_karu_lahu('สรร'))
+#karu
+# การตรวจสอบคำ ครุ ลหุ 
+print('ชิชะ',kv.check_karu_lahu('ชิชะ'))
+# lahu
 
 # การตรวจสอบกลอน 8 ที่ถูกฉันทลักษณ์
 print(kv.check_klon('''ณรงค์วุฒิผู้เปี่ยมวุฒิสมสง่า มากวิชาหาความรู้ไปสู่ผล 

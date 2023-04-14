@@ -1,4 +1,17 @@
 ﻿# -*- coding: utf-8 -*-
+# Copyright (C) 2016-2023 PyThaiNLP Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 """
 Setup script for PyThaiNLP.
 
@@ -73,7 +86,6 @@ extras = {
         "spylls>=0.1.5",
         "symspellpy>=6.7.6"
     ],
-    "tltk": ["tltk>=1.3.8"],
     "oskut": ["oskut>=1.3"],
     "nlpo3": ["nlpo3>=1.2.2"],
     "onnx": [
@@ -119,7 +131,6 @@ extras = {
         "phunspell>=0.1.6",
         "spylls>=0.1.5",
         "symspellpy>=6.7.6",
-        "tltk>=1.3.8",
         "oskut>=1.3",
         "nlpo3>=1.2.2",
         "onnxruntime>=1.10.0",
@@ -132,7 +143,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="4.0.0beta1",
+    version="4.0.0",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -165,7 +176,7 @@ setup(
         "Thai language",
     ],
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Programming Language :: Python :: 3",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",
@@ -181,7 +192,7 @@ setup(
         ],
     },
     project_urls={
-        "Documentation": "https://pythainlp.github.io/docs/3.0/",
+        "Documentation": "https://pythainlp.github.io/docs/4.0/",
         "Tutorials": "https://pythainlp.github.io/tutorials/",
         "Source Code": "https://github.com/PyThaiNLP/pythainlp",
         "Bug Tracker": "https://github.com/PyThaiNLP/pythainlp/issues",

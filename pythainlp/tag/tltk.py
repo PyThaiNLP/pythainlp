@@ -13,7 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from typing import List, Tuple, Union
-from tltk import nlp
+try:
+    from tltk import nlp
+except ImportError:
+    raise ImportError("Not found tltk! Please install tltk by pip install tltk")
 from pythainlp.tokenize import word_tokenize
 
 nlp.pos_load()

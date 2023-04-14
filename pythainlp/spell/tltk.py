@@ -21,7 +21,10 @@ Thai Language Toolkit
     * \
         https://pypi.org/project/tltk/
 """
-from tltk.nlp import spell_candidates
+try:
+    from tltk.nlp import spell_candidates
+except ImportError:
+    raise ImportError("Not found tltk! Please install tltk by pip install tltk")
 from typing import List
 
 

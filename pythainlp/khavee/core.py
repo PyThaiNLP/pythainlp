@@ -14,6 +14,7 @@
 # limitations under the License.
 from typing import List, Union
 from pythainlp.tokenize import subword_tokenize
+from pythainlp.util import sound_syllable
 
 
 class KhaveeVerifier:

@@ -12,9 +12,9 @@ class TestKhaveePackage(unittest.TestCase):
     def test_check_marttra(self):
         self.assertEqual(kv.check_marttra('สาว'), 'เกอว')
 
-    def test_check_sumpus(self):
-        self.assertTrue(kv.check_sumpus('สรร','อัน'))
-        self.assertFalse(kv.check_sumpus('สรร','แมว'))
+    def test_is_sumpus(self):
+        self.assertTrue(kv.is_sumpus('สรร','อัน'))
+        self.assertFalse(kv.is_sumpus('สรร','แมว'))
     
     def test_check_klon(self):
         self.assertEqual(

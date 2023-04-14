@@ -86,7 +86,6 @@ extras = {
         "spylls>=0.1.5",
         "symspellpy>=6.7.6"
     ],
-    "tltk": ["tltk>=1.3.8"],
     "oskut": ["oskut>=1.3"],
     "nlpo3": ["nlpo3>=1.2.2"],
     "onnx": [
@@ -132,7 +131,6 @@ extras = {
         "phunspell>=0.1.6",
         "spylls>=0.1.5",
         "symspellpy>=6.7.6",
-        "tltk>=1.3.8",
         "oskut>=1.3",
         "nlpo3>=1.2.2",
         "onnxruntime>=1.10.0",

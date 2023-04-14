@@ -13,8 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from typing import List
-from tltk.nlp import word_segment as tltk_segment
-from tltk.nlp import syl_segment
+try:
+    from tltk.nlp import word_segment as tltk_segment
+    from tltk.nlp import syl_segment
+except ImportError:
+    raise ImportError("Not found tltk! Please install tltk by pip install tltk")
 
 
 def segment(text: str) -> List[str]:

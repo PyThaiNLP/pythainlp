@@ -12,7 +12,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from tltk.nlp import g2p, th2ipa, th2roman
+try:
+    from tltk.nlp import g2p, th2ipa, th2roman
+except ImportError:
+    raise ImportError("Not found tltk! Please install tltk by pip install tltk")
 
 
 def romanize(text: str) -> str:

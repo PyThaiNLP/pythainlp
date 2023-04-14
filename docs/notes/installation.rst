@@ -28,7 +28,6 @@ where ``extras`` can be
   - ``wordnet`` (to support wordnet)
   - ``spell`` (to support phunspell & symspellpy)
   - ``generate`` (to support text generate with umlfit or thai2fit)
-  - ``tltk`` (to support tltk)
   - ``textaugment`` (to support text augmentation)
   - ``oskut`` (to support OSKUT)
   - ``nlpo3`` (to support nlpo3 engine)

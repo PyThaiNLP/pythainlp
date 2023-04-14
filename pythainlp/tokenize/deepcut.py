@@ -24,7 +24,10 @@ User need to install deepcut (and its dependency: tensorflow) by themselves.
 
 from typing import List, Union
 
-from deepcut import tokenize
+try:
+    from deepcut import tokenize
+except ImportError:
+    raise ImportError("Please install deepcut by pip install deepcut")
 from pythainlp.util import Trie
 
 

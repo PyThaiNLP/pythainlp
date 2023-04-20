@@ -1,4 +1,17 @@
 # -*- coding: utf-8 -*-
+# Copyright (C) 2016-2023 PyThaiNLP Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 """
 Named-entity recognizer
 """
@@ -73,10 +86,11 @@ def _doc2features(doc, i) -> Dict:
 
 class ThaiNameTagger:
     """
-    Thai named-entity recognizer.
+    Thai named-entity recognizer or Thai NER.
+    This function support Thai NER 1.4 and 1.5 only.
     :param str version: Thai NER version.
-        It's support Thai NER 1.4.
-        The defualt value is `1.4`
+        It's support Thai NER 1.4 & 1.5.
+        The defualt value is `1.4
 
     :Example:
     ::
@@ -93,7 +107,7 @@ class ThaiNameTagger:
 
         :param str version: Thai NER version.
                             It's support Thai NER 1.4 & 1.5.
-                            The defualt value is `1.5`
+                            The defualt value is `1.4`
         """
         from pycrfsuite import Tagger as CRFTagger
 
@@ -102,6 +116,9 @@ class ThaiNameTagger:
         if version == "1.4":
             self.crf.open(get_corpus_path("thainer-1.4", version="1.4"))
             self.pos_tag_name = "orchid_ud"
+        elif version == "1.5":
+            self.crf.open(get_corpus_path("thainer", version="1.5"))
+            self.pos_tag_name = "blackboard"
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False

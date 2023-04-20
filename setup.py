@@ -1,4 +1,17 @@
 ﻿# -*- coding: utf-8 -*-
+# Copyright (C) 2016-2023 PyThaiNLP Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 """
 Setup script for PyThaiNLP.
 
@@ -65,7 +78,7 @@ extras = {
         "sentencepiece>=0.1.91"
     ],
     "mt5": ["transformers>=4.6.0", "sentencepiece>=0.1.91"],
-    "wordnet": ["nltk>=3.3.*"],
+    "wordnet": ["nltk>=3.3"],
     "generate": ["fastai<2.0"],
     "sefr_cut": ["sefr_cut>=1.1"],
     "spell": [
@@ -73,7 +86,6 @@ extras = {
         "spylls>=0.1.5",
         "symspellpy>=6.7.6"
     ],
-    "tltk": ["tltk>=1.3.8"],
     "oskut": ["oskut>=1.3"],
     "nlpo3": ["nlpo3>=1.2.2"],
     "onnx": [
@@ -104,7 +116,7 @@ extras = {
         "epitran>=1.1",
         "fairseq>=0.10.0",
         "gensim>=4.0.0",
-        "nltk>=3.3.*",
+        "nltk>=3.3",
         "numpy>=1.22",
         "pandas>=0.24",
         "pyicu>=2.3",
@@ -119,7 +131,6 @@ extras = {
         "phunspell>=0.1.6",
         "spylls>=0.1.5",
         "symspellpy>=6.7.6",
-        "tltk>=1.3.8",
         "oskut>=1.3",
         "nlpo3>=1.2.2",
         "onnxruntime>=1.10.0",
@@ -132,7 +143,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="4.0.0dev0",
+    version="4.0.0",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -181,7 +192,7 @@ setup(
         ],
     },
     project_urls={
-        "Documentation": "https://pythainlp.github.io/docs/3.0/",
+        "Documentation": "https://pythainlp.github.io/docs/4.0/",
         "Tutorials": "https://pythainlp.github.io/tutorials/",
         "Source Code": "https://github.com/PyThaiNLP/pythainlp",
         "Bug Tracker": "https://github.com/PyThaiNLP/pythainlp/issues",

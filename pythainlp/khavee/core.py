@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import List, Union
 from pythainlp.tokenize import subword_tokenize
-
+from pythainlp.util import sound_syllable
 
 class KhaveeVerifier:
     def __init__(self):
@@ -380,11 +380,11 @@ class KhaveeVerifier:
         else:
             return 'Something went wrong Make sure you enter it in correct form.'
 
-    def check_aek_too(self, text: Union[List[str], str]) -> Union[List[bool], List[str], bool, str]:
+    def check_aek_too(self, text: Union[List[str], str], dead_syllable_as_aek:bool = False) -> Union[List[bool], List[str], bool, str]:
         """
         Thai tonal word checker
 
-        :param str or list[str] text: Thai word or list of Thai words
+        :param str or list[str] text: Thai word or list of Thai words, bool dead_syllable_as_aek: if True, dead syllable will be considered as aek
         :return: the check if the word is aek or too or False(not both) or list of the check if input is list
         :rtype: Union[List[bool], List[str], bool, str]
 
@@ -402,7 +402,7 @@ class KhaveeVerifier:
             ## -> [False, 'aek', 'too']
         """
         if isinstance(text, list):
-            return [self.check_aek_too(t) for t in text]
+            return [self.check_aek_too(t, dead_syllable_as_aek) for t in text]
 
         if not isinstance(text, str):
             raise TypeError('text must be str or iterable list[str]')
@@ -412,5 +412,7 @@ class KhaveeVerifier:
             return 'aek'
         elif '้' in word_characters and not '่' in word_characters:
             return 'too'
+        if dead_syllable_as_aek and sound_syllable(text) == 'dead':
+            return 'aek'
         else:
             return False

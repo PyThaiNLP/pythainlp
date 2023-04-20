@@ -214,11 +214,7 @@ class KhaveeVerifier:
         """
         if word[-1] == 'ร' and word[-2] in ['ต','ท'] :
             word = word[:-1]
-        if '์' in word[-1]:
-            if 'ิ' in word[-2] or 'ุ' in word[-2]:
-                word = word[:-3]
-            else:
-                word = word[:-2]
+        word = self.handle_karun_sound_silenced(word)
         if 'ำ' in word or ('ํ' in word and 'า' in word) or 'ไ' in word or 'ใ' in word:
             return 'กา'
         elif word[-1] in ['า','ะ','ิ','ี','ุ','ู','อ'] or ('ี' in word and 'ย' in word[-1]) or ('ื' in word and 'อ' in word[-1]):
@@ -451,3 +447,22 @@ class KhaveeVerifier:
             return 'aek'
         else:
             return False
+
+    def handle_karun_sound_silence(text: str) -> str:
+        """
+        Handle sound silence in Thai word using '์' character (Karun)
+        by stripping all the characters before the 'Karun' character that should be silenced
+
+        :param str text: Thai word
+        :return: Thai word with silence word stripped
+        :rtype: str
+        """
+        sound_silenced = True if word.endswith('์') else False
+        if not sound_silenced:
+            return text
+        thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"
+        locate_silenced = word.rfind('์') - 1
+        can_silence_two = True if word[locate_silenced-2] in thai_consonants else False
+        cut_off = 2 if can_silence_two else 1
+        word = word[:locate_silenced + 1 - cut_off]
+        return word

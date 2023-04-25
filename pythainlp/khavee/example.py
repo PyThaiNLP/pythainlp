@@ -66,3 +66,5 @@ print(kv.check_aek_too('เอง'), kv.check_aek_too('เอ่ง'), kv.check_
 # -> False, aek, too
 print(kv.check_aek_too(['เอง', 'เอ่ง', 'เอ้ง'])) # ใช้ List ได้เหมือนกัน
 # -> [False, 'aek', 'too']
+print(kv.check_aek_too(['ห๊ะ', 'เอ่ง', 'เอ้ง'], dead_syllable_as_aek=True)) # ใช้ List ได้เหมือนกัน และสามารถตั้งค่า ให้นับคำที่เสียงตายเป็นเอกได้ ตามการเช็คคฉันทลักษณ์กลอน
+# -> ['aek', 'aek', 'too']

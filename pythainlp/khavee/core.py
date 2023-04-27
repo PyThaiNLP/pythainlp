@@ -413,8 +413,8 @@ class KhaveeVerifier:
     def check_aek_too(self, text: Union[List[str], str], dead_syllable_as_aek:bool = False) -> Union[List[bool], List[str], bool, str]:
         """
         Thai tonal word checker
-
-        :param str or list[str] text: Thai word or list of Thai words
+        :param Union[List[str], str] text: Thai word or list of Thai words
+        :param bool dead_syllable_as_aek: if True, dead syllable will be considered as aek
         :return: the check if the word is aek or too or False(not both) or list of the check if input is list
         :rtype: Union[List[bool], List[str], bool, str]
 

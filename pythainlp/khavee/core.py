@@ -15,7 +15,7 @@
 from typing import List, Union
 from pythainlp.tokenize import subword_tokenize
 from pythainlp.util import sound_syllable
-
+from pythainlp.util import remove_tonemark
 class KhaveeVerifier:
     def __init__(self):
         """
@@ -215,6 +215,7 @@ class KhaveeVerifier:
         if word[-1] == 'ร' and word[-2] in ['ต','ท'] :
             word = word[:-1]
         word = self.handle_karun_sound_silence(word)
+        word = remove_tonemark(word)
         if 'ำ' in word or ('ํ' in word and 'า' in word) or 'ไ' in word or 'ใ' in word:
             return 'กา'
         elif word[-1] in ['า','ะ','ิ','ี','ุ','ู','อ'] or ('ี' in word and 'ย' in word[-1]) or ('ื' in word and 'อ' in word[-1]):

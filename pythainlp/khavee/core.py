@@ -184,10 +184,12 @@ class KhaveeVerifier:
             sara.append('ออ') 
         
         # incase บ่ 
-        if 'บ่' in word:
+        if 'บ่' == word:
             sara = []
             sara.append('ออ')
-
+        if 'ํ' in word:
+            sara = []
+            sara.append('อำ')
         if sara == []:  
             return 'Cant find Sara in this word'
         else:

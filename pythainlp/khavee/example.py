@@ -16,12 +16,13 @@ print('สรร อัน',kv.is_sumpus('สรร','อัน'))
 # True
 
 # การตรวจสอบคำสำผัสที่ผิด
-print('สรร ขวาน',kv.is_sumpus('สรร','ขวาน'))
+print('นํ้า กา',kv.is_sumpus('นํ้า','กา'))
 # False
 
 # การตรวจสอบคำ ครุ ลหุ 
 print('สรร',kv.check_karu_lahu('สรร'))
 #karu
+
 # การตรวจสอบคำ ครุ ลหุ 
 print('ชิชะ',kv.check_karu_lahu('ชิชะ'))
 # lahu

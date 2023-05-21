@@ -190,6 +190,9 @@ class KhaveeVerifier:
         if 'ํ' in word:
             sara = []
             sara.append('อำ')
+        if 'เ' in word and 'ื' in word and 'อ' in word:
+            sara = []
+            sara.append('เอือ')
         if sara == []:  
             return 'Cant find Sara in this word'
         else:

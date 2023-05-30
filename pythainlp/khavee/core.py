@@ -15,8 +15,7 @@
 from typing import List, Union
 from pythainlp.tokenize import subword_tokenize
 from pythainlp.util import sound_syllable
-
-
+from pythainlp.util import remove_tonemark
 class KhaveeVerifier:
     def __init__(self):
         """
@@ -185,10 +184,15 @@ class KhaveeVerifier:
             sara.append('ออ') 
         
         # incase บ่ 
-        if 'บ่' in word:
+        if 'บ่' == word:
             sara = []
             sara.append('ออ')
-
+        if 'ํ' in word:
+            sara = []
+            sara.append('อำ')
+        if 'เ' in word and 'ื' in word and 'อ' in word:
+            sara = []
+            sara.append('เอือ')
         if sara == []:  
             return 'Cant find Sara in this word'
         else:
@@ -215,11 +219,8 @@ class KhaveeVerifier:
         """
         if word[-1] == 'ร' and word[-2] in ['ต','ท'] :
             word = word[:-1]
-        if '์' in word[-1]:
-            if 'ิ' in word[-2] or 'ุ' in word[-2]:
-                word = word[:-3]
-            else:
-                word = word[:-2]
+        word = self.handle_karun_sound_silence(word)
+        word = remove_tonemark(word)
         if 'ำ' in word or ('ํ' in word and 'า' in word) or 'ไ' in word or 'ใ' in word:
             return 'กา'
         elif word[-1] in ['า','ะ','ิ','ี','ุ','ู','อ'] or ('ี' in word and 'ย' in word[-1]) or ('ื' in word and 'อ' in word[-1]):
@@ -417,7 +418,6 @@ class KhaveeVerifier:
     def check_aek_too(self, text: Union[List[str], str], dead_syllable_as_aek:bool = False) -> Union[List[bool], List[str], bool, str]:
         """
         Thai tonal word checker
-
         :param Union[List[str], str] text: Thai word or list of Thai words
         :param bool dead_syllable_as_aek: if True, dead syllable will be considered as aek
         :return: the check if the word is aek or too or False(not both) or list of the check if input is list
@@ -453,3 +453,22 @@ class KhaveeVerifier:
             return 'aek'
         else:
             return False
+
+    def handle_karun_sound_silence(self, word: str) -> str:
+        """
+        Handle sound silence in Thai word using '์' character (Karun)
+        by stripping all the characters before the 'Karun' character that should be silenced
+
+        :param str text: Thai word
+        :return: Thai word with silence word stripped
+        :rtype: str
+        """
+        sound_silenced = True if word.endswith('์') else False
+        if not sound_silenced:
+            return word
+        thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"
+        locate_silenced = word.rfind('์') - 1
+        can_silence_two = True if word[locate_silenced-2] in thai_consonants else False
+        cut_off = 2 if can_silence_two else 1
+        word = word[:locate_silenced + 1 - cut_off]
+        return word

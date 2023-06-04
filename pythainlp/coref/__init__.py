@@ -15,5 +15,5 @@
 """
 PyThaiNLP Coreference Resolution
 """
-__all__ = ["CoreferenceResolution"]
+__all__ = ["coreference_resolution"]
 from pythainlp.coref.core import coreference_resolution

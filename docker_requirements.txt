@@ -10,7 +10,7 @@ epitran==1.9
 sacremoses==0.0.41
 sentencepiece==0.1.91
 ssg==0.0.8
-torch==1.8.1
+torch==1.13.1
 fastai==1.0.61
 transformers==4.22.1
 phunspell==0.1.6

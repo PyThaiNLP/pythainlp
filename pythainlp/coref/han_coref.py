@@ -17,7 +17,7 @@ import spacy
 
 
 class HanCoref(FastCoref):
-    def __init__(self,device="cpu",nlp=spacy.blank("th")) -> None:
+    def __init__(self,device:str="cpu",nlp=spacy.blank("th")) -> None:
         super(self.__class__, self).__init__(
             model_name="pythainlp/han-coref-v1.0",
             device=device,

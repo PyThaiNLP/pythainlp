@@ -12,11 +12,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from typing import List
 import spacy
 
 
 class FastCoref:
-    def __init__(self, model_name, nlp=spacy.blank("th"), device="cpu", type="FCoref") -> None:
+    def __init__(self, model_name, nlp=spacy.blank("th"), device:str="cpu", type:str="FCoref") -> None:
         if type == "FCoref":
             from fastcoref import FCoref as _model
         else:
@@ -25,5 +26,13 @@ class FastCoref:
         self.nlp = nlp
         self.model = _model(self.model_name,device=device,nlp=self.nlp)
     
-    def predict(self, texts:list):
-        return self.model.predict(texts=texts)
+    def _to_json(self, _predict):
+        return {
+            "text":_predict.text,
+            "clusters_string":_predict.get_clusters(as_strings=True),
+            "clusters":_predict.get_clusters(as_strings=False)
+        }
+
+    
+    def predict(self, texts:List[str])->dict:
+        return [self._to_json(i) for i in self.model.predict(texts=texts)]

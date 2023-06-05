@@ -439,6 +439,61 @@ def sent_tokenize(
     return segments
 
 
+def paragraph_tokenize(text: str, engine: str = "wtp-mini") -> List[List[str]]:
+    """
+    Paragraph tokenizer.
+
+    Tokenizes text into paragraph.
+
+    :param str text: text to be tokenized
+    :param str engine: the name paragraph tokenizer
+    :return: list of paragraph
+    :rtype: List[List[str]]
+    **Options for engine**
+        * *wtp* - split by `wtpsplitaxe <https://github.com/bminixhofer/wtpsplit>`_., \
+            It support many size of models. You can use ``wtp`` to use mini model, \
+            ``wtp-tiny`` to use ``wtp-bert-tiny`` model (default), \
+            ``wtp-mini`` to use ``wtp-bert-mini`` model, \
+            ``wtp-base`` to use ``wtp-canine-s-1l`` model, \
+            and ``wtp-large`` to use ``wtp-canine-s-12l`` model.
+
+    :Example:
+
+    Split the text based on *wtp*::
+
+        from pythainlp.tokenize import paragraph_tokenize
+
+        sent = (
+            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมาจากผลงานวิจัยที่เคยทำมาในอดีต"
+            +"  มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด"
+            +" จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้"
+        )
+
+        paragraph_tokenize(sent)
+        # output: [
+        # ['(1) '], 
+        # [
+        #   'บทความนี้ผู้เขียนสังเคราะห์ขึ้นมาจากผลงานวิจัยที่เคยทำมาในอดีต  ',
+        #   'มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด ',
+        #   'จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ',
+        #   'ณ ที่นี้'
+        # ]]
+    """
+    if engine.startswith("wtp"):
+        if "-" not in engine:
+            _size="mini"
+        else:
+            _size = engine.split("-")[-1]
+        from pythainlp.tokenize.wtsplit import tokenize as segment
+        segments = segment(text,size=_size,tokenize="paragraph")
+    else:
+        raise ValueError(
+            f"""Tokenizer \"{engine}\" not found.
+            It might be a typo; if not, please consult our document."""
+        )
+    return segments
+
+
 def subword_tokenize(
     text: str,
     engine: str = DEFAULT_SUBWORD_TOKENIZE_ENGINE,

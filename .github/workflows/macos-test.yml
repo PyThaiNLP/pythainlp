@@ -73,7 +73,7 @@ jobs:
         pip install pytest coverage coveralls
         conda install -c conda-forge icu
         conda install -c conda-forge pyicu
-        if [ -f docker_requirements.txt ]; then pip install -r docker_requirements.txt; fi
+        if [ -f docker_requirements.txt ]; then SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True pip install -r docker_requirements.txt; fi
         pip install deepcut tltk
         pip install .[full]
         python -m nltk.downloader omw-1.4

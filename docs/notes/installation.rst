@@ -35,6 +35,7 @@ where ``extras`` can be
   - ``esupar`` (to support esupar engine)
   - ``transformers_ud`` (to support transformers_ud engine)
   - ``dependency_parsing`` (to support dependency parsing with all engine)
+  - ``coreference_resolution`` (to support coreference esolution with all engine)
   - ``full`` (install everything)
 
 For dependency details, look at `extras` variable in `setup.py <https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py>`_.

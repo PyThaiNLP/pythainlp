@@ -109,6 +109,10 @@ extras = {
         "ufal.chu-liu-edmonds>=1.0.2",
         "transformers>=4.22.1",
     ],
+    "coreference_resolution":{
+        "spacy>=3.0",
+        "fastcoref>=2.1.5",
+    },
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -137,6 +141,8 @@ extras = {
         "thai_nner",
         "wunsen>=0.0.3",
         "spacy_thai>=0.7.1",
+        "spacy>=3.0",
+        "fastcoref>=2.1.5",
         "ufal.chu-liu-edmonds>=1.0.2",
     ],
 }

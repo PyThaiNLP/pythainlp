@@ -306,6 +306,30 @@ class TestTokenizePackage(unittest.TestCase):
                 engine="thaisum",
             ),
         )
+        self.assertIsNotNone(
+            sent_tokenize(
+                sent_3,
+                engine="wtp",
+            ),
+        )
+        self.assertIsNotNone(
+            sent_tokenize(
+                sent_3,
+                engine="wtp-tiny",
+            ),
+        )
+        self.assertIsNotNone(
+            sent_tokenize(
+                sent_3,
+                engine="wtp-base",
+            ),
+        )
+        self.assertIsNotNone(
+            sent_tokenize(
+                sent_3,
+                engine="wtp-large",
+            ),
+        )
         self.assertFalse(
             " "
             in sent_tokenize(

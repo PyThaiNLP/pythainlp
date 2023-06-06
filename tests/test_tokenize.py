@@ -350,6 +350,8 @@ class TestTokenizePackage(unittest.TestCase):
             + " จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้"
         )
         self.assertIsNotNone(paragraph_tokenize(sent))
+        with self.assertRaises(ValueError):
+            paragraph_tokenize(sent, engine="ai2+2thai")
 
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])

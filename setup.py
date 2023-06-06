@@ -78,6 +78,7 @@ extras = {
         "sentencepiece>=0.1.91"
     ],
     "mt5": ["transformers>=4.6.0", "sentencepiece>=0.1.91"],
+    "wtp": ["transformers>=4.6.0", "wtpsplit>=1.0.1"],
     "wordnet": ["nltk>=3.3"],
     "generate": ["fastai<2.0"],
     "sefr_cut": ["sefr_cut>=1.1"],
@@ -140,6 +141,7 @@ extras = {
         "onnxruntime>=1.10.0",
         "thai_nner",
         "wunsen>=0.0.3",
+        "wtpsplit>=1.0.1",
         "spacy_thai>=0.7.1",
         "spacy>=3.0",
         "fastcoref>=2.1.5",

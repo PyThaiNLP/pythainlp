@@ -23,6 +23,7 @@ from pythainlp.tokenize import (
     tltk,
     oskut,
     word_detokenize,
+    paragraph_tokenize,
 )
 from pythainlp.tokenize import clause_tokenize as sent_clause_tokenize
 from pythainlp.util import dict_trie
@@ -306,6 +307,30 @@ class TestTokenizePackage(unittest.TestCase):
                 engine="thaisum",
             ),
         )
+        self.assertIsNotNone(
+            sent_tokenize(
+                sent_3,
+                engine="wtp",
+            ),
+        )
+        self.assertIsNotNone(
+            sent_tokenize(
+                sent_3,
+                engine="wtp-tiny",
+            ),
+        )
+        # self.assertIsNotNone(
+        #     sent_tokenize(
+        #         sent_3,
+        #         engine="wtp-base",
+        #     ),
+        # )
+        # self.assertIsNotNone(
+        #     sent_tokenize(
+        #         sent_3,
+        #         engine="wtp-large",
+        #     ),
+        # )
         self.assertFalse(
             " "
             in sent_tokenize(
@@ -316,6 +341,17 @@ class TestTokenizePackage(unittest.TestCase):
         )
         with self.assertRaises(ValueError):
             sent_tokenize("ฉันไป กิน", engine="XX")  # engine does not exist
+
+    def test_paragraph_tokenize(self):
+        sent = (
+            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา"
+            + "จากผลงานวิจัยที่เคยทำมาในอดีต"
+            + " มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด"
+            + " จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้"
+        )
+        self.assertIsNotNone(paragraph_tokenize(sent))
+        with self.assertRaises(ValueError):
+            paragraph_tokenize(sent, engine="ai2+2thai")
 
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])

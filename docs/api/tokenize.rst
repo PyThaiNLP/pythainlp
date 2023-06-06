@@ -10,6 +10,7 @@ Modules
 
 .. autofunction:: clause_tokenize
 .. autofunction:: sent_tokenize
+.. autofunction:: paragraph_tokenize
 .. autofunction:: subword_tokenize
 .. autofunction:: word_tokenize
 .. autofunction:: word_detokenize

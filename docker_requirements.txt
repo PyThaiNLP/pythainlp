@@ -34,4 +34,5 @@ khanaa==0.0.6
 spacy_thai==0.7.1
 esupar==1.3.8
 ufal.chu-liu-edmonds==1.0.2
+wtpsplit==1.0.1
 fastcoref==2.1.6

@@ -132,7 +132,7 @@ Make sure the same tests pass on Travis CI and AppVeyor.
 Thanks all the [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contributors). (Image made with [contributors-img](https://contributors-img.firebaseapp.com))
 
 ### Development Lead
-- Wannaphong Phatthiyaphaibun <email@wannaphong.com> - founder, distribution and maintainance
+- Wannaphong Phatthiyaphaibun <wannaphong@yahoo.com> - founder, distribution and maintainance
 - Korakot Chaovavanich - initial tokenization and soundex code
 - Charin Polpanumas - classification and benchmarking
 - Peeradej Tanruangporn - documentation

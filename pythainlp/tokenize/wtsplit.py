@@ -28,7 +28,8 @@ def _tokenize(
         text:str,
         lang_code:str="th",
         model:str="wtp-bert-mini",
-        tokenize:str="sentence"
+        tokenize:str="sentence",
+        paragraph_threshold:float=0.5,
     )-> List[str]:
     global _MODEL_NAME,_MODEL
     if _MODEL_NAME != model:
@@ -40,11 +41,12 @@ def _tokenize(
         return _MODEL.split(
             text,
             lang_code=lang_code,
-            do_paragraph_segmentation=True
+            do_paragraph_segmentation=True,
+            paragraph_threshold=paragraph_threshold
         )
 
 
-def tokenize(text:str, size:str="mini", tokenize:str="sentence")-> List[str]:
+def tokenize(text:str, size:str="mini", tokenize:str="sentence", paragraph_threshold:float=0.5)-> List[str]:
     _model_load=""
     if size=="tiny":
         _model_load="wtp-bert-tiny"
@@ -54,4 +56,4 @@ def tokenize(text:str, size:str="mini", tokenize:str="sentence")-> List[str]:
         _model_load="wtp-canine-s-12l"
     else:  # mini
         _model_load="wtp-bert-mini"
-    return _tokenize(text, model=_model_load,tokenize=tokenize)
+    return _tokenize(text, model=_model_load,tokenize=tokenize,paragraph_threshold=paragraph_threshold)

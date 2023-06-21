@@ -114,6 +114,9 @@ extras = {
         "spacy>=3.0",
         "fastcoref>=2.1.5",
     },
+    "word_approximation":{
+        "panphon>=0.20.0"
+    },
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -146,6 +149,7 @@ extras = {
         "spacy>=3.0",
         "fastcoref>=2.1.5",
         "ufal.chu-liu-edmonds>=1.0.2",
+        "panphon>=0.20.0",
     ],
 }
 

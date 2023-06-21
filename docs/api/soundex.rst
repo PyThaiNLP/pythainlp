@@ -12,6 +12,9 @@ Modules
 .. autofunction:: udom83
 .. autofunction:: metasound
 .. autofunction:: prayut_and_somchaip
+.. autofunction:: pythainlp.soundex.sound.word_approximation
+.. autofunction:: pythainlp.soundex.sound.audio_vector
+.. autofunction:: pythainlp.soundex.sound.word2audio
 
 References
 ----------

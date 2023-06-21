@@ -3,6 +3,7 @@
 import unittest
 
 from pythainlp.soundex import lk82, metasound, soundex, udom83, prayut_and_somchaip
+from pythainlp.soundex.sound import word_approximation, audio_vector
 
 
 class TestSoundexPackage(unittest.TestCase):
@@ -73,3 +74,9 @@ class TestSoundexPackage(unittest.TestCase):
         self.assertIsNotNone(prayut_and_somchaip("ณาญ"))
         self.assertIsNotNone(prayut_and_somchaip("กาง"))
         self.assertIsNotNone(prayut_and_somchaip("ว้าว"))
+
+    def test_word_approximation(self):
+        self.assertIsNotNone(word_approximation("รถ", ["รส","รด","คน"]))
+
+    def test_audio_vector(self):
+        self.assertIsNotNone(audio_vector("คน"))

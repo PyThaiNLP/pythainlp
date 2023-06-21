@@ -23,6 +23,7 @@ Modules
 .. autofunction:: thai_family_names
 .. autofunction:: thai_female_names
 .. autofunction:: thai_male_names
+.. autofunction:: pythainlp.corpus.th_en_translit.get_transliteration_dict
 
 ConceptNet
 ----------

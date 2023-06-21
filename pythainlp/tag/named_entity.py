@@ -27,17 +27,17 @@ class NER:
     :param str corpus: corpus
 
     **Options for engine**
+        * *thainer-v2* - Thai NER engine v2.0 for Thai NER 2.0 (default)
         * *thainer* - Thai NER engine
         * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.
-        * *thainer-v2* - Thai NER engine v2.0 for Thai NER 2.0
 
     **Options for corpus**
-        * *thainer* - Thai NER corpus
+        * *thainer* - Thai NER corpus (default)
 
     **Note**: for tltk engine, It's support ner model from tltk only.
     """
 
-    def __init__(self, engine: str, corpus: str = "thainer") -> None:
+    def __init__(self, engine: str = "thainer-v2", corpus: str = "thainer") -> None:
         self.load_engine(engine=engine, corpus=corpus)
 
     def load_engine(self, engine: str, corpus: str) -> None:

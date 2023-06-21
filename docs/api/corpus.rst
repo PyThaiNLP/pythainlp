@@ -18,6 +18,7 @@ Modules
 .. autofunction:: provinces
 .. autofunction:: thai_stopwords
 .. autofunction:: thai_words
+.. autofunction:: thai_orst_words
 .. autofunction:: thai_syllables
 .. autofunction:: thai_negations
 .. autofunction:: thai_family_names

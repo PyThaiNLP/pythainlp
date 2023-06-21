@@ -165,7 +165,8 @@ class NorvigSpellChecker:
                                  If no filter is required, use None.
         """
         if not custom_dict:  # default, use Thai National Corpus
-            custom_dict = tnc.word_freqs()
+            # TODO: #680 change the dict
+            custom_dict = [(i,j) for i,j in tnc.word_freqs()]
 
         if not dict_filter:
             dict_filter = _no_filter

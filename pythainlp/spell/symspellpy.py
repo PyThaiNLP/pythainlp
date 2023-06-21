@@ -26,7 +26,6 @@ from typing import List
 from symspellpy import SymSpell, Verbosity
 from pythainlp.corpus import get_corpus_path
 from pythainlp.corpus import path_pythainlp_corpus
-from pythainlp.tokenize import word_tokenize
 
 _UNIGRAM = "tnc_freq.txt"
 _BIGRAM = "tnc_bigram_word_freqs"

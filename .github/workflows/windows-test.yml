@@ -41,6 +41,8 @@ jobs:
         pip install torch==1.8.1
     - name: Install dependencies
       shell: powershell
+      env:
+        SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL: True
       run: |
         python -m pip install --disable-pip-version-check --user --upgrade pip setuptools
         python -m pip install backports.zoneinfo[tzdata]

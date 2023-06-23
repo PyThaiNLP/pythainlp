@@ -39,6 +39,14 @@ def word2audio(word: str) -> str:
     :param str word: Thai word
     :return: IPA that remove tone from the text
     :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.soundex.sound import word2audio
+
+        word2audio("น้ำ")
+        # output : 'n aː m .'
     """
     _word = word_tokenize(word)
     _phone = [pronunciate(w, engine="w2p") for w in _word]
@@ -48,8 +56,20 @@ def word2audio(word: str) -> str:
 def audio_vector(word:str) -> List[List[int]]:
     """
     Convert audio to vector list
+
+    :param str word: Thai word
+    :return: List feature from panphon
+    :rtype: List[List[int]]
+
+    :Example:
+    ::
+
+        from pythainlp.soundex.sound import audio_vector
+
+        audio_vector("น้ำ")
+        # output : [[-1, 1, 1, -1, -1, -1, ...]]
     """
-    return _ft.word_to_vector_list(word, numeric=True)
+    return _ft.word_to_vector_list(word2audio(word), numeric=True)
 
 def word_approximation(word:str, list_word:List[str]):
     """
@@ -59,6 +79,14 @@ def word_approximation(word:str, list_word:List[str]):
     :param str list_word: Thai word
     :return: List of approximation of word (The smaller the value, the closer)
     :rtype: List[str]
+
+    :Example:
+    ::
+
+        from pythainlp.soundex.sound import word_approximation
+
+        word_approximation("รถ", ["รด", "รส", "รม", "น้ำ"])
+        # output : [0.0, 0.0, 3.875, 8.375]
     """
     _word = word2audio(word)
     _list_word = [word2audio(w) for w in list_word]

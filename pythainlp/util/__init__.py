@@ -65,6 +65,7 @@ __all__ = [
     "nectec_to_ipa",
     "ipa_to_rtgs",
     "remove_tone_ipa",
+    "tis620_to_utf8",
 ]
 
 from pythainlp.util.collate import collate
@@ -121,3 +122,4 @@ from pythainlp.util.syllable import (
     syllable_open_close_detector,
 )
 from pythainlp.util.phoneme import nectec_to_ipa, ipa_to_rtgs, remove_tone_ipa
+from pythainlp.util.encoding import tis620_to_utf8

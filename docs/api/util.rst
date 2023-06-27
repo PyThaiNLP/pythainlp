@@ -49,6 +49,7 @@ Modules
 .. autofunction:: thaiword_to_num
 .. autofunction:: thaiword_to_time
 .. autofunction:: time_to_thaiword
+.. autofunction:: tis620_to_utf8
 .. autofunction:: tone_detector
 .. autofunction:: words_to_num
 .. autofunction:: nectec_to_ipa

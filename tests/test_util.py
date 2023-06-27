@@ -57,6 +57,7 @@ from pythainlp.util import (
     nectec_to_ipa,
     ipa_to_rtgs,
     remove_tone_ipa,
+    tis620_to_utf8,
 )
 
 
@@ -840,3 +841,6 @@ class TestUtilPackage(unittest.TestCase):
 
     def test_remove_tone_ipa(self):
         self.assertEqual(remove_tone_ipa("laː˦˥.sa˨˩.maj˩˩˦"), "laː.sa.maj")
+
+    def test_tis620_to_utf8(self):
+        self.assertEqual(tis620_to_utf8("¡ÃÐ·ÃÇ§ÍØµÊÒË¡ÃÃÁ"), "กระทรวงอุตสาหกรรม")

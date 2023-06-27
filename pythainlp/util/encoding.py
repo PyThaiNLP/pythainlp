@@ -26,4 +26,4 @@ def tis620_to_utf8(text: str)->str:
         tis620_to_utf8("¡ÃÐ·ÃÇ§ÍØµÊÒË¡ÃÃÁ")
         # output: 'กระทรวงอุตสาหกรรม'
     """
-    return text.encode('cp1252').decode('tis-620')
+    return text.encode("cp1252", "ignore").decode("tis-620")

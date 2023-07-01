@@ -21,8 +21,10 @@ def tis620_to_utf8(text: str)->str:
     :rtype: str
 
     :Example:
+    ::
 
         from pythainlp.util import tis620_to_utf8
+
         tis620_to_utf8("¡ÃÐ·ÃÇ§ÍØµÊÒË¡ÃÃÁ")
         # output: 'กระทรวงอุตสาหกรรม'
     """

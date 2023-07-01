@@ -58,6 +58,8 @@ _THAI_FEMALE_NAMES_FILENAME = "person_names_female_th.txt"
 _THAI_MALE_NAMES = set()
 _THAI_MALE_NAMES_FILENAME = "person_names_male_th.txt"
 
+_THAI_ORST_WORDS = set()
+
 
 def countries() -> FrozenSet[str]:
     """
@@ -151,6 +153,22 @@ def thai_words() -> FrozenSet[str]:
         _THAI_WORDS = get_corpus(_THAI_WORDS_FILENAME)
 
     return _THAI_WORDS
+
+
+def thai_orst_words() -> FrozenSet[str]:
+    """
+    Return a frozenset of Thai words from Royal Society of Thailand
+    \n(See: `dev/pythainlp/corpus/thai_orst_words.txt\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/thai_orst_words>`_)
+
+    :return: :class:`frozenset` containing words in Thai language.
+    :rtype: :class:`frozenset`
+    """
+    global _THAI_ORST_WORDS
+    if not _THAI_ORST_WORDS:
+        _THAI_ORST_WORDS = get_corpus("thai_orst_words.txt")
+
+    return _THAI_ORST_WORDS
 
 
 def thai_stopwords() -> FrozenSet[str]:

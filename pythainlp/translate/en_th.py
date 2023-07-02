@@ -87,7 +87,7 @@ class EnThTranslator:
             ),
         )
         if use_gpu:
-            self._model.cuda()
+            self._model = self._model.cuda()
 
     def translate(self, text: str) -> str:
         """

@@ -79,7 +79,7 @@ class TestTranslatePackage(unittest.TestCase):
                 "ทดสอบระบบ",
             )
         )
-        self.th_fr_translator = Translate('th', 'ja')
+        self.th_ja_translator = Translate('th', 'ja', engine="small100")
         self.assertIsNotNone(
             self.th_fr_translator.translate(
                 "ทดสอบระบบ",

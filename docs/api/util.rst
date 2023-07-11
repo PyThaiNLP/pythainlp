@@ -55,5 +55,7 @@ Modules
 .. autofunction:: nectec_to_ipa
 .. autofunction:: ipa_to_rtgs
 .. autofunction:: remove_tone_ipa
+.. autofunction:: pythainlp.util.spell_words.spell_word
+.. autofunction:: pythainlp.util.spell_words.spell_syllable
 .. autoclass:: Trie
    :members:

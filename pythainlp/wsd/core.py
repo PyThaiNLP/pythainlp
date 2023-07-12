@@ -106,7 +106,7 @@ def get_sense(
     """
     global _MODEL
     _w = custom_tokenizer.word_tokenize(sentence)
-    if word not in _w:
+    if word not in set(custom_dict.keys()) or word not in sentence:
         return None
     if _MODEL == None:
         _MODEL = _SentenceTransformersModel(device=device)

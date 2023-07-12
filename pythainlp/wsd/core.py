@@ -1,0 +1,122 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2016-2023 PyThaiNLP Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+import csv
+from typing import List, Tuple, Union
+
+from pythainlp.corpus import thai_words
+from pythainlp.tokenize import Tokenizer
+from pythainlp.util.trie import Trie, dict_trie
+from pythainlp.corpus import get_corpus_path
+
+_thai_wsd = {"word":[], "meaning":[]}
+with open(get_corpus_path("thai_dict"), newline="\n", encoding="utf-8") as csvfile:
+    reader = csv.DictReader(csvfile, delimiter=",")
+    for row in reader:
+        _thai_wsd["word"].append(row["word"])
+        _thai_wsd["meaning"].append(row["meaning"])
+_mean_all = {}
+for i,j in zip(_thai_wsd["word"],_thai_wsd["meaning"]):
+    _all_value = list(eval(j).values())
+    _use = []
+    for k in _all_value:
+        _use.extend(k)
+    _use=list(set(_use))
+    if len(_use)>1:
+        _mean_all[i]=_use
+_all_word=set(list(_mean_all.keys()))
+_TRIE = Trie(list(_all_word))
+_word_cut = Tokenizer(custom_dict=_TRIE)
+
+
+class _SentenceTransformersModel:
+    def __init__(self, model:str="sentence-transformers/paraphrase-multilingual-mpnet-base-v2", device:str="cpu"):
+        from sentence_transformers import SentenceTransformer
+        self.device = device
+        self.model_name = model
+        self.model = SentenceTransformer(self.model_name, device=self.device)
+    def change_device(self, device: str):
+        from sentence_transformers import SentenceTransformer
+        self.device = device
+        self.model = SentenceTransformer(self.model_name, device=self.device)
+    def get_score(self, sentences1: str,sentences2: str)->float:
+        from sentence_transformers import util
+        embedding_1= self.model.encode(sentences1, convert_to_tensor=True)
+        embedding_2 = self.model.encode(sentences2, convert_to_tensor=True)
+        return 1-util.pytorch_cos_sim(embedding_1, embedding_2)[0][0].item()
+
+_MODEL = None
+
+
+def get_sense(
+    sentence: str,
+    word: str,
+    device:str="cpu",
+    custom_dict: dict=_mean_all,
+    custom_tokenizer: Tokenizer=_word_cut,
+) -> Union[List[Tuple[str, float]], None]:
+    """
+    Get word sense from the sentence.
+    This function will get definition and distance from context in sentence.
+    
+    :param str sentence: Thai sentence
+    :param str word: Thai word
+    :param str device: device for running model.
+    :param dict custom_dict: Thai dictionary {"word":{"part-of-speech":["definition"]}}
+    :param Tokenizer custom_tokenizer: Tokenizer for tokenize words from sentence.
+    
+    We get the ideas from `Context-Aware Semantic Similarity Measurement for Unsupervised Word Sense Disambiguation <https://arxiv.org/abs/2305.03520>`_ to build get_sense function.
+
+    For Thai dictionary, We use Thai dictionary from wiktionary.
+    See more `thai_dict <https://pythainlp.github.io/pythainlp-corpus/thai_dict.html>`_.
+    
+    For the model, We use Sentence Transformers model from 
+    sentence-transformers/paraphrase-multilingual-mpnet-base-v2.
+    
+    :Example:
+    ::
+
+        from pythainlp.wsd import get_sense
+        print(get_sense("เขากำลังอบขนมคุกกี้","คุกกี้"))
+        # output:
+        # [('โปรแกรมคอมพิวเตอร์ใช้ในทางอินเทอร์เน็ตสำหรับเก็บข้อมูลของผู้ใช้งาน',
+        #   0.0974416732788086),
+        #  ('ชื่อขนมชนิดหนึ่งจำพวกขนมเค้ก แต่ทำเป็นชิ้นเล็ก ๆ แบน ๆ แล้วอบให้กรอบ',
+        #   0.09319090843200684)]
+
+        print(get_sense("เว็บนี้ต้องการคุกกี้ในการทำงาน","คุกกี้"))
+        # output:
+        # [('โปรแกรมคอมพิวเตอร์ใช้ในทางอินเทอร์เน็ตสำหรับเก็บข้อมูลของผู้ใช้งาน',
+        #   0.1005704402923584),
+        #  ('ชื่อขนมชนิดหนึ่งจำพวกขนมเค้ก แต่ทำเป็นชิ้นเล็ก ๆ แบน ๆ แล้วอบให้กรอบ',
+        #   0.12473666667938232)]
+    """
+    global _MODEL
+    _w = custom_tokenizer.word_tokenize(sentence)
+    if word not in _w:
+        return None
+    if _MODEL == None:
+        _MODEL = _SentenceTransformersModel(device=device)
+    if _MODEL.device!=device:
+        _MODEL.change_device(device=device)
+    _temp_mean = custom_dict[word]
+    _temp =[]
+    for i in _temp_mean:
+        _temp_2 = []
+        for j in _w:
+            if j == word:
+                j = word+f" ({word} ความหมาย '"+i.replace('(',"").replace(')',"")+"') "
+            _temp_2.append(j)
+        _temp.append((i,_MODEL.get_score(sentence,''.join(_temp_2))))
+    return _temp

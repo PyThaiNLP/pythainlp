@@ -73,7 +73,7 @@ def get_sense(
     :param str sentence: Thai sentence
     :param str word: Thai word
     :param str device: device for running model.
-    :param dict custom_dict: Thai dictionary {"word":{"part-of-speech":["definition"]}}
+    :param dict custom_dict: Thai dictionary {"word":["definition",..]}
     :param Tokenizer custom_tokenizer: Tokenizer for tokenize words from sentence.
     :return: list of definition and distance or None (If word is not in the dictionary)
     :rtype: Union[List[Tuple[str, float]], None]

@@ -75,6 +75,8 @@ def get_sense(
     :param str device: device for running model.
     :param dict custom_dict: Thai dictionary {"word":{"part-of-speech":["definition"]}}
     :param Tokenizer custom_tokenizer: Tokenizer for tokenize words from sentence.
+    :return: list of definition and distance or None (If word is not in the dictionary)
+    :rtype: Union[List[Tuple[str, float]], None]
     
     We get the ideas from `Context-Aware Semantic Similarity Measurement for Unsupervised Word Sense Disambiguation <https://arxiv.org/abs/2305.03520>`_ to build get_sense function.
 

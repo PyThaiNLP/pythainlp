@@ -40,6 +40,7 @@ __all__ = [
     "thai_stopwords",
     "thai_syllables",
     "thai_words",
+    "thai_wsd_dict",
     "thai_orst_words",
     "path_pythainlp_corpus",
     "get_path_folder_corpus",
@@ -114,4 +115,5 @@ from pythainlp.corpus.common import (
     thai_words,
     thai_orst_words,
     thai_dict,
+    thai_wsd_dict
 )

@@ -27,6 +27,7 @@ __all__ = [
     "thai_syllables",
     "thai_words",
     "thai_dict",
+    "thai_wsd_dict",
 ]
 
 from typing import FrozenSet, List, Union
@@ -62,6 +63,7 @@ _THAI_MALE_NAMES_FILENAME = "person_names_male_th.txt"
 _THAI_ORST_WORDS = set()
 
 _THAI_DICT = {}
+_THAI_WSD_DICT = {}
 
 
 def countries() -> FrozenSet[str]:
@@ -260,6 +262,7 @@ def thai_male_names() -> FrozenSet[str]:
 
     return _THAI_MALE_NAMES
 
+
 def thai_dict() -> dict:
     """
     Return Thai dictionary with definition from wiktionary.
@@ -280,3 +283,29 @@ def thai_dict() -> dict:
                 _THAI_DICT["meaning"].append(row["meaning"])
 
     return _THAI_DICT
+
+
+def thai_wsd_dict() -> dict:
+    """
+    Return Thai Word Sense Disambiguation dictionary with definition from wiktionary.
+    \n(See: `thai_dict\
+    <https://pythainlp.github.io/pythainlp-corpus/thai_dict.html>`_)
+
+    :return: Thai word with part-of-speech type and definition
+    :rtype: :class:`frozenset`
+    """
+    global _THAI_WSD_DICT
+    if _THAI_WSD_DICT == {}:
+        _thai_wsd = thai_dict()
+        _THAI_WSD_DICT = {"word":[],"meaning":[]}
+        for i,j in zip(_thai_wsd["word"],_thai_wsd["meaning"]):
+            _all_value = list(eval(j).values())
+            _use = []
+            for k in _all_value:
+                _use.extend(k)
+            _use=list(set(_use))
+            if len(_use)>1:
+                _THAI_WSD_DICT["word"].append(i)
+                _THAI_WSD_DICT["meaning"].append(_use)
+
+    return _THAI_WSD_DICT

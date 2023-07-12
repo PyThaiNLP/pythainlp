@@ -18,19 +18,13 @@ from typing import List, Tuple, Union
 from pythainlp.corpus import thai_words
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util.trie import Trie, dict_trie
-from pythainlp.corpus import get_corpus_path, thai_dict
+from pythainlp.corpus import get_corpus_path, thai_wsd_dict
 
-_thai_wsd = thai_dict()
+_wsd_dict = thai_wsd_dict()
 _mean_all = {}
-for i,j in zip(_thai_wsd["word"],_thai_wsd["meaning"]):
-    _all_value = list(eval(j).values())
-    _use = []
-    for k in _all_value:
-        _use.extend(k)
-    _use=list(set(_use))
-    if len(_use)>1:
-        _mean_all[i]=_use
-_all_word=set(list(_mean_all.keys()))
+for i,j in zip(_wsd_dict["word"], _wsd_dict["meaning"]):
+    _mean_all[i]=j
+_all_word = set(list(_mean_all.keys()))
 _TRIE = Trie(list(_all_word))
 _word_cut = Tokenizer(custom_dict=_TRIE)
 

@@ -18,14 +18,9 @@ from typing import List, Tuple, Union
 from pythainlp.corpus import thai_words
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util.trie import Trie, dict_trie
-from pythainlp.corpus import get_corpus_path
+from pythainlp.corpus import get_corpus_path, thai_dict
 
-_thai_wsd = {"word":[], "meaning":[]}
-with open(get_corpus_path("thai_dict"), newline="\n", encoding="utf-8") as csvfile:
-    reader = csv.DictReader(csvfile, delimiter=",")
-    for row in reader:
-        _thai_wsd["word"].append(row["word"])
-        _thai_wsd["meaning"].append(row["meaning"])
+_thai_wsd = thai_dict()
 _mean_all = {}
 for i,j in zip(_thai_wsd["word"],_thai_wsd["meaning"]):
     _all_value = list(eval(j).values())

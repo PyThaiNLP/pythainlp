@@ -16,6 +16,7 @@ Modules
 .. autofunction:: download
 .. autofunction:: remove
 .. autofunction:: provinces
+.. autofunction:: thai_dict
 .. autofunction:: thai_stopwords
 .. autofunction:: thai_words
 .. autofunction:: thai_orst_words

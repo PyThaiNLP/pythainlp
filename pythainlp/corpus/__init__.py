@@ -32,6 +32,7 @@ __all__ = [
     "get_corpus_path",
     "provinces",
     "remove",
+    "thai_dict",
     "thai_family_names",
     "thai_female_names",
     "thai_male_names",
@@ -112,4 +113,5 @@ from pythainlp.corpus.common import (
     thai_syllables,
     thai_words,
     thai_orst_words,
+    thai_dict,
 )

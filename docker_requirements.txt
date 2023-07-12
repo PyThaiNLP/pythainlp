@@ -37,3 +37,4 @@ ufal.chu-liu-edmonds==1.0.2
 wtpsplit==1.0.1
 fastcoref==2.1.6
 panphon==0.20.0
+sentence-transformers==2.2.2

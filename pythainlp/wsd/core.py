@@ -67,13 +67,15 @@ def get_sense(
     :return: list of definition and distance or None (If word is not in the dictionary)
     :rtype: Union[List[Tuple[str, float]], None]
     
-    We get the ideas from `Context-Aware Semantic Similarity Measurement for Unsupervised Word Sense Disambiguation <https://arxiv.org/abs/2305.03520>`_ to build get_sense function.
+    We get the ideas from `Context-Aware Semantic Similarity Measurement for Unsupervised \
+    Word Sense Disambiguation <https://arxiv.org/abs/2305.03520>`_ to build get_sense function.
 
     For Thai dictionary, We use Thai dictionary from wiktionary.
     See more `thai_dict <https://pythainlp.github.io/pythainlp-corpus/thai_dict.html>`_.
     
-    For the model, We use Sentence Transformers model from 
-    sentence-transformers/paraphrase-multilingual-mpnet-base-v2.
+    For the model, We use Sentence Transformers model from \
+    sentence-transformers/paraphrase-multilingual-mpnet-base-v2 for \
+    Unsupervised Word Sense Disambiguation.
     
     :Example:
     ::

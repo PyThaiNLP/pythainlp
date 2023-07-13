@@ -33,25 +33,25 @@ class WangChanGLM:
         return bool(self.exclude_pattern.search(text))
     def load_model(
         self,
-        model_path,
+        model_path="pythainlp/wangchanglm-7.5B-sft-en-sharded",
         return_dict=True,
         load_in_8bit=False,
-        device_map="auto",
+        device="cuda",
         torch_dtype=torch.float16,
         offload_folder="./",
-        low_cpu_mem_usage=True,
-        **
+        low_cpu_mem_usage=True
     ):
+        self.device = device
+        self.torch_dtype = torch_dtype
         self.model_path = model_path
         self.model = AutoModelForCausalLM.from_pretrained(
-            self.model_path
+            self.model_path,
             return_dict=return_dict,
             load_in_8bit=load_in_8bit,
-            device_map=device_map,
+            device_map=device,
             torch_dtype=torch_dtype,
             offload_folder=offload_folder,
-            low_cpu_mem_usage=low_cpu_mem_usage,
-            **
+            low_cpu_mem_usage=low_cpu_mem_usage
         )
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
         self.df = pd.DataFrame(self.tokenizer.vocab.items(), columns=['text', 'idx'])
@@ -65,11 +65,13 @@ class WangChanGLM:
         temperature=0.9,
         top_k=50,
         no_repeat_ngram_size=2,
-        typical_p=1.
+        typical_p=1.,
+        thai_only=True,
+        skip_special_tokens=True
     ):
         batch = self.tokenizer(text, return_tensors="pt")
-        with torch.cuda.amp.autocast(): # cuda -> cpu if cpu
-            if Thai=="Yes":
+        with torch.autocast(device_type=self.device, dtype=self.torch_dtype):
+            if thai_only:
                 output_tokens = self.model.generate(
                     input_ids=batch["input_ids"],
                     max_new_tokens=max_new_tokens, # 512
@@ -92,17 +94,18 @@ class WangChanGLM:
                     typical_p=typical_p,
                     temperature=temperature, # 0.9
                 )
-        return self.tokenizer.decode(output_tokens[0][len(batch["input_ids"][0]):], skip_special_tokens=True)
+        return self.tokenizer.decode(output_tokens[0][len(batch["input_ids"][0]):], skip_special_tokens=skip_special_tokens)
     def instruct_generate(
         self,
         instruct: str,
         context: str = None,
-        max_gen_len=512,
+        max_new_tokens=512,
         temperature: float =0.9,
         top_p: float = 0.95,
         top_k=50,
         no_repeat_ngram_size=2,
-        typical_p=1
+        typical_p=1,
+        thai_only=True
     ):
         if context == None or context=="":
             prompt = self.PROMPT_DICT['prompt_no_input'].format_map(
@@ -114,11 +117,12 @@ class WangChanGLM:
             )
         result = self.gen_instruct(
             prompt,
-            max_gen_len=max_gen_len,
+            max_new_tokens=max_new_tokens,
             top_p=top_p,
             top_k=top_k,
             temperature=temperature,
             no_repeat_ngram_size=no_repeat_ngram_size,
-            typical_p=typical_p
+            typical_p=typical_p,
+            thai_only=thai_only
         )
-        return result
+        return result,prompt

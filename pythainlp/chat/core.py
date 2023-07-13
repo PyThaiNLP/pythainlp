@@ -12,3 +12,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+class Chat:
+    def __init__(self):
+        pass
+    def load_model(self, model_path,load_in_8bit=False,offload_folder="./",**):
+        if model_path == "wangchanglm":
+            from pythainlp.generate.wangchanglm import WangChanGLM
+            self.model = WangChanGLM()
+            self.model.load_model(
+                model_path="pythainlp/wangchanglm-7.5B-sft-en-8bit-sharded",
+                load_in_8bit=load_in_8bit,
+                offload_folder=offload_folder,
+                **
+            )

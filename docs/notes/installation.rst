@@ -36,6 +36,7 @@ where ``extras`` can be
   - ``transformers_ud`` (to support transformers_ud engine)
   - ``dependency_parsing`` (to support dependency parsing with all engine)
   - ``coreference_resolution`` (to support coreference esolution with all engine)
+  - ``wsd`` (to support pythainlp.wsd)
   - ``full`` (install everything)
 
 For dependency details, look at `extras` variable in `setup.py <https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py>`_.

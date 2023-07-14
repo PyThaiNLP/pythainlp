@@ -21,6 +21,11 @@ class ChatBotModel:
         Chat with AI generation
         """
         self.history = []
+    def reset_chat(self):
+        """
+        Reset chat by clean history
+        """
+        self.history = []
     def load_model(
         self,
         model_name:str="wangchanglm",

@@ -52,7 +52,7 @@ def get_sense(
     sentence: str,
     word: str,
     device:str="cpu",
-    custom_dict: dict=_mean_all,
+    custom_dict: Union[dict,None]=None,
     custom_tokenizer: Tokenizer=_word_cut,
 ) -> Union[List[Tuple[str, float]], None]:
     """
@@ -96,6 +96,8 @@ def get_sense(
         #   0.12473666667938232)]
     """
     global _MODEL
+    if custom_dict == None:
+        custom_dict = _mean_all
     _w = custom_tokenizer.word_tokenize(sentence)
     if word not in set(custom_dict.keys()) or word not in sentence:
         return None

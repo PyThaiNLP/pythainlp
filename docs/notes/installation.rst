@@ -36,6 +36,7 @@ where ``extras`` can be
   - ``transformers_ud`` (to support transformers_ud engine)
   - ``dependency_parsing`` (to support dependency parsing with all engine)
   - ``coreference_resolution`` (to support coreference esolution with all engine)
+  - ``wangchanglm`` (to support wangchanglm model)
   - ``wsd`` (to support pythainlp.wsd)
   - ``full`` (install everything)
 

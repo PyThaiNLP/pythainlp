@@ -117,6 +117,11 @@ extras = {
     "word_approximation":{
         "panphon>=0.20.0"
     },
+    "wangchanglm": [
+        "transformers>=4.6.0",
+        "sentencepiece>=0.1.91",
+        "pandas>=0.24"
+    ],
     "wsd":{
         "sentence-transformers>=2.2.2"
     },

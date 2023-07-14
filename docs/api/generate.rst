@@ -14,3 +14,5 @@ Modules
 .. autoclass:: Trigram
     :members:
 .. autofunction:: pythainlp.generate.thai2fit.gen_sentence
+.. autoclass:: pythainlp.generate.wangchanglm.WangChanGLM
+   :members:

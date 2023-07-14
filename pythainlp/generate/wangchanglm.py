@@ -13,14 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import re
-import pandas as pd
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 class WangChanGLM:
     def __init__(self):
         self.exclude_pattern = re.compile(r'[^ก-๙]+')
+        self.stop_token = "\n"
         self.PROMPT_DICT = {
             "prompt_input": (
                 "<context>: {input}\n<human>: {instruction}\n<bot>: "
@@ -28,19 +27,35 @@ class WangChanGLM:
             "prompt_no_input": (
                 "<human>: {instruction}\n<bot>: "
             ),
+            "prompt_chatbot": (
+                "<human>: {human}\n<bot>: {bot}"
+            ),
         }
-    def is_exclude(self, text):
+    def is_exclude(self, text:str)->bool:
         return bool(self.exclude_pattern.search(text))
     def load_model(
         self,
-        model_path="pythainlp/wangchanglm-7.5B-sft-en-sharded",
-        return_dict=True,
-        load_in_8bit=False,
-        device="cuda",
+        model_path:str="pythainlp/wangchanglm-7.5B-sft-en-sharded",
+        return_dict:bool=True,
+        load_in_8bit:bool=False,
+        device:str="cuda",
         torch_dtype=torch.float16,
-        offload_folder="./",
-        low_cpu_mem_usage=True
+        offload_folder:str="./",
+        low_cpu_mem_usage:bool=True
     ):
+        """
+        Load model
+        
+        :param str model_path: Model path
+        :param bool return_dict: return_dict
+        :param bool load_in_8bit: load model in 8bit
+        :param str device: device (cpu, cuda or other)
+        :param torch_dtype torch_dtype: torch_dtype
+        :param str offload_folder: offload folder
+        :param bool low_cpu_mem_usage: low cpu mem usage
+        """
+        import pandas as pd
+        from transformers import AutoModelForCausalLM, AutoTokenizer
         self.device = device
         self.torch_dtype = torch_dtype
         self.model_path = model_path
@@ -59,16 +74,31 @@ class WangChanGLM:
         self.exclude_ids = self.df[self.df.is_exclude==True].idx.tolist()
     def gen_instruct(
         self,
-        text,
-        max_new_tokens=512,
-        top_p=0.95,
-        temperature=0.9,
-        top_k=50,
-        no_repeat_ngram_size=2,
-        typical_p=1.,
-        thai_only=True,
-        skip_special_tokens=True
+        text:str,
+        max_new_tokens:int=512,
+        top_p:float=0.95,
+        temperature:float=0.9,
+        top_k:int=50,
+        no_repeat_ngram_size:int=2,
+        typical_p:float=1.,
+        thai_only:bool=True,
+        skip_special_tokens:bool=True
     ):
+        """
+        Generate Instruct
+        
+        :param str text: text
+        :param int max_new_tokens: max new tokens
+        :param float top_p: Top p
+        :param float temperature: temperature
+        :param int top_k: Top k
+        :param int no_repeat_ngram_size: no repeat ngram size
+        :param float typical_p: typical p
+        :param bool thai_only: Thai only
+        :param bool skip_special_tokens: skip special tokens
+        :return: the answer from Instruct.
+        :rtype: str
+        """
         batch = self.tokenizer(text, return_tensors="pt")
         with torch.autocast(device_type=self.device, dtype=self.torch_dtype):
             if thai_only:
@@ -102,11 +132,28 @@ class WangChanGLM:
         max_new_tokens=512,
         temperature: float =0.9,
         top_p: float = 0.95,
-        top_k=50,
-        no_repeat_ngram_size=2,
-        typical_p=1,
-        thai_only=True
+        top_k:int=50,
+        no_repeat_ngram_size:int=2,
+        typical_p:float=1,
+        thai_only:bool=True,
+        skip_special_tokens:bool=True
     ):
+        """
+        Generate Instruct
+        
+        :param str instruct: Instruct
+        :param str context: context
+        :param int max_new_tokens: max new tokens
+        :param float top_p: Top p
+        :param float temperature: temperature
+        :param int top_k: Top k
+        :param int no_repeat_ngram_size: no repeat ngram size
+        :param float typical_p: typical p
+        :param bool thai_only: Thai only
+        :param bool skip_special_tokens: skip special tokens
+        :return: the answer from Instruct.
+        :rtype: str
+        """
         if context == None or context=="":
             prompt = self.PROMPT_DICT['prompt_no_input'].format_map(
                 {'instruction': instruct, 'input': ''}
@@ -123,6 +170,7 @@ class WangChanGLM:
             temperature=temperature,
             no_repeat_ngram_size=no_repeat_ngram_size,
             typical_p=typical_p,
-            thai_only=thai_only
+            thai_only=thai_only,
+            skip_special_tokens=skip_special_tokens
         )
-        return result,prompt
+        return result

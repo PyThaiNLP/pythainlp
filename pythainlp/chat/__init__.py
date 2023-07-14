@@ -14,9 +14,8 @@
 # limitations under the License.
 """
 pythainlp.chat
-
-WIP
 """
 
-__all__ = []
+__all__ = ["ChatBotModel"]
 
+from pythainlp.chat.core import ChatBotModel

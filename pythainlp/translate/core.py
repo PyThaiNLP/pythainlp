@@ -41,12 +41,17 @@ class Translate:
     """
 
     def __init__(
-        self, src_lang: str, target_lang: str, use_gpu: bool = False
+        self, src_lang: str, target_lang: str, engine: str="default", use_gpu: bool = False
     ) -> None:
         """
         :param str src_lang: source language
         :param str target_lang: target language
+        :param str engine: Machine Translation engine
         :param bool use_gpu: load model to gpu (Default is False)
+
+        **Options for engine*
+            * *default* - The engine default by each a language.
+            * *small100* - A multilingual machine translation model (covering 100 languages)
 
         **Options for source & target language**
             * *th* - *en* - Thai to English
@@ -54,6 +59,8 @@ class Translate:
             * *th* - *zh* - Thai to Chinese
             * *zh* - *th* - Chinese to Thai
             * *th* - *fr* - Thai to French
+            * *th* - *xx* - Thai to xx (xx is language code). It uses small100 model.
+            * *xx* - *th* - xx to Thai (xx is language code). It uses small100 model.
 
         :Example:
 
@@ -66,10 +73,21 @@ class Translate:
             # output: I love cat.
         """
         self.model = None
-        self.load_model(src_lang, target_lang, use_gpu)
+        self.engine = engine
+        self.src_lang = src_lang
+        self.use_gpu = use_gpu
+        self.target_lang = target_lang
+        self.load_model()
 
-    def load_model(self, src_lang: str, target_lang: str, use_gpu: bool):
-        if src_lang == "th" and target_lang == "en":
+    def load_model(self):
+        src_lang = self.src_lang
+        target_lang = self.target_lang
+        use_gpu = self.use_gpu
+        if self.engine == "small100":
+            from .small100 import Small100Translator
+
+            self.model = Small100Translator(use_gpu)
+        elif src_lang == "th" and target_lang == "en":
             from pythainlp.translate.en_th import ThEnTranslator
 
             self.model = ThEnTranslator(use_gpu)
@@ -100,4 +118,6 @@ class Translate:
         :return: translated text in target language
         :rtype: str
         """
+        if self.engine == "small100":
+            return self.model.translate(text, tgt_lang=self.target_lang)
         return self.model.translate(text)

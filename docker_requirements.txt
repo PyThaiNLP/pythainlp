@@ -12,7 +12,7 @@ sentencepiece==0.1.91
 ssg==0.0.8
 torch==1.13.1
 fastai==1.0.61
-transformers==4.22.1
+transformers==4.30.0
 phunspell==0.1.6
 spylls==0.1.5
 symspellpy==6.7.6
@@ -37,3 +37,4 @@ ufal.chu-liu-edmonds==1.0.2
 wtpsplit==1.0.1
 fastcoref==2.1.6
 panphon==0.20.0
+sentence-transformers==2.2.2

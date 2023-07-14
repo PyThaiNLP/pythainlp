@@ -59,6 +59,7 @@ from pythainlp.util import (
     remove_tone_ipa,
     tis620_to_utf8,
 )
+from pythainlp.util.spell_words import spell_word
 
 
 class TestUtilPackage(unittest.TestCase):
@@ -844,3 +845,9 @@ class TestUtilPackage(unittest.TestCase):
 
     def test_tis620_to_utf8(self):
         self.assertEqual(tis620_to_utf8("¡ÃÐ·ÃÇ§ÍØµÊÒË¡ÃÃÁ"), "กระทรวงอุตสาหกรรม")
+
+    def test_spell_word(self):
+        self.assertEqual(spell_word("เสือ"),['สอ', 'เอือ', 'เสือ'])
+        self.assertEqual(spell_word("เสื้อ"),['สอ', 'เอือ', 'ไม้โท', 'เสื้อ'])
+        self.assertEqual(spell_word("คน"),['คอ', 'นอ', 'คน'])
+        self.assertEqual(spell_word("คนดี"),['คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี'])

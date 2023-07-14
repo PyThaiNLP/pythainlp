@@ -122,6 +122,9 @@ extras = {
         "sentencepiece>=0.1.91",
         "pandas>=0.24"
     ],
+    "wsd":{
+        "sentence-transformers>=2.2.2"
+    },
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -155,6 +158,7 @@ extras = {
         "fastcoref>=2.1.5",
         "ufal.chu-liu-edmonds>=1.0.2",
         "panphon>=0.20.0",
+        "sentence-transformers>=2.2.2",
     ],
 }
 

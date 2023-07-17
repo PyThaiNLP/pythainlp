@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-pythainlp.chat
+pythainlp.cls
 """
 
 __all__ = ["GzipModel"]

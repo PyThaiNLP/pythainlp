@@ -17,4 +17,4 @@ class TestClsPackage(unittest.TestCase):
           ("นี่เป็นบทความหนึ่ง", "Neutral")
         ]
         model = GzipModel(training_data)
-        self.assertEqual(model.predict("รู้สึกดีจัง", k=1), "Positive")
+        self.assertEqual(model.predict("ฉันดีใจ", k=1), "Positive")

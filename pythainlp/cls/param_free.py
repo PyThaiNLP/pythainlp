@@ -17,32 +17,36 @@ import gzip
 import numpy as np
 from typing import Dict, List, Tuple, Union
 
-class GzipModel():
+
+class GzipModel:
     """
     This class is a reimplemenatation of “Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors (Jiang et al., Findings 2023)
-    
+
     :param list training_data: list [(text_sample,label)]
     """
+
     def __init__(self, training_data: List[Tuple[str, str]]):
         self.training_data = np.array(training_data)
         self.Cx2_list = self.train()
 
     def train(self):
-        Cx2_list  = list()
+        Cx2_list = list()
         for i in range(len(self.training_data)):
-            Cx2_list.append(len(gzip.compress(self.training_data[i][0].encode('utf-8'))))
+            Cx2_list.append(
+                len(gzip.compress(self.training_data[i][0].encode("utf-8")))
+            )
         return Cx2_list
-    
-    def predict (self, x1: str, k: int = 1):
-        Cx1 = len(gzip.compress(x1.encode('utf-8')))
+
+    def predict(self, x1: str, k: int = 1):
+        Cx1 = len(gzip.compress(x1.encode("utf-8")))
         disance_from_x1 = []
         for i in range(len(self.Cx2_list)):
             x2 = self.training_data[i][0]
             Cx2 = self.Cx2_list[i]
-            x1x2 = "".join([x1,x2])
-            Cx1x2 = len(gzip.compress(x1x2.encode('utf-8')))
-            #normalized compression distance
-            ncd = (Cx1x2 - min(Cx1,Cx2)) / max(Cx1,Cx2)
+            x1x2 = "".join([x1, x2])
+            Cx1x2 = len(gzip.compress(x1x2.encode("utf-8")))
+            # normalized compression distance
+            ncd = (Cx1x2 - min(Cx1, Cx2)) / max(Cx1, Cx2)
             disance_from_x1.append(ncd)
         sorted_idx = np.argsort(np.array(disance_from_x1))
         top_k_class = self.training_data[sorted_idx[:k], 1]

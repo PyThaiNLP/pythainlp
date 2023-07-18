@@ -37,7 +37,13 @@ class GzipModel:
             )
         return Cx2_list
 
-    def predict(self, x1: str, k: int = 1):
+    def predict(self, x1: str, k: int = 1) -> str:
+        """
+        :param str x1: the text that want to predict label.
+        :param str k: k
+        :return: label
+        :rtype: str
+        """
         Cx1 = len(gzip.compress(x1.encode("utf-8")))
         disance_from_x1 = []
         for i in range(len(self.Cx2_list)):

@@ -23,6 +23,9 @@ class EntityLinker:
         :param str model_name: model name (bela)
         :param str device: device for running model
         :param str tag: Entity linking tag (wikidata)
+
+        You can read about bela model at `https://github.com/PyThaiNLP/MultiEL \
+        <https://github.com/PyThaiNLP/MultiEL>`_.
         """
         self.model_name = model_name
         self.device = device

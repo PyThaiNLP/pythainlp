@@ -38,6 +38,7 @@ where ``extras`` can be
   - ``coreference_resolution`` (to support coreference esolution with all engine)
   - ``wangchanglm`` (to support wangchanglm model)
   - ``wsd`` (to support pythainlp.wsd)
+  - ``el`` (to support pythainlp.el)
   - ``full`` (install everything)
 
 For dependency details, look at `extras` variable in `setup.py <https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py>`_.

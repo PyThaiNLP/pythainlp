@@ -125,6 +125,9 @@ extras = {
     "wsd":{
         "sentence-transformers>=2.2.2"
     },
+    "el":{
+        "multiel>=0.5"
+    },
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",

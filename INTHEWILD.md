@@ -6,3 +6,4 @@ Currently, officially using PyThaiNLP:
 
 1. [Hope Data Annotations Co., Ltd.](https://hopedata.org) ([@hopedataannotations](https://github.com/hopedataannotaions))
 2. [Codustry (Thailand) Co., Ltd.](https://codustry.com) ([@codustry](https://github.com/codustry))
+3. [M Intelligence Co.,Ltd.](https://www.mintel.tech)

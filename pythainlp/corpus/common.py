@@ -331,6 +331,6 @@ def thai_synonym() -> dict:
             for row in reader:
                 _THAI_SYNONYM["word"].append(row["word"])
                 _THAI_SYNONYM["pos"].append(row["pos"])
-                _THAI_SYNONYM["synonym"].append(row["synonym"])
+                _THAI_SYNONYM["synonym"].append(row["synonym"].split("|"))
 
     return _THAI_SYNONYM

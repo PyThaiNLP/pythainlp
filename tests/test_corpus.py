@@ -20,6 +20,7 @@ from pythainlp.corpus import (
     thai_negations,
     thai_stopwords,
     thai_syllables,
+    thai_synonym,
     thai_words,
     tnc,
     ttc,
@@ -44,6 +45,7 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsInstance(countries(), frozenset)
         self.assertIsInstance(provinces(), frozenset)
         self.assertIsInstance(provinces(details=True), list)
+        self.assertIsInstance(thai_synonym(), dict)
         self.assertEqual(
             len(provinces(details=False)), len(provinces(details=True))
         )

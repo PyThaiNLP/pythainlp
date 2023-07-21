@@ -21,6 +21,7 @@ Modules
 .. autofunction:: thai_words
 .. autofunction:: thai_wsd_dict
 .. autofunction:: thai_orst_words
+.. autofunction:: thai_synonym
 .. autofunction:: thai_syllables
 .. autofunction:: thai_negations
 .. autofunction:: thai_family_names

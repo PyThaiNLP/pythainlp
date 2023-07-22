@@ -87,6 +87,7 @@ class WunsenTransliterate:
 
         :Example:
         ::
+
             from pythainlp.transliterate.wunsen import WunsenTransliterate
 
             wt = WunsenTransliterate()

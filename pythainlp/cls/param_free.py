@@ -48,7 +48,7 @@ class GzipModel:
         ::
 
                 from pythainlp.cls import GzipModel
-                
+
                 training_data =  [
                     ("รายละเอียดตามนี้เลยค่าา ^^", "Neutral"),
                     ("กลัวพวกมึงหาย อดกินบาบิก้อน", "Neutral"),

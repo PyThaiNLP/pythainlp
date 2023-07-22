@@ -44,7 +44,8 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
     :return: list of claues
     :rtype: list[list[str]]
     :Example:
-    Clause tokenizer::
+    ::
+
         from pythainlp.tokenize import clause_tokenize
         clause_tokenize(["ฉัน","นอน","และ","คุณ","เล่น","มือถือ","ส่วน","น้อง","เขียน","โปรแกรม"])
         # [['ฉัน', 'นอน'],
@@ -68,6 +69,12 @@ def word_detokenize(
     :param str output: the output type (str or list)
     :return: the thai text
     :rtype: Union[str,List[str]]
+    :Example:
+    ::
+
+        from pythainlp.tokenize import word_detokenize
+        print(word_detokenize(["เรา", "เล่น"]))
+        # output: เราเล่น
     """
     _list_all = []
     if isinstance(segments[0], str):

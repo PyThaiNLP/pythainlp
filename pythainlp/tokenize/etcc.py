@@ -68,7 +68,7 @@ def segment(text: str) -> List[str]:
 
     :param str text: text to be tokenized to character clusters
     :return: list of clusters, tokenized from the text
-    :return: list[str]
+    :return: List[str]
     """
 
     if not text or not isinstance(text, str):

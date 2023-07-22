@@ -7,6 +7,7 @@ The :class:`pythainlp.util` contains utility functions, like text conversion and
 Modules
 -------
 
+.. autofunction:: abbreviation_to_full_text
 .. autofunction:: arabic_digit_to_thai_digit
 .. autofunction:: bahttext
 .. autofunction:: convert_years

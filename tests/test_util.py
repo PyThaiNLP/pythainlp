@@ -11,6 +11,7 @@ from pythainlp.corpus import _CORPUS_PATH, thai_words
 from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 from pythainlp.util import (
     Trie,
+    abbreviation_to_full_text,
     arabic_digit_to_thai_digit,
     bahttext,
     collate,
@@ -851,3 +852,6 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(spell_word("เสื้อ"),['สอ', 'เอือ', 'ไม้โท', 'เสื้อ'])
         self.assertEqual(spell_word("คน"),['คอ', 'นอ', 'คน'])
         self.assertEqual(spell_word("คนดี"),['คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี'])
+    
+    def test_abbreviation_to_full_text(self):
+        self.assertIsInstance(abbreviation_to_full_text("รร.ของเราน่าอยู่", list))

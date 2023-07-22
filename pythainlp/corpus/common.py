@@ -28,6 +28,7 @@ __all__ = [
     "thai_words",
     "thai_dict",
     "thai_wsd_dict",
+    "thai_synonym",
 ]
 
 from typing import FrozenSet, List, Union
@@ -64,6 +65,7 @@ _THAI_ORST_WORDS = set()
 
 _THAI_DICT = {}
 _THAI_WSD_DICT = {}
+_THAI_SYNONYM = None
 
 
 def countries() -> FrozenSet[str]:
@@ -270,7 +272,7 @@ def thai_dict() -> dict:
     <https://pythainlp.github.io/pythainlp-corpus/thai_dict.html>`_)
 
     :return: Thai word with part-of-speech type and definition
-    :rtype: :class:`frozenset`
+    :rtype: dict
     """
     global _THAI_DICT
     if _THAI_DICT == {}:
@@ -292,7 +294,7 @@ def thai_wsd_dict() -> dict:
     <https://pythainlp.github.io/pythainlp-corpus/thai_dict.html>`_)
 
     :return: Thai word with part-of-speech type and definition
-    :rtype: :class:`frozenset`
+    :rtype: dict
     """
     global _THAI_WSD_DICT
     if _THAI_WSD_DICT == {}:
@@ -309,3 +311,26 @@ def thai_wsd_dict() -> dict:
                 _THAI_WSD_DICT["meaning"].append(_use)
 
     return _THAI_WSD_DICT
+
+
+def thai_synonym() -> dict:
+    """
+    Return Thai synonym.
+    \n(See: `thai_synonym\
+    <https://pythainlp.github.io/pythainlp-corpus/thai_synonym.html>`_)
+
+    :return: Thai word with part-of-speech type and synonym
+    :rtype: dict
+    """
+    global _THAI_SYNONYM
+    if _THAI_SYNONYM == None:
+        import csv
+        _THAI_SYNONYM = {"word":[], "pos":[], "synonym":[]}
+        with open(get_corpus_path("thai_synonym"), newline="\n", encoding="utf-8") as csvfile:
+            reader = csv.DictReader(csvfile, delimiter=",")
+            for row in reader:
+                _THAI_SYNONYM["word"].append(row["word"])
+                _THAI_SYNONYM["pos"].append(row["pos"])
+                _THAI_SYNONYM["synonym"].append(row["synonym"].split("|"))
+
+    return _THAI_SYNONYM

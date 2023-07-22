@@ -86,7 +86,7 @@ tcc
 .. automodule:: pythainlp.tokenize.tcc
 
 tcc+
-+++
+++++
 .. automodule:: pythainlp.tokenize.tcc_p
 
 etcc

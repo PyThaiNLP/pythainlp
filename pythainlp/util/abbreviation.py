@@ -18,7 +18,7 @@ Thai abbreviation tools
 from typing import List, Tuple, Union
 
 
-def abbreviation_to_full_text(text: str) -> List[Tuple[str, Union[float, None]]]:
+def abbreviation_to_full_text(text: str, top_k: int=2) -> List[Tuple[str, Union[float, None]]]:
     """
     This function convert Thai text (with abbreviation) to full text.
 
@@ -26,7 +26,8 @@ def abbreviation_to_full_text(text: str) -> List[Tuple[str, Union[float, None]]]
     See more `KhamYo <https://github.com/wannaphong/KhamYo>`_.
 
     :param str text: Thai text
-    :return: Thai full text that handles abbreviations as full text.
+    :param int top_k: Top K
+    :return: Thai full text that handles abbreviations as full text and cos scores (original text -  modified text).
     :rtype: List[Tuple[str, Union[float, None]]]
 
     :Example:
@@ -52,4 +53,4 @@ def abbreviation_to_full_text(text: str) -> List[Tuple[str, Union[float, None]]]
             pip install pythainlp[abbreviation].
             """
         )
-    return _replace(text)
+    return _replace(text, top_k=top_k)

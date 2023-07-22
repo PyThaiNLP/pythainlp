@@ -71,7 +71,7 @@ class ChatBotModel:
         :Example:
         ::
 
-                from pythainlp.chat.core import ChatBotModel
+                from pythainlp.chat import ChatBotModel
                 import torch
 
                 chatbot = ChatBotModel()

@@ -64,7 +64,7 @@ def get_sense(
     :param str device: device for running model.
     :param dict custom_dict: Thai dictionary {"word":["definition",..]}
     :param Tokenizer custom_tokenizer: Tokenizer for tokenize words from sentence.
-    :return: list of definition and distance or None (If word is not in the dictionary)
+    :return: list of definition and distance (1 - cos_sim) or None (If word is not in the dictionary)
     :rtype: Union[List[Tuple[str, float]], None]
     
     We get the ideas from `Context-Aware Semantic Similarity Measurement for Unsupervised \

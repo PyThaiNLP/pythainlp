@@ -153,6 +153,26 @@ class WangChanGLM:
         :param bool skip_special_tokens: skip special tokens
         :return: the answer from Instruct.
         :rtype: str
+
+        :Example:
+        ::
+
+                from pythainlp.generate.wangchanglm import WangChanGLM
+                import torch
+
+                model = WangChanGLM()
+
+                model.load_model(device="cpu",torch_dtype=torch.bfloat16)
+
+                print(model.instruct_generate(instruct="ขอวิธีลดน้ำหนัก"))
+                # output: ลดน้ําหนักให้ได้ผล ต้องทําอย่างค่อยเป็นค่อยไป
+                # ปรับเปลี่ยนพฤติกรรมการกินอาหาร
+                # ออกกําลังกายอย่างสม่ําเสมอ
+                # และพักผ่อนให้เพียงพอ
+                # ที่สําคัญควรหลีกเลี่ยงอาหารที่มีแคลอรี่สูง
+                # เช่น อาหารทอด อาหารมัน อาหารที่มีน้ําตาลสูง
+                # และเครื่องดื่มแอลกอฮอล์
+
         """
         if context == None or context=="":
             prompt = self.PROMPT_DICT['prompt_no_input'].format_map(

@@ -74,7 +74,7 @@ def get_sense(
     See more `thai_dict <https://pythainlp.github.io/pythainlp-corpus/thai_dict.html>`_.
     
     For the model, We use Sentence Transformers model from \
-    sentence-transformers/paraphrase-multilingual-mpnet-base-v2 for \
+    `sentence-transformers/paraphrase-multilingual-mpnet-base-v2 <https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2>`_ for \
     Unsupervised Word Sense Disambiguation.
     
     :Example:

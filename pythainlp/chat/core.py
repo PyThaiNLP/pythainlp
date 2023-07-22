@@ -68,6 +68,20 @@ class ChatBotModel:
         :param str text: text for asking chatbot.
         :return: the answer from chatbot.
         :rtype: str
+        :Example:
+        ::
+
+                from pythainlp.chat.core import ChatBotModel
+                import torch
+
+                chatbot = ChatBotModel()
+                chatbot.load_model(device="cpu",torch_dtype=torch.bfloat16)
+
+                print(chatbot.chat("สวัสดี"))
+                # output: ยินดีที่ได้รู้จัก
+
+                print(chatbot.history)
+                # output: [('สวัสดี', 'ยินดีที่ได้รู้จัก')]
         """
         _temp=""
         if self.history!=[]:

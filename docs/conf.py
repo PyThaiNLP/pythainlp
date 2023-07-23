@@ -7,6 +7,7 @@ import os
 import sys
 import traceback
 from datetime import datetime
+from datetime import date
 import pythainlp
 
 # -- Path setup --------------------------------------------------------------
@@ -54,24 +55,25 @@ try:
         .strip()
         .split("-")[0]
     )
-    today = (
-        os.environ["TODAY"]
-        if "TODAY" in os.environ
-        else check_output(
-            ["git", "show", "-s", "--format=%ad", "--date=short"],
-            shell=False,
-            stderr=STDOUT,
-        )
-        .decode()
-        .strip()
-    )
+    # today = (
+    #     os.environ["TODAY"]
+    #     if "TODAY" in os.environ
+    #     else check_output(
+    #         ["git", "show", "-s", "--format=%ad", "--date=short"],
+    #         shell=False,
+    #         stderr=STDOUT,
+    #     )
+    #     .decode()
+    #     .strip()
+    # )
 except Exception as e:
     traceback.print_exc()
     release = pythainlp.__version__
-    today = "<unknown date>"
+    # today = "<unknown date>"
     current_branch = "<unknown>"
 
 # The short X.Y version
+today = date.today().strftime("%d/%m/%Y")
 version = f"{current_branch} ({release}) <br /> Published date: {today}"
 
 # The full version, including alpha/beta/rc tags

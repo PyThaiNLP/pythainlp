@@ -128,6 +128,9 @@ extras = {
     "el":{
         "multiel>=0.5"
     },
+    "abbreviation":{
+        "khamyo>=0.2.0"
+    },
     "full": [
         "PyYAML>=5.3.1",
         "attacut>=1.0.4",
@@ -162,6 +165,7 @@ extras = {
         "ufal.chu-liu-edmonds>=1.0.2",
         "panphon>=0.20.0",
         "sentence-transformers>=2.2.2",
+        "khamyo>=0.2.0",
     ],
 }
 

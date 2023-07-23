@@ -39,6 +39,7 @@ where ``extras`` can be
   - ``wangchanglm`` (to support wangchanglm model)
   - ``wsd`` (to support pythainlp.wsd)
   - ``el`` (to support pythainlp.el)
+  - ``abbreviation`` (to support pythainlp.util.abbreviation_to_full_text)
   - ``full`` (install everything)
 
 For dependency details, look at `extras` variable in `setup.py <https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py>`_.

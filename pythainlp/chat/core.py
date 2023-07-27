@@ -87,7 +87,7 @@ class ChatBotModel:
         if self.history!=[]:
             for h,b in self.history:
                 _temp+=self.model.PROMPT_DICT['prompt_chatbot'].format_map({"human":h,"bot":b})+self.model.stop_token
-        _temp+=self.model.PROMPT_DICT['prompt_chatbot'].format_map({"human":human,"bot":""})
+        _temp+=self.model.PROMPT_DICT['prompt_chatbot'].format_map({"human":text,"bot":""})
         _bot = self.model.gen_instruct(_temp)
         self.history.append((text,_bot))
         return _bot

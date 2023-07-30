@@ -12,6 +12,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""
+🪿 Han-solo: Thai syllable segmenter
+GitHub: https://github.com/PyThaiNLP/Han-solo
+"""
 from typing import List
 from pythainlp.corpus import path_pythainlp_corpus
 try:
@@ -132,7 +136,7 @@ def segment(text: str) -> List[str]:
     x=_to_feature.featurize(text)["X"]
     y_pred = tagger.tag(x)
     list_cut = []
-    for i,(j,k) in enumerate(zip(list(text),y_pred)):
+    for j,k in zip(list(text),y_pred):
         if k=="1":
             list_cut.append(j)
         else:

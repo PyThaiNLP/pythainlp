@@ -530,10 +530,15 @@ def subword_tokenize(
     **Options for engine**
         * *dict* - newmm word tokenizer with a syllable dictionary
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
-        * *ssg* - CRF syllable segmenter for Thai
+        * *han_solo* - CRF syllable segmenter for Thai that can work in the \
+            Thai social media domain. See `PyThaiNLP/Han-solo \
+        <https://github.com/PyThaiNLP/Han-solo>`_.
+        * *ssg* - CRF syllable segmenter for Thai. See `ponrawee/ssg \
+        <https://github.com/ponrawee/ssg>`_.
         * *tcc* (default) - Thai Character Cluster (Theeramunkong et al. 2000)
         * *tcc_p* - Thai Character Cluster + improve the rule that used in newmm
-        * *tltk* - syllable tokenizer from tltk
+        * *tltk* - syllable tokenizer from tltk. See `tltk \
+        <https://pypi.org/project/tltk/>`_.
         * *wangchanberta* - SentencePiece from wangchanberta model
     :Example:
 
@@ -600,6 +605,8 @@ def subword_tokenize(
         from pythainlp.tokenize.ssg import segment
     elif engine == "tltk":
         from pythainlp.tokenize.tltk import syllable_tokenize as segment
+    elif engine == "han_solo":
+        from pythainlp.tokenize.han_solo import segment
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.

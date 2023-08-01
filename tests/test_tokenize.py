@@ -399,6 +399,7 @@ class TestTokenizePackage(unittest.TestCase):
             "า" in subword_tokenize("สวัสดีชาวโลก", engine="dict")
         )
         self.assertEqual(subword_tokenize(None, engine="ssg"), [])
+        self.assertEqual(subword_tokenize(None, engine="han_solo"), [])
         self.assertEqual(
             subword_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
         )
@@ -407,6 +408,15 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertFalse(
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
+        )
+        self.assertEqual(
+            subword_tokenize("แมวกินปลา", engine="han_solo"), ["แมว", "กิน", "ปลา"]
+        )
+        self.assertTrue(
+            "ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="han_solo")
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="han_solo")
         )
         self.assertFalse(
             " " in subword_tokenize("พันธมิตร ชา นม", keep_whitespace=False)

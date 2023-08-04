@@ -17,7 +17,7 @@
 #
 # URL: <https://pythainlp.github.io/>
 # For license information, see LICENSE
-__version__ = "4.1.0beta2"
+__version__ = "4.1.0beta3"
 
 thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44 chars
 

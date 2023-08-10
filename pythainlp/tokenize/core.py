@@ -413,7 +413,7 @@ def sent_tokenize(
 
         segments = segment(text)
     elif engine == "whitespace":
-        segments = re.split(r" +", text, re.U)
+        segments = re.split(r" +", text, flags=re.U)
     elif engine == "whitespace+newline":
         segments = text.split()
     elif engine == "tltk":

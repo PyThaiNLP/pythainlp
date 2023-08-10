@@ -41,7 +41,7 @@ def word_freqs() -> List[Tuple[str, int]]:
     \n(See: `dev/pythainlp/corpus/tnc_freq.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/tnc_freq.txt>`_)
 
-    Credit: Korakot Chaovavanich https://bit.ly/3wSkZsF
+    Credit: Korakot Chaovavanich https://www.facebook.com/groups/thainlp/posts/434330506948445
     """
     lines = list(get_corpus(_FILENAME))
     word_freqs = []

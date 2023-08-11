@@ -8,6 +8,7 @@ class TestAncientPackage(unittest.TestCase):
     def test_aksonhan_to_current(self):
         self.assertEquals(aksonhan_to_current("ก"), 'ก')
         self.assertEquals(aksonhan_to_current("กก"), 'กก')
+        self.assertEquals(aksonhan_to_current("ถนน"), 'ถนน')
         self.assertEquals(aksonhan_to_current("จกก"), 'จัก')
         self.assertEquals(aksonhan_to_current("ดง่ง"), 'ดั่ง')
         self.assertEquals(aksonhan_to_current("นน้น"), 'นั้น')

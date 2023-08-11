@@ -36,6 +36,10 @@ def aksonhan_to_current(word):
 
     AksonHan (อักษรหัน)
     """
+    if len(word) < 3:
+        return word
+    elif word in _set_aksonhan:
+        return word
     _seg = _tokenizer.word_tokenize(word)
     _w = []
     for i in _seg:

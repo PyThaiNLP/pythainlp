@@ -15,7 +15,7 @@
 from pythainlp.util import Trie
 from pythainlp import thai_consonants,thai_tonemarks
 from pythainlp.tokenize import Tokenizer
-from pythainlp.corpus import thai_words
+from pythainlp.corpus import thai_orst_words
 
 
 _dict_aksonhan = {}
@@ -28,8 +28,8 @@ for i in list(thai_consonants):
     _dict_aksonhan[i+i] = "ั"+i
 _set_aksonhan = set(_dict_aksonhan.keys())
 _trie = Trie(list(_dict_aksonhan.keys())+list(thai_consonants))
-_tokenizer = Tokenizer(custom_dict=_trie,engine="mm")
-_dict_thai = set(thai_words())  # call Thai words
+_tokenizer = Tokenizer(custom_dict=_trie,engine="newmm")
+_dict_thai = set(thai_orst_words())  # call Thai words
 
 
 def aksonhan_to_current(word):
@@ -41,7 +41,7 @@ def aksonhan_to_current(word):
     if len(word) < 3:
         return word
     elif word in _set_aksonhan:
-        return word
+        return _dict_aksonhan[word]
     elif word in _dict_thai: # word in Thai words
         return word
     _seg = _tokenizer.word_tokenize(word)

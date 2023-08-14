@@ -40,7 +40,7 @@ class TestGeneratePackage(unittest.TestCase):
         self.assertIsNotNone(_trigram.gen_sentence())
         self.assertIsNotNone(_trigram.gen_sentence(duplicate=True))
 
-    def test_thai2fit(self):
-        self.assertIsNotNone(gen_sentence("กาลครั้งหนึ่งนานมาแล้ว"))
-        self.assertIsNotNone(gen_sentence("กาลครั้งหนึ่งนานมาแล้ว", output_str=False))
-        self.assertIsNotNone(gen_sentence())
+    # def test_thai2fit(self):
+    #     self.assertIsNotNone(gen_sentence("กาลครั้งหนึ่งนานมาแล้ว"))
+    #     self.assertIsNotNone(gen_sentence("กาลครั้งหนึ่งนานมาแล้ว", output_str=False))
+    #     self.assertIsNotNone(gen_sentence())

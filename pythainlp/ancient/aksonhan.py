@@ -32,11 +32,32 @@ _tokenizer = Tokenizer(custom_dict=_trie,engine="newmm")
 _dict_thai = set(thai_orst_words())  # call Thai words
 
 
-def aksonhan_to_current(word):
+def aksonhan_to_current(word:str)->str:
     """
-    AksonHan words to current Thai words
+    AksonHan words convert to current Thai words
 
-    AksonHan (อักษรหัน)
+    AksonHan (อักษรหัน) is writing down two consonants as the \
+    spelling of the /a/ vowels. (สระ อะ).
+
+    Today, รร is an aksonHan words that still used in Thai.
+
+    :param str word: Thai word
+    :return: Thai AksonHan convert to current Thai words
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.ancient import aksonhan_to_current
+
+        print(aksonhan_to_current("จกก"))
+        # output: จัก
+
+        print(aksonhan_to_current("บงงคบบ"))
+        # output: บังคับ
+
+        print(aksonhan_to_current("สรรเพชญ")) # รร is still used.
+        # output: สรรเพชญ
     """
     if len(word) < 3:
         return word

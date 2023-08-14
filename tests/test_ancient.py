@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 import unittest
 from pythainlp.ancient import aksonhan_to_current
 

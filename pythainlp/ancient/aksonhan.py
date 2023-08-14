@@ -36,7 +36,7 @@ def aksonhan_to_current(word:str)->str:
     """
     AksonHan words convert to current Thai words
 
-    AksonHan (อักษรหัน) is writing down two consonants as the \
+    AksonHan (อักษรหัน) is write down two consonants as the \
     spelling of the /a/ vowels. (สระ อะ).
 
     Today, รร is an aksonHan words that still used in Thai.

@@ -14,6 +14,7 @@
 # limitations under the License.
 """
 🪿 Han-solo: Thai syllable segmenter
+
 GitHub: https://github.com/PyThaiNLP/Han-solo
 """
 from typing import List

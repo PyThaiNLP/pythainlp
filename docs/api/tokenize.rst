@@ -12,6 +12,7 @@ Modules
 .. autofunction:: sent_tokenize
 .. autofunction:: paragraph_tokenize
 .. autofunction:: subword_tokenize
+.. autofunction:: syllable_tokenize
 .. autofunction:: word_tokenize
 .. autofunction:: word_detokenize
 .. autoclass:: Tokenizer
@@ -92,3 +93,7 @@ tcc+
 etcc
 ++++
 .. automodule:: pythainlp.tokenize.etcc
+
+han_solo
+++++++++
+.. automodule:: pythainlp.tokenize.han_solo

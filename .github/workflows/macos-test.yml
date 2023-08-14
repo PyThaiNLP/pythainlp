@@ -51,8 +51,10 @@ jobs:
         python -m pip install --upgrade pip
         pip uninstall --y pythainlp
         pip install --no-deps fastai==1.0.61
-        pip install PyYAML attacut emoji epitran gensim nltk numpy pandas sacremoses sentencepiece ssg bpemb transformers sefr_cut phunspell spylls symspellpy tltk oskut nlpo3 onnxruntime thai_nner wunsen spacy_thai ufal.chu-liu-edmonds
-        pip install -e .
+        conda install -c conda-forge icu
+        conda install -c conda-forge pyicu
+        SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True pip install -r docker_requirements.txt
+        pip install .[full]
         python -m nltk.downloader omw-1.4
         python -m unittest discover
       if: matrix.os == 'self-hosted'

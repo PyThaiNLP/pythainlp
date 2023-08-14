@@ -28,7 +28,7 @@ for i in list(thai_consonants):
     _dict_aksonhan[i+i] = "ั"+i
 _set_aksonhan = set(_dict_aksonhan.keys())
 _trie = Trie(list(_dict_aksonhan.keys())+list(thai_consonants))
-_tokenizer = Tokenizer(custom_dict=_trie,engine="newmm")
+_tokenizer = Tokenizer(custom_dict=_trie,engine="mm")
 _dict_thai = set(thai_orst_words())  # call Thai words
 
 

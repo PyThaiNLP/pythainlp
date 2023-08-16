@@ -97,6 +97,7 @@ def correct(word: str, engine: str = "pn") -> str:
         * *pn* - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
         * *phunspell* - A spell checker utilizing spylls a port of Hunspell.
         * *symspellpy* - symspellpy is a Python port of SymSpell v6.5.
+        * *wanchanberta_thai_grammarly* - WanchanBERTa Thai Grammarly
     :return: the corrected word
     :rtype: str
 
@@ -128,6 +129,11 @@ def correct(word: str, engine: str = "pn") -> str:
         from pythainlp.spell.symspellpy import correct as SPELL_CHECKER
 
         text_correct = SPELL_CHECKER(word)
+    elif engine == "wanchanberta_thai_grammarly":
+        from pythainlp.spell.wanchanberta_thai_grammarly import correct as SPELL_CHECKER
+
+        text_correct = SPELL_CHECKER(word)
+    
     else:
         text_correct = DEFAULT_SPELL_CHECKER.correct(word)
 
@@ -181,6 +187,7 @@ def correct_sent(list_words: List[str], engine: str = "pn") -> List[str]:
         * *pn* - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
         * *phunspell* - A spell checker utilizing spylls a port of Hunspell.
         * *symspellpy* - symspellpy is a Python port of SymSpell v6.5.
+        * *wanchanberta_thai_grammarly* - WanchanBERTa Thai Grammarly
     :return: the corrected list sentences of word
     :rtype: List[str]
 

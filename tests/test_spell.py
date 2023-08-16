@@ -69,6 +69,10 @@ class TestSpellPackage(unittest.TestCase):
         self.assertIsInstance(result, str)
         self.assertNotEqual(result, "")
 
+        result = correct("ทดสอง", engine="wanchanberta_thai_grammarly")
+        self.assertIsInstance(result, str)
+        self.assertNotEqual(result, "")
+
     def test_norvig_spell_checker(self):
         checker = NorvigSpellChecker(dict_filter=None)
         self.assertTrue(len(checker.dictionary()) > 0)
@@ -131,6 +135,9 @@ class TestSpellPackage(unittest.TestCase):
         self.assertIsNotNone(correct_sent(self.spell_sent, engine="phunspell"))
         self.assertIsNotNone(
             correct_sent(self.spell_sent, engine="symspellpy")
+        )
+        self.assertIsNotNone(
+            correct_sent(self.spell_sent, engine="wanchanberta_thai_grammarly")
         )
         self.assertIsNotNone(
             symspellpy.correct_sent(self.spell_sent)

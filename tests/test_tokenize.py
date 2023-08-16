@@ -16,6 +16,7 @@ from pythainlp.tokenize import (
     sent_tokenize,
     ssg,
     subword_tokenize,
+    syllable_tokenize,
     tcc,
     tcc_p,
     word_tokenize,
@@ -432,6 +433,11 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsInstance(subword_tokenize("โควิด19", engine="tltk"), list)
         with self.assertRaises(ValueError):
             subword_tokenize("นกแก้ว", engine="XX")  # engine does not exist
+
+    def test_syllable_tokenize(self):
+        self.assertIsInstance(syllable_tokenize("โควิด19", engine="dict"), list)
+        with self.assertRaises(ValueError):
+            syllable_tokenize("นกแก้ว", engine="XX")  # engine does not exist
 
     def test_word_tokenize(self):
         self.assertEqual(word_tokenize(""), [])

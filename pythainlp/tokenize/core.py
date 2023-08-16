@@ -525,8 +525,9 @@ def subword_tokenize(
 
     :param str text: text to be tokenized
     :param str engine: the name subword tokenizer
+    :param bool keep_whitespace: keep whitespace
     :return: list of subwords
-    :rtype: list[str]
+    :rtype: List[str]
     **Options for engine**
         * *dict* - newmm word tokenizer with a syllable dictionary
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
@@ -620,6 +621,44 @@ def subword_tokenize(
         segments = strip_whitespace(segments)
 
     return segments
+
+
+def syllable_tokenize(
+    text: str,
+    engine: str=DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
+    keep_whitespace: bool = True,
+) -> List[str]:
+    """
+    Syllable tokenizer
+
+    Tokenizes text into inseparable units of
+    Thai syllable.
+
+    :param str text: text to be tokenized
+    :param str engine: the name syllable tokenizer
+    :param bool keep_whitespace: keep whitespace
+    :return: list of subwords
+    :rtype: List[str]
+    **Options for engine**
+        * *dict* - newmm word tokenizer with a syllable dictionary
+        * *han_solo* - CRF syllable segmenter for Thai that can work in the \
+            Thai social media domain. See `PyThaiNLP/Han-solo \
+        <https://github.com/PyThaiNLP/Han-solo>`_.
+        * *ssg* - CRF syllable segmenter for Thai. See `ponrawee/ssg \
+        <https://github.com/ponrawee/ssg>`_.
+        * *tltk* - syllable tokenizer from tltk. See `tltk \
+        <https://pypi.org/project/tltk/>`_.
+    """
+    if engine not in ["dict", "han_solo", "ssg", "tltk"]:
+        raise ValueError(
+            f"""Tokenizer \"{engine}\" not found.
+            It might be a typo; if not, please consult our document."""
+        )
+    return subword_tokenize(
+        text=text,
+        engine=engine,
+        keep_whitespace=keep_whitespace
+    )
 
 
 class Tokenizer:

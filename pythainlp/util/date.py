@@ -97,7 +97,7 @@ thai_full_month_lists = [
     ["ธันวาคม", "ธันวา", "ธ.ค.", "12"]
 ]
 thai_full_month_lists_regex = "(" + '|'.join(
-    [str('|'.join([j for j in i])) for i in thai_full_month_lists]
+    ['|'.join(i) for i in thai_full_month_lists]
 ) + ")"
 year_all_regex = r"(\d\d\d\d|\d\d)"
 dates_list = "(" + '|'.join(

@@ -446,7 +446,12 @@ def sent_tokenize(
     return segments
 
 
-def paragraph_tokenize(text: str, engine: str = "wtp-mini", paragraph_threshold:float=0.5) -> List[List[str]]:
+def paragraph_tokenize(
+      text: str, 
+      engine: str = "wtp-mini", 
+      paragraph_threshold:float=0.5,
+      style:str='newline',
+    ) -> List[List[str]]:
     """
     Paragraph tokenizer.
 
@@ -492,7 +497,13 @@ def paragraph_tokenize(text: str, engine: str = "wtp-mini", paragraph_threshold:
         else:
             _size = engine.split("-")[-1]
         from pythainlp.tokenize.wtsplit import tokenize as segment
-        segments = segment(text,size=_size,tokenize="paragraph",paragraph_threshold=paragraph_threshold)
+        segments = segment(
+                      text,
+                      size=_size,
+                      tokenize="paragraph",
+                      paragraph_threshold=paragraph_threshold,
+                      style=style,
+                    )
         
     else:
         raise ValueError(

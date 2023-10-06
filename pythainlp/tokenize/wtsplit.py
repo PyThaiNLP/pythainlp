@@ -50,8 +50,9 @@ def _tokenize(
           return _MODEL.split(
               text,
               lang_code=lang_code,
-              style=style,
+              do_paragraph_segmentation=True,
               threshold=paragraph_threshold,
+              style=style,
           )
         else:
           raise ValueError(

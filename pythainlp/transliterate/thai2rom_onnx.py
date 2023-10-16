@@ -15,11 +15,11 @@
 """
 Romanization of Thai words based on machine-learnt engine in ONNX runtime ("thai2rom")
 """
-from pythainlp.corpus import get_corpus_path
-import numpy as np
 import json
-
+import numpy as np
 from onnxruntime import InferenceSession
+from pythainlp.corpus import get_corpus_path
+
 
 _MODEL_ENCODER_NAME = "thai2rom_encoder_onnx"
 _MODEL_DECODER_NAME = "thai2rom_decoder_onnx"
@@ -33,7 +33,7 @@ class ThaiTransliterator_ONNX:
 
         Now supports Thai to Latin (romanization)
         """
-        # get the model, will download if it's not available locally
+        # get the model, download it if it's not available locally
         self.__encoder_filename = get_corpus_path(_MODEL_ENCODER_NAME)
         self.__decoder_filename = get_corpus_path(_MODEL_DECODER_NAME)
         self.__config_filename = get_corpus_path(_MODEL_CONFIG_NAME)

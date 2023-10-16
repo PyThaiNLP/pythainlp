@@ -1844,10 +1844,10 @@ _delimiter = ":"
 
 def emoji_to_thai(text: str, delimiters=(_delimiter, _delimiter)) -> str:
     """
-    This function convert emoji to thai meaning
+    This function converts emojis to their Thai meanings
 
-    :param str text: Text with Emoji
-    :return: Text with Emoji being converted to thai meaning
+    :param str text: Text with emojis
+    :return: Text with emojis converted to their Thai meanings
     :rtype: str
 
     :Example:

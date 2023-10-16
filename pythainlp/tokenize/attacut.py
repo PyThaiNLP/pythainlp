@@ -40,7 +40,7 @@ def segment(text: str, model: str = "attacut-sc") -> List[str]:
     """
     Wrapper for AttaCut - Fast and Reasonably Accurate Word Tokenizer for Thai
     :param str text: text to be tokenized to words
-    :param str model:  word tokenizer model to be tokenized to words
+    :param str model: model of word tokenizer model
     :return: list of words, tokenized from the text
     :rtype: list[str]
     **Options for model**

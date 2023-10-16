@@ -50,8 +50,8 @@ def get_corpus_db_detail(name: str, version: str = None) -> dict:
     """
     Get details about a corpus, using information from local catalog.
 
-    :param str name: name corpus
-    :return: details about a corpus
+    :param str name: name of corpus
+    :return: details about corpus
     :rtype: dict
     """
     with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
@@ -66,7 +66,7 @@ def get_corpus_db_detail(name: str, version: str = None) -> dict:
             if corpus["name"] == name and corpus["version"] == version:
                 return corpus
 
-    return dict()
+    return {}
 
 
 def path_pythainlp_corpus(filename: str) -> str:
@@ -87,7 +87,7 @@ def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
 
     Each line in the file will be a member of the set or the list.
 
-    By default, a frozenset will be return, with whitespaces stripped, and
+    By default, a frozenset will be return, with whitespace stripped and
     empty values and duplicates removed.
 
     If as_is is True, a list will be return, with no modifications
@@ -96,7 +96,7 @@ def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
 
     :param str filename: filename of the corpus to be read
 
-    :return: :class:`frozenset` or :class:`list` consists of lines in the file
+    :return: :class:`frozenset` or :class:`list` consisting of lines in the file
     :rtype: :class:`frozenset` or :class:`list`
 
     :Example:
@@ -132,12 +132,12 @@ def get_corpus_default_db(name: str, version: str = None) -> Union[str, None]:
     Get model path from default_db.json
 
     :param str name: corpus name
-    :return: path to the corpus or **None** of the corpus doesn't \
-             exist in the device
+    :return: path to the corpus or **None** if the corpus doesn't \
+             exist on the device
     :rtype: str
 
-    If you want edit default_db.json, \
-        you can edit in pythainlp/corpus/default_db.json
+    If you want to edit default_db.json, \
+        you can edit pythainlp/corpus/default_db.json
     """
     default_db_path = path_pythainlp_corpus("default_db.json")
     with open(default_db_path, encoding="utf-8-sig") as fh:
@@ -163,14 +163,14 @@ def get_corpus_path(
 
     :param str name: corpus name
     :param str version: version
-    :param bool force: force download
-    :return: path to the corpus or **None** of the corpus doesn't \
-             exist in the device
+    :param bool force: force downloading
+    :return: path to the corpus or **None** if the corpus doesn't \
+             exist on the device
     :rtype: str
 
     :Example:
 
-    (Please see the filename from
+    (Please see the filename in
     `this file
     <https://pythainlp.github.io/pythainlp-corpus/db.json>`_
 
@@ -198,18 +198,18 @@ def get_corpus_path(
         print(get_corpus_path('wiki_lm_lstm'))
         # output: /root/pythainlp-data/thwiki_model_lstm.pth
     """
-    # Customize your the corpus path then close the line after lines 164 through 190.
+    # Customize your corpus path then close the line from lines 164 through 190.
     _CUSTOMIZE = {
         # "the corpus name":"path"
     }
-    if name in list(_CUSTOMIZE.keys()):
+    if name in list(_CUSTOMIZE):
         return _CUSTOMIZE[name]
 
     default_path = get_corpus_default_db(name=name, version=version)
     if default_path is not None:
         return default_path
 
-    # check if the corpus is in local catalog, download if not
+    # check if the corpus is in local catalog, download it if not
     corpus_db_detail = get_corpus_db_detail(name, version=version)
 
     if not corpus_db_detail or not corpus_db_detail.get("filename"):
@@ -222,7 +222,7 @@ def get_corpus_path(
             path = get_full_data_path(corpus_db_detail.get("foldername"))
         else:
             path = get_full_data_path(corpus_db_detail.get("filename"))
-        # check if the corpus file actually exists, download if not
+        # check if the corpus file actually exists, download it if not
         if not os.path.exists(path):
             download(name, version=version, force=force)
         if os.path.exists(path):
@@ -235,8 +235,8 @@ def _download(url: str, dst: str) -> int:
     """
     Download helper.
 
-    @param: url to download file
-    @param: dst place to put the file
+    @param: URL for downloading file
+    @param: dst place to put the file into
     """
     _CHUNK_SIZE = 64 * 1024  # 64 KiB
 
@@ -270,8 +270,8 @@ def _check_hash(dst: str, md5: str) -> None:
     """
     Check hash helper.
 
-    @param: dst place to put the file
-    @param: md5 place to hash the file (MD5)
+    @param: dst place to put the file into
+    @param: md5 place to file hash (MD5)
     """
     if md5 and md5 != "-":
         import hashlib
@@ -312,9 +312,9 @@ def _check_version(cause: str) -> bool:
     check = False
     __version = __version__
     if "dev" in __version:
-        __version = __version.split("dev")[0]
+        __version = __version.split("dev", maxsplit=1)[0]
     elif "beta" in __version:
-        __version = __version.split("beta")[0]
+        __version = __version.split("beta", maxsplit=1)[0]
     v = _version2int(__version)
 
     if cause == "*":
@@ -330,13 +330,13 @@ def _check_version(cause: str) -> bool:
         check = v > _version2int(temp)
     elif cause.startswith(">=") and "<=" not in cause and "<" in cause:
         temp = cause.replace(">=", "").split("<")
-        check = v >= _version2int(temp[0]) and v < _version2int(temp[1])
+        check = _version2int(temp[0]) <= v < _version2int(temp[1])
     elif cause.startswith(">=") and "<=" in cause:
         temp = cause.replace(">=", "").split("<=")
-        check = v >= _version2int(temp[0]) and v <= _version2int(temp[1])
+        check = _version2int(temp[0]) <= v <= _version2int(temp[1])
     elif cause.startswith(">") and "<" in cause:
         temp = cause.replace(">", "").split("<")
-        check = v > _version2int(temp[0]) and v < _version2int(temp[1])
+        check = _version2int(temp[0]) < v < _version2int(temp[1])
     elif cause.startswith("<="):
         temp = cause.replace("<=", "")
         check = v <= _version2int(temp[0])
@@ -357,10 +357,10 @@ def download(
     https://pythainlp.github.io/pythainlp-corpus/db.json
 
     :param str name: corpus name
-    :param bool force: force download
+    :param bool force: force downloading
     :param str url: URL of the corpus catalog
-    :param str version: Version of the corpus
-    :return: **True** if the corpus is found and succesfully downloaded.
+    :param str version: version of the corpus
+    :return: **True** if the corpus is found and successfully downloaded.
              Otherwise, it returns **False**.
     :rtype: bool
 
@@ -375,7 +375,7 @@ def download(
         # - Downloading: wiki_lm_lstm 0.1
         # thwiki_lm.pth:  26%|██▌       | 114k/434k [00:00<00:00, 690kB/s]
 
-    By default, downloaded corpus and model will be saved in
+    By default, downloaded corpora and models will be saved in
     ``$HOME/pythainlp-data/``
     (e.g. ``/Users/bact/pythainlp-data/wiki_lm_lstm.pth``).
     """
@@ -424,7 +424,7 @@ def download(
                 found = i
                 break
 
-        # If not found in local, download
+        # If not found in local, download it
         if force or not found:
             print(f"- Downloading: {name} {version}")
             _download(
@@ -484,16 +484,16 @@ def download(
 
             with open(corpus_db_path(), "w", encoding="utf-8") as f:
                 json.dump(local_db, f, ensure_ascii=False)
-        # Check if versions match if the corpus is found in local database
+        # Check if versions match or if the corpus is found in local database
         # but a re-download is not forced
         else:
             current_ver = local_db["_default"][found]["version"]
 
             if current_ver == version:
-                # Already has the same version
+                # Corpus of the same version already exists
                 print("- Already up to date.")
             else:
-                # Has the corpus but different version
+                # Corpus exists but is of different version
                 print(f"- Existing version: {current_ver}")
                 print(f"- New version available: {version}")
                 print("- Use download(data_name, force=True) to update")
@@ -509,7 +509,7 @@ def remove(name: str) -> bool:
     Remove corpus
 
     :param str name: corpus name
-    :return: **True** if the corpus is found and succesfully removed.
+    :return: **True** if the corpus is found and successfully removed.
              Otherwise, it returns **False**.
     :rtype: bool
 

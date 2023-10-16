@@ -3,7 +3,7 @@
 pythainlp.wsd
 =============
 
-The :class:`pythainlp.wsd` contains get word sense function for Thai Word Sense Disambiguation (WSD).
+The :class:`pythainlp.wsd` contains functions used to get word senses for Thai Word Sense Disambiguation (WSD).
 
 
 Modules

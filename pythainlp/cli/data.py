@@ -13,11 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-thainlp dataset/corpus management command line.
+Command line for PyThaiNLP's dataset/corpus management.
 """
 import argparse
 
-from pythainlp import cli, corpus
+from pythainlp import corpus
 from pythainlp.tools import get_pythainlp_data_path
 
 
@@ -123,5 +123,5 @@ class App:
         )
 
     def path(self, argv):
-        """Print path for local dataset."""
+        """Print path of local dataset."""
         print(get_pythainlp_data_path())

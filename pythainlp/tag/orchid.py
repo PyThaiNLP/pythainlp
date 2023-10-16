@@ -130,7 +130,7 @@ TO_UD = {
 
 
 def ud_exception(w: str, tag: str) -> str:
-    if w == "การ" or w == "ความ":
+    if w in ("การ", "ความ"):
         return "NOUN"
 
     return tag

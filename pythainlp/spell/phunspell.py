@@ -15,7 +15,7 @@
 """
 Phunspell
 
-A pure Python spell checker utilizing spylls a port of Hunspell.
+A pure Python spell checker utilizing spylls, a port of Hunspell.
 
 :See Also:
     * \

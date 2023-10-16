@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Spell out time to Thai words.
+Spell out time as Thai words.
 
 Convert time string or time object to Thai words.
 """
@@ -138,11 +138,11 @@ def _format(
     else:
         raise NotImplementedError(f"Time format not supported: {fmt}")
 
-    if precision == "m" or precision == "s":
+    if precision in ("m", "s"):
         if (
             m == 30
             and (s == 0 or precision == "m")
-            and (fmt == "6h" or fmt == "m6h")
+            and (fmt in ("6h", "m6h"))
         ):
             text += "ครึ่ง"
         else:
@@ -151,7 +151,7 @@ def _format(
                 text += num_to_thaiword(s) + "วินาที"
     else:
         if m:
-            if m == 30 and s == 0 and (fmt == "6h" or fmt == "m6h"):
+            if m == 30 and s == 0 and (fmt in ("6h", "m6h")):
                 text += "ครึ่ง"
             else:
                 text += num_to_thaiword(m) + "นาที"
@@ -167,7 +167,7 @@ def time_to_thaiword(
     precision: Union[str, None] = None,
 ) -> str:
     """
-    Spell out time to Thai words.
+    Spell out time as Thai words.
 
     :param str time_data: time input, can be a datetime.time object \
         or a datetime.datetime object \
@@ -176,11 +176,11 @@ def time_to_thaiword(
         * *24h* - 24-hour clock (default)
         * *6h* - 6-hour clock
         * *m6h* - Modified 6-hour clock
-    :param str precision: precision of the spell out
-        * *m* - always spell out to minute level
-        * *s* - always spell out to second level
+    :param str precision: precision of the spell out time
+        * *m* - always spell out at minute level
+        * *s* - always spell out at second level
         * None - spell out only non-zero parts
-    :return: Time spell out in Thai words
+    :return: Time spelled out as Thai words
     :rtype: str
 
     :Example:
@@ -212,12 +212,12 @@ def time_to_thaiword(
     """
     _time = None
 
-    if isinstance(time_data, time) or isinstance(time_data, datetime):
+    if isinstance(time_data, (time, datetime)):
         _time = time_data
     else:
         if not isinstance(time_data, str):
             raise TypeError(
-                "Time data must be a datetime.time object, "
+                "Time input must be a datetime.time object, "
                 "a datetime.datetime object, or a string."
             )
 
@@ -247,7 +247,7 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
     Convert Thai time in words into time (H:M).
 
     :param str text: Thai time in words
-    :param bool padding: Zero padding the hour if True
+    :param bool padding: Zero pad the hour if True
 
     :return: time string
     :rtype: str

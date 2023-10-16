@@ -2,7 +2,7 @@
 
 pythainlp.word_vector
 ====================================
-The :class:`word_vector` contains functions that makes use of a pre-trained vector public data.
+The :class:`word_vector` contains functions that make use of a pre-trained vector of public data.
 
 Dependencies
 ------------

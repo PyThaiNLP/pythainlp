@@ -26,9 +26,9 @@ def pos_tag(
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
         * *wangchanberta* - wangchanberta model.
-        * *tltk* - TLTK: Thai Language Toolkit (support TNC corpus only.\
-            if you choose other corpus, It's change to TNC corpus.)
-    :param str corpus: the corpus that used to create the language model for tagger
+        * *tltk* - TLTK: Thai Language Toolkit (support TNC corpora only.\
+            If you choose other corpora, they will be converted to TNC corpora.)
+    :param str corpus: the corpus that is used to create the language model for tagger
         * *orchid* - `ORCHID \
             <https://www.academia.edu/9127599/Thai_Treebank>`_ corpus, \
             text from Thai academic articles (default)
@@ -142,8 +142,8 @@ def pos_tag_sents(
         * *perceptron* - perceptron tagger (default)
         * *unigram* - unigram tagger
         * *tltk* - TLTK: Thai Language Toolkit (support TNC corpus only.\
-            if you choose other corpus, It's change to TNC corpus.)
-    :param str corpus: the corpus that used to create the language model for tagger
+            If you choose other corpora, they will be converted to TNC corpora.)
+    :param str corpus: the corpus that is used to create the language model for tagger
         * *orchid* - `ORCHID \
             <https://www.academia.edu/9127599/Thai_Treebank>`_ corpus, \
             text from Thai academic articles (default)

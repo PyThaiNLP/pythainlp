@@ -2,18 +2,12 @@
 
 import unittest
 
-from pythainlp.translate import (
-    ThZhTranslator,
-    ZhThTranslator,
-    Translate
-)
+from pythainlp.translate import Translate
 from pythainlp.translate.en_th import (
     EnThTranslator,
     ThEnTranslator,
     download_model_all
 )
-from pythainlp.corpus import remove
-
 
 class TestTranslatePackage(unittest.TestCase):
     def test_translate(self):

@@ -23,12 +23,12 @@ from pythainlp.corpus import provinces
 
 def tag_provinces(tokens: List[str]) -> List[Tuple[str, str]]:
     """
-    This function recognize Thailand provinces in text.
+    This function recognizes Thailand provinces in text.
 
     Note that it uses exact match and considers no context.
 
     :param list[str] tokens: a list of words
-    :reutrn: a list of tuple indicating NER for `LOCATION` in IOB format
+    :return: a list of tuples indicating NER for `LOCATION` in IOB format
     :rtype: list[tuple[str, str]]
 
     :Example:

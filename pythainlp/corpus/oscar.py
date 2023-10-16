@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Thai unigram word frequency from OSCAR Corpus (icu word tokenize)
+Thai unigram word frequency from OSCAR Corpus (words tokenized using ICU)
 
 Credit: Korakot Chaovavanich
 https://web.facebook.com/groups/colab.thailand/permalink/1524070061101680/
@@ -31,12 +31,12 @@ _FILENAME = "oscar_icu"
 
 def word_freqs() -> List[Tuple[str, int]]:
     """
-    Get word frequency from OSCAR Corpus (icu word tokenize)
+    Get word frequency from OSCAR Corpus (words tokenized using ICU)
     """
     word_freqs = []
     _path = get_corpus_path(_FILENAME)
     with open(_path, "r", encoding="utf-8-sig") as f:
-        _data = [i for i in f.readlines()]
+        _data = list(f.readlines())
         del _data[0]
         for line in _data:
             _temp = line.strip().split(",")
@@ -51,12 +51,12 @@ def word_freqs() -> List[Tuple[str, int]]:
 
 def unigram_word_freqs() -> defaultdict:
     """
-    Get unigram word frequency from OSCAR Corpus (icu word tokenize)
+    Get unigram word frequency from OSCAR Corpus (words tokenized using ICU)
     """
     _path = get_corpus_path(_FILENAME)
     _word_freqs = defaultdict(int)
     with open(_path, "r", encoding="utf-8-sig") as fh:
-        _data = [i for i in fh.readlines()]
+        _data = list(fh.readlines())
         del _data[0]
         for i in _data:
             _temp = i.strip().split(",")

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Dictionary-based longest-matching Thai word segmentation. Implementation based
-on the code from Patorn Utenpattanun.
+Dictionary-based longest-matching Thai word segmentation. Implementation is based
+on the codes from Patorn Utenpattanun.
 
 :See Also:
     * `GitHub Repository \
@@ -40,7 +40,7 @@ _KNOWN = True
 _UNKNOWN = False
 
 
-class LongestMatchTokenizer(object):
+class LongestMatchTokenizer():
     def __init__(self, trie: Trie):
         self.__trie = trie
 
@@ -144,7 +144,7 @@ def segment(
     """
     Dictionary-based longest matching word segmentation.
 
-    :param str text: text to be tokenized to words
+    :param str text: text to be tokenized into words
     :param pythainlp.util.Trie custom_dict: dictionary for tokenization
     :return: list of words, tokenized from the text
     """

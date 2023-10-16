@@ -17,7 +17,7 @@ Thai-French Machine Translation
 
 Trained by OPUS Corpus
 
-Model from Language Technology Research Group at the University of Helsinki
+Model is from Language Technology Research Group at the University of Helsinki
 
 BLEU 20.4
 
@@ -32,13 +32,13 @@ class ThFrTranslator:
 
     Trained by OPUS Corpus
 
-    Model from Language Technology Research Group at the University of Helsinki
+    Model is from Language Technology Research Group at the University of Helsinki
 
     BLEU 20.4
 
     - Huggingface https://huggingface.co/Helsinki-NLP/opus-mt-th-fr
 
-    :param bool use_gpu : load model to gpu (Default is False)
+    :param bool use_gpu : load model using GPU (Default is False)
     """
 
     def __init__(

@@ -136,9 +136,9 @@ def eng_to_thai(text: str) -> str:
     Qwerty keyboard layout to the originally intended keyboard layout
     that is the Thai Kedmanee keyboard.
 
-    :param str text: incorrect text input (type Thai with English keyboard)
-    :return: Thai text where incorrect typing with
-             a keyboard layout is corrected
+    :param str text: incorrect text input (Thai typed using English keyboard)
+    :return: Thai text with typing using
+             incorrect keyboard layout is corrected
     :rtype: str
 
     :Example:
@@ -159,9 +159,9 @@ def thai_to_eng(text: str) -> str:
     keyboard layout to the originally intended keyboard layout
     that is the English-US Qwerty keyboard.
 
-    :param str text: incorrect text input (type English with Thai keyboard)
-    :return: English text where incorrect typing with
-             a keyboard layout is corrected
+    :param str text: incorrect text input (English typed using Thai keyboard)
+    :return: English text with typing with
+             incorrect keyboard layout is corrected
     :rtype: str
 
     :Example:
@@ -178,7 +178,7 @@ def thai_to_eng(text: str) -> str:
 
 def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
     """
-    Calculate euclidean distance between two Thai characters
+    Calculate Euclidean distance between two Thai characters
     according to their location on a Thai keyboard layout.
 
     A modified TIS 820-2531 standard keyboard layout, which is developed
@@ -198,7 +198,7 @@ def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
     :param str c1: first character
     :param str c2: second character
     :param str shift_dist: return value if they're shifted
-    :return: euclidean distance between two characters
+    :return: Euclidean distance between two characters
     :rtype: float
 
     :Example:

@@ -29,7 +29,7 @@ _NLPO3_DEFAULT_DICT = nlpo3_load_dict(
 def load_dict(file_path: str, dict_name: str) -> bool:
     """Load a dictionary file into an in-memory dictionary collection.
 
-    The loaded dictionary will be accessible throught the assigned dict_name.
+    The loaded dictionary will be accessible throughout the assigned dict_name.
     *** This function does not override an existing dict name. ***
 
     :param file_path: Path to a dictionary file

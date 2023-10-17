@@ -68,7 +68,7 @@ def evaluate_one_text(model, sentence):
     input_id = text['input_ids'][0].unsqueeze(0).to(device)
     label_ids = torch.Tensor(align_word_ids(sentence)).unsqueeze(0).to(device)
     # print(f"input_ids: {input_id}")
-    # print(f"attnetion_mask: {mask}")
+    # print(f"attetion_mask: {mask}")
     # print(f"label_ids: {label_ids}")
 
     logits = tagging_model(input_id, mask, None)

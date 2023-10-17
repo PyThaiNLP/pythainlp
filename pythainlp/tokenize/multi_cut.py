@@ -94,7 +94,7 @@ def _multicut(
             last_p = q0
         elif len_q == 0:  # len(q) == 0  means not found in dictionary
             m = _PAT_NONTHAI.match(text[p:])
-            if m:  # non-Thai toekn
+            if m:  # non-Thai token
                 i = p + m.span()[1]
             else:  # non-Thai token, find minimum skip
                 for i in range(p, len_text):

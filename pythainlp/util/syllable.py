@@ -244,7 +244,7 @@ def tone_detector(syllable: str) -> str:
     initial_consonant = consonants[0]
     tone_mark = _tone_mark_detector(syllable)
     syllable_check = syllable_open_close_detector(syllable)
-    syllable_check_lenght = syllable_length(syllable)
+    syllable_check_length = syllable_length(syllable)
     initial_consonant_type = thai_initial_consonant_to_type[initial_consonant]
     # r for store value
     r = ""
@@ -281,21 +281,21 @@ def tone_detector(syllable: str) -> str:
             r = "r"
     elif (
         initial_consonant_type == "low"
-        and syllable_check_lenght == "short"
+        and syllable_check_length == "short"
         and syllable_check == "close"
         and s == "dead"
     ):
         r = "h"
     elif (
         initial_consonant_type == "low"
-        and syllable_check_lenght == "long"
+        and syllable_check_length == "long"
         and syllable_check == "close"
         and s == "dead"
     ):
         r = "f"
     elif (
         initial_consonant_type == "low"
-        and syllable_check_lenght == "short"
+        and syllable_check_length == "short"
         and syllable_check == "open"
     ):
         r = "h"

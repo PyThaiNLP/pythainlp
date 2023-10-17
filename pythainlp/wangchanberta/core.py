@@ -34,7 +34,7 @@ class ThaiNameTagger:
         self, dataset_name: str = "thainer", grouped_entities: bool = True
     ):
         """
-        This function tags named-entitiy from text in IOB format.
+        This function tags named-entity from text in IOB format.
 
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
@@ -66,7 +66,7 @@ class ThaiNameTagger:
         self, text: str, pos: bool= False,tag: bool = False
     ) -> Union[List[Tuple[str, str]], str]:
         """
-        This function tags named-entitiy from text in IOB format.
+        This function tags named-entity from text in IOB format.
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
 
@@ -141,7 +141,7 @@ class ThaiNameTagger:
 class NamedEntityRecognition:
     def __init__(self, model: str ="pythainlp/thainer-corpus-v2-base-model") -> None:
         """
-        This function tags named-entitiy from text in IOB format.
+        This function tags named-entity from text in IOB format.
 
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
@@ -169,7 +169,7 @@ class NamedEntityRecognition:
         self, text: str, pos: bool= False,tag: bool = False
     ) -> Union[List[Tuple[str, str]], str]:
         """
-        This function tags named-entitiy from text in IOB format.
+        This function tags named-entity from text in IOB format.
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
 

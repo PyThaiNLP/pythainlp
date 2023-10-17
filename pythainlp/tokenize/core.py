@@ -199,7 +199,7 @@ def word_tokenize(
         word_tokenize(text, engine='attacut')
         # output: ['โอเค', 'บ่', 'พวกเรา', 'รัก', 'ภาษา', 'บ้านเกิด']
 
-    Tokenize text by omiting whitespaces::
+    Tokenize text by omitting whitespaces::
 
         text = "วรรณกรรม ภาพวาด และการแสดงงิ้ว "
 
@@ -344,7 +344,7 @@ def sent_tokenize(
     :param str text: the text to be tokenized
     :param str engine: choose among *'crfcut'*, *'whitespace'*, \
     *'whitespace+newline'*
-    :return: list of splited sentences
+    :return: list of split sentences
     :rtype: list[str]
     **Options for engine**
         * *crfcut* - (default) split by CRF trained on TED dataset
@@ -722,7 +722,7 @@ class Tokenizer:
 
         text = "อะเฟเซีย (Aphasia) เป็นอาการผิดปกติของการพูด"
 
-        # initate an object from file with `attacut` as tokenizer
+        # initiate an object from file with `attacut` as tokenizer
         _tokenizer = Tokenizer(custom_dict=PATH_TO_CUSTOM_DICTIONARY, \\
             engine='attacut')
 

@@ -96,7 +96,7 @@ ORCHID corpus uses different set of POS tags. Thus, we make UD POS tags version 
 The following table shows the mapping of POS tags from ORCHID to UD:
 
 ===============     =======================
-ORCHID POS tags     Coresponding UD POS tag
+ORCHID POS tags     Corresponding UD POS tag
 ===============     =======================
 NOUN                NOUN
 NCMN                NOUN
@@ -165,7 +165,7 @@ Details about LST20 POS tags are available in [#Prachya_2020]_.
 The following table shows the mapping of POS tags from LST20 to UD:
 
 +----------------+-------------------------+
-| LST20 POS tags | Coresponding UD POS tag |
+| LST20 POS tags | Corresponding UD POS tag |
 +================+=========================+
 | AJ             | ADJ                     |
 +----------------+-------------------------+
@@ -198,9 +198,9 @@ The following table shows the mapping of POS tags from LST20 to UD:
 | XX             | X                       |
 +----------------+-------------------------+
 
-For the NE, we use `Inside-outside-beggining (IOB) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`_ format to tag NE for each word.
+For the NE, we use `Inside-outside-beginning (IOB) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`_ format to tag NE for each word.
 
-*B-* prefix indicates the begining token of the chunk. *I-* prefix indicates the intermediate token within the chunk. *O* indicates that the token does not belong to any NE chunk.
+*B-* prefix indicates the beginning token of the chunk. *I-* prefix indicates the intermediate token within the chunk. *O* indicates that the token does not belong to any NE chunk.
 
 For instance, given a sentence "บารัค โอบามาเป็นประธานธิปดี", it would tag the tokens "บารัค", "โอบามา", "เป็น", "ประธานาธิปดี" with "B-PERSON", "I-PERSON", "O", and "O" respectively.
 

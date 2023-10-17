@@ -135,7 +135,7 @@ class WordVector:
         :mod:`gensim`.
 
         :param list positive: a list of words to add
-        :param list negative: a list of words to substract
+        :param list negative: a list of words to subtract
 
         :raises KeyError: if there is any word in `positive` or `negative`
                           not in the vocabulary of the model.
@@ -270,7 +270,7 @@ class WordVector:
         Specifically, it first tokenize that text and map each tokenized words
         with the word vectors from the model.
         Then, word vectors are aggregatesd into one vector of 300 dimension
-        by calulating either mean, or summation of all word vectors.
+        by calculating either mean, or summation of all word vectors.
 
         :param str text: text input
         :param bool use_mean: if `True` aggregate word vectors with mean of all

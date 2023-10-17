@@ -41,7 +41,7 @@ def summarize(
     Then, computes frequencies of tokenized words
     (with :func:`pythainlp.tokenize.word_tokenize`) in all sentences
     and normalized with maximum word frequency. The words with normalized
-    frequncy that are less than 0.1 or greater than 0.9 will be
+    frequency that are less than 0.1 or greater than 0.9 will be
     filtered out from frequency dictionary. Finally, it picks *n* sentences
     with highest sum of normalized frequency from all words
     in the sentence and also appear in the frequency dictionary.

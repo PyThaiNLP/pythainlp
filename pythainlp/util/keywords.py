@@ -88,7 +88,7 @@ def find_keyword(word_list: List[str], min_len: int = 3) -> Dict[str, int]:
     where stopword is excluded and returns as a frequency dictionary.
 
     :param list word_list: a list of words
-    :param int min_len: the mininum frequency for words to obtain
+    :param int min_len: the minimum frequency for words to obtain
 
     :return: a dictionary object with key-value pair as word and its raw count
     :rtype: dict[str, int]

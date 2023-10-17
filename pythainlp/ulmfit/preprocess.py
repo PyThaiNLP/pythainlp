@@ -169,7 +169,7 @@ def rm_brackets(text: str) -> str:
     new_line = re.sub(r"\(\)", "", text)
     new_line = re.sub(r"\{\}", "", new_line)
     new_line = re.sub(r"\[\]", "", new_line)
-    # brakets with only punctuations
+    # brackets with only punctuations
     new_line = re.sub(r"\([^a-zA-Z0-9ก-๙]+\)", "", new_line)
     new_line = re.sub(r"\{[^a-zA-Z0-9ก-๙]+\}", "", new_line)
     new_line = re.sub(r"\[[^a-zA-Z0-9ก-๙]+\]", "", new_line)

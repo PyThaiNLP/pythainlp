@@ -78,7 +78,7 @@ class Unigram:
             gen = Unigram()
 
             gen.gen_sentence("แมว")
-            # ouput: 'แมวเวลานะนั้น'
+            # output: 'แมวเวลานะนั้น'
         """
         if start_seq is None:
             start_seq = random.choice(self.word)
@@ -174,7 +174,7 @@ class Bigram:
             gen = Bigram()
 
             gen.gen_sentence("แมว")
-            # ouput: 'แมวไม่ได้รับเชื้อมัน'
+            # output: 'แมวไม่ได้รับเชื้อมัน'
         """
         if start_seq is None:
             start_seq = random.choice(self.words)
@@ -269,7 +269,7 @@ class Trigram:
             gen = Trigram()
 
             gen.gen_sentence()
-            # ouput: 'ยังทำตัวเป็นเซิร์ฟเวอร์คือ'
+            # output: 'ยังทำตัวเป็นเซิร์ฟเวอร์คือ'
         """
         if start_seq is None:
             start_seq = random.choice(self.bi_keys)

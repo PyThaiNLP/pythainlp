@@ -67,7 +67,7 @@ def synsets(word: str, pos: str = None, lang: str = "tha"):
          Synset('houseful.n.01'), Synset('home.n.07')]
 
         When specifying the part of speech constrain. For example,
-        the word "แรง" cound be interpreted as force (n.) or hard (adj.).
+        the word "แรง" could be interpreted as force (n.) or hard (adj.).
 
         >>> from pythainlp.corpus.wordnet import synsets
         >>> # By default, accept all part of speech

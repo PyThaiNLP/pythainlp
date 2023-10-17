@@ -59,8 +59,8 @@ class TestBenchmarksPackage(unittest.TestCase):
             sample = np.array(list(d["actual"])).astype(int)
             ref_sample = np.array(list(d["expected"])).astype(int)
 
-            sb = list(word_tokenization._find_word_boudaries(sample))
-            rb = list(word_tokenization._find_word_boudaries(ref_sample))
+            sb = list(word_tokenization._find_word_boundaries(sample))
+            rb = list(word_tokenization._find_word_boundaries(ref_sample))
 
             # in binary [{0, 1}, ...]
             correctly_tokenized_words = word_tokenization._find_words_correctly_tokenised(

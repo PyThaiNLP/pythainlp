@@ -116,7 +116,7 @@ def process_thai(
         [บ้าน', 'xxrep', '   ', 'อยู่', 'xxwrep', 'นาน', '😂', '🤣',
         '😃', '😄', '😅', 'pythainlp', '&']
 
-        2. Modify pre_rules and post_rules arugments with
+        2. Modify pre_rules and post_rules arguments with
            rules provided in :mod:`pythainlp.ulmfit`:
 
         >>> from pythainlp.ulmfit import (
@@ -161,7 +161,7 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
     :param learn: :class:`fastai` language model learner
     :param data: :class:`fastai` data bunch
     :param str agg: name of aggregation methods for word embeddings
-                    The avialable methods are "mean" and "sum"
+                    The available methods are "mean" and "sum"
 
     :return: :class:`numpy.array` of document vector sized 400 based on
              the encoder of the model

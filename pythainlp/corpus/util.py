@@ -33,7 +33,7 @@ from pythainlp.util import Trie
 
 def index_pairs(words: List[str]) -> Iterator[Tuple[int, int]]:
     """
-    Return begining and ending index pairs of words
+    Return beginning and ending index pairs of words
     """
     i = 0
     for w in words:
@@ -86,7 +86,7 @@ def revise_wordset(
     Revise a set of word that could improve tokenization performance of
     a dictionary-based `tokenize` function.
 
-    `orign_words` will be used as a base set for the dictionary.
+    `origin_words` will be used as a base set for the dictionary.
     Words that do not performed well with `training_data` will be removed.
     The remaining words will be returned.
 

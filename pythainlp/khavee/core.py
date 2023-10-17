@@ -86,7 +86,7 @@ class KhaveeVerifier:
                     sara.append('อำ')
                 else:
                     sara.append('อะ')
-        # Incase ออ
+        # In case ออ
         if countoa == 1 and 'อ' in word[-1] and 'เ' not in word:
             sara.remove('ออ')
         # In case เอ เอ 
@@ -183,7 +183,7 @@ class KhaveeVerifier:
         elif sara == [] and len(word) == 3:
             sara.append('ออ') 
         
-        # incase บ่ 
+        # in case บ่ 
         if 'บ่' == word:
             sara = []
             sara.append('ออ')
@@ -257,7 +257,7 @@ class KhaveeVerifier:
 
         :param str word1: Thai word
         :param str word2: Thai word
-        :return: boolen
+        :return: boolean
         :rtype: bool
 
         :Example:
@@ -320,7 +320,7 @@ class KhaveeVerifier:
             # output: The poem is correct according to the principle.
 
             print(kv.check_klon('''ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง เอ๋งเอ๋งเสียงหมา มีคนจับจอง เขาชื่อน้องเธียร''',k_type=4))
-            # # -> ["Cant find rhyme between paragraphs ('หมา', 'จอง')in paragraph 2", "Cant find rhyme between paragraphs ('หมา', 'ทอง')in paragraph 2"]
+            # # -> ["Can't find rhyme between paragraphs ('หมา', 'จอง')in paragraph 2", "Can't find rhyme between paragraphs ('หมา', 'ทอง')in paragraph 2"]
         """
         if k_type == 8:
             try:

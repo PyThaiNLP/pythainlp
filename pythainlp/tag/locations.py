@@ -28,7 +28,7 @@ def tag_provinces(tokens: List[str]) -> List[Tuple[str, str]]:
     Note that it uses exact match and considers no context.
 
     :param list[str] tokens: a list of words
-    :reutrn: a list of tuple indicating NER for `LOCATION` in IOB format
+    :return: a list of tuple indicating NER for `LOCATION` in IOB format
     :rtype: list[tuple[str, str]]
 
     :Example:

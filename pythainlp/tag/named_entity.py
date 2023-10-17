@@ -69,7 +69,7 @@ class NER:
         self, text, pos=False, tag=False
     ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
         """
-        This function tags named-entitiy from text in IOB format.
+        This function tags named-entity from text in IOB format.
 
         :param str text: text in Thai to be tagged
         :param bool pos: output with part-of-speech tag.\
@@ -122,7 +122,7 @@ class NNER:
 
     def tag(self, text) -> Tuple[List[str], List[dict]]:
         """
-        This function tags nested named-entitiy.
+        This function tags nested named-entity.
 
         :param str text: text in Thai to be tagged
 

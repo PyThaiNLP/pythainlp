@@ -26,7 +26,7 @@ def edges(word: str, lang: str = "th"):
 
     For example, the term "ConceptNet" is a "knowledge graph", and
     "knowledge graph" has "common sense knowledge" which is a  part of
-    "artificial inteligence". Also, "ConcepNet" is used for
+    "artificial intelligence". Also, "ConcepNet" is used for
     "natural language understanding" which is a part of
     "artificial intelligence".
 

@@ -46,8 +46,8 @@ def segment(
     parts of the same named-entity.
 
     :param str text: text to be tokenized to words
-    :parm list taglist: a list of named-entity tags to be used
-    :parm class tagger: ner tagger engine
+    :param list taglist: a list of named-entity tags to be used
+    :param class tagger: ner tagger engine
     :return: list of words, tokenized from the text
     """
     if not isinstance(text, str):

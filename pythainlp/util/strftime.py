@@ -193,13 +193,13 @@ def thai_strftime(
         * The Thai Buddhist Era (BE) year is simply converted from AD
           by adding 543. This is certainly not accurate for years
           before 1941 AD, due to the change in Thai New Year's Day.
-        * This meant to be an interrim solution, since
+        * This meant to be an interim solution, since
           Python standard's locale module (which relied on C's strftime())
           does not support "th" or "th_TH" locale yet. If supported,
           we can just locale.setlocale(locale.LC_TIME, "th_TH")
           and then use native datetime.strftime().
 
-    We trying to make this platform-independent and support extentions
+    We trying to make this platform-independent and support extensions
     as many as possible. See these links for strftime() extensions
     in POSIX, BSD, and GNU libc:
 

@@ -48,7 +48,7 @@ class ThaiTokenizer(BaseTokenizer):
         """
         This function tokenizes text with *newmm* engine and the dictionary
         specifically for `ulmfit` related functions
-        (see: `Dictonary file (.txt) \
+        (see: `Dictionary file (.txt) \
         <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/words_th_thai2fit_201810.txt>`_).
         :meth: tokenize text with a frozen newmm engine
         :param str text: text to tokenize

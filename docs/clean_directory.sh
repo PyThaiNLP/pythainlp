@@ -5,7 +5,7 @@
 # $1 : FTP_USER
 # $2 : FTP_PASSWORD
 # $3 : FTP_HOST
-# $4 : Brnach name
+# $4 : Branch name
 
 FTP_USER=$1
 FTP_PASSWORD=$2

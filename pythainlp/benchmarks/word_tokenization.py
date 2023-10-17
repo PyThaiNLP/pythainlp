@@ -80,7 +80,7 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
 
 def benchmark(ref_samples: List[str], samples: List[str]) -> pd.DataFrame:
     """
-    Performace benchmark of samples.
+    Performance benchmark of samples.
 
     Please see :meth:`pythainlp.benchmarks.word_tokenization.compute_stats` for
     metrics being computed.
@@ -157,7 +157,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     **Word-Level**:
       Precision, Recall, and f1
     **Other**:
-      - Correct tokenization indicator: {0, 1} sequence indicating the correspoding
+      - Correct tokenization indicator: {0, 1} sequence indicating the corresponding
         word is tokenized correctly.
 
     :param str ref_sample: ground truth samples
@@ -169,7 +169,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     ref_sample = _binary_representation(ref_sample)
     sample = _binary_representation(raw_sample)
 
-    # Compute charater-level statistics
+    # Compute character-level statistics
     c_pos_pred, c_neg_pred = np.argwhere(sample == 1), np.argwhere(sample == 0)
 
     c_pos_pred = c_pos_pred[c_pos_pred < ref_sample.shape[0]]
@@ -188,10 +188,10 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     # Compute word-level statistics
 
     # Find correctly tokenized words in the reference sample
-    word_boundaries = _find_word_boudaries(ref_sample)
+    word_boundaries = _find_word_boundaries(ref_sample)
 
     # Find correctly tokenized words in the sample
-    ss_boundaries = _find_word_boudaries(sample)
+    ss_boundaries = _find_word_boundaries(sample)
     tokenization_indicators = _find_words_correctly_tokenised(
         word_boundaries, ss_boundaries
     )
@@ -253,7 +253,7 @@ def _binary_representation(txt: str, verbose: bool = False):
     return bin_rept
 
 
-def _find_word_boudaries(bin_reps) -> list:
+def _find_word_boundaries(bin_reps) -> list:
     """
     Find start and end location of each word.
 

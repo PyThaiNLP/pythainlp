@@ -39,11 +39,11 @@ def get_ner(
     """
     Named-entity recognizer from **TLTK**
 
-    This function tags named-entitiy from text in IOB format.
+    This function tags named-entity from text in IOB format.
 
     :param str text: text in Thai to be tagged
     :param bool pos: To include POS tags in the results (`True`) or
-        exclude (`False`). The defualt value is `True`
+        exclude (`False`). The default value is `True`
     :param bool tag: output like html tag.
     :return: a list of tuple associated with tokenized word, NER tag,
         POS tag (if the parameter `pos` is specified as `True`),

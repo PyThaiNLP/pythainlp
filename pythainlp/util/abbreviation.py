@@ -48,7 +48,7 @@ def abbreviation_to_full_text(text: str, top_k: int=2) -> List[Tuple[str, Union[
     except ImportError:
         raise ImportError(
             """
-            This funtion need to use khamyo.
+            This function need to use khamyo.
             You can install by pip install khamyo or 
             pip install pythainlp[abbreviation].
             """

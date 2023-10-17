@@ -89,7 +89,7 @@ class ThaiNameTagger:
     This function support Thai NER 1.4 and 1.5 only.
     :param str version: Thai NER version.
         It's support Thai NER 1.4 & 1.5.
-        The defualt value is `1.4
+        The default value is `1.4
 
     :Example:
     ::
@@ -106,7 +106,7 @@ class ThaiNameTagger:
 
         :param str version: Thai NER version.
                             It's support Thai NER 1.4 & 1.5.
-                            The defualt value is `1.4`
+                            The default value is `1.4`
         """
         from pycrfsuite import Tagger as CRFTagger
 
@@ -123,11 +123,11 @@ class ThaiNameTagger:
         self, text: str, pos: bool = True, tag: bool = False
     ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]]]:
         """
-        This function tags named-entitiy from text in IOB format.
+        This function tags named-entity from text in IOB format.
 
         :param str text: text in Thai to be tagged
         :param bool pos: To include POS tags in the results (`True`) or
-                            exclude (`False`). The defualt value is `True`
+                            exclude (`False`). The default value is `True`
         :param bool tag: output like html tag.
         :return: a list of tuple associated with tokenized word, NER tag,
                  POS tag (if the parameter `pos` is specified as `True`),

@@ -360,7 +360,7 @@ def download(
     :param bool force: force download
     :param str url: URL of the corpus catalog
     :param str version: Version of the corpus
-    :return: **True** if the corpus is found and succesfully downloaded.
+    :return: **True** if the corpus is found and successfully downloaded.
              Otherwise, it returns **False**.
     :rtype: bool
 
@@ -509,7 +509,7 @@ def remove(name: str) -> bool:
     Remove corpus
 
     :param str name: corpus name
-    :return: **True** if the corpus is found and succesfully removed.
+    :return: **True** if the corpus is found and successfully removed.
              Otherwise, it returns **False**.
     :rtype: bool
 

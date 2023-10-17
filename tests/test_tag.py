@@ -212,7 +212,7 @@ class TestTagPackage(unittest.TestCase):
             )
         )
 
-        # arguement `tag` is True
+        # argument `tag` is True
         self.assertIsNotNone(
             ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.", tag=True)
         )
@@ -239,7 +239,7 @@ class TestTagPackage(unittest.TestCase):
             )
         )
 
-        # arguement `tag` is True
+        # argument `tag` is True
         self.assertEqual(
             ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.", tag=True),
             "วันที่ <DATE>15 ก.ย. 61</DATE> "
@@ -297,13 +297,13 @@ class TestTagPackage(unittest.TestCase):
             ner.get_ner("บางแสนกรุงเทพ", pos=False, tag=True)
         )
 
-        # arguement `tag` is False and `pos` is True
+        # argument `tag` is False and `pos` is True
         self.assertEqual(
             ner.get_ner("ไทย", pos=True, tag=False),
             [('ไทย', 'PROPN', 'B-LOCATION')],
         )
 
-        # arguement `tag` is False and `pos` is False
+        # argument `tag` is False and `pos` is False
         self.assertIsNotNone(
             ner.get_ner(
                 "วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.",

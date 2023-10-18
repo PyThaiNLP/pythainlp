@@ -38,6 +38,7 @@ Modules
 .. autofunction:: remove_tonemark
 .. autofunction:: remove_zw
 .. autofunction:: reorder_vowels
+.. autofunction:: rhyme
 .. autofunction:: sound_syllable
 .. autofunction:: syllable_length
 .. autofunction:: syllable_open_close_detector

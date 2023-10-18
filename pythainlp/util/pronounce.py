@@ -20,10 +20,12 @@ from pythainlp.khavee import KhaveeVerifier
 
 
 kv = KhaveeVerifier()
-all_thai_words_dict = [i for i in list(thai_words()) if len(syllable_tokenize(i))==1]
+all_thai_words_dict = [
+    i for i in list(thai_words()) if len(syllable_tokenize(i)) == 1
+]
 
 
-def rhyme(word: str)->List[str]:
+def rhyme(word: str) -> List[str]:
     """
     Find Thai rhyme
 
@@ -38,8 +40,8 @@ def rhyme(word: str)->List[str]:
         print(rhyme("จีบ"))
         # output: ['กลีบ', 'กีบ', 'ครีบ', ...]
     """
-    list_sumpus=[]
+    list_sumpus = []
     for i in all_thai_words_dict:
-        if kv.is_sumpus(word,i) and i!=word:
+        if kv.is_sumpus(word, i) and i != word:
             list_sumpus.append(i)
     return sorted(list_sumpus)

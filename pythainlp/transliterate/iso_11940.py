@@ -137,19 +137,19 @@ _all_dict = {
     **_tone_marks,
     **_punctuation_and_digits,
 }
-_list_k = _all_dict.keys()
+_keys_set = _all_dict.keys()
 
 
 def transliterate(word: str) -> str:
     """
     Use ISO 11940 for transliteration
     :param str text: Thai text to be transliterated.
-    :return: A string of IPA indicating how the text should be pronounced.
+    :return: A string indicating how the text should be pronounced, according to ISO 11940.
     """
-    _new = ""
+    _str = ""
     for i in word:
-        if i in _list_k:
-            _new += _all_dict[i]
+        if i in _keys_set:
+            _str += _all_dict[i]
         else:
-            _new += i
-    return _new
+            _str += i
+    return _str

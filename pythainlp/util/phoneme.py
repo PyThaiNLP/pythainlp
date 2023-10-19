@@ -90,10 +90,10 @@ dict_nectec_to_ipa.update({i[2]:i[0] for i in consonants_ipa_nectec if len(i)>2}
 
 def nectec_to_ipa(pronunciation: str) -> str:
     """
-    Converter NECTEC system to IPA system
+    Convert NECTEC system to IPA system
 
     :param str pronunciation: NECTEC phoneme
-    :return: IPA that be convert
+    :return: IPA that is converted
     :rtype: str
 
     :Example:
@@ -193,12 +193,12 @@ ipa_cut = Tokenizer(custom_dict=trie, engine="newmm")
 
 def ipa_to_rtgs(ipa: str) -> str:
     """
-    Converter IPA system to The Royal Thai General System of Transcription (RTGS)
+    Convert IPA system to The Royal Thai General System of Transcription (RTGS)
 
     Docs: https://en.wikipedia.org/wiki/Help:IPA/Thai
 
     :param str ipa: IPA phoneme
-    :return: The RTGS that be convert
+    :return: The RTGS that is converted
     :rtype: str
 
     :Example:
@@ -213,9 +213,9 @@ def ipa_to_rtgs(ipa: str) -> str:
     _temp = []
     _list_ipa = ipa_cut.word_tokenize(ipa)
     for i,p in enumerate(_list_ipa):
-        if i == len(_list_ipa) -1 and p in list(dict_ipa_rtgs_final.keys()):
+        if i == len(_list_ipa) -1 and p in list(dict_ipa_rtgs_final):
             _temp.append(dict_ipa_rtgs_final[p])
-        elif p in list(dict_ipa_rtgs.keys()):
+        elif p in list(dict_ipa_rtgs):
             _temp.append(dict_ipa_rtgs[p])
         else:
             _temp.append(p)
@@ -226,10 +226,10 @@ def ipa_to_rtgs(ipa: str) -> str:
 
 def remove_tone_ipa(ipa: str) -> str:
     """
-    Remove Thai Tone from IPA system
+    Remove Thai Tones from IPA system
 
     :param str ipa: IPA phoneme
-    :return: IPA phoneme that deleted tone
+    :return: IPA phoneme with tones removed
     :rtype: str
 
     :Example:

@@ -51,15 +51,15 @@ hp = _Hparams()
 
 def _load_vocab():
     g2idx = {g: idx for idx, g in enumerate(hp.graphemes)}
-    idx2g = {idx: g for idx, g in enumerate(hp.graphemes)}
+    idx2g = dict(enumerate(hp.graphemes))
 
     p2idx = {p: idx for idx, p in enumerate(hp.phonemes)}
-    idx2p = {idx: p for idx, p in enumerate(hp.phonemes)}
-    # note that g and p mean grapheme and phoneme, respectively.
+    idx2p = dict(enumerate(hp.phonemes))
+    # note that g and p mean grapheme and phoneme respectively.
     return g2idx, idx2g, p2idx, idx2p
 
 
-class Thai_W2P(object):
+class Thai_W2P():
     def __init__(self):
         super().__init__()
         self.graphemes = hp.graphemes
@@ -216,5 +216,4 @@ def pronunciate(text: str) -> str:
     :return: A string of Thai letters indicating
              how the input text should be pronounced.
     """
-    global _THAI_W2P
     return _THAI_W2P(text)

@@ -2,7 +2,6 @@
 
 pythainlp.wsd
 =============
-
 The :class:`pythainlp.wsd` contains get word sense function for Thai Word Sense Disambiguation (WSD).
 The `pythainlp.wsd` module is designed to assist in Word Sense Disambiguation (WSD) for the Thai language. Word Sense Disambiguation is a crucial task in natural language processing that involves determining the correct sense or meaning of a word within a given context. This module provides a function for achieving precisely that.
 

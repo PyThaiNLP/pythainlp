@@ -19,13 +19,13 @@ def chunk_parse(
     sent: List[Tuple[str, str]], engine: str = "crf", corpus: str = "orchidpp"
 ) -> List[str]:
     """
-    This function parse thai sentence to phrase structure in IOB format.
+    This function parses Thai sentence to phrase structure in IOB format.
 
-    :param list sent: list [(word,part-of-speech)]
+    :param list sent: list [(word, part-of-speech)]
     :param str engine: chunk parse engine (now, it has crf only)
     :param str corpus: chunk parse corpus (now, it has orchidpp only)
 
-    :return: a list of tuple (word,part-of-speech,chunking)
+    :return: a list of tuples (word, part-of-speech, chunking)
     :rtype: List[str]
 
     :Example:

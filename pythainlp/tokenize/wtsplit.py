@@ -40,30 +40,30 @@ def _tokenize(
         return _MODEL.split(text,lang_code=lang_code)
     else: # Paragraph
         if style=='newline':
-          return _MODEL.split(
-              text,
-              lang_code=lang_code,
-              do_paragraph_segmentation=True,
-              paragraph_threshold=paragraph_threshold
-          )
+            return _MODEL.split(
+                text,
+                lang_code=lang_code,
+                do_paragraph_segmentation=True,
+                paragraph_threshold=paragraph_threshold
+            )
         elif style=='opus100':
-          return _MODEL.split(
-              text,
-              lang_code=lang_code,
-              do_paragraph_segmentation=True,
-              threshold=paragraph_threshold,
-              style=style,
-          )
+            return _MODEL.split(
+                text,
+                lang_code=lang_code,
+                do_paragraph_segmentation=True,
+                threshold=paragraph_threshold,
+                style=style,
+            )
         else:
-          raise ValueError(
-            f"""Segmentation style \"{style}\" not found.
-            It might be a typo; if not, please consult our document."""
+            raise ValueError(
+              f"""Segmentation style \"{style}\" not found.
+              It might be a typo; if not, please consult our document."""
         )
 
 def tokenize(
-        text:str, 
-        size:str="mini", 
-        tokenize:str="sentence", 
+        text:str,
+        size:str="mini",
+        tokenize:str="sentence",
         paragraph_threshold:float=0.5,
         style:str='newline',
     )-> List[str]:
@@ -77,9 +77,9 @@ def tokenize(
     else:  # mini
         _model_load="wtp-bert-mini"
     return _tokenize(
-              text, 
-              model=_model_load,
-              tokenize=tokenize,
-              paragraph_threshold=paragraph_threshold,
-              style=style,
-            )
+        text,
+        model=_model_load,
+        tokenize=tokenize,
+        paragraph_threshold=paragraph_threshold,
+        style=style,
+    )

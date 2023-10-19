@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Common list of words.
+Common lists of words.
 """
 
 __all__ = [
@@ -39,7 +39,7 @@ _THAI_COUNTRIES = set()
 _THAI_COUNTRIES_FILENAME = "countries_th.txt"
 
 _THAI_THAILAND_PROVINCES = set()
-_THAI_THAILAND_PROVINCES_DETAILS = list()
+_THAI_THAILAND_PROVINCES_DETAILS = []
 _THAI_THAILAND_PROVINCES_FILENAME = "thailand_provinces_th.csv"
 
 _THAI_SYLLABLES = set()
@@ -75,7 +75,7 @@ def countries() -> FrozenSet[str]:
     \n(See: `dev/pythainlp/corpus/countries_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/countries_th.txt>`_)
 
-    :return: :class:`frozenset` containing countries names in Thai
+    :return: :class:`frozenset` containing country names in Thai
     :rtype: :class:`frozenset`
     """
     global _THAI_COUNTRIES
@@ -105,12 +105,12 @@ def provinces(details: bool = False) -> Union[FrozenSet[str], List[str]]:
 
     if not _THAI_THAILAND_PROVINCES or not _THAI_THAILAND_PROVINCES_DETAILS:
         provs = set()
-        prov_details = list()
+        prov_details = []
 
         for line in get_corpus(_THAI_THAILAND_PROVINCES_FILENAME, as_is=True):
             p = line.split(",")
 
-            prov = dict()
+            prov = {}
             prov["name_th"] = p[0]
             prov["abbr_th"] = p[1]
             prov["name_en"] = p[2]
@@ -134,9 +134,9 @@ def thai_syllables() -> FrozenSet[str]:
     "โมน", "โม่ง", "กา", "ก่า", and, "ก้า".
     \n(See: `dev/pythainlp/corpus/syllables_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/syllables_th.txt>`_)
-    We using thai syllables list from `KUCut <https://github.com/Thanabhat/KUCut>`_.
+    We use the Thai syllable list from `KUCut <https://github.com/Thanabhat/KUCut>`_.
 
-    :return: :class:`frozenset` containing syllables in Thai language.
+    :return: :class:`frozenset` containing syllables in the Thai language.
     :rtype: :class:`frozenset`
     """
     global _THAI_SYLLABLES
@@ -152,7 +152,7 @@ def thai_words() -> FrozenSet[str]:
     and "พิษภัย". \n(See: `dev/pythainlp/corpus/words_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/words_th.txt>`_)
 
-    :return: :class:`frozenset` containing words in Thai language.
+    :return: :class:`frozenset` containing words in the Thai language.
     :rtype: :class:`frozenset`
     """
     global _THAI_WORDS
@@ -168,7 +168,7 @@ def thai_orst_words() -> FrozenSet[str]:
     \n(See: `dev/pythainlp/corpus/thai_orst_words.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/thai_orst_words>`_)
 
-    :return: :class:`frozenset` containing words in Thai language.
+    :return: :class:`frozenset` containing words in the Thai language.
     :rtype: :class:`frozenset`
     """
     global _THAI_ORST_WORDS
@@ -183,7 +183,7 @@ def thai_stopwords() -> FrozenSet[str]:
     Return a frozenset of Thai stopwords such as "มี", "ไป", "ไง", "ขณะ",
     "การ", and "ประการหนึ่ง". \n(See: `dev/pythainlp/corpus/stopwords_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/stopwords_th.txt>`_)
-    We using stopword lists by thesis's เพ็ญศิริ ลี้ตระกูล.
+    We use stopword lists by thesis's เพ็ญศิริ ลี้ตระกูล.
 
     :See Also:
 
@@ -207,7 +207,7 @@ def thai_negations() -> FrozenSet[str]:
     \n(See: `dev/pythainlp/corpus/negations_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/negations_th.txt>`_)
 
-    :return: :class:`frozenset` containing negations in Thai language.
+    :return: :class:`frozenset` containing negations in the Thai language.
     :rtype: :class:`frozenset`
     """
     global _THAI_NEGATIONS
@@ -271,11 +271,11 @@ def thai_dict() -> dict:
     \n(See: `thai_dict\
     <https://pythainlp.github.io/pythainlp-corpus/thai_dict.html>`_)
 
-    :return: Thai word with part-of-speech type and definition
+    :return: Thai words with part-of-speech type and definition
     :rtype: dict
     """
     global _THAI_DICT
-    if _THAI_DICT == {}:
+    if not _THAI_DICT:
         import csv
         _THAI_DICT = {"word":[], "meaning":[]}
         with open(get_corpus_path("thai_dict"), newline="\n", encoding="utf-8") as csvfile:
@@ -293,11 +293,11 @@ def thai_wsd_dict() -> dict:
     \n(See: `thai_dict\
     <https://pythainlp.github.io/pythainlp-corpus/thai_dict.html>`_)
 
-    :return: Thai word with part-of-speech type and definition
+    :return: Thai words with part-of-speech type and definition
     :rtype: dict
     """
     global _THAI_WSD_DICT
-    if _THAI_WSD_DICT == {}:
+    if not _THAI_WSD_DICT:
         _thai_wsd = thai_dict()
         _THAI_WSD_DICT = {"word":[],"meaning":[]}
         for i,j in zip(_thai_wsd["word"],_thai_wsd["meaning"]):
@@ -319,11 +319,11 @@ def thai_synonym() -> dict:
     \n(See: `thai_synonym\
     <https://pythainlp.github.io/pythainlp-corpus/thai_synonym.html>`_)
 
-    :return: Thai word with part-of-speech type and synonym
+    :return: Thai words with part-of-speech type and synonym
     :rtype: dict
     """
     global _THAI_SYNONYM
-    if _THAI_SYNONYM == None:
+    if _THAI_SYNONYM is None:
         import csv
         _THAI_SYNONYM = {"word":[], "pos":[], "synonym":[]}
         with open(get_corpus_path("thai_synonym"), newline="\n", encoding="utf-8") as csvfile:

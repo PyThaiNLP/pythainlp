@@ -48,7 +48,7 @@ def soundex(
         * *metasound* - Thai soundex algorithm based on a combination
           of Metaphone and Soundex proposed by Snae & Brückner [#metasound]_
         * *prayut_and_somchaip* - Thai-English Cross-Language Transliterated
-          Word Retrieval using Soundex Technique  [#prayut_and_somchaip]_
+          Word Retrieval using Soundex Technique [#prayut_and_somchaip]_
 
     :Example:
     ::

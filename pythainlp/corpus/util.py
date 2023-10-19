@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Tool for create word list
-code is from Korakot Chaovavanich.
+Tool for creating word lists
+codes are from Korakot Chaovavanich.
 
 :See also:
     * `Facebook post \
@@ -33,7 +33,7 @@ from pythainlp.util import Trie
 
 def index_pairs(words: List[str]) -> Iterator[Tuple[int, int]]:
     """
-    Return begining and ending index pairs of words
+    Return beginning and ending indexes of word pairs
     """
     i = 0
     for w in words:
@@ -52,7 +52,7 @@ def find_badwords(
     :param Callable[[str], List[str]] tokenize: a tokenize function
     :param Iterable[Iterable[str]] training_data: tokenized text, to be used\
         as a training set
-    :return: words that considered making `tokenize` perform unwell
+    :return: words that are considered to make `tokenize` perform badly
     :rtype: Set[str]
     """
     right = Counter()
@@ -68,7 +68,7 @@ def find_badwords(
             else:
                 wrong[w] += 1
 
-    # if wrong more than right, then it's a bad word
+    # if wrong is more than right, then it's a bad word
     bad_words = []
     for w, count in wrong.items():
         if count > right[w]:
@@ -83,10 +83,10 @@ def revise_wordset(
     training_data: Iterable[Iterable[str]],
 ) -> Set[str]:
     """
-    Revise a set of word that could improve tokenization performance of
+    Revise a set of words that could improve tokenization performance of
     a dictionary-based `tokenize` function.
 
-    `orign_words` will be used as a base set for the dictionary.
+    `orig_words` will be used as a base set for the dictionary.
     Words that do not performed well with `training_data` will be removed.
     The remaining words will be returned.
 
@@ -96,7 +96,7 @@ def revise_wordset(
         will be used as a base for revision
     :param Iterable[Iterable[str]] training_data: tokenized text, to be used\
         as a training set
-    :return: words that considered making `tokenize` perform unwell
+    :return: words that are considered to make `tokenize` perform badly
     :rtype: Set[str]
 
     :Example::
@@ -141,7 +141,7 @@ def revise_newmm_default_wordset(
 
     :param Iterable[Iterable[str]] training_data: tokenized text, to be used\
         as a training set
-    :return: words that considered making `tokenize` perform unwell
+    :return: words that are considered to make `tokenize` perform badly
     :rtype: Set[str]
     """
     orig_words = thai_words()

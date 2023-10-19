@@ -68,7 +68,7 @@ def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
     """
     Conversion support for thai_strftime().
 
-    The fmt_char should be in _NEED_L10N when call this function.
+    The fmt_char should be in _NEED_L10N when calling this function.
     """
     str_ = ""
     if fmt_char == "A":
@@ -87,7 +87,7 @@ def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
         # Thai Buddhist century (AD+543)/100 + 1 as decimal number;
         str_ = str(int((dt_obj.year + _BE_AD_DIFFERENCE) / 100) + 1).zfill(2)
     elif fmt_char == "c":
-        # Locale’s appropriate date and time representation
+        # Locale's appropriate date and time representation
         # Wed  6 Oct 01:40:00 1976
         # พ   6 ต.ค. 01:40:00 2519  <-- left-aligned weekday, right-aligned day
         str_ = "{:<2} {:>2} {} {} {}".format(
@@ -193,13 +193,13 @@ def thai_strftime(
         * The Thai Buddhist Era (BE) year is simply converted from AD
           by adding 543. This is certainly not accurate for years
           before 1941 AD, due to the change in Thai New Year's Day.
-        * This meant to be an interrim solution, since
+        * This meant to be an interim solution, since
           Python standard's locale module (which relied on C's strftime())
           does not support "th" or "th_TH" locale yet. If supported,
           we can just locale.setlocale(locale.LC_TIME, "th_TH")
           and then use native datetime.strftime().
 
-    We trying to make this platform-independent and support extentions
+    We are trying to make this platform-independent and support extensions
     as many as possible. See these links for strftime() extensions
     in POSIX, BSD, and GNU libc:
 

@@ -26,7 +26,7 @@ def apply_postprocessors(
     segments: List[str], postprocessors: Callable[[List[str]], List[str]]
 ) -> List[str]:
     """
-    A list of callables to apply on a raw segmentation result.
+    A list of callables to apply to a raw segmentation result.
     """
     for func in postprocessors:
         segments = func(segments)
@@ -38,7 +38,7 @@ def rejoin_formatted_num(segments: List[str]) -> List[str]:
     """
     Rejoin well-known formatted numeric that are over-tokenized.
     The formatted numeric are numbers separated by ":", ",", or ".",
-    such as time, decimal number, comma-added number, and IP address.
+    such as time, decimal numbers, comma-added numbers, and IP addresses.
 
     :param List[str] segments: result from word tokenizer
     :return: a list of fixed tokens

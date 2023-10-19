@@ -20,10 +20,10 @@ def coreference_resolution(texts:List[str], model_name:str="han-coref-v1.0", dev
     """
     Coreference Resolution
 
-    :param List[str] texts: list texts to do coreference resolution
+    :param List[str] texts: list of texts to apply coreference resolution to
     :param str model_name: coreference resolution model
-    :param str device: device for running coreference resolution model (cpu, cuda, and other)
-    :return: List txets of coreference resolution
+    :param str device: device for running coreference resolution model on (cpu, cuda, and others)
+    :return: List of texts with coreference resolution
     :rtype: List[dict]
 
     :Options for model_name:
@@ -49,7 +49,7 @@ def coreference_resolution(texts:List[str], model_name:str="han-coref-v1.0", dev
     global model
     if isinstance(texts, str):
         texts = [texts]
-    if model == None and model_name=="han-coref-v1.0":
+    if model is None and model_name=="han-coref-v1.0":
         from pythainlp.coref.han_coref import HanCoref
         model = HanCoref(device=device)
     return model.predict(texts)

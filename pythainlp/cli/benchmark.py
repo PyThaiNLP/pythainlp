@@ -108,7 +108,7 @@ class WordTokenizationBenchmark:
             "word_level:total_words_in_ref_sample",
         ]
 
-        statistics = dict()
+        statistics = {}
 
         for c in columns:
             statistics[c] = float(df_raw[c].sum())
@@ -170,9 +170,9 @@ class WordTokenizationBenchmark:
                     del r["actual"]
 
                     samples.append(
-                        dict(metrics=r, expected=expected, actual=actual, id=i)
+                        {"metrics": r, "expected": expected, "actual": actual, "id": i}
                     )
 
-                details = dict(metrics=statistics, samples=samples)
+                details = {"metrics": statistics, "samples": samples}
 
                 json.dump(details, f, ensure_ascii=False)

@@ -43,16 +43,15 @@ class Featurizer:
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-#     { 
+#     {
 #      "0 (current anchor)|+1 (the character on the right from anchor)|A (character)" : 1
 #     }
-        
+
     def __init__(self, N=2, sequence_size=1, delimiter=None):
         self.N = N
         self.delimiter = delimiter
         self.radius = N + sequence_size
-        pass
-    
+
     def pad(self, sentence, padder='#'):
         return padder * (self.radius) + sentence + padder * (self.radius)
 
@@ -96,7 +95,7 @@ class Featurizer:
                         features[left_key] = 1
                     else:
                         features.append(left_key)
-                
+
                 abs_index_right += 1 # สมมุติคือตำแหน่งที่ 0 จะได้ 0, 1, 2, 3, 4 (radius = 5)
                 char_right = sentence[abs_index_right]
                 while char_right == self.delimiter:
@@ -110,9 +109,9 @@ class Featurizer:
                         features[right_key] = 1
                     else:
                         features.append(right_key)
-                
+
                 counter += 1
-                
+
             chars = chars_left + chars_right
             for i in range(0, len(chars) - self.N + 1):
                 ngram = chars[i:i + self.N]
@@ -122,10 +121,10 @@ class Featurizer:
                 else:
                     features.append(ngram_key)
             all_features.append(features)
-            if(return_type == 'list'):
-              cut = str(cut)
+            if return_type == 'list':
+                cut = str(cut)
             all_labels.append(cut)
-            
+
         return {
             'X': all_features,
             'Y': all_labels

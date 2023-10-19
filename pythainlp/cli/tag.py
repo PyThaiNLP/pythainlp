@@ -13,12 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-thainlp tag command line.
+Command line for PyThaiNLP's taggers.
 """
 import argparse
 
 from pythainlp import cli
-from pythainlp.tag import locations, named_entity, pos_tag
+from pythainlp.tag import pos_tag
 
 
 class SubAppBase:

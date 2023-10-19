@@ -41,7 +41,7 @@ try:
         )
         .decode()
         .strip()
-        .split("/")[-1]
+        .rsplit("/", maxsplit=1)[-1]
     )
     release = (
         os.environ["RELEASE"]
@@ -53,7 +53,7 @@ try:
         )
         .decode()
         .strip()
-        .split("-")[0]
+        .split("-", maxsplit=1)[0]
     )
     # today = (
     #     os.environ["TODAY"]

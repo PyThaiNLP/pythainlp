@@ -90,7 +90,7 @@ def bahttext(number: float) -> str:
 
 def num_to_thaiword(number: int) -> str:
     """
-    This function convert number to Thai text
+    This function converts number to Thai text
 
     :param int number: an integer number to be converted to Thai text
     :return: text representing the number in Thai

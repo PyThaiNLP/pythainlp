@@ -21,7 +21,7 @@ class EntityLinker:
         EntityLinker
 
         :param str model_name: model name (bela)
-        :param str device: device for running model
+        :param str device: device for running model on
         :param str tag: Entity linking tag (wikidata)
 
         You can read about bela model at `https://github.com/PyThaiNLP/MultiEL \
@@ -40,7 +40,7 @@ class EntityLinker:
         """
         Get Entity Linking from Thai Text
         
-        :param str Union[List[str], str]: list thai text or text
+        :param str Union[List[str], str]: list of Thai text or text
         :return: list of entity linking
         :rtype: Union[List[dict], str]
         

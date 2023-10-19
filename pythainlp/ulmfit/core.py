@@ -46,10 +46,10 @@ _ITOS_NAME_LSTM = "wiki_itos_lstm"
 
 
 # Pretrained model paths
-THWIKI_LSTM = dict(
-    wgts_fname=get_corpus_path(_MODEL_NAME_LSTM),
-    itos_fname=get_corpus_path(_ITOS_NAME_LSTM),
-)
+THWIKI_LSTM = {
+    "wgts_fname": get_corpus_path(_MODEL_NAME_LSTM),
+    "itos_fname": get_corpus_path(_ITOS_NAME_LSTM),
+}
 
 # Preprocessing rules for Thai text
 # dense features
@@ -116,7 +116,7 @@ def process_thai(
         [บ้าน', 'xxrep', '   ', 'อยู่', 'xxwrep', 'นาน', '😂', '🤣',
         '😃', '😄', '😅', 'pythainlp', '&']
 
-        2. Modify pre_rules and post_rules arugments with
+        2. Modify pre_rules and post_rules arguments with
            rules provided in :mod:`pythainlp.ulmfit`:
 
         >>> from pythainlp.ulmfit import (
@@ -152,7 +152,7 @@ def process_thai(
 
 def document_vector(text: str, learn, data, agg: str = "mean"):
     """
-    This function vectorize Thai input text into a 400 dimension vector using
+    This function vectorizes Thai input text into a 400 dimension vector using
     :class:`fastai` language model and data bunch.
 
     :meth: `document_vector` get document vector using fastai language model
@@ -161,7 +161,7 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
     :param learn: :class:`fastai` language model learner
     :param data: :class:`fastai` data bunch
     :param str agg: name of aggregation methods for word embeddings
-                    The avialable methods are "mean" and "sum"
+                    The available methods are "mean" and "sum"
 
     :return: :class:`numpy.array` of document vector sized 400 based on
              the encoder of the model

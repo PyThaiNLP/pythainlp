@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Text summarization and Keyword extraction
+Text summarization and keyword extraction
 """
 
 from typing import List, Iterable, Optional, Tuple
@@ -36,14 +36,14 @@ def summarize(
     """
     This function summarizes text based on frequency of words.
 
-    Under the hood, this function first tokenize sentence from the given
+    Under the hood, this function first tokenizes sentences from the given
     text with :func:`pythainlp.tokenize.sent_tokenize`.
-    Then, computes frequencies of tokenized words
+    Then, it computes frequencies of tokenized words
     (with :func:`pythainlp.tokenize.word_tokenize`) in all sentences
-    and normalized with maximum word frequency. The words with normalized
-    frequncy that are less than 0.1 or greater than 0.9 will be
+    and normalizes them with maximum word frequency. The words with normalized
+    frequencies that are less than 0.1 or greater than 0.9 will be
     filtered out from frequency dictionary. Finally, it picks *n* sentences
-    with highest sum of normalized frequency from all words
+    with highest sum of normalized frequency from all words which are
     in the sentence and also appear in the frequency dictionary.
 
     :param str text: text to be summarized

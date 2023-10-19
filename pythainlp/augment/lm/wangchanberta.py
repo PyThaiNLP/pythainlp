@@ -12,12 +12,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from typing import List
 from transformers import (
     CamembertTokenizer,
     pipeline,
 )
-import random
-from typing import List
 
 model_name = "airesearch/wangchanberta-base-att-spm-uncased"
 
@@ -52,9 +51,6 @@ class Thai2transformersAug:
             num_replace_tokens = len(sent)
         masked_text = self.input_text
         for i in range(num_replace_tokens):
-            replace_token = [
-                sent.pop(random.randrange(len(sent))) for _ in range(1)
-            ][0]
             masked_text = masked_text + self.MASK_TOKEN
             self.sent2 += [
                 str(j["sequence"]).replace("<s> ", "").replace("</s>", "")

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-spacy_thai: Tokenizer, POS-tagger, and dependency-parser for Thai language, working on Universal Dependencies.
+spacy_thai: Tokenizer, POS tagger, and dependency parser for the Thai language using Universal Dependencies.
 
 GitHub: https://github.com/KoichiYasuoka/spacy-thai
 """

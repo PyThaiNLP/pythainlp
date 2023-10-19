@@ -29,7 +29,7 @@ class Parse:
     def __init__(
         self, model: str = "KoichiYasuoka/deberta-base-thai-ud-head"
     ) -> None:
-        if model == None:
+        if model is None:
             model = "KoichiYasuoka/deberta-base-thai-ud-head"
         self.tokenizer = AutoTokenizer.from_pretrained(model)
         self.model = AutoModelForQuestionAnswering.from_pretrained(model)

@@ -127,12 +127,12 @@ def remove_tonemark(text: str) -> str:
 
         * Down tone (Thai: ไม้เอก  _่ )
         * Falling tone  (Thai: ไม้โท  _้ )
-        * High tone (Thai: ไม้ตรี  ​_๊ )
+        * High tone (Thai: ไม้ตรี  _๊ )
         * Rising tone (Thai: ไม้จัตวา _๋ )
 
     Putting wrong tone mark is a common mistake in Thai writing.
     By removing tone marks from the string, it could be used to
-    for a approximate string matching
+    for a approximate string matching.
 
     :param str text: input text
     :return: text without Thai tone marks
@@ -238,7 +238,7 @@ def normalize(text: str) -> str:
     Note: for Unicode normalization, see unicodedata.normalize().
 
     :param str text: input text
-    :return: normalized text according to the fules
+    :return: normalized text according to the rules
     :rtype: str
 
     :Example:
@@ -268,7 +268,7 @@ def maiyamok(sent: Union[str, List[str]]) -> List[str]:
     This function is preprocessing MaiYaMok in Thai sentence.
 
     :param Union[str, List[str]] sent: input sentence (list or str)
-    :return: List of words
+    :return: list of words
     :rtype: List[str]
 
     :Example:

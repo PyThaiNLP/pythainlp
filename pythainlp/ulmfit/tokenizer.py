@@ -21,7 +21,7 @@ from pythainlp.tokenize import THAI2FIT_TOKENIZER
 
 
 class BaseTokenizer:
-    """Basic class for a tokenizer function. (code from `fastai`)"""
+    """Basic class for a tokenizer function. (codes from `fastai`)"""
 
     def __init__(self, lang: str):
         self.lang = lang
@@ -46,11 +46,11 @@ class ThaiTokenizer(BaseTokenizer):
     @staticmethod
     def tokenizer(text: str) -> List[str]:
         """
-        This function tokenizes text with *newmm* engine and the dictionary
+        This function tokenizes text using *newmm* engine and the dictionary
         specifically for `ulmfit` related functions
-        (see: `Dictonary file (.txt) \
+        (see: `Dictionary file (.txt) \
         <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/words_th_thai2fit_201810.txt>`_).
-        :meth: tokenize text with a frozen newmm engine
+        :meth: tokenize text using a frozen newmm engine
         :param str text: text to tokenize
         :return: tokenized text
         :rtype: list[str]
@@ -59,7 +59,7 @@ class ThaiTokenizer(BaseTokenizer):
 
             Using :func:`pythainlp.ulmfit.ThaiTokenizer.tokenizer` is
             similar to :func:`pythainlp.tokenize.word_tokenize`
-            with *ulmfit* engine.
+            using *ulmfit* engine.
 
             >>> from pythainlp.ulmfit import ThaiTokenizer
             >>> from pythainlp.tokenize import word_tokenize

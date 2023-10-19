@@ -46,7 +46,7 @@ def _keep(
     dict_filter: Callable[[str], bool],
 ) -> bool:
     """
-    Checks whether a given word has the required minimum frequency of min_freq
+    Checks whether a given word has the required minimum frequency min_freq
     and its character length is between min_len and max_len (inclusive).
     """
     if not word_freq or word_freq[1] < min_freq:
@@ -61,7 +61,7 @@ def _keep(
 
 def _edits1(word: str) -> Set[str]:
     """
-    Returns a set of words with edit distance of 1 from the input word
+    Returns a set of words with an edit distance of 1 from the input word
     """
     splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
     deletes = [L + R[1:] for L, R in splits if R]
@@ -74,7 +74,7 @@ def _edits1(word: str) -> Set[str]:
 
 def _edits2(word: str) -> Set[str]:
     """
-    Returns a set of words with edit distance of 2 from the input word
+    Returns a set of words with an edit distance of 2 from the input word
     """
     return set(e2 for e1 in _edits1(word) for e2 in _edits1(e1))
 
@@ -92,12 +92,12 @@ def _convert_custom_dict(
     Converts a custom dictionary to a list of (str, int) tuples
     """
     if isinstance(custom_dict, dict):
-        custom_dict = [(word, freq) for word, freq in custom_dict.items()]
+        custom_dict = list(custom_dict.items())
 
     i = iter(custom_dict)
     first_member = next(i)
     if isinstance(first_member, str):
-        # create tuples of a word with frequency equal to 1,
+        # create tuples of a word with frequency equaling 1,
         # and filter word list
         custom_dict = [
             (word, 1)
@@ -138,7 +138,7 @@ class NorvigSpellChecker:
         `Thai National Corpus <http://www.arts.chula.ac.th/ling/tnc/>`_
 
         Basically, Norvig's spell checker will choose the most likely
-        spelling correction give a word by searching for candidate
+        corrected spelling given a word by searching for candidates of
         corrected words based on edit distance.
         Then, it selects the candidate with
         the highest word occurrence probability.
@@ -146,7 +146,7 @@ class NorvigSpellChecker:
         :param str custom_dict: A custom spelling dictionary. This can be:
                                 (1) a dictionary (`dict`), with words (`str`)
                                     as keys and frequencies (`int`) as values;
-                                (2) an iterable (list, tuple, or set) of word
+                                (2) an iterable (list, tuple, or set) of words
                                     (`str`) and frequency (`int`) tuples:
                                     `(str, int)`; or
                                 (3) an iterable of just words (`str`), without
@@ -161,12 +161,12 @@ class NorvigSpellChecker:
                             (default = 40)
         :param func dict_filter: A function to filter the dictionary.
                                  Default filter removes any word
-                                 with number or non-Thai characters.
+                                 with numbers or non-Thai characters.
                                  If no filter is required, use None.
         """
         if not custom_dict:  # default, use Thai National Corpus
             # TODO: #680 change the dict
-            custom_dict = [(i,j) for i,j in tnc.word_freqs()]
+            custom_dict = [(i, j) for i, j in tnc.word_freqs()]
 
         if not dict_filter:
             dict_filter = _no_filter
@@ -201,12 +201,12 @@ class NorvigSpellChecker:
 
     def known(self, words: Iterable[str]) -> List[str]:
         """
-        Returns a list of given words that found in the spelling dictionary
+        Returns a list of given words found in the spelling dictionary
 
         :param list[str] words: A list of words to check if they exist
                                 in the spelling dictionary
 
-        :return: intersection of the given words list and words
+        :return: intersection of the given word list and words
                  in the spelling dictionary
         :rtype: list[str]
 
@@ -233,7 +233,7 @@ class NorvigSpellChecker:
         Returns the probability of an input word,
         according to the spelling dictionary
 
-        :param str word: A word to check its probability of occurrence
+        :param str word: A word to check occurrence probability of
 
         :return: word occurrence probability
         :rtype: float
@@ -261,7 +261,7 @@ class NorvigSpellChecker:
         Returns the frequency of an input word,
         according to the spelling dictionary
 
-        :param str word: A word to check its frequency
+        :param str word: A word to check frequency of
         :return: frequency of the given word in the spelling dictionary
         :rtype: int
 
@@ -284,20 +284,20 @@ class NorvigSpellChecker:
         """
         Returns a list of all correctly-spelled words whose spelling
         is similar to the given word by edit distance metrics.
-        The returned list of words will be sorted by the decreasing
+        The returned list of words will be sorted by decreasing
         order of word frequencies in the word spelling dictionary.
 
-        First, if the input word is spelled-correctly,
-        this method returns the list of exactly one word which is itself.
-        Next, this method looks for a list of all correctly-spelled words
-        whose edit distance value is 1 within the input word.
-        If there is no such word, that the search expands to
+        First, if the input word is spelled correctly,
+        this method returns a list of exactly one word which is itself.
+        Next, this method looks for a list of all correctly spelled words
+        whose edit distance value is 1 from the input word.
+        If there is no such word, then the search expands to
         a list of words whose edit distance value is 2.
-        And if that still fails, the list of input word is returned.
+        And if that still fails, the list of input words is returned.
 
-        :param str word: A word to check its spelling
+        :param str word: A word to check spelling of
 
-        :return: list of possible correct words within 1 or 2 edit distance
+        :return: list of possibly correct words within 1 or 2 edit distance
                  and sorted by frequency of word occurrence in the
                  spelling dictionary in descending order.
         :rtype: list[str]
@@ -335,7 +335,7 @@ class NorvigSpellChecker:
         Returns the most possible word, using the probability from
         the spelling dictionary
 
-        :param str word: A word to correct its spelling
+        :param str word: A word to correct spelling of
 
         :return: the correct spelling of the given word
         :rtype: str

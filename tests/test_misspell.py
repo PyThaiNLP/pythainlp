@@ -43,7 +43,7 @@ class TestTextMisspellPackage(unittest.TestCase):
 
             self.assertEqual(
                 diff, 0,
-                "we shouldn't have any  misspell with ratio=0."
+                "we shouldn't have any misspell with ratio=0."
             )
 
     def test_misspell_with_ratio_50_percent(self):

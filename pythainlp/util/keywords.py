@@ -22,21 +22,21 @@ _STOPWORDS = thai_stopwords()
 
 def rank(words: List[str], exclude_stopwords: bool = False) -> Counter:
     """
-    Count word frequecy given a list of Thai words with an option
+    Count word frequencies given a list of Thai words with an option
     to exclude stopwords.
 
     :param list words: a list of words
-    :param bool exclude_stopwords: If this parameter is set to **True**
-                                   to exclude stopwords from counting.
+    :param bool exclude_stopwords: If this parameter is set to **True**,
+                                   exclude stopwords from counting.
                                    Otherwise, the stopwords will be counted.
                                    By default, `exclude_stopwords`is
                                    set to **False**
-    :return: a Counter object representing word frequency from the text
+    :return: a Counter object representing word frequencies in the text
     :rtype: :class:`collections.Counter`
 
     :Example:
 
-    Include stopwords in counting word frequency::
+    Include stopwords when counting word frequencies::
 
         from pythainlp.util import rank
 
@@ -56,7 +56,7 @@ def rank(words: List[str], exclude_stopwords: bool = False) -> Counter:
         #         'เหตุการณ์': 1
         #     })
 
-    Exclude stopword in counting word frequency::
+    Exclude stopwords when counting word frequencies::
 
         from pythainlp.util import rank
 
@@ -84,13 +84,13 @@ def rank(words: List[str], exclude_stopwords: bool = False) -> Counter:
 
 def find_keyword(word_list: List[str], min_len: int = 3) -> Dict[str, int]:
     """
-    This function count the frequency of words in the list
-    where stopword is excluded and returns as a frequency dictionary.
+    This function counts the frequencies of words in the list
+    where stopword is excluded and returns a frequency dictionary.
 
     :param list word_list: a list of words
-    :param int min_len: the mininum frequency for words to obtain
+    :param int min_len: the minimum frequency for words to be retained
 
-    :return: a dictionary object with key-value pair as word and its raw count
+    :return: a dictionary object with key-value pair being words and their raw counts
     :rtype: dict[str, int]
 
     :Example:

@@ -59,8 +59,8 @@ class TestBenchmarksPackage(unittest.TestCase):
             sample = np.array(list(d["actual"])).astype(int)
             ref_sample = np.array(list(d["expected"])).astype(int)
 
-            sb = list(word_tokenization._find_word_boudaries(sample))
-            rb = list(word_tokenization._find_word_boudaries(ref_sample))
+            sb = list(word_tokenization._find_word_boundaries(sample))
+            rb = list(word_tokenization._find_word_boundaries(ref_sample))
 
             # in binary [{0, 1}, ...]
             correctly_tokenized_words = word_tokenization._find_words_correctly_tokenised(
@@ -81,7 +81,7 @@ class TestBenchmarksPackage(unittest.TestCase):
         self.assertEqual(expected, "".join(np.array(labels).astype(str)))
 
     def test_flatten_result(self):
-        result = dict(key1=dict(v1=6), key2=dict(v2=7))
+        result = {"key1": {"v1": 6}, "key2": {"v2": 7}}
 
         actual = word_tokenization._flatten_result(result)
         self.assertEqual(actual, {"key1:v1": 6, "key2:v2": 7})

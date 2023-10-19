@@ -12,10 +12,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from typing import List, Tuple
 from pythainlp.augment.word2vec.core import Word2VecAug
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import THAI2FIT_TOKENIZER
-from typing import List, Tuple
 
 
 class Thai2fitAug:
@@ -32,14 +32,14 @@ class Thai2fitAug:
 
     def tokenizer(self, text: str) -> List[str]:
         """
-        :param str text: thai text
+        :param str text: Thai text
         :rtype: List[str]
         """
         return THAI2FIT_TOKENIZER.word_tokenize(text)
 
     def load_w2v(self):
         """
-        Load thai2fit word2vec model
+        Load Thai2Fit's word2vec model
         """
         self.aug = Word2VecAug(self.thai2fit_wv, self.tokenizer, type="binary")
 
@@ -49,11 +49,11 @@ class Thai2fitAug:
         """
         Text Augment using word2vec from Thai2Fit
 
-        :param str sentence: thai sentence
-        :param int n_sent: number sentence
-        :param float p: Probability of word
+        :param str sentence: Thai sentence
+        :param int n_sent: number of sentence
+        :param float p: probability of word
 
-        :return: list of text augment
+        :return: list of text augmented
         :rtype: List[Tuple[str]]
 
         :Example:

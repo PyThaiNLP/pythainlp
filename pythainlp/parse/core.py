@@ -25,24 +25,24 @@ def dependency_parsing(
     """
     Dependency Parsing
 
-    :param str text: text to do dependency parsing
+    :param str text: text to apply dependency parsing to
     :param str model: model for using with engine \
         (for esupar and transformers_ud)
     :param str tag: output type (str or list)
-    :param str engine: the name dependency parser
+    :param str engine: the name of dependency parser
     :return: str (conllu) or List
     :rtype: Union[List[List[str]], str]
 
     **Options for engine**
-        * *esupar* (default) - Tokenizer POS-tagger and Dependency-parser \
-            with BERT/RoBERTa/DeBERTa model. `GitHub \
+        * *esupar* (default) - Tokenizer, POS tagger and Dependency parser \
+            using BERT/RoBERTa/DeBERTa models. `GitHub \
                 <https://github.com/KoichiYasuoka/esupar>`_
-        * *spacy_thai* - Tokenizer, POS-tagger, and dependency-parser \
-            for Thai language, working on Universal Dependencies. \
+        * *spacy_thai* - Tokenizer, POS tagger, and dependency parser \
+            for the Thai language, using Universal Dependencies. \
             `GitHub <https://github.com/KoichiYasuoka/spacy-thai>`_
         * *transformers_ud* - TransformersUD \
             `GitHub <https://github.com/KoichiYasuoka/>`_
-        * *ud_goeswith* - POS-tagging and dependency-parsing with \
+        * *ud_goeswith* - POS tagging and dependency parsing \
             using `goeswith` for subwords
 
     **Options for model (esupar engine)**
@@ -50,38 +50,38 @@ def dependency_parsing(
             `Huggingface \
             <https://huggingface.co/KoichiYasuoka/roberta-base-thai-spm-upos>`_
         * *KoichiYasuoka/deberta-base-thai-upos* - DeBERTa(V2) model \
-            pre-trained on Thai Wikipedia texts for POS-tagging and \
-            dependency-parsing `Huggingface \
+            pre-trained on Thai Wikipedia texts for POS tagging and \
+            dependency parsing `Huggingface \
             <https://huggingface.co/KoichiYasuoka/deberta-base-thai-upos>`_
         * *KoichiYasuoka/roberta-base-thai-syllable-upos* - RoBERTa model \
-            pre-trained on Thai Wikipedia texts for POS-tagging and \
-            dependency-parsing. (syllable level) `Huggingface \
+            pre-trained on Thai Wikipedia texts for POS tagging and \
+            dependency parsing. (syllable level) `Huggingface \
             <https://huggingface.co/KoichiYasuoka/roberta-base-thai-syllable-upos>`_
         * *KoichiYasuoka/roberta-base-thai-char-upos* - RoBERTa model \
-            pre-trained on Thai Wikipedia texts for POS-tagging \
-            and dependency-parsing. (char level) `Huggingface \
+            pre-trained on Thai Wikipedia texts for POS tagging \
+            and dependency parsing. (char level) `Huggingface \
             <https://huggingface.co/KoichiYasuoka/roberta-base-thai-char-upos>`_
 
-    If you want to train model for esupar, you can read \
+    If you want to train models for esupar, you can read \
     `Huggingface <https://github.com/KoichiYasuoka/esupar>`_
 
     **Options for model (transformers_ud engine)**
         * *KoichiYasuoka/deberta-base-thai-ud-head* (default) - \
             DeBERTa(V2) model pretrained on Thai Wikipedia texts \
-            for dependency-parsing (head-detection on Universal \
-            Dependencies) as question-answering, derived from \
+            for dependency parsing (head-detection using Universal \
+            Dependencies) and question-answering, derived from \
             deberta-base-thai. \
             trained by th_blackboard.conll. `Huggingface \
             <https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-head>`_
         * *KoichiYasuoka/roberta-base-thai-spm-ud-head* - \
             roberta model pretrained on Thai Wikipedia texts \
-            for dependency-parsing. `Huggingface \
+            for dependency parsing. `Huggingface \
             <https://huggingface.co/KoichiYasuoka/roberta-base-thai-spm-ud-head>`_
 
     **Options for model (ud_goeswith engine)**
         * *KoichiYasuoka/deberta-base-thai-ud-goeswith* (default) - \
             This is a DeBERTa(V2) model pre-trained on Thai Wikipedia \
-            texts for POS-tagging and dependency-parsing (using goeswith for subwords) \
+            texts for POS tagging and dependency parsing (using goeswith for subwords) \
             `Huggingface <https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-goeswith>`_
 
     :Example:

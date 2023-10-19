@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Segmenting text to Enhanced Thai Character Cluster (ETCC)
+Segmenting text into Enhanced Thai Character Clusters (ETCCs)
 Python implementation by Wannaphong Phatthiyaphaibun
 
 This implementation relies on a dictionary of ETCC created from etcc.txt
@@ -66,7 +66,7 @@ def segment(text: str) -> List[str]:
     longest matching techniques." In International Symposium on Communications
     and Information Technology (ISCIT), pp. 37-40. 2001.
 
-    :param str text: text to be tokenized to character clusters
+    :param str text: text to be tokenized into character clusters
     :return: list of clusters, tokenized from the text
     :return: List[str]
     """

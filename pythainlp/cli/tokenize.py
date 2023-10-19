@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-thainlp tokenize command line.
+Command line for PyThaiNLP's tokenizers.
 """
 
 import argparse
@@ -22,7 +22,6 @@ from pythainlp import cli
 from pythainlp.tokenize import (
     DEFAULT_SENT_TOKENIZE_ENGINE,
     DEFAULT_SUBWORD_TOKENIZE_ENGINE,
-    DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
     DEFAULT_WORD_TOKENIZE_ENGINE,
     sent_tokenize,
     subword_tokenize,

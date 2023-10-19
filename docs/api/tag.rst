@@ -3,9 +3,9 @@
 pythainlp.tag
 =====================================
 The :class:`pythainlp.tag` contains functions that are used to mark linguistic and other annotation to different parts of a text including
-part-of-speech (POS) tag and named entity (NE) tag.
+part-of-speech (POS) tags and named entity (NE) tags.
 
-For POS tags, there are three set of available tags: `Universal POS tags <https://universaldependencies.org/>`_, ORCHID POS tags [#Sornlertlamvanich_2000]_, and LST20 POS tags [#Prachya_2020]_.
+For POS tags, there are three sets of available tags: `Universal POS tags <https://universaldependencies.org/>`_, ORCHID POS tags [#Sornlertlamvanich_2000]_, and LST20 POS tags [#Prachya_2020]_.
 
 The following table shows Universal POS tags as used in Universal Dependencies (UD):
 
@@ -91,13 +91,13 @@ Abbreviation   Part-of-Speech tag                                     Examples
  PUNC          Punctuation                                            (, ), “, ,, ;
 ============   =================================================      =================================
 
-ORCHID corpus uses different set of POS tags. Thus, we make UD POS tags version for ORCHID corpus.
+ORCHID corpus uses a different set of POS tags. Thus, we make UD POS tags version for ORCHID corpus.
 
 The following table shows the mapping of POS tags from ORCHID to UD:
 
-===============     =======================
-ORCHID POS tags     Coresponding UD POS tag
-===============     =======================
+===============     ========================
+ORCHID POS tags     Corresponding UD POS tag
+===============     ========================
 NOUN                NOUN
 NCMN                NOUN
 NTTL                NOUN
@@ -164,47 +164,47 @@ Details about LST20 POS tags are available in [#Prachya_2020]_.
 
 The following table shows the mapping of POS tags from LST20 to UD:
 
-+----------------+-------------------------+
-| LST20 POS tags | Coresponding UD POS tag |
-+================+=========================+
-| AJ             | ADJ                     |
-+----------------+-------------------------+
-| AV             | ADV                     |
-+----------------+-------------------------+
-| AX             | AUX                     |
-+----------------+-------------------------+
-| CC             | CCONJ                   |
-+----------------+-------------------------+
-| CL             | NOUN                    |
-+----------------+-------------------------+
-| FX             | NOUN                    |
-+----------------+-------------------------+
-| IJ             | INTJ                    |
-+----------------+-------------------------+
-| NN             | NOUN                    |
-+----------------+-------------------------+
-| NU             | NUM                     |
-+----------------+-------------------------+
-| PA             | PART                    |
-+----------------+-------------------------+
-| PR             | PROPN                   |
-+----------------+-------------------------+
-| PS             | ADP                     |
-+----------------+-------------------------+
-| PU             | PUNCT                   |
-+----------------+-------------------------+
-| VV             | VERB                    |
-+----------------+-------------------------+
-| XX             | X                       |
-+----------------+-------------------------+
++----------------+--------------------------+
+| LST20 POS tags | Corresponding UD POS tag |
++================+==========================+
+| AJ             | ADJ                      |
++----------------+--------------------------+
+| AV             | ADV                      |
++----------------+--------------------------+
+| AX             | AUX                      |
++----------------+--------------------------+
+| CC             | CCONJ                    |
++----------------+--------------------------+
+| CL             | NOUN                     |
++----------------+--------------------------+
+| FX             | NOUN                     |
++----------------+--------------------------+
+| IJ             | INTJ                     |
++----------------+--------------------------+
+| NN             | NOUN                     |
++----------------+--------------------------+
+| NU             | NUM                      |
++----------------+--------------------------+
+| PA             | PART                     |
++----------------+--------------------------+
+| PR             | PROPN                    |
++----------------+--------------------------+
+| PS             | ADP                      |
++----------------+--------------------------+
+| PU             | PUNCT                    |
++----------------+--------------------------+
+| VV             | VERB                     |
++----------------+--------------------------+
+| XX             | X                        |
++----------------+--------------------------+
 
-For the NE, we use `Inside-outside-beggining (IOB) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`_ format to tag NE for each word.
+For the NE, we use `Inside-outside-beginning (IOB) <https://en.wikipedia.org/wiki/Inside%E2%80%93outside%E2%80%93beginning_(tagging)>`_ format to tag NE for each word.
 
-*B-* prefix indicates the begining token of the chunk. *I-* prefix indicates the intermediate token within the chunk. *O* indicates that the token does not belong to any NE chunk.
+*B-* prefix indicates the beginning token of the chunk. *I-* prefix indicates the intermediate token within the chunk. *O* indicates that the token does not belong to any NE chunk.
 
 For instance, given a sentence "บารัค โอบามาเป็นประธานธิปดี", it would tag the tokens "บารัค", "โอบามา", "เป็น", "ประธานาธิปดี" with "B-PERSON", "I-PERSON", "O", and "O" respectively.
 
-The following table shows named entity (NE) tags as used PyThaiNLP:
+The following table shows named entity (NE) tags as used in PyThaiNLP:
 
 ============================    =================================
 Named Entity tag                Examples
@@ -244,7 +244,7 @@ Tagger Engines
 perceptron
 ++++++++++
 
-Perceptron tagger is the part-of-speech tagging using the averaged, structured perceptron algorithm.
+Perceptron tagger is a part-of-speech tagging using the averaged, structured perceptron algorithm.
 
 unigram
 +++++++

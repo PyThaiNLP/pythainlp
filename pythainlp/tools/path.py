@@ -72,9 +72,9 @@ def get_pythainlp_data_path() -> str:
 
 def get_pythainlp_path() -> str:
     """
-    This function returns full path of PyThaiNLP code
+    This function returns full path of PyThaiNLP codes
 
-    :return: full path of :mod:`pythainlp` code
+    :return: full path of :mod:`pythainlp` codes
     :rtype: str
 
     :Example:

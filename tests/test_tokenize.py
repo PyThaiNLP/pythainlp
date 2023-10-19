@@ -774,7 +774,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             tcc_p.segment("เรือน้อยลอยอยู่"), ['เรือ', 'น้', 'อ', 'ย', 'ล', 'อ', 'ย', 'อ', 'ยู่']
         )
-        # Not implementation
+        # Not implemented
         # self.assertEqual(
         #     tcc.segment("ประสานงานกับลูกค้า"), ['ป', 'ระ', 'สา', 'น', 'งา', 'น', 'กั', 'บ', 'ลู', 'ก', 'ค้า']
         # )
@@ -848,7 +848,7 @@ class TestTokenizePackage(unittest.TestCase):
                 "เวลา 12:12pm มีโปรโมชั่น 11.11", engine=engine
             )
             self.assertTrue(
-                any([value in tokens for value in ["12:12pm", "12:12"]]),
+                any(value in tokens for value in ["12:12pm", "12:12"]),
                 msg=f"{engine}: {tokens}",
             )
             self.assertIn("11.11", tokens)

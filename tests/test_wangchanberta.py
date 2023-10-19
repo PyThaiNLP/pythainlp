@@ -34,4 +34,3 @@ class TestWangchanberta(unittest.TestCase):
         self.assertIsNotNone(
             segment([])
         )
-

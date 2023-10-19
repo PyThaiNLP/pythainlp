@@ -90,10 +90,10 @@ class WordVector:
         from :mod:`gensim`.
 
         :param list words: a list of words
-        :raises KeyError: if there is any word in `positive` or `negative`
+        :raises KeyError: if there is any word in `positive` or `negative` that is
                           not in the vocabulary of the model.
-        :return: the word that mostly unrelated
-        :rtype: strt
+        :return: the word is that mostly unrelated
+        :rtype: str
 
         :Note:
             * If a word in `words` is not in the vocabulary, :class:`KeyError`
@@ -125,8 +125,8 @@ class WordVector:
         self, positive: List[str], negative: List[str]
     ) -> List[Tuple[str, float]]:
         """
-        This function find the top-10 words that are most similar with respect
-        to from two lists of words labeled as positive and negative.
+        This function finds the top-10 words that are most similar with respect
+        to two lists of words labeled as positive and negative.
         The top-10 most similar words are obtained using multiplication
         combination objective from Omer Levy and Yoav Goldberg
         [OmerLevy_YoavGoldberg_2014]_.
@@ -135,12 +135,12 @@ class WordVector:
         :mod:`gensim`.
 
         :param list positive: a list of words to add
-        :param list negative: a list of words to substract
+        :param list negative: a list of words to subtract
 
-        :raises KeyError: if there is any word in `positive` or `negative`
+        :raises KeyError: if there is any word in `positive` or `negative` that is
                           not in the vocabulary of the model.
         :return: list of top-10 most similar words and its similarity score
-        :rtype:  list[tuple[str,float]]
+        :rtype:  list[tuple[str, float]]
 
         :Note:
             *  With a single word in the positive list, it will find the
@@ -210,7 +210,7 @@ class WordVector:
         ('ลาว', 0.2995176911354065), ('คนไทย', 0.2885020673274994),
         ('เวียดนาม', 0.2878379821777344), ('ชาวไทย', 0.28480708599090576)]
 
-        The function return :class:`KeyError` when the term "เมนูอาหารไทย"
+        The function returns :class:`KeyError` when the term "เมนูอาหารไทย"
         is not in the vocabulary.
 
         >>> from pythainlp.word_vector import WordVector
@@ -227,10 +227,10 @@ class WordVector:
 
     def similarity(self, word1: str, word2: str) -> float:
         """
-        This function computae cosine similarity between two words.
+        This function computes cosine similarity between two words.
 
-        :param str word1: first word to be compared
-        :param str word2: second word to be compared
+        :param str word1: first word to be compared with
+        :param str word2: second word to be compared with
 
         :raises KeyError: if either `word1` or `word2` is not in the
                           vocabulary of the model.
@@ -266,11 +266,11 @@ class WordVector:
 
     def sentence_vectorizer(self, text: str, use_mean: bool = True) -> ndarray:
         """
-        This function convert a Thai sentence into vector.
-        Specifically, it first tokenize that text and map each tokenized words
+        This function converts a Thai sentence into vector.
+        Specifically, it first tokenizes that text and map each tokenized word
         with the word vectors from the model.
-        Then, word vectors are aggregatesd into one vector of 300 dimension
-        by calulating either mean, or summation of all word vectors.
+        Then, word vectors are aggregated into one vector of 300 dimension
+        by calculating either mean or summation of all word vectors.
 
         :param str text: text input
         :param bool use_mean: if `True` aggregate word vectors with mean of all
@@ -285,8 +285,8 @@ class WordVector:
         :Example:
 
         Vectorize the sentence, "อ้วนเสี้ยวเข้ายึดแคว้นกิจิ๋ว ในปี พ.ศ. 735",
-        into one sentence vector with two aggregation meanthods: mean
-         and summation.
+        into one sentence vector with two aggregation methods: mean
+        and summation.
 
         >>> from pythainlp.word_vector import WordVector
         >>>

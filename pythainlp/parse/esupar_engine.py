@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-esupar: Tokenizer POS-tagger and Dependency-parser with BERT/RoBERTa/DeBERTa models for Japanese and other languages
+esupar: Tokenizer, POS tagger and dependency parser with BERT/RoBERTa/DeBERTa models for Japanese and other languages
 
 GitHub: https://github.com/KoichiYasuoka/esupar
 """
@@ -14,7 +14,7 @@ except ImportError:
 
 class Parse:
     def __init__(self, model: str = "th") -> None:
-        if model == None:
+        if model is None:
             model = "th"
         self.nlp = esupar.load(model)
 

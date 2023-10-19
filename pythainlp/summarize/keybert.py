@@ -122,7 +122,7 @@ class KeyBERT:
         if not text:
             return []
 
-        # generate all list of keyword / keyphrases
+        # generate all lists of keywords / keyphrases
         stop_words_ = stop_words if stop_words else thai_stopwords()
         kw_candidates = _generate_ngrams(
             text, keyphrase_ngram_range, min_df, tokenizer, stop_words_
@@ -144,7 +144,7 @@ class KeyBERT:
 
     def embed(self, docs: Union[str, List[str]]) -> np.ndarray:
         """
-        Create an embedding of each input in `docs` by averaging vectors from last hidden layer.
+        Create an embedding of each input in `docs` by averaging vectors from the last hidden layer.
         """
         embs = self.ft_pipeline(docs)
         if isinstance(docs, str) or len(docs) == 1:

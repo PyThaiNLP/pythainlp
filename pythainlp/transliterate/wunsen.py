@@ -53,13 +53,13 @@ class WunsenTransliterate:
         """
         Use Wunsen for transliteration
 
-        :param str text: text wants transliterated to Thai text.
+        :param str text: text to be transliterated to Thai text.
         :param str lang: source language
-        :param str jp_input: japanese input method (for japanese only)
-        :param bool zh_sandhi: mandarin third tone sandhi option
-            (for mandarin only)
-        :param str system: transliteration system (for japanese and
-            mandarin only)
+        :param str jp_input: Japanese input method (for Japanese only)
+        :param bool zh_sandhi: Mandarin third tone sandhi option
+            (for Mandarin only)
+        :param str system: transliteration system (for Japanese and
+            Mandarin only)
 
         :return: Thai text
         :rtype: str
@@ -134,7 +134,7 @@ class WunsenTransliterate:
                 self.jp_input = None
                 self.zh_sandhi = zh_sandhi
                 self.system = system
-            elif lang == "ko" or lang == "vi":
+            elif lang in ("ko", "vi"):
                 self.jp_input = None
                 self.zh_sandhi = None
                 self.system = None

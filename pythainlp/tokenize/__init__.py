@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Tokenizers at different level of linguistic analysis.
+Tokenizers at different levels of linguistic analysis.
 """
 
 __all__ = [

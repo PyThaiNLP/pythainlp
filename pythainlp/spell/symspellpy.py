@@ -41,7 +41,7 @@ sym_spell.load_bigram_dictionary(
 
 def spell(text: str, max_edit_distance: int = 2) -> List[str]:
     return [
-        str(i).split(",")[0]
+        str(i).split(",", maxsplit=1)[0]
         for i in list(
             sym_spell.lookup(
                 text, Verbosity.CLOSEST, max_edit_distance=max_edit_distance
@@ -56,7 +56,7 @@ def correct(text: str, max_edit_distance: int = 1) -> str:
 
 def spell_sent(list_words: List[str], max_edit_distance: int = 2) -> List[str]:
     _temp = [
-        str(i).split(",")[0].split(" ")
+        str(i).split(",", maxsplit=1)[0].split(" ")
         for i in list(
             sym_spell.lookup_compound(
                 " ".join(list_words),

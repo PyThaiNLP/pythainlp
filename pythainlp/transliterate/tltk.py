@@ -20,7 +20,7 @@ except ImportError:
 
 def romanize(text: str) -> str:
     """
-    Transliterating thai text to the Latin alphabet with tltk.
+    Transliterating thai text to the Latin alphabet using tltk.
 
     :param str text: Thai text to be romanized
     :return: A string of Thai words rendered in the Latin alphabet.

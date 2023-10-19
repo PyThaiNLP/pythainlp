@@ -32,7 +32,7 @@ from collections import defaultdict
 from typing import Dict, Iterable, List, Tuple, Union
 
 
-class AveragedPerceptron(object):
+class AveragedPerceptron():
     """
     An averaged perceptron, as implemented by Matthew Honnibal.
 

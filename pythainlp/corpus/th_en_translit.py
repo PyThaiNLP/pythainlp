@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Thai-English Transliteratation Dictionary v1.4
+Thai-English Transliteration Dictionary v1.4
 
 Wannaphong Phatthiyaphaibun. (2022).
 wannaphong/thai-english-transliteration-dictionary: v1.4 (v1.4).
@@ -37,9 +37,9 @@ TRANSLITERATE_FOLLOW_RTSG = "follow_rtsg"
 
 def get_transliteration_dict() -> defaultdict:
     """
-    Get transliteration dictionary for Thai to English.
+    Get Thai to English transliteration dictionary.
 
-    The returned dict is defaultdict[str, defaultdict[List[str], List[Optional[bool]]]] format.
+    The returned dict is in defaultdict[str, defaultdict[List[str], List[Optional[bool]]]] format.
     """
     path = path_pythainlp_corpus(_FILE_NAME)
     if not path:
@@ -48,18 +48,18 @@ def get_transliteration_dict() -> defaultdict:
             f"{_FILE_NAME} is not found under pythainlp/corpus."
         )
 
-    # use list, one word can have multiple transliterations.
+    # use list, as one word can have multiple transliterations.
     trans_dict = defaultdict(
         lambda: {TRANSLITERATE_EN: [], TRANSLITERATE_FOLLOW_RTSG: []}
     )
     try:
         with open(path, "r", encoding="utf-8") as f:
-            # assume first row contains column names, skipped.
+            # assume that the first row contains column names, so skip it.
             for line in f.readlines()[1:]:
                 stripped = line.strip()
                 if stripped:
                     th, *en_checked = stripped.split("\t")
-                    # replace in-between whitespaces to prevent mismatch results from different tokenizers.
+                    # replace in-between whitespace to prevent mismatched results from different tokenizers.
                     # e.g. "บอยแบนด์"
                     # route 1: "บอยแบนด์" -> ["บอย", "แบนด์"] -> ["boy", "band"] -> "boyband"
                     # route 2: "บอยแบนด์" -> [""บอยแบนด์""] -> ["boy band"] -> "boy band"

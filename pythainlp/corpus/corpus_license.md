@@ -6,7 +6,7 @@
 
 ## Dictionaries and Word Lists
 
-The following word lists are created by PyThaiNLP project and released under
+The following word lists are created by the PyThaiNLP project and released under
 **Creative Commons Zero 1.0 Universal Public Domain Dedication License**
 https://creativecommons.org/publicdomain/zero/1.0/
 
@@ -25,7 +25,7 @@ words_th_thai2fit_201810.txt | List of Thai words (frozen for thai2fit)
 
 The following word lists are from **Thai Male and Female Names Corpus**
 https://github.com/korkeatw/thai-names-corpus/ by Korkeat Wannapat
-and released under their the original license which is
+and released under their original licenses which are
 **Creative Commons Attribution-ShareAlike 4.0 International Public License**
 https://creativecommons.org/licenses/by-sa/4.0/
 
@@ -38,7 +38,7 @@ person_names_male_th.txt | List of male names in Thailand
 
 ## Models
 
-The following language models are created by PyThaiNLP project
+The following language models are created by the PyThaiNLP project
 and released under
 **Creative Commons Attribution 4.0 International Public License**
 https://creativecommons.org/licenses/by/4.0/

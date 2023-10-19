@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Thai collation (sort according to Thai dictionary order)
+Thai collation (sorted according to Thai dictionary order)
 Simple implementation using regular expressions
 """
 import re

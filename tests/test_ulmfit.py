@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import pickle
 import unittest
 
+import pandas as pd
+import torch
+# fastai
+import fastai
+from fastai.text import *
 from pythainlp.tokenize import THAI2FIT_TOKENIZER
 from pythainlp.ulmfit import (
     THWIKI_LSTM,
@@ -30,12 +36,6 @@ from pythainlp.ulmfit.preprocess import (
     ungroup_emoji,
 )
 from pythainlp.ulmfit.tokenizer import BaseTokenizer as base_tokenizer
-import pandas as pd
-import pickle
-import torch
-# fastai
-import fastai
-from fastai.text import *
 
 # pythainlp
 from pythainlp.ulmfit import *
@@ -243,21 +243,21 @@ class TestUlmfitPackage(unittest.TestCase):
             .databunch(bs=64)
         )
         data_lm.sanity_check()
-        config = dict(
-            emb_sz=400,
-            n_hid=1550,
-            n_layers=4,
-            pad_token=1,
-            qrnn=False,
-            tie_weights=True,
-            out_bias=True,
-            output_p=0.25,
-            hidden_p=0.1,
-            input_p=0.2,
-            embed_p=0.02,
-            weight_p=0.15
-        )
-        trn_args = dict(drop_mult=0.9, clip=0.12, alpha=2, beta=1)
+        config = {
+            "emb_sz": 400,
+            "n_hid": 1550,
+            "n_layers": 4,
+            "pad_token": 1,
+            "qrnn": False,
+            "tie_weights": True,
+            "out_bias": True,
+            "output_p": 0.25,
+            "hidden_p": 0.1,
+            "input_p": 0.2,
+            "embed_p": 0.02,
+            "weight_p": 0.15
+        }
+        trn_args = {"drop_mult": 0.9, "clip": 0.12, "alpha": 2, "beta": 1}
         learn = language_model_learner(
             data_lm,
             AWD_LSTM,

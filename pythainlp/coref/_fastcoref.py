@@ -17,15 +17,15 @@ import spacy
 
 
 class FastCoref:
-    def __init__(self, model_name, nlp=spacy.blank("th"), device:str="cpu", type:str="FCoref") -> None:
+    def __init__(self, model_name, nlp=spacy.blank("th"), device: str="cpu", type: str="FCoref") -> None:
         if type == "FCoref":
             from fastcoref import FCoref as _model
         else:
             from fastcoref import LingMessCoref as _model
         self.model_name = model_name
         self.nlp = nlp
-        self.model = _model(self.model_name,device=device,nlp=self.nlp)
-    
+        self.model = _model(self.model_name, device=device, nlp=self.nlp)
+
     def _to_json(self, _predict):
         return {
             "text":_predict.text,
@@ -33,6 +33,6 @@ class FastCoref:
             "clusters":_predict.get_clusters(as_strings=False)
         }
 
-    
-    def predict(self, texts:List[str])->dict:
+
+    def predict(self, texts: List[str]) -> dict:
         return [self._to_json(i) for i in self.model.predict(texts=texts)]

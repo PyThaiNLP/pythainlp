@@ -55,7 +55,7 @@ class TestSummarizePackage(unittest.TestCase):
         # test invalid engine
         with self.assertRaises(ValueError):
             extract_keywords(text, engine="random engine")
-        
+
         # test different tokenizer
         keywords = extract_keywords(text, tokenizer="attacut")
 

@@ -25,11 +25,11 @@ class Translate:
         """
         :param str src_lang: source language
         :param str target_lang: target language
-        :param str engine: Machine Translation engine
-        :param bool use_gpu: load model to gpu (Default is False)
+        :param str engine: machine translation engine
+        :param bool use_gpu: load model using GPU (Default is False)
 
         **Options for engine*
-            * *default* - The engine default by each a language.
+            * *default* - The default engine for each language.
             * *small100* - A multilingual machine translation model (covering 100 languages)
 
         **Options for source & target language**

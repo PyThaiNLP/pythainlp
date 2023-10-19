@@ -43,7 +43,7 @@ def isthaichar(ch: str) -> bool:
 
     :param ch: input character
     :type ch: str
-    :return: True if ch is a Thai characttr, otherwise False.
+    :return: True if ch is a Thai character, otherwise False.
     :rtype: bool
 
     :Example:
@@ -58,19 +58,19 @@ def isthaichar(ch: str) -> bool:
         # output: True
     """
     ch_val = ord(ch)
-    if ch_val >= _TH_FIRST_CHAR_ASCII and ch_val <= _TH_LAST_CHAR_ASCII:
+    if _TH_FIRST_CHAR_ASCII <= ch_val <= _TH_LAST_CHAR_ASCII:
         return True
     return False
 
 
 def isthai(text: str, ignore_chars: str = ".") -> bool:
-    """Check if every characters in a string are Thai character.
+    """Check if every character in a string is a Thai character.
 
     :param text: input text
     :type text: str
     :param ignore_chars: characters to be ignored, defaults to "."
     :type ignore_chars: str, optional
-    :return: True if every characters in the input string are Thai,
+    :return: True if every character in the input string is Thai,
              otherwise False.
     :rtype: bool
 
@@ -106,10 +106,10 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
 
     :param text: input text
     :type text: str
-    :param ignore_chars: characters to be ignored, defaults to whitespaces,\\
-        digits, and puntuations.
+    :param ignore_chars: characters to be ignored, defaults to whitespace,\\
+        digits, and punctuation marks.
     :type ignore_chars: str, optional
-    :return: proportion of Thai characters in the text (percent)
+    :return: proportion of Thai characters in the text (percentage)
     :rtype: float
 
     :Example:
@@ -185,12 +185,12 @@ def thai_word_tone_detector(word: str) -> Tuple[str, str]:
     """
     Thai tone detector for word.
 
-    It use pythainlp.transliterate.pronunciate for convert word to\
+    It uses pythainlp.transliterate.pronunciate for converting word to\
         pronunciation.
 
     :param str word: Thai word.
-    :return: Thai pronunciation with tone each syllables.\
-        (l, m, h, r, f or empty if it cannot detector)
+    :return: Thai pronunciation with tones in each syllable.\
+        (l, m, h, r, f or empty if it cannot be detected)
     :rtype: Tuple[str, str]
 
     :Example:

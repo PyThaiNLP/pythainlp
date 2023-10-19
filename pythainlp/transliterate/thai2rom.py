@@ -18,7 +18,7 @@ Romanization of Thai words based on machine-learnt engine ("thai2rom")
 import random
 
 import torch
-import torch.nn as nn
+from torch import nn
 import torch.nn.functional as F
 from pythainlp.corpus import get_corpus_path
 
@@ -34,7 +34,7 @@ class ThaiTransliterator:
 
         Now supports Thai to Latin (romanization)
         """
-        # get the model, will download if it's not available locally
+        # get the model, download it if it's not available locally
         self.__model_filename = get_corpus_path(_MODEL_NAME)
 
         loader = torch.load(self.__model_filename, map_location=device)
@@ -115,7 +115,7 @@ class Encoder(nn.Module):
         self, vocabulary_size, embedding_size, hidden_size, dropout=0.5
     ):
         """Constructor"""
-        super(Encoder, self).__init__()
+        super().__init__()
         self.hidden_size = hidden_size
         self.character_embedding = nn.Embedding(
             vocabulary_size, embedding_size
@@ -175,7 +175,7 @@ class Encoder(nn.Module):
 
 class Attn(nn.Module):
     def __init__(self, method, hidden_size):
-        super(Attn, self).__init__()
+        super().__init__()
 
         self.method = method
         self.hidden_size = hidden_size
@@ -226,7 +226,7 @@ class AttentionDecoder(nn.Module):
         self, vocabulary_size, embedding_size, hidden_size, dropout=0.5
     ):
         """Constructor"""
-        super(AttentionDecoder, self).__init__()
+        super().__init__()
         self.vocabulary_size = vocabulary_size
         self.hidden_size = hidden_size
         self.character_embedding = nn.Embedding(
@@ -343,7 +343,7 @@ class Seq2Seq(nn.Module):
                 decoder_input, decoder_hidden, encoder_outputs, mask
             )
 
-            topv, topi = decoder_output.topk(1)
+            _, topi = decoder_output.topk(1)
             outputs[di] = decoder_output.to(device)
 
             teacher_force = random.random() < teacher_forcing_ratio

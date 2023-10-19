@@ -13,8 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-The implementation of tokenizer accorinding to Thai Character Clusters (TCCs)
-rules purposed by `Theeramunkong et al. 2000. \
+The implementation of tokenizer according to Thai Character Clusters (TCCs)
+rules proposed by `Theeramunkong et al. 2000. \
     <http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548>`_
 
 Credits:
@@ -72,9 +72,9 @@ _PAT_TCC = re.compile("|".join(_RE_TCC))
 
 def tcc(text: str) -> str:
     """
-    TCC generator, generates Thai Character Clusters
+    TCC generator which generates Thai Character Clusters
 
-    :param str text: text to be tokenized to character clusters
+    :param str text: text to be tokenized into character clusters
     :return: subwords (character clusters)
     :rtype: Iterator[str]
     """
@@ -97,8 +97,8 @@ def tcc_pos(text: str) -> Set[int]:
     """
     TCC positions
 
-    :param str text: text to be tokenized to character clusters
-    :return: list of the end position of subwords
+    :param str text: text to be tokenized into character clusters
+    :return: list of the ending position of subwords
     :rtype: set[int]
     """
     if not text or not isinstance(text, str):
@@ -117,7 +117,7 @@ def segment(text: str) -> List[str]:
     """
     Subword segmentation
 
-    :param str text: text to be tokenized to character clusters
+    :param str text: text to be tokenized into character clusters
     :return: list of subwords (character clusters), tokenized from the text
     :rtype: list[str]
 

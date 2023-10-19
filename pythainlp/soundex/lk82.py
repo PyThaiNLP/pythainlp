@@ -34,14 +34,14 @@ _TRANS2 = str.maketrans(
 # silenced
 _RE_KARANT = re.compile(r"จน์|มณ์|ณฑ์|ทร์|ตร์|[ก-ฮ]์|[ก-ฮ][ะ-ู]์")
 
-# signs, symbols, vowel that has no explicit sound
+# signs, symbols, vowel that has no explicit sounds
 # Paiyannoi, Phinthu, Maiyamok, Maitaikhu, Nikhahit
 _RE_SIGN = re.compile(r"[\u0e2f\u0e3a\u0e46\u0e47\u0e4d]")
 
 
 def lk82(text: str) -> str:
     """
-    This function converts Thai text into phonetic code with the a
+    This function converts Thai text into phonetic code with the
     Thai soundex algorithm named **LK82** [#lk82]_.
 
     :param str text: Thai word
@@ -124,11 +124,11 @@ def lk82(text: str) -> str:
         else:
             res.append(c.translate(_TRANS2))  # 12.
 
-    # 13. remove repetitives
+    # 13. remove repetitions
     res2 = [res[0]]
     for i in range(1, len(res)):
         if res[i] != res[i - 1]:
             res2.append(res[i])
 
-    # 14. fill zeros
+    # 14. fill with zeros
     return ("".join(res2) + "0000")[:5]

@@ -83,7 +83,7 @@ def find_misspell_candidates(char: str, verbose: bool = False):
     valid_neighbours = find_neighbour_locations(loc, char)
 
     chars = []
-    printing_locations = ["▐"] * 3 + [char] + ["​▐"] * 3
+    printing_locations = ["▐"] * 3 + [char] + ["▐"] * 3
 
     for language_ix, is_shift, row, pos, char in valid_neighbours:
         try:
@@ -104,7 +104,7 @@ def find_misspell_candidates(char: str, verbose: bool = False):
             else:
                 continue
             printing_locations[ix] = char
-        except IndexError as e:
+        except IndexError:
             continue
         except Exception as e:
             print("Something wrong with: ", char)
@@ -115,13 +115,13 @@ def find_misspell_candidates(char: str, verbose: bool = False):
 
 def misspell(sentence: str, ratio: float = 0.05):
     """
-    Simulate some mispellings for the input sentence.
-    The number of mispelled locations is governed by ratio.
+    Simulate some misspellings of the input sentence.
+    The number of misspelled locations is governed by ratio.
 
-    :params str sentence: sentence to be mispelled
+    :params str sentence: sentence to be misspelled
     :params float ratio: number of misspells per 100 chars. Defaults to 0.5.
 
-    :return: sentence containing some misspelled
+    :return: sentence containing some misspelled words
     :rtype: str
 
     :Example:

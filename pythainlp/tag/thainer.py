@@ -25,7 +25,7 @@ from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import isthai
 
-_TOKENIZER_ENGINE = "newmm"  # should be the same as one used in training data
+_TOKENIZER_ENGINE = "newmm"  # should be same as that used in training data
 
 
 def _is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำฟุ่มเฟือย
@@ -86,10 +86,10 @@ def _doc2features(doc, i) -> Dict:
 class ThaiNameTagger:
     """
     Thai named-entity recognizer or Thai NER.
-    This function support Thai NER 1.4 and 1.5 only.
+    This function supports Thai NER 1.4 and 1.5 only.
     :param str version: Thai NER version.
-        It's support Thai NER 1.4 & 1.5.
-        The defualt value is `1.4
+        It supports Thai NER 1.4 & 1.5.
+        The default value is `1.4
 
     :Example:
     ::
@@ -106,7 +106,7 @@ class ThaiNameTagger:
 
         :param str version: Thai NER version.
                             It's support Thai NER 1.4 & 1.5.
-                            The defualt value is `1.4`
+                            The default value is `1.4`
         """
         from pycrfsuite import Tagger as CRFTagger
 
@@ -123,24 +123,24 @@ class ThaiNameTagger:
         self, text: str, pos: bool = True, tag: bool = False
     ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]]]:
         """
-        This function tags named-entitiy from text in IOB format.
+        This function tags named-entities in text in IOB format.
 
         :param str text: text in Thai to be tagged
         :param bool pos: To include POS tags in the results (`True`) or
-                            exclude (`False`). The defualt value is `True`
-        :param bool tag: output like html tag.
-        :return: a list of tuple associated with tokenized word, NER tag,
-                 POS tag (if the parameter `pos` is specified as `True`),
-                 and output like html tag (if the parameter `tag` is
+                            exclude (`False`). The default value is `True`
+        :param bool tag: output HTML-like tags.
+        :return: a list of tuples associated with tokenized words, NER tags,
+                 POS tags (if the parameter `pos` is specified as `True`),
+                 and output HTML-like tags (if the parameter `tag` is
                  specified as `True`).
-                 Otherwise, return a list of tuple associated with tokenized
-                 word and NER tag
+                 Otherwise, return a list of tuples associated with tokenized
+                 words and NER tags
         :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]]], str
 
         :Note:
             * For the POS tags to be included in the results, this function
-              uses :func:`pythainlp.tag.pos_tag` with engine as `perceptron`
-              and corpus as orchid_ud`.
+              uses :func:`pythainlp.tag.pos_tag` with engine `perceptron`
+              and corpus `orchid_ud`.
 
         :Example:
 

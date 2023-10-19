@@ -43,13 +43,14 @@ For development version:
 pip install --upgrade --pre pythainlp
 ```
 
-Some functionalities, like named-entity recognition, required extra packages.
+Some functionalities, like named-entity recognition, require extra packages.
 See https://github.com/PyThaiNLP/pythainlp for installation options.
 """
 
 requirements = [
     "requests>=2.22.0",
-    "backports.zoneinfo; python_version<'3.9'"
+    "backports.zoneinfo; python_version<'3.9'",
+    "tzdata; sys_platform == 'win32'"
 ]
 
 extras = {
@@ -171,7 +172,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="4.1.0beta3",
+    version="4.1.0beta5",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",
@@ -227,4 +228,4 @@ setup(
     },
 )
 
-# TODO: Check extras and decide to download additional data, like model files
+# TODO: Check extras and decide whether or not additional data, like model files, should be downloaded

@@ -1,7 +1,7 @@
-# Word Tokenisation Benchmark for Thai (obsolete)
+# Word Tokenization Benchmark for Thai (obsolete)
 
-A framework for benchmarking tokenisation algorithms for Thai.
-It has a command-line interface that allows users to conviniently execute the benchmarks
+A framework for benchmarking tokenization algorithms for Thai.
+It has a command-line interface that allows users to conveniently execute the benchmarks
 as well as a module interface for later use in their development pipelines.
 
 
@@ -22,7 +22,7 @@ as well as a module interface for later use in their development pipelines.
 
 
 ### Word-Level (WL)
-- Correctly Tokenised Words (CTW): no. of words in reference that are correctly tokenised.
+- Correctly Tokenized Words (CTW): no. of words in reference that are correctly tokenized.
 - Precision: CTW / no. words in reference solution
 - Recall: CTW / no. words in sample
 -**** f1: ...
@@ -89,7 +89,7 @@ pip ...
     ```
 
 ## Related Work
-- [Thai Tokenisers Docker][docker]: collection of pre-built Thai tokenisers Docker containers.
+- [Thai Tokenizers Docker][docker]: collection of Docker containers of pre-built Thai tokenizers.
 
 
 ## Development
@@ -99,7 +99,7 @@ $ TEST_VERBOSE=1 PYTHONPATH=. python tests/__init__.py
 ```
 
 ## Acknowledgement
-This project was initiallly started by [Pattarawat Chormai][pat], while he was interning at [Dr. Attapol Thamrongrattanarit][ate]'s lab.
+This project was initially started by [Pattarawat Chormai][pat], while he was interning at [Dr. Attapol Thamrongrattanarit][ate]'s lab.
 
 [docker]: https://github.com/PyThaiNLP/docker-thai-tokenizers
 [ate]: https://attapol.github.io

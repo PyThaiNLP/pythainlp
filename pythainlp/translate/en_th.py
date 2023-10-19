@@ -20,14 +20,11 @@ from VISTEC-depa Thailand Artificial Intelligence Research Institute
 Website: https://airesearch.in.th/releases/machine-translation-models/
 """
 import os
-import tarfile
-from collections import defaultdict
-
-from pythainlp.corpus import download, get_corpus_path
-from pythainlp.tools import get_full_data_path, get_pythainlp_data_path
 
 from fairseq.models.transformer import TransformerModel
 from sacremoses import MosesTokenizer
+
+from pythainlp.corpus import download, get_corpus_path
 
 
 _EN_TH_MODEL_NAME = "scb_1m_en-th_moses"
@@ -50,7 +47,7 @@ def _download_install(name: str) -> None:
 
 def download_model_all() -> None:
     """
-    Download all translation models in advanced
+    Download all translation models in advance
     """
     _download_install(_EN_TH_MODEL_NAME)
     _download_install(_TH_EN_MODEL_NAME)
@@ -64,7 +61,7 @@ class EnThTranslator:
 
     Website: https://airesearch.in.th/releases/machine-translation-models/
 
-    :param bool use_gpu : load model to gpu (Default is False)
+    :param bool use_gpu : load model using GPU (Default is False)
     """
 
     def __init__(self, use_gpu: bool = False):
@@ -122,7 +119,7 @@ class ThEnTranslator:
 
     Website: https://airesearch.in.th/releases/machine-translation-models/
 
-    :param bool use_gpu : load model to gpu (Default is False)
+    :param bool use_gpu : load model using GPU (Default is False)
     """
 
     def __init__(self, use_gpu: bool = False):

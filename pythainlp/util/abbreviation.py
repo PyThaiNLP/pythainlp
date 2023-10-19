@@ -20,14 +20,14 @@ from typing import List, Tuple, Union
 
 def abbreviation_to_full_text(text: str, top_k: int=2) -> List[Tuple[str, Union[float, None]]]:
     """
-    This function convert Thai text (with abbreviation) to full text.
+    This function converts Thai text (with abbreviation) to full text.
 
-    This function use KhamYo for handles abbreviations.
+    This function uses KhamYo for handles abbreviations.
     See more `KhamYo <https://github.com/wannaphong/KhamYo>`_.
 
     :param str text: Thai text
     :param int top_k: Top K
-    :return: Thai full text that handles abbreviations as full text and cos scores (original text -  modified text).
+    :return: Thai full text with abbreviations converted to full text and cos scores (original text - modified text).
     :rtype: List[Tuple[str, Union[float, None]]]
 
     :Example:
@@ -48,7 +48,7 @@ def abbreviation_to_full_text(text: str, top_k: int=2) -> List[Tuple[str, Union[
     except ImportError:
         raise ImportError(
             """
-            This funtion need to use khamyo.
+            This function needs to use khamyo.
             You can install by pip install khamyo or 
             pip install pythainlp[abbreviation].
             """

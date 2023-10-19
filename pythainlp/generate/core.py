@@ -15,10 +15,11 @@
 """
 Text generator using n-gram language model
 
-code from
+codes are from
 https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
 """
 import random
+from typing import List, Union
 from pythainlp.corpus.tnc import unigram_word_freqs as tnc_word_freqs_unigram
 from pythainlp.corpus.tnc import bigram_word_freqs as tnc_word_freqs_bigram
 from pythainlp.corpus.tnc import trigram_word_freqs as tnc_word_freqs_trigram
@@ -26,7 +27,6 @@ from pythainlp.corpus.ttc import unigram_word_freqs as ttc_word_freqs_unigram
 from pythainlp.corpus.oscar import (
     unigram_word_freqs as oscar_word_freqs_unigram,
 )
-from typing import List, Union
 
 
 class Unigram:
@@ -62,12 +62,12 @@ class Unigram:
         duplicate: bool = False,
     ) -> Union[List[str], str]:
         """
-        :param str start_seq: word for begin word.
-        :param int N: number of word.
-        :param bool output_str: output is str
-        :param bool duplicate: duplicate word in sent
+        :param str start_seq: word to begin sentence with
+        :param int N: number of words
+        :param bool output_str: output as string
+        :param bool duplicate: allow duplicate words in sentence
 
-        :return: list words or str words
+        :return: list of words or a word string
         :rtype: List[str], str
 
         :Example:
@@ -78,7 +78,7 @@ class Unigram:
             gen = Unigram()
 
             gen.gen_sentence("แมว")
-            # ouput: 'แมวเวลานะนั้น'
+            # output: 'แมวเวลานะนั้น'
         """
         if start_seq is None:
             start_seq = random.choice(self.word)
@@ -105,7 +105,7 @@ class Unigram:
         self._word_list = list(self._word_prob.keys())
         if N > len(self._word_list):
             N = len(self._word_list)
-        for i in range(N):
+        for _ in range(N):
             self._word = random.choice(self._word_list)
             if duplicate is False:
                 while self._word in self.words:
@@ -135,7 +135,7 @@ class Bigram:
 
     def prob(self, t1: str, t2: str) -> float:
         """
-        probability word
+        probability of word
 
         :param int t1: text 1
         :param int t2: text 2
@@ -158,12 +158,12 @@ class Bigram:
         duplicate: bool = False,
     ) -> Union[List[str], str]:
         """
-        :param str start_seq: word for begin word.
-        :param int N: number of word.
-        :param bool output_str: output is str
-        :param bool duplicate: duplicate word in sent
+        :param str start_seq: word to begin sentence with
+        :param int N: number of words
+        :param bool output_str: output as string
+        :param bool duplicate: allow duplicate words in sentence
 
-        :return: list words or str words
+        :return: list of words or a word string
         :rtype: List[str], str
 
         :Example:
@@ -174,7 +174,7 @@ class Bigram:
             gen = Bigram()
 
             gen.gen_sentence("แมว")
-            # ouput: 'แมวไม่ได้รับเชื้อมัน'
+            # output: 'แมวไม่ได้รับเชื้อมัน'
         """
         if start_seq is None:
             start_seq = random.choice(self.words)
@@ -182,7 +182,7 @@ class Bigram:
         self.list_word = []
         self.list_word.append(start_seq)
 
-        for i in range(N):
+        for _ in range(N):
             if duplicate:
                 self._temp = [
                     j for j in self.bi_keys if j[0] == self.late_word
@@ -228,7 +228,7 @@ class Trigram:
 
     def prob(self, t1: str, t2: str, t3: str) -> float:
         """
-        probability word
+        probability of word
 
         :param int t1: text 1
         :param int t2: text 2
@@ -253,12 +253,12 @@ class Trigram:
         duplicate: bool = False,
     ) -> Union[List[str], str]:
         """
-        :param str start_seq: word for begin word.
-        :param int N: number of word.
-        :param bool output_str: output is str
-        :param bool duplicate: duplicate word in sent
+        :param str start_seq: word to begin sentence with
+        :param int N: number of words
+        :param bool output_str: output as string
+        :param bool duplicate: allow duplicate words in sentence
 
-        :return: list words or str words
+        :return: list of words or a word string
         :rtype: List[str], str
 
         :Example:
@@ -269,7 +269,7 @@ class Trigram:
             gen = Trigram()
 
             gen.gen_sentence()
-            # ouput: 'ยังทำตัวเป็นเซิร์ฟเวอร์คือ'
+            # output: 'ยังทำตัวเป็นเซิร์ฟเวอร์คือ'
         """
         if start_seq is None:
             start_seq = random.choice(self.bi_keys)

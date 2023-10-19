@@ -75,11 +75,11 @@ _digit_spell_translate_table = str.maketrans(_digit_spell)
 
 def thai_digit_to_arabic_digit(text: str) -> str:
     """
-    This function convert Thai digits (i.e. ๑, ๓, ๑๐) to Arabic digits
+    This function converts Thai digits (i.e. ๑, ๓, ๑๐) to Arabic digits
     (i.e. 1, 3, 10).
 
     :param str text: Text with Thai digits such as '๑', '๒', '๓'
-    :return: Text with Thai digits being converted to Arabic digits
+    :return: Text with Thai digits converted to Arabic digits
              such as '1', '2', '3'
     :rtype: str
 
@@ -101,11 +101,11 @@ def thai_digit_to_arabic_digit(text: str) -> str:
 
 def arabic_digit_to_thai_digit(text: str) -> str:
     """
-    This function convert Arabic digits (i.e. 1, 3, 10) to Thai digits
+    This function converts Arabic digits (i.e. 1, 3, 10) to Thai digits
     (i.e. ๑, ๓, ๑๐).
 
     :param str text: Text with Arabic digits such as '1', '2', '3'
-    :return: Text with Arabic digits being converted to Thai digits
+    :return: Text with Arabic digits converted to Thai digits
              such as '๑', '๒', '๓'
     :rtype: str
 
@@ -129,12 +129,12 @@ def arabic_digit_to_thai_digit(text: str) -> str:
 def digit_to_text(text: str) -> str:
     """
     :param str text: Text with digits such as '1', '2', '๓', '๔'
-    :return: Text with digits being spelled out in Thai
+    :return: Text with digits spelled out in Thai
     """
     if not text or not isinstance(text, str):
         return ""
 
-    # Convert Thai numerals to Arabic
+    # Convert Thai numerals to Arabic ones
     text = text.translate(_thai_arabic_translate_table)
     # Spell out Arabic numerals in Thai text
     text = text.translate(_digit_spell_translate_table)
@@ -143,11 +143,11 @@ def digit_to_text(text: str) -> str:
 
 def text_to_arabic_digit(text: str) -> str:
     """
-    This function convert Thai spelled out digits to Arabic digits.
+    This function converts spelled out digits in Thai to Arabic digits.
 
     :param text: A digit spelled out in Thai
     :return: An Arabic digit such as '1', '2', '3' if the text is
-             Thai digit spelled out (ศูนย์, หนึ่ง, สอง, ..., เก้า).
+             digit spelled out in Thai (ศูนย์, หนึ่ง, สอง, ..., เก้า).
              Otherwise, it returns an empty string.
     :rtype: str
 
@@ -165,7 +165,7 @@ def text_to_arabic_digit(text: str) -> str:
         text_to_arabic_digit("เก้า")
         # output: 9
 
-        # For text that is not Thai digit spelled out
+        # For text that is not digit spelled out in Thai
         text_to_arabic_digit("สิบ") == ""
         # output: True
         text_to_arabic_digit("เก้าร้อย") == ""
@@ -179,11 +179,11 @@ def text_to_arabic_digit(text: str) -> str:
 
 def text_to_thai_digit(text: str) -> str:
     """
-    This function convert Thai spelled out digits to Thai digits.
+    This function converts spelled out digits in Thai to Thai digits.
 
     :param text: A digit spelled out in Thai
-    :return: A Thai digit such as '๑', '๒', '๓'  if the text is Thai digit
-             spelled out (ศูนย์, หนึ่ง, สอง, ..., เก้า).
+    :return: A Thai digit such as '๑', '๒', '๓' if the text is digit
+             spelled out in Thai (ศูนย์, หนึ่ง, สอง, ..., เก้า).
              Otherwise, it returns an empty string.
     :rtype: str
 

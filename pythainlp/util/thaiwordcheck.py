@@ -65,7 +65,7 @@ _TH_NATIVE_WORDS = {
     "ผลิ",
 }
 
-# Diphthong prefixes (can starts native Thai word)
+# Diphthong prefixes (can start native Thai word)
 _TH_PREFIX_DIPHTHONG = {"กะ", "กระ", "ปะ", "ประ"}
 
 # Thai consonant filter
@@ -76,7 +76,7 @@ _TH_CONSONANTS_PATTERN = re.compile(r"[ก-ฬฮ]", re.U)
 def is_native_thai(word: str) -> bool:
     """
     Check if a word is an "native Thai word" (Thai: "คำไทยแท้")
-    This function based on a simple heuristic algorithm
+    This function is based on a simple heuristic algorithm
     and cannot be entirely reliable.
 
     :param str word: word
@@ -115,11 +115,11 @@ def is_native_thai(word: str) -> bool:
     if word in _TH_NATIVE_WORDS:
         return True
 
-    # If a word contains non-Thai char, it is not a native Thai
+    # If a word contains non-Thai chars, it is not a native Thai
     if any(ch in word for ch in _TH_NON_NATIVE_CHARS):
         return False
 
-    # If does not contain any Thai consonants -> cannot be Thai
+    # If it does not contain any Thai consonants -> it cannot be Thai
     chs = re.findall(_TH_CONSONANTS_PATTERN, word)
     if not chs:
         return False
@@ -133,7 +133,7 @@ def is_native_thai(word: str) -> bool:
         return True
 
     # Note: This will not work, as it check the whole word, not the prefix.
-    # Prefix-sentitive tokenization is required in order to able to check this.
+    # Prefix-sensitive tokenization is required in order to be able to check this.
     if word in _TH_PREFIX_DIPHTHONG:
         return True
 

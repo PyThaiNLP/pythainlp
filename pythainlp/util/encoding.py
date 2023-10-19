@@ -16,8 +16,8 @@ def tis620_to_utf8(text: str)->str:
     """
     Convert TIS-620 to UTF-8
 
-    :param str text: Text that use TIS-620 encoding
-    :return: Text that use UTF-8 encoding
+    :param str text: Text that uses TIS-620 encoding
+    :return: Text that uses UTF-8 encoding
     :rtype: str
 
     :Example:

@@ -15,9 +15,9 @@
 """
 nercut 0.2
 
-Dictionary-based maximal matching word segmentation, constrained with
+Dictionary-based maximal matching word segmentation, constrained by
 Thai Character Cluster (TCC) boundaries, and combining tokens that are
-parts of the same named-entity.
+parts of the same named entity.
 
 Code by Wannaphong Phatthiyaphaibun
 """
@@ -41,13 +41,13 @@ def segment(
     tagger=_thainer,
 ) -> List[str]:
     """
-    Dictionary-based maximal matching word segmentation, constrained with
+    Dictionary-based maximal matching word segmentation, constrained by
     Thai Character Cluster (TCC) boundaries, and combining tokens that are
     parts of the same named-entity.
 
-    :param str text: text to be tokenized to words
-    :parm list taglist: a list of named-entity tags to be used
-    :parm class tagger: ner tagger engine
+    :param str text: text to be tokenized into words
+    :param list taglist: a list of named entity tags to be used
+    :param class tagger: NER tagger engine
     :return: list of words, tokenized from the text
     """
     if not isinstance(text, str):

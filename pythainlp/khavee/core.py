@@ -21,14 +21,13 @@ class KhaveeVerifier:
         """
         KhaveeVerifier: Thai Poetry verifier
         """
-        pass
 
     def check_sara(self, word: str)-> str:
         """
         Check the vowels in the Thai word.
 
         :param str word: Thai word
-        :return: name vowel of the word.
+        :return: vowel name of the word
         :rtype: str
 
         :Example:
@@ -43,12 +42,12 @@ class KhaveeVerifier:
         """
         sara = []
         countoa = 0
-        # In case การันย์
+        # In case of การันย์
         if '์' in word[-1]:
             word = word[:-2]
-        # In case สระเดี่ยว
+        # In case of สระเดี่ยว
         for i in word:
-            if i == 'ะ' or i == 'ั':
+            if i in ('ะ', 'ั'):
                 sara.append('อะ')
             elif i == 'ิ':
                 sara.append('อิ')
@@ -67,7 +66,7 @@ class KhaveeVerifier:
             elif i == 'แ':
                 sara.append('แอ')
             elif i == 'า':
-                sara.append('อา') 
+                sara.append('อา')
             elif i == 'โ':
                 sara.append('โอ')
             elif i == 'ำ':
@@ -77,8 +76,8 @@ class KhaveeVerifier:
                 sara.append('ออ')
             elif i == 'ั' and 'ว' in word:
                 sara.append('อัว')
-            elif i == 'ไ' or i == 'ใ':
-                sara.append('ไอ') 
+            elif i in ('ไ', 'ใ'):
+                sara.append('ไอ')
             elif i == '็':
                 sara.append('ออ')
             elif 'รร' in word:
@@ -86,10 +85,10 @@ class KhaveeVerifier:
                     sara.append('อำ')
                 else:
                     sara.append('อะ')
-        # Incase ออ
+        # In case of ออ
         if countoa == 1 and 'อ' in word[-1] and 'เ' not in word:
             sara.remove('ออ')
-        # In case เอ เอ 
+        # In case of เอ เอ
         countA = 0
         for i in sara:
             if i == 'เอ':
@@ -98,7 +97,7 @@ class KhaveeVerifier:
                 sara.remove('เอ')
                 sara.remove('เอ')
                 sara.append('แ')
-        # In case สระประสม
+        # In case of สระประสม
         if 'เอ' in sara and 'อะ' in sara:
             sara.remove('เอ')
             sara.remove('อะ')
@@ -114,42 +113,42 @@ class KhaveeVerifier:
         elif 'เอ' in sara and 'อิ' in sara:
             sara.remove('เอ')
             sara.remove('อิ')
-            sara.append('เออ')        
+            sara.append('เออ')
         elif 'เอ' in sara and 'ออ' in sara and 'อ' in word[-1]:
             sara.remove('เอ')
             sara.remove('ออ')
             sara.append('เออ')
-        elif 'โอ' in sara and 'อะ' in sara: 
+        elif 'โอ' in sara and 'อะ' in sara:
             sara.remove('โอ')
             sara.remove('อะ')
             sara.append('โอะ')
-        elif 'เอ' in sara and 'อี' in sara: 
+        elif 'เอ' in sara and 'อี' in sara:
             sara.remove('เอ')
             sara.remove('อี')
             sara.append('เอีย')
-        elif 'เอ' in sara and 'อือ' in sara: 
+        elif 'เอ' in sara and 'อือ' in sara:
             sara.remove('เอ')
             sara.remove('อือ')
-            sara.append('อัว')   
-        elif 'เอ' in sara and 'อา' in sara: 
+            sara.append('อัว')
+        elif 'เอ' in sara and 'อา' in sara:
             sara.remove('เอ')
             sara.remove('อา')
-            sara.append('เอา') 
+            sara.append('เอา')
         elif 'เ' in word and 'า' in word and 'ะ' in word:
             sara = []
             sara.append('เอาะ')
-        if 'อือ' in sara and 'เออ' in sara: 
+        if 'อือ' in sara and 'เออ' in sara:
             sara.remove('เออ')
             sara.remove('อือ')
-            sara.append('เอือ')  
+            sara.append('เอือ')
         elif 'ออ' in sara and len(sara) > 1:
-            sara.remove('ออ')        
+            sara.remove('ออ')
         elif 'ว' in word and len(sara) == 0:
             sara.append('อัว')
         if 'ั' in word and self.check_marttra(word) == 'กา':
             sara = []
             sara.append('ไอ')
-        # In case อ
+        # In case of อ
         if word == 'เออะ':
             sara = []
             sara.append('เออะ')
@@ -170,20 +169,20 @@ class KhaveeVerifier:
             sara.append('เอาะ')
         if 'ฤา' in word or 'ฦา' in word:
             sara = []
-            sara.append('อือ') 
+            sara.append('อือ')
         elif 'ฤ' in word or 'ฦ' in word:
             sara = []
-            sara.append('อึ') 
-        # In case กน
-        if sara == [] and len(word) == 2:
+            sara.append('อึ')
+        # In case of กน
+        if not sara and len(word) == 2:
             if word[-1] != 'ร':
                 sara.append('โอะ')
             else:
-                sara.append('ออ') 
-        elif sara == [] and len(word) == 3:
-            sara.append('ออ') 
-        
-        # incase บ่ 
+                sara.append('ออ')
+        elif not sara and len(word) == 3:
+            sara.append('ออ')
+
+        # In case of บ่
         if 'บ่' == word:
             sara = []
             sara.append('ออ')
@@ -193,8 +192,8 @@ class KhaveeVerifier:
         if 'เ' in word and 'ื' in word and 'อ' in word:
             sara = []
             sara.append('เอือ')
-        if sara == []:  
-            return 'Cant find Sara in this word'
+        if not sara:
+            return 'Can\'t find Sara in this word'
         else:
             return sara[0]
 
@@ -204,7 +203,7 @@ class KhaveeVerifier:
         Check the Thai spelling Section in the Thai word.
 
         :param str word: Thai word
-        :return: name spelling Section of the word.
+        :return: name of spelling Section of the word.
         :rtype: str
 
         :Example:
@@ -245,11 +244,11 @@ class KhaveeVerifier:
         elif word[-1] in ['บ', 'ป', 'พ', 'ฟ', 'ภ']:
             return 'กบ'
         else:
-           if '็' in word:
-               return 'กา'
-           else:
-               return 'Cant find Marttra in this word'
-           
+            if '็' in word:
+                return 'กา'
+            else:
+                return 'Cant find Marttra in this word'
+
 
     def is_sumpus(self, word1: str,word2: str) -> bool:
         """
@@ -257,7 +256,7 @@ class KhaveeVerifier:
 
         :param str word1: Thai word
         :param str word2: Thai word
-        :return: boolen
+        :return: boolean
         :rtype: bool
 
         :Example:
@@ -289,24 +288,21 @@ class KhaveeVerifier:
         elif sara2 == 'อำ' and marttra2 == 'กม':
             sara2 = 'อำ'
             marttra2 = 'กา'
-        if marttra1 == marttra2 and sara1 == sara2:
-            return True
-        else:
-            return False
-        
+        return bool(marttra1 == marttra2 and sara1 == sara2)
+
     def check_karu_lahu(self,text):
         if (self.check_marttra(text) != 'กา' or (self.check_marttra(text) == 'กา' and self.check_sara(text) in ['อา','อี', 'อือ', 'อู', 'เอ', 'แอ', 'โอ', 'ออ', 'เออ', 'เอีย', 'เอือ' ,'อัว']) or self.check_sara(text) in ['อำ','ไอ','เอา']) and text not in ['บ่','ณ','ธ','ก็']:
             return 'karu'
         else:
             return 'lahu'
-        
+
     def check_klon(self, text: str,k_type: int=8) -> Union[List[str], str]:
         """
         Check the suitability of the poem according to Thai principles.
 
         :param str text: Thai poem
-        :param int k_type: Type of Thai poem
-        :return: the check of the suitability of the poem according to Thai principles.
+        :param int k_type: type of Thai poem
+        :return: the check results of the suitability of the poem according to Thai principles.
         :rtype: Union[List[str], str]
 
         :Example:
@@ -320,7 +316,7 @@ class KhaveeVerifier:
             # output: The poem is correct according to the principle.
 
             print(kv.check_klon('''ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง เอ๋งเอ๋งเสียงหมา มีคนจับจอง เขาชื่อน้องเธียร''',k_type=4))
-            # # -> ["Cant find rhyme between paragraphs ('หมา', 'จอง')in paragraph 2", "Cant find rhyme between paragraphs ('หมา', 'ทอง')in paragraph 2"]
+            # # -> ["Can't find rhyme between paragraphs ('หมา', 'จอง')in paragraph 2", "Can't find rhyme between paragraphs ('หมา', 'ทอง')in paragraph 2"]
         """
         if k_type == 8:
             try:
@@ -332,9 +328,8 @@ class KhaveeVerifier:
                 list_sumpus_sent4 = []
                 for i, sent in enumerate(text.split()):
                     sub_sent = subword_tokenize(sent,engine='dict')
-                    # print(i)
                     if len(sub_sent) > 10:
-                        error.append('In the sentence'+str(i+2)+'there are more than 10 words.'+str(sub_sent))
+                        error.append('In sentence '+str(i+2)+', there are more than 10 words. '+str(sub_sent))
                     if (i+1) % 4 == 1:
                         list_sumpus_sent1.append(sub_sent[-1])
                     elif (i+1) % 4 == 2:
@@ -345,27 +340,27 @@ class KhaveeVerifier:
                     elif (i+1) % 4 == 0:
                         list_sumpus_sent4.append(sub_sent[-1])
                 if len(list_sumpus_sent1) != len(list_sumpus_sent2h) or len(list_sumpus_sent2h) != len(list_sumpus_sent2l) or len(list_sumpus_sent2l) != len(list_sumpus_sent3) or len(list_sumpus_sent3) != len(list_sumpus_sent4)  or len(list_sumpus_sent4) != len(list_sumpus_sent1):
-                    return 'The poem does not complete 4 sentences.'
+                    return 'The poem does not have 4 complete sentences.'
                 else:
                     for i in range(len(list_sumpus_sent1)):
                         countwrong = 0
                         for j in list_sumpus_sent2h[i]:
-                            if self.is_sumpus(list_sumpus_sent1[i],j) == False:
-                                    countwrong +=1
+                            if self.is_sumpus(list_sumpus_sent1[i], j) is False:
+                                countwrong +=1
                         if  countwrong > 3:
-                            error.append('Cant find rhyme between paragraphs '+str((list_sumpus_sent1[i],list_sumpus_sent2h[i]))+'in paragraph '+str(i+1))
-                        if self.is_sumpus(list_sumpus_sent2l[i],list_sumpus_sent3[i]) == False:
+                            error.append('Can\'t find rhyme between paragraphs '+str((list_sumpus_sent1[i],list_sumpus_sent2h[i]))+' in paragraph '+str(i+1))
+                        if self.is_sumpus(list_sumpus_sent2l[i], list_sumpus_sent3[i]) is False:
                             # print(sumpus_sent2l,sumpus_sent3)
-                            error.append('Cant find rhyme between paragraphs '+str((list_sumpus_sent2l[i],list_sumpus_sent3[i]))+'in paragraph '+str(i+1))
+                            error.append('Can\'t find rhyme between paragraphs '+str((list_sumpus_sent2l[i],list_sumpus_sent3[i]))+' in paragraph '+str(i+1))
                         if i > 0:
-                            if self.is_sumpus(list_sumpus_sent2l[i],list_sumpus_sent4[i-1]) == False:
-                                error.append('Cant find rhyme between paragraphs '+str((list_sumpus_sent2l[i],list_sumpus_sent4[i-1]))+'in paragraph '+str(i+1))
-                    if error == []:
+                            if self.is_sumpus(list_sumpus_sent2l[i], list_sumpus_sent4[i-1]) is False:
+                                error.append('Can\'t find rhyme between paragraphs '+str((list_sumpus_sent2l[i],list_sumpus_sent4[i-1]))+' in paragraph '+str(i+1))
+                    if not error:
                         return 'The poem is correct according to the principle.'
                     else:
                         return error
             except:
-                return 'Something went wrong Make sure you enter it in correct form of klon 8.'
+                return 'Something went wrong. Make sure you enter it in the correct form of klon 8.'
         elif k_type == 4:
             try:
                 error = []
@@ -377,7 +372,7 @@ class KhaveeVerifier:
                 for i, sent in enumerate(text.split()):
                     sub_sent = subword_tokenize(sent,engine='dict')
                     if len(sub_sent) > 5:
-                        error.append('In the sentence'+str(i+2)+'there are more than 4 words.'+str(sub_sent))
+                        error.append('In sentence '+str(i+2)+', there are more than 4 words. '+str(sub_sent))
                     if (i+1) % 4 == 1:
                         list_sumpus_sent1.append(sub_sent[-1])
                     elif (i+1) % 4 == 2:
@@ -389,39 +384,39 @@ class KhaveeVerifier:
                     elif (i+1) % 4 == 0:
                         list_sumpus_sent4.append(sub_sent[-1])
                 if len(list_sumpus_sent1) != len(list_sumpus_sent2h) or len(list_sumpus_sent2h) != len(list_sumpus_sent2l) or len(list_sumpus_sent2l) != len(list_sumpus_sent3) or len(list_sumpus_sent3) != len(list_sumpus_sent4)  or len(list_sumpus_sent4) != len(list_sumpus_sent1):
-                    return 'The poem does not complete 4 sentences.'
+                    return 'The poem does not have 4 complete sentences.'
                 else:
                     for i in range(len(list_sumpus_sent1)):
                         countwrong = 0
                         for j in list_sumpus_sent2h[i]:
                             # print(list_sumpus_sent1[i],j)
-                            if self.is_sumpus(list_sumpus_sent1[i],j) == False:
-                                    countwrong +=1
+                            if self.is_sumpus(list_sumpus_sent1[i], j) is False:
+                                countwrong +=1
                         if  countwrong > 1:
-                            error.append('Cant find rhyme between paragraphs '+str((list_sumpus_sent1[i],list_sumpus_sent2h[i]))+'in paragraph '+str(i+1))
-                        if self.is_sumpus(list_sumpus_sent2l[i],list_sumpus_sent3[i]) == False:
+                            error.append('Can\'t find rhyme between paragraphs '+str((list_sumpus_sent1[i],list_sumpus_sent2h[i]))+'in paragraph '+str(i+1))
+                        if self.is_sumpus(list_sumpus_sent2l[i], list_sumpus_sent3[i]) is False:
                             # print(sumpus_sent2l,sumpus_sent3)
-                            error.append('Cant find rhyme between paragraphs '+str((list_sumpus_sent2l[i],list_sumpus_sent3[i]))+'in paragraph '+str(i+1))
+                            error.append('Can\'t find rhyme between paragraphs '+str((list_sumpus_sent2l[i],list_sumpus_sent3[i]))+'in paragraph '+str(i+1))
                         if i > 0:
-                            if self.is_sumpus(list_sumpus_sent2l[i],list_sumpus_sent4[i-1]) == False:
-                                error.append('Cant find rhyme between paragraphs '+str((list_sumpus_sent2l[i],list_sumpus_sent4[i-1]))+'in paragraph '+str(i+1))
-                    if error == []:
+                            if self.is_sumpus(list_sumpus_sent2l[i], list_sumpus_sent4[i-1]) is False:
+                                error.append('Can\'t find rhyme between paragraphs '+str((list_sumpus_sent2l[i],list_sumpus_sent4[i-1]))+' in paragraph '+str(i+1))
+                    if not error:
                         return 'The poem is correct according to the principle.'
                     else:
                         return error
             except:
-                return 'Something went wrong Make sure you enter it in correct form.'
-            
+                return 'Something went wrong. Make sure you enter it in the correct form.'
+
         else:
-            return 'Something went wrong Make sure you enter it in correct form.'
-        
+            return 'Something went wrong. Make sure you enter it in the correct form.'
+
     def check_aek_too(self, text: Union[List[str], str], dead_syllable_as_aek:bool = False) -> Union[List[bool], List[str], bool, str]:
         """
-        Thai tonal word checker
+        Checker of Thai tonal words
 
         :param Union[List[str], str] text: Thai word or list of Thai words
         :param bool dead_syllable_as_aek: if True, dead syllable will be considered as aek
-        :return: the check if the word is aek or too or False(not both) or list of the check if input is list
+        :return: the check result if the word is aek or too or False (not both) or list of check results if input is list
         :rtype: Union[List[bool], List[str], bool, str]
 
         :Example:
@@ -457,19 +452,19 @@ class KhaveeVerifier:
 
     def handle_karun_sound_silence(self, word: str) -> str:
         """
-        Handle sound silence in Thai word using '์' character (Karun)
-        by stripping all the characters before the 'Karun' character that should be silenced
+        Handle silent sounds in Thai words using '์' character (Karun)
+        by stripping all characters before the 'Karun' character that should be silenced
 
         :param str text: Thai word
-        :return: Thai word with silence word stripped
+        :return: Thai word with silent words stripped
         :rtype: str
         """
-        sound_silenced = True if word.endswith('์') else False
+        sound_silenced = word.endswith('์')
         if not sound_silenced:
             return word
         thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"
         locate_silenced = word.rfind('์') - 1
-        can_silence_two = True if word[locate_silenced-2] in thai_consonants else False
+        can_silence_two = word[locate_silenced-2] in thai_consonants
         cut_off = 2 if can_silence_two else 1
         word = word[:locate_silenced + 1 - cut_off]
         return word

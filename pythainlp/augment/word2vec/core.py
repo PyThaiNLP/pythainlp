@@ -21,9 +21,9 @@ class Word2VecAug:
         self, model: str, tokenize: object, type: str = "file"
     ) -> None:
         """
-        :param str model: path model
+        :param str model: path of model
         :param object tokenize: tokenize function
-        :param str type: moodel type (file, binary)
+        :param str type: model type (file, binary)
         """
         import gensim.models.keyedvectors as word2vec
 
@@ -40,7 +40,7 @@ class Word2VecAug:
 
     def modify_sent(self, sent: str, p: float = 0.7) -> List[List[str]]:
         """
-        :param str sent: text sentence
+        :param str sent: text of sentence
         :param float p: probability
         :rtype: List[List[str]]
         """
@@ -60,8 +60,8 @@ class Word2VecAug:
         self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> List[Tuple[str]]:
         """
-        :param str sentence: text sentence
-        :param int n_sent: max number for synonyms sentence
+        :param str sentence: text of sentence
+        :param int n_sent: maximum number of synonymous sentences
         :param int p: probability
 
         :return: list of synonyms

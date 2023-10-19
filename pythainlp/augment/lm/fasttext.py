@@ -12,16 +12,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import itertools
 from typing import List, Tuple
 from gensim.models.fasttext import FastText as FastText_gensim
-from pythainlp.tokenize import word_tokenize
 from gensim.models.keyedvectors import KeyedVectors
-import itertools
+from pythainlp.tokenize import word_tokenize
 
 
 class FastTextAug:
     """
-    Text Augment from FastText
+    Text Augment from fastText
 
     :param str model_path: path of model file
     """
@@ -40,18 +40,18 @@ class FastTextAug:
 
     def tokenize(self, text: str) -> List[str]:
         """
-        Thai text tokenize for fasttext
+        Thai text tokenization for fastText
 
-        :param str text: thai text
+        :param str text: Thai text
 
-        :return: list of word
+        :return: list of words
         :rtype: List[str]
         """
         return word_tokenize(text, engine="icu")
 
     def modify_sent(self, sent: str, p: float = 0.7) -> List[List[str]]:
         """
-        :param str sent: text sentence
+        :param str sent: text of sentence
         :param float p: probability
         :rtype: List[List[str]]
         """
@@ -71,14 +71,14 @@ class FastTextAug:
         self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> List[Tuple[str]]:
         """
-        Text Augment from FastText
+        Text Augment from fastText
 
-        You wants to download thai model
+        You may want to download the Thai model
         from https://fasttext.cc/docs/en/crawl-vectors.html.
 
-        :param str sentence: thai sentence
-        :param int n_sent: number sentence
-        :param float p: Probability of word
+        :param str sentence: Thai sentence
+        :param int n_sent: number of sentences
+        :param float p: probability of word
 
         :return: list of synonyms
         :rtype: List[Tuple[str]]

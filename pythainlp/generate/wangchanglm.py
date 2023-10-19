@@ -46,8 +46,8 @@ class WangChanGLM:
         """
         Load model
         
-        :param str model_path: Model path
-        :param bool return_dict: return_dict
+        :param str model_path: model path
+        :param bool return_dict: return dict
         :param bool load_in_8bit: load model in 8bit
         :param str device: device (cpu, cuda or other)
         :param torch_dtype torch_dtype: torch_dtype
@@ -71,7 +71,7 @@ class WangChanGLM:
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
         self.df = pd.DataFrame(self.tokenizer.vocab.items(), columns=['text', 'idx'])
         self.df['is_exclude'] = self.df.text.map(self.is_exclude)
-        self.exclude_ids = self.df[self.df.is_exclude==True].idx.tolist()
+        self.exclude_ids = self.df[self.df.is_exclude is True].idx.tolist()
     def gen_instruct(
         self,
         text:str,
@@ -88,15 +88,15 @@ class WangChanGLM:
         Generate Instruct
         
         :param str text: text
-        :param int max_new_tokens: max new tokens
-        :param float top_p: Top p
+        :param int max_new_tokens: maximum number of new tokens
+        :param float top_p: top p
         :param float temperature: temperature
-        :param int top_k: Top k
-        :param int no_repeat_ngram_size: no repeat ngram size
+        :param int top_k: top k
+        :param int no_repeat_ngram_size: do not repeat ngram size
         :param float typical_p: typical p
         :param bool thai_only: Thai only
         :param bool skip_special_tokens: skip special tokens
-        :return: the answer from Instruct.
+        :return: the answer from Instruct
         :rtype: str
         """
         batch = self.tokenizer(text, return_tensors="pt")
@@ -143,15 +143,15 @@ class WangChanGLM:
         
         :param str instruct: Instruct
         :param str context: context
-        :param int max_new_tokens: max new tokens
-        :param float top_p: Top p
+        :param int max_new_tokens: maximum number of new tokens
+        :param float top_p: top p
         :param float temperature: temperature
-        :param int top_k: Top k
-        :param int no_repeat_ngram_size: no repeat ngram size
+        :param int top_k: top k
+        :param int no_repeat_ngram_size: do not repeat ngram size
         :param float typical_p: typical p
         :param bool thai_only: Thai only
         :param bool skip_special_tokens: skip special tokens
-        :return: the answer from Instruct.
+        :return: the answer from Instruct
         :rtype: str
 
         :Example:
@@ -174,7 +174,7 @@ class WangChanGLM:
                 # และเครื่องดื่มแอลกอฮอล์
 
         """
-        if context == None or context=="":
+        if context in (None, ""):
             prompt = self.PROMPT_DICT['prompt_no_input'].format_map(
                 {'instruction': instruct, 'input': ''}
             )

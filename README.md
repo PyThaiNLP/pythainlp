@@ -13,13 +13,13 @@
   <a href="https://matrix.to/#/#thainlp:matrix.org" rel="noopener" target="_blank"><img src="https://matrix.to/img/matrix-badge.svg" alt="Chat on Matrix"></a>
 </div>
 
-PyThaiNLP is a Python package for text processing and linguistic analysis, similar to [NLTK](https://www.nltk.org/) with focus on Thai language.
+PyThaiNLP is a Python package for text processing and linguistic analysis, similar to [NLTK](https://www.nltk.org/) with a focus on the Thai language.
 
 PyThaiNLP เป็นไลบารีภาษาไพทอนสำหรับประมวลผลภาษาธรรมชาติ คล้ายกับ NLTK โดยเน้นภาษาไทย [ดูรายละเอียดภาษาไทยได้ที่ README_TH.MD](https://github.com/PyThaiNLP/pythainlp/blob/dev/README_TH.md)
 
 **News**
 
-> Now, You can contact or ask any questions with the PyThaiNLP team. <a href="https://matrix.to/#/#thainlp:matrix.org" rel="noopener" target="_blank"><img src="https://matrix.to/img/matrix-badge.svg" alt="Chat on Matrix"></a>
+> Now, You can contact with or ask any questions of the PyThaiNLP team. <a href="https://matrix.to/#/#thainlp:matrix.org" rel="noopener" target="_blank"><img src="https://matrix.to/img/matrix-badge.svg" alt="Chat on Matrix"></a>
 
 | Version | Description | Status |
 |:------:|:--:|:------:|
@@ -37,7 +37,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 ## Capabilities
 
-PyThaiNLP provides standard NLP functions for Thai, for example part-of-speech tagging, linguistic unit segmentation (syllable, word, or sentence). Some of these functions are also available via command-line interface.
+PyThaiNLP provides standard NLP functions for Thai, for example part-of-speech tagging, linguistic unit segmentation (syllable, word, or sentence). Some of these functions are also available via the command-line interface.
 
 <details>
   <summary>List of Features</summary>
@@ -48,11 +48,11 @@ PyThaiNLP provides standard NLP functions for Thai, for example part-of-speech t
 - Thai spelling suggestion and correction (`spell` and `correct`)
 - Thai transliteration (`transliterate`)
 - Thai soundex (`soundex`) with three engines (`lk82`, `udom83`, `metasound`)
-- Thai collation (sort by dictionary order) (`collate`)
+- Thai collation (sorted by dictionary order) (`collate`)
 - Read out number to Thai words (`bahttext`, `num_to_thaiword`)
 - Thai datetime formatting (`thai_strftime`)
 - Thai-English keyboard misswitched fix (`eng_to_thai`, `thai_to_eng`)
-- Command-line interface for basic functions, like tokenization and pos tagging (run `thainlp` in your shell)
+- Command-line interface for basic functions, like tokenization and POS tagging (run `thainlp` in your shell)
 </details>
 
 
@@ -67,19 +67,19 @@ This will install the latest stable release of PyThaiNLP.
 Install different releases:
 
 - Stable release: `pip install --upgrade pythainlp`
-- Pre-release (near ready): `pip install --upgrade --pre pythainlp`
+- Pre-release (nearly ready): `pip install --upgrade --pre pythainlp`
 - Development (likely to break things): `pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip`
 
 ### Installation Options
 
-Some functionalities, like Thai WordNet, may require extra packages. To install those requirements, specify a set of                                                                                                                                                                                         `[name]` immediately after `pythainlp`:
+Some functionalities, like Thai WordNet, may require extra packages. To install those requirements, specify a set of `[name]` immediately after `pythainlp`:
 
 ```sh
 pip install pythainlp[extra1,extra2,...]
 ```
 
 <details>
-  <summary>List of possible `extras`</summary>
+  <summary>List of possible <code>extras</code></summary>
 
 -  `full` (install everything)
 -  `attacut` (to support attacut, a fast and accurate tokenizer)
@@ -92,27 +92,27 @@ pip install pythainlp[extra1,extra2,...]
 -  `wordnet` (for Thai WordNet API)
 </details>
 
-For dependency details, look at `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
+For dependency details, look at the `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
 
 
-## Data directory
+## Data Directory
 
-- Some additional data, like word lists and language models, may get automatically download during runtime.
+- Some additional data, like word lists and language models, may be automatically downloaded during runtime.
 - PyThaiNLP caches these data under the directory `~/pythainlp-data` by default.
-- Data directory can be changed by specifying the environment variable `PYTHAINLP_DATA_DIR`.
+- The data directory can be changed by specifying the environment variable `PYTHAINLP_DATA_DIR`.
 - See the data catalog (`db.json`) at https://github.com/PyThaiNLP/pythainlp-corpus
 
 
 ## Command-Line Interface
 
-Some of PyThaiNLP functionalities can be used at command line, using `thainlp` command.
+Some of PyThaiNLP functionalities can be used via command line with the `thainlp` command.
 
-For example, displaying a catalog of datasets:
+For example, to display a catalog of datasets:
 ```sh
 thainlp data catalog
 ```
 
-Showing how to use:
+To show how to use:
 ```sh
 thainlp help
 ```
@@ -122,16 +122,16 @@ thainlp help
 
 | | License |
 |:---|:----|
-| PyThaiNLP Source Code and Notebooks | [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE) |
+| PyThaiNLP source codes and notebooks | [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE) |
 | Corpora, datasets, and documentations created by PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication License (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
 | Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/)  |
-| Other corpora and models that may included with PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
+| Other corpora and models that may be included in PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
 
 
 ## Contribute to PyThaiNLP
 
-- Please do fork and create a pull request :)
-- For style guide and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
+- Please fork and create a pull request :)
+- For style guides and other information, including references to algorithms we use, please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
 
 ## Who uses PyThaiNLP?
 
@@ -140,13 +140,13 @@ You can read [INTHEWILD.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTH
 
 ## Citations
 
-If you use `PyThaiNLP` in your project or publication, please cite the library as follows
+If you use `PyThaiNLP` in your project or publication, please cite the library as follows:
 
 ```
 Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, & Pattarawat Chormai. (2016, Jun 27). PyThaiNLP: Thai Natural Language Processing in Python. Zenodo. http://doi.org/10.5281/zenodo.3519354
 ```
 
-or BibTeX entry:
+or by BibTeX entry:
 
 ``` bib
 @misc{pythainlp,
@@ -166,7 +166,7 @@ or BibTeX entry:
 | Logo | Description |
 | --- | ----------- |
 | [![VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/assets/img/logo/airesearch-logo.svg)](https://airesearch.in.th/)   | Since 2019, our contributors Korakot Chaovavanich and Lalita Lowphansirikul have been supported by [VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/).                 |
-| [![MacStadium](https://i.imgur.com/rKy1dJX.png)](https://www.macstadium.com)   | We get support free Mac Mini M1 from [MacStadium](https://www.macstadium.com) for doing Build CI.                  |
+| [![MacStadium](https://i.imgur.com/rKy1dJX.png)](https://www.macstadium.com)   | We get support of free Mac Mini M1 from [MacStadium](https://www.macstadium.com) for running CI builds.                  |
 
 ------
 
@@ -181,5 +181,5 @@ or BibTeX entry:
 </div>
 
 <div align="center">
-  <strong>Beware of malware if you use code from mirrors other than the official two at GitHub and GitLab.</strong>
+  <strong>Beware of malware if you use codes from mirrors other than the official two on GitHub and GitLab.</strong>
 </div>

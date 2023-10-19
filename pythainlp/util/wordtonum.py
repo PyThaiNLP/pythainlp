@@ -177,10 +177,10 @@ def words_to_num(words: list) -> float:
 
 def text_to_num(text: str) -> List[str]:
     """
-    Thai text to list thai word with floating point number
+    Thai text to list of Thai words with floating point numbers
 
     :param str text: Thai text with the spelled-out numerals
-    :return: list of thai words with float value of the input
+    :return: list of Thai words with float values of the input
     :rtype: List[str]
 
     :Example:

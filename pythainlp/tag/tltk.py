@@ -39,18 +39,18 @@ def get_ner(
     """
     Named-entity recognizer from **TLTK**
 
-    This function tags named-entitiy from text in IOB format.
+    This function tags named-entities in text in IOB format.
 
     :param str text: text in Thai to be tagged
     :param bool pos: To include POS tags in the results (`True`) or
-        exclude (`False`). The defualt value is `True`
-    :param bool tag: output like html tag.
-    :return: a list of tuple associated with tokenized word, NER tag,
-        POS tag (if the parameter `pos` is specified as `True`),
-        and output like html tag (if the parameter `tag` is
+        exclude (`False`). The default value is `True`
+    :param bool tag: output HTML-like tag.
+    :return: a list of tuples associated with tokenized words, NER tags,
+        POS tags (if the parameter `pos` is specified as `True`),
+        and output HTML-like tags (if the parameter `tag` is
         specified as `True`).
-        Otherwise, return a list of tuple associated with tokenized
-        word and NER tag
+        Otherwise, return a list of tuples associated with tokenized
+        words and NER tags
     :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]]], str
 
     :Example:

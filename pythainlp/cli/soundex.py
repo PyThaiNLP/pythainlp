@@ -13,13 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-thainlp soundex command line.
+Command line for PyThaiNLP's soundex.
 
-Take input text from command line.
+It takes input text from the command line.
 """
 import argparse
 
-from pythainlp import cli
 from pythainlp.soundex import DEFAULT_SOUNDEX_ENGINE, soundex
 
 

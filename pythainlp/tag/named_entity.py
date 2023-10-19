@@ -15,15 +15,14 @@
 """
 Named-entity recognizer
 """
-import warnings
 from typing import List, Tuple, Union
 
 
 class NER:
     """
-    Named-entity recognizer class
+    Class of named-entity recognizer
 
-    :param str engine: Named-entity recognizer engine
+    :param str engine: engine of named-entity recognizer
     :param str corpus: corpus
 
     **Options for engine**
@@ -34,7 +33,7 @@ class NER:
     **Options for corpus**
         * *thainer* - Thai NER corpus (default)
 
-    **Note**: for tltk engine, It's support ner model from tltk only.
+    **Note**: The tltk engine supports NER models from tltk only.
     """
 
     def __init__(self, engine: str = "thainer-v2", corpus: str = "thainer") -> None:
@@ -69,18 +68,18 @@ class NER:
         self, text, pos=False, tag=False
     ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
         """
-        This function tags named-entitiy from text in IOB format.
+        This function tags named entities in text in IOB format.
 
         :param str text: text in Thai to be tagged
-        :param bool pos: output with part-of-speech tag.\
-            (wangchanberta is not support)
-        :param bool tag: output like html tag.
-        :return: a list of tuple associated with tokenized word, NER tag,
-                 POS tag (if the parameter `pos` is specified as `True`),
-                 and output like html tag (if the parameter `tag` is
+        :param bool pos: output with part-of-speech tags.\
+            (wangchanberta is not supported)
+        :param bool tag: output HTML-like tags.
+        :return: a list of tuples associated with tokenized words, NER tags,
+                 POS tags (if the parameter `pos` is specified as `True`),
+                 and output HTML-like tags (if the parameter `tag` is
                  specified as `True`).
-                 Otherwise, return a list of tuple associated with tokenized
-                 word and NER tag
+                 Otherwise, return a list of tuples associated with tokenized
+                 words and NER tags
         :rtype: Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]
         :Example:
 
@@ -105,7 +104,7 @@ class NNER:
     """
     Nested Named Entity Recognition
 
-    :param str engine: Nested Named entity recognizer engine
+    :param str engine: engine of nested named entity recognizer
     :param str corpus: corpus
 
     **Options for engine**
@@ -122,11 +121,11 @@ class NNER:
 
     def tag(self, text) -> Tuple[List[str], List[dict]]:
         """
-        This function tags nested named-entitiy.
+        This function tags nested named entities.
 
         :param str text: text in Thai to be tagged
 
-        :return: a list of tuple associated with tokenized word, NNER tag.
+        :return: a list of tuples associated with tokenized words and NNER tags.
         :rtype: Tuple[List[str], List[dict]]
 
         :Example:

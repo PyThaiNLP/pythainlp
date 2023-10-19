@@ -17,7 +17,7 @@
 #
 # URL: <https://pythainlp.github.io/>
 # For license information, see LICENSE
-__version__ = "4.1.0beta3"
+__version__ = "4.1.0beta5"
 
 thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44 chars
 
@@ -48,7 +48,7 @@ thai_punctuations = "\u0e4f\u0e5a\u0e5b"  # 3 chars
 thai_digits = "๐๑๒๓๔๕๖๗๘๙"  # 10
 thai_symbols = "\u0e3f"  # Thai Bath ฿
 
-# All Thai characters that presented in Unicode
+# All Thai characters that are presented in Unicode
 thai_characters = "".join(
     [thai_letters, thai_punctuations, thai_digits, thai_symbols]
 )

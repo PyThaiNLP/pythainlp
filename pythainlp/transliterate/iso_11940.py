@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Transliterating Thai text with ISO 11940
+Transliterating Thai text using ISO 11940
 
 :See Also:
     * `Wikipedia \

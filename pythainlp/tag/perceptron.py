@@ -49,7 +49,6 @@ def _pud_tagger():
 
 
 def _blackboard_tagger():
-    global _BLACKBOARD_TAGGER
     if not _BLACKBOARD_TAGGER:
         path = get_corpus_path(_BLACKBOARD_NAME)
         _LST20_TAGGER = PerceptronTagger(path=path)
@@ -71,15 +70,15 @@ def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
         to_ud = True
 
     word_tags = []
-    if corpus == "orchid" or corpus == "orchid_ud":
+    if corpus in ("orchid", "orchid_ud"):
         words = orchid.pre_process(words)
         word_tags = _orchid_tagger().tag(words)
         word_tags = orchid.post_process(word_tags, to_ud)
-    elif corpus == "blackboard" or corpus == "blackboard_ud":
+    elif corpus in ("blackboard", "blackboard_ud"):
         words = blackboard.pre_process(words)
         word_tags = _blackboard_tagger().tag(words)
         word_tags = blackboard.post_process(word_tags, to_ud)
-    else:  # default, use "pud" as a corpus
+    else:  # by default, use "pud" for corpus
         tagger = _pud_tagger()
         word_tags = tagger.tag(words)
 

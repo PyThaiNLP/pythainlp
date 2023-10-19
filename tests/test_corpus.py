@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import os
 import unittest
 
+import nltk
 from nltk.corpus import wordnet as wn
+from requests import Response
 from pythainlp.corpus import (
     conceptnet,
     countries,
@@ -27,9 +30,6 @@ from pythainlp.corpus import (
     wordnet,
 )
 from pythainlp.corpus.util import revise_newmm_default_wordset
-from requests import Response
-import nltk
-import os
 
 
 class TestCorpusPackage(unittest.TestCase):

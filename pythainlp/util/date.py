@@ -15,7 +15,7 @@
 """
 Thai date/time conversion.
 
-Note: Does not take into account the change of new year's day in Thailand
+Note: It does not take into account the change of new year's day in Thailand
 """
 
 # BE คือ พ.ศ.
@@ -97,7 +97,7 @@ thai_full_month_lists = [
     ["ธันวาคม", "ธันวา", "ธ.ค.", "12"]
 ]
 thai_full_month_lists_regex = "(" + '|'.join(
-    [str('|'.join([j for j in i])) for i in thai_full_month_lists]
+    ['|'.join(i) for i in thai_full_month_lists]
 ) + ")"
 year_all_regex = r"(\d\d\d\d|\d\d)"
 dates_list = "(" + '|'.join(
@@ -133,10 +133,10 @@ def convert_years(year: str, src="be", target="ad") -> str:
     """
     Convert years
 
-    :param int year: year
-    :param str src: The src year
+    :param int year: Year
+    :param str src: The source year
     :param str target: The target year
-    :return: The years that be convert
+    :return: The converted year
     :rtype: str
 
     **Options for year**
@@ -219,12 +219,12 @@ def thai_strptime(
     :param str fmt: string containing date and time directives
     :param str year: year of the text \
         (ad isAnno Domini and be is Buddhist calendar)
-    :param int add_year: add year convert to ad
+    :param int add_year: add to year when converting to ad
     :param object tzinfo: tzinfo (default is Asia/Bangkok)
-    :return: The years that be convert to datetime.datetime
+    :return: The year that is converted to datetime.datetime
     :rtype: datetime.datetime
 
-    The fmt char that support:
+    The fmt chars that are supported:
         * *%d* - Day (1 - 31)
         * *%B* - Thai month (03, 3, มี.ค., or มีนาคม)
         * *%Y* - Year (66, 2566, or 2023)
@@ -343,7 +343,7 @@ def now_reign_year() -> int:
 
 def reign_year_to_ad(reign_year: int, reign: int) -> int:
     """
-    Convert reigh year to AD.
+    Convert reign year to AD.
 
     Return AD year according to the reign year for
     the 7th to 10th King of Chakri dynasty, Thailand.
@@ -385,7 +385,7 @@ def thaiword_to_date(
     """
     Convert Thai relative date to :class:`datetime.datetime`.
 
-    :param str text: Thai text contains relative date
+    :param str text: Thai text containing relative date
     :param datetime.datetime date: date (default is datetime.datetime.now())
 
     :return: datetime object, if it can be calculated. Otherwise, None.

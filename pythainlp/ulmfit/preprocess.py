@@ -30,11 +30,11 @@ _TK_URL = "xxurl"
 
 def replace_url(text: str) -> str:
     """
-    Replace url in `text` with TK_URL
+    Replace URL in `text` with TK_URL
 
-    :param str text: text to replace url
+    :param str text: text to replace URL in
 
-    :return: text where urls  are replaced
+    :return: text with URLs replaced
     :rtype: str
 
     :Example:
@@ -49,11 +49,11 @@ def replace_url(text: str) -> str:
 
 def fix_html(text: str) -> str:
     """
-    List of replacements from html strings in `test`. (code from `fastai`)
+    Replace HTML strings in `test`. (codes from `fastai`)
 
-    :param str text: text to replace html string
+    :param str text: text to replace HTML strings in
 
-    :return: text where html strings are replaced
+    :return: text with HTML strings replaced
     :rtype: str
 
     :Example:
@@ -83,25 +83,25 @@ def fix_html(text: str) -> str:
 
 
 def rm_useless_spaces(text: str) -> str:
-    """Remove multiple spaces in `text`. (code from `fastai`)"""
+    """Remove multiple spaces in `text`. (codes from `fastai`)"""
     return re.sub(" {2,}", " ", text)
 
 
 def spec_add_spaces(text: str) -> str:
-    """Add spaces around / and # in `text`. \n (code from `fastai`)"""
+    """Add spaces around / and # in `text`. \n (codes from `fastai`)"""
     return re.sub(r"([/#\n])", r" \1 ", text)
 
 
 def replace_rep_after(text: str) -> str:
     """
-    Replace repetitions at the character level in `text` after the repetition.
-    This is done to prevent such case as 'น้อยยยยยยยย' becoming 'น้อ xxrep 8 ย'
-    ;instead it will retain the word as 'น้อย xxrep 8'
+    Replace repetitions at the character level in `text` after the repeated character.
+    This is to prevent cases such as 'น้อยยยยยยยย' becomes 'น้อ xxrep 8 ย'
+    ; instead it will retain the word as 'น้อย xxrep 8'
 
-    :param str text: input text to replace character repetition
+    :param str text: input text to replace character repetitions in
 
     :return: text with repetitive token **xxrep** and the counter
-             after character repetition
+             after the repeated character
 
     :rtype: str
     :Example:
@@ -124,13 +124,13 @@ def replace_rep_after(text: str) -> str:
 
 def replace_wrep_post(toks: Collection[str]) -> List[str]:
     """
-    Replace reptitive words post tokenization;
+    Replace repetitive words after tokenization;
     fastai `replace_wrep` does not work well with Thai.
 
     :param list[str] toks: list of tokens
 
     :return: list of tokens where **xxwrep** token and the counter
-             is added in front of repetitive words.
+             is added before repetitive words.
     :rtype: list[str]
 
     :Example:
@@ -169,11 +169,11 @@ def rm_brackets(text: str) -> str:
     new_line = re.sub(r"\(\)", "", text)
     new_line = re.sub(r"\{\}", "", new_line)
     new_line = re.sub(r"\[\]", "", new_line)
-    # brakets with only punctuations
+    # brackets with only punctuation marks
     new_line = re.sub(r"\([^a-zA-Z0-9ก-๙]+\)", "", new_line)
     new_line = re.sub(r"\{[^a-zA-Z0-9ก-๙]+\}", "", new_line)
     new_line = re.sub(r"\[[^a-zA-Z0-9ก-๙]+\]", "", new_line)
-    # artifiacts after (
+    # artifacts after (
     new_line = re.sub(
         r"(?<=\()[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
     )

@@ -12,8 +12,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from pythainlp.augment.word2vec.core import Word2VecAug
 from typing import List, Tuple
+from pythainlp.augment.word2vec.core import Word2VecAug
 
 
 class BPEmbAug:
@@ -33,7 +33,7 @@ class BPEmbAug:
 
     def tokenizer(self, text: str) -> List[str]:
         """
-        :param str text: thai text
+        :param str text: Thai text
         :rtype: List[str]
         """
         return self.bpemb_temp.encode(text)
@@ -52,9 +52,9 @@ class BPEmbAug:
         """
         Text Augment using word2vec from BPEmb
 
-        :param str sentence: thai sentence
-        :param int n_sent: number sentence
-        :param float p: Probability of word
+        :param str sentence: Thai sentence
+        :param int n_sent: number of sentence
+        :param float p: probability of word
 
         :return: list of synonyms
         :rtype: List[str]

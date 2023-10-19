@@ -20,13 +20,13 @@ __all__ = [
     "postype2wordnet",
 ]
 
-from pythainlp.corpus import wordnet
 from collections import OrderedDict
-from pythainlp.tokenize import word_tokenize
-from pythainlp.tag import pos_tag
+import itertools
 from typing import List
 from nltk.corpus import wordnet as wn
-import itertools
+from pythainlp.corpus import wordnet
+from pythainlp.tokenize import word_tokenize
+from pythainlp.tag import pos_tag
 
 
 orchid = {
@@ -112,9 +112,9 @@ orchid = {
 
 def postype2wordnet(pos: str, corpus: str):
     """
-    convert part-of-speech type to wordnet type
+    Convert part-of-speech type to wordnet type
 
-    :param str pos: pos type
+    :param str pos: POS type
     :param str corpus: part-of-speech corpus
 
     **Options for corpus**
@@ -137,11 +137,11 @@ class WordNetAug:
         self, word: str, pos: str = None, postag_corpus: str = "orchid"
     ) -> List[str]:
         """
-        Find synonyms from wordnet
+        Find synonyms using wordnet
 
         :param str word: word
         :param str pos: part-of-speech type
-        :param str postag_corpus: postag corpus name
+        :param str postag_corpus: name of POS tag corpus
         :return: list of synonyms
         :rtype: List[str]
         """
@@ -175,11 +175,11 @@ class WordNetAug:
         """
         Text Augment using wordnet
 
-        :param str sentence: thai sentence
-        :param object tokenize: function for tokenize word
-        :param int max_syn_sent: max number for synonyms sentence
-        :param bool postag: on part-of-speech
-        :param str postag_corpus: postag corpus name
+        :param str sentence: Thai sentence
+        :param object tokenize: function for tokenizing words
+        :param int max_syn_sent: maximum number of synonymous sentences
+        :param bool postag: use part-of-speech
+        :param str postag_corpus: name of POS tag corpus
 
         :return: list of synonyms
         :rtype: List[Tuple[str]]
@@ -206,7 +206,7 @@ class WordNetAug:
             self.list_pos = pos_tag(self.list_words, corpus=postag_corpus)
             for word, pos in self.list_pos:
                 self.temp = self.find_synonyms(word, pos, postag_corpus)
-                if self.temp == []:
+                if not self.temp:
                     self.list_synonym.append([word])
                 else:
                     self.list_synonym.append(self.temp)
@@ -214,7 +214,7 @@ class WordNetAug:
         else:
             for word in self.list_words:
                 self.temp = self.find_synonyms(word)
-                if self.temp == []:
+                if not self.temp:
                     self.list_synonym.append([word])
                 else:
                     self.list_synonym.append(self.temp)

@@ -85,15 +85,15 @@ def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
         to_ud = True
 
     word_tags = []
-    if corpus == "orchid" or corpus == "orchid_ud":
+    if corpus in ("orchid", "orchid_ud"):
         words = orchid.pre_process(words)
         word_tags = _find_tag(words, _orchid_tagger())
         word_tags = orchid.post_process(word_tags, to_ud)
-    elif corpus == "blackboard" or corpus == "blackboard_ud":
+    elif corpus in ("blackboard", "blackboard_ud"):
         words = blackboard.pre_process(words)
         word_tags = _find_tag(words, _blackboard_tagger())
         word_tags = blackboard.post_process(word_tags, to_ud)
-    else:  # default, use "pud" as a corpus
+    else:  # by default, use "pud" for corpus
         word_tags = _find_tag(words, _pud_tagger())
 
     return word_tags

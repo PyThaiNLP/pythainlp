@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Ancient language of Thai language
+Ancient versions of the Thai language
 """
 
 __all__ = ["aksonhan_to_current"]

@@ -13,21 +13,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from typing import List
-from pythainlp.transliterate import pronunciate, transliterate
-from pythainlp.tokenize import word_tokenize
-
 import panphon
 import panphon.distance
+from pythainlp.transliterate import pronunciate, transliterate
+from pythainlp.tokenize import word_tokenize
 
 _ft = panphon.FeatureTable()
 _dst = panphon.distance.Distance()
 
 def _clean_ipa(ipa: str) -> str:
     """
-    Clean IPA by remove tone and remove space between phone
+    Clean IPA by removing tones and space between phonetic codes
 
     :param str ipa: IPA text
-    :return: IPA that remove tone from the text
+    :return: IPA with tones removed from the text
     :rtype: str
     """
     return ipa.replace("˩˩˦","").replace("˥˩","").replace("˨˩","").replace("˦˥","").replace("˧","").replace("˧","").replace(" .",".").replace(". ",".").strip()
@@ -37,7 +36,7 @@ def word2audio(word: str) -> str:
     Convert word to IPA
 
     :param str word: Thai word
-    :return: IPA that remove tone from the text
+    :return: IPA with tones removed from the text
     :rtype: str
 
     :Example:
@@ -58,7 +57,7 @@ def audio_vector(word:str) -> List[List[int]]:
     Convert audio to vector list
 
     :param str word: Thai word
-    :return: List feature from panphon
+    :return: List of features from panphon
     :rtype: List[List[int]]
 
     :Example:
@@ -77,7 +76,7 @@ def word_approximation(word:str, list_word:List[str]):
 
     :param str word: Thai word
     :param str list_word: Thai word
-    :return: List of approximation of word (The smaller the value, the closer)
+    :return: List of approximation of words (The smaller the value, the closer)
     :rtype: List[str]
 
     :Example:

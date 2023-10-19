@@ -57,13 +57,13 @@ _CORPUS_DIRNAME = "corpus"
 _CORPUS_PATH = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
 _CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
 
-# remote corpus catalog URL
+# URL of remote corpus catalog
 _CORPUS_DB_URL = "https://pythainlp.github.io/pythainlp-corpus/db.json"
 
-# local corpus catalog filename
+# filename of local corpus catalog
 _CORPUS_DB_FILENAME = "db.json"
 
-# local corpus catalog full path
+# full path of local corpus catalog
 _CORPUS_DB_PATH = get_full_data_path(_CORPUS_DB_FILENAME)
 
 # create a local corpus database if it does not already exist

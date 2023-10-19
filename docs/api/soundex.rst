@@ -1,7 +1,7 @@
 .. currentmodule:: pythainlp.soundex
 
 pythainlp.soundex
-================
+=================
 The :class:`pythainlp.soundex` module provides soundex algorithms for the Thai language. Soundex is a phonetic algorithm used to encode words or names into a standardized representation based on their pronunciation, making it useful for tasks like name matching and search.
 
 Modules

@@ -853,7 +853,7 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(spell_word("เสื้อ"),['สอ', 'เอือ', 'ไม้โท', 'เสื้อ'])
         self.assertEqual(spell_word("คน"),['คอ', 'นอ', 'คน'])
         self.assertEqual(spell_word("คนดี"),['คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี'])
-    
+
     def test_rhyme(self):
         self.assertIsInstance(rhyme("แมว"), list)
         self.assertTrue(len(rhyme("แมว")) > 2)

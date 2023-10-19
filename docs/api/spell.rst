@@ -50,5 +50,3 @@ References
 ----------
 
 .. [#norvig_spellchecker]  Peter Norvig (2007). `How to Write a Spelling Corrector <http://norvig.com/spell-correct.html>`_.
-
-This enhanced documentation provides a clear introduction to the `pythainlp.spell` module, its purpose, and the functionalities it offers for Thai text spell-checking. It also includes detailed descriptions of the functions and classes, their purposes, and how to use them effectively. Users can now understand how to leverage this module for spell-checking and text correction in the Thai language. If you have any questions or need further assistance, please refer to the PyThaiNLP documentation or reach out to the PyThaiNLP community for support.

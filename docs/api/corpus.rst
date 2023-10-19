@@ -1,7 +1,7 @@
 .. currentmodule:: pythainlp.corpus
 
 pythainlp.corpus
-====================================
+================
 The :class:`pythainlp.corpus` module provides access to various Thai language corpora and resources that come bundled with PyThaiNLP. These resources are essential for natural language processing tasks in the Thai language.
 
 Modules

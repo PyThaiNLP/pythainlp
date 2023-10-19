@@ -27,14 +27,14 @@ Example
 
 Here's a basic example of how to use the `dependency_parsing` function:
 
-```python
-from pythainlp.parse import dependency_parsing
-
-# Input Thai sentence
-sentence = "พี่น้องชาวบ้านกำลังเลี้ยงสตางค์ในสวน"
-
-# Perform dependency parsing
-parsing_result = dependency_parsing(sentence)
-
-# Print the parsing result
-print(parsing_result)
+::
+    from pythainlp.parse import dependency_parsing
+    
+    # Input Thai sentence
+    sentence = "พี่น้องชาวบ้านกำลังเลี้ยงสตางค์ในสวน"
+    
+    # Perform dependency parsing
+    parsing_result = dependency_parsing(sentence)
+    
+    # Print the parsing result
+    print(parsing_result)

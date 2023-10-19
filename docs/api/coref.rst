@@ -29,10 +29,10 @@ To use the `coreference_resolution` function effectively, follow these steps:
 
 Example:
 
-```python
-from pythainlp.coref import coreference_resolution
-
-text = "นาย A มาจาก กรุงเทพ และเขา มีความรักต่อ บางกิจ ของเขา"
-coreferences = coreference_resolution(text)
-
-print(coreferences)
+::
+    from pythainlp.coref import coreference_resolution
+    
+    text = "นาย A มาจาก กรุงเทพ และเขา มีความรักต่อ บางกิจ ของเขา"
+    coreferences = coreference_resolution(text)
+    
+    print(coreferences)

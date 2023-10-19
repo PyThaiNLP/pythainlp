@@ -1,7 +1,7 @@
 .. currentmodule:: pythainlp.transliterate
 
 pythainlp.transliterate
-====================================
+=======================
 The :mod:`pythainlp.transliterate` module is dedicated to the transliteration of Thai text into romanized form, effectively spelling it out with the English alphabet. This functionality is invaluable for making Thai text more accessible to non-Thai speakers and for various language processing tasks.
 
 Modules

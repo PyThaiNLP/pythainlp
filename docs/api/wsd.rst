@@ -13,4 +13,4 @@ Modules
 
 By using the `pythainlp.wsd` module, you can enhance the accuracy of your NLP applications when dealing with Thai text, ensuring that words are interpreted in the correct context.
 
-This improved documentation offers a clear and concise explanation of the purpose of the `pythainlp.wsd` module and its primary function, `get_sense`, in the context of Word Sense Disambiguation. It helps users understand the module's utility in disambiguating word senses within the Thai language, which is valuable for a wide range of NLP applications.
+.. This improved documentation offers a clear and concise explanation of the purpose of the `pythainlp.wsd` module and its primary function, `get_sense`, in the context of Word Sense Disambiguation. It helps users understand the module's utility in disambiguating word senses within the Thai language, which is valuable for a wide range of NLP applications.

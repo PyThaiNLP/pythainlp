@@ -6,7 +6,7 @@ The :class:`word_vector` contains functions that makes use of a pre-trained vect
 The `pythainlp.word_vector` module is a valuable resource for working with pre-trained word vectors. These word vectors are trained on large corpora and can be used for various natural language processing tasks, such as word similarity, document similarity, and more.
 
 Dependencies
-=======================
+------------
 Installation of :mod:`numpy` and :mod:`gensim` is required.
 
 Before using this module, you need to ensure that the `numpy` and `gensim` libraries are installed in your environment. These libraries are essential for loading and working with the pre-trained word vectors.

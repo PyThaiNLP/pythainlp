@@ -66,4 +66,4 @@ References
 
 .. [#prayut_and_somchaip] Prayut Suwanvisat, Somchai Prasitjutrakul. Thai-English Cross-Language Transliterated Word Retrieval using Soundex Technique. In 1998 [cited 2022 Sep 8]. Available from: https://www.cp.eng.chula.ac.th/~somchai/spj/papers/ThaiText/ncsec98-clir.pdf.
 
-This enhanced documentation provides clear descriptions of all the modules within the `pythainlp.soundex` module, including their purposes and functionalities. Users can now better understand how to leverage these soundex algorithms for various phonetic matching tasks in the Thai language.
+.. This enhanced documentation provides clear descriptions of all the modules within the `pythainlp.soundex` module, including their purposes and functionalities. Users can now better understand how to leverage these soundex algorithms for various phonetic matching tasks in the Thai language.

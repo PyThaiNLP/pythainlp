@@ -1,7 +1,7 @@
 .. currentmodule:: pythainlp.tools
 
 pythainlp.tools
-====================================
+===============
 The :mod:`pythainlp.tools` module encompasses a collection of miscellaneous functions primarily designed for internal use within the PyThaiNLP library. While these functions may not be directly exposed for external use, understanding their purpose can offer insights into the inner workings of PyThaiNLP.
 
 Modules

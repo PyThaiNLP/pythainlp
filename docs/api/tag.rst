@@ -1,7 +1,7 @@
 .. currentmodule:: pythainlp.tag
 
 pythainlp.tag
-=====================================
+=============
 The :class:`pythainlp.tag` contains functions that are used to mark linguistic and other annotation to different parts of a text including
 part-of-speech (POS) tags and named entity (NE) tags.
 

@@ -2,7 +2,7 @@
 .. _tokenize-doc:
 
 pythainlp.tokenize
-=====================================
+==================
 The :mod:`pythainlp.tokenize` module contains a comprehensive set of functions and classes for tokenizing Thai text into various units, such as sentences, words, subwords, and more. This module is a fundamental component of the PyThaiNLP library, providing tools for natural language processing in the Thai language.
 
 Modules

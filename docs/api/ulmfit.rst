@@ -87,4 +87,4 @@ Modules
 
    The `ungroup_emoji` function is designed for ungrouping emojis in text data, which can be crucial for emoji recognition and classification tasks.
 
-The `pythainlp.ulmfit` module provides a comprehensive set of tools for ULMFiT-based text classification. Whether you need to preprocess Thai text, tokenize it, compute document vectors, or perform various text cleaning tasks, this module has the utilities you need. ULMFiT is a state-of-the-art technique in NLP, and these tools empower you to use it effectively for text classification.
+.. The `pythainlp.ulmfit` module provides a comprehensive set of tools for ULMFiT-based text classification. Whether you need to preprocess Thai text, tokenize it, compute document vectors, or perform various text cleaning tasks, this module has the utilities you need. ULMFiT is a state-of-the-art technique in NLP, and these tools empower you to use it effectively for text classification.

@@ -1,7 +1,7 @@
 .. currentmodule:: pythainlp.util
 
 pythainlp.util
-=====================================
+==============
 The :mod:`pythainlp.util` module serves as a treasure trove of utility functions designed to aid text conversion, formatting, and various language processing tasks in the context of Thai language.
 
 Modules

@@ -60,13 +60,13 @@ Example
 
 Here's a simple example of how to generate text using the `Unigram` class:
 
-```python
-from pythainlp.generate import Unigram
-
-# Initialize the Unigram model
-unigram = Unigram()
-
-# Generate a sentence
-sentence = unigram.gen_sentence(seed="สวัสดีครับ")
-
-print(sentence)
+::
+   from pythainlp.generate import Unigram
+   
+   # Initialize the Unigram model
+   unigram = Unigram()
+   
+   # Generate a sentence
+   sentence = unigram.gen_sentence("สวัสดีครับ")
+   
+   print(sentence)

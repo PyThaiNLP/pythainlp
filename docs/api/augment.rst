@@ -1,7 +1,7 @@
 .. currentmodule:: pythainlp.augment
 
-pythainlp.augment Module
-=======================
+pythainlp.augment
+=================
 
 Introduction
 ------------

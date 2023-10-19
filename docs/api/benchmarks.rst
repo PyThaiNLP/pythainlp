@@ -1,7 +1,7 @@
 .. currentmodule:: pythainlp.benchmarks
 
 pythainlp.benchmarks
-====================================
+====================
 
 Introduction
 ------------

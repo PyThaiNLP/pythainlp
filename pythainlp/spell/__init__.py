@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Spell checking and spelling correction.
+Spell checking and correction.
 """
 
 __all__ = [

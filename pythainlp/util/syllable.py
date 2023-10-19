@@ -33,7 +33,7 @@ thai_consonants_all = list(thai_consonants)
 thai_consonants_all.remove("อ")
 
 _temp = list(
-    "".join(["".join(spelling_class[i]) for i in spelling_class.keys()])
+    "".join(["".join(v) for v in spelling_class.values()])
 )
 not_spelling_class = [j for j in thai_consonants_all if j not in _temp]
 
@@ -43,10 +43,10 @@ re_short = re.compile("เ(.*)ะ|แ(.*)ะ|เ(.*)อะ|โ(.*)ะ|เ(.*)า
 pattern = re.compile("เ(.*)า", re.U)  # เ-า is live syllable
 
 _check_1 = []
-# these spelling consonant are live syllable.
+# These spelling consonant ares live syllables.
 for i in ["กง", "กน", "กม", "เกย", "เกอว"]:
     _check_1.extend(spelling_class[i])
-# these spelling consonant are dead syllable.
+# These spelling consonants are dead syllables.
 _check_2 = spelling_class["กก"] + spelling_class["กบ"] + spelling_class["กด"]
 
 thai_low_sonorants = list("งนมยรลว")
@@ -73,7 +73,7 @@ def sound_syllable(syllable: str) -> str:
     Sound syllable classification
 
     This function is sound syllable classification.
-    It is live syllable or dead syllable.
+    The syllable is a live syllable or dead syllable.
 
     :param str syllable: Thai syllable
     :return: syllable's type (live or dead)
@@ -98,20 +98,20 @@ def sound_syllable(syllable: str) -> str:
     if len(syllable) < 2:
         return "dead"
     elif (spelling_consonant in _check_2) and (
-        any((c in set("าีืแูาเโ")) for c in syllable) == False
-        and any((c in set("ำใไ")) for c in syllable) == False
-        and bool(pattern.search(syllable)) != True
+        any((c in set("าีืแูาเโ")) for c in syllable) is False
+        and any((c in set("ำใไ")) for c in syllable) is False
+        and bool(pattern.search(syllable)) is not True
     ):
         return "dead"
     elif any((c in set("าีืแูาโ")) for c in syllable):  # in syllable:
         if (
             spelling_consonant in _check_1
-            and bool(re_short.search(syllable)) != True
+            and bool(re_short.search(syllable)) is not True
         ):
             return "live"
         elif (
             spelling_consonant != syllable[-1]
-            and bool(re_short.search(syllable)) != True
+            and bool(re_short.search(syllable)) is not True
         ):
             return "live"
         elif spelling_consonant in _check_2:
@@ -122,7 +122,7 @@ def sound_syllable(syllable: str) -> str:
             return "dead"
         return "live"
     elif any((c in set("ำใไ")) for c in syllable):
-        return "live"  # if these vowel's long sound are live syllable
+        return "live"  # if these vowel's long sounds are live syllables
     elif bool(pattern.search(syllable)):  # if it is เ-า
         return "live"
     elif spelling_consonant in _check_1:
@@ -134,7 +134,7 @@ def sound_syllable(syllable: str) -> str:
         return "live"
     elif bool(
         re_short.search(syllable)
-    ) or any(  # if found vowel's short sound
+    ) or any(  # if vowel's short sound is found
         (c in set(short)) for c in syllable
     ):  # consonant in short
         return "dead"
@@ -144,9 +144,9 @@ def sound_syllable(syllable: str) -> str:
 
 def syllable_open_close_detector(syllable: str) -> str:
     """
-    Thai syllable open/close detector
+    Open/close Thai syllables detector
 
-    This function is use for find Thai syllable that open or closed sound.
+    This function is used for finding Thai syllables that are open or closed sound.
 
     :param str syllable: Thai syllable
     :return: open / close
@@ -175,7 +175,7 @@ def syllable_length(syllable: str) -> str:
     """
     Thai syllable length
 
-    This function is use for find syllable's length. (long or short)
+    This function is used for finding syllable's length. (long or short)
 
     :param str syllable: Thai syllable
     :return: syllable's length (long or short)
@@ -224,7 +224,7 @@ def tone_detector(syllable: str) -> str:
     Thai tone detector for syllables
 
     :param str syllable: Thai syllable
-    :return: syllable's tone (l, m, h, r, f or empty if it cannot detector)
+    :return: syllable's tone (l, m, h, r, f or empty if it cannot be detected)
     :rtype: str
 
     :Example:
@@ -244,12 +244,12 @@ def tone_detector(syllable: str) -> str:
     initial_consonant = consonants[0]
     tone_mark = _tone_mark_detector(syllable)
     syllable_check = syllable_open_close_detector(syllable)
-    syllable_check_lenght = syllable_length(syllable)
+    syllable_check_length = syllable_length(syllable)
     initial_consonant_type = thai_initial_consonant_to_type[initial_consonant]
     # r for store value
     r = ""
     if len(consonants) > 1 and (
-        initial_consonant == "อ" or initial_consonant == "ห"
+        initial_consonant in ("อ", "ห")
     ):
         consonant_ending = _check_sonorant_syllable(syllable)
         if (
@@ -281,21 +281,21 @@ def tone_detector(syllable: str) -> str:
             r = "r"
     elif (
         initial_consonant_type == "low"
-        and syllable_check_lenght == "short"
+        and syllable_check_length == "short"
         and syllable_check == "close"
         and s == "dead"
     ):
         r = "h"
     elif (
         initial_consonant_type == "low"
-        and syllable_check_lenght == "long"
+        and syllable_check_length == "long"
         and syllable_check == "close"
         and s == "dead"
     ):
         r = "f"
     elif (
         initial_consonant_type == "low"
-        and syllable_check_lenght == "short"
+        and syllable_check_length == "short"
         and syllable_check == "open"
     ):
         r = "h"

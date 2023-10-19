@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Transliterating Thai text with ISO 11940
+Transliterating Thai text using ISO 11940
 
 :See Also:
     * `Wikipedia \
@@ -106,11 +106,18 @@ _tone_marks = {
 }
 
 _punctuation_and_digits = {
+    # ฯ can has two meanings in ISO 11940.
+    # If it is for abbrevation, it is paiyan noi.
+    # If it is for sentence termination, it is angkhan diao.
+    # Without semantic analysis, they cannot be distinguished from each other.
+    # In this simple implementation, we decided to always treat ฯ as paiyan noi.
+    # We commented out angkhan diao line to remove it from the dictionary
+    # and avoid having duplicate keys.
     "ๆ": "«",
-    "ฯ": "ǂ",
+    "ฯ": "ǂ",  # paiyan noi: U+01C2 ǂ Alveolar Click; ICU uses ‡ (double dagger)
     "๏": "§",
-    "ฯ": "ǀ",
-    "๚": "ǁ",
+    # "ฯ": "ǀ",  # angkhan diao: U+01C0 ǀ Dental Click; ICU uses | (vertical bar)
+    "๚": "ǁ",  # angkhan khu: U+01C1 ǁ Lateral Click; ICU uses || (two vertical bars)
     "๛": "»",
     "๐": "0",
     "๑": "1",
@@ -130,19 +137,19 @@ _all_dict = {
     **_tone_marks,
     **_punctuation_and_digits,
 }
-_list_k = _all_dict.keys()
+_keys_set = _all_dict.keys()
 
 
 def transliterate(word: str) -> str:
     """
     Use ISO 11940 for transliteration
     :param str text: Thai text to be transliterated.
-    :return: A string of IPA indicating how the text should be pronounced.
+    :return: A string indicating how the text should be pronounced, according to ISO 11940.
     """
-    _new = ""
+    _str = ""
     for i in word:
-        if i in _list_k:
-            _new += _all_dict[i]
+        if i in _keys_set:
+            _str += _all_dict[i]
         else:
-            _new += i
-    return _new
+            _str += i
+    return _str

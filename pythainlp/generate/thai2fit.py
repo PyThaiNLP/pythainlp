@@ -15,15 +15,15 @@
 """
 Thai2fit: Thai Wikipeida Language Model for Text Generation
 
-Code from
+Codes are from
 https://github.com/PyThaiNLP/tutorials/blob/master/source/notebooks/text_generation.ipynb
 """
 __all__ = ["gen_sentence"]
 
-import pandas as pd
 import random
 import pickle
 from typing import List, Union
+import pandas as pd
 
 # fastai
 import fastai
@@ -63,21 +63,21 @@ data_lm = (
 
 data_lm.sanity_check()
 
-config = dict(
-    emb_sz=400,
-    n_hid=1550,
-    n_layers=4,
-    pad_token=1,
-    qrnn=False,
-    tie_weights=True,
-    out_bias=True,
-    output_p=0.25,
-    hidden_p=0.1,
-    input_p=0.2,
-    embed_p=0.02,
-    weight_p=0.15,
-)
-trn_args = dict(drop_mult=0.9, clip=0.12, alpha=2, beta=1)
+config = {
+    "emb_sz": 400,
+    "n_hid": 1550,
+    "n_layers": 4,
+    "pad_token": 1,
+    "qrnn": False,
+    "tie_weights": True,
+    "out_bias": True,
+    "output_p": 0.25,
+    "hidden_p": 0.1,
+    "input_p": 0.2,
+    "embed_p": 0.02,
+    "weight_p": 0.15,
+}
+trn_args = {"drop_mult": 0.9, "clip": 0.12, "alpha": 2, "beta": 1}
 
 learn = language_model_learner(
     data_lm, AWD_LSTM, config=config, pretrained=False, **trn_args
@@ -96,10 +96,10 @@ def gen_sentence(
     """
     Text generator using Thai2fit
 
-    :param str start_seq: word for begin word.
-    :param int N: number of word.
-    :param bool output_str: output is str
-    :param bool duplicate: duplicate word in sent
+    :param str start_seq: word to begin sentence with
+    :param int N: number of words
+    :param bool output_str: output as string
+    :param bool duplicate: allow duplicate words in sentence
 
     :return: list words or str words
     :rtype: List[str], str

@@ -31,7 +31,7 @@ tokenizer = AutoTokenizer.from_pretrained("airesearch/wangchanberta-base-att-spm
 
 class BertModel(torch.nn.Module):
     def __init__(self):
-        super(BertModel, self).__init__()
+        super().__init__()
         self.bert = BertForTokenClassification.from_pretrained('bookpanda/wangchanberta-base-att-spm-uncased-tagging')
 
     def forward(self, input_id, mask, label):
@@ -45,9 +45,7 @@ ids_to_labels = {0: 'f', 1: 'i'}
 
 def align_word_ids(texts):
     tokenized_inputs = tokenizer(texts, padding='max_length', max_length=512, truncation=True)
-    c = tokenizer.convert_ids_to_tokens(tokenized_inputs.input_ids)
     word_ids = tokenized_inputs.word_ids()
-    previous_word_idx = None
     label_ids = []
     for word_idx in word_ids:
 
@@ -55,11 +53,10 @@ def align_word_ids(texts):
             label_ids.append(-100)
         else:
             try:
-              label_ids.append(2)
+                label_ids.append(2)
             except:
                 label_ids.append(-100)
 
-        previous_word_idx = word_idx
     return label_ids
 
 def evaluate_one_text(model, sentence):
@@ -67,13 +64,9 @@ def evaluate_one_text(model, sentence):
     mask = text['attention_mask'][0].unsqueeze(0).to(device)
     input_id = text['input_ids'][0].unsqueeze(0).to(device)
     label_ids = torch.Tensor(align_word_ids(sentence)).unsqueeze(0).to(device)
-    # print(f"input_ids: {input_id}")
-    # print(f"attnetion_mask: {mask}")
-    # print(f"label_ids: {label_ids}")
 
     logits = tagging_model(input_id, mask, None)
     logits_clean = logits[0][label_ids != -100]
-    # print(f"logits_clean: {logits_clean}")
 
     predictions = logits_clean.argmax(dim=1).tolist()
     prediction_label = [ids_to_labels[i] for i in predictions]
@@ -88,8 +81,6 @@ def correct(text):
     ans = []
     i_f = evaluate_one_text(tagging_model, text)
     a = tokenizer(text)
-    b = a['input_ids']
-    c = tokenizer.convert_ids_to_tokens(b)
     i_f_len = len(i_f)
     for j in range(i_f_len):
         if i_f[j] == 'i':

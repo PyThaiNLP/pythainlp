@@ -3,11 +3,11 @@ from .tokenization_small100 import SMALL100Tokenizer
 
 class Small100Translator:
     """
-    Machine Translation with small100 model
+    Machine Translation using small100 model
 
     - Huggingface https://huggingface.co/alirezamsh/small100
 
-    :param bool use_gpu : load model to gpu (Default is False)
+    :param bool use_gpu : load model using GPU (Default is False)
     """
 
     def __init__(

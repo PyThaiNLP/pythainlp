@@ -14,13 +14,13 @@
 # limitations under the License.
 
 import gzip
+from typing import List, Tuple
 import numpy as np
-from typing import Dict, List, Tuple, Union
 
 
 class GzipModel:
     """
-    This class is a reimplemenatation of “Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors (Jiang et al., Findings 2023)
+    This class is a re-implementation of “Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors (Jiang et al., Findings 2023)
 
     :param list training_data: list [(text_sample,label)]
     """
@@ -30,7 +30,7 @@ class GzipModel:
         self.Cx2_list = self.train()
 
     def train(self):
-        Cx2_list = list()
+        Cx2_list = []
         for i in range(len(self.training_data)):
             Cx2_list.append(
                 len(gzip.compress(self.training_data[i][0].encode("utf-8")))
@@ -39,7 +39,7 @@ class GzipModel:
 
     def predict(self, x1: str, k: int = 1) -> str:
         """
-        :param str x1: the text that want to predict label.
+        :param str x1: the text that we want to predict label for.
         :param str k: k
         :return: label
         :rtype: str

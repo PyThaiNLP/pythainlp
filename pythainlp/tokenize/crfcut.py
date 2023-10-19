@@ -16,7 +16,7 @@
 CRFCut - Thai sentence segmenter.
 
 Thai sentence segmentation using conditional random field,
-default model trained on TED dataset
+with default model trained on TED dataset
 
 Performance:
 - ORCHID - space-correct accuracy 87% vs 95% state-of-the-art
@@ -143,7 +143,7 @@ def extract_features(
     Extract features for CRF by sliding `max_n_gram` of tokens
     for +/- `window` from the current token
 
-    :param List[str] doc: tokens from which features are to be extracted from
+    :param List[str] doc: tokens from which features are to be extracted
     :param int window: size of window before and after the current token
     :param int max_n_gram: create n_grams from 1-gram to `max_n_gram`-gram \
     within the `window`
@@ -199,7 +199,7 @@ def segment(text: str) -> List[str]:
     """
     CRF-based sentence segmentation.
 
-    :param str text: text to be tokenized to sentences
+    :param str text: text to be tokenized into sentences
     :return: list of words, tokenized from the text
     """
     if isinstance(text, str):

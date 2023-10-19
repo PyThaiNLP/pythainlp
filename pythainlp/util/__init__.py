@@ -92,7 +92,6 @@ from pythainlp.util.keyboard import (
     thai_to_eng,
 )
 from pythainlp.util.emojiconv import emoji_to_thai
-from pythainlp.util.keyboard import eng_to_thai, thai_to_eng
 from pythainlp.util.keywords import find_keyword, rank
 from pythainlp.util.normalize import (
     normalize,
@@ -126,6 +125,6 @@ from pythainlp.util.syllable import (
 )
 from pythainlp.util.phoneme import nectec_to_ipa, ipa_to_rtgs, remove_tone_ipa
 from pythainlp.util.encoding import tis620_to_utf8
-import pythainlp.util.spell_words as spell_words
+from pythainlp.util import spell_words
 from pythainlp.util.abbreviation import abbreviation_to_full_text
 from pythainlp.util.pronounce import rhyme

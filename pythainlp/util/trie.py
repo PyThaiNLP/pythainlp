@@ -15,13 +15,13 @@
 """
 Trie data structure.
 
-Designed to use for tokenizer's dictionary, but can be for other purposes.
+Designed to be used for tokenizer's dictionary, but can be for other purposes.
 """
 from typing import Iterable, List, Union
 
 
 class Trie:
-    class Node(object):
+    class Node():
         __slots__ = "end", "children"
 
         def __init__(self):

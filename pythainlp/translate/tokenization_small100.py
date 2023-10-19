@@ -1,6 +1,6 @@
 # Copyright (c) 2022 Idiap Research Institute, http://www.idiap.ch/
 # Written by Alireza Mohammadshahi <alireza.mohammadshahi@idiap.ch>
-# This is a modified version of https://github.com/huggingface/transformers/blob/main/src/transformers/models/m2m_100/tokenization_m2m_100.py 
+# This is a modified version of https://github.com/huggingface/transformers/blob/main/src/transformers/models/m2m_100/tokenization_m2m_100.py
 # which owns by Fariseq Authors and The HuggingFace Inc. team.
 #
 #
@@ -25,7 +25,6 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 import sentencepiece
 
 from transformers.tokenization_utils import BatchEncoding, PreTrainedTokenizer
-from transformers.utils import logging
 
 
 SPIECE_UNDERLINE = "▁"
@@ -329,7 +328,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
     def _switch_to_target_mode(self):
         self.prefix_tokens = None
-        self.suffix_tokens = [self.eos_token_id]        
+        self.suffix_tokens = [self.eos_token_id]
 
     def set_lang_special_tokens(self, src_lang: str) -> None:
         """Reset the special tokens to the tgt lang setting. No prefix and suffix=[eos, tgt_lang_code]."""

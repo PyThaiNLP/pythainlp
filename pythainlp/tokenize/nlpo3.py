@@ -29,12 +29,12 @@ _NLPO3_DEFAULT_DICT = nlpo3_load_dict(
 def load_dict(file_path: str, dict_name: str) -> bool:
     """Load a dictionary file into an in-memory dictionary collection.
 
-    The loaded dictionary will be accessible throught the assigned dict_name.
+    The loaded dictionary will be accessible through the assigned dict_name.
     *** This function does not override an existing dict name. ***
 
     :param file_path: Path to a dictionary file
     :type file_path: str
-    :param dict_name: A unique dictionary name, use for reference.
+    :param dict_name: A unique dictionary name, used for reference.
     :type dict_name: str
     :return bool
 
@@ -61,7 +61,7 @@ def segment(
     :param str text: text to be tokenized
     :param str custom_dict: dictionary name, as assigned with load_dict(),\
         defaults to pythainlp/corpus/common/words_th.txt
-    :param bool safe_mode: reduce chance for long processing time in long text\
+    :param bool safe_mode: reduce chance for long processing time for long text\
         with many ambiguous breaking points, defaults to False
     :param bool parallel_mode: Use multithread mode, defaults to False
 

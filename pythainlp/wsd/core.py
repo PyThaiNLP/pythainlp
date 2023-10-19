@@ -12,13 +12,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import csv
 from typing import List, Tuple, Union
 
-from pythainlp.corpus import thai_words
 from pythainlp.tokenize import Tokenizer
-from pythainlp.util.trie import Trie, dict_trie
-from pythainlp.corpus import get_corpus_path, thai_wsd_dict
+from pythainlp.util.trie import Trie
+from pythainlp.corpus import thai_wsd_dict
 
 _wsd_dict = thai_wsd_dict()
 _mean_all = {}
@@ -51,7 +49,7 @@ _MODEL = None
 def get_sense(
     sentence: str,
     word: str,
-    device:str="cpu",
+    device: str="cpu",
     custom_dict: Union[dict,None]=None,
     custom_tokenizer: Tokenizer=_word_cut,
 ) -> Union[List[Tuple[str, float]], None]:
@@ -61,21 +59,21 @@ def get_sense(
     
     :param str sentence: Thai sentence
     :param str word: Thai word
-    :param str device: device for running model.
+    :param str device: device for running model on.
     :param dict custom_dict: Thai dictionary {"word":["definition",..]}
-    :param Tokenizer custom_tokenizer: Tokenizer for tokenize words from sentence.
-    :return: list of definition and distance (1 - cos_sim) or None (If word is not in the dictionary)
+    :param Tokenizer custom_tokenizer: Tokenizer used to tokenize words in sentence.
+    :return: list of definitions and distances (1 - cos_sim) or None (If word is not in the dictionary)
     :rtype: Union[List[Tuple[str, float]], None]
     
     We get the ideas from `Context-Aware Semantic Similarity Measurement for Unsupervised \
     Word Sense Disambiguation <https://arxiv.org/abs/2305.03520>`_ to build get_sense function.
 
-    For Thai dictionary, We use Thai dictionary from wiktionary.
+    For Thai dictionary, we use Thai dictionary from wiktionary.
     See more `thai_dict <https://pythainlp.github.io/pythainlp-corpus/thai_dict.html>`_.
     
-    For the model, We use Sentence Transformers model from \
+    For the model, we use sentence transformers model from \
     `sentence-transformers/paraphrase-multilingual-mpnet-base-v2 <https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2>`_ for \
-    Unsupervised Word Sense Disambiguation.
+    unsupervised word sense disambiguation.
     
     :Example:
     ::
@@ -96,12 +94,12 @@ def get_sense(
         #   0.12473666667938232)]
     """
     global _MODEL
-    if custom_dict == None:
+    if custom_dict is None:
         custom_dict = _mean_all
     _w = custom_tokenizer.word_tokenize(sentence)
     if word not in set(custom_dict.keys()) or word not in sentence:
         return None
-    if _MODEL == None:
+    if _MODEL is None:
         _MODEL = _SentenceTransformersModel(device=device)
     if _MODEL.device!=device:
         _MODEL.change_device(device=device)

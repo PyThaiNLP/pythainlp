@@ -14,11 +14,11 @@
 # limitations under the License.
 from typing import List, Tuple, Union
 import re
+import warnings
 from transformers import (
     CamembertTokenizer,
     pipeline,
 )
-import warnings
 from pythainlp.tokenize import word_tokenize
 
 _model_name = "wangchanberta-base-att-spm-uncased"
@@ -34,7 +34,7 @@ class ThaiNameTagger:
         self, dataset_name: str = "thainer", grouped_entities: bool = True
     ):
         """
-        This function tags named-entitiy from text in IOB format.
+        This function tags named entities in text in IOB format.
 
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
@@ -66,21 +66,21 @@ class ThaiNameTagger:
         self, text: str, pos: bool= False,tag: bool = False
     ) -> Union[List[Tuple[str, str]], str]:
         """
-        This function tags named-entitiy from text in IOB format.
+        This function tags named entities in text in IOB format.
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
 
         :param str text: text in Thai to be tagged
-        :param bool tag: output like html tag.
-        :return: a list of tuple associated with tokenized word group, NER tag, \
-                 and output like html tag (if the parameter `tag` is \
+        :param bool tag: output HTML-like tags.
+        :return: a list of tuples associated with tokenized word groups, NER tags, \
+                 and output HTML-like tags (if the parameter `tag` is \
                  specified as `True`). \
-                 Otherwise, return a list of tuple associated with tokenized \
-                 word and NER tag
+                 Otherwise, return a list of tuples associated with tokenized \
+                 words and NER tags
         :rtype: Union[list[tuple[str, str]]], str
         """
         if pos:
-            warnings.warn("This model doesn't support output postag and It doesn't output the postag.")
+            warnings.warn("This model doesn't support output of POS tags and it doesn't output the POS tags.")
         text = re.sub(" ", "<_>", text)
         self.json_ner = self.classify_tokens(text)
         self.output = ""
@@ -141,7 +141,7 @@ class ThaiNameTagger:
 class NamedEntityRecognition:
     def __init__(self, model: str ="pythainlp/thainer-corpus-v2-base-model") -> None:
         """
-        This function tags named-entitiy from text in IOB format.
+        This function tags named entities in text in IOB format.
 
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
@@ -159,7 +159,7 @@ class NamedEntityRecognition:
             i=self.tokenizer.decode(i)
             if i.isspace() and j.startswith("B-"):
                 j="O"
-            if i=='' or i=='<s>' or i=='</s>':
+            if i in ("", "<s>", "</s>"):
                 continue
             if i=="<_>":
                 i=" "
@@ -169,17 +169,17 @@ class NamedEntityRecognition:
         self, text: str, pos: bool= False,tag: bool = False
     ) -> Union[List[Tuple[str, str]], str]:
         """
-        This function tags named-entitiy from text in IOB format.
+        This function tags named entities in text in IOB format.
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
 
         :param str text: text in Thai to be tagged
-        :param bool tag: output like html tag.
-        :return: a list of tuple associated with tokenized word group, NER tag, \
-                 and output like html tag (if the parameter `tag` is \
+        :param bool tag: output HTML-like tags.
+        :return: a list of tuples associated with tokenized word groups, NER tags, \
+                 and output HTML-like tags (if the parameter `tag` is \
                  specified as `True`). \
-                 Otherwise, return a list of tuple associated with tokenized \
-                 word and NER tag
+                 Otherwise, return a list of tuples associated with tokenized \
+                 words and NER tags
         :rtype: Union[list[tuple[str, str]]], str
         """
         import torch

@@ -12,13 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from pythainlp.coref._fastcoref import FastCoref
 import spacy
+from pythainlp.coref._fastcoref import FastCoref
 
 
 class HanCoref(FastCoref):
     def __init__(self,device:str="cpu",nlp=spacy.blank("th")) -> None:
-        super(self.__class__, self).__init__(
+        super().__init__(
             model_name="pythainlp/han-coref-v1.0",
             device=device,
             nlp=nlp

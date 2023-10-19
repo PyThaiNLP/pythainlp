@@ -431,7 +431,7 @@ class TestUtilPackage(unittest.TestCase):
 
         self.assertIsNotNone(thaiword_to_date("วันนี้"))
 
-        # it's error if "พรุ่งนี้" is 1 not 32.
+        # it's an error if "พรุ่งนี้" is 1 not 32.
         # self.assertEqual(
         #    thaiword_to_date("วันนี้").day + 1,
         #    thaiword_to_date("พรุ่งนี้").day,
@@ -514,10 +514,10 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(normalize("กา า  า  า"), "กา")
         self.assertEqual(normalize("กา าาะา"), "กาะา")
 
-        # remove epeating tone marks
+        # remove repeating tone marks
         self.assertEqual(normalize("\u0e01\u0e48\u0e48"), "\u0e01\u0e48")
 
-        # remove repeating different ton emarks
+        # remove repeating different tone marks
         self.assertEqual(normalize("\u0e01\u0e48\u0e49"), "\u0e01\u0e49")
         self.assertEqual(
             normalize("\u0e01\u0e48\u0e49\u0e48\u0e49"), "\u0e01\u0e49"
@@ -606,7 +606,7 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(countthai("(กกต.)", None), 50.0)
 
     def test_count_thai_chars(self):
-        self.assertEquals(
+        self.assertEqual(
             count_thai_chars("ทดสอบภาษาไทย"),
             {
                 'vowels': 3,
@@ -622,7 +622,7 @@ class TestUtilPackage(unittest.TestCase):
                 'non_thai': 0,
             }
         )
-        self.assertEquals(
+        self.assertEqual(
             count_thai_chars("มี ๕ บาทไหม๏ เกมส์หรือเกมกันแน่ที่กรุเทพฯ ใช้"),
             {
                 'vowels': 12,

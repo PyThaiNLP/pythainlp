@@ -32,7 +32,7 @@ class ThZhTranslator:
     - GitHub: https://github.com/LalitaDeelert/lalita-mt-zhth
     - Facebook post https://web.facebook.com/aibuildersx/posts/166736255494822
 
-    :param bool use_gpu : load model to gpu (Default is False)
+    :param bool use_gpu : load model using GPU (Default is False)
     """
 
     def __init__(
@@ -83,7 +83,7 @@ class ZhThTranslator:
     - GitHub: https://github.com/LalitaDeelert/lalita-mt-zhth
     - Facebook post https://web.facebook.com/aibuildersx/posts/166736255494822
 
-    :param bool use_gpu : load model to gpu (Default is False)
+    :param bool use_gpu : load model using GPU (Default is False)
     """
 
     def __init__(

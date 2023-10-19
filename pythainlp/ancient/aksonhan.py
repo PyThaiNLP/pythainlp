@@ -32,17 +32,17 @@ _tokenizer = Tokenizer(custom_dict=_trie,engine="mm")
 _dict_thai = set(thai_orst_words())  # call Thai words
 
 
-def aksonhan_to_current(word:str)->str:
+def aksonhan_to_current(word: str) -> str:
     """
-    AksonHan words convert to current Thai words
+    Convert AksonHan words to current Thai words
 
-    AksonHan (อักษรหัน) is write down two consonants as the \
+    AksonHan (อักษรหัน) writes down two consonants for the \
     spelling of the /a/ vowels. (สระ อะ).
 
-    Today, รร is an aksonHan words that still used in Thai.
+    Today, รร is an aksonHan word that is still used in Thai.
 
     :param str word: Thai word
-    :return: Thai AksonHan convert to current Thai words
+    :return: Thai AksonHan to be converted to current Thai word
     :rtype: str
 
     :Example:

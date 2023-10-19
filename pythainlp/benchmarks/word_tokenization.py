@@ -22,7 +22,7 @@ import pandas as pd
 
 SEPARATOR = "|"
 
-# regex for removing to a space surrounded by separators, i.e. | |
+# regex for removing one space surrounded by separators, i.e. | |
 SURROUNDING_SEPS_RX = re.compile(
     "{sep}? ?{sep}$".format(sep=re.escape(SEPARATOR))
 )
@@ -33,7 +33,7 @@ MULTIPLE_SEPS_RX = re.compile("{sep}+".format(sep=re.escape(SEPARATOR)))
 # regex for removing tags, i.e. <NE>, </NE>
 TAG_RX = re.compile(r"<\/?[A-Z]+>")
 
-# regex for tailing separator, i.e.  a|dog| -> a|dog
+# regex for removing trailing separators, i.e.  a|dog| -> a|dog
 TAILING_SEP_RX = re.compile("{sep}$".format(sep=re.escape(SEPARATOR)))
 
 
@@ -54,19 +54,19 @@ def _f1(precision: float, recall: float) -> float:
 
 def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
     """
-    Flatten two-level dictionary.
+    Flatten two-dimension dictionary.
 
-    Use keys in the first level as a prefix for keys in the two levels.
+    Use keys in the first dimension as a prefix for keys in the second dimension.
     For example,
     my_dict = { "a": { "b": 7 } }
     flatten(my_dict)
     { "a:b": 7 }
 
 
-    :param dict my_dict: contains stats dictionary
+    :param dict my_dict: dictionary containing stats
     :param str sep: separator between the two keys (default: ":")
 
-    :return: a one-level dictionary with key combined
+    :return: a one-dimension dictionary with keys combined
     :rtype: dict[str, float | str]
     """
     items = []
@@ -80,12 +80,12 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
 
 def benchmark(ref_samples: List[str], samples: List[str]) -> pd.DataFrame:
     """
-    Performace benchmark of samples.
+    Performance benchmarking for samples.
 
     Please see :meth:`pythainlp.benchmarks.word_tokenization.compute_stats` for
-    metrics being computed.
+    the computed metrics.
 
-    :param list[str] ref_samples: ground truth samples
+    :param list[str] ref_samples: ground truth for samples
     :param list[str] samples: samples that we want to evaluate
 
     :return: dataframe with row x col = len(samples) x len(metrics)
@@ -127,7 +127,7 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
     Clean up text before performing evaluation.
 
     :param str text: text to be preprocessed
-    :param bool remove_space: whether remove white space
+    :param bool remove_space: whether to remove white space
 
     :return: preprocessed text
     :rtype: str
@@ -150,26 +150,26 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     """
     Compute statistics for tokenization quality
 
-    These statistics includes:
+    These statistics include:
 
     **Character-Level**:
       True Positive, False Positive, True Negative, False Negative, Precision, Recall, and f1
     **Word-Level**:
       Precision, Recall, and f1
     **Other**:
-      - Correct tokenization indicator: {0, 1} sequence indicating the correspoding
+      - Correct tokenization indicator: {0, 1} sequence indicating that the corresponding
         word is tokenized correctly.
 
-    :param str ref_sample: ground truth samples
+    :param str ref_sample: ground truth for samples
     :param str samples: samples that we want to evaluate
 
-    :return: metrics in character and word-level and correctly tokenized word indicators
+    :return: metrics at character- and word-level and indicators of correctly tokenized words
     :rtype: dict[str, float | str]
     """
     ref_sample = _binary_representation(ref_sample)
     sample = _binary_representation(raw_sample)
 
-    # Compute charater-level statistics
+    # Compute character-level statistics
     c_pos_pred, c_neg_pred = np.argwhere(sample == 1), np.argwhere(sample == 0)
 
     c_pos_pred = c_pos_pred[c_pos_pred < ref_sample.shape[0]]
@@ -181,17 +181,13 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     c_tn = np.sum(ref_sample[c_neg_pred] == 0)
     c_fn = np.sum(ref_sample[c_neg_pred] == 1)
 
-    c_precision = c_tp / (c_tp + c_fp)
-    c_recall = c_tp / (c_tp + c_fn)
-    c_f1 = _f1(c_precision, c_recall)
-
     # Compute word-level statistics
 
     # Find correctly tokenized words in the reference sample
-    word_boundaries = _find_word_boudaries(ref_sample)
+    word_boundaries = _find_word_boundaries(ref_sample)
 
     # Find correctly tokenized words in the sample
-    ss_boundaries = _find_word_boudaries(sample)
+    ss_boundaries = _find_word_boundaries(sample)
     tokenization_indicators = _find_words_correctly_tokenised(
         word_boundaries, ss_boundaries
     )
@@ -199,7 +195,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     correctly_tokenised_words = np.sum(tokenization_indicators)
 
     tokenization_indicators = list(
-        map(lambda x: str(x), tokenization_indicators)
+        map(str, tokenization_indicators)
     )
 
     return {
@@ -222,7 +218,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
 
 def _binary_representation(txt: str, verbose: bool = False):
     """
-    Transform text to {0, 1} sequence.
+    Transform text into {0, 1} sequence.
 
     where (1) indicates that the corresponding character is the beginning of
     a word. For example, ผม|ไม่|ชอบ|กิน|ผัก -> 10100...
@@ -253,9 +249,9 @@ def _binary_representation(txt: str, verbose: bool = False):
     return bin_rept
 
 
-def _find_word_boudaries(bin_reps) -> list:
+def _find_word_boundaries(bin_reps) -> list:
     """
-    Find start and end location of each word.
+    Find the starting and ending location of each word.
 
     :param str bin_reps: binary representation of a text
 

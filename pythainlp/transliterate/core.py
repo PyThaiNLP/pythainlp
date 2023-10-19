@@ -160,7 +160,7 @@ def transliterate(
     if not text or not isinstance(text, str):
         return ""
 
-    if engine == "icu" or engine == "pyicu":
+    if engine in ("icu", "pyicu"):
         from pythainlp.transliterate.pyicu import transliterate
     elif engine == "ipa":
         from pythainlp.transliterate.ipa import transliterate

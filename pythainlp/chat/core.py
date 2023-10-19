@@ -18,12 +18,12 @@ import torch
 class ChatBotModel:
     def __init__(self):
         """
-        Chat with AI generation
+        Chat using AI generation
         """
         self.history = []
     def reset_chat(self):
         """
-        Reset chat by clean history
+        Reset chat by cleaning history
         """
         self.history = []
     def load_model(
@@ -65,8 +65,8 @@ class ChatBotModel:
         """
         Chatbot
         
-        :param str text: text for asking chatbot.
-        :return: the answer from chatbot.
+        :param str text: text for asking chatbot with.
+        :return: answer from chatbot.
         :rtype: str
         :Example:
         ::
@@ -84,7 +84,7 @@ class ChatBotModel:
                 # output: [('สวัสดี', 'ยินดีที่ได้รู้จัก')]
         """
         _temp=""
-        if self.history!=[]:
+        if self.history:
             for h,b in self.history:
                 _temp+=self.model.PROMPT_DICT['prompt_chatbot'].format_map({"human":h,"bot":b})+self.model.stop_token
         _temp+=self.model.PROMPT_DICT['prompt_chatbot'].format_map({"human":text,"bot":""})

@@ -13,11 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Dictionary-based maximal matching word segmentation, constrained with
-Thai Character Cluster (TCC) boundaries with improve the rules.
+Dictionary-based maximal matching word segmentation, constrained by
+Thai Character Cluster (TCC) boundaries with improved rules.
 
-The code is based on the notebooks created by Korakot Chaovavanich,
-with heuristic graph size limit added to avoid exponential wait time.
+The codes are based on the notebooks created by Korakot Chaovavanich,
+with heuristic graph size limit added to avoid exponential waiting time.
 
 :See Also:
     * \
@@ -39,9 +39,9 @@ from pythainlp.tokenize.tcc_p import tcc_pos
 _PAT_NONTHAI = re.compile(
     r"""(?x)
 [-a-zA-Z]+|        # Latin characters
-\d+([,\.]\d+)*|    # number
-[ \t]+|            # space
-\r?\n              # newline
+\d+([,\.]\d+)*|    # numbers
+[ \t]+|            # spaces
+\r?\n              # newlines
 """
 )
 
@@ -78,12 +78,12 @@ def _bfs_paths_graph(
 
 def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
     # main data structure:
-    # - key is begin position (int)
-    # - value is possible end positions (List[int])
+    # - key is beginning position (int)
+    # - value is possible ending positions (List[int])
     # if key is not found, value is empty list
     graph = defaultdict(list)
 
-    graph_size = 0  # keep track of graph size, if too big will force cutoff
+    graph_size = 0  # keep track of graph size, if too big, force cutoff
 
     valid_poss = tcc_pos(text)  # breaking positions that are TCC-valid
 
@@ -151,10 +151,10 @@ def segment(
     custom_dict: Trie = DEFAULT_WORD_DICT_TRIE,
     safe_mode: bool = False,
 ) -> List[str]:
-    """Maximal-matching word segmentation, Thai Character Cluster constrained.
+    """Maximal-matching word segmentation constrained by Thai Character Cluster.
 
     A dictionary-based word segmentation using maximal matching algorithm,
-    constrained to Thai Character Cluster boundaries.
+    constrained by Thai Character Cluster boundaries.
 
     A custom dictionary can be supplied.
 
@@ -163,7 +163,7 @@ def segment(
     :param custom_dict: tokenization dictionary,\
         defaults to DEFAULT_WORD_DICT_TRIE
     :type custom_dict: Trie, optional
-    :param safe_mode: reduce chance for long processing time in long text\
+    :param safe_mode: reduce chance for long processing time for long text\
         with many ambiguous breaking points, defaults to False
     :type safe_mode: bool, optional
     :return: list of tokens
@@ -179,12 +179,12 @@ def segment(
         return list(_onecut(text, custom_dict))
 
     # if the text is longer than the limit,
-    # breaks them into smaller chunks then tokenizes each chunk
+    # break them into smaller chunks, then tokenize each chunk
     text_parts = []
     while len(text) >= _TEXT_SCAN_END:
         sample = text[_TEXT_SCAN_BEGIN:_TEXT_SCAN_END]
 
-        # find possible break positions
+        # find possible breaking positions
         cut_pos = _TEXT_SCAN_END
 
         # try to break by space first
@@ -212,7 +212,7 @@ def segment(
     if len(text):
         text_parts.append(text)
 
-    # tokenizes each text parts
+    # tokenizes each text part
     tokens = []
     for text_part in text_parts:
         tokens.extend(list(_onecut(text_part, custom_dict)))

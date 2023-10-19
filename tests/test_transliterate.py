@@ -62,8 +62,7 @@ class TestTransliteratePackage(unittest.TestCase):
         self.assertEqual(romanize("แมว", engine="tltk"), "maeo")
 
     def test_romanize_royin_basic(self):
-        for word in _BASIC_TESTS:
-            expect = _BASIC_TESTS[word]
+        for word, expect in _BASIC_TESTS.items():
             self.assertEqual(romanize(word, engine="royin"), expect)
 
     def test_romanize_royin_consistency(self):

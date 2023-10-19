@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 The implementation of sentence segmentator from Nakhun Chumpolsathien, 2020
-original code from: https://github.com/nakhunchumpolsathien/ThaiSum
+original codes are from: https://github.com/nakhunchumpolsathien/ThaiSum
 
 Cite:
 

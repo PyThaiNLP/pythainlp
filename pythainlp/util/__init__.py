@@ -45,6 +45,7 @@ __all__ = [
     "remove_tonemark",
     "remove_zw",
     "reorder_vowels",
+    "rhyme",
     "text_to_arabic_digit",
     "text_to_thai_digit",
     "thai_digit_to_arabic_digit",
@@ -126,3 +127,4 @@ from pythainlp.util.phoneme import nectec_to_ipa, ipa_to_rtgs, remove_tone_ipa
 from pythainlp.util.encoding import tis620_to_utf8
 from pythainlp.util import spell_words
 from pythainlp.util.abbreviation import abbreviation_to_full_text
+from pythainlp.util.pronounce import rhyme

@@ -36,6 +36,7 @@ from pythainlp.util import (
     remove_dup_spaces,
     remove_tonemark,
     remove_zw,
+    rhyme,
     text_to_arabic_digit,
     text_to_thai_digit,
     thaiword_to_date,
@@ -852,6 +853,10 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(spell_word("เสื้อ"),['สอ', 'เอือ', 'ไม้โท', 'เสื้อ'])
         self.assertEqual(spell_word("คน"),['คอ', 'นอ', 'คน'])
         self.assertEqual(spell_word("คนดี"),['คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี'])
+
+    def test_rhyme(self):
+        self.assertIsInstance(rhyme("แมว"), list)
+        self.assertTrue(len(rhyme("แมว")) > 2)
 
     # def test_abbreviation_to_full_text(self):
     #     self.assertIsInstance(abbreviation_to_full_text("รร.ของเราน่าอยู่", list))

@@ -162,6 +162,12 @@ Modules
 
     The `reorder_vowels` function is a text processing utility for reordering vowel characters in Thai text. It is essential for phonetic analysis and pronunciation guides.
 
+.. autofunction:: rhyme
+    :noindex:
+
+
+    The `rhyme` function is a utility for find rhyme of Thai word.
+
 .. autofunction:: sound_syllable
     :noindex:
 

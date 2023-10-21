@@ -15,7 +15,14 @@
 """
 Thai soundex - LK82 system
 
-Python implementation: Korakot Chaovavanich
+Original paper:
+Vichit Lorchirachoonkul. 1982. A Thai soundex
+system. Information Processing & Management,
+18(5):243–255.
+https://doi.org/10.1016/0306-4573(82)90003-6
+
+Python implementation:
+by Korakot Chaovavanich
 https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8
 """
 import re

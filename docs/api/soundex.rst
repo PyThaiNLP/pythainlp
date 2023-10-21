@@ -17,13 +17,13 @@ lk82
 ~~~~
 .. autofunction:: lk82
 
-The `lk82` module implements the Thai Soundex algorithm proposed by Vichit Lorjai in 1982. This module is suitable for encoding Thai words into Soundex codes for phonetic comparisons.
+The `lk82` module implements the Thai Soundex algorithm proposed by Vichit Lorchirachoonkul in 1982. This module is suitable for encoding Thai words into Soundex codes for phonetic comparisons.
 
 udom83
 ~~~~~~
 .. autofunction:: udom83
 
-The `udom83` module is based on a homonymic approach for sound-alike string search. It encodes Thai words using the Udompanich Soundex algorithm developed in 1983.
+The `udom83` module is based on a homonymic approach for sound-alike string search. It encodes Thai words using the Wannee Udompanich Soundex algorithm developed in 1983.
 
 metasound
 ~~~~~~~~~
@@ -60,9 +60,9 @@ References
 
 .. [#metasound] Snae & Brückner. (2009). `Novel Phonetic Name Matching Algorithm with a Statistical Ontology for Analyzing Names Given in Accordance with Thai Astrology <https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf>`_.
 
-.. [#udom83] Wannee Udompanich (1983). Search Thai sound-alike string using homonymic approach. Master Thesis. Chulalongkorn University, Thailand.
+.. [#udom83] Wannee Udompanich (1983). `String searching for Thai alphabet using Soundex compression technique <http://cuir.car.chula.ac.th/handle/123456789/48471>`_. Master Thesis. Chulalongkorn University, Thailand. วรรณี อุดมพาณิชย์. `การใช้หลักคำพ้องเสียง เพื่อค้นหาชุดอักขระภาษาไทยที่ออกเสียงเหมือนกัน <http://cuir.car.chula.ac.th/handle/123456789/48471>`_. วิทยานิพนธ์ (วท.ม.)--จุฬาลงกรณ์มหาวิทยาลัย, 2526. 
 
-.. [#lk82] วิชิต หล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์. `โปรแกรมการสืบค้นคำไทยตามเสียงอ่าน (Thai Soundex) <http://guru.sanook.com/1520/>`_.
+.. [#lk82] Vichit Lorchirachoonkul. 1982. `A Thai soundex system <https://doi.org/10.1016/0306-4573(82)90003-6>`_. Information Processing & Management, 18(5):243–255. วิชิต หล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์. `โปรแกรมการสืบค้นคำไทยตามเสียงอ่าน (Thai Soundex) <http://guru.sanook.com/1520/>`_.
 
 .. [#prayut_and_somchaip] Prayut Suwanvisat, Somchai Prasitjutrakul. Thai-English Cross-Language Transliterated Word Retrieval using Soundex Technique. In 1998 [cited 2022 Sep 8]. Available from: https://www.cp.eng.chula.ac.th/~somchai/spj/papers/ThaiText/ncsec98-clir.pdf.
 

@@ -60,14 +60,7 @@ _TRANS2 = str.maketrans(
 def udom83(text: str) -> str:
     """
     This function converts Thai text into phonetic code with the
-    Thai soundex algorithm named by Udompanich (1983).
-
-    Original paper:
-    Wannee Udompanich. String searching for Thai alphabet
-    using Soundex compression technique. Master Thesis
-    of Department of Computer Engineering Graduate
-    School, Chulalongkorn University, 1983.
-    http://cuir.car.chula.ac.th/handle/123456789/48471
+    Thai soundex algorithm named **Udom83** [#udom83]_.
 
     :param str text: Thai word
 

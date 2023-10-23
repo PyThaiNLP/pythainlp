@@ -4,27 +4,27 @@ kv = core.KhaveeVerifier()
 
 
 # การเช็คสระ
-print('เออ',kv.check_sara('เมอ'))
+print('เออ', kv.check_sara('เมอ'))
 # 'เออ'
 
 # การเช็คมาตราตัวสะกด
-print('เทอว',kv.check_marttra('เทอว'))
+print('เทอว', kv.check_marttra('เทอว'))
 # 'เกอว'
 
 # การตรวจสอบคำสำผัสที่ถูกต้อง
-print('สรร อัน',kv.is_sumpus('สรร','อัน'))
+print('สรร อัน', kv.is_sumpus('สรร', 'อัน'))
 # True
 
 # การตรวจสอบคำสำผัสที่ผิด
-print('เพื่อน ล้วน',kv.is_sumpus('เพื่อน','ล้วน'))
+print('เพื่อน ล้วน', kv.is_sumpus('เพื่อน', 'ล้วน'))
 # False
 
 # การตรวจสอบคำ ครุ ลหุ
-print('สรร',kv.check_karu_lahu('สรร'))
+print('สรร', kv.check_karu_lahu('สรร'))
 #karu
 
 # การตรวจสอบคำ ครุ ลหุ
-print('ชิชะ',kv.check_karu_lahu('ชิชะ'))
+print('ชิชะ', kv.check_karu_lahu('ชิชะ'))
 # lahu
 
 # การตรวจสอบกลอน 8 ที่ถูกฉันทลักษณ์

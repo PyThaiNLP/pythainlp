@@ -43,8 +43,8 @@ r"""(?x)
 [-a-zA-Z]+|        # Latin characters
 \d+([,\.]\d+)*|    # numbers
 [ \t]+|            # spaces
-\r?\n              # newlines
-|[^\u0E00-\u0E7F]+ # other non-Thai characters
+\r?\n|             # newlines
+[^\u0E00-\u0E7F]+  # other non-Thai characters
 """
 )
 

@@ -37,16 +37,17 @@ from pythainlp.tokenize.tcc_p import tcc_pos
 
 # match non-Thai tokens
 # `|` is used as like "early return",
-# which divide "abc123" to "abc", "123" for example.
+# which divides "abc123" to "abc", "123" for example.
 _PAT_NONTHAI = re.compile(
-   r"""(?x)
+r"""(?x)
 [-a-zA-Z]+|        # Latin characters
 \d+([,\.]\d+)*|    # numbers
 [ \t]+|            # spaces
 \r?\n              # newlines
 |[^\u0E00-\u0E7F]+ # other non-Thai characters
-""")
-    
+"""
+)
+
 # match 2-consonant Thai tokens
 _PAT_THAI_TWOCHARS = re.compile("[ก-ฮ]{,2}$")
 

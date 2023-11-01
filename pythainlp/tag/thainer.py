@@ -25,7 +25,7 @@ from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import isthai
 
-_TOKENIZER_ENGINE = "newmm"  # should be same as that used in training data
+_TOKENIZER_ENGINE = "mm"
 
 
 def _is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำฟุ่มเฟือย

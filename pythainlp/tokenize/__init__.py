@@ -55,5 +55,5 @@ from pythainlp.tokenize.core import (
 from pythainlp.corpus import get_corpus as _get_corpus
 
 THAI2FIT_TOKENIZER = Tokenizer(
-    custom_dict=_get_corpus("words_th_thai2fit_201810.txt"), engine="newmm"
+    custom_dict=_get_corpus("words_th_thai2fit_201810.txt"), engine="mm"
 )

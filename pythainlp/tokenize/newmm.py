@@ -44,7 +44,7 @@ r"""(?x)
 \d+([,\.]\d+)*|    # numbers
 [ \t]+|            # spaces
 \r?\n|             # newlines
-[^\u0E00-\u0E7F]+  # other non-Thai characters
+[^\u0E00-\u0E7F \t]+  # other non-Thai characters
 """
 )
 

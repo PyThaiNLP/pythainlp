@@ -37,7 +37,7 @@ from pythainlp.tokenize.tcc_p import tcc_pos
 
 # match non-Thai tokens
 # English, number, (space,whitespace) and non-Thai tokens
-_PAT_NONTHAI = re.compile(r"[-a-zA-Z]+|\d+([,\.]\d+)*|[ \t]+|\r?\n|[^\u0E00-\u0E7F]+|")
+_PAT_NONTHAI = re.compile(r"[-a-zA-Z]+|\d+([,\.]\d+)*|[ \t]+|\r?\n|[^\u0E00-\u0E7F]+")
 
 # match 2-consonant Thai tokens
 _PAT_THAI_TWOCHARS = re.compile("[ก-ฮ]{,2}$")

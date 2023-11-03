@@ -27,10 +27,11 @@ __all__ = [
     "chunk_parse",
     "NER",
     "NNER",
+    "pos_tag_transformers" # added by moss
 ]
 
 from pythainlp.tag.locations import tag_provinces
-from pythainlp.tag.pos_tag import pos_tag, pos_tag_sents
+from pythainlp.tag.pos_tag import pos_tag, pos_tag_sents,pos_tag_transformers
 from pythainlp.tag._tag_perceptron import PerceptronTagger
 from pythainlp.tag.chunk import chunk_parse
 from pythainlp.tag.named_entity import NER, NNER

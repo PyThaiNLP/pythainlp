@@ -373,4 +373,4 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(pos_tag_transformers(
             words="แมวทำอะไรตอนห้าโมงเช้า", engine="wangchanberta-ud-thai-pud-upos"))
         with self.assertRaises(ValueError):
-            pos_tag_transformers(words="แมวทำอะไรตอนห้าโมงเช้า", engine = "non-existing-engine")
+            pos_tag_transformers(words="แมวทำอะไรตอนห้าโมงเช้า", engine="non-existing-engine")

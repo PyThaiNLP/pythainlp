@@ -366,10 +366,11 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(nner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
 
     def test_pos_tag_transformers(self):
-        self.assertIsNotNone(pos_tag_transformers(words="แมวทำอะไรตอนห้าโมงเช้า", engine = "bert-base-th-cased-blackboard"))
-        self.assertIsNotNone(pos_tag_transformers(words="แมวทำอะไรตอนห้าโมงเช้า", engine = "mdeberta-v3-ud-thai-pud-upos"))
-        self.assertIsNotNone(pos_tag_transformers(words="แมวทำอะไรตอนห้าโมงเช้า", engine = "wangchanberta-ud-thai-pud-upos"))
-
+        self.assertIsNotNone(pos_tag_transformers(
+            words="แมวทำอะไรตอนห้าโมงเช้า", engine="bert-base-th-cased-blackboard"))
+        self.assertIsNotNone(pos_tag_transformers(
+            words="แมวทำอะไรตอนห้าโมงเช้า", engine="mdeberta-v3-ud-thai-pud-upos"))
+        self.assertIsNotNone(pos_tag_transformers(
+            words="แมวทำอะไรตอนห้าโมงเช้า", engine="wangchanberta-ud-thai-pud-upos"))
         with self.assertRaises(ValueError):
             pos_tag_transformers(words="แมวทำอะไรตอนห้าโมงเช้า", engine = "non-existing-engine")
-

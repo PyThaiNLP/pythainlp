@@ -190,18 +190,22 @@ def pos_tag_transformers(
     """
 
     try:
-        from transformers import AutoModelForTokenClassification, AutoTokenizer, TokenClassificationPipeline
+        from transformers import AutoModelForTokenClassification, \
+            AutoTokenizer, TokenClassificationPipeline
     except ImportError:
-        raise ImportError("Not found transformers! Please install transformers by pip install transformers")
-    
+        raise ImportError(
+            "Not found transformers! Please install transformers by pip install transformers")
+
     if not words:
         return []
-    
-    if engine == "wangchanberta-ud-thai-pud-upos" :
-        model = AutoModelForTokenClassification.from_pretrained("Pavarissy/wangchanberta-ud-thai-pud-upos")
+
+    if engine == "wangchanberta-ud-thai-pud-upos":
+        model = AutoModelForTokenClassification.from_pretrained(
+            "Pavarissy/wangchanberta-ud-thai-pud-upos")
         tokenizer = AutoTokenizer.from_pretrained("Pavarissy/wangchanberta-ud-thai-pud-upos")
     elif engine == "mdeberta-v3-ud-thai-pud-upos":
-        model = AutoModelForTokenClassification.from_pretrained("Pavarissy/mdeberta-v3-ud-thai-pud-upos")
+        model = AutoModelForTokenClassification.from_pretrained(
+            "Pavarissy/mdeberta-v3-ud-thai-pud-upos")
         tokenizer = AutoTokenizer.from_pretrained("Pavarissy/mdeberta-v3-ud-thai-pud-upos")
     elif engine == "bert-base-th-cased-blackboard":
         model = AutoModelForTokenClassification.from_pretrained("lunarlist/pos_thai")
@@ -212,17 +216,8 @@ def pos_tag_transformers(
                 engine
             )
         )
-    
+
     pipeline = TokenClassificationPipeline(model=model, tokenizer=tokenizer, grouped_entities=True)
 
     outputs = pipeline(words)
     return outputs
-
-
-
-
-
-        
-
-
-

@@ -11,7 +11,7 @@ from pythainlp.tag import (
     pos_tag_sents,
     pos_tag_transformers,
     unigram,
-    #tltk,
+    tltk,
     NER,
     NNER,
 

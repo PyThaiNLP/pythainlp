@@ -9,10 +9,12 @@ from pythainlp.tag import (
     perceptron,
     pos_tag,
     pos_tag_sents,
+    pos_tag_transformers,
     unigram,
     tltk,
     NER,
     NNER,
+
 )
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.thainer import ThaiNameTagger
@@ -362,3 +364,13 @@ class TestTagPackage(unittest.TestCase):
     def test_NNER_class(self):
         nner = NNER()
         self.assertIsNotNone(nner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
+
+    def test_pos_tag_transformers(self):
+        self.assertIsNotNone(pos_tag_transformers(
+            words="แมวทำอะไรตอนห้าโมงเช้า", engine="bert-base-th-cased-blackboard"))
+        self.assertIsNotNone(pos_tag_transformers(
+            words="แมวทำอะไรตอนห้าโมงเช้า", engine="mdeberta-v3-ud-thai-pud-upos"))
+        self.assertIsNotNone(pos_tag_transformers(
+            words="แมวทำอะไรตอนห้าโมงเช้า", engine="wangchanberta-ud-thai-pud-upos"))
+        with self.assertRaises(ValueError):
+            pos_tag_transformers(words="แมวทำอะไรตอนห้าโมงเช้า", engine="non-existing-engine")

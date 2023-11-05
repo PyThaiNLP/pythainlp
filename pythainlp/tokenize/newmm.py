@@ -36,12 +36,15 @@ from pythainlp.util import Trie
 from pythainlp.tokenize.tcc_p import tcc_pos
 
 # match non-Thai tokens
+# `|` is used as like "early return",
+# which divides "abc123" to "abc", "123" for example.
 _PAT_NONTHAI = re.compile(
-    r"""(?x)
+r"""(?x)
 [-a-zA-Z]+|        # Latin characters
 \d+([,\.]\d+)*|    # numbers
 [ \t]+|            # spaces
-\r?\n              # newlines
+\r?\n|             # newlines
+[^\u0E00-\u0E7F \t\r\n]+  # other non-Thai characters, and stops matching until space/newline
 """
 )
 

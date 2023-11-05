@@ -653,6 +653,15 @@ class TestTokenizePackage(unittest.TestCase):
                 keep_whitespace=False,
             )
         )
+        self.assertEqual(
+            word_tokenize("(คนไม่เอา)", engine="newmm"), ['(', 'คน', 'ไม่', 'เอา', ')']
+        )
+        self.assertEqual(
+            word_tokenize("กม/ชม", engine="newmm"), ['กม', '/', 'ชม']
+        )
+        self.assertEqual(
+            word_tokenize("สีหน้า(รถ)", engine="newmm"), ['สีหน้า', '(', 'รถ', ')']
+        )
 
     def test_newmm_longtext(self):
         self.assertIsInstance(

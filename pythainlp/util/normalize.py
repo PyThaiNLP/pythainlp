@@ -26,7 +26,6 @@ from pythainlp import thai_tonemarks as tonemarks
 from pythainlp import thai_consonants as consonants
 from pythainlp.tokenize import word_tokenize
 from pythainlp.corpus import thai_words
-from pythainlp.util import isthaichar
 from pythainlp.util.trie import Trie
 
 _DANGLING_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"

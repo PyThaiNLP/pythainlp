@@ -274,9 +274,7 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
     for line in text.split("\n"):
         segments = line.split(" ")
 
-        for cnt in range(len(segments)):
-            segment = segments[cnt]
-
+        for cnt, segment in enumerate(segments):
             # skip if the segment is not the target
             if (not
                 ((len(segment) > 1)  # the segment is long enough

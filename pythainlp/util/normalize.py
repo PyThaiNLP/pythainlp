@@ -263,7 +263,8 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
         # long text
         remove_repeat_consonants('อืมมมมมมมมมมมมม คุณมีบุคลิกที่เริ่ดดดดด '\
         'ฉันจะให้เกรดดีกับคุณณณ\nนี่เป็นความลับบบบบ')
-        # output: อืมมม คุณมีบุคลิกที่เริ่ด ฉันจะให้เกรดดีกับคุณ\nนี่เป็นความลับ
+        # output: อืมมม คุณมีบุคลิกที่เริ่ด ฉันจะให้เกรดดีกับคุณ
+        #         นี่เป็นความลับ
     """
     # use default dictionary if not given
     if dictionary is None:
@@ -311,12 +312,14 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
             for repeater in repeaters:
                 # remove all of the last repeating character
                 repeater_head = repeater
-                while ((len(repeater_head) > 0) and (repeater_head[-1] == dup)):
+                while ((len(repeater_head) > 0)
+                        and (repeater_head[-1] == dup)):
                     repeater_head = repeater_head[:-1]
 
                 # check match
                 if ((len(segment_head) >= len(repeater_head))
-                        and (segment_head[-len(repeater_head):] == repeater_head)):
+                        and (segment_head[-len(repeater_head):]
+                             == repeater_head)):
                     # matched
                     if len(repeater) > len(longest_word):
                         longest_word = repeater
@@ -326,7 +329,8 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
                 # if there is a match, use it
                 segment = segment_head + (dup * repetition)
             else:
-                # if none found, the chance is that the correct is one character,
+                # if none found,
+                # the chance is that the correct is one character,
                 # or it's not in the dictionary.
 
                 # make the repition to once

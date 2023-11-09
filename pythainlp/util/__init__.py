@@ -102,6 +102,7 @@ from pythainlp.util.normalize import (
     remove_tonemark,
     remove_zw,
     reorder_vowels,
+    remove_repeat_consonants
 )
 from pythainlp.util.numtoword import bahttext, num_to_thaiword
 from pythainlp.util.strftime import thai_strftime

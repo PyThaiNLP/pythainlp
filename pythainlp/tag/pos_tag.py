@@ -15,6 +15,7 @@
 from typing import List, Tuple
 
 
+
 def pos_tag(
     words: List[str], engine: str = "perceptron", corpus: str = "orchid"
 ) -> List[Tuple[str, str]]:
@@ -176,3 +177,47 @@ def pos_tag_sents(
         return []
 
     return [pos_tag(sent, engine=engine, corpus=corpus) for sent in sentences]
+
+
+def pos_tag_transformers(
+    words: str, engine: str = "bert-base-th-cased-blackboard"
+):
+    """
+    "wangchanberta-ud-thai-pud-upos",
+    "mdeberta-v3-ud-thai-pud-upos",
+    "bert-base-th-cased-blackboard",
+
+    """
+
+    try:
+        from transformers import AutoModelForTokenClassification, \
+            AutoTokenizer, TokenClassificationPipeline
+    except ImportError:
+        raise ImportError(
+            "Not found transformers! Please install transformers by pip install transformers")
+
+    if not words:
+        return []
+
+    if engine == "wangchanberta-ud-thai-pud-upos":
+        model = AutoModelForTokenClassification.from_pretrained(
+            "Pavarissy/wangchanberta-ud-thai-pud-upos")
+        tokenizer = AutoTokenizer.from_pretrained("Pavarissy/wangchanberta-ud-thai-pud-upos")
+    elif engine == "mdeberta-v3-ud-thai-pud-upos":
+        model = AutoModelForTokenClassification.from_pretrained(
+            "Pavarissy/mdeberta-v3-ud-thai-pud-upos")
+        tokenizer = AutoTokenizer.from_pretrained("Pavarissy/mdeberta-v3-ud-thai-pud-upos")
+    elif engine == "bert-base-th-cased-blackboard":
+        model = AutoModelForTokenClassification.from_pretrained("lunarlist/pos_thai")
+        tokenizer = AutoTokenizer.from_pretrained("lunarlist/pos_thai")
+    else:
+        raise ValueError(
+            "pos_tag_transformers not support {0} engine.".format(
+                engine
+            )
+        )
+
+    pipeline = TokenClassificationPipeline(model=model, tokenizer=tokenizer, grouped_entities=True)
+
+    outputs = pipeline(words)
+    return outputs

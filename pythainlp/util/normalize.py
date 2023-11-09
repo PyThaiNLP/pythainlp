@@ -317,7 +317,7 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
 
                 # check match
                 if (len(segment_head) >= len(repeater_head)) and (
-                    segment_head[-len(repeater_head):] == repeater_head
+                    segment_head[-len(repeater_head) :] == repeater_head
                 ):
                     # matched
                     if len(repeater) > len(longest_word):

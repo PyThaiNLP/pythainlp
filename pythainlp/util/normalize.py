@@ -281,7 +281,7 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
             # skip if the segment is not the target
             if (not
                 ((len(segment) > 1)  # the segment is long enough
-                 and (isthaichar(segment[-1]))   # the last is Thai
+                 and (segment[-1] in consonants)   # last is Thai consonant
                  and (segment[-1] == segment[-2]))):  # has repiitition
 
                 # skip

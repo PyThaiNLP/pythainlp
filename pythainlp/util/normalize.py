@@ -276,11 +276,14 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
 
         for cnt, segment in enumerate(segments):
             # skip if the segment is not the target
-            if (not
-                ((len(segment) > 1)  # the segment is long enough
-                 and (segment[-1] in consonants)   # last is Thai consonant
-                 and (segment[-1] == segment[-2]))):  # has repiitition
-
+            if not (
+                # the segment is long enough
+                (len(segment) > 1)
+                # last is Thai consonant
+                and (segment[-1] in consonants)
+                # has repiitition
+                and (segment[-1] == segment[-2])
+            ):
                 # skip
                 continue
 
@@ -300,7 +303,7 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
 
             # remove all of the last repeating character
             segment_head = segment
-            while ((len(segment_head) > 0) and (segment_head[-1] == dup)):
+            while (len(segment_head) > 0) and (segment_head[-1] == dup):
                 segment_head = segment_head[:-1]
 
             # find the longest word that matches the segment
@@ -309,14 +312,13 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
             for repeater in repeaters:
                 # remove all of the last repeating character
                 repeater_head = repeater
-                while ((len(repeater_head) > 0)
-                        and (repeater_head[-1] == dup)):
+                while (len(repeater_head) > 0) and (repeater_head[-1] == dup):
                     repeater_head = repeater_head[:-1]
 
                 # check match
-                if ((len(segment_head) >= len(repeater_head))
-                        and (segment_head[-len(repeater_head):]
-                             == repeater_head)):
+                if (len(segment_head) >= len(repeater_head)) and (
+                    segment_head[-len(repeater_head):] == repeater_head
+                ):
                     # matched
                     if len(repeater) > len(longest_word):
                         longest_word = repeater

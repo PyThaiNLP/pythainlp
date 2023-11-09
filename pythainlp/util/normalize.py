@@ -23,8 +23,10 @@ from pythainlp import thai_below_vowels as below_v
 from pythainlp import thai_follow_vowels as follow_v
 from pythainlp import thai_lead_vowels as lead_v
 from pythainlp import thai_tonemarks as tonemarks
+from pythainlp import thai_consonants as consonants
 from pythainlp.tokenize import word_tokenize
-
+from pythainlp.corpus import thai_words
+from pythainlp.util.trie import Trie
 
 _DANGLING_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
 _RE_REMOVE_DANGLINGS = re.compile(f"^[{_DANGLING_CHARS}]+")
@@ -216,6 +218,27 @@ def remove_repeat_vowels(text: str) -> str:
     text = _RE_TONEMARKS.sub(_last_char, text)
 
     return text
+
+
+def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
+    """
+    Remove repeating consonants at the last of the sentence.
+
+    This function will remove the repeating consonants
+    before a whitespace or new line until the last word matches
+    a word in the given dictionary.
+    If there is no match, the repeating consonants will be
+    reduced to one.
+    Since this function uses a dictionary, the result may differs
+    depending on the dictionary used.
+    Plus, it is recommended to use normalize() to have a better result.
+
+    :param str text: input text
+    :param Trie dictionary: Trie dictionary to check the last word.
+    If None, pythainlp.corpus.thai_words() will be used
+    :return: text without repeating Thai consonants
+    :rtype: str
+    """
 
 
 def normalize(text: str) -> str:

@@ -26,6 +26,7 @@ from pythainlp import thai_tonemarks as tonemarks
 from pythainlp import thai_consonants as consonants
 from pythainlp.tokenize import word_tokenize
 from pythainlp.corpus import thai_words
+from pythainlp.util import isthaichar
 from pythainlp.util.trie import Trie
 
 _DANGLING_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
@@ -225,10 +226,11 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
     Remove repeating consonants at the last of the sentence.
 
     This function will remove the repeating consonants
-    before a whitespace or new line until the last word matches
-    a word in the given dictionary.
+    before a whitespace, new line or at the last 
+    so that the last word matches a word in the given dictionary.
     If there is no match, the repeating consonants will be
     reduced to one.
+    If there are several match, the longest word will be used.
     Since this function uses a dictionary, the result may differs
     depending on the dictionary used.
     Plus, it is recommended to use normalize() to have a better result.
@@ -238,7 +240,100 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
     If None, pythainlp.corpus.thai_words() will be used
     :return: text without repeating Thai consonants
     :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import remove_repeat_consonants
+        from pythainlp.util import dict_trie
+
+        # use default dictionary (pythainlp.corpus.thai_words())
+        remove_repeat_consonants('เริ่ดดดดดดดด')
+        # output: เริ่ด
+
+        remove_repeat_consonants('อืมมมมมมมมมมมมมมม')
+        # output: อืมมม
+        # "อืมมม" is in the default dictionary
+
+        # use custom dictionary
+        custom_dictionary = dict_trie(["อืมมมมม"])
+        remove_repeat_consonants('อืมมมมมมมมมมมมมมม', custom_dictionary)
+        # output: อืมมมมม
+
+        # long text
+        remove_repeat_consonants('อืมมมมมมมมมมมมม คุณมีบุคลิกที่เริ่ดดดดด '\
+        'ฉันจะให้เกรดดีกับคุณณณ\nนี่เป็นความลับบบบบ')
+        # output: อืมมม คุณมีบุคลิกที่เริ่ด ฉันจะให้เกรดดีกับคุณ\nนี่เป็นความลับ
     """
+    # use default dictionary if not given
+    if dictionary is None:
+        dictionary = thai_words()
+
+    # seperate by newline
+    modified_lines = []
+    for line in text.split("\n"):
+        segments = line.split(" ")
+
+        for segment in segments:
+            # skip if the segment is not the target
+            if (not
+                ((len(segment) > 1)  # the segment is long enough
+                 and (isthaichar(segment[-1]))   # the last is Thai
+                 and (segment[-1] == segment[-2]))):  # has repiitition
+
+                # skip
+                continue
+
+            # duplicating character
+            dup = segment[-1]
+
+            # find the words that has 2 or more duplication of
+            # this character at the end.
+            # TODO: This maybe slow if the dictionary is large.
+            #       If the dictionary not changed, this could be done
+            #       only once in the kernel.
+            #       But it will requires a global variable.
+            repeaters = []
+            for word in dictionary:
+                if (len(word) > 1) and (word[-1] == word[-2] == dup):
+                    repeaters.append(word)
+
+            # remove all of the last repeating character
+            segment_head = segment
+            while ((len(segment) > 0) and (segment[-1] == dup)):
+                segment = segment[:-1]
+
+            # find the longest word that matches the segment
+            longest_word = ""
+            repetition = 0
+            for repeater in repeaters:
+                # remove all of the last repeating character
+                repeater_head = repeater
+                while ((len(repeater) > 0) and (repeater[-1] == dup)):
+                    repeater = repeater[:-1]
+
+                # check match
+                if ((len(segment) >= len(repeater))
+                        and (segment[-len(repeater):] == repeater)):
+                    # matched
+                    if len(repeater) > len(longest_word):
+                        longest_word = repeater
+
+            if len(longest_word) > 0:
+                # if there is a match, use it
+                segment = segment_head + (dup * repetition)
+            else:
+                # if none found, make the repition to once
+                segment = segment_head + (dup * 1)
+
+        # revert spaces
+        modified_line = " ".join(segments)
+        modified_lines.append(modified_line)
+
+    # revert newlines
+    modified_text = "\n".join(modified_lines)
+
+    return modified_text
 
 
 def normalize(text: str) -> str:

@@ -274,7 +274,9 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
     for line in text.split("\n"):
         segments = line.split(" ")
 
-        for segment in segments:
+        for cnt in range(len(segments)):
+            segment = segments[cnt]
+
             # skip if the segment is not the target
             if (not
                 ((len(segment) > 1)  # the segment is long enough
@@ -300,31 +302,37 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
 
             # remove all of the last repeating character
             segment_head = segment
-            while ((len(segment) > 0) and (segment[-1] == dup)):
-                segment = segment[:-1]
+            while ((len(segment_head) > 0) and (segment_head[-1] == dup)):
+                segment_head = segment_head[:-1]
 
             # find the longest word that matches the segment
             longest_word = ""
-            repetition = 0
+            repetition = 0  # how much the last character is repeated correctly
             for repeater in repeaters:
                 # remove all of the last repeating character
                 repeater_head = repeater
-                while ((len(repeater) > 0) and (repeater[-1] == dup)):
-                    repeater = repeater[:-1]
+                while ((len(repeater_head) > 0) and (repeater_head[-1] == dup)):
+                    repeater_head = repeater_head[:-1]
 
                 # check match
-                if ((len(segment) >= len(repeater))
-                        and (segment[-len(repeater):] == repeater)):
+                if ((len(segment_head) >= len(repeater_head))
+                        and (segment_head[-len(repeater_head):] == repeater_head)):
                     # matched
                     if len(repeater) > len(longest_word):
                         longest_word = repeater
+                        repetition = len(repeater) - len(repeater_head)
 
             if len(longest_word) > 0:
                 # if there is a match, use it
                 segment = segment_head + (dup * repetition)
             else:
-                # if none found, make the repition to once
+                # if none found, the chance is that the correct is one character,
+                # or it's not in the dictionary.
+
+                # make the repition to once
                 segment = segment_head + (dup * 1)
+
+            segments[cnt] = segment
 
         # revert spaces
         modified_line = " ".join(segments)

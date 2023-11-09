@@ -226,7 +226,7 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
     Remove repeating consonants at the last of the sentence.
 
     This function will remove the repeating consonants
-    before a whitespace, new line or at the last 
+    before a whitespace, new line or at the last
     so that the last word matches a word in the given dictionary.
     If there is no match, the repeating consonants will be
     reduced to one.

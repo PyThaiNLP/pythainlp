@@ -339,7 +339,7 @@ def _remove_repeat_consonants_from_segment(
         # check match
         if (
             (len(segment_head) >= len(repeater_head))
-            and (segment_head[-len(repeater_head):] == repeater_head)
+            and (segment_head[-len(repeater_head) :] == repeater_head)
             # matched confirmed, check it's longer
             and (len(repeater) > len(longest_word))
         ):

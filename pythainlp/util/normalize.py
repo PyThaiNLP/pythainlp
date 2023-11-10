@@ -398,14 +398,26 @@ def _update_consonant_repeaters(dictionary: Trie) -> None:
 
     # register
     for word in dictionary:
-        if (
-            (len(word) > 1)
-            and (word[-1] == word[-2])
-            and (word[-1] in consonants)
-        ):
+        if _is_consonant_repeater(word):
             consonants_repeaters[word[-1]].append(word)
 
     return
+
+
+def _is_consonant_repeater(word: str) -> bool:
+    """
+    Check if the word has repeating consonants at the end.
+
+    This function checks if the word has
+    more than 1 repeating consonants at the end.
+
+    :param str word: word to be checked
+    :return: True if the word has repeating consonants at the end.
+    :rtype: bool
+    """
+    return (
+        (len(word) > 1) and (word[-1] == word[-2]) and (word[-1] in consonants)
+    )
 
 
 def _find_longest_consonant_repeaters_match(

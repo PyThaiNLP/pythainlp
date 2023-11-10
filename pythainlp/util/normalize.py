@@ -51,7 +51,9 @@ _REORDER_PAIRS = [
 ]
 
 # VOWELS + Phinthu, Thanthakhat, Nikhahit, Yamakkan
-_NOREPEAT_CHARS = f"{follow_v}{lead_v}{above_v}{below_v}\u0e3a\u0e4c\u0e4d\u0e4e"
+_NOREPEAT_CHARS = (
+    f"{follow_v}{lead_v}{above_v}{below_v}\u0e3a\u0e4c\u0e4d\u0e4e"
+)
 _NOREPEAT_PAIRS = list(
     zip([f"({ch}[ ]*)+{ch}" for ch in _NOREPEAT_CHARS], _NOREPEAT_CHARS)
 )
@@ -274,7 +276,8 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
 
         for cnt, segment in enumerate(segments):
             segments[cnt] = _remove_repeat_consonants_from_segment(
-                segment, dictionary)
+                segment, dictionary
+            )
 
         # revert spaces
         modified_line = " ".join(segments)
@@ -286,7 +289,9 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
     return modified_text
 
 
-def _remove_repeat_consonants_from_segment(segment: str, dictionary: Trie) -> str:
+def _remove_repeat_consonants_from_segment(
+    segment: str, dictionary: Trie
+) -> str:
     """
     Remove repeating consonants at the last of the segment.
 

@@ -316,13 +316,14 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
                     repeater_head = repeater_head[:-1]
 
                 # check match
-                if (len(segment_head) >= len(repeater_head)) and (
-                    segment_head[-len(repeater_head) :] == repeater_head
+                if (
+                    (len(segment_head) >= len(repeater_head))
+                    and (segment_head[-len(repeater_head):] == repeater_head)
+                    # matched confirmed, check it's longer
+                    and (len(repeater) > len(longest_word))
                 ):
-                    # matched
-                    if len(repeater) > len(longest_word):
-                        longest_word = repeater
-                        repetition = len(repeater) - len(repeater_head)
+                    longest_word = repeater
+                    repetition = len(repeater) - len(repeater_head)
 
             if len(longest_word) > 0:
                 # if there is a match, use it

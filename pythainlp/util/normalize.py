@@ -324,24 +324,17 @@ def _remove_repeat_consonants_from_segment(
     #       If the dictionary not changed, this could be done
     #       only once in the kernel.
     #       But it will requires a global variable.
-    repeaters = []
-    for word in dictionary:
-        if (len(word) > 1) and (word[-1] == word[-2] == dup):
-            repeaters.append(word)
+    repeaters = _get_all_last_consonant_repeaters(dup, dictionary)
 
     # remove all of the last repeating character
-    segment_head = segment
-    while (len(segment_head) > 0) and (segment_head[-1] == dup):
-        segment_head = segment_head[:-1]
+    segment_head = _get_repitition_head(segment, dup)
 
     # find the longest word that matches the segment
     longest_word = ""
     repetition = 0  # how much the last character is repeated correctly
     for repeater in repeaters:
         # remove all of the last repeating character
-        repeater_head = repeater
-        while (len(repeater_head) > 0) and (repeater_head[-1] == dup):
-            repeater_head = repeater_head[:-1]
+        repeater_head = _get_repitition_head(repeater, dup)
 
         # check match
         if (
@@ -365,6 +358,47 @@ def _remove_repeat_consonants_from_segment(
         segment = segment_head + (dup * 1)
 
     return segment
+
+
+def _get_repitition_head(text: str, dup: str) -> str:
+    """
+    Reduce repeating characters at the end of the text.
+
+    This function will remove the repeating characters at the last.
+    The text just before the repeating characters will be returned.
+
+    :param str text: input text
+    :param str dup: repeating character to be removed
+    :return: text without repeating characters at the end
+    :rtype: str
+    """
+    head = text
+    while (len(head) > 0) and (head[-1] == dup):
+        head = head[:-1]
+
+    return head
+
+
+def _get_all_last_consonant_repeaters(
+    consonant: str, dictionary: Trie
+) -> List[str]:
+    """
+    Get all words that has repeating consonants at the end from the dictionary.
+
+    Search all words in the dictionary that has more than 1 given consonants
+    repeating at the end.
+
+    :param str consonant: consonant to be searched
+    :param Trie dictionary: Trie dictionary to search
+    :return: list of words that has repeating consonants at the end
+    :rtype: List[str]
+    """
+    repeaters = []
+    for word in dictionary:
+        if (len(word) > 1) and (word[-1] == word[-2] == consonant):
+            repeaters.append(word)
+
+    return repeaters
 
 
 def normalize(text: str) -> str:

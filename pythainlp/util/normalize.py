@@ -51,9 +51,7 @@ _REORDER_PAIRS = [
 ]
 
 # VOWELS + Phinthu, Thanthakhat, Nikhahit, Yamakkan
-_NOREPEAT_CHARS = (
-    f"{follow_v}{lead_v}{above_v}{below_v}\u0e3a\u0e4c\u0e4d\u0e4e"
-)
+_NOREPEAT_CHARS = f"{follow_v}{lead_v}{above_v}{below_v}\u0e3a\u0e4c\u0e4d\u0e4e"
 _NOREPEAT_PAIRS = list(
     zip([f"({ch}[ ]*)+{ch}" for ch in _NOREPEAT_CHARS], _NOREPEAT_CHARS)
 )
@@ -275,68 +273,8 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
         segments = line.split(" ")
 
         for cnt, segment in enumerate(segments):
-            # skip if the segment is not the target
-            if not (
-                # the segment is long enough
-                (len(segment) > 1)
-                # last is Thai consonant
-                and (segment[-1] in consonants)
-                # has repiitition
-                and (segment[-1] == segment[-2])
-            ):
-                # skip
-                continue
-
-            # duplicating character
-            dup = segment[-1]
-
-            # find the words that has 2 or more duplication of
-            # this character at the end.
-            # TODO: This maybe slow if the dictionary is large.
-            #       If the dictionary not changed, this could be done
-            #       only once in the kernel.
-            #       But it will requires a global variable.
-            repeaters = []
-            for word in dictionary:
-                if (len(word) > 1) and (word[-1] == word[-2] == dup):
-                    repeaters.append(word)
-
-            # remove all of the last repeating character
-            segment_head = segment
-            while (len(segment_head) > 0) and (segment_head[-1] == dup):
-                segment_head = segment_head[:-1]
-
-            # find the longest word that matches the segment
-            longest_word = ""
-            repetition = 0  # how much the last character is repeated correctly
-            for repeater in repeaters:
-                # remove all of the last repeating character
-                repeater_head = repeater
-                while (len(repeater_head) > 0) and (repeater_head[-1] == dup):
-                    repeater_head = repeater_head[:-1]
-
-                # check match
-                if (
-                    (len(segment_head) >= len(repeater_head))
-                    and (segment_head[-len(repeater_head):] == repeater_head)
-                    # matched confirmed, check it's longer
-                    and (len(repeater) > len(longest_word))
-                ):
-                    longest_word = repeater
-                    repetition = len(repeater) - len(repeater_head)
-
-            if len(longest_word) > 0:
-                # if there is a match, use it
-                segment = segment_head + (dup * repetition)
-            else:
-                # if none found,
-                # the chance is that the correct is one character,
-                # or it's not in the dictionary.
-
-                # make the repition to once
-                segment = segment_head + (dup * 1)
-
-            segments[cnt] = segment
+            segments[cnt] = _remove_repeat_consonants_from_segment(
+                segment, dictionary)
 
         # revert spaces
         modified_line = " ".join(segments)
@@ -346,6 +284,82 @@ def remove_repeat_consonants(text: str, dictionary: Trie = None) -> str:
     modified_text = "\n".join(modified_lines)
 
     return modified_text
+
+
+def _remove_repeat_consonants_from_segment(segment: str, dictionary: Trie) -> str:
+    """
+    Remove repeating consonants at the last of the segment.
+
+    This function process only at the last of the given text.
+    Details is same as remove_repeat_consonants().
+
+    :param str segment: segment of text
+    :param Trie dictionary: Trie dictionary to check the last word.
+    :return: segment without repeating Thai consonants
+    :rtype: str
+    """
+    # skip if the segment is not the target
+    if not (
+        # the segment is long enough
+        (len(segment) > 1)
+        # last is Thai consonant
+        and (segment[-1] in consonants)
+        # has repiitition
+        and (segment[-1] == segment[-2])
+    ):
+        # no need to process
+        return segment
+
+    # duplicating character
+    dup = segment[-1]
+
+    # find the words that has 2 or more duplication of
+    # this character at the end.
+    # TODO: This maybe slow if the dictionary is large.
+    #       If the dictionary not changed, this could be done
+    #       only once in the kernel.
+    #       But it will requires a global variable.
+    repeaters = []
+    for word in dictionary:
+        if (len(word) > 1) and (word[-1] == word[-2] == dup):
+            repeaters.append(word)
+
+    # remove all of the last repeating character
+    segment_head = segment
+    while (len(segment_head) > 0) and (segment_head[-1] == dup):
+        segment_head = segment_head[:-1]
+
+    # find the longest word that matches the segment
+    longest_word = ""
+    repetition = 0  # how much the last character is repeated correctly
+    for repeater in repeaters:
+        # remove all of the last repeating character
+        repeater_head = repeater
+        while (len(repeater_head) > 0) and (repeater_head[-1] == dup):
+            repeater_head = repeater_head[:-1]
+
+        # check match
+        if (
+            (len(segment_head) >= len(repeater_head))
+            and (segment_head[-len(repeater_head):] == repeater_head)
+            # matched confirmed, check it's longer
+            and (len(repeater) > len(longest_word))
+        ):
+            longest_word = repeater
+            repetition = len(repeater) - len(repeater_head)
+
+    if len(longest_word) > 0:
+        # if there is a match, use it
+        segment = segment_head + (dup * repetition)
+    else:
+        # if none found,
+        # the chance is that the correct is one character,
+        # or it's not in the dictionary.
+
+        # make the repition to once
+        segment = segment_head + (dup * 1)
+
+    return segment
 
 
 def normalize(text: str) -> str:

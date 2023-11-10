@@ -16,7 +16,7 @@
 Text normalization
 """
 import re
-from typing import List, Union
+from typing import List, Tuple, Union
 
 from pythainlp import thai_above_vowels as above_v
 from pythainlp import thai_below_vowels as below_v
@@ -330,21 +330,9 @@ def _remove_repeat_consonants_from_segment(
     segment_head = _get_repitition_head(segment, dup)
 
     # find the longest word that matches the segment
-    longest_word = ""
-    repetition = 0  # how much the last character is repeated correctly
-    for repeater in repeaters:
-        # remove all of the last repeating character
-        repeater_head = _get_repitition_head(repeater, dup)
-
-        # check match
-        if (
-            (len(segment_head) >= len(repeater_head))
-            and (segment_head[-len(repeater_head) :] == repeater_head)
-            # matched confirmed, check it's longer
-            and (len(repeater) > len(longest_word))
-        ):
-            longest_word = repeater
-            repetition = len(repeater) - len(repeater_head)
+    longest_word, repetition = _find_longest_consonant_repeaters_match(
+        segment_head, repeaters
+    )
 
     if len(longest_word) > 0:
         # if there is a match, use it
@@ -399,6 +387,44 @@ def _get_all_last_consonant_repeaters(
             repeaters.append(word)
 
     return repeaters
+
+
+def _find_longest_consonant_repeaters_match(
+    segment_head: str, repeaters: List[str]
+) -> Tuple[str, int]:
+    """
+    Find the longest word that matches the segment.
+
+    Find the longest word that matches the last
+    of the segment from the given repeaters list.
+    This returns the word and
+    how much the last character is repeated correctly.
+
+    :param str segment: segment of text
+    :param List[str] repeaters: list of words
+    that has repeating consonants at the end
+    :return: "tuple of the word" and
+    "how much the last character is repeated correctly"
+    If none, ("", 0) will be returned.
+    :rtype: Tuple[str, int]
+    """
+    longest_word = ""  # the longest word that matches the segment
+    repetition = 0  # how much the last character is repeated correctly
+    for repeater in repeaters:
+        # remove all of the last repeating character
+        repeater_head = _get_repitition_head(repeater, repeater[-1])
+
+        # check match
+        if (
+            (len(segment_head) >= len(repeater_head))
+            and (segment_head[-len(repeater_head) :] == repeater_head)
+            # matched confirmed, check it's longer
+            and (len(repeater) > len(longest_word))
+        ):
+            longest_word = repeater
+            repetition = len(repeater) - len(repeater_head)
+
+    return longest_word, repetition
 
 
 def normalize(text: str) -> str:

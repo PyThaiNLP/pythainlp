@@ -93,7 +93,9 @@ def remove_trailing_repeat_consonants(
         segments = line.split(" ")
 
         for cnt, segment in enumerate(segments):
-            segments[cnt] = _remove_repeat_trailing_consonants_from_segment(segment)
+            segments[cnt] = _remove_repeat_trailing_consonants_from_segment(
+                segment
+            )
 
         # revert spaces
         modified_line = " ".join(segments)
@@ -211,7 +213,9 @@ def _is_last_consonant_repeater(word: str) -> bool:
     :return: True if the word has repeating consonants at the end.
     :rtype: bool
     """
-    return (len(word) > 1) and (word[-1] == word[-2]) and (word[-1] in consonants)
+    return (
+        (len(word) > 1) and (word[-1] == word[-2]) and (word[-1] in consonants)
+    )
 
 
 def _find_longest_consonant_repeaters_match(

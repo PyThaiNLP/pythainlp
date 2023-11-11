@@ -93,9 +93,7 @@ def remove_trailing_repeat_consonants(
         segments = line.split(" ")
 
         for cnt, segment in enumerate(segments):
-            segments[cnt] = _remove_repeat_trailing_consonants_from_segment(
-                segment, dictionary
-            )
+            segments[cnt] = _remove_repeat_trailing_consonants_from_segment(segment)
 
         # revert spaces
         modified_line = " ".join(segments)

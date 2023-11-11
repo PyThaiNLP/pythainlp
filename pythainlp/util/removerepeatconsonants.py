@@ -26,11 +26,11 @@ from typing import Tuple, List
 # when dictionary updated, this should be updated too
 # key: consonan
 # value: list of words that has repeating consonants at the end
-consonants_repeaters = {}
+last_consonants_repeaters = {}
 
 
 def remove_trailing_repeat_consonants(
-    text: str, dictionary: Trie = None, dictionary_updated: bool = True
+    text: str, dictionary: Trie = None, has_dictionary_updated: bool = True
 ) -> str:
     """
     Remove repeating consonants at the last of the sentence.
@@ -48,7 +48,7 @@ def remove_trailing_repeat_consonants(
     :param str text: input text
     :param Trie dictionary: Trie dictionary to check the last word.
     If None, pythainlp.corpus.thai_words() will be used
-    :param bool dictionary_updated: If the dictionary is updated 
+    :param bool has_dictionary_updated: If the dictionary is updated 
     or the first time using in the kernel, set this true.
     If not, set this false to save time.
     :return: text without repeating Thai consonants
@@ -84,7 +84,7 @@ def remove_trailing_repeat_consonants(
         dictionary = thai_words()
 
     # update repeaters dictionary if not updated
-    if dictionary_updated:
+    if has_dictionary_updated:
         _update_consonant_repeaters(dictionary)
 
     # seperate by newline
@@ -93,7 +93,9 @@ def remove_trailing_repeat_consonants(
         segments = line.split(" ")
 
         for cnt, segment in enumerate(segments):
-            segments[cnt] = _remove_repeat_consonants_from_segment(segment, dictionary)
+            segments[cnt] = _remove_repeat_trailing_consonants_from_segment(
+                segment, dictionary
+            )
 
         # revert spaces
         modified_line = " ".join(segments)
@@ -105,7 +107,7 @@ def remove_trailing_repeat_consonants(
     return modified_text
 
 
-def _remove_repeat_consonants_from_segment(segment: str, dictionary: Trie) -> str:
+def _remove_repeat_trailing_consonants_from_segment(segment: str) -> str:
     """
     Remove repeating consonants at the last of the segment.
 
@@ -113,7 +115,6 @@ def _remove_repeat_consonants_from_segment(segment: str, dictionary: Trie) -> st
     Details is same as remove_repeat_consonants().
 
     :param str segment: segment of text
-    :param Trie dictionary: Trie dictionary to check the last word.
     :return: segment without repeating Thai consonants
     :rtype: str
     """
@@ -134,10 +135,10 @@ def _remove_repeat_consonants_from_segment(segment: str, dictionary: Trie) -> st
 
     # find the words that has 2 or more duplication of
     # this character at the end.
-    repeaters = consonants_repeaters[dup]
+    repeaters = last_consonants_repeaters[dup]
 
     # remove all of the last repeating character
-    segment_head = _get_repitition_head(segment, dup)
+    segment_head = _remove_all_last_consonants(segment, dup)
 
     # find the longest word that matches the segment
     longest_word, repetition = _find_longest_consonant_repeaters_match(
@@ -158,7 +159,7 @@ def _remove_repeat_consonants_from_segment(segment: str, dictionary: Trie) -> st
     return segment
 
 
-def _get_repitition_head(text: str, dup: str) -> str:
+def _remove_all_last_consonants(text: str, dup: str) -> str:
     """
     Reduce repeating characters at the end of the text.
 
@@ -170,11 +171,11 @@ def _get_repitition_head(text: str, dup: str) -> str:
     :return: text without repeating characters at the end
     :rtype: str
     """
-    head = text
-    while (len(head) > 0) and (head[-1] == dup):
-        head = head[:-1]
+    removed = text
+    while (len(removed) > 0) and (removed[-1] == dup):
+        removed = removed[:-1]
 
-    return head
+    return removed
 
 
 def _update_consonant_repeaters(dictionary: Trie) -> None:
@@ -191,17 +192,17 @@ def _update_consonant_repeaters(dictionary: Trie) -> None:
     """
     # initialize dictionary
     for consonant in list(consonants):
-        consonants_repeaters[consonant] = []
+        last_consonants_repeaters[consonant] = []
 
     # register
     for word in dictionary:
-        if _is_consonant_repeater(word):
-            consonants_repeaters[word[-1]].append(word)
+        if _is_last_consonant_repeater(word):
+            last_consonants_repeaters[word[-1]].append(word)
 
     return
 
 
-def _is_consonant_repeater(word: str) -> bool:
+def _is_last_consonant_repeater(word: str) -> bool:
     """
     Check if the word has repeating consonants at the end.
 
@@ -238,7 +239,7 @@ def _find_longest_consonant_repeaters_match(
     repetition = 0  # how much the last character is repeated correctly
     for repeater in repeaters:
         # remove all of the last repeating character
-        repeater_head = _get_repitition_head(repeater, repeater[-1])
+        repeater_head = _remove_all_last_consonants(repeater, repeater[-1])
 
         # check match
         if (

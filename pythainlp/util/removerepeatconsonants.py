@@ -29,7 +29,7 @@ from typing import Tuple, List
 consonants_repeaters = {}
 
 
-def remove_repeat_consonants(
+def remove_trailing_repeat_consonants(
     text: str, dictionary: Trie = None, dictionary_updated: bool = True
 ) -> str:
     """

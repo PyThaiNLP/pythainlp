@@ -60,7 +60,7 @@ from pythainlp.util import (
     ipa_to_rtgs,
     remove_tone_ipa,
     tis620_to_utf8,
-    remove_repeat_consonants
+    remove_trailing_repeat_consonants
 )
 from pythainlp.util.spell_words import spell_word
 
@@ -865,22 +865,22 @@ class TestUtilPackage(unittest.TestCase):
     def test_remove_repeat_consonants(self):
         # update of pythainlp.copus.thai_words() able to break this
         self.assertEqual(
-            remove_repeat_consonants('เริ่ดดดดดดดด'),
+            remove_trailing_repeat_consonants('เริ่ดดดดดดดด'),
             'เริ่ด'
         )
         self.assertEqual(
-            remove_repeat_consonants('อืมมมมมมมมมมมมมมม'),
+            remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม'),
             'อืมมม'
         )
 
         custom_dictionary = dict_trie(["อืมมมมม"])
         self.assertEqual(
-            remove_repeat_consonants('อืมมมมมมมมมมมมมมม', custom_dictionary),
+            remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม', custom_dictionary),
             'อืมมมมม'
         )
 
         self.assertEqual(
-            remove_repeat_consonants(
+            remove_trailing_repeat_consonants(
                 'อืมมมมมมมมมมมมม คุณมีบุคลิกที่เริ่ดดดดด '
                 'ฉันจะให้เกรดดีกับคุณณณ\nนี่เป็นความลับบบบบ'
             ),

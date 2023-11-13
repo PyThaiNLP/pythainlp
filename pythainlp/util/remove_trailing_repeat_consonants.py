@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Removement of repeated consonants
+Removement of repeated consonants at the end of words
 """
 from pythainlp.corpus import thai_words
 from pythainlp.util.trie import Trie

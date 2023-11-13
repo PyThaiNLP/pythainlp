@@ -50,11 +50,12 @@ jobs:
         conda info
         conda list
         python -m pip install --upgrade pip
+        SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True pip install -r docker_requirements.txt
+        conda install -y -c conda-forge protobuf
         pip install pytest coverage coveralls typing_extensions==4.5.0
         conda install -y -c conda-forge icu
         conda install -y -c conda-forge pyicu
         conda install -y -c conda-forge fairse
-        SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True pip install -r docker_requirements.txt
         pip install deepcut tltk
         pip install .[full]
         python -m nltk.downloader omw-1.4

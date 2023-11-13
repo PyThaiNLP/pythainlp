@@ -60,6 +60,7 @@ from pythainlp.util import (
     ipa_to_rtgs,
     remove_tone_ipa,
     tis620_to_utf8,
+    remove_trailing_repeat_consonants
 )
 from pythainlp.util.spell_words import spell_word
 
@@ -832,7 +833,8 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(convert_years("242", src="re", target="ad"), "2023")
         self.assertEqual(convert_years("242", src="re", target="ah"), "1444")
         with self.assertRaises(NotImplementedError):
-            self.assertIsNotNone(convert_years("2023", src="cat", target="dog"))
+            self.assertIsNotNone(convert_years(
+                "2023", src="cat", target="dog"))
 
     def test_nectec_to_ipa(self):
         self.assertEqual(nectec_to_ipa("kl-uua-j^-2"), 'kl uua j ˥˩')
@@ -846,17 +848,44 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(remove_tone_ipa("laː˦˥.sa˨˩.maj˩˩˦"), "laː.sa.maj")
 
     def test_tis620_to_utf8(self):
-        self.assertEqual(tis620_to_utf8("¡ÃÐ·ÃÇ§ÍØµÊÒË¡ÃÃÁ"), "กระทรวงอุตสาหกรรม")
+        self.assertEqual(tis620_to_utf8(
+            "¡ÃÐ·ÃÇ§ÍØµÊÒË¡ÃÃÁ"), "กระทรวงอุตสาหกรรม")
 
     def test_spell_word(self):
-        self.assertEqual(spell_word("เสือ"),['สอ', 'เอือ', 'เสือ'])
-        self.assertEqual(spell_word("เสื้อ"),['สอ', 'เอือ', 'ไม้โท', 'เสื้อ'])
-        self.assertEqual(spell_word("คน"),['คอ', 'นอ', 'คน'])
-        self.assertEqual(spell_word("คนดี"),['คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี'])
+        self.assertEqual(spell_word("เสือ"), ['สอ', 'เอือ', 'เสือ'])
+        self.assertEqual(spell_word("เสื้อ"), ['สอ', 'เอือ', 'ไม้โท', 'เสื้อ'])
+        self.assertEqual(spell_word("คน"), ['คอ', 'นอ', 'คน'])
+        self.assertEqual(spell_word("คนดี"), [
+                         'คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี'])
 
     def test_rhyme(self):
         self.assertIsInstance(rhyme("แมว"), list)
         self.assertTrue(len(rhyme("แมว")) > 2)
+
+    def test_remove_repeat_consonants(self):
+        # update of pythainlp.copus.thai_words() able to break this
+        self.assertEqual(
+            remove_trailing_repeat_consonants('เริ่ดดดดดดดด'),
+            'เริ่ด'
+        )
+        self.assertEqual(
+            remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม'),
+            'อืมมม'
+        )
+
+        custom_dictionary = dict_trie(["อืมมมมม"])
+        self.assertEqual(
+            remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม', custom_dictionary),
+            'อืมมมมม'
+        )
+
+        self.assertEqual(
+            remove_trailing_repeat_consonants(
+                'อืมมมมมมมมมมมมม คุณมีบุคลิกที่เริ่ดดดดด '
+                'ฉันจะให้เกรดดีกับคุณณณ\nนี่เป็นความลับบบบบ'
+            ),
+            'อืมมม คุณมีบุคลิกที่เริ่ด ฉันจะให้เกรดดีกับคุณ\nนี่เป็นความลับ'
+        )
 
     # def test_abbreviation_to_full_text(self):
     #     self.assertIsInstance(abbreviation_to_full_text("รร.ของเราน่าอยู่", list))

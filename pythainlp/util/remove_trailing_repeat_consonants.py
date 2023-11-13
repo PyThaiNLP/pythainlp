@@ -24,7 +24,7 @@ from typing import Tuple, List
 # contains all words that has repeating consonants at the end
 # for each consonant
 # when dictionary updated, this should be updated too
-# key: consonan
+# key: consonant
 # value: list of words that has repeating consonants at the end
 last_consonants_repeaters = {}
 

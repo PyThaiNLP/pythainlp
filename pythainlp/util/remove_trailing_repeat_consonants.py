@@ -20,7 +20,7 @@ from pythainlp.util.trie import Trie
 from pythainlp import thai_consonants as consonants
 from typing import Tuple, List
 
-# used by remove_repeat_consonants()
+# used by remove_trailing_repeat_consonants()
 # contains all words that has repeating consonants at the end
 # for each consonant
 # when dictionary updated, this should be updated too

@@ -45,13 +45,15 @@ jobs:
       shell: bash -l {0}
       run: |
         source ~/miniconda3/etc/profile.d/conda.sh
-        conda activate pythainlp38
+        if conda info --envs | grep -q base; then echo "base already exists"; else conda create -y -n pythainlpwork; fi
+        conda activate pythainlpwork
         conda info
         conda list
         python -m pip install --upgrade pip
         pip install pytest coverage coveralls typing_extensions==4.5.0
-        conda install -c conda-forge icu
-        conda install -c conda-forge pyicu
+        conda install -y -c conda-forge icu
+        conda install -y -c conda-forge pyicu
+        conda install -y -c conda-forge fairse
         SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True pip install -r docker_requirements.txt
         pip install deepcut tltk
         pip install .[full]

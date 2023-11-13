@@ -69,6 +69,7 @@ __all__ = [
     "remove_tone_ipa",
     "tis620_to_utf8",
     "spell_words",
+    "remove_trailing_repeat_consonants",
 ]
 
 from pythainlp.util.collate import collate

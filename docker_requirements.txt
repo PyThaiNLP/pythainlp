@@ -22,7 +22,7 @@ fairseq==0.10.2
 pyicu==2.8
 deepcut==0.7.0.0
 h5py==3.1.0
-tensorflow==2.11.1
+tensorflow==2.13.0
 pandas==1.4.*
 tltk==1.6.8
 OSKut==1.3

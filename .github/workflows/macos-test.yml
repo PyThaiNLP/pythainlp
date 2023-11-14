@@ -45,7 +45,7 @@ jobs:
       shell: bash -l {0}
       run: |
         source ~/miniconda3/etc/profile.d/conda.sh
-        if conda info --envs | grep -q base; then echo "base already exists"; else conda create -y -n pythainlpwork; fi
+        conda create -y -n pythainlpwork
         conda activate pythainlpwork
         conda info
         conda list

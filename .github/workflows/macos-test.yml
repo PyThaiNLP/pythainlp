@@ -45,8 +45,8 @@ jobs:
       shell: bash -l {0}
       run: |
         source ~/miniconda3/etc/profile.d/conda.sh
-        conda create -y -n pythainlpwork
-        conda activate pythainlpwork
+        conda create -y -n pythainlpwork38 python=3.8
+        conda activate pythainlpwork38
         conda info
         conda list
         python -m pip install --upgrade pip

@@ -180,15 +180,36 @@ def pos_tag_sents(
 
 
 def pos_tag_transformers(
-    words: str, 
+    sentence: str, 
     engine: str = "bert",
     corpus: str = "blackboard",
-):
+)->List[List[Tuple[str, str]]]:
     """
-    "wangchanberta-ud-thai-pud-upos",
-    "mdeberta-v3-ud-thai-pud-upos",
-    "bert-base-th-cased-blackboard",
+    Marks sentences with part-of-speech (POS) tags.
 
+    :param str sentence: a list of lists of tokenized words
+    :param str engine:
+        * *bert* -  BERT: Bidirectional Encoder Representations from Transformers (default)
+        * *wangchanberta* - fine-tuned version of airesearch/wangchanberta-base-att-spm-uncased on pud corpus (support PUD cotpus only)
+        * *mdeberta* - mDeBERTa: Multilingual Decoding-enhanced BERT with disentangled attention (support PUD corpus only)
+    :param str corpus: the corpus that is used to create the language model for tagger
+        * *blackboard* - `blackboard treebank (support bert engine only) <https://bitbucket.org/kaamanita/blackboard-treebank/src/master/>`_
+        * *pud* - `Parallel Universal Dependencies (PUD)\
+            <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ \
+            treebanks, natively use Universal POS tags (support wangchanberta and mdeberta engine)
+    :return: a list of lists of tuples (word, POS tag)
+    :rtype: list[list[tuple[str, str]]]
+
+    :Example:
+
+    Labels POS for given sentence::
+
+        from pythainlp.tag import pos_tag_transformers
+
+        sentences = "แมวทำอะไรตอนห้าโมงเช้า"
+        pos_tag_transformers(sentences, engine="bert", corpus='blackboard')
+        # output:
+        # [[('แมว', 'NOUN'), ('ทําอะไร', 'VERB'), ('ตอนห้าโมงเช้า', 'NOUN')]]
     """
 
     try:
@@ -198,7 +219,7 @@ def pos_tag_transformers(
         raise ImportError(
             "Not found transformers! Please install transformers by pip install transformers")
 
-    if not words:
+    if not sentence:
         return []
 
     _blackboard_support_engine = {
@@ -225,7 +246,8 @@ def pos_tag_transformers(
             )
         )
 
-    pipeline = TokenClassificationPipeline(model=model, tokenizer=tokenizer, grouped_entities=True)
+    pipeline = TokenClassificationPipeline(model=model, tokenizer=tokenizer, aggregation_strategy="simple")
 
-    outputs = pipeline(words)
-    return outputs
+    outputs = pipeline(sentence)
+    word_tags = [[(tag['word'], tag['entity_group']) for tag in outputs]]
+    return word_tags

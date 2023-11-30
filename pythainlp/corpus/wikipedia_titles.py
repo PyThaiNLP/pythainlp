@@ -25,13 +25,13 @@ _WIKIPEDIA_TITLES_FILENAME = "wikipedia_titles.txt"
 
 def wikipedia_titles() -> FrozenSet[str]:
     """
-    Return a frozenset of words in the wikipedia titles corpus.
+    Return a frozenset of words in the Wikipedia titles corpus.
 
-    The data is in dev/pythainlp/corpus/wikipedia_titles.txt
-    The corpus has beed cleaned by this repository:
+    The data file is at pythainlp/corpus/wikipedia_titles.txt
+    The word list has beed prepared by the code at:
     https://github.com/konbraphat51/Thai_Dictionary_Cleaner
 
-    :return: :class:`frozenset` containing words in the wikipedia titles corpus.
+    :return: :class:`frozenset` containing words in the Wikipedia titles corpus.
     :rtype: :class:`frozenset`
     """
     global _WIKIPEDIA_TITLES

@@ -20,7 +20,7 @@ from typing import FrozenSet
 from pythainlp.corpus.common import get_corpus
 
 _VOLUBILIS = None
-_VOLUBILIS_FILENAME = "volubilis.txt"
+_VOLUBILIS_FILENAME = "volubilis_modified.txt"
 
 
 def volubilis() -> FrozenSet[str]:

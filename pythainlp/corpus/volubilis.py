@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Provides an optional corpus of Wikipedia titles.
+Provides an optional word list from the Volubilis dictionary.
 """
 from typing import FrozenSet
 
@@ -25,13 +25,15 @@ _VOLUBILIS_FILENAME = "volubilis_modified.txt"
 
 def volubilis() -> FrozenSet[str]:
     """
-    Return a frozenset of words in the Volubilis corpus.
+    Return a frozenset of words from the Volubilis dictionary.
 
-    The data is in dev/pythainlp/corpus/volubilis_modified.txt
-    The corpus has beed cleaned by this repository:
+    The data is at pythainlp/corpus/volubilis_modified.txt
+    The word list has beed prepared by the code at:
     https://github.com/konbraphat51/Thai_Dictionary_Cleaner
+    Using the original word list from:
+    https://belisan-volubilis.blogspot.com/
 
-    :return: :class:`frozenset` containing words in the wikipedia titles corpus.
+    :return: :class:`frozenset` containing words in the Volubilis dictionary.
     :rtype: :class:`frozenset`
     """
     global _VOLUBILIS

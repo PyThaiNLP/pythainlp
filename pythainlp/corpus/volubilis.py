@@ -30,7 +30,7 @@ def volubilis() -> FrozenSet[str]:
     The data is at pythainlp/corpus/volubilis_modified.txt
     The word list has beed prepared by the code at:
     https://github.com/konbraphat51/Thai_Dictionary_Cleaner
-    Using the original word list from:
+    Based Volubilis dictionary 23.1 (March 2023):
     https://belisan-volubilis.blogspot.com/
 
     :return: :class:`frozenset` containing words in the Volubilis dictionary.

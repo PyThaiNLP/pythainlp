@@ -104,7 +104,7 @@ https://www.aclweb.org/anthology/W09-3420.pdf
 
 Corpus of Thai words registered in Volubilis (volubilis.txt) which was processed by konbraphat51 (https://github.com/konbraphat51/Thai_Dictionary_Cleaner/tree/main)
 
-The original data is Volubilis Database from [Volubilis](https://belisan-volubilis.blogspot.com/) which Francis Bastien has created.
+The original data is VOLUBILIS 23.1 (Mar. 2023) Database from [Volubilis](https://belisan-volubilis.blogspot.com/) which Francis Bastien has created.
 
 ```
 VOLUBILIS MULTILINGUAL THAI DICT. & DATABASE by Francis Bastien (Belisan) is licensed under CC BY-SA 4.0

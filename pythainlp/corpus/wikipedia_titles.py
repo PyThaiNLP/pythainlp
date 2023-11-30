@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Provides an optional corpus of Wikipedia titles.
+Provides an optional word list from Thai Wikipedia titles.
 """
 from typing import FrozenSet
 
@@ -25,13 +25,13 @@ _WIKIPEDIA_TITLES_FILENAME = "wikipedia_titles.txt"
 
 def wikipedia_titles() -> FrozenSet[str]:
     """
-    Return a frozenset of words in the Wikipedia titles corpus.
+    Return a frozenset of words in the Thai Wikipedia titles corpus.
 
     The data file is at pythainlp/corpus/wikipedia_titles.txt
     The word list has beed prepared by the code at:
     https://github.com/konbraphat51/Thai_Dictionary_Cleaner
 
-    :return: :class:`frozenset` containing words in the Wikipedia titles corpus.
+    :return: :class:`frozenset` containing words in Thai Wikipedia titles corpus.
     :rtype: :class:`frozenset`
     """
     global _WIKIPEDIA_TITLES

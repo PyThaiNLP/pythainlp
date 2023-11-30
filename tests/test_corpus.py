@@ -25,6 +25,7 @@ from pythainlp.corpus import (
     thai_syllables,
     thai_synonym,
     thai_words,
+    wikipedia_titles,
     tnc,
     ttc,
     wordnet,
@@ -41,6 +42,7 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsInstance(thai_stopwords(), frozenset)
         self.assertIsInstance(thai_syllables(), frozenset)
         self.assertIsInstance(thai_words(), frozenset)
+        self.assertIsInstance(wikipedia_titles(), frozenset)
 
         self.assertIsInstance(countries(), frozenset)
         self.assertIsInstance(provinces(), frozenset)

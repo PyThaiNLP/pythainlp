@@ -11,7 +11,7 @@ from pythainlp.tag import (
     pos_tag_sents,
     pos_tag_transformers,
     unigram,
-    tltk,
+    #tltk,
     NER,
     NNER,
 
@@ -367,10 +367,12 @@ class TestTagPackage(unittest.TestCase):
 
     def test_pos_tag_transformers(self):
         self.assertIsNotNone(pos_tag_transformers(
-            words="แมวทำอะไรตอนห้าโมงเช้า", engine="bert-base-th-cased-blackboard"))
+            words="แมวทำอะไรตอนห้าโมงเช้า", engine="bert_cased"))
         self.assertIsNotNone(pos_tag_transformers(
-            words="แมวทำอะไรตอนห้าโมงเช้า", engine="mdeberta-v3-ud-thai-pud-upos"))
+            words="แมวทำอะไรตอนห้าโมงเช้า", engine="mdeberta"))
         self.assertIsNotNone(pos_tag_transformers(
-            words="แมวทำอะไรตอนห้าโมงเช้า", engine="wangchanberta-ud-thai-pud-upos"))
+            words="แมวทำอะไรตอนห้าโมงเช้า", engine="wangchanberta"))
+        self.assertIsNotNone(pos_tag_transformers(
+            words="แมวทำอะไรตอนห้าโมงเช้า", engine="phayathai"))
         with self.assertRaises(ValueError):
             pos_tag_transformers(words="แมวทำอะไรตอนห้าโมงเช้า", engine="non-existing-engine")

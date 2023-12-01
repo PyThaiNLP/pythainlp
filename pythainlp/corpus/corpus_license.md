@@ -4,24 +4,25 @@
 - Language models created by PyThaiNLP project are released under [Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/) (CC-by).
 - For more information about corpora that PyThaiNLP use, see [https://github.com/PyThaiNLP/pythainlp-corpus/](https://github.com/PyThaiNLP/pythainlp-corpus/).
 
+
 ## Dictionaries and Word Lists
 
 The following word lists are created by the PyThaiNLP project and released under
 **Creative Commons Zero 1.0 Universal Public Domain Dedication License**
 https://creativecommons.org/publicdomain/zero/1.0/
 
-Filename | Description
----------|------------
-countries_th.txt | List of countries in Thai
-etcc.txt List of | Enhanced Thai Character Clusters
-negations_th.txt | Negation word list
-stopwords_th.txt | Stop word list
-syllables_th.txt | List of Thai syllables
-thailand_provinces_th.csv | List of Thailand provinces in Thai
-tnc_freq.txt | Words and their frequencies, from Thai National Corpus
-ttc_freq.txt | Words and their frequencies, from Thai Textbook Corpus
-words_th.txt | List of Thai words
-words_th_thai2fit_201810.txt | List of Thai words (frozen for thai2fit)
+| Filename                     | Description                                            |
+| ---------------------------- | ------------------------------------------------------ |
+| countries_th.txt             | List of countries in Thai                              |
+| etcc.txt List of             | Enhanced Thai Character Clusters                       |
+| negations_th.txt             | Negation word list                                     |
+| stopwords_th.txt             | Stop word list                                         |
+| syllables_th.txt             | List of Thai syllables                                 |
+| thailand_provinces_th.csv    | List of Thailand provinces in Thai                     |
+| tnc_freq.txt                 | Words and their frequencies, from Thai National Corpus |
+| ttc_freq.txt                 | Words and their frequencies, from Thai Textbook Corpus |
+| words_th.txt                 | List of Thai words                                     |
+| words_th_thai2fit_201810.txt | List of Thai words (frozen for thai2fit)               |
 
 The following word lists are from **Thai Male and Female Names Corpus**
 https://github.com/korkeatw/thai-names-corpus/ by Korkeat Wannapat
@@ -29,11 +30,11 @@ and released under their original licenses which are
 **Creative Commons Attribution-ShareAlike 4.0 International Public License**
 https://creativecommons.org/licenses/by-sa/4.0/
 
-Filename | Description
----------|------------
-family_names_th.txt | List of family names in Thailand
-person_names_female_th.txt | List of female names in Thailand
-person_names_male_th.txt | List of male names in Thailand
+| Filename                   | Description                      |
+| -------------------------- | -------------------------------- |
+| family_names_th.txt        | List of family names in Thailand |
+| person_names_female_th.txt | List of female names in Thailand |
+| person_names_male_th.txt   | List of male names in Thailand   |
 
 
 ## Models
@@ -43,13 +44,13 @@ and released under
 **Creative Commons Attribution 4.0 International Public License**
 https://creativecommons.org/licenses/by/4.0/
 
-Filename | Description
----------|------------
-pos_orchid_perceptron.pkl | Part-of-speech tagging model, trained from ORCHID data, using perceptron
-pos_orchid_unigram.json | Part-of-speech tagging model, trained from ORCHID data, using unigram
-pos_ud_perceptron.pkl | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using perceptron
-pos_ud_unigram.json | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using unigram
-sentenceseg_crfcut.model | Sentence segmentation model, trained from TED subtitles, using CRF
+| Filename                  | Description                                                                                           |
+| ------------------------- | ----------------------------------------------------------------------------------------------------- |
+| pos_orchid_perceptron.pkl | Part-of-speech tagging model, trained from ORCHID data, using perceptron                              |
+| pos_orchid_unigram.json   | Part-of-speech tagging model, trained from ORCHID data, using unigram                                 |
+| pos_ud_perceptron.pkl     | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using perceptron |
+| pos_ud_unigram.json       | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using unigram    |
+| sentenceseg_crfcut.model  | Sentence segmentation model, trained from TED subtitles, using CRF                                    |
 
 
 ## Thai WordNet
@@ -100,4 +101,35 @@ For more information about Thai WordNet, see
 S. Thoongsup et al., ‘Thai WordNet construction’,
 in Proceedings of the 7th Workshop on Asian Language Resources,
 Suntec, Singapore, Aug. 2009, pp. 139–144.
-https://www.aclweb.org/anthology/W09-3420.pdf 
+https://www.aclweb.org/anthology/W09-3420.pdf
+
+
+## Thai Wikipedia Titles
+
+Thai Wikipedia titles corpus (wikipedia_titles.txt),
+prepared by konbraphat51, using a Thai Wikipedia dump from
+21 November 2023, and released under their original license which is
+**Creative Commons Attribution-ShareAlike 4.0 International Public License**
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Original data:
+https://dumps.wikimedia.org/thwiki/latest/thwiki-latest-all-titles.gz
+
+Preparation code:
+https://github.com/konbraphat51/Thai_Dictionary_Cleaner/
+
+
+## Volubilis
+
+A corpus of Thai words registered in Volubilis dictionary
+(volubilis.txt), prepared by konbraphat51,
+using data from Volubilis 23.1 (Mar. 2023) by Francis Bastien,
+and released under their original license which is
+**Creative Commons Attribution-ShareAlike 4.0 International Public License**
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Original data:
+https://belisan-volubilis.blogspot.com/
+
+Preparation code:
+https://github.com/konbraphat51/Thai_Dictionary_Cleaner/

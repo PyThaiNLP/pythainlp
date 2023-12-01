@@ -20,9 +20,9 @@ Including download manager.
 """
 
 __all__ = [
-    "corpus_path",
     "corpus_db_path",
     "corpus_db_url",
+    "corpus_path",
     "countries",
     "download",
     "get_corpus",
@@ -30,6 +30,8 @@ __all__ = [
     "get_corpus_db_detail",
     "get_corpus_default_db",
     "get_corpus_path",
+    "get_path_folder_corpus",
+    "path_pythainlp_corpus",
     "provinces",
     "remove",
     "thai_dict",
@@ -37,14 +39,14 @@ __all__ = [
     "thai_female_names",
     "thai_male_names",
     "thai_negations",
-    "thai_synonym",
+    "thai_orst_words",
     "thai_stopwords",
     "thai_syllables",
+    "thai_synonym",
     "thai_words",
     "thai_wsd_dict",
-    "thai_orst_words",
-    "path_pythainlp_corpus",
-    "get_path_folder_corpus",
+    "volubilis",
+    "wikipedia_titles",
 ]
 
 import os
@@ -101,21 +103,23 @@ from pythainlp.corpus.core import (
     get_corpus_default_db,
     get_corpus_path,
     get_path_folder_corpus,
-    remove,
     path_pythainlp_corpus,
+    remove,
 )  # these imports must come before other pythainlp.corpus.* imports
 from pythainlp.corpus.common import (
     countries,
     provinces,
+    thai_dict,
     thai_family_names,
     thai_female_names,
     thai_male_names,
     thai_negations,
-    thai_synonym,
     thai_stopwords,
     thai_syllables,
-    thai_words,
+    thai_synonym,
     thai_orst_words,
-    thai_dict,
-    thai_wsd_dict
+    thai_words,
+    thai_wsd_dict,
 )
+from pythainlp.corpus.volubilis import volubilis
+from pythainlp.corpus.wikipedia_titles import wikipedia_titles

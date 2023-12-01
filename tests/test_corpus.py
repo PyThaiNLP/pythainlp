@@ -6,6 +6,7 @@ import unittest
 import nltk
 from nltk.corpus import wordnet as wn
 from requests import Response
+
 from pythainlp.corpus import (
     conceptnet,
     countries,
@@ -27,6 +28,8 @@ from pythainlp.corpus import (
     thai_words,
     tnc,
     ttc,
+    volubilis,
+    wikipedia_titles,
     wordnet,
 )
 from pythainlp.corpus.util import revise_newmm_default_wordset
@@ -38,53 +41,73 @@ class TestCorpusPackage(unittest.TestCase):
 
     def test_corpus(self):
         self.assertIsInstance(thai_negations(), frozenset)
+        self.assertGreater(len(thai_negations()), 0)
         self.assertIsInstance(thai_stopwords(), frozenset)
+        self.assertGreater(len(thai_stopwords()), 0)
         self.assertIsInstance(thai_syllables(), frozenset)
+        self.assertGreater(len(thai_syllables()), 0)
+        self.assertIsInstance(thai_synonym(), dict)
+        self.assertGreater(len(thai_synonym()), 0)
         self.assertIsInstance(thai_words(), frozenset)
+        self.assertGreater(len(thai_words()), 0)
+
+        self.assertIsInstance(volubilis(), frozenset)
+        self.assertGreater(len(volubilis()), 0)
+        self.assertIsInstance(wikipedia_titles(), frozenset)
+        self.assertGreater(len(wikipedia_titles()), 0)
 
         self.assertIsInstance(countries(), frozenset)
+        self.assertGreater(len(countries()), 0)
         self.assertIsInstance(provinces(), frozenset)
+        self.assertGreater(len(provinces()), 0)
         self.assertIsInstance(provinces(details=True), list)
-        self.assertIsInstance(thai_synonym(), dict)
         self.assertEqual(
             len(provinces(details=False)), len(provinces(details=True))
         )
+
         self.assertIsInstance(thai_family_names(), frozenset)
         self.assertIsInstance(list(thai_family_names())[0], str)
         self.assertIsInstance(thai_female_names(), frozenset)
         self.assertIsInstance(thai_male_names(), frozenset)
 
+        self.assertIsNotNone(get_corpus_default_db("thainer", "1.5.1"))
+        self.assertIsNotNone(get_corpus_default_db("thainer"))
+        self.assertIsNone(get_corpus_default_db("thainer", "1.2"))
+
+        # BEGIN - Test non-exists
         self.assertIsInstance(
             get_corpus_db("https://example.com/XXXXXX0lkjasd/SXfmskdjKKXXX"),
             Response,
         )  # URL does not exist, should get 404 response
         self.assertIsNone(get_corpus_db("XXXlkja3sfdXX"))  # Invalid URL
-
         self.assertEqual(
             get_corpus_db_detail("XXXmx3KSXX"), {}
         )  # corpus does not exist
         self.assertEqual(
             get_corpus_db_detail("XXXmx3KSXX", version="0.2"), {}
         )  # corpus does not exist
-
-        self.assertTrue(download("test"))  # download the first time
-        self.assertTrue(download(name="test", force=True))  # force download
-        self.assertTrue(download(name="test"))  # try download existing
+        self.assertIsNone(get_corpus_path("XXXkdjfBzc"))  # query non-existing
         self.assertFalse(
-            download(name="test", url="wrongurl")
+            download(name="test", url="wrongurl00AAfcX2df")
         )  # URL not exist
         self.assertFalse(
             download(name="XxxXXxxx817d37sf")
         )  # corpus name not exist
+        # END - Test non-exists
+
+        # BEGIN - Test download
+        self.assertTrue(download("test"))  # download the first time
+        self.assertTrue(download(name="test", force=True))  # force download
+        self.assertTrue(download(name="test"))  # try download existing
         self.assertIsNotNone(get_corpus_db_detail("test"))  # corpus exists
         self.assertIsNotNone(get_corpus_path("test"))  # corpus exists
         self.assertIsNone(get_corpus_default_db("test"))
-        self.assertIsNotNone(get_corpus_default_db("thainer", "1.5.1"))
-        self.assertIsNotNone(get_corpus_default_db("thainer"))
-        self.assertIsNone(get_corpus_default_db("thainer", "1.2"))
         self.assertTrue(remove("test"))  # remove existing
         self.assertFalse(remove("test"))  # remove non-existing
-        self.assertIsNone(get_corpus_path("XXXkdjfBzc"))  # query non-existing
+        # END - Test download
+
+        # TODO: Need this clean up this "test" download test
+        # BEGIN - Need to clean up this section
         self.assertFalse(download(name="test", version="0.0"))
         self.assertFalse(download(name="test", version="0.0.0"))
         self.assertFalse(download(name="test", version="0.0.1"))
@@ -111,6 +134,7 @@ class TestCorpusPackage(unittest.TestCase):
         )
         self.assertIsNotNone(download(name="test", version="0.1"))
         self.assertIsNotNone(remove("test"))
+        # END - Need to clean up this section
 
     def test_oscar(self):
         self.assertIsNotNone(oscar.word_freqs())
@@ -169,6 +193,6 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsInstance(revise_newmm_default_wordset(training_data), set)
 
     def test_zip(self):
-        _p = get_corpus_path("test_zip")
-        self.assertEqual(os.path.isdir(_p), True)
+        p = get_corpus_path("test_zip")
+        self.assertEqual(os.path.isdir(p), True)
         self.assertEqual(remove("test_zip"), True)

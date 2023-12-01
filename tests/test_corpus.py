@@ -26,7 +26,6 @@ from pythainlp.corpus import (
     thai_synonym,
     thai_words,
     volubilis,
-    wikipedia_titles,
     tnc,
     ttc,
     wikipedia_titles,

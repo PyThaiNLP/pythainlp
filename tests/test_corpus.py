@@ -29,6 +29,7 @@ from pythainlp.corpus import (
     wikipedia_titles,
     tnc,
     ttc,
+    wikipedia_titles,
     wordnet,
 )
 from pythainlp.corpus.util import revise_newmm_default_wordset

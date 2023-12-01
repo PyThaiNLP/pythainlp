@@ -10,18 +10,18 @@ The following word lists are created by the PyThaiNLP project and released under
 **Creative Commons Zero 1.0 Universal Public Domain Dedication License**
 https://creativecommons.org/publicdomain/zero/1.0/
 
-Filename | Description
----------|------------
-countries_th.txt | List of countries in Thai
-etcc.txt List of | Enhanced Thai Character Clusters
-negations_th.txt | Negation word list
-stopwords_th.txt | Stop word list
-syllables_th.txt | List of Thai syllables
-thailand_provinces_th.csv | List of Thailand provinces in Thai
-tnc_freq.txt | Words and their frequencies, from Thai National Corpus
-ttc_freq.txt | Words and their frequencies, from Thai Textbook Corpus
-words_th.txt | List of Thai words
-words_th_thai2fit_201810.txt | List of Thai words (frozen for thai2fit)
+| Filename                     | Description                                            |
+| ---------------------------- | ------------------------------------------------------ |
+| countries_th.txt             | List of countries in Thai                              |
+| etcc.txt List of             | Enhanced Thai Character Clusters                       |
+| negations_th.txt             | Negation word list                                     |
+| stopwords_th.txt             | Stop word list                                         |
+| syllables_th.txt             | List of Thai syllables                                 |
+| thailand_provinces_th.csv    | List of Thailand provinces in Thai                     |
+| tnc_freq.txt                 | Words and their frequencies, from Thai National Corpus |
+| ttc_freq.txt                 | Words and their frequencies, from Thai Textbook Corpus |
+| words_th.txt                 | List of Thai words                                     |
+| words_th_thai2fit_201810.txt | List of Thai words (frozen for thai2fit)               |
 
 The following word lists are from **Thai Male and Female Names Corpus**
 https://github.com/korkeatw/thai-names-corpus/ by Korkeat Wannapat
@@ -29,12 +29,11 @@ and released under their original licenses which are
 **Creative Commons Attribution-ShareAlike 4.0 International Public License**
 https://creativecommons.org/licenses/by-sa/4.0/
 
-Filename | Description
----------|------------
-family_names_th.txt | List of family names in Thailand
-person_names_female_th.txt | List of female names in Thailand
-person_names_male_th.txt | List of male names in Thailand
-
+| Filename                   | Description                      |
+| -------------------------- | -------------------------------- |
+| family_names_th.txt        | List of family names in Thailand |
+| person_names_female_th.txt | List of female names in Thailand |
+| person_names_male_th.txt   | List of male names in Thailand   |
 
 ## Models
 
@@ -43,14 +42,13 @@ and released under
 **Creative Commons Attribution 4.0 International Public License**
 https://creativecommons.org/licenses/by/4.0/
 
-Filename | Description
----------|------------
-pos_orchid_perceptron.pkl | Part-of-speech tagging model, trained from ORCHID data, using perceptron
-pos_orchid_unigram.json | Part-of-speech tagging model, trained from ORCHID data, using unigram
-pos_ud_perceptron.pkl | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using perceptron
-pos_ud_unigram.json | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using unigram
-sentenceseg_crfcut.model | Sentence segmentation model, trained from TED subtitles, using CRF
-
+| Filename                  | Description                                                                                           |
+| ------------------------- | ----------------------------------------------------------------------------------------------------- |
+| pos_orchid_perceptron.pkl | Part-of-speech tagging model, trained from ORCHID data, using perceptron                              |
+| pos_orchid_unigram.json   | Part-of-speech tagging model, trained from ORCHID data, using unigram                                 |
+| pos_ud_perceptron.pkl     | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using perceptron |
+| pos_ud_unigram.json       | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using unigram    |
+| sentenceseg_crfcut.model  | Sentence segmentation model, trained from TED subtitles, using CRF                                    |
 
 ## Thai WordNet
 
@@ -100,4 +98,27 @@ For more information about Thai WordNet, see
 S. Thoongsup et al., ‘Thai WordNet construction’,
 in Proceedings of the 7th Workshop on Asian Language Resources,
 Suntec, Singapore, Aug. 2009, pp. 139–144.
-https://www.aclweb.org/anthology/W09-3420.pdf 
+https://www.aclweb.org/anthology/W09-3420.pdf
+
+## Volubilis
+
+Corpus of Thai words registered in Volubilis (volubilis.txt) which was processed by konbraphat51 (https://github.com/konbraphat51/Thai_Dictionary_Cleaner/tree/main)
+
+The original data is VOLUBILIS 23.1 (Mar. 2023) Database from [Volubilis](https://belisan-volubilis.blogspot.com/) which Francis Bastien has created.
+
+```
+VOLUBILIS MULTILINGUAL THAI DICT. & DATABASE by Francis Bastien (Belisan) is licensed under CC BY-SA 4.0
+
+This is a human-readable summary of (and not a substitute for) the license below.
+You are free:
+to Share—copy and redistribute the material in any medium or format
+to Adapt—remix, transform, and build upon the material
+for any purpose, even commercially.
+The licensor cannot revoke these freedoms as long as you follow the license terms.
+Under the following terms:
+Attribution—You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
+Share Alike—If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
+No additional restrictions—You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
+Notices:
+You do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an applicable exception or limitation. No warranties are given. The license may not give you all of the permissions necessary for your intended use. For example, other rights such as publicity, privacy, or moral rights may limit how you use the material.
+```

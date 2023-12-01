@@ -224,6 +224,7 @@ def pos_tag_transformers(
 
     _blackboard_support_engine = {
         "bert" : "lunarlist/pos_thai",
+        "phayathai" : "lunarlist/pos_thai_phayathai",
     }
 
     _pud_support_engine = {

@@ -431,6 +431,18 @@ class TestTokenizePackage(unittest.TestCase):
             "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tltk")
         )
         self.assertIsInstance(subword_tokenize("โควิด19", engine="tltk"), list)
+
+        self.assertEqual(subword_tokenize(None, engine="phayathai"), [])
+        self.assertEqual(subword_tokenize("", engine="phayathai"), [])
+        self.assertIsInstance(
+            subword_tokenize("สวัสดิีดาวอังคาร", engine="phayathai"), list
+        )
+        self.assertFalse(
+            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="phayathai")
+        )
+        self.assertIsInstance(
+            subword_tokenize("โควิด19", engine="phayathai"), list
+        )
         with self.assertRaises(ValueError):
             subword_tokenize("นกแก้ว", engine="XX")  # engine does not exist
 

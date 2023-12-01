@@ -25,13 +25,13 @@ _WIKIPEDIA_TITLES_FILENAME = "wikipedia_titles.txt"
 
 def wikipedia_titles() -> FrozenSet[str]:
     """
-    Return a frozenset of words in the Thai Wikipedia titles corpus.
+    Return a frozenset of words from Thai Wikipedia titles corpus.
     They are mostly nouns and noun phrases,
-    including event, organization, people, place, and product names. 
+    including event, organization, people, place, and product names.
+    Commonly misspelled words are included intentionally.
 
-    The data file is at pythainlp/corpus/wikipedia_titles.txt
-    The word list has beed prepared by the code at:
-    https://github.com/konbraphat51/Thai_Dictionary_Cleaner
+    More info:
+    https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md
 
     :return: :class:`frozenset` containing words in Thai Wikipedia titles.
     :rtype: :class:`frozenset`

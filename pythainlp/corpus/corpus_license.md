@@ -4,6 +4,7 @@
 - Language models created by PyThaiNLP project are released under [Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/) (CC-by).
 - For more information about corpora that PyThaiNLP use, see [https://github.com/PyThaiNLP/pythainlp-corpus/](https://github.com/PyThaiNLP/pythainlp-corpus/).
 
+
 ## Dictionaries and Word Lists
 
 The following word lists are created by the PyThaiNLP project and released under
@@ -35,6 +36,7 @@ https://creativecommons.org/licenses/by-sa/4.0/
 | person_names_female_th.txt | List of female names in Thailand |
 | person_names_male_th.txt   | List of male names in Thailand   |
 
+
 ## Models
 
 The following language models are created by the PyThaiNLP project
@@ -49,6 +51,7 @@ https://creativecommons.org/licenses/by/4.0/
 | pos_ud_perceptron.pkl     | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using perceptron |
 | pos_ud_unigram.json       | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using unigram    |
 | sentenceseg_crfcut.model  | Sentence segmentation model, trained from TED subtitles, using CRF                                    |
+
 
 ## Thai WordNet
 
@@ -100,67 +103,33 @@ in Proceedings of the 7th Workshop on Asian Language Resources,
 Suntec, Singapore, Aug. 2009, pp. 139–144.
 https://www.aclweb.org/anthology/W09-3420.pdf
 
+
+## Thai Wikipedia Titles
+
+Thai Wikipedia titles corpus (wikipedia_titles.txt),
+prepared by konbraphat51, using a Thai Wikipedia dump from
+21 November 2023, and released under their original license which is
+**Creative Commons Attribution-ShareAlike 4.0 International Public License**
+https://creativecommons.org/licenses/by-sa/4.0/
+
+Original data:
+https://dumps.wikimedia.org/thwiki/latest/thwiki-latest-all-titles.gz
+
+Preparation code:
+https://github.com/konbraphat51/Thai_Dictionary_Cleaner/
+
+
 ## Volubilis
 
-Corpus of Thai words registered in Volubilis (volubilis.txt) which was processed by konbraphat51 (https://github.com/konbraphat51/Thai_Dictionary_Cleaner/tree/main)
+A corpus of Thai words registered in Volubilis dictionary
+(volubilis.txt), prepared by konbraphat51,
+using data from Volubilis 23.1 (Mar. 2023) by Francis Bastien,
+and released under their original license which is
+**Creative Commons Attribution-ShareAlike 4.0 International Public License**
+https://creativecommons.org/licenses/by-sa/4.0/
 
-The original data is VOLUBILIS 23.1 (Mar. 2023) Database from [Volubilis](https://belisan-volubilis.blogspot.com/) which Francis Bastien has created.
+Original data:
+https://belisan-volubilis.blogspot.com/
 
-```
-VOLUBILIS MULTILINGUAL THAI DICT. & DATABASE by Francis Bastien (Belisan) is licensed under CC BY-SA 4.0
-
-This is a human-readable summary of (and not a substitute for) the license below.
-
-You are free:
-
-to Share—copy and redistribute the material in any medium or format
-
-to Adapt—remix, transform, and build upon the material
-
-for any purpose, even commercially.
-
-The licensor cannot revoke these freedoms as long as you follow the license terms.
-
-Under the following terms:
-
-Attribution—You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-
-Share Alike—If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
-
-No additional restrictions—You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
-
-Notices:
-
-You do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an applicable exception or limitation. No warranties are given. The license may not give you all of the permissions necessary for your intended use. For example, other rights such as publicity, privacy, or moral rights may limit how you use the material.
-```
-
-## Wikipedia Titles
-Corpus of Wikipedia titles (wikipedia_titles.txt) was processed by konbraphat51 (https://github.com/konbraphat51/Thai_Dictionary_Cleaner/tree/main)
-
-The original data is thwiki-latest-all-titles.gz of https://dumps.wikimedia.org/thwiki/latest/ which Wikipedia.org has created.
-
-```
-Wikipedia.org
-
-This is a human-readable summary of (and not a substitute for) the license below.
-
-You are free:
-
-to Share—copy and redistribute the material in any medium or format
-to Adapt—remix, transform, and build upon the material
-for any purpose, even commercially.
-
-The licensor cannot revoke these freedoms as long as you follow the license terms.
-
-Under the following terms:
-
-Attribution—You must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.
-
-Share Alike—If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
-
-No additional restrictions—You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.
-
-Notices:
-
-You do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an applicable exception or limitation. No warranties are given. The license may not give you all of the permissions necessary for your intended use. For example, other rights such as publicity, privacy, or moral rights may limit how you use the material.
-```
+Preparation code:
+https://github.com/konbraphat51/Thai_Dictionary_Cleaner/

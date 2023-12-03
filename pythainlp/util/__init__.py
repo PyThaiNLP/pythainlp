@@ -62,6 +62,7 @@ __all__ = [
     "thai_strptime",
     "thai_strftime",
     "thai_to_eng",
+    "thai_to_idn",
     "thai_word_tone_detector",
     "thaiword_to_date",
     "thaiword_to_num",
@@ -128,7 +129,7 @@ from pythainlp.util.syllable import (
     syllable_open_close_detector,
 )
 from pythainlp.util.phoneme import nectec_to_ipa, ipa_to_rtgs, remove_tone_ipa
-from pythainlp.util.encoding import tis620_to_utf8
+from pythainlp.util.encoding import thai_to_idn, tis620_to_utf8
 from pythainlp.util import spell_words
 from pythainlp.util.abbreviation import abbreviation_to_full_text
 from pythainlp.util.pronounce import rhyme

@@ -22,10 +22,10 @@ def tis620_to_utf8(text: str) -> str:
 
 def thai_to_idn(text: str) -> str:
     """
-    Encode text with Punycode, as used in Internationalized Domain Name (IDN).
+    Encode text with IDNA, as used in Internationalized Domain Name (IDN).
 
     :param str text: Thai text
-    :return: Text in IDNA encoding
+    :return: IDNA-encoded text
     :rtype: str
 
     :Example:

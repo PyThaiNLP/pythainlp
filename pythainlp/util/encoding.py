@@ -1,23 +1,12 @@
 # -*- coding_utf-8 -*-
-# Copyright (C) 2016-2023 PyThaiNLP Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
 def tis620_to_utf8(text: str) -> str:
     """
     Convert TIS-620 to UTF-8
 
-    :param str text: Text that uses TIS-620 encoding
-    :return: Text that uses UTF-8 encoding
+    :param str text: TIS-620 encoded text
+    :return: UTF-8 encoded text
     :rtype: str
 
     :Example:
@@ -33,10 +22,10 @@ def tis620_to_utf8(text: str) -> str:
 
 def thai_to_idn(text: str) -> str:
     """
-    Convert Thai text to International Domain Name (IDN) for Thai domain name.
+    Encode text with Punycode, as used in Internationalized Domain Name (IDN).
 
     :param str text: Thai text
-    :return: Text that uses IDNA encoding
+    :return: Text in IDNA encoding
     :rtype: str
 
     :Example:

@@ -12,7 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-def tis620_to_utf8(text: str)->str:
+def tis620_to_utf8(text: str) -> str:
     """
     Convert TIS-620 to UTF-8
 
@@ -31,7 +31,7 @@ def tis620_to_utf8(text: str)->str:
     return text.encode("cp1252", "ignore").decode("tis-620")
 
 
-def thai_to_idn(text: str)->str:
+def thai_to_idn(text: str) -> str:
     """
     Convert Thai text to International Domain Name (IDN) for Thai domain name.
 

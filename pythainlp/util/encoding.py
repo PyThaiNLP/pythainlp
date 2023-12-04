@@ -20,7 +20,7 @@ def tis620_to_utf8(text: str) -> str:
     return text.encode("cp1252", "ignore").decode("tis-620")
 
 
-def thai_to_idn(text: str) -> str:
+def to_idna(text: str) -> str:
     """
     Encode text with IDNA, as used in Internationalized Domain Name (IDN).
 
@@ -31,9 +31,9 @@ def thai_to_idn(text: str) -> str:
     :Example:
     ::
 
-        from pythainlp.util import thai_to_idn
+        from pythainlp.util import to_idna
 
-        thai_to_idn("คนละครึ่ง.com")
+        to_idna("คนละครึ่ง.com")
         # output: 'xn--42caj4e6bk1f5b1j.com'
     """
     return text.encode("idna").decode("utf-8")

@@ -46,6 +46,10 @@ class NER:
             from pythainlp.wangchanberta import ThaiNameTagger
 
             self.engine = ThaiNameTagger(dataset_name=corpus)
+        elif engine=="phayathaibert" and corpus == "thainer-v2":
+            from pythainlp.phayathaibert.core import NamedEntityTagger
+
+            self.engine = NamedEntityTagger()
         else:
             raise ValueError(
                 "NER class not support {0} engine or {1} corpus.".format(

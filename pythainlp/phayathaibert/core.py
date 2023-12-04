@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
-from typing import List, Tuple, Collection, Callable
+from typing import List, Union, Tuple, Collection, Callable
 import re
 import random
+import warnings
 from pythainlp.tokenize import word_tokenize
 from transformers import (
     CamembertTokenizer,
@@ -249,6 +250,48 @@ class PartOfSpeechTagger:
         outputs = pipeline(sentence)
         word_tags = [[(tag['word'], tag['entity_group']) for tag in outputs]]
         return word_tags
+    
+class NamedEntityTagger:
+     def __init__(self, model: str="Pavarissy/phayathaibert-thainer") -> None:
+        from transformers import (
+            AutoTokenizer, 
+            AutoModelForTokenClassification,
+        )
+        self.tokenizer = AutoTokenizer.from_pretrained(model)
+        self.model = AutoModelForTokenClassification.from_pretrained(model)
+     def get_ner(self,
+                text: str,
+                tag: bool=False, 
+                pos: bool=False,
+                strategy: str="simple"
+                )->Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
+        from transformers import TokenClassificationPipeline
+        if pos:
+            warnings.warn("This model doesn't support output postag and It doesn't output the postag.")
+        sample_output = []
+        tag_text_list = []
+        current_pos = 0
+        pipeline = TokenClassificationPipeline(
+            model=self.model, 
+            tokenizer=self.tokenizer, 
+            aggregation_strategy=strategy,
+        )
+        outputs = pipeline(text)
+        for token in outputs:
+            ner_tag = token['entity_group']
+            begin_pos, end_pos = token['start'], token['end']
+            if current_pos == 0:
+                text_tag = text[:begin_pos]+f"<{ner_tag}>"+text[begin_pos:end_pos]+f"</{ner_tag}>"
+            else:
+                text_tag = text[current_pos:begin_pos]+f"<{ner_tag}>"+text[begin_pos:end_pos]+f"</{ner_tag}>"
+            tag_text_list.append(text_tag)
+            sample_output.append((token['word'], token['entity_group']))
+            current_pos = end_pos
+        if tag:
+            return str("".join(tag_text_list))
+        else:
+            return sample_output
+
     
 def segment(sentence: str)->List[str]:
     if not sentence or not isinstance(sentence, str):

@@ -11,6 +11,7 @@ __all__ = [
 from pythainlp.phayathaibert.core import (
     ThaiTextProcessor, 
     ThaiTextAugmenter, 
+    NamedEntityTagger,
     PartOfSpeechTagger, 
     segment,
 )

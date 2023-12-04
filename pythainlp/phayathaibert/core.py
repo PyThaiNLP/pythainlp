@@ -14,7 +14,6 @@
 # limitations under the License.
 from typing import List, Tuple, Collection, Callable
 import re
-import warnings
 import random
 from pythainlp.tokenize import word_tokenize
 from transformers import (
@@ -97,7 +96,7 @@ class ThaiTextProcessor:
         """
         return re.sub(" {2,}", " ", text)
 
-    def replace_spaces(text: str, space_token: str = self.SPACE_SPECIAL_TOKEN) -> str:
+    def replace_spaces(text: str, space_token: str = "<_>") -> str:
         """
             Replace spaces with _
             :param str text: text to replace spaces
@@ -128,7 +127,7 @@ class ThaiTextProcessor:
         re_rep = re.compile(r"(\S)(\1{3,})")
         return re_rep.sub(_replace_rep, text)
 
-    def replace_wrep_post(toks: Collection[str]) -> Collection[str]:
+    def replace_wrep_post(self, toks: Collection[str]) -> Collection[str]:
         """
         Replace reptitive words post tokenization;
         fastai `replace_wrep` does not work well with Thai.

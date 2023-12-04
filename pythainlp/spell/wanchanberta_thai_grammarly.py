@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# SPDX-FileCopyrightText: Copyright (C) 2016-2023 PyThaiNLP Project.
+# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 """
 Two-stage Thai Misspelling Correction based on Pre-trained Language Models

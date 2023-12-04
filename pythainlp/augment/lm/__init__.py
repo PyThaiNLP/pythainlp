@@ -12,5 +12,5 @@ __all__ = [
 ]
 
 from pythainlp.augment.lm.fasttext import FastTextAug
-from pythainlp.augment.lm.wangchanberta import Thai2transformersAug
 from pythainlp.augment.lm.phayathaibert import ThaiTextAugmenter
+from pythainlp.augment.lm.wangchanberta import Thai2transformersAug

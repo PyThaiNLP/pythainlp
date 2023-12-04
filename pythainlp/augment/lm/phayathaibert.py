@@ -54,7 +54,7 @@ class ThaiTextAugmenter:
 
     def augment(self,
                 text: str, 
-                num_augs: int, 
+                num_augs: int=3, 
                 sample: bool=False)->List[str]:
         augment_list = []
         if "<mask>" not in text:

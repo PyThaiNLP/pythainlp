@@ -97,7 +97,7 @@ class ThaiTextProcessor:
         """
         return re.sub(" {2,}", " ", text)
 
-    def replace_spaces(text: str, space_token: str = SPACE_SPECIAL_TOKEN) -> str:
+    def replace_spaces(text: str, space_token: str = self.SPACE_SPECIAL_TOKEN) -> str:
         """
             Replace spaces with _
             :param str text: text to replace spaces
@@ -227,7 +227,7 @@ class ThaiTextAugmenter:
 
     def augment(self,
                 text: str, 
-                num_augs: int, 
+                num_augs: int=3, 
                 sample: bool=False
                 )->List[str]:
         augment_list = []

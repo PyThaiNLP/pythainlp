@@ -218,6 +218,11 @@ Modules
 
     The `thai_to_eng` function is a text conversion tool for translating Thai text into its English transliterated form. This is beneficial for rendering Thai words and phrases in an English context.
 
+.. autofunction:: to_idna
+    :noindex:
+
+    The `to_idna` function is a text conversion tool for translating Thai text into its  International Domain Name (IDN) for Thai domain name.
+
 .. autofunction:: thai_word_tone_detector
     :noindex:
 

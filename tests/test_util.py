@@ -45,6 +45,7 @@ from pythainlp.util import (
     thaiword_to_time,
     time_to_thaiword,
     thai_to_eng,
+    to_idna,
     thaiword_to_num,
     thai_keyboard_dist,
     text_to_num,
@@ -779,6 +780,9 @@ class TestUtilPackage(unittest.TestCase):
     def test_syllable_open_close_detector(self):
         self.assertEqual(syllable_open_close_detector("มาก"), "close")
         self.assertEqual(syllable_open_close_detector("คะ"), "open")
+
+    def test_to_idna(self):
+        self.assertEqual(to_idna("คนละครึ่ง.com"), "xn--42caj4e6bk1f5b1j.com")
 
     def test_thai_word_tone_detector(self):
         self.assertIsNotNone(thai_word_tone_detector("คนดี"))

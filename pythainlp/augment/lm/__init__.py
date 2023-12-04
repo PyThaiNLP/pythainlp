@@ -19,7 +19,9 @@ LM
 __all__ = [
     "FastTextAug",
     "Thai2transformersAug",
+    "ThaiTextAugmenter",
 ]
 
 from pythainlp.augment.lm.fasttext import FastTextAug
 from pythainlp.augment.lm.wangchanberta import Thai2transformersAug
+from pythainlp.augment.lm.phayathaibert import ThaiTextAugmenter

@@ -5,6 +5,7 @@ import nltk
 from pythainlp.augment import WordNetAug
 from pythainlp.augment.wordnet import postype2wordnet
 # from pythainlp.augment.lm import Thai2transformersAug
+# from pythainlp.augment.lm.phayathaibert import ThaiTextAugmenter
 from pythainlp.augment.word2vec.bpemb_wv import BPEmbAug
 from pythainlp.augment.word2vec import (
     LTW2VAug
@@ -43,3 +44,7 @@ class TestTextaugmentPackage(unittest.TestCase):
     # def test_Thai2transformersAug(self):
     #     _aug = Thai2transformersAug()
     #     self.assertIsNotNone(_aug.augment(self.text2, num_replace_tokens=1))
+
+     # def test_ThaiTextAugmenter(self):
+    #     _aug = ThaiTextAugmenter()
+    #     self.assertIsNotNone(_aug.augment(self.text2, num__augs=3))

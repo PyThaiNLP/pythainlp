@@ -13,8 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 __all__ = [
+    "ThaiTextProcessor",
+    "ThaiTextAugmenter",
     "PartOfSpeechTagger",
     "segment",
 ]
 
-from pythainlp.phayathaibert.core import PartOfSpeechTagger, segment
+from pythainlp.phayathaibert.core import (
+    ThaiTextProcessor, 
+    ThaiTextAugmenter, 
+    PartOfSpeechTagger, 
+    segment,
+)

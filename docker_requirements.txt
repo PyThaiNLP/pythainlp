@@ -8,7 +8,7 @@ emoji==0.5.2
 attacut==1.0.6
 epitran==1.9
 sacremoses==0.0.41
-sentencepiece==0.1.91
+sentencepiece==0.1.99
 ssg==0.0.8
 torch==1.13.1
 fastai==1.0.61

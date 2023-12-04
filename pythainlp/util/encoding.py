@@ -1,7 +1,7 @@
 # -*- coding_utf-8 -*-
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
-def tis620_to_utf8(text: str) -> str:
+def tis620_to_utf8(text: str)->str:
     """
     Convert TIS-620 to UTF-8
 

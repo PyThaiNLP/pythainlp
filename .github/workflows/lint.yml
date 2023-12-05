@@ -24,4 +24,4 @@ jobs:
       - uses: chartboost/ruff-action@v1
         with:
           src: "./pythainlp"
-          args: --check --verbose --line-length 79 --select F --select E7 --select E9 --select E63 --select E82 --select C901
+          args: check --verbose --line-length 79 --select F --select E7 --select E9 --select E63 --select E82 --select C901

@@ -87,6 +87,8 @@ def get_corpus(filename: str,
 
 
     :param str filename: filename of the corpus to be read
+    :param bool as_is: output as the list like read from file
+    :param bool discard_comments: discard comments (`#`) from :class:`frozenset` or :class:`list`
 
     :return: :class:`frozenset` or :class:`list` consisting of lines in the file
     :rtype: :class:`frozenset` or :class:`list`

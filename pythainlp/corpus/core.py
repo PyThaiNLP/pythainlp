@@ -121,7 +121,7 @@ def get_corpus(filename: str,
     lines = [word for word in lines if 'SPDX' not in word]
 
     if discard_comments:
-        lines = [god for god in lines if '#' not in god]
+        lines = [word for word in lines if '#' not in word]
 
     return frozenset(filter(None, lines))
 

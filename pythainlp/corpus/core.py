@@ -70,8 +70,8 @@ def path_pythainlp_corpus(filename: str) -> str:
     return os.path.join(corpus_path(), filename)
 
 
-def get_corpus(filename: str, 
-               as_is: bool = False, 
+def get_corpus(filename: str,
+               as_is: bool = False,
                discard_comments: bool = False
                ) -> Union[frozenset, list]:
     """

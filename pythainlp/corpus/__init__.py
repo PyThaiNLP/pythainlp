@@ -26,6 +26,7 @@ __all__ = [
     "thai_dict",
     "thai_family_names",
     "thai_female_names",
+    "thai_icu",
     "thai_male_names",
     "thai_negations",
     "thai_orst_words",
@@ -110,5 +111,6 @@ from pythainlp.corpus.common import (
     thai_words,
     thai_wsd_dict,
 )
+from pythainlp.corpus.thai_icu import thai_icu
 from pythainlp.corpus.volubilis import volubilis
 from pythainlp.corpus.wikipedia_titles import wikipedia_titles

@@ -20,6 +20,7 @@ from pythainlp.corpus import (
     remove,
     thai_family_names,
     thai_female_names,
+    thai_icu,
     thai_male_names,
     thai_negations,
     thai_stopwords,
@@ -40,6 +41,8 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsNotNone(conceptnet.edges("รัก"))
 
     def test_corpus(self):
+        self.assertIsInstance(thai_icu(), frozenset)
+        self.assertGreater(len(thai_icu()), 0)
         self.assertIsInstance(thai_negations(), frozenset)
         self.assertGreater(len(thai_negations()), 0)
         self.assertIsInstance(thai_stopwords(), frozenset)

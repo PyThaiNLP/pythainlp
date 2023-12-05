@@ -11,6 +11,7 @@ from pythainlp.corpus.common import get_corpus
 _THAI_ICU = None
 _THAI_ICU_FILENAME = "thai_icu.txt"
 
+
 def thai_icu() -> FrozenSet[str]:
     """
     Return a frozenset of words from the International Components for Unicode (ICU) dictionary.
@@ -19,7 +20,7 @@ def thai_icu() -> FrozenSet[str]:
     The word list has beed prepared by the code at:
     https://github.com/unicode-org/icu/blob/main/icu4c/source/data/brkitr/dictionaries/thaidict.txt
 
-    :return: :class:`frozenset` containing words in the International Components for Unicode (ICU) dictionary.
+    :return: :class:`frozenset` containing words in the Thai ICU dictionary.
     :rtype: :class:`frozenset`
     """
     global _THAI_ICU

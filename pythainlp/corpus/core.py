@@ -70,7 +70,10 @@ def path_pythainlp_corpus(filename: str) -> str:
     return os.path.join(corpus_path(), filename)
 
 
-def get_corpus(filename: str, as_is: bool = False, discard_comments: bool = False) -> Union[frozenset, list]:
+def get_corpus(filename: str, 
+               as_is: bool = False, 
+               discard_comments: bool = False
+               ) -> Union[frozenset, list]:
     """
     Read corpus data from file and return a frozenset or a list.
 
@@ -117,8 +120,8 @@ def get_corpus(filename: str, as_is: bool = False, discard_comments: bool = Fals
     # remove license since some are included in the returned corpus
     lines = [word for word in lines if 'SPDX' not in word]
 
-    if discard_comments: 
-      lines = [word for word in lines if '#' not in word]
+    if discard_comments:
+        lines = [word for word in lines if '#' not in word]
 
     return frozenset(filter(None, lines))
 

@@ -53,6 +53,13 @@ https://creativecommons.org/licenses/by/4.0/
 | sentenceseg_crfcut.model  | Sentence segmentation model, trained from TED subtitles, using CRF                                    |
 
 
+## Thai International Components for Unicode (ICU)
+The data is at pythainlp/corpus/thai_icu.txt
+The word list has beed prepared by the code at:
+https://github.com/unicode-org/icu/blob/main/icu4c/source/data/brkitr/dictionaries/thaidict.txt
+
+
+
 ## Thai WordNet
 
 Thai WordNet (wordnet_th.db) is created by Thai Computational Linguistic

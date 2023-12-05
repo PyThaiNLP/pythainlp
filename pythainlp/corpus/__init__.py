@@ -104,10 +104,10 @@ from pythainlp.corpus.common import (
     thai_female_names,
     thai_male_names,
     thai_negations,
+    thai_orst_words,
     thai_stopwords,
     thai_syllables,
     thai_synonym,
-    thai_orst_words,
     thai_words,
     thai_wsd_dict,
 )

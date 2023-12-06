@@ -90,7 +90,7 @@ def get_corpus(filename: str,
 
     :param str filename: filename of the corpus to be read
     :param bool as_is: no modification to the text, and return a list
-    :param bool comments: keep comments (starting with a character `#`)
+    :param bool comments: keep comments
 
     :return: :class:`frozenset` or :class:`list` consisting of lines in the file
     :rtype: :class:`frozenset` or :class:`list`

@@ -4,6 +4,8 @@
 # SPDX-FileCopyrightText: Copyright (c) 2006-2015 International Business Machines Corporation,
 # SPDX-FileCopyrightText: Apple Inc., and others. All Rights Reserved.
 # SPDX-License-Identifier: Unicode-DFS-2016
+# Thai Dictionary for ICU BreakIterator
+# Original data from: https://github.com/unicode-org/icu/blob/main/icu4c/source/data/brkitr/dictionaries/thaidict.txt
 กก
 กกขนาก
 กกช้าง

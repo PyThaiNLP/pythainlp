@@ -72,7 +72,7 @@ def path_pythainlp_corpus(filename: str) -> str:
 
 def get_corpus(filename: str,
                as_is: bool = False,
-               discard_comments: bool = False
+               comments: bool = True
                ) -> Union[frozenset, list]:
     """
     Read corpus data from file and return a frozenset or a list.
@@ -85,10 +85,12 @@ def get_corpus(filename: str,
     If as_is is True, a list will be return, with no modifications
     in member values and their orders.
 
+    If comments is False, any text at any position after the character
+    '#' in each line will be discarded.
 
     :param str filename: filename of the corpus to be read
-    :param bool as_is: output as the list like read from file
-    :param bool discard_comments: discard comments (`#`) from :class:`frozenset` or :class:`list`
+    :param bool as_is: no modification to the text, and return a list
+    :param bool comments: keep comments (starting with a character `#`)
 
     :return: :class:`frozenset` or :class:`list` consisting of lines in the file
     :rtype: :class:`frozenset` or :class:`list`
@@ -98,32 +100,60 @@ def get_corpus(filename: str,
 
         from pythainlp.corpus import get_corpus
 
-        get_corpus('negations_th.txt')
+        # input file (negations_th.txt):
+        # แต่
+        # ไม่
+
+        get_corpus("negations_th.txt")
         # output:
         # frozenset({'แต่', 'ไม่'})
 
-        get_corpus('ttc_freq.txt')
+        get_corpus("negations_th.txt", as_is=True)
+        # output:
+        # ['แต่', 'ไม่']
+
+        # input file (ttc_freq.txt):
+        # ตัวบท<tab>10
+        # โดยนัยนี้<tab>1
+
+        get_corpus("ttc_freq.txt")
         # output:
         # frozenset({'โดยนัยนี้\\t1',
         #    'ตัวบท\\t10',
-        #    'หยิบยื่น\\t3',
         #     ...})
+
+        # input file (icubrk_th.txt):
+        # # Thai Dictionary for ICU BreakIterator
+        # กก
+        # กกขนาก
+
+        get_corpus("icubrk_th.txt")
+        # output:
+        # frozenset({'กกขนาก',
+        #     '# Thai Dictionary for ICU BreakIterator',
+        #     'กก',
+        #     ...})
+
+        get_corpus("icubrk_th.txt", comments=False)
+        # output:
+        # frozenset({'กกขนาก',
+        #     'กก',
+        #     ...})
+
     """
     path = path_pythainlp_corpus(filename)
     lines = []
     with open(path, "r", encoding="utf-8-sig") as fh:
         lines = fh.read().splitlines()
 
+    if not comments:
+        # take only text before character '#'
+        lines = [line.split("#", 1)[0] for line in lines]
+
     if as_is:
         return lines
 
     lines = [line.strip() for line in lines]
-
-    # remove license since some are included in the returned corpus
-    lines = [word for word in lines if 'SPDX' not in word]
-
-    if discard_comments:
-        lines = [word for word in lines if '#' not in word]
 
     return frozenset(filter(None, lines))
 

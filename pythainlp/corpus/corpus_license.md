@@ -53,6 +53,17 @@ https://creativecommons.org/licenses/by/4.0/
 | sentenceseg_crfcut.model  | Sentence segmentation model, trained from TED subtitles, using CRF                                    |
 
 
+## Thai Dictionary for ICU BreakIterator
+
+A Thai word list from ICU (International Components for Unicode) project
+(icubrk_th.txt) is copyrighted by Unicode, Inc. and others.,
+released under **Unicode License Agreement - Data Files and Software (2016)**
+﻿http://www.unicode.org/copyright.html
+
+Original data:
+https://github.com/unicode-org/icu/blob/main/icu4c/source/data/brkitr/dictionaries/thaidict.txt
+
+
 ## Thai WordNet
 
 Thai WordNet (wordnet_th.db) is created by Thai Computational Linguistic

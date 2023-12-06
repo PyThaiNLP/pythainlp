@@ -17,7 +17,7 @@ def thai_icu_words() -> FrozenSet[str]:
     Return a frozenset of words from the Thai dictionary for BreakIterator of the
     International Components for Unicode (ICU).
 
-    :return: :class:`frozenset` containing `str`
+    :return: :class:`frozenset` containing Thai words.
     :rtype: :class:`frozenset`
     """
 

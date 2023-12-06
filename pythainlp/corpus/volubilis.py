@@ -8,25 +8,25 @@ from typing import FrozenSet
 
 from pythainlp.corpus.common import get_corpus
 
-_VOLUBILIS = None
-_VOLUBILIS_FILENAME = "volubilis_modified.txt"
+_VOLUBILIS_WORDS = None
+_VOLUBILIS_FILENAME = "volubilis_words_th.txt"
 
 
-def volubilis() -> FrozenSet[str]:
+def thai_volubilis_words() -> FrozenSet[str]:
     """
-    Return a frozenset of words from the Volubilis dictionary.
+    Return a frozenset of Thai words from the Volubilis dictionary
+    
+    See: `dev/pythainlp/corpus/volubilis_words_th.txt\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/volubilis_words_th.txt>`_
 
-    The data is at pythainlp/corpus/volubilis_modified.txt
-    The word list has beed prepared by the code at:
-    https://github.com/konbraphat51/Thai_Dictionary_Cleaner
-    Based Volubilis dictionary 23.1 (March 2023):
-    https://belisan-volubilis.blogspot.com/
+    More info:
+    https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md
 
-    :return: :class:`frozenset` containing words in the Volubilis dictionary.
+    :return: :class:`frozenset` containing Thai words.
     :rtype: :class:`frozenset`
     """
-    global _VOLUBILIS
-    if not _VOLUBILIS:
-        _VOLUBILIS = get_corpus(_VOLUBILIS_FILENAME)
+    global _VOLUBILIS_WORDS
+    if not _VOLUBILIS_WORDS:
+        _VOLUBILIS_WORDS = get_corpus(_VOLUBILIS_FILENAME, comments=False)
 
-    return _VOLUBILIS
+    return _VOLUBILIS_WORDS

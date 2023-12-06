@@ -12,49 +12,51 @@ __all__ = [
     "thai_female_names",
     "thai_male_names",
     "thai_negations",
+    "thai_dict",
     "thai_stopwords",
     "thai_syllables",
-    "thai_words",
-    "thai_dict",
-    "thai_wsd_dict",
     "thai_synonym",
+    "thai_synonyms",
+    "thai_words",
+    "thai_wsd_dict",
 ]
 
 from typing import FrozenSet, List, Union
+import warnings
 
-from pythainlp.corpus import get_corpus, get_corpus_path
+from pythainlp.corpus import get_corpus, get_corpus_as_is, get_corpus_path
 
-_THAI_COUNTRIES = set()
+_THAI_COUNTRIES: FrozenSet[str] = frozenset()
 _THAI_COUNTRIES_FILENAME = "countries_th.txt"
 
-_THAI_THAILAND_PROVINCES = set()
-_THAI_THAILAND_PROVINCES_DETAILS = []
+_THAI_THAILAND_PROVINCES: FrozenSet[str] = frozenset()
+_THAI_THAILAND_PROVINCES_DETAILS: List[dict] = []
 _THAI_THAILAND_PROVINCES_FILENAME = "thailand_provinces_th.csv"
 
-_THAI_SYLLABLES = set()
+_THAI_SYLLABLES: FrozenSet[str] = frozenset()
 _THAI_SYLLABLES_FILENAME = "syllables_th.txt"
 
-_THAI_WORDS = set()
+_THAI_WORDS: FrozenSet[str] = frozenset()
 _THAI_WORDS_FILENAME = "words_th.txt"
 
-_THAI_STOPWORDS = set()
+_THAI_STOPWORDS: FrozenSet[str] = frozenset()
 _THAI_STOPWORDS_FILENAME = "stopwords_th.txt"
 
-_THAI_NEGATIONS = set()
+_THAI_NEGATIONS: FrozenSet[str] = frozenset()
 _THAI_NEGATIONS_FILENAME = "negations_th.txt"
 
-_THAI_FAMLIY_NAMES = set()
+_THAI_FAMLIY_NAMES: FrozenSet[str] = frozenset()
 _THAI_FAMLIY_NAMES_FILENAME = "family_names_th.txt"
-_THAI_FEMALE_NAMES = set()
+_THAI_FEMALE_NAMES: FrozenSet[str] = frozenset()
 _THAI_FEMALE_NAMES_FILENAME = "person_names_female_th.txt"
-_THAI_MALE_NAMES = set()
+_THAI_MALE_NAMES: FrozenSet[str] = frozenset()
 _THAI_MALE_NAMES_FILENAME = "person_names_male_th.txt"
 
-_THAI_ORST_WORDS = set()
+_THAI_ORST_WORDS: FrozenSet[str] = frozenset()
 
 _THAI_DICT = {}
 _THAI_WSD_DICT = {}
-_THAI_SYNONYM = None
+_THAI_SYNONYMS = {}
 
 
 def countries() -> FrozenSet[str]:
@@ -74,7 +76,7 @@ def countries() -> FrozenSet[str]:
     return _THAI_COUNTRIES
 
 
-def provinces(details: bool = False) -> Union[FrozenSet[str], List[str]]:
+def provinces(details: bool = False) -> Union[FrozenSet[str], List[dict]]:
     """
     Return a frozenset of Thailand province names in Thai such as "กระบี่",
     "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
@@ -96,7 +98,7 @@ def provinces(details: bool = False) -> Union[FrozenSet[str], List[str]]:
         provs = set()
         prov_details = []
 
-        for line in get_corpus(_THAI_THAILAND_PROVINCES_FILENAME, as_is=True):
+        for line in get_corpus_as_is(_THAI_THAILAND_PROVINCES_FILENAME):
             p = line.split(",")
 
             prov = {}
@@ -155,14 +157,14 @@ def thai_orst_words() -> FrozenSet[str]:
     """
     Return a frozenset of Thai words from Royal Society of Thailand
     \n(See: `dev/pythainlp/corpus/thai_orst_words.txt\
-    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/thai_orst_words>`_)
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/orst_words_th.txt>`_)
 
     :return: :class:`frozenset` containing words in the Thai language.
     :rtype: :class:`frozenset`
     """
     global _THAI_ORST_WORDS
     if not _THAI_ORST_WORDS:
-        _THAI_ORST_WORDS = get_corpus("thai_orst_words.txt")
+        _THAI_ORST_WORDS = get_corpus("orst_words_th.txt")
 
     return _THAI_ORST_WORDS
 
@@ -266,8 +268,11 @@ def thai_dict() -> dict:
     global _THAI_DICT
     if not _THAI_DICT:
         import csv
-        _THAI_DICT = {"word":[], "meaning":[]}
-        with open(get_corpus_path("thai_dict"), newline="\n", encoding="utf-8") as csvfile:
+
+        _THAI_DICT = {"word": [], "meaning": []}
+        with open(
+            get_corpus_path("thai_dict"), newline="\n", encoding="utf-8"
+        ) as csvfile:
             reader = csv.DictReader(csvfile, delimiter=",")
             for row in reader:
                 _THAI_DICT["word"].append(row["word"])
@@ -288,38 +293,46 @@ def thai_wsd_dict() -> dict:
     global _THAI_WSD_DICT
     if not _THAI_WSD_DICT:
         _thai_wsd = thai_dict()
-        _THAI_WSD_DICT = {"word":[],"meaning":[]}
-        for i,j in zip(_thai_wsd["word"],_thai_wsd["meaning"]):
+        _THAI_WSD_DICT = {"word": [], "meaning": []}
+        for i, j in zip(_thai_wsd["word"], _thai_wsd["meaning"]):
             _all_value = list(eval(j).values())
             _use = []
             for k in _all_value:
                 _use.extend(k)
-            _use=list(set(_use))
-            if len(_use)>1:
+            _use = list(set(_use))
+            if len(_use) > 1:
                 _THAI_WSD_DICT["word"].append(i)
                 _THAI_WSD_DICT["meaning"].append(_use)
 
     return _THAI_WSD_DICT
 
 
-def thai_synonym() -> dict:
+def thai_synonyms() -> dict:
     """
-    Return Thai synonym.
+    Return Thai synonyms.
     \n(See: `thai_synonym\
     <https://pythainlp.github.io/pythainlp-corpus/thai_synonym.html>`_)
 
     :return: Thai words with part-of-speech type and synonym
     :rtype: dict
     """
-    global _THAI_SYNONYM
-    if _THAI_SYNONYM is None:
+    global _THAI_SYNONYMS
+    if not _THAI_SYNONYMS:
         import csv
-        _THAI_SYNONYM = {"word":[], "pos":[], "synonym":[]}
-        with open(get_corpus_path("thai_synonym"), newline="\n", encoding="utf-8") as csvfile:
+
+        _THAI_SYNONYMS = {"word": [], "pos": [], "synonym": []}
+        with open(
+            get_corpus_path("thai_synonym"), newline="\n", encoding="utf-8"
+        ) as csvfile:
             reader = csv.DictReader(csvfile, delimiter=",")
             for row in reader:
-                _THAI_SYNONYM["word"].append(row["word"])
-                _THAI_SYNONYM["pos"].append(row["pos"])
-                _THAI_SYNONYM["synonym"].append(row["synonym"].split("|"))
+                _THAI_SYNONYMS["word"].append(row["word"])
+                _THAI_SYNONYMS["pos"].append(row["pos"])
+                _THAI_SYNONYMS["synonym"].append(row["synonym"].split("|"))
 
-    return _THAI_SYNONYM
+    return _THAI_SYNONYMS
+
+
+def thai_synonym() -> dict:
+    warnings.warn("Deprecated: Use thai_synonyms() instead.", DeprecationWarning)
+    return thai_synonyms()

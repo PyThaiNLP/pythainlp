@@ -135,10 +135,10 @@ Thanks to all [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contr
 - Wannaphong Phatthiyaphaibun <wannaphong@yahoo.com> - foundation, distribution and maintenance
 - Korakot Chaovavanich - initial tokenization and soundex codes
 - Charin Polpanumas - classification and benchmarking
-- Peeradej Tanruangporn - documentation
 - Arthit Suriyawongkul - refactoring, packaging, distribution, and maintenance
-- Chakri Lowphansirikul - documentation
+- Lalita Lowphansirikul - documentation
 - Pattarawat Chormai - benchmarking
+- Peerat Limkonchotiwat
 - Thanathip Suntorntip - nlpO3 maintenance, Rust Developer
 - Can Udomcharoenchaikit - documentation and codes
 
@@ -146,6 +146,9 @@ Thanks to all [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contr
 - Arthit Suriyawongkul
 - Wannaphong Phatthiyaphaibun
 
+
+### Past
+- Peeradej Tanruangporn - documentation
 
 ## References
 

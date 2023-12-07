@@ -2,22 +2,22 @@
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 from pythainlp.util import Trie
-from pythainlp import thai_consonants,thai_tonemarks
+from pythainlp import thai_consonants, thai_tonemarks
 from pythainlp.tokenize import Tokenizer
 from pythainlp.corpus import thai_orst_words
 
 
 _dict_aksonhan = {}
 for i in list(thai_consonants):
-    if i=="ร":
+    if i == "ร":
         continue
     for j in list(thai_tonemarks):
-        _dict_aksonhan[i+j+i] = "ั"+j+i
-        _dict_aksonhan[i+i+j+i] = i+"ั"+j+i
-    _dict_aksonhan[i+i] = "ั"+i
+        _dict_aksonhan[i + j + i] = "ั" + j + i
+        _dict_aksonhan[i + i + j + i] = i + "ั" + j + i
+    _dict_aksonhan[i + i] = "ั" + i
 _set_aksonhan = set(_dict_aksonhan.keys())
-_trie = Trie(list(_dict_aksonhan.keys())+list(thai_consonants))
-_tokenizer = Tokenizer(custom_dict=_trie,engine="mm")
+_trie = Trie(list(_dict_aksonhan.keys()) + list(thai_consonants))
+_tokenizer = Tokenizer(custom_dict=_trie, engine="mm")
 _dict_thai = set(thai_orst_words())  # call Thai words
 
 
@@ -52,8 +52,9 @@ def aksonhan_to_current(word: str) -> str:
         return word
     elif word in _set_aksonhan:
         return _dict_aksonhan[word]
-    elif word in _dict_thai: # word in Thai words
+    elif word in _dict_thai:  # word in Thai words
         return word
+
     _seg = _tokenizer.word_tokenize(word)
     _w = []
     for i in _seg:
@@ -61,4 +62,4 @@ def aksonhan_to_current(word: str) -> str:
             _w.append(_dict_aksonhan[i])
         else:
             _w.append(i)
-    return ''.join(_w)
+    return "".join(_w)

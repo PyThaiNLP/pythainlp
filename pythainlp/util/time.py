@@ -128,11 +128,7 @@ def _format(
         raise NotImplementedError(f"Time format not supported: {fmt}")
 
     if precision in ("m", "s"):
-        if (
-            m == 30
-            and (s == 0 or precision == "m")
-            and (fmt in ("6h", "m6h"))
-        ):
+        if m == 30 and (s == 0 or precision == "m") and (fmt in ("6h", "m6h")):
             text += "ครึ่ง"
         else:
             text += num_to_thaiword(m) + "นาที"

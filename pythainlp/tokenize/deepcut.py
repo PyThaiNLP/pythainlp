@@ -21,7 +21,7 @@ from pythainlp.util import Trie
 
 
 def segment(
-    text: str, custom_dict: Union[Trie, List[str], str] = None
+    text: str, custom_dict: Union[Trie, List[str], str] = []
 ) -> List[str]:
     if not text or not isinstance(text, str):
         return []

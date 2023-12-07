@@ -7,7 +7,7 @@ Removement of repeated consonants at the end of words
 from pythainlp.corpus import thai_words
 from pythainlp.util.trie import Trie
 from pythainlp import thai_consonants as consonants
-from typing import Tuple, List
+from typing import Iterable, List, Tuple
 
 # used by remove_trailing_repeat_consonants()
 # contains all words that has repeating consonants at the end
@@ -19,7 +19,9 @@ last_consonants_repeaters = {}
 
 
 def remove_trailing_repeat_consonants(
-    text: str, dictionary: Trie = None, has_dictionary_updated: bool = True
+    text: str,
+    custom_dict: Iterable[str] = [],
+    has_dictionary_updated: bool = True,
 ) -> str:
     """
     Remove repeating consonants at the last of the sentence.
@@ -58,8 +60,8 @@ def remove_trailing_repeat_consonants(
         # "อืมมม" is in the default dictionary
 
         # use custom dictionary
-        custom_dictionary = dict_trie(["อืมมมมม"])
-        remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม', custom_dictionary)
+        custom_dict = dict_trie(["อืมมมมม"])
+        remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม', custom_dict)
         # output: อืมมมมม
 
         # long text
@@ -69,12 +71,12 @@ def remove_trailing_repeat_consonants(
         #         นี่เป็นความลับ
     """
     # use default dictionary if not given
-    if dictionary is None:
-        dictionary = thai_words()
+    if not custom_dict:
+        custom_dict = thai_words()
 
     # update repeaters dictionary if not updated
     if has_dictionary_updated:
-        _update_consonant_repeaters(dictionary)
+        _update_consonant_repeaters(custom_dict)
 
     # seperate by newline
     modified_lines = []
@@ -167,7 +169,7 @@ def _remove_all_last_consonants(text: str, dup: str) -> str:
     return removed
 
 
-def _update_consonant_repeaters(dictionary: Trie) -> None:
+def _update_consonant_repeaters(custom_dict: Iterable[str]) -> None:
     """
     Update dictionary of all words that has
     repeating consonants at the end from the dictionary.
@@ -184,7 +186,7 @@ def _update_consonant_repeaters(dictionary: Trie) -> None:
         last_consonants_repeaters[consonant] = []
 
     # register
-    for word in dictionary:
+    for word in custom_dict:
         if _is_last_consonant_repeater(word):
             last_consonants_repeaters[word[-1]].append(word)
 

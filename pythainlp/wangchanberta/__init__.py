@@ -2,9 +2,13 @@
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 __all__ = [
+    "NamedEntityRecognition",
     "ThaiNameTagger",
     "segment",
-    "NamedEntityRecognition",
 ]
 
-from pythainlp.wangchanberta.core import ThaiNameTagger, segment, NamedEntityRecognition
+from pythainlp.wangchanberta.core import (
+    NamedEntityRecognition,
+    ThaiNameTagger,
+    segment,
+)

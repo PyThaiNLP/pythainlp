@@ -4,16 +4,15 @@
 import re
 from typing import List
 from pythainlp import (
-    thai_letters,
-    thai_consonants,
-    thai_lead_vowels,
-    thai_follow_vowels,
     thai_above_vowels,
     thai_below_vowels,
+    thai_consonants,
+    thai_follow_vowels,
+    thai_lead_vowels,
+    thai_letters,
     thai_tonemarks,
 )
-from pythainlp.tokenize import Tokenizer
-from pythainlp.tokenize import subword_tokenize
+from pythainlp.tokenize import subword_tokenize, Tokenizer
 
 
 _r1 = ["เ-ย", "เ-ะ", "แ-ะ", "โ-ะ", "เ-าะ", "เ-อะ", "เ-อ", "เ-า"]
@@ -55,14 +54,14 @@ def _clean(w):
     if bool(re.match("|".join(rule3), w)):
         for r in rule3:
             if bool(re.match(r, w)):
-                _w = re.sub(r, "\\1==\\2==", w)
-                _temp = _w.split("==")
+                w = re.sub(r, "\\1==\\2==", w)
+                temp = w.split("==")
                 w = (
-                    _temp[0]
+                    temp[0]
                     + r.replace(f"([{thai_letters}])", "อ").replace(
                         f"([{thai_tonemarks}])", ""
                     )
-                    + _temp[1]
+                    + temp[1]
                 )
     elif bool(re.match("|".join(rule2), w)):
         for r in rule2:
@@ -77,7 +76,7 @@ def _clean(w):
     return w
 
 
-def spell_syllable(s: str) -> List[str]:
+def spell_syllable(text: str) -> List[str]:
     """
     Spell out syllables in Thai word distribution form.
 
@@ -93,17 +92,16 @@ def spell_syllable(s: str) -> List[str]:
         print(spell_syllable("แมว"))
         # output: ['มอ', 'วอ', 'แอ', 'แมว']
     """
-    _t = s
-    s = _cut.word_tokenize(_clean(s))
-    _c_only = [i + "อ" for i in s if i in set(thai_consonants)]
-    _v_only = [dict_vowel[i] for i in s if i in set(dict_vowel)]
-    _t_only = [tonemarks[i] for i in s if i in set(tonemarks.keys())]
-    _out = _c_only + _v_only + _t_only
-    _out.append(_t)
-    return _out
+    tokens = _cut.word_tokenize(_clean(text))
+
+    c_only = [tok + "อ" for tok in tokens if tok in set(thai_consonants)]
+    v_only = [dict_vowel[tok] for tok in tokens if tok in set(dict_vowel)]
+    t_only = [tonemarks[tok] for tok in tokens if tok in set(tonemarks.keys())]
+
+    return c_only + v_only + t_only + [text]
 
 
-def spell_word(w: str) -> List[str]:
+def spell_word(text: str) -> List[str]:
     """
     Spell out words in Thai word distribution form.
 
@@ -119,10 +117,13 @@ def spell_word(w: str) -> List[str]:
         print(spell_word("คนดี"))
         # output: ['คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี']
     """
-    _r = []
-    _temp = subword_tokenize(w, engine="ssg")
-    for i in _temp:
-        _r.extend(spell_syllable(i))
-    if len(_temp) > 1:
-        _r.append(w)
-    return _r
+    spellouts = []
+    tokens = subword_tokenize(text, engine="ssg")
+
+    for tok in tokens:
+        spellouts.extend(spell_syllable(tok))
+
+    if len(tokens) > 1:
+        spellouts.append(text)
+
+    return spellouts

@@ -10,17 +10,17 @@ such as its part-of-speech (POS) tag, and named entity (NE) tag.
 
 __all__ = [
     "PerceptronTagger",
-    "pos_tag",
-    "pos_tag_sents",
-    "tag_provinces",
-    "chunk_parse",
     "NER",
     "NNER",
-    "pos_tag_transformers"
+    "chunk_parse",
+    "pos_tag",
+    "pos_tag_sents",
+    "pos_tag_transformers",
+    "tag_provinces",
 ]
 
-from pythainlp.tag.locations import tag_provinces
-from pythainlp.tag.pos_tag import pos_tag, pos_tag_sents, pos_tag_transformers
 from pythainlp.tag._tag_perceptron import PerceptronTagger
 from pythainlp.tag.chunk import chunk_parse
+from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import NER, NNER
+from pythainlp.tag.pos_tag import pos_tag, pos_tag_sents, pos_tag_transformers

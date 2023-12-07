@@ -6,11 +6,10 @@ Trie data structure.
 
 Designed to be used for tokenizer's dictionary, but can be for other purposes.
 """
-from typing import Iterable, List, Union
+from typing import Iterable, Iterator, List, Union
 
-
-class Trie:
-    class Node():
+class Trie(Iterable[str]):
+    class Node:
         __slots__ = "end", "children"
 
         def __init__(self):
@@ -90,7 +89,7 @@ class Trie:
     def __contains__(self, key: str) -> bool:
         return key in self.words
 
-    def __iter__(self) -> Iterable[str]:
+    def __iter__(self) -> Iterator[str]:
         yield from self.words
 
     def __len__(self) -> int:
@@ -106,7 +105,7 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     :return: a trie object
     :rtype: pythainlp.util.Trie
     """
-    trie = None
+    trie = Trie([])
 
     if isinstance(dict_source, str) and len(dict_source) > 0:
         # dict_source is a path to dictionary text file

@@ -10,12 +10,12 @@ __all__ = [
     "Tokenizer",
     "Trie",
     "clause_tokenize",
+    "paragraph_tokenize",
     "sent_tokenize",
     "subword_tokenize",
     "syllable_tokenize",
-    "word_tokenize",
     "word_detokenize",
-    "paragraph_tokenize",
+    "word_tokenize",
 ]
 
 from pythainlp.corpus import thai_syllables, thai_words
@@ -33,12 +33,12 @@ DEFAULT_DICT_TRIE = DEFAULT_WORD_DICT_TRIE
 from pythainlp.tokenize.core import (
     Tokenizer,
     clause_tokenize,
+    paragraph_tokenize,
     sent_tokenize,
     subword_tokenize,
     syllable_tokenize,
-    word_tokenize,
     word_detokenize,
-    paragraph_tokenize,
+    word_tokenize,
 )
 
 from pythainlp.corpus import get_corpus as _get_corpus

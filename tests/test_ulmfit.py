@@ -5,6 +5,7 @@ import unittest
 
 import pandas as pd
 import torch
+
 # fastai
 import fastai
 from fastai.text import *
@@ -213,15 +214,15 @@ class TestUlmfitPackage(unittest.TestCase):
 
     def test_document_vector(self):
         imdb = untar_data(URLs.IMDB_SAMPLE)
-        dummy_df = pd.read_csv(imdb/'texts.csv')
+        dummy_df = pd.read_csv(imdb / "texts.csv")
         thwiki = THWIKI_LSTM
-        thwiki_itos = pickle.load(open(thwiki['itos_fname'], 'rb'))
+        thwiki_itos = pickle.load(open(thwiki["itos_fname"], "rb"))
         thwiki_vocab = fastai.text.transform.Vocab(thwiki_itos)
         tt = Tokenizer(
             tok_func=ThaiTokenizer,
-            lang='th',
+            lang="th",
             pre_rules=pre_rules_th,
-            post_rules=post_rules_th
+            post_rules=post_rules_th,
         )
         processor = [
             TokenizeProcessor(
@@ -229,14 +230,11 @@ class TestUlmfitPackage(unittest.TestCase):
             ),
             NumericalizeProcessor(
                 vocab=thwiki_vocab, max_vocab=60000, min_freq=3
-            )
+            ),
         ]
         data_lm = (
             TextList.from_df(
-                dummy_df,
-                imdb,
-                cols=['text'],
-                processor=processor
+                dummy_df, imdb, cols=["text"], processor=processor
             )
             .split_by_rand_pct(0.2)
             .label_for_lm()
@@ -255,28 +253,22 @@ class TestUlmfitPackage(unittest.TestCase):
             "hidden_p": 0.1,
             "input_p": 0.2,
             "embed_p": 0.02,
-            "weight_p": 0.15
+            "weight_p": 0.15,
         }
         trn_args = {"drop_mult": 0.9, "clip": 0.12, "alpha": 2, "beta": 1}
         learn = language_model_learner(
-            data_lm,
-            AWD_LSTM,
-            config=config,
-            pretrained=False,
-            **trn_args
+            data_lm, AWD_LSTM, config=config, pretrained=False, **trn_args
         )
         learn.load_pretrained(**thwiki)
+        self.assertIsNotNone(document_vector("วันนี้วันดีปีใหม่", learn, data_lm))
         self.assertIsNotNone(
-            document_vector('วันนี้วันดีปีใหม่', learn, data_lm)
-        )
-        self.assertIsNotNone(
-            document_vector('วันนี้วันดีปีใหม่', learn, data_lm, agg="sum")
+            document_vector("วันนี้วันดีปีใหม่", learn, data_lm, agg="sum")
         )
         with self.assertRaises(ValueError):
-            document_vector('วันนี้วันดีปีใหม่', learn, data_lm, agg='abc')
+            document_vector("วันนี้วันดีปีใหม่", learn, data_lm, agg="abc")
 
     def test_merge_wgts(self):
-        wgts = {'0.encoder.weight': torch.randn(5,3)}
+        wgts = {"0.encoder.weight": torch.randn(5, 3)}
         itos_pre = ["แมว", "คน", "หนู"]
         itos_new = ["ปลา", "เต่า", "นก"]
         em_sz = 3

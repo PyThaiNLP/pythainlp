@@ -8,6 +8,7 @@ Designed to be used for tokenizer's dictionary, but can be for other purposes.
 """
 from typing import Iterable, Iterator, List, Union
 
+
 class Trie(Iterable[str]):
     class Node:
         __slots__ = "end", "children"

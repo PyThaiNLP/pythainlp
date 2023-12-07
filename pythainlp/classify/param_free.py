@@ -9,7 +9,9 @@ import numpy as np
 
 class GzipModel:
     """
-    This class is a re-implementation of “Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors (Jiang et al., Findings 2023)
+    This class is a re-implementation of
+    “Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors
+    (Jiang et al., Findings 2023)
 
     :param list training_data: list [(text_sample,label)]
     """
@@ -36,7 +38,7 @@ class GzipModel:
         :Example:
         ::
 
-                from pythainlp.cls import GzipModel
+                from pythainlp.classify import GzipModel
 
                 training_data =  [
                     ("รายละเอียดตามนี้เลยค่าา ^^", "Neutral"),
@@ -63,8 +65,10 @@ class GzipModel:
             # normalized compression distance
             ncd = (Cx1x2 - min(Cx1, Cx2)) / max(Cx1, Cx2)
             disance_from_x1.append(ncd)
+
         sorted_idx = np.argsort(np.array(disance_from_x1))
         top_k_class = self.training_data[sorted_idx[:k], 1]
         _, counts = np.unique(top_k_class, return_counts=True)
         predict_class = top_k_class[counts.argmax()]
+
         return predict_class

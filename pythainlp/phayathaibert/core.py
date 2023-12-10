@@ -2,9 +2,10 @@
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 from typing import Callable, Collection, List, Tuple, Union
-import re
 import random
+import re
 import warnings
+
 from pythainlp.tokenize import word_tokenize
 from transformers import (
     CamembertTokenizer,
@@ -49,7 +50,7 @@ class ThaiTextProcessor:
         new_line = re.sub(r"\(\)", "", text)
         new_line = re.sub(r"\{\}", "", new_line)
         new_line = re.sub(r"\[\]", "", new_line)
-        # brakets with only punctuations
+        # brackets with only punctuations
         new_line = re.sub(r"\([^a-zA-Z0-9ก-๙]+\)", "", new_line)
         new_line = re.sub(r"\{[^a-zA-Z0-9ก-๙]+\}", "", new_line)
         new_line = re.sub(r"\[[^a-zA-Z0-9ก-๙]+\]", "", new_line)
@@ -225,7 +226,7 @@ class ThaiTextAugmenter:
         """
         Text Augment from phayathaibert
 
-        :param str text: thai text
+        :param str text: Thai text
         :param int num_augs: an amount of augmentation text needed as an output
         :param bool sample: whether to sample the text as an output or not,\
               true if more word diversity is needed

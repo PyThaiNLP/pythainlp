@@ -73,7 +73,7 @@ class ThaiTextAugmenter:
         """
         augment_list = []
         if "<mask>" not in text:
-            text = text + "<mask>" 
+            text = text + "<mask>"
         if num_augs <= 5:
             for rank in range(num_augs):
                 gen_text = self.generate(text, rank, sample=sample)

@@ -241,9 +241,9 @@ def pos_tag_transformers(
             )
         )
 
-    pipeline = TokenClassificationPipeline(model = model,
-                                           tokenizer = tokenizer,
-                                           aggregation_strategy = "simple",
+    pipeline = TokenClassificationPipeline(model=model,
+                                           tokenizer=tokenizer,
+                                           aggregation_strategy="simple",
                                            )
 
     outputs = pipeline(sentence)

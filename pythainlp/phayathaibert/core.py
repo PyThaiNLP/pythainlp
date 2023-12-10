@@ -191,8 +191,8 @@ class ThaiTextAugmenter:
         self.tokenizer = AutoTokenizer.from_pretrained(_model_name)
         self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(_model_name)
         self.model = pipeline("fill-mask",
-                              tokenizer = self.tokenizer,
-                              model = self.model_for_masked_lm,
+                              tokenizer=self.tokenizer,
+                              model=self.model_for_masked_lm,
                               )
         self.processor = ThaiTextProcessor()
 
@@ -253,7 +253,7 @@ class ThaiTextAugmenter:
             for rank in range(num_augs):
                 gen_text = self.generate(text,
                                          rank,
-                                         sample = sample,
+                                         sample=sample,
                                          )
                 processed_text = re.sub("<_>", " ", self.processor.preprocess(gen_text))
                 augment_list.append(processed_text)
@@ -349,9 +349,9 @@ class NamedEntityTagger:
         sample_output = []
         tag_text_list = []
         current_pos = 0
-        pipeline = TokenClassificationPipeline(model = self.model,
-                                               tokenizer = self.tokenizer,
-                                               aggregation_strategy = strategy,
+        pipeline = TokenClassificationPipeline(model=self.model,
+                                               tokenizer=self.tokenizer,
+                                               aggregation_strategy=strategy,
                                                )
         outputs = pipeline(text)
         for token in outputs:

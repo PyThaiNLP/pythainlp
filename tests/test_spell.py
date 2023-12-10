@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
 
 import unittest
 
 from pythainlp.spell import (
     NorvigSpellChecker,
     correct,
+    correct_sent,
     spell,
     spell_sent,
-    correct_sent,
     symspellpy,
 )
 
@@ -139,6 +141,4 @@ class TestSpellPackage(unittest.TestCase):
         self.assertIsNotNone(
             correct_sent(self.spell_sent, engine="wanchanberta_thai_grammarly")
         )
-        self.assertIsNotNone(
-            symspellpy.correct_sent(self.spell_sent)
-        )
+        self.assertIsNotNone(symspellpy.correct_sent(self.spell_sent))

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
 
 import unittest
 
@@ -23,7 +25,9 @@ class TestSummarizePackage(unittest.TestCase):
         # self.assertIsNotNone(summarize(text, engine="mt5-small"))
         # self.assertIsNotNone(summarize([]))
         # self.assertIsNotNone(summarize(text, 1, engine="mt5-small"))
-        self.assertIsNotNone(summarize(text, 1, engine="mt5-cpe-kmutt-thai-sentence-sum"))
+        self.assertIsNotNone(
+            summarize(text, 1, engine="mt5-cpe-kmutt-thai-sentence-sum")
+        )
         self.assertIsNotNone(summarize(text, 1, engine="XX"))
         with self.assertRaises(ValueError):
             self.assertIsNotNone(summarize(text, 1, engine="mt5-cat"))
@@ -49,7 +53,9 @@ class TestSummarizePackage(unittest.TestCase):
 
         # test another engine
         for max_kw in (5, 10):
-            keywords = extract_keywords(text, engine="frequency", max_keywords=max_kw)
+            keywords = extract_keywords(
+                text, engine="frequency", max_keywords=max_kw
+            )
             self.assertEqual(len(keywords), max_kw)
 
         # test invalid engine
@@ -86,7 +92,9 @@ class TestSummarizePackage(unittest.TestCase):
         # test ngram range
         ng_ranges = [(1, 1), (1, 2), (2, 2), (3, 3)]
         for ng_min, ng_max in ng_ranges:
-            keywords = keybert.extract_keywords(text, keyphrase_ngram_range=(ng_min, ng_max))
+            keywords = keybert.extract_keywords(
+                text, keyphrase_ngram_range=(ng_min, ng_max)
+            )
 
             for kw in keywords:
                 self.assertTrue(ng_min <= len(word_tokenize(kw)) <= ng_max)

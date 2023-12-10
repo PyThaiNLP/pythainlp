@@ -1,22 +1,23 @@
 # -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
 
 import unittest
 from os import path
 
 from pythainlp.tag import (
-    chunk_parse,
+    NER,
+    NNER,
     PerceptronTagger,
+    chunk_parse,
     perceptron,
     pos_tag,
     pos_tag_sents,
     pos_tag_transformers,
-    unigram,
+    tag_provinces,
     tltk,
-    NER,
-    NNER,
-
+    unigram,
 )
-from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.thainer import ThaiNameTagger
 
 
@@ -58,8 +59,12 @@ class TestTagPackage(unittest.TestCase):
         )
         self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="pud"))
         self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="pud"))
-        self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="blackboard"))
-        self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="blackboard"))
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="unigram", corpus="blackboard")
+        )
+        self.assertIsNotNone(
+            pos_tag([""], engine="unigram", corpus="blackboard")
+        )
         self.assertIsNotNone(
             pos_tag([""], engine="unigram", corpus="blackboard_ud")
         )
@@ -98,9 +103,7 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="blackboard_ud")
         )
-        self.assertIsNotNone(
-            pos_tag(tokens, engine="tltk")
-        )
+        self.assertIsNotNone(pos_tag(tokens, engine="tltk"))
 
         self.assertEqual(pos_tag_sents(None), [])
         self.assertEqual(pos_tag_sents([]), [])
@@ -112,9 +115,7 @@ class TestTagPackage(unittest.TestCase):
             ],
         )
         with self.assertRaises(ValueError):
-            self.assertIsNotNone(
-                tltk.pos_tag(tokens, corpus="blackboard")
-            )
+            self.assertIsNotNone(tltk.pos_tag(tokens, corpus="blackboard"))
 
     # ### pythainlp.tag.PerceptronTagger
 
@@ -269,7 +270,7 @@ class TestTagPackage(unittest.TestCase):
             "คณะวิศวกรรมศาสตร์</ORGANIZATION> ",
         )
 
-        '''self.assertEqual(
+        """self.assertEqual(
             ner.get_ner(
                 "มาตรา 80 ปพพ ให้ใช้อัตราภาษีร้อยละ 10.0"
                 " ในการคำนวณภาษีมูลค่าเพิ่ม",
@@ -278,7 +279,7 @@ class TestTagPackage(unittest.TestCase):
             "<LAW>มาตรา 80 ปพพ</LAW> "
             "ให้ใช้อัตราภาษี<PERCENT>ร้อยละ 10.0</PERCENT>"
             " ในการคำนวณภาษีมูลค่าเพิ่ม",
-        )'''
+        )"""
 
         self.assertEqual(
             ner.get_ner("ยาว 20 เซนติเมตร", tag=True),
@@ -293,14 +294,12 @@ class TestTagPackage(unittest.TestCase):
             ner.get_ner("ไทย", pos=False, tag=True), "<LOCATION>ไทย</LOCATION>"
         )
 
-        self.assertIsNotNone(
-            ner.get_ner("บางแสนกรุงเทพ", pos=False, tag=True)
-        )
+        self.assertIsNotNone(ner.get_ner("บางแสนกรุงเทพ", pos=False, tag=True))
 
         # argument `tag` is False and `pos` is True
         self.assertEqual(
             ner.get_ner("ไทย", pos=True, tag=False),
-            [('ไทย', 'PROPN', 'B-LOCATION')],
+            [("ไทย", "PROPN", "B-LOCATION")],
         )
 
         # arguement `tag` is False and `pos` is False
@@ -317,9 +316,7 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(tltk.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
         self.assertIsNotNone(tltk.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
         self.assertIsNotNone(
-            tltk.get_ner(
-                "พลเอกประยุกธ์ จันทร์โอชา ประกาศในฐานะหัวหน้า"
-            )
+            tltk.get_ner("พลเอกประยุกธ์ จันทร์โอชา ประกาศในฐานะหัวหน้า")
         )
         self.assertIsNotNone(
             tltk.get_ner(
@@ -366,14 +363,32 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(nner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
 
     def test_pos_tag_transformers(self):
-        self.assertIsNotNone(pos_tag_transformers(
-            words="แมวทำอะไรตอนห้าโมงเช้า", engine="bert", corpus="blackboard"))
-        self.assertIsNotNone(pos_tag_transformers(
-            words="แมวทำอะไรตอนห้าโมงเช้า", engine="mdeberta", corpus="pud"))
-        self.assertIsNotNone(pos_tag_transformers(
-            words="แมวทำอะไรตอนห้าโมงเช้า", engine="wangchanberta", corpus="pud"))
+        self.assertIsNotNone(
+            pos_tag_transformers(
+                words="แมวทำอะไรตอนห้าโมงเช้า",
+                engine="bert",
+                corpus="blackboard",
+            )
+        )
+        self.assertIsNotNone(
+            pos_tag_transformers(
+                words="แมวทำอะไรตอนห้าโมงเช้า", engine="mdeberta", corpus="pud"
+            )
+        )
+        self.assertIsNotNone(
+            pos_tag_transformers(
+                words="แมวทำอะไรตอนห้าโมงเช้า",
+                engine="wangchanberta",
+                corpus="pud",
+            )
+        )
         with self.assertRaises(ValueError):
-            pos_tag_transformers(words="แมวทำอะไรตอนห้าโมงเช้า", engine="non-existing-engine")
+            pos_tag_transformers(
+                words="แมวทำอะไรตอนห้าโมงเช้า", engine="non-existing-engine"
+            )
         with self.assertRaises(ValueError):
-            pos_tag_transformers(words="แมวทำอะไรตอนห้าโมงเช้า", engine="bert", 
-                                 corpus="non-existing corpus")
+            pos_tag_transformers(
+                words="แมวทำอะไรตอนห้าโมงเช้า",
+                engine="bert",
+                corpus="non-existing corpus",
+            )

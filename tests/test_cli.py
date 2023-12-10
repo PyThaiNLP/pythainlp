@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
 
 import unittest
 from argparse import ArgumentError
@@ -41,7 +43,7 @@ class TestMainPackage(unittest.TestCase):
                     "./tests/data/input.txt",
                     "--test-file",
                     "./tests/data/test.txt",
-                    "--save-details"
+                    "--save-details",
                 ]
             )
         )
@@ -117,9 +119,7 @@ class TestMainPackage(unittest.TestCase):
         self.assertEqual(ex.exception.code, 2)
 
         self.assertIsNotNone(
-            cli.tokenize.App(
-                ["thainlp", "tokenize", "NOT_EXIST", "ไม่มีอยู่ จริง"]
-            )
+            cli.tokenize.App(["thainlp", "tokenize", "NOT_EXIST", "ไม่มีอยู่ จริง"])
         )
         self.assertIsNotNone(
             cli.tokenize.App(

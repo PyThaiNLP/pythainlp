@@ -219,8 +219,33 @@ class ThaiTextAugmenter:
                 num_augs: int=3, 
                 sample: bool=False
                 )->List[str]:
+        """
+        Text Augment from phayathaibert
+
+        :param str text: thai text
+        :param int num_augs: an amount of augmentation text needed as an output
+        :param bool sample: whether to sample the text as an output or not, true if more word diversity is needed
+
+        :return: list of text augment
+        :rtype: List[str]
+
+        :Example:
+        ::
+
+            from pythainlp.augment.lm import ThaiTextAugmenter
+
+            aug=ThaiTextAugmenter()
+            aug = ThaiTextAugmenter()
+            aug.augment("ช้างมีทั้งหมด 50 ตัว บน", num_args=5)
+
+            # output = ['ช้างมีทั้งหมด 50 ตัว บนโลกใบนี้ครับ.',
+                'ช้างมีทั้งหมด 50 ตัว บนพื้นดินครับ...',
+                'ช้างมีทั้งหมด 50 ตัว บนท้องฟ้าครับ...',
+                'ช้างมีทั้งหมด 50 ตัว บนดวงจันทร์.‼',
+                'ช้างมีทั้งหมด 50 ตัว บนเขาค่ะ😁']
+        """
         augment_list = []
-        if num_augs <= 5: # since huggingface transformers pipeline default was set to 5 generated text
+        if num_augs <= 5: 
             for rank in range(num_augs):
                 gen_text = self.generate(text, rank, sample=sample)
                 processed_text = re.sub("<_>", " ", self.processor.preprocess(gen_text))
@@ -241,6 +266,24 @@ class PartOfSpeechTagger:
         self.model = AutoModelForTokenClassification.from_pretrained(model)
 
     def get_tag(self, sentence: str, strategy: str='simple')->List[List[Tuple[str, str]]]:
+        """
+    Marks sentences with part-of-speech (POS) tags.
+
+    :param str sentence: a list of lists of tokenized words
+    :return: a list of lists of tuples (word, POS tag)
+    :rtype: list[list[tuple[str, str]]]
+
+    :Example:
+
+    Labels POS for given sentence::
+
+        from pythainlp.phayathaibert.core import PartOfSpeechTagger
+
+        tagger = PartOfSpeechTagger()
+        tagger.get_tag("แมวทำอะไรตอนห้าโมงเช้า")
+        # output:
+        # [[('แมว', 'NOUN'), ('ทําอะไร', 'VERB'), ('ตอนห้าโมงเช้า', 'NOUN')]]
+        """
         from transformers import TokenClassificationPipeline
         pipeline = TokenClassificationPipeline(
             model=self.model, 
@@ -265,6 +308,31 @@ class NamedEntityTagger:
                 pos: bool=False,
                 strategy: str="simple"
                 )->Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
+        """
+        This function tags named entities in text in IOB format.
+
+        :param str text: text in Thai to be tagged
+        :param bool pos: output with part-of-speech tags.\
+            (phayathaibert is supported in PartOfSpeechTagger)
+        :return: a list of tuples associated with tokenized words, NER tags,
+                 POS tags (if the parameter `pos` is specified as `True`),
+                 and output HTML-like tags (if the parameter `tag` is
+                 specified as `True`).
+                 Otherwise, return a list of tuples associated with tokenized
+                 words and NER tags
+        :rtype: Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]
+        :Example:
+
+            >>> from pythainlp.phayathaibert.core import NamedEntityTagger
+            >>>
+            >>> tagger = NamedEntityTagger()
+            >>> tagger.get_ner("ทดสอบนายปวริศ เรืองจุติโพธิ์พานจากประเทศไทย")
+            [('นายปวริศ เรืองจุติโพธิ์พานจากประเทศไทย', 'PERSON'),
+            ('จาก', 'LOCATION'),
+            ('ประเทศไทย', 'LOCATION')]
+            >>> ner.tag("ทดสอบนายปวริศ เรืองจุติโพธิ์พานจากประเทศไทย", tag=True)
+            'ทดสอบ<PERSON>นายปวริศ เรืองจุติโพธิ์พาน</PERSON><LOCATION>จาก</LOCATION><LOCATION>ประเทศไทย</LOCATION>'
+        """
         from transformers import TokenClassificationPipeline
         if pos:
             warnings.warn("This model doesn't support output postag and It doesn't output the postag.")
@@ -294,6 +362,13 @@ class NamedEntityTagger:
 
     
 def segment(sentence: str)->List[str]:
+    """
+    Subword tokenize of phayathaibert, sentencepiece from wangchanberta model with Vocabulary Expansion.
+
+    :param str text: text to be tokenized
+    :return: list of subwords
+    :rtype: list[str]
+    """
     if not sentence or not isinstance(sentence, str):
         return []
 

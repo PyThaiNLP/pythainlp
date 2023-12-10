@@ -45,6 +45,31 @@ class ThaiTextAugmenter:
                 text: str, 
                 num_augs: int=3, 
                 sample: bool=False)->List[str]:
+        """
+        Text Augment from phayathaibert
+
+        :param str text: thai text
+        :param int num_augs: an amount of augmentation text needed as an output
+        :param bool sample: whether to sample the text as an output or not, true if more word diversity is needed
+
+        :return: list of text augment
+        :rtype: List[str]
+
+        :Example:
+        ::
+
+            from pythainlp.augment.lm import ThaiTextAugmenter
+
+            aug=ThaiTextAugmenter()
+            aug = ThaiTextAugmenter()
+            aug.augment("ช้างมีทั้งหมด 50 ตัว บน", num_args=5)
+
+            # output = ['ช้างมีทั้งหมด 50 ตัว บนโลกใบนี้ครับ.',
+                'ช้างมีทั้งหมด 50 ตัว บนพื้นดินครับ...',
+                'ช้างมีทั้งหมด 50 ตัว บนท้องฟ้าครับ...',
+                'ช้างมีทั้งหมด 50 ตัว บนดวงจันทร์.‼',
+                'ช้างมีทั้งหมด 50 ตัว บนเขาค่ะ😁']
+        """
         augment_list = []
         if "<mask>" not in text:
             text = text+"<mask>" 

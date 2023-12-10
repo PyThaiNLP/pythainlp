@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 """
-LM
+Language Models
 """
 
 __all__ = [

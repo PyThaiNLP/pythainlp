@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
-from typing import List, Union, Tuple, Collection, Callable
+from typing import Callable, Collection, List, Tuple, Union
 import re
 import random
 import warnings
@@ -238,7 +238,6 @@ class ThaiTextAugmenter:
 
             from pythainlp.augment.lm import ThaiTextAugmenter
 
-            aug=ThaiTextAugmenter()
             aug = ThaiTextAugmenter()
             aug.augment("ช้างมีทั้งหมด 50 ตัว บน", num_args=5)
 

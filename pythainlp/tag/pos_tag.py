@@ -180,7 +180,8 @@ def pos_tag_transformers(
     :param str engine:
         * *bert* -  BERT: Bidirectional Encoder Representations from Transformers (default)
         * *wangchanberta* - fine-tuned version of airesearch/wangchanberta-base-att-spm-uncased on pud corpus (support PUD cotpus only)
-        * *phayathaibert* - fine-tuned version of clicknext/phayathaibert on blackboard corpus (support blackboard cotpus only)
+        * *phayathaibert* - fine-tuned version of clicknext/phayathaibert \
+            on blackboard corpus (support blackboard cotpus only)
         * *mdeberta* - mDeBERTa: Multilingual Decoding-enhanced BERT with disentangled attention (support PUD corpus only)
     :param str corpus: the corpus that is used to create the language model for tagger
         * *blackboard* - `blackboard treebank (support bert engine only) <https://bitbucket.org/kaamanita/blackboard-treebank/src/master/>`_
@@ -213,13 +214,13 @@ def pos_tag_transformers(
         return []
 
     _blackboard_support_engine = {
-        "bert" : "lunarlist/pos_thai",
-        "phayathai" : "lunarlist/pos_thai_phayathai",
+        "bert": "lunarlist/pos_thai",
+        "phayathai": "lunarlist/pos_thai_phayathai",
     }
 
     _pud_support_engine = {
-        "wangchanberta" : "Pavarissy/wangchanberta-ud-thai-pud-upos",
-        "mdeberta" : "Pavarissy/mdeberta-v3-ud-thai-pud-upos",
+        "wangchanberta": "Pavarissy/wangchanberta-ud-thai-pud-upos",
+        "mdeberta": "Pavarissy/mdeberta-v3-ud-thai-pud-upos",
     }
 
     if corpus == 'blackboard' and engine in _blackboard_support_engine.keys():
@@ -237,7 +238,7 @@ def pos_tag_transformers(
             )
         )
 
-    pipeline = TokenClassificationPipeline(model=model, tokenizer=tokenizer, aggregation_strategy="simple")
+    pipeline = TokenClassificationPipeline(model = model, tokenizer = tokenizer, aggregation_strategy = "simple")
 
     outputs = pipeline(sentence)
     word_tags = [[(tag['word'], tag['entity_group']) for tag in outputs]]

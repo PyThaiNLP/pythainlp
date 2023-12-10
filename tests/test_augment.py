@@ -45,6 +45,6 @@ class TestTextaugmentPackage(unittest.TestCase):
     #     _aug = Thai2transformersAug()
     #     self.assertIsNotNone(_aug.augment(self.text2, num_replace_tokens=1))
 
-     # def test_ThaiTextAugmenter(self):
+    # def test_ThaiTextAugmenter(self):
     #     _aug = ThaiTextAugmenter()
     #     self.assertIsNotNone(_aug.augment(self.text2, num__augs=3))

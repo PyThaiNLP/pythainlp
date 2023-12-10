@@ -8,10 +8,9 @@ __all__ = [
     "segment",
 ]
 
-from pythainlp.phayathaibert.core import (
-    ThaiTextProcessor, 
-    ThaiTextAugmenter, 
-    NamedEntityTagger,
-    PartOfSpeechTagger, 
-    segment,
+from pythainlp.phayathaibert.core import (ThaiTextProcessor,
+                                          ThaiTextAugmenter,
+                                          NamedEntityTagger,
+                                          PartOfSpeechTagger,
+                                          segment,
 )

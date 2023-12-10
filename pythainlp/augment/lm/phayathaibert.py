@@ -9,10 +9,11 @@ from pythainlp.phayathaibert.core import ThaiTextProcessor
 
 _model_name = "clicknext/phayathaibert"
 
+
 class ThaiTextAugmenter:
-    def __init__(self,)->None:
-        from transformers import (AutoTokenizer, 
-                                  AutoModelForMaskedLM, 
+    def __init__(self,) -> None:
+        from transformers import (AutoTokenizer,
+                                  AutoModelForMaskedLM,
                                   pipeline,)
         self.tokenizer = AutoTokenizer.from_pretrained(_model_name)
         self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(_model_name)
@@ -20,11 +21,11 @@ class ThaiTextAugmenter:
         self.processor = ThaiTextProcessor()
 
     def generate(self,
-                 sample_text: str, 
-                 word_rank: int, 
-                 max_length: int=3,
-                 sample: bool=False
-                 )->str:
+                 sample_text: str,
+                 word_rank: int,
+                 max_length: int = 3,
+                 sample: bool = False
+                 ) -> str:
         sample_txt = sample_text
         final_text = ""
         for j in range(max_length):
@@ -34,23 +35,24 @@ class ThaiTextAugmenter:
                 output = self.model(input)[random_word_idx]['sequence']
             else:
                 output = self.model(input)[word_rank]['sequence']
-            sample_txt = output+"<mask>"
+            sample_txt = output + "<mask>"
             final_text = sample_txt
-
-        gen_txt = re.sub("<mask>","",final_text)
+        gen_txt = re.sub("<mask>", "", final_text)
         return gen_txt
-    
+
 
     def augment(self,
-                text: str, 
-                num_augs: int=3, 
-                sample: bool=False)->List[str]:
+                text: str,
+                num_augs: int = 3,
+                sample: bool = False
+                )->List[str]:
         """
         Text Augment from phayathaibert
 
         :param str text: thai text
         :param int num_augs: an amount of augmentation text needed as an output
-        :param bool sample: whether to sample the text as an output or not, true if more word diversity is needed
+        :param bool sample: whether to sample the text as an output or not, \
+                            true if more word diversity is needed
 
         :return: list of text augment
         :rtype: List[str]
@@ -72,7 +74,7 @@ class ThaiTextAugmenter:
         """
         augment_list = []
         if "<mask>" not in text:
-            text = text+"<mask>" 
+            text = text + "<mask>" 
         if num_augs <= 5:
             for rank in range(num_augs):
                 gen_text = self.generate(text, rank, sample=sample)

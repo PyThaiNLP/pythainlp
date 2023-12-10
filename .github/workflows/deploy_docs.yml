@@ -12,11 +12,11 @@ jobs:
     name: Build
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - name: Set up Python 3.8
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v4
       with:
-        python-version: 3.8
+        python-version: '3.8'
     - name: Install dependencies
       env:
         SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL: True

@@ -35,7 +35,7 @@ def get_corpus_db(url: str):
     return corpus_db
 
 
-def get_corpus_db_detail(name: str, version: str = None) -> dict:
+def get_corpus_db_detail(name: str, version: str = '') -> dict:
     """
     Get details about a corpus, using information from local catalog.
 
@@ -46,7 +46,7 @@ def get_corpus_db_detail(name: str, version: str = None) -> dict:
     with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
         local_db = json.load(f)
 
-    if version is None:
+    if not version:
         for corpus in local_db["_default"].values():
             if corpus["name"] == name:
                 return corpus
@@ -70,53 +70,114 @@ def path_pythainlp_corpus(filename: str) -> str:
     return os.path.join(corpus_path(), filename)
 
 
-def get_corpus(filename: str, as_is: bool = False) -> Union[frozenset, list]:
+def get_corpus(filename: str, comments: bool = True) -> frozenset:
     """
-    Read corpus data from file and return a frozenset or a list.
+    Read corpus data from file and return a frozenset.
 
-    Each line in the file will be a member of the set or the list.
+    Each line in the file will be a member of the set.
 
-    By default, a frozenset will be return, with whitespace stripped and
-    empty values and duplicates removed.
+    Whitespace stripped and empty values and duplicates removed.
 
-    If as_is is True, a list will be return, with no modifications
-    in member values and their orders.
-
+    If comments is False, any text at any position after the character
+    '#' in each line will be discarded.
 
     :param str filename: filename of the corpus to be read
+    :param bool comments: keep comments
 
-    :return: :class:`frozenset` or :class:`list` consisting of lines in the file
-    :rtype: :class:`frozenset` or :class:`list`
+    :return: :class:`frozenset` consisting of lines in the file
+    :rtype: :class:`frozenset`
 
     :Example:
     ::
 
         from pythainlp.corpus import get_corpus
 
-        get_corpus('negations_th.txt')
+        # input file (negations_th.txt):
+        # แต่
+        # ไม่
+
+        get_corpus("negations_th.txt")
         # output:
         # frozenset({'แต่', 'ไม่'})
 
-        get_corpus('ttc_freq.txt')
+        # input file (ttc_freq.txt):
+        # ตัวบท<tab>10
+        # โดยนัยนี้<tab>1
+
+        get_corpus("ttc_freq.txt")
         # output:
         # frozenset({'โดยนัยนี้\\t1',
         #    'ตัวบท\\t10',
-        #    'หยิบยื่น\\t3',
         #     ...})
+
+        # input file (icubrk_th.txt):
+        # # Thai Dictionary for ICU BreakIterator
+        # กก
+        # กกขนาก
+
+        get_corpus("icubrk_th.txt")
+        # output:
+        # frozenset({'กกขนาก',
+        #     '# Thai Dictionary for ICU BreakIterator',
+        #     'กก',
+        #     ...})
+
+        get_corpus("icubrk_th.txt", comments=False)
+        # output:
+        # frozenset({'กกขนาก',
+        #     'กก',
+        #     ...})
+
     """
     path = path_pythainlp_corpus(filename)
     lines = []
     with open(path, "r", encoding="utf-8-sig") as fh:
         lines = fh.read().splitlines()
 
-    if as_is:
-        return lines
+    if not comments:
+        # if the line has a '#' character, take only text before the first '#'
+        lines = [line.split("#", 1)[0].strip() for line in lines]
 
-    lines = [line.strip() for line in lines]
     return frozenset(filter(None, lines))
 
 
-def get_corpus_default_db(name: str, version: str = None) -> Union[str, None]:
+def get_corpus_as_is(filename: str) -> list:
+    """
+    Read corpus data from file, as it is, and return a list.
+
+    Each line in the file will be a member of the list.
+
+    No modifications in member values and their orders.
+
+    If strip or comment removal is needed, use get_corpus() instead.
+
+    :param str filename: filename of the corpus to be read
+
+    :return: :class:`list` consisting of lines in the file
+    :rtype: :class:`list`
+
+    :Example:
+    ::
+
+        from pythainlp.corpus import get_corpus
+
+        # input file (negations_th.txt):
+        # แต่
+        # ไม่
+
+        get_corpus_as_is("negations_th.txt")
+        # output:
+        # ['แต่', 'ไม่']
+    """
+    path = path_pythainlp_corpus(filename)
+    lines = []
+    with open(path, "r", encoding="utf-8-sig") as fh:
+        lines = fh.read().splitlines()
+
+    return lines
+
+
+def get_corpus_default_db(name: str, version: str = '') -> Union[str, None]:
     """
     Get model path from default_db.json
 
@@ -137,15 +198,17 @@ def get_corpus_default_db(name: str, version: str = None) -> Union[str, None]:
             return path_pythainlp_corpus(
                 corpus_db[name]["versions"][version]["filename"]
             )
-        elif version is None:  # load latest version
+        elif not version:  # load latest version
             version = corpus_db[name]["latest_version"]
             return path_pythainlp_corpus(
                 corpus_db[name]["versions"][version]["filename"]
             )
 
+    return None
+
 
 def get_corpus_path(
-    name: str, version: str = None, force: bool = False
+    name: str, version: str = '', force: bool = False
 ) -> Union[str, None]:
     """
     Get corpus path.
@@ -187,8 +250,9 @@ def get_corpus_path(
         print(get_corpus_path('wiki_lm_lstm'))
         # output: /root/pythainlp-data/thwiki_model_lstm.pth
     """
-    # Customize your corpus path then close the line from lines 164 through 190.
-    _CUSTOMIZE = {
+    from typing import Dict
+
+    _CUSTOMIZE: Dict[str, str] = {
         # "the corpus name":"path"
     }
     if name in list(_CUSTOMIZE):
@@ -337,7 +401,7 @@ def _check_version(cause: str) -> bool:
 
 
 def download(
-    name: str, force: bool = False, url: str = None, version: str = None
+    name: str, force: bool = False, url: str = '', version: str = ''
 ) -> bool:
     """
     Download corpus.
@@ -388,7 +452,7 @@ def download(
 
         corpus = corpus_db[name]
         print("Corpus:", name)
-        if version is None:
+        if not version:
             for v, file in corpus["versions"].items():
                 if _check_version(file["pythainlp_version"]):
                     version = v
@@ -397,10 +461,7 @@ def download(
         if version not in corpus["versions"]:
             print("Not found corpus")
             return False
-        elif (
-            _check_version(corpus["versions"][version]["pythainlp_version"])
-            is False
-        ):
+        elif _check_version(corpus["versions"][version]["pythainlp_version"]) is False:
             print("Versions Corpus not support")
             return False
         corpus_versions = corpus["versions"][version]
@@ -444,9 +505,7 @@ def download(
                 foldername = name + "_" + str(version)
                 if not os.path.exists(get_full_data_path(foldername)):
                     os.mkdir(get_full_data_path(foldername))
-                with zipfile.ZipFile(
-                    get_full_data_path(file_name), "r"
-                ) as zip:
+                with zipfile.ZipFile(get_full_data_path(file_name), "r") as zip:
                     zip.extractall(path=get_full_data_path(foldername))
 
             if found:
@@ -458,9 +517,7 @@ def download(
                 # This awkward behavior is for backward-compatibility with
                 # database files generated previously using TinyDB
                 if local_db["_default"]:
-                    corpus_no = (
-                        max((int(no) for no in local_db["_default"])) + 1
-                    )
+                    corpus_no = max((int(no) for no in local_db["_default"])) + 1
                 else:
                     corpus_no = 1
                 local_db["_default"][str(corpus_no)] = {
@@ -523,9 +580,7 @@ def remove(name: str) -> bool:
         return False
     with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
         db = json.load(f)
-    data = [
-        corpus for corpus in db["_default"].values() if corpus["name"] == name
-    ]
+    data = [corpus for corpus in db["_default"].values() if corpus["name"] == name]
 
     if data:
         path = get_corpus_path(name)

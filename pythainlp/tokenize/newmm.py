@@ -28,7 +28,7 @@ from pythainlp.tokenize.tcc_p import tcc_pos
 # `|` is used as like "early return",
 # which divides "abc123" to "abc", "123" for example.
 _PAT_NONTHAI = re.compile(
-r"""(?x)
+    r"""(?x)
 [-a-zA-Z]+|        # Latin characters
 \d+([,\.]\d+)*|    # numbers
 [ \t]+|            # spaces

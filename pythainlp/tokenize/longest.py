@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
 """
 Dictionary-based longest-matching Thai word segmentation. Implementation is based
 on the codes from Patorn Utenpattanun.
@@ -40,7 +42,7 @@ _KNOWN = True
 _UNKNOWN = False
 
 
-class LongestMatchTokenizer():
+class LongestMatchTokenizer:
     def __init__(self, trie: Trie):
         self.__trie = trie
 

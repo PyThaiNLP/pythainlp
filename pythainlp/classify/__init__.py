@@ -1,0 +1,10 @@
+# -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
+"""
+pythainlp.classify
+"""
+
+__all__ = ["GzipModel"]
+
+from pythainlp.classify.param_free import GzipModel

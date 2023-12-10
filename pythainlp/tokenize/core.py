@@ -48,7 +48,7 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
 
 def word_detokenize(
     segments: Union[List[List[str]], List[str]], output: str = "str"
-) -> Union[str, List[str]]:
+) -> Union[List[str], str]:
     """
     Word detokenizer.
 
@@ -65,16 +65,18 @@ def word_detokenize(
         print(word_detokenize(["เรา", "เล่น"]))
         # output: เราเล่น
     """
-    _list_all = []
+    list_all = []
+
     if isinstance(segments[0], str):
         segments = [segments]
+
     from pythainlp import thai_characters
 
     for i, s in enumerate(segments):
-        _list_sents = []
-        _add_index = []
-        _space_index = []
-        _mark_index = []
+        list_sents = []
+        add_index = []
+        space_index = []
+        mark_index = []
         for j, w in enumerate(s):
             if j > 0:
                 # previous word
@@ -85,35 +87,36 @@ def word_detokenize(
                     and not w.isspace()
                     and not p_w.isspace()
                 ):
-                    _list_sents.append(" ")
-                    _add_index.append(j)
+                    list_sents.append(" ")
+                    add_index.append(j)
                 # if previous word is number or other language and is not space
                 elif p_w[0] not in thai_characters and not p_w.isspace():
-                    _list_sents.append(" ")
-                    _add_index.append(j)
+                    list_sents.append(" ")
+                    add_index.append(j)
                 # if word is Thai iteration mark
                 elif w == "ๆ":
                     if not p_w.isspace():
-                        _list_sents.append(" ")
-                    _mark_index.append(j)
-                elif w.isspace() and j - 1 not in _space_index:
-                    _space_index.append(j)
-                elif j - 1 in _mark_index:
-                    _list_sents.append(" ")
-            _list_sents.append(w)
-        _list_all.append(_list_sents)
+                        list_sents.append(" ")
+                    mark_index.append(j)
+                elif w.isspace() and j - 1 not in space_index:
+                    space_index.append(j)
+                elif j - 1 in mark_index:
+                    list_sents.append(" ")
+            list_sents.append(w)
+        list_all.append(list_sents)
+
     if output == "list":
-        return _list_all
-    else:
-        _text = []
-        for i in _list_all:
-            _text.append("".join(i))
-        return " ".join(_text)
+        return list_all
+
+    text = []
+    for i in list_all:
+        text.append("".join(i))
+    return " ".join(text)
 
 
 def word_tokenize(
     text: str,
-    custom_dict: Trie = None,
+    custom_dict: Trie = Trie([]),
     engine: str = DEFAULT_WORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
     join_broken_num: bool = True,
@@ -290,7 +293,7 @@ def word_tokenize(
 
         if isinstance(custom_dict, str):
             segments = segment(text, custom_dict=custom_dict)
-        elif not isinstance(custom_dict, str) and custom_dict is not None:
+        elif not isinstance(custom_dict, str) and not custom_dict:
             raise ValueError(
                 f"""Tokenizer \"{engine}\":
                 custom_dict must be a str.
@@ -415,11 +418,12 @@ def sent_tokenize(
         segments = segment.split_into_sentences(text)
     elif engine.startswith("wtp"):
         if "-" not in engine:
-            _size="mini"
+            _size = "mini"
         else:
             _size = engine.split("-")[-1]
         from pythainlp.tokenize.wtsplit import tokenize as segment
-        segments = segment(text,size=_size,tokenize="sentence")
+
+        segments = segment(text, size=_size, tokenize="sentence")
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
@@ -435,8 +439,8 @@ def sent_tokenize(
 def paragraph_tokenize(
     text: str,
     engine: str = "wtp-mini",
-    paragraph_threshold:float=0.5,
-    style:str='newline',
+    paragraph_threshold: float = 0.5,
+    style: str = "newline",
 ) -> List[List[str]]:
     """
     Paragraph tokenizer.
@@ -479,23 +483,25 @@ def paragraph_tokenize(
     """
     if engine.startswith("wtp"):
         if "-" not in engine:
-            _size="mini"
+            size = "mini"
         else:
-            _size = engine.split("-")[-1]
-        from pythainlp.tokenize.wtsplit import tokenize as segment
-        segments = segment(
-                      text,
-                      size=_size,
-                      tokenize="paragraph",
-                      paragraph_threshold=paragraph_threshold,
-                      style=style,
-                    )
+            size = engine.split("-")[-1]
 
+        from pythainlp.tokenize.wtsplit import tokenize as segment
+
+        segments = segment(
+            text,
+            size=size,
+            tokenize="paragraph",
+            paragraph_threshold=paragraph_threshold,
+            style=style,
+        )
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
             It might be a typo; if not, please consult our document."""
         )
+
     return segments
 
 
@@ -624,7 +630,7 @@ def subword_tokenize(
 
 def syllable_tokenize(
     text: str,
-    engine: str=DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
+    engine: str = DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
 ) -> List[str]:
     """
@@ -654,9 +660,7 @@ def syllable_tokenize(
             It might be a typo; if not, please consult our document."""
         )
     return subword_tokenize(
-        text=text,
-        engine=engine,
-        keep_whitespace=keep_whitespace
+        text=text, engine=engine, keep_whitespace=keep_whitespace
     )
 
 
@@ -729,7 +733,7 @@ class Tokenizer:
 
     def __init__(
         self,
-        custom_dict: Union[Trie, Iterable[str], str] = None,
+        custom_dict: Union[Trie, Iterable[str], str] = [],
         engine: str = "newmm",
         keep_whitespace: bool = True,
         join_broken_num: bool = True,
@@ -745,7 +749,7 @@ class Tokenizer:
         :param bool keep_whitespace: True to keep whitespace, a common mark
                                     for end of phrase in Thai
         """
-        self.__trie_dict = None
+        self.__trie_dict = Trie([])
         if custom_dict:
             self.__trie_dict = dict_trie(custom_dict)
         else:

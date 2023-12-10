@@ -15,6 +15,7 @@ __all__ = [
     "countries",
     "download",
     "get_corpus",
+    "get_corpus_as_is",
     "get_corpus_db",
     "get_corpus_db_detail",
     "get_corpus_default_db",
@@ -26,16 +27,18 @@ __all__ = [
     "thai_dict",
     "thai_family_names",
     "thai_female_names",
+    "thai_icu_words",
     "thai_male_names",
     "thai_negations",
     "thai_orst_words",
     "thai_stopwords",
     "thai_syllables",
     "thai_synonym",
+    "thai_synonyms",
+    "thai_volubilis_words",
+    "thai_wikipedia_titles",
     "thai_words",
     "thai_wsd_dict",
-    "volubilis",
-    "wikipedia_titles",
 ]
 
 import os
@@ -87,6 +90,7 @@ def corpus_db_path() -> str:
 from pythainlp.corpus.core import (
     download,
     get_corpus,
+    get_corpus_as_is,
     get_corpus_db,
     get_corpus_db_detail,
     get_corpus_default_db,
@@ -103,12 +107,14 @@ from pythainlp.corpus.common import (
     thai_female_names,
     thai_male_names,
     thai_negations,
+    thai_orst_words,
     thai_stopwords,
     thai_syllables,
     thai_synonym,
-    thai_orst_words,
+    thai_synonyms,
     thai_words,
     thai_wsd_dict,
 )
-from pythainlp.corpus.volubilis import volubilis
-from pythainlp.corpus.wikipedia_titles import wikipedia_titles
+from pythainlp.corpus.icu import thai_icu_words
+from pythainlp.corpus.volubilis import thai_volubilis_words
+from pythainlp.corpus.wikipedia import thai_wikipedia_titles

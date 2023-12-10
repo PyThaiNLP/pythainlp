@@ -17,6 +17,11 @@ get_corpus
 .. autofunction:: get_corpus
    :noindex:
 
+get_corpus_as_is
+~~~~~~~~~~
+.. autofunction:: get_corpus_as_is
+   :noindex:
+
 get_corpus_db
 ~~~~~~~~~~~~~~
 .. autofunction:: get_corpus_db
@@ -77,9 +82,9 @@ thai_orst_words
 .. autofunction:: thai_orst_words
    :noindex:
 
-thai_synonym
+thai_synonyms
 ~~~~~~~~~~~~~~
-.. autofunction:: thai_synonym
+.. autofunction:: thai_synonyms
    :noindex:
 
 thai_syllables

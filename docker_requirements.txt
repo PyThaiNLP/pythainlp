@@ -2,13 +2,13 @@ PyYAML==5.4
 numpy==1.22.*
 python-crfsuite==0.9.7
 requests==2.31.*
-gensim==4.0.*
+gensim==4.3.2
 nltk==3.6.6
 emoji==0.5.2
 attacut==1.0.6
 epitran==1.9
 sacremoses==0.0.41
-sentencepiece==0.1.91
+sentencepiece==0.1.99
 ssg==0.0.8
 torch==1.13.1
 fastai==1.0.61
@@ -38,3 +38,4 @@ wtpsplit==1.0.1
 fastcoref==2.1.6
 panphon==0.20.0
 sentence-transformers==2.2.2
+protobuf==3.20.2

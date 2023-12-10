@@ -45,6 +45,7 @@ from pythainlp.util import (
     thaiword_to_time,
     time_to_thaiword,
     thai_to_eng,
+    to_idna,
     thaiword_to_num,
     thai_keyboard_dist,
     text_to_num,
@@ -60,13 +61,12 @@ from pythainlp.util import (
     ipa_to_rtgs,
     remove_tone_ipa,
     tis620_to_utf8,
-    remove_trailing_repeat_consonants
+    remove_trailing_repeat_consonants,
 )
 from pythainlp.util.spell_words import spell_word
 
 
 class TestUtilPackage(unittest.TestCase):
-
     # ### pythainlp.util.collate
 
     def test_collate(self):
@@ -101,9 +101,7 @@ class TestUtilPackage(unittest.TestCase):
         )
         self.assertEqual(thaiword_to_num("สองล้านสามแสนหกร้อยสิบสอง"), 2300612)
         self.assertEqual(thaiword_to_num("หนึ่งร้อยสิบล้าน"), 110000000)
-        self.assertEqual(
-            thaiword_to_num("สิบห้าล้านล้านเจ็ดสิบสอง"), 15000000000072
-        )
+        self.assertEqual(thaiword_to_num("สิบห้าล้านล้านเจ็ดสิบสอง"), 15000000000072)
         self.assertEqual(thaiword_to_num("หนึ่งล้านล้าน"), 1000000000000)
         self.assertEqual(
             thaiword_to_num("สองแสนสี่หมื่นสามสิบล้านสี่พันล้าน"),
@@ -136,9 +134,7 @@ class TestUtilPackage(unittest.TestCase):
         )
         self.assertEqual(words_to_num("สองล้านสามแสนหกร้อยสิบสอง"), 2300612)
         self.assertEqual(words_to_num("หนึ่งร้อยสิบล้าน"), 110000000)
-        self.assertEqual(
-            words_to_num("สิบห้าล้านล้านเจ็ดสิบสอง"), 15000000000072
-        )
+        self.assertEqual(words_to_num("สิบห้าล้านล้านเจ็ดสิบสอง"), 15000000000072)
         self.assertEqual(words_to_num("หนึ่งล้านล้าน"), 1000000000000)
         self.assertEqual(
             words_to_num("สองแสนสี่หมื่นสามสิบล้านสี่พันล้าน"),
@@ -148,15 +144,9 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(words_to_num("ลบหนึ่ง"), -1)
         text = "ลบหนึ่งร้อยล้านสี่แสนห้าพันยี่สิบเอ็ด"
         self.assertEqual(num_to_thaiword(words_to_num(text)), text)
-        self.assertIsNotNone(
-            text_to_num("เก้าร้อยแปดสิบจุดเก้าห้าบาทนี่คือจำนวนทั้งหมด")
-        )
-        self.assertIsNotNone(
-            text_to_num("สิบล้านสองหมื่นหนึ่งพันแปดร้อยแปดสิบเก้าบาท")
-        )
-        self.assertIsNotNone(
-            text_to_num("สิบล้านสองหมื่นหนึ่งพันแปดร้อยแปดสิบเก้า")
-        )
+        self.assertIsNotNone(text_to_num("เก้าร้อยแปดสิบจุดเก้าห้าบาทนี่คือจำนวนทั้งหมด"))
+        self.assertIsNotNone(text_to_num("สิบล้านสองหมื่นหนึ่งพันแปดร้อยแปดสิบเก้าบาท"))
+        self.assertIsNotNone(text_to_num("สิบล้านสองหมื่นหนึ่งพันแปดร้อยแปดสิบเก้า"))
 
         self.assertEqual(
             arabic_digit_to_thai_digit("ไทยแลนด์ 4.0"), "ไทยแลนด์ ๔.๐"
@@ -292,16 +282,10 @@ class TestUtilPackage(unittest.TestCase):
     def test_time_to_thaiword(self):
         self.assertEqual(time_to_thaiword("8:17"), time_to_thaiword("08:17"))
         self.assertEqual(time_to_thaiword("8:17"), "แปดนาฬิกาสิบเจ็ดนาที")
-        self.assertEqual(
-            time_to_thaiword("8:17", "6h"), "สองโมงเช้าสิบเจ็ดนาที"
-        )
+        self.assertEqual(time_to_thaiword("8:17", "6h"), "สองโมงเช้าสิบเจ็ดนาที")
         self.assertEqual(time_to_thaiword("8:17", "m6h"), "แปดโมงสิบเจ็ดนาที")
-        self.assertEqual(
-            time_to_thaiword("13:30:01", "6h", "m"), "บ่ายโมงครึ่ง"
-        )
-        self.assertEqual(
-            time_to_thaiword(time(12, 3, 0)), "สิบสองนาฬิกาสามนาที"
-        )
+        self.assertEqual(time_to_thaiword("13:30:01", "6h", "m"), "บ่ายโมงครึ่ง")
+        self.assertEqual(time_to_thaiword(time(12, 3, 0)), "สิบสองนาฬิกาสามนาที")
         self.assertEqual(
             time_to_thaiword(time(12, 3, 1)),
             "สิบสองนาฬิกาสามนาทีหนึ่งวินาที",
@@ -319,9 +303,7 @@ class TestUtilPackage(unittest.TestCase):
             "เที่ยงครึ่ง",
         )
         self.assertEqual(time_to_thaiword("18:30"), "สิบแปดนาฬิกาสามสิบนาที")
-        self.assertEqual(
-            time_to_thaiword("18:30:00"), "สิบแปดนาฬิกาสามสิบนาที"
-        )
+        self.assertEqual(time_to_thaiword("18:30:00"), "สิบแปดนาฬิกาสามสิบนาที")
         self.assertEqual(
             time_to_thaiword("18:30:01"), "สิบแปดนาฬิกาสามสิบนาทีหนึ่งวินาที"
         )
@@ -388,9 +370,7 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(thaiword_to_time("สิบโมงเช้าสิบสองนาที"), "10:12")
         self.assertEqual(thaiword_to_time("บ่ายโมงสิบสามนาที"), "13:13")
         self.assertEqual(thaiword_to_time("ศูนย์นาฬิกาสิบเอ็ดนาที"), "00:11")
-        self.assertEqual(
-            thaiword_to_time("บ่ายโมงเย็นสามสิบเอ็ดนาที"), "13:31"
-        )
+        self.assertEqual(thaiword_to_time("บ่ายโมงเย็นสามสิบเอ็ดนาที"), "13:31")
         self.assertEqual(thaiword_to_time("เที่ยงคืนหนึ่งนาที"), "00:01")
         self.assertEqual(thaiword_to_time("เที่ยงครึ่ง"), "12:30")
         self.assertEqual(thaiword_to_time("ห้าโมงเย็นสามสิบสี่นาที"), "17:34")
@@ -411,9 +391,7 @@ class TestUtilPackage(unittest.TestCase):
     def test_thaiword_to_date(self):
         now = datetime.now()
 
-        self.assertEqual(
-            now + timedelta(days=0), thaiword_to_date("วันนี้", now)
-        )
+        self.assertEqual(now + timedelta(days=0), thaiword_to_date("วันนี้", now))
         self.assertEqual(
             now + timedelta(days=1),
             thaiword_to_date("พรุ่งนี้", now),
@@ -547,52 +525,25 @@ class TestUtilPackage(unittest.TestCase):
         # maiyamok
         self.assertEqual(
             maiyamok("เด็กๆชอบไปโรงเรียน"),
-            ['เด็ก', 'เด็ก', 'ชอบ', 'ไป', 'โรงเรียน']
+            ["เด็ก", "เด็ก", "ชอบ", "ไป", "โรงเรียน"],
         )
         self.assertEqual(
-            maiyamok([
-                "ทำไม",
-                "คน",
-                "ดี",
-                " ",
-                "ๆ",
-                "ๆ",
-                " ",
-                "ถึง",
-                "ทำ",
-                "ไม่ได้"
-            ]),
-            ["ทำไม", "คน", "ดี", "ดี", "ดี", " ", "ถึง", "ทำ", "ไม่ได้"]
+            maiyamok(
+                ["ทำไม", "คน", "ดี", " ", "ๆ", "ๆ", " ", "ถึง", "ทำ", "ไม่ได้"]
+            ),
+            ["ทำไม", "คน", "ดี", "ดี", "ดี", " ", "ถึง", "ทำ", "ไม่ได้"],
         )
         self.assertEqual(
-            maiyamok([
-                "ทำไม",
-                "คน",
-                "ดี",
-                " ",
-                " ๆ",
-                "ๆ",
-                " ",
-                "ถึง",
-                "ทำ",
-                "ไม่ได้"
-            ]),
-            ["ทำไม", "คน", "ดี", "ดี", "ดี", " ", "ถึง", "ทำ", "ไม่ได้"]
+            maiyamok(
+                ["ทำไม", "คน", "ดี", " ", " ๆ", "ๆ", " ", "ถึง", "ทำ", "ไม่ได้"]
+            ),
+            ["ทำไม", "คน", "ดี", "ดี", "ดี", " ", "ถึง", "ทำ", "ไม่ได้"],
         )
         self.assertEqual(
-            maiyamok([
-                "ทำไม",
-                "คน",
-                "ดีๆ",
-                " ",
-                "ๆ",
-                "ๆ",
-                " ",
-                "ถึง",
-                "ทำ",
-                "ไม่ได้"
-            ]),
-            ["ทำไม", "คน", "ดี", "ดี", "ดี", "ดี", " ", "ถึง", "ทำ", "ไม่ได้"]
+            maiyamok(
+                ["ทำไม", "คน", "ดีๆ", " ", "ๆ", "ๆ", " ", "ถึง", "ทำ", "ไม่ได้"]
+            ),
+            ["ทำไม", "คน", "ดี", "ดี", "ดี", "ดี", " ", "ถึง", "ทำ", "ไม่ได้"],
         )
 
     # ### pythainlp.util.thai
@@ -610,34 +561,34 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(
             count_thai_chars("ทดสอบภาษาไทย"),
             {
-                'vowels': 3,
-                'lead_vowels': 1,
-                'follow_vowels': 2,
-                'above_vowels': 0,
-                'below_vowels': 0,
-                'consonants': 9,
-                'tonemarks': 0,
-                'signs': 0,
-                'thai_digits': 0,
-                'punctuations': 0,
-                'non_thai': 0,
-            }
+                "vowels": 3,
+                "lead_vowels": 1,
+                "follow_vowels": 2,
+                "above_vowels": 0,
+                "below_vowels": 0,
+                "consonants": 9,
+                "tonemarks": 0,
+                "signs": 0,
+                "thai_digits": 0,
+                "punctuations": 0,
+                "non_thai": 0,
+            },
         )
         self.assertEqual(
             count_thai_chars("มี ๕ บาทไหม๏ เกมส์หรือเกมกันแน่ที่กรุเทพฯ ใช้"),
             {
-                'vowels': 12,
-                'lead_vowels': 6,
-                'follow_vowels': 1,
-                'above_vowels': 4,
-                'below_vowels': 1,
-                'consonants': 22,
-                'tonemarks': 3,
-                'signs': 2,
-                'thai_digits': 1,
-                'punctuations': 1,
-                'non_thai': 4,
-            }
+                "vowels": 12,
+                "lead_vowels": 6,
+                "follow_vowels": 1,
+                "above_vowels": 4,
+                "below_vowels": 1,
+                "consonants": 22,
+                "tonemarks": 3,
+                "signs": 2,
+                "thai_digits": 1,
+                "punctuations": 1,
+                "non_thai": 4,
+            },
         )
 
     def test_isthaichar(self):
@@ -686,13 +637,8 @@ class TestUtilPackage(unittest.TestCase):
 
     def test_emoji_to_thai(self):
         self.assertEqual(
-            emoji_to_thai(
-                "จะมานั่งรถเมล์เหมือนผมก็ได้นะครับ ใกล้ชิดประชาชนดี 😀"
-            ),
-            (
-                "จะมานั่งรถเมล์เหมือนผมก็ได้นะครับ "
-                "ใกล้ชิดประชาชนดี :หน้ายิ้มยิงฟัน:"
-            ),
+            emoji_to_thai("จะมานั่งรถเมล์เหมือนผมก็ได้นะครับ ใกล้ชิดประชาชนดี 😀"),
+            ("จะมานั่งรถเมล์เหมือนผมก็ได้นะครับ " "ใกล้ชิดประชาชนดี :หน้ายิ้มยิงฟัน:"),
         )
         self.assertEqual(
             emoji_to_thai("หิวข้าวอยากกินอาหารญี่ปุ่น 🍣"),
@@ -780,19 +726,19 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(syllable_open_close_detector("มาก"), "close")
         self.assertEqual(syllable_open_close_detector("คะ"), "open")
 
+    def test_to_idna(self):
+        self.assertEqual(to_idna("คนละครึ่ง.com"), "xn--42caj4e6bk1f5b1j.com")
+
     def test_thai_word_tone_detector(self):
         self.assertIsNotNone(thai_word_tone_detector("คนดี"))
         self.assertEqual(
-            thai_word_tone_detector("ราคา"),
-            [('รา', 'm'), ('คา', 'm')]
+            thai_word_tone_detector("ราคา"), [("รา", "m"), ("คา", "m")]
         )
 
     def test_thai_strptime(self):
         self.assertIsNotNone(
             thai_strptime(
-                "05-7-65 09:00:01.10600",
-                "%d-%B-%Y %H:%M:%S.%f",
-                year="be"
+                "05-7-65 09:00:01.10600", "%d-%B-%Y %H:%M:%S.%f", year="be"
             )
         )
         self.assertIsNotNone(
@@ -800,14 +746,12 @@ class TestUtilPackage(unittest.TestCase):
                 "24-6-75 09:00:00",
                 "%d-%B-%Y %H:%M:%S",
                 year="be",
-                add_year="2400"
+                add_year="2400",
             )
         )
         self.assertIsNotNone(
             thai_strptime(
-                "05-7-22 09:00:01.10600",
-                "%d-%B-%Y %H:%M:%S.%f",
-                year="ad"
+                "05-7-22 09:00:01.10600", "%d-%B-%Y %H:%M:%S.%f", year="ad"
             )
         )
         self.assertIsNotNone(
@@ -815,7 +759,7 @@ class TestUtilPackage(unittest.TestCase):
                 "05-7-99 09:00:01.10600",
                 "%d-%B-%Y %H:%M:%S.%f",
                 year="ad",
-                add_year="1900"
+                add_year="1900",
             )
         )
 
@@ -833,11 +777,12 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(convert_years("242", src="re", target="ad"), "2023")
         self.assertEqual(convert_years("242", src="re", target="ah"), "1444")
         with self.assertRaises(NotImplementedError):
-            self.assertIsNotNone(convert_years(
-                "2023", src="cat", target="dog"))
+            self.assertIsNotNone(
+                convert_years("2023", src="cat", target="dog")
+            )
 
     def test_nectec_to_ipa(self):
-        self.assertEqual(nectec_to_ipa("kl-uua-j^-2"), 'kl uua j ˥˩')
+        self.assertEqual(nectec_to_ipa("kl-uua-j^-2"), "kl uua j ˥˩")
 
     def test_ipa_to_rtgs(self):
         self.assertEqual(ipa_to_rtgs("kluaj"), "kluai")
@@ -848,15 +793,17 @@ class TestUtilPackage(unittest.TestCase):
         self.assertEqual(remove_tone_ipa("laː˦˥.sa˨˩.maj˩˩˦"), "laː.sa.maj")
 
     def test_tis620_to_utf8(self):
-        self.assertEqual(tis620_to_utf8(
-            "¡ÃÐ·ÃÇ§ÍØµÊÒË¡ÃÃÁ"), "กระทรวงอุตสาหกรรม")
+        self.assertEqual(
+            tis620_to_utf8("¡ÃÐ·ÃÇ§ÍØµÊÒË¡ÃÃÁ"), "กระทรวงอุตสาหกรรม"
+        )
 
     def test_spell_word(self):
-        self.assertEqual(spell_word("เสือ"), ['สอ', 'เอือ', 'เสือ'])
-        self.assertEqual(spell_word("เสื้อ"), ['สอ', 'เอือ', 'ไม้โท', 'เสื้อ'])
-        self.assertEqual(spell_word("คน"), ['คอ', 'นอ', 'คน'])
-        self.assertEqual(spell_word("คนดี"), [
-                         'คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี'])
+        self.assertEqual(spell_word("เสือ"), ["สอ", "เอือ", "เสือ"])
+        self.assertEqual(spell_word("เสื้อ"), ["สอ", "เอือ", "ไม้โท", "เสื้อ"])
+        self.assertEqual(spell_word("คน"), ["คอ", "นอ", "คน"])
+        self.assertEqual(
+            spell_word("คนดี"), ["คอ", "นอ", "คน", "ดอ", "อี", "ดี", "คนดี"]
+        )
 
     def test_rhyme(self):
         self.assertIsInstance(rhyme("แมว"), list)
@@ -865,26 +812,24 @@ class TestUtilPackage(unittest.TestCase):
     def test_remove_repeat_consonants(self):
         # update of pythainlp.copus.thai_words() able to break this
         self.assertEqual(
-            remove_trailing_repeat_consonants('เริ่ดดดดดดดด'),
-            'เริ่ด'
+            remove_trailing_repeat_consonants("เริ่ดดดดดดดด"), "เริ่ด"
         )
         self.assertEqual(
-            remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม'),
-            'อืมมม'
+            remove_trailing_repeat_consonants("อืมมมมมมมมมมมมมมม"), "อืมมม"
         )
 
-        custom_dictionary = dict_trie(["อืมมมมม"])
+        custom_dict = dict_trie(["อืมมมมม"])
         self.assertEqual(
-            remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม', custom_dictionary),
-            'อืมมมมม'
+            remove_trailing_repeat_consonants("อืมมมมมมมมมมมมมมม", custom_dict),
+            "อืมมมมม",
         )
 
         self.assertEqual(
             remove_trailing_repeat_consonants(
-                'อืมมมมมมมมมมมมม คุณมีบุคลิกที่เริ่ดดดดด '
-                'ฉันจะให้เกรดดีกับคุณณณ\nนี่เป็นความลับบบบบ'
+                "อืมมมมมมมมมมมมม คุณมีบุคลิกที่เริ่ดดดดด "
+                "ฉันจะให้เกรดดีกับคุณณณ\nนี่เป็นความลับบบบบ"
             ),
-            'อืมมม คุณมีบุคลิกที่เริ่ด ฉันจะให้เกรดดีกับคุณ\nนี่เป็นความลับ'
+            "อืมมม คุณมีบุคลิกที่เริ่ด ฉันจะให้เกรดดีกับคุณ\nนี่เป็นความลับ",
         )
 
     # def test_abbreviation_to_full_text(self):

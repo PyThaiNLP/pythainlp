@@ -142,9 +142,7 @@ You can read [INTHEWILD.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTH
 
 If you use `PyThaiNLP` in your project or publication, please cite the library as follows:
 
-```
 Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, & Pattarawat Chormai. (2016, Jun 27). PyThaiNLP: Thai Natural Language Processing in Python. Zenodo. http://doi.org/10.5281/zenodo.3519354
-```
 
 or by BibTeX entry:
 
@@ -160,6 +158,39 @@ or by BibTeX entry:
 }
 ```
 
+Our [NLP-OSS 2023](https://nlposs.github.io/2023/) paper:
+
+Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, Pattarawat Chormai, Peerat Limkonchotiwat, Thanathip Suntorntip, and Can Udomcharoenchaikit. 2023. [PyThaiNLP: Thai Natural Language Processing in Python.](https://aclanthology.org/2023.nlposs-1.4) In Proceedings of the 3rd Workshop for Natural Language Processing Open Source Software (NLP-OSS 2023), pages 25–36, Singapore, Singapore. Empirical Methods in Natural Language Processing.
+
+and its BibTeX entry:
+
+```bib
+@inproceedings{phatthiyaphaibun-etal-2023-pythainlp,
+    title = "{P}y{T}hai{NLP}: {T}hai Natural Language Processing in Python",
+    author = "Phatthiyaphaibun, Wannaphong  and
+      Chaovavanich, Korakot  and
+      Polpanumas, Charin  and
+      Suriyawongkul, Arthit  and
+      Lowphansirikul, Lalita  and
+      Chormai, Pattarawat  and
+      Limkonchotiwat, Peerat  and
+      Suntorntip, Thanathip  and
+      Udomcharoenchaikit, Can",
+    editor = "Tan, Liling  and
+      Milajevs, Dmitrijs  and
+      Chauhan, Geeticka  and
+      Gwinnup, Jeremy  and
+      Rippeth, Elijah",
+    booktitle = "Proceedings of the 3rd Workshop for Natural Language Processing Open Source Software (NLP-OSS 2023)",
+    month = dec,
+    year = "2023",
+    address = "Singapore, Singapore",
+    publisher = "Empirical Methods in Natural Language Processing",
+    url = "https://aclanthology.org/2023.nlposs-1.4",
+    pages = "25--36",
+    abstract = "We present PyThaiNLP, a free and open-source natural language processing (NLP) library for Thai language implemented in Python. It provides a wide range of software, models, and datasets for Thai language. We first provide a brief historical context of tools for Thai language prior to the development of PyThaiNLP. We then outline the functionalities it provided as well as datasets and pre-trained language models. We later summarize its development milestones and discuss our experience during its development. We conclude by demonstrating how industrial and research communities utilize PyThaiNLP in their work. The library is freely available at https://github.com/pythainlp/pythainlp.",
+}
+```
 
 ## Sponsors
 

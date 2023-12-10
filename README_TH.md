@@ -123,13 +123,11 @@ thainlp help
 
 ## การอ้างอิง
 
-ถ้าคุณใช้ `PyThaiNLP` ในโปรเจคหรืองานวิจัยของคุณ คุณสามารถอ้างอิงได้ตามนี้
+หากคุณใช้ซอฟต์แวร์ `PyThaiNLP` ในโครงงานหรืองานวิจัยของคุณ คุณสามารถอ้างอิงได้ตามนี้
 
-```
 Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, & Pattarawat Chormai. (2016, Jun 27). PyThaiNLP: Thai Natural Language Processing in Python. Zenodo. http://doi.org/10.5281/zenodo.3519354
-```
 
-หรือ BibTeX entry:
+โดยสามารถใช้ BibTeX นี้:
 
 ``` bib
 @misc{pythainlp,
@@ -140,6 +138,40 @@ Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Sur
     doi          = {10.5281/zenodo.3519354},
     publisher    = {Zenodo},
     url          = {http://doi.org/10.5281/zenodo.3519354}
+}
+```
+
+บทความของเราในงานประชุมวิชาการ [NLP-OSS 2023](https://nlposs.github.io/2023/):
+
+Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, Pattarawat Chormai, Peerat Limkonchotiwat, Thanathip Suntorntip, and Can Udomcharoenchaikit. 2023. [PyThaiNLP: Thai Natural Language Processing in Python.](https://aclanthology.org/2023.nlposs-1.4) In Proceedings of the 3rd Workshop for Natural Language Processing Open Source Software (NLP-OSS 2023), pages 25–36, Singapore, Singapore. Empirical Methods in Natural Language Processing.
+
+โดยสามารถใช้ BibTeX นี้:
+
+```bib
+@inproceedings{phatthiyaphaibun-etal-2023-pythainlp,
+    title = "{P}y{T}hai{NLP}: {T}hai Natural Language Processing in Python",
+    author = "Phatthiyaphaibun, Wannaphong  and
+      Chaovavanich, Korakot  and
+      Polpanumas, Charin  and
+      Suriyawongkul, Arthit  and
+      Lowphansirikul, Lalita  and
+      Chormai, Pattarawat  and
+      Limkonchotiwat, Peerat  and
+      Suntorntip, Thanathip  and
+      Udomcharoenchaikit, Can",
+    editor = "Tan, Liling  and
+      Milajevs, Dmitrijs  and
+      Chauhan, Geeticka  and
+      Gwinnup, Jeremy  and
+      Rippeth, Elijah",
+    booktitle = "Proceedings of the 3rd Workshop for Natural Language Processing Open Source Software (NLP-OSS 2023)",
+    month = dec,
+    year = "2023",
+    address = "Singapore, Singapore",
+    publisher = "Empirical Methods in Natural Language Processing",
+    url = "https://aclanthology.org/2023.nlposs-1.4",
+    pages = "25--36",
+    abstract = "We present PyThaiNLP, a free and open-source natural language processing (NLP) library for Thai language implemented in Python. It provides a wide range of software, models, and datasets for Thai language. We first provide a brief historical context of tools for Thai language prior to the development of PyThaiNLP. We then outline the functionalities it provided as well as datasets and pre-trained language models. We later summarize its development milestones and discuss our experience during its development. We conclude by demonstrating how industrial and research communities utilize PyThaiNLP in their work. The library is freely available at https://github.com/pythainlp/pythainlp.",
 }
 ```
 
@@ -157,10 +189,10 @@ Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Sur
 
 | | สัญญาอนุญาต |
 |:---|:----|
-| PyThaiNLP Source Code and Notebooks | [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE) |
-| Corpora, datasets, and documentations created by PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication License (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
+| ต้นรหัสซอร์สโค้ดและโน๊ตบุ๊กของ PyThaiNLP | [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE) |
+| ฐานข้อมูลภาษา ชุดข้อมูล และเอกสารที่สร้างโดยโครงการ PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication License (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
 | Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/)  |
-| Other corpora and models that may included with PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
+| สำหรับฐานข้อมูลภาษาและโมเดลอื่นที่อาจมาพร้อมกับซอฟต์แวร์ PyThaiNLP | ดู [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
 
 
 ## บัตรโมเดล

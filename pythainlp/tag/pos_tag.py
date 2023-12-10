@@ -4,7 +4,6 @@
 from typing import List, Tuple
 
 
-
 def pos_tag(
     words: List[str], engine: str = "perceptron", corpus: str = "orchid"
 ) -> List[Tuple[str, str]]:
@@ -169,10 +168,10 @@ def pos_tag_sents(
 
 
 def pos_tag_transformers(
-    sentence: str, 
+    sentence: str,
     engine: str = "bert",
     corpus: str = "blackboard",
-)->List[List[Tuple[str, str]]]:
+) -> List[List[Tuple[str, str]]]:
     """
     Marks sentences with part-of-speech (POS) tags.
 
@@ -204,11 +203,15 @@ def pos_tag_transformers(
     """
 
     try:
-        from transformers import AutoModelForTokenClassification, \
-            AutoTokenizer, TokenClassificationPipeline
+        from transformers import (
+            AutoModelForTokenClassification,
+            AutoTokenizer,
+            TokenClassificationPipeline,
+        )
     except ImportError:
         raise ImportError(
-            "Not found transformers! Please install transformers by pip install transformers")
+            "Not found transformers! Please install transformers by pip install transformers"
+        )
 
     if not sentence:
         return []
@@ -223,11 +226,11 @@ def pos_tag_transformers(
         "mdeberta": "Pavarissy/mdeberta-v3-ud-thai-pud-upos",
     }
 
-    if corpus == 'blackboard' and engine in _blackboard_support_engine.keys():
+    if corpus == "blackboard" and engine in _blackboard_support_engine.keys():
         base_model = _blackboard_support_engine.get(engine)
         model = AutoModelForTokenClassification.from_pretrained(base_model)
         tokenizer = AutoTokenizer.from_pretrained(base_model)
-    elif corpus == 'pud' and engine in _pud_support_engine.keys():
+    elif corpus == "pud" and engine in _pud_support_engine.keys():
         base_model = _pud_support_engine.get(engine)
         model = AutoModelForTokenClassification.from_pretrained(base_model)
         tokenizer = AutoTokenizer.from_pretrained(base_model)
@@ -238,8 +241,11 @@ def pos_tag_transformers(
             )
         )
 
-    pipeline = TokenClassificationPipeline(model = model, tokenizer = tokenizer, aggregation_strategy = "simple")
+
+    pipeline = TokenClassificationPipeline(
+        model = model, tokenizer = tokenizer, aggregation_strategy = "simple"
+    )
 
     outputs = pipeline(sentence)
-    word_tags = [[(tag['word'], tag['entity_group']) for tag in outputs]]
+    word_tags = [[(tag["word"], tag["entity_group"]) for tag in outputs]]
     return word_tags

@@ -1,8 +1,16 @@
 # -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
 
 import unittest
 
-from pythainlp.soundex import lk82, metasound, soundex, udom83, prayut_and_somchaip
+from pythainlp.soundex import (
+    lk82,
+    metasound,
+    prayut_and_somchaip,
+    soundex,
+    udom83,
+)
 from pythainlp.soundex.sound import word_approximation, audio_vector
 
 
@@ -13,7 +21,7 @@ class TestSoundexPackage(unittest.TestCase):
         self.assertIsNotNone(soundex("a", engine="metasound"))
         self.assertEqual(
             soundex("vp", engine="prayut_and_somchaip"),
-            soundex("วีพี", engine="prayut_and_somchaip")
+            soundex("วีพี", engine="prayut_and_somchaip"),
         )
         self.assertIsNotNone(soundex("a", engine="XXX"))
 
@@ -76,7 +84,7 @@ class TestSoundexPackage(unittest.TestCase):
         self.assertIsNotNone(prayut_and_somchaip("ว้าว"))
 
     def test_word_approximation(self):
-        self.assertIsNotNone(word_approximation("รถ", ["รส","รด","คน"]))
+        self.assertIsNotNone(word_approximation("รถ", ["รส", "รด", "คน"]))
 
     def test_audio_vector(self):
         self.assertIsNotNone(audio_vector("คน"))

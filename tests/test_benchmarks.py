@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
+
 import unittest
 
 import numpy as np
@@ -63,8 +67,8 @@ class TestBenchmarksPackage(unittest.TestCase):
             rb = list(word_tokenization._find_word_boundaries(ref_sample))
 
             # in binary [{0, 1}, ...]
-            correctly_tokenized_words = word_tokenization._find_words_correctly_tokenised(
-                rb, sb
+            correctly_tokenized_words = (
+                word_tokenization._find_words_correctly_tokenised(rb, sb)
             )
 
             self.assertEqual(

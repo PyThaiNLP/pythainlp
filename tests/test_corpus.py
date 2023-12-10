@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
 
 import os
 import unittest
@@ -23,14 +25,15 @@ from pythainlp.corpus import (
     thai_icu_words,
     thai_male_names,
     thai_negations,
+    thai_orst_words,
     thai_stopwords,
     thai_syllables,
-    thai_synonym,
+    thai_synonyms,
+    thai_volubilis_words,
+    thai_wikipedia_titles,
     thai_words,
     tnc,
     ttc,
-    volubilis,
-    wikipedia_titles,
     wordnet,
 )
 from pythainlp.corpus.util import revise_newmm_default_wordset
@@ -41,23 +44,25 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertIsNotNone(conceptnet.edges("รัก"))
 
     def test_corpus(self):
-        self.assertIsInstance(thai_icu_words(), frozenset)
-        self.assertGreater(len(thai_icu_words()), 0)
         self.assertIsInstance(thai_negations(), frozenset)
         self.assertGreater(len(thai_negations()), 0)
         self.assertIsInstance(thai_stopwords(), frozenset)
         self.assertGreater(len(thai_stopwords()), 0)
         self.assertIsInstance(thai_syllables(), frozenset)
         self.assertGreater(len(thai_syllables()), 0)
-        self.assertIsInstance(thai_synonym(), dict)
-        self.assertGreater(len(thai_synonym()), 0)
+        self.assertIsInstance(thai_synonyms(), dict)
+        self.assertGreater(len(thai_synonyms()), 0)
+
+        self.assertIsInstance(thai_icu_words(), frozenset)
+        self.assertGreater(len(thai_icu_words()), 0)
+        self.assertIsInstance(thai_orst_words(), frozenset)
+        self.assertGreater(len(thai_orst_words()), 0)
+        self.assertIsInstance(thai_volubilis_words(), frozenset)
+        self.assertGreater(len(thai_volubilis_words()), 0)
+        self.assertIsInstance(thai_wikipedia_titles(), frozenset)
+        self.assertGreater(len(thai_wikipedia_titles()), 0)
         self.assertIsInstance(thai_words(), frozenset)
         self.assertGreater(len(thai_words()), 0)
-
-        self.assertIsInstance(volubilis(), frozenset)
-        self.assertGreater(len(volubilis()), 0)
-        self.assertIsInstance(wikipedia_titles(), frozenset)
-        self.assertGreater(len(wikipedia_titles()), 0)
 
         self.assertIsInstance(countries(), frozenset)
         self.assertGreater(len(countries()), 0)

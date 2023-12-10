@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
 
 import unittest
 import numpy as np
@@ -18,10 +20,7 @@ def _count_difference(st1, st2):
 
 class TestTextMisspellPackage(unittest.TestCase):
     def setUp(self):
-        self.texts = [
-            "เรารักคุณมากที่สุดในโลก",
-            "เราอยู่ที่มหาวิทยาลัยขอนแก่น"
-        ]
+        self.texts = ["เรารักคุณมากที่สุดในโลก", "เราอยู่ที่มหาวิทยาลัยขอนแก่น"]
 
     def test_misspell_naive(self):
         for text in self.texts:
@@ -42,8 +41,7 @@ class TestTextMisspellPackage(unittest.TestCase):
             diff = _count_difference(text, misspelled)
 
             self.assertEqual(
-                diff, 0,
-                "we shouldn't have any misspell with ratio=0."
+                diff, 0, "we shouldn't have any misspell with ratio=0."
             )
 
     def test_misspell_with_ratio_50_percent(self):

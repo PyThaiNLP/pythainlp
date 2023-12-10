@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
 
 import unittest
 
@@ -12,19 +14,19 @@ from pythainlp.tokenize import (
     multi_cut,
     nercut,
     newmm,
+    oskut,
+    paragraph_tokenize,
     pyicu,
+    sefr_cut,
     sent_tokenize,
     ssg,
     subword_tokenize,
     syllable_tokenize,
     tcc,
     tcc_p,
-    word_tokenize,
-    sefr_cut,
     tltk,
-    oskut,
     word_detokenize,
-    paragraph_tokenize,
+    word_tokenize,
 )
 from pythainlp.tokenize import clause_tokenize as sent_clause_tokenize
 from pythainlp.util import dict_trie
@@ -235,8 +237,7 @@ class TestTokenizePackage(unittest.TestCase):
             + " จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้"
         )
         sent_3_toks = [
-            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา"
-            + "จากผลงานวิจัยที่เคยทำมาในอดีต ",
+            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา" + "จากผลงานวิจัยที่เคยทำมาในอดีต ",
             "มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด ",
             "จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้",
         ]
@@ -360,9 +361,7 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsInstance(
             subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"), list
         )
-        self.assertFalse(
-            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tcc")
-        )
+        self.assertFalse("า" in subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"))
         self.assertIsInstance(
             subword_tokenize("สวัสดีดาวอังคาร", engine="tcc_p"), list
         )
@@ -396,9 +395,7 @@ class TestTokenizePackage(unittest.TestCase):
             subword_tokenize("สวัสดีชาวโลก", engine="dict"),
             ["สวัส", "ดี", "ชาว", "โลก"],
         )
-        self.assertFalse(
-            "า" in subword_tokenize("สวัสดีชาวโลก", engine="dict")
-        )
+        self.assertFalse("า" in subword_tokenize("สวัสดีชาวโลก", engine="dict"))
         self.assertEqual(subword_tokenize(None, engine="ssg"), [])
         self.assertEqual(subword_tokenize(None, engine="han_solo"), [])
         self.assertEqual(
@@ -407,11 +404,10 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertTrue(
             "ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
         )
-        self.assertFalse(
-            "า" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg")
-        )
+        self.assertFalse("า" in subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
         self.assertEqual(
-            subword_tokenize("แมวกินปลา", engine="han_solo"), ["แมว", "กิน", "ปลา"]
+            subword_tokenize("แมวกินปลา", engine="han_solo"),
+            ["แมว", "กิน", "ปลา"],
         )
         self.assertTrue(
             "ดาว" in subword_tokenize("สวัสดีดาวอังคาร", engine="han_solo")
@@ -484,15 +480,11 @@ class TestTokenizePackage(unittest.TestCase):
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
         self.assertEqual(
-            attacut.segment(
-                "ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-sc"
-            ),
+            attacut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-sc"),
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],
         )
         self.assertIsNotNone(
-            attacut.segment(
-                "ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-c"
-            )
+            attacut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-c")
         )
 
     def test_deepcut(self):
@@ -649,13 +641,9 @@ class TestTokenizePackage(unittest.TestCase):
             word_tokenize("จุ๋มง่วงนอนยัง", engine="newmm"),
             ["จุ๋ม", "ง่วงนอน", "ยัง"],
         )
+        self.assertEqual(word_tokenize("จุ๋มง่วง", engine="newmm"), ["จุ๋ม", "ง่วง"])
         self.assertEqual(
-            word_tokenize("จุ๋มง่วง", engine="newmm"), ["จุ๋ม", "ง่วง"]
-        )
-        self.assertEqual(
-            word_tokenize(
-                "จุ๋ม   ง่วง", engine="newmm", keep_whitespace=False
-            ),
+            word_tokenize("จุ๋ม   ง่วง", engine="newmm", keep_whitespace=False),
             ["จุ๋ม", "ง่วง"],
         )
         self.assertFalse(
@@ -666,13 +654,14 @@ class TestTokenizePackage(unittest.TestCase):
             )
         )
         self.assertEqual(
-            word_tokenize("(คนไม่เอา)", engine="newmm"), ['(', 'คน', 'ไม่', 'เอา', ')']
+            word_tokenize("(คนไม่เอา)", engine="newmm"),
+            ["(", "คน", "ไม่", "เอา", ")"],
         )
         self.assertEqual(
-            word_tokenize("กม/ชม", engine="newmm"), ['กม', '/', 'ชม']
+            word_tokenize("กม/ชม", engine="newmm"), ["กม", "/", "ชม"]
         )
         self.assertEqual(
-            word_tokenize("สีหน้า(รถ)", engine="newmm"), ['สีหน้า', '(', 'รถ', ')']
+            word_tokenize("สีหน้า(รถ)", engine="newmm"), ["สีหน้า", "(", "รถ", ")"]
         )
 
     def test_newmm_longtext(self):
@@ -707,12 +696,10 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(nercut.segment(None), [])
         self.assertEqual(nercut.segment(""), [])
         self.assertIsNotNone(nercut.segment("ทดสอบ"))
-        self.assertEqual(nercut.segment("ทันแน่ๆ"), ['ทัน', 'แน่ๆ'])
-        self.assertEqual(nercut.segment("%1ครั้ง"), ['%', '1', 'ครั้ง'])
-        self.assertEqual(nercut.segment("ทุ๊กกโคนน"), ['ทุ๊กกโคนน'])
-        self.assertIsNotNone(
-            nercut.segment("อย่าลืมอัพการ์ดนะจ๊ะ")
-        )
+        self.assertEqual(nercut.segment("ทันแน่ๆ"), ["ทัน", "แน่ๆ"])
+        self.assertEqual(nercut.segment("%1ครั้ง"), ["%", "1", "ครั้ง"])
+        self.assertEqual(nercut.segment("ทุ๊กกโคนน"), ["ทุ๊กกโคนน"])
+        self.assertIsNotNone(nercut.segment("อย่าลืมอัพการ์ดนะจ๊ะ"))
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="nercut"))
 
     def test_ssg(self):
@@ -728,55 +715,57 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             tcc.segment("ประเทศไทย"), ["ป", "ระ", "เท", "ศ", "ไท", "ย"]
         )
+        self.assertEqual(tcc.segment("พิสูจน์ได้ค่ะ"), ["พิ", "สูจน์", "ได้", "ค่ะ"])
         self.assertEqual(
-            tcc.segment("พิสูจน์ได้ค่ะ"), ['พิ', 'สูจน์', 'ได้', 'ค่ะ']
+            tcc.segment("หอมรดกไทย"), ["ห", "อ", "ม", "ร", "ด", "ก", "ไท", "ย"]
         )
         self.assertEqual(
-            tcc.segment("หอมรดกไทย"), ['ห', 'อ', 'ม', 'ร', 'ด', 'ก', 'ไท', 'ย']
+            tcc.segment("เรือน้อยลอยอยู่"),
+            ["เรื", "อ", "น้", "อ", "ย", "ล", "อ", "ย", "อ", "ยู่"],
         )
         self.assertEqual(
-            tcc.segment("เรือน้อยลอยอยู่"), ['เรื', 'อ', 'น้', 'อ', 'ย', 'ล', 'อ', 'ย', 'อ', 'ยู่']
+            tcc.segment("ประสานงานกับลูกค้า"),
+            ["ป", "ระ", "สา", "น", "งา", "น", "กั", "บ", "ลู", "ก", "ค้า"],
         )
         self.assertEqual(
-             tcc.segment("ประสานงานกับลูกค้า"), ['ป', 'ระ', 'สา', 'น', 'งา', 'น', 'กั', 'บ', 'ลู', 'ก', 'ค้า']
+            tcc.segment("ประกันภัยสัมพันธ์"),
+            [
+                "ป",
+                "ระ",
+                "กั",
+                "น",
+                "ภั",
+                "ย",
+                "สั",
+                "ม",
+                "พั",
+                "นธ์",
+            ],  # It don't look like TCC in ETCC paper
         )
+        self.assertEqual(tcc.segment("ตากลม"), ["ตา", "ก", "ล", "ม"])
         self.assertEqual(
-             tcc.segment("ประกันภัยสัมพันธ์"), ['ป', 'ระ', 'กั', 'น', 'ภั', 'ย', 'สั', 'ม', 'พั','นธ์'] # It don't look like TCC in ETCC paper
+            tcc.segment("เครื่องมือสื่อสารมีหลายชนิด"),
+            [
+                "เค",
+                "รื่อ",
+                "ง",
+                "มือ",
+                "สื่อ",
+                "สา",
+                "ร",
+                "มี",
+                "ห",
+                "ลา",
+                "ย",
+                "ช",
+                "นิ",
+                "ด",
+            ],
         )
-        self.assertEqual(
-             tcc.segment("ตากลม"), ['ตา', 'ก', 'ล', 'ม']
-        )
-        self.assertEqual(
-             tcc.segment("เครื่องมือสื่อสารมีหลายชนิด"),
-             [
-                'เค',
-                'รื่อ',
-                'ง',
-                'มือ',
-                'สื่อ',
-                'สา',
-                'ร',
-                'มี',
-                'ห',
-                'ลา',
-                'ย',
-                'ช',
-                'นิ',
-                'ด'
-            ]
-        )
-        self.assertEqual(
-             tcc.segment("ประชาชน"), ['ป', 'ระ', 'ชา', 'ช', 'น']
-        )
-        self.assertEqual(
-             tcc.segment("ไหมไทย"), ['ไห', 'ม', 'ไท', 'ย']
-        )
-        self.assertEqual(
-             tcc.segment("ยินดี"), ['ยิ', 'น', 'ดี']
-        )
-        self.assertEqual(
-             tcc.segment("ขุดหลุม"), ['ขุ', 'ด', 'ห', 'ลุ', 'ม']
-        )
+        self.assertEqual(tcc.segment("ประชาชน"), ["ป", "ระ", "ชา", "ช", "น"])
+        self.assertEqual(tcc.segment("ไหมไทย"), ["ไห", "ม", "ไท", "ย"])
+        self.assertEqual(tcc.segment("ยินดี"), ["ยิ", "น", "ดี"])
+        self.assertEqual(tcc.segment("ขุดหลุม"), ["ขุ", "ด", "ห", "ลุ", "ม"])
         self.assertEqual(list(tcc.tcc("")), [])
         self.assertEqual(tcc.tcc_pos(""), set())
 
@@ -786,14 +775,14 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(
             tcc_p.segment("ประเทศไทย"), ["ป", "ระ", "เท", "ศ", "ไท", "ย"]
         )
+        self.assertEqual(tcc_p.segment("พิสูจน์ได้ค่ะ"), ["พิ", "สูจน์", "ได้", "ค่ะ"])
         self.assertEqual(
-            tcc_p.segment("พิสูจน์ได้ค่ะ"), ['พิ', 'สูจน์', 'ได้', 'ค่ะ']
+            tcc_p.segment("หอมรดกไทย"),
+            ["ห", "อ", "ม", "ร", "ด", "ก", "ไท", "ย"],
         )
         self.assertEqual(
-            tcc_p.segment("หอมรดกไทย"), ['ห', 'อ', 'ม', 'ร', 'ด', 'ก', 'ไท', 'ย']
-        )
-        self.assertEqual(
-            tcc_p.segment("เรือน้อยลอยอยู่"), ['เรือ', 'น้', 'อ', 'ย', 'ล', 'อ', 'ย', 'อ', 'ยู่']
+            tcc_p.segment("เรือน้อยลอยอยู่"),
+            ["เรือ", "น้", "อ", "ย", "ล", "อ", "ย", "อ", "ยู่"],
         )
         # Not implemented
         # self.assertEqual(
@@ -837,15 +826,11 @@ class TestTokenizePackage(unittest.TestCase):
             [["ผม", "เลี้ยง", " ", "5", " ", "ตัว"]],
         )
         self.assertEqual(
-            word_detokenize(
-                ["ผม", "เลี้ยง", "5", "10", "ตัว", "ๆ", "คน", "ดี"]
-            ),
+            word_detokenize(["ผม", "เลี้ยง", "5", "10", "ตัว", "ๆ", "คน", "ดี"]),
             "ผมเลี้ยง 5 10 ตัว ๆ คนดี",
         )
         self.assertEqual(
-            word_detokenize(
-                ["ผม", "เลี้ยง", "5", "ตัว", " ", "ๆ", "คน", "ดี"]
-            ),
+            word_detokenize(["ผม", "เลี้ยง", "5", "ตัว", " ", "ๆ", "คน", "ดี"]),
             "ผมเลี้ยง 5 ตัว ๆ คนดี",
         )
         self.assertTrue(

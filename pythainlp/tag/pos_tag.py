@@ -241,10 +241,10 @@ def pos_tag_transformers(
             )
         )
 
-
-    pipeline = TokenClassificationPipeline(
-        model = model, tokenizer = tokenizer, aggregation_strategy = "simple"
-    )
+    pipeline = TokenClassificationPipeline(model = model,
+                                           tokenizer = tokenizer,
+                                           aggregation_strategy = "simple",
+                                           )
 
     outputs = pipeline(sentence)
     word_tags = [[(tag["word"], tag["entity_group"]) for tag in outputs]]

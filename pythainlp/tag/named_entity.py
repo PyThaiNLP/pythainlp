@@ -57,9 +57,10 @@ class NER:
                 )
             )
 
-    def tag(
-        self, text, pos = False, tag = False
-    ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
+    def tag(self,
+            text, pos = False,
+            tag = False
+            ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
         """
         This function tags named entities in text in IOB format.
 

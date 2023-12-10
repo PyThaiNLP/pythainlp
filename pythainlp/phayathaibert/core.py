@@ -21,7 +21,6 @@ class ThaiTextProcessor:
             "<unk> <rep> <wrep> <url> </s>".split()
         self.SPACE_SPECIAL_TOKEN = "<_>"
 
-
     def replace_url(self, text: str) -> str:
         """
             Replace url in `text` with TK_URL (https://stackoverflow.com/a/6041965)
@@ -191,15 +190,18 @@ class ThaiTextAugmenter:
                                   pipeline,)
         self.tokenizer = AutoTokenizer.from_pretrained(_model_name)
         self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(_model_name)
-        self.model = pipeline("fill-mask", tokenizer = self.tokenizer, model = self.model_for_masked_lm)
+        self.model = pipeline("fill-mask",
+                              tokenizer = self.tokenizer,
+                              model = self.model_for_masked_lm,
+                              )
         self.processor = ThaiTextProcessor()
 
     def generate(self,
-                 sample_text: str, 
-                 word_rank: int, 
+                 sample_text: str,
+                 word_rank: int,
                  max_length: int = 3,
                  sample: bool = False,
-                 )->str:
+                 ) -> str:
         sample_txt = sample_text
         final_text = ""
         for j in range(max_length):
@@ -214,13 +216,12 @@ class ThaiTextAugmenter:
 
         gen_txt = re.sub("<mask>", "", final_text)
         return gen_txt
-    
 
     def augment(self,
-                text: str, 
-                num_augs: int = 3, 
+                text: str,
+                num_augs: int = 3,
                 sample: bool = False,
-                )->List[str]:
+                ) -> List[str]:
         """
         Text Augment from phayathaibert
 
@@ -248,9 +249,12 @@ class ThaiTextAugmenter:
                 'ช้างมีทั้งหมด 50 ตัว บนเขาค่ะ😁']
         """
         augment_list = []
-        if num_augs <= 5: 
+        if num_augs <= 5:
             for rank in range(num_augs):
-                gen_text = self.generate(text, rank, sample = sample)
+                gen_text = self.generate(text,
+                                         rank,
+                                         sample = sample,
+                                         )
                 processed_text = re.sub("<_>", " ", self.processor.preprocess(gen_text))
                 augment_list.append(processed_text)
 
@@ -296,20 +300,22 @@ class PartOfSpeechTagger:
         outputs = pipeline(sentence)
         word_tags = [[(tag['word'], tag['entity_group']) for tag in outputs]]
         return word_tags
-    
+
+
 class NamedEntityTagger:
-     def __init__(self, model: str = "Pavarissy/phayathaibert-thainer") -> None:
+    def __init__(self, model: str = "Pavarissy/phayathaibert-thainer") -> None:
         from transformers import (AutoTokenizer,
                                   AutoModelForTokenClassification,
                                   )
         self.tokenizer = AutoTokenizer.from_pretrained(model)
         self.model = AutoModelForTokenClassification.from_pretrained(model)
-     def get_ner(self,
-                 text: str,
-                 tag: bool = False,
-                 pos: bool = False,
-                 strategy: str = "simple",
-                )->Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
+
+    def get_ner(self,
+                text: str,
+                tag: bool = False,
+                pos: bool = False,
+                strategy: str = "simple",
+                ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
         """
         This function tags named entities in text in IOB format.
 
@@ -333,11 +339,13 @@ class NamedEntityTagger:
             ('จาก', 'LOCATION'),
             ('ประเทศไทย', 'LOCATION')]
             >>> ner.tag("ทดสอบนายปวริศ เรืองจุติโพธิ์พานจากประเทศไทย", tag=True)
-            'ทดสอบ<PERSON>นายปวริศ เรืองจุติโพธิ์พาน</PERSON><LOCATION>จาก</LOCATION><LOCATION>ประเทศไทย</LOCATION>'
+            'ทดสอบ<PERSON>นายปวริศ เรืองจุติโพธิ์พาน</PERSON>\
+                <LOCATION>จาก</LOCATION><LOCATION>ประเทศไทย</LOCATION>'
         """
         from transformers import TokenClassificationPipeline
         if pos:
-            warnings.warn("This model doesn't support output postag and It doesn't output the postag.")
+            warnings.warn("This model doesn't support output \
+                          postag and It doesn't output the postag.")
         sample_output = []
         tag_text_list = []
         current_pos = 0
@@ -363,10 +371,11 @@ class NamedEntityTagger:
         else:
             return sample_output
 
-    
+
 def segment(sentence: str) -> List[str]:
     """
-    Subword tokenize of phayathaibert, sentencepiece from wangchanberta model with Vocabulary Expansion.
+    Subword tokenize of phayathaibert, \
+    sentencepiece from wangchanberta model with Vocabulary Expansion.
 
     :param str text: text to be tokenized
     :return: list of subwords

@@ -13,4 +13,4 @@ from pythainlp.phayathaibert.core import (ThaiTextProcessor,
                                           NamedEntityTagger,
                                           PartOfSpeechTagger,
                                           segment,
-)
+                                          )

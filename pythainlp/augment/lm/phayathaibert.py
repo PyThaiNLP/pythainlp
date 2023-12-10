@@ -40,12 +40,11 @@ class ThaiTextAugmenter:
         gen_txt = re.sub("<mask>", "", final_text)
         return gen_txt
 
-
     def augment(self,
                 text: str,
                 num_augs: int = 3,
                 sample: bool = False
-                )->List[str]:
+                ) -> List[str]:
         """
         Text Augment from phayathaibert
 
@@ -86,4 +85,3 @@ class ThaiTextAugmenter:
             raise ValueError(
                 f"augmentation of more than {num_augs} is exceeded the default limit"
             )
-

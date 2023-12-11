@@ -36,7 +36,7 @@ class TestKhaveePackage(unittest.TestCase):
             ),
             [
                 "Can't find rhyme between paragraphs ('หมา', 'จอง') in paragraph 2",
-                "Can't find rhyme between paragraphs 'หมา', 'ทอง') in paragraph 2",
+                "Can't find rhyme between paragraphs ('หมา', 'ทอง') in paragraph 2",
             ],
         )
 

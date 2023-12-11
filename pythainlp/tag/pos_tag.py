@@ -179,6 +179,8 @@ def pos_tag_transformers(
     :param str engine:
         * *bert* -  BERT: Bidirectional Encoder Representations from Transformers (default)
         * *wangchanberta* - fine-tuned version of airesearch/wangchanberta-base-att-spm-uncased on pud corpus (support PUD cotpus only)
+        * *phayathaibert* - fine-tuned version of clicknext/phayathaibert \
+            on blackboard corpus (support blackboard cotpus only)
         * *mdeberta* - mDeBERTa: Multilingual Decoding-enhanced BERT with disentangled attention (support PUD corpus only)
     :param str corpus: the corpus that is used to create the language model for tagger
         * *blackboard* - `blackboard treebank (support bert engine only) <https://bitbucket.org/kaamanita/blackboard-treebank/src/master/>`_
@@ -216,6 +218,7 @@ def pos_tag_transformers(
 
     _blackboard_support_engine = {
         "bert": "lunarlist/pos_thai",
+        "phayathai": "lunarlist/pos_thai_phayathai",
     }
 
     _pud_support_engine = {
@@ -238,9 +241,10 @@ def pos_tag_transformers(
             )
         )
 
-    pipeline = TokenClassificationPipeline(
-        model=model, tokenizer=tokenizer, aggregation_strategy="simple"
-    )
+    pipeline = TokenClassificationPipeline(model=model,
+                                           tokenizer=tokenizer,
+                                           aggregation_strategy="simple",
+                                           )
 
     outputs = pipeline(sentence)
     word_tags = [[(tag["word"], tag["entity_group"]) for tag in outputs]]

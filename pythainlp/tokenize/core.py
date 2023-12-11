@@ -613,6 +613,8 @@ def subword_tokenize(
         from pythainlp.tokenize.tltk import syllable_tokenize as segment
     elif engine == "han_solo":
         from pythainlp.tokenize.han_solo import segment
+    elif engine == "phayathai":
+        from pythainlp.phayathaibert import segment
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.

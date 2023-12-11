@@ -46,6 +46,10 @@ class NER:
             from pythainlp.wangchanberta import ThaiNameTagger
 
             self.engine = ThaiNameTagger(dataset_name=corpus)
+        elif engine == "phayathaibert" and corpus == "thainer-v2":
+            from pythainlp.phayathaibert.core import NamedEntityTagger
+
+            self.engine = NamedEntityTagger()
         else:
             raise ValueError(
                 "NER class not support {0} engine or {1} corpus.".format(
@@ -53,9 +57,11 @@ class NER:
                 )
             )
 
-    def tag(
-        self, text, pos=False, tag=False
-    ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
+    def tag(self,
+            text,
+            pos=False,
+            tag=False
+            ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
         """
         This function tags named entities in text in IOB format.
 

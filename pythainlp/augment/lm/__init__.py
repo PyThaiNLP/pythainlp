@@ -2,13 +2,15 @@
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 """
-LM
+Language Models
 """
 
 __all__ = [
     "FastTextAug",
     "Thai2transformersAug",
+    "ThaiTextAugmenter",
 ]
 
 from pythainlp.augment.lm.fasttext import FastTextAug
+from pythainlp.augment.lm.phayathaibert import ThaiTextAugmenter
 from pythainlp.augment.lm.wangchanberta import Thai2transformersAug

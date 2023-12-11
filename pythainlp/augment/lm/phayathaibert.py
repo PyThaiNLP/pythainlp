@@ -9,7 +9,7 @@ import re
 from pythainlp.phayathaibert.core import ThaiTextProcessor
 
 
-_model_name = "clicknext/phayathaibert"
+_MODEL_NAME = "clicknext/phayathaibert"
 
 
 class ThaiTextAugmenter:
@@ -17,8 +17,8 @@ class ThaiTextAugmenter:
         from transformers import (AutoTokenizer,
                                   AutoModelForMaskedLM,
                                   pipeline,)
-        self.tokenizer = AutoTokenizer.from_pretrained(_model_name)
-        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(_model_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(_MODEL_NAME)
+        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(_MODEL_NAME)
         self.model = pipeline("fill-mask", tokenizer=self.tokenizer, model=self.model_for_masked_lm)
         self.processor = ThaiTextProcessor()
 
@@ -88,7 +88,7 @@ class ThaiTextAugmenter:
                 augment_list.append(processed_text)
 
             return augment_list
-        
+
         raise ValueError(
             f"augmentation of more than {num_augs} is exceeded the default limit: {MAX_NUM_AUGS}"
         )

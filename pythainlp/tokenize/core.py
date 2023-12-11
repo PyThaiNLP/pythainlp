@@ -128,7 +128,7 @@ def word_tokenize(
 
     :param str text: text to be tokenized
     :param str engine: name of the tokenizer to be used
-    :param pythainlp.util.Trie custom_dict: dictionary trie
+    :param pythainlp.util.Trie custom_dict: dictionary trie (some engine may not support)
     :param bool keep_whitespace: True to keep whitespace, a common mark
                                  for end of phrase in Thai.
                                  Otherwise, whitespace is omitted.
@@ -290,18 +290,20 @@ def word_tokenize(
         segments = segment(text)
     elif engine == "nlpo3":
         from pythainlp.tokenize.nlpo3 import segment
-
-        if isinstance(custom_dict, str):
-            segments = segment(text, custom_dict=custom_dict)
-        elif not isinstance(custom_dict, str) and not custom_dict:
-            raise ValueError(
-                f"""Tokenizer \"{engine}\":
-                custom_dict must be a str.
-                It is a dictionary name as assigned with load_dict().
-                See pythainlp.tokenize.nlpo3.load_dict()"""
-            )
-        else:
-            segments = segment(text)
+        # Currently cannot handle custom_dict from inside word_tokenize(),
+        # due to difference in type.
+        #if isinstance(custom_dict, str):
+        #    segments = segment(text, custom_dict=custom_dict)
+        #elif not isinstance(custom_dict, str) and not custom_dict:
+        #    raise ValueError(
+        #        f"""Tokenizer \"{engine}\":
+        #        custom_dict must be a str.
+        #        It is a dictionary name as assigned with load_dict().
+        #        See pythainlp.tokenize.nlpo3.load_dict()"""
+        #    )
+        #else:
+        #    segments = segment(text)
+        segments = segment(text)
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.

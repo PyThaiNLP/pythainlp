@@ -13,6 +13,8 @@ from transformers import (
 )
 
 
+_PAT_URL = r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
+
 _model_name = "clicknext/phayathaibert"
 _tokenizer = CamembertTokenizer.from_pretrained(_model_name)
 
@@ -38,8 +40,7 @@ class ThaiTextProcessor:
             >>> replace_url("go to https://github.com")
             go to <url>
         """
-        URL_PATTERN = r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
-        return re.sub(URL_PATTERN, self._TK_URL, text)
+        return re.sub(_PAT_URL, self._TK_URL, text)
 
     def rm_brackets(self, text: str) -> str:
         """

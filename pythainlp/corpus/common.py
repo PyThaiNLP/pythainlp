@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
+
 """
 Common lists of words.
 """
@@ -339,12 +340,12 @@ def thai_synonym() -> dict:
     return thai_synonyms()
 
 
-def find_synonyms(word) -> List[str]:
+def find_synonyms(word: str) -> List[str]:
     """
     Find synonyms
 
     :param str word: Thai word
-    :return: List synonyms of word or None if it isn't exist.
+    :return: List of synonyms of the input word or an empty list if it isn't exist.
     :rtype: List[str]
 
     :Example:
@@ -355,8 +356,11 @@ def find_synonyms(word) -> List[str]:
         print(find_synonyms("หมู"))
         # output: ['จรุก', 'วราห์', 'วราหะ', 'ศูกร', 'สุกร']
     """
-    synonyms = thai_synonyms()
+    synonyms = thai_synonyms()  # get a dictionary of {word, synonym}
+
     if word in synonyms["word"]:
+        # returns the position of the first occurrence of the word
         idx = synonyms["word"].index(word)
         return synonyms["synonym"][idx]
+
     return []

@@ -12,6 +12,11 @@ countries
 .. autofunction:: countries
    :noindex:
 
+find_synonym
+~~~~~~~~~~~~
+.. autofunction:: find_synonym
+   :noindex:
+
 get_corpus
 ~~~~~~~~~~
 .. autofunction:: get_corpus

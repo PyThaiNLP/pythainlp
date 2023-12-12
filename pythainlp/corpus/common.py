@@ -7,6 +7,7 @@ Common lists of words.
 
 __all__ = [
     "countries",
+    "find_synonyms",
     "provinces",
     "thai_family_names",
     "thai_female_names",
@@ -336,3 +337,26 @@ def thai_synonyms() -> dict:
 def thai_synonym() -> dict:
     warnings.warn("Deprecated: Use thai_synonyms() instead.", DeprecationWarning)
     return thai_synonyms()
+
+
+def find_synonyms(word) -> Union[List[str], None]:
+    """
+    Find synonyms
+
+    :param str word: Thai word
+    :return: List synonyms of word or None if it isn't exist.
+    :rtype: Union[List[str], None]
+
+    :Example:
+    ::
+
+        from pythainlp.corpus import find_synonyms
+
+        print(find_synonyms("หมู"))
+        # output: ['จรุก', 'วราห์', 'วราหะ', 'ศูกร', 'สุกร']
+    """
+    _temp = thai_synonyms()
+    if word in _temp["word"]:
+        _idx = _temp["word"].index(word)
+        return _temp["synonym"][_idx]
+    return None

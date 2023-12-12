@@ -14,6 +14,7 @@ __all__ = [
     "corpus_path",
     "countries",
     "download",
+    "find_synonyms",
     "get_corpus",
     "get_corpus_as_is",
     "get_corpus_db",
@@ -101,6 +102,7 @@ from pythainlp.corpus.core import (
 )  # these imports must come before other pythainlp.corpus.* imports
 from pythainlp.corpus.common import (
     countries,
+    find_synonyms,
     provinces,
     thai_dict,
     thai_family_names,

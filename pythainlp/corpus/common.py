@@ -354,13 +354,20 @@ def find_synonyms(word: str) -> List[str]:
         from pythainlp.corpus import find_synonyms
 
         print(find_synonyms("หมู"))
-        # output: ['จรุก', 'วราห์', 'วราหะ', 'ศูกร', 'สุกร']
+        # output: ['จรุก', 'วราหะ', 'วราห์', 'ศูกร', 'สุกร']
     """
     synonyms = thai_synonyms()  # get a dictionary of {word, synonym}
     list_synonym = []
 
-    for idx, words in enumerate(synonyms["word"]):
+    if word in synonyms["word"]: # find by word
+        list_synonym.extend(synonyms["synonym"][synonyms["word"].index(word)])
+
+    for idx, words in enumerate(synonyms["synonym"]): # find by synonym
         if word in words:
             list_synonym.extend(synonyms["synonym"][idx])
+            list_synonym.append(synonyms["word"][idx])
+
+    if word in list_synonym: # remove same word
+        list_synonym.remove(word)
 
     return sorted(list(set(list_synonym)))

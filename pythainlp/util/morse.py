@@ -124,9 +124,9 @@ for key, val in ENGLISH_MORSE_CODE.items():
     decodingeng[val] = key
 decodingthai = {}
 for key, val in THAI_MORSE_CODE.items():
-    decodingthai[val.replace(" ","")] = key
+    decodingthai[val.replace(" ", "")] = key
 for key, val in THAI_MORSE_CODE.items():
-    THAI_MORSE_CODE[key] = val.replace(" ","")
+    THAI_MORSE_CODE[key] = val.replace(" ", "")
 
 
 def morse_encode(text: str, lang: str = "th") -> str:

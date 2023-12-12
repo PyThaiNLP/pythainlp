@@ -367,7 +367,9 @@ def find_synonyms(word: str) -> List[str]:
             list_synonym.extend(synonyms["synonym"][idx])
             list_synonym.append(synonyms["word"][idx])
 
+    list_synonym = sorted(list(set(list_synonym)))
+
     if word in list_synonym:  # remove same word
         list_synonym.remove(word)
 
-    return sorted(list(set(list_synonym)))
+    return list_synonym

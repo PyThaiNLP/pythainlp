@@ -339,13 +339,13 @@ def thai_synonym() -> dict:
     return thai_synonyms()
 
 
-def find_synonyms(word) -> Union[List[str], None]:
+def find_synonyms(word) -> List[str]:
     """
     Find synonyms
 
     :param str word: Thai word
     :return: List synonyms of word or None if it isn't exist.
-    :rtype: Union[List[str], None]
+    :rtype: List[str]
 
     :Example:
     ::
@@ -359,4 +359,4 @@ def find_synonyms(word) -> Union[List[str], None]:
     if word in _temp["word"]:
         _idx = _temp["word"].index(word)
         return _temp["synonym"][_idx]
-    return None
+    return []

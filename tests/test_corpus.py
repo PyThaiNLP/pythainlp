@@ -207,5 +207,8 @@ class TestCorpusPackage(unittest.TestCase):
         self.assertEqual(remove("test_zip"), True)
 
     def test_find_synonyms(self):
-        self.assertIsInstance(find_synonyms("หมู"), list)
-        self.assertIsInstance(find_synonyms("1"), None)
+        self.assertEqual(
+            find_synonyms("หมู"),
+            ['จรุก', 'วราห์', 'วราหะ', 'ศูกร', 'สุกร']
+        )
+        self.assertEqual(find_synonyms("1"), [])

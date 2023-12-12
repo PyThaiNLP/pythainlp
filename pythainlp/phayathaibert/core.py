@@ -42,7 +42,7 @@ class ThaiTextProcessor:
             r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
         return re.sub(URL_PATTERN, self._TK_URL, text)
 
-    def rm_brackets(text: str) -> str:
+    def rm_brackets(self, text: str) -> str:
         """
         Remove all empty brackets and artifacts within brackets from `text`.
         :param str text: text to remove useless brackets
@@ -82,7 +82,7 @@ class ThaiTextProcessor:
         )
         return new_line
 
-    def replace_newlines(text: str) -> str:
+    def replace_newlines(self, text: str) -> str:
         """
         Replace newlines in `text` with spaces.
         :param str text: text to replace all newlines with spaces
@@ -95,7 +95,7 @@ class ThaiTextProcessor:
 
         return re.sub(r"[\n]", " ", text.strip())
 
-    def rm_useless_spaces(text: str) -> str:
+    def rm_useless_spaces(self, text: str) -> str:
         """
         Remove multiple spaces in `text`. (code from `fastai`)
         :param str text: text to replace useless spaces
@@ -107,7 +107,7 @@ class ThaiTextProcessor:
         """
         return re.sub(" {2,}", " ", text)
 
-    def replace_spaces(text: str, space_token: str = "<_>") -> str:
+    def replace_spaces(self, text: str, space_token: str = "<_>") -> str:
         """
         Replace spaces with _
         :param str text: text to replace spaces
@@ -119,7 +119,7 @@ class ThaiTextProcessor:
         """
         return re.sub(" ", space_token, text)
 
-    def replace_rep_after(text: str) -> str:
+    def replace_rep_after(self, text: str) -> str:
         """
         Replace repetitions at the character level in `text`
         :param str text: input text to replace character repetition
@@ -140,7 +140,7 @@ class ThaiTextProcessor:
 
     def replace_wrep_post(self, toks: Collection[str]) -> Collection[str]:
         """
-        Replace reptitive words post tokenization;
+        Replace repetitive words post tokenization;
         fastai `replace_wrep` does not work well with Thai.
         :param Collection[str] toks: list of tokens
         :return: list of tokens where repetitive words are removed.
@@ -165,7 +165,7 @@ class ThaiTextProcessor:
 
         return res[1:]
 
-    def remove_space(toks: Collection[str]) -> Collection[str]:
+    def remove_space(self, toks: Collection[str]) -> Collection[str]:
         """
         Do not include space for bag-of-word models.
         :param Collection[str] toks: list of tokens

@@ -67,6 +67,7 @@ from pythainlp.util import (
     remove_trailing_repeat_consonants,
 )
 from pythainlp.util.spell_words import spell_word
+from pythainlp.util.morse import morse_encode, morse_decode
 
 
 class TestUtilPackage(unittest.TestCase):
@@ -834,6 +835,14 @@ class TestUtilPackage(unittest.TestCase):
             ),
             "อืมมม คุณมีบุคลิกที่เริ่ด ฉันจะให้เกรดดีกับคุณ\nนี่เป็นความลับ",
         )
+
+    def test_morse_encode(self):
+        self.assertEqual(morse_encode("แมว", lang="th"), ".-.- -- .--")
+        self.assertEqual(morse_encode("cat", lang="en"), "-.-. .- -")
+
+    def test_morse_decode(self):
+        self.assertEqual(morse_decode(".-.- -- .--", lang="th"), "แมว")
+        self.assertEqual(morse_decode("-.-. .- -", lang="en"), "CAT")
 
     # def test_abbreviation_to_full_text(self):
     #     self.assertIsInstance(abbreviation_to_full_text("รร.ของเราน่าอยู่", list))

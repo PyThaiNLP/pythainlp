@@ -277,3 +277,13 @@ Modules
     :members:
 
     The `Trie` class is a data structure for efficient dictionary operations. It's a valuable resource for managing and searching word lists and dictionaries in a structured and efficient manner.
+
+.. autofunction:: pythainlp.util.morse.morse_encode
+    :noindex:
+
+    The `pythainlp.util.morse.morse_encode` function is convert text to Morse code.
+
+.. autofunction:: pythainlp.util.morse.morse_decode
+    :noindex:
+
+    The `pythainlp.util.morse.morse_decode` function is convert Morse code to text.

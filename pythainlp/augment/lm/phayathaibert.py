@@ -98,7 +98,8 @@ class ThaiTextAugmenter:
                 augment_list.append(processed_text)
         else:
             raise ValueError(
-                f"augmentation of more than {num_augs} is exceeded the default limit: {MAX_NUM_AUGS}"
+                f"augmentation of more than {num_augs} is exceeded \
+                    the default limit: {MAX_NUM_AUGS}"
             )
 
         return augment_list

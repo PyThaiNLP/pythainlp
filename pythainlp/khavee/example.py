@@ -65,13 +65,19 @@ print(
         k_type=8,
     )
 )
-# -> ["Cant find rhyme between paragraphs ('สอน', 'ไป') in paragraph 4", "Cant find rhyme between paragraphs ('มี่', ['เกม', 'เอ่อ', 'เก่ง', 'กาจ']) in paragraph 5"]
+# -> [
+# "Cant find rhyme between paragraphs ('สอน', 'ไป') in paragraph 4",
+# "Cant find rhyme between paragraphs ('มี่', ['เกม', 'เอ่อ', 'เก่ง', 'กาจ']) in paragraph 5"
+# ]
 
 
 # การตรวจสอบกลอน 4 ที่ถูกฉันทลักษณ์
 print(
     kv.check_klon(
-        """ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง เอ๋งเอ๋งคะนอง มีคนจับจอง เขาชื่อน้องเธียร""",
+        """ฉันชื่อหมูกรอบ ฉันชอบกินไก่
+            แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง
+            ลคคนเก่ง เอ๋งเอ๋งคะนอง
+            มีคนจับจอง เขาชื่อน้องเธียร""",
         k_type=4,
     )
 )
@@ -80,11 +86,17 @@ print(
 # การตรวจสอบกลอน 4 ที่ผิดฉันทลักษณ์
 print(
     kv.check_klon(
-        """ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง เอ๋งเอ๋งเสียงหมา มีคนจับจอง เขาชื่อน้องเธียร""",
+        """ฉันชื่อหมูกรอบ ฉันชอบกินไก่
+            แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง
+            ลคคนเก่ง เอ๋งเอ๋งเสียงหมา
+            มีคนจับจอง เขาชื่อน้องเธียร""",
         k_type=4,
     )
 )
-# -> ["Cant find rhyme between paragraphs ('หมา', 'จอง') in paragraph 2", "Cant find rhyme between paragraphs ('หมา', 'ทอง') in paragraph 2"]
+# -> [
+# "Cant find rhyme between paragraphs ('หมา', 'จอง') in paragraph 2",
+# "Cant find rhyme between paragraphs ('หมา', 'ทอง') in paragraph 2"
+# ]
 
 # การเช็คคำเอกโท
 print(

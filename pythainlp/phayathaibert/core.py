@@ -38,8 +38,7 @@ class ThaiTextProcessor:
             >>> replace_url("go to https://github.com")
             go to <url>
         """
-        URL_PATTERN = \
-            r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
+        URL_PATTERN = r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
         return re.sub(URL_PATTERN, self._TK_URL, text)
 
     def rm_brackets(self, text: str) -> str:
@@ -294,7 +293,8 @@ class ThaiTextAugmenter:
                 augment_list.append(processed_text)
         else:
             raise ValueError(
-                f"augmentation of more than {num_augs} is exceeded the default limit: {MAX_NUM_AUGS}"
+                f"augmentation of more than {num_augs} is exceeded \
+                    the default limit: {MAX_NUM_AUGS}"
             )
 
         return augment_list

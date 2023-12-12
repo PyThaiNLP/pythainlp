@@ -359,15 +359,15 @@ def find_synonyms(word: str) -> List[str]:
     synonyms = thai_synonyms()  # get a dictionary of {word, synonym}
     list_synonym = []
 
-    if word in synonyms["word"]: # find by word
+    if word in synonyms["word"]:  # find by word
         list_synonym.extend(synonyms["synonym"][synonyms["word"].index(word)])
 
-    for idx, words in enumerate(synonyms["synonym"]): # find by synonym
+    for idx, words in enumerate(synonyms["synonym"]):  # find by synonym
         if word in words:
             list_synonym.extend(synonyms["synonym"][idx])
             list_synonym.append(synonyms["word"][idx])
 
-    if word in list_synonym: # remove same word
+    if word in list_synonym:  # remove same word
         list_synonym.remove(word)
 
     return sorted(list(set(list_synonym)))

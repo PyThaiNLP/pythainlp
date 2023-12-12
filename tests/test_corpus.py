@@ -209,6 +209,6 @@ class TestCorpusPackage(unittest.TestCase):
     def test_find_synonyms(self):
         self.assertEqual(
             find_synonyms("หมู"),
-            ['จรุก', 'วราห์', 'วราหะ', 'ศูกร', 'สุกร']
+            ['จรุก', 'วราหะ', 'วราห์', 'ศูกร', 'สุกร']
         )
         self.assertEqual(find_synonyms("1"), [])

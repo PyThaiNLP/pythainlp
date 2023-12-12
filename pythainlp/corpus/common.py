@@ -357,10 +357,10 @@ def find_synonyms(word: str) -> List[str]:
         # output: ['จรุก', 'วราห์', 'วราหะ', 'ศูกร', 'สุกร']
     """
     synonyms = thai_synonyms()  # get a dictionary of {word, synonym}
+    list_synonym = []
 
-    if word in synonyms["word"]:
-        # returns the position of the first occurrence of the word
-        idx = synonyms["word"].index(word)
-        return synonyms["synonym"][idx]
+    for idx, words in enumerate(synonyms["word"]):
+        if word in words:
+            list_synonym.extend(synonyms["synonym"][idx])
 
-    return []
+    return sorted(list(set(list_synonym)))

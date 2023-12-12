@@ -10,7 +10,10 @@ _tagger_name = ""
 
 
 def dependency_parsing(
-    text: str, model: str = "", tag: str = "str", engine: str = "esupar"
+    text: str,
+    model: Union[str, None] = None,
+    tag: str = "str",
+    engine: str = "esupar",
 ) -> Union[List[List[str]], str]:
     """
     Dependency Parsing

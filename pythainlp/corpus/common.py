@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
+
 """
 Common lists of words.
 """
 
 __all__ = [
     "countries",
+    "find_synonyms",
     "provinces",
     "thai_family_names",
     "thai_female_names",
@@ -336,3 +338,38 @@ def thai_synonyms() -> dict:
 def thai_synonym() -> dict:
     warnings.warn("Deprecated: Use thai_synonyms() instead.", DeprecationWarning)
     return thai_synonyms()
+
+
+def find_synonyms(word: str) -> List[str]:
+    """
+    Find synonyms
+
+    :param str word: Thai word
+    :return: List of synonyms of the input word or an empty list if it isn't exist.
+    :rtype: List[str]
+
+    :Example:
+    ::
+
+        from pythainlp.corpus import find_synonyms
+
+        print(find_synonyms("หมู"))
+        # output: ['จรุก', 'วราหะ', 'วราห์', 'ศูกร', 'สุกร']
+    """
+    synonyms = thai_synonyms()  # get a dictionary of {word, synonym}
+    list_synonym = []
+
+    if word in synonyms["word"]:  # find by word
+        list_synonym.extend(synonyms["synonym"][synonyms["word"].index(word)])
+
+    for idx, words in enumerate(synonyms["synonym"]):  # find by synonym
+        if word in words:
+            list_synonym.extend(synonyms["synonym"][idx])
+            list_synonym.append(synonyms["word"][idx])
+
+    list_synonym = sorted(list(set(list_synonym)))
+
+    if word in list_synonym:  # remove same word
+        list_synonym.remove(word)
+
+    return list_synonym

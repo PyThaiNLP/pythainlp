@@ -13,6 +13,7 @@ from pythainlp.corpus import (
     conceptnet,
     countries,
     download,
+    find_synonyms,
     get_corpus_db,
     get_corpus_db_detail,
     get_corpus_default_db,
@@ -204,3 +205,10 @@ class TestCorpusPackage(unittest.TestCase):
         p = get_corpus_path("test_zip")
         self.assertEqual(os.path.isdir(p), True)
         self.assertEqual(remove("test_zip"), True)
+
+    def test_find_synonyms(self):
+        self.assertEqual(
+            find_synonyms("หมู"),
+            ['จรุก', 'วราหะ', 'วราห์', 'ศูกร', 'สุกร']
+        )
+        self.assertEqual(find_synonyms("1"), [])

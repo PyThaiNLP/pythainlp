@@ -3,8 +3,10 @@
 spacy_thai: Tokenizer, POS tagger, and dependency parser for the Thai language using Universal Dependencies.
 
 GitHub: https://github.com/KoichiYasuoka/spacy-thai
+
 """
 from typing import List, Union
+
 import spacy_thai
 
 

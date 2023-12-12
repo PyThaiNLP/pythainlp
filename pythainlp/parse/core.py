@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
+
 from typing import List, Union
 
 
@@ -9,7 +10,7 @@ _tagger_name = ""
 
 
 def dependency_parsing(
-    text: str, model: str = None, tag: str = "str", engine: str = "esupar"
+    text: str, model: str = "", tag: str = "str", engine: str = "esupar"
 ) -> Union[List[List[str]], str]:
     """
     Dependency Parsing
@@ -92,6 +93,7 @@ def dependency_parsing(
         # 3       คนดี             NOUN    NCMN    _       2       obj     _       SpaceAfter=No
     """
     global _tagger, _tagger_name
+
     if _tagger_name != engine:
         if engine == "esupar":
             from pythainlp.parse.esupar_engine import Parse
@@ -111,5 +113,7 @@ def dependency_parsing(
             _tagger = Parse(model=model)
         else:
             raise NotImplementedError("The engine doesn't support.")
+
     _tagger_name = engine
+
     return _tagger(text, tag=tag)

@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
+
 from typing import List
+
 from transformers import (
     CamembertTokenizer,
     pipeline,
@@ -51,9 +53,9 @@ class Thai2transformersAug:
 
     def augment(self, sentence: str, num_replace_tokens: int = 3) -> List[str]:
         """
-        Text Augment from wangchanberta
+        Text augmentation from WangchanBERTa
 
-        :param str sentence: thai sentence
+        :param str sentence: Thai sentence
         :param int num_replace_tokens: number replace tokens
 
         :return: list of text augment
@@ -64,7 +66,7 @@ class Thai2transformersAug:
 
             from pythainlp.augment.lm import Thai2transformersAug
 
-            aug=Thai2transformersAug()
+            aug = Thai2transformersAug()
 
             aug.augment("ช้างมีทั้งหมด 50 ตัว บน")
             # output: ['ช้างมีทั้งหมด 50 ตัว บนโลกใบนี้',

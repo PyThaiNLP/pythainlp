@@ -12,6 +12,7 @@ __all__ = [
 from collections import OrderedDict
 import itertools
 from typing import List
+
 from nltk.corpus import wordnet as wn
 from pythainlp.corpus import wordnet
 from pythainlp.tokenize import word_tokenize

@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import Callable, Collection, List, Tuple, Union
+from typing import Callable, List, Tuple, Union
 import random
 import re
 import warnings
@@ -138,19 +138,19 @@ class ThaiTextProcessor:
         re_rep = re.compile(r"(\S)(\1{3,})")
         return re_rep.sub(_replace_rep, text)
 
-    def replace_wrep_post(self, toks: Collection[str]) -> Collection[str]:
+    def replace_wrep_post(self, toks: List[str]) -> List[str]:
         """
         Replace repetitive words post tokenization;
         fastai `replace_wrep` does not work well with Thai.
-        :param Collection[str] toks: list of tokens
+        :param List[str] toks: list of tokens
         :return: list of tokens where repetitive words are removed.
-        :rtype: Collection[str]
+        :rtype: List[str]
         :Example:
             >>> toks = ["กา", "น้ำ", "น้ำ", "น้ำ", "น้ำ"]
             >>> replace_wrep_post(toks)
             ['กา', 'น้ำ']
         """
-        previous_word = None
+        previous_word = ""
         rep_count = 0
         res = []
         for current_word in toks + [self._TK_END]:
@@ -165,16 +165,16 @@ class ThaiTextProcessor:
 
         return res[1:]
 
-    def remove_space(self, toks: Collection[str]) -> Collection[str]:
+    def remove_space(self, toks: List[str]) -> List[str]:
         """
         Do not include space for bag-of-word models.
-        :param Collection[str] toks: list of tokens
-        :return: Collection of tokens where space tokens (" ") are filtered out
-        :rtype: Collection[str]
+        :param List[str] toks: list of tokens
+        :return: List of tokens where space tokens (" ") are filtered out
+        :rtype: List[str]
         :Example:
-            >>> toks = ['ฉัน','เดิน',' ','กลับ','บ้าน']
+            >>> toks = ["ฉัน", "เดิน", " ", "กลับ", "บ้าน"]
             >>> remove_space(toks)
-            ['ฉัน','เดิน','กลับ','บ้าน']
+            ['ฉัน', 'เดิน', 'กลับ', 'บ้าน']
         """
         res = []
         for t in toks:
@@ -188,7 +188,7 @@ class ThaiTextProcessor:
     def preprocess(
         self,
         text: str,
-        pre_rules: Collection[Callable] = [
+        pre_rules: List[Callable] = [
             rm_brackets,
             replace_newlines,
             rm_useless_spaces,
@@ -254,7 +254,7 @@ class ThaiTextAugmenter:
         sample: bool = False,
     ) -> List[str]:
         """
-        Text Augment from phayathaibert
+        Text augmentation from PhayaThaiBERT
 
         :param str text: Thai text
         :param int num_augs: an amount of augmentation text needed as an output

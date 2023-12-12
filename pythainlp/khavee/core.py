@@ -623,9 +623,9 @@ class KhaveeVerifier:
             raise TypeError("text must be str or iterable list[str]")
 
         word_characters = [*text]
-        if "่" in word_characters and not "้" in word_characters:
+        if "่" in word_characters and "้" not in word_characters:
             return "aek"
-        elif "้" in word_characters and not "่" in word_characters:
+        elif "้" in word_characters and "่" not in word_characters:
             return "too"
         if dead_syllable_as_aek and sound_syllable(text) == "dead":
             return "aek"

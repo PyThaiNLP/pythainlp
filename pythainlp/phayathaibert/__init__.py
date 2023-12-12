@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
+
+"""
+PhayaThaiBERT
+"""
+
 __all__ = [
     "NamedEntityTagger",
     "PartOfSpeechTagger",

@@ -12,14 +12,15 @@ GitHub: https://github.com/KoichiYasuoka
 """
 import os
 from typing import List, Union
+
 import numpy
 import torch
 import ufal.chu_liu_edmonds
 from transformers import (
-    AutoTokenizer,
+    AutoConfig,
     AutoModelForQuestionAnswering,
     AutoModelForTokenClassification,
-    AutoConfig,
+    AutoTokenizer,
     TokenClassificationPipeline,
 )
 from transformers.utils import cached_file
@@ -35,8 +36,9 @@ class Parse:
         self.model = AutoModelForQuestionAnswering.from_pretrained(model)
         x = AutoModelForTokenClassification.from_pretrained
         if os.path.isdir(model):
-            d, t = x(os.path.join(model, "deprel")), x(
-                os.path.join(model, "tagger")
+            d, t = (
+                x(os.path.join(model, "deprel")),
+                x(os.path.join(model, "tagger")),
             )
         else:
             c = AutoConfig.from_pretrained(
@@ -61,11 +63,13 @@ class Parse:
             (t["start"], t["end"], t["entity_group"])
             for t in self.deprel(text)
         ]
-        z, n = {
-            t["start"]: t["entity"].split("|") for t in self.tagger(text)
-        }, len(w)
-        r, m = [text[s:e] for s, e, p in w], numpy.full(
-            (n + 1, n + 1), numpy.nan
+        z, n = (
+            {t["start"]: t["entity"].split("|") for t in self.tagger(text)},
+            len(w),
+        )
+        r, m = (
+            [text[s:e] for s, e, p in w],
+            numpy.full((n + 1, n + 1), numpy.nan),
         )
         v, c = self.tokenizer(r, add_special_tokens=False)["input_ids"], []
         for i, t in enumerate(v):

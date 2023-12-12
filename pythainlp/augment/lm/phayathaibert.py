@@ -13,21 +13,31 @@ _MODEL_NAME = "clicknext/phayathaibert"
 
 
 class ThaiTextAugmenter:
-    def __init__(self,) -> None:
-        from transformers import (AutoTokenizer,
-                                  AutoModelForMaskedLM,
-                                  pipeline,)
+    def __init__(self) -> None:
+        from transformers import (
+            AutoTokenizer,
+            AutoModelForMaskedLM,
+            pipeline,
+        )
+
         self.tokenizer = AutoTokenizer.from_pretrained(_MODEL_NAME)
-        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(_MODEL_NAME)
-        self.model = pipeline("fill-mask", tokenizer=self.tokenizer, model=self.model_for_masked_lm)
+        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(
+            _MODEL_NAME
+        )
+        self.model = pipeline(
+            "fill-mask",
+            tokenizer=self.tokenizer,
+            model=self.model_for_masked_lm,
+        )
         self.processor = ThaiTextProcessor()
 
-    def generate(self,
-                 sample_text: str,
-                 word_rank: int,
-                 max_length: int = 3,
-                 sample: bool = False
-                 ) -> str:
+    def generate(
+        self,
+        sample_text: str,
+        word_rank: int,
+        max_length: int = 3,
+        sample: bool = False,
+    ) -> str:
         sample_txt = sample_text
         final_text = ""
 
@@ -45,11 +55,9 @@ class ThaiTextAugmenter:
 
         return gen_txt
 
-    def augment(self,
-                text: str,
-                num_augs: int = 3,
-                sample: bool = False
-                ) -> List[str]:
+    def augment(
+        self, text: str, num_augs: int = 3, sample: bool = False
+    ) -> List[str]:
         """
         Text augmentation from PhayaThaiBERT
 
@@ -84,11 +92,14 @@ class ThaiTextAugmenter:
         if num_augs <= MAX_NUM_AUGS:
             for rank in range(num_augs):
                 gen_text = self.generate(text, rank, sample=sample)
-                processed_text = re.sub("<_>", " ", self.processor.preprocess(gen_text))
+                processed_text = re.sub(
+                    "<_>", " ", self.processor.preprocess(gen_text)
+                )
                 augment_list.append(processed_text)
+        else:
+            raise ValueError(
+                f"augmentation of more than {num_augs} is exceeded \
+                    the default limit: {MAX_NUM_AUGS}"
+            )
 
-            return augment_list
-
-        raise ValueError(
-            f"augmentation of more than {num_augs} is exceeded the default limit: {MAX_NUM_AUGS}"
-        )
+        return augment_list

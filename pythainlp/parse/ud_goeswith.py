@@ -11,10 +11,11 @@ The source: https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-goeswith
 GitHub: https://github.com/KoichiYasuoka
 """
 from typing import List, Union
-from transformers import AutoTokenizer, AutoModelForTokenClassification
+
 import numpy as np
 import torch
 import ufal.chu_liu_edmonds
+from transformers import AutoModelForTokenClassification, AutoTokenizer
 
 
 class Parse:
@@ -27,21 +28,20 @@ class Parse:
         self.model = AutoModelForTokenClassification.from_pretrained(model)
 
     def __call__(
-        self,
-        text: str, tag: str = "str"
+        self, text: str, tag: str = "str"
     ) -> Union[List[List[str]], str]:
         w = self.tokenizer(text, return_offsets_mapping=True)
         v = w["input_ids"]
         x = [
-            v[0:i] + [self.tokenizer.mask_token_id] + v[i + 1:] + [j]
+            v[0:i] + [self.tokenizer.mask_token_id] + v[i + 1 :] + [j]
             for i, j in enumerate(v[1:-1], 1)
         ]
         with torch.no_grad():
-            e = self.model(input_ids=torch.tensor(x)
-                           ).logits.numpy()[:, 1:-2, :]
+            e = self.model(input_ids=torch.tensor(x)).logits.numpy()[
+                :, 1:-2, :
+            ]
         r = [
-            1 if i == 0 else -1
-            if j.endswith("|root") else 0
+            1 if i == 0 else -1 if j.endswith("|root") else 0
             for i, j in sorted(self.model.config.id2label.items())
         ]
         e += np.where(np.add.outer(np.identity(e.shape[0]), r) == 0, 0, np.nan)
@@ -60,8 +60,10 @@ class Parse:
         h = ufal.chu_liu_edmonds.chu_liu_edmonds(m)[0]
         if [0 for i in h if i == 0] != [0]:
             m[:, 0] += np.where(
-                m[:, 0] == np.nanmax(
-                    m[[i for i, j in enumerate(h) if j == 0], 0]), 0, np.nan
+                m[:, 0]
+                == np.nanmax(m[[i for i, j in enumerate(h) if j == 0], 0]),
+                0,
+                np.nan,
             )
             m[[i for i, j in enumerate(h) if j == 0]] += [
                 0 if i == 0 or j == 0 else np.nan for i, j in enumerate(h)
@@ -84,21 +86,30 @@ class Parse:
                         str(h[i]),
                         q[-1],
                         "_",
-                        "_" if i < len(v) and e < v[i][0] else "SpaceAfter=No"
+                        "_" if i < len(v) and e < v[i][0] else "SpaceAfter=No",
                     ]
                 )
             return _tag_data
         else:
             for i, (s, e) in enumerate(v, 1):
                 q = self.model.config.id2label[p[i, h[i]]].split("|")
-                u += "\t".join([str(i),
-                                text[s:e],
-                                "_",
-                                q[0],
-                                "_",
-                                "|".join(q[1:-1]),
-                                str(h[i]),
-                                q[-1],
-                                "_",
-                                "_" if i < len(v) and e < v[i][0] else "SpaceAfter=No"]) + "\n"
+                u += (
+                    "\t".join(
+                        [
+                            str(i),
+                            text[s:e],
+                            "_",
+                            q[0],
+                            "_",
+                            "|".join(q[1:-1]),
+                            str(h[i]),
+                            q[-1],
+                            "_",
+                            "_"
+                            if i < len(v) and e < v[i][0]
+                            else "SpaceAfter=No",
+                        ]
+                    )
+                    + "\n"
+                )
             return u + "\n"

@@ -355,8 +355,8 @@ def find_synonyms(word) -> List[str]:
         print(find_synonyms("หมู"))
         # output: ['จรุก', 'วราห์', 'วราหะ', 'ศูกร', 'สุกร']
     """
-    _temp = thai_synonyms()
-    if word in _temp["word"]:
-        _idx = _temp["word"].index(word)
-        return _temp["synonym"][_idx]
+    synonyms = thai_synonyms()
+    if word in synonyms["word"]:
+        idx = synonyms["word"].index(word)
+        return synonyms["synonym"][idx]
     return []

@@ -10,7 +10,7 @@ THAI_MORSE_CODE = {
     'จ': '-..-.',
     'ฉ': '----',
     'ช': '-..-',
-    'ฌ':'-..-',
+    'ฌ': '-..-',
     'ซ': '--..',
     'ญ': '.---',
     'ด': '-..',
@@ -119,7 +119,7 @@ ENGLISH_MORSE_CODE = {
     '(': '-.--.-'
 }
 
-decodingeng = {} #สร้าง Dictionary สำหรับใช้ถอดรหัสมอร์สภาษาอังกฤษ
+decodingeng = {}
 for key, val in ENGLISH_MORSE_CODE.items():
     decodingeng[val] = key
 decodingthai = {}
@@ -129,7 +129,7 @@ for key, val in THAI_MORSE_CODE.items():
     THAI_MORSE_CODE[key] = val.replace(" ","")
 
 
-def morse_encode(text: str, lang: str="th") -> str:
+def morse_encode(text: str, lang: str = "th") -> str:
     """
     Convert text to Morse code (support Thai and English)
 
@@ -167,7 +167,7 @@ def morse_encode(text: str, lang: str="th") -> str:
         raise NotImplementedError(f"This function doesn't support {lang}.")
 
 
-def morse_decode(morse_text: str, lang: str="th") -> str:
+def morse_decode(morse_text: str, lang: str = "th") -> str:
     """
     Simple Convert Morse code to text
 

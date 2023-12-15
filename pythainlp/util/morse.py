@@ -143,6 +143,7 @@ def morse_encode(text: str, lang: str = "th") -> str:
 
     :Example:
     ::
+
         from pythainlp.util.morse import morse_encode
         print(morse_encode("แมว", lang="th"))
         # output: .-.- -- .--
@@ -176,6 +177,7 @@ def morse_decode(morse_text: str, lang: str = "th") -> str:
 
     :Example:
     ::
+
         from pythainlp.util.morse import morse_decode
         print(morse_decode(".-.- -- .--", lang="th"))
         # output: แมว

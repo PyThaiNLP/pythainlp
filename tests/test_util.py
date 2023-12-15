@@ -18,14 +18,16 @@ from pythainlp.util import (
     arabic_digit_to_thai_digit,
     bahttext,
     collate,
-    countthai,
+    convert_years,
     count_thai_chars,
+    countthai,
     dict_trie,
     display_thai_char,
     digit_to_text,
     emoji_to_thai,
     eng_to_thai,
     find_keyword,
+    ipa_to_rtgs,
     is_native_thai,
     isthai,
     isthaichar,
@@ -33,39 +35,38 @@ from pythainlp.util import (
     now_reign_year,
     num_to_thaiword,
     maiyamok,
+    nectec_to_ipa,
     rank,
     reign_year_to_ad,
     remove_dangling,
     remove_dup_spaces,
+    remove_tone_ipa,
     remove_tonemark,
+    remove_trailing_repeat_consonants,
     remove_zw,
     rhyme,
     text_to_arabic_digit,
+    text_to_num,
     text_to_thai_digit,
-    thaiword_to_date,
     thai_digit_to_arabic_digit,
+    thai_keyboard_dist,
+    thai_to_eng,
     thai_strftime,
+    thai_strptime,
+    thai_word_tone_detector,
+    thaiword_to_date,
+    thaiword_to_num,
     thaiword_to_time,
     time_to_thaiword,
-    thai_to_eng,
+    tis620_to_utf8,
     to_idna,
-    thaiword_to_num,
-    thai_keyboard_dist,
-    text_to_num,
-    words_to_num,
+    tone_detector,
     sound_syllable,
     syllable_length,
     syllable_open_close_detector,
-    tone_detector,
-    thai_word_tone_detector,
-    convert_years,
-    thai_strptime,
-    nectec_to_ipa,
-    ipa_to_rtgs,
-    remove_tone_ipa,
-    tis620_to_utf8,
-    remove_trailing_repeat_consonants,
+    words_to_num,
 )
+from pythainlp.util.morse import morse_decode, morse_encode
 from pythainlp.util.spell_words import spell_word
 
 
@@ -834,6 +835,14 @@ class TestUtilPackage(unittest.TestCase):
             ),
             "อืมมม คุณมีบุคลิกที่เริ่ด ฉันจะให้เกรดดีกับคุณ\nนี่เป็นความลับ",
         )
+
+    def test_morse_encode(self):
+        self.assertEqual(morse_encode("แมว", lang="th"), ".-.- -- .--")
+        self.assertEqual(morse_encode("cat", lang="en"), "-.-. .- -")
+
+    def test_morse_decode(self):
+        self.assertEqual(morse_decode(".-.- -- .--", lang="th"), "แมว")
+        self.assertEqual(morse_decode("-.-. .- -", lang="en"), "CAT")
 
     # def test_abbreviation_to_full_text(self):
     #     self.assertIsInstance(abbreviation_to_full_text("รร.ของเราน่าอยู่", list))

@@ -35,7 +35,7 @@ tensorflow==2.13.1
 thai-nner==0.3
 tltk==1.6.8
 torch==1.13.1
-transformers==4.30.1
+transformers==4.36.0
 ufal.chu-liu-edmonds==1.0.2
 wtpsplit==1.0.1
 wunsen==0.0.3

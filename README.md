@@ -29,7 +29,7 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 ## Getting Started
 
-- PyThaiNLP 2 requires Python 3.6+. Python 2.7 users can use PyThaiNLP 1.6. See [2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118) | [Upgrading from 1.7](https://pythainlp.github.io/docs/2.0/notes/pythainlp-1_7-2_0.html) | [Upgrading ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
+- PyThaiNLP 2 requires Python 3.7+. Python 2.7 users can use PyThaiNLP 1.6. See [2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118) | [Upgrading from 1.7](https://pythainlp.github.io/docs/2.0/notes/pythainlp-1_7-2_0.html) | [Upgrading ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
 - [PyThaiNLP Get Started notebook](https://pythainlp.github.io/tutorials/notebooks/pythainlp_get_started.html) | [API document](https://pythainlp.github.io/docs) | [Tutorials](https://pythainlp.github.io/tutorials)
 - [Official website](https://pythainlp.github.io/) | [PyPI](https://pypi.org/project/pythainlp/) | [Facebook page](https://www.facebook.com/pythainlp/)
 - [Who uses PyThaiNLP?](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md)
@@ -148,13 +148,18 @@ or by BibTeX entry:
 
 ``` bib
 @misc{pythainlp,
-    author       = {Wannaphong Phatthiyaphaibun and Korakot Chaovavanich and Charin Polpanumas and Arthit Suriyawongkul and Lalita Lowphansirikul and Pattarawat Chormai},
-    title        = {{PyThaiNLP: Thai Natural Language Processing in Python}},
-    month        = Jun,
-    year         = 2016,
-    doi          = {10.5281/zenodo.3519354},
-    publisher    = {Zenodo},
-    url          = {http://doi.org/10.5281/zenodo.3519354}
+    title = "{P}y{T}hai{NLP}: {T}hai Natural Language Processing in {P}ython",
+    author = "Phatthiyaphaibun, Wannaphong  and
+      Chaovavanich, Korakot  and
+      Polpanumas, Charin  and
+      Suriyawongkul, Arthit  and
+      Lowphansirikul, Lalita  and
+      Chormai, Pattarawat",
+    month = jun,
+    year = "2016",
+    doi = {10.5281/zenodo.3519354},
+    publisher = {Zenodo},
+    url = {http://doi.org/10.5281/zenodo.3519354}
 }
 ```
 
@@ -166,7 +171,7 @@ and its BibTeX entry:
 
 ```bib
 @inproceedings{phatthiyaphaibun-etal-2023-pythainlp,
-    title = "{P}y{T}hai{NLP}: {T}hai Natural Language Processing in Python",
+    title = "{P}y{T}hai{NLP}: {T}hai Natural Language Processing in {P}ython",
     author = "Phatthiyaphaibun, Wannaphong  and
       Chaovavanich, Korakot  and
       Polpanumas, Charin  and

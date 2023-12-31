@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-FileCopyrightText: Copyright 2016-2024 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 """
 Thank https://dev.to/ton_ami/text-data-augmentation-synonym-replacement-4h8l

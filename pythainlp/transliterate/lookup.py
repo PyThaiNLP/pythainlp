@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-FileCopyrightText: Copyright 2016-2024 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 """
 Look up romanized Thai words in a predefined dictionary compiled by Wannaphong, 2022.

@@ -1,5 +1,5 @@
 # -*- coding_utf-8 -*-
-# SPDX-FileCopyrightText: Copyright 2016-2023 PyThaiNLP Project
+# SPDX-FileCopyrightText: Copyright 2016-2024 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 def tis620_to_utf8(text: str)->str:
     """

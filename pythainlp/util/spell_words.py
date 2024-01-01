@@ -118,7 +118,7 @@ def spell_word(text: str) -> List[str]:
         # output: ['คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี']
     """
     spellouts = []
-    tokens = subword_tokenize(text, engine="ssg")
+    tokens = subword_tokenize(text, engine="han_solo")
 
     for tok in tokens:
         spellouts.extend(spell_syllable(tok))

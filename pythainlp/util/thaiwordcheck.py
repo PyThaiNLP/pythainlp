@@ -9,8 +9,7 @@ def is_native_thai(word: str) -> bool:
         pythainlp.util.is_native_thai is rename as \
             pythainlp.morpheme.is_native_thai.
         This function will remove in PyThaiNLP 5.1.
-        """
-    , DeprecationWarning)
+        """, DeprecationWarning)
     from pythainlp.morpheme import is_native_thai as check
 
     return check(word)

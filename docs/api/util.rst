@@ -77,11 +77,6 @@ Modules
 
     The `ipa_to_rtgs` function focuses on converting International Phonetic Alphabet (IPA) transcriptions into Royal Thai General System of Transcription (RTGS) format. This is valuable for phonetic analysis and pronunciation guides.
 
-.. autofunction:: is_native_thai
-    :noindex:
-
-    The `is_native_thai` function is a language detection tool that identifies whether text is predominantly in the Thai language or not. It aids in language identification and text categorization tasks.
-
 .. autofunction:: isthai
     :noindex:
 

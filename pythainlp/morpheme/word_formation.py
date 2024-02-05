@@ -17,8 +17,8 @@ def nighit(w1: str, w2: str) -> str:
     :param str w2: A Thai word.
     :return: Thai word.
     :rtype: str
-    :Example:
-    ::
+    :Example:::
+
         from pythainlp.morpheme import nighit
 
         assert nighit("สํ","คีต")=="สังคีต"

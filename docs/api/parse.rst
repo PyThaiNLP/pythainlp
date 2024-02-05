@@ -28,6 +28,7 @@ Example
 Here's a basic example of how to use the `dependency_parsing` function:
 
 ::
+
     from pythainlp.parse import dependency_parsing
     
     # Input Thai sentence

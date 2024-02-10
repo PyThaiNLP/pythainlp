@@ -9,9 +9,7 @@ from pythainlp.khavee import KhaveeVerifier
 
 
 kv = KhaveeVerifier()
-all_thai_words_dict = [
-    i for i in list(thai_words()) if len(syllable_tokenize(i)) == 1
-]
+all_thai_words_dict = None
 
 
 def rhyme(word: str) -> List[str]:
@@ -29,7 +27,12 @@ def rhyme(word: str) -> List[str]:
         print(rhyme("จีบ"))
         # output: ['กลีบ', 'กีบ', 'ครีบ', ...]
     """
+    global all_thai_words_dict
     list_sumpus = []
+    if all_thai_words_dict == None:
+        all_thai_words_dict = [
+            i for i in list(thai_words()) if len(syllable_tokenize(i)) == 1
+        ]
     for i in all_thai_words_dict:
         if kv.is_sumpus(word, i) and i != word:
             list_sumpus.append(i)

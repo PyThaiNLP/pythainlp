@@ -161,7 +161,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="5.0.0beta1",
+    version="5.0.0",
     description="Thai Natural Language Processing library",
     long_description=readme,
     long_description_content_type="text/markdown",

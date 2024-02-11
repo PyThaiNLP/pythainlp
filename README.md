@@ -13,19 +13,18 @@
   <a href="https://matrix.to/#/#thainlp:matrix.org" rel="noopener" target="_blank"><img src="https://matrix.to/img/matrix-badge.svg" alt="Chat on Matrix"></a>
 </div>
 
-PyThaiNLP is a Python package for text processing and linguistic analysis, similar to [NLTK](https://www.nltk.org/) with a focus on the Thai language.
+PyThaiNLP is a Python package for text processing and linguistic analysis, similar to [NLTK](https://www.nltk.org/) with a focus on Thai language.
 
 PyThaiNLP เป็นไลบารีภาษาไพทอนสำหรับประมวลผลภาษาธรรมชาติ คล้ายกับ NLTK โดยเน้นภาษาไทย [ดูรายละเอียดภาษาไทยได้ที่ README_TH.MD](https://github.com/PyThaiNLP/pythainlp/blob/dev/README_TH.md)
 
-**News**
+## News
 
 > Now, You can contact with or ask any questions of the PyThaiNLP team. <a href="https://matrix.to/#/#thainlp:matrix.org" rel="noopener" target="_blank"><img src="https://matrix.to/img/matrix-badge.svg" alt="Chat on Matrix"></a>
 
 | Version | Description | Status |
 |:------:|:--:|:------:|
-| [5.0](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/788) |
+| [5.0.1](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/788) |
 | [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 5.1 | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/900) |
-
 
 ## Getting Started
 
@@ -37,24 +36,20 @@ PyThaiNLP เป็นไลบารีภาษาไพทอนสำหร�
 
 ## Capabilities
 
-PyThaiNLP provides standard NLP functions for Thai, for example part-of-speech tagging, linguistic unit segmentation (syllable, word, or sentence). Some of these functions are also available via the command-line interface.
+PyThaiNLP provides standard linguistic analysis for Thai language and standard Thai locale utility functions.
+Some of these functions are also available via the command-line interface (run `thainlp` in your shell).
 
-<details>
-  <summary>List of Features</summary>
+Partial list of features:
 
 - Convenient character and word classes, like Thai consonants (`pythainlp.thai_consonants`), vowels (`pythainlp.thai_vowels`), digits (`pythainlp.thai_digits`), and stop words (`pythainlp.corpus.thai_stopwords`) -- comparable to constants like `string.letters`, `string.digits`, and `string.punctuation`
-- Thai linguistic unit segmentation/tokenization, including sentence (`sent_tokenize`), word (`word_tokenize`), and subword segmentations based on Thai Character Cluster (`subword_tokenize`)
-- Thai part-of-speech tagging (`pos_tag`)
-- Thai spelling suggestion and correction (`spell` and `correct`)
-- Thai transliteration (`transliterate`)
-- Thai soundex (`soundex`) with three engines (`lk82`, `udom83`, `metasound`)
-- Thai collation (sorted by dictionary order) (`collate`)
-- Read out number to Thai words (`bahttext`, `num_to_thaiword`)
-- Thai datetime formatting (`thai_strftime`)
+- Linguistic unit segmentation at different levels: sentence (`sent_tokenize`), word (`word_tokenize`), and subword (`subword_tokenize`)
+- Part-of-speech tagging (`pos_tag`)
+- Spelling suggestion and correction (`spell` and `correct`)
+- Phonetic algorithm and transliteration (`soundex`  and `transliterate`)
+- Collation (sorted by dictionary order) (`collate`)
+- Number read out (`num_to_thaiword` and `bahttext`)
+- Datetime formatting (`thai_strftime`)
 - Thai-English keyboard misswitched fix (`eng_to_thai`, `thai_to_eng`)
-- Command-line interface for basic functions, like tokenization and POS tagging (run `thainlp` in your shell)
-</details>
-
 
 ## Installation
 
@@ -78,22 +73,19 @@ Some functionalities, like Thai WordNet, may require extra packages. To install 
 pip install pythainlp[extra1,extra2,...]
 ```
 
-<details>
-  <summary>List of possible <code>extras</code></summary>
+Possible `extras`:
 
--  `full` (install everything)
--  `attacut` (to support attacut, a fast and accurate tokenizer)
--  `benchmarks` (for [word tokenization benchmarking](tokenization-benchmark.md))
--  `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
--  `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
--  `ml` (to support ULMFiT models for classification)
--  `thai2fit` (for Thai word vector)
--  `thai2rom` (for machine-learnt romanization)
--  `wordnet` (for Thai WordNet API)
-</details>
+- `full` (install everything)
+- `attacut` (to support attacut, a fast and accurate tokenizer)
+- `benchmarks` (for [word tokenization benchmarking](tokenization-benchmark.md))
+- `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
+- `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
+- `ml` (to support ULMFiT models for classification)
+- `thai2fit` (for Thai word vector)
+- `thai2rom` (for machine-learnt romanization)
+- `wordnet` (for Thai WordNet API)
 
 For dependency details, look at the `extras` variable in [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
-
 
 ## Data Directory
 
@@ -102,21 +94,21 @@ For dependency details, look at the `extras` variable in [`setup.py`](https://gi
 - The data directory can be changed by specifying the environment variable `PYTHAINLP_DATA_DIR`.
 - See the data catalog (`db.json`) at https://github.com/PyThaiNLP/pythainlp-corpus
 
-
 ## Command-Line Interface
 
 Some of PyThaiNLP functionalities can be used via command line with the `thainlp` command.
 
 For example, to display a catalog of datasets:
+
 ```sh
 thainlp data catalog
 ```
 
 To show how to use:
+
 ```sh
 thainlp help
 ```
-
 
 ## Licenses
 
@@ -127,7 +119,6 @@ thainlp help
 | Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/)  |
 | Other corpora and models that may be included in PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
 
-
 ## Contribute to PyThaiNLP
 
 - Please fork and create a pull request :)
@@ -136,7 +127,6 @@ thainlp help
 ## Who uses PyThaiNLP?
 
 You can read [INTHEWILD.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md).
-
 
 ## Citations
 

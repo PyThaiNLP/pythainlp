@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# SPDX-FileCopyrightText: Copyright 2016-2024 PyThaiNLP Project
+# SPDX-FileCopyrightText: 2016-2024 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 
 import argparse

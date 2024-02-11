@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# SPDX-FileCopyrightText: Copyright 2016-2024 PyThaiNLP Project
+# SPDX-FileCopyrightText: 2016-2024 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 
 import unittest
@@ -15,11 +15,13 @@ class TestGeneratePackage(unittest.TestCase):
         self.assertIsNotNone(_tnc_unigram.gen_sentence("ผม", output_str=False))
         self.assertIsNotNone(_tnc_unigram.gen_sentence())
         self.assertIsNotNone(_tnc_unigram.gen_sentence(duplicate=True))
+
         _ttc_unigram = Unigram("ttc")
         self.assertIsNotNone(_ttc_unigram.gen_sentence("ผม"))
         self.assertIsNotNone(_ttc_unigram.gen_sentence("ผม", output_str=False))
         self.assertIsNotNone(_ttc_unigram.gen_sentence())
         self.assertIsNotNone(_ttc_unigram.gen_sentence(duplicate=True))
+
         _oscar_unigram = Unigram("oscar")
         self.assertIsNotNone(_oscar_unigram.gen_sentence("ผม"))
         self.assertIsNotNone(

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: 2016-2024 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
 #
 # Configuration file for the Sphinx documentation builder.
 # http://www.sphinx-doc.org/en/master/config
@@ -21,8 +23,8 @@ sys.path.insert(0, os.path.abspath(".."))
 # -- Project information -----------------------------------------------------
 
 project = "PyThaiNLP"
-copyright = "2019, pythainlp_builders"
-author = "pythainlp_builders"
+copyright = "2016-2024 PyThaiNLP Project"
+author = "PyThaiNLP Project"
 
 curyear = datetime.today().year
 copyright = f"2017-{curyear}, {project} (Apache Software License 2.0)"

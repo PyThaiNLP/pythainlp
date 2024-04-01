@@ -198,21 +198,21 @@ def segment(text: str) -> List[str]:
     feat = extract_features(toks)
     labs = _tagger.tag(feat)
     labs[-1] = "E"  # make sure it cuts the last sentence
-  
-    #To ensure splitting of sentences using Terminal Punctuation
+
+    # To ensure splitting of sentences using Terminal Punctuation
     for idx, _ in enumerate(toks):
-      if(toks[idx].strip().endswith(('!', '.', '?'))):
-          labs[idx] = "E"
-      
-      #Spaces or empty strings would no longer be treated as end of the sentence.
-      elif(toks[idx].strip() == ""):
-          labs[idx] = "I"
+        if(toks[idx].strip().endswith(('!', '.', '?'))):
+            labs[idx] = "E"
+
+        # Spaces or empty strings would no longer be treated as end of sentence.
+        elif(toks[idx].strip() == ""):
+            labs[idx] = "I"
 
     sentences = []
     sentence = ""
     for i, w in enumerate(toks):
         sentence = sentence + w
-        #Constraining empty strings to get added, to avoid any sort of unusual behaviour due to empty strings.
+        # Empty strings should not be part of output.
         if labs[i] == "E" and sentence != '':
             sentences.append(sentence)
             sentence = ""

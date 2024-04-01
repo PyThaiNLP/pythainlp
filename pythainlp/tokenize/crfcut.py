@@ -201,7 +201,7 @@ def segment(text: str) -> List[str]:
 
     # To ensure splitting of sentences using Terminal Punctuation
     for idx, _ in enumerate(toks):
-        if(toks[idx].strip().endswith(('!', '.', '?'))):
+        if toks[idx].strip().endswith(('!', '.', '?')):
             labs[idx] = "E"
 
         # Spaces or empty strings would no longer be treated as end of sentence.

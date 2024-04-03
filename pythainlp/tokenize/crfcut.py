@@ -204,7 +204,7 @@ def segment(text: str) -> List[str]:
         if toks[idx].strip().endswith(("!", ".", "?")):
             labs[idx] = "E"
         # Spaces or empty strings would no longer be treated as end of sentence.
-        elif toks[idx].strip() == "":
+        elif (idx == 0 or labs[idx-1] == "E") and toks[idx].strip() == "":
             labs[idx] = "I"
 
     sentences = []

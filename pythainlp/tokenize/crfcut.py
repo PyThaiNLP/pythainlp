@@ -199,11 +199,20 @@ def segment(text: str) -> List[str]:
     labs = _tagger.tag(feat)
     labs[-1] = "E"  # make sure it cuts the last sentence
 
+    # To ensure splitting of sentences using Terminal Punctuation
+    for idx, _ in enumerate(toks):
+        if toks[idx].strip().endswith(("!", ".", "?")):
+            labs[idx] = "E"
+        # Spaces or empty strings would no longer be treated as end of sentence.
+        elif (idx == 0 or labs[idx-1] == "E") and toks[idx].strip() == "":
+            labs[idx] = "I"
+
     sentences = []
     sentence = ""
     for i, w in enumerate(toks):
         sentence = sentence + w
-        if labs[i] == "E":
+        # Empty strings should not be part of output.
+        if labs[i] == "E" and sentence != "":
             sentences.append(sentence)
             sentence = ""
 

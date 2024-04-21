@@ -46,9 +46,9 @@ Example
 Here's a simple example of how to use the `EntityLinker` class:
 
 ::
-  from pythainlp.el import EntityLinker
+   from pythainlp.el import EntityLinker
   
-  text = "กรุงเทพเป็นเมืองหลวงของประเทศไทย"
-  el = EntityLinker()
-  linked_entities = el.get_el(text)
-  print(linked_entities)
+   text = "กรุงเทพเป็นเมืองหลวงของประเทศไทย"
+   el = EntityLinker()
+   linked_entities = el.get_el(text)
+   print(linked_entities)

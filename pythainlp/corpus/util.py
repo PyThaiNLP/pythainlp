@@ -90,27 +90,27 @@ def revise_wordset(
 
     :Example::
     ::
+    
+        from pythainlp.corpus import thai_words
+        from pythainlp.corpus.util import revise_wordset
+        from pythainlp.tokenize.longest import segment
 
-    from pythainlp.corpus import thai_words
-    from pythainlp.corpus.util import revise_wordset
-    from pythainlp.tokenize.longest import segment
+        base_words = thai_words()
+        more_words = {
+            "ถวิล อุดล", "ทองอินทร์ ภูริพัฒน์", "เตียง ศิริขันธ์", "จำลอง ดาวเรือง"
+        }
+        base_words = base_words.union(more_words)
+        dict_trie = Trie(wordlist)
 
-    base_words = thai_words()
-    more_words = {
-        "ถวิล อุดล", "ทองอินทร์ ภูริพัฒน์", "เตียง ศิริขันธ์", "จำลอง ดาวเรือง"
-    }
-    base_words = base_words.union(more_words)
-    dict_trie = Trie(wordlist)
+        tokenize = lambda text: segment(text, dict_trie)
 
-    tokenize = lambda text: segment(text, dict_trie)
+        training_data = [
+            [str, str, str. ...],
+            [str, str, str, str, ...],
+            ...
+        ]
 
-    training_data = [
-        [str, str, str. ...],
-        [str, str, str, str, ...],
-        ...
-    ]
-
-    revised_words = revise_wordset(tokenize, wordlist, training_data)
+        revised_words = revise_wordset(tokenize, wordlist, training_data)
     """
     bad_words = find_badwords(tokenize, training_data)
     return set(orig_words) - bad_words

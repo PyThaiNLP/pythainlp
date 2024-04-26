@@ -5,6 +5,7 @@
 import gzip
 from typing import List, Tuple
 import numpy as np
+import json
 
 
 class GzipModel:
@@ -16,9 +17,12 @@ class GzipModel:
     :param list training_data: list [(text_sample,label)]
     """
 
-    def __init__(self, training_data: List[Tuple[str, str]]):
-        self.training_data = np.array(training_data)
-        self.Cx2_list = self.train()
+    def __init__(self, training_data: List[Tuple[str, str]]=None, model_path=None):
+        if model_path!=None:
+            self.load(model_path)
+        else:
+            self.training_data = np.array(training_data)
+            self.Cx2_list = self.train()
 
     def train(self):
         Cx2_list = []
@@ -72,3 +76,15 @@ class GzipModel:
         predict_class = top_k_class[counts.argmax()]
 
         return predict_class
+
+    def save(self, path: str):
+        with open(path, "w") as f:
+            json.dump({
+                "training_data": self.training_data.tolist(), "Cx2_list":self.Cx2_list
+            }, f, ensure_ascii=False)
+
+    def load(self, path: str):
+        with open(path, "r") as f:
+            data = json.load(f)
+            self.Cx2_list =  data["Cx2_list"]
+            self.training_data = np.array(data["training_data"])

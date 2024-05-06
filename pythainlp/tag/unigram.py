@@ -17,11 +17,15 @@ _ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
 _PUD_FILENAME = "pos_ud_unigram-v0.2.json"
 _PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
 
+_TDTB_FILENAME = "tdtb-unigram_tagger.json"
+_TDTB_PATH = os.path.join(corpus_path(), _TDTB_FILENAME)
+
 _BLACKBOARD_NAME = "blackboard_unigram_tagger"
 
 _ORCHID_TAGGER = None
 _PUD_TAGGER = None
 _BLACKBOARD_TAGGER = None
+_TDTB_TAGGER = None
 
 
 def _orchid_tagger():
@@ -47,6 +51,14 @@ def _blackboard_tagger():
         with open(path, encoding="utf-8-sig") as fh:
             _BLACKBOARD_TAGGER = json.load(fh)
     return _BLACKBOARD_TAGGER
+
+
+def _thai_tdtb():
+    global _TDTB_TAGGER
+    if not _TDTB_TAGGER:
+        with open(_TDTB_PATH, encoding="utf-8-sig") as fh:
+            _TDTB_TAGGER = json.load(fh)
+    return _TDTB_TAGGER
 
 
 def _find_tag(
@@ -82,6 +94,8 @@ def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
         words = blackboard.pre_process(words)
         word_tags = _find_tag(words, _blackboard_tagger())
         word_tags = blackboard.post_process(word_tags, to_ud)
+    elif corpus in ("tdtb"):
+        word_tags = _find_tag(words, _thai_tdtb())
     else:  # by default, use "pud" for corpus
         word_tags = _find_tag(words, _pud_tagger())
 

@@ -68,6 +68,12 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(
             pos_tag([""], engine="unigram", corpus="blackboard_ud")
         )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="unigram", corpus="tdtb")
+        )
+        self.assertIsNotNone(
+            pos_tag([""], engine="unigram", corpus="tdtb")
+        )
         self.assertEqual(
             pos_tag(["คุณ", "กำลัง", "ประชุม"], engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
@@ -102,6 +108,12 @@ class TestTagPackage(unittest.TestCase):
         )
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="blackboard_ud")
+        )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="perceptron", corpus="tdtb")
+        )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="perceptron", corpus="tdtb")
         )
         self.assertIsNotNone(pos_tag(tokens, engine="tltk"))
 

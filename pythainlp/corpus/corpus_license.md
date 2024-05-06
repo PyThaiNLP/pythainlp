@@ -51,8 +51,8 @@ https://creativecommons.org/licenses/by/4.0/
 | pos_ud_perceptron.pkl     | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using perceptron |
 | pos_ud_unigram.json       | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using unigram    |
 | sentenceseg_crfcut.model  | Sentence segmentation model, trained from TED subtitles, using CRF                                    |
-| th_tdtb-pt_tagger.json | Part-of-speech tagging model, trained from The Thai Discourse Treebank, using perceptron                              |
-| th_tdtb-unigram_tagger.json   | Part-of-speech tagging model, trained from The Thai Discourse Treebank, using unigram                                 |
+| tdtb-pt_tagger.json | Part-of-speech tagging model, trained from The Thai Discourse Treebank, using perceptron                              |
+| tdtb-unigram_tagger.json   | Part-of-speech tagging model, trained from The Thai Discourse Treebank, using unigram                                 |
 
 
 ## Thai Dictionary for ICU BreakIterator

@@ -118,3 +118,4 @@ notebooks/iso_11940-dev.ipynb
 
 # vscode devcontainer
 .devcontainer/
+notebooks/d.model

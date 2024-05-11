@@ -61,8 +61,8 @@ def rejoin_formatted_num(segments: List[str]) -> List[str]:
                 connected_token += segments[segment_idx]
                 pos += len(segments[segment_idx])
                 segment_idx += 1
-
-            tokens_joined.append(connected_token)
+            if connected_token:
+                tokens_joined.append(connected_token)
             match = next(matching_results, None)
         else:
             tokens_joined.append(token)

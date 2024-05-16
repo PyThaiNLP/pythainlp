@@ -83,7 +83,7 @@ class ThaiNameTagger:
     :Example:
     ::
 
-        from pythainlp.tag.named_entity import ThaiNameTagger
+        from pythainlp.tag.thainer import ThaiNameTagger
 
         thainer14 = ThaiNameTagger(version="1.4")
         thainer14.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
@@ -133,7 +133,7 @@ class ThaiNameTagger:
 
         :Example:
 
-            >>> from pythainlp.tag.named_entity import ThaiNameTagger
+            >>> from pythainlp.tag.thainer import ThaiNameTagger
             >>>
             >>> ner = ThaiNameTagger()
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")

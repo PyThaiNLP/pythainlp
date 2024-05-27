@@ -18,9 +18,13 @@ _PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
 
 _BLACKBOARD_NAME = "blackboard_pt_tagger"
 
+_TUD_FILENAME = "pos_tud_perceptron.json"
+_TUD_PATH = os.path.join(corpus_path(), _TUD_FILENAME)
+
 _ORCHID_TAGGER = None
 _PUD_TAGGER = None
 _BLACKBOARD_TAGGER = None
+_TUD_TAGGER = None
 
 
 def _orchid_tagger():
@@ -42,6 +46,13 @@ def _blackboard_tagger():
         path = get_corpus_path(_BLACKBOARD_NAME)
         _LST20_TAGGER = PerceptronTagger(path=path)
     return _LST20_TAGGER
+
+
+def _tud_tagger():
+    global _TUD_TAGGER
+    if not _TUD_TAGGER:
+        _TUD_TAGGER = PerceptronTagger(path=_TUD_PATH)
+    return _TUD_TAGGER
 
 
 def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
@@ -67,6 +78,9 @@ def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
         words = blackboard.pre_process(words)
         word_tags = _blackboard_tagger().tag(words)
         word_tags = blackboard.post_process(word_tags, to_ud)
+    elif corpus in ("tud"):
+        tagger = _tud_tagger()
+        word_tags = tagger.tag(words)
     else:  # by default, use "pud" for corpus
         tagger = _pud_tagger()
         word_tags = tagger.tag(words)

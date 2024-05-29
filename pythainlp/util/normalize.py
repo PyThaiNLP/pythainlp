@@ -283,9 +283,12 @@ def maiyamok(sent: Union[str, List[str]]) -> List[str]:
         if "ๆ" == text:
             text = _list_word[i - 1]
         elif "ๆ" in text:
-            text = text.replace("ๆ", "")
-            _list_word.append(text)
+            count = text.count("ๆ")
+            text = _list_word[i - 1]
+            for _ in range(count):
+                _list_word.append(text)
             i += 1
+            continue
         _list_word.append(text)
         i += 1
     return _list_word

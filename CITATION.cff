@@ -1,4 +1,4 @@
-cff-version: 1.1.0
+cff-version: "1.2.0"
 message: "If you use this software, please cite it as below."
 authors:
 - family-names: "Phatthiyaphaibun"
@@ -20,5 +20,6 @@ authors:
   given-names: "Pattarawat"
   orcid: "https://orcid.org/0000-0000-0000-0000"
 title: "PyThaiNLP: Thai Natural Language Processing in Python"
-version: v5.0.2
-date-released: 2024-04-03
+version: v5.0.4
+license: Apache-2.0
+date-released: 2024-06-02

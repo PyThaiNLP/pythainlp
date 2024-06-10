@@ -51,6 +51,8 @@ class TestTagPackage(unittest.TestCase):
         self.assertEqual(unigram.tag([], corpus="orchid"), [])
         self.assertEqual(unigram.tag(None, corpus="blackboard"), [])
         self.assertEqual(unigram.tag([], corpus="blackboard"), [])
+        self.assertEqual(unigram.tag(None, corpus="tud"), [])
+        self.assertEqual(unigram.tag([], corpus="tud"), [])
         self.assertIsNotNone(
             pos_tag(tokens, engine="unigram", corpus="orchid")
         )
@@ -74,6 +76,8 @@ class TestTagPackage(unittest.TestCase):
         self.assertIsNotNone(
             pos_tag([""], engine="unigram", corpus="tdtb")
         )
+        self.assertIsNotNone(pos_tag(tokens, engine="unigram", corpus="tud"))
+        self.assertIsNotNone(pos_tag([""], engine="unigram", corpus="tud"))
         self.assertEqual(
             pos_tag(["คุณ", "กำลัง", "ประชุม"], engine="unigram"),
             [("คุณ", "PPRS"), ("กำลัง", "XVBM"), ("ประชุม", "VACT")],
@@ -94,6 +98,8 @@ class TestTagPackage(unittest.TestCase):
         self.assertEqual(perceptron.tag([], corpus="pud"), [])
         self.assertEqual(perceptron.tag(None, corpus="blackboard"), [])
         self.assertEqual(perceptron.tag([], corpus="blackboard"), [])
+        self.assertEqual(perceptron.tag(None, corpus="tud"), [])
+        self.assertEqual(perceptron.tag([], corpus="tud"), [])
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="orchid")
         )
@@ -114,6 +120,9 @@ class TestTagPackage(unittest.TestCase):
         )
         self.assertIsNotNone(
             pos_tag(tokens, engine="perceptron", corpus="tdtb")
+        )
+        self.assertIsNotNone(
+            pos_tag(tokens, engine="perceptron", corpus="tud")
         )
         self.assertIsNotNone(pos_tag(tokens, engine="tltk"))
 

@@ -32,6 +32,9 @@ def pos_tag(
             <https://github.com/nlp-chula/thai-discourse-treebank/tree/main>`_ \
             , natively use Universal POS tags
         * *tnc* - Thai National Corpus (support tltk engine only)
+        * *tdtb* - `Thai Discourse Treebank <https://github.com/nlp-chula/thai-discourse-treebank>`_
+        * *tud* - `Thai Universal Dependency Treebank (TUD)\
+            <https://github.com/nlp-chula/TUD>`_ \
     :return: a list of tuples (word, POS tag)
     :rtype: list[tuple[str, str]]
 
@@ -100,6 +103,7 @@ def pos_tag(
         "orchid_ud",
         "pud",
         "tdtb",
+        "tud",
     ]
 
     if engine == "perceptron" and corpus in _support_corpus:

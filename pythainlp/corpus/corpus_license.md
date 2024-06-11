@@ -51,6 +51,8 @@ https://creativecommons.org/licenses/by/4.0/
 | pos_ud_perceptron-v0.2.json     | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using perceptron |
 | pos_ud_unigram-v0.2.json       | Part-of-speech tagging model, trained from Parallel Universal Dependencies treebank, using unigram    |
 | sentenceseg_crfcut.model  | Sentence segmentation model, trained from TED subtitles, using CRF                                    |
+| tdtb-pt_tagger.json | Part-of-speech tagging model, trained from The Thai Discourse Treebank, using perceptron                              |
+| tdtb-unigram_tagger.json   | Part-of-speech tagging model, trained from The Thai Discourse Treebank, using unigram                                 |
 | pos_tud_perceptron.json | Part-of-speech tagging model, trained from Thai Universal Dependency Treebank data, using perceptron                              |
 | pos_tud_unigram.json   | Part-of-speech tagging model, trained from Thai Universal Dependency Treebank data, using unigram                                 |
 

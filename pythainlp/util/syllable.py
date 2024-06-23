@@ -212,8 +212,17 @@ def tone_detector(syllable: str) -> str:
     """
     Thai tone detector for syllables
 
+    Return tone of a syllable.
+
+    - l: low
+    - m: mid
+    - r: rising
+    - f: falling
+    - h: high
+    - empty string: cannot be detected
+
     :param str syllable: Thai syllable
-    :return: syllable's tone (l, m, h, r, f or empty if it cannot be detected)
+    :return: syllable's tone (l, m, h, r, f) or empty if it cannot be detected
     :rtype: str
 
     :Example:

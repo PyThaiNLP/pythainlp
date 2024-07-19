@@ -72,7 +72,7 @@ def get_sense(
         <https://arxiv.org/abs/2305.03520>`_ to build get_sense function.
 
     Use Thai dictionary from wiktionary.
-    See `thai_dict <https://pythainlp.github.io/pythainlp-corpus/thai_dict.html>`_.
+    See `thai_dict <https://pythainlp.org/pythainlp-corpus/thai_dict.html>`_.
     
     Use sentence transformers model from \
         `sentence-transformers/paraphrase-multilingual-mpnet-base-v2 \

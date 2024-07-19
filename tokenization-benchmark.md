@@ -36,16 +36,16 @@ as well as a module interface for later use in their development pipelines.
 | PyThaiNLP-newmm | dictionary-based | [![](https://img.shields.io/badge/BEST:val-WL:f1(0.6836)-yellow.svg)][res-BEST-val-PyThaiNLP-newmm] [![](https://img.shields.io/badge/THNC-WL:f1(0.7338)-yellow.svg)][res-THNC-PyThaiNLP-newmm] [![](https://img.shields.io/badge/Orchid-WL:f1(0.7223)-yellow.svg)][res-Orchid-PyThaiNLP-newmm] [![](https://img.shields.io/badge/WiseSight160-WL:f1(0.7248)-yellow.svg)][res-WiseSight160-PyThaiNLP-newmm] |
 | Sertis-BiGRU | Bi-directional RNN | [![](https://img.shields.io/badge/BEST:val-WL:f1(0.9251)-yellow.svg)][res-BEST-val-Sertis-BiGRU] [![](https://img.shields.io/badge/WiseSight160-WL:f1(0.8115)-yellow.svg)][res-WiseSight160-Sertis-BiGRU] |
 
-[res-BEST-val-DeepCut]: https://pythainlp.github.io/tokenization-benchmark-visualization/?experiment-name=BEST-val-DeepCut
-[res-THNC-DeepCut]: https://pythainlp.github.io/tokenization-benchmark-visualization/?experiment-name=THNC-DeepCut
-[res-Orchid-DeepCut]: https://pythainlp.github.io/tokenization-benchmark-visualization/?experiment-name=Orchid-DeepCut
-[res-WiseSight160-DeepCut]: https://pythainlp.github.io/tokenization-benchmark-visualization/?experiment-name=WiseSight160-DeepCut
-[res-BEST-val-PyThaiNLP-newmm]: https://pythainlp.github.io/tokenization-benchmark-visualization/?experiment-name=BEST-val-PyThaiNLP-newmm
-[res-THNC-PyThaiNLP-newmm]: https://pythainlp.github.io/tokenization-benchmark-visualization/?experiment-name=THNC-PyThaiNLP-newmm
-[res-Orchid-PyThaiNLP-newmm]: https://pythainlp.github.io/tokenization-benchmark-visualization/?experiment-name=Orchid-PyThaiNLP-newmm
-[res-WiseSight160-PyThaiNLP-newmm]: https://pythainlp.github.io/tokenization-benchmark-visualization/?experiment-name=WiseSight160-PyThaiNLP-newmm
-[res-BEST-val-Sertis-BiGRU]: https://pythainlp.github.io/tokenization-benchmark-visualization/?experiment-name=BEST-val-Sertis-BiGRU
-[res-WiseSight160-Sertis-BiGRU]: https://pythainlp.github.io/tokenization-benchmark-visualization/?experiment-name=WiseSight160-Sertis-BiGRU
+[res-BEST-val-DeepCut]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=BEST-val-DeepCut
+[res-THNC-DeepCut]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=THNC-DeepCut
+[res-Orchid-DeepCut]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=Orchid-DeepCut
+[res-WiseSight160-DeepCut]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=WiseSight160-DeepCut
+[res-BEST-val-PyThaiNLP-newmm]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=BEST-val-PyThaiNLP-newmm
+[res-THNC-PyThaiNLP-newmm]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=THNC-PyThaiNLP-newmm
+[res-Orchid-PyThaiNLP-newmm]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=Orchid-PyThaiNLP-newmm
+[res-WiseSight160-PyThaiNLP-newmm]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=WiseSight160-PyThaiNLP-newmm
+[res-BEST-val-Sertis-BiGRU]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=BEST-val-Sertis-BiGRU
+[res-WiseSight160-Sertis-BiGRU]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=WiseSight160-Sertis-BiGRU
 
 
 ## Installation (WIP)

@@ -224,7 +224,7 @@ def get_corpus_path(
 
     (Please see the filename in
     `this file
-    <https://pythainlp.github.io/pythainlp-corpus/db.json>`_
+    <https://pythainlp.org/pythainlp-corpus/db.json>`_
 
     If the corpus already exists::
 
@@ -407,7 +407,7 @@ def download(
     Download corpus.
 
     The available corpus names can be seen in this file:
-    https://pythainlp.github.io/pythainlp-corpus/db.json
+    https://pythainlp.org/pythainlp-corpus/db.json
 
     :param str name: corpus name
     :param bool force: force downloading

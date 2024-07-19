@@ -57,7 +57,7 @@ automatically from "docstring" comments in source codes. This means the comment
 section in the source codes is important for the quality of documentation.
 - A docstring should start with one summary line, end with one line with a full stop (period),
 then be followed by a blank line before starting a new paragraph.
-- A commit to release branches (e.g. `2.2`, `2.1`) with a title **"(build and deploy docs)"** (without quotes) will trigger the system to rebuild the documentation files and upload them to the website https://pythainlp.github.io/docs.
+- A commit to release branches (e.g. `2.2`, `2.1`) with a title **"(build and deploy docs)"** (without quotes) will trigger the system to rebuild the documentation files and upload them to the website https://pythainlp.org/docs.
 
 
 ## Testing

@@ -16,7 +16,7 @@ The library provides functions like word tokenization, part-of-speech tagging,
 transliteration, soundex generation, spell checking, and
 date and time parsing/formatting.
 
-Website: [pythainlp.github.io](https://pythainlp.github.io/)
+Website: [pythainlp.github.io](https://pythainlp.org/)
 
 # Install
 
@@ -210,8 +210,8 @@ setup(
         ],
     },
     project_urls={
-        "Documentation": "https://pythainlp.github.io/docs/5.0/",
-        "Tutorials": "https://pythainlp.github.io/tutorials/",
+        "Documentation": "https://pythainlp.org/docs/5.0/",
+        "Tutorials": "https://pythainlp.org/tutorials/",
         "Source Code": "https://github.com/PyThaiNLP/pythainlp",
         "Bug Tracker": "https://github.com/PyThaiNLP/pythainlp/issues",
     },

@@ -262,7 +262,7 @@ def thai_dict() -> dict:
     """
     Return Thai dictionary with definition from wiktionary.
     \n(See: `thai_dict\
-    <https://pythainlp.github.io/pythainlp-corpus/thai_dict.html>`_)
+    <https://pythainlp.org/pythainlp-corpus/thai_dict.html>`_)
 
     :return: Thai words with part-of-speech type and definition
     :rtype: dict
@@ -287,7 +287,7 @@ def thai_wsd_dict() -> dict:
     """
     Return Thai Word Sense Disambiguation dictionary with definition from wiktionary.
     \n(See: `thai_dict\
-    <https://pythainlp.github.io/pythainlp-corpus/thai_dict.html>`_)
+    <https://pythainlp.org/pythainlp-corpus/thai_dict.html>`_)
 
     :return: Thai words with part-of-speech type and definition
     :rtype: dict
@@ -313,7 +313,7 @@ def thai_synonyms() -> dict:
     """
     Return Thai synonyms.
     \n(See: `thai_synonym\
-    <https://pythainlp.github.io/pythainlp-corpus/thai_synonym.html>`_)
+    <https://pythainlp.org/pythainlp-corpus/thai_synonym.html>`_)
 
     :return: Thai words with part-of-speech type and synonym
     :rtype: dict

@@ -17,8 +17,8 @@ class GzipModel:
     :param list training_data: list [(text_sample,label)]
     """
 
-    def __init__(self, training_data: List[Tuple[str, str]]=None, model_path: str=None):
-        if model_path!=None:
+    def __init__(self, training_data: List[Tuple[str, str]] = None, model_path: str = None):
+        if model_path is not None:
             self.load(model_path)
         else:
             self.training_data = np.array(training_data)
@@ -81,11 +81,11 @@ class GzipModel:
         with open(path, "w") as f:
             json.dump({
                 "training_data": self.training_data.tolist(),
-                "Cx2_list":self.Cx2_list
+                "Cx2_list": self.Cx2_list
             }, f, ensure_ascii=False)
 
     def load(self, path: str):
         with open(path, "r") as f:
             data = json.load(f)
-            self.Cx2_list =  data["Cx2_list"]
+            self.Cx2_list = data["Cx2_list"]
             self.training_data = np.array(data["training_data"])

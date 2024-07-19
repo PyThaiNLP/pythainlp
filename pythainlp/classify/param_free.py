@@ -15,6 +15,7 @@ class GzipModel:
     (Jiang et al., Findings 2023)
 
     :param list training_data: list [(text_sample,label)]
+    :param str model_path: Path for loading model (if you saved the model)
     """
 
     def __init__(self, training_data: List[Tuple[str, str]] = None, model_path: str = None):
@@ -78,6 +79,9 @@ class GzipModel:
         return predict_class
 
     def save(self, path: str):
+        """
+        :param str path: path for save model
+        """
         with open(path, "w") as f:
             json.dump({
                 "training_data": self.training_data.tolist(),

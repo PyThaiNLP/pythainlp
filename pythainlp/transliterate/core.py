@@ -109,6 +109,8 @@ def transliterate(
             `TLTK <https://pypi.org/project/tltk/>`_.,
         * *iso_11940* - Thai text into Latin characters with ISO 11940.
         * *tltk_ipa* - tltk, output is International Phonetic Alphabet (IPA)
+        * *thaig2p_v2* - Thai Grapheme-to-Phoneme,
+          output is IPA. https://huggingface.co/pythainlp/thaig2p-v2.0
 
     :Example:
     ::
@@ -159,6 +161,8 @@ def transliterate(
         from pythainlp.transliterate.tltk import tltk_ipa as transliterate
     elif engine == "iso_11940":
         from pythainlp.transliterate.iso_11940 import transliterate
+    elif engine == "thaig2p_v2":
+        from pythainlp.transliterate.thaig2p_v2 import transliterate
     else:  # use default engine: "thaig2p"
         from pythainlp.transliterate.thaig2p import transliterate
 

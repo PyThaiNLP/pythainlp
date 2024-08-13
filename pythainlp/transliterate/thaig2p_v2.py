@@ -16,7 +16,7 @@ class ThaiG2P:
     Latin transliteration of Thai words, using International Phonetic Alphabet
     """
 
-    def __init__(self, device: str="cpu"):
+    def __init__(self, device: str = "cpu"):
         self.pipe = pipeline("text2text-generation", model="pythainlp/thaig2p-v2.0", device=device)
 
     def g2p(self, text: str) -> str:
@@ -28,6 +28,6 @@ _THAI_G2P = None
 
 def transliterate(text: str, device="cpu") -> str:
     global _THAI_G2P
-    if _THAI_G2P == None:
+    if _THAI_G2P is None:
         _THAI_G2P = ThaiG2P(device=device)
     return _THAI_G2P.g2p(text)

@@ -84,7 +84,12 @@ def romanize(
         fallback = select_romanize_engine(fallback_engine)
         return romanize(text, fallback_func=fallback)
     else:
-        return select_romanize_engine(engine)(text)
+        rom_engine = select_romanize_engine(engine)
+        trans_word=[]
+        for word in text.split(' '):
+            trans_word.append(rom_engine(word))
+        new_word=''.join(trans_word)
+        return new_word
 
 
 def transliterate(

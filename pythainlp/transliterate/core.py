@@ -85,10 +85,10 @@ def romanize(
         return romanize(text, fallback_func=fallback)
     else:
         rom_engine = select_romanize_engine(engine)
-        trans_word=[]
+        trans_word = []
         for word in text.split(' '):
             trans_word.append(rom_engine(word))
-        new_word=''.join(trans_word)
+        new_word = ''.join(trans_word)
         return new_word
 
 

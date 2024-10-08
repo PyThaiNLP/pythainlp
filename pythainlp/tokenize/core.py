@@ -323,16 +323,16 @@ def word_tokenize(
 
 
 def sent_tokenize(
-    text: str,
+    text: Union[str, List[str]],
     engine: str = DEFAULT_SENT_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
 ) -> List[str]:
     """
     Sentence tokenizer.
 
-    Tokenizes running text into "sentences"
+    Tokenizes running text into "sentences". Supports both string and list of strings.
 
-    :param str text: the text to be tokenized
+    :param text: the text (string) or list of words (list of strings) to be tokenized
     :param str engine: choose among *'crfcut'*, *'whitespace'*, \
     *'whitespace+newline'*
     :return: list of split sentences
@@ -394,8 +394,14 @@ def sent_tokenize(
         'และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค']
     """
 
-    if not text or not isinstance(text, str):
+    if not text or not isinstance(text, (str, list)):
         return []
+
+    if isinstance(text, list):
+        try:
+            text = " ".join(text)
+        except TypeError:
+            return []
 
     segments = []
 

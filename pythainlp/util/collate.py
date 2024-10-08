@@ -15,9 +15,9 @@ _RE_LV_C = re.compile(r"([เ-ไ])([ก-ฮ])")
 def _thkey(word: str) -> str:
     cv = _RE_TONE.sub("", word)  # remove tone
     cv = _RE_LV_C.sub("\\2\\1", cv)  # switch lead vowel
-    
+
     tone_match = _RE_TONE.search(word)
-    tone = tone_match.group() if tone_match else "" 
+    tone = tone_match.group() if tone_match else ""
     return cv + tone
 
 

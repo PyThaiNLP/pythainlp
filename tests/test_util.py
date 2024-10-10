@@ -79,6 +79,14 @@ class TestUtilPackage(unittest.TestCase):
             collate(["ไก่", "เป็ด", "หมู", "วัว"]),
             ["ไก่", "เป็ด", "วัว", "หมู"],
         )
+        self.assertEqual(
+            collate(["ก้วย", "ก๋วย", "กวย", "ก่วย", "ก๊วย"]),
+            collate(["ก๋วย", "ก่วย", "ก้วย", "ก๊วย", "กวย"]),
+        )  # should guarantee same order
+        self.assertEqual(
+            collate(["ก้วย", "ก๋วย", "ก่วย", "กวย", "ก้วย", "ก่วย", "ก๊วย"]),
+            ["กวย", "ก่วย", "ก่วย", "ก้วย", "ก้วย", "ก๊วย", "ก๋วย"],
+        )
 
     # ### pythainlp.util.numtoword
 

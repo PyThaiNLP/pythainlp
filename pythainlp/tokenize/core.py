@@ -322,6 +322,22 @@ def word_tokenize(
     return segments
 
 
+def groupedText(list, keep_whitespace=True):
+    output = []
+    current_word = []
+    for word in list:
+        if (word.strip()):
+            current_word.append(word)
+        else:
+            if (current_word):
+                output.append([current_word])
+                current_word = []
+            if (keep_whitespace):
+                output.append([word])
+    if current_word:
+        output.append(current_word)
+    return output
+
 def sent_tokenize(
     text: Union[str, List[str]],
     engine: str = DEFAULT_SENT_TOKENIZE_ENGINE,
@@ -399,8 +415,8 @@ def sent_tokenize(
 
     if isinstance(text, list):
         try:
-            text = " ".join(text)
-        except TypeError:
+            text = groupedText(text, keep_whitespace)
+        except AttributeError:
             return []
 
     segments = []

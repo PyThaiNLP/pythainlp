@@ -360,7 +360,7 @@ def map_indices_to_words(index_list, sentences):
         n_sum += len(words)
         for _ in range(n):
             del c[0]
-
+    return result
 
 def sent_tokenize(
     text: Union[str, List[str]],

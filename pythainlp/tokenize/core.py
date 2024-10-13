@@ -6,6 +6,7 @@ Generic functions of tokenizers
 """
 import re
 from typing import Iterable, List, Union
+import copy
 
 from pythainlp.tokenize import (
     DEFAULT_SENT_TOKENIZE_ENGINE,
@@ -198,7 +199,7 @@ def word_tokenize(
 
         word_tokenize(text, engine="newmm", keep_whitespace=False)
         # output: ['วรรณกรรม', 'ภาพวาด', 'และ', 'การแสดง', 'งิ้ว']
-        
+
     Join broken formatted numeric (e.g. time, decimals, IP addresses)::
 
         text = "เงิน1,234บาท19:32น 127.0.0.1"
@@ -322,21 +323,44 @@ def word_tokenize(
     return segments
 
 
-def groupedText(list, keep_whitespace=True):
-    output = []
-    current_word = []
-    for word in list:
-        if (word.strip()):
-            current_word.append(word)
+def indices_words(words):
+    indices = []
+    start_index = 0
+
+    for word in words:
+        if len(word) > 1:
+            _temp = len(word)-1
         else:
-            if (current_word):
-                output.append([current_word])
-                current_word = []
-            if (keep_whitespace):
-                output.append([word])
-    if current_word:
-        output.append(current_word)
-    return output
+            _temp = 1
+        indices.append((start_index, start_index + _temp))
+        start_index += len(word)
+
+    return indices
+
+
+def map_indices_to_words(index_list, sentences):
+    result = []
+    c = copy.copy(index_list)
+    n_sum = 0
+
+    for sentence in sentences:
+        words = sentence
+        sentence_result = []
+        n = 0
+
+        for start, end in c:
+            if start > n_sum+len(words)-1:
+                break
+            else:
+                word = sentence[start-n_sum:end+1-n_sum]
+                sentence_result.append(word)
+                n += 1
+
+        result.append(sentence_result)
+        n_sum += len(words)
+        for _ in range(n):
+            del c[0]
+
 
 def sent_tokenize(
     text: Union[str, List[str]],
@@ -413,33 +437,40 @@ def sent_tokenize(
     if not text or not isinstance(text, (str, list)):
         return []
 
-    if isinstance(text, list):
+    is_list_input = isinstance(text, list)
+
+    if is_list_input:
+
         try:
-            text = groupedText(text, keep_whitespace)
-        except AttributeError:
+            original_text = "".join(text)
+        except ValueError:
             return []
+
+        word_indices = indices_words(text)
+    else:
+        original_text = text
 
     segments = []
 
     if engine == "crfcut":
         from pythainlp.tokenize.crfcut import segment
 
-        segments = segment(text)
+        segments = segment(original_text)
     elif engine == "whitespace":
-        segments = re.split(r" +", text, flags=re.U)
+        segments = re.split(r" +", original_text, flags=re.U)
     elif engine == "whitespace+newline":
-        segments = text.split()
+        segments = original_text.split()
     elif engine == "tltk":
         from pythainlp.tokenize.tltk import sent_tokenize as segment
 
-        segments = segment(text)
+        segments = segment(original_text)
     elif engine == "thaisum":
         from pythainlp.tokenize.thaisumcut import (
             ThaiSentenceSegmentor as segmentor,
         )
 
         segment = segmentor()
-        segments = segment.split_into_sentences(text)
+        segments = segment.split_into_sentences(original_text)
     elif engine.startswith("wtp"):
         if "-" not in engine:
             _size = "mini"
@@ -447,7 +478,7 @@ def sent_tokenize(
             _size = engine.split("-")[-1]
         from pythainlp.tokenize.wtsplit import tokenize as segment
 
-        segments = segment(text, size=_size, tokenize="sentence")
+        segments = segment(original_text, size=_size, tokenize="sentence")
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
@@ -457,7 +488,11 @@ def sent_tokenize(
     if not keep_whitespace:
         segments = strip_whitespace(segments)
 
-    return segments
+    if is_list_input:
+        result = map_indices_to_words(word_indices, segments)
+        return result
+    else:
+        return segments
 
 
 def paragraph_tokenize(

@@ -446,7 +446,6 @@ def sent_tokenize(
         except ValueError:
             return []
 
-        word_indices = indices_words(text)
     else:
         original_text = text
 
@@ -458,8 +457,15 @@ def sent_tokenize(
         segments = segment(original_text)
     elif engine == "whitespace":
         segments = re.split(r" +", original_text, flags=re.U)
+        if is_list_input:
+            non_whitespace_text = [word for word in text if word.strip()]
+            word_indices = indices_words(non_whitespace_text)
     elif engine == "whitespace+newline":
         segments = original_text.split()
+        if is_list_input:
+            non_whitespace_newline_text = [
+                word for word in text if word.strip() and word != '\n']
+            word_indices = indices_words(non_whitespace_newline_text)
     elif engine == "tltk":
         from pythainlp.tokenize.tltk import sent_tokenize as segment
 
@@ -489,6 +495,8 @@ def sent_tokenize(
         segments = strip_whitespace(segments)
 
     if is_list_input:
+        if engine not in ["whitespace", "whitespace+newline"]:
+            word_indices = indices_words(text)
         result = map_indices_to_words(word_indices, segments)
         return result
     else:

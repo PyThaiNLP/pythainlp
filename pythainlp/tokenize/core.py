@@ -6,6 +6,7 @@ Generic functions of tokenizers
 """
 import re
 from typing import Iterable, List, Union
+import copy
 
 from pythainlp.tokenize import (
     DEFAULT_SENT_TOKENIZE_ENGINE,
@@ -198,7 +199,7 @@ def word_tokenize(
 
         word_tokenize(text, engine="newmm", keep_whitespace=False)
         # output: ['วรรณกรรม', 'ภาพวาด', 'และ', 'การแสดง', 'งิ้ว']
-        
+
     Join broken formatted numeric (e.g. time, decimals, IP addresses)::
 
         text = "เงิน1,234บาท19:32น 127.0.0.1"
@@ -322,17 +323,56 @@ def word_tokenize(
     return segments
 
 
+def indices_words(words):
+    indices = []
+    start_index = 0
+
+    for word in words:
+        if len(word) > 1:
+            _temp = len(word)-1
+        else:
+            _temp = 1
+        indices.append((start_index, start_index + _temp))
+        start_index += len(word)
+
+    return indices
+
+
+def map_indices_to_words(index_list, sentences):
+    result = []
+    c = copy.copy(index_list)
+    n_sum = 0
+
+    for sentence in sentences:
+        words = sentence
+        sentence_result = []
+        n = 0
+
+        for start, end in c:
+            if start > n_sum+len(words)-1:
+                break
+            else:
+                word = sentence[start-n_sum:end+1-n_sum]
+                sentence_result.append(word)
+                n += 1
+
+        result.append(sentence_result)
+        n_sum += len(words)
+        for _ in range(n):
+            del c[0]
+    return result
+
 def sent_tokenize(
-    text: str,
+    text: Union[str, List[str]],
     engine: str = DEFAULT_SENT_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
 ) -> List[str]:
     """
     Sentence tokenizer.
 
-    Tokenizes running text into "sentences"
+    Tokenizes running text into "sentences". Supports both string and list of strings.
 
-    :param str text: the text to be tokenized
+    :param text: the text (string) or list of words (list of strings) to be tokenized
     :param str engine: choose among *'crfcut'*, *'whitespace'*, \
     *'whitespace+newline'*
     :return: list of split sentences
@@ -394,30 +434,49 @@ def sent_tokenize(
         'และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค']
     """
 
-    if not text or not isinstance(text, str):
+    if not text or not isinstance(text, (str, list)):
         return []
+
+    is_list_input = isinstance(text, list)
+
+    if is_list_input:
+
+        try:
+            original_text = "".join(text)
+        except ValueError:
+            return []
+
+    else:
+        original_text = text
 
     segments = []
 
     if engine == "crfcut":
         from pythainlp.tokenize.crfcut import segment
 
-        segments = segment(text)
+        segments = segment(original_text)
     elif engine == "whitespace":
-        segments = re.split(r" +", text, flags=re.U)
+        segments = re.split(r" +", original_text, flags=re.U)
+        if is_list_input:
+            non_whitespace_text = [word for word in text if word.strip()]
+            word_indices = indices_words(non_whitespace_text)
     elif engine == "whitespace+newline":
-        segments = text.split()
+        segments = original_text.split()
+        if is_list_input:
+            non_whitespace_newline_text = [
+                word for word in text if word.strip() and word != '\n']
+            word_indices = indices_words(non_whitespace_newline_text)
     elif engine == "tltk":
         from pythainlp.tokenize.tltk import sent_tokenize as segment
 
-        segments = segment(text)
+        segments = segment(original_text)
     elif engine == "thaisum":
         from pythainlp.tokenize.thaisumcut import (
             ThaiSentenceSegmentor as segmentor,
         )
 
         segment = segmentor()
-        segments = segment.split_into_sentences(text)
+        segments = segment.split_into_sentences(original_text)
     elif engine.startswith("wtp"):
         if "-" not in engine:
             _size = "mini"
@@ -425,7 +484,7 @@ def sent_tokenize(
             _size = engine.split("-")[-1]
         from pythainlp.tokenize.wtsplit import tokenize as segment
 
-        segments = segment(text, size=_size, tokenize="sentence")
+        segments = segment(original_text, size=_size, tokenize="sentence")
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
@@ -435,7 +494,13 @@ def sent_tokenize(
     if not keep_whitespace:
         segments = strip_whitespace(segments)
 
-    return segments
+    if is_list_input:
+        if engine not in ["whitespace", "whitespace+newline"]:
+            word_indices = indices_words(text)
+        result = map_indices_to_words(word_indices, segments)
+        return result
+    else:
+        return segments
 
 
 def paragraph_tokenize(

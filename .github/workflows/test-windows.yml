@@ -42,7 +42,7 @@ jobs:
       env:
         SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL: True
       run: |
-        python -m pip install --disable-pip-version-check --user --upgrade pip==24.0 setuptools<65
+        python -m pip install --disable-pip-version-check --user --upgrade "pip==24.0" "setuptools<65"
         python -m pip --version
         python -m pip install pytest coverage coveralls
         conda install -y -c conda-forge fairseq

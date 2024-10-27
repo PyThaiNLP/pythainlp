@@ -7,6 +7,6 @@ COPY . .
 
 RUN apt-get update && apt-get install -y --no-install-recommends build-essential libicu-dev libicu63 pkg-config && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade pip==24.0 setuptools<65
+RUN pip3 install --upgrade "pip==24.0" "setuptools<65"
 RUN if [ -f docker_requirements.txt ]; then pip3 install -r docker_requirements.txt; fi
 RUN pip3 install -e .[full] && pip3 cache purge

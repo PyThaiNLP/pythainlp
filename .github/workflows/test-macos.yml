@@ -1,4 +1,4 @@
-name: macOS Unit test and code coverage
+name: Unit test and code coverage (macOS)
 
 on:
   push:
@@ -22,11 +22,13 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-latest, self-hosted]
-        python-version: [3.8]
+        python-version: [3.12]
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: conda-incubator/setup-miniconda@v2
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: conda-incubator/setup-miniconda@v3
       with:
         python-version: ${{ matrix.python-version }}
         auto-activate-base: false
@@ -45,20 +47,16 @@ jobs:
       shell: bash -l {0}
       run: |
         source ~/miniconda3/etc/profile.d/conda.sh
-        conda create -y -n pythainlpwork38 python=3.8
-        conda activate pythainlpwork38
+        conda create -y -n pythainlpwork312 python=3.12
+        conda activate pythainlpwork312
         conda info
         conda list
         python -m pip install --upgrade pip
         SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True pip install -r docker_requirements.txt
         conda install -y -c conda-forge protobuf
-        pip install pytest coverage coveralls typing_extensions==4.5.0
-        pip install ssg epitran
-        pip install fastai==1.0.61
-        pip install fairseq==0.10.2
+        pip install pytest coverage coveralls
         conda install -y -c conda-forge icu
         conda install -y -c conda-forge pyicu
-        pip install deepcut tltk
         pip install .[full]
         python -m nltk.downloader omw-1.4
         python -m pip cache purge
@@ -69,11 +67,6 @@ jobs:
         conda info
         conda list
       if: matrix.os == 'self-hosted'
-    - name: Install PyTorch
-      shell: bash -l {0}
-      run: |
-        pip install torch==1.10.0
-      if: matrix.os != 'self-hosted'
     - name: Install dependencies
       shell: bash -l {0}
       run: |
@@ -82,7 +75,6 @@ jobs:
         conda install -c conda-forge icu
         conda install -c conda-forge pyicu
         SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True pip install -r docker_requirements.txt
-        pip install deepcut tltk
         pip install .[full]
         python -m nltk.downloader omw-1.4
         python -m pip cache purge

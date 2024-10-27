@@ -38,8 +38,6 @@ See https://github.com/PyThaiNLP/pythainlp for installation options.
 
 requirements = [
     "requests>=2.22.0",
-    "backports.zoneinfo; python_version<'3.9'",
-    "tzdata; sys_platform == 'win32'"
 ]
 
 extras = {
@@ -170,7 +168,7 @@ setup(
     url="https://github.com/PyThaiNLP/pythainlp",
     packages=find_packages(exclude=["tests", "tests.*"]),
     test_suite="tests",
-    python_requires=">=3.7",
+    python_requires=">=3.9",
     package_data={
         "pythainlp": [
             "corpus/*",

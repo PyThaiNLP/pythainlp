@@ -37,10 +37,6 @@ jobs:
       run: |
         conda info
         conda list
-    - name: Install PyTorch
-      shell: powershell
-      run: |
-        pip install torch==1.8.1
     - name: Install dependencies
       shell: powershell
       env:

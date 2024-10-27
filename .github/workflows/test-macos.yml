@@ -51,7 +51,7 @@ jobs:
         conda activate pythainlpwork310
         conda info
         conda list
-        python -m pip install --upgrade pip
+        python -m pip install --upgrade pip==24.0
         SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True pip install -r docker_requirements.txt
         conda install -y -c conda-forge protobuf
         pip install pytest coverage coveralls

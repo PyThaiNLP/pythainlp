@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        python-version: [3.10]
+        python-version: [3.10.15]  # Due an issue here https://github.com/actions/setup-python/issues/401, has to specify the patch version
 
     steps:
     - name: Checkout

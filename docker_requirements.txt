@@ -33,7 +33,7 @@ ssg==0.0.8
 symspellpy==6.7.7
 tensorflow==2.13.1
 thai-nner==0.3
-tltk==1.6.8
+tltk==1.9.1
 torch==1.13.1
 transformers==4.38.0
 ufal.chu-liu-edmonds==1.0.2

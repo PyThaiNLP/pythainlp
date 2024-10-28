@@ -141,9 +141,6 @@ def word_tokenize(
         * *attacut* - wrapper for
           `AttaCut <https://github.com/PyThaiNLP/attacut>`_.,
           learning-based approach
-        * *deepcut* - wrapper for
-          `DeepCut <https://github.com/rkcosmos/deepcut>`_,
-          learning-based approach
         * *icu* - wrapper for a word tokenizer in
           `PyICU <https://gitlab.pyicu.org/main/pyicu>`_.,
           from ICU (International Components for Unicode),
@@ -173,7 +170,7 @@ def word_tokenize(
            maximum collocation approach
     :Note:
         - The **custom_dict** parameter only works for \
-          *deepcut*, *longest*, *newmm*, and *newmm-safe* engines.
+          *longest*, *newmm*, and *newmm-safe* engines.
     :Example:
 
     Tokenize text with different tokenizers::
@@ -260,14 +257,6 @@ def word_tokenize(
         from pythainlp.tokenize.multi_cut import segment
 
         segments = segment(text, custom_dict)
-    elif engine == "deepcut":  # deepcut can optionally use dictionary
-        from pythainlp.tokenize.deepcut import segment
-
-        if custom_dict:
-            custom_dict = list(custom_dict)
-            segments = segment(text, custom_dict)
-        else:
-            segments = segment(text)
     elif engine == "icu":
         from pythainlp.tokenize.pyicu import segment
 
@@ -747,7 +736,7 @@ class Tokenizer:
                     used to create a trie, or an instantiated
                     :class:`pythainlp.util.Trie` object.
         :param str engine: choose between different options of tokenizer engines
-                           (i.e.  *newmm*, *mm*, *longest*, *deepcut*)
+                           (i.e.  *newmm*, *mm*, *longest*)
         :param bool keep_whitespace: True to keep whitespace, a common mark
                                     for end of phrase in Thai
         """
@@ -757,7 +746,7 @@ class Tokenizer:
         else:
             self.__trie_dict = DEFAULT_WORD_DICT_TRIE
         self.__engine = engine
-        if self.__engine not in ["newmm", "mm", "longest", "deepcut"]:
+        if self.__engine not in ["newmm", "mm", "longest"]:
             raise NotImplementedError(
                 """
                 The Tokenizer class is not support %s for custom tokenizer
@@ -788,6 +777,6 @@ class Tokenizer:
         Set the tokenizer's engine.
 
         :param str engine: choose between different options of tokenizer engines
-                           (i.e. *newmm*, *mm*, *longest*, *deepcut*)
+                           (i.e. *newmm*, *mm*, *longest*)
         """
         self.__engine = engine

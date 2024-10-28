@@ -8,7 +8,6 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     Tokenizer,
     attacut,
-    deepcut,
     etcc,
     longest,
     multi_cut,
@@ -455,7 +454,6 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertIsNotNone(word_tokenize(self.text_1, engine="nlpo3"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="attacut"))
-        self.assertIsNotNone(word_tokenize(self.text_1, engine="deepcut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="icu"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="longest"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="mm"))
@@ -485,18 +483,6 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertIsNotNone(
             attacut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-c")
-        )
-
-    def test_deepcut(self):
-        self.assertEqual(deepcut.segment(None), [])
-        self.assertEqual(deepcut.segment(""), [])
-        self.assertIsNotNone(deepcut.segment("ทดสอบ", DEFAULT_WORD_DICT_TRIE))
-        self.assertIsNotNone(deepcut.segment("ทดสอบ", ["ทด", "สอบ"]))
-        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
-        self.assertIsNotNone(
-            word_tokenize(
-                "ทดสอบ", engine="deepcut", custom_dict=DEFAULT_WORD_DICT_TRIE
-            )
         )
 
     def test_etcc(self):
@@ -842,7 +828,7 @@ class TestTokenizePackage(unittest.TestCase):
         )
 
     def test_numeric_data_format(self):
-        engines = ["attacut", "deepcut", "newmm", "sefr_cut"]
+        engines = ["attacut", "newmm", "sefr_cut"]
 
         for engine in engines:
             self.assertIn(

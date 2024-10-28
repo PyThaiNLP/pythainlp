@@ -159,9 +159,6 @@ def word_tokenize(
         * *nlpo3* - wrapper for a word tokenizer in
           `nlpO3 <https://github.com/PyThaiNLP/nlpo3>`_.,
           adaptation of newmm in Rust (2.5x faster)
-        * *sefr_cut* - wrapper for
-          `SEFR CUT <https://github.com/mrpeerat/SEFR_CUT>`_.,
-          Stacked Ensemble Filter and Refine for Word Segmentation
         * *tltk* - wrapper for
           `TLTK <https://pypi.org/project/tltk/>`_.,
            maximum collocation approach
@@ -260,10 +257,6 @@ def word_tokenize(
         segments = segment(text)
     elif engine == "nercut":
         from pythainlp.tokenize.nercut import segment
-
-        segments = segment(text)
-    elif engine == "sefr_cut":
-        from pythainlp.tokenize.sefr_cut import segment
 
         segments = segment(text)
     elif engine == "tltk":

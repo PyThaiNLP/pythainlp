@@ -115,13 +115,6 @@ Word level
     
     A tokenizer optimized for Named Entity Recognition (NER) tasks, ensuring accurate tokenization for entity recognition.
 
-**sefr_cut**
-  
-.. automodule:: pythainlp.tokenize.sefr_cut
-    :members:
-    
-    An advanced word tokenizer for segmenting Thai text, with a focus on precision.
-
 **newmm (Default)**
   
 .. automodule:: pythainlp.tokenize.newmm

@@ -69,7 +69,6 @@ extras = {
     "wtp": ["transformers>=4.6.0", "wtpsplit>=1.0.1"],
     "wordnet": ["nltk>=3.3"],
     "generate": ["fastai<2.0"],
-    "sefr_cut": ["sefr_cut>=1.1"],
     "spell": [
         "phunspell>=0.1.6",
         "spylls>=0.1.5",
@@ -136,7 +135,6 @@ extras = {
         "fastai<2.0",
         "bpemb>=0.3.2",
         "transformers>=4.22.1",
-        "sefr_cut>=1.1",
         "phunspell>=0.1.6",
         "spylls>=0.1.5",
         "symspellpy>=6.7.6",

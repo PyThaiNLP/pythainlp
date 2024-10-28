@@ -15,7 +15,6 @@ from pythainlp.tokenize import (
     newmm,
     paragraph_tokenize,
     pyicu,
-    sefr_cut,
     sent_tokenize,
     ssg,
     subword_tokenize,
@@ -458,7 +457,6 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(word_tokenize(self.text_1, engine="mm"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="nercut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="newmm"))
-        self.assertIsNotNone(word_tokenize(self.text_1, engine="sefr_cut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="tltk"))
 
         with self.assertRaises(ValueError):
@@ -781,16 +779,6 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(list(tcc_p.tcc("")), [])
         self.assertEqual(tcc_p.tcc_pos(""), set())
 
-    def test_sefr_cut(self):
-        self.assertEqual(sefr_cut.segment(None), [])
-        self.assertEqual(sefr_cut.segment(""), [])
-        self.assertIsNotNone(
-            sefr_cut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
-        )
-        self.assertIsNotNone(
-            sefr_cut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="tnhc"),
-        )
-
     def test_word_detokenize(self):
         self.assertEqual(
             word_detokenize(["ผม", "เลี้ยง", "5", "ตัว"]), "ผมเลี้ยง 5 ตัว"
@@ -816,7 +804,7 @@ class TestTokenizePackage(unittest.TestCase):
         )
 
     def test_numeric_data_format(self):
-        engines = ["attacut", "newmm", "sefr_cut"]
+        engines = ["attacut", "newmm"]
 
         for engine in engines:
             self.assertIn(

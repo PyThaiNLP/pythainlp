@@ -4,7 +4,7 @@
 [tool.ruff]
 line-length = 79
 indent-width = 4
-target-version = "py38"
+target-version = "py310"
 
 [tool.ruff.format]
 quote-style = "double"
@@ -19,5 +19,5 @@ docstring-code-format = true
 max-complexity = 40
 
 [build-system]
-requires = ["setuptools==65.5.1"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"

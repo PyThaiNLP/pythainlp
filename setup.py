@@ -6,7 +6,7 @@ Setup script for PyThaiNLP.
 
 https://github.com/PyThaiNLP/pythainlp
 """
-from setuptools import find_packages, setup
+from setuptools==65.5.1 import find_packages, setup
 
 readme = """
 ![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)

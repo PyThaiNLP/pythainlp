@@ -21,6 +21,7 @@ pyicu==2.13
 python-crfsuite==0.9.11
 requests==2.32.3
 sacremoses==0.1.1
+scikit-learn==1.5.2
 sentence-transformers==3.2.1
 sentencepiece==0.2.0
 spacy_thai==0.7.7

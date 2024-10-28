@@ -13,7 +13,7 @@ h5py==3.12.1
 khanaa==0.1.1
 nlpo3==1.3.0
 nltk==3.9.1
-numpy==1.22.*  # See https://github.com/numpy/numpy/issues/22135#issuecomment-1220383873
+numpy==1.26.4  # See https://github.com/numpy/numpy/issues/22135#issuecomment-1220383873
 OSKut==1.3
 pandas==1.5.3
 panphon==0.21.2
@@ -21,7 +21,7 @@ phunspell==0.1.6
 protobuf==3.20.3
 pyicu==2.13
 python-crfsuite==0.9.11
-requests==2.32.*
+requests==2.32.3
 sacremoses==0.1.1
 sefr_cut==1.1
 sentence-transformers==2.7.0

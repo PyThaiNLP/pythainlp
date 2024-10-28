@@ -6,7 +6,7 @@ Setup script for PyThaiNLP.
 
 https://github.com/PyThaiNLP/pythainlp
 """
-from setuptools import find_packages, setup
+from setuptools==65.5.1 import find_packages, setup
 
 readme = """
 ![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
@@ -38,8 +38,6 @@ See https://github.com/PyThaiNLP/pythainlp for installation options.
 
 requirements = [
     "requests>=2.22.0",
-    "backports.zoneinfo; python_version<'3.9'",
-    "tzdata; sys_platform == 'win32'"
 ]
 
 extras = {
@@ -71,13 +69,11 @@ extras = {
     "wtp": ["transformers>=4.6.0", "wtpsplit>=1.0.1"],
     "wordnet": ["nltk>=3.3"],
     "generate": ["fastai<2.0"],
-    "sefr_cut": ["sefr_cut>=1.1"],
     "spell": [
         "phunspell>=0.1.6",
         "spylls>=0.1.5",
         "symspellpy>=6.7.6"
     ],
-    "oskut": ["oskut>=1.3"],
     "nlpo3": ["nlpo3>=1.2.2"],
     "onnx": [
         "sentencepiece>=0.1.91",
@@ -139,11 +135,9 @@ extras = {
         "fastai<2.0",
         "bpemb>=0.3.2",
         "transformers>=4.22.1",
-        "sefr_cut>=1.1",
         "phunspell>=0.1.6",
         "spylls>=0.1.5",
         "symspellpy>=6.7.6",
-        "oskut>=1.3",
         "nlpo3>=1.2.2",
         "onnxruntime>=1.10.0",
         "thai_nner",
@@ -170,7 +164,7 @@ setup(
     url="https://github.com/PyThaiNLP/pythainlp",
     packages=find_packages(exclude=["tests", "tests.*"]),
     test_suite="tests",
-    python_requires=">=3.7",
+    python_requires=">=3.9",
     package_data={
         "pythainlp": [
             "corpus/*",

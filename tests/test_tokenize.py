@@ -8,16 +8,13 @@ from pythainlp.tokenize import (
     DEFAULT_WORD_DICT_TRIE,
     Tokenizer,
     attacut,
-    deepcut,
     etcc,
     longest,
     multi_cut,
     nercut,
     newmm,
-    oskut,
     paragraph_tokenize,
     pyicu,
-    sefr_cut,
     sent_tokenize,
     ssg,
     subword_tokenize,
@@ -455,15 +452,12 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertIsNotNone(word_tokenize(self.text_1, engine="nlpo3"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="attacut"))
-        self.assertIsNotNone(word_tokenize(self.text_1, engine="deepcut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="icu"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="longest"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="mm"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="nercut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="newmm"))
-        self.assertIsNotNone(word_tokenize(self.text_1, engine="sefr_cut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="tltk"))
-        self.assertIsNotNone(word_tokenize(self.text_1, engine="oskut"))
 
         with self.assertRaises(ValueError):
             word_tokenize("หมอนทอง", engine="XX")  # engine does not exist
@@ -485,18 +479,6 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertIsNotNone(
             attacut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", model="attacut-c")
-        )
-
-    def test_deepcut(self):
-        self.assertEqual(deepcut.segment(None), [])
-        self.assertEqual(deepcut.segment(""), [])
-        self.assertIsNotNone(deepcut.segment("ทดสอบ", DEFAULT_WORD_DICT_TRIE))
-        self.assertIsNotNone(deepcut.segment("ทดสอบ", ["ทด", "สอบ"]))
-        self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
-        self.assertIsNotNone(
-            word_tokenize(
-                "ทดสอบ", engine="deepcut", custom_dict=DEFAULT_WORD_DICT_TRIE
-            )
         )
 
     def test_etcc(self):
@@ -797,26 +779,6 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertEqual(list(tcc_p.tcc("")), [])
         self.assertEqual(tcc_p.tcc_pos(""), set())
 
-    def test_sefr_cut(self):
-        self.assertEqual(sefr_cut.segment(None), [])
-        self.assertEqual(sefr_cut.segment(""), [])
-        self.assertIsNotNone(
-            sefr_cut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
-        )
-        self.assertIsNotNone(
-            sefr_cut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="tnhc"),
-        )
-
-    def test_oskut(self):
-        self.assertEqual(oskut.segment(None), [])
-        self.assertEqual(oskut.segment(""), [])
-        self.assertIsNotNone(
-            oskut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
-        )
-        self.assertIsNotNone(
-            oskut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="scads"),
-        )
-
     def test_word_detokenize(self):
         self.assertEqual(
             word_detokenize(["ผม", "เลี้ยง", "5", "ตัว"]), "ผมเลี้ยง 5 ตัว"
@@ -842,7 +804,7 @@ class TestTokenizePackage(unittest.TestCase):
         )
 
     def test_numeric_data_format(self):
-        engines = ["attacut", "deepcut", "newmm", "sefr_cut"]
+        engines = ["attacut", "newmm"]
 
         for engine in engines:
             self.assertIn(

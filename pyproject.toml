@@ -4,7 +4,7 @@
 [tool.ruff]
 line-length = 79
 indent-width = 4
-target-version = "py38"
+target-version = "py310"
 
 [tool.ruff.format]
 quote-style = "double"

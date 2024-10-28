@@ -80,13 +80,6 @@ Word level
     
     A tokenizer designed for word-level segmentation. It provides accurate word boundary detection in Thai text.
 
-**deepcut**
-  
-.. automodule:: pythainlp.tokenize.deepcut
-    :members:
-    
-    Utilizes deep learning techniques for word segmentation, achieving high accuracy and performance.
-
 **multi_cut**
   
 .. automodule:: pythainlp.tokenize.multi_cut
@@ -121,20 +114,6 @@ Word level
     :members:
     
     A tokenizer optimized for Named Entity Recognition (NER) tasks, ensuring accurate tokenization for entity recognition.
-
-**sefr_cut**
-  
-.. automodule:: pythainlp.tokenize.sefr_cut
-    :members:
-    
-    An advanced word tokenizer for segmenting Thai text, with a focus on precision.
-
-**oskut**
-  
-.. automodule:: pythainlp.tokenize.oskut
-    :members:
-    
-    A tokenizer that uses a pre-trained model for word segmentation. It's a reliable choice for general-purpose text analysis.
 
 **newmm (Default)**
   

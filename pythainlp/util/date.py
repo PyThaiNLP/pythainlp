@@ -26,10 +26,7 @@ from datetime import datetime, timedelta
 from typing import Union
 import re
 
-try:
-    from zoneinfo import ZoneInfo
-except ImportError:
-    from backports.zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo
 
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
@@ -236,7 +233,7 @@ def thai_strptime(
         #   9,
         #   0,
         #   1,
-        #   tzinfo=backports.zoneinfo.ZoneInfo(key='Asia/Bangkok')
+        #   tzinfo=zoneinfo.ZoneInfo(key='Asia/Bangkok')
         # )
     """
     d = ""

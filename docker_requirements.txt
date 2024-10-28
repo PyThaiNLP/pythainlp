@@ -7,7 +7,7 @@ esupar==1.7.5
 fairseq==0.12.2
 fastai==1.0.61
 fastcoref==2.1.6
-gensim==4.3.3
+gensim==4.3.2  # https://github.com/piskvorky/gensim/issues/3560
 h5py==3.12.1
 khanaa==0.1.1
 nlpo3==1.3.0

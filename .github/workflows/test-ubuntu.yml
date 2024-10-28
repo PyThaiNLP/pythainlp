@@ -29,7 +29,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade "pip==24.0" "setuptools<60.0"
+        python -m pip install --upgrade "pip==24.0" "setuptools==73.0.1"
         python -m pip --version
         python -m pip show setuptools
         python -m pip install pytest coverage coveralls

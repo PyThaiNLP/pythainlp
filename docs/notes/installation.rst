@@ -29,7 +29,6 @@ where ``extras`` can be
   - ``spell`` (to support phunspell & symspellpy)
   - ``generate`` (to support text generate with umlfit or thai2fit)
   - ``textaugment`` (to support text augmentation)
-  - ``oskut`` (to support OSKUT)
   - ``nlpo3`` (to support nlpo3 engine)
   - ``spacy_thai`` (to support spacy_thai engine)
   - ``esupar`` (to support esupar engine)

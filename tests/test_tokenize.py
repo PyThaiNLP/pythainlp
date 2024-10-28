@@ -13,7 +13,6 @@ from pythainlp.tokenize import (
     multi_cut,
     nercut,
     newmm,
-    oskut,
     paragraph_tokenize,
     pyicu,
     sefr_cut,
@@ -461,7 +460,6 @@ class TestTokenizePackage(unittest.TestCase):
         self.assertIsNotNone(word_tokenize(self.text_1, engine="newmm"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="sefr_cut"))
         self.assertIsNotNone(word_tokenize(self.text_1, engine="tltk"))
-        self.assertIsNotNone(word_tokenize(self.text_1, engine="oskut"))
 
         with self.assertRaises(ValueError):
             word_tokenize("หมอนทอง", engine="XX")  # engine does not exist
@@ -791,16 +789,6 @@ class TestTokenizePackage(unittest.TestCase):
         )
         self.assertIsNotNone(
             sefr_cut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="tnhc"),
-        )
-
-    def test_oskut(self):
-        self.assertEqual(oskut.segment(None), [])
-        self.assertEqual(oskut.segment(""), [])
-        self.assertIsNotNone(
-            oskut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
-        )
-        self.assertIsNotNone(
-            oskut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="scads"),
         )
 
     def test_word_detokenize(self):

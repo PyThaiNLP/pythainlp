@@ -122,13 +122,6 @@ Word level
     
     An advanced word tokenizer for segmenting Thai text, with a focus on precision.
 
-**oskut**
-  
-.. automodule:: pythainlp.tokenize.oskut
-    :members:
-    
-    A tokenizer that uses a pre-trained model for word segmentation. It's a reliable choice for general-purpose text analysis.
-
 **newmm (Default)**
   
 .. automodule:: pythainlp.tokenize.newmm

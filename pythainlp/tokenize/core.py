@@ -159,9 +159,6 @@ def word_tokenize(
         * *nlpo3* - wrapper for a word tokenizer in
           `nlpO3 <https://github.com/PyThaiNLP/nlpo3>`_.,
           adaptation of newmm in Rust (2.5x faster)
-        * *oskut* - wrapper for
-          `OSKut <https://github.com/mrpeerat/OSKut>`_.,
-          Out-of-domain StacKed cut for Word Segmentation
         * *sefr_cut* - wrapper for
           `SEFR CUT <https://github.com/mrpeerat/SEFR_CUT>`_.,
           Stacked Ensemble Filter and Refine for Word Segmentation
@@ -271,10 +268,6 @@ def word_tokenize(
         segments = segment(text)
     elif engine == "tltk":
         from pythainlp.tokenize.tltk import segment
-
-        segments = segment(text)
-    elif engine == "oskut":
-        from pythainlp.tokenize.oskut import segment
 
         segments = segment(text)
     elif engine == "nlpo3":

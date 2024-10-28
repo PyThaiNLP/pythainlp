@@ -17,3 +17,7 @@ docstring-code-format = true
 # Flag errors (`C901`) whenever the complexity level exceeds 5. Default is 10.
 # We should aim to gradually reduce this to 10.
 max-complexity = 40
+
+[build-system]
+requires = ["setuptools<60"]
+build-backend = "setuptools.build_meta"

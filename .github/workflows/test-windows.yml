@@ -40,6 +40,8 @@ jobs:
         python -m pip --version
         python -m pip show setuptools
         python -m pip install pytest coverage coveralls
+        wget https://github.com/cgohlke/pyicu-build/releases/download/v2.13/PyICU-2.13-cp310-cp310-win_amd64.whl
+        python -m pip install PyICU-2.13-cp310-cp310-win_amd64.whl
         python -m pip install -r docker_requirements.txt
         python -m pip install .[full]
         python -m nltk.downloader omw-1.4

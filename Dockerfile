@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2024 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 
-FROM python:3.10-slim
+FROM python:3.9-slim
 
 COPY . .
 

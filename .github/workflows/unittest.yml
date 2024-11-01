@@ -64,5 +64,5 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COVERALLS_SERVICE_NAME: github
       run: |
+        coverage run -m unittest discover
         coveralls
-#        coverage run -m unittest discover

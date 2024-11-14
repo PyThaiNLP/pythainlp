@@ -71,7 +71,7 @@ jobs:
       run: twine check dist/*
 
     - name: Store distributions
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: pythainlp/dist/*
 

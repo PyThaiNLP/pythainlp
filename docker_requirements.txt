@@ -1,4 +1,4 @@
-PyYAML==5.4.1
+PyYAML==6.0.2
 attacut==1.0.6
 bpemb==0.3.6
 deepcut==0.7.0.0

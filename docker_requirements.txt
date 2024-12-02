@@ -37,5 +37,5 @@ tltk==1.6.8
 torch==1.13.1
 transformers==4.38.0
 ufal.chu-liu-edmonds==1.0.2
-wtpsplit==1.0.1
+wtpsplit==2.1.1
 wunsen==0.0.3

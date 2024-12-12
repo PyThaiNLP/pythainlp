@@ -5,6 +5,7 @@
 Generic functions of tokenizers
 """
 import re
+import warnings
 from typing import Iterable, List, Union
 
 from pythainlp.tokenize import (
@@ -43,6 +44,11 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
     """
     from pythainlp.tokenize.crfcls import segment
 
+    warnings.warn(
+        """
+                  clause_tokenize is no longer supported \
+                  and will be removed in version 5.1.
+        """, DeprecationWarning)
     return segment(doc)
 
 

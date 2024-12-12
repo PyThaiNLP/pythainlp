@@ -30,6 +30,9 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
     Tokenizes running word list into list of clauses (list of strings).
     Split by CRF trained on Blackboard Treebank.
 
+    **Warning**: *clause_tokenize* is no longer supported\
+        and will be removed in version 5.1.
+
     :param str doc: word list to be clause tokenized
     :return: list of clauses
     :rtype: list[list[str]]

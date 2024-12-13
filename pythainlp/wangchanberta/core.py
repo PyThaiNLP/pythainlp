@@ -182,7 +182,7 @@ class NamedEntityRecognition:
 
         if pos:
             warnings.warn(
-                "This model doesn't support output postag and It doesn't output the postag."
+                "This model doesn't support output postag and it doesn't output the postag."
             )
         words_token = word_tokenize(text.replace(" ", "<_>"))
         inputs = self.tokenizer(

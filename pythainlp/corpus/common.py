@@ -24,9 +24,9 @@ __all__ = [
 ]
 
 from typing import FrozenSet, List, Union
-import warnings
 
 from pythainlp.corpus import get_corpus, get_corpus_as_is, get_corpus_path
+from pythainlp.tools import warn_deprecation
 
 _THAI_COUNTRIES: FrozenSet[str] = frozenset()
 _THAI_COUNTRIES_FILENAME = "countries_th.txt"
@@ -56,9 +56,9 @@ _THAI_MALE_NAMES_FILENAME = "person_names_male_th.txt"
 
 _THAI_ORST_WORDS: FrozenSet[str] = frozenset()
 
-_THAI_DICT = {}
-_THAI_WSD_DICT = {}
-_THAI_SYNONYMS = {}
+_THAI_DICT: dict[str, list] = {}
+_THAI_WSD_DICT: dict[str, list] = {}
+_THAI_SYNONYMS: dict[str, list] = {}
 
 
 def countries() -> FrozenSet[str]:
@@ -336,7 +336,12 @@ def thai_synonyms() -> dict:
 
 
 def thai_synonym() -> dict:
-    warnings.warn("Deprecated: Use thai_synonyms() instead.", DeprecationWarning)
+    warn_deprecation(
+        "pythainlp.corpus.thai_synonym",
+        "pythainlp.corpus.thai_synonyms",
+        "5.1",
+        "5.2",
+    )
     return thai_synonyms()
 
 

@@ -19,8 +19,8 @@ def warn_deprecation(
 
     :param str deprecated_func: Name of the deprecated function.
     :param str replacing_func: Name of the function to use instead (optional).
-    :param str deprecated_version: PyThaiNLP version in which the function will be deprecated (optional).
-    :param str removal_version: PyThaiNLP version in which the function will be removed (optional).
+    :param str deprecated_version: Version in which the function will be deprecated (optional).
+    :param str removal_version: Version in which the function will be removed (optional).
     """
     message = f"The '{deprecated_func}' function is deprecated"
     if deprecated_version:

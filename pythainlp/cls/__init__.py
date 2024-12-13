@@ -5,12 +5,10 @@
 pythainlp.cls
 Depreciated. Use pythainlp.classify instead.
 """
-import warnings
 
 __all__ = ["GzipModel"]
 
 from pythainlp.classify.param_free import GzipModel
+from pythainlp.tools import warn_deprecation
 
-warnings.warn(
-    "Deprecated: Use pythainlp.classify instead.", DeprecationWarning
-)
+warn_deprecation("pythainlp.cls", "pythainlp.classify", "5.1", "5.2")

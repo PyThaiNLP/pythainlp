@@ -14,7 +14,7 @@ from pythainlp import thai_follow_vowels as follow_v
 from pythainlp import thai_lead_vowels as lead_v
 from pythainlp import thai_tonemarks as tonemarks
 from pythainlp.tokenize import word_tokenize
-
+from pythainlp.tools import warn_deprecation
 
 _DANGLING_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
 _RE_REMOVE_DANGLINGS = re.compile(f"^[{_DANGLING_CHARS}]+")
@@ -331,6 +331,9 @@ def maiyamok(sent: Union[str, List[str]]) -> List[str]:
         # output: ['คน', 'คน', 'นก']
     """
     warn_deprecation(
-        "pythainlp.util.maiyamok", "pythainlp.util.expand_maiyamok", "5.2"
+        "pythainlp.util.maiyamok",
+        "pythainlp.util.expand_maiyamok",
+        "5.0.5",
+        "5.2",
     )
     return expand_maiyamok(sent)

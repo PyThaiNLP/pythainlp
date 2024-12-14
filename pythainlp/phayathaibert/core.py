@@ -394,7 +394,7 @@ class NamedEntityTagger:
         if pos:
             warnings.warn(
                 "This model doesn't support output \
-                          postag and It doesn't output the postag."
+                          postag and it doesn't output the postag."
             )
 
         sample_output = []

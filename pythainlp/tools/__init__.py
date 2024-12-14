@@ -6,7 +6,11 @@ __all__ = [
     "get_full_data_path",
     "get_pythainlp_data_path",
     "get_pythainlp_path",
+    "safe_print",
+    "warn_deprecation",
 ]
+
+from pythainlp.tools.core import safe_print, warn_deprecation
 
 from pythainlp.tools.path import (
     PYTHAINLP_DEFAULT_DATA_DIR,

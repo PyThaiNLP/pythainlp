@@ -4,6 +4,7 @@
 """
 Text normalization
 """
+
 import re
 from typing import List, Union
 
@@ -13,7 +14,7 @@ from pythainlp import thai_follow_vowels as follow_v
 from pythainlp import thai_lead_vowels as lead_v
 from pythainlp import thai_tonemarks as tonemarks
 from pythainlp.tokenize import word_tokenize
-
+from pythainlp.tools import warn_deprecation
 
 _DANGLING_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
 _RE_REMOVE_DANGLINGS = re.compile(f"^[{_DANGLING_CHARS}]+")
@@ -76,7 +77,7 @@ def remove_dangling(text: str) -> str:
 
         from pythainlp.util import remove_dangling
 
-        remove_dangling('๊ก')
+        remove_dangling("๊ก")
         # output: 'ก'
     """
     return _RE_REMOVE_DANGLINGS.sub("", text)
@@ -98,7 +99,7 @@ def remove_dup_spaces(text: str) -> str:
 
         from pythainlp.util import remove_dup_spaces
 
-        remove_dup_spaces('ก    ข    ค')
+        remove_dup_spaces("ก    ข    ค")
         # output: 'ก ข ค'
     """
     while "  " in text:
@@ -132,7 +133,7 @@ def remove_tonemark(text: str) -> str:
 
         from pythainlp.util import remove_tonemark
 
-        remove_tonemark('สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด')
+        remove_tonemark("สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด")
         # output: สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด
     """
     for ch in tonemarks:
@@ -235,10 +236,10 @@ def normalize(text: str) -> str:
 
         from pythainlp.util import normalize
 
-        normalize('เเปลก')  # starts with two Sara E
+        normalize("เเปลก")  # starts with two Sara E
         # output: แปลก
 
-        normalize('นานาาา')
+        normalize("นานาาา")
         # output: นานา
     """
     text = remove_zw(text)
@@ -249,46 +250,90 @@ def normalize(text: str) -> str:
     return text
 
 
+def expand_maiyamok(sent: Union[str, List[str]]) -> List[str]:
+    """
+    Expand Maiyamok.
+
+    Maiyamok (ๆ) (Unicode U+0E46) is a Thai character indicating word
+    repetition. This function preprocesses Thai text by replacing
+    Maiyamok with a word being repeated.
+
+    :param Union[str, List[str]] sent: sentence (list or string)
+    :return: list of words
+    :rtype: List[str]
+
+    :Example:
+    ::
+        from pythainlp.util import expand_maiyamok
+
+        expand_maiyamok("คนๆนก")
+        # output: ['คน', 'คน', 'นก']
+    """
+    if isinstance(sent, str):
+        sent = word_tokenize(sent)
+
+    # Breaks Maiyamok that attached to others, e.g. "นกๆๆ", "นกๆ ๆ", "นกๆคน"
+    temp_toks: list[str] = []
+    for _, token in enumerate(sent):
+        toks = re.split(r"(ๆ)", token)
+        toks = [tok for tok in toks if tok]  # remove empty string ("")
+        temp_toks.extend(toks)
+    sent = temp_toks
+
+    output_toks: list[str] = []
+
+    yamok = "ๆ"
+    yamok_count = 0
+    len_sent = len(sent)
+    for i in range(len_sent - 1, -1, -1):  # do it backward
+        if yamok_count == 0 or (i + 1 >= len_sent):
+            if sent[i] == yamok:
+                yamok_count = yamok_count + 1
+            else:
+                output_toks.append(sent[i])
+            continue
+
+        if sent[i] == yamok:
+            yamok_count = yamok_count + 1
+        else:
+            if sent[i].isspace():
+                if yamok_count > 0:  # remove space before yamok
+                    continue
+                else:  # with preprocessing above, this should not happen
+                    output_toks.append(sent[i])
+            else:
+                output_toks.extend([sent[i]] * (yamok_count + 1))
+                yamok_count = 0
+
+    return output_toks[::-1]
+
+
 def maiyamok(sent: Union[str, List[str]]) -> List[str]:
     """
-    Thai MaiYaMok
+    Expand Maiyamok.
 
-    MaiYaMok (ๆ) is the mark of duplicate word in Thai language.
-    This function is preprocessing MaiYaMok in Thai sentence.
+    Deprecated. Use expand_maiyamok() instead.
 
-    :param Union[str, List[str]] sent: input sentence (list or str)
+    Maiyamok (ๆ) (Unicode U+0E46) is a Thai character indicating word
+    repetition. This function preprocesses Thai text by replacing
+    Maiyamok with a word being repeated.
+
+    :param Union[str, List[str]] sent: sentence (list or string)
     :return: list of words
     :rtype: List[str]
 
     :Example:
     ::
 
-        from pythainlp.util import maiyamok
+        from pythainlp.util import expand_maiyamok
 
-        maiyamok("เด็กๆชอบไปโรงเรียน")
-        # output: ['เด็ก', 'เด็ก', 'ชอบ', 'ไป', 'โรงเรียน']
-
-        maiyamok(["ทำไม","คน","ดี"," ","ๆ","ๆ"," ","ถึง","ทำ","ไม่ได้"])
-        # output: ['ทำไม', 'คน', 'ดี', 'ดี', 'ดี', ' ', 'ถึง', 'ทำ', 'ไม่ได้']
+        expand_maiyamok("คนๆนก")
+        # output: ['คน', 'คน', 'นก']
     """
-    if isinstance(sent, str):
-        sent = word_tokenize(sent)
-    _list_word = []
-    i = 0
-    for j, text in enumerate(sent):
-        if text.isspace() and "ๆ" in sent[j + 1]:
-            continue
-        if " ๆ" in text:
-            text = text.replace(" ๆ", "ๆ")
-        if "ๆ" == text:
-            text = _list_word[i - 1]
-        elif "ๆ" in text:
-            count = text.count("ๆ")
-            text = _list_word[i - 1]
-            for _ in range(count):
-                _list_word.append(text)
-            i += 1
-            continue
-        _list_word.append(text)
-        i += 1
-    return _list_word
+    warn_deprecation(
+        "pythainlp.util.maiyamok",
+        "pythainlp.util.expand_maiyamok",
+        "5.0.5",
+        "5.2",
+    )
+    return expand_maiyamok(sent)

@@ -4,8 +4,8 @@
 """
 Generic functions of tokenizers
 """
+
 import re
-import warnings
 from typing import Iterable, List, Union
 
 from pythainlp.tokenize import (
@@ -21,6 +21,7 @@ from pythainlp.tokenize._utils import (
     rejoin_formatted_num,
     strip_whitespace,
 )
+from pythainlp.tools import warn_deprecation
 from pythainlp.util.trie import Trie, dict_trie
 
 
@@ -45,13 +46,9 @@ def clause_tokenize(doc: List[str]) -> List[List[str]]:
         # ['และ', 'คุณ', 'เล่น', 'มือถือ'],
         # ['ส่วน', 'น้อง', 'เขียน', 'โปรแกรม']]
     """
+    warn_deprecation("pythainlp.util.clause_tokenize", "", "5.0.5", "5.1")
     from pythainlp.tokenize.crfcls import segment
 
-    warnings.warn(
-        """
-                  clause_tokenize is no longer supported \
-                  and will be removed in version 5.1.
-        """, DeprecationWarning)
     return segment(doc)
 
 
@@ -71,6 +68,7 @@ def word_detokenize(
     ::
 
         from pythainlp.tokenize import word_detokenize
+
         print(word_detokenize(["เรา", "เล่น"]))
         # output: เราเล่น
     """
@@ -299,18 +297,19 @@ def word_tokenize(
         segments = segment(text)
     elif engine == "nlpo3":
         from pythainlp.tokenize.nlpo3 import segment
+
         # Currently cannot handle custom_dict from inside word_tokenize(),
         # due to difference in type.
-        #if isinstance(custom_dict, str):
+        # if isinstance(custom_dict, str):
         #    segments = segment(text, custom_dict=custom_dict)
-        #elif not isinstance(custom_dict, str) and not custom_dict:
+        # elif not isinstance(custom_dict, str) and not custom_dict:
         #    raise ValueError(
         #        f"""Tokenizer \"{engine}\":
         #        custom_dict must be a str.
         #        It is a dictionary name as assigned with load_dict().
         #        See pythainlp.tokenize.nlpo3.load_dict()"""
         #    )
-        #else:
+        # else:
         #    segments = segment(text)
         segments = segment(text)
     else:

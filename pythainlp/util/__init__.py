@@ -19,11 +19,13 @@ __all__ = [
     "display_thai_char",
     "emoji_to_thai",
     "eng_to_thai",
+    "expand_maiyamok",
     "find_keyword",
     "ipa_to_rtgs",
     "is_native_thai",
     "isthai",
     "isthaichar",
+    "maiyamok",
     "nectec_to_ipa",
     "normalize",
     "now_reign_year",
@@ -85,8 +87,9 @@ from pythainlp.util.keyboard import (
 from pythainlp.util.emojiconv import emoji_to_thai
 from pythainlp.util.keywords import find_keyword, rank
 from pythainlp.util.normalize import (
-    normalize,
+    expand_maiyamok,
     maiyamok,
+    normalize,
     remove_dangling,
     remove_dup_spaces,
     remove_repeat_vowels,

@@ -20,6 +20,6 @@ authors:
   given-names: "Pattarawat"
   orcid: "https://orcid.org/0000-0000-0000-0000"
 title: "PyThaiNLP: Thai Natural Language Processing in Python"
-version: v5.0.4
+version: v5.0.5
 license: Apache-2.0
 date-released: 2024-06-02

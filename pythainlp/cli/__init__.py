@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2025 PyThaiNLP Project
 # SPDX-FileType: SOURCE
+# SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """Command line helpers."""
 
@@ -12,7 +13,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
 
 # a command should start with a verb when possible
-COMMANDS = sorted(["data", "soundex", "tag", "tokenize", "benchmark"])
+COMMANDS = sorted(["data", "soundex", "tag", "tokenize", "benchmark", "misspell"])
 
 CLI_NAME = "thainlp"
 

@@ -26,7 +26,7 @@ def main(argv=None):
     parser.add_argument(
         "command",
         type=str,
-        choices=cli.COMMANDS,
+        choices=cli.COMMANDS + ["misspell"],
         help="text processing action",
     )
 

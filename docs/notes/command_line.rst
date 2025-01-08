@@ -94,6 +94,15 @@ You can use some thainlp functions directly from command line.
                     word_level:precision 0.8173
                        word_level:recall 0.8314
 
+**Misspell**::
+
+    thainlp misspell --file <input_file> [--seed <seed>] [--misspell-ratio <ratio>] [--output <output_file>]
+
+*Example*::
+
+    $ thainlp misspell --file ./some/data.txt --seed=1 --misspell-ratio 0.05
+    # output file: ./some/data-misspelled-r0.05-seed1.txt
+
 **Help**::
 
     thainlp --help

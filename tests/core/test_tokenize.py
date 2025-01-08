@@ -19,6 +19,7 @@ from pythainlp.tokenize import (
     tcc_p,
     word_detokenize,
     word_tokenize,
+    display_cell_tokenize,
 )
 from pythainlp.util import dict_trie
 
@@ -604,3 +605,10 @@ class TokenizeTestCase(unittest.TestCase):
         # )
         self.assertEqual(list(tcc_p.tcc("")), [])
         self.assertEqual(tcc_p.tcc_pos(""), set())
+
+    def test_display_cell_tokenize(self):
+        self.assertEqual(display_cell_tokenize(""), [])
+        self.assertEqual(display_cell_tokenize("แม่น้ำอยู่ที่ไหน"), ["แ", "ม่", "น้ํ", "า", "อ", "ยู่", "ที่", "ไ", "ห", "น"])
+        self.assertEqual(display_cell_tokenize("สวัสดี"), ["ส", "ว", "ั", "ส", "ด", "ี"])
+        self.assertEqual(display_cell_tokenize("ทดสอบ"), ["ท", "ด", "ส", "อ", "บ"])
+        self.assertEqual(display_cell_tokenize("ภาษาไทย"), ["ภ", "า", "ษ", "า", "ไ", "ท", "ย"])

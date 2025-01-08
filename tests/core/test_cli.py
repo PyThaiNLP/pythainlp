@@ -154,7 +154,7 @@ class CliTestCase(unittest.TestCase):
                     "thainlp",
                     "misspell",
                     "--file",
-                    "./some/data.txt",
+                    "./tests/data/text.txt",
                     "--seed",
                     "1",
                     "--misspell-ratio",

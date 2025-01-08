@@ -44,6 +44,8 @@ Modules
     
     The `Tokenizer` class is a versatile tool for customizing tokenization processes and managing tokenization models. It provides various methods and attributes to fine-tune tokenization according to your specific needs.
 
+.. autoclass:: display_cell_tokenize
+
 Tokenization Engines
 --------------------
 

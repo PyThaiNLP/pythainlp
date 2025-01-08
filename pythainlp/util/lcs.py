@@ -18,7 +18,7 @@ def longest_common_subsequence(str1: str, str2: str) -> str:
         from pythainlp.util.lcs import longest_common_subsequence
 
         print(longest_common_subsequence("ABCBDAB", "BDCAB"))
-        # output: "BCAB"
+        # output: "BDAB"
     """
     m = len(str1)
     n = len(str2)

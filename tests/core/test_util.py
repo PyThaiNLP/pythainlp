@@ -506,6 +506,25 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(normalize("กา าาะา"), "กาะา")
 
         # remove repeating tone marks
+        self.assertEqual(normalize("\u0e01\u0e48\u0e48"), "\u0e01\u0e48")
+
+        # remove repeating different tone marks
+        self.assertEqual(normalize("\u0e01\u0e48\u0e49"), "\u0e01\u0e49")
+        self.assertEqual(
+            normalize("\u0e01\u0e48\u0e49\u0e48\u0e49"), "\u0e01\u0e49"
+        )
+
+        # remove tone mark at the beginning of text
+        self.assertEqual(remove_dangling("\u0e48\u0e01"), "\u0e01")
+        self.assertEqual(remove_dangling("\u0e48\u0e48\u0e01"), "\u0e01")
+        self.assertEqual(remove_dangling("\u0e48\u0e49\u0e01"), "\u0e01")
+        self.assertEqual(remove_dangling("\u0e48\u0e01\u0e48"), "\u0e01\u0e48")
+
+        # remove duplicate spaces
+        self.assertEqual(remove_dup_spaces("  ab  c d  "), "ab c d")
+        self.assertEqual(remove_dup_spaces("\nab  c   \n d \n"), "ab c\nd")
+
+        # remove tone marks
         self.assertEqual(remove_tonemark("จิ้น"), "จิน")
         self.assertEqual(remove_tonemark("เก๋า"), "เกา")
 

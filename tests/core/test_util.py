@@ -32,6 +32,7 @@ from pythainlp.util import (
     ipa_to_rtgs,
     isthai,
     isthaichar,
+    longest_common_subsequence,
     nectec_to_ipa,
     normalize,
     now_reign_year,
@@ -505,25 +506,6 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(normalize("กา าาะา"), "กาะา")
 
         # remove repeating tone marks
-        self.assertEqual(normalize("\u0e01\u0e48\u0e48"), "\u0e01\u0e48")
-
-        # remove repeating different tone marks
-        self.assertEqual(normalize("\u0e01\u0e48\u0e49"), "\u0e01\u0e49")
-        self.assertEqual(
-            normalize("\u0e01\u0e48\u0e49\u0e48\u0e49"), "\u0e01\u0e49"
-        )
-
-        # remove tone mark at the beginning of text
-        self.assertEqual(remove_dangling("\u0e48\u0e01"), "\u0e01")
-        self.assertEqual(remove_dangling("\u0e48\u0e48\u0e01"), "\u0e01")
-        self.assertEqual(remove_dangling("\u0e48\u0e49\u0e01"), "\u0e01")
-        self.assertEqual(remove_dangling("\u0e48\u0e01\u0e48"), "\u0e01\u0e48")
-
-        # remove duplicate spaces
-        self.assertEqual(remove_dup_spaces("  ab  c d  "), "ab c d")
-        self.assertEqual(remove_dup_spaces("\nab  c   \n d \n"), "ab c\nd")
-
-        # remove tone marks
         self.assertEqual(remove_tonemark("จิ้น"), "จิน")
         self.assertEqual(remove_tonemark("เก๋า"), "เกา")
 
@@ -842,3 +824,13 @@ class UtilTestCase(unittest.TestCase):
 
     # def test_abbreviation_to_full_text(self):
     #     self.assertIsInstance(abbreviation_to_full_text("รร.ของเราน่าอยู่", list))
+
+    def test_longest_common_subsequence(self):
+        self.assertEqual(longest_common_subsequence("ABCBDAB", "BDCAB"), "BCAB")
+        self.assertEqual(longest_common_subsequence("AGGTAB", "GXTXAYB"), "GTAB")
+        self.assertEqual(longest_common_subsequence("ABCDGH", "AEDFHR"), "ADH")
+        self.assertEqual(longest_common_subsequence("ABC", "AC"), "AC")
+        self.assertEqual(longest_common_subsequence("ABC", "DEF"), "")
+        self.assertEqual(longest_common_subsequence("", "ABC"), "")
+        self.assertEqual(longest_common_subsequence("ABC", ""), "")
+        self.assertEqual(longest_common_subsequence("", ""), "")

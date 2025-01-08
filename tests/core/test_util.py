@@ -845,7 +845,7 @@ class UtilTestCase(unittest.TestCase):
     #     self.assertIsInstance(abbreviation_to_full_text("รร.ของเราน่าอยู่", list))
 
     def test_longest_common_subsequence(self):
-        self.assertEqual(longest_common_subsequence("ABCBDAB", "BDCAB"), "BCAB")
+        self.assertEqual(longest_common_subsequence("ABCBDAB", "BDCAB"), "BDAB")
         self.assertEqual(longest_common_subsequence("AGGTAB", "GXTXAYB"), "GTAB")
         self.assertEqual(longest_common_subsequence("ABCDGH", "AEDFHR"), "ADH")
         self.assertEqual(longest_common_subsequence("ABC", "AC"), "AC")

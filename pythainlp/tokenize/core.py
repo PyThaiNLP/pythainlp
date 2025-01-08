@@ -757,6 +757,7 @@ def display_cell_tokenize(text: str) -> List[str]:
 
     display_cells = []
     current_cell = ""
+    text = text.replace("ำ", "ํา")
 
     for char in text:
         if re.match(r"[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]", char):

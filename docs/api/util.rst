@@ -258,6 +258,10 @@ Modules
 
     The `words_to_num` function is a numeral conversion utility that translates Thai word numerals into numerical form. It is important for numerical data extraction and computation.
 
+.. autofunction:: spelling
+    :noindex:
+    The `spelling` function is a text processing tool for spelling Thai word.
+
 .. autofunction:: pythainlp.util.spell_words.spell_syllable
     :noindex:
 

@@ -43,6 +43,7 @@ __all__ = [
     "reorder_vowels",
     "rhyme",
     "sound_syllable",
+    "spelling",
     "spell_words",
     "syllable_length",
     "syllable_open_close_detector",
@@ -50,6 +51,7 @@ __all__ = [
     "text_to_num",
     "text_to_thai_digit",
     "th_zodiac",
+    "thai_consonant_to_spelling",
     "thai_digit_to_arabic_digit",
     "thai_keyboard_dist",
     "thai_strptime",
@@ -64,6 +66,7 @@ __all__ = [
     "to_idna",
     "to_lunar_date",
     "tone_detector",
+    "tone_to_spelling",
     "words_to_num",
 ]
 
@@ -132,4 +135,9 @@ from pythainlp.util.syllable import (
     syllable_open_close_detector,
     tone_detector,
 )
-from pythainlp.util.pronounce import rhyme
+from pythainlp.util.pronounce import (
+    rhyme,
+    spelling,
+    tone_to_spelling,
+    thai_consonant_to_spelling,
+)

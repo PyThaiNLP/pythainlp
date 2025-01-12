@@ -111,10 +111,10 @@ def word_tokenize(
     :param str engine: name of the tokenizer to be used
     :param pythainlp.util.Trie custom_dict: dictionary trie (some engine may not support)
     :param bool keep_whitespace: True to keep whitespace, a common mark
-                                 for end of phrase in Thai.
-                                 Otherwise, whitespace is omitted.
+                                  for end of phrase in Thai.
+                                  Otherwise, whitespace is omitted.
     :param bool join_broken_num: True to rejoin formatted numeric that could be wrongly separated.
-                                 Otherwise, formatted numeric could be wrongly separated.
+                                  Otherwise, formatted numeric could be wrongly separated.
 
     :return: list of words
     :rtype: List[str]
@@ -230,6 +230,10 @@ def word_tokenize(
 
         segments = segment(text, custom_dict, safe_mode=True)
     elif engine == "attacut":
+        if custom_dict:
+            raise NotImplementedError(
+                f"The {engine} engine does not support custom dictionaries."
+            )
         from pythainlp.tokenize.attacut import segment
 
         segments = segment(text)
@@ -250,22 +254,42 @@ def word_tokenize(
         else:
             segments = segment(text)
     elif engine == "icu":
+        if custom_dict:
+            raise NotImplementedError(
+                f"The {engine} engine does not support custom dictionaries."
+            )
         from pythainlp.tokenize.pyicu import segment
 
         segments = segment(text)
     elif engine == "nercut":
+        if custom_dict:
+            raise NotImplementedError(
+                f"The {engine} engine does not support custom dictionaries."
+            )
         from pythainlp.tokenize.nercut import segment
 
         segments = segment(text)
     elif engine == "sefr_cut":
+        if custom_dict:
+            raise NotImplementedError(
+                f"The {engine} engine does not support custom dictionaries."
+            )
         from pythainlp.tokenize.sefr_cut import segment
 
         segments = segment(text)
     elif engine == "tltk":
+        if custom_dict:
+            raise NotImplementedError(
+                f"The {engine} engine does not support custom dictionaries."
+            )
         from pythainlp.tokenize.tltk import segment
 
         segments = segment(text)
     elif engine == "oskut":
+        if custom_dict:
+            raise NotImplementedError(
+                f"The {engine} engine does not support custom dictionaries."
+            )
         from pythainlp.tokenize.oskut import segment
 
         segments = segment(text)
@@ -366,7 +390,7 @@ def sent_tokenize(
             and ``wtp-large`` to use ``wtp-canine-s-12l`` model.
         * *whitespace+newline* - split by whitespace and newline.
         * *whitespace* - split by whitespace, specifically with \
-                         :class:`regex` pattern  ``r" +"``
+                          :class:`regex` pattern  ``r" +"``
     :Example:
 
     Split the text based on *whitespace*::
@@ -814,9 +838,9 @@ class Tokenizer:
                     used to create a trie, or an instantiated
                     :class:`pythainlp.util.Trie` object.
         :param str engine: choose between different options of tokenizer engines
-                           (i.e.  *newmm*, *mm*, *longest*, *deepcut*)
+                            (i.e.  *newmm*, *mm*, *longest*, *deepcut*)
         :param bool keep_whitespace: True to keep whitespace, a common mark
-                                    for end of phrase in Thai
+                                     for end of phrase in Thai
         """
         self.__trie_dict = Trie([])
         if custom_dict:

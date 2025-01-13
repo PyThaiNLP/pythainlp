@@ -733,6 +733,46 @@ def syllable_tokenize(
     )
 
 
+def display_cell_tokenize(text: str) -> List[str]:
+    """
+    Display cell tokenizer.
+
+    Tokenizes Thai text into display cells without splitting tone marks.
+
+    :param str text: text to be tokenized
+    :return: list of display cells
+    :rtype: List[str]
+    :Example:
+
+    Tokenize Thai text into display cells::
+
+        from pythainlp.tokenize import display_cell_tokenize
+
+        text = "แม่น้ำอยู่ที่ไหน"
+        display_cell_tokenize(text)
+        # output: ['แ', 'ม่', 'น้ํ', 'า', 'อ', 'ยู่', 'ที่', 'ไ', 'ห', 'น']
+    """
+    if not text or not isinstance(text, str):
+        return []
+
+    display_cells = []
+    current_cell = ""
+    text = text.replace("ำ", "ํา")
+
+    for char in text:
+        if re.match(r"[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]", char):
+            current_cell += char
+        else:
+            if current_cell:
+                display_cells.append(current_cell)
+            current_cell = char
+
+    if current_cell:
+        display_cells.append(current_cell)
+
+    return display_cells
+
+
 class Tokenizer:
     """
     Tokenizer class for a custom tokenizer.

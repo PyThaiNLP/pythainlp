@@ -16,6 +16,7 @@ __all__ = [
     "syllable_tokenize",
     "word_detokenize",
     "word_tokenize",
+    "display_cell_tokenize",
 ]
 
 from pythainlp.corpus import thai_syllables, thai_words
@@ -38,6 +39,7 @@ from pythainlp.tokenize.core import (
     syllable_tokenize,
     word_detokenize,
     word_tokenize,
+    display_cell_tokenize,
 )
 
 from pythainlp.corpus import get_corpus as _get_corpus

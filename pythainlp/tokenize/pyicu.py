@@ -15,9 +15,10 @@ from typing import List
 
 from icu import BreakIterator, Locale
 
+bd = BreakIterator.createWordInstance(Locale("th"))
 
 def _gen_words(text: str) -> str:
-    bd = BreakIterator.createWordInstance(Locale("th"))
+    global bd
     bd.setText(text)
     p = bd.first()
     for q in bd:

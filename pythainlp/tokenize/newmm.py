@@ -182,7 +182,7 @@ def segment(
         # try to break by space first
         space_idx = sample.rfind(" ")
         if space_idx >= 0:
-            cut_pos = space_idx + 1
+            cut_pos = space_idx + 1 + _TEXT_SCAN_BEGIN
         else:
             tokens = list(_onecut(sample, custom_dict))
             token_max_idx = 0

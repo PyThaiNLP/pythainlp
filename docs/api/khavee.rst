@@ -49,6 +49,7 @@ Example
 Here's a basic example of how to use the `KhaveeVerifier` class to verify Thai poetry:
 
 ::
+
   from pythainlp.khavee import KhaveeVerifier
   
   # Initialize a KhaveeVerifier instance

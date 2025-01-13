@@ -8,7 +8,7 @@ Wrapper for AttaCut - Fast and Reasonably Accurate Word Tokenizer for Thai
 :See Also:
     * `GitHub repository <https://github.com/PyThaiNLP/attacut>`_
 """
-from typing import List
+from typing import Dict, List
 
 from attacut import Tokenizer
 
@@ -26,6 +26,9 @@ class AttacutTokenizer:
         return self._tokenizer.tokenize(text)
 
 
+_tokenizers: Dict[str, AttacutTokenizer] = {}
+
+
 def segment(text: str, model: str = "attacut-sc") -> List[str]:
     """
     Wrapper for AttaCut - Fast and Reasonably Accurate Word Tokenizer for Thai
@@ -40,6 +43,8 @@ def segment(text: str, model: str = "attacut-sc") -> List[str]:
     if not text or not isinstance(text, str):
         return []
 
-    _tokenizer = AttacutTokenizer(model)
+    global _tokenizers
+    if model not in _tokenizers:
+        _tokenizers[model] = AttacutTokenizer(model)
 
-    return _tokenizer.tokenize(text)
+    return _tokenizers[model].tokenize(text)

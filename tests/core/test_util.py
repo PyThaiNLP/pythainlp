@@ -32,6 +32,7 @@ from pythainlp.util import (
     ipa_to_rtgs,
     isthai,
     isthaichar,
+    longest_common_subsequence,
     nectec_to_ipa,
     normalize,
     now_reign_year,
@@ -855,3 +856,13 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(
             spelling("กั้น"), ['กอ', 'อะ', 'นอ', 'กัน', 'ไม้โท', 'กั้น']
         )
+
+    def test_longest_common_subsequence(self):
+        self.assertEqual(longest_common_subsequence("ABCBDAB", "BDCAB"), "BDAB")
+        self.assertEqual(longest_common_subsequence("AGGTAB", "GXTXAYB"), "GTAB")
+        self.assertEqual(longest_common_subsequence("ABCDGH", "AEDFHR"), "ADH")
+        self.assertEqual(longest_common_subsequence("ABC", "AC"), "AC")
+        self.assertEqual(longest_common_subsequence("ABC", "DEF"), "")
+        self.assertEqual(longest_common_subsequence("", "ABC"), "")
+        self.assertEqual(longest_common_subsequence("ABC", ""), "")
+        self.assertEqual(longest_common_subsequence("", ""), "")

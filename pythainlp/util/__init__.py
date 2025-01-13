@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2025 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -26,6 +26,7 @@ __all__ = [
     "is_native_thai",
     "isthai",
     "isthaichar",
+    "longest_common_subsequence",
     "nectec_to_ipa",
     "normalize",
     "now_reign_year",
@@ -92,6 +93,7 @@ from pythainlp.util.keyboard import (
     thai_to_eng,
 )
 from pythainlp.util.keywords import find_keyword, rank
+from pythainlp.util.lcs import longest_common_subsequence
 from pythainlp.util.normalize import (
     maiyamok,
     normalize,

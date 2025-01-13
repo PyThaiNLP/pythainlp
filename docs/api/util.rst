@@ -283,6 +283,11 @@ Modules
 
     The `Trie` class is a data structure for efficient dictionary operations. It's a valuable resource for managing and searching word lists and dictionaries in a structured and efficient manner.
 
+.. autofunction:: longest_common_subsequence
+    :noindex:
+
+    The `longest_common_subsequence` function is find the longest common subsequence between two strings.
+
 .. autofunction:: pythainlp.util.morse.morse_encode
     :noindex:
 

@@ -221,6 +221,18 @@ def word_tokenize(
 
     segments = []
 
+    if custom_dict and engine in (
+        "attacut",
+        "icu",
+        "nercut",
+        "sefr_cut",
+        "tltk",
+        "oskut"
+    ):
+        raise NotImplementedError(
+            f"The {engine} engine does not support custom dictionaries."
+        )
+
     if engine in ("newmm", "onecut"):
         from pythainlp.tokenize.newmm import segment
 
@@ -230,10 +242,6 @@ def word_tokenize(
 
         segments = segment(text, custom_dict, safe_mode=True)
     elif engine == "attacut":
-        if custom_dict:
-            raise NotImplementedError(
-                f"The {engine} engine does not support custom dictionaries."
-            )
         from pythainlp.tokenize.attacut import segment
 
         segments = segment(text)
@@ -254,42 +262,22 @@ def word_tokenize(
         else:
             segments = segment(text)
     elif engine == "icu":
-        if custom_dict:
-            raise NotImplementedError(
-                f"The {engine} engine does not support custom dictionaries."
-            )
         from pythainlp.tokenize.pyicu import segment
 
         segments = segment(text)
     elif engine == "nercut":
-        if custom_dict:
-            raise NotImplementedError(
-                f"The {engine} engine does not support custom dictionaries."
-            )
         from pythainlp.tokenize.nercut import segment
 
         segments = segment(text)
     elif engine == "sefr_cut":
-        if custom_dict:
-            raise NotImplementedError(
-                f"The {engine} engine does not support custom dictionaries."
-            )
         from pythainlp.tokenize.sefr_cut import segment
 
         segments = segment(text)
     elif engine == "tltk":
-        if custom_dict:
-            raise NotImplementedError(
-                f"The {engine} engine does not support custom dictionaries."
-            )
         from pythainlp.tokenize.tltk import segment
 
         segments = segment(text)
     elif engine == "oskut":
-        if custom_dict:
-            raise NotImplementedError(
-                f"The {engine} engine does not support custom dictionaries."
-            )
         from pythainlp.tokenize.oskut import segment
 
         segments = segment(text)

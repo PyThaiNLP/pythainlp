@@ -355,6 +355,11 @@ class TokenizeTestCase(unittest.TestCase):
             "ไฟ", word_tokenize("รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"]))
         )
 
+        with self.assertRaises(NotImplementedError):
+            word_tokenize(
+                "รถไฟฟ้า", custom_dict=dict_trie(["ไฟ"]), engine="icu"
+            )
+
     def test_etcc(self):
         self.assertEqual(etcc.segment(None), [])
         self.assertEqual(etcc.segment(""), [])

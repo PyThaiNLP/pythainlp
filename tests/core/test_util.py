@@ -66,6 +66,7 @@ from pythainlp.util import (
     to_lunar_date,
     tone_detector,
     words_to_num,
+    spelling,
 )
 from pythainlp.util.morse import morse_decode, morse_encode
 
@@ -843,6 +844,18 @@ class UtilTestCase(unittest.TestCase):
 
     # def test_abbreviation_to_full_text(self):
     #     self.assertIsInstance(abbreviation_to_full_text("รร.ของเราน่าอยู่", list))
+
+    def test_spelling(self):
+        self.assertEqual(spelling([]), [])
+        self.assertEqual(spelling("เรียน"), ['รอ', 'เอีย', 'นอ', 'เรียน'])
+        self.assertEqual(
+            spelling("เฝ้า"), ['ฝอ', 'เอา', 'เฝา', 'ไม้โท', 'เฝ้า']
+        )
+        self.assertEqual(spelling("คน"), ['คอ', 'นอ', 'คน'])
+        self.assertEqual(spelling("กัน"), ['กอ', 'อะ', 'นอ', 'กัน'])
+        self.assertEqual(
+            spelling("กั้น"), ['กอ', 'อะ', 'นอ', 'กัน', 'ไม้โท', 'กั้น']
+        )
 
     def test_longest_common_subsequence(self):
         self.assertEqual(longest_common_subsequence("ABCBDAB", "BDCAB"), "BDAB")

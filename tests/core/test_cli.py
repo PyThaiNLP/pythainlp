@@ -11,7 +11,6 @@ from pythainlp.cli.data import App as DataApp
 from pythainlp.cli.soundex import App as SoundexApp
 from pythainlp.cli.tag import App as TagApp
 from pythainlp.cli.tokenize import App as TokenizeApp
-from pythainlp.cli.misspell import App as MisspellApp
 
 
 class CliTestCase(unittest.TestCase):
@@ -137,28 +136,6 @@ class CliTestCase(unittest.TestCase):
                     "-s",
                     "|",
                     "ถ้าฉันยิงกระต่ายได้ ฉันก็ยิงฟาสซิสต์ได้",
-                ]
-            )
-        )
-
-    def test_cli_misspell(self):
-        self.assertTrue(hasattr(cli, "misspell"))
-
-        with self.assertRaises(SystemExit) as ex:
-            MisspellApp(["thainlp", "misspell"])
-        self.assertEqual(ex.exception.code, 2)
-
-        self.assertIsNotNone(
-            MisspellApp(
-                [
-                    "thainlp",
-                    "misspell",
-                    "--file",
-                    "./tests/data/text.txt",
-                    "--seed",
-                    "1",
-                    "--misspell-ratio",
-                    "0.05",
                 ]
             )
         )

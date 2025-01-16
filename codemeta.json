@@ -1,0 +1,75 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "name": "PyThaiNLP",
+  "description": "Thai Natural Language Processing in Python",
+  "version": "5.1.0-beta1",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Wannaphong",
+      "familyName": "Phatthiyaphaibun",
+      "@id": "https://orcid.org/0000-0002-4153-4354"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Korakot",
+      "familyName": "Chaovavanich",
+      "@id": "https://orcid.org/0009-0002-7350-9855"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Charin",
+      "familyName": "Polpanumas",
+      "@id": "https://orcid.org/0000-0001-7822-4600"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Arthit",
+      "familyName": "Suriyawongkul",
+      "@id": "https://orcid.org/0000-0002-9698-1899"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Lalita",
+      "familyName": "Lowphansirikul",
+      "@id": "https://orcid.org/0000-0002-5305-2088"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Pattarawat",
+      "familyName": "Chormai",
+      "@id": "https://orcid.org/0000-0002-7582-4667"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Wannaphong",
+      "familyName": "Phatthiyaphaibun",
+      "@id": "https://orcid.org/0000-0002-4153-4354"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Arthit",
+      "familyName": "Suriyawongkul",
+      "@id": "https://orcid.org/0000-0002-9698-1899"
+    }
+  ],
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
+  "codeRepository": "https://github.com/PyThaiNLP/pythainlp",
+  "issueTracker": "https://github.com/PyThaiNLP/pythainlp/issues",
+  "url": "https://pythainlp.org/",
+  "keywords": [
+    "natural language processing",
+    "Thai",
+    "Python",
+    "text processing",
+    "computational linguistics",
+    "tokenization",
+    "word segmentation",
+    "NLP",
+    "Thai language",
+    "Thai NLP"
+  ]
+}

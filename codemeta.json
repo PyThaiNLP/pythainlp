@@ -56,7 +56,7 @@
       "@id": "https://orcid.org/0000-0002-9698-1899"
     }
   ],
-  "license": "http://www.apache.org/licenses/",
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
   "codeRepository": "https://github.com/PyThaiNLP/pythainlp",
   "issueTracker": "https://github.com/PyThaiNLP/pythainlp/issues",
   "url": "https://pythainlp.org/",

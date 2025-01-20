@@ -8,7 +8,7 @@ Perceptron Tagger.
 This tagger is a port of the Textblob Averaged Perceptron Tagger
 Author: Matthew Honnibal <honnibal+gh@gmail.com>,
         Long Duong <longdt219@gmail.com> (NLTK port)
-        Wannaphong Phatthiyaphaibun <wannaphong@yahoo.com> (PyThaiNLP port)
+        Wannaphong Phatthiyaphaibun <wannaphong@pythainlp.org> (PyThaiNLP port)
 URL: <https://github.com/sloria/textblob-aptagger>
      <https://nltk.org/>
 Copyright 2013 Matthew Honnibal

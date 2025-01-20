@@ -155,7 +155,7 @@ setup(
     long_description=LONG_DESC,
     long_description_content_type="text/markdown",
     author="PyThaiNLP",
-    author_email="email@wannaphong.com",
+    author_email="wannaphong@pythainlp.org",
     url="https://github.com/PyThaiNLP/pythainlp",
     packages=find_packages(exclude=["tests", "tests.*"]),
     test_suite="tests",

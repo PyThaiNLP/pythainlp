@@ -139,7 +139,7 @@ Thanks to all [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contr
 
 ### Development Leads
 
-- Wannaphong Phatthiyaphaibun <wannaphong@yahoo.com> - foundation, distribution and maintenance
+- Wannaphong Phatthiyaphaibun <wannaphong@pythainlp.org> - foundation, distribution and maintenance
 - Korakot Chaovavanich - initial tokenization and soundex codes
 - Charin Polpanumas - classification and benchmarking
 - Arthit Suriyawongkul - CI/infrastructure, documentation, refactoring and distribution

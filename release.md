@@ -10,6 +10,7 @@
     - `README.md`
     - `README.TH.md`
     - `CHANGELOG.md`
+    - `codemeta.json`
 2. Navigate to the
   [releases page][releases] and
    click the "Draft a new release" button.

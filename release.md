@@ -1,7 +1,9 @@
 # How to cut a new release
 
-0. This project follows [semantic versioning][semver].
-1. Ensure the version and release date fields (if any) in these files
+0. Check if the package can be built properly.
+   Add the prefix "[cd build]" to the commit message to trigger wheel building.
+1. This project follows [semantic versioning][semver].
+   Ensure the version and release date fields (if any) in these files
    have been updated to the version of the new planned release:
     - `pyproject.toml`
     - `setup.cfg`
@@ -11,7 +13,7 @@
     - `README.TH.md`
     - `CHANGELOG.md`
 2. Navigate to the
-  [releases page][releases] and
+   [releases page][releases] and
    click the "Draft a new release" button.
    Only project maintainers are able to perform this step.
 3. Then enter the new tag in the "Choose a tag" box.
@@ -22,7 +24,8 @@
 6. You can optionally include any particular thank-you's to contributors or
    reviewers in a note at the bottom of the release.
 7. You can then click "publish release."
-8. If [the CI][ci] run is [successful][actions], then the release will be published on both
+8. If [the CI][ci] run is [successful][actions],
+   then the release will be published on both
    the GitHub release page and also the [Python Package Index][pypi].
 
 [semver]: https://semver.org/

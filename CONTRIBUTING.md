@@ -18,7 +18,7 @@ Please refer to our [Contributor Covenant Code of Conduct](https://github.com/Py
 - Name identifiers (variables, classes, functions, module names) with meaningful
   and pronounceable names (`x` is always wrong);
   - Please follow this [naming convention](https://namingconvention.org/python/). For example, global constant variables must be in `ALL_CAPS`;
-  <img src="https://i.stack.imgur.com/uBr10.png" />
+  ![Naming Convention](https://i.stack.imgur.com/uBr10.png)
 - Write tests for your new features. The test suite is in `tests/` directory. (see "Testing" section below);
 - Run all tests before pushing (just execute `tox`) so you will know if your
   changes broke something;
@@ -131,9 +131,7 @@ See more in [tests/README.md](./tests/README.md)
 
 ## Credits
 
-<a href="https://github.com/PyThaiNLP/pythainlp/graphs/contributors">
-  <img src="https://contributors-img.firebaseapp.com/image?repo=PyThaiNLP/pythainlp" />
-</a>
+[![Contributors](https://contributors-img.firebaseapp.com/image?repo=PyThaiNLP/pythainlp)](https://github.com/PyThaiNLP/pythainlp/graphs/contributors)
 
 Thanks to all [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contributors). (Image made with [contributors-img](https://contributors-img.firebaseapp.com))
 

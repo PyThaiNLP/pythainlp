@@ -12,19 +12,20 @@
     - `README.md`
     - `README.TH.md`
     - `CHANGELOG.md`
-2. Navigate to the
-   [releases page][releases] and
-   click the "Draft a new release" button.
+2. Navigate to the [releases page][releases] and click the
+   "Draft a new release" button.
    Only project maintainers are able to perform this step.
 3. Then enter the new tag in the "Choose a tag" box.
    The tag should begin with "v", as in, for instance, `v5.0.1`.
 4. The release title should be the same as the new version tag.
    For instance, the title could be `v5.0.1`.
-5. The click the "Generate release notes" button.
-6. You can optionally include any particular thank-you's to contributors or
+5. Add a short summary of important changes in this release.
+   For example, deprecation or termination of support.
+6. Then click the "Generate release notes" button.
+7. You can optionally include any particular thank-you's to contributors or
    reviewers in a note at the bottom of the release.
-7. You can then click "Publish release" button.
-8. If [the CI][ci] run is [successful][actions],
+8. You can then click "Publish release" button.
+9. If [the CI][ci] run is [successful][actions],
    then the release will be published on both
    the GitHub release page and also the [Python Package Index][pypi].
 

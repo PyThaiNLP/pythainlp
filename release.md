@@ -1,17 +1,18 @@
 # How to cut a new release
 
 0. Check if the package can be built properly.
-   Add the prefix "[cd build]" to the commit message to trigger wheel building.
+   Include "[cd build]" in the commit message to trigger wheel building.
 1. This project follows [semantic versioning][semver].
    Ensure the version and release date fields (if any) in these files
    have been updated to the version of the new planned release:
+    - `codemeta.json`
     - `pyproject.toml`
     - `setup.cfg`
     - `setup.py`
+    - `CHANGELOG.md`
     - `CITATION.cff`
     - `README.md`
     - `README.TH.md`
-    - `CHANGELOG.md`
 2. Navigate to the [releases page][releases] and click the
    "Draft a new release" button.
    Only project maintainers are able to perform this step.
@@ -21,6 +22,7 @@
    For instance, the title could be `v5.0.1`.
 5. Add a short summary of important changes in this release.
    For example, deprecation or termination of support.
+   This should be similar to what have been logged in `CHANGELOG.md`.
 6. Then click the "Generate release notes" button.
 7. You can optionally include any particular thank-you's to contributors or
    reviewers in a note at the bottom of the release.

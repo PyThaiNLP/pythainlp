@@ -1,6 +1,7 @@
 ---
-SPDX-FileCopyrightText: 2024 PyThaiNLP Project
-SPDX-License-Identifier: Apache-2.0
+SPDX-FileCopyrightText: 2025 PyThaiNLP Project
+SPDX-FileType: DOCUMENTATION
+SPDX-License-Identifier: CC0-1.0
 ---
 
 # Changelog

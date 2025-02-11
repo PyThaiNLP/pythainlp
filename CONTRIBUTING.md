@@ -1,3 +1,9 @@
+---
+SPDX-FileCopyrightText: 2025 PyThaiNLP Project
+SPDX-FileType: DOCUMENTATION
+SPDX-License-Identifier: CC0-1.0
+---
+
 # Contributing to PyThaiNLP
 
 Hi! Thanks for your interest in contributing to [PyThaiNLP](https://github.com/PyThaiNLP/pythainlp).
@@ -7,27 +13,42 @@ Please refer to our [Contributor Covenant Code of Conduct](https://github.com/Py
 ## Issue Report and Discussion
 
 - Discussion: <https://github.com/PyThaiNLP/pythainlp/discussions>
-- GitHub issues (for problems and suggestions): <https://github.com/PyThaiNLP/pythainlp/issues>
-- Facebook group (not specific to PyThaiNLP, for Thai NLP discussion in general): <https://www.facebook.com/groups/thainlp>
+- GitHub issues (for problems and suggestions):
+  <https://github.com/PyThaiNLP/pythainlp/issues>
+- Facebook group (for general Thai NLP discussion, not specific to PyThaiNLP):
+  <https://www.facebook.com/groups/thainlp>
 
 ## Code
 
 ## Code Guidelines
 
-- Follow [PEP8](http://www.python.org/dev/peps/pep-0008/), use [black](https://github.com/ambv/black) with `--line-length` = 79;
-- Name identifiers (variables, classes, functions, module names) with meaningful
-  and pronounceable names (`x` is always wrong);
-  - Please follow this [naming convention](https://namingconvention.org/python/). For example, global constant variables must be in `ALL_CAPS`;
-  <img src="https://i.stack.imgur.com/uBr10.png" />
-- Write tests for your new features. The test suite is in `tests/` directory. (see "Testing" section below);
+- Follow [PEP8][pep8], use [black][black] with `--line-length` = 79;
+- Name identifiers (variables, classes, functions, module names)
+  with meaningful and pronounceable names (`x` is always wrong);
+  - Please follow this [naming convention][naming].
+    For example, global constant variables must be in `ALL_CAPS`;
+    ![Naming Convention](https://i.stack.imgur.com/uBr10.png)
+- Write tests for your new features. The test suite is in `tests/` directory.
+  (see "Testing" section below);
 - Run all tests before pushing (just execute `tox`) so you will know if your
   changes broke something;
-- Commented out codes are [dead
-  codes](http://www.codinghorror.com/blog/2008/07/coding-without-comments.html);
-- All `#TODO` comments should be turned into [issues](https://github.com/pythainlp/pythainlp/issues) in GitHub;
-- When appropriate, use [f-string](https://www.python.org/dev/peps/pep-0498/)
-  (use `f"{a} = {b}"`, instead of `"{} = {}".format(a, b)` and `"%s = %s' % (a, b)"`);
-- All text files, including source codes, must end with one empty line. This is [to please git](https://stackoverflow.com/questions/5813311/no-newline-at-end-of-file#5813359) and [to keep up with POSIX standard](https://stackoverflow.com/questions/729692/why-should-text-files-end-with-a-newline).
+- Commented out codes are [dead codes][dead-codes];
+- All `#TODO` comments should be turned into [issues][issues] in GitHub;
+- When appropriate, use [f-string][pep0498]
+  (use `f"{a} = {b}"`,
+  instead of `"{} = {}".format(a, b)` and `"%s = %s' % (a, b)"`);
+- All text files, including source codes, must end with one empty line.
+  This is [to please Git][empty-line] and
+  [to keep up with POSIX standard][posix].
+
+[pep8]: http://www.python.org/dev/peps/pep-0008/
+[black]: https://github.com/ambv/black
+[naming]: https://namingconvention.org/python/
+[pep0498]: https://www.python.org/dev/peps/pep-0498/
+[dead-codes]: http://www.codinghorror.com/blog/2008/07/coding-without-comments.html
+[issues]: https://github.com/pythainlp/pythainlp/issues
+[empty-line]: https://stackoverflow.com/questions/5813311/no-newline-at-end-of-file#5813359
+[posix]: https://stackoverflow.com/questions/729692/why-should-text-files-end-with-a-newline
 
 ### Version Control System
 
@@ -42,11 +63,12 @@ so it may be a good idea to familiarize yourself with it.
 
 ### Pull Request
 
-- We use the famous [gitflow](http://nvie.com/posts/a-successful-git-branching-model/)
-to manage our branches.
+- We use the famous [gitflow][] to manage our branches.
 - When you create pull requests on GitHub, GitHub Actions will run tests
 and several checks automatically. Click the "Details" link at the end of
 each check to see what needs to be fixed.
+
+[gitflow]: http://nvie.com/posts/a-successful-git-branching-model/
 
 ## Documentation
 
@@ -131,9 +153,7 @@ See more in [tests/README.md](./tests/README.md)
 
 ## Credits
 
-<a href="https://github.com/PyThaiNLP/pythainlp/graphs/contributors">
-  <img src="https://contributors-img.firebaseapp.com/image?repo=PyThaiNLP/pythainlp" />
-</a>
+[![Contributors](https://contributors-img.firebaseapp.com/image?repo=PyThaiNLP/pythainlp)](https://github.com/PyThaiNLP/pythainlp/graphs/contributors)
 
 Thanks to all [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contributors). (Image made with [contributors-img](https://contributors-img.firebaseapp.com))
 

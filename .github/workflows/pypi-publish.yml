@@ -1,11 +1,19 @@
 # SPDX-FileCopyrightText: 2016-2025 PyThaiNLP Project
+# SPDX-FileType: SOURCE
 # SPDX-License-Identifier: CC0-1.0
 
 name: Build and publish to PyPI
 
 on:
+  push:                 # Use together with "[cd build]" commit message
+    branches:
+      - dev
+  pull_request:         # Use together with "[cd build]" commit message
+    branches:
+      - dev
   release:
-    types: [published]
+    types: [published]  # "Publish release" button
+  workflow_dispatch:    # Manual trigger to test wheel build
 
 jobs:
   echo_github_env:
@@ -66,7 +74,7 @@ jobs:
       run: twine check dist/*
 
     - name: Store distributions
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         path: dist
 
@@ -77,7 +85,7 @@ jobs:
     if: github.event_name == 'release' && github.event.action == 'published'
     steps:
     - name: Retrieve distributions
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: artifact
         path: dist

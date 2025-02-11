@@ -1,3 +1,9 @@
+---
+SPDX-FileCopyrightText: 2025 PyThaiNLP Project
+SPDX-FileType: DOCUMENTATION
+SPDX-License-Identifier: CC0-1.0
+---
+
 # Contributing to PyThaiNLP
 
 Hi! Thanks for your interest in contributing to [PyThaiNLP](https://github.com/PyThaiNLP/pythainlp).

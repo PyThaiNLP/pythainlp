@@ -5,8 +5,15 @@
 name: Build and publish to PyPI
 
 on:
+  push:                 # Use together with "[cd build]" commit message
+    branches:
+      - dev
+  pull_request:         # Use together with "[cd build]" commit message
+    branches:
+      - dev
   release:
-    types: [published]
+    types: [published]  # "Publish release" button
+  workflow_dispatch:    # Manual trigger to test wheel build
 
 jobs:
   echo_github_env:

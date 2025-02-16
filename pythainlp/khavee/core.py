@@ -251,7 +251,7 @@ class KhaveeVerifier:
                 return "เกย"
         elif word[-1] in ["ว"]:
             return "เกอว"
-        elif word[-1] in ["ก", "ข", "ค", "ฆ"]:
+        elif word[-1] in ["ก", "ข", "ค", "ฆ"] or (word[-1] == "ร" and word[-2] == "ก"):
             return "กก"
         elif word[-1] in [
             "จ",

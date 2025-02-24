@@ -13,30 +13,6 @@ Before using this module, you need to ensure that the `numpy` and `gensim` libra
 
 Modules
 -------
-.. autofunction:: doesnt_match
-   :noindex:
-
-   The `doesnt_match` function is designed to identify the word that does not match a set of words in terms of semantic similarity. It is useful for tasks like word sense disambiguation.
-
-.. autofunction:: get_model
-   :noindex:
-
-   The `get_model` function allows you to load a pre-trained word vector model, which can then be used for various word vector operations. This function serves as the entry point for accessing pre-trained word vectors.
-
-.. autofunction:: most_similar_cosmul
-   :noindex:
-
-   The `most_similar_cosmul` function finds words that are most similar to a given word in terms of cosine similarity. This function is useful for word analogy tasks and word similarity measurement.
-
-.. autofunction:: sentence_vectorizer
-   :noindex:
-
-   The `sentence_vectorizer` function takes a sentence as input and returns a vector representation of the entire sentence based on word vectors. This is valuable for document similarity and text classification tasks.
-
-.. autofunction:: similarity
-   :noindex:
-
-   The `similarity` function calculates the cosine similarity between two words based on their word vectors. It helps in measuring the semantic similarity between words.
 
 .. autoclass:: WordVector
    :members:

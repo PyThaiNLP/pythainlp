@@ -11,9 +11,13 @@ Notable changes between versions.
 - For full release notes, see:
   <https://github.com/PyThaiNLP/pythainlp/releases>
 - For detailed commit changes, see:
-  <https://github.com/PyThaiNLP/pythainlp/compare/v5.0.4...dev> (select tags to compare)
+  <https://github.com/PyThaiNLP/pythainlp/compare/v5.1.0...dev> (select tags to compare)
 
-## Version 5.0.5 -> Dev
+## Version 5.1.0 -> Dev
+
+[WIP]
+
+## Version 5.0.5 -> 5.1.0
 
 - Add Thai Discourse Treebank postag #910
 - Add Thai Universal Dependency Treebank postag #916
@@ -21,6 +25,10 @@ Notable changes between versions.
 - Add support for list of strings as input to sent_tokenize() #927
 - Add pythainlp.tools.safe_print to handle UnicodeEncodeError on console #969
 - Fix collate() to consider tonemark in ordering #926
+- Fix nlpo3.load_dict() that never print error msg when not success #979
+- Add Thai Solar Date convert to Thai Lunar Date #998
+- Add Thai pangram text #1045
+- Remove clause_tokenize #1024
 
 ## Version 5.0.4 -> 5.0.5
 

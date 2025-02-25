@@ -8,13 +8,6 @@ Introduction
 
 The `pythainlp.augment` module is a powerful toolset for text augmentation in the Thai language. Text augmentation is a process that enriches and diversifies textual data by generating alternative versions of the original text. This module is a valuable resource for improving the quality and variety of Thai language data for NLP tasks.
 
-TextAugment Class
------------------
-
-The central component of the `pythainlp.augment` module is the `TextAugment` class. This class provides various text augmentation techniques and functions to enhance the diversity of your text data. It offers the following methods:
-
-.. autoclass:: pythainlp.augment.TextAugment
-   :members:
 
 WordNetAug Class
 ----------------

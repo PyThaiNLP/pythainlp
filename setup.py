@@ -199,7 +199,7 @@ setup(
         ],
     },
     project_urls={
-        "Documentation": "https://pythainlp.org/docs/5.0/",
+        "Documentation": "https://pythainlp.org/docs/5.1/",
         "Tutorials": "https://pythainlp.org/tutorials/",
         "Source Code": "https://github.com/PyThaiNLP/pythainlp",
         "Bug Tracker": "https://github.com/PyThaiNLP/pythainlp/issues",

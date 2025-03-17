@@ -31,7 +31,7 @@ spacy==3.5.*
 spylls==0.1.7
 ssg==0.0.8
 symspellpy==6.9.0
-tensorflow==2.18.0
+tensorflow==2.18.1
 thai-nner==0.3
 tltk==1.6.8
 torch==1.13.1

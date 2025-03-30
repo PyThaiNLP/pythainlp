@@ -150,7 +150,7 @@ class Encoder(nn.Module):
 
         sequences_output = sequences_output.index_select(
             0, index_unsort.clone().detach()
-        ).to(device)
+        )
         return sequences_output, hidden
 
     def init_hidden(self, batch_size):

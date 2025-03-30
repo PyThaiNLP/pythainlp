@@ -130,10 +130,10 @@ class Encoder(nn.Module):
 
         sequences_lengths = torch.flip(
             torch.sort(sequences_lengths).values, dims=(0,)
-        ).to(device)  # Ensure sequences_lengths is on the correct device
-        index_sorted = torch.sort(-1 * sequences_lengths).indices.to(device)  # Move to device
-        index_unsort = torch.sort(index_sorted).indices.to(device)  # Move to device
-        sequences = sequences.index_select(0, index_sorted)  # sequences is already on device
+        ).to(device)
+        index_sorted = torch.sort(-1 * sequences_lengths).indices
+        index_unsort = torch.sort(index_sorted).indices  # to unsorted sequence
+        sequences = sequences.index_select(0, index_sorted.to(device))
 
         sequences = self.character_embedding(sequences)
         sequences = self.dropout(sequences)
@@ -150,7 +150,7 @@ class Encoder(nn.Module):
 
         sequences_output = sequences_output.index_select(
             0, index_unsort.clone().detach()
-        ).to(device)  # Ensure sequences_output is on the correct device
+        ).to(device)
         return sequences_output, hidden
 
     def init_hidden(self, batch_size):

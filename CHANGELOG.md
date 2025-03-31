@@ -11,13 +11,13 @@ Notable changes between versions.
 - For full release notes, see:
   <https://github.com/PyThaiNLP/pythainlp/releases>
 - For detailed commit changes, see:
-  <https://github.com/PyThaiNLP/pythainlp/compare/v5.1.0...dev> (select tags to compare)
+  <https://github.com/PyThaiNLP/pythainlp/compare/v5.1.1...dev> (select tags to compare)
 
-## Version 5.1.0 -> Dev
+## Version 5.1.1 -> Dev
 
 [WIP]
 
-## Version 5.0.5 -> 5.1.0
+## Version 5.0.5 -> 5.1.1
 
 - Add Thai Discourse Treebank postag #910
 - Add Thai Universal Dependency Treebank postag #916

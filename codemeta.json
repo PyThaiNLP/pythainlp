@@ -3,7 +3,7 @@
   "@type": "SoftwareSourceCode",
   "name": "PyThaiNLP",
   "description": "Thai Natural Language Processing in Python",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "author": [
     {
       "@type": "Person",

@@ -30,7 +30,7 @@ pip install pythainlp
 
 | Version | Description | Status |
 |:------:|:--:|:------:|
-| [5.1.0](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/900) |
+| [5.1.1](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/900) |
 | [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 5.2 | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/1080) |
 
 ## Getting Started

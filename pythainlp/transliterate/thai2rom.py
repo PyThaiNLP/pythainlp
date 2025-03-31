@@ -130,7 +130,7 @@ class Encoder(nn.Module):
 
         sequences_lengths = torch.flip(
             torch.sort(sequences_lengths).values, dims=(0,)
-        )
+        ).to(device)
         index_sorted = torch.sort(-1 * sequences_lengths).indices
         index_unsort = torch.sort(index_sorted).indices  # to unsorted sequence
         sequences = sequences.index_select(0, index_sorted.to(device))
@@ -139,7 +139,7 @@ class Encoder(nn.Module):
         sequences = self.dropout(sequences)
 
         sequences_packed = nn.utils.rnn.pack_padded_sequence(
-            sequences, sequences_lengths.clone(), batch_first=True
+            sequences, sequences_lengths.clone().to("cpu", torch.int64), batch_first=True
         )
 
         sequences_output, hidden = self.rnn(sequences_packed, hidden)

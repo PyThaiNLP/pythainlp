@@ -17,7 +17,12 @@ Notable changes between versions.
 
 [WIP]
 
-## Version 5.0.5 -> 5.1.1
+## Version 5.1.0 -> 5.1.1
+
+- PR Description: Refactor thai_consonants_all to Use set in syllable.py #1087
+- ThaiTransliterator: Select 1D CPU int64 tensor device #1089
+
+## Version 5.0.5 -> 5.1.0
 
 - Add Thai Discourse Treebank postag #910
 - Add Thai Universal Dependency Treebank postag #916

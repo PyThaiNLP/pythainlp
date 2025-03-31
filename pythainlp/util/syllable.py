@@ -21,7 +21,7 @@ spelling_class = {
     "กบ": list("บปภพฟ"),
 }
 
-thai_consonants_all = list(thai_consonants)
+thai_consonants_all = set(thai_consonants)
 thai_consonants_all.remove("อ")
 
 _temp = list("".join(["".join(v) for v in spelling_class.values()]))
@@ -87,7 +87,7 @@ def sound_syllable(syllable: str) -> str:
         return "dead"
 
     # get consonants
-    consonants = [i for i in syllable if i in list(thai_consonants_all)]
+    consonants = [i for i in syllable if i in thai_consonants_all]
     if (
         (len(consonants) == 0)
         and ("อ" in syllable)

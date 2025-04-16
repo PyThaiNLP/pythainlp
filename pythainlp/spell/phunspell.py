@@ -13,7 +13,10 @@ A pure Python spell checker utilizing spylls, a port of Hunspell.
 """
 from typing import List
 
-import phunspell
+try:
+    import phunspell
+except ImportError:
+    raise ImportError("Import Error; Install phunspell by pip install phunspell")
 
 pspell = phunspell.Phunspell("th_TH")
 

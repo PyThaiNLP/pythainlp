@@ -15,7 +15,10 @@ We used unigram & bigram from Thai National Corpus (TNC).
 
 from typing import List
 
-from symspellpy import SymSpell, Verbosity
+try:
+    import symspellpy
+except ImportError:
+    raise ImportError("Import Error; Install symspellpy by pip install symspellpy")
 
 from pythainlp.corpus import get_corpus_path, path_pythainlp_corpus
 

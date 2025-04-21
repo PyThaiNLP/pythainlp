@@ -19,7 +19,7 @@ pandas==2.2.*
 panphon==0.21.2
 phunspell==0.1.6
 protobuf==5.29.3
-pyicu==2.15
+pyicu==2.15.1
 python-crfsuite==0.9.11
 requests==2.32.*
 sacremoses==0.1.1

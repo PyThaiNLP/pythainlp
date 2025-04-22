@@ -13,7 +13,6 @@ BLEU 20.4
 
 - Huggingface https://huggingface.co/Helsinki-NLP/opus-mt-th-fr
 """
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 
 class ThFrTranslator:
@@ -36,6 +35,7 @@ class ThFrTranslator:
         use_gpu: bool = False,
         pretrained: str = "Helsinki-NLP/opus-mt-th-fr",
     ) -> None:
+        from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
         self.tokenizer_thzh = AutoTokenizer.from_pretrained(pretrained)
         self.model_thzh = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
         if use_gpu:

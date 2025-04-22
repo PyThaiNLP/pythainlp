@@ -6,9 +6,9 @@
 Language translation.
 """
 
-__all__ = ["Translate", "ThZhTranslator", "ZhThTranslator"]
+__all__ = ["Translate", "ThZhTranslator", "ZhThTranslator", "word_translate"]
 
-from pythainlp.translate.core import Translate
+from pythainlp.translate.core import Translate, word_translate
 from pythainlp.translate.zh_th import (
     ThZhTranslator,
     ZhThTranslator,

@@ -12,6 +12,9 @@ Modules
    
    The `Translate` class is the central component of the module, offering a unified interface for various translation tasks. It acts as a coordinator, directing translation requests to specific language pairs and models.
 
+.. autoclass:: word_translate
+   :members:
+
 .. autofunction::  pythainlp.translate.en_th.download_model_all
     :noindex:
     

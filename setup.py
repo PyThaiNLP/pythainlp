@@ -85,6 +85,7 @@ extras = {
         "sentencepiece>=0.1.91",
         "torch>=1.0.0",
         "transformers>=4.6.0",
+        "word2word>=1.0.0"
     ],
     "transformers_ud": [
         "transformers>=4.22.1",
@@ -145,6 +146,7 @@ extras = {
         "ufal.chu-liu-edmonds>=1.0.2",
         "wtpsplit>=1.0.1",
         "wunsen>=0.0.3",
+        "word2word>=1.0.0",
     ],
 }
 

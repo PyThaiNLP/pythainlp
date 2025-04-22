@@ -11,8 +11,15 @@ Website: https://airesearch.in.th/releases/machine-translation-models/
 """
 import os
 
-from fairseq.models.transformer import TransformerModel
-from sacremoses import MosesTokenizer
+try:
+    from fairseq.models.transformer import TransformerModel
+except ImportError:
+    raise ImportError("Not found fairseq! Please install fairseq by pip install fairseq")
+
+try:
+    from sacremoses import MosesTokenizer
+except ImportError:
+    raise ImportError("Not found sacremoses! Please install sacremoses by pip install sacremoses")
 
 from pythainlp.corpus import download, get_corpus_path
 

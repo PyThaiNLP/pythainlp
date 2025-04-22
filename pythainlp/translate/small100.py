@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: 2016-2025 PyThaiNLP Project
+# SPDX-FileType: SOURCE
+# SPDX-License-Identifier: Apache-2.0
 from transformers import M2M100ForConditionalGeneration
 
 from .tokenization_small100 import SMALL100Tokenizer

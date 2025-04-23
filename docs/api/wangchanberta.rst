@@ -2,11 +2,11 @@
 
 pythainlp.wangchanberta
 =======================
-The `pythainlp.wangchanberta` module is built upon the WangchanBERTa base model, specifically the `wangchanberta-base-att-spm-uncased` model, as detailed in the paper by Lowphansirikul et al. [^Lowphansirikul_2021].
+The `pythainlp.wangchanberta` module is built upon the WangchanBERTa base model, specifically the `wangchanberta-base-att-spm-uncased` model, as detailed in the paper by Lowphansirikul et al. [#Lowphansirikul_2021]_.
 
 This base model is utilized for various natural language processing tasks in the Thai language, including named entity recognition, part-of-speech tagging, and subword tokenization.
 
-If you intend to fine-tune the model or explore its capabilities further, please refer to the [thai2transformers repository](https://github.com/vistec-AI/thai2transformers).
+If you intend to fine-tune the model or explore its capabilities further, please refer to the `thai2transformers repository <https://github.com/vistec-AI/thai2transformers>`_.
 
 **Speed Benchmark**
 
@@ -24,8 +24,8 @@ For a comprehensive performance benchmark, the following notebooks are available
    Colab`_
 -  `pythainlp.wangchanberta GPU`_
 
-.. _PyThaiNLP basic function and pythainlp.wangchanberta CPU at Google Colab: https://colab.research.google.com/drive/1ymTVB1UESXAyZlSpjknCb72xpdcZ86Db?usp=sharing
-.. _pythainlp.wangchanberta GPU: https://colab.research.google.com/drive/1AtkFT1HMGL2GO7O2tM_hi_7mExKwmhMw?usp=sharing
+.. _PyThaiNLP basic function and pythainlp.wangchanberta CPU at Google Colab: `https://colab.research.google.com/drive/1ymTVB1UESXAyZlSpjknCb72xpdcZ86Db?usp=sharing <https://colab.research.google.com/drive/1ymTVB1UESXAyZlSpjknCb72xpdcZ86Db?usp=sharing>`_
+.. _pythainlp.wangchanberta GPU: `https://colab.research.google.com/drive/1AtkFT1HMGL2GO7O2tM_hi_7mExKwmhMw?usp=sharing <https://colab.research.google.com/drive/1AtkFT1HMGL2GO7O2tM_hi_7mExKwmhMw?usp=sharing>`_
 
 Modules
 -------
@@ -47,4 +47,4 @@ Modules
 References
 ----------
 
-[^Lowphansirikul_2021] Lowphansirikul L, Polpanumas C, Jantrakulchai N, Nutanong S. WangchanBERTa: Pretraining transformer-based Thai Language Models. [ArXiv:2101.09635](http://arxiv.org/abs/2101.09635) [Internet]. 2021 Jan 23 [cited 2021 Feb 27].
+.. [#Lowphansirikul_2021] Lowphansirikul L, Polpanumas C, Jantrakulchai N, Nutanong S. WangchanBERTa: Pretraining transformer-based Thai Language Models. `ArXiv:2101.09635 <http://arxiv.org/abs/2101.09635>`_ [Internet]. 2021 Jan 23 [cited 2021 Feb 27].

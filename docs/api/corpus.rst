@@ -122,15 +122,6 @@ pythainlp.corpus.th_en_translit.get_transliteration_dict
 .. autofunction:: pythainlp.corpus.th_en_translit.get_transliteration_dict
    :noindex:
 
-ConceptNet
-----------
-
-ConceptNet is an open, multilingual knowledge graph used for various natural language understanding tasks. For more information, refer to the `ConceptNet documentation <https://github.com/commonsense/conceptnet5/wiki/API>`_.
-
-pythainlp.corpus.conceptnet.edges
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.. autofunction:: pythainlp.corpus.conceptnet.edges
-   :noindex:
 
 TNC (Thai National Corpus)
 ---

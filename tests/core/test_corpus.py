@@ -9,7 +9,6 @@ import unittest
 from requests import Response
 
 from pythainlp.corpus import (
-    conceptnet,
     countries,
     download,
     find_synonyms,
@@ -39,9 +38,6 @@ from pythainlp.corpus.util import revise_newmm_default_wordset
 
 
 class CorpusTestCase(unittest.TestCase):
-    def test_conceptnet(self):
-        self.assertIsNotNone(conceptnet.edges("รัก"))
-
     def test_corpus(self):
         self.assertIsInstance(thai_negations(), frozenset)
         self.assertGreater(len(thai_negations()), 0)

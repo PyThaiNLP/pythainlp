@@ -16,7 +16,7 @@ We used unigram & bigram from Thai National Corpus (TNC).
 from typing import List
 
 try:
-    from symspellpy import SymSpell
+    from symspellpy import SymSpell, Verbosity
 except ImportError:
     raise ImportError("Import Error; Install symspellpy by pip install symspellpy")
 

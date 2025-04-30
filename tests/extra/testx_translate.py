@@ -5,7 +5,7 @@
 
 import unittest
 
-from pythainlp.translate import Translate
+from pythainlp.translate import Translate, word_translate
 from pythainlp.translate.en_th import (
     EnThTranslator,
     ThEnTranslator,
@@ -73,3 +73,23 @@ class TranslateTestCaseX(unittest.TestCase):
         # )
         with self.assertRaises(ValueError):
             self.th_cat_translator = Translate('th', 'cat', engine="fkfj")
+
+    def test_word_translate(self):
+        self.assertIsNone(word_translate("cat", src="en", target="th"))
+        self.assertIsNone(word_translate("แมว", src="en", target="th"))
+        self.assertIsNone(
+            word_translate("cat", src="en", target="th", engine="word2word")
+        )
+        self.assertIsNone(
+            word_translate("แมว", src="en", target="th", engine="word2word")
+        )
+        self.assertEqual(
+            word_translate("แมว", src="th", target="th", engine="word2word"),
+            ["แมว"]
+        )
+
+        with self.assertRaises(NotImplementedError):
+            word_translate("cat", src="en", target="th", engine="cat")
+
+        with self.assertRaises(NotImplementedError):
+            word_translate("แมว", src="th", target="xxx", engine="word2word")

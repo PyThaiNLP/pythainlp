@@ -10,7 +10,6 @@ from AI builder
 - GitHub: https://github.com/LalitaDeelert/lalita-mt-zhth
 - Facebook post https://web.facebook.com/aibuildersx/posts/166736255494822
 """
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 
 class ThZhTranslator:
@@ -30,6 +29,7 @@ class ThZhTranslator:
         use_gpu: bool = False,
         pretrained: str = "Lalita/marianmt-th-zh_cn",
     ) -> None:
+        from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
         self.tokenizer_thzh = AutoTokenizer.from_pretrained(pretrained)
         self.model_thzh = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
         if use_gpu:

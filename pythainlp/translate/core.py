@@ -2,6 +2,8 @@
 # SPDX-FileCopyrightText: 2016-2025 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from typing import List, Union
+
 
 class Translate:
     """
@@ -83,7 +85,7 @@ class Translate:
         else:
             raise ValueError("Not support language!")
 
-    def translate(self, text) -> str:
+    def translate(self, text: str) -> str:
         """
         Translate text
 
@@ -94,3 +96,43 @@ class Translate:
         if self.engine == "small100":
             return self.model.translate(text, tgt_lang=self.target_lang)
         return self.model.translate(text)
+
+
+def word_translate(
+        word: str,
+        src: str,
+        target: str,
+        engine: str="word2word"
+    ) -> Union[List[str], None]:
+    """
+    Translate word from source language to target language.
+
+    :param str word: text
+    :param str src: src language
+    :param str target: target language
+    :param str engine: Word translate engine (the default engine is word2word)
+    :return: return list word translate or None
+    :rtype: Union[List[str], None]
+
+    :Example:
+
+    Translate word from Thai to English::
+
+        from pythainlp.translate import word_translate
+        print(word_translate("แมว","th","en"))
+        # output: ['cat', 'cats', 'kitty', 'kitten', 'Cat']
+
+    Translate word from English to Thai::
+
+        from pythainlp.translate import word_translate
+        print(word_translate("cat","en","th"))
+        # output: ['แมว', 'แมวป่า', 'ข่วน', 'เลี้ยง', 'อาหาร']
+
+    """
+    if engine=="word2word":
+        from .word2word_translate import translate
+        return translate(word=word, src=src, target=target)
+    else:
+        raise NotImplementedError(
+            f"pythainlp.translate.word_translate isn't support {engine}."
+        )

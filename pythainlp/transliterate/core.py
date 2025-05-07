@@ -26,7 +26,7 @@ def romanize(
     :param str fallback_engine: If engine equals 'lookup', use `fallback_engine` for words that are not in the transliteration dict.
                                 No effect on other engines. Default to 'royin'.
 
-    :return: A string of a Thai word rendered in the Latin alphabet. ()
+    :return: A string of a Thai word rendered in the Latin alphabet.
     :rtype: str
 
     :Options for engines:

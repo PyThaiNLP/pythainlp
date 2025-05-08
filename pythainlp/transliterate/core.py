@@ -9,7 +9,7 @@ DEFAULT_PRONUNCIATE_ENGINE = "w2p"
 
 
 def romanize(
-    word: str,
+    text: str,
     engine: str = DEFAULT_ROMANIZE_ENGINE,
     fallback_engine: str = DEFAULT_ROMANIZE_ENGINE,
 ) -> str:
@@ -19,7 +19,7 @@ def romanize(
     [#rtgs_transcription]_. RTGS is the official system published
     by the Royal Institute of Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
 
-    :param str word: A Thai word to be romanized. \
+    :param str text: A Thai word to be romanized. \
         The input should not include whitespace because \
         the function is support subwords by spliting whitespace.
     :param str engine: One of 'royin' (default), 'thai2rom', 'thai2rom_onnx, 'tltk', and 'lookup'. See more in options for engine section.
@@ -81,18 +81,18 @@ def romanize(
 
         return romanize
 
-    if not word or not isinstance(word, str):
+    if not text or not isinstance(text, str):
         return ""
 
     if engine == "lookup":
         from pythainlp.transliterate.lookup import romanize
 
         fallback = select_romanize_engine(fallback_engine)
-        return romanize(word, fallback_func=fallback)
+        return romanize(text, fallback_func=fallback)
     else:
         rom_engine = select_romanize_engine(engine)
         trans_word = []
-        for subword in word.split(' '):
+        for subword in text.split(' '):
             trans_word.append(rom_engine(subword))
         new_word = ' '.join(trans_word)
         return new_word

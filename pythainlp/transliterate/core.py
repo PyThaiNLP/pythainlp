@@ -14,17 +14,19 @@ def romanize(
     fallback_engine: str = DEFAULT_ROMANIZE_ENGINE,
 ) -> str:
     """
-    This function renders Thai words in the Latin alphabet or "romanization",
+    This function renders Thai word in the Latin alphabet or "romanization",
     using the Royal Thai General System of Transcription (RTGS)
     [#rtgs_transcription]_. RTGS is the official system published
     by the Royal Institute of Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
 
-    :param str text: Thai text to be romanized
+    :param str text: A Thai word to be romanized. \
+        The input should not include whitespace because \
+        the function is support subwords by spliting whitespace.
     :param str engine: One of 'royin' (default), 'thai2rom', 'thai2rom_onnx, 'tltk', and 'lookup'. See more in options for engine section.
     :param str fallback_engine: If engine equals 'lookup', use `fallback_engine` for words that are not in the transliteration dict.
                                 No effect on other engines. Default to 'royin'.
 
-    :return: A string of Thai words rendered in the Latin alphabet.
+    :return: A string of a Thai word rendered in the Latin alphabet.
     :rtype: str
 
     :Options for engines:
@@ -52,6 +54,9 @@ def romanize(
 
         romanize("ภาพยนตร์", engine="royin")
         # output: 'phapn'
+
+        romanize("รส ดี", engine="royin") # subwords
+        # output: 'rot di'
 
         romanize("ภาพยนตร์", engine="thai2rom")
         # output: 'phapphayon'
@@ -87,9 +92,9 @@ def romanize(
     else:
         rom_engine = select_romanize_engine(engine)
         trans_word = []
-        for word in text.split(' '):
-            trans_word.append(rom_engine(word))
-        new_word = ''.join(trans_word)
+        for subword in text.split(' '):
+            trans_word.append(rom_engine(subword))
+        new_word = ' '.join(trans_word)
         return new_word
 
 

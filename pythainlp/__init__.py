@@ -2,7 +2,7 @@
 # SPDX-FileCopyrightText: 2016-2025 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-__version__ = "5.1.1"
+__version__ = "5.1.2"
 
 thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44 chars
 

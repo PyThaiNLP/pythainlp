@@ -11,11 +11,15 @@ Notable changes between versions.
 - For full release notes, see:
   <https://github.com/PyThaiNLP/pythainlp/releases>
 - For detailed commit changes, see:
-  <https://github.com/PyThaiNLP/pythainlp/compare/v5.1.1...dev> (select tags to compare)
+  <https://github.com/PyThaiNLP/pythainlp/compare/v5.1.2...dev> (select tags to compare)
 
-## Version 5.1.1 -> Dev
+## Version 5.1.2 -> Dev
 
 [WIP]
+
+## Version 5.1.1 -> 5.1.2
+
+- Update romanize docs and keep space #1110
 
 ## Version 5.1.0 -> 5.1.1
 

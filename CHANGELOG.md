@@ -21,7 +21,7 @@ Notable changes between versions.
 
 - Update romanize docs and keep space #1110
 
-## Version 5.1.0 -> 5.1.2
+## Version 5.1.0 -> 5.1.1
 
 - PR Description: Refactor thai_consonants_all to Use set in syllable.py #1087
 - ThaiTransliterator: Select 1D CPU int64 tensor device #1089

@@ -5,7 +5,7 @@
 
 import unittest
 
-from pythainlp.ancient import aksonhan_to_current
+from pythainlp.ancient import aksonhan_to_current, convert_currency
 
 
 class AncientTestCase(unittest.TestCase):
@@ -23,3 +23,25 @@ class AncientTestCase(unittest.TestCase):
         self.assertEqual(aksonhan_to_current("หลงง"), "หลัง")
         self.assertEqual(aksonhan_to_current("บงงคบบ"), "บังคับ")
         self.assertEqual(aksonhan_to_current("สรรเพชญ"), "สรรเพชญ")
+
+    def test_convert_currency(self):
+        self.assertEqual(
+            convert_currency(80, "บาท")["ตำลึง"],
+            20.0
+        )
+        self.assertEqual(
+            convert_currency(80, "บาท")["ชั่ง"],
+            1.0
+        )
+        self.assertEqual(
+            convert_currency(80, "บาท")["บาท"],
+            80.0
+        )
+        self.assertEqual(
+            convert_currency(1,"ชั่ง")["บาท"],
+            80.0
+        )
+        self.assertEqual(
+            convert_currency(1,"ชั่ง")["ชั่ง"],
+            1.0
+        )

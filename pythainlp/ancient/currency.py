@@ -7,11 +7,41 @@ def convert_currency(value: float, from_unit: str) -> dict:
     """
     Convert ancient Thai currency to other units
 
+    * เบี้ย (Bia)
+    * อัฐ (At)
+    * ไพ (Pi)
+    * เฟื้อง (Feuang)
+    * สลึง (Saleung)
+    * บาท (Bath)
+    * ตำลึง (Tamleung)
+    * ชั่ง (Chang)
+
+    See more:
+        `Thai money <https://en.wikipedia.org/wiki/History_of_Thai_money>`_.
+
     :param float value: value
     :param str from_unit: currency unit \
         ('เบี้ย', 'อัฐ', 'ไพ', 'เฟื้อง', 'สลึง', 'บาท', 'ตำลึง', 'ชั่ง')
     :return: Thai currency
     :rtype: dict
+
+    :Example:
+    ::
+
+        from pythainlp.ancient import convert_currency
+
+        print(convert_currency(8, "บาท"))
+        # output:
+        # {
+        #  'เบี้ย': 51200.0,
+        #  'อัฐ': 512.0,
+        #  'ไพ': 256.0,
+        #  'เฟื้อง': 64.0,
+        #  'สลึง': 32.0,
+        #  'บาท': 8.0,
+        #  'ตำลึง': 2.0,
+        #  'ชั่ง': 0.1
+        # }
     """
     conversion_factors_to_att = {
         'เบี้ย': 1,

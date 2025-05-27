@@ -137,7 +137,6 @@ extras = {
         "sentence-transformers>=2.2.2",
         "spacy>=3.0",
         "spacy_thai>=0.7.1",
-        "spylls>=0.1.5",
         "ssg>=0.0.8",
         "symspellpy>=6.7.6",
         "thai_nner",

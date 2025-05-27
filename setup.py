@@ -80,7 +80,7 @@ extras = {
     "thai2fit": ["emoji>=0.5.1", "gensim>=4.0.0", "numpy>=1.22"],
     "thai2rom": ["numpy>=1.22", "torch>=1.0.0"],
     "translate": [
-        'fairseq>=0.10.0,<0.13;python_version<="3.11"',
+        'fairseq>=0.10.0,<0.13;python_version<"3.11"',
         'fairseq-fixed==0.12.3.1,<0.13;python_version>="3.11"',
         "sacremoses>=0.0.41",
         "sentencepiece>=0.1.91",
@@ -118,7 +118,7 @@ extras = {
         "bpemb>=0.3.2",
         "emoji>=0.5.1",
         "epitran>=1.1",
-        'fairseq>=0.10.0,<0.13;python_version<="3.11"',
+        'fairseq>=0.10.0,<0.13;python_version<"3.11"',
         'fairseq-fixed==0.12.3.1,<0.13;python_version>="3.11"',
         "fastai<2.0",
         "fastcoref>=2.1.5",

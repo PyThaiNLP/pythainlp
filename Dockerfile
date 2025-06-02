@@ -2,12 +2,13 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-FROM python:3.8-slim-buster
+FROM python:3.12
 
 COPY . .
 
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential libicu-dev libicu63 pkg-config && rm -rf /var/lib/apt/lists/*
-
-RUN pip3 install --upgrade pip setuptools
-RUN if [ -f docker_requirements.txt ]; then pip3 install -r docker_requirements.txt; fi
-RUN pip3 install -e .[full] && pip3 cache purge
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential libicu-dev  python3-pip python3-venv pkg-config && rm -rf /var/lib/apt/lists/*
+ENV VIRTUAL_ENV=/opt/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+RUN if [ -f docker_requirements.txt ]; then pip install -r docker_requirements.txt; fi
+RUN pip install -e .[full] && pip cache purge

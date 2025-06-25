@@ -22,6 +22,9 @@ Modules
     
     Returns the path to the PyThaiNLP library directory. This function is vital for PyThaiNLP's internal operations and library management.
 
+.. autofunction:: safe_print
+    :noindex:
+
 .. autofunction:: pythainlp.tools.misspell.misspell
     :noindex:
     

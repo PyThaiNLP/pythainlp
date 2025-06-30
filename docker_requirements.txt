@@ -30,7 +30,7 @@ symspellpy==6.9.0
 thai-nner==0.3
 tltk>=1.6.8,<2
 torch>=1.13.1,<3
-transformers==4.52.4
+transformers==4.53.0
 ufal.chu-liu-edmonds==1.0.3
 wtpsplit==1.3.0
 wunsen==0.0.3

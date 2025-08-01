@@ -1,0 +1,11 @@
+services:
+  pythainlp:
+    build: .
+    image: pythainlp:latest
+    volumes:
+      - .:/workspace
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    environment:
+      - PYTHAINLP_DATA_DIR=/workspace/pythainlp-data

@@ -82,16 +82,17 @@ class NER:
             >>> from pythainlp.tag import NER
             >>>
             >>> ner = NER("thainer")
-            >>> ner.tag("ทดสอบนายวรรณพงษ์ ภัททิยไพบูลย์")
+            >>> ner.tag("ทดสอบ นายวรรณพงษ์ ภัททิยไพบูลย์")
             [('ทดสอบ', 'O'),
+            [(' ', 'O'),
             ('นาย', 'B-PERSON'),
             ('วรรณ', 'I-PERSON'),
             ('พงษ์', 'I-PERSON'),
             (' ', 'I-PERSON'),
             ('ภัททิย', 'I-PERSON'),
             ('ไพบูลย์', 'I-PERSON')]
-            >>> ner.tag("ทดสอบนายวรรณพงษ์ ภัททิยไพบูลย์", tag=True)
-            'ทดสอบ<PERSON>นายวรรณพงษ์ ภัททิยไพบูลย์</PERSON>'
+            >>> ner.tag("ทดสอบ นายวรรณพงษ์ ภัททิยไพบูลย์", tag=True)
+            'ทดสอบ <PERSON>นายวรรณพงษ์ ภัททิยไพบูลย์</PERSON>'
         """
         return self.engine.get_ner(text, tag=tag, pos=pos)
 

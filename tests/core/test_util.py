@@ -178,9 +178,9 @@ class UtilTestCase(unittest.TestCase):
             thai_digit_to_arabic_digit(None)
 
         self.assertEqual(digit_to_text("RFC 7258"), "RFC เจ็ดสองห้าแปด")
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             digit_to_text("")
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             digit_to_text(None)
 
         self.assertEqual(text_to_arabic_digit("เจ็ด"), "7")

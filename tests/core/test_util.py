@@ -164,14 +164,18 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(
             arabic_digit_to_thai_digit("ไทยแลนด์ 4.0"), "ไทยแลนด์ ๔.๐"
         )
-        self.assertEqual(arabic_digit_to_thai_digit(""), "")
-        self.assertEqual(arabic_digit_to_thai_digit(None), "")
+        with self.assertRaises(TypeError):
+            arabic_digit_to_thai_digit("")
+        with self.assertRaises(TypeError):
+            arabic_digit_to_thai_digit(None)
 
         self.assertEqual(
             thai_digit_to_arabic_digit("๔๐๔ Not Found"), "404 Not Found"
         )
-        self.assertEqual(thai_digit_to_arabic_digit(""), "")
-        self.assertEqual(thai_digit_to_arabic_digit(None), "")
+        with self.assertRaises(TypeError):
+            thai_digit_to_arabic_digit("")
+        with self.assertRaises(TypeError):
+            thai_digit_to_arabic_digit(None)
 
         self.assertEqual(digit_to_text("RFC 7258"), "RFC เจ็ดสองห้าแปด")
         self.assertEqual(digit_to_text(""), "")

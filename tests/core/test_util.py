@@ -184,14 +184,12 @@ class UtilTestCase(unittest.TestCase):
             digit_to_text(None)
 
         self.assertEqual(text_to_arabic_digit("เจ็ด"), "7")
-        with self.assertRaises(TypeError):
-            text_to_arabic_digit("")
+        self.assertEqual(text_to_arabic_digit(""), "")
         with self.assertRaises(TypeError):
             text_to_arabic_digit(None)
 
         self.assertEqual(text_to_thai_digit("เก้า"), "๙")
-        with self.assertRaises(TypeError):
-            text_to_thai_digit("")
+        self.assertEqual(text_to_thai_digit(""), "")
         with self.assertRaises(TypeError):
             text_to_thai_digit(None)
 

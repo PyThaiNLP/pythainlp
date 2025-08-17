@@ -84,7 +84,7 @@ def thai_digit_to_arabic_digit(text: str) -> str:
         # output: เป็นจำนวน 123,400.25 บาท
     """
     if not text or not isinstance(text, str):
-        return ""
+        raise TypeError("The text must be str type.")
 
     return text.translate(_thai_arabic_translate_table)
 
@@ -110,7 +110,7 @@ def arabic_digit_to_thai_digit(text: str) -> str:
         # output: เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท
     """
     if not text or not isinstance(text, str):
-        return ""
+        raise TypeError("The text must be str type.")
 
     # Convert Arabic to Thai numerals
     return text.translate(_arabic_thai_translate_table)
@@ -122,7 +122,7 @@ def digit_to_text(text: str) -> str:
     :return: Text with digits spelled out in Thai
     """
     if not text or not isinstance(text, str):
-        return ""
+        raise TypeError("The text must be str type.")
 
     # Convert Thai numerals to Arabic ones
     text = text.translate(_thai_arabic_translate_table)
@@ -161,7 +161,9 @@ def text_to_arabic_digit(text: str) -> str:
         text_to_arabic_digit("เก้าร้อย") == ""
         # output: True
     """
-    if not text or text not in _spell_digit:
+    if not isinstance(text, str):
+        raise TypeError("The text must be str type.")
+    elif not text or text not in _spell_digit:
         return ""
 
     return _spell_digit[text]
@@ -197,4 +199,9 @@ def text_to_thai_digit(text: str) -> str:
         text_to_thai_digit("เก้าร้อย") == ""
         # output: True
     """
+    if not isinstance(text, str):
+        raise TypeError("The text must be str type.")
+    elif not text:
+        return ""
+
     return arabic_digit_to_thai_digit(text_to_arabic_digit(text))

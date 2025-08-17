@@ -241,7 +241,7 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
     :Example:
     ::
 
-        thaiword_to_time"บ่ายโมงครึ่ง")
+        thaiword_to_time("บ่ายโมงครึ่ง")
         # output:
         # 13:30
     """

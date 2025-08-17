@@ -184,12 +184,16 @@ class UtilTestCase(unittest.TestCase):
             digit_to_text(None)
 
         self.assertEqual(text_to_arabic_digit("เจ็ด"), "7")
-        self.assertEqual(text_to_arabic_digit(""), "")
-        self.assertEqual(text_to_arabic_digit(None), "")
+        with self.assertRaises(TypeError):
+            text_to_arabic_digit("")
+        with self.assertRaises(TypeError):
+            text_to_arabic_digit(None)
 
         self.assertEqual(text_to_thai_digit("เก้า"), "๙")
-        self.assertEqual(text_to_thai_digit(""), "")
-        self.assertEqual(text_to_thai_digit(None), "")
+        with self.assertRaises(TypeError):
+            text_to_thai_digit("")
+        with self.assertRaises(TypeError):
+            text_to_thai_digit(None)
 
     # ### pythainlp.util.keyboard
 

@@ -161,8 +161,8 @@ def text_to_arabic_digit(text: str) -> str:
         text_to_arabic_digit("เก้าร้อย") == ""
         # output: True
     """
-    if not text or text not in _spell_digit:
-        return ""
+    if not text or not isinstance(text, str):
+        return TypeError("The text must be str type.")
 
     return _spell_digit[text]
 
@@ -197,4 +197,7 @@ def text_to_thai_digit(text: str) -> str:
         text_to_thai_digit("เก้าร้อย") == ""
         # output: True
     """
+    if not text or not isinstance(text, str):
+        return TypeError("The text must be str type.")
+
     return arabic_digit_to_thai_digit(text_to_arabic_digit(text))

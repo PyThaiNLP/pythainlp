@@ -199,7 +199,9 @@ def text_to_thai_digit(text: str) -> str:
         text_to_thai_digit("เก้าร้อย") == ""
         # output: True
     """
-    if not text or not isinstance(text, str):
+    if not isinstance(text, str):
         raise TypeError("The text must be str type.")
+    elif not text:
+        return ""
 
     return arabic_digit_to_thai_digit(text_to_arabic_digit(text))

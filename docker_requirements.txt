@@ -21,7 +21,7 @@ pyicu>=2.15.2,<3
 python-crfsuite==0.9.11
 requests>=2.32.0,<2.33
 sacremoses==0.1.1
-sentence-transformers>=2.7.0,<3
+sentence-transformers>=2.7.0,<6
 sentencepiece==0.2.1
 spacy_thai==0.7.8
 spacy==3.8.7,<4

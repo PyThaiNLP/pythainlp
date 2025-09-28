@@ -879,9 +879,9 @@ class UtilTestCase(unittest.TestCase):
     def test_analyze_thai_text(self):
         self.assertEqual(
             analyze_thai_text("คนดี"),
-            [{"ค": 1}, {"น": 1}, {"ด": 1}, {"สระ อี": 1}]
+            {"ค": 1, "น": 1, "ด": 1, "สระ อี": 1}
         )
         self.assertEqual(
             analyze_thai_text("เล่น"),
-            [{'สระ เอ': 1}, {'ล': 1}, {'ไม้เอก': 1}, {'น': 1}]
+            {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
         )

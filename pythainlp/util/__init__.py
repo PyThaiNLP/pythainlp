@@ -69,6 +69,7 @@ __all__ = [
     "tone_detector",
     "tone_to_spelling",
     "words_to_num",
+    "analyze_thai_text",
 ]
 
 from pythainlp.util import spell_words
@@ -121,6 +122,7 @@ from pythainlp.util.thai import (
     isthai,
     isthaichar,
     thai_word_tone_detector,
+    analyze_thai_text,
 )
 from pythainlp.util.thai_lunar_date import th_zodiac, to_lunar_date
 from pythainlp.util.thaiwordcheck import is_native_thai

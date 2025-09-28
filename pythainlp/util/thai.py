@@ -8,6 +8,7 @@ Check if it is Thai text
 
 import string
 from typing import Tuple
+from collections import defaultdict
 
 from pythainlp import (
     thai_above_vowels,
@@ -25,6 +26,53 @@ from pythainlp import (
 _DEFAULT_IGNORE_CHARS = string.whitespace + string.digits + string.punctuation
 _TH_FIRST_CHAR_ASCII = 3584
 _TH_LAST_CHAR_ASCII = 3711
+
+# A comprehensive map of Thai characters to their descriptive names.
+THAI_CHAR_NAMES = {
+    # Consonants
+    **{char: char for char in thai_consonants},
+    # Vowels and Signs
+    "\u0e24": "ฤ",
+    "\u0e26": "ฦ",
+    "\u0e30": "สระ อะ",
+    "\u0e31": "ไม้หันอากาศ",
+    "\u0e32": "สระ อา",
+    "\u0e33": "สระ อำ",
+    "\u0e34": "สระ อิ",
+    "\u0e35": "สระ อี",
+    "\u0e36": "สระ อึ",
+    "\u0e37": "สระ อือ",
+    "\u0e38": "สระ อุ",
+    "\u0e39": "สระ อู",
+    "\u0e40": "สระ เอ",
+    "\u0e41": "สระ แอ",
+    "\u0e42": "สระ โอ",
+    "\u0e43": "สระ ใอ",
+    "\u0e44": "สระ ไอ",
+    "\u0e45": "ไม้ม้วน",
+    "\u0e4d": "นฤคหิต",
+    "\u0e47": "ไม้ไต่คู้",
+    # Tone Marks
+    "\u0e48": "ไม้เอก",
+    "\u0e49": "ไม้โท",
+    "\u0e4a": "ไม้ตรี",
+    "\u0e4b": "ไม้จัตวา",
+    # Other Signs
+    "\u0e2f": "ไปยาลน้อย",
+    "\u0e3a": "พินทุ",
+    "\u0e46": "ไม้ยมก",
+    "\u0e4c": "การันต์",
+    "\u0e4d": "นฤคหิต",
+    "\u0e4e": "ยามักการ",
+    # Punctuation
+    "\u0e4f": "ฟองมัน",
+    "\u0e5a": "อังคั่นคู่",
+    "\u0e5b": "โคมุต",
+    # Digits
+    **{char: char for char in thai_digits},
+    # Symbol
+    "\u0e3f": "฿",
+}
 
 
 def isthaichar(ch: str) -> bool:
@@ -269,3 +317,39 @@ def count_thai_chars(text: str) -> dict:
         else:
             _dict["non_thai"] += 1
     return _dict
+
+
+def analyze_thai_text(text: str) -> list[dict]:
+    """
+    Analyzes a string of Thai text and returns a list of dictionaries,
+    where each dictionary represents a single classified character from the text.
+
+    The function processes the text character by character and maps each Thai
+    character to its descriptive name or itself (for consonants and digits).
+    Non-Thai characters are categorized as "other not Thai".
+
+    :param str text: The Thai text string to be analyzed.
+    :rtype: list[dict]
+    :return: A list of dictionaries, with each item containing
+                    a single character and a count of 1.
+
+    Examples:
+        >>> analyze_thai_text("คนดี")
+        [{'ค': 1}, {'น': 1}, {'ด': 1}, {'สระ อี': 1}]
+
+        >>> analyze_thai_text("เล่น")
+        [{'สระ เอ': 1}, {'ล': 1}, {'ไม้เอก': 1}, {'น': 1}]
+    """
+    results = defaultdict(int)
+
+    # Iterate over each character in the input string
+    for char in text:
+        # Check if the character is in our mapping
+        if char in THAI_CHAR_NAMES:
+            name = THAI_CHAR_NAMES[char]
+            results[name]+=1
+        else:
+            # If the character is not a known Thai character, classify it as character
+            results[char]+=1
+
+    return dict(results)

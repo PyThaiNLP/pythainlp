@@ -322,7 +322,7 @@ def count_thai_chars(text: str) -> dict:
 def analyze_thai_text(text: str) -> dict:
     """
     Analyzes a string of Thai text and returns a dictionaries,
-    where each dictionary represents a single classified character from the text.
+    where each values represents a single classified character from the text.
 
     The function processes the text character by character and maps each Thai
     character to its descriptive name or itself (for consonants and digits).

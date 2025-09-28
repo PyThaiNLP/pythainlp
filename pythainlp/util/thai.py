@@ -319,26 +319,25 @@ def count_thai_chars(text: str) -> dict:
     return _dict
 
 
-def analyze_thai_text(text: str) -> list[dict]:
+def analyze_thai_text(text: str) -> dict:
     """
-    Analyzes a string of Thai text and returns a list of dictionaries,
+    Analyzes a string of Thai text and returns a dictionaries,
     where each dictionary represents a single classified character from the text.
 
     The function processes the text character by character and maps each Thai
     character to its descriptive name or itself (for consonants and digits).
-    Non-Thai characters are categorized as "other not Thai".
 
     :param str text: The Thai text string to be analyzed.
     :rtype: list[dict]
-    :return: A list of dictionaries, with each item containing
+    :return: A dictionaries, with each item containing
                     a single character and a count of 1.
 
     Examples:
         >>> analyze_thai_text("คนดี")
-        [{'ค': 1}, {'น': 1}, {'ด': 1}, {'สระ อี': 1}]
+        {'ค': 1, 'น': 1, 'ด': 1, 'สระ อี': 1}
 
         >>> analyze_thai_text("เล่น")
-        [{'สระ เอ': 1}, {'ล': 1}, {'ไม้เอก': 1}, {'น': 1}]
+        {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
     """
     results = defaultdict(int)
 

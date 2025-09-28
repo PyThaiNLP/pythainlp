@@ -67,6 +67,7 @@ from pythainlp.util import (
     tone_detector,
     words_to_num,
     spelling,
+    analyze_thai_text,
 )
 from pythainlp.util.morse import morse_decode, morse_encode
 
@@ -874,3 +875,13 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(longest_common_subsequence("", "ABC"), "")
         self.assertEqual(longest_common_subsequence("ABC", ""), "")
         self.assertEqual(longest_common_subsequence("", ""), "")
+
+    def test_analyze_thai_text(self):
+        self.assertEqual(
+            analyze_thai_text("คนดี"),
+            [{"ค": 1}, {"น": 1}, {"ด": 1}, {"สระ อี": 1}]
+        )
+        self.assertEqual(
+            analyze_thai_text("เล่น"),
+            [{'สระ เอ': 1}, {'ล': 1}, {'ไม้เอก': 1}, {'น': 1}]
+        )

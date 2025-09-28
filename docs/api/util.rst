@@ -10,7 +10,7 @@ Modules
 .. autofunction:: analyze_thai_text
     :noindex:
 
-    Analyzes a string of Thai text and returns a list of dictionaries, where each dictionary represents a single classified character from the text.
+    Analyzes a string of Thai text and returns a dictionaries, where each values represents a single classified character from the text.
 
 .. autofunction:: abbreviation_to_full_text
     :noindex:

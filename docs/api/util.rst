@@ -7,6 +7,11 @@ The :mod:`pythainlp.util` module serves as a treasure trove of utility functions
 Modules
 -------
 
+.. autofunction:: analyze_thai_text
+    :noindex:
+
+    Analyzes a string of Thai text and returns a dictionaries, where each values represents a single classified character from the text.
+
 .. autofunction:: abbreviation_to_full_text
     :noindex:
 

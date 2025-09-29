@@ -327,7 +327,7 @@ def analyze_thai_text(text: str) -> dict:
     character to its descriptive name or itself (for consonants and digits).
 
     :param str text: The Thai text string to be analyzed.
-    :rtype: list[dict]
+    :rtype: dict
     :return: A dictionaries, with each item containing
                     a single character and a count of 1.
 

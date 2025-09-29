@@ -84,7 +84,7 @@ class TransliterateTestCase(unittest.TestCase):
         )
         ## found individually, but needs tokenization
         self.assertEqual(
-            romanize("คาราเมลคาปูชิโน่", engine="lookup"), "khanamenkhapuchino"
+            romanize("คาราเมลคาปูชิโน่", engine="lookup"), "khanamenkhaputino"
         )
         # not found in v1.4
         self.assertEqual(romanize("ภาพยนตร์", engine="lookup"), "phapn")

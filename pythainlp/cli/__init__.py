@@ -47,10 +47,6 @@ if __name__ == "__main__":
     # Check if a command was provided and if it's one we know
     if len(sys.argv) > 1 and sys.argv[1] in COMMAND_MAP:
         command = sys.argv[1]
-        
-        # Call a function within the module to handle the execution.
-        # This "uses" the import and fixes the error.
-        # We assume each module has a `run` function for this to work.
         COMMAND_MAP[command].run()
     else:
         if len(sys.argv) < 2:

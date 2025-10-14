@@ -7,6 +7,7 @@
 import io
 import sys
 from argparse import ArgumentError, ArgumentParser
+from pythainlp.cli import tokenize, soundex
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")

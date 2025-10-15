@@ -10,6 +10,14 @@ https://github.com/PyThaiNLP/pythainlp
 
 from setuptools import find_packages, setup
 
+"""
+constant for frequently use values
+"""
+
+PYYAML = "PyYAML>=5.4.1"
+PANDAS = "pandas>=0.24"
+NUMPY = "numpy>=1.22"
+
 LONG_DESC = """
 ![PyThaiNLP Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
 
@@ -41,16 +49,16 @@ See https://github.com/PyThaiNLP/pythainlp for installation options.
 requirements = [
     "backports.zoneinfo; python_version<'3.9'",
     "requests>=2.31",
-    "PyYAML>=5.4.1",
-    "pandas>=0.24",
-    "numpy>=1.22",
+    PYYAML,
+    PANDAS,
+    NUMPY,
     "tzdata; sys_platform == 'win32'",
 ]
 
 extras = {
     "abbreviation": ["khamyo>=0.2.0"],
     "attacut": ["attacut>=1.0.6"],
-    "benchmarks": ["PyYAML>=5.4.1", "numpy>=1.22", "pandas>=0.24"],
+    "benchmarks": [PYYAML, NUMPY, PANDAS],
     "coreference_resolution": [
         "fastcoref>=2.1.5",
         "spacy>=3.0",
@@ -69,10 +77,10 @@ extras = {
     "generate": ["fastai<2.0"],
     "icu": ["pyicu>=2.3"],
     "ipa": ["epitran>=1.1"],
-    "ml": ["numpy>=1.22", "torch>=1.0.0"],
+    "ml": [NUMPY, "torch>=1.0.0"],
     "mt5": ["sentencepiece>=0.1.91", "transformers>=4.6.0"],
     "nlpo3": ["nlpo3>=1.3.1"],
-    "onnx": ["numpy>=1.22", "onnxruntime>=1.10.0", "sentencepiece>=0.1.91"],
+    "onnx": [NUMPY, "onnxruntime>=1.10.0", "sentencepiece>=0.1.91"],
     "oskut": ["oskut>=1.3"],
     "sefr_cut": ["sefr_cut>=1.1"],
     "spacy_thai": ["spacy_thai>=0.7.1"],
@@ -80,8 +88,8 @@ extras = {
     "ssg": ["ssg>=0.0.8"],
     "textaugment": ["bpemb", "gensim>=4.0.0"],
     "thai_nner": ["thai_nner"],
-    "thai2fit": ["emoji>=0.5.1", "gensim>=4.0.0", "numpy>=1.22"],
-    "thai2rom": ["numpy>=1.22", "torch>=1.0.0"],
+    "thai2fit": ["emoji>=0.5.1", "gensim>=4.0.0", NUMPY],
+    "thai2rom": [NUMPY, "torch>=1.0.0"],
     "translate": [
         'fairseq>=0.10.0,<0.13;python_version<"3.11"',
         'fairseq-fixed==0.12.3.1,<0.13;python_version>="3.11"',
@@ -97,7 +105,7 @@ extras = {
     ],
     "wangchanberta": ["sentencepiece>=0.1.91", "transformers>=4.6.0"],
     "wangchanglm": [
-        "pandas>=0.24",
+        PANDAS,
         "sentencepiece>=0.1.91",
         "transformers>=4.6.0",
     ],
@@ -108,15 +116,15 @@ extras = {
     "wunsen": ["wunsen>=0.0.1"],
     # Compact dependencies, this one matches requirements.txt
     "compact": [
-        "PyYAML>=5.4.1",
+        PYYAML,
         "nlpo3>=1.3.1",
-        "numpy>=1.22",
+        NUMPY,
         "pyicu>=2.3",
         "python-crfsuite>=0.9.7",
     ],
     # Full dependencies
     "full": [
-        "PyYAML>=5.4.1",
+        PYYAML,
         "attacut>=1.0.4",
         "bpemb>=0.3.2",
         "emoji>=0.5.1",
@@ -129,10 +137,10 @@ extras = {
         "khamyo>=0.2.0",
         "nlpo3>=1.3.1",
         "nltk>=3.3",
-        "numpy>=1.22",
+        NUMPY,
         "onnxruntime>=1.10.0",
         "oskut>=1.3",
-        "pandas>=0.24",
+        PANDAS,
         "panphon>=0.20.0",
         "phunspell>=0.1.6",
         "pyicu>=2.3",

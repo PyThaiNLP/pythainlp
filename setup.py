@@ -10,10 +10,6 @@ https://github.com/PyThaiNLP/pythainlp
 
 from setuptools import find_packages, setup
 
-"""
-constant for frequently use values
-"""
-
 PYYAML = "PyYAML>=5.4.1"
 PANDAS = "pandas>=0.24"
 NUMPY = "numpy>=1.22"

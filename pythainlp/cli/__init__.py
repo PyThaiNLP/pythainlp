@@ -7,7 +7,7 @@
 import io
 import sys
 from argparse import ArgumentError, ArgumentParser
-from pythainlp.cli import tokenize, soundex, tag, benchmark, misspell
+from pythainlp.cli import data, tokenize, soundex, tag, benchmark, misspell
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
@@ -45,7 +45,7 @@ if __name__ == "__main__":
         "tag": tag,
         "benchmark": benchmark,
         "misspell": misspell,
-
+        "data": data,
     }
 
     # Check if a command was provided and if it's one we know

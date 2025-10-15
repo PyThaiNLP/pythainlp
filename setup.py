@@ -41,6 +41,9 @@ See https://github.com/PyThaiNLP/pythainlp for installation options.
 requirements = [
     "backports.zoneinfo; python_version<'3.9'",
     "requests>=2.31",
+    "PyYAML>=5.4.1",
+    "pandas>=0.24",
+    "numpy>=1.22",
     "tzdata; sys_platform == 'win32'",
 ]
 

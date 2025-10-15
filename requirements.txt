@@ -1,6 +1,5 @@
 PyYAML>=5.4.1
 numpy>=1.22
-pandas
-# pyicu>=2.3
+pyicu>=2.3
 python-crfsuite>=0.9.7
 requests>=2.31

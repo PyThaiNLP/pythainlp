@@ -12,9 +12,6 @@ You can use some thainlp functions directly from command line.
     $ thainlp tokenize word สภาพการจ้างและสภาพการทำงาน
     สภาพการจ้าง|และ|สภาพ|การทำงาน|
 
-    $ thainlp tokenize syllable สภาพการจ้างและสภาพการทำงาน
-    สภาพ~การ~จ้าง~และ~สภาพ~การ~ทำ~งาน~
-
     $ thainlp tokenize subword สภาพการจ้างและสภาพการทำงาน
     ส/ภา/พ/กา/ร/จ้า/ง/และ/ส/ภา/พ/กา/ร/ทำ/งา/น/
 

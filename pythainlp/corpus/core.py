@@ -647,11 +647,13 @@ def get_hf_hub(repo_id:str, filename: str=None) -> str:
         return False
     try:
         from huggingface_hub import hf_hub_download, snapshot_download
-    except:
+    except ModuleNotFoundError:
         raise ModuleNotFoundError("""
         huggingface-hub isn't found!
         Please installing the package via 'pip install huggingface-hub'.
         """)
+    except Exception as e:
+        raise Exception(f"An unexpected error occurred: {e}")
     hf_root = get_full_data_path("hf_models")
     name_dir = make_safe_directory_name(repo_id)
     root_project = os.path.join(hf_root, name_dir)

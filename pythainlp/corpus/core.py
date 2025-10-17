@@ -585,9 +585,6 @@ def remove(name: str) -> bool:
         # FileNotFoundError: [Errno 2] No such file or directory:
         # '/usr/local/lib/python3.6/dist-packages/pythainlp/corpus/ttc'
     """
-    if _CHECK_MODE == "1":
-        print("PyThaiNLP is read-only mode. It can't remove corpus.")
-        return False
     with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
         db = json.load(f)
     data = [

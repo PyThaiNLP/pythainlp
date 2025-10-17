@@ -23,6 +23,7 @@ __all__ = [
     "get_corpus_default_db",
     "get_corpus_path",
     "get_path_folder_corpus",
+    "get_hf_hub",
     "path_pythainlp_corpus",
     "provinces",
     "remove",
@@ -41,6 +42,7 @@ __all__ = [
     "thai_wikipedia_titles",
     "thai_words",
     "thai_wsd_dict",
+    "make_safe_directory_name",
 ]
 
 import os
@@ -98,6 +100,8 @@ from pythainlp.corpus.core import (
     get_corpus_default_db,
     get_corpus_path,
     get_path_folder_corpus,
+    make_safe_directory_name,
+    get_hf_hub,
     path_pythainlp_corpus,
     remove,
 )  # these imports must come before other pythainlp.corpus.* imports

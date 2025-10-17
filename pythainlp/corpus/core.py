@@ -8,6 +8,7 @@ Corpus related functions.
 
 import json
 import os
+import re
 from typing import Union
 
 from pythainlp import __version__
@@ -584,9 +585,6 @@ def remove(name: str) -> bool:
         # FileNotFoundError: [Errno 2] No such file or directory:
         # '/usr/local/lib/python3.6/dist-packages/pythainlp/corpus/ttc'
     """
-    if _CHECK_MODE == "1":
-        print("PyThaiNLP is read-only mode. It can't remove corpus.")
-        return False
     with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
         db = json.load(f)
     data = [
@@ -614,3 +612,60 @@ def remove(name: str) -> bool:
 
 def get_path_folder_corpus(name, version, *path):
     return os.path.join(get_corpus_path(name, version), *path)
+
+
+def make_safe_directory_name(name:str) -> str:
+    """
+    Make safe directory name
+
+    :param str name: directory name
+    :return: safe directory name
+    :rtype: str
+    """
+    # Replace invalid characters with an underscore
+    safe_name = re.sub(r'[<>:"/\\|?*]', '_', name)
+    # Remove leading/trailing spaces or periods (especially important for Windows)
+    safe_name = safe_name.strip(' .')
+    # Prevent names that are reserved on Windows
+    reserved_names = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9']
+    if safe_name.upper() in reserved_names:
+        safe_name = f"_{safe_name}" # Prepend underscore to avoid conflict
+    return safe_name
+
+
+def get_hf_hub(repo_id:str, filename: str=None) -> str:
+    """
+    HuggingFace Hub in :mod:`pythainlp` data directory.
+
+    :param str repo_id: repo_id
+    :param str filename: filename
+    :return: path
+    :rtype: str
+    """
+    if _CHECK_MODE == "1":
+        print("PyThaiNLP is read-only mode. It can't download.")
+        return False
+    try:
+        from huggingface_hub import hf_hub_download, snapshot_download
+    except ModuleNotFoundError:
+        raise ModuleNotFoundError("""
+        huggingface-hub isn't found!
+        Please installing the package via 'pip install huggingface-hub'.
+        """)
+    except Exception as e:
+        raise Exception(f"An unexpected error occurred: {e}")
+    hf_root = get_full_data_path("hf_models")
+    name_dir = make_safe_directory_name(repo_id)
+    root_project = os.path.join(hf_root, name_dir)
+    if filename!=None:
+        output_path = hf_hub_download(
+            repo_id=repo_id,
+            filename=filename,
+            local_dir=root_project
+        )
+    else:
+        output_path = snapshot_download(
+            repo_id=repo_id,
+            local_dir=root_project
+        )
+    return output_path

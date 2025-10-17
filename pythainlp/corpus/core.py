@@ -648,7 +648,13 @@ def get_hf_hub(repo_id:str, filename: str=None) -> str:
     if _CHECK_MODE == "1":
         print("PyThaiNLP is read-only mode. It can't download.")
         return False
-    from huggingface_hub import hf_hub_download, snapshot_download
+    try:
+        from huggingface_hub import hf_hub_download, snapshot_download
+    except:
+        raise ModuleNotFoundError("""
+        huggingface-hub isn't found!
+        Please installing the package via 'pip install huggingface-hub'.
+        """)
     hf_root = get_full_data_path("hf_models")
     name_dir = make_safe_directory_name(repo_id)
     root_project = os.path.join(hf_root, name_dir)

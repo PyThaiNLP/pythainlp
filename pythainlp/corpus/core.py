@@ -635,7 +635,7 @@ def make_safe_directory_name(name:str) -> str:
 
 def get_hf_hub(repo_id:str, filename: str=None) -> str:
     """
-    HuggingFace Hub in pythainlp-home
+    HuggingFace Hub in :mod:`pythainlp` data directory.
 
     :param str repo_id: repo_id
     :param str filename: filename

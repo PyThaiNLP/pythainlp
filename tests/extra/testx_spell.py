@@ -11,6 +11,7 @@ from pythainlp.spell import (
     spell,
     spell_sent,
     symspellpy,
+    get_words_spell_suggestion,
 )
 
 from ..core.test_spell import SENT_TOKS
@@ -66,3 +67,7 @@ class SpellTestCaseX(unittest.TestCase):
             correct_sent(SENT_TOKS, engine="wanchanberta_thai_grammarly")
         )
         self.assertIsNotNone(symspellpy.correct_sent(SENT_TOKS))
+
+    def test_get_words_spell_suggestion(self):
+        self.assertIsNotNone(get_words_spell_suggestion("คมดี"))
+        self.assertIsNotNone(get_words_spell_suggestion(["คมดี","มะนา"]))

@@ -19,6 +19,12 @@ correct_sent
 
 The `correct_sent` function is an extension of the `correct` function and is used to correct an entire sentence. It tokenizes the input sentence, corrects each word, and returns the corrected sentence. This is beneficial for proofreading and improving the readability of Thai text.
 
+get_words_spell_suggestion
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autofunction:: get_words_spell_suggestion
+
+The `get_words_spell_suggestion` function is designed to retrieve spelling suggestions for one or more input Thai words.
+
 spell
 ~~~~~
 .. autofunction:: spell

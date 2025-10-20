@@ -7,6 +7,7 @@
 import io
 import sys
 from argparse import ArgumentError, ArgumentParser
+from pythainlp.cli import data, tokenize, soundex, tag, benchmark, misspell
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
@@ -35,3 +36,24 @@ def exit_if_empty(command: str, parser: ArgumentParser) -> None:
         if parser:
             parser.print_help()
         raise ArgumentError(None, "No command provided.")
+
+if __name__ == "__main__":
+    # Create a simple mapping from command name to the imported module
+    COMMAND_MAP = {
+        "tokenize": tokenize,
+        "soundex": soundex,
+        "tag": tag,
+        "benchmark": benchmark,
+        "misspell": misspell,
+        "data": data,
+    }
+
+    # Check if a command was provided and if it's one we know
+    if len(sys.argv) > 1 and sys.argv[1] in COMMAND_MAP:
+        command = sys.argv[1]
+        COMMAND_MAP[command].run()
+    else:
+        if len(sys.argv) < 2:
+            print(f"Error: No command provided. Choose one of: {list(COMMAND_MAP.keys())}", file=sys.stderr)
+        else:
+            print(f"Error: Unknown command '{sys.argv[1]}'", file=sys.stderr)

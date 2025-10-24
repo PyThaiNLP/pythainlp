@@ -86,6 +86,7 @@ extras = {
     "thai_nner": ["thai_nner"],
     "thai2fit": ["emoji>=0.5.1", "gensim>=4.0.0", NUMPY],
     "thai2rom": [NUMPY, "torch>=1.0.0"],
+    "budoux": ["budoux>=0.7.0"],
     "translate": [
         'fairseq>=0.10.0,<0.13;python_version<"3.11"',
         'fairseq-fixed==0.12.3.1,<0.13;python_version>="3.11"',
@@ -155,6 +156,7 @@ extras = {
         "wtpsplit>=1.0.1",
         "wunsen>=0.0.3",
         "word2word>=1.0.0",
+        "budoux>=0.7.0",
     ],
 }
 

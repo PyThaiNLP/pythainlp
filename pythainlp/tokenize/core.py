@@ -152,6 +152,8 @@ def word_tokenize(
         * *tltk* - wrapper for
           `TLTK <https://pypi.org/project/tltk/>`_.,
            maximum collocation approach
+        * *budoux* - wrapper for
+          `budoux <https://github.com/google/budoux>`_.
     :Note:
         - The **custom_dict** parameter only works for \
           *deepcut*, *longest*, *newmm*, and *newmm-safe* engines.
@@ -227,7 +229,8 @@ def word_tokenize(
         "nercut",
         "sefr_cut",
         "tltk",
-        "oskut"
+        "oskut",
+        "budoux",
     ):
         raise NotImplementedError(
             f"The {engine} engine does not support custom dictionaries."
@@ -263,6 +266,10 @@ def word_tokenize(
             segments = segment(text)
     elif engine == "icu":
         from pythainlp.tokenize.pyicu import segment
+
+        segments = segment(text)
+    elif engine == "budoux":
+        from pythainlp.tokenize.budoux import segment
 
         segments = segment(text)
     elif engine == "nercut":

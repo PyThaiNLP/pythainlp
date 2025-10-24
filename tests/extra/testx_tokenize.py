@@ -333,3 +333,8 @@ class WordTokenizeSEFRCutTestCase(unittest.TestCase):
 class WordTokenizeTLTKTestCase(unittest.TestCase):
     def test_word_tokenize_tltk(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="tltk"))
+
+
+class WordTokenizeBudouxTestCase(unittest.TestCase):
+    def test_word_tokenize_budoux(self):
+        self.assertIsNotNone(word_tokenize(TEXT_1, engine="budoux"))

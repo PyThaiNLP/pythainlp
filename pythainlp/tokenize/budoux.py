@@ -10,10 +10,6 @@ This module provides a small, defensive wrapper around the Python
 `pythainlp.tokenize` will not fail if `budoux` is not installed. When
 used and `budoux` is missing, a clear ImportError is raised with an
 installation hint.
-
-The BudouX API surface has changed across versions; this wrapper tries
-several common entry points (`LineBreaker`, `Budoux`, `parse`,
-`segment`) and normalizes the output into a list of strings.
 """
 from typing import List
 
@@ -51,45 +47,6 @@ def segment(text: str) -> List[str]:
 
     parser = _parser
 
-    # Call the most-likely parse/segment method and normalize output.
-    if hasattr(parser, "parse") and callable(getattr(parser, "parse")):
-        result = parser.parse(text)
-    elif hasattr(parser, "segment") and callable(getattr(parser, "segment")):
-        result = parser.segment(text)
-    elif hasattr(parser, "break_lines") and callable(
-        getattr(parser, "break_lines")
-    ):
-        result = parser.break_lines(text)
-    else:
-        # If parser is the module exposing top-level parse/segment
-        if hasattr(parser, "parse") and callable(getattr(parser, "parse")):
-            result = parser.parse(text)
-        elif hasattr(parser, "segment") and callable(
-            getattr(parser, "segment")
-        ):
-            result = parser.segment(text)
-        else:
-            raise RuntimeError("Unable to call budoux parser method.")
+    result = parser.parse(text)
 
-    # Normalize: allow list[str], list[dict], str (joined with newline)
-    if isinstance(result, str):
-        # some implementations return a string with newlines
-        return [s for s in result.splitlines() if s]
-
-    if isinstance(result, list):
-        out: List[str] = []
-        for item in result:
-            if isinstance(item, str):
-                out.append(item)
-            elif isinstance(item, dict):
-                # Some APIs may return dict-like segments
-                if "text" in item:
-                    out.append(item["text"])
-                else:
-                    out.append(str(item))
-            else:
-                out.append(str(item))
-        return out
-
-    # Fallback: stringify whatever we got
-    return [str(result)]
+    return result

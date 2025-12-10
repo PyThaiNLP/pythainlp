@@ -13,9 +13,19 @@ Notable changes between versions.
 - For detailed commit changes, see:
   <https://github.com/PyThaiNLP/pythainlp/compare/v5.1.2...dev> (select tags to compare)
 
-## Version 5.1.2 -> Dev
-
+## Version 5.2.0 -> dev
 [WIP]
+
+## Version 5.1.2 -> 5.2.0
+- Add pythainlp.translate.word_translate #1102
+- Update Dockerfile #1049
+- Add Words Spelling Correction using Char2Vec #1075
+- Add Thailand Ancient Currency Converter #1113
+- Add B-K/umt5-thai-g2p-v2-0.5k #1140
+- Add budoux #1161
+- Remove conceptnet #1103
+- fix the connectivity of cli commands #1154
+- Fix Docker build failure, add docker compose file for convenience #1132
 
 ## Version 5.1.1 -> 5.1.2
 

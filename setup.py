@@ -162,7 +162,7 @@ extras = {
 
 setup(
     name="pythainlp",
-    version="5.2.0-beta1",
+    version="5.2.0",
     description="Thai Natural Language Processing library",
     long_description=LONG_DESC,
     long_description_content_type="text/markdown",
@@ -211,7 +211,7 @@ setup(
         ],
     },
     project_urls={
-        "Documentation": "https://pythainlp.org/docs/5.1/",
+        "Documentation": "https://pythainlp.org/docs/5.2/",
         "Tutorials": "https://pythainlp.org/tutorials/",
         "Source Code": "https://github.com/PyThaiNLP/pythainlp",
         "Bug Tracker": "https://github.com/PyThaiNLP/pythainlp/issues",

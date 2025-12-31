@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# SPDX-FileCopyrightText: 2016-2025 PyThaiNLP Project
+# SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.abspath(".."))
 # -- Project information -----------------------------------------------------
 
 project = "PyThaiNLP"
-copyright = "2016-2025 PyThaiNLP Project"
+copyright = "2016-2026 PyThaiNLP Project"
 author = "PyThaiNLP Project"
 
 curyear = datetime.today().year

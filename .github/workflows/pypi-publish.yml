@@ -74,7 +74,7 @@ jobs:
       run: twine check dist/*
 
     - name: Store distributions
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         path: dist
 

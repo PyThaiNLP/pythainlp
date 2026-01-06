@@ -43,11 +43,11 @@ BASIC_TESTS = {
 # to test if the transliteration/romanization is consistent, say
 # romanize(1+2) = romanize(1) + romanize(2)
 CONSISTENCY_TESTS = [
-    # ("กระจก", "กระ", "จก"),  # failed
-    # ("ระเบิด", "ระ", "เบิด"),  # failed
-    # ("หยากไย่", "หยาก", "ไย่"),  # failed
+    # ("กระจก", "กระ", "จก"),  # failed - tokenization issue
+    ("ระเบิด", "ระ", "เบิด"),
+    ("หยากไย่", "หยาก", "ไย่"),
     ("ตากใบ", "ตาก", "ใบ"),
-    # ("จัดสรร", "จัด", "สรร"),  # failed
+    # ("จัดสรร", "จัด", "สรร"),  # failed - tokenization issue
 ]
 
 

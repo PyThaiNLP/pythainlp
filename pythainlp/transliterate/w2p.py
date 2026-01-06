@@ -65,7 +65,7 @@ class Thai_W2P():
         else:
             raise FileNotFoundError(
                 f"Cannot find {_MODEL_NAME} corpus. "
-                "Please check your internet connection and try again."
+                "Please ensure the corpus can be downloaded and try again."
             )
 
     def _load_variables(self):

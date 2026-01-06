@@ -163,7 +163,7 @@ class CompleteSoundex:
                         is_cluster = True
                     # Special for Kruang (Leading Vowel context)
                     elif leading_vowel and nc not in ['ร', 'ล', 'ว']:
-                         is_cluster = True
+                        is_cluster = True
                 # If end of word but has leading vowel (e.g. Klai)
                 elif leading_vowel:
                     is_cluster = True
@@ -196,8 +196,8 @@ class CompleteSoundex:
                 elif c == 'ำ': 
                     vowel_code = '1A'; final_code = 'ม'
                 elif c == 'อ' and not leading_vowel and vowel_code == '':
-                     # 'อ' as vowel 8P (Saw)
-                     vowel_code = '8P'
+                    # 'อ' as vowel 8P (Saw)
+                    vowel_code = '8P'
                 else:
                     # Map standard marker
                     v = self.vowel_map.get(c)
@@ -226,11 +226,11 @@ class CompleteSoundex:
                 # Rule: Drop 'r' in final cluster 
                 raw_final = "".join(final_candidates)
                 if len(raw_final) >= 2 and raw_final[-2] == 'ร' and raw_final[-1] in self.final_map:
-                     f = raw_final[-1]
+                    f = raw_final[-1]
                 elif raw_final.endswith('ตร'):
-                     f = 'ต' 
+                    f = 'ต' 
                 else:
-                     f = final_candidates[-1]
+                    f = final_candidates[-1]
                 
                 final_code = self.final_map.get(f, '-')
 

@@ -6,6 +6,7 @@
 
 from typing import List, Union
 
+from pythainlp import thai_consonants
 from pythainlp.tokenize import subword_tokenize
 from pythainlp.util import remove_tonemark, sound_syllable
 
@@ -246,7 +247,6 @@ class KhaveeVerifier:
             """Check if ย or ล is a true final consonant"""
             if len(w) < 2:
                 return False
-            thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"
             # Count consonants in the word
             consonant_count = sum(1 for c in w if c in thai_consonants)
             # If there are 2+ consonants and word ends with ย or ล, it's a true final
@@ -303,7 +303,7 @@ class KhaveeVerifier:
             "ส",
         ]:
             return "กด"
-        elif word[-1] in ["ญ", "ณ", "น", "ร", "ล", "ฬ"]:
+        elif word[-1] in ["ญ", "ณ", "น", "ร", "ฬ"]:
             return "กน"
         elif word[-1] in ["บ", "ป", "พ", "ฟ", "ภ"]:
             return "กบ"

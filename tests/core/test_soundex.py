@@ -6,6 +6,7 @@
 import unittest
 
 from pythainlp.soundex import (
+    complete_soundex,
     lk82,
     metasound,
     prayut_and_somchaip,
@@ -23,6 +24,7 @@ class SoundexTestCase(unittest.TestCase):
             soundex("vp", engine="prayut_and_somchaip"),
             soundex("วีพี", engine="prayut_and_somchaip"),
         )
+        self.assertIsNotNone(soundex("a", engine="complete_soundex"))
         self.assertIsNotNone(soundex("a", engine="XXX"))
 
         self.assertEqual(lk82(None), "")
@@ -82,3 +84,26 @@ class SoundexTestCase(unittest.TestCase):
         self.assertIsNotNone(prayut_and_somchaip("ณาญ"))
         self.assertIsNotNone(prayut_and_somchaip("กาง"))
         self.assertIsNotNone(prayut_and_somchaip("ว้าว"))
+
+        # Test complete_soundex
+        self.assertEqual(complete_soundex(None), "")
+        self.assertEqual(complete_soundex(""), "")
+        # Test cases from the paper
+        self.assertEqual(complete_soundex("ก้าน"), "กก1Bน2-")
+        self.assertEqual(complete_soundex("มารค"), "มม1B-ก0-")
+        self.assertEqual(complete_soundex("สวรรค์"), "ซศ1A-0-วว1Aน0-")
+        self.assertEqual(complete_soundex("กลับ"), "กก1Aบ0ล")
+        self.assertEqual(complete_soundex("กมล"), "กก1A-0-มม7Mน0-")
+        self.assertEqual(complete_soundex("กมลา"), "กก1A-0-มม1A-0-รร1B-0-")
+        self.assertEqual(complete_soundex("ใกล้"), "กก1Aย2ล")
+        self.assertEqual(complete_soundex("โก่ง"), "กก7Nง1-")
+        self.assertEqual(complete_soundex("เครื่อง"), "คคBVง1ร")
+        self.assertEqual(complete_soundex("ก้ม"), "กก7Mม2-")
+        self.assertEqual(complete_soundex("แกน"), "กก6Lน0-")
+        self.assertEqual(complete_soundex("ทราย"), "ซซ1Bย0-")
+        # Test special cases with overrides
+        self.assertEqual(complete_soundex("ปุญญา"), "ปป4G0น-ยย1B0--*")
+        self.assertEqual(complete_soundex("ปัญญา"), "ปป1A0น-ยย1B0--*")
+        self.assertEqual(complete_soundex("บุญญา"), "บบ4G0น-ยย1B0--*")
+        self.assertEqual(complete_soundex("บุณยา"), "บบ4G0น-ยย1B0--*")
+        self.assertEqual(complete_soundex("ปันนา"), "ปป1A0น-นน1B0--")

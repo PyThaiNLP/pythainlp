@@ -23,20 +23,20 @@ BASIC_TESTS = {
     "กร": "kon",
     "กรร": "kan",
     "กรรม": "kam",
-    # "กรม": "krom",  # failed
+    "กรม": "krom",
     "ฝ้าย": "fai",
     "นพพร": "nopphon",
     "อัก": "ak",
-    # "ทีปกร": "thipakon",  # failed
-    # "ธรรพ์": "than",  # failed
-    # "ธรรม": "tham",  # failed
-    # "มหา": "maha",  # failed
-    # "หยาก": "yak",  # failed
-    # "อยาก": "yak",  # failed
-    # "ยมก": "yamok",  # failed
-    # "กลัว": "klua",  # failed
-    # "บ้านไร่": "banrai",  # failed
-    # "ชารินทร์": "charin",  # failed
+    "ทีปกร": "thipakon",
+    "ธรรพ์": "than",
+    "ธรรม": "tham",
+    "มหา": "maha",
+    "หยาก": "yak",
+    "อยาก": "yak",
+    "ยมก": "yamok",
+    "กลัว": "klua",
+    "บ้านไร่": "banrai",
+    "ชารินทร์": "charin",
 }
 
 # these are set of two-syllable words,

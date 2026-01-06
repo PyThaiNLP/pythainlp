@@ -14,6 +14,9 @@ import re
 
 from pythainlp import thai_consonants, word_tokenize
 
+# Romanized vowels for checking
+_ROMANIZED_VOWELS = "aeiou"
+
 # vowel
 _vowel_patterns = """เ*ียว,\\1iao
 แ*็ว,\\1aeo
@@ -191,7 +194,7 @@ def _replace_consonants(word: str, consonants: str) -> str:
         elif not vowel_seen:  # Building initial consonant cluster
             # Check if we've added any actual initial consonants (non-empty romanized characters)
             # We check for non-vowel characters since mod_chars contains romanized output
-            has_initial = any(c and c not in 'aeiou' for c in mod_chars)
+            has_initial = any(c and c not in _ROMANIZED_VOWELS for c in mod_chars)
             
             if not has_initial:
                 # First consonant in the cluster
@@ -205,11 +208,11 @@ def _replace_consonants(word: str, consonants: str) -> str:
                 is_last_char = (i + 1 >= len(word))
                 has_vowel_next = not is_last_char and word[i+1] not in _CONSONANTS
                 
-                # Cluster consonants (ร, ล, ว) are part of initial cluster if:
+                # Cluster consonants (ร/r, ล/l, ว/w) are part of initial cluster if:
                 # - followed by a vowel, OR
-                # - not the last character (e.g., กรม: ก+ร are cluster, ม is final)
+                # - not the last character (e.g., กรม/krom: ก/k+ร/r are cluster, ม/m is final)
                 if is_cluster_consonant and (has_vowel_next or not is_last_char):
-                    # This is part of initial cluster (ร, ล, or ว after first consonant)
+                    # This is part of initial cluster (ร/r, ล/l, or ว/w after first consonant)
                     mod_chars.append(_CONSONANTS[consonants[j]][0])
                     j += 1
                 elif not is_cluster_consonant and not is_last_char:
@@ -303,7 +306,7 @@ def _should_add_syllable_separator(prev_word: str, curr_word: str, prev_romanize
     return (has_explicit_vowel_prev and 
             len(consonants_in_word) == 2 and 
             vowels_in_word == 0 and
-            prev_romanized[-1] not in 'aeiou')
+            prev_romanized[-1] not in _ROMANIZED_VOWELS)
 
 
 def romanize(text: str) -> str:

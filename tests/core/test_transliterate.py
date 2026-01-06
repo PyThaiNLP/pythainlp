@@ -83,8 +83,9 @@ class TransliterateTestCase(unittest.TestCase):
             "caramel cappuccino",
         )
         ## found individually, but needs tokenization
+        # Updated expectation after royin improvements for syllable boundary detection
         self.assertEqual(
-            romanize("คาราเมลคาปูชิโน่", engine="lookup"), "khanamenkhaputino"
+            romanize("คาราเมลคาปูชิโน่", engine="lookup"), "kharamenkhapuchino"
         )
         # not found in v1.4
         self.assertEqual(romanize("ภาพยนตร์", engine="lookup"), "phapn")

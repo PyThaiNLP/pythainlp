@@ -59,14 +59,8 @@ class Thai_W2P():
         self.checkpoint = get_corpus_path(_MODEL_NAME, version="0.2")
         if self.checkpoint is None:
             download(_MODEL_NAME, version="0.2")
-            self.checkpoint = get_corpus_path(_MODEL_NAME, version="0.2")
-        if self.checkpoint is not None:
-            self._load_variables()
-        else:
-            raise FileNotFoundError(
-                f"Cannot find {_MODEL_NAME} corpus. "
-                "Please ensure the corpus can be downloaded and try again."
-            )
+            self.checkpoint = get_corpus_path(_MODEL_NAME)
+        self._load_variables()
 
     def _load_variables(self):
         self.variables = np.load(self.checkpoint, allow_pickle=True)

@@ -23,31 +23,31 @@ BASIC_TESTS = {
     "กร": "kon",
     "กรร": "kan",
     "กรรม": "kam",
-    # "กรม": "krom",  # failed
+    "กรม": "krom",
     "ฝ้าย": "fai",
     "นพพร": "nopphon",
     "อัก": "ak",
-    # "ทีปกร": "thipakon",  # failed
-    # "ธรรพ์": "than",  # failed
-    # "ธรรม": "tham",  # failed
-    # "มหา": "maha",  # failed
-    # "หยาก": "yak",  # failed
-    # "อยาก": "yak",  # failed
-    # "ยมก": "yamok",  # failed
-    # "กลัว": "klua",  # failed
-    # "บ้านไร่": "banrai",  # failed
-    # "ชารินทร์": "charin",  # failed
+    "ทีปกร": "thipakon",
+    "ธรรพ์": "than",
+    "ธรรม": "tham",
+    "มหา": "maha",
+    "หยาก": "yak",
+    "อยาก": "yak",
+    "ยมก": "yamok",
+    "กลัว": "klua",
+    "บ้านไร่": "banrai",
+    "ชารินทร์": "charin",
 }
 
 # these are set of two-syllable words,
 # to test if the transliteration/romanization is consistent, say
 # romanize(1+2) = romanize(1) + romanize(2)
 CONSISTENCY_TESTS = [
-    # ("กระจก", "กระ", "จก"),  # failed
-    # ("ระเบิด", "ระ", "เบิด"),  # failed
-    # ("หยากไย่", "หยาก", "ไย่"),  # failed
+    # ("กระจก", "กระ", "จก"),  # failed - tokenization issue
+    ("ระเบิด", "ระ", "เบิด"),
+    ("หยากไย่", "หยาก", "ไย่"),
     ("ตากใบ", "ตาก", "ใบ"),
-    # ("จัดสรร", "จัด", "สรร"),  # failed
+    # ("จัดสรร", "จัด", "สรร"),  # failed - tokenization issue
 ]
 
 
@@ -83,8 +83,9 @@ class TransliterateTestCase(unittest.TestCase):
             "caramel cappuccino",
         )
         ## found individually, but needs tokenization
+        # Updated expectation after royin improvements for syllable boundary detection
         self.assertEqual(
-            romanize("คาราเมลคาปูชิโน่", engine="lookup"), "khanamenkhaputino"
+            romanize("คาราเมลคาปูชิโน่", engine="lookup"), "kharamenkhapuchino"
         )
         # not found in v1.4
         self.assertEqual(romanize("ภาพยนตร์", engine="lookup"), "phapn")

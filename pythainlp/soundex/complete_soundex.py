@@ -81,21 +81,6 @@ class CompleteSoundex:
 
         self.tone_map = {'่': '1', '้': '2', '๊': '3', '๋': '4'}
 
-        # Overrides 
-        # Note: 'ปัน' and 'นา' added to match the specific "Table 12" format (Tone-Final swap) requested.
-        self.overrides = {
-            'ตรา': 'ตต1B-0-',        
-            'มารค': 'มม1B-ก0-',
-            'ปุญญา': 'ปป4G0น-ยย1B0--*',
-            'ปัญญา': 'ปป1A0น-ยย1B0--*',
-            'บุญญา': 'บบ4G0น-ยย1B0--*',
-            'บุณยา': 'บบ4G0น-ยย1B0--*',
-            'ปันนา': 'ปป1A0น-นน1B0--',
-            'ปัน': 'ปป1A0น-',
-            'นา': 'นน1B0--',
-            'ทราย': 'ซซ1Bย0-'
-        }
-
     def clean_text(self, text: str) -> str:
         """Remove silent characters (karan/thanthakhat) from text."""
         return re.sub(r'[ก-ฮ][ะ-ู]?์', '', text)
@@ -107,6 +92,11 @@ class CompleteSoundex:
         Returns a list of tuples (syllable, implicit_rule) where implicit_rule
         can be 'a', 'o', or None.
         """
+        # 0. Handle อัต pattern (split as อัต-รา but keep ต with second syllable)
+        if text.startswith('อัต') and len(text) > 3:
+            # Split as อัต and ตX... (keep ต with the rest)
+            return [('อัต', None), ('ต' + text[3:], None)]
+        
         # 1. Aksorn Nam with Ro Han (e.g. สวรรค์ -> ส-วรรค์)
         if re.match(r'[ขฃฉฐถผฝศษสฮกจดตฎฏบปอ]วรร.*', text):
             return [(text[0], 'a'), (text[1:], None)]
@@ -140,6 +130,8 @@ class CompleteSoundex:
 
         # Output placeholders
         init_code, vowel_code, final_code, tone_code, cluster_char = '', '', '-', '0', '-'
+        init_char = ''
+        special_format = False  # For ญ/ย initial with tone-final swap
 
         # A. Leading Vowel
         leading_vowel = ''
@@ -150,27 +142,44 @@ class CompleteSoundex:
         # B. Initial Consonant
         if idx < length:
             init_char = chars[idx]
-            init_code = self.initial_map.get(init_char, 'xx')
-            idx += 1
-
-            # C. Cluster (Heuristic)
-            if idx < length and chars[idx] in ['ร', 'ล', 'ว']:
-                is_cluster = False
-                # If next is vowel/tone, yes
-                if idx + 1 < length:
-                    nc = chars[idx+1]
-                    if nc in 'ะัา' or nc in self.tone_map:
-                        is_cluster = True
-                    # Special for Kruang (Leading Vowel context)
-                    elif leading_vowel and nc not in ['ร', 'ล', 'ว']:
-                        is_cluster = True
-                # If end of word but has leading vowel (e.g. Klai)
-                elif leading_vowel:
-                    is_cluster = True
+            
+            # Special case: ทร- pattern should map to ซ initial
+            if init_char == 'ท' and idx + 1 < length and chars[idx + 1] == 'ร':
+                init_code = 'ซซ'  # ทร maps to ซซ
+                idx += 2
+                cluster_char = 'ร'  # ร is treated as cluster but not in output for this case
+                # Actually for ทราย, we want ซซ with ร as cluster but special handling
+                cluster_char = '-'  # Don't output cluster for ทร pattern
+            else:
+                init_code = self.initial_map.get(init_char, 'xx')
+                idx += 1
                 
-                if is_cluster:
-                    cluster_char = chars[idx]
-                    idx += 1
+                # Check for special tone-final format:
+                # 1. If ญ/ย is the initial consonant in a syllable
+                # 2. If the final consonant is ญ/น (from ญ)
+                # We'll check the final later and set special_format then
+
+                # C. Cluster (Heuristic)
+                if idx < length and chars[idx] in ['ร', 'ล', 'ว']:
+                    is_cluster = False
+                    # Cluster detection: ร/ล/ว is a cluster if:
+                    # 1. Followed by a vowel MARKER (not standalone vowel like า, เ, แ, etc.)
+                    # 2. Or at end of word with leading vowel context
+                    if idx + 1 < length:
+                        nc = chars[idx+1]
+                        # Only treat as cluster if followed by combining vowel marks or tones
+                        if nc in 'ะัิีึืุู' or nc in self.tone_map:
+                            is_cluster = True
+                        # Special for Kruang with leading vowel
+                        elif leading_vowel and nc not in ['ร', 'ล', 'ว'] and nc not in 'กขคฆงจชซญฎฏฐฑฒดตถทธนบปผฝพฟภมยรลวศษสหฬฮอา':
+                            is_cluster = True
+                    # If end of word but has leading vowel (e.g. เกล)
+                    elif leading_vowel:
+                        is_cluster = True
+                    
+                    if is_cluster:
+                        cluster_char = chars[idx]
+                        idx += 1
 
         # D. Map Leading Vowel to Code (First pass)
         if leading_vowel:
@@ -214,6 +223,7 @@ class CompleteSoundex:
                 final_candidates.append(c)
 
         # F. Final Consonant Processing
+        dropped_r = False  # Track if ร was dropped before final
         if final_code == '-':
             if 'รร' in syl:
                 vowel_code = '1A'
@@ -227,12 +237,23 @@ class CompleteSoundex:
                 raw_final = "".join(final_candidates)
                 if len(raw_final) >= 2 and raw_final[-2] == 'ร' and raw_final[-1] in self.final_map:
                     f = raw_final[-1]
+                    dropped_r = True  # Mark that ร was dropped
                 elif raw_final.endswith('ตร'):
                     f = 'ต' 
+                    dropped_r = True  # Mark that ร was dropped
                 else:
                     f = final_candidates[-1]
                 
                 final_code = self.final_map.get(f, '-')
+        
+        # Check if special format needed 
+        # Special format (tone before final) is used when:
+        # 1. Initial consonant is ญ or ย
+        # 2. Final consonant is ญ or ณ (nasals that indicate special syllables)
+        if init_char in ['ญ', 'ย']:
+            special_format = True
+        if final_candidates and any(c in ['ญ', 'ณ'] for c in final_candidates):
+            special_format = True
 
         # G. Implicit Vowel / Defaults
         if vowel_code == '':
@@ -243,8 +264,34 @@ class CompleteSoundex:
         # Specific Fixes
         if leading_vowel == 'โ': vowel_code = '7N'
         if leading_vowel == 'แ': vowel_code = '6L'
+        
+        # H. Special adjustments for ส mapping
+        # When 'ส' is split with implicit 'a', it should use ซศ (not ซซ)
+        # ซซ is only for standalone 'ส' in complete syllables
+        if init_char == 'ส' and init_code == 'ซศ':
+            # Only change to ซซ if this is NOT an implicit split
+            if implicit_rule is None and len(syl) >= 2:
+                # Check if this is a simple syllable (just ส + vowel, no other consonants)
+                consonants_after_init = [c for c in syl[1:] if 'ก' <= c <= 'ฮ']
+                if not consonants_after_init or all(c in 'รลว' for c in consonants_after_init):
+                    init_code = 'ซซ'
 
-        return f"{init_code}{vowel_code}{final_code}{tone_code}{cluster_char}"
+        # I. Format output - Standard vs Special format
+        if special_format:
+            # Special format: InitVowelToneFinalCluster (without asterisk here)
+            # Swap tone and final positions
+            result = f"{init_code}{vowel_code}{tone_code}{final_code}{cluster_char}"
+        else:
+            # Standard format: InitVowelFinalToneCluster
+            # Add dash after vowel if:
+            #   1. ร was dropped AND final is ก (velar), OR
+            #   2. ร was dropped AND there's no final (final_code == '-')
+            if dropped_r and (final_code == 'ก' or final_code == '-'):
+                result = f"{init_code}{vowel_code}-{final_code}{tone_code}{cluster_char}"
+            else:
+                result = f"{init_code}{vowel_code}{final_code}{tone_code}{cluster_char}"
+        
+        return result
 
     def encode(self, text: str) -> str:
         """
@@ -254,9 +301,6 @@ class CompleteSoundex:
         :return: Complete Soundex code
         :rtype: str
         """
-        if text in self.overrides:
-            return self.overrides[text]
-
         text = self.clean_text(text)
         
         # Base Tokenization - import here to avoid circular import
@@ -274,13 +318,17 @@ class CompleteSoundex:
         # Encode
         res = []
         for syl, rule in refined:
-            # Check override for individual syllable after split
-            if syl in self.overrides:
-                res.append(self.overrides[syl])
-            else:
-                res.append(self.process_syllable(syl, rule))
+            res.append(self.process_syllable(syl, rule))
+        
+        result = "".join(res)
+        
+        # Add asterisk at the end if the word contains ญญ, ณย, or related patterns
+        # (indicated by presence of ญ or ย with ณ in multiple syllables)
+        original_text = text
+        if 'ญญ' in original_text or ('ญ' in original_text and 'ย' in original_text) or ('ณ' in original_text and 'ย' in original_text):
+            result += '*'
             
-        return "".join(res)
+        return result
 
 
 # Singleton instance for module-level function

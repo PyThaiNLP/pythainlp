@@ -6,6 +6,7 @@
 
 from typing import List, Union
 
+from pythainlp import thai_consonants
 from pythainlp.tokenize import subword_tokenize
 from pythainlp.util import remove_tonemark, sound_syllable
 
@@ -15,6 +16,22 @@ class KhaveeVerifier:
         """
         KhaveeVerifier: Thai Poetry verifier
         """
+
+    def _has_true_final_yl(self, word: str) -> bool:
+        """
+        Check if ย or ล is a true final consonant
+        (not just part of the vowel sound with ไ/ใ)
+        
+        :param str word: Thai word
+        :return: True if ย or ล is a true final consonant
+        :rtype: bool
+        """
+        if len(word) < 2:
+            return False
+        # Count consonants in the word
+        consonant_count = sum(1 for c in word if c in thai_consonants)
+        # If there are 2+ consonants and word ends with ย or ล, it's a true final
+        return consonant_count >= 2 and word[-1] in ["ย", "ล"]
 
     def check_sara(self, word: str) -> str:
         """
@@ -223,15 +240,35 @@ class KhaveeVerifier:
             print(kv.check_marttra("สาว"))
             # output: 'เกอว'
         """
-        if word[-1] == "ร" and word[-2] in ["ต", "ท"]:
-            word = word[:-1]
+        # Handle consonant clusters ending with ร
+        # ตร, ทร → remove ร (treat as final ต/ท sound)
+        # กร, ขร, คร, ฆร in compound words → remove ร (treat as final ก/ข/ค sound)
+        # But single syllable words like "กร" should keep ร
+        if len(word) >= 3 and word[-1] == "ร":
+            if word[-2] in ["ต", "ท"]:
+                word = word[:-1]
+            elif word[-2] in ["ก", "ข", "ค", "ฆ"]:
+                word = word[:-1]
+        
         word = self.handle_karun_sound_silence(word)
         word = remove_tonemark(word)
+        
+        # Check for ำ at the end (represents "am" sound, ends with m)
+        if word[-1] == "ำ":
+            return "กม"
+        
+        # Check for vowels and special patterns that indicate open syllables (กา)
+        # For words with ไ/ใ, check if ย/ล is a true final or just part of vowel
+        if "ไ" in word or "ใ" in word:
+            if word[-1] not in ["ย", "ล"]:
+                return "กา"
+            elif not self._has_true_final_yl(word):
+                # ย/ล is part of the vowel sound, not a true final
+                return "กา"
+            # else: ย/ล is a true final, continue to consonant classification below
+        
         if (
-            "ำ" in word
-            or ("ํ" in word and "า" in word)
-            or "ไ" in word
-            or "ใ" in word
+            ("ํ" in word and "า" in word)
         ):
             return "กา"
         elif (
@@ -245,10 +282,9 @@ class KhaveeVerifier:
         elif word[-1] in ["ม"]:
             return "กม"
         elif word[-1] in ["ย"]:
-            if "ั" in word:
-                return "กา"
-            else:
-                return "เกย"
+            return "เกย"
+        elif word[-1] in ["ล"]:
+            return "เกย"
         elif word[-1] in ["ว"]:
             return "เกอว"
         elif word[-1] in ["ก", "ข", "ค", "ฆ"]:
@@ -272,7 +308,7 @@ class KhaveeVerifier:
             "ส",
         ]:
             return "กด"
-        elif word[-1] in ["ญ", ", ณ", "น", "ร", "ล", "ฬ"]:
+        elif word[-1] in ["ญ", "ณ", "น", "ร", "ฬ"]:
             return "กน"
         elif word[-1] in ["บ", "ป", "พ", "ฟ", "ภ"]:
             return "กบ"
@@ -649,9 +685,7 @@ class KhaveeVerifier:
         sound_silenced = word.endswith("์")
         if not sound_silenced:
             return word
-        thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"
-        locate_silenced = word.rfind("์") - 1
-        can_silence_two = word[locate_silenced - 2] in thai_consonants
-        cut_off = 2 if can_silence_two else 1
-        word = word[: locate_silenced + 1 - cut_off]
+        # Remove ์ and the silent consonant before it
+        # การันต์ (์) marks the consonant immediately before it as silent
+        word = word[:-2]
         return word

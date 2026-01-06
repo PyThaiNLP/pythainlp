@@ -17,6 +17,22 @@ class KhaveeVerifier:
         KhaveeVerifier: Thai Poetry verifier
         """
 
+    def _has_true_final_yl(self, word: str) -> bool:
+        """
+        Check if ย or ล is a true final consonant
+        (not just part of the vowel sound with ไ/ใ)
+        
+        :param str word: Thai word
+        :return: True if ย or ล is a true final consonant
+        :rtype: bool
+        """
+        if len(word) < 2:
+            return False
+        # Count consonants in the word
+        consonant_count = sum(1 for c in word if c in thai_consonants)
+        # If there are 2+ consonants and word ends with ย or ล, it's a true final
+        return consonant_count >= 2 and word[-1] in ["ย", "ล"]
+
     def check_sara(self, word: str) -> str:
         """
         Check the vowels in the Thai word.
@@ -241,23 +257,12 @@ class KhaveeVerifier:
         if word[-1] == "ำ":
             return "กม"
         
-        # Helper function to check if ย or ล is a true final consonant
-        # (not just part of the vowel sound with ไ/ใ)
-        def has_true_final_yl(w):
-            """Check if ย or ล is a true final consonant"""
-            if len(w) < 2:
-                return False
-            # Count consonants in the word
-            consonant_count = sum(1 for c in w if c in thai_consonants)
-            # If there are 2+ consonants and word ends with ย or ล, it's a true final
-            return consonant_count >= 2 and w[-1] in ["ย", "ล"]
-        
         # Check for vowels and special patterns that indicate open syllables (กา)
         # For words with ไ/ใ, check if ย/ล is a true final or just part of vowel
         if "ไ" in word or "ใ" in word:
             if word[-1] not in ["ย", "ล"]:
                 return "กา"
-            elif not has_true_final_yl(word):
+            elif not self._has_true_final_yl(word):
                 # ย/ล is part of the vowel sound, not a true final
                 return "กา"
             # else: ย/ล is a true final, continue to consonant classification below

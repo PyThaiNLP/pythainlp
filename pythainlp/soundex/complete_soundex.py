@@ -25,6 +25,9 @@ class CompleteSoundex:
     """
     
     def __init__(self):
+        # Thai consonants for pattern matching
+        self.thai_consonants = 'กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮอ'
+        
         # 1. Maps (Tables 5.1 - 5.4)
         self.initial_map = {
             'ก': 'กก',
@@ -171,7 +174,7 @@ class CompleteSoundex:
                         if nc in 'ะัิีึืุู' or nc in self.tone_map:
                             is_cluster = True
                         # Special for Kruang with leading vowel
-                        elif leading_vowel and nc not in ['ร', 'ล', 'ว'] and nc not in 'กขคฆงจชซญฎฏฐฑฒดตถทธนบปผฝพฟภมยรลวศษสหฬฮอา':
+                        elif leading_vowel and nc not in ['ร', 'ล', 'ว'] and nc not in self.thai_consonants and nc != 'า':
                             is_cluster = True
                     # If end of word but has leading vowel (e.g. เกล)
                     elif leading_vowel:
@@ -307,7 +310,7 @@ class CompleteSoundex:
         try:
             from pythainlp.tokenize import syllable_tokenize
             tokens = syllable_tokenize(text)
-        except Exception:
+        except (ImportError, ModuleNotFoundError):
             tokens = [text]
 
         # Refine Tokens

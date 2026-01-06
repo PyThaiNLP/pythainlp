@@ -307,11 +307,8 @@ class CompleteSoundex:
         text = self.clean_text(text)
         
         # Base Tokenization - import here to avoid circular import
-        try:
-            from pythainlp.tokenize import syllable_tokenize
-            tokens = syllable_tokenize(text)
-        except (ImportError, ModuleNotFoundError):
-            tokens = [text]
+        from pythainlp.tokenize import syllable_tokenize
+        tokens = syllable_tokenize(text)
 
         # Refine Tokens
         refined = []

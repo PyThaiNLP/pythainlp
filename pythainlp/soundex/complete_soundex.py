@@ -6,9 +6,10 @@
 Complete Soundex for Thai Words Similarity Analysis
 
 Original paper:
-Phithak Kaewdee and Narong Yosinkun. 2019. 
+Chalermpol  Tapsai, Phayung  Meesad, and Choochart  Haruechaiyasak. 2020. 
 Complete Soundex for Thai Words Similarity Analysis.
-IT Journal Research and Development, 4(1):1-14.
+Information Technology Journal KMUTNB. 2020 June 30;16(1):46–59. 
+
 https://ph01.tci-thaijo.org/index.php/IT_Journal/article/view/241562
 https://ph01.tci-thaijo.org/index.php/IT_Journal/article/view/241562/164358
 
@@ -38,7 +39,7 @@ class CompleteSoundex:
     Complete Soundex implementation for Thai words similarity analysis.
     
     This class implements the Complete Soundex algorithm as described in the paper
-    by Phithak Kaewdee and Narong Yosinkun (2019).
+    by Chalermpol  Tapsai, Phayung  Meesad, and Choochart  Haruechaiyasak (2020).
     """
     
     def __init__(self):

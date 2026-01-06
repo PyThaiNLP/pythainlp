@@ -189,21 +189,25 @@ def _replace_consonants(word: str, consonants: str) -> str:
             vowel_seen = True  # 'a' acts as a vowel
             j += 1
         elif not vowel_seen:  # Building initial consonant cluster
-            # Check if we've added any actual initial consonants (non-empty)
+            # Check if we've added any actual initial consonants (non-empty romanized characters)
+            # We check for non-vowel characters since mod_chars contains romanized output
             has_initial = any(c and c not in 'aeiou' for c in mod_chars)
             
             if not has_initial:
                 # First consonant in the cluster
                 initial = _CONSONANTS[consonants[j]][0]
-                if initial:  # Only append if not empty
+                if initial:  # Only append if not empty (e.g., อ has empty initial)
                     mod_chars.append(initial)
                 j += 1
             else:
                 # Check if this consonant can be part of a cluster
                 is_cluster_consonant = word[i] in _CLUSTER_SECOND
-                has_vowel_next = (i + 1 < len(word) and word[i+1] not in _CONSONANTS)
                 is_last_char = (i + 1 >= len(word))
+                has_vowel_next = not is_last_char and word[i+1] not in _CONSONANTS
                 
+                # Cluster consonants (ร, ล, ว) are part of initial cluster if:
+                # - followed by a vowel, OR
+                # - not the last character (e.g., กรม: ก+ร are cluster, ม is final)
                 if is_cluster_consonant and (has_vowel_next or not is_last_char):
                     # This is part of initial cluster (ร, ล, or ว after first consonant)
                     mod_chars.append(_CONSONANTS[consonants[j]][0])
@@ -269,6 +273,39 @@ def _romanize(word: str) -> str:
     return word
 
 
+def _should_add_syllable_separator(prev_word: str, curr_word: str, prev_romanized: str) -> bool:
+    """
+    Determine if 'a' should be added between two romanized syllables.
+    
+    This applies when:
+    - Previous word has explicit vowel and ends with consonant
+    - Current word is a 2-consonant cluster with no vowels (e.g., 'กร')
+    
+    :param prev_word: The previous Thai word/token
+    :param curr_word: The current Thai word/token
+    :param prev_romanized: The romanized form of the previous word
+    :return: True if 'a' should be added before the current word
+    """
+    if not prev_romanized or len(curr_word) < 2:
+        return False
+    
+    # Check if previous word has explicit vowel
+    prev_normalized = _normalize(prev_word)
+    prev_after_vowels = _replace_vowels(prev_normalized)
+    prev_consonants = _RE_CONSONANT.findall(prev_word)
+    has_explicit_vowel_prev = len(prev_after_vowels) > len(prev_consonants)
+    
+    # Check if current word is 2 Thai consonants with no vowel
+    consonants_in_word = _RE_CONSONANT.findall(curr_word)
+    vowels_in_word = len(curr_word) - len(consonants_in_word)
+    
+    # Add 'a' if conditions are met
+    return (has_explicit_vowel_prev and 
+            len(consonants_in_word) == 2 and 
+            vowels_in_word == 0 and
+            prev_romanized[-1] not in 'aeiou')
+
+
 def romanize(text: str) -> str:
     """Render Thai words in Latin alphabet, using RTGS
 
@@ -286,26 +323,11 @@ def romanize(text: str) -> str:
     for i, word in enumerate(words):
         romanized = _romanize(word)
         
-        # Special case: if previous word has explicit vowel and ends with consonant,
-        # and this word is a 2-consonant cluster (e.g., 'กร'), add 'a' before it
-        if i > 0 and romanized and len(word) >= 2:
+        # Check if we need to add syllable separator 'a'
+        if i > 0 and romanized:
             prev_word = words[i-1]
-            # Check if previous word has explicit vowel
-            prev_normalized = _normalize(prev_word)
-            prev_after_vowels = _replace_vowels(prev_normalized)
-            prev_consonants = _RE_CONSONANT.findall(prev_word)
-            has_explicit_vowel_prev = len(prev_after_vowels) > len(prev_consonants)
-            
-            # Check if this word is 2 Thai consonants with no vowel
-            consonants_in_word = _RE_CONSONANT.findall(word)
-            vowels_in_word = len(word) - len(consonants_in_word)
             prev_romanized = romanized_words[-1] if romanized_words else ''
-            
-            # If previous word has explicit vowel and ends with consonant,
-            # and this word has 2 consonants and no vowels (like 'กร'), add 'a'
-            if (has_explicit_vowel_prev and 
-                len(consonants_in_word) == 2 and vowels_in_word == 0 and
-                prev_romanized and prev_romanized[-1] not in 'aeiou'):
+            if _should_add_syllable_separator(prev_word, word, prev_romanized):
                 romanized = 'a' + romanized
         
         romanized_words.append(romanized)

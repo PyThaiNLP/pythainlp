@@ -12,7 +12,8 @@ system. Information Processing & Management,
 https://doi.org/10.1016/0306-4573(82)90003-6
 
 Python implementation:
-Improved implementation based on Google Gemini 3 pro
+Improved implementation contributed to PyThaiNLP project
+based on the original paper's algorithm.
 """
 
 # Table 2: Initial Consonant Map
@@ -67,12 +68,12 @@ _CODE_MAP = {
     'อ': 'F'
 }
 
-# Separators that reset the duplication check but produce no code themselves
-# Note: 'า' is handled as a separator that *also* produces code '9'.
-_SEPARATORS_NO_CODE = {'ะ', 'ั', 'า', 'ำ'}
+# Separators that reset the duplication check
+# Note: 'า' and 'ำ' also produce codes in addition to being separators
+_SEPARATORS = {'ะ', 'ั', 'า', 'ำ'}
 
 # Characters to ignore completely
-_IGNORE_CHARS = {'ๆ', '์', 'ิ', 'ี', 'ํ', 'ื', 'ึ'}
+_IGNORE_CHARS = {'ๆ', 'ิ', 'ี', 'ํ', 'ื', 'ึ'}
 _TONE_MARKS = {'่', '้', '๊', '๋'}
 
 
@@ -166,21 +167,21 @@ def lk82(text: str) -> str:
                 continue
 
         # Handle Separators (Reset duplicate check)
-        if char in _SEPARATORS_NO_CODE:
-            last_metric_code = "SEP"
+        if char in _SEPARATORS:
             # Separators silence following semivowels
             prev_was_digit = True
 
-            # Special Case: 'า' produces code '9'
-            if char == 'า':
-                current_code = '9'
-                # Rule 13: Check duplicate (against SEP, effectively never duplicate)
+            # Check if separator also produces a code
+            if char in _CODE_MAP:
+                current_code = _CODE_MAP[char]
+                # Rule 13: Check duplicate before resetting
                 if current_code != last_metric_code:
                     soundex += current_code
-                    last_metric_code = current_code
                     digit_count += 1
-                    prev_was_digit = True
                     has_content = True
+            
+            # Reset last_metric_code after processing
+            last_metric_code = "SEP"
             continue
 
         # Special handling for 'ุ' (Sara U): Skip if it follows 'ต' or 'ธ'

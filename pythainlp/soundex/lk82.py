@@ -12,28 +12,68 @@ system. Information Processing & Management,
 https://doi.org/10.1016/0306-4573(82)90003-6
 
 Python implementation:
-by Korakot Chaovavanich
-https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8
+Improved implementation based on Google Gemini 3 pro
 """
-import re
 
-from pythainlp.util import remove_tonemark
+# Table 2: Initial Consonant Map
+# Maps initial consonants to their representative Soundex letter.
+_INITIAL_MAP = {
+    'ก': 'ก', 'ข': 'ก', 'ฃ': 'ก', 'ค': 'ก', 'ฅ': 'ก', 'ฆ': 'ก',
+    'ง': 'ง',
+    'จ': 'จ', 'ฉ': 'จ', 'ช': 'จ', 'ฌ': 'จ',
+    'ซ': 'ซ', 'ศ': 'ส', 'ษ': 'ส', 'ส': 'ส',
+    'ญ': 'ย', 'ย': 'ย',
+    'ฎ': 'ด', 'ด': 'ด', 'ต': 'ต', 'ฏ': 'ต',
+    'ฐ': 'ท', 'ฑ': 'ท', 'ฒ': 'ท', 'ถ': 'ท', 'ท': 'ท', 'ธ': 'ท',
+    'ณ': 'น', 'น': 'น',
+    'บ': 'บ', 'ป': 'ป',
+    'ผ': 'พ', 'พ': 'พ', 'ภ': 'พ',
+    'ฝ': 'ฟ', 'ฟ': 'ฟ',
+    'ม': 'ม',
+    'ร': 'ร', 'ฤ': 'ร',
+    'ล': 'ล', 'ฦ': 'ล', 'ฬ': 'ล',
+    'ว': 'ว',
+    'ห': 'ห', 'ฮ': 'ห',
+    'อ': 'อ'
+}
 
-_TRANS1 = str.maketrans(
-    "กขฃคฅฆงจฉชฌซศษสญยฎดฏตณนฐฑฒถทธบปผพภฝฟมรลฬฤฦวหฮอ",
-    "กกกกกกงจชชชซซซซยยดดตตนนททททททบปพพพฟฟมรรรรรวหหอ",
-)
-_TRANS2 = str.maketrans(
-    "กขฃคฅฆงจฉชซฌฎฏฐฑฒดตถทธศษสญณนรลฬฤฦบปพฟภผฝมำยวไใหฮาๅึืเแโุูอ",
-    "1111112333333333333333333444444445555555667777889AAABCDEEF",
-)
+# Table 3: Final Consonant/Vowel Hex Codes
+_CODE_MAP = {
+    # Group 1 (Guttural) -> 1
+    'ก': '1', 'ข': '1', 'ฃ': '1', 'ค': '1', 'ฅ': '1', 'ฆ': '1',
+    # Group 2 (Velar Nasal) -> 2
+    'ง': '2',
+    # Group 3 (Dental/Sibilant) -> 3
+    'จ': '3', 'ฉ': '3', 'ช': '3', 'ฌ': '3',
+    'ฎ': '3', 'ฏ': '3', 'ฐ': '3', 'ฑ': '3', 'ฒ': '3',
+    'ด': '3', 'ต': '3', 'ถ': '3', 'ท': '3', 'ธ': '3',
+    'ศ': '3', 'ษ': '3', 'ส': '3', 'ซ': '3',
+    # Group 4 (Nasals/Liquids) -> 4
+    'น': '4', 'ณ': '4', 'ล': '4', 'ฬ': '4', 'ฤ': '4', 'ฦ': '4',
+    'ญ': '4',
+    # Group 5 (Labials) -> 5
+    'บ': '5', 'ป': '5', 'ผ': '5', 'ฝ': '5', 'พ': '5', 'ฟ': '5', 'ภ': '5',
+    # Group 6 (Labial Nasal) -> 6
+    'ม': '6',
+    # Group 7 (Semivowels) -> 7
+    'ย': '7', 'ว': '7', 'ไ': '7', 'ใ': '7', 'ำ': '7',
+    # Group 8 (Glottal) -> 8
+    'ห': '8', 'ฮ': '8',
+    # Vowels/Separators
+    'า': '9', 'ๅ': '9',  # Sara A -> 9
+    'เ': 'B', 'แ': 'B',  # Leading vowels -> B
+    'โ': 'C',            # Sara O -> C
+    'ุ': 'E', 'ู': 'E',  # Sara U -> E
+    'อ': 'F'
+}
 
-# silenced
-_RE_KARANT = re.compile(r"จน์|มณ์|ณฑ์|ทร์|ตร์|[ก-ฮ]์|[ก-ฮ][ะ-ู]์")
+# Separators that reset the duplication check but produce no code themselves
+# Note: 'า' is handled as a separator that *also* produces code '9'.
+_SEPARATORS_NO_CODE = {'ะ', 'ั', 'า', 'ำ'}
 
-# signs, symbols, vowel that has no explicit sounds
-# Paiyannoi, Phinthu, Maiyamok, Maitaikhu, Nikhahit
-_RE_SIGN = re.compile(r"[\u0e2f\u0e3a\u0e46\u0e47\u0e4d]")
+# Characters to ignore completely
+_IGNORE_CHARS = {'ๆ', '์', 'ิ', 'ี', 'ํ', 'ื', 'ึ'}
+_TONE_MARKS = {'่', '้', '๊', '๋'}
 
 
 def lk82(text: str) -> str:
@@ -69,63 +109,112 @@ def lk82(text: str) -> str:
     if not text or not isinstance(text, str):
         return ""
 
-    text = remove_tonemark(text)  # 4. remove tone marks
-    text = _RE_KARANT.sub("", text)  # 4. remove "karat" characters
-    text = _RE_SIGN.sub("", text)  # 5. remove Mai tai khu,
+    chars = list(text.strip())
 
-    if not text:
+    if not chars:
         return ""
 
-    # 6. encode the first character
-    res = []
-    if "ก" <= text[0] <= "ฮ":
-        res.append(text[0].translate(_TRANS1))
-        text = text[1:]
-    else:
-        if len(text) > 1:
-            res.append(text[1].translate(_TRANS1))
-        res.append(text[0].translate(_TRANS2))
-        text = text[2:]
+    # 1. Rule 6: Swap Leading Vowels (เ, แ, โ, ไ, ใ)
+    leading_vowels = {'เ', 'แ', 'โ', 'ไ', 'ใ'}
+    if len(chars) > 1 and chars[0] in leading_vowels:
+        chars[0], chars[1] = chars[1], chars[0]
 
-    # encode the rest
-    i_v = None  # ตำแหน่งตัวคั่นล่าสุด (สระ)
-    len_text = len(text)
-    for i, c in enumerate(text):
-        if (
-            c in "\u0e30\u0e31\u0e34\u0e35"
-        ):  # 7. ตัวคั่นเฉยๆ/ Sara A, Mai Han-Akat, Sara I, Sara II
-            i_v = i
-            res.append("")
-        elif (
-            c in "\u0e32\u0e36\u0e37\u0e39\u0e45"
-        ):  # 8. คั่นและใส่/ Sara Aa, Sara Ue, Sara Uee, Sara Uu, Lankkhangyao
-            i_v = i
-            res.append(c.translate(_TRANS2))
-        elif c == "\u0e38":  # 9. สระอุ / Sara U
-            i_v = i
-            if i == 0 or (text[i - 1] not in "ตธ"):
-                res.append(c.translate(_TRANS2))
-            else:
-                res.append("")
-        elif c in "\u0e2b\u0e2d":  # หอ
-            if i + 1 < len_text and (
-                text[i + 1] in "\u0e36\u0e37\u0e38\u0e39"
-            ):  # Sara Ue, Sara Uee, Sara U, Sara Uu
-                res.append(c.translate(_TRANS2))
-        elif c in "\u0e22\u0e23\u0e24\u0e26\u0e27":
-            if i_v == i - 1 or (
-                i + 1 < len_text
-                and (text[i + 1] in "\u0e36\u0e37\u0e38\u0e39")
-            ):  # Sara Ue, Sara Uee, Sara U, Sara Uu
-                res.append(c.translate(_TRANS2))
-        else:
-            res.append(c.translate(_TRANS2))  # 12.
+    soundex = ""
+    last_metric_code = ""
+    start_idx = 0
+    initial_found = False
 
-    # 13. remove repetitions
-    res2 = [res[0]]
-    for i in range(1, len(res)):
-        if res[i] != res[i - 1]:
-            res2.append(res[i])
+    # 2. Identify Initial Consonant
+    for i, char in enumerate(chars):
+        if char in _TONE_MARKS or char in _IGNORE_CHARS:
+            continue
+        if char in _INITIAL_MAP:
+            soundex += _INITIAL_MAP[char]
+            # Map initial to its code for duplicate checking of the next char
+            if char in _CODE_MAP:
+                last_metric_code = _CODE_MAP[char]
+            start_idx = i + 1
+            initial_found = True
+            break
 
-    # 14. fill with zeros
-    return ("".join(res2) + "0000")[:5]
+    if not initial_found:
+        return text
+
+    # 3. Process Remaining Characters
+    digit_count = 0
+    prev_was_digit = False  # Track if previous char produced a digit (or was a separator)
+    prev_char = None  # Track previous character for special vowel handling
+    has_content = False  # Track if we have any content besides the initial
+
+    for i in range(start_idx, len(chars)):
+        char = chars[i]
+
+        # Skip ignored characters and tones
+        if char in _TONE_MARKS or char in _IGNORE_CHARS:
+            continue
+
+        # Skip Karan (Silencer) and the character it marks
+        if char == '์':
+            continue
+        if i + 1 < len(chars) and chars[i + 1] == '์':
+            continue
+
+        # Rule 11: Ignore Semivowels (ร, ว, ย) if they follow a digit/separator
+        # They are kept only if they immediately follow the Initial Consonant (Initial Cluster)
+        if char in ['ร', 'ว', 'ย', 'ฤ', 'ฦ']:
+            if prev_was_digit:
+                continue
+
+        # Handle Separators (Reset duplicate check)
+        if char in _SEPARATORS_NO_CODE:
+            last_metric_code = "SEP"
+            # Separators silence following semivowels
+            prev_was_digit = True
+
+            # Special Case: 'า' produces code '9'
+            if char == 'า':
+                current_code = '9'
+                # Rule 13: Check duplicate (against SEP, effectively never duplicate)
+                if current_code != last_metric_code:
+                    soundex += current_code
+                    last_metric_code = current_code
+                    digit_count += 1
+                    prev_was_digit = True
+                    has_content = True
+            continue
+
+        # Special handling for 'ุ' (Sara U): Skip if it follows 'ต' or 'ธ'
+        # This maintains compatibility with the original implementation
+        if char == 'ุ' and prev_char in ['ต', 'ธ']:
+            continue
+
+        # Map Code
+        current_code = _CODE_MAP.get(char)
+
+        if current_code:
+            # Rule 13: Duplicate Check
+            if current_code != last_metric_code:
+                soundex += current_code
+                last_metric_code = current_code
+
+                prev_was_digit = True
+                has_content = True
+
+                digit_count += 1
+
+        prev_char = char
+
+        if digit_count >= 4:
+            break
+
+    # Special case: if only initial consonant with no other content (e.g., "น์"),
+    # return empty string for compatibility
+    if not has_content and len(soundex) == 1:
+        return ""
+
+    # 4. Pad with Zeros
+    while digit_count < 4:
+        soundex += "0"
+        digit_count += 1
+
+    return soundex

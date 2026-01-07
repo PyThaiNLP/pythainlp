@@ -8,12 +8,12 @@ jobs:
     steps:
     - uses: actions/first-interaction@v3
       with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        pr-message:  |
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        pr_message:  |
           Hello @${{ github.actor }}, thank you for submitting a PR! We will respond as soon as possible.
 
           สวัสดี  @${{ github.actor }} ขอบคุณที่ส่ง PR เข้ามา เราจะตอบกลับให้เร็วที่สุดเท่าที่จะทำได้
-        issue-message: |
+        issue_message: |
           Hello @${{ github.actor }}, thank you for your interest in our work!
 
           If this is a bug report, please provide screenshots and **minimum viable code to reproduce your issue**, otherwise we can not help you.

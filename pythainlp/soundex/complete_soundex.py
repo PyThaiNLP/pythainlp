@@ -136,6 +136,214 @@ class CompleteSoundex:
             
         return [(text, None)]
 
+    def _process_leading_vowel(self, chars: list, idx: int) -> tuple:
+        """Extract and process leading vowel."""
+        leading_vowel = ''
+        if idx < len(chars) and chars[idx] in ['เ', 'แ', 'โ', 'ไ', 'ใ']:
+            leading_vowel = chars[idx]
+            idx += 1
+        return leading_vowel, idx
+
+    def _process_initial_consonant(self, chars: list, idx: int, leading_vowel: str) -> tuple:
+        """Process initial consonant and cluster."""
+        init_char = ''
+        init_code = ''
+        cluster_char = '-'
+        
+        if idx >= len(chars):
+            return init_char, init_code, cluster_char, idx
+        
+        init_char = chars[idx]
+        
+        # Special case: ทร- pattern should map to ซ initial
+        if init_char == 'ท' and idx + 1 < len(chars) and chars[idx + 1] == 'ร':
+            init_code = 'ซซ'
+            idx += 2
+            cluster_char = '-'  # Don't output cluster for ทร pattern
+        else:
+            init_code = self.initial_map.get(init_char, 'xx')
+            idx += 1
+            
+            # C. Cluster (Heuristic)
+            if idx < len(chars) and chars[idx] in ['ร', 'ล', 'ว']:
+                is_cluster = self._detect_cluster(chars, idx, leading_vowel)
+                if is_cluster:
+                    cluster_char = chars[idx]
+                    idx += 1
+        
+        return init_char, init_code, cluster_char, idx
+
+    def _detect_cluster(self, chars: list, idx: int, leading_vowel: str) -> bool:
+        """Detect if ร/ล/ว is a cluster."""
+        if idx + 1 < len(chars):
+            nc = chars[idx + 1]
+            # Only treat as cluster if followed by combining vowel marks or tones
+            if nc in 'ะัิีึืุู' or nc in self.tone_map:
+                return True
+            # Special for Kruang with leading vowel
+            if leading_vowel and nc not in ['ร', 'ล', 'ว'] and nc not in self.thai_consonants and nc != 'า':
+                return True
+        # If end of word but has leading vowel (e.g. เกล)
+        elif leading_vowel:
+            return True
+        return False
+
+    def _map_leading_vowel_code(self, leading_vowel: str) -> tuple:
+        """Map leading vowel to initial vowel and final code."""
+        vowel_code = ''
+        final_code = '-'
+        
+        if leading_vowel:
+            if leading_vowel == 'โ':
+                vowel_code = '7N'
+            elif leading_vowel == 'ไ':
+                vowel_code = '1A'
+                final_code = 'ย'
+            elif leading_vowel == 'ใ':
+                vowel_code = '1A'
+                final_code = 'ย'
+            elif leading_vowel == 'แ':
+                vowel_code = '6L'
+            elif leading_vowel == 'เ':
+                vowel_code = '5J'
+        
+        return vowel_code, final_code
+
+    def _scan_vowels_tones_finals(self, chars: list, idx: int, leading_vowel: str, 
+                                   vowel_code: str, final_code: str) -> tuple:
+        """Scan remaining characters for vowels, tones, and finals."""
+        remaining = chars[idx:]
+        final_candidates = []
+        tone_code = '0'
+        
+        for c in remaining:
+            if c in self.tone_map:
+                tone_code = self.tone_map[c]
+            elif c in 'ะัาิีึืุู' or (c == 'อ' and leading_vowel == 'เ') or c == 'ำ':
+                vowel_code, final_code = self._process_vowel_char(
+                    c, leading_vowel, vowel_code, final_code
+                )
+            else:
+                final_candidates.append(c)
+        
+        return vowel_code, final_code, tone_code, final_candidates
+
+    def _process_vowel_char(self, c: str, leading_vowel: str, 
+                           vowel_code: str, final_code: str) -> tuple:
+        """Process a single vowel character."""
+        # Complex Vowel Checks
+        if leading_vowel == 'เ' and c == 'ื':
+            vowel_code = 'BV'  # Part of uea
+        elif leading_vowel == 'เ' and c == 'อ':
+            if vowel_code != 'BV':
+                vowel_code = '9R'  # E + O -> Oe
+        elif c == 'ำ':
+            vowel_code = '1A'
+            final_code = 'ม'
+        elif c == 'อ' and not leading_vowel and vowel_code == '':
+            vowel_code = '8P'  # 'อ' as vowel 8P (Saw)
+        else:
+            # Map standard marker
+            v = self.vowel_map.get(c)
+            if v:
+                vowel_code = v
+        
+        # Handling 'ะ' shortening
+        if c == 'ะ':
+            if vowel_code == '5J':
+                vowel_code = '5I'
+            elif vowel_code == '6L':
+                vowel_code = '6K'
+            elif vowel_code == '7N':
+                vowel_code = '7M'
+            elif vowel_code == '1B':
+                vowel_code = '1A'
+        
+        return vowel_code, final_code
+
+    def _process_final_consonant(self, syl: str, final_code: str, vowel_code: str,
+                                 final_candidates: list) -> tuple:
+        """Process final consonant and detect dropped ร."""
+        dropped_r = False
+        
+        if final_code == '-':
+            if 'รร' in syl:
+                vowel_code = '1A'
+                if final_candidates:
+                    f = final_candidates[-1]
+                    final_code = self.final_map.get(f, '-')
+                else:
+                    final_code = 'น'
+            elif final_candidates:
+                # Rule: Drop 'r' in final cluster
+                raw_final = "".join(final_candidates)
+                if len(raw_final) >= 2 and raw_final[-2] == 'ร' and raw_final[-1] in self.final_map:
+                    f = raw_final[-1]
+                    dropped_r = True
+                elif raw_final.endswith('ตร'):
+                    f = 'ต'
+                    dropped_r = True
+                else:
+                    f = final_candidates[-1]
+                
+                final_code = self.final_map.get(f, '-')
+        
+        return vowel_code, final_code, dropped_r
+
+    def _check_special_format(self, init_char: str, final_candidates: list, 
+                             vowel_code: str) -> bool:
+        """Check if special format (tone before final) should be used."""
+        # Special format (tone before final) is used when:
+        # 1. Initial consonant is ญ, ย, or น
+        # 2. Final consonant is ญ or ณ
+        # 3. Final consonant is น AND vowel is short (1A vowel code)
+        if init_char in ['ญ', 'ย', 'น']:
+            return True
+        if final_candidates and any(c in ['ญ', 'ณ'] for c in final_candidates):
+            return True
+        if final_candidates and any(c == 'น' for c in final_candidates) and vowel_code == '1A':
+            return True
+        return False
+
+    def _apply_implicit_vowel(self, vowel_code: str, implicit_rule: Optional[str]) -> str:
+        """Apply implicit vowel defaults."""
+        if vowel_code == '':
+            if implicit_rule == 'a':
+                vowel_code = '1A'
+            elif implicit_rule == 'o':
+                vowel_code = '7M'
+            else:
+                vowel_code = '7M'
+        return vowel_code
+
+    def _adjust_ส_mapping(self, init_char: str, init_code: str, 
+                         syl: str, implicit_rule: Optional[str]) -> str:
+        """Special adjustments for ส mapping."""
+        if init_char == 'ส' and init_code == 'ซศ':
+            # Only change to ซซ if this is NOT an implicit split
+            if implicit_rule is None and len(syl) >= 2:
+                # Check if this is a simple syllable (just ส + vowel, no other consonants)
+                consonants_after_init = [c for c in syl[1:] if 'ก' <= c <= 'ฮ']
+                if not consonants_after_init or all(c in 'รลว' for c in consonants_after_init):
+                    init_code = 'ซซ'
+        return init_code
+
+    def _format_output(self, init_code: str, vowel_code: str, final_code: str,
+                      tone_code: str, cluster_char: str, special_format: bool,
+                      dropped_r: bool) -> str:
+        """Format the final output."""
+        if special_format:
+            # Special format: InitVowelToneFinalCluster
+            result = f"{init_code}{vowel_code}{tone_code}{final_code}{cluster_char}"
+        else:
+            # Standard format: InitVowelFinalToneCluster
+            # Add dash after vowel if ร was dropped AND (final is ก OR no final)
+            if dropped_r and (final_code == 'ก' or final_code == '-'):
+                result = f"{init_code}{vowel_code}-{final_code}{tone_code}{cluster_char}"
+            else:
+                result = f"{init_code}{vowel_code}{final_code}{tone_code}{cluster_char}"
+        return result
+
     def process_syllable(self, syl: str, implicit_rule: Optional[str] = None) -> str:
         """
         Process a single syllable and return its soundex code.
@@ -147,173 +355,48 @@ class CompleteSoundex:
         """
         chars = list(syl)
         idx = 0
-        length = len(chars)
-
-        # Output placeholders
-        init_code, vowel_code, final_code, tone_code, cluster_char = '', '', '-', '0', '-'
-        init_char = ''
-        special_format = False  # For ญ/ย initial with tone-final swap
 
         # A. Leading Vowel
-        leading_vowel = ''
-        if idx < length and chars[idx] in ['เ', 'แ', 'โ', 'ไ', 'ใ']:
-            leading_vowel = chars[idx]
-            idx += 1
+        leading_vowel, idx = self._process_leading_vowel(chars, idx)
         
-        # B. Initial Consonant
-        if idx < length:
-            init_char = chars[idx]
-            
-            # Special case: ทร- pattern should map to ซ initial
-            if init_char == 'ท' and idx + 1 < length and chars[idx + 1] == 'ร':
-                init_code = 'ซซ'  # ทร maps to ซซ
-                idx += 2
-                cluster_char = 'ร'  # ร is treated as cluster but not in output for this case
-                # Actually for ทราย, we want ซซ with ร as cluster but special handling
-                cluster_char = '-'  # Don't output cluster for ทร pattern
-            else:
-                init_code = self.initial_map.get(init_char, 'xx')
-                idx += 1
-                
-                # Check for special tone-final format:
-                # 1. If ญ/ย is the initial consonant in a syllable
-                # 2. If the final consonant is ญ/น (from ญ)
-                # We'll check the final later and set special_format then
+        # B. Initial Consonant and Cluster
+        init_char, init_code, cluster_char, idx = self._process_initial_consonant(
+            chars, idx, leading_vowel
+        )
 
-                # C. Cluster (Heuristic)
-                if idx < length and chars[idx] in ['ร', 'ล', 'ว']:
-                    is_cluster = False
-                    # Cluster detection: ร/ล/ว is a cluster if:
-                    # 1. Followed by a vowel MARKER (not standalone vowel like า, เ, แ, etc.)
-                    # 2. Or at end of word with leading vowel context
-                    if idx + 1 < length:
-                        nc = chars[idx+1]
-                        # Only treat as cluster if followed by combining vowel marks or tones
-                        if nc in 'ะัิีึืุู' or nc in self.tone_map:
-                            is_cluster = True
-                        # Special for Kruang with leading vowel
-                        elif leading_vowel and nc not in ['ร', 'ล', 'ว'] and nc not in self.thai_consonants and nc != 'า':
-                            is_cluster = True
-                    # If end of word but has leading vowel (e.g. เกล)
-                    elif leading_vowel:
-                        is_cluster = True
-                    
-                    if is_cluster:
-                        cluster_char = chars[idx]
-                        idx += 1
-
-        # D. Map Leading Vowel to Code (First pass)
-        if leading_vowel:
-            if leading_vowel == 'โ': vowel_code = '7N'
-            elif leading_vowel == 'ไ': vowel_code = '1A'; final_code = 'ย'
-            elif leading_vowel == 'ใ': vowel_code = '1A'; final_code = 'ย'
-            elif leading_vowel == 'แ': vowel_code = '6L'
-            elif leading_vowel == 'เ': vowel_code = '5J'
+        # D. Map Leading Vowel to Code
+        vowel_code, final_code = self._map_leading_vowel_code(leading_vowel)
 
         # E. Scan remaining for Vowels, Tones, Finals
-        remaining = chars[idx:]
-        final_candidates = []
-        
-        for c in remaining:
-            if c in self.tone_map:
-                tone_code = self.tone_map[c]
-            elif c in 'ะัาิีึืุู' or (c == 'อ' and leading_vowel == 'เ') or c == 'ำ':
-                # Complex Vowel Checks
-                if leading_vowel == 'เ' and c == 'ื': vowel_code = 'BV' # Part of uea
-                elif leading_vowel == 'เ' and c == 'อ': 
-                    if vowel_code == 'BV': pass
-                    else: vowel_code = '9R' # E + O -> Oe
-                elif c == 'ำ': 
-                    vowel_code = '1A'; final_code = 'ม'
-                elif c == 'อ' and not leading_vowel and vowel_code == '':
-                    # 'อ' as vowel 8P (Saw)
-                    vowel_code = '8P'
-                else:
-                    # Map standard marker
-                    v = self.vowel_map.get(c)
-                    if v: vowel_code = v
-                
-                # Handling 'ะ' shortening
-                if c == 'ะ':
-                    if vowel_code == '5J': vowel_code = '5I'
-                    elif vowel_code == '6L': vowel_code = '6K'
-                    elif vowel_code == '7N': vowel_code = '7M'
-                    elif vowel_code == '1B': vowel_code = '1A'
-
-            else:
-                final_candidates.append(c)
+        vowel_code, final_code, tone_code, final_candidates = self._scan_vowels_tones_finals(
+            chars, idx, leading_vowel, vowel_code, final_code
+        )
 
         # F. Final Consonant Processing
-        dropped_r = False  # Track if ร was dropped before final
-        if final_code == '-':
-            if 'รร' in syl:
-                vowel_code = '1A'
-                if final_candidates:
-                    f = final_candidates[-1]
-                    final_code = self.final_map.get(f, '-')
-                else:
-                    final_code = 'น'
-            elif final_candidates:
-                # Rule: Drop 'r' in final cluster 
-                raw_final = "".join(final_candidates)
-                if len(raw_final) >= 2 and raw_final[-2] == 'ร' and raw_final[-1] in self.final_map:
-                    f = raw_final[-1]
-                    dropped_r = True  # Mark that ร was dropped
-                elif raw_final.endswith('ตร'):
-                    f = 'ต' 
-                    dropped_r = True  # Mark that ร was dropped
-                else:
-                    f = final_candidates[-1]
-                
-                final_code = self.final_map.get(f, '-')
+        vowel_code, final_code, dropped_r = self._process_final_consonant(
+            syl, final_code, vowel_code, final_candidates
+        )
         
-        # Check if special format needed 
-        # Special format (tone before final) is used when:
-        # 1. Initial consonant is ญ, ย, or น
-        # 2. Final consonant is ญ or ณ
-        # 3. Final consonant is น AND vowel is short (1A vowel code)
-        if init_char in ['ญ', 'ย', 'น']:
-            special_format = True
-        if final_candidates and any(c in ['ญ', 'ณ'] for c in final_candidates):
-            special_format = True
-        if final_candidates and any(c == 'น' for c in final_candidates) and vowel_code == '1A':
-            special_format = True
+        # Check if special format needed
+        special_format = self._check_special_format(init_char, final_candidates, vowel_code)
 
         # G. Implicit Vowel / Defaults
-        if vowel_code == '':
-            if implicit_rule == 'a': vowel_code = '1A'
-            elif implicit_rule == 'o': vowel_code = '7M'
-            else: vowel_code = '7M'
+        vowel_code = self._apply_implicit_vowel(vowel_code, implicit_rule)
 
         # Specific Fixes
-        if leading_vowel == 'โ': vowel_code = '7N'
-        if leading_vowel == 'แ': vowel_code = '6L'
+        if leading_vowel == 'โ':
+            vowel_code = '7N'
+        if leading_vowel == 'แ':
+            vowel_code = '6L'
         
         # H. Special adjustments for ส mapping
-        # When 'ส' is split with implicit 'a', it should use ซศ (not ซซ)
-        # ซซ is only for standalone 'ส' in complete syllables
-        if init_char == 'ส' and init_code == 'ซศ':
-            # Only change to ซซ if this is NOT an implicit split
-            if implicit_rule is None and len(syl) >= 2:
-                # Check if this is a simple syllable (just ส + vowel, no other consonants)
-                consonants_after_init = [c for c in syl[1:] if 'ก' <= c <= 'ฮ']
-                if not consonants_after_init or all(c in 'รลว' for c in consonants_after_init):
-                    init_code = 'ซซ'
+        init_code = self._adjust_ส_mapping(init_char, init_code, syl, implicit_rule)
 
-        # I. Format output - Standard vs Special format
-        if special_format:
-            # Special format: InitVowelToneFinalCluster (without asterisk here)
-            # Swap tone and final positions
-            result = f"{init_code}{vowel_code}{tone_code}{final_code}{cluster_char}"
-        else:
-            # Standard format: InitVowelFinalToneCluster
-            # Add dash after vowel if:
-            #   1. ร was dropped AND final is ก (velar), OR
-            #   2. ร was dropped AND there's no final (final_code == '-')
-            if dropped_r and (final_code == 'ก' or final_code == '-'):
-                result = f"{init_code}{vowel_code}-{final_code}{tone_code}{cluster_char}"
-            else:
-                result = f"{init_code}{vowel_code}{final_code}{tone_code}{cluster_char}"
+        # I. Format output
+        result = self._format_output(
+            init_code, vowel_code, final_code, tone_code, cluster_char,
+            special_format, dropped_r
+        )
         
         return result
 

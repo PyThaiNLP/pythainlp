@@ -73,8 +73,12 @@ def middle_cut(sentences: List[str]) -> List[str]:
         else:
             result_parts.append(sentence)
 
-    sentences = "<stop>".join(result_parts).split("<stop>")
-    sentences = [s.strip() for s in sentences if s.strip()]
+    # Split all result parts by <stop> and filter
+    all_sentences = []
+    for part in result_parts:
+        all_sentences.extend(part.split("<stop>"))
+    
+    sentences = [s.strip() for s in all_sentences if s.strip()]
     
     return sentences
 

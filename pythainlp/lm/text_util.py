@@ -25,7 +25,7 @@ def calculate_ngram_counts(
     ngram_counts = {}
 
     for n in range(n_min, n_max + 1):
-        for i, _ in enumerate(list_words[:-n+1], 0):
+        for i in range(len(list_words) - n + 1):
             ngram = tuple(list_words[i:i + n])
             ngram_counts[ngram] = ngram_counts.get(ngram, 0) + 1
 
@@ -56,7 +56,7 @@ def remove_repeated_ngrams(string_list: List[str], n: int = 2) -> List[str]:
 
     output_list = []
 
-    for i, _ in enumerate(string_list):
+    for i in range(len(string_list)):
         if i + n <= len(string_list):
             ngram = tuple(string_list[i:i + n])
 

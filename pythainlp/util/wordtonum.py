@@ -51,7 +51,7 @@ _tokenizer = Tokenizer(custom_dict=_valid_tokens)
 
 
 def _check_is_thainum(word: str):
-    for j in list(_digits.keys()):
+    for j in _digits:
         if j in word:
             return (True, "num")
     for j in ["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด", "ลบ"]:
@@ -60,9 +60,9 @@ def _check_is_thainum(word: str):
     return (False, None)
 
 
-_dict_words = [i for i in list(thai_words()) if not _check_is_thainum(i)[0]]
-_dict_words += list(_digits.keys())
-_dict_words += ["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด"]
+_dict_words = [i for i in thai_words() if not _check_is_thainum(i)[0]]
+_dict_words.extend(_digits.keys())
+_dict_words.extend(["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด"])
 
 _tokenizer_thaiwords = Tokenizer(_dict_words)
 

@@ -141,25 +141,18 @@ def extract_features(
     :return: list of lists of features to be fed to CRF
     """
     doc_features = []
-    doc = (
-        ["xxpad" for i in range(window)]
-        + doc
-        + ["xxpad" for i in range(window)]
-    )
+    # Pad the document with "xxpad" tokens efficiently
+    padded_doc = ["xxpad"] * window
+    padded_doc.extend(doc)
+    padded_doc.extend(["xxpad"] * window)
+    doc = padded_doc
 
     # add enders and starters
     doc_ender = []
     doc_starter = []
-    for i in range(len(doc)):
-        if doc[i] in _ENDERS:
-            doc_ender.append("ender")
-        else:
-            doc_ender.append("normal")
-
-        if doc[i] in _STARTERS:
-            doc_starter.append("starter")
-        else:
-            doc_starter.append("normal")
+    for token in doc:
+        doc_ender.append("ender" if token in _ENDERS else "normal")
+        doc_starter.append("starter" if token in _STARTERS else "normal")
 
     # for each word
     for i in range(window, len(doc) - window):

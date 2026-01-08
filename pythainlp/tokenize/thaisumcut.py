@@ -171,14 +171,14 @@ class ThaiSentenceSegmentor:
             last_position = len(tokens)
             pop_split_position = []
             split_position = []
-            for i in range(len(tokens)):
-                if tokens[i] == "และ":
+            for i, token in enumerate(tokens):
+                if token == "และ":
                     and_position = i
 
                 if (
                     and_position != -1
                     and i > and_position
-                    and tokens[i] == " "
+                    and token == " "
                     and nearest_space_position == -1
                 ):
                     if i - and_position != 1:
@@ -210,13 +210,13 @@ class ThaiSentenceSegmentor:
             last_position = len(tokens)
             pop_split_position = []
             split_position = []
-            for i in range(len(tokens)):
-                if tokens[i] == "หรือ":
+            for i, token in enumerate(tokens):
+                if token == "หรือ":
                     or_position = i
                 if (
                     or_position != -1
                     and i > or_position
-                    and tokens[i] == " "
+                    and token == " "
                     and nearest_space_position == -1
                 ):
                     if i - or_position != 1:
@@ -248,13 +248,13 @@ class ThaiSentenceSegmentor:
             pop_split_position = []
             last_position = len(tokens)
             split_position = []
-            for i in range(len(tokens)):
-                if tokens[i] == "จึง":
+            for i, token in enumerate(tokens):
+                if token == "จึง":
                     cung_position = i
 
                 if (
                     cung_position != -1
-                    and tokens[i] == " "
+                    and token == " "
                     and i > cung_position
                     and nearest_space_position == -1
                 ):

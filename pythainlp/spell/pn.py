@@ -68,8 +68,14 @@ def _edits1(word: str) -> Set[str]:
     transposes = [L + R[1] + R[0] + R[2:] for L, R in splits if len(R) > 1]
     replaces = [L + c + R[1:] for L, R in splits if R for c in thai_letters]
     inserts = [L + c + R for L, R in splits for c in thai_letters]
-
-    return set(deletes + transposes + replaces + inserts)
+    
+    # Use set union for better performance than list concatenation
+    result = set(deletes)
+    result.update(transposes)
+    result.update(replaces)
+    result.update(inserts)
+    
+    return result
 
 
 def _edits2(word: str) -> Set[str]:

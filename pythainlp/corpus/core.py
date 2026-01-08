@@ -195,8 +195,8 @@ def get_corpus_default_db(name: str, version: str = "") -> Union[str, None]:
     with open(default_db_path, encoding="utf-8-sig") as fh:
         corpus_db = json.load(fh)
 
-    if name in list(corpus_db.keys()):
-        if version in list(corpus_db[name]["versions"].keys()):
+    if name in corpus_db:
+        if version in corpus_db[name]["versions"]:
             return path_pythainlp_corpus(
                 corpus_db[name]["versions"][version]["filename"]
             )
@@ -257,7 +257,7 @@ def get_corpus_path(
     CUSTOMIZE: Dict[str, str] = {
         # "the corpus name":"path"
     }
-    if name in list(CUSTOMIZE):
+    if name in CUSTOMIZE:
         return CUSTOMIZE[name]
 
     default_path = get_corpus_default_db(name=name, version=version)

@@ -30,18 +30,21 @@ def list_to_string(list: List[str]) -> str:
 
 
 def middle_cut(sentences: List[str]) -> List[str]:
-    new_text = ""
+    result_parts = []
     for sentence in sentences:
         sentence_size = len(word_tokenize(sentence, keep_whitespace=False))
-
-        for k in range(0, len(sentence)):
-            if k == 0 or k + 1 >= len(sentence):
+        
+        sentence_len = len(sentence)
+        for k in range(0, sentence_len):
+            if k == 0 or k + 1 >= sentence_len:
                 continue
             if sentence[k].isdigit() and sentence[k - 1] == " ":
                 sentence = sentence[: k - 1] + sentence[k:]
-            if k + 2 <= len(sentence):
+                sentence_len = len(sentence)  # Update length after modification
+            if k + 2 <= sentence_len:
                 if sentence[k].isdigit() and sentence[k + 1] == " ":
                     sentence = sentence[: k + 1] + sentence[k + 2 :]
+                    sentence_len = len(sentence)  # Update length after modification
 
         fixed_text_lenth = 20
 
@@ -53,33 +56,26 @@ def middle_cut(sentences: List[str]) -> List[str]:
                 white_space_index = []
                 white_space_diff = {}
 
-                for j in range(len(tokens)):
-                    if tokens[j] == " ":
+                for j, token in enumerate(tokens):
+                    if token == " ":
                         white_space_index.append(j)
 
                 for white_space in white_space_index:
-                    white_space_diff.update(
-                        {white_space: abs(white_space - middle_space)}
-                    )
+                    white_space_diff[white_space] = abs(white_space - middle_space)
 
-                if len(white_space_diff) > 0:
+                if white_space_diff:
                     min_diff = min(
                         white_space_diff.items(), key=operator.itemgetter(1)
                     )
                     tokens.pop(min_diff[0])
                     tokens.insert(min_diff[0], "<stop>")
-            new_text = new_text + list_to_string(tokens) + "<stop>"
+            result_parts.append(list_to_string(tokens))
         else:
-            new_text = new_text + sentence + "<stop>"
+            result_parts.append(sentence)
 
-    sentences = new_text.split("<stop>")
-    sentences = [s.strip() for s in sentences]
-    if "" in sentences:
-        sentences.remove("")
-    if "nan" in sentences:
-        sentences.remove("nan")
-
-    sentences = list(filter(None, sentences))
+    sentences = "<stop>".join(result_parts).split("<stop>")
+    sentences = [s.strip() for s in sentences if s.strip()]
+    
     return sentences
 
 

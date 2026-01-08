@@ -460,11 +460,11 @@ class KhaveeVerifier:
                 ):
                     return "The poem does not have 4 complete sentences."
                 else:
-                    for i in range(len(list_sumpus_sent1)):
+                    for i, sumpus_sent1 in enumerate(list_sumpus_sent1):
                         countwrong = 0
                         for j in list_sumpus_sent2h[i]:
                             if (
-                                self.is_sumpus(list_sumpus_sent1[i], j)
+                                self.is_sumpus(sumpus_sent1, j)
                                 is False
                             ):
                                 countwrong += 1
@@ -473,7 +473,7 @@ class KhaveeVerifier:
                                 "Can't find rhyme between paragraphs "
                                 + str(
                                     (
-                                        list_sumpus_sent1[i],
+                                        sumpus_sent1,
                                         list_sumpus_sent2h[i],
                                     )
                                 )
@@ -559,11 +559,11 @@ class KhaveeVerifier:
                 ):
                     return "The poem does not have 4 complete sentences."
                 else:
-                    for i in range(len(list_sumpus_sent1)):
+                    for i, sumpus_sent1 in enumerate(list_sumpus_sent1):
                         countwrong = 0
                         for j in list_sumpus_sent2h[i]:
                             if (
-                                self.is_sumpus(list_sumpus_sent1[i], j)
+                                self.is_sumpus(sumpus_sent1, j)
                                 is False
                             ):
                                 countwrong += 1
@@ -572,7 +572,7 @@ class KhaveeVerifier:
                                 "Can't find rhyme between paragraphs "
                                 + str(
                                     (
-                                        list_sumpus_sent1[i],
+                                        sumpus_sent1,
                                         list_sumpus_sent2h[i],
                                     )
                                 )

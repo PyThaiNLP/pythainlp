@@ -75,6 +75,40 @@ class TestProfanity(unittest.TestCase):
         self.assertIn("#", result)
         self.assertNotIn("*", result)
 
+    def test_contains_profanity_with_custom_words(self):
+        """Test detection with custom profanity words"""
+        # Clean text shouldn't be detected
+        self.assertFalse(contains_profanity("สวัสดีครับ", custom_words={"คำใหม่"}))
+        
+        # Custom word should be detected
+        self.assertTrue(contains_profanity("คำใหม่", custom_words={"คำใหม่"}))
+        
+        # Mix of default and custom words
+        self.assertTrue(contains_profanity("ควย และ คำใหม่", custom_words={"คำใหม่"}))
+
+    def test_find_profanity_with_custom_words(self):
+        """Test finding profanity with custom words"""
+        # Should find custom words
+        result = find_profanity("คำใหม่", custom_words={"คำใหม่"})
+        self.assertIn("คำใหม่", result)
+        
+        # Should find both default and custom words
+        result = find_profanity("ควย และ คำใหม่", custom_words={"คำใหม่"})
+        self.assertGreater(len(result), 1)
+
+    def test_censor_profanity_with_custom_words(self):
+        """Test censoring with custom profanity words"""
+        # Should censor custom words
+        result = censor_profanity("คำใหม่", custom_words={"คำใหม่"})
+        self.assertNotEqual(result, "คำใหม่")
+        self.assertIn("*", result)
+        
+        # Should censor both default and custom words
+        result = censor_profanity("ควย และ คำใหม่", custom_words={"คำใหม่"})
+        self.assertNotIn("ควย", result)
+        self.assertNotIn("คำใหม่", result)
+        self.assertIn("*", result)
+
 
 if __name__ == "__main__":
     unittest.main()

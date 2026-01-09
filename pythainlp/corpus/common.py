@@ -18,6 +18,7 @@ __all__ = [
     "thai_male_names",
     "thai_negations",
     "thai_dict",
+    "thai_profanity_words",
     "thai_stopwords",
     "thai_syllables",
     "thai_synonym",
@@ -49,6 +50,9 @@ _THAI_STOPWORDS_FILENAME = "stopwords_th.txt"
 
 _THAI_NEGATIONS: FrozenSet[str] = frozenset()
 _THAI_NEGATIONS_FILENAME = "negations_th.txt"
+
+_THAI_PROFANITY_WORDS: FrozenSet[str] = frozenset()
+_THAI_PROFANITY_WORDS_FILENAME = "profanity_th.txt"
 
 _THAI_FAMLIY_NAMES: FrozenSet[str] = frozenset()
 _THAI_FAMLIY_NAMES_FILENAME = "family_names_th.txt"
@@ -211,6 +215,22 @@ def thai_negations() -> FrozenSet[str]:
         _THAI_NEGATIONS = get_corpus(_THAI_NEGATIONS_FILENAME)
 
     return _THAI_NEGATIONS
+
+
+def thai_profanity_words() -> FrozenSet[str]:
+    """
+    Return a frozenset of Thai profanity words for content filtering.
+    \n(See: `dev/pythainlp/corpus/profanity_th.txt\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/profanity_th.txt>`_)
+
+    :return: :class:`frozenset` containing profanity words in the Thai language.
+    :rtype: :class:`frozenset`
+    """
+    global _THAI_PROFANITY_WORDS
+    if not _THAI_PROFANITY_WORDS:
+        _THAI_PROFANITY_WORDS = get_corpus(_THAI_PROFANITY_WORDS_FILENAME, comments=False)
+
+    return _THAI_PROFANITY_WORDS
 
 
 def thai_family_names() -> FrozenSet[str]:

@@ -11,7 +11,9 @@ __all__ = [
     "abbreviation_to_full_text",
     "arabic_digit_to_thai_digit",
     "bahttext",
+    "censor_profanity",
     "collate",
+    "contains_profanity",
     "convert_years",
     "count_thai_chars",
     "countthai",
@@ -22,6 +24,7 @@ __all__ = [
     "eng_to_thai",
     "expand_maiyamok",
     "find_keyword",
+    "find_profanity",
     "ipa_to_rtgs",
     "is_native_thai",
     "isthai",
@@ -111,6 +114,11 @@ from pythainlp.util.normalize import (
 )
 from pythainlp.util.numtoword import bahttext, num_to_thaiword
 from pythainlp.util.phoneme import ipa_to_rtgs, nectec_to_ipa, remove_tone_ipa
+from pythainlp.util.profanity import (
+    censor_profanity,
+    contains_profanity,
+    find_profanity,
+)
 from pythainlp.util.remove_trailing_repeat_consonants import (
     remove_trailing_repeat_consonants,
 )

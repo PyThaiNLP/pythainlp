@@ -656,7 +656,7 @@ def make_safe_directory_name(name: str) -> str:
     return safe_name
 
 
-def get_hf_hub(repo_id: str, filename: str = None) -> str:
+def get_hf_hub(repo_id: str, filename: str = "") -> str:
     """
     HuggingFace Hub in :mod:`pythainlp` data directory.
 
@@ -677,7 +677,7 @@ def get_hf_hub(repo_id: str, filename: str = None) -> str:
     hf_root = get_full_data_path("hf_models")
     name_dir = make_safe_directory_name(repo_id)
     root_project = os.path.join(hf_root, name_dir)
-    if filename is not None:
+    if filename:
         output_path = hf_hub_download(
             repo_id=repo_id, filename=filename, local_dir=root_project
         )

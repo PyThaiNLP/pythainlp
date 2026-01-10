@@ -21,10 +21,10 @@ class mT5Summarizer:
         min_length: int = 30,
         max_length: int = 100,
         skip_special_tokens: bool = True,
-        pretrained_mt5_model_name: str = None,
+        pretrained_mt5_model_name: str = "",
     ):
         model_name = ""
-        if pretrained_mt5_model_name is None:
+        if not pretrained_mt5_model_name:
             if model_size not in ["small", "base", "large", "xl", "xxl"]:
                 raise ValueError(
                     f"""model_size \"{model_size}\" not found.

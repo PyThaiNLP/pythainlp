@@ -126,7 +126,7 @@ class WangChanGLM:
     def instruct_generate(
         self,
         instruct: str,
-        context: str = None,
+        context: str = "",
         max_new_tokens=512,
         temperature: float = 0.9,
         top_p: float = 0.95,
@@ -172,7 +172,7 @@ class WangChanGLM:
                 # และเครื่องดื่มแอลกอฮอล์
 
         """
-        if context in (None, ""):
+        if not context:
             prompt = self.PROMPT_DICT["prompt_no_input"].format_map(
                 {"instruction": instruct, "input": ""}
             )

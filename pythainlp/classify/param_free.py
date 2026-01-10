@@ -22,9 +22,9 @@ class GzipModel:
     def __init__(
         self,
         training_data: list[tuple[str, str]] = None,
-        model_path: str = None,
+        model_path: str = "",
     ):
-        if model_path is not None:
+        if model_path:
             self.load(model_path)
         else:
             self.training_data = np.array(training_data)

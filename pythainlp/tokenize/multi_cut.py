@@ -15,9 +15,9 @@ Original codes from Korakot Chaovavanich.
 
 import re
 from collections import defaultdict
-from typing import Iterator, List
+from typing import Iterator, List, Optional
 
-from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
+from pythainlp.tokenize import word_dict_trie
 from pythainlp.util import Trie
 
 
@@ -48,12 +48,11 @@ _PAT_NONTHAI = re.compile(_RE_NONTHAI)
 
 
 def _multicut(
-    text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE
+    text: str, custom_dict: Optional[Trie] = None
 ) -> Iterator[LatticeString]:
     """Return LatticeString"""
     if not custom_dict:
-        custom_dict = DEFAULT_WORD_DICT_TRIE
-
+        custom_dict = word_dict_trie()
     len_text = len(text)
     words_at = defaultdict(list)  # main data structure
 
@@ -123,39 +122,45 @@ def _combine(ww: List[LatticeString]) -> Iterator[str]:
 
 
 def segment(
-    text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE
+    text: str, custom_dict: Optional[Trie] = None
 ) -> List[str]:
     """Dictionary-based maximum matching word segmentation.
 
     :param text: text to be tokenized
     :type text: str
     :param custom_dict: tokenization dictionary,\
-        defaults to DEFAULT_WORD_DICT_TRIE
+        defaults to word_dict_trie()
     :type custom_dict: Trie, optional
     :return: list of segmented tokens
     :rtype: List[str]
     """
     if not text or not isinstance(text, str):
         return []
+    
+    if not custom_dict:
+        custom_dict = word_dict_trie()
 
     return list(_multicut(text, custom_dict=custom_dict))
 
 
 def find_all_segment(
-    text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE
+    text: str, custom_dict: Optional[Trie] = None
 ) -> List[str]:
     """Get all possible segment variations.
 
     :param text: input string to be tokenized
     :type text: str
     :param custom_dict: tokenization dictionary,\
-        defaults to DEFAULT_WORD_DICT_TRIE
+        defaults to word_dict_trie()
     :type custom_dict: Trie, optional
     :return: list of segment variations
     :rtype: List[str]
     """
     if not text or not isinstance(text, str):
         return []
+    
+    if not custom_dict:
+        custom_dict = word_dict_trie()
 
     ww = list(_multicut(text, custom_dict=custom_dict))
 

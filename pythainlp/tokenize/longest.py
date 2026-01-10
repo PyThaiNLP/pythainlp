@@ -12,10 +12,10 @@ on the codes from Patorn Utenpattanun.
 
 """
 import re
-from typing import Dict, List, Union
+from typing import Dict, List, Optional, Union
 
 from pythainlp import thai_tonemarks
-from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
+from pythainlp.tokenize import word_dict_trie
 from pythainlp.util import Trie
 
 _FRONT_DEP_CHAR = [
@@ -152,7 +152,7 @@ class LongestMatchTokenizer:
 _tokenizers: Dict[int, LongestMatchTokenizer] = {}
 
 
-def segment(text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE) -> List[str]:
+def segment(text: str, custom_dict: Optional[Trie] = None) -> List[str]:
     """
     Dictionary-based longest matching word segmentation.
 
@@ -164,7 +164,7 @@ def segment(text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE) -> List[str]:
         return []
 
     if not custom_dict:
-        custom_dict = DEFAULT_WORD_DICT_TRIE
+        custom_dict = word_dict_trie()
 
     global _tokenizers
     custom_dict_ref_id = id(custom_dict)

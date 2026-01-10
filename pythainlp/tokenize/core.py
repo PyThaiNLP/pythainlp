@@ -13,9 +13,9 @@ from typing import Iterable, List, Union
 from pythainlp.tokenize import (
     DEFAULT_SENT_TOKENIZE_ENGINE,
     DEFAULT_SUBWORD_TOKENIZE_ENGINE,
-    DEFAULT_SYLLABLE_DICT_TRIE,
+    syllable_dict_trie,
     DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
-    DEFAULT_WORD_DICT_TRIE,
+    word_dict_trie,
     DEFAULT_WORD_TOKENIZE_ENGINE,
 )
 from pythainlp.tokenize._utils import (
@@ -693,7 +693,7 @@ def subword_tokenize(
         for word in words:
             segments.extend(
                 word_tokenize(
-                    text=word, custom_dict=DEFAULT_SYLLABLE_DICT_TRIE
+                    text=word, custom_dict=syllable_dict_trie()
                 )
             )
     elif engine == "ssg":
@@ -885,7 +885,7 @@ class Tokenizer:
         if custom_dict:
             self.__trie_dict = dict_trie(custom_dict)
         else:
-            self.__trie_dict = DEFAULT_WORD_DICT_TRIE
+            self.__trie_dict = word_dict_trie()
         self.__engine = engine
         if self.__engine not in ["newmm", "mm", "longest", "deepcut"]:
             raise NotImplementedError(

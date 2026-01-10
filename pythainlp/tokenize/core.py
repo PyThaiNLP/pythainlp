@@ -97,7 +97,7 @@ def word_detokenize(
 
 def word_tokenize(
     text: str,
-    custom_dict: Trie = Trie([]),
+    custom_dict: Trie | None = None,
     engine: str = DEFAULT_WORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
     join_broken_num: bool = True,
@@ -222,6 +222,9 @@ def word_tokenize(
         return []
 
     segments = []
+
+    if custom_dict is None:
+        custom_dict = Trie([])
 
     if custom_dict and engine in (
         "attacut",
@@ -877,6 +880,7 @@ class Tokenizer:
         :param bool keep_whitespace: True to keep whitespace, a common mark
                                      for end of phrase in Thai
         """
+        print("HEHE")
         self.__trie_dict = Trie([])
         if custom_dict:
             self.__trie_dict = dict_trie(custom_dict)

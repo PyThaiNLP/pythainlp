@@ -191,7 +191,7 @@ def text_to_num(text: str) -> List[str]:
         # output: ['10021889', 'บาท']
 
     """
-    _temp = _tokenizer_thaiwords.word_tokenize(text)
+    _temp = _tokenizer_thaiwords().word_tokenize(text)
     thainum = []
     last_index = -1
     list_word_new = []

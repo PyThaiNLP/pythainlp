@@ -68,7 +68,10 @@ _dict_words = [i for i in list(thai_words()) if not _check_is_thainum(i)[0]]
 _dict_words += list(_digits.keys())
 _dict_words += ["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด"]
 
-_tokenizer_thaiwords = Tokenizer(_dict_words)
+@lru_cache
+def _tokenizer_thaiwords():
+    """Lazy load Thai words tokenizer with cache"""
+    return Tokenizer(_dict_words)
 
 
 def thaiword_to_num(word: str) -> int:

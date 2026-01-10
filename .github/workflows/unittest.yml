@@ -21,15 +21,15 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        python-version: ["3.14", "3.13", "3.12", "3.11", "3.10", "3.9"]
+        python-version: ["3.13", "3.12", "3.11", "3.10", "3.9"]
 
     runs-on: ${{ matrix.os }}
     env:
       PYICU_WIN_VER: 2.14
       INSTALL_TORCH: false
       INSTALL_FULL_DEPS: false
-      PYTHON_VERSION_LATEST: "3.14"
-      PYTHON_VERSION_LATEST_2: "3.13"
+      PYTHON_VERSION_LATEST: "3.13"
+      PYTHON_VERSION_LATEST_2: "3.12"
 
     steps:
     - name: Checkout

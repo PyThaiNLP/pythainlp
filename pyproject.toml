@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [build-system]
-requires = ["setuptools>=65.0.2", "wheel"]
+requires = ["setuptools>=69.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -12,7 +12,7 @@ version = "5.2.0"
 description = "Thai Natural Language Processing library"
 readme = "README.md"
 requires-python = ">=3.7"
-license = {text = "Apache-2.0"}
+license = "Apache-2.0"
 authors = [
     {name = "PyThaiNLP", email = "wannaphong@pythainlp.org"}
 ]
@@ -32,7 +32,6 @@ classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: Apache Software License",
     "Natural Language :: Thai",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Topic :: Text Processing",

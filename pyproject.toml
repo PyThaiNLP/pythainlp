@@ -76,7 +76,7 @@ el = ["multiel>=0.5"]
 
 esupar = [
     "esupar>=1.3.8",
-    "numpy",
+    "numpy>=1.22",
     "transformers>=4.22.1",
 ]
 
@@ -93,7 +93,7 @@ ml = [
 
 mt5 = [
     "sentencepiece>=0.1.91",
-    "transformers>=4.6.0",
+    "transformers>=4.22.1",
 ]
 
 nlpo3 = ["nlpo3>=1.3.1"]
@@ -118,7 +118,7 @@ spell = [
 ssg = ["ssg>=0.0.8"]
 
 textaugment = [
-    "bpemb",
+    "bpemb>=0.3.2",
     "gensim>=4.0.0",
 ]
 
@@ -141,7 +141,7 @@ translate = [
     "sacremoses>=0.0.41",
     "sentencepiece>=0.1.91",
     "torch>=1.0.0",
-    "transformers>=4.6.0",
+    "transformers>=4.22.1",
     "word2word>=1.0.0",
 ]
 
@@ -152,13 +152,13 @@ transformers_ud = [
 
 wangchanberta = [
     "sentencepiece>=0.1.91",
-    "transformers>=4.6.0",
+    "transformers>=4.22.1",
 ]
 
 wangchanglm = [
     "pandas>=0.24",
     "sentencepiece>=0.1.91",
-    "transformers>=4.6.0",
+    "transformers>=4.22.1",
 ]
 
 word_approximation = ["panphon>=0.20.0"]
@@ -168,11 +168,11 @@ wordnet = ["nltk>=3.3"]
 wsd = ["sentence-transformers>=2.2.2"]
 
 wtp = [
-    "transformers>=4.6.0",
+    "transformers>=4.22.1",
     "wtpsplit>=1.0.1",
 ]
 
-wunsen = ["wunsen>=0.0.1"]
+wunsen = ["wunsen>=0.0.3"]
 
 # Compact dependencies - safe small set of optional dependencies
 compact = [
@@ -185,7 +185,7 @@ compact = [
 
 # Full dependencies - comprehensive set of all optional features
 full = [
-    "attacut>=1.0.4",
+    "attacut>=1.0.6",
     "bpemb>=0.3.2",
     "budoux>=0.7.0",
     "emoji>=0.5.1",

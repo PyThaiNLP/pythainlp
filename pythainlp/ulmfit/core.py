@@ -1,12 +1,14 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Universal Language Model Fine-tuning for Text Classification (ULMFiT).
 """
+
+from __future__ import annotations
+
 import collections
-from typing import Callable, Collection, Optional
+from collections.abc import Callable, Collection
 
 import numpy as np
 import torch
@@ -67,7 +69,7 @@ post_rules_th_sparse = post_rules_th[1:] + [
 def process_thai(
     text: str,
     pre_rules: Collection = pre_rules_th_sparse,
-    tok_func: Optional[Callable] = None,
+    tok_func: Callable | None = None,
     post_rules: Collection = post_rules_th_sparse,
 ) -> Collection[str]:
     """
@@ -222,7 +224,7 @@ def merge_wgts(em_sz, wgts, itos_pre, itos_new):
         from pythainlp.ulmfit import merge_wgts
         import torch
 
-        wgts = {'0.encoder.weight': torch.randn(5,3)}
+        wgts = {"0.encoder.weight": torch.randn(5, 3)}
         itos_pre = ["แมว", "คน", "หนู"]
         itos_new = ["ปลา", "เต่า", "นก"]
         em_sz = 3

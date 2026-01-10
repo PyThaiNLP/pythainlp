@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -9,8 +8,9 @@ codes are from
 https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
 """
 
+from __future__ import annotations
+
 import random
-from typing import List, Union
 
 from pythainlp.corpus.oscar import (
     unigram_word_freqs as oscar_word_freqs_unigram,
@@ -52,7 +52,7 @@ class Unigram:
         prob: float = 0.001,
         output_str: bool = True,
         duplicate: bool = False,
-    ) -> Union[List[str], str]:
+    ) -> list[str] | str:
         """
         :param str start_seq: word to begin sentence with
         :param int N: number of words
@@ -148,7 +148,7 @@ class Bigram:
         prob: float = 0.001,
         output_str: bool = True,
         duplicate: bool = False,
-    ) -> Union[List[str], str]:
+    ) -> list[str] | str:
         """
         :param str start_seq: word to begin sentence with
         :param int N: number of words
@@ -240,7 +240,7 @@ class Trigram:
         prob: float = 0.001,
         output_str: bool = True,
         duplicate: bool = False,
-    ) -> Union[List[str], str]:
+    ) -> list[str] | str:
         """
         :param str start_seq: word to begin sentence with
         :param int N: number of words

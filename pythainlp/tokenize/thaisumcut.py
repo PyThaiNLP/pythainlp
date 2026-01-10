@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileCopyrightText: Copyright 2020 Nakhun Chumpolsathien
 # SPDX-License-Identifier: Apache-2.0
@@ -15,21 +14,22 @@ Cite:
     school={Beijing Institute of Technology}
 """
 
+from __future__ import annotations
+
 import math
 import operator
 import re
-from typing import List
 
 from pythainlp.tokenize import word_tokenize
 
 
-def list_to_string(list: List[str]) -> str:
+def list_to_string(list: list[str]) -> str:
     string = "".join(list)
     string = " ".join(string.split())
     return string
 
 
-def middle_cut(sentences: List[str]) -> List[str]:
+def middle_cut(sentences: list[str]) -> list[str]:
     new_text = ""
     for sentence in sentences:
         sentence_size = len(word_tokenize(sentence, keep_whitespace=False))
@@ -86,7 +86,7 @@ def middle_cut(sentences: List[str]) -> List[str]:
 class ThaiSentenceSegmentor:
     def split_into_sentences(
         self, text: str, isMiddleCut: bool = False
-    ) -> List[str]:
+    ) -> list[str]:
         # Declare Variables
         th_alphabets = "([ก-๙])"
         th_conjunction = "(ทำให้|โดย|เพราะ|นอกจากนี้|แต่|กรณีที่|หลังจากนี้|ต่อมา|ภายหลัง|นับตั้งแต่|หลังจาก|ซึ่งเหตุการณ์|ผู้สื่อข่าวรายงานอีก|ส่วนที่|ส่วนสาเหตุ|ฉะนั้น|เพราะฉะนั้น|เพื่อ|เนื่องจาก|จากการสอบสวนทราบว่า|จากกรณี|จากนี้|อย่างไรก็ดี)"

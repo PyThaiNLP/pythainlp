@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -10,6 +9,9 @@ Using International Components for Unicode (ICU)
     * `GitHub \
         <https://github.com/ovalhub/pyicu>`_
 """
+
+from __future__ import annotations
+
 from icu import Transliterator
 
 _ICU_THAI_TO_LATIN = Transliterator.createInstance("Thai-Latin")

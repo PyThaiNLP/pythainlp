@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -12,6 +11,7 @@ Note: It does not take into account the change of new year's day in Thailand
 # AD คือ ค.ศ.
 # AH ปีฮิจเราะห์ศักราชเป็นปีพุทธศักราช จะต้องบวกด้วย 1122
 # ไม่ได้รองรับปี พ.ศ. ก่อนการเปลี่ยนวันขึ้นปีใหม่ของประเทศไทย
+from __future__ import annotations
 
 __all__ = [
     "convert_years",
@@ -25,7 +25,6 @@ __all__ = [
 
 import re
 from datetime import datetime, timedelta
-from typing import Union
 
 try:
     from zoneinfo import ZoneInfo
@@ -84,17 +83,20 @@ thai_full_month_lists = [
     ["กันยายน", "กันยา", "ก.ย.", "09", "9"],
     ["ตุลาคม", "ตุลา", "ต.ค.", "10"],
     ["พฤศจิกายน", "พฤศจิกา", "พ.ย.", "11"],
-    ["ธันวาคม", "ธันวา", "ธ.ค.", "12"]
+    ["ธันวาคม", "ธันวา", "ธ.ค.", "12"],
 ]
-thai_full_month_lists_regex = "(" + '|'.join(
-    ['|'.join(i) for i in thai_full_month_lists]
-) + ")"
+thai_full_month_lists_regex = (
+    "(" + "|".join(["|".join(i) for i in thai_full_month_lists]) + ")"
+)
 year_all_regex = r"(\d\d\d\d|\d\d)"
-dates_list = "(" + '|'.join(
-    [str(i) for i in range(32, 0, -1)] + [
-        "0" + str(i) for i in range(1, 10)
-    ]
-) + ")"
+dates_list = (
+    "("
+    + "|".join(
+        [str(i) for i in range(32, 0, -1)]
+        + ["0" + str(i) for i in range(1, 10)]
+    )
+    + ")"
+)
 
 _DAY = {
     "วันนี้": 0,
@@ -145,7 +147,7 @@ def convert_years(year: str, src="be", target="ad") -> str:
         # พ.ศ. - 543  = ค.ศ.
         if target == "ad":
             output_year = str(int(year) - 543)
-        # พ.ศ. - 2324 = ร.ศ. 
+        # พ.ศ. - 2324 = ร.ศ.
         elif target == "re":
             output_year = str(int(year) - 2324)
         # พ.ศ. - 1122 = ฮ.ศ.
@@ -200,7 +202,7 @@ def thai_strptime(
     fmt: str,
     year: str = "be",
     add_year: int = None,
-    tzinfo=ZoneInfo("Asia/Bangkok")
+    tzinfo=ZoneInfo("Asia/Bangkok"),
 ):
     """
     Thai strptime
@@ -264,27 +266,28 @@ def thai_strptime(
     if "%f" in fmt:
         fmt = fmt.replace("%f", r"(\d+)")
     keys = [
-        i.strip().strip('-').strip(':').strip('.')
-        for i in _old.split("%") if i != ''
+        i.strip().strip("-").strip(":").strip(".")
+        for i in _old.split("%")
+        if i != ""
     ]
     y = re.findall(fmt, text)
 
-    data = {i: ''.join(list(j)) for i, j in zip(keys, y[0])}
+    data = {i: "".join(list(j)) for i, j in zip(keys, y[0])}
     H = 0
     M = 0
     S = 0
     f = 0
-    d = data['d']
-    m = _find_month(data['B'])
-    y = data['Y']
+    d = data["d"]
+    m = _find_month(data["B"])
+    y = data["Y"]
     if "H" in keys:
-        H = data['H']
+        H = data["H"]
     if "M" in keys:
-        M = data['M']
+        M = data["M"]
     if "S" in keys:
-        S = data['S']
+        S = data["S"]
     if "f" in keys:
-        f = data['f']
+        f = data["f"]
     if int(y) < 100 and year == "be":
         if add_year is None:
             y = str(2500 + int(y))
@@ -305,7 +308,7 @@ def thai_strptime(
         minute=int(M),
         second=int(S),
         microsecond=int(f),
-        tzinfo=tzinfo
+        tzinfo=tzinfo,
     )
 
 
@@ -369,9 +372,7 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
     return ad
 
 
-def thaiword_to_date(
-    text: str, date: datetime = None
-) -> Union[datetime, None]:
+def thaiword_to_date(text: str, date: datetime = None) -> datetime | None:
     """
     Convert Thai relative date to :class:`datetime.datetime`.
 

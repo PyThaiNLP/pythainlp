@@ -1,15 +1,16 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Removement of repeated consonants at the end of words
 """
-from typing import Iterable, List, Tuple
+
+from __future__ import annotations
+
+from collections.abc import Iterable
 
 from pythainlp import thai_consonants as consonants
 from pythainlp.corpus import thai_words
-from pythainlp.util.trie import Trie
 
 # used by remove_trailing_repeat_consonants()
 # contains all words that has repeating consonants at the end
@@ -212,8 +213,8 @@ def _is_last_consonant_repeater(word: str) -> bool:
 
 
 def _find_longest_consonant_repeaters_match(
-    segment_head: str, repeaters: List[str]
-) -> Tuple[str, int]:
+    segment_head: str, repeaters: list[str]
+) -> tuple[str, int]:
     """
     Find the longest word that matches the segment.
 

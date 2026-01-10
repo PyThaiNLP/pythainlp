@@ -1,12 +1,14 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Phonemes util
 """
-from functools import lru_cache
+
+from __future__ import annotations
+
 import unicodedata
+from functools import lru_cache
 
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util.trie import Trie
@@ -193,6 +195,7 @@ dict_ipa_rtgs = {
 }
 
 dict_ipa_rtgs_final = {"w": "o"}
+
 
 @lru_cache
 def _ipa_cut():

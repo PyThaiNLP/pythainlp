@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -11,8 +10,10 @@ on the codes from Patorn Utenpattanun.
        <https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py>`_
 
 """
+
+from __future__ import annotations
+
 import re
-from typing import Dict, List, Optional, Union
 
 from pythainlp import thai_tonemarks
 from pythainlp.tokenize import word_dict_trie
@@ -48,7 +49,7 @@ class LongestMatchTokenizer:
         self.__trie = trie
 
     @staticmethod
-    def __search_nonthai(text: str) -> Union[None, str]:
+    def __search_nonthai(text: str) -> None | str:
         match = _RE_NONTHAI.search(text)
         if match.group(0):
             return match.group(0).lower()
@@ -137,22 +138,26 @@ class LongestMatchTokenizer:
         # Group consecutive spaces into one token
         grouped_tokens = []
         for token in tokens:
-            if token.isspace() and grouped_tokens and grouped_tokens[-1].isspace():
+            if (
+                token.isspace()
+                and grouped_tokens
+                and grouped_tokens[-1].isspace()
+            ):
                 grouped_tokens[-1] += token
             else:
                 grouped_tokens.append(token)
 
         return grouped_tokens
 
-    def tokenize(self, text: str) -> List[str]:
+    def tokenize(self, text: str) -> list[str]:
         tokens = self.__segment(text)
         return tokens
 
 
-_tokenizers: Dict[int, LongestMatchTokenizer] = {}
+_tokenizers: dict[int, LongestMatchTokenizer] = {}
 
 
-def segment(text: str, custom_dict: Optional[Trie] = None) -> List[str]:
+def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
     """
     Dictionary-based longest matching word segmentation.
 

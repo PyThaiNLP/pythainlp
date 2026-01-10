@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
 
 import gzip
 import json
-from typing import List, Tuple
 
 import numpy as np
 
@@ -20,7 +19,11 @@ class GzipModel:
     :param str model_path: Path for loading model (if you saved the model)
     """
 
-    def __init__(self, training_data: List[Tuple[str, str]] = None, model_path: str = None):
+    def __init__(
+        self,
+        training_data: list[tuple[str, str]] = None,
+        model_path: str = None,
+    ):
         if model_path is not None:
             self.load(model_path)
         else:
@@ -47,7 +50,7 @@ class GzipModel:
 
                 from pythainlp.classify import GzipModel
 
-                training_data =  [
+                training_data = [
                     ("รายละเอียดตามนี้เลยค่าา ^^", "Neutral"),
                     ("กลัวพวกมึงหาย อดกินบาบิก้อน", "Neutral"),
                     ("บริการแย่มากก เป็นหมอได้ไง😤", "Negative"),
@@ -56,7 +59,7 @@ class GzipModel:
                     ("ลองแล้วรสนี้อร่อย... ชอบๆ", "Positive"),
                     ("ฉันรู้สึกโกรธ เวลามือถือแบตหมด", "Negative"),
                     ("เธอภูมิใจที่ได้ทำสิ่งดี ๆ และดีใจกับเด็ก ๆ", "Positive"),
-                    ("นี่เป็นบทความหนึ่ง", "Neutral")
+                    ("นี่เป็นบทความหนึ่ง", "Neutral"),
                 ]
                 model = GzipModel(training_data)
                 print(model.predict("ฉันดีใจ", k=1))
@@ -85,13 +88,17 @@ class GzipModel:
         :param str path: path for save model
         """
         with open(path, "w") as f:
-            json.dump({
-                "training_data": self.training_data.tolist(),
-                "Cx2_list": self.Cx2_list
-            }, f, ensure_ascii=False)
+            json.dump(
+                {
+                    "training_data": self.training_data.tolist(),
+                    "Cx2_list": self.Cx2_list,
+                },
+                f,
+                ensure_ascii=False,
+            )
 
     def load(self, path: str):
-        with open(path, "r") as f:
+        with open(path) as f:
             data = json.load(f)
             self.Cx2_list = data["Cx2_list"]
             self.training_data = np.array(data["training_data"])

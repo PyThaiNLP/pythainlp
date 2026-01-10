@@ -1,10 +1,11 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Romanization of Thai words based on machine-learnt engine ("thai2rom")
 """
+
+from __future__ import annotations
 
 import random
 
@@ -139,7 +140,9 @@ class Encoder(nn.Module):
         sequences = self.dropout(sequences)
 
         sequences_packed = nn.utils.rnn.pack_padded_sequence(
-            sequences, sequences_lengths.clone().to("cpu", torch.int64), batch_first=True
+            sequences,
+            sequences_lengths.clone().to("cpu", torch.int64),
+            batch_first=True,
         )
 
         sequences_output, hidden = self.rnn(sequences_packed, hidden)

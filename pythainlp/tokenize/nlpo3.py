@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
 from sys import stderr
-from typing import List
 
 from nlpo3 import load_dict as nlpo3_load_dict
 from nlpo3 import segment as nlpo3_segment
@@ -45,7 +45,7 @@ def segment(
     custom_dict: str = _NLPO3_DEFAULT_DICT_NAME,
     safe_mode: bool = False,
     parallel_mode: bool = False,
-) -> List[str]:
+) -> list[str]:
     """Break text into tokens.
 
     Python binding for nlpO3. It is newmm engine in Rust.

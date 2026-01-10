@@ -1,13 +1,15 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Preprocessing for ULMFiT
 """
+
+from __future__ import annotations
+
 import html
 import re
-from typing import Collection, List
+from collections.abc import Collection
 
 import emoji
 
@@ -105,14 +107,14 @@ def replace_rep_after(text: str) -> str:
 
     def _replace_rep(m):
         c, cc = m.groups()
-        return f"{c}{_TK_REP}{len(cc)+1} "
+        return f"{c}{_TK_REP}{len(cc) + 1} "
 
     re_rep = re.compile(r"(\S)(\1{3,})")
 
     return re_rep.sub(_replace_rep, text)
 
 
-def replace_wrep_post(toks: Collection[str]) -> List[str]:
+def replace_wrep_post(toks: Collection[str]) -> list[str]:
     """
     Replace repetitive words after tokenization;
     fastai `replace_wrep` does not work well with Thai.
@@ -186,7 +188,7 @@ def rm_brackets(text: str) -> str:
     return new_line
 
 
-def ungroup_emoji(toks: Collection[str]) -> List[str]:
+def ungroup_emoji(toks: Collection[str]) -> list[str]:
     """
     Ungroup Zero Width Joiner (ZVJ) Emojis
 
@@ -201,7 +203,7 @@ def ungroup_emoji(toks: Collection[str]) -> List[str]:
     return res
 
 
-def lowercase_all(toks: Collection[str]) -> List[str]:
+def lowercase_all(toks: Collection[str]) -> list[str]:
     """
     Lowercase all English words;
     English words in Thai texts don't usually have nuances of capitalization.
@@ -239,7 +241,7 @@ def replace_rep_nonum(text: str) -> str:
     return re_rep.sub(_replace_rep, text)
 
 
-def replace_wrep_post_nonum(toks: Collection[str]) -> List[str]:
+def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
     """
     Replace reptitive words post tokenization;
     fastai `replace_wrep` does not work well with Thai.
@@ -274,7 +276,7 @@ def replace_wrep_post_nonum(toks: Collection[str]) -> List[str]:
     return res[1:]
 
 
-def remove_space(toks: Collection[str]) -> List[str]:
+def remove_space(toks: Collection[str]) -> list[str]:
     """
     Do not include space for bag-of-word models.
 

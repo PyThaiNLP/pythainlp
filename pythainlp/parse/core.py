@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-
-from typing import List, Union
+from __future__ import annotations
 
 _tagger = None
 _tagger_name = ""
@@ -11,10 +9,10 @@ _tagger_name = ""
 
 def dependency_parsing(
     text: str,
-    model: Union[str, None] = None,
+    model: str | None = None,
     tag: str = "str",
     engine: str = "esupar",
-) -> Union[List[List[str]], str]:
+) -> list[list[str]] | str:
     """
     Dependency Parsing
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -9,17 +8,24 @@ from VISTEC-depa Thailand Artificial Intelligence Research Institute
 
 Website: https://airesearch.in.th/releases/machine-translation-models/
 """
+
+from __future__ import annotations
+
 import os
 
 try:
     from fairseq.models.transformer import TransformerModel
 except ImportError:
-    raise ImportError("Not found fairseq! Please install fairseq by pip install fairseq")
+    raise ImportError(
+        "Not found fairseq! Please install fairseq by pip install fairseq"
+    )
 
 try:
     from sacremoses import MosesTokenizer
 except ImportError:
-    raise ImportError("Not found sacremoses! Please install sacremoses by pip install sacremoses")
+    raise ImportError(
+        "Not found sacremoses! Please install sacremoses by pip install sacremoses"
+    )
 
 from pythainlp.corpus import download, get_corpus_path
 

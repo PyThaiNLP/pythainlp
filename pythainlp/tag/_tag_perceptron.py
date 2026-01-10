@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -17,12 +16,15 @@ PyThaiNLP modifications Copyright 2020 PyThaiNLP Project
 
 This tagger is provided under the terms of the MIT License.
 """
+
+from __future__ import annotations
+
 import json
 from collections import defaultdict
-from typing import Dict, Iterable, List, Tuple, Union
+from collections.abc import Iterable
 
 
-class AveragedPerceptron():
+class AveragedPerceptron:
     """
     An averaged perceptron, as implemented by Matthew Honnibal.
 
@@ -45,7 +47,7 @@ class AveragedPerceptron():
         # Number of instances seen
         self.i = 0
 
-    def predict(self, features: Dict):
+    def predict(self, features: dict):
         """
         Dot-product the features and current weights and return the best
         label.
@@ -60,7 +62,7 @@ class AveragedPerceptron():
         # Do a secondary alphabetic sort, for stability
         return max(self.classes, key=lambda label: (scores[label], label))
 
-    def update(self, truth, guess, features: Dict) -> None:
+    def update(self, truth, guess, features: dict) -> None:
         """Update the feature weights."""
 
         def upd_feat(c, f, w, v):
@@ -128,7 +130,7 @@ class PerceptronTagger:
             self.AP_MODEL_LOC = path
             self.load(self.AP_MODEL_LOC)
 
-    def tag(self, tokens: Iterable[str]) -> List[Tuple[str, str]]:
+    def tag(self, tokens: Iterable[str]) -> list[tuple[str, str]]:
         """Tags a string `tokens`."""
         prev, prev2 = self.START
         output = []
@@ -146,8 +148,8 @@ class PerceptronTagger:
 
     def train(
         self,
-        sentences: Iterable[Iterable[Tuple[str, str]]],
-        save_loc: Union[str, None] = None,
+        sentences: Iterable[Iterable[tuple[str, str]]],
+        save_loc: str | None = None,
         nr_iter: int = 5,
     ) -> None:
         """
@@ -203,11 +205,11 @@ class PerceptronTagger:
         :param str loc: model path
         """
         try:
-            with open(loc, "r", encoding="utf-8-sig") as f:
+            with open(loc, encoding="utf-8-sig") as f:
                 w_td_c = json.load(f)
-        except IOError:
+        except OSError:
             msg = "Missing trontagger.json file."
-            raise IOError(msg)
+            raise OSError(msg)
         self.model.weights = w_td_c["weights"]
         self.tagdict = w_td_c["tagdict"]
         self.classes = w_td_c["classes"]
@@ -233,8 +235,8 @@ class PerceptronTagger:
             return word.lower()
 
     def _get_features(
-        self, i: int, word: str, context: List[str], prev: str, prev2: str
-    ) -> Dict:
+        self, i: int, word: str, context: list[str], prev: str, prev2: str
+    ) -> dict:
         """
         Map tokens into a feature representation, implemented as a
         {hashable: float} dict. If the features change, a new model must be
@@ -265,7 +267,7 @@ class PerceptronTagger:
         return features
 
     def _make_tagdict(
-        self, sentences: Iterable[Iterable[Tuple[str, str]]]
+        self, sentences: Iterable[Iterable[tuple[str, str]]]
     ) -> None:
         """Make a tag dictionary for single-tag words."""
         counts = defaultdict(lambda: defaultdict(int))

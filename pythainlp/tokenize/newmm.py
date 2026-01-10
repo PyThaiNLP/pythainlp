@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -15,10 +14,13 @@ with heuristic graph size limit added to avoid exponential waiting time.
     * \
         https://colab.research.google.com/drive/14Ibg-ngZXj15RKwjNwoZlOT32fQBOrBx#scrollTo=MYZ7NzAR7Dmw
 """
+
+from __future__ import annotations
+
 import re
 from collections import defaultdict
+from collections.abc import Generator
 from heapq import heappop, heappush
-from typing import Generator, List, Optional
 
 from pythainlp.tokenize import word_dict_trie
 from pythainlp.tokenize.tcc_p import tcc_pos
@@ -57,7 +59,7 @@ del _TEXT_SCAN_RIGHT
 
 def _bfs_paths_graph(
     graph: defaultdict, start: int, goal: int
-) -> Generator[List[int], None, None]:
+) -> Generator[list[int], None, None]:
     queue = [(start, [start])]
     while queue:
         (vertex, path) = queue.pop(0)
@@ -140,9 +142,9 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
 def segment(
     text: str,
-    custom_dict: Optional[Trie] = None,
+    custom_dict: Trie | None = None,
     safe_mode: bool = False,
-) -> List[str]:
+) -> list[str]:
     """Maximal-matching word segmentation constrained by Thai Character Cluster.
 
     A dictionary-based word segmentation using maximal matching algorithm,

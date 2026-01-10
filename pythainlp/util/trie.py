@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -7,7 +6,10 @@ Trie data structure.
 
 Designed to be used for tokenizer's dictionary, but can be for other purposes.
 """
-from typing import Iterable, Iterator, List, Union
+
+from __future__ import annotations
+
+from collections.abc import Iterable, Iterator
 
 
 class Trie(Iterable[str]):
@@ -69,7 +71,7 @@ class Trie(Iterable[str]):
                 break
             del parent.children[ch]  # remove from parent dict
 
-    def prefixes(self, text: str) -> List[str]:
+    def prefixes(self, text: str) -> list[str]:
         """
         List all possible words from first sequence of characters in a word.
 
@@ -98,7 +100,7 @@ class Trie(Iterable[str]):
         return len(self.words)
 
 
-def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
+def dict_trie(dict_source: str | Iterable[str] | Trie) -> Trie:
     """
     Create a dictionary trie from a file or an iterable.
 
@@ -111,7 +113,7 @@ def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
 
     if isinstance(dict_source, str) and len(dict_source) > 0:
         # dict_source is a path to dictionary text file
-        with open(dict_source, "r", encoding="utf8") as f:
+        with open(dict_source, encoding="utf8") as f:
             _vocabs = f.read().splitlines()
             trie = Trie(_vocabs)
     elif isinstance(dict_source, Iterable) and not isinstance(

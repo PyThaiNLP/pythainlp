@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-
-from typing import List
+from __future__ import annotations
 
 from transformers import (
     CamembertTokenizer,
@@ -52,7 +50,7 @@ class Thai2transformersAug:
             masked_text = self.input_text
         return self.sent2
 
-    def augment(self, sentence: str, num_replace_tokens: int = 3) -> List[str]:
+    def augment(self, sentence: str, num_replace_tokens: int = 3) -> list[str]:
         """
         Text augmentation from WangchanBERTa
 

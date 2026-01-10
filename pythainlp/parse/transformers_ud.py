@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 TransformersUD
 
@@ -10,8 +9,10 @@ The source: https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-head
 
 GitHub: https://github.com/KoichiYasuoka
 """
+
+from __future__ import annotations
+
 import os
-from typing import List, Union
 
 import numpy
 import torch
@@ -56,9 +57,7 @@ class Parse:
             model=t, tokenizer=self.tokenizer
         )
 
-    def __call__(
-        self, text: str, tag: str = "str"
-    ) -> Union[List[List[str]], str]:
+    def __call__(self, text: str, tag: str = "str") -> list[list[str]] | str:
         w = [
             (t["start"], t["end"], t["entity_group"])
             for t in self.deprel(text)

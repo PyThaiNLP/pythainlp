@@ -129,7 +129,7 @@ def segment(
     :param text: text to be tokenized
     :type text: str
     :param custom_dict: tokenization dictionary,\
-        defaults to word_dict_trie()
+        defaults to a Trie generated from pythainlp.corpus.thai_words
     :type custom_dict: Trie, optional
     :return: list of segmented tokens
     :rtype: List[str]

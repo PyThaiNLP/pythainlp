@@ -16,7 +16,7 @@ class GzipModel:
     (Jiang et al., Findings 2023)
 
     :param list training_data: list [(text_sample,label)]
-    :param str model_path: Path for loading model (if you saved the model)
+    :param str model_path: Path for loading model (if you saved the model). Default is empty string.
     """
 
     def __init__(

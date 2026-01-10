@@ -140,7 +140,7 @@ class WangChanGLM:
         Generate Instruct
 
         :param str instruct: Instruct
-        :param str context: context
+        :param str context: context (optional, default is empty string)
         :param int max_new_tokens: maximum number of new tokens
         :param float top_p: top p
         :param float temperature: temperature

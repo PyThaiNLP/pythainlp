@@ -15,13 +15,13 @@ class GzipModel:
     “Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors
     (Jiang et al., Findings 2023)
 
-    :param list training_data: list [(text_sample,label)]
+    :param list | None training_data: list [(text_sample,label)]. Default is None.
     :param str model_path: Path for loading model (if you saved the model). Default is empty string.
     """
 
     def __init__(
         self,
-        training_data: list[tuple[str, str]] = None,
+        training_data: list[tuple[str, str]] | None = None,
         model_path: str = "",
     ):
         if model_path:

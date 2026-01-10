@@ -136,7 +136,7 @@ def segment(
     """
     if not text or not isinstance(text, str):
         return []
-    
+
     if not custom_dict:
         custom_dict = word_dict_trie()
 
@@ -158,7 +158,7 @@ def find_all_segment(
     """
     if not text or not isinstance(text, str):
         return []
-    
+
     if not custom_dict:
         custom_dict = word_dict_trie()
 

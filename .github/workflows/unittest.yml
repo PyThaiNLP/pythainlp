@@ -70,11 +70,11 @@ jobs:
       # If torch for the platform is not available in PyPI, use this command:
       # pip install "<torch_wheel_url>"
       # Get wheel URL from http://download.pytorch.org/whl/torch/
-    - name: Install dependencies from docker_requirements.txt
+    - name: Install testing dependencies
       if: env.INSTALL_FULL_DEPS == 'true'
       env:
         SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL: True
-      run: pip install -r docker_requirements.txt
+      run: pip install ".[testing]"
     - name: Install PyThaiNLP + dependencies (minimum)
       if: matrix.python-version != env.PYTHON_VERSION_LATEST && matrix.python-version != env.PYTHON_VERSION_LATEST_2
       run: pip install .

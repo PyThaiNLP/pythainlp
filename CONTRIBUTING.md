@@ -1,5 +1,5 @@
 ---
-SPDX-FileCopyrightText: 2025 PyThaiNLP Project
+SPDX-FileCopyrightText: 2025-2026 PyThaiNLP Project
 SPDX-FileType: DOCUMENTATION
 SPDX-License-Identifier: CC0-1.0
 ---
@@ -108,9 +108,7 @@ Make sure the tests pass on GitHub Actions.
 
 See more in [tests/README.md](./tests/README.md)
 
-## Building and Installing
-
-PyThaiNLP uses modern Python packaging with all configuration in `pyproject.toml` (PEP 517/518/621).
+## Installing and Building
 
 ### Installing for Development
 

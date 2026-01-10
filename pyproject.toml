@@ -11,7 +11,7 @@ name = "pythainlp"
 version = "5.2.0"
 description = "Thai Natural Language Processing library"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 license = "Apache-2.0"
 authors = [
     {name = "PyThaiNLP", email = "wannaphong@pythainlp.org"}
@@ -41,7 +41,6 @@ classifiers = [
 
 # Core dependencies
 dependencies = [
-    "backports.zoneinfo; python_version<'3.9'",
     "requests>=2.31",
     "tzdata; sys_platform == 'win32'",
 ]

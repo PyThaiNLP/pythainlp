@@ -31,7 +31,7 @@ pip install pythainlp
 
 ## Getting Started
 
-- PyThaiNLP requires Python 3.7+.
+- PyThaiNLP requires Python 3.9+.
   - Python 2.7 users can use PyThaiNLP 1.6. See [2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118) | [Upgrading from 1.7](https://pythainlp.org/docs/2.0/notes/pythainlp-1_7-2_0.html) | [Upgrading ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
 - [PyThaiNLP Get Started notebook](https://pythainlp.org/tutorials/notebooks/pythainlp_get_started.html) | [API document](https://pythainlp.org/docs) | [Tutorials](https://pythainlp.org/tutorials)
 - [Official website](https://pythainlp.org/) | [PyPI](https://pypi.org/project/pythainlp/) | [Facebook page](https://www.facebook.com/pythainlp/)

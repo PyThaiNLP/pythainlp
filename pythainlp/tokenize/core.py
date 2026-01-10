@@ -880,7 +880,6 @@ class Tokenizer:
         :param bool keep_whitespace: True to keep whitespace, a common mark
                                      for end of phrase in Thai
         """
-        print("HEHE")
         self.__trie_dict = Trie([])
         if custom_dict:
             self.__trie_dict = dict_trie(custom_dict)

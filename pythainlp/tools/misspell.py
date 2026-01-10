@@ -4,7 +4,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from typing import List
 
-import numpy as np
+import math
+import random
 
 THAI_CHARACTERS_WITHOUT_SHIFT = [
     "ผปแอิืทมใฝ",
@@ -126,10 +127,8 @@ def misspell(sentence: str, ratio: float = 0.05):
         # output:
         ภาษาไทยปรากฏครั้งแรกในกุทธศักราช 1727
     """
-    num_misspells = np.floor(len(sentence) * ratio).astype(int)
-    positions = np.random.choice(
-        len(sentence), size=num_misspells, replace=False
-    )
+    num_misspells = math.floor(len(sentence) * ratio)
+    positions = random.sample(range(len(sentence)), k=num_misspells)
 
     # convert strings to array of characters
     misspelled = list(sentence)
@@ -138,7 +137,7 @@ def misspell(sentence: str, ratio: float = 0.05):
         if potential_candidates is None:
             continue
 
-        candidate = np.random.choice(potential_candidates)
+        candidate = random.choice(potential_candidates)
 
         misspelled[pos] = candidate
 

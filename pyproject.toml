@@ -2,6 +2,318 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+[build-system]
+requires = ["setuptools>=65.0.2", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pythainlp"
+version = "5.2.0"
+description = "Thai Natural Language Processing library"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "PyThaiNLP", email = "wannaphong@pythainlp.org"}
+]
+keywords = [
+    "pythainlp",
+    "NLP",
+    "natural language processing",
+    "text analytics",
+    "text processing",
+    "localization",
+    "computational linguistics",
+    "ThaiNLP",
+    "Thai NLP",
+    "Thai language",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: Thai",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing",
+    "Topic :: Text Processing :: General",
+    "Topic :: Text Processing :: Linguistic",
+]
+
+# Core dependencies
+dependencies = [
+    "backports.zoneinfo; python_version<'3.9'",
+    "requests>=2.31",
+    "tzdata; sys_platform == 'win32'",
+]
+
+[project.optional-dependencies]
+# Individual feature groups
+abbreviation = ["khamyo>=0.2.0"]
+
+attacut = ["attacut>=1.0.6"]
+
+benchmarks = [
+    "numpy>=1.22",
+    "pandas>=0.24",
+    "PyYAML>=5.4.1",
+]
+
+budoux = ["budoux>=0.7.0"]
+
+coreference_resolution = [
+    "fastcoref>=2.1.5",
+    "spacy>=3.0",
+]
+
+dependency_parsing = [
+    "spacy_thai>=0.7.1",
+    "transformers>=4.22.1",
+    "ufal.chu-liu-edmonds>=1.0.2",
+]
+
+el = ["multiel>=0.5"]
+
+esupar = [
+    "esupar>=1.3.8",
+    "numpy",
+    "transformers>=4.22.1",
+]
+
+generate = ["fastai<2.0"]
+
+icu = ["pyicu>=2.3"]
+
+ipa = ["epitran>=1.1"]
+
+ml = [
+    "numpy>=1.22",
+    "torch>=1.0.0",
+]
+
+mt5 = [
+    "sentencepiece>=0.1.91",
+    "transformers>=4.6.0",
+]
+
+nlpo3 = ["nlpo3>=1.3.1"]
+
+onnx = [
+    "numpy>=1.22",
+    "onnxruntime>=1.10.0",
+    "sentencepiece>=0.1.91",
+]
+
+oskut = ["oskut>=1.3"]
+
+sefr_cut = ["sefr_cut>=1.1"]
+
+spacy_thai = ["spacy_thai>=0.7.1"]
+
+spell = [
+    "phunspell>=0.1.6",
+    "symspellpy>=6.7.6",
+]
+
+ssg = ["ssg>=0.0.8"]
+
+textaugment = [
+    "bpemb",
+    "gensim>=4.0.0",
+]
+
+thai_nner = ["thai_nner"]
+
+thai2fit = [
+    "emoji>=0.5.1",
+    "gensim>=4.0.0",
+    "numpy>=1.22",
+]
+
+thai2rom = [
+    "numpy>=1.22",
+    "torch>=1.0.0",
+]
+
+translate = [
+    'fairseq>=0.10.0,<0.13;python_version<"3.11"',
+    'fairseq-fixed==0.12.3.1,<0.13;python_version>="3.11"',
+    "sacremoses>=0.0.41",
+    "sentencepiece>=0.1.91",
+    "torch>=1.0.0",
+    "transformers>=4.6.0",
+    "word2word>=1.0.0",
+]
+
+transformers_ud = [
+    "transformers>=4.22.1",
+    "ufal.chu-liu-edmonds>=1.0.2",
+]
+
+wangchanberta = [
+    "sentencepiece>=0.1.91",
+    "transformers>=4.6.0",
+]
+
+wangchanglm = [
+    "pandas>=0.24",
+    "sentencepiece>=0.1.91",
+    "transformers>=4.6.0",
+]
+
+word_approximation = ["panphon>=0.20.0"]
+
+wordnet = ["nltk>=3.3"]
+
+wsd = ["sentence-transformers>=2.2.2"]
+
+wtp = [
+    "transformers>=4.6.0",
+    "wtpsplit>=1.0.1",
+]
+
+wunsen = ["wunsen>=0.0.1"]
+
+# Compact dependencies - safe small set of optional dependencies
+compact = [
+    "nlpo3>=1.3.1",
+    "numpy>=1.22",
+    "pyicu>=2.3",
+    "python-crfsuite>=0.9.7",
+    "PyYAML>=5.4.1",
+]
+
+# Full dependencies - comprehensive set of all optional features
+full = [
+    "attacut>=1.0.4",
+    "bpemb>=0.3.2",
+    "budoux>=0.7.0",
+    "emoji>=0.5.1",
+    "epitran>=1.1",
+    'fairseq>=0.10.0,<0.13;python_version<"3.11"',
+    'fairseq-fixed==0.12.3.1,<0.13;python_version>="3.11"',
+    "fastai<2.0",
+    "fastcoref>=2.1.5",
+    "gensim>=4.0.0",
+    "khamyo>=0.2.0",
+    "nlpo3>=1.3.1",
+    "nltk>=3.3",
+    "numpy>=1.22",
+    "onnxruntime>=1.10.0",
+    "oskut>=1.3",
+    "pandas>=0.24",
+    "panphon>=0.20.0",
+    "phunspell>=0.1.6",
+    "pyicu>=2.3",
+    "sacremoses>=0.0.41",
+    "sefr_cut>=1.1",
+    "sentencepiece>=0.1.91",
+    "sentence-transformers>=2.2.2",
+    "spacy>=3.0",
+    "spacy_thai>=0.7.1",
+    "ssg>=0.0.8",
+    "symspellpy>=6.7.6",
+    "thai_nner",
+    "torch>=1.0.0",
+    "transformers>=4.22.1",
+    "ufal.chu-liu-edmonds>=1.0.2",
+    "word2word>=1.0.0",
+    "wtpsplit>=1.0.1",
+    "wunsen>=0.0.3",
+]
+
+# Testing dependencies - pinned versions for CI/CD reproducibility
+# This replaces docker_requirements.txt
+testing = [
+    "attacut==1.0.6",
+    "bpemb>=0.3.6,<0.4",
+    "budoux==0.7.0",
+    "deepcut==0.7.0.0",
+    "emoji>=0.6.0,<1",
+    "epitran==1.26.0",
+    "esupar>=1.3.9,<2",
+    'fairseq>=0.10.0,<0.13;python_version<"3.11"',
+    'fairseq-fixed==0.12.3.1,<0.13;python_version>="3.11"',
+    "fastai>=1.0.61,<2",
+    "fastcoref==2.1.6",
+    "gensim>=4.3.3,<5",
+    "khanaa>=0.1.1,<1",
+    "nlpo3>=1.3.1",
+    "nltk>=3.6.6,<4",
+    "numpy>=1.26.0,<3",
+    "pandas>=2.2.0,<3",
+    "panphon==0.22.2",
+    "phunspell==0.1.6",
+    "pyicu>=2.15.2,<3",
+    "python-crfsuite==0.9.12",
+    "PyYAML>=5.4.1,<6.0.2",
+    "sacremoses==0.1.1",
+    "sentence-transformers>=2.7.0,<3",
+    "sentencepiece==0.2.1",
+    "spacy==3.8.7,<4",
+    "spacy_thai==0.7.8",
+    "ssg==0.0.8",
+    "symspellpy==6.9.0",
+    "thai-nner==0.3",
+    "tltk>=1.6.8,<2",
+    "torch>=1.13.1,<3",
+    "transformers==4.57.3",
+    "ufal.chu-liu-edmonds==1.0.3",
+    "word2word>=1.0.0,<2",
+    "wtpsplit==1.3.0",
+    "wunsen==0.0.3",
+]
+
+[project.urls]
+"Documentation" = "https://pythainlp.org/docs/5.2/"
+"Tutorials" = "https://pythainlp.org/tutorials/"
+"Source Code" = "https://github.com/PyThaiNLP/pythainlp"
+"Bug Tracker" = "https://github.com/PyThaiNLP/pythainlp/issues"
+
+[project.scripts]
+thainlp = "pythainlp.__main__:main"
+
+[tool.setuptools]
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.packages.find]
+exclude = ["tests", "tests.*"]
+
+[tool.setuptools.package-data]
+pythainlp = ["corpus/*"]
+
+# Bumpversion configuration
+[tool.bumpversion]
+current_version = "5.2.0"
+commit = true
+tag = true
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)(\\-(?P<release>[a-z]+)(?P<build>\\d+))?"
+serialize = [
+    "{major}.{minor}.{patch}-{release}{build}",
+    "{major}.{minor}.{patch}",
+]
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"
+search = 'version = "{current_version}"'
+replace = 'version = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "pythainlp/__init__.py"
+search = '__version__ = "{current_version}"'
+replace = '__version__ = "{new_version}"'
+
+[tool.bumpversion.parts.release]
+optional_value = "prod"
+first_value = "dev"
+values = ["dev", "beta", "prod"]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["pythainlp"]
+
+# Ruff configuration
 [tool.ruff]
 line-length = 79
 indent-width = 4

@@ -21,15 +21,15 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        python-version: ["3.13", "3.12", "3.11", "3.10", "3.9"]
+        python-version: ["3.14", "3.13", "3.12", "3.11", "3.10", "3.9"]
 
     runs-on: ${{ matrix.os }}
     env:
       PYICU_WIN_VER: 2.14
       INSTALL_TORCH: false
       INSTALL_FULL_DEPS: false
-      PYTHON_VERSION_LATEST: "3.13"
-      PYTHON_VERSION_LATEST_2: "3.12"
+      PYTHON_VERSION_LATEST: "3.14"
+      PYTHON_VERSION_LATEST_2: "3.13"
 
     steps:
     - name: Checkout
@@ -41,7 +41,7 @@ jobs:
         cache: "pip"
     - name: Install build tools
       run: |
-        pip install --upgrade "pip<24.1" "setuptools>=65.0.2,<=73.0.1"
+        pip install --upgrade "pip<24.1" "setuptools>=69.0.0,<=73.0.1"
         pip install coverage coveralls
       # pip<24.1 because https://github.com/omry/omegaconf/pull/1195
       # setuptools>=65.0.2 because https://github.com/pypa/setuptools/commit/d03da04e024ad4289342077eef6de40013630a44#diff-9ea6e1e3dde6d4a7e08c7c88eceed69ca745d0d2c779f8f85219b22266efff7fR1

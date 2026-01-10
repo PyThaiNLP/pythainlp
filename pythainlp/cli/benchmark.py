@@ -91,7 +91,7 @@ class WordTokenizationBenchmark:
             from pythainlp.benchmarks import word_tokenization
         except ImportError:
             raise ImportError(
-                "Please install the extra dependencies `benchmarks` to use the command by `pip install pythainlp[benchmarks]`"
+                "Please install the extra dependencies `benchmarks` to use this command by running `pip install pythainlp[benchmarks]`"
             )
 
         df_raw = word_tokenization.benchmark(expected, actual)

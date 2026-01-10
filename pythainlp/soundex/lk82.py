@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -15,6 +14,9 @@ Python implementation:
 by Korakot Chaovavanich
 https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8
 """
+
+from __future__ import annotations
+
 import re
 
 from pythainlp.util import remove_tonemark

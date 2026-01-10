@@ -1,11 +1,12 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
 from functools import lru_cache
+
 from pythainlp.corpus import get_corpus
 from pythainlp.tokenize import Tokenizer
+
 
 @lru_cache
 def thai2fit_tokenizer():

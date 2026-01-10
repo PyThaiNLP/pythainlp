@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
 """
 spacy_thai: Tokenizer, POS tagger, and dependency parser for the Thai language using Universal Dependencies.
 
 GitHub: https://github.com/KoichiYasuoka/spacy-thai
 
 """
-from typing import List, Union
+
+from __future__ import annotations
 
 import spacy_thai
 
@@ -14,9 +14,7 @@ class Parse:
     def __init__(self, model: str = "th") -> None:
         self.nlp = spacy_thai.load()
 
-    def __call__(
-        self, text: str, tag: str = "str"
-    ) -> Union[List[List[str]], str]:
+    def __call__(self, text: str, tag: str = "str") -> list[list[str]] | str:
         doc = self.nlp(text)
         _text = []
         if tag == "list":

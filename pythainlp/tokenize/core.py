@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -6,17 +5,19 @@
 Generic functions of tokenizers
 """
 
+from __future__ import annotations
+
 import copy
 import re
-from typing import Iterable, List, Optional, Union
+from collections.abc import Iterable
 
 from pythainlp.tokenize import (
     DEFAULT_SENT_TOKENIZE_ENGINE,
     DEFAULT_SUBWORD_TOKENIZE_ENGINE,
-    syllable_dict_trie,
     DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
-    word_dict_trie,
     DEFAULT_WORD_TOKENIZE_ENGINE,
+    syllable_dict_trie,
+    word_dict_trie,
 )
 from pythainlp.tokenize._utils import (
     apply_postprocessors,
@@ -27,8 +28,8 @@ from pythainlp.util.trie import Trie, dict_trie
 
 
 def word_detokenize(
-    segments: Union[List[List[str]], List[str]], output: str = "str"
-) -> Union[List[str], str]:
+    segments: list[list[str]] | list[str], output: str = "str"
+) -> list[str] | str:
     """
     Word detokenizer.
 
@@ -97,11 +98,11 @@ def word_detokenize(
 
 def word_tokenize(
     text: str,
-    custom_dict: Optional[Trie] = None,
+    custom_dict: Trie | None = None,
     engine: str = DEFAULT_WORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
     join_broken_num: bool = True,
-) -> List[str]:
+) -> list[str]:
     """
     Word tokenizer.
 
@@ -361,10 +362,10 @@ def map_indices_to_words(index_list, sentences):
 
 
 def sent_tokenize(
-    text: Union[str, List[str]],
+    text: str | list[str],
     engine: str = DEFAULT_SENT_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
-) -> List[str]:
+) -> list[str]:
     """
     Sentence tokenizer.
 
@@ -532,7 +533,7 @@ def paragraph_tokenize(
     engine: str = "wtp-mini",
     paragraph_threshold: float = 0.5,
     style: str = "newline",
-) -> List[List[str]]:
+) -> list[list[str]]:
     """
     Paragraph tokenizer.
 
@@ -600,7 +601,7 @@ def subword_tokenize(
     text: str,
     engine: str = DEFAULT_SUBWORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
-) -> List[str]:
+) -> list[str]:
     """
     Subword tokenizer for tokenizing text into units smaller than syllables.
 
@@ -692,9 +693,7 @@ def subword_tokenize(
         words = word_tokenize(text)
         for word in words:
             segments.extend(
-                word_tokenize(
-                    text=word, custom_dict=syllable_dict_trie()
-                )
+                word_tokenize(text=word, custom_dict=syllable_dict_trie())
             )
     elif engine == "ssg":
         from pythainlp.tokenize.ssg import segment
@@ -723,7 +722,7 @@ def syllable_tokenize(
     text: str,
     engine: str = DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
-) -> List[str]:
+) -> list[str]:
     """
     Syllable tokenizer
 
@@ -755,7 +754,7 @@ def syllable_tokenize(
     )
 
 
-def display_cell_tokenize(text: str) -> List[str]:
+def display_cell_tokenize(text: str) -> list[str]:
     """
     Display cell tokenizer.
 
@@ -864,7 +863,7 @@ class Tokenizer:
 
     def __init__(
         self,
-        custom_dict: Union[Trie, Iterable[str], str] = [],
+        custom_dict: Trie | Iterable[str] | str = [],
         engine: str = "newmm",
         keep_whitespace: bool = True,
         join_broken_num: bool = True,
@@ -896,7 +895,7 @@ class Tokenizer:
         self.__keep_whitespace = keep_whitespace
         self.__join_broken_num = join_broken_num
 
-    def word_tokenize(self, text: str) -> List[str]:
+    def word_tokenize(self, text: str) -> list[str]:
         """
         Main tokenization function.
 

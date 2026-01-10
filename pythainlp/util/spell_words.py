@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from functools import lru_cache
+from __future__ import annotations
+
 import re
-from typing import List
+from functools import lru_cache
 
 from pythainlp import (
     thai_above_vowels,
@@ -49,10 +49,13 @@ for i in thai_above_vowels:
 for i in thai_below_vowels:
     dict_vowel[i] = "อ" + i
 
+
 @lru_cache
 def _cut():
     """Lazy load vowel tokenizer with cache"""
-    return Tokenizer(list(dict_vowel.keys()) + list(thai_consonants), engine="mm")
+    return Tokenizer(
+        list(dict_vowel.keys()) + list(thai_consonants), engine="mm"
+    )
 
 
 def _clean(w):
@@ -81,7 +84,7 @@ def _clean(w):
     return w
 
 
-def spell_syllable(text: str) -> List[str]:
+def spell_syllable(text: str) -> list[str]:
     """
     Spell out syllables in Thai word distribution form.
 
@@ -106,7 +109,7 @@ def spell_syllable(text: str) -> List[str]:
     return c_only + v_only + t_only + [text]
 
 
-def spell_word(text: str) -> List[str]:
+def spell_word(text: str) -> list[str]:
     """
     Spell out words in Thai word distribution form.
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -6,9 +5,10 @@
 Named-entity recognizer
 """
 
+from __future__ import annotations
+
 __all__ = ["ThaiNameTagger"]
 
-from typing import Dict, List, Tuple, Union
 
 from pythainlp.corpus import get_corpus_path, thai_stopwords
 from pythainlp.tag import pos_tag
@@ -22,7 +22,7 @@ def _is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำ�
     return word in thai_stopwords()
 
 
-def _doc2features(doc, i) -> Dict:
+def _doc2features(doc, i) -> dict:
     word = doc[i][0]
     postag = doc[i][1]
 
@@ -111,7 +111,7 @@ class ThaiNameTagger:
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False
-    ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]]]:
+    ) -> list[tuple[str, str]] | list[tuple[str, str, str]]:
         """
         This function tags named-entities in text in IOB format.
 

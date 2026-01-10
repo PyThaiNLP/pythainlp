@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -7,6 +6,9 @@ Thai soundex
 
 Has three systems to choose from: Udom83 (default), LK82, and MetaSound
 """
+
+from __future__ import annotations
+
 from pythainlp.soundex import DEFAULT_SOUNDEX_ENGINE
 from pythainlp.soundex.lk82 import lk82
 from pythainlp.soundex.metasound import metasound

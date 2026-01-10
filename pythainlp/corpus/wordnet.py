@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -11,6 +10,9 @@ except that the lang (language) argument is "tha" (Thai) by default.
 For more on usage, see NLTK Howto:
 https://www.nltk.org/howto/wordnet.html
 """
+
+from __future__ import annotations
+
 import nltk
 
 try:
@@ -88,7 +90,7 @@ def synset(name_synsets):
 
         >>> from pythainlp.corpus.wordnet import synset
         >>>
-        >>> difficult = synset('difficult.a.01')
+        >>> difficult = synset("difficult.a.01")
         >>> difficult
         Synset('difficult.a.01')
         >>>
@@ -252,13 +254,13 @@ def lemma(name_synsets):
 
         >>> from pythainlp.corpus.wordnet import lemma
         >>>
-        >>> lemma('practice.v.01.exercise')
+        >>> lemma("practice.v.01.exercise")
         Lemma('practice.v.01.exercise')
         >>>
-        >>> lemma('drill.v.03.exercise')
+        >>> lemma("drill.v.03.exercise")
         Lemma('drill.v.03.exercise')
         >>>
-        >>> lemma('exercise.n.01.exercise')
+        >>> lemma("exercise.n.01.exercise")
         Lemma('exercise.n.01.exercise')
     """
     return wordnet.lemma(name_synsets)
@@ -282,7 +284,7 @@ def lemma_from_key(key):
 
         >>> from pythainlp.corpus.wordnet import lemma, lemma_from_key
         >>>
-        >>> practice = lemma('practice.v.01.exercise')
+        >>> practice = lemma("practice.v.01.exercise")
         >>> practice.key()
         exercise%2:41:00::
         >>> lemma_from_key(practice.key())
@@ -317,9 +319,9 @@ def path_similarity(synsets1, synsets2):
 
         >>> from pythainlp.corpus.wordnet import path_similarity, synset
         >>>
-        >>> entity = synset('entity.n.01')
-        >>> obj = synset('object.n.01')
-        >>> cat = synset('cat.n.01')
+        >>> entity = synset("entity.n.01")
+        >>> obj = synset("object.n.01")
+        >>> cat = synset("cat.n.01")
         >>>
         >>> path_similarity(entity, obj)
         0.3333333333333333
@@ -355,9 +357,9 @@ def lch_similarity(synsets1, synsets2):
 
         >>> from pythainlp.corpus.wordnet import lch_similarity, synset
         >>>
-        >>> entity = synset('entity.n.01')
-        >>> obj = synset('object.n.01')
-        >>> cat = synset('cat.n.01')
+        >>> entity = synset("entity.n.01")
+        >>> obj = synset("object.n.01")
+        >>> cat = synset("cat.n.01")
         >>>
         >>> lch_similarity(entity, obj)
         2.538973871058276
@@ -387,9 +389,9 @@ def wup_similarity(synsets1, synsets2):
 
         >>> from pythainlp.corpus.wordnet import wup_similarity, synset
         >>>
-        >>> entity = synset('entity.n.01')
-        >>> obj = synset('object.n.01')
-        >>> cat = synset('cat.n.01')
+        >>> entity = synset("entity.n.01")
+        >>> obj = synset("object.n.01")
+        >>> cat = synset("cat.n.01")
         >>>
         >>> wup_similarity(entity, obj)
         0.5

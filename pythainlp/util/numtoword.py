@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -9,6 +8,8 @@ Adapted from
 http://justmindthought.blogspot.com/2012/12/code-php.html
 https://suksit.com/post/writing-bahttext-in-php/
 """
+
+from __future__ import annotations
 
 __all__ = ["bahttext", "num_to_thaiword"]
 
@@ -61,7 +62,7 @@ def bahttext(number: float) -> str:
     elif number == 0:
         ret = "ศูนย์บาทถ้วน"
     else:
-        num_int, num_dec = "{:.2f}".format(number).split(".")
+        num_int, num_dec = f"{number:.2f}".split(".")
         num_int = int(num_int)
         num_dec = int(num_dec)
 

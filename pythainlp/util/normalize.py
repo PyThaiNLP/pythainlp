@@ -1,4 +1,3 @@
-﻿# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -6,8 +5,9 @@
 Text normalization
 """
 
+from __future__ import annotations
+
 import re
-from typing import List, Union
 
 from pythainlp import thai_above_vowels as above_v
 from pythainlp import thai_below_vowels as below_v
@@ -251,7 +251,7 @@ def normalize(text: str) -> str:
     return text
 
 
-def expand_maiyamok(sent: Union[str, List[str]]) -> List[str]:
+def expand_maiyamok(sent: str | list[str]) -> list[str]:
     """
     Expand Maiyamok.
 
@@ -311,7 +311,7 @@ def expand_maiyamok(sent: Union[str, List[str]]) -> List[str]:
     return output_toks[::-1]
 
 
-def maiyamok(sent: Union[str, List[str]]) -> List[str]:
+def maiyamok(sent: str | list[str]) -> list[str]:
     """
     Expand Maiyamok.
 

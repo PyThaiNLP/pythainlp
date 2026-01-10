@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -11,6 +10,9 @@ By Wunsen
     * `GitHub \
         <https://github.com/cakimpei/wunsen>`_
 """
+
+from __future__ import annotations
+
 from wunsen import ThapSap
 
 
@@ -86,9 +88,7 @@ class WunsenTransliterate:
             # output: 'โอฮาโย'
 
             wt.transliterate(
-                "ohayou",
-                lang="jp",
-                jp_input="Hepburn-no diacritic"
+                "ohayou", lang="jp", jp_input="Hepburn-no diacritic"
             )
             # output: 'โอฮาโย'
 

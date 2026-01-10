@@ -1,7 +1,8 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
 
 def convert_currency(value: float, from_unit: str) -> dict:
     """
@@ -44,14 +45,14 @@ def convert_currency(value: float, from_unit: str) -> dict:
         # }
     """
     conversion_factors_to_att = {
-        'เบี้ย': 1,
-        'อัฐ': 100,  # 1 อัฐ = 100 เบี้ย
-        'ไพ': 2 * 100,  # 1 ไพ = 2 อัฐ
-        'เฟื้อง': 4 * 2 * 100,  # 1 เฟื้อง = 4 ไพ
-        'สลึง': 2 * 4 * 2 * 100,  # 1 สลึง = 2 เฟื้อง
-        'บาท': 4 * 2 * 4 * 2 * 100,  # 1 บาท = 4 สลึง
-        'ตำลึง': 4 * 4 * 2 * 4 * 2 * 100,  # 1 ตำลึง = 4 บาท
-        'ชั่ง': 20 * 4 * 4 * 2 * 4 * 2 * 100,  # 1 ชั่ง = 20 ตำลึง
+        "เบี้ย": 1,
+        "อัฐ": 100,  # 1 อัฐ = 100 เบี้ย
+        "ไพ": 2 * 100,  # 1 ไพ = 2 อัฐ
+        "เฟื้อง": 4 * 2 * 100,  # 1 เฟื้อง = 4 ไพ
+        "สลึง": 2 * 4 * 2 * 100,  # 1 สลึง = 2 เฟื้อง
+        "บาท": 4 * 2 * 4 * 2 * 100,  # 1 บาท = 4 สลึง
+        "ตำลึง": 4 * 4 * 2 * 4 * 2 * 100,  # 1 ตำลึง = 4 บาท
+        "ชั่ง": 20 * 4 * 4 * 2 * 4 * 2 * 100,  # 1 ชั่ง = 20 ตำลึง
     }
 
     if from_unit not in conversion_factors_to_att:

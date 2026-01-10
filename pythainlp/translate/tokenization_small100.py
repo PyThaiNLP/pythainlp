@@ -21,11 +21,13 @@
 # limitations under the License.
 """Tokenization classes for SMALL100."""
 
+from __future__ import annotations
+
 import json
 import os
 from pathlib import Path
 from shutil import copyfile
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any
 
 import sentencepiece
 from transformers.tokenization_utils import BatchEncoding, PreTrainedTokenizer
@@ -114,8 +116,8 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     pretrained_vocab_files_map = PRETRAINED_VOCAB_FILES_MAP
     model_input_names = ["input_ids", "attention_mask"]
 
-    prefix_tokens: List[int] = []
-    suffix_tokens: List[int] = []
+    prefix_tokens: list[int] = []
+    suffix_tokens: list[int] = []
 
     def __init__(
         self,
@@ -128,21 +130,29 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         pad_token="<pad>",
         unk_token="<unk>",
         language_codes="m2m100",
-        sp_model_kwargs: Optional[Dict[str, Any]] = None,
+        sp_model_kwargs: dict[str, Any] | None = None,
         num_madeup_words=8,
         **kwargs,
     ) -> None:
-        self.sp_model_kwargs = {} if sp_model_kwargs is None else sp_model_kwargs
+        self.sp_model_kwargs = (
+            {} if sp_model_kwargs is None else sp_model_kwargs
+        )
 
         self.language_codes = language_codes
         fairseq_language_code = FAIRSEQ_LANGUAGE_CODES[language_codes]
-        self.lang_code_to_token = {lang_code: f"__{lang_code}__" for lang_code in fairseq_language_code}
+        self.lang_code_to_token = {
+            lang_code: f"__{lang_code}__"
+            for lang_code in fairseq_language_code
+        }
 
-        kwargs["additional_special_tokens"] = kwargs.get("additional_special_tokens", [])
+        kwargs["additional_special_tokens"] = kwargs.get(
+            "additional_special_tokens", []
+        )
         kwargs["additional_special_tokens"] += [
             self.get_lang_token(lang_code)
             for lang_code in fairseq_language_code
-            if self.get_lang_token(lang_code) not in kwargs["additional_special_tokens"]
+            if self.get_lang_token(lang_code)
+            not in kwargs["additional_special_tokens"]
         ]
 
         super().__init__(
@@ -167,10 +177,16 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         self.encoder_size = len(self.encoder)
 
         self.lang_token_to_id = {
-            self.get_lang_token(lang_code): self.encoder_size + i for i, lang_code in enumerate(fairseq_language_code)
+            self.get_lang_token(lang_code): self.encoder_size + i
+            for i, lang_code in enumerate(fairseq_language_code)
         }
-        self.lang_code_to_id = {lang_code: self.encoder_size + i for i, lang_code in enumerate(fairseq_language_code)}
-        self.id_to_lang_token = {v: k for k, v in self.lang_token_to_id.items()}
+        self.lang_code_to_id = {
+            lang_code: self.encoder_size + i
+            for i, lang_code in enumerate(fairseq_language_code)
+        }
+        self.id_to_lang_token = {
+            v: k for k, v in self.lang_token_to_id.items()
+        }
 
         self._tgt_lang = tgt_lang if tgt_lang is not None else "en"
         self.cur_lang_id = self.get_lang_id(self._tgt_lang)
@@ -180,7 +196,11 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
     @property
     def vocab_size(self) -> int:
-        return len(self.encoder) + len(self.lang_token_to_id) + self.num_madeup_words
+        return (
+            len(self.encoder)
+            + len(self.lang_token_to_id)
+            + self.num_madeup_words
+        )
 
     @property
     def tgt_lang(self) -> str:
@@ -191,7 +211,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         self._tgt_lang = new_tgt_lang
         self.set_lang_special_tokens(self._tgt_lang)
 
-    def _tokenize(self, text: str) -> List[str]:
+    def _tokenize(self, text: str) -> list[str]:
         return self.sp_model.encode(text, out_type=str)
 
     def _convert_token_to_id(self, token):
@@ -205,13 +225,16 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
             return self.id_to_lang_token[index]
         return self.decoder.get(index, self.unk_token)
 
-    def convert_tokens_to_string(self, tokens: List[str]) -> str:
+    def convert_tokens_to_string(self, tokens: list[str]) -> str:
         """Converts a sequence of tokens (strings for sub-words) in a single string."""
         return self.sp_model.decode(tokens)
 
     def get_special_tokens_mask(
-        self, token_ids_0: List[int], token_ids_1: Optional[List[int]] = None, already_has_special_tokens: bool = False
-    ) -> List[int]:
+        self,
+        token_ids_0: list[int],
+        token_ids_1: list[int] | None = None,
+        already_has_special_tokens: bool = False,
+    ) -> list[int]:
         """
         Retrieve sequence ids from a token list that has no special tokens added. This method is called when adding
         special tokens using the tokenizer `prepare_for_model` method.
@@ -228,18 +251,25 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
         if already_has_special_tokens:
             return super().get_special_tokens_mask(
-                token_ids_0=token_ids_0, token_ids_1=token_ids_1, already_has_special_tokens=True
+                token_ids_0=token_ids_0,
+                token_ids_1=token_ids_1,
+                already_has_special_tokens=True,
             )
 
         prefix_ones = [1] * len(self.prefix_tokens)
         suffix_ones = [1] * len(self.suffix_tokens)
         if token_ids_1 is None:
             return prefix_ones + ([0] * len(token_ids_0)) + suffix_ones
-        return prefix_ones + ([0] * len(token_ids_0)) + ([0] * len(token_ids_1)) + suffix_ones
+        return (
+            prefix_ones
+            + ([0] * len(token_ids_0))
+            + ([0] * len(token_ids_1))
+            + suffix_ones
+        )
 
     def build_inputs_with_special_tokens(
-        self, token_ids_0: List[int], token_ids_1: Optional[List[int]] = None
-    ) -> List[int]:
+        self, token_ids_0: list[int], token_ids_1: list[int] | None = None
+    ) -> list[int]:
         """
         Build model inputs from a sequence or a pair of sequence for sequence classification tasks by concatenating and
         adding special tokens. An MBART sequence has the following format, where `X` represents the sequence:
@@ -264,19 +294,26 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         if self.prefix_tokens is None:
             return token_ids_0 + token_ids_1 + self.suffix_tokens
         else:
-            return self.prefix_tokens + token_ids_0 + token_ids_1 + self.suffix_tokens
+            return (
+                self.prefix_tokens
+                + token_ids_0
+                + token_ids_1
+                + self.suffix_tokens
+            )
 
-    def get_vocab(self) -> Dict:
-        vocab = {self.convert_ids_to_tokens(i): i for i in range(self.vocab_size)}
+    def get_vocab(self) -> dict:
+        vocab = {
+            self.convert_ids_to_tokens(i): i for i in range(self.vocab_size)
+        }
         vocab.update(self.added_tokens_encoder)
         return vocab
 
-    def __getstate__(self) -> Dict:
+    def __getstate__(self) -> dict:
         state = self.__dict__.copy()
         state["sp_model"] = None
         return state
 
-    def __setstate__(self, d: Dict) -> None:
+    def __setstate__(self, d: dict) -> None:
         self.__dict__ = d
 
         # for backward compatibility
@@ -285,20 +322,26 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
         self.sp_model = load_spm(self.spm_file, self.sp_model_kwargs)
 
-    def save_vocabulary(self, save_directory: str, filename_prefix: Optional[str] = None) -> Tuple[str]:
+    def save_vocabulary(
+        self, save_directory: str, filename_prefix: str | None = None
+    ) -> tuple[str]:
         save_dir = Path(save_directory)
         if not save_dir.is_dir():
             raise OSError(f"{save_directory} should be a directory")
         vocab_save_path = save_dir / (
-            (filename_prefix + "-" if filename_prefix else "") + self.vocab_files_names["vocab_file"]
+            (filename_prefix + "-" if filename_prefix else "")
+            + self.vocab_files_names["vocab_file"]
         )
         spm_save_path = save_dir / (
-            (filename_prefix + "-" if filename_prefix else "") + self.vocab_files_names["spm_file"]
+            (filename_prefix + "-" if filename_prefix else "")
+            + self.vocab_files_names["spm_file"]
         )
 
         save_json(self.encoder, vocab_save_path)
 
-        if os.path.abspath(self.spm_file) != os.path.abspath(spm_save_path) and os.path.isfile(self.spm_file):
+        if os.path.abspath(self.spm_file) != os.path.abspath(
+            spm_save_path
+        ) and os.path.isfile(self.spm_file):
             copyfile(self.spm_file, spm_save_path)
         elif not os.path.isfile(self.spm_file):
             with open(spm_save_path, "wb") as fi:
@@ -309,8 +352,8 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
     def prepare_seq2seq_batch(
         self,
-        src_texts: List[str],
-        tgt_texts: Optional[List[str]] = None,
+        src_texts: list[str],
+        tgt_texts: list[str] | None = None,
         tgt_lang: str = "ro",
         **kwargs,
     ) -> BatchEncoding:
@@ -318,10 +361,14 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         self.set_lang_special_tokens(self.tgt_lang)
         return super().prepare_seq2seq_batch(src_texts, tgt_texts, **kwargs)
 
-    def _build_translation_inputs(self, raw_inputs, tgt_lang: Optional[str], **extra_kwargs):
+    def _build_translation_inputs(
+        self, raw_inputs, tgt_lang: str | None, **extra_kwargs
+    ):
         """Used by translation pipeline, to prepare inputs for the generate function"""
         if tgt_lang is None:
-            raise ValueError("Translation requires a `tgt_lang` for this model")
+            raise ValueError(
+                "Translation requires a `tgt_lang` for this model"
+            )
         self.tgt_lang = tgt_lang
         inputs = self(raw_inputs, add_special_tokens=True, **extra_kwargs)
         return inputs
@@ -348,14 +395,16 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         return self.lang_token_to_id[lang_token]
 
 
-def load_spm(path: str, sp_model_kwargs: Dict[str, Any]) -> sentencepiece.SentencePieceProcessor:
+def load_spm(
+    path: str, sp_model_kwargs: dict[str, Any]
+) -> sentencepiece.SentencePieceProcessor:
     spm = sentencepiece.SentencePieceProcessor(**sp_model_kwargs)
     spm.Load(str(path))
     return spm
 
 
-def load_json(path: str) -> Union[Dict, List]:
-    with open(path, "r") as f:
+def load_json(path: str) -> dict | list:
+    with open(path) as f:
         return json.load(f)
 
 

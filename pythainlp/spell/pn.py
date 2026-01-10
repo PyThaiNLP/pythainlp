@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Spell checker, using Peter Norvig algorithm.
 Spelling dictionary can be customized.
@@ -6,19 +5,12 @@ Default spelling dictionary is based on Thai National Corpus.
 
 Based on Peter Norvig's Python code from http://norvig.com/spell-correct.html
 """
+
+from __future__ import annotations
+
 from collections import Counter
+from collections.abc import Callable, ItemsView, Iterable
 from string import digits
-from typing import (
-    Callable,
-    Dict,
-    ItemsView,
-    Iterable,
-    List,
-    Optional,
-    Set,
-    Tuple,
-    Union,
-)
 
 from pythainlp import thai_digits, thai_letters
 from pythainlp.corpus import tnc
@@ -39,7 +31,7 @@ def _is_thai_and_not_num(word: str) -> bool:
 
 
 def _keep(
-    word_freq: Tuple[str, int],
+    word_freq: tuple[str, int],
     min_freq: int,
     min_len: int,
     max_len: int,
@@ -59,7 +51,7 @@ def _keep(
     return dict_filter(word)
 
 
-def _edits1(word: str) -> Set[str]:
+def _edits1(word: str) -> set[str]:
     """
     Returns a set of words with an edit distance of 1 from the input word
     """
@@ -72,7 +64,7 @@ def _edits1(word: str) -> Set[str]:
     return set(deletes + transposes + replaces + inserts)
 
 
-def _edits2(word: str) -> Set[str]:
+def _edits2(word: str) -> set[str]:
     """
     Returns a set of words with an edit distance of 2 from the input word
     """
@@ -80,14 +72,12 @@ def _edits2(word: str) -> Set[str]:
 
 
 def _convert_custom_dict(
-    custom_dict: Union[
-        Dict[str, int], Iterable[str], Iterable[Tuple[str, int]]
-    ],
+    custom_dict: dict[str, int] | Iterable[str] | Iterable[tuple[str, int]],
     min_freq: int,
     min_len: int,
     max_len: int,
-    dict_filter: Optional[Callable[[str], bool]],
-) -> List[Tuple[str, int]]:
+    dict_filter: Callable[[str], bool] | None,
+) -> list[tuple[str, int]]:
     """
     Converts a custom dictionary to a list of (str, int) tuples
     """
@@ -123,13 +113,13 @@ def _convert_custom_dict(
 class NorvigSpellChecker:
     def __init__(
         self,
-        custom_dict: Union[
-            Dict[str, int], Iterable[str], Iterable[Tuple[str, int]]
-        ] = None,
+        custom_dict: dict[str, int]
+        | Iterable[str]
+        | Iterable[tuple[str, int]] = None,
         min_freq: int = 2,
         min_len: int = 2,
         max_len: int = 40,
-        dict_filter: Optional[Callable[[str], bool]] = _is_thai_and_not_num,
+        dict_filter: Callable[[str], bool] | None = _is_thai_and_not_num,
     ):
         """
         Initializes Peter Norvig's spell checker object.
@@ -191,7 +181,7 @@ class NorvigSpellChecker:
 
             from pythainlp.spell import NorvigSpellChecker
 
-            dictionary= [("หวาน", 30), ("มะนาว", 2), ("แอบ", 3223)]
+            dictionary = [("หวาน", 30), ("มะนาว", 2), ("แอบ", 3223)]
 
             checker = NorvigSpellChecker(custom_dict=dictionary)
             checker.dictionary()
@@ -199,7 +189,7 @@ class NorvigSpellChecker:
         """
         return self.__WORDS.items()
 
-    def known(self, words: Iterable[str]) -> List[str]:
+    def known(self, words: Iterable[str]) -> list[str]:
         """
         Returns a list of given words found in the spelling dictionary
 
@@ -220,7 +210,7 @@ class NorvigSpellChecker:
             checker.known(["เพยน", "เพล", "เพลง"])
             # output: ['เพล', 'เพลง']
 
-            checker.known(['ยกไ', 'ไฟล์ม'])
+            checker.known(["ยกไ", "ไฟล์ม"])
             # output: []
 
             checker.known([])
@@ -280,7 +270,7 @@ class NorvigSpellChecker:
         """
         return self.__WORDS[word]
 
-    def spell(self, word: str) -> List[str]:
+    def spell(self, word: str) -> list[str]:
         """
         Returns a list of all correctly-spelled words whose spelling
         is similar to the given word by edit distance metrics.

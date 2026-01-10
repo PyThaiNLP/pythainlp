@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -10,12 +9,15 @@ to locate boundaries between words in the text.
 :See Also:
     * `GitHub repository <https://github.com/ovalhub/pyicu>`_
 """
+
+from __future__ import annotations
+
 import re
-from typing import List
 
 from icu import BreakIterator, Locale
 
 bd = BreakIterator.createWordInstance(Locale("th"))
+
 
 def _gen_words(text: str) -> str:
     global bd
@@ -26,7 +28,7 @@ def _gen_words(text: str) -> str:
         p = q
 
 
-def segment(text: str) -> List[str]:
+def segment(text: str) -> list[str]:
     """
     :param str text: text to be tokenized into words
     :return: list of words, tokenized from the text
@@ -34,6 +36,6 @@ def segment(text: str) -> List[str]:
     if not text or not isinstance(text, str):
         return []
 
-    text = re.sub("([^\u0E00-\u0E7F\n ]+)", " \\1 ", text)
+    text = re.sub("([^\u0e00-\u0e7f\n ]+)", " \\1 ", text)
 
     return list(_gen_words(text))

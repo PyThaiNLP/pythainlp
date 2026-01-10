@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Named-entity recognizer
 """
-from typing import List, Tuple, Union
+
+from __future__ import annotations
 
 
 class NER:
@@ -26,7 +26,9 @@ class NER:
     **Note**: The tltk engine supports NER models from tltk only.
     """
 
-    def __init__(self, engine: str = "thainer-v2", corpus: str = "thainer") -> None:
+    def __init__(
+        self, engine: str = "thainer-v2", corpus: str = "thainer"
+    ) -> None:
         self.load_engine(engine=engine, corpus=corpus)
 
     def load_engine(self, engine: str, corpus: str) -> None:
@@ -38,7 +40,10 @@ class NER:
             self.engine = ThaiNameTagger()
         elif engine == "thainer-v2" and corpus == "thainer":
             from pythainlp.wangchanberta import NamedEntityRecognition
-            self.engine = NamedEntityRecognition(model="pythainlp/thainer-corpus-v2-base-model")
+
+            self.engine = NamedEntityRecognition(
+                model="pythainlp/thainer-corpus-v2-base-model"
+            )
         elif engine == "tltk":
             from pythainlp.tag import tltk
 
@@ -53,16 +58,12 @@ class NER:
             self.engine = NamedEntityTagger()
         else:
             raise ValueError(
-                "NER class not support {0} engine or {1} corpus.".format(
-                    engine, corpus
-                )
+                f"NER class not support {engine} engine or {corpus} corpus."
             )
 
-    def tag(self,
-            text,
-            pos=False,
-            tag=False
-            ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
+    def tag(
+        self, text, pos=False, tag=False
+    ) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
         """
         This function tags named entities in text in IOB format.
 
@@ -116,7 +117,7 @@ class NNER:
 
         self.engine = Thai_NNER()
 
-    def tag(self, text) -> Tuple[List[str], List[dict]]:
+    def tag(self, text) -> tuple[list[str], list[dict]]:
         """
         This function tags nested named entities.
 

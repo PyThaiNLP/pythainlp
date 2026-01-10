@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
 
 THAI_MORSE_CODE = {
     "ก": "--.",
@@ -146,6 +146,7 @@ def morse_encode(text: str, lang: str = "th") -> str:
     ::
 
         from pythainlp.util.morse import morse_encode
+
         print(morse_encode("แมว", lang="th"))
         # output: .-.- -- .--
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -10,7 +9,9 @@ wannaphong/thai-english-transliteration-dictionary: v1.4 (v1.4).
 Zenodo. https://doi.org/10.5281/zenodo.6716672
 """
 
-from typing import Callable, Optional
+from __future__ import annotations
+
+from collections.abc import Callable
 
 from pythainlp.corpus.th_en_translit import (
     TRANSLITERATE_DICT,
@@ -21,7 +22,7 @@ from pythainlp.corpus.th_en_translit import (
 _TRANSLITERATE_IDX = 0
 
 
-def follow_rtgs(text: str) -> Optional[bool]:
+def follow_rtgs(text: str) -> bool | None:
     """
     Check if the `text` follows romanization defined by Royal Society of Thailand (RTGS).
     :param str text: Text to look up. Must be a self-contained word.

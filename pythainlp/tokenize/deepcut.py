@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -12,7 +11,7 @@ User need to install deepcut (and its dependency: tensorflow) by themselves.
     * `GitHub repository <https://github.com/rkcosmos/deepcut>`_
 """
 
-from typing import List, Union
+from __future__ import annotations
 
 try:
     from deepcut import tokenize
@@ -21,9 +20,7 @@ except ImportError:
 from pythainlp.util import Trie
 
 
-def segment(
-    text: str, custom_dict: Union[Trie, List[str], str] = []
-) -> List[str]:
+def segment(text: str, custom_dict: Trie | list[str] | str = []) -> list[str]:
     if not text or not isinstance(text, str):
         return []
 

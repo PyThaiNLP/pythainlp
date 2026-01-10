@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import Dict, List, Tuple
+from __future__ import annotations
 
 from pycrfsuite import Tagger as CRFTagger
 
@@ -13,7 +12,7 @@ def _is_stopword(word: str) -> bool:  # check Thai stopword
     return word in thai_stopwords()
 
 
-def _doc2features(tokens: List[Tuple[str, str]], index: int) -> Dict:
+def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict:
     """
     `tokens`  = a POS-tagged sentence [(w1, t1), ...]
     `index`   = the index of the token we want to extract features for
@@ -67,6 +66,6 @@ class CRFchunk:
             self.path = path_pythainlp_corpus("crfchunk_orchidpp.model")
         self.tagger.open(self.path)
 
-    def parse(self, token_pos: List[Tuple[str, str]]) -> List[str]:
+    def parse(self, token_pos: list[tuple[str, str]]) -> list[str]:
         self.xseq = extract_features(token_pos)
         return self.tagger.tag(self.xseq)

@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Summarization by mT5 model
 """
-from typing import List
+
+from __future__ import annotations
 
 from transformers import MT5ForConditionalGeneration, T5Tokenizer
 
@@ -45,7 +45,7 @@ class mT5Summarizer:
         self.max_length = max_length
         self.skip_special_tokens = skip_special_tokens
 
-    def summarize(self, text: str) -> List[str]:
+    def summarize(self, text: str) -> list[str]:
         preprocess_text = text.strip().replace("\n", "")
         if self.model_name == f"thanathorn/{CPE_KMUTT_THAI_SENTENCE_SUM}":
             t5_prepared_Text = "simplify: " + preprocess_text

@@ -1,13 +1,12 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import List, Tuple
+from __future__ import annotations
 
 
 def pos_tag(
-    words: List[str], engine: str = "perceptron", corpus: str = "orchid"
-) -> List[Tuple[str, str]]:
+    words: list[str], engine: str = "perceptron", corpus: str = "orchid"
+) -> list[tuple[str, str]]:
     """
     Marks words with part-of-speech (POS) tags, such as 'NOUN' and 'VERB'.
 
@@ -117,9 +116,7 @@ def pos_tag(
         from pythainlp.tag.unigram import tag as tag_
     else:
         raise ValueError(
-            "pos_tag not support {0} engine or {1} corpus.".format(
-                engine, corpus
-            )
+            f"pos_tag not support {engine} engine or {corpus} corpus."
         )
 
     word_tags = tag_(words, corpus=corpus)
@@ -128,10 +125,10 @@ def pos_tag(
 
 
 def pos_tag_sents(
-    sentences: List[List[str]],
+    sentences: list[list[str]],
     engine: str = "perceptron",
     corpus: str = "orchid",
-) -> List[List[Tuple[str, str]]]:
+) -> list[list[tuple[str, str]]]:
     """
     Marks sentences with part-of-speech (POS) tags.
 
@@ -180,7 +177,7 @@ def pos_tag_transformers(
     sentence: str,
     engine: str = "bert",
     corpus: str = "blackboard",
-) -> List[List[Tuple[str, str]]]:
+) -> list[list[tuple[str, str]]]:
     """
     Marks sentences with part-of-speech (POS) tags.
 
@@ -245,15 +242,14 @@ def pos_tag_transformers(
         tokenizer = AutoTokenizer.from_pretrained(base_model)
     else:
         raise ValueError(
-            "pos_tag_transformers not support {0} engine or {1} corpus.".format(
-                engine, corpus
-            )
+            f"pos_tag_transformers not support {engine} engine or {corpus} corpus."
         )
 
-    pipeline = TokenClassificationPipeline(model=model,
-                                           tokenizer=tokenizer,
-                                           aggregation_strategy="simple",
-                                           )
+    pipeline = TokenClassificationPipeline(
+        model=model,
+        tokenizer=tokenizer,
+        aggregation_strategy="simple",
+    )
 
     outputs = pipeline(sentence)
     word_tags = [[(tag["word"], tag["entity_group"]) for tag in outputs]]

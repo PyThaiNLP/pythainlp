@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -9,6 +8,8 @@ Wannaphong Phatthiyaphaibun. (2022).
 wannaphong/thai-english-transliteration-dictionary: v1.4 (v1.4).
 Zenodo. https://doi.org/10.5281/zenodo.6716672
 """
+
+from __future__ import annotations
 
 __all__ = [
     "get_transliteration_dict",
@@ -43,7 +44,7 @@ def get_transliteration_dict() -> defaultdict:
         lambda: {TRANSLITERATE_EN: [], TRANSLITERATE_FOLLOW_RTSG: []}
     )
     try:
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             # assume that the first row contains column names, so skip it.
             for line in f.readlines()[1:]:
                 stripped = line.strip()

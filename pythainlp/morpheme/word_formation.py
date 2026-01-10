@@ -1,7 +1,8 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
 from pythainlp import thai_consonants
 
 
@@ -31,7 +32,7 @@ def nighit(w1: str, w2: str) -> str:
         assert nighit("สํ","ปทา")=="สัมปทา"
         assert nighit("สํ","โยค")=="สังโยค"
     """
-    if not str(w1).endswith('ํ') and len(w1) != 2:
+    if not str(w1).endswith("ํ") and len(w1) != 2:
         raise NotImplementedError(f"The function doesn't support {w1}.")
     list_w1 = list(w1)
     list_w2 = list(w2)
@@ -56,4 +57,4 @@ def nighit(w1: str, w2: str) -> str:
         The function doesn't support {w1} and {w2}.
         """)
     newword.extend(list_w2)
-    return ''.join(newword)
+    return "".join(newword)

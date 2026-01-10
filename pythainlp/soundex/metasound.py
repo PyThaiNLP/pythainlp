@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -11,6 +10,8 @@ a Statistical Ontology for Analysing Names Given in Accordance
 with Thai Astrology.
 https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf
 """
+
+from __future__ import annotations
 
 _CONS_THANTHAKHAT = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ์"
 _THANTHAKHAT = "์"  # \u0e4c

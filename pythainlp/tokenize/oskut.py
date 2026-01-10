@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -10,7 +9,8 @@ Stacked Ensemble Framework and DeepCut as Baseline model (ACL 2021 Findings)
 :See Also:
     * `GitHub repository <https://github.com/mrpeerat/OSKut>`_
 """
-from typing import List
+
+from __future__ import annotations
 
 import oskut
 
@@ -18,7 +18,7 @@ DEFAULT_ENGINE = "ws"
 oskut.load_model(engine=DEFAULT_ENGINE)
 
 
-def segment(text: str, engine: str = "ws") -> List[str]:
+def segment(text: str, engine: str = "ws") -> list[str]:
     global DEFAULT_ENGINE
     if not text or not isinstance(text, str):
         return []

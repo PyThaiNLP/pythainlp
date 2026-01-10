@@ -8,7 +8,7 @@ Tokenzier classes for ULMFiT
 
 from typing import Collection, List
 
-from pythainlp.tokenize import THAI2FIT_TOKENIZER
+from pythainlp.tokenize import thai2fit_tokenizer
 
 
 class BaseTokenizer:
@@ -65,7 +65,7 @@ class ThaiTokenizer(BaseTokenizer):
              ' ', 'ภาวนามยปัญญา']
 
         """
-        return THAI2FIT_TOKENIZER.word_tokenize(text)
+        return thai2fit_tokenizer().word_tokenize(text)
 
     def add_special_cases(self, toks):
         pass

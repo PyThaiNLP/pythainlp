@@ -12,7 +12,7 @@ import numpy as np
 import torch
 
 from pythainlp.corpus import get_corpus_path
-from pythainlp.tokenize import THAI2FIT_TOKENIZER
+from pythainlp.tokenize import thai2fit_tokenizer
 from pythainlp.ulmfit.preprocess import (
     fix_html,
     lowercase_all,
@@ -67,7 +67,7 @@ post_rules_th_sparse = post_rules_th[1:] + [
 def process_thai(
     text: str,
     pre_rules: Collection = pre_rules_th_sparse,
-    tok_func: Callable = THAI2FIT_TOKENIZER.word_tokenize,
+    tok_func: Callable | None = None,
     post_rules: Collection = post_rules_th_sparse,
 ) -> Collection[str]:
     """
@@ -132,6 +132,9 @@ def process_thai(
     """
     res = text
 
+    if tok_func is None:
+        tok_func = thai2fit_tokenizer().word_tokenize
+
     for rule in pre_rules:
         res = rule(res)
     res = tok_func(res)
@@ -183,7 +186,7 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
 
     """
 
-    s = THAI2FIT_TOKENIZER.word_tokenize(text)
+    s = thai2fit_tokenizer().word_tokenize(text)
     t = torch.tensor(data.vocab.numericalize(s), requires_grad=False).to(
         device
     )

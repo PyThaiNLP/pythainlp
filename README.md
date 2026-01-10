@@ -31,7 +31,7 @@ pip install pythainlp
 
 ## Getting Started
 
-- PyThaiNLP requires Python 3.7+.
+- PyThaiNLP requires Python 3.9+.
   - Python 2.7 users can use PyThaiNLP 1.6. See [2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118) | [Upgrading from 1.7](https://pythainlp.org/docs/2.0/notes/pythainlp-1_7-2_0.html) | [Upgrading ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
 - [PyThaiNLP Get Started notebook](https://pythainlp.org/tutorials/notebooks/pythainlp_get_started.html) | [API document](https://pythainlp.org/docs) | [Tutorials](https://pythainlp.org/tutorials)
 - [Official website](https://pythainlp.org/) | [PyPI](https://pypi.org/project/pythainlp/) | [Facebook page](https://www.facebook.com/pythainlp/)
@@ -81,17 +81,43 @@ Possible `extras`:
 
 - `full` (install everything)
 - `compact` (install a stable and small subset of dependencies)
+- `abbreviation` (for Thai abbreviation support)
 - `attacut` (to support attacut, a fast and accurate tokenizer)
 - `benchmarks` (for [word tokenization benchmarking](tokenization-benchmark.md))
+- `budoux` (for BudouX text segmentation)
+- `coreference_resolution` (for coreference resolution)
+- `dependency_parsing` (for dependency parsing)
+- `el` (for entity linking)
+- `esupar` (for esupar parser support)
+- `generate` (for text generation)
 - `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
 - `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
 - `ml` (to support ULMFiT models for classification)
+- `mt5` (for mT5 model support)
+- `nlpo3` (for nlpo3 Thai word tokenizer)
+- `onnx` (for ONNX model support)
+- `oskut` (for OSKut Thai word tokenizer)
+- `sefr_cut` (for SEFR CUT Thai word tokenizer)
+- `spacy_thai` (for spaCy Thai language support)
+- `spell` (for spelling correction)
+- `ssg` (for sentence segmentation)
+- `testing` (pinned versions for CI/CD reproducibility)
+- `textaugment` (for text augmentation)
+- `thai_nner` (for Thai named entity recognition)
 - `thai2fit` (for Thai word vector)
 - `thai2rom` (for machine-learnt romanization)
+- `transformers_ud` (for Universal Dependencies with transformers)
+- `translate` (for machine translation)
+- `wangchanberta` (for WangchanBERTa model)
+- `wangchanglm` (for WangchanGLM model)
+- `word_approximation` (for word approximation)
 - `wordnet` (for Thai WordNet API)
+- `wsd` (for word sense disambiguation)
+- `wtp` (for Where's the Point text segmentation)
+- `wunsen` (for Wunsen spell checker)
 
-For dependency details, look at the `extras` variable in
-[`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
+For dependency details, look at the `[project.optional-dependencies]` section in
+[`pyproject.toml`](https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml).
 
 ## Data Directory
 

@@ -1,7 +1,8 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
 import torch
 
 
@@ -69,7 +70,7 @@ class ChatBotModel:
                 import torch
 
                 chatbot = ChatBotModel()
-                chatbot.load_model(device="cpu",torch_dtype=torch.bfloat16)
+                chatbot.load_model(device="cpu", torch_dtype=torch.bfloat16)
 
                 print(chatbot.chat("สวัสดี"))
                 # output: ยินดีที่ได้รู้จัก

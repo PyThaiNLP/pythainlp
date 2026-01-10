@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -6,8 +5,9 @@
 Check if it is Thai text
 """
 
+from __future__ import annotations
+
 import string
-from typing import Tuple
 from collections import defaultdict
 
 from pythainlp import (
@@ -217,7 +217,7 @@ def display_thai_char(ch: str) -> str:
         return ch
 
 
-def thai_word_tone_detector(word: str) -> Tuple[str, str]:
+def thai_word_tone_detector(word: str) -> tuple[str, str]:
     """
     Thai tone detector for word.
 
@@ -345,9 +345,9 @@ def analyze_thai_text(text: str) -> dict:
         # Check if the character is in our mapping
         if char in THAI_CHAR_NAMES:
             name = THAI_CHAR_NAMES[char]
-            results[name]+=1
+            results[name] += 1
         else:
             # If the character is not a known Thai character, classify it as character
-            results[char]+=1
+            results[char] += 1
 
     return dict(results)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -9,17 +8,18 @@ Credit: Korakot Chaovavanich
 https://web.facebook.com/groups/colab.thailand/permalink/1524070061101680/
 """
 
+from __future__ import annotations
+
 __all__ = ["word_freqs", "unigram_word_freqs"]
 
 from collections import defaultdict
-from typing import List, Tuple
 
 from pythainlp.corpus import get_corpus_path
 
 _OSCAR_FILENAME = "oscar_icu"
 
 
-def word_freqs() -> List[Tuple[str, int]]:
+def word_freqs() -> list[tuple[str, int]]:
     """
     Get word frequency from OSCAR Corpus (words tokenized using ICU)
     """
@@ -29,7 +29,7 @@ def word_freqs() -> List[Tuple[str, int]]:
         return freqs
     path = str(path)
 
-    with open(path, "r", encoding="utf-8-sig") as f:
+    with open(path, encoding="utf-8-sig") as f:
         lines = list(f.readlines())
         del lines[0]
         for line in lines:
@@ -53,7 +53,7 @@ def unigram_word_freqs() -> dict[str, int]:
         return freqs
     path = str(path)
 
-    with open(path, "r", encoding="utf-8-sig") as fh:
+    with open(path, encoding="utf-8-sig") as fh:
         lines = list(fh.readlines())
         del lines[0]
         for i in lines:

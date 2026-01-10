@@ -1,14 +1,15 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Summarization by frequency of words
 """
+
+from __future__ import annotations
+
 from collections import defaultdict
 from heapq import nlargest
 from string import punctuation
-from typing import List
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import sent_tokenize, word_tokenize
@@ -27,7 +28,7 @@ class FrequencySummarizer:
         return nlargest(n, ranking, key=ranking.get)
 
     def __compute_frequencies(
-        self, word_tokenized_sents: List[List[str]]
+        self, word_tokenized_sents: list[list[str]]
     ) -> defaultdict:
         word_freqs = defaultdict(int)
         for sent in word_tokenized_sents:
@@ -48,7 +49,7 @@ class FrequencySummarizer:
 
     def summarize(
         self, text: str, n: int, tokenizer: str = "newmm"
-    ) -> List[str]:
+    ) -> list[str]:
         sents = sent_tokenize(text, engine="whitespace+newline")
         word_tokenized_sents = [
             word_tokenize(sent, engine=tokenizer) for sent in sents

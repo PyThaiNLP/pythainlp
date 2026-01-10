@@ -1,4 +1,3 @@
-﻿# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -8,9 +7,11 @@ Convert number in words to a computable number value
 First version of the code adapted from Korakot Chaovavanich's notebook
 https://colab.research.google.com/drive/148WNIeclf0kOU6QxKd6pcfwpSs8l-VKD#scrollTo=EuVDd0nNuI8Q
 """
-from functools import lru_cache
+
+from __future__ import annotations
+
 import re
-from typing import List
+from functools import lru_cache
 
 from pythainlp.corpus import thai_words
 from pythainlp.tokenize import Tokenizer
@@ -45,9 +46,9 @@ _powers_of_10 = {
     "แสน": 100000,
     # "ล้าน" was excluded as a special case
 }
-_valid_tokens = (
-    set(_digits.keys()) | set(_powers_of_10.keys()) | {"ล้าน", "ลบ"}
-)
+_valid_tokens = set(_digits.keys()) | set(_powers_of_10.keys()) | {"ล้าน", "ลบ"}
+
+
 @lru_cache
 def _tokenizer():
     """Lazy load Thai numeral tokenizer with cache"""
@@ -67,7 +68,9 @@ def _check_is_thainum(word: str):
 @lru_cache
 def _tokenizer_thaiwords():
     """Lazy load Thai words tokenizer with cache"""
-    _dict_words = [i for i in list(thai_words()) if not _check_is_thainum(i)[0]]
+    _dict_words = [
+        i for i in list(thai_words()) if not _check_is_thainum(i)[0]
+    ]
     _dict_words += list(_digits.keys())
     _dict_words += ["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด"]
     return Tokenizer(_dict_words)
@@ -171,7 +174,7 @@ def words_to_num(words: list) -> float:
     return num
 
 
-def text_to_num(text: str) -> List[str]:
+def text_to_num(text: str) -> list[str]:
     """
     Thai text to list of Thai words with floating point numbers
 

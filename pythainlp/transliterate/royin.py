@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -10,6 +9,9 @@ It was published by the Royal Institute of Thailand.
 :See Also:
     * `Wikipedia <https://en.wikipedia.org/wiki/Royal_Thai_General_System_of_Transcription>`_
 """
+
+from __future__ import annotations
+
 import re
 
 from pythainlp import thai_consonants, word_tokenize
@@ -157,7 +159,7 @@ def _replace_consonants(word: str, consonants: str) -> str:
     _LO_LING = "\u0e25"  # ล
     _WO_WAEN = "\u0e27"  # ว
     _DOUBLE_RO_RUA = _RO_RUA + _RO_RUA
-    
+
     # Consonants that can be second in a cluster
     _CLUSTER_SECOND = {_RO_RUA, _LO_LING, _WO_WAEN}
 
@@ -168,7 +170,7 @@ def _replace_consonants(word: str, consonants: str) -> str:
     mod_chars = []
     j = 0  # j is the index of consonants
     vowel_seen = False  # Track if we've seen a vowel (non-consonant character)
-    
+
     for i in range(len(word)):
         if skip:
             skip = False
@@ -194,24 +196,32 @@ def _replace_consonants(word: str, consonants: str) -> str:
         elif not vowel_seen:  # Building initial consonant cluster
             # Check if we've added any actual initial consonants (non-empty romanized characters)
             # We check for non-vowel characters since mod_chars contains romanized output
-            has_initial = any(c and c not in _ROMANIZED_VOWELS for c in mod_chars)
-            
+            has_initial = any(
+                c and c not in _ROMANIZED_VOWELS for c in mod_chars
+            )
+
             if not has_initial:
                 # First consonant in the cluster
                 initial = _CONSONANTS[consonants[j]][0]
-                if initial:  # Only append if not empty (e.g., อ has empty initial)
+                if (
+                    initial
+                ):  # Only append if not empty (e.g., อ has empty initial)
                     mod_chars.append(initial)
                 j += 1
             else:
                 # Check if this consonant can be part of a cluster
                 is_cluster_consonant = word[i] in _CLUSTER_SECOND
-                is_last_char = (i + 1 >= len(word))
-                has_vowel_next = not is_last_char and word[i+1] not in _CONSONANTS
-                
+                is_last_char = i + 1 >= len(word)
+                has_vowel_next = (
+                    not is_last_char and word[i + 1] not in _CONSONANTS
+                )
+
                 # Cluster consonants (ร/r, ล/l, ว/w) are part of initial cluster if:
                 # - followed by a vowel, OR
                 # - not the last character (e.g., กรม/krom: ก/k+ร/r are cluster, ม/m is final)
-                if is_cluster_consonant and (has_vowel_next or not is_last_char):
+                if is_cluster_consonant and (
+                    has_vowel_next or not is_last_char
+                ):
                     # This is part of initial cluster (ร/r, ล/l, or ว/w after first consonant)
                     mod_chars.append(_CONSONANTS[consonants[j]][0])
                     j += 1
@@ -244,7 +254,9 @@ def _replace_consonants(word: str, consonants: str) -> str:
                     vowel_seen = True
                     j += 1
         else:  # After vowel - could be final consonant or start of new syllable
-            has_vowel_next = (i + 1 < len(word) and word[i+1] not in _CONSONANTS)
+            has_vowel_next = (
+                i + 1 < len(word) and word[i + 1] not in _CONSONANTS
+            )
             if has_vowel_next:
                 # Consonant followed by vowel - start of new syllable
                 mod_chars.append(_CONSONANTS[consonants[j]][0])
@@ -260,9 +272,9 @@ def _replace_consonants(word: str, consonants: str) -> str:
 # support function for romanize()
 def _romanize(word: str) -> str:
     # Special case: single ห character should be empty (silent)
-    if word == 'ห':
-        return ''
-    
+    if word == "ห":
+        return ""
+
     word = _replace_vowels(_normalize(word))
     consonants = _RE_CONSONANT.findall(word)
 
@@ -276,14 +288,16 @@ def _romanize(word: str) -> str:
     return word
 
 
-def _should_add_syllable_separator(prev_word: str, curr_word: str, prev_romanized: str) -> bool:
+def _should_add_syllable_separator(
+    prev_word: str, curr_word: str, prev_romanized: str
+) -> bool:
     """
     Determine if 'a' should be added between two romanized syllables.
-    
+
     This applies when:
     - Previous word has explicit vowel and ends with consonant
     - Current word is a 2-consonant cluster with no vowels (e.g., 'กร')
-    
+
     :param prev_word: The previous Thai word/token
     :param curr_word: The current Thai word/token
     :param prev_romanized: The romanized form of the previous word
@@ -291,22 +305,24 @@ def _should_add_syllable_separator(prev_word: str, curr_word: str, prev_romanize
     """
     if not prev_romanized or len(curr_word) < 2:
         return False
-    
+
     # Check if previous word has explicit vowel
     prev_normalized = _normalize(prev_word)
     prev_after_vowels = _replace_vowels(prev_normalized)
     prev_consonants = _RE_CONSONANT.findall(prev_word)
     has_explicit_vowel_prev = len(prev_after_vowels) > len(prev_consonants)
-    
+
     # Check if current word is 2 Thai consonants with no vowel
     consonants_in_word = _RE_CONSONANT.findall(curr_word)
     vowels_in_word = len(curr_word) - len(consonants_in_word)
-    
+
     # Add 'a' if conditions are met
-    return (has_explicit_vowel_prev and 
-            len(consonants_in_word) == 2 and 
-            vowels_in_word == 0 and
-            prev_romanized[-1] not in _ROMANIZED_VOWELS)
+    return (
+        has_explicit_vowel_prev
+        and len(consonants_in_word) == 2
+        and vowels_in_word == 0
+        and prev_romanized[-1] not in _ROMANIZED_VOWELS
+    )
 
 
 def romanize(text: str) -> str:
@@ -322,17 +338,17 @@ def romanize(text: str) -> str:
     """
     words = word_tokenize(text)
     romanized_words = []
-    
+
     for i, word in enumerate(words):
         romanized = _romanize(word)
-        
+
         # Check if we need to add syllable separator 'a'
         if i > 0 and romanized:
-            prev_word = words[i-1]
-            prev_romanized = romanized_words[-1] if romanized_words else ''
+            prev_word = words[i - 1]
+            prev_romanized = romanized_words[-1] if romanized_words else ""
             if _should_add_syllable_separator(prev_word, word, prev_romanized):
-                romanized = 'a' + romanized
-        
+                romanized = "a" + romanized
+
         romanized_words.append(romanized)
-    
+
     return "".join(romanized_words)

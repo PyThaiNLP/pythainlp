@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileCopyrightText: Copyright 2019 Ponrawee Prasertsom
 # SPDX-License-Identifier: Apache-2.0
@@ -7,7 +6,8 @@
 
 GitHub: https://github.com/PyThaiNLP/Han-solo
 """
-from typing import List
+
+from __future__ import annotations
 
 from pythainlp.corpus import path_pythainlp_corpus
 
@@ -119,7 +119,7 @@ class Featurizer:
 _to_feature = Featurizer()
 
 
-def segment(text: str) -> List[str]:
+def segment(text: str) -> list[str]:
     x = _to_feature.featurize(text)["X"]
     y_pred = tagger.tag(x)
     list_cut = []

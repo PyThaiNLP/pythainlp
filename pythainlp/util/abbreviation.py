@@ -1,14 +1,16 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Thai abbreviation tools
 """
-from typing import List, Tuple, Union
+
+from __future__ import annotations
 
 
-def abbreviation_to_full_text(text: str, top_k: int=2) -> List[Tuple[str, Union[float, None]]]:
+def abbreviation_to_full_text(
+    text: str, top_k: int = 2
+) -> list[tuple[str, float | None]]:
     """
     This function converts Thai text (with abbreviation) to full text.
 
@@ -29,7 +31,7 @@ def abbreviation_to_full_text(text: str, top_k: int=2) -> List[Tuple[str, Union[
 
         abbreviation_to_full_text(text)
         # output: [
-        # ('โรงเรียนของเราน่าอยู่', tensor(0.3734)), 
+        # ('โรงเรียนของเราน่าอยู่', tensor(0.3734)),
         # ('โรงแรมของเราน่าอยู่', tensor(0.2438))
         # ]
     """

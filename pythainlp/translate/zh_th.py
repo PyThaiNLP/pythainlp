@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -10,6 +9,8 @@ from AI builder
 - GitHub: https://github.com/LalitaDeelert/lalita-mt-zhth
 - Facebook post https://web.facebook.com/aibuildersx/posts/166736255494822
 """
+
+from __future__ import annotations
 
 
 class ThZhTranslator:
@@ -30,6 +31,7 @@ class ThZhTranslator:
         pretrained: str = "Lalita/marianmt-th-zh_cn",
     ) -> None:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+
         self.tokenizer_thzh = AutoTokenizer.from_pretrained(pretrained)
         self.model_thzh = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
         if use_gpu:

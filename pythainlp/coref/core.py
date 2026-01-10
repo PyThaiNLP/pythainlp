@@ -1,14 +1,13 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import List
+from __future__ import annotations
 
 _MODEL = None
 
 
 def coreference_resolution(
-    texts: List[str], model_name: str = "han-coref-v1.0", device: str = "cpu"
+    texts: list[str], model_name: str = "han-coref-v1.0", device: str = "cpu"
 ):
     """
     Coreference Resolution

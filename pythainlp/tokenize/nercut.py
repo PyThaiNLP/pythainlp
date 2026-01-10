@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -11,7 +10,10 @@ parts of the same named entity.
 
 Code by Wannaphong Phatthiyaphaibun
 """
-from typing import Iterable, List
+
+from __future__ import annotations
+
+from collections.abc import Iterable
 
 from pythainlp.tag.named_entity import NER
 
@@ -29,7 +31,7 @@ def segment(
         "TIME",
     ],
     tagger=_thainer,
-) -> List[str]:
+) -> list[str]:
     """
     Dictionary-based maximal matching word segmentation, constrained by
     Thai Character Cluster (TCC) boundaries, and combining tokens that are

@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
 
 DEFAULT_ROMANIZE_ENGINE = "royin"
 DEFAULT_TRANSLITERATE_ENGINE = "thaig2p"
@@ -92,9 +92,9 @@ def romanize(
     else:
         rom_engine = select_romanize_engine(engine)
         trans_word = []
-        for subword in text.split(' '):
+        for subword in text.split(" "):
             trans_word.append(rom_engine(subword))
-        new_word = ' '.join(trans_word)
+        new_word = " ".join(trans_word)
         return new_word
 
 

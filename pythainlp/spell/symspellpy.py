@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -13,12 +12,14 @@ We used unigram & bigram from Thai National Corpus (TNC).
         https://github.com/mammothb/symspellpy
 """
 
-from typing import List
+from __future__ import annotations
 
 try:
     from symspellpy import SymSpell, Verbosity
 except ImportError:
-    raise ImportError("Import Error; Install symspellpy by pip install symspellpy")
+    raise ImportError(
+        "Import Error; Install symspellpy by pip install symspellpy"
+    )
 
 from pythainlp.corpus import get_corpus_path, path_pythainlp_corpus
 
@@ -42,7 +43,7 @@ sym_spell.load_bigram_dictionary(
 )
 
 
-def spell(text: str, max_edit_distance: int = 2) -> List[str]:
+def spell(text: str, max_edit_distance: int = 2) -> list[str]:
     return [
         str(i).split(",", maxsplit=1)[0]
         for i in list(
@@ -58,8 +59,8 @@ def correct(text: str, max_edit_distance: int = 1) -> str:
 
 
 def spell_sent(
-    list_words: List[str], max_edit_distance: int = 2
-) -> List[List[str]]:
+    list_words: list[str], max_edit_distance: int = 2
+) -> list[list[str]]:
     temp = [
         str(i).split(",", maxsplit=1)[0].split(" ")
         for i in list(
@@ -77,7 +78,7 @@ def spell_sent(
     return list_new
 
 
-def correct_sent(list_words: List[str], max_edit_distance=1) -> List[str]:
+def correct_sent(list_words: list[str], max_edit_distance=1) -> list[str]:
     return [
         i[0]
         for i in spell_sent(list_words, max_edit_distance=max_edit_distance)

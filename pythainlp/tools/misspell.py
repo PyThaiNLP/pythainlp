@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import List
+from __future__ import annotations
 
 import math
 import random
@@ -52,7 +51,7 @@ def search_location_of_character(char: str):
 def find_neighbour_locations(
     loc: tuple,
     char: str,
-    kernel: List = [(-1, -1), (-1, 0), (1, 1), (0, 1), (0, -1), (1, 0)],
+    kernel: list = [(-1, -1), (-1, 0), (1, 1), (0, 1), (0, -1), (1, 0)],
 ):
     language_ix, is_shift, row, pos = loc
 

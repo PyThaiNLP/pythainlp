@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -9,17 +8,18 @@ Credit: Korakot Chaovavanich
 https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
 """
 
+from __future__ import annotations
+
 __all__ = ["word_freqs", "unigram_word_freqs"]
 
 from collections import defaultdict
-from typing import List, Tuple
 
 from pythainlp.corpus import get_corpus
 
 _UNIGRAM_FILENAME = "ttc_freq.txt"
 
 
-def word_freqs() -> List[Tuple[str, int]]:
+def word_freqs() -> list[tuple[str, int]]:
     """
     Get word frequency from Thai Textbook Corpus (TTC)
     \n(See: `dev/pythainlp/corpus/ttc_freq.txt\

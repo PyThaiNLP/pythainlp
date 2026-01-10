@@ -1,12 +1,12 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
 
 import random
 import re
 import warnings
-from typing import Callable, List, Tuple, Union
+from collections.abc import Callable
 
 from transformers import (
     CamembertTokenizer,
@@ -139,7 +139,7 @@ class ThaiTextProcessor:
         re_rep = re.compile(r"(\S)(\1{3,})")
         return re_rep.sub(_replace_rep, text)
 
-    def replace_wrep_post(self, toks: List[str]) -> List[str]:
+    def replace_wrep_post(self, toks: list[str]) -> list[str]:
         """
         Replace repetitive words post tokenization;
         fastai `replace_wrep` does not work well with Thai.
@@ -166,7 +166,7 @@ class ThaiTextProcessor:
 
         return res[1:]
 
-    def remove_space(self, toks: List[str]) -> List[str]:
+    def remove_space(self, toks: list[str]) -> list[str]:
         """
         Do not include space for bag-of-word models.
         :param List[str] toks: list of tokens
@@ -189,7 +189,7 @@ class ThaiTextProcessor:
     def preprocess(
         self,
         text: str,
-        pre_rules: List[Callable] = [
+        pre_rules: list[Callable] = [
             rm_brackets,
             replace_newlines,
             rm_useless_spaces,
@@ -253,7 +253,7 @@ class ThaiTextAugmenter:
         text: str,
         num_augs: int = 3,
         sample: bool = False,
-    ) -> List[str]:
+    ) -> list[str]:
         """
         Text augmentation from PhayaThaiBERT
 
@@ -315,7 +315,7 @@ class PartOfSpeechTagger:
 
     def get_tag(
         self, sentence: str, strategy: str = "simple"
-    ) -> List[List[Tuple[str, str]]]:
+    ) -> list[list[tuple[str, str]]]:
         """
         Marks sentences with part-of-speech (POS) tags.
 
@@ -363,7 +363,7 @@ class NamedEntityTagger:
         tag: bool = False,
         pos: bool = False,
         strategy: str = "simple",
-    ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]:
+    ) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
         """
         This function tags named entities in text in IOB format.
 
@@ -435,7 +435,7 @@ class NamedEntityTagger:
         return sample_output
 
 
-def segment(sentence: str) -> List[str]:
+def segment(sentence: str) -> list[str]:
     """
     Subword tokenize of PhayaThaiBERT, \
     sentencepiece from WangchanBERTa model with vocabulary expansion.

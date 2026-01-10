@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -13,9 +12,11 @@ Original codes from Korakot Chaovavanich.
         <https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716>`_
 """
 
+from __future__ import annotations
+
 import re
 from collections import defaultdict
-from typing import Iterator, List, Optional
+from collections.abc import Iterator
 
 from pythainlp.tokenize import word_dict_trie
 from pythainlp.util import Trie
@@ -48,7 +49,7 @@ _PAT_NONTHAI = re.compile(_RE_NONTHAI)
 
 
 def _multicut(
-    text: str, custom_dict: Optional[Trie] = None
+    text: str, custom_dict: Trie | None = None
 ) -> Iterator[LatticeString]:
     """Return LatticeString"""
     if not custom_dict:
@@ -100,7 +101,7 @@ def _multicut(
             q.add(i)
 
 
-def mmcut(text: str) -> List[str]:
+def mmcut(text: str) -> list[str]:
     res = []
     for w in _multicut(text):
         mm = min(w.multi, key=lambda x: x.count("/"))
@@ -108,7 +109,7 @@ def mmcut(text: str) -> List[str]:
     return res
 
 
-def _combine(ww: List[LatticeString]) -> Iterator[str]:
+def _combine(ww: list[LatticeString]) -> Iterator[str]:
     if ww == []:
         yield ""
     else:
@@ -121,9 +122,7 @@ def _combine(ww: List[LatticeString]) -> Iterator[str]:
                     yield m.replace("/", "|") + "|" + tail
 
 
-def segment(
-    text: str, custom_dict: Optional[Trie] = None
-) -> List[str]:
+def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
     """Dictionary-based maximum matching word segmentation.
 
     :param text: text to be tokenized
@@ -143,9 +142,7 @@ def segment(
     return list(_multicut(text, custom_dict=custom_dict))
 
 
-def find_all_segment(
-    text: str, custom_dict: Optional[Trie] = None
-) -> List[str]:
+def find_all_segment(text: str, custom_dict: Trie | None = None) -> list[str]:
     """Get all possible segment variations.
 
     :param text: input string to be tokenized

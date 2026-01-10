@@ -1,10 +1,11 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Convert digits
 """
+
+from __future__ import annotations
 
 _arabic_thai = {
     "0": "๐",
@@ -78,7 +79,7 @@ def thai_digit_to_arabic_digit(text: str) -> str:
 
         from pythainlp.util import thai_digit_to_arabic_digit
 
-        text = 'เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท'
+        text = "เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท"
 
         thai_digit_to_arabic_digit(text)
         # output: เป็นจำนวน 123,400.25 บาท
@@ -104,7 +105,7 @@ def arabic_digit_to_thai_digit(text: str) -> str:
 
         from pythainlp.util import arabic_digit_to_thai_digit
 
-        text = 'เป็นจำนวน 123,400.25 บาท'
+        text = "เป็นจำนวน 123,400.25 บาท"
 
         arabic_digit_to_thai_digit(text)
         # output: เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท

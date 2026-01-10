@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import List, Tuple
+from __future__ import annotations
 
 from pythainlp.augment.word2vec.core import Word2VecAug
 
@@ -22,7 +21,7 @@ class BPEmbAug:
         self.model = self.bpemb_temp.emb
         self.load_w2v()
 
-    def tokenizer(self, text: str) -> List[str]:
+    def tokenizer(self, text: str) -> list[str]:
         """
         :param str text: Thai text
         :rtype: List[str]
@@ -39,7 +38,7 @@ class BPEmbAug:
 
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
-    ) -> List[Tuple[str]]:
+    ) -> list[tuple[str]]:
         """
         Text Augment using word2vec from BPEmb
 

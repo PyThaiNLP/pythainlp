@@ -8,7 +8,7 @@ Generic functions of tokenizers
 
 import copy
 import re
-from typing import Iterable, List, Union
+from typing import Iterable, List, Optional, Union
 
 from pythainlp.tokenize import (
     DEFAULT_SENT_TOKENIZE_ENGINE,
@@ -97,7 +97,7 @@ def word_detokenize(
 
 def word_tokenize(
     text: str,
-    custom_dict: Trie | None = None,
+    custom_dict: Optional[Trie] = None,
     engine: str = DEFAULT_WORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
     join_broken_num: bool = True,

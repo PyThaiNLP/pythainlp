@@ -6,7 +6,7 @@
 Universal Language Model Fine-tuning for Text Classification (ULMFiT).
 """
 import collections
-from typing import Callable, Collection
+from typing import Callable, Collection, Optional
 
 import numpy as np
 import torch
@@ -67,7 +67,7 @@ post_rules_th_sparse = post_rules_th[1:] + [
 def process_thai(
     text: str,
     pre_rules: Collection = pre_rules_th_sparse,
-    tok_func: Callable | None = None,
+    tok_func: Optional[Callable] = None,
     post_rules: Collection = post_rules_th_sparse,
 ) -> Collection[str]:
     """

@@ -92,6 +92,20 @@ def corpus_db_path() -> str:
     return _CORPUS_DB_PATH
 
 
+from pythainlp.corpus.core import (
+    download,
+    get_corpus,
+    get_corpus_as_is,
+    get_corpus_db,
+    get_corpus_db_detail,
+    get_corpus_default_db,
+    get_corpus_path,
+    get_hf_hub,
+    get_path_folder_corpus,
+    make_safe_directory_name,
+    path_pythainlp_corpus,
+    remove,
+)  # these imports must come before other pythainlp.corpus.* imports
 from pythainlp.corpus.common import (
     countries,
     find_synonyms,
@@ -109,20 +123,6 @@ from pythainlp.corpus.common import (
     thai_words,
     thai_wsd_dict,
 )
-from pythainlp.corpus.core import (
-    download,
-    get_corpus,
-    get_corpus_as_is,
-    get_corpus_db,
-    get_corpus_db_detail,
-    get_corpus_default_db,
-    get_corpus_path,
-    get_hf_hub,
-    get_path_folder_corpus,
-    make_safe_directory_name,
-    path_pythainlp_corpus,
-    remove,
-)  # these imports must come before other pythainlp.corpus.* imports
 from pythainlp.corpus.icu import thai_icu_words
 from pythainlp.corpus.volubilis import thai_volubilis_words
 from pythainlp.corpus.wikipedia import thai_wikipedia_titles

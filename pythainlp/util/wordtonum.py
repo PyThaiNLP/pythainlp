@@ -8,6 +8,7 @@ Convert number in words to a computable number value
 First version of the code adapted from Korakot Chaovavanich's notebook
 https://colab.research.google.com/drive/148WNIeclf0kOU6QxKd6pcfwpSs8l-VKD#scrollTo=EuVDd0nNuI8Q
 """
+from functools import lru_cache
 import re
 from typing import List
 
@@ -47,7 +48,10 @@ _powers_of_10 = {
 _valid_tokens = (
     set(_digits.keys()) | set(_powers_of_10.keys()) | {"ล้าน", "ลบ"}
 )
-_tokenizer = Tokenizer(custom_dict=_valid_tokens)
+@lru_cache
+def _tokenizer():
+    """Lazy load Thai numeral tokenizer with cache"""
+    return Tokenizer(custom_dict=_valid_tokens)
 
 
 def _check_is_thainum(word: str):
@@ -96,7 +100,7 @@ def thaiword_to_num(word: str) -> int:
     if not _re_thai_numerals.fullmatch(word):
         raise ValueError("The input string is not a valid Thai numeral")
 
-    tokens = _tokenizer.word_tokenize(word)
+    tokens = _tokenizer().word_tokenize(word)
     accumulated = 0
     next_digit = 1
 

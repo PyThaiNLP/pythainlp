@@ -6,7 +6,7 @@
 import unittest
 
 from pythainlp.tokenize import (
-    DEFAULT_WORD_DICT_TRIE,
+    word_dict_trie,
     Tokenizer,
     etcc,
     longest,
@@ -261,7 +261,7 @@ class DetokenizeTestCase(unittest.TestCase):
 
 class TokenizeTestCase(unittest.TestCase):
     def test_Tokenizer(self):
-        _tokenizer = Tokenizer(DEFAULT_WORD_DICT_TRIE)
+        _tokenizer = Tokenizer(word_dict_trie())
         self.assertEqual(_tokenizer.word_tokenize(""), [])
         _tokenizer.set_tokenize_engine("longest")
         self.assertEqual(_tokenizer.word_tokenize(None), [])

@@ -6,7 +6,7 @@ from typing import List, Tuple
 
 from pythainlp.augment.word2vec.core import Word2VecAug
 from pythainlp.corpus import get_corpus_path
-from pythainlp.tokenize import THAI2FIT_TOKENIZER
+from pythainlp.tokenize import thai2fit_tokenizer
 
 
 class Thai2fitAug:
@@ -26,7 +26,8 @@ class Thai2fitAug:
         :param str text: Thai text
         :rtype: List[str]
         """
-        return THAI2FIT_TOKENIZER.word_tokenize(text)
+        tok = thai2fit_tokenizer()
+        return tok.word_tokenize(text)
 
     def load_w2v(self):
         """

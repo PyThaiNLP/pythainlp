@@ -18,9 +18,9 @@ with heuristic graph size limit added to avoid exponential waiting time.
 import re
 from collections import defaultdict
 from heapq import heappop, heappush
-from typing import Generator, List
+from typing import Generator, List, Optional
 
-from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
+from pythainlp.tokenize import word_dict_trie
 from pythainlp.tokenize.tcc_p import tcc_pos
 from pythainlp.util import Trie
 
@@ -140,7 +140,7 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
 def segment(
     text: str,
-    custom_dict: Trie = DEFAULT_WORD_DICT_TRIE,
+    custom_dict: Optional[Trie] = None,
     safe_mode: bool = False,
 ) -> List[str]:
     """Maximal-matching word segmentation constrained by Thai Character Cluster.
@@ -153,7 +153,7 @@ def segment(
     :param text: text to be tokenized
     :type text: str
     :param custom_dict: tokenization dictionary,\
-        defaults to DEFAULT_WORD_DICT_TRIE
+        defaults to word_dict_trie()
     :type custom_dict: Trie, optional
     :param safe_mode: reduce chance for long processing time for long text\
         with many ambiguous breaking points, defaults to False
@@ -165,7 +165,7 @@ def segment(
         return []
 
     if not custom_dict:
-        custom_dict = DEFAULT_WORD_DICT_TRIE
+        custom_dict = word_dict_trie()
 
     if not safe_mode or len(text) < _TEXT_SCAN_END:
         return list(_onecut(text, custom_dict))

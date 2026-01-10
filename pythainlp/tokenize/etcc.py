@@ -19,6 +19,7 @@ Para Limmaneepraserth. "Thai word segmentation using combination of forward
 and backward longest matching techniques." In International Symposium on
 Communications and Information Technology (ISCIT), pp. 37-40. 2001.
 """
+from functools import lru_cache
 import re
 from typing import List
 
@@ -26,7 +27,11 @@ from pythainlp import thai_follow_vowels
 from pythainlp.corpus import get_corpus
 from pythainlp.tokenize import Tokenizer
 
-_cut_etcc = Tokenizer(get_corpus("etcc.txt"), engine="longest")
+@lru_cache
+def _cut_etcc():
+    """Lazy load ETCC tokenizer with cache"""
+    return Tokenizer(get_corpus("etcc.txt"), engine="longest")
+
 _PAT_ENDING_CHAR = f"[{thai_follow_vowels}ๆฯ]"
 _RE_ENDING_CHAR = re.compile(_PAT_ENDING_CHAR)
 
@@ -64,4 +69,4 @@ def segment(text: str) -> List[str]:
     if not text or not isinstance(text, str):
         return []
 
-    return _cut_subword(_cut_etcc.word_tokenize(text))
+    return _cut_subword(_cut_etcc().word_tokenize(text))

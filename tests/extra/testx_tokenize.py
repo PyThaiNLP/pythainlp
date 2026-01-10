@@ -8,7 +8,7 @@
 import unittest
 
 from pythainlp.tokenize import (
-    DEFAULT_WORD_DICT_TRIE,
+    word_dict_trie,
     attacut,
     deepcut,
     nercut,
@@ -275,12 +275,12 @@ class WordTokenizeDeepcutTestCase(unittest.TestCase):
     def test_deepcut(self):
         self.assertEqual(deepcut.segment(None), [])
         self.assertEqual(deepcut.segment(""), [])
-        self.assertIsNotNone(deepcut.segment("ทดสอบ", DEFAULT_WORD_DICT_TRIE))
+        self.assertIsNotNone(deepcut.segment("ทดสอบ", word_dict_trie()))
         self.assertIsNotNone(deepcut.segment("ทดสอบ", ["ทด", "สอบ"]))
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="deepcut"))
         self.assertIsNotNone(
             word_tokenize(
-                "ทดสอบ", engine="deepcut", custom_dict=DEFAULT_WORD_DICT_TRIE
+                "ทดสอบ", engine="deepcut", custom_dict=word_dict_trie()
             )
         )
 

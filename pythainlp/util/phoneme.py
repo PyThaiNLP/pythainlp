@@ -5,6 +5,7 @@
 """
 Phonemes util
 """
+from functools import lru_cache
 import unicodedata
 
 from pythainlp.tokenize import Tokenizer
@@ -192,8 +193,12 @@ dict_ipa_rtgs = {
 }
 
 dict_ipa_rtgs_final = {"w": "o"}
-trie = Trie(list(dict_ipa_rtgs.keys()) + list(dict_ipa_rtgs_final.keys()))
-ipa_cut = Tokenizer(custom_dict=trie, engine="newmm")
+
+@lru_cache
+def _ipa_cut():
+    """Lazy load IPA tokenizer with cache"""
+    trie = Trie(list(dict_ipa_rtgs.keys()) + list(dict_ipa_rtgs_final.keys()))
+    return Tokenizer(custom_dict=trie, engine="newmm")
 
 
 def ipa_to_rtgs(ipa: str) -> str:
@@ -216,6 +221,7 @@ def ipa_to_rtgs(ipa: str) -> str:
 
     """
     rtgs_parts = []
+    ipa_cut = _ipa_cut()
 
     ipa_parts = ipa_cut.word_tokenize(ipa)
     for i, ipa_part in enumerate(ipa_parts):

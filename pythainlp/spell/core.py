@@ -6,11 +6,16 @@
 Spell checking functions
 """
 
+from functools import lru_cache
 import itertools
 from typing import List
 
 from pythainlp.spell import DEFAULT_SPELL_CHECKER
 
+@lru_cache
+def default_spell_checker():
+    """Lazy load default spell checker with cache"""
+    return DEFAULT_SPELL_CHECKER()
 
 def spell(word: str, engine: str = "pn") -> List[str]:
     """
@@ -72,7 +77,7 @@ def spell(word: str, engine: str = "pn") -> List[str]:
 
         text_correct = SPELL_CHECKER(word)
     else:
-        text_correct = DEFAULT_SPELL_CHECKER.spell(word)
+        text_correct = default_spell_checker().spell(word)
 
     return text_correct
 
@@ -125,7 +130,7 @@ def correct(word: str, engine: str = "pn") -> str:
         text_correct = SPELL_CHECKER(word)
 
     else:
-        text_correct = DEFAULT_SPELL_CHECKER.correct(word)
+        text_correct = default_spell_checker().correct(word)
 
     return text_correct
 

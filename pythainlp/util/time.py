@@ -8,6 +8,7 @@ Spell out time as Thai words.
 Convert time string or time object to Thai words.
 """
 from datetime import datetime, time
+from functools import lru_cache
 from typing import Union
 
 from pythainlp.tokenize import Tokenizer
@@ -43,9 +44,13 @@ _DICT_THAI_TIME = {
     "นาฬิกา": 0,
     "ครึ่ง": 30,
 }
-_THAI_TIME_CUT = Tokenizer(
-    custom_dict=list(_DICT_THAI_TIME.keys()), engine="newmm"
-)
+
+@lru_cache
+def _thai_time_cut():
+    """Lazy load Thai time tokenizer with cache"""
+    return Tokenizer(
+        custom_dict=list(_DICT_THAI_TIME.keys()), engine="newmm"
+    )
 _THAI_TIME_AFFIX = [
     "โมงเช้า",
     "บ่ายโมง",
@@ -266,10 +271,10 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
     _LIST_THAI_TIME = _time.split("|")
     del _time
 
-    hour = _THAI_TIME_CUT.word_tokenize(_LIST_THAI_TIME[0])
+    hour = _thai_time_cut().word_tokenize(_LIST_THAI_TIME[0])
     minute = _LIST_THAI_TIME[1]
     if len(minute) > 1:
-        minute = _THAI_TIME_CUT.word_tokenize(minute)
+        minute = _thai_time_cut().word_tokenize(minute)
     else:
         minute = 0
     text = ""

@@ -9,7 +9,7 @@ from gensim.models.keyedvectors import Word2VecKeyedVectors
 from numpy import ndarray, zeros
 
 from pythainlp.corpus import get_corpus_path
-from pythainlp.tokenize import THAI2FIT_TOKENIZER, word_tokenize
+from pythainlp.tokenize import thai2fit_tokenizer, word_tokenize
 
 WV_DIM = 300  # word vector dimension
 
@@ -61,7 +61,7 @@ class WordVector:
         self.WV_DIM = self.model.vector_size
 
         if self.model_name == "thai2fit_wv":
-            self.tokenize = THAI2FIT_TOKENIZER.word_tokenize
+            self.tokenize = thai2fit_tokenizer().word_tokenize
         else:
             self.tokenize = word_tokenize
 

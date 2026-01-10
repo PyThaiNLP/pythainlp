@@ -8,14 +8,14 @@ Generic functions of tokenizers
 
 import copy
 import re
-from typing import Iterable, List, Union
+from typing import Iterable, List, Optional, Union
 
 from pythainlp.tokenize import (
     DEFAULT_SENT_TOKENIZE_ENGINE,
     DEFAULT_SUBWORD_TOKENIZE_ENGINE,
-    DEFAULT_SYLLABLE_DICT_TRIE,
+    syllable_dict_trie,
     DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
-    DEFAULT_WORD_DICT_TRIE,
+    word_dict_trie,
     DEFAULT_WORD_TOKENIZE_ENGINE,
 )
 from pythainlp.tokenize._utils import (
@@ -97,7 +97,7 @@ def word_detokenize(
 
 def word_tokenize(
     text: str,
-    custom_dict: Trie = Trie([]),
+    custom_dict: Optional[Trie] = None,
     engine: str = DEFAULT_WORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
     join_broken_num: bool = True,
@@ -222,6 +222,9 @@ def word_tokenize(
         return []
 
     segments = []
+
+    if custom_dict is None:
+        custom_dict = Trie([])
 
     if custom_dict and engine in (
         "attacut",
@@ -690,7 +693,7 @@ def subword_tokenize(
         for word in words:
             segments.extend(
                 word_tokenize(
-                    text=word, custom_dict=DEFAULT_SYLLABLE_DICT_TRIE
+                    text=word, custom_dict=syllable_dict_trie()
                 )
             )
     elif engine == "ssg":
@@ -881,7 +884,7 @@ class Tokenizer:
         if custom_dict:
             self.__trie_dict = dict_trie(custom_dict)
         else:
-            self.__trie_dict = DEFAULT_WORD_DICT_TRIE
+            self.__trie_dict = word_dict_trie()
         self.__engine = engine
         if self.__engine not in ["newmm", "mm", "longest", "deepcut"]:
             raise NotImplementedError(

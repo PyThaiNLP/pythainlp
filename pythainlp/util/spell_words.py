@@ -2,6 +2,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from functools import lru_cache
 import re
 from typing import List
 
@@ -48,7 +49,10 @@ for i in thai_above_vowels:
 for i in thai_below_vowels:
     dict_vowel[i] = "อ" + i
 
-_cut = Tokenizer(list(dict_vowel.keys()) + list(thai_consonants), engine="mm")
+@lru_cache
+def _cut():
+    """Lazy load vowel tokenizer with cache"""
+    return Tokenizer(list(dict_vowel.keys()) + list(thai_consonants), engine="mm")
 
 
 def _clean(w):
@@ -93,7 +97,7 @@ def spell_syllable(text: str) -> List[str]:
         print(spell_syllable("แมว"))
         # output: ['มอ', 'วอ', 'แอ', 'แมว']
     """
-    tokens = _cut.word_tokenize(_clean(text))
+    tokens = _cut().word_tokenize(_clean(text))
 
     c_only = [tok + "อ" for tok in tokens if tok in set(thai_consonants)]
     v_only = [dict_vowel[tok] for tok in tokens if tok in set(dict_vowel)]

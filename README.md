@@ -81,17 +81,43 @@ Possible `extras`:
 
 - `full` (install everything)
 - `compact` (install a stable and small subset of dependencies)
+- `abbreviation` (for Thai abbreviation support)
 - `attacut` (to support attacut, a fast and accurate tokenizer)
 - `benchmarks` (for [word tokenization benchmarking](tokenization-benchmark.md))
+- `budoux` (for BudouX text segmentation)
+- `coreference_resolution` (for coreference resolution)
+- `dependency_parsing` (for dependency parsing)
+- `el` (for entity linking)
+- `esupar` (for esupar parser support)
+- `generate` (for text generation)
 - `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
 - `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
 - `ml` (to support ULMFiT models for classification)
+- `mt5` (for mT5 model support)
+- `nlpo3` (for nlpo3 Thai word tokenizer)
+- `onnx` (for ONNX model support)
+- `oskut` (for OSKut Thai word tokenizer)
+- `sefr_cut` (for SEFR CUT Thai word tokenizer)
+- `spacy_thai` (for spaCy Thai language support)
+- `spell` (for spelling correction)
+- `ssg` (for sentence segmentation)
+- `testing` (pinned versions for CI/CD reproducibility)
+- `textaugment` (for text augmentation)
+- `thai_nner` (for Thai named entity recognition)
 - `thai2fit` (for Thai word vector)
 - `thai2rom` (for machine-learnt romanization)
+- `transformers_ud` (for Universal Dependencies with transformers)
+- `translate` (for machine translation)
+- `wangchanberta` (for WangchanBERTa model)
+- `wangchanglm` (for WangchanGLM model)
+- `word_approximation` (for word approximation)
 - `wordnet` (for Thai WordNet API)
+- `wsd` (for word sense disambiguation)
+- `wtp` (for Where's the Point text segmentation)
+- `wunsen` (for Wunsen spell checker)
 
-For dependency details, look at the `extras` variable in
-[`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
+For dependency details, look at the `[project.optional-dependencies]` section in
+[`pyproject.toml`](https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml).
 
 ## Data Directory
 

@@ -27,6 +27,11 @@ from pythainlp.tokenize._utils import (
 )
 from pythainlp.util.trie import Trie, dict_trie
 
+# Compiled regex patterns for better performance
+_RE_WHITESPACE = re.compile(r"\s")
+_RE_WORD_CHAR = re.compile(r"\w")
+
+
 
 def word_detokenize(
     segments: list[list[str]] | list[str], output: str = "str"
@@ -346,19 +351,18 @@ def map_indices_to_words(index_list, sentences):
     for sentence in sentences:
         words = sentence
         sentence_result = []
-        n = 0
-        for start, end in list(c):  # Create a snapshot to iterate
+        # Process elements that belong to this sentence
+        while c:
+            start, end = c[0]  # Peek at first element
             if start > n_sum + len(words) - 1:
                 break
             else:
+                c.popleft()  # Remove after checking
                 word = sentence[start - n_sum : end + 1 - n_sum]
                 sentence_result.append(word)
-                n += 1
 
         result.append(sentence_result)
         n_sum += len(words)
-        for _ in range(n):
-            c.popleft()  # O(1) operation instead of del c[0]
     return result
 
 
@@ -465,8 +469,8 @@ def sent_tokenize(
             result = []
             _temp: list[str] = []
             for i, w in enumerate(text):
-                # Use re.search instead of re.findall for boolean checks (faster)
-                if re.search(r" ", w) and not re.search(r"\w", w):
+                # Use compiled regex for better performance
+                if " " in w and not _RE_WORD_CHAR.search(w):
                     if not _temp:
                         continue
                     result.append(_temp)
@@ -482,8 +486,8 @@ def sent_tokenize(
             result = []
             _temp = []
             for i, w in enumerate(text):
-                # Use re.search instead of re.findall for boolean checks (faster)
-                if (re.search(r"\s", w) or re.search(r"\n", w)) and not re.search(r"\w", w):
+                # Use compiled regex and simplified condition (\\n is included in \\s)
+                if _RE_WHITESPACE.search(w) and not _RE_WORD_CHAR.search(w):
                     if not _temp:
                         continue
                     result.append(_temp)

@@ -148,11 +148,8 @@ def extract_features(
     doc = padded_doc
 
     # add enders and starters
-    doc_ender = []
-    doc_starter = []
-    for token in doc:
-        doc_ender.append("ender" if token in _ENDERS else "normal")
-        doc_starter.append("starter" if token in _STARTERS else "normal")
+    doc_ender = ["ender" if token in _ENDERS else "normal" for token in doc]
+    doc_starter = ["starter" if token in _STARTERS else "normal" for token in doc]
 
     # for each word
     for i in range(window, len(doc) - window):

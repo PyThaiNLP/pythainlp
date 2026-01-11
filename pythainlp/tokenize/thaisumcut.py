@@ -72,13 +72,13 @@ def middle_cut(sentences: list[str]) -> list[str]:
             result_parts.append(sentence)
 
     # Split all result parts by <stop> and filter
-    all_sentences = []
-    for part in result_parts:
-        all_sentences.extend(part.split("<stop>"))
-
-    sentences = [s.strip() for s in all_sentences if s.strip()]
-
-    return sentences
+    all_sentences = (
+        s.strip() 
+        for part in result_parts 
+        for s in part.split("<stop>")
+    )
+    
+    return [s for s in all_sentences if s]
 
 
 class ThaiSentenceSegmentor:

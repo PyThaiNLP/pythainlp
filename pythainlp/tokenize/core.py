@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import copy
 import re
+from collections import deque
 from collections.abc import Iterable
 
 from pythainlp.tokenize import (
@@ -340,13 +341,13 @@ def indices_words(words):
 
 def map_indices_to_words(index_list, sentences):
     result = []
-    c = copy.copy(index_list)
+    c = deque(index_list)  # Use deque for O(1) popleft
     n_sum = 0
     for sentence in sentences:
         words = sentence
         sentence_result = []
         n = 0
-        for start, end in c:
+        for start, end in list(c):  # Create a snapshot to iterate
             if start > n_sum + len(words) - 1:
                 break
             else:
@@ -357,7 +358,7 @@ def map_indices_to_words(index_list, sentences):
         result.append(sentence_result)
         n_sum += len(words)
         for _ in range(n):
-            del c[0]
+            c.popleft()  # O(1) operation instead of del c[0]
     return result
 
 
@@ -464,7 +465,8 @@ def sent_tokenize(
             result = []
             _temp: list[str] = []
             for i, w in enumerate(text):
-                if re.findall(r" ", w) != [] and re.findall(r"\w", w) == []:
+                # Use re.search instead of re.findall for boolean checks (faster)
+                if re.search(r" ", w) and not re.search(r"\w", w):
                     if not _temp:
                         continue
                     result.append(_temp)
@@ -480,9 +482,8 @@ def sent_tokenize(
             result = []
             _temp = []
             for i, w in enumerate(text):
-                if (
-                    re.findall(r"\s", w) != [] or re.findall(r"\n", w) != []
-                ) and re.findall(r"\w", w) == []:
+                # Use re.search instead of re.findall for boolean checks (faster)
+                if (re.search(r"\s", w) or re.search(r"\n", w)) and not re.search(r"\w", w):
                     if not _temp:
                         continue
                     result.append(_temp)

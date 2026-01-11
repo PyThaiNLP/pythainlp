@@ -29,8 +29,7 @@ def word_freqs() -> list[tuple[str, int]]:
     Credit: Korakot Chaovavanich https://www.facebook.com/groups/thainlp/posts/434330506948445
     """
     freqs: list[tuple[str, int]] = []
-    lines = list(get_corpus(_UNIGRAM_FILENAME))
-    for line in lines:
+    for line in get_corpus(_UNIGRAM_FILENAME):
         word_freq = line.split("\t")
         if len(word_freq) >= 2:
             freqs.append((word_freq[0], int(word_freq[1])))
@@ -42,9 +41,8 @@ def unigram_word_freqs() -> dict[str, int]:
     """Get unigram word frequency from Thai National Corpus (TNC)
     """
     freqs: dict[str, int] = defaultdict(int)
-    lines = list(get_corpus(_UNIGRAM_FILENAME))
-    for i in lines:
-        _temp = i.strip().split("	")
+    for line in get_corpus(_UNIGRAM_FILENAME):
+        _temp = line.strip().split("	")
         if len(_temp) >= 2:
             freqs[_temp[0]] = int(_temp[-1])
 
@@ -60,10 +58,14 @@ def bigram_word_freqs() -> dict[tuple[str, str], int]:
         return freqs
     path = str(path)
 
-    with open(path, encoding="utf-8-sig") as fh:
-        for i in fh.readlines():
-            temp = i.strip().split("	")
-            freqs[(temp[0], temp[1])] = int(temp[-1])
+    try:
+        with open(path, encoding="utf-8-sig") as fh:
+            for line in fh:
+                temp = line.strip().split("	")
+                if len(temp) >= 3:
+                    freqs[(temp[0], temp[1])] = int(temp[-1])
+    except (IOError, OSError):
+        pass
 
     return freqs
 
@@ -77,9 +79,13 @@ def trigram_word_freqs() -> dict[tuple[str, str, str], int]:
         return freqs
     path = str(path)
 
-    with open(path, encoding="utf-8-sig") as fh:
-        for i in fh.readlines():
-            temp = i.strip().split("	")
-            freqs[(temp[0], temp[1], temp[2])] = int(temp[-1])
+    try:
+        with open(path, encoding="utf-8-sig") as fh:
+            for line in fh:
+                temp = line.strip().split("	")
+                if len(temp) >= 4:
+                    freqs[(temp[0], temp[1], temp[2])] = int(temp[-1])
+    except (IOError, OSError):
+        pass
 
     return freqs

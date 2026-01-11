@@ -11,11 +11,13 @@ from pythainlp.util import remove_tonemark, sound_syllable
 
 class KhaveeVerifier:
     def __init__(self):
-        """KhaveeVerifier: Thai Poetry verifier
+        """
+        KhaveeVerifier: Thai Poetry verifier
         """
 
     def _has_true_final_yl(self, word: str) -> bool:
-        """Check if ย or ล is a true final consonant
+        """
+        Check if ย or ล is a true final consonant
         (not just part of the vowel sound with ไ/ใ)
 
         :param str word: Thai word
@@ -30,7 +32,8 @@ class KhaveeVerifier:
         return consonant_count >= 2 and word[-1] in ["ย", "ล"]
 
     def check_sara(self, word: str) -> str:
-        """Check the vowels in the Thai word.
+        """
+        Check the vowels in the Thai word.
 
         :param str word: Thai word
         :return: vowel name of the word
@@ -218,7 +221,8 @@ class KhaveeVerifier:
         return sara[0]
 
     def check_marttra(self, word: str) -> str:
-        """Check the Thai spelling Section in the Thai word.
+        """
+        Check the Thai spelling Section in the Thai word.
 
         :param str word: Thai word
         :return: name of spelling Section of the word.
@@ -311,7 +315,8 @@ class KhaveeVerifier:
                 return "Cant find Marttra in this word"
 
     def is_sumpus(self, word1: str, word2: str) -> bool:
-        """Check the rhyme between two words.
+        """
+        Check the rhyme between two words.
 
         :param str word1: Thai word
         :param str word2: Thai word
@@ -377,11 +382,13 @@ class KhaveeVerifier:
             return "lahu"
 
     def check_klon(self, text: str, k_type: int = 8) -> list[str] | str:
-        """Check the suitability of the poem according to Thai principles.
+        """
+        Check the suitability of the poem according to Thai principles.
 
         :param str text: Thai poem
         :param int k_type: type of Thai poem
-        :return: the check results of the suitability of the poem according to Thai principles.
+        :return: the check results of the suitability of the
+            poem according to Thai principles.
         :rtype: Union[List[str], str]
 
         :Example:
@@ -513,8 +520,7 @@ class KhaveeVerifier:
                     else:
                         return error
             except:
-                return ("Something went wrong. "
-                    "Make sure you enter it in the correct form of klon 8.")
+                return "Something went wrong. Make sure you enter it in the correct form of klon 8."
         elif k_type == 4:
             try:
                 error = []
@@ -621,13 +627,14 @@ class KhaveeVerifier:
     def check_aek_too(
         self, text: list[str] | str, dead_syllable_as_aek: bool = False
     ) -> list[bool] | list[str] | bool | str:
-        """Checker of Thai tonal words
+        """
+        Checker of Thai tonal words
 
         :param Union[List[str], str] text: Thai word or list of Thai words
-        :param bool dead_syllable_as_aek: if True, dead syllable will be
-            considered as aek
-        :return: the check result if the word is aek or too or False (not both)
-            or list of check results if input is list
+        :param bool dead_syllable_as_aek: if True, dead syllable will
+            be considered as aek
+        :return: the check result if the word is aek or too
+            or False (not both) or list of check results if input is list
         :rtype: Union[List[bool], List[str], bool, str]
 
         :Example:
@@ -646,8 +653,6 @@ class KhaveeVerifier:
             # -> False, aek, too
             print(kv.check_aek_too(["เอง", "เอ่ง", "เอ้ง"]))  # ใช้ List ได้เหมือนกัน
             # -> [False, 'aek', 'too']
-
-
         """
         if isinstance(text, list):
             return [self.check_aek_too(t, dead_syllable_as_aek) for t in text]
@@ -666,8 +671,10 @@ class KhaveeVerifier:
             return False
 
     def handle_karun_sound_silence(self, word: str) -> str:
-        """Handle silent sounds in Thai words using '์' character (Karun)
-        by stripping all characters before the 'Karun' character that should be silenced
+        """
+        Handle silent sounds in Thai words using '์' character (Karun)
+        by stripping all characters before the 'Karun' character
+        that should be silenced
 
         :param str text: Thai word
         :return: Thai word with silent words stripped

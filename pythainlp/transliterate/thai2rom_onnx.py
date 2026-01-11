@@ -127,9 +127,9 @@ class Seq2Seq_ONNX:
 
         outputs = np.zeros((max_len, batch_size, self.target_vocab_size))
 
-        expected_encoder_outputs = list(
-            map(lambda output: output.name, self.encoder.get_outputs())
-        )
+        expected_encoder_outputs = [
+            output.name for output in self.encoder.get_outputs()
+        ]
         encoder_outputs, encoder_hidden, _ = self.encoder.run(
             input_feed={
                 "input_tensor": source_seq,

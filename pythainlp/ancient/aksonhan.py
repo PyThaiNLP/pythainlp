@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from itertools import chain
+
 from pythainlp import thai_consonants, thai_tonemarks
 from pythainlp.corpus import thai_orst_words
 from pythainlp.tokenize import Tokenizer
@@ -17,7 +19,7 @@ for i in list(thai_consonants):
         _dict_aksonhan[i + i + j + i] = i + "ั" + j + i
     _dict_aksonhan[i + i] = "ั" + i
 _set_aksonhan = set(_dict_aksonhan.keys())
-_trie = Trie(list(_dict_aksonhan.keys()) + list(thai_consonants))
+_trie = Trie(chain(_dict_aksonhan.keys(), thai_consonants))
 _tokenizer = Tokenizer(custom_dict=_trie, engine="mm")
 _dict_thai = set(thai_orst_words())  # call Thai words
 

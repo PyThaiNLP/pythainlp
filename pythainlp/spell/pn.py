@@ -10,6 +10,7 @@ from __future__ import annotations
 from collections import Counter
 from collections.abc import Callable, ItemsView, Iterable
 from string import digits
+from typing import cast
 
 from pythainlp import thai_digits, thai_letters
 from pythainlp.corpus import tnc
@@ -34,7 +35,7 @@ def _keep(
     min_freq: int,
     min_len: int,
     max_len: int,
-    dict_filter: Callable[[str], bool],
+    dict_filter: Callable[[str], bool] | None,
 ) -> bool:
     """Checks whether a given word has the required minimum frequency min_freq
     and its character length is between min_len and max_len (inclusive).
@@ -45,6 +46,9 @@ def _keep(
     word = word_freq[0]
     if not (word and min_len <= len(word) <= max_len and word[0] != "."):
         return False
+
+    if not dict_filter:
+        dict_filter = _no_filter
 
     return dict_filter(word)
 
@@ -58,7 +62,13 @@ def _edits1(word: str) -> set[str]:
     replaces = [L + c + R[1:] for L, R in splits if R for c in thai_letters]
     inserts = [L + c + R for L, R in splits for c in thai_letters]
 
-    return set(deletes + transposes + replaces + inserts)
+    # Use set union for better performance than list concatenation
+    result = set(deletes)
+    result.update(transposes)
+    result.update(replaces)
+    result.update(inserts)
+
+    return result
 
 
 def _edits2(word: str) -> set[str]:
@@ -81,17 +91,22 @@ def _convert_custom_dict(
 
     i = iter(custom_dict)
     first_member = next(i)
+
+    result: list[tuple[str, int]]
+
     if isinstance(first_member, str):
         # create tuples of a word with frequency equaling 1,
         # and filter word list
-        custom_dict = [
+        custom_dict = cast(Iterable[str], custom_dict)
+        result = [
             (word, 1)
             for word in custom_dict
             if _keep((word, 1), 1, min_len, max_len, dict_filter)
         ]
     elif isinstance(first_member, tuple):
         # filter word list
-        custom_dict = [
+        custom_dict = cast(Iterable[tuple[str, int]], custom_dict)
+        result = [
             word_freq
             for word_freq in custom_dict
             if _keep(word_freq, min_freq, min_len, max_len, dict_filter)
@@ -102,15 +117,15 @@ def _convert_custom_dict(
             "Iterable[Tuple[str, int]], or Iterable[str]"
         )
 
-    return custom_dict
+    return result
 
 
 class NorvigSpellChecker:
     def __init__(
         self,
-        custom_dict: dict[str, int]
-        | Iterable[str]
-        | Iterable[tuple[str, int]] = None,
+        custom_dict: (
+            dict[str, int] | Iterable[str] | Iterable[tuple[str, int]] | None
+        ) = None,
         min_freq: int = 2,
         min_len: int = 2,
         max_len: int = 40,

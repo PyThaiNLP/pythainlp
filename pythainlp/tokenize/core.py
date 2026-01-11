@@ -6,8 +6,8 @@
 
 from __future__ import annotations
 
-import copy
 import re
+from collections import deque
 from collections.abc import Iterable
 
 from pythainlp.tokenize import (
@@ -24,6 +24,10 @@ from pythainlp.tokenize._utils import (
     strip_whitespace,
 )
 from pythainlp.util.trie import Trie, dict_trie
+
+_RE_WHITESPACE = re.compile(r"\s")
+_RE_WORD_CHAR = re.compile(r"\w")
+
 
 
 def word_detokenize(
@@ -337,24 +341,22 @@ def indices_words(words):
 
 def map_indices_to_words(index_list, sentences):
     result = []
-    c = copy.copy(index_list)
+    c = deque(index_list)
     n_sum = 0
     for sentence in sentences:
         words = sentence
         sentence_result = []
-        n = 0
-        for start, end in c:
+        while c:
+            start, end = c[0]
             if start > n_sum + len(words) - 1:
                 break
             else:
+                c.popleft()
                 word = sentence[start - n_sum : end + 1 - n_sum]
                 sentence_result.append(word)
-                n += 1
 
         result.append(sentence_result)
         n_sum += len(words)
-        for _ in range(n):
-            del c[0]
     return result
 
 
@@ -459,7 +461,7 @@ def sent_tokenize(
             result = []
             _temp: list[str] = []
             for i, w in enumerate(text):
-                if re.findall(r" ", w) != [] and re.findall(r"\w", w) == []:
+                if " " in w and not _RE_WORD_CHAR.search(w):
                     if not _temp:
                         continue
                     result.append(_temp)
@@ -475,9 +477,7 @@ def sent_tokenize(
             result = []
             _temp = []
             for i, w in enumerate(text):
-                if (
-                    re.findall(r"\s", w) != [] or re.findall(r"\n", w) != []
-                ) and re.findall(r"\w", w) == []:
+                if _RE_WHITESPACE.search(w) and not _RE_WORD_CHAR.search(w):
                     if not _temp:
                         continue
                     result.append(_temp)

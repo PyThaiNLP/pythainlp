@@ -33,7 +33,7 @@ CHAR_TO_ESCAPE = {
     ";": "<semi_colon>",
     "/": "<slash>",
 }
-ESCAPE_TO_CHAR = dict((v, k) for k, v in CHAR_TO_ESCAPE.items())
+ESCAPE_TO_CHAR = {v: k for k, v in CHAR_TO_ESCAPE.items()}
 
 # map from ORCHID POS tag to Universal POS tag
 # from Korakot Chaovavanich

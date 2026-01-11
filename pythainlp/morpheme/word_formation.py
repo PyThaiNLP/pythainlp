@@ -35,7 +35,7 @@ def nighit(w1: str, w2: str) -> str:
         raise NotImplementedError(f"The function doesn't support {w1}.")
     list_w1 = list(w1)
     list_w2 = list(w2)
-    newword = list()
+    newword = []
     newword.append(list_w1[0])
     newword.append("ั")
     consonant_start = [i for i in list_w2 if i in set(thai_consonants)][0]

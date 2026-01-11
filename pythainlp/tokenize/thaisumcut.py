@@ -29,18 +29,24 @@ def list_to_string(list: list[str]) -> str:
 
 
 def middle_cut(sentences: list[str]) -> list[str]:
-    new_text = ""
+    if not sentences:
+        return []
+
+    result_parts = []
     for sentence in sentences:
         sentence_size = len(word_tokenize(sentence, keep_whitespace=False))
 
-        for k in range(0, len(sentence)):
-            if k == 0 or k + 1 >= len(sentence):
+        sentence_len = len(sentence)
+        for k in range(0, sentence_len):
+            if k == 0 or k + 1 >= sentence_len:
                 continue
             if sentence[k].isdigit() and sentence[k - 1] == " ":
                 sentence = sentence[: k - 1] + sentence[k:]
-            if k + 2 <= len(sentence):
+                sentence_len = len(sentence)  # Update length after modification
+            if k + 2 <= sentence_len:
                 if sentence[k].isdigit() and sentence[k + 1] == " ":
                     sentence = sentence[: k + 1] + sentence[k + 2 :]
+                    sentence_len = len(sentence)  # Update length after modification
 
         fixed_text_lenth = 20
 
@@ -52,44 +58,35 @@ def middle_cut(sentences: list[str]) -> list[str]:
                 white_space_index = []
                 white_space_diff = {}
 
-                for j in range(len(tokens)):
-                    if tokens[j] == " ":
+                for j, token in enumerate(tokens):
+                    if token == " ":
                         white_space_index.append(j)
 
                 for white_space in white_space_index:
-                    white_space_diff.update(
-                        {white_space: abs(white_space - middle_space)}
-                    )
+                    white_space_diff[white_space] = abs(white_space - middle_space)
 
-                if len(white_space_diff) > 0:
-                    min_diff = min(
-                        white_space_diff.items(), key=operator.itemgetter(1)
-                    )
+                if white_space_diff:
+                    min_diff = min(white_space_diff.items(), key=operator.itemgetter(1))
                     tokens.pop(min_diff[0])
                     tokens.insert(min_diff[0], "<stop>")
-            new_text = new_text + list_to_string(tokens) + "<stop>"
+            result_parts.append(list_to_string(tokens))
         else:
-            new_text = new_text + sentence + "<stop>"
+            result_parts.append(sentence)
 
-    sentences = new_text.split("<stop>")
-    sentences = [s.strip() for s in sentences]
-    if "" in sentences:
-        sentences.remove("")
-    if "nan" in sentences:
-        sentences.remove("nan")
+    # Split all result parts by <stop> and filter
+    all_sentences = (s.strip() for part in result_parts for s in part.split("<stop>"))
 
-    sentences = list(filter(None, sentences))
-    return sentences
+    return [s for s in all_sentences if s]
 
 
 class ThaiSentenceSegmentor:
-    def split_into_sentences(
-        self, text: str, isMiddleCut: bool = False
-    ) -> list[str]:
+    def split_into_sentences(self, text: str, isMiddleCut: bool = False) -> list[str]:
         # Declare Variables
         th_alphabets = "([ก-๙])"
         th_conjunction = "(ทำให้|โดย|เพราะ|นอกจากนี้|แต่|กรณีที่|หลังจากนี้|ต่อมา|ภายหลัง|นับตั้งแต่|หลังจาก|ซึ่งเหตุการณ์|ผู้สื่อข่าวรายงานอีก|ส่วนที่|ส่วนสาเหตุ|ฉะนั้น|เพราะฉะนั้น|เพื่อ|เนื่องจาก|จากการสอบสวนทราบว่า|จากกรณี|จากนี้|อย่างไรก็ดี)"
-        th_cite = "(กล่าวว่า|เปิดเผยว่า|รายงานว่า|ให้การว่า|เผยว่า|บนทวิตเตอร์ว่า|แจ้งว่า|พลเมืองดีว่า|อ้างว่า)"
+        th_cite = (
+            "(กล่าวว่า|เปิดเผยว่า|รายงานว่า|ให้การว่า|เผยว่า|บนทวิตเตอร์ว่า|แจ้งว่า|พลเมืองดีว่า|อ้างว่า)"
+        )
         th_ka_krub = "(ครับ|ค่ะ)"
         th_stop_after = "(หรือไม่|โดยเร็ว|แล้ว|อีกด้วย)"
         th_stop_before = "(ล่าสุด|เบื้องต้น|ซึ่ง|ทั้งนี้|แม้ว่า|เมื่อ|แถมยัง|ตอนนั้น|จนเป็นเหตุให้|จากนั้น|อย่างไรก็ตาม|และก็|อย่างใดก็ตาม|เวลานี้|เช่น|กระทั่ง)"
@@ -155,9 +152,7 @@ class ThaiSentenceSegmentor:
         text = text.replace("ทั้งนี้เพื่อ", "ทั้งนี้<rth_for>")
         text = text.replace("เวลาต่อมา", "เวลา<rth_toma>")
         text = text.replace("อย่างไรก็ตาม", "อย่างไรก็ตาม")
-        text = text.replace(
-            "อย่างไรก็ตามหลังจาก", "<stop>อย่างไรก็ตาม<rth_langjak>"
-        )
+        text = text.replace("อย่างไรก็ตามหลังจาก", "<stop>อย่างไรก็ตาม<rth_langjak>")
         text = text.replace("ซึ่งทำให้", "ซึ่ง<rth_tamhai>")
         text = text.replace("โดยประมาท", "<doi>ประมาท")
         text = text.replace("โดยธรรม", "<doi>ธรรม")
@@ -170,14 +165,14 @@ class ThaiSentenceSegmentor:
             last_position = len(tokens)
             pop_split_position = []
             split_position = []
-            for i in range(len(tokens)):
-                if tokens[i] == "และ":
+            for i, token in enumerate(tokens):
+                if token == "และ":
                     and_position = i
 
                 if (
                     and_position != -1
                     and i > and_position
-                    and tokens[i] == " "
+                    and token == " "
                     and nearest_space_position == -1
                 ):
                     if i - and_position != 1:
@@ -209,13 +204,13 @@ class ThaiSentenceSegmentor:
             last_position = len(tokens)
             pop_split_position = []
             split_position = []
-            for i in range(len(tokens)):
-                if tokens[i] == "หรือ":
+            for i, token in enumerate(tokens):
+                if token == "หรือ":
                     or_position = i
                 if (
                     or_position != -1
                     and i > or_position
-                    and tokens[i] == " "
+                    and token == " "
                     and nearest_space_position == -1
                 ):
                     if i - or_position != 1:
@@ -247,13 +242,13 @@ class ThaiSentenceSegmentor:
             pop_split_position = []
             last_position = len(tokens)
             split_position = []
-            for i in range(len(tokens)):
-                if tokens[i] == "จึง":
+            for i, token in enumerate(tokens):
+                if token == "จึง":
                     cung_position = i
 
                 if (
                     cung_position != -1
-                    and tokens[i] == " "
+                    and token == " "
                     and i > cung_position
                     and nearest_space_position == -1
                 ):
@@ -286,9 +281,7 @@ class ThaiSentenceSegmentor:
         text = re.sub(th_conjunction, "<stop>\\1", text)
         text = re.sub(th_cite, "\\1<stop>", text)
         text = re.sub(" " + degit + "[.]" + th_title, "<stop>\\1.\\2", text)
-        text = re.sub(
-            " " + degit + degit + "[.]" + th_title, "<stop>\\1\\2.\\3", text
-        )
+        text = re.sub(" " + degit + degit + "[.]" + th_title, "<stop>\\1\\2.\\3", text)
         text = re.sub(th_alphabets + th_stop_after + " ", "\\1\\2<stop>", text)
         if "”" in text:
             text = text.replace(".”", "”.")

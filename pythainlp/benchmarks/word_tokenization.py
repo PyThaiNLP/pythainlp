@@ -56,13 +56,11 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
     :return: a one-dimension dictionary with keys combined
     :rtype: dict[str, float | str]
     """
-    items = []
-    for k1, kv2 in my_dict.items():
-        for k2, v in kv2.items():
-            new_key = f"{k1}{sep}{k2}"
-            items.append((new_key, v))
-
-    return dict(items)
+    return {
+        f"{k1}{sep}{k2}": v
+        for k1, kv2 in my_dict.items()
+        for k2, v in kv2.items()
+    }
 
 
 def benchmark(ref_samples: list[str], samples: list[str]) -> pd.DataFrame:
@@ -259,5 +257,5 @@ def _find_words_correctly_tokenised(
     """
     ref_b = dict(zip(ref_boundaries, [1] * len(ref_boundaries)))
 
-    labels = tuple(map(lambda x: ref_b.get(x, 0), predicted_boundaries))
+    labels = tuple(ref_b.get(x, 0) for x in predicted_boundaries)
     return labels

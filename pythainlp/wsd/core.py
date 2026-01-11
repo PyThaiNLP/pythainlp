@@ -13,8 +13,8 @@ _mean_all = {}
 for i, j in zip(_wsd_dict["word"], _wsd_dict["meaning"]):
     _mean_all[i] = j
 
-_all_word = set(list(_mean_all.keys()))
-_TRIE = Trie(list(_all_word))
+_all_word = set(_mean_all.keys())
+_TRIE = Trie(_all_word)
 _word_cut = Tokenizer(custom_dict=_TRIE)
 
 _MODEL = None
@@ -50,7 +50,7 @@ def get_sense(
     sentence: str,
     word: str,
     device: str = "cpu",
-    custom_dict: dict = dict(),
+    custom_dict: dict | None = None,
     custom_tokenizer: Tokenizer = _word_cut,
 ) -> list[tuple[str, float]]:
     """Get word sense from the sentence.

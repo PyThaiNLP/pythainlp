@@ -76,7 +76,7 @@ extras = {
     "oskut": ["oskut>=1.3"],
     "sefr_cut": ["sefr_cut>=1.1"],
     "spacy_thai": ["spacy_thai>=0.7.1"],
-    "spell": ["phunspell>=0.1.6", "symspellpy>=6.7.6"], 
+    "spell": ["phunspell>=0.1.6", "symspellpy>=6.7.6"],
     "ssg": ["ssg>=0.0.8"],
     "textaugment": ["bpemb", "gensim>=4.0.0"],
     "thai_nner": ["thai_nner"],

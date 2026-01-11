@@ -41,7 +41,7 @@ def abbreviation_to_full_text(
         raise ImportError(
             """
             This function needs to use khamyo.
-            You can install by pip install khamyo or 
+            You can install by pip install khamyo or
             pip install pythainlp[abbreviation].
             """
         )

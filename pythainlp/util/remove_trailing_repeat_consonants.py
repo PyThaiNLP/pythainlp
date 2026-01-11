@@ -42,7 +42,7 @@ def remove_trailing_repeat_consonants(
     :param str text: input text
     :param Trie dictionary: Trie dictionary to check the last word.
     If None, pythainlp.corpus.thai_words() will be used
-    :param bool has_dictionary_updated: If the dictionary is updated 
+    :param bool has_dictionary_updated: If the dictionary is updated
     or the first time using in the kernel, set this true.
     If not, set this false to save time.
     :return: text without repeating Thai consonants

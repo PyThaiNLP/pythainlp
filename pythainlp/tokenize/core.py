@@ -129,7 +129,7 @@ def word_tokenize(
         * *icu* - wrapper for a word tokenizer in
           `PyICU <https://gitlab.pyicu.org/main/pyicu>`_.,
           from ICU (International Components for Unicode),
-          dictionary-based          
+          dictionary-based
         * *longest* - dictionary-based, longest matching
         * *mm* - "multi-cut", dictionary-based, maximum matching
         * *nercut* - dictionary-based, maximal matching,
@@ -565,7 +565,7 @@ def paragraph_tokenize(
 
         paragraph_tokenize(sent)
         # output: [
-        # ['(1) '], 
+        # ['(1) '],
         # [
         #   'บทความนี้ผู้เขียนสังเคราะห์ขึ้นมาจากผลงานวิจัยที่เคยทำมาในอดีต  ',
         #   'มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด ',

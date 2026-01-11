@@ -18,15 +18,21 @@ def romanize(text: str) -> str:
     :return: A string of Thai words rendered in the Latin alphabet.
     :rtype: str
     """
+    # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)
+    text = text.replace("ฅ", "ค")
     _temp = th2roman(text)
     return _temp[: _temp.rfind(" <s/>")].replace("<s/>", "")
 
 
 def tltk_g2p(text: str) -> str:
+    # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)
+    text = text.replace("ฅ", "ค")
     _temp = g2p(text).split("<tr/>")[1].replace("|<s/>", "").replace("|", " ")
     return _temp.replace("<s/>", "")
 
 
 def tltk_ipa(text: str) -> str:
+    # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)
+    text = text.replace("ฅ", "ค")
     _temp = th2ipa(text)
     return _temp[: _temp.rfind(" <s/>")].replace("<s/>", "")

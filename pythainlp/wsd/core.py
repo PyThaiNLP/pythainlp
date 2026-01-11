@@ -13,8 +13,8 @@ _mean_all = {}
 for i, j in zip(_wsd_dict["word"], _wsd_dict["meaning"]):
     _mean_all[i] = j
 
-_all_word = set(list(_mean_all.keys()))
-_TRIE = Trie(list(_all_word))
+_all_word = set(_mean_all.keys())  # dict.keys() is already iterable, no need for list()
+_TRIE = Trie(_all_word)
 _word_cut = Tokenizer(custom_dict=_TRIE)
 
 _MODEL = None

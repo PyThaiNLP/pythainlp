@@ -13,7 +13,7 @@ from pythainlp.tools import safe_print
 
 def _read_file(path):
     with open(path, encoding="utf-8") as f:
-        lines = map(lambda r: r.strip(), f.readlines())
+        lines = (r.strip() for r in f.readlines())
     return list(lines)
 
 

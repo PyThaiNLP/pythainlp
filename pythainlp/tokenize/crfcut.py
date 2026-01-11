@@ -140,7 +140,7 @@ def extract_features(
     """
     if not doc:
         return []
-    
+
     doc_features = []
     # Pad the document with "xxpad" tokens efficiently
     padded_doc = ["xxpad"] * window

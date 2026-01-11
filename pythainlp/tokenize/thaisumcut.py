@@ -31,7 +31,7 @@ def list_to_string(list: list[str]) -> str:
 def middle_cut(sentences: list[str]) -> list[str]:
     if not sentences:
         return []
-    
+
     result_parts = []
     for sentence in sentences:
         sentence_size = len(word_tokenize(sentence, keep_whitespace=False))

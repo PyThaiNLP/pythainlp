@@ -50,7 +50,7 @@ def get_sense(
     sentence: str,
     word: str,
     device: str = "cpu",
-    custom_dict: dict = dict(),
+    custom_dict: dict | None = None,
     custom_tokenizer: Tokenizer = _word_cut,
 ) -> list[tuple[str, float]]:
     """Get word sense from the sentence.

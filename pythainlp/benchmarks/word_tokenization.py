@@ -257,5 +257,5 @@ def _find_words_correctly_tokenised(
     """
     ref_b = dict(zip(ref_boundaries, [1] * len(ref_boundaries)))
 
-    labels = tuple(map(lambda x: ref_b.get(x, 0), predicted_boundaries))
+    labels = tuple(ref_b.get(x, 0) for x in predicted_boundaries)
     return labels

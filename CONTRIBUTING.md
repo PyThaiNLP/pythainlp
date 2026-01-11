@@ -1,5 +1,5 @@
 ---
-SPDX-FileCopyrightText: 2025 PyThaiNLP Project
+SPDX-FileCopyrightText: 2025-2026 PyThaiNLP Project
 SPDX-FileType: DOCUMENTATION
 SPDX-License-Identifier: CC0-1.0
 ---
@@ -108,44 +108,79 @@ Make sure the tests pass on GitHub Actions.
 
 See more in [tests/README.md](./tests/README.md)
 
+## Installing and Building
+
+### Installing for Development
+
+Install PyThaiNLP in editable mode with core dependencies:
+
+```sh
+pip install -e .
+```
+
+Install with optional dependency groups:
+
+```sh
+# Install with compact set of dependencies (recommended for development)
+pip install -e ".[compact]"
+
+# Install with full dependencies
+pip install -e ".[full]"
+
+# Install with testing dependencies (pinned versions for reproducibility)
+pip install -e ".[testing]"
+```
+
+See all available optional dependency groups in `pyproject.toml` under `[project.optional-dependencies]`.
+
+### Building Distribution Packages
+
+To build source distribution and wheel:
+
+```sh
+python -m build
+```
+
+This will create distribution packages in the `dist/` directory.
+
 ## Releasing
 
 - We use [semantic versioning](https://semver.org/): MAJOR.MINOR.PATCH, with development build suffix: MAJOR.MINOR.PATCH-devBUILD
-- We use [`bumpversion`](https://github.com/c4urself/bump2version/#installation) to manage versioning.
-  - `bumpversion [major|minor|patch|release|build]`
+- We use [`bump-my-version`](https://github.com/callowayproject/bump-my-version) to manage versioning. The configuration is in `pyproject.toml` under `[tool.bumpversion]`.
+  - `bump-my-version bump [major|minor|patch|release|build]`
   - Example:
 
   ```sh
   #current_version = 2.3.3-dev0
 
-  bumpversion build
+  bump-my-version bump build
   #current_version = 2.3.3-dev1
 
-  bumpversion build
+  bump-my-version bump build
   #current_version = 2.3.3-dev2
 
-  bumpversion release
+  bump-my-version bump release
   #current_version = 2.3.3-beta0
   
-  bumpversion release
+  bump-my-version bump release
   #current_version = 2.3.3
 
-  bumpversion patch
+  bump-my-version bump patch
   #current_version = 2.3.6-dev0
 
-  bumpversion minor
+  bump-my-version bump minor
   #current_version = 2.3.1-dev0
 
-  bumpversion build
+  bump-my-version bump build
   #current_version = 2.3.1-dev1
 
-  bumpversion major
+  bump-my-version bump major
   #current_version = 3.0.0-dev0
 
-  bumpversion release
+  bump-my-version bump release
   #current_version = 3.0.0-beta0
 
-  bumpversion release
+  bump-my-version bump release
   #current_version = 3.0.0
   ```
 

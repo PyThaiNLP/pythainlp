@@ -21,10 +21,27 @@ class mT5Summarizer:
         min_length: int = 30,
         max_length: int = 100,
         skip_special_tokens: bool = True,
-        pretrained_mt5_model_name: str = None,
+        pretrained_mt5_model_name: str = "",
     ):
+        """
+        Initialize mT5 Summarizer.
+
+        :param str model_size: Size of the model ("small", "base", "large",
+            "xl", "xxl"). Default is "small".
+        :param int num_beams: Number of beams for beam search. Default is 4.
+        :param int no_repeat_ngram_size: Size of n-grams to avoid repeating.
+            Default is 2.
+        :param int min_length: Minimum length of generated summary.
+            Default is 30.
+        :param int max_length: Maximum length of generated summary.
+            Default is 100.
+        :param bool skip_special_tokens: Whether to skip special tokens in
+            output. Default is True.
+        :param str pretrained_mt5_model_name: Name of pretrained model.
+            If empty (default), uses google/mt5-{model_size}.
+        """
         model_name = ""
-        if pretrained_mt5_model_name is None:
+        if not pretrained_mt5_model_name:
             if model_size not in ["small", "base", "large", "xl", "xxl"]:
                 raise ValueError(
                     f"""model_size \"{model_size}\" not found.

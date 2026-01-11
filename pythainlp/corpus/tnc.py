@@ -63,9 +63,10 @@ def bigram_word_freqs() -> dict[tuple[str, str], int]:
     path = str(path)
 
     with open(path, encoding="utf-8-sig") as fh:
-        for i in fh.readlines():
-            temp = i.strip().split("	")
-            freqs[(temp[0], temp[1])] = int(temp[-1])
+        for line in fh:
+            temp = line.strip().split("	")
+            if len(temp) >= 3:
+                freqs[(temp[0], temp[1])] = int(temp[-1])
 
     return freqs
 
@@ -81,8 +82,9 @@ def trigram_word_freqs() -> dict[tuple[str, str, str], int]:
     path = str(path)
 
     with open(path, encoding="utf-8-sig") as fh:
-        for i in fh.readlines():
-            temp = i.strip().split("	")
-            freqs[(temp[0], temp[1], temp[2])] = int(temp[-1])
+        for line in fh:
+            temp = line.strip().split("	")
+            if len(temp) >= 4:
+                freqs[(temp[0], temp[1], temp[2])] = int(temp[-1])
 
     return freqs

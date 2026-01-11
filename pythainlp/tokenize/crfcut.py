@@ -140,6 +140,9 @@ def extract_features(
     within the `window`
     :return: list of lists of features to be fed to CRF
     """
+    if not doc:
+        return []
+    
     doc_features = []
     # Pad the document with "xxpad" tokens efficiently
     padded_doc = ["xxpad"] * window

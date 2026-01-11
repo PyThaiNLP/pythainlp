@@ -18,6 +18,8 @@ def calculate_ngram_counts(
     :return: A dictionary where keys are n-grams and values are their counts.
     :rtype: Dict[Tuple[str], int]
     """
+    if not list_words:
+        return {}
 
     ngram_counts = {}
 

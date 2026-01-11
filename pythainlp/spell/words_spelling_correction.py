@@ -41,8 +41,7 @@ class FastTextEncoder:
             maxn (int): Maximum character length for subwords.
         """
         try:
-            import numpy as np  # reduce load
-            import onnxruntime
+            import numpy as np
 
             self.np = np
         except ModuleNotFoundError:

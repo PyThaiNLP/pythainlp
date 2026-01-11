@@ -1,5 +1,5 @@
 ---
-SPDX-FileCopyrightText: 2025 PyThaiNLP Project
+SPDX-FileCopyrightText: 2025-2026 PyThaiNLP Project
 SPDX-FileType: DOCUMENTATION
 SPDX-License-Identifier: CC0-1.0
 ---
@@ -11,12 +11,20 @@ Notable changes between versions.
 - For full release notes, see:
   <https://github.com/PyThaiNLP/pythainlp/releases>
 - For detailed commit changes, see:
-  <https://github.com/PyThaiNLP/pythainlp/compare/v5.1.2...dev> (select tags to compare)
+  <https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...dev> (select tags to compare)
 
 ## Version 5.2.0 -> dev
-[WIP]
+
+Some features and fixes in this version are AI assisted.
+See PR for prompt and details.
+
+- Lazy load dictionaries to reduce memory usage #1186
+- Consolidate configuration into pyproject.toml #1188
+- Update type hints; Use Python 3.9 features #1189 #1190
+- Fix KeyError when transliterating text with Thai alphabet Kho Khon (U+0E05) #1187
 
 ## Version 5.1.2 -> 5.2.0
+
 - Add pythainlp.translate.word_translate #1102
 - Update Dockerfile #1049
 - Add Words Spelling Correction using Char2Vec #1075

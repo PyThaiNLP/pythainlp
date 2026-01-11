@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -6,10 +5,11 @@
 Corpus related functions.
 """
 
+from __future__ import annotations
+
 import json
 import os
 import re
-from typing import Union
 
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
@@ -45,7 +45,7 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict:
     :return: details about corpus
     :rtype: dict
     """
-    with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
+    with open(corpus_db_path(), encoding="utf-8-sig") as f:
         local_db = json.load(f)
 
     if not version:
@@ -133,7 +133,7 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset:
     """
     path = path_pythainlp_corpus(filename)
     lines = []
-    with open(path, "r", encoding="utf-8-sig") as fh:
+    with open(path, encoding="utf-8-sig") as fh:
         lines = fh.read().splitlines()
 
     if not comments:
@@ -173,13 +173,13 @@ def get_corpus_as_is(filename: str) -> list:
     """
     path = path_pythainlp_corpus(filename)
     lines = []
-    with open(path, "r", encoding="utf-8-sig") as fh:
+    with open(path, encoding="utf-8-sig") as fh:
         lines = fh.read().splitlines()
 
     return lines
 
 
-def get_corpus_default_db(name: str, version: str = "") -> Union[str, None]:
+def get_corpus_default_db(name: str, version: str = "") -> str | None:
     """
     Get model path from default_db.json
 
@@ -211,7 +211,7 @@ def get_corpus_default_db(name: str, version: str = "") -> Union[str, None]:
 
 def get_corpus_path(
     name: str, version: str = "", force: bool = False
-) -> Union[str, None]:
+) -> str | None:
     """
     Get corpus path.
 
@@ -252,9 +252,8 @@ def get_corpus_path(
         print(get_corpus_path('wiki_lm_lstm'))
         # output: /root/pythainlp-data/thwiki_model_lstm.pth
     """
-    from typing import Dict
 
-    CUSTOMIZE: Dict[str, str] = {
+    CUSTOMIZE: dict[str, str] = {
         # "the corpus name":"path"
     }
     if name in CUSTOMIZE:
@@ -450,7 +449,7 @@ def download(
 
     # check if corpus is available
     if name in corpus_db:
-        with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
+        with open(corpus_db_path(), encoding="utf-8-sig") as f:
             local_db = json.load(f)
 
         corpus = corpus_db[name]
@@ -525,9 +524,7 @@ def download(
                 # This awkward behavior is for backward-compatibility with
                 # database files generated previously using TinyDB
                 if local_db["_default"]:
-                    corpus_no = (
-                        max((int(no) for no in local_db["_default"])) + 1
-                    )
+                    corpus_no = max(int(no) for no in local_db["_default"]) + 1
                 else:
                     corpus_no = 1
                 local_db["_default"][str(corpus_no)] = {
@@ -588,7 +585,7 @@ def remove(name: str) -> bool:
     if _CHECK_MODE == "1":
         print("PyThaiNLP is read-only mode. It can't download.")
         return False
-    with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
+    with open(corpus_db_path(), encoding="utf-8-sig") as f:
         db = json.load(f)
     data = [
         corpus for corpus in db["_default"].values() if corpus["name"] == name
@@ -617,7 +614,7 @@ def get_path_folder_corpus(name, version, *path):
     return os.path.join(get_corpus_path(name, version), *path)
 
 
-def make_safe_directory_name(name:str) -> str:
+def make_safe_directory_name(name: str) -> str:
     """
     Make safe directory name
 
@@ -626,22 +623,46 @@ def make_safe_directory_name(name:str) -> str:
     :rtype: str
     """
     # Replace invalid characters with an underscore
-    safe_name = re.sub(r'[<>:"/\\|?*]', '_', name)
+    safe_name = re.sub(r'[<>:"/\\|?*]', "_", name)
     # Remove leading/trailing spaces or periods (especially important for Windows)
-    safe_name = safe_name.strip(' .')
+    safe_name = safe_name.strip(" .")
     # Prevent names that are reserved on Windows
-    reserved_names = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9']
+    reserved_names = [
+        "CON",
+        "PRN",
+        "AUX",
+        "NUL",
+        "COM1",
+        "COM2",
+        "COM3",
+        "COM4",
+        "COM5",
+        "COM6",
+        "COM7",
+        "COM8",
+        "COM9",
+        "LPT1",
+        "LPT2",
+        "LPT3",
+        "LPT4",
+        "LPT5",
+        "LPT6",
+        "LPT7",
+        "LPT8",
+        "LPT9",
+    ]
     if safe_name.upper() in reserved_names:
-        safe_name = f"_{safe_name}" # Prepend underscore to avoid conflict
+        safe_name = f"_{safe_name}"  # Prepend underscore to avoid conflict
     return safe_name
 
 
-def get_hf_hub(repo_id:str, filename: str=None) -> str:
+def get_hf_hub(repo_id: str, filename: str = "") -> str:
     """
     HuggingFace Hub in :mod:`pythainlp` data directory.
 
     :param str repo_id: repo_id
-    :param str filename: filename
+    :param str filename: filename (optional, default is empty string).
+        If empty, downloads entire snapshot.
     :return: path
     :rtype: str
     """
@@ -653,19 +674,16 @@ def get_hf_hub(repo_id:str, filename: str=None) -> str:
         Please installing the package via 'pip install huggingface-hub'.
         """)
     except Exception as e:
-        raise Exception(f"An unexpected error occurred: {e}")
+        raise RuntimeError(f"An unexpected error occurred: {e}") from e
     hf_root = get_full_data_path("hf_models")
     name_dir = make_safe_directory_name(repo_id)
     root_project = os.path.join(hf_root, name_dir)
-    if filename!=None:
+    if filename:
         output_path = hf_hub_download(
-            repo_id=repo_id,
-            filename=filename,
-            local_dir=root_project
+            repo_id=repo_id, filename=filename, local_dir=root_project
         )
     else:
         output_path = snapshot_download(
-            repo_id=repo_id,
-            local_dir=root_project
+            repo_id=repo_id, local_dir=root_project
         )
     return output_path

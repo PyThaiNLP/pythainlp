@@ -1,10 +1,12 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Thank https://dev.to/ton_ami/text-data-augmentation-synonym-replacement-4h8l
 """
+
+from __future__ import annotations
+
 __all__ = [
     "WordNetAug",
     "postype2wordnet",
@@ -12,7 +14,6 @@ __all__ = [
 
 import itertools
 from collections import OrderedDict
-from typing import List
 
 from nltk.corpus import wordnet as wn
 
@@ -125,13 +126,13 @@ class WordNetAug:
         pass
 
     def find_synonyms(
-        self, word: str, pos: str = None, postag_corpus: str = "orchid"
-    ) -> List[str]:
+        self, word: str, pos: str | None = None, postag_corpus: str = "orchid"
+    ) -> list[str]:
         """
         Find synonyms using wordnet
 
         :param str word: word
-        :param str pos: part-of-speech type
+        :param str | None pos: part-of-speech type. Default is None.
         :param str postag_corpus: name of POS tag corpus
         :return: list of synonyms
         :rtype: List[str]
@@ -162,7 +163,7 @@ class WordNetAug:
         max_syn_sent: int = 6,
         postag: bool = True,
         postag_corpus: str = "orchid",
-    ) -> List[List[str]]:
+    ) -> list[list[str]]:
         """
         Text Augment using wordnet
 

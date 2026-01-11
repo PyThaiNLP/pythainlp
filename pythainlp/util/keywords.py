@@ -1,16 +1,16 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
 from collections import Counter
-from typing import Dict, List
 
 from pythainlp.corpus import thai_stopwords
 
 _STOPWORDS = thai_stopwords()
 
 
-def rank(words: List[str], exclude_stopwords: bool = False) -> Counter:
+def rank(words: list[str], exclude_stopwords: bool = False) -> Counter:
     """
     Count word frequencies given a list of Thai words with an option
     to exclude stopwords.
@@ -72,7 +72,7 @@ def rank(words: List[str], exclude_stopwords: bool = False) -> Counter:
     return Counter(words)
 
 
-def find_keyword(word_list: List[str], min_len: int = 3) -> Dict[str, int]:
+def find_keyword(word_list: list[str], min_len: int = 3) -> dict[str, int]:
     """
     This function counts the frequencies of words in the list
     where stopword is excluded and returns a frequency dictionary.

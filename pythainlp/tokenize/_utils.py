@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -6,15 +5,17 @@
 Utility functions for tokenize module.
 """
 
+from __future__ import annotations
+
 import re
-from typing import Callable, List
+from collections.abc import Callable
 
 _DIGITS_WITH_SEPARATOR = re.compile(r"(\d+[\.\,:])+\d+")
 
 
 def apply_postprocessors(
-    segments: List[str], postprocessors: Callable[[List[str]], List[str]]
-) -> List[str]:
+    segments: list[str], postprocessors: Callable[[list[str]], list[str]]
+) -> list[str]:
     """
     A list of callables to apply to a raw segmentation result.
     """
@@ -24,7 +25,7 @@ def apply_postprocessors(
     return segments
 
 
-def rejoin_formatted_num(segments: List[str]) -> List[str]:
+def rejoin_formatted_num(segments: list[str]) -> list[str]:
     """
     Rejoin well-known formatted numeric that are over-tokenized.
     The formatted numeric are numbers separated by ":", ",", or ".",
@@ -73,7 +74,7 @@ def rejoin_formatted_num(segments: List[str]) -> List[str]:
     return tokens_joined
 
 
-def strip_whitespace(segments: List[str]) -> List[str]:
+def strip_whitespace(segments: list[str]) -> list[str]:
     """
     Strip whitespace(s) off each token and remove whitespace tokens.
     :param List[str] segments: result from word tokenizer

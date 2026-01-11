@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import List, Tuple
+from __future__ import annotations
 
 from pythainlp.augment.word2vec.core import Word2VecAug
 from pythainlp.corpus import get_corpus_path
-from pythainlp.tokenize import THAI2FIT_TOKENIZER
+from pythainlp.tokenize import thai2fit_tokenizer
 
 
 class Thai2fitAug:
@@ -21,12 +20,13 @@ class Thai2fitAug:
         self.thai2fit_wv = get_corpus_path("thai2fit_wv")
         self.load_w2v()
 
-    def tokenizer(self, text: str) -> List[str]:
+    def tokenizer(self, text: str) -> list[str]:
         """
         :param str text: Thai text
         :rtype: List[str]
         """
-        return THAI2FIT_TOKENIZER.word_tokenize(text)
+        tok = thai2fit_tokenizer()
+        return tok.word_tokenize(text)
 
     def load_w2v(self):
         """
@@ -36,7 +36,7 @@ class Thai2fitAug:
 
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
-    ) -> List[Tuple[str]]:
+    ) -> list[tuple[str]]:
         """
         Text Augment using word2vec from Thai2Fit
 

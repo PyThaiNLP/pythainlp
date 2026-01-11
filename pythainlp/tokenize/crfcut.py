@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -17,8 +16,9 @@ See development notebooks at https://github.com/vistec-AI/ted_crawler;
 POS features are not used due to unreliable POS tagging available
 """
 
+from __future__ import annotations
+
 import os
-from typing import List
 
 import pycrfsuite
 
@@ -128,8 +128,8 @@ _STARTERS = {
 
 
 def extract_features(
-    doc: List[str], window: int = 2, max_n_gram: int = 3
-) -> List[List[str]]:
+    doc: list[str], window: int = 2, max_n_gram: int = 3
+) -> list[list[str]]:
     """
     Extract features for CRF by sliding `max_n_gram` of tokens
     for +/- `window` from the current token
@@ -161,12 +161,12 @@ def extract_features(
         # ngram features
         for n_gram in range(1, min(max_n_gram + 1, 2 + window * 2)):
             for j in range(i - window, i + window + 2 - n_gram):
-                feature_position = f"{n_gram}_{j-i}_{j-i+n_gram}"
-                word_ = f'{"|".join(doc[j:(j+n_gram)])}'
+                feature_position = f"{n_gram}_{j - i}_{j - i + n_gram}"
+                word_ = f"{'|'.join(doc[j : (j + n_gram)])}"
                 word_features += [f"word_{feature_position}={word_}"]
-                ender_ = f'{"|".join(doc_ender[j:(j+n_gram)])}'
+                ender_ = f"{'|'.join(doc_ender[j : (j + n_gram)])}"
                 word_features += [f"ender_{feature_position}={ender_}"]
-                starter_ = f'{"|".join(doc_starter[j:(j+n_gram)])}'
+                starter_ = f"{'|'.join(doc_starter[j : (j + n_gram)])}"
                 word_features += [f"starter_{feature_position}={starter_}"]
         # append to feature per word
         doc_features.append(word_features)
@@ -179,7 +179,7 @@ _tagger = pycrfsuite.Tagger()
 _tagger.open(os.path.join(corpus_path(), _CRFCUT_DATA_FILENAME))
 
 
-def segment(text: str) -> List[str]:
+def segment(text: str) -> list[str]:
     """
     CRF-based sentence segmentation.
 
@@ -199,7 +199,7 @@ def segment(text: str) -> List[str]:
         if toks[idx].strip().endswith(("!", ".", "?")):
             labs[idx] = "E"
         # Spaces or empty strings would no longer be treated as end of sentence.
-        elif (idx == 0 or labs[idx-1] == "E") and toks[idx].strip() == "":
+        elif (idx == 0 or labs[idx - 1] == "E") and toks[idx].strip() == "":
             labs[idx] = "I"
 
     sentences = []

@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 # ruff: noqa: C901
-
-from typing import List, Union
+from __future__ import annotations
 
 from pythainlp import thai_consonants
 from pythainlp.tokenize import subword_tokenize
@@ -21,7 +19,7 @@ class KhaveeVerifier:
         """
         Check if ย or ล is a true final consonant
         (not just part of the vowel sound with ไ/ใ)
-        
+
         :param str word: Thai word
         :return: True if ย or ล is a true final consonant
         :rtype: bool
@@ -249,14 +247,14 @@ class KhaveeVerifier:
                 word = word[:-1]
             elif word[-2] in ["ก", "ข", "ค", "ฆ"]:
                 word = word[:-1]
-        
+
         word = self.handle_karun_sound_silence(word)
         word = remove_tonemark(word)
-        
+
         # Check for ำ at the end (represents "am" sound, ends with m)
         if word[-1] == "ำ":
             return "กม"
-        
+
         # Check for vowels and special patterns that indicate open syllables (กา)
         # For words with ไ/ใ, check if ย/ล is a true final or just part of vowel
         if "ไ" in word or "ใ" in word:
@@ -266,10 +264,8 @@ class KhaveeVerifier:
                 # ย/ล is part of the vowel sound, not a true final
                 return "กา"
             # else: ย/ล is a true final, continue to consonant classification below
-        
-        if (
-            ("ํ" in word and "า" in word)
-        ):
+
+        if "ํ" in word and "า" in word:
             return "กา"
         elif (
             word[-1] in ["า", "ะ", "ิ", "ี", "ุ", "ู", "อ"]
@@ -385,7 +381,7 @@ class KhaveeVerifier:
         else:
             return "lahu"
 
-    def check_klon(self, text: str, k_type: int = 8) -> Union[List[str], str]:
+    def check_klon(self, text: str, k_type: int = 8) -> list[str] | str:
         """
         Check the suitability of the poem according to Thai principles.
 
@@ -460,11 +456,11 @@ class KhaveeVerifier:
                 ):
                     return "The poem does not have 4 complete sentences."
                 else:
-                    for i, sumpus_sent1 in enumerate(list_sumpus_sent1):
+                    for i in range(len(list_sumpus_sent1)):
                         countwrong = 0
                         for j in list_sumpus_sent2h[i]:
                             if (
-                                self.is_sumpus(sumpus_sent1, j)
+                                self.is_sumpus(list_sumpus_sent1[i], j)
                                 is False
                             ):
                                 countwrong += 1
@@ -473,7 +469,7 @@ class KhaveeVerifier:
                                 "Can't find rhyme between paragraphs "
                                 + str(
                                     (
-                                        sumpus_sent1,
+                                        list_sumpus_sent1[i],
                                         list_sumpus_sent2h[i],
                                     )
                                 )
@@ -559,11 +555,11 @@ class KhaveeVerifier:
                 ):
                     return "The poem does not have 4 complete sentences."
                 else:
-                    for i, sumpus_sent1 in enumerate(list_sumpus_sent1):
+                    for i in range(len(list_sumpus_sent1)):
                         countwrong = 0
                         for j in list_sumpus_sent2h[i]:
                             if (
-                                self.is_sumpus(sumpus_sent1, j)
+                                self.is_sumpus(list_sumpus_sent1[i], j)
                                 is False
                             ):
                                 countwrong += 1
@@ -572,7 +568,7 @@ class KhaveeVerifier:
                                 "Can't find rhyme between paragraphs "
                                 + str(
                                     (
-                                        sumpus_sent1,
+                                        list_sumpus_sent1[i],
                                         list_sumpus_sent2h[i],
                                     )
                                 )
@@ -628,8 +624,8 @@ class KhaveeVerifier:
             return "Something went wrong. Make sure you enter it in the correct form."
 
     def check_aek_too(
-        self, text: Union[List[str], str], dead_syllable_as_aek: bool = False
-    ) -> Union[List[bool], List[str], bool, str]:
+        self, text: list[str] | str, dead_syllable_as_aek: bool = False
+    ) -> list[bool] | list[str] | bool | str:
         """
         Checker of Thai tonal words
 

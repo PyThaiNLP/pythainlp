@@ -1,10 +1,12 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Romanization of Thai words based on machine-learnt engine in ONNX runtime ("thai2rom")
 """
+
+from __future__ import annotations
+
 import json
 
 import numpy as np

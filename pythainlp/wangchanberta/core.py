@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
 import re
 import warnings
-from typing import List, Tuple, Union
 
 from transformers import (
     CamembertTokenizer,
@@ -56,7 +56,7 @@ class ThaiNameTagger:
 
     def get_ner(
         self, text: str, pos: bool = False, tag: bool = False
-    ) -> Union[List[Tuple[str, str]], str]:
+    ) -> list[tuple[str, str]] | str:
         """
         This function tags named entities in text in IOB format.
         Powered by wangchanberta from VISTEC-depa\
@@ -165,7 +165,7 @@ class NamedEntityRecognition:
 
     def get_ner(
         self, text: str, pos: bool = False, tag: bool = False
-    ) -> Union[List[Tuple[str, str]], str]:
+    ) -> list[tuple[str, str]] | str:
         """
         This function tags named entities in text in IOB format.
         Powered by wangchanberta from VISTEC-depa\
@@ -225,7 +225,7 @@ class NamedEntityRecognition:
         return ner_tag
 
 
-def segment(text: str) -> List[str]:
+def segment(text: str) -> list[str]:
     """
     Subword tokenize. SentencePiece from wangchanberta model.
 

@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import List, Union
+from __future__ import annotations
 
 
 class Translate:
@@ -99,11 +98,8 @@ class Translate:
 
 
 def word_translate(
-        word: str,
-        src: str,
-        target: str,
-        engine: str="word2word"
-    ) -> Union[List[str], None]:
+    word: str, src: str, target: str, engine: str = "word2word"
+) -> list[str] | None:
     """
     Translate word from source language to target language.
 
@@ -119,18 +115,21 @@ def word_translate(
     Translate word from Thai to English::
 
         from pythainlp.translate import word_translate
-        print(word_translate("แมว","th","en"))
+
+        print(word_translate("แมว", "th", "en"))
         # output: ['cat', 'cats', 'kitty', 'kitten', 'Cat']
 
     Translate word from English to Thai::
 
         from pythainlp.translate import word_translate
-        print(word_translate("cat","en","th"))
+
+        print(word_translate("cat", "en", "th"))
         # output: ['แมว', 'แมวป่า', 'ข่วน', 'เลี้ยง', 'อาหาร']
 
     """
-    if engine=="word2word":
+    if engine == "word2word":
         from .word2word_translate import translate
+
         return translate(word=word, src=src, target=target)
     else:
         raise NotImplementedError(

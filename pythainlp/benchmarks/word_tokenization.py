@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
 
 import re
 import sys
-from typing import List, Tuple
 
 import numpy as np
 import pandas as pd
@@ -18,13 +17,13 @@ SURROUNDING_SEPS_RX = re.compile(
 )
 
 # regex for removing repeated separators, i.e. ||||
-MULTIPLE_SEPS_RX = re.compile("{sep}+".format(sep=re.escape(SEPARATOR)))
+MULTIPLE_SEPS_RX = re.compile(f"{re.escape(SEPARATOR)}+")
 
 # regex for removing tags, i.e. <NE>, </NE>
 TAG_RX = re.compile(r"<\/?[A-Z]+>")
 
 # regex for removing trailing separators, i.e.  a|dog| -> a|dog
-TAILING_SEP_RX = re.compile("{sep}$".format(sep=re.escape(SEPARATOR)))
+TAILING_SEP_RX = re.compile(f"{re.escape(SEPARATOR)}$")
 
 
 def _f1(precision: float, recall: float) -> float:
@@ -68,7 +67,7 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
     return dict(items)
 
 
-def benchmark(ref_samples: List[str], samples: List[str]) -> pd.DataFrame:
+def benchmark(ref_samples: list[str], samples: list[str]) -> pd.DataFrame:
     """
     Performance benchmarking for samples.
 
@@ -184,9 +183,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
 
     correctly_tokenised_words = np.sum(tokenization_indicators)
 
-    tokenization_indicators = list(
-        map(str, tokenization_indicators)
-    )
+    tokenization_indicators = list(map(str, tokenization_indicators))
 
     return {
         "char_level": {
@@ -256,9 +253,9 @@ def _find_word_boundaries(bin_reps) -> list:
 
 
 def _find_words_correctly_tokenised(
-    ref_boundaries: List[Tuple[int, int]],
-    predicted_boundaries: List[Tuple[int, int]],
-) -> Tuple[int]:
+    ref_boundaries: list[tuple[int, int]],
+    predicted_boundaries: list[tuple[int, int]],
+) -> tuple[int]:
     """
     Find whether each word is correctly tokenized.
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -14,8 +13,10 @@ Credits:
       <https://github.com/wittawatj/jtcc/blob/master/TCC.g>`_)
     * Python code: Korakot Chaovavanich
 """
+
+from __future__ import annotations
+
 import re
-from typing import List, Set
 
 _RE_TCC = (
     """\
@@ -48,9 +49,7 @@ ck
 ก็
 อึ
 หึ
-""".replace(
-        "k", "(cc?[dิ]?[์])?"
-    )
+""".replace("k", "(cc?[dิ]?[์])?")
     .replace("c", "[ก-ฮ]")
     .replace("t", "[่-๋]?")
     .replace("d", "อูอุ".replace("อ", ""))  # DSara: lower vowel
@@ -83,7 +82,7 @@ def tcc(text: str) -> str:
         p += n
 
 
-def tcc_pos(text: str) -> Set[int]:
+def tcc_pos(text: str) -> set[int]:
     """
     TCC positions
 
@@ -103,7 +102,7 @@ def tcc_pos(text: str) -> Set[int]:
     return p_set
 
 
-def segment(text: str) -> List[str]:
+def segment(text: str) -> list[str]:
     """
     Subword segmentation
 

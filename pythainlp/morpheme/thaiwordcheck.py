@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -13,6 +12,9 @@ References
     http://www.trueplookpanya.com/learning/detail/30589-043067
 - วารุณี บำรุงรส 2010. คำไทยแท้ https://www.gotoknow.org/posts/377619
 """
+
+from __future__ import annotations
+
 import re
 
 _THANTHAKHAT_CHAR = "\u0e4c"  # Thanthakhat (cancellation of sound)

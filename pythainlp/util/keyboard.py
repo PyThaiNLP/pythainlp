@@ -1,10 +1,11 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Functions related to keyboard layout.
 """
+
+from __future__ import annotations
 
 EN_TH_KEYB_PAIRS = {
     "Z": "(",

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -9,6 +8,8 @@ huggingface: https://huggingface.co/pythainlp/thaig2p-v2.0
 """
 
 # Use a pipeline as a high-level helper
+from __future__ import annotations
+
 from transformers import pipeline
 
 
@@ -18,7 +19,11 @@ class ThaiG2P:
     """
 
     def __init__(self, device: str = "cpu"):
-        self.pipe = pipeline("text2text-generation", model="pythainlp/thaig2p-v2.0", device=device)
+        self.pipe = pipeline(
+            "text2text-generation",
+            model="pythainlp/thaig2p-v2.0",
+            device=device,
+        )
 
     def g2p(self, text: str) -> str:
         return self.pipe(text)[0]["generated_text"]

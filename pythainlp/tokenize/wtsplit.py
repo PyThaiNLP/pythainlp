@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -7,7 +6,8 @@ Where's the Point? Self-Supervised Multilingual Punctuation-Agnostic Sentence Se
 
 GitHub: https://github.com/bminixhofer/wtpsplit
 """
-from typing import List
+
+from __future__ import annotations
 
 from wtpsplit import WtP
 
@@ -22,7 +22,7 @@ def _tokenize(
     tokenize: str = "sentence",
     paragraph_threshold: float = 0.5,
     style: str = "newline",
-) -> List[str]:
+) -> list[str]:
     global _MODEL_NAME, _MODEL
 
     if _MODEL_NAME != model:
@@ -60,7 +60,7 @@ def tokenize(
     tokenize: str = "sentence",
     paragraph_threshold: float = 0.5,
     style: str = "newline",
-) -> List[str]:
+) -> list[str]:
     _model_load = ""
     if size == "tiny":
         _model_load = "wtp-bert-tiny"

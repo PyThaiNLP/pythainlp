@@ -1,11 +1,14 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
 try:
     from tltk.nlp import g2p, th2ipa, th2roman
 except ImportError:
-    raise ImportError("Not found tltk! Please install tltk by pip install tltk")
+    raise ImportError(
+        "Not found tltk! Please install tltk by pip install tltk"
+    )
 
 
 def romanize(text: str) -> str:

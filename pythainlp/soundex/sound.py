@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import List
+from __future__ import annotations
 
 import panphon
 import panphon.distance
@@ -13,6 +12,7 @@ from pythainlp.transliterate import pronunciate, transliterate
 _ft = panphon.FeatureTable()
 _dst = panphon.distance.Distance()
 
+
 def _clean_ipa(ipa: str) -> str:
     """
     Clean IPA by removing tones and space between phonetic codes
@@ -21,7 +21,18 @@ def _clean_ipa(ipa: str) -> str:
     :return: IPA with tones removed from the text
     :rtype: str
     """
-    return ipa.replace("˩˩˦","").replace("˥˩","").replace("˨˩","").replace("˦˥","").replace("˧","").replace("˧","").replace(" .",".").replace(". ",".").strip()
+    return (
+        ipa.replace("˩˩˦", "")
+        .replace("˥˩", "")
+        .replace("˨˩", "")
+        .replace("˦˥", "")
+        .replace("˧", "")
+        .replace("˧", "")
+        .replace(" .", ".")
+        .replace(". ", ".")
+        .strip()
+    )
+
 
 def word2audio(word: str) -> str:
     """
@@ -41,10 +52,13 @@ def word2audio(word: str) -> str:
     """
     _word = word_tokenize(word)
     _phone = [pronunciate(w, engine="w2p") for w in _word]
-    _ipa = [_clean_ipa(transliterate(phone, engine="thaig2p")) for phone in _phone]
-    return '.'.join(_ipa)
+    _ipa = [
+        _clean_ipa(transliterate(phone, engine="thaig2p")) for phone in _phone
+    ]
+    return ".".join(_ipa)
 
-def audio_vector(word: str) -> List[List[int]]:
+
+def audio_vector(word: str) -> list[list[int]]:
     """
     Convert audio to vector list
 
@@ -62,7 +76,8 @@ def audio_vector(word: str) -> List[List[int]]:
     """
     return _ft.word_to_vector_list(word2audio(word), numeric=True)
 
-def word_approximation(word: str, list_word: List[str]) -> List[float]:
+
+def word_approximation(word: str, list_word: list[str]) -> list[float]:
     """
     Thai Word Approximation
 
@@ -81,5 +96,7 @@ def word_approximation(word: str, list_word: List[str]) -> List[float]:
     """
     _word = word2audio(word)
     _list_word = [word2audio(w) for w in list_word]
-    _distance = [_dst.weighted_feature_edit_distance(_word, w) for w in _list_word]
+    _distance = [
+        _dst.weighted_feature_edit_distance(_word, w) for w in _list_word
+    ]
     return _distance

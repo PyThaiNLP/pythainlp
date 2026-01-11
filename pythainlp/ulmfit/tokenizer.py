@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -6,9 +5,11 @@
 Tokenzier classes for ULMFiT
 """
 
-from typing import Collection, List
+from __future__ import annotations
 
-from pythainlp.tokenize import THAI2FIT_TOKENIZER
+from collections.abc import Collection
+
+from pythainlp.tokenize import thai2fit_tokenizer
 
 
 class BaseTokenizer:
@@ -17,7 +18,7 @@ class BaseTokenizer:
     def __init__(self, lang: str):
         self.lang = lang
 
-    def tokenizer(self, t: str) -> List[str]:
+    def tokenizer(self, t: str) -> list[str]:
         return t.split(" ")
 
     def add_special_cases(self, toks: Collection[str]):
@@ -35,7 +36,7 @@ class ThaiTokenizer(BaseTokenizer):
         self.lang = lang
 
     @staticmethod
-    def tokenizer(text: str) -> List[str]:
+    def tokenizer(text: str) -> list[str]:
         """
         This function tokenizes text using *newmm* engine and the dictionary
         specifically for `ulmfit` related functions
@@ -65,7 +66,7 @@ class ThaiTokenizer(BaseTokenizer):
              ' ', 'ภาวนามยปัญญา']
 
         """
-        return THAI2FIT_TOKENIZER.word_tokenize(text)
+        return thai2fit_tokenizer().word_tokenize(text)
 
     def add_special_cases(self, toks):
         pass

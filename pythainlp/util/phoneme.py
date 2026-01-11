@@ -1,11 +1,14 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
 Phonemes util
 """
+
+from __future__ import annotations
+
 import unicodedata
+from functools import lru_cache
 
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util.trie import Trie
@@ -192,8 +195,13 @@ dict_ipa_rtgs = {
 }
 
 dict_ipa_rtgs_final = {"w": "o"}
-trie = Trie(list(dict_ipa_rtgs.keys()) + list(dict_ipa_rtgs_final.keys()))
-ipa_cut = Tokenizer(custom_dict=trie, engine="newmm")
+
+
+@lru_cache
+def _ipa_cut():
+    """Lazy load IPA tokenizer with cache"""
+    trie = Trie(list(dict_ipa_rtgs.keys()) + list(dict_ipa_rtgs_final.keys()))
+    return Tokenizer(custom_dict=trie, engine="newmm")
 
 
 def ipa_to_rtgs(ipa: str) -> str:
@@ -216,6 +224,7 @@ def ipa_to_rtgs(ipa: str) -> str:
 
     """
     rtgs_parts = []
+    ipa_cut = _ipa_cut()
 
     ipa_parts = ipa_cut.word_tokenize(ipa)
     for i, ipa_part in enumerate(ipa_parts):

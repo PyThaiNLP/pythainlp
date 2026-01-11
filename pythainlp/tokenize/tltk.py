@@ -1,17 +1,18 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import List
+from __future__ import annotations
 
 try:
     from tltk.nlp import syl_segment
     from tltk.nlp import word_segment as tltk_segment
 except ImportError:
-    raise ImportError("Not found tltk! Please install tltk by pip install tltk")
+    raise ImportError(
+        "Not found tltk! Please install tltk by pip install tltk"
+    )
 
 
-def segment(text: str) -> List[str]:
+def segment(text: str) -> list[str]:
     if not text or not isinstance(text, str):
         return []
     text = text.replace(" ", "<u/>")
@@ -22,7 +23,7 @@ def segment(text: str) -> List[str]:
     return _temp
 
 
-def syllable_tokenize(text: str) -> List[str]:
+def syllable_tokenize(text: str) -> list[str]:
     if not text or not isinstance(text, str):
         return []
     _temp = syl_segment(text)
@@ -32,7 +33,7 @@ def syllable_tokenize(text: str) -> List[str]:
     return _temp
 
 
-def sent_tokenize(text: str) -> List[str]:
+def sent_tokenize(text: str) -> list[str]:
     text = text.replace(" ", "<u/>")
     _temp = tltk_segment(text).replace("<u/>", " ").replace("|", "")
     _temp = _temp.split("<s/>")

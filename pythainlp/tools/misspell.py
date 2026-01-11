@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import List
+from __future__ import annotations
 
-import numpy as np
+import math
+import random
 
 THAI_CHARACTERS_WITHOUT_SHIFT = [
     "ผปแอิืทมใฝ",
@@ -51,7 +51,7 @@ def search_location_of_character(char: str):
 def find_neighbour_locations(
     loc: tuple,
     char: str,
-    kernel: List = [(-1, -1), (-1, 0), (1, 1), (0, 1), (0, -1), (1, 0)],
+    kernel: list = [(-1, -1), (-1, 0), (1, 1), (0, 1), (0, -1), (1, 0)],
 ):
     language_ix, is_shift, row, pos = loc
 
@@ -126,10 +126,8 @@ def misspell(sentence: str, ratio: float = 0.05):
         # output:
         ภาษาไทยปรากฏครั้งแรกในกุทธศักราช 1727
     """
-    num_misspells = np.floor(len(sentence) * ratio).astype(int)
-    positions = np.random.choice(
-        len(sentence), size=num_misspells, replace=False
-    )
+    num_misspells = math.floor(len(sentence) * ratio)
+    positions = random.sample(range(len(sentence)), k=num_misspells)
 
     # convert strings to array of characters
     misspelled = list(sentence)
@@ -138,7 +136,7 @@ def misspell(sentence: str, ratio: float = 0.05):
         if potential_candidates is None:
             continue
 
-        candidate = np.random.choice(potential_candidates)
+        candidate = random.choice(potential_candidates)
 
         misspelled[pos] = candidate
 

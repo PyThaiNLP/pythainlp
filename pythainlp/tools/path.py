@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -7,6 +6,9 @@ PyThaiNLP data tools
 
 For text processing and text conversion, see pythainlp.util
 """
+
+from __future__ import annotations
+
 import os
 
 from pythainlp import __file__ as pythainlp_file
@@ -27,7 +29,7 @@ def get_full_data_path(path: str) -> str:
 
         from pythainlp.tools import get_full_data_path
 
-        get_full_data_path('ttc_freq.txt')
+        get_full_data_path("ttc_freq.txt")
         # output: '/root/pythainlp-data/ttc_freq.txt'
     """
     return os.path.join(get_pythainlp_data_path(), path)

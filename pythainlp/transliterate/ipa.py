@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -10,7 +9,8 @@ Using epitran
     * `GitHub \
         <https://github.com/dmort27/epitran>`_
 """
-from typing import List
+
+from __future__ import annotations
 
 import epitran
 
@@ -21,9 +21,9 @@ def transliterate(text: str) -> str:
     return _EPI_THA.transliterate(text)
 
 
-def trans_list(text: str) -> List[str]:
+def trans_list(text: str) -> list[str]:
     return _EPI_THA.trans_list(text)
 
 
-def xsampa_list(text: str) -> List[str]:
+def xsampa_list(text: str) -> list[str]:
     return _EPI_THA.xsampa_list(text)

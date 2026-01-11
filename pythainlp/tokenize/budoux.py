@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Wrapper for BudouX tokenizer (https://github.com/google/budoux)
+"""Wrapper for BudouX tokenizer (https://github.com/google/budoux)
 
 This module provides a small, defensive wrapper around the Python
 `budoux` package. The wrapper lazy-imports the package so importing

@@ -26,4 +26,4 @@ jobs:
       uses: astral-sh/ruff-action@v3
       with:
         src: "./pythainlp"
-        args: check --verbose --line-length 79 --select C901
+        args: check --fix --verbose --line-length 79 --select I,W,C901,W291,W293

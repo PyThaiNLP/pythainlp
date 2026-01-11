@@ -9,8 +9,7 @@ from pythainlp.corpus import get_hf_hub
 
 
 class FastTextEncoder:
-    """
-    A class to load pre-trained FastText-like word embeddings,
+    """A class to load pre-trained FastText-like word embeddings,
     compute word and sentence vectors, and interact with an ONNX
     model for nearest neighbor suggestions.
     """
@@ -27,8 +26,7 @@ class FastTextEncoder:
         minn=5,
         maxn=5,
     ):
-        """
-        Initializes the FastTextEncoder, loading embeddings, vocabulary,
+        """Initializes the FastTextEncoder, loading embeddings, vocabulary,
         nearest neighbor model, and suggestion words list.
 
         Args:
@@ -39,10 +37,10 @@ class FastTextEncoder:
             nb_words (int): The number of words in the vocabulary (used as an offset for subword indices).
             minn (int): Minimum character length for subwords.
             maxn (int): Maximum character length for subwords.
+
         """
         try:
-            import numpy as np  # reduce load
-            import onnxruntime
+            import numpy as np
 
             self.np = np
         except ModuleNotFoundError:
@@ -186,8 +184,7 @@ class FastTextEncoder:
     # --- Nearest Neighbor Method ---
 
     def get_word_suggestion(self, list_word):
-        """
-        Queries the ONNX model to find the nearest neighbor word(s)
+        """Queries the ONNX model to find the nearest neighbor word(s)
         for the given word or list of words.
 
         Args:
@@ -197,6 +194,7 @@ class FastTextEncoder:
         Returns:
             str or list of str: The nearest neighbor word(s) from the
                                 pre-loaded suggestion list.
+
         """
         if isinstance(list_word, str):
             input_words = [list_word]
@@ -247,8 +245,7 @@ _WSC = None
 def get_words_spell_suggestion(
     list_words: str | list[str],
 ) -> list[str] | list[list[str]]:
-    """
-    Get words spell suggestion
+    """Get words spell suggestion
 
     The function is designed to retrieve spelling suggestions \
         for one or more input Thai words.

@@ -1,5 +1,4 @@
-"""
-esupar: Tokenizer, POS tagger and dependency parser with BERT/RoBERTa/DeBERTa models for Japanese and other languages
+"""esupar: Tokenizer, POS tagger and dependency parser with BERT/RoBERTa/DeBERTa models for Japanese and other languages
 
 GitHub: https://github.com/KoichiYasuoka/esupar
 """

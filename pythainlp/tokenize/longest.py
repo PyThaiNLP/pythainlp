@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Dictionary-based longest-matching Thai word segmentation. Implementation is based
+"""Dictionary-based longest-matching Thai word segmentation. Implementation is based
 on the codes from Patorn Utenpattanun.
 
 :See Also:
@@ -158,8 +157,7 @@ _tokenizers: dict[int, LongestMatchTokenizer] = {}
 
 
 def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
-    """
-    Dictionary-based longest matching word segmentation.
+    """Dictionary-based longest matching word segmentation.
 
     :param str text: text to be tokenized into words
     :param pythainlp.util.Trie custom_dict: dictionary for tokenization

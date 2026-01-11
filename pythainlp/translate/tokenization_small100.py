@@ -64,10 +64,10 @@ FAIRSEQ_LANGUAGE_CODES = {
 
 
 class SMALL100Tokenizer(PreTrainedTokenizer):
-    """
-    Construct an SMALL100 tokenizer. Based on [SentencePiece](https://github.com/google/sentencepiece).
+    """Construct an SMALL100 tokenizer. Based on [SentencePiece](https://github.com/google/sentencepiece).
     This tokenizer inherits from [`PreTrainedTokenizer`] which contains most of the main methods. Users should refer to
     this superclass for more information regarding those methods.
+
     Args:
         vocab_file (`str`):
             Path to the vocabulary file.
@@ -101,6 +101,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
                 using forward-filtering-and-backward-sampling algorithm.
             - `alpha`: Smoothing parameter for unigram sampling, and dropout probability of merge operations for
               BPE-dropout.
+
     Examples:
     ```python
     >>> from tokenization_small100 import SMALL100Tokenizer
@@ -109,7 +110,9 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     >>> tgt_text = "Şeful ONU declară că nu există o soluţie militară în Siria"
     >>> model_inputs = tokenizer(src_text, text_target=tgt_text, return_tensors="pt")
     >>> model(**model_inputs)  # should work
-    ```"""
+    ```
+
+    """
 
     vocab_files_names = VOCAB_FILES_NAMES
     max_model_input_sizes = PRETRAINED_POSITIONAL_EMBEDDINGS_SIZES
@@ -134,15 +137,12 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         num_madeup_words=8,
         **kwargs,
     ) -> None:
-        self.sp_model_kwargs = (
-            {} if sp_model_kwargs is None else sp_model_kwargs
-        )
+        self.sp_model_kwargs = {} if sp_model_kwargs is None else sp_model_kwargs
 
         self.language_codes = language_codes
         fairseq_language_code = FAIRSEQ_LANGUAGE_CODES[language_codes]
         self.lang_code_to_token = {
-            lang_code: f"__{lang_code}__"
-            for lang_code in fairseq_language_code
+            lang_code: f"__{lang_code}__" for lang_code in fairseq_language_code
         }
 
         kwargs["additional_special_tokens"] = kwargs.get(
@@ -151,8 +151,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         kwargs["additional_special_tokens"] += [
             self.get_lang_token(lang_code)
             for lang_code in fairseq_language_code
-            if self.get_lang_token(lang_code)
-            not in kwargs["additional_special_tokens"]
+            if self.get_lang_token(lang_code) not in kwargs["additional_special_tokens"]
         ]
 
         super().__init__(
@@ -184,9 +183,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
             lang_code: self.encoder_size + i
             for i, lang_code in enumerate(fairseq_language_code)
         }
-        self.id_to_lang_token = {
-            v: k for k, v in self.lang_token_to_id.items()
-        }
+        self.id_to_lang_token = {v: k for k, v in self.lang_token_to_id.items()}
 
         self._tgt_lang = tgt_lang if tgt_lang is not None else "en"
         self.cur_lang_id = self.get_lang_id(self._tgt_lang)
@@ -196,11 +193,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
     @property
     def vocab_size(self) -> int:
-        return (
-            len(self.encoder)
-            + len(self.lang_token_to_id)
-            + self.num_madeup_words
-        )
+        return len(self.encoder) + len(self.lang_token_to_id) + self.num_madeup_words
 
     @property
     def tgt_lang(self) -> str:
@@ -235,20 +228,24 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         token_ids_1: list[int] | None = None,
         already_has_special_tokens: bool = False,
     ) -> list[int]:
-        """
-        Retrieve sequence ids from a token list that has no special tokens added. This method is called when adding
-        special tokens using the tokenizer `prepare_for_model` method.
+        """Retrieve sequence IDs from a token list that has no special tokens
+        added. This method is called when adding special tokens using the
+        tokenizer `prepare_for_model` method.
+
         Args:
             token_ids_0 (`List[int]`):
                 List of IDs.
             token_ids_1 (`List[int]`, *optional*):
                 Optional second list of IDs for sequence pairs.
             already_has_special_tokens (`bool`, *optional*, defaults to `False`):
-                Whether or not the token list is already formatted with special tokens for the model.
-        Returns:
-            `List[int]`: A list of integers in the range [0, 1]: 1 for a special token, 0 for a sequence token.
-        """
+                Whether or not the token list is already formatted with
+                special tokens for the model.
 
+        Returns:
+            `List[int]`: A list of integers in the range [0, 1]:
+                1 for a special token, 0 for a sequence token.
+
+        """
         if already_has_special_tokens:
             return super().get_special_tokens_mask(
                 token_ids_0=token_ids_0,
@@ -270,41 +267,41 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     def build_inputs_with_special_tokens(
         self, token_ids_0: list[int], token_ids_1: list[int] | None = None
     ) -> list[int]:
-        """
-        Build model inputs from a sequence or a pair of sequence for sequence classification tasks by concatenating and
-        adding special tokens. An MBART sequence has the following format, where `X` represents the sequence:
+        """Build model inputs from a sequence or a pair of sequence for
+        sequence classification tasks by concatenating and
+        adding special tokens. An MBART sequence has the following format,
+        where `X` represents the sequence:
         - `input_ids` (for encoder) `X [eos, src_lang_code]`
         - `decoder_input_ids`: (for decoder) `X [eos, tgt_lang_code]`
-        BOS is never used. Pairs of sequences are not the expected use case, but they will be handled without a
-        separator.
+
+        BOS is never used. Pairs of sequences are not the expected use case,
+        but they will be handled without aseparator.
+
         Args:
             token_ids_0 (`List[int]`):
                 List of IDs to which the special tokens will be added.
             token_ids_1 (`List[int]`, *optional*):
                 Optional second list of IDs for sequence pairs.
+
         Returns:
-            `List[int]`: List of [input IDs](../glossary#input-ids) with the appropriate special tokens.
+            `List[int]`: List of [input IDs](../glossary#input-ids) with the
+            appropriate special tokens.
+
         """
         if token_ids_1 is None:
             if self.prefix_tokens is None:
                 return token_ids_0 + self.suffix_tokens
             else:
                 return self.prefix_tokens + token_ids_0 + self.suffix_tokens
-        # We don't expect to process pairs, but leave the pair logic for API consistency
+        # We don't expect to process pairs,
+        # but leave the pair logic for API consistency
         if self.prefix_tokens is None:
             return token_ids_0 + token_ids_1 + self.suffix_tokens
         else:
-            return (
-                self.prefix_tokens
-                + token_ids_0
-                + token_ids_1
-                + self.suffix_tokens
-            )
+            return self.prefix_tokens + token_ids_0 + token_ids_1 + self.suffix_tokens
 
     def get_vocab(self) -> dict:
-        vocab = {
-            self.convert_ids_to_tokens(i): i for i in range(self.vocab_size)
-        }
+        vocab = {self.convert_ids_to_tokens(i): i for i in range(self.vocab_size)}
         vocab.update(self.added_tokens_encoder)
         return vocab
 
@@ -364,11 +361,10 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     def _build_translation_inputs(
         self, raw_inputs, tgt_lang: str | None, **extra_kwargs
     ):
-        """Used by translation pipeline, to prepare inputs for the generate function"""
+        """Used by translation pipeline, to prepare inputs for the generate
+        function"""
         if tgt_lang is None:
-            raise ValueError(
-                "Translation requires a `tgt_lang` for this model"
-            )
+            raise ValueError("Translation requires a `tgt_lang` for this model")
         self.tgt_lang = tgt_lang
         inputs = self(raw_inputs, add_special_tokens=True, **extra_kwargs)
         return inputs
@@ -381,7 +377,8 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         self.suffix_tokens = [self.eos_token_id]
 
     def set_lang_special_tokens(self, src_lang: str) -> None:
-        """Reset the special tokens to the tgt lang setting. No prefix and suffix=[eos, tgt_lang_code]."""
+        """Reset the special tokens to the tgt lang setting.
+        No prefix and suffix=[eos, tgt_lang_code]."""
         lang_token = self.get_lang_token(src_lang)
         self.cur_lang_id = self.lang_token_to_id[lang_token]
         self.prefix_tokens = [self.cur_lang_id]

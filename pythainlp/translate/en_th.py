@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-English-Thai Machine Translation
+"""English-Thai Machine Translation
 
 from VISTEC-depa Thailand Artificial Intelligence Research Institute
 
@@ -48,16 +47,14 @@ def _download_install(name: str) -> None:
 
 
 def download_model_all() -> None:
-    """
-    Download all translation models in advance
+    """Download all translation models in advance
     """
     _download_install(_EN_TH_MODEL_NAME)
     _download_install(_TH_EN_MODEL_NAME)
 
 
 class EnThTranslator:
-    """
-    English-Thai Machine Translation
+    """English-Thai Machine Translation
 
     from VISTEC-depa Thailand Artificial Intelligence Research Institute
 
@@ -89,8 +86,7 @@ class EnThTranslator:
             self._model = self._model.cuda()
 
     def translate(self, text: str) -> str:
-        """
-        Translate text from English to Thai
+        """Translate text from English to Thai
 
         :param str text: input text in source language
         :return: translated text in target language
@@ -114,8 +110,7 @@ class EnThTranslator:
 
 
 class ThEnTranslator:
-    """
-    Thai-English Machine Translation
+    """Thai-English Machine Translation
 
     from VISTEC-depa Thailand Artificial Intelligence Research Institute
 
@@ -152,8 +147,7 @@ class ThEnTranslator:
             self._model.cuda()
 
     def translate(self, text: str) -> str:
-        """
-        Translate text from Thai to English
+        """Translate text from Thai to English
 
         :param str text: input text in source language
         :return: translated text in target language

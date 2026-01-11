@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Spell checking functions
+"""Spell checking functions
 """
 
 from __future__ import annotations
@@ -20,8 +19,7 @@ def default_spell_checker():
 
 
 def spell(word: str, engine: str = "pn") -> list[str]:
-    """
-    Provides a list of possible correct spellings of the given word.
+    """Provides a list of possible correct spellings of the given word.
     The list of words are from the words in the dictionary
     that incurs an edit distance value of 1 or 2.
     The result is a list of words sorted by their occurrences
@@ -85,8 +83,7 @@ def spell(word: str, engine: str = "pn") -> list[str]:
 
 
 def correct(word: str, engine: str = "pn") -> str:
-    """
-    Corrects the spelling of the given word by returning
+    """Corrects the spelling of the given word by returning
     the correctly spelled word.
 
     :param str word: word to correct spelling of
@@ -140,8 +137,7 @@ def correct(word: str, engine: str = "pn") -> str:
 
 
 def spell_sent(list_words: list[str], engine: str = "pn") -> list[list[str]]:
-    """
-    Provides a list of possible correct spellings of sentence
+    """Provides a list of possible correct spellings of sentence
 
     :param List[str] list_words: list of words in sentence
     :param str engine:
@@ -178,8 +174,7 @@ def spell_sent(list_words: list[str], engine: str = "pn") -> list[list[str]]:
 
 
 def correct_sent(list_words: list[str], engine: str = "pn") -> list[str]:
-    """
-    Corrects and returns the spelling of the given sentence
+    """Corrects and returns the spelling of the given sentence
 
     :param List[str] list_words: list of words in sentence
     :param str engine:

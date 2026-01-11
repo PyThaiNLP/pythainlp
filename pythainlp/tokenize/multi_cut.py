@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Multi cut -- Thai word segmentation with maximum matching.
+"""Multi cut -- Thai word segmentation with maximum matching.
 Original codes from Korakot Chaovavanich.
 
 :See Also:

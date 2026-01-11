@@ -5,7 +5,7 @@
 
 import unittest
 
-from pythainlp import __main__, cli
+from pythainlp import cli
 from pythainlp.cli.benchmark import App as BenchmarkApp
 from pythainlp.cli.data import App as DataApp
 from pythainlp.cli.tokenize import App as TokenizeApp

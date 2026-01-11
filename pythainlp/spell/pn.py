@@ -1,5 +1,4 @@
-"""
-Spell checker, using Peter Norvig algorithm.
+"""Spell checker, using Peter Norvig algorithm.
 Spelling dictionary can be customized.
 Default spelling dictionary is based on Thai National Corpus.
 
@@ -37,8 +36,7 @@ def _keep(
     max_len: int,
     dict_filter: Callable[[str], bool],
 ) -> bool:
-    """
-    Checks whether a given word has the required minimum frequency min_freq
+    """Checks whether a given word has the required minimum frequency min_freq
     and its character length is between min_len and max_len (inclusive).
     """
     if not word_freq or word_freq[1] < min_freq:
@@ -52,8 +50,7 @@ def _keep(
 
 
 def _edits1(word: str) -> set[str]:
-    """
-    Returns a set of words with an edit distance of 1 from the input word
+    """Returns a set of words with an edit distance of 1 from the input word
     """
     splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
     deletes = [L + R[1:] for L, R in splits if R]
@@ -65,8 +62,7 @@ def _edits1(word: str) -> set[str]:
 
 
 def _edits2(word: str) -> set[str]:
-    """
-    Returns a set of words with an edit distance of 2 from the input word
+    """Returns a set of words with an edit distance of 2 from the input word
     """
     return set(e2 for e1 in _edits1(word) for e2 in _edits1(e1))
 
@@ -78,8 +74,7 @@ def _convert_custom_dict(
     max_len: int,
     dict_filter: Callable[[str], bool] | None,
 ) -> list[tuple[str, int]]:
-    """
-    Converts a custom dictionary to a list of (str, int) tuples
+    """Converts a custom dictionary to a list of (str, int) tuples
     """
     if isinstance(custom_dict, dict):
         custom_dict = list(custom_dict.items())
@@ -121,8 +116,7 @@ class NorvigSpellChecker:
         max_len: int = 40,
         dict_filter: Callable[[str], bool] | None = _is_thai_and_not_num,
     ):
-        """
-        Initializes Peter Norvig's spell checker object.
+        """Initializes Peter Norvig's spell checker object.
         Spelling dictionary can be customized.
         By default, spelling dictionary is from
         `Thai National Corpus <http://www.arts.chula.ac.th/ling/tnc/>`_
@@ -170,8 +164,7 @@ class NorvigSpellChecker:
         self.__WORDS_TOTAL = sum(self.__WORDS.values())
 
     def dictionary(self) -> ItemsView[str, int]:
-        """
-        Returns the spelling dictionary currently used by this spell checker
+        """Returns the spelling dictionary currently used by this spell checker
 
         :return: spelling dictionary of this instance
         :rtype: list[tuple[str, int]]
@@ -190,8 +183,7 @@ class NorvigSpellChecker:
         return self.__WORDS.items()
 
     def known(self, words: Iterable[str]) -> list[str]:
-        """
-        Returns a list of given words found in the spelling dictionary
+        """Returns a list of given words found in the spelling dictionary
 
         :param list[str] words: A list of words to check if they exist
                                 in the spelling dictionary
@@ -219,8 +211,7 @@ class NorvigSpellChecker:
         return list(w for w in words if w in self.__WORDS)
 
     def prob(self, word: str) -> float:
-        """
-        Returns the probability of an input word,
+        """Returns the probability of an input word,
         according to the spelling dictionary
 
         :param str word: A word to check occurrence probability of
@@ -247,8 +238,7 @@ class NorvigSpellChecker:
         return self.__WORDS[word] / self.__WORDS_TOTAL
 
     def freq(self, word: str) -> int:
-        """
-        Returns the frequency of an input word,
+        """Returns the frequency of an input word,
         according to the spelling dictionary
 
         :param str word: A word to check frequency of
@@ -271,8 +261,7 @@ class NorvigSpellChecker:
         return self.__WORDS[word]
 
     def spell(self, word: str) -> list[str]:
-        """
-        Returns a list of all correctly-spelled words whose spelling
+        """Returns a list of all correctly-spelled words whose spelling
         is similar to the given word by edit distance metrics.
         The returned list of words will be sorted by decreasing
         order of word frequencies in the word spelling dictionary.
@@ -321,8 +310,7 @@ class NorvigSpellChecker:
         return candidates
 
     def correct(self, word: str) -> str:
-        """
-        Returns the most possible word, using the probability from
+        """Returns the most possible word, using the probability from
         the spelling dictionary
 
         :param str word: A word to correct spelling of

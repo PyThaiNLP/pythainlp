@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-This file is a port from
+"""This file is a port from
 > https://gist.github.com/touchiep/99f4f5bb349d6b983ef78697630ab78e
 """
 
@@ -281,8 +280,7 @@ def last_day_in_year(year: int) -> int:
 
 
 def athikasurathin(year: int) -> bool:
-    """
-    Check if a year is a leap year in the Thai lunar calendar
+    """Check if a year is a leap year in the Thai lunar calendar
     """
     # Check divisibility by 400 (divisible by 400 is always a leap year)
     if year % 400 == 0:
@@ -309,8 +307,7 @@ def number_day_in_year(year: int) -> int:
 
 
 def th_zodiac(year: int, output_type: int = 1) -> str | int:
-    """
-    Thai Zodiac Year Name
+    """Thai Zodiac Year Name
     Converts a Gregorian year to its corresponding Zodiac name.
 
     :param int year: The Gregorian year. AD (Anno Domini)
@@ -331,8 +328,7 @@ def th_zodiac(year: int, output_type: int = 1) -> str | int:
 
 
 def to_lunar_date(input_date: date) -> str:
-    """
-    Convert the solar date to Thai Lunar Date
+    """Convert the solar date to Thai Lunar Date
 
     :param date input_date: date of the day.
     :return: Thai text lunar date

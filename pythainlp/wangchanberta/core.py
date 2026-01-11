@@ -25,8 +25,7 @@ class ThaiNameTagger:
     def __init__(
         self, dataset_name: str = "thainer", grouped_entities: bool = True
     ):
-        """
-        This function tags named entities in text in IOB format.
+        """This function tags named entities in text in IOB format.
 
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
@@ -57,8 +56,7 @@ class ThaiNameTagger:
     def get_ner(
         self, text: str, pos: bool = False, tag: bool = False
     ) -> list[tuple[str, str]] | str:
-        """
-        This function tags named entities in text in IOB format.
+        """This function tags named entities in text in IOB format.
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
 
@@ -136,8 +134,7 @@ class NamedEntityRecognition:
     def __init__(
         self, model: str = "pythainlp/thainer-corpus-v2-base-model"
     ) -> None:
-        """
-        This function tags named entities in text in IOB format.
+        """This function tags named entities in text in IOB format.
 
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
@@ -166,8 +163,7 @@ class NamedEntityRecognition:
     def get_ner(
         self, text: str, pos: bool = False, tag: bool = False
     ) -> list[tuple[str, str]] | str:
-        """
-        This function tags named entities in text in IOB format.
+        """This function tags named entities in text in IOB format.
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
 
@@ -226,8 +222,7 @@ class NamedEntityRecognition:
 
 
 def segment(text: str) -> list[str]:
-    """
-    Subword tokenize. SentencePiece from wangchanberta model.
+    """Subword tokenize. SentencePiece from wangchanberta model.
 
     :param str text: text to be tokenized
     :return: list of subwords

@@ -2,12 +2,10 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Example of using KhaveeVerifier from pythainlp.khavee
+"""Example of using KhaveeVerifier from pythainlp.khavee
 """
 
 from pythainlp.khavee import KhaveeVerifier
-
 
 kv = KhaveeVerifier()
 
@@ -64,7 +62,7 @@ print(
 เรื่องวิศวะเก่งกาจประหลาดใจ เรื่องฟิสิกส์ไร้ผู้ใดมาต่อไป
 นริศราอีฟเก่งกว่าใครเพื่อน คอยช่วยเตือนเรื่องงานคอยสั่งสอน
 อ่านตำราหาความรู้ไม่ละทอน เป็นคนดีศรีนครของจิตรลดา
-ภัสนันท์นาคลออหรือมีมี่ เรื่องเกมเอ่อเก่งกาจไม่กังขา 
+ภัสนันท์นาคลออหรือมีมี่ เรื่องเกมเอ่อเก่งกาจไม่กังขา
 เกมอะไรก็เล่นได้ไม่ลดวา สุดฉลาดมากปัญญามาครบครัน""",
         k_type=8,
     )

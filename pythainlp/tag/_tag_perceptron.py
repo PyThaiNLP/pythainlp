@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Perceptron Tagger.
+"""Perceptron Tagger.
 
 This tagger is a port of the Textblob Averaged Perceptron Tagger
 Author: Matthew Honnibal <honnibal+gh@gmail.com>,
@@ -25,8 +24,7 @@ from collections.abc import Iterable
 
 
 class AveragedPerceptron:
-    """
-    An averaged perceptron, as implemented by Matthew Honnibal.
+    """An averaged perceptron, as implemented by Matthew Honnibal.
 
     See more implementation details here:
         http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
@@ -48,8 +46,7 @@ class AveragedPerceptron:
         self.i = 0
 
     def predict(self, features: dict):
-        """
-        Dot-product the features and current weights and return the best
+        """Dot-product the features and current weights and return the best
         label.
         """
         scores = defaultdict(float)
@@ -94,8 +91,7 @@ class AveragedPerceptron:
 
 
 class PerceptronTagger:
-    """
-    Greedy Averaged Perceptron tagger, as implemented by Matthew Honnibal.
+    """Greedy Averaged Perceptron tagger, as implemented by Matthew Honnibal.
 
     See more implementation details here:
         http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
@@ -120,8 +116,7 @@ class PerceptronTagger:
     AP_MODEL_LOC = ""
 
     def __init__(self, path: str = "") -> None:
-        """
-        :param str path: model path
+        """:param str path: model path
         """
         self.model = AveragedPerceptron()
         self.tagdict = {}
@@ -152,8 +147,7 @@ class PerceptronTagger:
         save_loc: str | None = None,
         nr_iter: int = 5,
     ) -> None:
-        """
-        Train a model from sentences, and save it at ``save_loc``.
+        """Train a model from sentences, and save it at ``save_loc``.
         ``nr_iter`` controls the number of Perceptron training iterations.
 
         :param sentences: A list of (words, tags) tuples.
@@ -200,8 +194,7 @@ class PerceptronTagger:
                 json.dump(data, f, ensure_ascii=False)
 
     def load(self, loc: str) -> None:
-        """
-        Load a pickled model.
+        """Load a pickled model.
         :param str loc: model path
         """
         try:
@@ -216,8 +209,7 @@ class PerceptronTagger:
         self.model.classes = set(self.classes)
 
     def _normalize(self, word: str) -> str:
-        """
-        Normalization used in pre-processing.
+        """Normalization used in pre-processing.
 
         - All words are lower cased
         - Digits in the range 1800-2100 are represented as !YEAR;
@@ -237,8 +229,7 @@ class PerceptronTagger:
     def _get_features(
         self, i: int, word: str, context: list[str], prev: str, prev2: str
     ) -> dict:
-        """
-        Map tokens into a feature representation, implemented as a
+        """Map tokens into a feature representation, implemented as a
         {hashable: float} dict. If the features change, a new model must be
         trained.
         """

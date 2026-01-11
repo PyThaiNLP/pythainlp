@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai Textbook Corpus (TTC) word frequency
+"""Thai Textbook Corpus (TTC) word frequency
 
 Credit: Korakot Chaovavanich
 https://www.facebook.com/photo.php?fbid=363640477387469&set=gm.434330506948445&type=3&permPage=1
@@ -20,8 +19,7 @@ _UNIGRAM_FILENAME = "ttc_freq.txt"
 
 
 def word_freqs() -> list[tuple[str, int]]:
-    """
-    Get word frequency from Thai Textbook Corpus (TTC)
+    """Get word frequency from Thai Textbook Corpus (TTC)
     \n(See: `dev/pythainlp/corpus/ttc_freq.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/ttc_freq.txt>`_)
     """
@@ -36,8 +34,7 @@ def word_freqs() -> list[tuple[str, int]]:
 
 
 def unigram_word_freqs() -> dict[str, int]:
-    """
-    Get unigram word frequency from Thai Textbook Corpus (TTC)
+    """Get unigram word frequency from Thai Textbook Corpus (TTC)
     """
     freqs: dict[str, int] = defaultdict(int)
 

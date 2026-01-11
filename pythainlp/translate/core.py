@@ -5,8 +5,7 @@ from __future__ import annotations
 
 
 class Translate:
-    """
-    Machine Translation
+    """Machine Translation
     """
 
     def __init__(
@@ -16,8 +15,7 @@ class Translate:
         engine: str = "default",
         use_gpu: bool = False,
     ) -> None:
-        """
-        :param str src_lang: source language
+        """:param str src_lang: source language
         :param str target_lang: target language
         :param str engine: machine translation engine
         :param bool use_gpu: load model using GPU (Default is False)
@@ -85,8 +83,7 @@ class Translate:
             raise ValueError("Not support language!")
 
     def translate(self, text: str) -> str:
-        """
-        Translate text
+        """Translate text
 
         :param str text: input text in source language
         :return: translated text in target language
@@ -100,8 +97,7 @@ class Translate:
 def word_translate(
     word: str, src: str, target: str, engine: str = "word2word"
 ) -> list[str] | None:
-    """
-    Translate word from source language to target language.
+    """Translate word from source language to target language.
 
     :param str word: text
     :param str src: src language

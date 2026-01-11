@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Convert number in words to a computable number value
+"""Convert number in words to a computable number value
 
 First version of the code adapted from Korakot Chaovavanich's notebook
 https://colab.research.google.com/drive/148WNIeclf0kOU6QxKd6pcfwpSs8l-VKD#scrollTo=EuVDd0nNuI8Q
@@ -77,8 +76,7 @@ def _tokenizer_thaiwords():
 
 
 def thaiword_to_num(word: str) -> int:
-    """
-    Converts the spelled-out numerals in Thai scripts into an actual integer.
+    """Converts the spelled-out numerals in Thai scripts into an actual integer.
 
     :param str word: Spelled-out numerals in Thai scripts
     :return: Corresponding integer value of the input
@@ -143,8 +141,7 @@ def _decimal_unit(words: list) -> float:
 
 
 def words_to_num(words: list) -> float:
-    """
-    Thai Words to float
+    """Thai Words to float
 
     :param str text: Thai words
     :return: float of words
@@ -175,8 +172,7 @@ def words_to_num(words: list) -> float:
 
 
 def text_to_num(text: str) -> list[str]:
-    """
-    Thai text to list of Thai words with floating point numbers
+    """Thai text to list of Thai words with floating point numbers
 
     :param str text: Thai text with the spelled-out numerals
     :return: list of Thai words with float values of the input

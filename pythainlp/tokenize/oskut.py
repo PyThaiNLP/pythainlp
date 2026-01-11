@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Wrapper OSKut (Out-of-domain StacKed cut for Word Segmentation).
+"""Wrapper OSKut (Out-of-domain StacKed cut for Word Segmentation).
 Handling Cross- and Out-of-Domain Samples in Thai Word Segmentation
 Stacked Ensemble Framework and DeepCut as Baseline model (ACL 2021 Findings)
 

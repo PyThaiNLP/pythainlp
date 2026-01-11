@@ -13,8 +13,7 @@ def dependency_parsing(
     tag: str = "str",
     engine: str = "esupar",
 ) -> list[list[str]] | str:
-    """
-    Dependency Parsing
+    """Dependency Parsing
 
     :param str text: text to apply dependency parsing to
     :param str model: model for using with engine \

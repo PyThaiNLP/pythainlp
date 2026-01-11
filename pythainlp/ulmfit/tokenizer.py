@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Tokenzier classes for ULMFiT
+"""Tokenzier classes for ULMFiT
 """
 
 from __future__ import annotations
@@ -26,8 +25,7 @@ class BaseTokenizer:
 
 
 class ThaiTokenizer(BaseTokenizer):
-    """
-    Wrapper around a frozen newmm tokenizer to make it a
+    """Wrapper around a frozen newmm tokenizer to make it a
     :class:`fastai.BaseTokenizer`.
     (see: https://docs.fast.ai/text.transform#BaseTokenizer)
     """
@@ -37,8 +35,7 @@ class ThaiTokenizer(BaseTokenizer):
 
     @staticmethod
     def tokenizer(text: str) -> list[str]:
-        """
-        This function tokenizes text using *newmm* engine and the dictionary
+        """This function tokenizes text using *newmm* engine and the dictionary
         specifically for `ulmfit` related functions
         (see: `Dictionary file (.txt) \
         <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/words_th_thai2fit_201810.txt>`_).

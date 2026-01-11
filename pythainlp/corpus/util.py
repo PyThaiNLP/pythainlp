@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Tool for creating word lists
+"""Tool for creating word lists
 codes are from Korakot Chaovavanich.
 
 :See also:
@@ -23,8 +22,7 @@ from pythainlp.util import Trie
 
 
 def index_pairs(words: list[str]) -> Iterator[tuple[int, int]]:
-    """
-    Return beginning and ending indexes of word pairs
+    """Return beginning and ending indexes of word pairs
     """
     i = 0
     for w in words:
@@ -36,8 +34,7 @@ def find_badwords(
     tokenize: Callable[[str], list[str]],
     training_data: Iterable[Iterable[str]],
 ) -> set[str]:
-    """
-    Find words that do not work well with the `tokenize` function
+    """Find words that do not work well with the `tokenize` function
     for the provided `training_data`.
 
     :param Callable[[str], List[str]] tokenize: a tokenize function
@@ -73,8 +70,7 @@ def revise_wordset(
     orig_words: Iterable[str],
     training_data: Iterable[Iterable[str]],
 ) -> set[str]:
-    """
-    Revise a set of words that could improve tokenization performance of
+    """Revise a set of words that could improve tokenization performance of
     a dictionary-based `tokenize` function.
 
     `orig_words` will be used as a base set for the dictionary.
@@ -92,7 +88,7 @@ def revise_wordset(
 
     :Example::
     ::
-    
+
         from pythainlp.corpus import thai_words
         from pythainlp.corpus.util import revise_wordset
         from pythainlp.tokenize.longest import segment
@@ -121,8 +117,7 @@ def revise_wordset(
 def revise_newmm_default_wordset(
     training_data: Iterable[Iterable[str]],
 ) -> set[str]:
-    """
-    Revise a set of word that could improve tokenization performance of
+    """Revise a set of word that could improve tokenization performance of
     `pythainlp.tokenize.newmm`, a dictionary-based tokenizer and a default
     tokenizer for PyThaiNLP.
 

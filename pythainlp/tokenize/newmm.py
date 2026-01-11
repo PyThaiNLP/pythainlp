@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Dictionary-based maximal matching word segmentation, constrained by
+"""Dictionary-based maximal matching word segmentation, constrained by
 Thai Character Cluster (TCC) boundaries with improved rules.
 
 The codes are based on the notebooks created by Korakot Chaovavanich,

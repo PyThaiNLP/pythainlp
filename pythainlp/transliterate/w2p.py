@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai Word-to-Phoneme (Thai W2P)
+"""Thai Word-to-Phoneme (Thai W2P)
 GitHub : https://github.com/wannaphong/Thai_W2P
 """
 
@@ -194,8 +193,7 @@ _THAI_W2P = Thai_W2P()
 
 
 def pronunciate(text: str) -> str:
-    """
-    Convert a Thai word to its pronunciation in Thai letters.
+    """Convert a Thai word to its pronunciation in Thai letters.
 
     Input should be one single word.
 

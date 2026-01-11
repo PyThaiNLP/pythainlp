@@ -7,8 +7,7 @@ from pythainlp import thai_consonants
 
 
 def nighit(w1: str, w2: str) -> str:
-    """
-    Nighit (นิคหิต or  ํ ) is the niggahita in Thai language for create new \
+    """Nighit (นิคหิต or  ํ ) is the niggahita in Thai language for create new \
     words from Pali language in Thai.
     The function use simple method to create new Thai word from two words \
     that the root is from Pali language.

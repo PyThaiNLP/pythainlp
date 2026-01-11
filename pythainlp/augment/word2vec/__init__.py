@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Word2Vec
+"""Word2Vec
 """
 
 __all__ = ["Word2VecAug", "Thai2fitAug", "LTW2VAug"]

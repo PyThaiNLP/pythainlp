@@ -57,8 +57,7 @@ class ThaiTextAugmenter:
     def augment(
         self, text: str, num_augs: int = 3, sample: bool = False
     ) -> list[str]:
-        """
-        Text augmentation from PhayaThaiBERT
+        """Text augmentation from PhayaThaiBERT
 
         :param str text: Thai text
         :param int num_augs: an amount of augmentation text needed as an output

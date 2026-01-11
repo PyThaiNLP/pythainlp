@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Corpus related functions.
+"""Corpus related functions.
 """
 
 from __future__ import annotations
@@ -19,8 +18,7 @@ _CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
 
 
 def get_corpus_db(url: str):
-    """
-    Get corpus catalog from server.
+    """Get corpus catalog from server.
 
     :param str url: URL corpus catalog
     """
@@ -38,8 +36,7 @@ def get_corpus_db(url: str):
 
 
 def get_corpus_db_detail(name: str, version: str = "") -> dict:
-    """
-    Get details about a corpus, using information from local catalog.
+    """Get details about a corpus, using information from local catalog.
 
     :param str name: name of corpus
     :return: details about corpus
@@ -61,8 +58,7 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict:
 
 
 def path_pythainlp_corpus(filename: str) -> str:
-    """
-    Get path pythainlp.corpus data
+    """Get path pythainlp.corpus data
 
     :param str filename: filename of the corpus to be read
 
@@ -73,8 +69,7 @@ def path_pythainlp_corpus(filename: str) -> str:
 
 
 def get_corpus(filename: str, comments: bool = True) -> frozenset:
-    """
-    Read corpus data from file and return a frozenset.
+    """Read corpus data from file and return a frozenset.
 
     Each line in the file will be a member of the set.
 
@@ -144,8 +139,7 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset:
 
 
 def get_corpus_as_is(filename: str) -> list:
-    """
-    Read corpus data from file, as it is, and return a list.
+    """Read corpus data from file, as it is, and return a list.
 
     Each line in the file will be a member of the list.
 
@@ -180,8 +174,7 @@ def get_corpus_as_is(filename: str) -> list:
 
 
 def get_corpus_default_db(name: str, version: str = "") -> str | None:
-    """
-    Get model path from default_db.json
+    """Get model path from default_db.json
 
     :param str name: corpus name
     :return: path to the corpus or **None** if the corpus doesn't \
@@ -212,8 +205,7 @@ def get_corpus_default_db(name: str, version: str = "") -> str | None:
 def get_corpus_path(
     name: str, version: str = "", force: bool = False
 ) -> str | None:
-    """
-    Get corpus path.
+    """Get corpus path.
 
     :param str name: corpus name
     :param str version: version
@@ -252,7 +244,6 @@ def get_corpus_path(
         print(get_corpus_path('wiki_lm_lstm'))
         # output: /root/pythainlp-data/thwiki_model_lstm.pth
     """
-
     CUSTOMIZE: dict[str, str] = {
         # "the corpus name":"path"
     }
@@ -286,8 +277,7 @@ def get_corpus_path(
 
 
 def _download(url: str, dst: str) -> int:
-    """
-    Download helper.
+    """Download helper.
 
     @param: URL for downloading file
     @param: dst place to put the file into
@@ -322,8 +312,7 @@ def _download(url: str, dst: str) -> int:
 
 
 def _check_hash(dst: str, md5: str) -> None:
-    """
-    Check hash helper.
+    """Check hash helper.
 
     @param: dst place to put the file into
     @param: md5 place to file hash (MD5)
@@ -340,8 +329,7 @@ def _check_hash(dst: str, md5: str) -> None:
 
 
 def _version2int(v: str) -> int:
-    """
-    X.X.X => X0X0X
+    """X.X.X => X0X0X
     """
     if "-" in v:
         v = v.split("-")[0]
@@ -405,8 +393,7 @@ def _check_version(cause: str) -> bool:
 def download(
     name: str, force: bool = False, url: str = "", version: str = ""
 ) -> bool:
-    """
-    Download corpus.
+    """Download corpus.
 
     The available corpus names can be seen in this file:
     https://pythainlp.org/pythainlp-corpus/db.json
@@ -558,8 +545,7 @@ def download(
 
 
 def remove(name: str) -> bool:
-    """
-    Remove corpus
+    """Remove corpus
 
     :param str name: corpus name
     :return: **True** if the corpus is found and successfully removed.
@@ -615,8 +601,7 @@ def get_path_folder_corpus(name, version, *path):
 
 
 def make_safe_directory_name(name: str) -> str:
-    """
-    Make safe directory name
+    """Make safe directory name
 
     :param str name: directory name
     :return: safe directory name
@@ -657,8 +642,7 @@ def make_safe_directory_name(name: str) -> str:
 
 
 def get_hf_hub(repo_id: str, filename: str = "") -> str:
-    """
-    HuggingFace Hub in :mod:`pythainlp` data directory.
+    """HuggingFace Hub in :mod:`pythainlp` data directory.
 
     :param str repo_id: repo_id
     :param str filename: filename (optional, default is empty string).

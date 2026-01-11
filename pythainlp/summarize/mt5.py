@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Summarization by mT5 model
+"""Summarization by mT5 model
 """
 
 from __future__ import annotations
@@ -23,8 +22,7 @@ class mT5Summarizer:
         skip_special_tokens: bool = True,
         pretrained_mt5_model_name: str = "",
     ):
-        """
-        Initialize mT5 Summarizer.
+        """Initialize mT5 Summarizer.
 
         :param str model_size: Size of the model ("small", "base", "large",
             "xl", "xxl"). Default is "small".

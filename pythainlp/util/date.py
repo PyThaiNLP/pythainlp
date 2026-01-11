@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai date/time conversion.
+"""Thai date/time conversion.
 
 Note: It does not take into account the change of new year's day in Thailand
 """
@@ -122,8 +121,7 @@ _DAY = {
 
 
 def convert_years(year: str, src="be", target="ad") -> str:
-    """
-    Convert years
+    """Convert years
 
     :param int year: Year
     :param str src: The source year
@@ -204,8 +202,7 @@ def thai_strptime(
     add_year: int | None = None,
     tzinfo=ZoneInfo("Asia/Bangkok"),
 ):
-    """
-    Thai strptime
+    """Thai strptime
 
     :param str text: text
     :param str fmt: string containing date and time directives
@@ -313,8 +310,7 @@ def thai_strptime(
 
 
 def now_reign_year() -> int:
-    """
-    Return the reign year of the 10th King of Chakri dynasty.
+    """Return the reign year of the 10th King of Chakri dynasty.
 
     :return: reign year of the 10th King of Chakri dynasty.
     :rtype: int
@@ -335,8 +331,7 @@ def now_reign_year() -> int:
 
 
 def reign_year_to_ad(reign_year: int, reign: int) -> int:
-    """
-    Convert reign year to AD.
+    """Convert reign year to AD.
 
     Return AD year according to the reign year for
     the 7th to 10th King of Chakri dynasty, Thailand.
@@ -373,8 +368,7 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
 
 
 def thaiword_to_date(text: str, date: datetime = None) -> datetime | None:
-    """
-    Convert Thai relative date to :class:`datetime.datetime`.
+    """Convert Thai relative date to :class:`datetime.datetime`.
 
     :param str text: Thai text containing relative date
     :param datetime.datetime date: date (default is datetime.datetime.now())

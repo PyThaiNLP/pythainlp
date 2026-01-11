@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Wrapper for PyICU word segmentation. This wrapper module uses
+"""Wrapper for PyICU word segmentation. This wrapper module uses
 :class:`icu.BreakIterator` with Thai as :class:`icu.Local`
 to locate boundaries between words in the text.
 
@@ -29,8 +28,7 @@ def _gen_words(text: str) -> str:
 
 
 def segment(text: str) -> list[str]:
-    """
-    :param str text: text to be tokenized into words
+    """:param str text: text to be tokenized into words
     :return: list of words, tokenized from the text
     """
     if not text or not isinstance(text, str):

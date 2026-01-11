@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Spell out time as Thai words.
+"""Spell out time as Thai words.
 
 Convert time string or time object to Thai words.
 """
@@ -159,8 +158,7 @@ def time_to_thaiword(
     fmt: str = "24h",
     precision: str | None = None,
 ) -> str:
-    """
-    Spell out time as Thai words.
+    """Spell out time as Thai words.
 
     :param str time_data: time input, can be a datetime.time object \
         or a datetime.datetime object \
@@ -236,8 +234,7 @@ def time_to_thaiword(
 
 
 def thaiword_to_time(text: str, padding: bool = True) -> str:
-    """
-    Convert Thai time in words into time (H:M).
+    """Convert Thai time in words into time (H:M).
 
     :param str text: Thai time in words
     :param bool padding: Zero pad the hour if True

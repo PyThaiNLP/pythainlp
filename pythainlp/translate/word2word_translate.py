@@ -72,8 +72,7 @@ support_list = set(
 
 
 def translate(word: str, src: str, target: str) -> list[str] | None:
-    """
-    Word translate
+    """Word translate
 
     :param str word: text
     :param str src: src language

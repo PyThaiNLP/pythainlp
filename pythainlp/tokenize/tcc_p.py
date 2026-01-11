@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-The implementation of tokenizer according to Thai Character Clusters (TCCs)
+"""The implementation of tokenizer according to Thai Character Clusters (TCCs)
 rules proposed by `Theeramunkong et al. 2000. \
     <http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548>`_
 and improved rules that are used in newmm
@@ -60,8 +59,7 @@ _PAT_TCC = re.compile("|".join(_RE_TCC))
 
 
 def tcc(text: str) -> str:
-    """
-    TCC generator which generates Thai Character Clusters
+    """TCC generator which generates Thai Character Clusters
 
     :param str text: text to be tokenized into character clusters
     :return: subwords (character clusters)
@@ -83,8 +81,7 @@ def tcc(text: str) -> str:
 
 
 def tcc_pos(text: str) -> set[int]:
-    """
-    TCC positions
+    """TCC positions
 
     :param str text: text to be tokenized into character clusters
     :return: list of the ending position of subwords
@@ -103,13 +100,11 @@ def tcc_pos(text: str) -> set[int]:
 
 
 def segment(text: str) -> list[str]:
-    """
-    Subword segmentation
+    """Subword segmentation
 
     :param str text: text to be tokenized into character clusters
     :return: list of subwords (character clusters), tokenized from the text
     :rtype: list[str]
 
     """
-
     return list(tcc(text))

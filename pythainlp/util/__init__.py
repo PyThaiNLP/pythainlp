@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Utility functions, like date conversion and digit conversion
+"""Utility functions, like date conversion and digit conversion
 """
 
 __all__ = [
@@ -114,6 +113,7 @@ from pythainlp.util.remove_trailing_repeat_consonants import (
     remove_trailing_repeat_consonants,
 )
 from pythainlp.util.strftime import thai_strftime
+
 from pythainlp.util.thai import (
     analyze_thai_text,
     count_thai_chars,
@@ -129,6 +129,7 @@ from pythainlp.util.time import thaiword_to_time, time_to_thaiword
 from pythainlp.util.trie import Trie, dict_trie
 from pythainlp.util.wordtonum import text_to_num, thaiword_to_num, words_to_num
 
+# DO NOT REORDER these imports.
 # sound_syllable and pronounce have to be imported last,
 # to prevent circular import issues.
 # Other imports should be above this line, sorted.

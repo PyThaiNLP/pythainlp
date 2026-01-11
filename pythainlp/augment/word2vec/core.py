@@ -10,8 +10,7 @@ class Word2VecAug:
     def __init__(
         self, model: str, tokenize: object, type: str = "file"
     ) -> None:
-        """
-        :param str model: path of model
+        """:param str model: path of model
         :param object tokenize: tokenize function
         :param str type: model type (file, binary)
         """
@@ -29,8 +28,7 @@ class Word2VecAug:
         self.dict_wv = list(self.model.key_to_index.keys())
 
     def modify_sent(self, sent: str, p: float = 0.7) -> list[list[str]]:
-        """
-        :param str sent: text of sentence
+        """:param str sent: text of sentence
         :param float p: probability
         :rtype: List[List[str]]
         """
@@ -49,8 +47,7 @@ class Word2VecAug:
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> list[tuple[str]]:
-        """
-        :param str sentence: text of sentence
+        """:param str sentence: text of sentence
         :param int n_sent: maximum number of synonymous sentences
         :param int p: probability
 

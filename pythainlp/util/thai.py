@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Check if it is Thai text
+"""Check if it is Thai text
 """
 
 from __future__ import annotations
@@ -205,7 +204,6 @@ def display_thai_char(ch: str) -> str:
         display_thai_char("้")
         # output: "_้"
     """
-
     if (
         ch in thai_above_vowels
         or ch in thai_tonemarks
@@ -218,8 +216,7 @@ def display_thai_char(ch: str) -> str:
 
 
 def thai_word_tone_detector(word: str) -> tuple[str, str]:
-    """
-    Thai tone detector for word.
+    """Thai tone detector for word.
 
     It uses pythainlp.transliterate.pronunciate for converting word to\
         pronunciation.
@@ -248,8 +245,7 @@ def thai_word_tone_detector(word: str) -> tuple[str, str]:
 
 
 def count_thai_chars(text: str) -> dict:
-    """
-    Count Thai characters by type
+    """Count Thai characters by type
 
     This function will give you numbers of Thai characters by type\
         (consonants, vowels, lead_vowels, follow_vowels, above_vowels,\
@@ -319,8 +315,7 @@ def count_thai_chars(text: str) -> dict:
 
 
 def analyze_thai_text(text: str) -> dict:
-    """
-    Analyzes a string of Thai text and returns a dictionaries,
+    """Analyzes a string of Thai text and returns a dictionaries,
     where each values represents a single classified character from the text.
 
     The function processes the text character by character and maps each Thai
@@ -337,6 +332,7 @@ def analyze_thai_text(text: str) -> dict:
 
         >>> analyze_thai_text("เล่น")
         {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
+
     """
     results = defaultdict(int)
 

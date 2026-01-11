@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Segmenting text into Enhanced Thai Character Clusters (ETCCs)
+"""Segmenting text into Enhanced Thai Character Clusters (ETCCs)
 Python implementation by Wannaphong Phatthiyaphaibun
 
 This implementation relies on a dictionary of ETCC created from etcc.txt
@@ -54,8 +53,7 @@ def _cut_subword(tokens: list[str]) -> list[str]:
 
 
 def segment(text: str) -> list[str]:
-    """
-    Segmenting text into ETCCs.
+    """Segmenting text into ETCCs.
 
     Enhanced Thai Character Cluster (ETCC) is a kind of subword unit.
     The concept was presented in Inrut, Jeeragone, Patiroop Yuanghirun,
@@ -68,7 +66,6 @@ def segment(text: str) -> list[str]:
     :return: list of clusters, tokenized from the text
     :return: List[str]
     """
-
     if not text or not isinstance(text, str):
         return []
 

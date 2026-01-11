@@ -33,8 +33,7 @@ class WangChanGLM:
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
     ):
-        """
-        Load model
+        """Load model
 
         :param str model_path: model path
         :param bool return_dict: return dict
@@ -78,8 +77,7 @@ class WangChanGLM:
         thai_only: bool = True,
         skip_special_tokens: bool = True,
     ):
-        """
-        Generate Instruct
+        """Generate Instruct
 
         :param str text: text
         :param int max_new_tokens: maximum number of new tokens
@@ -136,8 +134,7 @@ class WangChanGLM:
         thai_only: bool = True,
         skip_special_tokens: bool = True,
     ):
-        """
-        Generate Instruct
+        """Generate Instruct
 
         :param str instruct: Instruct
         :param str context: context (optional, default is empty string)

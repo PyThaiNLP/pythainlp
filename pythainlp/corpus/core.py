@@ -661,7 +661,8 @@ def get_hf_hub(repo_id: str, filename: str = "") -> str:
     HuggingFace Hub in :mod:`pythainlp` data directory.
 
     :param str repo_id: repo_id
-    :param str filename: filename (optional, default is empty string). If empty, downloads entire snapshot.
+    :param str filename: filename (optional, default is empty string).
+        If empty, downloads entire snapshot.
     :return: path
     :rtype: str
     """

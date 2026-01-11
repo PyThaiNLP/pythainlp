@@ -409,7 +409,8 @@ def morphy(form, pos: str | None = None):
     with the given part of speech.
 
     :param str form: the form to finds the base form of
-    :param str | None pos: part of speech tag of words to be searched. Default is None.
+    :param str | None pos: part of speech tag of words to be searched.
+        Default is None.
 
     :return: base form of the given form
     :rtype: str

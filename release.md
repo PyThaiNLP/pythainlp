@@ -1,5 +1,5 @@
 ---
-SPDX-FileCopyrightText: 2025 PyThaiNLP Project
+SPDX-FileCopyrightText: 2025-2026 PyThaiNLP Project
 SPDX-FileType: DOCUMENTATION
 SPDX-License-Identifier: CC0-1.0
 ---
@@ -16,8 +16,6 @@ SPDX-License-Identifier: CC0-1.0
    have been updated to the version of the new planned release:
     - `codemeta.json`
     - `pyproject.toml`
-    - `setup.cfg`
-    - `setup.py`
     - `CHANGELOG.md`
     - `CITATION.cff`
     - `README.md`

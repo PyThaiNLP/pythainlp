@@ -7,8 +7,7 @@ from __future__ import annotations
 def pos_tag(
     words: list[str], engine: str = "perceptron", corpus: str = "orchid"
 ) -> list[tuple[str, str]]:
-    """
-    Marks words with part-of-speech (POS) tags, such as 'NOUN' and 'VERB'.
+    """Marks words with part-of-speech (POS) tags, such as 'NOUN' and 'VERB'.
 
     :param list words: a list of tokenized words
     :param str engine:
@@ -129,8 +128,7 @@ def pos_tag_sents(
     engine: str = "perceptron",
     corpus: str = "orchid",
 ) -> list[list[tuple[str, str]]]:
-    """
-    Marks sentences with part-of-speech (POS) tags.
+    """Marks sentences with part-of-speech (POS) tags.
 
     :param list sentences: a list of lists of tokenized words
     :param str engine:
@@ -178,21 +176,26 @@ def pos_tag_transformers(
     engine: str = "bert",
     corpus: str = "blackboard",
 ) -> list[list[tuple[str, str]]]:
-    """
-    Marks sentences with part-of-speech (POS) tags.
+    """Marks sentences with part-of-speech (POS) tags.
 
     :param str sentence: a list of lists of tokenized words
     :param str engine:
         * *bert* -  BERT: Bidirectional Encoder Representations from Transformers (default)
-        * *wangchanberta* - fine-tuned version of airesearch/wangchanberta-base-att-spm-uncased on pud corpus (support PUD cotpus only)
+        * *wangchanberta* - fine-tuned version of \
+            airesearch/wangchanberta-base-att-spm-uncased on pud corpus \
+            (support PUD cotpus only)
         * *phayathaibert* - fine-tuned version of clicknext/phayathaibert \
             on blackboard corpus (support blackboard cotpus only)
-        * *mdeberta* - mDeBERTa: Multilingual Decoding-enhanced BERT with disentangled attention (support PUD corpus only)
-    :param str corpus: the corpus that is used to create the language model for tagger
-        * *blackboard* - `blackboard treebank (support bert engine only) <https://bitbucket.org/kaamanita/blackboard-treebank/src/master/>`_
+        * *mdeberta* - mDeBERTa: Multilingual Decoding-enhanced BERT \
+            with disentangled attention (support PUD corpus only)
+    :param str corpus: the corpus that is used to create the language model
+        for tagger
+        * *blackboard* - `blackboard treebank (support bert engine only) \
+            <https://bitbucket.org/kaamanita/blackboard-treebank/src/master/>`_
         * *pud* - `Parallel Universal Dependencies (PUD)\
             <https://github.com/UniversalDependencies/UD_Thai-PUD>`_ \
-            treebanks, natively use Universal POS tags (support wangchanberta and mdeberta engine)
+            treebanks, natively use Universal POS tags \
+            (support wangchanberta and mdeberta engine)
     :return: a list of lists of tuples (word, POS tag)
     :rtype: list[list[tuple[str, str]]]
 
@@ -207,7 +210,6 @@ def pos_tag_transformers(
         # output:
         # [[('แมว', 'NOUN'), ('ทําอะไร', 'VERB'), ('ตอนห้าโมงเช้า', 'NOUN')]]
     """
-
     try:
         from transformers import (
             AutoModelForTokenClassification,

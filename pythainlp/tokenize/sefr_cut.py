@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Wrapper for SEFR CUT Thai word segmentation. SEFR CUT is a
+"""Wrapper for SEFR CUT Thai word segmentation. SEFR CUT is a
 Thai Word Segmentation Models using Stacked Ensemble.
 
 :See Also:

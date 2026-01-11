@@ -1,12 +1,15 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai-English Cross-Language Transliterated Word Retrieval
+"""Thai-English Cross-Language Transliterated Word Retrieval
 using Soundex Technique
 
 References:
-Prayut Suwanvisat, Somchai Prasitjutrakul.Thai-English Cross-Language Transliterated Word Retrieval using Soundex Technique. In 1998 [cited 2022 Sep 8]. Available from: https://www.cp.eng.chula.ac.th/~somchai/spj/papers/ThaiText/ncsec98-clir.pdf
+Prayut Suwanvisat, Somchai Prasitjutrakul.
+Thai-English Cross-Language Transliterated Word Retrieval using Soundex
+Technique. In 1998 [cited 2022 Sep 8].
+Available from:
+https://www.cp.eng.chula.ac.th/~somchai/spj/papers/ThaiText/ncsec98-clir.pdf
 """
 
 from __future__ import annotations
@@ -28,8 +31,7 @@ _C52 = "ง"
 
 
 def prayut_and_somchaip(text: str, length: int = 4) -> str:
-    """
-    This function converts English-Thai Cross-Language Transliterated Word into
+    """This function converts English-Thai Cross-Language Transliterated Word into
     phonetic code with the matching technique called **Soundex** [#prayut_and_somchaip]_.
 
     :param str text: English-Thai Cross-Language Transliterated Word

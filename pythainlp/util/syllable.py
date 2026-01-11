@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Syllable tools
+"""Syllable tools
 """
 
 from __future__ import annotations
@@ -62,8 +61,7 @@ for k, v in thai_initial_consonant_type.items():
 
 
 def sound_syllable(syllable: str) -> str:
-    """
-    Sound syllable classification
+    """Sound syllable classification
 
     This function is sound syllable classification.
     The syllable is a live syllable or dead syllable.
@@ -158,8 +156,7 @@ def sound_syllable(syllable: str) -> str:
 
 
 def syllable_open_close_detector(syllable: str) -> str:
-    """
-    Open/close Thai syllables detector
+    """Open/close Thai syllables detector
 
     This function is used for finding Thai syllables that are open or closed sound.
 
@@ -190,8 +187,7 @@ def syllable_open_close_detector(syllable: str) -> str:
 
 
 def syllable_length(syllable: str) -> str:
-    """
-    Thai syllable length
+    """Thai syllable length
 
     This function is used for finding syllable's length. (long or short)
 
@@ -242,8 +238,7 @@ def _check_sonorant_syllable(syllable: str) -> bool:
 
 
 def tone_detector(syllable: str) -> str:
-    """
-    Thai tone detector for syllables
+    """Thai tone detector for syllables
 
     Return tone of a syllable.
 

@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Phonemes util
+"""Phonemes util
 """
 
 from __future__ import annotations
@@ -91,8 +90,7 @@ dict_nectec_to_ipa.update(
 
 
 def nectec_to_ipa(pronunciation: str) -> str:
-    """
-    Convert NECTEC system to IPA system
+    """Convert NECTEC system to IPA system
 
     :param str pronunciation: NECTEC phoneme
     :return: IPA that is converted
@@ -109,10 +107,10 @@ def nectec_to_ipa(pronunciation: str) -> str:
 
     References
     ----------
-
     Pornpimon Palingoon, Sumonmas Thatphithakkul. Chapter 4 Speech processing \
         and Speech corpus. In: Handbook of Thai Electronic Corpus. \
         1st ed. p. 122–56.
+
     """
     parts = pronunciation.split("-")
     ipa = []
@@ -205,8 +203,7 @@ def _ipa_cut():
 
 
 def ipa_to_rtgs(ipa: str) -> str:
-    """
-    Convert IPA system to The Royal Thai General System of Transcription (RTGS)
+    """Convert IPA system to The Royal Thai General System of Transcription (RTGS)
 
     Docs: https://en.wikipedia.org/wiki/Help:IPA/Thai
 
@@ -246,8 +243,7 @@ def ipa_to_rtgs(ipa: str) -> str:
 
 
 def remove_tone_ipa(ipa: str) -> str:
-    """
-    Remove Thai Tones from IPA system
+    """Remove Thai Tones from IPA system
 
     :param str ipa: IPA phoneme
     :return: IPA phoneme with tones removed

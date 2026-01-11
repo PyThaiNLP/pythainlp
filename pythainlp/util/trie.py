@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Trie data structure.
+"""Trie data structure.
 
 Designed to be used for tokenizer's dictionary, but can be for other purposes.
 """
@@ -28,8 +27,7 @@ class Trie(Iterable[str]):
             self.add(word)
 
     def add(self, word: str) -> None:
-        """
-        Add a word to the trie.
+        """Add a word to the trie.
         Spaces in front of and following the word will be removed.
 
         :param str text: a word
@@ -46,8 +44,7 @@ class Trie(Iterable[str]):
         cur.end = True
 
     def remove(self, word: str) -> None:
-        """
-        Remove a word from the trie.
+        """Remove a word from the trie.
         If the word is not found, do nothing.
 
         :param str text: a word
@@ -72,8 +69,7 @@ class Trie(Iterable[str]):
             del parent.children[ch]  # remove from parent dict
 
     def prefixes(self, text: str) -> list[str]:
-        """
-        List all possible words from first sequence of characters in a word.
+        """List all possible words from first sequence of characters in a word.
 
         :param str text: a word
         :return: a list of possible words
@@ -101,8 +97,7 @@ class Trie(Iterable[str]):
 
 
 def dict_trie(dict_source: str | Iterable[str] | Trie) -> Trie:
-    """
-    Create a dictionary trie from a file or an iterable.
+    """Create a dictionary trie from a file or an iterable.
 
     :param str|Iterable[str]|pythainlp.util.Trie dict_source: a path to
         dictionary file or a list of words or a pythainlp.util.Trie object

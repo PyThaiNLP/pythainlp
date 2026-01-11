@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Where's the Point? Self-Supervised Multilingual Punctuation-Agnostic Sentence Segmentation
+"""Where's the Point? Self-Supervised Multilingual Punctuation-Agnostic Sentence Segmentation
 
 GitHub: https://github.com/bminixhofer/wtpsplit
 """

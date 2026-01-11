@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thank https://dev.to/ton_ami/text-data-augmentation-synonym-replacement-4h8l
+"""Thank https://dev.to/ton_ami/text-data-augmentation-synonym-replacement-4h8l
 """
 
 from __future__ import annotations
@@ -103,8 +102,7 @@ orchid = {
 
 
 def postype2wordnet(pos: str, corpus: str):
-    """
-    Convert part-of-speech type to wordnet type
+    """Convert part-of-speech type to wordnet type
 
     :param str pos: POS type
     :param str corpus: part-of-speech corpus
@@ -118,8 +116,7 @@ def postype2wordnet(pos: str, corpus: str):
 
 
 class WordNetAug:
-    """
-    Text Augment using wordnet
+    """Text Augment using wordnet
     """
 
     def __init__(self):
@@ -128,8 +125,7 @@ class WordNetAug:
     def find_synonyms(
         self, word: str, pos: str | None = None, postag_corpus: str = "orchid"
     ) -> list[str]:
-        """
-        Find synonyms using wordnet
+        """Find synonyms using wordnet
 
         :param str word: word
         :param str | None pos: part-of-speech type. Default is None.
@@ -164,8 +160,7 @@ class WordNetAug:
         postag: bool = True,
         postag_corpus: str = "orchid",
     ) -> list[list[str]]:
-        """
-        Text Augment using wordnet
+        """Text Augment using wordnet
 
         :param str sentence: Thai sentence
         :param object tokenize: function for tokenizing words

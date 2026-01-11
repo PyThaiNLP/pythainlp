@@ -32,8 +32,7 @@ TO_UD = {
 
 
 def pre_process(words: list[str]) -> list[str]:
-    """
-    Convert signs and symbols with their defined strings.
+    """Convert signs and symbols with their defined strings.
     This function is to be used as a preprocessing step,
     before the actual POS tagging.
     """
@@ -45,8 +44,7 @@ def pre_process(words: list[str]) -> list[str]:
 def post_process(
     word_tags: list[tuple[str, str]], to_ud: bool = False
 ) -> list[tuple[str, str]]:
-    """
-    Convert defined strings back to corresponding signs and symbols.
+    """Convert defined strings back to corresponding signs and symbols.
     This function is to be used as a post-processing step,
     after the POS tagging.
     """

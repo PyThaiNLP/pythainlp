@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Removement of repeated consonants at the end of words
+"""Removement of repeated consonants at the end of words
 """
 
 from __future__ import annotations
@@ -26,8 +25,7 @@ def remove_trailing_repeat_consonants(
     custom_dict: Iterable[str] = [],
     has_dictionary_updated: bool = True,
 ) -> str:
-    """
-    Remove repeating consonants at the last of the sentence.
+    """Remove repeating consonants at the last of the sentence.
 
     This function will remove the repeating consonants
     before a whitespace, new line or at the last
@@ -102,8 +100,7 @@ def remove_trailing_repeat_consonants(
 
 
 def _remove_repeat_trailing_consonants_from_segment(segment: str) -> str:
-    """
-    Remove repeating consonants at the last of the segment.
+    """Remove repeating consonants at the last of the segment.
 
     This function process only at the last of the given text.
     Details is same as remove_repeat_consonants().
@@ -154,8 +151,7 @@ def _remove_repeat_trailing_consonants_from_segment(segment: str) -> str:
 
 
 def _remove_all_last_consonants(text: str, dup: str) -> str:
-    """
-    Reduce repeating characters at the end of the text.
+    """Reduce repeating characters at the end of the text.
 
     This function will remove the repeating characters at the last.
     The text just before the repeating characters will be returned.
@@ -173,8 +169,7 @@ def _remove_all_last_consonants(text: str, dup: str) -> str:
 
 
 def _update_consonant_repeaters(custom_dict: Iterable[str]) -> None:
-    """
-    Update dictionary of all words that has
+    """Update dictionary of all words that has
     repeating consonants at the end from the dictionary.
 
     Search all words in the dictionary that has more than 1 consonants
@@ -197,8 +192,7 @@ def _update_consonant_repeaters(custom_dict: Iterable[str]) -> None:
 
 
 def _is_last_consonant_repeater(word: str) -> bool:
-    """
-    Check if the word has repeating consonants at the end.
+    """Check if the word has repeating consonants at the end.
 
     This function checks if the word has
     more than 1 repeating consonants at the end.
@@ -215,8 +209,7 @@ def _is_last_consonant_repeater(word: str) -> bool:
 def _find_longest_consonant_repeaters_match(
     segment_head: str, repeaters: list[str]
 ) -> tuple[str, int]:
-    """
-    Find the longest word that matches the segment.
+    """Find the longest word that matches the segment.
 
     Find the longest word that matches the last
     of the segment from the given repeaters list.

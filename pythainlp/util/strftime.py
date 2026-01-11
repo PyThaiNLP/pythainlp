@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai date/time formatting.
+"""Thai date/time formatting.
 """
 
 from __future__ import annotations
@@ -31,8 +30,7 @@ _EXTENSIONS = "EO-_0^#"  # extension flags
 
 
 def _std_strftime(dt_obj: datetime, fmt_char: str) -> str:
-    """
-    Standard datetime.strftime() with normalization and exception handling.
+    """Standard datetime.strftime() with normalization and exception handling.
     """
     str_ = ""
     try:
@@ -58,8 +56,7 @@ def _std_strftime(dt_obj: datetime, fmt_char: str) -> str:
 
 
 def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
-    """
-    Conversion support for thai_strftime().
+    """Conversion support for thai_strftime().
 
     The fmt_char should be in _NEED_L10N when calling this function.
     """
@@ -152,8 +149,7 @@ def thai_strftime(
     fmt: str = "%-d %b %y",
     thaidigit: bool = False,
 ) -> str:
-    """
-    Convert :class:`datetime.datetime` into Thai date and time format.
+    """Convert :class:`datetime.datetime` into Thai date and time format.
 
     The formatting directives are similar to :func:`datatime.strrftime`.
 

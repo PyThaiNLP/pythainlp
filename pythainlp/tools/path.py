@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-PyThaiNLP data tools
+"""PyThaiNLP data tools
 
 For text processing and text conversion, see pythainlp.util
 """
@@ -17,8 +16,7 @@ PYTHAINLP_DEFAULT_DATA_DIR = "pythainlp-data"
 
 
 def get_full_data_path(path: str) -> str:
-    """
-    This function joins path of :mod:`pythainlp` data directory and the
+    """This function joins path of :mod:`pythainlp` data directory and the
     given path, and returns the full path.
 
     :return: full path given the name of dataset
@@ -36,8 +34,7 @@ def get_full_data_path(path: str) -> str:
 
 
 def get_pythainlp_data_path() -> str:
-    """
-    Returns the full path where PyThaiNLP keeps its (downloaded) data.
+    """Returns the full path where PyThaiNLP keeps its (downloaded) data.
     If the directory does not yet exist, it will be created.
     The path can be specified through the environment variable
     :envvar:`PYTHAINLP_DATA_DIR`. By default, `~/pythainlp-data`
@@ -63,8 +60,7 @@ def get_pythainlp_data_path() -> str:
 
 
 def get_pythainlp_path() -> str:
-    """
-    This function returns full path of PyThaiNLP codes
+    """This function returns full path of PyThaiNLP codes
 
     :return: full path of :mod:`pythainlp` codes
     :rtype: str

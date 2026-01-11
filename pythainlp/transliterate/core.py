@@ -13,8 +13,7 @@ def romanize(
     engine: str = DEFAULT_ROMANIZE_ENGINE,
     fallback_engine: str = DEFAULT_ROMANIZE_ENGINE,
 ) -> str:
-    """
-    This function renders Thai word in the Latin alphabet or "romanization",
+    """This function renders Thai word in the Latin alphabet or "romanization",
     using the Royal Thai General System of Transcription (RTGS)
     [#rtgs_transcription]_. RTGS is the official system published
     by the Royal Institute of Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
@@ -22,9 +21,11 @@ def romanize(
     :param str text: A Thai word to be romanized. \
         The input should not include whitespace because \
         the function is support subwords by spliting whitespace.
-    :param str engine: One of 'royin' (default), 'thai2rom', 'thai2rom_onnx, 'tltk', and 'lookup'. See more in options for engine section.
-    :param str fallback_engine: If engine equals 'lookup', use `fallback_engine` for words that are not in the transliteration dict.
-                                No effect on other engines. Default to 'royin'.
+    :param str engine: One of 'royin' (default), 'thai2rom', 'thai2rom_onnx,
+        'tltk', and 'lookup'. See more in options for engine section.
+    :param str fallback_engine: If engine equals 'lookup',
+        use `fallback_engine` for words that are not in the lookup dictionary.
+        No effect on other engines. Default to 'royin'.
 
     :return: A string of a Thai word rendered in the Latin alphabet.
     :rtype: str
@@ -101,8 +102,7 @@ def romanize(
 def transliterate(
     text: str, engine: str = DEFAULT_TRANSLITERATE_ENGINE
 ) -> str:
-    """
-    This function transliterates Thai text.
+    """This function transliterates Thai text.
 
     :param str text: Thai text to be transliterated
     :param str engine: 'icu', 'ipa', or 'thaig2p' (default)
@@ -161,7 +161,6 @@ def transliterate(
         transliterate("ภาพยนตร์", engine="iso_11940")
         # output: 'p̣hāphyntr'
     """
-
     if not text or not isinstance(text, str):
         return ""
 
@@ -186,8 +185,7 @@ def transliterate(
 
 
 def pronunciate(word: str, engine: str = DEFAULT_PRONUNCIATE_ENGINE) -> str:
-    """
-    This function pronunciates Thai word.
+    """This function pronunciates Thai word.
 
     :param str word: Thai text to be pronunciated
     :param str engine: 'w2p' (default)

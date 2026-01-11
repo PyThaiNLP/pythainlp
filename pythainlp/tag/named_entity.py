@@ -1,16 +1,14 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Named-entity recognizer
+"""Named-entity recognizer
 """
 
 from __future__ import annotations
 
 
 class NER:
-    """
-    Class of named-entity recognizer
+    """Class of named-entity recognizer
 
     :param str engine: engine of named-entity recognizer
     :param str corpus: corpus
@@ -64,8 +62,7 @@ class NER:
     def tag(
         self, text, pos=False, tag=False
     ) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
-        """
-        This function tags named entities in text in IOB format.
+        """This function tags named entities in text in IOB format.
 
         :param str text: text in Thai to be tagged
         :param bool pos: output with part-of-speech tags.\
@@ -99,8 +96,7 @@ class NER:
 
 
 class NNER:
-    """
-    Nested Named Entity Recognition
+    """Nested Named Entity Recognition
 
     :param str engine: engine of nested named entity recognizer
     :param str corpus: corpus
@@ -118,8 +114,7 @@ class NNER:
         self.engine = Thai_NNER()
 
     def tag(self, text) -> tuple[list[str], list[dict]]:
-        """
-        This function tags nested named entities.
+        """This function tags nested named entities.
 
         :param str text: text in Thai to be tagged
 

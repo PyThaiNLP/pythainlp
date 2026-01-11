@@ -105,8 +105,7 @@ def find_misspell_candidates(char: str, verbose: bool = False):
 
 
 def misspell(sentence: str, ratio: float = 0.05):
-    """
-    Simulate some misspellings of the input sentence.
+    """Simulate some misspellings of the input sentence.
     The number of misspelled locations is governed by ratio.
 
     :params str sentence: sentence to be misspelled

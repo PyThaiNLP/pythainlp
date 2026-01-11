@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai collation (sorted according to Thai dictionary order)
+"""Thai collation (sorted according to Thai dictionary order)
 Simple implementation using regular expressions
 """
 
@@ -25,8 +24,7 @@ def _thkey(word: str) -> str:
 
 
 def collate(data: Iterable, reverse: bool = False) -> list[str]:
-    """
-    This function sorts strings (almost) according to Thai dictionary.
+    """This function sorts strings (almost) according to Thai dictionary.
 
     Important notes: this implementation ignores tone marks and symbols
 

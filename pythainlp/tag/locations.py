@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Recognizes locations in text
+"""Recognizes locations in text
 """
 
 from __future__ import annotations
@@ -11,8 +10,7 @@ from pythainlp.corpus import provinces
 
 
 def tag_provinces(tokens: list[str]) -> list[tuple[str, str]]:
-    """
-    This function recognizes Thailand provinces in text.
+    """This function recognizes Thailand provinces in text.
 
     Note that it uses exact match and considers no context.
 

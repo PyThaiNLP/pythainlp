@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Universal Language Model Fine-tuning for Text Classification (ULMFiT).
+"""Universal Language Model Fine-tuning for Text Classification (ULMFiT).
 """
 
 from __future__ import annotations
@@ -72,8 +71,7 @@ def process_thai(
     tok_func: Callable | None = None,
     post_rules: Collection = post_rules_th_sparse,
 ) -> Collection[str]:
-    """
-    Process Thai texts for models (with sparse features as default)
+    """Process Thai texts for models (with sparse features as default)
 
     :param str text: text to be cleaned
     :param list[func] pre_rules: rules to apply before tokenization.
@@ -147,8 +145,7 @@ def process_thai(
 
 
 def document_vector(text: str, learn, data, agg: str = "mean"):
-    """
-    This function vectorizes Thai input text into a 400 dimension vector using
+    """This function vectorizes Thai input text into a 400 dimension vector using
     :class:`fastai` language model and data bunch.
 
     :meth: `document_vector` get document vector using fastai language model
@@ -187,7 +184,6 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
           <https://github.com/cstorm125/thai2fit/blob/master/thwiki_lm/word2vec_examples.ipynb>`_
 
     """
-
     s = thai2fit_tokenizer().word_tokenize(text)
     t = torch.tensor(data.vocab.numericalize(s), requires_grad=False).to(
         device
@@ -205,8 +201,7 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
 
 
 def merge_wgts(em_sz, wgts, itos_pre, itos_new):
-    """
-    This function is to insert new vocab into an existing model named `wgts`
+    """This function is to insert new vocab into an existing model named `wgts`
     and update the model's weights for new vocab with the average embedding.
 
     :meth: `merge_wgts` insert pretrained weights and vocab into a new set

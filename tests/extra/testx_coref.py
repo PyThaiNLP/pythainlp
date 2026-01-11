@@ -5,8 +5,6 @@
 
 import unittest
 
-from pythainlp.coref import coreference_resolution
-
 
 class CorefTestCaseX(unittest.TestCase):
     def test_coreference_resolution(self):

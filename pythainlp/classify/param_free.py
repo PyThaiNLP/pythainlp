@@ -10,8 +10,7 @@ import numpy as np
 
 
 class GzipModel:
-    """
-    This class is a re-implementation of
+    """This class is a re-implementation of
     “Low-Resource” Text Classification: A Parameter-Free Classification Method
     with Compressors (Jiang et al., Findings 2023)
 
@@ -41,8 +40,7 @@ class GzipModel:
         return Cx2_list
 
     def predict(self, x1: str, k: int = 1) -> str:
-        """
-        :param str x1: the text that we want to predict label for.
+        """:param str x1: the text that we want to predict label for.
         :param str k: k
         :return: label
         :rtype: str
@@ -86,8 +84,7 @@ class GzipModel:
         return predict_class
 
     def save(self, path: str):
-        """
-        :param str path: path to save model
+        """:param str path: path to save model
         """
         with open(path, "w", encoding="utf-8") as f:
             json.dump(
@@ -100,8 +97,7 @@ class GzipModel:
             )
 
     def load(self, path: str):
-        """
-        :param str path: path to load model
+        """:param str path: path to load model
         """
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)

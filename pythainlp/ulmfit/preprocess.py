@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Preprocessing for ULMFiT
+"""Preprocessing for ULMFiT
 """
 
 from __future__ import annotations
@@ -21,8 +20,7 @@ _TK_URL = "xxurl"
 
 
 def replace_url(text: str) -> str:
-    """
-    Replace URL in `text` with TK_URL
+    """Replace URL in `text` with TK_URL
 
     :param str text: text to replace URL in
 
@@ -40,8 +38,7 @@ def replace_url(text: str) -> str:
 
 
 def fix_html(text: str) -> str:
-    """
-    Replace HTML strings in `test`. (codes from `fastai`)
+    """Replace HTML strings in `test`. (codes from `fastai`)
 
     :param str text: text to replace HTML strings in
 
@@ -85,8 +82,7 @@ def spec_add_spaces(text: str) -> str:
 
 
 def replace_rep_after(text: str) -> str:
-    """
-    Replace repetitions at the character level in `text` after the repeated character.
+    """Replace repetitions at the character level in `text` after the repeated character.
     This is to prevent cases such as 'น้อยยยยยยยย' becomes 'น้อ xxrep 8 ย'
     ; instead it will retain the word as 'น้อย xxrep 8'
 
@@ -115,8 +111,7 @@ def replace_rep_after(text: str) -> str:
 
 
 def replace_wrep_post(toks: Collection[str]) -> list[str]:
-    """
-    Replace repetitive words after tokenization;
+    """Replace repetitive words after tokenization;
     fastai `replace_wrep` does not work well with Thai.
 
     :param list[str] toks: list of tokens
@@ -150,13 +145,12 @@ def replace_wrep_post(toks: Collection[str]) -> list[str]:
 
 
 def rm_useless_newlines(text: str) -> str:
-    "Remove multiple newlines in `text`."
-
+    """Remove multiple newlines in `text`."""
     return re.sub(r"[\n]{2,}", " ", text)
 
 
 def rm_brackets(text: str) -> str:
-    "Remove all empty brackets and artifacts within brackets from `text`."
+    """Remove all empty brackets and artifacts within brackets from `text`."""
     # remove empty brackets
     new_line = re.sub(r"\(\)", "", text)
     new_line = re.sub(r"\{\}", "", new_line)
@@ -189,8 +183,7 @@ def rm_brackets(text: str) -> str:
 
 
 def ungroup_emoji(toks: Collection[str]) -> list[str]:
-    """
-    Ungroup Zero Width Joiner (ZVJ) Emojis
+    """Ungroup Zero Width Joiner (ZVJ) Emojis
 
     See https://emojipedia.org/emoji-zwj-sequence/
     """
@@ -204,16 +197,14 @@ def ungroup_emoji(toks: Collection[str]) -> list[str]:
 
 
 def lowercase_all(toks: Collection[str]) -> list[str]:
-    """
-    Lowercase all English words;
+    """Lowercase all English words;
     English words in Thai texts don't usually have nuances of capitalization.
     """
     return [tok.lower() for tok in toks]
 
 
 def replace_rep_nonum(text: str) -> str:
-    """
-    Replace repetitions at the character level in `text` after the repetition.
+    """Replace repetitions at the character level in `text` after the repetition.
     This is done to prevent such case as 'น้อยยยยยยยย' becoming 'น้อ xxrep ย';
     instead it will retain the word as 'น้อย xxrep '
 
@@ -242,8 +233,7 @@ def replace_rep_nonum(text: str) -> str:
 
 
 def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
-    """
-    Replace reptitive words post tokenization;
+    """Replace reptitive words post tokenization;
     fastai `replace_wrep` does not work well with Thai.
 
     :param list[str] toks: list of tokens
@@ -277,8 +267,7 @@ def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
 
 
 def remove_space(toks: Collection[str]) -> list[str]:
-    """
-    Do not include space for bag-of-word models.
+    """Do not include space for bag-of-word models.
 
     :param list[str] toks: list of tokens
 

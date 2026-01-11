@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Look up romanized Thai words in a predefined dictionary compiled by Wannaphong, 2022.
+"""Look up romanized Thai words in a predefined dictionary compiled by Wannaphong, 2022.
 
 Wannaphong Phatthiyaphaibun. (2022).
 wannaphong/thai-english-transliteration-dictionary: v1.4 (v1.4).
@@ -23,8 +22,7 @@ _TRANSLITERATE_IDX = 0
 
 
 def follow_rtgs(text: str) -> bool | None:
-    """
-    Check if the `text` follows romanization defined by Royal Society of Thailand (RTGS).
+    """Check if the `text` follows romanization defined by Royal Society of Thailand (RTGS).
     :param str text: Text to look up. Must be a self-contained word.
     :return: True if text follows the definition by RTGS, False otherwise.
             `None` means unverified or unknown word.
@@ -41,8 +39,7 @@ def follow_rtgs(text: str) -> bool | None:
 
 
 def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
-    """
-    Romanize one word. Look up first, call `fallback_func` if not found.
+    """Romanize one word. Look up first, call `fallback_func` if not found.
     """
     try:
         # try to get 0-th idx of look up result, simply ignore other possible variations.
@@ -57,8 +54,7 @@ def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
 
 
 def romanize(text: str, fallback_func: Callable[[str], str]) -> str:
-    """
-    Render Thai words in Latin alphabet by looking up
+    """Render Thai words in Latin alphabet by looking up
     Thai-English transliteration dictionary.
 
     :param str text: Thai text to be romanized

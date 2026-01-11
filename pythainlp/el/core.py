@@ -11,8 +11,7 @@ class EntityLinker:
         device: str = "cuda",
         tag: str = "wikidata",
     ):
-        """
-        EntityLinker
+        """EntityLinker
 
         :param str model_name: model name (bela)
         :param str device: device for running model on
@@ -37,8 +36,7 @@ class EntityLinker:
         self.model = MultiEL(model_name=self.model_name, device=self.device)
 
     def get_el(self, list_text: list[str] | str) -> list[dict] | str:
-        """
-        Get Entity Linking from Thai Text
+        """Get Entity Linking from Thai Text
 
         :param str Union[List[str], str]: list of Thai text or text
         :return: list of entity linking

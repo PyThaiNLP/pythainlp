@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project.
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai National Corpus word frequency
+"""Thai National Corpus word frequency
 """
 
 from __future__ import annotations
@@ -23,8 +22,7 @@ _TRIGRAM_CORPUS_NAME = "tnc_trigram_word_freqs"
 
 
 def word_freqs() -> list[tuple[str, int]]:
-    """
-    Get word frequency from Thai National Corpus (TNC)
+    """Get word frequency from Thai National Corpus (TNC)
     \n(See: `dev/pythainlp/corpus/tnc_freq.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/tnc_freq.txt>`_)
 
@@ -41,8 +39,7 @@ def word_freqs() -> list[tuple[str, int]]:
 
 
 def unigram_word_freqs() -> dict[str, int]:
-    """
-    Get unigram word frequency from Thai National Corpus (TNC)
+    """Get unigram word frequency from Thai National Corpus (TNC)
     """
     freqs: dict[str, int] = defaultdict(int)
     lines = list(get_corpus(_UNIGRAM_FILENAME))
@@ -55,8 +52,7 @@ def unigram_word_freqs() -> dict[str, int]:
 
 
 def bigram_word_freqs() -> dict[tuple[str, str], int]:
-    """
-    Get bigram word frequency from Thai National Corpus (TNC)
+    """Get bigram word frequency from Thai National Corpus (TNC)
     """
     freqs: dict[tuple[str, str], int] = defaultdict(int)
     path = get_corpus_path(_BIGRAM_CORPUS_NAME)
@@ -73,8 +69,7 @@ def bigram_word_freqs() -> dict[tuple[str, str], int]:
 
 
 def trigram_word_freqs() -> dict[tuple[str, str, str], int]:
-    """
-    Get trigram word frequency from Thai National Corpus (TNC)
+    """Get trigram word frequency from Thai National Corpus (TNC)
     """
     freqs: dict[tuple[str, str, str], int] = defaultdict(int)
     path = get_corpus_path(_TRIGRAM_CORPUS_NAME)

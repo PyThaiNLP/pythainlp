@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Two-stage Thai Misspelling Correction based on Pre-trained Language Models
+"""Two-stage Thai Misspelling Correction based on Pre-trained Language Models
 
 :See Also:
     * Paper: \

@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai soundex - Udom83 system
+"""Thai soundex - Udom83 system
 
 Original paper:
 Wannee Udompanich. String searching for Thai alphabet
@@ -50,8 +49,7 @@ _TRANS2 = str.maketrans(
 
 
 def udom83(text: str) -> str:
-    """
-    This function converts Thai text into phonetic code with the
+    """This function converts Thai text into phonetic code with the
     Thai soundex algorithm named **Udom83** [#udom83]_.
 
     :param str text: Thai word
@@ -79,7 +77,6 @@ def udom83(text: str) -> str:
         udom83("ปัจจุบัน")
         # output: 'ป775300'
     """
-
     if not text or not isinstance(text, str):
         return ""
 

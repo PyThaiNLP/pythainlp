@@ -5,8 +5,7 @@ from __future__ import annotations
 
 
 def longest_common_subsequence(str1: str, str2: str) -> str:
-    """
-    Find the longest common subsequence between two strings.
+    """Find the longest common subsequence between two strings.
 
     :param str str1: The first string.
     :param str str2: The second string.

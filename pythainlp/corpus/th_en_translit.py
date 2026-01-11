@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai-English Transliteration Dictionary v1.4
+"""Thai-English Transliteration Dictionary v1.4
 
 Wannaphong Phatthiyaphaibun. (2022).
 wannaphong/thai-english-transliteration-dictionary: v1.4 (v1.4).
@@ -27,8 +26,7 @@ TRANSLITERATE_FOLLOW_RTSG = "follow_rtsg"
 
 
 def get_transliteration_dict() -> defaultdict:
-    """
-    Get Thai to English transliteration dictionary.
+    """Get Thai to English transliteration dictionary.
 
     The returned dict is in dict[str, dict[List[str], List[Optional[bool]]]] format.
     """

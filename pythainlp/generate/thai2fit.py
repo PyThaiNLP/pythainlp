@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai2fit: Thai Wikipeida Language Model for Text Generation
+"""Thai2fit: Thai Wikipeida Language Model for Text Generation
 
 Codes are from
 https://github.com/PyThaiNLP/tutorials/blob/master/source/notebooks/text_generation.ipynb
@@ -89,8 +88,7 @@ def gen_sentence(
     prob: float = 0.001,
     output_str: bool = True,
 ) -> list[str] | str:
-    """
-    Text generator using Thai2fit
+    """Text generator using Thai2fit
 
     :param str start_seq: word to begin sentence with
     :param int N: number of words

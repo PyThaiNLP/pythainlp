@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileCopyrightText: Copyright 2019 Ponrawee Prasertsom
 # SPDX-License-Identifier: Apache-2.0
-"""
-🪿 Han-solo: Thai syllable segmenter
+"""🪿 Han-solo: Thai syllable segmenter
 
 GitHub: https://github.com/PyThaiNLP/Han-solo
 """

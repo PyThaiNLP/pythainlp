@@ -2,12 +2,10 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Example of using KhaveeVerifier from pythainlp.khavee
+"""Example of using KhaveeVerifier from pythainlp.khavee
 """
 
 from pythainlp.khavee import KhaveeVerifier
-
 
 kv = KhaveeVerifier()
 

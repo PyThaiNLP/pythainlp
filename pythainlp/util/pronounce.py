@@ -16,8 +16,7 @@ all_thai_words_dict = None
 
 
 def rhyme(word: str) -> list[str]:
-    """
-    Find Thai rhyme
+    """Find Thai rhyme
 
     :param str word: A Thai word
     :return: All list Thai rhyme words
@@ -84,8 +83,7 @@ thai_vowel_all.sort(key=lambda t: len(t[0]), reverse=True)
 
 
 def thai_consonant_to_spelling(c: str) -> str:
-    """
-    Thai consonants to spelling
+    """Thai consonants to spelling
 
     :param str c: A Thai consonant
     :return: spelling
@@ -105,8 +103,7 @@ def thai_consonant_to_spelling(c: str) -> str:
 
 
 def tone_to_spelling(t: str) -> str:
-    """
-    Thai tonemarks to spelling
+    """Thai tonemarks to spelling
 
     :param str t: A Thai tonemarks
     :return: spelling
@@ -132,8 +129,7 @@ def tone_to_spelling(t: str) -> str:
 
 
 def spelling(word: str) -> list[str]:
-    """
-    Thai word to spelling
+    """Thai word to spelling
 
     This funnction support Thai root word only.
 

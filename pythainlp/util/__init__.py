@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Utility functions, like date conversion and digit conversion
+"""Utility functions, like date conversion and digit conversion
 """
 
 __all__ = [
@@ -110,10 +109,26 @@ from pythainlp.util.normalize import (
 )
 from pythainlp.util.numtoword import bahttext, num_to_thaiword
 from pythainlp.util.phoneme import ipa_to_rtgs, nectec_to_ipa, remove_tone_ipa
+from pythainlp.util.pronounce import (
+    rhyme,
+    spelling,
+    thai_consonant_to_spelling,
+    tone_to_spelling,
+)
 from pythainlp.util.remove_trailing_repeat_consonants import (
     remove_trailing_repeat_consonants,
 )
 from pythainlp.util.strftime import thai_strftime
+
+# sound_syllable and pronounce have to be imported last,
+# to prevent circular import issues.
+# Other imports should be above this line, sorted.
+from pythainlp.util.syllable import (
+    sound_syllable,
+    syllable_length,
+    syllable_open_close_detector,
+    tone_detector,
+)
 from pythainlp.util.thai import (
     analyze_thai_text,
     count_thai_chars,
@@ -128,19 +143,3 @@ from pythainlp.util.thaiwordcheck import is_native_thai
 from pythainlp.util.time import thaiword_to_time, time_to_thaiword
 from pythainlp.util.trie import Trie, dict_trie
 from pythainlp.util.wordtonum import text_to_num, thaiword_to_num, words_to_num
-
-# sound_syllable and pronounce have to be imported last,
-# to prevent circular import issues.
-# Other imports should be above this line, sorted.
-from pythainlp.util.syllable import (
-    sound_syllable,
-    syllable_length,
-    syllable_open_close_detector,
-    tone_detector,
-)
-from pythainlp.util.pronounce import (
-    rhyme,
-    spelling,
-    thai_consonant_to_spelling,
-    tone_to_spelling,
-)

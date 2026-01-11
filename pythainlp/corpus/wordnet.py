@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-NLTK WordNet wrapper
+"""NLTK WordNet wrapper
 
 API here is exactly the same as NLTK WordNet API,
 except that the lang (language) argument is "tha" (Thai) by default.
@@ -29,8 +28,7 @@ from nltk.corpus import wordnet
 
 
 def synsets(word: str, pos: str | None = None, lang: str = "tha"):
-    """
-    This function returns the synonym set for all lemmas of the given word
+    """This function returns the synonym set for all lemmas of the given word
     with an optional argument to constrain the part of speech of the word.
 
     :param str word: word to find synsets of
@@ -77,8 +75,7 @@ def synsets(word: str, pos: str | None = None, lang: str = "tha"):
 
 
 def synset(name_synsets):
-    """
-    This function returns the synonym set (synset) given the name of the synset
+    """This function returns the synonym set (synset) given the name of the synset
     (i.e. 'dog.n.01', 'chase.v.01').
 
     :param str name_synsets: name of the synset
@@ -102,8 +99,7 @@ def synset(name_synsets):
 
 
 def all_lemma_names(pos: str | None = None, lang: str = "tha"):
-    """
-    This function returns all lemma names for all synsets of the given
+    """This function returns all lemma names for all synsets of the given
     part of speech tag and language. If part of speech tag is not
     specified, all synsets of all parts of speech will be used.
 
@@ -145,8 +141,7 @@ def all_lemma_names(pos: str | None = None, lang: str = "tha"):
 
 
 def all_synsets(pos: str | None = None):
-    """
-    This function iterates over all synsets constrained by the given
+    """This function iterates over all synsets constrained by the given
     part of speech tag.
 
     :param str | None pos: part of speech tag. Default is None.
@@ -176,8 +171,7 @@ def all_synsets(pos: str | None = None):
 
 
 def langs():
-    """
-    This function returns a set of ISO-639 language codes.
+    """This function returns a set of ISO-639 language codes.
 
     :return: ISO-639 language codes
     :rtype: list[str]
@@ -195,8 +189,7 @@ def langs():
 
 
 def lemmas(word: str, pos: str | None = None, lang: str = "tha"):
-    """
-    This function returns all lemmas given the word with an optional
+    """This function returns all lemmas given the word with an optional
     argument to constrain the part of speech of the word.
 
     :param str word: word to find lemmas of
@@ -239,8 +232,7 @@ def lemmas(word: str, pos: str | None = None, lang: str = "tha"):
 
 
 def lemma(name_synsets):
-    """
-    This function returns lemma object given the name.
+    """This function returns lemma object given the name.
 
     .. note::
         Support only English language (*eng*).
@@ -267,8 +259,7 @@ def lemma(name_synsets):
 
 
 def lemma_from_key(key):
-    """
-    This function returns lemma object given the lemma key.
+    """This function returns lemma object given the lemma key.
     This is similar to :func:`lemma` but it needs to be given the key
     of lemma instead of the name of lemma.
 
@@ -294,8 +285,7 @@ def lemma_from_key(key):
 
 
 def path_similarity(synsets1, synsets2):
-    """
-    This function returns similarity between two synsets based on the
+    """This function returns similarity between two synsets based on the
     shortest path distance calculated using the equation below.
 
     .. math::
@@ -334,8 +324,7 @@ def path_similarity(synsets1, synsets2):
 
 
 def lch_similarity(synsets1, synsets2):
-    """
-    This function returns Leacock Chodorow similarity (LCH)
+    """This function returns Leacock Chodorow similarity (LCH)
     between two synsets, based on the shortest path distance
     and the maximum depth of the taxonomy. The equation to
     calculate LCH similarity is shown below:
@@ -372,8 +361,7 @@ def lch_similarity(synsets1, synsets2):
 
 
 def wup_similarity(synsets1, synsets2):
-    """
-    This function returns Wu-Palmer similarity (WUP) between two synsets,
+    """This function returns Wu-Palmer similarity (WUP) between two synsets,
     based on the depth of the two senses in the taxonomy and their
     Least Common Subsumer (most specific ancestor node).
 
@@ -404,8 +392,7 @@ def wup_similarity(synsets1, synsets2):
 
 
 def morphy(form, pos: str | None = None):
-    """
-    This function finds a possible base form for the given form,
+    """This function finds a possible base form for the given form,
     with the given part of speech.
 
     :param str form: the form to finds the base form of
@@ -435,8 +422,7 @@ def morphy(form, pos: str | None = None):
 
 
 def custom_lemmas(tab_file, lang: str):
-    """
-    This function reads a custom tab file
+    """This function reads a custom tab file
     (see: http://compling.hss.ntu.edu.sg/omw/)
     containing mappings of lemmas in the given language.
 

@@ -28,8 +28,7 @@ def _post_process(text: str) -> str:
 def get_ner(
     text: str, pos: bool = True, tag: bool = False
 ) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
-    """
-    Named-entity recognizer from **TLTK**
+    """Named-entity recognizer from **TLTK**
 
     This function tags named-entities in text in IOB format.
 

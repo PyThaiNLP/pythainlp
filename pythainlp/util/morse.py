@@ -134,8 +134,7 @@ for key, val in THAI_MORSE_CODE.items():
 
 
 def morse_encode(text: str, lang: str = "th") -> str:
-    """
-    Convert text to Morse code (support Thai and English)
+    """Convert text to Morse code (support Thai and English)
 
     :param str text: Text
     :param str lang: Language Code (*th* is Thai and *en* is English)
@@ -166,8 +165,7 @@ def morse_encode(text: str, lang: str = "th") -> str:
 
 
 def morse_decode(morse_text: str, lang: str = "th") -> str:
-    """
-    Simple Convert Morse code to text
+    """Simple Convert Morse code to text
 
     Thai still have some wrong character problem that\
         can fix by spell corrector.

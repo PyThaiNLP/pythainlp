@@ -6,8 +6,7 @@ from __future__ import annotations
 
 
 def tis620_to_utf8(text: str) -> str:
-    """
-    Convert TIS-620 to UTF-8
+    """Convert TIS-620 to UTF-8
 
     :param str text: TIS-620 encoded text
     :return: UTF-8 encoded text
@@ -25,8 +24,7 @@ def tis620_to_utf8(text: str) -> str:
 
 
 def to_idna(text: str) -> str:
-    """
-    Encode text with IDNA, as used in Internationalized Domain Name (IDN).
+    """Encode text with IDNA, as used in Internationalized Domain Name (IDN).
 
     :param str text: Thai text
     :return: IDNA-encoded text

@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Text summarization and keyword extraction
+"""Text summarization and keyword extraction
 """
 
 from __future__ import annotations
@@ -24,8 +23,7 @@ def summarize(
     engine: str = DEFAULT_SUMMARIZE_ENGINE,
     tokenizer: str = "newmm",
 ) -> list[str]:
-    """
-    This function summarizes text based on frequency of words.
+    """This function summarizes text based on frequency of words.
 
     Under the hood, this function first tokenizes sentences from the given
     text with :func:`pythainlp.tokenize.sent_tokenize`.
@@ -127,8 +125,7 @@ def extract_keywords(
     tokenizer: str = "newmm",
     stop_words: Iterable[str] | None = None,
 ) -> list[str]:
-    """
-    This function returns most-relevant keywords (and/or keyphrases) from the input document.
+    """This function returns most-relevant keywords (and/or keyphrases) from the input document.
     Each algorithm may produce completely different keywords from each other,
     so please be careful when choosing the algorithm.
 

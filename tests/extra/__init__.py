@@ -2,8 +2,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Unit test. Extra version.
+"""Unit test. Extra version.
 
 Test functions that require dependencies beyond "compact" (see setup.py).
 """

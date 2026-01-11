@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Romanization of Thai words based on machine-learnt engine ("thai2rom")
+"""Romanization of Thai words based on machine-learnt engine ("thai2rom")
 """
 
 from __future__ import annotations
@@ -22,8 +21,7 @@ _MODEL_NAME = "thai2rom-pytorch-attn"
 
 class ThaiTransliterator:
     def __init__(self):
-        """
-        Transliteration of Thai words.
+        """Transliteration of Thai words.
 
         Now supports Thai to Latin (romanization)
         """
@@ -62,8 +60,7 @@ class ThaiTransliterator:
         self._network.eval()
 
     def _prepare_sequence_in(self, text: str):
-        """
-        Prepare input sequence for PyTorch
+        """Prepare input sequence for PyTorch
         """
         idxs = []
         for ch in text:
@@ -76,8 +73,7 @@ class ThaiTransliterator:
         return tensor.to(device)
 
     def romanize(self, text: str) -> str:
-        """
-        :param str text: Thai text to be romanized
+        """:param str text: Thai text to be romanized
         :return: English (more or less) text that spells out how the Thai text
                  should be pronounced.
         """
@@ -238,7 +234,6 @@ class AttentionDecoder(nn.Module):
 
     def forward(self, input_character, last_hidden, encoder_outputs, mask):
         """Defines the forward computation of the decoder"""
-
         # input_character: (batch_size, 1)
         # last_hidden: (batch_size, hidden_dim)
         # encoder_outputs: (batch_size, sequence_len, hidden_dim)

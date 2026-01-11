@@ -2,8 +2,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Convert emojis
+"""Convert emojis
 """
 
 from __future__ import annotations
@@ -1835,8 +1834,7 @@ _delimiter = ":"
 
 
 def emoji_to_thai(text: str, delimiters=(_delimiter, _delimiter)) -> str:
-    """
-    This function converts emojis to their Thai meanings
+    """This function converts emojis to their Thai meanings
 
     :param str text: Text with emojis
     :return: Text with emojis converted to their Thai meanings
@@ -1857,7 +1855,6 @@ def emoji_to_thai(text: str, delimiters=(_delimiter, _delimiter)) -> str:
         emoji_to_thai("🇹🇭 นี่คือธงประเทศไทย")
         # output: :ธง_ไทย: นี่คือธงประเทศไทย
     """
-
     return _emoji_regex.sub(
         lambda match: delimiters[0]
         + _emoji_th[match.group(0)]

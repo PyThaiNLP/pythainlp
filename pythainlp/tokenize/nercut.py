@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-nercut 0.2
+"""nercut 0.2
 
 Dictionary-based maximal matching word segmentation, constrained by
 Thai Character Cluster (TCC) boundaries, and combining tokens that are
@@ -32,8 +31,7 @@ def segment(
     ],
     tagger=_thainer,
 ) -> list[str]:
-    """
-    Dictionary-based maximal matching word segmentation, constrained by
+    """Dictionary-based maximal matching word segmentation, constrained by
     Thai Character Cluster (TCC) boundaries, and combining tokens that are
     parts of the same named-entity.
 

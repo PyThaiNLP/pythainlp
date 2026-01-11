@@ -1,5 +1,4 @@
-"""
-TransformersUD
+"""TransformersUD
 
 Author: Prof. Koichi Yasuoka
 

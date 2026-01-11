@@ -14,8 +14,7 @@ _dst = panphon.distance.Distance()
 
 
 def _clean_ipa(ipa: str) -> str:
-    """
-    Clean IPA by removing tones and space between phonetic codes
+    """Clean IPA by removing tones and space between phonetic codes
 
     :param str ipa: IPA text
     :return: IPA with tones removed from the text
@@ -35,8 +34,7 @@ def _clean_ipa(ipa: str) -> str:
 
 
 def word2audio(word: str) -> str:
-    """
-    Convert word to IPA
+    """Convert word to IPA
 
     :param str word: Thai word
     :return: IPA with tones removed from the text
@@ -59,8 +57,7 @@ def word2audio(word: str) -> str:
 
 
 def audio_vector(word: str) -> list[list[int]]:
-    """
-    Convert audio to vector list
+    """Convert audio to vector list
 
     :param str word: Thai word
     :return: List of features from panphon
@@ -78,8 +75,7 @@ def audio_vector(word: str) -> list[list[int]]:
 
 
 def word_approximation(word: str, list_word: list[str]) -> list[float]:
-    """
-    Thai Word Approximation
+    """Thai Word Approximation
 
     :param str word: Thai word
     :param str list_word: Thai word

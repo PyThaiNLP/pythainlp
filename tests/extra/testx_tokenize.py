@@ -8,7 +8,6 @@
 import unittest
 
 from pythainlp.tokenize import (
-    word_dict_trie,
     attacut,
     deepcut,
     nercut,
@@ -19,6 +18,7 @@ from pythainlp.tokenize import (
     ssg,
     subword_tokenize,
     tltk,
+    word_dict_trie,
     word_tokenize,
 )
 

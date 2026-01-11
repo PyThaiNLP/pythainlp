@@ -32,8 +32,7 @@ class ThaiTextProcessor:
         self.SPACE_SPECIAL_TOKEN = "<_>"
 
     def replace_url(self, text: str) -> str:
-        """
-        Replace url in `text` with TK_URL (https://stackoverflow.com/a/6041965)
+        """Replace url in `text` with TK_URL (https://stackoverflow.com/a/6041965)
         :param str text: text to replace url
         :return: text where urls  are replaced
         :rtype: str
@@ -44,8 +43,7 @@ class ThaiTextProcessor:
         return re.sub(_PAT_URL, self._TK_URL, text)
 
     def rm_brackets(self, text: str) -> str:
-        """
-        Remove all empty brackets and artifacts within brackets from `text`.
+        """Remove all empty brackets and artifacts within brackets from `text`.
         :param str text: text to remove useless brackets
         :return: text where all useless brackets are removed
         :rtype: str
@@ -84,8 +82,7 @@ class ThaiTextProcessor:
         return new_line
 
     def replace_newlines(self, text: str) -> str:
-        """
-        Replace newlines in `text` with spaces.
+        """Replace newlines in `text` with spaces.
         :param str text: text to replace all newlines with spaces
         :return: text where all newlines are replaced with spaces
         :rtype: str
@@ -93,12 +90,10 @@ class ThaiTextProcessor:
             >>> rm_useless_spaces("hey whats\n\nup")
             hey whats  up
         """
-
         return re.sub(r"[\n]", " ", text.strip())
 
     def rm_useless_spaces(self, text: str) -> str:
-        """
-        Remove multiple spaces in `text`. (code from `fastai`)
+        """Remove multiple spaces in `text`. (code from `fastai`)
         :param str text: text to replace useless spaces
         :return: text where all spaces are reduced to one
         :rtype: str
@@ -109,8 +104,7 @@ class ThaiTextProcessor:
         return re.sub(" {2,}", " ", text)
 
     def replace_spaces(self, text: str, space_token: str = "<_>") -> str:
-        """
-        Replace spaces with _
+        """Replace spaces with _
         :param str text: text to replace spaces
         :return: text where all spaces replaced with _
         :rtype: str
@@ -121,8 +115,7 @@ class ThaiTextProcessor:
         return re.sub(" ", space_token, text)
 
     def replace_rep_after(self, text: str) -> str:
-        """
-        Replace repetitions at the character level in `text`
+        """Replace repetitions at the character level in `text`
         :param str text: input text to replace character repetition
         :return: text with repetitive tokens removed.
         :rtype: str
@@ -140,8 +133,7 @@ class ThaiTextProcessor:
         return re_rep.sub(_replace_rep, text)
 
     def replace_wrep_post(self, toks: list[str]) -> list[str]:
-        """
-        Replace repetitive words post tokenization;
+        """Replace repetitive words post tokenization;
         fastai `replace_wrep` does not work well with Thai.
         :param List[str] toks: list of tokens
         :return: list of tokens where repetitive words are removed.
@@ -167,8 +159,7 @@ class ThaiTextProcessor:
         return res[1:]
 
     def remove_space(self, toks: list[str]) -> list[str]:
-        """
-        Do not include space for bag-of-word models.
+        """Do not include space for bag-of-word models.
         :param List[str] toks: list of tokens
         :return: List of tokens where space tokens (" ") are filtered out
         :rtype: List[str]
@@ -254,8 +245,7 @@ class ThaiTextAugmenter:
         num_augs: int = 3,
         sample: bool = False,
     ) -> list[str]:
-        """
-        Text augmentation from PhayaThaiBERT
+        """Text augmentation from PhayaThaiBERT
 
         :param str text: Thai text
         :param int num_augs: an amount of augmentation text needed as an output
@@ -316,8 +306,7 @@ class PartOfSpeechTagger:
     def get_tag(
         self, sentence: str, strategy: str = "simple"
     ) -> list[list[tuple[str, str]]]:
-        """
-        Marks sentences with part-of-speech (POS) tags.
+        """Marks sentences with part-of-speech (POS) tags.
 
         :param str sentence: a list of lists of tokenized words
         :return: a list of lists of tuples (word, POS tag)
@@ -364,8 +353,7 @@ class NamedEntityTagger:
         pos: bool = False,
         strategy: str = "simple",
     ) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
-        """
-        This function tags named entities in text in IOB format.
+        """This function tags named entities in text in IOB format.
 
         :param str text: text in Thai to be tagged
         :param bool pos: output with part-of-speech tags.\
@@ -436,8 +424,7 @@ class NamedEntityTagger:
 
 
 def segment(sentence: str) -> list[str]:
-    """
-    Subword tokenize of PhayaThaiBERT, \
+    """Subword tokenize of PhayaThaiBERT, \
     sentencepiece from WangchanBERTa model with vocabulary expansion.
 
     :param str sentence: text to be tokenized

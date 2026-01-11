@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-CRFCut - Thai sentence segmenter.
+"""CRFCut - Thai sentence segmenter.
 
 Thai sentence segmentation using conditional random field,
 with default model trained on TED dataset
@@ -130,8 +129,7 @@ _STARTERS = {
 def extract_features(
     doc: list[str], window: int = 2, max_n_gram: int = 3
 ) -> list[list[str]]:
-    """
-    Extract features for CRF by sliding `max_n_gram` of tokens
+    """Extract features for CRF by sliding `max_n_gram` of tokens
     for +/- `window` from the current token
 
     :param List[str] doc: tokens from which features are to be extracted
@@ -180,8 +178,7 @@ _tagger.open(os.path.join(corpus_path(), _CRFCUT_DATA_FILENAME))
 
 
 def segment(text: str) -> list[str]:
-    """
-    CRF-based sentence segmentation.
+    """CRF-based sentence segmentation.
 
     :param str text: text to be tokenized into sentences
     :return: list of words, tokenized from the text

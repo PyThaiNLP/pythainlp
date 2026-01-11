@@ -5,8 +5,7 @@ from __future__ import annotations
 
 
 def convert_currency(value: float, from_unit: str) -> dict:
-    """
-    Convert ancient Thai currency to other units
+    """Convert ancient Thai currency to other units
 
     * เบี้ย (Bia)
     * อัฐ (At)

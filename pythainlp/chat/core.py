@@ -8,14 +8,12 @@ import torch
 
 class ChatBotModel:
     def __init__(self):
-        """
-        Chat using AI generation
+        """Chat using AI generation
         """
         self.history = []
 
     def reset_chat(self):
-        """
-        Reset chat by cleaning history
+        """Reset chat by cleaning history
         """
         self.history = []
 
@@ -29,8 +27,7 @@ class ChatBotModel:
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
     ):
-        """
-        Load model
+        """Load model
 
         :param str model_name: Model name (Now, we support wangchanglm only)
         :param bool return_dict: return_dict
@@ -57,8 +54,7 @@ class ChatBotModel:
             raise NotImplementedError(f"We doesn't support {model_name}.")
 
     def chat(self, text: str) -> str:
-        """
-        Chatbot
+        """Chatbot
 
         :param str text: text for asking chatbot with.
         :return: answer from chatbot.

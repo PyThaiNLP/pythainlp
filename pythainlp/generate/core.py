@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Text generator using n-gram language model
+"""Text generator using n-gram language model
 
 codes are from
 https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability-in-natural-language-processing-9d9eef0fa058
@@ -22,8 +21,7 @@ from pythainlp.corpus.ttc import unigram_word_freqs as ttc_word_freqs_unigram
 
 
 class Unigram:
-    """
-    Text generator using Unigram
+    """Text generator using Unigram
 
     :param str name: corpus name
         * *tnc* - Thai National Corpus (default)
@@ -53,8 +51,7 @@ class Unigram:
         output_str: bool = True,
         duplicate: bool = False,
     ) -> list[str] | str:
-        """
-        :param str start_seq: word to begin sentence with
+        """:param str start_seq: word to begin sentence with
         :param int N: number of words
         :param bool output_str: output as string
         :param bool duplicate: allow duplicate words in sentence
@@ -110,8 +107,7 @@ class Unigram:
 
 
 class Bigram:
-    """
-    Text generator using Bigram
+    """Text generator using Bigram
 
     :param str name: corpus name
         * *tnc* - Thai National Corpus (default)
@@ -126,8 +122,7 @@ class Bigram:
         self.words = [i[-1] for i in self.bi_keys]
 
     def prob(self, t1: str, t2: str) -> float:
-        """
-        probability of word
+        """Probability of word
 
         :param int t1: text 1
         :param int t2: text 2
@@ -149,8 +144,7 @@ class Bigram:
         output_str: bool = True,
         duplicate: bool = False,
     ) -> list[str] | str:
-        """
-        :param str start_seq: word to begin sentence with
+        """:param str start_seq: word to begin sentence with
         :param int N: number of words
         :param bool output_str: output as string
         :param bool duplicate: allow duplicate words in sentence
@@ -198,8 +192,7 @@ class Bigram:
 
 
 class Trigram:
-    """
-    Text generator using Trigram
+    """Text generator using Trigram
 
     :param str name: corpus name
         * *tnc* - Thai National Corpus (default)
@@ -216,8 +209,7 @@ class Trigram:
         self.words = [i[-1] for i in self.bi_keys]
 
     def prob(self, t1: str, t2: str, t3: str) -> float:
-        """
-        probability of word
+        """Probability of word
 
         :param int t1: text 1
         :param int t2: text 2
@@ -241,8 +233,7 @@ class Trigram:
         output_str: bool = True,
         duplicate: bool = False,
     ) -> list[str] | str:
-        """
-        :param str start_seq: word to begin sentence with
+        """:param str start_seq: word to begin sentence with
         :param int N: number of words
         :param bool output_str: output as string
         :param bool duplicate: allow duplicate words in sentence

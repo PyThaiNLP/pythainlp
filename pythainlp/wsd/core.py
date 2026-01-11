@@ -53,10 +53,9 @@ def get_sense(
     custom_dict: dict = dict(),
     custom_tokenizer: Tokenizer = _word_cut,
 ) -> list[tuple[str, float]]:
-    """
-    Get word sense from the sentence.
+    """Get word sense from the sentence.
     This function will get definition and distance from context in sentence.
-    
+
     :param str sentence: Thai sentence
     :param str word: Thai word
     :param str device: device for running model on.
@@ -66,19 +65,19 @@ def get_sense(
     :return: a list of definitions and distances (1 - cos_sim) or \
         an empty list (if word is not in the dictionary)
     :rtype: List[Tuple[str, float]]
-    
+
     We get the ideas from `Context-Aware Semantic Similarity Measurement for \
         Unsupervised Word Sense Disambiguation \
         <https://arxiv.org/abs/2305.03520>`_ to build get_sense function.
 
     Use Thai dictionary from wiktionary.
     See `thai_dict <https://pythainlp.org/pythainlp-corpus/thai_dict.html>`_.
-    
+
     Use sentence transformers model from \
         `sentence-transformers/paraphrase-multilingual-mpnet-base-v2 \
         <https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2>`_ \
         for unsupervised word sense disambiguation.
-    
+
     :Example:
     ::
 

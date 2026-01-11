@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-The Royal Thai General System of Transcription (RTGS)
+"""The Royal Thai General System of Transcription (RTGS)
 is the official system for rendering Thai words in the Latin alphabet.
 It was published by the Royal Institute of Thailand.
 
@@ -138,8 +137,7 @@ _RE_NORMALIZE = re.compile(
 
 
 def _normalize(word: str) -> str:
-    """
-    Remove silence, no sound, and tonal characters.
+    """Remove silence, no sound, and tonal characters.
 
     ตัดอักษรที่ไม่ออกเสียง (การันต์ ไปยาลน้อย ไม้ยมก*) และวรรณยุกต์ทิ้ง
     """
@@ -291,8 +289,7 @@ def _romanize(word: str) -> str:
 def _should_add_syllable_separator(
     prev_word: str, curr_word: str, prev_romanized: str
 ) -> bool:
-    """
-    Determine if 'a' should be added between two romanized syllables.
+    """Determine if 'a' should be added between two romanized syllables.
 
     This applies when:
     - Previous word has explicit vowel and ends with consonant

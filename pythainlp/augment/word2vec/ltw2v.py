@@ -9,8 +9,7 @@ from pythainlp.tokenize import word_tokenize
 
 
 class LTW2VAug:
-    """
-    Text Augment using word2vec from LTW2V
+    """Text Augment using word2vec from LTW2V
 
     LTW2V:
     `github.com/PyThaiNLP/large-thaiword2vec <https://github.com/PyThaiNLP/large-thaiword2vec>`_
@@ -21,23 +20,20 @@ class LTW2VAug:
         self.load_w2v()
 
     def tokenizer(self, text: str) -> list[str]:
-        """
-        :param str text: Thai text
+        """:param str text: Thai text
         :rtype: List[str]
         """
         return word_tokenize(text, engine="newmm")
 
     def load_w2v(self):  # insert substitute
-        """
-        Load LTW2V's word2vec model
+        """Load LTW2V's word2vec model
         """
         self.aug = Word2VecAug(self.ltw2v_wv, self.tokenizer, type="binary")
 
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> list[tuple[str]]:
-        """
-        Text Augment using word2vec from Thai2Fit
+        """Text Augment using word2vec from Thai2Fit
 
         :param str sentence: Thai sentence
         :param int n_sent: number of sentence

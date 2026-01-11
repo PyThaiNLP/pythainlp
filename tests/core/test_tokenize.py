@@ -6,8 +6,8 @@
 import unittest
 
 from pythainlp.tokenize import (
-    word_dict_trie,
     Tokenizer,
+    display_cell_tokenize,
     etcc,
     longest,
     multi_cut,
@@ -18,8 +18,8 @@ from pythainlp.tokenize import (
     tcc,
     tcc_p,
     word_detokenize,
+    word_dict_trie,
     word_tokenize,
-    display_cell_tokenize,
 )
 from pythainlp.util import dict_trie
 
@@ -411,7 +411,6 @@ class TokenizeTestCase(unittest.TestCase):
 
     def test_longest_custom_dict(self):
         """Test switching the custom dict on longest segment function"""
-
         self.assertEqual(
             word_tokenize("ทดสอบ  ทดสอบ", engine="longest"),
             ["ทดสอบ", "  ", "ทดสอบ"],

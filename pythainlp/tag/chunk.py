@@ -7,8 +7,7 @@ from __future__ import annotations
 def chunk_parse(
     sent: list[tuple[str, str]], engine: str = "crf", corpus: str = "orchidpp"
 ) -> list[str]:
-    """
-    This function parses Thai sentence to phrase structure in IOB format.
+    """This function parses Thai sentence to phrase structure in IOB format.
 
     :param list sent: list [(word, part-of-speech)]
     :param str engine: chunk parse engine (now, it has crf only)

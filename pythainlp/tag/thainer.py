@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Named-entity recognizer
+"""Named-entity recognizer
 """
 
 from __future__ import annotations
@@ -74,8 +73,7 @@ def _doc2features(doc, i) -> dict:
 
 
 class ThaiNameTagger:
-    """
-    Thai named-entity recognizer or Thai NER.
+    """Thai named-entity recognizer or Thai NER.
     This function supports Thai NER 1.4 and 1.5 only.
     :param str version: Thai NER version.
         It supports Thai NER 1.4 & 1.5.
@@ -91,8 +89,7 @@ class ThaiNameTagger:
     """
 
     def __init__(self, version: str = "1.4") -> None:
-        """
-        Thai named-entity recognizer.
+        """Thai named-entity recognizer.
 
         :param str version: Thai NER version.
                             It's support Thai NER 1.4 & 1.5.
@@ -112,8 +109,7 @@ class ThaiNameTagger:
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False
     ) -> list[tuple[str, str]] | list[tuple[str, str, str]]:
-        """
-        This function tags named-entities in text in IOB format.
+        """This function tags named-entities in text in IOB format.
 
         :param str text: text in Thai to be tagged
         :param bool pos: To include POS tags in the results (`True`) or

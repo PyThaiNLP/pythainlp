@@ -85,8 +85,7 @@ def _clean(w):
 
 
 def spell_syllable(text: str) -> list[str]:
-    """
-    Spell out syllables in Thai word distribution form.
+    """Spell out syllables in Thai word distribution form.
 
     :param str s: Thai syllables only
     :return: List of spelled out syllables
@@ -110,8 +109,7 @@ def spell_syllable(text: str) -> list[str]:
 
 
 def spell_word(text: str) -> list[str]:
-    """
-    Spell out words in Thai word distribution form.
+    """Spell out words in Thai word distribution form.
 
     :param str w: Thai words only
     :return: List of spelled out words

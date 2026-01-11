@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Generic functions of tokenizers
+"""Generic functions of tokenizers
 """
 
 from __future__ import annotations
@@ -35,8 +34,7 @@ _RE_WORD_CHAR = re.compile(r"\w")
 def word_detokenize(
     segments: list[list[str]] | list[str], output: str = "str"
 ) -> list[str] | str:
-    """
-    Word detokenizer.
+    """Word detokenizer.
 
     This function will detokenize the list of words in each sentence into text.
 
@@ -108,8 +106,7 @@ def word_tokenize(
     keep_whitespace: bool = True,
     join_broken_num: bool = True,
 ) -> list[str]:
-    """
-    Word tokenizer.
+    """Word tokenizer.
 
     Tokenizes running text into words (list of strings).
 
@@ -134,7 +131,7 @@ def word_tokenize(
         * *icu* - wrapper for a word tokenizer in
           `PyICU <https://gitlab.pyicu.org/main/pyicu>`_.,
           from ICU (International Components for Unicode),
-          dictionary-based          
+          dictionary-based
         * *longest* - dictionary-based, longest matching
         * *mm* - "multi-cut", dictionary-based, maximum matching
         * *nercut* - dictionary-based, maximal matching,
@@ -369,8 +366,7 @@ def sent_tokenize(
     engine: str = DEFAULT_SENT_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
 ) -> list[str]:
-    """
-    Sentence tokenizer.
+    """Sentence tokenizer.
 
     Tokenizes running text into "sentences". Supports both string and list of strings.
 
@@ -435,7 +431,6 @@ def sent_tokenize(
         # output: ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ ',
         'และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค']
     """
-
     if not text or not isinstance(text, (str, list)):
         return []
 
@@ -535,8 +530,7 @@ def paragraph_tokenize(
     paragraph_threshold: float = 0.5,
     style: str = "newline",
 ) -> list[list[str]]:
-    """
-    Paragraph tokenizer.
+    """Paragraph tokenizer.
 
     Tokenizes text into paragraphs.
 
@@ -566,7 +560,7 @@ def paragraph_tokenize(
 
         paragraph_tokenize(sent)
         # output: [
-        # ['(1) '], 
+        # ['(1) '],
         # [
         #   'บทความนี้ผู้เขียนสังเคราะห์ขึ้นมาจากผลงานวิจัยที่เคยทำมาในอดีต  ',
         #   'มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด ',
@@ -603,8 +597,7 @@ def subword_tokenize(
     engine: str = DEFAULT_SUBWORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
 ) -> list[str]:
-    """
-    Subword tokenizer for tokenizing text into units smaller than syllables.
+    """Subword tokenizer for tokenizing text into units smaller than syllables.
 
     Tokenizes text into inseparable units of
     Thai contiguous characters, namely
@@ -724,8 +717,7 @@ def syllable_tokenize(
     engine: str = DEFAULT_SYLLABLE_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
 ) -> list[str]:
-    """
-    Syllable tokenizer
+    """Syllable tokenizer
 
     Tokenizes text into inseparable units of
     Thai syllables.
@@ -756,8 +748,7 @@ def syllable_tokenize(
 
 
 def display_cell_tokenize(text: str) -> list[str]:
-    """
-    Display cell tokenizer.
+    """Display cell tokenizer.
 
     Tokenizes Thai text into display cells without splitting tone marks.
 
@@ -796,8 +787,7 @@ def display_cell_tokenize(text: str) -> list[str]:
 
 
 class Tokenizer:
-    """
-    Tokenizer class for a custom tokenizer.
+    """Tokenizer class for a custom tokenizer.
 
     This class allows users to pre-define custom dictionary along with
     tokenizer and encapsulate them into one single object.
@@ -869,8 +859,7 @@ class Tokenizer:
         keep_whitespace: bool = True,
         join_broken_num: bool = True,
     ):
-        """
-        Initialize tokenizer object.
+        """Initialize tokenizer object.
 
         :param str custom_dict: a file path, a list of vocaburaies* to be
                     used to create a trie, or an instantiated
@@ -897,8 +886,7 @@ class Tokenizer:
         self.__join_broken_num = join_broken_num
 
     def word_tokenize(self, text: str) -> list[str]:
-        """
-        Main tokenization function.
+        """Main tokenization function.
 
         :param str text: text to be tokenized
         :return: list of words, tokenized from the text
@@ -913,8 +901,7 @@ class Tokenizer:
         )
 
     def set_tokenize_engine(self, engine: str) -> None:
-        """
-        Set the tokenizer's engine.
+        """Set the tokenizer's engine.
 
         :param str engine: choose between different options of tokenizer engines
                            (i.e. *newmm*, *mm*, *longest*, *deepcut*)

@@ -11,8 +11,7 @@ _STOPWORDS = thai_stopwords()
 
 
 def rank(words: list[str], exclude_stopwords: bool = False) -> Counter:
-    """
-    Count word frequencies given a list of Thai words with an option
+    """Count word frequencies given a list of Thai words with an option
     to exclude stopwords.
 
     :param list words: a list of words
@@ -73,8 +72,7 @@ def rank(words: list[str], exclude_stopwords: bool = False) -> Counter:
 
 
 def find_keyword(word_list: list[str], min_len: int = 3) -> dict[str, int]:
-    """
-    This function counts the frequencies of words in the list
+    """This function counts the frequencies of words in the list
     where stopword is excluded and returns a frequency dictionary.
 
     :param list word_list: a list of words

@@ -9,8 +9,7 @@ from .tokenization_small100 import SMALL100Tokenizer
 
 
 class Small100Translator:
-    """
-    Machine Translation using small100 model
+    """Machine Translation using small100 model
 
     - Huggingface https://huggingface.co/alirezamsh/small100
 
@@ -31,8 +30,7 @@ class Small100Translator:
             self.model = self.model.cuda()
 
     def translate(self, text: str, tgt_lang: str = "en") -> str:
-        """
-        Translate text from X to X
+        """Translate text from X to X
 
         :param str text: input text in source language
         :param str tgt_lang: target language

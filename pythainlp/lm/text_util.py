@@ -8,8 +8,7 @@ from __future__ import annotations
 def calculate_ngram_counts(
     list_words: list[str], n_min: int = 2, n_max: int = 4
 ) -> dict[tuple[str], int]:
-    """
-    Calculates the counts of n-grams in the list words for the specified range.
+    """Calculates the counts of n-grams in the list words for the specified range.
 
     :param List[str] list_words: List of string
     :param int n_min: The minimum n-gram size (default: 2).
@@ -32,8 +31,7 @@ def calculate_ngram_counts(
 
 
 def remove_repeated_ngrams(string_list: list[str], n: int = 2) -> list[str]:
-    """
-    Remove repeated n-grams
+    """Remove repeated n-grams
 
     :param List[str] string_list: List of string
     :param int n: n-gram size

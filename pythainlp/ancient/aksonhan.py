@@ -25,8 +25,7 @@ _dict_thai = set(thai_orst_words())  # call Thai words
 
 
 def aksonhan_to_current(word: str) -> str:
-    """
-    Convert AksonHan words to current Thai words
+    """Convert AksonHan words to current Thai words
 
     AksonHan (อักษรหัน) writes down two consonants for the \
     spelling of the /a/ vowels. (สระ อะ).

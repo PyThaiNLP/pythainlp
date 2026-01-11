@@ -387,7 +387,8 @@ class KhaveeVerifier:
 
         :param str text: Thai poem
         :param int k_type: type of Thai poem
-        :return: the check results of the suitability of the poem according to Thai principles.
+        :return: the check results of the suitability of the
+            poem according to Thai principles.
         :rtype: Union[List[str], str]
 
         :Example:
@@ -630,8 +631,10 @@ class KhaveeVerifier:
         Checker of Thai tonal words
 
         :param Union[List[str], str] text: Thai word or list of Thai words
-        :param bool dead_syllable_as_aek: if True, dead syllable will be considered as aek
-        :return: the check result if the word is aek or too or False (not both) or list of check results if input is list
+        :param bool dead_syllable_as_aek: if True, dead syllable will
+            be considered as aek
+        :return: the check result if the word is aek or too
+            or False (not both) or list of check results if input is list
         :rtype: Union[List[bool], List[str], bool, str]
 
         :Example:
@@ -650,8 +653,6 @@ class KhaveeVerifier:
             # -> False, aek, too
             print(kv.check_aek_too(["เอง", "เอ่ง", "เอ้ง"]))  # ใช้ List ได้เหมือนกัน
             # -> [False, 'aek', 'too']
-
-
         """
         if isinstance(text, list):
             return [self.check_aek_too(t, dead_syllable_as_aek) for t in text]
@@ -672,7 +673,8 @@ class KhaveeVerifier:
     def handle_karun_sound_silence(self, word: str) -> str:
         """
         Handle silent sounds in Thai words using '์' character (Karun)
-        by stripping all characters before the 'Karun' character that should be silenced
+        by stripping all characters before the 'Karun' character
+        that should be silenced
 
         :param str text: Thai word
         :return: Thai word with silent words stripped

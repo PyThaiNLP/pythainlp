@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Convert number value to Thai read out
+"""Convert number value to Thai read out
 
 Adapted from
 http://justmindthought.blogspot.com/2012/12/code-php.html
@@ -30,8 +29,7 @@ _EXCEPTIONS = {"หนึ่งสิบ": "สิบ", "สองสิบ": "�
 
 
 def bahttext(number: float) -> str:
-    """
-    This function converts a number to Thai text and adds
+    """This function converts a number to Thai text and adds
     a suffix "บาท" (Baht).
     The precision will be fixed at two decimal places (0.00)
     to fits "สตางค์" (Satang) unit.
@@ -80,8 +78,7 @@ def bahttext(number: float) -> str:
 
 
 def num_to_thaiword(number: int) -> str:
-    """
-    This function converts number to Thai text
+    """This function converts number to Thai text
 
     :param int number: an integer number to be converted to Thai text
     :return: text representing the number in Thai
@@ -98,7 +95,6 @@ def num_to_thaiword(number: int) -> str:
         num_to_thaiword(11)
         # output: สิบเอ็ด
     """
-
     output = ""
     number_temp = number
     if number is None:

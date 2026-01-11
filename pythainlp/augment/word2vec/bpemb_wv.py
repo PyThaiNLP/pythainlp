@@ -7,8 +7,7 @@ from pythainlp.augment.word2vec.core import Word2VecAug
 
 
 class BPEmbAug:
-    """
-    Thai Text Augment using word2vec from BPEmb
+    """Thai Text Augment using word2vec from BPEmb
 
     BPEmb:
     `github.com/bheinzerling/bpemb <https://github.com/bheinzerling/bpemb>`_
@@ -22,15 +21,13 @@ class BPEmbAug:
         self.load_w2v()
 
     def tokenizer(self, text: str) -> list[str]:
-        """
-        :param str text: Thai text
+        """:param str text: Thai text
         :rtype: List[str]
         """
         return self.bpemb_temp.encode(text)
 
     def load_w2v(self):
-        """
-        Load BPEmb model
+        """Load BPEmb model
         """
         self.aug = Word2VecAug(
             self.model, tokenize=self.tokenizer, type="model"
@@ -39,8 +36,7 @@ class BPEmbAug:
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
     ) -> list[tuple[str]]:
-        """
-        Text Augment using word2vec from BPEmb
+        """Text Augment using word2vec from BPEmb
 
         :param str sentence: Thai sentence
         :param int n_sent: number of sentence

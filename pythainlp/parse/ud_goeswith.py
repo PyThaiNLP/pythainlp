@@ -1,5 +1,4 @@
-"""
-UDgoeswith
+"""UDgoeswith
 
 Author: Prof. Koichi Yasuoka
 

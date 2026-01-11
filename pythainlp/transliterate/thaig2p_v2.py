@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai Grapheme-to-Phoneme (Thai G2P)
+"""Thai Grapheme-to-Phoneme (Thai G2P)
 
 huggingface: https://huggingface.co/pythainlp/thaig2p-v2.0
 """
@@ -14,8 +13,7 @@ from transformers import pipeline
 
 
 class ThaiG2P:
-    """
-    Latin transliteration of Thai words, using International Phonetic Alphabet
+    """Latin transliteration of Thai words, using International Phonetic Alphabet
     """
 
     def __init__(self, device: str = "cpu"):

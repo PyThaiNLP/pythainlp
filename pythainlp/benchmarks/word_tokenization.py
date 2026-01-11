@@ -27,8 +27,7 @@ TAILING_SEP_RX = re.compile(f"{re.escape(SEPARATOR)}$")
 
 
 def _f1(precision: float, recall: float) -> float:
-    """
-    Compute f1.
+    """Compute f1.
 
     :param float precision
     :param float recall
@@ -42,8 +41,7 @@ def _f1(precision: float, recall: float) -> float:
 
 
 def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
-    """
-    Flatten two-dimension dictionary.
+    """Flatten two-dimension dictionary.
 
     Use keys in the first dimension as a prefix for keys in the second dimension.
     For example,
@@ -66,8 +64,7 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
 
 
 def benchmark(ref_samples: list[str], samples: list[str]) -> pd.DataFrame:
-    """
-    Performance benchmarking for samples.
+    """Performance benchmarking for samples.
 
     Please see :meth:`pythainlp.benchmarks.word_tokenization.compute_stats` for
     the computed metrics.
@@ -110,8 +107,7 @@ Pair (i=%d)
 
 
 def preprocessing(txt: str, remove_space: bool = True) -> str:
-    """
-    Clean up text before performing evaluation.
+    """Clean up text before performing evaluation.
 
     :param str text: text to be preprocessed
     :param bool remove_space: whether to remove white space
@@ -134,8 +130,7 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
 
 
 def compute_stats(ref_sample: str, raw_sample: str) -> dict:
-    """
-    Compute statistics for tokenization quality
+    """Compute statistics for tokenization quality
 
     These statistics include:
 
@@ -202,8 +197,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
 
 
 def _binary_representation(txt: str, verbose: bool = False):
-    """
-    Transform text into {0, 1} sequence.
+    """Transform text into {0, 1} sequence.
 
     where (1) indicates that the corresponding character is the beginning of
     a word. For example, ผม|ไม่|ชอบ|กิน|ผัก -> 10100...
@@ -235,8 +229,7 @@ def _binary_representation(txt: str, verbose: bool = False):
 
 
 def _find_word_boundaries(bin_reps) -> list:
-    """
-    Find the starting and ending location of each word.
+    """Find the starting and ending location of each word.
 
     :param str bin_reps: binary representation of a text
 
@@ -254,8 +247,7 @@ def _find_words_correctly_tokenised(
     ref_boundaries: list[tuple[int, int]],
     predicted_boundaries: list[tuple[int, int]],
 ) -> tuple[int]:
-    """
-    Find whether each word is correctly tokenized.
+    """Find whether each word is correctly tokenized.
 
     :param list[tuple(int, int)] ref_boundaries: word boundaries of reference tokenization
     :param list[tuple(int, int)] predicted_boundaries: word boundareies of predicted tokenization

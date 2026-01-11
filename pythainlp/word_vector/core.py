@@ -19,8 +19,7 @@ _TK_EOL = "xxeol"
 
 
 class WordVector:
-    """
-    Word Vector class
+    """Word Vector class
 
     :param str model_name: model name
 
@@ -32,8 +31,7 @@ class WordVector:
     """
 
     def __init__(self, model_name: str = "thai2fit_wv") -> None:
-        """
-        Word Vector class
+        """Word Vector class
 
         :param str model_name: model name
 
@@ -46,8 +44,7 @@ class WordVector:
         self.load_wordvector(model_name)
 
     def load_wordvector(self, model_name: str):
-        """
-        Load word vector model.
+        """Load word vector model.
 
         :param str model_name: model name
         """
@@ -65,8 +62,7 @@ class WordVector:
             self.tokenize = word_tokenize
 
     def get_model(self) -> Word2VecKeyedVectors:
-        """
-        Get word vector model.
+        """Get word vector model.
 
         :return: `gensim` word2vec model
         :rtype: gensim.models.keyedvectors.Word2VecKeyedVectors
@@ -74,8 +70,7 @@ class WordVector:
         return self.model
 
     def doesnt_match(self, words: list[str]) -> str:
-        """
-        This function returns one word that is mostly unrelated to other words
+        """This function returns one word that is mostly unrelated to other words
         in the list. We use the function :func:`doesnt_match`
         from :mod:`gensim`.
 
@@ -114,8 +109,7 @@ class WordVector:
     def most_similar_cosmul(
         self, positive: list[str], negative: list[str]
     ) -> list[tuple[str, float]]:
-        """
-        This function finds the top-10 words that are most similar with respect
+        """This function finds the top-10 words that are most similar with respect
         to two lists of words labeled as positive and negative.
         The top-10 most similar words are obtained using multiplication
         combination objective from Omer Levy and Yoav Goldberg
@@ -216,8 +210,7 @@ class WordVector:
         )
 
     def similarity(self, word1: str, word2: str) -> float:
-        """
-        This function computes cosine similarity between two words.
+        """This function computes cosine similarity between two words.
 
         :param str word1: first word to be compared with
         :param str word2: second word to be compared with
@@ -255,8 +248,7 @@ class WordVector:
         return self.model.similarity(word1, word2)
 
     def sentence_vectorizer(self, text: str, use_mean: bool = True) -> ndarray:
-        """
-        This function converts a Thai sentence into vector.
+        """This function converts a Thai sentence into vector.
         Specifically, it first tokenizes that text and map each tokenized word
         with the word vectors from the model.
         Then, word vectors are aggregated into one vector of 300 dimension

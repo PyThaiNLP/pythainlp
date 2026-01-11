@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Transliterating Japanese/Korean/Mandarin/Vietnamese romanization text
+"""Transliterating Japanese/Korean/Mandarin/Vietnamese romanization text
 to Thai text
 By Wunsen
 
@@ -17,8 +16,7 @@ from wunsen import ThapSap
 
 
 class WunsenTransliterate:
-    """
-    Transliterating Japanese/Korean/Mandarin/Vietnamese romanization text
+    """Transliterating Japanese/Korean/Mandarin/Vietnamese romanization text
     to Thai text
     by Wunsen
 
@@ -42,8 +40,7 @@ class WunsenTransliterate:
         zh_sandhi: bool | None = None,
         system: str | None = None,
     ):
-        """
-        Use Wunsen for transliteration
+        """Use Wunsen for transliteration
 
         :param str text: text to be transliterated to Thai text.
         :param str lang: source language

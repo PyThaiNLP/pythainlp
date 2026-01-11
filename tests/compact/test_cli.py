@@ -2,13 +2,12 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Unit tests for pythainlp.cli module. (compact)
+"""Unit tests for pythainlp.cli module. (compact)
 """
 
 import unittest
 
-from pythainlp import __main__, cli
+from pythainlp import cli
 from pythainlp.cli.misspell import App as MisspellApp
 
 

@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-symspellpy
+"""symspellpy
 
 symspellpy is a Python port of SymSpell v6.5.
 We used unigram & bigram from Thai National Corpus (TNC).

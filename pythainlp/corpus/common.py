@@ -2,8 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-"""
-Common lists of words.
+"""Common lists of words.
 """
 
 from __future__ import annotations
@@ -65,8 +64,7 @@ _THAI_SYNONYMS: dict[str, list] = {}
 
 
 def countries() -> frozenset[str]:
-    """
-    Return a frozenset of country names in Thai such as "แคนาดา", "โรมาเนีย",
+    """Return a frozenset of country names in Thai such as "แคนาดา", "โรมาเนีย",
     "แอลจีเรีย", and "ลาว".
     \n(See: `dev/pythainlp/corpus/countries_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/countries_th.txt>`_)
@@ -82,8 +80,7 @@ def countries() -> frozenset[str]:
 
 
 def provinces(details: bool = False) -> frozenset[str] | list[dict]:
-    """
-    Return a frozenset of Thailand province names in Thai such as "กระบี่",
+    """Return a frozenset of Thailand province names in Thai such as "กระบี่",
     "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
     \n(See: `dev/pythainlp/corpus/thailand_provinces_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/thailand_provinces_th.txt>`_)
@@ -125,8 +122,7 @@ def provinces(details: bool = False) -> frozenset[str] | list[dict]:
 
 
 def thai_syllables() -> frozenset[str]:
-    """
-    Return a frozenset of Thai syllables such as "กรอบ", "ก็", "๑", "โมบ",
+    """Return a frozenset of Thai syllables such as "กรอบ", "ก็", "๑", "โมบ",
     "โมน", "โม่ง", "กา", "ก่า", and, "ก้า".
     \n(See: `dev/pythainlp/corpus/syllables_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/syllables_th.txt>`_)
@@ -143,8 +139,7 @@ def thai_syllables() -> frozenset[str]:
 
 
 def thai_words() -> frozenset[str]:
-    """
-    Return a frozenset of Thai words such as "กติกา", "กดดัน", "พิษ",
+    """Return a frozenset of Thai words such as "กติกา", "กดดัน", "พิษ",
     and "พิษภัย". \n(See: `dev/pythainlp/corpus/words_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/words_th.txt>`_)
 
@@ -159,8 +154,7 @@ def thai_words() -> frozenset[str]:
 
 
 def thai_orst_words() -> frozenset[str]:
-    """
-    Return a frozenset of Thai words from Royal Society of Thailand
+    """Return a frozenset of Thai words from Royal Society of Thailand
     \n(See: `dev/pythainlp/corpus/thai_orst_words.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/orst_words_th.txt>`_)
 
@@ -175,8 +169,7 @@ def thai_orst_words() -> frozenset[str]:
 
 
 def thai_stopwords() -> frozenset[str]:
-    """
-    Return a frozenset of Thai stopwords such as "มี", "ไป", "ไง", "ขณะ",
+    """Return a frozenset of Thai stopwords such as "มี", "ไป", "ไง", "ขณะ",
     "การ", and "ประการหนึ่ง". \n(See: `dev/pythainlp/corpus/stopwords_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/stopwords_th.txt>`_)
     We use stopword lists by thesis's เพ็ญศิริ ลี้ตระกูล.
@@ -198,8 +191,7 @@ def thai_stopwords() -> frozenset[str]:
 
 
 def thai_negations() -> frozenset[str]:
-    """
-    Return a frozenset of Thai negation words including "ไม่" and "แต่".
+    """Return a frozenset of Thai negation words including "ไม่" and "แต่".
     \n(See: `dev/pythainlp/corpus/negations_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/negations_th.txt>`_)
 
@@ -214,8 +206,7 @@ def thai_negations() -> frozenset[str]:
 
 
 def thai_family_names() -> frozenset[str]:
-    """
-    Return a frozenset of Thai family names
+    """Return a frozenset of Thai family names
     \n(See: `dev/pythainlp/corpus/family_names_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/family_names_th.txt>`_)
 
@@ -230,8 +221,7 @@ def thai_family_names() -> frozenset[str]:
 
 
 def thai_female_names() -> frozenset[str]:
-    """
-    Return a frozenset of Thai female names
+    """Return a frozenset of Thai female names
     \n(See: `dev/pythainlp/corpus/person_names_female_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/person_names_female_th.txt>`_)
 
@@ -246,8 +236,7 @@ def thai_female_names() -> frozenset[str]:
 
 
 def thai_male_names() -> frozenset[str]:
-    """
-    Return a frozenset of Thai male names
+    """Return a frozenset of Thai male names
     \n(See: `dev/pythainlp/corpus/person_names_male_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/person_names_male_th.txt>`_)
 
@@ -262,8 +251,7 @@ def thai_male_names() -> frozenset[str]:
 
 
 def thai_dict() -> dict:
-    """
-    Return Thai dictionary with definition from wiktionary.
+    """Return Thai dictionary with definition from wiktionary.
     \n(See: `thai_dict\
     <https://pythainlp.org/pythainlp-corpus/thai_dict.html>`_)
 
@@ -292,8 +280,7 @@ def thai_dict() -> dict:
 
 
 def thai_wsd_dict() -> dict:
-    """
-    Return Thai Word Sense Disambiguation dictionary with definition from wiktionary.
+    """Return Thai Word Sense Disambiguation dictionary with definition from wiktionary.
     \n(See: `thai_dict\
     <https://pythainlp.org/pythainlp-corpus/thai_dict.html>`_)
 
@@ -320,8 +307,7 @@ def thai_wsd_dict() -> dict:
 
 
 def thai_synonyms() -> dict:
-    """
-    Return Thai synonyms.
+    """Return Thai synonyms.
     \n(See: `thai_synonym\
     <https://pythainlp.org/pythainlp-corpus/thai_synonym.html>`_)
 
@@ -361,8 +347,7 @@ def thai_synonym() -> dict:
 
 
 def find_synonyms(word: str) -> list[str]:
-    """
-    Find synonyms
+    """Find synonyms
 
     :param str word: Thai word
     :return: List of synonyms of the input word or an empty list if it isn't exist.

@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Minimal re-implementation of KeyBERT.
+"""Minimal re-implementation of KeyBERT.
 
 KeyBERT is a minimal and easy-to-use keyword extraction technique
 that leverages BERT embeddings to create keywords and keyphrases
@@ -44,8 +43,7 @@ class KeyBERT:
         return_similarity=False,
         stop_words: Iterable[str] | None = None,
     ) -> list[str] | list[tuple[str, float]]:
-        """
-        Extract Thai keywords and/or keyphrases with KeyBERT algorithm.
+        """Extract Thai keywords and/or keyphrases with KeyBERT algorithm.
         See https://github.com/MaartenGr/KeyBERT.
 
         :param str text: text to be summarized
@@ -137,8 +135,7 @@ class KeyBERT:
             return [kw for kw, _ in keywords]
 
     def embed(self, docs: str | list[str]) -> np.ndarray:
-        """
-        Create an embedding of each input in `docs` by averaging vectors from the last hidden layer.
+        """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer.
         """
         embs = self.ft_pipeline(docs)
         if isinstance(docs, str) or len(docs) == 1:

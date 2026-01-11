@@ -9,8 +9,8 @@
 import os
 import sys
 import traceback
-from datetime import datetime
-from datetime import date
+from datetime import date, datetime
+
 import pythainlp
 
 # -- Path setup --------------------------------------------------------------
@@ -34,7 +34,7 @@ copyright = f"2017-{curyear}, {project} (Apache Software License 2.0)"
 # -- Get version information and date from Git ----------------------------
 
 try:
-    from subprocess import check_output, STDOUT
+    from subprocess import STDOUT, check_output
 
     current_branch = (
         os.environ["CURRENT_BRANCH"]
@@ -69,7 +69,7 @@ try:
     #     .decode()
     #     .strip()
     # )
-except Exception as e:
+except Exception:
     traceback.print_exc()
     release = pythainlp.__version__
     # today = "<unknown date>"

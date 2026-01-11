@@ -26,8 +26,7 @@ def word_freqs() -> list[tuple[str, int]]:
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/ttc_freq.txt>`_)
     """
     freqs: list[tuple[str, int]] = []
-    lines = list(get_corpus(_UNIGRAM_FILENAME))
-    for line in lines:
+    for line in get_corpus(_UNIGRAM_FILENAME):
         word_freq = line.split("\t")
         if len(word_freq) >= 2:
             freqs.append((word_freq[0], int(word_freq[1])))
@@ -41,9 +40,8 @@ def unigram_word_freqs() -> dict[str, int]:
     """
     freqs: dict[str, int] = defaultdict(int)
 
-    lines = list(get_corpus(_UNIGRAM_FILENAME))
-    for i in lines:
-        temp = i.strip().split("	")
+    for line in get_corpus(_UNIGRAM_FILENAME):
+        temp = line.strip().split("	")
         if len(temp) >= 2:
             freqs[temp[0]] = int(temp[-1])
 

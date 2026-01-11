@@ -31,8 +31,7 @@ def word_freqs() -> list[tuple[str, int]]:
     Credit: Korakot Chaovavanich https://www.facebook.com/groups/thainlp/posts/434330506948445
     """
     freqs: list[tuple[str, int]] = []
-    lines = list(get_corpus(_UNIGRAM_FILENAME))
-    for line in lines:
+    for line in get_corpus(_UNIGRAM_FILENAME):
         word_freq = line.split("\t")
         if len(word_freq) >= 2:
             freqs.append((word_freq[0], int(word_freq[1])))
@@ -45,9 +44,8 @@ def unigram_word_freqs() -> dict[str, int]:
     Get unigram word frequency from Thai National Corpus (TNC)
     """
     freqs: dict[str, int] = defaultdict(int)
-    lines = list(get_corpus(_UNIGRAM_FILENAME))
-    for i in lines:
-        _temp = i.strip().split("	")
+    for line in get_corpus(_UNIGRAM_FILENAME):
+        _temp = line.strip().split("	")
         if len(_temp) >= 2:
             freqs[_temp[0]] = int(_temp[-1])
 

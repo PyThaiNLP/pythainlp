@@ -30,8 +30,8 @@ def word_freqs() -> list[tuple[str, int]]:
     path = str(path)
 
     with open(path, encoding="utf-8-sig") as f:
-        lines = f.readlines()[1:]
-        for line in lines:
+        next(f)  # Skip header line
+        for line in f:
             temp = line.strip().split(",")
             if len(temp) >= 2:
                 if temp[0] != " " and '"' not in temp[0]:
@@ -53,9 +53,9 @@ def unigram_word_freqs() -> dict[str, int]:
     path = str(path)
 
     with open(path, encoding="utf-8-sig") as fh:
-        lines = fh.readlines()[1:]
-        for i in lines:
-            temp = i.strip().split(",")
+        next(fh)  # Skip header line
+        for line in fh:
+            temp = line.strip().split(",")
             if temp[0] != " " and '"' not in temp[0]:
                 freqs[temp[0]] = int(temp[-1])
             elif temp[0] == " ":

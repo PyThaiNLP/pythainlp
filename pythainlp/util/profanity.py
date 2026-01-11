@@ -5,7 +5,7 @@
 """
 Profanity detection for Thai language
 """
-from typing import List, Set, Union
+from typing import Union
 
 from pythainlp.corpus.common import thai_profanity_words, thai_words
 from pythainlp.tokenize import word_tokenize
@@ -14,7 +14,7 @@ from pythainlp.util.trie import Trie, dict_trie
 
 def contains_profanity(
     text: str,
-    custom_words: Set[str] = None,
+    custom_words: set[str] = None,
     engine: str = "newmm"
 ) -> bool:
     """
@@ -65,17 +65,17 @@ def contains_profanity(
 
 def find_profanity(
     text: str,
-    custom_words: Set[str] = None,
+    custom_words: set[str] = None,
     engine: str = "newmm"
-) -> List[str]:
+) -> list[str]:
     """
     Find all profanity words in the given text.
 
     :param str text: Thai text to check
     :param set custom_words: additional profanity words to check (default: None)
     :param str engine: tokenization engine (default: "newmm")
-    :return: List of profanity words found in the text
-    :rtype: List[str]
+    :return: list of profanity words found in the text
+    :rtype: list[str]
 
     :Example:
     ::
@@ -118,7 +118,7 @@ def find_profanity(
 def censor_profanity(
     text: str,
     replacement: str = "*",
-    custom_words: Set[str] = None,
+    custom_words: set[str] = None,
     engine: str = "newmm"
 ) -> str:
     """

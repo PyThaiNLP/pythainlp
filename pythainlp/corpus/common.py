@@ -27,48 +27,48 @@ __all__ = [
     "thai_wsd_dict",
 ]
 
-from typing import FrozenSet, List, Union
+from typing import Union
 
 from pythainlp.corpus import get_corpus, get_corpus_as_is, get_corpus_path
 from pythainlp.tools import warn_deprecation
 
-_THAI_COUNTRIES: FrozenSet[str] = frozenset()
+_THAI_COUNTRIES: frozenset[str] = frozenset()
 _THAI_COUNTRIES_FILENAME = "countries_th.txt"
 
-_THAI_THAILAND_PROVINCES: FrozenSet[str] = frozenset()
-_THAI_THAILAND_PROVINCES_DETAILS: List[dict] = []
+_THAI_THAILAND_PROVINCES: frozenset[str] = frozenset()
+_THAI_THAILAND_PROVINCES_DETAILS: list[dict] = []
 _THAI_THAILAND_PROVINCES_FILENAME = "thailand_provinces_th.csv"
 
-_THAI_SYLLABLES: FrozenSet[str] = frozenset()
+_THAI_SYLLABLES: frozenset[str] = frozenset()
 _THAI_SYLLABLES_FILENAME = "syllables_th.txt"
 
-_THAI_WORDS: FrozenSet[str] = frozenset()
+_THAI_WORDS: frozenset[str] = frozenset()
 _THAI_WORDS_FILENAME = "words_th.txt"
 
-_THAI_STOPWORDS: FrozenSet[str] = frozenset()
+_THAI_STOPWORDS: frozenset[str] = frozenset()
 _THAI_STOPWORDS_FILENAME = "stopwords_th.txt"
 
-_THAI_NEGATIONS: FrozenSet[str] = frozenset()
+_THAI_NEGATIONS: frozenset[str] = frozenset()
 _THAI_NEGATIONS_FILENAME = "negations_th.txt"
 
-_THAI_PROFANITY_WORDS: FrozenSet[str] = frozenset()
+_THAI_PROFANITY_WORDS: frozenset[str] = frozenset()
 _THAI_PROFANITY_WORDS_FILENAME = "profanity_th.txt"
 
-_THAI_FAMLIY_NAMES: FrozenSet[str] = frozenset()
+_THAI_FAMLIY_NAMES: frozenset[str] = frozenset()
 _THAI_FAMLIY_NAMES_FILENAME = "family_names_th.txt"
-_THAI_FEMALE_NAMES: FrozenSet[str] = frozenset()
+_THAI_FEMALE_NAMES: frozenset[str] = frozenset()
 _THAI_FEMALE_NAMES_FILENAME = "person_names_female_th.txt"
-_THAI_MALE_NAMES: FrozenSet[str] = frozenset()
+_THAI_MALE_NAMES: frozenset[str] = frozenset()
 _THAI_MALE_NAMES_FILENAME = "person_names_male_th.txt"
 
-_THAI_ORST_WORDS: FrozenSet[str] = frozenset()
+_THAI_ORST_WORDS: frozenset[str] = frozenset()
 
 _THAI_DICT: dict[str, list] = {}
 _THAI_WSD_DICT: dict[str, list] = {}
 _THAI_SYNONYMS: dict[str, list] = {}
 
 
-def countries() -> FrozenSet[str]:
+def countries() -> frozenset[str]:
     """
     Return a frozenset of country names in Thai such as "แคนาดา", "โรมาเนีย",
     "แอลจีเรีย", and "ลาว".
@@ -85,7 +85,7 @@ def countries() -> FrozenSet[str]:
     return _THAI_COUNTRIES
 
 
-def provinces(details: bool = False) -> Union[FrozenSet[str], List[dict]]:
+def provinces(details: bool = False) -> Union[frozenset[str], list[dict]]:
     """
     Return a frozenset of Thailand province names in Thai such as "กระบี่",
     "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
@@ -128,7 +128,7 @@ def provinces(details: bool = False) -> Union[FrozenSet[str], List[dict]]:
     return _THAI_THAILAND_PROVINCES
 
 
-def thai_syllables() -> FrozenSet[str]:
+def thai_syllables() -> frozenset[str]:
     """
     Return a frozenset of Thai syllables such as "กรอบ", "ก็", "๑", "โมบ",
     "โมน", "โม่ง", "กา", "ก่า", and, "ก้า".
@@ -146,7 +146,7 @@ def thai_syllables() -> FrozenSet[str]:
     return _THAI_SYLLABLES
 
 
-def thai_words() -> FrozenSet[str]:
+def thai_words() -> frozenset[str]:
     """
     Return a frozenset of Thai words such as "กติกา", "กดดัน", "พิษ",
     and "พิษภัย". \n(See: `dev/pythainlp/corpus/words_th.txt\
@@ -162,7 +162,7 @@ def thai_words() -> FrozenSet[str]:
     return _THAI_WORDS
 
 
-def thai_orst_words() -> FrozenSet[str]:
+def thai_orst_words() -> frozenset[str]:
     """
     Return a frozenset of Thai words from Royal Society of Thailand
     \n(See: `dev/pythainlp/corpus/thai_orst_words.txt\
@@ -178,7 +178,7 @@ def thai_orst_words() -> FrozenSet[str]:
     return _THAI_ORST_WORDS
 
 
-def thai_stopwords() -> FrozenSet[str]:
+def thai_stopwords() -> frozenset[str]:
     """
     Return a frozenset of Thai stopwords such as "มี", "ไป", "ไง", "ขณะ",
     "การ", and "ประการหนึ่ง". \n(See: `dev/pythainlp/corpus/stopwords_th.txt\
@@ -201,7 +201,7 @@ def thai_stopwords() -> FrozenSet[str]:
     return _THAI_STOPWORDS
 
 
-def thai_negations() -> FrozenSet[str]:
+def thai_negations() -> frozenset[str]:
     """
     Return a frozenset of Thai negation words including "ไม่" and "แต่".
     \n(See: `dev/pythainlp/corpus/negations_th.txt\
@@ -217,7 +217,7 @@ def thai_negations() -> FrozenSet[str]:
     return _THAI_NEGATIONS
 
 
-def thai_profanity_words() -> FrozenSet[str]:
+def thai_profanity_words() -> frozenset[str]:
     """
     Return a frozenset of Thai profanity words for content filtering.
     \n(See: `dev/pythainlp/corpus/profanity_th.txt\
@@ -233,7 +233,7 @@ def thai_profanity_words() -> FrozenSet[str]:
     return _THAI_PROFANITY_WORDS
 
 
-def thai_family_names() -> FrozenSet[str]:
+def thai_family_names() -> frozenset[str]:
     """
     Return a frozenset of Thai family names
     \n(See: `dev/pythainlp/corpus/family_names_th.txt\
@@ -249,7 +249,7 @@ def thai_family_names() -> FrozenSet[str]:
     return _THAI_FAMLIY_NAMES
 
 
-def thai_female_names() -> FrozenSet[str]:
+def thai_female_names() -> frozenset[str]:
     """
     Return a frozenset of Thai female names
     \n(See: `dev/pythainlp/corpus/person_names_female_th.txt\
@@ -265,7 +265,7 @@ def thai_female_names() -> FrozenSet[str]:
     return _THAI_FEMALE_NAMES
 
 
-def thai_male_names() -> FrozenSet[str]:
+def thai_male_names() -> frozenset[str]:
     """
     Return a frozenset of Thai male names
     \n(See: `dev/pythainlp/corpus/person_names_male_th.txt\
@@ -380,13 +380,13 @@ def thai_synonym() -> dict:
     return thai_synonyms()
 
 
-def find_synonyms(word: str) -> List[str]:
+def find_synonyms(word: str) -> list[str]:
     """
     Find synonyms
 
     :param str word: Thai word
     :return: List of synonyms of the input word or an empty list if it isn't exist.
-    :rtype: List[str]
+    :rtype: list[str]
 
     :Example:
     ::

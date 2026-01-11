@@ -3,7 +3,7 @@
   "@type": "SoftwareSourceCode",
   "name": "PyThaiNLP",
   "description": "Thai Natural Language Processing in Python",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "author": [
     {
       "@type": "Person",
@@ -61,15 +61,15 @@
   "issueTracker": "https://github.com/PyThaiNLP/pythainlp/issues",
   "url": "https://pythainlp.org/",
   "keywords": [
-    "natural language processing",
-    "Thai",
-    "Python",
-    "text processing",
-    "computational linguistics",
-    "tokenization",
-    "word segmentation",
     "NLP",
-    "Thai language",
-    "Thai NLP"
+    "natural language processing",
+    "tokenization",
+    "text processing",
+    "linguistics",
+    "localization",
+    "computational linguistics",
+    "ThaiNLP",
+    "Thai NLP",
+    "Thai language"
   ]
 }

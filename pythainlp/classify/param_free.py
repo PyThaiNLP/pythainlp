@@ -12,19 +12,21 @@ import numpy as np
 class GzipModel:
     """
     This class is a re-implementation of
-    “Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors
-    (Jiang et al., Findings 2023)
+    “Low-Resource” Text Classification: A Parameter-Free Classification Method
+    with Compressors (Jiang et al., Findings 2023)
 
-    :param list training_data: list [(text_sample,label)]
-    :param str model_path: Path for loading model (if you saved the model)
+    :param list | None training_data: list [(text_sample,label)].
+        Default is None.
+    :param str model_path: Path for loading model (if you saved the model).
+        Default is empty string.
     """
 
     def __init__(
         self,
-        training_data: list[tuple[str, str]] = None,
-        model_path: str = None,
+        training_data: list[tuple[str, str]] | None = None,
+        model_path: str = "",
     ):
-        if model_path is not None:
+        if model_path:
             self.load(model_path)
         else:
             self.training_data = np.array(training_data)
@@ -85,9 +87,9 @@ class GzipModel:
 
     def save(self, path: str):
         """
-        :param str path: path for save model
+        :param str path: path to save model
         """
-        with open(path, "w") as f:
+        with open(path, "w", encoding="utf-8") as f:
             json.dump(
                 {
                     "training_data": self.training_data.tolist(),
@@ -98,7 +100,10 @@ class GzipModel:
             )
 
     def load(self, path: str):
-        with open(path) as f:
+        """
+        :param str path: path to load model
+        """
+        with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
             self.Cx2_list = data["Cx2_list"]
             self.training_data = np.array(data["training_data"])

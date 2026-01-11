@@ -28,15 +28,15 @@ except LookupError:
 from nltk.corpus import wordnet
 
 
-def synsets(word: str, pos: str = None, lang: str = "tha"):
+def synsets(word: str, pos: str | None = None, lang: str = "tha"):
     """
     This function returns the synonym set for all lemmas of the given word
     with an optional argument to constrain the part of speech of the word.
 
     :param str word: word to find synsets of
-    :param str pos: constraint of the part of speech (i.e. *n* for Noun, *v*
+    :param str | None pos: constraint of the part of speech (i.e. *n* for Noun, *v*
                     for Verb, *a* for Adjective, *s* for Adjective
-                    satellites, and *r* for Adverb)
+                    satellites, and *r* for Adverb). Default is None.
     :param str lang: abbreviation of language (i.e. *eng*, *tha*).
                      By default, it is *tha*
 
@@ -101,13 +101,13 @@ def synset(name_synsets):
     return wordnet.synset(name_synsets)
 
 
-def all_lemma_names(pos: str = None, lang: str = "tha"):
+def all_lemma_names(pos: str | None = None, lang: str = "tha"):
     """
     This function returns all lemma names for all synsets of the given
     part of speech tag and language. If part of speech tag is not
     specified, all synsets of all parts of speech will be used.
 
-    :param str pos: constraint of the part of speech (i.e. *n* for Noun,
+    :param str | None pos: constraint of the part of speech (i.e. *n* for Noun,
                     *v* for Verb, *a* for Adjective, *s* for
                     Adjective satellites, and *r* for Adverb).
                     By default, *pos* is **None**.
@@ -144,12 +144,12 @@ def all_lemma_names(pos: str = None, lang: str = "tha"):
     return wordnet.all_lemma_names(pos=pos, lang=lang)
 
 
-def all_synsets(pos: str = None):
+def all_synsets(pos: str | None = None):
     """
     This function iterates over all synsets constrained by the given
     part of speech tag.
 
-    :param str pos: part of speech tag
+    :param str | None pos: part of speech tag. Default is None.
 
     :return: list of synsets constrained by the given part of speech tag.
     :rtype: Iterable[:class:`Synset`]
@@ -194,15 +194,15 @@ def langs():
     return wordnet.langs()
 
 
-def lemmas(word: str, pos: str = None, lang: str = "tha"):
+def lemmas(word: str, pos: str | None = None, lang: str = "tha"):
     """
     This function returns all lemmas given the word with an optional
     argument to constrain the part of speech of the word.
 
     :param str word: word to find lemmas of
-    :param str pos: constraint of the part of speech (i.e. *n* for Noun,
+    :param str | None pos: constraint of the part of speech (i.e. *n* for Noun,
                     *v* for Verb, *a* for Adjective, *s* for
-                    Adjective satellites, and *r* for Adverb)
+                    Adjective satellites, and *r* for Adverb). Default is None.
     :param str lang: abbreviation of language (i.e. *eng*, *tha*).
                      By default, it is *tha*.
 
@@ -403,13 +403,14 @@ def wup_similarity(synsets1, synsets2):
     return wordnet.wup_similarity(synsets1, synsets2)
 
 
-def morphy(form, pos: str = None):
+def morphy(form, pos: str | None = None):
     """
     This function finds a possible base form for the given form,
     with the given part of speech.
 
     :param str form: the form to finds the base form of
-    :param str pos: part of speech tag of words to be searched
+    :param str | None pos: part of speech tag of words to be searched.
+        Default is None.
 
     :return: base form of the given form
     :rtype: str

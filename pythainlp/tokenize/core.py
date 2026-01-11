@@ -27,7 +27,6 @@ from pythainlp.tokenize._utils import (
 )
 from pythainlp.util.trie import Trie, dict_trie
 
-# Compiled regex patterns for better performance
 _RE_WHITESPACE = re.compile(r"\s")
 _RE_WORD_CHAR = re.compile(r"\w")
 
@@ -346,18 +345,17 @@ def indices_words(words):
 
 def map_indices_to_words(index_list, sentences):
     result = []
-    c = deque(index_list)  # Use deque for O(1) popleft
+    c = deque(index_list)
     n_sum = 0
     for sentence in sentences:
         words = sentence
         sentence_result = []
-        # Process elements that belong to this sentence
         while c:
-            start, end = c[0]  # Peek at first element
+            start, end = c[0]
             if start > n_sum + len(words) - 1:
                 break
             else:
-                c.popleft()  # Remove after checking
+                c.popleft()
                 word = sentence[start - n_sum : end + 1 - n_sum]
                 sentence_result.append(word)
 
@@ -469,7 +467,6 @@ def sent_tokenize(
             result = []
             _temp: list[str] = []
             for i, w in enumerate(text):
-                # Use compiled regex for better performance
                 if " " in w and not _RE_WORD_CHAR.search(w):
                     if not _temp:
                         continue
@@ -486,7 +483,6 @@ def sent_tokenize(
             result = []
             _temp = []
             for i, w in enumerate(text):
-                # Use compiled regex and simplified condition (\\n is included in \\s)
                 if _RE_WHITESPACE.search(w) and not _RE_WORD_CHAR.search(w):
                     if not _temp:
                         continue

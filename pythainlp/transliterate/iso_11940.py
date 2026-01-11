@@ -1,14 +1,15 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Transliterating Thai text using ISO 11940
+"""Transliterating Thai text using ISO 11940
 
 :See Also:
     * `Wikipedia \
         <https://en.wikipedia.org/wiki/ISO_11940>`_
 """
+
+from __future__ import annotations
+
 _consonants = {
     "ก": "k",
     "ข": "k̄h",
@@ -131,8 +132,7 @@ _keys_set = _all_dict.keys()
 
 
 def transliterate(word: str) -> str:
-    """
-    Use ISO 11940 for transliteration
+    """Use ISO 11940 for transliteration
     :param str text: Thai text to be transliterated.
     :return: A string indicating how the text should be pronounced, according to ISO 11940.
     """

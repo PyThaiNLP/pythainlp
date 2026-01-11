@@ -1,15 +1,15 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
 from transformers import M2M100ForConditionalGeneration
 
 from .tokenization_small100 import SMALL100Tokenizer
 
 
 class Small100Translator:
-    """
-    Machine Translation using small100 model
+    """Machine Translation using small100 model
 
     - Huggingface https://huggingface.co/alirezamsh/small100
 
@@ -22,14 +22,15 @@ class Small100Translator:
         pretrained: str = "alirezamsh/small100",
     ) -> None:
         self.pretrained = pretrained
-        self.model = M2M100ForConditionalGeneration.from_pretrained(self.pretrained)
+        self.model = M2M100ForConditionalGeneration.from_pretrained(
+            self.pretrained
+        )
         self.tgt_lang = None
         if use_gpu:
             self.model = self.model.cuda()
 
-    def translate(self, text: str, tgt_lang: str="en") -> str:
-        """
-        Translate text from X to X
+    def translate(self, text: str, tgt_lang: str = "en") -> str:
+        """Translate text from X to X
 
         :param str text: input text in source language
         :param str tgt_lang: target language
@@ -57,10 +58,14 @@ class Small100Translator:
             # output: 'Test du système'
 
         """
-        if tgt_lang!=self.tgt_lang:
-            self.tokenizer = SMALL100Tokenizer.from_pretrained(self.pretrained, tgt_lang=tgt_lang)
+        if tgt_lang != self.tgt_lang:
+            self.tokenizer = SMALL100Tokenizer.from_pretrained(
+                self.pretrained, tgt_lang=tgt_lang
+            )
             self.tgt_lang = tgt_lang
         self.translated = self.model.generate(
             **self.tokenizer(text, return_tensors="pt")
         )
-        return self.tokenizer.batch_decode(self.translated, skip_special_tokens=True)[0]
+        return self.tokenizer.batch_decode(
+            self.translated, skip_special_tokens=True
+        )[0]

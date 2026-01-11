@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Generic support functions for PyThaiNLP.
 """
-Generic support functions for PyThaiNLP.
-"""
+
+from __future__ import annotations
 
 import sys
 import warnings
@@ -32,6 +32,7 @@ def warn_deprecation(
     if replacing_func:
         message += f" Please use '{replacing_func}' instead."
     warnings.warn(message, DeprecationWarning, stacklevel=2)
+
 
 def safe_print(text: str):
     """Print text to console, handling UnicodeEncodeError.

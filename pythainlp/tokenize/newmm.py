@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Dictionary-based maximal matching word segmentation, constrained by
+"""Dictionary-based maximal matching word segmentation, constrained by
 Thai Character Cluster (TCC) boundaries with improved rules.
 
 The codes are based on the notebooks created by Korakot Chaovavanich,
@@ -15,12 +13,15 @@ with heuristic graph size limit added to avoid exponential waiting time.
     * \
         https://colab.research.google.com/drive/14Ibg-ngZXj15RKwjNwoZlOT32fQBOrBx#scrollTo=MYZ7NzAR7Dmw
 """
+
+from __future__ import annotations
+
 import re
 from collections import defaultdict
+from collections.abc import Generator
 from heapq import heappop, heappush
-from typing import Generator, List
 
-from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
+from pythainlp.tokenize import word_dict_trie
 from pythainlp.tokenize.tcc_p import tcc_pos
 from pythainlp.util import Trie
 
@@ -57,7 +58,7 @@ del _TEXT_SCAN_RIGHT
 
 def _bfs_paths_graph(
     graph: defaultdict, start: int, goal: int
-) -> Generator[List[int], None, None]:
+) -> Generator[list[int], None, None]:
     queue = [(start, [start])]
     while queue:
         (vertex, path) = queue.pop(0)
@@ -140,9 +141,9 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
 def segment(
     text: str,
-    custom_dict: Trie = DEFAULT_WORD_DICT_TRIE,
+    custom_dict: Trie | None = None,
     safe_mode: bool = False,
-) -> List[str]:
+) -> list[str]:
     """Maximal-matching word segmentation constrained by Thai Character Cluster.
 
     A dictionary-based word segmentation using maximal matching algorithm,
@@ -153,7 +154,7 @@ def segment(
     :param text: text to be tokenized
     :type text: str
     :param custom_dict: tokenization dictionary,\
-        defaults to DEFAULT_WORD_DICT_TRIE
+        defaults to word_dict_trie()
     :type custom_dict: Trie, optional
     :param safe_mode: reduce chance for long processing time for long text\
         with many ambiguous breaking points, defaults to False
@@ -165,7 +166,7 @@ def segment(
         return []
 
     if not custom_dict:
-        custom_dict = DEFAULT_WORD_DICT_TRIE
+        custom_dict = word_dict_trie()
 
     if not safe_mode or len(text) < _TEXT_SCAN_END:
         return list(_onecut(text, custom_dict))

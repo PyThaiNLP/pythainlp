@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
 import json
-from typing import List
 
 import numpy as np
 
@@ -16,7 +16,7 @@ class WngchanBerta_ONNX:
         model_name: str,
         model_version: str,
         file_onnx: str,
-        providers: List[str] = ["CPUExecutionProvider"],
+        providers: list[str] = ["CPUExecutionProvider"],
     ) -> None:
         import sentencepiece as spm
         from onnxruntime import (

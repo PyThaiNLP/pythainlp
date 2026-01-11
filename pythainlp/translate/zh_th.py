@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Lalita Chinese-Thai Machine Translation
+"""Lalita Chinese-Thai Machine Translation
 
 from AI builder
 
@@ -11,10 +9,11 @@ from AI builder
 - Facebook post https://web.facebook.com/aibuildersx/posts/166736255494822
 """
 
+from __future__ import annotations
+
 
 class ThZhTranslator:
-    """
-    Thai-Chinese Machine Translation
+    """Thai-Chinese Machine Translation
 
     from Lalita @ AI builder
 
@@ -30,14 +29,14 @@ class ThZhTranslator:
         pretrained: str = "Lalita/marianmt-th-zh_cn",
     ) -> None:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+
         self.tokenizer_thzh = AutoTokenizer.from_pretrained(pretrained)
         self.model_thzh = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
         if use_gpu:
             self.model_thzh = self.model_thzh.cuda()
 
     def translate(self, text: str) -> str:
-        """
-        Translate text from Thai to Chinese
+        """Translate text from Thai to Chinese
 
         :param str text: input text in source language
         :return: translated text in target language
@@ -65,8 +64,7 @@ class ThZhTranslator:
 
 
 class ZhThTranslator:
-    """
-    Chinese-Thai Machine Translation
+    """Chinese-Thai Machine Translation
 
     from Lalita @ AI builder
 
@@ -87,8 +85,7 @@ class ZhThTranslator:
             self.model_zhth.cuda()
 
     def translate(self, text: str) -> str:
-        """
-        Translate text from Chinese to Thai
+        """Translate text from Chinese to Thai
 
         :param str text: input text in source language
         :return: translated text in target language

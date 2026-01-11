@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Thai date/time formatting.
 """
-Thai date/time formatting.
-"""
+
+from __future__ import annotations
 
 import warnings
 from datetime import datetime
@@ -30,13 +30,12 @@ _EXTENSIONS = "EO-_0^#"  # extension flags
 
 
 def _std_strftime(dt_obj: datetime, fmt_char: str) -> str:
-    """
-    Standard datetime.strftime() with normalization and exception handling.
+    """Standard datetime.strftime() with normalization and exception handling.
     """
     str_ = ""
     try:
         str_ = dt_obj.strftime(f"%{fmt_char}")
-        if not str_ or str_ == "%{}".format(fmt_char):
+        if not str_ or str_ == f"%{fmt_char}":
             # Normalize outputs for unsupported directives
             # in different platforms:
             # "%Q" may result "", "%Q", or "Q", make it all "Q"
@@ -57,8 +56,7 @@ def _std_strftime(dt_obj: datetime, fmt_char: str) -> str:
 
 
 def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
-    """
-    Conversion support for thai_strftime().
+    """Conversion support for thai_strftime().
 
     The fmt_char should be in _NEED_L10N when calling this function.
     """
@@ -114,21 +112,13 @@ def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
         ).zfill(2)
     elif fmt_char == "v":
         # BSD extension, ' 6-Oct-1976'
-        str_ = "{:>2}-{}-{}".format(
-            dt_obj.day,
-            thai_abbr_months[dt_obj.month - 1],
-            str(dt_obj.year + _BE_AD_DIFFERENCE).zfill(4),
-        )
+        str_ = f"{dt_obj.day:>2}-{thai_abbr_months[dt_obj.month - 1]}-{str(dt_obj.year + _BE_AD_DIFFERENCE).zfill(4)}"
     elif fmt_char == "X":
         # Locale’s appropriate time representation.
         str_ = dt_obj.strftime("%H:%M:%S")
     elif fmt_char == "x":
         # Locale’s appropriate date representation.
-        str_ = "{}/{}/{}".format(
-            str(dt_obj.day).zfill(2),
-            str(dt_obj.month).zfill(2),
-            str(dt_obj.year + _BE_AD_DIFFERENCE).zfill(4),
-        )
+        str_ = f"{str(dt_obj.day).zfill(2)}/{str(dt_obj.month).zfill(2)}/{str(dt_obj.year + _BE_AD_DIFFERENCE).zfill(4)}"
     elif fmt_char == "Y":
         # Year with century
         str_ = (str(dt_obj.year + _BE_AD_DIFFERENCE)).zfill(4)
@@ -159,8 +149,7 @@ def thai_strftime(
     fmt: str = "%-d %b %y",
     thaidigit: bool = False,
 ) -> str:
-    """
-    Convert :class:`datetime.datetime` into Thai date and time format.
+    """Convert :class:`datetime.datetime` into Thai date and time format.
 
     The formatting directives are similar to :func:`datatime.strrftime`.
 

@@ -1,16 +1,17 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai soundex - MetaSound system
+"""Thai soundex - MetaSound system
 
 References:
 Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with
 a Statistical Ontology for Analysing Names Given in Accordance
 with Thai Astrology.
 https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf
+
 """
+
+from __future__ import annotations
 
 _CONS_THANTHAKHAT = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ์"
 _THANTHAKHAT = "์"  # \u0e4c
@@ -25,8 +26,7 @@ _C8 = "ว"  # W -> 8
 
 
 def metasound(text: str, length: int = 4) -> str:
-    """
-    This function converts Thai text into phonetic code with the
+    """This function converts Thai text into phonetic code with the
     matching technique called **MetaSound**
     [#metasound]_ (combination between Soundex and Metaphone algorithms).
     MetaSound algorithm was developed specifically for the Thai language.

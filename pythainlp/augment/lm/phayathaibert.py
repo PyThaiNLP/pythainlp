@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
 
 import random
 import re
-from typing import List
 
 from pythainlp.phayathaibert.core import ThaiTextProcessor
 
@@ -57,9 +56,8 @@ class ThaiTextAugmenter:
 
     def augment(
         self, text: str, num_augs: int = 3, sample: bool = False
-    ) -> List[str]:
-        """
-        Text augmentation from PhayaThaiBERT
+    ) -> list[str]:
+        """Text augmentation from PhayaThaiBERT
 
         :param str text: Thai text
         :param int num_augs: an amount of augmentation text needed as an output

@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai soundex - Udom83 system
+"""Thai soundex - Udom83 system
 
 Original paper:
 Wannee Udompanich. String searching for Thai alphabet
@@ -16,6 +14,9 @@ Python implementation:
 by Korakot Chaovavanich
 https://gist.github.com/korakot/0b772e09340cac2f493868da035597e8
 """
+
+from __future__ import annotations
+
 import re
 
 from pythainlp import thai_consonants
@@ -48,8 +49,7 @@ _TRANS2 = str.maketrans(
 
 
 def udom83(text: str) -> str:
-    """
-    This function converts Thai text into phonetic code with the
+    """This function converts Thai text into phonetic code with the
     Thai soundex algorithm named **Udom83** [#udom83]_.
 
     :param str text: Thai word
@@ -77,7 +77,6 @@ def udom83(text: str) -> str:
         udom83("ปัจจุบัน")
         # output: 'ป775300'
     """
-
     if not text or not isinstance(text, str):
         return ""
 

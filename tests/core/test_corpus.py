@@ -6,8 +6,6 @@
 import os
 import unittest
 
-from requests import Response
-
 from pythainlp.corpus import (
     countries,
     download,

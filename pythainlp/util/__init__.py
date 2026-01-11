@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Utility functions, like date conversion and digit conversion
+"""Utility functions, like date conversion and digit conversion
 """
 
 __all__ = [
@@ -102,6 +100,7 @@ from pythainlp.util.keyboard import (
 from pythainlp.util.keywords import find_keyword, rank
 from pythainlp.util.lcs import longest_common_subsequence
 from pythainlp.util.normalize import (
+    expand_maiyamok,
     maiyamok,
     normalize,
     remove_dangling,
@@ -110,7 +109,6 @@ from pythainlp.util.normalize import (
     remove_tonemark,
     remove_zw,
     reorder_vowels,
-    expand_maiyamok,
 )
 from pythainlp.util.numtoword import bahttext, num_to_thaiword
 from pythainlp.util.phoneme import ipa_to_rtgs, nectec_to_ipa, remove_tone_ipa
@@ -123,14 +121,15 @@ from pythainlp.util.remove_trailing_repeat_consonants import (
     remove_trailing_repeat_consonants,
 )
 from pythainlp.util.strftime import thai_strftime
+
 from pythainlp.util.thai import (
+    analyze_thai_text,
     count_thai_chars,
     countthai,
     display_thai_char,
     isthai,
     isthaichar,
     thai_word_tone_detector,
-    analyze_thai_text,
 )
 from pythainlp.util.thai_lunar_date import th_zodiac, to_lunar_date
 from pythainlp.util.thaiwordcheck import is_native_thai
@@ -138,6 +137,7 @@ from pythainlp.util.time import thaiword_to_time, time_to_thaiword
 from pythainlp.util.trie import Trie, dict_trie
 from pythainlp.util.wordtonum import text_to_num, thaiword_to_num, words_to_num
 
+# DO NOT REORDER these imports.
 # sound_syllable and pronounce have to be imported last,
 # to prevent circular import issues.
 # Other imports should be above this line, sorted.
@@ -150,6 +150,6 @@ from pythainlp.util.syllable import (
 from pythainlp.util.pronounce import (
     rhyme,
     spelling,
-    tone_to_spelling,
     thai_consonant_to_spelling,
+    tone_to_spelling,
 )

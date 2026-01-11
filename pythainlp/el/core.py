@@ -1,14 +1,17 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import List, Union
+from __future__ import annotations
 
 
 class EntityLinker:
-    def __init__(self, model_name:str="bela", device:str="cuda", tag:str="wikidata"):
-        """
-        EntityLinker
+    def __init__(
+        self,
+        model_name: str = "bela",
+        device: str = "cuda",
+        tag: str = "wikidata",
+    ):
+        """EntityLinker
 
         :param str model_name: model name (bela)
         :param str device: device for running model on
@@ -21,24 +24,29 @@ class EntityLinker:
         self.device = device
         self.tag = tag
         if self.model_name not in ["bela"]:
-            raise NotImplementedError(f"EntityLinker doesn't support {model_name} model.")
+            raise NotImplementedError(
+                f"EntityLinker doesn't support {model_name} model."
+            )
         if self.tag not in ["wikidata"]:
-            raise NotImplementedError(f"EntityLinker doesn't support {tag} tag.")
+            raise NotImplementedError(
+                f"EntityLinker doesn't support {tag} tag."
+            )
         from pythainlp.el._multiel import MultiEL
+
         self.model = MultiEL(model_name=self.model_name, device=self.device)
-    def get_el(self, list_text:Union[List[str], str])->Union[List[dict], str]:
-        """
-        Get Entity Linking from Thai Text
-        
+
+    def get_el(self, list_text: list[str] | str) -> list[dict] | str:
+        """Get Entity Linking from Thai Text
+
         :param str Union[List[str], str]: list of Thai text or text
         :return: list of entity linking
         :rtype: Union[List[dict], str]
-        
+
         :Example:
         ::
 
                 from pythainlp.el import EntityLinker
-                
+
                 el = EntityLinker(device="cuda")
                 print(el.get_el("จ๊อบเคยเป็นซีอีโอบริษัทแอปเปิล"))
                 # output: [{'offsets': [11, 23],

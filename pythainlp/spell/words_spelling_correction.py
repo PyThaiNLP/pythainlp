@@ -1,24 +1,32 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
 import os
+
 from pythainlp.corpus import get_hf_hub
-from typing import List, Union
 
 
 class FastTextEncoder:
-    """
-    A class to load pre-trained FastText-like word embeddings, 
-    compute word and sentence vectors, and interact with an ONNX 
+    """A class to load pre-trained FastText-like word embeddings,
+    compute word and sentence vectors, and interact with an ONNX
     model for nearest neighbor suggestions.
     """
 
     # --- Initialization and Data Loading ---
-    
-    def __init__(self, model_dir, nn_model_path, words_list, bucket=2000000, nb_words=2000000, minn=5, maxn=5):
-        """
-        Initializes the FastTextEncoder, loading embeddings, vocabulary, 
+
+    def __init__(
+        self,
+        model_dir,
+        nn_model_path,
+        words_list,
+        bucket=2000000,
+        nb_words=2000000,
+        minn=5,
+        maxn=5,
+    ):
+        """Initializes the FastTextEncoder, loading embeddings, vocabulary,
         nearest neighbor model, and suggestion words list.
 
         Args:
@@ -29,17 +37,18 @@ class FastTextEncoder:
             nb_words (int): The number of words in the vocabulary (used as an offset for subword indices).
             minn (int): Minimum character length for subwords.
             maxn (int): Maximum character length for subwords.
+
         """
         try:
-            import numpy as np # reduce load
-            import onnxruntime
+            import numpy as np
+
             self.np = np
         except ModuleNotFoundError:
             raise ModuleNotFoundError("""
             Please installing the package via 'pip install numpy onnxruntime'.
             """)
         except Exception as e:
-            raise Exception(f"An unexpected error occurred: {e}")
+            raise RuntimeError(f"An unexpected error occurred: {e}") from e
         self.model_dir = model_dir
         self.nn_model_path = nn_model_path
         self.bucket = bucket
@@ -55,10 +64,12 @@ class FastTextEncoder:
 
     def _load_embeddings(self):
         """Loads embeddings matrix and vocabulary list."""
-        input_matrix = self.np.load(os.path.join(self.model_dir, "embeddings.npy"))
+        input_matrix = self.np.load(
+            os.path.join(self.model_dir, "embeddings.npy")
+        )
         words = []
         vocab_path = os.path.join(self.model_dir, "vocabulary.txt")
-        with open(vocab_path, "r", encoding='utf-8') as f:
+        with open(vocab_path, encoding="utf-8") as f:
             for line in f.readlines():
                 words.append(line.rstrip())
         return words, input_matrix
@@ -72,7 +83,10 @@ class FastTextEncoder:
         """Loads the ONNX inference session."""
         # Note: Using providers=["CPUExecutionProvider"] for platform independence
         import onnxruntime as rt
-        sess = rt.InferenceSession(onnx_path, providers=["CPUExecutionProvider"])
+
+        sess = rt.InferenceSession(
+            onnx_path, providers=["CPUExecutionProvider"]
+        )
         return sess
 
     # --- Helper Methods for Encoding ---
@@ -103,9 +117,11 @@ class FastTextEncoder:
         for ngram_start in range(0, len(_word)):
             for ngram_length in range(self.minn, self.maxn + 1):
                 if ngram_start + ngram_length <= len(_word):
-                    _candidate_subword = _word[ngram_start:ngram_start + ngram_length]
+                    _candidate_subword = _word[
+                        ngram_start : ngram_start + ngram_length
+                    ]
                     # Only append if not already included (e.g., as the full word)
-                    if _candidate_subword not in _subwords: 
+                    if _candidate_subword not in _subwords:
                         _subwords.append(_candidate_subword)
                         _subword_ids.append(self._get_hash(_candidate_subword))
 
@@ -115,20 +131,22 @@ class FastTextEncoder:
         """Computes the normalized vector for a single word."""
         # subword_ids[1] contains the array of indices for the word and its subwords
         subword_ids = self._get_subwords(word)[1]
-        
+
         # Check if the array of subword indices is empty
         if subword_ids.size == 0:
             # Return a 300-dimensional zero vector if no word/subword is found.
             return self.np.zeros(self.embedding_dim)
 
         # Compute the mean of the embeddings for all subword indices
-        vector = self.np.mean([self.embeddings[s] for s in subword_ids], axis=0)
-        
+        vector = self.np.mean(
+            [self.embeddings[s] for s in subword_ids], axis=0
+        )
+
         # Normalize the vector
         norm = self.np.linalg.norm(vector)
         if norm > 0:
             vector /= norm
-            
+
         return vector
 
     def _tokenize(self, sentence):
@@ -136,11 +154,11 @@ class FastTextEncoder:
         tokens = []
         word = ""
         for c in sentence:
-            if c in [' ', '\n', '\r', '\t', '\v', '\f', '\0']:
+            if c in [" ", "\n", "\r", "\t", "\v", "\f", "\0"]:
                 if word:
                     tokens.append(word)
                     word = ""
-                if c == '\n':
+                if c == "\n":
                     tokens.append("</s>")
             else:
                 word += c
@@ -156,7 +174,7 @@ class FastTextEncoder:
             # get_word_vector already handles normalization, so no need to do it again here
             vec = self.get_word_vector(t)
             vectors.append(vec)
-            
+
         # If the sentence was empty and resulted in no vectors, return a zero vector
         if not vectors:
             return self.np.zeros(self.embedding_dim)
@@ -166,17 +184,17 @@ class FastTextEncoder:
     # --- Nearest Neighbor Method ---
 
     def get_word_suggestion(self, list_word):
-        """
-        Queries the ONNX model to find the nearest neighbor word(s) 
+        """Queries the ONNX model to find the nearest neighbor word(s)
         for the given word or list of words.
 
         Args:
-            list_word (str or list of str): A single word or a list of words 
+            list_word (str or list of str): A single word or a list of words
                                             to get suggestions for.
 
         Returns:
-            str or list of str: The nearest neighbor word(s) from the 
+            str or list of str: The nearest neighbor word(s) from the
                                 pre-loaded suggestion list.
+
         """
         if isinstance(list_word, str):
             input_words = [list_word]
@@ -184,23 +202,26 @@ class FastTextEncoder:
         else:
             input_words = list_word
             return_single = False
-            
+
         # Compute sentence vector for each input word/phrase
-        # The original code's `get_sentence_vector(' '.join(list(word)))` seems 
-        # intended to treat a list of characters/tokens as a sentence. 
-        # I'll stick to a more standard usage: treat each item in `input_words` 
+        # The original code's `get_sentence_vector(' '.join(list(word)))` seems
+        # intended to treat a list of characters/tokens as a sentence.
+        # I'll stick to a more standard usage: treat each item in `input_words`
         # as a separate phrase/word to encode.
-        word_input_vecs = [self.get_sentence_vector(' '.join(list(word))) for word in input_words]
+        word_input_vecs = [
+            self.get_sentence_vector(" ".join(list(word)))
+            for word in input_words
+        ]
 
         # Convert to numpy array for ONNX input (ensure float32)
         input_data = self.np.array(word_input_vecs, dtype=self.np.float32)
 
         # Run ONNX inference
         indices = self.nn_session.run(None, {"X": input_data})[0]
-        
+
         # Look up suggestions
         suggestions = [self.words_for_suggestion[i].tolist() for i in indices]
-        
+
         return suggestions[0] if return_single else suggestions
 
 
@@ -209,7 +230,11 @@ class Words_Spelling_Correction(FastTextEncoder):
         self.model_name = "pythainlp/word-spelling-correction-char2vec"
         self.model_path = get_hf_hub(self.model_name)
         self.model_onnx = get_hf_hub(self.model_name, "nearest_neighbors.onnx")
-        with open(get_hf_hub(self.model_name, "list_word-spelling-correction-char2vec.txt")) as f:
+        with open(
+            get_hf_hub(
+                self.model_name, "list_word-spelling-correction-char2vec.txt"
+            )
+        ) as f:
             self.list_word = [i.strip() for i in f.readlines()]
         super().__init__(self.model_path, self.model_onnx, self.list_word)
 
@@ -217,9 +242,10 @@ class Words_Spelling_Correction(FastTextEncoder):
 _WSC = None
 
 
-def get_words_spell_suggestion(list_words: Union[str, List[str]]) -> Union[List[str], List[List[str]]]:
-    """
-    Get words spell suggestion
+def get_words_spell_suggestion(
+    list_words: str | list[str],
+) -> list[str] | list[list[str]]:
+    """Get words spell suggestion
 
     The function is designed to retrieve spelling suggestions \
         for one or more input Thai words.
@@ -243,6 +269,6 @@ def get_words_spell_suggestion(list_words: Union[str, List[str]]) -> Union[List[
         # ['กระเพาะ', 'กระพา', 'กะเพรา', 'กระเพาะปลา', 'พระประธาน']]
     """
     global _WSC
-    if _WSC==None:
+    if _WSC is None:
         _WSC = Words_Spelling_Correction()
     return _WSC.get_word_suggestion(list_words)

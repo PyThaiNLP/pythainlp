@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+"""PyThaiNLP Parse
 """
-PyThaiNLP Parse
-"""
+
 __all__ = ["dependency_parsing"]
 
 from pythainlp.parse.core import dependency_parsing

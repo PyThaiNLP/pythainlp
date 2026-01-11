@@ -1,25 +1,21 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai Word-to-Phoneme (Thai W2P)
+"""Thai Word-to-Phoneme (Thai W2P)
 GitHub : https://github.com/wannaphong/Thai_W2P
 """
 
-from typing import Union
+from __future__ import annotations
 
 import numpy as np
 
 from pythainlp.corpus import download, get_corpus_path
 
 _GRAPHEMES = list(
-    "พจใงต้ืฮแาฐฒฤๅูศฅถฺฎหคสุขเึดฟำฝยลอ็ม"
-    + " ณิฑชฉซทรฏฬํัฃวก่ป์ผฆบี๊ธญฌษะไ๋นโภ?"
+    "พจใงต้ืฮแาฐฒฤๅูศฅถฺฎหคสุขเึดฟำฝยลอ็ม" + " ณิฑชฉซทรฏฬํัฃวก่ป์ผฆบี๊ธญฌษะไ๋นโภ?"
 )
 _PHONEMES = list(
-    "-พจใงต้ืฮแาฐฒฤูศฅถฺฎหคสุขเึดฟำฝยลอ็ม"
-    + " ณิฑชฉซทรํฬฏ–ัฃวก่ปผ์ฆบี๊ธฌญะไษ๋นโภ?"
+    "-พจใงต้ืฮแาฐฒฤูศฅถฺฎหคสุขเึดฟำฝยลอ็ม" + " ณิฑชฉซทรํฬฏ–ัฃวก่ปผ์ฆบี๊ธฌญะไษ๋นโภ?"
 )
 
 _MODEL_NAME = "thai_w2p"
@@ -50,7 +46,7 @@ def _load_vocab():
     return g2idx, idx2g, p2idx, idx2p
 
 
-class Thai_W2P():
+class Thai_W2P:
     def __init__(self):
         super().__init__()
         self.graphemes = hp.graphemes
@@ -133,7 +129,7 @@ class Thai_W2P():
 
         return x
 
-    def _short_word(self, word: str) -> Union[str, None]:
+    def _short_word(self, word: str) -> str | None:
         self.word = word
         if self.word.endswith("."):
             self.word = self.word.replace(".", "")
@@ -197,8 +193,7 @@ _THAI_W2P = Thai_W2P()
 
 
 def pronunciate(text: str) -> str:
-    """
-    Convert a Thai word to its pronunciation in Thai letters.
+    """Convert a Thai word to its pronunciation in Thai letters.
 
     Input should be one single word.
 

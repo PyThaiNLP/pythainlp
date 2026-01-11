@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project.
 # SPDX-License-Identifier: Apache-2.0
+"""Thai National Corpus word frequency
 """
-Thai National Corpus word frequency
-"""
+
+from __future__ import annotations
 
 __all__ = [
     "bigram_word_freqs",
@@ -13,7 +13,6 @@ __all__ = [
 ]
 
 from collections import defaultdict
-from typing import List, Tuple
 
 from pythainlp.corpus import get_corpus, get_corpus_path
 
@@ -22,9 +21,8 @@ _BIGRAM_CORPUS_NAME = "tnc_bigram_word_freqs"
 _TRIGRAM_CORPUS_NAME = "tnc_trigram_word_freqs"
 
 
-def word_freqs() -> List[Tuple[str, int]]:
-    """
-    Get word frequency from Thai National Corpus (TNC)
+def word_freqs() -> list[tuple[str, int]]:
+    """Get word frequency from Thai National Corpus (TNC)
     \n(See: `dev/pythainlp/corpus/tnc_freq.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/tnc_freq.txt>`_)
 
@@ -41,8 +39,7 @@ def word_freqs() -> List[Tuple[str, int]]:
 
 
 def unigram_word_freqs() -> dict[str, int]:
-    """
-    Get unigram word frequency from Thai National Corpus (TNC)
+    """Get unigram word frequency from Thai National Corpus (TNC)
     """
     freqs: dict[str, int] = defaultdict(int)
     lines = list(get_corpus(_UNIGRAM_FILENAME))
@@ -54,9 +51,8 @@ def unigram_word_freqs() -> dict[str, int]:
     return freqs
 
 
-def bigram_word_freqs() -> dict[Tuple[str, str], int]:
-    """
-    Get bigram word frequency from Thai National Corpus (TNC)
+def bigram_word_freqs() -> dict[tuple[str, str], int]:
+    """Get bigram word frequency from Thai National Corpus (TNC)
     """
     freqs: dict[tuple[str, str], int] = defaultdict(int)
     path = get_corpus_path(_BIGRAM_CORPUS_NAME)
@@ -64,7 +60,7 @@ def bigram_word_freqs() -> dict[Tuple[str, str], int]:
         return freqs
     path = str(path)
 
-    with open(path, "r", encoding="utf-8-sig") as fh:
+    with open(path, encoding="utf-8-sig") as fh:
         for i in fh.readlines():
             temp = i.strip().split("	")
             freqs[(temp[0], temp[1])] = int(temp[-1])
@@ -72,9 +68,8 @@ def bigram_word_freqs() -> dict[Tuple[str, str], int]:
     return freqs
 
 
-def trigram_word_freqs() -> dict[Tuple[str, str, str], int]:
-    """
-    Get trigram word frequency from Thai National Corpus (TNC)
+def trigram_word_freqs() -> dict[tuple[str, str, str], int]:
+    """Get trigram word frequency from Thai National Corpus (TNC)
     """
     freqs: dict[tuple[str, str, str], int] = defaultdict(int)
     path = get_corpus_path(_TRIGRAM_CORPUS_NAME)
@@ -82,7 +77,7 @@ def trigram_word_freqs() -> dict[Tuple[str, str, str], int]:
         return freqs
     path = str(path)
 
-    with open(path, "r", encoding="utf-8-sig") as fh:
+    with open(path, encoding="utf-8-sig") as fh:
         for i in fh.readlines():
             temp = i.strip().split("	")
             freqs[(temp[0], temp[1], temp[2])] = int(temp[-1])

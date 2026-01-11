@@ -1,16 +1,15 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-This file is a port from
+"""This file is a port from
 > https://gist.github.com/touchiep/99f4f5bb349d6b983ef78697630ab78e
 """
 
-from datetime import date, timedelta
-from typing import Dict, List, Tuple, Union
+from __future__ import annotations
 
-_YEAR_DEV: Dict[int, float] = {
+from datetime import date, timedelta
+
+_YEAR_DEV: dict[int, float] = {
     0: 0,
     1901: 0.122733000004352,
     1906: 1.91890000045229e-02,
@@ -190,7 +189,7 @@ _DAYS_355 = [29, 30, 29, 30, 29, 30, 30, 30, 29, 30, 29, 30, 29, 30]
 _DAYS_384 = [29, 30, 29, 30, 29, 30, 29, 30, 30, 29, 30, 29, 30, 29, 30]
 
 # Zodiac names in Thai, English, and Numeric representations
-_ZODIAC: Dict[int, List[Union[str, int]]] = {
+_ZODIAC: dict[int, list[str | int]] = {
     1: [
         "ชวด",
         "ฉลู",
@@ -223,7 +222,7 @@ _ZODIAC: Dict[int, List[Union[str, int]]] = {
 }
 
 
-def _calculate_f_year_f_dev(year: int) -> Tuple[int, float]:
+def _calculate_f_year_f_dev(year: int) -> tuple[int, float]:
     if year in _YEAR_DEV:
         return year, _YEAR_DEV[year]
 
@@ -281,8 +280,7 @@ def last_day_in_year(year: int) -> int:
 
 
 def athikasurathin(year: int) -> bool:
-    """
-    Check if a year is a leap year in the Thai lunar calendar
+    """Check if a year is a leap year in the Thai lunar calendar
     """
     # Check divisibility by 400 (divisible by 400 is always a leap year)
     if year % 400 == 0:
@@ -308,9 +306,8 @@ def number_day_in_year(year: int) -> int:
     return 365
 
 
-def th_zodiac(year: int, output_type: int = 1) -> Union[str, int]:
-    """
-    Thai Zodiac Year Name
+def th_zodiac(year: int, output_type: int = 1) -> str | int:
+    """Thai Zodiac Year Name
     Converts a Gregorian year to its corresponding Zodiac name.
 
     :param int year: The Gregorian year. AD (Anno Domini)
@@ -331,8 +328,7 @@ def th_zodiac(year: int, output_type: int = 1) -> Union[str, int]:
 
 
 def to_lunar_date(input_date: date) -> str:
-    """
-    Convert the solar date to Thai Lunar Date
+    """Convert the solar date to Thai Lunar Date
 
     :param date input_date: date of the day.
     :return: Thai text lunar date

@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
 
 THAI_MORSE_CODE = {
     "ก": "--.",
@@ -134,8 +134,7 @@ for key, val in THAI_MORSE_CODE.items():
 
 
 def morse_encode(text: str, lang: str = "th") -> str:
-    """
-    Convert text to Morse code (support Thai and English)
+    """Convert text to Morse code (support Thai and English)
 
     :param str text: Text
     :param str lang: Language Code (*th* is Thai and *en* is English)
@@ -146,6 +145,7 @@ def morse_encode(text: str, lang: str = "th") -> str:
     ::
 
         from pythainlp.util.morse import morse_encode
+
         print(morse_encode("แมว", lang="th"))
         # output: .-.- -- .--
 
@@ -165,8 +165,7 @@ def morse_encode(text: str, lang: str = "th") -> str:
 
 
 def morse_decode(morse_text: str, lang: str = "th") -> str:
-    """
-    Simple Convert Morse code to text
+    """Simple Convert Morse code to text
 
     Thai still have some wrong character problem that\
         can fix by spell corrector.

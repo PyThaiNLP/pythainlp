@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
 
 def longest_common_subsequence(str1: str, str2: str) -> str:
-    """
-    Find the longest common subsequence between two strings.
+    """Find the longest common subsequence between two strings.
 
     :param str str1: The first string.
     :param str str2: The second string.
@@ -48,7 +48,6 @@ def longest_common_subsequence(str1: str, str2: str) -> str:
     i = m
     j = n
     while i > 0 and j > 0:
-
         # If current character in str1 and str2 are same, then
         # current character is part of LCS
         if str1[i - 1] == str2[j - 1]:

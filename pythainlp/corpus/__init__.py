@@ -87,7 +87,8 @@ def corpus_db_path() -> str:
     """
     return _CORPUS_DB_PATH
 
-# DO NOT REORDER THESE pythainlp.corpus imports
+# DO NOT REORDER these pythainlp.corpus imports.
+# These imports must come before other pythainlp.corpus.* imports
 from pythainlp.corpus.core import (
     download,
     get_corpus,
@@ -101,7 +102,7 @@ from pythainlp.corpus.core import (
     make_safe_directory_name,
     path_pythainlp_corpus,
     remove,
-)  # these imports must come before other pythainlp.corpus.* imports
+)
 from pythainlp.corpus.common import (
     countries,
     find_synonyms,

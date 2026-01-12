@@ -153,6 +153,17 @@ def remove_zw(text: str) -> str:
     :param str text: input text
     :return: text without zero-width characters
     :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import remove_zw
+
+        remove_zw("สวัสดี\u200bครับ")
+        # output: 'สวัสดีครับ'
+
+        remove_zw("ภาษา\u200cไทย")
+        # output: 'ภาษาไทย'
     """
     for ch in _ZERO_WIDTH_CHARS:
         while ch in text:
@@ -175,6 +186,19 @@ def reorder_vowels(text: str) -> str:
     :param str text: input text
     :return: text with vowels and tone marks in the standard logical order
     :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import reorder_vowels
+
+        # Two Sara E become Sara Ae
+        reorder_vowels("เเปลก")
+        # output: 'แปลก'
+
+        # Reorder tone marks and vowels
+        reorder_vowels("ก้ำ")
+        # output: 'กำ้'
     """
     for pair in _REORDER_PAIRS:
         text = re.sub(pair[0], pair[1], text)
@@ -191,6 +215,17 @@ def remove_repeat_vowels(text: str) -> str:
     :param str text: input text
     :return: text without repeating Thai vowels, tone marks, and signs
     :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import remove_repeat_vowels
+
+        remove_repeat_vowels("นานาาา")
+        # output: 'นานา'
+
+        remove_repeat_vowels("ดีีีี")
+        # output: 'ดี'
     """
     text = reorder_vowels(text)
     for pair in _NOREPEAT_PAIRS:

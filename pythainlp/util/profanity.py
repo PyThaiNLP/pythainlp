@@ -11,7 +11,7 @@ from pythainlp.util.trie import dict_trie
 
 
 def contains_profanity(
-    text: str, custom_words: set[str] = None, engine: str = "newmm"
+    text: str, custom_words: set[str] | None = None, engine: str = "newmm"
 ) -> bool:
     """
     Check if the given text contains profanity words.
@@ -60,7 +60,7 @@ def contains_profanity(
 
 
 def find_profanity(
-    text: str, custom_words: set[str] = None, engine: str = "newmm"
+    text: str, custom_words: set[str] | None = None, engine: str = "newmm"
 ) -> list[str]:
     """
     Find all profanity words in the given text.
@@ -112,7 +112,7 @@ def find_profanity(
 def censor_profanity(
     text: str,
     replacement: str = "*",
-    custom_words: set[str] = None,
+    custom_words: set[str] | None = None,
     engine: str = "newmm",
 ) -> str:
     """

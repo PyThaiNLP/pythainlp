@@ -135,7 +135,8 @@ def misspell(sentence: str, ratio: float = 0.05):
         if potential_candidates is None:
             continue
 
-        candidate = random.choice(potential_candidates)
+        # Non-cryptographic use, pseudo-random generator is acceptable here
+        candidate = random.choice(potential_candidates)  # noqa: S311
 
         misspelled[pos] = candidate
 

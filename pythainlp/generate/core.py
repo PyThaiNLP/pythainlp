@@ -70,16 +70,15 @@ class Unigram:
             # output: 'แมวเวลานะนั้น'
         """
         if not start_seq:
-            start_seq = random.choice(self.word)
+            # Non-cryptographic use, pseudo-random generator is acceptable here
+            start_seq = random.choice(self.word)  # noqa: S311
         rand_text = start_seq.lower()
         self._word_prob = {
             i: self.counts[i] / self.n
             for i in self.word
             if self.counts[i] / self.n >= prob
         }
-        return self._next_word(
-            rand_text, N, output_str, prob=prob, duplicate=duplicate
-        )
+        return self._next_word(rand_text, N, output_str, prob=prob, duplicate=duplicate)
 
     def _next_word(
         self,
@@ -95,10 +94,11 @@ class Unigram:
         if N > len(word_list):
             N = len(word_list)
         for _ in range(N):
-            w = random.choice(word_list)
+            # Non-cryptographic use, pseudo-random generator is acceptable here
+            w = random.choice(word_list)  # noqa: S311
             if duplicate is False:
                 while w in words:
-                    w = random.choice(word_list)
+                    w = random.choice(word_list)  # noqa: S311
             words.append(w)
 
         if output_str:
@@ -163,7 +163,8 @@ class Bigram:
             # output: 'แมวไม่ได้รับเชื้อมัน'
         """
         if not start_seq:
-            start_seq = random.choice(self.words)
+            # Non-cryptographic use, pseudo-random generator is acceptable here
+            start_seq = random.choice(self.words)  # noqa: S311
         late_word = start_seq
         list_word = []
         list_word.append(start_seq)
@@ -181,7 +182,8 @@ class Bigram:
             p2 = [j for j in probs if j >= prob]
             if len(p2) == 0:
                 break
-            items = temp[probs.index(random.choice(p2))]
+            # Non-cryptographic use, pseudo-random generator is acceptable here
+            items = temp[probs.index(random.choice(p2))]  # noqa: S311
             late_word = items[-1]
             list_word.append(late_word)
 
@@ -252,7 +254,8 @@ class Trigram:
             # output: 'ยังทำตัวเป็นเซิร์ฟเวอร์คือ'
         """
         if not start_seq:
-            start_seq = random.choice(self.bi_keys)
+            # Non-cryptographic use, pseudo-random generator is acceptable here
+            start_seq = random.choice(self.bi_keys)  # noqa: S311
         late_word = start_seq
         list_word = []
         list_word.append(start_seq)
@@ -270,7 +273,8 @@ class Trigram:
             p2 = [j for j in probs if j >= prob]
             if len(p2) == 0:
                 break
-            items = temp[probs.index(random.choice(p2))]
+            # Non-cryptographic use, pseudo-random generator is acceptable here
+            items = temp[probs.index(random.choice(p2))]  # noqa: S311
             late_word = items[1:]
             list_word.append(late_word)
 

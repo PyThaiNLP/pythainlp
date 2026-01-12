@@ -26,4 +26,4 @@ jobs:
       uses: astral-sh/ruff-action@v3
       with:
         src: "./pythainlp ./tests ./examples"
-        args: check --fix --verbose --line-length 79 --select I,W,C901,W291,W293
+        args: check --verbose --config pyproject.toml

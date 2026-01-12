@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai date/time formatting.
-"""
+"""Thai date/time formatting."""
 
 from __future__ import annotations
 
@@ -30,8 +29,7 @@ _EXTENSIONS = "EO-_0^#"  # extension flags
 
 
 def _std_strftime(dt_obj: datetime, fmt_char: str) -> str:
-    """Standard datetime.strftime() with normalization and exception handling.
-    """
+    """Standard datetime.strftime() with normalization and exception handling."""
     str_ = ""
     try:
         str_ = dt_obj.strftime(f"%{fmt_char}")
@@ -49,7 +47,8 @@ def _std_strftime(dt_obj: datetime, fmt_char: str) -> str:
                 f"The system raises this ValueError: {err}\n"
                 f"Continue working without the directive."
             ),
-            UserWarning,
+            category=UserWarning,
+            stacklevel=2,
         )
         str_ = fmt_char
     return str_
@@ -107,9 +106,7 @@ def _thai_strftime(dt_obj: datetime, fmt_char: str) -> str:
     elif fmt_char == "g":
         # Same year as in ``%G'',
         # but as a decimal number without century (00-99).
-        str_ = (
-            str(int(dt_obj.strftime("%G")) + _BE_AD_DIFFERENCE)[-2:]
-        ).zfill(2)
+        str_ = (str(int(dt_obj.strftime("%G")) + _BE_AD_DIFFERENCE)[-2:]).zfill(2)
     elif fmt_char == "v":
         # BSD extension, ' 6-Oct-1976'
         str_ = f"{dt_obj.day:>2}-{thai_abbr_months[dt_obj.month - 1]}-{str(dt_obj.year + _BE_AD_DIFFERENCE).zfill(4)}"

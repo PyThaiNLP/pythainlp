@@ -110,7 +110,8 @@ def gen_sentence(
       # output: 'แมว คุณหลวง '
     """
     if not start_seq:
-        start_seq = random.choice(list(thwiki_itos))
+        # Non-cryptographic use, pseudo-random generator is acceptable here
+        start_seq = random.choice(list(thwiki_itos))  # noqa: S311
     list_word = learn.predict(
         start_seq, N, temperature=0.8, min_p=prob, sep="-*-"
     ).split("-*-")

@@ -329,6 +329,26 @@ def word_tokenize(
 
 
 def indices_words(words):
+    """Convert a list of words to a list of character index pairs.
+
+    This function takes a list of words and returns the start and end
+    character indices for each word in the original text.
+
+    :param list words: list of words
+    :return: list of tuples (start_index, end_index) for each word
+    :rtype: list[tuple[int, int]]
+
+    :Example:
+    ::
+
+        from pythainlp.tokenize import indices_words
+
+        indices_words(['สวัสดี', 'ครับ'])
+        # output: [(0, 5), (6, 9)]
+
+        indices_words(['hello', 'world'])
+        # output: [(0, 4), (5, 9)]
+    """
     indices = []
     start_index = 0
     for word in words:
@@ -340,6 +360,26 @@ def indices_words(words):
 
 
 def map_indices_to_words(index_list, sentences):
+    """Map character index pairs to actual words from sentences.
+
+    This function takes a list of character index pairs and a list of
+    sentences, then extracts the corresponding words from the sentences.
+
+    :param list index_list: list of tuples (start_index, end_index)
+    :param list sentences: list of sentences (strings)
+    :return: list of lists containing extracted words for each sentence
+    :rtype: list[list[str]]
+
+    :Example:
+    ::
+
+        from pythainlp.tokenize import map_indices_to_words
+
+        indices = [(0, 5), (6, 9)]
+        sentences = ['สวัสดีครับ']
+        map_indices_to_words(indices, sentences)
+        # output: [['สวัสดี', 'ครับ']]
+    """
     result = []
     c = deque(index_list)
     n_sum = 0
@@ -735,6 +775,17 @@ def syllable_tokenize(
         <https://github.com/ponrawee/ssg>`_.
         * *tltk* - syllable tokenizer from tltk. See `tltk \
         <https://pypi.org/project/tltk/>`_.
+
+    :Example:
+    ::
+
+        from pythainlp.tokenize import syllable_tokenize
+
+        syllable_tokenize("สวัสดีครับ", engine="dict")
+        # output: ['สวัส', 'ดี', 'ครับ']
+
+        syllable_tokenize("ประเทศไทย", engine="dict")
+        # output: ['ประ', 'เทศ', 'ไทย']
     """
     if engine not in ["dict", "han_solo", "ssg", "tltk"]:
         raise ValueError(
@@ -890,6 +941,15 @@ class Tokenizer:
         :param str text: text to be tokenized
         :return: list of words, tokenized from the text
         :rtype: list[str]
+
+        :Example:
+        ::
+
+            from pythainlp.tokenize import Tokenizer
+
+            tokenizer = Tokenizer()
+            tokenizer.word_tokenize("สวัสดีครับ")
+            # output: ['สวัสดี', 'ครับ']
         """
         return word_tokenize(
             text,
@@ -904,5 +964,15 @@ class Tokenizer:
 
         :param str engine: choose between different options of tokenizer engines
                            (i.e. *newmm*, *mm*, *longest*, *deepcut*)
+
+        :Example:
+        ::
+
+            from pythainlp.tokenize import Tokenizer
+
+            tokenizer = Tokenizer()
+            tokenizer.set_tokenize_engine("newmm")
+            tokenizer.word_tokenize("สวัสดีครับ")
+            # output: ['สวัสดี', 'ครับ']
         """
         self.__engine = engine

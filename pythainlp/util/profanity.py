@@ -4,17 +4,14 @@
 """
 Profanity detection for Thai language
 """
-from typing import Union
 
 from pythainlp.corpus.common import thai_profanity_words, thai_words
 from pythainlp.tokenize import word_tokenize
-from pythainlp.util.trie import Trie, dict_trie
+from pythainlp.util.trie import dict_trie
 
 
 def contains_profanity(
-    text: str,
-    custom_words: set[str] = None,
-    engine: str = "newmm"
+    text: str, custom_words: set[str] = None, engine: str = "newmm"
 ) -> bool:
     """
     Check if the given text contains profanity words.
@@ -42,30 +39,28 @@ def contains_profanity(
     """
     if not text:
         return False
-    
+
     profanity_set = set(thai_profanity_words())
     if custom_words:
         profanity_set.update(custom_words)
-    
+
     # Create custom dictionary that merges thai_words and profanity_set
     # for better tokenization
     custom_dict_set = set(thai_words())
     custom_dict_set.update(profanity_set)
     custom_dict = dict_trie(dict_source=custom_dict_set)
-    
+
     tokens = word_tokenize(text, custom_dict=custom_dict, engine=engine)
-    
+
     for token in tokens:
         if token in profanity_set:
             return True
-    
+
     return False
 
 
 def find_profanity(
-    text: str,
-    custom_words: set[str] = None,
-    engine: str = "newmm"
+    text: str, custom_words: set[str] = None, engine: str = "newmm"
 ) -> list[str]:
     """
     Find all profanity words in the given text.
@@ -93,24 +88,24 @@ def find_profanity(
     """
     if not text:
         return []
-    
+
     profanity_set = set(thai_profanity_words())
     if custom_words:
         profanity_set.update(custom_words)
-    
+
     # Create custom dictionary that merges thai_words and profanity_set
     # for better tokenization
     custom_dict_set = set(thai_words())
     custom_dict_set.update(profanity_set)
     custom_dict = dict_trie(dict_source=custom_dict_set)
-    
+
     tokens = word_tokenize(text, custom_dict=custom_dict, engine=engine)
-    
+
     found_profanity = []
     for token in tokens:
         if token in profanity_set:
             found_profanity.append(token)
-    
+
     return found_profanity
 
 
@@ -118,7 +113,7 @@ def censor_profanity(
     text: str,
     replacement: str = "*",
     custom_words: set[str] = None,
-    engine: str = "newmm"
+    engine: str = "newmm",
 ) -> str:
     """
     Replace profanity words in the text with a replacement character.
@@ -147,24 +142,26 @@ def censor_profanity(
     """
     if not text:
         return text
-    
+
     profanity_set = set(thai_profanity_words())
     if custom_words:
         profanity_set.update(custom_words)
-    
+
     # Create custom dictionary that merges thai_words and profanity_set
     # for better tokenization
     custom_dict_set = set(thai_words())
     custom_dict_set.update(profanity_set)
     custom_dict = dict_trie(dict_source=custom_dict_set)
-    
-    tokens = word_tokenize(text, custom_dict=custom_dict, engine=engine, keep_whitespace=True)
-    
+
+    tokens = word_tokenize(
+        text, custom_dict=custom_dict, engine=engine, keep_whitespace=True
+    )
+
     censored_tokens = []
     for token in tokens:
         if token in profanity_set:
             censored_tokens.append(replacement * len(token))
         else:
             censored_tokens.append(token)
-    
+
     return "".join(censored_tokens)

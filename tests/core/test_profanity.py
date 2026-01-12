@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-
 """
 Unit tests for profanity detection functions
 """
@@ -46,7 +45,7 @@ class TestProfanity(unittest.TestCase):
         result = find_profanity("ควย")
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
-        
+
         result = find_profanity("สัส")
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
@@ -63,7 +62,7 @@ class TestProfanity(unittest.TestCase):
         result = censor_profanity("ควย")
         self.assertNotEqual(result, "ควย")
         self.assertIn("*", result)
-        
+
         result = censor_profanity("สัส")
         self.assertNotEqual(result, "สัส")
         self.assertIn("*", result)
@@ -78,10 +77,10 @@ class TestProfanity(unittest.TestCase):
         """Test detection with custom profanity words"""
         # Clean text shouldn't be detected
         self.assertFalse(contains_profanity("สวัสดีครับ", custom_words={"คำใหม่"}))
-        
+
         # Custom word should be detected
         self.assertTrue(contains_profanity("คำใหม่", custom_words={"คำใหม่"}))
-        
+
         # Mix of default and custom words
         self.assertTrue(contains_profanity("ควย และ คำใหม่", custom_words={"คำใหม่"}))
 
@@ -90,7 +89,7 @@ class TestProfanity(unittest.TestCase):
         # Should find custom words
         result = find_profanity("คำใหม่", custom_words={"คำใหม่"})
         self.assertIn("คำใหม่", result)
-        
+
         # Should find both default and custom words
         result = find_profanity("ควย และ คำใหม่", custom_words={"คำใหม่"})
         self.assertGreater(len(result), 1)
@@ -101,7 +100,7 @@ class TestProfanity(unittest.TestCase):
         result = censor_profanity("คำใหม่", custom_words={"คำใหม่"})
         self.assertNotEqual(result, "คำใหม่")
         self.assertIn("*", result)
-        
+
         # Should censor both default and custom words
         result = censor_profanity("ควย และ คำใหม่", custom_words={"คำใหม่"})
         self.assertNotIn("ควย", result)

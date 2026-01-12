@@ -14,24 +14,23 @@ https://ph01.tci-thaijo.org/index.php/IT_Journal/article/view/241562
 https://ph01.tci-thaijo.org/index.php/IT_Journal/article/view/241562/164358
 
 Note:
-    This soundex algorithm is designed to work on individual Thai syllables.
-    For best results, tokenize your text into words first using word_tokenize(),
-    then into syllables using syllable_tokenize() before applying this soundex.
+    This soundex algorithm handles both single and multi-syllable Thai words.
+    Multi-syllable words are automatically tokenized internally when the
+    syllable_tokenize dependency is available (python-crfsuite).
 
     Example:
-        from pythainlp.tokenize import word_tokenize, syllable_tokenize
         from pythainlp.soundex import complete_soundex
 
-        text = "สวัสดีครับ"
-        words = word_tokenize(text)  # ['สวัสดี', 'ครับ']
-        for word in words:
-            syllables = syllable_tokenize(word)  # e.g., ['สะ', 'หวัด', 'ดี']
-            for syllable in syllables:
-                soundex_code = complete_soundex(syllable)
-                print(f"{syllable} -> {soundex_code}")
+        # Single syllable
+        complete_soundex("ก้าน")  # 'กก1Bน2-'
+
+        # Multi-syllable (automatically handled)
+        complete_soundex("ปุญญา")  # 'ปป4G0น-ยย1B0--*'
+        complete_soundex("สวรรค์")  # 'ซศ1A-0-วว1Aน0-'
 """
+from __future__ import annotations
+
 import re
-from typing import List, Tuple, Optional
 
 
 class CompleteSoundex:
@@ -175,7 +174,7 @@ class CompleteSoundex:
         """Remove silent characters (karan/thanthakhat) from text."""
         return re.sub(r"[ก-ฮ][ะ-ู]?์", "", text)
 
-    def heuristic_split(self, text: str) -> List[Tuple[str, Optional[str]]]:
+    def heuristic_split(self, text: str) -> list[tuple[str, str | None]]:
         """
         Apply heuristic rules to split syllables.
 
@@ -244,7 +243,9 @@ class CompleteSoundex:
 
         return init_char, init_code, cluster_char, idx
 
-    def _detect_cluster(self, chars: list, idx: int, leading_vowel: str) -> bool:
+    def _detect_cluster(
+        self, chars: list, idx: int, leading_vowel: str
+    ) -> bool:
         """Detect if ร/ล/ว is a cluster."""
         if idx + 1 < len(chars):
             nc = chars[idx + 1]
@@ -345,7 +346,11 @@ class CompleteSoundex:
         return vowel_code, final_code
 
     def _process_final_consonant(
-        self, syl: str, final_code: str, vowel_code: str, final_candidates: list
+        self,
+        syl: str,
+        final_code: str,
+        vowel_code: str,
+        final_candidates: list,
     ) -> tuple:
         """Process final consonant and detect dropped ร."""
         dropped_r = False
@@ -399,7 +404,7 @@ class CompleteSoundex:
         return False
 
     def _apply_implicit_vowel(
-        self, vowel_code: str, implicit_rule: Optional[str]
+        self, vowel_code: str, implicit_rule: str | None
     ) -> str:
         """Apply implicit vowel defaults."""
         if vowel_code == "":
@@ -412,7 +417,11 @@ class CompleteSoundex:
         return vowel_code
 
     def _adjust_so_sua_mapping(
-        self, init_char: str, init_code: str, syl: str, implicit_rule: Optional[str]
+        self,
+        init_char: str,
+        init_code: str,
+        syl: str,
+        implicit_rule: str | None,
     ) -> str:
         """Special adjustments for ส (so sua) mapping."""
         if init_char == "ส" and init_code == "ซศ":
@@ -439,19 +448,21 @@ class CompleteSoundex:
         """Format the final output."""
         if special_format:
             # Special format: InitVowelToneFinalCluster
-            result = f"{init_code}{vowel_code}{tone_code}{final_code}{cluster_char}"
+            result = (
+                f"{init_code}{vowel_code}{tone_code}{final_code}{cluster_char}"
+            )
         else:
             # Standard format: InitVowelFinalToneCluster
             # Add dash after vowel if ร was dropped AND (final is ก OR no final)
             if dropped_r and (final_code == "ก" or final_code == "-"):
-                result = (
-                    f"{init_code}{vowel_code}-{final_code}{tone_code}{cluster_char}"
-                )
+                result = f"{init_code}{vowel_code}-{final_code}{tone_code}{cluster_char}"
             else:
                 result = f"{init_code}{vowel_code}{final_code}{tone_code}{cluster_char}"
         return result
 
-    def process_syllable(self, syl: str, implicit_rule: Optional[str] = None) -> str:
+    def process_syllable(
+        self, syl: str, implicit_rule: str | None = None
+    ) -> str:
         """
         Process a single syllable and return its soundex code.
 
@@ -467,8 +478,8 @@ class CompleteSoundex:
         leading_vowel, idx = self._process_leading_vowel(chars, idx)
 
         # B. Initial Consonant and Cluster
-        init_char, init_code, cluster_char, idx = self._process_initial_consonant(
-            chars, idx, leading_vowel
+        init_char, init_code, cluster_char, idx = (
+            self._process_initial_consonant(chars, idx, leading_vowel)
         )
 
         # D. Map Leading Vowel to Code
@@ -520,14 +531,12 @@ class CompleteSoundex:
 
     def encode(self, text: str) -> str:
         """
-        Encode a single Thai syllable into Complete Soundex code.
+        Encode a Thai word into Complete Soundex code.
 
-        Note:
-            This method is designed to work on individual syllables.
-            For multi-syllable words, tokenize into syllables first using
-            syllable_tokenize() and call this method on each syllable separately.
+        This method handles both single and multi-syllable words by internally
+        tokenizing multi-syllable words using syllable_tokenize.
 
-        :param str text: Thai syllable to encode
+        :param str text: Thai word to encode
         :return: Complete Soundex code
         :rtype: str
 
@@ -535,18 +544,51 @@ class CompleteSoundex:
             >>> from pythainlp.soundex import complete_soundex
             >>> complete_soundex("ก้าน")
             'กก1Bน2-'
-
-            For multi-syllable words:
-            >>> from pythainlp.tokenize import syllable_tokenize
-            >>> syllables = syllable_tokenize("สวัสดี")
-            >>> codes = [complete_soundex(syl) for syl in syllables]
+            >>> complete_soundex("ปุญญา")
+            'ปป4G0น-ยย1B0--*'
         """
         text = self.clean_text(text)
 
         if not text:
             return ""
 
-        # Process as single syllable - apply heuristic splits if needed
+        # Try to tokenize into syllables for multi-syllable words
+        try:
+            from pythainlp.tokenize import syllable_tokenize
+
+            syllables = syllable_tokenize(text)
+            # If tokenization gives us multiple syllables, process each
+            if len(syllables) > 1:
+                result_parts = []
+                for syl in syllables:
+                    # Apply heuristic splits if needed
+                    refined = self.heuristic_split(syl)
+                    for sub_syl, rule in refined:
+                        result_parts.append(
+                            self.process_syllable(sub_syl, rule)
+                        )
+
+                result = "".join(result_parts)
+
+                # Add asterisk at the end for specific patterns:
+                # 1. Contains ญญ (double ญ)
+                # 2. Contains ญ and ย together
+                # 3. Contains ณ and ย together
+                # 4. Starts with ญ (ญ as initial)
+                if (
+                    "ญญ" in text
+                    or ("ญ" in text and "ย" in text)
+                    or ("ณ" in text and "ย" in text)
+                    or any(s.startswith("ญ") for s in syllables)
+                ):
+                    result += "*"
+
+                return result
+        except (ImportError, ModuleNotFoundError):
+            # If syllable_tokenize is not available, fall back to heuristic
+            pass
+
+        # Single syllable or fallback - apply heuristic splits
         refined = self.heuristic_split(text)
 
         # Encode each part
@@ -556,11 +598,7 @@ class CompleteSoundex:
 
         result = "".join(res)
 
-        # Add asterisk at the end for specific patterns:
-        # 1. Contains ญญ (double ญ)
-        # 2. Contains ญ and ย together
-        # 3. Contains ณ and ย together
-        # 4. Starts with ญ (ญ as initial)
+        # Add asterisk at the end for specific patterns
         if (
             "ญญ" in text
             or ("ญ" in text and "ย" in text)
@@ -578,14 +616,12 @@ _complete_soundex_instance = None
 
 def complete_soundex(text: str) -> str:
     """
-    Convert a Thai syllable into phonetic code using the Complete Soundex algorithm.
+    Convert a Thai word into phonetic code using the Complete Soundex algorithm.
 
-    Note:
-        This function is designed to work on individual Thai syllables.
-        For multi-syllable words, tokenize into syllables first using
-        syllable_tokenize() from pythainlp.tokenize.
+    This function handles both single and multi-syllable words by internally
+    tokenizing multi-syllable words when the syllable_tokenize dependency is available.
 
-    :param str text: Thai syllable
+    :param str text: Thai word
 
     :return: Complete Soundex code
     :rtype: str
@@ -602,17 +638,15 @@ def complete_soundex(text: str) -> str:
         complete_soundex("กลับ")
         # output: 'กก1Aบ0ล'
 
-        # For multi-syllable words, tokenize first
-        from pythainlp.tokenize import syllable_tokenize
+        # Multi-syllable words (automatically tokenized)
+        complete_soundex("ปุญญา")
+        # output: 'ปป4G0น-ยย1B0--*'
 
-        syllables = syllable_tokenize("สวรรค์")  # ['ส', 'วรรค์']
-        codes = [complete_soundex(syl) for syl in syllables]
-        # codes: ['ซศ1A-0-', 'วว1Aน0-']
+        complete_soundex("สวรรค์")
+        # output: 'ซศ1A-0-วว1Aน0-'
 
-        # Or combine syllables
-        syllables = syllable_tokenize("ปันนา")  # ['ปัน', 'นา']
-        result = ''.join([complete_soundex(syl) for syl in syllables])
-        # result: 'ปป1A0น-นน1B0--'
+        complete_soundex("ปันนา")
+        # output: 'ปป1A0น-นน1B0--'
     """
     global _complete_soundex_instance
 

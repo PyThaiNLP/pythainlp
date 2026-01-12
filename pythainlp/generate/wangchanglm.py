@@ -11,7 +11,7 @@ import torch
 class WangChanGLM:
     def __init__(self):
         self.exclude_pattern = re.compile(r"[^ก-๙]+")
-        self.stop_token = "\n"
+        self.stop_token = "\n"  # noqa: S105
         self.PROMPT_DICT = {
             "prompt_input": (
                 "<context>: {input}\n<human>: {instruction}\n<bot>: "

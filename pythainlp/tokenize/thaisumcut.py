@@ -58,8 +58,8 @@ def middle_cut(sentences: list[str]) -> list[str]:
                 white_space_index = []
                 white_space_diff = {}
 
-                for j, token in enumerate(tokens):
-                    if token == " ":
+                for j, tok in enumerate(tokens):
+                    if tok == " ":
                         white_space_index.append(j)
 
                 for white_space in white_space_index:
@@ -165,14 +165,14 @@ class ThaiSentenceSegmentor:
             last_position = len(tokens)
             pop_split_position = []
             split_position = []
-            for i, token in enumerate(tokens):
-                if token == "และ":
+            for i, tok in enumerate(tokens):
+                if tok == "และ":
                     and_position = i
 
                 if (
                     and_position != -1
                     and i > and_position
-                    and token == " "
+                    and tok == " "
                     and nearest_space_position == -1
                 ):
                     if i - and_position != 1:
@@ -204,13 +204,13 @@ class ThaiSentenceSegmentor:
             last_position = len(tokens)
             pop_split_position = []
             split_position = []
-            for i, token in enumerate(tokens):
-                if token == "หรือ":
+            for i, tok in enumerate(tokens):
+                if tok == "หรือ":
                     or_position = i
                 if (
                     or_position != -1
                     and i > or_position
-                    and token == " "
+                    and tok == " "
                     and nearest_space_position == -1
                 ):
                     if i - or_position != 1:
@@ -242,13 +242,13 @@ class ThaiSentenceSegmentor:
             pop_split_position = []
             last_position = len(tokens)
             split_position = []
-            for i, token in enumerate(tokens):
-                if token == "จึง":
+            for i, tok in enumerate(tokens):
+                if tok == "จึง":
                     cung_position = i
 
                 if (
                     cung_position != -1
-                    and token == " "
+                    and tok == " "
                     and i > cung_position
                     and nearest_space_position == -1
                 ):

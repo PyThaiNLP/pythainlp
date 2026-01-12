@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Utility functions, like date conversion and digit conversion
-"""
+"""Utility functions, like date conversion and digit conversion"""
 
 __all__ = [
     "Trie",
@@ -70,7 +69,7 @@ __all__ = [
     "analyze_thai_text",
 ]
 
-from pythainlp.util import spell_words
+from pythainlp.util import spell_words  # noqa: I001 - keep block order to avoid circular imports
 from pythainlp.util.abbreviation import abbreviation_to_full_text
 from pythainlp.util.collate import collate
 from pythainlp.util.date import (
@@ -133,13 +132,13 @@ from pythainlp.util.wordtonum import text_to_num, thaiword_to_num, words_to_num
 # sound_syllable and pronounce have to be imported last,
 # to prevent circular import issues.
 # Other imports should be above this line, sorted.
-from pythainlp.util.syllable import (
+from pythainlp.util.syllable import (  # noqa: I001
     sound_syllable,
     syllable_length,
     syllable_open_close_detector,
     tone_detector,
 )
-from pythainlp.util.pronounce import (
+from pythainlp.util.pronounce import (  # noqa: I001
     rhyme,
     spelling,
     thai_consonant_to_spelling,

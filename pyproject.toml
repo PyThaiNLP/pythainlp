@@ -287,18 +287,36 @@ source = ["pythainlp"]
 
 # Ruff configuration
 [tool.ruff]
-line-length = 79
 indent-width = 4
+line-length = 79
 target-version = "py39"
 
 [tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
-skip-magic-trailing-comma = false
-line-ending = "auto"
 docstring-code-format = true
+indent-style = "space"
+line-ending = "auto"
+quote-style = "double"
+skip-magic-trailing-comma = false
 
-[tool.ruff.lint.mccabe]
+[tool.ruff.lint]
 # Flag errors (`C901`) whenever the complexity level exceeds 5. Default is 10.
 # We should aim to gradually reduce this to 10.
-max-complexity = 38
+mccabe.max-complexity = 38
+select = [
+    "E",
+    "F",
+    "I",
+    "W",
+    "S",
+    "B028",
+    "C901",
+    "F401",
+    "F811",
+    "F841",
+    "W291",
+    "W293",
+]
+# Some rules are ignored for now; we can consider enabling them in the future.
+# F403 and F405 are ignored due to thai2fit/ulmfit module's star imports.
+# S101 is use of assert statement, should be an easy fix.
+extend-ignore = ["E402", "E501", "E722", "F403", "F405", "S101", "S202", "S301", "S310"]

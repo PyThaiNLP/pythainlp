@@ -71,25 +71,23 @@ if not os.path.exists(_CORPUS_DB_PATH) and _CHECK_MODE != "1":
 
 
 def corpus_path() -> str:
-    """Get path where corpus files are kept locally.
-    """
+    """Get path where corpus files are kept locally."""
     return _CORPUS_PATH
 
 
 def corpus_db_url() -> str:
-    """Get remote URL of corpus catalog.
-    """
+    """Get remote URL of corpus catalog."""
     return _CORPUS_DB_URL
 
 
 def corpus_db_path() -> str:
-    """Get local path of corpus catalog.
-    """
+    """Get local path of corpus catalog."""
     return _CORPUS_DB_PATH
 
-# DO NOT REORDER these pythainlp.corpus imports.
+
+# DO NOT REORDER these pythainlp.corpus.core imports.
 # These imports must come before other pythainlp.corpus.* imports
-from pythainlp.corpus.core import (
+from pythainlp.corpus.core import (  # noqa: I001
     download,
     get_corpus,
     get_corpus_as_is,

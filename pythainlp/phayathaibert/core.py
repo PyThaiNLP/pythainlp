@@ -29,7 +29,7 @@ class ThaiTextProcessor:
             self._TK_URL,
             self._TK_END,
         ) = "<unk> <rep> <wrep> <url> </s>".split()
-        self.SPACE_SPECIAL_TOKEN = "<_>"
+        self.SPACE_SPECIAL_TOKEN = "<_>"  # noqa: S105
 
     def replace_url(self, text: str) -> str:
         """Replace url in `text` with TK_URL (https://stackoverflow.com/a/6041965)
@@ -60,25 +60,13 @@ class ThaiTextProcessor:
         new_line = re.sub(r"\{[^a-zA-Z0-9ก-๙]+\}", "", new_line)
         new_line = re.sub(r"\[[^a-zA-Z0-9ก-๙]+\]", "", new_line)
         # artifiacts after (
-        new_line = re.sub(
-            r"(?<=\()[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
-        )
-        new_line = re.sub(
-            r"(?<=\{)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
-        )
-        new_line = re.sub(
-            r"(?<=\[)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
-        )
+        new_line = re.sub(r"(?<=\()[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line)
+        new_line = re.sub(r"(?<=\{)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line)
+        new_line = re.sub(r"(?<=\[)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line)
         # artifacts before )
-        new_line = re.sub(
-            r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\))", "", new_line
-        )
-        new_line = re.sub(
-            r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\})", "", new_line
-        )
-        new_line = re.sub(
-            r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\])", "", new_line
-        )
+        new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\))", "", new_line)
+        new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\})", "", new_line)
+        new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\])", "", new_line)
         return new_line
 
     def replace_newlines(self, text: str) -> str:
@@ -103,7 +91,7 @@ class ThaiTextProcessor:
         """
         return re.sub(" {2,}", " ", text)
 
-    def replace_spaces(self, text: str, space_token: str = "<_>") -> str:
+    def replace_spaces(self, text: str, space_token: str = "<_>") -> str:  # noqa: S107
         """Replace spaces with _
         :param str text: text to replace spaces
         :return: text where all spaces replaced with _
@@ -206,9 +194,7 @@ class ThaiTextAugmenter:
         )
 
         self.tokenizer = AutoTokenizer.from_pretrained(_model_name)
-        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(
-            _model_name
-        )
+        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(_model_name)
         self.model = pipeline(
             "fill-mask",
             tokenizer=self.tokenizer,
@@ -223,15 +209,17 @@ class ThaiTextAugmenter:
         max_length: int = 3,
         sample: bool = False,
     ) -> str:
+        """Generate text from PhayaThaiBERT"""
         sample_txt = sample_text
         final_text = ""
-        for j in range(max_length):
-            input = self.processor.preprocess(sample_txt)
+        for _ in range(max_length):
+            input_text = self.processor.preprocess(sample_txt)
             if sample:
-                random_word_idx = random.randint(0, 4)
-                output = self.model(input)[random_word_idx]["sequence"]
+                # Non-cryptographic use, pseudo-random generator is acceptable here
+                random_word_idx = random.randint(0, 4)  # noqa: S311
+                output = self.model(input_text)[random_word_idx]["sequence"]
             else:
-                output = self.model(input)[word_rank]["sequence"]
+                output = self.model(input_text)[word_rank]["sequence"]
             sample_txt = output + "<mask>"
             final_text = sample_txt
 
@@ -279,9 +267,7 @@ class ThaiTextAugmenter:
                     rank,
                     sample=sample,
                 )
-                processed_text = re.sub(
-                    "<_>", " ", self.processor.preprocess(gen_text)
-                )
+                processed_text = re.sub("<_>", " ", self.processor.preprocess(gen_text))
                 augment_list.append(processed_text)
         else:
             raise ValueError(
@@ -383,7 +369,8 @@ class NamedEntityTagger:
         if pos:
             warnings.warn(
                 "This model doesn't support output \
-                          postag and It doesn't output the postag."
+                          postag and It doesn't output the postag.",
+                stacklevel=2,
             )
 
         sample_output = []

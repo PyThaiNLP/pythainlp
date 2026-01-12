@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Command line for PyThaiNLP's tokenizers.
-"""
+"""Command line for PyThaiNLP's tokenizers."""
 
 import argparse
 
@@ -17,10 +16,10 @@ from pythainlp.tokenize import (
 )
 from pythainlp.tools import safe_print
 
-DEFAULT_SENT_TOKEN_SEPARATOR = "@@"
-DEFAULT_SUBWORD_TOKEN_SEPARATOR = "/"
-DEFAULT_SYLLABLE_TOKEN_SEPARATOR = "~"
-DEFAULT_WORD_TOKEN_SEPARATOR = "|"
+DEFAULT_SENT_TOKEN_SEPARATOR = "@@"  # noqa: S105
+DEFAULT_SUBWORD_TOKEN_SEPARATOR = "/"  # noqa: S105
+DEFAULT_SYLLABLE_TOKEN_SEPARATOR = "~"  # noqa: S105
+DEFAULT_WORD_TOKEN_SEPARATOR = "|"  # noqa: S105
 
 
 class SubAppBase:

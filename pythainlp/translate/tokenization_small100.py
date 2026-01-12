@@ -127,11 +127,11 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         vocab_file,
         spm_file,
         tgt_lang=None,
-        bos_token="<s>",
-        eos_token="</s>",
-        sep_token="</s>",
-        pad_token="<pad>",
-        unk_token="<unk>",
+        bos_token="<s>",  # noqa: S107
+        eos_token="</s>",  # noqa: S107
+        sep_token="</s>",  # noqa: S107
+        pad_token="<pad>",  # noqa: S107
+        unk_token="<unk>",  # noqa: S107
         language_codes="m2m100",
         sp_model_kwargs: dict[str, Any] | None = None,
         num_madeup_words=8,

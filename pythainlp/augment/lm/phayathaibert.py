@@ -20,9 +20,7 @@ class ThaiTextAugmenter:
         )
 
         self.tokenizer = AutoTokenizer.from_pretrained(_MODEL_NAME)
-        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(
-            _MODEL_NAME
-        )
+        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(_MODEL_NAME)
         self.model = pipeline(
             "fill-mask",
             tokenizer=self.tokenizer,
@@ -40,13 +38,14 @@ class ThaiTextAugmenter:
         sample_txt = sample_text
         final_text = ""
 
-        for j in range(max_length):
-            input = self.processor.preprocess(sample_txt)
+        for _ in range(max_length):
+            input_text = self.processor.preprocess(sample_txt)
             if sample:
-                random_word_idx = random.randint(0, 4)
-                output = self.model(input)[random_word_idx]["sequence"]
+                # Non-cryptographic use, pseudo-random generator is acceptable here
+                random_word_idx = random.randint(0, 4)  # noqa: S311
+                output = self.model(input_text)[random_word_idx]["sequence"]
             else:
-                output = self.model(input)[word_rank]["sequence"]
+                output = self.model(input_text)[word_rank]["sequence"]
             sample_txt = output + "<mask>"
             final_text = sample_txt
 
@@ -54,9 +53,7 @@ class ThaiTextAugmenter:
 
         return gen_txt
 
-    def augment(
-        self, text: str, num_augs: int = 3, sample: bool = False
-    ) -> list[str]:
+    def augment(self, text: str, num_augs: int = 3, sample: bool = False) -> list[str]:
         """Text augmentation from PhayaThaiBERT
 
         :param str text: Thai text
@@ -90,9 +87,7 @@ class ThaiTextAugmenter:
         if num_augs <= MAX_NUM_AUGS:
             for rank in range(num_augs):
                 gen_text = self.generate(text, rank, sample=sample)
-                processed_text = re.sub(
-                    "<_>", " ", self.processor.preprocess(gen_text)
-                )
+                processed_text = re.sub("<_>", " ", self.processor.preprocess(gen_text))
                 augment_list.append(processed_text)
         else:
             raise ValueError(

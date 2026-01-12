@@ -79,6 +79,8 @@ class ZhThTranslator:
         use_gpu: bool = False,
         pretrained: str = "Lalita/marianmt-zh_cn-th",
     ) -> None:
+        from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+
         self.tokenizer_zhth = AutoTokenizer.from_pretrained(pretrained)
         self.model_zhth = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
         if use_gpu:

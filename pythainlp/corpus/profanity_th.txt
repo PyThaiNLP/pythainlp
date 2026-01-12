@@ -1,7 +1,10 @@
-# Thai profanity words
-# SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
+# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+# SPDX-FileType: OTHER
+# SPDX-FileType: TEXT
 # SPDX-License-Identifier: Apache-2.0
 # 
+# Thai profanity words
+#
 # This list contains common Thai profanity words for filtering/detection purposes
 # Words are stored without tone marks or variations for broader matching
 ควย

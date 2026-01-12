@@ -40,10 +40,11 @@ keywords:
   - "text processing"
   - "computational linguistics"
   - "tokenization"
+  - "localization"
   - "word segmentation"
   - "NLP"
   - "Thai language"
   - "Thai NLP"
 license: Apache-2.0
-version: 5.1.0
-date-released: "2025-02-25"
+version: 5.2.0
+date-released: "2025-12-20"

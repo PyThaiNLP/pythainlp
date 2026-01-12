@@ -7,6 +7,7 @@ import unittest
 
 from pythainlp.soundex import (
     complete_soundex,
+    complete_soundex_similarity,
     lk82,
     metasound,
     prayut_and_somchaip,
@@ -117,3 +118,55 @@ class SoundexTestCase(unittest.TestCase):
         # syllables = syllable_tokenize("ปุญญา")  # ['ปุญ', 'ญา']
         # result = ''.join([complete_soundex(syl) for syl in syllables])
         # Expected: 'ปป4G0น-ยย1B0--*'
+
+    def test_complete_soundex_similarity(self):
+        # Test perfect match
+        code1 = complete_soundex("ก้าน")
+        code2 = complete_soundex("ก้าน")
+        self.assertEqual(complete_soundex_similarity(code1, code2), 1.0)
+
+        # Test empty strings
+        self.assertEqual(complete_soundex_similarity("", ""), 1.0)
+        self.assertEqual(complete_soundex_similarity("", "abc"), 0.0)
+        self.assertEqual(complete_soundex_similarity("abc", ""), 0.0)
+
+        # Test different lengths with some matches
+        # Example: 14 char codes with 13 matches = 13/14 ≈ 0.9286
+        code_a = "AABBC2DDEEFFGG"  # 14 chars
+        code_b = "AABBC0DDEEFFGG"  # 14 chars, differs at position 5
+        similarity = complete_soundex_similarity(code_a, code_b)
+        self.assertAlmostEqual(similarity, 13 / 14, places=4)
+
+        # Test completely different codes
+        code_x = complete_soundex("ทราย")  # "ซซ1Bย0-"
+        code_y = complete_soundex("ก้าน")  # "กก1Bน2-"
+        similarity_xy = complete_soundex_similarity(code_x, code_y)
+        # Both are 7 chars, checking how many match
+        # Position 2: 'ซ' vs 'ก' - no match
+        # Position 3: '1' vs '1' - match
+        # Position 4: 'B' vs 'B' - match
+        # Position 5: 'ย' vs 'น' - no match
+        # Position 6: '0' vs '2' - no match
+        # Position 7: '-' vs '-' - match
+        # 3 matches out of 7 = 3/7 ≈ 0.4286
+        self.assertGreater(similarity_xy, 0.0)
+        self.assertLess(similarity_xy, 1.0)
+
+        # Test similar words (tone difference example from paper)
+        # Words differing only in tone should have high similarity
+        code1_tone = "คข7M2-"  # With tone 2
+        code2_no_tone = "คข7M0-"  # With tone 0
+        # 5 matches out of 6 chars = 5/6 ≈ 0.8333
+        similarity_tone = complete_soundex_similarity(
+            code1_tone, code2_no_tone
+        )
+        self.assertAlmostEqual(similarity_tone, 5 / 6, places=4)
+
+        # Test different length codes
+        short_code = "กก1A-"  # 5 chars
+        long_code = "กก1A-0-มม7M"  # 11 chars
+        # First 5 chars match, then 6 additional in longer = 5/11
+        similarity_diff_len = complete_soundex_similarity(
+            short_code, long_code
+        )
+        self.assertAlmostEqual(similarity_diff_len, 5 / 11, places=4)

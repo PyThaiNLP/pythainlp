@@ -657,3 +657,70 @@ def complete_soundex(text: str) -> str:
         _complete_soundex_instance = CompleteSoundex()
 
     return _complete_soundex_instance.encode(text)
+
+
+def complete_soundex_similarity(code1: str, code2: str) -> float:
+    """
+    Calculate similarity between two Complete Soundex codes based on the
+    character-wise comparison formula defined in Tapsai et al. (2020).
+
+    The similarity is calculated character-by-character using the formula:
+    S(X,Y) = Sum(sim(c_xi, c_yi)) / max(len(X), len(Y))
+
+    Where sim(c_xi, c_yi) = 1 if characters match, else 0.
+
+    This implements Equation (1) from the paper (Section 3.3, page 55),
+    which compares codes position-by-position rather than by syllable blocks.
+
+    :param str code1: The full concatenated soundex code for word 1
+    :param str code2: The full concatenated soundex code for word 2
+
+    :return: Similarity score between 0.0 and 1.0
+    :rtype: float
+
+    :Example:
+    ::
+
+        from pythainlp.soundex import complete_soundex, complete_soundex_similarity
+
+        # Encode two words
+        code1 = complete_soundex("ข้มขืน")  # Bitter/Forced (with tone)
+        code2 = complete_soundex("ขมขืน")   # Bitter (no tone)
+
+        # Calculate similarity
+        similarity = complete_soundex_similarity(code1, code2)
+        # output: ~0.93 (13 matches out of 14 characters)
+
+        # Perfect match
+        code_a = complete_soundex("ก้าน")
+        code_b = complete_soundex("ก้าน")
+        complete_soundex_similarity(code_a, code_b)
+        # output: 1.0
+
+        # No match
+        code_x = complete_soundex("ทราย")
+        code_y = complete_soundex("น้ำ")
+        complete_soundex_similarity(code_x, code_y)
+        # output: 0.0 (completely different)
+    """
+    if not code1 and not code2:
+        return 1.0
+    if not code1 or not code2:
+        return 0.0
+
+    # Denominator is max(len(X), len(Y)) as per paper equation
+    max_len = max(len(code1), len(code2))
+
+    # Count character-wise matches
+    match_count = 0
+    min_len = min(len(code1), len(code2))
+
+    for i in range(min_len):
+        # Binary matching: 1 if match, 0 otherwise
+        if code1[i] == code2[i]:
+            match_count += 1
+
+    # Calculate normalized similarity
+    similarity = match_count / max_len
+
+    return similarity

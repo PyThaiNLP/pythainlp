@@ -8,6 +8,7 @@ Has three systems to choose from: Udom83 (default), LK82, and MetaSound
 
 __all__ = [
     "complete_soundex",
+    "complete_soundex_similarity",
     "lk82",
     "metasound",
     "prayut_and_somchaip",
@@ -15,7 +16,10 @@ __all__ = [
     "udom83",
 ]
 
-from pythainlp.soundex.complete_soundex import complete_soundex
+from pythainlp.soundex.complete_soundex import (
+    complete_soundex,
+    complete_soundex_similarity,
+)
 from pythainlp.soundex.lk82 import lk82
 from pythainlp.soundex.metasound import metasound
 from pythainlp.soundex.prayut_and_somchaip import prayut_and_somchaip

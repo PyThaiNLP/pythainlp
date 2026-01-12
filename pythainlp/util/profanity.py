@@ -4,6 +4,7 @@
 """
 Profanity detection for Thai language
 """
+from __future__ import annotations
 
 from pythainlp.corpus.common import thai_profanity_words, thai_words
 from pythainlp.tokenize import word_tokenize

@@ -139,6 +139,23 @@ def convert_years(year: str, src="be", target="ad") -> str:
     because Thailand has change the Thai calendar in 1941.
     If you are the time traveler or the historian, \
     you should care about the correct calendar.
+
+    :Example:
+    ::
+
+        from pythainlp.util import convert_years
+
+        # Convert Buddhist Era (BE) to Anno Domini (AD)
+        convert_years("2566", src="be", target="ad")
+        # output: '2023'
+
+        # Convert AD to BE
+        convert_years("2023", src="ad", target="be")
+        # output: '2566'
+
+        # Convert BE to Rattanakosin Era (RE)
+        convert_years("2566", src="be", target="re")
+        # output: '242'
     """
     output_year = None
     if src == "be":

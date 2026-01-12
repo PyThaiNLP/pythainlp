@@ -12,6 +12,38 @@ from collections.abc import Iterable, Iterator
 
 
 class Trie(Iterable[str]):
+    """Trie data structure for efficient prefix-based word search.
+
+    A Trie (prefix tree) is a tree-like data structure used to store
+    a collection of strings. It enables fast retrieval of words with
+    common prefixes, making it ideal for dictionary-based tokenization
+    and autocomplete features.
+
+    :param Iterable[str] words: An iterable collection of words to initialize the Trie
+
+    :Example:
+    ::
+
+        from pythainlp.util import Trie
+
+        # Create a trie with Thai words
+        trie = Trie(['สวัสดี', 'สวัส', 'ดี', 'ครับ'])
+
+        # Check if word exists
+        'สวัสดี' in trie
+        # output: True
+
+        # Find all prefixes of a word
+        trie.prefixes('สวัสดีครับ')
+        # output: ['สวัส', 'สวัสดี']
+
+        # Add a new word
+        trie.add('สวัสดีตอนเช้า')
+
+        # Get number of words in trie
+        len(trie)
+        # output: 5
+    """
     class Node:
         __slots__ = "end", "children"
 

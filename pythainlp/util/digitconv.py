@@ -117,6 +117,20 @@ def arabic_digit_to_thai_digit(text: str) -> str:
 def digit_to_text(text: str) -> str:
     """:param str text: Text with digits such as '1', '2', '๓', '๔'
     :return: Text with digits spelled out in Thai
+
+    :Example:
+    ::
+
+        from pythainlp.util import digit_to_text
+
+        digit_to_text("เบอร์โทร 0812345678")
+        # output: 'เบอร์โทร ศูนย์แปดหนึ่งสองสามสี่ห้าหกเจ็ดแปด'
+
+        digit_to_text("123")
+        # output: 'หนึ่งสองสาม'
+
+        digit_to_text("๕๖๗")
+        # output: 'ห้าหกเจ็ด'
     """
     if not text or not isinstance(text, str):
         raise TypeError("The text must be str type.")

@@ -8,7 +8,7 @@ Complete Soundex for Thai Words Similarity Analysis
 Original paper:
 Chalermpol  Tapsai, Phayung  Meesad, and Choochart  Haruechaiyasak. 2020.
 Complete Soundex for Thai Words Similarity Analysis.
-Information Technology Journal KMUTNB. 2020 June 30;16(1):46–59.
+Information Technology Journal KMUTNB. 2020 June 30;16(1):46-59.
 
 https://ph01.tci-thaijo.org/index.php/IT_Journal/article/view/241562
 https://ph01.tci-thaijo.org/index.php/IT_Journal/article/view/241562/164358

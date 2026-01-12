@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -19,9 +18,7 @@ from pythainlp.soundex.udom83 import udom83
 # [KSS97] https://linux.thai.net/~thep/soundex/soundex.html
 
 
-def soundex(
-    text: str, engine: str = DEFAULT_SOUNDEX_ENGINE, length: int = 4
-) -> str:
+def soundex(text: str, engine: str = DEFAULT_SOUNDEX_ENGINE, length: int = 4) -> str:
     """
     This function converts Thai text into phonetic code.
 
@@ -73,7 +70,7 @@ def soundex(
         # output: '11'
         soundex("วีพี", engine="prayut_and_somchaip")
         # output: '11'
-        
+
         soundex("ก้าน", engine="complete_soundex")
         # output: 'กก1Bน2-'
         soundex("ทราย", engine="complete_soundex")

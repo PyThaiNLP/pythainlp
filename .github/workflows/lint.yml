@@ -25,5 +25,5 @@ jobs:
     - name: Ruff
       uses: astral-sh/ruff-action@v3
       with:
-        src: "./pythainlp"
+        src: "./pythainlp ./tests ./examples"
         args: check --fix --verbose --line-length 79 --select I,W,C901,W291,W293

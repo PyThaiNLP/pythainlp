@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Data preprocessing for ORCHID corpus
 """
-Data preprocessing for ORCHID corpus
-"""
-from typing import List, Tuple
+
+from __future__ import annotations
 
 # defined strings for special characters,
 # from Table 4 in ORCHID paper
@@ -34,7 +33,7 @@ CHAR_TO_ESCAPE = {
     ";": "<semi_colon>",
     "/": "<slash>",
 }
-ESCAPE_TO_CHAR = dict((v, k) for k, v in CHAR_TO_ESCAPE.items())
+ESCAPE_TO_CHAR = {v: k for k, v in CHAR_TO_ESCAPE.items()}
 
 # map from ORCHID POS tag to Universal POS tag
 # from Korakot Chaovavanich
@@ -126,9 +125,8 @@ def ud_exception(w: str, tag: str) -> str:
     return tag
 
 
-def pre_process(words: List[str]) -> List[str]:
-    """
-    Convert signs and symbols with their defined strings.
+def pre_process(words: list[str]) -> list[str]:
+    """Convert signs and symbols with their defined strings.
     This function is to be used as a preprocessing step,
     before the actual POS tagging.
     """
@@ -138,10 +136,9 @@ def pre_process(words: List[str]) -> List[str]:
 
 
 def post_process(
-    word_tags: List[Tuple[str, str]], to_ud: bool = False
-) -> List[Tuple[str, str]]:
-    """
-    Convert defined strings back to corresponding signs and symbols.
+    word_tags: list[tuple[str, str]], to_ud: bool = False
+) -> list[tuple[str, str]]:
+    """Convert defined strings back to corresponding signs and symbols.
     This function is to be used as a post-processing step,
     after the actual POS tagging.
     """

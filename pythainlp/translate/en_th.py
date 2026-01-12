@@ -1,25 +1,30 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-English-Thai Machine Translation
+"""English-Thai Machine Translation
 
 from VISTEC-depa Thailand Artificial Intelligence Research Institute
 
 Website: https://airesearch.in.th/releases/machine-translation-models/
 """
+
+from __future__ import annotations
+
 import os
 
 try:
     from fairseq.models.transformer import TransformerModel
 except ImportError:
-    raise ImportError("Not found fairseq! Please install fairseq by pip install fairseq")
+    raise ImportError(
+        "Not found fairseq! Please install fairseq by pip install fairseq"
+    )
 
 try:
     from sacremoses import MosesTokenizer
 except ImportError:
-    raise ImportError("Not found sacremoses! Please install sacremoses by pip install sacremoses")
+    raise ImportError(
+        "Not found sacremoses! Please install sacremoses by pip install sacremoses"
+    )
 
 from pythainlp.corpus import download, get_corpus_path
 
@@ -42,16 +47,14 @@ def _download_install(name: str) -> None:
 
 
 def download_model_all() -> None:
-    """
-    Download all translation models in advance
+    """Download all translation models in advance
     """
     _download_install(_EN_TH_MODEL_NAME)
     _download_install(_TH_EN_MODEL_NAME)
 
 
 class EnThTranslator:
-    """
-    English-Thai Machine Translation
+    """English-Thai Machine Translation
 
     from VISTEC-depa Thailand Artificial Intelligence Research Institute
 
@@ -83,8 +86,7 @@ class EnThTranslator:
             self._model = self._model.cuda()
 
     def translate(self, text: str) -> str:
-        """
-        Translate text from English to Thai
+        """Translate text from English to Thai
 
         :param str text: input text in source language
         :return: translated text in target language
@@ -108,8 +110,7 @@ class EnThTranslator:
 
 
 class ThEnTranslator:
-    """
-    Thai-English Machine Translation
+    """Thai-English Machine Translation
 
     from VISTEC-depa Thailand Artificial Intelligence Research Institute
 
@@ -146,8 +147,7 @@ class ThEnTranslator:
             self._model.cuda()
 
     def translate(self, text: str) -> str:
-        """
-        Translate text from Thai to English
+        """Translate text from Thai to English
 
         :param str text: input text in source language
         :return: translated text in target language

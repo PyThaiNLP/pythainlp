@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Multi cut -- Thai word segmentation with maximum matching.
+"""Multi cut -- Thai word segmentation with maximum matching.
 Original codes from Korakot Chaovavanich.
 
 :See Also:
@@ -13,11 +11,13 @@ Original codes from Korakot Chaovavanich.
         <https://gist.github.com/korakot/fe26c65dc9eed467f4497f784a805716>`_
 """
 
+from __future__ import annotations
+
 import re
 from collections import defaultdict
-from typing import Iterator, List
+from collections.abc import Iterator
 
-from pythainlp.tokenize import DEFAULT_WORD_DICT_TRIE
+from pythainlp.tokenize import word_dict_trie
 from pythainlp.util import Trie
 
 
@@ -48,12 +48,11 @@ _PAT_NONTHAI = re.compile(_RE_NONTHAI)
 
 
 def _multicut(
-    text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE
+    text: str, custom_dict: Trie | None = None
 ) -> Iterator[LatticeString]:
     """Return LatticeString"""
     if not custom_dict:
-        custom_dict = DEFAULT_WORD_DICT_TRIE
-
+        custom_dict = word_dict_trie()
     len_text = len(text)
     words_at = defaultdict(list)  # main data structure
 
@@ -101,7 +100,7 @@ def _multicut(
             q.add(i)
 
 
-def mmcut(text: str) -> List[str]:
+def mmcut(text: str) -> list[str]:
     res = []
     for w in _multicut(text):
         mm = min(w.multi, key=lambda x: x.count("/"))
@@ -109,7 +108,7 @@ def mmcut(text: str) -> List[str]:
     return res
 
 
-def _combine(ww: List[LatticeString]) -> Iterator[str]:
+def _combine(ww: list[LatticeString]) -> Iterator[str]:
     if ww == []:
         yield ""
     else:
@@ -122,15 +121,13 @@ def _combine(ww: List[LatticeString]) -> Iterator[str]:
                     yield m.replace("/", "|") + "|" + tail
 
 
-def segment(
-    text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE
-) -> List[str]:
+def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
     """Dictionary-based maximum matching word segmentation.
 
     :param text: text to be tokenized
     :type text: str
     :param custom_dict: tokenization dictionary,\
-        defaults to DEFAULT_WORD_DICT_TRIE
+        defaults to a Trie generated from pythainlp.corpus.thai_words
     :type custom_dict: Trie, optional
     :return: list of segmented tokens
     :rtype: List[str]
@@ -138,24 +135,28 @@ def segment(
     if not text or not isinstance(text, str):
         return []
 
+    if not custom_dict:
+        custom_dict = word_dict_trie()
+
     return list(_multicut(text, custom_dict=custom_dict))
 
 
-def find_all_segment(
-    text: str, custom_dict: Trie = DEFAULT_WORD_DICT_TRIE
-) -> List[str]:
+def find_all_segment(text: str, custom_dict: Trie | None = None) -> list[str]:
     """Get all possible segment variations.
 
     :param text: input string to be tokenized
     :type text: str
     :param custom_dict: tokenization dictionary,\
-        defaults to DEFAULT_WORD_DICT_TRIE
+        defaults to word_dict_trie()
     :type custom_dict: Trie, optional
     :return: list of segment variations
     :rtype: List[str]
     """
     if not text or not isinstance(text, str):
         return []
+
+    if not custom_dict:
+        custom_dict = word_dict_trie()
 
     ww = list(_multicut(text, custom_dict=custom_dict))
 

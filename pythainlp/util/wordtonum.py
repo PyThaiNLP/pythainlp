@@ -1,15 +1,16 @@
-﻿# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Convert number in words to a computable number value
+"""Convert number in words to a computable number value
 
 First version of the code adapted from Korakot Chaovavanich's notebook
 https://colab.research.google.com/drive/148WNIeclf0kOU6QxKd6pcfwpSs8l-VKD#scrollTo=EuVDd0nNuI8Q
 """
+
+from __future__ import annotations
+
 import re
-from typing import List
+from functools import lru_cache
 
 from pythainlp.corpus import thai_words
 from pythainlp.tokenize import Tokenizer
@@ -44,14 +45,17 @@ _powers_of_10 = {
     "แสน": 100000,
     # "ล้าน" was excluded as a special case
 }
-_valid_tokens = (
-    set(_digits.keys()) | set(_powers_of_10.keys()) | {"ล้าน", "ลบ"}
-)
-_tokenizer = Tokenizer(custom_dict=_valid_tokens)
+_valid_tokens = set(_digits.keys()) | set(_powers_of_10.keys()) | {"ล้าน", "ลบ"}
+
+
+@lru_cache
+def _tokenizer():
+    """Lazy load Thai numeral tokenizer with cache"""
+    return Tokenizer(custom_dict=_valid_tokens)
 
 
 def _check_is_thainum(word: str):
-    for j in list(_digits.keys()):
+    for j in _digits:
         if j in word:
             return (True, "num")
     for j in ["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด", "ลบ"]:
@@ -60,16 +64,19 @@ def _check_is_thainum(word: str):
     return (False, None)
 
 
-_dict_words = [i for i in list(thai_words()) if not _check_is_thainum(i)[0]]
-_dict_words += list(_digits.keys())
-_dict_words += ["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด"]
-
-_tokenizer_thaiwords = Tokenizer(_dict_words)
+@lru_cache
+def _tokenizer_thaiwords():
+    """Lazy load Thai words tokenizer with cache"""
+    _dict_words = [
+        i for i in thai_words() if not _check_is_thainum(i)[0]
+    ]
+    _dict_words.extend(_digits.keys())
+    _dict_words.extend(["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด"])
+    return Tokenizer(_dict_words)
 
 
 def thaiword_to_num(word: str) -> int:
-    """
-    Converts the spelled-out numerals in Thai scripts into an actual integer.
+    """Converts the spelled-out numerals in Thai scripts into an actual integer.
 
     :param str word: Spelled-out numerals in Thai scripts
     :return: Corresponding integer value of the input
@@ -96,7 +103,7 @@ def thaiword_to_num(word: str) -> int:
     if not _re_thai_numerals.fullmatch(word):
         raise ValueError("The input string is not a valid Thai numeral")
 
-    tokens = _tokenizer.word_tokenize(word)
+    tokens = _tokenizer().word_tokenize(word)
     accumulated = 0
     next_digit = 1
 
@@ -134,8 +141,7 @@ def _decimal_unit(words: list) -> float:
 
 
 def words_to_num(words: list) -> float:
-    """
-    Thai Words to float
+    """Thai Words to float
 
     :param str text: Thai words
     :return: float of words
@@ -165,9 +171,8 @@ def words_to_num(words: list) -> float:
     return num
 
 
-def text_to_num(text: str) -> List[str]:
-    """
-    Thai text to list of Thai words with floating point numbers
+def text_to_num(text: str) -> list[str]:
+    """Thai text to list of Thai words with floating point numbers
 
     :param str text: Thai text with the spelled-out numerals
     :return: list of Thai words with float values of the input
@@ -185,7 +190,7 @@ def text_to_num(text: str) -> List[str]:
         # output: ['10021889', 'บาท']
 
     """
-    _temp = _tokenizer_thaiwords.word_tokenize(text)
+    _temp = _tokenizer_thaiwords().word_tokenize(text)
     thainum = []
     last_index = -1
     list_word_new = []

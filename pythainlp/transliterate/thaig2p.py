@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai Grapheme-to-Phoneme (Thai G2P)
+"""Thai Grapheme-to-Phoneme (Thai G2P)
 GitHub : https://github.com/wannaphong/thai-g2p
 """
+
+from __future__ import annotations
 
 import random
 
@@ -22,8 +22,7 @@ _MODEL_NAME = "thai-g2p"
 
 
 class ThaiG2P:
-    """
-    Latin transliteration of Thai words, using International Phonetic Alphabet
+    """Latin transliteration of Thai words, using International Phonetic Alphabet
     """
 
     def __init__(self):
@@ -62,8 +61,7 @@ class ThaiG2P:
         self._network.eval()
 
     def _prepare_sequence_in(self, text: str):
-        """
-        Prepare input sequence for PyTorch.
+        """Prepare input sequence for PyTorch.
         """
         idxs = []
         for ch in text:
@@ -76,8 +74,7 @@ class ThaiG2P:
         return tensor.to(device)
 
     def g2p(self, text: str) -> str:
-        """
-        :param str text: Thai text to be romanized
+        """:param str text: Thai text to be romanized
         :return: English (more or less) text that spells out how the Thai text
                  should be pronounced.
         """
@@ -124,7 +121,6 @@ class Encoder(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, sequences, sequences_lengths):
-
         # sequences: (batch_size, sequence_length=MAX_LENGTH)
         # sequences_lengths: (batch_size)
 
@@ -198,9 +194,7 @@ class Attn(nn.Module):
             attn_energies = torch.bmm(
                 attn_energies.view(*encoder_outputs.size()),
                 hidden.transpose(1, 2),
-            ).squeeze(
-                2
-            )  # (batch_size,  sequence_len)
+            ).squeeze(2)  # (batch_size,  sequence_len)
         elif self.method == "concat":
             attn_energies = self.attn(
                 torch.cat(
@@ -244,7 +238,6 @@ class AttentionDecoder(nn.Module):
 
     def forward(self, input_character, last_hidden, encoder_outputs, mask):
         """ "Defines the forward computation of the decoder"""
-
         # input_character: (batch_size, 1)
         # last_hidden: (batch_size, hidden_dim)
         # encoder_outputs: (batch_size, sequence_len, hidden_dim)
@@ -297,7 +290,6 @@ class Seq2Seq(nn.Module):
     def forward(
         self, source_seq, source_seq_len, target_seq, teacher_forcing_ratio=0.5
     ):
-
         # source_seq: (batch_size, MAX_LENGTH)
         # source_seq_len: (batch_size, 1)
         # target_seq: (batch_size, MAX_LENGTH)

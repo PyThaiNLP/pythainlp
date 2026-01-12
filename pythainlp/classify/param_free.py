@@ -1,27 +1,31 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
 
 import gzip
 import json
-from typing import List, Tuple
 
 import numpy as np
 
 
 class GzipModel:
-    """
-    This class is a re-implementation of
-    “Low-Resource” Text Classification: A Parameter-Free Classification Method with Compressors
-    (Jiang et al., Findings 2023)
+    """This class is a re-implementation of
+    “Low-Resource” Text Classification: A Parameter-Free Classification Method
+    with Compressors (Jiang et al., Findings 2023)
 
-    :param list training_data: list [(text_sample,label)]
-    :param str model_path: Path for loading model (if you saved the model)
+    :param list | None training_data: list [(text_sample,label)].
+        Default is None.
+    :param str model_path: Path for loading model (if you saved the model).
+        Default is empty string.
     """
 
-    def __init__(self, training_data: List[Tuple[str, str]] = None, model_path: str = None):
-        if model_path is not None:
+    def __init__(
+        self,
+        training_data: list[tuple[str, str]] | None = None,
+        model_path: str = "",
+    ):
+        if model_path:
             self.load(model_path)
         else:
             self.training_data = np.array(training_data)
@@ -36,8 +40,7 @@ class GzipModel:
         return Cx2_list
 
     def predict(self, x1: str, k: int = 1) -> str:
-        """
-        :param str x1: the text that we want to predict label for.
+        """:param str x1: the text that we want to predict label for.
         :param str k: k
         :return: label
         :rtype: str
@@ -47,7 +50,7 @@ class GzipModel:
 
                 from pythainlp.classify import GzipModel
 
-                training_data =  [
+                training_data = [
                     ("รายละเอียดตามนี้เลยค่าา ^^", "Neutral"),
                     ("กลัวพวกมึงหาย อดกินบาบิก้อน", "Neutral"),
                     ("บริการแย่มากก เป็นหมอได้ไง😤", "Negative"),
@@ -56,7 +59,7 @@ class GzipModel:
                     ("ลองแล้วรสนี้อร่อย... ชอบๆ", "Positive"),
                     ("ฉันรู้สึกโกรธ เวลามือถือแบตหมด", "Negative"),
                     ("เธอภูมิใจที่ได้ทำสิ่งดี ๆ และดีใจกับเด็ก ๆ", "Positive"),
-                    ("นี่เป็นบทความหนึ่ง", "Neutral")
+                    ("นี่เป็นบทความหนึ่ง", "Neutral"),
                 ]
                 model = GzipModel(training_data)
                 print(model.predict("ฉันดีใจ", k=1))
@@ -81,17 +84,22 @@ class GzipModel:
         return predict_class
 
     def save(self, path: str):
+        """:param str path: path to save model
         """
-        :param str path: path for save model
-        """
-        with open(path, "w") as f:
-            json.dump({
-                "training_data": self.training_data.tolist(),
-                "Cx2_list": self.Cx2_list
-            }, f, ensure_ascii=False)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(
+                {
+                    "training_data": self.training_data.tolist(),
+                    "Cx2_list": self.Cx2_list,
+                },
+                f,
+                ensure_ascii=False,
+            )
 
     def load(self, path: str):
-        with open(path, "r") as f:
+        """:param str path: path to load model
+        """
+        with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
             self.Cx2_list = data["Cx2_list"]
             self.training_data = np.array(data["training_data"])

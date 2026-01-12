@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Minimal re-implementation of KeyBERT.
+"""Minimal re-implementation of KeyBERT.
 
 KeyBERT is a minimal and easy-to-use keyword extraction technique
 that leverages BERT embeddings to create keywords and keyphrases
@@ -11,8 +9,11 @@ that are most similar to a document.
 
 https://github.com/MaartenGr/KeyBERT
 """
+
+from __future__ import annotations
+
 from collections import Counter
-from typing import Iterable, List, Optional, Tuple, Union
+from collections.abc import Iterable
 
 import numpy as np
 from transformers import pipeline
@@ -35,15 +36,14 @@ class KeyBERT:
     def extract_keywords(
         self,
         text: str,
-        keyphrase_ngram_range: Tuple[int, int] = (1, 2),
+        keyphrase_ngram_range: tuple[int, int] = (1, 2),
         max_keywords: int = 5,
         min_df: int = 1,
         tokenizer: str = "newmm",
         return_similarity=False,
-        stop_words: Optional[Iterable[str]] = None,
-    ) -> Union[List[str], List[Tuple[str, float]]]:
-        """
-        Extract Thai keywords and/or keyphrases with KeyBERT algorithm.
+        stop_words: Iterable[str] | None = None,
+    ) -> list[str] | list[tuple[str, float]]:
+        """Extract Thai keywords and/or keyphrases with KeyBERT algorithm.
         See https://github.com/MaartenGr/KeyBERT.
 
         :param str text: text to be summarized
@@ -87,7 +87,9 @@ class KeyBERT:
             # 'ควบคุมการเปลี่ยนแปลง',
             # 'มีพิษ']
 
-            keywords = kb.extract_keyword(text, max_keywords=10, return_similarity=True)
+            keywords = kb.extract_keyword(
+                text, max_keywords=10, return_similarity=True
+            )
 
             # output: [('อวัยวะต่างๆ', 0.3228477063109462),
             # ('ซ่อมแซมส่วน', 0.31320597838000375),
@@ -132,9 +134,8 @@ class KeyBERT:
         else:
             return [kw for kw, _ in keywords]
 
-    def embed(self, docs: Union[str, List[str]]) -> np.ndarray:
-        """
-        Create an embedding of each input in `docs` by averaging vectors from the last hidden layer.
+    def embed(self, docs: str | list[str]) -> np.ndarray:
+        """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer.
         """
         embs = self.ft_pipeline(docs)
         if isinstance(docs, str) or len(docs) == 1:
@@ -152,11 +153,11 @@ class KeyBERT:
 
 def _generate_ngrams(
     doc: str,
-    keyphrase_ngram_range: Tuple[int, int],
+    keyphrase_ngram_range: tuple[int, int],
     min_df: int,
     tokenizer_engine: str,
     stop_words: Iterable[str],
-) -> List[str]:
+) -> list[str]:
     assert keyphrase_ngram_range[0] >= 1, (
         f"`keyphrase_ngram_range` must start from 1. "
         f"current value={keyphrase_ngram_range}."
@@ -167,7 +168,7 @@ def _generate_ngrams(
         f"current value={keyphrase_ngram_range}."
     )
 
-    def _join_ngram(ngrams: List[Tuple[str, str]]) -> List[str]:
+    def _join_ngram(ngrams: list[tuple[str, str]]) -> list[str]:
         ngrams_joined = []
         for ng in ngrams:
             joined = "".join(ng)
@@ -201,18 +202,18 @@ def _generate_ngrams(
 def _rank_keywords(
     doc_vector: np.ndarray,
     word_vectors: np.ndarray,
-    keywords: List[str],
+    keywords: list[str],
     max_keywords: int,
-) -> List[Tuple[str, float]]:
+) -> list[tuple[str, float]]:
     def l2_norm(v: np.ndarray) -> np.ndarray:
         vec_size = v.shape[1]
         result = np.divide(
             v,
             np.linalg.norm(v, axis=1).reshape(-1, 1).repeat(vec_size, axis=1),
         )
-        assert np.isclose(
-            np.linalg.norm(result, axis=1), 1
-        ).all(), "Cannot normalize a vector to unit vector."
+        assert np.isclose(np.linalg.norm(result, axis=1), 1).all(), (
+            "Cannot normalize a vector to unit vector."
+        )
         return result
 
     def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:

@@ -1,19 +1,23 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """Command line helpers."""
 
+from __future__ import annotations
+
 import io
 import sys
 from argparse import ArgumentError, ArgumentParser
-from pythainlp.cli import data, tokenize, soundex, tag, benchmark, misspell
+
+from pythainlp.cli import benchmark, data, misspell, soundex, tag, tokenize
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
 
 # a command should start with a verb when possible
-COMMANDS = sorted(["data", "soundex", "tag", "tokenize", "benchmark", "misspell"])
+COMMANDS = sorted(
+    ["data", "soundex", "tag", "tokenize", "benchmark", "misspell"]
+)
 
 CLI_NAME = "thainlp"
 
@@ -37,6 +41,7 @@ def exit_if_empty(command: str, parser: ArgumentParser) -> None:
             parser.print_help()
         raise ArgumentError(None, "No command provided.")
 
+
 if __name__ == "__main__":
     # Create a simple mapping from command name to the imported module
     COMMAND_MAP = {
@@ -54,6 +59,9 @@ if __name__ == "__main__":
         COMMAND_MAP[command].run()
     else:
         if len(sys.argv) < 2:
-            print(f"Error: No command provided. Choose one of: {list(COMMAND_MAP.keys())}", file=sys.stderr)
+            print(
+                f"Error: No command provided. Choose one of: {list(COMMAND_MAP.keys())}",
+                file=sys.stderr,
+            )
         else:
             print(f"Error: Unknown command '{sys.argv[1]}'", file=sys.stderr)

@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 # ruff: noqa: C901
+from __future__ import annotations
 
-from typing import List, Union
-
+from pythainlp import thai_consonants
 from pythainlp.tokenize import subword_tokenize
 from pythainlp.util import remove_tonemark, sound_syllable
 
@@ -15,6 +14,22 @@ class KhaveeVerifier:
         """
         KhaveeVerifier: Thai Poetry verifier
         """
+
+    def _has_true_final_yl(self, word: str) -> bool:
+        """
+        Check if ย or ล is a true final consonant
+        (not just part of the vowel sound with ไ/ใ)
+
+        :param str word: Thai word
+        :return: True if ย or ล is a true final consonant
+        :rtype: bool
+        """
+        if len(word) < 2:
+            return False
+        # Count consonants in the word
+        consonant_count = sum(1 for c in word if c in thai_consonants)
+        # If there are 2+ consonants and word ends with ย or ล, it's a true final
+        return consonant_count >= 2 and word[-1] in ["ย", "ล"]
 
     def check_sara(self, word: str) -> str:
         """
@@ -223,16 +238,34 @@ class KhaveeVerifier:
             print(kv.check_marttra("สาว"))
             # output: 'เกอว'
         """
-        if word[-1] == "ร" and word[-2] in ["ต", "ท"]:
-            word = word[:-1]
+        # Handle consonant clusters ending with ร
+        # ตร, ทร → remove ร (treat as final ต/ท sound)
+        # กร, ขร, คร, ฆร in compound words → remove ร (treat as final ก/ข/ค sound)
+        # But single syllable words like "กร" should keep ร
+        if len(word) >= 3 and word[-1] == "ร":
+            if word[-2] in ["ต", "ท"]:
+                word = word[:-1]
+            elif word[-2] in ["ก", "ข", "ค", "ฆ"]:
+                word = word[:-1]
+
         word = self.handle_karun_sound_silence(word)
         word = remove_tonemark(word)
-        if (
-            "ำ" in word
-            or ("ํ" in word and "า" in word)
-            or "ไ" in word
-            or "ใ" in word
-        ):
+
+        # Check for ำ at the end (represents "am" sound, ends with m)
+        if word[-1] == "ำ":
+            return "กม"
+
+        # Check for vowels and special patterns that indicate open syllables (กา)
+        # For words with ไ/ใ, check if ย/ล is a true final or just part of vowel
+        if "ไ" in word or "ใ" in word:
+            if word[-1] not in ["ย", "ล"]:
+                return "กา"
+            elif not self._has_true_final_yl(word):
+                # ย/ล is part of the vowel sound, not a true final
+                return "กา"
+            # else: ย/ล is a true final, continue to consonant classification below
+
+        if "ํ" in word and "า" in word:
             return "กา"
         elif (
             word[-1] in ["า", "ะ", "ิ", "ี", "ุ", "ู", "อ"]
@@ -245,10 +278,9 @@ class KhaveeVerifier:
         elif word[-1] in ["ม"]:
             return "กม"
         elif word[-1] in ["ย"]:
-            if "ั" in word:
-                return "กา"
-            else:
-                return "เกย"
+            return "เกย"
+        elif word[-1] in ["ล"]:
+            return "เกย"
         elif word[-1] in ["ว"]:
             return "เกอว"
         elif word[-1] in ["ก", "ข", "ค", "ฆ"]:
@@ -272,7 +304,7 @@ class KhaveeVerifier:
             "ส",
         ]:
             return "กด"
-        elif word[-1] in ["ญ", ", ณ", "น", "ร", "ล", "ฬ"]:
+        elif word[-1] in ["ญ", "ณ", "น", "ร", "ฬ"]:
             return "กน"
         elif word[-1] in ["บ", "ป", "พ", "ฟ", "ภ"]:
             return "กบ"
@@ -349,13 +381,14 @@ class KhaveeVerifier:
         else:
             return "lahu"
 
-    def check_klon(self, text: str, k_type: int = 8) -> Union[List[str], str]:
+    def check_klon(self, text: str, k_type: int = 8) -> list[str] | str:
         """
         Check the suitability of the poem according to Thai principles.
 
         :param str text: Thai poem
         :param int k_type: type of Thai poem
-        :return: the check results of the suitability of the poem according to Thai principles.
+        :return: the check results of the suitability of the
+            poem according to Thai principles.
         :rtype: Union[List[str], str]
 
         :Example:
@@ -592,14 +625,16 @@ class KhaveeVerifier:
             return "Something went wrong. Make sure you enter it in the correct form."
 
     def check_aek_too(
-        self, text: Union[List[str], str], dead_syllable_as_aek: bool = False
-    ) -> Union[List[bool], List[str], bool, str]:
+        self, text: list[str] | str, dead_syllable_as_aek: bool = False
+    ) -> list[bool] | list[str] | bool | str:
         """
         Checker of Thai tonal words
 
         :param Union[List[str], str] text: Thai word or list of Thai words
-        :param bool dead_syllable_as_aek: if True, dead syllable will be considered as aek
-        :return: the check result if the word is aek or too or False (not both) or list of check results if input is list
+        :param bool dead_syllable_as_aek: if True, dead syllable will
+            be considered as aek
+        :return: the check result if the word is aek or too
+            or False (not both) or list of check results if input is list
         :rtype: Union[List[bool], List[str], bool, str]
 
         :Example:
@@ -618,8 +653,6 @@ class KhaveeVerifier:
             # -> False, aek, too
             print(kv.check_aek_too(["เอง", "เอ่ง", "เอ้ง"]))  # ใช้ List ได้เหมือนกัน
             # -> [False, 'aek', 'too']
-
-
         """
         if isinstance(text, list):
             return [self.check_aek_too(t, dead_syllable_as_aek) for t in text]
@@ -640,7 +673,8 @@ class KhaveeVerifier:
     def handle_karun_sound_silence(self, word: str) -> str:
         """
         Handle silent sounds in Thai words using '์' character (Karun)
-        by stripping all characters before the 'Karun' character that should be silenced
+        by stripping all characters before the 'Karun' character
+        that should be silenced
 
         :param str text: Thai word
         :return: Thai word with silent words stripped
@@ -649,9 +683,7 @@ class KhaveeVerifier:
         sound_silenced = word.endswith("์")
         if not sound_silenced:
             return word
-        thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"
-        locate_silenced = word.rfind("์") - 1
-        can_silence_two = word[locate_silenced - 2] in thai_consonants
-        cut_off = 2 if can_silence_two else 1
-        word = word[: locate_silenced + 1 - cut_off]
+        # Remove ์ and the silent consonant before it
+        # การันต์ (์) marks the consonant immediately before it as silent
+        word = word[:-2]
         return word

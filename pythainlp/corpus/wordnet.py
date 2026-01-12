@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-NLTK WordNet wrapper
+"""NLTK WordNet wrapper
 
 API here is exactly the same as NLTK WordNet API,
 except that the lang (language) argument is "tha" (Thai) by default.
@@ -11,6 +9,9 @@ except that the lang (language) argument is "tha" (Thai) by default.
 For more on usage, see NLTK Howto:
 https://www.nltk.org/howto/wordnet.html
 """
+
+from __future__ import annotations
+
 import nltk
 
 try:
@@ -26,15 +27,14 @@ except LookupError:
 from nltk.corpus import wordnet
 
 
-def synsets(word: str, pos: str = None, lang: str = "tha"):
-    """
-    This function returns the synonym set for all lemmas of the given word
+def synsets(word: str, pos: str | None = None, lang: str = "tha"):
+    """This function returns the synonym set for all lemmas of the given word
     with an optional argument to constrain the part of speech of the word.
 
     :param str word: word to find synsets of
-    :param str pos: constraint of the part of speech (i.e. *n* for Noun, *v*
+    :param str | None pos: constraint of the part of speech (i.e. *n* for Noun, *v*
                     for Verb, *a* for Adjective, *s* for Adjective
-                    satellites, and *r* for Adverb)
+                    satellites, and *r* for Adverb). Default is None.
     :param str lang: abbreviation of language (i.e. *eng*, *tha*).
                      By default, it is *tha*
 
@@ -75,8 +75,7 @@ def synsets(word: str, pos: str = None, lang: str = "tha"):
 
 
 def synset(name_synsets):
-    """
-    This function returns the synonym set (synset) given the name of the synset
+    """This function returns the synonym set (synset) given the name of the synset
     (i.e. 'dog.n.01', 'chase.v.01').
 
     :param str name_synsets: name of the synset
@@ -88,7 +87,7 @@ def synset(name_synsets):
 
         >>> from pythainlp.corpus.wordnet import synset
         >>>
-        >>> difficult = synset('difficult.a.01')
+        >>> difficult = synset("difficult.a.01")
         >>> difficult
         Synset('difficult.a.01')
         >>>
@@ -99,13 +98,12 @@ def synset(name_synsets):
     return wordnet.synset(name_synsets)
 
 
-def all_lemma_names(pos: str = None, lang: str = "tha"):
-    """
-    This function returns all lemma names for all synsets of the given
+def all_lemma_names(pos: str | None = None, lang: str = "tha"):
+    """This function returns all lemma names for all synsets of the given
     part of speech tag and language. If part of speech tag is not
     specified, all synsets of all parts of speech will be used.
 
-    :param str pos: constraint of the part of speech (i.e. *n* for Noun,
+    :param str | None pos: constraint of the part of speech (i.e. *n* for Noun,
                     *v* for Verb, *a* for Adjective, *s* for
                     Adjective satellites, and *r* for Adverb).
                     By default, *pos* is **None**.
@@ -142,12 +140,11 @@ def all_lemma_names(pos: str = None, lang: str = "tha"):
     return wordnet.all_lemma_names(pos=pos, lang=lang)
 
 
-def all_synsets(pos: str = None):
-    """
-    This function iterates over all synsets constrained by the given
+def all_synsets(pos: str | None = None):
+    """This function iterates over all synsets constrained by the given
     part of speech tag.
 
-    :param str pos: part of speech tag
+    :param str | None pos: part of speech tag. Default is None.
 
     :return: list of synsets constrained by the given part of speech tag.
     :rtype: Iterable[:class:`Synset`]
@@ -174,8 +171,7 @@ def all_synsets(pos: str = None):
 
 
 def langs():
-    """
-    This function returns a set of ISO-639 language codes.
+    """This function returns a set of ISO-639 language codes.
 
     :return: ISO-639 language codes
     :rtype: list[str]
@@ -192,15 +188,14 @@ def langs():
     return wordnet.langs()
 
 
-def lemmas(word: str, pos: str = None, lang: str = "tha"):
-    """
-    This function returns all lemmas given the word with an optional
+def lemmas(word: str, pos: str | None = None, lang: str = "tha"):
+    """This function returns all lemmas given the word with an optional
     argument to constrain the part of speech of the word.
 
     :param str word: word to find lemmas of
-    :param str pos: constraint of the part of speech (i.e. *n* for Noun,
+    :param str | None pos: constraint of the part of speech (i.e. *n* for Noun,
                     *v* for Verb, *a* for Adjective, *s* for
-                    Adjective satellites, and *r* for Adverb)
+                    Adjective satellites, and *r* for Adverb). Default is None.
     :param str lang: abbreviation of language (i.e. *eng*, *tha*).
                      By default, it is *tha*.
 
@@ -237,8 +232,7 @@ def lemmas(word: str, pos: str = None, lang: str = "tha"):
 
 
 def lemma(name_synsets):
-    """
-    This function returns lemma object given the name.
+    """This function returns lemma object given the name.
 
     .. note::
         Support only English language (*eng*).
@@ -252,21 +246,20 @@ def lemma(name_synsets):
 
         >>> from pythainlp.corpus.wordnet import lemma
         >>>
-        >>> lemma('practice.v.01.exercise')
+        >>> lemma("practice.v.01.exercise")
         Lemma('practice.v.01.exercise')
         >>>
-        >>> lemma('drill.v.03.exercise')
+        >>> lemma("drill.v.03.exercise")
         Lemma('drill.v.03.exercise')
         >>>
-        >>> lemma('exercise.n.01.exercise')
+        >>> lemma("exercise.n.01.exercise")
         Lemma('exercise.n.01.exercise')
     """
     return wordnet.lemma(name_synsets)
 
 
 def lemma_from_key(key):
-    """
-    This function returns lemma object given the lemma key.
+    """This function returns lemma object given the lemma key.
     This is similar to :func:`lemma` but it needs to be given the key
     of lemma instead of the name of lemma.
 
@@ -282,7 +275,7 @@ def lemma_from_key(key):
 
         >>> from pythainlp.corpus.wordnet import lemma, lemma_from_key
         >>>
-        >>> practice = lemma('practice.v.01.exercise')
+        >>> practice = lemma("practice.v.01.exercise")
         >>> practice.key()
         exercise%2:41:00::
         >>> lemma_from_key(practice.key())
@@ -292,8 +285,7 @@ def lemma_from_key(key):
 
 
 def path_similarity(synsets1, synsets2):
-    """
-    This function returns similarity between two synsets based on the
+    """This function returns similarity between two synsets based on the
     shortest path distance calculated using the equation below.
 
     .. math::
@@ -317,9 +309,9 @@ def path_similarity(synsets1, synsets2):
 
         >>> from pythainlp.corpus.wordnet import path_similarity, synset
         >>>
-        >>> entity = synset('entity.n.01')
-        >>> obj = synset('object.n.01')
-        >>> cat = synset('cat.n.01')
+        >>> entity = synset("entity.n.01")
+        >>> obj = synset("object.n.01")
+        >>> cat = synset("cat.n.01")
         >>>
         >>> path_similarity(entity, obj)
         0.3333333333333333
@@ -332,8 +324,7 @@ def path_similarity(synsets1, synsets2):
 
 
 def lch_similarity(synsets1, synsets2):
-    """
-    This function returns Leacock Chodorow similarity (LCH)
+    """This function returns Leacock Chodorow similarity (LCH)
     between two synsets, based on the shortest path distance
     and the maximum depth of the taxonomy. The equation to
     calculate LCH similarity is shown below:
@@ -355,9 +346,9 @@ def lch_similarity(synsets1, synsets2):
 
         >>> from pythainlp.corpus.wordnet import lch_similarity, synset
         >>>
-        >>> entity = synset('entity.n.01')
-        >>> obj = synset('object.n.01')
-        >>> cat = synset('cat.n.01')
+        >>> entity = synset("entity.n.01")
+        >>> obj = synset("object.n.01")
+        >>> cat = synset("cat.n.01")
         >>>
         >>> lch_similarity(entity, obj)
         2.538973871058276
@@ -370,8 +361,7 @@ def lch_similarity(synsets1, synsets2):
 
 
 def wup_similarity(synsets1, synsets2):
-    """
-    This function returns Wu-Palmer similarity (WUP) between two synsets,
+    """This function returns Wu-Palmer similarity (WUP) between two synsets,
     based on the depth of the two senses in the taxonomy and their
     Least Common Subsumer (most specific ancestor node).
 
@@ -387,9 +377,9 @@ def wup_similarity(synsets1, synsets2):
 
         >>> from pythainlp.corpus.wordnet import wup_similarity, synset
         >>>
-        >>> entity = synset('entity.n.01')
-        >>> obj = synset('object.n.01')
-        >>> cat = synset('cat.n.01')
+        >>> entity = synset("entity.n.01")
+        >>> obj = synset("object.n.01")
+        >>> cat = synset("cat.n.01")
         >>>
         >>> wup_similarity(entity, obj)
         0.5
@@ -401,13 +391,13 @@ def wup_similarity(synsets1, synsets2):
     return wordnet.wup_similarity(synsets1, synsets2)
 
 
-def morphy(form, pos: str = None):
-    """
-    This function finds a possible base form for the given form,
+def morphy(form, pos: str | None = None):
+    """This function finds a possible base form for the given form,
     with the given part of speech.
 
     :param str form: the form to finds the base form of
-    :param str pos: part of speech tag of words to be searched
+    :param str | None pos: part of speech tag of words to be searched.
+        Default is None.
 
     :return: base form of the given form
     :rtype: str
@@ -432,8 +422,7 @@ def morphy(form, pos: str = None):
 
 
 def custom_lemmas(tab_file, lang: str):
-    """
-    This function reads a custom tab file
+    """This function reads a custom tab file
     (see: http://compling.hss.ntu.edu.sg/omw/)
     containing mappings of lemmas in the given language.
 

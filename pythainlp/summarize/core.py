@@ -1,12 +1,12 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Text summarization and keyword extraction
+"""Text summarization and keyword extraction
 """
 
-from typing import Iterable, List, Optional, Tuple
+from __future__ import annotations
+
+from collections.abc import Iterable
 
 from pythainlp.summarize import (
     CPE_KMUTT_THAI_SENTENCE_SUM,
@@ -22,9 +22,8 @@ def summarize(
     n: int = 1,
     engine: str = DEFAULT_SUMMARIZE_ENGINE,
     tokenizer: str = "newmm",
-) -> List[str]:
-    """
-    This function summarizes text based on frequency of words.
+) -> list[str]:
+    """This function summarizes text based on frequency of words.
 
     Under the hood, this function first tokenizes sentences from the given
     text with :func:`pythainlp.tokenize.sent_tokenize`.
@@ -119,15 +118,14 @@ def summarize(
 
 def extract_keywords(
     text: str,
-    keyphrase_ngram_range: Tuple[int, int] = (1, 2),
+    keyphrase_ngram_range: tuple[int, int] = (1, 2),
     max_keywords: int = 5,
     min_df: int = 1,
     engine: str = DEFAULT_KEYWORD_EXTRACTION_ENGINE,
     tokenizer: str = "newmm",
-    stop_words: Optional[Iterable[str]] = None,
-) -> List[str]:
-    """
-    This function returns most-relevant keywords (and/or keyphrases) from the input document.
+    stop_words: Iterable[str] | None = None,
+) -> list[str]:
+    """This function returns most-relevant keywords (and/or keyphrases) from the input document.
     Each algorithm may produce completely different keywords from each other,
     so please be careful when choosing the algorithm.
 
@@ -197,7 +195,7 @@ def extract_keywords(
         max_keywords: int = 5,
         min_df: int = 5,
         tokenizer: str = "newmm",
-        stop_words: Optional[Iterable[str]] = None,
+        stop_words: Iterable[str] | None = None,
     ):
         from pythainlp.tokenize import word_tokenize
         from pythainlp.util.keywords import rank

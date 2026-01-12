@@ -1,12 +1,14 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai soundex
+"""Thai soundex
 
 Has multiple systems to choose from: Udom83 (default), LK82, MetaSound,
 Complete Soundex, and Prayut & Somchaip
 """
+
+from __future__ import annotations
+
 from pythainlp.soundex import DEFAULT_SOUNDEX_ENGINE
 from pythainlp.soundex.complete_soundex import complete_soundex
 from pythainlp.soundex.lk82 import lk82
@@ -18,9 +20,10 @@ from pythainlp.soundex.udom83 import udom83
 # [KSS97] https://linux.thai.net/~thep/soundex/soundex.html
 
 
-def soundex(text: str, engine: str = DEFAULT_SOUNDEX_ENGINE, length: int = 4) -> str:
-    """
-    This function converts Thai text into phonetic code.
+def soundex(
+    text: str, engine: str = DEFAULT_SOUNDEX_ENGINE, length: int = 4
+) -> str:
+    """This function converts Thai text into phonetic code.
 
     :param str text: word
     :param str engine: soundex engine

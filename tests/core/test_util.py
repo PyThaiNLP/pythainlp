@@ -3,8 +3,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-"""
-Unit tests for pythainlp.util module.
+"""Unit tests for pythainlp.util module.
 """
 
 import os
@@ -16,6 +15,7 @@ from pythainlp.corpus import _CORPUS_PATH, thai_words
 from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 from pythainlp.util import (
     Trie,
+    analyze_thai_text,
     arabic_digit_to_thai_digit,
     bahttext,
     collate,
@@ -46,6 +46,7 @@ from pythainlp.util import (
     remove_trailing_repeat_consonants,
     remove_zw,
     sound_syllable,
+    spelling,
     syllable_length,
     syllable_open_close_detector,
     text_to_arabic_digit,
@@ -66,8 +67,6 @@ from pythainlp.util import (
     to_lunar_date,
     tone_detector,
     words_to_num,
-    spelling,
-    analyze_thai_text,
 )
 from pythainlp.util.morse import morse_decode, morse_encode
 

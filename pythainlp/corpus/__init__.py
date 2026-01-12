@@ -1,13 +1,13 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Corpus related functions.
+"""Corpus related functions.
 
 Access to dictionaries, word lists, and language models.
 Including download manager.
 """
+
+from __future__ import annotations
 
 __all__ = [
     "corpus_db_path",
@@ -71,26 +71,24 @@ if not os.path.exists(_CORPUS_DB_PATH) and _CHECK_MODE != "1":
 
 
 def corpus_path() -> str:
-    """
-    Get path where corpus files are kept locally.
+    """Get path where corpus files are kept locally.
     """
     return _CORPUS_PATH
 
 
 def corpus_db_url() -> str:
-    """
-    Get remote URL of corpus catalog.
+    """Get remote URL of corpus catalog.
     """
     return _CORPUS_DB_URL
 
 
 def corpus_db_path() -> str:
-    """
-    Get local path of corpus catalog.
+    """Get local path of corpus catalog.
     """
     return _CORPUS_DB_PATH
 
-
+# DO NOT REORDER these pythainlp.corpus imports.
+# These imports must come before other pythainlp.corpus.* imports
 from pythainlp.corpus.core import (
     download,
     get_corpus,
@@ -99,12 +97,12 @@ from pythainlp.corpus.core import (
     get_corpus_db_detail,
     get_corpus_default_db,
     get_corpus_path,
+    get_hf_hub,
     get_path_folder_corpus,
     make_safe_directory_name,
-    get_hf_hub,
     path_pythainlp_corpus,
     remove,
-)  # these imports must come before other pythainlp.corpus.* imports
+)
 from pythainlp.corpus.common import (
     countries,
     find_synonyms,

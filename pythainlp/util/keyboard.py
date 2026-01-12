@@ -1,10 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Functions related to keyboard layout.
 """
-Functions related to keyboard layout.
-"""
+
+from __future__ import annotations
 
 EN_TH_KEYB_PAIRS = {
     "Z": "(",
@@ -121,8 +121,7 @@ TIS_820_2531_MOD_SHIFT = [
 
 
 def eng_to_thai(text: str) -> str:
-    """
-    Corrects the given text that was incorrectly typed using English-US
+    """Corrects the given text that was incorrectly typed using English-US
     Qwerty keyboard layout to the originally intended keyboard layout
     that is the Thai Kedmanee keyboard.
 
@@ -144,8 +143,7 @@ def eng_to_thai(text: str) -> str:
 
 
 def thai_to_eng(text: str) -> str:
-    """
-    Corrects the given text that was incorrectly typed using Thai Kedmanee
+    """Corrects the given text that was incorrectly typed using Thai Kedmanee
     keyboard layout to the originally intended keyboard layout
     that is the English-US Qwerty keyboard.
 
@@ -167,8 +165,7 @@ def thai_to_eng(text: str) -> str:
 
 
 def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
-    """
-    Calculate Euclidean distance between two Thai characters
+    """Calculate Euclidean distance between two Thai characters
     according to their location on a Thai keyboard layout.
 
     A modified TIS 820-2531 standard keyboard layout, which is developed

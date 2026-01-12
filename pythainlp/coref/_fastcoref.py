@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import List
+from __future__ import annotations
 
 import spacy
 
@@ -30,7 +29,7 @@ class FastCoref:
             "clusters": _predict.get_clusters(as_strings=False),
         }
 
-    def predict(self, texts: List[str]) -> List[dict]:
+    def predict(self, texts: list[str]) -> list[dict]:
         return [
             self._to_json(pred) for pred in self.model.predict(texts=texts)
         ]

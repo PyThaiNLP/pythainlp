@@ -1,13 +1,12 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Check if it is Thai text
+"""Check if it is Thai text
 """
 
+from __future__ import annotations
+
 import string
-from typing import Tuple
 from collections import defaultdict
 
 from pythainlp import (
@@ -205,7 +204,6 @@ def display_thai_char(ch: str) -> str:
         display_thai_char("้")
         # output: "_้"
     """
-
     if (
         ch in thai_above_vowels
         or ch in thai_tonemarks
@@ -217,9 +215,8 @@ def display_thai_char(ch: str) -> str:
         return ch
 
 
-def thai_word_tone_detector(word: str) -> Tuple[str, str]:
-    """
-    Thai tone detector for word.
+def thai_word_tone_detector(word: str) -> tuple[str, str]:
+    """Thai tone detector for word.
 
     It uses pythainlp.transliterate.pronunciate for converting word to\
         pronunciation.
@@ -248,8 +245,7 @@ def thai_word_tone_detector(word: str) -> Tuple[str, str]:
 
 
 def count_thai_chars(text: str) -> dict:
-    """
-    Count Thai characters by type
+    """Count Thai characters by type
 
     This function will give you numbers of Thai characters by type\
         (consonants, vowels, lead_vowels, follow_vowels, above_vowels,\
@@ -319,8 +315,7 @@ def count_thai_chars(text: str) -> dict:
 
 
 def analyze_thai_text(text: str) -> dict:
-    """
-    Analyzes a string of Thai text and returns a dictionaries,
+    """Analyzes a string of Thai text and returns a dictionaries,
     where each values represents a single classified character from the text.
 
     The function processes the text character by character and maps each Thai
@@ -337,6 +332,7 @@ def analyze_thai_text(text: str) -> dict:
 
         >>> analyze_thai_text("เล่น")
         {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
+
     """
     results = defaultdict(int)
 
@@ -345,9 +341,9 @@ def analyze_thai_text(text: str) -> dict:
         # Check if the character is in our mapping
         if char in THAI_CHAR_NAMES:
             name = THAI_CHAR_NAMES[char]
-            results[name]+=1
+            results[name] += 1
         else:
             # If the character is not a known Thai character, classify it as character
-            results[char]+=1
+            results[char] += 1
 
     return dict(results)

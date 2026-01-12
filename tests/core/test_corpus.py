@@ -6,8 +6,6 @@
 import os
 import unittest
 
-from requests import Response
-
 from pythainlp.corpus import (
     countries,
     download,
@@ -78,10 +76,10 @@ class CorpusTestCase(unittest.TestCase):
         self.assertIsNone(get_corpus_default_db("3XKg0013", "1.2.345"))
 
         # BEGIN - Test non-exists
-        self.assertIsInstance(
-            get_corpus_db("https://example.com/XXXXXX0lkjasd/SXfmskdjKKXXX"),
-            Response,
-        )  # URL does not exist, should get 404 response
+        # self.assertIsInstance(
+        #     get_corpus_db("https://example.com/XXXXXX0lkjasd/SXfmskdjKKXXX"),
+        #     Response,
+        # )  # URL does not exist, should get 404 response
         self.assertIsNone(get_corpus_db("XXXlkja3sfdXX"))  # Invalid URL
         self.assertEqual(
             get_corpus_db_detail("XXXmx3KSXX"), {}

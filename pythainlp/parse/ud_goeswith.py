@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-UDgoeswith
+"""UDgoeswith
 
 Author: Prof. Koichi Yasuoka
 
@@ -10,7 +8,8 @@ The source: https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-goeswith
 
 GitHub: https://github.com/KoichiYasuoka
 """
-from typing import List, Union
+
+from __future__ import annotations
 
 import numpy as np
 import torch
@@ -27,9 +26,7 @@ class Parse:
         self.tokenizer = AutoTokenizer.from_pretrained(model)
         self.model = AutoModelForTokenClassification.from_pretrained(model)
 
-    def __call__(
-        self, text: str, tag: str = "str"
-    ) -> Union[List[List[str]], str]:
+    def __call__(self, text: str, tag: str = "str") -> list[list[str]] | str:
         w = self.tokenizer(text, return_offsets_mapping=True)
         v = w["input_ids"]
         x = [

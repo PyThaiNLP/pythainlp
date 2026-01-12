@@ -1,9 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
 import re
-from typing import List
+from functools import lru_cache
 
 from pythainlp import (
     thai_above_vowels,
@@ -48,7 +49,13 @@ for i in thai_above_vowels:
 for i in thai_below_vowels:
     dict_vowel[i] = "อ" + i
 
-_cut = Tokenizer(list(dict_vowel.keys()) + list(thai_consonants), engine="mm")
+
+@lru_cache
+def _cut():
+    """Lazy load vowel tokenizer with cache"""
+    return Tokenizer(
+        list(dict_vowel.keys()) + list(thai_consonants), engine="mm"
+    )
 
 
 def _clean(w):
@@ -77,9 +84,8 @@ def _clean(w):
     return w
 
 
-def spell_syllable(text: str) -> List[str]:
-    """
-    Spell out syllables in Thai word distribution form.
+def spell_syllable(text: str) -> list[str]:
+    """Spell out syllables in Thai word distribution form.
 
     :param str s: Thai syllables only
     :return: List of spelled out syllables
@@ -93,7 +99,7 @@ def spell_syllable(text: str) -> List[str]:
         print(spell_syllable("แมว"))
         # output: ['มอ', 'วอ', 'แอ', 'แมว']
     """
-    tokens = _cut.word_tokenize(_clean(text))
+    tokens = _cut().word_tokenize(_clean(text))
 
     c_only = [tok + "อ" for tok in tokens if tok in set(thai_consonants)]
     v_only = [dict_vowel[tok] for tok in tokens if tok in set(dict_vowel)]
@@ -102,9 +108,8 @@ def spell_syllable(text: str) -> List[str]:
     return c_only + v_only + t_only + [text]
 
 
-def spell_word(text: str) -> List[str]:
-    """
-    Spell out words in Thai word distribution form.
+def spell_word(text: str) -> list[str]:
+    """Spell out words in Thai word distribution form.
 
     :param str w: Thai words only
     :return: List of spelled out words

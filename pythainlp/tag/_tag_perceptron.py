@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Perceptron Tagger.
+"""Perceptron Tagger.
 
 This tagger is a port of the Textblob Averaged Perceptron Tagger
 Author: Matthew Honnibal <honnibal+gh@gmail.com>,
@@ -17,14 +15,16 @@ PyThaiNLP modifications Copyright 2020 PyThaiNLP Project
 
 This tagger is provided under the terms of the MIT License.
 """
+
+from __future__ import annotations
+
 import json
 from collections import defaultdict
-from typing import Dict, Iterable, List, Tuple, Union
+from collections.abc import Iterable
 
 
-class AveragedPerceptron():
-    """
-    An averaged perceptron, as implemented by Matthew Honnibal.
+class AveragedPerceptron:
+    """An averaged perceptron, as implemented by Matthew Honnibal.
 
     See more implementation details here:
         http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
@@ -45,9 +45,8 @@ class AveragedPerceptron():
         # Number of instances seen
         self.i = 0
 
-    def predict(self, features: Dict):
-        """
-        Dot-product the features and current weights and return the best
+    def predict(self, features: dict):
+        """Dot-product the features and current weights and return the best
         label.
         """
         scores = defaultdict(float)
@@ -60,7 +59,7 @@ class AveragedPerceptron():
         # Do a secondary alphabetic sort, for stability
         return max(self.classes, key=lambda label: (scores[label], label))
 
-    def update(self, truth, guess, features: Dict) -> None:
+    def update(self, truth, guess, features: dict) -> None:
         """Update the feature weights."""
 
         def upd_feat(c, f, w, v):
@@ -92,8 +91,7 @@ class AveragedPerceptron():
 
 
 class PerceptronTagger:
-    """
-    Greedy Averaged Perceptron tagger, as implemented by Matthew Honnibal.
+    """Greedy Averaged Perceptron tagger, as implemented by Matthew Honnibal.
 
     See more implementation details here:
         http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
@@ -118,8 +116,7 @@ class PerceptronTagger:
     AP_MODEL_LOC = ""
 
     def __init__(self, path: str = "") -> None:
-        """
-        :param str path: model path
+        """:param str path: model path
         """
         self.model = AveragedPerceptron()
         self.tagdict = {}
@@ -128,7 +125,7 @@ class PerceptronTagger:
             self.AP_MODEL_LOC = path
             self.load(self.AP_MODEL_LOC)
 
-    def tag(self, tokens: Iterable[str]) -> List[Tuple[str, str]]:
+    def tag(self, tokens: Iterable[str]) -> list[tuple[str, str]]:
         """Tags a string `tokens`."""
         prev, prev2 = self.START
         output = []
@@ -146,12 +143,11 @@ class PerceptronTagger:
 
     def train(
         self,
-        sentences: Iterable[Iterable[Tuple[str, str]]],
-        save_loc: Union[str, None] = None,
+        sentences: Iterable[Iterable[tuple[str, str]]],
+        save_loc: str | None = None,
         nr_iter: int = 5,
     ) -> None:
-        """
-        Train a model from sentences, and save it at ``save_loc``.
+        """Train a model from sentences, and save it at ``save_loc``.
         ``nr_iter`` controls the number of Perceptron training iterations.
 
         :param sentences: A list of (words, tags) tuples.
@@ -198,24 +194,22 @@ class PerceptronTagger:
                 json.dump(data, f, ensure_ascii=False)
 
     def load(self, loc: str) -> None:
-        """
-        Load a pickled model.
+        """Load a pickled model.
         :param str loc: model path
         """
         try:
-            with open(loc, "r", encoding="utf-8-sig") as f:
+            with open(loc, encoding="utf-8-sig") as f:
                 w_td_c = json.load(f)
-        except IOError:
+        except OSError:
             msg = "Missing trontagger.json file."
-            raise IOError(msg)
+            raise OSError(msg)
         self.model.weights = w_td_c["weights"]
         self.tagdict = w_td_c["tagdict"]
         self.classes = w_td_c["classes"]
         self.model.classes = set(self.classes)
 
     def _normalize(self, word: str) -> str:
-        """
-        Normalization used in pre-processing.
+        """Normalization used in pre-processing.
 
         - All words are lower cased
         - Digits in the range 1800-2100 are represented as !YEAR;
@@ -233,10 +227,9 @@ class PerceptronTagger:
             return word.lower()
 
     def _get_features(
-        self, i: int, word: str, context: List[str], prev: str, prev2: str
-    ) -> Dict:
-        """
-        Map tokens into a feature representation, implemented as a
+        self, i: int, word: str, context: list[str], prev: str, prev2: str
+    ) -> dict:
+        """Map tokens into a feature representation, implemented as a
         {hashable: float} dict. If the features change, a new model must be
         trained.
         """
@@ -265,7 +258,7 @@ class PerceptronTagger:
         return features
 
     def _make_tagdict(
-        self, sentences: Iterable[Iterable[Tuple[str, str]]]
+        self, sentences: Iterable[Iterable[tuple[str, str]]]
     ) -> None:
         """Make a tag dictionary for single-tag words."""
         counts = defaultdict(lambda: defaultdict(int))

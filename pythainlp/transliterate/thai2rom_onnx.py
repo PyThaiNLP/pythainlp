@@ -1,10 +1,11 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Romanization of Thai words based on machine-learnt engine in ONNX runtime ("thai2rom")
 """
-Romanization of Thai words based on machine-learnt engine in ONNX runtime ("thai2rom")
-"""
+
+from __future__ import annotations
+
 import json
 
 import numpy as np
@@ -19,8 +20,7 @@ _MODEL_CONFIG_NAME = "thai2rom_config_onnx"
 
 class ThaiTransliterator_ONNX:
     def __init__(self):
-        """
-        Transliteration of Thai words.
+        """Transliteration of Thai words.
 
         Now supports Thai to Latin (romanization)
         """
@@ -58,8 +58,7 @@ class ThaiTransliterator_ONNX:
         )
 
     def _prepare_sequence_in(self, text: str):
-        """
-        Prepare input sequence for ONNX
+        """Prepare input sequence for ONNX
         """
         idxs = []
         for ch in text:
@@ -71,8 +70,7 @@ class ThaiTransliterator_ONNX:
         return np.array(idxs)
 
     def romanize(self, text: str) -> str:
-        """
-        :param str text: Thai text to be romanized
+        """:param str text: Thai text to be romanized
         :return: English (more or less) text that spells out how the Thai text
                  should be pronounced.
         """
@@ -129,9 +127,9 @@ class Seq2Seq_ONNX:
 
         outputs = np.zeros((max_len, batch_size, self.target_vocab_size))
 
-        expected_encoder_outputs = list(
-            map(lambda output: output.name, self.encoder.get_outputs())
-        )
+        expected_encoder_outputs = [
+            output.name for output in self.encoder.get_outputs()
+        ]
         encoder_outputs, encoder_hidden, _ = self.encoder.run(
             input_feed={
                 "input_tensor": source_seq,

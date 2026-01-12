@@ -1,15 +1,14 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Corpus related functions.
 """
-Corpus related functions.
-"""
+
+from __future__ import annotations
 
 import json
 import os
 import re
-from typing import Union
 
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
@@ -19,8 +18,7 @@ _CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
 
 
 def get_corpus_db(url: str):
-    """
-    Get corpus catalog from server.
+    """Get corpus catalog from server.
 
     :param str url: URL corpus catalog
     """
@@ -38,14 +36,13 @@ def get_corpus_db(url: str):
 
 
 def get_corpus_db_detail(name: str, version: str = "") -> dict:
-    """
-    Get details about a corpus, using information from local catalog.
+    """Get details about a corpus, using information from local catalog.
 
     :param str name: name of corpus
     :return: details about corpus
     :rtype: dict
     """
-    with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
+    with open(corpus_db_path(), encoding="utf-8-sig") as f:
         local_db = json.load(f)
 
     if not version:
@@ -61,8 +58,7 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict:
 
 
 def path_pythainlp_corpus(filename: str) -> str:
-    """
-    Get path pythainlp.corpus data
+    """Get path pythainlp.corpus data
 
     :param str filename: filename of the corpus to be read
 
@@ -73,8 +69,7 @@ def path_pythainlp_corpus(filename: str) -> str:
 
 
 def get_corpus(filename: str, comments: bool = True) -> frozenset:
-    """
-    Read corpus data from file and return a frozenset.
+    """Read corpus data from file and return a frozenset.
 
     Each line in the file will be a member of the set.
 
@@ -133,7 +128,7 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset:
     """
     path = path_pythainlp_corpus(filename)
     lines = []
-    with open(path, "r", encoding="utf-8-sig") as fh:
+    with open(path, encoding="utf-8-sig") as fh:
         lines = fh.read().splitlines()
 
     if not comments:
@@ -144,8 +139,7 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset:
 
 
 def get_corpus_as_is(filename: str) -> list:
-    """
-    Read corpus data from file, as it is, and return a list.
+    """Read corpus data from file, as it is, and return a list.
 
     Each line in the file will be a member of the list.
 
@@ -173,15 +167,14 @@ def get_corpus_as_is(filename: str) -> list:
     """
     path = path_pythainlp_corpus(filename)
     lines = []
-    with open(path, "r", encoding="utf-8-sig") as fh:
+    with open(path, encoding="utf-8-sig") as fh:
         lines = fh.read().splitlines()
 
     return lines
 
 
-def get_corpus_default_db(name: str, version: str = "") -> Union[str, None]:
-    """
-    Get model path from default_db.json
+def get_corpus_default_db(name: str, version: str = "") -> str | None:
+    """Get model path from default_db.json
 
     :param str name: corpus name
     :return: path to the corpus or **None** if the corpus doesn't \
@@ -195,8 +188,8 @@ def get_corpus_default_db(name: str, version: str = "") -> Union[str, None]:
     with open(default_db_path, encoding="utf-8-sig") as fh:
         corpus_db = json.load(fh)
 
-    if name in list(corpus_db.keys()):
-        if version in list(corpus_db[name]["versions"].keys()):
+    if name in corpus_db:
+        if version in corpus_db[name]["versions"]:
             return path_pythainlp_corpus(
                 corpus_db[name]["versions"][version]["filename"]
             )
@@ -211,9 +204,8 @@ def get_corpus_default_db(name: str, version: str = "") -> Union[str, None]:
 
 def get_corpus_path(
     name: str, version: str = "", force: bool = False
-) -> Union[str, None]:
-    """
-    Get corpus path.
+) -> str | None:
+    """Get corpus path.
 
     :param str name: corpus name
     :param str version: version
@@ -252,12 +244,10 @@ def get_corpus_path(
         print(get_corpus_path('wiki_lm_lstm'))
         # output: /root/pythainlp-data/thwiki_model_lstm.pth
     """
-    from typing import Dict
-
-    CUSTOMIZE: Dict[str, str] = {
+    CUSTOMIZE: dict[str, str] = {
         # "the corpus name":"path"
     }
-    if name in list(CUSTOMIZE):
+    if name in CUSTOMIZE:
         return CUSTOMIZE[name]
 
     default_path = get_corpus_default_db(name=name, version=version)
@@ -287,8 +277,7 @@ def get_corpus_path(
 
 
 def _download(url: str, dst: str) -> int:
-    """
-    Download helper.
+    """Download helper.
 
     @param: URL for downloading file
     @param: dst place to put the file into
@@ -323,8 +312,7 @@ def _download(url: str, dst: str) -> int:
 
 
 def _check_hash(dst: str, md5: str) -> None:
-    """
-    Check hash helper.
+    """Check hash helper.
 
     @param: dst place to put the file into
     @param: md5 place to file hash (MD5)
@@ -341,8 +329,7 @@ def _check_hash(dst: str, md5: str) -> None:
 
 
 def _version2int(v: str) -> int:
-    """
-    X.X.X => X0X0X
+    """X.X.X => X0X0X
     """
     if "-" in v:
         v = v.split("-")[0]
@@ -406,8 +393,7 @@ def _check_version(cause: str) -> bool:
 def download(
     name: str, force: bool = False, url: str = "", version: str = ""
 ) -> bool:
-    """
-    Download corpus.
+    """Download corpus.
 
     The available corpus names can be seen in this file:
     https://pythainlp.org/pythainlp-corpus/db.json
@@ -450,7 +436,7 @@ def download(
 
     # check if corpus is available
     if name in corpus_db:
-        with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
+        with open(corpus_db_path(), encoding="utf-8-sig") as f:
             local_db = json.load(f)
 
         corpus = corpus_db[name]
@@ -525,9 +511,7 @@ def download(
                 # This awkward behavior is for backward-compatibility with
                 # database files generated previously using TinyDB
                 if local_db["_default"]:
-                    corpus_no = (
-                        max((int(no) for no in local_db["_default"])) + 1
-                    )
+                    corpus_no = max(int(no) for no in local_db["_default"]) + 1
                 else:
                     corpus_no = 1
                 local_db["_default"][str(corpus_no)] = {
@@ -561,8 +545,7 @@ def download(
 
 
 def remove(name: str) -> bool:
-    """
-    Remove corpus
+    """Remove corpus
 
     :param str name: corpus name
     :return: **True** if the corpus is found and successfully removed.
@@ -588,7 +571,7 @@ def remove(name: str) -> bool:
     if _CHECK_MODE == "1":
         print("PyThaiNLP is read-only mode. It can't download.")
         return False
-    with open(corpus_db_path(), "r", encoding="utf-8-sig") as f:
+    with open(corpus_db_path(), encoding="utf-8-sig") as f:
         db = json.load(f)
     data = [
         corpus for corpus in db["_default"].values() if corpus["name"] == name
@@ -617,31 +600,53 @@ def get_path_folder_corpus(name, version, *path):
     return os.path.join(get_corpus_path(name, version), *path)
 
 
-def make_safe_directory_name(name:str) -> str:
-    """
-    Make safe directory name
+def make_safe_directory_name(name: str) -> str:
+    """Make safe directory name
 
     :param str name: directory name
     :return: safe directory name
     :rtype: str
     """
     # Replace invalid characters with an underscore
-    safe_name = re.sub(r'[<>:"/\\|?*]', '_', name)
+    safe_name = re.sub(r'[<>:"/\\|?*]', "_", name)
     # Remove leading/trailing spaces or periods (especially important for Windows)
-    safe_name = safe_name.strip(' .')
+    safe_name = safe_name.strip(" .")
     # Prevent names that are reserved on Windows
-    reserved_names = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9']
+    reserved_names = [
+        "CON",
+        "PRN",
+        "AUX",
+        "NUL",
+        "COM1",
+        "COM2",
+        "COM3",
+        "COM4",
+        "COM5",
+        "COM6",
+        "COM7",
+        "COM8",
+        "COM9",
+        "LPT1",
+        "LPT2",
+        "LPT3",
+        "LPT4",
+        "LPT5",
+        "LPT6",
+        "LPT7",
+        "LPT8",
+        "LPT9",
+    ]
     if safe_name.upper() in reserved_names:
-        safe_name = f"_{safe_name}" # Prepend underscore to avoid conflict
+        safe_name = f"_{safe_name}"  # Prepend underscore to avoid conflict
     return safe_name
 
 
-def get_hf_hub(repo_id:str, filename: str=None) -> str:
-    """
-    HuggingFace Hub in :mod:`pythainlp` data directory.
+def get_hf_hub(repo_id: str, filename: str = "") -> str:
+    """HuggingFace Hub in :mod:`pythainlp` data directory.
 
     :param str repo_id: repo_id
-    :param str filename: filename
+    :param str filename: filename (optional, default is empty string).
+        If empty, downloads entire snapshot.
     :return: path
     :rtype: str
     """
@@ -653,19 +658,16 @@ def get_hf_hub(repo_id:str, filename: str=None) -> str:
         Please installing the package via 'pip install huggingface-hub'.
         """)
     except Exception as e:
-        raise Exception(f"An unexpected error occurred: {e}")
+        raise RuntimeError(f"An unexpected error occurred: {e}") from e
     hf_root = get_full_data_path("hf_models")
     name_dir = make_safe_directory_name(repo_id)
     root_project = os.path.join(hf_root, name_dir)
-    if filename!=None:
+    if filename:
         output_path = hf_hub_download(
-            repo_id=repo_id,
-            filename=filename,
-            local_dir=root_project
+            repo_id=repo_id, filename=filename, local_dir=root_project
         )
     else:
         output_path = snapshot_download(
-            repo_id=repo_id,
-            local_dir=root_project
+            repo_id=repo_id, local_dir=root_project
         )
     return output_path

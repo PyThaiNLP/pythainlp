@@ -1,14 +1,13 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Named-entity recognizer
 """
-Named-entity recognizer
-"""
+
+from __future__ import annotations
 
 __all__ = ["ThaiNameTagger"]
 
-from typing import Dict, List, Tuple, Union
 
 from pythainlp.corpus import get_corpus_path, thai_stopwords
 from pythainlp.tag import pos_tag
@@ -22,7 +21,7 @@ def _is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำ�
     return word in thai_stopwords()
 
 
-def _doc2features(doc, i) -> Dict:
+def _doc2features(doc, i) -> dict:
     word = doc[i][0]
     postag = doc[i][1]
 
@@ -74,8 +73,7 @@ def _doc2features(doc, i) -> Dict:
 
 
 class ThaiNameTagger:
-    """
-    Thai named-entity recognizer or Thai NER.
+    """Thai named-entity recognizer or Thai NER.
     This function supports Thai NER 1.4 and 1.5 only.
     :param str version: Thai NER version.
         It supports Thai NER 1.4 & 1.5.
@@ -91,8 +89,7 @@ class ThaiNameTagger:
     """
 
     def __init__(self, version: str = "1.4") -> None:
-        """
-        Thai named-entity recognizer.
+        """Thai named-entity recognizer.
 
         :param str version: Thai NER version.
                             It's support Thai NER 1.4 & 1.5.
@@ -111,9 +108,8 @@ class ThaiNameTagger:
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False
-    ) -> Union[List[Tuple[str, str]], List[Tuple[str, str, str]]]:
-        """
-        This function tags named-entities in text in IOB format.
+    ) -> list[tuple[str, str]] | list[tuple[str, str, str]]:
+        """This function tags named-entities in text in IOB format.
 
         :param str text: text in Thai to be tagged
         :param bool pos: To include POS tags in the results (`True`) or

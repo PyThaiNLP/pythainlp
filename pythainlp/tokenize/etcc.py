@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Segmenting text into Enhanced Thai Character Clusters (ETCCs)
+"""Segmenting text into Enhanced Thai Character Clusters (ETCCs)
 Python implementation by Wannaphong Phatthiyaphaibun
 
 This implementation relies on a dictionary of ETCC created from etcc.txt
@@ -19,19 +17,28 @@ Para Limmaneepraserth. "Thai word segmentation using combination of forward
 and backward longest matching techniques." In International Symposium on
 Communications and Information Technology (ISCIT), pp. 37-40. 2001.
 """
+
+from __future__ import annotations
+
 import re
-from typing import List
+from functools import lru_cache
 
 from pythainlp import thai_follow_vowels
 from pythainlp.corpus import get_corpus
 from pythainlp.tokenize import Tokenizer
 
-_cut_etcc = Tokenizer(get_corpus("etcc.txt"), engine="longest")
+
+@lru_cache
+def _cut_etcc():
+    """Lazy load ETCC tokenizer with cache"""
+    return Tokenizer(get_corpus("etcc.txt"), engine="longest")
+
+
 _PAT_ENDING_CHAR = f"[{thai_follow_vowels}ๆฯ]"
 _RE_ENDING_CHAR = re.compile(_PAT_ENDING_CHAR)
 
 
-def _cut_subword(tokens: List[str]) -> List[str]:
+def _cut_subword(tokens: list[str]) -> list[str]:
     len_tokens = len(tokens)
     i = 0
     while True:
@@ -45,9 +52,8 @@ def _cut_subword(tokens: List[str]) -> List[str]:
     return tokens
 
 
-def segment(text: str) -> List[str]:
-    """
-    Segmenting text into ETCCs.
+def segment(text: str) -> list[str]:
+    """Segmenting text into ETCCs.
 
     Enhanced Thai Character Cluster (ETCC) is a kind of subword unit.
     The concept was presented in Inrut, Jeeragone, Patiroop Yuanghirun,
@@ -60,8 +66,7 @@ def segment(text: str) -> List[str]:
     :return: list of clusters, tokenized from the text
     :return: List[str]
     """
-
     if not text or not isinstance(text, str):
         return []
 
-    return _cut_subword(_cut_etcc.word_tokenize(text))
+    return _cut_subword(_cut_etcc().word_tokenize(text))

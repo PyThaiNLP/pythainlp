@@ -21,9 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
     - name: Ruff
       uses: astral-sh/ruff-action@v3
       with:
         src: "./pythainlp"
-        args: check --verbose --line-length 79 --select C901
+        args: check --fix --verbose --line-length 79 --select I,W,C901,W291,W293

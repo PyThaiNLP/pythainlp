@@ -1,7 +1,8 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
 from pythainlp import thai_consonants
 from pythainlp.transliterate import pronunciate
 
@@ -9,8 +10,7 @@ _list_consonants = list(thai_consonants.replace("ห", ""))
 
 
 def puan(word: str, show_pronunciation: bool = True) -> str:
-    """
-    Thai Spoonerism
+    """Thai Spoonerism
 
     This function converts Thai word to spoonerism word.
 

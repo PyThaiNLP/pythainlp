@@ -1,13 +1,14 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai collation (sorted according to Thai dictionary order)
+"""Thai collation (sorted according to Thai dictionary order)
 Simple implementation using regular expressions
 """
+
+from __future__ import annotations
+
 import re
-from typing import Iterable, List
+from collections.abc import Iterable
 
 _RE_TONE = re.compile(r"[็-์]")
 _RE_LV_C = re.compile(r"([เ-ไ])([ก-ฮ])")
@@ -22,9 +23,8 @@ def _thkey(word: str) -> str:
     return cv + tone
 
 
-def collate(data: Iterable, reverse: bool = False) -> List[str]:
-    """
-    This function sorts strings (almost) according to Thai dictionary.
+def collate(data: Iterable, reverse: bool = False) -> list[str]:
+    """This function sorts strings (almost) according to Thai dictionary.
 
     Important notes: this implementation ignores tone marks and symbols
 

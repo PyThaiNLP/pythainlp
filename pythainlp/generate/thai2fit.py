@@ -1,19 +1,18 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Thai2fit: Thai Wikipeida Language Model for Text Generation
+"""Thai2fit: Thai Wikipeida Language Model for Text Generation
 
 Codes are from
 https://github.com/PyThaiNLP/tutorials/blob/master/source/notebooks/text_generation.ipynb
 """
 
+from __future__ import annotations
+
 __all__ = ["gen_sentence"]
 
 import pickle
 import random
-from typing import List, Union
 
 # fastai
 import fastai
@@ -88,9 +87,8 @@ def gen_sentence(
     N: int = 4,
     prob: float = 0.001,
     output_str: bool = True,
-) -> Union[List[str], str]:
-    """
-    Text generator using Thai2fit
+) -> list[str] | str:
+    """Text generator using Thai2fit
 
     :param str start_seq: word to begin sentence with
     :param int N: number of words

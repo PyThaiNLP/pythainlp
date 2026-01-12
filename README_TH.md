@@ -86,18 +86,44 @@ pip install pythainlp[extra1,extra2,...]
 
 - `full` (ติดตั้งทุกอย่าง)
 - `compact` (ติดตั้งไลบารีชุดเล็กที่ทดสอบแล้วว่าไม่ตีกันเองและติดตั้งได้ในทุกระบบปฏิบัติการ)
+- `abbreviation` (สำหรับการย่อคำภาษาไทย)
 - `attacut` (เพื่อสนับสนุน attacut ซึ่งเป็นตัวตัดคำที่ทำงานได้รวดเร็วและมีประสิทธิภาพ)
 - `benchmarks` (สำหรับ [word tokenization benchmarking](tokenization-benchmark.md))
+- `budoux` (สำหรับการแบ่งข้อความด้วย BudouX)
+- `coreference_resolution` (สำหรับการหาคำที่อ้างอิงถึงกัน)
+- `dependency_parsing` (สำหรับการวิเคราะห์โครงสร้างประโยค)
+- `el` (สำหรับการเชื่อมโยงเอนทิตี)
+- `esupar` (สำหรับการรองรับ esupar parser)
+- `generate` (สำหรับการสร้างข้อความ)
 - `icu` (สำหรับการรองรับ ICU หรือ International Components for Unicode ในการถอดเสียงเป็นอักษรและการตัดแบ่งคำ)
 - `ipa` (สำหรับการรองรับ IPA หรือ International Phonetic Alphabet ในการถอดเสียงเป็นอักษร)
 - `ml` (เพื่อให้สนับสนุนตัวแบบภาษา ULMFiT สำหรับการจำแนกข้อความ)
+- `mt5` (สำหรับรองรับโมเดล mT5)
+- `nlpo3` (สำหรับตัวตัดคำภาษาไทย nlpo3)
+- `onnx` (สำหรับรองรับโมเดล ONNX)
+- `oskut` (สำหรับตัวตัดคำภาษาไทย OSKut)
+- `sefr_cut` (สำหรับตัวตัดคำภาษาไทย SEFR CUT)
+- `spacy_thai` (สำหรับรองรับภาษาไทยใน spaCy)
+- `spell` (สำหรับการแก้ไขคำสะกดผิด)
+- `ssg` (สำหรับการแบ่งประโยค)
+- `testing` (เวอร์ชันที่ปักหมุดสำหรับ CI/CD)
+- `textaugment` (สำหรับการเพิ่มข้อมูลข้อความ)
+- `thai_nner` (สำหรับการจดจำชื่อเฉพาะภาษาไทย)
 - `thai2fit` (สำหรับ Thai word vector)
 - `thai2rom` (สำหรับการถอดอักษรไทยเป็นอักษรโรมัน)
+- `transformers_ud` (สำหรับ Universal Dependencies ด้วย transformers)
+- `translate` (สำหรับการแปลภาษา)
+- `wangchanberta` (สำหรับโมเดล WangchanBERTa)
+- `wangchanglm` (สำหรับโมเดล WangchanGLM)
+- `word_approximation` (สำหรับการประมาณคำ)
 - `wordnet` (สำหรับ Thai WordNet API)
+- `wsd` (สำหรับการแก้ความกำกวมของความหมายคำ)
+- `wtp` (สำหรับการแบ่งข้อความด้วย Where's the Point)
+- `wunsen` (สำหรับตัวตรวจการสะกดคำ Wunsen)
 
 </details>
 
-สำหรับโมดูลที่ต้องการ สามารถดูรายละเอียดได้ที่ตัวแปร `extras` ใน [`setup.py`](https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py).
+สำหรับโมดูลที่ต้องการ สามารถดูรายละเอียดได้ที่ส่วน `[project.optional-dependencies]` ใน [`pyproject.toml`](https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml).
 
 ## Command-line
 
@@ -117,7 +143,7 @@ thainlp help
 
 ## ผู้ใช้งาน Python 2
 
-- PyThaiNLP สนับสนุน Python 3.7 ขึ้นไป บางความสามารถ สามารถใช้งานกับ Python 3 รุ่นก่อนหน้าได้ แต่ไม่ได้มีการทดสอบว่าใช้งานได้หรือไม่ อ่านเพิ่มเติม [1.7 -> 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
+- PyThaiNLP สนับสนุน Python 3.9 ขึ้นไป บางความสามารถ สามารถใช้งานกับ Python 3 รุ่นก่อนหน้าได้ แต่ไม่ได้มีการทดสอบว่าใช้งานได้หรือไม่ อ่านเพิ่มเติม [1.7 -> 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
   - [Upgrading from 1.7](https://pythainlp.org/docs/2.0/notes/pythainlp-1_7-2_0.html)
   - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
 - ผู้ใช้งาน Python 2.7 สามารถใช้งาน PyThaiNLP 1.6

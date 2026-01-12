@@ -1,16 +1,16 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Thai abbreviation tools
 """
-Thai abbreviation tools
-"""
-from typing import List, Tuple, Union
+
+from __future__ import annotations
 
 
-def abbreviation_to_full_text(text: str, top_k: int=2) -> List[Tuple[str, Union[float, None]]]:
-    """
-    This function converts Thai text (with abbreviation) to full text.
+def abbreviation_to_full_text(
+    text: str, top_k: int = 2
+) -> list[tuple[str, float | None]]:
+    """This function converts Thai text (with abbreviation) to full text.
 
     This function uses KhamYo for handles abbreviations.
     See more `KhamYo <https://github.com/wannaphong/KhamYo>`_.
@@ -29,7 +29,7 @@ def abbreviation_to_full_text(text: str, top_k: int=2) -> List[Tuple[str, Union[
 
         abbreviation_to_full_text(text)
         # output: [
-        # ('โรงเรียนของเราน่าอยู่', tensor(0.3734)), 
+        # ('โรงเรียนของเราน่าอยู่', tensor(0.3734)),
         # ('โรงแรมของเราน่าอยู่', tensor(0.2438))
         # ]
     """
@@ -39,7 +39,7 @@ def abbreviation_to_full_text(text: str, top_k: int=2) -> List[Tuple[str, Union[
         raise ImportError(
             """
             This function needs to use khamyo.
-            You can install by pip install khamyo or 
+            You can install by pip install khamyo or
             pip install pythainlp[abbreviation].
             """
         )

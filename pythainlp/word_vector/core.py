@@ -1,15 +1,14 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import List, Tuple
+from __future__ import annotations
 
 from gensim.models import KeyedVectors
 from gensim.models.keyedvectors import Word2VecKeyedVectors
 from numpy import ndarray, zeros
 
 from pythainlp.corpus import get_corpus_path
-from pythainlp.tokenize import THAI2FIT_TOKENIZER, word_tokenize
+from pythainlp.tokenize import thai2fit_tokenizer, word_tokenize
 
 WV_DIM = 300  # word vector dimension
 
@@ -20,8 +19,7 @@ _TK_EOL = "xxeol"
 
 
 class WordVector:
-    """
-    Word Vector class
+    """Word Vector class
 
     :param str model_name: model name
 
@@ -33,8 +31,7 @@ class WordVector:
     """
 
     def __init__(self, model_name: str = "thai2fit_wv") -> None:
-        """
-        Word Vector class
+        """Word Vector class
 
         :param str model_name: model name
 
@@ -47,8 +44,7 @@ class WordVector:
         self.load_wordvector(model_name)
 
     def load_wordvector(self, model_name: str):
-        """
-        Load word vector model.
+        """Load word vector model.
 
         :param str model_name: model name
         """
@@ -61,22 +57,20 @@ class WordVector:
         self.WV_DIM = self.model.vector_size
 
         if self.model_name == "thai2fit_wv":
-            self.tokenize = THAI2FIT_TOKENIZER.word_tokenize
+            self.tokenize = thai2fit_tokenizer().word_tokenize
         else:
             self.tokenize = word_tokenize
 
     def get_model(self) -> Word2VecKeyedVectors:
-        """
-        Get word vector model.
+        """Get word vector model.
 
         :return: `gensim` word2vec model
         :rtype: gensim.models.keyedvectors.Word2VecKeyedVectors
         """
         return self.model
 
-    def doesnt_match(self, words: List[str]) -> str:
-        """
-        This function returns one word that is mostly unrelated to other words
+    def doesnt_match(self, words: list[str]) -> str:
+        """This function returns one word that is mostly unrelated to other words
         in the list. We use the function :func:`doesnt_match`
         from :mod:`gensim`.
 
@@ -96,7 +90,7 @@ class WordVector:
         >>> from pythainlp.word_vector import WordVector
         >>>
         >>> wv = WordVector()
-        >>> words = ['อาหารเช้า', 'อาหารเที่ยง', 'อาหารเย็น', 'พริกไทย']
+        >>> words = ["อาหารเช้า", "อาหารเที่ยง", "อาหารเย็น", "พริกไทย"]
         >>> wv.doesnt_match(words)
         พริกไทย
 
@@ -106,17 +100,16 @@ class WordVector:
         >>> from pythainlp.word_vector import WordVector
         >>>
         >>> wv = WordVector()
-        >>> words = ['ดีไซน์เนอร์', 'พนักงานเงินเดือน', 'หมอ', 'เรือ']
+        >>> words = ["ดีไซน์เนอร์", "พนักงานเงินเดือน", "หมอ", "เรือ"]
         >>> wv.doesnt_match(words)
         เรือ
         """
         return self.model.doesnt_match(words)
 
     def most_similar_cosmul(
-        self, positive: List[str], negative: List[str]
-    ) -> List[Tuple[str, float]]:
-        """
-        This function finds the top-10 words that are most similar with respect
+        self, positive: list[str], negative: list[str]
+    ) -> list[tuple[str, float]]:
+        """This function finds the top-10 words that are most similar with respect
         to two lists of words labeled as positive and negative.
         The top-10 most similar words are obtained using multiplication
         combination objective from Omer Levy and Yoav Goldberg
@@ -147,7 +140,7 @@ class WordVector:
         >>> from pythainlp.word_vector import WordVector
         >>>
         >>> wv = WordVector()
-        >>> list_positive = ['แม่น้ำ']
+        >>> list_positive = ["แม่น้ำ"]
         >>> list_negative = []
         >>> wv.most_similar_cosmul(list_positive, list_negative)
         [('ลำน้ำ', 0.8206598162651062), ('ทะเลสาบ', 0.775945782661438),
@@ -162,7 +155,7 @@ class WordVector:
         >>> from pythainlp.word_vector import WordVector
         >>>
         >>> wv = WordVector()
-        >>> list_positive = ['นายก', 'รัฐมนตรี', 'ประเทศ']
+        >>> list_positive = ["นายก", "รัฐมนตรี", "ประเทศ"]
         >>> list_negative = []
         >>> wv.most_similar_cosmul(list_positive, list_negative)
         [('รองนายกรัฐมนตรี', 0.2730445861816406),
@@ -180,7 +173,7 @@ class WordVector:
         >>> from pythainlp.word_vector import WordVector
         >>>
         >>> wv = WordVector()
-        >>> list_positive = ['ประเทศ', 'ไทย', 'จีน', 'ญี่ปุ่น']
+        >>> list_positive = ["ประเทศ", "ไทย", "จีน", "ญี่ปุ่น"]
         >>> list_negative = []
         >>> wv.most_similar_cosmul(list_positive, list_negative)
         [('ประเทศจีน', 0.22022421658039093), ('เกาหลี', 0.2196873426437378),
@@ -191,8 +184,8 @@ class WordVector:
         ('อังกฤษ', 0.19610872864723206), ('ฮ่องกง', 0.1928885132074356),
         ('ฝรั่งเศส', 0.18383873999118805), ('พม่า', 0.18369348347187042)]
         >>>
-        >>> list_positive = ['ประเทศ', 'ไทย', 'จีน', 'ญี่ปุ่น']
-        >>> list_negative = ['อเมริกา']
+        >>> list_positive = ["ประเทศ", "ไทย", "จีน", "ญี่ปุ่น"]
+        >>> list_negative = ["อเมริกา"]
         >>> wv.most_similar_cosmul(list_positive, list_negative)
         [('ประเทศไทย', 0.3278159201145172), ('เกาหลี', 0.3201899230480194),
         ('ประเทศจีน', 0.31755179166793823), ('พม่า', 0.30845439434051514),
@@ -207,7 +200,7 @@ class WordVector:
         >>> from pythainlp.word_vector import WordVector
         >>>
         >>> wv = WordVector()
-        >>> list_positive = ['เมนูอาหารไทย']
+        >>> list_positive = ["เมนูอาหารไทย"]
         >>> list_negative = []
         >>> wv.most_similar_cosmul(list_positive, list_negative)
         KeyError: "word 'เมนูอาหารไทย' not in vocabulary"
@@ -217,8 +210,7 @@ class WordVector:
         )
 
     def similarity(self, word1: str, word2: str) -> float:
-        """
-        This function computes cosine similarity between two words.
+        """This function computes cosine similarity between two words.
 
         :param str word1: first word to be compared with
         :param str word2: second word to be compared with
@@ -239,7 +231,7 @@ class WordVector:
 
         >>> from pythainlp.word_vector import WordVector
         >>> wv = WordVector()
-        >>> wv.similarity('รถไฟ', 'รถไฟฟ้า')
+        >>> wv.similarity("รถไฟ", "รถไฟฟ้า")
         0.43387136
 
 
@@ -249,15 +241,14 @@ class WordVector:
         >>> from pythainlp.word_vector import WordVector
         >>>
         >>> wv = WordVector()
-        >>> wv.similarity('เสือดาว', 'รถไฟฟ้า')
+        >>> wv.similarity("เสือดาว", "รถไฟฟ้า")
         0.04300258
 
         """
         return self.model.similarity(word1, word2)
 
     def sentence_vectorizer(self, text: str, use_mean: bool = True) -> ndarray:
-        """
-        This function converts a Thai sentence into vector.
+        """This function converts a Thai sentence into vector.
         Specifically, it first tokenizes that text and map each tokenized word
         with the word vectors from the model.
         Then, word vectors are aggregated into one vector of 300 dimension
@@ -282,7 +273,7 @@ class WordVector:
         >>> from pythainlp.word_vector import WordVector
         >>>
         >>> wv = WordVector()
-        >>> sentence = 'อ้วนเสี้ยวเข้ายึดแคว้นกิจิ๋ว ในปี พ.ศ. 735'
+        >>> sentence = "อ้วนเสี้ยวเข้ายึดแคว้นกิจิ๋ว ในปี พ.ศ. 735"
         >>> wv.sentence_vectorizer(sentence, use_mean=True)
         array([[-0.00421414, -0.08881307,  0.05081136, -0.05632929,
              -0.06607185, 0.03059357, -0.113882  , -0.00074836,  0.05035743,

@@ -1,7 +1,9 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
+
+from itertools import chain
 
 from pythainlp import thai_consonants, thai_tonemarks
 from pythainlp.corpus import thai_orst_words
@@ -17,14 +19,13 @@ for i in list(thai_consonants):
         _dict_aksonhan[i + i + j + i] = i + "ั" + j + i
     _dict_aksonhan[i + i] = "ั" + i
 _set_aksonhan = set(_dict_aksonhan.keys())
-_trie = Trie(list(_dict_aksonhan.keys()) + list(thai_consonants))
+_trie = Trie(chain(_dict_aksonhan.keys(), thai_consonants))
 _tokenizer = Tokenizer(custom_dict=_trie, engine="mm")
 _dict_thai = set(thai_orst_words())  # call Thai words
 
 
 def aksonhan_to_current(word: str) -> str:
-    """
-    Convert AksonHan words to current Thai words
+    """Convert AksonHan words to current Thai words
 
     AksonHan (อักษรหัน) writes down two consonants for the \
     spelling of the /a/ vowels. (สระ อะ).

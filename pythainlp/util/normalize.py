@@ -1,13 +1,12 @@
-﻿# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""
-Text normalization
+"""Text normalization
 """
 
+from __future__ import annotations
+
 import re
-from typing import List, Union
 
 from pythainlp import thai_above_vowels as above_v
 from pythainlp import thai_below_vowels as below_v
@@ -57,8 +56,7 @@ def _last_char(matchobj):  # to be used with _RE_NOREPEAT_TONEMARKS
 
 
 def remove_dangling(text: str) -> str:
-    """
-    Remove Thai non-base characters at the beginning of text.
+    """Remove Thai non-base characters at the beginning of text.
 
     This is a common "typo", especially for input field in a form,
     as these non-base characters can be visually hidden from user
@@ -85,8 +83,7 @@ def remove_dangling(text: str) -> str:
 
 
 def remove_dup_spaces(text: str) -> str:
-    """
-    Remove duplicate spaces. Replace multiple spaces with one space.
+    """Remove duplicate spaces. Replace multiple spaces with one space.
 
     Multiple newline characters and empty lines will be replaced
     with one newline character.
@@ -111,8 +108,7 @@ def remove_dup_spaces(text: str) -> str:
 
 
 def remove_tonemark(text: str) -> str:
-    """
-    Remove all Thai tone marks from the text.
+    """Remove all Thai tone marks from the text.
 
     Thai script has four tone marks indicating four tones as follows:
 
@@ -144,8 +140,7 @@ def remove_tonemark(text: str) -> str:
 
 
 def remove_zw(text: str) -> str:
-    """
-    Remove zero-width characters.
+    """Remove zero-width characters.
 
     These non-visible characters may cause unexpected result from the
     user's point of view. Removing them can make string matching more robust.
@@ -167,8 +162,7 @@ def remove_zw(text: str) -> str:
 
 
 def reorder_vowels(text: str) -> str:
-    """
-    Reorder vowels and tone marks to the standard logical order/spelling.
+    """Reorder vowels and tone marks to the standard logical order/spelling.
 
     Characters in input text will be reordered/transformed,
     according to these rules:
@@ -189,8 +183,7 @@ def reorder_vowels(text: str) -> str:
 
 
 def remove_repeat_vowels(text: str) -> str:
-    """
-    Remove repeating vowels, tone marks, and signs.
+    """Remove repeating vowels, tone marks, and signs.
 
     This function will call reorder_vowels() first, to make sure that
     double Sara E will be converted to Sara Ae and not be removed.
@@ -210,8 +203,7 @@ def remove_repeat_vowels(text: str) -> str:
 
 
 def normalize(text: str) -> str:
-    """
-    Normalize and clean Thai text with normalizing rules as follows:
+    """Normalize and clean Thai text with normalizing rules as follows:
 
         * Remove zero-width spaces
         * Remove duplicate spaces
@@ -251,9 +243,8 @@ def normalize(text: str) -> str:
     return text
 
 
-def expand_maiyamok(sent: Union[str, List[str]]) -> List[str]:
-    """
-    Expand Maiyamok.
+def expand_maiyamok(sent: str | list[str]) -> list[str]:
+    """Expand Maiyamok.
 
     Maiyamok (ๆ) (Unicode U+0E46) is a Thai character indicating word
     repetition. This function preprocesses Thai text by replacing
@@ -311,9 +302,8 @@ def expand_maiyamok(sent: Union[str, List[str]]) -> List[str]:
     return output_toks[::-1]
 
 
-def maiyamok(sent: Union[str, List[str]]) -> List[str]:
-    """
-    Expand Maiyamok.
+def maiyamok(sent: str | list[str]) -> list[str]:
+    """Expand Maiyamok.
 
     Deprecated. Use expand_maiyamok() instead.
 

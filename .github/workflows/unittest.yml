@@ -33,7 +33,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v6
       with:
@@ -41,7 +41,7 @@ jobs:
         cache: "pip"
     - name: Install build tools
       run: |
-        pip install --upgrade "pip<24.1" "setuptools>=65.0.2,<=73.0.1"
+        pip install --upgrade "pip<24.1" "setuptools>=69.0.0,<=73.0.1"
         pip install coverage coveralls
       # pip<24.1 because https://github.com/omry/omegaconf/pull/1195
       # setuptools>=65.0.2 because https://github.com/pypa/setuptools/commit/d03da04e024ad4289342077eef6de40013630a44#diff-9ea6e1e3dde6d4a7e08c7c88eceed69ca745d0d2c779f8f85219b22266efff7fR1
@@ -70,11 +70,11 @@ jobs:
       # If torch for the platform is not available in PyPI, use this command:
       # pip install "<torch_wheel_url>"
       # Get wheel URL from http://download.pytorch.org/whl/torch/
-    - name: Install dependencies from docker_requirements.txt
+    - name: Install testing dependencies
       if: env.INSTALL_FULL_DEPS == 'true'
       env:
         SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL: True
-      run: pip install -r docker_requirements.txt
+      run: pip install ".[testing]"
     - name: Install PyThaiNLP + dependencies (minimum)
       if: matrix.python-version != env.PYTHON_VERSION_LATEST && matrix.python-version != env.PYTHON_VERSION_LATEST_2
       run: pip install .

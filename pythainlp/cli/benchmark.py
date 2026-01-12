@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -8,16 +7,13 @@ import argparse
 import json
 import os
 
-import yaml
-
 from pythainlp import cli
-from pythainlp.benchmarks import word_tokenization
 from pythainlp.tools import safe_print
 
 
 def _read_file(path):
-    with open(path, "r", encoding="utf-8") as f:
-        lines = map(lambda r: r.strip(), f.readlines())
+    with open(path, encoding="utf-8") as f:
+        lines = (r.strip() for r in f.readlines())
     return list(lines)
 
 
@@ -79,14 +75,23 @@ class WordTokenizationBenchmark:
         actual = _read_file(args.input_file)
         expected = _read_file(args.test_file)
 
-        assert len(actual) == len(
-            expected
-        ), "Input and test files do not have the same number of samples"
+        assert len(actual) == len(expected), (
+            "Input and test files do not have the same number of samples"
+        )
 
         safe_print(
             "Benchmarking %s against %s with %d samples in total"
             % (args.input_file, args.test_file, len(actual))
         )
+
+        try:
+            import yaml
+
+            from pythainlp.benchmarks import word_tokenization
+        except ImportError:
+            raise ImportError(
+                "Please install the extra dependencies `benchmarks` to use this command by running `pip install pythainlp[benchmarks]`"
+            )
 
         df_raw = word_tokenization.benchmark(expected, actual)
 

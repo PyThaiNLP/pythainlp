@@ -8,10 +8,10 @@ import unittest
 from pythainlp.spell import (
     correct,
     correct_sent,
+    get_words_spell_suggestion,
     spell,
     spell_sent,
     symspellpy,
-    get_words_spell_suggestion,
 )
 
 from ..core.test_spell import SENT_TOKS

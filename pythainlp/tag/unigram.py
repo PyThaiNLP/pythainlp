@@ -1,13 +1,13 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Unigram Part-Of-Speech tagger
 """
-Unigram Part-Of-Speech tagger
-"""
+
+from __future__ import annotations
+
 import json
 import os
-from typing import List, Tuple
 
 from pythainlp.corpus import corpus_path, get_corpus_path
 from pythainlp.tag import blackboard, orchid
@@ -75,8 +75,8 @@ def _tud_tagger():
 
 
 def _find_tag(
-    words: List[str], dictdata: dict, default_tag: str = ""
-) -> List[Tuple[str, str]]:
+    words: list[str], dictdata: dict, default_tag: str = ""
+) -> list[tuple[str, str]]:
     keys = list(dictdata.keys())
     return [
         (word, dictdata[word]) if word in keys else (word, default_tag)
@@ -84,9 +84,8 @@ def _find_tag(
     ]
 
 
-def tag(words: List[str], corpus: str = "pud") -> List[Tuple[str, str]]:
-    """
-    :param list words: a list of tokenized words
+def tag(words: list[str], corpus: str = "pud") -> list[tuple[str, str]]:
+    """:param list words: a list of tokenized words
     :param str corpus: corpus name (orchid or pud)
     :return: a list of tuples (word, POS tag)
     :rtype: list[tuple[str, str]]

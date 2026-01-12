@@ -1,24 +1,22 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-from typing import List
+from __future__ import annotations
+
 import re
 
+from pythainlp import thai_consonants, thai_tonemarks
 from pythainlp.corpus import thai_words
 from pythainlp.khavee import KhaveeVerifier
-from pythainlp.tokenize import syllable_tokenize
-from pythainlp.tokenize import Tokenizer
-from pythainlp import thai_consonants, thai_tonemarks
+from pythainlp.tokenize import Tokenizer, syllable_tokenize
 from pythainlp.util import remove_tonemark
 
 kv = KhaveeVerifier()
 all_thai_words_dict = None
 
 
-def rhyme(word: str) -> List[str]:
-    """
-    Find Thai rhyme
+def rhyme(word: str) -> list[str]:
+    """Find Thai rhyme
 
     :param str word: A Thai word
     :return: All list Thai rhyme words
@@ -44,10 +42,12 @@ def rhyme(word: str) -> List[str]:
     return sorted(list_sumpus)
 
 
-thai_vowel = ''.join((
-    "อะ,อา,อิ,อี,อึ,อื,อุ,อู,เอะ,เอ,แอะ,แอ,เอียะ,เอีย,เอือะ,เอือ,อัวะ,อัว,โอะ,",
-    "โอ,เอาะ,ออ,เออะ,เออ,อำ,ใอ,ไอ,เอา,ฤ,ฤๅ,ฦ,ฦๅ"
-)).split(",")
+thai_vowel = "".join(
+    (
+        "อะ,อา,อิ,อี,อึ,อื,อุ,อู,เอะ,เอ,แอะ,แอ,เอียะ,เอีย,เอือะ,เอือ,อัวะ,อัว,โอะ,",
+        "โอ,เอาะ,ออ,เออะ,เออ,อำ,ใอ,ไอ,เอา,ฤ,ฤๅ,ฦ,ฦๅ",
+    )
+).split(",")
 thai_vowel_all = [
     ("([ก-ฮ])ะ", "\\1อะ"),
     ("([ก-ฮ])า", "\\1อา"),
@@ -83,8 +83,7 @@ thai_vowel_all.sort(key=lambda t: len(t[0]), reverse=True)
 
 
 def thai_consonant_to_spelling(c: str) -> str:
-    """
-    Thai consonants to spelling
+    """Thai consonants to spelling
 
     :param str c: A Thai consonant
     :return: spelling
@@ -104,8 +103,7 @@ def thai_consonant_to_spelling(c: str) -> str:
 
 
 def tone_to_spelling(t: str) -> str:
-    """
-    Thai tonemarks to spelling
+    """Thai tonemarks to spelling
 
     :param str t: A Thai tonemarks
     :return: spelling
@@ -116,7 +114,7 @@ def tone_to_spelling(t: str) -> str:
 
         from pythainlp.util import tone_to_spelling
 
-        print(tone_to_spelling("่")) # ไม้เอก
+        print(tone_to_spelling("่"))  # ไม้เอก
         # output: ไม้เอก
     """
     if t == "่":
@@ -130,9 +128,8 @@ def tone_to_spelling(t: str) -> str:
     return t
 
 
-def spelling(word: str) -> List[str]:
-    """
-    Thai word to spelling
+def spelling(word: str) -> list[str]:
+    """Thai word to spelling
 
     This funnction support Thai root word only.
 
@@ -154,8 +151,7 @@ def spelling(word: str) -> List[str]:
     if not word or not isinstance(word, str):
         return []
     thai_vowel_tokenizer = Tokenizer(
-        custom_dict=thai_vowel + list(thai_consonants),
-        engine="longest"
+        custom_dict=thai_vowel + list(thai_consonants), engine="longest"
     )
     word_pre = remove_tonemark(word).replace("็", "")
     tone = [tone_to_spelling(i) for i in word if i in thai_tonemarks]
@@ -169,8 +165,9 @@ def spelling(word: str) -> List[str]:
             break
     list_word_output = thai_vowel_tokenizer.word_tokenize(word_output)
     output = [
-        i for i in [thai_consonant_to_spelling(i) for i in list_word_output]
-        if '์' not in i
+        i
+        for i in [thai_consonant_to_spelling(i) for i in list_word_output]
+        if "์" not in i
     ]
     if word_pre == word:
         return output + [word]

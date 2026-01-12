@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+from __future__ import annotations
 
 import re
 import sys
-from typing import List, Tuple
 
 import numpy as np
 import pandas as pd
@@ -18,18 +17,17 @@ SURROUNDING_SEPS_RX = re.compile(
 )
 
 # regex for removing repeated separators, i.e. ||||
-MULTIPLE_SEPS_RX = re.compile("{sep}+".format(sep=re.escape(SEPARATOR)))
+MULTIPLE_SEPS_RX = re.compile(f"{re.escape(SEPARATOR)}+")
 
 # regex for removing tags, i.e. <NE>, </NE>
 TAG_RX = re.compile(r"<\/?[A-Z]+>")
 
 # regex for removing trailing separators, i.e.  a|dog| -> a|dog
-TAILING_SEP_RX = re.compile("{sep}$".format(sep=re.escape(SEPARATOR)))
+TAILING_SEP_RX = re.compile(f"{re.escape(SEPARATOR)}$")
 
 
 def _f1(precision: float, recall: float) -> float:
-    """
-    Compute f1.
+    """Compute f1.
 
     :param float precision
     :param float recall
@@ -43,8 +41,7 @@ def _f1(precision: float, recall: float) -> float:
 
 
 def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
-    """
-    Flatten two-dimension dictionary.
+    """Flatten two-dimension dictionary.
 
     Use keys in the first dimension as a prefix for keys in the second dimension.
     For example,
@@ -59,18 +56,15 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
     :return: a one-dimension dictionary with keys combined
     :rtype: dict[str, float | str]
     """
-    items = []
-    for k1, kv2 in my_dict.items():
-        for k2, v in kv2.items():
-            new_key = f"{k1}{sep}{k2}"
-            items.append((new_key, v))
-
-    return dict(items)
+    return {
+        f"{k1}{sep}{k2}": v
+        for k1, kv2 in my_dict.items()
+        for k2, v in kv2.items()
+    }
 
 
-def benchmark(ref_samples: List[str], samples: List[str]) -> pd.DataFrame:
-    """
-    Performance benchmarking for samples.
+def benchmark(ref_samples: list[str], samples: list[str]) -> pd.DataFrame:
+    """Performance benchmarking for samples.
 
     Please see :meth:`pythainlp.benchmarks.word_tokenization.compute_stats` for
     the computed metrics.
@@ -113,8 +107,7 @@ Pair (i=%d)
 
 
 def preprocessing(txt: str, remove_space: bool = True) -> str:
-    """
-    Clean up text before performing evaluation.
+    """Clean up text before performing evaluation.
 
     :param str text: text to be preprocessed
     :param bool remove_space: whether to remove white space
@@ -137,8 +130,7 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
 
 
 def compute_stats(ref_sample: str, raw_sample: str) -> dict:
-    """
-    Compute statistics for tokenization quality
+    """Compute statistics for tokenization quality
 
     These statistics include:
 
@@ -184,9 +176,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
 
     correctly_tokenised_words = np.sum(tokenization_indicators)
 
-    tokenization_indicators = list(
-        map(str, tokenization_indicators)
-    )
+    tokenization_indicators = list(map(str, tokenization_indicators))
 
     return {
         "char_level": {
@@ -207,8 +197,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
 
 
 def _binary_representation(txt: str, verbose: bool = False):
-    """
-    Transform text into {0, 1} sequence.
+    """Transform text into {0, 1} sequence.
 
     where (1) indicates that the corresponding character is the beginning of
     a word. For example, ผม|ไม่|ชอบ|กิน|ผัก -> 10100...
@@ -240,8 +229,7 @@ def _binary_representation(txt: str, verbose: bool = False):
 
 
 def _find_word_boundaries(bin_reps) -> list:
-    """
-    Find the starting and ending location of each word.
+    """Find the starting and ending location of each word.
 
     :param str bin_reps: binary representation of a text
 
@@ -256,11 +244,10 @@ def _find_word_boundaries(bin_reps) -> list:
 
 
 def _find_words_correctly_tokenised(
-    ref_boundaries: List[Tuple[int, int]],
-    predicted_boundaries: List[Tuple[int, int]],
-) -> Tuple[int]:
-    """
-    Find whether each word is correctly tokenized.
+    ref_boundaries: list[tuple[int, int]],
+    predicted_boundaries: list[tuple[int, int]],
+) -> tuple[int]:
+    """Find whether each word is correctly tokenized.
 
     :param list[tuple(int, int)] ref_boundaries: word boundaries of reference tokenization
     :param list[tuple(int, int)] predicted_boundaries: word boundareies of predicted tokenization
@@ -270,5 +257,5 @@ def _find_words_correctly_tokenised(
     """
     ref_b = dict(zip(ref_boundaries, [1] * len(ref_boundaries)))
 
-    labels = tuple(map(lambda x: ref_b.get(x, 0), predicted_boundaries))
+    labels = tuple(ref_b.get(x, 0) for x in predicted_boundaries)
     return labels

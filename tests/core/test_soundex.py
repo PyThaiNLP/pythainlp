@@ -88,7 +88,7 @@ class SoundexTestCase(unittest.TestCase):
         # Test complete_soundex
         self.assertEqual(complete_soundex(None), "")
         self.assertEqual(complete_soundex(""), "")
-        
+
         # Single syllable test cases from the paper
         self.assertEqual(complete_soundex("ก้าน"), "กก1Bน2-")
         self.assertEqual(complete_soundex("มารค"), "มม1B-ก0-")
@@ -101,7 +101,7 @@ class SoundexTestCase(unittest.TestCase):
         self.assertEqual(complete_soundex("แกน"), "กก6Lน0-")
         self.assertEqual(complete_soundex("ทราย"), "ซซ1Bย0-")
         self.assertEqual(complete_soundex("สวรรค์"), "ซศ1A-0-วว1Aน0-")
-        
+
         # Individual syllable encoding (for use with pre-tokenized syllables)
         self.assertEqual(complete_soundex("ปัน"), "ปป1A0น-")
         self.assertEqual(complete_soundex("นา"), "นน1B0--")
@@ -111,7 +111,7 @@ class SoundexTestCase(unittest.TestCase):
         self.assertEqual(complete_soundex("บุญ"), "บบ4G0น-")
         self.assertEqual(complete_soundex("บุณ"), "บบ4G0น-")
         self.assertEqual(complete_soundex("ยา"), "ยย1B0--")
-        
+
         # Multi-syllable words should be tokenized first:
         # from pythainlp.tokenize import syllable_tokenize
         # syllables = syllable_tokenize("ปุญญา")  # ['ปุญ', 'ญา']

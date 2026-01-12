@@ -41,13 +41,31 @@ complete_soundex
 ~~~~~~~~~~~~~~~~
 .. autofunction:: complete_soundex
 
-The `complete_soundex` function implements the Complete Soundex algorithm for Thai word phonetic encoding based on Tapsai et al. (2020). Unlike traditional Soundex methods, it generates variable-length codes representing every syllable in a word using a 7-character block structure (Initial Consonant, Vowel, Final Consonant, Tone, Cluster Symbol). The algorithm handles complex Thai phonetic patterns including ทร transformation, รร special rules, cluster detection, and implicit vowels. Multi-syllable words are automatically tokenized and encoded. This soundex is particularly effective for handling misspelled words, character variations, and similar pronunciations.
+The `complete_soundex` function implements the Complete Soundex algorithm for Thai word phonetic encoding based on Tapsai et al. (2020). Unlike traditional Soundex methods, it generates variable-length codes representing every syllable in a word.
+
+Each syllable is encoded using a 7-character block structure:
+
+* Initial Consonant (2 chars) - Phonetic grouping
+* Vowel (2 chars) - Including length markers
+* Final Consonant (1 char) - Sonorant clustering
+* Tone (1 char) - Tone mark encoding
+* Cluster Symbol (1 char) - Second consonant in clusters
+
+The algorithm handles complex Thai phonetic patterns including ทร transformation, รร special rules, cluster detection, and implicit vowels. Multi-syllable words are automatically tokenized and encoded. This soundex is particularly effective for handling misspelled words, character variations, and similar pronunciations.
 
 complete_soundex_similarity
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: complete_soundex_similarity
 
-The `complete_soundex_similarity` function calculates the similarity between two Complete Soundex codes using character-wise comparison. The similarity is computed using the formula S(X,Y) = Σ(sim(c_xi, c_yi)) / max(len(X), len(Y)), where sim = 1 if characters match at position i, else 0. The result is normalized by the maximum length of the two codes, returning a float between 0.0 (no match) and 1.0 (perfect match). This function is useful for finding phonetically similar Thai words and handling spelling variations.
+The `complete_soundex_similarity` function calculates the similarity between two Complete Soundex codes using character-wise comparison.
+
+The similarity is computed using the formula:
+
+    S(X,Y) = Σ(sim(c_xi, c_yi)) / max(len(X), len(Y))
+
+where sim = 1 if characters match at position i, else 0.
+
+The result is normalized by the maximum length of the two codes, returning a float between 0.0 (no match) and 1.0 (perfect match). This function is useful for finding phonetically similar Thai words and handling spelling variations.
 
 pythainlp.soundex.sound.word_approximation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

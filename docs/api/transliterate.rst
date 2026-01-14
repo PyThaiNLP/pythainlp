@@ -29,22 +29,22 @@ Modules
 
 .. autoclass:: pythainlp.transliterate.wunsen.WunsenTransliterate
    :members:
-   
+
    The `WunsenTransliterate` class represents a transliteration engine known as "Wunsen." It offers specific transliteration methods for rendering Thai text into a phonetic English format.
 
 Transliteration Engines
 -----------------------
 
 **thai2rom**
-  
+
 .. autofunction:: pythainlp.transliterate.thai2rom.romanize
-    
+
     The `thai2rom` engine specializes in transliterating Thai text into romanized form. It's particularly useful for rendering Thai words accurately in an English phonetic format.
 
 **royin**
-  
+
 .. autofunction:: pythainlp.transliterate.royin.romanize
-    
+
     The `royin` engine focuses on transliterating Thai text into English characters. It provides an alternative approach to transliteration, ensuring accurate representation of Thai words.
 
 **Transliterate Engines**

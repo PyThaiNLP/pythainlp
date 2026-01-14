@@ -3,12 +3,14 @@
 # SPDX-License-Identifier: Apache-2.0
 """Thai soundex
 
-Has three systems to choose from: Udom83 (default), LK82, and MetaSound
+Has multiple systems to choose from: Udom83 (default), LK82, MetaSound,
+Complete Soundex, and Prayut & Somchaip
 """
 
 from __future__ import annotations
 
 from pythainlp.soundex import DEFAULT_SOUNDEX_ENGINE
+from pythainlp.soundex.complete_soundex import complete_soundex
 from pythainlp.soundex.lk82 import lk82
 from pythainlp.soundex.metasound import metasound
 from pythainlp.soundex.prayut_and_somchaip import prayut_and_somchaip
@@ -39,6 +41,8 @@ def soundex(
           of Metaphone and Soundex proposed by Snae & Brückner [#metasound]_
         * *prayut_and_somchaip* - Thai-English Cross-Language Transliterated
           Word Retrieval using Soundex Technique [#prayut_and_somchaip]_
+        * *complete_soundex* - Complete Soundex for Thai Words Similarity
+          Analysis [#complete_soundex]_
 
     :Example:
     ::
@@ -69,6 +73,11 @@ def soundex(
         # output: '11'
         soundex("วีพี", engine="prayut_and_somchaip")
         # output: '11'
+
+        soundex("ก้าน", engine="complete_soundex")
+        # output: 'กก1Bน2-'
+        soundex("ทราย", engine="complete_soundex")
+        # output: 'ซซ1Bย0-'
     """
     if engine == "lk82":
         _soundex = lk82(text)
@@ -76,6 +85,8 @@ def soundex(
         _soundex = prayut_and_somchaip(text, length=length)
     elif engine == "metasound":
         _soundex = metasound(text, length=length)
+    elif engine == "complete_soundex":
+        _soundex = complete_soundex(text)
     else:  # default, use "udom83"
         _soundex = udom83(text)
     return _soundex

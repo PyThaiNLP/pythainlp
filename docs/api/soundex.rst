@@ -37,6 +37,36 @@ prayut_and_somchaip
 
 The `prayut_and_somchaip` module is designed for Thai-English cross-language transliterated word retrieval using the Soundex technique. It is particularly useful for matching transliterated words in both languages.
 
+complete_soundex
+~~~~~~~~~~~~~~~~
+.. autofunction:: complete_soundex
+
+The `complete_soundex` function implements the Complete Soundex algorithm for Thai word phonetic encoding based on Tapsai et al. (2020). Unlike traditional Soundex methods, it generates variable-length codes representing every syllable in a word.
+
+Each syllable is encoded using a 7-character block structure:
+
+* Initial Consonant (2 chars) - Phonetic grouping
+* Vowel (2 chars) - Including length markers
+* Final Consonant (1 char) - Sonorant clustering
+* Tone (1 char) - Tone mark encoding
+* Cluster Symbol (1 char) - Second consonant in clusters
+
+The algorithm handles complex Thai phonetic patterns including ทร transformation, รร special rules, cluster detection, and implicit vowels. Multi-syllable words are automatically tokenized and encoded. This soundex is particularly effective for handling misspelled words, character variations, and similar pronunciations.
+
+complete_soundex_similarity
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. autofunction:: complete_soundex_similarity
+
+The `complete_soundex_similarity` function calculates the similarity between two Complete Soundex codes using character-wise comparison.
+
+The similarity is computed using the formula:
+
+    S(X,Y) = Σ(sim(c_xi, c_yi)) / max(len(X), len(Y))
+
+where sim = 1 if characters match at position i, else 0.
+
+The result is normalized by the maximum length of the two codes, returning a float between 0.0 (no match) and 1.0 (perfect match). This function is useful for finding phonetically similar Thai words and handling spelling variations.
+
 pythainlp.soundex.sound.word_approximation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autofunction:: pythainlp.soundex.sound.word_approximation
@@ -65,5 +95,7 @@ References
 .. [#lk82] Vichit Lorchirachoonkul. 1982. `A Thai soundex system <https://doi.org/10.1016/0306-4573(82)90003-6>`_. Information Processing & Management, 18(5):243–255. วิชิต หล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์. `โปรแกรมการสืบค้นคำไทยตามเสียงอ่าน (Thai Soundex) <http://guru.sanook.com/1520/>`_.
 
 .. [#prayut_and_somchaip] Prayut Suwanvisat, Somchai Prasitjutrakul. Thai-English Cross-Language Transliterated Word Retrieval using Soundex Technique. In 1998 [cited 2022 Sep 8]. Available from: https://www.cp.eng.chula.ac.th/~somchai/spj/papers/ThaiText/ncsec98-clir.pdf.
+
+.. [#complete_soundex] Chalermpol Tapsai, Phayung Meesad, and Choochart Haruechaiyasak. 2020. `Complete Soundex for Thai Words Similarity Analysis <https://ph01.tci-thaijo.org/index.php/IT_Journal/article/view/241562/164358>`_. Information Technology Journal KMUTNB. 2020 June 30;16(1):46–59.
 
 .. This enhanced documentation provides clear descriptions of all the modules within the `pythainlp.soundex` module, including their purposes and functionalities. Users can now better understand how to leverage these soundex algorithms for various phonetic matching tasks in the Thai language.

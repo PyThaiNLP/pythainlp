@@ -95,6 +95,17 @@ def sound_syllable(syllable: str) -> str:
     ):
         return "live"
 
+    # Handle syllables with only อ (no other consonants from thai_consonants_all)
+    if len(consonants) == 0 and "อ" in syllable:
+        # Syllables with only อ and long vowels are live
+        if any((c in set("าีืแูเโไใำ")) for c in syllable):
+            return "live"
+        # Short vowels or special cases
+        if any((c in set(short)) for c in syllable):
+            return "dead"
+        # Default to live for vowel-only syllables
+        return "live"
+
     # get spelling consonants
     spelling_consonant = consonants[-1]
     if (spelling_consonant in _check_2) and (
@@ -228,6 +239,10 @@ def _check_sonorant_syllable(syllable: str) -> bool:
     _sonorant = [i for i in syllable if i in thai_low_sonorants]
     consonants = [i for i in syllable if i in list(thai_consonants)]
 
+    # Return False if no sonorants or not enough consonants
+    if not _sonorant or len(consonants) < 2:
+        return False
+
     if _sonorant[-1] == consonants[-2]:
         return True
 
@@ -267,6 +282,11 @@ def tone_detector(syllable: str) -> str:
     s = sound_syllable(syllable)
     # get consonants
     consonants = [i for i in syllable if i in list(thai_consonants)]
+    
+    # Handle syllables with no consonants (e.g., ฤ, ฦ)
+    if len(consonants) == 0:
+        return ""
+    
     initial_consonant = consonants[0]
     tone_mark = _tone_mark_detector(syllable)
     syllable_check = syllable_open_close_detector(syllable)
@@ -274,80 +294,92 @@ def tone_detector(syllable: str) -> str:
     initial_consonant_type = thai_initial_consonant_to_type[initial_consonant]
     # r for store value
     r = ""
+    # Special handling for อ and ห with sonorants
     if len(consonants) > 1 and (initial_consonant in ("อ", "ห")):
         consonant_ending = _check_sonorant_syllable(syllable)
-        if (
-            initial_consonant == "อ"
-            and consonant_ending
-            and s == "live"
-            and tone_mark == "่"
-        ):
-            r = "l"
-        elif (
-            initial_consonant == "ห"
-            and consonant_ending
-            and s == "live"
-            and tone_mark == "่"
-        ):
-            r = "l"
-        elif initial_consonant == "อ" and consonant_ending and s == "dead":
-            r = "l"
-        elif (
-            initial_consonant == "ห"
-            and consonant_ending
-            and s == "live"
-            and tone_mark == "้"
-        ):
-            r = "f"
-        elif initial_consonant == "ห" and consonant_ending and s == "dead":
-            r = "l"
-        elif initial_consonant == "ห" and consonant_ending and s == "live":
-            r = "r"
-    elif initial_consonant_type == "high" and s == "live" and tone_mark == "่":
+        if consonant_ending:
+            # Only apply special rules if there are sonorants
+            if (
+                initial_consonant == "อ"
+                and s == "live"
+                and tone_mark == "่"
+            ):
+                r = "l"
+            elif (
+                initial_consonant == "ห"
+                and s == "live"
+                and tone_mark == "่"
+            ):
+                r = "l"
+            elif initial_consonant == "อ" and s == "dead":
+                r = "l"
+            elif (
+                initial_consonant == "ห"
+                and s == "live"
+                and tone_mark == "้"
+            ):
+                r = "f"
+            elif initial_consonant == "ห" and s == "dead":
+                r = "l"
+            elif initial_consonant == "ห" and s == "live":
+                r = "r"
+    # If r is still empty, apply general tone rules
+    if r == "" and initial_consonant_type == "high" and s == "live" and tone_mark == "่":
         r = "l"
-    elif initial_consonant_type == "mid" and s == "live" and tone_mark == "่":
+    if r == "" and initial_consonant_type == "mid" and s == "live" and tone_mark == "่":
         r = "l"
-    elif initial_consonant_type == "low" and tone_mark == "้":
+    if r == "" and initial_consonant_type == "low" and tone_mark == "้":
         r = "h"
-    elif initial_consonant_type == "mid" and tone_mark == "๋":
+    if r == "" and initial_consonant_type == "mid" and tone_mark == "๋":
         r = "r"
-    elif initial_consonant_type == "mid" and tone_mark == "๊":
+    if r == "" and initial_consonant_type == "mid" and tone_mark == "๊":
         r = "h"
-    elif initial_consonant_type == "low" and tone_mark == "่":
+    if r == "" and initial_consonant_type == "low" and tone_mark == "่":
         r = "f"
-    elif initial_consonant_type == "mid" and tone_mark == "้":
+    if r == "" and initial_consonant_type == "mid" and tone_mark == "้":
         r = "f"
-    elif initial_consonant_type == "high" and tone_mark == "้":
+    if r == "" and initial_consonant_type == "high" and tone_mark == "้":
         r = "f"
-    elif (
-        initial_consonant_type == "low"
+    if (
+        r == ""
+        and initial_consonant_type == "low"
         and syllable_check_length == "short"
         and syllable_check == "close"
         and s == "dead"
     ):
         r = "h"
-    elif (
-        initial_consonant_type == "low"
+    if (
+        r == ""
+        and initial_consonant_type == "low"
         and syllable_check_length == "long"
         and syllable_check == "close"
         and s == "dead"
     ):
         r = "f"
-    elif (
-        initial_consonant_type == "low"
+    if (
+        r == ""
+        and initial_consonant_type == "low"
         and syllable_check_length == "short"
         and syllable_check == "open"
     ):
         r = "h"
-    elif initial_consonant_type == "mid" and s == "dead":
+    if (
+        r == ""
+        and initial_consonant_type == "low"
+        and syllable_check_length == "long"
+        and syllable_check == "open"
+        and s == "dead"
+    ):
+        r = "f"
+    if r == "" and initial_consonant_type == "mid" and s == "dead":
         r = "l"
-    elif initial_consonant_type == "high" and s == "dead":
+    if r == "" and initial_consonant_type == "high" and s == "dead":
         r = "l"
-    elif initial_consonant_type == "low" and s == "live":
+    if r == "" and initial_consonant_type == "low" and s == "live":
         r = "m"
-    elif initial_consonant_type == "mid" and s == "live":
+    if r == "" and initial_consonant_type == "mid" and s == "live":
         r = "m"
-    elif initial_consonant_type == "high" and s == "live":
+    if r == "" and initial_consonant_type == "high" and s == "live":
         r = "r"
 
     return r

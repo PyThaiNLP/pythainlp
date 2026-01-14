@@ -19,7 +19,8 @@
             https://semver.org/
       - [ ] If it is a breaking change, indicate it clearly in the changelog.
         - [ ] Provide migration instructions if necessary.
-- [ ] Do not leave trailing whitespaces in the code or documentation files.
+- [ ] Do not leave trailing whitespaces in the code or documentation files,
+      unless it is explicitly necessary to such a whitespace.
 - [ ] Metadata in pyproject.toml, codemeta.json, CITATION.cff, and other
       project metadata files should be consistent and up-to-date.
       - [ ] Project name

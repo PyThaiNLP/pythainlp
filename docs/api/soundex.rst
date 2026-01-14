@@ -90,7 +90,7 @@ References
 
 .. [#metasound] Snae & Brückner. (2009). `Novel Phonetic Name Matching Algorithm with a Statistical Ontology for Analyzing Names Given in Accordance with Thai Astrology <https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf>`_.
 
-.. [#udom83] Wannee Udompanich (1983). `String searching for Thai alphabet using Soundex compression technique <http://cuir.car.chula.ac.th/handle/123456789/48471>`_. Master Thesis. Chulalongkorn University, Thailand. วรรณี อุดมพาณิชย์. `การใช้หลักคำพ้องเสียง เพื่อค้นหาชุดอักขระภาษาไทยที่ออกเสียงเหมือนกัน <http://cuir.car.chula.ac.th/handle/123456789/48471>`_. วิทยานิพนธ์ (วท.ม.)--จุฬาลงกรณ์มหาวิทยาลัย, 2526. 
+.. [#udom83] Wannee Udompanich (1983). `String searching for Thai alphabet using Soundex compression technique <http://cuir.car.chula.ac.th/handle/123456789/48471>`_. Master Thesis. Chulalongkorn University, Thailand. วรรณี อุดมพาณิชย์. `การใช้หลักคำพ้องเสียง เพื่อค้นหาชุดอักขระภาษาไทยที่ออกเสียงเหมือนกัน <http://cuir.car.chula.ac.th/handle/123456789/48471>`_. วิทยานิพนธ์ (วท.ม.)--จุฬาลงกรณ์มหาวิทยาลัย, 2526.
 
 .. [#lk82] Vichit Lorchirachoonkul. 1982. `A Thai soundex system <https://doi.org/10.1016/0306-4573(82)90003-6>`_. Information Processing & Management, 18(5):243–255. วิชิต หล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์. `โปรแกรมการสืบค้นคำไทยตามเสียงอ่าน (Thai Soundex) <http://guru.sanook.com/1520/>`_.
 

@@ -9,7 +9,7 @@ Modules
 
 .. autoclass:: ThaiTokenizer
    :members:
-   
+
    The `ThaiTokenizer` class is a critical component of ULMFiT, designed for tokenizing Thai text effectively. Tokenization is the process of breaking down text into individual tokens, and this class allows you to do so with precision and accuracy.
 
 .. autofunction:: document_vector

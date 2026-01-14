@@ -7,7 +7,7 @@ PyThaiNLP documentation
 =====================================
 .. figure:: ./images/logo.png
    :scale: 50 %
-   
+
 PyThaiNLP is a Python library for Thai natural language processing (NLP).
 
 Website: `PyThaiNLP.github.io <https://pythainlp.org/>`_

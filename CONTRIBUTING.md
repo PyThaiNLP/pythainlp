@@ -161,7 +161,7 @@ This will create distribution packages in the `dist/` directory.
 
   bump-my-version bump release
   #current_version = 2.3.3-beta0
-  
+
   bump-my-version bump release
   #current_version = 2.3.3
 

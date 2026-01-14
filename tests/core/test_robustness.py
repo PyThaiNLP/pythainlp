@@ -26,6 +26,10 @@ from pythainlp.util import (
     thai_digit_to_arabic_digit,
 )
 
+# Thai Unicode range constants
+THAI_UNICODE_START = 0x0E00
+THAI_UNICODE_END = 0x0E7F
+
 
 class RobustnessTestCase(unittest.TestCase):
     """Test PyThaiNLP functions with edge cases from BLNS."""
@@ -247,7 +251,11 @@ class RobustnessTestCase(unittest.TestCase):
                     self.assertIsInstance(result, (int, float))
                     self.assertGreaterEqual(result, 0)
                     # Thai strings should have positive Thai character count
-                    if any(ord(c) >= 0x0E00 and ord(c) <= 0x0E7F for c in s):
+                    if any(
+                        ord(c) >= THAI_UNICODE_START
+                        and ord(c) <= THAI_UNICODE_END
+                        for c in s
+                    ):
                         self.assertGreater(result, 0)
                 except Exception as e:
                     self.fail(f"countthai failed with Thai string '{s}': {e}")
@@ -316,12 +324,16 @@ class RobustnessTestCase(unittest.TestCase):
 
                     result2 = thai_digit_to_arabic_digit(s)
                     self.assertIsInstance(result2, str)
-                except TypeError:
-                    # Empty strings raise TypeError - this is expected behavior
-                    if not s:
+                except TypeError as e:
+                    # The digit conversion functions raise TypeError for
+                    # empty strings. This is expected behavior and documented
+                    # in the function's implementation.
+                    if s == "":
                         pass
                     else:
-                        raise
+                        self.fail(
+                            f"Unexpected TypeError with reserved string '{s}': {e}"
+                        )
                 except Exception as e:
                     self.fail(
                         f"Digit conversion failed with reserved string '{s}': {e}"
@@ -340,8 +352,8 @@ class RobustnessTestCase(unittest.TestCase):
                     isthai(s)
                     countthai(s)
                     normalize(s)
-                    # If we get here, functions didn't crash or execute code
-                    self.assertTrue(True)
+                    # If we reach here, functions handled the input safely
+                    # without crashing or executing malicious code
                 except Exception as e:
                     # Functions should handle gracefully, not crash
                     self.fail(

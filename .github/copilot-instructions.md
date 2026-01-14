@@ -20,7 +20,7 @@
       - [ ] If it is a breaking change, indicate it clearly in the changelog.
         - [ ] Provide migration instructions if necessary.
 - [ ] Do not leave trailing whitespaces in the code or documentation files,
-      unless it is explicitly necessary to such a whitespace.
+      unless such a whitespace is explicitly necessary.
 - [ ] Metadata in pyproject.toml, codemeta.json, CITATION.cff, and other
       project metadata files should be consistent and up-to-date.
       - [ ] Project name
@@ -56,11 +56,11 @@
 - [ ] Avoid words and phrases that may have more than one interpretation.
 - [ ] Avoid overly long paragraphs. Breaking up text into smaller paragraphs,
       using bullet points, or creating numbered lists to improve readability.
-- [ ] Help reader's comprehension by separating distinct concepts, processes,
+- [ ] Help readers' comprehension by separating distinct concepts, processes,
       criteria, or categories.
 - [ ] Use parallel language structures in lists and documentation.
 - [ ] Use a uniform writing style, particularly when presenting similar or
-      related information, so the reader's compare easily.
+      related information, so the reader can compare easily.
 - [ ] If not specified otherwise, use Chicago style for reference/citation.
 - [ ] When writing on level of requirements, use the verbal forms consistently.
       Use either ISO/IEC verbal form (ISO/IEC Directives, Part 2 --
@@ -136,8 +136,8 @@
 
 ## API
 
-- [ ] The over architecture, code, API endpoints to follow the latest version
-      of OpenAPI specification at https://spec.openapis.org/oas/
+- [ ] The overall architecture, code, API endpoints to follow the latest
+      version of OpenAPI specification at https://spec.openapis.org/oas/
 - [ ] API endpoints must use proper HTTP return code
 - [ ] Follows web best practices as recommended by OpenAPI, IETF, W3C, etc.
 
@@ -155,7 +155,7 @@
       as used by Hugo and Jekyll front matter.
 - [ ] Be strict on the Markdown formatting.
       Be mindful that what works on GitHub may not work on MkDocs, for example.
-      Ty to keep with the standard Markdown.
+      Try to keep with the standard Markdown.
 - [ ] Use Markdownlint to detect and fix malformatted.
 
 ## Diagram
@@ -182,5 +182,5 @@
 ## Version
 
 - [ ] When suggest dependencies, recheck the version; if the version exists,
-      or if the version compatible with the system or other dependencies.
-- [ ] When manage own's project, prefer a Semantic Version.
+      or if the version is compatible with the system or other dependencies.
+- [ ] Prefer a Semantic Version when applicable.

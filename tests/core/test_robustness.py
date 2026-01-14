@@ -252,8 +252,7 @@ class RobustnessTestCase(unittest.TestCase):
                     self.assertGreaterEqual(result, 0)
                     # Thai strings should have positive Thai character count
                     if any(
-                        ord(c) >= THAI_UNICODE_START
-                        and ord(c) <= THAI_UNICODE_END
+                        THAI_UNICODE_START <= ord(c) <= THAI_UNICODE_END
                         for c in s
                     ):
                         self.assertGreater(result, 0)
@@ -328,7 +327,7 @@ class RobustnessTestCase(unittest.TestCase):
                     # The digit conversion functions raise TypeError for
                     # empty strings. This is expected behavior and documented
                     # in the function's implementation.
-                    if s == "":
+                    if not s:
                         pass
                     else:
                         self.fail(

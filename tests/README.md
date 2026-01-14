@@ -11,6 +11,19 @@ Tests are categorized into three groups: core, compact, and extra.
 - Test with all officially supported Python versions
   (currently 3.9, 3.10, 3.11, 3.12, and 3.13).
 
+### Robustness Tests (test_robustness.py)
+
+A special test suite within core tests that focuses on testing
+the robustness, reliability, and security of PyThaiNLP functions
+using edge cases from the Big List of Naughty Strings (BLNS).
+
+- Tests functions with unusual inputs like empty strings, null values,
+  special characters, unicode edge cases, and potential injection strings.
+- Ensures functions handle edge cases gracefully without crashing or
+  executing unintended code.
+- Gradually expanding to cover more categories from BLNS.
+- More info: https://github.com/minimaxir/big-list-of-naughty-strings
+
 ## Compact Tests (testc_*.py)
 
 - Run `unittest tests.compact`

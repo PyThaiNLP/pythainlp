@@ -19,7 +19,7 @@ class Word2VecAug:
 
         self.tokenizer = tokenize
 
-        if type == "file" or type == "binary":
+        if type in ("file", "binary"):
             # Temporarily suppress gensim warnings about duplicate words
             gensim_logger = logging.getLogger("gensim.models.keyedvectors")
             original_level = gensim_logger.getEffectiveLevel()
@@ -30,7 +30,7 @@ class Word2VecAug:
                     self.model = word2vec.KeyedVectors.load_word2vec_format(
                         model
                     )
-                else:  # type == "binary"
+                elif type == "binary":
                     self.model = word2vec.KeyedVectors.load_word2vec_format(
                         model, binary=True, unicode_errors="ignore"
                     )

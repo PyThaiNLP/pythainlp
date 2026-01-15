@@ -282,11 +282,11 @@ def tone_detector(syllable: str) -> str:
     s = sound_syllable(syllable)
     # get consonants
     consonants = [i for i in syllable if i in list(thai_consonants)]
-    
+
     # Handle syllables with no consonants (e.g., ฤ, ฦ)
     if len(consonants) == 0:
         return ""
-    
+
     initial_consonant = consonants[0]
     tone_mark = _tone_mark_detector(syllable)
     syllable_check = syllable_open_close_detector(syllable)

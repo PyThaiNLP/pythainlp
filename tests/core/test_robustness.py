@@ -46,13 +46,13 @@ class RobustnessTestCase(unittest.TestCase):
         "\ufffe",  # BOM reversed
         "\x00",  # Null character
         "\u0000",  # Null unicode
-        "\u200c\u200d",  # Zero-width non-joiner (ZWNJ), zero-width joiner (ZWJ)
-        "\u200c\u200d",  # ZWNJ, ZWJ (duplicate for testing)
+        "‌‍",  # Zero-width non-joiner, zero-width joiner
+        "\u200c\u200d",  # ZWNJ, ZWJ
         "\u200e\u200f",  # LTR mark, RTL mark
-        "\u00ad",  # Soft hyphen
-        "\u00ad",  # Soft hyphen unicode (duplicate)
-        "\u2026",  # Ellipsis (\u2026)
-        "\u2014\u2013-",  # Em dash, en dash, hyphen-minus
+        "­",  # Soft hyphen
+        "\u00ad",  # Soft hyphen unicode
+        "…",  # Ellipsis
+        "—–-",  # Different dashes
         "\u201c\u201d",  # Smart double quotes (curly quotes)
         "\u2018\u2019",  # Smart single quotes (curly quotes)
     ]
@@ -69,13 +69,13 @@ class RobustnessTestCase(unittest.TestCase):
     # Category: Emoji and Modern Unicode
     # Emoji, emoji sequences, and variations
     EMOJI_CASES = [
-        "\U0001f600",  # Basic emoji (grinning face)
-        "\U0001f468\u200d\U0001f469\u200d\U0001f467\u200d\U0001f466",  # Family emoji (ZWJ sequence)
-        "\U0001f44d\U0001f3fb",  # Emoji with skin tone modifier (thumbs up, light skin tone)
-        "\U0001f1f9\U0001f1ed",  # Flag (TH - regional indicator symbols)
-        "\U0001f600\U0001f603\U0001f604",  # Multiple emoji
-        "สวัสดี\U0001f600ครับ",  # Thai text with emoji
-        "\U0001f3f4\U000e0067\U000e0062\U000e0065\U000e006e\U000e0067\U000e007f",  # Flag with tag sequences (England)
+        "😀",  # Basic emoji
+        "👨‍👩‍👧‍👦",  # Family emoji (ZWJ sequence)
+        "👍🏻",  # Emoji with skin tone modifier
+        "🇹🇭",  # Flag (regional indicator symbols)
+        "😀😃😄",  # Multiple emoji
+        "สวัสดี😀ครับ",  # Thai text with emoji
+        "🏴󠁧󠁢󠁥󠁮󠁧󠁿",  # Flag with tag sequences
     ]
 
     # Category: Control and Hidden Characters

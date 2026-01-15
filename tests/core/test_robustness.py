@@ -34,6 +34,9 @@ THAI_UNICODE_END = 0x0E7F
 class RobustnessTestCase(unittest.TestCase):
     """Test PyThaiNLP functions with edge cases from BLNS."""
 
+    # Tokenization engines to test (core engines without external dependencies)
+    TOKENIZE_ENGINES = ["newmm", "newmm-safe", "longest", "mm"]
+
     # Category: Reserved Strings
     # Strings which may be used elsewhere in code
     RESERVED_STRINGS = [
@@ -115,93 +118,107 @@ class RobustnessTestCase(unittest.TestCase):
     ]
 
     def test_word_tokenize_with_reserved_strings(self):
-        """Test word_tokenize with reserved strings."""
-        for s in self.RESERVED_STRINGS:
-            with self.subTest(input_string=s):
-                try:
-                    result = word_tokenize(s)
-                    # Should return a list
-                    self.assertIsInstance(result, list)
-                except Exception as e:
-                    self.fail(
-                        f"word_tokenize failed with reserved string '{s}': {e}"
-                    )
+        """Test word_tokenize with reserved strings across all engines."""
+        for engine in self.TOKENIZE_ENGINES:
+            for s in self.RESERVED_STRINGS:
+                with self.subTest(engine=engine, input_string=s):
+                    try:
+                        result = word_tokenize(s, engine=engine)
+                        # Should return a list
+                        self.assertIsInstance(result, list)
+                    except Exception as e:
+                        self.fail(
+                            f"word_tokenize (engine={engine}) failed with "
+                            f"reserved string '{s}': {e}"
+                        )
 
     def test_word_tokenize_with_numeric_strings(self):
-        """Test word_tokenize with numeric strings."""
-        for s in self.NUMERIC_STRINGS:
-            with self.subTest(input_string=s):
-                try:
-                    result = word_tokenize(s)
-                    self.assertIsInstance(result, list)
-                except Exception as e:
-                    self.fail(
-                        f"word_tokenize failed with numeric string '{s}': {e}"
-                    )
+        """Test word_tokenize with numeric strings across all engines."""
+        for engine in self.TOKENIZE_ENGINES:
+            for s in self.NUMERIC_STRINGS:
+                with self.subTest(engine=engine, input_string=s):
+                    try:
+                        result = word_tokenize(s, engine=engine)
+                        self.assertIsInstance(result, list)
+                    except Exception as e:
+                        self.fail(
+                            f"word_tokenize (engine={engine}) failed with "
+                            f"numeric string '{s}': {e}"
+                        )
 
     def test_word_tokenize_with_special_chars(self):
-        """Test word_tokenize with special characters."""
-        for s in self.SPECIAL_CHARS:
-            with self.subTest(input_string=s):
-                try:
-                    result = word_tokenize(s)
-                    self.assertIsInstance(result, list)
-                except Exception as e:
-                    self.fail(
-                        f"word_tokenize failed with special chars '{s}': {e}"
-                    )
+        """Test word_tokenize with special characters across all engines."""
+        for engine in self.TOKENIZE_ENGINES:
+            for s in self.SPECIAL_CHARS:
+                with self.subTest(engine=engine, input_string=s):
+                    try:
+                        result = word_tokenize(s, engine=engine)
+                        self.assertIsInstance(result, list)
+                    except Exception as e:
+                        self.fail(
+                            f"word_tokenize (engine={engine}) failed with "
+                            f"special chars '{s}': {e}"
+                        )
 
     def test_word_tokenize_with_whitespace(self):
-        """Test word_tokenize with whitespace strings."""
-        for s in self.WHITESPACE_STRINGS:
-            with self.subTest(input_string=s):
-                try:
-                    result = word_tokenize(s)
-                    self.assertIsInstance(result, list)
-                except Exception as e:
-                    self.fail(
-                        f"word_tokenize failed with whitespace '{repr(s)}': {e}"
-                    )
+        """Test word_tokenize with whitespace strings across all engines."""
+        for engine in self.TOKENIZE_ENGINES:
+            for s in self.WHITESPACE_STRINGS:
+                with self.subTest(engine=engine, input_string=s):
+                    try:
+                        result = word_tokenize(s, engine=engine)
+                        self.assertIsInstance(result, list)
+                    except Exception as e:
+                        self.fail(
+                            f"word_tokenize (engine={engine}) failed with "
+                            f"whitespace '{repr(s)}': {e}"
+                        )
 
     def test_word_tokenize_with_unicode_symbols(self):
-        """Test word_tokenize with unicode symbols."""
-        for s in self.UNICODE_SYMBOLS:
-            with self.subTest(input_string=s):
-                try:
-                    result = word_tokenize(s)
-                    self.assertIsInstance(result, list)
-                except Exception as e:
-                    self.fail(
-                        f"word_tokenize failed with unicode symbols '{s}': {e}"
-                    )
+        """Test word_tokenize with unicode symbols across all engines."""
+        for engine in self.TOKENIZE_ENGINES:
+            for s in self.UNICODE_SYMBOLS:
+                with self.subTest(engine=engine, input_string=s):
+                    try:
+                        result = word_tokenize(s, engine=engine)
+                        self.assertIsInstance(result, list)
+                    except Exception as e:
+                        self.fail(
+                            f"word_tokenize (engine={engine}) failed with "
+                            f"unicode symbols '{s}': {e}"
+                        )
 
     def test_word_tokenize_with_thai_strings(self):
-        """Test word_tokenize with Thai strings."""
-        for s in self.THAI_STRINGS:
-            with self.subTest(input_string=s):
-                try:
-                    result = word_tokenize(s)
-                    self.assertIsInstance(result, list)
-                    # Thai text should produce at least one token
-                    if s.strip():
-                        self.assertGreater(len(result), 0)
-                except Exception as e:
-                    self.fail(
-                        f"word_tokenize failed with Thai string '{s}': {e}"
-                    )
+        """Test word_tokenize with Thai strings across all engines."""
+        for engine in self.TOKENIZE_ENGINES:
+            for s in self.THAI_STRINGS:
+                with self.subTest(engine=engine, input_string=s):
+                    try:
+                        result = word_tokenize(s, engine=engine)
+                        self.assertIsInstance(result, list)
+                        # Thai text should produce at least one token
+                        if s.strip():
+                            self.assertGreater(len(result), 0)
+                    except Exception as e:
+                        self.fail(
+                            f"word_tokenize (engine={engine}) failed with "
+                            f"Thai string '{s}': {e}"
+                        )
 
     def test_word_tokenize_with_script_injection(self):
-        """Test word_tokenize with script injection strings."""
-        for s in self.SCRIPT_INJECTION:
-            with self.subTest(input_string=s):
-                try:
-                    result = word_tokenize(s)
-                    self.assertIsInstance(result, list)
-                    # Should not execute any code, just tokenize
-                except Exception as e:
-                    self.fail(
-                        f"word_tokenize failed with injection string '{s}': {e}"
-                    )
+        """Test word_tokenize with script injection strings across all engines."""
+        for engine in self.TOKENIZE_ENGINES:
+            for s in self.SCRIPT_INJECTION:
+                with self.subTest(engine=engine, input_string=s):
+                    try:
+                        result = word_tokenize(s, engine=engine)
+                        self.assertIsInstance(result, list)
+                        # Should not execute any code, just tokenize
+                    except Exception as e:
+                        self.fail(
+                            f"word_tokenize (engine={engine}) failed with "
+                            f"injection string '{s}': {e}"
+                        )
 
     def test_isthai_with_reserved_strings(self):
         """Test isthai with reserved strings."""
@@ -347,19 +364,23 @@ class RobustnessTestCase(unittest.TestCase):
         It does not test for actual code execution since PyThaiNLP functions
         are text processors that don't interpret HTML, JavaScript, or SQL.
         The value is in ensuring robustness against unexpected input patterns.
+
+        Tests word_tokenize with all available engines.
         """
-        for s in self.SCRIPT_INJECTION:
-            with self.subTest(input_string=s):
-                # Test multiple functions
-                try:
-                    word_tokenize(s)
-                    isthai(s)
-                    countthai(s)
-                    normalize(s)
-                    # If we reach here, functions handled the input safely
-                    # without crashing or executing malicious code
-                except Exception as e:
-                    # Functions should handle gracefully, not crash
-                    self.fail(
-                        f"Function crashed with injection string '{s}': {e}"
-                    )
+        for engine in self.TOKENIZE_ENGINES:
+            for s in self.SCRIPT_INJECTION:
+                with self.subTest(engine=engine, input_string=s):
+                    # Test multiple functions
+                    try:
+                        word_tokenize(s, engine=engine)
+                        isthai(s)
+                        countthai(s)
+                        normalize(s)
+                        # If we reach here, functions handled the input safely
+                        # without crashing or executing malicious code
+                    except Exception as e:
+                        # Functions should handle gracefully, not crash
+                        self.fail(
+                            f"Function (engine={engine}) crashed with "
+                            f"injection string '{s}': {e}"
+                        )

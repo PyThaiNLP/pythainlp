@@ -27,15 +27,25 @@ Modules
 
     The `bahttext` function specializes in converting numerical values into Thai Baht text, an essential feature for rendering financial data or monetary amounts in a user-friendly Thai format.
 
-.. autofunction:: convert_years
+.. autofunction:: censor_profanity
     :noindex:
 
-    The `convert_years` function is designed to facilitate the conversion of Western calendar years into Thai Buddhist Era (BE) years. This is significant for presenting dates and years in a Thai context.
+    The `censor_profanity` function replaces profanity words in Thai text with a replacement character (default: "*"). Users can provide custom profanity words in addition to the built-in list for content moderation and filtering.
 
 .. autofunction:: collate
     :noindex:
 
     The `collate` function is a versatile tool for sorting Thai text in a locale-specific manner. It ensures that text data is sorted correctly, taking into account the Thai language's unique characteristics.
+
+.. autofunction:: contains_profanity
+    :noindex:
+
+    The `contains_profanity` function checks if Thai text contains profanity words. It returns True if profanity is detected and False otherwise. Users can provide custom profanity words for enhanced content moderation.
+
+.. autofunction:: convert_years
+    :noindex:
+
+    The `convert_years` function is designed to facilitate the conversion of Western calendar years into Thai Buddhist Era (BE) years. This is significant for presenting dates and years in a Thai context.
 
 .. autofunction:: count_thai_chars
     :noindex:
@@ -76,6 +86,11 @@ Modules
     :noindex:
 
     The `find_keyword` function is a powerful utility for identifying keywords and key phrases in text data. It is a fundamental component for text analysis and information extraction tasks.
+
+.. autofunction:: find_profanity
+    :noindex:
+
+    The `find_profanity` function identifies and returns a list of all profanity words found in Thai text. Users can provide custom profanity words to enhance detection capabilities for content moderation.
 
 .. autofunction:: ipa_to_rtgs
     :noindex:

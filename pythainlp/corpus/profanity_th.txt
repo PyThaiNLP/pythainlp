@@ -1,0 +1,32 @@
+# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+# SPDX-FileType: OTHER
+# SPDX-FileType: TEXT
+# SPDX-License-Identifier: Apache-2.0
+# 
+# Thai profanity words
+#
+# This list contains common Thai profanity words for filtering/detection purposes
+# Words are stored without tone marks or variations for broader matching
+ควย
+สัส
+เหี้ย
+ไอ้เหี้ย
+ไอ้สัส
+ระยำ
+เย็ด
+มึง
+ไอ้มึง
+กู
+ไอ้กู
+เชี่ย
+ดอกทอง
+สัตว์
+ไอ้สัตว์
+ชาติหมา
+ตาย
+ไอ้ตาย
+บ้า
+ไอ้บ้า
+เวร
+ไอ้เวร
+เหี้ยน

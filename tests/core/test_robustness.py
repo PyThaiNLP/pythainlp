@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
+# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """
@@ -338,10 +338,15 @@ class RobustnessTestCase(unittest.TestCase):
                         f"Digit conversion failed with reserved string '{s}': {e}"
                     )
 
-    def test_functions_do_not_execute_scripts(self):
+    def test_functions_handle_injection_strings_safely(self):
         """
-        Security test: Ensure no script injection strings cause code execution.
-        This is a meta-test to verify functions are safe.
+        Robustness test: Ensure functions handle injection strings without crashing.
+
+        Note: This test verifies that text processing functions can handle
+        strings containing script/SQL injection patterns without crashing.
+        It does not test for actual code execution since PyThaiNLP functions
+        are text processors that don't interpret HTML, JavaScript, or SQL.
+        The value is in ensuring robustness against unexpected input patterns.
         """
         for s in self.SCRIPT_INJECTION:
             with self.subTest(input_string=s):

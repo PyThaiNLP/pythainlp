@@ -19,23 +19,26 @@ class Word2VecAug:
 
         self.tokenizer = tokenize
 
-        # Temporarily suppress gensim warnings about duplicate words
-        gensim_logger = logging.getLogger("gensim.models.keyedvectors")
-        original_level = gensim_logger.getEffectiveLevel()
-        gensim_logger.setLevel(logging.ERROR)
+        if type == "file" or type == "binary":
+            # Temporarily suppress gensim warnings about duplicate words
+            gensim_logger = logging.getLogger("gensim.models.keyedvectors")
+            original_level = gensim_logger.getEffectiveLevel()
+            gensim_logger.setLevel(logging.ERROR)
 
-        try:
-            if type == "file":
-                self.model = word2vec.KeyedVectors.load_word2vec_format(model)
-            elif type == "binary":
-                self.model = word2vec.KeyedVectors.load_word2vec_format(
-                    model, binary=True, unicode_errors="ignore"
-                )
-            else:
-                self.model = model
-        finally:
-            # Restore original logging level
-            gensim_logger.setLevel(original_level)
+            try:
+                if type == "file":
+                    self.model = word2vec.KeyedVectors.load_word2vec_format(
+                        model
+                    )
+                else:  # type == "binary"
+                    self.model = word2vec.KeyedVectors.load_word2vec_format(
+                        model, binary=True, unicode_errors="ignore"
+                    )
+            finally:
+                # Restore original logging level
+                gensim_logger.setLevel(original_level)
+        else:
+            self.model = model
 
         self.dict_wv = list(self.model.key_to_index.keys())
 

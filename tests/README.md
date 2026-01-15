@@ -11,6 +11,20 @@ Tests are categorized into three groups: core, compact, and extra.
 - Test with all officially supported Python versions
   (currently 3.9, 3.10, 3.11, 3.12, and 3.13).
 
+### Robustness Tests (test_robustness.py)
+
+A comprehensive test suite within core tests that tests edge cases important
+for real-world usage:
+
+- Empty strings and various whitespace handling (spaces, tabs, unicode spaces)
+- Special characters from encoding issues, BOM, terminal copy/paste
+- Truncated/malformed Unicode and surrogate pairs
+- Emoji and modern Unicode sequences (ZWJ, modifiers, flags)
+- Control and hidden/invisible characters (zero-width, control chars)
+- Thai-specific edge cases with combining characters and mixed scripts
+- Multi-engine robustness testing across all core tokenization engines
+- Very long strings that can cause performance issues (issue #893)
+
 ## Compact Tests (testc_*.py)
 
 - Run `unittest tests.compact`

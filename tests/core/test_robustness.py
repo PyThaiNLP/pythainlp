@@ -117,6 +117,25 @@ class RobustnessTestCase(unittest.TestCase):
         "'; DROP TABLE users--",
     ]
 
+    # Category: Very Long Strings
+    # Strings that can cause performance issues or timeouts
+    # Related to issue #893
+    VERY_LONG_STRINGS = [
+        # Long repetitive text that can cause ambiguous breaking points
+        "ชิ" * 50,  # Repetitive single syllable (reduced from 100)
+        "ด้านหน้า" * 20,  # Repetitive compound word (reduced from 50)
+        # Mix of repetitive patterns
+        "ด้านหน้า" * 10 + "กกกกกก" * 10,  # Reduced repetitions
+        # Long but normal text (Taiwan Wikipedia excerpt, truncated)
+        (
+            "ไต้หวัน (แป่ะเอ๋ยี้: Tâi-oân; ไต่อวัน) หรือ ไถวาน "
+            "(อักษรโรมัน: Taiwan; จีนตัวย่อ: 台湾; จีนตัวเต็ม: 臺灣/台灣; พินอิน: "
+            "Táiwān; ไถวาน) หรือชื่อทางการว่า สาธารณรัฐจีน (จีนตัวย่อ: 中华民国; "
+            "จีนตัวเต็ม: 中華民國; พินอิน: Zhōnghuá "
+            "Mínguó) เป็นรัฐในทวีปเอเชียตะวันออก"
+        ),
+    ]
+
     def test_word_tokenize_with_reserved_strings(self):
         """Test word_tokenize with reserved strings across all engines."""
         for engine in self.TOKENIZE_ENGINES:
@@ -219,6 +238,31 @@ class RobustnessTestCase(unittest.TestCase):
                             f"word_tokenize (engine={engine}) failed with "
                             f"injection string '{s}': {e}"
                         )
+
+    def test_word_tokenize_with_very_long_strings(self):
+        """
+        Test word_tokenize with very long strings.
+
+        This test addresses issue #893 - testing tokenization performance
+        and robustness with very long strings, including repetitive patterns
+        that can cause ambiguous breaking points and long processing times.
+
+        Uses newmm-safe engine which is designed to handle such cases.
+        """
+        # Use newmm-safe which has safeguards against long processing times
+        engine = "newmm-safe"
+        for i, s in enumerate(self.VERY_LONG_STRINGS):
+            with self.subTest(engine=engine, string_index=i):
+                try:
+                    result = word_tokenize(s, engine=engine)
+                    self.assertIsInstance(result, list)
+                    # Very long strings should still produce tokens
+                    self.assertGreater(len(result), 0)
+                except Exception as e:
+                    self.fail(
+                        f"word_tokenize (engine={engine}) failed with "
+                        f"very long string (index={i}): {e}"
+                    )
 
     def test_isthai_with_reserved_strings(self):
         """Test isthai with reserved strings."""

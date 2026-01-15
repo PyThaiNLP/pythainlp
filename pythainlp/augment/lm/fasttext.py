@@ -23,7 +23,7 @@ class FastTextAug:
         """
         # Temporarily suppress gensim warnings about duplicate words
         gensim_logger = logging.getLogger("gensim.models.keyedvectors")
-        original_level = gensim_logger.level
+        original_level = gensim_logger.getEffectiveLevel()
         gensim_logger.setLevel(logging.ERROR)
 
         try:

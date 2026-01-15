@@ -13,13 +13,17 @@ Tests are categorized into three groups: core, compact, and extra.
 
 ### Robustness Tests (test_robustness.py)
 
-A focused test suite within core tests that tests edge cases not covered
-by existing tests:
+A comprehensive test suite within core tests that tests edge cases important
+for real-world usage:
 
-- Multi-engine robustness testing for word_tokenize across all core engines
+- Empty strings and various whitespace handling (spaces, tabs, unicode spaces)
+- Special characters from encoding issues, BOM, terminal copy/paste
+- Truncated/malformed Unicode and surrogate pairs
+- Emoji and modern Unicode sequences (ZWJ, modifiers, flags)
+- Control and hidden/invisible characters (zero-width, control chars)
+- Thai-specific edge cases with combining characters and mixed scripts
+- Multi-engine robustness testing across all core tokenization engines
 - Very long strings that can cause performance issues (issue #893)
-- Thai-specific edge cases with combining characters and special Unicode
-- Avoids duplicate coverage of basic cases already tested elsewhere
 
 ## Compact Tests (testc_*.py)
 

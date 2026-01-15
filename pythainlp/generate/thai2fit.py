@@ -17,7 +17,16 @@ import random
 # fastai
 import fastai
 import pandas as pd
-from fastai.text import *
+from fastai.text import (
+    AWD_LSTM,
+    NumericalizeProcessor,
+    TextList,
+    TokenizeProcessor,
+    Tokenizer,
+    URLs,
+    language_model_learner,
+    untar_data,
+)
 
 # pythainlp
 from pythainlp.ulmfit import (

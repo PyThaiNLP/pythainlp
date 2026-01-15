@@ -1,75 +1,91 @@
 {
-  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
-  "@type": "SoftwareSourceCode",
-  "name": "PyThaiNLP",
-  "description": "Thai Natural Language Processing in Python",
-  "version": "5.2.0",
-  "author": [
-    {
-      "@type": "Person",
-      "givenName": "Wannaphong",
-      "familyName": "Phatthiyaphaibun",
-      "@id": "https://orcid.org/0000-0002-4153-4354"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Korakot",
-      "familyName": "Chaovavanich",
-      "@id": "https://orcid.org/0009-0002-7350-9855"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Charin",
-      "familyName": "Polpanumas",
-      "@id": "https://orcid.org/0000-0001-7822-4600"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Arthit",
-      "familyName": "Suriyawongkul",
-      "@id": "https://orcid.org/0000-0002-9698-1899"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Lalita",
-      "familyName": "Lowphansirikul",
-      "@id": "https://orcid.org/0000-0002-5305-2088"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Pattarawat",
-      "familyName": "Chormai",
-      "@id": "https://orcid.org/0000-0002-7582-4667"
-    }
-  ],
-  "maintainer": [
-    {
-      "@type": "Person",
-      "givenName": "Wannaphong",
-      "familyName": "Phatthiyaphaibun",
-      "@id": "https://orcid.org/0000-0002-4153-4354"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Arthit",
-      "familyName": "Suriyawongkul",
-      "@id": "https://orcid.org/0000-0002-9698-1899"
-    }
-  ],
-  "license": "https://spdx.org/licenses/Apache-2.0",
-  "codeRepository": "https://github.com/PyThaiNLP/pythainlp",
-  "issueTracker": "https://github.com/PyThaiNLP/pythainlp/issues",
-  "url": "https://pythainlp.org/",
-  "keywords": [
-    "NLP",
-    "natural language processing",
-    "tokenization",
-    "text processing",
-    "linguistics",
-    "localization",
-    "computational linguistics",
-    "ThaiNLP",
-    "Thai NLP",
-    "Thai language"
-  ]
+    "@context": "https://w3id.org/codemeta/3.0",
+    "type": "SoftwareSourceCode",
+    "applicationCategory": "text analysis",
+    "author": [
+        {
+            "id": "https://orcid.org/0000-0002-4153-4354",
+            "type": "Person",
+            "familyName": "Phatthiyaphaibun",
+            "givenName": "Wannaphong"
+        },
+        {
+            "id": "https://orcid.org/0009-0002-7350-9855",
+            "type": "Person",
+            "familyName": "Chaovavanich",
+            "givenName": "Korakot"
+        },
+        {
+            "id": "https://orcid.org/0000-0001-7822-4600",
+            "type": "Person",
+            "familyName": "Polpanumas",
+            "givenName": "Charin"
+        },
+        {
+            "id": "https://orcid.org/0000-0002-9698-1899",
+            "type": "Person",
+            "familyName": "Suriyawongkul",
+            "givenName": "Arthit"
+        },
+        {
+            "id": "https://orcid.org/0000-0002-5305-2088",
+            "type": "Person",
+            "familyName": "Lowphansirikul",
+            "givenName": "Lalita"
+        },
+        {
+            "id": "https://orcid.org/0000-0002-7582-4667",
+            "type": "Person",
+            "familyName": "Chormai",
+            "givenName": "Pattarawat"
+        }
+    ],
+    "codeRepository": "https://github.com/PyThaiNLP/pythainlp",
+    "copyrightYear": "2026",
+    "dateCreated": "2016-06-27",
+    "dateModified": "2025-12-20",
+    "datePublished": "2016-06-27",
+    "description": "PyThaiNLP is a Thai natural language processing library for Python. It provides standard linguistic analysis for the Thai language, including tokenization and part-of-speech tagging. Additionally, it offers standard Thai locale utility functions, such as Thai Buddhist Era date formatting and the conversion of numbers into Thai text.",
+    "developmentStatus": "active",
+    "downloadUrl": "https://github.com/PyThaiNLP/pythainlp/releases",
+    "identifier": "http://doi.org/10.5281/zenodo.3519354",
+    "issueTracker": "https://github.com/PyThaiNLP/pythainlp/issues",
+    "keywords": [
+        "computational linguistics",
+        "linguistics",
+        "localization",
+        "natural language processing",
+        "NLP",
+        "text analysis",
+        "text processing",
+        "ThaiNLP",
+        "Thai NLP",
+        "Thai language",
+        "tokenization"
+    ],
+    "license": "https://spdx.org/licenses/Apache-2.0",
+    "maintainer": [
+        {
+            "id": "https://orcid.org/0000-0002-4153-4354",
+            "type": "Person",
+            "familyName": "Phatthiyaphaibun",
+            "givenName": "Wannaphong"
+        },
+        {
+            "id": "https://orcid.org/0000-0002-9698-1899",
+            "type": "Person",
+            "familyName": "Suriyawongkul",
+            "givenName": "Arthit"
+        },
+    ],
+    "name": "PyThaiNLP",
+    "programmingLanguage": "Python 3",
+    "readme": "https://github.com/PyThaiNLP/pythainlp/blob/dev/README.md",
+    "referencePublication": "https://doi.org/10.18653/v1/2023.nlposs-1.4",
+    "relatedLink": [
+        "https://pythainlp.org/",
+        "https://pythainlp.org/Model-Cards/"
+    ],
+    "url": "https://pythainlp.org/",
+    "version": "5.2.0"
 }

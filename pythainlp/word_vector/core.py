@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+import logging
+
 from gensim.models import KeyedVectors
 from gensim.models.keyedvectors import Word2VecKeyedVectors
 from numpy import ndarray, zeros
@@ -49,11 +51,22 @@ class WordVector:
         :param str model_name: model name
         """
         self.model_name = model_name
-        self.model = KeyedVectors.load_word2vec_format(
-            get_corpus_path(self.model_name),
-            binary=True,
-            unicode_errors="ignore",
-        )
+
+        # Temporarily suppress gensim warnings about duplicate words
+        gensim_logger = logging.getLogger("gensim.models.keyedvectors")
+        original_level = gensim_logger.level
+        gensim_logger.setLevel(logging.ERROR)
+
+        try:
+            self.model = KeyedVectors.load_word2vec_format(
+                get_corpus_path(self.model_name),
+                binary=True,
+                unicode_errors="ignore",
+            )
+        finally:
+            # Restore original logging level
+            gensim_logger.setLevel(original_level)
+
         self.WV_DIM = self.model.vector_size
 
         if self.model_name == "thai2fit_wv":

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import itertools
+import logging
 
 
 class Word2VecAug:
@@ -17,14 +18,25 @@ class Word2VecAug:
         import gensim.models.keyedvectors as word2vec
 
         self.tokenizer = tokenize
-        if type == "file":
-            self.model = word2vec.KeyedVectors.load_word2vec_format(model)
-        elif type == "binary":
-            self.model = word2vec.KeyedVectors.load_word2vec_format(
-                model, binary=True, unicode_errors="ignore"
-            )
-        else:
-            self.model = model
+
+        # Temporarily suppress gensim warnings about duplicate words
+        gensim_logger = logging.getLogger("gensim.models.keyedvectors")
+        original_level = gensim_logger.level
+        gensim_logger.setLevel(logging.ERROR)
+
+        try:
+            if type == "file":
+                self.model = word2vec.KeyedVectors.load_word2vec_format(model)
+            elif type == "binary":
+                self.model = word2vec.KeyedVectors.load_word2vec_format(
+                    model, binary=True, unicode_errors="ignore"
+                )
+            else:
+                self.model = model
+        finally:
+            # Restore original logging level
+            gensim_logger.setLevel(original_level)
+
         self.dict_wv = list(self.model.key_to_index.keys())
 
     def modify_sent(self, sent: str, p: float = 0.7) -> list[list[str]]:

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import itertools
+import logging
 
 from gensim.models.fasttext import FastText as FastText_gensim
 from gensim.models.keyedvectors import KeyedVectors
@@ -20,12 +21,22 @@ class FastTextAug:
     def __init__(self, model_path: str):
         """:param str model_path: path of model file
         """
-        if model_path.endswith(".bin"):
-            self.model = FastText_gensim.load_facebook_vectors(model_path)
-        elif model_path.endswith(".vec"):
-            self.model = KeyedVectors.load_word2vec_format(model_path)
-        else:
-            self.model = FastText_gensim.load(model_path)
+        # Temporarily suppress gensim warnings about duplicate words
+        gensim_logger = logging.getLogger("gensim.models.keyedvectors")
+        original_level = gensim_logger.level
+        gensim_logger.setLevel(logging.ERROR)
+
+        try:
+            if model_path.endswith(".bin"):
+                self.model = FastText_gensim.load_facebook_vectors(model_path)
+            elif model_path.endswith(".vec"):
+                self.model = KeyedVectors.load_word2vec_format(model_path)
+            else:
+                self.model = FastText_gensim.load(model_path)
+        finally:
+            # Restore original logging level
+            gensim_logger.setLevel(original_level)
+
         self.dict_wv = list(self.model.key_to_index.keys())
 
     def tokenize(self, text: str) -> list[str]:

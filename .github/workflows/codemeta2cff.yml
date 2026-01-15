@@ -26,13 +26,13 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Generate CITATION.cff from codemeta.json
-        uses: caltechlibrary/codemeta2cff@v0.3
+        uses: caltechlibrary/codemeta2cff@99ce10831c3037a067c3d9551d455638e0b438ac  #v0.3.3
 
       - name: Validate CITATION.cff
-        uses: dieghernan/cff-validator@v4
+        uses: dieghernan/cff-validator@114aae53e1850c3757733beb60036941900e3dc3  #v4
 
       - name: Commit and push updated CITATION.cff
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5  #v9.1.4
         with:
           message: 'Update CITATION.cff from codemeta.json'
           add: 'CITATION.cff'

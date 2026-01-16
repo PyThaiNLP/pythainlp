@@ -78,5 +78,5 @@ def get_pythainlp_path() -> str:
     # This works for both regular installations and zip files
     if hasattr(package_path, '__fspath__'):
         return os.fspath(package_path)
-    # Fallback for older Python or special cases
+    # Fallback for traversable objects that don't support __fspath__
     return str(package_path)

@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+import threading
 from importlib.resources import as_file, files
 from sys import stderr
 
@@ -13,20 +14,29 @@ from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 
 _NLPO3_DEFAULT_DICT_NAME = "_73bcj049dzbu9t49b4va170k"  # supposed to be unique
 _NLPO3_DEFAULT_DICT = None  # Will be lazily loaded
-_dict_path_ctx = None
+_dict_path_ctx = None  # Context manager kept alive for program lifetime
+_load_lock = threading.Lock()  # Thread safety for lazy loading
 
 
 def _ensure_default_dict_loaded():
-    """Ensure the default dictionary is loaded."""
+    """Ensure the default dictionary is loaded.
+
+    This function uses a lock to ensure thread-safe initialization.
+    The context manager is kept alive for the lifetime of the program
+    to prevent cleanup of temporary files while the dictionary is in use.
+    """
     global _NLPO3_DEFAULT_DICT, _dict_path_ctx
     if _NLPO3_DEFAULT_DICT is None:
-        corpus_files = files("pythainlp.corpus")
-        dict_file = corpus_files.joinpath(_THAI_WORDS_FILENAME)
-        _dict_path_ctx = as_file(dict_file)
-        dict_path = _dict_path_ctx.__enter__()
-        _NLPO3_DEFAULT_DICT = nlpo3_load_dict(
-            str(dict_path), _NLPO3_DEFAULT_DICT_NAME
-        )
+        with _load_lock:
+            # Double-check pattern to avoid race conditions
+            if _NLPO3_DEFAULT_DICT is None:
+                corpus_files = files("pythainlp.corpus")
+                dict_file = corpus_files.joinpath(_THAI_WORDS_FILENAME)
+                _dict_path_ctx = as_file(dict_file)
+                dict_path = _dict_path_ctx.__enter__()
+                _NLPO3_DEFAULT_DICT = nlpo3_load_dict(
+                    str(dict_path), _NLPO3_DEFAULT_DICT_NAME
+                )
     return _NLPO3_DEFAULT_DICT
 
 

@@ -8,6 +8,7 @@ GitHub: https://github.com/PyThaiNLP/Han-solo
 
 from __future__ import annotations
 
+import threading
 from importlib.resources import as_file, files
 
 try:
@@ -18,19 +19,28 @@ except ImportError:
     )
 
 _tagger = None
-_model_path_ctx = None
+_model_path_ctx = None  # Context manager kept alive for program lifetime
+_load_lock = threading.Lock()  # Thread safety for lazy loading
 
 
 def _get_tagger():
-    """Lazy load the tagger model."""
+    """Lazy load the tagger model.
+
+    This function uses a lock to ensure thread-safe initialization.
+    The context manager is kept alive for the lifetime of the program
+    to prevent cleanup of temporary files while the tagger is in use.
+    """
     global _tagger, _model_path_ctx
     if _tagger is None:
-        _tagger = pycrfsuite.Tagger()
-        corpus_files = files("pythainlp.corpus")
-        model_file = corpus_files.joinpath("han_solo.crfsuite")
-        _model_path_ctx = as_file(model_file)
-        model_path = _model_path_ctx.__enter__()
-        _tagger.open(str(model_path))
+        with _load_lock:
+            # Double-check pattern to avoid race conditions
+            if _tagger is None:
+                _tagger = pycrfsuite.Tagger()
+                corpus_files = files("pythainlp.corpus")
+                model_file = corpus_files.joinpath("han_solo.crfsuite")
+                _model_path_ctx = as_file(model_file)
+                model_path = _model_path_ctx.__enter__()
+                _tagger.open(str(model_path))
     return _tagger
 
 

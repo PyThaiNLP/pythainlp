@@ -59,7 +59,12 @@ def get_pythainlp_data_path() -> str:
 
 
 def get_pythainlp_path() -> str:
-    """This function returns full path of PyThaiNLP codes
+    """This function returns full path of PyThaiNLP codes.
+
+    Note: When the package is installed as a zip file, the returned path
+    may not be a standard filesystem path and should not be used for direct
+    file I/O operations. Use importlib.resources for accessing package files
+    in a zip-safe manner.
 
     :return: full path of :mod:`pythainlp` codes
     :rtype: str

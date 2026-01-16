@@ -13,6 +13,7 @@ We used unigram & bigram from Thai National Corpus (TNC).
 
 from __future__ import annotations
 
+import threading
 from importlib.resources import as_file, files
 
 try:
@@ -28,34 +29,43 @@ _UNIGRAM_FILENAME = "tnc_freq.txt"
 _BIGRAM_CORPUS_NAME = "tnc_bigram_word_freqs"
 
 _sym_spell = None
-_unigram_path_ctx = None
+_unigram_path_ctx = None  # Context manager kept alive for program lifetime
+_load_lock = threading.Lock()  # Thread safety for lazy loading
 
 
 def _get_sym_spell():
-    """Lazy load the symspell instance."""
+    """Lazy load the symspell instance.
+
+    This function uses a lock to ensure thread-safe initialization.
+    The context manager is kept alive for the lifetime of the program
+    to prevent cleanup of temporary files while SymSpell is in use.
+    """
     global _sym_spell, _unigram_path_ctx
     if _sym_spell is None:
-        _sym_spell = SymSpell()
-        # Load unigram dictionary from bundled corpus
-        corpus_files = files("pythainlp.corpus")
-        unigram_file = corpus_files.joinpath(_UNIGRAM_FILENAME)
-        _unigram_path_ctx = as_file(unigram_file)
-        unigram_path = _unigram_path_ctx.__enter__()
-        _sym_spell.load_dictionary(
-            str(unigram_path),
-            0,
-            1,
-            separator="\t",
-            encoding="utf-8-sig",
-        )
-        # Load bigram dictionary from downloaded corpus
-        _sym_spell.load_bigram_dictionary(
-            get_corpus_path(_BIGRAM_CORPUS_NAME),
-            0,
-            2,
-            separator="\t",
-            encoding="utf-8-sig",
-        )
+        with _load_lock:
+            # Double-check pattern to avoid race conditions
+            if _sym_spell is None:
+                _sym_spell = SymSpell()
+                # Load unigram dictionary from bundled corpus
+                corpus_files = files("pythainlp.corpus")
+                unigram_file = corpus_files.joinpath(_UNIGRAM_FILENAME)
+                _unigram_path_ctx = as_file(unigram_file)
+                unigram_path = _unigram_path_ctx.__enter__()
+                _sym_spell.load_dictionary(
+                    str(unigram_path),
+                    0,
+                    1,
+                    separator="\t",
+                    encoding="utf-8-sig",
+                )
+                # Load bigram dictionary from downloaded corpus
+                _sym_spell.load_bigram_dictionary(
+                    get_corpus_path(_BIGRAM_CORPUS_NAME),
+                    0,
+                    2,
+                    separator="\t",
+                    encoding="utf-8-sig",
+                )
     return _sym_spell
 
 

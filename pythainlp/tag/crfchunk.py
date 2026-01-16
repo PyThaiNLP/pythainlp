@@ -57,6 +57,18 @@ def extract_features(doc):
 
 
 class CRFchunk:
+    """CRF-based chunker for Thai text.
+
+    This class can be used as a context manager to ensure proper cleanup
+    of resources. Example:
+
+        with CRFchunk() as chunker:
+            result = chunker.parse(tokens)
+
+    Alternatively, the object will attempt to clean up resources when
+    garbage collected, though this is not guaranteed.
+    """
+
     def __init__(self, corpus: str = "orchidpp"):
         self.corpus = corpus
         self._model_path_ctx = None
@@ -75,8 +87,27 @@ class CRFchunk:
         self.xseq = extract_features(token_pos)
         return self.tagger.tag(self.xseq)
 
+    def __enter__(self):
+        """Context manager entry."""
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit - clean up resources."""
+        if self._model_path_ctx is not None:
+            try:
+                self._model_path_ctx.__exit__(exc_type, exc_val, exc_tb)
+                self._model_path_ctx = None
+            except Exception:  # noqa: S110
+                pass
+        return False
+
     def __del__(self):
-        """Clean up the context manager when object is destroyed."""
+        """Clean up the context manager when object is destroyed.
+
+        Note: __del__ is not guaranteed to be called and should not be
+        relied upon for critical cleanup. Use the context manager protocol
+        (with statement) for reliable resource management.
+        """
         if self._model_path_ctx is not None:
             try:
                 self._model_path_ctx.__exit__(None, None, None)

@@ -10,14 +10,10 @@ on:
       - "bin/**"
       - "build_tools/**"
       - "pythainlp/**"
-      - "requirements/**"
       - "tests/**"
       - "Makefile"
       - "MANIFEST.in"
       - "pyproject.toml"
-      - "requirements.txt"
-      - "setup.cfg"
-      - "setup.py"
       - "tox.ini"
   pull_request:
     branches:
@@ -27,14 +23,10 @@ on:
       - "bin/**"
       - "build_tools/**"
       - "pythainlp/**"
-      - "requirements/**"
       - "tests/**"
       - "Makefile"
       - "MANIFEST.in"
       - "pyproject.toml"
-      - "requirements.txt"
-      - "setup.cfg"
-      - "setup.py"
       - "tox.ini"
 
 jobs:

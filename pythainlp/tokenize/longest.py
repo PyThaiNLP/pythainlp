@@ -161,6 +161,9 @@ _tokenizers_lock = threading.Lock()
 def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
     """Dictionary-based longest matching word segmentation.
 
+    This function is thread-safe. It uses a lock to protect access to the
+    internal tokenizer cache.
+
     :param str text: text to be tokenized into words
     :param pythainlp.util.Trie custom_dict: dictionary for tokenization
     :return: list of words, tokenized from the text

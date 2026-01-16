@@ -159,6 +159,9 @@ def word_tokenize(
     :Note:
         - The **custom_dict** parameter only works for \
           *deepcut*, *longest*, *newmm*, and *newmm-safe* engines.
+        - This function is thread-safe for all engines. Engines that use \
+          internal caches (*longest*, *attacut*) employ locks to ensure \
+          thread safety.
     :Example:
 
     Tokenize text with different tokenizers::

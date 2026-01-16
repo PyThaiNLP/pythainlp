@@ -5,14 +5,22 @@ on:
     branches:
       - dev
     paths-ignore:
+      - '**.cff'
+      - '**.json'
       - '**.md'
+      - '**.rst'
+      - '**.txt'
       - '**.yml'
       - 'docs/**'
   pull_request:
     branches:
       - dev
     paths-ignore:
+      - '**.cff'
+      - '**.json'
       - '**.md'
+      - '**.rst'
+      - '**.txt'
       - '**.yml'
       - 'docs/**'
 

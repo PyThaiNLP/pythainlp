@@ -15,6 +15,10 @@ from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
 
 _CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
+_USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+)
 
 
 class _ResponseWrapper:
@@ -43,7 +47,7 @@ def get_corpus_db(url: str):
 
     corpus_db = None
     try:
-        req = Request(url, headers={"User-Agent": "PyThaiNLP"})
+        req = Request(url, headers={"User-Agent": _USER_AGENT})
         with urlopen(req, timeout=10) as response:
             corpus_db = _ResponseWrapper(response)
     except HTTPError as http_err:
@@ -307,7 +311,7 @@ def _download(url: str, dst: str) -> int:
 
     from urllib.request import Request, urlopen
 
-    req = Request(url, headers={"User-Agent": "PyThaiNLP"})
+    req = Request(url, headers={"User-Agent": _USER_AGENT})
     with urlopen(req, timeout=10) as response:
         file_size = int(response.info().get("Content-Length", -1))
         with open(get_full_data_path(dst), "wb") as f:

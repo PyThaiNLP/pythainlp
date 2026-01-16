@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import sys
 
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
@@ -16,8 +17,9 @@ from pythainlp.tools import get_full_data_path
 
 _CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
 _USER_AGENT = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+    f"PyThaiNLP/{__version__} "
+    f"(Python/{sys.version_info.major}.{sys.version_info.minor}; "
+    f"{sys.platform})"
 )
 
 

@@ -24,6 +24,10 @@
         {
             "id": "https://orcid.org/0000-0002-9698-1899",
             "type": "Person",
+            "affiliation": {
+                "type": "Organization",
+                "name": "ADAPT Centre, Trinity College Dublin"
+            },
             "familyName": "Suriyawongkul",
             "givenName": "Arthit"
         },
@@ -74,9 +78,13 @@
         {
             "id": "https://orcid.org/0000-0002-9698-1899",
             "type": "Person",
+            "affiliation": {
+                "type": "Organization",
+                "name": "ADAPT Centre, Trinity College Dublin"
+            },
             "familyName": "Suriyawongkul",
             "givenName": "Arthit"
-        },
+        }
     ],
     "name": "PyThaiNLP",
     "programmingLanguage": "Python 3",

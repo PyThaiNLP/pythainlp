@@ -29,8 +29,7 @@ def get_transliteration_dict() -> defaultdict:
 
     The returned dict is in dict[str, dict[List[str], List[Optional[bool]]]] format.
     """
-    import pythainlp.corpus
-    corpus_files = files(pythainlp.corpus)
+    corpus_files = files("pythainlp.corpus")
     corpus_file = corpus_files.joinpath(_FILE_NAME)
 
     if not corpus_file.is_file():

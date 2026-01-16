@@ -13,19 +13,20 @@ from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 
 _NLPO3_DEFAULT_DICT_NAME = "_73bcj049dzbu9t49b4va170k"  # supposed to be unique
 _NLPO3_DEFAULT_DICT = None  # Will be lazily loaded
+_dict_path_ctx = None
 
 
 def _ensure_default_dict_loaded():
     """Ensure the default dictionary is loaded."""
-    global _NLPO3_DEFAULT_DICT
+    global _NLPO3_DEFAULT_DICT, _dict_path_ctx
     if _NLPO3_DEFAULT_DICT is None:
-        import pythainlp.corpus
-        corpus_files = files(pythainlp.corpus)
+        corpus_files = files("pythainlp.corpus")
         dict_file = corpus_files.joinpath(_THAI_WORDS_FILENAME)
-        with as_file(dict_file) as dict_path:
-            _NLPO3_DEFAULT_DICT = nlpo3_load_dict(
-                str(dict_path), _NLPO3_DEFAULT_DICT_NAME
-            )
+        _dict_path_ctx = as_file(dict_file)
+        dict_path = _dict_path_ctx.__enter__()
+        _NLPO3_DEFAULT_DICT = nlpo3_load_dict(
+            str(dict_path), _NLPO3_DEFAULT_DICT_NAME
+        )
     return _NLPO3_DEFAULT_DICT
 
 

@@ -28,25 +28,26 @@ _UNIGRAM_FILENAME = "tnc_freq.txt"
 _BIGRAM_CORPUS_NAME = "tnc_bigram_word_freqs"
 
 _sym_spell = None
+_unigram_path_ctx = None
 
 
 def _get_sym_spell():
     """Lazy load the symspell instance."""
-    global _sym_spell
+    global _sym_spell, _unigram_path_ctx
     if _sym_spell is None:
         _sym_spell = SymSpell()
         # Load unigram dictionary from bundled corpus
-        import pythainlp.corpus
-        corpus_files = files(pythainlp.corpus)
+        corpus_files = files("pythainlp.corpus")
         unigram_file = corpus_files.joinpath(_UNIGRAM_FILENAME)
-        with as_file(unigram_file) as unigram_path:
-            _sym_spell.load_dictionary(
-                str(unigram_path),
-                0,
-                1,
-                separator="\t",
-                encoding="utf-8-sig",
-            )
+        _unigram_path_ctx = as_file(unigram_file)
+        unigram_path = _unigram_path_ctx.__enter__()
+        _sym_spell.load_dictionary(
+            str(unigram_path),
+            0,
+            1,
+            separator="\t",
+            encoding="utf-8-sig",
+        )
         # Load bigram dictionary from downloaded corpus
         _sym_spell.load_bigram_dictionary(
             get_corpus_path(_BIGRAM_CORPUS_NAME),

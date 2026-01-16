@@ -18,18 +18,19 @@ except ImportError:
     )
 
 _tagger = None
+_model_path_ctx = None
 
 
 def _get_tagger():
     """Lazy load the tagger model."""
-    global _tagger
+    global _tagger, _model_path_ctx
     if _tagger is None:
         _tagger = pycrfsuite.Tagger()
-        import pythainlp.corpus
-        corpus_files = files(pythainlp.corpus)
+        corpus_files = files("pythainlp.corpus")
         model_file = corpus_files.joinpath("han_solo.crfsuite")
-        with as_file(model_file) as model_path:
-            _tagger.open(str(model_path))
+        _model_path_ctx = as_file(model_file)
+        model_path = _model_path_ctx.__enter__()
+        _tagger.open(str(model_path))
     return _tagger
 
 

@@ -127,8 +127,7 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset:
         #     ...})
 
     """
-    import pythainlp.corpus
-    corpus_files = files(pythainlp.corpus)
+    corpus_files = files("pythainlp.corpus")
     corpus_file = corpus_files.joinpath(filename)
     text = corpus_file.read_text(encoding="utf-8-sig")
     lines = text.splitlines()
@@ -167,8 +166,7 @@ def get_corpus_as_is(filename: str) -> list:
         # output:
         # ['แต่', 'ไม่']
     """
-    import pythainlp.corpus
-    corpus_files = files(pythainlp.corpus)
+    corpus_files = files("pythainlp.corpus")
     corpus_file = corpus_files.joinpath(filename)
     text = corpus_file.read_text(encoding="utf-8-sig")
     lines = text.splitlines()
@@ -187,8 +185,7 @@ def get_corpus_default_db(name: str, version: str = "") -> str | None:
     If you want to edit default_db.json, \
         you can edit pythainlp/corpus/default_db.json
     """
-    import pythainlp.corpus
-    corpus_files = files(pythainlp.corpus)
+    corpus_files = files("pythainlp.corpus")
     default_db_file = corpus_files.joinpath("default_db.json")
     text = default_db_file.read_text(encoding="utf-8-sig")
     corpus_db = json.loads(text)

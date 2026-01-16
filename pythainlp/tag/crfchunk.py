@@ -59,17 +59,27 @@ def extract_features(doc):
 class CRFchunk:
     def __init__(self, corpus: str = "orchidpp"):
         self.corpus = corpus
+        self.model_path_ctx = None
         self.load_model(self.corpus)
 
     def load_model(self, corpus: str):
         self.tagger = CRFTagger()
         if corpus == "orchidpp":
-            import pythainlp.corpus
-            corpus_files = files(pythainlp.corpus)
+            corpus_files = files("pythainlp.corpus")
             model_file = corpus_files.joinpath("crfchunk_orchidpp.model")
-            with as_file(model_file) as model_path:
-                self.tagger.open(str(model_path))
+            self.model_path_ctx = as_file(model_file)
+            model_path = self.model_path_ctx.__enter__()
+            self.tagger.open(str(model_path))
 
     def parse(self, token_pos: list[tuple[str, str]]) -> list[str]:
         self.xseq = extract_features(token_pos)
         return self.tagger.tag(self.xseq)
+
+    def __del__(self):
+        """Clean up the context manager when object is destroyed."""
+        if self.model_path_ctx is not None:
+            try:
+                self.model_path_ctx.__exit__(None, None, None)
+            except Exception:  # noqa: S110
+                # Silently ignore cleanup errors during garbage collection
+                pass

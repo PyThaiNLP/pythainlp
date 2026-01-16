@@ -6,7 +6,7 @@ name: Unit test
 on:
   push:
     paths:
-      - ".github/workflows/**"
+      - ".github/workflows/unittest.yml"
       - "bin/**"
       - "build_tools/**"
       - "pythainlp/**"
@@ -19,7 +19,7 @@ on:
     branches:
       - dev
     paths:
-      - ".github/workflows/**"
+      - ".github/workflows/unittest.yml"
       - "bin/**"
       - "build_tools/**"
       - "pythainlp/**"

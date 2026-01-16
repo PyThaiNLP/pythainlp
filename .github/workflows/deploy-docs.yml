@@ -3,11 +3,14 @@ on:
   push:
     branches:
     - dev
-    paths-ignore:
-      - '**.md'
-      - '**.yml'
+    paths:
+      - ".github/workflows/deploy-docs.yml"
+      - "build_tools/**"
+      - "pythainlp/**"
+      - "Makefile"
+      - "pyproject.toml"
   workflow_dispatch: {}
-
+    
 jobs:
   deploy-docs:
     name: Build and deploy documentation

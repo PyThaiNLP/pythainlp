@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileType: SOURCE
+
+name: Generate CITATION.cff from codemeta.json
+run-name: Generate CITATION.cff after ${{github.event_name}} by ${{github.actor}}
+
+on:
+  push:
+    paths:
+      - 'codemeta.json'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Reason for manual trigger'
+        required: false
+        default: 'Manual trigger'
+
+jobs:
+  generate-and-validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Generate CITATION.cff from codemeta.json
+        uses: caltechlibrary/codemeta2cff@99ce10831c3037a067c3d9551d455638e0b438ac  #v0.3.3
+
+      - name: Validate CITATION.cff
+        uses: dieghernan/cff-validator@114aae53e1850c3757733beb60036941900e3dc3  #v4
+
+      - name: Commit and push updated CITATION.cff
+        uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5  #v9.1.4
+        with:
+          message: 'Update CITATION.cff from codemeta.json'
+          add: 'CITATION.cff'

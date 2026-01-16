@@ -111,7 +111,7 @@ ssg = ["ssg>=0.0.8"]
 
 textaugment = ["bpemb>=0.3.2", "gensim>=4.0.0"]
 
-thai_nner = ["thai_nner"]
+thai_nner = ["thai_nner>=0.3"]
 
 thai2fit = ["emoji>=0.5.1", "gensim>=4.0.0", "numpy>=1.22"]
 
@@ -182,7 +182,7 @@ full = [
     "spacy_thai>=0.7.1",
     "ssg>=0.0.8",
     "symspellpy>=6.7.6",
-    "thai_nner",
+    "thai_nner>=0.3",
     "torch>=1.0.0",
     "transformers>=4.22.1",
     "ufal.chu-liu-edmonds>=1.0.2",

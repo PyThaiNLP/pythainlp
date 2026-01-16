@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import os
 import re
+from importlib.resources import files
 
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
@@ -126,10 +127,11 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset:
         #     ...})
 
     """
-    path = path_pythainlp_corpus(filename)
-    lines = []
-    with open(path, encoding="utf-8-sig") as fh:
-        lines = fh.read().splitlines()
+    import pythainlp.corpus
+    corpus_files = files(pythainlp.corpus)
+    corpus_file = corpus_files.joinpath(filename)
+    text = corpus_file.read_text(encoding="utf-8-sig")
+    lines = text.splitlines()
 
     if not comments:
         # if the line has a '#' character, take only text before the first '#'
@@ -165,10 +167,11 @@ def get_corpus_as_is(filename: str) -> list:
         # output:
         # ['แต่', 'ไม่']
     """
-    path = path_pythainlp_corpus(filename)
-    lines = []
-    with open(path, encoding="utf-8-sig") as fh:
-        lines = fh.read().splitlines()
+    import pythainlp.corpus
+    corpus_files = files(pythainlp.corpus)
+    corpus_file = corpus_files.joinpath(filename)
+    text = corpus_file.read_text(encoding="utf-8-sig")
+    lines = text.splitlines()
 
     return lines
 
@@ -184,9 +187,11 @@ def get_corpus_default_db(name: str, version: str = "") -> str | None:
     If you want to edit default_db.json, \
         you can edit pythainlp/corpus/default_db.json
     """
-    default_db_path = path_pythainlp_corpus("default_db.json")
-    with open(default_db_path, encoding="utf-8-sig") as fh:
-        corpus_db = json.load(fh)
+    import pythainlp.corpus
+    corpus_files = files(pythainlp.corpus)
+    default_db_file = corpus_files.joinpath("default_db.json")
+    text = default_db_file.read_text(encoding="utf-8-sig")
+    corpus_db = json.loads(text)
 
     if name in corpus_db:
         if version in corpus_db[name]["versions"]:

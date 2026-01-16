@@ -17,8 +17,7 @@ __all__ = [
 ]
 
 from collections import defaultdict
-
-from pythainlp.corpus import path_pythainlp_corpus
+from importlib.resources import files
 
 _FILE_NAME = "th_en_transliteration_v1.4.tsv"
 TRANSLITERATE_EN = "en"
@@ -30,8 +29,11 @@ def get_transliteration_dict() -> defaultdict:
 
     The returned dict is in dict[str, dict[List[str], List[Optional[bool]]]] format.
     """
-    path = path_pythainlp_corpus(_FILE_NAME)
-    if not path:
+    import pythainlp.corpus
+    corpus_files = files(pythainlp.corpus)
+    corpus_file = corpus_files.joinpath(_FILE_NAME)
+
+    if not corpus_file.is_file():
         raise FileNotFoundError(
             f"Unable to load transliteration dictionary. "
             f"{_FILE_NAME} is not found under pythainlp/corpus."
@@ -42,24 +44,25 @@ def get_transliteration_dict() -> defaultdict:
         lambda: {TRANSLITERATE_EN: [], TRANSLITERATE_FOLLOW_RTSG: []}
     )
     try:
-        with open(path, encoding="utf-8") as f:
-            # assume that the first row contains column names, so skip it.
-            for line in f.readlines()[1:]:
-                stripped = line.strip()
-                if stripped:
-                    th, *en_checked = stripped.split("\t")
-                    # replace in-between whitespace to prevent mismatched results from different tokenizers.
-                    # e.g. "บอยแบนด์"
-                    # route 1: "บอยแบนด์" -> ["บอย", "แบนด์"] -> ["boy", "band"] -> "boyband"
-                    # route 2: "บอยแบนด์" -> [""บอยแบนด์""] -> ["boy band"] -> "boy band"
-                    en_translit = en_checked[0].replace(" ", "")
-                    trans_dict[th][TRANSLITERATE_EN].append(en_translit)
-                    en_follow_rtgs = (
-                        bool(en_checked[1]) if len(en_checked) == 2 else None
-                    )
-                    trans_dict[th][TRANSLITERATE_FOLLOW_RTSG].append(
-                        en_follow_rtgs
-                    )
+        text = corpus_file.read_text(encoding="utf-8")
+        lines = text.splitlines()
+        # assume that the first row contains column names, so skip it.
+        for line in lines[1:]:
+            stripped = line.strip()
+            if stripped:
+                th, *en_checked = stripped.split("\t")
+                # replace in-between whitespace to prevent mismatched results from different tokenizers.
+                # e.g. "บอยแบนด์"
+                # route 1: "บอยแบนด์" -> ["บอย", "แบนด์"] -> ["boy", "band"] -> "boyband"
+                # route 2: "บอยแบนด์" -> [""บอยแบนด์""] -> ["boy band"] -> "boy band"
+                en_translit = en_checked[0].replace(" ", "")
+                trans_dict[th][TRANSLITERATE_EN].append(en_translit)
+                en_follow_rtgs = (
+                    bool(en_checked[1]) if len(en_checked) == 2 else None
+                )
+                trans_dict[th][TRANSLITERATE_FOLLOW_RTSG].append(
+                    en_follow_rtgs
+                )
 
     except ValueError as exc:
         raise ValueError(

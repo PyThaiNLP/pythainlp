@@ -3,9 +3,10 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from importlib.resources import as_file, files
 from pycrfsuite import Tagger as CRFTagger
 
-from pythainlp.corpus import path_pythainlp_corpus, thai_stopwords
+from pythainlp.corpus import thai_stopwords
 
 
 def _is_stopword(word: str) -> bool:  # check Thai stopword
@@ -62,8 +63,11 @@ class CRFchunk:
     def load_model(self, corpus: str):
         self.tagger = CRFTagger()
         if corpus == "orchidpp":
-            self.path = path_pythainlp_corpus("crfchunk_orchidpp.model")
-        self.tagger.open(self.path)
+            import pythainlp.corpus
+            corpus_files = files(pythainlp.corpus)
+            model_file = corpus_files.joinpath("crfchunk_orchidpp.model")
+            with as_file(model_file) as model_path:
+                self.tagger.open(str(model_path))
 
     def parse(self, token_pos: list[tuple[str, str]]) -> list[str]:
         self.xseq = extract_features(token_pos)

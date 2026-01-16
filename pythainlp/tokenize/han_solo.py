@@ -8,7 +8,7 @@ GitHub: https://github.com/PyThaiNLP/Han-solo
 
 from __future__ import annotations
 
-from pythainlp.corpus import path_pythainlp_corpus
+from importlib.resources import as_file, files
 
 try:
     import pycrfsuite
@@ -17,8 +17,20 @@ except ImportError:
         "ImportError; Install pycrfsuite by pip install python-crfsuite"
     )
 
-tagger = pycrfsuite.Tagger()
-tagger.open(path_pythainlp_corpus("han_solo.crfsuite"))
+_tagger = None
+
+
+def _get_tagger():
+    """Lazy load the tagger model."""
+    global _tagger
+    if _tagger is None:
+        _tagger = pycrfsuite.Tagger()
+        import pythainlp.corpus
+        corpus_files = files(pythainlp.corpus)
+        model_file = corpus_files.joinpath("han_solo.crfsuite")
+        with as_file(model_file) as model_path:
+            _tagger.open(str(model_path))
+    return _tagger
 
 
 class Featurizer:
@@ -119,6 +131,7 @@ _to_feature = Featurizer()
 
 
 def segment(text: str) -> list[str]:
+    tagger = _get_tagger()
     x = _to_feature.featurize(text)["X"]
     y_pred = tagger.tag(x)
     list_cut = []

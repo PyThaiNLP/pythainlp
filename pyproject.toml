@@ -246,7 +246,6 @@ issues = "https://github.com/PyThaiNLP/pythainlp/issues"
 thainlp = "pythainlp.__main__:main"
 
 [tool.setuptools]
-zip-safe = false
 include-package-data = true
 
 [tool.setuptools.packages.find]

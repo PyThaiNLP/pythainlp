@@ -9,8 +9,7 @@ For text processing and text conversion, see pythainlp.util
 from __future__ import annotations
 
 import os
-
-from pythainlp import __file__ as pythainlp_file
+from importlib.resources import files
 
 PYTHAINLP_DEFAULT_DATA_DIR = "pythainlp-data"
 
@@ -73,4 +72,11 @@ def get_pythainlp_path() -> str:
         get_pythainlp_path()
         # output: '/usr/local/lib/python3.6/dist-packages/pythainlp'
     """
-    return os.path.dirname(pythainlp_file)
+    import pythainlp
+    package_path = files(pythainlp)
+    # For compatibility, convert to string path if possible
+    # This works for both regular installations and zip files
+    if hasattr(package_path, '__fspath__'):
+        return os.fspath(package_path)
+    # Fallback for older Python or special cases
+    return str(package_path)

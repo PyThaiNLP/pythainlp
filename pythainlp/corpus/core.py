@@ -17,12 +17,27 @@ from pythainlp.tools import get_full_data_path
 _CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
 
 
+class _ResponseWrapper:
+    """Wrapper to provide requests.Response-like interface for urllib response."""
+
+    def __init__(self, response):
+        self.status_code = response.status
+        self.headers = response.headers
+        self._content = response.read()
+
+    def json(self):
+        """Parse JSON content from response."""
+        try:
+            return json.loads(self._content.decode("utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError) as err:
+            raise ValueError(f"Failed to parse JSON response: {err}")
+
+
 def get_corpus_db(url: str):
     """Get corpus catalog from server.
 
     :param str url: URL corpus catalog
     """
-    import json
     from urllib.error import HTTPError, URLError
     from urllib.request import Request, urlopen
 
@@ -30,17 +45,7 @@ def get_corpus_db(url: str):
     try:
         req = Request(url, headers={"User-Agent": "PyThaiNLP"})
         with urlopen(req, timeout=10) as response:
-            # Create a response object similar to requests.Response
-            class ResponseWrapper:
-                def __init__(self, response):
-                    self.status_code = response.status
-                    self.headers = response.headers
-                    self._content = response.read()
-
-                def json(self):
-                    return json.loads(self._content.decode("utf-8"))
-
-            corpus_db = ResponseWrapper(response)
+            corpus_db = _ResponseWrapper(response)
     except HTTPError as http_err:
         print(f"HTTP error occurred: {http_err}")
     except URLError as err:
@@ -314,10 +319,7 @@ def _download(url: str, dst: str) -> int:
             except ImportError:
                 pbar = None
 
-            while True:
-                chunk = response.read(CHUNK_SIZE)
-                if not chunk:
-                    break
+            while chunk := response.read(CHUNK_SIZE):
                 f.write(chunk)
                 if pbar:
                     pbar.update(len(chunk))

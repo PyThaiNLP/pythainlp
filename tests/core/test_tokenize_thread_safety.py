@@ -238,6 +238,37 @@ class TestThreadSafety(unittest.TestCase):
         for result in results:
             self.assertEqual(result, first_result)
 
+    def test_icu_thread_safety(self):
+        """Test thread safety of icu engine (if available)."""
+        try:
+            from icu import BreakIterator  # noqa: F401
+        except ImportError:
+            self.skipTest("PyICU not installed")
+
+        num_threads = 10
+        results = [None] * num_threads
+        threads = []
+
+        text = self.test_texts[0]
+        for i in range(num_threads):
+            thread = threading.Thread(
+                target=self._tokenize_worker,
+                args=(text, "icu", results, i),
+            )
+            threads.append(thread)
+            thread.start()
+
+        for thread in threads:
+            thread.join()
+
+        # All threads should produce the same result
+        first_result = results[0]
+        self.assertIsNotNone(first_result)
+        self.assertNotEqual(first_result, "INCONSISTENT")
+        self.assertNotIn("ERROR:", str(first_result))
+        for result in results:
+            self.assertEqual(result, first_result)
+
 
 if __name__ == "__main__":
     unittest.main()

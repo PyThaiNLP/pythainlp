@@ -8,7 +8,16 @@ import unittest
 import fastai
 import pandas as pd
 import torch
-from fastai.text import *
+from fastai.text import (
+    AWD_LSTM,
+    NumericalizeProcessor,
+    TextList,
+    TokenizeProcessor,
+    Tokenizer,
+    URLs,
+    language_model_learner,
+    untar_data,
+)
 
 from pythainlp.tokenize import THAI2FIT_TOKENIZER
 from pythainlp.ulmfit import (

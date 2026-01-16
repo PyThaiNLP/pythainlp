@@ -317,6 +317,5 @@ select = [
     "W293",
 ]
 # Some rules are ignored for now; we can consider enabling them in the future.
-# F403 and F405 are ignored due to thai2fit/ulmfit module's star imports.
 # S101 is use of assert statement, should be an easy fix.
-extend-ignore = ["E402", "E501", "E722", "F403", "F405", "S101", "S202", "S301", "S310"]
+extend-ignore = ["E402", "E501", "E722", "S101", "S202", "S301", "S310"]

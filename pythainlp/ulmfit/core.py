@@ -162,9 +162,8 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
 
     :Example:
 
-        >>> from pythainlp.ulmfit import document_vectorr
-        >>> from fastai import *
-        >>> from fastai.text import *
+        >>> from pythainlp.ulmfit import document_vector
+        >>> from fastai.text import load_data, language_model_learner, AWD_LSTM
         >>>
         >>> # Load Data Bunch
         >>> data = load_data(MODEL_PATH, 'thwiki_lm_data.pkl')

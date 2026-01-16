@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from importlib.resources import as_file, files
+
 from pycrfsuite import Tagger as CRFTagger
 
 from pythainlp.corpus import thai_stopwords

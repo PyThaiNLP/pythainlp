@@ -9,6 +9,8 @@
 
 from __future__ import annotations
 
+import threading
+
 from attacut import Tokenizer
 
 
@@ -26,6 +28,7 @@ class AttacutTokenizer:
 
 
 _tokenizers: dict[str, AttacutTokenizer] = {}
+_tokenizers_lock = threading.Lock()
 
 
 def segment(text: str, model: str = "attacut-sc") -> list[str]:
@@ -42,7 +45,11 @@ def segment(text: str, model: str = "attacut-sc") -> list[str]:
         return []
 
     global _tokenizers
-    if model not in _tokenizers:
-        _tokenizers[model] = AttacutTokenizer(model)
 
-    return _tokenizers[model].tokenize(text)
+    # Thread-safe access to the tokenizers cache
+    with _tokenizers_lock:
+        if model not in _tokenizers:
+            _tokenizers[model] = AttacutTokenizer(model)
+        tokenizer = _tokenizers[model]
+
+    return tokenizer.tokenize(text)

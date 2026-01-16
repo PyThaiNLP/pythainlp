@@ -13,6 +13,7 @@ on the codes from Patorn Utenpattanun.
 from __future__ import annotations
 
 import re
+import threading
 
 from pythainlp import thai_tonemarks
 from pythainlp.tokenize import word_dict_trie
@@ -154,6 +155,7 @@ class LongestMatchTokenizer:
 
 
 _tokenizers: dict[int, LongestMatchTokenizer] = {}
+_tokenizers_lock = threading.Lock()
 
 
 def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
@@ -171,7 +173,11 @@ def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
 
     global _tokenizers
     custom_dict_ref_id = id(custom_dict)
-    if custom_dict_ref_id not in _tokenizers:
-        _tokenizers[custom_dict_ref_id] = LongestMatchTokenizer(custom_dict)
 
-    return _tokenizers[custom_dict_ref_id].tokenize(text)
+    # Thread-safe access to the tokenizers cache
+    with _tokenizers_lock:
+        if custom_dict_ref_id not in _tokenizers:
+            _tokenizers[custom_dict_ref_id] = LongestMatchTokenizer(custom_dict)
+        tokenizer = _tokenizers[custom_dict_ref_id]
+
+    return tokenizer.tokenize(text)

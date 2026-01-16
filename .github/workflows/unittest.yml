@@ -5,15 +5,29 @@ name: Unit test
 
 on:
   push:
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
+    paths:
+      - ".github/workflows/**"
+      - "bin/**"
+      - "build_tools/**"
+      - "pythainlp/**"
+      - "tests/**"
+      - "Makefile"
+      - "MANIFEST.in"
+      - "pyproject.toml"
+      - "tox.ini"
   pull_request:
     branches:
       - dev
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
+    paths:
+      - ".github/workflows/**"
+      - "bin/**"
+      - "build_tools/**"
+      - "pythainlp/**"
+      - "tests/**"
+      - "Makefile"
+      - "MANIFEST.in"
+      - "pyproject.toml"
+      - "tox.ini"
 
 jobs:
   unittest:

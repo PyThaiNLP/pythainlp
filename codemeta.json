@@ -24,6 +24,10 @@
         {
             "id": "https://orcid.org/0000-0002-9698-1899",
             "type": "Person",
+            "affiliation": {
+                "type": "Organization",
+                "name": "ADAPT Centre, Trinity College Dublin"
+            },
             "familyName": "Suriyawongkul",
             "givenName": "Arthit"
         },
@@ -48,7 +52,7 @@
     "description": "PyThaiNLP is a Thai natural language processing library for Python. It provides standard linguistic analysis for the Thai language, including tokenization and part-of-speech tagging. Additionally, it offers standard Thai locale utility functions, such as Thai Buddhist Era date formatting and the conversion of numbers into Thai text.",
     "developmentStatus": "active",
     "downloadUrl": "https://github.com/PyThaiNLP/pythainlp/releases",
-    "identifier": "http://doi.org/10.5281/zenodo.3519354",
+    "identifier": "10.5281/zenodo.3519354",
     "issueTracker": "https://github.com/PyThaiNLP/pythainlp/issues",
     "keywords": [
         "computational linguistics",
@@ -74,6 +78,10 @@
         {
             "id": "https://orcid.org/0000-0002-9698-1899",
             "type": "Person",
+            "affiliation": {
+                "type": "Organization",
+                "name": "ADAPT Centre, Trinity College Dublin"
+            },
             "familyName": "Suriyawongkul",
             "givenName": "Arthit"
         }
@@ -81,7 +89,107 @@
     "name": "PyThaiNLP",
     "programmingLanguage": "Python 3",
     "readme": "https://github.com/PyThaiNLP/pythainlp/blob/dev/README.md",
-    "referencePublication": "https://doi.org/10.18653/v1/2023.nlposs-1.4",
+    "referencePublication": [
+        {
+            "type": "ScholarlyArticle",
+            "author": [
+                {
+                    "id": "https://orcid.org/0000-0002-4153-4354",
+                    "type": "Person",
+                    "affiliation": {
+                        "name": "VISTEC",
+                        "type": "Organization"
+                    },
+                    "email": "wannaphong.p_s21@vistec.ac.th",
+                    "familyName": "Phatthiyaphaibun",
+                    "givenName": "Wannaphong"
+                },
+                {
+                    "id": "https://orcid.org/0009-0002-7350-9855",
+                    "type": "Person",
+                    "affiliation": {
+                        "name": "PyThaiNLP",
+                        "type": "Organization"
+                    },
+                    "familyName": "Chaovavanich",
+                    "givenName": "Korakot"
+                },
+                {
+                    "id": "https://orcid.org/0000-0001-7822-4600",
+                    "type": "Person",
+                    "affiliation": {
+                        "name": "PyThaiNLP",
+                        "type": "Organization"
+                    },
+                    "familyName": "Polpanumas",
+                    "givenName": "Charin"
+                },
+                {
+                    "id": "https://orcid.org/0000-0002-9698-1899",
+                    "type": "Person",
+                    "affiliation": {
+                        "name": "Trinity College Dublin",
+                        "type": "Organization"
+                    },
+                    "familyName": "Suriyawongkul",
+                    "givenName": "Arthit"
+                },
+                {
+                    "id": "https://orcid.org/0000-0002-5305-2088",
+                    "type": "Person",
+                    "affiliation": {
+                        "name": "VISTEC",
+                        "type": "Organization"
+                    },
+                    "familyName": "Lowphansirikul",
+                    "givenName": "Lalita"
+                },
+                {
+                    "id": "https://orcid.org/0000-0002-7582-4667",
+                    "type": "Person",
+                    "affiliation": {
+                        "name": "Technische Universität Berlin; Max Planck School of Cognition",
+                        "type": "Organization"
+                    },
+                    "familyName": "Chormai",
+                    "givenName": "Pattarawat"
+                },
+                {
+                    "id": "https://orcid.org/0000-0002-7212-8228",
+                    "type": "Person",
+                    "affiliation": {
+                        "name": "VISTEC",
+                        "type": "Organization"
+                    },
+                    "familyName": "Limkonchotiwat",
+                    "givenName": "Peerat"
+                },
+                {
+                    "type": "Person",
+                    "affiliation": {
+                        "name": "Wisesight",
+                        "type": "Organization"
+                    },
+                    "familyName": "Suntorntip",
+                    "givenName": "Thanathip"
+                },
+                {
+                    "id": "https://orcid.org/0000-0002-7090-0536",
+                    "type": "Person",
+                    "affiliation": {
+                        "name": "VISTEC",
+                        "type": "Organization"
+                    },
+                    "familyName": "Udomcharoenchaikit",
+                    "givenName": "Can"
+                }
+            ],
+            "datePublished": "2023-12-06",
+            "identifier": "10.18653/v1/2023.nlposs-1.4",
+            "name": "PyThaiNLP: Thai Natural Language Processing in Python",
+            "url": "https://aclanthology.org/2023.nlposs-1.4/"
+        }
+    ],
     "relatedLink": [
         "https://pythainlp.org/",
         "https://pythainlp.org/Model-Cards/"

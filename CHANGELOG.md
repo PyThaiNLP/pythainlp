@@ -19,10 +19,11 @@ Some features and fixes in this version are AI assisted.
 See PR for prompt and details.
 
 - Lazy load dictionaries to reduce memory usage #1186
+- Fix KeyError when transliterating text with Thai alphabet Kho Khon (U+0E05) #1187
 - Consolidate configuration into pyproject.toml #1188
 - Update type hints; Use Python 3.9 features #1189 #1190
-- Fix KeyError when transliterating text with Thai alphabet Kho Khon (U+0E05) #1187
-- Replace requests library with urllib.request from standard library to reduce core dependencies
+- Replace requests library with urllib.request from standard library to reduce
+  core dependencies #1211
 
 ## Version 5.1.2 -> 5.2.0
 

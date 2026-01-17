@@ -8,10 +8,13 @@ GitHub: https://github.com/bminixhofer/wtpsplit
 
 from __future__ import annotations
 
+import threading
+
 from wtpsplit import WtP
 
 _MODEL = None
 _MODEL_NAME = None
+_model_lock = threading.Lock()
 
 
 def _tokenize(
@@ -22,24 +25,33 @@ def _tokenize(
     paragraph_threshold: float = 0.5,
     style: str = "newline",
 ) -> list[str]:
-    global _MODEL_NAME, _MODEL
+    """Internal tokenization function with model loading protection.
 
-    if _MODEL_NAME != model:
-        _MODEL = WtP(model_name_or_model=model)
-        _MODEL_NAME = model
+    The wrapper uses a lock to protect model loading when switching models.
+    However, thread-safety of the underlying WtP library itself is not
+    guaranteed. Please refer to the WtP library documentation for its
+    thread-safety guarantees.
+    """
+    # Thread-safe model loading
+    with _model_lock:
+        if _MODEL_NAME != model:
+            global _MODEL, _MODEL_NAME
+            _MODEL = WtP(model_name_or_model=model)
+            _MODEL_NAME = model
+        model_instance = _MODEL
 
     if tokenize == "sentence":
-        return _MODEL.split(text, lang_code=lang_code)
+        return model_instance.split(text, lang_code=lang_code)
     else:  # Paragraph
         if style == "newline":
-            return _MODEL.split(
+            return model_instance.split(
                 text,
                 lang_code=lang_code,
                 do_paragraph_segmentation=True,
                 paragraph_threshold=paragraph_threshold,
             )
         elif style == "opus100":
-            return _MODEL.split(
+            return model_instance.split(
                 text,
                 lang_code=lang_code,
                 do_paragraph_segmentation=True,

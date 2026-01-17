@@ -159,6 +159,15 @@ def word_tokenize(
     :Note:
         - The **custom_dict** parameter only works for \
           *deepcut*, *longest*, *newmm*, and *newmm-safe* engines.
+        - Built-in tokenizers (*longest*, *mm*, *newmm*, and *newmm-safe*) \
+          are thread-safe.
+        - Wrappers of external tokenizer are designed to be thread-safe \
+          but depend on the external tokenizer.
+        - **WARNING**: When using custom_dict in multi-threaded environments, \
+          do NOT modify the Trie object (via add/remove methods) while \
+          tokenization is in progress. The Trie data structure is not \
+          thread-safe for concurrent modifications. Create your dictionary \
+          before starting threads and only read from it during tokenization.
     :Example:
 
     Tokenize text with different tokenizers::

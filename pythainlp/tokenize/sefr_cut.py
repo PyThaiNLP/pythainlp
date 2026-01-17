@@ -10,17 +10,38 @@ Thai Word Segmentation Models using Stacked Ensemble.
 
 from __future__ import annotations
 
+import threading
+
 import sefr_cut
 
-DEFAULT_ENGINE = "ws1000"
-sefr_cut.load_model(engine=DEFAULT_ENGINE)
+_DEFAULT_ENGINE = "ws1000"
+_engine_lock = threading.Lock()
+
+# Load default model at module initialization
+sefr_cut.load_model(engine=_DEFAULT_ENGINE)
 
 
 def segment(text: str, engine: str = "ws1000") -> list[str]:
-    global DEFAULT_ENGINE
+    """Segment text using SEFR CUT.
+
+    The wrapper uses a lock to protect model loading when switching engines.
+    However, thread-safety of the underlying SEFR CUT library itself is not
+    guaranteed. Please refer to the SEFR CUT library documentation for its
+    thread-safety guarantees.
+
+    :param str text: text to be tokenized
+    :param str engine: model engine to use
+    :return: list of tokens
+    """
     if not text or not isinstance(text, str):
         return []
-    if engine != DEFAULT_ENGINE:
-        DEFAULT_ENGINE = engine
-        sefr_cut.load_model(engine=DEFAULT_ENGINE)
+
+    # Thread-safe model loading
+    with _engine_lock:
+        if engine != _DEFAULT_ENGINE:
+            # Need to update global state and reload model
+            global _DEFAULT_ENGINE
+            _DEFAULT_ENGINE = engine
+            sefr_cut.load_model(engine=_DEFAULT_ENGINE)
+
     return sefr_cut.tokenize(text)[0]

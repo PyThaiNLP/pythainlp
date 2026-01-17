@@ -12,14 +12,23 @@ to locate boundaries between words in the text.
 from __future__ import annotations
 
 import re
+import threading
 
 from icu import BreakIterator, Locale
 
-bd = BreakIterator.createWordInstance(Locale("th"))
+# Thread-local storage for BreakIterator instances
+_thread_local = threading.local()
+
+
+def _get_break_iterator() -> BreakIterator:
+    """Get a thread-local BreakIterator instance."""
+    if not hasattr(_thread_local, "bd"):
+        _thread_local.bd = BreakIterator.createWordInstance(Locale("th"))
+    return _thread_local.bd
 
 
 def _gen_words(text: str) -> str:
-    global bd
+    bd = _get_break_iterator()
     bd.setText(text)
     p = bd.first()
     for q in bd:
@@ -28,7 +37,12 @@ def _gen_words(text: str) -> str:
 
 
 def segment(text: str) -> list[str]:
-    """:param str text: text to be tokenized into words
+    """Segment text into words using PyICU BreakIterator.
+
+    This function is thread-safe. It uses thread-local storage to ensure
+    each thread has its own BreakIterator instance.
+
+    :param str text: text to be tokenized into words
     :return: list of words, tokenized from the text
     """
     if not text or not isinstance(text, str):

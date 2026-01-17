@@ -13,6 +13,7 @@ on the codes from Patorn Utenpattanun.
 from __future__ import annotations
 
 import re
+import threading
 
 from pythainlp import thai_tonemarks
 from pythainlp.tokenize import word_dict_trie
@@ -154,10 +155,14 @@ class LongestMatchTokenizer:
 
 
 _tokenizers: dict[int, LongestMatchTokenizer] = {}
+_tokenizers_lock = threading.Lock()
 
 
 def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
     """Dictionary-based longest matching word segmentation.
+
+    This function is thread-safe. It uses a lock to protect access to the
+    internal tokenizer cache.
 
     :param str text: text to be tokenized into words
     :param pythainlp.util.Trie custom_dict: dictionary for tokenization
@@ -169,9 +174,12 @@ def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
     if not custom_dict:
         custom_dict = word_dict_trie()
 
-    global _tokenizers
     custom_dict_ref_id = id(custom_dict)
-    if custom_dict_ref_id not in _tokenizers:
-        _tokenizers[custom_dict_ref_id] = LongestMatchTokenizer(custom_dict)
 
-    return _tokenizers[custom_dict_ref_id].tokenize(text)
+    # Thread-safe access to the tokenizers cache
+    with _tokenizers_lock:
+        if custom_dict_ref_id not in _tokenizers:
+            _tokenizers[custom_dict_ref_id] = LongestMatchTokenizer(custom_dict)
+        tokenizer = _tokenizers[custom_dict_ref_id]
+
+    return tokenizer.tokenize(text)

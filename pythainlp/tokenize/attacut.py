@@ -9,6 +9,8 @@
 
 from __future__ import annotations
 
+import threading
+
 from attacut import Tokenizer
 
 
@@ -26,10 +28,17 @@ class AttacutTokenizer:
 
 
 _tokenizers: dict[str, AttacutTokenizer] = {}
+_tokenizers_lock = threading.Lock()
 
 
 def segment(text: str, model: str = "attacut-sc") -> list[str]:
     """Wrapper for AttaCut - Fast and Reasonably Accurate Word Tokenizer for Thai
+
+    The wrapper uses a lock to protect access to the internal tokenizer cache.
+    However, thread-safety of the underlying AttaCut library itself is not
+    guaranteed. Please refer to the AttaCut library documentation for its
+    thread-safety guarantees.
+
     :param str text: text to be tokenized to words
     :param str model: model of word tokenizer model
     :return: list of words, tokenized from the text
@@ -41,8 +50,10 @@ def segment(text: str, model: str = "attacut-sc") -> list[str]:
     if not text or not isinstance(text, str):
         return []
 
-    global _tokenizers
-    if model not in _tokenizers:
-        _tokenizers[model] = AttacutTokenizer(model)
+    # Thread-safe access to the tokenizers cache
+    with _tokenizers_lock:
+        if model not in _tokenizers:
+            _tokenizers[model] = AttacutTokenizer(model)
+        tokenizer = _tokenizers[model]
 
-    return _tokenizers[model].tokenize(text)
+    return tokenizer.tokenize(text)

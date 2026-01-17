@@ -77,8 +77,7 @@ def get_pythainlp_path() -> str:
         get_pythainlp_path()
         # output: '/usr/local/lib/python3.6/dist-packages/pythainlp'
     """
-    import pythainlp
-    package_path = files(pythainlp)
+    package_path = files("pythainlp")
     # For compatibility, convert to string path if possible
     # This works for both regular installations and zip files
     if hasattr(package_path, '__fspath__'):

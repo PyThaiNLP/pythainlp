@@ -9,8 +9,7 @@ For text processing and text conversion, see pythainlp.util
 from __future__ import annotations
 
 import os
-
-from pythainlp import __file__ as pythainlp_file
+from importlib.resources import files
 
 PYTHAINLP_DEFAULT_DATA_DIR = "pythainlp-data"
 
@@ -60,7 +59,12 @@ def get_pythainlp_data_path() -> str:
 
 
 def get_pythainlp_path() -> str:
-    """This function returns full path of PyThaiNLP codes
+    """This function returns full path of PyThaiNLP codes.
+
+    Note: When the package is installed as a zip file, the returned path
+    may not be a standard filesystem path and should not be used for direct
+    file I/O operations. Use importlib.resources for accessing package files
+    in a zip-safe manner.
 
     :return: full path of :mod:`pythainlp` codes
     :rtype: str
@@ -73,4 +77,10 @@ def get_pythainlp_path() -> str:
         get_pythainlp_path()
         # output: '/usr/local/lib/python3.6/dist-packages/pythainlp'
     """
-    return os.path.dirname(pythainlp_file)
+    package_path = files("pythainlp")
+    # For compatibility, convert to string path if possible
+    # This works for both regular installations and zip files
+    if hasattr(package_path, '__fspath__'):
+        return os.fspath(package_path)
+    # Fallback for traversable objects that don't support __fspath__
+    return str(package_path)

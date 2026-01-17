@@ -13,6 +13,9 @@ We used unigram & bigram from Thai National Corpus (TNC).
 
 from __future__ import annotations
 
+import threading
+from importlib.resources import as_file, files
+
 try:
     from symspellpy import SymSpell, Verbosity
 except ImportError:
@@ -20,29 +23,54 @@ except ImportError:
         "Import Error; Install symspellpy by pip install symspellpy"
     )
 
-from pythainlp.corpus import get_corpus_path, path_pythainlp_corpus
+from pythainlp.corpus import get_corpus_path
 
 _UNIGRAM_FILENAME = "tnc_freq.txt"
 _BIGRAM_CORPUS_NAME = "tnc_bigram_word_freqs"
 
-sym_spell = SymSpell()
-sym_spell.load_dictionary(
-    path_pythainlp_corpus(_UNIGRAM_FILENAME),
-    0,
-    1,
-    separator="\t",
-    encoding="utf-8-sig",
-)
-sym_spell.load_bigram_dictionary(
-    get_corpus_path(_BIGRAM_CORPUS_NAME),
-    0,
-    2,
-    separator="\t",
-    encoding="utf-8-sig",
-)
+_sym_spell = None
+_unigram_file_ctx = None  # File context manager kept alive for program lifetime
+_load_lock = threading.Lock()  # Thread safety for lazy loading
+
+
+def _get_sym_spell():
+    """Lazy load the symspell instance.
+
+    This function uses a lock to ensure thread-safe initialization.
+    The context manager is kept alive for the lifetime of the program
+    to prevent cleanup of temporary files while SymSpell is in use.
+    """
+    global _sym_spell, _unigram_file_ctx
+    if _sym_spell is None:
+        with _load_lock:
+            # Double-check pattern to avoid race conditions
+            if _sym_spell is None:
+                _sym_spell = SymSpell()
+                # Load unigram dictionary from bundled corpus
+                corpus_files = files("pythainlp.corpus")
+                unigram_file = corpus_files.joinpath(_UNIGRAM_FILENAME)
+                _unigram_file_ctx = as_file(unigram_file)
+                unigram_path = _unigram_file_ctx.__enter__()
+                _sym_spell.load_dictionary(
+                    str(unigram_path),
+                    0,
+                    1,
+                    separator="\t",
+                    encoding="utf-8-sig",
+                )
+                # Load bigram dictionary from downloaded corpus
+                _sym_spell.load_bigram_dictionary(
+                    get_corpus_path(_BIGRAM_CORPUS_NAME),
+                    0,
+                    2,
+                    separator="\t",
+                    encoding="utf-8-sig",
+                )
+    return _sym_spell
 
 
 def spell(text: str, max_edit_distance: int = 2) -> list[str]:
+    sym_spell = _get_sym_spell()
     return [
         str(i).split(",", maxsplit=1)[0]
         for i in list(
@@ -60,6 +88,7 @@ def correct(text: str, max_edit_distance: int = 1) -> str:
 def spell_sent(
     list_words: list[str], max_edit_distance: int = 2
 ) -> list[list[str]]:
+    sym_spell = _get_sym_spell()
     temp = [
         str(i).split(",", maxsplit=1)[0].split(" ")
         for i in list(

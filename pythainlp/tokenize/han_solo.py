@@ -8,7 +8,8 @@ GitHub: https://github.com/PyThaiNLP/Han-solo
 
 from __future__ import annotations
 
-from pythainlp.corpus import path_pythainlp_corpus
+import threading
+from importlib.resources import as_file, files
 
 try:
     import pycrfsuite
@@ -17,8 +18,30 @@ except ImportError:
         "ImportError; Install pycrfsuite by pip install python-crfsuite"
     )
 
-tagger = pycrfsuite.Tagger()
-tagger.open(path_pythainlp_corpus("han_solo.crfsuite"))
+_tagger = None
+_model_file_ctx = None  # File context manager kept alive for program lifetime
+_load_lock = threading.Lock()  # Thread safety for lazy loading
+
+
+def _get_tagger():
+    """Lazy load the tagger model.
+
+    This function uses a lock to ensure thread-safe initialization.
+    The context manager is kept alive for the lifetime of the program
+    to prevent cleanup of temporary files while the tagger is in use.
+    """
+    global _tagger, _model_file_ctx
+    if _tagger is None:
+        with _load_lock:
+            # Double-check pattern to avoid race conditions
+            if _tagger is None:
+                _tagger = pycrfsuite.Tagger()
+                corpus_files = files("pythainlp.corpus")
+                model_file = corpus_files.joinpath("han_solo.crfsuite")
+                _model_file_ctx = as_file(model_file)
+                model_path = _model_file_ctx.__enter__()
+                _tagger.open(str(model_path))
+    return _tagger
 
 
 class Featurizer:
@@ -119,6 +142,7 @@ _to_feature = Featurizer()
 
 
 def segment(text: str) -> list[str]:
+    tagger = _get_tagger()
     x = _to_feature.featurize(text)["X"]
     y_pred = tagger.tag(x)
     list_cut = []

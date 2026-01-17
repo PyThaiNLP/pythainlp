@@ -3,9 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from importlib.resources import as_file, files
+
 from pycrfsuite import Tagger as CRFTagger
 
-from pythainlp.corpus import path_pythainlp_corpus, thai_stopwords
+from pythainlp.corpus import thai_stopwords
 
 
 def _is_stopword(word: str) -> bool:  # check Thai stopword
@@ -55,16 +57,60 @@ def extract_features(doc):
 
 
 class CRFchunk:
+    """CRF-based chunker for Thai text.
+
+    This class can be used as a context manager to ensure proper cleanup
+    of resources. Example:
+
+        with CRFchunk() as chunker:
+            result = chunker.parse(tokens)
+
+    Alternatively, the object will attempt to clean up resources when
+    garbage collected, though this is not guaranteed.
+    """
+
     def __init__(self, corpus: str = "orchidpp"):
         self.corpus = corpus
+        self._model_file_ctx = None
         self.load_model(self.corpus)
 
     def load_model(self, corpus: str):
         self.tagger = CRFTagger()
         if corpus == "orchidpp":
-            self.path = path_pythainlp_corpus("crfchunk_orchidpp.model")
-        self.tagger.open(self.path)
+            corpus_files = files("pythainlp.corpus")
+            model_file = corpus_files.joinpath("crfchunk_orchidpp.model")
+            self._model_file_ctx = as_file(model_file)
+            model_path = self._model_file_ctx.__enter__()
+            self.tagger.open(str(model_path))
 
     def parse(self, token_pos: list[tuple[str, str]]) -> list[str]:
         self.xseq = extract_features(token_pos)
         return self.tagger.tag(self.xseq)
+
+    def __enter__(self):
+        """Context manager entry."""
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Context manager exit - clean up resources."""
+        if self._model_file_ctx is not None:
+            try:
+                self._model_file_ctx.__exit__(exc_type, exc_val, exc_tb)
+                self._model_file_ctx = None
+            except Exception:  # noqa: S110
+                pass
+        return False
+
+    def __del__(self):
+        """Clean up the context manager when object is destroyed.
+
+        Note: __del__ is not guaranteed to be called and should not be
+        relied upon for critical cleanup. Use the context manager protocol
+        (with statement) for reliable resource management.
+        """
+        if self._model_file_ctx is not None:
+            try:
+                self._model_file_ctx.__exit__(None, None, None)
+            except Exception:  # noqa: S110
+                # Silently ignore cleanup errors during garbage collection
+                pass

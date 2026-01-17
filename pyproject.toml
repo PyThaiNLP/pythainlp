@@ -61,7 +61,7 @@ classifiers = [
 ]
 
 # Core dependencies
-dependencies = ["requests>=2.31", "tzdata; sys_platform == 'win32'"]
+dependencies = ["tzdata; sys_platform == 'win32'"]
 
 [project.optional-dependencies]
 

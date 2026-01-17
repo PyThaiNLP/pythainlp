@@ -139,6 +139,8 @@ custom_words = set(thai_words())
 custom_words.add("คำใหม่")
 custom_dict = dict_trie(custom_words)
 
+texts = ["ผมรักประเทศไทย", "วันนี้อากาศดี", "เขาไปโรงเรียน"]
+
 def worker(text, custom_dict):
     # SAFE: Only reading from the dictionary
     return word_tokenize(text, engine="newmm", custom_dict=custom_dict)

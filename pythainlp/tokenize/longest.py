@@ -174,7 +174,6 @@ def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
     if not custom_dict:
         custom_dict = word_dict_trie()
 
-    global _tokenizers
     custom_dict_ref_id = id(custom_dict)
 
     # Thread-safe access to the tokenizers cache

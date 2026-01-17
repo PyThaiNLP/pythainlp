@@ -5,7 +5,6 @@
 
 import threading
 import unittest
-from typing import List
 
 from pythainlp.corpus.common import thai_words
 from pythainlp.tokenize import word_tokenize
@@ -29,7 +28,7 @@ class TestThreadSafety(unittest.TestCase):
         self,
         text: str,
         engine: str,
-        results: List,
+        results: list,
         index: int,
         custom_dict=None,
         iterations: int = 10,
@@ -254,6 +253,37 @@ class TestThreadSafety(unittest.TestCase):
             thread = threading.Thread(
                 target=self._tokenize_worker,
                 args=(text, "icu", results, i),
+            )
+            threads.append(thread)
+            thread.start()
+
+        for thread in threads:
+            thread.join()
+
+        # All threads should produce the same result
+        first_result = results[0]
+        self.assertIsNotNone(first_result)
+        self.assertNotEqual(first_result, "INCONSISTENT")
+        self.assertNotIn("ERROR:", str(first_result))
+        for result in results:
+            self.assertEqual(result, first_result)
+
+    def test_attacut_thread_safety(self):
+        """Test thread safety of attacut engine (if available)."""
+        try:
+            from attacut import Tokenizer  # noqa: F401
+        except ImportError:
+            self.skipTest("attacut not installed")
+
+        num_threads = 10
+        results = [None] * num_threads
+        threads = []
+
+        text = self.test_texts[0]
+        for i in range(num_threads):
+            thread = threading.Thread(
+                target=self._tokenize_worker,
+                args=(text, "attacut", results, i),
             )
             threads.append(thread)
             thread.start()

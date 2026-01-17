@@ -48,8 +48,6 @@ def segment(text: str, model: str = "attacut-sc") -> list[str]:
     if not text or not isinstance(text, str):
         return []
 
-    global _tokenizers
-
     # Thread-safe access to the tokenizers cache
     with _tokenizers_lock:
         if model not in _tokenizers:

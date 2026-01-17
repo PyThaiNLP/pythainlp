@@ -29,7 +29,7 @@ _UNIGRAM_FILENAME = "tnc_freq.txt"
 _BIGRAM_CORPUS_NAME = "tnc_bigram_word_freqs"
 
 _sym_spell = None
-_unigram_path_ctx = None  # Context manager kept alive for program lifetime
+_unigram_file_ctx = None  # File context manager kept alive for program lifetime
 _load_lock = threading.Lock()  # Thread safety for lazy loading
 
 
@@ -40,7 +40,7 @@ def _get_sym_spell():
     The context manager is kept alive for the lifetime of the program
     to prevent cleanup of temporary files while SymSpell is in use.
     """
-    global _sym_spell, _unigram_path_ctx
+    global _sym_spell, _unigram_file_ctx
     if _sym_spell is None:
         with _load_lock:
             # Double-check pattern to avoid race conditions
@@ -49,8 +49,8 @@ def _get_sym_spell():
                 # Load unigram dictionary from bundled corpus
                 corpus_files = files("pythainlp.corpus")
                 unigram_file = corpus_files.joinpath(_UNIGRAM_FILENAME)
-                _unigram_path_ctx = as_file(unigram_file)
-                unigram_path = _unigram_path_ctx.__enter__()
+                _unigram_file_ctx = as_file(unigram_file)
+                unigram_path = _unigram_file_ctx.__enter__()
                 _sym_spell.load_dictionary(
                     str(unigram_path),
                     0,

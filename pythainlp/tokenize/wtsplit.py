@@ -25,10 +25,11 @@ def _tokenize(
     paragraph_threshold: float = 0.5,
     style: str = "newline",
 ) -> list[str]:
-    """Internal tokenization function with thread-safe model loading.
+    """Internal tokenization function with model loading protection.
 
-    This function is thread-safe. It uses a lock to protect model loading
-    when switching models.
+    The wrapper uses a lock to protect model loading when switching models.
+    However, thread-safety of the underlying WtP library itself is not
+    guaranteed.
     """
     # Thread-safe model loading
     with _model_lock:

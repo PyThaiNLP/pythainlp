@@ -34,8 +34,9 @@ _tokenizers_lock = threading.Lock()
 def segment(text: str, model: str = "attacut-sc") -> list[str]:
     """Wrapper for AttaCut - Fast and Reasonably Accurate Word Tokenizer for Thai
 
-    This function is thread-safe. It uses a lock to protect access to the
-    internal tokenizer cache.
+    The wrapper uses a lock to protect access to the internal tokenizer cache.
+    However, thread-safety of the underlying AttaCut library itself is not
+    guaranteed.
 
     :param str text: text to be tokenized to words
     :param str model: model of word tokenizer model

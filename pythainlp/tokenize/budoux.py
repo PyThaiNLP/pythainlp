@@ -37,8 +37,9 @@ def _init_parser():
 def segment(text: str) -> list[str]:
     """Segment `text` into tokens using budoux.
 
-    This function is thread-safe. It uses a lock to protect lazy initialization
-    of the parser.
+    The wrapper uses a lock to protect lazy initialization of the parser.
+    However, thread-safety of the underlying budoux library itself is not
+    guaranteed.
 
     The function returns a list of strings. If `budoux` is not available
     the function raises ImportError with an installation hint.

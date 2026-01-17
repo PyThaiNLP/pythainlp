@@ -4,23 +4,36 @@ Thread safety in PyThaiNLP word tokenization
 Summary
 -------
 
-All standard word tokenization engines in PyThaiNLP's
-core and compact dependency sets are thread-safe
-and can be safely used in multi-threaded applications.
+PyThaiNLP's core word tokenization engines are designed with thread-safety
+in mind. Internal implementations (``mm``, ``newmm``, ``newmm-safe``,
+``longest``, ``icu``) are thread-safe.
+
+For engines that wrap external libraries (``attacut``, ``budoux``, ``deepcut``,
+``nercut``, ``nlpo3``, ``oskut``, ``sefr_cut``, ``tltk``, ``wtsplit``), the
+wrapper code is thread-safe, but we cannot guarantee thread-safety of the
+underlying external libraries themselves.
 
 Thread safety implementation
 -----------------------------
 
+**Internal implementations (fully thread-safe):**
+
 - ``mm``, ``newmm``, ``newmm-safe``: Stateless implementation,
   all data is local
-- ``deepcut``, ``nercut``, ``nlpo3``, ``tltk``: Stateless wrapper,
-  thread-safety depends on each engine implementation
-- ``attacut``, ``longest``: use lock-protected check-then-act for
+- ``longest``: uses lock-protected check-then-act for
   the management of global cache shared across threads
 - ``icu``: each thread gets its own ``BreakIterator`` instance
+
+**External library wrappers (wrapper code is thread-safe):**
+
+- ``attacut``: uses lock-protected check-then-act for
+  the management of global cache; underlying library thread-safety not guaranteed
+- ``budoux``: uses lock-protected lazy initialization of parser;
+  underlying library thread-safety not guaranteed
+- ``deepcut``, ``nercut``, ``nlpo3``, ``tltk``: Stateless wrapper,
+  underlying library thread-safety not guaranteed
 - ``oskut``, ``sefr_cut``, ``wtsplit``: use lock-protected model
-  loading when switching models/engines
-- ``budoux``: use lock-protected lazy initialization of parser
+  loading when switching models/engines; underlying library thread-safety not guaranteed
 
 Usage in multi-threaded applications
 -------------------------------------

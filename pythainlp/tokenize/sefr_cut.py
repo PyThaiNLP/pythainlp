@@ -24,8 +24,9 @@ sefr_cut.load_model(engine=_DEFAULT_ENGINE)
 def segment(text: str, engine: str = "ws1000") -> list[str]:
     """Segment text using SEFR CUT.
 
-    This function is thread-safe. It uses a lock to protect model loading
-    when switching engines.
+    The wrapper uses a lock to protect model loading when switching engines.
+    However, thread-safety of the underlying SEFR CUT library itself is not
+    guaranteed.
 
     :param str text: text to be tokenized
     :param str engine: model engine to use

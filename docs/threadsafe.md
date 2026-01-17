@@ -1,71 +1,22 @@
-# Thread Safety in PyThaiNLP Word Tokenization
+# Thread safety in PyThaiNLP word tokenization
 
 ## Summary
 
-As of this implementation, all standard word tokenization engines in PyThaiNLP's
-core and compact dependency sets are thread-safe and can be safely used in
-multi-threaded applications.
+All standard word tokenization engines in PyThaiNLP's
+core and compact dependency sets are thread-safe
+and can be safely used in multi-threaded applications.
 
-## Thread Safety Implementation
+## Thread safety implementation
 
-### Engines with Explicit Thread Safety Mechanisms
+- `mm`, `newmm`, `newmm-safe`, : Stateless implementation,
+  all data is local
+- `attacut`, `longest`: use lock-protected check-then-act for
+  the management of global `_tokenizers` cache shared across threads
+- `icu`: each thread gets its own `BreakIterator` instance
 
-#### 1. `longest` Engine
-- **Issue**: Global `_tokenizers` cache shared across threads
-- **Solution**: Added `threading.Lock()` to protect cache access
-- **Pattern**: Lock-protected check-then-act for cache management
-- **File**: `pythainlp/tokenize/longest.py`
+## Usage in multi-threaded applications
 
-#### 2. `attacut` Engine (Extra Dependency)
-- **Issue**: Global `_tokenizers` cache shared across threads
-- **Solution**: Added `threading.Lock()` to protect cache access
-- **Pattern**: Lock-protected check-then-act for cache management
-- **File**: `pythainlp/tokenize/attacut.py`
-
-#### 3. `icu` Engine (Compact Dependency)
-- **Issue**: Global `BreakIterator` object modified by `setText()`
-- **Solution**: Replaced global object with thread-local storage
-- **Pattern**: Each thread gets its own `BreakIterator` instance
-- **File**: `pythainlp/tokenize/pyicu.py`
-
-### Engines That Are Inherently Thread-Safe
-
-These engines use no global mutable state and are naturally thread-safe:
-
-- **newmm**: Stateless implementation, all data is local
-- **newmm-safe**: Stateless implementation, all data is local
-- **mm** (multi_cut): Stateless implementation, all data is local
-- **deepcut**: Delegates to external library (deepcut package)
-
-### Default Dictionary Loading
-
-The default word dictionary is loaded lazily using `@lru_cache` on the
-`word_dict_trie()` function. The caching mechanism itself is thread-safe:
-
-- First thread to request the dictionary triggers loading
-- Subsequent threads receive the cached Trie instance
-- All threads share the same default Trie object
-
-This is safe because:
-1. The tokenizers only **read** from the Trie (using `.prefixes()` and `__contains__`)
-2. They never modify the Trie after creation
-3. Python's GIL ensures dictionary reads are atomic
-4. The default Trie is never modified after initial creation
-
-## Testing
-
-Comprehensive thread safety tests are available in:
-- `tests/core/test_tokenize_thread_safety.py`
-
-The test suite includes:
-- Concurrent tokenization with multiple threads
-- Race condition testing with multiple dictionaries
-- Verification of result consistency across threads
-- Stress testing with 5000+ concurrent operations
-
-## Usage in Multi-threaded Applications
-
-All tokenization engines can now be safely used in multi-threaded contexts:
+Using a tokenization engine safely in multi-threaded contexts:
 
 ```python
 import threading
@@ -91,7 +42,7 @@ for thread in threads:
 print(results)
 ```
 
-## Performance Considerations
+## Performance considerations
 
 1. **Lock-based synchronization** (longest, attacut):
    - Minimal overhead for cache access
@@ -108,7 +59,7 @@ print(results)
    - Best performance in multi-threaded scenarios
    - Recommended for high-throughput applications
 
-## Best Practices
+## Best practices
 
 1. **For high-throughput applications**: Consider using stateless engines like
    `newmm` or `mm` for optimal performance.
@@ -123,10 +74,11 @@ print(results)
 4. **IMPORTANT: Do not modify custom dictionaries during tokenization**:
    - Create your custom Trie/dictionary before starting threads
    - Never call `trie.add()` or `trie.remove()` while tokenization is in progress
-   - If you need to update the dictionary, create a new Trie instance and pass it to subsequent tokenization calls
+   - If you need to update the dictionary,
+     create a new Trie instance and pass it to subsequent tokenization calls
    - The Trie data structure itself is NOT thread-safe for concurrent modifications
 
-### Example of Safe Custom Dictionary Usage
+### Example of safe custom dictionary usage
 
 ```python
 from pythainlp.tokenize import word_tokenize
@@ -153,7 +105,7 @@ for text in texts:
     t.start()
 ```
 
-### Example of UNSAFE Usage (DO NOT DO THIS)
+### Example of UNSAFE usage (DO NOT DO THIS)
 
 ```python
 # UNSAFE: Modifying dictionary while threads are using it
@@ -166,7 +118,18 @@ def unsafe_worker(text, custom_dict):
     return result
 ```
 
-## Maintenance Notes
+## Testing
+
+Comprehensive thread safety tests are available in:
+- `tests/core/test_tokenize_thread_safety.py`
+
+The test suite includes:
+- Concurrent tokenization with multiple threads
+- Race condition testing with multiple dictionaries
+- Verification of result consistency across threads
+- Stress testing with 5000+ concurrent operations
+
+## Maintenance notes
 
 When adding new tokenization engines to PyThaiNLP:
 
@@ -176,9 +139,8 @@ When adding new tokenization engines to PyThaiNLP:
 4. Always add thread safety tests for new engines
 5. Document thread safety guarantees in docstrings
 
-## Related Files
+## Related files
 
 - Core implementation: `pythainlp/tokenize/core.py`
 - Engine implementations: `pythainlp/tokenize/*.py`
 - Tests: `tests/core/test_tokenize_thread_safety.py`
-- Stress tests: Available in PR discussion/comments

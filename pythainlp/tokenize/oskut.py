@@ -27,7 +27,8 @@ def segment(text: str, engine: str = "ws") -> list[str]:
 
     The wrapper uses a lock to protect model loading when switching engines.
     However, thread-safety of the underlying OSKut library itself is not
-    guaranteed.
+    guaranteed. Please refer to the OSKut library documentation for its
+    thread-safety guarantees.
 
     :param str text: text to be tokenized
     :param str engine: model engine to use

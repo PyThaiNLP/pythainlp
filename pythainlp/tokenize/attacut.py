@@ -36,7 +36,8 @@ def segment(text: str, model: str = "attacut-sc") -> list[str]:
 
     The wrapper uses a lock to protect access to the internal tokenizer cache.
     However, thread-safety of the underlying AttaCut library itself is not
-    guaranteed.
+    guaranteed. Please refer to the AttaCut library documentation for its
+    thread-safety guarantees.
 
     :param str text: text to be tokenized to words
     :param str model: model of word tokenizer model

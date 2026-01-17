@@ -26,7 +26,8 @@ def segment(text: str, engine: str = "ws1000") -> list[str]:
 
     The wrapper uses a lock to protect model loading when switching engines.
     However, thread-safety of the underlying SEFR CUT library itself is not
-    guaranteed.
+    guaranteed. Please refer to the SEFR CUT library documentation for its
+    thread-safety guarantees.
 
     :param str text: text to be tokenized
     :param str engine: model engine to use

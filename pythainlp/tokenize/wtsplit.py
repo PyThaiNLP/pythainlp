@@ -29,7 +29,8 @@ def _tokenize(
 
     The wrapper uses a lock to protect model loading when switching models.
     However, thread-safety of the underlying WtP library itself is not
-    guaranteed.
+    guaranteed. Please refer to the WtP library documentation for its
+    thread-safety guarantees.
     """
     # Thread-safe model loading
     with _model_lock:

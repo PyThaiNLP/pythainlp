@@ -13,8 +13,8 @@ Thread safety implementation
 
 - ``mm``, ``newmm``, ``newmm-safe``: Stateless implementation,
   all data is local
-- ``deepcut``, ``nercut``, ``nlpo3``, ``tltk``: Stateless wrapper.
-  Thread-safety depends on each engine implementation.
+- ``deepcut``, ``nercut``, ``nlpo3``, ``tltk``: Stateless wrapper,
+  thread-safety depends on each engine implementation
 - ``attacut``, ``longest``: use lock-protected check-then-act for
   the management of global cache shared across threads
 - ``icu``: each thread gets its own ``BreakIterator`` instance

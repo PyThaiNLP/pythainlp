@@ -134,6 +134,10 @@ Example of safe custom dictionary usage
         threads.append(t)
         t.start()
 
+    # Wait for all threads to finish
+    for t in threads:
+        t.join()
+
 Example of UNSAFE usage (DO NOT DO THIS)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -160,7 +164,7 @@ The test suite includes:
 - Concurrent tokenization with multiple threads
 - Race condition testing with multiple dictionaries
 - Verification of result consistency across threads
-- Stress testing with 5000+ concurrent operations
+- Stress testing with up to 200 concurrent operations (20 threads × 10 iterations)
 
 Maintenance notes
 -----------------

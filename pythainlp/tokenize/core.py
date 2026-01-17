@@ -162,7 +162,7 @@ def word_tokenize(
         - Built-in tokenizers (*longest*, *mm*, *newmm*, and *newmm-safe*) \
           are thread-safe.
         - Wrappers of external tokenizer are designed to be thread-safe \
-          but depends on the external tokenizer.
+          but depend on the external tokenizer.
         - **WARNING**: When using custom_dict in multi-threaded environments, \
           do NOT modify the Trie object (via add/remove methods) while \
           tokenization is in progress. The Trie data structure is not \

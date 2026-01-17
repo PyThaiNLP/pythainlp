@@ -1,4 +1,4 @@
-Thread Safety in PyThaiNLP Word Tokenization
+Thread safety in PyThaiNLP word tokenization
 ==============================================
 
 Summary
@@ -8,19 +8,19 @@ All standard word tokenization engines in PyThaiNLP's
 core and compact dependency sets are thread-safe
 and can be safely used in multi-threaded applications.
 
-Thread Safety Implementation
+Thread safety implementation
 -----------------------------
 
 - ``mm``, ``newmm``, ``newmm-safe``: Stateless implementation,
   all data is local
 - ``attacut``, ``longest``: use lock-protected check-then-act for
-  the management of global ``_tokenizers`` cache shared across threads
+  the management of global cache shared across threads
 - ``icu``: each thread gets its own ``BreakIterator`` instance
-- ``sefr_cut``, ``oskut``: use lock-protected model loading when switching engines
-- ``wtsplit``: use lock-protected model loading when switching models
+- ``oskut``, ``sefr_cut``, ``wtsplit``: use lock-protected model
+  loading when switching models/engines
 - ``budoux``: use lock-protected lazy initialization of parser
 
-Usage in Multi-threaded Applications
+Usage in multi-threaded applications
 -------------------------------------
 
 Using a tokenization engine safely in multi-threaded contexts:
@@ -49,7 +49,7 @@ Using a tokenization engine safely in multi-threaded contexts:
     # All results are correctly populated
     print(results)
 
-Performance Considerations
+Performance considerations
 --------------------------
 
 1. **Lock-based synchronization** (longest, attacut):
@@ -70,7 +70,7 @@ Performance Considerations
    - Best performance in multi-threaded scenarios
    - Recommended for high-throughput applications
 
-Best Practices
+Best practices
 --------------
 
 1. **For high-throughput applications**: Consider using stateless engines like
@@ -91,7 +91,7 @@ Best Practices
      create a new Trie instance and pass it to subsequent tokenization calls
    - The Trie data structure itself is NOT thread-safe for concurrent modifications
 
-Example of Safe Custom Dictionary Usage
+Example of safe custom dictionary usage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
@@ -119,7 +119,7 @@ Example of Safe Custom Dictionary Usage
         threads.append(t)
         t.start()
 
-Example of UNSAFE Usage (DO NOT DO THIS)
+Example of UNSAFE usage (DO NOT DO THIS)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
@@ -147,7 +147,7 @@ The test suite includes:
 - Verification of result consistency across threads
 - Stress testing with 5000+ concurrent operations
 
-Maintenance Notes
+Maintenance notes
 -----------------
 
 When adding new tokenization engines to PyThaiNLP:
@@ -158,7 +158,7 @@ When adding new tokenization engines to PyThaiNLP:
 4. Always add thread safety tests for new engines
 5. Document thread safety guarantees in docstrings
 
-Related Files
+Related files
 -------------
 
 - Core implementation: ``pythainlp/tokenize/core.py``

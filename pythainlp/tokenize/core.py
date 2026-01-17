@@ -162,6 +162,11 @@ def word_tokenize(
         - This function is thread-safe for all engines. Engines that use \
           internal caches (*longest*, *attacut*) employ locks to ensure \
           thread safety.
+        - **WARNING**: When using custom_dict in multi-threaded environments, \
+          do NOT modify the Trie object (via add/remove methods) while \
+          tokenization is in progress. The Trie data structure is not \
+          thread-safe for concurrent modifications. Create your dictionary \
+          before starting threads and only read from it during tokenization.
     :Example:
 
     Tokenize text with different tokenizers::

@@ -35,6 +35,22 @@ These engines use no global mutable state and are naturally thread-safe:
 - **newmm**: Stateless implementation, all data is local
 - **newmm-safe**: Stateless implementation, all data is local
 - **mm** (multi_cut): Stateless implementation, all data is local
+- **deepcut**: Delegates to external library (deepcut package)
+
+### Default Dictionary Loading
+
+The default word dictionary is loaded lazily using `@lru_cache` on the
+`word_dict_trie()` function. The caching mechanism itself is thread-safe:
+
+- First thread to request the dictionary triggers loading
+- Subsequent threads receive the cached Trie instance
+- All threads share the same default Trie object
+
+This is safe because:
+1. The tokenizers only **read** from the Trie (using `.prefixes()` and `__contains__`)
+2. They never modify the Trie after creation
+3. Python's GIL ensures dictionary reads are atomic
+4. The default Trie is never modified after initial creation
 
 ## Testing
 
@@ -103,6 +119,50 @@ print(results)
 
 3. **For process pools**: All engines work correctly with multiprocessing as
    each process has its own memory space.
+
+4. **IMPORTANT: Do not modify custom dictionaries during tokenization**:
+   - Create your custom Trie/dictionary before starting threads
+   - Never call `trie.add()` or `trie.remove()` while tokenization is in progress
+   - If you need to update the dictionary, create a new Trie instance and pass it to subsequent tokenization calls
+   - The Trie data structure itself is NOT thread-safe for concurrent modifications
+
+### Example of Safe Custom Dictionary Usage
+
+```python
+from pythainlp.tokenize import word_tokenize
+from pythainlp.corpus.common import thai_words
+from pythainlp.util import dict_trie
+import threading
+
+# SAFE: Create dictionary once before threading
+custom_words = set(thai_words())
+custom_words.add("คำใหม่")
+custom_dict = dict_trie(custom_words)
+
+def worker(text, custom_dict):
+    # SAFE: Only reading from the dictionary
+    return word_tokenize(text, engine="newmm", custom_dict=custom_dict)
+
+# All threads share the same dictionary (read-only)
+threads = []
+for text in texts:
+    t = threading.Thread(target=worker, args=(text, custom_dict))
+    threads.append(t)
+    t.start()
+```
+
+### Example of UNSAFE Usage (DO NOT DO THIS)
+
+```python
+# UNSAFE: Modifying dictionary while threads are using it
+custom_dict = dict_trie(thai_words())
+
+def unsafe_worker(text, custom_dict):
+    result = word_tokenize(text, engine="newmm", custom_dict=custom_dict)
+    # DANGER: Modifying the shared dictionary
+    custom_dict.add("คำใหม่")  # This is NOT thread-safe!
+    return result
+```
 
 ## Maintenance Notes
 

@@ -11,17 +11,36 @@ Stacked Ensemble Framework and DeepCut as Baseline model (ACL 2021 Findings)
 
 from __future__ import annotations
 
+import threading
+
 import oskut
 
-DEFAULT_ENGINE = "ws"
-oskut.load_model(engine=DEFAULT_ENGINE)
+_DEFAULT_ENGINE = "ws"
+_engine_lock = threading.Lock()
+
+# Load default model at module initialization
+oskut.load_model(engine=_DEFAULT_ENGINE)
 
 
 def segment(text: str, engine: str = "ws") -> list[str]:
-    global DEFAULT_ENGINE
+    """Segment text using OSKut.
+
+    This function is thread-safe. It uses a lock to protect model loading
+    when switching engines.
+
+    :param str text: text to be tokenized
+    :param str engine: model engine to use
+    :return: list of tokens
+    """
     if not text or not isinstance(text, str):
         return []
-    if engine != DEFAULT_ENGINE:
-        DEFAULT_ENGINE = engine
-        oskut.load_model(engine=DEFAULT_ENGINE)
+
+    # Thread-safe model loading
+    with _engine_lock:
+        if engine != _DEFAULT_ENGINE:
+            # Need to update global state and reload model
+            global _DEFAULT_ENGINE
+            _DEFAULT_ENGINE = engine
+            oskut.load_model(engine=_DEFAULT_ENGINE)
+
     return oskut.OSKut(text)

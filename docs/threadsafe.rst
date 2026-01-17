@@ -16,6 +16,9 @@ Thread Safety Implementation
 - ``attacut``, ``longest``: use lock-protected check-then-act for
   the management of global ``_tokenizers`` cache shared across threads
 - ``icu``: each thread gets its own ``BreakIterator`` instance
+- ``sefr_cut``, ``oskut``: use lock-protected model loading when switching engines
+- ``wtsplit``: use lock-protected model loading when switching models
+- ``budoux``: use lock-protected lazy initialization of parser
 
 Usage in Multi-threaded Applications
 -------------------------------------

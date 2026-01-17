@@ -12,7 +12,10 @@ installation hint.
 
 from __future__ import annotations
 
+import threading
+
 _parser = None
+_parser_lock = threading.Lock()
 
 
 def _init_parser():
@@ -34,17 +37,21 @@ def _init_parser():
 def segment(text: str) -> list[str]:
     """Segment `text` into tokens using budoux.
 
+    This function is thread-safe. It uses a lock to protect lazy initialization
+    of the parser.
+
     The function returns a list of strings. If `budoux` is not available
     the function raises ImportError with an installation hint.
     """
     if not text or not isinstance(text, str):
         return []
 
-    global _parser
-    if _parser is None:
-        _parser = _init_parser()
-
-    parser = _parser
+    # Thread-safe lazy initialization
+    with _parser_lock:
+        if _parser is None:
+            global _parser
+            _parser = _init_parser()
+        parser = _parser
 
     result = parser.parse(text)
 

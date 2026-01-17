@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import sys
 from importlib.resources import files
 
 from pythainlp import __version__
@@ -16,6 +17,27 @@ from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
 
 _CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
+_USER_AGENT = (
+    f"PyThaiNLP/{__version__} "
+    f"(Python/{sys.version_info.major}.{sys.version_info.minor}; "
+    f"{sys.platform})"
+)
+
+
+class _ResponseWrapper:
+    """Wrapper to provide requests.Response-like interface for urllib response."""
+
+    def __init__(self, response):
+        self.status_code = response.status
+        self.headers = response.headers
+        self._content = response.read()
+
+    def json(self):
+        """Parse JSON content from response."""
+        try:
+            return json.loads(self._content.decode("utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError) as err:
+            raise ValueError(f"Failed to parse JSON response: {err}")
 
 
 def get_corpus_db(url: str):
@@ -23,15 +45,20 @@ def get_corpus_db(url: str):
 
     :param str url: URL corpus catalog
     """
-    import requests
+    from urllib.error import HTTPError, URLError
+    from urllib.request import Request, urlopen
 
     corpus_db = None
     try:
-        corpus_db = requests.get(url, timeout=10)
-    except requests.exceptions.HTTPError as http_err:
+        req = Request(url, headers={"User-Agent": _USER_AGENT})
+        with urlopen(req, timeout=10) as response:
+            corpus_db = _ResponseWrapper(response)
+    except HTTPError as http_err:
         print(f"HTTP error occurred: {http_err}")
-    except requests.exceptions.RequestException as err:
-        print(f"Non-HTTP error occurred: {err}")
+    except URLError as err:
+        print(f"URL error occurred: {err}")
+    except Exception as err:
+        print(f"Error occurred: {err}")
 
     return corpus_db
 
@@ -286,30 +313,28 @@ def _download(url: str, dst: str) -> int:
     """
     CHUNK_SIZE = 64 * 1024  # 64 KiB
 
-    from urllib.request import urlopen
+    from urllib.request import Request, urlopen
 
-    import requests
-
-    file_size = int(urlopen(url).info().get("Content-Length", -1))
-    r = requests.get(url, stream=True, timeout=10)
-    with open(get_full_data_path(dst), "wb") as f:
-        pbar = None
-        try:
-            from tqdm.auto import tqdm
-
-            pbar = tqdm(total=int(r.headers["Content-Length"]))
-        except ImportError:
+    req = Request(url, headers={"User-Agent": _USER_AGENT})
+    with urlopen(req, timeout=10) as response:
+        file_size = int(response.info().get("Content-Length", -1))
+        with open(get_full_data_path(dst), "wb") as f:
             pbar = None
+            try:
+                from tqdm.auto import tqdm
 
-        for chunk in r.iter_content(chunk_size=CHUNK_SIZE):
-            if chunk:
+                pbar = tqdm(total=file_size)
+            except ImportError:
+                pbar = None
+
+            while chunk := response.read(CHUNK_SIZE):
                 f.write(chunk)
                 if pbar:
                     pbar.update(len(chunk))
-        if pbar:
-            pbar.close()
-        else:
-            print("Done.")
+            if pbar:
+                pbar.close()
+            else:
+                print("Done.")
     return file_size
 
 

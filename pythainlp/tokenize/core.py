@@ -209,13 +209,13 @@ def word_tokenize(
         # ['ชิน', 'โซ', ' ', 'อา', 'เบะ', ' ',
         #  'เกิด', ' ', '21', ' ', 'กันยายน']
 
-        custom_dict_japanese_name = set(thai_words()
+        custom_dict_japanese_name = set(thai_words())
         custom_dict_japanese_name.add('ชินโซ')
         custom_dict_japanese_name.add('อาเบะ')
 
         trie = dict_trie(dict_source=custom_dict_japanese_name)
 
-        word_tokenize(text, engine="newmm", custom_dict=trie))
+        word_tokenize(text, engine="newmm", custom_dict=trie)
         # output:
         # ['ชินโซ', ' ', 'อาเบะ', ' ',
         #  'เกิด', ' ', '21', ' ', 'กันยายน']

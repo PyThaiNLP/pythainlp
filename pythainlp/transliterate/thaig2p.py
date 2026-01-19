@@ -22,7 +22,16 @@ _MODEL_NAME = "thai-g2p"
 
 
 class ThaiG2P:
-    """Latin transliteration of Thai words, using International Phonetic Alphabet"""
+    """
+    Thai Grapheme-to-Phoneme using PyTorch-based model (v1).
+
+    This is the original Thai G2P model that converts Thai text to
+    International Phonetic Alphabet (IPA) representation using a custom
+    PyTorch neural network architecture.
+
+    For more information, see:
+    https://github.com/wannaphong/thai-g2p
+    """
 
     def __init__(self):
         # get the model, download it if it's not available locally

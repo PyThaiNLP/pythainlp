@@ -9,6 +9,7 @@ Author: Matthew Honnibal <honnibal+gh@gmail.com>,
         Wannaphong Phatthiyaphaibun <wannaphong@pythainlp.org> (PyThaiNLP port)
 URL: <https://github.com/sloria/textblob-aptagger>
      <https://nltk.org/>
+
 Copyright 2013 Matthew Honnibal
 NLTK modifications Copyright 2015 The NLTK Project
 PyThaiNLP modifications Copyright 2020 PyThaiNLP Project

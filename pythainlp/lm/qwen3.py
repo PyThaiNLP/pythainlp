@@ -54,10 +54,10 @@ class Qwen3:
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
         self.model = AutoModelForCausalLM.from_pretrained(
             self.model_path,
-            device_map=device,
             torch_dtype=torch_dtype,
             low_cpu_mem_usage=low_cpu_mem_usage,
         )
+        self.model.to(device)
 
     def generate(
         self,

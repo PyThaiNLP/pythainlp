@@ -33,7 +33,7 @@ class Qwen3:
 
         :param str model_path: model path or HuggingFace model ID
         :param str device: device (cpu, cuda or other)
-        :param torch.dtype torch_dtype: torch dtype
+        :param torch_dtype: torch data type (e.g., torch.float16, torch.bfloat16)
         :param bool low_cpu_mem_usage: low cpu mem usage
 
         :Example:
@@ -93,7 +93,7 @@ class Qwen3:
             result = model.generate("สวัสดี")
             print(result)
         """
-        if self.model is None or self.tokenizer is None:
+        if self.model is None or self.tokenizer is None or self.device is None:
             raise RuntimeError(
                 "Model not loaded. Please call load_model() first."
             )
@@ -154,7 +154,7 @@ class Qwen3:
             response = model.chat(messages)
             print(response)
         """
-        if self.model is None or self.tokenizer is None:
+        if self.model is None or self.tokenizer is None or self.device is None:
             raise RuntimeError(
                 "Model not loaded. Please call load_model() first."
             )

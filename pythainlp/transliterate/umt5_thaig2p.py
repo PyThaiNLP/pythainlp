@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
+# SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """umt5-thai-g2p-v2-0.5k
 

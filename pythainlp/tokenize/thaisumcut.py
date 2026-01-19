@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
-# SPDX-FileCopyrightText: Copyright 2020 Nakhun Chumpolsathien
+# SPDX-FileCopyrightText: 2020 Nakhun Chumpolsathien
+# SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """The implementation of sentence segmentator from Nakhun Chumpolsathien, 2020
 original codes are from: https://github.com/nakhunchumpolsathien/ThaiSum

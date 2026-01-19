@@ -1,5 +1,4 @@
-# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
-# SPDX-FileType: SOURCE
+# SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 """
 Profanity detection for Thai language

@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Any
+
 import torch
 
 
@@ -31,7 +33,7 @@ class Qwen3:
 
         :param str model_path: model path or HuggingFace model ID
         :param str device: device (cpu, cuda or other)
-        :param torch_dtype torch_dtype: torch dtype
+        :param torch.dtype torch_dtype: torch dtype
         :param bool low_cpu_mem_usage: low cpu mem usage
 
         :Example:
@@ -119,7 +121,7 @@ class Qwen3:
 
     def chat(
         self,
-        messages: list[dict[str, str]],
+        messages: list[dict[str, Any]],
         max_new_tokens: int = 512,
         temperature: float = 0.7,
         top_p: float = 0.9,
@@ -129,7 +131,7 @@ class Qwen3:
     ) -> str:
         """Generate text using chat format.
 
-        :param list messages: list of message dictionaries with 'role' and 'content' keys
+        :param list[dict[str, Any]] messages: list of message dictionaries with 'role' and 'content' keys
         :param int max_new_tokens: maximum number of new tokens to generate
         :param float temperature: temperature for sampling
         :param float top_p: top p for nucleus sampling

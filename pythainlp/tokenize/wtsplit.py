@@ -33,9 +33,9 @@ def _tokenize(
     thread-safety guarantees.
     """
     # Thread-safe model loading
+    global _MODEL, _MODEL_NAME
     with _model_lock:
         if _MODEL_NAME != model:
-            global _MODEL, _MODEL_NAME
             _MODEL = WtP(model_name_or_model=model)
             _MODEL_NAME = model
         model_instance = _MODEL

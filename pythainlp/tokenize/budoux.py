@@ -49,9 +49,9 @@ def segment(text: str) -> list[str]:
         return []
 
     # Thread-safe lazy initialization
+    global _parser
     with _parser_lock:
         if _parser is None:
-            global _parser
             _parser = _init_parser()
         parser = _parser
 

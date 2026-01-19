@@ -50,8 +50,10 @@ def _prepare_text_with_exclusions(
 
         # Try word boundary matching for space-separated languages
         # Pattern explanation:
-        # - (?<![^\s]) means "not preceded by non-whitespace" (i.e., preceded by whitespace or start)
-        # - (?![^\s]) means "not followed by non-whitespace" (i.e., followed by whitespace or end)
+        # - (?<![^\s]) means "not preceded by non-whitespace"
+        #   (i.e., preceded by whitespace or start of string)
+        # - (?![^\s]) means "not followed by non-whitespace"
+        #   (i.e., followed by whitespace or end of string)
         # This works better for both English and Thai than \w boundaries
         pattern = r"(?<![^\s])" + escaped_word + r"(?![^\s])"
 

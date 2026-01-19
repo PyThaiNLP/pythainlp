@@ -13,7 +13,15 @@ from transformers import pipeline
 
 
 class Umt5ThaiG2P:
-    """Latin transliteration of Thai words, using International Phonetic Alphabet
+    """
+    Thai Grapheme-to-Phoneme using UMT5 model.
+
+    This version uses the B-K/umt5-thai-g2p-v2-0.5k model based on UMT5
+    (Unified Multilingual T5) for converting Thai text to International
+    Phonetic Alphabet (IPA) representation.
+
+    For more information, see:
+    https://huggingface.co/B-K/umt5-thai-g2p-v2-0.5k
     """
 
     def __init__(self, device: str = "cpu"):

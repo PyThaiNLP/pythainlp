@@ -13,7 +13,15 @@ from transformers import pipeline
 
 
 class ThaiG2P:
-    """Latin transliteration of Thai words, using International Phonetic Alphabet
+    """
+    Thai Grapheme-to-Phoneme using transformer-based model (v2).
+
+    This version uses the Hugging Face transformers pipeline with the
+    pythainlp/thaig2p-v2.0 model for converting Thai text to International
+    Phonetic Alphabet (IPA) representation.
+
+    For more information, see:
+    https://huggingface.co/pythainlp/thaig2p-v2.0
     """
 
     def __init__(self, device: str = "cpu"):

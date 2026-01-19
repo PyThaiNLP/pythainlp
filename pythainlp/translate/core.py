@@ -59,10 +59,12 @@ def _prepare_text_with_exclusions(
 
         # Check if there's a match with word boundaries
         if re.search(pattern, modified_text):
-            # Use word boundary matching
+            # Use word boundary matching for space-separated text
             modified_text = re.sub(pattern, placeholder, modified_text)
-        else:
-            # Fall back to simple replacement for languages without spaces
+        elif " " not in modified_text:
+            # For languages without spaces (like Thai), use simple replacement
+            # Only do this if the text doesn't contain spaces, indicating
+            # it's likely a non-space-separated language
             modified_text = modified_text.replace(word, placeholder)
 
     return modified_text, placeholder_map

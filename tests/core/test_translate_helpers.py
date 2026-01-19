@@ -131,12 +131,25 @@ class TestExcludeWordsHelpers(unittest.TestCase):
 
         # "category" should not have "cat" replaced
         self.assertIn("category", prepared)
-        # But standalone "cat" should be replaced with placeholder
+        # Standalone "cat" should be replaced with placeholder
         # Check that "cat" as a standalone word is not in the result
         words = prepared.split()
         self.assertNotIn("cat", words)
         # The placeholder should be present
         self.assertIn("<<<PYTHAINLP_EXCLUDE_0>>>", prepared)
+
+    def test_word_not_in_text(self):
+        """Test excluding a word that doesn't appear in the text"""
+        text = "I love dogs and puppies"
+        exclude_words = ["cat"]
+        prepared, mapping = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+
+        # Text should be unchanged since "cat" doesn't appear
+        self.assertEqual(prepared, text)
+        # But mapping should still exist
+        self.assertEqual(len(mapping), 1)
 
     def test_duplicate_exclusions(self):
         """Test that duplicate words in exclusion list are handled"""

@@ -22,9 +22,11 @@ class TestExcludeWordsHelpers(unittest.TestCase):
         )
 
         # Check that the word is replaced
-        self.assertNotIn("cat", prepared)
-        self.assertIn("__EXCLUDE_0__", prepared)
-        self.assertEqual(mapping["__EXCLUDE_0__"], "cat")
+        self.assertNotIn(" cat ", prepared)
+        self.assertIn("<<<PYTHAINLP_EXCLUDE_0>>>", prepared)
+        self.assertEqual(
+            mapping["<<<PYTHAINLP_EXCLUDE_0>>>"], "cat"
+        )
 
     def test_prepare_text_with_exclusions_multiple_words(self):
         """Test excluding multiple words"""
@@ -37,10 +39,8 @@ class TestExcludeWordsHelpers(unittest.TestCase):
         # Check that both words are replaced
         self.assertNotIn("แมว", prepared)
         self.assertNotIn("ปลา", prepared)
-        self.assertIn("__EXCLUDE_0__", prepared)
-        self.assertIn("__EXCLUDE_1__", prepared)
-        self.assertEqual(mapping["__EXCLUDE_0__"], "แมว")
-        self.assertEqual(mapping["__EXCLUDE_1__"], "ปลา")
+        self.assertIn("<<<PYTHAINLP_EXCLUDE_", prepared)
+        self.assertEqual(len(mapping), 2)
 
     def test_prepare_text_with_exclusions_none(self):
         """Test with no exclusions"""
@@ -68,18 +68,23 @@ class TestExcludeWordsHelpers(unittest.TestCase):
 
     def test_restore_excluded_words(self):
         """Test restoring excluded words"""
-        translated = "I LOVE __EXCLUDE_0__ AND DOG"
-        mapping = {"__EXCLUDE_0__": "cat"}
+        translated = "I LOVE <<<PYTHAINLP_EXCLUDE_0>>> AND DOG"
+        mapping = {"<<<PYTHAINLP_EXCLUDE_0>>>": "cat"}
         restored = _restore_excluded_words(translated, mapping)
 
         # Check that the word is restored
         self.assertIn("cat", restored)
-        self.assertNotIn("__EXCLUDE_0__", restored)
+        self.assertNotIn("<<<PYTHAINLP_EXCLUDE_0>>>", restored)
 
     def test_restore_excluded_words_multiple(self):
         """Test restoring multiple excluded words"""
-        translated = "__EXCLUDE_0__กิน__EXCLUDE_1__"
-        mapping = {"__EXCLUDE_0__": "แมว", "__EXCLUDE_1__": "ปลา"}
+        translated = (
+            "<<<PYTHAINLP_EXCLUDE_0>>>กิน<<<PYTHAINLP_EXCLUDE_1>>>"
+        )
+        mapping = {
+            "<<<PYTHAINLP_EXCLUDE_0>>>": "แมว",
+            "<<<PYTHAINLP_EXCLUDE_1>>>": "ปลา",
+        }
         restored = _restore_excluded_words(translated, mapping)
 
         # Check that both words are restored
@@ -115,6 +120,50 @@ class TestExcludeWordsHelpers(unittest.TestCase):
         # Other words should be uppercase
         self.assertIn("I LOVE", restored)
         self.assertIn("AND DOG", restored)
+
+    def test_no_partial_match(self):
+        """Test that partial word matches are not replaced"""
+        text = "I love category and cat"
+        exclude_words = ["cat"]
+        prepared, mapping = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+
+        # "category" should not have "cat" replaced
+        self.assertIn("category", prepared)
+        # But standalone "cat" should be replaced with placeholder
+        # Check that "cat" as a standalone word is not in the result
+        words = prepared.split()
+        self.assertNotIn("cat", words)
+        # The placeholder should be present
+        self.assertIn("<<<PYTHAINLP_EXCLUDE_0>>>", prepared)
+
+    def test_duplicate_exclusions(self):
+        """Test that duplicate words in exclusion list are handled"""
+        text = "I love cat and cat"
+        exclude_words = ["cat", "cat", "dog"]
+        prepared, mapping = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+
+        # Should only have unique placeholders
+        self.assertEqual(len(mapping), 2)  # cat and dog only
+        # Both instances of "cat" should be replaced
+        self.assertNotIn("cat", prepared)
+
+    def test_overlapping_words(self):
+        """Test that longer words are replaced before shorter ones"""
+        text = "I have a cat and a category"
+        exclude_words = ["cat", "category"]
+        prepared, mapping = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+
+        # Both should be replaced correctly
+        self.assertNotIn("category", prepared)
+        self.assertNotIn(" cat ", prepared)
+        # Should have two different placeholders
+        self.assertEqual(len(mapping), 2)
 
 
 if __name__ == "__main__":

@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+import re
+
 
 def _prepare_text_with_exclusions(
     text: str, exclude_words: list[str] | None
@@ -13,6 +15,10 @@ def _prepare_text_with_exclusions(
     :param list[str] exclude_words: words to exclude from translation
     :return: tuple of (modified text, placeholder mapping)
     :rtype: tuple[str, dict[str, str]]
+
+    Note: For languages that use spaces (like English), this function
+    attempts to match whole words only. For languages without spaces
+    (like Thai), it will match the exact string anywhere it appears.
     """
     if not exclude_words:
         return text, {}
@@ -20,11 +26,42 @@ def _prepare_text_with_exclusions(
     placeholder_map = {}
     modified_text = text
 
-    for i, word in enumerate(exclude_words):
-        # Use a placeholder that is unlikely to appear in natural text
-        placeholder = f"__EXCLUDE_{i}__"
+    # Remove duplicates while preserving order
+    seen = set()
+    unique_words = []
+    for word in exclude_words:
+        if word not in seen:
+            seen.add(word)
+            unique_words.append(word)
+
+    # Sort by length (longest first) to handle overlapping words correctly
+    # For example, if we have ["cat", "category"], we want to replace
+    # "category" first
+    sorted_words = sorted(unique_words, key=len, reverse=True)
+
+    for i, word in enumerate(sorted_words):
+        # Use a placeholder that is very unlikely to appear in natural text
+        # and includes special markers to avoid conflicts
+        placeholder = f"<<<PYTHAINLP_EXCLUDE_{i}>>>"
         placeholder_map[placeholder] = word
-        modified_text = modified_text.replace(word, placeholder)
+
+        # Escape the word to handle special regex characters
+        escaped_word = re.escape(word)
+
+        # Try word boundary matching for space-separated languages
+        # Pattern explanation:
+        # - (?<![^\s]) means "not preceded by non-whitespace" (i.e., preceded by whitespace or start)
+        # - (?![^\s]) means "not followed by non-whitespace" (i.e., followed by whitespace or end)
+        # This works better for both English and Thai than \w boundaries
+        pattern = r"(?<![^\s])" + escaped_word + r"(?![^\s])"
+
+        # Check if there's a match with word boundaries
+        if re.search(pattern, modified_text):
+            # Use word boundary matching
+            modified_text = re.sub(pattern, placeholder, modified_text)
+        else:
+            # Fall back to simple replacement for languages without spaces
+            modified_text = modified_text.replace(word, placeholder)
 
     return modified_text, placeholder_map
 
@@ -44,7 +81,10 @@ def _restore_excluded_words(
         return translated_text
 
     result = translated_text
-    for placeholder, original_word in placeholder_map.items():
+    # Sort by placeholder to ensure consistent replacement order
+    for placeholder in sorted(placeholder_map.keys()):
+        original_word = placeholder_map[placeholder]
+        # Direct replacement since placeholders are very specific
         result = result.replace(placeholder, original_word)
 
     return result

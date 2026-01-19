@@ -143,6 +143,8 @@ wtp = ["transformers>=4.22.1", "wtpsplit>=1.0.1"]
 
 wunsen = ["wunsen>=0.0.3"]
 
+qwen3 = ["torch>=1.0.0", "transformers>=4.22.1"]
+
 # Compact dependencies - safe small set of optional dependencies
 compact = [
     "nlpo3>=1.3.1",

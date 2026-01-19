@@ -4,6 +4,52 @@
 from __future__ import annotations
 
 
+def _prepare_text_with_exclusions(
+    text: str, exclude_words: list[str] | None
+) -> tuple[str, dict[str, str]]:
+    """Replace excluded words with placeholders.
+
+    :param str text: input text
+    :param list[str] exclude_words: words to exclude from translation
+    :return: tuple of (modified text, placeholder mapping)
+    :rtype: tuple[str, dict[str, str]]
+    """
+    if not exclude_words:
+        return text, {}
+
+    placeholder_map = {}
+    modified_text = text
+
+    for i, word in enumerate(exclude_words):
+        # Use a placeholder that is unlikely to appear in natural text
+        placeholder = f"__EXCLUDE_{i}__"
+        placeholder_map[placeholder] = word
+        modified_text = modified_text.replace(word, placeholder)
+
+    return modified_text, placeholder_map
+
+
+def _restore_excluded_words(
+    translated_text: str, placeholder_map: dict[str, str]
+) -> str:
+    """Restore excluded words from placeholders.
+
+    :param str translated_text: translated text with placeholders
+    :param dict[str, str] placeholder_map: mapping of placeholders to
+                                           original words
+    :return: text with original words restored
+    :rtype: str
+    """
+    if not placeholder_map:
+        return translated_text
+
+    result = translated_text
+    for placeholder, original_word in placeholder_map.items():
+        result = result.replace(placeholder, original_word)
+
+    return result
+
+
 class Translate:
     """Machine Translation
     """
@@ -43,6 +89,11 @@ class Translate:
 
             th2en.translate("ฉันรักแมว")
             # output: I love cat.
+
+        Translate text with excluded words::
+
+            th2en.translate("ฉันรักแมว", exclude_words=["แมว"])
+            # output: I love แมว.
         """
         self.model = None
         self.engine = engine
@@ -82,16 +133,22 @@ class Translate:
         else:
             raise ValueError("Not support language!")
 
-    def translate(self, text: str) -> str:
+    def translate(
+        self, text: str, exclude_words: list[str] | None = None
+    ) -> str:
         """Translate text
 
         :param str text: input text in source language
+        :param list[str] exclude_words: words to exclude from translation
+                                        (optional)
         :return: translated text in target language
         :rtype: str
         """
         if self.engine == "small100":
-            return self.model.translate(text, tgt_lang=self.target_lang)
-        return self.model.translate(text)
+            return self.model.translate(
+                text, tgt_lang=self.target_lang, exclude_words=exclude_words
+            )
+        return self.model.translate(text, exclude_words=exclude_words)
 
 
 def word_translate(

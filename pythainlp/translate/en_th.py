@@ -85,10 +85,14 @@ class EnThTranslator:
         if use_gpu:
             self._model = self._model.cuda()
 
-    def translate(self, text: str) -> str:
+    def translate(
+        self, text: str, exclude_words: list[str] | None = None
+    ) -> str:
         """Translate text from English to Thai
 
         :param str text: input text in source language
+        :param list[str] exclude_words: words to exclude from translation
+                                        (optional)
         :return: translated text in target language
         :rtype: str
 
@@ -103,10 +107,24 @@ class EnThTranslator:
             enth.translate("I love cat.")
             # output: ฉันรักแมว
 
+        Translate text from English to Thai with excluded words::
+
+            enth.translate("I love cat.", exclude_words=["cat"])
+            # output: ฉันรัก cat
+
         """
-        tokens = " ".join(self._tokenizer.tokenize(text))
+        from pythainlp.translate.core import (
+            _prepare_text_with_exclusions,
+            _restore_excluded_words,
+        )
+
+        prepared_text, placeholder_map = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+        tokens = " ".join(self._tokenizer.tokenize(prepared_text))
         translated = self._model.translate(tokens)
-        return translated.replace(" ", "").replace("▁", " ").strip()
+        result = translated.replace(" ", "").replace("▁", " ").strip()
+        return _restore_excluded_words(result, placeholder_map)
 
 
 class ThEnTranslator:
@@ -146,10 +164,14 @@ class ThEnTranslator:
         if use_gpu:
             self._model.cuda()
 
-    def translate(self, text: str) -> str:
+    def translate(
+        self, text: str, exclude_words: list[str] | None = None
+    ) -> str:
         """Translate text from Thai to English
 
         :param str text: input text in source language
+        :param list[str] exclude_words: words to exclude from translation
+                                        (optional)
         :return: translated text in target language
         :rtype: str
 
@@ -164,5 +186,19 @@ class ThEnTranslator:
             then.translate("ฉันรักแมว")
             # output: I love cat.
 
+        Translate text from Thai to English with excluded words::
+
+            then.translate("ฉันรักแมว", exclude_words=["แมว"])
+            # output: I love แมว.
+
         """
-        return self._model.translate(text)
+        from pythainlp.translate.core import (
+            _prepare_text_with_exclusions,
+            _restore_excluded_words,
+        )
+
+        prepared_text, placeholder_map = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+        translated = self._model.translate(prepared_text)
+        return _restore_excluded_words(translated, placeholder_map)

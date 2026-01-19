@@ -28,6 +28,18 @@ class TranslateTestCaseX(unittest.TestCase):
                 "the cat eats fish.",
             )
         )
+        # Test exclude_words feature
+        result_with_exclusion = self.th_en_translator.translate(
+            "แมวกินปลา", exclude_words=["แมว"]
+        )
+        self.assertIsNotNone(result_with_exclusion)
+        self.assertIn("แมว", result_with_exclusion)
+
+        result_with_exclusion_en = self.en_th_translator.translate(
+            "the cat eats fish.", exclude_words=["cat"]
+        )
+        self.assertIsNotNone(result_with_exclusion_en)
+        self.assertIn("cat", result_with_exclusion_en)
         # self.th_zh_translator = ThZhTranslator()
         # self.assertIsNotNone(
         #     self.th_zh_translator.translate(

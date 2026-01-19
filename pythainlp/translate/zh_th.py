@@ -35,10 +35,14 @@ class ThZhTranslator:
         if use_gpu:
             self.model_thzh = self.model_thzh.cuda()
 
-    def translate(self, text: str) -> str:
+    def translate(
+        self, text: str, exclude_words: list[str] | None = None
+    ) -> str:
         """Translate text from Thai to Chinese
 
         :param str text: input text in source language
+        :param list[str] exclude_words: words to exclude from translation
+                                        (optional)
         :return: translated text in target language
         :rtype: str
 
@@ -53,14 +57,30 @@ class ThZhTranslator:
             thzh.translate("ผมรักคุณ")
             # output: 我爱你
 
+        Translate text from Thai to Chinese with excluded words::
+
+            thzh.translate("ผมรักคุณ", exclude_words=["ผม"])
+            # output: ผม爱你
+
         """
-        self.translated = self.model_thzh.generate(
-            **self.tokenizer_thzh(text, return_tensors="pt", padding=True)
+        from pythainlp.translate.core import (
+            _prepare_text_with_exclusions,
+            _restore_excluded_words,
         )
-        return [
+
+        prepared_text, placeholder_map = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+        self.translated = self.model_thzh.generate(
+            **self.tokenizer_thzh(
+                prepared_text, return_tensors="pt", padding=True
+            )
+        )
+        translated_text = [
             self.tokenizer_thzh.decode(t, skip_special_tokens=True)
             for t in self.translated
         ][0]
+        return _restore_excluded_words(translated_text, placeholder_map)
 
 
 class ZhThTranslator:
@@ -86,10 +106,14 @@ class ZhThTranslator:
         if use_gpu:
             self.model_zhth.cuda()
 
-    def translate(self, text: str) -> str:
+    def translate(
+        self, text: str, exclude_words: list[str] | None = None
+    ) -> str:
         """Translate text from Chinese to Thai
 
         :param str text: input text in source language
+        :param list[str] exclude_words: words to exclude from translation
+                                        (optional)
         :return: translated text in target language
         :rtype: str
 
@@ -104,11 +128,27 @@ class ZhThTranslator:
             zhth.translate("我爱你")
             # output: ผมรักคุณนะ
 
+        Translate text from Chinese to Thai with excluded words::
+
+            zhth.translate("我爱你", exclude_words=["我"])
+            # output: 我รักคุณนะ
+
         """
-        self.translated = self.model_zhth.generate(
-            **self.tokenizer_zhth(text, return_tensors="pt", padding=True)
+        from pythainlp.translate.core import (
+            _prepare_text_with_exclusions,
+            _restore_excluded_words,
         )
-        return [
+
+        prepared_text, placeholder_map = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+        self.translated = self.model_zhth.generate(
+            **self.tokenizer_zhth(
+                prepared_text, return_tensors="pt", padding=True
+            )
+        )
+        translated_text = [
             self.tokenizer_zhth.decode(t, skip_special_tokens=True)
             for t in self.translated
         ][0]
+        return _restore_excluded_words(translated_text, placeholder_map)

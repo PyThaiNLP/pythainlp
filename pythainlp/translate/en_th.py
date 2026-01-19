@@ -129,7 +129,7 @@ class ThEnTranslator:
         with warnings.catch_warnings():
             warnings.filterwarnings(
                 "ignore",
-                message=".*using a model of type .* to instantiate a model of type.*",
+                message="(?i).*using a model of type .* to instantiate a model of type.*",
             )
             self._model = TransformerModel.from_pretrained(
                 model_name_or_path=_get_translate_path(

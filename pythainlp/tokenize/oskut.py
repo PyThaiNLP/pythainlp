@@ -38,10 +38,10 @@ def segment(text: str, engine: str = "ws") -> list[str]:
         return []
 
     # Thread-safe model loading
+    global _DEFAULT_ENGINE
     with _engine_lock:
         if engine != _DEFAULT_ENGINE:
             # Need to update global state and reload model
-            global _DEFAULT_ENGINE
             _DEFAULT_ENGINE = engine
             oskut.load_model(engine=_DEFAULT_ENGINE)
 

@@ -39,18 +39,25 @@ def get_top_level_entities(entities: list[dict]) -> list[dict]:
         top_entities = get_top_level_entities(entities)
         # [{'text': ['ห้า', 'โมง'], 'span': [7, 11], 'entity_type': 'time'}]
     """
+    if not entities:
+        return []
+
+    # Sort entities by span start, then by span end (descending)
+    # This helps us process larger spans first
+    sorted_entities = sorted(entities, key=lambda x: (x['span'][0], -x['span'][1]))
+
     top_level = []
-    for ent in entities:
+    for ent in sorted_entities:
         is_contained = False
-        for other in entities:
-            if ent != other:
-                # Check if ent is strictly contained in other
-                if (other['span'][0] <= ent['span'][0] and
-                    other['span'][1] >= ent['span'][1] and
-                    not (other['span'][0] == ent['span'][0] and
-                         other['span'][1] == ent['span'][1])):
-                    is_contained = True
-                    break
+        # Only check against entities already in top_level
+        for top_ent in top_level:
+            # Check if ent is strictly contained in top_ent
+            if (top_ent['span'][0] <= ent['span'][0] and
+                top_ent['span'][1] >= ent['span'][1] and
+                not (top_ent['span'][0] == ent['span'][0] and
+                     top_ent['span'][1] == ent['span'][1])):
+                is_contained = True
+                break
         if not is_contained:
             top_level.append(ent)
     return top_level
@@ -85,7 +92,7 @@ class Thai_NNER:
             from thai_nner import NNER
         except ImportError:
             raise ImportError(
-                "Not found thai_nner! Please install thai_nner by pip install thai-nner"
+                "Not found thai-nner! Please install thai-nner by pip install thai-nner"
             )
         self.model = NNER(path_model=path_model)
 

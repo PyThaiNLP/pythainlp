@@ -40,6 +40,7 @@ from pythainlp.util import (
     reign_year_to_ad,
     remove_dangling,
     remove_dup_spaces,
+    remove_spaces_before_marks,
     remove_tone_ipa,
     remove_tonemark,
     remove_trailing_repeat_consonants,
@@ -580,6 +581,22 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(remove_dangling("\u0e48\u0e48\u0e01"), "\u0e01")
         self.assertEqual(remove_dangling("\u0e48\u0e49\u0e01"), "\u0e01")
         self.assertEqual(remove_dangling("\u0e48\u0e01\u0e48"), "\u0e01\u0e48")
+
+        # remove spaces before tone marks and non-base characters
+        self.assertEqual(normalize("พ ุ่มดอกไม้"), "พุ่มดอกไม้")
+        self.assertEqual(
+            normalize("เค้้้าเดินไปสนามหญา้หนา้บา้น"),
+            "เค้าเดินไปสนามหญ้าหน้าบ้าน",
+        )
+        self.assertEqual(
+            normalize("พ ุ่มดอกไม้ในสนามหญา้หนา้บา้น"),
+            "พุ่มดอกไม้ในสนามหญ้าหน้าบ้าน",
+        )
+        self.assertEqual(normalize("ก ิ"), "กิ")  # space before above vowel
+        self.assertEqual(normalize("ก ุ"), "กุ")  # space before below vowel
+        self.assertEqual(
+            normalize("ก  ้า"), "ก้า"
+        )  # spaces before tone mark (also reordered)
 
         # remove duplicate spaces
         self.assertEqual(remove_dup_spaces("  ab  c d  "), "ab c d")

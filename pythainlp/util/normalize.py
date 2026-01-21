@@ -50,6 +50,11 @@ _RE_TONEMARKS = re.compile(f"[{tonemarks}]+")
 
 _RE_REMOVE_NEWLINES = re.compile("[ \n]*\n[ \n]*")
 
+# Remove spaces before non-base characters (tone marks, above/below vowels, etc.)
+_RE_REMOVE_SPACES_BEFORE_NONBASE = re.compile(
+    f" +([{_DANGLING_CHARS}])"
+)
+
 
 def _last_char(matchobj):  # to be used with _RE_NOREPEAT_TONEMARKS
     return matchobj.group(0)[-1]
@@ -172,6 +177,28 @@ def remove_zw(text: str) -> str:
     return text
 
 
+def remove_spaces_before_marks(text: str) -> str:
+    """Remove spaces before Thai tone marks and non-base characters.
+
+    Spaces before tone marks, above vowels, below vowels, and other
+    non-base characters are often unintentional typos. This function
+    removes such spaces to normalize the text.
+
+    :param str text: input text
+    :return: text without spaces before Thai tone marks and non-base characters
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import remove_spaces_before_marks
+
+        remove_spaces_before_marks("พ ุ่มดอกไม้")
+        # output: 'พุ่มดอกไม้'
+    """
+    return _RE_REMOVE_SPACES_BEFORE_NONBASE.sub(r"\1", text)
+
+
 def reorder_vowels(text: str) -> str:
     """Reorder vowels and tone marks to the standard logical order/spelling.
 
@@ -242,13 +269,15 @@ def normalize(text: str) -> str:
 
         * Remove zero-width spaces
         * Remove duplicate spaces
+        * Remove spaces before tone marks and non-base characters
         * Reorder tone marks and vowels to standard order/spelling
         * Remove duplicate vowels and signs
         * Remove duplicate tone marks
         * Remove dangling non-base characters at the beginning of text
 
     normalize() simply call remove_zw(), remove_dup_spaces(),
-    remove_repeat_vowels(), and remove_dangling(), in that order.
+    remove_spaces_before_marks(), remove_repeat_vowels(), and
+    remove_dangling(), in that order.
 
     If a user wants to customize the selection or the order of rules
     to be applied, they can choose to call those functions by themselves.
@@ -272,6 +301,7 @@ def normalize(text: str) -> str:
     """
     text = remove_zw(text)
     text = remove_dup_spaces(text)
+    text = remove_spaces_before_marks(text)
     text = remove_repeat_vowels(text)
     text = remove_dangling(text)
 

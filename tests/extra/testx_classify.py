@@ -22,3 +22,9 @@ class ClsTestCaseX(unittest.TestCase):
         ]
         model = GzipModel(training_data)
         self.assertEqual(model.predict("ฉันดีใจ", k=1), "Positive")
+        # Edge cases: empty string
+        self.assertIsNotNone(model.predict("", k=1))
+        # Edge cases: different k values
+        self.assertIsNotNone(model.predict("ฉันดีใจ", k=3))
+        # Edge cases: k larger than number of classes
+        self.assertIsNotNone(model.predict("ฉันดีใจ", k=10))

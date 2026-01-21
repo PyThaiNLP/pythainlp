@@ -13,28 +13,28 @@
       the changes made.
 - [ ] For significant changes, update the CHANGELOG.md file
       to document the changes.
-      - [ ] Follow "Keep a Changelog" principles
-            https://keepachangelog.com/en/1.0.0/
-      - [ ] Use semantic versioning for version numbers
-            https://semver.org/
-      - [ ] If it is a breaking change, indicate it clearly in the changelog.
-        - [ ] Provide migration instructions if necessary.
+  - [ ] Follow "Keep a Changelog" principles
+        https://keepachangelog.com/en/1.0.0/
+  - [ ] Use semantic versioning for version numbers
+        https://semver.org/
+  - [ ] If it is a breaking change, indicate it clearly in the changelog.
+    - [ ] Provide migration instructions if necessary.
 - [ ] Do not leave trailing whitespaces in the code or documentation files,
       unless such a whitespace is explicitly necessary.
 - [ ] Metadata in pyproject.toml, codemeta.json, CITATION.cff, and other
       project metadata files should be consistent and up-to-date.
-      - [ ] Project name
-      - [ ] Project version
-      - [ ] Author/contributor names
-      - [ ] License information
-      - [ ] Project description
-      - [ ] Repository URL
-      - [ ] Keywords/tags (in the same order if possible)
+  - [ ] Project name
+  - [ ] Project version
+  - [ ] Author/contributor names
+  - [ ] License information
+  - [ ] Project description
+  - [ ] Repository URL
+  - [ ] Keywords/tags (in the same order if possible)
 - [ ] requires-python in pyproject.toml should reflect the minimum
       Python version supported by the project.
-      - [ ] Do not introduce syntax or features that are not supported
-            by the specified minimum Python version,
-            unless it is supported via __future__ imports.
+  - [ ] Do not introduce syntax or features that are not supported
+        by the specified minimum Python version,
+        unless it is supported via __future__ imports.
 
 ## General language use
 

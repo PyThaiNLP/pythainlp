@@ -206,3 +206,40 @@ class TagLocationsTestCase(unittest.TestCase):
             tag_provinces(["หนองคาย", "น่าอยู่"]),
             [("หนองคาย", "B-LOCATION"), ("น่าอยู่", "O")],
         )
+
+
+class TagNNERTestCase(unittest.TestCase):
+    """Test pythainlp.tag.thai_nner"""
+
+    def test_get_top_level_entities(self):
+        from pythainlp.tag import get_top_level_entities
+
+        # Test with nested entities
+        entities = [
+            {'text': ['ห้า'], 'span': [7, 9], 'entity_type': 'cardinal'},
+            {'text': ['ห้า', 'โมง'], 'span': [7, 11], 'entity_type': 'time'},
+            {'text': ['โมง'], 'span': [9, 11], 'entity_type': 'unit'}
+        ]
+        top_entities = get_top_level_entities(entities)
+        # Should only return 'time' as it contains the others
+        self.assertEqual(len(top_entities), 1)
+        self.assertEqual(top_entities[0]['entity_type'], 'time')
+        self.assertEqual(top_entities[0]['span'], [7, 11])
+
+        # Test with non-overlapping entities
+        entities = [
+            {'text': ['วัน'], 'span': [0, 1], 'entity_type': 'time'},
+            {'text': ['เดือน'], 'span': [2, 3], 'entity_type': 'time'}
+        ]
+        top_entities = get_top_level_entities(entities)
+        # Both should be returned as neither contains the other
+        self.assertEqual(len(top_entities), 2)
+
+        # Test with empty list
+        self.assertEqual(get_top_level_entities([]), [])
+
+        # Test with single entity
+        entities = [{'text': ['test'], 'span': [0, 1], 'entity_type': 'test'}]
+        top_entities = get_top_level_entities(entities)
+        self.assertEqual(len(top_entities), 1)
+        self.assertEqual(top_entities[0], entities[0])

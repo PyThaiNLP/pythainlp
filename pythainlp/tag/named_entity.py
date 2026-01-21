@@ -113,12 +113,17 @@ class NNER:
 
         self.engine = Thai_NNER()
 
-    def tag(self, text) -> tuple[list[str], list[dict]]:
+    def tag(self, text: str, top_level_only: bool = False) -> tuple[list[str], list[dict]]:
         """This function tags nested named entities.
 
         :param str text: text in Thai to be tagged
+        :param bool top_level_only: If True, return only top-level (outermost)
+                                     entities. If False, return all nested
+                                     entities. Default is False.
 
-        :return: a list of tuples associated with tokenized words and NNER tags.
+        :return: a tuple of (tokens, entities) where tokens is a list of
+                 tokenized strings and entities is a list of dictionaries
+                 containing 'text', 'span', and 'entity_type' keys.
         :rtype: Tuple[List[str], List[dict]]
 
         :Example:
@@ -159,5 +164,8 @@ class NNER:
                     'entity_type': 'unit'
                 }
             ])
+            >>> # Get only top-level entities
+            >>> nner.tag("แมวทำอะไรตอนห้าโมงเช้า", top_level_only=True)
+            ([...], [{'text': ['', 'ห้า', '', 'โมง'], 'span': [7, 11], 'entity_type': 'time'}])
         """
-        return self.engine.tag(text)
+        return self.engine.tag(text, top_level_only=top_level_only)

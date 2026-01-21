@@ -53,6 +53,7 @@
     "developmentStatus": "active",
     "downloadUrl": "https://github.com/PyThaiNLP/pythainlp/releases",
     "identifier": "10.5281/zenodo.3519354",
+    "isAccessibleForFree": true,
     "issueTracker": "https://github.com/PyThaiNLP/pythainlp/issues",
     "keywords": [
         "computational linguistics",
@@ -186,6 +187,7 @@
             ],
             "datePublished": "2023-12-06",
             "identifier": "10.18653/v1/2023.nlposs-1.4",
+            "isAccessibleForFree": true,
             "name": "PyThaiNLP: Thai Natural Language Processing in Python",
             "url": "https://aclanthology.org/2023.nlposs-1.4/"
         }

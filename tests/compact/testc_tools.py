@@ -24,6 +24,18 @@ class MisspellTestCase(unittest.TestCase):
     def setUp(self):
         self.texts = ["เรารักคุณมากที่สุดในโลก", "เราอยู่ที่มหาวิทยาลัยขอนแก่น"]
 
+    def test_misspell_edge_cases(self):
+        # Edge case: empty string
+        self.assertEqual(misspell(""), "")
+        # Edge case: single character with ratio 0
+        self.assertEqual(misspell("ก", ratio=0), "ก")
+        # Edge case: single character with ratio 1
+        result = misspell("ก", ratio=1)
+        self.assertEqual(len(result), 1)
+        # Edge case: None raises TypeError
+        with self.assertRaises(TypeError):
+            misspell(None)
+
     def test_misspell_naive(self):
         for text in self.texts:
             misspelled = misspell(text, ratio=0.1)

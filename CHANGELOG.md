@@ -24,6 +24,8 @@ See PR for prompt and details.
 - Update type hints; Use Python 3.9 features #1189 #1190
 - Replace requests library with urllib.request from standard library to reduce
   core dependencies #1211
+- Add Thai-NNER (Thai Nested Named Entity Recognition) integration with
+  top-level entity filtering functionality
 
 ## Version 5.1.2 -> 5.2.0
 

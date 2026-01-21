@@ -11,6 +11,23 @@ from __future__ import annotations
 from pythainlp.corpus import get_corpus_path
 
 
+def _is_contained_in(entity: dict, container: dict) -> bool:
+    """Check if an entity is strictly contained within a container entity.
+
+    :param dict entity: Entity to check
+    :param dict container: Potential container entity
+    :return: True if entity is strictly contained in container
+    :rtype: bool
+    """
+    ent_start, ent_end = entity['span']
+    cont_start, cont_end = container['span']
+
+    # Entity is contained if its span is within or equal to container's span,
+    # but they're not exactly the same entity
+    return (cont_start <= ent_start and cont_end >= ent_end and
+            not (cont_start == ent_start and cont_end == ent_end))
+
+
 def get_top_level_entities(entities: list[dict]) -> list[dict]:
     """Extract only top-level (outermost) entities from nested NER results.
 
@@ -51,11 +68,7 @@ def get_top_level_entities(entities: list[dict]) -> list[dict]:
         is_contained = False
         # Only check against entities already in top_level
         for top_ent in top_level:
-            # Check if ent is strictly contained in top_ent
-            if (top_ent['span'][0] <= ent['span'][0] and
-                top_ent['span'][1] >= ent['span'][1] and
-                not (top_ent['span'][0] == ent['span'][0] and
-                     top_ent['span'][1] == ent['span'][1])):
+            if _is_contained_in(ent, top_ent):
                 is_contained = True
                 break
         if not is_contained:

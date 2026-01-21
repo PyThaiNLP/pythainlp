@@ -126,6 +126,10 @@ class NNER:
                  containing 'text', 'span', and 'entity_type' keys.
         :rtype: Tuple[List[str], List[dict]]
 
+        .. note::
+            The tokenized output may include empty strings as part of the
+            tokenization process from the underlying Thai-NNER model.
+
         :Example:
 
             >>> from pythainlp.tag.named_entity import NNER
@@ -164,7 +168,7 @@ class NNER:
                     'entity_type': 'unit'
                 }
             ])
-            >>> # Get only top-level entities
+            >>> # Get only top-level entities (outermost entities)
             >>> nner.tag("แมวทำอะไรตอนห้าโมงเช้า", top_level_only=True)
             ([...], [{'text': ['', 'ห้า', '', 'โมง'], 'span': [7, 11], 'entity_type': 'time'}])
         """

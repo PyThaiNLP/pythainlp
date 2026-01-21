@@ -87,6 +87,16 @@ class UtilTestCase(unittest.TestCase):
             collate(["ก้วย", "ก๋วย", "ก่วย", "กวย", "ก้วย", "ก่วย", "ก๊วย"]),
             ["กวย", "ก่วย", "ก่วย", "ก้วย", "ก้วย", "ก๊วย", "ก๋วย"],
         )
+        # Edge cases: empty list
+        self.assertEqual(collate([]), [])
+        # Edge cases: single item
+        self.assertEqual(collate(["กก"]), ["กก"])
+        # Edge cases: reverse=True
+        self.assertEqual(collate(["ไก่", "กก"], reverse=True), ["ไก่", "กก"])
+        self.assertEqual(
+            collate(["ไก่", "เป็ด", "หมู", "วัว"], reverse=True),
+            ["หมู", "วัว", "เป็ด", "ไก่"],
+        )
 
     # ### pythainlp.util.numtoword
 
@@ -98,6 +108,15 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(bahttext(116), "หนึ่งร้อยสิบหกบาทถ้วน")
         self.assertEqual(bahttext(0), "ศูนย์บาทถ้วน")
         self.assertEqual(bahttext(None), "")
+        # Edge cases: negative number
+        self.assertEqual(bahttext(-100), "ลบหนึ่งร้อยบาทถ้วน")
+        self.assertEqual(bahttext(-50.50), "ลบห้าสิบบาทห้าสิบสตางค์")
+        # Edge cases: very large number
+        self.assertIsNotNone(bahttext(999999999999))
+        # Edge cases: float precision
+        self.assertEqual(bahttext(0.01), "ศูนย์บาทหนึ่งสตางค์")
+        self.assertEqual(bahttext(0.99), "ศูนย์บาทเก้าสิบเก้าสตางค์")
+        self.assertEqual(bahttext(1.00), "หนึ่งบาทถ้วน")
 
         self.assertEqual(num_to_thaiword(None), "")
         self.assertEqual(num_to_thaiword(0), "ศูนย์")
@@ -209,6 +228,24 @@ class UtilTestCase(unittest.TestCase):
     def test_find_keywords(self):
         word_list = ["แมว", "กิน", "ปลา", "อร่อย", "แมว", "เป็น", "แมว"]
         self.assertEqual(find_keyword(word_list), {"แมว": 3})
+        # Edge cases: different min_len values (min_len filters by frequency >= min_len)
+        self.assertEqual(
+            find_keyword(word_list, min_len=0),
+            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1}
+        )
+        self.assertEqual(
+            find_keyword(word_list, min_len=1),
+            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1}
+        )
+        self.assertEqual(find_keyword(word_list, min_len=2), {"แมว": 3})
+        self.assertEqual(find_keyword(word_list, min_len=10), {})
+        # Edge cases: empty list returns error (since rank([]) returns None)
+        with self.assertRaises(AttributeError):
+            find_keyword([])
+        # Edge cases: single word list (frequency 1, min_len default is 3)
+        self.assertEqual(find_keyword(["แมว"]), {})
+        # Edge cases: all stopwords
+        self.assertEqual(find_keyword(["ใน", "การ", "ที่"]), {})
 
     def test_rank(self):
         self.assertIsNone(rank([]))
@@ -218,6 +255,15 @@ class UtilTestCase(unittest.TestCase):
         self.assertIsNotNone(
             rank(["แมว", "คน", "แมว"], exclude_stopwords=True)
         )
+        # Edge cases: single item list
+        self.assertEqual(rank(["แมว"]), Counter({"แมว": 1}))
+        # Edge cases: all stopwords with exclude_stopwords=True
+        self.assertEqual(rank(["ใน", "การ", "ที่"], exclude_stopwords=True), Counter())
+        # Edge cases: exclude_stopwords=False (explicitly test both values)
+        self.assertIsNotNone(rank(["แมว", "ใน", "การ"], exclude_stopwords=False))
+        self.assertIn("ใน", rank(["แมว", "ใน", "การ"], exclude_stopwords=False))
+        # Edge cases: duplicate handling
+        self.assertEqual(rank(["แมว", "แมว", "แมว"]), Counter({"แมว": 3}))
 
     # ### pythainlp.util.keyboard
 
@@ -231,6 +277,13 @@ class UtilTestCase(unittest.TestCase):
         )
         with self.assertRaises(ValueError):
             thai_keyboard_dist("ພ", "พ")
+        # Edge cases: identical characters
+        self.assertEqual(thai_keyboard_dist("ก", "ก"), 0.0)
+        # Edge cases: None and empty string raise TypeError
+        with self.assertRaises(TypeError):
+            thai_keyboard_dist(None, "ก")
+        with self.assertRaises(TypeError):
+            thai_keyboard_dist("ก", None)
 
     # ### pythainlp.util.date
 

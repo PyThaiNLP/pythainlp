@@ -18,3 +18,6 @@ class SpellWordTestCase(unittest.TestCase):
         self.assertEqual(
             spell_word("คนดี"), ["คอ", "นอ", "คน", "ดอ", "อี", "ดี", "คนดี"]
         )
+        # Edge cases: None and empty string
+        self.assertEqual(spell_word(None), [])
+        self.assertEqual(spell_word(""), [])

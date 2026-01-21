@@ -34,8 +34,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # Test latest and earliest versions of Python on every OSes
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        python-version: ["3.13", "3.12", "3.11", "3.10", "3.9"]
+        python-version: ["3.13", "3.9"]  # Latest and earliest      
+        include:
+          # Test the rest of Python versions only on Ubuntu
+          - os: "ubuntu-latest"
+            python-version: "3.12"
+          - os: "ubuntu-latest"
+            python-version: "3.11"
+          - os: "ubuntu-latest"
+            python-version: "3.10"
 
     runs-on: ${{ matrix.os }}
     env:

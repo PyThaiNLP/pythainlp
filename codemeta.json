@@ -1,45 +1,45 @@
 {
     "@context": "https://w3id.org/codemeta/3.0",
-    "type": "SoftwareSourceCode",
+    "@type": "SoftwareSourceCode",
     "applicationCategory": "text analysis",
     "author": [
         {
-            "id": "https://orcid.org/0000-0002-4153-4354",
-            "type": "Person",
+            "@id": "https://orcid.org/0000-0002-4153-4354",
+            "@type": "Person",
             "familyName": "Phatthiyaphaibun",
             "givenName": "Wannaphong"
         },
         {
-            "id": "https://orcid.org/0009-0002-7350-9855",
-            "type": "Person",
+            "@id": "https://orcid.org/0009-0002-7350-9855",
+            "@type": "Person",
             "familyName": "Chaovavanich",
             "givenName": "Korakot"
         },
         {
-            "id": "https://orcid.org/0000-0001-7822-4600",
-            "type": "Person",
+            "@id": "https://orcid.org/0000-0001-7822-4600",
+            "@type": "Person",
             "familyName": "Polpanumas",
             "givenName": "Charin"
         },
         {
-            "id": "https://orcid.org/0000-0002-9698-1899",
-            "type": "Person",
+            "@id": "https://orcid.org/0000-0002-9698-1899",
+            "@type": "Person",
             "affiliation": {
-                "type": "Organization",
+                "@type": "Organization",
                 "name": "ADAPT Centre, Trinity College Dublin"
             },
             "familyName": "Suriyawongkul",
             "givenName": "Arthit"
         },
         {
-            "id": "https://orcid.org/0000-0002-5305-2088",
-            "type": "Person",
+            "@id": "https://orcid.org/0000-0002-5305-2088",
+            "@type": "Person",
             "familyName": "Lowphansirikul",
             "givenName": "Lalita"
         },
         {
-            "id": "https://orcid.org/0000-0002-7582-4667",
-            "type": "Person",
+            "@id": "https://orcid.org/0000-0002-7582-4667",
+            "@type": "Person",
             "familyName": "Chormai",
             "givenName": "Pattarawat"
         }
@@ -70,16 +70,16 @@
     "license": "https://spdx.org/licenses/Apache-2.0",
     "maintainer": [
         {
-            "id": "https://orcid.org/0000-0002-4153-4354",
-            "type": "Person",
+            "@id": "https://orcid.org/0000-0002-4153-4354",
+            "@type": "Person",
             "familyName": "Phatthiyaphaibun",
             "givenName": "Wannaphong"
         },
         {
-            "id": "https://orcid.org/0000-0002-9698-1899",
-            "type": "Person",
+            "@id": "https://orcid.org/0000-0002-9698-1899",
+            "@type": "Person",
             "affiliation": {
-                "type": "Organization",
+                "@type": "Organization",
                 "name": "ADAPT Centre, Trinity College Dublin"
             },
             "familyName": "Suriyawongkul",
@@ -91,94 +91,94 @@
     "readme": "https://github.com/PyThaiNLP/pythainlp/blob/dev/README.md",
     "referencePublication": [
         {
-            "type": "ScholarlyArticle",
+            "@type": "ScholarlyArticle",
             "author": [
                 {
-                    "id": "https://orcid.org/0000-0002-4153-4354",
-                    "type": "Person",
+                    "@id": "https://orcid.org/0000-0002-4153-4354",
+                    "@type": "Person",
                     "affiliation": {
                         "name": "VISTEC",
-                        "type": "Organization"
+                        "@type": "Organization"
                     },
                     "email": "wannaphong.p_s21@vistec.ac.th",
                     "familyName": "Phatthiyaphaibun",
                     "givenName": "Wannaphong"
                 },
                 {
-                    "id": "https://orcid.org/0009-0002-7350-9855",
-                    "type": "Person",
+                    "@id": "https://orcid.org/0009-0002-7350-9855",
+                    "@type": "Person",
                     "affiliation": {
                         "name": "PyThaiNLP",
-                        "type": "Organization"
+                        "@type": "Organization"
                     },
                     "familyName": "Chaovavanich",
                     "givenName": "Korakot"
                 },
                 {
-                    "id": "https://orcid.org/0000-0001-7822-4600",
-                    "type": "Person",
+                    "@id": "https://orcid.org/0000-0001-7822-4600",
+                    "@type": "Person",
                     "affiliation": {
                         "name": "PyThaiNLP",
-                        "type": "Organization"
+                        "@type": "Organization"
                     },
                     "familyName": "Polpanumas",
                     "givenName": "Charin"
                 },
                 {
-                    "id": "https://orcid.org/0000-0002-9698-1899",
-                    "type": "Person",
+                    "@id": "https://orcid.org/0000-0002-9698-1899",
+                    "@type": "Person",
                     "affiliation": {
                         "name": "Trinity College Dublin",
-                        "type": "Organization"
+                        "@type": "Organization"
                     },
                     "familyName": "Suriyawongkul",
                     "givenName": "Arthit"
                 },
                 {
-                    "id": "https://orcid.org/0000-0002-5305-2088",
-                    "type": "Person",
+                    "@id": "https://orcid.org/0000-0002-5305-2088",
+                    "@type": "Person",
                     "affiliation": {
                         "name": "VISTEC",
-                        "type": "Organization"
+                        "@type": "Organization"
                     },
                     "familyName": "Lowphansirikul",
                     "givenName": "Lalita"
                 },
                 {
-                    "id": "https://orcid.org/0000-0002-7582-4667",
-                    "type": "Person",
+                    "@id": "https://orcid.org/0000-0002-7582-4667",
+                    "@type": "Person",
                     "affiliation": {
                         "name": "Technische Universität Berlin; Max Planck School of Cognition",
-                        "type": "Organization"
+                        "@type": "Organization"
                     },
                     "familyName": "Chormai",
                     "givenName": "Pattarawat"
                 },
                 {
-                    "id": "https://orcid.org/0000-0002-7212-8228",
-                    "type": "Person",
+                    "@id": "https://orcid.org/0000-0002-7212-8228",
+                    "@type": "Person",
                     "affiliation": {
                         "name": "VISTEC",
-                        "type": "Organization"
+                        "@type": "Organization"
                     },
                     "familyName": "Limkonchotiwat",
                     "givenName": "Peerat"
                 },
                 {
-                    "type": "Person",
+                    "@type": "Person",
                     "affiliation": {
                         "name": "Wisesight",
-                        "type": "Organization"
+                        "@type": "Organization"
                     },
                     "familyName": "Suntorntip",
                     "givenName": "Thanathip"
                 },
                 {
-                    "id": "https://orcid.org/0000-0002-7090-0536",
-                    "type": "Person",
+                    "@id": "https://orcid.org/0000-0002-7090-0536",
+                    "@type": "Person",
                     "affiliation": {
                         "name": "VISTEC",
-                        "type": "Organization"
+                        "@type": "Organization"
                     },
                     "familyName": "Udomcharoenchaikit",
                     "givenName": "Can"

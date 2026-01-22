@@ -10,6 +10,7 @@ import re
 
 from pythainlp import thai_above_vowels as above_v
 from pythainlp import thai_below_vowels as below_v
+from pythainlp import thai_consonants, thai_vowels
 from pythainlp import thai_follow_vowels as follow_v
 from pythainlp import thai_lead_vowels as lead_v
 from pythainlp import thai_tonemarks as tonemarks
@@ -18,6 +19,7 @@ from pythainlp.tools import warn_deprecation
 
 _DANGLING_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
 _RE_REMOVE_DANGLINGS = re.compile(f"^[{_DANGLING_CHARS}]+")
+_RE_REMOVE_DANGLINGS_AFTER_SPACE = re.compile(f" +[{_DANGLING_CHARS}]+")
 
 _ZERO_WIDTH_CHARS = "\u200b\u200c"  # ZWSP, ZWNJ
 
@@ -50,13 +52,20 @@ _RE_TONEMARKS = re.compile(f"[{tonemarks}]+")
 
 _RE_REMOVE_NEWLINES = re.compile("[ \n]*\n[ \n]*")
 
+# Remove single space before non-base characters, but only after a consonant
+# that's not preceded by a vowel (to avoid breaking up complete words)
+# This conservative approach fixes "พ ุ่ม" but preserves "ภาพ ุ่"
+_RE_REMOVE_SPACES_BEFORE_NONBASE = re.compile(
+    f"([{thai_consonants}])(?<![{thai_vowels}][{thai_consonants}]) ([{_DANGLING_CHARS}])"
+)
+
 
 def _last_char(matchobj):  # to be used with _RE_NOREPEAT_TONEMARKS
     return matchobj.group(0)[-1]
 
 
 def remove_dangling(text: str) -> str:
-    """Remove Thai non-base characters at the beginning of text.
+    """Remove Thai non-base characters at the beginning of text and after spaces.
 
     This is a common "typo", especially for input field in a form,
     as these non-base characters can be visually hidden from user
@@ -65,10 +74,10 @@ def remove_dangling(text: str) -> str:
     A character to be removed should be both:
 
         * tone mark, above vowel, below vowel, or non-base sign AND
-        * located at the beginning of the text
+        * located at the beginning of the text or after spaces
 
     :param str text: input text
-    :return: text without dangling Thai characters at the beginning
+    :return: text without dangling Thai characters at the beginning and after spaces
     :rtype: str
 
     :Example:
@@ -78,8 +87,13 @@ def remove_dangling(text: str) -> str:
 
         remove_dangling("๊ก")
         # output: 'ก'
+
+        remove_dangling("คำ ่ที่สอง")
+        # output: 'คำ ที่สอง'
     """
-    return _RE_REMOVE_DANGLINGS.sub("", text)
+    text = _RE_REMOVE_DANGLINGS.sub("", text)
+    text = _RE_REMOVE_DANGLINGS_AFTER_SPACE.sub(" ", text)
+    return text
 
 
 def remove_dup_spaces(text: str) -> str:
@@ -172,6 +186,28 @@ def remove_zw(text: str) -> str:
     return text
 
 
+def remove_spaces_before_marks(text: str) -> str:
+    """Remove spaces before Thai tone marks and non-base characters.
+
+    Spaces before tone marks, above vowels, below vowels, and other
+    non-base characters are often unintentional typos. This function
+    removes such spaces to normalize the text.
+
+    :param str text: input text
+    :return: text without spaces before Thai tone marks and non-base characters
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import remove_spaces_before_marks
+
+        remove_spaces_before_marks("พ ุ่มดอกไม้")
+        # output: 'พุ่มดอกไม้'
+    """
+    return _RE_REMOVE_SPACES_BEFORE_NONBASE.sub(r"\1\2", text)
+
+
 def reorder_vowels(text: str) -> str:
     """Reorder vowels and tone marks to the standard logical order/spelling.
 
@@ -242,13 +278,15 @@ def normalize(text: str) -> str:
 
         * Remove zero-width spaces
         * Remove duplicate spaces
+        * Remove spaces before tone marks and non-base characters
         * Reorder tone marks and vowels to standard order/spelling
         * Remove duplicate vowels and signs
         * Remove duplicate tone marks
         * Remove dangling non-base characters at the beginning of text
 
     normalize() simply call remove_zw(), remove_dup_spaces(),
-    remove_repeat_vowels(), and remove_dangling(), in that order.
+    remove_spaces_before_marks(), remove_repeat_vowels(), and
+    remove_dangling(), in that order.
 
     If a user wants to customize the selection or the order of rules
     to be applied, they can choose to call those functions by themselves.
@@ -272,6 +310,7 @@ def normalize(text: str) -> str:
     """
     text = remove_zw(text)
     text = remove_dup_spaces(text)
+    text = remove_spaces_before_marks(text)
     text = remove_repeat_vowels(text)
     text = remove_dangling(text)
 

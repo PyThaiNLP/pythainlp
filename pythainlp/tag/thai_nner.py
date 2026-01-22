@@ -138,3 +138,109 @@ class Thai_NNER:
         if top_level_only:
             entities = get_top_level_entities(entities)
         return tokens, entities
+
+    def get_ner(self, text: str, pos: bool = False, tag: bool = False) -> list[tuple[str, str]] | str:
+        """Tag Thai text with named entities in IOB format.
+
+        This method provides compatibility with the NER class interface by
+        converting Thai-NNER's nested entity format to IOB format.
+
+        :param str text: Thai text to tag
+        :param bool pos: output with part-of-speech tags (not supported, ignored)
+        :param bool tag: output HTML-like tags
+        :return: If tag=False, returns list of tuples (word, NER_tag) in IOB format.
+                 If tag=True, returns string with HTML-like tags.
+        :rtype: Union[List[Tuple[str, str]], str]
+
+        .. note::
+            When converting to IOB format, only top-level entities are used to
+            avoid overlapping tags. POS tagging is not supported and the pos
+            parameter is ignored.
+
+        :Example:
+        ::
+
+            from pythainlp.tag.thai_nner import Thai_NNER
+
+            nner = Thai_NNER()
+
+            # Get IOB format
+            result = nner.get_ner("วันที่ 5 เมษายน 2565")
+            # [('วัน', 'O'), ('ที่', 'O'), (' ', 'O'), ('5', 'B-DATE'), ...]
+
+            # Get HTML-like tags
+            result = nner.get_ner("วันที่ 5 เมษายน 2565", tag=True)
+            # 'วันที่ <DATE>5 เมษายน 2565</DATE>'
+        """
+        # Get tokens and entities, using only top-level to avoid overlaps in IOB
+        tokens, entities = self.tag(text, top_level_only=True)
+
+        if tag:
+            # Convert to HTML-like tags format
+            return _entities_to_html(tokens, entities)
+        else:
+            # Convert to IOB format
+            return _entities_to_iob(tokens, entities)
+
+
+def _entities_to_iob(tokens: list[str], entities: list[dict]) -> list[tuple[str, str]]:
+    """Convert Thai-NNER entity format to IOB format.
+
+    :param list[str] tokens: List of tokens
+    :param list[dict] entities: List of entity dictionaries
+    :return: List of (token, tag) tuples in IOB format
+    :rtype: list[tuple[str, str]]
+    """
+    # Initialize all tokens as 'O' (outside)
+    iob_tags = ['O'] * len(tokens)
+
+    # Process each entity
+    for entity in entities:
+        start, end = entity['span']
+        entity_type = entity['entity_type'].upper()
+
+        # Tag the first token as B- (beginning)
+        if start < len(iob_tags):
+            iob_tags[start] = f'B-{entity_type}'
+
+        # Tag subsequent tokens as I- (inside)
+        for i in range(start + 1, min(end, len(iob_tags))):
+            iob_tags[i] = f'I-{entity_type}'
+
+    # Combine tokens with their tags
+    result = [(token, tag) for token, tag in zip(tokens, iob_tags)]
+    return result
+
+
+def _entities_to_html(tokens: list[str], entities: list[dict]) -> str:
+    """Convert Thai-NNER entity format to HTML-like tags.
+
+    :param list[str] tokens: List of tokens
+    :param list[dict] entities: List of entity dictionaries
+    :return: String with HTML-like entity tags
+    :rtype: str
+    """
+    # Sort entities by start position to process in order
+    sorted_entities = sorted(entities, key=lambda x: x['span'][0])
+
+    # Build the result string
+    result_parts = []
+    last_pos = 0
+
+    for entity in sorted_entities:
+        start, end = entity['span']
+        entity_type = entity['entity_type'].upper()
+
+        # Add tokens before this entity
+        result_parts.extend(tokens[last_pos:start])
+
+        # Add entity with tags
+        entity_text = ''.join(tokens[start:end])
+        result_parts.append(f'<{entity_type}>{entity_text}</{entity_type}>')
+
+        last_pos = end
+
+    # Add remaining tokens
+    result_parts.extend(tokens[last_pos:])
+
+    return ''.join(result_parts)

@@ -17,11 +17,13 @@ class NER:
         * *thainer-v2* - Thai NER engine v2.0 for Thai NER 2.0 (default)
         * *thainer* - Thai NER engine
         * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.
+        * *thai-nner* - Thai Nested NER engine
 
     **Options for corpus**
         * *thainer* - Thai NER corpus (default)
 
     **Note**: The tltk engine supports NER models from tltk only.
+              The thai-nner engine supports nested NER and ignores corpus parameter.
     """
 
     def __init__(
@@ -54,6 +56,10 @@ class NER:
             from pythainlp.phayathaibert.core import NamedEntityTagger
 
             self.engine = NamedEntityTagger()
+        elif engine == "thai-nner":
+            from pythainlp.tag.thai_nner import Thai_NNER
+
+            self.engine = Thai_NNER()
         else:
             raise ValueError(
                 f"NER class not support {engine} engine or {corpus} corpus."

@@ -243,3 +243,46 @@ class TagNNERTestCase(unittest.TestCase):
         top_entities = get_top_level_entities(entities)
         self.assertEqual(len(top_entities), 1)
         self.assertEqual(top_entities[0], entities[0])
+
+    def test_entities_to_iob(self):
+        from pythainlp.tag.thai_nner import _entities_to_iob
+
+        # Test basic IOB conversion
+        tokens = ['วัน', 'ที่', ' ', '5', ' ', 'เมษายน']
+        entities = [
+            {'text': ['5', ' ', 'เมษายน'], 'span': [3, 6], 'entity_type': 'date'}
+        ]
+        result = _entities_to_iob(tokens, entities)
+
+        # Check format
+        self.assertEqual(len(result), len(tokens))
+        self.assertEqual(result[0], ('วัน', 'O'))
+        self.assertEqual(result[1], ('ที่', 'O'))
+        self.assertEqual(result[2], (' ', 'O'))
+        self.assertEqual(result[3], ('5', 'B-DATE'))
+        self.assertEqual(result[4], (' ', 'I-DATE'))
+        self.assertEqual(result[5], ('เมษายน', 'I-DATE'))
+
+    def test_entities_to_html(self):
+        from pythainlp.tag.thai_nner import _entities_to_html
+
+        # Test basic HTML conversion
+        tokens = ['วัน', 'ที่', ' ', '5', ' ', 'เมษายน']
+        entities = [
+            {'text': ['5', ' ', 'เมษายน'], 'span': [3, 6], 'entity_type': 'date'}
+        ]
+        result = _entities_to_html(tokens, entities)
+
+        # Check format
+        expected = 'วันที่ <DATE>5 เมษายน</DATE>'
+        self.assertEqual(result, expected)
+
+        # Test with multiple entities
+        tokens = ['นาย', 'สมชาย', ' ', 'อยู่', 'ที่', 'กรุงเทพ']
+        entities = [
+            {'text': ['นาย', 'สมชาย'], 'span': [0, 2], 'entity_type': 'person'},
+            {'text': ['กรุงเทพ'], 'span': [5, 6], 'entity_type': 'location'}
+        ]
+        result = _entities_to_html(tokens, entities)
+        expected = '<PERSON>นายสมชาย</PERSON> อยู่ที่<LOCATION>กรุงเทพ</LOCATION>'
+        self.assertEqual(result, expected)

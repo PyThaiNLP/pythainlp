@@ -179,6 +179,11 @@ class TagTestCaseX(unittest.TestCase):
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
 
+        ner = NER(engine="thai-nner")
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
+
     def test_NNER_class(self):
         nner = NNER()
         self.assertIsNotNone(nner.tag("แมวทำอะไรตอนห้าโมงเช้า"))

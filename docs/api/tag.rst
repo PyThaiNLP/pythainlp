@@ -234,6 +234,7 @@ Modules
    :members:
 .. autoclass:: NNER
    :members:
+.. autofunction:: get_top_level_entities
 .. autoclass:: pythainlp.tag.thainer.ThaiNameTagger
    :members: get_ner
 .. autofunction:: pythainlp.tag.tltk.get_ner

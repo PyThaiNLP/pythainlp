@@ -10,6 +10,7 @@ import re
 
 from pythainlp import thai_above_vowels as above_v
 from pythainlp import thai_below_vowels as below_v
+from pythainlp import thai_consonants, thai_vowels
 from pythainlp import thai_follow_vowels as follow_v
 from pythainlp import thai_lead_vowels as lead_v
 from pythainlp import thai_tonemarks as tonemarks
@@ -18,6 +19,7 @@ from pythainlp.tools import warn_deprecation
 
 _DANGLING_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
 _RE_REMOVE_DANGLINGS = re.compile(f"^[{_DANGLING_CHARS}]+")
+_RE_REMOVE_DANGLINGS_AFTER_SPACE = re.compile(f" +[{_DANGLING_CHARS}]+")
 
 _ZERO_WIDTH_CHARS = "\u200b\u200c"  # ZWSP, ZWNJ
 
@@ -50,9 +52,11 @@ _RE_TONEMARKS = re.compile(f"[{tonemarks}]+")
 
 _RE_REMOVE_NEWLINES = re.compile("[ \n]*\n[ \n]*")
 
-# Remove spaces before non-base characters (tone marks, above/below vowels, etc.)
+# Remove single space before non-base characters, but only after a consonant
+# that's not preceded by a vowel (to avoid breaking up complete words)
+# This conservative approach fixes "พ ุ่ม" but preserves "ภาพ ุ่"
 _RE_REMOVE_SPACES_BEFORE_NONBASE = re.compile(
-    f" +([{_DANGLING_CHARS}])"
+    f"([{thai_consonants}])(?<![{thai_vowels}][{thai_consonants}]) ([{_DANGLING_CHARS}])"
 )
 
 
@@ -61,7 +65,7 @@ def _last_char(matchobj):  # to be used with _RE_NOREPEAT_TONEMARKS
 
 
 def remove_dangling(text: str) -> str:
-    """Remove Thai non-base characters at the beginning of text.
+    """Remove Thai non-base characters at the beginning of text and after spaces.
 
     This is a common "typo", especially for input field in a form,
     as these non-base characters can be visually hidden from user
@@ -70,10 +74,10 @@ def remove_dangling(text: str) -> str:
     A character to be removed should be both:
 
         * tone mark, above vowel, below vowel, or non-base sign AND
-        * located at the beginning of the text
+        * located at the beginning of the text or after spaces
 
     :param str text: input text
-    :return: text without dangling Thai characters at the beginning
+    :return: text without dangling Thai characters at the beginning and after spaces
     :rtype: str
 
     :Example:
@@ -83,8 +87,13 @@ def remove_dangling(text: str) -> str:
 
         remove_dangling("๊ก")
         # output: 'ก'
+
+        remove_dangling("คำ ่ที่สอง")
+        # output: 'คำ ที่สอง'
     """
-    return _RE_REMOVE_DANGLINGS.sub("", text)
+    text = _RE_REMOVE_DANGLINGS.sub("", text)
+    text = _RE_REMOVE_DANGLINGS_AFTER_SPACE.sub(" ", text)
+    return text
 
 
 def remove_dup_spaces(text: str) -> str:
@@ -196,7 +205,7 @@ def remove_spaces_before_marks(text: str) -> str:
         remove_spaces_before_marks("พ ุ่มดอกไม้")
         # output: 'พุ่มดอกไม้'
     """
-    return _RE_REMOVE_SPACES_BEFORE_NONBASE.sub(r"\1", text)
+    return _RE_REMOVE_SPACES_BEFORE_NONBASE.sub(r"\1\2", text)
 
 
 def reorder_vowels(text: str) -> str:

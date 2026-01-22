@@ -40,7 +40,6 @@ from pythainlp.util import (
     reign_year_to_ad,
     remove_dangling,
     remove_dup_spaces,
-    remove_spaces_before_marks,
     remove_tone_ipa,
     remove_tonemark,
     remove_trailing_repeat_consonants,

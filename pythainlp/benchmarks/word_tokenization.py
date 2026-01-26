@@ -147,7 +147,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     :param str samples: samples that we want to evaluate
 
     :return: metrics at character- and word-level and indicators of correctly tokenized words
-    :rtype: dict[str, float | str]
+    :rtype: dict[str, Union[float, str]]
     """
     ref_sample = _binary_representation(ref_sample)
     sample = _binary_representation(raw_sample)

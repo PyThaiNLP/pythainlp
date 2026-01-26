@@ -104,7 +104,7 @@ def all_lemma_names(pos: Optional[str] = None, lang: str = "tha"):
     part of speech tag and language. If part of speech tag is not
     specified, all synsets of all parts of speech will be used.
 
-    :param str | None pos: constraint of the part of speech (i.e. *n* for Noun,
+    :param Optional[str] pos: constraint of the part of speech (i.e. *n* for Noun,
                     *v* for Verb, *a* for Adjective, *s* for
                     Adjective satellites, and *r* for Adverb).
                     By default, *pos* is **None**.

@@ -227,7 +227,7 @@ def thai_strptime(
     :param str fmt: string containing date and time directives
     :param str year: year of the text \
         (ad is Anno Domini and be is Buddhist Era)
-    :param int | None add_year: add to year when converting to ad. Default is None.
+    :param Optional[int] add_year: add to year when converting to ad. Default is None.
     :param object tzinfo: tzinfo (default is Asia/Bangkok)
     :return: The year that is converted to datetime.datetime
     :rtype: datetime.datetime

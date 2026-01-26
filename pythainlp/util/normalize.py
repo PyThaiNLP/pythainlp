@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import re
+from typing import Union
 
 from pythainlp import thai_above_vowels as above_v
 from pythainlp import thai_below_vowels as below_v
@@ -317,7 +318,7 @@ def normalize(text: str) -> str:
     return text
 
 
-def expand_maiyamok(sent: str | list[str]) -> list[str]:
+def expand_maiyamok(sent: Union[str, list[str]]) -> list[str]:
     """Expand Maiyamok.
 
     Maiyamok (ๆ) (Unicode U+0E46) is a Thai character indicating word
@@ -376,7 +377,7 @@ def expand_maiyamok(sent: str | list[str]) -> list[str]:
     return output_toks[::-1]
 
 
-def maiyamok(sent: str | list[str]) -> list[str]:
+def maiyamok(sent: Union[str, list[str]]) -> list[str]:
     """Expand Maiyamok.
 
     Deprecated. Use expand_maiyamok() instead.

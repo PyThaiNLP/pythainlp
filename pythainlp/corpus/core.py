@@ -10,6 +10,8 @@ import json
 import os
 import re
 import sys
+import tarfile
+import zipfile
 from importlib.resources import files
 
 from pythainlp import __version__
@@ -376,7 +378,7 @@ def _is_within_directory(directory: str, target: str) -> bool:
     return abs_target.startswith(abs_directory + os.sep) or abs_target == abs_directory
 
 
-def _safe_extract_tar(tar, path: str) -> None:
+def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
     """Safely extract tar archive, preventing path traversal attacks.
 
     @param: tar tarfile object
@@ -389,7 +391,7 @@ def _safe_extract_tar(tar, path: str) -> None:
     tar.extractall(path=path)
 
 
-def _safe_extract_zip(zip_file, path: str) -> None:
+def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
     """Safely extract zip archive, preventing path traversal attacks.
 
     @param: zip_file zipfile object

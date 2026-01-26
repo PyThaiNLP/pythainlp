@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import re
 import sys
-from typing import Union
 
 import numpy as np
 import pandas as pd

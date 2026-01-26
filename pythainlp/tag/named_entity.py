@@ -6,6 +6,8 @@
 
 from __future__ import annotations
 
+from typing import Union
+
 
 class NER:
     """Class of named-entity recognizer
@@ -61,7 +63,7 @@ class NER:
 
     def tag(
         self, text, pos=False, tag=False
-    ) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
+    ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
         """This function tags named entities in text in IOB format.
 
         :param str text: text in Thai to be tagged

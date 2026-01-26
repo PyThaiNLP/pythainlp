@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import re
 import threading
+from typing import Optional
 
 from pythainlp import thai_tonemarks
 from pythainlp.tokenize import word_dict_trie
@@ -49,7 +50,7 @@ class LongestMatchTokenizer:
         self.__trie = trie
 
     @staticmethod
-    def __search_nonthai(text: str) -> None | str:
+    def __search_nonthai(text: str) -> Optional[str]:
         match = _RE_NONTHAI.search(text)
         if match.group(0):
             return match.group(0).lower()
@@ -158,7 +159,7 @@ _tokenizers: dict[int, LongestMatchTokenizer] = {}
 _tokenizers_lock = threading.Lock()
 
 
-def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
+def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
     """Dictionary-based longest matching word segmentation.
 
     This function is thread-safe. It uses a lock to protect access to the

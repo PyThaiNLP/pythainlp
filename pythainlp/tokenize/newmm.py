@@ -20,6 +20,7 @@ import re
 from collections import defaultdict
 from collections.abc import Generator
 from heapq import heappop, heappush
+from typing import Optional
 
 from pythainlp.tokenize import word_dict_trie
 from pythainlp.tokenize.tcc_p import tcc_pos
@@ -141,7 +142,7 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
 def segment(
     text: str,
-    custom_dict: Trie | None = None,
+    custom_dict: Optional[Trie] = None,
     safe_mode: bool = False,
 ) -> list[str]:
     """Maximal-matching word segmentation constrained by Thai Character Cluster.

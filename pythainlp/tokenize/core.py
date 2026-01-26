@@ -9,6 +9,7 @@ from __future__ import annotations
 import re
 from collections import deque
 from collections.abc import Iterable
+from typing import Optional, Union
 
 from pythainlp.tokenize import (
     DEFAULT_SENT_TOKENIZE_ENGINE,
@@ -31,8 +32,8 @@ _RE_WORD_CHAR = re.compile(r"\w")
 
 
 def word_detokenize(
-    segments: list[list[str]] | list[str], output: str = "str"
-) -> list[str] | str:
+    segments: Union[list[list[str]], list[str]], output: str = "str"
+) -> Union[list[str], str]:
     """Word detokenizer.
 
     This function will detokenize the list of words in each sentence into text.
@@ -100,7 +101,7 @@ def word_detokenize(
 
 def word_tokenize(
     text: str,
-    custom_dict: Trie | None = None,
+    custom_dict: Optional[Trie] = None,
     engine: str = DEFAULT_WORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
     join_broken_num: bool = True,
@@ -410,7 +411,7 @@ def map_indices_to_words(index_list, sentences):
 
 
 def sent_tokenize(
-    text: str | list[str],
+    text: Union[str, list[str]],
     engine: str = DEFAULT_SENT_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
 ) -> list[str]:
@@ -913,7 +914,7 @@ class Tokenizer:
 
     def __init__(
         self,
-        custom_dict: Trie | Iterable[str] | str = [],
+        custom_dict: Union[Trie, Iterable[str], str] = [],
         engine: str = "newmm",
         keep_whitespace: bool = True,
         join_broken_num: bool = True,

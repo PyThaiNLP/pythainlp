@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Corpus related functions.
-"""
+"""Corpus related functions."""
 
 from __future__ import annotations
 
@@ -10,6 +9,8 @@ import json
 import os
 import re
 import sys
+import tarfile
+import zipfile
 from importlib.resources import files
 
 from pythainlp import __version__
@@ -44,6 +45,9 @@ def get_corpus_db(url: str):
     """Get corpus catalog from server.
 
     :param str url: URL corpus catalog
+
+    Security Note: Uses HTTPS with certificate validation enabled by default
+    in Python's urllib. Only download corpus from trusted URLs.
     """
     from urllib.error import HTTPError, URLError
     from urllib.request import Request, urlopen
@@ -51,6 +55,7 @@ def get_corpus_db(url: str):
     corpus_db = None
     try:
         req = Request(url, headers={"User-Agent": _USER_AGENT})
+        # SSL certificate verification is enabled by default
         with urlopen(req, timeout=10) as response:
             corpus_db = _ResponseWrapper(response)
     except HTTPError as http_err:
@@ -231,9 +236,7 @@ def get_corpus_default_db(name: str, version: str = "") -> str | None:
     return None
 
 
-def get_corpus_path(
-    name: str, version: str = "", force: bool = False
-) -> str | None:
+def get_corpus_path(name: str, version: str = "", force: bool = False) -> str | None:
     """Get corpus path.
 
     :param str name: corpus name
@@ -310,12 +313,16 @@ def _download(url: str, dst: str) -> int:
 
     @param: URL for downloading file
     @param: dst place to put the file into
+
+    Security Note: Downloads use HTTPS with SSL certificate validation.
+    Files are verified using MD5 checksums after download.
     """
     CHUNK_SIZE = 64 * 1024  # 64 KiB
 
     from urllib.request import Request, urlopen
 
     req = Request(url, headers={"User-Agent": _USER_AGENT})
+    # SSL certificate verification is enabled by default
     with urlopen(req, timeout=10) as response:
         file_size = int(response.info().get("Content-Length", -1))
         with open(get_full_data_path(dst), "wb") as f:
@@ -356,9 +363,139 @@ def _check_hash(dst: str, md5: str) -> None:
                 raise ValueError("Hash does not match expected.")
 
 
-def _version2int(v: str) -> int:
-    """X.X.X => X0X0X
+def _is_within_directory(directory: str, target: str) -> bool:
+    """Check if target path is within directory (prevent path traversal).
+
+    @param: directory base directory path
+    @param: target target file path to check
+    @return: True if target is within directory, False otherwise
+
+    Security Note: This function normalizes paths using os.path.abspath()
+    to handle relative paths and .. sequences. It does NOT follow symlinks
+    (unlike os.path.realpath()), because:
+    - Symlink validation is handled separately in extraction functions
+    - We want to check if the path string itself is safe, not where it points
+    - This prevents false negatives when symlinks don't exist yet
+
+    For symlink security, use the extraction function's symlink validation.
     """
+    # Use abspath to normalize paths but NOT realpath (which follows symlinks)
+    abs_directory = os.path.abspath(directory)
+    abs_target = os.path.abspath(target)
+
+    # Ensure directory ends with separator for proper prefix check
+    # This prevents /foo/bar from matching /foo/barz
+    if not abs_directory.endswith(os.sep):
+        abs_directory += os.sep
+
+    return abs_target.startswith(abs_directory) or abs_target == abs_directory.rstrip(
+        os.sep
+    )
+
+
+def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
+    """Safely extract tar archive, preventing path traversal attacks.
+
+    @param: tar tarfile object
+    @param: path destination path for extraction
+
+    Security Note: This function prevents path traversal attacks including:
+    - Files with .. in their path
+    - Symlinks pointing outside the extraction directory
+    - Files extracted through malicious symlinks
+
+    For Python 3.12+, uses tarfile.data_filter for additional protection.
+    For Python 3.9-3.11, implements custom validation of all members.
+    """
+    # Check if data_filter is available (Python 3.12+)
+    if hasattr(tarfile, "data_filter"):
+        # Use built-in filter which handles symlinks and other security issues
+        try:
+            tar.extractall(path=path, filter="data")
+        except (
+            tarfile.OutsideDestinationError,
+            tarfile.LinkOutsideDestinationError,
+        ) as e:
+            # Re-raise as ValueError for consistency with older Python versions
+            raise ValueError(str(e))
+    else:
+        # Manual validation for older Python versions
+        for member in tar.getmembers():
+            # Check the member's target path
+            member_path = os.path.join(path, member.name)
+            if not _is_within_directory(path, member_path):
+                raise ValueError(f"Attempted path traversal in tar file: {member.name}")
+
+            # For symlinks, also validate the link target
+            if member.issym() or member.islnk():
+                # Get the link target (can be absolute or relative)
+                link_target = member.linkname
+
+                # If it's a relative symlink, resolve it relative to the member's directory
+                if not os.path.isabs(link_target):
+                    member_dir = os.path.dirname(member_path)
+                    link_target = os.path.join(member_dir, link_target)
+                else:
+                    # Absolute symlinks are dangerous - make them relative to extraction path
+                    link_target = os.path.join(path, link_target.lstrip(os.sep))
+
+                # Check if the resolved symlink target is within the directory
+                if not _is_within_directory(path, link_target):
+                    raise ValueError(
+                        f"Symlink {member.name} points outside extraction directory: {member.linkname}"
+                    )
+
+        tar.extractall(path=path)
+
+
+def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
+    """Safely extract zip archive, preventing path traversal attacks.
+
+    @param: zip_file zipfile object
+    @param: path destination path for extraction
+
+    Security Note: This function prevents path traversal attacks including:
+    - Files with .. in their path
+    - Symlinks pointing outside the extraction directory (on Unix systems)
+
+    Note: ZIP format has limited symlink support. Symlinks are primarily
+    created by Unix-based archiving tools and may not be portable.
+    """
+    for member in zip_file.namelist():
+        member_path = os.path.join(path, member)
+        if not _is_within_directory(path, member_path):
+            raise ValueError(f"Attempted path traversal in zip file: {member}")
+
+        # Check for potential symlinks in ZIP files
+        # ZIP files can contain symlinks on Unix systems (external_attr indicates this)
+        info = zip_file.getinfo(member)
+        # Check if this is a symlink (Unix: external_attr with S_IFLNK set)
+        # The high 16 bits of external_attr contain Unix file mode
+        is_symlink = (info.external_attr >> 16) & 0o170000 == 0o120000
+
+        if is_symlink:
+            # Read the symlink target from the file content
+            link_target = zip_file.read(member).decode("utf-8")
+
+            # Resolve the link target relative to the member's directory
+            if not os.path.isabs(link_target):
+                member_dir = os.path.dirname(member_path)
+                resolved_target = os.path.join(member_dir, link_target)
+            else:
+                # Absolute symlinks - make them relative to extraction path
+                resolved_target = os.path.join(path, link_target.lstrip(os.sep))
+
+            # Check if the symlink target is within the directory
+            if not _is_within_directory(path, resolved_target):
+                raise ValueError(
+                    f"Symlink {member} points outside extraction directory: {link_target}"
+                )
+
+    zip_file.extractall(path=path)
+
+
+def _version2int(v: str) -> int:
+    """X.X.X => X0X0X"""
     if "-" in v:
         v = v.split("-")[0]
     if v.endswith(".*"):
@@ -418,9 +555,7 @@ def _check_version(cause: str) -> bool:
     return check
 
 
-def download(
-    name: str, force: bool = False, url: str = "", version: str = ""
-) -> bool:
+def download(name: str, force: bool = False, url: str = "", version: str = "") -> bool:
     """Download corpus.
 
     The available corpus names can be seen in this file:
@@ -478,10 +613,7 @@ def download(
         if version not in corpus["versions"]:
             print("Corpus not found.")
             return False
-        elif (
-            _check_version(corpus["versions"][version]["pythainlp_version"])
-            is False
-        ):
+        elif _check_version(corpus["versions"][version]["pythainlp_version"]) is False:
             print("Corpus version not supported.")
             return False
         corpus_versions = corpus["versions"][version]
@@ -510,25 +642,19 @@ def download(
             foldername = None
 
             if corpus_versions["is_tar_gz"] == "True":
-                import tarfile
-
                 is_folder = True
                 foldername = name + "_" + str(version)
                 if not os.path.exists(get_full_data_path(foldername)):
                     os.mkdir(get_full_data_path(foldername))
                 with tarfile.open(get_full_data_path(file_name)) as tar:
-                    tar.extractall(path=get_full_data_path(foldername))
+                    _safe_extract_tar(tar, get_full_data_path(foldername))
             elif corpus_versions["is_zip"] == "True":
-                import zipfile
-
                 is_folder = True
                 foldername = name + "_" + str(version)
                 if not os.path.exists(get_full_data_path(foldername)):
                     os.mkdir(get_full_data_path(foldername))
-                with zipfile.ZipFile(
-                    get_full_data_path(file_name), "r"
-                ) as zip_file:
-                    zip_file.extractall(path=get_full_data_path(foldername))
+                with zipfile.ZipFile(get_full_data_path(file_name), "r") as zip_file:
+                    _safe_extract_zip(zip_file, get_full_data_path(foldername))
 
             if found:
                 local_db["_default"][found]["version"] = version
@@ -601,9 +727,7 @@ def remove(name: str) -> bool:
         return False
     with open(corpus_db_path(), encoding="utf-8-sig") as f:
         db = json.load(f)
-    data = [
-        corpus for corpus in db["_default"].values() if corpus["name"] == name
-    ]
+    data = [corpus for corpus in db["_default"].values() if corpus["name"] == name]
 
     if data:
         path = get_corpus_path(name)
@@ -681,10 +805,12 @@ def get_hf_hub(repo_id: str, filename: str = "") -> str:
     try:
         from huggingface_hub import hf_hub_download, snapshot_download
     except ModuleNotFoundError:
-        raise ModuleNotFoundError("""
+        raise ModuleNotFoundError(
+            """
         huggingface-hub isn't found!
         Please installing the package via 'pip install huggingface-hub'.
-        """)
+        """
+        )
     except Exception as e:
         raise RuntimeError(f"An unexpected error occurred: {e}") from e
     hf_root = get_full_data_path("hf_models")
@@ -695,7 +821,5 @@ def get_hf_hub(repo_id: str, filename: str = "") -> str:
             repo_id=repo_id, filename=filename, local_dir=root_project
         )
     else:
-        output_path = snapshot_download(
-            repo_id=repo_id, local_dir=root_project
-        )
+        output_path = snapshot_download(repo_id=repo_id, local_dir=root_project)
     return output_path

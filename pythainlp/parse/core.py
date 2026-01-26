@@ -3,16 +3,18 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import List, Optional, Union
+
 _tagger = None
 _tagger_name = ""
 
 
 def dependency_parsing(
     text: str,
-    model: str | None = None,
+    model: Optional[str] = None,
     tag: str = "str",
     engine: str = "esupar",
-) -> list[list[str]] | str:
+) -> Union[List[List[str]], str]:
     """Dependency Parsing
 
     :param str text: text to apply dependency parsing to

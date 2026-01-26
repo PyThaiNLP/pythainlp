@@ -38,11 +38,11 @@ class SecurityTestCase(unittest.TestCase):
                 _is_within_directory(tmpdir, os.path.join(tmpdir, "..", "file.txt"))
             )
             self.assertFalse(
-                _is_within_directory(tmpdir, os.path.join(tmpdir, "..", "..", "file.txt"))
+                _is_within_directory(
+                    tmpdir, os.path.join(tmpdir, "..", "..", "file.txt")
+                )
             )
-            self.assertFalse(
-                _is_within_directory(tmpdir, "/etc/passwd")
-            )
+            self.assertFalse(_is_within_directory(tmpdir, "/etc/passwd"))
 
     def test_safe_extract_tar_with_safe_archive(self):
         """Test safe tar extraction with a legitimate archive."""
@@ -92,7 +92,7 @@ class SecurityTestCase(unittest.TestCase):
                 error_msg = str(context.exception).lower()
                 self.assertTrue(
                     "path traversal" in error_msg or "outside" in error_msg,
-                    f"Expected security error message, got: {context.exception}"
+                    f"Expected security error message, got: {context.exception}",
                 )
 
     def test_safe_extract_zip_with_safe_archive(self):
@@ -137,12 +137,12 @@ class SecurityTestCase(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdir:
             # Create a tar archive with a symlink pointing outside
             tar_path = os.path.join(tmpdir, "symlink_attack.tar")
-            
+
             # Create a temporary file to link to
             temp_file = os.path.join(tmpdir, "temp.txt")
             with open(temp_file, "wb") as f:
                 f.write(b"test")
-            
+
             # Create archive with symlink
             with tarfile.open(tar_path, "w") as tar:
                 # Add a symlink that points outside the extraction directory
@@ -150,7 +150,7 @@ class SecurityTestCase(unittest.TestCase):
                 info.type = tarfile.SYMTYPE
                 info.linkname = "../../etc/passwd"  # Points outside
                 tar.addfile(info)
-            
+
             # Attempt to extract
             extract_dir = os.path.join(tmpdir, "extract")
             os.makedirs(extract_dir)
@@ -166,22 +166,22 @@ class SecurityTestCase(unittest.TestCase):
             # Create a directory structure with symlinks
             safe_dir = os.path.join(tmpdir, "safe")
             os.makedirs(safe_dir)
-            
+
             # Create a symlink inside safe_dir pointing outside
             outside_dir = os.path.join(tmpdir, "outside")
             os.makedirs(outside_dir)
-            
+
             symlink_path = os.path.join(safe_dir, "link_to_outside")
             os.symlink(outside_dir, symlink_path)
-            
+
             # The symlink itself (by path) is inside safe_dir
             # _is_within_directory checks the path, not where it points
             self.assertTrue(_is_within_directory(safe_dir, symlink_path))
-            
+
             # A file path through the symlink (by path) is also inside
             file_through_link = os.path.join(symlink_path, "file.txt")
             self.assertTrue(_is_within_directory(safe_dir, file_through_link))
-            
+
             # Note: The actual symlink target validation is done separately
             # in the _safe_extract_tar and _safe_extract_zip functions,
             # which check where symlinks actually point to.

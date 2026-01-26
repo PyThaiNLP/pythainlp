@@ -7,6 +7,7 @@ import random
 import re
 import warnings
 from collections.abc import Callable
+from typing import Union
 
 from transformers import (
     CamembertTokenizer,
@@ -338,7 +339,7 @@ class NamedEntityTagger:
         tag: bool = False,
         pos: bool = False,
         strategy: str = "simple",
-    ) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
+    ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
         """This function tags named entities in text in IOB format.
 
         :param str text: text in Thai to be tagged

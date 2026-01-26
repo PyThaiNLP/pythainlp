@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+from typing import Optional
 
 from pythainlp.summarize import (
     CPE_KMUTT_THAI_SENTENCE_SUM,
@@ -123,7 +124,7 @@ def extract_keywords(
     min_df: int = 1,
     engine: str = DEFAULT_KEYWORD_EXTRACTION_ENGINE,
     tokenizer: str = "newmm",
-    stop_words: Iterable[str] | None = None,
+    stop_words: Optional[Iterable[str]] = None,
 ) -> list[str]:
     """This function returns most-relevant keywords (and/or keyphrases) from the input document.
     Each algorithm may produce completely different keywords from each other,
@@ -195,7 +196,7 @@ def extract_keywords(
         max_keywords: int = 5,
         min_df: int = 5,
         tokenizer: str = "newmm",
-        stop_words: Iterable[str] | None = None,
+        stop_words: Optional[Iterable[str]] = None,
     ):
         from pythainlp.tokenize import word_tokenize
         from pythainlp.util.keywords import rank

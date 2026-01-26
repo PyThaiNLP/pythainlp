@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import os
+from typing import Union
 
 from pythainlp.corpus import get_hf_hub
 
@@ -243,8 +244,8 @@ _WSC = None
 
 
 def get_words_spell_suggestion(
-    list_words: str | list[str],
-) -> list[str] | list[list[str]]:
+    list_words: Union[str, list[str]],
+) -> Union[list[str], list[list[str]]]:
     """Get words spell suggestion
 
     The function is designed to retrieve spelling suggestions \

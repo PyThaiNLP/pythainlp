@@ -31,6 +31,7 @@ Note:
 from __future__ import annotations
 
 import re
+from typing import Optional
 
 
 class CompleteSoundex:
@@ -174,7 +175,7 @@ class CompleteSoundex:
         """Remove silent characters (karan/thanthakhat) from text."""
         return re.sub(r"[ก-ฮ][ะ-ู]?์", "", text)
 
-    def heuristic_split(self, text: str) -> list[tuple[str, str | None]]:
+    def heuristic_split(self, text: str) -> list[tuple[str, Optional[str]]]:
         """
         Apply heuristic rules to split syllables.
 
@@ -404,7 +405,7 @@ class CompleteSoundex:
         return False
 
     def _apply_implicit_vowel(
-        self, vowel_code: str, implicit_rule: str | None
+        self, vowel_code: str, implicit_rule: Optional[str]
     ) -> str:
         """Apply implicit vowel defaults."""
         if vowel_code == "":
@@ -421,7 +422,7 @@ class CompleteSoundex:
         init_char: str,
         init_code: str,
         syl: str,
-        implicit_rule: str | None,
+        implicit_rule: Optional[str],
     ) -> str:
         """Special adjustments for ส (so sua) mapping."""
         if init_char == "ส" and init_code == "ซศ":
@@ -461,7 +462,7 @@ class CompleteSoundex:
         return result
 
     def process_syllable(
-        self, syl: str, implicit_rule: str | None = None
+        self, syl: str, implicit_rule: Optional[str] = None
     ) -> str:
         """
         Process a single syllable and return its soundex code.

@@ -10,7 +10,7 @@ from __future__ import annotations
 from collections import Counter
 from collections.abc import Callable, ItemsView, Iterable
 from string import digits
-from typing import cast
+from typing import Optional, Union, cast
 
 from pythainlp import thai_digits, thai_letters
 from pythainlp.corpus import tnc
@@ -35,7 +35,7 @@ def _keep(
     min_freq: int,
     min_len: int,
     max_len: int,
-    dict_filter: Callable[[str], bool] | None,
+    dict_filter: Optional[Callable[[str], bool]],
 ) -> bool:
     """Checks whether a given word has the required minimum frequency min_freq
     and its character length is between min_len and max_len (inclusive).
@@ -78,11 +78,11 @@ def _edits2(word: str) -> set[str]:
 
 
 def _convert_custom_dict(
-    custom_dict: dict[str, int] | Iterable[str] | Iterable[tuple[str, int]],
+    custom_dict: Union[dict[str, int], Iterable[str], Iterable[tuple[str, int]]],
     min_freq: int,
     min_len: int,
     max_len: int,
-    dict_filter: Callable[[str], bool] | None,
+    dict_filter: Optional[Callable[[str], bool]],
 ) -> list[tuple[str, int]]:
     """Converts a custom dictionary to a list of (str, int) tuples
     """
@@ -123,13 +123,13 @@ def _convert_custom_dict(
 class NorvigSpellChecker:
     def __init__(
         self,
-        custom_dict: (
-            dict[str, int] | Iterable[str] | Iterable[tuple[str, int]] | None
-        ) = None,
+        custom_dict: Optional[
+            Union[dict[str, int], Iterable[str], Iterable[tuple[str, int]]]
+        ] = None,
         min_freq: int = 2,
         min_len: int = 2,
         max_len: int = 40,
-        dict_filter: Callable[[str], bool] | None = _is_thai_and_not_num,
+        dict_filter: Optional[Callable[[str], bool]] = _is_thai_and_not_num,
     ):
         """Initializes Peter Norvig's spell checker object.
         Spelling dictionary can be customized.

@@ -318,3 +318,18 @@ select = [
 # Some rules are ignored for now; we can consider enabling them in the future.
 # S101 is use of assert statement, should be an easy fix.
 extend-ignore = ["E402", "E501", "E722", "S101", "S202", "S301", "S310"]
+
+[tool.tox]
+envlist = ["py39", "py310", "py311", "py312", "py313", "py3", "flake8"]
+skip_missing_interpreters = true
+
+[tool.tox.testenv]
+setenv = { PYTHONPATH = "{toxinidir}:{toxinidir}/pythainlp" }
+changedir = "tests"
+commands = ["discover"]
+deps = ["discover"]
+
+[tool.tox.envs.flake8]
+basepython = "python"
+deps = ["flake8"]
+commands = ["flake8 pythainlp"]

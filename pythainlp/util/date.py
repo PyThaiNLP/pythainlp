@@ -12,6 +12,8 @@ Note: It does not take into account the change of new year's day in Thailand
 # ไม่ได้รองรับปี พ.ศ. ก่อนการเปลี่ยนวันขึ้นปีใหม่ของประเทศไทย
 from __future__ import annotations
 
+from typing import Optional
+
 __all__ = [
     "convert_years",
     "thai_abbr_months",
@@ -216,7 +218,7 @@ def thai_strptime(
     text: str,
     fmt: str,
     year: str = "be",
-    add_year: int | None = None,
+    add_year: Optional[int] = None,
     tzinfo=ZoneInfo("Asia/Bangkok"),
 ):
     """Thai strptime
@@ -384,7 +386,7 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
     return ad
 
 
-def thaiword_to_date(text: str, date: datetime = None) -> datetime | None:
+def thaiword_to_date(text: str, date: datetime = None) -> Optional[datetime]:
     """Convert Thai relative date to :class:`datetime.datetime`.
 
     :param str text: Thai text containing relative date

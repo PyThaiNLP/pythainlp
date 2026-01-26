@@ -27,33 +27,102 @@ The code used `tar.extractall()` and `zipfile.extractall()` without validating m
 - Affects all users who download corpus files
 
 **Fix Applied:**
-Added two helper functions:
-1. `_is_within_directory()`: Validates that a path stays within the target directory
-2. `_safe_extract_tar()`: Safely extracts tar archives by checking all member paths
-3. `_safe_extract_zip()`: Safely extracts zip archives by checking all member paths
+Added three helper functions with comprehensive security validation:
 
-These functions check each file in the archive before extraction and raise a `ValueError` if any file attempts to escape the target directory.
+1. `_is_within_directory()`: Validates that a path stays within the target directory
+   - Uses `os.path.abspath()` to normalize paths and resolve `..` sequences
+   - Prevents path traversal through relative paths
+   - Does NOT follow symlinks (that's handled separately)
+
+2. `_safe_extract_tar()`: Safely extracts tar archives
+   - **Python 3.12+**: Uses built-in `tarfile.data_filter` for comprehensive protection
+   - **Python 3.9-3.11**: Custom validation checking each member path
+   - Validates regular file paths to prevent directory escape
+   - Validates symlink targets to prevent symlinks pointing outside extraction directory
+   - Handles both relative and absolute symlinks
+
+3. `_safe_extract_zip()`: Safely extracts zip archives
+   - Validates all member paths to prevent directory escape
+   - Detects and validates symlinks in ZIP archives (Unix systems)
+   - Checks symlink targets point within the extraction directory
+
+**Symlink Attack Prevention:**
+Archives can contain symlinks that point outside the extraction directory. An attacker could:
+- Include a symlink `evil_link -> ../../etc`
+- Then include a file `evil_link/passwd` which would overwrite `/etc/passwd`
+
+The fix validates both:
+- The symlink member path itself is within the directory
+- The symlink target resolves to a location within the directory
+
+These functions check each file in the archive before extraction and raise a `ValueError` if any file or symlink attempts to escape the target directory.
 
 **Code Changes:**
 ```python
-# Added validation functions
+# Added validation function - handles path normalization
 def _is_within_directory(directory: str, target: str) -> bool:
+    """Check if target path is within directory (prevent path traversal)."""
     abs_directory = os.path.abspath(directory)
     abs_target = os.path.abspath(target)
-    return abs_target.startswith(abs_directory + os.sep) or abs_target == abs_directory
+    if not abs_directory.endswith(os.sep):
+        abs_directory += os.sep
+    return abs_target.startswith(abs_directory) or abs_target == abs_directory.rstrip(os.sep)
 
-def _safe_extract_tar(tar, path: str) -> None:
-    for member in tar.getmembers():
-        member_path = os.path.join(path, member.name)
-        if not _is_within_directory(path, member_path):
-            raise ValueError(f"Attempted path traversal in tar file: {member.name}")
-    tar.extractall(path=path)
+# Safe tar extraction with symlink validation
+def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
+    """Safely extract tar archive, preventing path traversal attacks."""
+    # Python 3.12+ uses built-in filter
+    if hasattr(tarfile, 'data_filter'):
+        try:
+            tar.extractall(path=path, filter='data')
+        except (tarfile.OutsideDestinationError, tarfile.LinkOutsideDestinationError) as e:
+            raise ValueError(str(e))
+    else:
+        # Python 3.9-3.11: manual validation
+        for member in tar.getmembers():
+            member_path = os.path.join(path, member.name)
+            if not _is_within_directory(path, member_path):
+                raise ValueError(f"Attempted path traversal in tar file: {member.name}")
+            
+            # Validate symlink targets
+            if member.issym() or member.islnk():
+                link_target = member.linkname
+                if not os.path.isabs(link_target):
+                    member_dir = os.path.dirname(member_path)
+                    link_target = os.path.join(member_dir, link_target)
+                else:
+                    link_target = os.path.join(path, link_target.lstrip(os.sep))
+                
+                if not _is_within_directory(path, link_target):
+                    raise ValueError(
+                        f"Symlink {member.name} points outside extraction directory: {member.linkname}"
+                    )
+        tar.extractall(path=path)
 
-def _safe_extract_zip(zip_file, path: str) -> None:
+# Safe zip extraction with symlink validation
+def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
+    """Safely extract zip archive, preventing path traversal attacks."""
     for member in zip_file.namelist():
         member_path = os.path.join(path, member)
         if not _is_within_directory(path, member_path):
             raise ValueError(f"Attempted path traversal in zip file: {member}")
+        
+        # Check for symlinks in ZIP (Unix systems)
+        info = zip_file.getinfo(member)
+        is_symlink = (info.external_attr >> 16) & 0o170000 == 0o120000
+        
+        if is_symlink:
+            link_target = zip_file.read(member).decode('utf-8')
+            if not os.path.isabs(link_target):
+                member_dir = os.path.dirname(member_path)
+                resolved_target = os.path.join(member_dir, link_target)
+            else:
+                resolved_target = os.path.join(path, link_target.lstrip(os.sep))
+            
+            if not _is_within_directory(path, resolved_target):
+                raise ValueError(
+                    f"Symlink {member} points outside extraction directory: {link_target}"
+                )
     zip_file.extractall(path=path)
 
 # Updated extraction calls

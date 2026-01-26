@@ -646,8 +646,6 @@ def download(
             foldername = None
 
             if corpus_versions["is_tar_gz"] == "True":
-                import tarfile
-
                 is_folder = True
                 foldername = name + "_" + str(version)
                 if not os.path.exists(get_full_data_path(foldername)):
@@ -655,8 +653,6 @@ def download(
                 with tarfile.open(get_full_data_path(file_name)) as tar:
                     _safe_extract_tar(tar, get_full_data_path(foldername))
             elif corpus_versions["is_zip"] == "True":
-                import zipfile
-
                 is_folder = True
                 foldername = name + "_" + str(version)
                 if not os.path.exists(get_full_data_path(foldername)):

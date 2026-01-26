@@ -271,10 +271,15 @@ Analysis Result for 'python': No alerts found ✅
 - Unclear SSL/TLS guarantees
 
 ### After Fixes
-- Path traversal attacks blocked by validation
+- **Path traversal attacks fully blocked by validation**
+  - Python 3.12+: Uses built-in `tarfile.data_filter` for comprehensive protection
+  - Python 3.9-3.11: Custom validation of all archive members
+  - **Symlink attacks prevented**: Both file paths AND symlink targets are validated
+  - Rejects symlinks pointing outside extraction directory
+  - Handles relative and absolute symlinks
 - Pickle risks clearly documented with warnings
 - SSL/TLS behavior explicitly documented
-- Comprehensive security tests in place
+- Comprehensive security tests in place (including symlink attack tests)
 - Zero CodeQL alerts
 
 ---

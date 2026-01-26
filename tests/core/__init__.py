@@ -16,6 +16,7 @@ test_packages: list[str] = [
     "tests.core.test_generate",
     "tests.core.test_khavee",
     "tests.core.test_morpheme",
+    "tests.core.test_security",
     "tests.core.test_soundex",
     "tests.core.test_spell",
     "tests.core.test_tag",

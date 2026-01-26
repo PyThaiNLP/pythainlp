@@ -44,6 +44,9 @@ def get_corpus_db(url: str):
     """Get corpus catalog from server.
 
     :param str url: URL corpus catalog
+
+    Security Note: Uses HTTPS with certificate validation enabled by default
+    in Python's urllib. Only download corpus from trusted URLs.
     """
     from urllib.error import HTTPError, URLError
     from urllib.request import Request, urlopen
@@ -51,6 +54,7 @@ def get_corpus_db(url: str):
     corpus_db = None
     try:
         req = Request(url, headers={"User-Agent": _USER_AGENT})
+        # SSL certificate verification is enabled by default
         with urlopen(req, timeout=10) as response:
             corpus_db = _ResponseWrapper(response)
     except HTTPError as http_err:
@@ -310,12 +314,16 @@ def _download(url: str, dst: str) -> int:
 
     @param: URL for downloading file
     @param: dst place to put the file into
+
+    Security Note: Downloads use HTTPS with SSL certificate validation.
+    Files are verified using MD5 checksums after download.
     """
     CHUNK_SIZE = 64 * 1024  # 64 KiB
 
     from urllib.request import Request, urlopen
 
     req = Request(url, headers={"User-Agent": _USER_AGENT})
+    # SSL certificate verification is enabled by default
     with urlopen(req, timeout=10) as response:
         file_size = int(response.info().get("Content-Length", -1))
         with open(get_full_data_path(dst), "wb") as f:
@@ -354,6 +362,44 @@ def _check_hash(dst: str, md5: str) -> None:
 
             if md5 != file_md5:
                 raise ValueError("Hash does not match expected.")
+
+
+def _is_within_directory(directory: str, target: str) -> bool:
+    """Check if target path is within directory (prevent path traversal).
+
+    @param: directory base directory path
+    @param: target target file path to check
+    @return: True if target is within directory, False otherwise
+    """
+    abs_directory = os.path.abspath(directory)
+    abs_target = os.path.abspath(target)
+    return abs_target.startswith(abs_directory + os.sep) or abs_target == abs_directory
+
+
+def _safe_extract_tar(tar, path: str) -> None:
+    """Safely extract tar archive, preventing path traversal attacks.
+
+    @param: tar tarfile object
+    @param: path destination path for extraction
+    """
+    for member in tar.getmembers():
+        member_path = os.path.join(path, member.name)
+        if not _is_within_directory(path, member_path):
+            raise ValueError(f"Attempted path traversal in tar file: {member.name}")
+    tar.extractall(path=path)
+
+
+def _safe_extract_zip(zip_file, path: str) -> None:
+    """Safely extract zip archive, preventing path traversal attacks.
+
+    @param: zip_file zipfile object
+    @param: path destination path for extraction
+    """
+    for member in zip_file.namelist():
+        member_path = os.path.join(path, member)
+        if not _is_within_directory(path, member_path):
+            raise ValueError(f"Attempted path traversal in zip file: {member}")
+    zip_file.extractall(path=path)
 
 
 def _version2int(v: str) -> int:
@@ -517,7 +563,7 @@ def download(
                 if not os.path.exists(get_full_data_path(foldername)):
                     os.mkdir(get_full_data_path(foldername))
                 with tarfile.open(get_full_data_path(file_name)) as tar:
-                    tar.extractall(path=get_full_data_path(foldername))
+                    _safe_extract_tar(tar, get_full_data_path(foldername))
             elif corpus_versions["is_zip"] == "True":
                 import zipfile
 
@@ -528,7 +574,7 @@ def download(
                 with zipfile.ZipFile(
                     get_full_data_path(file_name), "r"
                 ) as zip_file:
-                    zip_file.extractall(path=get_full_data_path(foldername))
+                    _safe_extract_zip(zip_file, get_full_data_path(foldername))
 
             if found:
                 local_db["_default"][found]["version"] = version

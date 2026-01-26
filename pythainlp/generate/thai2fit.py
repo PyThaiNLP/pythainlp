@@ -43,7 +43,12 @@ dummy_df = pd.read_csv(imdb / "texts.csv")
 # get vocab
 thwiki = THWIKI_LSTM
 
-thwiki_itos = pickle.load(open(thwiki["itos_fname"], "rb"))
+# Security Note: This loads a pickle file from PyThaiNLP's trusted corpus.
+# The file is downloaded from PyThaiNLP's official repository with MD5 verification.
+# Users should only use corpus files from trusted sources.
+# WARNING: Pickle deserialization can execute arbitrary code if the file is malicious.
+with open(thwiki["itos_fname"], "rb") as f:
+    thwiki_itos = pickle.load(f)  # noqa: S301
 thwiki_vocab = fastai.text.transform.Vocab(thwiki_itos)
 
 # dummy databunch

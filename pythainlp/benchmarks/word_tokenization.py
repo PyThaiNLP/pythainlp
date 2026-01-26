@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 import sys
+from typing import Union
 
 import numpy as np
 import pandas as pd
@@ -54,7 +55,7 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
     :param str sep: separator between the two keys (default: ":")
 
     :return: a one-dimension dictionary with keys combined
-    :rtype: dict[str, float | str]
+    :rtype: dict[str, Union[float, str]]
     """
     return {
         f"{k1}{sep}{k2}": v

@@ -9,6 +9,7 @@ Designed to be used for tokenizer's dictionary, but can be for other purposes.
 from __future__ import annotations
 
 from collections.abc import Iterable, Iterator
+from typing import Union
 
 
 class Trie(Iterable[str]):
@@ -128,7 +129,7 @@ class Trie(Iterable[str]):
         return len(self.words)
 
 
-def dict_trie(dict_source: str | Iterable[str] | Trie) -> Trie:
+def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:
     """Create a dictionary trie from a file or an iterable.
 
     :param str|Iterable[str]|pythainlp.util.Trie dict_source: a path to

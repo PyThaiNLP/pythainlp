@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import gzip
 import json
+from typing import Optional
 
 import numpy as np
 
@@ -22,7 +23,7 @@ class GzipModel:
 
     def __init__(
         self,
-        training_data: list[tuple[str, str]] | None = None,
+        training_data: Optional[list[tuple[str, str]]] = None,
         model_path: str = "",
     ):
         if model_path:

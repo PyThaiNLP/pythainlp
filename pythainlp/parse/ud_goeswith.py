@@ -28,7 +28,9 @@ class Parse:
         self.tokenizer = AutoTokenizer.from_pretrained(model)
         self.model = AutoModelForTokenClassification.from_pretrained(model)
 
-    def __call__(self, text: str, tag: str = "str") -> Union[List[List[str]], str]:
+    def __call__(
+        self, text: str, tag: str = "str"
+    ) -> Union[List[List[str]], str]:
         w = self.tokenizer(text, return_offsets_mapping=True)
         v = w["input_ids"]
         x = [
@@ -104,9 +106,11 @@ class Parse:
                             str(h[i]),
                             q[-1],
                             "_",
-                            "_"
-                            if i < len(v) and e < v[i][0]
-                            else "SpaceAfter=No",
+                            (
+                                "_"
+                                if i < len(v) and e < v[i][0]
+                                else "SpaceAfter=No"
+                            ),
                         ]
                     )
                     + "\n"

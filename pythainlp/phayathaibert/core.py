@@ -61,13 +61,25 @@ class ThaiTextProcessor:
         new_line = re.sub(r"\{[^a-zA-Z0-9ก-๙]+\}", "", new_line)
         new_line = re.sub(r"\[[^a-zA-Z0-9ก-๙]+\]", "", new_line)
         # artifiacts after (
-        new_line = re.sub(r"(?<=\()[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line)
-        new_line = re.sub(r"(?<=\{)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line)
-        new_line = re.sub(r"(?<=\[)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line)
+        new_line = re.sub(
+            r"(?<=\()[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
+        )
+        new_line = re.sub(
+            r"(?<=\{)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
+        )
+        new_line = re.sub(
+            r"(?<=\[)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
+        )
         # artifacts before )
-        new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\))", "", new_line)
-        new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\})", "", new_line)
-        new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\])", "", new_line)
+        new_line = re.sub(
+            r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\))", "", new_line
+        )
+        new_line = re.sub(
+            r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\})", "", new_line
+        )
+        new_line = re.sub(
+            r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\])", "", new_line
+        )
         return new_line
 
     def replace_newlines(self, text: str) -> str:
@@ -92,7 +104,9 @@ class ThaiTextProcessor:
         """
         return re.sub(" {2,}", " ", text)
 
-    def replace_spaces(self, text: str, space_token: str = "<_>") -> str:  # noqa: S107
+    def replace_spaces(
+        self, text: str, space_token: str = "<_>"
+    ) -> str:  # noqa: S107
         """Replace spaces with _
         :param str text: text to replace spaces
         :return: text where all spaces replaced with _
@@ -195,7 +209,9 @@ class ThaiTextAugmenter:
         )
 
         self.tokenizer = AutoTokenizer.from_pretrained(_model_name)
-        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(_model_name)
+        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(
+            _model_name
+        )
         self.model = pipeline(
             "fill-mask",
             tokenizer=self.tokenizer,
@@ -268,7 +284,9 @@ class ThaiTextAugmenter:
                     rank,
                     sample=sample,
                 )
-                processed_text = re.sub("<_>", " ", self.processor.preprocess(gen_text))
+                processed_text = re.sub(
+                    "<_>", " ", self.processor.preprocess(gen_text)
+                )
                 augment_list.append(processed_text)
         else:
             raise ValueError(

@@ -7,8 +7,7 @@ from typing import Optional
 
 
 class Translate:
-    """Machine Translation
-    """
+    """Machine Translation"""
 
     def __init__(
         self,

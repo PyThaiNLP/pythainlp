@@ -70,12 +70,13 @@ class WordVector:
         return self.model
 
     def doesnt_match(self, words: list[str]) -> str:
-        """This function returns one word that is mostly unrelated to other words
-        in the list. We use the function :func:`doesnt_match`
-        from :mod:`gensim`.
+        """This function returns one word that is mostly unrelated
+        to other words in the list. We use the function
+        :func:`doesnt_match` from :mod:`gensim`.
 
         :param list words: a list of words
-        :raises KeyError: if there is any word in `positive` or `negative` that is
+        :raises KeyError: if there is any word in `positive`
+                          or `negative` that is
                           not in the vocabulary of the model.
         :return: the word is that mostly unrelated
         :rtype: str
@@ -109,8 +110,9 @@ class WordVector:
     def most_similar_cosmul(
         self, positive: list[str], negative: list[str]
     ) -> list[tuple[str, float]]:
-        """This function finds the top-10 words that are most similar with respect
-        to two lists of words labeled as positive and negative.
+        """This function finds the top-10 words that are most
+        similar with respect to two lists of words labeled
+        as positive and negative.
         The top-10 most similar words are obtained using multiplication
         combination objective from Omer Levy and Yoav Goldberg
         [OmerLevy_YoavGoldberg_2014]_.
@@ -121,7 +123,8 @@ class WordVector:
         :param list positive: a list of words to add
         :param list negative: a list of words to subtract
 
-        :raises KeyError: if there is any word in `positive` or `negative` that is
+        :raises KeyError: if there is any word in `positive`
+                          or `negative` that is
                           not in the vocabulary of the model.
         :return: list of top-10 most similar words and its similarity score
         :rtype:  list[tuple[str, float]]

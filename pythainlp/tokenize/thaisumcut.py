@@ -43,11 +43,15 @@ def middle_cut(sentences: list[str]) -> list[str]:
                 continue
             if sentence[k].isdigit() and sentence[k - 1] == " ":
                 sentence = sentence[: k - 1] + sentence[k:]
-                sentence_len = len(sentence)  # Update length after modification
+                sentence_len = len(
+                    sentence
+                )  # Update length after modification
             if k + 2 <= sentence_len:
                 if sentence[k].isdigit() and sentence[k + 1] == " ":
                     sentence = sentence[: k + 1] + sentence[k + 2 :]
-                    sentence_len = len(sentence)  # Update length after modification
+                    sentence_len = len(
+                        sentence
+                    )  # Update length after modification
 
         fixed_text_lenth = 20
 
@@ -64,10 +68,14 @@ def middle_cut(sentences: list[str]) -> list[str]:
                         white_space_index.append(j)
 
                 for white_space in white_space_index:
-                    white_space_diff[white_space] = abs(white_space - middle_space)
+                    white_space_diff[white_space] = abs(
+                        white_space - middle_space
+                    )
 
                 if white_space_diff:
-                    min_diff = min(white_space_diff.items(), key=operator.itemgetter(1))
+                    min_diff = min(
+                        white_space_diff.items(), key=operator.itemgetter(1)
+                    )
                     tokens.pop(min_diff[0])
                     tokens.insert(min_diff[0], "<stop>")
             result_parts.append(list_to_string(tokens))
@@ -75,19 +83,21 @@ def middle_cut(sentences: list[str]) -> list[str]:
             result_parts.append(sentence)
 
     # Split all result parts by <stop> and filter
-    all_sentences = (s.strip() for part in result_parts for s in part.split("<stop>"))
+    all_sentences = (
+        s.strip() for part in result_parts for s in part.split("<stop>")
+    )
 
     return [s for s in all_sentences if s]
 
 
 class ThaiSentenceSegmentor:
-    def split_into_sentences(self, text: str, isMiddleCut: bool = False) -> list[str]:
+    def split_into_sentences(
+        self, text: str, isMiddleCut: bool = False
+    ) -> list[str]:
         # Declare Variables
         th_alphabets = "([ก-๙])"
         th_conjunction = "(ทำให้|โดย|เพราะ|นอกจากนี้|แต่|กรณีที่|หลังจากนี้|ต่อมา|ภายหลัง|นับตั้งแต่|หลังจาก|ซึ่งเหตุการณ์|ผู้สื่อข่าวรายงานอีก|ส่วนที่|ส่วนสาเหตุ|ฉะนั้น|เพราะฉะนั้น|เพื่อ|เนื่องจาก|จากการสอบสวนทราบว่า|จากกรณี|จากนี้|อย่างไรก็ดี)"
-        th_cite = (
-            "(กล่าวว่า|เปิดเผยว่า|รายงานว่า|ให้การว่า|เผยว่า|บนทวิตเตอร์ว่า|แจ้งว่า|พลเมืองดีว่า|อ้างว่า)"
-        )
+        th_cite = "(กล่าวว่า|เปิดเผยว่า|รายงานว่า|ให้การว่า|เผยว่า|บนทวิตเตอร์ว่า|แจ้งว่า|พลเมืองดีว่า|อ้างว่า)"
         th_ka_krub = "(ครับ|ค่ะ)"
         th_stop_after = "(หรือไม่|โดยเร็ว|แล้ว|อีกด้วย)"
         th_stop_before = "(ล่าสุด|เบื้องต้น|ซึ่ง|ทั้งนี้|แม้ว่า|เมื่อ|แถมยัง|ตอนนั้น|จนเป็นเหตุให้|จากนั้น|อย่างไรก็ตาม|และก็|อย่างใดก็ตาม|เวลานี้|เช่น|กระทั่ง)"
@@ -153,7 +163,9 @@ class ThaiSentenceSegmentor:
         text = text.replace("ทั้งนี้เพื่อ", "ทั้งนี้<rth_for>")
         text = text.replace("เวลาต่อมา", "เวลา<rth_toma>")
         text = text.replace("อย่างไรก็ตาม", "อย่างไรก็ตาม")
-        text = text.replace("อย่างไรก็ตามหลังจาก", "<stop>อย่างไรก็ตาม<rth_langjak>")
+        text = text.replace(
+            "อย่างไรก็ตามหลังจาก", "<stop>อย่างไรก็ตาม<rth_langjak>"
+        )
         text = text.replace("ซึ่งทำให้", "ซึ่ง<rth_tamhai>")
         text = text.replace("โดยประมาท", "<doi>ประมาท")
         text = text.replace("โดยธรรม", "<doi>ธรรม")
@@ -282,7 +294,9 @@ class ThaiSentenceSegmentor:
         text = re.sub(th_conjunction, "<stop>\\1", text)
         text = re.sub(th_cite, "\\1<stop>", text)
         text = re.sub(" " + degit + "[.]" + th_title, "<stop>\\1.\\2", text)
-        text = re.sub(" " + degit + degit + "[.]" + th_title, "<stop>\\1\\2.\\3", text)
+        text = re.sub(
+            " " + degit + degit + "[.]" + th_title, "<stop>\\1\\2.\\3", text
+        )
         text = re.sub(th_alphabets + th_stop_after + " ", "\\1\\2<stop>", text)
         if "”" in text:
             text = text.replace(".”", "”.")

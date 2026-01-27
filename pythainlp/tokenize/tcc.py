@@ -48,7 +48,9 @@ ct[ะาำ]?k
 ก็
 อึ
 หึ
-""".replace("k", "(cc?[d|ิ]?[์])?")
+""".replace(
+        "k", "(cc?[d|ิ]?[์])?"
+    )
     .replace("c", "[ก-ฮ]")
     .replace("t", "[่-๋]?")
     .replace("d", "อูอุ".replace("อ", ""))  # DSara: lower vowel

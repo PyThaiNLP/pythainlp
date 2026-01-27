@@ -18,8 +18,7 @@ class FastTextAug:
     """
 
     def __init__(self, model_path: str):
-        """:param str model_path: path of model file
-        """
+        """:param str model_path: path of model file"""
         if model_path.endswith(".bin"):
             self.model = FastText_gensim.load_facebook_vectors(model_path)
         elif model_path.endswith(".vec"):

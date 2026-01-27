@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Text normalization
-"""
+"""Text normalization"""
 
 from __future__ import annotations
 
@@ -66,7 +65,8 @@ def _last_char(matchobj):  # to be used with _RE_NOREPEAT_TONEMARKS
 
 
 def remove_dangling(text: str) -> str:
-    """Remove Thai non-base characters at the beginning of text and after spaces.
+    """Remove Thai non-base characters at the beginning of text
+    and after spaces.
 
     This is a common "typo", especially for input field in a form,
     as these non-base characters can be visually hidden from user

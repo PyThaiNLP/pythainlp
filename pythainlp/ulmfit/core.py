@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Universal Language Model Fine-tuning for Text Classification (ULMFiT).
-"""
+"""Universal Language Model Fine-tuning for Text Classification (ULMFiT)."""
 
 from __future__ import annotations
 

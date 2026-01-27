@@ -82,7 +82,9 @@ class TestProfanity(unittest.TestCase):
         self.assertTrue(contains_profanity("คำใหม่", custom_words={"คำใหม่"}))
 
         # Mix of default and custom words
-        self.assertTrue(contains_profanity("ควย และ คำใหม่", custom_words={"คำใหม่"}))
+        self.assertTrue(
+            contains_profanity("ควย และ คำใหม่", custom_words={"คำใหม่"})
+        )
 
     def test_find_profanity_with_custom_words(self):
         """Test finding profanity with custom words"""

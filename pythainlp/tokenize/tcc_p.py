@@ -48,7 +48,9 @@ ck
 ก็
 อึ
 หึ
-""".replace("k", "(cc?[dิ]?[์])?")
+""".replace(
+        "k", "(cc?[dิ]?[์])?"
+    )
     .replace("c", "[ก-ฮ]")
     .replace("t", "[่-๋]?")
     .replace("d", "อูอุ".replace("อ", ""))  # DSara: lower vowel

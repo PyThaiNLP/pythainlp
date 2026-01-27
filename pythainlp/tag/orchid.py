@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Data preprocessing for ORCHID corpus
-"""
+"""Data preprocessing for ORCHID corpus"""
 
 from __future__ import annotations
 
@@ -151,9 +150,11 @@ def post_process(
         ]
     else:
         word_tags = [
-            (ESCAPE_TO_CHAR[word], ud_exception(word, TO_UD[tag]))
-            if word in keys
-            else (word, ud_exception(word, TO_UD[tag]))
+            (
+                (ESCAPE_TO_CHAR[word], ud_exception(word, TO_UD[tag]))
+                if word in keys
+                else (word, ud_exception(word, TO_UD[tag]))
+            )
             for word, tag in word_tags
         ]
     return word_tags

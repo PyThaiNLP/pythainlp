@@ -35,9 +35,11 @@ def romanize(
           Transcription issued by Royal Institute of Thailand.
         * *thai2rom* - a deep learning-based Thai romanization engine
           (require PyTorch).
-        * *thai2rom_onnx* - a deep learning-based Thai romanization engine with ONNX runtime
+        * *thai2rom_onnx* - a deep learning-based Thai romanization
+                            engine with ONNX runtime
         * *tltk* - TLTK: Thai Language Toolkit
-        * *lookup* - Look up on Thai-English Transliteration dictionary v1.4 compiled by Wannaphong.
+        * *lookup* - Look up on Thai-English Transliteration
+                     dictionary v1.4 compiled by Wannaphong.
 
     :Example:
     ::

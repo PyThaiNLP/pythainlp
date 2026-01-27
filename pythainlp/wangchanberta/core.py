@@ -23,7 +23,9 @@ if _model_name == "wangchanberta-base-att-spm-uncased":
 
 
 class ThaiNameTagger:
-    def __init__(self, dataset_name: str = "thainer", grouped_entities: bool = True):
+    def __init__(
+        self, dataset_name: str = "thainer", grouped_entities: bool = True
+    ):
         """This function tags named entities in text in IOB format.
 
         Powered by wangchanberta from VISTEC-depa\
@@ -70,7 +72,8 @@ class ThaiNameTagger:
         """
         if pos:
             warnings.warn(
-                "This model doesn't support output of POS tags and it doesn't output the POS tags.",
+                "This model doesn't support output of POS tags "
+                "and it doesn't output the POS tags.",
                 stacklevel=2,
             )
         text = re.sub(" ", "<_>", text)
@@ -102,7 +105,9 @@ class ThaiNameTagger:
             self.sent_ner = self.sent_ner[1:]
         for idx, (word, ner) in enumerate(self.sent_ner):
             if idx > 0 and ner.startswith("B-"):
-                if self._clear_tag(ner) == self._clear_tag(self.sent_ner[idx - 1][1]):
+                if self._clear_tag(ner) == self._clear_tag(
+                    self.sent_ner[idx - 1][1]
+                ):
                     self.sent_ner[idx] = (word, ner.replace("B-", "I-"))
         if tag:
             temp = ""
@@ -129,7 +134,9 @@ class ThaiNameTagger:
 
 
 class NamedEntityRecognition:
-    def __init__(self, model: str = "pythainlp/thainer-corpus-v2-base-model") -> None:
+    def __init__(
+        self, model: str = "pythainlp/thainer-corpus-v2-base-model"
+    ) -> None:
         """This function tags named entities in text in IOB format.
 
         Powered by wangchanberta from VISTEC-depa\
@@ -165,18 +172,19 @@ class NamedEntityRecognition:
 
         :param str text: text in Thai to be tagged
         :param bool tag: output HTML-like tags.
-        :return: a list of tuples associated with tokenized word groups, NER tags, \
-                 and output HTML-like tags (if the parameter `tag` is \
-                 specified as `True`). \
-                 Otherwise, return a list of tuples associated with tokenized \
-                 words and NER tags
+        :return: a list of tuples associated with tokenized word groups,
+                 NER tags, and output HTML-like tags \
+                 (if the parameter `tag` is specified as `True`). \
+                 Otherwise, return a list of tuples associated with \
+                 tokenized words and NER tags
         :rtype: Union[list[tuple[str, str]]], str
         """
         import torch
 
         if pos:
             warnings.warn(
-                "This model doesn't support output postag and It doesn't output the postag.",
+                "This model doesn't support output postag "
+                "and it doesn't output the postag.",
                 stacklevel=2,
             )
         words_token = word_tokenize(text.replace(" ", "<_>"))
@@ -192,7 +200,9 @@ class NamedEntityRecognition:
         predicted_token_class = [
             self.model.config.id2label[t.item()] for t in predictions[0]
         ]
-        ner_tag = self._fix_span_error(inputs["input_ids"][0], predicted_token_class)
+        ner_tag = self._fix_span_error(
+            inputs["input_ids"][0], predicted_token_class
+        )
         if tag:
             temp = ""
             sent = ""

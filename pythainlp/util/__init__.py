@@ -73,7 +73,9 @@ __all__ = [
     "analyze_thai_text",
 ]
 
-from pythainlp.util import spell_words  # noqa: I001 - keep block order to avoid circular imports
+from pythainlp.util import (
+    spell_words,
+)  # noqa: I001 - keep block order to avoid circular imports
 from pythainlp.util.abbreviation import abbreviation_to_full_text
 from pythainlp.util.collate import collate
 from pythainlp.util.date import (
@@ -118,11 +120,27 @@ from pythainlp.util.profanity import (
     contains_profanity,
     find_profanity,
 )
+from pythainlp.util.pronounce import (  # noqa: I001
+    rhyme,
+    spelling,
+    thai_consonant_to_spelling,
+    tone_to_spelling,
+)
 from pythainlp.util.remove_trailing_repeat_consonants import (
     remove_trailing_repeat_consonants,
 )
 from pythainlp.util.strftime import thai_strftime
 
+# DO NOT REORDER these imports.
+# sound_syllable and pronounce have to be imported last,
+# to prevent circular import issues.
+# Other imports should be above this line, sorted.
+from pythainlp.util.syllable import (  # noqa: I001
+    sound_syllable,
+    syllable_length,
+    syllable_open_close_detector,
+    tone_detector,
+)
 from pythainlp.util.thai import (
     analyze_thai_text,
     count_thai_chars,
@@ -137,20 +155,3 @@ from pythainlp.util.thaiwordcheck import is_native_thai
 from pythainlp.util.time import thaiword_to_time, time_to_thaiword
 from pythainlp.util.trie import Trie, dict_trie
 from pythainlp.util.wordtonum import text_to_num, thaiword_to_num, words_to_num
-
-# DO NOT REORDER these imports.
-# sound_syllable and pronounce have to be imported last,
-# to prevent circular import issues.
-# Other imports should be above this line, sorted.
-from pythainlp.util.syllable import (  # noqa: I001
-    sound_syllable,
-    syllable_length,
-    syllable_open_close_detector,
-    tone_detector,
-)
-from pythainlp.util.pronounce import (  # noqa: I001
-    rhyme,
-    spelling,
-    thai_consonant_to_spelling,
-    tone_to_spelling,
-)

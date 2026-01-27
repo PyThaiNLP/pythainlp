@@ -26,8 +26,7 @@ class LTW2VAug:
         return word_tokenize(text, engine="newmm")
 
     def load_w2v(self):  # insert substitute
-        """Load LTW2V's word2vec model
-        """
+        """Load LTW2V's word2vec model"""
         self.aug = Word2VecAug(self.ltw2v_wv, self.tokenizer, type="binary")
 
     def augment(

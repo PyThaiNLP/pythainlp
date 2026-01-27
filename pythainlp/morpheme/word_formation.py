@@ -52,8 +52,10 @@ def nighit(w1: str, w2: str) -> str:
     elif consonant_start in ["ย", "ร", "ล", "ฬ", "ว", "ศ", "ษ", "ส", "ห"]:
         newword.append("ง")
     else:
-        raise NotImplementedError(f"""
+        raise NotImplementedError(
+            f"""
         The function doesn't support {w1} and {w2}.
-        """)
+        """
+        )
     newword.extend(list_w2)
     return "".join(newword)

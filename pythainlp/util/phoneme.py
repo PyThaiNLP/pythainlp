@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Phonemes util
-"""
+"""Phonemes util"""
 
 from __future__ import annotations
 
@@ -129,10 +128,13 @@ dict_ipa_rtgs = {
     "h": "h",
     # The conversion of j depends on its position in the syllable.
     # But, unfortunately, the current implementation cannot handle both cases.
-    # To remove confusions without changing the behavior and breaking existing codes,
-    # it is suggested that the first key-value mapping of j be simply commented out,
-    # as it would be overridden by the second one and thus never take effect from the beginning.
-    # See #846 for a more detailed discussion: https://github.com/PyThaiNLP/pythainlp/issues/846
+    # To remove confusions without changing the behavior and breaking
+    # existing codes, it is suggested that the first key-value mapping
+    # of j be simply commented out,
+    # as it would be overridden by the second one and thus never take
+    # effect from the beginning.
+    # See #846 for a more detailed discussion:
+    # https://github.com/PyThaiNLP/pythainlp/issues/846
     # "j":"y",
     "k": "k",
     "kʰ": "kh",
@@ -203,12 +205,14 @@ def _ipa_cut():
 
 
 def ipa_to_rtgs(ipa: str) -> str:
-    """Convert IPA system to The Royal Thai General System of Transcription (RTGS)
+    """Convert IPA system to The Royal Thai General System
+    of Transcription (RTGS)
 
     Docs: https://en.wikipedia.org/wiki/Help:IPA/Thai
 
     :param str ipa: IPA phoneme
-    :return: The RTGS that is converted, according to rules listed in the Wikipedia page
+    :return: The RTGS that is converted, according to rules listed
+             in the Wikipedia page
     :rtype: str
 
     :Example:

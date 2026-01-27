@@ -19,7 +19,9 @@ class Parse:
             model = "th"
         self.nlp = esupar.load(model)
 
-    def __call__(self, text: str, tag: str = "str") -> Union[List[List[str]], str]:
+    def __call__(
+        self, text: str, tag: str = "str"
+    ) -> Union[List[List[str]], str]:
         _data = str(self.nlp(text))
         if tag == "list":
             _temp = _data.splitlines()

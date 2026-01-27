@@ -20,7 +20,8 @@ def contains_profanity(
     Check if the given text contains profanity words.
 
     :param str text: Thai text to check
-    :param set custom_words: additional profanity words to check (default: None)
+    :param set custom_words: additional profanity words to check
+                             (default: None)
     :param str engine: tokenization engine (default: "newmm")
     :return: True if text contains profanity, False otherwise
     :rtype: bool
@@ -69,7 +70,8 @@ def find_profanity(
     Find all profanity words in the given text.
 
     :param str text: Thai text to check
-    :param set custom_words: additional profanity words to check (default: None)
+    :param set custom_words: additional profanity words to check
+                             (default: None)
     :param str engine: tokenization engine (default: "newmm")
     :return: list of profanity words found in the text
     :rtype: list[str]
@@ -122,8 +124,10 @@ def censor_profanity(
     Replace profanity words in the text with a replacement character.
 
     :param str text: Thai text to censor
-    :param str replacement: character to replace profanity with (default: "*")
-    :param set custom_words: additional profanity words to censor (default: None)
+    :param str replacement: character to replace profanity with
+                            (default: "*")
+    :param set custom_words: additional profanity words to censor
+                             (default: None)
     :param str engine: tokenization engine (default: "newmm")
     :return: Text with profanity words censored
     :rtype: str

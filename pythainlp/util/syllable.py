@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Syllable tools
-"""
+"""Syllable tools"""
 
 from __future__ import annotations
 
@@ -95,7 +94,8 @@ def sound_syllable(syllable: str) -> str:
     ):
         return "live"
 
-    # Handle syllables with only อ (no other consonants from thai_consonants_all)
+    # Handle syllables with only อ
+    # (no other consonants from thai_consonants_all)
     if len(consonants) == 0 and "อ" in syllable:
         # Syllables with only อ and long vowels are live
         if any((c in set("าีืแูเโไใำ")) for c in syllable):
@@ -169,7 +169,8 @@ def sound_syllable(syllable: str) -> str:
 def syllable_open_close_detector(syllable: str) -> str:
     """Open/close Thai syllables detector
 
-    This function is used for finding Thai syllables that are open or closed sound.
+    This function is used for finding Thai syllables that
+    are open or closed sound.
 
     :param str syllable: Thai syllable
     :return: open / close
@@ -299,34 +300,32 @@ def tone_detector(syllable: str) -> str:
         consonant_ending = _check_sonorant_syllable(syllable)
         if consonant_ending:
             # Only apply special rules if there are sonorants
-            if (
-                initial_consonant == "อ"
-                and s == "live"
-                and tone_mark == "่"
-            ):
+            if initial_consonant == "อ" and s == "live" and tone_mark == "่":
                 r = "l"
-            elif (
-                initial_consonant == "ห"
-                and s == "live"
-                and tone_mark == "่"
-            ):
+            elif initial_consonant == "ห" and s == "live" and tone_mark == "่":
                 r = "l"
             elif initial_consonant == "อ" and s == "dead":
                 r = "l"
-            elif (
-                initial_consonant == "ห"
-                and s == "live"
-                and tone_mark == "้"
-            ):
+            elif initial_consonant == "ห" and s == "live" and tone_mark == "้":
                 r = "f"
             elif initial_consonant == "ห" and s == "dead":
                 r = "l"
             elif initial_consonant == "ห" and s == "live":
                 r = "r"
     # If r is still empty, apply general tone rules
-    if r == "" and initial_consonant_type == "high" and s == "live" and tone_mark == "่":
+    if (
+        r == ""
+        and initial_consonant_type == "high"
+        and s == "live"
+        and tone_mark == "่"
+    ):
         r = "l"
-    if r == "" and initial_consonant_type == "mid" and s == "live" and tone_mark == "่":
+    if (
+        r == ""
+        and initial_consonant_type == "mid"
+        and s == "live"
+        and tone_mark == "่"
+    ):
         r = "l"
     if r == "" and initial_consonant_type == "low" and tone_mark == "้":
         r = "h"

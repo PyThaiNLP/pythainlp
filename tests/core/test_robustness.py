@@ -131,8 +131,9 @@ class RobustnessTestCase(unittest.TestCase):
         """
         Test word_tokenize with special characters.
 
-        Tests BOM, control characters, zero-width characters, and special
-        punctuation that often appear from encoding issues or terminal copy/paste.
+        Tests BOM, control characters, zero-width characters,
+        and special punctuation that often appear
+        from encoding issues or terminal copy/paste.
         """
         for engine in self.TOKENIZE_ENGINES:
             for s in self.SPECIAL_CHARS:
@@ -160,7 +161,8 @@ class RobustnessTestCase(unittest.TestCase):
                         result = word_tokenize(s, engine=engine)
                         self.assertIsInstance(result, list)
                     except Exception as e:
-                        # Truncated unicode might cause issues, but shouldn't crash
+                        # Truncated unicode might cause issues,
+                        # but shouldn't crash
                         self.fail(
                             f"word_tokenize (engine={engine}) failed with "
                             f"truncated unicode {repr(s)}: {e}"
@@ -253,4 +255,3 @@ class RobustnessTestCase(unittest.TestCase):
                         f"word_tokenize (engine={engine}) failed with "
                         f"very long string (index={i}): {e}"
                     )
-

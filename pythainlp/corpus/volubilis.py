@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Provides an optional word list from the Volubilis dictionary.
-"""
+"""Provides an optional word list from the Volubilis dictionary."""
 
 from __future__ import annotations
 

@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Check if it is Thai text
-"""
+"""Check if it is Thai text"""
 
 from __future__ import annotations
 
@@ -343,7 +342,8 @@ def analyze_thai_text(text: str) -> dict:
             name = THAI_CHAR_NAMES[char]
             results[name] += 1
         else:
-            # If the character is not a known Thai character, classify it as character
+            # If the character is not a known Thai character,
+            # classify it as character
             results[char] += 1
 
     return dict(results)

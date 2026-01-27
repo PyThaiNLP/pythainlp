@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Generic functions of tokenizers
-"""
+"""Generic functions of tokenizers"""
 
 from __future__ import annotations
 
@@ -28,7 +27,6 @@ from pythainlp.util.trie import Trie, dict_trie
 
 _RE_WHITESPACE = re.compile(r"\s")
 _RE_WORD_CHAR = re.compile(r"\w")
-
 
 
 def word_detokenize(

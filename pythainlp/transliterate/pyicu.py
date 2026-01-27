@@ -19,6 +19,7 @@ _ICU_THAI_TO_LATIN = Transliterator.createInstance("Thai-Latin")
 def transliterate(text: str) -> str:
     """Use ICU (International Components for Unicode) for transliteration
     :param str text: Thai text to be transliterated.
-    :return: A string of Internaitonal Phonetic Alphabets indicating how the text should be pronounced.
+    :return: A string of Internaitonal Phonetic Alphabets indicating
+            how the text should be pronounced.
     """
     return _ICU_THAI_TO_LATIN.transliterate(text)

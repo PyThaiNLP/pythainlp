@@ -85,8 +85,7 @@ class GzipModel:
         return predict_class
 
     def save(self, path: str):
-        """:param str path: path to save model
-        """
+        """:param str path: path to save model"""
         with open(path, "w", encoding="utf-8") as f:
             json.dump(
                 {
@@ -98,8 +97,7 @@ class GzipModel:
             )
 
     def load(self, path: str):
-        """:param str path: path to load model
-        """
+        """:param str path: path to load model"""
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
             self.Cx2_list = data["Cx2_list"]

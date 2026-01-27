@@ -67,16 +67,15 @@ def _check_is_thainum(word: str):
 @lru_cache
 def _tokenizer_thaiwords():
     """Lazy load Thai words tokenizer with cache"""
-    _dict_words = [
-        i for i in thai_words() if not _check_is_thainum(i)[0]
-    ]
+    _dict_words = [i for i in thai_words() if not _check_is_thainum(i)[0]]
     _dict_words.extend(_digits.keys())
     _dict_words.extend(["สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน", "จุด"])
     return Tokenizer(_dict_words)
 
 
 def thaiword_to_num(word: str) -> int:
-    """Converts the spelled-out numerals in Thai scripts into an actual integer.
+    """Converts the spelled-out numerals in Thai scripts
+    into an actual integer.
 
     :param str word: Spelled-out numerals in Thai scripts
     :return: Corresponding integer value of the input

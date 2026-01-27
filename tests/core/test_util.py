@@ -2,8 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-"""Unit tests for pythainlp.util module.
-"""
+"""Unit tests for pythainlp.util module."""
 
 import os
 import unittest
@@ -228,14 +227,15 @@ class UtilTestCase(unittest.TestCase):
     def test_find_keywords(self):
         word_list = ["แมว", "กิน", "ปลา", "อร่อย", "แมว", "เป็น", "แมว"]
         self.assertEqual(find_keyword(word_list), {"แมว": 3})
-        # Edge cases: different min_len values (min_len filters by frequency >= min_len)
+        # Edge cases: different min_len values
+        # (min_len filters by frequency >= min_len)
         self.assertEqual(
             find_keyword(word_list, min_len=0),
-            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1}
+            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1},
         )
         self.assertEqual(
             find_keyword(word_list, min_len=1),
-            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1}
+            {"แมว": 3, "กิน": 1, "ปลา": 1, "อร่อย": 1},
         )
         self.assertEqual(find_keyword(word_list, min_len=2), {"แมว": 3})
         self.assertEqual(find_keyword(word_list, min_len=10), {})
@@ -258,10 +258,16 @@ class UtilTestCase(unittest.TestCase):
         # Edge cases: single item list
         self.assertEqual(rank(["แมว"]), Counter({"แมว": 1}))
         # Edge cases: all stopwords with exclude_stopwords=True
-        self.assertEqual(rank(["ใน", "การ", "ที่"], exclude_stopwords=True), Counter())
+        self.assertEqual(
+            rank(["ใน", "การ", "ที่"], exclude_stopwords=True), Counter()
+        )
         # Edge cases: exclude_stopwords=False (explicitly test both values)
-        self.assertIsNotNone(rank(["แมว", "ใน", "การ"], exclude_stopwords=False))
-        self.assertIn("ใน", rank(["แมว", "ใน", "การ"], exclude_stopwords=False))
+        self.assertIsNotNone(
+            rank(["แมว", "ใน", "การ"], exclude_stopwords=False)
+        )
+        self.assertIn(
+            "ใน", rank(["แมว", "ใน", "การ"], exclude_stopwords=False)
+        )
         # Edge cases: duplicate handling
         self.assertEqual(rank(["แมว", "แมว", "แมว"]), Counter({"แมว": 3}))
 
@@ -764,7 +770,7 @@ class UtilTestCase(unittest.TestCase):
             self.assertEqual(
                 sound_syllable(i),
                 j,
-                f"{i} should be determined to be a '{j}' syllable."
+                f"{i} should be determined to be a '{j}' syllable.",
             )
 
     def test_tone_detector(self):
@@ -794,7 +800,8 @@ class UtilTestCase(unittest.TestCase):
             ("h", "ครับ"),
             ("f", "ค่ะ"),
             ("m", "เอ"),
-            # Test cases from issue #1176 - syllables that previously returned UNKNOWN_tone
+            # Test cases from issue #1176
+            # - syllables that previously returned UNKNOWN_tone
             # Low consonant + dead + long + open → falling tone
             ("f", "คอ"),
             ("f", "พฤ"),
@@ -835,7 +842,8 @@ class UtilTestCase(unittest.TestCase):
             ("l", "เอก"),
             ("l", "แอบ"),
             ("l", "ใหญ่"),
-            # Mid consonant + live → mid tone (especially syllables with only อ)
+            # Mid consonant + live → mid tone
+            # (especially syllables with only อ)
             ("m", "อนา"),
             ("m", "อัตรา"),
             ("m", "อา"),
@@ -851,7 +859,7 @@ class UtilTestCase(unittest.TestCase):
             self.assertEqual(
                 tone_detector(j),
                 i,
-                f"{j} should be determined to be a '{i}' tone."
+                f"{j} should be determined to be a '{i}' tone.",
             )
 
     def test_syllable_length(self):
@@ -971,23 +979,27 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(th_zodiac(2024, 3), 5)
 
     # def test_abbreviation_to_full_text(self):
-    #     self.assertIsInstance(abbreviation_to_full_text("รร.ของเราน่าอยู่", list))
+    #     self.assertIsInstance(
+    #         abbreviation_to_full_text("รร.ของเราน่าอยู่", list)
+    #     )
 
     def test_spelling(self):
         self.assertEqual(spelling([]), [])
-        self.assertEqual(spelling("เรียน"), ['รอ', 'เอีย', 'นอ', 'เรียน'])
+        self.assertEqual(spelling("เรียน"), ["รอ", "เอีย", "นอ", "เรียน"])
+        self.assertEqual(spelling("เฝ้า"), ["ฝอ", "เอา", "เฝา", "ไม้โท", "เฝ้า"])
+        self.assertEqual(spelling("คน"), ["คอ", "นอ", "คน"])
+        self.assertEqual(spelling("กัน"), ["กอ", "อะ", "นอ", "กัน"])
         self.assertEqual(
-            spelling("เฝ้า"), ['ฝอ', 'เอา', 'เฝา', 'ไม้โท', 'เฝ้า']
-        )
-        self.assertEqual(spelling("คน"), ['คอ', 'นอ', 'คน'])
-        self.assertEqual(spelling("กัน"), ['กอ', 'อะ', 'นอ', 'กัน'])
-        self.assertEqual(
-            spelling("กั้น"), ['กอ', 'อะ', 'นอ', 'กัน', 'ไม้โท', 'กั้น']
+            spelling("กั้น"), ["กอ", "อะ", "นอ", "กัน", "ไม้โท", "กั้น"]
         )
 
     def test_longest_common_subsequence(self):
-        self.assertEqual(longest_common_subsequence("ABCBDAB", "BDCAB"), "BDAB")
-        self.assertEqual(longest_common_subsequence("AGGTAB", "GXTXAYB"), "GTAB")
+        self.assertEqual(
+            longest_common_subsequence("ABCBDAB", "BDCAB"), "BDAB"
+        )
+        self.assertEqual(
+            longest_common_subsequence("AGGTAB", "GXTXAYB"), "GTAB"
+        )
         self.assertEqual(longest_common_subsequence("ABCDGH", "AEDFHR"), "ADH")
         self.assertEqual(longest_common_subsequence("ABC", "AC"), "AC")
         self.assertEqual(longest_common_subsequence("ABC", "DEF"), "")
@@ -997,10 +1009,8 @@ class UtilTestCase(unittest.TestCase):
 
     def test_analyze_thai_text(self):
         self.assertEqual(
-            analyze_thai_text("คนดี"),
-            {"ค": 1, "น": 1, "ด": 1, "สระ อี": 1}
+            analyze_thai_text("คนดี"), {"ค": 1, "น": 1, "ด": 1, "สระ อี": 1}
         )
         self.assertEqual(
-            analyze_thai_text("เล่น"),
-            {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
+            analyze_thai_text("เล่น"), {"สระ เอ": 1, "ล": 1, "ไม้เอก": 1, "น": 1}
         )

@@ -20,7 +20,8 @@ class Trie(Iterable[str]):
     common prefixes, making it ideal for dictionary-based tokenization
     and autocomplete features.
 
-    :param Iterable[str] words: An iterable collection of words to initialize the Trie
+    :param Iterable[str] words: An iterable collection of words
+                                to initialize the Trie
 
     :Example:
     ::
@@ -45,6 +46,7 @@ class Trie(Iterable[str]):
         len(trie)
         # output: 5
     """
+
     class Node:
         __slots__ = "end", "children"
 
@@ -102,7 +104,8 @@ class Trie(Iterable[str]):
             del parent.children[ch]  # remove from parent dict
 
     def prefixes(self, text: str) -> list[str]:
-        """List all possible words from first sequence of characters in a word.
+        """List all possible words from first sequence of characters
+        in a word.
 
         :param str text: a word
         :return: a list of possible words

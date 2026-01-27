@@ -36,7 +36,9 @@ class TestThreadSafety(unittest.TestCase):
         """Worker function for thread testing."""
         try:
             for _ in range(iterations):
-                tokens = word_tokenize(text, engine=engine, custom_dict=custom_dict)
+                tokens = word_tokenize(
+                    text, engine=engine, custom_dict=custom_dict
+                )
                 # Store result for later verification
                 if results[index] is None:
                     results[index] = tokens
@@ -181,11 +183,16 @@ class TestThreadSafety(unittest.TestCase):
         for thread in threads:
             thread.join()
 
-        # All threads should succeed (but may have different results due to different dicts)
+        # All threads should succeed
+        # (but may have different results due to different dicts)
         for i, result in enumerate(results):
             self.assertIsNotNone(result, f"Thread {i} returned None")
-            self.assertNotEqual(result, "INCONSISTENT", f"Thread {i} inconsistent")
-            self.assertNotIn("ERROR:", str(result), f"Thread {i} error: {result}")
+            self.assertNotEqual(
+                result, "INCONSISTENT", f"Thread {i} inconsistent"
+            )
+            self.assertNotIn(
+                "ERROR:", str(result), f"Thread {i} error: {result}"
+            )
 
     def test_multi_text_concurrent_tokenization(self):
         """Test concurrent tokenization of different texts."""
@@ -208,8 +215,12 @@ class TestThreadSafety(unittest.TestCase):
         # All threads should succeed
         for i, result in enumerate(results):
             self.assertIsNotNone(result, f"Thread {i} returned None")
-            self.assertNotEqual(result, "INCONSISTENT", f"Thread {i} inconsistent")
-            self.assertNotIn("ERROR:", str(result), f"Thread {i} error: {result}")
+            self.assertNotEqual(
+                result, "INCONSISTENT", f"Thread {i} inconsistent"
+            )
+            self.assertNotIn(
+                "ERROR:", str(result), f"Thread {i} error: {result}"
+            )
             self.assertIsInstance(result, list, f"Thread {i} wrong type")
 
     def test_mm_thread_safety(self):

@@ -69,4 +69,4 @@ class SpellTestCaseX(unittest.TestCase):
 
     def test_get_words_spell_suggestion(self):
         self.assertIsNotNone(get_words_spell_suggestion("คมดี"))
-        self.assertIsNotNone(get_words_spell_suggestion(["คมดี", "มะนา"]))
+        self.assertIsNotNone(get_words_spell_suggestion(["คมดี","มะนา"]))

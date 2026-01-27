@@ -118,7 +118,8 @@ class PerceptronTagger:
     AP_MODEL_LOC = ""
 
     def __init__(self, path: str = "") -> None:
-        """:param str path: model path"""
+        """:param str path: model path
+        """
         self.model = AveragedPerceptron()
         self.tagdict = {}
         self.classes = set()

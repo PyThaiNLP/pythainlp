@@ -57,9 +57,7 @@ class Parse:
             model=t, tokenizer=self.tokenizer
         )
 
-    def __call__(
-        self, text: str, tag: str = "str"
-    ) -> Union[List[List[str]], str]:
+    def __call__(self, text: str, tag: str = "str") -> Union[List[List[str]], str]:
         w = [
             (t["start"], t["end"], t["entity_group"])
             for t in self.deprel(text)

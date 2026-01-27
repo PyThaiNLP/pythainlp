@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thank https://dev.to/ton_ami/text-data-augmentation-synonym-replacement-4h8l"""
+"""Thank https://dev.to/ton_ami/text-data-augmentation-synonym-replacement-4h8l
+"""
 
 from __future__ import annotations
 
@@ -116,16 +117,14 @@ def postype2wordnet(pos: str, corpus: str):
 
 
 class WordNetAug:
-    """Text Augment using wordnet"""
+    """Text Augment using wordnet
+    """
 
     def __init__(self):
         pass
 
     def find_synonyms(
-        self,
-        word: str,
-        pos: Optional[str] = None,
-        postag_corpus: str = "orchid",
+        self, word: str, pos: Optional[str] = None, postag_corpus: str = "orchid"
     ) -> list[str]:
         """Find synonyms using wordnet
 

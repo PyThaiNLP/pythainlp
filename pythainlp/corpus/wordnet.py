@@ -12,9 +12,8 @@ https://www.nltk.org/howto/wordnet.html
 
 from __future__ import annotations
 
-from typing import Optional
-
 import nltk
+from typing import Optional
 
 try:
     nltk.data.find("corpora/omw")

@@ -180,9 +180,7 @@ def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
     # Thread-safe access to the tokenizers cache
     with _tokenizers_lock:
         if custom_dict_ref_id not in _tokenizers:
-            _tokenizers[custom_dict_ref_id] = LongestMatchTokenizer(
-                custom_dict
-            )
+            _tokenizers[custom_dict_ref_id] = LongestMatchTokenizer(custom_dict)
         tokenizer = _tokenizers[custom_dict_ref_id]
 
     return tokenizer.tokenize(text)

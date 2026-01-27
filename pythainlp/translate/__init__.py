@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Language translation."""
+"""Language translation.
+"""
 
 __all__ = ["Translate", "ThZhTranslator", "ZhThTranslator", "word_translate"]
 

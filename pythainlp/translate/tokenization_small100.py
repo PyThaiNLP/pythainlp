@@ -90,8 +90,9 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         language_codes (`str`, *optional*):
             What language codes to use. Should be `"m2m100"`.
         sp_model_kwargs (`dict`, *optional*):
-            Will be passed to the `SentencePieceProcessor.__init__()` method. The Python wrapper for SentencePiece can be used,
-            among other things, to set:
+            Will be passed to the `SentencePieceProcessor.__init__()` method. The [Python wrapper for
+            SentencePiece](https://github.com/google/sentencepiece/tree/master/python) can be used, among other things,
+            to set:
             - `enable_sampling`: Enable subword regularization.
             - `nbest_size`: Sampling parameters for unigram. Invalid for BPE-Dropout.
               - `nbest_size = {0,1}`: No sampling is performed.
@@ -136,15 +137,12 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         num_madeup_words=8,
         **kwargs,
     ) -> None:
-        self.sp_model_kwargs = (
-            {} if sp_model_kwargs is None else sp_model_kwargs
-        )
+        self.sp_model_kwargs = {} if sp_model_kwargs is None else sp_model_kwargs
 
         self.language_codes = language_codes
         fairseq_language_code = FAIRSEQ_LANGUAGE_CODES[language_codes]
         self.lang_code_to_token = {
-            lang_code: f"__{lang_code}__"
-            for lang_code in fairseq_language_code
+            lang_code: f"__{lang_code}__" for lang_code in fairseq_language_code
         }
 
         kwargs["additional_special_tokens"] = kwargs.get(
@@ -153,8 +151,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         kwargs["additional_special_tokens"] += [
             self.get_lang_token(lang_code)
             for lang_code in fairseq_language_code
-            if self.get_lang_token(lang_code)
-            not in kwargs["additional_special_tokens"]
+            if self.get_lang_token(lang_code) not in kwargs["additional_special_tokens"]
         ]
 
         super().__init__(
@@ -186,9 +183,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
             lang_code: self.encoder_size + i
             for i, lang_code in enumerate(fairseq_language_code)
         }
-        self.id_to_lang_token = {
-            v: k for k, v in self.lang_token_to_id.items()
-        }
+        self.id_to_lang_token = {v: k for k, v in self.lang_token_to_id.items()}
 
         self._tgt_lang = tgt_lang if tgt_lang is not None else "en"
         self.cur_lang_id = self.get_lang_id(self._tgt_lang)
@@ -198,11 +193,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
     @property
     def vocab_size(self) -> int:
-        return (
-            len(self.encoder)
-            + len(self.lang_token_to_id)
-            + self.num_madeup_words
-        )
+        return len(self.encoder) + len(self.lang_token_to_id) + self.num_madeup_words
 
     @property
     def tgt_lang(self) -> str:
@@ -307,17 +298,10 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         if self.prefix_tokens is None:
             return token_ids_0 + token_ids_1 + self.suffix_tokens
         else:
-            return (
-                self.prefix_tokens
-                + token_ids_0
-                + token_ids_1
-                + self.suffix_tokens
-            )
+            return self.prefix_tokens + token_ids_0 + token_ids_1 + self.suffix_tokens
 
     def get_vocab(self) -> dict:
-        vocab = {
-            self.convert_ids_to_tokens(i): i for i in range(self.vocab_size)
-        }
+        vocab = {self.convert_ids_to_tokens(i): i for i in range(self.vocab_size)}
         vocab.update(self.added_tokens_encoder)
         return vocab
 
@@ -380,9 +364,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         """Used by translation pipeline, to prepare inputs for the generate
         function"""
         if tgt_lang is None:
-            raise ValueError(
-                "Translation requires a `tgt_lang` for this model"
-            )
+            raise ValueError("Translation requires a `tgt_lang` for this model")
         self.tgt_lang = tgt_lang
         inputs = self(raw_inputs, add_special_tokens=True, **extra_kwargs)
         return inputs

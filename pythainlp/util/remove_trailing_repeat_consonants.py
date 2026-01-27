@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Removement of repeated consonants at the end of words"""
+"""Removement of repeated consonants at the end of words
+"""
 
 from __future__ import annotations
 

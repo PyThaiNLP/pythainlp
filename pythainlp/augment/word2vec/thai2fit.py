@@ -27,7 +27,8 @@ class Thai2fitAug:
         return tok.word_tokenize(text)
 
     def load_w2v(self):
-        """Load Thai2Fit's word2vec model"""
+        """Load Thai2Fit's word2vec model
+        """
         self.aug = Word2VecAug(self.thai2fit_wv, self.tokenizer, type="binary")
 
     def augment(

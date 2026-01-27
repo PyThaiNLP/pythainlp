@@ -20,9 +20,7 @@ class ThaiTextAugmenter:
         )
 
         self.tokenizer = AutoTokenizer.from_pretrained(_MODEL_NAME)
-        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(
-            _MODEL_NAME
-        )
+        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(_MODEL_NAME)
         self.model = pipeline(
             "fill-mask",
             tokenizer=self.tokenizer,
@@ -55,9 +53,7 @@ class ThaiTextAugmenter:
 
         return gen_txt
 
-    def augment(
-        self, text: str, num_augs: int = 3, sample: bool = False
-    ) -> list[str]:
+    def augment(self, text: str, num_augs: int = 3, sample: bool = False) -> list[str]:
         """Text augmentation from PhayaThaiBERT
 
         :param str text: Thai text
@@ -91,9 +87,7 @@ class ThaiTextAugmenter:
         if num_augs <= MAX_NUM_AUGS:
             for rank in range(num_augs):
                 gen_text = self.generate(text, rank, sample=sample)
-                processed_text = re.sub(
-                    "<_>", " ", self.processor.preprocess(gen_text)
-                )
+                processed_text = re.sub("<_>", " ", self.processor.preprocess(gen_text))
                 augment_list.append(processed_text)
         else:
             raise ValueError(

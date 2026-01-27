@@ -281,7 +281,8 @@ def last_day_in_year(year: int) -> int:
 
 
 def athikasurathin(year: int) -> bool:
-    """Check if a year is a leap year in the Thai lunar calendar"""
+    """Check if a year is a leap year in the Thai lunar calendar
+    """
     # Check divisibility by 400 (divisible by 400 is always a leap year)
     if year % 400 == 0:
         return True

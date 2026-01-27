@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Utility functions for tokenize module."""
+"""Utility functions for tokenize module.
+"""
 
 from __future__ import annotations
 
@@ -14,7 +15,8 @@ _DIGITS_WITH_SEPARATOR = re.compile(r"(\d+[\.\,:])+\d+")
 def apply_postprocessors(
     segments: list[str], postprocessors: Callable[[list[str]], list[str]]
 ) -> list[str]:
-    """A list of callables to apply to a raw segmentation result."""
+    """A list of callables to apply to a raw segmentation result.
+    """
     for func in postprocessors:
         segments = func(segments)
 

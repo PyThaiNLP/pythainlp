@@ -136,7 +136,8 @@ class KeyBERT:
             return [kw for kw, _ in keywords]
 
     def embed(self, docs: Union[str, list[str]]) -> np.ndarray:
-        """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer."""
+        """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer.
+        """
         embs = self.ft_pipeline(docs)
         if isinstance(docs, str) or len(docs) == 1:
             # embed doc. return shape = [1, hidden_size]
@@ -211,9 +212,9 @@ def _rank_keywords(
             v,
             np.linalg.norm(v, axis=1).reshape(-1, 1).repeat(vec_size, axis=1),
         )
-        assert np.isclose(
-            np.linalg.norm(result, axis=1), 1
-        ).all(), "Cannot normalize a vector to unit vector."
+        assert np.isclose(np.linalg.norm(result, axis=1), 1).all(), (
+            "Cannot normalize a vector to unit vector."
+        )
         return result
 
     def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:

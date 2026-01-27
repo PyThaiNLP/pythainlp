@@ -2,7 +2,8 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-"""Common lists of words."""
+"""Common lists of words.
+"""
 
 from __future__ import annotations
 
@@ -218,9 +219,7 @@ def thai_profanity_words() -> frozenset[str]:
     """
     global _THAI_PROFANITY_WORDS
     if not _THAI_PROFANITY_WORDS:
-        _THAI_PROFANITY_WORDS = get_corpus(
-            _THAI_PROFANITY_WORDS_FILENAME, comments=False
-        )
+        _THAI_PROFANITY_WORDS = get_corpus(_THAI_PROFANITY_WORDS_FILENAME, comments=False)
 
     return _THAI_PROFANITY_WORDS
 

@@ -47,7 +47,8 @@ def _download_install(name: str) -> None:
 
 
 def download_model_all() -> None:
-    """Download all translation models in advance"""
+    """Download all translation models in advance
+    """
     _download_install(_EN_TH_MODEL_NAME)
     _download_install(_TH_EN_MODEL_NAME)
 

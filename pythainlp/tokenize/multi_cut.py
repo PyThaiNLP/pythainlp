@@ -142,9 +142,7 @@ def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
     return list(_multicut(text, custom_dict=custom_dict))
 
 
-def find_all_segment(
-    text: str, custom_dict: Optional[Trie] = None
-) -> list[str]:
+def find_all_segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
     """Get all possible segment variations.
 
     :param text: input string to be tokenized

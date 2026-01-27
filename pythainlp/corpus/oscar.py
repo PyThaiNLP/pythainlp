@@ -19,7 +19,8 @@ _OSCAR_FILENAME = "oscar_icu"
 
 
 def word_freqs() -> list[tuple[str, int]]:
-    """Get word frequency from OSCAR Corpus (words tokenized using ICU)"""
+    """Get word frequency from OSCAR Corpus (words tokenized using ICU)
+    """
     freqs: list[tuple[str, int]] = []
     path = get_corpus_path(_OSCAR_FILENAME)
     if not path:
@@ -40,7 +41,8 @@ def word_freqs() -> list[tuple[str, int]]:
 
 
 def unigram_word_freqs() -> dict[str, int]:
-    """Get unigram word frequency from OSCAR Corpus (words tokenized using ICU)"""
+    """Get unigram word frequency from OSCAR Corpus (words tokenized using ICU)
+    """
     freqs: dict[str, int] = defaultdict(int)
     path = get_corpus_path(_OSCAR_FILENAME)
     if not path:

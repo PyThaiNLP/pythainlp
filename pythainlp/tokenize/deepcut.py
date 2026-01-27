@@ -21,9 +21,7 @@ except ImportError:
 from pythainlp.util import Trie
 
 
-def segment(
-    text: str, custom_dict: Union[Trie, list[str], str] = []
-) -> list[str]:
+def segment(text: str, custom_dict: Union[Trie, list[str], str] = []) -> list[str]:
     if not text or not isinstance(text, str):
         return []
 

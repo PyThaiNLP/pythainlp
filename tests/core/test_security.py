@@ -29,17 +29,13 @@ class SecurityTestCase(unittest.TestCase):
                 _is_within_directory(tmpdir, os.path.join(tmpdir, "file.txt"))
             )
             self.assertTrue(
-                _is_within_directory(
-                    tmpdir, os.path.join(tmpdir, "subdir", "file.txt")
-                )
+                _is_within_directory(tmpdir, os.path.join(tmpdir, "subdir", "file.txt"))
             )
             self.assertTrue(_is_within_directory(tmpdir, tmpdir))
 
             # Path traversal attempts - should return False
             self.assertFalse(
-                _is_within_directory(
-                    tmpdir, os.path.join(tmpdir, "..", "file.txt")
-                )
+                _is_within_directory(tmpdir, os.path.join(tmpdir, "..", "file.txt"))
             )
             self.assertFalse(
                 _is_within_directory(
@@ -96,10 +92,7 @@ class SecurityTestCase(unittest.TestCase):
                 error_msg = str(context.exception).lower()
                 self.assertTrue(
                     "path traversal" in error_msg or "outside" in error_msg,
-                    (
-                        "Expected security error message,"
-                        f"got: {context.exception}"
-                    ),
+                    f"Expected security error message, got: {context.exception}",
                 )
 
     def test_safe_extract_zip_with_safe_archive(self):

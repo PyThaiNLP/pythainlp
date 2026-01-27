@@ -57,11 +57,9 @@ def post_process(
         ]
     else:
         word_tags = [
-            (
-                (ESCAPE_TO_CHAR[word], TO_UD[tag])
-                if word in keys
-                else (word, TO_UD[tag])
-            )
+            (ESCAPE_TO_CHAR[word], TO_UD[tag])
+            if word in keys
+            else (word, TO_UD[tag])
             for word, tag in word_tags
         ]
     return word_tags

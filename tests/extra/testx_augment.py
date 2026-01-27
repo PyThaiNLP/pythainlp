@@ -21,13 +21,13 @@ class AugmentTestCaseX(unittest.TestCase):
         self.text2 = "เราอยู่ที่มหาวิทยาลัยขอนแก่น"
 
     def test_WordNetAug(self):
-        nltk.download("omw-1.4", force=True)  # load wordnet
+        nltk.download('omw-1.4', force=True)  # load wordnet
         wordnetaug = WordNetAug()
         self.assertIsNotNone(wordnetaug.augment(self.text))
         self.assertIsNotNone(wordnetaug.find_synonyms("ผม", pos=None))
         self.assertIsNotNone(wordnetaug.augment(self.text, postag=False))
-        self.assertIsNone(postype2wordnet("n", "abc"))
-        self.assertIsNotNone(postype2wordnet("NOUN", "orchid"))
+        self.assertIsNone(postype2wordnet('n', 'abc'))
+        self.assertIsNotNone(postype2wordnet('NOUN', 'orchid'))
 
     # def test_Thai2fitAug(self):
     #     _aug = Thai2fitAug()

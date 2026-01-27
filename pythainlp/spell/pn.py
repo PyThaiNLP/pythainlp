@@ -54,7 +54,8 @@ def _keep(
 
 
 def _edits1(word: str) -> set[str]:
-    """Returns a set of words with an edit distance of 1 from the input word"""
+    """Returns a set of words with an edit distance of 1 from the input word
+    """
     splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
     deletes = [L + R[1:] for L, R in splits if R]
     transposes = [L + R[1] + R[0] + R[2:] for L, R in splits if len(R) > 1]
@@ -71,20 +72,20 @@ def _edits1(word: str) -> set[str]:
 
 
 def _edits2(word: str) -> set[str]:
-    """Returns a set of words with an edit distance of 2 from the input word"""
+    """Returns a set of words with an edit distance of 2 from the input word
+    """
     return set(e2 for e1 in _edits1(word) for e2 in _edits1(e1))
 
 
 def _convert_custom_dict(
-    custom_dict: Union[
-        dict[str, int], Iterable[str], Iterable[tuple[str, int]]
-    ],
+    custom_dict: Union[dict[str, int], Iterable[str], Iterable[tuple[str, int]]],
     min_freq: int,
     min_len: int,
     max_len: int,
     dict_filter: Optional[Callable[[str], bool]],
 ) -> list[tuple[str, int]]:
-    """Converts a custom dictionary to a list of (str, int) tuples"""
+    """Converts a custom dictionary to a list of (str, int) tuples
+    """
     if isinstance(custom_dict, dict):
         custom_dict = list(custom_dict.items())
 

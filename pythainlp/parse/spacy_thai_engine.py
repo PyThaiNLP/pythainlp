@@ -15,9 +15,7 @@ class Parse:
     def __init__(self, model: str = "th") -> None:
         self.nlp = spacy_thai.load()
 
-    def __call__(
-        self, text: str, tag: str = "str"
-    ) -> Union[List[List[str]], str]:
+    def __call__(self, text: str, tag: str = "str") -> Union[List[List[str]], str]:
         doc = self.nlp(text)
         _text = []
         if tag == "list":

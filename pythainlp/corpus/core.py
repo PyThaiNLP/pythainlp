@@ -237,9 +237,7 @@ def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
     return None
 
 
-def get_corpus_path(
-    name: str, version: str = "", force: bool = False
-) -> Optional[str]:
+def get_corpus_path(name: str, version: str = "", force: bool = False) -> Optional[str]:
     """Get corpus path.
 
     :param str name: corpus name
@@ -391,9 +389,9 @@ def _is_within_directory(directory: str, target: str) -> bool:
     if not abs_directory.endswith(os.sep):
         abs_directory += os.sep
 
-    return abs_target.startswith(
-        abs_directory
-    ) or abs_target == abs_directory.rstrip(os.sep)
+    return abs_target.startswith(abs_directory) or abs_target == abs_directory.rstrip(
+        os.sep
+    )
 
 
 def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
@@ -427,9 +425,7 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
             # Check the member's target path
             member_path = os.path.join(path, member.name)
             if not _is_within_directory(path, member_path):
-                raise ValueError(
-                    f"Attempted path traversal in tar file: {member.name}"
-                )
+                raise ValueError(f"Attempted path traversal in tar file: {member.name}")
 
             # For symlinks, also validate the link target
             if member.issym() or member.islnk():
@@ -442,9 +438,7 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
                     link_target = os.path.join(member_dir, link_target)
                 else:
                     # Absolute symlinks are dangerous - make them relative to extraction path
-                    link_target = os.path.join(
-                        path, link_target.lstrip(os.sep)
-                    )
+                    link_target = os.path.join(path, link_target.lstrip(os.sep))
 
                 # Check if the resolved symlink target is within the directory
                 if not _is_within_directory(path, link_target):
@@ -490,9 +484,7 @@ def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
                 resolved_target = os.path.join(member_dir, link_target)
             else:
                 # Absolute symlinks - make them relative to extraction path
-                resolved_target = os.path.join(
-                    path, link_target.lstrip(os.sep)
-                )
+                resolved_target = os.path.join(path, link_target.lstrip(os.sep))
 
             # Check if the symlink target is within the directory
             if not _is_within_directory(path, resolved_target):
@@ -564,9 +556,7 @@ def _check_version(cause: str) -> bool:
     return check
 
 
-def download(
-    name: str, force: bool = False, url: str = "", version: str = ""
-) -> bool:
+def download(name: str, force: bool = False, url: str = "", version: str = "") -> bool:
     """Download corpus.
 
     The available corpus names can be seen in this file:
@@ -624,10 +614,7 @@ def download(
         if version not in corpus["versions"]:
             print("Corpus not found.")
             return False
-        elif (
-            _check_version(corpus["versions"][version]["pythainlp_version"])
-            is False
-        ):
+        elif _check_version(corpus["versions"][version]["pythainlp_version"]) is False:
             print("Corpus version not supported.")
             return False
         corpus_versions = corpus["versions"][version]
@@ -667,9 +654,7 @@ def download(
                 foldername = name + "_" + str(version)
                 if not os.path.exists(get_full_data_path(foldername)):
                     os.mkdir(get_full_data_path(foldername))
-                with zipfile.ZipFile(
-                    get_full_data_path(file_name), "r"
-                ) as zip_file:
+                with zipfile.ZipFile(get_full_data_path(file_name), "r") as zip_file:
                     _safe_extract_zip(zip_file, get_full_data_path(foldername))
 
             if found:
@@ -743,9 +728,7 @@ def remove(name: str) -> bool:
         return False
     with open(corpus_db_path(), encoding="utf-8-sig") as f:
         db = json.load(f)
-    data = [
-        corpus for corpus in db["_default"].values() if corpus["name"] == name
-    ]
+    data = [corpus for corpus in db["_default"].values() if corpus["name"] == name]
 
     if data:
         path = get_corpus_path(name)
@@ -839,7 +822,5 @@ def get_hf_hub(repo_id: str, filename: str = "") -> str:
             repo_id=repo_id, filename=filename, local_dir=root_project
         )
     else:
-        output_path = snapshot_download(
-            repo_id=repo_id, local_dir=root_project
-        )
+        output_path = snapshot_download(repo_id=repo_id, local_dir=root_project)
     return output_path

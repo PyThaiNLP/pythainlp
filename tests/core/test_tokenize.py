@@ -416,18 +416,12 @@ class TokenizeTestCase(unittest.TestCase):
         )
         self.assertEqual(
             word_tokenize(
-                "ปวดเฉียบพลัน",
-                engine="longest",
-                custom_dict=dict_trie(["ปวดเฉียบพลัน"]),
+                "ปวดเฉียบพลัน", engine="longest", custom_dict=dict_trie(["ปวดเฉียบพลัน"])
             ),
             ["ปวดเฉียบพลัน"],
         )
         self.assertEqual(
-            word_tokenize(
-                "ทดสอบทดสอบ",
-                engine="longest",
-                custom_dict=dict_trie(["ทดสอบท"]),
-            ),
+            word_tokenize("ทดสอบทดสอบ", engine="longest", custom_dict=dict_trie(["ทดสอบท"])),
             ["ทดสอบท", "ดสอบ"],
         )
         self.assertEqual(
@@ -638,14 +632,14 @@ class TokenizeTestCase(unittest.TestCase):
         )
         # Not implemented
         # self.assertEqual(
-        #     tcc.segment("ประสานงานกับลูกค้า"),
-        #     ["ป", "ระ", "สา", "น", "งา", "น", "กั", "บ", "ลู", "ก", "ค้า"],
+        #     tcc.segment("ประสานงานกับลูกค้า"), ['ป', 'ระ', 'สา', 'น', 'งา', 'น', 'กั', 'บ', 'ลู', 'ก', 'ค้า']
         # )
         # self.assertEqual(
-        #     tcc.segment("ประกันภัยสัมพันธ์"),
-        #     ["ป", "ระ", "กั", "น", "ภั", "ย", "สั", "ม", "พั", "น", "ธ์"],
+        #     tcc.segment("ประกันภัยสัมพันธ์"), ['ป', 'ระ', 'กั', 'น', 'ภั', 'ย', 'สั', 'ม', 'พั','น','ธ์']
         # )
-        # self.assertEqual(tcc.segment("ตากลม"), ["ตา", "ก", "ล", "ม"])
+        # self.assertEqual(
+        #     tcc.segment("ตากลม"), ['ตา', 'ก', 'ล', 'ม']
+        # )
         self.assertEqual(list(tcc_p.tcc("")), [])
         self.assertEqual(tcc_p.tcc_pos(""), set())
 
@@ -653,13 +647,8 @@ class TokenizeTestCase(unittest.TestCase):
         self.assertEqual(display_cell_tokenize(""), [])
         self.assertEqual(
             display_cell_tokenize("แม่น้ำอยู่ที่ไหน"),
-            ["แ", "ม่", "น้ํ", "า", "อ", "ยู่", "ที่", "ไ", "ห", "น"],
+            ["แ", "ม่", "น้ํ", "า", "อ", "ยู่", "ที่", "ไ", "ห", "น"]
         )
-        self.assertEqual(display_cell_tokenize("สวัสดี"), ["ส", "วั", "ส", "ดี"])
-        self.assertEqual(
-            display_cell_tokenize("ทดสอบ"), ["ท", "ด", "ส", "อ", "บ"]
-        )
-        self.assertEqual(
-            display_cell_tokenize("ภาษาไทย"),
-            ["ภ", "า", "ษ", "า", "ไ", "ท", "ย"],
-        )
+        self.assertEqual(display_cell_tokenize("สวัสดี"), ['ส', 'วั', 'ส', 'ดี'])
+        self.assertEqual(display_cell_tokenize("ทดสอบ"), ["ท", "ด", "ส", "อ", "บ"])
+        self.assertEqual(display_cell_tokenize("ภาษาไทย"), ["ภ", "า", "ษ", "า", "ไ", "ท", "ย"])

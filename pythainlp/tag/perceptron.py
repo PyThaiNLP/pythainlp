@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Perceptron part-of-speech tagger"""
+"""Perceptron part-of-speech tagger
+"""
 
 from __future__ import annotations
 

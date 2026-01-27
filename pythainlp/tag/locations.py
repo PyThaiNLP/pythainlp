@@ -1,7 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Recognizes locations in text"""
+"""Recognizes locations in text
+"""
 
 from __future__ import annotations
 

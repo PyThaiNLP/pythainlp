@@ -29,9 +29,7 @@ _UNIGRAM_FILENAME = "tnc_freq.txt"
 _BIGRAM_CORPUS_NAME = "tnc_bigram_word_freqs"
 
 _sym_spell = None
-_unigram_file_ctx = (
-    None  # File context manager kept alive for program lifetime
-)
+_unigram_file_ctx = None  # File context manager kept alive for program lifetime
 _load_lock = threading.Lock()  # Thread safety for lazy loading
 
 

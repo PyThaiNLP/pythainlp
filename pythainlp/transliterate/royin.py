@@ -214,23 +214,18 @@ def _replace_consonants(word: str, consonants: str) -> str:
                     not is_last_char and word[i + 1] not in _CONSONANTS
                 )
 
-                # Cluster consonants (ร/r, ล/l, ว/w)
-                # are part of initial cluster if:
+                # Cluster consonants (ร/r, ล/l, ว/w) are part of initial cluster if:
                 # - followed by a vowel, OR
-                # - not the last character
-                #   (e.g., กรม/krom: ก/k+ร/r are cluster, ม/m is final)
+                # - not the last character (e.g., กรม/krom: ก/k+ร/r are cluster, ม/m is final)
                 if is_cluster_consonant and (
                     has_vowel_next or not is_last_char
                 ):
-                    # This is part of initial cluster
-                    # (ร/r, ล/l, or ว/w after first consonant)
+                    # This is part of initial cluster (ร/r, ล/l, or ว/w after first consonant)
                     mod_chars.append(_CONSONANTS[consonants[j]][0])
                     j += 1
                 elif not is_cluster_consonant and not is_last_char:
-                    # Not a cluster consonant,
-                    # and there are more characters.
-                    # This likely starts a new syllable,
-                    # so add implicit 'a' to previous syllable.
+                    # Not a cluster consonant, and there are more characters
+                    # This likely starts a new syllable, so add implicit 'a' to previous syllable
                     mod_chars.append("a")
                     vowel_seen = True
                     # Now process this consonant as start of new syllable
@@ -240,13 +235,11 @@ def _replace_consonants(word: str, consonants: str) -> str:
                     vowel_seen = False  # Reset for new syllable
                     j += 1
                 elif has_vowel_next:
-                    # Not a cluster consonant,
-                    # but vowel follows - still initial
+                    # Not a cluster consonant, but vowel follows - still initial
                     mod_chars.append(_CONSONANTS[consonants[j]][0])
                     j += 1
                 elif is_last_char:
-                    # This is a final consonant with no vowel,
-                    # need to add 'o'
+                    # This is a final consonant with no vowel, need to add 'o'
                     mod_chars.append("o")
                     mod_chars.append(_CONSONANTS[consonants[j]][1])
                     vowel_seen = True
@@ -258,8 +251,7 @@ def _replace_consonants(word: str, consonants: str) -> str:
                     mod_chars.append(_CONSONANTS[consonants[j]][1])
                     vowel_seen = True
                     j += 1
-        else:  # After vowel - could be final consonant
-            # or start of new syllable
+        else:  # After vowel - could be final consonant or start of new syllable
             has_vowel_next = (
                 i + 1 < len(word) and word[i + 1] not in _CONSONANTS
             )

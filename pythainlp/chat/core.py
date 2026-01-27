@@ -8,11 +8,13 @@ import torch
 
 class ChatBotModel:
     def __init__(self):
-        """Chat using AI generation"""
+        """Chat using AI generation
+        """
         self.history = []
 
     def reset_chat(self):
-        """Reset chat by cleaning history"""
+        """Reset chat by cleaning history
+        """
         self.history = []
 
     def load_model(

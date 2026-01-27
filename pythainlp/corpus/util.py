@@ -22,7 +22,8 @@ from pythainlp.util import Trie
 
 
 def index_pairs(words: list[str]) -> Iterator[tuple[int, int]]:
-    """Return beginning and ending indexes of word pairs"""
+    """Return beginning and ending indexes of word pairs
+    """
     i = 0
     for w in words:
         yield i, i + len(w)

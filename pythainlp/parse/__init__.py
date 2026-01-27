@@ -2,7 +2,8 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-"""PyThaiNLP Parse"""
+"""PyThaiNLP Parse
+"""
 
 __all__ = ["dependency_parsing"]
 

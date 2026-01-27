@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from datetime import datetime, time
 from functools import lru_cache
+from typing import Optional, Union
 
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util.numtoword import num_to_thaiword
@@ -122,7 +123,7 @@ def _format(
     m: int,
     s: int,
     fmt: str = "24h",
-    precision: str | None = None,
+    precision: Optional[str] = None,
 ) -> str:
     text = ""
     if fmt == "6h":
@@ -154,9 +155,9 @@ def _format(
 
 
 def time_to_thaiword(
-    time_data: time | datetime | str,
+    time_data: Union[time, datetime, str],
     fmt: str = "24h",
-    precision: str | None = None,
+    precision: Optional[str] = None,
 ) -> str:
     """Spell out time as Thai words.
 

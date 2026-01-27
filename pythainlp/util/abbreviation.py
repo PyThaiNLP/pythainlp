@@ -6,10 +6,12 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 
 def abbreviation_to_full_text(
     text: str, top_k: int = 2
-) -> list[tuple[str, float | None]]:
+) -> list[tuple[str, Optional[float]]]:
     """This function converts Thai text (with abbreviation) to full text.
 
     This function uses KhamYo for handles abbreviations.

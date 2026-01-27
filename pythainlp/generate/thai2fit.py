@@ -13,6 +13,7 @@ __all__ = ["gen_sentence"]
 
 import pickle
 import random
+from typing import Union
 
 # fastai
 import fastai
@@ -101,7 +102,7 @@ def gen_sentence(
     N: int = 4,
     prob: float = 0.001,
     output_str: bool = True,
-) -> list[str] | str:
+) -> Union[list[str], str]:
     """Text generator using Thai2fit
 
     :param str start_seq: word to begin sentence with

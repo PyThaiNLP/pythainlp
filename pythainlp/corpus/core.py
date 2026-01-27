@@ -12,6 +12,7 @@ import sys
 import tarfile
 import zipfile
 from importlib.resources import files
+from typing import Optional
 
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
@@ -206,7 +207,7 @@ def get_corpus_as_is(filename: str) -> list:
     return lines
 
 
-def get_corpus_default_db(name: str, version: str = "") -> str | None:
+def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
     """Get model path from default_db.json
 
     :param str name: corpus name
@@ -236,7 +237,7 @@ def get_corpus_default_db(name: str, version: str = "") -> str | None:
     return None
 
 
-def get_corpus_path(name: str, version: str = "", force: bool = False) -> str | None:
+def get_corpus_path(name: str, version: str = "", force: bool = False) -> Optional[str]:
     """Get corpus path.
 
     :param str name: corpus name

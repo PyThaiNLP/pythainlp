@@ -13,6 +13,7 @@ __all__ = [
 
 import itertools
 from collections import OrderedDict
+from typing import Optional
 
 from nltk.corpus import wordnet as wn
 
@@ -123,12 +124,12 @@ class WordNetAug:
         pass
 
     def find_synonyms(
-        self, word: str, pos: str | None = None, postag_corpus: str = "orchid"
+        self, word: str, pos: Optional[str] = None, postag_corpus: str = "orchid"
     ) -> list[str]:
         """Find synonyms using wordnet
 
         :param str word: word
-        :param str | None pos: part-of-speech type. Default is None.
+        :param Optional[str] pos: part-of-speech type. Default is None.
         :param str postag_corpus: name of POS tag corpus
         :return: list of synonyms
         :rtype: List[str]

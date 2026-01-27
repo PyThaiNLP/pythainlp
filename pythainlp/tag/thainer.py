@@ -9,6 +9,8 @@ from __future__ import annotations
 __all__ = ["ThaiNameTagger"]
 
 
+from typing import Union
+
 from pythainlp.corpus import get_corpus_path, thai_stopwords
 from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
@@ -108,7 +110,7 @@ class ThaiNameTagger:
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False
-    ) -> list[tuple[str, str]] | list[tuple[str, str, str]]:
+    ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]]]:
         """This function tags named-entities in text in IOB format.
 
         :param str text: text in Thai to be tagged

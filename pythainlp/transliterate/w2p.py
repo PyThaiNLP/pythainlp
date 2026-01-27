@@ -7,6 +7,8 @@ GitHub : https://github.com/wannaphong/Thai_W2P
 
 from __future__ import annotations
 
+from typing import Optional
+
 import numpy as np
 
 from pythainlp.corpus import download, get_corpus_path
@@ -129,7 +131,7 @@ class Thai_W2P:
 
         return x
 
-    def _short_word(self, word: str) -> str | None:
+    def _short_word(self, word: str) -> Optional[str]:
         self.word = word
         if self.word.endswith("."):
             self.word = self.word.replace(".", "")

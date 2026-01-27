@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import ast
+from typing import Union
 
 __all__ = [
     "countries",
@@ -82,7 +83,7 @@ def countries() -> frozenset[str]:
     return _THAI_COUNTRIES
 
 
-def provinces(details: bool = False) -> frozenset[str] | list[dict]:
+def provinces(details: bool = False) -> Union[frozenset[str], list[dict]]:
     """Return a frozenset of Thailand province names in Thai such as "กระบี่",
     "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
     \n(See: `dev/pythainlp/corpus/thailand_provinces_th.txt\

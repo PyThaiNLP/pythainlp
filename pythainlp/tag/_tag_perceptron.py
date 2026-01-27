@@ -22,6 +22,7 @@ from __future__ import annotations
 import json
 from collections import defaultdict
 from collections.abc import Iterable
+from typing import Optional
 
 
 class AveragedPerceptron:
@@ -145,7 +146,7 @@ class PerceptronTagger:
     def train(
         self,
         sentences: Iterable[Iterable[tuple[str, str]]],
-        save_loc: str | None = None,
+        save_loc: Optional[str] = None,
         nr_iter: int = 5,
     ) -> None:
         """Train a model from sentences, and save it at ``save_loc``.

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import collections
 from collections.abc import Callable, Collection
+from typing import Optional
 
 import numpy as np
 import torch
@@ -68,7 +69,7 @@ post_rules_th_sparse = post_rules_th[1:] + [
 def process_thai(
     text: str,
     pre_rules: Collection = pre_rules_th_sparse,
-    tok_func: Callable | None = None,
+    tok_func: Optional[Callable] = None,
     post_rules: Collection = post_rules_th_sparse,
 ) -> Collection[str]:
     """Process Thai texts for models (with sparse features as default)

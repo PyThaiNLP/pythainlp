@@ -5,6 +5,8 @@ GitHub: https://github.com/KoichiYasuoka/esupar
 
 from __future__ import annotations
 
+from typing import List, Union
+
 try:
     import esupar
 except ImportError:
@@ -17,7 +19,7 @@ class Parse:
             model = "th"
         self.nlp = esupar.load(model)
 
-    def __call__(self, text: str, tag: str = "str") -> list[list[str]] | str:
+    def __call__(self, text: str, tag: str = "str") -> Union[List[List[str]], str]:
         _data = str(self.nlp(text))
         if tag == "list":
             _temp = _data.splitlines()

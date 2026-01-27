@@ -12,6 +12,8 @@ By Wunsen
 
 from __future__ import annotations
 
+from typing import Optional
+
 from wunsen import ThapSap
 
 
@@ -36,18 +38,18 @@ class WunsenTransliterate:
         self,
         text: str,
         lang: str,
-        jp_input: str | None = None,
-        zh_sandhi: bool | None = None,
-        system: str | None = None,
+        jp_input: Optional[str] = None,
+        zh_sandhi: Optional[bool] = None,
+        system: Optional[str] = None,
     ):
         """Use Wunsen for transliteration
 
         :param str text: text to be transliterated to Thai text.
         :param str lang: source language
-        :param str | None jp_input: Japanese input method (for Japanese only). Default is None.
-        :param bool | None zh_sandhi: Mandarin third tone sandhi option
+        :param Optional[str] jp_input: Japanese input method (for Japanese only). Default is None.
+        :param Optional[bool] zh_sandhi: Mandarin third tone sandhi option
             (for Mandarin only). Default is None.
-        :param str | None system: transliteration system (for Japanese and
+        :param Optional[str] system: transliteration system (for Japanese and
             Mandarin only). Default is None.
 
         :return: Thai text

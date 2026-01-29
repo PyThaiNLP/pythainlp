@@ -43,7 +43,7 @@ class WordVector:
         """
         self.load_wordvector(model_name)
 
-    def load_wordvector(self, model_name: str):
+    def load_wordvector(self, model_name: str) -> None:
         """Load word vector model.
 
         :param str model_name: model name

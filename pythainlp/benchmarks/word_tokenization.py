@@ -196,7 +196,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     }
 
 
-def _binary_representation(txt: str, verbose: bool = False):
+def _binary_representation(txt: str, verbose: bool = False) -> np.ndarray:
     """Transform text into {0, 1} sequence.
 
     where (1) indicates that the corresponding character is the beginning of

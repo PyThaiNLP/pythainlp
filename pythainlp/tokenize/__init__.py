@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Tokenizers at different levels of linguistic analysis.
 """
+from __future__ import annotations
 
 __all__ = [
     "thai2fit_tokenizer",

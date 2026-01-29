@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import types
 from importlib.resources import as_file, files
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from pycrfsuite import Tagger as CRFTagger
 
@@ -16,12 +16,12 @@ def _is_stopword(word: str) -> bool:  # check Thai stopword
     return word in thai_stopwords()
 
 
-def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, Union[str, bool]]:
+def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, Any]:
     """`tokens`  = a POS-tagged sentence [(w1, t1), ...]
     `index`   = the index of the token we want to extract features for
     """
     word, pos = tokens[index]
-    f = {
+    f: dict[str, Any] = {
         "word": word,
         "word_is_stopword": _is_stopword(word),
         "pos": pos,
@@ -54,7 +54,7 @@ def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, Union[
     return f
 
 
-def extract_features(doc: list[tuple[str, str]]) -> list[dict[str, Union[str, bool]]]:
+def extract_features(doc: list[tuple[str, str]]) -> list[dict[str, Any]]:
     return [_doc2features(doc, i) for i in range(0, len(doc))]
 
 
@@ -81,8 +81,8 @@ class CRFchunk:
         if corpus == "orchidpp":
             corpus_files = files("pythainlp.corpus")
             model_file = corpus_files.joinpath("crfchunk_orchidpp.model")
-            self._model_file_ctx = as_file(model_file)
-            model_path = self._model_file_ctx.__enter__()
+            self._model_file_ctx = as_file(model_file)  # type: ignore[assignment]
+            model_path = self._model_file_ctx.__enter__()  # type: ignore[attr-defined]
             self.tagger.open(str(model_path))
 
     def parse(self, token_pos: list[tuple[str, str]]) -> list[str]:
@@ -98,7 +98,7 @@ class CRFchunk:
         exc_type: Optional[type[BaseException]],
         exc_val: Optional[BaseException],
         exc_tb: Optional[types.TracebackType]
-    ) -> bool:
+    ) -> None:
         """Context manager exit - clean up resources."""
         if self._model_file_ctx is not None:
             try:
@@ -106,7 +106,6 @@ class CRFchunk:
                 self._model_file_ctx = None
             except Exception:  # noqa: S110
                 pass
-        return False
 
     def __del__(self) -> None:
         """Clean up the context manager when object is destroyed.

@@ -163,7 +163,7 @@ class ThaiNameTagger:
             14:49 น.</TIME>'
         """
         tokens = word_tokenize(text, engine=_TOKENIZER_ENGINE)
-        pos_tags = pos_tag(
+        pos_tags = pos_tag(  # type: ignore[operator]
             tokens, engine="perceptron", corpus=self.pos_tag_name
         )
         x_test = ThaiNameTagger.__extract_features(pos_tags)
@@ -190,7 +190,7 @@ class ThaiNameTagger:
                 if idx == len(sent_ner) - 1 and temp != "":
                     sent += "</" + temp + ">"
 
-            return sent
+            return sent  # type: ignore[return-value]
 
         if pos:
             return [

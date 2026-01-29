@@ -54,7 +54,7 @@ class WngchanBerta_ONNX:
             self._json = json.load(fh)
             self.id2tag = self._json["id2label"]
 
-    def build_tokenizer(self, sent):
+    def build_tokenizer(self, sent: str) -> dict[str, np.ndarray]:
         _t = [5] + [i + 4 for i in self.sp.encode(sent)] + [6]
         model_inputs = {}
         model_inputs["input_ids"] = np.array([_t], dtype=np.int64)
@@ -63,17 +63,17 @@ class WngchanBerta_ONNX:
         )
         return model_inputs
 
-    def postprocess(self, logits_data):
+    def postprocess(self, logits_data: np.ndarray) -> np.ndarray:
         logits_t = logits_data[0]
         maxes = np.max(logits_t, axis=-1, keepdims=True)
         shifted_exp = np.exp(logits_t - maxes)
         scores = shifted_exp / shifted_exp.sum(axis=-1, keepdims=True)
         return scores
 
-    def clean_output(self, list_text):
+    def clean_output(self, list_text: list[tuple[str, str]]) -> list[tuple[str, str]]:
         return list_text
 
-    def totag(self, post, sent):
+    def totag(self, post: np.ndarray, sent: str) -> list[tuple[str, str]]:
         tag = []
         _s = self.sp.EncodeAsPieces(sent)
         for i in range(len(_s)):
@@ -87,10 +87,10 @@ class WngchanBerta_ONNX:
             )
         return tag
 
-    def _config(self, list_ner):
+    def _config(self, list_ner: list[tuple[str, str]]) -> list[tuple[str, str]]:
         return list_ner
 
-    def get_ner(self, text: str, tag: bool = False):
+    def get_ner(self, text: str, tag: bool = False) -> list[tuple[str, str]]:
         self._s = self.build_tokenizer(text)
         logits = self.session.run(
             output_names=[self.outputs_name], input_feed=self._s

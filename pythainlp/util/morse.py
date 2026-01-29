@@ -154,11 +154,11 @@ def morse_encode(text: str, lang: str = "th") -> str:
     """
     if lang == "th":  # Thai
         return " ".join(
-            map(lambda x, g=THAI_MORSE_CODE.get: g(x, " ") if callable(g) else " ", text.upper())
+            map(lambda x, g=THAI_MORSE_CODE.get: g(x, " "), text.upper())
         )
     elif lang == "en":  # English
         return " ".join(
-            map(lambda x, g=ENGLISH_MORSE_CODE.get: g(x, " ") if callable(g) else " ", text.upper())
+            map(lambda x, g=ENGLISH_MORSE_CODE.get: g(x, " "), text.upper())
         )
     else:
         raise NotImplementedError(f"This function doesn't support {lang}.")
@@ -187,12 +187,12 @@ def morse_decode(morse_text: str, lang: str = "th") -> str:
     """
     if lang == "th":
         ans = "".join(
-            map(lambda x, g=decodingthai.get: g(x, "") if callable(g) else "", morse_text.split(" "))
+            map(lambda x, g=decodingthai.get: g(x, ""), morse_text.split(" "))
         )
         return "".join(ans.split())
     elif lang == "en":
         ans = "".join(
-            map(lambda x, g=decodingeng.get: g(x, " ") if callable(g) else " ", morse_text.split(" "))
+            map(lambda x, g=decodingeng.get: g(x, " "), morse_text.split(" "))
         )
         return " ".join(ans.split())
     else:

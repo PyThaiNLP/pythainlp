@@ -62,8 +62,6 @@ _THAI_MALE_NAMES_FILENAME = "person_names_male_th.txt"
 
 _THAI_ORST_WORDS: frozenset[str] = frozenset()
 
-from typing import Any
-
 _THAI_DICT: dict[str, list[str]] = {}
 _THAI_WSD_DICT: dict[str, list[Any]] = {}
 _THAI_SYNONYMS: dict[str, list[Any]] = {}

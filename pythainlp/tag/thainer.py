@@ -201,5 +201,5 @@ class ThaiNameTagger:
         return sent_ner
 
     @staticmethod
-    def __extract_features(doc: list[str]) -> list[dict[str, str | bool]]:
+    def __extract_features(doc: list[str]) -> list[dict[str, Union[str, bool]]]:
         return [_doc2features(doc, i) for i in range(len(doc))]

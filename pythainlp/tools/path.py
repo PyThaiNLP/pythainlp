@@ -12,6 +12,11 @@ import os
 from os import PathLike
 from typing import cast
 
+# importlib.resources (stdlib) vs importlib_resources (backport) are different modules,
+# but both assign to 'files', so mypy sees this as a redefinition.
+# Both type: ignore codes are needed:
+# - import-not-found: when backport package is not installed
+# - no-redef: for the intentional redefinition of the 'files' name
 try:
     from importlib.resources import files
 except ImportError:

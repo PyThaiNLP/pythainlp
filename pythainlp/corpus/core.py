@@ -42,7 +42,7 @@ class _ResponseWrapper:
             raise ValueError(f"Failed to parse JSON response: {err}")
 
 
-def get_corpus_db(url: str):
+def get_corpus_db(url: str) -> _ResponseWrapper | None:
     """Get corpus catalog from server.
 
     :param str url: URL corpus catalog
@@ -69,7 +69,7 @@ def get_corpus_db(url: str):
     return corpus_db
 
 
-def get_corpus_db_detail(name: str, version: str = "") -> dict:
+def get_corpus_db_detail(name: str, version: str = "") -> dict[str, str]:
     """Get details about a corpus, using information from local catalog.
 
     :param str name: name of corpus
@@ -172,7 +172,7 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset:
     return frozenset(filter(None, lines))
 
 
-def get_corpus_as_is(filename: str) -> list:
+def get_corpus_as_is(filename: str) -> list[str]:
     """Read corpus data from file, as it is, and return a list.
 
     Each line in the file will be a member of the list.
@@ -749,7 +749,7 @@ def remove(name: str) -> bool:
     return False
 
 
-def get_path_folder_corpus(name, version, *path):
+def get_path_folder_corpus(name: str, version: str, *path: str) -> str:
     return os.path.join(get_corpus_path(name, version), *path)
 
 

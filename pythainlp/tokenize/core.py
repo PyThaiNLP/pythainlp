@@ -338,7 +338,7 @@ def word_tokenize(
     return segments
 
 
-def indices_words(words):
+def indices_words(words: list[str]) -> list[tuple[int, int]]:
     """Convert a list of words to a list of character index pairs.
 
     This function takes a list of words and returns the start and end
@@ -369,7 +369,7 @@ def indices_words(words):
     return indices
 
 
-def map_indices_to_words(index_list, sentences):
+def map_indices_to_words(index_list: list[tuple[int, int]], sentences: list[str]) -> list[list[str]]:
     """Map character index pairs to actual words from sentences.
 
     This function takes a list of character index pairs and a list of

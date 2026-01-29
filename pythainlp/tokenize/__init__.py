@@ -29,13 +29,13 @@ DEFAULT_SYLLABLE_TOKENIZE_ENGINE = "han_solo"
 
 
 @lru_cache
-def word_dict_trie():
+def word_dict_trie() -> Trie:
     """Lazy load default word dict trie with cache"""
     return Trie(thai_words())
 
 
 @lru_cache
-def syllable_dict_trie():
+def syllable_dict_trie() -> Trie:
     """Lazy load default syllable dict trie with cache"""
     return Trie(thai_syllables())
 

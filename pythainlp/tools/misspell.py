@@ -41,18 +41,19 @@ ALL_CHARACTERS = [
 ]
 
 
-def search_location_of_character(char: str):
+def search_location_of_character(char: str) -> tuple[int, int, int, int] | None:
     for language_ix in [0, 1]:
         for ix, row in enumerate(ALL_CHARACTERS[language_ix]):
             if char in row:
                 return (language_ix, ix // 4, ix % 4, row.index(char))
+    return None
 
 
 def find_neighbour_locations(
-    loc: tuple,
+    loc: tuple[int, int, int, int],
     char: str,
-    kernel: list = [(-1, -1), (-1, 0), (1, 1), (0, 1), (0, -1), (1, 0)],
-):
+    kernel: list[tuple[int, int]] = [(-1, -1), (-1, 0), (1, 1), (0, 1), (0, -1), (1, 0)],
+) -> list[tuple[int, int, int, int, str]]:
     language_ix, is_shift, row, pos = loc
 
     valid_neighbours = []
@@ -66,7 +67,7 @@ def find_neighbour_locations(
     return valid_neighbours
 
 
-def find_misspell_candidates(char: str, verbose: bool = False):
+def find_misspell_candidates(char: str, verbose: bool = False) -> list[str] | None:
     loc = search_location_of_character(char)
     if loc is None:
         return None
@@ -104,7 +105,7 @@ def find_misspell_candidates(char: str, verbose: bool = False):
     return chars
 
 
-def misspell(sentence: str, ratio: float = 0.05):
+def misspell(sentence: str, ratio: float = 0.05) -> str:
     """Simulate some misspellings of the input sentence.
     The number of misspelled locations is governed by ratio.
 

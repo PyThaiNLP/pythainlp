@@ -62,9 +62,9 @@ _THAI_MALE_NAMES_FILENAME = "person_names_male_th.txt"
 
 _THAI_ORST_WORDS: frozenset[str] = frozenset()
 
-_THAI_DICT: dict[str, list] = {}
-_THAI_WSD_DICT: dict[str, list] = {}
-_THAI_SYNONYMS: dict[str, list] = {}
+_THAI_DICT: dict[str, list[str]] = {}
+_THAI_WSD_DICT: dict[str, list[str]] = {}
+_THAI_SYNONYMS: dict[str, list[str]] = {}
 
 
 def countries() -> frozenset[str]:

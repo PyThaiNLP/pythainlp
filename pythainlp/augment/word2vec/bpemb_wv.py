@@ -35,7 +35,7 @@ class BPEmbAug:
 
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
-    ) -> list[tuple[str]]:
+    ) -> list[str]:
         """Text Augment using word2vec from BPEmb
 
         :param str sentence: Thai sentence
@@ -43,7 +43,7 @@ class BPEmbAug:
         :param float p: probability of word
 
         :return: list of synonyms
-        :rtype: List[str]
+        :rtype: list[str]
         :Example:
         ::
 

@@ -12,7 +12,7 @@ Note: It does not take into account the change of new year's day in Thailand
 # ไม่ได้รองรับปี พ.ศ. ก่อนการเปลี่ยนวันขึ้นปีใหม่ของประเทศไทย
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, Union
 
 __all__ = [
     "convert_years",
@@ -290,10 +290,10 @@ def thai_strptime(
     y_matches = re.findall(fmt, text)
 
     data = {i: "".join(list(j)) for i, j in zip(keys, y_matches[0])}
-    H: int | str = 0
-    M: int | str = 0
-    S: int | str = 0
-    f: int | str = 0
+    H: Union[int, str] = 0
+    M: Union[int, str] = 0
+    S: Union[int, str] = 0
+    f: Union[int, str] = 0
     d = data["d"]
     m = _find_month(data["B"])
     y = data["Y"]

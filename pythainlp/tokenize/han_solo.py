@@ -8,6 +8,8 @@ GitHub: https://github.com/PyThaiNLP/Han-solo
 
 from __future__ import annotations
 
+from typing import Union
+
 import threading
 from importlib.resources import as_file, files
 from typing import Optional
@@ -70,7 +72,7 @@ class Featurizer:
             if skip_next:
                 skip_next = False
                 continue
-            features: dict[str, int] | list[str]
+            features: Union[dict[str, int], list[str]]
             if return_type == "list":
                 features = []
             else:

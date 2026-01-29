@@ -8,6 +8,8 @@ Convert time string or time object to Thai words.
 
 from __future__ import annotations
 
+from typing import Union
+
 from datetime import datetime, time
 from functools import lru_cache
 from typing import Optional, Union
@@ -273,7 +275,7 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
 
     hour = _thai_time_cut().word_tokenize(_LIST_THAI_TIME[0])
     minute_raw = _LIST_THAI_TIME[1]
-    minute: list[str] | int
+    minute: Union[list[str], int]
     if len(minute_raw) > 1:
         minute = _thai_time_cut().word_tokenize(minute_raw)
     else:

@@ -9,6 +9,8 @@ https://colab.research.google.com/drive/148WNIeclf0kOU6QxKd6pcfwpSs8l-VKD#scroll
 
 from __future__ import annotations
 
+from typing import Union
+
 import re
 from functools import lru_cache
 from typing import Optional
@@ -157,7 +159,7 @@ def words_to_num(words: list[str]) -> float:
         # output: 50.95
 
     """
-    num: int | float = 0
+    num: Union[int, float] = 0
     if "จุด" not in words:
         num = thaiword_to_num("".join(words))
     else:

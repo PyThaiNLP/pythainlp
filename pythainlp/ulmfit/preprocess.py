@@ -9,6 +9,7 @@ from __future__ import annotations
 import html
 import re
 from collections.abc import Collection
+from typing import Optional
 
 import emoji
 
@@ -129,9 +130,9 @@ def replace_wrep_post(toks: Collection[str]) -> list[str]:
         ['กา', 'xxwrep', '3', 'น้ำ']
 
     """
-    previous_word: str | None = None
+    previous_word: Optional[str] = None
     rep_count = 0
-    res: list[str | None] = []
+    res: list[Optional[str]] = []
     for current_word in list(toks) + [_TK_END]:
         if current_word == previous_word:
             rep_count += 1
@@ -251,9 +252,9 @@ def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
         ['กา', 'xxwrep', 'น้ำ']
 
     """
-    previous_word: str | None = None
+    previous_word: Optional[str] = None
     rep_count = 0
-    res: list[str | None] = []
+    res: list[Optional[str]] = []
     for current_word in list(toks) + [_TK_END]:
         if current_word == previous_word:
             rep_count += 1

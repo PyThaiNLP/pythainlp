@@ -169,19 +169,19 @@ def transliterate(
     if engine in ("icu", "pyicu"):
         from pythainlp.transliterate.pyicu import transliterate
     elif engine == "ipa":
-        from pythainlp.transliterate.ipa import transliterate  # type: ignore[assignment]
+        from pythainlp.transliterate.ipa import transliterate  # type: ignore[no-redef]
     elif engine == "tltk_g2p":
-        from pythainlp.transliterate.tltk import tltk_g2p as transliterate  # type: ignore[assignment]
+        from pythainlp.transliterate.tltk import tltk_g2p as transliterate  # type: ignore[no-redef]
     elif engine == "tltk_ipa":
-        from pythainlp.transliterate.tltk import tltk_ipa as transliterate  # type: ignore[assignment]
+        from pythainlp.transliterate.tltk import tltk_ipa as transliterate  # type: ignore[no-redef]
     elif engine == "iso_11940":
-        from pythainlp.transliterate.iso_11940 import transliterate  # type: ignore[assignment]
+        from pythainlp.transliterate.iso_11940 import transliterate  # type: ignore[no-redef]
     elif engine == "thaig2p_v2":
-        from pythainlp.transliterate.thaig2p_v2 import transliterate  # type: ignore[assignment]
+        from pythainlp.transliterate.thaig2p_v2 import transliterate  # type: ignore[no-redef]
     elif engine == "umt5_thaig2p":
-        from pythainlp.translate.umt5_thaig2p import transliterate  # type: ignore[assignment]
+        from pythainlp.translate.umt5_thaig2p import transliterate  # type: ignore[no-redef]
     else:  # use default engine: "thaig2p"
-        from pythainlp.transliterate.thaig2p import transliterate  # type: ignore[assignment]
+        from pythainlp.transliterate.thaig2p import transliterate  # type: ignore[no-redef]
 
     return transliterate(text)
 

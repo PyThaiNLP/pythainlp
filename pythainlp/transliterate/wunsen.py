@@ -12,7 +12,7 @@ By Wunsen
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, Union
 
 from wunsen import ThapSap
 
@@ -135,7 +135,7 @@ class WunsenTransliterate:
             input_lang = lang
             if input_lang == "jp":
                 input_lang = "ja"
-            setting: dict[str, str | dict[str, bool]] = {}
+            setting: dict[str, Union[str, dict[str, bool]]] = {}
             if self.jp_input is not None:
                 setting.update({"input": self.jp_input})
             if self.zh_sandhi is not None:

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import types
 from importlib.resources import as_file, files
+from typing import Optional, Union
 
 from pycrfsuite import Tagger as CRFTagger
 
@@ -15,7 +16,7 @@ def _is_stopword(word: str) -> bool:  # check Thai stopword
     return word in thai_stopwords()
 
 
-def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, str | bool]:
+def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, Union[str, bool]]:
     """`tokens`  = a POS-tagged sentence [(w1, t1), ...]
     `index`   = the index of the token we want to extract features for
     """
@@ -53,7 +54,7 @@ def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, str | 
     return f
 
 
-def extract_features(doc: list[tuple[str, str]]) -> list[dict[str, str | bool]]:
+def extract_features(doc: list[tuple[str, str]]) -> list[dict[str, Union[str, bool]]]:
     return [_doc2features(doc, i) for i in range(0, len(doc))]
 
 
@@ -92,7 +93,7 @@ class CRFchunk:
         """Context manager entry."""
         return self
 
-    def __exit__(self, exc_type: type[BaseException] | None, exc_val: BaseException | None, exc_tb: types.TracebackType | None) -> bool:
+    def __exit__(self, exc_type: Optional[type[BaseException]], exc_val: Optional[BaseException], exc_tb: Optional[types.TracebackType]) -> bool:
         """Context manager exit - clean up resources."""
         if self._model_file_ctx is not None:
             try:

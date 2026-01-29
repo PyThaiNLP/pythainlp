@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import re
 from functools import lru_cache
+from typing import Optional
 
 from pythainlp.corpus import thai_words
 from pythainlp.tokenize import Tokenizer
@@ -54,7 +55,7 @@ def _tokenizer() -> Tokenizer:
     return Tokenizer(custom_dict=_valid_tokens)
 
 
-def _check_is_thainum(word: str) -> tuple[bool, str | None]:
+def _check_is_thainum(word: str) -> tuple[bool, Optional[str]]:
     for j in _digits:
         if j in word:
             return (True, "num")

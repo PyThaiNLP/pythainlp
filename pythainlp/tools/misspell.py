@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import math
 import random
+from typing import Optional
 
 THAI_CHARACTERS_WITHOUT_SHIFT = [
     "ผปแอิืทมใฝ",
@@ -41,7 +42,7 @@ ALL_CHARACTERS = [
 ]
 
 
-def search_location_of_character(char: str) -> tuple[int, int, int, int] | None:
+def search_location_of_character(char: str) -> Optional[tuple[int, int, int, int]]:
     for language_ix in [0, 1]:
         for ix, row in enumerate(ALL_CHARACTERS[language_ix]):
             if char in row:
@@ -67,7 +68,7 @@ def find_neighbour_locations(
     return valid_neighbours
 
 
-def find_misspell_candidates(char: str, verbose: bool = False) -> list[str] | None:
+def find_misspell_candidates(char: str, verbose: bool = False) -> Optional[list[str]]:
     loc = search_location_of_character(char)
     if loc is None:
         return None

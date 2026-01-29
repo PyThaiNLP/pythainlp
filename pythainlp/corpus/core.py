@@ -43,7 +43,7 @@ class _ResponseWrapper:
             raise ValueError(f"Failed to parse JSON response: {err}")
 
 
-def get_corpus_db(url: str) -> _ResponseWrapper | None:
+def get_corpus_db(url: str) -> Optional[_ResponseWrapper]:
     """Get corpus catalog from server.
 
     :param str url: URL corpus catalog

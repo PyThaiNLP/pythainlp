@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+from typing import Union
 
 import numpy as np
 
@@ -90,7 +91,7 @@ class WngchanBerta_ONNX:
     def _config(self, list_ner: list[tuple[str, str]]) -> list[tuple[str, str]]:
         return list_ner
 
-    def get_ner(self, text: str, tag: bool = False) -> str | list[tuple[str, str]]:
+    def get_ner(self, text: str, tag: bool = False) -> Union[str, list[tuple[str, str]]]:
         self._s = self.build_tokenizer(text)
         logits = self.session.run(
             output_names=[self.outputs_name], input_feed=self._s

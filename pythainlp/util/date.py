@@ -207,7 +207,7 @@ def convert_years(year: str, src="be", target="ad") -> str:
     return output_year
 
 
-def _find_month(text: str) -> int | None:
+def _find_month(text: str) -> Optional[int]:
     for i, m in enumerate(thai_full_month_lists):
         for j in m:
             if j in text:

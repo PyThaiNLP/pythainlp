@@ -278,11 +278,11 @@ def _romanize(word: str) -> str:
 
     # 2-character word, all consonants
     if len(word) == 2 and len(consonants) == 2:
-        word = list(word)
-        word.insert(1, "o")
-        word = "".join(word)
+        word_list = list(word)
+        word_list.insert(1, "o")
+        word = "".join(word_list)
 
-    word = _replace_consonants(word, consonants)
+    word = _replace_consonants(word, "".join(consonants))  # type: ignore[arg-type]
     return word
 
 
@@ -334,7 +334,7 @@ def romanize(text: str) -> str:
     :rtype: str
     """
     words = word_tokenize(text)
-    romanized_words = []
+    romanized_words: list[str] = []
 
     for i, word in enumerate(words):
         romanized = _romanize(word)

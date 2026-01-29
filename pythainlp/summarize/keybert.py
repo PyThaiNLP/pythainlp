@@ -169,7 +169,7 @@ def _generate_ngrams(
         f"current value={keyphrase_ngram_range}."
     )
 
-    def _join_ngram(ngrams: list[tuple[str, str]]) -> list[str]:
+    def _join_ngram(ngrams: list[tuple[str, ...]]) -> list[str]:  # type: ignore[type-arg]
         ngrams_joined = []
         for ng in ngrams:
             joined = "".join(ng)
@@ -187,7 +187,7 @@ def _generate_ngrams(
             ngrams = [word for word in words if word.strip()]
         else:
             ngrams_tuple = zip(*[words[i:] for i in range(n)])
-            ngrams = _join_ngram(ngrams_tuple)
+            ngrams = _join_ngram(list(ngrams_tuple))  # type: ignore[arg-type]
 
         ngrams_cnt = Counter(ngrams)
         ngrams = [

@@ -143,8 +143,8 @@ class WunsenTransliterate:
             if self.system is not None:
                 setting.update({"system": self.system})
             self.thap_value = ThapSap(input_lang, **setting)
-
+        
         if self.thap_value is None:
             raise RuntimeError("ThapSap model not initialized")
-
+        
         return self.thap_value.thap(text)

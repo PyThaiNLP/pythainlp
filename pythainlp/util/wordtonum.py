@@ -9,9 +9,11 @@ https://colab.research.google.com/drive/148WNIeclf0kOU6QxKd6pcfwpSs8l-VKD#scroll
 
 from __future__ import annotations
 
+from typing import Union
+
 import re
 from functools import lru_cache
-from typing import Optional, Union
+from typing import Optional
 
 from pythainlp.corpus import thai_words
 from pythainlp.tokenize import Tokenizer

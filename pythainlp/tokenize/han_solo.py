@@ -8,16 +8,18 @@ GitHub: https://github.com/PyThaiNLP/Han-solo
 
 from __future__ import annotations
 
+from typing import Union
+
 import threading
 from importlib.resources import as_file, files
-from typing import Optional, Union
+from typing import Optional
 
 try:
     import pycrfsuite
-except ImportError as ex:
+except ImportError:
     raise ImportError(
         "ImportError; Install pycrfsuite by pip install python-crfsuite"
-    ) from ex
+    )
 
 _tagger = None
 _model_file_ctx = None  # File context manager kept alive for program lifetime

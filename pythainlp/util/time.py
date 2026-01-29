@@ -8,6 +8,8 @@ Convert time string or time object to Thai words.
 
 from __future__ import annotations
 
+from typing import Union
+
 from datetime import datetime, time
 from functools import lru_cache
 from typing import Optional, Union

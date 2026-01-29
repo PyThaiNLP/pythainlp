@@ -17,7 +17,7 @@ from pythainlp.corpus import thai_words
 # when dictionary updated, this should be updated too
 # key: consonant
 # value: list of words that has repeating consonants at the end
-last_consonants_repeaters = {}
+last_consonants_repeaters: dict[str, list[str]] = {}
 
 
 def remove_trailing_repeat_consonants(

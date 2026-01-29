@@ -30,7 +30,7 @@ from datetime import datetime, timedelta
 try:
     from zoneinfo import ZoneInfo
 except ImportError:
-    from backports.zoneinfo import ZoneInfo
+    from backports.zoneinfo import ZoneInfo  # type: ignore[no-redef]
 
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
@@ -287,13 +287,13 @@ def thai_strptime(
         for i in _old.split("%")
         if i != ""
     ]
-    y = re.findall(fmt, text)
+    y_matches = re.findall(fmt, text)
 
-    data = {i: "".join(list(j)) for i, j in zip(keys, y[0])}
-    H = 0
-    M = 0
-    S = 0
-    f = 0
+    data = {i: "".join(list(j)) for i, j in zip(keys, y_matches[0])}
+    H: int | str = 0
+    M: int | str = 0
+    S: int | str = 0
+    f: int | str = 0
     d = data["d"]
     m = _find_month(data["B"])
     y = data["Y"]
@@ -387,7 +387,7 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
     return ad
 
 
-def thaiword_to_date(text: str, date: datetime = None) -> Optional[datetime]:
+def thaiword_to_date(text: str, date: Optional[datetime] = None) -> Optional[datetime]:
     """Convert Thai relative date to :class:`datetime.datetime`.
 
     :param str text: Thai text containing relative date
@@ -405,7 +405,7 @@ def thaiword_to_date(text: str, date: datetime = None) -> Optional[datetime]:
     if text not in _DAY:
         return None
 
-    day_num = _DAY.get(text)
+    day_num = _DAY.get(text, 0)
 
     if not date:
         date = datetime.now()

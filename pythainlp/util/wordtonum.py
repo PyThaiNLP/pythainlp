@@ -157,7 +157,7 @@ def words_to_num(words: list[str]) -> float:
         # output: 50.95
 
     """
-    num = 0
+    num: int | float = 0
     if "จุด" not in words:
         num = thaiword_to_num("".join(words))
     else:

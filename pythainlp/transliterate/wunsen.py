@@ -28,11 +28,11 @@ class WunsenTransliterate:
     """
 
     def __init__(self) -> None:
-        self.thap_value = None
-        self.lang = None
-        self.jp_input = None
-        self.zh_sandhi = None
-        self.system = None
+        self.thap_value: Optional[object] = None
+        self.lang: Optional[str] = None
+        self.jp_input: Optional[str] = None
+        self.zh_sandhi: Optional[bool] = None
+        self.system: Optional[str] = None
 
     def transliterate(
         self,
@@ -135,7 +135,7 @@ class WunsenTransliterate:
             input_lang = lang
             if input_lang == "jp":
                 input_lang = "ja"
-            setting = {}
+            setting: dict[str, str | dict[str, bool]] = {}
             if self.jp_input is not None:
                 setting.update({"input": self.jp_input})
             if self.zh_sandhi is not None:
@@ -143,4 +143,8 @@ class WunsenTransliterate:
             if self.system is not None:
                 setting.update({"system": self.system})
             self.thap_value = ThapSap(input_lang, **setting)
+        
+        if self.thap_value is None:
+            raise RuntimeError("ThapSap model not initialized")
+        
         return self.thap_value.thap(text)

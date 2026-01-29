@@ -8,12 +8,16 @@ from __future__ import annotations
 
 import itertools
 from functools import lru_cache
+from typing import TYPE_CHECKING
 
 from pythainlp.spell import DEFAULT_SPELL_CHECKER
 
+if TYPE_CHECKING:
+    from pythainlp.spell.pn import NorvigSpellChecker
+
 
 @lru_cache
-def default_spell_checker():
+def default_spell_checker() -> "NorvigSpellChecker":
     """Lazy load default spell checker with cache"""
     return DEFAULT_SPELL_CHECKER()
 

@@ -55,9 +55,9 @@ class Word2VecAug:
         :return: list of synonyms
         :rtype: list[tuple[str, ...]]
         """
-        self.sentence = self.tokenizer(sentence)
-        self.list_synonym = self.modify_sent(self.sentence, p=p)
+        _sentence = self.tokenizer(sentence)
+        _list_synonym = self.modify_sent(_sentence, p=p)
         new_sentences = []
-        for x in list(itertools.product(*self.list_synonym))[0:n_sent]:
+        for x in list(itertools.product(*_list_synonym))[0:n_sent]:
             new_sentences.append(x)
         return new_sentences

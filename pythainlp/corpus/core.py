@@ -40,7 +40,7 @@ class _ResponseWrapper:
         try:
             return json.loads(self._content.decode("utf-8"))
         except (json.JSONDecodeError, UnicodeDecodeError) as err:
-            raise ValueError(f"Failed to parse JSON response: {err}")
+            raise ValueError(f"Failed to parse JSON response: {err}") from err
 
 
 def get_corpus_db(url: str) -> Optional[_ResponseWrapper]:

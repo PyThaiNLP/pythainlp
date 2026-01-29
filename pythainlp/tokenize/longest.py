@@ -52,6 +52,8 @@ class LongestMatchTokenizer:
     @staticmethod
     def __search_nonthai(text: str) -> Optional[str]:
         match = _RE_NONTHAI.search(text)
+        if not match:
+            return None
         if match.group(0):
             return match.group(0).lower()
         return None

@@ -203,9 +203,9 @@ class PerceptronTagger:
         try:
             with open(loc, encoding="utf-8-sig") as f:
                 w_td_c = json.load(f)
-        except OSError:
+        except OSError as ex:
             msg = "Missing trontagger.json file."
-            raise OSError(msg)
+            raise OSError(msg) from ex
         self.model.weights = w_td_c["weights"]
         self.tagdict = w_td_c["tagdict"]
         self.classes = w_td_c["classes"]

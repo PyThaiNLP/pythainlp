@@ -8,7 +8,7 @@
 from __future__ import annotations
 
 import ast
-from typing import Any, Union
+from typing import Union
 
 __all__ = [
     "countries",

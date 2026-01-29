@@ -26,12 +26,7 @@ __all__ = [
 
 import re
 from datetime import datetime, timedelta
-
-try:
-    from zoneinfo import ZoneInfo
-except ImportError:
-    from backports.zoneinfo import ZoneInfo  # type: ignore[no-redef]
-
+from zoneinfo import ZoneInfo
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
 thai_full_weekdays = [
@@ -290,19 +285,19 @@ def thai_strptime(
     y_matches = re.findall(fmt, text)
 
     data = {i: "".join(list(j)) for i, j in zip(keys, y_matches[0])}
-    H: Union[int, str] = 0
-    M: Union[int, str] = 0
-    S: Union[int, str] = 0
+    hour: Union[int, str] = 0
+    minute: Union[int, str] = 0
+    second: Union[int, str] = 0
     f: Union[int, str] = 0
     d = data["d"]
     m = _find_month(data["B"])
     y = data["Y"]
     if "H" in keys:
-        H = data["H"]
+        hour = data["H"]
     if "M" in keys:
-        M = data["M"]
+        minute = data["M"]
     if "S" in keys:
-        S = data["S"]
+        second = data["S"]
     if "f" in keys:
         f = data["f"]
     if int(y) < 100 and year == "be":
@@ -321,9 +316,9 @@ def thai_strptime(
         year=int(y),
         month=int(m),
         day=int(d),
-        hour=int(H),
-        minute=int(M),
-        second=int(S),
+        hour=int(hour),
+        minute=int(minute),
+        second=int(second),
         microsecond=int(f),
         tzinfo=tzinfo,
     )
@@ -376,6 +371,7 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
             reign_year_to_ad(1, 9))
         # output: The 4th reign year of the King Rama X is in 1946
     """
+    ad = 0
     if int(reign) == 10:
         ad = int(reign_year) + 2015
     elif int(reign) == 9:

@@ -93,7 +93,12 @@ class CRFchunk:
         """Context manager entry."""
         return self
 
-    def __exit__(self, exc_type: Optional[type[BaseException]], exc_val: Optional[BaseException], exc_tb: Optional[types.TracebackType]) -> bool:
+    def __exit__(
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[types.TracebackType]
+    ) -> bool:
         """Context manager exit - clean up resources."""
         if self._model_file_ctx is not None:
             try:

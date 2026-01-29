@@ -32,21 +32,21 @@ _TDTB_TAGGER = None
 _TUD_TAGGER = None
 
 
-def _orchid_tagger():
+def _orchid_tagger() -> PerceptronTagger:
     global _ORCHID_TAGGER
     if not _ORCHID_TAGGER:
         _ORCHID_TAGGER = PerceptronTagger(path=_ORCHID_PATH)
     return _ORCHID_TAGGER
 
 
-def _pud_tagger():
+def _pud_tagger() -> PerceptronTagger:
     global _PUD_TAGGER
     if not _PUD_TAGGER:
         _PUD_TAGGER = PerceptronTagger(path=_PUD_PATH)
     return _PUD_TAGGER
 
 
-def _blackboard_tagger():
+def _blackboard_tagger() -> PerceptronTagger:
     global _BLACKBOARD_TAGGER
     if not _BLACKBOARD_TAGGER:
         path = get_corpus_path(_BLACKBOARD_NAME)
@@ -54,14 +54,14 @@ def _blackboard_tagger():
     return _BLACKBOARD_TAGGER
 
 
-def _tdtb():
+def _tdtb() -> PerceptronTagger:
     global _TDTB_TAGGER
     if not _TDTB_TAGGER:
         _TDTB_TAGGER = PerceptronTagger(path=_TDTB_PATH)
     return _TDTB_TAGGER
 
 
-def _tud_tagger():
+def _tud_tagger() -> PerceptronTagger:
     global _TUD_TAGGER
     if not _TUD_TAGGER:
         _TUD_TAGGER = PerceptronTagger(path=_TUD_PATH)

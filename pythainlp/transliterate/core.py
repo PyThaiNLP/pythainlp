@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Callable
+
 DEFAULT_ROMANIZE_ENGINE = "royin"
 DEFAULT_TRANSLITERATE_ENGINE = "thaig2p"
 DEFAULT_PRONUNCIATE_ENGINE = "w2p"
@@ -70,7 +72,7 @@ def romanize(
 
     """
 
-    def select_romanize_engine(engine: str):
+    def select_romanize_engine(engine: str) -> Callable[[str], str]:
         if engine == "thai2rom":
             from pythainlp.transliterate.thai2rom import romanize
         elif engine == "thai2rom_onnx":

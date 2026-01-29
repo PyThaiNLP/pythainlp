@@ -165,6 +165,9 @@
 
 ## Python
 
+- [ ] Defensive coding: always check for None/empty and handle exceptions
+      when dealing with external inputs, like function arguments,
+      file I/O, network I/O, etc.
 - [ ] Use type hints for function/method signatures
       and variable declarations as much as possible.
 - [ ] requires-python in pyproject.toml should reflect the minimum
@@ -182,6 +185,14 @@
 - [ ] Do not use wildcard imports (from module import *).
 - [ ] Remove any trailing whitespace in the Python file.
 - [ ] Make the package zip-safe if possible.
+- [ ] Be mindful about choice of data structures.
+      Prefer built-in data structures like list, dict, set, and tuple
+      unless there is a specific need for specialized data structures.
+      If specialized data structures are needed, consider using
+      appropriate collection types from `collections` and
+      `collections.abc` modules.
+      Use the most appropriate data structure for the specific use case
+      to optimize performance and memory usage.
 
 ## JSON
 

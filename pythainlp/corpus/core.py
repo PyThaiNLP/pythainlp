@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+from http.client import HTTPResponse
 import json
 import os
 import re
@@ -29,7 +30,7 @@ _USER_AGENT = (
 class _ResponseWrapper:
     """Wrapper to provide requests.Response-like interface for urllib response."""
 
-    def __init__(self, response) -> None:
+    def __init__(self, response: HTTPResponse) -> None:
         self.status_code = response.status
         self.headers = response.headers
         self._content = response.read()

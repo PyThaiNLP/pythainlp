@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+import types
 from importlib.resources import as_file, files
 
 from pycrfsuite import Tagger as CRFTagger
@@ -91,7 +92,7 @@ class CRFchunk:
         """Context manager entry."""
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb) -> bool:
+    def __exit__(self, exc_type: type[BaseException] | None, exc_val: BaseException | None, exc_tb: types.TracebackType | None) -> bool:
         """Context manager exit - clean up resources."""
         if self._model_file_ctx is not None:
             try:

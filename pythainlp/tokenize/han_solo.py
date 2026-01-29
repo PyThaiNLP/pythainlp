@@ -57,7 +57,7 @@ class Featurizer:
 
     def featurize(
         self, sentence: str, padding: bool = True, indiv_char: bool = True, return_type: str = "list"
-    ) -> tuple[list, list]:
+    ) -> dict[str, list]:
         if padding:
             sentence = self.pad(sentence)
         all_features = []

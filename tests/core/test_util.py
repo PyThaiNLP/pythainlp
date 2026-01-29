@@ -239,9 +239,8 @@ class UtilTestCase(unittest.TestCase):
         )
         self.assertEqual(find_keyword(word_list, min_len=2), {"แมว": 3})
         self.assertEqual(find_keyword(word_list, min_len=10), {})
-        # Edge cases: empty list returns error (since rank([]) returns None)
-        with self.assertRaises(AttributeError):
-            find_keyword([])
+        # Edge cases: empty list now returns empty dict (rank([]) returns None, handled gracefully)
+        self.assertEqual(find_keyword([]), {})
         # Edge cases: single word list (frequency 1, min_len default is 3)
         self.assertEqual(find_keyword(["แมว"]), {})
         # Edge cases: all stopwords

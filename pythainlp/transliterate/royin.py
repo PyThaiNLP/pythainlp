@@ -282,7 +282,7 @@ def _romanize(word: str) -> str:
         word_list.insert(1, "o")
         word = "".join(word_list)
 
-    word = _replace_consonants(word, "".join(consonants))  # type: ignore[arg-type]
+    word = _replace_consonants(word, "".join(consonants))
     return word
 
 

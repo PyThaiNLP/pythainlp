@@ -50,7 +50,9 @@ def _blackboard_tagger() -> PerceptronTagger:
     global _BLACKBOARD_TAGGER
     if not _BLACKBOARD_TAGGER:
         path = get_corpus_path(_BLACKBOARD_NAME)
-        _BLACKBOARD_TAGGER = PerceptronTagger(path=path)  # type: ignore[arg-type]
+        if path is None:
+            raise ValueError(f"Corpus path not found for {_BLACKBOARD_NAME}")
+        _BLACKBOARD_TAGGER = PerceptronTagger(path=path)
     return _BLACKBOARD_TAGGER
 
 

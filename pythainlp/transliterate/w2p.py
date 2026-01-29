@@ -180,13 +180,13 @@ class Thai_W2P:
 
         preds_str = [self.idx2p.get(idx, "<unk>") for idx in preds]
 
-        return "".join(preds_str)  # type: ignore[return-value]
+        return "".join(preds_str)
 
     def __call__(self, word: str) -> str:
         if not any(letter in word for letter in self.graphemes):
             pron_result = word
         else:  # predict for oov
-            pron_result = self._predict(word)  # type: ignore[assignment]
+            pron_result = self._predict(word)
 
         return pron_result
 

@@ -47,7 +47,7 @@ def find_badwords(
     wrong: Counter[str] = Counter()
 
     for train_words in training_data:
-        train_words_list = list(train_words)  # type: ignore[arg-type]
+        train_words_list = list(train_words)
         train_set = set(index_pairs(train_words_list))
         test_words = tokenize("".join(train_words_list))
         test_pairs = index_pairs(test_words)

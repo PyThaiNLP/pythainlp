@@ -298,9 +298,17 @@ def get_corpus_path(name: str, version: str = "", force: bool = False) -> Option
     if corpus_db_detail and corpus_db_detail.get("filename"):
         # corpus is in the local catalog, get full path to the file
         if corpus_db_detail.get("is_folder"):
-            path = get_full_data_path(corpus_db_detail.get("foldername"))  # type: ignore[arg-type]
+            foldername = corpus_db_detail.get("foldername")
+            if foldername:
+                path = get_full_data_path(foldername)
+            else:
+                return None
         else:
-            path = get_full_data_path(corpus_db_detail.get("filename"))  # type: ignore[arg-type]
+            filename = corpus_db_detail.get("filename")
+            if filename:
+                path = get_full_data_path(filename)
+            else:
+                return None
         # check if the corpus file actually exists, download it if not
         if not os.path.exists(path):
             download(name, version=version, force=force)
@@ -736,10 +744,14 @@ def remove(name: str) -> bool:
         if data[0].get("is_folder"):
             import shutil
 
-            os.remove(get_full_data_path(data[0].get("filename")))  # type: ignore[arg-type]
-            shutil.rmtree(path, ignore_errors=True)  # type: ignore[arg-type]
+            filename = data[0].get("filename")
+            if filename:
+                os.remove(get_full_data_path(filename))
+            if path:
+                shutil.rmtree(path, ignore_errors=True)
         else:
-            os.remove(path)  # type: ignore[arg-type]
+            if path:
+                os.remove(path)
         for i, corpus in db["_default"].copy().items():
             if corpus["name"] == name:
                 del db["_default"][i]
@@ -751,7 +763,10 @@ def remove(name: str) -> bool:
 
 
 def get_path_folder_corpus(name: str, version: str, *path: str) -> str:
-    return os.path.join(get_corpus_path(name, version), *path)  # type: ignore[arg-type]
+    corpus_path = get_corpus_path(name, version)
+    if corpus_path is None:
+        raise ValueError(f"Corpus path not found for {name} version {version}")
+    return os.path.join(corpus_path, *path)
 
 
 def make_safe_directory_name(name: str) -> str:

@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import threading
 from importlib.resources import as_file, files
-from typing import Union
+from typing import Optional
 
 try:
     import pycrfsuite
@@ -48,7 +48,7 @@ def _get_tagger() -> pycrfsuite.Tagger:
 class Featurizer:
     #  This class from ssg at https://github.com/ponrawee/ssg.
 
-    def __init__(self, N: int = 2, sequence_size: int = 1, delimiter: Union[str, None] = None) -> None:
+    def __init__(self, N: int = 2, sequence_size: int = 1, delimiter: Optional[str] = None) -> None:
         self.N = N
         self.delimiter = delimiter
         self.radius = N + sequence_size

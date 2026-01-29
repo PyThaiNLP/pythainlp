@@ -5,13 +5,13 @@
 
 from __future__ import annotations
 
-from http.client import HTTPResponse
 import json
 import os
 import re
 import sys
 import tarfile
 import zipfile
+from http.client import HTTPResponse
 from importlib.resources import files
 from typing import Optional
 

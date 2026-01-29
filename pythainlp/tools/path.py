@@ -9,7 +9,13 @@ For text processing and text conversion, see pythainlp.util
 from __future__ import annotations
 
 import os
-from importlib.resources import files
+from os import PathLike
+from typing import cast
+
+try:
+    from importlib.resources import files
+except ImportError:
+    from importlib_resources import files  # type: ignore[import-not-found,no-redef]
 
 PYTHAINLP_DEFAULT_DATA_DIR = "pythainlp-data"
 

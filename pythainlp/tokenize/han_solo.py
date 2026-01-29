@@ -70,9 +70,11 @@ class Featurizer:
             if skip_next:
                 skip_next = False
                 continue
-            features = {}
+            features: dict[str, int] | list[str]
             if return_type == "list":
                 features = []
+            else:
+                features = {}
             cut = 0
             char = sentence[current_position]
             if char == self.delimiter:

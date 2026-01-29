@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import re
 import threading
+from collections.abc import Iterator
 
 from icu import BreakIterator, Locale
 
@@ -27,7 +28,7 @@ def _get_break_iterator() -> BreakIterator:
     return _thread_local.bd
 
 
-def _gen_words(text: str) -> str:
+def _gen_words(text: str) -> Iterator[str]:
     bd = _get_break_iterator()
     bd.setText(text)
     p = bd.first()

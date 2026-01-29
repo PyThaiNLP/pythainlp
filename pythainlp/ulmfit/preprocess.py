@@ -129,10 +129,10 @@ def replace_wrep_post(toks: Collection[str]) -> list[str]:
         ['กา', 'xxwrep', '3', 'น้ำ']
 
     """
-    previous_word = None
+    previous_word: str | None = None
     rep_count = 0
-    res = []
-    for current_word in toks + [_TK_END]:
+    res: list[str | None] = []
+    for current_word in list(toks) + [_TK_END]:
         if current_word == previous_word:
             rep_count += 1
         elif (current_word != previous_word) & (rep_count > 0):
@@ -141,7 +141,7 @@ def replace_wrep_post(toks: Collection[str]) -> list[str]:
         else:
             res.append(previous_word)
         previous_word = current_word
-    return res[1:]
+    return [x for x in res[1:] if x is not None]
 
 
 def rm_useless_newlines(text: str) -> str:
@@ -251,10 +251,10 @@ def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
         ['กา', 'xxwrep', 'น้ำ']
 
     """
-    previous_word = None
+    previous_word: str | None = None
     rep_count = 0
-    res = []
-    for current_word in toks + [_TK_END]:
+    res: list[str | None] = []
+    for current_word in list(toks) + [_TK_END]:
         if current_word == previous_word:
             rep_count += 1
         elif (current_word != previous_word) & (rep_count > 0):
@@ -263,7 +263,7 @@ def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
         else:
             res.append(previous_word)
         previous_word = current_word
-    return res[1:]
+    return [x for x in res[1:] if x is not None]
 
 
 def remove_space(toks: Collection[str]) -> list[str]:

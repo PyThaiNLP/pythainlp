@@ -81,6 +81,6 @@ def get_pythainlp_path() -> str:
     # For compatibility, convert to string path if possible
     # This works for both regular installations and zip files
     if hasattr(package_path, '__fspath__'):
-        return os.fspath(package_path)
+        return os.fspath(package_path)  # type: ignore[arg-type]
     # Fallback for traversable objects that don't support __fspath__
     return str(package_path)

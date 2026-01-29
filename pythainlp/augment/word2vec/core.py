@@ -4,14 +4,15 @@
 from __future__ import annotations
 
 import itertools
+from typing import Callable
 
 
 class Word2VecAug:
     def __init__(
-        self, model: str, tokenize: object, type: str = "file"
+        self, model: str, tokenize: Callable[[str], list[str]], type: str = "file"
     ) -> None:
         """:param str model: path of model
-        :param object tokenize: tokenize function
+        :param Callable[[str], list[str]] tokenize: tokenize function
         :param str type: model type (file, binary)
         """
         import gensim.models.keyedvectors as word2vec
@@ -27,10 +28,10 @@ class Word2VecAug:
             self.model = model
         self.dict_wv = list(self.model.key_to_index.keys())
 
-    def modify_sent(self, sent: str, p: float = 0.7) -> list[list[str]]:
-        """:param str sent: text of sentence
+    def modify_sent(self, sent: list[str], p: float = 0.7) -> list[list[str]]:
+        """:param list[str] sent: list of tokens
         :param float p: probability
-        :rtype: List[List[str]]
+        :rtype: list[list[str]]
         """
         list_sent_new = []
         for i in sent:
@@ -46,13 +47,13 @@ class Word2VecAug:
 
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
-    ) -> list[tuple[str]]:
+    ) -> list[tuple[str, ...]]:
         """:param str sentence: text of sentence
         :param int n_sent: maximum number of synonymous sentences
         :param int p: probability
 
         :return: list of synonyms
-        :rtype: List[Tuple[str]]
+        :rtype: list[tuple[str, ...]]
         """
         self.sentence = self.tokenizer(sentence)
         self.list_synonym = self.modify_sent(self.sentence, p=p)

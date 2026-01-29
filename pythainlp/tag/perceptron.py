@@ -50,7 +50,7 @@ def _blackboard_tagger() -> PerceptronTagger:
     global _BLACKBOARD_TAGGER
     if not _BLACKBOARD_TAGGER:
         path = get_corpus_path(_BLACKBOARD_NAME)
-        _BLACKBOARD_TAGGER = PerceptronTagger(path=path)
+        _BLACKBOARD_TAGGER = PerceptronTagger(path=path)  # type: ignore[arg-type]
     return _BLACKBOARD_TAGGER
 
 

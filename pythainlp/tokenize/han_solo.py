@@ -23,7 +23,7 @@ _model_file_ctx = None  # File context manager kept alive for program lifetime
 _load_lock = threading.Lock()  # Thread safety for lazy loading
 
 
-def _get_tagger():
+def _get_tagger() -> pycrfsuite.Tagger:
     """Lazy load the tagger model.
 
     This function uses a lock to ensure thread-safe initialization.
@@ -47,17 +47,17 @@ def _get_tagger():
 class Featurizer:
     #  This class from ssg at https://github.com/ponrawee/ssg.
 
-    def __init__(self, N=2, sequence_size=1, delimiter=None):
+    def __init__(self, N: int = 2, sequence_size: int = 1, delimiter: str | None = None) -> None:
         self.N = N
         self.delimiter = delimiter
         self.radius = N + sequence_size
 
-    def pad(self, sentence, padder="#"):
+    def pad(self, sentence: str, padder: str = "#") -> str:
         return padder * (self.radius) + sentence + padder * (self.radius)
 
     def featurize(
-        self, sentence, padding=True, indiv_char=True, return_type="list"
-    ):
+        self, sentence: str, padding: bool = True, indiv_char: bool = True, return_type: str = "list"
+    ) -> dict[str, list]:
         if padding:
             sentence = self.pad(sentence)
         all_features = []

@@ -47,7 +47,7 @@ class AveragedPerceptron:
         # Number of instances seen
         self.i = 0
 
-    def predict(self, features: dict):
+    def predict(self, features: dict[str, float]) -> str:
         """Dot-product the features and current weights and return the best
         label.
         """
@@ -61,10 +61,10 @@ class AveragedPerceptron:
         # Do a secondary alphabetic sort, for stability
         return max(self.classes, key=lambda label: (scores[label], label))
 
-    def update(self, truth, guess, features: dict) -> None:
+    def update(self, truth: str, guess: str, features: dict[str, float]) -> None:
         """Update the feature weights."""
 
-        def upd_feat(c, f, w, v):
+        def upd_feat(c: str, f: str, w: float, v: float) -> None:
             param = (f, c)
             self._totals[param] += (self.i - self._tstamps[param]) * w
             self._tstamps[param] = self.i
@@ -236,7 +236,7 @@ class PerceptronTagger:
         trained.
         """
 
-        def add(name: str, *args):
+        def add(name: str, *args: str) -> None:
             features[" ".join((name,) + tuple(args))] += 1
 
         i += len(self.START)

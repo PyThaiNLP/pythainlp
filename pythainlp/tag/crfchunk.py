@@ -3,7 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+import types
 from importlib.resources import as_file, files
+from typing import Optional, Union
 
 from pycrfsuite import Tagger as CRFTagger
 
@@ -14,7 +16,7 @@ def _is_stopword(word: str) -> bool:  # check Thai stopword
     return word in thai_stopwords()
 
 
-def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict:
+def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, Union[str, bool]]:
     """`tokens`  = a POS-tagged sentence [(w1, t1), ...]
     `index`   = the index of the token we want to extract features for
     """
@@ -52,7 +54,7 @@ def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict:
     return f
 
 
-def extract_features(doc):
+def extract_features(doc: list[tuple[str, str]]) -> list[dict[str, Union[str, bool]]]:
     return [_doc2features(doc, i) for i in range(0, len(doc))]
 
 
@@ -74,7 +76,7 @@ class CRFchunk:
         self._model_file_ctx = None
         self.load_model(self.corpus)
 
-    def load_model(self, corpus: str):
+    def load_model(self, corpus: str) -> None:
         self.tagger = CRFTagger()
         if corpus == "orchidpp":
             corpus_files = files("pythainlp.corpus")
@@ -87,11 +89,16 @@ class CRFchunk:
         self.xseq = extract_features(token_pos)
         return self.tagger.tag(self.xseq)
 
-    def __enter__(self):
+    def __enter__(self) -> CRFchunk:
         """Context manager entry."""
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(
+        self,
+        exc_type: Optional[type[BaseException]],
+        exc_val: Optional[BaseException],
+        exc_tb: Optional[types.TracebackType]
+    ) -> bool:
         """Context manager exit - clean up resources."""
         if self._model_file_ctx is not None:
             try:
@@ -101,7 +108,7 @@ class CRFchunk:
                 pass
         return False
 
-    def __del__(self):
+    def __del__(self) -> None:
         """Clean up the context manager when object is destroyed.
 
         Note: __del__ is not guaranteed to be called and should not be

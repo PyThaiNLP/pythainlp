@@ -62,9 +62,9 @@ _THAI_MALE_NAMES_FILENAME = "person_names_male_th.txt"
 
 _THAI_ORST_WORDS: frozenset[str] = frozenset()
 
-_THAI_DICT: dict[str, list] = {}
-_THAI_WSD_DICT: dict[str, list] = {}
-_THAI_SYNONYMS: dict[str, list] = {}
+_THAI_DICT: dict[str, list[str]] = {}
+_THAI_WSD_DICT: dict[str, list[str]] = {}
+_THAI_SYNONYMS: dict[str, list[str]] = {}
 
 
 def countries() -> frozenset[str]:
@@ -83,7 +83,7 @@ def countries() -> frozenset[str]:
     return _THAI_COUNTRIES
 
 
-def provinces(details: bool = False) -> Union[frozenset[str], list[dict]]:
+def provinces(details: bool = False) -> Union[frozenset[str], list[dict[str, str]]]:
     """Return a frozenset of Thailand province names in Thai such as "กระบี่",
     "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
     \n(See: `dev/pythainlp/corpus/thailand_provinces_th.txt\

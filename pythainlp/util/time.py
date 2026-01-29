@@ -48,7 +48,7 @@ _DICT_THAI_TIME = {
 
 
 @lru_cache
-def _thai_time_cut():
+def _thai_time_cut() -> Tokenizer:
     """Lazy load Thai time tokenizer with cache"""
     return Tokenizer(custom_dict=list(_DICT_THAI_TIME.keys()), engine="newmm")
 

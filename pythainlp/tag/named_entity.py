@@ -49,7 +49,7 @@ class NER:
 
             self.engine = tltk
         elif engine == "wangchanberta" and corpus == "thainer":
-            from pythainlp.wangchanberta import ThaiNameTagger  # type: ignore[assignment]
+            from pythainlp.wangchanberta import ThaiNameTagger  # type: ignore[assignment]  # noqa: I001
 
             self.engine = ThaiNameTagger(dataset_name=corpus)  # type: ignore[call-arg]
         elif engine == "phayathaibert" and corpus == "thainer-v2":

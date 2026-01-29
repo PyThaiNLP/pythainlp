@@ -102,15 +102,15 @@ def dependency_parsing(
 
             _tagger = Parse(model=model if model else "th")
         elif engine == "transformers_ud":
-            from pythainlp.parse.transformers_ud import Parse  # type: ignore[assignment]
+            from pythainlp.parse.transformers_ud import Parse  # type: ignore[assignment]  # noqa: I001
 
             _tagger = Parse(model=model if model else "KoichiYasuoka/deberta-base-thai-ud-head")
         elif engine == "spacy_thai":
-            from pythainlp.parse.spacy_thai_engine import Parse  # type: ignore[assignment]
+            from pythainlp.parse.spacy_thai_engine import Parse  # type: ignore[assignment]  # noqa: I001
 
             _tagger = Parse()
         elif engine == "ud_goeswith":
-            from pythainlp.parse.ud_goeswith import Parse  # type: ignore[assignment]
+            from pythainlp.parse.ud_goeswith import Parse  # type: ignore[assignment]  # noqa: I001
 
             _tagger = Parse(model=model if model else "KoichiYasuoka/deberta-base-thai-ud-goeswith")
         else:

@@ -68,7 +68,6 @@ def tcc(text: str) -> Iterator[str]:
     """
     if not text or not isinstance(text, str):
         return
-        yield  # Make this a generator function
 
     len_text = len(text)
     p = 0

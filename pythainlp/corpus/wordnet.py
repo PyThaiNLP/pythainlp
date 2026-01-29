@@ -30,7 +30,7 @@ except LookupError:
 from nltk.corpus import wordnet
 
 
-def synsets(word: str, pos: Optional[str] = None, lang: str = "tha"):
+def synsets(word: str, pos: Optional[str] = None, lang: str = "tha") -> list[wordnet.Synset]:
     """This function returns the synonym set for all lemmas of the given word
     with an optional argument to constrain the part of speech of the word.
 

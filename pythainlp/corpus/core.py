@@ -29,12 +29,12 @@ _USER_AGENT = (
 class _ResponseWrapper:
     """Wrapper to provide requests.Response-like interface for urllib response."""
 
-    def __init__(self, response):
+    def __init__(self, response) -> None:
         self.status_code = response.status
         self.headers = response.headers
         self._content = response.read()
 
-    def json(self):
+    def json(self) -> dict:
         """Parse JSON content from response."""
         try:
             return json.loads(self._content.decode("utf-8"))

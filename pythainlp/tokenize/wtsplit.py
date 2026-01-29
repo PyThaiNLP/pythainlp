@@ -39,7 +39,7 @@ def _tokenize(
             _MODEL = WtP(model_name_or_model=model)
             _MODEL_NAME = model
         model_instance = _MODEL
-        
+
     # Ensure model is loaded
     if model_instance is None:
         raise RuntimeError("Model failed to load")

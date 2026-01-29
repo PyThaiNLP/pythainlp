@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import types
 from importlib.resources import as_file, files
-from typing import Any, Optional, Union
+from typing import Any, Optional
 
 from pycrfsuite import Tagger as CRFTagger
 

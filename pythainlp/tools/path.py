@@ -10,16 +10,13 @@ from __future__ import annotations
 
 import os
 from os import PathLike
+from sys import version_info
 from typing import cast
 
-# importlib.resources (stdlib) vs importlib_resources (backport) are different modules,
-# but both assign to 'files', so mypy sees this as a redefinition.
-# Both type: ignore codes are needed:
-# - import-not-found: when backport package is not installed
-# - no-redef: for the intentional redefinition of the 'files' name
-try:
-    from importlib.resources import files
-except ImportError:
+
+if version_info >= (3, 11):
+    from importlib.resources import files # Available in Python 3.11+
+else:
     from importlib_resources import files  # type: ignore[import-not-found,no-redef]
 
 PYTHAINLP_DEFAULT_DATA_DIR = "pythainlp-data"
@@ -91,7 +88,7 @@ def get_pythainlp_path() -> str:
     package_path = files("pythainlp")
     # For compatibility, convert to string path if possible
     # This works for both regular installations and zip files
-    if hasattr(package_path, '__fspath__'):
+    if hasattr(package_path, "__fspath__"):
         return os.fspath(cast(PathLike[str], package_path))
     # Fallback for traversable objects that don't support __fspath__
     return str(package_path)

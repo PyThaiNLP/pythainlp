@@ -30,11 +30,6 @@
   - [ ] Project description
   - [ ] Repository URL
   - [ ] Keywords/tags (in the same order if possible)
-- [ ] requires-python in pyproject.toml should reflect the minimum
-      Python version supported by the project.
-  - [ ] Do not introduce syntax or features that are not supported
-        by the specified minimum Python version,
-        unless it is supported via __future__ imports.
 
 ## General language use
 
@@ -126,13 +121,40 @@
       Be very careful of slopsquatting and typosquatting attacks.
 - [ ] Use the most updated version of the library that is supported
       by the OS/compiler/framework currently being in used.
-- [ ] In source code, sort imports by the programming language convention
+- [ ] In source code, group and sort imports by the programming language
+      convention (e.g., in Python, typically by standard library first,
+      then by third-party libraries)
       and then by alphabetical order whenever possible.
-      Be careful of specific order of import requirements of some dependencies.
+      Be careful of specific order of import requirements of some dependencies,
+      as moving the order may break the code or create cyclic import issues.
+- [ ] Remove unused imports.
 - [ ] In build metadata (like pyproject.toml in Python) or
       dependency list (like requirements.txt in Python), sort dependencies.
 - [ ] Warn users about abandoned dependency with no maintenance
       for long time and suggest equivalent drop-in replacement.
+
+## Security
+
+- [ ] Avoid using deprecated, obsolete, or insecure libraries,
+      frameworks, or APIs.
+- [ ] When handling sensitive data (like passwords, API keys, personal data),
+      follow best practices for data protection and privacy.
+- [ ] Avoid hardcoding sensitive information (like passwords, API keys)
+      directly in the codebase.
+- [ ] Validate and sanitize all user inputs to prevent security vulnerabilities
+      such as SQL injection, cross-site scripting (XSS), and buffer overflows.
+- [ ] Regularly update dependencies to their latest secure versions.
+- [ ] When suggesting code that involves cryptography,
+      use strong and well-established algorithms and key sizes.
+- [ ] When dealing with authentication and authorization,
+      follow best practices and standards like OAuth2, OpenID Connect, etc.
+- [ ] Avoid using eval() and similar functions that execute arbitrary code,
+      unless absolutely necessary and safe.
+- [ ] Avoid the deserialization of untrusted data (CWE-502).
+  - [ ] In Python, avoid using `pickle` module for
+        serialization/deserialization.
+- [ ] When handling file and path, be careful of path traversal vulnerabilities
+      like CWE-22.
 
 ## API
 
@@ -140,6 +162,26 @@
       version of OpenAPI specification at https://spec.openapis.org/oas/
 - [ ] API endpoints must use proper HTTP return code
 - [ ] Follows web best practices as recommended by OpenAPI, IETF, W3C, etc.
+
+## Python
+
+- [ ] Use type hints for function/method signatures
+      and variable declarations as much as possible.
+- [ ] requires-python in pyproject.toml should reflect the minimum
+      Python version supported by the project.
+- [ ] Do not introduce syntax or features that are not supported
+      by the specified minimum Python version,
+      unless it is supported via `__future__` imports.
+  - [ ] Do not use | union type syntax if minimum Python version is
+        below 3.10.  
+- [ ] Make sure that the module/class/function/object can be properly used by
+      runtime type inspection tools, documentation generators, and static
+      analysis tools.
+      For example, typing.get_type_hints() should work properly.
+- [ ] Do not use mutable default arguments in function/method definitions.
+- [ ] Do not use wildcard imports (from module import *).
+- [ ] Remove any trailing whitespace in the Python file.
+- [ ] Make the package zip-safe if possible.
 
 ## JSON
 

@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import threading
 from importlib.resources import as_file, files
-from typing import Optional, Union
+from typing import Optional, Union, cast
 
 try:
     import pycrfsuite
@@ -75,7 +75,7 @@ class Featurizer:
                 features = []
             else:
                 features = {}
-            cut = 0
+            cut: Union[int, str] = 0
             char = sentence[current_position]
             if char == self.delimiter:
                 cut = 1
@@ -101,9 +101,9 @@ class Featurizer:
                 if indiv_char:
                     left_key = "|".join([str(relative_index_left), char_left])
                     if return_type == "dict":
-                        features[left_key] = 1  # type: ignore[call-overload]
+                        cast(dict[str, int], features)[left_key] = 1
                     else:
-                        features.append(left_key)  # type: ignore[union-attr]
+                        cast(list[str], features).append(left_key)
 
                 abs_index_right += (
                     1  # สมมุติคือตำแหน่งที่ 0 จะได้ 0, 1, 2, 3, 4 (radius = 5)
@@ -119,9 +119,9 @@ class Featurizer:
                         [str(relative_index_right), char_right]
                     )
                     if return_type == "dict":
-                        features[right_key] = 1  # type: ignore[call-overload]
+                        cast(dict[str, int], features)[right_key] = 1
                     else:
-                        features.append(right_key)  # type: ignore[union-attr]
+                        cast(list[str], features).append(right_key)
 
                 counter += 1
 
@@ -130,12 +130,12 @@ class Featurizer:
                 ngram = chars[i : i + self.N]
                 ngram_key = "|".join([str(i - self.radius), ngram])
                 if return_type == "dict":
-                    features[ngram_key] = 1  # type: ignore[call-overload]
+                    cast(dict[str, int], features)[ngram_key] = 1
                 else:
-                    features.append(ngram_key)  # type: ignore[union-attr]
+                    cast(list[str], features).append(ngram_key)
             all_features.append(features)
             if return_type == "list":
-                cut = str(cut)  # type: ignore[assignment]
+                cut = str(cut)
             all_labels.append(cut)
 
         return {"X": all_features, "Y": all_labels}

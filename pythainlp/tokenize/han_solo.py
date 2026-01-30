@@ -75,7 +75,7 @@ class Featurizer:
                 features = []
             else:
                 features = {}
-            cut: Union[int, str] = 0
+            cut = 0
             char = sentence[current_position]
             if char == self.delimiter:
                 cut = 1
@@ -135,8 +135,9 @@ class Featurizer:
                     cast(list[str], features).append(ngram_key)
             all_features.append(features)
             if return_type == "list":
-                cut = str(cut)
-            all_labels.append(cut)
+                all_labels.append(str(cut))
+            else:
+                all_labels.append(cut)
 
         return {"X": all_features, "Y": all_labels}
 

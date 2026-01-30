@@ -79,7 +79,7 @@ def remove_trailing_repeat_consonants(
     if has_dictionary_updated:
         _update_consonant_repeaters(custom_dict)
 
-    # seperate by newline
+    # separate by newline
     modified_lines = []
     for line in text.split("\n"):
         segments = line.split(" ")
@@ -144,7 +144,7 @@ def _remove_repeat_trailing_consonants_from_segment(segment: str) -> str:
         # the chance is that the correct is one character,
         # or it's not in the dictionary.
 
-        # make the repition to once
+        # make the repetition to once
         segment = segment_head + (dup * 1)
 
     return segment

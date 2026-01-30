@@ -67,8 +67,8 @@ print(
     )
 )
 # -> [
-# "Cant find rhyme between paragraphs ('สอน', 'ไป') in paragraph 4",
-# "Cant find rhyme between paragraphs ('มี่', ['เกม', 'เอ่อ', 'เก่ง', 'กาจ']) in paragraph 5"
+# "Can't find rhyme between paragraphs ('สอน', 'ไป') in paragraph 4",
+# "Can't find rhyme between paragraphs ('มี่', ['เกม', 'เอ่อ', 'เก่ง', 'กาจ']) in paragraph 5"
 # ]
 
 
@@ -95,8 +95,8 @@ print(
     )
 )
 # -> [
-# "Cant find rhyme between paragraphs ('หมา', 'จอง') in paragraph 2",
-# "Cant find rhyme between paragraphs ('หมา', 'ทอง') in paragraph 2"
+# "Can't find rhyme between paragraphs ('หมา', 'จอง') in paragraph 2",
+# "Can't find rhyme between paragraphs ('หมา', 'ทอง') in paragraph 2"
 # ]
 
 # การเช็คคำเอกโท

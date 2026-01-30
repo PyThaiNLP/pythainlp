@@ -102,10 +102,24 @@ class ThaiNameTagger:
         self.crf = CRFTagger()
 
         if version == "1.4":
-            self.crf.open(get_corpus_path("thainer-1.4", version="1.4"))
+            model_path = get_corpus_path("thainer-1.4", version="1.4")
+            if model_path is None:
+                raise RuntimeError(
+                    "ThaiNER 1.4 model not found. "
+                    "Please download the corpus first:\n"
+                    "  pythainlp.corpus.download('thainer-1.4')"
+                )
+            self.crf.open(model_path)
             self.pos_tag_name = "orchid_ud"
         elif version == "1.5":
-            self.crf.open(get_corpus_path("thainer", version="1.5"))
+            model_path = get_corpus_path("thainer", version="1.5")
+            if model_path is None:
+                raise RuntimeError(
+                    "ThaiNER 1.5 model not found. "
+                    "Please download the corpus first:\n"
+                    "  pythainlp.corpus.download('thainer')"
+                )
+            self.crf.open(model_path)
             self.pos_tag_name = "blackboard"
 
     def get_ner(

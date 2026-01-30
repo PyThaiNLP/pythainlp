@@ -39,10 +39,37 @@ _ITOS_NAME_LSTM = "wiki_itos_lstm"
 
 
 # Pretrained model paths
+# Note: These may be None if corpus is not downloaded.
+# Access via get_thwiki_lstm() for proper validation or use directly
+# if you've already verified the corpus is downloaded.
 THWIKI_LSTM = {
     "wgts_fname": get_corpus_path(_MODEL_NAME_LSTM),
     "itos_fname": get_corpus_path(_ITOS_NAME_LSTM),
 }
+
+
+def get_thwiki_lstm() -> dict[str, str]:
+    """
+    Get THWIKI LSTM model paths with validation.
+
+    Returns dictionary with 'wgts_fname' and 'itos_fname' keys containing
+    validated file paths as strings.
+
+    :return: Dictionary with model file paths
+    :raises RuntimeError: If corpus files are not found
+    """
+    wgts_fname = THWIKI_LSTM["wgts_fname"]
+    itos_fname = THWIKI_LSTM["itos_fname"]
+
+    if wgts_fname is None or itos_fname is None:
+        raise RuntimeError(
+            "ULMFiT model files not found. "
+            "Please download the corpus first:\n"
+            "  pythainlp.corpus.download('wiki_lm_lstm')\n"
+            "  pythainlp.corpus.download('wiki_itos_lstm')"
+        )
+
+    return {"wgts_fname": wgts_fname, "itos_fname": itos_fname}
 
 # Preprocessing rules for Thai text
 # dense features

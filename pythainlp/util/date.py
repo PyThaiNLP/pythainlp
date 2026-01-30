@@ -172,17 +172,17 @@ def convert_years(year: str, src="be", target="ad") -> str:
         # ค.ศ. + 543 - 2324 = ร.ศ.
         elif target == "re":
             output_year = str(int(year) + 543 - 2324)
-        # ค.ศ. +543- 1122   = ฮ.ศ.
+        # ค.ศ. +543- 1122 = ฮ.ศ.
         elif target == "ah":
             output_year = str(int(year) + 543 - 1122)
     elif src == "re":
         # ร.ศ. + 2324 = พ.ศ.
         if target == "be":
             output_year = str(int(year) + 2324)
-        # ร.ศ. + 2324 - 543  = ค.ศ.
+        # ร.ศ. + 2324 - 543 = ค.ศ.
         elif target == "ad":
             output_year = str(int(year) + 2324 - 543)
-        # ร.ศ. + 2324 - 1122  = ฮ.ศ.
+        # ร.ศ. + 2324 - 1122 = ฮ.ศ.
         elif target == "ah":
             output_year = str(int(year) + 2324 - 1122)
     elif src == "ah":

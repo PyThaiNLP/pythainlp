@@ -23,11 +23,10 @@ sys.path.insert(0, os.path.abspath(".."))
 # -- Project information -----------------------------------------------------
 
 project = "PyThaiNLP"
-copyright = "2016-2026 PyThaiNLP Project"
 author = "PyThaiNLP Project"
 
 curyear = datetime.today().year
-copyright = f"2017-{curyear}, {project} (Apache Software License 2.0)"
+copyright = f"2016-{curyear}, {project} (Apache Software License 2.0)"
 
 
 # -- Get version information and date from Git ----------------------------
@@ -38,9 +37,7 @@ try:
     current_branch = (
         os.environ["CURRENT_BRANCH"]
         if "CURRENT_BRANCH" in os.environ
-        else check_output(
-            ["git", "symbolic-ref", "HEAD"], shell=False, stderr=STDOUT
-        )
+        else check_output(["git", "symbolic-ref", "HEAD"], shell=False, stderr=STDOUT)
         .decode()
         .strip()
         .rsplit("/", maxsplit=1)[-1]
@@ -246,9 +243,9 @@ todo_include_todos = True
 # source_parsers = {'.md': CommonMarkParser}
 # source_suffix = ['.rst', '.md']
 autodoc_default_options = {
-    'members': True,
-    'member-order': 'bysource',
-    'special-members': '__init__',
-    'undoc-members': True,
-    'exclude-members': '__weakref__'
+    "members": True,
+    "member-order": "bysource",
+    "special-members": "__init__",
+    "undoc-members": True,
+    "exclude-members": "__weakref__",
 }

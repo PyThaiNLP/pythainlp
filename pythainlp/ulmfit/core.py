@@ -122,7 +122,7 @@ def process_thai(
         and :func:`replace_rep_nonum`.
 
       - The default **post-rules** consists of :func:`ungroup_emoji`,
-        :func:`lowercase_all`,  :func:`replace_wrep_post_nonum`,
+        :func:`lowercase_all`, :func:`replace_wrep_post_nonum`,
         and :func:`remove_space`.
 
     :Example:

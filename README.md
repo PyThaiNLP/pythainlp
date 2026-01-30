@@ -51,7 +51,7 @@ Partial list of features:
 - Linguistic unit segmentation at different levels: sentence (`sent_tokenize`), word (`word_tokenize`), and subword (`subword_tokenize`)
 - Part-of-speech tagging (`pos_tag`)
 - Spelling suggestion and correction (`spell` and `correct`)
-- Phonetic algorithm and transliteration (`soundex`  and `transliterate`)
+- Phonetic algorithm and transliteration (`soundex` and `transliterate`)
 - Collation (sorted by dictionary order) (`collate`)
 - Number read out (`num_to_thaiword` and `bahttext`)
 - Datetime formatting (`thai_strftime`)
@@ -163,7 +163,7 @@ For more detailed information on testing, please refer to the tests README:
 |:---|:----|
 | PyThaiNLP source codes and notebooks | [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE) |
 | Corpora, datasets, and documentations created by PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication License (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
-| Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/)  |
+| Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/) |
 | Other corpora and models that may be included in PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
 
 ## Contribute to PyThaiNLP
@@ -241,13 +241,13 @@ and its BibTeX entry:
 
 | Logo | Description |
 | --- | ----------- |
-| [![VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/assets/img/logo/airesearch-logo.svg)](https://airesearch.in.th/)   | Since 2019, our contributors Korakot Chaovavanich and Lalita Lowphansirikul have been supported by [VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/).                 |
-| [![MacStadium](https://i.imgur.com/rKy1dJX.png)](https://www.macstadium.com)   | We get support of free Mac Mini M1 from [MacStadium](https://www.macstadium.com) for running CI builds.                  |
+| [![VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/assets/img/logo/airesearch-logo.svg)](https://airesearch.in.th/) | Since 2019, our contributors Korakot Chaovavanich and Lalita Lowphansirikul have been supported by [VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/). |
+| [![MacStadium](https://i.imgur.com/rKy1dJX.png)](https://www.macstadium.com) | We get support of free Mac Mini M1 from [MacStadium](https://www.macstadium.com) for running CI builds. |
 
 ------
 
 <div align="center">
-  Made with ❤️ | PyThaiNLP Team 💻 |  "We build Thai NLP" 🇹🇭
+  Made with ❤️ | PyThaiNLP Team 💻 | "We build Thai NLP" 🇹🇭
 </div>
 
 ------

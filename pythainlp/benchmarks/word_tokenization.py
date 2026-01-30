@@ -176,7 +176,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
 
     correctly_tokenised_words = np.sum(tokenization_indicators)
 
-    tokenization_indicators_str = list(map(str, tokenization_indicators))
+    tokenization_indicators_str = [str(x) for x in tokenization_indicators]
 
     return {
         "char_level": {

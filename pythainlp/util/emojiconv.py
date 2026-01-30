@@ -1829,7 +1829,7 @@ _emoji_th = {
 _th_emoji = {v: k for k, v in _emoji_th.items()}
 
 _emojis = sorted(_emoji_th.keys(), key=len, reverse=True)
-_emoji_regex = re.compile("|".join(map(re.escape, _emojis)))
+_emoji_regex = re.compile("|".join(re.escape(emoji) for emoji in _emojis))
 _delimiter = ":"
 
 

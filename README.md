@@ -128,6 +128,22 @@ For dependency details, look at the `[project.optional-dependencies]` section in
 - The data directory can be changed by specifying the environment variable `PYTHAINLP_DATA_DIR`.
 - See the data catalog (`db.json`) at <https://github.com/PyThaiNLP/pythainlp-corpus>
 
+### Using PyThaiNLP in Distributed Environments
+
+When using PyThaiNLP in distributed computing environments (e.g., Apache Spark), set the `PYTHAINLP_DATA_DIR` environment variable inside the function that will be distributed to worker nodes:
+
+```python
+def tokenize_thai(text):
+    import os
+    os.environ['PYTHAINLP_DATA_DIR'] = './pythainlp-data'
+    from pythainlp.tokenize import word_tokenize
+    return word_tokenize(text)
+
+rdd.map(tokenize_thai)
+```
+
+This ensures each worker uses a local writable directory. See `examples/distributed_pyspark.py` for more examples.
+
 ## Command-Line Interface
 
 Some of PyThaiNLP functionalities can be used via command line with the `thainlp` command.

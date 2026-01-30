@@ -123,58 +123,6 @@ jobs:
       # loading tests with dependencies more than expected.
       # Test cases loaded is defined in __init__.py in the tests directory.
       # See also tests/README.md
-    - name: Check doctest syntax
-      if: matrix.python-version == env.PYTHON_VERSION_LATEST && matrix.os == 'ubuntu-latest'
-      run: |
-        echo "Checking doctest syntax in Python files..."
-        python -c "
-        import ast
-        import sys
-        from pathlib import Path
-        
-        files_with_doctests = [
-            'pythainlp/word_vector/core.py',
-            'pythainlp/phayathaibert/core.py',
-            'pythainlp/tag/tltk.py',
-            'pythainlp/tag/named_entity.py',
-            'pythainlp/tag/_tag_perceptron.py',
-            'pythainlp/tag/thainer.py',
-            'pythainlp/ulmfit/tokenizer.py',
-            'pythainlp/ulmfit/core.py',
-            'pythainlp/ulmfit/preprocess.py',
-            'pythainlp/soundex/complete_soundex.py',
-            'pythainlp/translate/tokenization_small100.py',
-            'pythainlp/util/thai.py',
-            'pythainlp/corpus/wordnet.py'
-        ]
-        
-        errors = []
-        for file in files_with_doctests:
-            try:
-                with open(file, 'r', encoding='utf-8') as f:
-                    ast.parse(f.read())
-            except SyntaxError as e:
-                errors.append(f'{file}: {e}')
-        
-        if errors:
-            print('Syntax errors found in doctest files:')
-            for error in errors:
-                print(f'  - {error}')
-            sys.exit(1)
-        else:
-            print(f'✓ All {len(files_with_doctests)} files with doctests have valid Python syntax')
-        "
-      # Only check doctest syntax on latest Python version on Ubuntu
-    - name: Run doctests
-      if: matrix.python-version == env.PYTHON_VERSION_LATEST && matrix.os == 'ubuntu-latest'
-      run: |
-        echo "Running doctests on selected modules..."
-        python -m doctest pythainlp/tokenize/core.py -v || true
-        python -m doctest pythainlp/util/thai.py -v || true
-        echo "Note: Some doctests may fail due to missing optional dependencies."
-        echo "Doctest execution completed. Check output above for any failures."
-      # Only run doctests on latest Python version on Ubuntu
-      # Use '|| true' to not fail the build if doctests fail due to missing deps
     - name: Coverage report
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST
       env:

@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
+import shutil
 import unittest
 
 from pythainlp.tools import (
@@ -50,7 +51,7 @@ class ToolsTestCase(unittest.TestCase):
 
             # Clean up test directory
             if os.path.exists(path) and "test-pythainlp-data" in path:
-                os.rmdir(path)
+                shutil.rmtree(path)
 
         finally:
             # Restore original value

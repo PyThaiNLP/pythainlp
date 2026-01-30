@@ -55,7 +55,7 @@ def _multicut(
     if not custom_dict:
         custom_dict = word_dict_trie()
     len_text = len(text)
-    words_at = defaultdict(list)  # main data structure
+    words_at: defaultdict[int, list[str]] = defaultdict(list)  # main data structure
 
     def serialize(p, p2):  # helper function
         for w in words_at[p]:

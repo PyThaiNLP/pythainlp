@@ -130,3 +130,29 @@ jobs:
         COVERALLS_SERVICE_NAME: github
       run: coveralls
       # Only submit a report from the latest Python version on ubuntu-latest.
+
+  unittest-extra:
+    runs-on: ubuntu-latest
+    env:
+      PYTHON_VERSION: "3.12"
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
+      uses: actions/setup-python@v6
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: "pip"
+    - name: Install build tools
+      run: |
+        pip install --upgrade "pip<24.1" "setuptools>=69.0.0,<=73.0.1"
+        pip install coverage
+    - name: Install PyThaiNLP + extra dependencies
+      run: pip install ".[compact]"
+      # Start with compact dependencies, then gradually add more as tests are enabled
+    - name: Unit test (extra)
+      env:
+        PYTHONIOENCODING: utf-8
+      run: coverage run -m unittest tests.extra
+      # Test extra set with Python 3.12 on ubuntu-latest only.

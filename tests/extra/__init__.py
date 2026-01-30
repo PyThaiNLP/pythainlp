@@ -9,7 +9,12 @@ Test functions that require dependencies beyond "compact" (see setup.py).
 from unittest import TestLoader, TestSuite
 
 # Names of module to be tested
-test_packages: list[str] = []
+test_packages: list[str] = [
+    "tests.extra.testx_classify",
+    "tests.extra.testx_coref",
+    "tests.extra.testx_el",
+    "tests.extra.testx_util",
+]
 
 
 def load_tests(

@@ -124,16 +124,18 @@ class Featurizer:
 
         # Convert to the requested return type
         if return_type == "list":
-            all_features: list[list[str]] = all_features_list
-            all_labels: list[str] = [str(label) for label in all_labels_int]
+            return {
+                "X": all_features_list,
+                "Y": [str(label) for label in all_labels_int]
+            }
         else:
-            all_features: list[dict[str, int]] = [
-                {key: 1 for key in feature_list}
-                for feature_list in all_features_list
-            ]
-            all_labels: list[int] = all_labels_int
-
-        return {"X": all_features, "Y": all_labels}
+            return {
+                "X": [
+                    {key: 1 for key in feature_list}
+                    for feature_list in all_features_list
+                ],
+                "Y": all_labels_int
+            }
 
 
 _to_feature = Featurizer()

@@ -171,6 +171,7 @@ extra = [
     "deepcut>=0.7.0.0",
     "gensim>=4.0.0",
     "nltk>=3.3",
+    "numpy>=1.26.0",
     "oskut>=1.3",
     "pandas>=0.24",
     "phunspell>=0.1.6",

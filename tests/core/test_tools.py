@@ -4,6 +4,7 @@
 
 import os
 import shutil
+import tempfile
 import unittest
 
 from pythainlp.tools import (
@@ -34,28 +35,26 @@ class ToolsTestCase(unittest.TestCase):
         # Save original value
         original_value = os.environ.get("PYTHAINLP_DATA_DIR")
 
-        try:
-            # Test with custom directory
-            custom_dir = "./test-pythainlp-data"
-            os.environ["PYTHAINLP_DATA_DIR"] = custom_dir
+        # Use temporary directory for hermetic test
+        with tempfile.TemporaryDirectory() as temp_dir:
+            try:
+                # Test with custom directory
+                custom_dir = os.path.join(temp_dir, "pythainlp-data")
+                os.environ["PYTHAINLP_DATA_DIR"] = custom_dir
 
-            # Get path should return the custom directory
-            path = get_pythainlp_data_path()
+                # Get path should return the custom directory
+                path = get_pythainlp_data_path()
 
-            # Verify the path contains our custom directory
-            self.assertIn("test-pythainlp-data", path)
+                # Verify the path matches our custom directory
+                self.assertEqual(path, custom_dir)
 
-            # Verify directory was created
-            self.assertTrue(os.path.exists(path))
-            self.assertTrue(os.path.isdir(path))
+                # Verify directory was created
+                self.assertTrue(os.path.exists(path))
+                self.assertTrue(os.path.isdir(path))
 
-            # Clean up test directory
-            if os.path.exists(path) and "test-pythainlp-data" in path:
-                shutil.rmtree(path)
-
-        finally:
-            # Restore original value
-            if original_value is not None:
-                os.environ["PYTHAINLP_DATA_DIR"] = original_value
-            elif "PYTHAINLP_DATA_DIR" in os.environ:
-                del os.environ["PYTHAINLP_DATA_DIR"]
+            finally:
+                # Restore original value
+                if original_value is not None:
+                    os.environ["PYTHAINLP_DATA_DIR"] = original_value
+                elif "PYTHAINLP_DATA_DIR" in os.environ:
+                    del os.environ["PYTHAINLP_DATA_DIR"]

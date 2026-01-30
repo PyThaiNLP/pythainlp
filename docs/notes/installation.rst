@@ -81,7 +81,7 @@ Key considerations
 
 2. **Use a writable local directory**: The default data directory (``~/pythainlp-data``) may not be writable on executor nodes. Use a local directory like ``./pythainlp-data`` instead.
 
-3. **Import modules after setting environment variables**: Always set the ``PYTHAINLP_DATA_DIR`` environment variable before importing PyThaiNLP modules.
+3. **Set ``PYTHAINLP_DATA_DIR`` before data access**: Always set the ``PYTHAINLP_DATA_DIR`` environment variable before the first call that reads or writes PyThaiNLP data on each worker.
 
 Example usage with Apache Spark
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

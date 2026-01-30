@@ -1,7 +1,7 @@
-Command Line
+Command line
 ============
 
-You can use some thainlp functions directly from command line.
+You can use some `thainlp` functions directly from the command line.
 
 **Tokenization**::
 
@@ -24,7 +24,7 @@ You can use some thainlp functions directly from command line.
     $ thainlp tokenize sent "หลายปีที่ผ่านมา ชาวชุมชนโคกยาวหลายคนได้พากันย้ายออก บ้างก็เสียชีวิต บางคนถูกจำคุกในข้อบุกรุกป่าหรือแม้กระทั่งสูญหาย"
     หลายปีที่ผ่านมา @@ชาวชุมชนโคกยาวหลายคนได้พากันย้ายออก @@บ้างก็เสียชีวิต @@บางคนถูกจำคุกในข้อบุกรุกป่าหรือแม้กระทั่งสูญหาย@@
 
-**Part-Of-Speech tagging**::
+**Part-of-speech tagging**::
 
     pythainlp tagg pos [-s SEPARATOR] TEXT
 

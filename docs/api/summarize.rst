@@ -2,20 +2,20 @@
 
 pythainlp.summarize
 ===================
-The :class:`summarize` is Thai text summarizer.
+The :mod:`pythainlp.summarize` module provides functions for Thai text summarization and keyword extraction.
 
-Modules
--------
+Functions
+---------
 
-.. autofunction:: summarize
-.. autofunction:: extract_keywords
+.. autofunction:: pythainlp.summarize.summarize
+.. autofunction:: pythainlp.summarize.extract_keywords
 
-Keyword Extraction Engines
+Keyword extraction engines
 --------------------------
 
 KeyBERT
-+++++++
+-------
 
 .. automodule:: pythainlp.summarize.keybert
-.. autoclass::  pythainlp.summarize.keybert.KeyBERT
+.. autoclass:: pythainlp.summarize.keybert.KeyBERT
     :members:

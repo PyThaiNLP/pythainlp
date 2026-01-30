@@ -10,7 +10,7 @@ PyThaiNLP documentation
 
 PyThaiNLP is a Python library for Thai natural language processing (NLP).
 
-Website: `PyThaiNLP.github.io <https://pythainlp.org/>`_
+Website: `pythainlp.org <https://pythainlp.org/>`_
 
 
 .. toctree::
@@ -38,10 +38,10 @@ Indices and tables
 
 Citations
 =========
-If you use PyThaiNLP in your project or publication, please cite the library as follows
+If you use PyThaiNLP in your project or publication, please cite the library as follows:
 
     Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, Pattarawat Chormai, Peerat Limkonchotiwat, Thanathip Suntorntip, and Can Udomcharoenchaikit. 2023. PyThaiNLP: Thai Natural Language Processing in Python. In Proceedings of the 3rd Workshop for Natural Language Processing Open Source Software (NLP-OSS 2023), pages 25–36, Singapore, Singapore. Empirical Methods in Natural Language Processing.
 
-Apache Software License 2.0
+License: Apache License 2.0
 
 Maintained by the PyThaiNLP team.

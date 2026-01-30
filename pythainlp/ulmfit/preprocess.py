@@ -201,7 +201,7 @@ def lowercase_all(toks: Collection[str]) -> list[str]:
     """Lowercase all English words;
     English words in Thai texts don't usually have nuances of capitalization.
     """
-    return [tok.lower() for tok in toks]
+    return list(map(str.lower, toks))
 
 
 def replace_rep_nonum(text: str) -> str:

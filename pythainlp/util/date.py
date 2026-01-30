@@ -88,7 +88,7 @@ year_all_regex = r"(\d\d\d\d|\d\d)"
 dates_list = (
     "("
     + "|".join(
-        [str(i) for i in range(32, 0, -1)]
+        list(map(str, range(32, 0, -1)))
         + ["0" + str(i) for i in range(1, 10)]
     )
     + ")"

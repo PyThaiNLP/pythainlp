@@ -236,7 +236,7 @@ class Words_Spelling_Correction(FastTextEncoder):
                 self.model_name, "list_word-spelling-correction-char2vec.txt"
             )
         ) as f:
-            self.list_word = [i.strip() for i in f.readlines()]
+            self.list_word = list(map(str.strip, f.readlines()))
         super().__init__(self.model_path, self.model_onnx, self.list_word)
 
 

@@ -106,8 +106,8 @@ class ThaiNameTagger:
             if model_path is None:
                 raise RuntimeError(
                     "ThaiNER 1.4 model not found. "
-                    "Please download the corpus first using: "
-                    "pythainlp.corpus.download('thainer-1.4')"
+                    "Please download the corpus first:\n"
+                    "  pythainlp.corpus.download('thainer-1.4')"
                 )
             self.crf.open(model_path)
             self.pos_tag_name = "orchid_ud"
@@ -116,8 +116,8 @@ class ThaiNameTagger:
             if model_path is None:
                 raise RuntimeError(
                     "ThaiNER 1.5 model not found. "
-                    "Please download the corpus first using: "
-                    "pythainlp.corpus.download('thainer')"
+                    "Please download the corpus first:\n"
+                    "  pythainlp.corpus.download('thainer')"
                 )
             self.crf.open(model_path)
             self.pos_tag_name = "blackboard"

@@ -48,9 +48,9 @@ thwiki = THWIKI_LSTM
 if thwiki["itos_fname"] is None or thwiki["wgts_fname"] is None:
     raise RuntimeError(
         "Thai2fit model files not found. "
-        "Please download the corpus first using: "
-        "pythainlp.corpus.download('wiki_lm_lstm') and "
-        "pythainlp.corpus.download('wiki_itos_lstm')"
+        "Please download the corpus first:\n"
+        "  pythainlp.corpus.download('wiki_lm_lstm')\n"
+        "  pythainlp.corpus.download('wiki_itos_lstm')"
     )
 
 # Security Note: This loads a pickle file from PyThaiNLP's trusted corpus.

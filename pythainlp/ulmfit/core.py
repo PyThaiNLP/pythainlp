@@ -52,8 +52,8 @@ def get_thwiki_lstm() -> dict[str, str]:
     """
     Get THWIKI LSTM model paths with validation.
 
-    Returns dictionary with 'wgts_fname' and 'itos_fname' keys.
-    Raises RuntimeError if corpus files are not downloaded.
+    Returns dictionary with 'wgts_fname' and 'itos_fname' keys containing
+    validated file paths as strings.
 
     :return: Dictionary with model file paths
     :raises RuntimeError: If corpus files are not found
@@ -64,9 +64,9 @@ def get_thwiki_lstm() -> dict[str, str]:
     if wgts_fname is None or itos_fname is None:
         raise RuntimeError(
             "ULMFiT model files not found. "
-            "Please download the corpus first using: "
-            "pythainlp.corpus.download('wiki_lm_lstm') and "
-            "pythainlp.corpus.download('wiki_itos_lstm')"
+            "Please download the corpus first:\n"
+            "  pythainlp.corpus.download('wiki_lm_lstm')\n"
+            "  pythainlp.corpus.download('wiki_itos_lstm')"
         )
 
     return {"wgts_fname": wgts_fname, "itos_fname": itos_fname}

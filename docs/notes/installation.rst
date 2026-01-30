@@ -69,6 +69,67 @@ Option 2 (advanced):
 
   - Building from source takes longer and requires technical knowledge, but produces a wheel optimized for your system.
 
+Using PyThaiNLP in distributed environments
+-------------------------------------------
+
+PyThaiNLP can be used in distributed computing environments such as Apache Spark. When using PyThaiNLP in these environments, you need to configure the data directory for each worker node.
+
+Key considerations
+~~~~~~~~~~~~~~~~~~
+
+1. **Set environment variables inside distributed functions**: Environment variables must be set inside the function that will be distributed to executor nodes, not in the driver program.
+
+2. **Use a writable local directory**: The default data directory (``~/pythainlp-data``) may not be writable on executor nodes. Use a local directory like ``./pythainlp-data`` instead.
+
+3. **Set ``PYTHAINLP_DATA_DIR`` before data access**: Always set the ``PYTHAINLP_DATA_DIR`` environment variable before the first call that reads or writes PyThaiNLP data on each worker.
+
+Example usage with Apache Spark
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Basic example using PySpark RDD::
+
+    from pyspark import SparkContext
+
+    sc = SparkContext("local[*]", "PyThaiNLP Example")
+    thai_texts = ["สวัสดีครับ", "ภาษาไทย"]
+    rdd = sc.parallelize(thai_texts)
+
+    def tokenize_thai(text):
+        import os
+        os.environ['PYTHAINLP_DATA_DIR'] = './pythainlp-data'
+        from pythainlp.tokenize import word_tokenize
+        return word_tokenize(text)
+
+    tokenized_rdd = rdd.map(tokenize_thai)
+    results = tokenized_rdd.collect()
+
+Example using PySpark DataFrame API::
+
+    from pyspark.sql import SparkSession
+    from pyspark.sql.functions import udf
+    from pyspark.sql.types import ArrayType, StringType
+
+    spark = SparkSession.builder.appName("PyThaiNLP").getOrCreate()
+    df = spark.createDataFrame([(1, "สวัสดีครับ")], ["id", "text"])
+
+    @udf(returnType=ArrayType(StringType()))
+    def tokenize_udf(text):
+        import os
+        os.environ['PYTHAINLP_DATA_DIR'] = './pythainlp-data'
+        from pythainlp.tokenize import word_tokenize
+        return word_tokenize(text)
+
+    result_df = df.withColumn("tokens", tokenize_udf(df.text))
+
+For more comprehensive examples including error handling, production best practices, and advanced features, see the file ``examples/distributed_pyspark.py`` in the PyThaiNLP repository.
+
+Thread safety considerations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PyThaiNLP's core tokenization engines are thread-safe, which is important for distributed computing environments where multiple threads may process data concurrently. For detailed information about thread safety guarantees and best practices, see :doc:`threadsafe`.
+
+Note that while the code itself is thread-safe, you still need to configure the data directory appropriately for distributed environments as described above.
+
 Runtime configurations
 ----------------------
 
@@ -89,8 +150,22 @@ FAQ
 
 Q: How do I set environment variables on each executor node in a distributed environment?
 
-A: See the discussion in `PermissionError: [Errno 13] Permission denied: /home/pythainlp-data <https://github.com/PyThaiNLP/pythainlp/issues/475>`_.
+A: When using PyThaiNLP in distributed computing environments like Apache Spark, you need to set the ``PYTHAINLP_DATA_DIR`` environment variable inside the function that will be distributed to executor nodes. For example::
+
+    def tokenize_thai(text):
+        import os
+        os.environ['PYTHAINLP_DATA_DIR'] = './pythainlp-data'
+        from pythainlp.tokenize import word_tokenize
+        return word_tokenize(text)
+
+    rdd.map(tokenize_thai)
+
+This ensures that each executor node uses a local data directory instead of the default home directory, which may not be writable on executor nodes.
+
+For detailed examples including PySpark DataFrame API and production best practices, see ``examples/distributed_pyspark.py``.
+
+For more discussion, see `PermissionError: [Errno 13] Permission denied: /home/pythainlp-data <https://github.com/PyThaiNLP/pythainlp/issues/475>`_.
 
 Q: How do I enable read-only mode for PyThaiNLP?
 
-A: Set the environment variable `PYTHAINLP_READ_MODE` to ``1``.
+A: Set the environment variable ``PYTHAINLP_READ_MODE`` to ``1``.

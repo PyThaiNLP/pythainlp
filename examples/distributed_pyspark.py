@@ -1,6 +1,6 @@
-# SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
-# SPDX-FileType: DOCUMENTATION
-# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+# SPDX-FileType: SOURCE
+# SPDX-License-Identifier: Apache-2.0
 """
 Example: Using PyThaiNLP in PySpark Distributed Environment
 
@@ -16,6 +16,7 @@ https://github.com/PyThaiNLP/pythainlp/blob/dev/docs/threadsafe.rst
 For information about data directory configuration in distributed environments, see:
 https://github.com/PyThaiNLP/pythainlp/issues/475
 """
+
 
 # Example 1: Basic PySpark setup with PyThaiNLP
 def example_basic_spark():
@@ -136,8 +137,8 @@ def example_advanced():
         os.environ["PYTHAINLP_DATA_DIR"] = "./pythainlp-data"
 
         # Import required modules
-        from pythainlp.tokenize import word_tokenize
         from pythainlp.tag import pos_tag
+        from pythainlp.tokenize import word_tokenize
         from pythainlp.util import normalize
 
         # Normalize text

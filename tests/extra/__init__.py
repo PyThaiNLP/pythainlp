@@ -10,9 +10,12 @@ from unittest import TestLoader, TestSuite
 
 # Names of module to be tested
 test_packages: list[str] = [
+    "tests.extra.testx_augment",
+    "tests.extra.testx_benchmarks",
     "tests.extra.testx_classify",
     "tests.extra.testx_coref",
     "tests.extra.testx_el",
+    "tests.extra.testx_tokenize",
     "tests.extra.testx_util",
 ]
 

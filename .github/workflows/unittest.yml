@@ -149,8 +149,10 @@ jobs:
         pip install --upgrade "pip<24.1" "setuptools>=69.0.0,<=73.0.1"
         pip install coverage
     - name: Install PyThaiNLP + extra dependencies
-      run: pip install ".[compact]"
-      # Start with compact dependencies, then gradually add more as tests are enabled
+      run: |
+        pip install ".[compact]"
+        pip install pandas gensim bpemb nltk attacut deepcut sefr_cut oskut ssg tltk
+      # Install dependencies needed for tests.extra modules
     - name: Unit test (extra)
       env:
         PYTHONIOENCODING: utf-8

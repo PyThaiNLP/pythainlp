@@ -49,8 +49,8 @@ class ThaiTextProcessor:
         :return: text where all useless brackets are removed
         :rtype: str
         :Example:
-            >>> rm_brackets("hey() whats[;] up{*&} man(hey)")
-            hey whats up man(hey)
+            >>> rm_brackets("hey() what's[;] up{*&} man(hey)")
+            hey what's up man(hey)
         """
         # remove empty brackets
         new_line = re.sub(r"\(\)", "", text)
@@ -76,8 +76,8 @@ class ThaiTextProcessor:
         :return: text where all newlines are replaced with spaces
         :rtype: str
         :Example:
-            >>> rm_useless_spaces("hey whats\n\nup")
-            hey whats  up
+            >>> rm_useless_spaces("hey what's\n\nup")
+            hey what's  up
         """
         return re.sub(r"[\n]", " ", text.strip())
 

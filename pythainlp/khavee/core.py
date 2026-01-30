@@ -314,7 +314,7 @@ class KhaveeVerifier:
             if "็" in word:
                 return "กา"
             else:
-                return "Cant find Marttra in this word"
+                return "Can't find Marttra in this word"
 
     def is_sumpus(self, word1: str, word2: str) -> bool:
         """

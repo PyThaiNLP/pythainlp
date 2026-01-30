@@ -142,7 +142,7 @@ def replace_wrep_post(toks: Collection[str]) -> list[str]:
         else:
             res.append(previous_word)
         previous_word = current_word
-    return [x for x in res[1:] if x is not None]
+    return list(filter(None, res[1:]))
 
 
 def rm_useless_newlines(text: str) -> str:
@@ -201,7 +201,7 @@ def lowercase_all(toks: Collection[str]) -> list[str]:
     """Lowercase all English words;
     English words in Thai texts don't usually have nuances of capitalization.
     """
-    return [tok.lower() for tok in toks]
+    return list(map(str.lower, toks))
 
 
 def replace_rep_nonum(text: str) -> str:
@@ -264,7 +264,7 @@ def replace_wrep_post_nonum(toks: Collection[str]) -> list[str]:
         else:
             res.append(previous_word)
         previous_word = current_word
-    return [x for x in res[1:] if x is not None]
+    return list(filter(None, res[1:]))
 
 
 def remove_space(toks: Collection[str]) -> list[str]:

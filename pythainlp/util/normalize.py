@@ -346,7 +346,7 @@ def expand_maiyamok(sent: Union[str, list[str]]) -> list[str]:
     temp_toks: list[str] = []
     for token in sent:
         toks = re_yamok.split(token)
-        toks = [tok for tok in toks if tok]  # remove empty string ("")
+        toks = list(filter(None, toks))  # remove empty string ("")
         temp_toks.extend(toks)
     sent = temp_toks
     del temp_toks

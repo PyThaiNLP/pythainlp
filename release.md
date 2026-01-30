@@ -17,7 +17,7 @@ SPDX-License-Identifier: CC0-1.0
     - `codemeta.json`
     - `pyproject.toml`
     - `CHANGELOG.md`
-    - `CITATION.cff`
+    - `CITATION.cff` (will auto-generated from `codemeta.json`)
     - `README.md`
     - `README.TH.md`
 4. Navigate to the [releases page][releases] and click the

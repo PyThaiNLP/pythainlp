@@ -63,10 +63,10 @@ def spell(word: str, engine: str = "pn") -> list[str]:
         # output: ['กะปิ', 'กระบิ']
 
         spell("สังเกตุ")
-        # output:  ['สังเกต']
+        # output: ['สังเกต']
 
         spell("เหตการณ")
-        # output:  ['เหตุการณ์']
+        # output: ['เหตุการณ์']
     """
     if engine == "phunspell":
         from pythainlp.spell.phunspell import spell as SPELL_CHECKER

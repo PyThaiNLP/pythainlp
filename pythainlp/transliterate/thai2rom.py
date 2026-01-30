@@ -173,20 +173,20 @@ class Attn(nn.Module):
         elif self.method == "general":
             attn_energies = self.attn(
                 encoder_outputs.view(-1, encoder_outputs.size(-1))
-            )  # (batch_size * sequence_len,  hidden_size)
+            )  # (batch_size * sequence_len, hidden_size)
             attn_energies = torch.bmm(
                 attn_energies.view(*encoder_outputs.size()),
                 hidden.transpose(1, 2),
             ).squeeze(
                 2
-            )  # (batch_size,  sequence_len)
+            )  # (batch_size, sequence_len)
         elif self.method == "concat":
             attn_energies = self.attn(
                 torch.cat(
                     (hidden.expand(*encoder_outputs.size()), encoder_outputs),
                     2,
                 )
-            )  # (batch_size, sequence_len,  hidden_size)
+            )  # (batch_size, sequence_len, hidden_size)
             attn_energies = torch.bmm(
                 attn_energies,
                 self.other.unsqueeze(0).expand(*hidden.size()).transpose(1, 2),

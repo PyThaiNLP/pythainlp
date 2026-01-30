@@ -202,12 +202,12 @@ def convert_years(year: str, src="be", target="ad") -> str:
     return output_year
 
 
-def _find_month(text: str) -> Optional[int]:
+def _find_month(text: str) -> int:
     for i, m in enumerate(thai_full_month_lists):
         for j in m:
             if j in text:
                 return i + 1
-    return None
+    return 0  # Not found in list
 
 
 def thai_strptime(
@@ -254,9 +254,6 @@ def thai_strptime(
         #   tzinfo=zoneinfo.ZoneInfo(key='Asia/Bangkok')
         # )
     """
-    d = ""
-    m = ""
-    y = ""
     fmt = fmt.replace("%-m", "%m")
     fmt = fmt.replace("%-d", "%d")
     fmt = fmt.replace("%b", "%B")
@@ -290,7 +287,7 @@ def thai_strptime(
     second: Union[int, str] = 0
     f: Union[int, str] = 0
     d = data["d"]
-    m: Optional[int] = _find_month(data["B"])  # type: ignore[no-redef]
+    m: int = _find_month(data["B"])
     y = data["Y"]
     if "H" in keys:
         hour = data["H"]
@@ -314,7 +311,7 @@ def thai_strptime(
         y = convert_years(y, src="be", target="ad")
     return datetime(
         year=int(y),
-        month=int(m),
+        month=m,
         day=int(d),
         hour=int(hour),
         minute=int(minute),

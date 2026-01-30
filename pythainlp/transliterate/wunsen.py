@@ -28,7 +28,7 @@ class WunsenTransliterate:
     """
 
     def __init__(self) -> None:
-        self.thap_value: Optional[object] = None
+        self.thap_value: Optional[ThapSap] = None
         self.lang: Optional[str] = None
         self.jp_input: Optional[str] = None
         self.zh_sandhi: Optional[bool] = None

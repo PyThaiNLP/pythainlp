@@ -290,7 +290,7 @@ def thai_strptime(
     second: Union[int, str] = 0
     f: Union[int, str] = 0
     d = data["d"]
-    m = _find_month(data["B"])
+    m: Optional[int] = _find_month(data["B"])  # type: ignore[no-redef]
     y = data["Y"]
     if "H" in keys:
         hour = data["H"]

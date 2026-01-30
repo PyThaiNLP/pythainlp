@@ -101,9 +101,9 @@ class Featurizer:
                 if indiv_char:
                     left_key = "|".join([str(relative_index_left), char_left])
                     if return_type == "dict":
-                        features[left_key] = 1
+                        features[left_key] = 1  # type: ignore[call-overload]
                     else:
-                        features.append(left_key)
+                        features.append(left_key)  # type: ignore[union-attr]
 
                 abs_index_right += (
                     1  # สมมุติคือตำแหน่งที่ 0 จะได้ 0, 1, 2, 3, 4 (radius = 5)
@@ -119,9 +119,9 @@ class Featurizer:
                         [str(relative_index_right), char_right]
                     )
                     if return_type == "dict":
-                        features[right_key] = 1
+                        features[right_key] = 1  # type: ignore[call-overload]
                     else:
-                        features.append(right_key)
+                        features.append(right_key)  # type: ignore[union-attr]
 
                 counter += 1
 
@@ -130,12 +130,12 @@ class Featurizer:
                 ngram = chars[i : i + self.N]
                 ngram_key = "|".join([str(i - self.radius), ngram])
                 if return_type == "dict":
-                    features[ngram_key] = 1
+                    features[ngram_key] = 1  # type: ignore[call-overload]
                 else:
-                    features.append(ngram_key)
+                    features.append(ngram_key)  # type: ignore[union-attr]
             all_features.append(features)
             if return_type == "list":
-                cut = str(cut)
+                cut = str(cut)  # type: ignore[assignment]
             all_labels.append(cut)
 
         return {"X": all_features, "Y": all_labels}

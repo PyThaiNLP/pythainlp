@@ -1,4 +1,10 @@
-name: Deploy development documentation
+# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileType: SOURCE
+
+# Deploy documentation to https://pythainlp.org/docs/
+
+name: Deploy dev docs
 on:
   push:
     branches:
@@ -14,14 +20,14 @@ on:
 jobs:
   deploy-docs:
     name: Build and deploy documentation
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v6
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
-        python-version: "3.10"
+        python-version: "3.12"
     - name: Install build tools and doc build tools
       run: |
         pip install --upgrade "pip<24.1" "setuptools>=69.0.0,<=73.0.1"

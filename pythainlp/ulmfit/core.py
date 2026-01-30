@@ -132,7 +132,7 @@ def process_thai(
         >>> from pythainlp.ulmfit import process_thai
         >>> text = "บ้านนนนน () อยู่นานนานนาน 😂🤣😃😄😅 PyThaiNLP amp;     "
         >>> process_thai(text)
-        [บ้าน', 'xxrep', '   ', 'อยู่', 'xxwrep', 'นาน', '😂', '🤣',
+        ['บ้าน', 'xxrep', '   ', 'อยู่', 'xxwrep', 'นาน', '😂', '🤣',
         '😃', '😄', '😅', 'pythainlp', '&']
 
         2. Modify pre_rules and post_rules arguments with

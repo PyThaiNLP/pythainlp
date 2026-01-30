@@ -36,7 +36,7 @@ jobs:
         set -euo pipefail
         mkdir -p pythainlp_test
         cd pythainlp_test
-        # Download sdist from PyPI
+        # Download sdist from PyPI (the binary distribution does not contain tests)
         pip download --no-binary=:all: --no-dependencies pythainlp
         archive=$(ls -1 *.tar.gz | head -n1)
         echo "Found archive: $archive"

@@ -12,6 +12,7 @@ on:
     paths:
       - ".github/workflows/deploy-docs.yml"
       - "build_tools/**"
+      - "docs/**"
       - "pythainlp/**"
       - "Makefile"
       - "pyproject.toml"

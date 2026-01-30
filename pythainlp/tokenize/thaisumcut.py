@@ -364,7 +364,7 @@ class ThaiSentenceSegmentor:
         if "nan" in sentences:
             sentences.remove("nan")
 
-        sentences = [s for s in sentences if s]
+        sentences = list(filter(None, sentences))
 
         if isMiddleCut:
             return middle_cut(sentences)

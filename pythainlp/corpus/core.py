@@ -170,7 +170,7 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset:
         # if the line has a '#' character, take only text before the first '#'
         lines = [line.split("#", 1)[0].strip() for line in lines]
 
-    return frozenset(line for line in lines if line)
+    return frozenset(filter(None, lines))
 
 
 def get_corpus_as_is(filename: str) -> list[str]:

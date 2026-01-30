@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Ideally be the minimum supported version, as in requires-python in pyproject.toml
+        # Ideally, this is the minimum supported version, as in requires-python in pyproject.toml
         python-version: ["3.9"]
 
     steps:

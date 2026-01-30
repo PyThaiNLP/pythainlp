@@ -26,7 +26,7 @@ You can use some `thainlp` functions directly from the command line.
 
 **Part-of-speech tagging**::
 
-    pythainlp tagg pos [-s SEPARATOR] TEXT
+    thainlp tag pos [-s SEPARATOR] TEXT
 
 *Example*::
 

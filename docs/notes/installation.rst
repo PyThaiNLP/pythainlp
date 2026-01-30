@@ -146,7 +146,7 @@ Runtime configurations
    Configures PyThaiNLP to operate in read-only mode (0 = False, 1 = True).
 
 Installation FAQ
-================
+----------------
 
 Q: How do I set environment variables on each executor node in a distributed environment?
 

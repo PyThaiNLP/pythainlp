@@ -123,6 +123,13 @@ Example using PySpark DataFrame API::
 
 For more comprehensive examples including error handling, production best practices, and advanced features, see the file ``examples/distributed_pyspark.py`` in the PyThaiNLP repository.
 
+Thread safety considerations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PyThaiNLP's core tokenization engines are thread-safe, which is important for distributed computing environments where multiple threads may process data concurrently. For detailed information about thread safety guarantees and best practices, see :doc:`threadsafe`.
+
+Note that while the code itself is thread-safe, you still need to configure the data directory appropriately for distributed environments as described above.
+
 Runtime configurations
 ----------------------
 

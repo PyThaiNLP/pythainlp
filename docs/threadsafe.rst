@@ -183,3 +183,9 @@ Related files
 - Core implementation: ``pythainlp/tokenize/core.py``
 - Engine implementations: ``pythainlp/tokenize/*.py``
 - Tests: ``tests/core/test_tokenize_thread_safety.py``
+
+See also
+--------
+
+- :doc:`notes/installation` - For using PyThaiNLP in distributed computing environments
+  like Apache Spark, including configuration of data directories for distributed operations

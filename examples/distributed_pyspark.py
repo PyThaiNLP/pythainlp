@@ -8,7 +8,12 @@ This example demonstrates how to use PyThaiNLP in a distributed environment
 like Apache Spark. The key is to set the PYTHAINLP_DATA_DIR environment
 variable inside the function that will be distributed to executor nodes.
 
-For more information, see:
+PyThaiNLP's core tokenization engines are thread-safe, making them suitable
+for distributed computing environments where multiple threads may process
+data concurrently. For detailed information about thread safety, see:
+https://github.com/PyThaiNLP/pythainlp/blob/dev/docs/threadsafe.rst
+
+For information about data directory configuration in distributed environments, see:
 https://github.com/PyThaiNLP/pythainlp/issues/475
 """
 

@@ -15,9 +15,9 @@ https://arxiv.org/abs/1801.06146
 
 __all__ = [
     "THWIKI_LSTM",
-    "get_thwiki_lstm",
     "ThaiTokenizer",
     "document_vector",
+    "get_thwiki_lstm",
     "merge_wgts",
     "post_rules_th",
     "post_rules_th_sparse",
@@ -41,8 +41,8 @@ __all__ = [
 
 from pythainlp.ulmfit.core import (
     THWIKI_LSTM,
-    get_thwiki_lstm,
     document_vector,
+    get_thwiki_lstm,
     merge_wgts,
     post_rules_th,
     post_rules_th_sparse,

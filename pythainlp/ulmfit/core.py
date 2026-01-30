@@ -39,9 +39,22 @@ _ITOS_NAME_LSTM = "wiki_itos_lstm"
 
 
 # Pretrained model paths
+# Note: get_corpus_path() returns None if corpus is not downloaded
+# Users should call pythainlp.corpus.download() to get the corpus first
+_wgts_path = get_corpus_path(_MODEL_NAME_LSTM)
+_itos_path = get_corpus_path(_ITOS_NAME_LSTM)
+
+if _wgts_path is None or _itos_path is None:
+    raise RuntimeError(
+        "ULMFiT model files not found. "
+        "Please download the corpus first using: "
+        "pythainlp.corpus.download('wiki_lm_lstm') and "
+        "pythainlp.corpus.download('wiki_itos_lstm')"
+    )
+
 THWIKI_LSTM = {
-    "wgts_fname": get_corpus_path(_MODEL_NAME_LSTM),
-    "itos_fname": get_corpus_path(_ITOS_NAME_LSTM),
+    "wgts_fname": _wgts_path,
+    "itos_fname": _itos_path,
 }
 
 # Preprocessing rules for Thai text

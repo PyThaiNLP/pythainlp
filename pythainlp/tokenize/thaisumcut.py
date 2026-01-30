@@ -359,8 +359,6 @@ class ThaiSentenceSegmentor:
         text = text.replace("<prd>", ".")
         sentences = text.split("<stop>")
         sentences = list(map(str.strip, sentences))
-        if "" in sentences:
-            sentences.remove("")
         if "nan" in sentences:
             sentences.remove("nan")
 

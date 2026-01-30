@@ -29,7 +29,7 @@ class FrequencySummarizer:
     def __compute_frequencies(
         self, word_tokenized_sents: list[list[str]]
     ) -> defaultdict:
-        word_freqs = defaultdict(int)
+        word_freqs: defaultdict[str, float] = defaultdict(int)
         for sent in word_tokenized_sents:
             for word in sent:
                 if word not in self.__stopwords:
@@ -54,7 +54,7 @@ class FrequencySummarizer:
             word_tokenize(sent, engine=tokenizer) for sent in sents
         ]
         self.__freq = self.__compute_frequencies(word_tokenized_sents)
-        ranking = defaultdict(int)
+        ranking: defaultdict[int, float] = defaultdict(int)
 
         for i, sent in enumerate(word_tokenized_sents):
             for w in sent:

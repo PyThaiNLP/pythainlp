@@ -109,8 +109,8 @@ class LongestMatchTokenizer:
     def __segment(self, text: str):
         begin_pos = 0
         len_text = len(text)
-        tokens = []
-        token_statuses = []
+        tokens: list[str] = []
+        token_statuses: list[int] = []
         while begin_pos < len_text:
             match = self.__longest_matching(text, begin_pos)
             if not match:
@@ -139,7 +139,7 @@ class LongestMatchTokenizer:
                 begin_pos += len(match)
 
         # Group consecutive spaces into one token
-        grouped_tokens = []
+        grouped_tokens: list[str] = []
         for token in tokens:
             if (
                 token.isspace()

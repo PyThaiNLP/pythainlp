@@ -18,7 +18,12 @@ Website: `pythainlp.org <https://pythainlp.org/>`_
    :maxdepth: 1
    :caption: Notes
 
-   notes/*
+   notes/installation
+   notes/start
+   notes/command
+   notes/threadsafe
+   notes/faq
+   notes/license
 
 .. toctree::
    :glob:

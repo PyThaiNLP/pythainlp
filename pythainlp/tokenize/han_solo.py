@@ -59,18 +59,10 @@ class Featurizer:
     def featurize(
         self, sentence: str, padding: bool = True, indiv_char: bool = True, return_type: str = "list"
     ) -> dict[str, list]:
-        if return_type == "list":
-            return self._featurize_list(sentence, padding, indiv_char)
-        else:
-            return self._featurize_dict(sentence, padding, indiv_char)
-
-    def _featurize_list(
-        self, sentence: str, padding: bool, indiv_char: bool
-    ) -> dict[str, list]:
         if padding:
             sentence = self.pad(sentence)
-        all_features: list[list[str]] = []
-        all_labels: list[str] = []
+        all_features_list: list[list[str]] = []
+        all_labels_int: list[int] = []
         skip_next = False
         for current_position in range(
             self.radius, len(sentence) - self.radius + 1
@@ -127,76 +119,19 @@ class Featurizer:
                 ngram = chars[i : i + self.N]
                 ngram_key = "|".join([str(i - self.radius), ngram])
                 features.append(ngram_key)
-            all_features.append(features)
-            all_labels.append(str(cut))
+            all_features_list.append(features)
+            all_labels_int.append(cut)
 
-        return {"X": all_features, "Y": all_labels}
-
-    def _featurize_dict(
-        self, sentence: str, padding: bool, indiv_char: bool
-    ) -> dict[str, list]:
-        if padding:
-            sentence = self.pad(sentence)
-        all_features: list[dict[str, int]] = []
-        all_labels: list[int] = []
-        skip_next = False
-        for current_position in range(
-            self.radius, len(sentence) - self.radius + 1
-        ):
-            if skip_next:
-                skip_next = False
-                continue
-            features: dict[str, int] = {}
-            cut = 0
-            char = sentence[current_position]
-            if char == self.delimiter:
-                cut = 1
-                skip_next = True
-            counter = 0
-            chars_left = ""
-            chars_right = ""
-            abs_index_left = current_position  # left start at -1
-            abs_index_right = current_position - 1  # right start at 0
-            while counter < self.radius:
-                abs_index_left -= (
-                    1  # สมมุติตำแหน่งที่ 0 จะได้ -1, -2, -3, -4, -5 (radius = 5)
-                )
-                char_left = sentence[abs_index_left]
-                while char_left == self.delimiter:
-                    abs_index_left -= 1
-                    char_left = sentence[abs_index_left]
-                relative_index_left = -counter - 1
-                # เก็บตัวหนังสือ
-                chars_left = char_left + chars_left
-                # ใส่ลง feature
-                if indiv_char:
-                    left_key = "|".join([str(relative_index_left), char_left])
-                    features[left_key] = 1
-
-                abs_index_right += (
-                    1  # สมมุติคือตำแหน่งที่ 0 จะได้ 0, 1, 2, 3, 4 (radius = 5)
-                )
-                char_right = sentence[abs_index_right]
-                while char_right == self.delimiter:
-                    abs_index_right += 1
-                    char_right = sentence[abs_index_right]
-                relative_index_right = counter
-                chars_right += char_right
-                if indiv_char:
-                    right_key = "|".join(
-                        [str(relative_index_right), char_right]
-                    )
-                    features[right_key] = 1
-
-                counter += 1
-
-            chars = chars_left + chars_right
-            for i in range(0, len(chars) - self.N + 1):
-                ngram = chars[i : i + self.N]
-                ngram_key = "|".join([str(i - self.radius), ngram])
-                features[ngram_key] = 1
-            all_features.append(features)
-            all_labels.append(cut)
+        # Convert to the requested return type
+        if return_type == "list":
+            all_features: list[list[str]] = all_features_list
+            all_labels: list[str] = [str(label) for label in all_labels_int]
+        else:
+            all_features: list[dict[str, int]] = [
+                {key: 1 for key in feature_list}
+                for feature_list in all_features_list
+            ]
+            all_labels: list[int] = all_labels_int
 
         return {"X": all_features, "Y": all_labels}
 

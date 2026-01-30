@@ -151,7 +151,7 @@ jobs:
     - name: Install PyThaiNLP + extra dependencies
       run: |
         pip install ".[compact]"
-        pip install pandas gensim bpemb nltk attacut deepcut sefr_cut oskut ssg tltk
+        pip install pandas gensim bpemb nltk attacut deepcut sefr_cut oskut ssg tltk phunspell symspellpy
       # Install dependencies needed for tests.extra modules
     - name: Unit test (extra)
       env:

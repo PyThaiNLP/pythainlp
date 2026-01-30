@@ -1,5 +1,5 @@
-Thread safety in PyThaiNLP word tokenization
-==============================================
+Thread safety
+=============
 
 Summary
 -------

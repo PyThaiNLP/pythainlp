@@ -108,13 +108,17 @@ jobs:
       # dependencies. But we should also consider to reduce the number
       # of dependencies to avoid the conflict between dependencies.
       # See: https://github.com/PyThaiNLP/pythainlp/issues/935
+    - name: Install PyThaiNLP + dependencies (extra)
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST
+      run: pip install ".[extra]"
+      # Install extra dependencies for tests.extra on ubuntu-latest with latest Python
     - name: Unit test (core)
       if: matrix.python-version != env.PYTHON_VERSION_LATEST && matrix.python-version != env.PYTHON_VERSION_LATEST_2
       env:
         PYTHONIOENCODING: utf-8
       run: coverage run -m unittest tests.core
     - name: Unit test (core + compact)
-      if: matrix.python-version == env.PYTHON_VERSION_LATEST || matrix.python-version == env.PYTHON_VERSION_LATEST_2
+      if: (matrix.python-version == env.PYTHON_VERSION_LATEST || matrix.python-version == env.PYTHON_VERSION_LATEST_2) && matrix.os != 'ubuntu-latest'
       env:
         PYTHONIOENCODING: utf-8
       run: coverage run -m unittest tests.core tests.compact
@@ -123,6 +127,18 @@ jobs:
       # loading tests with dependencies more than expected.
       # Test cases loaded is defined in __init__.py in the tests directory.
       # See also tests/README.md
+    - name: Unit test (core + compact) on ubuntu-latest (3.12)
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2
+      env:
+        PYTHONIOENCODING: utf-8
+      run: coverage run -m unittest tests.core tests.compact
+      # Test "compact" set on ubuntu-latest with Python 3.12.
+    - name: Unit test (core + compact + extra)
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST
+      env:
+        PYTHONIOENCODING: utf-8
+      run: coverage run -m unittest tests.core tests.compact tests.extra
+      # Test "extra" set with latest Python on ubuntu-latest for coverage report.
     - name: Coverage report
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST
       env:
@@ -130,33 +146,3 @@ jobs:
         COVERALLS_SERVICE_NAME: github
       run: coveralls
       # Only submit a report from the latest Python version on ubuntu-latest.
-
-  unittest-extra:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    env:
-      PYTHON_VERSION: "3.12"
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v6
-    - name: Set up Python ${{ env.PYTHON_VERSION }}
-      uses: actions/setup-python@v6
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-        cache: "pip"
-    - name: Install build tools
-      run: |
-        pip install --upgrade "pip<24.1" "setuptools>=69.0.0,<=73.0.1"
-        pip install coverage
-    - name: Install PyThaiNLP + extra dependencies
-      run: |
-        pip install ".[compact]"
-        pip install pandas gensim bpemb nltk attacut deepcut sefr_cut oskut ssg tltk phunspell symspellpy
-      # Install dependencies needed for tests.extra modules
-    - name: Unit test (extra)
-      env:
-        PYTHONIOENCODING: utf-8
-      run: coverage run -m unittest tests.extra
-      # Test extra set with Python 3.12 on ubuntu-latest only.

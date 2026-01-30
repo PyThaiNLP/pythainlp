@@ -17,8 +17,8 @@ def _is_stopword(word: str) -> bool:  # check Thai stopword
 
 
 def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, Any]:
-    """`tokens`  = a POS-tagged sentence [(w1, t1), ...]
-    `index`   = the index of the token we want to extract features for
+    """`tokens` = a POS-tagged sentence [(w1, t1), ...]
+    `index` = the index of the token we want to extract features for
     """
     word, pos = tokens[index]
     f: dict[str, Any] = {

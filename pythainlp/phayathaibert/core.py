@@ -35,7 +35,7 @@ class ThaiTextProcessor:
     def replace_url(self, text: str) -> str:
         """Replace url in `text` with TK_URL (https://stackoverflow.com/a/6041965)
         :param str text: text to replace url
-        :return: text where urls  are replaced
+        :return: text where urls are replaced
         :rtype: str
         :Example:
             >>> replace_url("go to https://github.com")

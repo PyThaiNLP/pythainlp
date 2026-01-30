@@ -1,23 +1,23 @@
-Getting Started
+Getting started
 ===============
 
-PyThaiNLP is a Python library for natural language processing (NLP) of Thai language. With this package, you can perform NLP tasks such as text classification and text tokenization.
+PyThaiNLP is a Python library for Thai natural language processing (NLP). With this package you can perform common NLP tasks such as text classification and tokenization.
 
-**Tokenization Example**::
+**Tokenization example**::
 
     from pythainlp.tokenize import word_tokenize
 
     text = "โอเคบ่เรารักภาษาถิ่น"
     word_tokenize(text, engine="newmm")  # ['โอเค', 'บ่', 'เรา', 'รัก', 'ภาษาถิ่น']
-    word_tokenize(text, engine="icu")  # ['โอ', 'เค', 'บ่', 'เรา', 'รัก', 'ภาษา', 'ถิ่น']
+    word_tokenize(text, engine="icu")    # ['โอ', 'เค', 'บ่', 'เรา', 'รัก', 'ภาษา', 'ถิ่น']
 
-Thai has historically faced a lot of NLP challenges. A quick list of them include as follows:
+Thai NLP faces several challenges. A brief list includes:
 
-#. **Start-end of sentence marking** - This is arguably the biggest problem for the field of Thai NLP. The lack of end of sentence marking (EOS) makes it hard for researchers to create training sets, the basis of most research in this field. The root of the problem is two-pronged. In terms of writing system, Thai uses space to indicate both commas and periods. No letter indicates an end of a sentence. In terms of language use, Thais have a habit of starting their sentences with connector terms such as 'because', 'but', 'following', etc, making it often hard even for natives to decide where the end of sentence should be when translating.
+#. **Sentence boundary detection** — This is one of the biggest challenges in Thai NLP. The lack of explicit end-of-sentence markers makes it difficult to create training sets for many tasks. The issue is twofold: in the writing system, Thai punctuation and spacing do not always indicate sentence endings; in language use, sentences often begin with conjunctions such as 'because' or 'but', which can make sentence boundaries ambiguous even for native speakers.
 
-#. **Word segmentation** - Thai does not use space and word segmentation is not easy. It boils down to understanding the context and ruling out words that do not make sense. This is a similar issue that other Asian languages such as Japanese and Chinese face in different degrees. For languages with space, a similar but less extreme problem would be multi-word expressions, like the French word for potato — 'pomme de terre'. In Thai, the best known example is "ตา-กลม" and "ตาก-ลม". As of recent, new techniques that capture words, subwords, and letters in vectors seem poised to overcome to issue.
+#. **Word segmentation** — Thai does not use spaces to separate words, so segmentation is challenging. Solving it often requires understanding context to rule out unlikely word breaks. This is similar to issues in other Asian languages such as Japanese and Chinese. Recently, techniques that represent words, subwords, and characters as vectors (embeddings) have improved performance and help address this problem.
 
-Tutorial Notebooks
+Tutorial notebooks
 ==================
 - `PyThaiNLP Get Started <https://pythainlp.org/tutorials/notebooks/pythainlp-get-started.html>`_
 - `Other tutorials <https://pythainlp.org/tutorials/>`_

@@ -1,4 +1,10 @@
-name: Deploy development documentation
+# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileType: SOURCE
+
+# Deploy documentation to https://pythainlp.org/docs/
+
+name: Deploy dev docs
 on:
   push:
     branches:
@@ -14,18 +20,17 @@ on:
 jobs:
   deploy-docs:
     name: Build and deploy documentation
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v6
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
-        python-version: "3.10"
+        python-version: "3.12"
     - name: Install build tools and doc build tools
       run: |
         pip install --upgrade "pip<24.1" "setuptools>=69.0.0,<=73.0.1"
-        pip install boto smart_open sphinx sphinx-rtd-theme
       # pip<24.1 because https://github.com/omry/omegaconf/pull/1195
       # setuptools>=65.0.2 because https://github.com/pypa/setuptools/commit/d03da04e024ad4289342077eef6de40013630a44#diff-9ea6e1e3dde6d4a7e08c7c88eceed69ca745d0d2c779f8f85219b22266efff7fR1
       # setuptools<=73.0.1 because https://github.com/pypa/setuptools/issues/4620
@@ -35,7 +40,7 @@ jobs:
     #  run: |
     #    if [ -f docker_requirements.txt ]; then pip install -r docker_requirements.txt; fi
     - name: Install PyThaiNLP
-      run: pip install .
+      run: pip install ".[docs]"
     - name: Build sphinx documentation
       run: |
         cd docs && make html

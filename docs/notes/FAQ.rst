@@ -1,6 +1,6 @@
 FAQ
 ===
 
-*Frequently Asked Questions about PyThaiNLP*
+*Frequently asked questions about PyThaiNLP*
 
-You can read the FAQ at `FAQ | PyThaiNLP GitHub <https://pythainlp.org/FAQ>`_
+Read the FAQ at `PyThaiNLP FAQ <https://pythainlp.org/FAQ>`_.

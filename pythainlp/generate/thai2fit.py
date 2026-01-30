@@ -44,6 +44,15 @@ dummy_df = pd.read_csv(imdb / "texts.csv")
 # get vocab
 thwiki = THWIKI_LSTM
 
+# Validate that corpus files are available
+if thwiki["itos_fname"] is None or thwiki["wgts_fname"] is None:
+    raise RuntimeError(
+        "Thai2fit model files not found. "
+        "Please download the corpus first using: "
+        "pythainlp.corpus.download('wiki_lm_lstm') and "
+        "pythainlp.corpus.download('wiki_itos_lstm')"
+    )
+
 # Security Note: This loads a pickle file from PyThaiNLP's trusted corpus.
 # The file is downloaded from PyThaiNLP's official repository with MD5 verification.
 # Users should only use corpus files from trusted sources.

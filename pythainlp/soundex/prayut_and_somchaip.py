@@ -87,7 +87,7 @@ def prayut_and_somchaip(text: str, length: int = 4) -> str:
         elif chars[i] in _C9 and i != 0:
             chars[i] = "9"
         else:
-            chars[i] = None
+            chars[i] = None  # type: ignore[call-overload]
         i += 1
     chars = list("".join([i for i in chars if i is not None]))
     return "".join(chars[-length:])

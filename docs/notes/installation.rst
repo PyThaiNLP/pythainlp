@@ -9,7 +9,7 @@ Development (pre-release) version::
 
     pip install --upgrade --pre pythainlp
 
-Some features (for example, named entity recognition) require additional optional dependencies. Install them using the extras syntax:
+Some features (for example, named entity recognition) require additional optional dependencies. Install them using the `extras` syntax:
 
     pip install pythainlp[extra1,extra2,...]
 
@@ -145,8 +145,8 @@ Runtime configurations
 
    Configures PyThaiNLP to operate in read-only mode (0 = False, 1 = True).
 
-FAQ
-===
+Installation FAQ
+================
 
 Q: How do I set environment variables on each executor node in a distributed environment?
 

@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-License-Identifier: CC0-1.0
 
+# Check that the package can be installed from PyPI and run tests
+
 name: PyPI Unit test
 
 on:
@@ -30,17 +32,20 @@ jobs:
         python -m nltk.downloader omw-1.4
     - name: Test
       run: |
-        mkdir pythainlp_test
+        set -euo pipefail
+        mkdir -p pythainlp_test
         cd pythainlp_test
+        # Download sdist from PyPI
         pip download --no-binary=:all: --no-dependencies pythainlp
-        file="find . -name *.tar.gz"
-        file=$(eval "$file")
-        tar -xvzf $file --one-top-level
-        second="/"
-        path=${file//.tar.gz/$second}
-        cd $path
-        ls
-        cd tests
-        mkdir tests
-        mv data tests/
-        python -m unittest discover
+        archive=$(ls -1 *.tar.gz | head -n1)
+        echo "Found archive: $archive"
+        # Determine top-level folder inside archive, extract and cd into it
+        topdir=$(tar -tf "$archive" | head -n1 | cut -f1 -d"/")
+        tar -xzf "$archive"
+        cd "$topdir"
+        ls -la
+        # If test data is at package root and a tests dir exists, move it into tests
+        if [ -d data ] && [ -d tests ]; then
+          mv data tests/
+        fi
+        python -m unittest discover -v

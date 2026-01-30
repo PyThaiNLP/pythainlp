@@ -39,7 +39,7 @@ class ThaiTextProcessor:
         :rtype: str
         :Example:
             >>> replace_url("go to https://github.com")
-            go to <url>
+            'go to <url>'
         """
         return re.sub(_PAT_URL, self._TK_URL, text)
 
@@ -50,7 +50,7 @@ class ThaiTextProcessor:
         :rtype: str
         :Example:
             >>> rm_brackets("hey() whats[;] up{*&} man(hey)")
-            hey whats up man(hey)
+            'hey whats up man(hey)'
         """
         # remove empty brackets
         new_line = re.sub(r"\(\)", "", text)

@@ -92,7 +92,7 @@ class WordVector:
         >>> wv = WordVector()
         >>> words = ["อาหารเช้า", "อาหารเที่ยง", "อาหารเย็น", "พริกไทย"]
         >>> wv.doesnt_match(words)
-        พริกไทย
+        'พริกไทย'
 
         Pick the word "เรือ" (name of vehicle) out of the list of words
         related to occupation ("ดีไซน์เนอร์", "พนักงานเงินเดือน", "หมอ").
@@ -102,7 +102,7 @@ class WordVector:
         >>> wv = WordVector()
         >>> words = ["ดีไซน์เนอร์", "พนักงานเงินเดือน", "หมอ", "เรือ"]
         >>> wv.doesnt_match(words)
-        เรือ
+        'เรือ'
         """
         return self.model.doesnt_match(words)
 

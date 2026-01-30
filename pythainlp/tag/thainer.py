@@ -173,8 +173,7 @@ class ThaiNameTagger:
             ('น.', 'I-TIME')]
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.",
                             tag=True)
-            'วันที่ <DATE>15 ก.ย. 61</DATE> ทดสอบระบบเวลา <TIME>
-            14:49 น.</TIME>'
+            'วันที่ <DATE>15 ก.ย. 61</DATE> ทดสอบระบบเวลา <TIME>14:49 น.</TIME>'
         """
         tokens = word_tokenize(text, engine=_TOKENIZER_ENGINE)
         pos_tags = pos_tag(

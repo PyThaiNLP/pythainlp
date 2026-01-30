@@ -108,7 +108,7 @@ class PerceptronTagger:
             [("นก", "N"), ("บิน", "V")],
         ]
     >>> tagger.train(data)
-    >>> tagger.tag(["นก", "เดิน])
+    >>> tagger.tag(["นก", "เดิน"])
     [('นก', 'N'), ('เดิน', 'V')]
 
     """

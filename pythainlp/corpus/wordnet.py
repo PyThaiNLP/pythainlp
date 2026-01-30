@@ -53,7 +53,7 @@ def synsets(word: str, pos: Optional[str] = None, lang: str = "tha") -> list[wor
         [Synset('function.v.01'), Synset('work.v.02'),
          Synset('work.v.01'), Synset('work.v.08')]
         >>>
-        >>> synsets("บ้าน", lang="tha"))
+        >>> synsets("บ้าน", lang="tha")
         [Synset('duplex_house.n.01'), Synset('dwelling.n.01'),
          Synset('house.n.01'), Synset('family.n.01'), Synset('home.n.03'),
          Synset('base.n.14'), Synset('home.n.01'),

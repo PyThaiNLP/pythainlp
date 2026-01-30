@@ -3,7 +3,7 @@
 
 # Check that the package can be installed from PyPI and run tests
 
-name: PyPI Unit test
+name: Test package installed from PyPI
 
 on:
   schedule:
@@ -15,7 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.12"]
+        # Ideally be the minimum supported version, as in requires-python in pyproject.toml
+        python-version: ["3.9"]
 
     steps:
     - uses: actions/checkout@v6

@@ -178,17 +178,17 @@ class Thai_W2P:
             preds.append(pred)
             dec = np.take(self.dec_emb, [pred], axis=0)
 
-        preds = [self.idx2p.get(idx, "<unk>") for idx in preds]
+        preds_str = [self.idx2p.get(idx, "<unk>") for idx in preds]
 
-        return preds
+        return "".join(preds_str)
 
     def __call__(self, word: str) -> str:
         if not any(letter in word for letter in self.graphemes):
-            pron = [word]
+            pron_result = word
         else:  # predict for oov
-            pron = self._predict(word)
+            pron_result = self._predict(word)
 
-        return "".join(pron)
+        return pron_result
 
 
 _THAI_W2P = Thai_W2P()

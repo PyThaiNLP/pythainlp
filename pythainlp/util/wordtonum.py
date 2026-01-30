@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import re
 from functools import lru_cache
-from typing import Optional
+from typing import Optional, Union
 
 from pythainlp.corpus import thai_words
 from pythainlp.tokenize import Tokenizer
@@ -157,7 +157,7 @@ def words_to_num(words: list[str]) -> float:
         # output: 50.95
 
     """
-    num = 0
+    num: Union[int, float] = 0
     if "จุด" not in words:
         num = thaiword_to_num("".join(words))
     else:

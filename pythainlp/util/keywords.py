@@ -4,13 +4,14 @@
 from __future__ import annotations
 
 from collections import Counter
+from typing import Optional
 
 from pythainlp.corpus import thai_stopwords
 
 _STOPWORDS = thai_stopwords()
 
 
-def rank(words: list[str], exclude_stopwords: bool = False) -> Counter:
+def rank(words: list[str], exclude_stopwords: bool = False) -> Optional[Counter]:
     """Count word frequencies given a list of Thai words with an option
     to exclude stopwords.
 
@@ -97,6 +98,9 @@ def find_keyword(word_list: list[str], min_len: int = 3) -> dict[str, int]:
         # output: {' ': 2, 'บันทึก': 4, 'ลายลักษณ์อักษรและ': 1,
          'เสียง': 1, 'เหตุการณ์': 3}
     """
-    word_list = rank(word_list, exclude_stopwords=True)
+    word_counter = rank(word_list, exclude_stopwords=True)
 
-    return {k: v for k, v in word_list.items() if v >= min_len}
+    if word_counter is None:
+        return {}
+
+    return {k: v for k, v in word_counter.items() if v >= min_len}

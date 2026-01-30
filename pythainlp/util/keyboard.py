@@ -206,7 +206,7 @@ def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
     """
 
     def get_char_coord(
-        ch: str, layouts: Optional[list[list[str]]] = None
+        ch: str, layouts: Optional[list[list[list[str]]]] = None
     ) -> tuple[int, int]:
         if layouts is None:
             layouts = [TIS_820_2531_MOD, TIS_820_2531_MOD_SHIFT]

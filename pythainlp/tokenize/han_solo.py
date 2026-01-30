@@ -10,14 +10,14 @@ from __future__ import annotations
 
 import threading
 from importlib.resources import as_file, files
-from typing import Optional
+from typing import Optional, Union
 
 try:
     import pycrfsuite
-except ImportError:
+except ImportError as ex:
     raise ImportError(
         "ImportError; Install pycrfsuite by pip install python-crfsuite"
-    )
+    ) from ex
 
 _tagger = None
 _model_file_ctx = None  # File context manager kept alive for program lifetime
@@ -70,9 +70,11 @@ class Featurizer:
             if skip_next:
                 skip_next = False
                 continue
-            features = {}
+            features: Union[dict[str, int], list[str]]
             if return_type == "list":
                 features = []
+            else:
+                features = {}
             cut = 0
             char = sentence[current_position]
             if char == self.delimiter:

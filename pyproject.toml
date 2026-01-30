@@ -61,7 +61,10 @@ classifiers = [
 ]
 
 # Core dependencies
-dependencies = ["tzdata; sys_platform == 'win32'"]
+dependencies = [
+    "importlib_resources; python_version < '3.11'",
+    "tzdata; sys_platform == 'win32'",
+]
 
 [project.optional-dependencies]
 

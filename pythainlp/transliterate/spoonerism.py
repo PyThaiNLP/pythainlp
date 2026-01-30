@@ -69,8 +69,8 @@ def puan(word: str, show_pronunciation: bool = True) -> str:
         _list_w.append(
             _list_pron[0].replace(list_w_char[0][1], list_w_char[-1][1], 1)
         )
-        for i in range(1, len(list_w_char) - 1):
-            _list_w.append(_list_pron[i])
+        for idx in range(1, len(list_w_char) - 1):
+            _list_w.append(_list_pron[idx])
         _list_w.append(
             _list_pron[-1].replace(list_w_char[-1][1], list_w_char[0][1], 1)
         )

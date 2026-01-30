@@ -272,9 +272,10 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
     del _time
 
     hour = _thai_time_cut().word_tokenize(_LIST_THAI_TIME[0])
-    minute = _LIST_THAI_TIME[1]
-    if len(minute) > 1:
-        minute = _thai_time_cut().word_tokenize(minute)
+    minute_raw = _LIST_THAI_TIME[1]
+    minute: Union[list[str], int]
+    if len(minute_raw) > 1:
+        minute = _thai_time_cut().word_tokenize(minute_raw)
     else:
         minute = 0
     text = ""

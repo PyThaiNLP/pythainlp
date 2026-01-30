@@ -11,6 +11,7 @@ from pythainlp.augment import WordNetAug
 # from pythainlp.augment.lm import Thai2transformersAug
 # from pythainlp.augment.lm.phayathaibert import ThaiTextAugmenter
 from pythainlp.augment.word2vec import LTW2VAug
+# BPEmbAug import kept for future re-enabling when network access is available
 from pythainlp.augment.word2vec.bpemb_wv import BPEmbAug
 from pythainlp.augment.wordnet import postype2wordnet
 

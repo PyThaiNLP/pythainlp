@@ -133,6 +133,8 @@ jobs:
 
   unittest-extra:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     env:
       PYTHON_VERSION: "3.12"
 

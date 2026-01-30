@@ -187,5 +187,5 @@ Related files
 See also
 --------
 
-- :doc:`notes/installation` - For using PyThaiNLP in distributed computing environments
+- :doc:`installation` - For using PyThaiNLP in distributed computing environments
   like Apache Spark, including configuration of data directories for distributed operations

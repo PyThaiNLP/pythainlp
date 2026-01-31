@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Unit test. Extra version.
 
-Test functions that require dependencies beyond "compact" (see setup.py).
+Test functions that require dependencies beyond "compact" (see pyproject.toml).
 """
 
 from unittest import TestLoader, TestSuite

@@ -38,7 +38,7 @@ for real-world usage:
 
 - Run `unittest tests.extra`
 - Explore functionalities that rely on optional dependencies specified in the
-  `extras` section of `setup.py`.
+  `project.optional-dependencies` section of `pyproject.toml`.
 - These dependencies might include libraries like `gensim`, `tltk`, or `torch`.
 - Due to dependency complexities, these functionalities are not part of the
   automated test suite and will not be tested in the CI/CD pipeline.

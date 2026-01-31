@@ -24,7 +24,7 @@ def summarize(
     engine: str = DEFAULT_SUMMARIZE_ENGINE,
     tokenizer: str = "newmm",
 ) -> list[str]:
-    """This function summarizes text based on frequency of words.
+    """Summarizes text based on frequency of words.
 
     Under the hood, this function first tokenizes sentences from the given
     text with :func:`pythainlp.tokenize.sent_tokenize`.
@@ -126,12 +126,12 @@ def extract_keywords(
     tokenizer: str = "newmm",
     stop_words: Optional[Iterable[str]] = None,
 ) -> list[str]:
-    """This function returns most-relevant keywords (and/or keyphrases) from the input document.
+    """Returns most-relevant keywords (and/or keyphrases) from the input document.
     Each algorithm may produce completely different keywords from each other,
     so please be careful when choosing the algorithm.
 
     *Note*: Calling :func: `extract_keywords()` is expensive. For repetitive use of KeyBERT (the default engine),
-    creating KeyBERT object is highly recommended.
+    creating a KeyBERT object is highly recommended.
 
     :param str text: text to be summarized
     :param Tuple[int, int] keyphrase_ngram_range: Number of token units to be defined as keyword.

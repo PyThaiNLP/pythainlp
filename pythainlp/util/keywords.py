@@ -73,8 +73,8 @@ def rank(words: list[str], exclude_stopwords: bool = False) -> Optional[Counter]
 
 
 def find_keyword(word_list: list[str], min_len: int = 3) -> dict[str, int]:
-    """This function counts the frequencies of words in the list
-    where stopword is excluded and returns a frequency dictionary.
+    """Counts the frequencies of words in the list
+    where stopwords are excluded and returns a frequency dictionary.
 
     :param list word_list: a list of words
     :param int min_len: the minimum frequency for words to be retained

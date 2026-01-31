@@ -11,8 +11,8 @@ SPDX-License-Identifier: CC0-1.0
 1. Update `CHANGELOG.md` with a short summary of important changes since
    the previous stable release.
    For example, deprecation or termination of support.
-3. This project follows [semantic versioning][semver].
-   Ensure the version and release date fields (if any) in these files
+2. This project follows [semantic versioning][semver].
+   Ensure the version and release date fields in these files
    have been updated to the version of the new planned release:
     - `codemeta.json`
     - `pyproject.toml`
@@ -29,14 +29,14 @@ SPDX-License-Identifier: CC0-1.0
    For instance, the title could be `v5.0.1`.
 7. Add a short summary of important changes since the previous stable
    release.
-   _This should be similar to what have been logged in `CHANGELOG.md`._
+   _This should be similar to what has been logged in `CHANGELOG.md`._
    Then click the "Generate release notes" button.
-9. You can optionally include any particular thank-you's to contributors or
+8. You can optionally include any particular thank-yous to contributors or
    reviewers in a note at the bottom of the release.
-10. You can then click "Publish release" button.
-11. If [the CI][ci] run is [successful][actions],
+9. You can then click "Publish release" button.
+10. If [the CI][ci] run is [successful][actions],
    then the release will be published on both
-   the GitHub release page and also the [Python Package Index][pypi].
+   the GitHub release page and the [Python Package Index][pypi].
 
 [semver]: https://semver.org/
 [releases]: https://github.com/PyThaiNLP/pythainlp/releases

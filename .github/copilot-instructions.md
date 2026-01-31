@@ -113,14 +113,14 @@
 - [ ] Be defensive on variable expansion.
 - [ ] Use quotes or other constructs to encapsulate paths, make it compatible
       with different kinds of shells.
-- [ ] Be mindful about semantic of different types of quotation marks.
+- [ ] Be mindful about the semantics of different types of quotation marks.
 
 ## Library imports and dependencies
 
-- [ ] Recheck the correctness of library/module/package name.
+- [ ] Check the correctness of library/module/package names.
       Be very careful of slopsquatting and typosquatting attacks.
 - [ ] Use the most updated version of the library that is supported
-      by the OS/compiler/framework currently being in used.
+      by the OS/compiler/framework currently being used.
 - [ ] In source code, group and sort imports by the programming language
       convention (e.g., in Python, typically by standard library first,
       then by third-party libraries)
@@ -130,8 +130,8 @@
 - [ ] Remove unused imports.
 - [ ] In build metadata (like pyproject.toml in Python) or
       dependency list (like requirements.txt in Python), sort dependencies.
-- [ ] Warn users about abandoned dependency with no maintenance
-      for long time and suggest equivalent drop-in replacement.
+- [ ] Warn users about abandoned dependencies with no maintenance
+      for a long time and suggest equivalent drop-in replacements.
 
 ## Security
 
@@ -153,15 +153,15 @@
 - [ ] Avoid the deserialization of untrusted data (CWE-502).
   - [ ] In Python, avoid using `pickle` module for
         serialization/deserialization.
-- [ ] When handling file and path, be careful of path traversal vulnerabilities
+- [ ] When handling files and paths, be careful of path traversal vulnerabilities
       like CWE-22.
 
 ## API
 
-- [ ] The overall architecture, code, API endpoints to follow the latest
+- [ ] The overall architecture, code, and API endpoints should follow the latest
       version of OpenAPI specification at https://spec.openapis.org/oas/
-- [ ] API endpoints must use proper HTTP return code
-- [ ] Follows web best practices as recommended by OpenAPI, IETF, W3C, etc.
+- [ ] API endpoints must use proper HTTP return codes.
+- [ ] Follow web best practices as recommended by OpenAPI, IETF, W3C, etc.
 
 ## Python
 

@@ -1,8 +1,10 @@
-# Word Tokenization Benchmark for Thai (obsolete)
+# Word Tokenization Benchmark for Thai
+
+**Note: This benchmark framework is obsolete and no longer actively maintained.**
 
 A framework for benchmarking tokenization algorithms for Thai.
-It has a command-line interface that allows users to conveniently execute the benchmarks
-as well as a module interface for later use in their development pipelines.
+It provides a command-line interface that allows users to conveniently execute the benchmarks,
+as well as a module interface for use in development pipelines.
 
 ## Metrics
 
@@ -46,13 +48,17 @@ as well as a module interface for later use in their development pipelines.
 [res-BEST-val-Sertis-BiGRU]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=BEST-val-Sertis-BiGRU
 [res-WiseSight160-Sertis-BiGRU]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=WiseSight160-Sertis-BiGRU
 
-## Installation (WIP)
+## Installation
+
+**Note: Installation instructions are a work in progress.**
 
 ```shell
-pip ...
+pip install "pythainlp[benchmarks]"
 ```
 
-## Usages (to be updated)
+## Usage
+
+**Note: Usage instructions will be updated.**
 
 1. Command-line Interface
 

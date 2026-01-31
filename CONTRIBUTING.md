@@ -32,7 +32,7 @@ Please refer to our [Contributor Covenant Code of Conduct](https://github.com/Py
   (see "Testing" section below);
 - Run all tests before pushing (just execute `tox`) so you will know if your
   changes broke something;
-- Commented out codes are [dead codes][dead-codes];
+- Commented-out code is [dead code][dead-codes];
 - All `#TODO` comments should be turned into [issues][issues] in GitHub;
 - When appropriate, use [f-string][pep0498]
   (use `f"{a} = {b}"`,

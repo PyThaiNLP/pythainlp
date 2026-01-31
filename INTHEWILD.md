@@ -1,6 +1,6 @@
 # Who uses PyThaiNLP?
 
-We would like to keep track of who are using the package.
+We would like to keep track of who is using the package.
 Please send a PR with your company name or `@githubhandle`
 or both company name and `@githubhandle`.
 

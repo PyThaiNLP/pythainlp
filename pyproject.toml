@@ -13,7 +13,6 @@ description = "Thai Natural Language Processing library"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "Apache-2.0"
-license-files = ["LICENSE", "pythainlp/corpus/corpus_license.md"]
 authors = [
     { name = "Wannaphong Phatthiyaphaibun", email = "wannaphong@pythainlp.org" },
     { name = "Korakot Chaovavanich" },

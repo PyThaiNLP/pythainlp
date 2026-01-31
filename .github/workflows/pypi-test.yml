@@ -29,7 +29,7 @@ jobs:
         SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL: True
       run: |
         python -m pip install --upgrade "pip<24.1" setuptools
-        python -m pip install pythainlp[testing,full]
+        python -m pip install pythainlp[fulltest]
         python -m nltk.downloader omw-1.4
     - name: Test
       run: |

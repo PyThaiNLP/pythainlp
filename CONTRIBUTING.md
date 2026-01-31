@@ -215,9 +215,9 @@ Thanks to all [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contr
 
 ## References
 
-- **[Maximum Matching]** -- Manabu Sassano. Deterministic Word Segmentation Using Maximum Matching with Fully Lexicalized Rules. Retrieved from <http://www.aclweb.org/anthology/E14-4016>
+- **[Maximum Matching]** -- Manabu Sassano. Deterministic Word Segmentation Using Maximum Matching with Fully Lexicalized Rules. Retrieved from <https://doi.org/10.3115/v1/E14-4016>
 - **[MetaSound]** -- Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statistical Ontology for Analysing Names Given in Accordance with Thai Astrology. Retrieved from <https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf>
 - **[Thai Character Cluster]** -- T. Teeramunkong, V. Sornlertlamvanich, T. Tanhermhong and W. Chinnan, “Character cluster based Thai information retrieval,” in IRAL '00 Proceedings of the fifth international workshop on on Information retrieval with Asian languages, 2000.
 - **[Enhanced Thai Character Cluster]** -- Jeeragone Inrut, Patiroop Yuanghirun, Sarayut Paludkong, Supot Nitsuwat, and Para Limmaneepraserth. “Thai word segmentation using combination of forward and backward longest matching techniques.” In International Symposium on Communications and Information Technology (ISCIT), pp. 37-40. 2001.
-- เพ็ญศิริ ลี้ตระกูล. การเลือกประโยคสำคัญในการสรุปความภาษาไทย โดยใช้แบบจำลองแบบลำดับชั้น (Selection of Important Sentences in Thai Text Summarization Using a Hierarchical Model). Retrieved from [http://digi.library.tu.ac.th/thesis/st/0192/](https://digital.library.tu.ac.th/tu_dc/frontend/Info/item/dc:124897)
+- **[Thai Stopword List]** -- เพ็ญศิริ ลี้ตระกูล. การเลือกประโยคสำคัญในการสรุปความภาษาไทย โดยใช้แบบจำลองแบบลำดับชั้น (Selection of Important Sentences in Thai Text Summarization Using a Hierarchical Model). Retrieved from [http://digi.library.tu.ac.th/thesis/st/0192/](https://digital.library.tu.ac.th/tu_dc/frontend/Info/item/dc:124897)
 - **[Thai Discourse Treebank]** -- Ponrawee Prasertsom, Apiwat Jaroonpol, Attapol T. Rutherford; The Thai Discourse Treebank: Annotating and Classifying Thai Discourse Connectives. Transactions of the Association for Computational Linguistics 2024; 12 613–629. doi: <https://doi.org/10.1162/tacl_a_00650>

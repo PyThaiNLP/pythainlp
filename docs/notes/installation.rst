@@ -42,7 +42,7 @@ The extras can include:
   - ``abbreviation`` — abbreviation expansion utilities
   - ``full`` — install all optional dependencies
 
-For dependency details, see the `extras` variable in `setup.py <https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py>`_.
+For dependency details, see the `project.optional-dependencies` section in `pyproject.toml <https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml>`_.
 
 Notes for Windows installation
 -----------------------------

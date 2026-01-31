@@ -27,15 +27,15 @@ def remove_trailing_repeat_consonants(
 ) -> str:
     """Remove repeating consonants at the last of the sentence.
 
-    This function will remove the repeating consonants
-    before a whitespace, new line or at the last
+    Removes the repeating consonants
+    before a whitespace, new line, or at the end
     so that the last word matches a word in the given dictionary.
     If there is no match, the repeating consonants will be
     reduced to one.
-    If there are several match, the longest word will be used.
-    Since this function uses a dictionary, the result may differs
+    If there are several matches, the longest word will be used.
+    Since this function uses a dictionary, the result may differ
     depending on the dictionary used.
-    Plus, it is recommended to use normalize() to have a better result.
+    It is recommended to use normalize() for better results.
 
     :param str text: input text
     :param Trie dictionary: Trie dictionary to check the last word.
@@ -102,8 +102,8 @@ def remove_trailing_repeat_consonants(
 def _remove_repeat_trailing_consonants_from_segment(segment: str) -> str:
     """Remove repeating consonants at the last of the segment.
 
-    This function process only at the last of the given text.
-    Details is same as remove_repeat_consonants().
+    Processes only at the end of the given text.
+    Details are the same as remove_repeat_consonants().
 
     :param str segment: segment of text
     :return: segment without repeating Thai consonants
@@ -153,7 +153,7 @@ def _remove_repeat_trailing_consonants_from_segment(segment: str) -> str:
 def _remove_all_last_consonants(text: str, dup: str) -> str:
     """Reduce repeating characters at the end of the text.
 
-    This function will remove the repeating characters at the last.
+    Removes the repeating characters at the end.
     The text just before the repeating characters will be returned.
 
     :param str text: input text
@@ -194,8 +194,8 @@ def _update_consonant_repeaters(custom_dict: Iterable[str]) -> None:
 def _is_last_consonant_repeater(word: str) -> bool:
     """Check if the word has repeating consonants at the end.
 
-    This function checks if the word has
-    more than 1 repeating consonants at the end.
+    Checks if the word has
+    more than 1 repeating consonant at the end.
 
     :param str word: word to be checked
     :return: True if the word has repeating consonants at the end.

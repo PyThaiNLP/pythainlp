@@ -77,7 +77,7 @@ class WordVector:
         :param list words: a list of words
         :raises KeyError: if there is any word in `positive` or `negative` that is
                           not in the vocabulary of the model.
-        :return: the word is that mostly unrelated
+        :return: the word that is mostly unrelated
         :rtype: str
 
         :Note:

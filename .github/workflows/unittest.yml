@@ -112,7 +112,7 @@ jobs:
         if: env.INSTALL_FULL_DEPS == 'true'
         env:
           SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL: True
-        run: pip install ".[fulltest]"
+        run: pip install ".[full]"
 
       - name: Test (core)
         if: matrix.os == 'ubuntu-latest' && matrix.python-version != env.PYTHON_VERSION_LATEST && matrix.python-version != env.PYTHON_VERSION_LATEST_2 && matrix.python-version != env.PYTHON_VERSION_EARLIEST
@@ -139,7 +139,7 @@ jobs:
         env:
           PYTHONIOENCODING: utf-8
         run: |
-          pip install ".[extra]"
+          pip install ".[compact,extra]"
           coverage run -m unittest tests.core tests.compact tests.extra
 
       # Only submit a report from the "extra" run, to get maximum coverage

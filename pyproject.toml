@@ -170,7 +170,7 @@ wunsen = ["wunsen>=0.0.3"]
 # Compact dependencies - safe small set of optional dependencies
 compact = [
     "nlpo3>=1.3.1",
-    "numpy>=1.22",
+    "numpy>=1.26.0",
     "pyicu>=2.3",
     "python-crfsuite>=0.9.7",
     "PyYAML>=5.4.1",
@@ -180,6 +180,7 @@ compact = [
 extra = [
     "attacut>=1.0.6",
     "bpemb>=0.3.2",
+    "budoux>=0.7.0",
     "deepcut>=0.7.0.0",
     "gensim>=4.0.0",
     "nltk>=3.3",
@@ -190,53 +191,14 @@ extra = [
     "sefr_cut>=1.1",
     "ssg>=0.0.8",
     "symspellpy>=6.7.6",
-    "tltk>=1.6.8",
-]
-
-# Full dependencies - comprehensive set of all optional features
-full = [
-    "attacut>=1.0.6",
-    "bpemb>=0.3.6",
-    "budoux>=0.7.0",
-    "emoji>=0.6.0",
-    "epitran>=1.26.0",
-    "esupar>=1.3.9,<2",
-    'fairseq>=0.10.0,<0.13;python_version<"3.11"',
-    'fairseq-fixed==0.12.3.1,<0.13;python_version>="3.11"',
-    "fastai>=1.0.61,<2",
-    "fastcoref>=2.1.6",
-    "gensim>=4.3.3,<5",
-    "khamyo>=0.3.0",
-    "khanaa>=0.1.1,<1",
-    "nlpo3>=1.3.1",
-    "nltk>=3.3.6",
-    "numpy>=1.26.0,<3",
-    "onnxruntime>=1.10.0",
-    "oskut>=1.3",
-    "pandas>=2.2.0,<3",
-    "panphon>=0.20.0",
-    "phunspell>=0.1.6",
-    "pyicu>=2.3",
-    "python-crfsuite>=0.9.12",
-    "sacremoses>=0.0.41",
-    "sefr_cut>=1.1",
-    "sentencepiece>=0.1.91",
-    "sentence-transformers>=2.7.0,<3",
-    "spacy==3.8.7,<4",
-    "spacy_thai>=0.7.8",
-    "ssg>=0.0.8",
-    "symspellpy>=6.9.0",
     "thai_nner>=0.3",
-    "torch>=1.13.1,<3",
+    "tltk>=1.6.8",
     "transformers>=4.57.6",
-    "ufal.chu-liu-edmonds>=1.0.3",
-    "word2word>=1.0.0",
     "wtpsplit>=1.3.0",
-    "wunsen>=0.0.3",
 ]
 
-# Full testing dependencies - pinned versions for CI/CD reproducibility
-fulltest = [
+# Full dependencies - pinned where available
+full = [
     "attacut==1.0.6",
     "bpemb>=0.3.6,<0.4",
     "budoux==0.7.0",
@@ -254,6 +216,8 @@ fulltest = [
     "nlpo3>=1.3.1",
     "nltk>=3.6.6,<4",
     "numpy>=1.26.0,<3",
+    "onnxruntime>=1.10.0",
+    "oskut>=1.3",
     "pandas>=2.2.0,<3",
     "panphon==0.22.2",
     "phunspell==0.1.6",
@@ -266,6 +230,7 @@ fulltest = [
     "spacy==3.8.7,<4",
     "spacy_thai==0.7.8",
     "ssg==0.0.8",
+    "sefr_cut>=1.1",
     "symspellpy==6.9.0",
     "thai-nner==0.3",
     "tltk>=1.6.8,<2",

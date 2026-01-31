@@ -12,4 +12,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends build-essential
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-RUN pip install -e ".[fulltest]" && pip cache purge
+RUN pip install -e ".[full]" && pip cache purge

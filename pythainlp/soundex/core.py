@@ -23,7 +23,7 @@ from pythainlp.soundex.udom83 import udom83
 def soundex(
     text: str, engine: str = DEFAULT_SOUNDEX_ENGINE, length: int = 4
 ) -> str:
-    """This function converts Thai text into phonetic code.
+    """Converts Thai text into phonetic code.
 
     :param str text: word
     :param str engine: soundex engine

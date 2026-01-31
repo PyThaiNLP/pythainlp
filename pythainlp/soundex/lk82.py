@@ -38,7 +38,7 @@ _RE_SIGN = re.compile(r"[\u0e2f\u0e3a\u0e46\u0e47\u0e4d]")
 
 
 def lk82(text: str) -> str:
-    """This function converts Thai text into phonetic code with the
+    """Converts Thai text into phonetic code with the
     Thai soundex algorithm named **LK82** [#lk82]_.
 
     :param str text: Thai word

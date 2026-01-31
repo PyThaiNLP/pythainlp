@@ -56,7 +56,7 @@ def get_sense(
     custom_tokenizer: Tokenizer = _word_cut,
 ) -> list[tuple[str, float]]:
     """Get word sense from the sentence.
-    This function will get definition and distance from context in sentence.
+    Gets definition and distance from context in sentence.
 
     :param str sentence: Thai sentence
     :param str word: Thai word

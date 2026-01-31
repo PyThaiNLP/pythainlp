@@ -50,7 +50,7 @@ The extras can include:
   - ``wtp`` — Where's the Point text segmentation support
   - ``wunsen`` — Wunsen spell checker support
 
-For dependency details, see the `extras` variable in `setup.py <https://github.com/PyThaiNLP/pythainlp/blob/dev/setup.py>`_.
+For dependency details, see the `project.optional-dependencies` section in `pyproject.toml <https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml>`_.
 
 Notes for Windows installation
 -----------------------------

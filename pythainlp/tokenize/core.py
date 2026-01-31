@@ -35,7 +35,7 @@ def word_detokenize(
 ) -> Union[list[str], str]:
     """Word detokenizer.
 
-    This function will detokenize the list of words in each sentence into text.
+    Detokenizes the list of words in each sentence into text.
 
     :param str segments: List of sentences, each with a list of words.
     :param str output: the output type (str or list)

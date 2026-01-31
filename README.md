@@ -256,5 +256,5 @@ and its BibTeX entry:
 </div>
 
 <div align="center">
-  <strong>Beware of malware if you use codes from mirrors other than the official two on GitHub and GitLab.</strong>
+  <strong>Beware of malware if you use code from mirrors other than the official two on GitHub and GitLab.</strong>
 </div>

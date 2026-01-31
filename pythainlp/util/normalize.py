@@ -246,7 +246,7 @@ def reorder_vowels(text: str) -> str:
 def remove_repeat_vowels(text: str) -> str:
     """Remove repeating vowels, tone marks, and signs.
 
-    This function will call reorder_vowels() first, to make sure that
+    Calls reorder_vowels() first to ensure that
     double Sara E will be converted to Sara Ae and not be removed.
 
     :param str text: input text

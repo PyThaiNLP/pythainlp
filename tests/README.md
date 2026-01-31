@@ -27,7 +27,7 @@ Tests are categorized into three groups: core, compact, and extra.
 
 - Run `unittest tests.extra`
 - Explore functionalities that rely on optional dependencies specified in the
-  `extras` section of `setup.py`.
+  `project.optional-dependencies` section of `pyproject.toml`.
 - These dependencies might include libraries like `gensim`, `tltk`, or `torch`.
 - Due to dependency complexities, these functionalities may not be tested
   in the CI/CD pipeline.

@@ -12,10 +12,10 @@ from typing import Optional
 def abbreviation_to_full_text(
     text: str, top_k: int = 2
 ) -> list[tuple[str, Optional[float]]]:
-    """This function converts Thai text (with abbreviation) to full text.
+    """Converts Thai text (with abbreviations) to full text.
 
-    This function uses KhamYo for handles abbreviations.
-    See more `KhamYo <https://github.com/wannaphong/KhamYo>`_.
+    Uses KhamYo to handle abbreviations.
+    See more: `KhamYo <https://github.com/wannaphong/KhamYo>`_.
 
     :param str text: Thai text
     :param int top_k: Top K

@@ -115,7 +115,7 @@ def _remove_repeat_trailing_consonants_from_segment(segment: str) -> str:
         (len(segment) > 1)
         # last is Thai consonant
         and (segment[-1] in consonants)
-        # has repiitition
+        # has repetition
         and (segment[-1] == segment[-2])
     ):
         # no need to process

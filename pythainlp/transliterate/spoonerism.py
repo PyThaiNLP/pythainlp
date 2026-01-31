@@ -12,7 +12,7 @@ _list_consonants = list(thai_consonants.replace("ห", ""))
 def puan(word: str, show_pronunciation: bool = True) -> str:
     """Thai Spoonerism
 
-    This function converts Thai word to spoonerism word.
+    Converts a Thai word to a spoonerism word.
 
     :param str word: Thai word to be spoonerized
     :param bool show_pronunciation: True (default) or False

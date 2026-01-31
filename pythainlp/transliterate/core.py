@@ -15,7 +15,7 @@ def romanize(
     engine: str = DEFAULT_ROMANIZE_ENGINE,
     fallback_engine: str = DEFAULT_ROMANIZE_ENGINE,
 ) -> str:
-    """This function renders Thai word in the Latin alphabet or "romanization",
+    """Renders Thai words in the Latin alphabet or "romanization",
     using the Royal Thai General System of Transcription (RTGS)
     [#rtgs_transcription]_. RTGS is the official system published
     by the Royal Institute of Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
@@ -104,7 +104,7 @@ def romanize(
 def transliterate(
     text: str, engine: str = DEFAULT_TRANSLITERATE_ENGINE
 ) -> str:
-    """This function transliterates Thai text.
+    """Transliterates Thai text.
 
     :param str text: Thai text to be transliterated
     :param str engine: 'icu', 'ipa', or 'thaig2p' (default)
@@ -187,7 +187,7 @@ def transliterate(
 
 
 def pronunciate(word: str, engine: str = DEFAULT_PRONUNCIATE_ENGINE) -> str:
-    """This function pronunciates Thai word.
+    """Pronunciates Thai words.
 
     :param str word: Thai text to be pronunciated
     :param str engine: 'w2p' (default)

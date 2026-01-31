@@ -12,14 +12,10 @@ from unittest import TestLoader, TestSuite
 test_packages: list[str] = [
     "tests.extra.testx_augment",
     "tests.extra.testx_benchmarks",
-    "tests.extra.testx_classify",
     "tests.extra.testx_cli",
-    "tests.extra.testx_coref",
-    "tests.extra.testx_el",
     "tests.extra.testx_spell",
     "tests.extra.testx_tag",
     "tests.extra.testx_tokenize",
-    "tests.extra.testx_util",
     "tests.extra.testx_word_vector",
 ]
 

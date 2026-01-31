@@ -124,11 +124,8 @@ Install with optional dependency groups:
 # Install with compact set of dependencies (recommended for development)
 pip install -e ".[compact]"
 
-# Install with full dependencies
-pip install -e ".[full]"
-
-# Install with testing dependencies (pinned versions for reproducibility)
-pip install -e ".[testing]"
+# Install with full testing dependencies (pinned versions for reproducibility)
+pip install -e ".[fulltest]"
 ```
 
 See all available optional dependency groups in `pyproject.toml` under `[project.optional-dependencies]`.

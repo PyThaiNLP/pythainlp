@@ -358,11 +358,7 @@ class ThaiSentenceSegmentor:
         text = text.replace("!", "!<stop>")
         text = text.replace("<prd>", ".")
         sentences = text.split("<stop>")
-        sentences = list(map(str.strip, sentences))
-        if "nan" in sentences:
-            sentences.remove("nan")
-
-        sentences = list(filter(None, sentences))
+        sentences = [s for s in map(str.strip, sentences) if s and s != "nan"]
 
         if isMiddleCut:
             return middle_cut(sentences)

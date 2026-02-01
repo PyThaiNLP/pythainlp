@@ -55,3 +55,26 @@ class SpellTLTKTestCaseN(unittest.TestCase):
         result = spell("เดก", engine="tltk")
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
+
+
+class SpellWanchanbertaTestCaseN(unittest.TestCase):
+    """Tests for wanchanberta_thai_grammarly engine (requires torch)"""
+
+    def test_word_correct_wanchanberta(self):
+        result = correct("ทดสอง", engine="wanchanberta_thai_grammarly")
+        self.assertIsInstance(result, str)
+        self.assertNotEqual(result, "")
+
+    def test_correct_sent_wanchanberta(self):
+        from ..core.test_spell import SENT_TOKS
+        self.assertIsNotNone(
+            correct_sent(SENT_TOKS, engine="wanchanberta_thai_grammarly")
+        )
+
+
+class SpellHuggingFaceTestCaseN(unittest.TestCase):
+    """Tests for get_words_spell_suggestion (requires HuggingFace Hub network access)"""
+
+    def test_get_words_spell_suggestion(self):
+        self.assertIsNotNone(get_words_spell_suggestion("คมดี"))
+        self.assertIsNotNone(get_words_spell_suggestion(["คมดี", "มะนา"]))

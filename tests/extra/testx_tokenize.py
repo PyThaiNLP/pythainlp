@@ -3,13 +3,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Tests for tokenize functions that need extra dependencies
-# Note: Tests requiring TensorFlow/Keras/tltk have been moved to tests.noautotest
+# Note: Tests requiring TensorFlow/Keras/tltk/torch/transformers have been moved to tests.noauto
 
 import unittest
 
 from pythainlp.tokenize import (
     nercut,
-    paragraph_tokenize,
     sent_tokenize,
     ssg,
     subword_tokenize,
@@ -23,21 +22,6 @@ from ..core.test_tokenize import (
     SENT_4,
     TEXT_1,
 )
-
-
-class ParagraphTokenizeTestCase(unittest.TestCase):
-    def test_paragraph_tokenize(self):
-        sent = (
-            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา"
-            "จากผลงานวิจัยที่เคยทำมาในอดีต"
-            " มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด"
-            " จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้"
-        )
-        self.assertIsNotNone(paragraph_tokenize(sent))
-        with self.assertRaises(ValueError):
-            paragraph_tokenize(
-                sent, engine="ai2+2thai"
-            )  # engine does not exist
 
 
 class SentTokenizeThaiSumTestCase(unittest.TestCase):
@@ -66,51 +50,6 @@ class SentTokenizeThaiSumTestCase(unittest.TestCase):
         )
 
 
-class SentTokenizeWTPTestCase(unittest.TestCase):
-    def test_sent_tokenize_wtp(self):
-        self.assertIsNotNone(
-            sent_tokenize(
-                SENT_3,
-                engine="wtp",
-            ),
-        )
-
-    def test_sent_tokenize_wtp_tiny(self):
-        self.assertIsNotNone(
-            sent_tokenize(
-                SENT_3,
-                engine="wtp-tiny",
-            ),
-        )
-        # self.assertIsNotNone(
-        #     sent_tokenize(
-        #         SENT_3,
-        #         engine="wtp-base",
-        #     ),
-        # )
-        # self.assertIsNotNone(
-        #     sent_tokenize(
-        #         SENT_3,
-        #         engine="wtp-large",
-        #     ),
-        # )
-
-
-class SubwordTokenizePhayathaiTestCase(unittest.TestCase):
-    def test_subword_tokenize_phayathai(self):
-        self.assertEqual(subword_tokenize(None, engine="phayathai"), [])
-        self.assertEqual(subword_tokenize("", engine="phayathai"), [])
-        self.assertIsInstance(
-            subword_tokenize("สวัสดิีดาวอังคาร", engine="phayathai"), list
-        )
-        self.assertNotIn(
-            "า", subword_tokenize("สวัสดีดาวอังคาร", engine="phayathai")
-        )
-        self.assertIsInstance(
-            subword_tokenize("โควิด19", engine="phayathai"), list
-        )
-
-
 class SubwordTokenizeSSGTestCase(unittest.TestCase):
     def test_subword_tokenize_ssg(self):
         self.assertEqual(ssg.segment(None), [])
@@ -121,21 +60,6 @@ class SubwordTokenizeSSGTestCase(unittest.TestCase):
         )
         self.assertIn("ดาว", subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
         self.assertNotIn("า", subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
-
-
-class SubwordTokenizeWangchanbertaTestCase(unittest.TestCase):
-    def test_subword_tokenize_wangchanberta(self):
-        self.assertEqual(subword_tokenize(None, engine="wangchanberta"), [])
-        self.assertEqual(subword_tokenize("", engine="wangchanberta"), [])
-        self.assertIsInstance(
-            subword_tokenize("สวัสดิีดาวอังคาร", engine="wangchanberta"), list
-        )
-        self.assertNotIn(
-            "า", subword_tokenize("สวัสดีดาวอังคาร", engine="wangchanberta")
-        )
-        self.assertIsInstance(
-            subword_tokenize("โควิด19", engine="wangchanberta"), list
-        )
 
 
 class WordTokenizeNERCutTestCase(unittest.TestCase):

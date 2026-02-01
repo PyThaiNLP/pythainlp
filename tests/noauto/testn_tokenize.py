@@ -204,3 +204,66 @@ class WordTokenizeSEFRCutTestCaseN(unittest.TestCase):
 class WordTokenizeTLTKTestCaseN(unittest.TestCase):
     def test_word_tokenize_tltk(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="tltk"))
+
+
+class ParagraphTokenizeTestCaseN(unittest.TestCase):
+    def test_paragraph_tokenize(self):
+        sent = (
+            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา"
+            "จากผลงานวิจัยที่เคยทำมาในอดีต"
+            " มิได้ทำการศึกษาค้นคว้าใหม่อย่างกว้างขวางแต่อย่างใด"
+            " จึงใคร่ขออภัยในความบกพร่องทั้งปวงมา ณ ที่นี้"
+        )
+        self.assertIsNotNone(paragraph_tokenize(sent))
+        with self.assertRaises(ValueError):
+            paragraph_tokenize(
+                sent, engine="ai2+2thai"
+            )  # engine does not exist
+
+
+class SentTokenizeWTPTestCaseN(unittest.TestCase):
+    def test_sent_tokenize_wtp(self):
+        self.assertIsNotNone(
+            sent_tokenize(
+                SENT_3,
+                engine="wtp",
+            ),
+        )
+
+    def test_sent_tokenize_wtp_tiny(self):
+        self.assertIsNotNone(
+            sent_tokenize(
+                SENT_3,
+                engine="wtp-tiny",
+            ),
+        )
+
+
+class SubwordTokenizePhayathaiTestCaseN(unittest.TestCase):
+    def test_subword_tokenize_phayathai(self):
+        self.assertEqual(subword_tokenize(None, engine="phayathai"), [])
+        self.assertEqual(subword_tokenize("", engine="phayathai"), [])
+        self.assertIsInstance(
+            subword_tokenize("สวัสดิีดาวอังคาร", engine="phayathai"), list
+        )
+        self.assertNotIn(
+            "า", subword_tokenize("สวัสดีดาวอังคาร", engine="phayathai")
+        )
+        self.assertIsInstance(
+            subword_tokenize("โควิด19", engine="phayathai"), list
+        )
+
+
+class SubwordTokenizeWangchanbertaTestCaseN(unittest.TestCase):
+    def test_subword_tokenize_wangchanberta(self):
+        self.assertEqual(subword_tokenize(None, engine="wangchanberta"), [])
+        self.assertEqual(subword_tokenize("", engine="wangchanberta"), [])
+        self.assertIsInstance(
+            subword_tokenize("สวัสดิีดาวอังคาร", engine="wangchanberta"), list
+        )
+        self.assertNotIn(
+            "า", subword_tokenize("สวัสดีดาวอังคาร", engine="wangchanberta")
+        )
+        self.assertIsInstance(
+            subword_tokenize("โควิด19", engine="wangchanberta"), list
+        )

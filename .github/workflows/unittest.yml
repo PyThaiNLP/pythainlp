@@ -155,17 +155,9 @@ jobs:
         run: coveralls
 
       # Ensure cancelled jobs don't show as failed (red X) in PR checks
-      # This step always runs and treats cancellation as success
-      - name: Check job status
-        if: always()
+      # When job is cancelled by concurrency, this step ensures success status
+      - name: Ensure success on cancellation
+        if: always() && cancelled()
         run: |
-          if [ "${{ job.status }}" = "cancelled" ]; then
-            echo "Job was cancelled due to concurrency - treating as success"
-            exit 0
-          elif [ "${{ job.status }}" = "success" ]; then
-            echo "Job succeeded"
-            exit 0
-          else
-            echo "Job failed"
-            exit 1
-          fi
+          echo "Job was cancelled - marking as success to avoid misleading red X"
+          exit 0

@@ -43,20 +43,12 @@ jobs:
         echo "github.event.ref      : ${{ github.event.ref }}"
 
     # Ensure cancelled jobs don't show as failed (red X) in PR checks
-    # This step always runs and treats cancellation as success
-    - name: Check job status
-      if: always()
+    # When job is cancelled by concurrency, this step ensures success status
+    - name: Ensure success on cancellation
+      if: always() && cancelled()
       run: |
-        if [ "${{ job.status }}" = "cancelled" ]; then
-          echo "Job was cancelled due to concurrency - treating as success"
-          exit 0
-        elif [ "${{ job.status }}" = "success" ]; then
-          echo "Job succeeded"
-          exit 0
-        else
-          echo "Job failed"
-          exit 1
-        fi
+        echo "Job was cancelled - marking as success to avoid misleading red X"
+        exit 0
 
   # Check whether to build the wheels and the source tarball
   check_build_trigger:
@@ -77,20 +69,12 @@ jobs:
       # To trigger the build steps, add "[cd build]" to commit message
 
     # Ensure cancelled jobs don't show as failed (red X) in PR checks
-    # This step always runs and treats cancellation as success
-    - name: Check job status
-      if: always()
+    # When job is cancelled by concurrency, this step ensures success status
+    - name: Ensure success on cancellation
+      if: always() && cancelled()
       run: |
-        if [ "${{ job.status }}" = "cancelled" ]; then
-          echo "Job was cancelled due to concurrency - treating as success"
-          exit 0
-        elif [ "${{ job.status }}" = "success" ]; then
-          echo "Job succeeded"
-          exit 0
-        else
-          echo "Job failed"
-          exit 1
-        fi
+        echo "Job was cancelled - marking as success to avoid misleading red X"
+        exit 0
 
   build:
     name: Build and check distributions
@@ -126,20 +110,12 @@ jobs:
         path: dist
 
     # Ensure cancelled jobs don't show as failed (red X) in PR checks
-    # This step always runs and treats cancellation as success
-    - name: Check job status
-      if: always()
+    # When job is cancelled by concurrency, this step ensures success status
+    - name: Ensure success on cancellation
+      if: always() && cancelled()
       run: |
-        if [ "${{ job.status }}" = "cancelled" ]; then
-          echo "Job was cancelled due to concurrency - treating as success"
-          exit 0
-        elif [ "${{ job.status }}" = "success" ]; then
-          echo "Job succeeded"
-          exit 0
-        else
-          echo "Job failed"
-          exit 1
-        fi
+        echo "Job was cancelled - marking as success to avoid misleading red X"
+        exit 0
 
   publish_pypi:
     name: Publish to PyPI
@@ -161,17 +137,9 @@ jobs:
         password: ${{ secrets.PYPI_API_TOKEN }}
 
     # Ensure cancelled jobs don't show as failed (red X) in PR checks
-    # This step always runs and treats cancellation as success
-    - name: Check job status
-      if: always()
+    # When job is cancelled by concurrency, this step ensures success status
+    - name: Ensure success on cancellation
+      if: always() && cancelled()
       run: |
-        if [ "${{ job.status }}" = "cancelled" ]; then
-          echo "Job was cancelled due to concurrency - treating as success"
-          exit 0
-        elif [ "${{ job.status }}" = "success" ]; then
-          echo "Job succeeded"
-          exit 0
-        else
-          echo "Job failed"
-          exit 1
-        fi
+        echo "Job was cancelled - marking as success to avoid misleading red X"
+        exit 0

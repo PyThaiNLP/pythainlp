@@ -10,7 +10,7 @@ from pythainlp.translate.core import (
 )
 
 
-class TestExcludeWordsHelpers(unittest.TestCase):
+class TranslateHelpersTestCaseX(unittest.TestCase):
     """Test helper functions for word exclusion in translation"""
 
     def test_prepare_text_with_exclusions_single_word(self):

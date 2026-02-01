@@ -23,6 +23,7 @@ from ..core.test_tokenize import (
     SENT_4,
     TEXT_1,
 )
+from ..test_helpers import assert_segment_handles_none_and_empty
 
 
 class SentTokenizeCRFCutTestCaseC(unittest.TestCase):
@@ -79,8 +80,7 @@ class SubwordTokenizeHanSoloTestCaseC(unittest.TestCase):
 
 class WordTokenizeICUTestCaseC(unittest.TestCase):
     def test_icu(self):
-        self.assertEqual(pyicu.segment(None), [])
-        self.assertEqual(pyicu.segment(""), [])
+        assert_segment_handles_none_and_empty(self, pyicu.segment)
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="icu"),
             ["ฉัน", "รัก", "ภาษา", "ไทย", "เพราะ", "ฉัน", "เป็น", "คน", "ไทย"],

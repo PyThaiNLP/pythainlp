@@ -22,6 +22,7 @@ from ..core.test_tokenize import (
     SENT_4,
     TEXT_1,
 )
+from ..test_helpers import assert_segment_handles_none_and_empty
 
 
 class SentTokenizeThaiSumTestCase(unittest.TestCase):
@@ -52,8 +53,7 @@ class SentTokenizeThaiSumTestCase(unittest.TestCase):
 
 class SubwordTokenizeSSGTestCase(unittest.TestCase):
     def test_subword_tokenize_ssg(self):
-        self.assertEqual(ssg.segment(None), [])
-        self.assertEqual(ssg.segment(""), [])
+        assert_segment_handles_none_and_empty(self, ssg.segment)
         self.assertEqual(subword_tokenize(None, engine="ssg"), [])
         self.assertEqual(
             subword_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
@@ -67,8 +67,7 @@ class WordTokenizeNERCutTestCase(unittest.TestCase):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="nercut"))
 
     def test_nercut(self):
-        self.assertEqual(nercut.segment(None), [])
-        self.assertEqual(nercut.segment(""), [])
+        assert_segment_handles_none_and_empty(self, nercut.segment)
         self.assertIsNotNone(nercut.segment("ทดสอบ"))
         self.assertEqual(nercut.segment("ทันแน่ๆ"), ["ทัน", "แน่ๆ"])
         self.assertEqual(nercut.segment("%1ครั้ง"), ["%", "1", "ครั้ง"])

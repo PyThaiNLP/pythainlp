@@ -23,6 +23,8 @@ from pythainlp.tokenize import (
 )
 from pythainlp.util import dict_trie
 
+from ..test_helpers import assert_segment_handles_none_and_empty
+
 TEXT_1 = "หมอนทองตากลมหูว์MBK39 :.ฉฺ๐๐๓-#™±"
 TEXT_2 = "ทดสอบ"
 
@@ -391,8 +393,7 @@ class TokenizeTestCase(unittest.TestCase):
             )
 
     def test_etcc(self):
-        self.assertEqual(etcc.segment(None), [])
-        self.assertEqual(etcc.segment(""), [])
+        assert_segment_handles_none_and_empty(self, etcc.segment)
         self.assertIsInstance(etcc.segment("คืนความสุข"), list)
         self.assertEqual(
             etcc.segment("หาเงินเพื่อเรียน"),
@@ -407,8 +408,7 @@ class TokenizeTestCase(unittest.TestCase):
         )
 
     def test_longest(self):
-        self.assertEqual(longest.segment(None), [])
-        self.assertEqual(longest.segment(""), [])
+        assert_segment_handles_none_and_empty(self, longest.segment)
         self.assertIsInstance(
             longest.segment("กรุงเทพฯมากๆเพราโพาง BKKฯ"), list
         )
@@ -460,8 +460,7 @@ class TokenizeTestCase(unittest.TestCase):
         )
 
     def test_mm(self):
-        self.assertEqual(multi_cut.segment(None), [])
-        self.assertEqual(multi_cut.segment(""), [])
+        assert_segment_handles_none_and_empty(self, multi_cut.segment)
         self.assertIsNotNone(multi_cut.segment("ตัด", dict_trie([""])))
 
         self.assertEqual(word_tokenize("", engine="mm"), [])
@@ -498,8 +497,7 @@ class TokenizeTestCase(unittest.TestCase):
         self.assertEqual(multi_cut.find_all_segment(None), [])
 
     def test_newmm(self):
-        self.assertEqual(newmm.segment(None), [])
-        self.assertEqual(newmm.segment(""), [])
+        assert_segment_handles_none_and_empty(self, newmm.segment)
         self.assertEqual(
             word_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="newmm"),
             ["ฉัน", "รัก", "ภาษาไทย", "เพราะ", "ฉัน", "เป็น", "คนไทย"],

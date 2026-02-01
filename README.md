@@ -64,14 +64,12 @@ Possible `extras` included:
 - `compact` — install a stable and small subset of dependencies (recommended)
 - `translate` — machine translation support
 - `wordnet` — WordNet support
-- `full` — install all optional dependencies
-  (may introduce large dependencies and conflicts)
+- `full` — install all optional dependencies (may introduce conflicts)
 
 The documentation website maintains
 [full list of extras](https://pythainlp.org/dev-docs/notes/installation.html).
 
-For dependency details,
-look at the `[project.optional-dependencies]` section in
+For details, see `[project.optional-dependencies]` section in
 [`pyproject.toml`](https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml).
 
 ## Data directory

@@ -12,14 +12,14 @@ import unittest
 
 
 def assert_segment_handles_none_and_empty(test_case: unittest.TestCase, segment_func):
-    """
-    Test that a segment function properly handles None and empty string inputs.
+    """Test that a segment function properly handles None and empty string inputs.
 
-    Args:
-        test_case: The unittest.TestCase instance (typically 'self')
-        segment_func: The segment function to test (e.g., attacut.segment)
+    :param unittest.TestCase test_case: The unittest.TestCase instance (typically 'self')
+    :param callable segment_func: The segment function to test (e.g., attacut.segment)
 
-    Example:
+    :Example:
+    ::
+
         assert_segment_handles_none_and_empty(self, attacut.segment)
     """
     test_case.assertEqual(segment_func(None), [])
@@ -27,14 +27,14 @@ def assert_segment_handles_none_and_empty(test_case: unittest.TestCase, segment_
 
 
 def assert_subword_tokenize_handles_none_and_empty(test_case: unittest.TestCase, engine: str):
-    """
-    Test that subword_tokenize properly handles None and empty string inputs.
+    """Test that subword_tokenize properly handles None and empty string inputs.
 
-    Args:
-        test_case: The unittest.TestCase instance (typically 'self')
-        engine: The engine name to test (e.g., "phayathai")
+    :param unittest.TestCase test_case: The unittest.TestCase instance (typically 'self')
+    :param str engine: The engine name to test (e.g., "phayathai")
 
-    Example:
+    :Example:
+    ::
+
         assert_subword_tokenize_handles_none_and_empty(self, "phayathai")
     """
     from pythainlp.tokenize import subword_tokenize
@@ -44,20 +44,21 @@ def assert_subword_tokenize_handles_none_and_empty(test_case: unittest.TestCase,
 
 
 def assert_subword_tokenize_basic(test_case: unittest.TestCase, engine: str):
-    """
-    Run basic subword tokenize tests with common test cases.
+    """Run basic subword tokenize tests with common test cases.
 
-    Tests:
-    - None → []
-    - "" → []
+    This helper function runs a standard set of tests for subword tokenization:
+
+    - None input returns empty list
+    - Empty string returns empty list
     - Returns list type for sample text
     - Does not produce standalone vowels
 
-    Args:
-        test_case: The unittest.TestCase instance (typically 'self')
-        engine: The engine name to test
+    :param unittest.TestCase test_case: The unittest.TestCase instance (typically 'self')
+    :param str engine: The engine name to test
 
-    Example:
+    :Example:
+    ::
+
         assert_subword_tokenize_basic(self, "phayathai")
     """
     from pythainlp.tokenize import subword_tokenize

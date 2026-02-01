@@ -282,9 +282,21 @@ search = 'version: {current_version}'
 replace = 'version: {new_version}'
 
 [[tool.bumpversion.files]]
+filename = "CITATION.cff"
+regex = true
+search = 'date-released: \d{{4}}-\d{{2}}-\d{{2}}'
+replace = 'date-released: {now:%Y-%m-%d}'
+
+[[tool.bumpversion.files]]
 filename = "codemeta.json"
 search = '"version": "{current_version}"'
 replace = '"version": "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "codemeta.json"
+regex = true
+search = '"dateModified": "\d{{4}}-\d{{2}}-\d{{2}}"'
+replace = '"dateModified": "{now:%Y-%m-%d}"'
 
 [tool.bumpversion.parts.release]
 optional_value = "prod"

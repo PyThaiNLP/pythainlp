@@ -65,66 +65,63 @@ pip install -e ".[dev]"
    bump-my-version bump build
    ```
 
-   This command will automatically update version numbers in:
-   - `pyproject.toml`
-   - `pythainlp/__init__.py`
-   - `CITATION.cff`
-   - `codemeta.json`
+   This command will automatically update version numbers and release dates in:
+   - `pyproject.toml` - version number
+   - `pythainlp/__init__.py` - version number
+   - `CITATION.cff` - version number and `date-released` field
+   - `codemeta.json` - version number and `dateModified` field
+
+   The release dates are automatically set to the current date when you run
+   the bump command.
 
    It will also create a git commit and tag by default.
 
-4. **Update release date in metadata files**
-
-   After bumping the version, manually update the release date fields:
-   - `codemeta.json`: Update `dateModified` field
-   - `CITATION.cff`: Update `date-released` field
-
-5. **Update README files if needed**
+4. **Update README files if needed**
 
    If the release introduces significant changes, update:
    - `README.md`
    - `README_TH.md`
 
-6. **Push changes and tag**
+5. **Push changes and tag**
 
    ```sh
    git push origin dev
    git push origin --tags
    ```
 
-7. **Create GitHub Release**
+6. **Create GitHub Release**
 
    Navigate to the [releases page][releases] and click the
    "Draft a new release" button.
    Only project maintainers are able to perform this step.
 
-8. **Select the tag**
+7. **Select the tag**
 
    In the "Choose a tag" dropdown, select the tag that was created by
    `bump-my-version` (e.g., `v5.2.1`). Tags follow the format `vMAJOR.MINOR.PATCH`.
 
-9. **Set release title**
+8. **Set release title**
 
    The release title should be the same as the version tag
    (e.g., `v5.2.1`).
 
-10. **Add release notes**
+9. **Add release notes**
 
     Add a short summary of important changes since the previous stable
     release. This should be similar to what has been logged in `CHANGELOG.md`.
     Then click the "Generate release notes" button to auto-generate
     contributor information.
 
-11. **Optional: Thank contributors**
+10. **Optional: Thank contributors**
 
     You can optionally include any particular thank-yous to contributors or
     reviewers in a note at the bottom of the release.
 
-12. **Publish the release**
+11. **Publish the release**
 
     Click the "Publish release" button.
 
-13. **Verify CI/CD**
+12. **Verify CI/CD**
 
     If [the CI][ci] run is [successful][actions],
     then the release will be published on both

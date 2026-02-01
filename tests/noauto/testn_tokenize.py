@@ -17,15 +17,9 @@ from pythainlp.tokenize import (
     paragraph_tokenize,
     sefr_cut,
     sent_tokenize,
-    subword_tokenize,
     tltk,
     word_dict_trie,
     word_tokenize,
-)
-
-from ..test_helpers import (
-    assert_segment_handles_none_and_empty,
-    assert_subword_tokenize_basic,
 )
 
 from ..core.test_tokenize import (
@@ -33,6 +27,11 @@ from ..core.test_tokenize import (
     SENT_2,
     SENT_3,
     TEXT_1,
+)
+
+from ..test_helpers import (
+    assert_segment_handles_none_and_empty,
+    assert_subword_tokenize_basic,
 )
 
 

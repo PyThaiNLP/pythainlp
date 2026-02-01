@@ -19,6 +19,9 @@ supported Python versions and operating systems:
 | 3.11           | O       |         |       |
 | 3.10           | O       |         |       |
 | 3.9 (Earliest) | O+C     | O+C     | O+C   |
+
+The CI/CD test workflow is at
+<https://github.com/PyThaiNLP/pythainlp/blob/dev/.github/workflows/unittest.yml>.
         
 ## Core tests (test_*.py)
 

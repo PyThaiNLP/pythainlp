@@ -49,3 +49,16 @@ jobs:
       with:
         src: "./pythainlp ./tests ./examples"
         args: check --verbose --config pyproject.toml
+
+    # Ensure cancelled jobs don't show as failed (red X) in PR checks
+    # This step always runs and treats cancellation as success
+    - name: Check job status
+      if: always()
+      run: |
+        if [ "${{ job.status }}" = "cancelled" ]; then
+          echo "Job was cancelled due to concurrency - treating as success"
+          exit 0
+        elif [ "${{ job.status }}" = "failure" ]; then
+          echo "Job failed"
+          exit 1
+        fi

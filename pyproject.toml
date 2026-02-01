@@ -70,7 +70,8 @@ dependencies = [
 # Development and testing dependencies
 dev = [
     "black>=25.11.0",
-    "bump-my-version>=1.2.6 ",
+    "build>=1.0.0",
+    "bump-my-version>=1.2.6",
     "coverage>=7.10.7",
     "flake8>=7.3.0",
     "ruff>=0.14.14",
@@ -274,6 +275,28 @@ replace = 'version = "{new_version}"'
 filename = "pythainlp/__init__.py"
 search = '__version__ = "{current_version}"'
 replace = '__version__ = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "CITATION.cff"
+search = 'version: {current_version}'
+replace = 'version: {new_version}'
+
+[[tool.bumpversion.files]]
+filename = "CITATION.cff"
+regex = true
+search = 'date-released: \d{{4}}-\d{{2}}-\d{{2}}'
+replace = 'date-released: {now:%Y-%m-%d}'
+
+[[tool.bumpversion.files]]
+filename = "codemeta.json"
+search = '"version": "{current_version}"'
+replace = '"version": "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "codemeta.json"
+regex = true
+search = '"dateModified": "\d{{4}}-\d{{2}}-\d{{2}}"'
+replace = '"dateModified": "{now:%Y-%m-%d}"'
 
 [tool.bumpversion.parts.release]
 optional_value = "prod"

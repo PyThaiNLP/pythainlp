@@ -85,7 +85,7 @@ inside the function that will be distributed to worker nodes.
 See details in
 [the documentation](https://pythainlp.org/dev-docs/notes/installation.html).
 
-## Testing and test suites
+## Testing
 
 We test core functionalities on all officially supported Python versions.
 

@@ -11,6 +11,7 @@ from pythainlp.tokenize import (
     longest,
     multi_cut,
     newmm,
+    paragraph_tokenize,
     sent_tokenize,
     subword_tokenize,
     syllable_tokenize,
@@ -231,7 +232,7 @@ class DetokenizeTestCase(unittest.TestCase):
         )
 
     def test_numeric_data_format(self):
-        engines = ["newmm"]
+        engines = ["newmm", "longest"]
 
         for engine in engines:
             self.assertIn(
@@ -256,6 +257,35 @@ class DetokenizeTestCase(unittest.TestCase):
             tokens = word_tokenize("อัตราส่วน 2.5:1 คือ 5:2", engine=engine)
             self.assertIn("2.5:1", tokens)
             self.assertIn("5:2", tokens)
+
+        # Test join_broken_num parameter (defaults to True)
+        # When True, numeric data should be preserved
+        engine = "longest"
+        self.assertIn(
+            "127.0.0.1",
+            word_tokenize(
+                "ไอพีของคุณคือ 127.0.0.1 ครับ",
+                engine=engine,
+                join_broken_num=True,
+            ),
+        )
+        # When False, numbers may be broken up
+        self.assertNotIn(
+            "127.0.0.1",
+            word_tokenize(
+                "ไอพีของคุณคือ 127.0.0.1 ครับ",
+                engine=engine,
+                join_broken_num=False,
+            ),
+        )
+        self.assertNotIn(
+            "1,234,567.89",
+            word_tokenize(
+                "รางวัลมูลค่า 1,234,567.89 บาท",
+                engine=engine,
+                join_broken_num=False,
+            ),
+        )
 
 
 class TokenizeTestCase(unittest.TestCase):
@@ -652,3 +682,12 @@ class TokenizeTestCase(unittest.TestCase):
         self.assertEqual(display_cell_tokenize("สวัสดี"), ['ส', 'วั', 'ส', 'ดี'])
         self.assertEqual(display_cell_tokenize("ทดสอบ"), ["ท", "ด", "ส", "อ", "บ"])
         self.assertEqual(display_cell_tokenize("ภาษาไทย"), ["ภ", "า", "ษ", "า", "ไ", "ท", "ย"])
+
+    def test_paragraph_tokenize(self):
+        # Test error handling for invalid engine
+        sent = (
+            "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา"
+            "จากผลงานวิจัยที่เคยทำมาในอดีต"
+        )
+        with self.assertRaises(ValueError):
+            paragraph_tokenize(sent, engine="non-existent-engine")

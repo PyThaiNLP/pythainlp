@@ -12,13 +12,13 @@ Tests are categorized into three groups: core, compact, and extra.
 - Focus on core functionalities.
 - Do not rely on external dependencies beyond the standard library.
 - Test with all officially supported Python versions
-  (currently 3.9, 3.10, 3.11, 3.12, and 3.13).
+  (currently 3.9, 3.10, 3.11, 3.12, 3.13, and 3.14).
 
 ## Compact tests (testc_*.py)
 
 - Run `unittest tests.compact`
 - Test a limited set of functionalities that rely on a stable and small subset
-  of optional dependencies specified in `requirements.txt`.
+  of optional dependencies specified in `pyproject.toml`.
 - These dependencies are `PyYAML`, `nlpo3`, `numpy`, `pyicu`,
   `python-crfsuite`, and `requests`.
 - Test with the latest two stable Python versions.
@@ -28,11 +28,14 @@ Tests are categorized into three groups: core, compact, and extra.
 - Run `unittest tests.extra`
 - Explore functionalities that rely on optional dependencies specified in the
   `project.optional-dependencies` section of `pyproject.toml`.
-- These dependencies might include libraries like `gensim`, `tltk`, or `torch`.
+
+## Noauto tests (testn_*.py)
+
+- These dependencies might include huge libraries like `tensorflow`.
 - Due to dependency complexities, these functionalities may not be tested
   in the CI/CD pipeline.
 
-### Robustness tests (test_robustness.py)
+## Robustness tests (test_robustness.py)
 
 A comprehensive test suite within core tests that tests edge cases important
 for real-world usage:

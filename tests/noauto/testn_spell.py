@@ -22,7 +22,7 @@ from ..core.test_spell import SENT_TOKS
 
 class SpellPhunspellTestCaseN(unittest.TestCase):
     """Tests for phunspell engine (requires Cython compilation)"""
-    
+
     def test_spell_phunspell(self):
         result = spell("เน้ร", engine="phunspell")
         self.assertIsInstance(result, list)
@@ -46,7 +46,7 @@ class SpellPhunspellTestCaseN(unittest.TestCase):
 
 class SpellTLTKTestCaseN(unittest.TestCase):
     """Tests for tltk engine (requires tltk with compilation issues)"""
-    
+
     def test_spell_tltk(self):
         result = spell("เน้ร", engine="tltk")
         self.assertIsInstance(result, list)

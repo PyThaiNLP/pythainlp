@@ -18,6 +18,7 @@ from pythainlp.tokenize import (
     sent_tokenize,
     subword_tokenize,
     tltk,
+    word_dict_trie,
     word_tokenize,
 )
 
@@ -25,7 +26,6 @@ from ..core.test_tokenize import (
     SENT_1,
     SENT_2,
     SENT_3,
-    SENT_4,
     TEXT_1,
 )
 
@@ -78,7 +78,6 @@ class DetokenizeTestCaseN(unittest.TestCase):
         )
 
 
-
 class SentTokenizeTLTKTestCaseN(unittest.TestCase):
     def test_sent_tokenize_tltk(self):
         self.assertIsNotNone(
@@ -101,7 +100,6 @@ class SentTokenizeTLTKTestCaseN(unittest.TestCase):
         )
 
 
-
 class SubwordTokenizeTLTKTestCaseN(unittest.TestCase):
     def test_subword_tokenize_tltk(self):
         self.assertEqual(subword_tokenize(None, engine="tltk"), [])
@@ -111,7 +109,6 @@ class SubwordTokenizeTLTKTestCaseN(unittest.TestCase):
         )
         self.assertNotIn("า", subword_tokenize("สวัสดีดาวอังคาร", engine="tltk"))
         self.assertIsInstance(subword_tokenize("โควิด19", engine="tltk"), list)
-
 
 
 class SyllableTokenizeTLTKTestCaseN(unittest.TestCase):
@@ -137,7 +134,6 @@ class SyllableTokenizeTLTKTestCaseN(unittest.TestCase):
         self.assertEqual(tltk.syllable_tokenize(""), [])
 
 
-
 class WordTokenizeAttacutTestCaseN(unittest.TestCase):
     def test_word_tokenize_attacut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="attacut"))
@@ -158,7 +154,6 @@ class WordTokenizeAttacutTestCaseN(unittest.TestCase):
         )
 
 
-
 class WordTokenizeDeepcutTestCaseN(unittest.TestCase):
     def test_word_tokenize_deepcut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="deepcut"))
@@ -176,7 +171,6 @@ class WordTokenizeDeepcutTestCaseN(unittest.TestCase):
         )
 
 
-
 class WordTokenizeOSKutTestCaseN(unittest.TestCase):
     def test_word_tokenize_oskut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="oskut"))
@@ -190,7 +184,6 @@ class WordTokenizeOSKutTestCaseN(unittest.TestCase):
         self.assertIsNotNone(
             oskut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="scads"),
         )
-
 
 
 class WordTokenizeSEFRCutTestCaseN(unittest.TestCase):
@@ -208,10 +201,6 @@ class WordTokenizeSEFRCutTestCaseN(unittest.TestCase):
         )
 
 
-
 class WordTokenizeTLTKTestCaseN(unittest.TestCase):
     def test_word_tokenize_tltk(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="tltk"))
-
-
-

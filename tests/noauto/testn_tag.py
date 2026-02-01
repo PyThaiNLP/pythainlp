@@ -21,7 +21,7 @@ from pythainlp.tag import (
 
 class TagTLTKTestCaseN(unittest.TestCase):
     """Tests for tltk engine (requires tltk with compilation issues)"""
-    
+
     def test_pos_tag_tltk(self):
         tokens = ["ผม", "รัก", "คุณ"]
         self.assertIsNotNone(pos_tag(tokens, engine="tltk"))
@@ -58,7 +58,7 @@ class TagTLTKTestCaseN(unittest.TestCase):
 
 class TagTransformersTestCaseN(unittest.TestCase):
     """Tests for transformers-based engines (requires transformers, torch)"""
-    
+
     def test_NER_class(self):
         with self.assertRaises(ValueError):
             NER(engine="thainer", corpus="cat")

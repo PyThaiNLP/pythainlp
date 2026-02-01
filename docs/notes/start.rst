@@ -19,5 +19,5 @@ Thai NLP faces several challenges. A brief list includes:
 
 Tutorial notebooks
 ==================
-- `PyThaiNLP Get Started <https://pythainlp.org/tutorials/notebooks/pythainlp-get-started.html>`_
+- `PyThaiNLP Get Started <https://pythainlp.org/tutorials/notebooks/pythainlp_get_started.html>`_
 - `Other tutorials <https://pythainlp.org/tutorials/>`_

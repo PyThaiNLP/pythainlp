@@ -19,7 +19,7 @@ from pythainlp.tag import (
 )
 
 
-class TagTLTKTestCase(unittest.TestCase):
+class TagTLTKTestCaseN(unittest.TestCase):
     """Tests for tltk engine (requires tltk with compilation issues)"""
     
     def test_pos_tag_tltk(self):
@@ -56,7 +56,7 @@ class TagTLTKTestCase(unittest.TestCase):
         )
 
 
-class TagTransformersTestCase(unittest.TestCase):
+class TagTransformersTestCaseN(unittest.TestCase):
     """Tests for transformers-based engines (requires transformers, torch)"""
     
     def test_NER_class(self):

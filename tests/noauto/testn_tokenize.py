@@ -30,7 +30,7 @@ from ..core.test_tokenize import (
 )
 
 
-class DetokenizeTestCase(unittest.TestCase):
+class DetokenizeTestCaseN(unittest.TestCase):
     def test_numeric_data_format(self):
         engines = ["attacut", "deepcut", "sefr_cut"]
 
@@ -79,7 +79,7 @@ class DetokenizeTestCase(unittest.TestCase):
 
 
 
-class SentTokenizeTLTKTestCase(unittest.TestCase):
+class SentTokenizeTLTKTestCaseN(unittest.TestCase):
     def test_sent_tokenize_tltk(self):
         self.assertIsNotNone(
             sent_tokenize(
@@ -102,7 +102,7 @@ class SentTokenizeTLTKTestCase(unittest.TestCase):
 
 
 
-class SubwordTokenizeTLTKTestCase(unittest.TestCase):
+class SubwordTokenizeTLTKTestCaseN(unittest.TestCase):
     def test_subword_tokenize_tltk(self):
         self.assertEqual(subword_tokenize(None, engine="tltk"), [])
         self.assertEqual(subword_tokenize("", engine="tltk"), [])
@@ -114,7 +114,7 @@ class SubwordTokenizeTLTKTestCase(unittest.TestCase):
 
 
 
-class SyllableTokenizeTLTKTestCase(unittest.TestCase):
+class SyllableTokenizeTLTKTestCaseN(unittest.TestCase):
     def test_tltk(self):
         self.assertEqual(tltk.segment(None), [])
         self.assertEqual(tltk.segment(""), [])
@@ -138,7 +138,7 @@ class SyllableTokenizeTLTKTestCase(unittest.TestCase):
 
 
 
-class WordTokenizeAttacutTestCase(unittest.TestCase):
+class WordTokenizeAttacutTestCaseN(unittest.TestCase):
     def test_word_tokenize_attacut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="attacut"))
 
@@ -159,7 +159,7 @@ class WordTokenizeAttacutTestCase(unittest.TestCase):
 
 
 
-class WordTokenizeDeepcutTestCase(unittest.TestCase):
+class WordTokenizeDeepcutTestCaseN(unittest.TestCase):
     def test_word_tokenize_deepcut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="deepcut"))
 
@@ -177,7 +177,7 @@ class WordTokenizeDeepcutTestCase(unittest.TestCase):
 
 
 
-class WordTokenizeOSKutTestCase(unittest.TestCase):
+class WordTokenizeOSKutTestCaseN(unittest.TestCase):
     def test_word_tokenize_oskut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="oskut"))
 
@@ -193,7 +193,7 @@ class WordTokenizeOSKutTestCase(unittest.TestCase):
 
 
 
-class WordTokenizeSEFRCutTestCase(unittest.TestCase):
+class WordTokenizeSEFRCutTestCaseN(unittest.TestCase):
     def test_word_tokenize_sefr_cut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="sefr_cut"))
 
@@ -209,7 +209,7 @@ class WordTokenizeSEFRCutTestCase(unittest.TestCase):
 
 
 
-class WordTokenizeTLTKTestCase(unittest.TestCase):
+class WordTokenizeTLTKTestCaseN(unittest.TestCase):
     def test_word_tokenize_tltk(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="tltk"))
 

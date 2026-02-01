@@ -20,7 +20,7 @@ from pythainlp.spell import (
 from ..core.test_spell import SENT_TOKS
 
 
-class SpellPhunspellTestCase(unittest.TestCase):
+class SpellPhunspellTestCaseN(unittest.TestCase):
     """Tests for phunspell engine (requires Cython compilation)"""
     
     def test_spell_phunspell(self):
@@ -44,7 +44,7 @@ class SpellPhunspellTestCase(unittest.TestCase):
         self.assertIsNotNone(correct_sent(SENT_TOKS, engine="phunspell"))
 
 
-class SpellTLTKTestCase(unittest.TestCase):
+class SpellTLTKTestCaseN(unittest.TestCase):
     """Tests for tltk engine (requires tltk with compilation issues)"""
     
     def test_spell_tltk(self):

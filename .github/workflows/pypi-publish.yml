@@ -15,6 +15,21 @@ on:
     types: [published]  # "Publish release" button
   workflow_dispatch:    # Manual trigger to test wheel build
 
+# Avoid duplicate runs for the same source branch and repository.
+# For pull_request events, uses the source repo name from
+# github.event.pull_request.head.repo.full_name; otherwise uses github.repository.
+# For push events, uses the branch name from github.ref_name.
+# For pull_request events, uses the source branch name from github.head_ref.
+# This ensures events for the same repo and branch share the same group,
+# and avoids cross-fork collisions when branch names are reused.
+# Also applies to release (uses tag name) and workflow_dispatch (uses branch/tag name).
+concurrency:
+  group: >-
+    ${{ github.workflow }}-${{
+      github.event.pull_request.head.repo.full_name || github.repository
+    }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   echo_github_env:
     name: Echo env variables

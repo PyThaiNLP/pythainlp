@@ -18,9 +18,9 @@ from unittest import TestLoader, TestSuite
 # Names of module to be tested
 # Note: These tests are NOT included in automated CI runs
 test_packages: list[str] = [
-    "tests.noautotest.testx_spell_noauto",
-    "tests.noautotest.testx_tag_noauto",
-    "tests.noautotest.testx_tokenize_noauto",
+    "tests.noauto.testn_spell",
+    "tests.noauto.testn_tag",
+    "tests.noauto.testn_tokenize",
 ]
 
 

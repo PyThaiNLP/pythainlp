@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 import warnings
+from typing import Union
 
 from transformers import (
     CamembertTokenizer,
@@ -53,7 +54,7 @@ class ThaiNameTagger:
 
     def get_ner(
         self, text: str, pos: bool = False, tag: bool = False
-    ) -> list[tuple[str, str]] | str:
+    ) -> Union[list[tuple[str, str]], str]:
         """This function tags named entities in text in IOB format.
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand
@@ -157,7 +158,7 @@ class NamedEntityRecognition:
 
     def get_ner(
         self, text: str, pos: bool = False, tag: bool = False
-    ) -> list[tuple[str, str]] | str:
+    ) -> Union[list[tuple[str, str]], str]:
         """This function tags named entities in text in IOB format.
         Powered by wangchanberta from VISTEC-depa\
              AI Research Institute of Thailand

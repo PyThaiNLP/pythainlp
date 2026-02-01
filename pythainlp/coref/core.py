@@ -8,7 +8,7 @@ _MODEL = None
 
 def coreference_resolution(
     texts: list[str], model_name: str = "han-coref-v1.0", device: str = "cpu"
-):
+) -> list[dict]:
     """Coreference Resolution
 
     :param List[str] texts: list of texts to apply coreference resolution to

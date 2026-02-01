@@ -14,9 +14,11 @@
 [![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp_get_started.ipynb)
 [![Chat on Matrix](https://matrix.to/img/matrix-badge.svg)](https://matrix.to/#/#thainlp:matrix.org)
 
-PyThaiNLP is a Python package for text processing and linguistic analysis, similar to [NLTK](https://www.nltk.org/) with a focus on Thai language.
+PyThaiNLP is a Python package for text processing and linguistic analysis,
+similar to [NLTK](https://www.nltk.org/) with a focus on Thai language.
 
-PyThaiNLP เป็นไลบารีภาษาไพทอนสำหรับประมวลผลภาษาธรรมชาติ คล้ายกับ NLTK โดยเน้นภาษาไทย [ดูรายละเอียดภาษาไทยได้ที่ README_TH.MD](https://github.com/PyThaiNLP/pythainlp/blob/dev/README_TH.md)
+PyThaiNLP เป็นไลบารีภาษาไพทอนสำหรับประมวลผลภาษาธรรมชาติ คล้ายกับ NLTK โดยเน้นภาษาไทย
+[ดูรายละเอียดภาษาไทยได้ที่ README_TH.MD](https://github.com/PyThaiNLP/pythainlp/blob/dev/README_TH.md)
 
 ## Quick install
 
@@ -49,7 +51,7 @@ Partial list of features:
 - Linguistic unit segmentation at different levels: sentence (`sent_tokenize`), word (`word_tokenize`), and subword (`subword_tokenize`)
 - Part-of-speech tagging (`pos_tag`)
 - Spelling suggestion and correction (`spell` and `correct`)
-- Phonetic algorithm and transliteration (`soundex`  and `transliterate`)
+- Phonetic algorithm and transliteration (`soundex` and `transliterate`)
 - Collation (sorted by dictionary order) (`collate`)
 - Number read out (`num_to_thaiword` and `bahttext`)
 - Datetime formatting (`thai_strftime`)
@@ -71,64 +73,63 @@ Install different releases:
 
 ### Installation Options
 
-Some functionalities, like Thai WordNet, may require extra packages. To install those requirements, specify a set of `[name]` immediately after `pythainlp`:
+Some functionalities, like Thai WordNet, may require extra packages.
+To install those requirements,
+specify a set of `[name]` immediately after `pythainlp`:
 
 ```sh
 pip install "pythainlp[extra1,extra2,...]"
 ```
 
-Possible `extras`:
+Possible `extras` included:
 
-- `full` (install everything)
-- `compact` (install a stable and small subset of dependencies)
-- `abbreviation` (for Thai abbreviation support)
-- `attacut` (to support attacut, a fast and accurate tokenizer)
-- `benchmarks` (for [word tokenization benchmarking](tokenization-benchmark.md))
-- `budoux` (for BudouX text segmentation)
-- `coreference_resolution` (for coreference resolution)
-- `dependency_parsing` (for dependency parsing)
-- `el` (for entity linking)
-- `esupar` (for esupar parser support)
-- `generate` (for text generation)
-- `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
-- `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
-- `ml` (to support ULMFiT models for classification)
-- `mt5` (for mT5 model support)
-- `nlpo3` (for nlpo3 Thai word tokenizer)
-- `onnx` (for ONNX model support)
-- `oskut` (for OSKut Thai word tokenizer)
-- `sefr_cut` (for SEFR CUT Thai word tokenizer)
-- `spacy_thai` (for spaCy Thai language support)
-- `spell` (for spelling correction)
-- `ssg` (for sentence segmentation)
-- `testing` (pinned versions for CI/CD reproducibility)
-- `textaugment` (for text augmentation)
-- `thai_nner` (for Thai named entity recognition)
-- `thai2fit` (for Thai word vector)
-- `thai2rom` (for machine-learnt romanization)
-- `transformers_ud` (for Universal Dependencies with transformers)
-- `translate` (for machine translation)
-- `wangchanberta` (for WangchanBERTa model)
-- `wangchanglm` (for WangchanGLM model)
-- `word_approximation` (for word approximation)
-- `wordnet` (for Thai WordNet API)
-- `wsd` (for word sense disambiguation)
-- `wtp` (for Where's the Point text segmentation)
-- `wunsen` (for Wunsen spell checker)
+- `compact` — install a stable and small subset of dependencies (recommended)
+- `translate` — machine translation support
+- `wordnet` — WordNet support
+- `full` — install all optional dependencies
+  (may introduce large dependencies and conflicts)
 
-For dependency details, look at the `[project.optional-dependencies]` section in
+The documentation website maintains
+[full list of extras](https://pythainlp.org/dev-docs/notes/installation.html).
+
+For dependency details,
+look at the `[project.optional-dependencies]` section in
 [`pyproject.toml`](https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml).
 
 ## Data Directory
 
-- Some additional data, like word lists and language models, may be automatically downloaded during runtime.
-- PyThaiNLP caches these data under the directory `~/pythainlp-data` by default.
-- The data directory can be changed by specifying the environment variable `PYTHAINLP_DATA_DIR`.
-- See the data catalog (`db.json`) at <https://github.com/PyThaiNLP/pythainlp-corpus>
+- Some additional data, like word lists and language models,
+  may be automatically downloaded during runtime.
+- PyThaiNLP caches these data under the directory `~/pythainlp-data`
+  by default.
+- The data directory can be changed by specifying the environment variable
+  `PYTHAINLP_DATA_DIR`.
+- See the data catalog (`db.json`) at
+  <https://github.com/PyThaiNLP/pythainlp-corpus>
+
+### Using PyThaiNLP in Distributed Environments
+
+When using PyThaiNLP in distributed computing environments
+(e.g., Apache Spark), set the `PYTHAINLP_DATA_DIR` environment variable
+inside the function that will be distributed to worker nodes:
+
+```python
+def tokenize_thai(text):
+    import os
+    os.environ['PYTHAINLP_DATA_DIR'] = './pythainlp-data'
+    from pythainlp.tokenize import word_tokenize
+    return word_tokenize(text)
+
+rdd.map(tokenize_thai)
+```
+
+This ensures each worker uses a local writable directory.
+See `examples/distributed_pyspark.py` for more examples.
 
 ## Command-Line Interface
 
-Some of PyThaiNLP functionalities can be used via command line with the `thainlp` command.
+Some of PyThaiNLP functionalities can be used via command line
+with the `thainlp` command.
 
 For example, to display a catalog of datasets:
 
@@ -158,10 +159,10 @@ For more detailed information on testing, please refer to the tests README:
 ## Licenses
 
 | | License |
-|:---|:----|
+| :-- | :-- |
 | PyThaiNLP source codes and notebooks | [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE) |
 | Corpora, datasets, and documentations created by PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication License (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
-| Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/)  |
+| Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/) |
 | Other corpora and models that may be included in PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
 
 ## Contribute to PyThaiNLP
@@ -239,13 +240,13 @@ and its BibTeX entry:
 
 | Logo | Description |
 | --- | ----------- |
-| [![VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/assets/img/logo/airesearch-logo.svg)](https://airesearch.in.th/)   | Since 2019, our contributors Korakot Chaovavanich and Lalita Lowphansirikul have been supported by [VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/).                 |
-| [![MacStadium](https://i.imgur.com/rKy1dJX.png)](https://www.macstadium.com)   | We get support of free Mac Mini M1 from [MacStadium](https://www.macstadium.com) for running CI builds.                  |
+| [![VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/assets/img/logo/airesearch-logo.svg)](https://airesearch.in.th/) | Since 2019, our contributors Korakot Chaovavanich and Lalita Lowphansirikul have been supported by [VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/). |
+| [![MacStadium](https://i.imgur.com/rKy1dJX.png)](https://www.macstadium.com) | We get support of free Mac Mini M1 from [MacStadium](https://www.macstadium.com) for running CI builds. |
 
 ------
 
 <div align="center">
-  Made with ❤️ | PyThaiNLP Team 💻 |  "We build Thai NLP" 🇹🇭
+  Made with ❤️ | PyThaiNLP Team 💻 | "We build Thai NLP" 🇹🇭
 </div>
 
 ------
@@ -255,5 +256,5 @@ and its BibTeX entry:
 </div>
 
 <div align="center">
-  <strong>Beware of malware if you use codes from mirrors other than the official two on GitHub and GitLab.</strong>
+  <strong>Beware of malware if you use code from mirrors other than the official two on GitHub and GitLab.</strong>
 </div>

@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import re
 from functools import lru_cache
+from typing import Optional, Union
 
 from pythainlp.corpus import thai_words
 from pythainlp.tokenize import Tokenizer
@@ -49,12 +50,12 @@ _valid_tokens = set(_digits.keys()) | set(_powers_of_10.keys()) | {"ล้าน
 
 
 @lru_cache
-def _tokenizer():
+def _tokenizer() -> Tokenizer:
     """Lazy load Thai numeral tokenizer with cache"""
     return Tokenizer(custom_dict=_valid_tokens)
 
 
-def _check_is_thainum(word: str):
+def _check_is_thainum(word: str) -> tuple[bool, Optional[str]]:
     for j in _digits:
         if j in word:
             return (True, "num")
@@ -65,7 +66,7 @@ def _check_is_thainum(word: str):
 
 
 @lru_cache
-def _tokenizer_thaiwords():
+def _tokenizer_thaiwords() -> Tokenizer:
     """Lazy load Thai words tokenizer with cache"""
     _dict_words = [
         i for i in thai_words() if not _check_is_thainum(i)[0]
@@ -133,14 +134,14 @@ def thaiword_to_num(word: str) -> int:
     return accumulated
 
 
-def _decimal_unit(words: list) -> float:
+def _decimal_unit(words: list[str]) -> float:
     _num = 0.0
     for i, v in enumerate(words):
         _num += int(thaiword_to_num(v)) / (10 ** (i + 1))
     return _num
 
 
-def words_to_num(words: list) -> float:
+def words_to_num(words: list[str]) -> float:
     """Thai Words to float
 
     :param str text: Thai words
@@ -156,7 +157,7 @@ def words_to_num(words: list) -> float:
         # output: 50.95
 
     """
-    num = 0
+    num: Union[int, float] = 0
     if "จุด" not in words:
         num = thaiword_to_num("".join(words))
     else:

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import re
+from typing import Optional
 
 
 def _prepare_text_with_exclusions(
@@ -197,7 +198,7 @@ class Translate:
 
 def word_translate(
     word: str, src: str, target: str, engine: str = "word2word"
-) -> list[str] | None:
+) -> Optional[list[str]]:
     """Translate word from source language to target language.
 
     :param str word: text

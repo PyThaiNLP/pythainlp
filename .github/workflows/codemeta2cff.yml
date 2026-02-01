@@ -2,7 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-FileType: SOURCE
 
-name: Generate CITATION.cff from codemeta.json
+# Generate CITATION.cff from codemeta.json
+
+name: Generate CITATION.cff
 run-name: Generate CITATION.cff after ${{github.event_name}} by ${{github.actor}}
 
 on:
@@ -26,7 +28,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Generate CITATION.cff from codemeta.json
-        uses: caltechlibrary/codemeta2cff@381d886228004b3c827b2f93c5d30ebca0659014  #v0.3.2
+        uses: caltechlibrary/codemeta2cff@99ce10831c3037a067c3d9551d455638e0b438ac  #v0.3.3
 
       - name: Show generated CITATION.cff
         run: |

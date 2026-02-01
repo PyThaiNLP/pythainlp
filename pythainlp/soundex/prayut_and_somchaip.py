@@ -31,7 +31,7 @@ _C52 = "ง"
 
 
 def prayut_and_somchaip(text: str, length: int = 4) -> str:
-    """This function converts English-Thai Cross-Language Transliterated Word into
+    """Converts English-Thai Cross-Language Transliterated Words into
     phonetic code with the matching technique called **Soundex** [#prayut_and_somchaip]_.
 
     :param str text: English-Thai Cross-Language Transliterated Word
@@ -87,7 +87,7 @@ def prayut_and_somchaip(text: str, length: int = 4) -> str:
         elif chars[i] in _C9 and i != 0:
             chars[i] = "9"
         else:
-            chars[i] = None
+            chars[i] = None  # type: ignore[call-overload]
         i += 1
-    chars = list("".join([i for i in chars if i is not None]))
+    chars = list("".join(filter(None, chars)))
     return "".join(chars[-length:])

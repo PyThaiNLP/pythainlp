@@ -27,7 +27,7 @@ import json
 import os
 from pathlib import Path
 from shutil import copyfile
-from typing import Any
+from typing import Any, Optional, Union, cast
 
 import sentencepiece
 from transformers.tokenization_utils import BatchEncoding, PreTrainedTokenizer
@@ -133,7 +133,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         pad_token="<pad>",  # noqa: S107
         unk_token="<unk>",  # noqa: S107
         language_codes="m2m100",
-        sp_model_kwargs: dict[str, Any] | None = None,
+        sp_model_kwargs: Optional[dict[str, Any]] = None,
         num_madeup_words=8,
         **kwargs,
     ) -> None:
@@ -168,7 +168,10 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         )
 
         self.vocab_file = vocab_file
-        self.encoder = load_json(vocab_file)
+        encoder_data = load_json(vocab_file)
+        if not isinstance(encoder_data, dict):
+            raise ValueError("encoder must be a dict")
+        self.encoder: dict[str, int] = cast(dict[str, int], encoder_data)
         self.decoder = {v: k for k, v in self.encoder.items()}
         self.spm_file = spm_file
         self.sp_model = load_spm(spm_file, self.sp_model_kwargs)
@@ -207,7 +210,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     def _tokenize(self, text: str) -> list[str]:
         return self.sp_model.encode(text, out_type=str)
 
-    def _convert_token_to_id(self, token):
+    def _convert_token_to_id(self, token: str) -> int:
         if token in self.lang_token_to_id:
             return self.lang_token_to_id[token]
         return self.encoder.get(token, self.encoder[self.unk_token])
@@ -216,7 +219,10 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         """Converts an index (integer) in a token (str) using the decoder."""
         if index in self.id_to_lang_token:
             return self.id_to_lang_token[index]
-        return self.decoder.get(index, self.unk_token)
+        token = self.decoder.get(index, self.unk_token)
+        if token is None:
+            return self.unk_token
+        return token
 
     def convert_tokens_to_string(self, tokens: list[str]) -> str:
         """Converts a sequence of tokens (strings for sub-words) in a single string."""
@@ -225,7 +231,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     def get_special_tokens_mask(
         self,
         token_ids_0: list[int],
-        token_ids_1: list[int] | None = None,
+        token_ids_1: Optional[list[int]] = None,
         already_has_special_tokens: bool = False,
     ) -> list[int]:
         """Retrieve sequence IDs from a token list that has no special tokens
@@ -265,7 +271,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         )
 
     def build_inputs_with_special_tokens(
-        self, token_ids_0: list[int], token_ids_1: list[int] | None = None
+        self, token_ids_0: list[int], token_ids_1: Optional[list[int]] = None
     ) -> list[int]:
         """Build model inputs from a sequence or a pair of sequence for
         sequence classification tasks by concatenating and
@@ -320,8 +326,8 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         self.sp_model = load_spm(self.spm_file, self.sp_model_kwargs)
 
     def save_vocabulary(
-        self, save_directory: str, filename_prefix: str | None = None
-    ) -> tuple[str]:
+        self, save_directory: str, filename_prefix: Optional[str] = None
+    ) -> tuple[str, str]:
         save_dir = Path(save_directory)
         if not save_dir.is_dir():
             raise OSError(f"{save_directory} should be a directory")
@@ -334,7 +340,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
             + self.vocab_files_names["spm_file"]
         )
 
-        save_json(self.encoder, vocab_save_path)
+        save_json(self.encoder, str(vocab_save_path))
 
         if os.path.abspath(self.spm_file) != os.path.abspath(
             spm_save_path
@@ -350,7 +356,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     def prepare_seq2seq_batch(
         self,
         src_texts: list[str],
-        tgt_texts: list[str] | None = None,
+        tgt_texts: Optional[list[str]] = None,
         tgt_lang: str = "ro",
         **kwargs,
     ) -> BatchEncoding:
@@ -359,7 +365,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         return super().prepare_seq2seq_batch(src_texts, tgt_texts, **kwargs)
 
     def _build_translation_inputs(
-        self, raw_inputs, tgt_lang: str | None, **extra_kwargs
+        self, raw_inputs, tgt_lang: Optional[str], **extra_kwargs
     ):
         """Used by translation pipeline, to prepare inputs for the generate
         function"""
@@ -400,7 +406,7 @@ def load_spm(
     return spm
 
 
-def load_json(path: str) -> dict | list:
+def load_json(path: str) -> Union[dict, list]:
     with open(path) as f:
         return json.load(f)
 

@@ -54,7 +54,7 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
     :param str sep: separator between the two keys (default: ":")
 
     :return: a one-dimension dictionary with keys combined
-    :rtype: dict[str, float | str]
+    :rtype: dict[str, Union[float, str]]
     """
     return {
         f"{k1}{sep}{k2}": v
@@ -146,37 +146,37 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     :param str samples: samples that we want to evaluate
 
     :return: metrics at character- and word-level and indicators of correctly tokenized words
-    :rtype: dict[str, float | str]
+    :rtype: dict[str, Union[float, str]]
     """
-    ref_sample = _binary_representation(ref_sample)
-    sample = _binary_representation(raw_sample)
+    ref_sample_arr = _binary_representation(ref_sample)
+    sample_arr = _binary_representation(raw_sample)
 
     # Compute character-level statistics
-    c_pos_pred, c_neg_pred = np.argwhere(sample == 1), np.argwhere(sample == 0)
+    c_pos_pred, c_neg_pred = np.argwhere(sample_arr == 1), np.argwhere(sample_arr == 0)
 
-    c_pos_pred = c_pos_pred[c_pos_pred < ref_sample.shape[0]]
-    c_neg_pred = c_neg_pred[c_neg_pred < ref_sample.shape[0]]
+    c_pos_pred = c_pos_pred[c_pos_pred < ref_sample_arr.shape[0]]
+    c_neg_pred = c_neg_pred[c_neg_pred < ref_sample_arr.shape[0]]
 
-    c_tp = np.sum(ref_sample[c_pos_pred] == 1)
-    c_fp = np.sum(ref_sample[c_pos_pred] == 0)
+    c_tp = np.sum(ref_sample_arr[c_pos_pred] == 1)
+    c_fp = np.sum(ref_sample_arr[c_pos_pred] == 0)
 
-    c_tn = np.sum(ref_sample[c_neg_pred] == 0)
-    c_fn = np.sum(ref_sample[c_neg_pred] == 1)
+    c_tn = np.sum(ref_sample_arr[c_neg_pred] == 0)
+    c_fn = np.sum(ref_sample_arr[c_neg_pred] == 1)
 
     # Compute word-level statistics
 
     # Find correctly tokenized words in the reference sample
-    word_boundaries = _find_word_boundaries(ref_sample)
+    word_boundaries = _find_word_boundaries(ref_sample_arr)
 
     # Find correctly tokenized words in the sample
-    ss_boundaries = _find_word_boundaries(sample)
+    ss_boundaries = _find_word_boundaries(sample_arr)
     tokenization_indicators = _find_words_correctly_tokenised(
         word_boundaries, ss_boundaries
     )
 
     correctly_tokenised_words = np.sum(tokenization_indicators)
 
-    tokenization_indicators = list(map(str, tokenization_indicators))
+    tokenization_indicators_str = list(map(str, tokenization_indicators))
 
     return {
         "char_level": {
@@ -187,16 +187,16 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
         },
         "word_level": {
             "correctly_tokenised_words": correctly_tokenised_words,
-            "total_words_in_sample": np.sum(sample),
-            "total_words_in_ref_sample": np.sum(ref_sample),
+            "total_words_in_sample": np.sum(sample_arr),
+            "total_words_in_ref_sample": np.sum(ref_sample_arr),
         },
         "global": {
-            "tokenisation_indicators": "".join(tokenization_indicators)
+            "tokenisation_indicators": "".join(tokenization_indicators_str)
         },
     }
 
 
-def _binary_representation(txt: str, verbose: bool = False):
+def _binary_representation(txt: str, verbose: bool = False) -> np.ndarray:
     """Transform text into {0, 1} sequence.
 
     where (1) indicates that the corresponding character is the beginning of
@@ -246,14 +246,14 @@ def _find_word_boundaries(bin_reps) -> list:
 def _find_words_correctly_tokenised(
     ref_boundaries: list[tuple[int, int]],
     predicted_boundaries: list[tuple[int, int]],
-) -> tuple[int]:
+) -> tuple[int, ...]:
     """Find whether each word is correctly tokenized.
 
     :param list[tuple(int, int)] ref_boundaries: word boundaries of reference tokenization
     :param list[tuple(int, int)] predicted_boundaries: word boundareies of predicted tokenization
 
     :return: binary sequence where 1 indicates the corresponding word is tokenized correctly
-    :rtype: tuple[int]
+    :rtype: tuple[int, ...]
     """
     ref_b = dict(zip(ref_boundaries, [1] * len(ref_boundaries)))
 

@@ -98,7 +98,7 @@ _tone_marks = {
 
 _punctuation_and_digits = {
     # ฯ can has two meanings in ISO 11940.
-    # If it is for abbrevation, it is paiyan noi.
+    # If it is for abbreviation, it is paiyan noi.
     # If it is for sentence termination, it is angkhan diao.
     # Without semantic analysis, they cannot be distinguished from each other.
     # In this simple implementation, we decided to always treat ฯ as paiyan noi.

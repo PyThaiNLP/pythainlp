@@ -16,6 +16,7 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 from collections.abc import Iterator
+from typing import Optional
 
 from pythainlp.tokenize import word_dict_trie
 from pythainlp.util import Trie
@@ -48,13 +49,13 @@ _PAT_NONTHAI = re.compile(_RE_NONTHAI)
 
 
 def _multicut(
-    text: str, custom_dict: Trie | None = None
+    text: str, custom_dict: Optional[Trie] = None
 ) -> Iterator[LatticeString]:
     """Return LatticeString"""
     if not custom_dict:
         custom_dict = word_dict_trie()
     len_text = len(text)
-    words_at = defaultdict(list)  # main data structure
+    words_at: defaultdict[int, list[str]] = defaultdict(list)  # main data structure
 
     def serialize(p, p2):  # helper function
         for w in words_at[p]:
@@ -121,7 +122,7 @@ def _combine(ww: list[LatticeString]) -> Iterator[str]:
                     yield m.replace("/", "|") + "|" + tail
 
 
-def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
+def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
     """Dictionary-based maximum matching word segmentation.
 
     :param text: text to be tokenized
@@ -141,7 +142,7 @@ def segment(text: str, custom_dict: Trie | None = None) -> list[str]:
     return list(_multicut(text, custom_dict=custom_dict))
 
 
-def find_all_segment(text: str, custom_dict: Trie | None = None) -> list[str]:
+def find_all_segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
     """Get all possible segment variations.
 
     :param text: input string to be tokenized

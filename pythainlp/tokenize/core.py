@@ -9,6 +9,7 @@ from __future__ import annotations
 import re
 from collections import deque
 from collections.abc import Iterable
+from typing import Optional, Union
 
 from pythainlp.tokenize import (
     DEFAULT_SENT_TOKENIZE_ENGINE,
@@ -29,13 +30,12 @@ _RE_WHITESPACE = re.compile(r"\s")
 _RE_WORD_CHAR = re.compile(r"\w")
 
 
-
 def word_detokenize(
-    segments: list[list[str]] | list[str], output: str = "str"
-) -> list[str] | str:
+    segments: Union[list[list[str]], list[str]], output: str = "str"
+) -> Union[list[str], str]:
     """Word detokenizer.
 
-    This function will detokenize the list of words in each sentence into text.
+    Detokenizes the list of words in each sentence into text.
 
     :param str segments: List of sentences, each with a list of words.
     :param str output: the output type (str or list)
@@ -100,7 +100,7 @@ def word_detokenize(
 
 def word_tokenize(
     text: str,
-    custom_dict: Trie | None = None,
+    custom_dict: Optional[Trie] = None,
     engine: str = DEFAULT_WORD_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
     join_broken_num: bool = True,
@@ -337,7 +337,7 @@ def word_tokenize(
     return segments
 
 
-def indices_words(words):
+def indices_words(words: list[str]) -> list[tuple[int, int]]:
     """Convert a list of words to a list of character index pairs.
 
     This function takes a list of words and returns the start and end
@@ -368,7 +368,7 @@ def indices_words(words):
     return indices
 
 
-def map_indices_to_words(index_list, sentences):
+def map_indices_to_words(index_list: list[tuple[int, int]], sentences: list[str]) -> list[list[str]]:
     """Map character index pairs to actual words from sentences.
 
     This function takes a list of character index pairs and a list of
@@ -410,7 +410,7 @@ def map_indices_to_words(index_list, sentences):
 
 
 def sent_tokenize(
-    text: str | list[str],
+    text: Union[str, list[str]],
     engine: str = DEFAULT_SENT_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
 ) -> list[str]:
@@ -482,16 +482,13 @@ def sent_tokenize(
     if not text or not isinstance(text, (str, list)):
         return []
 
-    is_list_input = isinstance(text, list)
-
-    if is_list_input:
+    if isinstance(text, list):
         try:
             original_text = "".join(text)
         except ValueError:
             return []
-
     else:
-        original_text = text
+        original_text = str(text)
 
     segments = []
 
@@ -500,13 +497,13 @@ def sent_tokenize(
 
         segments = segment(original_text)
 
-        if is_list_input:
+        if isinstance(text, list):
             word_indices = indices_words(text)
             result = map_indices_to_words(word_indices, [original_text])
             return result
     elif engine == "whitespace":
         segments = re.split(r" +", original_text, flags=re.U)
-        if is_list_input:
+        if isinstance(text, list):
             result = []
             _temp: list[str] = []
             for i, w in enumerate(text):
@@ -522,7 +519,7 @@ def sent_tokenize(
             return result
     elif engine == "whitespace+newline":
         segments = original_text.split()
-        if is_list_input:
+        if isinstance(text, list):
             result = []
             _temp = []
             for i, w in enumerate(text):
@@ -537,24 +534,22 @@ def sent_tokenize(
                     result.append(_temp)
             return result
     elif engine == "tltk":
-        from pythainlp.tokenize.tltk import sent_tokenize as segment
+        from pythainlp.tokenize.tltk import sent_tokenize as tltk_sent_tokenize
 
-        segments = segment(original_text)
+        segments = tltk_sent_tokenize(original_text)
     elif engine == "thaisum":
-        from pythainlp.tokenize.thaisumcut import (
-            ThaiSentenceSegmentor as segmentor,
-        )
+        from pythainlp.tokenize.thaisumcut import ThaiSentenceSegmentor
 
-        segment = segmentor()
-        segments = segment.split_into_sentences(original_text)
+        segmentor = ThaiSentenceSegmentor()
+        segments = segmentor.split_into_sentences(original_text)
     elif engine.startswith("wtp"):
         if "-" not in engine:
             _size = "mini"
         else:
             _size = engine.split("-")[-1]
-        from pythainlp.tokenize.wtsplit import tokenize as segment
+        from pythainlp.tokenize.wtsplit import tokenize
 
-        segments = segment(original_text, size=_size, tokenize="sentence")
+        segments = tokenize(text=original_text, size=_size, tokenize="sentence")
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
@@ -564,7 +559,7 @@ def sent_tokenize(
     if not keep_whitespace:
         segments = strip_whitespace(segments)
 
-    if is_list_input and engine not in ["crfcut"]:
+    if isinstance(text, list) and engine not in ["crfcut"]:
         word_indices = indices_words(text)
         result = map_indices_to_words(word_indices, segments)
         return result
@@ -913,7 +908,7 @@ class Tokenizer:
 
     def __init__(
         self,
-        custom_dict: Trie | Iterable[str] | str = [],
+        custom_dict: Union[Trie, Iterable[str], str, None] = None,
         engine: str = "newmm",
         keep_whitespace: bool = True,
         join_broken_num: bool = True,
@@ -936,10 +931,8 @@ class Tokenizer:
         self.__engine = engine
         if self.__engine not in ["newmm", "mm", "longest", "deepcut"]:
             raise NotImplementedError(
-                """
-                The Tokenizer class is not support %s for custom tokenizer
-                """
-                % self.__engine
+                "The Tokenizer class does not support "
+                f"{self.__engine} for custom tokenizer."
             )
         self.__keep_whitespace = keep_whitespace
         self.__join_broken_num = join_broken_num

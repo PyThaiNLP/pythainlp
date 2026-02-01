@@ -8,9 +8,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN apt-get update && apt-get install -y --no-install-recommends build-essential libicu-dev  python3-pip python3-venv pkg-config && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential libicu-dev python3-pip python3-venv pkg-config && rm -rf /var/lib/apt/lists/*
 ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-# Install PyThaiNLP with testing dependencies (replaces docker_requirements.txt)
-RUN pip install -e ".[testing]" && pip cache purge
+RUN pip install -e ".[full]" && pip cache purge

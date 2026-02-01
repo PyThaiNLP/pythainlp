@@ -13,6 +13,7 @@ __all__ = ["gen_sentence"]
 
 import pickle
 import random
+from typing import Union
 
 # fastai
 import fastai
@@ -43,7 +44,21 @@ dummy_df = pd.read_csv(imdb / "texts.csv")
 # get vocab
 thwiki = THWIKI_LSTM
 
-thwiki_itos = pickle.load(open(thwiki["itos_fname"], "rb"))
+# Validate that corpus files are available
+if thwiki["itos_fname"] is None or thwiki["wgts_fname"] is None:
+    raise RuntimeError(
+        "Thai2fit model files not found. "
+        "Please download the corpus first:\n"
+        "  pythainlp.corpus.download('wiki_lm_lstm')\n"
+        "  pythainlp.corpus.download('wiki_itos_lstm')"
+    )
+
+# Security Note: This loads a pickle file from PyThaiNLP's trusted corpus.
+# The file is downloaded from PyThaiNLP's official repository with MD5 verification.
+# Users should only use corpus files from trusted sources.
+# WARNING: Pickle deserialization can execute arbitrary code if the file is malicious.
+with open(thwiki["itos_fname"], "rb") as f:
+    thwiki_itos = pickle.load(f)  # noqa: S301
 thwiki_vocab = fastai.text.transform.Vocab(thwiki_itos)
 
 # dummy databunch
@@ -96,7 +111,7 @@ def gen_sentence(
     N: int = 4,
     prob: float = 0.001,
     output_str: bool = True,
-) -> list[str] | str:
+) -> Union[list[str], str]:
     """Text generator using Thai2fit
 
     :param str start_seq: word to begin sentence with

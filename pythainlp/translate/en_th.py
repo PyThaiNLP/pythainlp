@@ -38,7 +38,10 @@ _TH_EN_FILE_NAME = "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0"
 
 
 def _get_translate_path(model: str, *path: str) -> str:
-    return os.path.join(get_corpus_path(model, version="1.0"), *path)
+    corpus_path = get_corpus_path(model, version="1.0")
+    if corpus_path is None:
+        return ""
+    return os.path.join(corpus_path, *path)  # type: ignore[arg-type]
 
 
 def _download_install(name: str) -> None:

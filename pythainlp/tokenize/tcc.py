@@ -15,6 +15,7 @@ Credits:
 from __future__ import annotations
 
 import re
+from collections.abc import Iterator
 
 _RE_TCC = (
     """\
@@ -58,7 +59,7 @@ ct[ะาำ]?k
 _PAT_TCC = re.compile("|".join(_RE_TCC))
 
 
-def tcc(text: str) -> str:
+def tcc(text: str) -> Iterator[str]:
     """TCC generator which generates Thai Character Clusters
 
     :param str text: text to be tokenized into character clusters
@@ -66,7 +67,7 @@ def tcc(text: str) -> str:
     :rtype: Iterator[str]
     """
     if not text or not isinstance(text, str):
-        return ""
+        return
 
     len_text = len(text)
     p = 0

@@ -13,7 +13,7 @@ _DIGITS_WITH_SEPARATOR = re.compile(r"(\d+[\.\,:])+\d+")
 
 
 def apply_postprocessors(
-    segments: list[str], postprocessors: Callable[[list[str]], list[str]]
+    segments: list[str], postprocessors: list[Callable[[list[str]], list[str]]]
 ) -> list[str]:
     """A list of callables to apply to a raw segmentation result.
     """

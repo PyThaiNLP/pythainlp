@@ -9,7 +9,14 @@ For text processing and text conversion, see pythainlp.util
 from __future__ import annotations
 
 import os
-from importlib.resources import files
+from os import PathLike
+from sys import version_info
+from typing import cast
+
+if version_info >= (3, 11):
+    from importlib.resources import files  # Available in Python 3.11+
+else:
+    from importlib_resources import files  # type: ignore[import-not-found,no-redef]  # noqa: I001
 
 PYTHAINLP_DEFAULT_DATA_DIR = "pythainlp-data"
 
@@ -80,7 +87,7 @@ def get_pythainlp_path() -> str:
     package_path = files("pythainlp")
     # For compatibility, convert to string path if possible
     # This works for both regular installations and zip files
-    if hasattr(package_path, '__fspath__'):
-        return os.fspath(package_path)
+    if hasattr(package_path, "__fspath__"):
+        return os.fspath(cast(PathLike[str], package_path))
     # Fallback for traversable objects that don't support __fspath__
     return str(package_path)

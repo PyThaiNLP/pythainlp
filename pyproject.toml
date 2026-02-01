@@ -116,7 +116,7 @@ ml = ["numpy>=1.22", "torch>=1.0.0"]
 
 mt5 = ["sentencepiece>=0.1.91", "transformers>=4.22.1"]
 
-nlpo3 = ["nlpo3>=1.3.1"]
+nlpo3 = ["nlpo3>=1.4.0"]
 
 onnx = ["numpy>=1.22", "onnxruntime>=1.10.0", "sentencepiece>=0.1.91"]
 
@@ -168,7 +168,7 @@ wunsen = ["wunsen>=0.0.3"]
 
 # Compact dependencies - safe small set of optional dependencies
 compact = [
-    "nlpo3>=1.3.1",
+    "nlpo3>=1.4.0",
     "numpy>=1.26.0",
     "pyicu>=2.3",
     "python-crfsuite>=0.9.7",
@@ -208,7 +208,7 @@ full = [
     "gensim>=4.3.3,<5",
     "khamyo>=0.3.0",
     "khanaa>=0.1.1,<1",
-    "nlpo3>=1.3.1",
+    "nlpo3>=1.4.0",
     "nltk>=3.6.6,<4",
     "numpy>=1.26.0,<3",
     "onnxruntime>=1.10.0",

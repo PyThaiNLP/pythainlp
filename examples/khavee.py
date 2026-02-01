@@ -32,7 +32,7 @@ print("สรร", kv.check_karu_lahu("สรร"))
 print("ชิชะ", kv.check_karu_lahu("ชิชะ"))
 # lahu
 
-# การตรวจสอบกลอน 8 ที่ถูกฉันทลักษณ์
+# การตรวจสอบกลอน 8 ที่มีข้อผิดพลาดเล็กน้อย
 print(
     kv.check_klon(
         """ณรงค์วุฒิผู้เปี่ยมวุฒิสมสง่า มากวิชาหาความรู้ไปสู่ผล
@@ -48,7 +48,7 @@ print(
         k_type=8,
     )
 )
-# -> The poem is correct according to the principle.
+# -> ["Can't find rhyme between paragraphs ('ผล', 'ทน') in paragraph 1"]
 
 # การตรวจสอบกลอน 8 ที่ผิดฉันทลักษณ์
 print(
@@ -67,8 +67,9 @@ print(
     )
 )
 # -> [
-# "Cant find rhyme between paragraphs ('สอน', 'ไป') in paragraph 4",
-# "Cant find rhyme between paragraphs ('มี่', ['เกม', 'เอ่อ', 'เก่ง', 'กาจ']) in paragraph 5"
+# "Can't find rhyme between paragraphs ('ผล', 'ทน') in paragraph 1",
+# "Can't find rhyme between paragraphs ('สอน', 'ไป') in paragraph 4",
+# "Can't find rhyme between paragraphs ('มี่', ['เกม', 'เอ่อ', 'เก่ง', 'กาจ']) in paragraph 5"
 # ]
 
 
@@ -95,8 +96,8 @@ print(
     )
 )
 # -> [
-# "Cant find rhyme between paragraphs ('หมา', 'จอง') in paragraph 2",
-# "Cant find rhyme between paragraphs ('หมา', 'ทอง') in paragraph 2"
+# "Can't find rhyme between paragraphs ('หมา', 'จอง') in paragraph 2",
+# "Can't find rhyme between paragraphs ('หมา', 'ทอง') in paragraph 2"
 # ]
 
 # การเช็คคำเอกโท

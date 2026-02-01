@@ -1,8 +1,8 @@
 # Corpus License
 
-- Corpora, datasets, and documentation created by PyThaiNLP project are released under [Creative Commons Zero 1.0 Universal Public Domain Dedication License](https://creativecommons.org/publicdomain/zero/1.0/) (CC0).
-- Language models created by PyThaiNLP project are released under [Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/) (CC-by).
-- For more information about corpora that PyThaiNLP use, see [https://github.com/PyThaiNLP/pythainlp-corpus/](https://github.com/PyThaiNLP/pythainlp-corpus/).
+- Corpora, datasets, and documentation created by the PyThaiNLP project are released under [Creative Commons Zero 1.0 Universal Public Domain Dedication License](https://creativecommons.org/publicdomain/zero/1.0/) (CC0).
+- Language models created by the PyThaiNLP project are released under [Creative Commons Attribution 4.0 International Public License](https://creativecommons.org/licenses/by/4.0/) (CC-by).
+- For more information about corpora that PyThaiNLP uses, see [https://github.com/PyThaiNLP/pythainlp-corpus/](https://github.com/PyThaiNLP/pythainlp-corpus/).
 
 ## Dictionaries and Word Lists
 
@@ -13,7 +13,7 @@ The following word lists are created by the PyThaiNLP project and released under
 | Filename                     | Description                                            |
 | ---------------------------- | ------------------------------------------------------ |
 | countries_th.txt             | List of countries in Thai                              |
-| etcc.txt List of             | Enhanced Thai Character Clusters                       |
+| etcc.txt                     | List of Enhanced Thai Character Clusters               |
 | negations_th.txt             | Negation word list                                     |
 | stopwords_th.txt             | Stop word list                                         |
 | syllables_th.txt             | List of Thai syllables                                 |

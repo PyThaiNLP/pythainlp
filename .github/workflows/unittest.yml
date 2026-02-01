@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
-# SPDX-License-Identifier: CC0-1.0
+# SPDX-License-Identifier: Apache-2.0
 
 name: Unit test
 
@@ -14,7 +14,6 @@ on:
       - "Makefile"
       - "MANIFEST.in"
       - "pyproject.toml"
-      - "tox.ini"
   pull_request:
     branches:
       - dev
@@ -27,18 +26,40 @@ on:
       - "Makefile"
       - "MANIFEST.in"
       - "pyproject.toml"
-      - "tox.ini"
 
 jobs:
   unittest:
     strategy:
       fail-fast: false
       matrix:
-        # Test latest and earliest versions of Python on every OSes
+        # To save time and resources, and manage dependency compatibility,
+        # we divide test cases into 3 groups
+        # and run them in different configurations:
+        # - Core    (O): All supported Python versions on Ubuntu,
+        #                plus latest and earliest Python versions
+        #                on all supported OSes
+        # - Compact (C): Second-latest and earliest supported Python versions
+        #                on all supported OSes, plus latest on Ubuntu
+        # - Extra   (X): Second-latest supported Python version on Ubuntu only
+        #
+        # | Python | Ubuntu  | Windows | macOS |
+        # |--------|---------|---------|-------|
+        # | 3.14   | O+C     | O       | O     |
+        # | 3.13   | O+C+X   | O+C     | O+C   |
+        # | 3.12   | O       |         |       |
+        # | 3.11   | O       |         |       |
+        # | 3.10   | O       |         |       |
+        # | 3.9    | O+C     | O+C     | O+C   |
+        #
+        # We should also consider to reduce the number of dependencies
+        # to avoid conflicts between them.
+        # See: https://github.com/PyThaiNLP/pythainlp/issues/935
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
-        python-version: ["3.13", "3.9"]  # Latest and earliest      
+        python-version: ["3.14", "3.9"] # Latest and earliest
         include:
           # Test the rest of Python versions only on Ubuntu
+          - os: "ubuntu-latest"
+            python-version: "3.13"
           - os: "ubuntu-latest"
             python-version: "3.12"
           - os: "ubuntu-latest"
@@ -48,87 +69,89 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     env:
-      PYICU_WIN_VER: 2.14
-      INSTALL_TORCH: false
+      PYICU_WIN_VER: 2.15 # 2.15 is the last version that supports Python 3.9
       INSTALL_FULL_DEPS: false
-      PYTHON_VERSION_LATEST: "3.13"
-      PYTHON_VERSION_LATEST_2: "3.12"
+      PYTHON_VERSION_LATEST: "3.14"
+      PYTHON_VERSION_LATEST_2: "3.13" # Second-latest supported version
+      PYTHON_VERSION_EARLIEST: "3.9"
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v6
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v6
-      with:
-        python-version: ${{ matrix.python-version }}
-        cache: "pip"
-    - name: Install build tools
-      run: |
-        pip install --upgrade "pip<24.1" "setuptools>=69.0.0,<=73.0.1"
-        pip install coverage coveralls
-      # pip<24.1 because https://github.com/omry/omegaconf/pull/1195
-      # setuptools>=65.0.2 because https://github.com/pypa/setuptools/commit/d03da04e024ad4289342077eef6de40013630a44#diff-9ea6e1e3dde6d4a7e08c7c88eceed69ca745d0d2c779f8f85219b22266efff7fR1
-      # setuptools<=73.0.1 because https://github.com/pypa/setuptools/issues/4620
-    - name: Install ICU (macOS)
-      if: startsWith(matrix.os, 'macos-')
-      run: |
-        brew install icu4c
-        PKG_CONFIG_PATH=$(brew --prefix)/opt/icu4c/lib/pkgconfig
-        echo "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}" >> "${GITHUB_ENV}"
-        ICU_VER=$(pkg-config --modversion icu-i18n)
-        echo "ICU_VER=${ICU_VER}"
-        echo "ICU_VER=${ICU_VER}" >> "${GITHUB_ENV}"
-    - name: Install PyICU (Windows)
-      if: startsWith(matrix.os, 'windows-') && (matrix.python-version == '3.12' || matrix.python-version == '3.13')
-      shell: powershell
-      run: |
-        $PYTHON_WIN_VER = "${{ matrix.python-version }}"
-        $CP_VER = "cp" + $PYTHON_WIN_VER.Replace(".", "")
-        $WHEEL_URL = "https://github.com/cgohlke/pyicu-build/releases/download/v${{ env.PYICU_WIN_VER }}/PyICU-${{ env.PYICU_WIN_VER }}-${CP_VER}-${CP_VER}-win_amd64.whl"
-        pip install "$WHEEL_URL"
-      # Get wheel URL from https://github.com/cgohlke/pyicu-build/releases
-    - name: Install PyTorch
-      if: env.INSTALL_TORCH == 'true'
-      run: pip install torch
-      # If torch for the platform is not available in PyPI, use this command:
-      # pip install "<torch_wheel_url>"
-      # Get wheel URL from http://download.pytorch.org/whl/torch/
-    - name: Install testing dependencies
-      if: env.INSTALL_FULL_DEPS == 'true'
-      env:
-        SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL: True
-      run: pip install ".[testing]"
-    - name: Install PyThaiNLP + dependencies (minimum)
-      if: matrix.python-version != env.PYTHON_VERSION_LATEST && matrix.python-version != env.PYTHON_VERSION_LATEST_2
-      run: pip install .
-    - name: Install PyThaiNLP + dependencies (compact)
-      if: matrix.python-version == env.PYTHON_VERSION_LATEST || matrix.python-version == env.PYTHON_VERSION_LATEST_2
-      run: pip install ".[compact]"
-      # If you want to install a safe small set of optional dependencies, use:
-      # pip install ".[compact]"
-      # We can gradually run more test cases by installing more optional
-      # dependencies. But we should also consider to reduce the number
-      # of dependencies to avoid the conflict between dependencies.
-      # See: https://github.com/PyThaiNLP/pythainlp/issues/935
-    - name: Unit test (core)
-      if: matrix.python-version != env.PYTHON_VERSION_LATEST && matrix.python-version != env.PYTHON_VERSION_LATEST_2
-      env:
-        PYTHONIOENCODING: utf-8
-      run: coverage run -m unittest tests.core
-    - name: Unit test (core + compact)
-      if: matrix.python-version == env.PYTHON_VERSION_LATEST || matrix.python-version == env.PYTHON_VERSION_LATEST_2
-      env:
-        PYTHONIOENCODING: utf-8
-      run: coverage run -m unittest tests.core tests.compact
-      # Only test "compact" set with the latest two stable Python versions.
-      # Use 'unittest <test_module>' instead of 'unittest discover' to avoid
-      # loading tests with dependencies more than expected.
-      # Test cases loaded is defined in __init__.py in the tests directory.
-      # See also tests/README.md
-    - name: Coverage report
-      if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COVERALLS_SERVICE_NAME: github
-      run: coveralls
-      # Only submit a report from the latest Python version on ubuntu-latest.
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install build tools
+        run: |
+          pip install --upgrade "pip<24.1" "setuptools>=69.0.0,<=73.0.1"
+          pip install coverage coveralls
+        # pip<24.1 because https://github.com/omry/omegaconf/pull/1195
+        # setuptools>=65.0.2 because https://github.com/pypa/setuptools/commit/d03da04e024ad4289342077eef6de40013630a44#diff-9ea6e1e3dde6d4a7e08c7c88eceed69ca745d0d2c779f8f85219b22266efff7fR1
+        # setuptools<=73.0.1 because https://github.com/pypa/setuptools/issues/4620
+
+      - name: Install ICU (macOS)
+        if: startsWith(matrix.os, 'macos-')
+        run: |
+          brew install icu4c
+          PKG_CONFIG_PATH=$(brew --prefix)/opt/icu4c/lib/pkgconfig
+          echo "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}" >> "${GITHUB_ENV}"
+          ICU_VER=$(pkg-config --modversion icu-i18n)
+          echo "ICU_VER=${ICU_VER}"
+          echo "ICU_VER=${ICU_VER}" >> "${GITHUB_ENV}"
+
+      - name: Install PyICU (Windows)
+        if: startsWith(matrix.os, 'windows-') && (matrix.python-version == env.PYTHON_VERSION_LATEST_2 || matrix.python-version == env.PYTHON_VERSION_EARLIEST)
+        shell: powershell
+        # Get the wheel URL from https://github.com/cgohlke/pyicu-build/releases
+        run: |
+          $PYTHON_WIN_VER = "${{ matrix.python-version }}"
+          $CP_VER = "cp" + $PYTHON_WIN_VER.Replace(".", "")
+          $WHEEL_URL = "https://github.com/cgohlke/pyicu-build/releases/download/v${{ env.PYICU_WIN_VER }}/PyICU-${{ env.PYICU_WIN_VER }}-${CP_VER}-${CP_VER}-win_amd64.whl"
+          pip install "$WHEEL_URL"
+
+      - name: Install PyThaiNLP + full testing dependencies
+        if: env.INSTALL_FULL_DEPS == 'true'
+        env:
+          SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL: True
+        run: pip install ".[full]"
+
+      - name: Test (core)
+        if: ${{ (matrix.os == 'ubuntu-latest' && matrix.python-version != env.PYTHON_VERSION_LATEST_2 && matrix.python-version != env.PYTHON_VERSION_EARLIEST) || (matrix.os != 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST) }}
+        env:
+          PYTHONIOENCODING: utf-8
+        run: |
+          pip install .
+          python -m unittest tests.core
+        # Use 'unittest <test_module>' instead of 'unittest discover' to avoid
+        # loading tests with dependencies more than expected.
+        # Test cases loaded is defined in __init__.py in the tests directory.
+        # See also tests/README.md
+
+      - name: Test (compact + core)
+        if: ${{ ((matrix.python-version == env.PYTHON_VERSION_LATEST_2) || (matrix.python-version == env.PYTHON_VERSION_EARLIEST)) && !(matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2) }}
+        env:
+          PYTHONIOENCODING: utf-8
+        run: |
+          pip install ".[compact]"
+          python -m unittest tests.core tests.compact
+
+      - name: Test (extra + compact + core)
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2
+        env:
+          PYTHONIOENCODING: utf-8
+        run: |
+          pip install ".[compact,extra]"
+          coverage run -m unittest tests.core tests.compact tests.extra
+
+      # Only submit a report from the "extra" run, to get maximum coverage
+      - name: Coverage report
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2
+        env:
+          COVERALLS_SERVICE_NAME: github
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PYTHONIOENCODING: utf-8
+        run: coveralls

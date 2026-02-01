@@ -196,7 +196,7 @@ dict_ipa_rtgs_final = {"w": "o"}
 
 
 @lru_cache
-def _ipa_cut():
+def _ipa_cut() -> Tokenizer:
     """Lazy load IPA tokenizer with cache"""
     trie = Trie(list(dict_ipa_rtgs.keys()) + list(dict_ipa_rtgs_final.keys()))
     return Tokenizer(custom_dict=trie, engine="newmm")

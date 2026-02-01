@@ -49,6 +49,7 @@ def aksonhan_to_current(word: str) -> str:
 
         print(aksonhan_to_current("สรรเพชญ")) # รร is still used.
         # output: สรรเพชญ
+
     """
     if len(word) < 3:
         return word

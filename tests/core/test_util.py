@@ -239,9 +239,8 @@ class UtilTestCase(unittest.TestCase):
         )
         self.assertEqual(find_keyword(word_list, min_len=2), {"แมว": 3})
         self.assertEqual(find_keyword(word_list, min_len=10), {})
-        # Edge cases: empty list returns error (since rank([]) returns None)
-        with self.assertRaises(AttributeError):
-            find_keyword([])
+        # Edge cases: empty list now returns empty dict (rank([]) returns None, handled gracefully)
+        self.assertEqual(find_keyword([]), {})
         # Edge cases: single word list (frequency 1, min_len default is 3)
         self.assertEqual(find_keyword(["แมว"]), {})
         # Edge cases: all stopwords
@@ -580,6 +579,22 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(remove_dangling("\u0e48\u0e48\u0e01"), "\u0e01")
         self.assertEqual(remove_dangling("\u0e48\u0e49\u0e01"), "\u0e01")
         self.assertEqual(remove_dangling("\u0e48\u0e01\u0e48"), "\u0e01\u0e48")
+
+        # remove spaces before tone marks and non-base characters
+        self.assertEqual(normalize("พ ุ่มดอกไม้"), "พุ่มดอกไม้")
+        self.assertEqual(
+            normalize("เค้้้าเดินไปสนามหญา้หนา้บา้น"),
+            "เค้าเดินไปสนามหญ้าหน้าบ้าน",
+        )
+        self.assertEqual(
+            normalize("พ ุ่มดอกไม้ในสนามหญา้หนา้บา้น"),
+            "พุ่มดอกไม้ในสนามหญ้าหน้าบ้าน",
+        )
+        self.assertEqual(normalize("ก ิ"), "กิ")  # space before above vowel
+        self.assertEqual(normalize("ก ุ"), "กุ")  # space before below vowel
+        self.assertEqual(
+            normalize("ก  ้า"), "ก้า"
+        )  # spaces before tone mark (also reordered)
 
         # remove duplicate spaces
         self.assertEqual(remove_dup_spaces("  ab  c d  "), "ab c d")

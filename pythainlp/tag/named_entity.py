@@ -6,6 +6,8 @@
 
 from __future__ import annotations
 
+from typing import Any, Union
+
 
 class NER:
     """Class of named-entity recognizer
@@ -33,7 +35,7 @@ class NER:
 
     def load_engine(self, engine: str, corpus: str) -> None:
         self.name_engine = engine
-        self.engine = None
+        self.engine: Any = None
         if engine == "thainer" and corpus == "thainer":
             from pythainlp.tag.thainer import ThaiNameTagger
 
@@ -49,9 +51,9 @@ class NER:
 
             self.engine = tltk
         elif engine == "wangchanberta" and corpus == "thainer":
-            from pythainlp.wangchanberta import ThaiNameTagger
+            from pythainlp.wangchanberta import ThaiNameTagger  # type: ignore[assignment]  # noqa: I001
 
-            self.engine = ThaiNameTagger(dataset_name=corpus)
+            self.engine = ThaiNameTagger(dataset_name=corpus)  # type: ignore[call-arg]
         elif engine == "phayathaibert" and corpus == "thainer-v2":
             from pythainlp.phayathaibert.core import NamedEntityTagger
 
@@ -67,7 +69,7 @@ class NER:
 
     def tag(
         self, text, pos=False, tag=False
-    ) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
+    ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
         """This function tags named entities in text in IOB format.
 
         :param str text: text in Thai to be tagged
@@ -88,7 +90,7 @@ class NER:
             >>> ner = NER("thainer")
             >>> ner.tag("ทดสอบ นายวรรณพงษ์ ภัททิยไพบูลย์")
             [('ทดสอบ', 'O'),
-            [(' ', 'O'),
+            (' ', 'O'),
             ('นาย', 'B-PERSON'),
             ('วรรณ', 'I-PERSON'),
             ('พงษ์', 'I-PERSON'),
@@ -98,7 +100,7 @@ class NER:
             >>> ner.tag("ทดสอบ นายวรรณพงษ์ ภัททิยไพบูลย์", tag=True)
             'ทดสอบ <PERSON>นายวรรณพงษ์ ภัททิยไพบูลย์</PERSON>'
         """
-        return self.engine.get_ner(text, tag=tag, pos=pos)
+        return self.engine.get_ner(text, tag=tag, pos=pos)  # type: ignore[union-attr]
 
 
 class NNER:

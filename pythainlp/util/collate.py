@@ -24,7 +24,7 @@ def _thkey(word: str) -> str:
 
 
 def collate(data: Iterable, reverse: bool = False) -> list[str]:
-    """This function sorts strings (almost) according to Thai dictionary.
+    """Sorts strings (almost) according to Thai dictionary.
 
     Important notes: this implementation ignores tone marks and symbols
 

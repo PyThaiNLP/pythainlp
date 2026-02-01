@@ -51,14 +51,14 @@ for i in thai_below_vowels:
 
 
 @lru_cache
-def _cut():
+def _cut() -> Tokenizer:
     """Lazy load vowel tokenizer with cache"""
     return Tokenizer(
         list(dict_vowel.keys()) + list(thai_consonants), engine="mm"
     )
 
 
-def _clean(w):
+def _clean(w: str) -> str:
     if bool(re.match("|".join(rule3), w)):
         for r in rule3:
             if bool(re.match(r, w)):

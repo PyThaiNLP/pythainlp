@@ -11,6 +11,8 @@ GitHub: https://github.com/KoichiYasuoka
 
 from __future__ import annotations
 
+from typing import List, Union
+
 import numpy as np
 import torch
 import ufal.chu_liu_edmonds
@@ -26,7 +28,7 @@ class Parse:
         self.tokenizer = AutoTokenizer.from_pretrained(model)
         self.model = AutoModelForTokenClassification.from_pretrained(model)
 
-    def __call__(self, text: str, tag: str = "str") -> list[list[str]] | str:
+    def __call__(self, text: str, tag: str = "str") -> Union[List[List[str]], str]:
         w = self.tokenizer(text, return_offsets_mapping=True)
         v = w["input_ids"]
         x = [

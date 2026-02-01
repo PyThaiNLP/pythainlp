@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Optional
+
 
 class Translate:
     """Machine Translation
@@ -96,7 +98,7 @@ class Translate:
 
 def word_translate(
     word: str, src: str, target: str, engine: str = "word2word"
-) -> list[str] | None:
+) -> Optional[list[str]]:
     """Translate word from source language to target language.
 
     :param str word: text

@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Union
+
 
 class EntityLinker:
     def __init__(
@@ -35,7 +37,7 @@ class EntityLinker:
 
         self.model = MultiEL(model_name=self.model_name, device=self.device)
 
-    def get_el(self, list_text: list[str] | str) -> list[dict] | str:
+    def get_el(self, list_text: Union[list[str], str]) -> Union[list[dict], str]:
         """Get Entity Linking from Thai Text
 
         :param str Union[List[str], str]: list of Thai text or text

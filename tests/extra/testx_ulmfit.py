@@ -223,7 +223,10 @@ class UlmfitTestCaseX(unittest.TestCase):
         imdb = untar_data(URLs.IMDB_SAMPLE)
         dummy_df = pd.read_csv(imdb / "texts.csv")
         thwiki = THWIKI_LSTM
-        thwiki_itos = pickle.load(open(thwiki["itos_fname"], "rb"))
+        # Security note: pickle.load() executes arbitrary code if file is malicious.
+        # These corpus files come from a trusted source with MD5 verification.
+        with open(thwiki["itos_fname"], "rb") as f:
+            thwiki_itos = pickle.load(f)
         thwiki_vocab = fastai.text.transform.Vocab(thwiki_itos)
         tt = Tokenizer(
             tok_func=ThaiTokenizer,

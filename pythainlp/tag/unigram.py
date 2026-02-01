@@ -33,7 +33,7 @@ _TDTB_TAGGER = None
 _TUD_TAGGER = None
 
 
-def _orchid_tagger():
+def _orchid_tagger() -> dict:
     global _ORCHID_TAGGER
     if not _ORCHID_TAGGER:
         with open(_ORCHID_PATH, encoding="utf-8-sig") as fh:
@@ -41,7 +41,7 @@ def _orchid_tagger():
     return _ORCHID_TAGGER
 
 
-def _pud_tagger():
+def _pud_tagger() -> dict:
     global _PUD_TAGGER
     if not _PUD_TAGGER:
         with open(_PUD_PATH, encoding="utf-8-sig") as fh:
@@ -49,16 +49,18 @@ def _pud_tagger():
     return _PUD_TAGGER
 
 
-def _blackboard_tagger():
+def _blackboard_tagger() -> dict:
     global _BLACKBOARD_TAGGER
     if not _BLACKBOARD_TAGGER:
         path = get_corpus_path(_BLACKBOARD_NAME)
+        if path is None:
+            raise ValueError(f"Corpus path not found for {_BLACKBOARD_NAME}")
         with open(path, encoding="utf-8-sig") as fh:
             _BLACKBOARD_TAGGER = json.load(fh)
     return _BLACKBOARD_TAGGER
 
 
-def _thai_tdtb():
+def _thai_tdtb() -> dict:
     global _TDTB_TAGGER
     if not _TDTB_TAGGER:
         with open(_TDTB_PATH, encoding="utf-8-sig") as fh:
@@ -66,7 +68,7 @@ def _thai_tdtb():
     return _TDTB_TAGGER
 
 
-def _tud_tagger():
+def _tud_tagger() -> dict:
     global _TUD_TAGGER
     if not _TUD_TAGGER:
         with open(_TUD_PATH, encoding="utf-8-sig") as fh:

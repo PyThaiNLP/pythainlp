@@ -10,6 +10,7 @@ https://towardsdatascience.com/understanding-word-n-grams-and-n-gram-probability
 from __future__ import annotations
 
 import random
+from typing import Union
 
 from pythainlp.corpus.oscar import (
     unigram_word_freqs as oscar_word_freqs_unigram,
@@ -50,7 +51,7 @@ class Unigram:
         prob: float = 0.001,
         output_str: bool = True,
         duplicate: bool = False,
-    ) -> list[str] | str:
+    ) -> Union[list[str], str]:
         """:param str start_seq: word to begin sentence with
         :param int N: number of words
         :param bool output_str: output as string
@@ -143,7 +144,7 @@ class Bigram:
         prob: float = 0.001,
         output_str: bool = True,
         duplicate: bool = False,
-    ) -> list[str] | str:
+    ) -> Union[list[str], str]:
         """:param str start_seq: word to begin sentence with
         :param int N: number of words
         :param bool output_str: output as string
@@ -234,7 +235,7 @@ class Trigram:
         prob: float = 0.001,
         output_str: bool = True,
         duplicate: bool = False,
-    ) -> list[str] | str:
+    ) -> Union[list[str], str]:
         """:param str start_seq: word to begin sentence with
         :param int N: number of words
         :param bool output_str: output as string

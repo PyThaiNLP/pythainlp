@@ -44,7 +44,7 @@ def load_dict(file_path: str, dict_name: str) -> bool:
     """Load a dictionary file into an in-memory dictionary collection.
 
     The loaded dictionary will be accessible through the assigned dict_name.
-    *** This function will not override an existing dict name. ***
+    **Note: This function will not override an existing dict name.**
 
     :param file_path: Path to a dictionary file
     :type file_path: str

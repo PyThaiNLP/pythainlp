@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 from datetime import date, timedelta
+from typing import Union
 
 _YEAR_DEV: dict[int, float] = {
     0: 0,
@@ -189,7 +190,7 @@ _DAYS_355 = [29, 30, 29, 30, 29, 30, 30, 30, 29, 30, 29, 30, 29, 30]
 _DAYS_384 = [29, 30, 29, 30, 29, 30, 29, 30, 30, 29, 30, 29, 30, 29, 30]
 
 # Zodiac names in Thai, English, and Numeric representations
-_ZODIAC: dict[int, list[str | int]] = {
+_ZODIAC: dict[int, list[Union[str, int]]] = {
     1: [
         "ชวด",
         "ฉลู",
@@ -306,7 +307,7 @@ def number_day_in_year(year: int) -> int:
     return 365
 
 
-def th_zodiac(year: int, output_type: int = 1) -> str | int:
+def th_zodiac(year: int, output_type: int = 1) -> Union[str, int]:
     """Thai Zodiac Year Name
     Converts a Gregorian year to its corresponding Zodiac name.
 

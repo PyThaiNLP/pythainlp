@@ -39,12 +39,13 @@ on:
 # For pull_request events, uses the source branch name from github.head_ref.
 # This ensures events for the same repo and branch share the same group,
 # and avoids cross-fork collisions when branch names are reused.
+# Schedule events are not cancelled to ensure weekly scans complete.
 concurrency:
   group: >-
     ${{ github.workflow }}-${{
       github.event.pull_request.head.repo.full_name || github.repository
     }}-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name != 'schedule' }}
 
 jobs:
   analyze:

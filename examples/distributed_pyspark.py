@@ -11,7 +11,7 @@ variable inside the function that will be distributed to executor nodes.
 PyThaiNLP's core tokenization engines are thread-safe, making them suitable
 for distributed computing environments where multiple threads may process
 data concurrently. For detailed information about thread safety, see:
-https://pythainlp.org/dev-docs/notes/threadsafe.html
+https://github.com/PyThaiNLP/pythainlp/blob/dev/docs/threadsafe.rst
 
 For information about data directory configuration in distributed environments, see:
 https://github.com/PyThaiNLP/pythainlp/issues/475

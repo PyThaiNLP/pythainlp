@@ -15,11 +15,13 @@ on:
     types: [published]  # "Publish release" button
   workflow_dispatch:    # Manual trigger to test wheel build
 
-# Avoid duplicate runs for the same workflow and Git ref.
-# This applies to all triggers (push, pull_request, release, workflow_dispatch).
-# With cancel-in-progress: true, a new run for the same ref cancels any in-progress run.
+# Avoid duplicate runs for the same source branch.
+# For push events, uses the branch name from github.ref_name.
+# For pull_request events, uses the source branch name from github.head_ref.
+# This ensures push and pull_request events for the same branch share the same group.
+# Also applies to release (uses tag name) and workflow_dispatch (uses branch/tag name).
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:

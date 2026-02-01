@@ -27,10 +27,12 @@ on:
       - "MANIFEST.in"
       - "pyproject.toml"
 
-# Avoid duplicate runs for the same workflow and Git ref.
-# With cancel-in-progress: true, a new run for the same ref cancels any in-progress run.
+# Avoid duplicate runs for the same source branch.
+# For push events, uses the branch name from github.ref_name.
+# For pull_request events, uses the source branch name from github.head_ref.
+# This ensures push and pull_request events for the same branch share the same group.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:

@@ -6,39 +6,133 @@ SPDX-License-Identifier: CC0-1.0
 
 # How to cut a new release
 
-0. Check if the package can be built properly.
-   Include "[cd build]" in the commit message to trigger wheel building.
-1. Update `CHANGELOG.md` with a short summary of important changes since
-   the previous stable release.
-   For example, deprecation or termination of support.
-2. This project follows [semantic versioning][semver].
-   Ensure the version and release date fields in these files
-   have been updated to the version of the new planned release:
-    - `codemeta.json`
-    - `pyproject.toml`
-    - `CHANGELOG.md`
-    - `CITATION.cff` (will auto-generated from `codemeta.json`)
-    - `README.md`
-    - `README.TH.md`
-4. Navigate to the [releases page][releases] and click the
+This project follows [semantic versioning][semver].
+
+## Prerequisites
+
+Install development dependencies including `bump-my-version`:
+
+```sh
+pip install -e ".[dev]"
+```
+
+## Release Process
+
+1. **Check if the package can be built properly**
+
+   Build the package locally to ensure there are no build errors:
+
+   ```sh
+   python -m build
+   ```
+
+   You can also include `[cd build]` in a commit message to trigger wheel
+   building in CI.
+
+2. **Update CHANGELOG.md**
+
+   Update `CHANGELOG.md` with a short summary of important changes since
+   the previous stable release. For example, deprecation or termination
+   of support. Follow the [Keep a Changelog][keepachangelog] format.
+
+3. **Update version using bump-my-version**
+
+   We use [`bump-my-version`][bump-my-version] to manage version numbers.
+   The configuration is in `pyproject.toml` under `[tool.bumpversion]`.
+
+   Version format: `MAJOR.MINOR.PATCH[-RELEASE][BUILD]`
+   where RELEASE can be `dev`, `beta`, or omitted (production).
+
+   **To bump the version:**
+
+   ```sh
+   # For a patch release (e.g., 5.2.0 -> 5.2.1-dev0)
+   bump-my-version bump patch
+
+   # For a minor release (e.g., 5.2.0 -> 5.3.0-dev0)
+   bump-my-version bump minor
+
+   # For a major release (e.g., 5.2.0 -> 6.0.0-dev0)
+   bump-my-version bump major
+
+   # To move from dev to beta (e.g., 5.2.1-dev0 -> 5.2.1-beta0)
+   bump-my-version bump release
+
+   # To move from beta to production (e.g., 5.2.1-beta0 -> 5.2.1)
+   bump-my-version bump release
+
+   # To increment build number (e.g., 5.2.1-dev0 -> 5.2.1-dev1)
+   bump-my-version bump build
+   ```
+
+   This command will automatically update version numbers in:
+   - `pyproject.toml`
+   - `pythainlp/__init__.py`
+   - `CITATION.cff`
+   - `codemeta.json`
+
+   It will also create a git commit and tag by default.
+
+4. **Update release date in metadata files**
+
+   After bumping the version, manually update the release date fields:
+   - `codemeta.json`: Update `dateModified` field
+   - `CITATION.cff`: Update `date-released` field
+
+5. **Update README files if needed**
+
+   If the release introduces significant changes, update:
+   - `README.md`
+   - `README_TH.md`
+
+6. **Push changes and tag**
+
+   ```sh
+   git push origin dev
+   git push origin --tags
+   ```
+
+7. **Create GitHub Release**
+
+   Navigate to the [releases page][releases] and click the
    "Draft a new release" button.
    Only project maintainers are able to perform this step.
-5. Then enter the new tag in the "Choose a tag" box.
-   The tag should begin with "v", as in, for instance, `v5.0.1`.
-6. The release title should be the same as the new version tag.
-   For instance, the title could be `v5.0.1`.
-7. Add a short summary of important changes since the previous stable
-   release.
-   _This should be similar to what has been logged in `CHANGELOG.md`._
-   Then click the "Generate release notes" button.
-8. You can optionally include any particular thank-yous to contributors or
-   reviewers in a note at the bottom of the release.
-9. You can then click "Publish release" button.
-10. If [the CI][ci] run is [successful][actions],
-   then the release will be published on both
-   the GitHub release page and the [Python Package Index][pypi].
+
+8. **Select the tag**
+
+   In the "Choose a tag" dropdown, select the tag that was created by
+   `bump-my-version` (e.g., `v5.2.1`). Tags follow the format `vMAJOR.MINOR.PATCH`.
+
+9. **Set release title**
+
+   The release title should be the same as the version tag
+   (e.g., `v5.2.1`).
+
+10. **Add release notes**
+
+    Add a short summary of important changes since the previous stable
+    release. This should be similar to what has been logged in `CHANGELOG.md`.
+    Then click the "Generate release notes" button to auto-generate
+    contributor information.
+
+11. **Optional: Thank contributors**
+
+    You can optionally include any particular thank-yous to contributors or
+    reviewers in a note at the bottom of the release.
+
+12. **Publish the release**
+
+    Click the "Publish release" button.
+
+13. **Verify CI/CD**
+
+    If [the CI][ci] run is [successful][actions],
+    then the release will be published on both
+    the GitHub release page and the [Python Package Index][pypi].
 
 [semver]: https://semver.org/
+[keepachangelog]: https://keepachangelog.com/en/1.0.0/
+[bump-my-version]: https://github.com/callowayproject/bump-my-version
 [releases]: https://github.com/PyThaiNLP/pythainlp/releases
 [ci]: https://github.com/PyThaiNLP/pythainlp/blob/dev/.github/workflows/pypi-publish.yml
 [actions]: https://github.com/PyThaiNLP/pythainlp/actions/workflows/pypi-publish.yml

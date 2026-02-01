@@ -62,7 +62,7 @@ class SentTokenizeThaiSumTestCase(unittest.TestCase):
         )
         self.assertEqual(
             sent_tokenize(SENT_4, engine="thaisum"),
-            [["ผม", "กิน", "ข้าว", " ", "เธอ", "เล่น", "เกม"]],
+            [["ผม", "กิน", "ข้าว", " ", " ", "เธอ", "เล่น", "เกม"]],
         )
 
 

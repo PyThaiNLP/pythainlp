@@ -15,13 +15,17 @@ on:
     types: [published]  # "Publish release" button
   workflow_dispatch:    # Manual trigger to test wheel build
 
+# Avoid duplicate runs for pull_request events.
+# For pull requests to dev, the workflow runs on both push and pull_request events,
+# but we only want it to run once. The concurrency group is the same for both,
+# so the push event will be cancelled when the pull_request event starts.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   echo_github_env:
     name: Echo env variables
-    # Skip if this is a push event triggered by a pull request
-    # (to avoid running the workflow twice for PR commits)
-    # Run on pull_request events OR push events that are NOT from a PR
-    if: github.event_name == 'pull_request' || github.event.pull_request == null
     runs-on: ubuntu-latest
     steps:
     - run: |
@@ -35,10 +39,8 @@ jobs:
   check_build_trigger:
     name: Check build trigger
     runs-on: ubuntu-latest
-    # Only run if:
-    # 1. Not a fork (repository must be 'pythainlp/pythainlp')
-    # 2. AND not a duplicate (skip push events triggered by pull requests)
-    if: github.repository == 'pythainlp/pythainlp' && (github.event_name == 'pull_request' || github.event.pull_request == null)
+    # Not for forks
+    if: github.repository == 'pythainlp/pythainlp'
     outputs:
       build: ${{ steps.check_build_trigger.outputs.build }}
     steps:

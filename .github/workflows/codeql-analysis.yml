@@ -32,13 +32,17 @@ on:
   schedule:
     - cron: '17 9 * * 5'
 
+# Avoid duplicate runs for pull_request events.
+# For pull requests to dev, the workflow runs on both push and pull_request events,
+# but we only want it to run once. The concurrency group is the same for both,
+# so the push event will be cancelled when the pull_request event starts.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   analyze:
     name: Analyze
-    # Skip if this is a push event triggered by a pull request
-    # (to avoid running the workflow twice for PR commits)
-    # Run on pull_request events OR push events that are NOT from a PR
-    if: github.event_name == 'pull_request' || github.event.pull_request == null
     runs-on: ubuntu-latest
 
     strategy:

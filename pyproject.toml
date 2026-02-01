@@ -177,17 +177,16 @@ compact = [
 
 # Extra dependencies - for tests.extra modules
 # Note: Some packages excluded due to Python 3.13 compatibility issues
-# Excluded: attacut, deepcut, oskut, sefr_cut (TensorFlow-based, Python 3.13 issues)
-# Excluded: tltk (compilation issues)
-# Excluded: phunspell (compilation issues)
 extra = [
     "bpemb>=0.3.2",
     "budoux>=0.7.0",
     "gensim>=4.0.0",
+    "huggingface-hub>=1.0",
     "nltk>=3.3",
     "pandas>=0.24",
     "ssg>=0.0.8",
     "symspellpy>=6.7.6",
+    "wtpsplit==1.3.0",
 ]
 
 # Full dependencies - pinned where available

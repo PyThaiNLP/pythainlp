@@ -685,9 +685,9 @@ class TokenizeTestCase(unittest.TestCase):
 
     def test_paragraph_tokenize(self):
         # Test error handling for invalid engine
-        sent = (
+        text = (
             "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา"
             "จากผลงานวิจัยที่เคยทำมาในอดีต"
         )
         with self.assertRaises(ValueError):
-            paragraph_tokenize(sent, engine="non-existent-engine")
+            paragraph_tokenize(text, engine="non-existent-engine")

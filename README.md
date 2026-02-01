@@ -89,8 +89,7 @@ See details in
 
 We test core functionalities on all officially supported Python versions.
 
-For more detailed information on testing, please refer to the tests README:
-[tests/README.md](./tests/README.md)
+See [tests/README.md](./tests/README.md) for test matrix and other details.
 
 ## Licenses
 

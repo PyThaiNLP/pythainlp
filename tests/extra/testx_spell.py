@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Tests for spell functions that need extra dependencies
-# Note: Tests requiring phunspell/tltk/torch/HuggingFace Hub have been moved to tests.noauto
+# Note: Tests requiring phunspell/torch/HuggingFace Hub have been moved to tests.noauto
 
 import unittest
 
@@ -20,7 +20,7 @@ from ..core.test_spell import SENT_TOKS
 
 class SpellTestCaseX(unittest.TestCase):
     def test_spell(self):
-        # Tests for symspellpy only (phunspell and tltk moved to noauto)
+        # Tests for symspellpy only (phunspell moved to noauto)
         result = spell("เน้ร", engine="symspellpy")
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
@@ -43,3 +43,17 @@ class SpellTestCaseX(unittest.TestCase):
         # Tests for symspellpy only (phunspell and wanchanberta moved to noauto)
         self.assertIsNotNone(correct_sent(SENT_TOKS, engine="symspellpy"))
         self.assertIsNotNone(symspellpy.correct_sent(SENT_TOKS))
+
+
+class SpellTLTKTestCaseX(unittest.TestCase):
+    """Tests for tltk engine spell checking"""
+
+    def test_spell_tltk(self):
+        result = spell("เน้ร", engine="tltk")
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+
+        result = spell("เดก", engine="tltk")
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+

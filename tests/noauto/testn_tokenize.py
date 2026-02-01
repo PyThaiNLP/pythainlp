@@ -2,10 +2,9 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-# Tests for tokenize functions that require TensorFlow, Keras, or tltk
+# Tests for tokenize functions that require TensorFlow, Keras, or transformers
 # These tests are NOT run in automated CI workflows due to:
-# - Large dependencies (TensorFlow, Keras)
-# - Compilation issues (tltk)
+# - Large dependencies (TensorFlow, Keras, transformers, torch)
 # - Python 3.13+ compatibility issues
 
 import unittest
@@ -17,7 +16,7 @@ from pythainlp.tokenize import (
     paragraph_tokenize,
     sefr_cut,
     sent_tokenize,
-    tltk,
+    subword_tokenize,
     word_dict_trie,
     word_tokenize,
 )
@@ -82,55 +81,6 @@ class DetokenizeTestCaseN(unittest.TestCase):
         )
 
 
-class SentTokenizeTLTKTestCaseN(unittest.TestCase):
-    def test_sent_tokenize_tltk(self):
-        self.assertIsNotNone(
-            sent_tokenize(
-                SENT_1,
-                engine="tltk",
-            ),
-        )
-        self.assertIsNotNone(
-            sent_tokenize(
-                SENT_2,
-                engine="tltk",
-            ),
-        )
-        self.assertIsNotNone(
-            sent_tokenize(
-                SENT_3,
-                engine="tltk",
-            ),
-        )
-
-
-class SubwordTokenizeTLTKTestCaseN(unittest.TestCase):
-    def test_subword_tokenize_tltk(self):
-        assert_subword_tokenize_basic(self, "tltk")
-
-
-class SyllableTokenizeTLTKTestCaseN(unittest.TestCase):
-    def test_tltk(self):
-        assert_segment_handles_none_and_empty(self, tltk.segment)
-        self.assertEqual(
-            tltk.syllable_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
-            [
-                "ฉัน",
-                "รัก",
-                "ภา",
-                "ษา",
-                "ไทย",
-                "เพราะ",
-                "ฉัน",
-                "เป็น",
-                "คน",
-                "ไทย",
-            ],
-        )
-        self.assertEqual(tltk.syllable_tokenize(None), [])
-        self.assertEqual(tltk.syllable_tokenize(""), [])
-
-
 class WordTokenizeAttacutTestCaseN(unittest.TestCase):
     def test_word_tokenize_attacut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="attacut"))
@@ -192,11 +142,6 @@ class WordTokenizeSEFRCutTestCaseN(unittest.TestCase):
         self.assertIsNotNone(
             sefr_cut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="tnhc"),
         )
-
-
-class WordTokenizeTLTKTestCaseN(unittest.TestCase):
-    def test_word_tokenize_tltk(self):
-        self.assertIsNotNone(word_tokenize(TEXT_1, engine="tltk"))
 
 
 class ParagraphTokenizeTestCaseN(unittest.TestCase):

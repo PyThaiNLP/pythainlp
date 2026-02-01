@@ -2,10 +2,10 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-# Tests for spell functions that require phunspell (Cython) or tltk
+# Tests for spell functions that require phunspell (Cython) or torch
 # These tests are NOT run in automated CI workflows due to:
 # - Compilation issues (phunspell requires Cython)
-# - Compilation issues (tltk)
+# - Large dependencies (torch ~800MB)
 # - Python 3.13+ compatibility issues
 
 import unittest
@@ -43,19 +43,6 @@ class SpellPhunspellTestCaseN(unittest.TestCase):
 
     def test_correct_sent_phunspell(self):
         self.assertIsNotNone(correct_sent(SENT_TOKS, engine="phunspell"))
-
-
-class SpellTLTKTestCaseN(unittest.TestCase):
-    """Tests for tltk engine (requires tltk with compilation issues)"""
-
-    def test_spell_tltk(self):
-        result = spell("เน้ร", engine="tltk")
-        self.assertIsInstance(result, list)
-        self.assertGreater(len(result), 0)
-
-        result = spell("เดก", engine="tltk")
-        self.assertIsInstance(result, list)
-        self.assertGreater(len(result), 0)
 
 
 class SpellWanchanbertaTestCaseN(unittest.TestCase):

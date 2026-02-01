@@ -18,6 +18,10 @@ on:
 jobs:
   echo_github_env:
     name: Echo env variables
+    # Skip if this is a push event triggered by a pull request
+    # (to avoid running the workflow twice for PR commits)
+    # Run on pull_request events OR push events that are NOT from a PR
+    if: github.event_name == 'pull_request' || github.event.pull_request == null
     runs-on: ubuntu-latest
     steps:
     - run: |
@@ -32,7 +36,9 @@ jobs:
     name: Check build trigger
     runs-on: ubuntu-latest
     # Not for forks
-    if: github.repository == 'pythainlp/pythainlp'
+    # Skip if this is a push event triggered by a pull request
+    # (to avoid running the workflow twice for PR commits)
+    if: github.repository == 'pythainlp/pythainlp' && (github.event_name == 'pull_request' || github.event.pull_request == null)
     outputs:
       build: ${{ steps.check_build_trigger.outputs.build }}
     steps:

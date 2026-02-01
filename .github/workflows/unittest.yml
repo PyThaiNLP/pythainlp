@@ -29,6 +29,10 @@ on:
 
 jobs:
   unittest:
+    # Skip if this is a push event triggered by a pull request
+    # (to avoid running the workflow twice for PR commits)
+    # Run on pull_request events OR push events that are NOT from a PR
+    if: github.event_name == 'pull_request' || github.event.pull_request == null
     strategy:
       fail-fast: false
       matrix:

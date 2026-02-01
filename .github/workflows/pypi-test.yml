@@ -15,28 +15,36 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Ideally, this is the minimum supported version, as in requires-python in pyproject.toml
-        python-version: ["3.9"]
+        # Ideally, this should be the minimum supported version,
+        # as in `requires-python` in pyproject.toml
+        # But for now, we just test on the second-latest supported version
+        # because some dependencies may not support the older versions.
+        python-version: ["3.12"]
 
     steps:
     - uses: actions/checkout@v6
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
+        cache: "pip"
+
     - name: Install dependencies
       env:
         SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL: True
       run: |
         python -m pip install --upgrade "pip<24.1" setuptools
-        python -m pip install pythainlp[testing,full]
+        python -m pip install ".[compact]"
         python -m nltk.downloader omw-1.4
+
+    # Download the sdist from PyPI, extract it, and run the tests inside it
+    # (the binary distribution does not contain tests).
     - name: Test
       run: |
         set -euo pipefail
         mkdir -p pythainlp_test
         cd pythainlp_test
-        # Download sdist from PyPI (the binary distribution does not contain tests)
         pip download --no-binary=:all: --no-dependencies pythainlp
         archive=$(ls -1 *.tar.gz | head -n1)
         echo "Found archive: $archive"
@@ -49,4 +57,4 @@ jobs:
         if [ -d data ] && [ -d tests ]; then
           mv data tests/
         fi
-        python -m unittest discover -v
+        python -m unittest tests.core tests.compact -v

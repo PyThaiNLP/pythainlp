@@ -73,64 +73,45 @@ Install different releases:
 
 ### Installation Options
 
-Some functionalities, like Thai WordNet, may require extra packages. To install those requirements, specify a set of `[name]` immediately after `pythainlp`:
+Some functionalities, like Thai WordNet, may require extra packages.
+To install those requirements,
+specify a set of `[name]` immediately after `pythainlp`:
 
 ```sh
 pip install "pythainlp[extra1,extra2,...]"
 ```
 
-Possible `extras`:
+Possible `extras` included:
 
-- `full` (install everything)
-- `compact` (install a stable and small subset of dependencies)
-- `abbreviation` (for Thai abbreviation support)
-- `attacut` (to support attacut, a fast and accurate tokenizer)
-- `benchmarks` (for [word tokenization benchmarking](tokenization-benchmark.md))
-- `budoux` (for BudouX text segmentation)
-- `coreference_resolution` (for coreference resolution)
-- `dependency_parsing` (for dependency parsing)
-- `el` (for entity linking)
-- `esupar` (for esupar parser support)
-- `generate` (for text generation)
-- `icu` (for ICU, International Components for Unicode, support in transliteration and tokenization)
-- `ipa` (for IPA, International Phonetic Alphabet, support in transliteration)
-- `ml` (to support ULMFiT models for classification)
-- `mt5` (for mT5 model support)
-- `nlpo3` (for nlpo3 Thai word tokenizer)
-- `onnx` (for ONNX model support)
-- `oskut` (for OSKut Thai word tokenizer)
-- `sefr_cut` (for SEFR CUT Thai word tokenizer)
-- `spacy_thai` (for spaCy Thai language support)
-- `spell` (for spelling correction)
-- `ssg` (for sentence segmentation)
-- `testing` (pinned versions for CI/CD reproducibility)
-- `textaugment` (for text augmentation)
-- `thai_nner` (for Thai named entity recognition)
-- `thai2fit` (for Thai word vector)
-- `thai2rom` (for machine-learnt romanization)
-- `transformers_ud` (for Universal Dependencies with transformers)
-- `translate` (for machine translation)
-- `wangchanberta` (for WangchanBERTa model)
-- `wangchanglm` (for WangchanGLM model)
-- `word_approximation` (for word approximation)
-- `wordnet` (for Thai WordNet API)
-- `wsd` (for word sense disambiguation)
-- `wtp` (for Where's the Point text segmentation)
-- `wunsen` (for Wunsen spell checker)
+- `compact` — install a stable and small subset of dependencies (recommended)
+- `translate` — machine translation support
+- `wordnet` — WordNet support
+- `full` — install all optional dependencies
+  (may introduce large dependencies and conflicts)
 
-For dependency details, look at the `[project.optional-dependencies]` section in
+The documentation website maintains
+[full list of extras](https://pythainlp.org/dev-docs/notes/installation.html).
+
+For dependency details,
+look at the `[project.optional-dependencies]` section in
 [`pyproject.toml`](https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml).
 
 ## Data Directory
 
-- Some additional data, like word lists and language models, may be automatically downloaded during runtime.
-- PyThaiNLP caches these data under the directory `~/pythainlp-data` by default.
-- The data directory can be changed by specifying the environment variable `PYTHAINLP_DATA_DIR`.
-- See the data catalog (`db.json`) at <https://github.com/PyThaiNLP/pythainlp-corpus>
+- Some additional data, like word lists and language models,
+  may be automatically downloaded during runtime.
+- PyThaiNLP caches these data under the directory `~/pythainlp-data`
+  by default.
+- The data directory can be changed by specifying the environment variable
+  `PYTHAINLP_DATA_DIR`.
+- See the data catalog (`db.json`) at
+  <https://github.com/PyThaiNLP/pythainlp-corpus>
 
 ### Using PyThaiNLP in Distributed Environments
 
-When using PyThaiNLP in distributed computing environments (e.g., Apache Spark), set the `PYTHAINLP_DATA_DIR` environment variable inside the function that will be distributed to worker nodes:
+When using PyThaiNLP in distributed computing environments
+(e.g., Apache Spark), set the `PYTHAINLP_DATA_DIR` environment variable
+inside the function that will be distributed to worker nodes:
 
 ```python
 def tokenize_thai(text):
@@ -142,11 +123,13 @@ def tokenize_thai(text):
 rdd.map(tokenize_thai)
 ```
 
-This ensures each worker uses a local writable directory. See `examples/distributed_pyspark.py` for more examples.
+This ensures each worker uses a local writable directory.
+See `examples/distributed_pyspark.py` for more examples.
 
 ## Command-Line Interface
 
-Some of PyThaiNLP functionalities can be used via command line with the `thainlp` command.
+Some of PyThaiNLP functionalities can be used via command line
+with the `thainlp` command.
 
 For example, to display a catalog of datasets:
 
@@ -176,7 +159,7 @@ For more detailed information on testing, please refer to the tests README:
 ## Licenses
 
 | | License |
-|:---|:----|
+| :-- | :-- |
 | PyThaiNLP source codes and notebooks | [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE) |
 | Corpora, datasets, and documentations created by PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication License (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
 | Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/) |

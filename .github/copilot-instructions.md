@@ -163,6 +163,14 @@
 - [ ] API endpoints must use proper HTTP return codes.
 - [ ] Follow web best practices as recommended by OpenAPI, IETF, W3C, etc.
 
+## Git
+
+- [ ] Follow these guidelines for writing a good commit message:
+  - How to Write a Git Commit Message
+    <https://chris.beams.io/posts/git-commit/>
+  - Commit Verbs 101: why I like to use this and why you should also like it.
+    <https://chris.beams.io/posts/git-commit/>
+
 ## Python
 
 - [ ] Defensive coding: always check for None/empty and handle exceptions

@@ -14,33 +14,41 @@ Some features (for example, named entity recognition) require additional optiona
     pip install pythainlp[extra1,extra2,...]
 
 The extras can include:
+  - ``compact`` — install a stable and small subset of dependencies (recommended)
+  - ``full`` — install all optional dependencies (may introduce large dependencies and conflicts)
+  - ``abbreviation`` — abbreviation expansion utilities
   - ``attacut`` — support for AttaCut (a fast and accurate tokenizer)
+  - ``budoux`` — support for BudouX text segmentation
   - ``benchmarks`` — support for running benchmarks
+  - ``coreference_resolution`` — coreference resolution support
+  - ``dependency_parsing`` — dependency parsing support
+  - ``el`` — entity linking support
+  - ``esupar`` — ESuPAR parser support
+  - ``generate`` — support for text generation
   - ``icu`` — support for ICU (International Components for Unicode) used in transliteration and tokenization
   - ``ipa`` — support for IPA (International Phonetic Alphabet) in transliteration
   - ``ml`` — support for ULMFiT models used in classification
-  - ``ssg`` — support for SSG (syllable tokenizer)
+  - ``mt5`` — mT5 models for Thai text summarization
+  - ``nlpo3`` — nlpo3 Thai word tokenization support
+  - ``onnx`` - ONNX model support
+  - ``oskut`` — OSKUT support
+  - ``sefr_cut`` — SEFR CUT Thai word tokenization support
+  - ``spacy_thai`` — spaCy Thai language support
+  - ``spell`` — support for more spell-checkers (phunspell & symspellpy)
+  - ``ssg`` — support for SSG syllable tokenizer
+  - ``textaugment`` — text augmentation utilities
+  - ``thai_nner`` — Thai named entity recognition support
   - ``thai2fit`` — Thai word vectors (thai2fit)
   - ``thai2rom`` — machine-learned romanization
-  - ``translate`` — translation support
-  - ``wangchanberta`` — WangchanBERTa models
-  - ``mt5`` — mT5 models for Thai text summarization
-  - ``wordnet`` — WordNet support
-  - ``spell`` — support for spell-checkers (phunspell & symspellpy)
-  - ``generate`` — support for text generation (ULMFiT or thai2fit)
-  - ``textaugment`` — text augmentation utilities
-  - ``oskut`` — OSKUT support
-  - ``nlpo3`` — NLPO3 engine support
-  - ``spacy_thai`` — spaCy Thai tokenizer integration
-  - ``esupar`` — ESuPAR support
   - ``transformers_ud`` — transformers_ud engine support
-  - ``dependency_parsing`` — dependency parsing engines
-  - ``coreference_resolution`` — coreference resolution engines
+  - ``translate`` — machine translation support
+  - ``wangchanberta`` — WangchanBERTa models
   - ``wangchanglm`` — WangchangLM model support
+  - ``word_approximation`` — word approximation support
+  - ``wordnet`` — WordNet support
   - ``wsd`` — word-sense disambiguation support (pythainlp.wsd)
-  - ``el`` — EL support (pythainlp.el)
-  - ``abbreviation`` — abbreviation expansion utilities
-  - ``full`` — install all optional dependencies
+  - ``wtp`` — Where's the Point text segmentation support
+  - ``wunsen`` — Wunsen spell checker support
 
 For dependency details, see the `project.optional-dependencies` section in `pyproject.toml <https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml>`_.
 

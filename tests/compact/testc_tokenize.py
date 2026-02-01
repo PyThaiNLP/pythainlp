@@ -25,7 +25,7 @@ from ..core.test_tokenize import (
 )
 
 
-class SentTokenizeCRFCutTestCase(unittest.TestCase):
+class SentTokenizeCRFCutTestCaseC(unittest.TestCase):
     def test_sent_tokenize(self):
         # Use default engine (crfcut)
         self.assertEqual(sent_tokenize(None), [])
@@ -61,7 +61,7 @@ class SentTokenizeCRFCutTestCase(unittest.TestCase):
         )
 
 
-class SubwordTokenizeHanSoloTestCase(unittest.TestCase):
+class SubwordTokenizeHanSoloTestCaseC(unittest.TestCase):
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None, engine="han_solo"), [])
         self.assertEqual(
@@ -77,7 +77,7 @@ class SubwordTokenizeHanSoloTestCase(unittest.TestCase):
         )
 
 
-class WordTokenizeICUTestCase(unittest.TestCase):
+class WordTokenizeICUTestCaseC(unittest.TestCase):
     def test_icu(self):
         self.assertEqual(pyicu.segment(None), [])
         self.assertEqual(pyicu.segment(""), [])
@@ -90,7 +90,7 @@ class WordTokenizeICUTestCase(unittest.TestCase):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="icu"))
 
 
-class WordTokenizeNlpO3TestCase(unittest.TestCase):
+class WordTokenizeNlpO3TestCaseC(unittest.TestCase):
     def test_word_tokenize_nlpo3(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="nlpo3"))
         self.assertEqual(word_tokenize("การ์", engine="nlpo3"), ["การ์"])

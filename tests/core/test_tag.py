@@ -6,6 +6,7 @@ import unittest
 from os import path
 
 from pythainlp.tag import (
+    NER,
     PerceptronTagger,
     perceptron,
     pos_tag,
@@ -87,6 +88,12 @@ class TagTestCase(unittest.TestCase):
                 [("แมว", "NCMN"), ("วิ่ง", "VACT")],
             ],
         )
+
+    def test_NER_error_handling(self):
+        # Test error handling for invalid engine/corpus combination
+        with self.assertRaises(ValueError):
+            NER(engine="thainer", corpus="cat")
+
 
 
 class PerceptronTaggerTestCase(unittest.TestCase):

@@ -181,12 +181,10 @@ extra = [
     "bpemb>=0.3.2",
     "budoux>=0.7.0",
     "gensim>=4.0.0",
-    "huggingface-hub>=1.0",
     "nltk>=3.3",
     "pandas>=0.24",
     "ssg>=0.0.8",
     "symspellpy>=6.7.6",
-    "wtpsplit==1.3.0",
 ]
 
 # Full dependencies - pinned where available

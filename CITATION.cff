@@ -23,6 +23,7 @@ authors:
 abstract: PyThaiNLP is a Thai natural language processing library for Python. It provides standard linguistic analysis for the Thai language, including tokenization and part-of-speech tagging. Additionally, it offers standard Thai locale utility functions, such as Thai Buddhist Era date formatting and the conversion of numbers into Thai text.
 repository-code: "https://github.com/PyThaiNLP/pythainlp"
 type: software
+doi: 10.5281/zenodo.3519354
 version: 5.2.0
 license-url: "https://spdx.org/licenses/Apache-2.0"
 keywords:

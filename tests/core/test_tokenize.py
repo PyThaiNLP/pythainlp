@@ -584,8 +584,7 @@ class TokenizeTestCase(unittest.TestCase):
         )
 
     def test_tcc(self):
-        self.assertEqual(tcc.segment(None), [])
-        self.assertEqual(tcc.segment(""), [])
+        assert_segment_handles_none_and_empty(self, tcc.segment)
         self.assertEqual(
             tcc.segment("ประเทศไทย"), ["ป", "ระ", "เท", "ศ", "ไท", "ย"]
         )
@@ -644,8 +643,7 @@ class TokenizeTestCase(unittest.TestCase):
         self.assertEqual(tcc.tcc_pos(""), set())
 
     def test_tcc_p(self):
-        self.assertEqual(tcc_p.segment(None), [])
-        self.assertEqual(tcc_p.segment(""), [])
+        assert_segment_handles_none_and_empty(self, tcc_p.segment)
         self.assertEqual(
             tcc_p.segment("ประเทศไทย"), ["ป", "ระ", "เท", "ศ", "ไท", "ย"]
         )

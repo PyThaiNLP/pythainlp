@@ -79,27 +79,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      # Prevent running tests on push if there is an open PR for the branch.
-      # This is to avoid duplicate runs on both push and PR events.
-      - name: Detect open PR for branch
-        id: check-pr
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const ref = context.ref;
-            const branch = ref.startsWith('refs/heads/') ? ref.replace('refs/heads/','') : ref;
-            const pulls = await github.rest.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              head: `${context.repo.owner}:${branch}`,
-              state: 'open',
-            });
-            if (pulls.data && pulls.data.length > 0) {
-              core.info(`Open PR exists for branch ${branch}, skipping push-run.`);
-              return 'skip';
-            }
-            return 'continue';
-
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v6
         with:
@@ -107,7 +86,6 @@ jobs:
           cache: "pip"
 
       - name: Install build tools
-        if: ${{ steps.check-pr.outputs.result == 'continue' }}
         run: |
           pip install --upgrade "pip<24.1" "setuptools>=69.0.0,<=73.0.1"
           pip install coverage coveralls
@@ -116,7 +94,7 @@ jobs:
         # setuptools<=73.0.1 because https://github.com/pypa/setuptools/issues/4620
 
       - name: Install ICU (macOS)
-        if: ${{ steps.check-pr.outputs.result == 'continue' && startsWith(matrix.os, 'macos-') }}
+        if: startsWith(matrix.os, 'macos-')
         run: |
           brew install icu4c
           PKG_CONFIG_PATH=$(brew --prefix)/opt/icu4c/lib/pkgconfig
@@ -126,7 +104,7 @@ jobs:
           echo "ICU_VER=${ICU_VER}" >> "${GITHUB_ENV}"
 
       - name: Install PyICU (Windows)
-        if: ${{ steps.check-pr.outputs.result == 'continue' && startsWith(matrix.os, 'windows-') && (matrix.python-version == env.PYTHON_VERSION_LATEST_2 || matrix.python-version == env.PYTHON_VERSION_EARLIEST) }}
+        if: startsWith(matrix.os, 'windows-') && (matrix.python-version == env.PYTHON_VERSION_LATEST_2 || matrix.python-version == env.PYTHON_VERSION_EARLIEST)
         shell: powershell
         # Get the wheel URL from https://github.com/cgohlke/pyicu-build/releases
         run: |
@@ -136,13 +114,13 @@ jobs:
           pip install "$WHEEL_URL"
 
       - name: Install PyThaiNLP + full testing dependencies
-        if: ${{ steps.check-pr.outputs.result == 'continue' && env.INSTALL_FULL_DEPS == 'true' }}
+        if: env.INSTALL_FULL_DEPS == 'true'
         env:
           SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL: True
         run: pip install ".[full]"
 
       - name: Test (core)
-        if: ${{ steps.check-pr.outputs.result == 'continue' && ((matrix.os == 'ubuntu-latest' && matrix.python-version != env.PYTHON_VERSION_LATEST_2 && matrix.python-version != env.PYTHON_VERSION_EARLIEST) || (matrix.os != 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST)) }}
+        if: ${{ (matrix.os == 'ubuntu-latest' && matrix.python-version != env.PYTHON_VERSION_LATEST_2 && matrix.python-version != env.PYTHON_VERSION_EARLIEST) || (matrix.os != 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST) }}
         env:
           PYTHONIOENCODING: utf-8
         run: |
@@ -154,7 +132,7 @@ jobs:
         # See also tests/README.md
 
       - name: Test (compact + core)
-        if: ${{ steps.check-pr.outputs.result == 'continue' && ((matrix.python-version == env.PYTHON_VERSION_LATEST_2) || (matrix.python-version == env.PYTHON_VERSION_EARLIEST)) && !(matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2) }}
+        if: ${{ ((matrix.python-version == env.PYTHON_VERSION_LATEST_2) || (matrix.python-version == env.PYTHON_VERSION_EARLIEST)) && !(matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2) }}
         env:
           PYTHONIOENCODING: utf-8
         run: |
@@ -162,7 +140,7 @@ jobs:
           python -m unittest tests.core tests.compact
 
       - name: Test (extra + compact + core)
-        if: ${{ steps.check-pr.outputs.result == 'continue' && matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2 }}
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2
         env:
           PYTHONIOENCODING: utf-8
         run: |
@@ -171,7 +149,7 @@ jobs:
 
       # Only submit a report from the "extra" run, to get maximum coverage
       - name: Coverage report
-        if: ${{ steps.check-pr.outputs.result == 'continue' && matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2 }}
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2
         env:
           COVERALLS_SERVICE_NAME: github
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

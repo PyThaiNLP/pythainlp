@@ -50,6 +50,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Intended Audience :: Developers",
     "Natural Language :: Thai",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
@@ -186,6 +187,7 @@ extra = [
     "pandas>=0.24",
     "ssg>=0.0.8",
     "symspellpy>=6.7.6",
+    "tltk>=1.10",
 ]
 
 # Full dependencies - pinned where available

@@ -35,9 +35,9 @@ jobs:
   check_build_trigger:
     name: Check build trigger
     runs-on: ubuntu-latest
-    # Not for forks
-    # Skip if this is a push event triggered by a pull request
-    # (to avoid running the workflow twice for PR commits)
+    # Only run if:
+    # 1. Not a fork (repository must be 'pythainlp/pythainlp')
+    # 2. AND not a duplicate (skip push events triggered by pull requests)
     if: github.repository == 'pythainlp/pythainlp' && (github.event_name == 'pull_request' || github.event.pull_request == null)
     outputs:
       build: ${{ steps.check_build_trigger.outputs.build }}

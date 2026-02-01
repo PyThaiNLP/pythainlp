@@ -93,12 +93,12 @@ class TagTransformersTestCaseN(unittest.TestCase):
         nner = NNER()
         # Test basic tagging
         self.assertIsNotNone(nner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
-        
+
         # Test with top_level_only parameter
         tokens, entities = nner.tag("แมวทำอะไรตอนห้าโมงเช้า")
         self.assertIsInstance(tokens, list)
         self.assertIsInstance(entities, list)
-        
+
         tokens_top, entities_top = nner.tag("แมวทำอะไรตอนห้าโมงเช้า", top_level_only=True)
         self.assertIsInstance(tokens_top, list)
         self.assertIsInstance(entities_top, list)

@@ -1,5 +1,12 @@
 # Instructions
 
+## PyThaiNLP specific
+
+- [ ] Follow test suite categorization and test matrix in
+      <https://github.com/PyThaiNLP/pythainlp/blob/dev/tests/README.md>.
+      The document list test categories, their dependency sets,
+      and test naming conventions.
+
 ## Project contribution guidelines
 
 - [ ] Follow the project's established coding style and conventions.

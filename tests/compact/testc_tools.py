@@ -20,7 +20,7 @@ def _count_difference(st1: str, st2: str) -> int:
     return count
 
 
-class MisspellTestCase(unittest.TestCase):
+class MisspellTestCaseC(unittest.TestCase):
     def setUp(self):
         self.texts = ["เรารักคุณมากที่สุดในโลก", "เราอยู่ที่มหาวิทยาลัยขอนแก่น"]
 

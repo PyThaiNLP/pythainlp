@@ -11,7 +11,7 @@ from pythainlp.util import rhyme, thai_word_tone_detector
 from pythainlp.util.spell_words import spell_word
 
 
-class SpellWordTestCase(unittest.TestCase):
+class SpellWordTestCaseC(unittest.TestCase):
     def test_spell_word(self):
         self.assertEqual(spell_word("เสือ"), ["สอ", "เอือ", "เสือ"])
         self.assertEqual(spell_word("เสื้อ"), ["สอ", "เอือ", "ไม้โท", "เสื้อ"])
@@ -24,7 +24,7 @@ class SpellWordTestCase(unittest.TestCase):
         self.assertEqual(spell_word(""), [])
 
 
-class UtilTestCase(unittest.TestCase):
+class UtilTestCaseC(unittest.TestCase):
     def test_rhyme(self):
         self.assertIsInstance(rhyme("แมว"), list)
         self.assertGreater(len(rhyme("แมว")), 2)

@@ -17,6 +17,7 @@ __all__ = [
     "THWIKI_LSTM",
     "ThaiTokenizer",
     "document_vector",
+    "get_thwiki_lstm",
     "merge_wgts",
     "post_rules_th",
     "post_rules_th_sparse",
@@ -41,6 +42,7 @@ __all__ = [
 from pythainlp.ulmfit.core import (
     THWIKI_LSTM,
     document_vector,
+    get_thwiki_lstm,
     merge_wgts,
     post_rules_th,
     post_rules_th_sparse,

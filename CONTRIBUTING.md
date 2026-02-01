@@ -6,9 +6,11 @@ SPDX-License-Identifier: CC0-1.0
 
 # Contributing to PyThaiNLP
 
-Hi! Thanks for your interest in contributing to [PyThaiNLP](https://github.com/PyThaiNLP/pythainlp).
+Hi! Thanks for your interest in contributing to
+[PyThaiNLP](https://github.com/PyThaiNLP/pythainlp).
 
-Please refer to our [Contributor Covenant Code of Conduct](https://github.com/PyThaiNLP/pythainlp/blob/dev/CODE_OF_CONDUCT.md).
+Please refer to our
+[Contributor Covenant Code of Conduct](https://github.com/PyThaiNLP/pythainlp/blob/dev/CODE_OF_CONDUCT.md).
 
 ## Issue Report and Discussion
 
@@ -32,7 +34,7 @@ Please refer to our [Contributor Covenant Code of Conduct](https://github.com/Py
   (see "Testing" section below);
 - Run all tests before pushing (just execute `tox`) so you will know if your
   changes broke something;
-- Commented out codes are [dead codes][dead-codes];
+- Commented-out code is [dead code][dead-codes];
 - All `#TODO` comments should be turned into [issues][issues] in GitHub;
 - When appropriate, use [f-string][pep0498]
   (use `f"{a} = {b}"`,
@@ -52,8 +54,9 @@ Please refer to our [Contributor Covenant Code of Conduct](https://github.com/Py
 
 ### Version Control System
 
-- We use [Git](http://git-scm.com/) as our [version control system](http://en.wikipedia.org/wiki/Revision_control),
-so it may be a good idea to familiarize yourself with it.
+- We use [Git](http://git-scm.com/) as our
+  [version control system](http://en.wikipedia.org/wiki/Revision_control),
+  so it may be a good idea to familiarize yourself with it.
 - You can start with the [Pro Git book](http://git-scm.com/book/) (free!).
 
 ### Commit Message
@@ -65,19 +68,24 @@ so it may be a good idea to familiarize yourself with it.
 
 - We use the famous [gitflow][] to manage our branches.
 - When you create pull requests on GitHub, GitHub Actions will run tests
-and several checks automatically. Click the "Details" link at the end of
-each check to see what needs to be fixed.
+  and several checks automatically. Click the "Details" link
+  at the end of each check to see what needs to be fixed.
 
 [gitflow]: http://nvie.com/posts/a-successful-git-branching-model/
 
 ## Documentation
 
-- We use [Sphinx](https://www.sphinx-doc.org/en/master/) to generate API document
-automatically from "docstring" comments in source codes. This means the comment
-section in the source codes is important for the quality of documentation.
-- A docstring should start with one summary line, end with one line with a full stop (period),
-then be followed by a blank line before starting a new paragraph.
-- A commit to release branches (e.g. `2.2`, `2.1`) with a title **"(build and deploy docs)"** (without quotes) will trigger the system to rebuild the documentation files and upload them to the website <https://pythainlp.org/docs>.
+- We use [Sphinx](https://www.sphinx-doc.org/en/master/) to generate
+  API document automatically from "docstring" comments in source codes.
+  This means the comment section in the source codes is important for the
+  quality of documentation.
+- A docstring should start with one summary line, end with one line with
+  a full stop (period), then be followed by a blank line before starting
+  a new paragraph.
+- A commit to release branches (e.g. `2.2`, `2.1`) with a title
+  **"(build and deploy docs)"** (without quotes) will trigger the system
+  to rebuild the documentation files and upload them to the website
+  <https://pythainlp.org/docs>.
 
 ## Testing
 
@@ -124,14 +132,12 @@ Install with optional dependency groups:
 # Install with compact set of dependencies (recommended for development)
 pip install -e ".[compact]"
 
-# Install with full dependencies
-pip install -e ".[full]"
-
-# Install with testing dependencies (pinned versions for reproducibility)
-pip install -e ".[testing]"
+# Install with extra set of dependencies (can be huge)
+pip install -e ".[compact,extra]"
 ```
 
-See all available optional dependency groups in `pyproject.toml` under `[project.optional-dependencies]`.
+See all available optional dependency groups in `pyproject.toml`
+under `[project.optional-dependencies]`.
 
 ### Building Distribution Packages
 
@@ -145,8 +151,11 @@ This will create distribution packages in the `dist/` directory.
 
 ## Releasing
 
-- We use [semantic versioning](https://semver.org/): MAJOR.MINOR.PATCH, with development build suffix: MAJOR.MINOR.PATCH-devBUILD
-- We use [`bump-my-version`](https://github.com/callowayproject/bump-my-version) to manage versioning. The configuration is in `pyproject.toml` under `[tool.bumpversion]`.
+- We use [semantic versioning](https://semver.org/): MAJOR.MINOR.PATCH,
+  with development build suffix: MAJOR.MINOR.PATCH-devBUILD
+- We use [`bump-my-version`](https://github.com/callowayproject/bump-my-version)
+  to manage versioning. The configuration is in `pyproject.toml`
+  under `[tool.bumpversion]`.
   - `bump-my-version bump [major|minor|patch|release|build]`
   - Example:
 
@@ -190,7 +199,8 @@ This will create distribution packages in the `dist/` directory.
 
 [![Contributors](https://contributors-img.firebaseapp.com/image?repo=PyThaiNLP/pythainlp)](https://github.com/PyThaiNLP/pythainlp/graphs/contributors)
 
-Thanks to all [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contributors). (Image made with [contributors-img](https://contributors-img.firebaseapp.com))
+Thanks to all [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contributors).
+(Image made with [contributors-img](https://contributors-img.firebaseapp.com))
 
 ### Development Leads
 
@@ -215,9 +225,9 @@ Thanks to all [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contr
 
 ## References
 
-- **[Maximum Matching]** -- Manabu Sassano. Deterministic Word Segmentation Using Maximum Matching with Fully Lexicalized Rules. Retrieved from <http://www.aclweb.org/anthology/E14-4016>
+- **[Maximum Matching]** -- Manabu Sassano. Deterministic Word Segmentation Using Maximum Matching with Fully Lexicalized Rules. Retrieved from <https://doi.org/10.3115/v1/E14-4016>
 - **[MetaSound]** -- Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statistical Ontology for Analysing Names Given in Accordance with Thai Astrology. Retrieved from <https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf>
 - **[Thai Character Cluster]** -- T. Teeramunkong, V. Sornlertlamvanich, T. Tanhermhong and W. Chinnan, “Character cluster based Thai information retrieval,” in IRAL '00 Proceedings of the fifth international workshop on on Information retrieval with Asian languages, 2000.
 - **[Enhanced Thai Character Cluster]** -- Jeeragone Inrut, Patiroop Yuanghirun, Sarayut Paludkong, Supot Nitsuwat, and Para Limmaneepraserth. “Thai word segmentation using combination of forward and backward longest matching techniques.” In International Symposium on Communications and Information Technology (ISCIT), pp. 37-40. 2001.
-- เพ็ญศิริ ลี้ตระกูล. การเลือกประโยคสำคัญในการสรุปความภาษาไทย โดยใช้แบบจำลองแบบลำดับชั้น (Selection of Important Sentences in Thai Text Summarization Using a Hierarchical Model). Retrieved from [http://digi.library.tu.ac.th/thesis/st/0192/](https://digital.library.tu.ac.th/tu_dc/frontend/Info/item/dc:124897)
+- **[Thai Stopword List]** -- เพ็ญศิริ ลี้ตระกูล. การเลือกประโยคสำคัญในการสรุปความภาษาไทย โดยใช้แบบจำลองแบบลำดับชั้น (Selection of Important Sentences in Thai Text Summarization Using a Hierarchical Model). Retrieved from [http://digi.library.tu.ac.th/thesis/st/0192/](https://digital.library.tu.ac.th/tu_dc/frontend/Info/item/dc:124897)
 - **[Thai Discourse Treebank]** -- Ponrawee Prasertsom, Apiwat Jaroonpol, Attapol T. Rutherford; The Thai Discourse Treebank: Annotating and Classifying Thai Discourse Connectives. Transactions of the Association for Computational Linguistics 2024; 12 613–629. doi: <https://doi.org/10.1162/tacl_a_00650>

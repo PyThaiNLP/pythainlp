@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import collections
 from collections.abc import Callable, Collection
+from typing import Optional
 
 import numpy as np
 import torch
@@ -38,10 +39,37 @@ _ITOS_NAME_LSTM = "wiki_itos_lstm"
 
 
 # Pretrained model paths
+# Note: These may be None if corpus is not downloaded.
+# Access via get_thwiki_lstm() for proper validation or use directly
+# if you've already verified the corpus is downloaded.
 THWIKI_LSTM = {
     "wgts_fname": get_corpus_path(_MODEL_NAME_LSTM),
     "itos_fname": get_corpus_path(_ITOS_NAME_LSTM),
 }
+
+
+def get_thwiki_lstm() -> dict[str, str]:
+    """
+    Get THWIKI LSTM model paths with validation.
+
+    Returns dictionary with 'wgts_fname' and 'itos_fname' keys containing
+    validated file paths as strings.
+
+    :return: Dictionary with model file paths
+    :raises RuntimeError: If corpus files are not found
+    """
+    wgts_fname = THWIKI_LSTM["wgts_fname"]
+    itos_fname = THWIKI_LSTM["itos_fname"]
+
+    if wgts_fname is None or itos_fname is None:
+        raise RuntimeError(
+            "ULMFiT model files not found. "
+            "Please download the corpus first:\n"
+            "  pythainlp.corpus.download('wiki_lm_lstm')\n"
+            "  pythainlp.corpus.download('wiki_itos_lstm')"
+        )
+
+    return {"wgts_fname": wgts_fname, "itos_fname": itos_fname}
 
 # Preprocessing rules for Thai text
 # dense features
@@ -68,7 +96,7 @@ post_rules_th_sparse = post_rules_th[1:] + [
 def process_thai(
     text: str,
     pre_rules: Collection = pre_rules_th_sparse,
-    tok_func: Callable | None = None,
+    tok_func: Optional[Callable] = None,
     post_rules: Collection = post_rules_th_sparse,
 ) -> Collection[str]:
     """Process Thai texts for models (with sparse features as default)
@@ -94,7 +122,7 @@ def process_thai(
         and :func:`replace_rep_nonum`.
 
       - The default **post-rules** consists of :func:`ungroup_emoji`,
-        :func:`lowercase_all`,  :func:`replace_wrep_post_nonum`,
+        :func:`lowercase_all`, :func:`replace_wrep_post_nonum`,
         and :func:`remove_space`.
 
     :Example:
@@ -104,7 +132,7 @@ def process_thai(
         >>> from pythainlp.ulmfit import process_thai
         >>> text = "บ้านนนนน () อยู่นานนานนาน 😂🤣😃😄😅 PyThaiNLP amp;     "
         >>> process_thai(text)
-        [บ้าน', 'xxrep', '   ', 'อยู่', 'xxwrep', 'นาน', '😂', '🤣',
+        ['บ้าน', 'xxrep', '   ', 'อยู่', 'xxwrep', 'นาน', '😂', '🤣',
         '😃', '😄', '😅', 'pythainlp', '&']
 
         2. Modify pre_rules and post_rules arguments with

@@ -15,7 +15,7 @@ Notable changes between versions.
 
 ## Version 5.2.0 -> dev
 
-Some features and fixes in this version are AI assisted.
+Some features and fixes in this version are AI-assisted.
 See PR for prompt and details.
 
 - Lazy load dictionaries to reduce memory usage #1186

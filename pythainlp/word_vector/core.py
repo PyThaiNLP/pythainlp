@@ -43,7 +43,7 @@ class WordVector:
         """
         self.load_wordvector(model_name)
 
-    def load_wordvector(self, model_name: str):
+    def load_wordvector(self, model_name: str) -> None:
         """Load word vector model.
 
         :param str model_name: model name
@@ -77,7 +77,7 @@ class WordVector:
         :param list words: a list of words
         :raises KeyError: if there is any word in `positive` or `negative` that is
                           not in the vocabulary of the model.
-        :return: the word is that mostly unrelated
+        :return: the word that is mostly unrelated
         :rtype: str
 
         :Note:
@@ -92,7 +92,7 @@ class WordVector:
         >>> wv = WordVector()
         >>> words = ["อาหารเช้า", "อาหารเที่ยง", "อาหารเย็น", "พริกไทย"]
         >>> wv.doesnt_match(words)
-        พริกไทย
+        'พริกไทย'
 
         Pick the word "เรือ" (name of vehicle) out of the list of words
         related to occupation ("ดีไซน์เนอร์", "พนักงานเงินเดือน", "หมอ").
@@ -102,7 +102,7 @@ class WordVector:
         >>> wv = WordVector()
         >>> words = ["ดีไซน์เนอร์", "พนักงานเงินเดือน", "หมอ", "เรือ"]
         >>> wv.doesnt_match(words)
-        เรือ
+        'เรือ'
         """
         return self.model.doesnt_match(words)
 
@@ -248,11 +248,11 @@ class WordVector:
         return self.model.similarity(word1, word2)
 
     def sentence_vectorizer(self, text: str, use_mean: bool = True) -> ndarray:
-        """This function converts a Thai sentence into vector.
-        Specifically, it first tokenizes that text and map each tokenized word
+        """Converts a Thai sentence into a vector.
+        Specifically, it first tokenizes that text and maps each tokenized word
         with the word vectors from the model.
-        Then, word vectors are aggregated into one vector of 300 dimension
-        by calculating either mean or summation of all word vectors.
+        Then, word vectors are aggregated into one vector of 300 dimensions
+        by calculating either the mean or summation of all word vectors.
 
         :param str text: text input
         :param bool use_mean: if `True` aggregate word vectors with mean of all

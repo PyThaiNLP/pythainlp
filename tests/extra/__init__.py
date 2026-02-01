@@ -3,13 +3,21 @@
 # SPDX-License-Identifier: Apache-2.0
 """Unit test. Extra version.
 
-Test functions that require dependencies beyond "compact" (see setup.py).
+Test functions that require dependencies beyond "compact" (see pyproject.toml).
 """
 
 from unittest import TestLoader, TestSuite
 
 # Names of module to be tested
-test_packages: list[str] = []
+test_packages: list[str] = [
+    "tests.extra.testx_augment",
+    "tests.extra.testx_benchmarks",
+    "tests.extra.testx_cli",
+    "tests.extra.testx_spell",
+    "tests.extra.testx_tag",
+    "tests.extra.testx_tokenize",
+    "tests.extra.testx_word_vector",
+]
 
 
 def load_tests(

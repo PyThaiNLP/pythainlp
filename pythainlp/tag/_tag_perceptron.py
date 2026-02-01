@@ -22,6 +22,7 @@ from __future__ import annotations
 import json
 from collections import defaultdict
 from collections.abc import Iterable
+from typing import Optional, Union
 
 
 class AveragedPerceptron:
@@ -34,23 +35,23 @@ class AveragedPerceptron:
     def __init__(self) -> None:
         # Each feature gets its own weight vector,
         # so weights is a dict-of-dicts
-        self.weights = {}
-        self.classes = set()
+        self.weights: dict[str, dict[str, float]] = {}
+        self.classes: set[str] = set()
         # The accumulated values, for the averaging. These will be keyed by
         # feature/class tuples
-        self._totals = defaultdict(int)
+        self._totals: dict[tuple[str, str], float] = defaultdict(float)
         # The last time the feature was changed, for the averaging. Also
         # keyed by feature/class tuples
         # (tstamps is short for timestamps)
-        self._tstamps = defaultdict(int)
+        self._tstamps: dict[tuple[str, str], int] = defaultdict(int)
         # Number of instances seen
         self.i = 0
 
-    def predict(self, features: dict):
+    def predict(self, features: dict[str, float]) -> str:
         """Dot-product the features and current weights and return the best
         label.
         """
-        scores = defaultdict(float)
+        scores: dict[str, float] = defaultdict(float)
         for feat, value in features.items():
             if feat not in self.weights or value == 0:
                 continue
@@ -60,10 +61,10 @@ class AveragedPerceptron:
         # Do a secondary alphabetic sort, for stability
         return max(self.classes, key=lambda label: (scores[label], label))
 
-    def update(self, truth, guess, features: dict) -> None:
+    def update(self, truth: str, guess: str, features: dict[str, float]) -> None:
         """Update the feature weights."""
 
-        def upd_feat(c, f, w, v):
+        def upd_feat(c: str, f: str, w: float, v: float) -> None:
             param = (f, c)
             self._totals[param] += (self.i - self._tstamps[param]) * w
             self._tstamps[param] = self.i
@@ -107,7 +108,7 @@ class PerceptronTagger:
             [("นก", "N"), ("บิน", "V")],
         ]
     >>> tagger.train(data)
-    >>> tagger.tag(["นก", "เดิน])
+    >>> tagger.tag(["นก", "เดิน"])
     [('นก', 'N'), ('เดิน', 'V')]
 
     """
@@ -120,8 +121,8 @@ class PerceptronTagger:
         """:param str path: model path
         """
         self.model = AveragedPerceptron()
-        self.tagdict = {}
-        self.classes = set()
+        self.tagdict: dict[str, str] = {}
+        self.classes: set[str] = set()
         if path != "":
             self.AP_MODEL_LOC = path
             self.load(self.AP_MODEL_LOC)
@@ -145,7 +146,7 @@ class PerceptronTagger:
     def train(
         self,
         sentences: Iterable[Iterable[tuple[str, str]]],
-        save_loc: str | None = None,
+        save_loc: Optional[str] = None,
         nr_iter: int = 5,
     ) -> None:
         """Train a model from sentences, and save it at ``save_loc``.
@@ -163,7 +164,8 @@ class PerceptronTagger:
         for _ in range(nr_iter):
             c = 0
             n = 0
-            for sentence in sentences:
+            sentences_list = list(sentences)
+            for sentence in sentences_list:
                 words, tags = zip(*sentence)
 
                 prev, prev2 = self.START
@@ -182,12 +184,12 @@ class PerceptronTagger:
                     prev = guess
                     c += guess == tags[i]
                     n += 1
-            random.shuffle(sentences)
+            random.shuffle(sentences_list)
         self.model.average_weights()
 
         # save the model
         if save_loc is not None:
-            data = {}
+            data: dict[str, Union[dict, list]] = {}
             data["weights"] = self.model.weights
             data["tagdict"] = self.tagdict
             data["classes"] = list(self.classes)
@@ -201,9 +203,9 @@ class PerceptronTagger:
         try:
             with open(loc, encoding="utf-8-sig") as f:
                 w_td_c = json.load(f)
-        except OSError:
+        except OSError as ex:
             msg = "Missing trontagger.json file."
-            raise OSError(msg)
+            raise OSError(msg) from ex
         self.model.weights = w_td_c["weights"]
         self.tagdict = w_td_c["tagdict"]
         self.classes = w_td_c["classes"]
@@ -229,17 +231,17 @@ class PerceptronTagger:
 
     def _get_features(
         self, i: int, word: str, context: list[str], prev: str, prev2: str
-    ) -> dict:
+    ) -> dict[str, float]:
         """Map tokens into a feature representation, implemented as a
         {hashable: float} dict. If the features change, a new model must be
         trained.
         """
 
-        def add(name: str, *args):
+        def add(name: str, *args: str) -> None:
             features[" ".join((name,) + tuple(args))] += 1
 
         i += len(self.START)
-        features = defaultdict(int)
+        features: dict[str, float] = defaultdict(int)
         # It's useful to have a constant feature,
         # which acts sort of like a prior
         add("bias")
@@ -262,7 +264,7 @@ class PerceptronTagger:
         self, sentences: Iterable[Iterable[tuple[str, str]]]
     ) -> None:
         """Make a tag dictionary for single-tag words."""
-        counts = defaultdict(lambda: defaultdict(int))
+        counts: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
         for sentence in sentences:
             for word, tag in sentence:
                 counts[word][tag] += 1

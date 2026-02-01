@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Optional
+
 from word2word import Word2word
 
 support_list = set(
@@ -71,7 +73,7 @@ support_list = set(
 )
 
 
-def translate(word: str, src: str, target: str) -> list[str] | None:
+def translate(word: str, src: str, target: str) -> Optional[list[str]]:
     """Word translate
 
     :param str word: text

@@ -26,7 +26,7 @@ _C8 = "ว"  # W -> 8
 
 
 def metasound(text: str, length: int = 4) -> str:
-    """This function converts Thai text into phonetic code with the
+    """Converts Thai text into phonetic code with the
     matching technique called **MetaSound**
     [#metasound]_ (combination between Soundex and Metaphone algorithms).
     MetaSound algorithm was developed specifically for the Thai language.

@@ -1,4 +1,4 @@
-### What does this changes
+### What do these changes do
 
 <!--- Brief summary of the changes -->
 

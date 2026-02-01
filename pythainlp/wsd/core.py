@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Optional
+
 from pythainlp.corpus import thai_wsd_dict
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util.trie import Trie
@@ -50,11 +52,11 @@ def get_sense(
     sentence: str,
     word: str,
     device: str = "cpu",
-    custom_dict: dict | None = None,
+    custom_dict: Optional[dict] = None,
     custom_tokenizer: Tokenizer = _word_cut,
 ) -> list[tuple[str, float]]:
     """Get word sense from the sentence.
-    This function will get definition and distance from context in sentence.
+    Gets definition and distance from context in sentence.
 
     :param str sentence: Thai sentence
     :param str word: Thai word

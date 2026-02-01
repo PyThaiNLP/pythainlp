@@ -34,7 +34,7 @@ def warn_deprecation(
     warnings.warn(message, DeprecationWarning, stacklevel=2)
 
 
-def safe_print(text: str):
+def safe_print(text: str) -> None:
     """Print text to console, handling UnicodeEncodeError.
 
     :param text: Text to print.

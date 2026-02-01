@@ -236,7 +236,7 @@ Modules
 .. autofunction:: to_idna
     :noindex:
 
-    The `to_idna` function is a text conversion tool for translating Thai text into its  International Domain Name (IDN) for Thai domain name.
+    The `to_idna` function is a text conversion tool for translating Thai text into its International Domain Name (IDN) for Thai domain name.
 
 .. autofunction:: thai_word_tone_detector
     :noindex:

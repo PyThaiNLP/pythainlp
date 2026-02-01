@@ -58,7 +58,10 @@ jobs:
         if [ "${{ job.status }}" = "cancelled" ]; then
           echo "Job was cancelled due to concurrency - treating as success"
           exit 0
-        elif [ "${{ job.status }}" = "failure" ]; then
+        elif [ "${{ job.status }}" = "success" ]; then
+          echo "Job succeeded"
+          exit 0
+        else
           echo "Job failed"
           exit 1
         fi

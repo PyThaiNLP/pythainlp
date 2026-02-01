@@ -16,14 +16,11 @@ from pythainlp.tokenize import (
     paragraph_tokenize,
     sefr_cut,
     sent_tokenize,
-    subword_tokenize,
     word_dict_trie,
     word_tokenize,
 )
 
 from ..core.test_tokenize import (
-    SENT_1,
-    SENT_2,
     SENT_3,
     TEXT_1,
 )

@@ -24,12 +24,10 @@ on:
       - '**.yml'
       - 'docs/**'
 
-# Avoid duplicate runs for pull_request events.
-# For pull requests to dev, the workflow runs on both push and pull_request events,
-# but we only want it to run once. The concurrency group is the same for both,
-# so the push event will be cancelled when the pull_request event starts.
+# Avoid duplicate runs for the same workflow and Git ref.
+# With cancel-in-progress: true, a new run for the same ref cancels any in-progress run.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

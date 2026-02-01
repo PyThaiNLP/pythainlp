@@ -15,25 +15,15 @@ Notable changes between versions.
 
 ## Version 5.2.0 -> dev
 
-Minimum required version is now 3.9.
-Support for Python 3.7 and 3.8 has been removed.
-Added official support and CI testing for Python 3.14.
-
 Some features and fixes in this version are AI-assisted.
 See PR for prompt and details.
 
-- Fix `royin` romanization #1172
-- Fix final consonant classification in `check_marttra()` #1173
 - Lazy load dictionaries to reduce memory usage #1186
-- Fix Kho Khon alphabet issue in `tltk` transliteration #1187
-- Migrate configurations to pyproject.toml #1188 #1226 #1239
-- Update type hints; Use Python 3.9 features #1189 #1190 & etc.
-- Remove duplicated entries in volubilis dictionary #1200
-- Remove star imports #1207
-- Remove `requests` dependency #1211
-- Make package zip-safe #1212
-- Ensure thread-safety for tokenizers #1213
-- Improved documentation; code cleanup; more tests
+- Fix KeyError when transliterating text with Thai alphabet Kho Khon (U+0E05) #1187
+- Consolidate configuration into pyproject.toml #1188
+- Update type hints; Use Python 3.9 features #1189 #1190
+- Replace requests library with urllib.request from standard library to reduce
+  core dependencies #1211
 
 ## Version 5.1.2 -> 5.2.0
 

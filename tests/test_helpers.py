@@ -26,7 +26,9 @@ def assert_segment_handles_none_and_empty(test_case: unittest.TestCase, segment_
     test_case.assertEqual(segment_func(""), [])
 
 
-def assert_subword_tokenize_handles_none_and_empty(test_case: unittest.TestCase, engine: str):
+def assert_subword_tokenize_handles_none_and_empty(
+    test_case: unittest.TestCase, engine: str
+):
     """Test that subword_tokenize properly handles None and empty string inputs.
 
     :param unittest.TestCase test_case: The unittest.TestCase instance (typically 'self')

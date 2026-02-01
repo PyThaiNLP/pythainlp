@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Tests for tag functions that need extra dependencies
-# Note: Tests requiring transformers have been moved to tests.noauto
 
 import unittest
 
@@ -12,7 +11,6 @@ from pythainlp.tag.thainer import ThaiNameTagger
 
 
 class TagTestCaseX(unittest.TestCase):
-    # Tests for ThaiNameTagger (doesn't require transformers)
 
     def test_thai_name_tagger_1_5(self):
         ner = ThaiNameTagger(version="1.5")
@@ -153,4 +151,3 @@ class TagTLTKTestCaseX(unittest.TestCase):
                 tag=True,
             )
         )
-

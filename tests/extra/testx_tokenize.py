@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Tests for tokenize functions that need extra dependencies
-# Note: Tests requiring TensorFlow/Keras/torch/transformers have been moved to tests.noauto
 
 import unittest
 
@@ -145,5 +144,3 @@ class WordTokenizeTLTKTestCaseX(unittest.TestCase):
 
     def test_word_tokenize_tltk(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="tltk"))
-
-

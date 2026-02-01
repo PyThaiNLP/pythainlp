@@ -55,6 +55,7 @@ class SpellWanchanbertaTestCaseN(unittest.TestCase):
 
     def test_correct_sent_wanchanberta(self):
         from ..core.test_spell import SENT_TOKS
+
         self.assertIsNotNone(
             correct_sent(SENT_TOKS, engine="wanchanberta_thai_grammarly")
         )

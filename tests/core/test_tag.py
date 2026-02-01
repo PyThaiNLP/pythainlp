@@ -94,6 +94,7 @@ class TagTestCase(unittest.TestCase):
         with self.assertRaises(ValueError):
             NER(engine="thainer", corpus="cat")
 
+
 class PerceptronTaggerTestCase(unittest.TestCase):
     """Test pythainlp.tag.PerceptronTagger
 
@@ -201,6 +202,7 @@ class PerceptronTaggerTestCase(unittest.TestCase):
 
         with self.assertRaises(IOError):
             tagger.load("ptagger_notexistX4AcOcX.pkl")  # file does not exist
+
 
 class TagLocationsTestCase(unittest.TestCase):
     """Test pythainlp.tag.locations"""

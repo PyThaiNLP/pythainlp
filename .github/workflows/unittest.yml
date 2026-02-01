@@ -153,11 +153,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PYTHONIOENCODING: utf-8
         run: coveralls
-
-      # Ensure cancelled jobs don't show as failed (red X) in PR checks
-      # When job is cancelled by concurrency, this step ensures success status
-      - name: Ensure success on cancellation
-        if: always() && cancelled()
-        run: |
-          echo "Job was cancelled - marking as success to avoid misleading red X"
-          exit 0

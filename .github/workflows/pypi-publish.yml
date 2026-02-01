@@ -42,14 +42,6 @@ jobs:
         echo "github.ref_type       : ${{ github.ref_type }}"
         echo "github.event.ref      : ${{ github.event.ref }}"
 
-    # Ensure cancelled jobs don't show as failed (red X) in PR checks
-    # When job is cancelled by concurrency, this step ensures success status
-    - name: Ensure success on cancellation
-      if: always() && cancelled()
-      run: |
-        echo "Job was cancelled - marking as success to avoid misleading red X"
-        exit 0
-
   # Check whether to build the wheels and the source tarball
   check_build_trigger:
     name: Check build trigger
@@ -67,14 +59,6 @@ jobs:
       name: Check build trigger
       run: bash build_tools/github/check_build_trigger.sh
       # To trigger the build steps, add "[cd build]" to commit message
-
-    # Ensure cancelled jobs don't show as failed (red X) in PR checks
-    # When job is cancelled by concurrency, this step ensures success status
-    - name: Ensure success on cancellation
-      if: always() && cancelled()
-      run: |
-        echo "Job was cancelled - marking as success to avoid misleading red X"
-        exit 0
 
   build:
     name: Build and check distributions
@@ -109,14 +93,6 @@ jobs:
       with:
         path: dist
 
-    # Ensure cancelled jobs don't show as failed (red X) in PR checks
-    # When job is cancelled by concurrency, this step ensures success status
-    - name: Ensure success on cancellation
-      if: always() && cancelled()
-      run: |
-        echo "Job was cancelled - marking as success to avoid misleading red X"
-        exit 0
-
   publish_pypi:
     name: Publish to PyPI
     runs-on: ubuntu-latest
@@ -135,11 +111,3 @@ jobs:
         skip-existing: true
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
-
-    # Ensure cancelled jobs don't show as failed (red X) in PR checks
-    # When job is cancelled by concurrency, this step ensures success status
-    - name: Ensure success on cancellation
-      if: always() && cancelled()
-      run: |
-        echo "Job was cancelled - marking as success to avoid misleading red X"
-        exit 0

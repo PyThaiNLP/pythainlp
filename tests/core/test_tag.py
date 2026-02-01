@@ -95,7 +95,6 @@ class TagTestCase(unittest.TestCase):
             NER(engine="thainer", corpus="cat")
 
 
-
 class PerceptronTaggerTestCase(unittest.TestCase):
     """Test pythainlp.tag.PerceptronTagger
 

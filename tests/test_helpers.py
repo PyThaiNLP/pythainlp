@@ -67,7 +67,7 @@ def assert_subword_tokenize_basic(test_case: unittest.TestCase, engine: str):
 
     # Test with sample text
     test_case.assertIsInstance(
-        subword_tokenize("สวัสดิีดาวอังคาร", engine=engine), list
+        subword_tokenize("สวัสดีดาวอังคาร", engine=engine), list
     )
 
     # Should not produce standalone vowels

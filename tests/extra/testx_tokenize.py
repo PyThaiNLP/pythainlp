@@ -25,7 +25,7 @@ from ..core.test_tokenize import (
 from ..test_helpers import assert_segment_handles_none_and_empty
 
 
-class SentTokenizeThaiSumTestCase(unittest.TestCase):
+class SentTokenizeThaiSumTestCaseX(unittest.TestCase):
     def test_sent_tokenize_thaisum(self):
         self.assertIsNotNone(
             sent_tokenize(
@@ -51,7 +51,7 @@ class SentTokenizeThaiSumTestCase(unittest.TestCase):
         )
 
 
-class SubwordTokenizeSSGTestCase(unittest.TestCase):
+class SubwordTokenizeSSGTestCaseX(unittest.TestCase):
     def test_subword_tokenize_ssg(self):
         assert_segment_handles_none_and_empty(self, ssg.segment)
         self.assertEqual(subword_tokenize(None, engine="ssg"), [])
@@ -62,7 +62,7 @@ class SubwordTokenizeSSGTestCase(unittest.TestCase):
         self.assertNotIn("า", subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
 
 
-class WordTokenizeNERCutTestCase(unittest.TestCase):
+class WordTokenizeNERCutTestCaseX(unittest.TestCase):
     def test_word_tokenize_nercut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="nercut"))
 
@@ -76,7 +76,7 @@ class WordTokenizeNERCutTestCase(unittest.TestCase):
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="nercut"))
 
 
-class WordTokenizeBudouxTestCase(unittest.TestCase):
+class WordTokenizeBudouxTestCaseX(unittest.TestCase):
     def test_word_tokenize_budoux(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="budoux"))
 

@@ -27,33 +27,31 @@ on:
       - "MANIFEST.in"
       - "pyproject.toml"
 
+# Avoid duplicate runs for the same source branch and repository.
+# For pull_request events, uses the source repo name from
+# github.event.pull_request.head.repo.full_name; otherwise uses github.repository.
+# For push events, uses the branch name from github.ref_name.
+# For pull_request events, uses the source branch name from github.head_ref.
+# This ensures events for the same repo and branch share the same group,
+# and avoids cross-fork collisions when branch names are reused.
+concurrency:
+  group: >-
+    ${{ github.workflow }}-${{
+      github.event.pull_request.head.repo.full_name || github.repository
+    }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   unittest:
     strategy:
       fail-fast: false
       matrix:
-        # To save time and resources, and manage dependency compatibility,
-        # we divide test cases into 3 groups
-        # and run them in different configurations:
-        # - Core    (O): All supported Python versions on Ubuntu,
-        #                plus latest and earliest Python versions
-        #                on all supported OSes
-        # - Compact (C): Second-latest and earliest supported Python versions
-        #                on all supported OSes, plus latest on Ubuntu
-        # - Extra   (X): Second-latest supported Python version on Ubuntu only
-        #
-        # | Python | Ubuntu  | Windows | macOS |
-        # |--------|---------|---------|-------|
-        # | 3.14   | O+C     | O       | O     |
-        # | 3.13   | O+C+X   | O+C     | O+C   |
-        # | 3.12   | O       |         |       |
-        # | 3.11   | O       |         |       |
-        # | 3.10   | O       |         |       |
-        # | 3.9    | O+C     | O+C     | O+C   |
-        #
-        # We should also consider to reduce the number of dependencies
-        # to avoid conflicts between them.
-        # See: https://github.com/PyThaiNLP/pythainlp/issues/935
+        # To optimize CI/CD resource utilization and manage dependency overhead,
+        # tests are categorized into four tiers based on their resource requirements
+        # and dependency complexity: "core", "compact", "extra", and "noauto".
+        # Test cases in "noauto" will not be included here.
+        # See details of test matrix in:
+        # https://github.com/PyThaiNLP/pythainlp/blob/dev/tests/README.md
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
         python-version: ["3.14", "3.9"] # Latest and earliest
         include:

@@ -14,6 +14,7 @@ from pythainlp.tokenize import (
     attacut,
     deepcut,
     oskut,
+    paragraph_tokenize,
     sefr_cut,
     sent_tokenize,
     subword_tokenize,

@@ -35,16 +35,18 @@ jobs:
         # To save time and resources, and manage dependency compatibility,
         # we divide test cases into 3 groups
         # and run them in different configurations:
-        # - Core    (O): All supported Python versions on all supported OSes
-        # - Compact (C): Latest and earliest supported Python versions
+        # - Core    (O): All supported Python versions on Ubuntu,
+        #                plus latest and earliest Python versions
         #                on all supported OSes
+        # - Compact (C): Second-latest and earliest supported Python versions
+        #                on all supported OSes, plus latest on Ubuntu
         # - Extra   (X): Second-latest supported Python version on Ubuntu only
         #
         # | Python | Ubuntu  | Windows | macOS |
         # |--------|---------|---------|-------|
-        # | 3.14   | O+C     | O+C     | O+C   |
-        # | 3.13   | O+C+X   |         |       |
-        # | 3.12   | O.      |         |       |
+        # | 3.14   | O+C     | O       | O     |
+        # | 3.13   | O+C+X   | O+C     | O+C   |
+        # | 3.12   | O       |         |       |
         # | 3.11   | O       |         |       |
         # | 3.10   | O       |         |       |
         # | 3.9    | O+C     | O+C     | O+C   |
@@ -102,7 +104,7 @@ jobs:
           echo "ICU_VER=${ICU_VER}" >> "${GITHUB_ENV}"
 
       - name: Install PyICU (Windows)
-        if: startsWith(matrix.os, 'windows-') && (matrix.python-version == env.PYTHON_VERSION_LATEST || matrix.python-version == env.PYTHON_VERSION_EARLIEST)
+        if: startsWith(matrix.os, 'windows-') && (matrix.python-version == env.PYTHON_VERSION_LATEST_2 || matrix.python-version == env.PYTHON_VERSION_EARLIEST)
         shell: powershell
         # Get the wheel URL from https://github.com/cgohlke/pyicu-build/releases
         run: |
@@ -118,7 +120,7 @@ jobs:
         run: pip install ".[full]"
 
       - name: Test (core)
-        if: matrix.os == 'ubuntu-latest' && matrix.python-version != env.PYTHON_VERSION_LATEST && matrix.python-version != env.PYTHON_VERSION_LATEST_2 && matrix.python-version != env.PYTHON_VERSION_EARLIEST
+        if: ${{ (matrix.os == 'ubuntu-latest' && matrix.python-version != env.PYTHON_VERSION_LATEST_2 && matrix.python-version != env.PYTHON_VERSION_EARLIEST) || (matrix.os != 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST) }}
         env:
           PYTHONIOENCODING: utf-8
         run: |
@@ -130,7 +132,7 @@ jobs:
         # See also tests/README.md
 
       - name: Test (compact + core)
-        if: matrix.python-version == env.PYTHON_VERSION_LATEST || matrix.python-version == env.PYTHON_VERSION_EARLIEST
+        if: ${{ ((matrix.python-version == env.PYTHON_VERSION_LATEST_2) || (matrix.python-version == env.PYTHON_VERSION_EARLIEST)) && !(matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2) }}
         env:
           PYTHONIOENCODING: utf-8
         run: |

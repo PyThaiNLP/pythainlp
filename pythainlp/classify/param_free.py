@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import gzip
 import json
+from typing import Optional
 
 import numpy as np
 
@@ -14,7 +15,7 @@ class GzipModel:
     “Low-Resource” Text Classification: A Parameter-Free Classification Method
     with Compressors (Jiang et al., Findings 2023)
 
-    :param list | None training_data: list [(text_sample,label)].
+    :param Optional[list] training_data: list [(text_sample,label)].
         Default is None.
     :param str model_path: Path for loading model (if you saved the model).
         Default is empty string.
@@ -22,22 +23,22 @@ class GzipModel:
 
     def __init__(
         self,
-        training_data: list[tuple[str, str]] | None = None,
+        training_data: Optional[list[tuple[str, str]]] = None,
         model_path: str = "",
     ):
         if model_path:
             self.load(model_path)
         else:
             self.training_data = np.array(training_data)
-            self.Cx2_list = self.train()
+            self.cx2_list = self.train()
 
     def train(self):
-        Cx2_list = []
+        temp_list = []
         for i in range(len(self.training_data)):
-            Cx2_list.append(
+            temp_list.append(
                 len(gzip.compress(self.training_data[i][0].encode("utf-8")))
             )
-        return Cx2_list
+        return temp_list
 
     def predict(self, x1: str, k: int = 1) -> str:
         """:param str x1: the text that we want to predict label for.
@@ -65,15 +66,15 @@ class GzipModel:
                 print(model.predict("ฉันดีใจ", k=1))
                 # output: Positive
         """
-        Cx1 = len(gzip.compress(x1.encode("utf-8")))
+        cx1 = len(gzip.compress(x1.encode("utf-8")))
         disance_from_x1 = []
-        for i in range(len(self.Cx2_list)):
+        for i in range(len(self.cx2_list)):
             x2 = self.training_data[i][0]
-            Cx2 = self.Cx2_list[i]
+            cx2 = self.cx2_list[i]
             x1x2 = "".join([x1, x2])
-            Cx1x2 = len(gzip.compress(x1x2.encode("utf-8")))
+            cx1x2 = len(gzip.compress(x1x2.encode("utf-8")))
             # normalized compression distance
-            ncd = (Cx1x2 - min(Cx1, Cx2)) / max(Cx1, Cx2)
+            ncd = (cx1x2 - min(cx1, cx2)) / max(cx1, cx2)
             disance_from_x1.append(ncd)
 
         sorted_idx = np.argsort(np.array(disance_from_x1))
@@ -84,22 +85,20 @@ class GzipModel:
         return predict_class
 
     def save(self, path: str):
-        """:param str path: path to save model
-        """
+        """:param str path: path to save model"""
         with open(path, "w", encoding="utf-8") as f:
             json.dump(
                 {
                     "training_data": self.training_data.tolist(),
-                    "Cx2_list": self.Cx2_list,
+                    "cx2_list": self.cx2_list,
                 },
                 f,
                 ensure_ascii=False,
             )
 
     def load(self, path: str):
-        """:param str path: path to load model
-        """
+        """:param str path: path to load model"""
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
-            self.Cx2_list = data["Cx2_list"]
+            self.cx2_list = data["cx2_list"]
             self.training_data = np.array(data["training_data"])

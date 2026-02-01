@@ -3,16 +3,18 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-_tagger = None
+from typing import Any, List, Optional, Union
+
+_tagger: Optional[Any] = None
 _tagger_name = ""
 
 
 def dependency_parsing(
     text: str,
-    model: str | None = None,
+    model: Optional[str] = None,
     tag: str = "str",
     engine: str = "esupar",
-) -> list[list[str]] | str:
+) -> Union[List[List[str]], str]:
     """Dependency Parsing
 
     :param str text: text to apply dependency parsing to
@@ -98,22 +100,22 @@ def dependency_parsing(
         if engine == "esupar":
             from pythainlp.parse.esupar_engine import Parse
 
-            _tagger = Parse(model=model)
+            _tagger = Parse(model=model if model else "th")
         elif engine == "transformers_ud":
-            from pythainlp.parse.transformers_ud import Parse
+            from pythainlp.parse.transformers_ud import Parse  # type: ignore[assignment]  # noqa: I001
 
-            _tagger = Parse(model=model)
+            _tagger = Parse(model=model if model else "KoichiYasuoka/deberta-base-thai-ud-head")
         elif engine == "spacy_thai":
-            from pythainlp.parse.spacy_thai_engine import Parse
+            from pythainlp.parse.spacy_thai_engine import Parse  # type: ignore[assignment]  # noqa: I001
 
             _tagger = Parse()
         elif engine == "ud_goeswith":
-            from pythainlp.parse.ud_goeswith import Parse
+            from pythainlp.parse.ud_goeswith import Parse  # type: ignore[assignment]  # noqa: I001
 
-            _tagger = Parse(model=model)
+            _tagger = Parse(model=model if model else "KoichiYasuoka/deberta-base-thai-ud-goeswith")
         else:
             raise NotImplementedError("The engine doesn't support.")
 
     _tagger_name = engine
 
-    return _tagger(text, tag=tag)
+    return _tagger(text, tag=tag)  # type: ignore[misc]

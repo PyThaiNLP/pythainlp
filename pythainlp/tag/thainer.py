@@ -9,6 +9,8 @@ from __future__ import annotations
 __all__ = ["ThaiNameTagger"]
 
 
+from typing import Union
+
 from pythainlp.corpus import get_corpus_path, thai_stopwords
 from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
@@ -100,15 +102,29 @@ class ThaiNameTagger:
         self.crf = CRFTagger()
 
         if version == "1.4":
-            self.crf.open(get_corpus_path("thainer-1.4", version="1.4"))
+            model_path = get_corpus_path("thainer-1.4", version="1.4")
+            if model_path is None:
+                raise RuntimeError(
+                    "ThaiNER 1.4 model not found. "
+                    "Please download the corpus first:\n"
+                    "  pythainlp.corpus.download('thainer-1.4')"
+                )
+            self.crf.open(model_path)
             self.pos_tag_name = "orchid_ud"
         elif version == "1.5":
-            self.crf.open(get_corpus_path("thainer", version="1.5"))
+            model_path = get_corpus_path("thainer", version="1.5")
+            if model_path is None:
+                raise RuntimeError(
+                    "ThaiNER 1.5 model not found. "
+                    "Please download the corpus first:\n"
+                    "  pythainlp.corpus.download('thainer')"
+                )
+            self.crf.open(model_path)
             self.pos_tag_name = "blackboard"
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False
-    ) -> list[tuple[str, str]] | list[tuple[str, str, str]]:
+    ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]]]:
         """This function tags named-entities in text in IOB format.
 
         :param str text: text in Thai to be tagged
@@ -157,8 +173,7 @@ class ThaiNameTagger:
             ('น.', 'I-TIME')]
             >>> ner.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.",
                             tag=True)
-            'วันที่ <DATE>15 ก.ย. 61</DATE> ทดสอบระบบเวลา <TIME>
-            14:49 น.</TIME>'
+            'วันที่ <DATE>15 ก.ย. 61</DATE> ทดสอบระบบเวลา <TIME>14:49 น.</TIME>'
         """
         tokens = word_tokenize(text, engine=_TOKENIZER_ENGINE)
         pos_tags = pos_tag(
@@ -199,5 +214,5 @@ class ThaiNameTagger:
         return sent_ner
 
     @staticmethod
-    def __extract_features(doc):
+    def __extract_features(doc: list[str]) -> list[dict[str, Union[str, bool]]]:
         return [_doc2features(doc, i) for i in range(len(doc))]

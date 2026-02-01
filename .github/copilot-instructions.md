@@ -13,28 +13,23 @@
       the changes made.
 - [ ] For significant changes, update the CHANGELOG.md file
       to document the changes.
-      - [ ] Follow "Keep a Changelog" principles
-            https://keepachangelog.com/en/1.0.0/
-      - [ ] Use semantic versioning for version numbers
-            https://semver.org/
-      - [ ] If it is a breaking change, indicate it clearly in the changelog.
-        - [ ] Provide migration instructions if necessary.
+  - [ ] Follow "Keep a Changelog" principles
+        https://keepachangelog.com/en/1.0.0/
+  - [ ] Use semantic versioning for version numbers
+        https://semver.org/
+  - [ ] If it is a breaking change, indicate it clearly in the changelog.
+    - [ ] Provide migration instructions if necessary.
 - [ ] Do not leave trailing whitespaces in the code or documentation files,
       unless such a whitespace is explicitly necessary.
 - [ ] Metadata in pyproject.toml, codemeta.json, CITATION.cff, and other
       project metadata files should be consistent and up-to-date.
-      - [ ] Project name
-      - [ ] Project version
-      - [ ] Author/contributor names
-      - [ ] License information
-      - [ ] Project description
-      - [ ] Repository URL
-      - [ ] Keywords/tags (in the same order if possible)
-- [ ] requires-python in pyproject.toml should reflect the minimum
-      Python version supported by the project.
-      - [ ] Do not introduce syntax or features that are not supported
-            by the specified minimum Python version,
-            unless it is supported via __future__ imports.
+  - [ ] Project name
+  - [ ] Project version
+  - [ ] Author/contributor names
+  - [ ] License information
+  - [ ] Project description
+  - [ ] Repository URL
+  - [ ] Keywords/tags (in the same order if possible)
 
 ## General language use
 
@@ -118,28 +113,94 @@
 - [ ] Be defensive on variable expansion.
 - [ ] Use quotes or other constructs to encapsulate paths, make it compatible
       with different kinds of shells.
-- [ ] Be mindful about semantic of different types of quotation marks.
+- [ ] Be mindful about the semantics of different types of quotation marks.
 
 ## Library imports and dependencies
 
-- [ ] Recheck the correctness of library/module/package name.
+- [ ] Check the correctness of library/module/package names.
       Be very careful of slopsquatting and typosquatting attacks.
 - [ ] Use the most updated version of the library that is supported
-      by the OS/compiler/framework currently being in used.
-- [ ] In source code, sort imports by the programming language convention
+      by the OS/compiler/framework currently being used.
+- [ ] In source code, group and sort imports by the programming language
+      convention (e.g., in Python, typically by standard library first,
+      then by third-party libraries)
       and then by alphabetical order whenever possible.
-      Be careful of specific order of import requirements of some dependencies.
+      Be careful of specific order of import requirements of some dependencies,
+      as moving the order may break the code or create cyclic import issues.
+- [ ] Remove unused imports.
 - [ ] In build metadata (like pyproject.toml in Python) or
       dependency list (like requirements.txt in Python), sort dependencies.
-- [ ] Warn users about abandoned dependency with no maintenance
-      for long time and suggest equivalent drop-in replacement.
+- [ ] Warn users about abandoned dependencies with no maintenance
+      for a long time and suggest equivalent drop-in replacements.
+
+## Security
+
+- [ ] Avoid using deprecated, obsolete, or insecure libraries,
+      frameworks, or APIs.
+- [ ] When handling sensitive data (like passwords, API keys, personal data),
+      follow best practices for data protection and privacy.
+- [ ] Avoid hardcoding sensitive information (like passwords, API keys)
+      directly in the codebase.
+- [ ] Validate and sanitize all user inputs to prevent security vulnerabilities
+      such as SQL injection, cross-site scripting (XSS), and buffer overflows.
+- [ ] Regularly update dependencies to their latest secure versions.
+- [ ] When suggesting code that involves cryptography,
+      use strong and well-established algorithms and key sizes.
+- [ ] When dealing with authentication and authorization,
+      follow best practices and standards like OAuth2, OpenID Connect, etc.
+- [ ] Avoid using eval() and similar functions that execute arbitrary code,
+      unless absolutely necessary and safe.
+- [ ] Avoid the deserialization of untrusted data (CWE-502).
+  - [ ] In Python, avoid using `pickle` module for
+        serialization/deserialization.
+- [ ] When handling files and paths, be careful of path traversal vulnerabilities
+      like CWE-22.
 
 ## API
 
-- [ ] The overall architecture, code, API endpoints to follow the latest
+- [ ] The overall architecture, code, and API endpoints should follow the latest
       version of OpenAPI specification at https://spec.openapis.org/oas/
-- [ ] API endpoints must use proper HTTP return code
-- [ ] Follows web best practices as recommended by OpenAPI, IETF, W3C, etc.
+- [ ] API endpoints must use proper HTTP return codes.
+- [ ] Follow web best practices as recommended by OpenAPI, IETF, W3C, etc.
+
+## Git
+
+- [ ] Follow these guidelines for writing a good commit message:
+  - How to Write a Git Commit Message
+    <https://chris.beams.io/posts/git-commit/>
+  - Commit Verbs 101: why I like to use this and why you should also like it.
+    <https://chris.beams.io/posts/git-commit/>
+
+## Python
+
+- [ ] Defensive coding: always check for None/empty and handle exceptions
+      when dealing with external inputs, like function arguments,
+      file I/O, network I/O, etc.
+- [ ] Use type hints for function/method signatures
+      and variable declarations as much as possible.
+- [ ] requires-python in pyproject.toml should reflect the minimum
+      Python version supported by the project.
+- [ ] Do not introduce syntax or features that are not supported
+      by the specified minimum Python version,
+      unless it is supported via `__future__` imports.
+  - [ ] Do not use | union type syntax if minimum Python version is
+        below 3.10.  
+- [ ] Make sure that the module/class/function/object can be properly used by
+      runtime type inspection tools, documentation generators, and static
+      analysis tools.
+      For example, typing.get_type_hints() should work properly.
+- [ ] Do not use mutable default arguments in function/method definitions.
+- [ ] Do not use wildcard imports (from module import *).
+- [ ] Remove any trailing whitespace in the Python file.
+- [ ] Make the package zip-safe if possible.
+- [ ] Be mindful about choice of data structures.
+      Prefer built-in data structures like list, dict, set, and tuple
+      unless there is a specific need for specialized data structures.
+      If specialized data structures are needed, consider using
+      appropriate collection types from `collections` and
+      `collections.abc` modules.
+      Use the most appropriate data structure for the specific use case
+      to optimize performance and memory usage.
 
 ## JSON
 

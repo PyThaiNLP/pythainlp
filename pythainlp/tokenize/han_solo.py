@@ -10,20 +10,21 @@ from __future__ import annotations
 
 import threading
 from importlib.resources import as_file, files
+from typing import Optional
 
 try:
     import pycrfsuite
-except ImportError:
+except ImportError as ex:
     raise ImportError(
         "ImportError; Install pycrfsuite by pip install python-crfsuite"
-    )
+    ) from ex
 
 _tagger = None
 _model_file_ctx = None  # File context manager kept alive for program lifetime
 _load_lock = threading.Lock()  # Thread safety for lazy loading
 
 
-def _get_tagger():
+def _get_tagger() -> pycrfsuite.Tagger:
     """Lazy load the tagger model.
 
     This function uses a lock to ensure thread-safe initialization.
@@ -47,21 +48,21 @@ def _get_tagger():
 class Featurizer:
     #  This class from ssg at https://github.com/ponrawee/ssg.
 
-    def __init__(self, N=2, sequence_size=1, delimiter=None):
+    def __init__(self, N: int = 2, sequence_size: int = 1, delimiter: Optional[str] = None) -> None:
         self.N = N
         self.delimiter = delimiter
         self.radius = N + sequence_size
 
-    def pad(self, sentence, padder="#"):
+    def pad(self, sentence: str, padder: str = "#") -> str:
         return padder * (self.radius) + sentence + padder * (self.radius)
 
     def featurize(
-        self, sentence, padding=True, indiv_char=True, return_type="list"
-    ):
+        self, sentence: str, padding: bool = True, indiv_char: bool = True, return_type: str = "list"
+    ) -> dict[str, list]:
         if padding:
             sentence = self.pad(sentence)
-        all_features = []
-        all_labels = []
+        all_features_list: list[list[str]] = []
+        all_labels_int: list[int] = []
         skip_next = False
         for current_position in range(
             self.radius, len(sentence) - self.radius + 1
@@ -69,9 +70,7 @@ class Featurizer:
             if skip_next:
                 skip_next = False
                 continue
-            features = {}
-            if return_type == "list":
-                features = []
+            features: list[str] = []
             cut = 0
             char = sentence[current_position]
             if char == self.delimiter:
@@ -80,7 +79,6 @@ class Featurizer:
             counter = 0
             chars_left = ""
             chars_right = ""
-            chars = ""
             abs_index_left = current_position  # left start at -1
             abs_index_right = current_position - 1  # right start at 0
             while counter < self.radius:
@@ -97,10 +95,7 @@ class Featurizer:
                 # ใส่ลง feature
                 if indiv_char:
                     left_key = "|".join([str(relative_index_left), char_left])
-                    if return_type == "dict":
-                        features[left_key] = 1
-                    else:
-                        features.append(left_key)
+                    features.append(left_key)
 
                 abs_index_right += (
                     1  # สมมุติคือตำแหน่งที่ 0 จะได้ 0, 1, 2, 3, 4 (radius = 5)
@@ -115,10 +110,7 @@ class Featurizer:
                     right_key = "|".join(
                         [str(relative_index_right), char_right]
                     )
-                    if return_type == "dict":
-                        features[right_key] = 1
-                    else:
-                        features.append(right_key)
+                    features.append(right_key)
 
                 counter += 1
 
@@ -126,16 +118,24 @@ class Featurizer:
             for i in range(0, len(chars) - self.N + 1):
                 ngram = chars[i : i + self.N]
                 ngram_key = "|".join([str(i - self.radius), ngram])
-                if return_type == "dict":
-                    features[ngram_key] = 1
-                else:
-                    features.append(ngram_key)
-            all_features.append(features)
-            if return_type == "list":
-                cut = str(cut)
-            all_labels.append(cut)
+                features.append(ngram_key)
+            all_features_list.append(features)
+            all_labels_int.append(cut)
 
-        return {"X": all_features, "Y": all_labels}
+        # Convert to the requested return type
+        if return_type == "list":
+            return {
+                "X": all_features_list,
+                "Y": [str(label) for label in all_labels_int]
+            }
+        else:
+            return {
+                "X": [
+                    {key: 1 for key in feature_list}
+                    for feature_list in all_features_list
+                ],
+                "Y": all_labels_int
+            }
 
 
 _to_feature = Featurizer()

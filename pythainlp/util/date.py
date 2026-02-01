@@ -12,6 +12,8 @@ Note: It does not take into account the change of new year's day in Thailand
 # ไม่ได้รองรับปี พ.ศ. ก่อนการเปลี่ยนวันขึ้นปีใหม่ของประเทศไทย
 from __future__ import annotations
 
+from typing import Optional, Union
+
 __all__ = [
     "convert_years",
     "thai_abbr_months",
@@ -24,12 +26,7 @@ __all__ = [
 
 import re
 from datetime import datetime, timedelta
-
-try:
-    from zoneinfo import ZoneInfo
-except ImportError:
-    from backports.zoneinfo import ZoneInfo
-
+from zoneinfo import ZoneInfo
 
 thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
 thai_full_weekdays = [
@@ -91,7 +88,7 @@ year_all_regex = r"(\d\d\d\d|\d\d)"
 dates_list = (
     "("
     + "|".join(
-        [str(i) for i in range(32, 0, -1)]
+        list(map(str, range(32, 0, -1)))
         + ["0" + str(i) for i in range(1, 10)]
     )
     + ")"
@@ -175,17 +172,17 @@ def convert_years(year: str, src="be", target="ad") -> str:
         # ค.ศ. + 543 - 2324 = ร.ศ.
         elif target == "re":
             output_year = str(int(year) + 543 - 2324)
-        # ค.ศ. +543- 1122   = ฮ.ศ.
+        # ค.ศ. +543- 1122 = ฮ.ศ.
         elif target == "ah":
             output_year = str(int(year) + 543 - 1122)
     elif src == "re":
         # ร.ศ. + 2324 = พ.ศ.
         if target == "be":
             output_year = str(int(year) + 2324)
-        # ร.ศ. + 2324 - 543  = ค.ศ.
+        # ร.ศ. + 2324 - 543 = ค.ศ.
         elif target == "ad":
             output_year = str(int(year) + 2324 - 543)
-        # ร.ศ. + 2324 - 1122  = ฮ.ศ.
+        # ร.ศ. + 2324 - 1122 = ฮ.ศ.
         elif target == "ah":
             output_year = str(int(year) + 2324 - 1122)
     elif src == "ah":
@@ -205,18 +202,19 @@ def convert_years(year: str, src="be", target="ad") -> str:
     return output_year
 
 
-def _find_month(text):
+def _find_month(text: str) -> int:
     for i, m in enumerate(thai_full_month_lists):
         for j in m:
             if j in text:
                 return i + 1
+    return 0  # Not found in list
 
 
 def thai_strptime(
     text: str,
     fmt: str,
     year: str = "be",
-    add_year: int | None = None,
+    add_year: Optional[int] = None,
     tzinfo=ZoneInfo("Asia/Bangkok"),
 ):
     """Thai strptime
@@ -225,7 +223,7 @@ def thai_strptime(
     :param str fmt: string containing date and time directives
     :param str year: year of the text \
         (ad is Anno Domini and be is Buddhist Era)
-    :param int | None add_year: add to year when converting to ad. Default is None.
+    :param Optional[int] add_year: add to year when converting to ad. Default is None.
     :param object tzinfo: tzinfo (default is Asia/Bangkok)
     :return: The year that is converted to datetime.datetime
     :rtype: datetime.datetime
@@ -256,9 +254,6 @@ def thai_strptime(
         #   tzinfo=zoneinfo.ZoneInfo(key='Asia/Bangkok')
         # )
     """
-    d = ""
-    m = ""
-    y = ""
     fmt = fmt.replace("%-m", "%m")
     fmt = fmt.replace("%-d", "%d")
     fmt = fmt.replace("%b", "%B")
@@ -284,22 +279,22 @@ def thai_strptime(
         for i in _old.split("%")
         if i != ""
     ]
-    y = re.findall(fmt, text)
+    y_matches = re.findall(fmt, text)
 
-    data = {i: "".join(list(j)) for i, j in zip(keys, y[0])}
-    H = 0
-    M = 0
-    S = 0
-    f = 0
+    data = {i: "".join(list(j)) for i, j in zip(keys, y_matches[0])}
+    hour: Union[int, str] = 0
+    minute: Union[int, str] = 0
+    second: Union[int, str] = 0
+    f: Union[int, str] = 0
     d = data["d"]
-    m = _find_month(data["B"])
+    m: int = _find_month(data["B"])
     y = data["Y"]
     if "H" in keys:
-        H = data["H"]
+        hour = data["H"]
     if "M" in keys:
-        M = data["M"]
+        minute = data["M"]
     if "S" in keys:
-        S = data["S"]
+        second = data["S"]
     if "f" in keys:
         f = data["f"]
     if int(y) < 100 and year == "be":
@@ -316,11 +311,11 @@ def thai_strptime(
         y = convert_years(y, src="be", target="ad")
     return datetime(
         year=int(y),
-        month=int(m),
+        month=m,
         day=int(d),
-        hour=int(H),
-        minute=int(M),
-        second=int(S),
+        hour=int(hour),
+        minute=int(minute),
+        second=int(second),
         microsecond=int(f),
         tzinfo=tzinfo,
     )
@@ -373,6 +368,7 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
             reign_year_to_ad(1, 9))
         # output: The 4th reign year of the King Rama X is in 1946
     """
+    ad = 0
     if int(reign) == 10:
         ad = int(reign_year) + 2015
     elif int(reign) == 9:
@@ -384,7 +380,7 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
     return ad
 
 
-def thaiword_to_date(text: str, date: datetime = None) -> datetime | None:
+def thaiword_to_date(text: str, date: Optional[datetime] = None) -> Optional[datetime]:
     """Convert Thai relative date to :class:`datetime.datetime`.
 
     :param str text: Thai text containing relative date
@@ -402,7 +398,7 @@ def thaiword_to_date(text: str, date: datetime = None) -> datetime | None:
     if text not in _DAY:
         return None
 
-    day_num = _DAY.get(text)
+    day_num = _DAY.get(text, 0)
 
     if not date:
         date = datetime.now()

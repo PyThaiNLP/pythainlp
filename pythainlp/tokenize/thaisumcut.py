@@ -77,7 +77,7 @@ def middle_cut(sentences: list[str]) -> list[str]:
     # Split all result parts by <stop> and filter
     all_sentences = (s.strip() for part in result_parts for s in part.split("<stop>"))
 
-    return [s for s in all_sentences if s]
+    return list(filter(None, all_sentences))
 
 
 class ThaiSentenceSegmentor:
@@ -358,13 +358,7 @@ class ThaiSentenceSegmentor:
         text = text.replace("!", "!<stop>")
         text = text.replace("<prd>", ".")
         sentences = text.split("<stop>")
-        sentences = [s.strip() for s in sentences]
-        if "" in sentences:
-            sentences.remove("")
-        if "nan" in sentences:
-            sentences.remove("nan")
-
-        sentences = list(filter(None, sentences))
+        sentences = [s for s in map(str.strip, sentences) if s and s != "nan"]
 
         if isMiddleCut:
             return middle_cut(sentences)

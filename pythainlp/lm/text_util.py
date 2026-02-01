@@ -7,7 +7,7 @@ from __future__ import annotations
 
 def calculate_ngram_counts(
     list_words: list[str], n_min: int = 2, n_max: int = 4
-) -> dict[tuple[str], int]:
+) -> dict[tuple[str, ...], int]:
     """Calculates the counts of n-grams in the list words for the specified range.
 
     :param List[str] list_words: List of string
@@ -20,7 +20,7 @@ def calculate_ngram_counts(
     if not list_words:
         return {}
 
-    ngram_counts = {}
+    ngram_counts: dict[tuple[str, ...], int] = {}
 
     for n in range(n_min, n_max + 1):
         for i in range(len(list_words) - n + 1):
@@ -51,7 +51,7 @@ def remove_repeated_ngrams(string_list: list[str], n: int = 2) -> list[str]:
 
     unique_ngrams = set()
 
-    output_list = []
+    output_list: list[str] = []
 
     for i in range(len(string_list)):
         if i + n <= len(string_list):

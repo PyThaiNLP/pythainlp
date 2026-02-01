@@ -7,6 +7,7 @@ from argparse import ArgumentError
 
 from pythainlp import __main__, cli
 from pythainlp.cli.data import App as DataApp
+from pythainlp.cli.misspell import App as MisspellApp
 from pythainlp.cli.soundex import App as SoundexApp
 from pythainlp.cli.tag import App as TagApp
 from pythainlp.cli.tokenize import App as TokenizeApp
@@ -46,6 +47,28 @@ class CliTestCase(unittest.TestCase):
         self.assertIsNotNone(DataApp(["thainlp", "data", "get", "NOT_EXIST"]))
         self.assertIsNotNone(DataApp(["thainlp", "data", "info", "NOT_EXIST"]))
         self.assertIsNotNone(DataApp(["thainlp", "data", "rm", "NOT_EXIST"]))
+
+    def test_cli_misspell(self):
+        self.assertTrue(hasattr(cli, "misspell"))
+
+        with self.assertRaises(SystemExit) as ex:
+            MisspellApp(["thainlp", "misspell"])
+        self.assertEqual(ex.exception.code, 2)
+
+        self.assertIsNotNone(
+            MisspellApp(
+                [
+                    "thainlp",
+                    "misspell",
+                    "--file",
+                    "./tests/data/text.txt",
+                    "--seed",
+                    "1",
+                    "--misspell-ratio",
+                    "0.05",
+                ]
+            )
+        )
 
     def test_cli_soundex(self):
         self.assertTrue(hasattr(cli, "soundex"))

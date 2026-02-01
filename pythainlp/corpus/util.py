@@ -43,12 +43,13 @@ def find_badwords(
     :return: words that are considered to make `tokenize` perform badly
     :rtype: Set[str]
     """
-    right = Counter()
-    wrong = Counter()
+    right: Counter[str] = Counter()
+    wrong: Counter[str] = Counter()
 
     for train_words in training_data:
-        train_set = set(index_pairs(train_words))
-        test_words = tokenize("".join(train_words))
+        train_words_list = list(train_words)
+        train_set = set(index_pairs(train_words_list))
+        test_words = tokenize("".join(train_words_list))
         test_pairs = index_pairs(test_words)
         for w, p in zip(test_words, test_pairs):
             if p in train_set:

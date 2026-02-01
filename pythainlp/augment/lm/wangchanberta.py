@@ -32,7 +32,7 @@ class Thai2transformersAug:
         self.MASK_TOKEN = self.tokenizer.mask_token
 
     def generate(self, sentence: str, num_replace_tokens: int = 3):
-        self.sent2 = []
+        sent2: list[str] = []
         self.input_text = sentence
         sent = [
             i for i in self.tokenizer.tokenize(self.input_text) if i != "▁"
@@ -42,13 +42,13 @@ class Thai2transformersAug:
         masked_text = self.input_text
         for i in range(num_replace_tokens):
             masked_text = masked_text + self.MASK_TOKEN
-            self.sent2 += [
+            sent2 += [
                 str(j["sequence"]).replace("<s> ", "").replace("</s>", "")
                 for j in self.fill_mask(masked_text)
-                if j["sequence"] not in self.sent2
+                if j["sequence"] not in sent2
             ]
             masked_text = self.input_text
-        return self.sent2
+        return sent2
 
     def augment(self, sentence: str, num_replace_tokens: int = 3) -> list[str]:
         """Text augmentation from WangchanBERTa
@@ -73,6 +73,5 @@ class Thai2transformersAug:
              'ช้างมีทั้งหมด 50 ตัว บนนั้น',
              'ช้างมีทั้งหมด 50 ตัว บนหัว']
         """
-        self.sent2 = []
-        self.sent2 = self.generate(sentence, num_replace_tokens)
-        return self.sent2
+        sent2 = self.generate(sentence, num_replace_tokens)
+        return sent2

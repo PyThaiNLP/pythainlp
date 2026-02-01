@@ -33,7 +33,7 @@ _unigram_file_ctx = None  # File context manager kept alive for program lifetime
 _load_lock = threading.Lock()  # Thread safety for lazy loading
 
 
-def _get_sym_spell():
+def _get_sym_spell() -> SymSpell:
     """Lazy load the symspell instance.
 
     This function uses a lock to ensure thread-safe initialization.

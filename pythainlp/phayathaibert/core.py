@@ -7,6 +7,7 @@ import random
 import re
 import warnings
 from collections.abc import Callable
+from typing import Union
 
 from transformers import (
     CamembertTokenizer,
@@ -34,11 +35,11 @@ class ThaiTextProcessor:
     def replace_url(self, text: str) -> str:
         """Replace url in `text` with TK_URL (https://stackoverflow.com/a/6041965)
         :param str text: text to replace url
-        :return: text where urls  are replaced
+        :return: text where urls are replaced
         :rtype: str
         :Example:
             >>> replace_url("go to https://github.com")
-            go to <url>
+            'go to <url>'
         """
         return re.sub(_PAT_URL, self._TK_URL, text)
 
@@ -49,7 +50,7 @@ class ThaiTextProcessor:
         :rtype: str
         :Example:
             >>> rm_brackets("hey() whats[;] up{*&} man(hey)")
-            hey whats up man(hey)
+            'hey whats up man(hey)'
         """
         # remove empty brackets
         new_line = re.sub(r"\(\)", "", text)
@@ -338,7 +339,7 @@ class NamedEntityTagger:
         tag: bool = False,
         pos: bool = False,
         strategy: str = "simple",
-    ) -> list[tuple[str, str]] | list[tuple[str, str, str]] | str:
+    ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
         """This function tags named entities in text in IOB format.
 
         :param str text: text in Thai to be tagged

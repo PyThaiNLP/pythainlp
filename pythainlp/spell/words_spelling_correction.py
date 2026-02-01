@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import os
+from typing import Union
 
 from pythainlp.corpus import get_hf_hub
 
@@ -235,7 +236,7 @@ class Words_Spelling_Correction(FastTextEncoder):
                 self.model_name, "list_word-spelling-correction-char2vec.txt"
             )
         ) as f:
-            self.list_word = [i.strip() for i in f.readlines()]
+            self.list_word = list(map(str.strip, f.readlines()))
         super().__init__(self.model_path, self.model_onnx, self.list_word)
 
 
@@ -243,8 +244,8 @@ _WSC = None
 
 
 def get_words_spell_suggestion(
-    list_words: str | list[str],
-) -> list[str] | list[list[str]]:
+    list_words: Union[str, list[str]],
+) -> Union[list[str], list[list[str]]]:
     """Get words spell suggestion
 
     The function is designed to retrieve spelling suggestions \

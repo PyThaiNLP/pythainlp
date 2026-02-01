@@ -215,7 +215,7 @@ def display_thai_char(ch: str) -> str:
         return ch
 
 
-def thai_word_tone_detector(word: str) -> tuple[str, str]:
+def thai_word_tone_detector(word: str) -> list[tuple[str, str]]:
     """Thai tone detector for word.
 
     It uses pythainlp.transliterate.pronunciate for converting word to\
@@ -334,7 +334,7 @@ def analyze_thai_text(text: str) -> dict:
         {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
 
     """
-    results = defaultdict(int)
+    results: dict[str, int] = defaultdict(int)
 
     # Iterate over each character in the input string
     for char in text:

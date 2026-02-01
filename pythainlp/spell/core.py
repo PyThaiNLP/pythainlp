@@ -8,20 +8,24 @@ from __future__ import annotations
 
 import itertools
 from functools import lru_cache
+from typing import TYPE_CHECKING
 
 from pythainlp.spell import DEFAULT_SPELL_CHECKER
 
+if TYPE_CHECKING:
+    from pythainlp.spell.pn import NorvigSpellChecker
+
 
 @lru_cache
-def default_spell_checker():
+def default_spell_checker() -> "NorvigSpellChecker":
     """Lazy load default spell checker with cache"""
     return DEFAULT_SPELL_CHECKER()
 
 
 def spell(word: str, engine: str = "pn") -> list[str]:
     """Provides a list of possible correct spellings of the given word.
-    The list of words are from the words in the dictionary
-    that incurs an edit distance value of 1 or 2.
+    The list of words is from words in the dictionary
+    that have an edit distance value of 1 or 2.
     The result is a list of words sorted by their occurrences
     in the spelling dictionary in descending order.
 
@@ -59,10 +63,10 @@ def spell(word: str, engine: str = "pn") -> list[str]:
         # output: ['กะปิ', 'กระบิ']
 
         spell("สังเกตุ")
-        # output:  ['สังเกต']
+        # output: ['สังเกต']
 
         spell("เหตการณ")
-        # output:  ['เหตุการณ์']
+        # output: ['เหตุการณ์']
     """
     if engine == "phunspell":
         from pythainlp.spell.phunspell import spell as SPELL_CHECKER

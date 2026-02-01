@@ -4,6 +4,8 @@
 # ruff: noqa: C901
 from __future__ import annotations
 
+from typing import List, Union
+
 from pythainlp import thai_consonants
 from pythainlp.tokenize import subword_tokenize
 from pythainlp.util import remove_tonemark, sound_syllable
@@ -312,7 +314,7 @@ class KhaveeVerifier:
             if "็" in word:
                 return "กา"
             else:
-                return "Cant find Marttra in this word"
+                return "Can't find Marttra in this word"
 
     def is_sumpus(self, word1: str, word2: str) -> bool:
         """
@@ -381,7 +383,7 @@ class KhaveeVerifier:
         else:
             return "lahu"
 
-    def check_klon(self, text: str, k_type: int = 8) -> list[str] | str:
+    def check_klon(self, text: str, k_type: int = 8) -> Union[List[str], str]:
         """
         Check the suitability of the poem according to Thai principles.
 
@@ -625,8 +627,8 @@ class KhaveeVerifier:
             return "Something went wrong. Make sure you enter it in the correct form."
 
     def check_aek_too(
-        self, text: list[str] | str, dead_syllable_as_aek: bool = False
-    ) -> list[bool] | list[str] | bool | str:
+        self, text: Union[List[str], str], dead_syllable_as_aek: bool = False
+    ) -> Union[List[bool], List[str], bool, str]:
         """
         Checker of Thai tonal words
 

@@ -863,6 +863,10 @@ class UtilTestCase(unittest.TestCase):
 
     def test_to_idna(self):
         self.assertEqual(to_idna("คนละครึ่ง.com"), "xn--42caj4e6bk1f5b1j.com")
+        # Additional test cases for IDNA encoding
+        self.assertEqual(to_idna("ไทย.com"), "xn--o3cw4h.com")
+        self.assertEqual(to_idna("example.com"), "example.com")  # ASCII unchanged
+        self.assertEqual(to_idna("ภาษาไทย.th"), "xn--o3crh0a8bb0k.th")
 
     def test_thai_strptime(self):
         self.assertIsNotNone(
@@ -923,6 +927,11 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(
             tis620_to_utf8("¡ÃÐ·ÃÇ§ÍØµÊÒË¡ÃÃÁ"), "กระทรวงอุตสาหกรรม"
         )
+        # Additional test cases
+        self.assertEqual(tis620_to_utf8("»ÃÐà·Èä·Â"), "ประเทศไทย")
+        self.assertEqual(tis620_to_utf8("ÀÒÉÒä·Â"), "ภาษาไทย")
+        # Empty string
+        self.assertEqual(tis620_to_utf8(""), "")
 
     def test_remove_repeat_consonants(self):
         # update of pythainlp.copus.thai_words() able to break this

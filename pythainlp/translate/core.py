@@ -19,10 +19,10 @@ def _prepare_text_with_exclusions(
 
     Note: For text that contains spaces (for example, English sentences),
     this function attempts to match whole tokens delimited by whitespace
-    only. If the text contains no spaces at all (as in many sentences in
-    languages without explicit word boundaries, such as Thai), it will
-    match the exact exclude string anywhere it appears using simple
-    substring replacement.
+    and common punctuation characters. If the text contains no spaces at
+    all (as in many sentences in languages without explicit word
+    boundaries, such as Thai), it will match the exact exclude string
+    anywhere it appears using simple substring replacement.
     """
     if not exclude_words:
         return text, {}

@@ -178,6 +178,67 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
         # Should have two different placeholders
         self.assertEqual(len(mapping), 2)
 
+    def test_word_with_period(self):
+        """Test excluding a word followed by period"""
+        text = "I love cat."
+        exclude_words = ["cat"]
+        prepared, mapping = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+
+        # "cat" should be replaced even with period
+        self.assertIn("<<<PYTHAINLP_EXCLUDE_0>>>.", prepared)
+        self.assertNotIn("cat", prepared.replace("<<<PYTHAINLP_EXCLUDE_0>>>", ""))
+        self.assertEqual(mapping["<<<PYTHAINLP_EXCLUDE_0>>>"], "cat")
+
+    def test_word_with_comma(self):
+        """Test excluding a word followed by comma"""
+        text = "Hello, PyThaiNLP, how are you?"
+        exclude_words = ["PyThaiNLP"]
+        prepared, mapping = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+
+        # "PyThaiNLP" should be replaced even with comma
+        self.assertIn("<<<PYTHAINLP_EXCLUDE_0>>>", prepared)
+        self.assertNotIn("PyThaiNLP", prepared)
+
+    def test_word_with_exclamation(self):
+        """Test excluding a word followed by exclamation"""
+        text = "I use PyThaiNLP for NLP!"
+        exclude_words = ["PyThaiNLP", "NLP"]
+        prepared, mapping = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+
+        # Both words should be replaced even with exclamation
+        self.assertIn("<<<PYTHAINLP_EXCLUDE_0>>>", prepared)
+        self.assertIn("<<<PYTHAINLP_EXCLUDE_1>>>!", prepared)
+
+    def test_word_in_quotes(self):
+        """Test excluding a word in quotes"""
+        text = 'The "cat" is here.'
+        exclude_words = ["cat"]
+        prepared, mapping = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+
+        # "cat" should be replaced even in quotes
+        self.assertIn('"<<<PYTHAINLP_EXCLUDE_0>>>"', prepared)
+        self.assertNotIn("cat", prepared.replace("<<<PYTHAINLP_EXCLUDE_0>>>", ""))
+
+    def test_word_in_parentheses(self):
+        """Test excluding a word in parentheses"""
+        text = "I use (PyThaiNLP) for NLP"
+        exclude_words = ["PyThaiNLP"]
+        prepared, mapping = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+
+        # "PyThaiNLP" should be replaced even in parentheses
+        self.assertIn("(<<<PYTHAINLP_EXCLUDE_0>>>)", prepared)
+        self.assertNotIn("PyThaiNLP", prepared)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -52,23 +52,28 @@ def _prepare_text_with_exclusions(
         # Escape the word to handle special regex characters
         escaped_word = re.escape(word)
 
-        # Try word boundary matching for space-separated languages
-        # Pattern explanation:
-        # - (?<![^\s]) means "not preceded by non-whitespace"
-        #   (i.e., preceded by whitespace or start of string)
-        # - (?![^\s]) means "not followed by non-whitespace"
-        #   (i.e., followed by whitespace or end of string)
-        # This works better for both English and Thai than \w boundaries
-        pattern = r"(?<![^\s])" + escaped_word + r"(?![^\s])"
+        # Try token boundary matching for space-separated languages.
+        # A token boundary is:
+        # - the start or end of the string, or
+        # - a delimiter character such as whitespace or common punctuation.
+        # This allows matching words like "cat" in "I love cat.".
+        delimiter_chars = r"\s" + re.escape(
+            ".,!?;:'\"()[]{}<>/\\|`~@#$%^&*-+=""''、，。！？；：（）【】《》"
+        )
+        pattern = (
+            fr"(?:(?<=^)|(?<=[{delimiter_chars}]))"
+            f"{escaped_word}"
+            fr"(?:(?=$)|(?=[{delimiter_chars}]))"
+        )
 
-        # Check if there's a match with word boundaries
+        # Check if there's a match with token boundaries
         if re.search(pattern, modified_text):
-            # Use word boundary matching for space-separated text
+            # Use token boundary matching for space-separated text
             modified_text = re.sub(pattern, placeholder, modified_text)
         elif " " not in modified_text:
-            # For languages without spaces (like Thai), use simple replacement
-            # Only do this if the text doesn't contain spaces, indicating
-            # it's likely a non-space-separated language
+            # For languages without spaces (like Thai), use simple replacement.
+            # Only do this if the text does not contain spaces, indicating
+            # it is likely a non-space-separated language.
             modified_text = modified_text.replace(word, placeholder)
 
     return modified_text, placeholder_map

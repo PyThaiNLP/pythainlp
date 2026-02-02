@@ -6,8 +6,7 @@
 
 import unittest
 
-from pythainlp.util import rhyme, thai_word_tone_detector
-from pythainlp.util.spell_words import spell_word
+from pythainlp.util import rhyme, spell_word, thai_word_tone_detector
 
 
 class SpellWordTestCaseC(unittest.TestCase):

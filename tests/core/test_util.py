@@ -45,8 +45,6 @@ from pythainlp.util import (
     remove_trailing_repeat_consonants,
     remove_zw,
     sound_syllable,
-    spell_syllable,
-    spell_word,
     spelling,
     syllable_length,
     syllable_open_close_detector,
@@ -985,14 +983,6 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(
             spelling("กั้น"), ['กอ', 'อะ', 'นอ', 'กัน', 'ไม้โท', 'กั้น']
         )
-
-    def test_spell_words(self):
-        self.assertEqual(spell_syllable("แมว"), ['มอ', 'วอ', 'แอ', 'แมว'])
-        self.assertEqual(spell_syllable("คน"), ['คอ', 'นอ', 'คน'])
-
-        self.assertEqual(spell_word("คนดี"), ['คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี'])
-        self.assertEqual(spell_word("แมว"), ['มอ', 'วอ', 'แอ', 'แมว'])
-        self.assertEqual(spell_word(""), [])
 
     def test_longest_common_subsequence(self):
         self.assertEqual(longest_common_subsequence("ABCBDAB", "BDCAB"), "BDAB")

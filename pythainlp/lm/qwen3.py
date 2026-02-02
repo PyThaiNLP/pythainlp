@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Optional
 
 import torch
 
@@ -27,7 +27,7 @@ class Qwen3:
         self,
         model_path: str = "Qwen/Qwen3-0.6B",
         device: str = "cuda",
-        torch_dtype=torch.float16,
+        torch_dtype: Optional[torch.dtype] = torch.float16,
         low_cpu_mem_usage: bool = True,
     ):
         """Load Qwen3 model.
@@ -52,13 +52,49 @@ class Qwen3:
         self.torch_dtype = torch_dtype
         self.model_path = model_path
 
-        self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
-        self.model = AutoModelForCausalLM.from_pretrained(
-            self.model_path,
-            torch_dtype=torch_dtype,
-            low_cpu_mem_usage=low_cpu_mem_usage,
-        )
-        self.model.to(device)
+        try:
+            self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
+        except OSError as exc:
+            raise RuntimeError(
+                f"Failed to load tokenizer from '{self.model_path}'. "
+                "Check the model path or your network connection."
+            ) from exc
+
+        try:
+            self.model = AutoModelForCausalLM.from_pretrained(
+                self.model_path,
+                torch_dtype=torch_dtype,
+                low_cpu_mem_usage=low_cpu_mem_usage,
+            )
+        except OSError as exc:
+            raise RuntimeError(
+                f"Failed to load model from '{self.model_path}'. "
+                "This can happen due to an invalid model path, missing files, "
+                "or insufficient disk space."
+            ) from exc
+        except RuntimeError as exc:
+            raise RuntimeError(
+                "Failed to load model weights. "
+                "This can be caused by insufficient memory or an incompatible "
+                "torch_dtype setting."
+            ) from exc
+
+        if isinstance(device, str) and device.startswith("cuda"):
+            if not torch.cuda.is_available():
+                raise RuntimeError(
+                    "CUDA device requested but CUDA is not available. "
+                    "Check your PyTorch installation and GPU drivers, or use "
+                    "device='cpu' instead."
+                )
+
+        try:
+            self.model.to(device)
+        except RuntimeError as exc:
+            raise RuntimeError(
+                f"Failed to move model to device '{device}'. "
+                "Ensure the device exists and has enough memory, and that your "
+                "PyTorch installation supports this device."
+            ) from exc
 
     def generate(
         self,
@@ -97,6 +133,11 @@ class Qwen3:
         if self.model is None or self.tokenizer is None or self.device is None:
             raise RuntimeError(
                 "Model not loaded. Please call load_model() first."
+            )
+
+        if not text or not isinstance(text, str):
+            raise ValueError(
+                "text parameter must be a non-empty string."
             )
 
         inputs = self.tokenizer(text, return_tensors="pt")
@@ -160,6 +201,11 @@ class Qwen3:
                 "Model not loaded. Please call load_model() first."
             )
 
+        if not messages or not isinstance(messages, list):
+            raise ValueError(
+                "messages parameter must be a non-empty list of message dictionaries."
+            )
+
         # Apply chat template if available, otherwise format manually
         if hasattr(self.tokenizer, "apply_chat_template"):
             text = self.tokenizer.apply_chat_template(
@@ -171,8 +217,8 @@ class Qwen3:
             # Simple fallback format
             text = ""
             for msg in messages:
-                role = msg.get("role", "user")
-                content = msg.get("content", "")
+                role = str(msg.get("role", "user")).replace("\n", " ")
+                content = str(msg.get("content", "")).replace("\n", "\\n")
                 text += f"{role}: {content}\n"
             text += "assistant: "
 

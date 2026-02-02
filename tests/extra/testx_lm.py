@@ -38,3 +38,29 @@ class LMTestCaseX(unittest.TestCase):
         except ImportError:
             # Skip if dependencies not installed
             self.skipTest("Qwen3 dependencies not installed")
+
+    def test_qwen3_generate_empty_text(self):
+        # Test that generate validates text input
+        try:
+            model = Qwen3()
+            model.model = object()  # Mock to bypass load check
+            model.tokenizer = object()
+            model.device = "cpu"
+            with self.assertRaises(ValueError):
+                model.generate("")
+        except ImportError:
+            # Skip if dependencies not installed
+            self.skipTest("Qwen3 dependencies not installed")
+
+    def test_qwen3_chat_empty_messages(self):
+        # Test that chat validates messages input
+        try:
+            model = Qwen3()
+            model.model = object()  # Mock to bypass load check
+            model.tokenizer = object()
+            model.device = "cpu"
+            with self.assertRaises(ValueError):
+                model.chat([])
+        except ImportError:
+            # Skip if dependencies not installed
+            self.skipTest("Qwen3 dependencies not installed")

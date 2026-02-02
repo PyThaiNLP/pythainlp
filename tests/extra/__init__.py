@@ -13,6 +13,7 @@ test_packages: list[str] = [
     "tests.extra.testx_augment",
     "tests.extra.testx_benchmarks",
     "tests.extra.testx_cli",
+    "tests.extra.testx_lm",
     "tests.extra.testx_spell",
     "tests.extra.testx_tag",
     "tests.extra.testx_tokenize",

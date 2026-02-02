@@ -124,3 +124,8 @@ notebooks/d.model
 
 # Logs
 logs/
+*.log
+
+# Temp files
+*.tmp
+*.temp

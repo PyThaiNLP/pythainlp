@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Optional
+
 from transformers import M2M100ForConditionalGeneration
 
 from .tokenization_small100 import SMALL100Tokenizer
@@ -33,7 +35,7 @@ class Small100Translator:
         self,
         text: str,
         tgt_lang: str = "en",
-        exclude_words: list[str] | None = None,
+        exclude_words: Optional[list[str]] = None,
     ) -> str:
         """Translate text from X to X
 

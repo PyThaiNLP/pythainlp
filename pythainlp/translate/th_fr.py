@@ -14,6 +14,8 @@ BLEU 20.4
 
 from __future__ import annotations
 
+from typing import Optional
+
 
 class ThFrTranslator:
     """Thai-French Machine Translation
@@ -42,7 +44,7 @@ class ThFrTranslator:
             self.model_thzh = self.model_thzh.cuda()
 
     def translate(
-        self, text: str, exclude_words: list[str] | None = None
+        self, text: str, exclude_words: Optional[list[str]] = None
     ) -> str:
         """Translate text from Thai to French
 

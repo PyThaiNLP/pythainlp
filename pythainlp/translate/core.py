@@ -8,7 +8,7 @@ from typing import Optional
 
 
 def _prepare_text_with_exclusions(
-    text: str, exclude_words: list[str] | None
+    text: str, exclude_words: Optional[list[str]]
 ) -> tuple[str, dict[str, str]]:
     """Replace excluded words with placeholders.
 
@@ -17,9 +17,12 @@ def _prepare_text_with_exclusions(
     :return: tuple of (modified text, placeholder mapping)
     :rtype: tuple[str, dict[str, str]]
 
-    Note: For languages that use spaces (like English), this function
-    attempts to match whole words only. For languages without spaces
-    (like Thai), it will match the exact string anywhere it appears.
+    Note: For text that contains spaces (for example, English sentences),
+    this function attempts to match whole tokens delimited by whitespace
+    only. If the text contains no spaces at all (as in many sentences in
+    languages without explicit word boundaries, such as Thai), it will
+    match the exact exclude string anywhere it appears using simple
+    substring replacement.
     """
     if not exclude_words:
         return text, {}
@@ -179,7 +182,7 @@ class Translate:
             raise ValueError("Not support language!")
 
     def translate(
-        self, text: str, exclude_words: list[str] | None = None
+        self, text: str, exclude_words: Optional[list[str]] = None
     ) -> str:
         """Translate text
 

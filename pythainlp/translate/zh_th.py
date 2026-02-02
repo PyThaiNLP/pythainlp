@@ -11,6 +11,8 @@ from AI builder
 
 from __future__ import annotations
 
+from typing import Optional
+
 
 class ThZhTranslator:
     """Thai-Chinese Machine Translation
@@ -36,7 +38,7 @@ class ThZhTranslator:
             self.model_thzh = self.model_thzh.cuda()
 
     def translate(
-        self, text: str, exclude_words: list[str] | None = None
+        self, text: str, exclude_words: Optional[list[str]] = None
     ) -> str:
         """Translate text from Thai to Chinese
 
@@ -107,7 +109,7 @@ class ZhThTranslator:
             self.model_zhth.cuda()
 
     def translate(
-        self, text: str, exclude_words: list[str] | None = None
+        self, text: str, exclude_words: Optional[list[str]] = None
     ) -> str:
         """Translate text from Chinese to Thai
 

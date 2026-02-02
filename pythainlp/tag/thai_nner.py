@@ -105,6 +105,11 @@ class Thai_NNER:
 
     def __init__(self, path_model: Optional[str] = get_corpus_path("thai_nner", "1.0")) -> None:
         """Initialize Thai_NNER with model path."""
+        # Import inside __init__ (not at module level) to allow:
+        # 1. Helper functions (get_top_level_entities, _entities_to_iob, etc.) to work
+        #    without requiring the thai-nner library
+        # 2. Module to be imported for documentation generation
+        # 3. Clear error message only when Thai_NNER class is actually instantiated
         try:
             from thai_nner import NNER
         except ImportError:

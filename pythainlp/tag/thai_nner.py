@@ -103,8 +103,15 @@ class ThaiNNER:
         print(f"Entities: {entities}")
     """
 
-    def __init__(self, path_model: Optional[str] = get_corpus_path("thai_nner", "1.0")) -> None:
-        """Initialize ThaiNNER with model path."""
+    def __init__(self, path_model: Optional[str] = None) -> None:
+        """Initialize ThaiNNER with model path.
+        
+        :param Optional[str] path_model: Path to model file. If None, uses default corpus path.
+        """
+        # Resolve path_model at runtime to avoid freezing the value at module import time
+        if path_model is None:
+            path_model = get_corpus_path("thai_nner", "1.0")
+        
         # Import inside __init__ (not at module level) to allow:
         # 1. Helper functions (get_top_level_entities, _entities_to_iob, etc.) to work
         #    without requiring the thai-nner library

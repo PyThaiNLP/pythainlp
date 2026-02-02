@@ -1019,15 +1019,11 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(longest_common_subsequence("A", "B"), "")  # single char no match
         self.assertEqual(longest_common_subsequence("ABC", "ABC"), "ABC")  # identical
         self.assertEqual(longest_common_subsequence("ABC", "XYZ"), "")  # no common chars
+        self.assertEqual(longest_common_subsequence("ABC", "AC"), "AC")
 
         # Thai text
         self.assertEqual(longest_common_subsequence("ไทย", "ไทย"), "ไทย")
         self.assertEqual(longest_common_subsequence("ภาษาไทย", "ไทย"), "ไทย")
-        self.assertEqual(longest_common_subsequence("ABC", "AC"), "AC")
-        self.assertEqual(longest_common_subsequence("ABC", "DEF"), "")
-        self.assertEqual(longest_common_subsequence("", "ABC"), "")
-        self.assertEqual(longest_common_subsequence("ABC", ""), "")
-        self.assertEqual(longest_common_subsequence("", ""), "")
 
     def test_analyze_thai_text(self):
         self.assertEqual(

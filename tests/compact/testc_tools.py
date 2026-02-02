@@ -114,9 +114,10 @@ class MisspellTestCaseC(unittest.TestCase):
         loc = search_location_of_character("€")
         self.assertIsNone(loc)
 
-        # Test empty string (returns first position due to "in" check)
+        # Test empty string
+        # Note: Empty string returns a location because Python's "in" operator
+        # matches empty string at the beginning of any string
         loc = search_location_of_character("")
-        # Empty string matches "" in row so it returns a location
         self.assertIsNotNone(loc)
 
     def test_find_misspell_candidates(self):

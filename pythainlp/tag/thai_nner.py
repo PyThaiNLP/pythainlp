@@ -8,6 +8,8 @@ Nested Named Entity Recognition for Thai text.
 """
 from __future__ import annotations
 
+from typing import Union
+
 from pythainlp.corpus import get_corpus_path
 
 
@@ -105,7 +107,7 @@ class Thai_NNER:
             from thai_nner import NNER
         except ImportError:
             raise ImportError(
-                "Not found thai-nner! Please install thai-nner by pip install thai-nner"
+                "thai-nner library not found. Please install it with 'pip install thai-nner'."
             )
         self.model = NNER(path_model=path_model)
 
@@ -139,7 +141,7 @@ class Thai_NNER:
             entities = get_top_level_entities(entities)
         return tokens, entities
 
-    def get_ner(self, text: str, pos: bool = False, tag: bool = False) -> list[tuple[str, str]] | str:
+    def get_ner(self, text: str, pos: bool = False, tag: bool = False) -> Union[list[tuple[str, str]], str]:
         """Tag Thai text with named entities in IOB format.
 
         This method provides compatibility with the NER class interface by
@@ -186,8 +188,13 @@ class Thai_NNER:
 def _entities_to_iob(tokens: list[str], entities: list[dict]) -> list[tuple[str, str]]:
     """Convert Thai-NNER entity format to IOB format.
 
+    This function assumes entities do not overlap. When converting nested
+    entities to IOB format, only top-level entities should be used to avoid
+    overlapping tags. If overlapping entities are provided, later entities
+    will overwrite the IOB tags of earlier entities.
+
     :param list[str] tokens: List of tokens
-    :param list[dict] entities: List of entity dictionaries
+    :param list[dict] entities: List of entity dictionaries (should be non-overlapping)
     :return: List of (token, tag) tuples in IOB format
     :rtype: list[tuple[str, str]]
     """

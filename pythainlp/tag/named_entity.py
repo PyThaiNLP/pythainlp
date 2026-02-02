@@ -42,9 +42,9 @@ class NER:
 
         # Engines that ignore corpus parameter
         if engine == "thai-nner":
-            from pythainlp.tag.thai_nner import Thai_NNER
+            from pythainlp.tag.thai_nner import ThaiNNER
 
-            self.engine = Thai_NNER()
+            self.engine = ThaiNNER()
         elif engine == "tltk":
             from pythainlp.tag import tltk
 
@@ -126,9 +126,9 @@ class NNER:
         self.load_engine(engine)
 
     def load_engine(self, engine: str = "thai_nner") -> None:
-        from pythainlp.tag.thai_nner import Thai_NNER
+        from pythainlp.tag.thai_nner import ThaiNNER
 
-        self.engine = Thai_NNER()
+        self.engine = ThaiNNER()
 
     def tag(self, text: str, top_level_only: bool = False) -> tuple[list[str], list[dict]]:
         """This function tags nested named entities.

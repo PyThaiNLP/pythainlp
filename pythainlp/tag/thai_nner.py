@@ -12,7 +12,7 @@ from typing import Optional, Union
 
 from pythainlp.corpus import get_corpus_path
 
-__all__ = ["Thai_NNER", "get_top_level_entities"]
+__all__ = ["ThaiNNER", "get_top_level_entities"]
 
 
 def _is_contained_in(entity: dict, container: dict) -> bool:
@@ -80,7 +80,7 @@ def get_top_level_entities(entities: list[dict]) -> list[dict]:
     return top_level
 
 
-class Thai_NNER:
+class ThaiNNER:
     """Thai Nested Named Entity Recognition.
 
     This class provides access to Thai Nested NER using the Thai-NNER model
@@ -95,21 +95,21 @@ class Thai_NNER:
     :Example:
     ::
 
-        from pythainlp.tag.thai_nner import Thai_NNER
+        from pythainlp.tag.thai_nner import ThaiNNER
 
-        nner = Thai_NNER()
+        nner = ThaiNNER()
         tokens, entities = nner.tag("วันนี้วันที่ 5 เมษายน 2565")
         print(f"Tokens: {tokens}")
         print(f"Entities: {entities}")
     """
 
     def __init__(self, path_model: Optional[str] = get_corpus_path("thai_nner", "1.0")) -> None:
-        """Initialize Thai_NNER with model path."""
+        """Initialize ThaiNNER with model path."""
         # Import inside __init__ (not at module level) to allow:
         # 1. Helper functions (get_top_level_entities, _entities_to_iob, etc.) to work
         #    without requiring the thai-nner library
         # 2. Module to be imported for documentation generation
-        # 3. Clear error message only when Thai_NNER class is actually instantiated
+        # 3. Clear error message only when ThaiNNER class is actually instantiated
         try:
             from thai_nner import NNER
         except ImportError:
@@ -133,9 +133,9 @@ class Thai_NNER:
         :Example:
         ::
 
-            from pythainlp.tag.thai_nner import Thai_NNER
+            from pythainlp.tag.thai_nner import ThaiNNER
 
-            nner = Thai_NNER()
+            nner = ThaiNNER()
 
             # Get all nested entities
             tokens, entities = nner.tag("วันที่ 5 เมษายน 2565")
@@ -169,9 +169,9 @@ class Thai_NNER:
         :Example:
         ::
 
-            from pythainlp.tag.thai_nner import Thai_NNER
+            from pythainlp.tag.thai_nner import ThaiNNER
 
-            nner = Thai_NNER()
+            nner = ThaiNNER()
 
             # Get IOB format
             result = nner.get_ner("วันที่ 5 เมษายน 2565")
@@ -228,6 +228,10 @@ def _entities_to_iob(tokens: list[str], entities: list[dict]) -> list[tuple[str,
 
 def _entities_to_html(tokens: list[str], entities: list[dict]) -> str:
     """Convert Thai-NNER entity format to HTML-like tags.
+
+    This function assumes entities do not overlap. If entities overlap,
+    tokens between overlapping entities may be skipped. For best results,
+    use only top-level entities (use get_top_level_entities() to filter).
 
     :param list[str] tokens: List of tokens
     :param list[dict] entities: List of entity dictionaries

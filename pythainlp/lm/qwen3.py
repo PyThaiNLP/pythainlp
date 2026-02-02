@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+# SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
@@ -34,7 +34,7 @@ class Qwen3:
 
         :param str model_path: model path or HuggingFace model ID
         :param str device: device (cpu, cuda or other)
-        :param torch_dtype: torch data type (e.g., torch.float16, torch.bfloat16)
+        :param Optional[torch.dtype] torch_dtype: torch data type (e.g., torch.float16, torch.bfloat16)
         :param bool low_cpu_mem_usage: low cpu mem usage
 
         :Example:
@@ -47,6 +47,15 @@ class Qwen3:
             model.load_model(device="cpu", torch_dtype=torch.bfloat16)
         """
         from transformers import AutoModelForCausalLM, AutoTokenizer
+
+        # Check CUDA availability early before loading model
+        if isinstance(device, str) and device.startswith("cuda"):
+            if not torch.cuda.is_available():
+                raise RuntimeError(
+                    "CUDA device requested but CUDA is not available. "
+                    "Check your PyTorch installation and GPU drivers, or use "
+                    "device='cpu' instead."
+                )
 
         self.device = device
         self.torch_dtype = torch_dtype
@@ -63,37 +72,25 @@ class Qwen3:
         try:
             self.model = AutoModelForCausalLM.from_pretrained(
                 self.model_path,
+                device_map=device,
                 torch_dtype=torch_dtype,
                 low_cpu_mem_usage=low_cpu_mem_usage,
             )
         except OSError as exc:
+            # Clean up tokenizer on failure
+            self.tokenizer = None
             raise RuntimeError(
                 f"Failed to load model from '{self.model_path}'. "
                 "This can happen due to an invalid model path, missing files, "
                 "or insufficient disk space."
             ) from exc
-        except RuntimeError as exc:
+        except Exception as exc:
+            # Clean up tokenizer on failure
+            self.tokenizer = None
             raise RuntimeError(
-                "Failed to load model weights. "
-                "This can be caused by insufficient memory or an incompatible "
-                "torch_dtype setting."
-            ) from exc
-
-        if isinstance(device, str) and device.startswith("cuda"):
-            if not torch.cuda.is_available():
-                raise RuntimeError(
-                    "CUDA device requested but CUDA is not available. "
-                    "Check your PyTorch installation and GPU drivers, or use "
-                    "device='cpu' instead."
-                )
-
-        try:
-            self.model.to(device)
-        except RuntimeError as exc:
-            raise RuntimeError(
-                f"Failed to move model to device '{device}'. "
-                "Ensure the device exists and has enough memory, and that your "
-                "PyTorch installation supports this device."
+                f"Failed to load model weights: {exc}. "
+                "This can be caused by insufficient memory, an incompatible "
+                "torch_dtype setting, or other configuration issues."
             ) from exc
 
     def generate(
@@ -214,11 +211,11 @@ class Qwen3:
                 add_generation_prompt=True,
             )
         else:
-            # Simple fallback format
+            # Simple fallback format - remove newlines to avoid confusion
             text = ""
             for msg in messages:
                 role = str(msg.get("role", "user")).replace("\n", " ")
-                content = str(msg.get("content", "")).replace("\n", "\\n")
+                content = str(msg.get("content", "")).replace("\n", " ")
                 text += f"{role}: {content}\n"
             text += "assistant: "
 

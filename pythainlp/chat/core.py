@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Optional
+
 import torch
 
 
@@ -23,7 +25,7 @@ class ChatBotModel:
         return_dict: bool = True,
         load_in_8bit: bool = False,
         device: str = "cuda",
-        torch_dtype=torch.float16,
+        torch_dtype: Optional[torch.dtype] = torch.float16,
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
     ):
@@ -33,7 +35,7 @@ class ChatBotModel:
         :param bool return_dict: return_dict
         :param bool load_in_8bit: load model in 8bit
         :param str device: device (cpu, cuda or other)
-        :param torch_dtype torch_dtype: torch_dtype
+        :param Optional[torch.dtype] torch_dtype: torch_dtype
         :param str offload_folder: offload folder
         :param bool low_cpu_mem_usage: low cpu mem usage
         """

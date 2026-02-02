@@ -8,7 +8,7 @@ Nested Named Entity Recognition for Thai text.
 """
 from __future__ import annotations
 
-from typing import Union
+from typing import Optional, Union
 
 from pythainlp.corpus import get_corpus_path
 
@@ -103,7 +103,7 @@ class Thai_NNER:
         print(f"Entities: {entities}")
     """
 
-    def __init__(self, path_model=get_corpus_path("thai_nner", "1.0")) -> None:
+    def __init__(self, path_model: Optional[str] = get_corpus_path("thai_nner", "1.0")) -> None:
         """Initialize Thai_NNER with model path."""
         try:
             from thai_nner import NNER
@@ -154,7 +154,7 @@ class Thai_NNER:
         :param bool tag: output HTML-like tags
         :return: If tag=False, returns list of tuples (word, NER_tag) in IOB format.
                  If tag=True, returns string with HTML-like tags.
-        :rtype: Union[List[Tuple[str, str]], str]
+        :rtype: Union[list[tuple[str, str]], str]
 
         .. note::
             When converting to IOB format, only top-level entities are used to

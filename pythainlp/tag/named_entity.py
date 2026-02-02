@@ -39,7 +39,7 @@ class NER:
     def load_engine(self, engine: str, corpus: str) -> None:
         self.name_engine = engine
         self.engine: Any = None
-        
+
         # Engines that ignore corpus parameter
         if engine == "thai-nner":
             from pythainlp.tag.thai_nner import Thai_NNER
@@ -141,7 +141,7 @@ class NNER:
         :return: a tuple of (tokens, entities) where tokens is a list of
                  tokenized strings and entities is a list of dictionaries
                  containing 'text', 'span', and 'entity_type' keys.
-        :rtype: Tuple[List[str], List[dict]]
+        :rtype: tuple[list[str], list[dict]]
 
         .. note::
             The tokenized output may include empty strings as part of the

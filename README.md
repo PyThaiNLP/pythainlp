@@ -6,76 +6,54 @@
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3519354.svg)](https://doi.org/10.5281/zenodo.3519354)
-
 [![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Codacy Grade](https://app.codacy.com/project/badge/Grade/5821a0de122041c79999bbb280230ffb)](https://www.codacy.com/gh/PyThaiNLP/pythainlp/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev)
-
 [![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp_get_started.ipynb)
+[![Facebook](https://img.shields.io/badge/Facebook-0866FF?style=flat&logo=facebook&logoColor=white)](https://www.facebook.com/pythainlp/)
 [![Chat on Matrix](https://matrix.to/img/matrix-badge.svg)](https://matrix.to/#/#thainlp:matrix.org)
 
-PyThaiNLP is a Python package for text processing and linguistic analysis,
-similar to [NLTK](https://www.nltk.org/) with a focus on Thai language.
+[pythainlp.org](https://pythainlp.org/) |
+[Tutorials](https://pythainlp.org/tutorials) |
+[License info](https://pythainlp.org/dev-docs/notes/license.html) |
+[Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards) |
+[Adopters](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md) |
+*[เอกสารภาษาไทย](https://github.com/PyThaiNLP/pythainlp/blob/dev/README_TH.md)*
 
-PyThaiNLP เป็นไลบารีภาษาไพทอนสำหรับประมวลผลภาษาธรรมชาติ คล้ายกับ NLTK โดยเน้นภาษาไทย
-[ดูรายละเอียดภาษาไทยได้ที่ README_TH.MD](https://github.com/PyThaiNLP/pythainlp/blob/dev/README_TH.md)
-
-## Quick install
+Designed to be a Thai-focused counterpart to [NLTK](https://www.nltk.org/),
+**PyThaiNLP** provides standard tools for linguistic analysis under
+an Apache-2.0 source license, with its data and models covered by CC0-1.0
+and CC-BY-4.0.
 
 ```sh
 pip install pythainlp
 ```
 
-| Version | Description | Status |
-|:------:|:--:|:------:|
-| [5.2.0](https://github.com/PyThaiNLP/pythainlp/releases) | Stable | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/1080) |
-| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | Release Candidate for 5.3 | [Change Log](https://github.com/PyThaiNLP/pythainlp/issues/1169) |
+| Version | Python version | Changes | Documentation |
+|:-------:|:--------------:|:-------:|:-------------:|
+| [5.2.0](https://github.com/PyThaiNLP/pythainlp/releases) | 3.7+ | [Log](https://github.com/PyThaiNLP/pythainlp/issues/1080) | [pythainlp.org/docs](https://pythainlp.org/docs) |
+| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/issues/1169) | [pythainlp.org/dev-docs](https://pythainlp.org/dev-docs/) |
 
-## Getting Started
+## Features
 
-- PyThaiNLP requires Python 3.9+.
-  - Python 2.7 users can use PyThaiNLP 1.6. See [2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118) | [Upgrading from 1.7](https://pythainlp.org/docs/2.0/notes/pythainlp-1_7-2_0.html) | [Upgrading ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
-- [PyThaiNLP Get Started notebook](https://pythainlp.org/tutorials/notebooks/pythainlp_get_started.html) | [API document](https://pythainlp.org/docs) | [Tutorials](https://pythainlp.org/tutorials)
-- [Official website](https://pythainlp.org/) | [PyPI](https://pypi.org/project/pythainlp/) | [Facebook page](https://www.facebook.com/pythainlp/)
-- [Who uses PyThaiNLP?](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md)
-- [Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards) - for technical details, caveats, and ethical considerations of the models developed and used in PyThaiNLP
+- **Linguistic units:** Sentence, word, and subword segmentation
+  (`sent_tokenize`, `word_tokenize`, `subword_tokenize`).
+- **Tagging:** Part-of-speech tagging (`pos_tag`).
+- **Transliteration:** Romanization (`transliterate`) and IPA conversion.
+- **Correction:** Spelling suggestion and correction (`spell`, `correct`).
+- **Utilities:** Soundex, collation, number-to-text (`bahttext`), datetime
+  formatting (`thai_strftime`), and keyboard layout correction.
+- **Data:** Built-in Thai character sets, word lists, and stop words.
+- **CLI:** Command-line interface via `thainlp`.
 
-## Capabilities
+  ```sh
+  thainlp data catalog  # List datasets
+  thainlp help          # Show usage
+  ```
 
-PyThaiNLP provides standard linguistic analysis for Thai language and standard Thai locale utility functions.
-Some of these functions are also available via the command-line interface (run `thainlp` in your shell).
+## Installation options
 
-Partial list of features:
-
-- Convenient character and word classes, like Thai consonants (`pythainlp.thai_consonants`), vowels (`pythainlp.thai_vowels`), digits (`pythainlp.thai_digits`), and stop words (`pythainlp.corpus.thai_stopwords`) -- comparable to constants like `string.letters`, `string.digits`, and `string.punctuation`
-- Linguistic unit segmentation at different levels: sentence (`sent_tokenize`), word (`word_tokenize`), and subword (`subword_tokenize`)
-- Part-of-speech tagging (`pos_tag`)
-- Spelling suggestion and correction (`spell` and `correct`)
-- Phonetic algorithm and transliteration (`soundex` and `transliterate`)
-- Collation (sorted by dictionary order) (`collate`)
-- Number read out (`num_to_thaiword` and `bahttext`)
-- Datetime formatting (`thai_strftime`)
-- Thai-English keyboard misswitched fix (`eng_to_thai`, `thai_to_eng`)
-
-## Installation
-
-```sh
-pip install --upgrade pythainlp
-```
-
-This will install the latest stable release of PyThaiNLP.
-
-Install different releases:
-
-- Stable release: `pip install --upgrade pythainlp`
-- Pre-release (nearly ready): `pip install --upgrade --pre pythainlp`
-- Development (likely to break things): `pip install https://github.com/PyThaiNLP/pythainlp/archive/dev.zip`
-
-### Installation Options
-
-Some functionalities, like Thai WordNet, may require extra packages.
-To install those requirements,
-specify a set of `[name]` immediately after `pythainlp`:
+To install with specific extras (e.g., `translate`, `wordnet`, `full`):
 
 ```sh
 pip install "pythainlp[extra1,extra2,...]"
@@ -86,80 +64,37 @@ Possible `extras` included:
 - `compact` — install a stable and small subset of dependencies (recommended)
 - `translate` — machine translation support
 - `wordnet` — WordNet support
-- `full` — install all optional dependencies
-  (may introduce large dependencies and conflicts)
+- `full` — install all optional dependencies (may introduce conflicts)
 
 The documentation website maintains
 [full list of extras](https://pythainlp.org/dev-docs/notes/installation.html).
 
-For dependency details,
-look at the `[project.optional-dependencies]` section in
+For details, see `[project.optional-dependencies]` section in
 [`pyproject.toml`](https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml).
 
-## Data Directory
+## Data directory
 
-- Some additional data, like word lists and language models,
-  may be automatically downloaded during runtime.
-- PyThaiNLP caches these data under the directory `~/pythainlp-data`
-  by default.
-- The data directory can be changed by specifying the environment variable
-  `PYTHAINLP_DATA_DIR`.
-- See the data catalog (`db.json`) at
-  <https://github.com/PyThaiNLP/pythainlp-corpus>
-
-### Using PyThaiNLP in Distributed Environments
+PyThaiNLP downloads data (see the data catalog `db.json` at
+[pythainlp-corpus](https://github.com/PyThaiNLP/pythainlp-corpus))
+to `~/pythainlp-data` by default.
+Set the `PYTHAINLP_DATA_DIR` environment variable to override this location.
 
 When using PyThaiNLP in distributed computing environments
 (e.g., Apache Spark), set the `PYTHAINLP_DATA_DIR` environment variable
-inside the function that will be distributed to worker nodes:
+inside the function that will be distributed to worker nodes.
+See details in
+[the documentation](https://pythainlp.org/dev-docs/notes/installation.html).
 
-```python
-def tokenize_thai(text):
-    import os
-    os.environ['PYTHAINLP_DATA_DIR'] = './pythainlp-data'
-    from pythainlp.tokenize import word_tokenize
-    return word_tokenize(text)
-
-rdd.map(tokenize_thai)
-```
-
-This ensures each worker uses a local writable directory.
-See `examples/distributed_pyspark.py` for more examples.
-
-## Command-Line Interface
-
-Some of PyThaiNLP functionalities can be used via command line
-with the `thainlp` command.
-
-For example, to display a catalog of datasets:
-
-```sh
-thainlp data catalog
-```
-
-To show how to use:
-
-```sh
-thainlp help
-```
-
-## Testing and test suites
+## Testing
 
 We test core functionalities on all officially supported Python versions.
 
-Some functionality requiring extra dependencies may be tested less frequently
-due to potential version conflicts or incompatibilities between packages.
-
-Test cases are categorized into three groups: core, compact, and extra.
-You can find these tests in the [tests/](/tests/) directory.
-
-For more detailed information on testing, please refer to the tests README:
-[tests/README.md](./tests/README.md)
+See [tests/README.md](./tests/README.md) for test matrix and other details.
 
 ## Licenses
 
-| | License |
-| :-- | :-- |
+| Content | License |
+| :------ | :------ |
 | PyThaiNLP source codes and notebooks | [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE) |
 | Corpora, datasets, and documentations created by PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication License (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
 | Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/) |
@@ -167,13 +102,9 @@ For more detailed information on testing, please refer to the tests README:
 
 ## Contribute to PyThaiNLP
 
-- Please fork and create a pull request :)
-- For style guides and other information, including references to algorithms we use,
-  please refer to our [contributing](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md) page.
-
-## Who uses PyThaiNLP?
-
-You can read [INTHEWILD.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md).
+Please fork and create a pull request.
+See [CONTRIBUTING.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)
+for guidelines and algorithm references.
 
 ## Citations
 

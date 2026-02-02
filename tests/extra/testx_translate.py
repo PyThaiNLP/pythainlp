@@ -83,7 +83,7 @@ class TranslateTestCaseX(unittest.TestCase):
         #     )
         # )
         with self.assertRaises(ValueError):
-            self.th_cat_translator = Translate('th', 'cat', engine="fkfj")
+            self.th_cat_translator = Translate("th", "cat", engine="fkfj")
 
     def test_word_translate(self):
         self.assertIsNone(word_translate("cat", src="en", target="th"))

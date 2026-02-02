@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Tests for tokenize functions that need extra dependencies
-# Note: Tests requiring TensorFlow/Keras/tltk/torch/transformers have been moved to tests.noauto
 
 import unittest
 
@@ -12,6 +11,7 @@ from pythainlp.tokenize import (
     sent_tokenize,
     ssg,
     subword_tokenize,
+    tltk,
     word_tokenize,
 )
 
@@ -22,9 +22,13 @@ from ..core.test_tokenize import (
     SENT_4,
     TEXT_1,
 )
+from ..test_helpers import (
+    assert_segment_handles_none_and_empty,
+    assert_subword_tokenize_basic,
+)
 
 
-class SentTokenizeThaiSumTestCase(unittest.TestCase):
+class SentTokenizeThaiSumTestCaseX(unittest.TestCase):
     def test_sent_tokenize_thaisum(self):
         self.assertIsNotNone(
             sent_tokenize(
@@ -50,10 +54,9 @@ class SentTokenizeThaiSumTestCase(unittest.TestCase):
         )
 
 
-class SubwordTokenizeSSGTestCase(unittest.TestCase):
+class SubwordTokenizeSSGTestCaseX(unittest.TestCase):
     def test_subword_tokenize_ssg(self):
-        self.assertEqual(ssg.segment(None), [])
-        self.assertEqual(ssg.segment(""), [])
+        assert_segment_handles_none_and_empty(self, ssg.segment)
         self.assertEqual(subword_tokenize(None, engine="ssg"), [])
         self.assertEqual(
             subword_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
@@ -62,13 +65,12 @@ class SubwordTokenizeSSGTestCase(unittest.TestCase):
         self.assertNotIn("า", subword_tokenize("สวัสดีดาวอังคาร", engine="ssg"))
 
 
-class WordTokenizeNERCutTestCase(unittest.TestCase):
+class WordTokenizeNERCutTestCaseX(unittest.TestCase):
     def test_word_tokenize_nercut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="nercut"))
 
     def test_nercut(self):
-        self.assertEqual(nercut.segment(None), [])
-        self.assertEqual(nercut.segment(""), [])
+        assert_segment_handles_none_and_empty(self, nercut.segment)
         self.assertIsNotNone(nercut.segment("ทดสอบ"))
         self.assertEqual(nercut.segment("ทันแน่ๆ"), ["ทัน", "แน่ๆ"])
         self.assertEqual(nercut.segment("%1ครั้ง"), ["%", "1", "ครั้ง"])
@@ -77,7 +79,68 @@ class WordTokenizeNERCutTestCase(unittest.TestCase):
         self.assertIsNotNone(word_tokenize("ทดสอบ", engine="nercut"))
 
 
-class WordTokenizeBudouxTestCase(unittest.TestCase):
+class WordTokenizeBudouxTestCaseX(unittest.TestCase):
     def test_word_tokenize_budoux(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="budoux"))
 
+
+class SentTokenizeTLTKTestCaseX(unittest.TestCase):
+    """Tests for tltk engine sent tokenization"""
+
+    def test_sent_tokenize_tltk(self):
+        self.assertIsNotNone(
+            sent_tokenize(
+                SENT_1,
+                engine="tltk",
+            ),
+        )
+        self.assertIsNotNone(
+            sent_tokenize(
+                SENT_2,
+                engine="tltk",
+            ),
+        )
+        self.assertIsNotNone(
+            sent_tokenize(
+                SENT_3,
+                engine="tltk",
+            ),
+        )
+
+
+class SubwordTokenizeTLTKTestCaseX(unittest.TestCase):
+    """Tests for tltk engine subword tokenization"""
+
+    def test_subword_tokenize_tltk(self):
+        assert_subword_tokenize_basic(self, "tltk")
+
+
+class SyllableTokenizeTLTKTestCaseX(unittest.TestCase):
+    """Tests for tltk engine syllable tokenization"""
+
+    def test_tltk(self):
+        assert_segment_handles_none_and_empty(self, tltk.segment)
+        self.assertEqual(
+            tltk.syllable_tokenize("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย"),
+            [
+                "ฉัน",
+                "รัก",
+                "ภา",
+                "ษา",
+                "ไทย",
+                "เพราะ",
+                "ฉัน",
+                "เป็น",
+                "คน",
+                "ไทย",
+            ],
+        )
+        self.assertEqual(tltk.syllable_tokenize(None), [])
+        self.assertEqual(tltk.syllable_tokenize(""), [])
+
+
+class WordTokenizeTLTKTestCaseX(unittest.TestCase):
+    """Tests for tltk engine word tokenization"""
+
+    def test_word_tokenize_tltk(self):
+        self.assertIsNotNone(word_tokenize(TEXT_1, engine="tltk"))

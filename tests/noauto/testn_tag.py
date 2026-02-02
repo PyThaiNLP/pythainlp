@@ -2,10 +2,9 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-# Tests for tag functions that require transformers or tltk
+# Tests for tag functions that require transformers or torch
 # These tests are NOT run in automated CI workflows due to:
 # - Large dependencies (transformers, torch)
-# - Compilation issues (tltk)
 # - Python 3.13+ compatibility issues
 
 import unittest
@@ -13,47 +12,8 @@ import unittest
 from pythainlp.tag import (
     NER,
     NNER,
-    pos_tag,
     pos_tag_transformers,
-    tltk,
 )
-
-
-class TagTLTKTestCaseN(unittest.TestCase):
-    """Tests for tltk engine (requires tltk with compilation issues)"""
-
-    def test_pos_tag_tltk(self):
-        tokens = ["ผม", "รัก", "คุณ"]
-        self.assertIsNotNone(pos_tag(tokens, engine="tltk"))
-        with self.assertRaises(ValueError):
-            tltk.pos_tag(tokens, corpus="blackboard")
-
-    def test_tltk_ner(self):
-        self.assertEqual(tltk.get_ner(""), [])
-        self.assertIsNotNone(tltk.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
-        self.assertIsNotNone(tltk.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
-        self.assertIsNotNone(
-            tltk.get_ner("พลเอกประยุกธ์ จันทร์โอชา ประกาศในฐานะหัวหน้า")
-        )
-        self.assertIsNotNone(
-            tltk.get_ner(
-                "พลเอกประยุกธ์ จันทร์โอชา ประกาศในฐานะหัวหน้า",
-                tag=True,
-            )
-        )
-        self.assertIsNotNone(
-            tltk.get_ner(
-                """คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ มหาวิทยาลัยขอนแก่น
-                จังหวัดหนองคาย 43000"""
-            )
-        )
-        self.assertIsNotNone(
-            tltk.get_ner(
-                """คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ มหาวิทยาลัยขอนแก่น
-                จังหวัดหนองคาย 43000""",
-                tag=True,
-            )
-        )
 
 
 class TagTransformersTestCaseN(unittest.TestCase):

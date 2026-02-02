@@ -23,6 +23,11 @@ class AncientTestCase(unittest.TestCase):
         self.assertEqual(aksonhan_to_current("บงงคบบ"), "บังคับ")
         self.assertEqual(aksonhan_to_current("สรรเพชญ"), "สรรเพชญ")
 
+        # Edge cases
+        self.assertEqual(aksonhan_to_current(""), "")  # empty string
+        self.assertEqual(aksonhan_to_current("ก"), "ก")  # single char
+        self.assertEqual(aksonhan_to_current("กา"), "กา")  # two chars
+
     def test_convert_currency(self):
         self.assertEqual(
             convert_currency(80, "บาท")["ตำลึง"],
@@ -44,3 +49,24 @@ class AncientTestCase(unittest.TestCase):
             convert_currency(1,"ชั่ง")["ชั่ง"],
             1.0
         )
+
+        # Test all supported units
+        result = convert_currency(1, "บาท")
+        self.assertIn("เบี้ย", result)
+        self.assertIn("อัฐ", result)
+        self.assertIn("ไพ", result)
+        self.assertIn("เฟื้อง", result)
+        self.assertIn("สลึง", result)
+        self.assertIn("ตำลึง", result)
+
+        # Test with zero value
+        result = convert_currency(0, "บาท")
+        self.assertEqual(result["บาท"], 0.0)
+
+        # Test with fractional value
+        result = convert_currency(0.5, "บาท")
+        self.assertEqual(result["บาท"], 0.5)
+
+        # Test invalid unit
+        with self.assertRaises(NotImplementedError):
+            convert_currency(1, "invalid_unit")

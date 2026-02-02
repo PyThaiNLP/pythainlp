@@ -175,13 +175,13 @@ This will create distribution packages in the `dist/` directory.
   #current_version = 2.3.3
 
   bump-my-version bump patch
-  #current_version = 2.3.6-dev0
+  #current_version = 2.3.4-dev0
 
   bump-my-version bump minor
-  #current_version = 2.3.1-dev0
+  #current_version = 2.4.0-dev0
 
   bump-my-version bump build
-  #current_version = 2.3.1-dev1
+  #current_version = 2.4.0-dev1
 
   bump-my-version bump major
   #current_version = 3.0.0-dev0

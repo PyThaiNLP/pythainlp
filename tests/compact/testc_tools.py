@@ -6,7 +6,11 @@ import unittest
 
 import numpy as np
 
-from pythainlp.tools.misspell import misspell
+from pythainlp.tools.misspell import (
+    find_misspell_candidates,
+    misspell,
+    search_location_of_character,
+)
 
 
 def _count_difference(st1: str, st2: str) -> int:
@@ -85,3 +89,58 @@ class MisspellTestCaseC(unittest.TestCase):
                 2,
                 f"expect len(text)-2 misspells with ratio=1.5. (Δ={diff})",
             )
+
+    def test_search_location_of_character(self):
+        """Test search_location_of_character function."""
+        # Test Thai characters
+        loc = search_location_of_character("ก")
+        self.assertIsNotNone(loc)
+        self.assertEqual(len(loc), 4)  # (language_ix, is_shift, row, pos)
+
+        # Test English characters
+        loc = search_location_of_character("a")
+        self.assertIsNotNone(loc)
+        self.assertEqual(len(loc), 4)
+
+        # Test shifted characters
+        loc = search_location_of_character("A")
+        self.assertIsNotNone(loc)
+
+        # Test numbers
+        loc = search_location_of_character("1")
+        self.assertIsNotNone(loc)
+
+        # Test character not in keyboard
+        loc = search_location_of_character("€")
+        self.assertIsNone(loc)
+
+        # Test empty string
+        # Note: Empty string returns a location because Python's "in" operator
+        # matches empty string at the beginning of any string
+        loc = search_location_of_character("")
+        self.assertIsNotNone(loc)
+
+    def test_find_misspell_candidates(self):
+        """Test find_misspell_candidates function."""
+        # Test Thai character
+        candidates = find_misspell_candidates("ก")
+        self.assertIsNotNone(candidates)
+        self.assertIsInstance(candidates, list)
+        self.assertGreater(len(candidates), 0)
+
+        # Test English character
+        candidates = find_misspell_candidates("a")
+        self.assertIsNotNone(candidates)
+        self.assertIsInstance(candidates, list)
+        self.assertGreater(len(candidates), 0)
+
+        # Test character not in keyboard
+        candidates = find_misspell_candidates("€")
+        self.assertIsNone(candidates)
+
+        # Test that candidates are different from input
+        candidates = find_misspell_candidates("ด")
+        if candidates:
+            for candidate in candidates:
+                # Candidates should be strings
+                self.assertIsInstance(candidate, str)

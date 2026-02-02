@@ -253,4 +253,3 @@ class RobustnessTestCase(unittest.TestCase):
                         f"word_tokenize (engine={engine}) failed with "
                         f"very long string (index={i}): {e}"
                     )
-

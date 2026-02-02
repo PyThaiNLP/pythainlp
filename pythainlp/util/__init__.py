@@ -45,6 +45,8 @@ __all__ = [
     "reorder_vowels",
     "rhyme",
     "sound_syllable",
+    "spell_syllable",
+    "spell_word",
     "spelling",
     "spell_words",
     "syllable_length",
@@ -121,6 +123,7 @@ from pythainlp.util.profanity import (
 from pythainlp.util.remove_trailing_repeat_consonants import (
     remove_trailing_repeat_consonants,
 )
+from pythainlp.util.spell_words import spell_syllable, spell_word
 from pythainlp.util.strftime import thai_strftime
 
 from pythainlp.util.thai import (

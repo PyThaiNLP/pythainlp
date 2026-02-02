@@ -97,6 +97,14 @@ class UtilTestCase(unittest.TestCase):
             collate(["ไก่", "เป็ด", "หมู", "วัว"], reverse=True),
             ["หมู", "วัว", "เป็ด", "ไก่"],
         )
+        # Edge cases: mixed Thai and numbers
+        self.assertEqual(collate(["ก", "1", "ข"]), ["1", "ก", "ข"])
+        # Edge cases: with spaces (spaces sort before letters)
+        result = collate([" ก", "ก", "  ก"])
+        self.assertEqual(len(result), 3)
+        self.assertIn(" ก", result)
+        self.assertIn("ก", result)
+        self.assertIn("  ก", result)
 
     # ### pythainlp.util.numtoword
 
@@ -720,6 +728,11 @@ class UtilTestCase(unittest.TestCase):
             ":ธง_ไทย: นี่คือธงประเทศไทย",
         )
 
+        # Edge cases
+        self.assertEqual(emoji_to_thai(""), "")  # empty string
+        self.assertEqual(emoji_to_thai("no emoji"), "no emoji")  # no emoji
+        self.assertEqual(emoji_to_thai("ไม่มีอีโมจิ"), "ไม่มีอีโมจิ")  # Thai no emoji
+
     def test_sound_syllable(self):
         test = [
             ("มา", "live"),
@@ -863,6 +876,10 @@ class UtilTestCase(unittest.TestCase):
 
     def test_to_idna(self):
         self.assertEqual(to_idna("คนละครึ่ง.com"), "xn--42caj4e6bk1f5b1j.com")
+        # Additional test cases for IDNA encoding
+        self.assertEqual(to_idna("ไทย.com"), "xn--o3cw4h.com")
+        self.assertEqual(to_idna("example.com"), "example.com")  # ASCII unchanged
+        self.assertEqual(to_idna("ภาษาไทย.th"), "xn--o3crh0a8bb0k.th")
 
     def test_thai_strptime(self):
         self.assertIsNotNone(
@@ -923,6 +940,11 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(
             tis620_to_utf8("¡ÃÐ·ÃÇ§ÍØµÊÒË¡ÃÃÁ"), "กระทรวงอุตสาหกรรม"
         )
+        # Additional test cases
+        self.assertEqual(tis620_to_utf8("»ÃÐà·Èä·Â"), "ประเทศไทย")
+        self.assertEqual(tis620_to_utf8("ÀÒÉÒä·Â"), "ภาษาไทย")
+        # Empty string
+        self.assertEqual(tis620_to_utf8(""), "")
 
     def test_remove_repeat_consonants(self):
         # update of pythainlp.copus.thai_words() able to break this
@@ -988,11 +1010,20 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(longest_common_subsequence("ABCBDAB", "BDCAB"), "BDAB")
         self.assertEqual(longest_common_subsequence("AGGTAB", "GXTXAYB"), "GTAB")
         self.assertEqual(longest_common_subsequence("ABCDGH", "AEDFHR"), "ADH")
+
+        # Edge cases
+        self.assertEqual(longest_common_subsequence("", ""), "")  # empty strings
+        self.assertEqual(longest_common_subsequence("ABC", ""), "")  # one empty
+        self.assertEqual(longest_common_subsequence("", "ABC"), "")  # other empty
+        self.assertEqual(longest_common_subsequence("A", "A"), "A")  # single char match
+        self.assertEqual(longest_common_subsequence("A", "B"), "")  # single char no match
+        self.assertEqual(longest_common_subsequence("ABC", "ABC"), "ABC")  # identical
+        self.assertEqual(longest_common_subsequence("ABC", "XYZ"), "")  # no common chars
         self.assertEqual(longest_common_subsequence("ABC", "AC"), "AC")
-        self.assertEqual(longest_common_subsequence("ABC", "DEF"), "")
-        self.assertEqual(longest_common_subsequence("", "ABC"), "")
-        self.assertEqual(longest_common_subsequence("ABC", ""), "")
-        self.assertEqual(longest_common_subsequence("", ""), "")
+
+        # Thai text
+        self.assertEqual(longest_common_subsequence("ไทย", "ไทย"), "ไทย")
+        self.assertEqual(longest_common_subsequence("ภาษาไทย", "ไทย"), "ไทย")
 
     def test_analyze_thai_text(self):
         self.assertEqual(

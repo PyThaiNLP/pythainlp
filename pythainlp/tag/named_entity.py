@@ -16,13 +16,16 @@ class NER:
     :param str corpus: corpus
 
     **Options for engine**
-        * *thainer-v2* - Thai NER engine v2.0 for Thai NER 2.0 (default)
+        * *phayathaibert* - PhayaThaiBERT-based Thai NER engine
         * *thainer* - Thai NER engine
-        * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.
         * *thai-nner* - Thai Nested NER engine
+        * *thainer-v2* - Thai NER engine v2.0 for Thai NER 2.0 (default)
+        * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.
+        * *wangchanberta* - WangchanBERTa-based Thai NER engine
 
     **Options for corpus**
         * *thainer* - Thai NER corpus (default)
+        * *thainer-v2* - Thai NER v2 corpus
 
     **Note**: The tltk engine supports NER models from tltk only.
               The thai-nner engine supports nested NER and ignores corpus parameter.
@@ -36,33 +39,37 @@ class NER:
     def load_engine(self, engine: str, corpus: str) -> None:
         self.name_engine = engine
         self.engine: Any = None
-        if engine == "thainer" and corpus == "thainer":
-            from pythainlp.tag.thainer import ThaiNameTagger
+        if corpus == "thainer":
+            if engine == "thainer":
+                from pythainlp.tag.thainer import ThaiNameTagger
 
-            self.engine = ThaiNameTagger()
-        elif engine == "thainer-v2" and corpus == "thainer":
-            from pythainlp.wangchanberta import NamedEntityRecognition
+                self.engine = ThaiNameTagger()
+            elif engine == "thainer-v2":
+                from pythainlp.wangchanberta import NamedEntityRecognition
 
-            self.engine = NamedEntityRecognition(
-                model="pythainlp/thainer-corpus-v2-base-model"
-            )
-        elif engine == "tltk":
-            from pythainlp.tag import tltk
+                self.engine = NamedEntityRecognition(
+                    model="pythainlp/thainer-corpus-v2-base-model"
+                )
+            elif engine == "wangchanberta":
+                from pythainlp.wangchanberta import ThaiNameTagger as WangchanbertaThaiNameTagger  # type: ignore[assignment]  # noqa: I001,E501
 
-            self.engine = tltk
-        elif engine == "wangchanberta" and corpus == "thainer":
-            from pythainlp.wangchanberta import ThaiNameTagger  # type: ignore[assignment]  # noqa: I001
+                self.engine = WangchanbertaThaiNameTagger(dataset_name=corpus)  # type: ignore[call-arg]
+        elif corpus == "thainer-v2":
+            if engine == "phayathaibert":
+                from pythainlp.phayathaibert.core import NamedEntityTagger
 
-            self.engine = ThaiNameTagger(dataset_name=corpus)  # type: ignore[call-arg]
-        elif engine == "phayathaibert" and corpus == "thainer-v2":
-            from pythainlp.phayathaibert.core import NamedEntityTagger
+                self.engine = NamedEntityTagger()
+        else:  # No corpus matched
+            if engine == "tltk":
+                from pythainlp.tag import tltk
 
-            self.engine = NamedEntityTagger()
-        elif engine == "thai-nner":
-            from pythainlp.tag.thai_nner import Thai_NNER
+                self.engine = tltk
+            elif engine == "thai-nner":
+                from pythainlp.tag.thai_nner import Thai_NNER
 
-            self.engine = Thai_NNER()
-        else:
+                self.engine = Thai_NNER()
+
+        if self.engine is None:
             raise ValueError(
                 f"NER class not support {engine} engine or {corpus} corpus."
             )

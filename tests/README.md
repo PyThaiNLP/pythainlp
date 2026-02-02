@@ -22,7 +22,7 @@ supported Python versions and operating systems:
 
 The CI/CD test workflow is at
 <https://github.com/PyThaiNLP/pythainlp/blob/dev/.github/workflows/unittest.yml>.
-        
+
 ## Core tests (test_*.py)
 
 - Run `unittest tests.core`
@@ -65,7 +65,7 @@ The CI/CD test workflow is at
 A comprehensive test suite within core tests that tests edge cases important
 for real-world usage:
 
-- Empty strings and various whitespace handling (spaces, tabs, unicode spaces)
+- Empty strings and various whitespace handling (spaces, tabs, Unicode spaces)
 - Special characters from encoding issues, BOM, terminal copy/paste
 - Truncated/malformed Unicode and surrogate pairs
 - Emoji and modern Unicode sequences (ZWJ, modifiers, flags)

@@ -3,16 +3,14 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Tests for tag functions that need extra dependencies
-# Note: Tests requiring transformers/tltk have been moved to tests.noautotest
 
 import unittest
 
+from pythainlp.tag import pos_tag, tltk
 from pythainlp.tag.thainer import ThaiNameTagger
 
 
 class TagTestCaseX(unittest.TestCase):
-    # Tests for ThaiNameTagger (doesn't require transformers or tltk)
-    # All tltk and transformers-based tests have been moved to tests.noautotest
 
     def test_thai_name_tagger_1_5(self):
         ner = ThaiNameTagger(version="1.5")
@@ -114,5 +112,42 @@ class TagTestCaseX(unittest.TestCase):
                 "วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.",
                 pos=False,
                 tag=False,
+            )
+        )
+
+
+class TagTLTKTestCaseX(unittest.TestCase):
+    """Tests for tltk engine POS tagging and NER"""
+
+    def test_pos_tag_tltk(self):
+        tokens = ["ผม", "รัก", "คุณ"]
+        self.assertIsNotNone(pos_tag(tokens, engine="tltk"))
+        with self.assertRaises(ValueError):
+            tltk.pos_tag(tokens, corpus="blackboard")
+
+    def test_tltk_ner(self):
+        self.assertEqual(tltk.get_ner(""), [])
+        self.assertIsNotNone(tltk.get_ner("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(tltk.get_ner("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(
+            tltk.get_ner("พลเอกประยุกธ์ จันทร์โอชา ประกาศในฐานะหัวหน้า")
+        )
+        self.assertIsNotNone(
+            tltk.get_ner(
+                "พลเอกประยุกธ์ จันทร์โอชา ประกาศในฐานะหัวหน้า",
+                tag=True,
+            )
+        )
+        self.assertIsNotNone(
+            tltk.get_ner(
+                """คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ มหาวิทยาลัยขอนแก่น
+                จังหวัดหนองคาย 43000"""
+            )
+        )
+        self.assertIsNotNone(
+            tltk.get_ner(
+                """คณะวิทยาศาสตร์ประยุกต์และวิศวกรรมศาสตร์ มหาวิทยาลัยขอนแก่น
+                จังหวัดหนองคาย 43000""",
+                tag=True,
             )
         )

@@ -221,7 +221,7 @@ class TagNNERTestCase(unittest.TestCase):
     """Test pythainlp.tag.thai_nner"""
 
     def test_get_top_level_entities(self):
-        from pythainlp.tag import get_top_level_entities
+        from pythainlp.tag.thai_nner import get_top_level_entities
 
         # Test with nested entities
         entities = [

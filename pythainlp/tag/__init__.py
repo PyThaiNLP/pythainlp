@@ -12,7 +12,6 @@ __all__ = [
     "NER",
     "NNER",
     "chunk_parse",
-    "get_top_level_entities",
     "pos_tag",
     "pos_tag_sents",
     "pos_tag_transformers",
@@ -24,4 +23,3 @@ from pythainlp.tag.chunk import chunk_parse
 from pythainlp.tag.locations import tag_provinces
 from pythainlp.tag.named_entity import NER, NNER
 from pythainlp.tag.pos_tag import pos_tag, pos_tag_sents, pos_tag_transformers
-from pythainlp.tag.thai_nner import get_top_level_entities

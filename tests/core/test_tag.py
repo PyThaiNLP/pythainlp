@@ -90,9 +90,12 @@ class TagTestCase(unittest.TestCase):
         )
 
     def test_NER_error_handling(self):
-        # Test error handling for invalid engine/corpus combination
         with self.assertRaises(ValueError):
-            NER(engine="thainer", corpus="cat")
+            NER(engine="xx_non_existing", corpus="thainer")
+        with self.assertRaises(ValueError):
+            NER(engine="xx_non_existing", corpus="thainer-v2")
+        with self.assertRaises(ValueError):
+            NER(engine="xx_non_existing", corpus="xx_non_existing")
 
 
 class PerceptronTaggerTestCase(unittest.TestCase):

@@ -333,6 +333,11 @@ class TokenizeTestCase(unittest.TestCase):
         with self.assertRaises(ValueError):
             sent_tokenize("ฉันไป กิน", engine="XX")  # engine does not exist
 
+        self.assertIsNotNone(
+            sent_tokenize(SENT_1, engine="crfcut")
+        )
+        self.assertIsInstance(sent_tokenize(SENT_1, engine="crfcut"), list)
+
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])
         self.assertEqual(subword_tokenize(""), [])

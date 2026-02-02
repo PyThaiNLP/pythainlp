@@ -16,9 +16,6 @@ from collections import Counter
 from collections.abc import Iterable
 from typing import Optional, Union
 
-import numpy as np
-from transformers import pipeline
-
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
 
@@ -27,6 +24,8 @@ class KeyBERT:
     def __init__(
         self, model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
     ):
+        from transformers import pipeline
+
         self.ft_pipeline = pipeline(
             "feature-extraction",
             tokenizer=model_name,
@@ -135,9 +134,11 @@ class KeyBERT:
         else:
             return [kw for kw, _ in keywords]
 
-    def embed(self, docs: Union[str, list[str]]) -> np.ndarray:
+    def embed(self, docs: Union[str, list[str]]):
         """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer.
         """
+        import numpy as np
+
         embs = self.ft_pipeline(docs)
         if isinstance(docs, str) or len(docs) == 1:
             # embed doc. return shape = [1, hidden_size]
@@ -201,12 +202,14 @@ def _generate_ngrams(
 
 
 def _rank_keywords(
-    doc_vector: np.ndarray,
-    word_vectors: np.ndarray,
+    doc_vector,
+    word_vectors,
     keywords: list[str],
     max_keywords: int,
 ) -> list[tuple[str, float]]:
-    def l2_norm(v: np.ndarray) -> np.ndarray:
+    import numpy as np
+
+    def l2_norm(v):
         vec_size = v.shape[1]
         result = np.divide(
             v,
@@ -217,7 +220,7 @@ def _rank_keywords(
         )
         return result
 
-    def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:
+    def cosine_sim(a, b):
         return (np.matmul(a, b.T).T).sum(axis=1)
 
     doc_vector = l2_norm(doc_vector)

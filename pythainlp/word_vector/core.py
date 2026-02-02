@@ -3,10 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from gensim.models import KeyedVectors
-from gensim.models.keyedvectors import Word2VecKeyedVectors
-from numpy import ndarray, zeros
-
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer, word_tokenize
 
@@ -48,6 +44,8 @@ class WordVector:
 
         :param str model_name: model name
         """
+        from gensim.models import KeyedVectors
+
         self.model_name = model_name
         self.model = KeyedVectors.load_word2vec_format(
             get_corpus_path(self.model_name),
@@ -61,7 +59,7 @@ class WordVector:
         else:
             self.tokenize = word_tokenize
 
-    def get_model(self) -> Word2VecKeyedVectors:
+    def get_model(self):
         """Get word vector model.
 
         :return: `gensim` word2vec model
@@ -247,7 +245,7 @@ class WordVector:
         """
         return self.model.similarity(word1, word2)
 
-    def sentence_vectorizer(self, text: str, use_mean: bool = True) -> ndarray:
+    def sentence_vectorizer(self, text: str, use_mean: bool = True):
         """Converts a Thai sentence into a vector.
         Specifically, it first tokenizes that text and maps each tokenized word
         with the word vectors from the model.
@@ -290,6 +288,8 @@ class WordVector:
             0.40506999,  1.58591403,  0.63869202, -0.702155  ,  1.62977601,
             4.52269109, -0.70760502,  0.50952601, -0.914392  ,  0.70673105]])
         """
+        from numpy import zeros
+
         vec = zeros((1, self.WV_DIM))
 
         words = self.tokenize(text)

@@ -97,6 +97,14 @@ class UtilTestCase(unittest.TestCase):
             collate(["ไก่", "เป็ด", "หมู", "วัว"], reverse=True),
             ["หมู", "วัว", "เป็ด", "ไก่"],
         )
+        # Edge cases: mixed Thai and numbers
+        self.assertEqual(collate(["ก", "1", "ข"]), ["1", "ก", "ข"])
+        # Edge cases: with spaces (spaces sort before letters)
+        result = collate([" ก", "ก", "  ก"])
+        self.assertEqual(len(result), 3)
+        self.assertIn(" ก", result)
+        self.assertIn("ก", result)
+        self.assertIn("  ก", result)
 
     # ### pythainlp.util.numtoword
 
@@ -720,6 +728,11 @@ class UtilTestCase(unittest.TestCase):
             ":ธง_ไทย: นี่คือธงประเทศไทย",
         )
 
+        # Edge cases
+        self.assertEqual(emoji_to_thai(""), "")  # empty string
+        self.assertEqual(emoji_to_thai("no emoji"), "no emoji")  # no emoji
+        self.assertEqual(emoji_to_thai("ไม่มีอีโมจิ"), "ไม่มีอีโมจิ")  # Thai no emoji
+
     def test_sound_syllable(self):
         test = [
             ("มา", "live"),
@@ -997,6 +1010,19 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(longest_common_subsequence("ABCBDAB", "BDCAB"), "BDAB")
         self.assertEqual(longest_common_subsequence("AGGTAB", "GXTXAYB"), "GTAB")
         self.assertEqual(longest_common_subsequence("ABCDGH", "AEDFHR"), "ADH")
+
+        # Edge cases
+        self.assertEqual(longest_common_subsequence("", ""), "")  # empty strings
+        self.assertEqual(longest_common_subsequence("ABC", ""), "")  # one empty
+        self.assertEqual(longest_common_subsequence("", "ABC"), "")  # other empty
+        self.assertEqual(longest_common_subsequence("A", "A"), "A")  # single char match
+        self.assertEqual(longest_common_subsequence("A", "B"), "")  # single char no match
+        self.assertEqual(longest_common_subsequence("ABC", "ABC"), "ABC")  # identical
+        self.assertEqual(longest_common_subsequence("ABC", "XYZ"), "")  # no common chars
+
+        # Thai text
+        self.assertEqual(longest_common_subsequence("ไทย", "ไทย"), "ไทย")
+        self.assertEqual(longest_common_subsequence("ภาษาไทย", "ไทย"), "ไทย")
         self.assertEqual(longest_common_subsequence("ABC", "AC"), "AC")
         self.assertEqual(longest_common_subsequence("ABC", "DEF"), "")
         self.assertEqual(longest_common_subsequence("", "ABC"), "")

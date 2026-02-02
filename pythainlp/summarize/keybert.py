@@ -14,10 +14,13 @@ from __future__ import annotations
 
 from collections import Counter
 from collections.abc import Iterable
-from typing import Optional, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
+
+if TYPE_CHECKING:
+    import numpy as np
 
 
 class KeyBERT:
@@ -134,8 +137,11 @@ class KeyBERT:
         else:
             return [kw for kw, _ in keywords]
 
-    def embed(self, docs: Union[str, list[str]]):
+    def embed(self, docs: Union[str, list[str]]) -> np.ndarray:
         """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer.
+
+        :return: numpy array of embeddings
+        :rtype: np.ndarray
         """
         import numpy as np
 
@@ -202,14 +208,14 @@ def _generate_ngrams(
 
 
 def _rank_keywords(
-    doc_vector,
-    word_vectors,
+    doc_vector: np.ndarray,
+    word_vectors: np.ndarray,
     keywords: list[str],
     max_keywords: int,
 ) -> list[tuple[str, float]]:
     import numpy as np
 
-    def l2_norm(v):
+    def l2_norm(v: np.ndarray) -> np.ndarray:
         vec_size = v.shape[1]
         result = np.divide(
             v,
@@ -220,7 +226,7 @@ def _rank_keywords(
         )
         return result
 
-    def cosine_sim(a, b):
+    def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:
         return (np.matmul(a, b.T).T).sum(axis=1)
 
     doc_vector = l2_norm(doc_vector)

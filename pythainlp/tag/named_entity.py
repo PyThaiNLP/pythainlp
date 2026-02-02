@@ -39,7 +39,18 @@ class NER:
     def load_engine(self, engine: str, corpus: str) -> None:
         self.name_engine = engine
         self.engine: Any = None
-        if corpus == "thainer":
+        
+        # Engines that ignore corpus parameter
+        if engine == "thai-nner":
+            from pythainlp.tag.thai_nner import Thai_NNER
+
+            self.engine = Thai_NNER()
+        elif engine == "tltk":
+            from pythainlp.tag import tltk
+
+            self.engine = tltk
+        # Corpus-specific engines
+        elif corpus == "thainer":
             if engine == "thainer":
                 from pythainlp.tag.thainer import ThaiNameTagger
 
@@ -59,15 +70,6 @@ class NER:
                 from pythainlp.phayathaibert.core import NamedEntityTagger
 
                 self.engine = NamedEntityTagger()
-        else:  # No corpus matched
-            if engine == "tltk":
-                from pythainlp.tag import tltk
-
-                self.engine = tltk
-            elif engine == "thai-nner":
-                from pythainlp.tag.thai_nner import Thai_NNER
-
-                self.engine = Thai_NNER()
 
         if self.engine is None:
             raise ValueError(

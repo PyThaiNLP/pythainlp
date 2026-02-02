@@ -138,11 +138,7 @@ class KeyBERT:
             return [kw for kw, _ in keywords]
 
     def embed(self, docs: Union[str, list[str]]) -> np.ndarray:
-        """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer.
-
-        :return: numpy array of embeddings
-        :rtype: np.ndarray
-        """
+        """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer."""
         import numpy as np
 
         embs = self.ft_pipeline(docs)

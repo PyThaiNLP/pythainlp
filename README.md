@@ -22,7 +22,7 @@
 
 Designed to be a Thai-focused counterpart to [NLTK](https://www.nltk.org/),
 **PyThaiNLP** provides standard tools for linguistic analysis under
-an Apache-2.0 source license, with its data and models covered by CC0-1.0
+an Apache-2.0 license, with its data and models covered by CC0-1.0
 and CC-BY-4.0.
 
 ```sh

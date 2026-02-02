@@ -66,10 +66,10 @@ Possible `extras` included:
 - `wordnet` — WordNet support
 - `full` — install all optional dependencies (may introduce conflicts)
 
-The documentation website maintains
+The documentation website maintains the
 [full list of extras](https://pythainlp.org/dev-docs/notes/installation.html).
-
-For details, see `[project.optional-dependencies]` section in
+To see the specific libraries included in each extra,
+please inspect the `[project.optional-dependencies]` section of
 [`pyproject.toml`](https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml).
 
 ## Data directory

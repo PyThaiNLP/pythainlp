@@ -54,7 +54,7 @@ class Parse:
             model=t, tokenizer=self.tokenizer
         )
 
-    def __call__(self, text: str, tag: str = "str") -> Union[List[List[str]], str]:
+    def __call__(self, text: str, tag: str = "str") -> Union[list[list[str]], str]:
         import numpy
         import torch
         import ufal.chu_liu_edmonds

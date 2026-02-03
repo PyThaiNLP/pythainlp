@@ -101,11 +101,11 @@ class App:
     def catalog(self, argv: Sequence[str]) -> None:
         """Print dataset/corpus available for download."""
         corpus_db_response = corpus.get_corpus_db(corpus.corpus_db_url())
-        corpus_db: dict[str, dict[str, str]] = corpus_db_response.json()  # type: ignore[union-attr]
-        corpus_names = sorted(corpus_db.keys())
+        corpus_db_dict: dict[str, dict[str, str]] = corpus_db_response.json()  # type: ignore[union-attr]
+        corpus_names = sorted(corpus_db_dict.keys())
         print("Dataset/corpus available for download:")
         for name in corpus_names:
-            print(f"- {name} {corpus_db[name]['latest_version']}", end="")
+            print(f"- {name} {corpus_db_dict[name]['latest_version']}", end="")
             corpus_info = corpus.get_corpus_db_detail(name)
             if corpus_info:
                 print(f"  (Local: {corpus_info['version']})")

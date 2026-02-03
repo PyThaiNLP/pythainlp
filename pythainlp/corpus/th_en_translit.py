@@ -12,10 +12,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from importlib.resources import files
-from typing import TYPE_CHECKING, Union
-
-if TYPE_CHECKING:
-    pass
+from typing import Union
 
 __all__ = [
     "get_transliteration_dict",

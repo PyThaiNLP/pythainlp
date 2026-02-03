@@ -84,7 +84,7 @@ class NER:
                  specified as `True`).
                  Otherwise, return a list of tuples associated with tokenized
                  words and NER tags
-        :rtype: Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]
+        :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
         :Example:
 
             >>> from pythainlp.tag import NER
@@ -129,7 +129,7 @@ class NNER:
         :param str text: text in Thai to be tagged
 
         :return: a list of tuples associated with tokenized words and NNER tags.
-        :rtype: Tuple[List[str], List[dict]]
+        :rtype: tuple[list[str], list[dict[str, Any]]]
 
         :Example:
 

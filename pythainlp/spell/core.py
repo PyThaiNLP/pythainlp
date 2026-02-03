@@ -142,13 +142,13 @@ def correct(word: str, engine: str = "pn") -> str:
 def spell_sent(list_words: list[str], engine: str = "pn") -> list[list[str]]:
     """Provides a list of possible correct spellings of sentence
 
-    :param List[str] list_words: list of words in sentence
+    :param list[str] list_words: list of words in sentence
     :param str engine:
         * *pn* - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
         * *phunspell* - A spell checker utilizing spylls, a port of Hunspell.
         * *symspellpy* - symspellpy is a Python port of SymSpell v6.5.
     :return: list of possibly correct words
-    :rtype: List[List[str]]
+    :rtype: list[list[str]]
 
     :Example:
     ::
@@ -179,14 +179,14 @@ def spell_sent(list_words: list[str], engine: str = "pn") -> list[list[str]]:
 def correct_sent(list_words: list[str], engine: str = "pn") -> list[str]:
     """Corrects and returns the spelling of the given sentence
 
-    :param List[str] list_words: list of words in sentence
+    :param list[str] list_words: list of words in sentence
     :param str engine:
         * *pn* - Peter Norvig's algorithm [#norvig_spellchecker]_ (default)
         * *phunspell* - A spell checker utilizing spylls, a port of Hunspell.
         * *symspellpy* - symspellpy is a Python port of SymSpell v6.5.
         * *wanchanberta_thai_grammarly* - WanchanBERTa Thai Grammarly
     :return: the corrected list of words in sentence
-    :rtype: List[str]
+    :rtype: list[str]
 
     :Example:
     ::

@@ -241,7 +241,7 @@ def _find_word_boundaries(bin_reps) -> list:
     :param str bin_reps: binary representation of a text
 
     :return: list of tuples (start, end)
-    :rtype: list[tuple(int, int)]
+    :rtype: list[tuple[int, int]]
     """
     boundary = np.argwhere(bin_reps == 1).reshape(-1)
     start_idx = boundary
@@ -256,8 +256,8 @@ def _find_words_correctly_tokenised(
 ) -> tuple[int, ...]:
     """Find whether each word is correctly tokenized.
 
-    :param list[tuple(int, int)] ref_boundaries: word boundaries of reference tokenization
-    :param list[tuple(int, int)] predicted_boundaries: word boundareies of predicted tokenization
+    :param list[tuple[int, int]] ref_boundaries: word boundaries of reference tokenization
+    :param list[tuple[int, int]] predicted_boundaries: word boundareies of predicted tokenization
 
     :return: binary sequence where 1 indicates the corresponding word is tokenized correctly
     :rtype: tuple[int, ...]

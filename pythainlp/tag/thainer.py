@@ -136,7 +136,7 @@ class ThaiNameTagger:
                  specified as `True`).
                  Otherwise, return a list of tuples associated with tokenized
                  words and NER tags
-        :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]]], str
+        :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
 
         :Note:
             * For the POS tags to be included in the results, this function

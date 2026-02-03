@@ -181,7 +181,7 @@ class NorvigSpellChecker:
         """Returns the spelling dictionary currently used by this spell checker
 
         :return: spelling dictionary of this instance
-        :rtype: list[tuple[str, int]]
+        :rtype: ItemsView[str, int]
 
         :Example:
         ::

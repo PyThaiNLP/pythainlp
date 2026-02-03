@@ -255,9 +255,9 @@ def get_words_spell_suggestion(
 
     Requirements: numpy and onnxruntime (Install before use this function)
 
-    :param Union[str, List[str]] list_word: list words or a word.
+    :param Union[str, list[str]] list_word: list words or a word.
     :return: List words spell suggestion (max 5 items per word)
-    :rtype: Union[List[str], List[List[str]]]
+    :rtype: Union[list[str], list[list[str]]]
 
     :Example:
     ::

@@ -10,13 +10,11 @@ import torch
 
 class ChatBotModel:
     def __init__(self):
-        """Chat using AI generation
-        """
+        """Chat using AI generation"""
         self.history = []
 
     def reset_chat(self):
-        """Reset chat by cleaning history
-        """
+        """Reset chat by cleaning history"""
         self.history = []
 
     def load_model(
@@ -90,4 +88,4 @@ class ChatBotModel:
         )
         _bot = self.model.gen_instruct(_temp)
         self.history.append((text, _bot))
-        return _bot
+        return _bot  # type: ignore[no-any-return]

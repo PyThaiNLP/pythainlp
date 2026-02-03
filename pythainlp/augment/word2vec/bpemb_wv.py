@@ -24,11 +24,10 @@ class BPEmbAug:
         """:param str text: Thai text
         :rtype: List[str]
         """
-        return self.bpemb_temp.encode(text)
+        return self.bpemb_temp.encode(text)  # type: ignore[no-any-return]
 
     def load_w2v(self):
-        """Load BPEmb model
-        """
+        """Load BPEmb model"""
         self.aug = Word2VecAug(
             self.model, tokenize=self.tokenizer, type="model"
         )

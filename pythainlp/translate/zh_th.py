@@ -57,10 +57,11 @@ class ThZhTranslator:
         self.translated = self.model_thzh.generate(
             **self.tokenizer_thzh(text, return_tensors="pt", padding=True)
         )
-        return [
+        decoded_list: list[str] = [
             self.tokenizer_thzh.decode(t, skip_special_tokens=True)
             for t in self.translated
-        ][0]
+        ]
+        return decoded_list[0]
 
 
 class ZhThTranslator:
@@ -108,7 +109,8 @@ class ZhThTranslator:
         self.translated = self.model_zhth.generate(
             **self.tokenizer_zhth(text, return_tensors="pt", padding=True)
         )
-        return [
+        decoded_list: list[str] = [
             self.tokenizer_zhth.decode(t, skip_special_tokens=True)
             for t in self.translated
-        ][0]
+        ]
+        return decoded_list[0]

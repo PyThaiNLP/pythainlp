@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Generic functions of tokenizers
-"""
+"""Generic functions of tokenizers"""
 
 from __future__ import annotations
 
@@ -352,10 +351,10 @@ def indices_words(words: list[str]) -> list[tuple[int, int]]:
 
         from pythainlp.tokenize import indices_words
 
-        indices_words(['สวัสดี', 'ครับ'])
+        indices_words(["สวัสดี", "ครับ"])
         # output: [(0, 5), (6, 9)]
 
-        indices_words(['hello', 'world'])
+        indices_words(["hello", "world"])
         # output: [(0, 4), (5, 9)]
     """
     indices = []
@@ -368,7 +367,9 @@ def indices_words(words: list[str]) -> list[tuple[int, int]]:
     return indices
 
 
-def map_indices_to_words(index_list: list[tuple[int, int]], sentences: list[str]) -> list[list[str]]:
+def map_indices_to_words(
+    index_list: list[tuple[int, int]], sentences: list[str]
+) -> list[list[str]]:
     """Map character index pairs to actual words from sentences.
 
     This function takes a list of character index pairs and a list of
@@ -385,7 +386,7 @@ def map_indices_to_words(index_list: list[tuple[int, int]], sentences: list[str]
         from pythainlp.tokenize import map_indices_to_words
 
         indices = [(0, 5), (6, 9)]
-        sentences = ['สวัสดีครับ']
+        sentences = ["สวัสดีครับ"]
         map_indices_to_words(indices, sentences)
         # output: [['สวัสดี', 'ครับ']]
     """
@@ -549,7 +550,9 @@ def sent_tokenize(
             _size = engine.split("-")[-1]
         from pythainlp.tokenize.wtsplit import tokenize
 
-        segments = tokenize(text=original_text, size=_size, tokenize="sentence")
+        segments = tokenize(
+            text=original_text, size=_size, tokenize="sentence"
+        )
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
@@ -720,15 +723,19 @@ def subword_tokenize(
 
     if engine == "tcc":
         from pythainlp.tokenize.tcc import segment as tcc_segment
+
         segments = tcc_segment(text)
     elif engine == "tcc_p":
         from pythainlp.tokenize.tcc_p import segment as tcc_p_segment
+
         segments = tcc_p_segment(text)
     elif engine == "etcc":
         from pythainlp.tokenize.etcc import segment as etcc_segment
+
         segments = etcc_segment(text)
     elif engine == "wangchanberta":
         from pythainlp.wangchanberta import segment as wangchanberta_segment
+
         segments = wangchanberta_segment(text)
     elif engine == "dict":  # use syllable dictionary
         words = word_tokenize(text)
@@ -738,15 +745,19 @@ def subword_tokenize(
             )
     elif engine == "ssg":
         from pythainlp.tokenize.ssg import segment as ssg_segment
+
         segments = ssg_segment(text)
     elif engine == "tltk":
         from pythainlp.tokenize.tltk import syllable_tokenize as tltk_segment
+
         segments = tltk_segment(text)
     elif engine == "han_solo":
         from pythainlp.tokenize.han_solo import segment as han_solo_segment
+
         segments = han_solo_segment(text)
     elif engine == "phayathai":
         from pythainlp.phayathaibert import segment as phayathai_segment
+
         segments = phayathai_segment(text)
     else:
         raise ValueError(

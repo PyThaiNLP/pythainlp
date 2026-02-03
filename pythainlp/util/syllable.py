@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Syllable tools
-"""
+"""Syllable tools"""
 
 from __future__ import annotations
 
@@ -299,34 +298,32 @@ def tone_detector(syllable: str) -> str:
         consonant_ending = _check_sonorant_syllable(syllable)
         if consonant_ending:
             # Only apply special rules if there are sonorants
-            if (
-                initial_consonant == "อ"
-                and s == "live"
-                and tone_mark == "่"
-            ):
+            if initial_consonant == "อ" and s == "live" and tone_mark == "่":
                 r = "l"
-            elif (
-                initial_consonant == "ห"
-                and s == "live"
-                and tone_mark == "่"
-            ):
+            elif initial_consonant == "ห" and s == "live" and tone_mark == "่":
                 r = "l"
             elif initial_consonant == "อ" and s == "dead":
                 r = "l"
-            elif (
-                initial_consonant == "ห"
-                and s == "live"
-                and tone_mark == "้"
-            ):
+            elif initial_consonant == "ห" and s == "live" and tone_mark == "้":
                 r = "f"
             elif initial_consonant == "ห" and s == "dead":
                 r = "l"
             elif initial_consonant == "ห" and s == "live":
                 r = "r"
     # If r is still empty, apply general tone rules
-    if r == "" and initial_consonant_type == "high" and s == "live" and tone_mark == "่":
+    if (
+        r == ""
+        and initial_consonant_type == "high"
+        and s == "live"
+        and tone_mark == "่"
+    ):
         r = "l"
-    if r == "" and initial_consonant_type == "mid" and s == "live" and tone_mark == "่":
+    if (
+        r == ""
+        and initial_consonant_type == "mid"
+        and s == "live"
+        and tone_mark == "่"
+    ):
         r = "l"
     if r == "" and initial_consonant_type == "low" and tone_mark == "้":
         r = "h"

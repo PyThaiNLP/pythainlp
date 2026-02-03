@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Romanization of Thai words based on machine-learnt engine in ONNX runtime ("thai2rom")
-"""
+"""Romanization of Thai words based on machine-learnt engine in ONNX runtime ("thai2rom")"""
 
 from __future__ import annotations
 
@@ -58,8 +57,7 @@ class ThaiTransliterator_ONNX:
         )
 
     def _prepare_sequence_in(self, text: str):
-        """Prepare input sequence for ONNX
-        """
+        """Prepare input sequence for ONNX"""
         idxs = []
         for ch in text:
             if ch in self._char_to_ix:

@@ -55,7 +55,9 @@ def _multicut(
     if not custom_dict:
         custom_dict = word_dict_trie()
     len_text = len(text)
-    words_at: defaultdict[int, list[str]] = defaultdict(list)  # main data structure
+    words_at: defaultdict[int, list[str]] = defaultdict(
+        list
+    )  # main data structure
 
     def serialize(p, p2):  # helper function
         for w in words_at[p]:
@@ -142,7 +144,9 @@ def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
     return list(_multicut(text, custom_dict=custom_dict))
 
 
-def find_all_segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
+def find_all_segment(
+    text: str, custom_dict: Optional[Trie] = None
+) -> list[str]:
     """Get all possible segment variations.
 
     :param text: input string to be tokenized

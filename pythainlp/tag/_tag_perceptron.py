@@ -115,13 +115,13 @@ class PerceptronTagger:
 
     """
 
-    START = ["-START-", "-START2-"]
-    END = ["-END-", "-END2-"]
-    AP_MODEL_LOC = ""
+    START: list[str] = ["-START-", "-START2-"]
+    END: list[str] = ["-END-", "-END2-"]
+    AP_MODEL_LOC: str = ""
 
     def __init__(self, path: str = "") -> None:
         """:param str path: model path"""
-        self.model = AveragedPerceptron()
+        self.model: AveragedPerceptron = AveragedPerceptron()
         self.tagdict: dict[str, str] = {}
         self.classes: set[str] = set()
         if path != "":

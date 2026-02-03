@@ -114,10 +114,10 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
     """
 
-    vocab_files_names = VOCAB_FILES_NAMES
-    max_model_input_sizes = PRETRAINED_POSITIONAL_EMBEDDINGS_SIZES
-    pretrained_vocab_files_map = PRETRAINED_VOCAB_FILES_MAP
-    model_input_names = ["input_ids", "attention_mask"]
+    vocab_files_names: dict[str, str] = VOCAB_FILES_NAMES
+    max_model_input_sizes: dict[str, int] = PRETRAINED_POSITIONAL_EMBEDDINGS_SIZES
+    pretrained_vocab_files_map: dict[str, dict[str, str]] = PRETRAINED_VOCAB_FILES_MAP
+    model_input_names: list[str] = ["input_ids", "attention_mask"]
 
     prefix_tokens: Optional[list[int]] = []
     suffix_tokens: list[int] = []

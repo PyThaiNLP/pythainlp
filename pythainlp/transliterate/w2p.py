@@ -24,15 +24,15 @@ _MODEL_NAME = "thai_w2p"
 
 
 class _Hparams:
-    batch_size = 256
-    enc_maxlen = 30 * 2
-    dec_maxlen = 40 * 2
-    num_epochs = 50 * 2
-    hidden_units = 64 * 8
-    emb_units = 64 * 4
-    graphemes = ["<pad>", "<unk>", "</s>"] + _GRAPHEMES
-    phonemes = ["<pad>", "<unk>", "<s>", "</s>"] + _PHONEMES
-    lr = 0.001
+    batch_size: int = 256
+    enc_maxlen: int = 30 * 2
+    dec_maxlen: int = 40 * 2
+    num_epochs: int = 50 * 2
+    hidden_units: int = 64 * 8
+    emb_units: int = 64 * 4
+    graphemes: list[str] = ["<pad>", "<unk>", "</s>"] + _GRAPHEMES
+    phonemes: list[str] = ["<pad>", "<unk>", "<s>", "</s>"] + _PHONEMES
+    lr: float = 0.001
 
 
 hp = _Hparams()

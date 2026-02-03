@@ -3,22 +3,25 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 import argparse
 import json
 import os
+from typing import Sequence
 
 from pythainlp import cli
 from pythainlp.tools import safe_print
 
 
-def _read_file(path):
+def _read_file(path: str) -> list[str]:
     with open(path, encoding="utf-8") as f:
         lines = (r.strip() for r in f.readlines())
     return list(lines)
 
 
 class App:
-    def __init__(self, argv):
+    def __init__(self, argv: Sequence[str]) -> None:
         parser = argparse.ArgumentParser(
             prog="benchmark",
             description=(
@@ -45,8 +48,8 @@ class App:
 
 
 class WordTokenizationBenchmark:
-    def __init__(self, name, argv):
-        parser = argparse.ArgumentParser(**cli.make_usage("benchmark " + name))
+    def __init__(self, name: str, argv: Sequence[str]) -> None:
+        parser = argparse.ArgumentParser(**cli.make_usage("benchmark " + name))  # type: ignore[arg-type]
 
         parser.add_argument(
             "--input-file",

@@ -2,15 +2,18 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+from __future__ import annotations
+
 import argparse
 import os
 import random
+from typing import Sequence
 
 from pythainlp.tools.misspell import misspell
 
 
 class App:
-    def __init__(self, argv):
+    def __init__(self, argv: Sequence[str]) -> None:
         parser = argparse.ArgumentParser(
             prog="misspell",
             description="Generate misspelled texts from a given file.",

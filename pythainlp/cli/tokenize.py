@@ -3,7 +3,10 @@
 # SPDX-License-Identifier: Apache-2.0
 """Command line for PyThaiNLP's tokenizers."""
 
+from __future__ import annotations
+
 import argparse
+from typing import Callable, Sequence
 
 from pythainlp import cli
 from pythainlp.tokenize import (
@@ -23,8 +26,12 @@ DEFAULT_WORD_TOKEN_SEPARATOR = "|"  # noqa: S105
 
 
 class SubAppBase:
-    def __init__(self, name, argv):
-        parser = argparse.ArgumentParser(**cli.make_usage("tokenize " + name))
+    separator: str
+    algorithm: str
+    run: Callable[..., list[str]]
+
+    def __init__(self, name: str, argv: Sequence[str]) -> None:
+        parser = argparse.ArgumentParser(**cli.make_usage("tokenize " + name))  # type: ignore[arg-type]
         parser.add_argument(
             "text",
             type=str,
@@ -74,7 +81,7 @@ class SubAppBase:
 
 
 class WordTokenizationApp(SubAppBase):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: str, **kwargs: str) -> None:
         self.keep_whitespace = True
         self.algorithm = DEFAULT_WORD_TOKENIZE_ENGINE
         self.separator = DEFAULT_WORD_TOKEN_SEPARATOR
@@ -83,7 +90,7 @@ class WordTokenizationApp(SubAppBase):
 
 
 class SentenceTokenizationApp(SubAppBase):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: str, **kwargs: str) -> None:
         self.keep_whitespace = True
         self.algorithm = DEFAULT_SENT_TOKENIZE_ENGINE
         self.separator = DEFAULT_SENT_TOKEN_SEPARATOR
@@ -92,7 +99,7 @@ class SentenceTokenizationApp(SubAppBase):
 
 
 class SubwordTokenizationApp(SubAppBase):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: str, **kwargs: str) -> None:
         self.keep_whitespace = True
         self.algorithm = DEFAULT_SUBWORD_TOKENIZE_ENGINE
         self.separator = DEFAULT_SUBWORD_TOKEN_SEPARATOR
@@ -101,7 +108,7 @@ class SubwordTokenizationApp(SubAppBase):
 
 
 class App:
-    def __init__(self, argv):
+    def __init__(self, argv: Sequence[str]) -> None:
         parser = argparse.ArgumentParser(
             prog="tokenize",
             description="Break a text into small units (tokens).",
@@ -137,10 +144,10 @@ class App:
 
         argv = argv[3:]
         if token_type.startswith("w"):
-            WordTokenizationApp("word", argv)
+            WordTokenizationApp("word", argv)  # type: ignore[arg-type]
         elif token_type.startswith("su"):
-            SubwordTokenizationApp("subword", argv)
+            SubwordTokenizationApp("subword", argv)  # type: ignore[arg-type]
         elif token_type.startswith("se"):
-            SentenceTokenizationApp("sent", argv)
+            SentenceTokenizationApp("sent", argv)  # type: ignore[arg-type]
         else:
             safe_print(f"Token type not available: {token_type}")

@@ -11,12 +11,9 @@ Thai Word Segmentation Models using Stacked Ensemble.
 from __future__ import annotations
 
 import threading
-from typing import TYPE_CHECKING, cast
+from typing import cast
 
 import sefr_cut
-
-if TYPE_CHECKING:
-    pass
 
 _DEFAULT_ENGINE = "ws1000"
 _engine_lock = threading.Lock()

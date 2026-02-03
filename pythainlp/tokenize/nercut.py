@@ -13,10 +13,6 @@ Code by Wannaphong Phatthiyaphaibun
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    pass
 
 from pythainlp.tag.named_entity import NER
 

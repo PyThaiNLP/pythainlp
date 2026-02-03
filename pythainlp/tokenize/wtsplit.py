@@ -9,12 +9,9 @@ GitHub: https://github.com/bminixhofer/wtpsplit
 from __future__ import annotations
 
 import threading
-from typing import TYPE_CHECKING, cast
+from typing import cast
 
 from wtpsplit import WtP
-
-if TYPE_CHECKING:
-    pass
 
 _MODEL = None
 _MODEL_NAME = None

@@ -12,10 +12,7 @@ User need to install deepcut (and its dependency: tensorflow) by themselves.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Union, cast
-
-if TYPE_CHECKING:
-    pass
+from typing import Union, cast
 
 try:
     from deepcut import tokenize

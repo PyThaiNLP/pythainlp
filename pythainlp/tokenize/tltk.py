@@ -3,11 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    pass
-
 try:
     from tltk.nlp import syl_segment
     from tltk.nlp import word_segment as tltk_segment

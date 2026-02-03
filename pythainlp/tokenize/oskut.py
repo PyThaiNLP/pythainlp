@@ -12,12 +12,9 @@ Stacked Ensemble Framework and DeepCut as Baseline model (ACL 2021 Findings)
 from __future__ import annotations
 
 import threading
-from typing import TYPE_CHECKING, cast
+from typing import cast
 
 import oskut
-
-if TYPE_CHECKING:
-    pass
 
 _DEFAULT_ENGINE = "ws"
 _engine_lock = threading.Lock()

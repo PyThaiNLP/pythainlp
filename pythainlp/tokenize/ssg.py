@@ -3,12 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, cast
+from typing import cast
 
 from ssg import syllable_tokenize
-
-if TYPE_CHECKING:
-    pass
 
 
 def segment(text: str) -> list[str]:

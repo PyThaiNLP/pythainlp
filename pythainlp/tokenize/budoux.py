@@ -13,10 +13,7 @@ installation hint.
 from __future__ import annotations
 
 import threading
-from typing import TYPE_CHECKING, cast
-
-if TYPE_CHECKING:
-    pass
+from typing import cast
 
 _parser = None
 _parser_lock = threading.Lock()

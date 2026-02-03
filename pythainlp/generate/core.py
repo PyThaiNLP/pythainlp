@@ -58,7 +58,7 @@ class Unigram:
         :param bool duplicate: allow duplicate words in sentence
 
         :return: list of words or a word string
-        :rtype: List[str], str
+        :rtype: list[str], str
 
         :Example:
         ::
@@ -153,7 +153,7 @@ class Bigram:
         :param bool duplicate: allow duplicate words in sentence
 
         :return: list of words or a word string
-        :rtype: List[str], str
+        :rtype: list[str], str
 
         :Example:
         ::
@@ -244,7 +244,7 @@ class Trigram:
         :param bool duplicate: allow duplicate words in sentence
 
         :return: list of words or a word string
-        :rtype: List[str], str
+        :rtype: list[str], str
 
         :Example:
         ::

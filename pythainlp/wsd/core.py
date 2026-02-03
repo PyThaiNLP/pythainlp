@@ -66,7 +66,7 @@ def get_sense(
         sentence.
     :return: a list of definitions and distances (1 - cos_sim) or \
         an empty list (if word is not in the dictionary)
-    :rtype: List[Tuple[str, float]]
+    :rtype: list[tuple[str, float]]
 
     We get the ideas from `Context-Aware Semantic Similarity Measurement for \
         Unsupervised Word Sense Disambiguation \

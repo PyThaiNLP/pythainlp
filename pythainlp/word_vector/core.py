@@ -78,7 +78,7 @@ class WordVector:
         in the list. We use the function :func:`doesnt_match`
         from :mod:`gensim`.
 
-        :param list words: a list of words
+        :param list[str] words: a list of words
         :raises KeyError: if there is any word in `positive` or `negative` that is
                           not in the vocabulary of the model.
         :return: the word that is mostly unrelated
@@ -122,8 +122,8 @@ class WordVector:
         We use the function :func:`gensim.most_similar_cosmul` directly from
         :mod:`gensim`.
 
-        :param list positive: a list of words to add
-        :param list negative: a list of words to subtract
+        :param list[str] positive: a list of words to add
+        :param list[str] negative: a list of words to subtract
 
         :raises KeyError: if there is any word in `positive` or `negative` that is
                           not in the vocabulary of the model.
@@ -265,7 +265,7 @@ class WordVector:
 
         :return: 300-dimension vector representing the given sentence
                  in form of :mod:`numpy` array
-        :rtype: :class:`numpy.ndarray((1,300))`
+        :rtype: numpy.ndarray
 
 
         :Example:

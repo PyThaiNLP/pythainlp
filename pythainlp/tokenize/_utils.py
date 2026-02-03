@@ -27,9 +27,9 @@ def rejoin_formatted_num(segments: list[str]) -> list[str]:
     The formatted numeric are numbers separated by ":", ",", or ".",
     such as time, decimal numbers, comma-added numbers, and IP addresses.
 
-    :param List[str] segments: result from word tokenizer
+    :param list[str] segments: result from word tokenizer
     :return: a list of fixed tokens
-    :rtype: List[str]
+    :rtype: list[str]
 
     :Example:
         tokens = ['ขณะ', 'นี้', 'เวลา', ' ', '12', ':', '00น', ' ', 'อัตรา',
@@ -72,9 +72,9 @@ def rejoin_formatted_num(segments: list[str]) -> list[str]:
 
 def strip_whitespace(segments: list[str]) -> list[str]:
     """Strip whitespace(s) off each token and remove whitespace tokens.
-    :param List[str] segments: result from word tokenizer
+    :param list[str] segments: result from word tokenizer
     :return: a list of tokens
-    :rtype: List[str]
+    :rtype: list[str]
 
     :Example:
         tokens = [" ", "วันนี้ ", "เวลา ", "19.00น"]

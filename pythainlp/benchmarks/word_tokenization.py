@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 import sys
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -40,7 +41,7 @@ def _f1(precision: float, recall: float) -> float:
     return 2 * precision * recall / (precision + recall)
 
 
-def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
+def _flatten_result(my_dict: dict, sep: str = ":") -> dict[str, Any]:
     """Flatten two-dimension dictionary.
 
     Use keys in the first dimension as a prefix for keys in the second dimension.
@@ -54,7 +55,7 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
     :param str sep: separator between the two keys (default: ":")
 
     :return: a one-dimension dictionary with keys combined
-    :rtype: dict[str, Union[float, str]]
+    :rtype: dict[str, Any]
     """
     return {
         f"{k1}{sep}{k2}": v
@@ -129,7 +130,7 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
     return txt
 
 
-def compute_stats(ref_sample: str, raw_sample: str) -> dict:
+def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, Any]:
     """Compute statistics for tokenization quality
 
     These statistics include:
@@ -146,7 +147,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     :param str samples: samples that we want to evaluate
 
     :return: metrics at character- and word-level and indicators of correctly tokenized words
-    :rtype: dict[str, Union[float, str]]
+    :rtype: dict[str, Any]
     """
     ref_sample_arr = _binary_representation(ref_sample)
     sample_arr = _binary_representation(raw_sample)
@@ -222,7 +223,11 @@ def _binary_representation(txt: str, verbose: bool = False) -> np.ndarray:
     sample_wo_seps = list(txt.replace(SEPARATOR, ""))
 
     # sanity check
-    assert len(sample_wo_seps) == len(bin_rept)
+    if len(sample_wo_seps) != len(bin_rept):
+        raise ValueError(
+            f"Length mismatch: sample_wo_seps={len(sample_wo_seps)}, "
+            f"bin_rept={len(bin_rept)}"
+        )
 
     if verbose:
         for c, m in zip(sample_wo_seps, bin_rept):
@@ -231,13 +236,13 @@ def _binary_representation(txt: str, verbose: bool = False) -> np.ndarray:
     return bin_rept
 
 
-def _find_word_boundaries(bin_reps) -> list:
+def _find_word_boundaries(bin_reps) -> list[tuple[int, int]]:
     """Find the starting and ending location of each word.
 
     :param str bin_reps: binary representation of a text
 
     :return: list of tuples (start, end)
-    :rtype: list[tuple(int, int)]
+    :rtype: list[tuple[int, int]]
     """
     boundary = np.argwhere(bin_reps == 1).reshape(-1)
     start_idx = boundary
@@ -252,8 +257,8 @@ def _find_words_correctly_tokenised(
 ) -> tuple[int, ...]:
     """Find whether each word is correctly tokenized.
 
-    :param list[tuple(int, int)] ref_boundaries: word boundaries of reference tokenization
-    :param list[tuple(int, int)] predicted_boundaries: word boundareies of predicted tokenization
+    :param list[tuple[int, int]] ref_boundaries: word boundaries of reference tokenization
+    :param list[tuple[int, int]] predicted_boundaries: word boundaries of predicted tokenization
 
     :return: binary sequence where 1 indicates the corresponding word is tokenized correctly
     :rtype: tuple[int, ...]

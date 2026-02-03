@@ -81,9 +81,10 @@ class WordTokenizationBenchmark:
         actual = _read_file(args.input_file)
         expected = _read_file(args.test_file)
 
-        assert len(actual) == len(expected), (
-            "Input and test files do not have the same number of samples"
-        )
+        if len(actual) != len(expected):
+            raise ValueError(
+                "Input and test files do not have the same number of samples"
+            )
 
         safe_print(
             "Benchmarking %s against %s with %d samples in total"

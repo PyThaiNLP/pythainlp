@@ -136,9 +136,9 @@ class ThaiTextProcessor:
     def replace_wrep_post(self, toks: list[str]) -> list[str]:
         """Replace repetitive words post tokenization;
         fastai `replace_wrep` does not work well with Thai.
-        :param List[str] toks: list of tokens
+        :param list[str] toks: list of tokens
         :return: list of tokens where repetitive words are removed.
-        :rtype: List[str]
+        :rtype: list[str]
         :Example:
             >>> toks = ["กา", "น้ำ", "น้ำ", "น้ำ", "น้ำ"]
             >>> replace_wrep_post(toks)
@@ -161,9 +161,9 @@ class ThaiTextProcessor:
 
     def remove_space(self, toks: list[str]) -> list[str]:
         """Do not include space for bag-of-word models.
-        :param List[str] toks: list of tokens
+        :param list[str] toks: list of tokens
         :return: List of tokens where space tokens (" ") are filtered out
-        :rtype: List[str]
+        :rtype: list[str]
         :Example:
             >>> toks = ["ฉัน", "เดิน", " ", "กลับ", "บ้าน"]
             >>> remove_space(toks)
@@ -256,7 +256,7 @@ class ThaiTextAugmenter:
               true if more word diversity is needed
 
         :return: list of text augment
-        :rtype: List[str]
+        :rtype: list[str]
 
         :Example:
         ::
@@ -367,7 +367,7 @@ class NamedEntityTagger:
                  specified as `True`).
                  Otherwise, return a list of tuples associated with tokenized
                  words and NER tags
-        :rtype: Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]
+        :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
         :Example:
 
             >>> from pythainlp.phayathaibert.core import NamedEntityTagger

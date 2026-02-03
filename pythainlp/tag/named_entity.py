@@ -78,7 +78,7 @@ class NER:
             )
 
     def tag(
-        self, text, pos=False, tag=False
+        self, text: str, pos: bool = False, tag: bool = False
     ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
         """This function tags named entities in text in IOB format.
 
@@ -92,7 +92,7 @@ class NER:
                  specified as `True`).
                  Otherwise, return a list of tuples associated with tokenized
                  words and NER tags
-        :rtype: Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]
+        :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
         :Example:
 
             >>> from pythainlp.tag import NER
@@ -131,7 +131,7 @@ class NNER:
 
         self.engine = ThaiNNER()
 
-    def tag(self, text: str, top_level_only: bool = False) -> tuple[list[str], list[dict]]:
+    def tag(self, text: str, top_level_only: bool = False) -> tuple[list[str], list[dict[str, Any]]]:
         """This function tags nested named entities.
 
         :param str text: text in Thai to be tagged
@@ -142,7 +142,7 @@ class NNER:
         :return: a tuple of (tokens, entities) where tokens is a list of
                  tokenized strings and entities is a list of dictionaries
                  containing 'text', 'span', and 'entity_type' keys.
-        :rtype: tuple[list[str], list[dict]]
+        :rtype: tuple[list[str], list[dict[str, Any]]]
 
         .. note::
             The tokenized output may include empty strings as part of the

@@ -161,7 +161,7 @@ def segment(
         with many ambiguous breaking points, defaults to False
     :type safe_mode: bool, optional
     :return: list of tokens
-    :rtype: List[str]
+    :rtype: list[str]
     """
     if not text or not isinstance(text, str):
         return []

@@ -8,10 +8,13 @@ from __future__ import annotations
 import argparse
 import json
 import os
-from typing import Sequence
+from typing import TYPE_CHECKING
 
 from pythainlp import cli
 from pythainlp.tools import safe_print
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 def _read_file(path: str) -> list[str]:

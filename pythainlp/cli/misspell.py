@@ -7,9 +7,12 @@ from __future__ import annotations
 import argparse
 import os
 import random
-from typing import Sequence
+from typing import TYPE_CHECKING
 
 from pythainlp.tools.misspell import misspell
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 class App:

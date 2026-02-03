@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-from pythainlp.corpus.common import get_corpus
+from pythainlp.corpus.core import get_corpus
 
 _WIKIPEDIA_TITLES = None
 _WIKIPEDIA_TITLES_FILENAME = "wikipedia_titles_th.txt"

@@ -7,11 +7,14 @@
 from __future__ import annotations
 
 import argparse
-from typing import Callable, Sequence
+from typing import TYPE_CHECKING
 
 from pythainlp import cli
 from pythainlp.tag import pos_tag
 from pythainlp.tools import safe_print
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Sequence
 
 
 class SubAppBase:

@@ -7,10 +7,13 @@
 from __future__ import annotations
 
 import argparse
-from typing import Any, Sequence
+from typing import TYPE_CHECKING
 
 from pythainlp import corpus
 from pythainlp.tools import get_pythainlp_data_path
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 class App:

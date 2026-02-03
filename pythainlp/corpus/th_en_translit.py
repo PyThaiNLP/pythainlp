@@ -24,7 +24,7 @@ TRANSLITERATE_EN = "en"
 TRANSLITERATE_FOLLOW_RTSG = "follow_rtsg"
 
 
-def get_transliteration_dict() -> defaultdict:
+def get_transliteration_dict() -> defaultdict[str, dict[str, list[str | bool | None]]]:
     """Get Thai to English transliteration dictionary.
 
     The returned dict is in dict[str, dict[List[str], List[Optional[bool]]]] format.
@@ -39,7 +39,7 @@ def get_transliteration_dict() -> defaultdict:
         )
 
     # use list, as one word can have multiple transliterations.
-    trans_dict: defaultdict[str, dict[str, list]] = defaultdict(
+    trans_dict: defaultdict[str, dict[str, list[str | bool | None]]] = defaultdict(
         lambda: {TRANSLITERATE_EN: [], TRANSLITERATE_FOLLOW_RTSG: []}
     )
     try:

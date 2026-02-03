@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import argparse
-from typing import Callable, Sequence
+from typing import TYPE_CHECKING
 
 from pythainlp import cli
 from pythainlp.tokenize import (
@@ -18,6 +18,9 @@ from pythainlp.tokenize import (
     word_tokenize,
 )
 from pythainlp.tools import safe_print
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Sequence
 
 DEFAULT_SENT_TOKEN_SEPARATOR = "@@"  # noqa: S105
 DEFAULT_SUBWORD_TOKEN_SEPARATOR = "/"  # noqa: S105

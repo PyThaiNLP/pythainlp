@@ -41,9 +41,11 @@ class GzipModel:
         return temp_list
 
     def predict(self, x1: str, k: int = 1) -> str:
-        """:param str x1: the text that we want to predict label for.
-        :param str k: k
-        :return: label
+        """Predict the label for the given text.
+
+        :param str x1: the text that we want to predict label for
+        :param int k: number of nearest neighbors to consider (default: 1)
+        :return: predicted label
         :rtype: str
 
         :Example:

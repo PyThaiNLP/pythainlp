@@ -116,9 +116,9 @@ def spell_syllable(text: str) -> list[str]:
 def spell_word(text: Optional[str]) -> list[str]:
     """Spell out words in Thai word distribution form.
 
-    :param str w: Thai words only
-    :return: List of spelled out words
-    :rtype: List[str]
+    :param Optional[str] text: Thai words only, or None
+    :return: List of spelled out words, empty list if text is None or empty
+    :rtype: list[str]
 
     :Example:
     ::
@@ -127,6 +127,9 @@ def spell_word(text: Optional[str]) -> list[str]:
 
         print(spell_word("คนดี"))
         # output: ['คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี']
+
+        print(spell_word(None))
+        # output: []
     """
     if not text:
         return []

@@ -24,9 +24,9 @@ class FastCoref:
 
             nlp = spacy.blank("th")
 
-        self.model_name = model_name
-        self.nlp = nlp
-        self.model = _model(self.model_name, device=device, nlp=self.nlp)
+        self.model_name: str = model_name
+        self.nlp: Any = nlp
+        self.model: Any = _model(self.model_name, device=device, nlp=self.nlp)
 
     def _to_json(self, _predict: Any) -> dict[str, Any]:
         return {

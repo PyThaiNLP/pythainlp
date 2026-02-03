@@ -43,6 +43,10 @@ class WordVector:
             * *ltw2v_v1.0_15_window* - word2vec from LTW2V 1.0 and 15 window
             * *ltw2v_v1.0_5_window* - word2vec from LTW2V v1.0 and 5 window
         """
+        self.model_name: str
+        self.model: Word2VecKeyedVectors
+        self.WV_DIM: int
+        self.tokenize: any  # function type
         self.load_wordvector(model_name)
 
     def load_wordvector(self, model_name: str) -> None:

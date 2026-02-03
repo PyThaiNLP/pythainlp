@@ -30,7 +30,7 @@ class ThaiTextProcessor:
             self._TK_URL,
             self._TK_END,
         ) = "<unk> <rep> <wrep> <url> </s>".split()
-        self.SPACE_SPECIAL_TOKEN = "<_>"  # noqa: S105
+        self.SPACE_SPECIAL_TOKEN: str = "<_>"  # noqa: S105
 
     def replace_url(self, text: str) -> str:
         """Replace url in `text` with TK_URL (https://stackoverflow.com/a/6041965)
@@ -206,16 +206,16 @@ class ThaiTextAugmenter:
             pipeline,
         )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(_model_name)
-        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(_model_name)  # type: ignore[assignment]
+        self.model_for_masked_lm: AutoModelForMaskedLM = AutoModelForMaskedLM.from_pretrained(
             _model_name
-        )
-        self.model = pipeline(
+        )  # type: ignore[assignment]
+        self.model: any = pipeline(  # transformers.Pipeline
             "fill-mask",
             tokenizer=self.tokenizer,
             model=self.model_for_masked_lm,
         )
-        self.processor = ThaiTextProcessor()
+        self.processor: ThaiTextProcessor = ThaiTextProcessor()
 
     def generate(
         self,
@@ -303,8 +303,8 @@ class PartOfSpeechTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model)
-        self.model = AutoModelForTokenClassification.from_pretrained(model)
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)  # type: ignore[assignment]
+        self.model: AutoModelForTokenClassification = AutoModelForTokenClassification.from_pretrained(model)  # type: ignore[assignment]
 
     def get_tag(
         self, sentence: str, strategy: str = "simple"
@@ -346,8 +346,8 @@ class NamedEntityTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model)
-        self.model = AutoModelForTokenClassification.from_pretrained(model)
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)  # type: ignore[assignment]
+        self.model: AutoModelForTokenClassification = AutoModelForTokenClassification.from_pretrained(model)  # type: ignore[assignment]
 
     def get_ner(
         self,

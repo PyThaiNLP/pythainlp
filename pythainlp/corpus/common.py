@@ -388,8 +388,8 @@ def find_synonyms(word: str) -> list[str]:
 
     if word in synonyms["word"]:  # find by word
         word_list = synonyms["word"]
-        assert isinstance(word_list, list)
-        list_synonym.extend(synonyms["synonym"][word_list.index(word)])  # type: ignore[arg-type]
+        if isinstance(word_list, list):
+            list_synonym.extend(synonyms["synonym"][word_list.index(word)])  # type: ignore[arg-type]
 
     for idx, words in enumerate(synonyms["synonym"]):  # find by synonym
         if word in words:

@@ -18,7 +18,7 @@ class mT5Summarizer:
         max_length: int = 100,
         skip_special_tokens: bool = True,
         pretrained_mt5_model_name: str = "",
-    ):
+    ) -> None:
         """Initialize mT5 Summarizer.
 
         :param str model_size: Size of the model ("small", "base", "large",

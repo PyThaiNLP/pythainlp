@@ -27,14 +27,14 @@ class _SentenceTransformersModel:
         self,
         model: str = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
         device: str = "cpu",
-    ):
+    ) -> None:
         from sentence_transformers import SentenceTransformer
 
         self.device = device
         self.model_name = model
         self.model = SentenceTransformer(self.model_name, device=self.device)
 
-    def change_device(self, device: str):
+    def change_device(self, device: str) -> None:
         from sentence_transformers import SentenceTransformer
 
         self.device = device

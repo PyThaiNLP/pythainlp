@@ -30,7 +30,7 @@ class Unigram:
         * *oscar* - OSCAR Corpus
     """
 
-    def __init__(self, name: str = "tnc"):
+    def __init__(self, name: str = "tnc") -> None:
         if name == "tnc":
             self.counts = tnc_word_freqs_unigram()
         elif name == "ttc":
@@ -116,7 +116,7 @@ class Bigram:
         * *tnc* - Thai National Corpus (default)
     """
 
-    def __init__(self, name: str = "tnc"):
+    def __init__(self, name: str = "tnc") -> None:
         if name == "tnc":
             self.uni = tnc_word_freqs_unigram()
             self.bi = tnc_word_freqs_bigram()
@@ -203,7 +203,7 @@ class Trigram:
         * *tnc* - Thai National Corpus (default)
     """
 
-    def __init__(self, name: str = "tnc"):
+    def __init__(self, name: str = "tnc") -> None:
         if name == "tnc":
             self.uni = tnc_word_freqs_unigram()
             self.bi = tnc_word_freqs_bigram()

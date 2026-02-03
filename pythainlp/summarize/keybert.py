@@ -26,7 +26,7 @@ if TYPE_CHECKING:
 class KeyBERT:
     def __init__(
         self, model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
-    ):
+    ) -> None:
         from transformers import pipeline
 
         self.ft_pipeline = pipeline(
@@ -43,7 +43,7 @@ class KeyBERT:
         max_keywords: int = 5,
         min_df: int = 1,
         tokenizer: str = "newmm",
-        return_similarity=False,
+        return_similarity: bool = False,
         stop_words: Optional[Iterable[str]] = None,
     ) -> Union[list[str], list[tuple[str, float]]]:
         """Extract Thai keywords and/or keyphrases with KeyBERT algorithm.

@@ -12,7 +12,7 @@ class EntityLinker:
         model_name: str = "bela",
         device: str = "cuda",
         tag: str = "wikidata",
-    ):
+    ) -> None:
         """EntityLinker
 
         :param str model_name: model name (bela)
@@ -59,4 +59,4 @@ class EntityLinker:
                 # 'md_scores': [0.30301809310913086, 0.6399497389793396],
                 # 'el_scores': [0.7142490744590759, 0.8657019734382629]}]
         """
-        return self.model.process_batch(list_text)  # type: ignore[no-any-return]
+        return self.model.process_batch(list_text)

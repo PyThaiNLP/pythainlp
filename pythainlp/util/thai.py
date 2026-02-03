@@ -238,7 +238,7 @@ def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:
         # output: [('มือ', 'm'), ('ถือ', 'r')]
     """
     if not word:
-        return [("", "")]
+        return []
 
     from ..transliterate import pronunciate
     from ..util.syllable import tone_detector

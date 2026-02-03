@@ -41,9 +41,11 @@ class GzipModel:
         return temp_list
 
     def predict(self, x1: str, k: int = 1) -> str:
-        """:param str x1: the text that we want to predict label for.
-        :param str k: k
-        :return: label
+        """Predict the label for the given text.
+
+        :param str x1: the text that we want to predict label for
+        :param int k: number of nearest neighbors to consider (default: 1)
+        :return: predicted label
         :rtype: str
 
         :Example:
@@ -80,7 +82,7 @@ class GzipModel:
         sorted_idx = np.argsort(np.array(disance_from_x1))
         top_k_class = self.training_data[sorted_idx[:k], 1]
         _, counts = np.unique(top_k_class, return_counts=True)
-        predict_class = top_k_class[counts.argmax()]
+        predict_class = str(top_k_class[counts.argmax()])
 
         return predict_class
 

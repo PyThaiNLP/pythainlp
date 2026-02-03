@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 from functools import lru_cache
+from typing import Optional
 
 from pythainlp import (
     thai_above_vowels,
@@ -24,8 +25,12 @@ tonemarks = {
     for i, j in zip(list(thai_tonemarks), ["เอก", "โท", "ตรี", "จัตวา"])
 }
 
-rule1: list[str] = [i.replace("-", f"([{thai_letters}](thai_tonemarks)?)") for i in _r1]
-rule2: list[str] = [i.replace("–", f"([{thai_letters}])").replace(":", "") for i in _r2]
+rule1: list[str] = [
+    i.replace("-", f"([{thai_letters}](thai_tonemarks)?)") for i in _r1
+]
+rule2: list[str] = [
+    i.replace("–", f"([{thai_letters}])").replace(":", "") for i in _r2
+]
 rule3: list[str] = [
     i.replace("–", f"([{thai_letters}])").replace(":", f"([{thai_tonemarks}])")
     for i in _r2
@@ -108,12 +113,12 @@ def spell_syllable(text: str) -> list[str]:
     return c_only + v_only + t_only + [text]
 
 
-def spell_word(text: str) -> list[str]:
+def spell_word(text: Optional[str]) -> list[str]:
     """Spell out words in Thai word distribution form.
 
-    :param str w: Thai words only
-    :return: List of spelled out words
-    :rtype: List[str]
+    :param Optional[str] text: Thai words only, or None
+    :return: List of spelled out words, empty list if text is None or empty
+    :rtype: list[str]
 
     :Example:
     ::
@@ -122,7 +127,13 @@ def spell_word(text: str) -> list[str]:
 
         print(spell_word("คนดี"))
         # output: ['คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี']
+
+        print(spell_word(None))
+        # output: []
     """
+    if not text:
+        return []
+
     spellouts = []
     tokens = subword_tokenize(text, engine="han_solo")
 

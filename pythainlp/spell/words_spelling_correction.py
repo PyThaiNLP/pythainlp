@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import os
-from typing import Union
+from typing import Any, Union
 
 from pythainlp.corpus import get_hf_hub
 
@@ -19,14 +19,14 @@ class FastTextEncoder:
 
     def __init__(
         self,
-        model_dir,
-        nn_model_path,
-        words_list,
-        bucket=2000000,
-        nb_words=2000000,
-        minn=5,
-        maxn=5,
-    ):
+        model_dir: str,
+        nn_model_path: str,
+        words_list: list[str],
+        bucket: int = 2000000,
+        nb_words: int = 2000000,
+        minn: int = 5,
+        maxn: int = 5,
+    ) -> None:
         """Initializes the FastTextEncoder, loading embeddings, vocabulary,
         nearest neighbor model, and suggestion words list.
 
@@ -63,7 +63,7 @@ class FastTextEncoder:
         self.nn_session = self._load_onnx_session(nn_model_path)
         self.embedding_dim = self.embeddings.shape[1]
 
-    def _load_embeddings(self):
+    def _load_embeddings(self) -> tuple[list[str], Any]:
         """Loads embeddings matrix and vocabulary list."""
         input_matrix = self.np.load(
             os.path.join(self.model_dir, "embeddings.npy")
@@ -75,12 +75,12 @@ class FastTextEncoder:
                 words.append(line.rstrip())
         return words, input_matrix
 
-    def _load_suggestion_words(self, words_list):
+    def _load_suggestion_words(self, words_list: list[str]) -> Any:
         """Loads the list of words used for suggestions."""
         words = self.np.array(words_list)
         return words
 
-    def _load_onnx_session(self, onnx_path):
+    def _load_onnx_session(self, onnx_path: str) -> Any:
         """Loads the ONNX inference session."""
         # Note: Using providers=["CPUExecutionProvider"] for platform independence
         import onnxruntime as rt
@@ -92,7 +92,7 @@ class FastTextEncoder:
 
     # --- Helper Methods for Encoding ---
 
-    def _get_hash(self, subword):
+    def _get_hash(self, subword: str) -> int:
         """Computes the FastText-like hash for a subword."""
         h = 2166136261  # FNV-1a basis
         for c in subword:
@@ -101,7 +101,7 @@ class FastTextEncoder:
             h = (h * 16777619) % 2**32  # FNV-1a prime
         return h % self.bucket + self.nb_words
 
-    def _get_subwords(self, word):
+    def _get_subwords(self, word: str) -> tuple[list[str], Any]:
         """Extracts subwords and their corresponding indices for a given word."""
         _word = "<" + word + ">"
         _subwords = []
@@ -128,7 +128,7 @@ class FastTextEncoder:
 
         return _subwords, self.np.array(_subword_ids)
 
-    def get_word_vector(self, word):
+    def get_word_vector(self, word: str) -> Any:
         """Computes the normalized vector for a single word."""
         # subword_ids[1] contains the array of indices for the word and its subwords
         subword_ids = self._get_subwords(word)[1]
@@ -150,7 +150,7 @@ class FastTextEncoder:
 
         return vector
 
-    def _tokenize(self, sentence):
+    def _tokenize(self, sentence: str) -> list[str]:
         """Tokenizes a sentence based on whitespace."""
         tokens = []
         word = ""
@@ -167,7 +167,7 @@ class FastTextEncoder:
             tokens.append(word)
         return tokens
 
-    def get_sentence_vector(self, line):
+    def get_sentence_vector(self, line: str) -> Any:
         """Computes the mean vector for a sentence."""
         tokens = self._tokenize(line)
         vectors = []
@@ -184,7 +184,9 @@ class FastTextEncoder:
 
     # --- Nearest Neighbor Method ---
 
-    def get_word_suggestion(self, list_word):
+    def get_word_suggestion(
+        self, list_word: Union[str, list[str]]
+    ) -> Union[list[str], list[list[str]]]:
         """Queries the ONNX model to find the nearest neighbor word(s)
         for the given word or list of words.
 
@@ -227,7 +229,7 @@ class FastTextEncoder:
 
 
 class Words_Spelling_Correction(FastTextEncoder):
-    def __init__(self):
+    def __init__(self) -> None:
         self.model_name = "pythainlp/word-spelling-correction-char2vec"
         self.model_path = get_hf_hub(self.model_name)
         self.model_onnx = get_hf_hub(self.model_name, "nearest_neighbors.onnx")
@@ -272,4 +274,4 @@ def get_words_spell_suggestion(
     global _WSC
     if _WSC is None:
         _WSC = Words_Spelling_Correction()
-    return _WSC.get_word_suggestion(list_words)  # type: ignore[no-any-return]
+    return _WSC.get_word_suggestion(list_words)

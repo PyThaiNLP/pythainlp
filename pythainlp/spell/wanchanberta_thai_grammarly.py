@@ -12,6 +12,8 @@
 
 from __future__ import annotations
 
+from typing import Any, Optional
+
 import torch
 from transformers import (
     AutoModelForMaskedLM,
@@ -27,13 +29,18 @@ tokenizer = AutoTokenizer.from_pretrained(
 
 
 class BertModel(torch.nn.Module):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.bert = BertForTokenClassification.from_pretrained(
             "bookpanda/wangchanberta-base-att-spm-uncased-tagging"
         )
 
-    def forward(self, input_id, mask, label):
+    def forward(
+        self,
+        input_id: torch.Tensor,
+        mask: torch.Tensor,
+        label: Optional[torch.Tensor],
+    ) -> Any:
         output = self.bert(
             input_ids=input_id,
             attention_mask=mask,
@@ -67,7 +74,7 @@ def align_word_ids(texts: str) -> list[int]:
     return label_ids
 
 
-def evaluate_one_text(model, sentence):
+def evaluate_one_text(model: BertModel, sentence: str) -> list[str]:
     text = tokenizer(
         sentence,
         padding="max_length",

@@ -70,7 +70,7 @@ class NER:
             )
 
     def tag(
-        self, text, pos=False, tag=False
+        self, text: str, pos: bool = False, tag: bool = False
     ) -> Union[list[tuple[str, str]], list[tuple[str, str, str]], str]:
         """This function tags named entities in text in IOB format.
 
@@ -123,7 +123,7 @@ class NNER:
 
         self.engine = Thai_NNER()
 
-    def tag(self, text) -> tuple[list[str], list[dict]]:
+    def tag(self, text: str) -> tuple[list[str], list[dict[Any, Any]]]:
         """This function tags nested named entities.
 
         :param str text: text in Thai to be tagged

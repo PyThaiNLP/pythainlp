@@ -43,9 +43,27 @@ class TagTransformersTestCaseN(unittest.TestCase):
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
         self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
 
+        # Test thai-nner engine
+        ner = NER(engine="thai-nner")
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", pos=False))
+        self.assertIsNotNone(ner.tag("แมวทำอะไรตอนห้าโมงเช้า", tag=True))
+
     def test_NNER_class(self):
         nner = NNER()
+        # Test basic tagging
         self.assertIsNotNone(nner.tag("แมวทำอะไรตอนห้าโมงเช้า"))
+
+        # Test with top_level_only parameter
+        tokens, entities = nner.tag("แมวทำอะไรตอนห้าโมงเช้า")
+        self.assertIsInstance(tokens, list)
+        self.assertIsInstance(entities, list)
+
+        tokens_top, entities_top = nner.tag("แมวทำอะไรตอนห้าโมงเช้า", top_level_only=True)
+        self.assertIsInstance(tokens_top, list)
+        self.assertIsInstance(entities_top, list)
+        # Top-level entities should be less than or equal to all entities
+        self.assertLessEqual(len(entities_top), len(entities))
 
     def test_pos_tag_transformers(self):
         self.assertIsNotNone(

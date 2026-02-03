@@ -33,6 +33,7 @@ See PR for prompt and details.
 - Remove `requests` dependency #1211
 - Make package zip-safe #1212
 - Ensure thread-safety for tokenizers #1213
+- Add Thai-NNER integration with top-level entity filtering #1221
 - Improved documentation; code cleanup; more tests
 
 ## Version 5.1.2 -> 5.2.0

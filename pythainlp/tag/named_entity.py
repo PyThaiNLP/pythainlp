@@ -17,6 +17,7 @@ class NER:
     **Options for engine**
         * *phayathaibert* - PhayaThaiBERT-based Thai NER engine
         * *thainer* - Thai NER engine
+        * *thai-nner* - Thai Nested NER engine
         * *thainer-v2* - Thai NER engine v2.0 for Thai NER 2.0 (default)
         * *tltk* - wrapper for `TLTK <https://pypi.org/project/tltk/>`_.
         * *wangchanberta* - WangchanBERTa-based Thai NER engine
@@ -26,6 +27,7 @@ class NER:
         * *thainer-v2* - Thai NER v2 corpus
 
     **Note**: The tltk engine supports NER models from tltk only.
+              The thai-nner engine supports nested NER and ignores corpus parameter.
     """
 
     name_engine: str
@@ -39,7 +41,18 @@ class NER:
     def load_engine(self, engine: str, corpus: str) -> None:
         self.name_engine = engine
         self.engine: Any = None
-        if corpus == "thainer":
+
+        # Engines that ignore corpus parameter
+        if engine == "thai-nner":
+            from pythainlp.tag.thai_nner import ThaiNNER
+
+            self.engine = ThaiNNER()
+        elif engine == "tltk":
+            from pythainlp.tag import tltk
+
+            self.engine = tltk
+        # Corpus-specific engines
+        elif corpus == "thainer":
             if engine == "thainer":
                 from pythainlp.tag.thainer import ThaiNameTagger
 
@@ -61,11 +74,6 @@ class NER:
                 from pythainlp.phayathaibert.core import NamedEntityTagger
 
                 self.engine = NamedEntityTagger()
-        else:  # No corpus matched
-            if engine == "tltk":
-                from pythainlp.tag import tltk
-
-                self.engine = tltk
 
         if self.engine is None:
             raise ValueError(
@@ -124,17 +132,26 @@ class NNER:
         self.load_engine(engine)
 
     def load_engine(self, engine: str = "thai_nner") -> None:
-        from pythainlp.tag.thai_nner import Thai_NNER
+        from pythainlp.tag.thai_nner import ThaiNNER
 
-        self.engine = Thai_NNER()
+        self.engine = ThaiNNER()
 
-    def tag(self, text: str) -> tuple[list[str], list[dict[str, Any]]]:
+    def tag(self, text: str, top_level_only: bool = False) -> tuple[list[str], list[dict[str, Any]]]:
         """This function tags nested named entities.
 
         :param str text: text in Thai to be tagged
+        :param bool top_level_only: If True, return only top-level (outermost)
+                                     entities. If False, return all nested
+                                     entities. Default is False.
 
-        :return: a list of tuples associated with tokenized words and NNER tags.
+        :return: a tuple of (tokens, entities) where tokens is a list of
+                 tokenized strings and entities is a list of dictionaries
+                 containing 'text', 'span', and 'entity_type' keys.
         :rtype: tuple[list[str], list[dict[str, Any]]]
+
+        .. note::
+            The tokenized output may include empty strings as part of the
+            tokenization process from the underlying Thai-NNER model.
 
         :Example:
 
@@ -174,5 +191,8 @@ class NNER:
                     'entity_type': 'unit'
                 }
             ])
+            >>> # Get only top-level entities (outermost entities)
+            >>> nner.tag("แมวทำอะไรตอนห้าโมงเช้า", top_level_only=True)
+            ([...], [{'text': ['', 'ห้า', '', 'โมง'], 'span': [7, 11], 'entity_type': 'time'}])
         """
-        return self.engine.tag(text)
+        return self.engine.tag(text, top_level_only=top_level_only)

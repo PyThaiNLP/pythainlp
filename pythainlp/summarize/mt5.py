@@ -6,8 +6,6 @@
 
 from __future__ import annotations
 
-from transformers import MT5ForConditionalGeneration, T5Tokenizer
-
 from pythainlp.summarize import CPE_KMUTT_THAI_SENTENCE_SUM
 
 
@@ -38,6 +36,8 @@ class mT5Summarizer:
         :param str pretrained_mt5_model_name: Name of pretrained model.
             If empty (default), uses google/mt5-{model_size}.
         """
+        from transformers import MT5ForConditionalGeneration, T5Tokenizer
+
         model_name = ""
         if not pretrained_mt5_model_name:
             if model_size not in ["small", "base", "large", "xl", "xxl"]:

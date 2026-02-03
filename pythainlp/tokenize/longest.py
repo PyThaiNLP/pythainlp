@@ -106,7 +106,7 @@ class LongestMatchTokenizer:
         else:
             return ""
 
-    def __segment(self, text: str):
+    def __segment(self, text: str) -> list[str]:
         begin_pos = 0
         len_text = len(text)
         tokens: list[str] = []

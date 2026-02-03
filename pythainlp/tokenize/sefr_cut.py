@@ -11,6 +11,7 @@ Thai Word Segmentation Models using Stacked Ensemble.
 from __future__ import annotations
 
 import threading
+from typing import cast
 
 import sefr_cut
 
@@ -44,4 +45,4 @@ def segment(text: str, engine: str = "ws1000") -> list[str]:
             _DEFAULT_ENGINE = engine
             sefr_cut.load_model(engine=_DEFAULT_ENGINE)
 
-    return sefr_cut.tokenize(text)[0]
+    return cast(list[str], sefr_cut.tokenize(text)[0])

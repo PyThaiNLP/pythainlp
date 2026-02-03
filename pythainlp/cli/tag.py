@@ -4,16 +4,25 @@
 """Command line for PyThaiNLP's taggers.
 """
 
+from __future__ import annotations
+
 import argparse
+from typing import TYPE_CHECKING
 
 from pythainlp import cli
 from pythainlp.tag import pos_tag
 from pythainlp.tools import safe_print
 
+if TYPE_CHECKING:
+    from collections.abc import Callable, Sequence
+
 
 class SubAppBase:
-    def __init__(self, name, argv):
-        parser = argparse.ArgumentParser(**cli.make_usage("tag " + name))
+    separator: str
+    run: Callable[[list[str]], list[tuple[str, str]]]
+
+    def __init__(self, name: str, argv: Sequence[str]) -> None:
+        parser = argparse.ArgumentParser(**cli.make_usage("tag " + name))  # type: ignore[arg-type]
         parser.add_argument(
             "text",
             type=str,
@@ -39,7 +48,7 @@ class SubAppBase:
 
 
 class POSTaggingApp(SubAppBase):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: str, **kwargs: str) -> None:
         self.separator = "|"
         self.run = pos_tag
 
@@ -47,7 +56,7 @@ class POSTaggingApp(SubAppBase):
 
 
 class App:
-    def __init__(self, argv):
+    def __init__(self, argv: Sequence[str]) -> None:
         parser = argparse.ArgumentParser(
             prog="tag",
             description="Annotate a text with linguistic information",
@@ -72,6 +81,6 @@ class App:
         argv = argv[3:]
 
         if tag_type == "pos":
-            POSTaggingApp("Part-of-Speech tagging", argv)
+            POSTaggingApp("Part-of-Speech tagging", argv)  # type: ignore[arg-type]
         else:
             print(f"Tag type not available: {tag_type}")

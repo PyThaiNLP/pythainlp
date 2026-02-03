@@ -7,19 +7,24 @@ import re
 import warnings
 from typing import Union
 
-from transformers import (
-    CamembertTokenizer,
-    pipeline,
-)
-
 from pythainlp.tokenize import word_tokenize
 
 _model_name = "wangchanberta-base-att-spm-uncased"
-_tokenizer = CamembertTokenizer.from_pretrained(
-    f"airesearch/{_model_name}", revision="main"
-)
-if _model_name == "wangchanberta-base-att-spm-uncased":
-    _tokenizer.additional_special_tokens = ["<s>NOTUSED", "</s>NOTUSED", "<_>"]
+_tokenizer = None
+
+
+def _get_tokenizer():
+    """Get the tokenizer, initializing it if necessary."""
+    global _tokenizer
+    if _tokenizer is None:
+        from transformers import CamembertTokenizer
+
+        _tokenizer = CamembertTokenizer.from_pretrained(
+            f"airesearch/{_model_name}", revision="main"
+        )
+        if _model_name == "wangchanberta-base-att-spm-uncased":
+            _tokenizer.additional_special_tokens = ["<s>NOTUSED", "</s>NOTUSED", "<_>"]
+    return _tokenizer
 
 
 class ThaiNameTagger:
@@ -33,11 +38,13 @@ class ThaiNameTagger:
             * *thainer* - ThaiNER dataset
         :param bool grouped_entities: grouped entities
         """
+        from transformers import pipeline
+
         self.dataset_name = dataset_name
         self.grouped_entities = grouped_entities
         self.classify_tokens = pipeline(
             task="ner",
-            tokenizer=_tokenizer,
+            tokenizer=_get_tokenizer(),
             model=f"airesearch/{_model_name}",
             revision=f"finetuned@{self.dataset_name}-ner",
             ignore_labels=[],
@@ -226,4 +233,4 @@ def segment(text: str) -> list[str]:
     if not text or not isinstance(text, str):
         return []
 
-    return _tokenizer.tokenize(text)
+    return _get_tokenizer().tokenize(text)

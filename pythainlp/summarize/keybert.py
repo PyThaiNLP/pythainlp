@@ -14,19 +14,21 @@ from __future__ import annotations
 
 from collections import Counter
 from collections.abc import Iterable
-from typing import Optional, Union
-
-import numpy as np
-from transformers import pipeline
+from typing import TYPE_CHECKING, Optional, Union
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
+
+if TYPE_CHECKING:
+    import numpy as np
 
 
 class KeyBERT:
     def __init__(
         self, model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
     ):
+        from transformers import pipeline
+
         self.ft_pipeline = pipeline(
             "feature-extraction",
             tokenizer=model_name,
@@ -136,8 +138,9 @@ class KeyBERT:
             return [kw for kw, _ in keywords]
 
     def embed(self, docs: Union[str, list[str]]) -> np.ndarray:
-        """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer.
-        """
+        """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer."""
+        import numpy as np
+
         embs = self.ft_pipeline(docs)
         if isinstance(docs, str) or len(docs) == 1:
             # embed doc. return shape = [1, hidden_size]
@@ -206,6 +209,8 @@ def _rank_keywords(
     keywords: list[str],
     max_keywords: int,
 ) -> list[tuple[str, float]]:
+    import numpy as np
+
     def l2_norm(v: np.ndarray) -> np.ndarray:
         vec_size = v.shape[1]
         result = np.divide(

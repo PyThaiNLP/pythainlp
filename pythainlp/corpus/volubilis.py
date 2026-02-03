@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-from pythainlp.corpus.common import get_corpus
+from pythainlp.corpus.core import get_corpus
 
 _VOLUBILIS_WORDS = None
 _VOLUBILIS_FILENAME = "volubilis_words_th.txt"

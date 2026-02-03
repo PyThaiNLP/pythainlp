@@ -15,7 +15,7 @@ def warn_deprecation(
     replacing_func: str = "",
     deprecated_version: str = "",
     removal_version: str = "",
-):
+) -> None:
     """Warn about the deprecation of a function.
 
     :param str deprecated_func: Name of the deprecated function.

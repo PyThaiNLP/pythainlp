@@ -939,19 +939,19 @@ class Tokenizer:
         :param bool keep_whitespace: True to keep whitespace, a common mark
                                      for end of phrase in Thai
         """
-        self.__trie_dict = Trie([])
+        self.__trie_dict: Trie = Trie([])
         if custom_dict:
             self.__trie_dict = dict_trie(custom_dict)
         else:
             self.__trie_dict = word_dict_trie()
-        self.__engine = engine
+        self.__engine: str = engine
         if self.__engine not in ["newmm", "mm", "longest", "deepcut"]:
             raise NotImplementedError(
                 "The Tokenizer class does not support "
                 f"{self.__engine} for custom tokenizer."
             )
-        self.__keep_whitespace = keep_whitespace
-        self.__join_broken_num = join_broken_num
+        self.__keep_whitespace: bool = keep_whitespace
+        self.__join_broken_num: bool = join_broken_num
 
     def word_tokenize(self, text: str) -> list[str]:
         """Main tokenization function.

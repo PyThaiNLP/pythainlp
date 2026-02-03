@@ -66,12 +66,12 @@ class EnThTranslator:
     """
 
     def __init__(self, use_gpu: bool = False) -> None:
-        self._tokenizer = MosesTokenizer("en")
+        self._tokenizer: MosesTokenizer = MosesTokenizer("en")
 
-        self._model_name = _EN_TH_MODEL_NAME
+        self._model_name: str = _EN_TH_MODEL_NAME
 
         _download_install(self._model_name)
-        self._model = TransformerModel.from_pretrained(
+        self._model: TransformerModel = TransformerModel.from_pretrained(  # type: ignore[assignment]
             model_name_or_path=_get_translate_path(
                 self._model_name,
                 _EN_TH_FILE_NAME,
@@ -122,10 +122,10 @@ class ThEnTranslator:
     """
 
     def __init__(self, use_gpu: bool = False) -> None:
-        self._model_name = _TH_EN_MODEL_NAME
+        self._model_name: str = _TH_EN_MODEL_NAME
 
         _download_install(self._model_name)
-        self._model = TransformerModel.from_pretrained(
+        self._model: TransformerModel = TransformerModel.from_pretrained(  # type: ignore[assignment]
             model_name_or_path=_get_translate_path(
                 self._model_name,
                 _TH_EN_FILE_NAME,

@@ -4,9 +4,13 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Union
+from typing import TYPE_CHECKING, Any, Union
 
 from pythainlp.corpus import get_hf_hub
+
+if TYPE_CHECKING:
+    import numpy as np
+    import onnxruntime
 
 
 class FastTextEncoder:
@@ -50,18 +54,20 @@ class FastTextEncoder:
             """)
         except Exception as e:
             raise RuntimeError(f"An unexpected error occurred: {e}") from e
-        self.model_dir = model_dir
-        self.nn_model_path = nn_model_path
-        self.bucket = bucket
-        self.nb_words = nb_words
-        self.minn = minn
-        self.maxn = maxn
+        self.model_dir: str = model_dir
+        self.nn_model_path: str = nn_model_path
+        self.bucket: int = bucket
+        self.nb_words: int = nb_words
+        self.minn: int = minn
+        self.maxn: int = maxn
 
         # Load data and models
+        self.vocabulary: list[str]
+        self.embeddings: Any  # numpy.ndarray
         self.vocabulary, self.embeddings = self._load_embeddings()
-        self.words_for_suggestion = self._load_suggestion_words(words_list)
-        self.nn_session = self._load_onnx_session(nn_model_path)
-        self.embedding_dim = self.embeddings.shape[1]
+        self.words_for_suggestion: Any = self._load_suggestion_words(words_list)  # numpy.ndarray
+        self.nn_session: Any = self._load_onnx_session(nn_model_path)  # onnxruntime.InferenceSession
+        self.embedding_dim: int = self.embeddings.shape[1]
 
     def _load_embeddings(self) -> tuple[list[str], Any]:
         """Loads embeddings matrix and vocabulary list."""
@@ -230,9 +236,9 @@ class FastTextEncoder:
 
 class Words_Spelling_Correction(FastTextEncoder):
     def __init__(self) -> None:
-        self.model_name = "pythainlp/word-spelling-correction-char2vec"
-        self.model_path = get_hf_hub(self.model_name)
-        self.model_onnx = get_hf_hub(self.model_name, "nearest_neighbors.onnx")
+        self.model_name: str = "pythainlp/word-spelling-correction-char2vec"
+        self.model_path: str = get_hf_hub(self.model_name)  # type: ignore[assignment]
+        self.model_onnx: str = get_hf_hub(self.model_name, "nearest_neighbors.onnx")  # type: ignore[assignment]
         with open(
             get_hf_hub(
                 self.model_name, "list_word-spelling-correction-char2vec.txt"

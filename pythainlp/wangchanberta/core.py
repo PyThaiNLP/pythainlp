@@ -53,9 +53,9 @@ class ThaiNameTagger:
         """
         from transformers import pipeline
 
-        self.dataset_name = dataset_name
-        self.grouped_entities = grouped_entities
-        self.classify_tokens = pipeline(
+        self.dataset_name: str = dataset_name
+        self.grouped_entities: bool = grouped_entities
+        self.classify_tokens: Any = pipeline(
             task="ner",
             tokenizer=_get_tokenizer(),
             model=f"airesearch/{_model_name}",
@@ -94,10 +94,10 @@ class ThaiNameTagger:
                 stacklevel=2,
             )
         text = re.sub(" ", "<_>", text)
-        self.json_ner = self.classify_tokens(text)
-        self.output = ""
+        self.json_ner: list[dict[str, Any]] = self.classify_tokens(text)
+        self.output: str = ""
         if self.grouped_entities and self.dataset_name == "thainer":
-            self.sent_ner = [
+            self.sent_ner: list[tuple[str, str]] = [
                 (
                     i["word"].replace("<_>", " ").replace("▁", ""),
                     self._IOB(i["entity_group"]),
@@ -165,8 +165,8 @@ class NamedEntityRecognition:
         """
         from transformers import AutoModelForTokenClassification, AutoTokenizer
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model)
-        self.model = AutoModelForTokenClassification.from_pretrained(model)
+        self.tokenizer: Any = AutoTokenizer.from_pretrained(model)
+        self.model: Any = AutoModelForTokenClassification.from_pretrained(model)
 
     def _fix_span_error(self, words: list[int], ner: list[str]) -> list[tuple[str, str]]:
         _ner = []

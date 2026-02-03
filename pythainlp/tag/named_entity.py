@@ -36,10 +36,12 @@ class NER:
     def __init__(
         self, engine: str = "thainer-v2", corpus: str = "thainer"
     ) -> None:
+        self.name_engine: str
+        self.engine: Any
         self.load_engine(engine=engine, corpus=corpus)
 
     def load_engine(self, engine: str, corpus: str) -> None:
-        self.name_engine = engine
+        self.name_engine: str = engine
         self.engine: Any = None
 
         # Engines that ignore corpus parameter
@@ -129,12 +131,13 @@ class NNER:
     engine: Any
 
     def __init__(self, engine: str = "thai_nner") -> None:
+        self.engine: Any
         self.load_engine(engine)
 
     def load_engine(self, engine: str = "thai_nner") -> None:
         from pythainlp.tag.thai_nner import ThaiNNER
 
-        self.engine = ThaiNNER()
+        self.engine: Any = ThaiNNER()
 
     def tag(self, text: str, top_level_only: bool = False) -> tuple[list[str], list[dict[str, Any]]]:
         """This function tags nested named entities.

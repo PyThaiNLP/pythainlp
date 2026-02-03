@@ -16,7 +16,7 @@ class BaseTokenizer:
     lang: str
 
     def __init__(self, lang: str) -> None:
-        self.lang = lang
+        self.lang: str = lang
 
     def tokenizer(self, t: str) -> list[str]:
         return t.split(" ")
@@ -34,7 +34,7 @@ class ThaiTokenizer(BaseTokenizer):
     lang: str
 
     def __init__(self, lang: str = "th") -> None:
-        self.lang = lang
+        self.lang: str = lang
 
     @staticmethod
     def tokenizer(text: str) -> list[str]:

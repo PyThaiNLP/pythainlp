@@ -32,7 +32,7 @@ class ThaiG2P:
     def __init__(self, device: str = "cpu") -> None:
         from transformers import pipeline
 
-        self.pipe = pipeline(
+        self.pipe: "Pipeline" = pipeline(
             "text2text-generation",
             model="pythainlp/thaig2p-v2.0",
             device=device,

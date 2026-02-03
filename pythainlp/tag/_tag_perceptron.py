@@ -41,17 +41,17 @@ class AveragedPerceptron:
     def __init__(self) -> None:
         # Each feature gets its own weight vector,
         # so weights is a dict-of-dicts
-        self.weights = {}
-        self.classes = set()
+        self.weights: dict[str, dict[str, float]] = {}
+        self.classes: set[str] = set()
         # The accumulated values, for the averaging. These will be keyed by
         # feature/class tuples
-        self._totals = defaultdict(float)
+        self._totals: dict[tuple[str, str], float] = defaultdict(float)
         # The last time the feature was changed, for the averaging. Also
         # keyed by feature/class tuples
         # (tstamps is short for timestamps)
-        self._tstamps = defaultdict(int)
+        self._tstamps: dict[tuple[str, str], int] = defaultdict(int)
         # Number of instances seen
-        self.i = 0
+        self.i: int = 0
 
     def predict(self, features: dict[str, float]) -> str:
         """Dot-product the features and current weights and return the best
@@ -131,11 +131,11 @@ class PerceptronTagger:
 
     def __init__(self, path: str = "") -> None:
         """:param str path: model path"""
-        self.model = AveragedPerceptron()
-        self.tagdict = {}
-        self.classes = set()
+        self.model: "AveragedPerceptron" = AveragedPerceptron()
+        self.tagdict: dict[str, str] = {}
+        self.classes: set[str] = set()
         if path != "":
-            self.AP_MODEL_LOC = path
+            self.AP_MODEL_LOC: str = path
             self.load(self.AP_MODEL_LOC)
 
     def tag(self, tokens: Iterable[str]) -> list[tuple[str, str]]:

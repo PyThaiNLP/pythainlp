@@ -25,9 +25,9 @@ class WangChanGLM:
     exclude_ids: list[int]
 
     def __init__(self) -> None:
-        self.exclude_pattern = re.compile(r"[^ก-๙]+")
-        self.stop_token = "\n"  # noqa: S105
-        self.PROMPT_DICT = {
+        self.exclude_pattern: "re.Pattern" = re.compile(r"[^ก-๙]+")
+        self.stop_token: str = "\n"  # noqa: S105
+        self.PROMPT_DICT: dict[str, str] = {
             "prompt_input": (
                 "<context>: {input}\n<human>: {instruction}\n<bot>: "
             ),
@@ -61,10 +61,10 @@ class WangChanGLM:
         import pandas as pd
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
-        self.device = device
-        self.torch_dtype = torch_dtype
-        self.model_path = model_path
-        self.model = AutoModelForCausalLM.from_pretrained(
+        self.device: str = device
+        self.torch_dtype: "torch.dtype" = torch_dtype
+        self.model_path: str = model_path
+        self.model: Any = AutoModelForCausalLM.from_pretrained(
             self.model_path,
             return_dict=return_dict,
             load_in_8bit=load_in_8bit,
@@ -73,12 +73,12 @@ class WangChanGLM:
             offload_folder=offload_folder,
             low_cpu_mem_usage=low_cpu_mem_usage,
         )
-        self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
-        self.df = pd.DataFrame(
+        self.tokenizer: Any = AutoTokenizer.from_pretrained(self.model_path)
+        self.df: "pd.DataFrame" = pd.DataFrame(
             self.tokenizer.vocab.items(), columns=["text", "idx"]
         )
         self.df["is_exclude"] = self.df.text.map(self.is_exclude)
-        self.exclude_ids = self.df[self.df.is_exclude is True].idx.tolist()
+        self.exclude_ids: list[int] = self.df[self.df.is_exclude is True].idx.tolist()
 
     def gen_instruct(
         self,

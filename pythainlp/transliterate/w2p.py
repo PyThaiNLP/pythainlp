@@ -76,10 +76,14 @@ class Thai_W2P:
 
     def __init__(self) -> None:
         super().__init__()
-        self.graphemes = hp.graphemes
-        self.phonemes = hp.phonemes
+        self.graphemes: list[str] = hp.graphemes
+        self.phonemes: list[str] = hp.phonemes
+        self.g2idx: dict[str, int]
+        self.idx2g: dict[int, str]
+        self.p2idx: dict[str, int]
+        self.idx2p: dict[int, str]
         self.g2idx, self.idx2g, self.p2idx, self.idx2p = _load_vocab()
-        self.checkpoint = get_corpus_path(_MODEL_NAME, version="0.2")
+        self.checkpoint: Optional[str] = get_corpus_path(_MODEL_NAME, version="0.2")
         if self.checkpoint is None:
             download(_MODEL_NAME, version="0.2")
             self.checkpoint = get_corpus_path(_MODEL_NAME)
@@ -92,32 +96,32 @@ class Thai_W2P:
     def _load_variables(self) -> None:
         if self.checkpoint is None:
             raise RuntimeError("checkpoint path is not set")
-        self.variables = np.load(self.checkpoint, allow_pickle=True)
+        self.variables: "NDArray" = np.load(self.checkpoint, allow_pickle=True)
         # (29, 64). (len(graphemes), emb)
-        self.enc_emb = self.variables.item().get("encoder.emb.weight")
+        self.enc_emb: "NDArray" = self.variables.item().get("encoder.emb.weight")
         # (3*128, 64)
-        self.enc_w_ih = self.variables.item().get("encoder.rnn.weight_ih_l0")
+        self.enc_w_ih: "NDArray" = self.variables.item().get("encoder.rnn.weight_ih_l0")
         # (3*128, 128)
-        self.enc_w_hh = self.variables.item().get("encoder.rnn.weight_hh_l0")
+        self.enc_w_hh: "NDArray" = self.variables.item().get("encoder.rnn.weight_hh_l0")
         # (3*128,)
-        self.enc_b_ih = self.variables.item().get("encoder.rnn.bias_ih_l0")
+        self.enc_b_ih: "NDArray" = self.variables.item().get("encoder.rnn.bias_ih_l0")
         # (3*128,)
-        self.enc_b_hh = self.variables.item().get("encoder.rnn.bias_hh_l0")
+        self.enc_b_hh: "NDArray" = self.variables.item().get("encoder.rnn.bias_hh_l0")
 
         # (74, 64). (len(phonemes), emb)
-        self.dec_emb = self.variables.item().get("decoder.emb.weight")
+        self.dec_emb: "NDArray" = self.variables.item().get("decoder.emb.weight")
         # (3*128, 64)
-        self.dec_w_ih = self.variables.item().get("decoder.rnn.weight_ih_l0")
+        self.dec_w_ih: "NDArray" = self.variables.item().get("decoder.rnn.weight_ih_l0")
         # (3*128, 128)
-        self.dec_w_hh = self.variables.item().get("decoder.rnn.weight_hh_l0")
+        self.dec_w_hh: "NDArray" = self.variables.item().get("decoder.rnn.weight_hh_l0")
         # (3*128,)
-        self.dec_b_ih = self.variables.item().get("decoder.rnn.bias_ih_l0")
+        self.dec_b_ih: "NDArray" = self.variables.item().get("decoder.rnn.bias_ih_l0")
         # (3*128,)
-        self.dec_b_hh = self.variables.item().get("decoder.rnn.bias_hh_l0")
+        self.dec_b_hh: "NDArray" = self.variables.item().get("decoder.rnn.bias_hh_l0")
         # (74, 128)
-        self.fc_w = self.variables.item().get("decoder.fc.weight")
+        self.fc_w: "NDArray" = self.variables.item().get("decoder.fc.weight")
         # (74,)
-        self.fc_b = self.variables.item().get("decoder.fc.bias")
+        self.fc_b: "NDArray" = self.variables.item().get("decoder.fc.bias")
 
     def _sigmoid(self, x: np.ndarray) -> np.ndarray:
         return 1 / (1 + np.exp(-x))
@@ -163,7 +167,7 @@ class Thai_W2P:
         return x
 
     def _short_word(self, word: str) -> Optional[str]:
-        self.word = word
+        self.word: str = word
         if self.word.endswith("."):
             self.word = self.word.replace(".", "")
             self.word = "-".join([i + "อ" for i in list(self.word)])

@@ -38,17 +38,17 @@ class Unigram:
 
     def __init__(self, name: str = "tnc") -> None:
         if name == "tnc":
-            self.counts = tnc_word_freqs_unigram()
+            self.counts: dict[str, int] = tnc_word_freqs_unigram()
         elif name == "ttc":
             self.counts = ttc_word_freqs_unigram()
         elif name == "oscar":
             self.counts = oscar_word_freqs_unigram()
-        self.word = list(self.counts.keys())
-        self.n = 0
+        self.word: list[str] = list(self.counts.keys())
+        self.n: int = 0
         for i in self.word:
             self.n += self.counts[i]
-        self.prob = {i: self.counts[i] / self.n for i in self.word}
-        self._word_prob = {}
+        self.prob: dict[str, float] = {i: self.counts[i] / self.n for i in self.word}
+        self._word_prob: dict[str, float] = {}
 
     def gen_sentence(
         self,
@@ -130,11 +130,11 @@ class Bigram:
 
     def __init__(self, name: str = "tnc") -> None:
         if name == "tnc":
-            self.uni = tnc_word_freqs_unigram()
-            self.bi = tnc_word_freqs_bigram()
-        self.uni_keys = list(self.uni.keys())
-        self.bi_keys = list(self.bi.keys())
-        self.words = [i[-1] for i in self.bi_keys]
+            self.uni: dict[str, int] = tnc_word_freqs_unigram()
+            self.bi: dict[tuple[str, str], int] = tnc_word_freqs_bigram()
+        self.uni_keys: list[str] = list(self.uni.keys())
+        self.bi_keys: list[tuple[str, str]] = list(self.bi.keys())
+        self.words: list[str] = [i[-1] for i in self.bi_keys]
 
     def prob(self, t1: str, t2: str) -> float:
         """Probability of word
@@ -225,13 +225,13 @@ class Trigram:
 
     def __init__(self, name: str = "tnc") -> None:
         if name == "tnc":
-            self.uni = tnc_word_freqs_unigram()
-            self.bi = tnc_word_freqs_bigram()
-            self.ti = tnc_word_freqs_trigram()
-        self.uni_keys = list(self.uni.keys())
-        self.bi_keys = list(self.bi.keys())
-        self.ti_keys = list(self.ti.keys())
-        self.words = [i[-1] for i in self.bi_keys]
+            self.uni: dict[str, int] = tnc_word_freqs_unigram()
+            self.bi: dict[tuple[str, str], int] = tnc_word_freqs_bigram()
+            self.ti: dict[tuple[str, str, str], int] = tnc_word_freqs_trigram()
+        self.uni_keys: list[str] = list(self.uni.keys())
+        self.bi_keys: list[tuple[str, str]] = list(self.bi.keys())
+        self.ti_keys: list[tuple[str, str, str]] = list(self.ti.keys())
+        self.words: list[str] = [i[-1] for i in self.bi_keys]
 
     def prob(self, t1: str, t2: str, t3: str) -> float:
         """Probability of word

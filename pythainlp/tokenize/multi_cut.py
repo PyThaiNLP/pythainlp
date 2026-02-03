@@ -38,14 +38,14 @@ class LatticeString(str):
         multi: Optional[list[str]] = None,
         in_dict: bool = True,
     ) -> None:
-        self.unique = True
+        self.unique: bool = True
         if multi:
-            self.multi = list(multi)
+            self.multi: list[str] = list(multi)
             if len(self.multi) > 1:
                 self.unique = False
         else:
             self.multi = [value]
-        self.in_dict = in_dict  # if in dictionary
+        self.in_dict: bool = in_dict  # if in dictionary
 
 
 _RE_NONTHAI = r"""(?x)

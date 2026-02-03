@@ -24,9 +24,9 @@ tonemarks = {
     for i, j in zip(list(thai_tonemarks), ["เอก", "โท", "ตรี", "จัตวา"])
 }
 
-rule1 = [i.replace("-", f"([{thai_letters}](thai_tonemarks)?)") for i in _r1]
-rule2 = [i.replace("–", f"([{thai_letters}])").replace(":", "") for i in _r2]
-rule3 = [
+rule1: list[str] = [i.replace("-", f"([{thai_letters}](thai_tonemarks)?)") for i in _r1]
+rule2: list[str] = [i.replace("–", f"([{thai_letters}])").replace(":", "") for i in _r2]
+rule3: list[str] = [
     i.replace("–", f"([{thai_letters}])").replace(":", f"([{thai_tonemarks}])")
     for i in _r2
 ]

@@ -11,7 +11,7 @@ import ast
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from typing import Union
+    from typing import Any, Union
 
 __all__ = [
     "countries",
@@ -384,10 +384,12 @@ def find_synonyms(word: str) -> list[str]:
         # output: ['จรุก', 'วราหะ', 'วราห์', 'ศูกร', 'สุกร']
     """
     synonyms = thai_synonyms()  # get a dictionary of {word, synonym}
-    list_synonym = []
+    list_synonym: list[Any] = []
 
     if word in synonyms["word"]:  # find by word
-        list_synonym.extend(synonyms["synonym"][synonyms["word"].index(word)])
+        word_list = synonyms["word"]
+        if isinstance(word_list, list):
+            list_synonym.extend(synonyms["synonym"][word_list.index(word)])  # type: ignore[arg-type]
 
     for idx, words in enumerate(synonyms["synonym"]):  # find by synonym
         if word in words:

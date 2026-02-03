@@ -104,7 +104,7 @@ class ThaiNameTagger:
         """
         from pycrfsuite import Tagger as CRFTagger
 
-        self.crf = CRFTagger()
+        self.crf: "CRFTagger" = CRFTagger()
 
         if version == "1.4":
             model_path = get_corpus_path("thainer-1.4", version="1.4")
@@ -115,7 +115,7 @@ class ThaiNameTagger:
                     "  pythainlp.corpus.download('thainer-1.4')"
                 )
             self.crf.open(model_path)
-            self.pos_tag_name = "orchid_ud"
+            self.pos_tag_name: str = "orchid_ud"
         elif version == "1.5":
             model_path = get_corpus_path("thainer", version="1.5")
             if model_path is None:

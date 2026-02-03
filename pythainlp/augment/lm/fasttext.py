@@ -26,12 +26,12 @@ class FastTextAug:
         from gensim.models.keyedvectors import KeyedVectors
 
         if model_path.endswith(".bin"):
-            self.model = FastText_gensim.load_facebook_vectors(model_path)
+            self.model: Any = FastText_gensim.load_facebook_vectors(model_path)
         elif model_path.endswith(".vec"):
             self.model = KeyedVectors.load_word2vec_format(model_path)
         else:
             self.model = FastText_gensim.load(model_path)
-        self.dict_wv = list(self.model.key_to_index.keys())
+        self.dict_wv: list[str] = list(self.model.key_to_index.keys())
 
     def tokenize(self, text: str) -> list[str]:
         """Thai text tokenization for fastText
@@ -75,8 +75,8 @@ class FastTextAug:
         :return: list of synonyms
         :rtype: List[Tuple[str]]
         """
-        self.sentence = self.tokenize(sentence)
-        self.list_synonym = self.modify_sent(self.sentence, p=p)
+        self.sentence: list[str] = self.tokenize(sentence)
+        self.list_synonym: list[list[str]] = self.modify_sent(self.sentence, p=p)
         new_sentences = []
         for x in list(itertools.product(*self.list_synonym))[0:n_sent]:
             new_sentences.append(x)

@@ -27,16 +27,16 @@ class Word2VecAug:
         """
         import gensim.models.keyedvectors as word2vec
 
-        self.tokenizer = tokenize
+        self.tokenizer: Callable[[str], list[str]] = tokenize
         if type == "file":
-            self.model = word2vec.KeyedVectors.load_word2vec_format(model)
+            self.model: "KeyedVectors" = word2vec.KeyedVectors.load_word2vec_format(model)
         elif type == "binary":
             self.model = word2vec.KeyedVectors.load_word2vec_format(
                 model, binary=True, unicode_errors="ignore"
             )
         else:
             self.model = model
-        self.dict_wv = list(self.model.key_to_index.keys())
+        self.dict_wv: list[str] = list(self.model.key_to_index.keys())
 
     def modify_sent(self, sent: list[str], p: float = 0.7) -> list[list[str]]:
         """:param list[str] sent: list of tokens

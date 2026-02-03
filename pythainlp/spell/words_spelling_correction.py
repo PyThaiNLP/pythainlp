@@ -47,19 +47,19 @@ class FastTextEncoder:
         try:
             import numpy as np
 
-            self.np = np
+            self.np: Any = np
         except ModuleNotFoundError:
             raise ModuleNotFoundError("""
             Please installing the package via 'pip install numpy onnxruntime'.
             """)
         except Exception as e:
             raise RuntimeError(f"An unexpected error occurred: {e}") from e
-        self.model_dir: str = model_dir
-        self.nn_model_path: str = nn_model_path
-        self.bucket: int = bucket
-        self.nb_words: int = nb_words
-        self.minn: int = minn
-        self.maxn: int = maxn
+        self.model_dir = model_dir
+        self.nn_model_path = nn_model_path
+        self.bucket = bucket
+        self.nb_words = nb_words
+        self.minn = minn
+        self.maxn = maxn
 
         # Load data and models
         self.vocabulary: list[str]

@@ -3,7 +3,12 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, cast
+
 from ssg import syllable_tokenize
+
+if TYPE_CHECKING:
+    pass
 
 
 def segment(text: str) -> list[str]:
@@ -12,4 +17,4 @@ def segment(text: str) -> list[str]:
     if not text or not isinstance(text, str):
         return []
 
-    return syllable_tokenize(text)
+    return cast(list[str], syllable_tokenize(text))

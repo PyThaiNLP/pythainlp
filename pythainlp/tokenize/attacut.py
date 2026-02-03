@@ -10,8 +10,12 @@
 from __future__ import annotations
 
 import threading
+from typing import TYPE_CHECKING, cast
 
 from attacut import Tokenizer
+
+if TYPE_CHECKING:
+    pass
 
 
 class AttacutTokenizer:
@@ -24,7 +28,7 @@ class AttacutTokenizer:
         self._tokenizer = Tokenizer(model=self._MODEL_NAME)
 
     def tokenize(self, text: str) -> list[str]:
-        return self._tokenizer.tokenize(text)
+        return cast(list[str], self._tokenizer.tokenize(text))
 
 
 _tokenizers: dict[str, AttacutTokenizer] = {}

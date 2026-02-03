@@ -13,6 +13,10 @@ Code by Wannaphong Phatthiyaphaibun
 from __future__ import annotations
 
 from collections.abc import Iterable
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    pass
 
 from pythainlp.tag.named_entity import NER
 
@@ -73,7 +77,5 @@ def segment(
                 words.append(combining_word)
             elif curr_tag.startswith("I-") and combining_word != "":
                 words.append(combining_word)
-            else:
-                pass
 
     return words

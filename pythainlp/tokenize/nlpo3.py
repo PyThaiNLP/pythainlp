@@ -6,11 +6,15 @@ from __future__ import annotations
 import threading
 from importlib.resources import as_file, files
 from sys import stderr
+from typing import TYPE_CHECKING
 
 from nlpo3 import load_dict as nlpo3_load_dict
 from nlpo3 import segment as nlpo3_segment
 
 from pythainlp.corpus.common import _THAI_WORDS_FILENAME
+
+if TYPE_CHECKING:
+    pass
 
 _NLPO3_DEFAULT_DICT_NAME = "_73bcj049dzbu9t49b4va170k"  # supposed to be unique
 _NLPO3_DEFAULT_DICT = None  # Will be lazily loaded
@@ -60,7 +64,7 @@ def load_dict(file_path: str, dict_name: str) -> bool:
     msg, success = nlpo3_load_dict(file_path=file_path, dict_name=dict_name)
     if not success:
         print(msg, file=stderr)
-    return success
+    return success  # type: ignore[no-any-return]
 
 
 def segment(
@@ -91,7 +95,7 @@ def segment(
     if custom_dict == _NLPO3_DEFAULT_DICT_NAME:
         _ensure_default_dict_loaded()
 
-    return nlpo3_segment(
+    return nlpo3_segment(  # type: ignore[no-any-return]
         text=text,
         dict_name=custom_dict,
         safe=safe_mode,

@@ -12,7 +12,10 @@ User need to install deepcut (and its dependency: tensorflow) by themselves.
 
 from __future__ import annotations
 
-from typing import Union
+from typing import TYPE_CHECKING, Union, cast
+
+if TYPE_CHECKING:
+    pass
 
 try:
     from deepcut import tokenize
@@ -29,6 +32,6 @@ def segment(text: str, custom_dict: Union[Trie, list[str], str] = []) -> list[st
         if isinstance(custom_dict, Trie):
             custom_dict = list(custom_dict)
 
-        return tokenize(text, custom_dict)
+        return cast(list[str], tokenize(text, custom_dict))
 
-    return tokenize(text)
+    return cast(list[str], tokenize(text))

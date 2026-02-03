@@ -9,8 +9,12 @@ GitHub: https://github.com/bminixhofer/wtpsplit
 from __future__ import annotations
 
 import threading
+from typing import TYPE_CHECKING, cast
 
 from wtpsplit import WtP
+
+if TYPE_CHECKING:
+    pass
 
 _MODEL = None
 _MODEL_NAME = None
@@ -45,22 +49,28 @@ def _tokenize(
         raise RuntimeError("Model failed to load")
 
     if tokenize == "sentence":
-        return model_instance.split(text, lang_code=lang_code)
+        return cast(list[str], model_instance.split(text, lang_code=lang_code))
     else:  # Paragraph
         if style == "newline":
-            return model_instance.split(
-                text,
-                lang_code=lang_code,
-                do_paragraph_segmentation=True,
-                paragraph_threshold=paragraph_threshold,
+            return cast(
+                list[str],
+                model_instance.split(
+                    text,
+                    lang_code=lang_code,
+                    do_paragraph_segmentation=True,
+                    paragraph_threshold=paragraph_threshold,
+                ),
             )
         elif style == "opus100":
-            return model_instance.split(
-                text,
-                lang_code=lang_code,
-                do_paragraph_segmentation=True,
-                threshold=paragraph_threshold,
-                style=style,
+            return cast(
+                list[str],
+                model_instance.split(
+                    text,
+                    lang_code=lang_code,
+                    do_paragraph_segmentation=True,
+                    threshold=paragraph_threshold,
+                    style=style,
+                ),
             )
         else:
             raise ValueError(

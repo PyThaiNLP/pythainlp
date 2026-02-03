@@ -69,7 +69,7 @@ class WordVector:
         """Get word vector model.
 
         :return: `gensim` word2vec model
-        :rtype: Word2VecKeyedVectors
+        :rtype: gensim.models.keyedvectors.Word2VecKeyedVectors
         """
         return self.model
 
@@ -265,7 +265,7 @@ class WordVector:
 
         :return: 300-dimension vector representing the given sentence
                  in form of :mod:`numpy` array
-        :rtype: ndarray
+        :rtype: numpy.ndarray
 
 
         :Example:

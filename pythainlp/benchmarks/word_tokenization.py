@@ -74,7 +74,7 @@ def benchmark(ref_samples: list[str], samples: list[str]) -> pd.DataFrame:
     :param list[str] samples: samples that we want to evaluate
 
     :return: dataframe with row x col = len(samples) x len(metrics)
-    :rtype: pd.DataFrame
+    :rtype: pandas.DataFrame
     """
     results = []
     for i, (r, s) in enumerate(zip(ref_samples, samples)):

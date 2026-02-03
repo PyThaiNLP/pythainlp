@@ -3,13 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-import spacy
-
 from pythainlp.coref._fastcoref import FastCoref
 
 
 class HanCoref(FastCoref):
-    def __init__(self, device: str = "cpu", nlp=spacy.blank("th")) -> None:
+    def __init__(self, device: str = "cpu", nlp=None) -> None:
         super().__init__(
             model_name="pythainlp/han-coref-v1.0", device=device, nlp=nlp
         )

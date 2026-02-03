@@ -6,7 +6,7 @@
 
 from __future__ import annotations
 
-from pythainlp.corpus.common import get_corpus
+from pythainlp.corpus.core import get_corpus
 
 _THAI_ICU_FILENAME = "icubrk_th.txt"
 

@@ -1,13 +1,13 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Check if it is Thai text
-"""
+"""Check if it is Thai text"""
 
 from __future__ import annotations
 
 import string
 from collections import defaultdict
+from typing import Optional
 
 from pythainlp import (
     thai_above_vowels,
@@ -215,16 +215,17 @@ def display_thai_char(ch: str) -> str:
         return ch
 
 
-def thai_word_tone_detector(word: str) -> list[tuple[str, str]]:
+def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:
     """Thai tone detector for word.
 
     It uses pythainlp.transliterate.pronunciate for converting word to\
         pronunciation.
 
-    :param str word: Thai word.
-    :return: Thai pronunciation with tones in each syllable.\
-        (l, m, h, r, f or empty if it cannot be detected)
-    :rtype: Tuple[str, str]
+    :param Optional[str] word: Thai word, or None
+    :return: List of tuples containing Thai pronunciation with tones in each syllable.\
+        Tone values: l (low), m (mid), h (high), r (rising), f (falling), or empty if it cannot be detected.\
+        Returns [] if word is None or empty.
+    :rtype: list[tuple[str, str]]
 
     :Example:
     ::
@@ -236,7 +237,13 @@ def thai_word_tone_detector(word: str) -> list[tuple[str, str]]:
 
         print(thai_word_tone_detector("มือถือ"))
         # output: [('มือ', 'm'), ('ถือ', 'r')]
+
+        print(thai_word_tone_detector(None))
+        # output: []
     """
+    if not word:
+        return []
+
     from ..transliterate import pronunciate
     from ..util.syllable import tone_detector
 

@@ -3,12 +3,14 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from gensim.models import KeyedVectors
-from gensim.models.keyedvectors import Word2VecKeyedVectors
-from numpy import ndarray, zeros
+from typing import TYPE_CHECKING
 
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer, word_tokenize
+
+if TYPE_CHECKING:
+    from gensim.models.keyedvectors import Word2VecKeyedVectors
+    from numpy import ndarray
 
 WV_DIM = 300  # word vector dimension
 
@@ -48,6 +50,8 @@ class WordVector:
 
         :param str model_name: model name
         """
+        from gensim.models import KeyedVectors
+
         self.model_name = model_name
         self.model = KeyedVectors.load_word2vec_format(
             get_corpus_path(self.model_name),
@@ -290,6 +294,8 @@ class WordVector:
             0.40506999,  1.58591403,  0.63869202, -0.702155  ,  1.62977601,
             4.52269109, -0.70760502,  0.50952601, -0.914392  ,  0.70673105]])
         """
+        from numpy import zeros
+
         vec = zeros((1, self.WV_DIM))
 
         words = self.tokenize(text)

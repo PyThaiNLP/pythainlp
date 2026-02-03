@@ -74,7 +74,7 @@ dev = [
     "build>=1.0.0",
     "bump-my-version>=1.2.6",
     "coverage>=7.10.7",
-    "flake8>=7.3.0",
+    "mypy>=1.19.1",
     "ruff>=0.14.14",
     "tox>=4.30.3",
 ]
@@ -347,23 +347,98 @@ select = [
 extend-ignore = ["E402", "E501", "E722", "S101", "S202", "S301", "S310"]
 
 [tool.tox]
-envlist = ["py39", "py310", "py311", "py312", "py313", "py314", "py3", "pypy3", "flake8"]
+env_list = ["py39", "py310", "py311", "py312", "py313", "py314", "pypy310", "pypy311", "ruff"]
 skip_missing_interpreters = true
 
-[tool.tox.testenv]
-setenv = { PYTHONPATH = "{toxinidir}:{toxinidir}/pythainlp" }
-changedir = "tests"
-commands = ["discover"]
-deps = ["discover"]
+[tool.tox.env_run_base]
+commands = [["python", "-m", "unittest", "tests.core", "tests.compact"]]
+extras = ["compact"]
 
-[tool.tox.envs.pypy3]
+[tool.tox.env.pypy310]
 basepython = "pypy3.10"
-setenv = { PYTHONPATH = "{toxinidir}:{toxinidir}/pythainlp" }
-changedir = "tests"
-commands = ["discover"]
-deps = ["discover"]
 
-[tool.tox.envs.flake8]
+[tool.tox.env.pypy311]
+basepython = "pypy3.11"
+
+[tool.tox.env.ruff]
 basepython = "python"
-deps = ["flake8"]
-commands = ["flake8 pythainlp"]
+deps = ["ruff"]
+commands = [["ruff", "check", "pythainlp"], ["ruff", "format", "--check", "pythainlp"]]
+skip_install = true
+
+# Mypy configuration
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+show_error_codes = true
+show_column_numbers = true
+pretty = true
+
+# Per-module options for stricter checking on foundation modules
+[[tool.mypy.overrides]]
+module = [
+    "pythainlp.tools.*",
+    "pythainlp.cli.*",
+]
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+# Ignore missing imports for optional dependencies
+[[tool.mypy.overrides]]
+module = [
+    "attacut.*",
+    "bpemb.*",
+    "budoux.*",
+    "deepcut.*",
+    "emoji.*",
+    "epitran.*",
+    "esupar.*",
+    "fairseq.*",
+    "fastai.*",
+    "fastcoref.*",
+    "gensim.*",
+    "huggingface_hub.*",
+    "icu.*",
+    "khamyo.*",
+    "khanaa.*",
+    "multiel.*",
+    "nltk.*",
+    "numpy.*",
+    "onnxruntime.*",
+    "oskut.*",
+    "pandas.*",
+    "panphon.*",
+    "phunspell.*",
+    "pycrfsuite.*",
+    "pyicu.*",
+    "sacremoses.*",
+    "sefr_cut.*",
+    "sentencepiece.*",
+    "sentence_transformers.*",
+    "spacy.*",
+    "spacy_thai.*",
+    "ssg.*",
+    "symspellpy.*",
+    "thai_nner.*",
+    "tltk.*",
+    "torch.*",
+    "tqdm.*",
+    "transformers.*",
+    "ufal.chu_liu_edmonds.*",
+    "word2word.*",
+    "wtpsplit.*",
+    "wunsen.*",
+    "yaml.*",
+]
+ignore_missing_imports = true

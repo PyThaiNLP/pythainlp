@@ -22,7 +22,7 @@ COMMANDS = sorted(
 CLI_NAME = "thainlp"
 
 
-def make_usage(command: str) -> dict:
+def make_usage(command: str) -> dict[str, str]:
     prog = f"{CLI_NAME} {command}"
 
     return {"prog": prog, "usage": f"{prog} [options]"}

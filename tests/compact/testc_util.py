@@ -33,5 +33,5 @@ class UtilTestCaseC(unittest.TestCase):
             thai_word_tone_detector("ราคา"), [("รา", "m"), ("คา", "m")]
         )
         # Edge cases: None and empty string
-        self.assertEqual(thai_word_tone_detector(None), [("", "")])
-        self.assertEqual(thai_word_tone_detector(""), [("", "")])
+        self.assertEqual(thai_word_tone_detector(None), [])
+        self.assertEqual(thai_word_tone_detector(""), [])

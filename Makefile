@@ -46,8 +46,8 @@ clean-test: ## remove test and coverage artifacts
 	rm -f .coverage
 	rm -fr htmlcov/
 
-lint: ## check style with flake8
-	flake8 pythainlp tests
+lint: ## check style
+	ruff check pythainlp tests notebooks
 
 test: ## run tests quickly with the default Python
 	python -m unittest discover

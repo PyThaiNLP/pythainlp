@@ -66,6 +66,8 @@ class CliTestCase(unittest.TestCase):
                     "1",
                     "--misspell-ratio",
                     "0.05",
+                    "--output",
+                    "./tests/data/misspell_output.tmp",
                 ]
             )
         )

@@ -10,6 +10,8 @@ https://suksit.com/post/writing-bahttext-in-php/
 
 from __future__ import annotations
 
+from typing import Optional
+
 __all__ = ["bahttext", "num_to_thaiword"]
 
 _VALUES = [
@@ -77,7 +79,7 @@ def bahttext(number: float) -> str:
     return ret
 
 
-def num_to_thaiword(number: int) -> str:
+def num_to_thaiword(number: Optional[int]) -> str:
     """Converts a number to Thai text.
 
     :param int number: an integer number to be converted to Thai text
@@ -95,11 +97,12 @@ def num_to_thaiword(number: int) -> str:
         num_to_thaiword(11)
         # output: สิบเอ็ด
     """
-    output = ""
-    number_temp = number
     if number is None:
         return ""
-    elif number == 0:
+
+    output = ""
+    number_temp = number
+    if number == 0:
         output = "ศูนย์"
 
     number_str = str(abs(number))

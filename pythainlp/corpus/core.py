@@ -13,11 +13,14 @@ import tarfile
 import zipfile
 from http.client import HTTPResponse
 from importlib.resources import files
-from typing import Optional
+from typing import TYPE_CHECKING
 
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
+
+if TYPE_CHECKING:
+    from typing import Any, Optional
 
 _CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
 _USER_AGENT = (
@@ -35,10 +38,10 @@ class _ResponseWrapper:
         self.headers = response.headers
         self._content = response.read()
 
-    def json(self) -> dict:
+    def json(self) -> dict[str, Any]:
         """Parse JSON content from response."""
         try:
-            return json.loads(self._content.decode("utf-8"))
+            return json.loads(self._content.decode("utf-8"))  # type: ignore[no-any-return]
         except (json.JSONDecodeError, UnicodeDecodeError) as err:
             raise ValueError(f"Failed to parse JSON response: {err}") from err
 
@@ -70,7 +73,7 @@ def get_corpus_db(url: str) -> Optional[_ResponseWrapper]:
     return corpus_db
 
 
-def get_corpus_db_detail(name: str, version: str = "") -> dict[str, str]:
+def get_corpus_db_detail(name: str, version: str = "") -> dict[str, Any]:
     """Get details about a corpus, using information from local catalog.
 
     :param str name: name of corpus
@@ -83,11 +86,11 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict[str, str]:
     if not version:
         for corpus in local_db["_default"].values():
             if corpus["name"] == name:
-                return corpus
+                return corpus  # type: ignore[no-any-return]
     else:
         for corpus in local_db["_default"].values():
             if corpus["name"] == name and corpus["version"] == version:
-                return corpus
+                return corpus  # type: ignore[no-any-return]
 
     return {}
 
@@ -103,7 +106,7 @@ def path_pythainlp_corpus(filename: str) -> str:
     return os.path.join(corpus_path(), filename)
 
 
-def get_corpus(filename: str, comments: bool = True) -> frozenset:
+def get_corpus(filename: str, comments: bool = True) -> frozenset[str]:
     """Read corpus data from file and return a frozenset.
 
     Each line in the file will be a member of the set.
@@ -547,14 +550,14 @@ def _check_version(cause: str) -> bool:
         temp = cause.replace(">", "")
         check = v > _version2int(temp)
     elif cause.startswith(">=") and "<=" not in cause and "<" in cause:
-        temp = cause.replace(">=", "").split("<")
-        check = _version2int(temp[0]) <= v < _version2int(temp[1])
+        temp_parts = cause.replace(">=", "").split("<")
+        check = _version2int(temp_parts[0]) <= v < _version2int(temp_parts[1])
     elif cause.startswith(">=") and "<=" in cause:
-        temp = cause.replace(">=", "").split("<=")
-        check = _version2int(temp[0]) <= v <= _version2int(temp[1])
+        temp_parts = cause.replace(">=", "").split("<=")
+        check = _version2int(temp_parts[0]) <= v <= _version2int(temp_parts[1])
     elif cause.startswith(">") and "<" in cause:
-        temp = cause.replace(">", "").split("<")
-        check = _version2int(temp[0]) < v < _version2int(temp[1])
+        temp_parts = cause.replace(">", "").split("<")
+        check = _version2int(temp_parts[0]) < v < _version2int(temp_parts[1])
     elif cause.startswith("<="):
         temp = cause.replace("<=", "")
         check = v <= _version2int(temp[0])
@@ -605,14 +608,14 @@ def download(name: str, force: bool = False, url: str = "", version: str = "") -
         print(f"Cannot download corpus catalog from: {url}")
         return False
 
-    corpus_db = corpus_db.json()
+    corpus_db_dict = corpus_db.json()
 
     # check if corpus is available
-    if name in corpus_db:
+    if name in corpus_db_dict:
         with open(corpus_db_path(), encoding="utf-8-sig") as f:
             local_db = json.load(f)
 
-        corpus = corpus_db[name]
+        corpus = corpus_db_dict[name]
         print("Corpus:", name)
         if not version:
             for v, file in corpus["versions"].items():
@@ -839,4 +842,4 @@ def get_hf_hub(repo_id: str, filename: str = "") -> str:
         )
     else:
         output_path = snapshot_download(repo_id=repo_id, local_dir=root_project)
-    return output_path
+    return output_path  # type: ignore[no-any-return]

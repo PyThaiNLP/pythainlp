@@ -12,25 +12,22 @@ GitHub: https://github.com/KoichiYasuoka
 from __future__ import annotations
 
 import os
-from typing import List, Union
-
-import numpy
-import torch
-import ufal.chu_liu_edmonds
-from transformers import (
-    AutoConfig,
-    AutoModelForQuestionAnswering,
-    AutoModelForTokenClassification,
-    AutoTokenizer,
-    TokenClassificationPipeline,
-)
-from transformers.utils import cached_file
+from typing import Union
 
 
 class Parse:
     def __init__(
         self, model: str = "KoichiYasuoka/deberta-base-thai-ud-head"
     ) -> None:
+        from transformers import (
+            AutoConfig,
+            AutoModelForQuestionAnswering,
+            AutoModelForTokenClassification,
+            AutoTokenizer,
+            TokenClassificationPipeline,
+        )
+        from transformers.utils import cached_file
+
         if model is None:
             model = "KoichiYasuoka/deberta-base-thai-ud-head"
         self.tokenizer = AutoTokenizer.from_pretrained(model)
@@ -57,7 +54,11 @@ class Parse:
             model=t, tokenizer=self.tokenizer
         )
 
-    def __call__(self, text: str, tag: str = "str") -> Union[List[List[str]], str]:
+    def __call__(self, text: str, tag: str = "str") -> Union[list[list[str]], str]:
+        import numpy
+        import torch
+        import ufal.chu_liu_edmonds
+
         w = [
             (t["start"], t["end"], t["entity_group"])
             for t in self.deprel(text)

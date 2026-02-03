@@ -49,9 +49,9 @@ class NER:
                     model="pythainlp/thainer-corpus-v2-base-model"
                 )
             elif engine == "wangchanberta":
-                from pythainlp.wangchanberta import ThaiNameTagger as WangchanbertaThaiNameTagger  # type: ignore[assignment]  # noqa: I001,E501
+                from pythainlp.wangchanberta import ThaiNameTagger as WangchanbertaThaiNameTagger  # noqa: I001,E501
 
-                self.engine = WangchanbertaThaiNameTagger(dataset_name=corpus)  # type: ignore[call-arg]
+                self.engine = WangchanbertaThaiNameTagger(dataset_name=corpus)
         elif corpus == "thainer-v2":
             if engine == "phayathaibert":
                 from pythainlp.phayathaibert.core import NamedEntityTagger
@@ -101,7 +101,7 @@ class NER:
             >>> ner.tag("ทดสอบ นายวรรณพงษ์ ภัททิยไพบูลย์", tag=True)
             'ทดสอบ <PERSON>นายวรรณพงษ์ ภัททิยไพบูลย์</PERSON>'
         """
-        return self.engine.get_ner(text, tag=tag, pos=pos)  # type: ignore[union-attr]
+        return self.engine.get_ner(text, tag=tag, pos=pos)  # type: ignore[no-any-return]
 
 
 class NNER:

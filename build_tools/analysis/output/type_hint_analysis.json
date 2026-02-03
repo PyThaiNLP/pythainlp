@@ -11,10 +11,10 @@
     },
     "variables": {
       "total": 1158,
-      "complete": 654,
-      "none": 504,
-      "pct_complete": 56.476683937823836,
-      "pct_none": 43.523316062176164,
+      "complete": 655,
+      "none": 503,
+      "pct_complete": 56.56303972366149,
+      "pct_none": 43.43696027633852,
       "class_variables": 205,
       "instance_variables": 442,
       "module_variables": 511
@@ -694,13 +694,6 @@
       "parent_class": "NER",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tag/named_entity.py",
       "line": 78
-    },
-    {
-      "name": "pythainlp.tag.thai_nner.ThaiNNER.model",
-      "scope": "public",
-      "parent_class": "ThaiNNER",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tag/thai_nner.py",
-      "line": 126
     },
     {
       "name": "pythainlp.tag.thainer.ThaiNameTagger.pos_tag_name",
@@ -2312,7 +2305,7 @@
       "name": "pythainlp.tag.thai_nner.__all__",
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tag/thai_nner.py",
-      "line": 15
+      "line": 18
     },
     {
       "name": "pythainlp.tag.thainer.__all__",

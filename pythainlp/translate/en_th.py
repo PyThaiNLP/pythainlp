@@ -11,6 +11,7 @@ Website: https://airesearch.in.th/releases/machine-translation-models/
 from __future__ import annotations
 
 import os
+import warnings
 
 try:
     from fairseq.models.transformer import TransformerModel
@@ -125,26 +126,33 @@ class ThEnTranslator:
         self._model_name = _TH_EN_MODEL_NAME
 
         _download_install(self._model_name)
-        self._model = TransformerModel.from_pretrained(
-            model_name_or_path=_get_translate_path(
-                self._model_name,
-                _TH_EN_FILE_NAME,
-                "models",
-            ),
-            checkpoint_file="checkpoint.pt",
-            data_name_or_path=_get_translate_path(
-                self._model_name,
-                _TH_EN_FILE_NAME,
-                "vocab",
-            ),
-            bpe="sentencepiece",
-            sentencepiece_model=_get_translate_path(
-                self._model_name,
-                _TH_EN_FILE_NAME,
-                "bpe",
-                "spm.th.model",
-            ),
-        )
+        # Suppress model type mismatch warning from transformers
+        # The pre-trained model has camembert config but works fine
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                message="(?i).*using a model of type .* to instantiate a model of type.*",
+            )
+            self._model = TransformerModel.from_pretrained(
+                model_name_or_path=_get_translate_path(
+                    self._model_name,
+                    _TH_EN_FILE_NAME,
+                    "models",
+                ),
+                checkpoint_file="checkpoint.pt",
+                data_name_or_path=_get_translate_path(
+                    self._model_name,
+                    _TH_EN_FILE_NAME,
+                    "vocab",
+                ),
+                bpe="sentencepiece",
+                sentencepiece_model=_get_translate_path(
+                    self._model_name,
+                    _TH_EN_FILE_NAME,
+                    "bpe",
+                    "spm.th.model",
+                ),
+            )
         if use_gpu:
             self._model.cuda()
 

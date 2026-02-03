@@ -36,7 +36,9 @@ def follow_rtgs(text: str) -> Optional[bool]:
     except IndexError:
         return None
     else:
-        return follow
+        if isinstance(follow, bool) or follow is None:
+            return follow
+        return None  # fallback for str type (shouldn't happen)
 
 
 def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
@@ -49,9 +51,11 @@ def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
     except IndexError:
         return fallback_func(text)
     except TypeError as e:
-        raise TypeError(f"`fallback_engine` is not callable. {e}")
+        raise TypeError(f"`fallback_engine` is not callable. {e}") from e
     else:
-        return lookup
+        if isinstance(lookup, str):
+            return lookup
+        return fallback_func(text)  # fallback for non-str types
 
 
 def romanize(text: str, fallback_func: Callable[[str], str]) -> str:

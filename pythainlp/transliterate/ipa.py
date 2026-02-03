@@ -17,12 +17,12 @@ _EPI_THA = epitran.Epitran("tha-Thai")
 
 
 def transliterate(text: str) -> str:
-    return _EPI_THA.transliterate(text)
+    return _EPI_THA.transliterate(text)  # type: ignore[no-any-return]
 
 
 def trans_list(text: str) -> list[str]:
-    return _EPI_THA.trans_list(text)
+    return _EPI_THA.trans_list(text)  # type: ignore[no-any-return]
 
 
 def xsampa_list(text: str) -> list[str]:
-    return _EPI_THA.xsampa_list(text)
+    return _EPI_THA.xsampa_list(text)  # type: ignore[no-any-return]

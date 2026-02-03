@@ -108,7 +108,7 @@ class WordVector:
         >>> wv.doesnt_match(words)
         'เรือ'
         """
-        return self.model.doesnt_match(words)
+        return self.model.doesnt_match(words)  # type: ignore[no-any-return]
 
     def most_similar_cosmul(
         self, positive: list[str], negative: list[str]
@@ -209,7 +209,7 @@ class WordVector:
         >>> wv.most_similar_cosmul(list_positive, list_negative)
         KeyError: "word 'เมนูอาหารไทย' not in vocabulary"
         """
-        return self.model.most_similar_cosmul(
+        return self.model.most_similar_cosmul(  # type: ignore[no-any-return]
             positive=positive, negative=negative
         )
 
@@ -249,7 +249,7 @@ class WordVector:
         0.04300258
 
         """
-        return self.model.similarity(word1, word2)
+        return self.model.similarity(word1, word2)  # type: ignore[no-any-return]
 
     def sentence_vectorizer(self, text: str, use_mean: bool = True) -> ndarray:
         """Converts a Thai sentence into a vector.
@@ -302,7 +302,7 @@ class WordVector:
         len_words = len(words)
 
         if not len_words:
-            return vec
+            return vec  # type: ignore[no-any-return]
 
         for word in words:
             if word == " " and self.model_name == "thai2fit_wv":
@@ -316,4 +316,4 @@ class WordVector:
         if use_mean:
             vec /= len_words
 
-        return vec
+        return vec  # type: ignore[no-any-return]

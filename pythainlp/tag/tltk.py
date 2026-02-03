@@ -20,7 +20,7 @@ nlp.ner_load()
 def pos_tag(words: list[str], corpus: str = "tnc") -> list[tuple[str, str]]:
     if corpus != "tnc":
         raise ValueError(f"tltk not support {0} corpus.")
-    return nlp.pos_tag_wordlist(words)
+    return nlp.pos_tag_wordlist(words)  # type: ignore[no-any-return]
 
 
 def _post_process(text: str) -> str:

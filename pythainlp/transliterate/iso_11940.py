@@ -10,7 +10,7 @@
 
 from __future__ import annotations
 
-_consonants = {
+_consonants: dict[str, str] = {
     "ก": "k",
     "ข": "k̄h",
     "ฃ": "ḳ̄h",
@@ -59,7 +59,7 @@ _consonants = {
     "ฮ": "ḥ",
 }
 
-_vowels = {
+_vowels: dict[str, str] = {
     "ะ": "a",
     "ั": "ạ",
     "า": "ā",
@@ -84,7 +84,7 @@ _vowels = {
     "อ": "x",
 }
 
-_tone_marks = {
+_tone_marks: dict[str, str] = {
     "่": "–̀".replace("–", ""),
     "้": "–̂".replace("–", ""),
     "๊": "–́".replace("–", ""),
@@ -96,7 +96,7 @@ _tone_marks = {
     "–ฺ".replace("–", ""): "–̥".replace("–", ""),
 }
 
-_punctuation_and_digits = {
+_punctuation_and_digits: dict[str, str] = {
     # ฯ can has two meanings in ISO 11940.
     # If it is for abbreviation, it is paiyan noi.
     # If it is for sentence termination, it is angkhan diao.

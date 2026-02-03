@@ -4,6 +4,6 @@
 
 """PyThaiNLP morpheme"""
 
-__all__ = ["nighit", "is_native_thai"]
+__all__: list[str] = ["nighit", "is_native_thai"]
 from pythainlp.morpheme.thaiwordcheck import is_native_thai
 from pythainlp.morpheme.word_formation import nighit

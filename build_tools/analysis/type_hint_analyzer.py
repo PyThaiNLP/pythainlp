@@ -7,7 +7,14 @@ Type Hint Analyzer for PyThaiNLP
 
 This script scans the entire repository and analyzes type hint coverage
 for all functions and classes.
+
+Usage:
+    python type_hint_analyzer.py [--output-dir OUTPUT_DIR]
+
+Options:
+    --output-dir    Directory to save output files (default: ./output)
 """
+import argparse
 import ast
 import json
 import os
@@ -330,19 +337,41 @@ def assign_priority(result: Dict) -> str:
 
 def main():
     """Main function to analyze type hints across the repository."""
-    repo_root = "/home/runner/work/pythainlp/pythainlp"
-    pythainlp_dir = os.path.join(repo_root, "pythainlp")
-    tests_dir = os.path.join(repo_root, "tests")
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(
+        description="Analyze type hint coverage in PyThaiNLP"
+    )
+    parser.add_argument(
+        "--output-dir",
+        default="output",
+        help="Directory to save output files (default: ./output)",
+    )
+    args = parser.parse_args()
+
+    # Auto-detect repository root (go up from script location)
+    script_dir = Path(__file__).resolve().parent
+    repo_root = script_dir.parent.parent
+    pythainlp_dir = repo_root / "pythainlp"
+    tests_dir = repo_root / "tests"
+
+    # Ensure output directory exists
+    output_dir = Path(args.output_dir)
+    if not output_dir.is_absolute():
+        output_dir = script_dir / output_dir
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     print("=" * 80)
     print("TYPE HINT COVERAGE ANALYSIS FOR PYTHAINLP")
     print("=" * 80)
     print()
+    print(f"Repository root: {repo_root}")
+    print(f"Output directory: {output_dir}")
+    print()
 
     # Find all Python files
     print("Scanning Python files...")
-    pythainlp_files = find_python_files(pythainlp_dir)
-    test_files = find_python_files(tests_dir)
+    pythainlp_files = find_python_files(str(pythainlp_dir))
+    test_files = find_python_files(str(tests_dir))
     all_files = pythainlp_files + test_files
 
     print(f"Found {len(pythainlp_files)} Python files in pythainlp/")
@@ -354,23 +383,23 @@ def main():
     all_results = []
 
     for filepath in pythainlp_files:
-        results = analyze_file(filepath, repo_root)
+        results = analyze_file(filepath, str(repo_root))
         for result in results:
             result["filepath"] = filepath
             result["in_tests"] = False
         all_results.extend(results)
 
     for filepath in test_files:
-        results = analyze_file(filepath, repo_root)
+        results = analyze_file(filepath, str(repo_root))
         for result in results:
             result["filepath"] = filepath
             result["in_tests"] = True
-            result["test_suite"] = get_test_suite(filepath, tests_dir)
+            result["test_suite"] = get_test_suite(filepath, str(tests_dir))
         all_results.extend(results)
 
     # Count mypy errors by submodule
     print()
-    mypy_errors = count_mypy_errors_by_submodule(pythainlp_dir)
+    mypy_errors = count_mypy_errors_by_submodule(str(pythainlp_dir))
     print()
 
     # Count references and assign test suites for non-test files
@@ -540,7 +569,7 @@ def main():
     print()
 
     # Save detailed results to JSON
-    output_file = "/tmp/type_hint_analysis.json"
+    output_file = output_dir / "type_hint_analysis.json"
     with open(output_file, "w") as f:
         json.dump(
             {

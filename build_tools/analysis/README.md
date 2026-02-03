@@ -18,22 +18,31 @@ Main script that performs comprehensive type hint coverage analysis.
 - Categorizes functions by completeness, scope, and priority
 - Counts internal references to determine importance
 - Maps functions to test suites (core, compact, extra, noauto)
+- Runs mypy on each submodule to count type-related errors
 - Generates detailed statistics and reports
 
 **Output:**
 
 - Console report with summary statistics
-- `/tmp/type_hint_analysis.json` - Detailed JSON data
+- `output/type_hint_analysis.json` - Detailed JSON data
 
 **Usage:**
 
 ```bash
-python3 build_tools/analysis/type_hint_analyzer.py
+# Run from the build_tools/analysis directory (default output: ./output)
+python3 type_hint_analyzer.py
+
+# Or specify a custom output directory
+python3 type_hint_analyzer.py --output-dir /path/to/output
+
+# Get help
+python3 type_hint_analyzer.py --help
 ```
 
 #### generate_csv.py
 
-Converts the JSON output from type_hint_analyzer.py into CSV files for easy analysis.
+Converts the JSON output from type_hint_analyzer.py into CSV files for easy
+analysis.
 
 **Prerequisites:**
 
@@ -41,36 +50,40 @@ Converts the JSON output from type_hint_analyzer.py into CSV files for easy anal
 
 **Output:**
 
-- `/tmp/functions_no_hints.csv` - Functions without type hints
-- `/tmp/functions_incomplete_hints.csv` - Functions with incomplete hints
-- `/tmp/submodule_summary.csv` - Summary by submodule
+- `output/functions_no_hints.csv` - Functions without type hints
+- `output/functions_incomplete_hints.csv` - Functions with incomplete hints
+- `output/submodule_summary.csv` - Summary by submodule with mypy errors
 
 **Usage:**
 
 ```bash
-python3 build_tools/analysis/generate_csv.py
+# Run from the build_tools/analysis directory (uses ./output by default)
+python3 generate_csv.py
+
+# Or specify custom paths
+python3 generate_csv.py --input /path/to/input.json --output-dir /path/to/output
+
+# Get help
+python3 generate_csv.py --help
 ```
 
 ### Complete Workflow
 
-To perform a full type hint analysis and update the documentation:
+To perform a full type hint analysis:
 
 ```bash
-# Run from repository root
-cd /path/to/pythainlp
+# Navigate to the analysis directory
+cd build_tools/analysis
 
-# 1. Run the analyzer
-python3 build_tools/analysis/type_hint_analyzer.py > TYPE_HINT_ANALYSIS_LATEST.txt
+# 1. Run the analyzer (outputs to ./output by default)
+python3 type_hint_analyzer.py
 
-# 2. Generate CSV files
-python3 build_tools/analysis/generate_csv.py
+# 2. Generate CSV files (reads from ./output by default)
+python3 generate_csv.py
 
-# 3. Copy CSV files to docs
-cp /tmp/*.csv docs/type_hint_analysis/
-
-# 4. Review the results
-cat TYPE_HINT_ANALYSIS_LATEST.txt
-cat docs/type_hint_analysis/submodule_summary.csv
+# 3. Review the results
+ls -la output/
+cat output/submodule_summary.csv
 ```
 
 ### Analysis Categories
@@ -99,7 +112,7 @@ cat docs/type_hint_analysis/submodule_summary.csv
 
 All analysis outputs are stored in:
 
-- `docs/type_hint_analysis/` - CSV data files and README
+- `build_tools/analysis/output/` - JSON and CSV data files
 - `TYPE_HINT_ANALYSIS.md` - Main analysis report (repository root)
 
 ## Future Tools

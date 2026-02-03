@@ -124,18 +124,18 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
     def __init__(
         self,
-        vocab_file,
-        spm_file,
-        tgt_lang=None,
-        bos_token="<s>",  # noqa: S107
-        eos_token="</s>",  # noqa: S107
-        sep_token="</s>",  # noqa: S107
-        pad_token="<pad>",  # noqa: S107
-        unk_token="<unk>",  # noqa: S107
-        language_codes="m2m100",
+        vocab_file: str,
+        spm_file: str,
+        tgt_lang: Optional[str] = None,
+        bos_token: str = "<s>",  # noqa: S107
+        eos_token: str = "</s>",  # noqa: S107
+        sep_token: str = "</s>",  # noqa: S107
+        pad_token: str = "<pad>",  # noqa: S107
+        unk_token: str = "<unk>",  # noqa: S107
+        language_codes: str = "m2m100",
         sp_model_kwargs: Optional[dict[str, Any]] = None,
-        num_madeup_words=8,
-        **kwargs,
+        num_madeup_words: int = 8,
+        **kwargs: Any,
     ) -> None:
         self.sp_model_kwargs = (
             {} if sp_model_kwargs is None else sp_model_kwargs
@@ -375,15 +375,15 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         src_texts: list[str],
         tgt_texts: Optional[list[str]] = None,
         tgt_lang: str = "ro",
-        **kwargs,
+        **kwargs: Any,
     ) -> BatchEncoding:
         self.tgt_lang = tgt_lang
         self.set_lang_special_tokens(self.tgt_lang)
         return super().prepare_seq2seq_batch(src_texts, tgt_texts, **kwargs)
 
     def _build_translation_inputs(
-        self, raw_inputs, tgt_lang: Optional[str], **extra_kwargs
-    ):
+        self, raw_inputs: Union[str, list[str]], tgt_lang: Optional[str], **extra_kwargs: Any
+    ) -> dict[str, Any]:
         """Used by translation pipeline, to prepare inputs for the generate
         function"""
         if tgt_lang is None:
@@ -394,10 +394,10 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         inputs = self(raw_inputs, add_special_tokens=True, **extra_kwargs)
         return inputs
 
-    def _switch_to_input_mode(self):
+    def _switch_to_input_mode(self) -> None:
         self.set_lang_special_tokens(self.tgt_lang)
 
-    def _switch_to_target_mode(self):
+    def _switch_to_target_mode(self) -> None:
         self.prefix_tokens = None
         self.suffix_tokens = [self.eos_token_id]
 
@@ -430,6 +430,6 @@ def load_json(path: str) -> Union[dict[Any, Any], list[Any]]:
         return json.load(f)  # type: ignore[no-any-return]
 
 
-def save_json(data, path: str) -> None:
+def save_json(data: Union[dict[Any, Any], list[Any]], path: str) -> None:
     with open(path, "w") as f:
         json.dump(data, f, indent=2)

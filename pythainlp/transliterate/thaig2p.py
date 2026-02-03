@@ -72,7 +72,7 @@ class ThaiG2P:
         self._network.load_state_dict(loader["model_state_dict"])
         self._network.eval()
 
-    def _prepare_sequence_in(self, text: str):
+    def _prepare_sequence_in(self, text: str) -> torch.Tensor:
         """Prepare input sequence for PyTorch."""
         idxs = []
         for ch in text:

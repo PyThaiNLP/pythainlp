@@ -1832,7 +1832,7 @@ _emoji_regex = re.compile("|".join(map(re.escape, _emojis)))
 _delimiter = ":"
 
 
-def emoji_to_thai(text: str, delimiters=(_delimiter, _delimiter)) -> str:
+def emoji_to_thai(text: str, delimiters: tuple[str, str] = (_delimiter, _delimiter)) -> str:
     """Converts emojis to their Thai meanings.
 
     :param str text: Text with emojis

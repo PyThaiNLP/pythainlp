@@ -76,7 +76,7 @@ class WangChanGLM:
         typical_p: float = 1.0,
         thai_only: bool = True,
         skip_special_tokens: bool = True,
-    ):
+    ) -> str:
         """Generate Instruct
 
         :param str text: text
@@ -125,7 +125,7 @@ class WangChanGLM:
         self,
         instruct: str,
         context: str = "",
-        max_new_tokens=512,
+        max_new_tokens: int = 512,
         temperature: float = 0.9,
         top_p: float = 0.95,
         top_k: int = 50,
@@ -133,7 +133,7 @@ class WangChanGLM:
         typical_p: float = 1,
         thai_only: bool = True,
         skip_special_tokens: bool = True,
-    ):
+    ) -> str:
         """Generate Instruct
 
         :param str instruct: Instruct

@@ -38,7 +38,7 @@ class _Hparams:
 hp = _Hparams()
 
 
-def _load_vocab():
+def _load_vocab() -> tuple[dict[str, int], dict[int, str], dict[str, int], dict[int, str]]:
     g2idx = {g: idx for idx, g in enumerate(hp.graphemes)}
     idx2g = dict(enumerate(hp.graphemes))
 
@@ -94,10 +94,10 @@ class Thai_W2P:
         # (74,)
         self.fc_b = self.variables.item().get("decoder.fc.bias")
 
-    def _sigmoid(self, x):
+    def _sigmoid(self, x: np.ndarray) -> np.ndarray:
         return 1 / (1 + np.exp(-x))
 
-    def _grucell(self, x, h, w_ih, w_hh, b_ih, b_hh):
+    def _grucell(self, x: np.ndarray, h: np.ndarray, w_ih: np.ndarray, w_hh: np.ndarray, b_ih: np.ndarray, b_hh: np.ndarray) -> np.ndarray:
         rzn_ih = np.matmul(x, w_ih.T) + b_ih
         rzn_hh = np.matmul(h, w_hh.T) + b_hh
 
@@ -118,7 +118,7 @@ class Thai_W2P:
 
         return h
 
-    def _gru(self, x, steps, w_ih, w_hh, b_ih, b_hh, h0=None) -> np.ndarray:
+    def _gru(self, x: np.ndarray, steps: int, w_ih: np.ndarray, w_hh: np.ndarray, b_ih: np.ndarray, b_hh: np.ndarray, h0: Optional[np.ndarray] = None) -> np.ndarray:
         if h0 is None:
             h0 = np.zeros((x.shape[0], w_hh.shape[1]), np.float32)
         h = h0  # initial hidden state

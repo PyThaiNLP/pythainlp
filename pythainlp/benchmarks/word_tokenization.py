@@ -236,7 +236,7 @@ def _binary_representation(txt: str, verbose: bool = False) -> np.ndarray:
     return bin_rept
 
 
-def _find_word_boundaries(bin_reps) -> list[tuple[int, int]]:
+def _find_word_boundaries(bin_reps: np.ndarray) -> list[tuple[int, int]]:
     """Find the starting and ending location of each word.
 
     :param str bin_reps: binary representation of a text

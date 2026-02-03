@@ -133,7 +133,7 @@ def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:
         defaults to a Trie generated from pythainlp.corpus.thai_words
     :type custom_dict: Trie, optional
     :return: list of segmented tokens
-    :rtype: List[str]
+    :rtype: list[str]
     """
     if not text or not isinstance(text, str):
         return []
@@ -155,7 +155,7 @@ def find_all_segment(
         defaults to word_dict_trie()
     :type custom_dict: Trie, optional
     :return: list of segment variations
-    :rtype: List[str]
+    :rtype: list[str]
     """
     if not text or not isinstance(text, str):
         return []

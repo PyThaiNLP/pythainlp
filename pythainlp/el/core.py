@@ -42,9 +42,9 @@ class EntityLinker:
     ) -> Union[list[dict], str]:
         """Get Entity Linking from Thai Text
 
-        :param str Union[List[str], str]: list of Thai text or text
+        :param str Union[list[str], str]: list of Thai text or text
         :return: list of entity linking
-        :rtype: Union[List[dict], str]
+        :rtype: Union[list[dict], str]
 
         :Example:
         ::

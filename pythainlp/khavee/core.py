@@ -391,7 +391,7 @@ class KhaveeVerifier:
         :param int k_type: type of Thai poem
         :return: the check results of the suitability of the
             poem according to Thai principles.
-        :rtype: Union[List[str], str]
+        :rtype: Union[list[str], str]
 
         :Example:
         ::
@@ -632,12 +632,12 @@ class KhaveeVerifier:
         """
         Checker of Thai tonal words
 
-        :param Union[List[str], str] text: Thai word or list of Thai words
+        :param Union[list[str], str] text: Thai word or list of Thai words
         :param bool dead_syllable_as_aek: if True, dead syllable will
             be considered as aek
         :return: the check result if the word is aek or too
             or False (not both) or list of check results if input is list
-        :rtype: Union[List[bool], List[str], bool, str]
+        :rtype: Union[list[bool], List[str], bool, str]
 
         :Example:
         ::

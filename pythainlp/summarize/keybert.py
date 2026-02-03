@@ -162,15 +162,17 @@ def _generate_ngrams(
     tokenizer_engine: str,
     stop_words: Iterable[str],
 ) -> list[str]:
-    assert keyphrase_ngram_range[0] >= 1, (
-        f"`keyphrase_ngram_range` must start from 1. "
-        f"current value={keyphrase_ngram_range}."
-    )
+    if keyphrase_ngram_range[0] < 1:
+        raise ValueError(
+            f"`keyphrase_ngram_range` must start from 1. "
+            f"current value={keyphrase_ngram_range}."
+        )
 
-    assert keyphrase_ngram_range[0] <= keyphrase_ngram_range[1], (
-        f"The value first argument of `keyphrase_ngram_range` must not exceed the second. "
-        f"current value={keyphrase_ngram_range}."
-    )
+    if keyphrase_ngram_range[0] > keyphrase_ngram_range[1]:
+        raise ValueError(
+            f"The value first argument of `keyphrase_ngram_range` must not exceed the second. "
+            f"current value={keyphrase_ngram_range}."
+        )
 
     def _join_ngram(ngrams: list[tuple[str, ...]]) -> list[str]:
         ngrams_joined = []
@@ -217,9 +219,8 @@ def _rank_keywords(
             v,
             np.linalg.norm(v, axis=1).reshape(-1, 1).repeat(vec_size, axis=1),
         )
-        assert np.isclose(np.linalg.norm(result, axis=1), 1).all(), (
-            "Cannot normalize a vector to unit vector."
-        )
+        if not np.isclose(np.linalg.norm(result, axis=1), 1).all():
+            raise ValueError("Cannot normalize a vector to unit vector.")
         return result  # type: ignore[no-any-return]
 
     def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:

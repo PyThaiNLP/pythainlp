@@ -15,12 +15,12 @@ def coreference_resolution(
 ) -> list[dict]:
     """Coreference Resolution
 
-    :param List[str] texts: list of texts to apply coreference resolution to
+    :param Union[str, list[str]] texts: list of texts to apply coreference resolution to
     :param str model_name: coreference resolution model
     :param str device: device for running coreference resolution model on\
         ("cpu", "cuda", and others)
     :return: List of texts with coreference resolution
-    :rtype: List[dict]
+    :rtype: list[dict]
 
     :Options for model_name:
         * *han-coref-v1.0* - (default) Han-Coref: Thai coreference resolution\

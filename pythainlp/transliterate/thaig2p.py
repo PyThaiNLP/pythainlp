@@ -288,7 +288,11 @@ class Seq2Seq(nn.Module):
         self.target_end_token = target_end_token
         self.max_length = max_length
 
-        assert encoder.hidden_size == decoder.hidden_size
+        if encoder.hidden_size != decoder.hidden_size:
+            raise ValueError(
+                f"Encoder and decoder hidden sizes must match. "
+                f"Got encoder={encoder.hidden_size}, decoder={decoder.hidden_size}"
+            )
 
     def create_mask(self, source_seq):
         mask = source_seq != self.pad_idx
@@ -312,7 +316,10 @@ class Seq2Seq(nn.Module):
         )
 
         if target_seq is None:
-            assert teacher_forcing_ratio == 0, "Must be zero during inference"
+            if teacher_forcing_ratio != 0:
+                raise ValueError(
+                    "teacher_forcing_ratio must be zero during inference"
+                )
             inference = True
         else:
             inference = False

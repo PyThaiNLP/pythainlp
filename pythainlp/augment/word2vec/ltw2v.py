@@ -27,8 +27,12 @@ class LTW2VAug:
 
     def load_w2v(self):  # insert substitute
         """Load LTW2V's word2vec model"""
-        ltw2v_wv = self.ltw2v_wv or ""
-        self.aug = Word2VecAug(ltw2v_wv, self.tokenizer, type="binary")
+        if self.ltw2v_wv is None:
+            raise ValueError(
+                "LTW2V word2vec model not found. "
+                "Please download it first using pythainlp.corpus.download('ltw2v_wv')"
+            )
+        self.aug = Word2VecAug(self.ltw2v_wv, self.tokenizer, type="binary")
 
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7

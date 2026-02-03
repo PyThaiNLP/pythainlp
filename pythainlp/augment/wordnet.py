@@ -188,7 +188,7 @@ class WordNetAug:
              ('เรา', 'ชอบ', 'ไปยัง', 'รร.')]
         """
         new_sentences = []
-        self.list_words = word_tokenize(sentence)
+        self.list_words = tokenize(sentence)
         self.list_synonym = []
         self.p_all = 1
         if postag:

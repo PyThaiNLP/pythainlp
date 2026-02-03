@@ -28,8 +28,12 @@ class Thai2fitAug:
 
     def load_w2v(self):
         """Load Thai2Fit's word2vec model"""
-        thai2fit_wv = self.thai2fit_wv or ""
-        self.aug = Word2VecAug(thai2fit_wv, self.tokenizer, type="binary")
+        if self.thai2fit_wv is None:
+            raise ValueError(
+                "Thai2Fit word2vec model not found. "
+                "Please download it first using pythainlp.corpus.download('thai2fit_wv')"
+            )
+        self.aug = Word2VecAug(self.thai2fit_wv, self.tokenizer, type="binary")
 
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7

@@ -202,11 +202,8 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
     @property
     def vocab_size(self) -> int:
-        return (
-            len(self.encoder)
-            + len(self.lang_token_to_id)
-            + self.num_madeup_words
-        )  # type: ignore[no-any-return]
+        # Type ignore for external library dict operations
+        return len(self.encoder) + len(self.lang_token_to_id) + self.num_madeup_words  # type: ignore[no-any-return]
 
     @property
     def tgt_lang(self) -> str:

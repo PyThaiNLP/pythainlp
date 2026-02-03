@@ -7,8 +7,9 @@
 from __future__ import annotations
 
 import re
+from typing import Pattern
 
-_emoji_th = {
+_emoji_th: dict[str, str] = {
     "😀": "หน้ายิ้มยิงฟัน",
     "😁": "ยิ้มยิงฟันตายิ้ม",
     "😂": "ร้องไห้ดีใจ",

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-THAI_MORSE_CODE = {
+THAI_MORSE_CODE: dict[str, str] = {
     "ก": "--.",
     "ข": "-.-.",
     "ค": "-.-",
@@ -74,7 +74,7 @@ THAI_MORSE_CODE = {
     "อ": "-...-",
 }
 
-ENGLISH_MORSE_CODE = {
+ENGLISH_MORSE_CODE: dict[str, str] = {
     "A": ".-",
     "B": "-...",
     "C": "-.-.",
@@ -121,11 +121,11 @@ ENGLISH_MORSE_CODE = {
     "(": "-.--.-",
 }
 
-decodingeng = {}
+decodingeng: dict[str, str] = {}
 for key, val in ENGLISH_MORSE_CODE.items():
     decodingeng[val] = key
 
-decodingthai = {}
+decodingthai: dict[str, str] = {}
 for key, val in THAI_MORSE_CODE.items():
     decodingthai[val.replace(" ", "")] = key
 

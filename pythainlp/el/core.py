@@ -57,4 +57,4 @@ class EntityLinker:
                 # 'md_scores': [0.30301809310913086, 0.6399497389793396],
                 # 'el_scores': [0.7142490744590759, 0.8657019734382629]}]
         """
-        return self.model.process_batch(list_text)
+        return self.model.process_batch(list_text)  # type: ignore[no-any-return]

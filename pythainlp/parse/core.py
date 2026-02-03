@@ -118,4 +118,4 @@ def dependency_parsing(
 
     _tagger_name = engine
 
-    return _tagger(text, tag=tag)  # type: ignore[misc]
+    return _tagger(text, tag=tag)  # type: ignore[no-any-return]

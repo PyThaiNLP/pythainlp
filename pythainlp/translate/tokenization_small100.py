@@ -221,7 +221,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
             return self.id_to_lang_token[index]
         token = self.decoder.get(index, self.unk_token)
         if token is None:
-            return self.unk_token
+            return self.unk_token  # type: ignore[no-any-return]
         return token  # type: ignore[no-any-return]
 
     def convert_tokens_to_string(self, tokens: list[str]) -> str:
@@ -253,7 +253,8 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
         """
         if already_has_special_tokens:
-            return super().get_special_tokens_mask(
+            # External library method
+            return super().get_special_tokens_mask(  # type: ignore[no-any-return]
                 token_ids_0=token_ids_0,
                 token_ids_1=token_ids_1,
                 already_has_special_tokens=True,

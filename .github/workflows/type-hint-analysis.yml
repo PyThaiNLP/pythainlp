@@ -1,0 +1,85 @@
+# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
+
+name: Type Hint Analysis
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - ".github/workflows/type-hint-analysis.yml"
+      - "build_tools/analysis/**"
+      - "pythainlp/**"
+
+# Avoid duplicate runs for the same source branch and repository.
+# For push events, uses the branch name from github.ref_name.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.repository }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v6
+
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+
+    - name: Create output directory
+      run: mkdir -p build_tools/analysis/output
+
+    - name: Run type hint analyzer
+      run: |
+        cd build_tools/analysis
+        python3 type_hint_analyzer.py --output-dir ./output
+
+    - name: Generate CSV files
+      run: |
+        cd build_tools/analysis
+        python3 generate_csv.py --output-dir ./output
+
+    - name: Upload analysis results
+      uses: actions/upload-artifact@v4
+      with:
+        name: type-hint-analysis-results
+        path: |
+          build_tools/analysis/output/*.json
+          build_tools/analysis/output/*.csv
+        retention-days: 30
+
+    - name: Display summary
+      run: |
+        echo "## Type Hint Analysis Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        if [ -f build_tools/analysis/output/type_hint_analysis.json ]; then
+          python3 -c "
+        import json
+        with open('build_tools/analysis/output/type_hint_analysis.json') as f:
+            data = json.load(f)
+        stats = data['statistics']
+        
+        print('### Functions/Methods')
+        print(f\"- Total: {stats['functions']['total']}\")
+        print(f\"- Complete: {stats['functions']['complete']} ({stats['functions']['pct_complete']:.2f}%)\")
+        print(f\"- Incomplete: {stats['functions']['incomplete']} ({stats['functions']['pct_incomplete']:.2f}%)\")
+        print(f\"- No hints: {stats['functions']['none']} ({stats['functions']['pct_none']:.2f}%)\")
+        print()
+        print('### Variables')
+        print(f\"- Total: {stats['variables']['total']}\")
+        print(f\"- Complete: {stats['variables']['complete']} ({stats['variables']['pct_complete']:.2f}%)\")
+        print(f\"- No hints: {stats['variables']['none']} ({stats['variables']['pct_none']:.2f}%)\")
+        print(f\"  - Class variables: {stats['variables']['class_variables']}\")
+        print(f\"  - Instance variables: {stats['variables']['instance_variables']}\")
+        print(f\"  - Module variables: {stats['variables']['module_variables']}\")
+        print()
+        print('### Other')
+        print(f\"- Type aliases: {stats['type_aliases']['total']}\")
+        print(f\"- Classes: {stats['classes']['total']}\")
+          " >> $GITHUB_STEP_SUMMARY
+        fi

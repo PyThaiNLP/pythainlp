@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Language Models"""
 
-__all__ = [
+__all__: list[str] = [
     "FastTextAug",
     "Thai2transformersAug",
     "ThaiTextAugmenter",

@@ -17,11 +17,12 @@ References
 from __future__ import annotations
 
 import re
+from typing import Pattern
 
-_THANTHAKHAT_CHAR = "\u0e4c"  # Thanthakhat (cancellation of sound)
+_THANTHAKHAT_CHAR: str = "\u0e4c"  # Thanthakhat (cancellation of sound)
 
 # Non-native Thai characters
-_TH_NON_NATIVE_CHARS = {
+_TH_NON_NATIVE_CHARS: set[str] = {
     "ฆ",
     "ณ",
     "ฌ",
@@ -38,10 +39,10 @@ _TH_NON_NATIVE_CHARS = {
 }
 
 # Native Thai final consonants
-_TH_NATIVE_FINALS = {"ก", "ด", "บ", "น", "ง", "ม", "ย", "ว"}
+_TH_NATIVE_FINALS: set[str] = {"ก", "ด", "บ", "น", "ง", "ม", "ย", "ว"}
 
 # Known native Thai words (exceptions)
-_TH_NATIVE_WORDS = {
+_TH_NATIVE_WORDS: set[str] = {
     "ฆ่า",
     "เฆี่ยน",
     "ศึก",

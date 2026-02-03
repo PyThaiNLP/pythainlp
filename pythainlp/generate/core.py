@@ -30,6 +30,12 @@ class Unigram:
         * *oscar* - OSCAR Corpus
     """
 
+    counts: dict[str, int]
+    word: list[str]
+    n: int
+    prob: dict[str, float]
+    _word_prob: dict[str, float]
+
     def __init__(self, name: str = "tnc") -> None:
         if name == "tnc":
             self.counts = tnc_word_freqs_unigram()
@@ -42,7 +48,7 @@ class Unigram:
         for i in self.word:
             self.n += self.counts[i]
         self.prob = {i: self.counts[i] / self.n for i in self.word}
-        self._word_prob: dict = {}
+        self._word_prob = {}
 
     def gen_sentence(
         self,
@@ -115,6 +121,12 @@ class Bigram:
     :param str name: corpus name
         * *tnc* - Thai National Corpus (default)
     """
+
+    uni: dict[str, int]
+    bi: dict[tuple[str, str], int]
+    uni_keys: list[str]
+    bi_keys: list[tuple[str, str]]
+    words: list[str]
 
     def __init__(self, name: str = "tnc") -> None:
         if name == "tnc":
@@ -202,6 +214,14 @@ class Trigram:
     :param str name: corpus name
         * *tnc* - Thai National Corpus (default)
     """
+
+    uni: dict[str, int]
+    bi: dict[tuple[str, str], int]
+    ti: dict[tuple[str, str, str], int]
+    uni_keys: list[str]
+    bi_keys: list[tuple[str, str]]
+    ti_keys: list[tuple[str, str, str]]
+    words: list[str]
 
     def __init__(self, name: str = "tnc") -> None:
         if name == "tnc":

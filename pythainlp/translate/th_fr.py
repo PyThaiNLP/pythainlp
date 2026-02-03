@@ -14,6 +14,12 @@ BLEU 20.4
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+    import torch
+
 
 class ThFrTranslator:
     """Thai-French Machine Translation
@@ -28,6 +34,10 @@ class ThFrTranslator:
 
     :param bool use_gpu : load model using GPU (Default is False)
     """
+
+    tokenizer_thzh: AutoTokenizer
+    model_thzh: AutoModelForSeq2SeqLM
+    translated: torch.Tensor
 
     def __init__(
         self,

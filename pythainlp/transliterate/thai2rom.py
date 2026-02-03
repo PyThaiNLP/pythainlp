@@ -23,25 +23,35 @@ _MODEL_NAME = "thai2rom-pytorch-attn"
 
 
 class ThaiTransliterator:
+    __model_filename: str
+    _maxlength: int
+    _char_to_ix: Dict[str, int]
+    _ix_to_char: Dict[int, str]
+    _target_char_to_ix: Dict[str, int]
+    _ix_to_target_char: Dict[int, str]
+    _encoder: Encoder
+    _decoder: AttentionDecoder
+    _network: Seq2Seq
+
     def __init__(self) -> None:
         """Transliteration of Thai words.
 
         Now supports Thai to Latin (romanization)
         """
         # get the model, download it if it's not available locally
-        self.__model_filename: str = get_corpus_path(_MODEL_NAME)  # type: ignore[assignment]
+        self.__model_filename = get_corpus_path(_MODEL_NAME)  # type: ignore[assignment]
 
         loader = torch.load(self.__model_filename, map_location=device)
 
         INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT = loader["encoder_params"]
         OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT = loader["decoder_params"]
 
-        self._maxlength: int = 100
+        self._maxlength = 100
 
-        self._char_to_ix: Dict[str, int] = loader["char_to_ix"]
-        self._ix_to_char: Dict[int, str] = loader["ix_to_char"]
-        self._target_char_to_ix: Dict[str, int] = loader["target_char_to_ix"]
-        self._ix_to_target_char: Dict[int, str] = loader["ix_to_target_char"]
+        self._char_to_ix = loader["char_to_ix"]
+        self._ix_to_char = loader["ix_to_char"]
+        self._target_char_to_ix = loader["target_char_to_ix"]
+        self._ix_to_target_char = loader["ix_to_target_char"]
 
         # encoder/ decoder
         # Restore the model and construct the encoder and decoder.

@@ -122,6 +122,22 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     prefix_tokens: Optional[list[int]] = []
     suffix_tokens: list[int] = []
 
+    sp_model_kwargs: dict[str, Any]
+    language_codes: str
+    lang_code_to_token: dict[str, str]
+    vocab_file: str
+    encoder: dict[str, int]
+    decoder: dict[int, str]
+    spm_file: str
+    sp_model: Any
+    encoder_size: int
+    lang_token_to_id: dict[str, int]
+    lang_code_to_id: dict[str, int]
+    id_to_lang_token: dict[int, str]
+    _tgt_lang: str
+    cur_lang_id: int
+    num_madeup_words: int
+
     def __init__(
         self,
         vocab_file: str,

@@ -3,10 +3,17 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Union
+from typing import TYPE_CHECKING, Any, Union
+
+if TYPE_CHECKING:
+    from multiel import BELA
 
 
 class MultiEL:
+    model_name: str
+    device: str
+    _bela_run: BELA
+
     def __init__(self, model_name: str = "bela", device: str = "cuda") -> None:
         self.model_name = model_name
         self.device = device

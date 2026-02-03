@@ -3,17 +3,22 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
-from thai_nner import NNER
-
-from pythainlp.corpus import get_corpus_path
+if TYPE_CHECKING:
+    from pycrfsuite import Tagger as CRFTagger
 
 
 class Thai_NNER:
+    model: Any
+
     def __init__(
         self, path_model: Optional[str] = None
     ) -> None:
+        from thai_nner import NNER
+
+        from pythainlp.corpus import get_corpus_path
+
         if path_model is None:
             path_model = get_corpus_path("thai_nner", "1.0")
         self.model = NNER(path_model=path_model)

@@ -4,10 +4,17 @@
 from __future__ import annotations
 
 import itertools
-from typing import Callable
+from typing import TYPE_CHECKING, Any, Callable
+
+if TYPE_CHECKING:
+    from gensim.models.keyedvectors import KeyedVectors
 
 
 class Word2VecAug:
+    tokenizer: Callable[[str], list[str]]
+    model: KeyedVectors
+    dict_wv: list[str]
+
     def __init__(
         self,
         model: str,

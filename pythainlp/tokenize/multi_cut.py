@@ -25,6 +25,10 @@ from pythainlp.util import Trie
 class LatticeString(str):
     """String that keeps possible tokenizations"""
 
+    unique: bool
+    multi: list[str]
+    in_dict: bool
+
     def __new__(cls, value: str, multi: Optional[list[str]] = None, in_dict: bool = True) -> "LatticeString":
         return str.__new__(cls, value)
 

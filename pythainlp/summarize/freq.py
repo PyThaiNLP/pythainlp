@@ -17,6 +17,11 @@ _STOPWORDS = thai_stopwords()
 
 
 class FrequencySummarizer:
+    __min_cut: float
+    __max_cut: float
+    __stopwords: set[str]
+    __freq: defaultdict[str, float]
+
     def __init__(self, min_cut: float = 0.1, max_cut: float = 0.9) -> None:
         self.__min_cut = min_cut
         self.__max_cut = max_cut

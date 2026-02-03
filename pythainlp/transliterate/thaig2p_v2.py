@@ -9,7 +9,10 @@ huggingface: https://huggingface.co/pythainlp/thaig2p-v2.0
 # Use a pipeline as a high-level helper
 from __future__ import annotations
 
-from transformers import pipeline
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from transformers import Pipeline
 
 
 class ThaiG2P:
@@ -24,7 +27,11 @@ class ThaiG2P:
     https://huggingface.co/pythainlp/thaig2p-v2.0
     """
 
+    pipe: Pipeline
+
     def __init__(self, device: str = "cpu") -> None:
+        from transformers import pipeline
+
         self.pipe = pipeline(
             "text2text-generation",
             model="pythainlp/thaig2p-v2.0",

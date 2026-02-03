@@ -32,18 +32,24 @@ class AveragedPerceptron:
         http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
     """
 
+    weights: dict[str, dict[str, float]]
+    classes: set[str]
+    _totals: dict[tuple[str, str], float]
+    _tstamps: dict[tuple[str, str], int]
+    i: int
+
     def __init__(self) -> None:
         # Each feature gets its own weight vector,
         # so weights is a dict-of-dicts
-        self.weights: dict[str, dict[str, float]] = {}
-        self.classes: set[str] = set()
+        self.weights = {}
+        self.classes = set()
         # The accumulated values, for the averaging. These will be keyed by
         # feature/class tuples
-        self._totals: dict[tuple[str, str], float] = defaultdict(float)
+        self._totals = defaultdict(float)
         # The last time the feature was changed, for the averaging. Also
         # keyed by feature/class tuples
         # (tstamps is short for timestamps)
-        self._tstamps: dict[tuple[str, str], int] = defaultdict(int)
+        self._tstamps = defaultdict(int)
         # Number of instances seen
         self.i = 0
 
@@ -119,11 +125,15 @@ class PerceptronTagger:
     END: list[str] = ["-END-", "-END2-"]
     AP_MODEL_LOC: str = ""
 
+    model: AveragedPerceptron
+    tagdict: dict[str, str]
+    classes: set[str]
+
     def __init__(self, path: str = "") -> None:
         """:param str path: model path"""
-        self.model: AveragedPerceptron = AveragedPerceptron()
-        self.tagdict: dict[str, str] = {}
-        self.classes: set[str] = set()
+        self.model = AveragedPerceptron()
+        self.tagdict = {}
+        self.classes = set()
         if path != "":
             self.AP_MODEL_LOC = path
             self.load(self.AP_MODEL_LOC)

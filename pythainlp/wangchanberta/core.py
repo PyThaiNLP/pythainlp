@@ -32,6 +32,13 @@ def _get_tokenizer() -> Any:
 
 
 class ThaiNameTagger:
+    dataset_name: str
+    grouped_entities: bool
+    classify_tokens: Any
+    json_ner: list[dict[str, Any]]
+    output: str
+    sent_ner: list[tuple[str, str]]
+
     def __init__(
         self, dataset_name: str = "thainer", grouped_entities: bool = True
     ) -> None:
@@ -144,6 +151,9 @@ class ThaiNameTagger:
 
 
 class NamedEntityRecognition:
+    tokenizer: Any
+    model: Any
+
     def __init__(
         self, model: str = "pythainlp/thainer-corpus-v2-base-model"
     ) -> None:

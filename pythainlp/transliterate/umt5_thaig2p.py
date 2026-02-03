@@ -9,7 +9,10 @@ huggingface: https://huggingface.co/B-K/umt5-thai-g2p-v2-0.5k
 # Use a pipeline as a high-level helper
 from __future__ import annotations
 
-from transformers import pipeline
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from transformers import Pipeline
 
 
 class Umt5ThaiG2P:
@@ -24,7 +27,11 @@ class Umt5ThaiG2P:
     https://huggingface.co/B-K/umt5-thai-g2p-v2-0.5k
     """
 
+    pipe: Pipeline
+
     def __init__(self, device: str = "cpu") -> None:
+        from transformers import pipeline
+
         self.pipe = pipeline(
             "text2text-generation",
             model="B-K/umt5-thai-g2p-v2-0.5k",

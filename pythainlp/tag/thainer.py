@@ -8,12 +8,15 @@ from __future__ import annotations
 __all__ = ["ThaiNameTagger"]
 
 
-from typing import Union
+from typing import TYPE_CHECKING, Union
 
 from pythainlp.corpus import get_corpus_path, thai_stopwords
 from pythainlp.tag.pos_tag import pos_tag
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import isthai
+
+if TYPE_CHECKING:
+    from pycrfsuite import Tagger as CRFTagger
 
 _TOKENIZER_ENGINE = "mm"
 
@@ -88,6 +91,9 @@ class ThaiNameTagger:
         thainer14 = ThaiNameTagger(version="1.4")
         thainer14.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
     """
+
+    crf: CRFTagger
+    pos_tag_name: str
 
     def __init__(self, version: str = "1.4") -> None:
         """Thai named-entity recognizer.

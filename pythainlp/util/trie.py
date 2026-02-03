@@ -46,6 +46,9 @@ class Trie(Iterable[str]):
         # output: 5
     """
 
+    words: set[str]
+    root: Node
+
     class Node:
         __slots__ = "end", "children"
 

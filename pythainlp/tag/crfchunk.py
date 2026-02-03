@@ -72,7 +72,10 @@ class CRFchunk:
     garbage collected, though this is not guaranteed.
     """
 
+    corpus: str
     _model_file_ctx: Optional[AbstractContextManager[Any]]
+    tagger: CRFTagger
+    xseq: list[dict[str, Any]]
 
     def __init__(self, corpus: str = "orchidpp") -> None:
         self.corpus = corpus

@@ -19,6 +19,7 @@ if TYPE_CHECKING:
 class SubAppBase:
     separator: str
     run: Callable[[list[str]], list[tuple[str, str]]]
+    args: argparse.Namespace
 
     def __init__(self, name: str, argv: Sequence[str]) -> None:
         parser = argparse.ArgumentParser(**cli.make_usage("tag " + name))  # type: ignore[arg-type]

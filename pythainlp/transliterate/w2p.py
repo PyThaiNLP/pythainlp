@@ -7,11 +7,14 @@ GitHub : https://github.com/wannaphong/Thai_W2P
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 import numpy as np
 
 from pythainlp.corpus import download, get_corpus_path
+
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
 _GRAPHEMES = list(
     "พจใงต้ืฮแาฐฒฤๅูศฅถฺฎหคสุขเึดฟำฝยลอ็ม" + " ณิฑชฉซทรฏฬํัฃวก่ป์ผฆบี๊ธญฌษะไ๋นโภ?"
@@ -49,6 +52,28 @@ def _load_vocab() -> tuple[dict[str, int], dict[int, str], dict[str, int], dict[
 
 
 class Thai_W2P:
+    graphemes: list[str]
+    phonemes: list[str]
+    g2idx: dict[str, int]
+    idx2g: dict[int, str]
+    p2idx: dict[str, int]
+    idx2p: dict[int, str]
+    checkpoint: Optional[str]
+    variables: NDArray
+    enc_emb: NDArray
+    enc_w_ih: NDArray
+    enc_w_hh: NDArray
+    enc_b_ih: NDArray
+    enc_b_hh: NDArray
+    dec_emb: NDArray
+    dec_w_ih: NDArray
+    dec_w_hh: NDArray
+    dec_b_ih: NDArray
+    dec_b_hh: NDArray
+    fc_w: NDArray
+    fc_b: NDArray
+    word: str
+
     def __init__(self) -> None:
         super().__init__()
         self.graphemes = hp.graphemes

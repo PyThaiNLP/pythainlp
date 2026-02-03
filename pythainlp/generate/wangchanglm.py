@@ -4,11 +4,26 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING, Any
 
 import torch
 
+if TYPE_CHECKING:
+    import pandas as pd
+
 
 class WangChanGLM:
+    exclude_pattern: re.Pattern
+    stop_token: str
+    PROMPT_DICT: dict[str, str]
+    device: str
+    torch_dtype: torch.dtype
+    model_path: str
+    model: Any
+    tokenizer: Any
+    df: pd.DataFrame
+    exclude_ids: list[int]
+
     def __init__(self) -> None:
         self.exclude_pattern = re.compile(r"[^ก-๙]+")
         self.stop_token = "\n"  # noqa: S105

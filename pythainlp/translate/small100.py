@@ -3,9 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
-from transformers import M2M100ForConditionalGeneration
+if TYPE_CHECKING:
+    from transformers import M2M100ForConditionalGeneration
+    import torch
 
 from .tokenization_small100 import SMALL100Tokenizer
 
@@ -18,16 +20,24 @@ class Small100Translator:
     :param bool use_gpu : load model using GPU (Default is False)
     """
 
+    pretrained: str
+    model: M2M100ForConditionalGeneration
+    tgt_lang: Optional[str]
+    tokenizer: SMALL100Tokenizer
+    translated: torch.Tensor
+
     def __init__(
         self,
         use_gpu: bool = False,
         pretrained: str = "alirezamsh/small100",
     ) -> None:
+        from transformers import M2M100ForConditionalGeneration
+
         self.pretrained = pretrained
         self.model = M2M100ForConditionalGeneration.from_pretrained(
             self.pretrained
         )
-        self.tgt_lang: Optional[str] = None
+        self.tgt_lang = None
         if use_gpu:
             self.model = self.model.cuda()
 

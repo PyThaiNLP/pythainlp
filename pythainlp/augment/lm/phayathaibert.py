@@ -16,10 +16,10 @@ _MODEL_NAME = "clicknext/phayathaibert"
 
 
 class ThaiTextAugmenter:
-    tokenizer: AutoTokenizer
-    model_for_masked_lm: AutoModelForMaskedLM
-    model: Pipeline
-    processor: ThaiTextProcessor
+    tokenizer: "AutoTokenizer"
+    model_for_masked_lm: "AutoModelForMaskedLM"
+    model: "Pipeline"
+    processor: "ThaiTextProcessor"
 
     def __init__(self) -> None:
         from transformers import (

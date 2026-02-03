@@ -21,10 +21,10 @@ class Small100Translator:
     """
 
     pretrained: str
-    model: M2M100ForConditionalGeneration
+    model: "M2M100ForConditionalGeneration"
     tgt_lang: Optional[str]
-    tokenizer: SMALL100Tokenizer
-    translated: torch.Tensor
+    tokenizer: "SMALL100Tokenizer"
+    translated: "torch.Tensor"
 
     def __init__(
         self,

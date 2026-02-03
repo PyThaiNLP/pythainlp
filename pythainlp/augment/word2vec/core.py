@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 class Word2VecAug:
     tokenizer: Callable[[str], list[str]]
-    model: KeyedVectors
+    model: "KeyedVectors"
     dict_wv: list[str]
 
     def __init__(

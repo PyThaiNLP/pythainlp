@@ -29,9 +29,9 @@ class ThaiTransliterator:
     _ix_to_char: Dict[int, str]
     _target_char_to_ix: Dict[str, int]
     _ix_to_target_char: Dict[int, str]
-    _encoder: Encoder
-    _decoder: AttentionDecoder
-    _network: Seq2Seq
+    _encoder: "Encoder"
+    _decoder: "AttentionDecoder"
+    _network: "Seq2Seq"
 
     def __init__(self) -> None:
         """Transliteration of Thai words.

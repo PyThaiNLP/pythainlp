@@ -13,9 +13,9 @@ model_name = "airesearch/wangchanberta-base-att-spm-uncased"
 
 class Thai2transformersAug:
     model_name: str
-    target_tokenizer: type[CamembertTokenizer]
-    tokenizer: CamembertTokenizer
-    fill_mask: Pipeline
+    target_tokenizer: type["CamembertTokenizer"]
+    tokenizer: "CamembertTokenizer"
+    fill_mask: "Pipeline"
     MASK_TOKEN: str
     input_text: str
 

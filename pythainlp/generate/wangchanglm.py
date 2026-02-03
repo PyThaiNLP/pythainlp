@@ -13,15 +13,15 @@ if TYPE_CHECKING:
 
 
 class WangChanGLM:
-    exclude_pattern: re.Pattern
+    exclude_pattern: "re.Pattern"
     stop_token: str
     PROMPT_DICT: dict[str, str]
     device: str
-    torch_dtype: torch.dtype
+    torch_dtype: "torch.dtype"
     model_path: str
     model: Any
     tokenizer: Any
-    df: pd.DataFrame
+    df: "pd.DataFrame"
     exclude_ids: list[int]
 
     def __init__(self) -> None:

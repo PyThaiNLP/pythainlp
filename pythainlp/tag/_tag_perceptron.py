@@ -125,7 +125,7 @@ class PerceptronTagger:
     END: list[str] = ["-END-", "-END2-"]
     AP_MODEL_LOC: str = ""
 
-    model: AveragedPerceptron
+    model: "AveragedPerceptron"
     tagdict: dict[str, str]
     classes: set[str]
 

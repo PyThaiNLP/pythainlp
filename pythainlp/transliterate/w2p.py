@@ -59,19 +59,19 @@ class Thai_W2P:
     p2idx: dict[str, int]
     idx2p: dict[int, str]
     checkpoint: Optional[str]
-    variables: NDArray
-    enc_emb: NDArray
-    enc_w_ih: NDArray
-    enc_w_hh: NDArray
-    enc_b_ih: NDArray
-    enc_b_hh: NDArray
-    dec_emb: NDArray
-    dec_w_ih: NDArray
-    dec_w_hh: NDArray
-    dec_b_ih: NDArray
-    dec_b_hh: NDArray
-    fc_w: NDArray
-    fc_b: NDArray
+    variables: "NDArray"
+    enc_emb: "NDArray"
+    enc_w_ih: "NDArray"
+    enc_w_hh: "NDArray"
+    enc_b_ih: "NDArray"
+    enc_b_hh: "NDArray"
+    dec_emb: "NDArray"
+    dec_w_ih: "NDArray"
+    dec_w_hh: "NDArray"
+    dec_b_ih: "NDArray"
+    dec_b_hh: "NDArray"
+    fc_w: "NDArray"
+    fc_b: "NDArray"
     word: str
 
     def __init__(self) -> None:

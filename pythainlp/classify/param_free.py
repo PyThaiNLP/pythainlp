@@ -5,9 +5,10 @@ from __future__ import annotations
 
 import gzip
 import json
-from typing import Optional
+from typing import Any, Optional
 
 import numpy as np
+from numpy.typing import NDArray
 
 
 class GzipModel:
@@ -21,6 +22,9 @@ class GzipModel:
         Default is empty string.
     """
 
+
+    cx2_list: list[int]
+    training_data: "NDArray[Any]"
     def __init__(
         self,
         training_data: Optional[list[tuple[str, str]]] = None,

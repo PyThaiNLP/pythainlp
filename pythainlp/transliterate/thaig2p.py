@@ -43,9 +43,9 @@ class ThaiG2P:
     _ix_to_char: dict[int, str]
     _target_char_to_ix: dict[str, int]
     _ix_to_target_char: dict[int, str]
-    _encoder: Encoder
-    _decoder: AttentionDecoder
-    _network: Seq2Seq
+    _encoder: "Encoder"
+    _decoder: "AttentionDecoder"
+    _network: "Seq2Seq"
 
     def __init__(self) -> None:
         # get the model, download it if it's not available locally

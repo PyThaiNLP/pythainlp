@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import itertools
+from typing import Any
 
 from pythainlp.tokenize import word_tokenize
 
@@ -13,6 +14,11 @@ class FastTextAug:
 
     :param str model_path: path of model file
     """
+
+    model: Any
+    dict_wv: list[str]
+    sentence: list[str]
+    list_synonym: list[list[str]]
 
     def __init__(self, model_path: str) -> None:
         """:param str model_path: path of model file"""

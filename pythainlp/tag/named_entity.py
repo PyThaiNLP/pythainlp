@@ -28,6 +28,9 @@ class NER:
     **Note**: The tltk engine supports NER models from tltk only.
     """
 
+    name_engine: str
+    engine: Any
+
     def __init__(
         self, engine: str = "thainer-v2", corpus: str = "thainer"
     ) -> None:
@@ -114,6 +117,8 @@ class NNER:
     **Options for engine**
         * *thai_nner* - Thai NER engine
     """
+
+    engine: Any
 
     def __init__(self, engine: str = "thai_nner") -> None:
         self.load_engine(engine)

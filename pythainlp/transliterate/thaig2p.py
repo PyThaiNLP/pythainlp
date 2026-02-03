@@ -48,10 +48,10 @@ class ThaiG2P:
 
         self._maxlength: int = 100
 
-        self._char_to_ix: dict = loader["char_to_ix"]
-        self._ix_to_char: dict = loader["ix_to_char"]
-        self._target_char_to_ix: dict = loader["target_char_to_ix"]
-        self._ix_to_target_char: dict = loader["ix_to_target_char"]
+        self._char_to_ix: dict[str, int] = loader["char_to_ix"]
+        self._ix_to_char: dict[int, str] = loader["ix_to_char"]
+        self._target_char_to_ix: dict[str, int] = loader["target_char_to_ix"]
+        self._ix_to_target_char: dict[int, str] = loader["ix_to_target_char"]
 
         # encoder/ decoder
         # Restore the model and construct the encoder and decoder.
@@ -131,7 +131,7 @@ class Encoder(nn.Module):
 
         self.dropout: nn.Dropout = nn.Dropout(dropout)
 
-    def forward(self, sequences: torch.Tensor, sequences_lengths: Union[NDArray, list]) -> tuple[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
+    def forward(self, sequences: torch.Tensor, sequences_lengths: Union[NDArray, list[int]]) -> tuple[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
         # sequences: (batch_size, sequence_length=MAX_LENGTH)
         # sequences_lengths: (batch_size)
 
@@ -303,7 +303,7 @@ class Seq2Seq(nn.Module):
         return mask
 
     def forward(
-        self, source_seq: torch.Tensor, source_seq_len: Union[NDArray, list], target_seq: Optional[torch.Tensor], teacher_forcing_ratio: float = 0.5
+        self, source_seq: torch.Tensor, source_seq_len: Union[NDArray, list[int]], target_seq: Optional[torch.Tensor], teacher_forcing_ratio: float = 0.5
     ) -> torch.Tensor:
         # source_seq: (batch_size, MAX_LENGTH)
         # source_seq_len: (batch_size, 1)

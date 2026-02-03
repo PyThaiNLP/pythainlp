@@ -14,7 +14,7 @@ class FastTextAug:
     :param str model_path: path of model file
     """
 
-    def __init__(self, model_path: str):
+    def __init__(self, model_path: str) -> None:
         """:param str model_path: path of model file"""
         from gensim.models.fasttext import FastText as FastText_gensim
         from gensim.models.keyedvectors import KeyedVectors

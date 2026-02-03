@@ -3,12 +3,14 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Any, Optional
+
 
 class FastCoref:
     def __init__(
         self,
-        model_name,
-        nlp=None,
+        model_name: str,
+        nlp: Optional[Any] = None,
         device: str = "cpu",
         type: str = "FCoref",
     ) -> None:

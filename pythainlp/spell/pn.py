@@ -129,7 +129,7 @@ class NorvigSpellChecker:
         min_len: int = 2,
         max_len: int = 40,
         dict_filter: Optional[Callable[[str], bool]] = _is_thai_and_not_num,
-    ):
+    ) -> None:
         """Initializes Peter Norvig's spell checker object.
         Spelling dictionary can be customized.
         By default, spelling dictionary is from

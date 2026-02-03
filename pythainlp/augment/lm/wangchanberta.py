@@ -31,7 +31,9 @@ class Thai2transformersAug:
         )
         self.MASK_TOKEN = self.tokenizer.mask_token
 
-    def generate(self, sentence: str, num_replace_tokens: int = 3):
+    def generate(
+        self, sentence: str, num_replace_tokens: int = 3
+    ) -> list[str]:
         sent2: list[str] = []
         self.input_text = sentence
         sent = [
@@ -74,4 +76,4 @@ class Thai2transformersAug:
              'ช้างมีทั้งหมด 50 ตัว บนหัว']
         """
         sent2 = self.generate(sentence, num_replace_tokens)
-        return sent2  # type: ignore[no-any-return]
+        return sent2

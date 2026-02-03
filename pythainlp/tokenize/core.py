@@ -928,7 +928,7 @@ class Tokenizer:
         engine: str = "newmm",
         keep_whitespace: bool = True,
         join_broken_num: bool = True,
-    ):
+    ) -> None:
         """Initialize tokenizer object.
 
         :param str custom_dict: a file path, a list of vocaburaies* to be

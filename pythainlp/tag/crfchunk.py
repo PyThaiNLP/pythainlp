@@ -74,7 +74,7 @@ class CRFchunk:
 
     _model_file_ctx: Optional[AbstractContextManager[Any]]
 
-    def __init__(self, corpus: str = "orchidpp"):
+    def __init__(self, corpus: str = "orchidpp") -> None:
         self.corpus = corpus
         self._model_file_ctx = None
         self.load_model(self.corpus)

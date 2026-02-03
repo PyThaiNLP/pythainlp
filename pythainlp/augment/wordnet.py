@@ -101,7 +101,7 @@ orchid = {
 }
 
 
-def postype2wordnet(pos: str, corpus: str):
+def postype2wordnet(pos: str, corpus: str) -> Optional[str]:
     """Convert part-of-speech type to wordnet type
 
     :param str pos: POS type
@@ -112,7 +112,7 @@ def postype2wordnet(pos: str, corpus: str):
     """
     if corpus not in ["orchid"]:
         return None
-    return orchid[pos]
+    return orchid[pos]  # type: ignore[no-any-return]
 
 
 class WordNetAug:

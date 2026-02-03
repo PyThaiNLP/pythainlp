@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import collections
 from collections.abc import Callable, Collection
-from typing import Optional
+from typing import Any, Optional
 
 import numpy as np
 import torch
@@ -172,7 +172,9 @@ def process_thai(
     return res  # type: ignore[no-any-return]
 
 
-def document_vector(text: str, learn, data, agg: str = "mean"):
+def document_vector(
+    text: str, learn: Any, data: Any, agg: str = "mean"
+) -> np.ndarray:
     """This function vectorizes Thai input text into a 400 dimension vector using
     :class:`fastai` language model and data bunch.
 
@@ -224,7 +226,7 @@ def document_vector(text: str, learn, data, agg: str = "mean"):
     else:
         raise ValueError("Aggregate by mean or sum")
 
-    return res
+    return res  # type: ignore[no-any-return]
 
 
 def merge_wgts(em_sz, wgts, itos_pre, itos_new):

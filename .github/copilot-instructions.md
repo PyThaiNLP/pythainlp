@@ -205,6 +205,10 @@
   - [ ] Recheck necessity of `# noqa:` and `# type: ignore`.
   - [ ] Recheck docstring and documentation consistency with the code;
         They should match the updated type hints.
+  - [ ] In docstring, use full qualified name for non-standard library types.
+        For example, `numpy.ndarray` instead of `ndarray`;
+        `pandas.DataFrame` instead of `pd.DataFrame`.
+        So the user can know exactly which module the data type comes from.
 - [ ] requires-python in pyproject.toml should reflect the minimum
       Python version supported by the project.
 - [ ] Do not introduce syntax or features that are not supported

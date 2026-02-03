@@ -224,7 +224,7 @@ def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:
     :param Optional[str] word: Thai word, or None
     :return: List of tuples containing Thai pronunciation with tones in each syllable.\
         Tone values: l (low), m (mid), h (high), r (rising), f (falling), or empty if it cannot be detected.\
-        Returns [('', '')] if word is None or empty.
+        Returns [] if word is None or empty.
     :rtype: list[tuple[str, str]]
 
     :Example:
@@ -239,10 +239,10 @@ def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:
         # output: [('มือ', 'm'), ('ถือ', 'r')]
 
         print(thai_word_tone_detector(None))
-        # output: [('', '')]
+        # output: []
     """
     if not word:
-        return [("", "")]
+        return []
 
     from ..transliterate import pronunciate
     from ..util.syllable import tone_detector

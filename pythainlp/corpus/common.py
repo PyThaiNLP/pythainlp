@@ -301,7 +301,7 @@ def thai_dict() -> dict[str, list[str]]:
     return _THAI_DICT
 
 
-def thai_wsd_dict() -> dict[str, list[str] | list[list[str]]]:
+def thai_wsd_dict() -> dict[str, Union[list[str], list[list[str]]]]:
     """Return Thai Word Sense Disambiguation dictionary with definition from wiktionary.
     \n(See: `thai_dict\
     <https://pythainlp.org/pythainlp-corpus/thai_dict.html>`_)
@@ -328,7 +328,7 @@ def thai_wsd_dict() -> dict[str, list[str] | list[list[str]]]:
     return _THAI_WSD_DICT
 
 
-def thai_synonyms() -> dict[str, list[str] | list[list[str]]]:
+def thai_synonyms() -> dict[str, Union[list[str], list[list[str]]]]:
     """Return Thai synonyms.
     \n(See: `thai_synonym\
     <https://pythainlp.org/pythainlp-corpus/thai_synonym.html>`_)
@@ -358,7 +358,7 @@ def thai_synonyms() -> dict[str, list[str] | list[list[str]]]:
     return _THAI_SYNONYMS
 
 
-def thai_synonym() -> dict[str, list[str] | list[list[str]]]:
+def thai_synonym() -> dict[str, Union[list[str], list[list[str]]]]:
     warn_deprecation(
         "pythainlp.corpus.thai_synonym",
         "pythainlp.corpus.thai_synonyms",

@@ -1,12 +1,12 @@
 {
   "statistics": {
     "total": 720,
-    "complete": 703,
+    "complete": 720,
     "incomplete": 0,
-    "none": 17,
-    "pct_complete": 97.63888888888889,
+    "none": 0,
+    "pct_complete": 100.0,
     "pct_incomplete": 0.0,
-    "pct_none": 2.361111111111111
+    "pct_none": 0.0
   },
   "by_submodule": {
     "__main__": {
@@ -19,121 +19,121 @@
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     },
     "augment": {
       "complete": 29,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 8
+      "mypy_errors": 1
     },
     "benchmarks": {
       "complete": 8,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     },
     "chat": {
       "complete": 4,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 9
+      "mypy_errors": 1
     },
     "classify": {
       "complete": 5,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     },
     "cli": {
       "complete": 21,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     },
     "coref": {
-      "complete": 4,
+      "complete": 5,
       "incomplete": 0,
-      "none": 1,
-      "mypy_errors": 7
+      "none": 0,
+      "mypy_errors": 1
     },
     "corpus": {
       "complete": 70,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     },
     "el": {
       "complete": 5,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     },
     "generate": {
       "complete": 15,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 12
+      "mypy_errors": 1
     },
     "khavee": {
-      "complete": 8,
+      "complete": 9,
       "incomplete": 0,
-      "none": 1,
-      "mypy_errors": 7
+      "none": 0,
+      "mypy_errors": 1
     },
     "lm": {
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     },
     "morpheme": {
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     },
     "parse": {
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     },
     "phayathaibert": {
-      "complete": 18,
+      "complete": 19,
       "incomplete": 0,
-      "none": 1,
-      "mypy_errors": 7
+      "none": 0,
+      "mypy_errors": 1
     },
     "soundex": {
       "complete": 27,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     },
     "spell": {
       "complete": 43,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     },
     "summarize": {
       "complete": 17,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 10
+      "mypy_errors": 1
     },
     "tag": {
       "complete": 68,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 8
+      "mypy_errors": 1
     },
     "tokenize": {
-      "complete": 68,
+      "complete": 73,
       "incomplete": 0,
-      "none": 5,
-      "mypy_errors": 7
+      "none": 0,
+      "mypy_errors": 1
     },
     "tokenizeicu": {
       "complete": 3,
@@ -145,19 +145,19 @@
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     },
     "translate": {
       "complete": 44,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     },
     "transliterate": {
       "complete": 75,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 8
+      "mypy_errors": 1
     },
     "transliterateicu": {
       "complete": 1,
@@ -166,190 +166,36 @@
       "mypy_errors": 0
     },
     "ulmfit": {
-      "complete": 21,
+      "complete": 25,
       "incomplete": 0,
-      "none": 4,
-      "mypy_errors": 11
+      "none": 0,
+      "mypy_errors": 1
     },
     "util": {
-      "complete": 108,
+      "complete": 109,
       "incomplete": 0,
-      "none": 1,
-      "mypy_errors": 7
+      "none": 0,
+      "mypy_errors": 1
     },
     "wangchanberta": {
-      "complete": 5,
+      "complete": 9,
       "incomplete": 0,
-      "none": 4,
-      "mypy_errors": 7
+      "none": 0,
+      "mypy_errors": 1
     },
     "word_vector": {
       "complete": 7,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 9
+      "mypy_errors": 1
     },
     "wsd": {
       "complete": 4,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 1
     }
   },
-  "functions_no_hints": [
-    {
-      "name": "pythainlp.ulmfit.core.merge_wgts",
-      "scope": "public",
-      "references": 9,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/ulmfit/core.py",
-      "line": 232
-    },
-    {
-      "name": "pythainlp.tokenize.multi_cut.serialize",
-      "scope": "public",
-      "references": 4,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/multi_cut.py",
-      "line": 67
-    },
-    {
-      "name": "pythainlp.ulmfit.tokenizer.ThaiTokenizer.add_special_cases",
-      "scope": "public",
-      "references": 4,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/ulmfit/tokenizer.py",
-      "line": 67
-    },
-    {
-      "name": "pythainlp.phayathaibert.core.ThaiTextProcessor._replace_rep",
-      "scope": "private",
-      "references": 8,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/phayathaibert/core.py",
-      "line": 129
-    },
-    {
-      "name": "pythainlp.ulmfit.preprocess._replace_rep",
-      "scope": "private",
-      "references": 8,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/ulmfit/preprocess.py",
-      "line": 104
-    },
-    {
-      "name": "pythainlp.ulmfit.preprocess._replace_rep",
-      "scope": "private",
-      "references": 8,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/ulmfit/preprocess.py",
-      "line": 227
-    },
-    {
-      "name": "pythainlp.util.normalize._last_char",
-      "scope": "private",
-      "references": 7,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/util/normalize.py",
-      "line": 63
-    },
-    {
-      "name": "pythainlp.wangchanberta.core._get_tokenizer",
-      "scope": "private",
-      "references": 3,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
-      "line": 16
-    },
-    {
-      "name": "pythainlp.wangchanberta.core.ThaiNameTagger._clear_tag",
-      "scope": "private",
-      "references": 3,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
-      "line": 65
-    },
-    {
-      "name": "pythainlp.coref._fastcoref.FastCoref._to_json",
-      "scope": "private",
-      "references": 2,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/coref/_fastcoref.py",
-      "line": 31
-    },
-    {
-      "name": "pythainlp.tokenize.budoux._init_parser",
-      "scope": "private",
-      "references": 2,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/budoux.py",
-      "line": 22
-    },
-    {
-      "name": "pythainlp.tokenize.etcc._cut_etcc",
-      "scope": "private",
-      "references": 2,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/etcc.py",
-      "line": 32
-    },
-    {
-      "name": "pythainlp.tokenize.multi_cut.LatticeString.__new__",
-      "scope": "public",
-      "references": 2,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/multi_cut.py",
-      "line": 28
-    },
-    {
-      "name": "pythainlp.tokenize.nlpo3._ensure_default_dict_loaded",
-      "scope": "private",
-      "references": 2,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/nlpo3.py",
-      "line": 23
-    },
-    {
-      "name": "pythainlp.wangchanberta.core.ThaiNameTagger._IOB",
-      "scope": "private",
-      "references": 2,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
-      "line": 60
-    },
-    {
-      "name": "pythainlp.wangchanberta.core.NamedEntityRecognition._fix_span_error",
-      "scope": "private",
-      "references": 2,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
-      "line": 161
-    },
-    {
-      "name": "pythainlp.khavee.core.KhaveeVerifier.check_karu_lahu",
-      "scope": "public",
-      "references": 1,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/khavee/core.py",
-      "line": 359
-    }
-  ],
+  "functions_no_hints": [],
   "functions_incomplete_hints": []
 }

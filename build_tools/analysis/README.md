@@ -7,9 +7,11 @@ This directory contains tools for analyzing the PyThaiNLP codebase.
 ### Scripts
 
 #### type_hint_analyzer.py
+
 Main script that performs comprehensive type hint coverage analysis.
 
 **What it does:**
+
 - Scans all Python files in the repository
 - Uses Python AST to analyze function and method signatures
 - Checks for type hints on parameters and return values
@@ -19,26 +21,32 @@ Main script that performs comprehensive type hint coverage analysis.
 - Generates detailed statistics and reports
 
 **Output:**
+
 - Console report with summary statistics
 - `/tmp/type_hint_analysis.json` - Detailed JSON data
 
 **Usage:**
+
 ```bash
 python3 build_tools/analysis/type_hint_analyzer.py
 ```
 
 #### generate_csv.py
+
 Converts the JSON output from type_hint_analyzer.py into CSV files for easy analysis.
 
 **Prerequisites:**
+
 - Must run `type_hint_analyzer.py` first to generate the JSON data
 
 **Output:**
+
 - `/tmp/functions_no_hints.csv` - Functions without type hints
 - `/tmp/functions_incomplete_hints.csv` - Functions with incomplete hints
 - `/tmp/submodule_summary.csv` - Summary by submodule
 
 **Usage:**
+
 ```bash
 python3 build_tools/analysis/generate_csv.py
 ```
@@ -68,16 +76,19 @@ cat docs/type_hint_analysis/submodule_summary.csv
 ### Analysis Categories
 
 **Type Hint Status:**
+
 - **Complete:** All parameters and return value have type hints
 - **Incomplete:** Some parameters or return value missing type hints
 - **None:** No type hints at all
 
 **Priority Levels:**
+
 - **High:** Public functions with >10 references in core/compact tests
 - **Medium:** Public functions with 3-10 references
 - **Low:** Private functions or rarely referenced functions
 
 **Test Suites:**
+
 - **core:** Core tests with no external dependencies
 - **compact:** Tests with stable, small dependencies
 - **extra:** Tests with larger dependencies
@@ -87,12 +98,14 @@ cat docs/type_hint_analysis/submodule_summary.csv
 ### Output Files
 
 All analysis outputs are stored in:
+
 - `docs/type_hint_analysis/` - CSV data files and README
 - `TYPE_HINT_ANALYSIS.md` - Main analysis report (repository root)
 
 ## Future Tools
 
 This directory can be extended with additional analysis tools:
+
 - Code complexity analysis
 - Documentation coverage analysis
 - API stability analysis

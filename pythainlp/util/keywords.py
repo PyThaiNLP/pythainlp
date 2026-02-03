@@ -11,7 +11,9 @@ from pythainlp.corpus import thai_stopwords
 _STOPWORDS = thai_stopwords()
 
 
-def rank(words: list[str], exclude_stopwords: bool = False) -> Optional[Counter]:
+def rank(
+    words: list[str], exclude_stopwords: bool = False
+) -> Optional[Counter]:
     """Count word frequencies given a list of Thai words with an option
     to exclude stopwords.
 

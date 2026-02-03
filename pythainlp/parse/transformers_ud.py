@@ -54,7 +54,9 @@ class Parse:
             model=t, tokenizer=self.tokenizer
         )
 
-    def __call__(self, text: str, tag: str = "str") -> Union[list[list[str]], str]:
+    def __call__(
+        self, text: str, tag: str = "str"
+    ) -> Union[list[list[str]], str]:
         import numpy
         import torch
         import ufal.chu_liu_edmonds
@@ -102,7 +104,7 @@ class Parse:
         h = ufal.chu_liu_edmonds.chu_liu_edmonds(m)[0]
         if [0 for i in h if i == 0] != [0]:
             i = ([p for s, e, p in w] + ["root"]).index("root")
-            j = i + 1 if i < n else numpy.nanargmax(m[:, 0])
+            j = i + 1 if i < n else int(numpy.nanargmax(m[:, 0]))
             m[0:j, 0] = m[j + 1 :, 0] = numpy.nan
             h = ufal.chu_liu_edmonds.chu_liu_edmonds(m)[0]
         u = ""

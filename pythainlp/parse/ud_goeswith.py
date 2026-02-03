@@ -15,20 +15,24 @@ from typing import List, Optional, Union
 
 import numpy as np
 import torch
-import ufal.chu_liu_edmonds
 from transformers import AutoModelForTokenClassification, AutoTokenizer
 
 
 class Parse:
     def __init__(
-        self, model: Optional[str] = "KoichiYasuoka/deberta-base-thai-ud-goeswith"
+        self,
+        model: Optional[str] = "KoichiYasuoka/deberta-base-thai-ud-goeswith",
     ) -> None:
         if model is None:
             model = "KoichiYasuoka/deberta-base-thai-ud-goeswith"
         self.tokenizer = AutoTokenizer.from_pretrained(model)
         self.model = AutoModelForTokenClassification.from_pretrained(model)
 
-    def __call__(self, text: str, tag: str = "str") -> Union[List[List[str]], str]:
+    def __call__(
+        self, text: str, tag: str = "str"
+    ) -> Union[List[List[str]], str]:
+        import ufal.chu_liu_edmonds
+
         w = self.tokenizer(text, return_offsets_mapping=True)
         v = w["input_ids"]
         x = [

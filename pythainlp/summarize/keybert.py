@@ -222,7 +222,7 @@ def _rank_keywords(
         )
         return result  # type: ignore[no-any-return]
 
-    def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:  # type: ignore[type-arg]
+    def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:
         return (np.matmul(a, b.T).T).sum(axis=1)  # type: ignore[no-any-return]
 
     doc_vector = l2_norm(doc_vector)

@@ -150,7 +150,9 @@ def extract_features(
 
     # add enders and starters
     doc_ender = ["ender" if token in _ENDERS else "normal" for token in doc]
-    doc_starter = ["starter" if token in _STARTERS else "normal" for token in doc]
+    doc_starter = [
+        "starter" if token in _STARTERS else "normal" for token in doc
+    ]
 
     # for each word
     for i in range(window, len(doc) - window):

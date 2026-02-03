@@ -61,7 +61,9 @@ class AveragedPerceptron:
         # Do a secondary alphabetic sort, for stability
         return max(self.classes, key=lambda label: (scores[label], label))
 
-    def update(self, truth: str, guess: str, features: dict[str, float]) -> None:
+    def update(
+        self, truth: str, guess: str, features: dict[str, float]
+    ) -> None:
         """Update the feature weights."""
 
         def upd_feat(c: str, f: str, w: float, v: float) -> None:
@@ -118,8 +120,7 @@ class PerceptronTagger:
     AP_MODEL_LOC = ""
 
     def __init__(self, path: str = "") -> None:
-        """:param str path: model path
-        """
+        """:param str path: model path"""
         self.model = AveragedPerceptron()
         self.tagdict: dict[str, str] = {}
         self.classes: set[str] = set()
@@ -264,7 +265,9 @@ class PerceptronTagger:
         self, sentences: Iterable[Iterable[tuple[str, str]]]
     ) -> None:
         """Make a tag dictionary for single-tag words."""
-        counts: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+        counts: dict[str, dict[str, int]] = defaultdict(
+            lambda: defaultdict(int)
+        )
         for sentence in sentences:
             for word, tag in sentence:
                 counts[word][tag] += 1

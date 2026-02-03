@@ -137,12 +137,15 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         num_madeup_words=8,
         **kwargs,
     ) -> None:
-        self.sp_model_kwargs = {} if sp_model_kwargs is None else sp_model_kwargs
+        self.sp_model_kwargs = (
+            {} if sp_model_kwargs is None else sp_model_kwargs
+        )
 
         self.language_codes = language_codes
         fairseq_language_code = FAIRSEQ_LANGUAGE_CODES[language_codes]
         self.lang_code_to_token = {
-            lang_code: f"__{lang_code}__" for lang_code in fairseq_language_code
+            lang_code: f"__{lang_code}__"
+            for lang_code in fairseq_language_code
         }
 
         kwargs["additional_special_tokens"] = kwargs.get(
@@ -151,7 +154,8 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         kwargs["additional_special_tokens"] += [
             self.get_lang_token(lang_code)
             for lang_code in fairseq_language_code
-            if self.get_lang_token(lang_code) not in kwargs["additional_special_tokens"]
+            if self.get_lang_token(lang_code)
+            not in kwargs["additional_special_tokens"]
         ]
 
         super().__init__(
@@ -186,7 +190,9 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
             lang_code: self.encoder_size + i
             for i, lang_code in enumerate(fairseq_language_code)
         }
-        self.id_to_lang_token = {v: k for k, v in self.lang_token_to_id.items()}
+        self.id_to_lang_token = {
+            v: k for k, v in self.lang_token_to_id.items()
+        }
 
         self._tgt_lang = tgt_lang if tgt_lang is not None else "en"
         self.cur_lang_id = self.get_lang_id(self._tgt_lang)
@@ -196,7 +202,11 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
     @property
     def vocab_size(self) -> int:
-        return len(self.encoder) + len(self.lang_token_to_id) + self.num_madeup_words  # type: ignore[no-any-return]
+        return (
+            len(self.encoder)
+            + len(self.lang_token_to_id)
+            + self.num_madeup_words
+        )  # type: ignore[no-any-return]
 
     @property
     def tgt_lang(self) -> str:
@@ -222,7 +232,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         token = self.decoder.get(index, self.unk_token)
         if token is None:
             return self.unk_token  # type: ignore[no-any-return]
-        return token  # type: ignore[no-any-return]
+        return token
 
     def convert_tokens_to_string(self, tokens: list[str]) -> str:
         """Converts a sequence of tokens (strings for sub-words) in a single string."""
@@ -260,7 +270,9 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
                 already_has_special_tokens=True,
             )
 
-        prefix_ones = [1] * len(self.prefix_tokens) if self.prefix_tokens else []
+        prefix_ones = (
+            [1] * len(self.prefix_tokens) if self.prefix_tokens else []
+        )
         suffix_ones = [1] * len(self.suffix_tokens)
         if token_ids_1 is None:
             return prefix_ones + ([0] * len(token_ids_0)) + suffix_ones
@@ -305,10 +317,17 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         if self.prefix_tokens is None:
             return token_ids_0 + token_ids_1 + self.suffix_tokens
         else:
-            return self.prefix_tokens + token_ids_0 + token_ids_1 + self.suffix_tokens
+            return (
+                self.prefix_tokens
+                + token_ids_0
+                + token_ids_1
+                + self.suffix_tokens
+            )
 
     def get_vocab(self) -> dict:
-        vocab = {self.convert_ids_to_tokens(i): i for i in range(self.vocab_size)}
+        vocab = {
+            self.convert_ids_to_tokens(i): i for i in range(self.vocab_size)
+        }
         vocab.update(self.added_tokens_encoder)
         return vocab
 
@@ -371,7 +390,9 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         """Used by translation pipeline, to prepare inputs for the generate
         function"""
         if tgt_lang is None:
-            raise ValueError("Translation requires a `tgt_lang` for this model")
+            raise ValueError(
+                "Translation requires a `tgt_lang` for this model"
+            )
         self.tgt_lang = tgt_lang
         inputs = self(raw_inputs, add_special_tokens=True, **extra_kwargs)
         return inputs

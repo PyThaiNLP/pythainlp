@@ -69,9 +69,11 @@ class WngchanBerta_ONNX:
         maxes = np.max(logits_t, axis=-1, keepdims=True)
         shifted_exp = np.exp(logits_t - maxes)
         scores = shifted_exp / shifted_exp.sum(axis=-1, keepdims=True)
-        return scores
+        return scores  # type: ignore[no-any-return]
 
-    def clean_output(self, list_text: list[tuple[str, str]]) -> list[tuple[str, str]]:
+    def clean_output(
+        self, list_text: list[tuple[str, str]]
+    ) -> list[tuple[str, str]]:
         return list_text
 
     def totag(self, post: np.ndarray, sent: str) -> list[tuple[str, str]]:
@@ -88,10 +90,14 @@ class WngchanBerta_ONNX:
             )
         return tag
 
-    def _config(self, list_ner: list[tuple[str, str]]) -> list[tuple[str, str]]:
+    def _config(
+        self, list_ner: list[tuple[str, str]]
+    ) -> list[tuple[str, str]]:
         return list_ner
 
-    def get_ner(self, text: str, tag: bool = False) -> Union[str, list[tuple[str, str]]]:
+    def get_ner(
+        self, text: str, tag: bool = False
+    ) -> Union[str, list[tuple[str, str]]]:
         self._s = self.build_tokenizer(text)
         logits = self.session.run(
             output_names=[self.outputs_name], input_feed=self._s

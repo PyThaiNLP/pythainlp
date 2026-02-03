@@ -48,7 +48,12 @@ def _get_tagger() -> pycrfsuite.Tagger:
 class Featurizer:
     #  This class from ssg at https://github.com/ponrawee/ssg.
 
-    def __init__(self, N: int = 2, sequence_size: int = 1, delimiter: Optional[str] = None) -> None:
+    def __init__(
+        self,
+        N: int = 2,
+        sequence_size: int = 1,
+        delimiter: Optional[str] = None,
+    ) -> None:
         self.N = N
         self.delimiter = delimiter
         self.radius = N + sequence_size
@@ -57,7 +62,11 @@ class Featurizer:
         return padder * (self.radius) + sentence + padder * (self.radius)
 
     def featurize(
-        self, sentence: str, padding: bool = True, indiv_char: bool = True, return_type: str = "list"
+        self,
+        sentence: str,
+        padding: bool = True,
+        indiv_char: bool = True,
+        return_type: str = "list",
     ) -> dict[str, list]:
         if padding:
             sentence = self.pad(sentence)
@@ -126,7 +135,7 @@ class Featurizer:
         if return_type == "list":
             return {
                 "X": all_features_list,
-                "Y": [str(label) for label in all_labels_int]
+                "Y": [str(label) for label in all_labels_int],
             }
         else:
             return {
@@ -134,7 +143,7 @@ class Featurizer:
                     {key: 1 for key in feature_list}
                     for feature_list in all_features_list
                 ],
-                "Y": all_labels_int
+                "Y": all_labels_int,
             }
 
 

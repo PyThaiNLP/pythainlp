@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Tokenzier classes for ULMFiT
-"""
+"""Tokenzier classes for ULMFiT"""
 
 from __future__ import annotations
 
@@ -63,7 +62,7 @@ class ThaiTokenizer(BaseTokenizer):
              ' ', 'ภาวนามยปัญญา']
 
         """
-        return thai2fit_tokenizer().word_tokenize(text)
+        return thai2fit_tokenizer().word_tokenize(text)  # type: ignore[no-any-return]
 
     def add_special_cases(self, toks):
         pass

@@ -26,13 +26,13 @@ class LTW2VAug:
         return word_tokenize(text, engine="newmm")
 
     def load_w2v(self):  # insert substitute
-        """Load LTW2V's word2vec model
-        """
-        self.aug = Word2VecAug(self.ltw2v_wv, self.tokenizer, type="binary")
+        """Load LTW2V's word2vec model"""
+        ltw2v_wv = self.ltw2v_wv or ""
+        self.aug = Word2VecAug(ltw2v_wv, self.tokenizer, type="binary")
 
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
-    ) -> list[tuple[str]]:
+    ) -> list[tuple[str, ...]]:
         """Text Augment using word2vec from Thai2Fit
 
         :param str sentence: Thai sentence

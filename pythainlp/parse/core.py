@@ -104,7 +104,11 @@ def dependency_parsing(
         elif engine == "transformers_ud":
             from pythainlp.parse.transformers_ud import Parse  # type: ignore[assignment]  # noqa: I001
 
-            _tagger = Parse(model=model if model else "KoichiYasuoka/deberta-base-thai-ud-head")
+            _tagger = Parse(
+                model=model
+                if model
+                else "KoichiYasuoka/deberta-base-thai-ud-head"
+            )
         elif engine == "spacy_thai":
             from pythainlp.parse.spacy_thai_engine import Parse  # type: ignore[assignment]  # noqa: I001
 
@@ -112,10 +116,14 @@ def dependency_parsing(
         elif engine == "ud_goeswith":
             from pythainlp.parse.ud_goeswith import Parse  # type: ignore[assignment]  # noqa: I001
 
-            _tagger = Parse(model=model if model else "KoichiYasuoka/deberta-base-thai-ud-goeswith")
+            _tagger = Parse(
+                model=model
+                if model
+                else "KoichiYasuoka/deberta-base-thai-ud-goeswith"
+            )
         else:
             raise NotImplementedError("The engine doesn't support.")
 
     _tagger_name = engine
 
-    return _tagger(text, tag=tag)  # type: ignore[no-any-return]
+    return _tagger(text, tag=tag)  # type: ignore[misc,no-any-return]

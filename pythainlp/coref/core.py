@@ -9,7 +9,9 @@ _MODEL = None
 
 
 def coreference_resolution(
-    texts: Union[str, list[str]], model_name: str = "han-coref-v1.0", device: str = "cpu"
+    texts: Union[str, list[str]],
+    model_name: str = "han-coref-v1.0",
+    device: str = "cpu",
 ) -> list[dict]:
     """Coreference Resolution
 

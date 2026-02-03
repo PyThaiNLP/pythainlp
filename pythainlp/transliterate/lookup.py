@@ -40,8 +40,7 @@ def follow_rtgs(text: str) -> Optional[bool]:
 
 
 def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
-    """Romanize one word. Look up first, call `fallback_func` if not found.
-    """
+    """Romanize one word. Look up first, call `fallback_func` if not found."""
     try:
         # try to get 0-th idx of look up result, simply ignore other possible variations.
         # not found means no mapping.

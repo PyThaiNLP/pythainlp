@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thank https://dev.to/ton_ami/text-data-augmentation-synonym-replacement-4h8l
-"""
+"""Thank https://dev.to/ton_ami/text-data-augmentation-synonym-replacement-4h8l"""
 
 from __future__ import annotations
 
@@ -13,7 +12,7 @@ __all__ = [
 
 import itertools
 from collections import OrderedDict
-from typing import Optional
+from typing import Callable, Optional
 
 from nltk.corpus import wordnet as wn
 
@@ -117,14 +116,16 @@ def postype2wordnet(pos: str, corpus: str):
 
 
 class WordNetAug:
-    """Text Augment using wordnet
-    """
+    """Text Augment using wordnet"""
 
     def __init__(self):
         pass
 
     def find_synonyms(
-        self, word: str, pos: Optional[str] = None, postag_corpus: str = "orchid"
+        self,
+        word: str,
+        pos: Optional[str] = None,
+        postag_corpus: str = "orchid",
     ) -> list[str]:
         """Find synonyms using wordnet
 
@@ -156,7 +157,7 @@ class WordNetAug:
     def augment(
         self,
         sentence: str,
-        tokenize: object = word_tokenize,
+        tokenize: Callable[[str], list[str]] = word_tokenize,
         max_syn_sent: int = 6,
         postag: bool = True,
         postag_corpus: str = "orchid",
@@ -187,7 +188,7 @@ class WordNetAug:
              ('เรา', 'ชอบ', 'ไปยัง', 'รร.')]
         """
         new_sentences = []
-        self.list_words = tokenize(sentence)
+        self.list_words = word_tokenize(sentence)
         self.list_synonym = []
         self.p_all = 1
         if postag:
@@ -210,5 +211,5 @@ class WordNetAug:
         if max_syn_sent > self.p_all:
             max_syn_sent = self.p_all
         for x in list(itertools.product(*self.list_synonym))[0:max_syn_sent]:
-            new_sentences.append(x)
+            new_sentences.append(list(x))
         return new_sentences

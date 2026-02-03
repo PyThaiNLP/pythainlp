@@ -12,5 +12,5 @@ class Thai_NNER:
     def __init__(self, path_model=get_corpus_path("thai_nner", "1.0")) -> None:
         self.model = NNER(path_model=path_model)
 
-    def tag(self, text) -> tuple[list[str], list[dict]]:
-        return self.model.get_tag(text)
+    def tag(self, text) -> tuple[list[str], list[dict[str, str]]]:
+        return self.model.get_tag(text)  # type: ignore[no-any-return]

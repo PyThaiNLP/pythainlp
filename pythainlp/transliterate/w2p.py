@@ -122,9 +122,9 @@ class Thai_W2P:
             h = self._grucell(x[:, t, :], h, w_ih, w_hh, b_ih, b_hh)  # (b, h)
             outputs[:, t, ::] = h
 
-        return outputs
+        return outputs  # type: ignore[no-any-return]
 
-    def _encode(self, word: str) -> np.ndarray:  # type: ignore[type-arg]
+    def _encode(self, word: str) -> np.ndarray:
         chars = list(word) + ["</s>"]
         x = [self.g2idx.get(char, self.g2idx["<unk>"]) for char in chars]
         x = np.take(self.enc_emb, np.expand_dims(x, 0), axis=0)

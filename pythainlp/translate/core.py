@@ -13,8 +13,7 @@ if TYPE_CHECKING:
 
 
 class Translate:
-    """Machine Translation
-    """
+    """Machine Translation"""
 
     def __init__(
         self,
@@ -105,7 +104,7 @@ class Translate:
         :rtype: str
         """
         if self.engine == "small100":
-            return self.model.translate(text, tgt_lang=self.target_lang)
+            return self.model.translate(text, tgt_lang=self.target_lang)  # type: ignore[call-arg]
         return self.model.translate(text)
 
 

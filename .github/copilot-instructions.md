@@ -6,6 +6,11 @@
       <https://github.com/PyThaiNLP/pythainlp/blob/dev/tests/README.md>.
       The document list test categories, their dependency sets,
       and test naming conventions.
+- [ ] Use reStructuredText for docstring (PEP 287), targetting Sphinx.
+- [ ] When possible, follow NLTK established convention of submodule
+      name (tend to be a verb or a generic noun), function name, and
+      configuration. Communicate this to the users during code review.
+      See <https://www.nltk.org/py-modindex.html>.
 
 ## Project contribution guidelines
 
@@ -185,6 +190,21 @@
       file I/O, network I/O, etc.
 - [ ] Use type hints for function/method signatures
       and variable declarations as much as possible.
+  - [ ] Follow best practices and standard Python type hint patterns.
+  - [ ] Use mypy as an assistant.
+    - [ ] mypy is in "dev" optional dependency. 
+    - [ ] Sometimes mypy may report errors wrongly due to cache issues.
+          Try to reset the cache if unexpected errors occured.
+  - [ ] Use pyright, pyrefly, and pytype for second opinions.
+  - [ ] When insert typing imports, put it in appropriate location and order.
+        Use "if TYPE_CHECKING import" block when possible.
+  - [ ] Try to find type information for external libraries:
+    - [ ] Check if type stub is available and install it.
+    - [ ] Check if source code is available and analyze it for correct types.
+  - [ ] Recheck necessity of casting.
+  - [ ] Recheck necessity of `# noqa:` and `# type: ignore`.
+  - [ ] Recheck docstring and documentation consistency with the code;
+        They should match the updated type hints.
 - [ ] requires-python in pyproject.toml should reflect the minimum
       Python version supported by the project.
 - [ ] Do not introduce syntax or features that are not supported
@@ -196,8 +216,13 @@
       runtime type inspection tools, documentation generators, and static
       analysis tools.
       For example, typing.get_type_hints() should work properly.
+- [ ] Do not allow the use of assert in production code
+      (it is only allowed for testing and debugging).
 - [ ] Do not use mutable default arguments in function/method definitions.
 - [ ] Do not use wildcard imports (from module import *).
+- [ ] When reordering the imports, be careful not to (re-)introduce circular
+      import. Read comments near imports to get more information.
+- [ ] Remove unused imports.
 - [ ] Remove any trailing whitespace in the Python file.
 - [ ] Make the package zip-safe if possible.
 - [ ] Be mindful about choice of data structures.
@@ -208,6 +233,7 @@
       `collections.abc` modules.
       Use the most appropriate data structure for the specific use case
       to optimize performance and memory usage.
+- [ ] Recheck formatting with Ruff.
 
 ## JSON
 

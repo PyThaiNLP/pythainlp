@@ -123,7 +123,7 @@ class NNER:
 
         self.engine = Thai_NNER()
 
-    def tag(self, text: str) -> tuple[list[str], list[dict[Any, Any]]]:
+    def tag(self, text: str) -> tuple[list[str], list[dict[str, Any]]]:
         """This function tags nested named entities.
 
         :param str text: text in Thai to be tagged

@@ -133,7 +133,7 @@ class WordNetAug:
         :param Optional[str] pos: part-of-speech type. Default is None.
         :param str postag_corpus: name of POS tag corpus
         :return: list of synonyms
-        :rtype: List[str]
+        :rtype: list[str]
         """
         self.synonyms = []
         if pos is None:
@@ -171,7 +171,7 @@ class WordNetAug:
         :param str postag_corpus: name of POS tag corpus
 
         :return: list of synonyms
-        :rtype: List[Tuple[str]]
+        :rtype: list[list[str]]
 
         :Example:
         ::

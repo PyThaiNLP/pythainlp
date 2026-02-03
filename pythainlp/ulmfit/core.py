@@ -109,7 +109,7 @@ def process_thai(
     :param list[func]  post_rules: rules to apply after tokenizations
 
     :return: a list of cleaned tokenized texts
-    :rtype: list[str]
+    :rtype: Collection[str]
 
 
     :Note:

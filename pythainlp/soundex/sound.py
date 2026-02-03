@@ -61,7 +61,7 @@ def audio_vector(word: str) -> list[list[int]]:
 
     :param str word: Thai word
     :return: List of features from panphon
-    :rtype: List[List[int]]
+    :rtype: list[list[int]]
 
     :Example:
     ::
@@ -80,7 +80,7 @@ def word_approximation(word: str, list_word: list[str]) -> list[float]:
     :param str word: Thai word
     :param str list_word: Thai word
     :return: List of approximation of words (The smaller the value, the closer)
-    :rtype: List[float]
+    :rtype: list[float]
 
     :Example:
     ::

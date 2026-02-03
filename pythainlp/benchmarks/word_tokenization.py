@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import re
 import sys
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -40,7 +41,7 @@ def _f1(precision: float, recall: float) -> float:
     return 2 * precision * recall / (precision + recall)
 
 
-def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
+def _flatten_result(my_dict: dict, sep: str = ":") -> dict[str, Any]:
     """Flatten two-dimension dictionary.
 
     Use keys in the first dimension as a prefix for keys in the second dimension.
@@ -54,7 +55,7 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict:
     :param str sep: separator between the two keys (default: ":")
 
     :return: a one-dimension dictionary with keys combined
-    :rtype: dict[str, Union[float, str]]
+    :rtype: dict[str, Any]
     """
     return {
         f"{k1}{sep}{k2}": v
@@ -73,7 +74,7 @@ def benchmark(ref_samples: list[str], samples: list[str]) -> pd.DataFrame:
     :param list[str] samples: samples that we want to evaluate
 
     :return: dataframe with row x col = len(samples) x len(metrics)
-    :rtype: pandas.DataFrame
+    :rtype: pd.DataFrame
     """
     results = []
     for i, (r, s) in enumerate(zip(ref_samples, samples)):
@@ -129,7 +130,7 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
     return txt
 
 
-def compute_stats(ref_sample: str, raw_sample: str) -> dict:
+def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, Any]:
     """Compute statistics for tokenization quality
 
     These statistics include:
@@ -146,7 +147,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     :param str samples: samples that we want to evaluate
 
     :return: metrics at character- and word-level and indicators of correctly tokenized words
-    :rtype: dict[str, Union[float, str]]
+    :rtype: dict[str, Any]
     """
     ref_sample_arr = _binary_representation(ref_sample)
     sample_arr = _binary_representation(raw_sample)
@@ -235,7 +236,7 @@ def _binary_representation(txt: str, verbose: bool = False) -> np.ndarray:
     return bin_rept
 
 
-def _find_word_boundaries(bin_reps) -> list:
+def _find_word_boundaries(bin_reps) -> list[tuple[int, int]]:
     """Find the starting and ending location of each word.
 
     :param str bin_reps: binary representation of a text

@@ -120,7 +120,7 @@ def gen_sentence(
     :param bool duplicate: allow duplicate words in sentence
 
     :return: list words or str words
-    :rtype: List[str], str
+    :rtype: list[str], str
 
     :Example:
     ::

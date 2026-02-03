@@ -12,7 +12,7 @@ from typing import Optional, Union
 
 from pythainlp.corpus import get_corpus_path
 
-__all__ = ["ThaiNNER", "get_top_level_entities"]
+__all__ = ["ThaiNNER"]
 
 
 def _is_contained_in(entity: dict, container: dict) -> bool:

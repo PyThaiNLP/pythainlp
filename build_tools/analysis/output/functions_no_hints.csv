@@ -1,10 +1,5 @@
 Function Name,Submodule,Scope,Priority,References,Test Suite,File,Line
 pythainlp.corpus.util.tokenize,corpus,public,medium,991,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/util.py,136
-pythainlp.augment.lm.wangchanberta.Thai2transformersAug.__init__,augment,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/lm/wangchanberta.py,10
-pythainlp.augment.word2vec.ltw2v.LTW2VAug.__init__,augment,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/ltw2v.py,18
-pythainlp.augment.word2vec.thai2fit.Thai2fitAug.__init__,augment,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/thai2fit.py,18
-pythainlp.augment.wordnet.WordNetAug.__init__,augment,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/wordnet.py,121
-pythainlp.generate.wangchanglm.WangChanGLM.__init__,generate,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/generate/wangchanglm.py,12
 pythainlp.khavee.core.KhaveeVerifier.__init__,khavee,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/khavee/core.py,15
 pythainlp.phayathaibert.core.ThaiTextProcessor.__init__,phayathaibert,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/phayathaibert/core.py,25
 pythainlp.soundex.complete_soundex.CompleteSoundex.__init__,soundex,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/soundex/complete_soundex.py,46
@@ -23,7 +18,6 @@ pythainlp.transliterate.thaig2p.Attn.__init__,transliterate,public,medium,113,un
 pythainlp.transliterate.thaig2p.AttentionDecoder.__init__,transliterate,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thaig2p.py,224
 pythainlp.transliterate.thaig2p.Seq2Seq.__init__,transliterate,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thaig2p.py,274
 pythainlp.transliterate.w2p.Thai_W2P.__init__,transliterate,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/w2p.py,52
-pythainlp.util.trie.Node.__init__,util,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/util/trie.py,52
 pythainlp.transliterate.thai2rom_onnx.Seq2Seq_ONNX.run,transliterate,public,medium,53,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom_onnx.py,115
 pythainlp.transliterate.thai2rom.Encoder.forward,transliterate,public,medium,15,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,119
 pythainlp.transliterate.thai2rom.Attn.forward,transliterate,public,medium,15,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,178
@@ -35,8 +29,6 @@ pythainlp.transliterate.thaig2p.AttentionDecoder.forward,transliterate,public,me
 pythainlp.transliterate.thaig2p.Seq2Seq.forward,transliterate,public,medium,15,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thaig2p.py,301
 pythainlp.tokenize.thai2fit.thai2fit_tokenizer,tokenize,public,medium,12,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/thai2fit.py,12
 pythainlp.ulmfit.core.merge_wgts,ulmfit,public,medium,9,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/ulmfit/core.py,232
-pythainlp.augment.word2vec.ltw2v.LTW2VAug.load_w2v,augment,public,medium,6,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/ltw2v.py,28
-pythainlp.augment.word2vec.thai2fit.Thai2fitAug.load_w2v,augment,public,medium,6,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/thai2fit.py,29
 pythainlp.transliterate.thai2rom.Seq2Seq.create_mask,transliterate,public,medium,6,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,284
 pythainlp.transliterate.thai2rom_onnx.Seq2Seq_ONNX.create_mask,transliterate,public,medium,6,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom_onnx.py,111
 pythainlp.transliterate.thaig2p.Seq2Seq.create_mask,transliterate,public,medium,6,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thaig2p.py,297

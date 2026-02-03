@@ -2,15 +2,10 @@ Function Name,Submodule,Scope,Priority,Params Hinted,Has Return,References,Test 
 pythainlp.transliterate.thaig2p_v2.transliterate,transliterate,public,medium,1/2,True,127,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thaig2p_v2.py,41
 pythainlp.transliterate.umt5_thaig2p.transliterate,transliterate,public,medium,1/2,True,127,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/umt5_thaig2p.py,41
 pythainlp.transliterate.wunsen.WunsenTransliterate.transliterate,transliterate,public,medium,5/5,False,127,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/wunsen.py,37
-pythainlp.translate.en_th.EnThTranslator.__init__,translate,public,medium,1/1,False,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/translate/en_th.py,68
-pythainlp.translate.en_th.ThEnTranslator.__init__,translate,public,medium,1/1,False,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/translate/en_th.py,124
 pythainlp.translate.tokenization_small100.SMALL100Tokenizer.__init__,translate,public,medium,1/11,True,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py,125
 pythainlp.transliterate.thaig2p_v2.ThaiG2P.__init__,transliterate,public,medium,1/1,False,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thaig2p_v2.py,27
 pythainlp.transliterate.umt5_thaig2p.Umt5ThaiG2P.__init__,transliterate,public,medium,1/1,False,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/umt5_thaig2p.py,27
-pythainlp.util.trie.Trie.__init__,util,public,medium,1/1,False,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/util/trie.py,56
-pythainlp.wangchanberta.core.ThaiNameTagger.__init__,wangchanberta,public,medium,2/2,False,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py,35
 pythainlp.util.date.convert_years,util,public,medium,1/3,True,24,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/util/date.py,119
-pythainlp.generate.wangchanglm.WangChanGLM.load_model,generate,public,medium,6/7,False,18,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/generate/wangchanglm.py,26
 pythainlp.util.emojiconv.emoji_to_thai,util,public,medium,1/2,True,15,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/util/emojiconv.py,1835
 pythainlp.util.date.thai_strptime,util,public,medium,4/5,False,12,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/util/date.py,212
 pythainlp.transliterate.thai2rom.ThaiTransliterator._prepare_sequence_in,transliterate,private,low,1/1,False,12,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,61

@@ -3,16 +3,16 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from transformers import (
-    CamembertTokenizer,
-    pipeline,
-)
-
 model_name = "airesearch/wangchanberta-base-att-spm-uncased"
 
 
 class Thai2transformersAug:
     def __init__(self):
+        from transformers import (
+            CamembertTokenizer,
+            pipeline,
+        )
+
         self.model_name = "airesearch/wangchanberta-base-att-spm-uncased"
         self.target_tokenizer = CamembertTokenizer
         self.tokenizer = CamembertTokenizer.from_pretrained(

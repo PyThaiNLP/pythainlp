@@ -1,12 +1,12 @@
 {
   "statistics": {
     "total": 720,
-    "complete": 669,
-    "incomplete": 14,
-    "none": 37,
-    "pct_complete": 92.91666666666667,
-    "pct_incomplete": 1.9444444444444444,
-    "pct_none": 5.138888888888888
+    "complete": 686,
+    "incomplete": 12,
+    "none": 22,
+    "pct_complete": 95.27777777777777,
+    "pct_incomplete": 1.6666666666666667,
+    "pct_none": 3.0555555555555554
   },
   "by_submodule": {
     "__main__": {
@@ -19,121 +19,121 @@
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "augment": {
       "complete": 29,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 9
     },
     "benchmarks": {
       "complete": 7,
       "incomplete": 1,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "chat": {
       "complete": 4,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "classify": {
       "complete": 5,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "cli": {
       "complete": 21,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "coref": {
       "complete": 4,
       "incomplete": 0,
       "none": 1,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "corpus": {
       "complete": 69,
       "incomplete": 1,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "el": {
       "complete": 5,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "generate": {
       "complete": 13,
       "incomplete": 2,
       "none": 0,
-      "mypy_errors": 10
+      "mypy_errors": 12
     },
     "khavee": {
       "complete": 8,
       "incomplete": 0,
       "none": 1,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "lm": {
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "morpheme": {
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "parse": {
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "phayathaibert": {
       "complete": 18,
       "incomplete": 0,
       "none": 1,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "soundex": {
       "complete": 27,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "spell": {
       "complete": 43,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "summarize": {
       "complete": 17,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 9
+      "mypy_errors": 11
     },
     "tag": {
       "complete": 68,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 7
+      "mypy_errors": 9
     },
     "tokenize": {
       "complete": 68,
       "incomplete": 0,
       "none": 5,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "tokenizeicu": {
       "complete": 3,
@@ -145,19 +145,19 @@
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "translate": {
       "complete": 39,
       "incomplete": 3,
       "none": 2,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "transliterate": {
-      "complete": 53,
-      "incomplete": 4,
-      "none": 18,
-      "mypy_errors": 7
+      "complete": 70,
+      "incomplete": 2,
+      "none": 3,
+      "mypy_errors": 9
     },
     "transliterateicu": {
       "complete": 1,
@@ -169,142 +169,34 @@
       "complete": 21,
       "incomplete": 0,
       "none": 4,
-      "mypy_errors": 10
+      "mypy_errors": 12
     },
     "util": {
       "complete": 105,
       "incomplete": 3,
       "none": 1,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "wangchanberta": {
       "complete": 5,
       "incomplete": 0,
       "none": 4,
-      "mypy_errors": 6
+      "mypy_errors": 8
     },
     "word_vector": {
       "complete": 7,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 8
+      "mypy_errors": 10
     },
     "wsd": {
       "complete": 4,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 6
+      "mypy_errors": 8
     }
   },
   "functions_no_hints": [
-    {
-      "name": "pythainlp.transliterate.thai2rom.ThaiTransliterator.__init__",
-      "scope": "public",
-      "references": 113,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py",
-      "line": 22
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom.Encoder.__init__",
-      "scope": "public",
-      "references": 113,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py",
-      "line": 101
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom.Attn.__init__",
-      "scope": "public",
-      "references": 113,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py",
-      "line": 165
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom.AttentionDecoder.__init__",
-      "scope": "public",
-      "references": 113,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py",
-      "line": 211
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom.Seq2Seq.__init__",
-      "scope": "public",
-      "references": 113,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py",
-      "line": 261
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom_onnx.ThaiTransliterator_ONNX.__init__",
-      "scope": "public",
-      "references": 113,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom_onnx.py",
-      "line": 21
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom_onnx.Seq2Seq_ONNX.__init__",
-      "scope": "public",
-      "references": 113,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom_onnx.py",
-      "line": 91
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom_onnx.Seq2Seq_ONNX.run",
-      "scope": "public",
-      "references": 53,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom_onnx.py",
-      "line": 115
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom.Encoder.forward",
-      "scope": "public",
-      "references": 15,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py",
-      "line": 119
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom.Attn.forward",
-      "scope": "public",
-      "references": 15,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py",
-      "line": 178
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom.AttentionDecoder.forward",
-      "scope": "public",
-      "references": 15,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py",
-      "line": 233
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom.Seq2Seq.forward",
-      "scope": "public",
-      "references": 15,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py",
-      "line": 288
-    },
     {
       "name": "pythainlp.ulmfit.core.merge_wgts",
       "scope": "public",
@@ -315,24 +207,6 @@
       "line": 232
     },
     {
-      "name": "pythainlp.transliterate.thai2rom.Seq2Seq.create_mask",
-      "scope": "public",
-      "references": 6,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py",
-      "line": 284
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom_onnx.Seq2Seq_ONNX.create_mask",
-      "scope": "public",
-      "references": 6,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom_onnx.py",
-      "line": 111
-    },
-    {
       "name": "pythainlp.tokenize.multi_cut.serialize",
       "scope": "public",
       "references": 4,
@@ -340,15 +214,6 @@
       "priority": "medium",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/multi_cut.py",
       "line": 67
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom.Encoder.init_hidden",
-      "scope": "public",
-      "references": 4,
-      "test_suite": "unknown",
-      "priority": "medium",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py",
-      "line": 153
     },
     {
       "name": "pythainlp.ulmfit.tokenizer.ThaiTokenizer.add_special_cases",
@@ -575,28 +440,6 @@
       "priority": "medium",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/util/date.py",
       "line": 212
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom.ThaiTransliterator._prepare_sequence_in",
-      "scope": "private",
-      "params": "1/1",
-      "return": false,
-      "references": 12,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py",
-      "line": 61
-    },
-    {
-      "name": "pythainlp.transliterate.thai2rom_onnx.ThaiTransliterator_ONNX._prepare_sequence_in",
-      "scope": "private",
-      "params": "1/1",
-      "return": false,
-      "references": 12,
-      "test_suite": "unknown",
-      "priority": "low",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom_onnx.py",
-      "line": 59
     },
     {
       "name": "pythainlp.transliterate.thaig2p.ThaiG2P._prepare_sequence_in",

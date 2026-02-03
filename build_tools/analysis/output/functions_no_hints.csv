@@ -1,21 +1,6 @@
 Function Name,Submodule,Scope,Priority,References,Test Suite,File,Line
-pythainlp.transliterate.thai2rom.ThaiTransliterator.__init__,transliterate,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,22
-pythainlp.transliterate.thai2rom.Encoder.__init__,transliterate,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,101
-pythainlp.transliterate.thai2rom.Attn.__init__,transliterate,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,165
-pythainlp.transliterate.thai2rom.AttentionDecoder.__init__,transliterate,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,211
-pythainlp.transliterate.thai2rom.Seq2Seq.__init__,transliterate,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,261
-pythainlp.transliterate.thai2rom_onnx.ThaiTransliterator_ONNX.__init__,transliterate,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom_onnx.py,21
-pythainlp.transliterate.thai2rom_onnx.Seq2Seq_ONNX.__init__,transliterate,public,medium,113,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom_onnx.py,91
-pythainlp.transliterate.thai2rom_onnx.Seq2Seq_ONNX.run,transliterate,public,medium,53,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom_onnx.py,115
-pythainlp.transliterate.thai2rom.Encoder.forward,transliterate,public,medium,15,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,119
-pythainlp.transliterate.thai2rom.Attn.forward,transliterate,public,medium,15,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,178
-pythainlp.transliterate.thai2rom.AttentionDecoder.forward,transliterate,public,medium,15,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,233
-pythainlp.transliterate.thai2rom.Seq2Seq.forward,transliterate,public,medium,15,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,288
 pythainlp.ulmfit.core.merge_wgts,ulmfit,public,medium,9,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/ulmfit/core.py,232
-pythainlp.transliterate.thai2rom.Seq2Seq.create_mask,transliterate,public,medium,6,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,284
-pythainlp.transliterate.thai2rom_onnx.Seq2Seq_ONNX.create_mask,transliterate,public,medium,6,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom_onnx.py,111
 pythainlp.tokenize.multi_cut.serialize,tokenize,public,medium,4,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/multi_cut.py,67
-pythainlp.transliterate.thai2rom.Encoder.init_hidden,transliterate,public,medium,4,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py,153
 pythainlp.ulmfit.tokenizer.ThaiTokenizer.add_special_cases,ulmfit,public,medium,4,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/ulmfit/tokenizer.py,67
 pythainlp.phayathaibert.core.ThaiTextProcessor._replace_rep,phayathaibert,private,low,8,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/phayathaibert/core.py,129
 pythainlp.ulmfit.preprocess._replace_rep,ulmfit,private,low,8,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/ulmfit/preprocess.py,104

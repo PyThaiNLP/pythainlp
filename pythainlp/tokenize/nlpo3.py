@@ -60,7 +60,7 @@ def load_dict(file_path: str, dict_name: str) -> bool:
     msg, success = nlpo3_load_dict(file_path=file_path, dict_name=dict_name)
     if not success:
         print(msg, file=stderr)
-    return success  # type: ignore[no-any-return]
+    return success
 
 
 def segment(
@@ -91,7 +91,7 @@ def segment(
     if custom_dict == _NLPO3_DEFAULT_DICT_NAME:
         _ensure_default_dict_loaded()
 
-    return nlpo3_segment(  # type: ignore[no-any-return]
+    return nlpo3_segment(
         text=text,
         dict_name=custom_dict,
         safe=safe_mode,

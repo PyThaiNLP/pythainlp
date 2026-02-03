@@ -16,7 +16,7 @@ from attacut import Tokenizer
 
 
 class AttacutTokenizer:
-    def __init__(self, model="attacut-sc"):
+    def __init__(self, model: str = "attacut-sc") -> None:
         self._MODEL_NAME = "attacut-sc"
 
         if model == "attacut-c":

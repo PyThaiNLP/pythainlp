@@ -39,7 +39,7 @@ class ThaiG2P:
 
     def __init__(self) -> None:
         # get the model, download it if it's not available locally
-        self.__model_filename: str = get_corpus_path(_MODEL_NAME)
+        self.__model_filename: str = get_corpus_path(_MODEL_NAME)  # type: ignore[assignment]
 
         loader = torch.load(self.__model_filename, map_location=device)
 
@@ -114,7 +114,11 @@ class ThaiG2P:
 
 class Encoder(nn.Module):
     def __init__(
-        self, vocabulary_size: int, embedding_size: int, hidden_size: int, dropout: float = 0.5
+        self,
+        vocabulary_size: int,
+        embedding_size: int,
+        hidden_size: int,
+        dropout: float = 0.5,
     ) -> None:
         """Constructor"""
         super().__init__()
@@ -131,7 +135,11 @@ class Encoder(nn.Module):
 
         self.dropout: nn.Dropout = nn.Dropout(dropout)
 
-    def forward(self, sequences: torch.Tensor, sequences_lengths: Union[NDArray, list[int]]) -> tuple[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
+    def forward(
+        self,
+        sequences: torch.Tensor,
+        sequences_lengths: Union[NDArray, list[int]],
+    ) -> tuple[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
         # sequences: (batch_size, sequence_length=MAX_LENGTH)
         # sequences_lengths: (batch_size)
 
@@ -167,7 +175,9 @@ class Encoder(nn.Module):
 
         return sequences_output, self.hidden
 
-    def init_hidden(self, batch_size: int) -> tuple[torch.Tensor, torch.Tensor]:
+    def init_hidden(
+        self, batch_size: int
+    ) -> tuple[torch.Tensor, torch.Tensor]:
         h_0 = torch.zeros(
             [2, batch_size, self.hidden_size // 2], requires_grad=True
         ).to(device)
@@ -190,9 +200,16 @@ class Attn(nn.Module):
 
         elif self.method == "concat":
             self.attn = nn.Linear(self.hidden_size * 2, hidden_size)
-            self.other: nn.Parameter = nn.Parameter(torch.FloatTensor(1, hidden_size))
+            self.other: nn.Parameter = nn.Parameter(
+                torch.FloatTensor(1, hidden_size)
+            )
 
-    def forward(self, hidden: torch.Tensor, encoder_outputs: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
+    def forward(
+        self,
+        hidden: torch.Tensor,
+        encoder_outputs: torch.Tensor,
+        mask: torch.Tensor,
+    ) -> torch.Tensor:
         # Calculate energies for each encoder output
         if self.method == "dot":
             attn_energies = torch.bmm(
@@ -226,7 +243,11 @@ class Attn(nn.Module):
 
 class AttentionDecoder(nn.Module):
     def __init__(
-        self, vocabulary_size: int, embedding_size: int, hidden_size: int, dropout: float = 0.5
+        self,
+        vocabulary_size: int,
+        embedding_size: int,
+        hidden_size: int,
+        dropout: float = 0.5,
     ) -> None:
         """Constructor"""
         super().__init__()
@@ -247,7 +268,13 @@ class AttentionDecoder(nn.Module):
 
         self.dropout: nn.Dropout = nn.Dropout(dropout)
 
-    def forward(self, input_character: torch.Tensor, last_hidden: torch.Tensor, encoder_outputs: torch.Tensor, mask: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    def forward(
+        self,
+        input_character: torch.Tensor,
+        last_hidden: torch.Tensor,
+        encoder_outputs: torch.Tensor,
+        mask: torch.Tensor,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """ "Defines the forward computation of the decoder"""
         # input_character: (batch_size, 1)
         # last_hidden: (batch_size, hidden_dim)
@@ -303,7 +330,11 @@ class Seq2Seq(nn.Module):
         return mask
 
     def forward(
-        self, source_seq: torch.Tensor, source_seq_len: Union[NDArray, list[int]], target_seq: Optional[torch.Tensor], teacher_forcing_ratio: float = 0.5
+        self,
+        source_seq: torch.Tensor,
+        source_seq_len: Union[NDArray, list[int]],
+        target_seq: Optional[torch.Tensor],
+        teacher_forcing_ratio: float = 0.5,
     ) -> torch.Tensor:
         # source_seq: (batch_size, MAX_LENGTH)
         # source_seq_len: (batch_size, 1)

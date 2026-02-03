@@ -22,7 +22,7 @@ _tokenizer = CamembertTokenizer.from_pretrained(_model_name)
 
 
 class ThaiTextProcessor:
-    def __init__(self):
+    def __init__(self) -> None:
         (
             self._TK_UNK,
             self._TK_REP,

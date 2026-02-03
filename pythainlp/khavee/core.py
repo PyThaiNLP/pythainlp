@@ -12,7 +12,7 @@ from pythainlp.util import remove_tonemark, sound_syllable
 
 
 class KhaveeVerifier:
-    def __init__(self):
+    def __init__(self) -> None:
         """
         KhaveeVerifier: Thai Poetry verifier
         """

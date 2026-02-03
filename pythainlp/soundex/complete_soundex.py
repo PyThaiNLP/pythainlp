@@ -43,7 +43,7 @@ class CompleteSoundex:
     by Chalermpol  Tapsai, Phayung  Meesad, and Choochart  Haruechaiyasak (2020).
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         # Thai consonants for pattern matching
         self.thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮอ"
 

@@ -49,7 +49,7 @@ def _load_vocab():
 
 
 class Thai_W2P:
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.graphemes = hp.graphemes
         self.phonemes = hp.phonemes

@@ -28,7 +28,12 @@ class LatticeString(str):
     def __new__(cls, value, multi=None, in_dict=True):
         return str.__new__(cls, value)
 
-    def __init__(self, value, multi=None, in_dict=True):
+    def __init__(
+        self,
+        value: str,
+        multi: Optional[list[str]] = None,
+        in_dict: bool = True,
+    ) -> None:
         self.unique = True
         if multi:
             self.multi = list(multi)

@@ -24,7 +24,7 @@ class Umt5ThaiG2P:
     https://huggingface.co/B-K/umt5-thai-g2p-v2-0.5k
     """
 
-    def __init__(self, device: str = "cpu"):
+    def __init__(self, device: str = "cpu") -> None:
         self.pipe = pipeline(
             "text2text-generation",
             model="B-K/umt5-thai-g2p-v2-0.5k",
@@ -38,7 +38,7 @@ class Umt5ThaiG2P:
 _THAI_G2P = None
 
 
-def transliterate(text: str, device="cpu") -> str:
+def transliterate(text: str, device: str = "cpu") -> str:
     global _THAI_G2P
     if _THAI_G2P is None:
         _THAI_G2P = Umt5ThaiG2P(device=device)

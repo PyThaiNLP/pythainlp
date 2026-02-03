@@ -8,7 +8,7 @@ Nested Named Entity Recognition for Thai text.
 """
 from __future__ import annotations
 
-from typing import Any, Optional, Union
+from typing import Optional, Union
 
 from pythainlp.corpus import get_corpus_path
 
@@ -37,7 +37,7 @@ def get_top_level_entities(entities: list[dict]) -> list[dict]:
 
     In nested NER, entities can contain other entities. This function filters
     the results to return only the outermost entities that are not contained
-    within any other entity.
+    within other entity.
 
     :param list[dict] entities: List of entity dictionaries with 'span',
                                 'text', and 'entity_type' keys
@@ -102,8 +102,6 @@ class ThaiNNER:
         print(f"Tokens: {tokens}")
         print(f"Entities: {entities}")
     """
-
-    model: Any
 
     def __init__(self, path_model: Optional[str] = None) -> None:
         """Initialize ThaiNNER with model path.

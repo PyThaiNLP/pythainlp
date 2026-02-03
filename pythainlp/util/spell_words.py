@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import re
 from functools import lru_cache
-from typing import Union
+from typing import Optional
 
 from pythainlp import (
     thai_above_vowels,
@@ -113,7 +113,7 @@ def spell_syllable(text: str) -> list[str]:
     return c_only + v_only + t_only + [text]
 
 
-def spell_word(text: Union[str, None]) -> list[str]:
+def spell_word(text: Optional[str]) -> list[str]:
     """Spell out words in Thai word distribution form.
 
     :param str w: Thai words only

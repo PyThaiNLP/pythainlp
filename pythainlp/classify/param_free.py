@@ -80,7 +80,7 @@ class GzipModel:
         sorted_idx = np.argsort(np.array(disance_from_x1))
         top_k_class = self.training_data[sorted_idx[:k], 1]
         _, counts = np.unique(top_k_class, return_counts=True)
-        predict_class = top_k_class[counts.argmax()]
+        predict_class = str(top_k_class[counts.argmax()])
 
         return predict_class
 

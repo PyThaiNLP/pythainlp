@@ -21,4 +21,4 @@ def transliterate(text: str) -> str:
     :param str text: Thai text to be transliterated.
     :return: A string of Internaitonal Phonetic Alphabets indicating how the text should be pronounced.
     """
-    return _ICU_THAI_TO_LATIN.transliterate(text)
+    return str(_ICU_THAI_TO_LATIN.transliterate(text))

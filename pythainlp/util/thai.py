@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import string
 from collections import defaultdict
-from typing import Union
+from typing import Optional
 
 from pythainlp import (
     thai_above_vowels,
@@ -215,7 +215,7 @@ def display_thai_char(ch: str) -> str:
         return ch
 
 
-def thai_word_tone_detector(word: Union[str, None]) -> list[tuple[str, str]]:
+def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:
     """Thai tone detector for word.
 
     It uses pythainlp.transliterate.pronunciate for converting word to\

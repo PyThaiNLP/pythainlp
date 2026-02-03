@@ -12,12 +12,12 @@ GitHub: https://github.com/KoichiYasuoka
 from __future__ import annotations
 
 import os
-from typing import Union
+from typing import Optional, Union
 
 
 class Parse:
     def __init__(
-        self, model: str = "KoichiYasuoka/deberta-base-thai-ud-head"
+        self, model: Optional[str] = "KoichiYasuoka/deberta-base-thai-ud-head"
     ) -> None:
         from transformers import (
             AutoConfig,

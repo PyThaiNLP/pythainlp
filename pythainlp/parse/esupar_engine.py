@@ -14,7 +14,7 @@ except ImportError:
 
 
 class Parse:
-    def __init__(self, model: str = "th") -> None:
+    def __init__(self, model: Optional[str] = "th") -> None:
         if model is None:
             model = "th"
         self.nlp = esupar.load(model)

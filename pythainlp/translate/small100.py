@@ -68,7 +68,7 @@ class Small100Translator:
         self.translated = self.model.generate(
             **self.tokenizer(text, return_tensors="pt")
         )
-        decoded_list = self.tokenizer.batch_decode(
+        decoded_list: list[str] = self.tokenizer.batch_decode(
             self.translated, skip_special_tokens=True
         )
         return decoded_list[0]

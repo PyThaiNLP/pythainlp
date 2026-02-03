@@ -218,10 +218,10 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     def _convert_id_to_token(self, index: int) -> str:
         """Converts an index (integer) in a token (str) using the decoder."""
         if index in self.id_to_lang_token:
-            return self.id_to_lang_token[index]  # type: ignore[no-any-return]
+            return self.id_to_lang_token[index]
         token = self.decoder.get(index, self.unk_token)
         if token is None:
-            return self.unk_token  # type: ignore[no-any-return]
+            return self.unk_token
         return token  # type: ignore[no-any-return]
 
     def convert_tokens_to_string(self, tokens: list[str]) -> str:
@@ -257,7 +257,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
                 token_ids_0=token_ids_0,
                 token_ids_1=token_ids_1,
                 already_has_special_tokens=True,
-            )  # type: ignore[no-any-return]
+            )
 
         prefix_ones = [1] * len(self.prefix_tokens) if self.prefix_tokens else []
         suffix_ones = [1] * len(self.suffix_tokens)

@@ -11,7 +11,7 @@ GitHub: https://github.com/KoichiYasuoka
 
 from __future__ import annotations
 
-from typing import List, Union
+from typing import List, Optional, Union
 
 import numpy as np
 import torch
@@ -21,7 +21,7 @@ from transformers import AutoModelForTokenClassification, AutoTokenizer
 
 class Parse:
     def __init__(
-        self, model: str = "KoichiYasuoka/deberta-base-thai-ud-goeswith"
+        self, model: Optional[str] = "KoichiYasuoka/deberta-base-thai-ud-goeswith"
     ) -> None:
         if model is None:
             model = "KoichiYasuoka/deberta-base-thai-ud-goeswith"

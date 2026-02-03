@@ -32,7 +32,7 @@ _RE_WORD_CHAR = re.compile(r"\w")
 
 def word_detokenize(
     segments: Union[list[list[str]], list[str]], output: str = "str"
-) -> Union[list[str], str]:
+) -> Union[list[list[str]], str]:
     """Word detokenizer.
 
     Detokenizes the list of words in each sentence into text.
@@ -49,18 +49,18 @@ def word_detokenize(
         print(word_detokenize(["เรา", "เล่น"]))
         # output: เราเล่น
     """
-    list_all = []
+    list_all: list[list[str]] = []
 
     if isinstance(segments[0], str):
-        segments = [segments]
+        segments = [segments]  # type: ignore[assignment]
 
     from pythainlp import thai_characters
 
     for i, s in enumerate(segments):
-        list_sents = []
-        add_index = []
-        space_index = []
-        mark_index = []
+        list_sents: list[str] = []
+        add_index: list[int] = []
+        space_index: list[int] = []
+        mark_index: list[int] = []
         for j, w in enumerate(s):
             if j > 0:
                 # previous word
@@ -92,9 +92,9 @@ def word_detokenize(
     if output == "list":
         return list_all
 
-    text = []
-    for i in list_all:
-        text.append("".join(i))
+    text: list[str] = []
+    for sent_tokens in list_all:
+        text.append("".join(sent_tokens))
     return " ".join(text)
 
 
@@ -259,51 +259,51 @@ def word_tokenize(
 
         segments = segment(text, custom_dict, safe_mode=True)
     elif engine == "attacut":
-        from pythainlp.tokenize.attacut import segment
+        from pythainlp.tokenize.attacut import segment  # type: ignore[assignment]
 
         segments = segment(text)
     elif engine == "longest":
-        from pythainlp.tokenize.longest import segment
+        from pythainlp.tokenize.longest import segment  # type: ignore[assignment]
 
         segments = segment(text, custom_dict)
     elif engine in ("mm", "multi_cut"):
-        from pythainlp.tokenize.multi_cut import segment
+        from pythainlp.tokenize.multi_cut import segment  # type: ignore[assignment]
 
         segments = segment(text, custom_dict)
     elif engine == "deepcut":  # deepcut can optionally use dictionary
-        from pythainlp.tokenize.deepcut import segment
+        from pythainlp.tokenize.deepcut import segment  # type: ignore[assignment]
 
         if custom_dict:
-            custom_dict = list(custom_dict)
+            custom_dict = list(custom_dict)  # type: ignore[assignment]
             segments = segment(text, custom_dict)
         else:
             segments = segment(text)
     elif engine == "icu":
-        from pythainlp.tokenize.pyicu import segment
+        from pythainlp.tokenize.pyicu import segment  # type: ignore[assignment]
 
         segments = segment(text)
     elif engine == "budoux":
-        from pythainlp.tokenize.budoux import segment
+        from pythainlp.tokenize.budoux import segment  # type: ignore[assignment]
 
         segments = segment(text)
     elif engine == "nercut":
-        from pythainlp.tokenize.nercut import segment
+        from pythainlp.tokenize.nercut import segment  # type: ignore[assignment]
 
         segments = segment(text)
     elif engine == "sefr_cut":
-        from pythainlp.tokenize.sefr_cut import segment
+        from pythainlp.tokenize.sefr_cut import segment  # type: ignore[assignment]
 
         segments = segment(text)
     elif engine == "tltk":
-        from pythainlp.tokenize.tltk import segment
+        from pythainlp.tokenize.tltk import segment  # type: ignore[assignment]
 
         segments = segment(text)
     elif engine == "oskut":
-        from pythainlp.tokenize.oskut import segment
+        from pythainlp.tokenize.oskut import segment  # type: ignore[assignment]
 
         segments = segment(text)
     elif engine == "nlpo3":
-        from pythainlp.tokenize.nlpo3 import segment
+        from pythainlp.tokenize.nlpo3 import segment  # type: ignore[assignment]
 
         # Currently cannot handle custom_dict from inside word_tokenize(),
         # due to difference in type.
@@ -413,7 +413,7 @@ def sent_tokenize(
     text: Union[str, list[str]],
     engine: str = DEFAULT_SENT_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
-) -> list[str]:
+) -> Union[list[str], list[list[str]]]:
     """Sentence tokenizer.
 
     Tokenizes running text into "sentences". Supports both string and list of strings.
@@ -632,7 +632,7 @@ def paragraph_tokenize(
             It might be a typo; if not, please consult our document."""
         )
 
-    return segments
+    return segments  # type: ignore[return-value]
 
 
 def subword_tokenize(
@@ -739,7 +739,7 @@ def subword_tokenize(
     elif engine == "han_solo":
         from pythainlp.tokenize.han_solo import segment
     elif engine == "phayathai":
-        from pythainlp.phayathaibert import segment
+        from pythainlp.phayathaibert import segment  # type: ignore[assignment]
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.

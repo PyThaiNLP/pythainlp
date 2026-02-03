@@ -74,7 +74,7 @@ def synsets(word: str, pos: Optional[str] = None, lang: str = "tha") -> list[wor
         >>> synsets("แรง", pos="a", lang="tha")
         [Synset('hard.s.10'), Synset('strong.s.02')]
     """
-    return wordnet.synsets(lemma=word, pos=pos, lang=lang)
+    return wordnet.synsets(lemma=word, pos=pos, lang=lang)  # type: ignore[no-any-return]
 
 
 def synset(name_synsets: str) -> wordnet.Synset:
@@ -140,7 +140,7 @@ def all_lemma_names(pos: Optional[str] = None, lang: str = "tha") -> list[str]:
         >>> len(all_lemma_names(pos="a"))
         5277
     """
-    return wordnet.all_lemma_names(pos=pos, lang=lang)
+    return wordnet.all_lemma_names(pos=pos, lang=lang)  # type: ignore[no-any-return]
 
 
 def all_synsets(pos: Optional[str] = None) -> Iterable[wordnet.Synset]:
@@ -170,7 +170,7 @@ def all_synsets(pos: Optional[str] = None) -> Iterable[wordnet.Synset]:
         >>> next(generator)
         Synset('unable.a.01')
     """
-    return wordnet.all_synsets(pos=pos)
+    return wordnet.all_synsets(pos=pos)  # type: ignore[no-any-return]
 
 
 def langs() -> list[str]:
@@ -188,7 +188,7 @@ def langs() -> list[str]:
          'pol', 'por', 'qcn', 'slv', 'spa', 'swe', 'tha',
          'zsm']
     """
-    return wordnet.langs()
+    return wordnet.langs()  # type: ignore[no-any-return]
 
 
 def lemmas(word: str, pos: Optional[str] = None, lang: str = "tha") -> list[wordnet.Lemma]:
@@ -231,7 +231,7 @@ def lemmas(word: str, pos: Optional[str] = None, lang: str = "tha") -> list[word
         >>> lemmas("ม้วน", pos="n")
         [Lemma('roll.n.11.ม้วน')]
     """
-    return wordnet.lemmas(word, pos=pos, lang=lang)
+    return wordnet.lemmas(word, pos=pos, lang=lang)  # type: ignore[no-any-return]
 
 
 def lemma(name_synsets: str) -> wordnet.Lemma:
@@ -323,7 +323,7 @@ def path_similarity(synsets1: wordnet.Synset, synsets2: wordnet.Synset) -> float
         >>> path_similarity(obj, cat)
         0.08333333333333333
     """
-    return wordnet.path_similarity(synsets1, synsets2)
+    return wordnet.path_similarity(synsets1, synsets2)  # type: ignore[no-any-return]
 
 
 def lch_similarity(synsets1: wordnet.Synset, synsets2: wordnet.Synset) -> float:
@@ -360,7 +360,7 @@ def lch_similarity(synsets1: wordnet.Synset, synsets2: wordnet.Synset) -> float:
         >>> lch_similarity(obj, cat)
         1.1526795099383855
     """
-    return wordnet.lch_similarity(synsets1, synsets2)
+    return wordnet.lch_similarity(synsets1, synsets2)  # type: ignore[no-any-return]
 
 
 def wup_similarity(synsets1: wordnet.Synset, synsets2: wordnet.Synset) -> float:
@@ -391,7 +391,7 @@ def wup_similarity(synsets1: wordnet.Synset, synsets2: wordnet.Synset) -> float:
         >>> wup_similarity(obj, cat)
         0.35294117647058826
     """
-    return wordnet.wup_similarity(synsets1, synsets2)
+    return wordnet.wup_similarity(synsets1, synsets2)  # type: ignore[no-any-return]
 
 
 def morphy(form: str, pos: Optional[str] = None) -> str:
@@ -421,7 +421,7 @@ def morphy(form: str, pos: Optional[str] = None) -> str:
         >>> morphy("calculated")
         'calculate'
     """
-    return wordnet.morphy(form, pos=None)
+    return wordnet.morphy(form, pos=None)  # type: ignore[no-any-return]
 
 
 def custom_lemmas(tab_file, lang: str) -> None:
@@ -432,4 +432,4 @@ def custom_lemmas(tab_file, lang: str) -> None:
     :param tab_file: Tab file as a file or file-like object
     :param str lang: abbreviation of language (i.e. *eng*, *tha*).
     """
-    return wordnet.custom_lemmas(tab_file, lang)
+    return wordnet.custom_lemmas(tab_file, lang)  # type: ignore[no-any-return]

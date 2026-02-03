@@ -259,56 +259,56 @@ def word_tokenize(
 
         segments = segment(text, custom_dict, safe_mode=True)
     elif engine == "attacut":
-        from pythainlp.tokenize.attacut import segment  # type: ignore[assignment]  # noqa: I001
+        from pythainlp.tokenize.attacut import segment as attacut_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = attacut_segment(text)
     elif engine == "longest":
-        from pythainlp.tokenize.longest import segment  # type: ignore[assignment]  # noqa: I001
+        from pythainlp.tokenize.longest import segment as longest_segment  # noqa: I001
 
-        segments = segment(text, custom_dict)
+        segments = longest_segment(text, custom_dict)
     elif engine in ("mm", "multi_cut"):
-        from pythainlp.tokenize.multi_cut import segment  # type: ignore[assignment]  # noqa: I001
+        from pythainlp.tokenize.multi_cut import segment as multi_cut_segment  # noqa: I001
 
-        segments = segment(text, custom_dict)
+        segments = multi_cut_segment(text, custom_dict)
     elif engine == "deepcut":  # deepcut can optionally use dictionary
-        from pythainlp.tokenize.deepcut import segment  # type: ignore[assignment]  # noqa: I001
+        from pythainlp.tokenize.deepcut import segment as deepcut_segment  # noqa: I001
 
         if custom_dict:
             custom_dict = list(custom_dict)  # type: ignore[assignment]
-            segments = segment(text, custom_dict)
+            segments = deepcut_segment(text, custom_dict)
         else:
-            segments = segment(text)
+            segments = deepcut_segment(text)
     elif engine == "icu":
-        from pythainlp.tokenize.pyicu import segment  # type: ignore[assignment]  # noqa: I001
+        from pythainlp.tokenize.pyicu import segment as pyicu_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = pyicu_segment(text)
     elif engine == "budoux":
-        from pythainlp.tokenize.budoux import segment  # type: ignore[assignment]  # noqa: I001
+        from pythainlp.tokenize.budoux import segment as budoux_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = budoux_segment(text)
     elif engine == "nercut":
-        from pythainlp.tokenize.nercut import segment  # type: ignore[assignment]  # noqa: I001
+        from pythainlp.tokenize.nercut import segment as nercut_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = nercut_segment(text)
     elif engine == "sefr_cut":
-        from pythainlp.tokenize.sefr_cut import segment  # type: ignore[assignment]  # noqa: I001
+        from pythainlp.tokenize.sefr_cut import segment as sefrcut_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = sefrcut_segment(text)
     elif engine == "tltk":
-        from pythainlp.tokenize.tltk import segment  # type: ignore[assignment]  # noqa: I001
+        from pythainlp.tokenize.tltk import segment as tltk_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = tltk_segment(text)
     elif engine == "oskut":
-        from pythainlp.tokenize.oskut import segment  # type: ignore[assignment]  # noqa: I001
+        from pythainlp.tokenize.oskut import segment as oskut_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = oskut_segment(text)
     elif engine == "nlpo3":
-        from pythainlp.tokenize.nlpo3 import segment  # type: ignore[assignment]  # noqa: I001
+        from pythainlp.tokenize.nlpo3 import segment as nlpo3_segment  # noqa: I001
 
         # Currently cannot handle custom_dict from inside word_tokenize(),
         # due to difference in type.
         # if isinstance(custom_dict, str):
-        #    segments = segment(text, custom_dict=custom_dict)
+        #    segments = nlpo3_segment(text, custom_dict=custom_dict)
         # elif not isinstance(custom_dict, str) and not custom_dict:
         #    raise ValueError(
         #        f"""Tokenizer \"{engine}\":
@@ -317,8 +317,8 @@ def word_tokenize(
         #        See pythainlp.tokenize.nlpo3.load_dict()"""
         #    )
         # else:
-        #    segments = segment(text)
-        segments = segment(text)
+        #    segments = nlpo3_segment(text)
+        segments = nlpo3_segment(text)
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
@@ -719,13 +719,17 @@ def subword_tokenize(
     segments = []
 
     if engine == "tcc":
-        from pythainlp.tokenize.tcc import segment
+        from pythainlp.tokenize.tcc import segment as tcc_segment
+        segments = tcc_segment(text)
     elif engine == "tcc_p":
-        from pythainlp.tokenize.tcc_p import segment
+        from pythainlp.tokenize.tcc_p import segment as tcc_p_segment
+        segments = tcc_p_segment(text)
     elif engine == "etcc":
-        from pythainlp.tokenize.etcc import segment
+        from pythainlp.tokenize.etcc import segment as etcc_segment
+        segments = etcc_segment(text)
     elif engine == "wangchanberta":
-        from pythainlp.wangchanberta import segment
+        from pythainlp.wangchanberta import segment as wangchanberta_segment
+        segments = wangchanberta_segment(text)
     elif engine == "dict":  # use syllable dictionary
         words = word_tokenize(text)
         for word in words:
@@ -733,21 +737,22 @@ def subword_tokenize(
                 word_tokenize(text=word, custom_dict=syllable_dict_trie())
             )
     elif engine == "ssg":
-        from pythainlp.tokenize.ssg import segment
+        from pythainlp.tokenize.ssg import segment as ssg_segment
+        segments = ssg_segment(text)
     elif engine == "tltk":
-        from pythainlp.tokenize.tltk import syllable_tokenize as segment
+        from pythainlp.tokenize.tltk import syllable_tokenize as tltk_segment
+        segments = tltk_segment(text)
     elif engine == "han_solo":
-        from pythainlp.tokenize.han_solo import segment
+        from pythainlp.tokenize.han_solo import segment as han_solo_segment
+        segments = han_solo_segment(text)
     elif engine == "phayathai":
-        from pythainlp.phayathaibert import segment  # type: ignore[assignment]
+        from pythainlp.phayathaibert import segment as phayathai_segment
+        segments = phayathai_segment(text)
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
             It might be a typo; if not, please consult our document."""
         )
-
-    if not segments:
-        segments = segment(text)
 
     if not keep_whitespace:
         segments = strip_whitespace(segments)

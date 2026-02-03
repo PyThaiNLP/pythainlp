@@ -259,19 +259,19 @@ def word_tokenize(
 
         segments = segment(text, custom_dict, safe_mode=True)
     elif engine == "attacut":
-        from pythainlp.tokenize.attacut import segment  # type: ignore[assignment]
+        from pythainlp.tokenize.attacut import segment  # type: ignore[assignment]  # noqa: I001
 
         segments = segment(text)
     elif engine == "longest":
-        from pythainlp.tokenize.longest import segment  # type: ignore[assignment]
+        from pythainlp.tokenize.longest import segment  # type: ignore[assignment]  # noqa: I001
 
         segments = segment(text, custom_dict)
     elif engine in ("mm", "multi_cut"):
-        from pythainlp.tokenize.multi_cut import segment  # type: ignore[assignment]
+        from pythainlp.tokenize.multi_cut import segment  # type: ignore[assignment]  # noqa: I001
 
         segments = segment(text, custom_dict)
     elif engine == "deepcut":  # deepcut can optionally use dictionary
-        from pythainlp.tokenize.deepcut import segment  # type: ignore[assignment]
+        from pythainlp.tokenize.deepcut import segment  # type: ignore[assignment]  # noqa: I001
 
         if custom_dict:
             custom_dict = list(custom_dict)  # type: ignore[assignment]
@@ -279,31 +279,31 @@ def word_tokenize(
         else:
             segments = segment(text)
     elif engine == "icu":
-        from pythainlp.tokenize.pyicu import segment  # type: ignore[assignment]
+        from pythainlp.tokenize.pyicu import segment  # type: ignore[assignment]  # noqa: I001
 
         segments = segment(text)
     elif engine == "budoux":
-        from pythainlp.tokenize.budoux import segment  # type: ignore[assignment]
+        from pythainlp.tokenize.budoux import segment  # type: ignore[assignment]  # noqa: I001
 
         segments = segment(text)
     elif engine == "nercut":
-        from pythainlp.tokenize.nercut import segment  # type: ignore[assignment]
+        from pythainlp.tokenize.nercut import segment  # type: ignore[assignment]  # noqa: I001
 
         segments = segment(text)
     elif engine == "sefr_cut":
-        from pythainlp.tokenize.sefr_cut import segment  # type: ignore[assignment]
+        from pythainlp.tokenize.sefr_cut import segment  # type: ignore[assignment]  # noqa: I001
 
         segments = segment(text)
     elif engine == "tltk":
-        from pythainlp.tokenize.tltk import segment  # type: ignore[assignment]
+        from pythainlp.tokenize.tltk import segment  # type: ignore[assignment]  # noqa: I001
 
         segments = segment(text)
     elif engine == "oskut":
-        from pythainlp.tokenize.oskut import segment  # type: ignore[assignment]
+        from pythainlp.tokenize.oskut import segment  # type: ignore[assignment]  # noqa: I001
 
         segments = segment(text)
     elif engine == "nlpo3":
-        from pythainlp.tokenize.nlpo3 import segment  # type: ignore[assignment]
+        from pythainlp.tokenize.nlpo3 import segment  # type: ignore[assignment]  # noqa: I001
 
         # Currently cannot handle custom_dict from inside word_tokenize(),
         # due to difference in type.

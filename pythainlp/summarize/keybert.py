@@ -152,7 +152,7 @@ class KeyBERT:
                 [np.array(emb[0]).mean(axis=0) for emb in embs]
             )
 
-        return emb_mean
+        return emb_mean  # type: ignore[no-any-return]
 
 
 def _generate_ngrams(
@@ -172,7 +172,7 @@ def _generate_ngrams(
         f"current value={keyphrase_ngram_range}."
     )
 
-    def _join_ngram(ngrams: list[tuple[str, ...]]) -> list[str]:  # type: ignore[type-arg]
+    def _join_ngram(ngrams: list[tuple[str, ...]]) -> list[str]:
         ngrams_joined = []
         for ng in ngrams:
             joined = "".join(ng)
@@ -190,7 +190,7 @@ def _generate_ngrams(
             ngrams = [word for word in words if word.strip()]
         else:
             ngrams_tuple = zip(*[words[i:] for i in range(n)])
-            ngrams = _join_ngram(list(ngrams_tuple))  # type: ignore[arg-type]
+            ngrams = _join_ngram(list(ngrams_tuple))
 
         ngrams_cnt = Counter(ngrams)
         ngrams = [
@@ -220,10 +220,10 @@ def _rank_keywords(
         assert np.isclose(np.linalg.norm(result, axis=1), 1).all(), (
             "Cannot normalize a vector to unit vector."
         )
-        return result
+        return result  # type: ignore[no-any-return]
 
-    def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:
-        return (np.matmul(a, b.T).T).sum(axis=1)
+    def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:  # type: ignore[type-arg]
+        return (np.matmul(a, b.T).T).sum(axis=1)  # type: ignore[no-any-return]
 
     doc_vector = l2_norm(doc_vector)
     word_vectors = l2_norm(word_vectors)

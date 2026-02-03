@@ -128,7 +128,7 @@ class Thai_W2P:
             h = self._grucell(x[:, t, :], h, w_ih, w_hh, b_ih, b_hh)  # (b, h)
             outputs[:, t, ::] = h
 
-        return outputs  # type: ignore[no-any-return]
+        return outputs
 
     def _encode(self, word: str) -> np.ndarray:
         chars = list(word) + ["</s>"]

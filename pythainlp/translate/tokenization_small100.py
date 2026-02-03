@@ -203,7 +203,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     @property
     def vocab_size(self) -> int:
         # Type ignore for external library dict operations
-        return len(self.encoder) + len(self.lang_token_to_id) + self.num_madeup_words  # type: ignore[no-any-return]
+        return len(self.encoder) + len(self.lang_token_to_id) + self.num_madeup_words
 
     @property
     def tgt_lang(self) -> str:
@@ -392,7 +392,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
             )
         self.tgt_lang = tgt_lang
         inputs = self(raw_inputs, add_special_tokens=True, **extra_kwargs)
-        return inputs
+        return inputs  # type: ignore[no-any-return]
 
     def _switch_to_input_mode(self) -> None:
         self.set_lang_special_tokens(self.tgt_lang)

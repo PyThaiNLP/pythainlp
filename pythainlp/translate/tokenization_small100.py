@@ -119,7 +119,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     pretrained_vocab_files_map = PRETRAINED_VOCAB_FILES_MAP
     model_input_names = ["input_ids", "attention_mask"]
 
-    prefix_tokens: list[int] = []
+    prefix_tokens: Optional[list[int]] = []
     suffix_tokens: list[int] = []
 
     def __init__(
@@ -196,7 +196,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
     @property
     def vocab_size(self) -> int:
-        return len(self.encoder) + len(self.lang_token_to_id) + self.num_madeup_words
+        return len(self.encoder) + len(self.lang_token_to_id) + self.num_madeup_words  # type: ignore[no-any-return]
 
     @property
     def tgt_lang(self) -> str:
@@ -208,7 +208,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         self.set_lang_special_tokens(self._tgt_lang)
 
     def _tokenize(self, text: str) -> list[str]:
-        return self.sp_model.encode(text, out_type=str)
+        return self.sp_model.encode(text, out_type=str)  # type: ignore[no-any-return]
 
     def _convert_token_to_id(self, token: str) -> int:
         if token in self.lang_token_to_id:
@@ -218,15 +218,15 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     def _convert_id_to_token(self, index: int) -> str:
         """Converts an index (integer) in a token (str) using the decoder."""
         if index in self.id_to_lang_token:
-            return self.id_to_lang_token[index]
+            return self.id_to_lang_token[index]  # type: ignore[no-any-return]
         token = self.decoder.get(index, self.unk_token)
         if token is None:
-            return self.unk_token
-        return token
+            return self.unk_token  # type: ignore[no-any-return]
+        return token  # type: ignore[no-any-return]
 
     def convert_tokens_to_string(self, tokens: list[str]) -> str:
         """Converts a sequence of tokens (strings for sub-words) in a single string."""
-        return self.sp_model.decode(tokens)
+        return self.sp_model.decode(tokens)  # type: ignore[no-any-return]
 
     def get_special_tokens_mask(
         self,
@@ -257,9 +257,9 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
                 token_ids_0=token_ids_0,
                 token_ids_1=token_ids_1,
                 already_has_special_tokens=True,
-            )
+            )  # type: ignore[no-any-return]
 
-        prefix_ones = [1] * len(self.prefix_tokens)
+        prefix_ones = [1] * len(self.prefix_tokens) if self.prefix_tokens else []
         suffix_ones = [1] * len(self.suffix_tokens)
         if token_ids_1 is None:
             return prefix_ones + ([0] * len(token_ids_0)) + suffix_ones
@@ -406,9 +406,9 @@ def load_spm(
     return spm
 
 
-def load_json(path: str) -> Union[dict, list]:
+def load_json(path: str) -> Union[dict[Any, Any], list[Any]]:
     with open(path) as f:
-        return json.load(f)
+        return json.load(f)  # type: ignore[no-any-return]
 
 
 def save_json(data, path: str) -> None:

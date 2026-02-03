@@ -63,7 +63,8 @@ class ThFrTranslator:
         self.translated = self.model_thzh.generate(
             **self.tokenizer_thzh(text, return_tensors="pt", padding=True)
         )
-        return [
+        decoded_list = [
             self.tokenizer_thzh.decode(t, skip_special_tokens=True)
             for t in self.translated
-        ][0]
+        ]
+        return decoded_list[0]

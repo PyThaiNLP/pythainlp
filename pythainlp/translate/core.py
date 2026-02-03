@@ -3,7 +3,13 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Optional
+from typing import TYPE_CHECKING, Optional, Union
+
+if TYPE_CHECKING:
+    from pythainlp.translate.en_th import EnThTranslator, ThEnTranslator
+    from pythainlp.translate.small100 import Small100Translator
+    from pythainlp.translate.th_fr import ThFrTranslator
+    from pythainlp.translate.zh_th import ThZhTranslator, ZhThTranslator
 
 
 class Translate:
@@ -46,14 +52,21 @@ class Translate:
             th2en.translate("ฉันรักแมว")
             # output: I love cat.
         """
-        self.model = None
+        self.model: Union[
+            Small100Translator,
+            ThEnTranslator,
+            EnThTranslator,
+            ThZhTranslator,
+            ZhThTranslator,
+            ThFrTranslator,
+        ]
         self.engine = engine
         self.src_lang = src_lang
         self.use_gpu = use_gpu
         self.target_lang = target_lang
         self.load_model()
 
-    def load_model(self):
+    def load_model(self) -> None:
         src_lang = self.src_lang
         target_lang = self.target_lang
         use_gpu = self.use_gpu

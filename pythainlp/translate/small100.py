@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Optional
+
 from transformers import M2M100ForConditionalGeneration
 
 from .tokenization_small100 import SMALL100Tokenizer
@@ -25,7 +27,7 @@ class Small100Translator:
         self.model = M2M100ForConditionalGeneration.from_pretrained(
             self.pretrained
         )
-        self.tgt_lang = None
+        self.tgt_lang: Optional[str] = None
         if use_gpu:
             self.model = self.model.cuda()
 
@@ -66,6 +68,7 @@ class Small100Translator:
         self.translated = self.model.generate(
             **self.tokenizer(text, return_tensors="pt")
         )
-        return self.tokenizer.batch_decode(
+        decoded_list = self.tokenizer.batch_decode(
             self.translated, skip_special_tokens=True
-        )[0]
+        )
+        return decoded_list[0]

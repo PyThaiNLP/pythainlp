@@ -41,7 +41,7 @@ def _get_translate_path(model: str, *path: str) -> str:
     corpus_path = get_corpus_path(model, version="1.0")
     if corpus_path is None:
         return ""
-    return os.path.join(corpus_path, *path)  # type: ignore[arg-type]
+    return os.path.join(corpus_path, *path)
 
 
 def _download_install(name: str) -> None:
@@ -109,7 +109,7 @@ class EnThTranslator:
         """
         tokens = " ".join(self._tokenizer.tokenize(text))
         translated = self._model.translate(tokens)
-        return translated.replace(" ", "").replace("▁", " ").strip()
+        return translated.replace(" ", "").replace("▁", " ").strip()  # type: ignore[no-any-return]
 
 
 class ThEnTranslator:
@@ -168,4 +168,4 @@ class ThEnTranslator:
             # output: I love cat.
 
         """
-        return self._model.translate(text)
+        return self._model.translate(text)  # type: ignore[no-any-return]

@@ -32,7 +32,7 @@ class ThaiG2P:
         )
 
     def g2p(self, text: str) -> str:
-        return self.pipe(text)[0]["generated_text"]
+        return self.pipe(text)[0]["generated_text"]  # type: ignore[no-any-return]
 
 
 _THAI_G2P = None

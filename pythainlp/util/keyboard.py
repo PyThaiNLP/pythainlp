@@ -220,7 +220,7 @@ def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
 
     coord1 = get_char_coord(c1)
     coord2 = get_char_coord(c2)
-    distance = (
+    distance: float = (
         (coord1[0] - coord2[0]) ** 2 + (coord1[1] - coord2[1]) ** 2
     ) ** (0.5)
     if distance == 0 and c1 != c2:

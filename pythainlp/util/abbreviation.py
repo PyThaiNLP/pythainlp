@@ -45,4 +45,4 @@ def abbreviation_to_full_text(
             pip install pythainlp[abbreviation].
             """
         )
-    return _replace(text, top_k=top_k)
+    return _replace(text, top_k=top_k)  # type: ignore[no-any-return]

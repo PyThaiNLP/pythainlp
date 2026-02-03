@@ -88,7 +88,7 @@ class Unigram:
         output_str: bool,
         prob: float,
         duplicate: bool = False,
-    ):
+    ) -> Union[list[str], str]:
         words = []
         words.append(text)
         word_list = list(self._word_prob.keys())
@@ -230,7 +230,7 @@ class Trigram:
 
     def gen_sentence(
         self,
-        start_seq: str = "",
+        start_seq: Union[str, tuple[str, str]] = "",
         N: int = 4,
         prob: float = 0.001,
         output_str: bool = True,
@@ -254,14 +254,15 @@ class Trigram:
             gen.gen_sentence()
             # output: 'ยังทำตัวเป็นเซิร์ฟเวอร์คือ'
         """
+        late_word: Union[str, tuple[str, str]]
         if not start_seq:
             # Non-cryptographic use, pseudo-random generator is acceptable here
             start_seq = random.choice(self.bi_keys)  # noqa: S311
         late_word = start_seq
-        list_word = []
+        list_word: list[Union[str, tuple[str, str]]] = []
         list_word.append(start_seq)
 
-        for i in range(N):
+        for _ in range(N):
             if duplicate:
                 temp = [j for j in self.ti_keys if j[:2] == late_word]
             else:
@@ -279,11 +280,14 @@ class Trigram:
             late_word = items[1:]
             list_word.append(late_word)
 
-        listdata = []
-        for i in list_word:
-            for j in i:
-                if j not in listdata:
-                    listdata.append(j)
+        listdata: list[str] = []
+        for item in list_word:
+            if isinstance(item, tuple):
+                for j in item:
+                    if j not in listdata:
+                        listdata.append(j)
+            elif isinstance(item, str) and item not in listdata:
+                listdata.append(item)
 
         if output_str:
             return "".join(listdata)

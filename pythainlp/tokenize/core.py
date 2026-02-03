@@ -39,7 +39,7 @@ def word_detokenize(
     :param str segments: List of sentences, each with a list of words.
     :param str output: the output type (str or list)
     :return: the Thai text
-    :rtype: Union[str,List[str]]
+    :rtype: Union[list[list[str]], str]
     :Example:
     ::
 
@@ -118,7 +118,7 @@ def word_tokenize(
                                   Otherwise, formatted numeric could be wrongly separated.
 
     :return: list of words
-    :rtype: List[str]
+    :rtype: list[str]
     **Options for engine**
         * *attacut* - wrapper for
           `AttaCut <https://github.com/PyThaiNLP/attacut>`_.,
@@ -423,7 +423,7 @@ def sent_tokenize(
     :param str engine: choose among *'crfcut'*, *'whitespace'*, \
     *'whitespace+newline'*
     :return: list of split sentences
-    :rtype: list[str]
+    :rtype: Union[list[str], list[list[str]]]
     **Options for engine**
         * *crfcut* - (default) split by CRF trained on TED dataset
         * *thaisum* - The implementation of sentence segmenter from \
@@ -583,7 +583,7 @@ def paragraph_tokenize(
     :param str text: text to be tokenized
     :param str engine: the name of paragraph tokenizer
     :return: list of paragraphs
-    :rtype: List[List[str]]
+    :rtype: list[List[str]]
     **Options for engine**
         * *wtp* - split by `wtpsplitaxe <https://github.com/bminixhofer/wtpsplit>`_., \
             It supports many sizes of models. You can use ``wtp`` to use mini model, \
@@ -662,7 +662,7 @@ def subword_tokenize(
     :param str engine: the name of subword tokenizer
     :param bool keep_whitespace: keep whitespace
     :return: list of subwords
-    :rtype: List[str]
+    :rtype: list[str]
     **Options for engine**
         * *dict* - newmm word tokenizer with a syllable dictionary
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
@@ -785,7 +785,7 @@ def syllable_tokenize(
     :param str engine: the name of syllable tokenizer
     :param bool keep_whitespace: keep whitespace
     :return: list of subwords
-    :rtype: List[str]
+    :rtype: list[str]
     **Options for engine**
         * *dict* - newmm word tokenizer with a syllable dictionary
         * *han_solo* - CRF syllable segmenter for Thai that can work in the \
@@ -824,7 +824,7 @@ def display_cell_tokenize(text: str) -> list[str]:
 
     :param str text: text to be tokenized
     :return: list of display cells
-    :rtype: List[str]
+    :rtype: list[str]
     :Example:
 
     Tokenize Thai text into display cells::

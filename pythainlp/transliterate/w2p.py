@@ -58,10 +58,16 @@ class Thai_W2P:
         if self.checkpoint is None:
             download(_MODEL_NAME, version="0.2")
             self.checkpoint = get_corpus_path(_MODEL_NAME)
+            if self.checkpoint is None:
+                raise RuntimeError(
+                    f"Failed to download or locate {_MODEL_NAME} corpus"
+                )
         self._load_variables()
 
     def _load_variables(self) -> None:
-        self.variables = np.load(self.checkpoint, allow_pickle=True)  # type: ignore[arg-type]
+        if self.checkpoint is None:
+            raise RuntimeError("checkpoint path is not set")
+        self.variables = np.load(self.checkpoint, allow_pickle=True)
         # (29, 64). (len(graphemes), emb)
         self.enc_emb = self.variables.item().get("encoder.emb.weight")
         # (3*128, 64)

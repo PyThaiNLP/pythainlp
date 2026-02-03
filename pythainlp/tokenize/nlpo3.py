@@ -97,7 +97,7 @@ def segment(
     :param bool parallel_mode: Use multithread mode, defaults to False
 
     :return: list of tokens
-    :rtype: List[str]
+    :rtype: list[str]
 
     :See Also:
         * \

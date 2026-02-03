@@ -1,14 +1,14 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Summarization by frequency of words
-"""
+"""Summarization by frequency of words"""
 
 from __future__ import annotations
 
 from collections import defaultdict
 from heapq import nlargest
 from string import punctuation
+from typing import cast
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import sent_tokenize, word_tokenize
@@ -49,7 +49,10 @@ class FrequencySummarizer:
     def summarize(
         self, text: str, n: int, tokenizer: str = "newmm"
     ) -> list[str]:
-        sents = sent_tokenize(text, engine="whitespace+newline")
+        # sent_tokenize with str input returns list[str]
+        sents = cast(
+            list[str], sent_tokenize(text, engine="whitespace+newline")
+        )
         word_tokenized_sents = [
             word_tokenize(sent, engine=tokenizer) for sent in sents
         ]

@@ -60,8 +60,8 @@ class Thai_W2P:
             self.checkpoint = get_corpus_path(_MODEL_NAME)
         self._load_variables()
 
-    def _load_variables(self):
-        self.variables = np.load(self.checkpoint, allow_pickle=True)
+    def _load_variables(self) -> None:
+        self.variables = np.load(self.checkpoint, allow_pickle=True)  # type: ignore[arg-type]
         # (29, 64). (len(graphemes), emb)
         self.enc_emb = self.variables.item().get("encoder.emb.weight")
         # (3*128, 64)
@@ -122,14 +122,14 @@ class Thai_W2P:
             h = self._grucell(x[:, t, :], h, w_ih, w_hh, b_ih, b_hh)  # (b, h)
             outputs[:, t, ::] = h
 
-        return outputs
+        return outputs  # type: ignore[no-any-return]
 
     def _encode(self, word: str) -> np.ndarray:
         chars = list(word) + ["</s>"]
         x = [self.g2idx.get(char, self.g2idx["<unk>"]) for char in chars]
         x = np.take(self.enc_emb, np.expand_dims(x, 0), axis=0)
 
-        return x
+        return x  # type: ignore[no-any-return]
 
     def _short_word(self, word: str) -> Optional[str]:
         self.word = word

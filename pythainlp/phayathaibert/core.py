@@ -61,13 +61,25 @@ class ThaiTextProcessor:
         new_line = re.sub(r"\{[^a-zA-Z0-9ก-๙]+\}", "", new_line)
         new_line = re.sub(r"\[[^a-zA-Z0-9ก-๙]+\]", "", new_line)
         # artifiacts after (
-        new_line = re.sub(r"(?<=\()[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line)
-        new_line = re.sub(r"(?<=\{)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line)
-        new_line = re.sub(r"(?<=\[)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line)
+        new_line = re.sub(
+            r"(?<=\()[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
+        )
+        new_line = re.sub(
+            r"(?<=\{)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
+        )
+        new_line = re.sub(
+            r"(?<=\[)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
+        )
         # artifacts before )
-        new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\))", "", new_line)
-        new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\})", "", new_line)
-        new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\])", "", new_line)
+        new_line = re.sub(
+            r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\))", "", new_line
+        )
+        new_line = re.sub(
+            r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\})", "", new_line
+        )
+        new_line = re.sub(
+            r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\])", "", new_line
+        )
         return new_line
 
     def replace_newlines(self, text: str) -> str:
@@ -195,7 +207,9 @@ class ThaiTextAugmenter:
         )
 
         self.tokenizer = AutoTokenizer.from_pretrained(_model_name)
-        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(_model_name)
+        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(
+            _model_name
+        )
         self.model = pipeline(
             "fill-mask",
             tokenizer=self.tokenizer,
@@ -268,7 +282,9 @@ class ThaiTextAugmenter:
                     rank,
                     sample=sample,
                 )
-                processed_text = re.sub("<_>", " ", self.processor.preprocess(gen_text))
+                processed_text = re.sub(
+                    "<_>", " ", self.processor.preprocess(gen_text)
+                )
                 augment_list.append(processed_text)
         else:
             raise ValueError(
@@ -422,4 +438,4 @@ def segment(sentence: str) -> list[str]:
     if not sentence or not isinstance(sentence, str):
         return []
 
-    return _tokenizer.tokenize(sentence)
+    return _tokenizer.tokenize(sentence)  # type: ignore[no-any-return]

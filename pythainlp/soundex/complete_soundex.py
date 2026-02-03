@@ -28,6 +28,7 @@ Note:
         complete_soundex("ปุญญา")  # 'ปป4G0น-ยย1B0--*'
         complete_soundex("สวรรค์")  # 'ซศ1A-0-วว1Aน0-'
 """
+
 from __future__ import annotations
 
 import re
@@ -682,11 +683,14 @@ def complete_soundex_similarity(code1: str, code2: str) -> float:
     :Example:
     ::
 
-        from pythainlp.soundex import complete_soundex, complete_soundex_similarity
+        from pythainlp.soundex import (
+            complete_soundex,
+            complete_soundex_similarity,
+        )
 
         # Encode two words
         code1 = complete_soundex("ข้มขืน")  # Bitter/Forced (with tone)
-        code2 = complete_soundex("ขมขืน")   # Bitter (no tone)
+        code2 = complete_soundex("ขมขืน")  # Bitter (no tone)
 
         # Calculate similarity
         similarity = complete_soundex_similarity(code1, code2)

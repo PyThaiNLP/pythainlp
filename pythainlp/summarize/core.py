@@ -1,13 +1,12 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Text summarization and keyword extraction
-"""
+"""Text summarization and keyword extraction"""
 
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import Optional
+from typing import Optional, cast
 
 from pythainlp.summarize import (
     CPE_KMUTT_THAI_SENTENCE_SUM,
@@ -112,7 +111,8 @@ def summarize(
 
         sents = mT5Summarizer(model_size=size).summarize(text)
     else:  # if engine not found, return first n sentences
-        sents = sent_tokenize(text, engine="whitespace+newline")[:n]
+        # sent_tokenize with str input returns list[str]
+        sents = sent_tokenize(text, engine="whitespace+newline")[:n]  # type: ignore[assignment]
 
     return sents
 
@@ -197,7 +197,7 @@ def extract_keywords(
         min_df: int = 5,
         tokenizer: str = "newmm",
         stop_words: Optional[Iterable[str]] = None,
-    ):
+    ) -> list[str]:
         from pythainlp.tokenize import word_tokenize
         from pythainlp.util.keywords import rank
 
@@ -205,10 +205,13 @@ def extract_keywords(
 
         use_custom_stop_words = stop_words is not None
 
-        if use_custom_stop_words:
+        if use_custom_stop_words and stop_words is not None:
             tokens = [token for token in tokens if token not in stop_words]
 
         word_rank = rank(tokens, exclude_stopwords=not use_custom_stop_words)
+
+        if word_rank is None:
+            return []
 
         keywords = [
             kw
@@ -223,14 +226,17 @@ def extract_keywords(
     if engine == "keybert":
         from .keybert import KeyBERT
 
-        keywords = KeyBERT().extract_keywords(
-            text,
-            keyphrase_ngram_range=keyphrase_ngram_range,
-            max_keywords=max_keywords,
-            min_df=min_df,
-            tokenizer=tokenizer,
-            return_similarity=False,
-            stop_words=stop_words,
+        keywords = cast(
+            list[str],
+            KeyBERT().extract_keywords(
+                text,
+                keyphrase_ngram_range=keyphrase_ngram_range,
+                max_keywords=max_keywords,
+                min_df=min_df,
+                tokenizer=tokenizer,
+                return_similarity=False,
+                stop_words=stop_words,
+            ),
         )
     elif engine == "frequency":
         return rank_by_frequency(

@@ -272,4 +272,4 @@ def get_words_spell_suggestion(
     global _WSC
     if _WSC is None:
         _WSC = Words_Spelling_Correction()
-    return _WSC.get_word_suggestion(list_words)
+    return _WSC.get_word_suggestion(list_words)  # type: ignore[no-any-return]

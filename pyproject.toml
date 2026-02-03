@@ -433,6 +433,7 @@ module = [
     "torch.*",
     "tqdm.*",
     "transformers.*",
+    "ufal.*",
     "ufal.chu_liu_edmonds.*",
     "word2word.*",
     "wtpsplit.*",

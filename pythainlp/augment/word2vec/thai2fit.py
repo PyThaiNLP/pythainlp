@@ -24,16 +24,20 @@ class Thai2fitAug:
         :rtype: List[str]
         """
         tok = thai2fit_tokenizer()
-        return tok.word_tokenize(text)
+        return tok.word_tokenize(text)  # type: ignore[no-any-return]
 
     def load_w2v(self):
-        """Load Thai2Fit's word2vec model
-        """
+        """Load Thai2Fit's word2vec model"""
+        if self.thai2fit_wv is None:
+            raise ValueError(
+                "Thai2Fit word2vec model not found. "
+                "Please download it first using pythainlp.corpus.download('thai2fit_wv')"
+            )
         self.aug = Word2VecAug(self.thai2fit_wv, self.tokenizer, type="binary")
 
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
-    ) -> list[tuple[str]]:
+    ) -> list[tuple[str, ...]]:
         """Text Augment using word2vec from Thai2Fit
 
         :param str sentence: Thai sentence

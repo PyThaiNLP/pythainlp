@@ -33,8 +33,7 @@ def word_freqs() -> list[tuple[str, int]]:
 
 
 def unigram_word_freqs() -> dict[str, int]:
-    """Get unigram word frequency from Thai Textbook Corpus (TTC)
-    """
+    """Get unigram word frequency from Thai Textbook Corpus (TTC)"""
     freqs: dict[str, int] = defaultdict(int)
 
     for line in get_corpus(_UNIGRAM_FILENAME):

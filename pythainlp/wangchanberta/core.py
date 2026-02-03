@@ -23,12 +23,18 @@ def _get_tokenizer():
             f"airesearch/{_model_name}", revision="main"
         )
         if _model_name == "wangchanberta-base-att-spm-uncased":
-            _tokenizer.additional_special_tokens = ["<s>NOTUSED", "</s>NOTUSED", "<_>"]
+            _tokenizer.additional_special_tokens = [
+                "<s>NOTUSED",
+                "</s>NOTUSED",
+                "<_>",
+            ]
     return _tokenizer
 
 
 class ThaiNameTagger:
-    def __init__(self, dataset_name: str = "thainer", grouped_entities: bool = True):
+    def __init__(
+        self, dataset_name: str = "thainer", grouped_entities: bool = True
+    ):
         """This function tags named entities in text in IOB format.
 
         Powered by wangchanberta from VISTEC-depa\
@@ -109,7 +115,9 @@ class ThaiNameTagger:
             self.sent_ner = self.sent_ner[1:]
         for idx, (word, ner) in enumerate(self.sent_ner):
             if idx > 0 and ner.startswith("B-"):
-                if self._clear_tag(ner) == self._clear_tag(self.sent_ner[idx - 1][1]):
+                if self._clear_tag(ner) == self._clear_tag(
+                    self.sent_ner[idx - 1][1]
+                ):
                     self.sent_ner[idx] = (word, ner.replace("B-", "I-"))
         if tag:
             temp = ""
@@ -136,7 +144,9 @@ class ThaiNameTagger:
 
 
 class NamedEntityRecognition:
-    def __init__(self, model: str = "pythainlp/thainer-corpus-v2-base-model") -> None:
+    def __init__(
+        self, model: str = "pythainlp/thainer-corpus-v2-base-model"
+    ) -> None:
         """This function tags named entities in text in IOB format.
 
         Powered by wangchanberta from VISTEC-depa\
@@ -199,7 +209,9 @@ class NamedEntityRecognition:
         predicted_token_class = [
             self.model.config.id2label[t.item()] for t in predictions[0]
         ]
-        ner_tag = self._fix_span_error(inputs["input_ids"][0], predicted_token_class)
+        ner_tag = self._fix_span_error(
+            inputs["input_ids"][0], predicted_token_class
+        )
         if tag:
             temp = ""
             sent = ""
@@ -220,7 +232,7 @@ class NamedEntityRecognition:
                     sent += "</" + temp + ">"
 
             return sent
-        return ner_tag
+        return ner_tag  # type: ignore[no-any-return]
 
 
 def segment(text: str) -> list[str]:
@@ -233,4 +245,4 @@ def segment(text: str) -> list[str]:
     if not text or not isinstance(text, str):
         return []
 
-    return _get_tokenizer().tokenize(text)
+    return _get_tokenizer().tokenize(text)  # type: ignore[no-any-return]

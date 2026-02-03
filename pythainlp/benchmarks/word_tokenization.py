@@ -152,7 +152,10 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     sample_arr = _binary_representation(raw_sample)
 
     # Compute character-level statistics
-    c_pos_pred, c_neg_pred = np.argwhere(sample_arr == 1), np.argwhere(sample_arr == 0)
+    c_pos_pred, c_neg_pred = (
+        np.argwhere(sample_arr == 1),
+        np.argwhere(sample_arr == 0),
+    )
 
     c_pos_pred = c_pos_pred[c_pos_pred < ref_sample_arr.shape[0]]
     c_neg_pred = c_neg_pred[c_neg_pred < ref_sample_arr.shape[0]]

@@ -1,13 +1,13 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Check if it is Thai text
-"""
+"""Check if it is Thai text"""
 
 from __future__ import annotations
 
 import string
 from collections import defaultdict
+from typing import Union
 
 from pythainlp import (
     thai_above_vowels,
@@ -215,7 +215,7 @@ def display_thai_char(ch: str) -> str:
         return ch
 
 
-def thai_word_tone_detector(word: str) -> list[tuple[str, str]]:
+def thai_word_tone_detector(word: Union[str, None]) -> list[tuple[str, str]]:
     """Thai tone detector for word.
 
     It uses pythainlp.transliterate.pronunciate for converting word to\
@@ -237,6 +237,9 @@ def thai_word_tone_detector(word: str) -> list[tuple[str, str]]:
         print(thai_word_tone_detector("มือถือ"))
         # output: [('มือ', 'm'), ('ถือ', 'r')]
     """
+    if not word:
+        return [("", "")]
+
     from ..transliterate import pronunciate
     from ..util.syllable import tone_detector
 

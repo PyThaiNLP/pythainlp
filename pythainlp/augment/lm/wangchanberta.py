@@ -3,19 +3,31 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from transformers import CamembertTokenizer, Pipeline
+
 model_name = "airesearch/wangchanberta-base-att-spm-uncased"
 
 
 class Thai2transformersAug:
+    model_name: str
+    target_tokenizer: type[CamembertTokenizer]
+    tokenizer: CamembertTokenizer
+    fill_mask: Pipeline
+    MASK_TOKEN: str
+    input_text: str
+
     def __init__(self) -> None:
         from transformers import (
             CamembertTokenizer,
             pipeline,
         )
 
-        self.model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
-        self.target_tokenizer: type[CamembertTokenizer] = CamembertTokenizer
-        self.tokenizer: CamembertTokenizer = CamembertTokenizer.from_pretrained(  # type: ignore[assignment]
+        self.model_name = "airesearch/wangchanberta-base-att-spm-uncased"
+        self.target_tokenizer = CamembertTokenizer
+        self.tokenizer = CamembertTokenizer.from_pretrained(  # type: ignore[assignment]
             self.model_name, revision="main"
         )
         self.tokenizer.additional_special_tokens = [
@@ -23,13 +35,13 @@ class Thai2transformersAug:
             "</s>NOTUSED",
             "<_>",
         ]
-        self.fill_mask: any = pipeline(  # transformers.Pipeline
+        self.fill_mask = pipeline(
             task="fill-mask",
             tokenizer=self.tokenizer,
             model=f"{self.model_name}",
             revision="main",
         )
-        self.MASK_TOKEN: str = self.tokenizer.mask_token
+        self.MASK_TOKEN = self.tokenizer.mask_token
 
     def generate(
         self, sentence: str, num_replace_tokens: int = 3

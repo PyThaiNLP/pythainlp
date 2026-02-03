@@ -35,8 +35,8 @@ class ThFrTranslator:
     :param bool use_gpu : load model using GPU (Default is False)
     """
 
-    tokenizer_thzh: AutoTokenizer
-    model_thzh: AutoModelForSeq2SeqLM
+    tokenizer_thfr: AutoTokenizer
+    model_thfr: AutoModelForSeq2SeqLM
     translated: torch.Tensor
 
     def __init__(
@@ -46,10 +46,10 @@ class ThFrTranslator:
     ) -> None:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
-        self.tokenizer_thzh = AutoTokenizer.from_pretrained(pretrained)
-        self.model_thzh = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        self.tokenizer_thfr = AutoTokenizer.from_pretrained(pretrained)
+        self.model_thfr = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
         if use_gpu:
-            self.model_thzh = self.model_thzh.cuda()
+            self.model_thfr = self.model_thfr.cuda()
 
     def translate(self, text: str) -> str:
         """Translate text from Thai to French
@@ -70,11 +70,11 @@ class ThFrTranslator:
             # output: "Test du système."
 
         """
-        self.translated = self.model_thzh.generate(
-            **self.tokenizer_thzh(text, return_tensors="pt", padding=True)
+        self.translated = self.model_thfr.generate(
+            **self.tokenizer_thfr(text, return_tensors="pt", padding=True)
         )
         decoded_list: list[str] = [
-            self.tokenizer_thzh.decode(t, skip_special_tokens=True)
+            self.tokenizer_thfr.decode(t, skip_special_tokens=True)
             for t in self.translated
         ]
         return decoded_list[0]

@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import argparse
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pythainlp import cli
 from pythainlp.tokenize import (
@@ -31,7 +31,7 @@ DEFAULT_WORD_TOKEN_SEPARATOR = "|"  # noqa: S105
 class SubAppBase:
     separator: str
     algorithm: str
-    run: Callable[..., list[str]]
+    run: Callable[..., Any]
 
     def __init__(self, name: str, argv: Sequence[str]) -> None:
         parser = argparse.ArgumentParser(**cli.make_usage("tokenize " + name))  # type: ignore[arg-type]

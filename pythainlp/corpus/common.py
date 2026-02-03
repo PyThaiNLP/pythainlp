@@ -2,8 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-"""Common lists of words.
-"""
+"""Common lists of words."""
 
 from __future__ import annotations
 
@@ -86,7 +85,9 @@ def countries() -> frozenset[str]:
     return _THAI_COUNTRIES
 
 
-def provinces(details: bool = False) -> Union[frozenset[str], list[dict[str, str]]]:
+def provinces(
+    details: bool = False,
+) -> Union[frozenset[str], list[dict[str, str]]]:
     """Return a frozenset of Thailand province names in Thai such as "กระบี่",
     "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
     \n(See: `dev/pythainlp/corpus/thailand_provinces_th.txt\
@@ -222,7 +223,9 @@ def thai_profanity_words() -> frozenset[str]:
     """
     global _THAI_PROFANITY_WORDS
     if not _THAI_PROFANITY_WORDS:
-        _THAI_PROFANITY_WORDS = get_corpus(_THAI_PROFANITY_WORDS_FILENAME, comments=False)
+        _THAI_PROFANITY_WORDS = get_corpus(
+            _THAI_PROFANITY_WORDS_FILENAME, comments=False
+        )
 
     return _THAI_PROFANITY_WORDS
 

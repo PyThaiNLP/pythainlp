@@ -15,8 +15,7 @@ class FastTextAug:
     """
 
     def __init__(self, model_path: str):
-        """:param str model_path: path of model file
-        """
+        """:param str model_path: path of model file"""
         from gensim.models.fasttext import FastText as FastText_gensim
         from gensim.models.keyedvectors import KeyedVectors
 
@@ -38,8 +37,8 @@ class FastTextAug:
         """
         return word_tokenize(text, engine="icu")
 
-    def modify_sent(self, sent: str, p: float = 0.7) -> list[list[str]]:
-        """:param str sent: text of sentence
+    def modify_sent(self, sent: list[str], p: float = 0.7) -> list[list[str]]:
+        """:param list[str] sent: text of sentence
         :param float p: probability
         :rtype: List[List[str]]
         """
@@ -57,7 +56,7 @@ class FastTextAug:
 
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7
-    ) -> list[tuple[str]]:
+    ) -> list[tuple[str, ...]]:
         """Text Augment from fastText
 
         You may want to download the Thai model

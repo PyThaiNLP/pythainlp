@@ -21,4 +21,4 @@ except ImportError:
 
 
 def spell(text: str) -> list[str]:
-    return spell_candidates(text)
+    return spell_candidates(text)  # type: ignore[no-any-return]

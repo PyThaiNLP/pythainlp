@@ -79,7 +79,9 @@ class Unigram:
             for i in self.word
             if self.counts[i] / self.n >= prob
         }
-        return self._next_word(rand_text, N, output_str, prob=prob, duplicate=duplicate)
+        return self._next_word(
+            rand_text, N, output_str, prob=prob, duplicate=duplicate
+        )
 
     def _next_word(
         self,

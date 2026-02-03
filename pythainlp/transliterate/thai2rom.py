@@ -43,7 +43,9 @@ class ThaiTransliterator:
         # Restore the model and construct the encoder and decoder.
         self._encoder = Encoder(INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT)
 
-        self._decoder = AttentionDecoder(OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT)
+        self._decoder = AttentionDecoder(
+            OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT
+        )
 
         self._network = Seq2Seq(
             self._encoder,
@@ -75,7 +77,9 @@ class ThaiTransliterator:
         """
         input_tensor = self._prepare_sequence_in(text).view(1, -1)
         input_length = torch.Tensor([len(text) + 1]).int()
-        target_tensor_logits = self._network(input_tensor, input_length, None, 0)
+        target_tensor_logits = self._network(
+            input_tensor, input_length, None, 0
+        )
 
         # Seq2seq model returns <END> as the first token,
         # As a result, target_tensor_logits.size() is torch.Size([0])
@@ -83,7 +87,10 @@ class ThaiTransliterator:
             target = ["<PAD>"]
         else:
             target_tensor = (
-                torch.argmax(target_tensor_logits.squeeze(1), 1).cpu().detach().numpy()
+                torch.argmax(target_tensor_logits.squeeze(1), 1)
+                .cpu()
+                .detach()
+                .numpy()
             )
             target = [self._ix_to_target_char[t] for t in target_tensor]
 
@@ -91,11 +98,15 @@ class ThaiTransliterator:
 
 
 class Encoder(nn.Module):
-    def __init__(self, vocabulary_size, embedding_size, hidden_size, dropout=0.5):
+    def __init__(
+        self, vocabulary_size, embedding_size, hidden_size, dropout=0.5
+    ):
         """Constructor"""
         super().__init__()
         self.hidden_size = hidden_size
-        self.character_embedding = nn.Embedding(vocabulary_size, embedding_size)
+        self.character_embedding = nn.Embedding(
+            vocabulary_size, embedding_size
+        )
         self.rnn = nn.LSTM(
             input_size=embedding_size,
             hidden_size=hidden_size // 2,
@@ -167,9 +178,9 @@ class Attn(nn.Module):
     def forward(self, hidden, encoder_outputs, mask):
         # Calculate energies for each encoder output
         if self.method == "dot":
-            attn_energies = torch.bmm(encoder_outputs, hidden.transpose(1, 2)).squeeze(
-                2
-            )
+            attn_energies = torch.bmm(
+                encoder_outputs, hidden.transpose(1, 2)
+            ).squeeze(2)
         elif self.method == "general":
             attn_energies = self.attn(
                 encoder_outputs.view(-1, encoder_outputs.size(-1))
@@ -177,9 +188,7 @@ class Attn(nn.Module):
             attn_energies = torch.bmm(
                 attn_energies.view(*encoder_outputs.size()),
                 hidden.transpose(1, 2),
-            ).squeeze(
-                2
-            )  # (batch_size, sequence_len)
+            ).squeeze(2)  # (batch_size, sequence_len)
         elif self.method == "concat":
             attn_energies = self.attn(
                 torch.cat(
@@ -199,12 +208,16 @@ class Attn(nn.Module):
 
 
 class AttentionDecoder(nn.Module):
-    def __init__(self, vocabulary_size, embedding_size, hidden_size, dropout=0.5):
+    def __init__(
+        self, vocabulary_size, embedding_size, hidden_size, dropout=0.5
+    ):
         """Constructor"""
         super().__init__()
         self.vocabulary_size = vocabulary_size
         self.hidden_size = hidden_size
-        self.character_embedding = nn.Embedding(vocabulary_size, embedding_size)
+        self.character_embedding = nn.Embedding(
+            vocabulary_size, embedding_size
+        )
         self.rnn = nn.LSTM(
             input_size=embedding_size + self.hidden_size,
             hidden_size=hidden_size,
@@ -281,7 +294,9 @@ class Seq2Seq(nn.Module):
         max_len = self.max_length
         target_vocab_size = self.decoder.vocabulary_size
 
-        outputs = torch.zeros(max_len, batch_size, target_vocab_size).to(device)
+        outputs = torch.zeros(max_len, batch_size, target_vocab_size).to(
+            device
+        )
 
         if target_seq is None:
             assert teacher_forcing_ratio == 0, "Must be zero during inference"
@@ -289,10 +304,14 @@ class Seq2Seq(nn.Module):
         else:
             inference = False
 
-        encoder_outputs, encoder_hidden = self.encoder(source_seq, source_seq_len)
+        encoder_outputs, encoder_hidden = self.encoder(
+            source_seq, source_seq_len
+        )
 
         decoder_input = (
-            torch.tensor([[start_token] * batch_size]).view(batch_size, 1).to(device)
+            torch.tensor([[start_token] * batch_size])
+            .view(batch_size, 1)
+            .to(device)
         )
 
         encoder_hidden_h_t = torch.cat(

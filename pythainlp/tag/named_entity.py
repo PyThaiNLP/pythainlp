@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Named-entity recognizer
-"""
+"""Named-entity recognizer"""
 
 from __future__ import annotations
 
@@ -62,7 +61,9 @@ class NER:
                     model="pythainlp/thainer-corpus-v2-base-model"
                 )
             elif engine == "wangchanberta":
-                from pythainlp.wangchanberta import ThaiNameTagger as WangchanbertaThaiNameTagger  # noqa: I001,E501
+                from pythainlp.wangchanberta import (
+                    ThaiNameTagger as WangchanbertaThaiNameTagger,
+                )  # noqa: I001,E501
 
                 self.engine = WangchanbertaThaiNameTagger(dataset_name=corpus)
         elif corpus == "thainer-v2":

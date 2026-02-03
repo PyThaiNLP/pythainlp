@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Universal Language Model Fine-tuning for Text Classification (ULMFiT).
-"""
+"""Universal Language Model Fine-tuning for Text Classification (ULMFiT)."""
 
 from __future__ import annotations
 
@@ -70,6 +69,7 @@ def get_thwiki_lstm() -> dict[str, str]:
         )
 
     return {"wgts_fname": wgts_fname, "itos_fname": itos_fname}
+
 
 # Preprocessing rules for Thai text
 # dense features
@@ -169,7 +169,7 @@ def process_thai(
     for rule in post_rules:
         res = rule(res)
 
-    return res
+    return res  # type: ignore[no-any-return]
 
 
 def document_vector(text: str, learn, data, agg: str = "mean"):

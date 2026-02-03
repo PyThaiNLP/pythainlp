@@ -9,7 +9,10 @@ from typing import Callable
 
 class Word2VecAug:
     def __init__(
-        self, model: str, tokenize: Callable[[str], list[str]], type: str = "file"
+        self,
+        model: str,
+        tokenize: Callable[[str], list[str]],
+        type: str = "file",
     ) -> None:
         """:param str model: path of model
         :param Callable[[str], list[str]] tokenize: tokenize function

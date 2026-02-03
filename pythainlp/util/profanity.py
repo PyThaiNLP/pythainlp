@@ -4,6 +4,7 @@
 """
 Profanity detection for Thai language
 """
+
 from __future__ import annotations
 
 from typing import Optional

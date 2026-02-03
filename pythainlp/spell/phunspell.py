@@ -27,4 +27,4 @@ def spell(text: str) -> list[str]:
 
 
 def correct(text: str) -> str:
-    return list(pspell.suggest(text))[0]
+    return list(pspell.suggest(text))[0]  # type: ignore[no-any-return]

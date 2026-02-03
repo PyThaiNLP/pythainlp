@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Spell checking and correction.
-"""
+"""Spell checking and correction."""
 
 __all__ = [
     "DEFAULT_SPELL_CHECKER",

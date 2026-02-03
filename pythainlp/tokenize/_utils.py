@@ -7,13 +7,13 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 
 _DIGITS_WITH_SEPARATOR = re.compile(r"(\d+[\.\,:])+\d+")
 
 
 def apply_postprocessors(
-    segments: list[str], postprocessors: list[Callable[[list[str]], list[str]]]
+    segments: list[str], postprocessors: Sequence[Callable[[list[str]], list[str]]]
 ) -> list[str]:
     """A list of callables to apply to a raw segmentation result.
     """

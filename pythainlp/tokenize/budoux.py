@@ -13,6 +13,7 @@ installation hint.
 from __future__ import annotations
 
 import threading
+from typing import cast
 
 _parser = None
 _parser_lock = threading.Lock()
@@ -55,6 +56,6 @@ def segment(text: str) -> list[str]:
             _parser = _init_parser()
         parser = _parser
 
-    result = parser.parse(text)
+    result = cast(list[str], parser.parse(text))
 
     return result

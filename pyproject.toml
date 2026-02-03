@@ -411,7 +411,6 @@ module = [
     "khamyo.*",
     "khanaa.*",
     "multiel.*",
-    "nlpo3.*",
     "nltk.*",
     "numpy.*",
     "onnxruntime.*",

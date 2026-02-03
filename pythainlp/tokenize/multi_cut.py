@@ -25,7 +25,7 @@ from pythainlp.util import Trie
 class LatticeString(str):
     """String that keeps possible tokenizations"""
 
-    def __new__(cls, value, multi=None, in_dict=True):
+    def __new__(cls, value: str, multi: Optional[list[str]] = None, in_dict: bool = True) -> "LatticeString":
         return str.__new__(cls, value)
 
     def __init__(
@@ -64,7 +64,7 @@ def _multicut(
         list
     )  # main data structure
 
-    def serialize(p, p2):  # helper function
+    def serialize(p: int, p2: int) -> Iterator[str]:  # helper function
         for w in words_at[p]:
             p_ = p + len(w)
             if p_ == p2:

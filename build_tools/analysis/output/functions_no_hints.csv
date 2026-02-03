@@ -6,7 +6,6 @@ pythainlp.phayathaibert.core.ThaiTextProcessor._replace_rep,phayathaibert,privat
 pythainlp.ulmfit.preprocess._replace_rep,ulmfit,private,low,8,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/ulmfit/preprocess.py,104
 pythainlp.ulmfit.preprocess._replace_rep,ulmfit,private,low,8,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/ulmfit/preprocess.py,227
 pythainlp.util.normalize._last_char,util,private,low,7,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/util/normalize.py,63
-pythainlp.transliterate.w2p.Thai_W2P._grucell,transliterate,private,low,3,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/w2p.py,100
 pythainlp.wangchanberta.core._get_tokenizer,wangchanberta,private,low,3,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py,16
 pythainlp.wangchanberta.core.ThaiNameTagger._clear_tag,wangchanberta,private,low,3,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py,65
 pythainlp.coref._fastcoref.FastCoref._to_json,coref,private,low,2,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/coref/_fastcoref.py,31
@@ -14,10 +13,6 @@ pythainlp.tokenize.budoux._init_parser,tokenize,private,low,2,unknown,/home/runn
 pythainlp.tokenize.etcc._cut_etcc,tokenize,private,low,2,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/etcc.py,32
 pythainlp.tokenize.multi_cut.LatticeString.__new__,tokenize,public,low,2,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/multi_cut.py,28
 pythainlp.tokenize.nlpo3._ensure_default_dict_loaded,tokenize,private,low,2,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/nlpo3.py,23
-pythainlp.transliterate.w2p._load_vocab,transliterate,private,low,2,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/w2p.py,41
-pythainlp.transliterate.w2p.Thai_W2P._sigmoid,transliterate,private,low,2,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/w2p.py,97
 pythainlp.wangchanberta.core.ThaiNameTagger._IOB,wangchanberta,private,low,2,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py,60
 pythainlp.wangchanberta.core.NamedEntityRecognition._fix_span_error,wangchanberta,private,low,2,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py,161
 pythainlp.khavee.core.KhaveeVerifier.check_karu_lahu,khavee,public,low,1,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/khavee/core.py,359
-pythainlp.translate.tokenization_small100.SMALL100Tokenizer._switch_to_input_mode,translate,private,low,1,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py,397
-pythainlp.translate.tokenization_small100.SMALL100Tokenizer._switch_to_target_mode,translate,private,low,1,unknown,/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py,400

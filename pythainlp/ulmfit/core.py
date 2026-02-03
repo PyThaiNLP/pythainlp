@@ -229,7 +229,9 @@ def document_vector(
     return res  # type: ignore[no-any-return]
 
 
-def merge_wgts(em_sz, wgts, itos_pre, itos_new):
+def merge_wgts(
+    em_sz: int, wgts: dict[str, Any], itos_pre: list[str], itos_new: list[str]
+) -> dict[str, torch.Tensor]:
     """This function is to insert new vocab into an existing model named `wgts`
     and update the model's weights for new vocab with the average embedding.
 

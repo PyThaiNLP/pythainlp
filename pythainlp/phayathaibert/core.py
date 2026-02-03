@@ -126,7 +126,7 @@ class ThaiTextProcessor:
             'กา'
         """
 
-        def _replace_rep(m):
+        def _replace_rep(m: re.Match[str]) -> str:
             c, cc = m.groups()
             return f"{c}"
 

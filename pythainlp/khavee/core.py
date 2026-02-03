@@ -356,7 +356,7 @@ class KhaveeVerifier:
             marttra2 = "กา"
         return bool(marttra1 == marttra2 and sara1 == sara2)
 
-    def check_karu_lahu(self, text):
+    def check_karu_lahu(self, text: str) -> str:
         if (
             self.check_marttra(text) != "กา"
             or (

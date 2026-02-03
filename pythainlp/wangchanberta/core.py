@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import re
 import warnings
-from typing import Union
+from typing import Any, Union
 
 from pythainlp.tokenize import word_tokenize
 
@@ -13,7 +13,7 @@ _model_name = "wangchanberta-base-att-spm-uncased"
 _tokenizer = None
 
 
-def _get_tokenizer():
+def _get_tokenizer() -> Any:
     """Get the tokenizer, initializing it if necessary."""
     global _tokenizer
     if _tokenizer is None:
@@ -57,12 +57,12 @@ class ThaiNameTagger:
             grouped_entities=self.grouped_entities,
         )
 
-    def _IOB(self, tag):
+    def _IOB(self, tag: str) -> str:
         if tag != "O":
             return "B-" + tag
         return "O"
 
-    def _clear_tag(self, tag):
+    def _clear_tag(self, tag: str) -> str:
         return tag.replace("B-", "").replace("I-", "")
 
     def get_ner(
@@ -158,7 +158,7 @@ class NamedEntityRecognition:
         self.tokenizer = AutoTokenizer.from_pretrained(model)
         self.model = AutoModelForTokenClassification.from_pretrained(model)
 
-    def _fix_span_error(self, words, ner):
+    def _fix_span_error(self, words: list[int], ner: list[str]) -> list[tuple[str, str]]:
         _ner = []
         _ner = ner
         _new_tag = []

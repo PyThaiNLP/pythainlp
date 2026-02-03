@@ -28,7 +28,7 @@ class FastCoref:
         self.nlp = nlp
         self.model = _model(self.model_name, device=device, nlp=self.nlp)
 
-    def _to_json(self, _predict):
+    def _to_json(self, _predict: Any) -> dict[str, Any]:
         return {
             "text": _predict.text,
             "clusters_string": _predict.get_clusters(as_strings=True),

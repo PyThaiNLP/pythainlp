@@ -64,5 +64,5 @@ class ThaiTokenizer(BaseTokenizer):
         """
         return thai2fit_tokenizer().word_tokenize(text)  # type: ignore[no-any-return]
 
-    def add_special_cases(self, toks):
+    def add_special_cases(self, toks: Collection[str]) -> None:
         pass

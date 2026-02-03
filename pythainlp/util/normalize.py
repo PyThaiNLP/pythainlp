@@ -60,7 +60,7 @@ _RE_REMOVE_SPACES_BEFORE_NONBASE = re.compile(
 )
 
 
-def _last_char(matchobj):  # to be used with _RE_NOREPEAT_TONEMARKS
+def _last_char(matchobj: re.Match[str]) -> str:  # to be used with _RE_NOREPEAT_TONEMARKS
     return matchobj.group(0)[-1]
 
 

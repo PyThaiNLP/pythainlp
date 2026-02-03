@@ -4,12 +4,13 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 import torch
 
 if TYPE_CHECKING:
     import pandas as pd
+    from transformers import PreTrainedModel, PreTrainedTokenizerBase
 
 
 class WangChanGLM:
@@ -19,8 +20,8 @@ class WangChanGLM:
     device: str
     torch_dtype: "torch.dtype"
     model_path: str
-    model: Any
-    tokenizer: Any
+    model: "PreTrainedModel"
+    tokenizer: "PreTrainedTokenizerBase"
     df: "pd.DataFrame"
     exclude_ids: list[int]
 
@@ -64,7 +65,7 @@ class WangChanGLM:
         self.device: str = device
         self.torch_dtype: "torch.dtype" = torch_dtype
         self.model_path: str = model_path
-        self.model: Any = AutoModelForCausalLM.from_pretrained(
+        self.model: "PreTrainedModel" = AutoModelForCausalLM.from_pretrained(
             self.model_path,
             return_dict=return_dict,
             load_in_8bit=load_in_8bit,
@@ -73,7 +74,7 @@ class WangChanGLM:
             offload_folder=offload_folder,
             low_cpu_mem_usage=low_cpu_mem_usage,
         )
-        self.tokenizer: Any = AutoTokenizer.from_pretrained(self.model_path)
+        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(self.model_path)
         self.df: "pd.DataFrame" = pd.DataFrame(
             self.tokenizer.vocab.items(), columns=["text", "idx"]
         )

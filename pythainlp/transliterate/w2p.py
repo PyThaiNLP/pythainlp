@@ -160,7 +160,7 @@ class Thai_W2P:
         x = [self.g2idx.get(char, self.g2idx["<unk>"]) for char in chars]
         x = np.take(self.enc_emb, np.expand_dims(x, 0), axis=0)
 
-        return x  # type: ignore[no-any-return]
+        return x
 
     def _short_word(self, word: str) -> Optional[str]:
         self.word = word

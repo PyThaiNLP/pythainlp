@@ -57,11 +57,12 @@ with open('/tmp/functions_incomplete_hints.csv', 'w', newline='') as f:
 # Create summary CSV by submodule
 with open('/tmp/submodule_summary.csv', 'w', newline='') as f:
     writer = csv.writer(f)
-    writer.writerow(['Submodule', 'Total', 'Complete', 'Incomplete', 'None', '% Complete'])
+    writer.writerow(['Submodule', 'Total', 'Complete', 'Incomplete', 'None', '% Complete', 'Mypy Errors'])
     
     for submodule, counts in sorted(data['by_submodule'].items()):
         total = counts['complete'] + counts['incomplete'] + counts['none']
         pct = (counts['complete'] / total * 100) if total > 0 else 0
+        mypy_errors = counts.get('mypy_errors', 0)
         
         writer.writerow([
             submodule,
@@ -69,7 +70,8 @@ with open('/tmp/submodule_summary.csv', 'w', newline='') as f:
             counts['complete'],
             counts['incomplete'],
             counts['none'],
-            f"{pct:.2f}%"
+            f"{pct:.2f}%",
+            mypy_errors
         ])
 
 print("CSV files generated:")

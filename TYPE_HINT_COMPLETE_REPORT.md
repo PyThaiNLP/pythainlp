@@ -33,15 +33,18 @@ This comprehensive analysis scanned **720 functions and methods** across **30 su
 All analysis results have been committed to the repository:
 
 ### Documentation
+
 - 📄 **[TYPE_HINT_ANALYSIS.md](./TYPE_HINT_ANALYSIS.md)** - Comprehensive analysis report (7.2 KB)
 - 📄 **[TYPE_HINT_QUICKSTART.md](./TYPE_HINT_QUICKSTART.md)** - Quick reference guide (3.7 KB)
 
 ### Tools
+
 - 🔧 **[build_tools/analysis/type_hint_analyzer.py](./build_tools/analysis/type_hint_analyzer.py)** - Main analyzer (18 KB)
 - 🔧 **[build_tools/analysis/generate_csv.py](./build_tools/analysis/generate_csv.py)** - CSV generator (2.6 KB)
 - 📖 **[build_tools/analysis/README.md](./build_tools/analysis/README.md)** - Tool documentation
 
 ### Data Files
+
 - 📊 **[docs/type_hint_analysis/submodule_summary.csv](./docs/type_hint_analysis/submodule_summary.csv)** - Statistics (843 B)
 - 📊 **[docs/type_hint_analysis/functions_no_hints.csv](./docs/type_hint_analysis/functions_no_hints.csv)** - 72 functions (12 KB)
 - 📊 **[docs/type_hint_analysis/functions_incomplete_hints.csv](./docs/type_hint_analysis/functions_incomplete_hints.csv)** - 56 functions (9.3 KB)
@@ -52,14 +55,19 @@ All analysis results have been committed to the repository:
 ## 🎯 Key Findings
 
 ### Excellent Coverage (100%)
+
 Nine submodules have **perfect type hint coverage**:
+
 - cli, lm, morpheme, parse, tokenizeicu, tools, transliterateicu, word_vector, ancient
 
 ### Good Coverage (95%+)
+
 Four submodules with excellent coverage:
+
 - corpus (97.14%), tag (97.06%), soundex (96.30%), spell (95.35%)
 
 ### Areas Needing Improvement
+
 Six submodules below 50% coverage:
 
 | Submodule | Coverage | Functions Missing Hints | Priority |
@@ -76,22 +84,26 @@ Six submodules below 50% coverage:
 ## 🎖️ Priority Classification
 
 ### High Priority (0 items) ✅
+
 **Definition:** Public functions with >10 internal references in core/compact test suites
 
 **Result:** All critical, widely-used public APIs have complete type hints!
 
 ### Medium Priority (94 items) ⚠️
+
 **Definition:** Public functions with 3-10 references
 
 - **51 functions** without type hints
 - **43 functions** with incomplete type hints
 
 Top items by reference count:
+
 1. `pythainlp.corpus.util.tokenize` - 991 references, no hints
 2. `pythainlp.classify.param_free.GzipModel.train` - 164 references, no hints
 3. Multiple `__init__` methods - 113 references each, no hints
 
 ### Low Priority (34 items)
+
 **Definition:** Private functions or rarely referenced
 
 - **21 functions** without type hints
@@ -102,11 +114,14 @@ Top items by reference count:
 ## 📈 Coverage by Category
 
 ### By Scope
+
 - **Public functions:** Most are well-covered, but some `__init__` methods need `-> None`
 - **Private functions:** Lower priority, but should still be improved
 
 ### By Test Suite
+
 Analysis mapped functions to test suites:
+
 - **core:** Core functionality (no external dependencies)
 - **compact:** Stable, small dependencies
 - **extra:** Larger dependencies
@@ -118,6 +133,7 @@ Analysis mapped functions to test suites:
 ## 🛠️ How to Use This Analysis
 
 ### Quick Look
+
 ```bash
 # View the quick start guide
 cat TYPE_HINT_QUICKSTART.md
@@ -127,6 +143,7 @@ cat docs/type_hint_analysis/submodule_summary.csv | column -t -s,
 ```
 
 ### Re-run Analysis
+
 ```bash
 # From repository root
 python3 build_tools/analysis/type_hint_analyzer.py
@@ -135,6 +152,7 @@ cp /tmp/*.csv docs/type_hint_analysis/
 ```
 
 ### Filter Data
+
 ```bash
 # Functions in transliterate submodule
 csvgrep -c Submodule -m "transliterate" docs/type_hint_analysis/functions_no_hints.csv
@@ -148,14 +166,17 @@ csvsort -c References -r docs/type_hint_analysis/functions_no_hints.csv | head -
 ## 💡 Recommendations
 
 ### Immediate Actions
+
 1. ✅ **No critical issues** - All high-priority public APIs have type hints
 
 ### Short-term Improvements (Quick Wins)
+
 1. **Add `-> None` to `__init__` methods** - Many incomplete hints are just missing this
 2. **Focus on transliterate submodule** - 30 functions need hints (48% coverage)
 3. **Improve classify and el submodules** - Both at 20% coverage
 
 ### Long-term Goals
+
 1. **Achieve 95%+ coverage** across all submodules
 2. **Maintain standards** for new code
 3. **Gradually improve** legacy code during maintenance
@@ -163,6 +184,7 @@ csvsort -c References -r docs/type_hint_analysis/functions_no_hints.csv | head -
 ### Example Fixes
 
 #### Missing Type Hints
+
 ```python
 # Before
 def tokenize(text):
@@ -174,6 +196,7 @@ def tokenize(text: str) -> List[str]:
 ```
 
 #### Incomplete Type Hints
+
 ```python
 # Before
 def train(self):
@@ -187,6 +210,7 @@ def train(self) -> List[int]:
 ```
 
 #### Missing Return Type
+
 ```python
 # Before
 def __init__(self, model_path: str):
@@ -213,6 +237,7 @@ The analysis uses an AST-based approach:
 8. **Generate** reports in multiple formats (markdown, CSV, JSON)
 
 **Notes:**
+
 - `self` and `cls` parameters are excluded from requirements
 - Functions with no parameters and no return hint are marked "none"
 - Functions with all parameters typed and return type are marked "complete"
@@ -254,7 +279,7 @@ The analysis uses an AST-based approach:
 | chat | 4 | 1 | 1 | 2 | 25.00% |
 | classify | 5 | 1 | 3 | 1 | 20.00% |
 | el | 5 | 1 | 1 | 3 | 20.00% |
-| __main__ | 1 | 0 | 0 | 1 | 0.00% |
+| **main** | 1 | 0 | 0 | 1 | 0.00% |
 
 ---
 
@@ -267,7 +292,9 @@ PyThaiNLP demonstrates **strong type hint adoption** with 82.22% complete covera
 - ⚠️ **Improvement needed** in specialized modules (transliterate, classify, el, chat)
 - ✅ **No critical gaps** - all widely-used public APIs have type hints
 
-The main opportunities for enhancement are in specialized modules that represent about 18% of the codebase. These improvements will further strengthen type safety and developer experience across the entire project.
+The main opportunities for enhancement are in specialized modules that
+represent about 18% of the codebase. These improvements will further
+strengthen type safety and developer experience across the entire project.
 
 ---
 

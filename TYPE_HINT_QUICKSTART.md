@@ -7,6 +7,7 @@ This is a quick reference guide for the type hint coverage analysis tools.
 **Overall Status:** 82.22% of functions have complete type hints ✅
 
 **What to do:**
+
 1. Check `TYPE_HINT_ANALYSIS.md` for the full report
 2. Use CSV files in `docs/type_hint_analysis/` for detailed analysis
 3. Focus on improving coverage in: `transliterate`, `classify`, `el`, `chat`, `wangchanberta`
@@ -37,20 +38,25 @@ cp /tmp/*.csv docs/type_hint_analysis/
 ## Priority Items to Fix
 
 ### High Priority
+
 ✅ None! All critical public APIs have type hints.
 
 ### Medium Priority (51 functions without hints, 43 incomplete)
+
 Key items:
+
 - `pythainlp.corpus.util.tokenize` (991 references)
 - `pythainlp.classify.param_free.GzipModel.train` (164 references)
 - Many `__init__` methods missing `-> None` return type
 
 ### Low Priority (21 without, 13 incomplete)
+
 Private functions or rarely used functions.
 
 ## Examples of Issues
 
 ### Missing Type Hints
+
 ```python
 # Before
 def tokenize(text):
@@ -62,6 +68,7 @@ def tokenize(text: str) -> List[str]:
 ```
 
 ### Incomplete Type Hints
+
 ```python
 # Before
 def train(self):
@@ -76,7 +83,8 @@ def train(self) -> List[int]:
     return temp_list
 ```
 
-### Missing Return Type on __init__
+### Missing Return Type on **init**
+
 ```python
 # Before
 def __init__(self, model_path: str):
@@ -90,6 +98,7 @@ def __init__(self, model_path: str) -> None:
 ## Data Files
 
 All detailed data is available in:
+
 - **Main Report:** `TYPE_HINT_ANALYSIS.md`
 - **CSV Data:** `docs/type_hint_analysis/`
   - `submodule_summary.csv` - Statistics by submodule

@@ -11,10 +11,65 @@ for all functions and classes.
 import ast
 import os
 import sys
+import subprocess
+import re
 from pathlib import Path
 from typing import Dict, List, Set, Tuple, Any, Optional
 from collections import defaultdict
 import json
+
+
+def count_mypy_errors_by_submodule(pythainlp_dir: str) -> Dict[str, int]:
+    """
+    Run mypy on each submodule and count errors.
+    
+    :param str pythainlp_dir: Path to pythainlp directory
+    :return: Dictionary mapping submodule name to error count
+    :rtype: Dict[str, int]
+    """
+    mypy_errors = {}
+    
+    # Get list of submodules
+    submodules = []
+    for item in os.listdir(pythainlp_dir):
+        item_path = os.path.join(pythainlp_dir, item)
+        if os.path.isdir(item_path) and not item.startswith(('_', '.')):
+            submodules.append(item)
+    
+    print("Running mypy on submodules...")
+    
+    for submodule in sorted(submodules):
+        submodule_path = os.path.join(pythainlp_dir, submodule)
+        try:
+            # Run mypy on the submodule
+            result = subprocess.run(
+                ['mypy', submodule_path, '--ignore-missing-imports'],
+                capture_output=True,
+                text=True,
+                timeout=60
+            )
+            
+            # Count errors in the output
+            # mypy output format: "path/file.py:line: error: message"
+            error_count = 0
+            for line in result.stdout.split('\n'):
+                if ': error:' in line:
+                    error_count += 1
+            
+            mypy_errors[submodule] = error_count
+            print(f"  {submodule}: {error_count} errors")
+            
+        except subprocess.TimeoutExpired:
+            mypy_errors[submodule] = -1  # Indicate timeout
+            print(f"  {submodule}: timeout")
+        except FileNotFoundError:
+            print("  mypy not found, skipping mypy error counting")
+            return {}
+        except Exception as e:
+            mypy_errors[submodule] = -1  # Indicate error
+            print(f"  {submodule}: error ({e})")
+    
+    return mypy_errors
 
 
 class TypeHintAnalyzer(ast.NodeVisitor):
@@ -293,6 +348,11 @@ def main():
             result['test_suite'] = get_test_suite(filepath, tests_dir)
         all_results.extend(results)
     
+    # Count mypy errors by submodule
+    print()
+    mypy_errors = count_mypy_errors_by_submodule(pythainlp_dir)
+    print()
+    
     # Count references and assign test suites for non-test files
     print("Counting references and determining test coverage...")
     for result in all_results:
@@ -345,8 +405,15 @@ def main():
         pct_inc = (len(data['incomplete']) / total_sub * 100) if total_sub > 0 else 0
         pct_no = (len(data['none']) / total_sub * 100) if total_sub > 0 else 0
         
+        mypy_err_str = ""
+        if submodule in mypy_errors:
+            if mypy_errors[submodule] >= 0:
+                mypy_err_str = f", Mypy errors: {mypy_errors[submodule]}"
+            elif mypy_errors[submodule] == -1:
+                mypy_err_str = ", Mypy: error/timeout"
+        
         print(f"\n{submodule}:")
-        print(f"  Total: {total_sub}")
+        print(f"  Total: {total_sub}{mypy_err_str}")
         print(f"  Complete:   {len(data['complete']):4d} ({pct_comp:5.2f}%)")
         print(f"  Incomplete: {len(data['incomplete']):4d} ({pct_inc:5.2f}%)")
         print(f"  None:       {len(data['none']):4d} ({pct_no:5.2f}%)")
@@ -446,7 +513,8 @@ def main():
             'by_submodule': {k: {
                 'complete': len(v['complete']),
                 'incomplete': len(v['incomplete']),
-                'none': len(v['none'])
+                'none': len(v['none']),
+                'mypy_errors': mypy_errors.get(k, 0)
             } for k, v in by_submodule.items()},
             'functions_no_hints': [
                 {

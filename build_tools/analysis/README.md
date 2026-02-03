@@ -15,6 +15,9 @@ Main script that performs comprehensive type hint coverage analysis.
 - Scans all Python files in the repository
 - Uses Python AST to analyze function and method signatures
 - Checks for type hints on parameters and return values
+- Analyzes class variables, instance variables, and module variables
+- Detects type aliases (TypeAlias annotations)
+- Tracks decorators used on functions and methods
 - Categorizes functions by completeness, scope, and priority
 - Counts internal references to determine importance
 - Maps functions to test suites (core, compact, extra, noauto)
@@ -52,6 +55,10 @@ analysis.
 
 - `output/functions_no_hints.csv` - Functions without type hints
 - `output/functions_incomplete_hints.csv` - Functions with incomplete hints
+- `output/class_variables_no_hints.csv` - Class variables without type hints
+- `output/instance_variables_no_hints.csv` - Instance variables without type hints
+- `output/module_variables_no_hints.csv` - Module variables without type hints
+- `output/type_aliases.csv` - Type aliases defined in the codebase
 - `output/submodule_summary.csv` - Summary by submodule with mypy errors
 
 **Usage:**
@@ -86,13 +93,35 @@ ls -la output/
 cat output/submodule_summary.csv
 ```
 
+### Type Completeness Standards
+
+This analyzer follows the type completeness guidelines from the Python typing documentation:
+https://typing.python.org/en/latest/guides/libraries.html#type-completeness
+
+The analysis covers:
+- All function and method signatures (parameters and return types)
+- Class variables (class-level attributes)
+- Instance variables (instance attributes)
+- Module-level variables
+- Type aliases
+- Decorator information for functions and methods
+
 ### Analysis Categories
 
 **Type Hint Status:**
 
-- **Complete:** All parameters and return value have type hints
-- **Incomplete:** Some parameters or return value missing type hints
+- **Complete:** All parameters and return value have type hints (for functions), or variable has type annotation (for variables)
+- **Incomplete:** Some parameters or return value missing type hints (for functions only)
 - **None:** No type hints at all
+
+**Analyzed Elements:**
+
+- **Functions/Methods:** Function signatures including parameters and return types
+- **Class Variables:** Variables defined at class level
+- **Instance Variables:** Variables defined as instance attributes (e.g., `self.attr`)
+- **Module Variables:** Variables defined at module level
+- **Type Aliases:** Type alias definitions (using TypeAlias annotation)
+- **Decorators:** Decorators applied to functions and methods
 
 **Priority Levels:**
 

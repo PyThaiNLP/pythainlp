@@ -86,6 +86,8 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         self.module_path = module_path
         self.results = []
         self.current_class = None
+        self.current_function = None
+        self.module_level = True
 
     def is_private(self, name: str) -> bool:
         """Check if a name is private (starts with underscore)."""
@@ -129,6 +131,149 @@ class TypeHintAnalyzer(ast.NodeVisitor):
 
         return status, total_params, hinted_params, has_return_hint
 
+    def _get_decorator_name(self, decorator: ast.expr) -> str:
+        """Extract decorator name from AST node."""
+        if isinstance(decorator, ast.Name):
+            return decorator.id
+        elif isinstance(decorator, ast.Attribute):
+            return f"{self._get_decorator_name(decorator.value)}.{decorator.attr}"
+        elif isinstance(decorator, ast.Call):
+            return self._get_decorator_name(decorator.func)
+        else:
+            return "unknown"
+
+    def _is_type_alias(self, node: ast.AnnAssign) -> bool:
+        """Check if an annotated assignment is a type alias."""
+        if node.annotation is None:
+            return False
+        
+        # Check for TypeAlias annotation
+        if isinstance(node.annotation, ast.Name) and node.annotation.id == "TypeAlias":
+            return True
+        
+        # Check for typing.TypeAlias or typing_extensions.TypeAlias
+        if isinstance(node.annotation, ast.Attribute):
+            if node.annotation.attr == "TypeAlias":
+                return True
+        
+        return False
+
+    def _is_instance_variable(self, target: ast.expr) -> bool:
+        """Check if target is an instance variable (self.attr)."""
+        return (
+            isinstance(target, ast.Attribute)
+            and isinstance(target.value, ast.Name)
+            and target.value.id == "self"
+        )
+
+    def _get_variable_name(self, target: ast.expr) -> str:
+        """Extract variable name from assignment target."""
+        if isinstance(target, ast.Name):
+            return target.id
+        elif isinstance(target, ast.Attribute):
+            return target.attr
+        else:
+            return "unknown"
+
+    def visit_AnnAssign(self, node: ast.AnnAssign):
+        """Visit annotated assignment (variable with type hint)."""
+        # Skip if we're in a function/method body (local variables)
+        if self.current_function is not None and not self._is_instance_variable(node.target):
+            self.generic_visit(node)
+            return
+
+        var_name = self._get_variable_name(node.target)
+        
+        # Determine variable type and qualified name
+        if self._is_type_alias(node):
+            var_type = "type_alias"
+            qualified_name = f"{self.module_path}.{var_name}"
+            scope = "private" if self.is_private(var_name) else "public"
+            status = "complete"  # Type aliases always have annotations
+        elif self._is_instance_variable(node.target):
+            var_type = "instance_variable"
+            qualified_name = f"{self.module_path}.{self.current_class}.{var_name}"
+            scope = "private" if self.is_private(var_name) else "public"
+            status = "complete"  # Has type hint
+        elif self.current_class is not None and self.current_function is None:
+            var_type = "class_variable"
+            qualified_name = f"{self.module_path}.{self.current_class}.{var_name}"
+            scope = "private" if self.is_private(var_name) else "public"
+            status = "complete"  # Has type hint
+        elif self.module_level:
+            var_type = "module_variable"
+            qualified_name = f"{self.module_path}.{var_name}"
+            scope = "private" if self.is_private(var_name) else "public"
+            status = "complete"  # Has type hint
+        else:
+            # Local variable, skip
+            self.generic_visit(node)
+            return
+
+        result = {
+            "type": var_type,
+            "name": var_name,
+            "qualified_name": qualified_name,
+            "scope": scope,
+            "status": status,
+            "line": node.lineno,
+            "parent_class": self.current_class if var_type in ("class_variable", "instance_variable") else None,
+        }
+
+        self.results.append(result)
+        self.generic_visit(node)
+
+    def visit_Assign(self, node: ast.Assign):
+        """Visit regular assignment (variable without type hint)."""
+        # Skip if we're in a function/method body (local variables)
+        # Instance variables without hints are handled here
+        is_instance_var = False
+        for target in node.targets:
+            if self._is_instance_variable(target):
+                is_instance_var = True
+                break
+        
+        if self.current_function is not None and not is_instance_var:
+            self.generic_visit(node)
+            return
+
+        for target in node.targets:
+            var_name = self._get_variable_name(target)
+            
+            # Determine variable type and qualified name
+            if self._is_instance_variable(target):
+                var_type = "instance_variable"
+                qualified_name = f"{self.module_path}.{self.current_class}.{var_name}"
+                scope = "private" if self.is_private(var_name) else "public"
+                status = "none"  # No type hint
+            elif self.current_class is not None and self.current_function is None:
+                var_type = "class_variable"
+                qualified_name = f"{self.module_path}.{self.current_class}.{var_name}"
+                scope = "private" if self.is_private(var_name) else "public"
+                status = "none"  # No type hint
+            elif self.module_level:
+                var_type = "module_variable"
+                qualified_name = f"{self.module_path}.{var_name}"
+                scope = "private" if self.is_private(var_name) else "public"
+                status = "none"  # No type hint
+            else:
+                # Local variable, skip
+                continue
+
+            result = {
+                "type": var_type,
+                "name": var_name,
+                "qualified_name": qualified_name,
+                "scope": scope,
+                "status": status,
+                "line": node.lineno,
+                "parent_class": self.current_class if var_type in ("class_variable", "instance_variable") else None,
+            }
+
+            self.results.append(result)
+        
+        self.generic_visit(node)
+
     def visit_FunctionDef(self, node: ast.FunctionDef):
         """Visit function definition."""
         status, total_params, hinted_params, has_return = (
@@ -136,6 +281,12 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         )
 
         scope = "private" if self.is_private(node.name) else "public"
+
+        # Check decorators
+        decorators_info = []
+        for decorator in node.decorator_list:
+            dec_name = self._get_decorator_name(decorator)
+            decorators_info.append(dec_name)
 
         result = {
             "type": "function",
@@ -153,10 +304,19 @@ class TypeHintAnalyzer(ast.NodeVisitor):
             "has_return": has_return,
             "is_method": self.current_class is not None,
             "parent_class": self.current_class,
+            "decorators": decorators_info,
         }
 
         self.results.append(result)
+        
+        # Track that we're inside a function
+        old_function = self.current_function
+        self.current_function = node.name
+        old_module_level = self.module_level
+        self.module_level = False
         self.generic_visit(node)
+        self.current_function = old_function
+        self.module_level = old_module_level
 
     def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef):
         """Visit async function definition."""
@@ -177,11 +337,14 @@ class TypeHintAnalyzer(ast.NodeVisitor):
 
         self.results.append(result)
 
-        # Visit methods within the class
+        # Visit class body (methods and class variables)
         old_class = self.current_class
         self.current_class = node.name
+        old_module_level = self.module_level
+        self.module_level = False
         self.generic_visit(node)
         self.current_class = old_class
+        self.module_level = old_module_level
 
 
 def find_python_files(root_dir: str) -> List[str]:
@@ -412,7 +575,7 @@ def main():
             )
             result["priority"] = assign_priority(result)
 
-    # Separate functions and classes
+    # Separate by type
     functions = [
         r
         for r in all_results
@@ -421,12 +584,28 @@ def main():
     classes = [
         r for r in all_results if r["type"] == "class" and not r.get("in_tests", False)
     ]
+    class_vars = [
+        r for r in all_results if r["type"] == "class_variable" and not r.get("in_tests", False)
+    ]
+    instance_vars = [
+        r for r in all_results if r["type"] == "instance_variable" and not r.get("in_tests", False)
+    ]
+    module_vars = [
+        r for r in all_results if r["type"] == "module_variable" and not r.get("in_tests", False)
+    ]
+    type_aliases = [
+        r for r in all_results if r["type"] == "type_alias" and not r.get("in_tests", False)
+    ]
 
     print(f"Analyzed {len(functions)} functions/methods")
     print(f"Analyzed {len(classes)} classes")
+    print(f"Analyzed {len(class_vars)} class variables")
+    print(f"Analyzed {len(instance_vars)} instance variables")
+    print(f"Analyzed {len(module_vars)} module variables")
+    print(f"Analyzed {len(type_aliases)} type aliases")
     print()
 
-    # Calculate statistics
+    # Calculate statistics for functions
     complete = [f for f in functions if f["status"] == "complete"]
     incomplete = [f for f in functions if f["status"] == "incomplete"]
     none = [f for f in functions if f["status"] == "none"]
@@ -437,12 +616,38 @@ def main():
     pct_none = (len(none) / total * 100) if total > 0 else 0
 
     print("=" * 80)
-    print("OVERALL STATISTICS")
+    print("OVERALL STATISTICS - FUNCTIONS/METHODS")
     print("=" * 80)
     print(f"Total functions/methods: {total}")
     print(f"Complete type hints:     {len(complete):4d} ({pct_complete:5.2f}%)")
     print(f"Incomplete type hints:   {len(incomplete):4d} ({pct_incomplete:5.2f}%)")
     print(f"No type hints:           {len(none):4d} ({pct_none:5.2f}%)")
+    print()
+
+    # Calculate statistics for variables
+    all_vars = class_vars + instance_vars + module_vars
+    vars_complete = [v for v in all_vars if v["status"] == "complete"]
+    vars_none = [v for v in all_vars if v["status"] == "none"]
+    
+    total_vars = len(all_vars)
+    pct_vars_complete = (len(vars_complete) / total_vars * 100) if total_vars > 0 else 0
+    pct_vars_none = (len(vars_none) / total_vars * 100) if total_vars > 0 else 0
+
+    print("=" * 80)
+    print("OVERALL STATISTICS - VARIABLES")
+    print("=" * 80)
+    print(f"Total variables:         {total_vars}")
+    print(f"  Class variables:       {len(class_vars)}")
+    print(f"  Instance variables:    {len(instance_vars)}")
+    print(f"  Module variables:      {len(module_vars)}")
+    print(f"Complete type hints:     {len(vars_complete):4d} ({pct_vars_complete:5.2f}%)")
+    print(f"No type hints:           {len(vars_none):4d} ({pct_vars_none:5.2f}%)")
+    print()
+
+    print("=" * 80)
+    print("STATISTICS - TYPE ALIASES")
+    print("=" * 80)
+    print(f"Total type aliases:      {len(type_aliases)}")
     print()
 
     # Group by submodule
@@ -574,13 +779,31 @@ def main():
         json.dump(
             {
                 "statistics": {
-                    "total": total,
-                    "complete": len(complete),
-                    "incomplete": len(incomplete),
-                    "none": len(none),
-                    "pct_complete": pct_complete,
-                    "pct_incomplete": pct_incomplete,
-                    "pct_none": pct_none,
+                    "functions": {
+                        "total": total,
+                        "complete": len(complete),
+                        "incomplete": len(incomplete),
+                        "none": len(none),
+                        "pct_complete": pct_complete,
+                        "pct_incomplete": pct_incomplete,
+                        "pct_none": pct_none,
+                    },
+                    "variables": {
+                        "total": total_vars,
+                        "complete": len(vars_complete),
+                        "none": len(vars_none),
+                        "pct_complete": pct_vars_complete,
+                        "pct_none": pct_vars_none,
+                        "class_variables": len(class_vars),
+                        "instance_variables": len(instance_vars),
+                        "module_variables": len(module_vars),
+                    },
+                    "type_aliases": {
+                        "total": len(type_aliases),
+                    },
+                    "classes": {
+                        "total": len(classes),
+                    },
                 },
                 "by_submodule": {
                     k: {
@@ -600,6 +823,7 @@ def main():
                         "priority": f.get("priority", "low"),
                         "file": f["filepath"],
                         "line": f["line"],
+                        "decorators": f.get("decorators", []),
                     }
                     for f in none_sorted
                 ],
@@ -614,8 +838,47 @@ def main():
                         "priority": f.get("priority", "low"),
                         "file": f["filepath"],
                         "line": f["line"],
+                        "decorators": f.get("decorators", []),
                     }
                     for f in incomplete_sorted
+                ],
+                "class_variables_no_hints": [
+                    {
+                        "name": v["qualified_name"],
+                        "scope": v["scope"],
+                        "parent_class": v.get("parent_class"),
+                        "file": v["filepath"],
+                        "line": v["line"],
+                    }
+                    for v in class_vars if v["status"] == "none"
+                ],
+                "instance_variables_no_hints": [
+                    {
+                        "name": v["qualified_name"],
+                        "scope": v["scope"],
+                        "parent_class": v.get("parent_class"),
+                        "file": v["filepath"],
+                        "line": v["line"],
+                    }
+                    for v in instance_vars if v["status"] == "none"
+                ],
+                "module_variables_no_hints": [
+                    {
+                        "name": v["qualified_name"],
+                        "scope": v["scope"],
+                        "file": v["filepath"],
+                        "line": v["line"],
+                    }
+                    for v in module_vars if v["status"] == "none"
+                ],
+                "type_aliases": [
+                    {
+                        "name": t["qualified_name"],
+                        "scope": t["scope"],
+                        "file": t["filepath"],
+                        "line": t["line"],
+                    }
+                    for t in type_aliases
                 ],
             },
             f,

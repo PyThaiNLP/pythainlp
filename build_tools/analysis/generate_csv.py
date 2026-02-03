@@ -58,11 +58,6 @@ def main():
     with open(input_file, "r") as f:
         data = json.load(f)
 
-    # Load the JSON data
-    print(f"Loading data from: {input_file}")
-    with open(input_file, "r") as f:
-        data = json.load(f)
-
     # Create CSV for functions without type hints
     functions_no_hints_file = output_dir / "functions_no_hints.csv"
     with open(functions_no_hints_file, "w", newline="") as f:
@@ -75,6 +70,7 @@ def main():
                 "Priority",
                 "References",
                 "Test Suite",
+                "Decorators",
                 "File",
                 "Line",
             ]
@@ -83,6 +79,7 @@ def main():
         for func in data["functions_no_hints"]:
             parts = func["name"].split(".")
             submodule = parts[1] if len(parts) > 2 and parts[0] == "pythainlp" else parts[0]
+            decorators = ", ".join(func.get("decorators", []))
 
             writer.writerow(
                 [
@@ -92,6 +89,7 @@ def main():
                     func["priority"],
                     func["references"],
                     func["test_suite"],
+                    decorators,
                     func["file"],
                     func["line"],
                 ]
@@ -111,6 +109,7 @@ def main():
                 "Has Return",
                 "References",
                 "Test Suite",
+                "Decorators",
                 "File",
                 "Line",
             ]
@@ -119,6 +118,7 @@ def main():
         for func in data["functions_incomplete_hints"]:
             parts = func["name"].split(".")
             submodule = parts[1] if len(parts) > 2 and parts[0] == "pythainlp" else parts[0]
+            decorators = ", ".join(func.get("decorators", []))
 
             writer.writerow(
                 [
@@ -130,6 +130,7 @@ def main():
                     func["return"],
                     func["references"],
                     func["test_suite"],
+                    decorators,
                     func["file"],
                     func["line"],
                 ]
@@ -168,10 +169,130 @@ def main():
                 ]
             )
 
+    # Create CSV for class variables without type hints
+    class_vars_file = output_dir / "class_variables_no_hints.csv"
+    with open(class_vars_file, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(
+            [
+                "Variable Name",
+                "Submodule",
+                "Parent Class",
+                "Scope",
+                "File",
+                "Line",
+            ]
+        )
+
+        for var in data.get("class_variables_no_hints", []):
+            parts = var["name"].split(".")
+            submodule = parts[1] if len(parts) > 2 and parts[0] == "pythainlp" else parts[0]
+
+            writer.writerow(
+                [
+                    var["name"],
+                    submodule,
+                    var["parent_class"],
+                    var["scope"],
+                    var["file"],
+                    var["line"],
+                ]
+            )
+
+    # Create CSV for instance variables without type hints
+    instance_vars_file = output_dir / "instance_variables_no_hints.csv"
+    with open(instance_vars_file, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(
+            [
+                "Variable Name",
+                "Submodule",
+                "Parent Class",
+                "Scope",
+                "File",
+                "Line",
+            ]
+        )
+
+        for var in data.get("instance_variables_no_hints", []):
+            parts = var["name"].split(".")
+            submodule = parts[1] if len(parts) > 2 and parts[0] == "pythainlp" else parts[0]
+
+            writer.writerow(
+                [
+                    var["name"],
+                    submodule,
+                    var["parent_class"],
+                    var["scope"],
+                    var["file"],
+                    var["line"],
+                ]
+            )
+
+    # Create CSV for module variables without type hints
+    module_vars_file = output_dir / "module_variables_no_hints.csv"
+    with open(module_vars_file, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(
+            [
+                "Variable Name",
+                "Submodule",
+                "Scope",
+                "File",
+                "Line",
+            ]
+        )
+
+        for var in data.get("module_variables_no_hints", []):
+            parts = var["name"].split(".")
+            submodule = parts[1] if len(parts) > 2 and parts[0] == "pythainlp" else parts[0]
+
+            writer.writerow(
+                [
+                    var["name"],
+                    submodule,
+                    var["scope"],
+                    var["file"],
+                    var["line"],
+                ]
+            )
+
+    # Create CSV for type aliases
+    type_aliases_file = output_dir / "type_aliases.csv"
+    with open(type_aliases_file, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(
+            [
+                "Type Alias Name",
+                "Submodule",
+                "Scope",
+                "File",
+                "Line",
+            ]
+        )
+
+        for alias in data.get("type_aliases", []):
+            parts = alias["name"].split(".")
+            submodule = parts[1] if len(parts) > 2 and parts[0] == "pythainlp" else parts[0]
+
+            writer.writerow(
+                [
+                    alias["name"],
+                    submodule,
+                    alias["scope"],
+                    alias["file"],
+                    alias["line"],
+                ]
+            )
+
     print("CSV files generated:")
     print(f"  {functions_no_hints_file}")
     print(f"  {functions_incomplete_file}")
     print(f"  {submodule_summary_file}")
+    print(f"  {class_vars_file}")
+    print(f"  {instance_vars_file}")
+    print(f"  {module_vars_file}")
+    print(f"  {type_aliases_file}")
 
 
 if __name__ == "__main__":

@@ -13,11 +13,14 @@ import tarfile
 import zipfile
 from http.client import HTTPResponse
 from importlib.resources import files
-from typing import Optional
+from typing import TYPE_CHECKING
 
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
+
+if TYPE_CHECKING:
+    from typing import Optional
 
 _CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
 _USER_AGENT = (
@@ -35,7 +38,7 @@ class _ResponseWrapper:
         self.headers = response.headers
         self._content = response.read()
 
-    def json(self) -> dict:
+    def json(self) -> dict[str, str]:
         """Parse JSON content from response."""
         try:
             return json.loads(self._content.decode("utf-8"))
@@ -103,7 +106,7 @@ def path_pythainlp_corpus(filename: str) -> str:
     return os.path.join(corpus_path(), filename)
 
 
-def get_corpus(filename: str, comments: bool = True) -> frozenset:
+def get_corpus(filename: str, comments: bool = True) -> frozenset[str]:
     """Read corpus data from file and return a frozenset.
 
     Each line in the file will be a member of the set.

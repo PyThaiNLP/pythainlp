@@ -6,14 +6,20 @@
 It takes input text from the command line.
 """
 
+from __future__ import annotations
+
 import argparse
+from typing import TYPE_CHECKING
 
 from pythainlp.soundex import DEFAULT_SOUNDEX_ENGINE, soundex
 from pythainlp.tools import safe_print
 
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
 
 class App:
-    def __init__(self, argv):
+    def __init__(self, argv: Sequence[str]) -> None:
         parser = argparse.ArgumentParser(
             prog="soundex",
             description="Convert a text to its sound-based index.",

@@ -99,7 +99,9 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         """Check if a name is public."""
         return not self.is_private(name)
 
-    def check_function_type_hints(self, node: ast.FunctionDef) -> Tuple[str, int, int]:
+    def check_function_type_hints(
+        self, node: ast.FunctionDef
+    ) -> Tuple[str, int, int]:
         """
         Check type hint completeness for a function.
         Returns: (status, total_params, hinted_params)
@@ -136,7 +138,10 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         if isinstance(decorator, ast.Name):
             return decorator.id
         elif isinstance(decorator, ast.Attribute):
-            return f"{self._get_decorator_name(decorator.value)}.{decorator.attr}"
+            return (
+                f"{self._get_decorator_name(decorator.value)}"
+                f".{decorator.attr}"
+            )
         elif isinstance(decorator, ast.Call):
             return self._get_decorator_name(decorator.func)
         else:
@@ -146,16 +151,20 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         """Check if an annotated assignment is a type alias."""
         if node.annotation is None:
             return False
-        
+
         # Check for TypeAlias annotation
-        if isinstance(node.annotation, ast.Name) and node.annotation.id == "TypeAlias":
+        ann_is_type_alias = (
+            isinstance(node.annotation, ast.Name)
+            and node.annotation.id == "TypeAlias"
+        )
+        if ann_is_type_alias:
             return True
-        
+
         # Check for typing.TypeAlias or typing_extensions.TypeAlias
         if isinstance(node.annotation, ast.Attribute):
             if node.annotation.attr == "TypeAlias":
                 return True
-        
+
         return False
 
     def _is_instance_variable(self, target: ast.expr) -> bool:
@@ -178,12 +187,16 @@ class TypeHintAnalyzer(ast.NodeVisitor):
     def visit_AnnAssign(self, node: ast.AnnAssign):
         """Visit annotated assignment (variable with type hint)."""
         # Skip if we're in a function/method body (local variables)
-        if self.current_function is not None and not self._is_instance_variable(node.target):
+        in_func_not_inst = (
+            self.current_function is not None
+            and not self._is_instance_variable(node.target)
+        )
+        if in_func_not_inst:
             self.generic_visit(node)
             return
 
         var_name = self._get_variable_name(node.target)
-        
+
         # Determine variable type and qualified name
         if self._is_type_alias(node):
             var_type = "type_alias"
@@ -192,12 +205,16 @@ class TypeHintAnalyzer(ast.NodeVisitor):
             status = "complete"  # Type aliases always have annotations
         elif self._is_instance_variable(node.target):
             var_type = "instance_variable"
-            qualified_name = f"{self.module_path}.{self.current_class}.{var_name}"
+            qualified_name = (
+                f"{self.module_path}.{self.current_class}.{var_name}"
+            )
             scope = "private" if self.is_private(var_name) else "public"
             status = "complete"  # Has type hint
         elif self.current_class is not None and self.current_function is None:
             var_type = "class_variable"
-            qualified_name = f"{self.module_path}.{self.current_class}.{var_name}"
+            qualified_name = (
+                f"{self.module_path}.{self.current_class}.{var_name}"
+            )
             scope = "private" if self.is_private(var_name) else "public"
             status = "complete"  # Has type hint
         elif self.module_level:
@@ -217,7 +234,11 @@ class TypeHintAnalyzer(ast.NodeVisitor):
             "scope": scope,
             "status": status,
             "line": node.lineno,
-            "parent_class": self.current_class if var_type in ("class_variable", "instance_variable") else None,
+            "parent_class": (
+                self.current_class
+                if var_type in ("class_variable", "instance_variable")
+                else None
+            ),
         }
 
         self.results.append(result)
@@ -232,23 +253,30 @@ class TypeHintAnalyzer(ast.NodeVisitor):
             if self._is_instance_variable(target):
                 is_instance_var = True
                 break
-        
+
         if self.current_function is not None and not is_instance_var:
             self.generic_visit(node)
             return
 
         for target in node.targets:
             var_name = self._get_variable_name(target)
-            
+
             # Determine variable type and qualified name
             if self._is_instance_variable(target):
                 var_type = "instance_variable"
-                qualified_name = f"{self.module_path}.{self.current_class}.{var_name}"
+                qualified_name = (
+                    f"{self.module_path}.{self.current_class}.{var_name}"
+                )
                 scope = "private" if self.is_private(var_name) else "public"
                 status = "none"  # No type hint
-            elif self.current_class is not None and self.current_function is None:
+            elif (
+                self.current_class is not None
+                and self.current_function is None
+            ):
                 var_type = "class_variable"
-                qualified_name = f"{self.module_path}.{self.current_class}.{var_name}"
+                qualified_name = (
+                    f"{self.module_path}.{self.current_class}.{var_name}"
+                )
                 scope = "private" if self.is_private(var_name) else "public"
                 status = "none"  # No type hint
             elif self.module_level:
@@ -267,11 +295,15 @@ class TypeHintAnalyzer(ast.NodeVisitor):
                 "scope": scope,
                 "status": status,
                 "line": node.lineno,
-                "parent_class": self.current_class if var_type in ("class_variable", "instance_variable") else None,
+                "parent_class": (
+                    self.current_class
+                    if var_type in ("class_variable", "instance_variable")
+                    else None
+                ),
             }
 
             self.results.append(result)
-        
+
         self.generic_visit(node)
 
     def visit_FunctionDef(self, node: ast.FunctionDef):
@@ -308,7 +340,7 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         }
 
         self.results.append(result)
-        
+
         # Track that we're inside a function
         old_function = self.current_function
         self.current_function = node.name
@@ -428,7 +460,7 @@ def count_references(qualified_name: str, all_files: List[str]) -> int:
                 content = f.read()
                 # Simple text search - not perfect but gives an approximation
                 count += content.count(search_name)
-        except:
+        except Exception:
             pass
 
     return count
@@ -455,7 +487,9 @@ def get_test_suite(filepath: str, tests_dir: str) -> str:
         return "other"
 
 
-def find_corresponding_test_suite(qualified_name: str, all_results: List[Dict]) -> str:
+def find_corresponding_test_suite(
+    qualified_name: str, all_results: List[Dict]
+) -> str:
     """Find which test suite tests this function/class."""
     # Look for test functions that reference this name
     test_suites = set()
@@ -467,7 +501,8 @@ def find_corresponding_test_suite(qualified_name: str, all_results: List[Dict]) 
         if "tests." in result["qualified_name"]:
             # This is a test function
             test_suite = get_test_suite(result.get("filepath", ""), "tests")
-            # Simple heuristic: if test name contains the function name, it likely tests it
+            # Simple heuristic: if test name contains the function name,
+            # it likely tests it
             if search_name.lower() in result["name"].lower():
                 test_suites.add(test_suite)
 
@@ -569,7 +604,9 @@ def main():
     print("Counting references and determining test coverage...")
     for result in all_results:
         if not result.get("in_tests", False):
-            result["references"] = count_references(result["qualified_name"], all_files)
+            result["references"] = count_references(
+                result["qualified_name"], all_files
+            )
             result["test_suite"] = find_corresponding_test_suite(
                 result["qualified_name"], all_results
             )
@@ -582,19 +619,29 @@ def main():
         if r["type"] == "function" and not r.get("in_tests", False)
     ]
     classes = [
-        r for r in all_results if r["type"] == "class" and not r.get("in_tests", False)
+        r
+        for r in all_results
+        if r["type"] == "class" and not r.get("in_tests", False)
     ]
     class_vars = [
-        r for r in all_results if r["type"] == "class_variable" and not r.get("in_tests", False)
+        r
+        for r in all_results
+        if r["type"] == "class_variable" and not r.get("in_tests", False)
     ]
     instance_vars = [
-        r for r in all_results if r["type"] == "instance_variable" and not r.get("in_tests", False)
+        r
+        for r in all_results
+        if r["type"] == "instance_variable" and not r.get("in_tests", False)
     ]
     module_vars = [
-        r for r in all_results if r["type"] == "module_variable" and not r.get("in_tests", False)
+        r
+        for r in all_results
+        if r["type"] == "module_variable" and not r.get("in_tests", False)
     ]
     type_aliases = [
-        r for r in all_results if r["type"] == "type_alias" and not r.get("in_tests", False)
+        r
+        for r in all_results
+        if r["type"] == "type_alias" and not r.get("in_tests", False)
     ]
 
     print(f"Analyzed {len(functions)} functions/methods")
@@ -619,8 +666,14 @@ def main():
     print("OVERALL STATISTICS - FUNCTIONS/METHODS")
     print("=" * 80)
     print(f"Total functions/methods: {total}")
-    print(f"Complete type hints:     {len(complete):4d} ({pct_complete:5.2f}%)")
-    print(f"Incomplete type hints:   {len(incomplete):4d} ({pct_incomplete:5.2f}%)")
+    print(
+        f"Complete type hints:     {len(complete):4d} "
+        f"({pct_complete:5.2f}%)"
+    )
+    print(
+        f"Incomplete type hints:   {len(incomplete):4d} "
+        f"({pct_incomplete:5.2f}%)"
+    )
     print(f"No type hints:           {len(none):4d} ({pct_none:5.2f}%)")
     print()
 
@@ -628,10 +681,14 @@ def main():
     all_vars = class_vars + instance_vars + module_vars
     vars_complete = [v for v in all_vars if v["status"] == "complete"]
     vars_none = [v for v in all_vars if v["status"] == "none"]
-    
+
     total_vars = len(all_vars)
-    pct_vars_complete = (len(vars_complete) / total_vars * 100) if total_vars > 0 else 0
-    pct_vars_none = (len(vars_none) / total_vars * 100) if total_vars > 0 else 0
+    pct_vars_complete = (
+        (len(vars_complete) / total_vars * 100) if total_vars > 0 else 0
+    )
+    pct_vars_none = (
+        (len(vars_none) / total_vars * 100) if total_vars > 0 else 0
+    )
 
     print("=" * 80)
     print("OVERALL STATISTICS - VARIABLES")
@@ -640,8 +697,14 @@ def main():
     print(f"  Class variables:       {len(class_vars)}")
     print(f"  Instance variables:    {len(instance_vars)}")
     print(f"  Module variables:      {len(module_vars)}")
-    print(f"Complete type hints:     {len(vars_complete):4d} ({pct_vars_complete:5.2f}%)")
-    print(f"No type hints:           {len(vars_none):4d} ({pct_vars_none:5.2f}%)")
+    print(
+        f"Complete type hints:     {len(vars_complete):4d} "
+        f"({pct_vars_complete:5.2f}%)"
+    )
+    print(
+        f"No type hints:           {len(vars_none):4d} "
+        f"({pct_vars_none:5.2f}%)"
+    )
     print()
 
     print("=" * 80)
@@ -651,7 +714,9 @@ def main():
     print()
 
     # Group by submodule
-    by_submodule = defaultdict(lambda: {"complete": [], "incomplete": [], "none": []})
+    by_submodule = defaultdict(
+        lambda: {"complete": [], "incomplete": [], "none": []}
+    )
     for func in functions:
         submodule = get_submodule(func["qualified_name"])
         by_submodule[submodule][func["status"]].append(func)
@@ -662,10 +727,22 @@ def main():
 
     for submodule in sorted(by_submodule.keys()):
         data = by_submodule[submodule]
-        total_sub = len(data["complete"]) + len(data["incomplete"]) + len(data["none"])
-        pct_comp = (len(data["complete"]) / total_sub * 100) if total_sub > 0 else 0
-        pct_inc = (len(data["incomplete"]) / total_sub * 100) if total_sub > 0 else 0
-        pct_no = (len(data["none"]) / total_sub * 100) if total_sub > 0 else 0
+        total_sub = (
+            len(data["complete"])
+            + len(data["incomplete"])
+            + len(data["none"])
+        )
+        pct_comp = (
+            (len(data["complete"]) / total_sub * 100) if total_sub > 0 else 0
+        )
+        pct_inc = (
+            (len(data["incomplete"]) / total_sub * 100)
+            if total_sub > 0
+            else 0
+        )
+        pct_no = (
+            (len(data["none"]) / total_sub * 100) if total_sub > 0 else 0
+        )
 
         mypy_err_str = ""
         if submodule in mypy_errors:
@@ -694,13 +771,18 @@ def main():
         ),
     )
 
-    print("\nHIGH PRIORITY (public, frequently referenced, in core/compact tests):")
+    print(
+        "\nHIGH PRIORITY "
+        "(public, frequently referenced, in core/compact tests):"
+    )
     print("-" * 80)
     for func in none_sorted:
         if func.get("priority") == "high":
             print(f"  {func['qualified_name']}")
             print(
-                f"    Scope: {func['scope']}, References: {func.get('references', 0)}, Test suite: {func.get('test_suite', 'unknown')}"
+                f"    Scope: {func['scope']}, "
+                f"References: {func.get('references', 0)}, "
+                f"Test suite: {func.get('test_suite', 'unknown')}"
             )
             print(f"    File: {func['filepath']}:{func['line']}")
             print()
@@ -713,7 +795,9 @@ def main():
             if count < 20:  # Limit output
                 print(f"  {func['qualified_name']}")
                 print(
-                    f"    Scope: {func['scope']}, References: {func.get('references', 0)}, Test suite: {func.get('test_suite', 'unknown')}"
+                    f"    Scope: {func['scope']}, "
+                    f"References: {func.get('references', 0)}, "
+                    f"Test suite: {func.get('test_suite', 'unknown')}"
                 )
             count += 1
     if count > 20:
@@ -727,7 +811,9 @@ def main():
     print()
 
     print("=" * 80)
-    print("FUNCTIONS/METHODS WITH INCOMPLETE TYPE HINTS (sorted by priority)")
+    print(
+        "FUNCTIONS/METHODS WITH INCOMPLETE TYPE HINTS (sorted by priority)"
+    )
     print("=" * 80)
 
     incomplete_sorted = sorted(
@@ -744,10 +830,13 @@ def main():
         if func.get("priority") == "high":
             print(f"  {func['qualified_name']}")
             print(
-                f"    Scope: {func['scope']}, Params: {func['hinted_params']}/{func['total_params']}, Return: {func['has_return']}"
+                f"    Scope: {func['scope']}, "
+                f"Params: {func['hinted_params']}/{func['total_params']}, "
+                f"Return: {func['has_return']}"
             )
             print(
-                f"    References: {func.get('references', 0)}, Test suite: {func.get('test_suite', 'unknown')}"
+                f"    References: {func.get('references', 0)}, "
+                f"Test suite: {func.get('test_suite', 'unknown')}"
             )
             print(f"    File: {func['filepath']}:{func['line']}")
             print()
@@ -760,7 +849,9 @@ def main():
             if count < 20:
                 print(f"  {func['qualified_name']}")
                 print(
-                    f"    Params: {func['hinted_params']}/{func['total_params']}, Return: {func['has_return']}"
+                    f"    Params: {func['hinted_params']}/"
+                    f"{func['total_params']}, "
+                    f"Return: {func['has_return']}"
                 )
             count += 1
     if count > 20:

@@ -41,7 +41,7 @@ def main():
     output_dir = Path(args.output_dir)
     if not output_dir.is_absolute():
         output_dir = script_dir / output_dir
-    
+
     # Default input file is in the output directory
     if args.input is None:
         input_file = output_dir / "type_hint_analysis.json"
@@ -78,7 +78,11 @@ def main():
 
         for func in data["functions_no_hints"]:
             parts = func["name"].split(".")
-            submodule = parts[1] if len(parts) > 2 and parts[0] == "pythainlp" else parts[0]
+            submodule = (
+                parts[1]
+                if len(parts) > 2 and parts[0] == "pythainlp"
+                else parts[0]
+            )
             decorators = ", ".join(func.get("decorators", []))
 
             writer.writerow(
@@ -117,7 +121,11 @@ def main():
 
         for func in data["functions_incomplete_hints"]:
             parts = func["name"].split(".")
-            submodule = parts[1] if len(parts) > 2 and parts[0] == "pythainlp" else parts[0]
+            submodule = (
+                parts[1]
+                if len(parts) > 2 and parts[0] == "pythainlp"
+                else parts[0]
+            )
             decorators = ", ".join(func.get("decorators", []))
 
             writer.writerow(
@@ -186,7 +194,11 @@ def main():
 
         for var in data.get("class_variables_no_hints", []):
             parts = var["name"].split(".")
-            submodule = parts[1] if len(parts) > 2 and parts[0] == "pythainlp" else parts[0]
+            submodule = (
+                parts[1]
+                if len(parts) > 2 and parts[0] == "pythainlp"
+                else parts[0]
+            )
 
             writer.writerow(
                 [
@@ -216,7 +228,11 @@ def main():
 
         for var in data.get("instance_variables_no_hints", []):
             parts = var["name"].split(".")
-            submodule = parts[1] if len(parts) > 2 and parts[0] == "pythainlp" else parts[0]
+            submodule = (
+                parts[1]
+                if len(parts) > 2 and parts[0] == "pythainlp"
+                else parts[0]
+            )
 
             writer.writerow(
                 [
@@ -245,7 +261,11 @@ def main():
 
         for var in data.get("module_variables_no_hints", []):
             parts = var["name"].split(".")
-            submodule = parts[1] if len(parts) > 2 and parts[0] == "pythainlp" else parts[0]
+            submodule = (
+                parts[1]
+                if len(parts) > 2 and parts[0] == "pythainlp"
+                else parts[0]
+            )
 
             writer.writerow(
                 [
@@ -273,7 +293,11 @@ def main():
 
         for alias in data.get("type_aliases", []):
             parts = alias["name"].split(".")
-            submodule = parts[1] if len(parts) > 2 and parts[0] == "pythainlp" else parts[0]
+            submodule = (
+                parts[1]
+                if len(parts) > 2 and parts[0] == "pythainlp"
+                else parts[0]
+            )
 
             writer.writerow(
                 [

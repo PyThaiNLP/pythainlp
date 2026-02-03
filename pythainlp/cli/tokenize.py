@@ -33,6 +33,7 @@ class SubAppBase:
     algorithm: str
     run: Callable[..., Any]
     keep_whitespace: bool
+    args: argparse.Namespace
 
     def __init__(self, name: str, argv: Sequence[str]) -> None:
         parser = argparse.ArgumentParser(**cli.make_usage("tokenize " + name))  # type: ignore[arg-type]

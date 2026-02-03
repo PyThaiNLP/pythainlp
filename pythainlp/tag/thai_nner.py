@@ -8,7 +8,10 @@ Nested Named Entity Recognition for Thai text.
 """
 from __future__ import annotations
 
-from typing import Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
+
+if TYPE_CHECKING:
+    from thai_nner import NNER
 
 from pythainlp.corpus import get_corpus_path
 
@@ -102,6 +105,8 @@ class ThaiNNER:
         print(f"Tokens: {tokens}")
         print(f"Entities: {entities}")
     """
+
+    model: Any
 
     def __init__(self, path_model: Optional[str] = None) -> None:
         """Initialize ThaiNNER with model path.

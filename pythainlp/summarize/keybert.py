@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from collections import Counter
 from collections.abc import Iterable
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
@@ -24,6 +24,8 @@ if TYPE_CHECKING:
 
 
 class KeyBERT:
+    ft_pipeline: Any
+
     def __init__(
         self, model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
     ) -> None:

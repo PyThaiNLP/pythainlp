@@ -46,6 +46,8 @@ _UNKNOWN = False
 
 
 class LongestMatchTokenizer:
+    __trie: Trie
+
     def __init__(self, trie: Trie) -> None:
         self.__trie = trie
 

@@ -13,6 +13,8 @@ from pythainlp.tokenize import thai2fit_tokenizer
 class BaseTokenizer:
     """Basic class for a tokenizer function. (codes from `fastai`)"""
 
+    lang: str
+
     def __init__(self, lang: str) -> None:
         self.lang = lang
 
@@ -28,6 +30,8 @@ class ThaiTokenizer(BaseTokenizer):
     :class:`fastai.BaseTokenizer`.
     (see: https://docs.fast.ai/text.transform#BaseTokenizer)
     """
+
+    lang: str
 
     def __init__(self, lang: str = "th") -> None:
         self.lang = lang

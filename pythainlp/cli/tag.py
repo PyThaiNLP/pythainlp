@@ -48,6 +48,9 @@ class SubAppBase:
 
 
 class POSTaggingApp(SubAppBase):
+    separator: str
+    run: Callable[[list[str]], list[tuple[str, str]]]
+
     def __init__(self, *args: str, **kwargs: str) -> None:
         self.separator = "|"
         self.run = pos_tag

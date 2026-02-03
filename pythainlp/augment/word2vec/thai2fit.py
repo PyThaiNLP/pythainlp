@@ -15,7 +15,7 @@ class Thai2fitAug:
     `github.com/cstorm125/thai2fit <https://github.com/cstorm125/thai2fit>`_
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.thai2fit_wv = get_corpus_path("thai2fit_wv")
         self.load_w2v()
 
@@ -26,7 +26,7 @@ class Thai2fitAug:
         tok = thai2fit_tokenizer()
         return tok.word_tokenize(text)  # type: ignore[no-any-return]
 
-    def load_w2v(self):
+    def load_w2v(self) -> None:
         """Load Thai2Fit's word2vec model"""
         if self.thai2fit_wv is None:
             raise ValueError(

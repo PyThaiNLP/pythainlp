@@ -7,7 +7,7 @@ model_name = "airesearch/wangchanberta-base-att-spm-uncased"
 
 
 class Thai2transformersAug:
-    def __init__(self):
+    def __init__(self) -> None:
         from transformers import (
             CamembertTokenizer,
             pipeline,

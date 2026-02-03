@@ -65,7 +65,7 @@ class EnThTranslator:
     :param bool use_gpu : load model using GPU (Default is False)
     """
 
-    def __init__(self, use_gpu: bool = False):
+    def __init__(self, use_gpu: bool = False) -> None:
         self._tokenizer = MosesTokenizer("en")
 
         self._model_name = _EN_TH_MODEL_NAME
@@ -121,7 +121,7 @@ class ThEnTranslator:
     :param bool use_gpu : load model using GPU (Default is False)
     """
 
-    def __init__(self, use_gpu: bool = False):
+    def __init__(self, use_gpu: bool = False) -> None:
         self._model_name = _TH_EN_MODEL_NAME
 
         _download_install(self._model_name)

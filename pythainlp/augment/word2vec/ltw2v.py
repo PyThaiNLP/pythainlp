@@ -15,7 +15,7 @@ class LTW2VAug:
     `github.com/PyThaiNLP/large-thaiword2vec <https://github.com/PyThaiNLP/large-thaiword2vec>`_
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.ltw2v_wv = get_corpus_path("ltw2v")
         self.load_w2v()
 
@@ -25,7 +25,7 @@ class LTW2VAug:
         """
         return word_tokenize(text, engine="newmm")
 
-    def load_w2v(self):  # insert substitute
+    def load_w2v(self) -> None:  # insert substitute
         """Load LTW2V's word2vec model"""
         if self.ltw2v_wv is None:
             raise ValueError(

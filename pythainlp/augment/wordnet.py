@@ -118,7 +118,7 @@ def postype2wordnet(pos: str, corpus: str) -> Optional[str]:
 class WordNetAug:
     """Text Augment using wordnet"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
     def find_synonyms(

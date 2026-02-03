@@ -34,7 +34,7 @@ def _get_tokenizer():
 class ThaiNameTagger:
     def __init__(
         self, dataset_name: str = "thainer", grouped_entities: bool = True
-    ):
+    ) -> None:
         """This function tags named entities in text in IOB format.
 
         Powered by wangchanberta from VISTEC-depa\

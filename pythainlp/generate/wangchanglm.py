@@ -9,7 +9,7 @@ import torch
 
 
 class WangChanGLM:
-    def __init__(self):
+    def __init__(self) -> None:
         self.exclude_pattern = re.compile(r"[^ก-๙]+")
         self.stop_token = "\n"  # noqa: S105
         self.PROMPT_DICT = {
@@ -29,10 +29,10 @@ class WangChanGLM:
         return_dict: bool = True,
         load_in_8bit: bool = False,
         device: str = "cuda",
-        torch_dtype=torch.float16,
+        torch_dtype: torch.dtype = torch.float16,
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
-    ):
+    ) -> None:
         """Load model
 
         :param str model_path: model path

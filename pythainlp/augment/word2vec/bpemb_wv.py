@@ -24,7 +24,7 @@ class BPEmbAug:
         """:param str text: Thai text
         :rtype: List[str]
         """
-        return self.bpemb_temp.encode(text)
+        return self.bpemb_temp.encode(text)  # type: ignore[no-any-return]
 
     def load_w2v(self):
         """Load BPEmb model

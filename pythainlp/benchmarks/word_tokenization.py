@@ -157,11 +157,11 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
     c_pos_pred = c_pos_pred[c_pos_pred < ref_sample_arr.shape[0]]
     c_neg_pred = c_neg_pred[c_neg_pred < ref_sample_arr.shape[0]]
 
-    c_tp = np.sum(ref_sample_arr[c_pos_pred] == 1)
-    c_fp = np.sum(ref_sample_arr[c_pos_pred] == 0)
+    c_tp: np.intp = np.sum(ref_sample_arr[c_pos_pred] == 1)
+    c_fp: np.intp = np.sum(ref_sample_arr[c_pos_pred] == 0)
 
-    c_tn = np.sum(ref_sample_arr[c_neg_pred] == 0)
-    c_fn = np.sum(ref_sample_arr[c_neg_pred] == 1)
+    c_tn: np.intp = np.sum(ref_sample_arr[c_neg_pred] == 0)
+    c_fn: np.intp = np.sum(ref_sample_arr[c_neg_pred] == 1)
 
     # Compute word-level statistics
 
@@ -174,7 +174,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict:
         word_boundaries, ss_boundaries
     )
 
-    correctly_tokenised_words = np.sum(tokenization_indicators)
+    correctly_tokenised_words: np.intp = np.sum(tokenization_indicators)
 
     tokenization_indicators_str = list(map(str, tokenization_indicators))
 
@@ -206,14 +206,14 @@ def _binary_representation(txt: str, verbose: bool = False) -> np.ndarray:
     :param bool verbose: for debugging purposes
 
     :return: {0, 1} sequence
-    :rtype: str
+    :rtype: np.ndarray
     """
     chars = np.array(list(txt))
 
     boundary = np.argwhere(chars == SEPARATOR).reshape(-1)
     boundary = boundary - np.array(range(boundary.shape[0]))
 
-    bin_rept = np.zeros(len(txt) - boundary.shape[0])
+    bin_rept: np.ndarray = np.zeros(len(txt) - boundary.shape[0])
     bin_rept[list(boundary) + [0]] = 1
 
     sample_wo_seps = list(txt.replace(SEPARATOR, ""))

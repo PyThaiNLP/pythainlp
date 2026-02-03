@@ -74,4 +74,4 @@ class Thai2transformersAug:
              'ช้างมีทั้งหมด 50 ตัว บนหัว']
         """
         sent2 = self.generate(sentence, num_replace_tokens)
-        return sent2
+        return sent2  # type: ignore[no-any-return]

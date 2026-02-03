@@ -222,7 +222,11 @@ def _binary_representation(txt: str, verbose: bool = False) -> np.ndarray:
     sample_wo_seps = list(txt.replace(SEPARATOR, ""))
 
     # sanity check
-    assert len(sample_wo_seps) == len(bin_rept)
+    if len(sample_wo_seps) != len(bin_rept):
+        raise ValueError(
+            f"Length mismatch: sample_wo_seps={len(sample_wo_seps)}, "
+            f"bin_rept={len(bin_rept)}"
+        )
 
     if verbose:
         for c, m in zip(sample_wo_seps, bin_rept):

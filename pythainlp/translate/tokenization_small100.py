@@ -137,13 +137,13 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         num_madeup_words: int = 8,
         **kwargs: Any,
     ) -> None:
-        self.sp_model_kwargs = (
+        self.sp_model_kwargs: dict[str, Any] = (
             {} if sp_model_kwargs is None else sp_model_kwargs
         )
 
-        self.language_codes = language_codes
+        self.language_codes: str = language_codes
         fairseq_language_code = FAIRSEQ_LANGUAGE_CODES[language_codes]
-        self.lang_code_to_token = {
+        self.lang_code_to_token: dict[str, str] = {
             lang_code: f"__{lang_code}__"
             for lang_code in fairseq_language_code
         }
@@ -171,26 +171,26 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
             **kwargs,
         )
 
-        self.vocab_file = vocab_file
+        self.vocab_file: str = vocab_file
         encoder_data = load_json(vocab_file)
         if not isinstance(encoder_data, dict):
             raise ValueError("encoder must be a dict")
         self.encoder: dict[str, int] = cast(dict[str, int], encoder_data)
-        self.decoder = {v: k for k, v in self.encoder.items()}
-        self.spm_file = spm_file
-        self.sp_model = load_spm(spm_file, self.sp_model_kwargs)
+        self.decoder: dict[int, str] = {v: k for k, v in self.encoder.items()}
+        self.spm_file: str = spm_file
+        self.sp_model: Any = load_spm(spm_file, self.sp_model_kwargs)  # SentencePieceProcessor
 
-        self.encoder_size = len(self.encoder)
+        self.encoder_size: int = len(self.encoder)
 
-        self.lang_token_to_id = {
+        self.lang_token_to_id: dict[str, int] = {
             self.get_lang_token(lang_code): self.encoder_size + i
             for i, lang_code in enumerate(fairseq_language_code)
         }
-        self.lang_code_to_id = {
+        self.lang_code_to_id: dict[str, int] = {
             lang_code: self.encoder_size + i
             for i, lang_code in enumerate(fairseq_language_code)
         }
-        self.id_to_lang_token = {
+        self.id_to_lang_token: dict[int, str] = {
             v: k for k, v in self.lang_token_to_id.items()
         }
 

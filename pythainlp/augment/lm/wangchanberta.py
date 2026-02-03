@@ -13,9 +13,9 @@ class Thai2transformersAug:
             pipeline,
         )
 
-        self.model_name = "airesearch/wangchanberta-base-att-spm-uncased"
-        self.target_tokenizer = CamembertTokenizer
-        self.tokenizer = CamembertTokenizer.from_pretrained(
+        self.model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
+        self.target_tokenizer: type[CamembertTokenizer] = CamembertTokenizer
+        self.tokenizer: CamembertTokenizer = CamembertTokenizer.from_pretrained(  # type: ignore[assignment]
             self.model_name, revision="main"
         )
         self.tokenizer.additional_special_tokens = [
@@ -23,13 +23,13 @@ class Thai2transformersAug:
             "</s>NOTUSED",
             "<_>",
         ]
-        self.fill_mask = pipeline(
+        self.fill_mask: any = pipeline(  # transformers.Pipeline
             task="fill-mask",
             tokenizer=self.tokenizer,
             model=f"{self.model_name}",
             revision="main",
         )
-        self.MASK_TOKEN = self.tokenizer.mask_token
+        self.MASK_TOKEN: str = self.tokenizer.mask_token
 
     def generate(
         self, sentence: str, num_replace_tokens: int = 3

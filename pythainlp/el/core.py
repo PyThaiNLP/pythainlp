@@ -22,9 +22,9 @@ class EntityLinker:
         You can read about bela model at `https://github.com/PyThaiNLP/MultiEL \
         <https://github.com/PyThaiNLP/MultiEL>`_.
         """
-        self.model_name = model_name
-        self.device = device
-        self.tag = tag
+        self.model_name: str = model_name
+        self.device: str = device
+        self.tag: str = tag
         if self.model_name not in ["bela"]:
             raise NotImplementedError(
                 f"EntityLinker doesn't support {model_name} model."
@@ -35,7 +35,7 @@ class EntityLinker:
             )
         from pythainlp.el._multiel import MultiEL
 
-        self.model = MultiEL(model_name=self.model_name, device=self.device)
+        self.model: MultiEL = MultiEL(model_name=self.model_name, device=self.device)
 
     def get_el(
         self, list_text: Union[list[str], str]

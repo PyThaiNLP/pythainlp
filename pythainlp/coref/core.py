@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any, Optional, Union
 
 _MODEL: Optional[Any] = None
 

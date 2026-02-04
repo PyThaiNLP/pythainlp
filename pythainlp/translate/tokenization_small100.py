@@ -27,7 +27,7 @@ import json
 import os
 from pathlib import Path
 from shutil import copyfile
-from typing import TYPE_CHECKING, Optional, Union, cast
+from typing import TYPE_CHECKING, Any, Optional, Union, cast
 
 if TYPE_CHECKING:
     from sentencepiece import SentencePieceProcessor
@@ -439,7 +439,7 @@ def load_spm(
     path: str, sp_model_kwargs: dict[str, str]
 ) -> SentencePieceProcessor:
     import sentencepiece
-    
+
     spm = sentencepiece.SentencePieceProcessor(**sp_model_kwargs)
     spm.Load(str(path))
     return spm

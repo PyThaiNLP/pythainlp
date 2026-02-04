@@ -11,11 +11,11 @@ from AI builder
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
     import torch
+    from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 
 class ThZhTranslator:

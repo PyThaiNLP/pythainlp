@@ -58,11 +58,13 @@ class FastTextEncoder:
 
         """
         try:
-            import numpy as np
+            import numpy as np  # noqa: F401
         except ModuleNotFoundError:
-            raise ModuleNotFoundError("""
+            raise ModuleNotFoundError(
+                """
             Please installing the package via 'pip install numpy onnxruntime'.
-            """)
+            """
+            )
         except Exception as e:
             raise RuntimeError(f"An unexpected error occurred: {e}") from e
         self.model_dir = model_dir

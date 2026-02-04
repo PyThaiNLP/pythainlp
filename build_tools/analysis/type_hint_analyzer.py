@@ -279,13 +279,12 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         """
         Check if a value is a simple literal.
 
+        The value parameter must be an ast.expr node.
+
         Simple literals include: strings, numbers, booleans, None,
         and simple containers (list, tuple, dict, set) containing
         only simple literals.
         """
-        if value is None:
-            return True
-
         # Direct literal types (use ast.Constant for Python 3.8+)
         # Only accept simple types: str, int, float, bool, None
         if isinstance(value, ast.Constant):
@@ -344,15 +343,35 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         Type aliases are assignments where the value is an instantiable type.
         Examples: MyType = dict[str, int], Foo = Optional[str]
 
-        This is conservative to avoid false positives.
+        This is conservative to avoid false positives like VALUE = mapping["key"].
         """
         if value is None:
             return False
 
         # Check for common type alias patterns
         # 1. Subscripted types: List[str], Dict[int, str], etc.
+        #    Only if the base is a known type name or typing construct
         if isinstance(value, ast.Subscript):
-            return True
+            # Check if base is a Name and looks like a type
+            if isinstance(value.value, ast.Name):
+                base_name = value.value.id
+                # Common built-in types and typing constructs
+                known_types = {
+                    "list", "dict", "set", "tuple", "frozenset",
+                    "List", "Dict", "Set", "Tuple", "FrozenSet",
+                    "Optional", "Union", "Callable", "Type",
+                    "Sequence", "Mapping", "Iterable", "Iterator",
+                    "Any", "Generic", "Protocol", "TypeVar",
+                }
+                # Base name starts with uppercase (type convention) or is a known type
+                if base_name in known_types or (base_name and base_name[0].isupper()):
+                    return True
+            # Check if base is from typing module
+            elif isinstance(value.value, ast.Attribute):
+                if isinstance(value.value.value, ast.Name):
+                    if value.value.value.id in ("typing", "typing_extensions"):
+                        return True
+            return False
 
         # 2. Union types with | operator (Python 3.10+)
         if isinstance(value, ast.BinOp) and isinstance(value.op, ast.BitOr):
@@ -370,9 +389,6 @@ class TypeHintAnalyzer(ast.NodeVisitor):
             if isinstance(value.value, ast.Name):
                 if value.value.id in ("typing", "typing_extensions"):
                     return True
-            # Or if the attribute name starts with uppercase (type convention)
-            if value.attr and value.attr[0].isupper():
-                return True
 
         return False
 

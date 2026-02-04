@@ -13,10 +13,11 @@ __all__: list[str] = ["gen_sentence"]
 
 import pickle
 import random
-from typing import TYPE_CHECKING, Any, Union
+from typing import TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
     import pandas as pd
+    from fastai.basic_train import Learner
     from fastai.text import (
         AWD_LSTM,
         LMDataBunch,
@@ -24,6 +25,7 @@ if TYPE_CHECKING:
         Vocab,
         language_model_learner,
     )
+    from pathlib import Path
 
 # fastai
 import fastai
@@ -48,7 +50,7 @@ from pythainlp.ulmfit import (
 )
 
 # get dummy data
-imdb: Any = untar_data(URLs.IMDB_SAMPLE)
+imdb: "Path" = untar_data(URLs.IMDB_SAMPLE)
 dummy_df: "pd.DataFrame" = pd.read_csv(imdb / "texts.csv")
 
 # get vocab
@@ -113,7 +115,7 @@ trn_args: dict[str, Any] = {
     "beta": 1,
 }
 
-learn: Any = language_model_learner(
+learn: "Learner" = language_model_learner(
     data_lm, AWD_LSTM, config=config, pretrained=False, **trn_args
 )
 

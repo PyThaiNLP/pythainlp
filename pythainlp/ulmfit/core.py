@@ -7,12 +7,14 @@ from __future__ import annotations
 
 import collections
 from collections.abc import Callable, Collection
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 import torch
 
 if TYPE_CHECKING:
     import numpy as np
+    from fastai.basic_data import DataBunch
+    from fastai.basic_train import Learner
 
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer
@@ -186,7 +188,7 @@ def process_thai(
 
 
 def document_vector(
-    text: str, learn: Any, data: Any, agg: str = "mean"
+    text: str, learn: "Learner", data: "DataBunch", agg: str = "mean"
 ) -> "np.ndarray":
     """This function vectorizes Thai input text into a 400 dimension vector using
     :class:`fastai` language model and data bunch.

@@ -7,32 +7,33 @@ from __future__ import annotations
 
 import json
 import os
+from typing import Any, Optional
 
 from pythainlp.corpus import corpus_path, get_corpus_path
 from pythainlp.tag import blackboard, orchid
 
-_ORCHID_FILENAME = "pos_orchid_unigram.json"
-_ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
+_ORCHID_FILENAME: str = "pos_orchid_unigram.json"
+_ORCHID_PATH: str = os.path.join(corpus_path(), _ORCHID_FILENAME)
 
-_PUD_FILENAME = "pos_ud_unigram-v0.2.json"
-_PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
+_PUD_FILENAME: str = "pos_ud_unigram-v0.2.json"
+_PUD_PATH: str = os.path.join(corpus_path(), _PUD_FILENAME)
 
-_TDTB_FILENAME = "tdtb-unigram_tagger.json"
-_TDTB_PATH = os.path.join(corpus_path(), _TDTB_FILENAME)
+_TDTB_FILENAME: str = "tdtb-unigram_tagger.json"
+_TDTB_PATH: str = os.path.join(corpus_path(), _TDTB_FILENAME)
 
-_BLACKBOARD_NAME = "blackboard_unigram_tagger"
+_BLACKBOARD_NAME: str = "blackboard_unigram_tagger"
 
-_TUD_FILENAME = "pos_tud_unigram.json"
-_TUD_PATH = os.path.join(corpus_path(), _TUD_FILENAME)
+_TUD_FILENAME: str = "pos_tud_unigram.json"
+_TUD_PATH: str = os.path.join(corpus_path(), _TUD_FILENAME)
 
-_ORCHID_TAGGER = None
-_PUD_TAGGER = None
-_BLACKBOARD_TAGGER = None
-_TDTB_TAGGER = None
-_TUD_TAGGER = None
+_ORCHID_TAGGER: Optional[dict[str, Any]] = None
+_PUD_TAGGER: Optional[dict[str, Any]] = None
+_BLACKBOARD_TAGGER: Optional[dict[str, Any]] = None
+_TDTB_TAGGER: Optional[dict[str, Any]] = None
+_TUD_TAGGER: Optional[dict[str, Any]] = None
 
 
-def _orchid_tagger() -> dict:
+def _orchid_tagger() -> dict[str, Any]:
     global _ORCHID_TAGGER
     if not _ORCHID_TAGGER:
         with open(_ORCHID_PATH, encoding="utf-8-sig") as fh:
@@ -40,7 +41,7 @@ def _orchid_tagger() -> dict:
     return _ORCHID_TAGGER  # type: ignore[no-any-return]
 
 
-def _pud_tagger() -> dict:
+def _pud_tagger() -> dict[str, Any]:
     global _PUD_TAGGER
     if not _PUD_TAGGER:
         with open(_PUD_PATH, encoding="utf-8-sig") as fh:
@@ -48,7 +49,7 @@ def _pud_tagger() -> dict:
     return _PUD_TAGGER  # type: ignore[no-any-return]
 
 
-def _blackboard_tagger() -> dict:
+def _blackboard_tagger() -> dict[str, Any]:
     global _BLACKBOARD_TAGGER
     if not _BLACKBOARD_TAGGER:
         path = get_corpus_path(_BLACKBOARD_NAME)
@@ -59,7 +60,7 @@ def _blackboard_tagger() -> dict:
     return _BLACKBOARD_TAGGER  # type: ignore[no-any-return]
 
 
-def _thai_tdtb() -> dict:
+def _thai_tdtb() -> dict[str, Any]:
     global _TDTB_TAGGER
     if not _TDTB_TAGGER:
         with open(_TDTB_PATH, encoding="utf-8-sig") as fh:
@@ -67,7 +68,7 @@ def _thai_tdtb() -> dict:
     return _TDTB_TAGGER  # type: ignore[no-any-return]
 
 
-def _tud_tagger() -> dict:
+def _tud_tagger() -> dict[str, Any]:
     global _TUD_TAGGER
     if not _TUD_TAGGER:
         with open(_TUD_PATH, encoding="utf-8-sig") as fh:
@@ -76,7 +77,7 @@ def _tud_tagger() -> dict:
 
 
 def _find_tag(
-    words: list[str], dictdata: dict, default_tag: str = ""
+    words: list[str], dictdata: dict[str, Any], default_tag: str = ""
 ) -> list[tuple[str, str]]:
     keys = list(dictdata.keys())
     return [

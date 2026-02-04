@@ -72,15 +72,18 @@ class CRFchunk:
     garbage collected, though this is not guaranteed.
     """
 
+    corpus: str
     _model_file_ctx: Optional[AbstractContextManager[Any]]
+    tagger: CRFTagger
+    xseq: list[dict[str, Any]]
 
-    def __init__(self, corpus: str = "orchidpp"):
-        self.corpus = corpus
-        self._model_file_ctx = None
+    def __init__(self, corpus: str = "orchidpp") -> None:
+        self.corpus: str = corpus
+        self._model_file_ctx: Optional[AbstractContextManager[Any]] = None
         self.load_model(self.corpus)
 
     def load_model(self, corpus: str) -> None:
-        self.tagger = CRFTagger()
+        self.tagger: CRFTagger = CRFTagger()
         if corpus == "orchidpp":
             corpus_files = files("pythainlp.corpus")
             model_file = corpus_files.joinpath("crfchunk_orchidpp.model")
@@ -89,7 +92,7 @@ class CRFchunk:
             self.tagger.open(str(model_path))
 
     def parse(self, token_pos: list[tuple[str, str]]) -> list[str]:
-        self.xseq = extract_features(token_pos)
+        self.xseq: list[dict[str, Any]] = extract_features(token_pos)
         return self.tagger.tag(self.xseq)  # type: ignore[no-any-return]
 
     def __enter__(self) -> CRFchunk:

@@ -16,18 +16,18 @@ from __future__ import annotations
 
 from pythainlp import thai_characters
 
-_C0 = "AEIOUHWYอ"
-_C1 = "BFPVบฝฟปผพภว"
-_C2 = "CGJKQSXZขฃคฅฆฉขฌกจซศษส"
-_C3 = "DTฎดฏตฐฑฒถทธ"
-_C4 = "Lลฬ"
-_C5 = "MNมณน"
-_C6 = "Rร"
-_C7 = "AEIOUอ"
-_C8 = "Hหฮ"
-_C1_1 = "Wว"
-_C9 = "Yยญ"
-_C52 = "ง"
+_C0: str = "AEIOUHWYอ"
+_C1: str = "BFPVบฝฟปผพภว"
+_C2: str = "CGJKQSXZขฃคฅฆฉขฌกจซศษส"
+_C3: str = "DTฎดฏตฐฑฒถทธ"
+_C4: str = "Lลฬ"
+_C5: str = "MNมณน"
+_C6: str = "Rร"
+_C7: str = "AEIOUอ"
+_C8: str = "Hหฮ"
+_C1_1: str = "Wว"
+_C9: str = "Yยญ"
+_C52: str = "ง"
 
 
 def prayut_and_somchaip(text: str, length: int = 4) -> str:

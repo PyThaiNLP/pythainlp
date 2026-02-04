@@ -7,7 +7,7 @@ Tagging each token in a sentence with supplementary information,
 such as its part-of-speech (POS) tag, and named entity (NE) tag.
 """
 
-__all__ = [
+__all__: list[str] = [
     "PerceptronTagger",
     "NER",
     "NNER",

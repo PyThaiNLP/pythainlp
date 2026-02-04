@@ -17,14 +17,19 @@ _STOPWORDS = thai_stopwords()
 
 
 class FrequencySummarizer:
-    def __init__(self, min_cut: float = 0.1, max_cut: float = 0.9):
-        self.__min_cut = min_cut
-        self.__max_cut = max_cut
-        self.__stopwords = set(punctuation).union(_STOPWORDS)
+    __min_cut: float
+    __max_cut: float
+    __stopwords: set[str]
+    __freq: "defaultdict[str, float]"
+
+    def __init__(self, min_cut: float = 0.1, max_cut: float = 0.9) -> None:
+        self.__min_cut: float = min_cut
+        self.__max_cut: float = max_cut
+        self.__stopwords: set[str] = set(punctuation).union(_STOPWORDS)
 
     @staticmethod
-    def __rank(ranking, n: int):
-        return nlargest(n, ranking, key=ranking.get)
+    def __rank(ranking: dict, n: int) -> list:
+        return nlargest(n, ranking, key=ranking.get)  # type: ignore[arg-type]
 
     def __compute_frequencies(
         self, word_tokenized_sents: list[list[str]]
@@ -56,7 +61,7 @@ class FrequencySummarizer:
         word_tokenized_sents = [
             word_tokenize(sent, engine=tokenizer) for sent in sents
         ]
-        self.__freq = self.__compute_frequencies(word_tokenized_sents)
+        self.__freq: "defaultdict[str, float]" = self.__compute_frequencies(word_tokenized_sents)
         ranking: defaultdict[int, float] = defaultdict(int)
 
         for i, sent in enumerate(word_tokenized_sents):

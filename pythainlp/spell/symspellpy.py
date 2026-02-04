@@ -108,7 +108,9 @@ def spell_sent(
     return list_new
 
 
-def correct_sent(list_words: list[str], max_edit_distance=1) -> list[str]:
+def correct_sent(
+    list_words: list[str], max_edit_distance: int = 1
+) -> list[str]:
     return [
         i[0]
         for i in spell_sent(list_words, max_edit_distance=max_edit_distance)

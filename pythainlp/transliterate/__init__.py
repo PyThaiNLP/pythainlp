@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Transliteration."""
 
-__all__ = [
+__all__: list[str] = [
     "pronunciate",
     "puan",
     "romanize",

@@ -3,11 +3,23 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from transformers import CamembertTokenizer, Pipeline
+
 model_name = "airesearch/wangchanberta-base-att-spm-uncased"
 
 
 class Thai2transformersAug:
-    def __init__(self):
+    model_name: str
+    target_tokenizer: type["CamembertTokenizer"]
+    tokenizer: "CamembertTokenizer"
+    fill_mask: "Pipeline"
+    MASK_TOKEN: str
+    input_text: str
+
+    def __init__(self) -> None:
         from transformers import (
             CamembertTokenizer,
             pipeline,
@@ -15,7 +27,7 @@ class Thai2transformersAug:
 
         self.model_name = "airesearch/wangchanberta-base-att-spm-uncased"
         self.target_tokenizer = CamembertTokenizer
-        self.tokenizer = CamembertTokenizer.from_pretrained(
+        self.tokenizer = CamembertTokenizer.from_pretrained(  # type: ignore[assignment]
             self.model_name, revision="main"
         )
         self.tokenizer.additional_special_tokens = [
@@ -31,7 +43,9 @@ class Thai2transformersAug:
         )
         self.MASK_TOKEN = self.tokenizer.mask_token
 
-    def generate(self, sentence: str, num_replace_tokens: int = 3):
+    def generate(
+        self, sentence: str, num_replace_tokens: int = 3
+    ) -> list[str]:
         sent2: list[str] = []
         self.input_text = sentence
         sent = [
@@ -74,4 +88,4 @@ class Thai2transformersAug:
              'ช้างมีทั้งหมด 50 ตัว บนหัว']
         """
         sent2 = self.generate(sentence, num_replace_tokens)
-        return sent2  # type: ignore[no-any-return]
+        return sent2

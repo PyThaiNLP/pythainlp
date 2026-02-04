@@ -5,6 +5,10 @@ from __future__ import annotations
 
 import random
 import re
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from transformers import AutoModelForMaskedLM, AutoTokenizer, Pipeline
 
 from pythainlp.phayathaibert.core import ThaiTextProcessor
 
@@ -12,6 +16,11 @@ _MODEL_NAME = "clicknext/phayathaibert"
 
 
 class ThaiTextAugmenter:
+    tokenizer: "AutoTokenizer"
+    model_for_masked_lm: "AutoModelForMaskedLM"
+    model: "Pipeline"
+    processor: "ThaiTextProcessor"
+
     def __init__(self) -> None:
         from transformers import (
             AutoModelForMaskedLM,
@@ -19,8 +28,8 @@ class ThaiTextAugmenter:
             pipeline,
         )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(_MODEL_NAME)
-        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(
+        self.tokenizer = AutoTokenizer.from_pretrained(_MODEL_NAME)  # type: ignore[assignment]
+        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(  # type: ignore[assignment]
             _MODEL_NAME
         )
         self.model = pipeline(

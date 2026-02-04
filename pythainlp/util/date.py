@@ -116,7 +116,7 @@ _DAY = {
 }
 
 
-def convert_years(year: str, src="be", target="ad") -> str:
+def convert_years(year: str, src: str = "be", target: str = "ad") -> str:
     """Convert years
 
     :param int year: Year
@@ -214,8 +214,8 @@ def thai_strptime(
     fmt: str,
     year: str = "be",
     add_year: Optional[int] = None,
-    tzinfo=ZoneInfo("Asia/Bangkok"),
-):
+    tzinfo: Optional[ZoneInfo] = ZoneInfo("Asia/Bangkok"),
+) -> datetime:
     """Thai strptime
 
     :param str text: text

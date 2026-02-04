@@ -41,7 +41,7 @@ class WunsenTransliterate:
         jp_input: Optional[str] = None,
         zh_sandhi: Optional[bool] = None,
         system: Optional[str] = None,
-    ):
+    ) -> str:
         """Use Wunsen for transliteration
 
         :param str text: text to be transliterated to Thai text.

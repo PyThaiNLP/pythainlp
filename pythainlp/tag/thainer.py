@@ -8,12 +8,15 @@ from __future__ import annotations
 __all__ = ["ThaiNameTagger"]
 
 
-from typing import Union
+from typing import TYPE_CHECKING, Union
 
 from pythainlp.corpus import get_corpus_path, thai_stopwords
 from pythainlp.tag.pos_tag import pos_tag
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import isthai
+
+if TYPE_CHECKING:
+    from pycrfsuite import Tagger as CRFTagger
 
 _TOKENIZER_ENGINE = "mm"
 
@@ -22,7 +25,7 @@ def _is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำ�
     return word in thai_stopwords()
 
 
-def _doc2features(doc, i) -> dict:
+def _doc2features(doc: list, i: int) -> dict:
     word = doc[i][0]
     postag = doc[i][1]
 
@@ -89,6 +92,9 @@ class ThaiNameTagger:
         thainer14.get_ner("วันที่ 15 ก.ย. 61 ทดสอบระบบเวลา 14:49 น.")
     """
 
+    crf: CRFTagger
+    pos_tag_name: str
+
     def __init__(self, version: str = "1.4") -> None:
         """Thai named-entity recognizer.
 
@@ -98,7 +104,7 @@ class ThaiNameTagger:
         """
         from pycrfsuite import Tagger as CRFTagger
 
-        self.crf = CRFTagger()
+        self.crf: "CRFTagger" = CRFTagger()
 
         if version == "1.4":
             model_path = get_corpus_path("thainer-1.4", version="1.4")
@@ -109,7 +115,7 @@ class ThaiNameTagger:
                     "  pythainlp.corpus.download('thainer-1.4')"
                 )
             self.crf.open(model_path)
-            self.pos_tag_name = "orchid_ud"
+            self.pos_tag_name: str = "orchid_ud"
         elif version == "1.5":
             model_path = get_corpus_path("thainer", version="1.5")
             if model_path is None:

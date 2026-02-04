@@ -5,19 +5,22 @@ GitHub: https://github.com/KoichiYasuoka/esupar
 
 from __future__ import annotations
 
-from typing import List, Optional, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
 try:
     import esupar
 except ImportError:
     raise ImportError("Import Error; Install esupar by pip install esupar")
 
+if TYPE_CHECKING:
+    from esupar import Model
+
 
 class Parse:
     def __init__(self, model: Optional[str] = "th") -> None:
         if model is None:
             model = "th"
-        self.nlp = esupar.load(model)
+        self.nlp: Model = esupar.load(model)  # type: ignore[assignment]
 
     def __call__(
         self, text: str, tag: str = "str"

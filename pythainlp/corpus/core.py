@@ -33,6 +33,10 @@ _USER_AGENT = (
 class _ResponseWrapper:
     """Wrapper to provide requests.Response-like interface for urllib response."""
 
+    status_code: int
+    headers: "http.client.HTTPMessage"
+    _content: bytes
+
     def __init__(self, response: HTTPResponse) -> None:
         self.status_code = response.status
         self.headers = response.headers

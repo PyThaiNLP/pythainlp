@@ -12,7 +12,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 import torch
 from transformers import (
@@ -20,6 +20,9 @@ from transformers import (
     AutoTokenizer,
     BertForTokenClassification,
 )
+
+if TYPE_CHECKING:
+    pass
 
 use_cuda = torch.cuda.is_available()
 device = torch.device("cuda" if use_cuda else "cpu")
@@ -31,7 +34,7 @@ tokenizer = AutoTokenizer.from_pretrained(
 class BertModel(torch.nn.Module):
     def __init__(self) -> None:
         super().__init__()
-        self.bert = BertForTokenClassification.from_pretrained(
+        self.bert: BertForTokenClassification = BertForTokenClassification.from_pretrained(
             "bookpanda/wangchanberta-base-att-spm-uncased-tagging"
         )
 

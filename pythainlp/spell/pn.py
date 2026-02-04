@@ -129,7 +129,7 @@ class NorvigSpellChecker:
         min_len: int = 2,
         max_len: int = 40,
         dict_filter: Optional[Callable[[str], bool]] = _is_thai_and_not_num,
-    ):
+    ) -> None:
         """Initializes Peter Norvig's spell checker object.
         Spelling dictionary can be customized.
         By default, spelling dictionary is from
@@ -173,9 +173,9 @@ class NorvigSpellChecker:
             custom_dict, min_freq, min_len, max_len, dict_filter
         )
 
-        self.__WORDS = Counter(dict(custom_dict))
+        self.__WORDS: Counter[str] = Counter(dict(custom_dict))
         self.__WORDS += Counter()  # remove zero and negative counts
-        self.__WORDS_TOTAL = sum(self.__WORDS.values())
+        self.__WORDS_TOTAL: int = sum(self.__WORDS.values())
 
     def dictionary(self) -> ItemsView[str, int]:
         """Returns the spelling dictionary currently used by this spell checker

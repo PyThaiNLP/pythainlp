@@ -6,7 +6,7 @@
 Initial code from https://github.com/cstorm125/thai2fit
 """
 
-__all__ = [
+__all__: list[str] = [
     "WordVector",
 ]
 

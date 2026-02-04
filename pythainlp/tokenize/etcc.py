@@ -29,7 +29,7 @@ from pythainlp.tokenize import Tokenizer
 
 
 @lru_cache
-def _cut_etcc():
+def _cut_etcc() -> "Tokenizer":
     """Lazy load ETCC tokenizer with cache"""
     return Tokenizer(get_corpus("etcc.txt"), engine="longest")
 

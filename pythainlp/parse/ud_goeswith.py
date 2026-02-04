@@ -11,11 +11,14 @@ GitHub: https://github.com/KoichiYasuoka
 
 from __future__ import annotations
 
-from typing import List, Optional, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 
 import numpy as np
 import torch
 from transformers import AutoModelForTokenClassification, AutoTokenizer
+
+if TYPE_CHECKING:
+    pass
 
 
 class Parse:
@@ -25,8 +28,8 @@ class Parse:
     ) -> None:
         if model is None:
             model = "KoichiYasuoka/deberta-base-thai-ud-goeswith"
-        self.tokenizer = AutoTokenizer.from_pretrained(model)
-        self.model = AutoModelForTokenClassification.from_pretrained(model)
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
+        self.model: AutoModelForTokenClassification = AutoModelForTokenClassification.from_pretrained(model)
 
     def __call__(
         self, text: str, tag: str = "str"

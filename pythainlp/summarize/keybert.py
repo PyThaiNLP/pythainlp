@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from collections import Counter
 from collections.abc import Iterable
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
@@ -24,9 +24,11 @@ if TYPE_CHECKING:
 
 
 class KeyBERT:
+    ft_pipeline: Any
+
     def __init__(
         self, model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
-    ):
+    ) -> None:
         from transformers import pipeline
 
         self.ft_pipeline = pipeline(
@@ -43,7 +45,7 @@ class KeyBERT:
         max_keywords: int = 5,
         min_df: int = 1,
         tokenizer: str = "newmm",
-        return_similarity=False,
+        return_similarity: bool = False,
         stop_words: Optional[Iterable[str]] = None,
     ) -> Union[list[str], list[tuple[str, float]]]:
         """Extract Thai keywords and/or keyphrases with KeyBERT algorithm.

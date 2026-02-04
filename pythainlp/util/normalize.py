@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import re
-from typing import Union
+from typing import Pattern, Union
 
 from pythainlp import thai_above_vowels as above_v
 from pythainlp import thai_below_vowels as below_v
@@ -17,13 +17,13 @@ from pythainlp import thai_tonemarks as tonemarks
 from pythainlp.tokenize import word_tokenize
 from pythainlp.tools import warn_deprecation
 
-_DANGLING_CHARS = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
-_RE_REMOVE_DANGLINGS = re.compile(f"^[{_DANGLING_CHARS}]+")
-_RE_REMOVE_DANGLINGS_AFTER_SPACE = re.compile(f" +[{_DANGLING_CHARS}]+")
+_DANGLING_CHARS: str = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
+_RE_REMOVE_DANGLINGS: Pattern[str] = re.compile(f"^[{_DANGLING_CHARS}]+")
+_RE_REMOVE_DANGLINGS_AFTER_SPACE: Pattern[str] = re.compile(f" +[{_DANGLING_CHARS}]+")
 
-_ZERO_WIDTH_CHARS = "\u200b\u200c"  # ZWSP, ZWNJ
+_ZERO_WIDTH_CHARS: str = "\u200b\u200c"  # ZWSP, ZWNJ
 
-_REORDER_PAIRS = [
+_REORDER_PAIRS: list[tuple[str, str]] = [
     ("\u0e40\u0e40", "\u0e41"),  # Sara E + Sara E -> Sara Ae
     (
         f"([{tonemarks}\u0e4c]+)([{above_v}{below_v}]+)",
@@ -41,10 +41,10 @@ _REORDER_PAIRS = [
 ]
 
 # VOWELS + Phinthu, Thanthakhat, Nikhahit, Yamakkan
-_NOREPEAT_CHARS = (
+_NOREPEAT_CHARS: str = (
     f"{follow_v}{lead_v}{above_v}{below_v}\u0e3a\u0e4c\u0e4d\u0e4e"
 )
-_NOREPEAT_PAIRS = list(
+_NOREPEAT_PAIRS: list[tuple[str, str]] = list(
     zip([f"({ch}[ ]*)+{ch}" for ch in _NOREPEAT_CHARS], _NOREPEAT_CHARS)
 )
 
@@ -60,7 +60,7 @@ _RE_REMOVE_SPACES_BEFORE_NONBASE = re.compile(
 )
 
 
-def _last_char(matchobj):  # to be used with _RE_NOREPEAT_TONEMARKS
+def _last_char(matchobj: re.Match[str]) -> str:  # to be used with _RE_NOREPEAT_TONEMARKS
     return matchobj.group(0)[-1]
 
 

@@ -198,7 +198,7 @@
 - [ ] Maintain source code readability.
 - [ ] Use Idiomatic Python.
 - [ ] All configurations should be in one place, the `pyproject.toml`,
-      when possible.
+      when possible. Use modern TOML syntax when is expressive enough.
 - [ ] Defensive coding: always check for None/empty and handle exceptions
       when dealing with external inputs, like function arguments,
       file I/O, network I/O, etc.

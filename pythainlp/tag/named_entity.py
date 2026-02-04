@@ -57,13 +57,11 @@ class NER:
     def __init__(
         self, engine: str = "thainer-v2", corpus: str = "thainer"
     ) -> None:
-        self.name_engine: str
-        self.engine: NEREngineType
         self.load_engine(engine=engine, corpus=corpus)
 
     def load_engine(self, engine: str, corpus: str) -> None:
-        self.name_engine: str = engine
-        self.engine: NEREngineType | None = None
+        self.name_engine = engine
+        self.engine = None
 
         # Engines that ignore corpus parameter
         if engine == "thai-nner":

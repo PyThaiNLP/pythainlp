@@ -9,11 +9,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional
 
-import numpy as np
-
 from pythainlp.corpus import download, get_corpus_path
 
 if TYPE_CHECKING:
+    import numpy as np
     from numpy.typing import NDArray
 
 _GRAPHEMES = list(
@@ -41,7 +40,9 @@ class _Hparams:
 hp = _Hparams()
 
 
-def _load_vocab() -> tuple[dict[str, int], dict[int, str], dict[str, int], dict[int, str]]:
+def _load_vocab() -> tuple[
+    dict[str, int], dict[int, str], dict[str, int], dict[int, str]
+]:
     g2idx = {g: idx for idx, g in enumerate(hp.graphemes)}
     idx2g = dict(enumerate(hp.graphemes))
 
@@ -83,7 +84,9 @@ class Thai_W2P:
         self.p2idx: dict[str, int]
         self.idx2p: dict[int, str]
         self.g2idx, self.idx2g, self.p2idx, self.idx2p = _load_vocab()
-        self.checkpoint: Optional[str] = get_corpus_path(_MODEL_NAME, version="0.2")
+        self.checkpoint: Optional[str] = get_corpus_path(
+            _MODEL_NAME, version="0.2"
+        )
         if self.checkpoint is None:
             download(_MODEL_NAME, version="0.2")
             self.checkpoint = get_corpus_path(_MODEL_NAME)
@@ -94,39 +97,73 @@ class Thai_W2P:
         self._load_variables()
 
     def _load_variables(self) -> None:
+        import numpy as np
+
         if self.checkpoint is None:
             raise RuntimeError("checkpoint path is not set")
         self.variables: "NDArray" = np.load(self.checkpoint, allow_pickle=True)
         # (29, 64). (len(graphemes), emb)
-        self.enc_emb: "NDArray" = self.variables.item().get("encoder.emb.weight")
+        self.enc_emb: "NDArray" = self.variables.item().get(
+            "encoder.emb.weight"
+        )
         # (3*128, 64)
-        self.enc_w_ih: "NDArray" = self.variables.item().get("encoder.rnn.weight_ih_l0")
+        self.enc_w_ih: "NDArray" = self.variables.item().get(
+            "encoder.rnn.weight_ih_l0"
+        )
         # (3*128, 128)
-        self.enc_w_hh: "NDArray" = self.variables.item().get("encoder.rnn.weight_hh_l0")
+        self.enc_w_hh: "NDArray" = self.variables.item().get(
+            "encoder.rnn.weight_hh_l0"
+        )
         # (3*128,)
-        self.enc_b_ih: "NDArray" = self.variables.item().get("encoder.rnn.bias_ih_l0")
+        self.enc_b_ih: "NDArray" = self.variables.item().get(
+            "encoder.rnn.bias_ih_l0"
+        )
         # (3*128,)
-        self.enc_b_hh: "NDArray" = self.variables.item().get("encoder.rnn.bias_hh_l0")
+        self.enc_b_hh: "NDArray" = self.variables.item().get(
+            "encoder.rnn.bias_hh_l0"
+        )
 
         # (74, 64). (len(phonemes), emb)
-        self.dec_emb: "NDArray" = self.variables.item().get("decoder.emb.weight")
+        self.dec_emb: "NDArray" = self.variables.item().get(
+            "decoder.emb.weight"
+        )
         # (3*128, 64)
-        self.dec_w_ih: "NDArray" = self.variables.item().get("decoder.rnn.weight_ih_l0")
+        self.dec_w_ih: "NDArray" = self.variables.item().get(
+            "decoder.rnn.weight_ih_l0"
+        )
         # (3*128, 128)
-        self.dec_w_hh: "NDArray" = self.variables.item().get("decoder.rnn.weight_hh_l0")
+        self.dec_w_hh: "NDArray" = self.variables.item().get(
+            "decoder.rnn.weight_hh_l0"
+        )
         # (3*128,)
-        self.dec_b_ih: "NDArray" = self.variables.item().get("decoder.rnn.bias_ih_l0")
+        self.dec_b_ih: "NDArray" = self.variables.item().get(
+            "decoder.rnn.bias_ih_l0"
+        )
         # (3*128,)
-        self.dec_b_hh: "NDArray" = self.variables.item().get("decoder.rnn.bias_hh_l0")
+        self.dec_b_hh: "NDArray" = self.variables.item().get(
+            "decoder.rnn.bias_hh_l0"
+        )
         # (74, 128)
         self.fc_w: "NDArray" = self.variables.item().get("decoder.fc.weight")
         # (74,)
         self.fc_b: "NDArray" = self.variables.item().get("decoder.fc.bias")
 
-    def _sigmoid(self, x: np.ndarray) -> np.ndarray:
+    def _sigmoid(self, x: "np.ndarray") -> "np.ndarray":
+        import numpy as np
+
         return 1 / (1 + np.exp(-x))
 
-    def _grucell(self, x: np.ndarray, h: np.ndarray, w_ih: np.ndarray, w_hh: np.ndarray, b_ih: np.ndarray, b_hh: np.ndarray) -> np.ndarray:
+    def _grucell(
+        self,
+        x: "np.ndarray",
+        h: "np.ndarray",
+        w_ih: "np.ndarray",
+        w_hh: "np.ndarray",
+        b_ih: "np.ndarray",
+        b_hh: "np.ndarray",
+    ) -> "np.ndarray":
+        import numpy as np
+
         rzn_ih = np.matmul(x, w_ih.T) + b_ih
         rzn_hh = np.matmul(h, w_hh.T) + b_hh
 
@@ -147,7 +184,18 @@ class Thai_W2P:
 
         return h
 
-    def _gru(self, x: np.ndarray, steps: int, w_ih: np.ndarray, w_hh: np.ndarray, b_ih: np.ndarray, b_hh: np.ndarray, h0: Optional[np.ndarray] = None) -> np.ndarray:
+    def _gru(
+        self,
+        x: "np.ndarray",
+        steps: int,
+        w_ih: "np.ndarray",
+        w_hh: "np.ndarray",
+        b_ih: "np.ndarray",
+        b_hh: "np.ndarray",
+        h0: Optional["np.ndarray"] = None,
+    ) -> "np.ndarray":
+        import numpy as np
+
         if h0 is None:
             h0 = np.zeros((x.shape[0], w_hh.shape[1]), np.float32)
         h = h0  # initial hidden state

@@ -3,7 +3,10 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-import torch
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import torch
 
 
 class ChatBotModel:
@@ -21,7 +24,7 @@ class ChatBotModel:
         return_dict: bool = True,
         load_in_8bit: bool = False,
         device: str = "cuda",
-        torch_dtype: torch.dtype = torch.float16,
+        torch_dtype: "torch.dtype | None" = None,
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
     ) -> None:
@@ -35,6 +38,11 @@ class ChatBotModel:
         :param str offload_folder: offload folder
         :param bool low_cpu_mem_usage: low cpu mem usage
         """
+        import torch
+
+        if torch_dtype is None:
+            torch_dtype = torch.float16
+            
         if model_name == "wangchanglm":
             from pythainlp.generate.wangchanglm import WangChanGLM
 

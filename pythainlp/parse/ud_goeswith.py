@@ -13,7 +13,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, List, Optional, Union
 
-import numpy as np
 import torch
 from transformers import AutoModelForTokenClassification, AutoTokenizer
 
@@ -36,6 +35,7 @@ class Parse:
     def __call__(
         self, text: str, tag: str = "str"
     ) -> Union[List[List[str]], str]:
+        import numpy as np
         import ufal.chu_liu_edmonds
 
         w = self.tokenizer(text, return_offsets_mapping=True)

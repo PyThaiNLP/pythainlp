@@ -4,9 +4,10 @@
 from __future__ import annotations
 
 import json
-from typing import Union
+from typing import TYPE_CHECKING, Union
 
-import numpy as np
+if TYPE_CHECKING:
+    import numpy as np
 
 from pythainlp.corpus import get_path_folder_corpus
 
@@ -55,7 +56,9 @@ class WngchanBerta_ONNX:
             self._json = json.load(fh)
             self.id2tag = self._json["id2label"]
 
-    def build_tokenizer(self, sent: str) -> dict[str, np.ndarray]:
+    def build_tokenizer(self, sent: str) -> dict[str, "np.ndarray"]:
+        import numpy as np
+
         _t = [5] + [i + 4 for i in self.sp.encode(sent)] + [6]
         model_inputs = {}
         model_inputs["input_ids"] = np.array([_t], dtype=np.int64)
@@ -64,7 +67,9 @@ class WngchanBerta_ONNX:
         )
         return model_inputs
 
-    def postprocess(self, logits_data: np.ndarray) -> np.ndarray:
+    def postprocess(self, logits_data: "np.ndarray") -> "np.ndarray":
+        import numpy as np
+
         logits_t = logits_data[0]
         maxes = np.max(logits_t, axis=-1, keepdims=True)
         shifted_exp = np.exp(logits_t - maxes)

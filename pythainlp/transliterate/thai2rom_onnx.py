@@ -17,9 +17,9 @@ if TYPE_CHECKING:
 
     import numpy as np
 
-_MODEL_ENCODER_NAME = "thai2rom_encoder_onnx"
-_MODEL_DECODER_NAME = "thai2rom_decoder_onnx"
-_MODEL_CONFIG_NAME = "thai2rom_config_onnx"
+_MODEL_ENCODER_NAME: str = "thai2rom_encoder_onnx"
+_MODEL_DECODER_NAME: str = "thai2rom_decoder_onnx"
+_MODEL_CONFIG_NAME: str = "thai2rom_config_onnx"
 
 
 class ThaiTransliterator_ONNX:
@@ -201,7 +201,7 @@ class Seq2Seq_ONNX:
         return outputs
 
 
-_THAI_TO_ROM_ONNX = ThaiTransliterator_ONNX()
+_THAI_TO_ROM_ONNX: ThaiTransliterator_ONNX = ThaiTransliterator_ONNX()
 
 
 def romanize(text: str) -> str:

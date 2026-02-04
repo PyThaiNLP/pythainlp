@@ -19,9 +19,9 @@ from pythainlp.corpus import get_corpus_path
 if TYPE_CHECKING:
     from numpy.typing import NDArray
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device: torch.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-_MODEL_NAME = "thai-g2p"
+_MODEL_NAME: str = "thai-g2p"
 
 
 class ThaiG2P:
@@ -440,7 +440,7 @@ class Seq2Seq(nn.Module):
         return outputs
 
 
-_THAI_G2P = ThaiG2P()
+_THAI_G2P: ThaiG2P = ThaiG2P()
 
 
 def transliterate(text: str) -> str:

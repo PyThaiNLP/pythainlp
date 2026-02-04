@@ -17,9 +17,9 @@ from pythainlp.corpus import get_corpus_path
 if TYPE_CHECKING:
     from typing import Dict
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device: torch.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-_MODEL_NAME = "thai2rom-pytorch-attn"
+_MODEL_NAME: str = "thai2rom-pytorch-attn"
 
 
 class ThaiTransliterator:
@@ -417,7 +417,7 @@ class Seq2Seq(nn.Module):
         return outputs
 
 
-_THAI_TO_ROM = ThaiTransliterator()
+_THAI_TO_ROM: ThaiTransliterator = ThaiTransliterator()
 
 
 def romanize(text: str) -> str:

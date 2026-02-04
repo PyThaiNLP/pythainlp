@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, Optional, cast
 
 if TYPE_CHECKING:
     from pythainlp.generate.wangchanglm import WangChanGLM
+
     import torch
 
 

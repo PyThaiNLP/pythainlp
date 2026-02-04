@@ -3,10 +3,10 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
-    from fastcoref.modeling import CorefModel
+    from fastcoref.modeling import CorefModel, CorefResult
     from spacy.language import Language
 
 
@@ -34,7 +34,7 @@ class FastCoref:
             self.model_name, device=device, nlp=self.nlp
         )
 
-    def _to_json(self, _predict: Any) -> dict[str, Any]:
+    def _to_json(self, _predict: "CorefResult") -> dict[str, list[list[str]] | list[list[tuple[int, int]]] | str]:
         return {
             "text": _predict.text,
             "clusters_string": _predict.get_clusters(as_strings=True),

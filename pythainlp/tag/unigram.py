@@ -26,14 +26,14 @@ _BLACKBOARD_NAME: str = "blackboard_unigram_tagger"
 _TUD_FILENAME: str = "pos_tud_unigram.json"
 _TUD_PATH: str = os.path.join(corpus_path(), _TUD_FILENAME)
 
-_ORCHID_TAGGER: Optional[dict[str, Any]] = None
-_PUD_TAGGER: Optional[dict[str, Any]] = None
-_BLACKBOARD_TAGGER: Optional[dict[str, Any]] = None
-_TDTB_TAGGER: Optional[dict[str, Any]] = None
-_TUD_TAGGER: Optional[dict[str, Any]] = None
+_ORCHID_TAGGER: Optional[dict[str, str]] = None
+_PUD_TAGGER: Optional[dict[str, str]] = None
+_BLACKBOARD_TAGGER: Optional[dict[str, str]] = None
+_TDTB_TAGGER: Optional[dict[str, str]] = None
+_TUD_TAGGER: Optional[dict[str, str]] = None
 
 
-def _orchid_tagger() -> dict[str, Any]:
+def _orchid_tagger() -> dict[str, str]:
     global _ORCHID_TAGGER
     if not _ORCHID_TAGGER:
         with open(_ORCHID_PATH, encoding="utf-8-sig") as fh:
@@ -41,7 +41,7 @@ def _orchid_tagger() -> dict[str, Any]:
     return _ORCHID_TAGGER
 
 
-def _pud_tagger() -> dict[str, Any]:
+def _pud_tagger() -> dict[str, str]:
     global _PUD_TAGGER
     if not _PUD_TAGGER:
         with open(_PUD_PATH, encoding="utf-8-sig") as fh:
@@ -49,7 +49,7 @@ def _pud_tagger() -> dict[str, Any]:
     return _PUD_TAGGER
 
 
-def _blackboard_tagger() -> dict[str, Any]:
+def _blackboard_tagger() -> dict[str, str]:
     global _BLACKBOARD_TAGGER
     if not _BLACKBOARD_TAGGER:
         path = get_corpus_path(_BLACKBOARD_NAME)
@@ -60,7 +60,7 @@ def _blackboard_tagger() -> dict[str, Any]:
     return _BLACKBOARD_TAGGER
 
 
-def _thai_tdtb() -> dict[str, Any]:
+def _thai_tdtb() -> dict[str, str]:
     global _TDTB_TAGGER
     if not _TDTB_TAGGER:
         with open(_TDTB_PATH, encoding="utf-8-sig") as fh:
@@ -68,7 +68,7 @@ def _thai_tdtb() -> dict[str, Any]:
     return _TDTB_TAGGER
 
 
-def _tud_tagger() -> dict[str, Any]:
+def _tud_tagger() -> dict[str, str]:
     global _TUD_TAGGER
     if not _TUD_TAGGER:
         with open(_TUD_PATH, encoding="utf-8-sig") as fh:
@@ -77,7 +77,7 @@ def _tud_tagger() -> dict[str, Any]:
 
 
 def _find_tag(
-    words: list[str], dictdata: dict[str, Any], default_tag: str = ""
+    words: list[str], dictdata: dict[str, str], default_tag: str = ""
 ) -> list[tuple[str, str]]:
     keys = list(dictdata.keys())
     return [

@@ -17,12 +17,12 @@ def _is_stopword(word: str) -> bool:  # check Thai stopword
     return word in thai_stopwords()
 
 
-def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, Any]:
+def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, str | bool]:
     """`tokens` = a POS-tagged sentence [(w1, t1), ...]
     `index` = the index of the token we want to extract features for
     """
     word, pos = tokens[index]
-    f: dict[str, Any] = {
+    f: dict[str, str | bool] = {
         "word": word,
         "word_is_stopword": _is_stopword(word),
         "pos": pos,
@@ -55,7 +55,7 @@ def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, Any]:
     return f
 
 
-def extract_features(doc: list[tuple[str, str]]) -> list[dict[str, Any]]:
+def extract_features(doc: list[tuple[str, str]]) -> list[dict[str, str | bool]]:
     return [_doc2features(doc, i) for i in range(0, len(doc))]
 
 
@@ -75,7 +75,7 @@ class CRFchunk:
     corpus: str
     _model_file_ctx: Optional[AbstractContextManager[Any]]
     tagger: CRFTagger
-    xseq: list[dict[str, Any]]
+    xseq: list[dict[str, str | bool]]
 
     def __init__(self, corpus: str = "orchidpp") -> None:
         self.corpus: str = corpus
@@ -94,7 +94,7 @@ class CRFchunk:
             self.tagger.open(str(model_path))
 
     def parse(self, token_pos: list[tuple[str, str]]) -> list[str]:
-        self.xseq: list[dict[str, Any]] = extract_features(token_pos)
+        self.xseq: list[dict[str, str | bool]] = extract_features(token_pos)
         return self.tagger.tag(self.xseq)  # type: ignore[no-any-return]
 
     def __enter__(self) -> CRFchunk:

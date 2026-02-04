@@ -130,18 +130,18 @@ class Encoder(nn.Module):
     ) -> None:
         """Constructor"""
         super().__init__()
-        self.hidden_size: int = hidden_size
-        self.character_embedding: nn.Embedding = nn.Embedding(
+        self.hidden_size = hidden_size
+        self.character_embedding = nn.Embedding(
             vocabulary_size, embedding_size
         )
-        self.rnn: nn.LSTM = nn.LSTM(
+        self.rnn = nn.LSTM(
             input_size=embedding_size,
             hidden_size=hidden_size // 2,
             bidirectional=True,
             batch_first=True,
         )
 
-        self.dropout: nn.Dropout = nn.Dropout(dropout)
+        self.dropout = nn.Dropout(dropout)
 
     def forward(
         self, sequences: torch.Tensor, sequences_lengths: torch.Tensor
@@ -201,15 +201,15 @@ class Attn(nn.Module):
     def __init__(self, method: str, hidden_size: int) -> None:
         super().__init__()
 
-        self.method: str = method
-        self.hidden_size: int = hidden_size
+        self.method = method
+        self.hidden_size = hidden_size
 
         if self.method == "general":
-            self.attn: nn.Linear = nn.Linear(self.hidden_size, hidden_size)
+            self.attn = nn.Linear(self.hidden_size, hidden_size)
 
         elif self.method == "concat":
             self.attn = nn.Linear(self.hidden_size * 2, hidden_size)
-            self.other: nn.Parameter = nn.Parameter(
+            self.other = nn.Parameter(
                 torch.FloatTensor(1, hidden_size)
             )
 
@@ -268,20 +268,20 @@ class AttentionDecoder(nn.Module):
     ) -> None:
         """Constructor"""
         super().__init__()
-        self.vocabulary_size: int = vocabulary_size
-        self.hidden_size: int = hidden_size
-        self.character_embedding: nn.Embedding = nn.Embedding(
+        self.vocabulary_size = vocabulary_size
+        self.hidden_size = hidden_size
+        self.character_embedding = nn.Embedding(
             vocabulary_size, embedding_size
         )
-        self.rnn: nn.LSTM = nn.LSTM(
+        self.rnn = nn.LSTM(
             input_size=embedding_size + self.hidden_size,
             hidden_size=hidden_size,
             bidirectional=False,
             batch_first=True,
         )
 
-        self.attn: Attn = Attn(method="general", hidden_size=self.hidden_size)
-        self.linear: nn.Linear = nn.Linear(hidden_size, vocabulary_size)
+        self.attn = Attn(method="general", hidden_size=self.hidden_size)
+        self.linear = nn.Linear(hidden_size, vocabulary_size)
 
         self.dropout: nn.Dropout = nn.Dropout(dropout)
 

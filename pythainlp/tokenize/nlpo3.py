@@ -52,8 +52,6 @@ def _ensure_default_dict_loaded() -> None:
                 dict_file = corpus_files.joinpath(_THAI_WORDS_FILENAME)
                 _dict_file_ctx = as_file(dict_file)
                 dict_path = _dict_file_ctx.__enter__()
-                msg: str
-                success: bool
                 msg, success = nlpo3_load_dict(
                     str(dict_path), _NLPO3_DEFAULT_DICT_NAME
                 )

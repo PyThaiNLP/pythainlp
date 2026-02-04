@@ -85,10 +85,10 @@ def benchmark(ref_samples: list[str], samples: list[str]) -> "pd.DataFrame":
             r, s = preprocessing(r), preprocessing(s)
             if r and s:
                 stats = compute_stats(r, s)
-                stats = _flatten_result(stats)
-                stats["expected"] = r
-                stats["actual"] = s
-                results.append(stats)
+                flat_stats: dict[str, Union[int, str]] = _flatten_result(stats)
+                flat_stats["expected"] = r
+                flat_stats["actual"] = s
+                results.append(flat_stats)
         except:
             reason = """
 [Error]

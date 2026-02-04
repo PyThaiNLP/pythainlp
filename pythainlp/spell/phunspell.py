@@ -12,6 +12,11 @@ A pure Python spell checker utilizing spylls, a port of Hunspell.
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    import phunspell
+
 try:
     import phunspell
 except ImportError:
@@ -19,7 +24,7 @@ except ImportError:
         "Import Error; Install phunspell by pip install phunspell"
     )
 
-pspell = phunspell.Phunspell("th_TH")
+pspell: "phunspell.Phunspell" = phunspell.Phunspell("th_TH")
 
 
 def spell(text: str) -> list[str]:

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """PhayaThaiBERT"""
 
-__all__ = [
+__all__: list[str] = [
     "NamedEntityTagger",
     "PartOfSpeechTagger",
     "ThaiTextAugmenter",

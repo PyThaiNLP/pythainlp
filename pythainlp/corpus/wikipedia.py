@@ -5,10 +5,12 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 from pythainlp.corpus.core import get_corpus
 
-_WIKIPEDIA_TITLES = None
-_WIKIPEDIA_TITLES_FILENAME = "wikipedia_titles_th.txt"
+_WIKIPEDIA_TITLES: Optional[frozenset[str]] = None
+_WIKIPEDIA_TITLES_FILENAME: str = "wikipedia_titles_th.txt"
 
 
 def thai_wikipedia_titles() -> frozenset[str]:

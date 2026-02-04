@@ -4,23 +4,30 @@
 from __future__ import annotations
 
 import itertools
-from typing import Callable
+from typing import TYPE_CHECKING, Callable, Union
+
+if TYPE_CHECKING:
+    from gensim.models.keyedvectors import KeyedVectors
 
 
 class Word2VecAug:
+    tokenizer: Callable[[str], list[str]]
+    model: "KeyedVectors"
+    dict_wv: list[str]
+
     def __init__(
         self,
-        model: str,
+        model: Union[str, "KeyedVectors"],
         tokenize: Callable[[str], list[str]],
         type: str = "file",
     ) -> None:
-        """:param str model: path of model
+        """:param Union[str, KeyedVectors] model: path of model or KeyedVectors instance
         :param Callable[[str], list[str]] tokenize: tokenize function
-        :param str type: model type (file, binary)
+        :param str type: model type (file, binary, model)
         """
         import gensim.models.keyedvectors as word2vec
 
-        self.tokenizer = tokenize
+        self.tokenizer: Callable[[str], list[str]] = tokenize
         if type == "file":
             self.model = word2vec.KeyedVectors.load_word2vec_format(model)
         elif type == "binary":
@@ -29,7 +36,7 @@ class Word2VecAug:
             )
         else:
             self.model = model
-        self.dict_wv = list(self.model.key_to_index.keys())
+        self.dict_wv: list[str] = list(self.model.key_to_index.keys())
 
     def modify_sent(self, sent: list[str], p: float = 0.7) -> list[list[str]]:
         """:param list[str] sent: list of tokens

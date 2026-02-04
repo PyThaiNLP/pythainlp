@@ -1,0 +1,475 @@
+{
+  "statistics": {
+    "functions": {
+      "total": 725,
+      "complete": 725,
+      "incomplete": 0,
+      "none": 0,
+      "pct_complete": 100.0,
+      "pct_incomplete": 0.0,
+      "pct_none": 0.0
+    },
+    "variables": {
+      "total": 1258,
+      "complete": 1220,
+      "none": 38,
+      "pct_complete": 96.97933227344993,
+      "pct_none": 3.0206677265500796,
+      "class_variables": 297,
+      "instance_variables": 439,
+      "module_variables": 522
+    },
+    "type_aliases": {
+      "total": 0
+    },
+    "classes": {
+      "total": 96
+    }
+  },
+  "by_submodule": {
+    "__main__": {
+      "complete": 1,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 0
+    },
+    "ancient": {
+      "complete": 2,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "augment": {
+      "complete": 29,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 12
+    },
+    "benchmarks": {
+      "complete": 8,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "chat": {
+      "complete": 4,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 12
+    },
+    "classify": {
+      "complete": 5,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "cli": {
+      "complete": 21,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 13
+    },
+    "coref": {
+      "complete": 5,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "corpus": {
+      "complete": 70,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "el": {
+      "complete": 5,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "generate": {
+      "complete": 15,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 16
+    },
+    "khavee": {
+      "complete": 9,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "lm": {
+      "complete": 2,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "morpheme": {
+      "complete": 2,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "parse": {
+      "complete": 9,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "phayathaibert": {
+      "complete": 19,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "soundex": {
+      "complete": 27,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "spell": {
+      "complete": 43,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "summarize": {
+      "complete": 17,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "tag": {
+      "complete": 73,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "tokenize": {
+      "complete": 73,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "tokenizeicu": {
+      "complete": 3,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 0
+    },
+    "tools": {
+      "complete": 9,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "translate": {
+      "complete": 44,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 18
+    },
+    "transliterate": {
+      "complete": 75,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "transliterateicu": {
+      "complete": 1,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 0
+    },
+    "ulmfit": {
+      "complete": 25,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 16
+    },
+    "util": {
+      "complete": 109,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "wangchanberta": {
+      "complete": 9,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    },
+    "word_vector": {
+      "complete": 7,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 16
+    },
+    "wsd": {
+      "complete": 4,
+      "incomplete": 0,
+      "none": 0,
+      "mypy_errors": 11
+    }
+  },
+  "functions_no_hints": [],
+  "functions_incomplete_hints": [],
+  "class_variables_no_hints": [],
+  "instance_variables_no_hints": [
+    {
+      "name": "pythainlp.chat.core.ChatBotModel.history",
+      "scope": "public",
+      "parent_class": "ChatBotModel",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/chat/core.py",
+      "line": 22
+    },
+    {
+      "name": "pythainlp.generate.core.Unigram._word_prob",
+      "scope": "private",
+      "parent_class": "Unigram",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/core.py",
+      "line": 83
+    },
+    {
+      "name": "pythainlp.tag.crfchunk.CRFchunk._model_file_ctx",
+      "scope": "private",
+      "parent_class": "CRFchunk",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tag/crfchunk.py",
+      "line": 112
+    },
+    {
+      "name": "pythainlp.tokenize.multi_cut.LatticeString.unique",
+      "scope": "public",
+      "parent_class": "LatticeString",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/multi_cut.py",
+      "line": 45
+    },
+    {
+      "name": "pythainlp.transliterate.w2p.Thai_W2P.word",
+      "scope": "public",
+      "parent_class": "Thai_W2P",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/w2p.py",
+      "line": 222
+    },
+    {
+      "name": "pythainlp.transliterate.w2p.Thai_W2P.word",
+      "scope": "public",
+      "parent_class": "Thai_W2P",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/w2p.py",
+      "line": 223
+    },
+    {
+      "name": "pythainlp.transliterate.wunsen.WunsenTransliterate.jp_input",
+      "scope": "public",
+      "parent_class": "WunsenTransliterate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/wunsen.py",
+      "line": 128
+    },
+    {
+      "name": "pythainlp.transliterate.wunsen.WunsenTransliterate.zh_sandhi",
+      "scope": "public",
+      "parent_class": "WunsenTransliterate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/wunsen.py",
+      "line": 129
+    },
+    {
+      "name": "pythainlp.transliterate.wunsen.WunsenTransliterate.system",
+      "scope": "public",
+      "parent_class": "WunsenTransliterate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/wunsen.py",
+      "line": 130
+    },
+    {
+      "name": "pythainlp.transliterate.wunsen.WunsenTransliterate.jp_input",
+      "scope": "public",
+      "parent_class": "WunsenTransliterate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/wunsen.py",
+      "line": 132
+    },
+    {
+      "name": "pythainlp.transliterate.wunsen.WunsenTransliterate.zh_sandhi",
+      "scope": "public",
+      "parent_class": "WunsenTransliterate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/wunsen.py",
+      "line": 133
+    },
+    {
+      "name": "pythainlp.transliterate.wunsen.WunsenTransliterate.system",
+      "scope": "public",
+      "parent_class": "WunsenTransliterate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/wunsen.py",
+      "line": 134
+    },
+    {
+      "name": "pythainlp.transliterate.wunsen.WunsenTransliterate.jp_input",
+      "scope": "public",
+      "parent_class": "WunsenTransliterate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/wunsen.py",
+      "line": 136
+    },
+    {
+      "name": "pythainlp.transliterate.wunsen.WunsenTransliterate.zh_sandhi",
+      "scope": "public",
+      "parent_class": "WunsenTransliterate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/wunsen.py",
+      "line": 137
+    },
+    {
+      "name": "pythainlp.transliterate.wunsen.WunsenTransliterate.system",
+      "scope": "public",
+      "parent_class": "WunsenTransliterate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/wunsen.py",
+      "line": 138
+    },
+    {
+      "name": "pythainlp.transliterate.wunsen.WunsenTransliterate.lang",
+      "scope": "public",
+      "parent_class": "WunsenTransliterate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/wunsen.py",
+      "line": 143
+    },
+    {
+      "name": "pythainlp.transliterate.wunsen.WunsenTransliterate.thap_value",
+      "scope": "public",
+      "parent_class": "WunsenTransliterate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/wunsen.py",
+      "line": 154
+    },
+    {
+      "name": "pythainlp.wangchanberta.core.ThaiNameTagger.sent_ner",
+      "scope": "public",
+      "parent_class": "ThaiNameTagger",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
+      "line": 116
+    },
+    {
+      "name": "pythainlp.wangchanberta.core.ThaiNameTagger.sent_ner",
+      "scope": "public",
+      "parent_class": "ThaiNameTagger",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
+      "line": 122
+    },
+    {
+      "name": "pythainlp.wangchanberta.core.ThaiNameTagger.sent_ner",
+      "scope": "public",
+      "parent_class": "ThaiNameTagger",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
+      "line": 130
+    },
+    {
+      "name": "pythainlp.wsd.core._SentenceTransformersModel.device",
+      "scope": "public",
+      "parent_class": "_SentenceTransformersModel",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wsd/core.py",
+      "line": 49
+    },
+    {
+      "name": "pythainlp.wsd.core._SentenceTransformersModel.model",
+      "scope": "public",
+      "parent_class": "_SentenceTransformersModel",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wsd/core.py",
+      "line": 50
+    }
+  ],
+  "module_variables_no_hints": [
+    {
+      "name": "pythainlp.ancient.aksonhan.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/ancient/aksonhan.py",
+      "line": 20
+    },
+    {
+      "name": "pythainlp.ancient.aksonhan.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/ancient/aksonhan.py",
+      "line": 21
+    },
+    {
+      "name": "pythainlp.ancient.aksonhan.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/ancient/aksonhan.py",
+      "line": 22
+    },
+    {
+      "name": "pythainlp.spell.wanchanberta_thai_grammarly.tagging_model",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
+      "line": 60
+    },
+    {
+      "name": "pythainlp.spell.wanchanberta_thai_grammarly.mlm_model",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
+      "line": 106
+    },
+    {
+      "name": "pythainlp.util.morse.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/util/morse.py",
+      "line": 128
+    },
+    {
+      "name": "pythainlp.util.morse.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/util/morse.py",
+      "line": 132
+    },
+    {
+      "name": "pythainlp.util.morse.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/util/morse.py",
+      "line": 135
+    },
+    {
+      "name": "pythainlp.util.spell_words.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/util/spell_words.py",
+      "line": 41
+    },
+    {
+      "name": "pythainlp.util.spell_words.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/util/spell_words.py",
+      "line": 46
+    },
+    {
+      "name": "pythainlp.util.spell_words.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/util/spell_words.py",
+      "line": 50
+    },
+    {
+      "name": "pythainlp.util.spell_words.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/util/spell_words.py",
+      "line": 52
+    },
+    {
+      "name": "pythainlp.util.spell_words.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/util/spell_words.py",
+      "line": 54
+    },
+    {
+      "name": "pythainlp.util.spell_words.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/util/spell_words.py",
+      "line": 56
+    },
+    {
+      "name": "pythainlp.util.syllable.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/util/syllable.py",
+      "line": 63
+    },
+    {
+      "name": "pythainlp.wsd.core.unknown",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wsd/core.py",
+      "line": 27
+    }
+  ],
+  "type_aliases": []
+}

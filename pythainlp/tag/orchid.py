@@ -7,7 +7,7 @@ from __future__ import annotations
 
 # defined strings for special characters,
 # from Table 4 in ORCHID paper
-CHAR_TO_ESCAPE = {
+CHAR_TO_ESCAPE: dict[str, str] = {
     " ": "<space>",
     "+": "<plus>",
     "-": "<minus>",
@@ -32,11 +32,11 @@ CHAR_TO_ESCAPE = {
     ";": "<semi_colon>",
     "/": "<slash>",
 }
-ESCAPE_TO_CHAR = {v: k for k, v in CHAR_TO_ESCAPE.items()}
+ESCAPE_TO_CHAR: dict[str, str] = {v: k for k, v in CHAR_TO_ESCAPE.items()}
 
 # map from ORCHID POS tag to Universal POS tag
 # from Korakot Chaovavanich
-TO_UD = {
+TO_UD: dict[str, str] = {
     "": "",
     # NOUN
     "NOUN": "NOUN",

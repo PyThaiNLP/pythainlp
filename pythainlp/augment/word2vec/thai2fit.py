@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Optional
+
 from pythainlp.augment.word2vec.core import Word2VecAug
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer
@@ -15,8 +17,11 @@ class Thai2fitAug:
     `github.com/cstorm125/thai2fit <https://github.com/cstorm125/thai2fit>`_
     """
 
-    def __init__(self):
-        self.thai2fit_wv = get_corpus_path("thai2fit_wv")
+    thai2fit_wv: Optional[str]
+    aug: Word2VecAug
+
+    def __init__(self) -> None:
+        self.thai2fit_wv: Optional[str] = get_corpus_path("thai2fit_wv")
         self.load_w2v()
 
     def tokenizer(self, text: str) -> list[str]:
@@ -24,16 +29,18 @@ class Thai2fitAug:
         :rtype: List[str]
         """
         tok = thai2fit_tokenizer()
-        return tok.word_tokenize(text)  # type: ignore[no-any-return]
+        return tok.word_tokenize(text)
 
-    def load_w2v(self):
+    def load_w2v(self) -> None:
         """Load Thai2Fit's word2vec model"""
         if self.thai2fit_wv is None:
             raise ValueError(
                 "Thai2Fit word2vec model not found. "
                 "Please download it first using pythainlp.corpus.download('thai2fit_wv')"
             )
-        self.aug = Word2VecAug(self.thai2fit_wv, self.tokenizer, type="binary")
+        self.aug: Word2VecAug = Word2VecAug(
+            self.thai2fit_wv, self.tokenizer, type="binary"
+        )
 
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7

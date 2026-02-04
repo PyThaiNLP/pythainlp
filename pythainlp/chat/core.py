@@ -3,17 +3,21 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Optional
+from typing import TYPE_CHECKING, Any, Optional, cast
 
-import torch
+if TYPE_CHECKING:
+    import torch
 
 
 class ChatBotModel:
-    def __init__(self):
-        """Chat using AI generation"""
-        self.history = []
+    history: list[tuple[str, str]]
+    model: Any
 
-    def reset_chat(self):
+    def __init__(self) -> None:
+        """Chat using AI generation"""
+        self.history: list[tuple[str, str]] = []
+
+    def reset_chat(self) -> None:
         """Reset chat by cleaning history"""
         self.history = []
 
@@ -23,10 +27,10 @@ class ChatBotModel:
         return_dict: bool = True,
         load_in_8bit: bool = False,
         device: str = "cuda",
-        torch_dtype: Optional[torch.dtype] = torch.float16,
+        torch_dtype: Optional["torch.dtype"] = None,
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
-    ):
+    ) -> None:
         """Load model
 
         :param str model_name: Model name (Now, we support wangchanglm only)
@@ -37,10 +41,15 @@ class ChatBotModel:
         :param str offload_folder: offload folder
         :param bool low_cpu_mem_usage: low cpu mem usage
         """
+        import torch
+
+        if torch_dtype is None:
+            torch_dtype = torch.float16
+
         if model_name == "wangchanglm":
             from pythainlp.generate.wangchanglm import WangChanGLM
 
-            self.model = WangChanGLM()
+            self.model: Any = WangChanGLM()
             self.model.load_model(
                 model_path="pythainlp/wangchanglm-7.5B-sft-en-sharded",
                 return_dict=return_dict,
@@ -86,6 +95,6 @@ class ChatBotModel:
         _temp += self.model.PROMPT_DICT["prompt_chatbot"].format_map(
             {"human": text, "bot": ""}
         )
-        _bot = self.model.gen_instruct(_temp)
+        _bot = cast(str, self.model.gen_instruct(_temp))
         self.history.append((text, _bot))
-        return _bot  # type: ignore[no-any-return]
+        return _bot

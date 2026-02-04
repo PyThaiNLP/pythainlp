@@ -11,7 +11,7 @@ import re
 import sys
 import tarfile
 import zipfile
-from http.client import HTTPResponse
+from http.client import HTTPMessage, HTTPResponse
 from importlib.resources import files
 from typing import TYPE_CHECKING
 
@@ -22,8 +22,8 @@ from pythainlp.tools import get_full_data_path
 if TYPE_CHECKING:
     from typing import Any, Optional
 
-_CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
-_USER_AGENT = (
+_CHECK_MODE: Optional[str] = os.getenv("PYTHAINLP_READ_MODE")
+_USER_AGENT: str = (
     f"PyThaiNLP/{__version__} "
     f"(Python/{sys.version_info.major}.{sys.version_info.minor}; "
     f"{sys.platform})"
@@ -33,10 +33,14 @@ _USER_AGENT = (
 class _ResponseWrapper:
     """Wrapper to provide requests.Response-like interface for urllib response."""
 
+    status_code: int
+    headers: HTTPMessage
+    _content: bytes
+
     def __init__(self, response: HTTPResponse) -> None:
-        self.status_code = response.status
-        self.headers = response.headers
-        self._content = response.read()
+        self.status_code: int = response.status
+        self.headers: HTTPMessage = response.headers
+        self._content: bytes = response.read()
 
     def json(self) -> dict[str, Any]:
         """Parse JSON content from response."""

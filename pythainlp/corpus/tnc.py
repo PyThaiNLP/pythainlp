@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-__all__ = [
+__all__: list[str] = [
     "bigram_word_freqs",
     "trigram_word_freqs",
     "unigram_word_freqs",
@@ -16,9 +16,9 @@ from collections import defaultdict
 
 from pythainlp.corpus import get_corpus, get_corpus_path
 
-_UNIGRAM_FILENAME = "tnc_freq.txt"
-_BIGRAM_CORPUS_NAME = "tnc_bigram_word_freqs"
-_TRIGRAM_CORPUS_NAME = "tnc_trigram_word_freqs"
+_UNIGRAM_FILENAME: str = "tnc_freq.txt"
+_BIGRAM_CORPUS_NAME: str = "tnc_bigram_word_freqs"
+_TRIGRAM_CORPUS_NAME: str = "tnc_trigram_word_freqs"
 
 
 def word_freqs() -> list[tuple[str, int]]:

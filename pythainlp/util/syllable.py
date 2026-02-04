@@ -6,10 +6,11 @@
 from __future__ import annotations
 
 import re
+from typing import Pattern
 
 from pythainlp import thai_consonants, thai_tonemarks
 
-spelling_class = {
+spelling_class: dict[str, list[str]] = {
     "กง": list("ง"),
     "กม": list("ม"),
     "เกย": list("ย"),
@@ -20,40 +21,48 @@ spelling_class = {
     "กบ": list("บปภพฟ"),
 }
 
-thai_consonants_all = set(thai_consonants)
+thai_consonants_all: set[str] = set(thai_consonants)
 thai_consonants_all.remove("อ")
 
-_temp = list("".join(["".join(v) for v in spelling_class.values()]))
-not_spelling_class = [j for j in thai_consonants_all if j not in _temp]
+_temp: list[str] = list("".join(["".join(v) for v in spelling_class.values()]))
+not_spelling_class: list[str] = [
+    j for j in thai_consonants_all if j not in _temp
+]
 
 # vowel's short sound
-short = "ะัิึุ"
-re_short = re.compile("เ(.*)ะ|แ(.*)ะ|เ(.*)อะ|โ(.*)ะ|เ(.*)าะ", re.U)
-pattern = re.compile("เ(.*)า", re.U)  # เ-า is live syllable
+short: str = "ะัิึุ"
+re_short: Pattern[str] = re.compile(
+    "เ(.*)ะ|แ(.*)ะ|เ(.*)อะ|โ(.*)ะ|เ(.*)าะ", re.U
+)
+pattern: Pattern[str] = re.compile("เ(.*)า", re.U)  # เ-า is live syllable
 
-_check_1 = []
+_check_1: list[str] = []
 # These spelling consonant ares live syllables.
 for i in ["กง", "กน", "กม", "เกย", "เกอว"]:
     _check_1.extend(spelling_class[i])
 
 # These spelling consonants are dead syllables.
-_check_2 = spelling_class["กก"] + spelling_class["กบ"] + spelling_class["กด"]
+_check_2: list[str] = (
+    spelling_class["กก"] + spelling_class["กบ"] + spelling_class["กด"]
+)
 
-thai_low_sonorants = list("งนมยรลว")
-thai_low_aspirates = list("คชซทพฟฮ")
-thai_low_irregular = list("ฆญณธภฅฌฑฒฬ")
+thai_low_sonorants: list[str] = list("งนมยรลว")
+thai_low_aspirates: list[str] = list("คชซทพฟฮ")
+thai_low_irregular: list[str] = list("ฆญณธภฅฌฑฒฬ")
 
-thai_mid_plains = list("กจดตบปอฎฏ")
+thai_mid_plains: list[str] = list("กจดตบปอฎฏ")
 
-thai_high_aspirates = list("ขฉถผฝสห")
-thai_high_irregular = list("ศษฃฐ")
-thai_initial_consonant_type = {
+thai_high_aspirates: list[str] = list("ขฉถผฝสห")
+thai_high_irregular: list[str] = list("ศษฃฐ")
+thai_initial_consonant_type: dict[str, list[str]] = {
     "low": thai_low_sonorants + thai_low_aspirates + thai_low_irregular,
     "mid": thai_mid_plains,
     "high": thai_high_aspirates + thai_high_irregular,
 }
-thai_initial_consonant_to_type = {}
+thai_initial_consonant_to_type: dict[str, str] = {}
 
+k: str
+v: list[str]
 for k, v in thai_initial_consonant_type.items():
     for i in v:
         thai_initial_consonant_to_type[i] = k

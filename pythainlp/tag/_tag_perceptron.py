@@ -32,6 +32,12 @@ class AveragedPerceptron:
         http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
     """
 
+    weights: dict[str, dict[str, float]]
+    classes: set[str]
+    _totals: dict[tuple[str, str], float]
+    _tstamps: dict[tuple[str, str], int]
+    i: int
+
     def __init__(self) -> None:
         # Each feature gets its own weight vector,
         # so weights is a dict-of-dicts
@@ -45,7 +51,7 @@ class AveragedPerceptron:
         # (tstamps is short for timestamps)
         self._tstamps: dict[tuple[str, str], int] = defaultdict(int)
         # Number of instances seen
-        self.i = 0
+        self.i: int = 0
 
     def predict(self, features: dict[str, float]) -> str:
         """Dot-product the features and current weights and return the best
@@ -115,17 +121,21 @@ class PerceptronTagger:
 
     """
 
-    START = ["-START-", "-START2-"]
-    END = ["-END-", "-END2-"]
-    AP_MODEL_LOC = ""
+    START: list[str] = ["-START-", "-START2-"]
+    END: list[str] = ["-END-", "-END2-"]
+    AP_MODEL_LOC: str = ""
+
+    model: "AveragedPerceptron"
+    tagdict: dict[str, str]
+    classes: set[str]
 
     def __init__(self, path: str = "") -> None:
         """:param str path: model path"""
-        self.model = AveragedPerceptron()
+        self.model: "AveragedPerceptron" = AveragedPerceptron()
         self.tagdict: dict[str, str] = {}
         self.classes: set[str] = set()
         if path != "":
-            self.AP_MODEL_LOC = path
+            self.AP_MODEL_LOC: str = path
             self.load(self.AP_MODEL_LOC)
 
     def tag(self, tokens: Iterable[str]) -> list[tuple[str, str]]:
@@ -208,8 +218,8 @@ class PerceptronTagger:
             msg = "Missing trontagger.json file."
             raise OSError(msg) from ex
         self.model.weights = w_td_c["weights"]
-        self.tagdict = w_td_c["tagdict"]
-        self.classes = w_td_c["classes"]
+        self.tagdict: dict[str, list[str]] = w_td_c["tagdict"]
+        self.classes: list[str] = w_td_c["classes"]
         self.model.classes = set(self.classes)
 
     def _normalize(self, word: str) -> str:

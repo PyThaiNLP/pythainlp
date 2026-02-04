@@ -25,27 +25,41 @@ from pythainlp.util import Trie
 class LatticeString(str):
     """String that keeps possible tokenizations"""
 
-    def __new__(cls, value, multi=None, in_dict=True):
+    unique: bool
+    multi: list[str]
+    in_dict: bool
+
+    def __new__(
+        cls,
+        value: str,
+        multi: Optional[list[str]] = None,
+        in_dict: bool = True,
+    ) -> "LatticeString":
         return str.__new__(cls, value)
 
-    def __init__(self, value, multi=None, in_dict=True):
-        self.unique = True
+    def __init__(
+        self,
+        value: str,
+        multi: Optional[list[str]] = None,
+        in_dict: bool = True,
+    ) -> None:
+        self.unique: bool = True
         if multi:
-            self.multi = list(multi)
+            self.multi: list[str] = list(multi)
             if len(self.multi) > 1:
                 self.unique = False
         else:
             self.multi = [value]
-        self.in_dict = in_dict  # if in dictionary
+        self.in_dict: bool = in_dict  # if in dictionary
 
 
-_RE_NONTHAI = r"""(?x)
+_RE_NONTHAI: str = r"""(?x)
 [-a-zA-Z]+|       # Latin characters
 \d+([,\.]\d+)*|   # numbers
 [ \t]+|           # spaces
 \r?\n             # newlines
 """
-_PAT_NONTHAI = re.compile(_RE_NONTHAI)
+_PAT_NONTHAI: re.Pattern[str] = re.compile(_RE_NONTHAI)
 
 
 def _multicut(
@@ -59,7 +73,7 @@ def _multicut(
         list
     )  # main data structure
 
-    def serialize(p, p2):  # helper function
+    def serialize(p: int, p2: int) -> Iterator[str]:  # helper function
         for w in words_at[p]:
             p_ = p + len(w)
             if p_ == p2:
@@ -82,7 +96,7 @@ def _multicut(
 
         if len_q == 1:
             q0 = min(q)
-            yield LatticeString(text[last_p:q0], serialize(last_p, q0))
+            yield LatticeString(text[last_p:q0], list(serialize(last_p, q0)))
             last_p = q0
         elif len_q == 0:  # len(q) == 0  means not found in dictionary
             m = _PAT_NONTHAI.match(text[p:])

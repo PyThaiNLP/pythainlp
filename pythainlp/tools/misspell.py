@@ -7,28 +7,28 @@ import math
 import random
 from typing import Optional
 
-THAI_CHARACTERS_WITHOUT_SHIFT = [
+THAI_CHARACTERS_WITHOUT_SHIFT: list[str] = [
     "ผปแอิืทมใฝ",
     "ฟหกดเ้่าสวง",
     "ๆไำพะัีรนยบลฃ",
     "ๅ/_ภถุึคตจขช",
 ]
 
-THAI_CHARACTERS_WITH_SHIFT = [
+THAI_CHARACTERS_WITH_SHIFT: list[str] = [
     "()ฉฮฺ์?ฒฬฦ",
     "ฤฆฏโฌ็๋ษศซ.",
     '๐"ฎฑธํ๊ณฯญฐ,',
     "+๑๒๓๔ู฿๕๖๗๘๙",
 ]
 
-ENGLISH_CHARACTERS_WITHOUT_SHIFT = [
+ENGLISH_CHARACTERS_WITHOUT_SHIFT: list[str] = [
     "1234567890-=",
     "qwertyuiop[]\\",
     "asdfghjkl;'",
     "zxcvbnm,./",
 ]
 
-ENGLISH_CHARACTERS_WITH_SHIFT = [
+ENGLISH_CHARACTERS_WITH_SHIFT: list[str] = [
     "!@#$%^&*()_+",
     "QWERTYUIOP{}|",
     'ASDFGHJKL:"',
@@ -36,7 +36,7 @@ ENGLISH_CHARACTERS_WITH_SHIFT = [
 ]
 
 
-ALL_CHARACTERS = [
+ALL_CHARACTERS: list[list[str]] = [
     THAI_CHARACTERS_WITHOUT_SHIFT + THAI_CHARACTERS_WITH_SHIFT,
     ENGLISH_CHARACTERS_WITHOUT_SHIFT + ENGLISH_CHARACTERS_WITH_SHIFT,
 ]

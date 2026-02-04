@@ -7,7 +7,7 @@ from typing import Optional
 
 from word2word import Word2word
 
-support_list = set(
+support_list: set[str] = set(
     [
         "zh_tw",
         "el",

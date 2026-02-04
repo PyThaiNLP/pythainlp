@@ -22,16 +22,18 @@ from pythainlp.tools import safe_print
 if TYPE_CHECKING:
     from collections.abc import Callable, Sequence
 
-DEFAULT_SENT_TOKEN_SEPARATOR = "@@"  # noqa: S105
-DEFAULT_SUBWORD_TOKEN_SEPARATOR = "/"  # noqa: S105
-DEFAULT_SYLLABLE_TOKEN_SEPARATOR = "~"  # noqa: S105
-DEFAULT_WORD_TOKEN_SEPARATOR = "|"  # noqa: S105
+DEFAULT_SENT_TOKEN_SEPARATOR: str = "@@"  # noqa: S105
+DEFAULT_SUBWORD_TOKEN_SEPARATOR: str = "/"  # noqa: S105
+DEFAULT_SYLLABLE_TOKEN_SEPARATOR: str = "~"  # noqa: S105
+DEFAULT_WORD_TOKEN_SEPARATOR: str = "|"  # noqa: S105
 
 
 class SubAppBase:
     separator: str
     algorithm: str
     run: Callable[..., Any]
+    keep_whitespace: bool
+    args: argparse.Namespace
 
     def __init__(self, name: str, argv: Sequence[str]) -> None:
         parser = argparse.ArgumentParser(**cli.make_usage("tokenize " + name))  # type: ignore[arg-type]
@@ -72,7 +74,7 @@ class SubAppBase:
         parser.set_defaults(keep_whitespace=True)
 
         args = parser.parse_args(argv)
-        self.args = args
+        self.args: Any = args
 
         cli.exit_if_empty(args.text, parser)
         result = self.run(
@@ -85,28 +87,28 @@ class SubAppBase:
 
 class WordTokenizationApp(SubAppBase):
     def __init__(self, *args: str, **kwargs: str) -> None:
-        self.keep_whitespace = True
-        self.algorithm = DEFAULT_WORD_TOKENIZE_ENGINE
-        self.separator = DEFAULT_WORD_TOKEN_SEPARATOR
-        self.run = word_tokenize
+        self.keep_whitespace: bool = True
+        self.algorithm: str = DEFAULT_WORD_TOKENIZE_ENGINE
+        self.separator: str = DEFAULT_WORD_TOKEN_SEPARATOR
+        self.run: Callable[..., Any] = word_tokenize
         super().__init__(*args, **kwargs)
 
 
 class SentenceTokenizationApp(SubAppBase):
     def __init__(self, *args: str, **kwargs: str) -> None:
-        self.keep_whitespace = True
-        self.algorithm = DEFAULT_SENT_TOKENIZE_ENGINE
-        self.separator = DEFAULT_SENT_TOKEN_SEPARATOR
-        self.run = sent_tokenize
+        self.keep_whitespace: bool = True
+        self.algorithm: str = DEFAULT_SENT_TOKENIZE_ENGINE
+        self.separator: str = DEFAULT_SENT_TOKEN_SEPARATOR
+        self.run: Callable[..., Any] = sent_tokenize
         super().__init__(*args, **kwargs)
 
 
 class SubwordTokenizationApp(SubAppBase):
     def __init__(self, *args: str, **kwargs: str) -> None:
-        self.keep_whitespace = True
-        self.algorithm = DEFAULT_SUBWORD_TOKENIZE_ENGINE
-        self.separator = DEFAULT_SUBWORD_TOKEN_SEPARATOR
-        self.run = subword_tokenize
+        self.keep_whitespace: bool = True
+        self.algorithm: str = DEFAULT_SUBWORD_TOKENIZE_ENGINE
+        self.separator: str = DEFAULT_SUBWORD_TOKEN_SEPARATOR
+        self.run: Callable[..., Any] = subword_tokenize
         super().__init__(*args, **kwargs)
 
 

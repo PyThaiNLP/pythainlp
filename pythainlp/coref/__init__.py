@@ -3,6 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 """PyThaiNLP Coreference Resolution"""
 
-__all__ = ["coreference_resolution"]
+__all__: list[str] = ["coreference_resolution"]
 
 from pythainlp.coref.core import coreference_resolution

@@ -15,6 +15,10 @@ from __future__ import annotations
 
 import threading
 from importlib.resources import as_file, files
+from typing import TYPE_CHECKING, Any, Optional
+
+if TYPE_CHECKING:
+    from symspellpy import SymSpell
 
 try:
     from symspellpy import SymSpell, Verbosity
@@ -25,14 +29,14 @@ except ImportError:
 
 from pythainlp.corpus import get_corpus_path
 
-_UNIGRAM_FILENAME = "tnc_freq.txt"
-_BIGRAM_CORPUS_NAME = "tnc_bigram_word_freqs"
+_UNIGRAM_FILENAME: str = "tnc_freq.txt"
+_BIGRAM_CORPUS_NAME: str = "tnc_bigram_word_freqs"
 
-_sym_spell = None
-_unigram_file_ctx = (
+_sym_spell: Optional["SymSpell"] = None
+_unigram_file_ctx: Optional[Any] = (
     None  # File context manager kept alive for program lifetime
 )
-_load_lock = threading.Lock()  # Thread safety for lazy loading
+_load_lock: threading.Lock = threading.Lock()  # Thread safety for lazy loading
 
 
 def _get_sym_spell() -> SymSpell:
@@ -108,7 +112,9 @@ def spell_sent(
     return list_new
 
 
-def correct_sent(list_words: list[str], max_edit_distance=1) -> list[str]:
+def correct_sent(
+    list_words: list[str], max_edit_distance: int = 1
+) -> list[str]:
     return [
         i[0]
         for i in spell_sent(list_words, max_edit_distance=max_edit_distance)

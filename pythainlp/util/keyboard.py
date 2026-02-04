@@ -5,9 +5,9 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, Union, cast
 
-EN_TH_KEYB_PAIRS = {
+EN_TH_KEYB_PAIRS: dict[str, str] = {
     "Z": "(",
     "z": "ผ",
     "X": ")",
@@ -102,18 +102,22 @@ EN_TH_KEYB_PAIRS = {
     "=": "ช",
 }
 
-TH_EN_KEYB_PAIRS = {v: k for k, v in EN_TH_KEYB_PAIRS.items()}
+TH_EN_KEYB_PAIRS: dict[str, str] = {v: k for k, v in EN_TH_KEYB_PAIRS.items()}
 
-EN_TH_TRANSLATE_TABLE = str.maketrans(EN_TH_KEYB_PAIRS)
-TH_EN_TRANSLATE_TABLE = str.maketrans(TH_EN_KEYB_PAIRS)
+EN_TH_TRANSLATE_TABLE: dict[int, Union[int, str, None]] = str.maketrans(
+    cast(dict[str, Union[int, str, None]], EN_TH_KEYB_PAIRS)
+)
+TH_EN_TRANSLATE_TABLE: dict[int, Union[int, str, None]] = str.maketrans(
+    cast(dict[str, Union[int, str, None]], TH_EN_KEYB_PAIRS)
+)
 
-TIS_820_2531_MOD = [
+TIS_820_2531_MOD: list[list[str]] = [
     ["-", "ๅ", "/", "", "_", "ภ", "ถ", "ุ", "ึ", "ค", "ต", "จ", "ข", "ช"],
     ["ๆ", "ไ", "ำ", "พ", "ะ", "ั", "ี", "ร", "น", "ย", "บ", "ล", "ฃ"],
     ["ฟ", "ห", "ก", "ด", "เ", "้", "่", "า", "ส", "ว", "ง"],
     ["ผ", "ป", "แ", "อ", "ิ", "ื", "ท", "ม", "ใ", "ฝ"],
 ]
-TIS_820_2531_MOD_SHIFT = [
+TIS_820_2531_MOD_SHIFT: list[list[str]] = [
     ["%", "+", "๑", "๒", "๓", "๔", "ู", "฿", "๕", "๖", "๗", "๘", "๙"],
     ["๐", '"', "ฎ", "ฑ", "ธ", "ํ", "๊", "ณ", "ฯ", "ญ", "ฐ", ",", "ฅ"],
     ["ฤ", "ฆ", "ฏ", "โ", "ฌ", "็", "๋", "ษ", "ศ", "ซ", "."],

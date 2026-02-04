@@ -12,7 +12,14 @@ GitHub: https://github.com/KoichiYasuoka
 from __future__ import annotations
 
 import os
-from typing import Optional, Union
+from typing import TYPE_CHECKING, Optional, Union
+
+if TYPE_CHECKING:
+    from transformers import (
+        AutoModelForQuestionAnswering,
+        AutoTokenizer,
+        TokenClassificationPipeline,
+    )
 
 
 class Parse:
@@ -30,8 +37,10 @@ class Parse:
 
         if model is None:
             model = "KoichiYasuoka/deberta-base-thai-ud-head"
-        self.tokenizer = AutoTokenizer.from_pretrained(model)
-        self.model = AutoModelForQuestionAnswering.from_pretrained(model)
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
+        self.model: AutoModelForQuestionAnswering = (
+            AutoModelForQuestionAnswering.from_pretrained(model)
+        )
         x = AutoModelForTokenClassification.from_pretrained
         if os.path.isdir(model):
             d, t = (
@@ -47,10 +56,10 @@ class Parse:
                 cached_file(model, "tagger/config.json")
             )
             t = x(cached_file(model, "tagger/pytorch_model.bin"), config=s)
-        self.deprel = TokenClassificationPipeline(
+        self.deprel: TokenClassificationPipeline = TokenClassificationPipeline(
             model=d, tokenizer=self.tokenizer, aggregation_strategy="simple"
         )
-        self.tagger = TokenClassificationPipeline(
+        self.tagger: TokenClassificationPipeline = TokenClassificationPipeline(
             model=t, tokenizer=self.tokenizer
         )
 

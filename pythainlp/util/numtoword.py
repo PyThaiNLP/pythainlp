@@ -12,9 +12,9 @@ from __future__ import annotations
 
 from typing import Optional
 
-__all__ = ["bahttext", "num_to_thaiword"]
+__all__: list[str] = ["bahttext", "num_to_thaiword"]
 
-_VALUES = [
+_VALUES: list[str] = [
     "",
     "หนึ่ง",
     "สอง",
@@ -26,8 +26,8 @@ _VALUES = [
     "แปด",
     "เก้า",
 ]
-_PLACES = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"]
-_EXCEPTIONS = {"หนึ่งสิบ": "สิบ", "สองสิบ": "ยี่สิบ", "สิบหนึ่ง": "สิบเอ็ด"}
+_PLACES: list[str] = ["", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"]
+_EXCEPTIONS: dict[str, str] = {"หนึ่งสิบ": "สิบ", "สองสิบ": "ยี่สิบ", "สิบหนึ่ง": "สิบเอ็ด"}
 
 
 def bahttext(number: float) -> str:

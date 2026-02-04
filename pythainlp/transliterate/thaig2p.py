@@ -8,17 +8,22 @@ GitHub : https://github.com/wannaphong/thai-g2p
 from __future__ import annotations
 
 import random
+from typing import TYPE_CHECKING, Optional, Union
 
-import numpy as np
 import torch
 import torch.nn.functional as F
 from torch import nn
 
 from pythainlp.corpus import get_corpus_path
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+if TYPE_CHECKING:
+    from numpy.typing import NDArray
 
-_MODEL_NAME = "thai-g2p"
+device: torch.device = torch.device(
+    "cuda:0" if torch.cuda.is_available() else "cpu"
+)
+
+_MODEL_NAME: str = "thai-g2p"
 
 
 class ThaiG2P:
@@ -33,31 +38,43 @@ class ThaiG2P:
     https://github.com/wannaphong/thai-g2p
     """
 
-    def __init__(self):
+    __model_filename: str
+    _maxlength: int
+    _char_to_ix: dict[str, int]
+    _ix_to_char: dict[int, str]
+    _target_char_to_ix: dict[str, int]
+    _ix_to_target_char: dict[int, str]
+    _encoder: "Encoder"
+    _decoder: "AttentionDecoder"
+    _network: "Seq2Seq"
+
+    def __init__(self) -> None:
         # get the model, download it if it's not available locally
-        self.__model_filename = get_corpus_path(_MODEL_NAME)
+        self.__model_filename: str = get_corpus_path(_MODEL_NAME)  # type: ignore[assignment]
 
         loader = torch.load(self.__model_filename, map_location=device)
 
         INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT = loader["encoder_params"]
         OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT = loader["decoder_params"]
 
-        self._maxlength = 100
+        self._maxlength: int = 100
 
-        self._char_to_ix = loader["char_to_ix"]
-        self._ix_to_char = loader["ix_to_char"]
-        self._target_char_to_ix = loader["target_char_to_ix"]
-        self._ix_to_target_char = loader["ix_to_target_char"]
+        self._char_to_ix: dict[str, int] = loader["char_to_ix"]
+        self._ix_to_char: dict[int, str] = loader["ix_to_char"]
+        self._target_char_to_ix: dict[str, int] = loader["target_char_to_ix"]
+        self._ix_to_target_char: dict[int, str] = loader["ix_to_target_char"]
 
         # encoder/ decoder
         # Restore the model and construct the encoder and decoder.
-        self._encoder = Encoder(INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT)
+        self._encoder: "Encoder" = Encoder(
+            INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT
+        )
 
-        self._decoder = AttentionDecoder(
+        self._decoder: "AttentionDecoder" = AttentionDecoder(
             OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT
         )
 
-        self._network = Seq2Seq(
+        self._network: "Seq2Seq" = Seq2Seq(
             self._encoder,
             self._decoder,
             self._target_char_to_ix["<start>"],
@@ -68,7 +85,7 @@ class ThaiG2P:
         self._network.load_state_dict(loader["model_state_dict"])
         self._network.eval()
 
-    def _prepare_sequence_in(self, text: str):
+    def _prepare_sequence_in(self, text: str) -> torch.Tensor:
         """Prepare input sequence for PyTorch."""
         idxs = []
         for ch in text:
@@ -109,30 +126,47 @@ class ThaiG2P:
 
 
 class Encoder(nn.Module):
+    hidden_size: int
+    character_embedding: nn.Embedding
+    rnn: nn.LSTM
+    dropout: nn.Dropout
+    hidden: tuple[torch.Tensor, torch.Tensor]
+
     def __init__(
-        self, vocabulary_size, embedding_size, hidden_size, dropout=0.5
-    ):
+        self,
+        vocabulary_size: int,
+        embedding_size: int,
+        hidden_size: int,
+        dropout: float = 0.5,
+    ) -> None:
         """Constructor"""
         super().__init__()
-        self.hidden_size = hidden_size
-        self.character_embedding = nn.Embedding(
+        self.hidden_size: int = hidden_size
+        self.character_embedding: nn.Embedding = nn.Embedding(
             vocabulary_size, embedding_size
         )
-        self.rnn = nn.LSTM(
+        self.rnn: nn.LSTM = nn.LSTM(
             input_size=embedding_size,
             hidden_size=hidden_size // 2,
             bidirectional=True,
             batch_first=True,
         )
 
-        self.dropout = nn.Dropout(dropout)
+        self.dropout: nn.Dropout = nn.Dropout(dropout)
 
-    def forward(self, sequences, sequences_lengths):
+    def forward(
+        self,
+        sequences: torch.Tensor,
+        sequences_lengths: Union[NDArray, list[int]],
+    ) -> tuple[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
         # sequences: (batch_size, sequence_length=MAX_LENGTH)
         # sequences_lengths: (batch_size)
+        import numpy as np
 
         batch_size = sequences.size(0)
-        self.hidden = self.init_hidden(batch_size)
+        self.hidden: tuple[torch.Tensor, torch.Tensor] = self.init_hidden(
+            batch_size
+        )
 
         sequences_lengths = np.sort(sequences_lengths)[::-1]
         index_sorted = np.argsort(
@@ -163,7 +197,9 @@ class Encoder(nn.Module):
 
         return sequences_output, self.hidden
 
-    def init_hidden(self, batch_size):
+    def init_hidden(
+        self, batch_size: int
+    ) -> tuple[torch.Tensor, torch.Tensor]:
         h_0 = torch.zeros(
             [2, batch_size, self.hidden_size // 2], requires_grad=True
         ).to(device)
@@ -175,20 +211,32 @@ class Encoder(nn.Module):
 
 
 class Attn(nn.Module):
-    def __init__(self, method, hidden_size):
+    method: str
+    hidden_size: int
+    attn: nn.Linear
+    other: nn.Parameter
+
+    def __init__(self, method: str, hidden_size: int) -> None:
         super().__init__()
 
-        self.method = method
-        self.hidden_size = hidden_size
+        self.method: str = method
+        self.hidden_size: int = hidden_size
 
         if self.method == "general":
-            self.attn = nn.Linear(self.hidden_size, hidden_size)
+            self.attn: nn.Linear = nn.Linear(self.hidden_size, hidden_size)
 
         elif self.method == "concat":
             self.attn = nn.Linear(self.hidden_size * 2, hidden_size)
-            self.other = nn.Parameter(torch.FloatTensor(1, hidden_size))
+            self.other: nn.Parameter = nn.Parameter(
+                torch.FloatTensor(1, hidden_size)
+            )
 
-    def forward(self, hidden, encoder_outputs, mask):
+    def forward(
+        self,
+        hidden: torch.Tensor,
+        encoder_outputs: torch.Tensor,
+        mask: torch.Tensor,
+    ) -> torch.Tensor:
         # Calculate energies for each encoder output
         if self.method == "dot":
             attn_energies = torch.bmm(
@@ -221,29 +269,47 @@ class Attn(nn.Module):
 
 
 class AttentionDecoder(nn.Module):
+    vocabulary_size: int
+    hidden_size: int
+    character_embedding: nn.Embedding
+    rnn: nn.LSTM
+    attn: Attn
+    linear: nn.Linear
+    dropout: nn.Dropout
+
     def __init__(
-        self, vocabulary_size, embedding_size, hidden_size, dropout=0.5
-    ):
+        self,
+        vocabulary_size: int,
+        embedding_size: int,
+        hidden_size: int,
+        dropout: float = 0.5,
+    ) -> None:
         """Constructor"""
         super().__init__()
-        self.vocabulary_size = vocabulary_size
-        self.hidden_size = hidden_size
-        self.character_embedding = nn.Embedding(
+        self.vocabulary_size: int = vocabulary_size
+        self.hidden_size: int = hidden_size
+        self.character_embedding: nn.Embedding = nn.Embedding(
             vocabulary_size, embedding_size
         )
-        self.rnn = nn.LSTM(
+        self.rnn: nn.LSTM = nn.LSTM(
             input_size=embedding_size + self.hidden_size,
             hidden_size=hidden_size,
             bidirectional=False,
             batch_first=True,
         )
 
-        self.attn = Attn(method="general", hidden_size=self.hidden_size)
-        self.linear = nn.Linear(hidden_size, vocabulary_size)
+        self.attn: Attn = Attn(method="general", hidden_size=self.hidden_size)
+        self.linear: nn.Linear = nn.Linear(hidden_size, vocabulary_size)
 
-        self.dropout = nn.Dropout(dropout)
+        self.dropout: nn.Dropout = nn.Dropout(dropout)
 
-    def forward(self, input_character, last_hidden, encoder_outputs, mask):
+    def forward(
+        self,
+        input_character: torch.Tensor,
+        last_hidden: torch.Tensor,
+        encoder_outputs: torch.Tensor,
+        mask: torch.Tensor,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """ "Defines the forward computation of the decoder"""
         # input_character: (batch_size, 1)
         # last_hidden: (batch_size, hidden_dim)
@@ -271,22 +337,29 @@ class AttentionDecoder(nn.Module):
 
 
 class Seq2Seq(nn.Module):
+    encoder: Encoder
+    decoder: AttentionDecoder
+    pad_idx: int
+    target_start_token: int
+    target_end_token: int
+    max_length: int
+
     def __init__(
         self,
-        encoder,
-        decoder,
-        target_start_token,
-        target_end_token,
-        max_length,
-    ):
+        encoder: Encoder,
+        decoder: AttentionDecoder,
+        target_start_token: int,
+        target_end_token: int,
+        max_length: int,
+    ) -> None:
         super().__init__()
 
-        self.encoder = encoder
-        self.decoder = decoder
-        self.pad_idx = 0
-        self.target_start_token = target_start_token
-        self.target_end_token = target_end_token
-        self.max_length = max_length
+        self.encoder: Encoder = encoder
+        self.decoder: AttentionDecoder = decoder
+        self.pad_idx: int = 0
+        self.target_start_token: int = target_start_token
+        self.target_end_token: int = target_end_token
+        self.max_length: int = max_length
 
         if encoder.hidden_size != decoder.hidden_size:
             raise ValueError(
@@ -294,13 +367,17 @@ class Seq2Seq(nn.Module):
                 f"Got encoder={encoder.hidden_size}, decoder={decoder.hidden_size}"
             )
 
-    def create_mask(self, source_seq):
+    def create_mask(self, source_seq: torch.Tensor) -> torch.Tensor:
         mask = source_seq != self.pad_idx
         return mask
 
     def forward(
-        self, source_seq, source_seq_len, target_seq, teacher_forcing_ratio=0.5
-    ):
+        self,
+        source_seq: torch.Tensor,
+        source_seq_len: Union[NDArray, list[int]],
+        target_seq: Optional[torch.Tensor],
+        teacher_forcing_ratio: float = 0.5,
+    ) -> torch.Tensor:
         # source_seq: (batch_size, MAX_LENGTH)
         # source_seq_len: (batch_size, 1)
         # target_seq: (batch_size, MAX_LENGTH)
@@ -355,7 +432,7 @@ class Seq2Seq(nn.Module):
 
             decoder_input = (
                 target_seq[:, di].reshape(batch_size, 1)
-                if teacher_force
+                if teacher_force and target_seq is not None
                 else topi.detach()
             )
 
@@ -365,7 +442,7 @@ class Seq2Seq(nn.Module):
         return outputs
 
 
-_THAI_G2P = ThaiG2P()
+_THAI_G2P: ThaiG2P = ThaiG2P()
 
 
 def transliterate(text: str) -> str:

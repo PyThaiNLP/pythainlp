@@ -11,9 +11,11 @@ Using epitran
 
 from __future__ import annotations
 
+from typing import Any
+
 import epitran
 
-_EPI_THA = epitran.Epitran("tha-Thai")
+_EPI_THA: Any = epitran.Epitran("tha-Thai")
 
 
 def transliterate(text: str) -> str:

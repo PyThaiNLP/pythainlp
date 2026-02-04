@@ -10,18 +10,20 @@ from pythainlp.corpus import thai_orst_words
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util import Trie
 
-_dict_aksonhan = {}
+_dict_aksonhan: dict[str, str] = {}
+i: str
 for i in list(thai_consonants):
     if i == "ร":
         continue
+    j: str
     for j in list(thai_tonemarks):
         _dict_aksonhan[i + j + i] = "ั" + j + i
         _dict_aksonhan[i + i + j + i] = i + "ั" + j + i
     _dict_aksonhan[i + i] = "ั" + i
-_set_aksonhan = set(_dict_aksonhan.keys())
-_trie = Trie(chain(_dict_aksonhan.keys(), thai_consonants))
-_tokenizer = Tokenizer(custom_dict=_trie, engine="mm")
-_dict_thai = set(thai_orst_words())  # call Thai words
+_set_aksonhan: set[str] = set(_dict_aksonhan.keys())
+_trie: Trie = Trie(chain(_dict_aksonhan.keys(), thai_consonants))
+_tokenizer: Tokenizer = Tokenizer(custom_dict=_trie, engine="mm")
+_dict_thai: set[str] = set(thai_orst_words())  # call Thai words
 
 
 def aksonhan_to_current(word: str) -> str:

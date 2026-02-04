@@ -6,26 +6,35 @@ from __future__ import annotations
 import threading
 from importlib.resources import as_file, files
 from sys import stderr
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
-    from nlpo3 import load_dict as nlpo3_load_dict  # noqa: F401
+    from nlpo3 import (
+        load_dict as nlpo3_load_dict,  # noqa: F401
+    )
     from nlpo3 import segment as nlpo3_segment  # noqa: F401
 
 from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 
-_NLPO3_DEFAULT_DICT_NAME = "_73bcj049dzbu9t49b4va170k"  # supposed to be unique
-_NLPO3_DEFAULT_DICT = None  # Will be lazily loaded
-_dict_file_ctx = None  # File context manager kept alive for program lifetime
-_load_lock = threading.Lock()  # Thread safety for lazy loading
+_NLPO3_DEFAULT_DICT_NAME: str = (
+    "_73bcj049dzbu9t49b4va170k"  # supposed to be unique
+)
+_NLPO3_DEFAULT_DICT: Optional[str] = None  # Will be lazily loaded
+_dict_file_ctx: Optional[Any] = (
+    None  # File context manager kept alive for program lifetime
+)
+_load_lock: threading.Lock = threading.Lock()  # Thread safety for lazy loading
 
 
-def _ensure_default_dict_loaded():
+def _ensure_default_dict_loaded() -> None:
     """Ensure the default dictionary is loaded.
 
     This function uses a lock to ensure thread-safe initialization.
     The context manager is kept alive for the lifetime of the program
     to prevent cleanup of temporary files while the dictionary is in use.
+
+    :raises ImportError: If nlpo3 is not installed.
+    :raises RuntimeError: If dictionary loading fails.
     """
     try:
         from nlpo3 import load_dict as nlpo3_load_dict
@@ -43,10 +52,14 @@ def _ensure_default_dict_loaded():
                 dict_file = corpus_files.joinpath(_THAI_WORDS_FILENAME)
                 _dict_file_ctx = as_file(dict_file)
                 dict_path = _dict_file_ctx.__enter__()
-                _NLPO3_DEFAULT_DICT = nlpo3_load_dict(
+                msg, success = nlpo3_load_dict(
                     str(dict_path), _NLPO3_DEFAULT_DICT_NAME
                 )
-    return _NLPO3_DEFAULT_DICT
+                if not success:
+                    raise RuntimeError(
+                        f"Failed to load nlpo3 dictionary: {msg}"
+                    )
+                _NLPO3_DEFAULT_DICT = _NLPO3_DEFAULT_DICT_NAME
 
 
 def load_dict(file_path: str, dict_name: str) -> bool:

@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from typing import Optional, Union
 
-__all__ = [
+__all__: list[str] = [
     "convert_years",
     "thai_abbr_months",
     "thai_abbr_weekdays",
@@ -28,8 +28,8 @@ import re
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-thai_abbr_weekdays = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
-thai_full_weekdays = [
+thai_abbr_weekdays: list[str] = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"]
+thai_full_weekdays: list[str] = [
     "วันจันทร์",
     "วันอังคาร",
     "วันพุธ",
@@ -39,7 +39,7 @@ thai_full_weekdays = [
     "วันอาทิตย์",
 ]
 
-thai_abbr_months = [
+thai_abbr_months: list[str] = [
     "ม.ค.",
     "ก.พ.",
     "มี.ค.",
@@ -53,7 +53,7 @@ thai_abbr_months = [
     "พ.ย.",
     "ธ.ค.",
 ]
-thai_full_months = [
+thai_full_months: list[str] = [
     "มกราคม",
     "กุมภาพันธ์",
     "มีนาคม",
@@ -67,7 +67,7 @@ thai_full_months = [
     "พฤศจิกายน",
     "ธันวาคม",
 ]
-thai_full_month_lists = [
+thai_full_month_lists: list[list[str]] = [
     ["มกราคม", "มกรา", "ม.ค.", "01", "1"],
     ["กุมภาพันธ์", "กุมภา", "ก.พ.", "02", "2"],
     ["มีนาคม", "มีนา", "มี.ค.", "03", "3"],
@@ -81,11 +81,11 @@ thai_full_month_lists = [
     ["พฤศจิกายน", "พฤศจิกา", "พ.ย.", "11"],
     ["ธันวาคม", "ธันวา", "ธ.ค.", "12"],
 ]
-thai_full_month_lists_regex = (
+thai_full_month_lists_regex: str = (
     "(" + "|".join(["|".join(i) for i in thai_full_month_lists]) + ")"
 )
-year_all_regex = r"(\d\d\d\d|\d\d)"
-dates_list = (
+year_all_regex: str = r"(\d\d\d\d|\d\d)"
+dates_list: str = (
     "("
     + "|".join(
         list(map(str, range(32, 0, -1))) + ["0" + str(i) for i in range(1, 10)]
@@ -93,7 +93,7 @@ dates_list = (
     + ")"
 )
 
-_DAY = {
+_DAY: dict[str, int] = {
     "วันนี้": 0,
     "คืนนี้": 0,
     "พรุ่งนี้": 1,
@@ -116,7 +116,7 @@ _DAY = {
 }
 
 
-def convert_years(year: str, src="be", target="ad") -> str:
+def convert_years(year: str, src: str = "be", target: str = "ad") -> str:
     """Convert years
 
     :param int year: Year
@@ -214,8 +214,8 @@ def thai_strptime(
     fmt: str,
     year: str = "be",
     add_year: Optional[int] = None,
-    tzinfo=ZoneInfo("Asia/Bangkok"),
-):
+    tzinfo: Optional[ZoneInfo] = ZoneInfo("Asia/Bangkok"),
+) -> datetime:
     """Thai strptime
 
     :param str text: text

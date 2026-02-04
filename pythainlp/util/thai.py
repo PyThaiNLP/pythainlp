@@ -22,12 +22,14 @@ from pythainlp import (
     thai_vowels,
 )
 
-_DEFAULT_IGNORE_CHARS = string.whitespace + string.digits + string.punctuation
-_TH_FIRST_CHAR_ASCII = 3584
-_TH_LAST_CHAR_ASCII = 3711
+_DEFAULT_IGNORE_CHARS: str = (
+    string.whitespace + string.digits + string.punctuation
+)
+_TH_FIRST_CHAR_ASCII: int = 3584
+_TH_LAST_CHAR_ASCII: int = 3711
 
 # A comprehensive map of Thai characters to their descriptive names.
-THAI_CHAR_NAMES = {
+THAI_CHAR_NAMES: dict[str, str] = {
     # Consonants
     **{char: char for char in thai_consonants},
     # Vowels and Signs

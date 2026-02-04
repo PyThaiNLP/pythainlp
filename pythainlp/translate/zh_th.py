@@ -11,6 +11,12 @@ from AI builder
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import torch
+    from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+
 
 class ThZhTranslator:
     """Thai-Chinese Machine Translation
@@ -23,6 +29,10 @@ class ThZhTranslator:
     :param bool use_gpu : load model using GPU (Default is False)
     """
 
+    tokenizer_thzh: AutoTokenizer
+    model_thzh: AutoModelForSeq2SeqLM
+    translated: torch.Tensor
+
     def __init__(
         self,
         use_gpu: bool = False,
@@ -30,8 +40,12 @@ class ThZhTranslator:
     ) -> None:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
-        self.tokenizer_thzh = AutoTokenizer.from_pretrained(pretrained)
-        self.model_thzh = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        self.tokenizer_thzh: AutoTokenizer = AutoTokenizer.from_pretrained(
+            pretrained
+        )
+        self.model_thzh: AutoModelForSeq2SeqLM = (
+            AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        )
         if use_gpu:
             self.model_thzh = self.model_thzh.cuda()
 
@@ -54,7 +68,7 @@ class ThZhTranslator:
             # output: 我爱你
 
         """
-        self.translated = self.model_thzh.generate(
+        self.translated: torch.Tensor = self.model_thzh.generate(
             **self.tokenizer_thzh(text, return_tensors="pt", padding=True)
         )
         decoded_list: list[str] = [
@@ -75,6 +89,10 @@ class ZhThTranslator:
     :param bool use_gpu : load model using GPU (Default is False)
     """
 
+    tokenizer_zhth: AutoTokenizer
+    model_zhth: AutoModelForSeq2SeqLM
+    translated: torch.Tensor
+
     def __init__(
         self,
         use_gpu: bool = False,
@@ -82,8 +100,12 @@ class ZhThTranslator:
     ) -> None:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
-        self.tokenizer_zhth = AutoTokenizer.from_pretrained(pretrained)
-        self.model_zhth = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        self.tokenizer_zhth: AutoTokenizer = AutoTokenizer.from_pretrained(
+            pretrained
+        )
+        self.model_zhth: AutoModelForSeq2SeqLM = (
+            AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        )
         if use_gpu:
             self.model_zhth.cuda()
 
@@ -106,7 +128,7 @@ class ZhThTranslator:
             # output: ผมรักคุณนะ
 
         """
-        self.translated = self.model_zhth.generate(
+        self.translated: torch.Tensor = self.model_zhth.generate(
             **self.tokenizer_zhth(text, return_tensors="pt", padding=True)
         )
         decoded_list: list[str] = [

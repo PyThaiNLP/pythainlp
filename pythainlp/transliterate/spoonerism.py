@@ -6,7 +6,7 @@ from __future__ import annotations
 from pythainlp import thai_consonants
 from pythainlp.transliterate import pronunciate
 
-_list_consonants = list(thai_consonants.replace("ห", ""))
+_list_consonants: list[str] = list(thai_consonants.replace("ห", ""))
 
 
 def puan(word: str, show_pronunciation: bool = True) -> str:

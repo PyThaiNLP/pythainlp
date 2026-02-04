@@ -29,7 +29,7 @@ from pythainlp.util import Trie
 # match non-Thai tokens
 # `|` is used as like "early return",
 # which divides "abc123" to "abc", "123" for example.
-_PAT_NONTHAI = re.compile(
+_PAT_NONTHAI: re.Pattern[str] = re.compile(
     r"""(?x)
 [-a-zA-Z]+|        # Latin characters
 \d+([,\.]\d+)*|    # numbers
@@ -40,18 +40,18 @@ _PAT_NONTHAI = re.compile(
 )
 
 # match 2-consonant Thai tokens
-_PAT_THAI_TWOCHARS = re.compile("[ก-ฮ]{,2}$")
+_PAT_THAI_TWOCHARS: re.Pattern[str] = re.compile("[ก-ฮ]{,2}$")
 
 
 # maximum graph size before cutoff
-_MAX_GRAPH_SIZE = 50
+_MAX_GRAPH_SIZE: int = 50
 
 # window size for safe mode
-_TEXT_SCAN_POINT = 120
-_TEXT_SCAN_LEFT = 20
-_TEXT_SCAN_RIGHT = 20
-_TEXT_SCAN_BEGIN = _TEXT_SCAN_POINT - _TEXT_SCAN_LEFT
-_TEXT_SCAN_END = _TEXT_SCAN_POINT + _TEXT_SCAN_RIGHT
+_TEXT_SCAN_POINT: int = 120
+_TEXT_SCAN_LEFT: int = 20
+_TEXT_SCAN_RIGHT: int = 20
+_TEXT_SCAN_BEGIN: int = _TEXT_SCAN_POINT - _TEXT_SCAN_LEFT
+_TEXT_SCAN_END: int = _TEXT_SCAN_POINT + _TEXT_SCAN_RIGHT
 del _TEXT_SCAN_POINT
 del _TEXT_SCAN_LEFT
 del _TEXT_SCAN_RIGHT

@@ -11,20 +11,20 @@ from __future__ import annotations
 
 import re
 from functools import lru_cache
-from typing import Optional, Union
+from typing import Optional, Pattern, Union
 
 from pythainlp.corpus import thai_words
 from pythainlp.tokenize import Tokenizer
 
-_ptn_digits = r"(|หนึ่ง|เอ็ด|สอง|ยี่|สาม|สี่|ห้า|หก|เจ็ด|แปด|เก้า)"
-_ptn_six_figures = (
+_ptn_digits: str = r"(|หนึ่ง|เอ็ด|สอง|ยี่|สาม|สี่|ห้า|หก|เจ็ด|แปด|เก้า)"
+_ptn_six_figures: str = (
     rf"({_ptn_digits}แสน)?({_ptn_digits}หมื่น)?({_ptn_digits}พัน)?"
     rf"({_ptn_digits}ร้อย)?({_ptn_digits}สิบ)?{_ptn_digits}?"
 )
-_ptn_thai_numerals = rf"(ลบ)?({_ptn_six_figures}ล้าน)*{_ptn_six_figures}"
-_re_thai_numerals = re.compile(_ptn_thai_numerals)
+_ptn_thai_numerals: str = rf"(ลบ)?({_ptn_six_figures}ล้าน)*{_ptn_six_figures}"
+_re_thai_numerals: Pattern[str] = re.compile(_ptn_thai_numerals)
 
-_digits = {
+_digits: dict[str, int] = {
     # "ศูนย์" was excluded as a special case
     "หนึ่ง": 1,
     "เอ็ด": 1,
@@ -38,7 +38,7 @@ _digits = {
     "แปด": 8,
     "เก้า": 9,
 }
-_powers_of_10 = {
+_powers_of_10: dict[str, int] = {
     "สิบ": 10,
     "ร้อย": 100,
     "พัน": 1000,
@@ -46,7 +46,9 @@ _powers_of_10 = {
     "แสน": 100000,
     # "ล้าน" was excluded as a special case
 }
-_valid_tokens = set(_digits.keys()) | set(_powers_of_10.keys()) | {"ล้าน", "ลบ"}
+_valid_tokens: set[str] = (
+    set(_digits.keys()) | set(_powers_of_10.keys()) | {"ล้าน", "ลบ"}
+)
 
 
 @lru_cache

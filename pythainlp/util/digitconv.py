@@ -5,7 +5,9 @@
 
 from __future__ import annotations
 
-_arabic_thai = {
+from typing import Union, cast
+
+_arabic_thai: dict[str, str] = {
     "0": "๐",
     "1": "๑",
     "2": "๒",
@@ -18,7 +20,7 @@ _arabic_thai = {
     "9": "๙",
 }
 
-_thai_arabic = {
+_thai_arabic: dict[str, str] = {
     "๐": "0",
     "๑": "1",
     "๒": "2",
@@ -31,7 +33,7 @@ _thai_arabic = {
     "๙": "9",
 }
 
-_digit_spell = {
+_digit_spell: dict[str, str] = {
     "0": "ศูนย์",
     "1": "หนึ่ง",
     "2": "สอง",
@@ -44,7 +46,7 @@ _digit_spell = {
     "9": "เก้า",
 }
 
-_spell_digit = {
+_spell_digit: dict[str, str] = {
     "ศูนย์": "0",
     "หนึ่ง": "1",
     "สอง": "2",
@@ -57,9 +59,15 @@ _spell_digit = {
     "เก้า": "9",
 }
 
-_arabic_thai_translate_table = str.maketrans(_arabic_thai)
-_thai_arabic_translate_table = str.maketrans(_thai_arabic)
-_digit_spell_translate_table = str.maketrans(_digit_spell)
+_arabic_thai_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
+    cast(dict[str, Union[int, str, None]], _arabic_thai)
+)
+_thai_arabic_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
+    cast(dict[str, Union[int, str, None]], _thai_arabic)
+)
+_digit_spell_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
+    cast(dict[str, Union[int, str, None]], _digit_spell)
+)
 
 
 def thai_digit_to_arabic_digit(text: str) -> str:

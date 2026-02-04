@@ -4,7 +4,12 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
+
+if TYPE_CHECKING:
+    import numpy as np
+    from numpy.typing import NDArray
+    from onnxruntime import InferenceSession
 
 from pythainlp.corpus import get_hf_hub
 
@@ -14,6 +19,18 @@ class FastTextEncoder:
     compute word and sentence vectors, and interact with an ONNX
     model for nearest neighbor suggestions.
     """
+
+    model_dir: str
+    nn_model_path: str
+    bucket: int
+    nb_words: int
+    minn: int
+    maxn: int
+    vocabulary: list[str]
+    embeddings: NDArray[np.float32]
+    words_for_suggestion: NDArray[np.str_]
+    nn_session: InferenceSession
+    embedding_dim: int
 
     # --- Initialization and Data Loading ---
 
@@ -41,33 +58,39 @@ class FastTextEncoder:
 
         """
         try:
-            import numpy as np
-
-            self.np = np
+            import numpy as np  # noqa: F401
         except ModuleNotFoundError:
-            raise ModuleNotFoundError("""
+            raise ModuleNotFoundError(
+                """
             Please installing the package via 'pip install numpy onnxruntime'.
-            """)
+            """
+            )
         except Exception as e:
             raise RuntimeError(f"An unexpected error occurred: {e}") from e
-        self.model_dir = model_dir
-        self.nn_model_path = nn_model_path
-        self.bucket = bucket
-        self.nb_words = nb_words
-        self.minn = minn
-        self.maxn = maxn
+        self.model_dir: str = model_dir
+        self.nn_model_path: str = nn_model_path
+        self.bucket: int = bucket
+        self.nb_words: int = nb_words
+        self.minn: int = minn
+        self.maxn: int = maxn
 
         # Load data and models
+        self.vocabulary: list[str]
+        self.embeddings: "NDArray[np.float32]"
         self.vocabulary, self.embeddings = self._load_embeddings()
-        self.words_for_suggestion = self._load_suggestion_words(words_list)
-        self.nn_session = self._load_onnx_session(nn_model_path)
-        self.embedding_dim = self.embeddings.shape[1]
-
-    def _load_embeddings(self) -> tuple[list[str], Any]:
-        """Loads embeddings matrix and vocabulary list."""
-        input_matrix = self.np.load(
-            os.path.join(self.model_dir, "embeddings.npy")
+        self.words_for_suggestion: "NDArray[np.str_]" = (
+            self._load_suggestion_words(words_list)
         )
+        self.nn_session: "InferenceSession" = self._load_onnx_session(
+            nn_model_path
+        )
+        self.embedding_dim: int = self.embeddings.shape[1]
+
+    def _load_embeddings(self) -> tuple[list[str], NDArray[np.float32]]:
+        """Loads embeddings matrix and vocabulary list."""
+        import numpy as np
+
+        input_matrix = np.load(os.path.join(self.model_dir, "embeddings.npy"))
         words = []
         vocab_path = os.path.join(self.model_dir, "vocabulary.txt")
         with open(vocab_path, encoding="utf-8") as f:
@@ -75,12 +98,16 @@ class FastTextEncoder:
                 words.append(line.rstrip())
         return words, input_matrix
 
-    def _load_suggestion_words(self, words_list: list[str]) -> Any:
+    def _load_suggestion_words(
+        self, words_list: list[str]
+    ) -> NDArray[np.str_]:
         """Loads the list of words used for suggestions."""
-        words = self.np.array(words_list)
+        import numpy as np
+
+        words = np.array(words_list)
         return words
 
-    def _load_onnx_session(self, onnx_path: str) -> Any:
+    def _load_onnx_session(self, onnx_path: str) -> InferenceSession:
         """Loads the ONNX inference session."""
         # Note: Using providers=["CPUExecutionProvider"] for platform independence
         import onnxruntime as rt
@@ -101,7 +128,7 @@ class FastTextEncoder:
             h = (h * 16777619) % 2**32  # FNV-1a prime
         return h % self.bucket + self.nb_words
 
-    def _get_subwords(self, word: str) -> tuple[list[str], Any]:
+    def _get_subwords(self, word: str) -> tuple[list[str], NDArray[np.int_]]:
         """Extracts subwords and their corresponding indices for a given word."""
         _word = "<" + word + ">"
         _subwords = []
@@ -112,7 +139,9 @@ class FastTextEncoder:
             _subwords.append(word)
             _subword_ids.append(self.vocabulary.index(word))
             if word == "</s>":
-                return _subwords, self.np.array(_subword_ids)
+                import numpy as np
+
+                return _subwords, np.array(_subword_ids)
 
         # 2. Extract n-grams (subwords) and get their hash indices
         for ngram_start in range(0, len(_word)):
@@ -126,25 +155,27 @@ class FastTextEncoder:
                         _subwords.append(_candidate_subword)
                         _subword_ids.append(self._get_hash(_candidate_subword))
 
-        return _subwords, self.np.array(_subword_ids)
+        import numpy as np
 
-    def get_word_vector(self, word: str) -> Any:
+        return _subwords, np.array(_subword_ids)
+
+    def get_word_vector(self, word: str) -> NDArray[np.float32]:
         """Computes the normalized vector for a single word."""
+        import numpy as np
+
         # subword_ids[1] contains the array of indices for the word and its subwords
         subword_ids = self._get_subwords(word)[1]
 
         # Check if the array of subword indices is empty
         if subword_ids.size == 0:
             # Return a 300-dimensional zero vector if no word/subword is found.
-            return self.np.zeros(self.embedding_dim)
+            return np.zeros(self.embedding_dim)
 
         # Compute the mean of the embeddings for all subword indices
-        vector = self.np.mean(
-            [self.embeddings[s] for s in subword_ids], axis=0
-        )
+        vector = np.mean([self.embeddings[s] for s in subword_ids], axis=0)
 
         # Normalize the vector
-        norm = self.np.linalg.norm(vector)
+        norm = np.linalg.norm(vector)
         if norm > 0:
             vector /= norm
 
@@ -167,8 +198,10 @@ class FastTextEncoder:
             tokens.append(word)
         return tokens
 
-    def get_sentence_vector(self, line: str) -> Any:
+    def get_sentence_vector(self, line: str) -> NDArray[np.float32]:
         """Computes the mean vector for a sentence."""
+        import numpy as np
+
         tokens = self._tokenize(line)
         vectors = []
         for t in tokens:
@@ -178,9 +211,9 @@ class FastTextEncoder:
 
         # If the sentence was empty and resulted in no vectors, return a zero vector
         if not vectors:
-            return self.np.zeros(self.embedding_dim)
+            return np.zeros(self.embedding_dim)
 
-        return self.np.mean(vectors, axis=0)
+        return np.mean(vectors, axis=0)
 
     # --- Nearest Neighbor Method ---
 
@@ -217,7 +250,9 @@ class FastTextEncoder:
         ]
 
         # Convert to numpy array for ONNX input (ensure float32)
-        input_data = self.np.array(word_input_vecs, dtype=self.np.float32)
+        import numpy as np
+
+        input_data = np.array(word_input_vecs, dtype=np.float32)
 
         # Run ONNX inference
         indices = self.nn_session.run(None, {"X": input_data})[0]
@@ -229,20 +264,29 @@ class FastTextEncoder:
 
 
 class Words_Spelling_Correction(FastTextEncoder):
+    """Word-level Spell Checker and Correction using FastText"""
+
+    model_name: str
+    model_path: str
+    model_onnx: str
+    list_word: list[str]
+
     def __init__(self) -> None:
-        self.model_name = "pythainlp/word-spelling-correction-char2vec"
-        self.model_path = get_hf_hub(self.model_name)
-        self.model_onnx = get_hf_hub(self.model_name, "nearest_neighbors.onnx")
+        self.model_name: str = "pythainlp/word-spelling-correction-char2vec"
+        self.model_path: str = get_hf_hub(self.model_name)
+        self.model_onnx: str = get_hf_hub(
+            self.model_name, "nearest_neighbors.onnx"
+        )
         with open(
             get_hf_hub(
                 self.model_name, "list_word-spelling-correction-char2vec.txt"
             )
         ) as f:
-            self.list_word = list(map(str.strip, f.readlines()))
+            self.list_word: list[str] = list(map(str.strip, f.readlines()))
         super().__init__(self.model_path, self.model_onnx, self.list_word)
 
 
-_WSC = None
+_WSC: Optional[Any] = None
 
 
 def get_words_spell_suggestion(

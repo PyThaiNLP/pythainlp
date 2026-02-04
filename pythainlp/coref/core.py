@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Union
+from typing import Any, Optional, Union
 
-_MODEL = None
+_MODEL: Optional[Any] = None
 
 
 def coreference_resolution(
@@ -53,7 +53,7 @@ def coreference_resolution(
         _MODEL = HanCoref(device=device)
 
     if _MODEL:
-        return _MODEL.predict(texts)
+        return _MODEL.predict(texts)  # type: ignore[no-any-return]
 
     return [
         {"text": text, "clusters_string": [], "clusters": []} for text in texts

@@ -13,13 +13,15 @@ from pythainlp.tokenize import thai2fit_tokenizer
 class BaseTokenizer:
     """Basic class for a tokenizer function. (codes from `fastai`)"""
 
-    def __init__(self, lang: str):
-        self.lang = lang
+    lang: str
+
+    def __init__(self, lang: str) -> None:
+        self.lang: str = lang
 
     def tokenizer(self, t: str) -> list[str]:
         return t.split(" ")
 
-    def add_special_cases(self, toks: Collection[str]):
+    def add_special_cases(self, toks: Collection[str]) -> None:
         pass
 
 
@@ -29,8 +31,10 @@ class ThaiTokenizer(BaseTokenizer):
     (see: https://docs.fast.ai/text.transform#BaseTokenizer)
     """
 
-    def __init__(self, lang: str = "th"):
-        self.lang = lang
+    lang: str
+
+    def __init__(self, lang: str = "th") -> None:
+        self.lang: str = lang
 
     @staticmethod
     def tokenizer(text: str) -> list[str]:
@@ -62,7 +66,7 @@ class ThaiTokenizer(BaseTokenizer):
              ' ', 'ภาวนามยปัญญา']
 
         """
-        return thai2fit_tokenizer().word_tokenize(text)  # type: ignore[no-any-return]
+        return thai2fit_tokenizer().word_tokenize(text)
 
-    def add_special_cases(self, toks):
+    def add_special_cases(self, toks: Collection[str]) -> None:
         pass

@@ -18,7 +18,7 @@ class mT5Summarizer:
         max_length: int = 100,
         skip_special_tokens: bool = True,
         pretrained_mt5_model_name: str = "",
-    ):
+    ) -> None:
         """Initialize mT5 Summarizer.
 
         :param str model_size: Size of the model ("small", "base", "large",
@@ -50,14 +50,16 @@ class mT5Summarizer:
                 model_name = f"thanathorn/{CPE_KMUTT_THAI_SENTENCE_SUM}"
             else:
                 model_name = pretrained_mt5_model_name
-        self.model_name = model_name
-        self.model = MT5ForConditionalGeneration.from_pretrained(model_name)
-        self.tokenizer = T5Tokenizer.from_pretrained(model_name)
-        self.num_beams = num_beams
-        self.no_repeat_ngram_size = no_repeat_ngram_size
-        self.min_length = min_length
-        self.max_length = max_length
-        self.skip_special_tokens = skip_special_tokens
+        self.model_name: str = model_name
+        self.model: MT5ForConditionalGeneration = (
+            MT5ForConditionalGeneration.from_pretrained(model_name)
+        )
+        self.tokenizer: T5Tokenizer = T5Tokenizer.from_pretrained(model_name)
+        self.num_beams: int = num_beams
+        self.no_repeat_ngram_size: int = no_repeat_ngram_size
+        self.min_length: int = min_length
+        self.max_length: int = max_length
+        self.skip_special_tokens: bool = skip_special_tokens
 
     def summarize(self, text: str) -> list[str]:
         preprocess_text = text.strip().replace("\n", "")

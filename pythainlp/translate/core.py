@@ -1,6 +1,8 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Translation."""
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional, Union
@@ -59,10 +61,10 @@ class Translate:
             ZhThTranslator,
             ThFrTranslator,
         ]
-        self.engine = engine
-        self.src_lang = src_lang
-        self.use_gpu = use_gpu
-        self.target_lang = target_lang
+        self.engine: str = engine
+        self.src_lang: str = src_lang
+        self.use_gpu: bool = use_gpu
+        self.target_lang: str = target_lang
         self.load_model()
 
     def load_model(self) -> None:

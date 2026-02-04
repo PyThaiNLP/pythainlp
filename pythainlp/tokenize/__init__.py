@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-__all__ = [
+__all__: list[str] = [
     "thai2fit_tokenizer",
     "Tokenizer",
     "Trie",
@@ -23,10 +23,10 @@ from functools import lru_cache
 from pythainlp.corpus import thai_syllables, thai_words
 from pythainlp.util.trie import Trie
 
-DEFAULT_WORD_TOKENIZE_ENGINE = "newmm"
-DEFAULT_SENT_TOKENIZE_ENGINE = "crfcut"
-DEFAULT_SUBWORD_TOKENIZE_ENGINE = "tcc"
-DEFAULT_SYLLABLE_TOKENIZE_ENGINE = "han_solo"
+DEFAULT_WORD_TOKENIZE_ENGINE: str = "newmm"
+DEFAULT_SENT_TOKENIZE_ENGINE: str = "crfcut"
+DEFAULT_SUBWORD_TOKENIZE_ENGINE: str = "tcc"
+DEFAULT_SYLLABLE_TOKENIZE_ENGINE: str = "han_solo"
 
 
 @lru_cache

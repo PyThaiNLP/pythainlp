@@ -12,7 +12,7 @@ class EntityLinker:
         model_name: str = "bela",
         device: str = "cuda",
         tag: str = "wikidata",
-    ):
+    ) -> None:
         """EntityLinker
 
         :param str model_name: model name (bela)
@@ -22,9 +22,9 @@ class EntityLinker:
         You can read about bela model at `https://github.com/PyThaiNLP/MultiEL \
         <https://github.com/PyThaiNLP/MultiEL>`_.
         """
-        self.model_name = model_name
-        self.device = device
-        self.tag = tag
+        self.model_name: str = model_name
+        self.device: str = device
+        self.tag: str = tag
         if self.model_name not in ["bela"]:
             raise NotImplementedError(
                 f"EntityLinker doesn't support {model_name} model."
@@ -35,7 +35,9 @@ class EntityLinker:
             )
         from pythainlp.el._multiel import MultiEL
 
-        self.model = MultiEL(model_name=self.model_name, device=self.device)
+        self.model: MultiEL = MultiEL(
+            model_name=self.model_name, device=self.device
+        )
 
     def get_el(
         self, list_text: Union[list[str], str]
@@ -59,4 +61,4 @@ class EntityLinker:
                 # 'md_scores': [0.30301809310913086, 0.6399497389793396],
                 # 'el_scores': [0.7142490744590759, 0.8657019734382629]}]
         """
-        return self.model.process_batch(list_text)  # type: ignore[no-any-return]
+        return self.model.process_batch(list_text)

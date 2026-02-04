@@ -7,7 +7,10 @@ import random
 import re
 import warnings
 from collections.abc import Callable
-from typing import Union
+from typing import TYPE_CHECKING, Any, Union
+
+if TYPE_CHECKING:
+    from transformers import CamembertTokenizer
 
 from transformers import (
     CamembertTokenizer,
@@ -15,14 +18,16 @@ from transformers import (
 
 from pythainlp.tokenize import word_tokenize
 
-_PAT_URL = r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
+_PAT_URL: str = r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
 
-_model_name = "clicknext/phayathaibert"
-_tokenizer = CamembertTokenizer.from_pretrained(_model_name)
+_model_name: str = "clicknext/phayathaibert"
+_tokenizer: "CamembertTokenizer" = CamembertTokenizer.from_pretrained(
+    _model_name
+)
 
 
 class ThaiTextProcessor:
-    def __init__(self):
+    def __init__(self) -> None:
         (
             self._TK_UNK,
             self._TK_REP,
@@ -30,7 +35,7 @@ class ThaiTextProcessor:
             self._TK_URL,
             self._TK_END,
         ) = "<unk> <rep> <wrep> <url> </s>".split()
-        self.SPACE_SPECIAL_TOKEN = "<_>"  # noqa: S105
+        self.SPACE_SPECIAL_TOKEN: str = "<_>"  # noqa: S105
 
     def replace_url(self, text: str) -> str:
         """Replace url in `text` with TK_URL (https://stackoverflow.com/a/6041965)
@@ -126,7 +131,7 @@ class ThaiTextProcessor:
             'กา'
         """
 
-        def _replace_rep(m):
+        def _replace_rep(m: re.Match[str]) -> str:
             c, cc = m.groups()
             return f"{c}"
 
@@ -206,16 +211,18 @@ class ThaiTextAugmenter:
             pipeline,
         )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(_model_name)
-        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(
             _model_name
         )
-        self.model = pipeline(
+        self.model_for_masked_lm: AutoModelForMaskedLM = (
+            AutoModelForMaskedLM.from_pretrained(_model_name)
+        )
+        self.model: Any = pipeline(  # transformers.Pipeline
             "fill-mask",
             tokenizer=self.tokenizer,
             model=self.model_for_masked_lm,
         )
-        self.processor = ThaiTextProcessor()
+        self.processor: ThaiTextProcessor = ThaiTextProcessor()
 
     def generate(
         self,
@@ -303,8 +310,10 @@ class PartOfSpeechTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model)
-        self.model = AutoModelForTokenClassification.from_pretrained(model)
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
+        self.model: AutoModelForTokenClassification = (
+            AutoModelForTokenClassification.from_pretrained(model)
+        )
 
     def get_tag(
         self, sentence: str, strategy: str = "simple"
@@ -346,8 +355,10 @@ class NamedEntityTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model)
-        self.model = AutoModelForTokenClassification.from_pretrained(model)
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
+        self.model: AutoModelForTokenClassification = (
+            AutoModelForTokenClassification.from_pretrained(model)
+        )
 
     def get_ner(
         self,

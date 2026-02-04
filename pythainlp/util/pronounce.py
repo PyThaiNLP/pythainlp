@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import re
+from typing import Optional
 
 from pythainlp import thai_consonants, thai_tonemarks
 from pythainlp.corpus import thai_words
@@ -11,8 +12,8 @@ from pythainlp.khavee import KhaveeVerifier
 from pythainlp.tokenize import Tokenizer, syllable_tokenize
 from pythainlp.util import remove_tonemark
 
-kv = KhaveeVerifier()
-all_thai_words_dict = None
+kv: KhaveeVerifier = KhaveeVerifier()
+all_thai_words_dict: Optional[list[str]] = None
 
 
 def rhyme(word: str) -> list[str]:
@@ -42,13 +43,14 @@ def rhyme(word: str) -> list[str]:
     return sorted(list_sumpus)
 
 
-thai_vowel = "".join(
+_vowel_str: str = "".join(
     (
         "อะ,อา,อิ,อี,อึ,อื,อุ,อู,เอะ,เอ,แอะ,แอ,เอียะ,เอีย,เอือะ,เอือ,อัวะ,อัว,โอะ,",
         "โอ,เอาะ,ออ,เออะ,เออ,อำ,ใอ,ไอ,เอา,ฤ,ฤๅ,ฦ,ฦๅ",
     )
-).split(",")
-thai_vowel_all = [
+)
+thai_vowel: list[str] = _vowel_str.split(",")
+thai_vowel_all: list[tuple[str, str]] = [
     ("([ก-ฮ])ะ", "\\1อะ"),
     ("([ก-ฮ])า", "\\1อา"),
     ("อิ".replace("อ", "([ก-ฮ])"), "อิ".replace("อ", "\\1อ")),

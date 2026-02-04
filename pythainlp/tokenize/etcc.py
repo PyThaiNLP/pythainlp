@@ -29,13 +29,13 @@ from pythainlp.tokenize import Tokenizer
 
 
 @lru_cache
-def _cut_etcc():
+def _cut_etcc() -> "Tokenizer":
     """Lazy load ETCC tokenizer with cache"""
     return Tokenizer(get_corpus("etcc.txt"), engine="longest")
 
 
-_PAT_ENDING_CHAR = f"[{thai_follow_vowels}ๆฯ]"
-_RE_ENDING_CHAR = re.compile(_PAT_ENDING_CHAR)
+_PAT_ENDING_CHAR: str = f"[{thai_follow_vowels}ๆฯ]"
+_RE_ENDING_CHAR: re.Pattern[str] = re.compile(_PAT_ENDING_CHAR)
 
 
 def _cut_subword(tokens: list[str]) -> list[str]:

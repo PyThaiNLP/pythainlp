@@ -12,11 +12,11 @@ from typing import Optional
 
 import emoji
 
-_TK_UNK = "xxunk"
-_TK_REP = "xxrep"
-_TK_WREP = "xxwrep"
-_TK_END = "xxend"
-_TK_URL = "xxurl"
+_TK_UNK: str = "xxunk"
+_TK_REP: str = "xxrep"
+_TK_WREP: str = "xxwrep"
+_TK_END: str = "xxend"
+_TK_URL: str = "xxurl"
 
 
 def replace_url(text: str) -> str:
@@ -101,7 +101,7 @@ def replace_rep_after(text: str) -> str:
         'กาxxrep7 '
     """
 
-    def _replace_rep(m):
+    def _replace_rep(m: re.Match[str]) -> str:
         c, cc = m.groups()
         return f"{c}{_TK_REP}{len(cc) + 1} "
 
@@ -224,7 +224,7 @@ def replace_rep_nonum(text: str) -> str:
 
     """
 
-    def _replace_rep(m):
+    def _replace_rep(m: re.Match[str]) -> str:
         c, _ = m.groups()
         return f"{c} {_TK_REP} "
 

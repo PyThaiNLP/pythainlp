@@ -12,7 +12,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 import torch
 from transformers import (
@@ -21,9 +21,12 @@ from transformers import (
     BertForTokenClassification,
 )
 
-use_cuda = torch.cuda.is_available()
-device = torch.device("cuda" if use_cuda else "cpu")
-tokenizer = AutoTokenizer.from_pretrained(
+if TYPE_CHECKING:
+    from transformers import PreTrainedTokenizer
+
+use_cuda: bool = torch.cuda.is_available()
+device: torch.device = torch.device("cuda" if use_cuda else "cpu")
+tokenizer: "PreTrainedTokenizer" = AutoTokenizer.from_pretrained(
     "airesearch/wangchanberta-base-att-spm-uncased"
 )
 
@@ -31,8 +34,10 @@ tokenizer = AutoTokenizer.from_pretrained(
 class BertModel(torch.nn.Module):
     def __init__(self) -> None:
         super().__init__()
-        self.bert = BertForTokenClassification.from_pretrained(
-            "bookpanda/wangchanberta-base-att-spm-uncased-tagging"
+        self.bert: BertForTokenClassification = (
+            BertForTokenClassification.from_pretrained(
+                "bookpanda/wangchanberta-base-att-spm-uncased-tagging"
+            )
         )
 
     def forward(
@@ -50,10 +55,10 @@ class BertModel(torch.nn.Module):
         return output
 
 
-tagging_model = BertModel()
+tagging_model: BertModel = BertModel()
 if use_cuda:
     tagging_model = tagging_model.to(device=device)
-ids_to_labels = {0: "f", 1: "i"}
+ids_to_labels: dict[int, str] = {0: "f", 1: "i"}
 
 
 def align_word_ids(texts: str) -> list[int]:
@@ -94,7 +99,7 @@ def evaluate_one_text(model: BertModel, sentence: str) -> list[str]:
     return prediction_label
 
 
-mlm_model = AutoModelForMaskedLM.from_pretrained(
+mlm_model: "AutoModelForMaskedLM" = AutoModelForMaskedLM.from_pretrained(
     "bookpanda/wangchanberta-base-att-spm-uncased-masking"
 )
 if use_cuda:

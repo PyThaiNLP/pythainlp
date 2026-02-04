@@ -43,12 +43,14 @@ class CompleteSoundex:
     by Chalermpol  Tapsai, Phayung  Meesad, and Choochart  Haruechaiyasak (2020).
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         # Thai consonants for pattern matching
-        self.thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮอ"
+        self.thai_consonants: str = (
+            "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮอ"
+        )
 
         # 1. Maps (Tables 5.1 - 5.4)
-        self.initial_map = {
+        self.initial_map: dict[str, str] = {
             "ก": "กก",
             "ข": "คข",
             "ฃ": "คข",
@@ -96,7 +98,7 @@ class CompleteSoundex:
             "อ": "ออ",
         }
 
-        self.vowel_map = {
+        self.vowel_map: dict[str, str] = {
             "ะ": "1A",
             "ั": "1A",
             "รร": "1A",
@@ -132,7 +134,7 @@ class CompleteSoundex:
             "ว": "CX",
         }
 
-        self.final_map = {
+        self.final_map: dict[str, str] = {
             "ก": "ก",
             "ข": "ก",
             "ค": "ก",
@@ -170,7 +172,7 @@ class CompleteSoundex:
             "ว": "ว",
         }
 
-        self.tone_map = {"่": "1", "้": "2", "๊": "3", "๋": "4"}
+        self.tone_map: dict[str, str] = {"่": "1", "้": "2", "๊": "3", "๋": "4"}
 
     def clean_text(self, text: str) -> str:
         """Remove silent characters (karan/thanthakhat) from text."""
@@ -613,7 +615,7 @@ class CompleteSoundex:
 
 
 # Singleton instance for module-level function
-_complete_soundex_instance = None
+_complete_soundex_instance: "Optional[CompleteSoundex]" = None
 
 
 def complete_soundex(text: str) -> str:

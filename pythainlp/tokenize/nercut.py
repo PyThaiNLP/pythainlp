@@ -16,7 +16,7 @@ from collections.abc import Iterable
 
 from pythainlp.tag.named_entity import NER
 
-_thainer = NER(engine="thainer")
+_thainer: NER = NER(engine="thainer")
 
 
 def segment(
@@ -29,7 +29,7 @@ def segment(
         "DATE",
         "TIME",
     ],
-    tagger=_thainer,
+    tagger: NER = _thainer,
 ) -> list[str]:
     """Dictionary-based maximal matching word segmentation, constrained by
     Thai Character Cluster (TCC) boundaries, and combining tokens that are

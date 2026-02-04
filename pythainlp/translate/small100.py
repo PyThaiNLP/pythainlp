@@ -3,9 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
-from transformers import M2M100ForConditionalGeneration
+if TYPE_CHECKING:
+    import torch
+    from transformers import M2M100ForConditionalGeneration
 
 from .tokenization_small100 import SMALL100Tokenizer
 
@@ -18,14 +20,22 @@ class Small100Translator:
     :param bool use_gpu : load model using GPU (Default is False)
     """
 
+    pretrained: str
+    model: "M2M100ForConditionalGeneration"
+    tgt_lang: Optional[str]
+    tokenizer: "SMALL100Tokenizer"
+    translated: "torch.Tensor"
+
     def __init__(
         self,
         use_gpu: bool = False,
         pretrained: str = "alirezamsh/small100",
     ) -> None:
-        self.pretrained = pretrained
-        self.model = M2M100ForConditionalGeneration.from_pretrained(
-            self.pretrained
+        from transformers import M2M100ForConditionalGeneration
+
+        self.pretrained: str = pretrained
+        self.model: "M2M100ForConditionalGeneration" = (
+            M2M100ForConditionalGeneration.from_pretrained(self.pretrained)
         )
         self.tgt_lang: Optional[str] = None
         if use_gpu:
@@ -61,11 +71,13 @@ class Small100Translator:
 
         """
         if tgt_lang != self.tgt_lang:
-            self.tokenizer = SMALL100Tokenizer.from_pretrained(
-                self.pretrained, tgt_lang=tgt_lang
+            self.tokenizer: SMALL100Tokenizer = (
+                SMALL100Tokenizer.from_pretrained(
+                    self.pretrained, tgt_lang=tgt_lang
+                )
             )
-            self.tgt_lang = tgt_lang
-        self.translated = self.model.generate(
+            self.tgt_lang: str = tgt_lang
+        self.translated: torch.Tensor = self.model.generate(
             **self.tokenizer(text, return_tensors="pt")
         )
         decoded_list: list[str] = self.tokenizer.batch_decode(

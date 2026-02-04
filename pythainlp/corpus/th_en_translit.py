@@ -14,15 +14,15 @@ from collections import defaultdict
 from importlib.resources import files
 from typing import Union
 
-__all__ = [
+__all__: list[str] = [
     "get_transliteration_dict",
     "TRANSLITERATE_EN",
     "TRANSLITERATE_FOLLOW_RTSG",
 ]
 
-_FILE_NAME = "th_en_transliteration_v1.4.tsv"
-TRANSLITERATE_EN = "en"
-TRANSLITERATE_FOLLOW_RTSG = "follow_rtsg"
+_FILE_NAME: str = "th_en_transliteration_v1.4.tsv"
+TRANSLITERATE_EN: str = "en"
+TRANSLITERATE_FOLLOW_RTSG: str = "follow_rtsg"
 
 
 def get_transliteration_dict() -> defaultdict[
@@ -77,4 +77,6 @@ def get_transliteration_dict() -> defaultdict[
         return trans_dict
 
 
-TRANSLITERATE_DICT = get_transliteration_dict()
+TRANSLITERATE_DICT: defaultdict[
+    str, dict[str, list[Union[str, bool, None]]]
+] = get_transliteration_dict()

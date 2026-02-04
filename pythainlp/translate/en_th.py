@@ -11,6 +11,7 @@ Website: https://airesearch.in.th/releases/machine-translation-models/
 from __future__ import annotations
 
 import os
+import warnings
 
 try:
     from fairseq.models.transformer import TransformerModel
@@ -28,13 +29,15 @@ except ImportError:
 
 from pythainlp.corpus import download, get_corpus_path
 
-_EN_TH_MODEL_NAME = "scb_1m_en-th_moses"
+_EN_TH_MODEL_NAME: str = "scb_1m_en-th_moses"
 # SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0.tar.gz
-_EN_TH_FILE_NAME = "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0"
+_EN_TH_FILE_NAME: str = (
+    "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0"
+)
 
-_TH_EN_MODEL_NAME = "scb_1m_th-en_spm"
+_TH_EN_MODEL_NAME: str = "scb_1m_th-en_spm"
 # SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0.tar.gz
-_TH_EN_FILE_NAME = "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0"
+_TH_EN_FILE_NAME: str = "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0"
 
 
 def _get_translate_path(model: str, *path: str) -> str:
@@ -65,13 +68,13 @@ class EnThTranslator:
     :param bool use_gpu : load model using GPU (Default is False)
     """
 
-    def __init__(self, use_gpu: bool = False):
-        self._tokenizer = MosesTokenizer("en")
+    def __init__(self, use_gpu: bool = False) -> None:
+        self._tokenizer: MosesTokenizer = MosesTokenizer("en")
 
-        self._model_name = _EN_TH_MODEL_NAME
+        self._model_name: str = _EN_TH_MODEL_NAME
 
         _download_install(self._model_name)
-        self._model = TransformerModel.from_pretrained(
+        self._model: TransformerModel = TransformerModel.from_pretrained(
             model_name_or_path=_get_translate_path(
                 self._model_name,
                 _EN_TH_FILE_NAME,
@@ -121,30 +124,37 @@ class ThEnTranslator:
     :param bool use_gpu : load model using GPU (Default is False)
     """
 
-    def __init__(self, use_gpu: bool = False):
-        self._model_name = _TH_EN_MODEL_NAME
+    def __init__(self, use_gpu: bool = False) -> None:
+        self._model_name: str = _TH_EN_MODEL_NAME
 
         _download_install(self._model_name)
-        self._model = TransformerModel.from_pretrained(
-            model_name_or_path=_get_translate_path(
-                self._model_name,
-                _TH_EN_FILE_NAME,
-                "models",
-            ),
-            checkpoint_file="checkpoint.pt",
-            data_name_or_path=_get_translate_path(
-                self._model_name,
-                _TH_EN_FILE_NAME,
-                "vocab",
-            ),
-            bpe="sentencepiece",
-            sentencepiece_model=_get_translate_path(
-                self._model_name,
-                _TH_EN_FILE_NAME,
-                "bpe",
-                "spm.th.model",
-            ),
-        )
+        # Suppress model type mismatch warning from transformers
+        # The pre-trained model has camembert config but works fine
+        with warnings.catch_warnings():
+            warnings.filterwarnings(
+                "ignore",
+                message="(?i).*using a model of type .* to instantiate a model of type.*",
+            )
+            self._model: TransformerModel = TransformerModel.from_pretrained(
+                model_name_or_path=_get_translate_path(
+                    self._model_name,
+                    _TH_EN_FILE_NAME,
+                    "models",
+                ),
+                checkpoint_file="checkpoint.pt",
+                data_name_or_path=_get_translate_path(
+                    self._model_name,
+                    _TH_EN_FILE_NAME,
+                    "vocab",
+                ),
+                bpe="sentencepiece",
+                sentencepiece_model=_get_translate_path(
+                    self._model_name,
+                    _TH_EN_FILE_NAME,
+                    "bpe",
+                    "spm.th.model",
+                ),
+            )
         if use_gpu:
             self._model.cuda()
 

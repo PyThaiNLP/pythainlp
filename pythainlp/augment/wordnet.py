@@ -12,9 +12,10 @@ __all__: list[str] = [
 
 import itertools
 from collections import OrderedDict
-from typing import Any, Callable, Optional
+from typing import Callable, Optional
 
 from nltk.corpus import wordnet as wn
+from nltk.corpus.reader.wordnet import Synset
 
 from pythainlp.corpus import wordnet
 from pythainlp.tag import pos_tag
@@ -121,7 +122,7 @@ class WordNetAug:
     synonyms: list[str]
     list_synsets: list
     p2w_pos: Optional[str]
-    synset: Any
+    synset: Synset
     syn: str
     synonyms_without_duplicates: list[str]
     list_words: list[str]

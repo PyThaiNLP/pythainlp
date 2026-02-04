@@ -14,24 +14,25 @@ from __future__ import annotations
 
 from collections import Counter
 from collections.abc import Iterable
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
 
 if TYPE_CHECKING:
     import numpy as np
+    from transformers.pipelines.base import Pipeline
 
 
 class KeyBERT:
-    ft_pipeline: Any
+    ft_pipeline: "Pipeline"
 
     def __init__(
         self, model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
     ) -> None:
         from transformers import pipeline
 
-        self.ft_pipeline: Any = pipeline(
+        self.ft_pipeline: "Pipeline" = pipeline(
             "feature-extraction",
             tokenizer=model_name,
             model=model_name,

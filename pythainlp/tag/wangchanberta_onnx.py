@@ -88,7 +88,7 @@ class WngchanBerta_ONNX:
         maxes = np.max(logits_t, axis=-1, keepdims=True)
         shifted_exp = np.exp(logits_t - maxes)
         scores = shifted_exp / shifted_exp.sum(axis=-1, keepdims=True)
-        return scores
+        return scores  # type: ignore[no-any-return]
 
     def clean_output(
         self, list_text: list[tuple[str, str]]

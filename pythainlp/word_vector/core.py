@@ -306,7 +306,7 @@ class WordVector:
         len_words = len(words)
 
         if not len_words:
-            return vec
+            return vec  # type: ignore[no-any-return]
 
         for word in words:
             if word == " " and self.model_name == "thai2fit_wv":
@@ -320,4 +320,4 @@ class WordVector:
         if use_mean:
             vec /= len_words
 
-        return vec
+        return vec  # type: ignore[no-any-return]

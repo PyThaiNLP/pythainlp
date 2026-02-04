@@ -239,7 +239,7 @@ def document_vector(
     else:
         raise ValueError("Aggregate by mean or sum")
 
-    return res
+    return res  # type: ignore[no-any-return]
 
 
 def merge_wgts(

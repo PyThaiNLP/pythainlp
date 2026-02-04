@@ -6,8 +6,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, cast
 
 if TYPE_CHECKING:
-    from pythainlp.generate.wangchanglm import WangChanGLM
     import torch
+
+    from pythainlp.generate.wangchanglm import WangChanGLM
 
 
 class ChatBotModel:

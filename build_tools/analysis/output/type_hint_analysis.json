@@ -11,10 +11,10 @@
     },
     "variables": {
       "total": 1166,
-      "complete": 729,
-      "none": 437,
-      "pct_complete": 62.52144082332761,
-      "pct_none": 37.478559176672384,
+      "complete": 738,
+      "none": 428,
+      "pct_complete": 63.293310463121784,
+      "pct_none": 36.706689536878216,
       "class_variables": 216,
       "instance_variables": 439,
       "module_variables": 511
@@ -1788,12 +1788,6 @@
       "line": 11
     },
     {
-      "name": "pythainlp.el.__all__",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/el/__init__.py",
-      "line": 6
-    },
-    {
       "name": "pythainlp.generate.__all__",
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/__init__.py",
@@ -1870,18 +1864,6 @@
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/thai2fit.py",
       "line": 101
-    },
-    {
-      "name": "pythainlp.lm.__all__",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/lm/__init__.py",
-      "line": 5
-    },
-    {
-      "name": "pythainlp.parse.core._tagger_name",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/parse/core.py",
-      "line": 9
     },
     {
       "name": "pythainlp.phayathaibert.__all__",
@@ -1996,30 +1978,6 @@
       "scope": "private",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/words_spelling_correction.py",
       "line": 271
-    },
-    {
-      "name": "pythainlp.summarize.freq._STOPWORDS",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/summarize/freq.py",
-      "line": 16
-    },
-    {
-      "name": "pythainlp.tag.thai_nner.__all__",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tag/thai_nner.py",
-      "line": 18
-    },
-    {
-      "name": "pythainlp.tag.thainer.__all__",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tag/thainer.py",
-      "line": 8
-    },
-    {
-      "name": "pythainlp.tag.thainer._TOKENIZER_ENGINE",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tag/thainer.py",
-      "line": 21
     },
     {
       "name": "pythainlp.tokenize._utils._DIGITS_WITH_SEPARATOR",
@@ -2262,12 +2220,6 @@
       "line": 20
     },
     {
-      "name": "pythainlp.tokenizeicu._thread_local",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/pyicu.py",
-      "line": 21
-    },
-    {
       "name": "pythainlp.tokenize.sefr_cut._DEFAULT_ENGINE",
       "scope": "private",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/sefr_cut.py",
@@ -2404,12 +2356,6 @@
       "scope": "private",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/lookup.py",
       "line": 22
-    },
-    {
-      "name": "pythainlp.transliterateicu._ICU_THAI_TO_LATIN",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/pyicu.py",
-      "line": 16
     },
     {
       "name": "pythainlp.transliterate.royin._vowel_patterns",

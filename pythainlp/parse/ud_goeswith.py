@@ -29,7 +29,9 @@ class Parse:
         if model is None:
             model = "KoichiYasuoka/deberta-base-thai-ud-goeswith"
         self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
-        self.model: AutoModelForTokenClassification = AutoModelForTokenClassification.from_pretrained(model)
+        self.model: AutoModelForTokenClassification = (
+            AutoModelForTokenClassification.from_pretrained(model)
+        )
 
     def __call__(
         self, text: str, tag: str = "str"

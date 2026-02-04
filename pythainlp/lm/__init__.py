@@ -2,7 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-__all__ = ["calculate_ngram_counts", "remove_repeated_ngrams"]
+__all__: list[str] = ["calculate_ngram_counts", "remove_repeated_ngrams"]
 
 from pythainlp.lm.text_util import (
     calculate_ngram_counts,

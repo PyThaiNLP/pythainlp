@@ -35,7 +35,9 @@ class EntityLinker:
             )
         from pythainlp.el._multiel import MultiEL
 
-        self.model: MultiEL = MultiEL(model_name=self.model_name, device=self.device)
+        self.model: MultiEL = MultiEL(
+            model_name=self.model_name, device=self.device
+        )
 
     def get_el(
         self, list_text: Union[list[str], str]

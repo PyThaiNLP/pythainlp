@@ -1,6 +1,6 @@
 Variable Name,Submodule,Parent Class,Scope,File,Line
-pythainlp.augment.lm.fasttext.FastTextAug.model,augment,FastTextAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/lm/fasttext.py,35
 pythainlp.augment.lm.fasttext.FastTextAug.model,augment,FastTextAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/lm/fasttext.py,37
+pythainlp.augment.lm.fasttext.FastTextAug.model,augment,FastTextAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/lm/fasttext.py,39
 pythainlp.augment.lm.phayathaibert.ThaiTextAugmenter.tokenizer,augment,ThaiTextAugmenter,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/lm/phayathaibert.py,31
 pythainlp.augment.lm.phayathaibert.ThaiTextAugmenter.model_for_masked_lm,augment,ThaiTextAugmenter,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/lm/phayathaibert.py,32
 pythainlp.augment.lm.phayathaibert.ThaiTextAugmenter.model,augment,ThaiTextAugmenter,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/lm/phayathaibert.py,35
@@ -18,8 +18,8 @@ pythainlp.augment.word2vec.bpemb_wv.BPEmbAug.sentence,augment,BPEmbAug,public,/h
 pythainlp.augment.word2vec.bpemb_wv.BPEmbAug.temp,augment,BPEmbAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/bpemb_wv.py,72
 pythainlp.augment.word2vec.bpemb_wv.BPEmbAug.temp_new,augment,BPEmbAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/bpemb_wv.py,73
 pythainlp.augment.word2vec.bpemb_wv.BPEmbAug.t,augment,BPEmbAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/bpemb_wv.py,75
-pythainlp.augment.word2vec.core.Word2VecAug.model,augment,Word2VecAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/core.py,34
-pythainlp.augment.word2vec.core.Word2VecAug.model,augment,Word2VecAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/core.py,38
+pythainlp.augment.word2vec.core.Word2VecAug.model,augment,Word2VecAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/core.py,36
+pythainlp.augment.word2vec.core.Word2VecAug.model,augment,Word2VecAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/core.py,40
 pythainlp.augment.word2vec.ltw2v.LTW2VAug.ltw2v_wv,augment,LTW2VAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/ltw2v.py,30
 pythainlp.augment.word2vec.ltw2v.LTW2VAug.aug,augment,LTW2VAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/ltw2v.py,46
 pythainlp.augment.word2vec.thai2fit.Thai2fitAug.thai2fit_wv,augment,Thai2fitAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/thai2fit.py,30
@@ -28,7 +28,7 @@ pythainlp.augment.wordnet.WordNetAug.list_synsets,augment,WordNetAug,public,/hom
 pythainlp.augment.wordnet.WordNetAug.p2w_pos,augment,WordNetAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/wordnet.py,142
 pythainlp.augment.wordnet.WordNetAug.list_synsets,augment,WordNetAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/wordnet.py,144
 pythainlp.augment.wordnet.WordNetAug.list_synsets,augment,WordNetAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/wordnet.py,146
-pythainlp.augment.wordnet.WordNetAug.temp,augment,WordNetAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/wordnet.py,205
+pythainlp.augment.wordnet.WordNetAug.temp,augment,WordNetAug,public,/home/runner/work/pythainlp/pythainlp/pythainlp/augment/wordnet.py,209
 pythainlp.chat.core.ChatBotModel.history,chat,ChatBotModel,public,/home/runner/work/pythainlp/pythainlp/pythainlp/chat/core.py,16
 pythainlp.chat.core.ChatBotModel.model,chat,ChatBotModel,public,/home/runner/work/pythainlp/pythainlp/pythainlp/chat/core.py,41
 pythainlp.classify.param_free.GzipModel.training_data,classify,GzipModel,public,/home/runner/work/pythainlp/pythainlp/pythainlp/classify/param_free.py,36
@@ -39,9 +39,9 @@ pythainlp.cli.tag.SubAppBase.args,cli,SubAppBase,public,/home/runner/work/pythai
 pythainlp.cli.tag.POSTaggingApp.separator,cli,POSTaggingApp,public,/home/runner/work/pythainlp/pythainlp/pythainlp/cli/tag.py,55
 pythainlp.cli.tag.POSTaggingApp.run,cli,POSTaggingApp,public,/home/runner/work/pythainlp/pythainlp/pythainlp/cli/tag.py,56
 pythainlp.cli.tokenize.SubAppBase.args,cli,SubAppBase,public,/home/runner/work/pythainlp/pythainlp/pythainlp/cli/tokenize.py,77
-pythainlp.corpus.core._ResponseWrapper.status_code,corpus,_ResponseWrapper,public,/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/core.py,41
-pythainlp.corpus.core._ResponseWrapper.headers,corpus,_ResponseWrapper,public,/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/core.py,42
-pythainlp.corpus.core._ResponseWrapper._content,corpus,_ResponseWrapper,private,/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/core.py,43
+pythainlp.corpus.core._ResponseWrapper.status_code,corpus,_ResponseWrapper,public,/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/core.py,42
+pythainlp.corpus.core._ResponseWrapper.headers,corpus,_ResponseWrapper,public,/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/core.py,43
+pythainlp.corpus.core._ResponseWrapper._content,corpus,_ResponseWrapper,private,/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/core.py,44
 pythainlp.el._multiel.MultiEL.model_name,el,MultiEL,public,/home/runner/work/pythainlp/pythainlp/pythainlp/el/_multiel.py,18
 pythainlp.el._multiel.MultiEL.device,el,MultiEL,public,/home/runner/work/pythainlp/pythainlp/pythainlp/el/_multiel.py,19
 pythainlp.el._multiel.MultiEL._bela_run,el,MultiEL,private,/home/runner/work/pythainlp/pythainlp/pythainlp/el/_multiel.py,29
@@ -206,5 +206,5 @@ pythainlp.wangchanberta.core.ThaiNameTagger.sent_ner,wangchanberta,ThaiNameTagge
 pythainlp.wangchanberta.core.ThaiNameTagger.sent_ner,wangchanberta,ThaiNameTagger,public,/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py,126
 pythainlp.word_vector.core.WordVector.tokenize,word_vector,WordVector,public,/home/runner/work/pythainlp/pythainlp/pythainlp/word_vector/core.py,68
 pythainlp.word_vector.core.WordVector.tokenize,word_vector,WordVector,public,/home/runner/work/pythainlp/pythainlp/pythainlp/word_vector/core.py,70
-pythainlp.wsd.core._SentenceTransformersModel.device,wsd,_SentenceTransformersModel,public,/home/runner/work/pythainlp/pythainlp/pythainlp/wsd/core.py,40
-pythainlp.wsd.core._SentenceTransformersModel.model,wsd,_SentenceTransformersModel,public,/home/runner/work/pythainlp/pythainlp/pythainlp/wsd/core.py,41
+pythainlp.wsd.core._SentenceTransformersModel.device,wsd,_SentenceTransformersModel,public,/home/runner/work/pythainlp/pythainlp/pythainlp/wsd/core.py,45
+pythainlp.wsd.core._SentenceTransformersModel.model,wsd,_SentenceTransformersModel,public,/home/runner/work/pythainlp/pythainlp/pythainlp/wsd/core.py,46

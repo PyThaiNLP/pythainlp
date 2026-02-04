@@ -18,7 +18,7 @@ from collections.abc import Iterator
 from icu import BreakIterator, Locale
 
 # Thread-local storage for BreakIterator instances
-_thread_local = threading.local()
+_thread_local: threading.local = threading.local()
 
 
 def _get_break_iterator() -> BreakIterator:

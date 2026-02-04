@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-__all__ = ["ThaiNameTagger"]
+__all__: list[str] = ["ThaiNameTagger"]
 
 
 from typing import TYPE_CHECKING, Union
@@ -18,7 +18,7 @@ from pythainlp.util import isthai
 if TYPE_CHECKING:
     from pycrfsuite import Tagger as CRFTagger
 
-_TOKENIZER_ENGINE = "mm"
+_TOKENIZER_ENGINE: str = "mm"
 
 
 def _is_stopword(word: str) -> bool:  # เช็คว่าเป็นคำฟุ่มเฟือย

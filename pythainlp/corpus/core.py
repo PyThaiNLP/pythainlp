@@ -12,7 +12,7 @@ import re
 import sys
 import tarfile
 import zipfile
-from http.client import HTTPResponse
+from http.client import HTTPMessage, HTTPResponse
 from importlib.resources import files
 from typing import TYPE_CHECKING
 
@@ -35,7 +35,7 @@ class _ResponseWrapper:
     """Wrapper to provide requests.Response-like interface for urllib response."""
 
     status_code: int
-    headers: http.client.HTTPMessage
+    headers: HTTPMessage
     _content: bytes
 
     def __init__(self, response: HTTPResponse) -> None:

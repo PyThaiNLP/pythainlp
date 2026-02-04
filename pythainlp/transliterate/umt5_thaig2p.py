@@ -9,7 +9,7 @@ huggingface: https://huggingface.co/B-K/umt5-thai-g2p-v2-0.5k
 # Use a pipeline as a high-level helper
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from transformers import Pipeline

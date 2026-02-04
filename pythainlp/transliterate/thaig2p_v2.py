@@ -9,7 +9,7 @@ huggingface: https://huggingface.co/pythainlp/thaig2p-v2.0
 # Use a pipeline as a high-level helper
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from transformers import Pipeline

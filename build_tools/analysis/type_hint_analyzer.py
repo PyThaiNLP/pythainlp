@@ -275,8 +275,9 @@ class TypeHintAnalyzer(ast.NodeVisitor):
             return True
 
         # Direct literal types (use ast.Constant for Python 3.8+)
+        # Only accept simple types: str, int, float, bool, None
         if isinstance(value, ast.Constant):
-            return True
+            return isinstance(value.value, (str, int, float, bool, type(None)))
 
         # Check for simple containers
         if isinstance(value, (ast.List, ast.Tuple, ast.Set)):
@@ -355,6 +356,8 @@ class TypeHintAnalyzer(ast.NodeVisitor):
 
         Type aliases are assignments where the value is an instantiable type.
         Examples: MyType = dict[str, int], Foo = Optional[str]
+
+        This is conservative to avoid false positives.
         """
         if value is None:
             return False
@@ -382,10 +385,15 @@ class TypeHintAnalyzer(ast.NodeVisitor):
             if value.id in type_keywords:
                 return True
 
-        # 4. Attribute access suggesting typing module usage
+        # 4. Attribute access from typing module (typing.Something)
         if isinstance(value, ast.Attribute):
-            # typing.Optional, typing.Union, etc.
-            return True
+            # Only consider it a type alias if it's from typing/typing_extensions
+            if isinstance(value.value, ast.Name):
+                if value.value.id in ("typing", "typing_extensions"):
+                    return True
+            # Or if the attribute name starts with uppercase (type convention)
+            if value.attr and value.attr[0].isupper():
+                return True
 
         return False
 

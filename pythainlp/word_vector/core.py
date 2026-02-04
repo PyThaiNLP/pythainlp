@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer, word_tokenize
@@ -12,12 +12,12 @@ if TYPE_CHECKING:
     from gensim.models.keyedvectors import Word2VecKeyedVectors
     from numpy import ndarray
 
-WV_DIM = 300  # word vector dimension
+WV_DIM: int = 300  # word vector dimension
 
-_MODEL_NAME = "thai2fit_wv"
+_MODEL_NAME: str = "thai2fit_wv"
 
-_TK_SP = "xxspace"
-_TK_EOL = "xxeol"
+_TK_SP: str = "xxspace"
+_TK_EOL: str = "xxeol"
 
 
 class WordVector:
@@ -46,7 +46,7 @@ class WordVector:
         self.model_name: str
         self.model: "Word2VecKeyedVectors"
         self.WV_DIM: int
-        self.tokenize: any  # function type
+        self.tokenize: Any  # function type
         self.load_wordvector(model_name)
 
     def load_wordvector(self, model_name: str) -> None:
@@ -56,13 +56,13 @@ class WordVector:
         """
         from gensim.models import KeyedVectors
 
-        self.model_name: str = model_name
-        self.model: "Word2VecKeyedVectors" = KeyedVectors.load_word2vec_format(
+        self.model_name = model_name
+        self.model = KeyedVectors.load_word2vec_format(
             get_corpus_path(self.model_name),
             binary=True,
             unicode_errors="ignore",
         )
-        self.WV_DIM: int = self.model.vector_size
+        self.WV_DIM = self.model.vector_size
 
         if self.model_name == "thai2fit_wv":
             self.tokenize = thai2fit_tokenizer().word_tokenize

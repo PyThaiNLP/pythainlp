@@ -24,7 +24,7 @@ import pycrfsuite
 from pythainlp.corpus import corpus_path
 from pythainlp.tokenize import word_tokenize
 
-_ENDERS = {
+_ENDERS: set[str] = {
     # ending honorifics
     "ครับ",
     "ค่ะ",
@@ -77,7 +77,7 @@ _ENDERS = {
     "เมื่อไหร่",
     "เมื่อไร",
 }
-_STARTERS = {
+_STARTERS: set[str] = {
     # pronouns
     "ผม",
     "ฉัน",
@@ -174,8 +174,8 @@ def extract_features(
     return doc_features
 
 
-_CRFCUT_DATA_FILENAME = "sentenceseg_crfcut.model"
-_tagger = pycrfsuite.Tagger()
+_CRFCUT_DATA_FILENAME: str = "sentenceseg_crfcut.model"
+_tagger: pycrfsuite.Tagger = pycrfsuite.Tagger()
 _tagger.open(os.path.join(corpus_path(), _CRFCUT_DATA_FILENAME))
 
 

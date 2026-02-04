@@ -46,7 +46,9 @@ _powers_of_10: dict[str, int] = {
     "แสน": 100000,
     # "ล้าน" was excluded as a special case
 }
-_valid_tokens: set[str] = set(_digits.keys()) | set(_powers_of_10.keys()) | {"ล้าน", "ลบ"}
+_valid_tokens: set[str] = (
+    set(_digits.keys()) | set(_powers_of_10.keys()) | {"ล้าน", "ลบ"}
+)
 
 
 @lru_cache

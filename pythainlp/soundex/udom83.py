@@ -24,8 +24,12 @@ from pythainlp import thai_consonants
 
 _THANTHAKHAT: str = "\u0e4c"
 _RE_1: Pattern[str] = re.compile(r"รร([\u0e40-\u0e44])")  # เ-ไ
-_RE_2: Pattern[str] = re.compile(f"รร([{thai_consonants}][{thai_consonants}\u0e40-\u0e44])")
-_RE_3: Pattern[str] = re.compile(f"รร([{thai_consonants}][\u0e30-\u0e39\u0e48-\u0e4c])")
+_RE_2: Pattern[str] = re.compile(
+    f"รร([{thai_consonants}][{thai_consonants}\u0e40-\u0e44])"
+)
+_RE_3: Pattern[str] = re.compile(
+    f"รร([{thai_consonants}][\u0e30-\u0e39\u0e48-\u0e4c])"
+)
 _RE_4: Pattern[str] = re.compile(r"รร")
 _RE_5: Pattern[str] = re.compile(f"ไ([{thai_consonants}]ย)")
 _RE_6: Pattern[str] = re.compile(f"[ไใ]([{thai_consonants}])")

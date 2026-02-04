@@ -9,11 +9,21 @@ https://github.com/PyThaiNLP/tutorials/blob/master/source/notebooks/text_generat
 
 from __future__ import annotations
 
-__all__ = ["gen_sentence"]
+__all__: list[str] = ["gen_sentence"]
 
 import pickle
 import random
-from typing import Union
+from typing import TYPE_CHECKING, Any, Union
+
+if TYPE_CHECKING:
+    import pandas as pd
+    from fastai.text import (
+        AWD_LSTM,
+        LMDataBunch,
+        Tokenizer,
+        Vocab,
+        language_model_learner,
+    )
 
 # fastai
 import fastai
@@ -38,11 +48,11 @@ from pythainlp.ulmfit import (
 )
 
 # get dummy data
-imdb = untar_data(URLs.IMDB_SAMPLE)
-dummy_df = pd.read_csv(imdb / "texts.csv")
+imdb: Any = untar_data(URLs.IMDB_SAMPLE)
+dummy_df: "pd.DataFrame" = pd.read_csv(imdb / "texts.csv")
 
 # get vocab
-thwiki = THWIKI_LSTM
+thwiki: dict[str, Any] = THWIKI_LSTM
 
 # Validate that corpus files are available
 if thwiki["itos_fname"] is None or thwiki["wgts_fname"] is None:
@@ -58,21 +68,21 @@ if thwiki["itos_fname"] is None or thwiki["wgts_fname"] is None:
 # Users should only use corpus files from trusted sources.
 # WARNING: Pickle deserialization can execute arbitrary code if the file is malicious.
 with open(thwiki["itos_fname"], "rb") as f:
-    thwiki_itos = pickle.load(f)  # noqa: S301
-thwiki_vocab = fastai.text.transform.Vocab(thwiki_itos)
+    thwiki_itos: list[str] = pickle.load(f)  # noqa: S301
+thwiki_vocab: "Vocab" = fastai.text.transform.Vocab(thwiki_itos)
 
 # dummy databunch
-tt = Tokenizer(
+tt: "Tokenizer" = Tokenizer(
     tok_func=ThaiTokenizer,
     lang="th",
     pre_rules=pre_rules_th,
     post_rules=post_rules_th,
 )
-processor = [
+processor: list[Any] = [
     TokenizeProcessor(tokenizer=tt, chunksize=10000, mark_fields=False),
     NumericalizeProcessor(vocab=thwiki_vocab, max_vocab=60000, min_freq=3),
 ]
-data_lm = (
+data_lm: "LMDataBunch" = (
     TextList.from_df(dummy_df, imdb, cols=["text"], processor=processor)
     .split_by_rand_pct(0.2)
     .label_for_lm()
@@ -82,7 +92,7 @@ data_lm = (
 
 data_lm.sanity_check()
 
-config = {
+config: dict[str, Any] = {
     "emb_sz": 400,
     "n_hid": 1550,
     "n_layers": 4,
@@ -96,9 +106,14 @@ config = {
     "embed_p": 0.02,
     "weight_p": 0.15,
 }
-trn_args = {"drop_mult": 0.9, "clip": 0.12, "alpha": 2, "beta": 1}
+trn_args: dict[str, Any] = {
+    "drop_mult": 0.9,
+    "clip": 0.12,
+    "alpha": 2,
+    "beta": 1,
+}
 
-learn = language_model_learner(
+learn: Any = language_model_learner(
     data_lm, AWD_LSTM, config=config, pretrained=False, **trn_args
 )
 

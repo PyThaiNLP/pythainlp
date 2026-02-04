@@ -16,7 +16,7 @@ from collections.abc import Iterable
 
 from pythainlp.tag.named_entity import NER
 
-_thainer = NER(engine="thainer")
+_thainer: NER = NER(engine="thainer")
 
 
 def segment(

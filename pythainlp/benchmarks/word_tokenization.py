@@ -5,26 +5,27 @@ from __future__ import annotations
 
 import re
 import sys
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-import numpy as np
-import pandas as pd
+if TYPE_CHECKING:
+    import numpy as np
+    import pandas as pd
 
-SEPARATOR = "|"
+SEPARATOR: str = "|"
 
 # regex for removing one space surrounded by separators, i.e. | |
-SURROUNDING_SEPS_RX = re.compile(
+SURROUNDING_SEPS_RX: re.Pattern[str] = re.compile(
     "{sep}? ?{sep}$".format(sep=re.escape(SEPARATOR))
 )
 
 # regex for removing repeated separators, i.e. ||||
-MULTIPLE_SEPS_RX = re.compile(f"{re.escape(SEPARATOR)}+")
+MULTIPLE_SEPS_RX: re.Pattern[str] = re.compile(f"{re.escape(SEPARATOR)}+")
 
 # regex for removing tags, i.e. <NE>, </NE>
-TAG_RX = re.compile(r"<\/?[A-Z]+>")
+TAG_RX: re.Pattern[str] = re.compile(r"<\/?[A-Z]+>")
 
 # regex for removing trailing separators, i.e.  a|dog| -> a|dog
-TAILING_SEP_RX = re.compile(f"{re.escape(SEPARATOR)}$")
+TAILING_SEP_RX: re.Pattern[str] = re.compile(f"{re.escape(SEPARATOR)}$")
 
 
 def _f1(precision: float, recall: float) -> float:
@@ -64,7 +65,7 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict[str, Any]:
     }
 
 
-def benchmark(ref_samples: list[str], samples: list[str]) -> pd.DataFrame:
+def benchmark(ref_samples: list[str], samples: list[str]) -> "pd.DataFrame":
     """Performance benchmarking for samples.
 
     Please see :meth:`pythainlp.benchmarks.word_tokenization.compute_stats` for
@@ -76,6 +77,8 @@ def benchmark(ref_samples: list[str], samples: list[str]) -> pd.DataFrame:
     :return: dataframe with row x col = len(samples) x len(metrics)
     :rtype: pandas.DataFrame
     """
+    import pandas as pd
+
     results = []
     for i, (r, s) in enumerate(zip(ref_samples, samples)):
         try:
@@ -149,6 +152,8 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, Any]:
     :return: metrics at character- and word-level and indicators of correctly tokenized words
     :rtype: dict[str, Any]
     """
+    import numpy as np
+
     ref_sample_arr = _binary_representation(ref_sample)
     sample_arr = _binary_representation(raw_sample)
 
@@ -200,7 +205,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, Any]:
     }
 
 
-def _binary_representation(txt: str, verbose: bool = False) -> np.ndarray:
+def _binary_representation(txt: str, verbose: bool = False) -> "np.ndarray":
     """Transform text into {0, 1} sequence.
 
     where (1) indicates that the corresponding character is the beginning of
@@ -212,6 +217,8 @@ def _binary_representation(txt: str, verbose: bool = False) -> np.ndarray:
     :return: {0, 1} sequence
     :rtype: np.ndarray
     """
+    import numpy as np
+
     chars = np.array(list(txt))
 
     boundary = np.argwhere(chars == SEPARATOR).reshape(-1)
@@ -236,7 +243,7 @@ def _binary_representation(txt: str, verbose: bool = False) -> np.ndarray:
     return bin_rept
 
 
-def _find_word_boundaries(bin_reps: np.ndarray) -> list[tuple[int, int]]:
+def _find_word_boundaries(bin_reps: "np.ndarray") -> list[tuple[int, int]]:
     """Find the starting and ending location of each word.
 
     :param str bin_reps: binary representation of a text
@@ -244,6 +251,8 @@ def _find_word_boundaries(bin_reps: np.ndarray) -> list[tuple[int, int]]:
     :return: list of tuples (start, end)
     :rtype: list[tuple[int, int]]
     """
+    import numpy as np
+
     boundary = np.argwhere(bin_reps == 1).reshape(-1)
     start_idx = boundary
     end_idx = boundary[1:].tolist() + [bin_reps.shape[0]]

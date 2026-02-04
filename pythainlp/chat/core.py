@@ -3,10 +3,16 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-import torch
+from typing import TYPE_CHECKING, Any, Optional, cast
+
+if TYPE_CHECKING:
+    import torch
 
 
 class ChatBotModel:
+    history: list[tuple[str, str]]
+    model: Any
+
     def __init__(self) -> None:
         """Chat using AI generation"""
         self.history: list[tuple[str, str]] = []
@@ -21,7 +27,7 @@ class ChatBotModel:
         return_dict: bool = True,
         load_in_8bit: bool = False,
         device: str = "cuda",
-        torch_dtype: torch.dtype = torch.float16,
+        torch_dtype: Optional["torch.dtype"] = None,
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
     ) -> None:
@@ -35,10 +41,15 @@ class ChatBotModel:
         :param str offload_folder: offload folder
         :param bool low_cpu_mem_usage: low cpu mem usage
         """
+        import torch
+
+        if torch_dtype is None:
+            torch_dtype = torch.float16
+
         if model_name == "wangchanglm":
             from pythainlp.generate.wangchanglm import WangChanGLM
 
-            self.model = WangChanGLM()
+            self.model: Any = WangChanGLM()
             self.model.load_model(
                 model_path="pythainlp/wangchanglm-7.5B-sft-en-sharded",
                 return_dict=return_dict,
@@ -84,6 +95,6 @@ class ChatBotModel:
         _temp += self.model.PROMPT_DICT["prompt_chatbot"].format_map(
             {"human": text, "bot": ""}
         )
-        _bot = self.model.gen_instruct(_temp)
+        _bot = cast(str, self.model.gen_instruct(_temp))
         self.history.append((text, _bot))
-        return _bot  # type: ignore[no-any-return]
+        return _bot

@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import re
 import warnings
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 if TYPE_CHECKING:
     from transformers import (
@@ -17,8 +17,8 @@ if TYPE_CHECKING:
 
 from pythainlp.tokenize import word_tokenize
 
-_model_name = "wangchanberta-base-att-spm-uncased"
-_tokenizer = None
+_model_name: str = "wangchanberta-base-att-spm-uncased"
+_tokenizer: Optional["CamembertTokenizer"] = None
 
 
 def _get_tokenizer() -> CamembertTokenizer:
@@ -173,10 +173,16 @@ class NamedEntityRecognition:
         """
         from transformers import AutoModelForTokenClassification, AutoTokenizer
 
-        self.tokenizer: PreTrainedTokenizerBase = AutoTokenizer.from_pretrained(model)
-        self.model: PreTrainedModel = AutoModelForTokenClassification.from_pretrained(model)
+        self.tokenizer: PreTrainedTokenizerBase = (
+            AutoTokenizer.from_pretrained(model)
+        )
+        self.model: PreTrainedModel = (
+            AutoModelForTokenClassification.from_pretrained(model)
+        )
 
-    def _fix_span_error(self, words: list[int], ner: list[str]) -> list[tuple[str, str]]:
+    def _fix_span_error(
+        self, words: list[int], ner: list[str]
+    ) -> list[tuple[str, str]]:
         _ner = []
         _ner = ner
         _new_tag = []

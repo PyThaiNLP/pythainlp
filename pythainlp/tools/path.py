@@ -16,9 +16,9 @@ from typing import cast
 if version_info >= (3, 11):
     from importlib.resources import files  # Available in Python 3.11+
 else:
-    from importlib_resources import files  # type: ignore[import-not-found,no-redef]  # noqa: I001
+    from importlib_resources import files  # noqa: I001
 
-PYTHAINLP_DEFAULT_DATA_DIR = "pythainlp-data"
+PYTHAINLP_DEFAULT_DATA_DIR: str = "pythainlp-data"
 
 
 def get_full_data_path(path: str) -> str:

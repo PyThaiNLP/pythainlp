@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import re
+from typing import Pattern
 
 _emoji_th: dict[str, str] = {
     "😀": "หน้ายิ้มยิงฟัน",
@@ -1825,14 +1826,16 @@ _emoji_th: dict[str, str] = {
     "🏴󠁧󠁢󠁷󠁬󠁳󠁿": "ธง_เวลส์",
 }
 
-_th_emoji = {v: k for k, v in _emoji_th.items()}
+_th_emoji: dict[str, str] = {v: k for k, v in _emoji_th.items()}
 
-_emojis = sorted(_emoji_th.keys(), key=len, reverse=True)
-_emoji_regex = re.compile("|".join(map(re.escape, _emojis)))
-_delimiter = ":"
+_emojis: list[str] = sorted(_emoji_th.keys(), key=len, reverse=True)
+_emoji_regex: Pattern[str] = re.compile("|".join(map(re.escape, _emojis)))
+_delimiter: str = ":"
 
 
-def emoji_to_thai(text: str, delimiters: tuple[str, str] = (_delimiter, _delimiter)) -> str:
+def emoji_to_thai(
+    text: str, delimiters: tuple[str, str] = (_delimiter, _delimiter)
+) -> str:
     """Converts emojis to their Thai meanings.
 
     :param str text: Text with emojis
@@ -1855,8 +1858,8 @@ def emoji_to_thai(text: str, delimiters: tuple[str, str] = (_delimiter, _delimit
         # output: :ธง_ไทย: นี่คือธงประเทศไทย
     """
     return _emoji_regex.sub(
-        lambda match: delimiters[0]
-        + _emoji_th[match.group(0)]
-        + delimiters[1],
+        lambda match: (
+            delimiters[0] + _emoji_th[match.group(0)] + delimiters[1]
+        ),
         text,
     )

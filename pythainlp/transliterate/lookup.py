@@ -19,7 +19,7 @@ from pythainlp.corpus.th_en_translit import (
     TRANSLITERATE_FOLLOW_RTSG,
 )
 
-_TRANSLITERATE_IDX = 0
+_TRANSLITERATE_IDX: int = 0
 
 
 def follow_rtgs(text: str) -> Optional[bool]:

@@ -29,7 +29,12 @@ class LatticeString(str):
     multi: list[str]
     in_dict: bool
 
-    def __new__(cls, value: str, multi: Optional[list[str]] = None, in_dict: bool = True) -> "LatticeString":
+    def __new__(
+        cls,
+        value: str,
+        multi: Optional[list[str]] = None,
+        in_dict: bool = True,
+    ) -> "LatticeString":
         return str.__new__(cls, value)
 
     def __init__(
@@ -48,13 +53,13 @@ class LatticeString(str):
         self.in_dict: bool = in_dict  # if in dictionary
 
 
-_RE_NONTHAI = r"""(?x)
+_RE_NONTHAI: str = r"""(?x)
 [-a-zA-Z]+|       # Latin characters
 \d+([,\.]\d+)*|   # numbers
 [ \t]+|           # spaces
 \r?\n             # newlines
 """
-_PAT_NONTHAI = re.compile(_RE_NONTHAI)
+_PAT_NONTHAI: re.Pattern[str] = re.compile(_RE_NONTHAI)
 
 
 def _multicut(
@@ -91,7 +96,7 @@ def _multicut(
 
         if len_q == 1:
             q0 = min(q)
-            yield LatticeString(text[last_p:q0], serialize(last_p, q0))
+            yield LatticeString(text[last_p:q0], list(serialize(last_p, q0)))
             last_p = q0
         elif len_q == 0:  # len(q) == 0  means not found in dictionary
             m = _PAT_NONTHAI.match(text[p:])

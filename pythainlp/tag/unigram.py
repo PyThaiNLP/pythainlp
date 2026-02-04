@@ -38,7 +38,7 @@ def _orchid_tagger() -> dict[str, Any]:
     if not _ORCHID_TAGGER:
         with open(_ORCHID_PATH, encoding="utf-8-sig") as fh:
             _ORCHID_TAGGER = json.load(fh)
-    return _ORCHID_TAGGER  # type: ignore[no-any-return]
+    return _ORCHID_TAGGER
 
 
 def _pud_tagger() -> dict[str, Any]:
@@ -46,7 +46,7 @@ def _pud_tagger() -> dict[str, Any]:
     if not _PUD_TAGGER:
         with open(_PUD_PATH, encoding="utf-8-sig") as fh:
             _PUD_TAGGER = json.load(fh)
-    return _PUD_TAGGER  # type: ignore[no-any-return]
+    return _PUD_TAGGER
 
 
 def _blackboard_tagger() -> dict[str, Any]:
@@ -57,7 +57,7 @@ def _blackboard_tagger() -> dict[str, Any]:
             raise ValueError(f"Corpus path not found for {_BLACKBOARD_NAME}")
         with open(path, encoding="utf-8-sig") as fh:
             _BLACKBOARD_TAGGER = json.load(fh)
-    return _BLACKBOARD_TAGGER  # type: ignore[no-any-return]
+    return _BLACKBOARD_TAGGER
 
 
 def _thai_tdtb() -> dict[str, Any]:
@@ -65,7 +65,7 @@ def _thai_tdtb() -> dict[str, Any]:
     if not _TDTB_TAGGER:
         with open(_TDTB_PATH, encoding="utf-8-sig") as fh:
             _TDTB_TAGGER = json.load(fh)
-    return _TDTB_TAGGER  # type: ignore[no-any-return]
+    return _TDTB_TAGGER
 
 
 def _tud_tagger() -> dict[str, Any]:
@@ -73,7 +73,7 @@ def _tud_tagger() -> dict[str, Any]:
     if not _TUD_TAGGER:
         with open(_TUD_PATH, encoding="utf-8-sig") as fh:
             _TUD_TAGGER = json.load(fh)
-    return _TUD_TAGGER  # type: ignore[no-any-return]
+    return _TUD_TAGGER
 
 
 def _find_tag(

@@ -20,19 +20,19 @@ class AttacutTokenizer:
     _tokenizer: Tokenizer
 
     def __init__(self, model: str = "attacut-sc") -> None:
-        self._MODEL_NAME = "attacut-sc"
+        self._MODEL_NAME: str = "attacut-sc"
 
         if model == "attacut-c":
             self._MODEL_NAME = "attacut-c"
 
-        self._tokenizer = Tokenizer(model=self._MODEL_NAME)
+        self._tokenizer: Tokenizer = Tokenizer(model=self._MODEL_NAME)
 
     def tokenize(self, text: str) -> list[str]:
         return cast(list[str], self._tokenizer.tokenize(text))
 
 
 _tokenizers: dict[str, AttacutTokenizer] = {}
-_tokenizers_lock = threading.Lock()
+_tokenizers_lock: threading.Lock = threading.Lock()
 
 
 def segment(text: str, model: str = "attacut-sc") -> list[str]:

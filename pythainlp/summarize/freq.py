@@ -13,7 +13,7 @@ from typing import cast
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import sent_tokenize, word_tokenize
 
-_STOPWORDS = thai_stopwords()
+_STOPWORDS: frozenset[str] = thai_stopwords()
 
 
 class FrequencySummarizer:
@@ -61,7 +61,9 @@ class FrequencySummarizer:
         word_tokenized_sents = [
             word_tokenize(sent, engine=tokenizer) for sent in sents
         ]
-        self.__freq: "defaultdict[str, float]" = self.__compute_frequencies(word_tokenized_sents)
+        self.__freq: "defaultdict[str, float]" = self.__compute_frequencies(
+            word_tokenized_sents
+        )
         ranking: defaultdict[int, float] = defaultdict(int)
 
         for i, sent in enumerate(word_tokenized_sents):

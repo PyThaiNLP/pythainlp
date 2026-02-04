@@ -9,13 +9,13 @@ https://web.facebook.com/groups/colab.thailand/permalink/1524070061101680/
 
 from __future__ import annotations
 
-__all__ = ["word_freqs", "unigram_word_freqs"]
+__all__: list[str] = ["word_freqs", "unigram_word_freqs"]
 
 from collections import defaultdict
 
 from pythainlp.corpus import get_corpus_path
 
-_OSCAR_FILENAME = "oscar_icu"
+_OSCAR_FILENAME: str = "oscar_icu"
 
 
 def word_freqs() -> list[tuple[str, int]]:

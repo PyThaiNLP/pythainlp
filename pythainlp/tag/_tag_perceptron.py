@@ -218,8 +218,8 @@ class PerceptronTagger:
             msg = "Missing trontagger.json file."
             raise OSError(msg) from ex
         self.model.weights = w_td_c["weights"]
-        self.tagdict = w_td_c["tagdict"]
-        self.classes = w_td_c["classes"]
+        self.tagdict: dict[str, list[str]] = w_td_c["tagdict"]
+        self.classes: list[str] = w_td_c["classes"]
         self.model.classes = set(self.classes)
 
     def _normalize(self, word: str) -> str:

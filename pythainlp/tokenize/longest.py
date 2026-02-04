@@ -20,7 +20,7 @@ from pythainlp import thai_tonemarks
 from pythainlp.tokenize import word_dict_trie
 from pythainlp.util import Trie
 
-_FRONT_DEP_CHAR = [
+_FRONT_DEP_CHAR: list[str] = [
     "ะ",
     "ั",
     "า ",
@@ -36,20 +36,20 @@ _FRONT_DEP_CHAR = [
     "์",
     "ํ",
 ]
-_REAR_DEP_CHAR = ["ั", "ื", "เ", "แ", "โ", "ใ", "ไ", "ํ"]
-_TRAILING_CHAR = ["ๆ", "ฯ"]
+_REAR_DEP_CHAR: list[str] = ["ั", "ื", "เ", "แ", "โ", "ใ", "ไ", "ํ"]
+_TRAILING_CHAR: list[str] = ["ๆ", "ฯ"]
 
-_RE_NONTHAI = re.compile(r"[A-Za-z\d]*")
+_RE_NONTHAI: re.Pattern[str] = re.compile(r"[A-Za-z\d]*")
 
-_KNOWN = True
-_UNKNOWN = False
+_KNOWN: bool = True
+_UNKNOWN: bool = False
 
 
 class LongestMatchTokenizer:
     __trie: Trie
 
     def __init__(self, trie: Trie) -> None:
-        self.__trie = trie
+        self.__trie: Trie = trie
 
     @staticmethod
     def __search_nonthai(text: str) -> Optional[str]:
@@ -160,7 +160,7 @@ class LongestMatchTokenizer:
 
 
 _tokenizers: dict[int, LongestMatchTokenizer] = {}
-_tokenizers_lock = threading.Lock()
+_tokenizers_lock: threading.Lock = threading.Lock()
 
 
 def segment(text: str, custom_dict: Optional[Trie] = None) -> list[str]:

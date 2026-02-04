@@ -25,11 +25,15 @@ thai_consonants_all: set[str] = set(thai_consonants)
 thai_consonants_all.remove("อ")
 
 _temp: list[str] = list("".join(["".join(v) for v in spelling_class.values()]))
-not_spelling_class: list[str] = [j for j in thai_consonants_all if j not in _temp]
+not_spelling_class: list[str] = [
+    j for j in thai_consonants_all if j not in _temp
+]
 
 # vowel's short sound
 short: str = "ะัิึุ"
-re_short: Pattern[str] = re.compile("เ(.*)ะ|แ(.*)ะ|เ(.*)อะ|โ(.*)ะ|เ(.*)าะ", re.U)
+re_short: Pattern[str] = re.compile(
+    "เ(.*)ะ|แ(.*)ะ|เ(.*)อะ|โ(.*)ะ|เ(.*)าะ", re.U
+)
 pattern: Pattern[str] = re.compile("เ(.*)า", re.U)  # เ-า is live syllable
 
 _check_1: list[str] = []
@@ -38,7 +42,9 @@ for i in ["กง", "กน", "กม", "เกย", "เกอว"]:
     _check_1.extend(spelling_class[i])
 
 # These spelling consonants are dead syllables.
-_check_2: list[str] = spelling_class["กก"] + spelling_class["กบ"] + spelling_class["กด"]
+_check_2: list[str] = (
+    spelling_class["กก"] + spelling_class["กบ"] + spelling_class["กด"]
+)
 
 thai_low_sonorants: list[str] = list("งนมยรลว")
 thai_low_aspirates: list[str] = list("คชซทพฟฮ")
@@ -55,6 +61,8 @@ thai_initial_consonant_type: dict[str, list[str]] = {
 }
 thai_initial_consonant_to_type: dict[str, str] = {}
 
+k: str
+v: list[str]
 for k, v in thai_initial_consonant_type.items():
     for i in v:
         thai_initial_consonant_to_type[i] = k

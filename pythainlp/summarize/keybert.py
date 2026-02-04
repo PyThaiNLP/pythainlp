@@ -31,7 +31,7 @@ class KeyBERT:
     ) -> None:
         from transformers import pipeline
 
-        self.ft_pipeline = pipeline(
+        self.ft_pipeline: Any = pipeline(
             "feature-extraction",
             tokenizer=model_name,
             model=model_name,

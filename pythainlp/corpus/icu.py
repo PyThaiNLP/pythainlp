@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from pythainlp.corpus.core import get_corpus
 
-_THAI_ICU_FILENAME = "icubrk_th.txt"
+_THAI_ICU_FILENAME: str = "icubrk_th.txt"
 
 
 def thai_icu_words() -> frozenset[str]:

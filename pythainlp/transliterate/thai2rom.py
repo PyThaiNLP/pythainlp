@@ -17,9 +17,11 @@ from pythainlp.corpus import get_corpus_path
 if TYPE_CHECKING:
     from typing import Dict
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device: torch.device = torch.device(
+    "cuda:0" if torch.cuda.is_available() else "cpu"
+)
 
-_MODEL_NAME = "thai2rom-pytorch-attn"
+_MODEL_NAME: str = "thai2rom-pytorch-attn"
 
 
 class ThaiTransliterator:
@@ -55,7 +57,9 @@ class ThaiTransliterator:
 
         # encoder/ decoder
         # Restore the model and construct the encoder and decoder.
-        self._encoder: "Encoder" = Encoder(INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT)
+        self._encoder: "Encoder" = Encoder(
+            INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT
+        )
 
         self._decoder: "AttentionDecoder" = AttentionDecoder(
             OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT
@@ -112,6 +116,11 @@ class ThaiTransliterator:
 
 
 class Encoder(nn.Module):
+    hidden_size: int
+    character_embedding: nn.Embedding
+    rnn: nn.LSTM
+    dropout: nn.Dropout
+
     def __init__(
         self,
         vocabulary_size: int,
@@ -121,18 +130,18 @@ class Encoder(nn.Module):
     ) -> None:
         """Constructor"""
         super().__init__()
-        self.hidden_size = hidden_size
-        self.character_embedding = nn.Embedding(
+        self.hidden_size: int = hidden_size
+        self.character_embedding: nn.Embedding = nn.Embedding(
             vocabulary_size, embedding_size
         )
-        self.rnn = nn.LSTM(
+        self.rnn: nn.LSTM = nn.LSTM(
             input_size=embedding_size,
             hidden_size=hidden_size // 2,
             bidirectional=True,
             batch_first=True,
         )
 
-        self.dropout = nn.Dropout(dropout)
+        self.dropout: nn.Dropout = nn.Dropout(dropout)
 
     def forward(
         self, sequences: torch.Tensor, sequences_lengths: torch.Tensor
@@ -170,7 +179,9 @@ class Encoder(nn.Module):
         )
         return sequences_output, hidden
 
-    def init_hidden(self, batch_size: int) -> Tuple[torch.Tensor, torch.Tensor]:
+    def init_hidden(
+        self, batch_size: int
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
         h_0 = torch.zeros(
             [2, batch_size, self.hidden_size // 2], requires_grad=True
         ).to(device)
@@ -182,20 +193,25 @@ class Encoder(nn.Module):
 
 
 class Attn(nn.Module):
+    method: str
+    hidden_size: int
+    attn: nn.Linear
+    other: nn.Parameter
+
     def __init__(self, method: str, hidden_size: int) -> None:
         super().__init__()
 
-        self.method = method
-        self.hidden_size = hidden_size
-        self.attn: nn.Linear
-        self.other: nn.Parameter
+        self.method: str = method
+        self.hidden_size: int = hidden_size
 
         if self.method == "general":
-            self.attn = nn.Linear(self.hidden_size, hidden_size)
+            self.attn: nn.Linear = nn.Linear(self.hidden_size, hidden_size)
 
         elif self.method == "concat":
             self.attn = nn.Linear(self.hidden_size * 2, hidden_size)
-            self.other = nn.Parameter(torch.FloatTensor(1, hidden_size))
+            self.other: nn.Parameter = nn.Parameter(
+                torch.FloatTensor(1, hidden_size)
+            )
 
     def forward(
         self,
@@ -235,6 +251,14 @@ class Attn(nn.Module):
 
 
 class AttentionDecoder(nn.Module):
+    vocabulary_size: int
+    hidden_size: int
+    character_embedding: nn.Embedding
+    rnn: nn.LSTM
+    attn: Attn
+    linear: nn.Linear
+    dropout: nn.Dropout
+
     def __init__(
         self,
         vocabulary_size: int,
@@ -244,22 +268,22 @@ class AttentionDecoder(nn.Module):
     ) -> None:
         """Constructor"""
         super().__init__()
-        self.vocabulary_size = vocabulary_size
-        self.hidden_size = hidden_size
-        self.character_embedding = nn.Embedding(
+        self.vocabulary_size: int = vocabulary_size
+        self.hidden_size: int = hidden_size
+        self.character_embedding: nn.Embedding = nn.Embedding(
             vocabulary_size, embedding_size
         )
-        self.rnn = nn.LSTM(
+        self.rnn: nn.LSTM = nn.LSTM(
             input_size=embedding_size + self.hidden_size,
             hidden_size=hidden_size,
             bidirectional=False,
             batch_first=True,
         )
 
-        self.attn = Attn(method="general", hidden_size=self.hidden_size)
-        self.linear = nn.Linear(hidden_size, vocabulary_size)
+        self.attn: Attn = Attn(method="general", hidden_size=self.hidden_size)
+        self.linear: nn.Linear = nn.Linear(hidden_size, vocabulary_size)
 
-        self.dropout = nn.Dropout(dropout)
+        self.dropout: nn.Dropout = nn.Dropout(dropout)
 
     def forward(
         self,
@@ -295,6 +319,13 @@ class AttentionDecoder(nn.Module):
 
 
 class Seq2Seq(nn.Module):
+    encoder: Encoder
+    decoder: AttentionDecoder
+    pad_idx: int
+    target_start_token: int
+    target_end_token: int
+    max_length: int
+
     def __init__(
         self,
         encoder: Encoder,
@@ -305,12 +336,12 @@ class Seq2Seq(nn.Module):
     ) -> None:
         super().__init__()
 
-        self.encoder = encoder
-        self.decoder = decoder
-        self.pad_idx = 0
-        self.target_start_token = target_start_token
-        self.target_end_token = target_end_token
-        self.max_length = max_length
+        self.encoder: Encoder = encoder
+        self.decoder: AttentionDecoder = decoder
+        self.pad_idx: int = 0
+        self.target_start_token: int = target_start_token
+        self.target_end_token: int = target_end_token
+        self.max_length: int = max_length
 
         if encoder.hidden_size != decoder.hidden_size:
             raise ValueError(
@@ -381,11 +412,10 @@ class Seq2Seq(nn.Module):
             # Non-cryptographic use, pseudo-random generator is acceptable here
             teacher_force = random.random() < teacher_forcing_ratio  # noqa: S311
 
-            decoder_input = (
-                target_seq[:, di].reshape(batch_size, 1)
-                if teacher_force
-                else topi.detach()
-            )
+            if teacher_force and target_seq is not None:
+                decoder_input = target_seq[:, di].reshape(batch_size, 1)
+            else:
+                decoder_input = topi.detach()
 
             decoder_input = topi.detach()
 
@@ -395,7 +425,7 @@ class Seq2Seq(nn.Module):
         return outputs
 
 
-_THAI_TO_ROM = ThaiTransliterator()
+_THAI_TO_ROM: ThaiTransliterator = ThaiTransliterator()
 
 
 def romanize(text: str) -> str:

@@ -47,6 +47,7 @@ __all__: list[str] = [
 ]
 
 import os
+from typing import Optional
 
 from pythainlp.tools import get_full_data_path, get_pythainlp_path
 
@@ -54,7 +55,7 @@ from pythainlp.tools import get_full_data_path, get_pythainlp_path
 
 _CORPUS_DIRNAME: str = "corpus"
 _CORPUS_PATH: str = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
-_CHECK_MODE: str | None = os.getenv("PYTHAINLP_READ_MODE")
+_CHECK_MODE: Optional[str] = os.getenv("PYTHAINLP_READ_MODE")
 
 # URL of remote corpus catalog
 _CORPUS_DB_URL: str = "https://pythainlp.org/pythainlp-corpus/db.json"

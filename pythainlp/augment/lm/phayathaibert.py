@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 from pythainlp.phayathaibert.core import ThaiTextProcessor
 
-_MODEL_NAME = "clicknext/phayathaibert"
+_MODEL_NAME: str = "clicknext/phayathaibert"
 
 
 class ThaiTextAugmenter:
@@ -28,16 +28,18 @@ class ThaiTextAugmenter:
             pipeline,
         )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(_MODEL_NAME)  # type: ignore[assignment]
-        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(  # type: ignore[assignment]
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(
             _MODEL_NAME
         )
-        self.model = pipeline(
+        self.model_for_masked_lm: AutoModelForMaskedLM = (
+            AutoModelForMaskedLM.from_pretrained(_MODEL_NAME)
+        )
+        self.model: Pipeline = pipeline(
             "fill-mask",
             tokenizer=self.tokenizer,
             model=self.model_for_masked_lm,
         )
-        self.processor = ThaiTextProcessor()
+        self.processor: ThaiTextProcessor = ThaiTextProcessor()
 
     def generate(
         self,

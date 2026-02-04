@@ -8,7 +8,7 @@ from typing import Optional
 
 from pythainlp.corpus import thai_stopwords
 
-_STOPWORDS = thai_stopwords()
+_STOPWORDS: frozenset[str] = thai_stopwords()
 
 
 def rank(

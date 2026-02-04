@@ -6,6 +6,7 @@
 This module provides a wrapper for the Thai-NNER library which implements
 Nested Named Entity Recognition for Thai text.
 """
+
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional, Union
@@ -15,7 +16,7 @@ from pythainlp.corpus import get_corpus_path
 if TYPE_CHECKING:
     from thai_nner import NNER
 
-__all__ = ["ThaiNNER"]
+__all__: list[str] = ["ThaiNNER"]
 
 
 def _is_contained_in(entity: dict, container: dict) -> bool:
@@ -26,13 +27,16 @@ def _is_contained_in(entity: dict, container: dict) -> bool:
     :return: True if entity is strictly contained in container
     :rtype: bool
     """
-    ent_start, ent_end = entity['span']
-    cont_start, cont_end = container['span']
+    ent_start, ent_end = entity["span"]
+    cont_start, cont_end = container["span"]
 
     # Entity is contained if its span is within or equal to container's span,
     # but they're not exactly the same entity
-    return (cont_start <= ent_start and cont_end >= ent_end and
-            not (cont_start == ent_start and cont_end == ent_end))
+    return (
+        cont_start <= ent_start
+        and cont_end >= ent_end
+        and not (cont_start == ent_start and cont_end == ent_end)
+    )
 
 
 def get_top_level_entities(entities: list[dict]) -> list[dict]:
@@ -54,9 +58,9 @@ def get_top_level_entities(entities: list[dict]) -> list[dict]:
 
         # Input: nested entities where 'time' contains 'cardinal' and 'unit'
         entities = [
-            {'text': ['ห้า'], 'span': [7, 9], 'entity_type': 'cardinal'},
-            {'text': ['ห้า', 'โมง'], 'span': [7, 11], 'entity_type': 'time'},
-            {'text': ['โมง'], 'span': [9, 11], 'entity_type': 'unit'}
+            {"text": ["ห้า"], "span": [7, 9], "entity_type": "cardinal"},
+            {"text": ["ห้า", "โมง"], "span": [7, 11], "entity_type": "time"},
+            {"text": ["โมง"], "span": [9, 11], "entity_type": "unit"},
         ]
 
         # Output: only 'time' entity (the outermost one)
@@ -68,9 +72,11 @@ def get_top_level_entities(entities: list[dict]) -> list[dict]:
 
     # Sort entities by span start, then by span end (descending)
     # This helps us process larger spans first
-    sorted_entities = sorted(entities, key=lambda x: (x['span'][0], -x['span'][1]))
+    sorted_entities = sorted(
+        entities, key=lambda x: (x["span"][0], -x["span"][1])
+    )
 
-    top_level = []
+    top_level: list[dict] = []
     for ent in sorted_entities:
         is_contained = False
         # Only check against entities already in top_level
@@ -128,7 +134,9 @@ class ThaiNNER:
             )
         self.model: NNER = NNER(path_model=path_model)
 
-    def tag(self, text: str, top_level_only: bool = False) -> tuple[list[str], list[dict]]:
+    def tag(
+        self, text: str, top_level_only: bool = False
+    ) -> tuple[list[str], list[dict]]:
         """Tag Thai text with nested named entities.
 
         :param str text: Thai text to tag
@@ -151,14 +159,18 @@ class ThaiNNER:
             tokens, entities = nner.tag("วันที่ 5 เมษายน 2565")
 
             # Get only top-level entities
-            tokens, top_entities = nner.tag("วันที่ 5 เมษายน 2565", top_level_only=True)
+            tokens, top_entities = nner.tag(
+                "วันที่ 5 เมษายน 2565", top_level_only=True
+            )
         """
         tokens, entities = self.model.get_tag(text)
         if top_level_only:
             entities = get_top_level_entities(entities)
         return tokens, entities
 
-    def get_ner(self, text: str, pos: bool = False, tag: bool = False) -> Union[list[tuple[str, str]], str]:
+    def get_ner(
+        self, text: str, pos: bool = False, tag: bool = False
+    ) -> Union[list[tuple[str, str]], str]:
         """Tag Thai text with named entities in IOB format.
 
         This method provides compatibility with the NER class interface by
@@ -202,7 +214,9 @@ class ThaiNNER:
             return _entities_to_iob(tokens, entities)
 
 
-def _entities_to_iob(tokens: list[str], entities: list[dict]) -> list[tuple[str, str]]:
+def _entities_to_iob(
+    tokens: list[str], entities: list[dict]
+) -> list[tuple[str, str]]:
     """Convert Thai-NNER entity format to IOB format.
 
     This function assumes entities do not overlap. When converting nested
@@ -216,20 +230,20 @@ def _entities_to_iob(tokens: list[str], entities: list[dict]) -> list[tuple[str,
     :rtype: list[tuple[str, str]]
     """
     # Initialize all tokens as 'O' (outside)
-    iob_tags = ['O'] * len(tokens)
+    iob_tags = ["O"] * len(tokens)
 
     # Process each entity
     for entity in entities:
-        start, end = entity['span']
-        entity_type = entity['entity_type'].upper()
+        start, end = entity["span"]
+        entity_type = entity["entity_type"].upper()
 
         # Tag the first token as B- (beginning)
         if start < len(iob_tags):
-            iob_tags[start] = f'B-{entity_type}'
+            iob_tags[start] = f"B-{entity_type}"
 
         # Tag subsequent tokens as I- (inside)
         for i in range(start + 1, min(end, len(iob_tags))):
-            iob_tags[i] = f'I-{entity_type}'
+            iob_tags[i] = f"I-{entity_type}"
 
     # Combine tokens with their tags
     result = [(token, tag) for token, tag in zip(tokens, iob_tags)]
@@ -249,26 +263,26 @@ def _entities_to_html(tokens: list[str], entities: list[dict]) -> str:
     :rtype: str
     """
     # Sort entities by start position to process in order
-    sorted_entities = sorted(entities, key=lambda x: x['span'][0])
+    sorted_entities = sorted(entities, key=lambda x: x["span"][0])
 
     # Build the result string
     result_parts = []
     last_pos = 0
 
     for entity in sorted_entities:
-        start, end = entity['span']
-        entity_type = entity['entity_type'].upper()
+        start, end = entity["span"]
+        entity_type = entity["entity_type"].upper()
 
         # Add tokens before this entity
         result_parts.extend(tokens[last_pos:start])
 
         # Add entity with tags
-        entity_text = ''.join(tokens[start:end])
-        result_parts.append(f'<{entity_type}>{entity_text}</{entity_type}>')
+        entity_text = "".join(tokens[start:end])
+        result_parts.append(f"<{entity_type}>{entity_text}</{entity_type}>")
 
         last_pos = end
 
     # Add remaining tokens
     result_parts.extend(tokens[last_pos:])
 
-    return ''.join(result_parts)
+    return "".join(result_parts)

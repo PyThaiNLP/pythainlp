@@ -12,7 +12,9 @@ from pythainlp.coref._fastcoref import FastCoref
 
 
 class HanCoref(FastCoref):
-    def __init__(self, device: str = "cpu", nlp: Optional[Language] = None) -> None:
+    def __init__(
+        self, device: str = "cpu", nlp: Optional[Language] = None
+    ) -> None:
         super().__init__(
             model_name="pythainlp/han-coref-v1.0", device=device, nlp=nlp
         )

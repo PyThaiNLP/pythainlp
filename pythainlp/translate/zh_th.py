@@ -40,8 +40,12 @@ class ThZhTranslator:
     ) -> None:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
-        self.tokenizer_thzh = AutoTokenizer.from_pretrained(pretrained)
-        self.model_thzh = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        self.tokenizer_thzh: AutoTokenizer = AutoTokenizer.from_pretrained(
+            pretrained
+        )
+        self.model_thzh: AutoModelForSeq2SeqLM = (
+            AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        )
         if use_gpu:
             self.model_thzh = self.model_thzh.cuda()
 
@@ -81,7 +85,7 @@ class ThZhTranslator:
         prepared_text, placeholder_map = _prepare_text_with_exclusions(
             text, exclude_words
         )
-        self.translated = self.model_thzh.generate(
+        self.translated: torch.Tensor = self.model_thzh.generate(
             **self.tokenizer_thzh(
                 prepared_text, return_tensors="pt", padding=True
             )
@@ -115,8 +119,12 @@ class ZhThTranslator:
     ) -> None:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
-        self.tokenizer_zhth = AutoTokenizer.from_pretrained(pretrained)
-        self.model_zhth = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        self.tokenizer_zhth: AutoTokenizer = AutoTokenizer.from_pretrained(
+            pretrained
+        )
+        self.model_zhth: AutoModelForSeq2SeqLM = (
+            AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        )
         if use_gpu:
             self.model_zhth.cuda()
 
@@ -156,7 +164,7 @@ class ZhThTranslator:
         prepared_text, placeholder_map = _prepare_text_with_exclusions(
             text, exclude_words
         )
-        self.translated = self.model_zhth.generate(
+        self.translated: torch.Tensor = self.model_zhth.generate(
             **self.tokenizer_zhth(
                 prepared_text, return_tensors="pt", padding=True
             )

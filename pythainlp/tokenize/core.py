@@ -25,8 +25,8 @@ from pythainlp.tokenize._utils import (
 )
 from pythainlp.util.trie import Trie, dict_trie
 
-_RE_WHITESPACE = re.compile(r"\s")
-_RE_WORD_CHAR = re.compile(r"\w")
+_RE_WHITESPACE: re.Pattern[str] = re.compile(r"\s")
+_RE_WORD_CHAR: re.Pattern[str] = re.compile(r"\w")
 
 
 def word_detokenize(

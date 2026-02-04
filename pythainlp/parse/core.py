@@ -6,7 +6,7 @@ from __future__ import annotations
 from typing import Any, List, Optional, Union
 
 _tagger: Optional[Any] = None
-_tagger_name = ""
+_tagger_name: str = ""
 
 
 def dependency_parsing(

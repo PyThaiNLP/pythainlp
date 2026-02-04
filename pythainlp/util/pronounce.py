@@ -42,12 +42,13 @@ def rhyme(word: str) -> list[str]:
     return sorted(list_sumpus)
 
 
-thai_vowel: list[str] = "".join(
+_vowel_str: str = "".join(
     (
         "อะ,อา,อิ,อี,อึ,อื,อุ,อู,เอะ,เอ,แอะ,แอ,เอียะ,เอีย,เอือะ,เอือ,อัวะ,อัว,โอะ,",
         "โอ,เอาะ,ออ,เออะ,เออ,อำ,ใอ,ไอ,เอา,ฤ,ฤๅ,ฦ,ฦๅ",
     )
-).split(",")
+)
+thai_vowel: list[str] = _vowel_str.split(",")
 thai_vowel_all: list[tuple[str, str]] = [
     ("([ก-ฮ])ะ", "\\1อะ"),
     ("([ก-ฮ])า", "\\1อา"),

@@ -122,8 +122,6 @@ ENGLISH_MORSE_CODE: dict[str, str] = {
 }
 
 decodingeng: dict[str, str] = {}
-key: str
-val: str
 for key, val in ENGLISH_MORSE_CODE.items():
     decodingeng[val] = key
 

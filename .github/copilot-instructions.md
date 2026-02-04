@@ -193,6 +193,8 @@
 
 ## Python
 
+- [ ] Maintain source code readability.
+- [ ] Use Idiomatic Python.
 - [ ] Defensive coding: always check for None/empty and handle exceptions
       when dealing with external inputs, like function arguments,
       file I/O, network I/O, etc.

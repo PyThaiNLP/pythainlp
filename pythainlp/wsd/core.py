@@ -46,8 +46,8 @@ class _SentenceTransformersModel:
     def change_device(self, device: str) -> None:
         from sentence_transformers import SentenceTransformer
 
-        self.device: str = device
-        self.model: "SentenceTransformer" = SentenceTransformer(self.model_name, device=self.device)
+        self.device = device
+        self.model = SentenceTransformer(self.model_name, device=self.device)
 
     def get_score(self, sentences1: str, sentences2: str) -> float:
         from sentence_transformers import util

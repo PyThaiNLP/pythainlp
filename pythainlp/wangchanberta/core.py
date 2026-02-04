@@ -113,13 +113,13 @@ class ThaiNameTagger:
                 for i in self.json_ner
             ]
         elif self.dataset_name == "thainer":
-            self.sent_ner: list[tuple[str, str]] = [
+            self.sent_ner = [
                 (i["word"].replace("<_>", " ").replace("▁", ""), i["entity"])
                 for i in self.json_ner
                 if i["word"] != "▁"
             ]
         else:
-            self.sent_ner: list[tuple[str, str]] = [
+            self.sent_ner = [
                 (
                     i["word"].replace("<_>", " ").replace("▁", ""),
                     i["entity"].replace("_", "-").replace("E-", "I-"),

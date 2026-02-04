@@ -219,8 +219,8 @@ class Thai_W2P:
     def _short_word(self, word: str) -> Optional[str]:
         self.word: str = word
         if self.word.endswith("."):
-            self.word: str = self.word.replace(".", "")
-            self.word: str = "-".join([i + "อ" for i in list(self.word)])
+            self.word = self.word.replace(".", "")
+            self.word = "-".join([i + "อ" for i in list(self.word)])
             return self.word
         return None
 

@@ -1,9 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Translation."""
+
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 if TYPE_CHECKING:
     from pythainlp.translate.en_th import EnThTranslator, ThEnTranslator
@@ -72,7 +74,7 @@ class Translate:
         if self.engine == "small100":
             from .small100 import Small100Translator
 
-            self.model = Small100Translator(use_gpu)
+            self.model: Any = Small100Translator(use_gpu)
         elif src_lang == "th" and target_lang == "en":
             from pythainlp.translate.en_th import ThEnTranslator
 

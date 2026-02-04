@@ -9,13 +9,13 @@ GitHub: https://github.com/bminixhofer/wtpsplit
 from __future__ import annotations
 
 import threading
-from typing import cast
+from typing import Optional, cast
 
 from wtpsplit import WtP
 
-_MODEL = None
-_MODEL_NAME = None
-_model_lock = threading.Lock()
+_MODEL: Optional[WtP] = None
+_MODEL_NAME: Optional[str] = None
+_model_lock: threading.Lock = threading.Lock()
 
 
 def _tokenize(

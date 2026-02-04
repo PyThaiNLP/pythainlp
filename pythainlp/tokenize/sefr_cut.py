@@ -15,8 +15,8 @@ from typing import cast
 
 import sefr_cut
 
-_DEFAULT_ENGINE = "ws1000"
-_engine_lock = threading.Lock()
+_DEFAULT_ENGINE: str = "ws1000"
+_engine_lock: threading.Lock = threading.Lock()
 
 # Load default model at module initialization
 sefr_cut.load_model(engine=_DEFAULT_ENGINE)

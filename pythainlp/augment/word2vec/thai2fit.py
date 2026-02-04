@@ -21,7 +21,7 @@ class Thai2fitAug:
     aug: Word2VecAug
 
     def __init__(self) -> None:
-        self.thai2fit_wv = get_corpus_path("thai2fit_wv")
+        self.thai2fit_wv: Optional[str] = get_corpus_path("thai2fit_wv")
         self.load_w2v()
 
     def tokenizer(self, text: str) -> list[str]:
@@ -38,7 +38,7 @@ class Thai2fitAug:
                 "Thai2Fit word2vec model not found. "
                 "Please download it first using pythainlp.corpus.download('thai2fit_wv')"
             )
-        self.aug = Word2VecAug(self.thai2fit_wv, self.tokenizer, type="binary")
+        self.aug: Word2VecAug = Word2VecAug(self.thai2fit_wv, self.tokenizer, type="binary")
 
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7

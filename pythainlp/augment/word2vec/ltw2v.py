@@ -21,7 +21,7 @@ class LTW2VAug:
     aug: Word2VecAug
 
     def __init__(self) -> None:
-        self.ltw2v_wv = get_corpus_path("ltw2v")
+        self.ltw2v_wv: Optional[str] = get_corpus_path("ltw2v")
         self.load_w2v()
 
     def tokenizer(self, text: str) -> list[str]:
@@ -37,7 +37,7 @@ class LTW2VAug:
                 "LTW2V word2vec model not found. "
                 "Please download it first using pythainlp.corpus.download('ltw2v_wv')"
             )
-        self.aug = Word2VecAug(self.ltw2v_wv, self.tokenizer, type="binary")
+        self.aug: Word2VecAug = Word2VecAug(self.ltw2v_wv, self.tokenizer, type="binary")
 
     def augment(
         self, sentence: str, n_sent: int = 1, p: float = 0.7

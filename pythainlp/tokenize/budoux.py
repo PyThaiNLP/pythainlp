@@ -13,10 +13,10 @@ installation hint.
 from __future__ import annotations
 
 import threading
-from typing import Any, cast
+from typing import Any, Optional, cast
 
-_parser = None
-_parser_lock = threading.Lock()
+_parser: Optional[Any] = None
+_parser_lock: threading.Lock = threading.Lock()
 
 
 def _init_parser() -> Any:

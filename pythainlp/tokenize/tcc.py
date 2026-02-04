@@ -17,7 +17,7 @@ from __future__ import annotations
 import re
 from collections.abc import Iterator
 
-_RE_TCC = (
+_RE_TCC: list[str] = (
     """\
 c[ั]([่-๋]c)?
 c[ั]([่-๋]c)?k
@@ -56,7 +56,7 @@ ct[ะาำ]?k
     .split()
 )
 
-_PAT_TCC = re.compile("|".join(_RE_TCC))
+_PAT_TCC: re.Pattern[str] = re.compile("|".join(_RE_TCC))
 
 
 def tcc(text: str) -> Iterator[str]:

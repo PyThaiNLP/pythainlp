@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import threading
 from importlib.resources import as_file, files
-from typing import Optional
+from typing import Any, Optional
 
 try:
     import pycrfsuite
@@ -19,9 +19,9 @@ except ImportError as ex:
         "ImportError; Install pycrfsuite by pip install python-crfsuite"
     ) from ex
 
-_tagger = None
-_model_file_ctx = None  # File context manager kept alive for program lifetime
-_load_lock = threading.Lock()  # Thread safety for lazy loading
+_tagger: Optional[pycrfsuite.Tagger] = None
+_model_file_ctx: Optional[Any] = None  # File context manager kept alive for program lifetime
+_load_lock: threading.Lock = threading.Lock()  # Thread safety for lazy loading
 
 
 def _get_tagger() -> pycrfsuite.Tagger:
@@ -58,9 +58,9 @@ class Featurizer:
         sequence_size: int = 1,
         delimiter: Optional[str] = None,
     ) -> None:
-        self.N = N
-        self.delimiter = delimiter
-        self.radius = N + sequence_size
+        self.N: int = N
+        self.delimiter: Optional[str] = delimiter
+        self.radius: int = N + sequence_size
 
     def pad(self, sentence: str, padder: str = "#") -> str:
         return padder * (self.radius) + sentence + padder * (self.radius)
@@ -151,7 +151,7 @@ class Featurizer:
             }
 
 
-_to_feature = Featurizer()
+_to_feature: Featurizer = Featurizer()
 
 
 def segment(text: str) -> list[str]:

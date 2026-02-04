@@ -29,13 +29,13 @@ except ImportError:
 
 from pythainlp.corpus import download, get_corpus_path
 
-_EN_TH_MODEL_NAME = "scb_1m_en-th_moses"
+_EN_TH_MODEL_NAME: str = "scb_1m_en-th_moses"
 # SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0.tar.gz
-_EN_TH_FILE_NAME = "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0"
+_EN_TH_FILE_NAME: str = "SCB_1M-MT_OPUS+TBASE_en-th_moses-spm_130000-16000_v1.0"
 
-_TH_EN_MODEL_NAME = "scb_1m_th-en_spm"
+_TH_EN_MODEL_NAME: str = "scb_1m_th-en_spm"
 # SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0.tar.gz
-_TH_EN_FILE_NAME = "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0"
+_TH_EN_FILE_NAME: str = "SCB_1M-MT_OPUS+TBASE_th-en_spm-spm_32000-joined_v1.0"
 
 
 def _get_translate_path(model: str, *path: str) -> str:
@@ -86,7 +86,7 @@ class EnThTranslator:
             ),
         )
         if use_gpu:
-            self._model = self._model.cuda()
+            self._model: TransformerModel = self._model.cuda()
 
     def translate(self, text: str) -> str:
         """Translate text from English to Thai

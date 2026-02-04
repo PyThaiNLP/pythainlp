@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Language translation."""
 
-__all__ = ["Translate", "ThZhTranslator", "ZhThTranslator", "word_translate"]
+__all__: list[str] = ["Translate", "ThZhTranslator", "ZhThTranslator", "word_translate"]
 
 from pythainlp.translate.core import Translate, word_translate
 from pythainlp.translate.zh_th import (

@@ -27,11 +27,9 @@ class Word2VecAug:
         """
         import gensim.models.keyedvectors as word2vec
 
-        self.tokenizer: Callable[[str], list[str]] = tokenize
+        self.tokenizer = tokenize
         if type == "file":
-            self.model: "KeyedVectors" = (
-                word2vec.KeyedVectors.load_word2vec_format(model)
-            )
+            self.model = word2vec.KeyedVectors.load_word2vec_format(model)
         elif type == "binary":
             self.model = word2vec.KeyedVectors.load_word2vec_format(
                 model, binary=True, unicode_errors="ignore"

@@ -48,13 +48,13 @@ class LatticeString(str):
         self.in_dict: bool = in_dict  # if in dictionary
 
 
-_RE_NONTHAI = r"""(?x)
+_RE_NONTHAI: str = r"""(?x)
 [-a-zA-Z]+|       # Latin characters
 \d+([,\.]\d+)*|   # numbers
 [ \t]+|           # spaces
 \r?\n             # newlines
 """
-_PAT_NONTHAI = re.compile(_RE_NONTHAI)
+_PAT_NONTHAI: re.Pattern[str] = re.compile(_RE_NONTHAI)
 
 
 def _multicut(

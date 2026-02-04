@@ -336,6 +336,51 @@ class TypeHintAnalyzer(ast.NodeVisitor):
 
         return False
 
+    def _looks_like_type_expr(self, expr: ast.expr) -> bool:
+        """
+        Check if an expression looks like a type expression.
+
+        This helps distinguish type unions (int | str) from bitwise operations (1 | 2).
+        """
+        # Constant None (Python 3.8+)
+        if isinstance(expr, ast.Constant) and expr.value is None:
+            return True
+
+        # Name that's a known type keyword or built-in type
+        if isinstance(expr, ast.Name):
+            # Known typing constructs
+            if expr.id in _TYPE_ALIAS_KEYWORDS:
+                return True
+            # Known built-in types (lowercase)
+            known_types = {
+                "int", "str", "float", "bool", "bytes",
+                "list", "dict", "set", "tuple", "frozenset",
+            }
+            if expr.id in known_types:
+                return True
+            # PEP 585 style types (capitalized versions)
+            pep_585_types = {
+                "List", "Dict", "Set", "Tuple", "FrozenSet",
+            }
+            if expr.id in pep_585_types:
+                return True
+
+        # Subscripted type
+        if isinstance(expr, ast.Subscript):
+            return self._looks_like_type_expr(expr.value)
+
+        # Attribute from typing module
+        if isinstance(expr, ast.Attribute):
+            if isinstance(expr.value, ast.Name):
+                if expr.value.id in ("typing", "typing_extensions"):
+                    return True
+
+        # Nested union (already has | operator)
+        if isinstance(expr, ast.BinOp) and isinstance(expr.op, ast.BitOr):
+            return self._looks_like_type_expr(expr.left) and self._looks_like_type_expr(expr.right)
+
+        return False
+
     def _is_type_alias_without_annotation(self, value: ast.expr) -> bool:
         """
         Check if an assignment is a type alias without TypeAlias annotation.
@@ -343,7 +388,8 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         Type aliases are assignments where the value is an instantiable type.
         Examples: MyType = dict[str, int], Foo = Optional[str]
 
-        This is conservative to avoid false positives like VALUE = mapping["key"].
+        This is conservative to avoid false positives like VALUE = mapping["key"]
+        or bitwise operations like FLAGS = FLAG_A | FLAG_B.
         """
         if value is None:
             return False
@@ -374,8 +420,12 @@ class TypeHintAnalyzer(ast.NodeVisitor):
             return False
 
         # 2. Union types with | operator (Python 3.10+)
+        #    Only if both operands look like type expressions
         if isinstance(value, ast.BinOp) and isinstance(value.op, ast.BitOr):
-            return True
+            # Check if both sides look like types (not bitwise flag operations)
+            if self._looks_like_type_expr(value.left) and self._looks_like_type_expr(value.right):
+                return True
+            return False
 
         # 3. Type names that suggest type aliases
         if isinstance(value, ast.Name):

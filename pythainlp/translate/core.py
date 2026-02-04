@@ -78,23 +78,23 @@ class Translate:
         elif src_lang == "th" and target_lang == "en":
             from pythainlp.translate.en_th import ThEnTranslator
 
-            self.model = ThEnTranslator(use_gpu)
+            self.model: Any = ThEnTranslator(use_gpu)
         elif src_lang == "en" and target_lang == "th":
             from pythainlp.translate.en_th import EnThTranslator
 
-            self.model = EnThTranslator(use_gpu)
+            self.model: Any = EnThTranslator(use_gpu)
         elif src_lang == "th" and target_lang == "zh":
             from pythainlp.translate.zh_th import ThZhTranslator
 
-            self.model = ThZhTranslator(use_gpu)
+            self.model: Any = ThZhTranslator(use_gpu)
         elif src_lang == "zh" and target_lang == "th":
             from pythainlp.translate.zh_th import ZhThTranslator
 
-            self.model = ZhThTranslator(use_gpu)
+            self.model: Any = ZhThTranslator(use_gpu)
         elif src_lang == "th" and target_lang == "fr":
             from pythainlp.translate.th_fr import ThFrTranslator
 
-            self.model = ThFrTranslator(use_gpu)
+            self.model: Any = ThFrTranslator(use_gpu)
         else:
             raise ValueError("Not support language!")
 

@@ -34,12 +34,12 @@ class Small100Translator:
         from transformers import M2M100ForConditionalGeneration
 
         self.pretrained: str = pretrained
-        self.model: M2M100ForConditionalGeneration = M2M100ForConditionalGeneration.from_pretrained(
+        self.model: "M2M100ForConditionalGeneration" = M2M100ForConditionalGeneration.from_pretrained(
             self.pretrained
         )
         self.tgt_lang: Optional[str] = None
         if use_gpu:
-            self.model = self.model.cuda()
+            self.model: "M2M100ForConditionalGeneration" = self.model.cuda()
 
     def translate(self, text: str, tgt_lang: str = "en") -> str:
         """Translate text from X to X

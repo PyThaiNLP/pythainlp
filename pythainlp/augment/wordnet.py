@@ -153,9 +153,9 @@ class WordNetAug:
         else:
             self.p2w_pos: Optional[str] = postype2wordnet(pos, postag_corpus)
             if self.p2w_pos != "":
-                self.list_synsets = wordnet.synsets(word, pos=self.p2w_pos)
+                self.list_synsets: list = wordnet.synsets(word, pos=self.p2w_pos)
             else:
-                self.list_synsets = wordnet.synsets(word)
+                self.list_synsets: list = wordnet.synsets(word)
 
         for self.synset in wordnet.synsets(word):
             for self.syn in self.synset.lemma_names(lang="tha"):
@@ -200,15 +200,15 @@ class WordNetAug:
              ('เรา', 'ชอบ', 'ไปยัง', 'รร.')]
         """
         new_sentences = []
-        self.list_words = tokenize(sentence)
-        self.list_synonym = []
-        self.p_all = 1
+        self.list_words: list[str] = tokenize(sentence)
+        self.list_synonym: list = []
+        self.p_all: int = 1
         if postag:
-            self.list_pos = pos_tag(
+            self.list_pos: list[tuple[str, str]] = pos_tag(
                 self.list_words, corpus=postag_corpus
             )
             for word, pos in self.list_pos:
-                self.temp = self.find_synonyms(
+                self.temp: list[str] = self.find_synonyms(
                     word, pos, postag_corpus
                 )
                 if not self.temp:

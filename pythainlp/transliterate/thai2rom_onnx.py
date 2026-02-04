@@ -120,14 +120,14 @@ class Seq2Seq_ONNX:
     ) -> None:
         super().__init__()
 
-        self.encoder = encoder
-        self.decoder = decoder
-        self.pad_idx = 0
-        self.target_start_token = target_start_token
-        self.target_end_token = target_end_token
-        self.max_length = max_length
+        self.encoder: "InferenceSession" = encoder
+        self.decoder: "InferenceSession" = decoder
+        self.pad_idx: int = 0
+        self.target_start_token: int = target_start_token
+        self.target_end_token: int = target_end_token
+        self.max_length: int = max_length
 
-        self.target_vocab_size = target_vocab_size
+        self.target_vocab_size: int = target_vocab_size
 
     def create_mask(self, source_seq: "np.ndarray") -> "np.ndarray":
         mask = source_seq != self.pad_idx

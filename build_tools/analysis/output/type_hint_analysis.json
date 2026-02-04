@@ -10,13 +10,13 @@
       "pct_none": 0.0
     },
     "variables": {
-      "total": 1158,
-      "complete": 655,
-      "none": 503,
-      "pct_complete": 56.56303972366149,
-      "pct_none": 43.43696027633852,
-      "class_variables": 205,
-      "instance_variables": 442,
+      "total": 1166,
+      "complete": 661,
+      "none": 505,
+      "pct_complete": 56.68953687821612,
+      "pct_none": 43.310463121783876,
+      "class_variables": 216,
+      "instance_variables": 439,
       "module_variables": 511
     },
     "type_aliases": {
@@ -231,14 +231,14 @@
       "scope": "public",
       "parent_class": "FastTextAug",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/augment/lm/fasttext.py",
-      "line": 31
+      "line": 35
     },
     {
       "name": "pythainlp.augment.lm.fasttext.FastTextAug.model",
       "scope": "public",
       "parent_class": "FastTextAug",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/augment/lm/fasttext.py",
-      "line": 33
+      "line": 37
     },
     {
       "name": "pythainlp.augment.lm.phayathaibert.ThaiTextAugmenter.tokenizer",
@@ -574,49 +574,63 @@
       "scope": "public",
       "parent_class": "FastTextEncoder",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/words_spelling_correction.py",
-      "line": 57
+      "line": 68
     },
     {
       "name": "pythainlp.spell.words_spelling_correction.FastTextEncoder.nn_model_path",
       "scope": "public",
       "parent_class": "FastTextEncoder",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/words_spelling_correction.py",
-      "line": 58
+      "line": 69
     },
     {
       "name": "pythainlp.spell.words_spelling_correction.FastTextEncoder.bucket",
       "scope": "public",
       "parent_class": "FastTextEncoder",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/words_spelling_correction.py",
-      "line": 59
+      "line": 70
     },
     {
       "name": "pythainlp.spell.words_spelling_correction.FastTextEncoder.nb_words",
       "scope": "public",
       "parent_class": "FastTextEncoder",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/words_spelling_correction.py",
-      "line": 60
+      "line": 71
     },
     {
       "name": "pythainlp.spell.words_spelling_correction.FastTextEncoder.minn",
       "scope": "public",
       "parent_class": "FastTextEncoder",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/words_spelling_correction.py",
-      "line": 61
+      "line": 72
     },
     {
       "name": "pythainlp.spell.words_spelling_correction.FastTextEncoder.maxn",
       "scope": "public",
       "parent_class": "FastTextEncoder",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/words_spelling_correction.py",
-      "line": 62
+      "line": 73
+    },
+    {
+      "name": "pythainlp.spell.words_spelling_correction.FastTextEncoder.words_for_suggestion",
+      "scope": "public",
+      "parent_class": "FastTextEncoder",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/words_spelling_correction.py",
+      "line": 77
+    },
+    {
+      "name": "pythainlp.spell.words_spelling_correction.FastTextEncoder.nn_session",
+      "scope": "public",
+      "parent_class": "FastTextEncoder",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/words_spelling_correction.py",
+      "line": 78
     },
     {
       "name": "pythainlp.spell.words_spelling_correction.Words_Spelling_Correction.list_word",
       "scope": "public",
       "parent_class": "Words_Spelling_Correction",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/words_spelling_correction.py",
-      "line": 247
+      "line": 267
     },
     {
       "name": "pythainlp.summarize.keybert.KeyBERT.ft_pipeline",
@@ -938,182 +952,182 @@
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 156
+      "line": 158
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.language_codes",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 160
+      "line": 162
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.lang_code_to_token",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 162
+      "line": 164
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.vocab_file",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 190
+      "line": 192
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.encoder",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 194
+      "line": 196
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.decoder",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 195
+      "line": 197
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.spm_file",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 196
+      "line": 198
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.sp_model",
-      "scope": "public",
-      "parent_class": "SMALL100Tokenizer",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 197
-    },
-    {
-      "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.encoder_size",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
       "line": 199
     },
     {
-      "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.lang_token_to_id",
+      "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.encoder_size",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
       "line": 201
     },
     {
+      "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.lang_token_to_id",
+      "scope": "public",
+      "parent_class": "SMALL100Tokenizer",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
+      "line": 203
+    },
+    {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.lang_code_to_id",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 205
+      "line": 207
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.id_to_lang_token",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 209
+      "line": 211
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer._tgt_lang",
       "scope": "private",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 213
+      "line": 215
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.cur_lang_id",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 214
+      "line": 216
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.num_madeup_words",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 217
+      "line": 219
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer._tgt_lang",
       "scope": "private",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 230
+      "line": 232
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.__dict__",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 353
+      "line": 355
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.sp_model_kwargs",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 357
+      "line": 359
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.sp_model",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 359
+      "line": 361
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.tgt_lang",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 396
+      "line": 398
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.tgt_lang",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 409
+      "line": 411
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.prefix_tokens",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 417
+      "line": 419
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.suffix_tokens",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 418
+      "line": 420
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.cur_lang_id",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 424
+      "line": 426
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.prefix_tokens",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 425
+      "line": 427
     },
     {
       "name": "pythainlp.translate.tokenization_small100.SMALL100Tokenizer.suffix_tokens",
       "scope": "public",
       "parent_class": "SMALL100Tokenizer",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 426
+      "line": 428
     },
     {
       "name": "pythainlp.translate.zh_th.ThZhTranslator.tokenizer_thzh",
@@ -1631,21 +1645,21 @@
       "scope": "public",
       "parent_class": "ThaiNameTagger",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
-      "line": 108
+      "line": 112
     },
     {
       "name": "pythainlp.wangchanberta.core.ThaiNameTagger.sent_ner",
       "scope": "public",
       "parent_class": "ThaiNameTagger",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
-      "line": 114
+      "line": 118
     },
     {
       "name": "pythainlp.wangchanberta.core.ThaiNameTagger.sent_ner",
       "scope": "public",
       "parent_class": "ThaiNameTagger",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
-      "line": 122
+      "line": 126
     },
     {
       "name": "pythainlp.word_vector.core.WordVector.tokenize",
@@ -2293,7 +2307,7 @@
       "name": "pythainlp.spell.words_spelling_correction._WSC",
       "scope": "private",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/words_spelling_correction.py",
-      "line": 251
+      "line": 271
     },
     {
       "name": "pythainlp.summarize.freq._STOPWORDS",
@@ -2689,31 +2703,31 @@
       "name": "pythainlp.translate.tokenization_small100.SPIECE_UNDERLINE",
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 35
+      "line": 37
     },
     {
       "name": "pythainlp.translate.tokenization_small100.VOCAB_FILES_NAMES",
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 37
+      "line": 39
     },
     {
       "name": "pythainlp.translate.tokenization_small100.PRETRAINED_VOCAB_FILES_MAP",
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 43
+      "line": 45
     },
     {
       "name": "pythainlp.translate.tokenization_small100.PRETRAINED_POSITIONAL_EMBEDDINGS_SIZES",
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 55
+      "line": 57
     },
     {
       "name": "pythainlp.translate.tokenization_small100.FAIRSEQ_LANGUAGE_CODES",
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/tokenization_small100.py",
-      "line": 60
+      "line": 62
     },
     {
       "name": "pythainlp.translate.word2word_translate.support_list",
@@ -3373,13 +3387,13 @@
       "name": "pythainlp.wangchanberta.core._model_name",
       "scope": "private",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
-      "line": 12
+      "line": 16
     },
     {
       "name": "pythainlp.wangchanberta.core._tokenizer",
       "scope": "private",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
-      "line": 13
+      "line": 17
     },
     {
       "name": "pythainlp.word_vector.core.WV_DIM",

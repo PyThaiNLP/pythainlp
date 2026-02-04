@@ -30,7 +30,9 @@ class FastCoref:
 
         self.model_name: str = model_name
         self.nlp: Language = nlp
-        self.model: CorefModel = _model(self.model_name, device=device, nlp=self.nlp)
+        self.model: CorefModel = _model(
+            self.model_name, device=device, nlp=self.nlp
+        )
 
     def _to_json(self, _predict: Any) -> dict[str, Any]:
         return {

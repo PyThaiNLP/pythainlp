@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 from pythainlp.augment.word2vec.core import Word2VecAug as _Word2VecAug
 
 # Make it accessible for runtime
-Word2VecAug = _Word2VecAug
+Word2VecAug: type[_Word2VecAug] = _Word2VecAug
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer
 

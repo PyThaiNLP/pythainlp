@@ -8,18 +8,22 @@ from __future__ import annotations
 import io
 import sys
 from argparse import ArgumentError, ArgumentParser
+from typing import TYPE_CHECKING
 
 from pythainlp.cli import benchmark, data, misspell, soundex, tag, tokenize
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
+if TYPE_CHECKING:
+    from types import ModuleType
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")  # type: ignore[assignment]
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")  # type: ignore[assignment]
 
 # a command should start with a verb when possible
-COMMANDS = sorted(
+COMMANDS: list[str] = sorted(
     ["data", "soundex", "tag", "tokenize", "benchmark", "misspell"]
 )
 
-CLI_NAME = "thainlp"
+CLI_NAME: str = "thainlp"
 
 
 def make_usage(command: str) -> dict[str, str]:
@@ -44,7 +48,7 @@ def exit_if_empty(command: str, parser: ArgumentParser) -> None:
 
 if __name__ == "__main__":
     # Create a simple mapping from command name to the imported module
-    COMMAND_MAP = {
+    COMMAND_MAP: dict[str, ModuleType] = {
         "tokenize": tokenize,
         "soundex": soundex,
         "tag": tag,
@@ -55,7 +59,7 @@ if __name__ == "__main__":
 
     # Check if a command was provided and if it's one we know
     if len(sys.argv) > 1 and sys.argv[1] in COMMAND_MAP:
-        command = sys.argv[1]
+        command: str = sys.argv[1]
         COMMAND_MAP[command].run()
     else:
         if len(sys.argv) < 2:

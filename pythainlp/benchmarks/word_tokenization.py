@@ -10,21 +10,21 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
-SEPARATOR = "|"
+SEPARATOR: str = "|"
 
 # regex for removing one space surrounded by separators, i.e. | |
-SURROUNDING_SEPS_RX = re.compile(
+SURROUNDING_SEPS_RX: re.Pattern[str] = re.compile(
     "{sep}? ?{sep}$".format(sep=re.escape(SEPARATOR))
 )
 
 # regex for removing repeated separators, i.e. ||||
-MULTIPLE_SEPS_RX = re.compile(f"{re.escape(SEPARATOR)}+")
+MULTIPLE_SEPS_RX: re.Pattern[str] = re.compile(f"{re.escape(SEPARATOR)}+")
 
 # regex for removing tags, i.e. <NE>, </NE>
-TAG_RX = re.compile(r"<\/?[A-Z]+>")
+TAG_RX: re.Pattern[str] = re.compile(r"<\/?[A-Z]+>")
 
 # regex for removing trailing separators, i.e.  a|dog| -> a|dog
-TAILING_SEP_RX = re.compile(f"{re.escape(SEPARATOR)}$")
+TAILING_SEP_RX: re.Pattern[str] = re.compile(f"{re.escape(SEPARATOR)}$")
 
 
 def _f1(precision: float, recall: float) -> float:

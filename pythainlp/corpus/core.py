@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+import http.client
 import json
 import os
 import re
@@ -22,8 +23,8 @@ from pythainlp.tools import get_full_data_path
 if TYPE_CHECKING:
     from typing import Any, Optional
 
-_CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
-_USER_AGENT = (
+_CHECK_MODE: str | None = os.getenv("PYTHAINLP_READ_MODE")
+_USER_AGENT: str = (
     f"PyThaiNLP/{__version__} "
     f"(Python/{sys.version_info.major}.{sys.version_info.minor}; "
     f"{sys.platform})"
@@ -34,7 +35,7 @@ class _ResponseWrapper:
     """Wrapper to provide requests.Response-like interface for urllib response."""
 
     status_code: int
-    headers: "http.client.HTTPMessage"
+    headers: http.client.HTTPMessage
     _content: bytes
 
     def __init__(self, response: HTTPResponse) -> None:

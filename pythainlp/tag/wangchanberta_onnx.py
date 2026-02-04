@@ -42,7 +42,7 @@ class WngchanBerta_ONNX:
         )
         self.session.disable_fallback()
         self.outputs_name: str = self.session.get_outputs()[0].name
-        self.sp: spm.SentencePieceProcessor = spm.SentencePieceProcessor(  # type: ignore[assignment]
+        self.sp: spm.SentencePieceProcessor = spm.SentencePieceProcessor(
             model_file=get_path_folder_corpus(
                 self.model_name, self.model_version, "sentencepiece.bpe.model"
             )
@@ -74,7 +74,7 @@ class WngchanBerta_ONNX:
         maxes = np.max(logits_t, axis=-1, keepdims=True)
         shifted_exp = np.exp(logits_t - maxes)
         scores = shifted_exp / shifted_exp.sum(axis=-1, keepdims=True)
-        return scores  # type: ignore[no-any-return]
+        return scores
 
     def clean_output(
         self, list_text: list[tuple[str, str]]

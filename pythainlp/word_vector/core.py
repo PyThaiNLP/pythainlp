@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer, word_tokenize
@@ -46,7 +46,7 @@ class WordVector:
         self.model_name: str
         self.model: "Word2VecKeyedVectors"
         self.WV_DIM: int
-        self.tokenize: any  # function type
+        self.tokenize: Any  # function type
         self.load_wordvector(model_name)
 
     def load_wordvector(self, model_name: str) -> None:
@@ -56,13 +56,13 @@ class WordVector:
         """
         from gensim.models import KeyedVectors
 
-        self.model_name: str = model_name
-        self.model: "Word2VecKeyedVectors" = KeyedVectors.load_word2vec_format(
+        self.model_name = model_name
+        self.model = KeyedVectors.load_word2vec_format(
             get_corpus_path(self.model_name),
             binary=True,
             unicode_errors="ignore",
         )
-        self.WV_DIM: int = self.model.vector_size
+        self.WV_DIM = self.model.vector_size
 
         if self.model_name == "thai2fit_wv":
             self.tokenize = thai2fit_tokenizer().word_tokenize
@@ -306,7 +306,7 @@ class WordVector:
         len_words = len(words)
 
         if not len_words:
-            return vec  # type: ignore[no-any-return]
+            return vec
 
         for word in words:
             if word == " " and self.model_name == "thai2fit_wv":
@@ -320,4 +320,4 @@ class WordVector:
         if use_mean:
             vec /= len_words
 
-        return vec  # type: ignore[no-any-return]
+        return vec

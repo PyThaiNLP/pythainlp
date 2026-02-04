@@ -137,7 +137,7 @@ class WangChanGLM:
                     typical_p=typical_p,
                     temperature=temperature,  # 0.9
                 )
-        return self.tokenizer.decode(
+        return self.tokenizer.decode(  # type: ignore[no-any-return]
             output_tokens[0][len(batch["input_ids"][0]) :],
             skip_special_tokens=skip_special_tokens,
         )

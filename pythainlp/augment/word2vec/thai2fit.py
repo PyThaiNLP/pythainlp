@@ -3,15 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 
-if TYPE_CHECKING:
-    from pythainlp.augment.word2vec.core import Word2VecAug
-
-from pythainlp.augment.word2vec.core import Word2VecAug as _Word2VecAug
-
-# Make it accessible for runtime
-Word2VecAug: type[_Word2VecAug] = _Word2VecAug
+from pythainlp.augment.word2vec.core import Word2VecAug
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer
 
@@ -35,7 +29,7 @@ class Thai2fitAug:
         :rtype: List[str]
         """
         tok = thai2fit_tokenizer()
-        return tok.word_tokenize(text)  # type: ignore[no-any-return]
+        return tok.word_tokenize(text)
 
     def load_w2v(self) -> None:
         """Load Thai2Fit's word2vec model"""

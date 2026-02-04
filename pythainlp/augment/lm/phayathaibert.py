@@ -28,8 +28,8 @@ class ThaiTextAugmenter:
             pipeline,
         )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(_MODEL_NAME)  # type: ignore[assignment]
-        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(  # type: ignore[assignment]
+        self.tokenizer = AutoTokenizer.from_pretrained(_MODEL_NAME)
+        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(
             _MODEL_NAME
         )
         self.model = pipeline(

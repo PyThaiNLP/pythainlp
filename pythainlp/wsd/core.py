@@ -15,7 +15,9 @@ if TYPE_CHECKING:
 _wsd_dict: dict[str, Union[list[str], list[list[str]]]] = thai_wsd_dict()
 _mean_all: dict[str, Any] = {}
 
-for i, j in zip(_wsd_dict["word"], _wsd_dict["meaning"]):
+words = cast(list[str], _wsd_dict["word"])
+meanings = cast(list[list[str]], _wsd_dict["meaning"])
+for i, j in zip(words, meanings):
     _mean_all[i] = j
 
 _all_word: set[str] = cast(set[str], set(_mean_all.keys()))
@@ -37,7 +39,7 @@ class _SentenceTransformersModel:
         self.model_name: str = model
         self.model: SentenceTransformer = SentenceTransformer(
             self.model_name, device=self.device
-        )  # type: ignore[assignment]
+        )
 
     def change_device(self, device: str) -> None:
         from sentence_transformers import SentenceTransformer

@@ -147,4 +147,4 @@ class WunsenTransliterate:
         if self.thap_value is None:
             raise RuntimeError("ThapSap model not initialized")
 
-        return self.thap_value.thap(text)
+        return self.thap_value.thap(text)  # type: ignore[no-any-return]

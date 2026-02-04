@@ -112,7 +112,7 @@ def postype2wordnet(pos: str, corpus: str) -> Optional[str]:
     """
     if corpus not in ["orchid"]:
         return None
-    return orchid[pos]  # type: ignore[no-any-return]
+    return orchid[pos]
 
 
 class WordNetAug:

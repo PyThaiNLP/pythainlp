@@ -20,7 +20,7 @@ class Parse:
     def __init__(self, model: Optional[str] = "th") -> None:
         if model is None:
             model = "th"
-        self.nlp: Model = esupar.load(model)  # type: ignore[assignment]
+        self.nlp: Model = esupar.load(model)
 
     def __call__(
         self, text: str, tag: str = "str"

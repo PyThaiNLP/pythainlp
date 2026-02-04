@@ -53,7 +53,7 @@ def coreference_resolution(
         _MODEL = HanCoref(device=device)
 
     if _MODEL:
-        return _MODEL.predict(texts)
+        return _MODEL.predict(texts)  # type: ignore[no-any-return]
 
     return [
         {"text": text, "clusters_string": [], "clusters": []} for text in texts

@@ -16,12 +16,12 @@ class Qwen3:
     optimized for various NLP tasks including Thai language processing.
     """
 
-    def __init__(self):
-        self.model = None
-        self.tokenizer = None
-        self.device = None
-        self.torch_dtype = None
-        self.model_path = None
+    def __init__(self) -> None:
+        self.model: Any = None
+        self.tokenizer: Any = None
+        self.device: Optional[str] = None
+        self.torch_dtype: Optional[torch.dtype] = None
+        self.model_path: Optional[str] = None
 
     def load_model(
         self,
@@ -29,7 +29,7 @@ class Qwen3:
         device: str = "cuda",
         torch_dtype: Optional[torch.dtype] = torch.float16,
         low_cpu_mem_usage: bool = True,
-    ):
+    ) -> None:
         """Load Qwen3 model.
 
         :param str model_path: model path or HuggingFace model ID

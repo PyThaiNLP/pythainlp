@@ -19,6 +19,8 @@
       Use it to assist the maintenance of 100% type completeness in
       the repo. Read its usage and information it generates at
       <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/README.md>.
+      Mind that the analyzer can create false positives,
+      please refer to Python tyep specification when in doubt.
 
 ## Project contribution guidelines
 
@@ -225,6 +227,8 @@
         So the user can know exactly which module the data type comes from.
 - [ ] Try to achieve type completeness, according to
       <https://typing.python.org/en/latest/guides/libraries.html#type-completeness>.
+      Also refer to Python type specification at
+      <https://typing.python.org/en/latest/spec/>.
 - [ ] `requires-python` in pyproject.toml should reflect the minimum
       Python version supported by the project.
 - [ ] Do not introduce syntax or features that are not supported

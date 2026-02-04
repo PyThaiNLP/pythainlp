@@ -37,121 +37,121 @@
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "augment": {
       "complete": 29,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "benchmarks": {
       "complete": 8,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 17
+      "mypy_errors": 9
     },
     "chat": {
       "complete": 4,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 15
+      "mypy_errors": 9
     },
     "classify": {
       "complete": 5,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "cli": {
       "complete": 21,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 17
+      "mypy_errors": 9
     },
     "coref": {
       "complete": 5,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "corpus": {
       "complete": 70,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "el": {
       "complete": 5,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "generate": {
       "complete": 15,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 15
+      "mypy_errors": 10
     },
     "khavee": {
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "lm": {
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "morpheme": {
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "parse": {
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "phayathaibert": {
       "complete": 19,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "soundex": {
       "complete": 27,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "spell": {
       "complete": 43,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "summarize": {
       "complete": 17,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 17
+      "mypy_errors": 12
     },
     "tag": {
       "complete": 73,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 15
+      "mypy_errors": 10
     },
     "tokenize": {
       "complete": 73,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "tokenizeicu": {
       "complete": 3,
@@ -163,19 +163,19 @@
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "translate": {
       "complete": 44,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "transliterate": {
       "complete": 75,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "transliterateicu": {
       "complete": 1,
@@ -187,31 +187,31 @@
       "complete": 25,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 15
+      "mypy_errors": 10
     },
     "util": {
       "complete": 109,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "wangchanberta": {
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     },
     "word_vector": {
       "complete": 7,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 16
+      "mypy_errors": 11
     },
     "wsd": {
       "complete": 4,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 9
     }
   },
   "functions_no_hints": [],
@@ -538,7 +538,7 @@
       "scope": "public",
       "parent_class": "NNER",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tag/named_entity.py",
-      "line": 163
+      "line": 165
     },
     {
       "name": "pythainlp.tag.thainer.ThaiNameTagger.pos_tag_name",

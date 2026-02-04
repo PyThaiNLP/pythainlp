@@ -167,12 +167,7 @@ def process_thai(
 
     for rule in pre_rules:
         res = rule(res)
-    
-    # tok_func expects str, so ensure res is still str at this point
-    if not isinstance(res, str):
-        raise TypeError(f"Expected str after pre_rules, got {type(res)}")
-    
-    res = tok_func(res)
+    res = tok_func(res)  # type: ignore[arg-type]
     for rule in post_rules:
         res = rule(res)
 

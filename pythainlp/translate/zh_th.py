@@ -29,10 +29,6 @@ class ThZhTranslator:
     :param bool use_gpu : load model using GPU (Default is False)
     """
 
-    tokenizer_thzh: AutoTokenizer
-    model_thzh: AutoModelForSeq2SeqLM
-    translated: torch.Tensor
-
     def __init__(
         self,
         use_gpu: bool = False,
@@ -107,10 +103,6 @@ class ZhThTranslator:
 
     :param bool use_gpu : load model using GPU (Default is False)
     """
-
-    tokenizer_zhth: AutoTokenizer
-    model_zhth: AutoModelForSeq2SeqLM
-    translated: torch.Tensor
 
     def __init__(
         self,

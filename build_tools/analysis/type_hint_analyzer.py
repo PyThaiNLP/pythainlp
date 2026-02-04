@@ -8,6 +8,9 @@ Type Hint Analyzer for PyThaiNLP
 This script scans the entire repository and analyzes type hint coverage
 for all functions and classes.
 
+Based on the type completeness information from
+https://typing.python.org/en/latest/guides/libraries.html#type-completeness
+
 Usage:
     python type_hint_analyzer.py [--output-dir OUTPUT_DIR]
 

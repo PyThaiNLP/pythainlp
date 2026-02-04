@@ -16,8 +16,8 @@ from typing import TYPE_CHECKING, Optional, Union
 
 if TYPE_CHECKING:
     from transformers import (
-        AutoTokenizer,
         AutoModelForQuestionAnswering,
+        AutoTokenizer,
         TokenClassificationPipeline,
     )
 

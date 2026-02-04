@@ -81,7 +81,7 @@ class FastTextEncoder:
     def _load_embeddings(self) -> tuple[list[str], NDArray[np.float32]]:
         """Loads embeddings matrix and vocabulary list."""
         import numpy as np
-        
+
         input_matrix = np.load(
             os.path.join(self.model_dir, "embeddings.npy")
         )
@@ -95,7 +95,7 @@ class FastTextEncoder:
     def _load_suggestion_words(self, words_list: list[str]) -> NDArray[np.str_]:
         """Loads the list of words used for suggestions."""
         import numpy as np
-        
+
         words = np.array(words_list)
         return words
 
@@ -152,7 +152,7 @@ class FastTextEncoder:
     def get_word_vector(self, word: str) -> NDArray[np.float32]:
         """Computes the normalized vector for a single word."""
         import numpy as np
-        
+
         # subword_ids[1] contains the array of indices for the word and its subwords
         subword_ids = self._get_subwords(word)[1]
 
@@ -193,7 +193,7 @@ class FastTextEncoder:
     def get_sentence_vector(self, line: str) -> NDArray[np.float32]:
         """Computes the mean vector for a sentence."""
         import numpy as np
-        
+
         tokens = self._tokenize(line)
         vectors = []
         for t in tokens:

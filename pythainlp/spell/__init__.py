@@ -13,8 +13,9 @@ __all__: list[str] = [
     "get_words_spell_suggestion",
 ]
 
-from pythainlp.spell.pn import NorvigSpellChecker
 from typing import Type
+
+from pythainlp.spell.pn import NorvigSpellChecker
 
 DEFAULT_SPELL_CHECKER: Type[NorvigSpellChecker] = NorvigSpellChecker
 

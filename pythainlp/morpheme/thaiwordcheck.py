@@ -60,11 +60,11 @@ _TH_NATIVE_WORDS: set[str] = {
 }
 
 # Diphthong prefixes (can start native Thai word)
-_TH_PREFIX_DIPHTHONG = {"กะ", "กระ", "ปะ", "ประ"}
+_TH_PREFIX_DIPHTHONG: set[str] = {"กะ", "กระ", "ปะ", "ประ"}
 
 # Thai consonant filter
 # O ANG (U+0E2D) is omitted, as it can be considered as vowel
-_TH_CONSONANTS_PATTERN = re.compile(r"[ก-ฬฮ]", re.U)
+_TH_CONSONANTS_PATTERN: re.Pattern[str] = re.compile(r"[ก-ฬฮ]", re.U)
 
 
 def is_native_thai(word: str) -> bool:

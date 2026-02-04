@@ -12,12 +12,12 @@ if TYPE_CHECKING:
     from gensim.models.keyedvectors import Word2VecKeyedVectors
     from numpy import ndarray
 
-WV_DIM = 300  # word vector dimension
+WV_DIM: int = 300  # word vector dimension
 
-_MODEL_NAME = "thai2fit_wv"
+_MODEL_NAME: str = "thai2fit_wv"
 
-_TK_SP = "xxspace"
-_TK_EOL = "xxeol"
+_TK_SP: str = "xxspace"
+_TK_EOL: str = "xxeol"
 
 
 class WordVector:

@@ -13,7 +13,9 @@ from __future__ import annotations
 
 from icu import Transliterator
 
-_ICU_THAI_TO_LATIN = Transliterator.createInstance("Thai-Latin")
+_ICU_THAI_TO_LATIN: Transliterator = Transliterator.createInstance(
+    "Thai-Latin"
+)
 
 
 def transliterate(text: str) -> str:

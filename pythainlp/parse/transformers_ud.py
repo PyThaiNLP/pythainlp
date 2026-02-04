@@ -38,7 +38,9 @@ class Parse:
         if model is None:
             model = "KoichiYasuoka/deberta-base-thai-ud-head"
         self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
-        self.model: AutoModelForQuestionAnswering = AutoModelForQuestionAnswering.from_pretrained(model)
+        self.model: AutoModelForQuestionAnswering = (
+            AutoModelForQuestionAnswering.from_pretrained(model)
+        )
         x = AutoModelForTokenClassification.from_pretrained
         if os.path.isdir(model):
             d, t = (

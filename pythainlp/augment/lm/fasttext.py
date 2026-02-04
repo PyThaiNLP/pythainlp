@@ -30,7 +30,9 @@ class FastTextAug:
         from gensim.models.keyedvectors import KeyedVectors
 
         if model_path.endswith(".bin"):
-            self.model: Union[FastText, KeyedVectors] = FastText_gensim.load_facebook_vectors(model_path)
+            self.model: Union[FastText, KeyedVectors] = (
+                FastText_gensim.load_facebook_vectors(model_path)
+            )
         elif model_path.endswith(".vec"):
             self.model = KeyedVectors.load_word2vec_format(model_path)
         else:
@@ -80,7 +82,9 @@ class FastTextAug:
         :rtype: List[Tuple[str]]
         """
         self.sentence: list[str] = self.tokenize(sentence)
-        self.list_synonym: list[list[str]] = self.modify_sent(self.sentence, p=p)
+        self.list_synonym: list[list[str]] = self.modify_sent(
+            self.sentence, p=p
+        )
         new_sentences = []
         for x in list(itertools.product(*self.list_synonym))[0:n_sent]:
             new_sentences.append(x)

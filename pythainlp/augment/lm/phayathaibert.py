@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 from pythainlp.phayathaibert.core import ThaiTextProcessor
 
-_MODEL_NAME = "clicknext/phayathaibert"
+_MODEL_NAME: str = "clicknext/phayathaibert"
 
 
 class ThaiTextAugmenter:

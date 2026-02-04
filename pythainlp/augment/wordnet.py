@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-__all__ = [
+__all__: list[str] = [
     "WordNetAug",
     "postype2wordnet",
 ]
@@ -20,7 +20,7 @@ from pythainlp.corpus import wordnet
 from pythainlp.tag import pos_tag
 from pythainlp.tokenize import word_tokenize
 
-orchid = {
+orchid: dict[str, str] = {
     "": "",
     # NOUN
     "NOUN": wn.NOUN,
@@ -192,9 +192,13 @@ class WordNetAug:
         self.list_synonym: list[list[str]] = []
         self.p_all: int = 1
         if postag:
-            self.list_pos: list[tuple[str, str]] = pos_tag(self.list_words, corpus=postag_corpus)
+            self.list_pos: list[tuple[str, str]] = pos_tag(
+                self.list_words, corpus=postag_corpus
+            )
             for word, pos in self.list_pos:
-                self.temp: list[str] = self.find_synonyms(word, pos, postag_corpus)
+                self.temp: list[str] = self.find_synonyms(
+                    word, pos, postag_corpus
+                )
                 if not self.temp:
                     self.list_synonym.append([word])
                 else:

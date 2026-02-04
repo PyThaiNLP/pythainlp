@@ -8,13 +8,14 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING
 
-import numpy as np
 from onnxruntime import InferenceSession
 
 from pythainlp.corpus import get_corpus_path
 
 if TYPE_CHECKING:
     from typing import Dict, List
+
+    import numpy as np
 
 _MODEL_ENCODER_NAME = "thai2rom_encoder_onnx"
 _MODEL_DECODER_NAME = "thai2rom_decoder_onnx"
@@ -47,9 +48,13 @@ class ThaiTransliterator_ONNX:
 
         # encoder/ decoder
         # Load encoder decoder onnx models.
-        self._encoder: InferenceSession = InferenceSession(self.__encoder_filename)
+        self._encoder: InferenceSession = InferenceSession(
+            self.__encoder_filename
+        )
 
-        self._decoder: InferenceSession = InferenceSession(self.__decoder_filename)
+        self._decoder: InferenceSession = InferenceSession(
+            self.__decoder_filename
+        )
 
         self._network: Seq2Seq_ONNX = Seq2Seq_ONNX(
             self._encoder,
@@ -60,8 +65,10 @@ class ThaiTransliterator_ONNX:
             target_vocab_size=OUTPUT_DIM,
         )
 
-    def _prepare_sequence_in(self, text: str) -> np.ndarray:
+    def _prepare_sequence_in(self, text: str) -> "np.ndarray":
         """Prepare input sequence for ONNX"""
+        import numpy as np
+
         idxs = []
         for ch in text:
             if ch in self._char_to_ix:
@@ -76,6 +83,8 @@ class ThaiTransliterator_ONNX:
         :return: English (more or less) text that spells out how the Thai text
                  should be pronounced.
         """
+        import numpy as np
+
         input_tensor = self._prepare_sequence_in(text).reshape(1, -1)
         input_length = [len(text) + 1]
         target_tensor_logits = self._network.run(input_tensor, input_length)
@@ -112,14 +121,17 @@ class Seq2Seq_ONNX:
 
         self.target_vocab_size = target_vocab_size
 
-    def create_mask(self, source_seq: np.ndarray) -> np.ndarray:
+    def create_mask(self, source_seq: "np.ndarray") -> "np.ndarray":
         mask = source_seq != self.pad_idx
         return mask
 
-    def run(self, source_seq: np.ndarray, source_seq_len: List[int]) -> np.ndarray:
+    def run(
+        self, source_seq: "np.ndarray", source_seq_len: List[int]
+    ) -> "np.ndarray":
         # source_seq: (batch_size, MAX_LENGTH)
         # source_seq_len: (batch_size, 1)
         # target_seq: (batch_size, MAX_LENGTH)
+        import numpy as np
 
         batch_size = source_seq.shape[0]
         start_token = self.target_start_token

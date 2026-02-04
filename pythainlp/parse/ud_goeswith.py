@@ -13,8 +13,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, List, Optional, Union
 
-import numpy as np
-import torch
 from transformers import AutoModelForTokenClassification, AutoTokenizer
 
 if TYPE_CHECKING:
@@ -29,11 +27,15 @@ class Parse:
         if model is None:
             model = "KoichiYasuoka/deberta-base-thai-ud-goeswith"
         self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
-        self.model: AutoModelForTokenClassification = AutoModelForTokenClassification.from_pretrained(model)
+        self.model: AutoModelForTokenClassification = (
+            AutoModelForTokenClassification.from_pretrained(model)
+        )
 
     def __call__(
         self, text: str, tag: str = "str"
     ) -> Union[List[List[str]], str]:
+        import numpy as np
+        import torch
         import ufal.chu_liu_edmonds
 
         w = self.tokenizer(text, return_offsets_mapping=True)

@@ -7,7 +7,10 @@ import random
 import re
 import warnings
 from collections.abc import Callable
-from typing import Union
+from typing import TYPE_CHECKING, Union
+
+if TYPE_CHECKING:
+    from transformers import CamembertTokenizer
 
 from transformers import (
     CamembertTokenizer,
@@ -15,10 +18,12 @@ from transformers import (
 
 from pythainlp.tokenize import word_tokenize
 
-_PAT_URL = r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
+_PAT_URL: str = r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
 
-_model_name = "clicknext/phayathaibert"
-_tokenizer = CamembertTokenizer.from_pretrained(_model_name)
+_model_name: str = "clicknext/phayathaibert"
+_tokenizer: "CamembertTokenizer" = CamembertTokenizer.from_pretrained(
+    _model_name
+)
 
 
 class ThaiTextProcessor:
@@ -206,9 +211,11 @@ class ThaiTextAugmenter:
             pipeline,
         )
 
-        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(_model_name)  # type: ignore[assignment]
-        self.model_for_masked_lm: AutoModelForMaskedLM = AutoModelForMaskedLM.from_pretrained(
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(
             _model_name
+        )  # type: ignore[assignment]
+        self.model_for_masked_lm: AutoModelForMaskedLM = (
+            AutoModelForMaskedLM.from_pretrained(_model_name)
         )  # type: ignore[assignment]
         self.model: any = pipeline(  # transformers.Pipeline
             "fill-mask",
@@ -304,7 +311,9 @@ class PartOfSpeechTagger:
         )
 
         self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)  # type: ignore[assignment]
-        self.model: AutoModelForTokenClassification = AutoModelForTokenClassification.from_pretrained(model)  # type: ignore[assignment]
+        self.model: AutoModelForTokenClassification = (
+            AutoModelForTokenClassification.from_pretrained(model)
+        )  # type: ignore[assignment]
 
     def get_tag(
         self, sentence: str, strategy: str = "simple"
@@ -347,7 +356,9 @@ class NamedEntityTagger:
         )
 
         self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)  # type: ignore[assignment]
-        self.model: AutoModelForTokenClassification = AutoModelForTokenClassification.from_pretrained(model)  # type: ignore[assignment]
+        self.model: AutoModelForTokenClassification = (
+            AutoModelForTokenClassification.from_pretrained(model)
+        )  # type: ignore[assignment]
 
     def get_ner(
         self,

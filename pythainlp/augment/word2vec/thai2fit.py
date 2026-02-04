@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     from pythainlp.augment.word2vec.core import Word2VecAug
@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 from pythainlp.augment.word2vec.core import Word2VecAug as _Word2VecAug
 
 # Make it accessible for runtime
-Word2VecAug = _Word2VecAug
+Word2VecAug: type[_Word2VecAug] = _Word2VecAug
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer
 
@@ -23,7 +23,7 @@ class Thai2fitAug:
     `github.com/cstorm125/thai2fit <https://github.com/cstorm125/thai2fit>`_
     """
 
-    thai2fit_wv: str | None
+    thai2fit_wv: Optional[str]
     aug: Word2VecAug
 
     def __init__(self) -> None:

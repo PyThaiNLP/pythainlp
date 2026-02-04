@@ -29,7 +29,9 @@ class Word2VecAug:
 
         self.tokenizer: Callable[[str], list[str]] = tokenize
         if type == "file":
-            self.model: "KeyedVectors" = word2vec.KeyedVectors.load_word2vec_format(model)
+            self.model: "KeyedVectors" = (
+                word2vec.KeyedVectors.load_word2vec_format(model)
+            )
         elif type == "binary":
             self.model = word2vec.KeyedVectors.load_word2vec_format(
                 model, binary=True, unicode_errors="ignore"

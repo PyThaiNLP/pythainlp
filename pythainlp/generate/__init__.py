@@ -3,6 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 """Thai Text Generation"""
 
-__all__ = ["Bigram", "Trigram", "Unigram"]
+__all__: list[str] = ["Bigram", "Trigram", "Unigram"]
 
 from pythainlp.generate.core import Bigram, Trigram, Unigram

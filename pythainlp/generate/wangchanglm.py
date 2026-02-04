@@ -4,12 +4,11 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING
-
-import torch
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     import pandas as pd
+    import torch
     from transformers import PreTrainedModel, PreTrainedTokenizerBase
 
 
@@ -45,7 +44,7 @@ class WangChanGLM:
         return_dict: bool = True,
         load_in_8bit: bool = False,
         device: str = "cuda",
-        torch_dtype: torch.dtype = torch.float16,
+        torch_dtype: Optional["torch.dtype"] = None,
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
     ) -> None:
@@ -74,12 +73,16 @@ class WangChanGLM:
             offload_folder=offload_folder,
             low_cpu_mem_usage=low_cpu_mem_usage,
         )
-        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(self.model_path)
+        self.tokenizer: "PreTrainedTokenizerBase" = (
+            AutoTokenizer.from_pretrained(self.model_path)
+        )
         self.df: "pd.DataFrame" = pd.DataFrame(
             self.tokenizer.vocab.items(), columns=["text", "idx"]
         )
         self.df["is_exclude"] = self.df.text.map(self.is_exclude)
-        self.exclude_ids: list[int] = self.df[self.df.is_exclude is True].idx.tolist()
+        self.exclude_ids: list[int] = self.df[
+            self.df.is_exclude is True
+        ].idx.tolist()
 
     def gen_instruct(
         self,
@@ -107,6 +110,8 @@ class WangChanGLM:
         :return: the answer from Instruct
         :rtype: str
         """
+        import torch
+
         batch = self.tokenizer(text, return_tensors="pt")
         with torch.autocast(device_type=self.device, dtype=self.torch_dtype):
             if thai_only:

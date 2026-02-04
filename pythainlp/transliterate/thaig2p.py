@@ -10,7 +10,6 @@ from __future__ import annotations
 import random
 from typing import TYPE_CHECKING, Optional, Union
 
-import numpy as np
 import torch
 import torch.nn.functional as F
 from torch import nn
@@ -65,7 +64,9 @@ class ThaiG2P:
 
         # encoder/ decoder
         # Restore the model and construct the encoder and decoder.
-        self._encoder: "Encoder" = Encoder(INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT)
+        self._encoder: "Encoder" = Encoder(
+            INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT
+        )
 
         self._decoder: "AttentionDecoder" = AttentionDecoder(
             OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT
@@ -152,9 +153,12 @@ class Encoder(nn.Module):
     ) -> tuple[torch.Tensor, tuple[torch.Tensor, torch.Tensor]]:
         # sequences: (batch_size, sequence_length=MAX_LENGTH)
         # sequences_lengths: (batch_size)
+        import numpy as np
 
         batch_size = sequences.size(0)
-        self.hidden: tuple[torch.Tensor, torch.Tensor] = self.init_hidden(batch_size)
+        self.hidden: tuple[torch.Tensor, torch.Tensor] = self.init_hidden(
+            batch_size
+        )
 
         sequences_lengths = np.sort(sequences_lengths)[::-1]
         index_sorted = np.argsort(

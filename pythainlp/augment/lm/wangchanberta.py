@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from transformers import CamembertTokenizer, Pipeline
 
-model_name = "airesearch/wangchanberta-base-att-spm-uncased"
+model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
 
 
 class Thai2transformersAug:

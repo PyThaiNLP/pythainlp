@@ -51,7 +51,9 @@ class mT5Summarizer:
             else:
                 model_name = pretrained_mt5_model_name
         self.model_name: str = model_name
-        self.model: MT5ForConditionalGeneration = MT5ForConditionalGeneration.from_pretrained(model_name)  # type: ignore[assignment]
+        self.model: MT5ForConditionalGeneration = (
+            MT5ForConditionalGeneration.from_pretrained(model_name)
+        )  # type: ignore[assignment]
         self.tokenizer: T5Tokenizer = T5Tokenizer.from_pretrained(model_name)  # type: ignore[assignment]
         self.num_beams: int = num_beams
         self.no_repeat_ngram_size: int = no_repeat_ngram_size

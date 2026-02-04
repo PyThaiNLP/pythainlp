@@ -7,10 +7,12 @@ from __future__ import annotations
 
 import collections
 from collections.abc import Callable, Collection
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
-import numpy as np
 import torch
+
+if TYPE_CHECKING:
+    import numpy as np
 
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer
@@ -174,7 +176,7 @@ def process_thai(
 
 def document_vector(
     text: str, learn: Any, data: Any, agg: str = "mean"
-) -> np.ndarray:
+) -> "np.ndarray":
     """This function vectorizes Thai input text into a 400 dimension vector using
     :class:`fastai` language model and data bunch.
 
@@ -277,6 +279,8 @@ def merge_wgts(
     )
 
     # New embedding based on classification dataset
+    import numpy as np
+
     new_w = np.zeros((vocab_size, em_sz), dtype=np.float32)
 
     for i, w in enumerate(itos_new):

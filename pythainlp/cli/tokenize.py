@@ -22,10 +22,10 @@ from pythainlp.tools import safe_print
 if TYPE_CHECKING:
     from collections.abc import Callable, Sequence
 
-DEFAULT_SENT_TOKEN_SEPARATOR = "@@"  # noqa: S105
-DEFAULT_SUBWORD_TOKEN_SEPARATOR = "/"  # noqa: S105
-DEFAULT_SYLLABLE_TOKEN_SEPARATOR = "~"  # noqa: S105
-DEFAULT_WORD_TOKEN_SEPARATOR = "|"  # noqa: S105
+DEFAULT_SENT_TOKEN_SEPARATOR: str = "@@"  # noqa: S105
+DEFAULT_SUBWORD_TOKEN_SEPARATOR: str = "/"  # noqa: S105
+DEFAULT_SYLLABLE_TOKEN_SEPARATOR: str = "~"  # noqa: S105
+DEFAULT_WORD_TOKEN_SEPARATOR: str = "|"  # noqa: S105
 
 
 class SubAppBase:

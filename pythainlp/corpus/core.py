@@ -22,8 +22,8 @@ from pythainlp.tools import get_full_data_path
 if TYPE_CHECKING:
     from typing import Any, Optional
 
-_CHECK_MODE = os.getenv("PYTHAINLP_READ_MODE")
-_USER_AGENT = (
+_CHECK_MODE: Optional[str] = os.getenv("PYTHAINLP_READ_MODE")
+_USER_AGENT: str = (
     f"PyThaiNLP/{__version__} "
     f"(Python/{sys.version_info.major}.{sys.version_info.minor}; "
     f"{sys.platform})"

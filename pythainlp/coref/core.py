@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Union
+from typing import Any, Optional, Union
 
-_MODEL = None
+_MODEL: Optional[Any] = None
 
 
 def coreference_resolution(

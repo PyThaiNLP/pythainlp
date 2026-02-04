@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from typing import Any, Union
 
-__all__ = [
+__all__: list[str] = [
     "countries",
     "find_synonyms",
     "provinces",
@@ -34,33 +34,33 @@ from pythainlp.corpus import get_corpus, get_corpus_as_is, get_corpus_path
 from pythainlp.tools import warn_deprecation
 
 _THAI_COUNTRIES: frozenset[str] = frozenset()
-_THAI_COUNTRIES_FILENAME = "countries_th.txt"
+_THAI_COUNTRIES_FILENAME: str = "countries_th.txt"
 
 _THAI_THAILAND_PROVINCES: frozenset[str] = frozenset()
 _THAI_THAILAND_PROVINCES_DETAILS: list[dict[str, str]] = []
-_THAI_THAILAND_PROVINCES_FILENAME = "thailand_provinces_th.csv"
+_THAI_THAILAND_PROVINCES_FILENAME: str = "thailand_provinces_th.csv"
 
 _THAI_SYLLABLES: frozenset[str] = frozenset()
-_THAI_SYLLABLES_FILENAME = "syllables_th.txt"
+_THAI_SYLLABLES_FILENAME: str = "syllables_th.txt"
 
 _THAI_WORDS: frozenset[str] = frozenset()
-_THAI_WORDS_FILENAME = "words_th.txt"
+_THAI_WORDS_FILENAME: str = "words_th.txt"
 
 _THAI_STOPWORDS: frozenset[str] = frozenset()
-_THAI_STOPWORDS_FILENAME = "stopwords_th.txt"
+_THAI_STOPWORDS_FILENAME: str = "stopwords_th.txt"
 
 _THAI_NEGATIONS: frozenset[str] = frozenset()
-_THAI_NEGATIONS_FILENAME = "negations_th.txt"
+_THAI_NEGATIONS_FILENAME: str = "negations_th.txt"
 
 _THAI_PROFANITY_WORDS: frozenset[str] = frozenset()
-_THAI_PROFANITY_WORDS_FILENAME = "profanity_th.txt"
+_THAI_PROFANITY_WORDS_FILENAME: str = "profanity_th.txt"
 
 _THAI_FAMLIY_NAMES: frozenset[str] = frozenset()
-_THAI_FAMLIY_NAMES_FILENAME = "family_names_th.txt"
+_THAI_FAMLIY_NAMES_FILENAME: str = "family_names_th.txt"
 _THAI_FEMALE_NAMES: frozenset[str] = frozenset()
-_THAI_FEMALE_NAMES_FILENAME = "person_names_female_th.txt"
+_THAI_FEMALE_NAMES_FILENAME: str = "person_names_female_th.txt"
 _THAI_MALE_NAMES: frozenset[str] = frozenset()
-_THAI_MALE_NAMES_FILENAME = "person_names_male_th.txt"
+_THAI_MALE_NAMES_FILENAME: str = "person_names_male_th.txt"
 
 _THAI_ORST_WORDS: frozenset[str] = frozenset()
 

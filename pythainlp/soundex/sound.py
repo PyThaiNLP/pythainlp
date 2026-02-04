@@ -9,8 +9,8 @@ import panphon.distance
 from pythainlp.tokenize import word_tokenize
 from pythainlp.transliterate import pronunciate, transliterate
 
-_ft = panphon.FeatureTable()
-_dst = panphon.distance.Distance()
+_ft: panphon.FeatureTable = panphon.FeatureTable()
+_dst: panphon.distance.Distance = panphon.distance.Distance()
 
 
 def _clean_ipa(ipa: str) -> str:

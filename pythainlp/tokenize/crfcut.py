@@ -150,7 +150,9 @@ def extract_features(
 
     # add enders and starters
     doc_ender = ["ender" if token in _ENDERS else "normal" for token in doc]
-    doc_starter = ["starter" if token in _STARTERS else "normal" for token in doc]
+    doc_starter = [
+        "starter" if token in _STARTERS else "normal" for token in doc
+    ]
 
     # for each word
     for i in range(window, len(doc) - window):
@@ -183,10 +185,7 @@ def segment(text: str) -> list[str]:
     :param str text: text to be tokenized into sentences
     :return: list of words, tokenized from the text
     """
-    if isinstance(text, str):
-        toks = word_tokenize(text)
-    else:
-        toks = text
+    toks = word_tokenize(text)
     feat = extract_features(toks)
     labs = _tagger.tag(feat)
     labs[-1] = "E"  # make sure it cuts the last sentence

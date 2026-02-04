@@ -61,7 +61,7 @@ def audio_vector(word: str) -> list[list[int]]:
 
     :param str word: Thai word
     :return: List of features from panphon
-    :rtype: List[List[int]]
+    :rtype: list[list[int]]
 
     :Example:
     ::
@@ -71,7 +71,7 @@ def audio_vector(word: str) -> list[list[int]]:
         audio_vector("น้ำ")
         # output : [[-1, 1, 1, -1, -1, -1, ...]]
     """
-    return _ft.word_to_vector_list(word2audio(word), numeric=True)
+    return _ft.word_to_vector_list(word2audio(word), numeric=True)  # type: ignore[no-any-return]
 
 
 def word_approximation(word: str, list_word: list[str]) -> list[float]:
@@ -80,7 +80,7 @@ def word_approximation(word: str, list_word: list[str]) -> list[float]:
     :param str word: Thai word
     :param str list_word: Thai word
     :return: List of approximation of words (The smaller the value, the closer)
-    :rtype: List[float]
+    :rtype: list[float]
 
     :Example:
     ::

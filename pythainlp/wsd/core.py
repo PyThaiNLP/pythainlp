@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, cast
 
 from pythainlp.corpus import thai_wsd_dict
 from pythainlp.tokenize import Tokenizer
@@ -15,7 +15,7 @@ _mean_all = {}
 for i, j in zip(_wsd_dict["word"], _wsd_dict["meaning"]):
     _mean_all[i] = j
 
-_all_word = set(_mean_all.keys())
+_all_word = cast(set[str], set(_mean_all.keys()))
 _TRIE = Trie(_all_word)
 _word_cut = Tokenizer(custom_dict=_TRIE)
 
@@ -45,7 +45,7 @@ class _SentenceTransformersModel:
 
         embedding_1 = self.model.encode(sentences1, convert_to_tensor=True)
         embedding_2 = self.model.encode(sentences2, convert_to_tensor=True)
-        return 1 - util.pytorch_cos_sim(embedding_1, embedding_2)[0][0].item()
+        return 1 - util.pytorch_cos_sim(embedding_1, embedding_2)[0][0].item()  # type: ignore[no-any-return]
 
 
 def get_sense(
@@ -66,7 +66,7 @@ def get_sense(
         sentence.
     :return: a list of definitions and distances (1 - cos_sim) or \
         an empty list (if word is not in the dictionary)
-    :rtype: List[Tuple[str, float]]
+    :rtype: list[tuple[str, float]]
 
     We get the ideas from `Context-Aware Semantic Similarity Measurement for \
         Unsupervised Word Sense Disambiguation \

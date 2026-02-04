@@ -40,7 +40,7 @@ def segment(
     :param class tagger: NER tagger engine
     :return: list of words, tokenized from the text
     """
-    if not isinstance(text, str):
+    if not text:
         return []
 
     tagged_words = tagger.tag(text, pos=False)
@@ -73,7 +73,5 @@ def segment(
                 words.append(combining_word)
             elif curr_tag.startswith("I-") and combining_word != "":
                 words.append(combining_word)
-            else:
-                pass
 
     return words

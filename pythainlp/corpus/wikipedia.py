@@ -1,12 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Provides an optional word list from Thai Wikipedia titles.
-"""
+"""Provides an optional word list from Thai Wikipedia titles."""
 
 from __future__ import annotations
 
-from pythainlp.corpus.common import get_corpus
+from pythainlp.corpus.core import get_corpus
 
 _WIKIPEDIA_TITLES = None
 _WIKIPEDIA_TITLES_FILENAME = "wikipedia_titles_th.txt"

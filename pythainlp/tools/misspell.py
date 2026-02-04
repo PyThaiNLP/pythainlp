@@ -42,7 +42,9 @@ ALL_CHARACTERS = [
 ]
 
 
-def search_location_of_character(char: str) -> Optional[tuple[int, int, int, int]]:
+def search_location_of_character(
+    char: str,
+) -> Optional[tuple[int, int, int, int]]:
     for language_ix in [0, 1]:
         for ix, row in enumerate(ALL_CHARACTERS[language_ix]):
             if char in row:
@@ -53,7 +55,14 @@ def search_location_of_character(char: str) -> Optional[tuple[int, int, int, int
 def find_neighbour_locations(
     loc: tuple[int, int, int, int],
     char: str,
-    kernel: list[tuple[int, int]] = [(-1, -1), (-1, 0), (1, 1), (0, 1), (0, -1), (1, 0)],
+    kernel: list[tuple[int, int]] = [
+        (-1, -1),
+        (-1, 0),
+        (1, 1),
+        (0, 1),
+        (0, -1),
+        (1, 0),
+    ],
 ) -> list[tuple[int, int, int, int, str]]:
     language_ix, is_shift, row, pos = loc
 
@@ -68,7 +77,9 @@ def find_neighbour_locations(
     return valid_neighbours
 
 
-def find_misspell_candidates(char: str, verbose: bool = False) -> Optional[list[str]]:
+def find_misspell_candidates(
+    char: str, verbose: bool = False
+) -> Optional[list[str]]:
     loc = search_location_of_character(char)
     if loc is None:
         return None

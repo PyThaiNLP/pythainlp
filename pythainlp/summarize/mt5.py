@@ -1,12 +1,9 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Summarization by mT5 model
-"""
+"""Summarization by mT5 model"""
 
 from __future__ import annotations
-
-from transformers import MT5ForConditionalGeneration, T5Tokenizer
 
 from pythainlp.summarize import CPE_KMUTT_THAI_SENTENCE_SUM
 
@@ -38,6 +35,8 @@ class mT5Summarizer:
         :param str pretrained_mt5_model_name: Name of pretrained model.
             If empty (default), uses google/mt5-{model_size}.
         """
+        from transformers import MT5ForConditionalGeneration, T5Tokenizer
+
         model_name = ""
         if not pretrained_mt5_model_name:
             if model_size not in ["small", "base", "large", "xl", "xxl"]:

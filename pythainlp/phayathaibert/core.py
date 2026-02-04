@@ -61,13 +61,25 @@ class ThaiTextProcessor:
         new_line = re.sub(r"\{[^a-zA-Z0-9ก-๙]+\}", "", new_line)
         new_line = re.sub(r"\[[^a-zA-Z0-9ก-๙]+\]", "", new_line)
         # artifiacts after (
-        new_line = re.sub(r"(?<=\()[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line)
-        new_line = re.sub(r"(?<=\{)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line)
-        new_line = re.sub(r"(?<=\[)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line)
+        new_line = re.sub(
+            r"(?<=\()[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
+        )
+        new_line = re.sub(
+            r"(?<=\{)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
+        )
+        new_line = re.sub(
+            r"(?<=\[)[^a-zA-Z0-9ก-๙]+(?=[a-zA-Z0-9ก-๙])", "", new_line
+        )
         # artifacts before )
-        new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\))", "", new_line)
-        new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\})", "", new_line)
-        new_line = re.sub(r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\])", "", new_line)
+        new_line = re.sub(
+            r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\))", "", new_line
+        )
+        new_line = re.sub(
+            r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\})", "", new_line
+        )
+        new_line = re.sub(
+            r"(?<=[a-zA-Z0-9ก-๙])[^a-zA-Z0-9ก-๙]+(?=\])", "", new_line
+        )
         return new_line
 
     def replace_newlines(self, text: str) -> str:
@@ -124,9 +136,9 @@ class ThaiTextProcessor:
     def replace_wrep_post(self, toks: list[str]) -> list[str]:
         """Replace repetitive words post tokenization;
         fastai `replace_wrep` does not work well with Thai.
-        :param List[str] toks: list of tokens
+        :param list[str] toks: list of tokens
         :return: list of tokens where repetitive words are removed.
-        :rtype: List[str]
+        :rtype: list[str]
         :Example:
             >>> toks = ["กา", "น้ำ", "น้ำ", "น้ำ", "น้ำ"]
             >>> replace_wrep_post(toks)
@@ -149,9 +161,9 @@ class ThaiTextProcessor:
 
     def remove_space(self, toks: list[str]) -> list[str]:
         """Do not include space for bag-of-word models.
-        :param List[str] toks: list of tokens
+        :param list[str] toks: list of tokens
         :return: List of tokens where space tokens (" ") are filtered out
-        :rtype: List[str]
+        :rtype: list[str]
         :Example:
             >>> toks = ["ฉัน", "เดิน", " ", "กลับ", "บ้าน"]
             >>> remove_space(toks)
@@ -195,7 +207,9 @@ class ThaiTextAugmenter:
         )
 
         self.tokenizer = AutoTokenizer.from_pretrained(_model_name)
-        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(_model_name)
+        self.model_for_masked_lm = AutoModelForMaskedLM.from_pretrained(
+            _model_name
+        )
         self.model = pipeline(
             "fill-mask",
             tokenizer=self.tokenizer,
@@ -242,7 +256,7 @@ class ThaiTextAugmenter:
               true if more word diversity is needed
 
         :return: list of text augment
-        :rtype: List[str]
+        :rtype: list[str]
 
         :Example:
         ::
@@ -268,7 +282,9 @@ class ThaiTextAugmenter:
                     rank,
                     sample=sample,
                 )
-                processed_text = re.sub("<_>", " ", self.processor.preprocess(gen_text))
+                processed_text = re.sub(
+                    "<_>", " ", self.processor.preprocess(gen_text)
+                )
                 augment_list.append(processed_text)
         else:
             raise ValueError(
@@ -351,7 +367,7 @@ class NamedEntityTagger:
                  specified as `True`).
                  Otherwise, return a list of tuples associated with tokenized
                  words and NER tags
-        :rtype: Union[List[Tuple[str, str]], List[Tuple[str, str, str]], str]
+        :rtype: Union[list[tuple[str, str]], list[tuple[str, str, str]], str]
         :Example:
 
             >>> from pythainlp.phayathaibert.core import NamedEntityTagger
@@ -422,4 +438,4 @@ def segment(sentence: str) -> list[str]:
     if not sentence or not isinstance(sentence, str):
         return []
 
-    return _tokenizer.tokenize(sentence)
+    return _tokenizer.tokenize(sentence)  # type: ignore[no-any-return]

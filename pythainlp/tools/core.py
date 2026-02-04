@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Generic support functions for PyThaiNLP.
-"""
+"""Generic support functions for PyThaiNLP."""
 
 from __future__ import annotations
 
@@ -15,7 +14,7 @@ def warn_deprecation(
     replacing_func: str = "",
     deprecated_version: str = "",
     removal_version: str = "",
-):
+) -> None:
     """Warn about the deprecation of a function.
 
     :param str deprecated_func: Name of the deprecated function.

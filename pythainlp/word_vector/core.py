@@ -3,12 +3,14 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from gensim.models import KeyedVectors
-from gensim.models.keyedvectors import Word2VecKeyedVectors
-from numpy import ndarray, zeros
+from typing import TYPE_CHECKING
 
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer, word_tokenize
+
+if TYPE_CHECKING:
+    from gensim.models.keyedvectors import Word2VecKeyedVectors
+    from numpy import ndarray
 
 WV_DIM = 300  # word vector dimension
 
@@ -48,6 +50,8 @@ class WordVector:
 
         :param str model_name: model name
         """
+        from gensim.models import KeyedVectors
+
         self.model_name = model_name
         self.model = KeyedVectors.load_word2vec_format(
             get_corpus_path(self.model_name),
@@ -74,7 +78,7 @@ class WordVector:
         in the list. We use the function :func:`doesnt_match`
         from :mod:`gensim`.
 
-        :param list words: a list of words
+        :param list[str] words: a list of words
         :raises KeyError: if there is any word in `positive` or `negative` that is
                           not in the vocabulary of the model.
         :return: the word that is mostly unrelated
@@ -104,7 +108,7 @@ class WordVector:
         >>> wv.doesnt_match(words)
         'เรือ'
         """
-        return self.model.doesnt_match(words)
+        return self.model.doesnt_match(words)  # type: ignore[no-any-return]
 
     def most_similar_cosmul(
         self, positive: list[str], negative: list[str]
@@ -118,8 +122,8 @@ class WordVector:
         We use the function :func:`gensim.most_similar_cosmul` directly from
         :mod:`gensim`.
 
-        :param list positive: a list of words to add
-        :param list negative: a list of words to subtract
+        :param list[str] positive: a list of words to add
+        :param list[str] negative: a list of words to subtract
 
         :raises KeyError: if there is any word in `positive` or `negative` that is
                           not in the vocabulary of the model.
@@ -205,7 +209,7 @@ class WordVector:
         >>> wv.most_similar_cosmul(list_positive, list_negative)
         KeyError: "word 'เมนูอาหารไทย' not in vocabulary"
         """
-        return self.model.most_similar_cosmul(
+        return self.model.most_similar_cosmul(  # type: ignore[no-any-return]
             positive=positive, negative=negative
         )
 
@@ -245,7 +249,7 @@ class WordVector:
         0.04300258
 
         """
-        return self.model.similarity(word1, word2)
+        return self.model.similarity(word1, word2)  # type: ignore[no-any-return]
 
     def sentence_vectorizer(self, text: str, use_mean: bool = True) -> ndarray:
         """Converts a Thai sentence into a vector.
@@ -261,7 +265,7 @@ class WordVector:
 
         :return: 300-dimension vector representing the given sentence
                  in form of :mod:`numpy` array
-        :rtype: :class:`numpy.ndarray((1,300))`
+        :rtype: numpy.ndarray
 
 
         :Example:
@@ -290,13 +294,15 @@ class WordVector:
             0.40506999,  1.58591403,  0.63869202, -0.702155  ,  1.62977601,
             4.52269109, -0.70760502,  0.50952601, -0.914392  ,  0.70673105]])
         """
+        from numpy import zeros
+
         vec = zeros((1, self.WV_DIM))
 
         words = self.tokenize(text)
         len_words = len(words)
 
         if not len_words:
-            return vec
+            return vec  # type: ignore[no-any-return]
 
         for word in words:
             if word == " " and self.model_name == "thai2fit_wv":
@@ -310,4 +316,4 @@ class WordVector:
         if use_mean:
             vec /= len_words
 
-        return vec
+        return vec  # type: ignore[no-any-return]

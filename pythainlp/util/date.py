@@ -88,8 +88,7 @@ year_all_regex = r"(\d\d\d\d|\d\d)"
 dates_list = (
     "("
     + "|".join(
-        list(map(str, range(32, 0, -1)))
-        + ["0" + str(i) for i in range(1, 10)]
+        list(map(str, range(32, 0, -1))) + ["0" + str(i) for i in range(1, 10)]
     )
     + ")"
 )
@@ -380,7 +379,9 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
     return ad
 
 
-def thaiword_to_date(text: str, date: Optional[datetime] = None) -> Optional[datetime]:
+def thaiword_to_date(
+    text: str, date: Optional[datetime] = None
+) -> Optional[datetime]:
     """Convert Thai relative date to :class:`datetime.datetime`.
 
     :param str text: Thai text containing relative date

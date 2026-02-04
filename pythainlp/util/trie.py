@@ -28,23 +28,24 @@ class Trie(Iterable[str]):
         from pythainlp.util import Trie
 
         # Create a trie with Thai words
-        trie = Trie(['สวัสดี', 'สวัส', 'ดี', 'ครับ'])
+        trie = Trie(["สวัสดี", "สวัส", "ดี", "ครับ"])
 
         # Check if word exists
-        'สวัสดี' in trie
+        "สวัสดี" in trie
         # output: True
 
         # Find all prefixes of a word
-        trie.prefixes('สวัสดีครับ')
+        trie.prefixes("สวัสดีครับ")
         # output: ['สวัส', 'สวัสดี']
 
         # Add a new word
-        trie.add('สวัสดีตอนเช้า')
+        trie.add("สวัสดีตอนเช้า")
 
         # Get number of words in trie
         len(trie)
         # output: 5
     """
+
     class Node:
         __slots__ = "end", "children"
 

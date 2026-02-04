@@ -37,12 +37,14 @@ class EntityLinker:
 
         self.model = MultiEL(model_name=self.model_name, device=self.device)
 
-    def get_el(self, list_text: Union[list[str], str]) -> Union[list[dict], str]:
+    def get_el(
+        self, list_text: Union[list[str], str]
+    ) -> Union[list[dict], str]:
         """Get Entity Linking from Thai Text
 
-        :param str Union[List[str], str]: list of Thai text or text
+        :param str Union[list[str], str]: list of Thai text or text
         :return: list of entity linking
-        :rtype: Union[List[dict], str]
+        :rtype: Union[list[dict], str]
 
         :Example:
         ::
@@ -57,4 +59,4 @@ class EntityLinker:
                 # 'md_scores': [0.30301809310913086, 0.6399497389793396],
                 # 'el_scores': [0.7142490744590759, 0.8657019734382629]}]
         """
-        return self.model.process_batch(list_text)
+        return self.model.process_batch(list_text)  # type: ignore[no-any-return]

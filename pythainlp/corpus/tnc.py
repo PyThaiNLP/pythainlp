@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai National Corpus word frequency
-"""
+"""Thai National Corpus word frequency"""
 
 from __future__ import annotations
 
@@ -39,8 +38,7 @@ def word_freqs() -> list[tuple[str, int]]:
 
 
 def unigram_word_freqs() -> dict[str, int]:
-    """Get unigram word frequency from Thai National Corpus (TNC)
-    """
+    """Get unigram word frequency from Thai National Corpus (TNC)"""
     freqs: dict[str, int] = defaultdict(int)
     for line in get_corpus(_UNIGRAM_FILENAME):
         _temp = line.strip().split("	")
@@ -51,8 +49,7 @@ def unigram_word_freqs() -> dict[str, int]:
 
 
 def bigram_word_freqs() -> dict[tuple[str, str], int]:
-    """Get bigram word frequency from Thai National Corpus (TNC)
-    """
+    """Get bigram word frequency from Thai National Corpus (TNC)"""
     freqs: dict[tuple[str, str], int] = defaultdict(int)
     path = get_corpus_path(_BIGRAM_CORPUS_NAME)
     if not path:
@@ -72,8 +69,7 @@ def bigram_word_freqs() -> dict[tuple[str, str], int]:
 
 
 def trigram_word_freqs() -> dict[tuple[str, str, str], int]:
-    """Get trigram word frequency from Thai National Corpus (TNC)
-    """
+    """Get trigram word frequency from Thai National Corpus (TNC)"""
     freqs: dict[tuple[str, str, str], int] = defaultdict(int)
     path = get_corpus_path(_TRIGRAM_CORPUS_NAME)
     if not path:

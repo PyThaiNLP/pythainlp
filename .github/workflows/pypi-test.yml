@@ -3,11 +3,10 @@
 
 # Check that the package can be installed from PyPI and run tests
 
-name: Test package installed from PyPI
+name: Test pip package
 
 on:
-  schedule:
-    - cron: '0 0 * * *' # Once per day
+  workflow_dispatch: {}
 
 jobs:
   pypi-test:

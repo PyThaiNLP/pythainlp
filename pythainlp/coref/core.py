@@ -3,20 +3,24 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import Union
+
 _MODEL = None
 
 
 def coreference_resolution(
-    texts: list[str], model_name: str = "han-coref-v1.0", device: str = "cpu"
+    texts: Union[str, list[str]],
+    model_name: str = "han-coref-v1.0",
+    device: str = "cpu",
 ) -> list[dict]:
     """Coreference Resolution
 
-    :param List[str] texts: list of texts to apply coreference resolution to
+    :param Union[str, list[str]] texts: list of texts to apply coreference resolution to
     :param str model_name: coreference resolution model
     :param str device: device for running coreference resolution model on\
         ("cpu", "cuda", and others)
     :return: List of texts with coreference resolution
-    :rtype: List[dict]
+    :rtype: list[dict]
 
     :Options for model_name:
         * *han-coref-v1.0* - (default) Han-Coref: Thai coreference resolution\

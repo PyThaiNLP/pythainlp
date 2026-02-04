@@ -314,7 +314,7 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
     text += ":"
 
     # determine minute
-    if minute:
+    if minute and isinstance(minute, list):
         n = 0
         for affix in minute:
             if affix in keys_dict:

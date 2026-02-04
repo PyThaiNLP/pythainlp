@@ -22,7 +22,7 @@
 
 Designed to be a Thai-focused counterpart to [NLTK](https://www.nltk.org/),
 **PyThaiNLP** provides standard tools for linguistic analysis under
-an Apache-2.0 source license, with its data and models covered by CC0-1.0
+an Apache-2.0 license, with its data and models covered by CC0-1.0
 and CC-BY-4.0.
 
 ```sh
@@ -66,10 +66,10 @@ Possible `extras` included:
 - `wordnet` — WordNet support
 - `full` — install all optional dependencies (may introduce conflicts)
 
-The documentation website maintains
+The documentation website maintains the
 [full list of extras](https://pythainlp.org/dev-docs/notes/installation.html).
-
-For details, see `[project.optional-dependencies]` section in
+To see the specific libraries included in each extra,
+please inspect the `[project.optional-dependencies]` section of
 [`pyproject.toml`](https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml).
 
 ## Data directory
@@ -90,15 +90,6 @@ See details in
 We test core functionalities on all officially supported Python versions.
 
 See [tests/README.md](./tests/README.md) for test matrix and other details.
-
-## Licenses
-
-| Content | License |
-| :------ | :------ |
-| PyThaiNLP source codes and notebooks | [Apache Software License 2.0](https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE) |
-| Corpora, datasets, and documentations created by PyThaiNLP | [Creative Commons Zero 1.0 Universal Public Domain Dedication License (CC0)](https://creativecommons.org/publicdomain/zero/1.0/)|
-| Language models created by PyThaiNLP | [Creative Commons Attribution 4.0 International Public License (CC-by)](https://creativecommons.org/licenses/by/4.0/) |
-| Other corpora and models that may be included in PyThaiNLP | See [Corpus License](https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md) |
 
 ## Contribute to PyThaiNLP
 

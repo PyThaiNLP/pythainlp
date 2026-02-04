@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai abbreviation tools
-"""
+"""Thai abbreviation tools"""
 
 from __future__ import annotations
 
@@ -45,4 +44,4 @@ def abbreviation_to_full_text(
             pip install pythainlp[abbreviation].
             """
         )
-    return _replace(text, top_k=top_k)
+    return _replace(text, top_k=top_k)  # type: ignore[no-any-return]

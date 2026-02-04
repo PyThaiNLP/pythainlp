@@ -12,6 +12,7 @@ Stacked Ensemble Framework and DeepCut as Baseline model (ACL 2021 Findings)
 from __future__ import annotations
 
 import threading
+from typing import cast
 
 import oskut
 
@@ -45,4 +46,4 @@ def segment(text: str, engine: str = "ws") -> list[str]:
             _DEFAULT_ENGINE = engine
             oskut.load_model(engine=_DEFAULT_ENGINE)
 
-    return oskut.OSKut(text)
+    return cast(list[str], oskut.OSKut(text))

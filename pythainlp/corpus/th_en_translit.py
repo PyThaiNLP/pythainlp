@@ -10,21 +10,24 @@ Zenodo. https://doi.org/10.5281/zenodo.6716672
 
 from __future__ import annotations
 
+from collections import defaultdict
+from importlib.resources import files
+from typing import Union
+
 __all__ = [
     "get_transliteration_dict",
     "TRANSLITERATE_EN",
     "TRANSLITERATE_FOLLOW_RTSG",
 ]
 
-from collections import defaultdict
-from importlib.resources import files
-
 _FILE_NAME = "th_en_transliteration_v1.4.tsv"
 TRANSLITERATE_EN = "en"
 TRANSLITERATE_FOLLOW_RTSG = "follow_rtsg"
 
 
-def get_transliteration_dict() -> defaultdict:
+def get_transliteration_dict() -> defaultdict[
+    str, dict[str, list[Union[str, bool, None]]]
+]:
     """Get Thai to English transliteration dictionary.
 
     The returned dict is in dict[str, dict[List[str], List[Optional[bool]]]] format.
@@ -39,8 +42,10 @@ def get_transliteration_dict() -> defaultdict:
         )
 
     # use list, as one word can have multiple transliterations.
-    trans_dict: defaultdict[str, dict[str, list]] = defaultdict(
-        lambda: {TRANSLITERATE_EN: [], TRANSLITERATE_FOLLOW_RTSG: []}
+    trans_dict: defaultdict[str, dict[str, list[Union[str, bool, None]]]] = (
+        defaultdict(
+            lambda: {TRANSLITERATE_EN: [], TRANSLITERATE_FOLLOW_RTSG: []}
+        )
     )
     try:
         text = corpus_file.read_text(encoding="utf-8")

@@ -120,7 +120,7 @@ def gen_sentence(
     :param bool duplicate: allow duplicate words in sentence
 
     :return: list words or str words
-    :rtype: List[str], str
+    :rtype: list[str], str
 
     :Example:
     ::
@@ -136,9 +136,10 @@ def gen_sentence(
     if not start_seq:
         # Non-cryptographic use, pseudo-random generator is acceptable here
         start_seq = random.choice(list(thwiki_itos))  # noqa: S311
-    list_word = learn.predict(
+    predicted_text: str = learn.predict(
         start_seq, N, temperature=0.8, min_p=prob, sep="-*-"
-    ).split("-*-")
+    )
+    list_word = predicted_text.split("-*-")
 
     if output_str:
         return "".join(list_word)

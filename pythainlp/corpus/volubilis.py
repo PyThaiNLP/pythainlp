@@ -1,12 +1,11 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Provides an optional word list from the Volubilis dictionary.
-"""
+"""Provides an optional word list from the Volubilis dictionary."""
 
 from __future__ import annotations
 
-from pythainlp.corpus.common import get_corpus
+from pythainlp.corpus.core import get_corpus
 
 _VOLUBILIS_WORDS = None
 _VOLUBILIS_FILENAME = "volubilis_words_th.txt"

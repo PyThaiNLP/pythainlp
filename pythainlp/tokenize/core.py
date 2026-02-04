@@ -1,8 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Generic functions of tokenizers
-"""
+"""Generic functions of tokenizers"""
 
 from __future__ import annotations
 
@@ -32,7 +31,7 @@ _RE_WORD_CHAR = re.compile(r"\w")
 
 def word_detokenize(
     segments: Union[list[list[str]], list[str]], output: str = "str"
-) -> Union[list[str], str]:
+) -> Union[list[list[str]], str]:
     """Word detokenizer.
 
     Detokenizes the list of words in each sentence into text.
@@ -40,7 +39,7 @@ def word_detokenize(
     :param str segments: List of sentences, each with a list of words.
     :param str output: the output type (str or list)
     :return: the Thai text
-    :rtype: Union[str,List[str]]
+    :rtype: Union[list[list[str]], str]
     :Example:
     ::
 
@@ -49,18 +48,18 @@ def word_detokenize(
         print(word_detokenize(["เรา", "เล่น"]))
         # output: เราเล่น
     """
-    list_all = []
+    list_all: list[list[str]] = []
 
     if isinstance(segments[0], str):
-        segments = [segments]
+        segments = [segments]  # type: ignore[assignment]
 
     from pythainlp import thai_characters
 
     for i, s in enumerate(segments):
-        list_sents = []
-        add_index = []
-        space_index = []
-        mark_index = []
+        list_sents: list[str] = []
+        add_index: list[int] = []
+        space_index: list[int] = []
+        mark_index: list[int] = []
         for j, w in enumerate(s):
             if j > 0:
                 # previous word
@@ -92,9 +91,9 @@ def word_detokenize(
     if output == "list":
         return list_all
 
-    text = []
-    for i in list_all:
-        text.append("".join(i))
+    text: list[str] = []
+    for sent_tokens in list_all:
+        text.append("".join(sent_tokens))
     return " ".join(text)
 
 
@@ -119,7 +118,7 @@ def word_tokenize(
                                   Otherwise, formatted numeric could be wrongly separated.
 
     :return: list of words
-    :rtype: List[str]
+    :rtype: list[str]
     **Options for engine**
         * *attacut* - wrapper for
           `AttaCut <https://github.com/PyThaiNLP/attacut>`_.,
@@ -259,56 +258,56 @@ def word_tokenize(
 
         segments = segment(text, custom_dict, safe_mode=True)
     elif engine == "attacut":
-        from pythainlp.tokenize.attacut import segment
+        from pythainlp.tokenize.attacut import segment as attacut_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = attacut_segment(text)
     elif engine == "longest":
-        from pythainlp.tokenize.longest import segment
+        from pythainlp.tokenize.longest import segment as longest_segment  # noqa: I001
 
-        segments = segment(text, custom_dict)
+        segments = longest_segment(text, custom_dict)
     elif engine in ("mm", "multi_cut"):
-        from pythainlp.tokenize.multi_cut import segment
+        from pythainlp.tokenize.multi_cut import segment as multi_cut_segment  # noqa: I001
 
-        segments = segment(text, custom_dict)
+        segments = multi_cut_segment(text, custom_dict)
     elif engine == "deepcut":  # deepcut can optionally use dictionary
-        from pythainlp.tokenize.deepcut import segment
+        from pythainlp.tokenize.deepcut import segment as deepcut_segment  # noqa: I001
 
         if custom_dict:
-            custom_dict = list(custom_dict)
-            segments = segment(text, custom_dict)
+            custom_dict = list(custom_dict)  # type: ignore[assignment]
+            segments = deepcut_segment(text, custom_dict)
         else:
-            segments = segment(text)
+            segments = deepcut_segment(text)
     elif engine == "icu":
-        from pythainlp.tokenize.pyicu import segment
+        from pythainlp.tokenize.pyicu import segment as pyicu_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = pyicu_segment(text)
     elif engine == "budoux":
-        from pythainlp.tokenize.budoux import segment
+        from pythainlp.tokenize.budoux import segment as budoux_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = budoux_segment(text)
     elif engine == "nercut":
-        from pythainlp.tokenize.nercut import segment
+        from pythainlp.tokenize.nercut import segment as nercut_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = nercut_segment(text)
     elif engine == "sefr_cut":
-        from pythainlp.tokenize.sefr_cut import segment
+        from pythainlp.tokenize.sefr_cut import segment as sefrcut_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = sefrcut_segment(text)
     elif engine == "tltk":
-        from pythainlp.tokenize.tltk import segment
+        from pythainlp.tokenize.tltk import segment as tltk_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = tltk_segment(text)
     elif engine == "oskut":
-        from pythainlp.tokenize.oskut import segment
+        from pythainlp.tokenize.oskut import segment as oskut_segment  # noqa: I001
 
-        segments = segment(text)
+        segments = oskut_segment(text)
     elif engine == "nlpo3":
-        from pythainlp.tokenize.nlpo3 import segment
+        from pythainlp.tokenize.nlpo3 import segment as nlpo3_segment  # noqa: I001
 
         # Currently cannot handle custom_dict from inside word_tokenize(),
         # due to difference in type.
         # if isinstance(custom_dict, str):
-        #    segments = segment(text, custom_dict=custom_dict)
+        #    segments = nlpo3_segment(text, custom_dict=custom_dict)
         # elif not isinstance(custom_dict, str) and not custom_dict:
         #    raise ValueError(
         #        f"""Tokenizer \"{engine}\":
@@ -317,8 +316,8 @@ def word_tokenize(
         #        See pythainlp.tokenize.nlpo3.load_dict()"""
         #    )
         # else:
-        #    segments = segment(text)
-        segments = segment(text)
+        #    segments = nlpo3_segment(text)
+        segments = nlpo3_segment(text)
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
@@ -352,10 +351,10 @@ def indices_words(words: list[str]) -> list[tuple[int, int]]:
 
         from pythainlp.tokenize import indices_words
 
-        indices_words(['สวัสดี', 'ครับ'])
+        indices_words(["สวัสดี", "ครับ"])
         # output: [(0, 5), (6, 9)]
 
-        indices_words(['hello', 'world'])
+        indices_words(["hello", "world"])
         # output: [(0, 4), (5, 9)]
     """
     indices = []
@@ -368,7 +367,9 @@ def indices_words(words: list[str]) -> list[tuple[int, int]]:
     return indices
 
 
-def map_indices_to_words(index_list: list[tuple[int, int]], sentences: list[str]) -> list[list[str]]:
+def map_indices_to_words(
+    index_list: list[tuple[int, int]], sentences: list[str]
+) -> list[list[str]]:
     """Map character index pairs to actual words from sentences.
 
     This function takes a list of character index pairs and a list of
@@ -385,7 +386,7 @@ def map_indices_to_words(index_list: list[tuple[int, int]], sentences: list[str]
         from pythainlp.tokenize import map_indices_to_words
 
         indices = [(0, 5), (6, 9)]
-        sentences = ['สวัสดีครับ']
+        sentences = ["สวัสดีครับ"]
         map_indices_to_words(indices, sentences)
         # output: [['สวัสดี', 'ครับ']]
     """
@@ -413,7 +414,7 @@ def sent_tokenize(
     text: Union[str, list[str]],
     engine: str = DEFAULT_SENT_TOKENIZE_ENGINE,
     keep_whitespace: bool = True,
-) -> list[str]:
+) -> Union[list[str], list[list[str]]]:
     """Sentence tokenizer.
 
     Tokenizes running text into "sentences". Supports both string and list of strings.
@@ -422,7 +423,7 @@ def sent_tokenize(
     :param str engine: choose among *'crfcut'*, *'whitespace'*, \
     *'whitespace+newline'*
     :return: list of split sentences
-    :rtype: list[str]
+    :rtype: Union[list[str], list[list[str]]]
     **Options for engine**
         * *crfcut* - (default) split by CRF trained on TED dataset
         * *thaisum* - The implementation of sentence segmenter from \
@@ -549,7 +550,9 @@ def sent_tokenize(
             _size = engine.split("-")[-1]
         from pythainlp.tokenize.wtsplit import tokenize
 
-        segments = tokenize(text=original_text, size=_size, tokenize="sentence")
+        segments = tokenize(
+            text=original_text, size=_size, tokenize="sentence"
+        )
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
@@ -580,7 +583,7 @@ def paragraph_tokenize(
     :param str text: text to be tokenized
     :param str engine: the name of paragraph tokenizer
     :return: list of paragraphs
-    :rtype: List[List[str]]
+    :rtype: list[List[str]]
     **Options for engine**
         * *wtp* - split by `wtpsplitaxe <https://github.com/bminixhofer/wtpsplit>`_., \
             It supports many sizes of models. You can use ``wtp`` to use mini model, \
@@ -632,7 +635,7 @@ def paragraph_tokenize(
             It might be a typo; if not, please consult our document."""
         )
 
-    return segments
+    return segments  # type: ignore[return-value]
 
 
 def subword_tokenize(
@@ -659,7 +662,7 @@ def subword_tokenize(
     :param str engine: the name of subword tokenizer
     :param bool keep_whitespace: keep whitespace
     :return: list of subwords
-    :rtype: List[str]
+    :rtype: list[str]
     **Options for engine**
         * *dict* - newmm word tokenizer with a syllable dictionary
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
@@ -719,13 +722,21 @@ def subword_tokenize(
     segments = []
 
     if engine == "tcc":
-        from pythainlp.tokenize.tcc import segment
+        from pythainlp.tokenize.tcc import segment as tcc_segment
+
+        segments = tcc_segment(text)
     elif engine == "tcc_p":
-        from pythainlp.tokenize.tcc_p import segment
+        from pythainlp.tokenize.tcc_p import segment as tcc_p_segment
+
+        segments = tcc_p_segment(text)
     elif engine == "etcc":
-        from pythainlp.tokenize.etcc import segment
+        from pythainlp.tokenize.etcc import segment as etcc_segment
+
+        segments = etcc_segment(text)
     elif engine == "wangchanberta":
-        from pythainlp.wangchanberta import segment
+        from pythainlp.wangchanberta import segment as wangchanberta_segment
+
+        segments = wangchanberta_segment(text)
     elif engine == "dict":  # use syllable dictionary
         words = word_tokenize(text)
         for word in words:
@@ -733,21 +744,26 @@ def subword_tokenize(
                 word_tokenize(text=word, custom_dict=syllable_dict_trie())
             )
     elif engine == "ssg":
-        from pythainlp.tokenize.ssg import segment
+        from pythainlp.tokenize.ssg import segment as ssg_segment
+
+        segments = ssg_segment(text)
     elif engine == "tltk":
-        from pythainlp.tokenize.tltk import syllable_tokenize as segment
+        from pythainlp.tokenize.tltk import syllable_tokenize as tltk_segment
+
+        segments = tltk_segment(text)
     elif engine == "han_solo":
-        from pythainlp.tokenize.han_solo import segment
+        from pythainlp.tokenize.han_solo import segment as han_solo_segment
+
+        segments = han_solo_segment(text)
     elif engine == "phayathai":
-        from pythainlp.phayathaibert import segment
+        from pythainlp.phayathaibert import segment as phayathai_segment
+
+        segments = phayathai_segment(text)
     else:
         raise ValueError(
             f"""Tokenizer \"{engine}\" not found.
             It might be a typo; if not, please consult our document."""
         )
-
-    if not segments:
-        segments = segment(text)
 
     if not keep_whitespace:
         segments = strip_whitespace(segments)
@@ -769,7 +785,7 @@ def syllable_tokenize(
     :param str engine: the name of syllable tokenizer
     :param bool keep_whitespace: keep whitespace
     :return: list of subwords
-    :rtype: List[str]
+    :rtype: list[str]
     **Options for engine**
         * *dict* - newmm word tokenizer with a syllable dictionary
         * *han_solo* - CRF syllable segmenter for Thai that can work in the \
@@ -808,7 +824,7 @@ def display_cell_tokenize(text: str) -> list[str]:
 
     :param str text: text to be tokenized
     :return: list of display cells
-    :rtype: List[str]
+    :rtype: list[str]
     :Example:
 
     Tokenize Thai text into display cells::

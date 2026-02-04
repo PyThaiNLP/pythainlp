@@ -27,7 +27,7 @@ class Small100Translator:
         self.model = M2M100ForConditionalGeneration.from_pretrained(
             self.pretrained
         )
-        self.tgt_lang = None
+        self.tgt_lang: Optional[str] = None
         if use_gpu:
             self.model = self.model.cuda()
 

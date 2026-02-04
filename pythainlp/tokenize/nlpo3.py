@@ -6,9 +6,11 @@ from __future__ import annotations
 import threading
 from importlib.resources import as_file, files
 from sys import stderr
+from typing import TYPE_CHECKING
 
-from nlpo3 import load_dict as nlpo3_load_dict
-from nlpo3 import segment as nlpo3_segment
+if TYPE_CHECKING:
+    from nlpo3 import load_dict as nlpo3_load_dict  # noqa: F401
+    from nlpo3 import segment as nlpo3_segment  # noqa: F401
 
 from pythainlp.corpus.common import _THAI_WORDS_FILENAME
 
@@ -25,6 +27,13 @@ def _ensure_default_dict_loaded():
     The context manager is kept alive for the lifetime of the program
     to prevent cleanup of temporary files while the dictionary is in use.
     """
+    try:
+        from nlpo3 import load_dict as nlpo3_load_dict
+    except ImportError as ex:
+        raise ImportError(
+            "nlpo3 is not installed. Install it with: pip install nlpo3"
+        ) from ex
+
     global _NLPO3_DEFAULT_DICT, _dict_file_ctx
     if _NLPO3_DEFAULT_DICT is None:
         with _load_lock:
@@ -57,6 +66,13 @@ def load_dict(file_path: str, dict_name: str) -> bool:
         * \
             https://github.com/PyThaiNLP/nlpo3
     """
+    try:
+        from nlpo3 import load_dict as nlpo3_load_dict
+    except ImportError as ex:
+        raise ImportError(
+            "nlpo3 is not installed. Install it with: pip install nlpo3"
+        ) from ex
+
     msg, success = nlpo3_load_dict(file_path=file_path, dict_name=dict_name)
     if not success:
         print(msg, file=stderr)
@@ -81,12 +97,19 @@ def segment(
     :param bool parallel_mode: Use multithread mode, defaults to False
 
     :return: list of tokens
-    :rtype: List[str]
+    :rtype: list[str]
 
     :See Also:
         * \
             https://github.com/PyThaiNLP/nlpo3
     """
+    try:
+        from nlpo3 import segment as nlpo3_segment
+    except ImportError as ex:
+        raise ImportError(
+            "nlpo3 is not installed. Install it with: pip install nlpo3"
+        ) from ex
+
     # Ensure default dict is loaded if it's being used
     if custom_dict == _NLPO3_DEFAULT_DICT_NAME:
         _ensure_default_dict_loaded()

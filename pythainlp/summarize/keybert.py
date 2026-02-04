@@ -14,19 +14,21 @@ from __future__ import annotations
 
 from collections import Counter
 from collections.abc import Iterable
-from typing import Optional, Union
-
-import numpy as np
-from transformers import pipeline
+from typing import TYPE_CHECKING, Optional, Union
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
+
+if TYPE_CHECKING:
+    import numpy as np
 
 
 class KeyBERT:
     def __init__(
         self, model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
     ):
+        from transformers import pipeline
+
         self.ft_pipeline = pipeline(
             "feature-extraction",
             tokenizer=model_name,
@@ -136,8 +138,9 @@ class KeyBERT:
             return [kw for kw, _ in keywords]
 
     def embed(self, docs: Union[str, list[str]]) -> np.ndarray:
-        """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer.
-        """
+        """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer."""
+        import numpy as np
+
         embs = self.ft_pipeline(docs)
         if isinstance(docs, str) or len(docs) == 1:
             # embed doc. return shape = [1, hidden_size]
@@ -149,7 +152,7 @@ class KeyBERT:
                 [np.array(emb[0]).mean(axis=0) for emb in embs]
             )
 
-        return emb_mean
+        return emb_mean  # type: ignore[no-any-return]
 
 
 def _generate_ngrams(
@@ -159,17 +162,19 @@ def _generate_ngrams(
     tokenizer_engine: str,
     stop_words: Iterable[str],
 ) -> list[str]:
-    assert keyphrase_ngram_range[0] >= 1, (
-        f"`keyphrase_ngram_range` must start from 1. "
-        f"current value={keyphrase_ngram_range}."
-    )
+    if keyphrase_ngram_range[0] < 1:
+        raise ValueError(
+            f"`keyphrase_ngram_range` must start from 1. "
+            f"current value={keyphrase_ngram_range}."
+        )
 
-    assert keyphrase_ngram_range[0] <= keyphrase_ngram_range[1], (
-        f"The value first argument of `keyphrase_ngram_range` must not exceed the second. "
-        f"current value={keyphrase_ngram_range}."
-    )
+    if keyphrase_ngram_range[0] > keyphrase_ngram_range[1]:
+        raise ValueError(
+            f"The value first argument of `keyphrase_ngram_range` must not exceed the second. "
+            f"current value={keyphrase_ngram_range}."
+        )
 
-    def _join_ngram(ngrams: list[tuple[str, ...]]) -> list[str]:  # type: ignore[type-arg]
+    def _join_ngram(ngrams: list[tuple[str, ...]]) -> list[str]:
         ngrams_joined = []
         for ng in ngrams:
             joined = "".join(ng)
@@ -187,7 +192,7 @@ def _generate_ngrams(
             ngrams = [word for word in words if word.strip()]
         else:
             ngrams_tuple = zip(*[words[i:] for i in range(n)])
-            ngrams = _join_ngram(list(ngrams_tuple))  # type: ignore[arg-type]
+            ngrams = _join_ngram(list(ngrams_tuple))
 
         ngrams_cnt = Counter(ngrams)
         ngrams = [
@@ -206,19 +211,20 @@ def _rank_keywords(
     keywords: list[str],
     max_keywords: int,
 ) -> list[tuple[str, float]]:
+    import numpy as np
+
     def l2_norm(v: np.ndarray) -> np.ndarray:
         vec_size = v.shape[1]
         result = np.divide(
             v,
             np.linalg.norm(v, axis=1).reshape(-1, 1).repeat(vec_size, axis=1),
         )
-        assert np.isclose(np.linalg.norm(result, axis=1), 1).all(), (
-            "Cannot normalize a vector to unit vector."
-        )
-        return result
+        if not np.isclose(np.linalg.norm(result, axis=1), 1).all():
+            raise ValueError("Cannot normalize a vector to unit vector.")
+        return result  # type: ignore[no-any-return]
 
     def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:
-        return (np.matmul(a, b.T).T).sum(axis=1)
+        return (np.matmul(a, b.T).T).sum(axis=1)  # type: ignore[no-any-return]
 
     doc_vector = l2_norm(doc_vector)
     word_vectors = l2_norm(word_vectors)

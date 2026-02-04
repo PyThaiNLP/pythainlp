@@ -15,7 +15,7 @@ def calculate_ngram_counts(
     :param int n_max: The maximum n-gram size (default: 4).
 
     :return: A dictionary where keys are n-grams and values are their counts.
-    :rtype: Dict[Tuple[str], int]
+    :rtype: dict[tuple[str, ...], int]
     """
     if not list_words:
         return {}
@@ -36,7 +36,7 @@ def remove_repeated_ngrams(string_list: list[str], n: int = 2) -> list[str]:
     :param List[str] string_list: List of string
     :param int n: n-gram size
     :return: List of string
-    :rtype: List[str]
+    :rtype: list[str]
 
     :Example:
     ::

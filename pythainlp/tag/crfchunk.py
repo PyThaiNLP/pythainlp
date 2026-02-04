@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import types
+from contextlib import AbstractContextManager
 from importlib.resources import as_file, files
 from typing import Any, Optional
 
@@ -71,6 +72,8 @@ class CRFchunk:
     garbage collected, though this is not guaranteed.
     """
 
+    _model_file_ctx: Optional[AbstractContextManager[Any]]
+
     def __init__(self, corpus: str = "orchidpp"):
         self.corpus = corpus
         self._model_file_ctx = None
@@ -81,13 +84,13 @@ class CRFchunk:
         if corpus == "orchidpp":
             corpus_files = files("pythainlp.corpus")
             model_file = corpus_files.joinpath("crfchunk_orchidpp.model")
-            self._model_file_ctx = as_file(model_file)  # type: ignore[assignment]
-            model_path = self._model_file_ctx.__enter__()  # type: ignore[attr-defined]
+            self._model_file_ctx = as_file(model_file)
+            model_path = self._model_file_ctx.__enter__()
             self.tagger.open(str(model_path))
 
     def parse(self, token_pos: list[tuple[str, str]]) -> list[str]:
         self.xseq = extract_features(token_pos)
-        return self.tagger.tag(self.xseq)
+        return self.tagger.tag(self.xseq)  # type: ignore[no-any-return]
 
     def __enter__(self) -> CRFchunk:
         """Context manager entry."""
@@ -97,7 +100,7 @@ class CRFchunk:
         self,
         exc_type: Optional[type[BaseException]],
         exc_val: Optional[BaseException],
-        exc_tb: Optional[types.TracebackType]
+        exc_tb: Optional[types.TracebackType],
     ) -> None:
         """Context manager exit - clean up resources."""
         if self._model_file_ctx is not None:

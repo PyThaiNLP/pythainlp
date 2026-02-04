@@ -2,13 +2,15 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-"""Common lists of words.
-"""
+"""Common lists of words."""
 
 from __future__ import annotations
 
 import ast
-from typing import Union
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from typing import Any, Union
 
 __all__ = [
     "countries",
@@ -35,7 +37,7 @@ _THAI_COUNTRIES: frozenset[str] = frozenset()
 _THAI_COUNTRIES_FILENAME = "countries_th.txt"
 
 _THAI_THAILAND_PROVINCES: frozenset[str] = frozenset()
-_THAI_THAILAND_PROVINCES_DETAILS: list[dict] = []
+_THAI_THAILAND_PROVINCES_DETAILS: list[dict[str, str]] = []
 _THAI_THAILAND_PROVINCES_FILENAME = "thailand_provinces_th.csv"
 
 _THAI_SYLLABLES: frozenset[str] = frozenset()
@@ -83,7 +85,9 @@ def countries() -> frozenset[str]:
     return _THAI_COUNTRIES
 
 
-def provinces(details: bool = False) -> Union[frozenset[str], list[dict[str, str]]]:
+def provinces(
+    details: bool = False,
+) -> Union[frozenset[str], list[dict[str, str]]]:
     """Return a frozenset of Thailand province names in Thai such as "กระบี่",
     "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
     \n(See: `dev/pythainlp/corpus/thailand_provinces_th.txt\
@@ -219,7 +223,9 @@ def thai_profanity_words() -> frozenset[str]:
     """
     global _THAI_PROFANITY_WORDS
     if not _THAI_PROFANITY_WORDS:
-        _THAI_PROFANITY_WORDS = get_corpus(_THAI_PROFANITY_WORDS_FILENAME, comments=False)
+        _THAI_PROFANITY_WORDS = get_corpus(
+            _THAI_PROFANITY_WORDS_FILENAME, comments=False
+        )
 
     return _THAI_PROFANITY_WORDS
 
@@ -269,7 +275,7 @@ def thai_male_names() -> frozenset[str]:
     return _THAI_MALE_NAMES
 
 
-def thai_dict() -> dict:
+def thai_dict() -> dict[str, list[str]]:
     """Return Thai dictionary with definition from wiktionary.
     \n(See: `thai_dict\
     <https://pythainlp.org/pythainlp-corpus/thai_dict.html>`_)
@@ -298,7 +304,7 @@ def thai_dict() -> dict:
     return _THAI_DICT
 
 
-def thai_wsd_dict() -> dict:
+def thai_wsd_dict() -> dict[str, Union[list[str], list[list[str]]]]:
     """Return Thai Word Sense Disambiguation dictionary with definition from wiktionary.
     \n(See: `thai_dict\
     <https://pythainlp.org/pythainlp-corpus/thai_dict.html>`_)
@@ -319,13 +325,13 @@ def thai_wsd_dict() -> dict:
             use.extend(k)
         use = list(set(use))
         if len(use) > 1:
-            _THAI_WSD_DICT["word"].append(i)
-            _THAI_WSD_DICT["meaning"].append(use)
+            _THAI_WSD_DICT["word"].append(i)  # type: ignore[arg-type]
+            _THAI_WSD_DICT["meaning"].append(use)  # type: ignore[arg-type]
 
     return _THAI_WSD_DICT
 
 
-def thai_synonyms() -> dict:
+def thai_synonyms() -> dict[str, Union[list[str], list[list[str]]]]:
     """Return Thai synonyms.
     \n(See: `thai_synonym\
     <https://pythainlp.org/pythainlp-corpus/thai_synonym.html>`_)
@@ -348,14 +354,14 @@ def thai_synonyms() -> dict:
     with open(path, newline="\n", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile, delimiter=",")
         for row in reader:
-            _THAI_SYNONYMS["word"].append(row["word"])
-            _THAI_SYNONYMS["pos"].append(row["pos"])
-            _THAI_SYNONYMS["synonym"].append(row["synonym"].split("|"))
+            _THAI_SYNONYMS["word"].append(row["word"])  # type: ignore[arg-type]
+            _THAI_SYNONYMS["pos"].append(row["pos"])  # type: ignore[arg-type]
+            _THAI_SYNONYMS["synonym"].append(row["synonym"].split("|"))  # type: ignore[arg-type]
 
     return _THAI_SYNONYMS
 
 
-def thai_synonym() -> dict:
+def thai_synonym() -> dict[str, Union[list[str], list[list[str]]]]:
     warn_deprecation(
         "pythainlp.corpus.thai_synonym",
         "pythainlp.corpus.thai_synonyms",
@@ -381,10 +387,12 @@ def find_synonyms(word: str) -> list[str]:
         # output: ['จรุก', 'วราหะ', 'วราห์', 'ศูกร', 'สุกร']
     """
     synonyms = thai_synonyms()  # get a dictionary of {word, synonym}
-    list_synonym = []
+    list_synonym: list[Any] = []
 
     if word in synonyms["word"]:  # find by word
-        list_synonym.extend(synonyms["synonym"][synonyms["word"].index(word)])
+        word_list = synonyms["word"]
+        if isinstance(word_list, list):
+            list_synonym.extend(synonyms["synonym"][word_list.index(word)])  # type: ignore[arg-type]
 
     for idx, words in enumerate(synonyms["synonym"]):  # find by synonym
         if word in words:

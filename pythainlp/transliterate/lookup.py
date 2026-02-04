@@ -36,12 +36,11 @@ def follow_rtgs(text: str) -> Optional[bool]:
     except IndexError:
         return None
     else:
-        return follow
+        return follow  # type: ignore[return-value]
 
 
 def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
-    """Romanize one word. Look up first, call `fallback_func` if not found.
-    """
+    """Romanize one word. Look up first, call `fallback_func` if not found."""
     try:
         # try to get 0-th idx of look up result, simply ignore other possible variations.
         # not found means no mapping.
@@ -49,9 +48,9 @@ def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
     except IndexError:
         return fallback_func(text)
     except TypeError as e:
-        raise TypeError(f"`fallback_engine` is not callable. {e}")
+        raise TypeError(f"`fallback_engine` is not callable. {e}") from e
     else:
-        return lookup
+        return lookup  # type: ignore[return-value]
 
 
 def romanize(text: str, fallback_func: Callable[[str], str]) -> str:

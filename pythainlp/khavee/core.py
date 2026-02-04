@@ -4,7 +4,7 @@
 # ruff: noqa: C901
 from __future__ import annotations
 
-from typing import List, Union
+from typing import Union
 
 from pythainlp import thai_consonants
 from pythainlp.tokenize import subword_tokenize
@@ -383,7 +383,7 @@ class KhaveeVerifier:
         else:
             return "lahu"
 
-    def check_klon(self, text: str, k_type: int = 8) -> Union[List[str], str]:
+    def check_klon(self, text: str, k_type: int = 8) -> Union[list[str], str]:
         """
         Check the suitability of the poem according to Thai principles.
 
@@ -391,7 +391,7 @@ class KhaveeVerifier:
         :param int k_type: type of Thai poem
         :return: the check results of the suitability of the
             poem according to Thai principles.
-        :rtype: Union[List[str], str]
+        :rtype: Union[list[str], str]
 
         :Example:
         ::
@@ -627,17 +627,17 @@ class KhaveeVerifier:
             return "Something went wrong. Make sure you enter it in the correct form."
 
     def check_aek_too(
-        self, text: Union[List[str], str], dead_syllable_as_aek: bool = False
-    ) -> Union[List[bool], List[str], bool, str]:
+        self, text: Union[list[str], str], dead_syllable_as_aek: bool = False
+    ) -> Union[list[Union[bool, str]], bool, str]:
         """
         Checker of Thai tonal words
 
-        :param Union[List[str], str] text: Thai word or list of Thai words
+        :param Union[list[str], str] text: Thai word or list of Thai words
         :param bool dead_syllable_as_aek: if True, dead syllable will
             be considered as aek
         :return: the check result if the word is aek or too
             or False (not both) or list of check results if input is list
-        :rtype: Union[List[bool], List[str], bool, str]
+        :rtype: Union[list[bool], List[str], bool, str]
 
         :Example:
         ::
@@ -657,7 +657,7 @@ class KhaveeVerifier:
             # -> [False, 'aek', 'too']
         """
         if isinstance(text, list):
-            return [self.check_aek_too(t, dead_syllable_as_aek) for t in text]
+            return [self.check_aek_too(t, dead_syllable_as_aek) for t in text]  # type: ignore[misc]
 
         if not isinstance(text, str):
             raise TypeError("text must be str or iterable list[str]")

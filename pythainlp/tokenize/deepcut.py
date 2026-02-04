@@ -12,7 +12,7 @@ User need to install deepcut (and its dependency: tensorflow) by themselves.
 
 from __future__ import annotations
 
-from typing import Union
+from typing import Union, cast
 
 try:
     from deepcut import tokenize
@@ -21,7 +21,9 @@ except ImportError:
 from pythainlp.util import Trie
 
 
-def segment(text: str, custom_dict: Union[Trie, list[str], str] = []) -> list[str]:
+def segment(
+    text: str, custom_dict: Union[Trie, list[str], str] = []
+) -> list[str]:
     if not text or not isinstance(text, str):
         return []
 
@@ -29,6 +31,6 @@ def segment(text: str, custom_dict: Union[Trie, list[str], str] = []) -> list[st
         if isinstance(custom_dict, Trie):
             custom_dict = list(custom_dict)
 
-        return tokenize(text, custom_dict)
+        return cast(list[str], tokenize(text, custom_dict))
 
-    return tokenize(text)
+    return cast(list[str], tokenize(text))

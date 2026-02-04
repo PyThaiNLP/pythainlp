@@ -122,13 +122,13 @@ _punctuation_and_digits: dict[str, str] = {
     "๙": "9",
 }
 
-_all_dict = {
+_all_dict: dict[str, str] = {
     **_consonants,
     **_vowels,
     **_tone_marks,
     **_punctuation_and_digits,
 }
-_keys_set = _all_dict.keys()
+_keys_set: set[str] = set(_all_dict.keys())
 
 
 def transliterate(word: str) -> str:

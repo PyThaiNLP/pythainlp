@@ -225,17 +225,17 @@
         So the user can know exactly which module the data type comes from.
 - [ ] Try to achieve type completeness, according to
       <https://typing.python.org/en/latest/guides/libraries.html#type-completeness>.
-- [ ] requires-python in pyproject.toml should reflect the minimum
+- [ ] `requires-python` in pyproject.toml should reflect the minimum
       Python version supported by the project.
 - [ ] Do not introduce syntax or features that are not supported
       by the specified minimum Python version,
       unless it is supported via `__future__` imports.
-  - [ ] Do not use | union type syntax if minimum Python version is
-        below 3.10.  
-- [ ] Make sure that the module/class/function/object can be properly used by
+- [ ] Do not use `A | B` union type syntax anywhere if minimum Python version is
+      below 3.10.
+- [ ] Make sure that the type annotations can be properly used by
       runtime type inspection tools, documentation generators, and static
-      analysis tools.
-      For example, typing.get_type_hints() should work properly.
+      analysis tools. For example, `typing.get_type_hints()` and
+      `inspect` should work properly.
 - [ ] Do not allow the use of assert in production code
       (it is only allowed for testing and debugging).
 - [ ] Do not use mutable default arguments in function/method definitions.

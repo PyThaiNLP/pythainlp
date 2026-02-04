@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 if TYPE_CHECKING:
     import numpy as np
@@ -270,7 +270,7 @@ class Words_Spelling_Correction(FastTextEncoder):
         super().__init__(self.model_path, self.model_onnx, self.list_word)
 
 
-_WSC = None
+_WSC: Optional[Any] = None
 
 
 def get_words_spell_suggestion(

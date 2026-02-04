@@ -17,7 +17,6 @@ References
 from __future__ import annotations
 
 import re
-from typing import Pattern
 
 _THANTHAKHAT_CHAR: str = "\u0e4c"  # Thanthakhat (cancellation of sound)
 

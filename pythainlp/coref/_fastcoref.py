@@ -3,11 +3,19 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Optional, TypedDict
 
 if TYPE_CHECKING:
-    from fastcoref.modeling import CorefModel
+    from fastcoref.modeling import CorefModel, CorefResult
     from spacy.language import Language
+
+
+class CorefResultDict(TypedDict):
+    """Dictionary representation of coreference resolution results."""
+
+    text: str
+    clusters_string: list[list[str]]
+    clusters: list[list[tuple[int, int]]]
 
 
 class FastCoref:
@@ -34,14 +42,14 @@ class FastCoref:
             self.model_name, device=device, nlp=self.nlp
         )
 
-    def _to_json(self, _predict: Any) -> dict[str, Any]:
+    def _to_json(self, _predict: "CorefResult") -> CorefResultDict:
         return {
             "text": _predict.text,
             "clusters_string": _predict.get_clusters(as_strings=True),
             "clusters": _predict.get_clusters(as_strings=False),
         }
 
-    def predict(self, texts: list[str]) -> list[dict]:
+    def predict(self, texts: list[str]) -> list[CorefResultDict]:
         return [
             self._to_json(pred) for pred in self.model.predict(texts=texts)
         ]

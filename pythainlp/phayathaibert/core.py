@@ -7,10 +7,11 @@ import random
 import re
 import warnings
 from collections.abc import Callable
-from typing import TYPE_CHECKING, Any, Union
+from typing import TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
     from transformers import CamembertTokenizer
+    from transformers.pipelines.base import Pipeline
 
 from transformers import (
     CamembertTokenizer,
@@ -217,7 +218,7 @@ class ThaiTextAugmenter:
         self.model_for_masked_lm: AutoModelForMaskedLM = (
             AutoModelForMaskedLM.from_pretrained(_model_name)
         )
-        self.model: Any = pipeline(  # transformers.Pipeline
+        self.model: "Pipeline" = pipeline(
             "fill-mask",
             tokenizer=self.tokenizer,
             model=self.model_for_masked_lm,

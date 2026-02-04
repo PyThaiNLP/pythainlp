@@ -10,14 +10,14 @@
       "pct_none": 0.0
     },
     "variables": {
-      "total": 1258,
-      "complete": 1220,
-      "none": 38,
-      "pct_complete": 96.97933227344993,
-      "pct_none": 3.0206677265500796,
+      "total": 1257,
+      "complete": 1183,
+      "none": 74,
+      "pct_complete": 94.11296738265712,
+      "pct_none": 5.88703261734288,
       "class_variables": 297,
       "instance_variables": 439,
-      "module_variables": 522
+      "module_variables": 521
     },
     "type_aliases": {
       "total": 0
@@ -37,121 +37,121 @@
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "augment": {
       "complete": 29,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 12
+      "mypy_errors": 0
     },
     "benchmarks": {
       "complete": 8,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "chat": {
       "complete": 4,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 12
+      "mypy_errors": 0
     },
     "classify": {
       "complete": 5,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "cli": {
       "complete": 21,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 0
     },
     "coref": {
       "complete": 5,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "corpus": {
       "complete": 70,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "el": {
       "complete": 5,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "generate": {
       "complete": 15,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 16
+      "mypy_errors": 0
     },
     "khavee": {
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "lm": {
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "morpheme": {
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "parse": {
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "phayathaibert": {
       "complete": 19,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "soundex": {
       "complete": 27,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "spell": {
       "complete": 43,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "summarize": {
       "complete": 17,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "tag": {
       "complete": 73,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "tokenize": {
       "complete": 73,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "tokenizeicu": {
       "complete": 3,
@@ -163,19 +163,19 @@
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "translate": {
       "complete": 44,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 18
+      "mypy_errors": 0
     },
     "transliterate": {
       "complete": 75,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "transliterateicu": {
       "complete": 1,
@@ -187,37 +187,72 @@
       "complete": 25,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 16
+      "mypy_errors": 0
     },
     "util": {
       "complete": 109,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "wangchanberta": {
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     },
     "word_vector": {
       "complete": 7,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 16
+      "mypy_errors": 0
     },
     "wsd": {
       "complete": 4,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 11
+      "mypy_errors": 0
     }
   },
   "functions_no_hints": [],
   "functions_incomplete_hints": [],
   "class_variables_no_hints": [],
   "instance_variables_no_hints": [
+    {
+      "name": "pythainlp.augment.lm.fasttext.FastTextAug.model",
+      "scope": "public",
+      "parent_class": "FastTextAug",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/augment/lm/fasttext.py",
+      "line": 37
+    },
+    {
+      "name": "pythainlp.augment.lm.fasttext.FastTextAug.model",
+      "scope": "public",
+      "parent_class": "FastTextAug",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/augment/lm/fasttext.py",
+      "line": 39
+    },
+    {
+      "name": "pythainlp.augment.word2vec.core.Word2VecAug.model",
+      "scope": "public",
+      "parent_class": "Word2VecAug",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/core.py",
+      "line": 32
+    },
+    {
+      "name": "pythainlp.augment.word2vec.core.Word2VecAug.model",
+      "scope": "public",
+      "parent_class": "Word2VecAug",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/core.py",
+      "line": 34
+    },
+    {
+      "name": "pythainlp.augment.word2vec.core.Word2VecAug.model",
+      "scope": "public",
+      "parent_class": "Word2VecAug",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/augment/word2vec/core.py",
+      "line": 38
+    },
     {
       "name": "pythainlp.chat.core.ChatBotModel.history",
       "scope": "public",
@@ -226,25 +261,172 @@
       "line": 22
     },
     {
+      "name": "pythainlp.generate.core.Unigram.counts",
+      "scope": "public",
+      "parent_class": "Unigram",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/core.py",
+      "line": 43
+    },
+    {
+      "name": "pythainlp.generate.core.Unigram.counts",
+      "scope": "public",
+      "parent_class": "Unigram",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/core.py",
+      "line": 45
+    },
+    {
       "name": "pythainlp.generate.core.Unigram._word_prob",
       "scope": "private",
       "parent_class": "Unigram",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/core.py",
-      "line": 83
+      "line": 85
     },
     {
       "name": "pythainlp.tag.crfchunk.CRFchunk._model_file_ctx",
       "scope": "private",
       "parent_class": "CRFchunk",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tag/crfchunk.py",
-      "line": 112
+      "line": 114
+    },
+    {
+      "name": "pythainlp.tag.thainer.ThaiNameTagger.pos_tag_name",
+      "scope": "public",
+      "parent_class": "ThaiNameTagger",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tag/thainer.py",
+      "line": 128
+    },
+    {
+      "name": "pythainlp.tokenize.attacut.AttacutTokenizer._MODEL_NAME",
+      "scope": "private",
+      "parent_class": "AttacutTokenizer",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/attacut.py",
+      "line": 26
+    },
+    {
+      "name": "pythainlp.tokenize.core.Tokenizer.__trie_dict",
+      "scope": "private",
+      "parent_class": "Tokenizer",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/core.py",
+      "line": 944
+    },
+    {
+      "name": "pythainlp.tokenize.core.Tokenizer.__trie_dict",
+      "scope": "private",
+      "parent_class": "Tokenizer",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/core.py",
+      "line": 946
+    },
+    {
+      "name": "pythainlp.tokenize.core.Tokenizer.__engine",
+      "scope": "private",
+      "parent_class": "Tokenizer",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/core.py",
+      "line": 996
     },
     {
       "name": "pythainlp.tokenize.multi_cut.LatticeString.unique",
       "scope": "public",
       "parent_class": "LatticeString",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/multi_cut.py",
-      "line": 45
+      "line": 50
+    },
+    {
+      "name": "pythainlp.tokenize.multi_cut.LatticeString.multi",
+      "scope": "public",
+      "parent_class": "LatticeString",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/multi_cut.py",
+      "line": 52
+    },
+    {
+      "name": "pythainlp.translate.core.Translate.model",
+      "scope": "public",
+      "parent_class": "Translate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/core.py",
+      "line": 77
+    },
+    {
+      "name": "pythainlp.translate.core.Translate.model",
+      "scope": "public",
+      "parent_class": "Translate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/core.py",
+      "line": 81
+    },
+    {
+      "name": "pythainlp.translate.core.Translate.model",
+      "scope": "public",
+      "parent_class": "Translate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/core.py",
+      "line": 85
+    },
+    {
+      "name": "pythainlp.translate.core.Translate.model",
+      "scope": "public",
+      "parent_class": "Translate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/core.py",
+      "line": 89
+    },
+    {
+      "name": "pythainlp.translate.core.Translate.model",
+      "scope": "public",
+      "parent_class": "Translate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/core.py",
+      "line": 93
+    },
+    {
+      "name": "pythainlp.translate.core.Translate.model",
+      "scope": "public",
+      "parent_class": "Translate",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/core.py",
+      "line": 97
+    },
+    {
+      "name": "pythainlp.translate.en_th.EnThTranslator._model",
+      "scope": "private",
+      "parent_class": "EnThTranslator",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/en_th.py",
+      "line": 91
+    },
+    {
+      "name": "pythainlp.translate.small100.Small100Translator.model",
+      "scope": "public",
+      "parent_class": "Small100Translator",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/small100.py",
+      "line": 42
+    },
+    {
+      "name": "pythainlp.translate.th_fr.ThFrTranslator.model_thfr",
+      "scope": "public",
+      "parent_class": "ThFrTranslator",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/th_fr.py",
+      "line": 56
+    },
+    {
+      "name": "pythainlp.translate.zh_th.ThZhTranslator.model_thzh",
+      "scope": "public",
+      "parent_class": "ThZhTranslator",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/translate/zh_th.py",
+      "line": 50
+    },
+    {
+      "name": "pythainlp.transliterate.thai2rom.Attn.attn",
+      "scope": "public",
+      "parent_class": "Attn",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thai2rom.py",
+      "line": 211
+    },
+    {
+      "name": "pythainlp.transliterate.thaig2p.Attn.attn",
+      "scope": "public",
+      "parent_class": "Attn",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/thaig2p.py",
+      "line": 229
+    },
+    {
+      "name": "pythainlp.transliterate.w2p.Thai_W2P.checkpoint",
+      "scope": "public",
+      "parent_class": "Thai_W2P",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/w2p.py",
+      "line": 92
     },
     {
       "name": "pythainlp.transliterate.w2p.Thai_W2P.word",
@@ -359,6 +541,41 @@
       "line": 130
     },
     {
+      "name": "pythainlp.word_vector.core.WordVector.model_name",
+      "scope": "public",
+      "parent_class": "WordVector",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/word_vector/core.py",
+      "line": 59
+    },
+    {
+      "name": "pythainlp.word_vector.core.WordVector.model",
+      "scope": "public",
+      "parent_class": "WordVector",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/word_vector/core.py",
+      "line": 60
+    },
+    {
+      "name": "pythainlp.word_vector.core.WordVector.WV_DIM",
+      "scope": "public",
+      "parent_class": "WordVector",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/word_vector/core.py",
+      "line": 65
+    },
+    {
+      "name": "pythainlp.word_vector.core.WordVector.tokenize",
+      "scope": "public",
+      "parent_class": "WordVector",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/word_vector/core.py",
+      "line": 68
+    },
+    {
+      "name": "pythainlp.word_vector.core.WordVector.tokenize",
+      "scope": "public",
+      "parent_class": "WordVector",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/word_vector/core.py",
+      "line": 70
+    },
+    {
       "name": "pythainlp.wsd.core._SentenceTransformersModel.device",
       "scope": "public",
       "parent_class": "_SentenceTransformersModel",
@@ -393,6 +610,18 @@
       "line": 22
     },
     {
+      "name": "pythainlp.cli.stdout",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/cli/__init__.py",
+      "line": 18
+    },
+    {
+      "name": "pythainlp.cli.stderr",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/cli/__init__.py",
+      "line": 19
+    },
+    {
       "name": "pythainlp.spell.wanchanberta_thai_grammarly.tagging_model",
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
@@ -403,6 +632,24 @@
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
       "line": 106
+    },
+    {
+      "name": "pythainlp.transliterate.royin._vowel_patterns",
+      "scope": "private",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/royin.py",
+      "line": 73
+    },
+    {
+      "name": "pythainlp.transliterate.royin._vowel_patterns",
+      "scope": "private",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/royin.py",
+      "line": 74
+    },
+    {
+      "name": "pythainlp.transliterate.royin._vowel_patterns",
+      "scope": "private",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/royin.py",
+      "line": 75
     },
     {
       "name": "pythainlp.util.morse.unknown",
@@ -462,7 +709,7 @@
       "name": "pythainlp.util.syllable.unknown",
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/util/syllable.py",
-      "line": 63
+      "line": 68
     },
     {
       "name": "pythainlp.wsd.core.unknown",

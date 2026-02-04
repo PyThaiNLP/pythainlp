@@ -41,13 +41,13 @@ class WngchanBerta_ONNX:
             SessionOptions,
         )
 
-        self.model_name: str = model_name
-        self.model_version: str = model_version
-        self.options: SessionOptions = SessionOptions()
+        self.model_name = model_name
+        self.model_version = model_version
+        self.options = SessionOptions()
         self.options.graph_optimization_level = (
             GraphOptimizationLevel.ORT_ENABLE_ALL
         )
-        self.session: InferenceSession = InferenceSession(
+        self.session = InferenceSession(
             get_path_folder_corpus(
                 self.model_name, self.model_version, file_onnx
             ),
@@ -55,8 +55,8 @@ class WngchanBerta_ONNX:
             providers=providers,
         )
         self.session.disable_fallback()
-        self.outputs_name: str = self.session.get_outputs()[0].name
-        self.sp: spm.SentencePieceProcessor = spm.SentencePieceProcessor(
+        self.outputs_name = self.session.get_outputs()[0].name
+        self.sp = spm.SentencePieceProcessor(
             model_file=get_path_folder_corpus(
                 self.model_name, self.model_version, "sentencepiece.bpe.model"
             )
@@ -67,8 +67,8 @@ class WngchanBerta_ONNX:
             ),
             encoding="utf-8-sig",
         ) as fh:
-            self._json: dict[str, Any] = json.load(fh)
-            self.id2tag: dict[str, str] = self._json["id2label"]
+            self._json = json.load(fh)
+            self.id2tag = self._json["id2label"]
 
     def build_tokenizer(self, sent: str) -> dict[str, "np.ndarray"]:
         import numpy as np

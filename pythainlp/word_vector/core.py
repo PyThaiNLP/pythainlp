@@ -3,7 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer, word_tokenize
@@ -46,7 +47,7 @@ class WordVector:
         self.model_name: str
         self.model: "Word2VecKeyedVectors"
         self.WV_DIM: int
-        self.tokenize: Any  # function type
+        self.tokenize: Callable[[str], list[str]]
         self.load_wordvector(model_name)
 
     def load_wordvector(self, model_name: str) -> None:

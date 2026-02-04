@@ -38,9 +38,9 @@ class _ResponseWrapper:
     _content: bytes
 
     def __init__(self, response: HTTPResponse) -> None:
-        self.status_code: int = response.status
-        self.headers: HTTPMessage = response.headers
-        self._content: bytes = response.read()
+        self.status_code = response.status
+        self.headers = response.headers
+        self._content = response.read()
 
     def json(self) -> dict[str, Any]:
         """Parse JSON content from response."""

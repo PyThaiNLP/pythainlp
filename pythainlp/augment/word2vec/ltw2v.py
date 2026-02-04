@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     from pythainlp.augment.word2vec.core import Word2VecAug
@@ -23,7 +23,7 @@ class LTW2VAug:
     `github.com/PyThaiNLP/large-thaiword2vec <https://github.com/PyThaiNLP/large-thaiword2vec>`_
     """
 
-    ltw2v_wv: str | None
+    ltw2v_wv: Optional[str]
     aug: Word2VecAug
 
     def __init__(self) -> None:

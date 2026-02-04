@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     import torch
@@ -24,7 +24,7 @@ class ChatBotModel:
         return_dict: bool = True,
         load_in_8bit: bool = False,
         device: str = "cuda",
-        torch_dtype: "torch.dtype | None" = None,
+        torch_dtype: Optional["torch.dtype"] = None,
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
     ) -> None:

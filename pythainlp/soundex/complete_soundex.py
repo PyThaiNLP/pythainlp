@@ -615,7 +615,7 @@ class CompleteSoundex:
 
 
 # Singleton instance for module-level function
-_complete_soundex_instance: "CompleteSoundex | None" = None
+_complete_soundex_instance: "Optional[CompleteSoundex]" = None
 
 
 def complete_soundex(text: str) -> str:

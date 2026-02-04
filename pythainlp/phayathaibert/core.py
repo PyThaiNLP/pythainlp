@@ -7,10 +7,17 @@ import random
 import re
 import warnings
 from collections.abc import Callable
-from typing import TYPE_CHECKING, Any, Union
+from typing import TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
-    from transformers import CamembertTokenizer
+    from transformers import (
+        AutoModelForMaskedLM,
+        AutoModelForTokenClassification,
+        AutoTokenizer,
+        CamembertTokenizer,
+        Pipeline,
+        PreTrainedTokenizerBase,
+    )
 
 from transformers import (
     CamembertTokenizer,
@@ -211,13 +218,13 @@ class ThaiTextAugmenter:
             pipeline,
         )
 
-        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(
+        self.tokenizer: "AutoTokenizer" = AutoTokenizer.from_pretrained(
             _model_name
         )
-        self.model_for_masked_lm: AutoModelForMaskedLM = (
+        self.model_for_masked_lm: "AutoModelForMaskedLM" = (
             AutoModelForMaskedLM.from_pretrained(_model_name)
         )
-        self.model: Any = pipeline(  # transformers.Pipeline
+        self.model: "Pipeline" = pipeline(  # transformers.Pipeline
             "fill-mask",
             tokenizer=self.tokenizer,
             model=self.model_for_masked_lm,
@@ -310,8 +317,8 @@ class PartOfSpeechTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
-        self.model: AutoModelForTokenClassification = (
+        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(model)
+        self.model: "AutoModelForTokenClassification" = (
             AutoModelForTokenClassification.from_pretrained(model)
         )
 
@@ -355,8 +362,8 @@ class NamedEntityTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
-        self.model: AutoModelForTokenClassification = (
+        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(model)
+        self.model: "AutoModelForTokenClassification" = (
             AutoModelForTokenClassification.from_pretrained(model)
         )
 

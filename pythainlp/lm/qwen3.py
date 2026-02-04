@@ -4,7 +4,10 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
+
+if TYPE_CHECKING:
+    from transformers import PreTrainedModel, PreTrainedTokenizerBase
 
 import torch
 
@@ -17,8 +20,8 @@ class Qwen3:
     """
 
     def __init__(self) -> None:
-        self.model: Any = None
-        self.tokenizer: Any = None
+        self.model: Optional["PreTrainedModel"] = None
+        self.tokenizer: Optional["PreTrainedTokenizerBase"] = None
         self.device: Optional[str] = None
         self.torch_dtype: Optional[torch.dtype] = None
         self.model_path: Optional[str] = None

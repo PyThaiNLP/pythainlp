@@ -40,7 +40,6 @@ from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
 
-
 def count_mypy_errors_by_submodule(pythainlp_dir: str) -> Dict[str, int]:
     """
     Run mypy on each submodule and count errors.
@@ -64,8 +63,8 @@ def count_mypy_errors_by_submodule(pythainlp_dir: str) -> Dict[str, int]:
         submodule_path = os.path.join(pythainlp_dir, submodule)
         try:
             # Run mypy on the submodule
-            result = subprocess.run(
-                ["mypy", submodule_path, "--ignore-missing-imports"],
+            result = subprocess.run(  # noqa: S603
+                ["mypy", submodule_path, "--ignore-missing-imports"],  # noqa: S607
                 capture_output=True,
                 text=True,
                 timeout=60,
@@ -706,7 +705,7 @@ def count_references(qualified_name: str, all_files: List[str]) -> int:
                 content = f.read()
                 # Simple text search - not perfect but gives an approximation
                 count += content.count(search_name)
-        except Exception:
+        except Exception:  # noqa: S110
             pass
 
     return count

@@ -197,6 +197,8 @@
 
 - [ ] Maintain source code readability.
 - [ ] Use Idiomatic Python.
+- [ ] All configurations should be in one place, the `pyproject.toml`,
+      when possible.
 - [ ] Defensive coding: always check for None/empty and handle exceptions
       when dealing with external inputs, like function arguments,
       file I/O, network I/O, etc.
@@ -258,6 +260,9 @@
       Use the most appropriate data structure for the specific use case
       to optimize performance and memory usage.
 - [ ] Recheck formatting with Ruff.
+- [ ] Whem do packaging, the package metadata should follow
+      the Core metadata specifications
+      <https://packaging.python.org/en/latest/specifications/core-metadata/>.
 
 ## Python type completeness
 

@@ -32,7 +32,7 @@ class Umt5ThaiG2P:
     def __init__(self, device: str = "cpu") -> None:
         from transformers import pipeline
 
-        self.pipe = pipeline(
+        self.pipe: "Pipeline" = pipeline(
             "text2text-generation",
             model="B-K/umt5-thai-g2p-v2-0.5k",
             device=device,

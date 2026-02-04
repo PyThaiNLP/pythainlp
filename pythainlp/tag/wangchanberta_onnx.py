@@ -67,8 +67,8 @@ class WngchanBerta_ONNX:
             ),
             encoding="utf-8-sig",
         ) as fh:
-            self._json = json.load(fh)
-            self.id2tag = self._json["id2label"]
+            self._json: dict[str, Any] = json.load(fh)
+            self.id2tag: dict[str, str] = self._json["id2label"]
 
     def build_tokenizer(self, sent: str) -> dict[str, "np.ndarray"]:
         import numpy as np
@@ -117,7 +117,7 @@ class WngchanBerta_ONNX:
     def get_ner(
         self, text: str, tag: bool = False
     ) -> Union[str, list[tuple[str, str]]]:
-        self._s = self.build_tokenizer(text)
+        self._s: dict[str, "np.ndarray"] = self.build_tokenizer(text)
         logits = self.session.run(
             output_names=[self.outputs_name], input_feed=self._s
         )[0]

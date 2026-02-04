@@ -44,7 +44,7 @@ class LatticeString(str):
             if len(self.multi) > 1:
                 self.unique = False
         else:
-            self.multi = [value]
+            self.multi: list[str] = [value]
         self.in_dict: bool = in_dict  # if in dictionary
 
 

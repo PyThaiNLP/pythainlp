@@ -87,7 +87,7 @@ class CRFchunk:
         if corpus == "orchidpp":
             corpus_files = files("pythainlp.corpus")
             model_file = corpus_files.joinpath("crfchunk_orchidpp.model")
-            self._model_file_ctx = as_file(model_file)
+            self._model_file_ctx: Optional[AbstractContextManager[Any]] = as_file(model_file)
             model_path = self._model_file_ctx.__enter__()
             self.tagger.open(str(model_path))
 

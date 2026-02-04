@@ -40,9 +40,9 @@ class Unigram:
         if name == "tnc":
             self.counts: dict[str, int] = tnc_word_freqs_unigram()
         elif name == "ttc":
-            self.counts = ttc_word_freqs_unigram()
+            self.counts: dict[str, int] = ttc_word_freqs_unigram()
         elif name == "oscar":
-            self.counts = oscar_word_freqs_unigram()
+            self.counts: dict[str, int] = oscar_word_freqs_unigram()
         self.word: list[str] = list(self.counts.keys())
         self.n: int = 0
         for i in self.word:

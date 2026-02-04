@@ -89,7 +89,7 @@ class Thai_W2P:
         )
         if self.checkpoint is None:
             download(_MODEL_NAME, version="0.2")
-            self.checkpoint = get_corpus_path(_MODEL_NAME)
+            self.checkpoint: Optional[str] = get_corpus_path(_MODEL_NAME)
             if self.checkpoint is None:
                 raise RuntimeError(
                     f"Failed to download or locate {_MODEL_NAME} corpus"
@@ -219,8 +219,8 @@ class Thai_W2P:
     def _short_word(self, word: str) -> Optional[str]:
         self.word: str = word
         if self.word.endswith("."):
-            self.word = self.word.replace(".", "")
-            self.word = "-".join([i + "อ" for i in list(self.word)])
+            self.word: str = self.word.replace(".", "")
+            self.word: str = "-".join([i + "อ" for i in list(self.word)])
             return self.word
         return None
 

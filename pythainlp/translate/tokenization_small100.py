@@ -216,7 +216,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         self.cur_lang_id: int = self.get_lang_id(self._tgt_lang)
         self.set_lang_special_tokens(self._tgt_lang)
 
-        self.num_madeup_words = num_madeup_words
+        self.num_madeup_words: int = num_madeup_words
 
     @property
     def vocab_size(self) -> int:

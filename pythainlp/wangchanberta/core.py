@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import re
 import warnings
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 if TYPE_CHECKING:
     from transformers import (
@@ -113,13 +113,13 @@ class ThaiNameTagger:
                 for i in self.json_ner
             ]
         elif self.dataset_name == "thainer":
-            self.sent_ner = [
+            self.sent_ner: list[tuple[str, str]] = [
                 (i["word"].replace("<_>", " ").replace("▁", ""), i["entity"])
                 for i in self.json_ner
                 if i["word"] != "▁"
             ]
         else:
-            self.sent_ner = [
+            self.sent_ner: list[tuple[str, str]] = [
                 (
                     i["word"].replace("<_>", " ").replace("▁", ""),
                     i["entity"].replace("_", "-").replace("E-", "I-"),

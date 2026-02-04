@@ -48,21 +48,21 @@ class NER:
         if engine == "thai-nner":
             from pythainlp.tag.thai_nner import ThaiNNER
 
-            self.engine = ThaiNNER()
+            self.engine: Any = ThaiNNER()
         elif engine == "tltk":
             from pythainlp.tag import tltk
 
-            self.engine = tltk
+            self.engine: Any = tltk
         # Corpus-specific engines
         elif corpus == "thainer":
             if engine == "thainer":
                 from pythainlp.tag.thainer import ThaiNameTagger
 
-                self.engine = ThaiNameTagger()
+                self.engine: Any = ThaiNameTagger()
             elif engine == "thainer-v2":
                 from pythainlp.wangchanberta import NamedEntityRecognition
 
-                self.engine = NamedEntityRecognition(
+                self.engine: Any = NamedEntityRecognition(
                     model="pythainlp/thainer-corpus-v2-base-model"
                 )
             elif engine == "wangchanberta":
@@ -70,12 +70,12 @@ class NER:
                     ThaiNameTagger as WangchanbertaThaiNameTagger,
                 )  # noqa: I001,E501
 
-                self.engine = WangchanbertaThaiNameTagger(dataset_name=corpus)
+                self.engine: Any = WangchanbertaThaiNameTagger(dataset_name=corpus)
         elif corpus == "thainer-v2":
             if engine == "phayathaibert":
                 from pythainlp.phayathaibert.core import NamedEntityTagger
 
-                self.engine = NamedEntityTagger()
+                self.engine: Any = NamedEntityTagger()
 
         if self.engine is None:
             raise ValueError(

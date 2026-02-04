@@ -33,7 +33,9 @@ from pythainlp.ulmfit.preprocess import (
 )
 from pythainlp.util import reorder_vowels
 
-device: "torch.device" = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device: "torch.device" = torch.device(
+    "cuda" if torch.cuda.is_available() else "cpu"
+)
 
 _MODEL_NAME_LSTM: str = "wiki_lm_lstm"
 _ITOS_NAME_LSTM: str = "wiki_itos_lstm"
@@ -85,14 +87,23 @@ pre_rules_th: list[Callable[[str], str]] = [
     rm_brackets,
     replace_url,
 ]
-post_rules_th: list[Callable[[str], str]] = [replace_wrep_post, ungroup_emoji, lowercase_all]
+post_rules_th: list[Callable[[Collection[str]], list[str]]] = [
+    replace_wrep_post,
+    ungroup_emoji,
+    lowercase_all,
+]
 
 # sparse features
-pre_rules_th_sparse: list[Callable[[str], str]] = pre_rules_th[1:] + [replace_rep_nonum]
-post_rules_th_sparse: list[Callable[[str], str]] = post_rules_th[1:] + [
-    replace_wrep_post_nonum,
-    remove_space,
+pre_rules_th_sparse: list[Callable[[str], str]] = pre_rules_th[1:] + [
+    replace_rep_nonum
 ]
+post_rules_th_sparse: list[Callable[[Collection[str]], list[str]]] = (
+    post_rules_th[1:]
+    + [
+        replace_wrep_post_nonum,
+        remove_space,
+    ]
+)
 
 
 def process_thai(
@@ -228,7 +239,7 @@ def document_vector(
     else:
         raise ValueError("Aggregate by mean or sum")
 
-    return res
+    return res  # type: ignore[no-any-return]
 
 
 def merge_wgts(

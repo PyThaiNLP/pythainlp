@@ -173,10 +173,16 @@ class NamedEntityRecognition:
         """
         from transformers import AutoModelForTokenClassification, AutoTokenizer
 
-        self.tokenizer: PreTrainedTokenizerBase = AutoTokenizer.from_pretrained(model)
-        self.model: PreTrainedModel = AutoModelForTokenClassification.from_pretrained(model)
+        self.tokenizer: PreTrainedTokenizerBase = (
+            AutoTokenizer.from_pretrained(model)
+        )
+        self.model: PreTrainedModel = (
+            AutoModelForTokenClassification.from_pretrained(model)
+        )
 
-    def _fix_span_error(self, words: list[int], ner: list[str]) -> list[tuple[str, str]]:
+    def _fix_span_error(
+        self, words: list[int], ner: list[str]
+    ) -> list[tuple[str, str]]:
         _ner = []
         _ner = ner
         _new_tag = []

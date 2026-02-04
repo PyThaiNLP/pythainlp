@@ -40,10 +40,14 @@ class ThZhTranslator:
     ) -> None:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
-        self.tokenizer_thzh: AutoTokenizer = AutoTokenizer.from_pretrained(pretrained)
-        self.model_thzh: AutoModelForSeq2SeqLM = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        self.tokenizer_thzh: AutoTokenizer = AutoTokenizer.from_pretrained(
+            pretrained
+        )
+        self.model_thzh: AutoModelForSeq2SeqLM = (
+            AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        )
         if use_gpu:
-            self.model_thzh: AutoModelForSeq2SeqLM = self.model_thzh.cuda()
+            self.model_thzh = self.model_thzh.cuda()
 
     def translate(self, text: str) -> str:
         """Translate text from Thai to Chinese
@@ -96,8 +100,12 @@ class ZhThTranslator:
     ) -> None:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
-        self.tokenizer_zhth: AutoTokenizer = AutoTokenizer.from_pretrained(pretrained)
-        self.model_zhth: AutoModelForSeq2SeqLM = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        self.tokenizer_zhth: AutoTokenizer = AutoTokenizer.from_pretrained(
+            pretrained
+        )
+        self.model_zhth: AutoModelForSeq2SeqLM = (
+            AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        )
         if use_gpu:
             self.model_zhth.cuda()
 

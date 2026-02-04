@@ -19,7 +19,9 @@ from pythainlp.corpus import get_corpus_path
 if TYPE_CHECKING:
     from numpy.typing import NDArray
 
-device: torch.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device: torch.device = torch.device(
+    "cuda:0" if torch.cuda.is_available() else "cpu"
+)
 
 _MODEL_NAME: str = "thai-g2p"
 
@@ -224,7 +226,7 @@ class Attn(nn.Module):
             self.attn: nn.Linear = nn.Linear(self.hidden_size, hidden_size)
 
         elif self.method == "concat":
-            self.attn: nn.Linear = nn.Linear(self.hidden_size * 2, hidden_size)
+            self.attn = nn.Linear(self.hidden_size * 2, hidden_size)
             self.other: nn.Parameter = nn.Parameter(
                 torch.FloatTensor(1, hidden_size)
             )

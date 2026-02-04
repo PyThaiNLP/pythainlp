@@ -125,7 +125,7 @@ class ThaiNameTagger:
                     "  pythainlp.corpus.download('thainer')"
                 )
             self.crf.open(model_path)
-            self.pos_tag_name: str = "blackboard"
+            self.pos_tag_name = "blackboard"
 
     def get_ner(
         self, text: str, pos: bool = True, tag: bool = False

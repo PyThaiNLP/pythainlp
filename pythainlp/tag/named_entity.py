@@ -70,7 +70,9 @@ class NER:
                     ThaiNameTagger as WangchanbertaThaiNameTagger,
                 )  # noqa: I001,E501
 
-                self.engine: Any = WangchanbertaThaiNameTagger(dataset_name=corpus)
+                self.engine: Any = WangchanbertaThaiNameTagger(
+                    dataset_name=corpus
+                )
         elif corpus == "thainer-v2":
             if engine == "phayathaibert":
                 from pythainlp.phayathaibert.core import NamedEntityTagger
@@ -139,7 +141,9 @@ class NNER:
 
         self.engine: Any = ThaiNNER()
 
-    def tag(self, text: str, top_level_only: bool = False) -> tuple[list[str], list[dict[str, Any]]]:
+    def tag(
+        self, text: str, top_level_only: bool = False
+    ) -> tuple[list[str], list[dict[str, Any]]]:
         """This function tags nested named entities.
 
         :param str text: text in Thai to be tagged

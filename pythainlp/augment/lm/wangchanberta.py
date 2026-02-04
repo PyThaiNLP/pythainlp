@@ -27,8 +27,10 @@ class Thai2transformersAug:
 
         self.model_name: str = "airesearch/wangchanberta-base-att-spm-uncased"
         self.target_tokenizer: type[CamembertTokenizer] = CamembertTokenizer
-        self.tokenizer: CamembertTokenizer = CamembertTokenizer.from_pretrained(
-            self.model_name, revision="main"
+        self.tokenizer: CamembertTokenizer = (
+            CamembertTokenizer.from_pretrained(
+                self.model_name, revision="main"
+            )
         )
         self.tokenizer.additional_special_tokens = [
             "<s>NOTUSED",

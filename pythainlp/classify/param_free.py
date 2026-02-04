@@ -113,4 +113,6 @@ class GzipModel:
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
             self.cx2_list: list[int] = data["cx2_list"]
-            self.training_data: "NDArray[Any]" = np.array(data["training_data"])
+            self.training_data: "NDArray[Any]" = np.array(
+                data["training_data"]
+            )

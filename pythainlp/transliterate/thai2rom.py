@@ -17,7 +17,9 @@ from pythainlp.corpus import get_corpus_path
 if TYPE_CHECKING:
     from typing import Dict
 
-device: torch.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+device: torch.device = torch.device(
+    "cuda:0" if torch.cuda.is_available() else "cpu"
+)
 
 _MODEL_NAME: str = "thai2rom-pytorch-attn"
 
@@ -55,7 +57,9 @@ class ThaiTransliterator:
 
         # encoder/ decoder
         # Restore the model and construct the encoder and decoder.
-        self._encoder: "Encoder" = Encoder(INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT)
+        self._encoder: "Encoder" = Encoder(
+            INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT
+        )
 
         self._decoder: "AttentionDecoder" = AttentionDecoder(
             OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT
@@ -175,7 +179,9 @@ class Encoder(nn.Module):
         )
         return sequences_output, hidden
 
-    def init_hidden(self, batch_size: int) -> Tuple[torch.Tensor, torch.Tensor]:
+    def init_hidden(
+        self, batch_size: int
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
         h_0 = torch.zeros(
             [2, batch_size, self.hidden_size // 2], requires_grad=True
         ).to(device)
@@ -202,8 +208,10 @@ class Attn(nn.Module):
             self.attn: nn.Linear = nn.Linear(self.hidden_size, hidden_size)
 
         elif self.method == "concat":
-            self.attn: nn.Linear = nn.Linear(self.hidden_size * 2, hidden_size)
-            self.other: nn.Parameter = nn.Parameter(torch.FloatTensor(1, hidden_size))
+            self.attn = nn.Linear(self.hidden_size * 2, hidden_size)
+            self.other: nn.Parameter = nn.Parameter(
+                torch.FloatTensor(1, hidden_size)
+            )
 
     def forward(
         self,

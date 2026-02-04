@@ -941,9 +941,9 @@ class Tokenizer:
         """
         self.__trie_dict: Trie = Trie([])
         if custom_dict:
-            self.__trie_dict: Trie = dict_trie(custom_dict)
+            self.__trie_dict = dict_trie(custom_dict)
         else:
-            self.__trie_dict: Trie = word_dict_trie()
+            self.__trie_dict = word_dict_trie()
         self.__engine: str = engine
         if self.__engine not in ["newmm", "mm", "longest", "deepcut"]:
             raise NotImplementedError(
@@ -993,4 +993,4 @@ class Tokenizer:
             tokenizer.word_tokenize("สวัสดีครับ")
             # output: ['สวัสดี', 'ครับ']
         """
-        self.__engine: str = engine
+        self.__engine = engine

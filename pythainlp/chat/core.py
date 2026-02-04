@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, Optional, cast
 
 if TYPE_CHECKING:
     import torch
@@ -95,6 +95,6 @@ class ChatBotModel:
         _temp += self.model.PROMPT_DICT["prompt_chatbot"].format_map(
             {"human": text, "bot": ""}
         )
-        _bot = self.model.gen_instruct(_temp)
+        _bot = cast(str, self.model.gen_instruct(_temp))
         self.history.append((text, _bot))
         return _bot

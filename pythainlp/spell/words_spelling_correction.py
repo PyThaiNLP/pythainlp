@@ -78,17 +78,19 @@ class FastTextEncoder:
         self.vocabulary: list[str]
         self.embeddings: "NDArray[np.float32]"
         self.vocabulary, self.embeddings = self._load_embeddings()
-        self.words_for_suggestion: "NDArray[np.str_]" = self._load_suggestion_words(words_list)
-        self.nn_session: "InferenceSession" = self._load_onnx_session(nn_model_path)
+        self.words_for_suggestion: "NDArray[np.str_]" = (
+            self._load_suggestion_words(words_list)
+        )
+        self.nn_session: "InferenceSession" = self._load_onnx_session(
+            nn_model_path
+        )
         self.embedding_dim: int = self.embeddings.shape[1]
 
     def _load_embeddings(self) -> tuple[list[str], NDArray[np.float32]]:
         """Loads embeddings matrix and vocabulary list."""
         import numpy as np
 
-        input_matrix = np.load(
-            os.path.join(self.model_dir, "embeddings.npy")
-        )
+        input_matrix = np.load(os.path.join(self.model_dir, "embeddings.npy"))
         words = []
         vocab_path = os.path.join(self.model_dir, "vocabulary.txt")
         with open(vocab_path, encoding="utf-8") as f:
@@ -96,7 +98,9 @@ class FastTextEncoder:
                 words.append(line.rstrip())
         return words, input_matrix
 
-    def _load_suggestion_words(self, words_list: list[str]) -> NDArray[np.str_]:
+    def _load_suggestion_words(
+        self, words_list: list[str]
+    ) -> NDArray[np.str_]:
         """Loads the list of words used for suggestions."""
         import numpy as np
 
@@ -136,6 +140,7 @@ class FastTextEncoder:
             _subword_ids.append(self.vocabulary.index(word))
             if word == "</s>":
                 import numpy as np
+
                 return _subwords, np.array(_subword_ids)
 
         # 2. Extract n-grams (subwords) and get their hash indices
@@ -151,6 +156,7 @@ class FastTextEncoder:
                         _subword_ids.append(self._get_hash(_candidate_subword))
 
         import numpy as np
+
         return _subwords, np.array(_subword_ids)
 
     def get_word_vector(self, word: str) -> NDArray[np.float32]:
@@ -166,9 +172,7 @@ class FastTextEncoder:
             return np.zeros(self.embedding_dim)
 
         # Compute the mean of the embeddings for all subword indices
-        vector = np.mean(
-            [self.embeddings[s] for s in subword_ids], axis=0
-        )
+        vector = np.mean([self.embeddings[s] for s in subword_ids], axis=0)
 
         # Normalize the vector
         norm = np.linalg.norm(vector)
@@ -247,6 +251,7 @@ class FastTextEncoder:
 
         # Convert to numpy array for ONNX input (ensure float32)
         import numpy as np
+
         input_data = np.array(word_input_vecs, dtype=np.float32)
 
         # Run ONNX inference
@@ -269,7 +274,9 @@ class Words_Spelling_Correction(FastTextEncoder):
     def __init__(self) -> None:
         self.model_name: str = "pythainlp/word-spelling-correction-char2vec"
         self.model_path: str = get_hf_hub(self.model_name)
-        self.model_onnx: str = get_hf_hub(self.model_name, "nearest_neighbors.onnx")
+        self.model_onnx: str = get_hf_hub(
+            self.model_name, "nearest_neighbors.onnx"
+        )
         with open(
             get_hf_hub(
                 self.model_name, "list_word-spelling-correction-char2vec.txt"

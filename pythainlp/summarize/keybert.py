@@ -154,7 +154,7 @@ class KeyBERT:
                 [np.array(emb[0]).mean(axis=0) for emb in embs]
             )
 
-        return emb_mean
+        return emb_mean  # type: ignore[no-any-return]
 
 
 def _generate_ngrams(
@@ -223,10 +223,10 @@ def _rank_keywords(
         )
         if not np.isclose(np.linalg.norm(result, axis=1), 1).all():
             raise ValueError("Cannot normalize a vector to unit vector.")
-        return result
+        return result  # type: ignore[no-any-return]
 
     def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:
-        return (np.matmul(a, b.T).T).sum(axis=1)
+        return (np.matmul(a, b.T).T).sum(axis=1)  # type: ignore[no-any-return]
 
     doc_vector = l2_norm(doc_vector)
     word_vectors = l2_norm(word_vectors)

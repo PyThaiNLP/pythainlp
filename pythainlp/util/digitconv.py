@@ -5,6 +5,8 @@
 
 from __future__ import annotations
 
+from typing import Union, cast
+
 _arabic_thai: dict[str, str] = {
     "0": "๐",
     "1": "๑",
@@ -57,9 +59,15 @@ _spell_digit: dict[str, str] = {
     "เก้า": "9",
 }
 
-_arabic_thai_translate_table: dict[int, int] = str.maketrans(_arabic_thai)
-_thai_arabic_translate_table: dict[int, int] = str.maketrans(_thai_arabic)
-_digit_spell_translate_table: dict[int, str] = str.maketrans(_digit_spell)
+_arabic_thai_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
+    cast(dict[str, Union[int, str, None]], _arabic_thai)
+)
+_thai_arabic_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
+    cast(dict[str, Union[int, str, None]], _thai_arabic)
+)
+_digit_spell_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
+    cast(dict[str, Union[int, str, None]], _digit_spell)
+)
 
 
 def thai_digit_to_arabic_digit(text: str) -> str:

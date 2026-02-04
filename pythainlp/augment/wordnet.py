@@ -153,7 +153,9 @@ class WordNetAug:
         else:
             self.p2w_pos: Optional[str] = postype2wordnet(pos, postag_corpus)
             if self.p2w_pos != "":
-                self.list_synsets: list = wordnet.synsets(word, pos=self.p2w_pos)
+                self.list_synsets: list = wordnet.synsets(
+                    word, pos=self.p2w_pos
+                )
             else:
                 self.list_synsets: list = wordnet.synsets(word)
 

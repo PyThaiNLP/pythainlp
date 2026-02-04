@@ -76,7 +76,7 @@ class ThaiTransliterator_ONNX:
             else:
                 idxs.append(self._char_to_ix["<UNK>"])
         idxs.append(self._char_to_ix["<end>"])
-        return np.array(idxs)
+        return np.array(idxs)  # type: ignore[no-any-return]
 
     def romanize(self, text: str) -> str:
         """:param str text: Thai text to be romanized
@@ -131,7 +131,7 @@ class Seq2Seq_ONNX:
 
     def create_mask(self, source_seq: "np.ndarray") -> "np.ndarray":
         mask = source_seq != self.pad_idx
-        return mask
+        return mask  # type: ignore[no-any-return]
 
     def run(
         self, source_seq: "np.ndarray", source_seq_len: List[int]
@@ -196,9 +196,9 @@ class Seq2Seq_ONNX:
             decoder_input = np.array([topi])
 
             if decoder_input == end_token:
-                return outputs[:di]
+                return outputs[:di]  # type: ignore[no-any-return]
 
-        return outputs
+        return outputs  # type: ignore[no-any-return]
 
 
 _THAI_TO_ROM_ONNX: ThaiTransliterator_ONNX = ThaiTransliterator_ONNX()

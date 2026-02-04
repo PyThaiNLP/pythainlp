@@ -56,18 +56,18 @@ class WordVector:
         """
         from gensim.models import KeyedVectors
 
-        self.model_name: str = model_name
-        self.model: "Word2VecKeyedVectors" = KeyedVectors.load_word2vec_format(
+        self.model_name = model_name
+        self.model = KeyedVectors.load_word2vec_format(
             get_corpus_path(self.model_name),
             binary=True,
             unicode_errors="ignore",
         )
-        self.WV_DIM: int = self.model.vector_size
+        self.WV_DIM = self.model.vector_size
 
         if self.model_name == "thai2fit_wv":
-            self.tokenize: Any = thai2fit_tokenizer().word_tokenize
+            self.tokenize = thai2fit_tokenizer().word_tokenize
         else:
-            self.tokenize: Any = word_tokenize
+            self.tokenize = word_tokenize
 
     def get_model(self) -> Word2VecKeyedVectors:
         """Get word vector model.
@@ -306,7 +306,7 @@ class WordVector:
         len_words = len(words)
 
         if not len_words:
-            return vec
+            return vec  # type: ignore[no-any-return]
 
         for word in words:
             if word == " " and self.model_name == "thai2fit_wv":
@@ -320,4 +320,4 @@ class WordVector:
         if use_mean:
             vec /= len_words
 
-        return vec
+        return vec  # type: ignore[no-any-return]

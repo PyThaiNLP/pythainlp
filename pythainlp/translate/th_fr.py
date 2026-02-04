@@ -46,10 +46,14 @@ class ThFrTranslator:
     ) -> None:
         from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
-        self.tokenizer_thfr: AutoTokenizer = AutoTokenizer.from_pretrained(pretrained)
-        self.model_thfr: AutoModelForSeq2SeqLM = AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        self.tokenizer_thfr: AutoTokenizer = AutoTokenizer.from_pretrained(
+            pretrained
+        )
+        self.model_thfr: AutoModelForSeq2SeqLM = (
+            AutoModelForSeq2SeqLM.from_pretrained(pretrained)
+        )
         if use_gpu:
-            self.model_thfr: AutoModelForSeq2SeqLM = self.model_thfr.cuda()
+            self.model_thfr = self.model_thfr.cuda()
 
     def translate(self, text: str) -> str:
         """Translate text from Thai to French

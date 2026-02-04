@@ -255,6 +255,58 @@
       to optimize performance and memory usage.
 - [ ] Recheck formatting with Ruff.
 
+## Python type completeness
+
+The following are best practice recommendations for how to
+define “type complete”:
+
+- [ ] Classes:
+  - [ ] All class variables, instance variables, and methods that
+        are “visible” (not overridden) are annotated and refer to
+        known types
+  - [ ] If a class is a subclass of a generic class, type arguments
+        are provided for each generic type parameter, and these type
+        arguments are known types
+- [ ] Functions and Methods:
+  - [ ] All input parameters have type annotations that refer to
+        known types
+  - [ ] The return parameter is annotated and refers to a known type
+  - [ ] The result of applying one or more decorators results in
+        a known type
+- [ ] Type Aliases:
+  - [ ] All of the types referenced by the type alias are known
+- [ ] Variables:
+  - [ ] All variables have type annotations that refer to known types
+
+Type annotations can be omitted in a few specific cases
+where the type is obvious from the context:
+
+- Constants that are assigned simple literal values
+  (e.g. `RED = '#F00'` or `MAX_TIMEOUT = 50` or
+  `room_temperature: Final = 20`).
+  A constant is a symbol that is assigned only once and is either
+  annotated with `Final` or is named in all-caps.
+  A constant that is not assigned a simple literal value requires
+  explicit annotations, preferably with a Final annotation
+  (e.g. `WOODWINDS: Final[list[str]] = ['Oboe', 'Bassoon']`).
+- Enum values within an `Enum` class do not require annotations
+  because they take on the type of the `Enum` class.
+- Type aliases do not require annotations.
+  A type alias is a symbol that is defined at a module level
+  with a single assignment where the assigned value is an
+  instantiable type, as opposed to a class instance
+  (e.g. `Foo = Callable[[Literal["a", "b"]], int | str]` or
+  `Bar = MyGenericClass[int] | None`).
+- The “self” parameter in an instance method and the “cls”
+  parameter in a class method do not require an explicit annotation.
+- The return type for an `__init__` method does not need
+  to be specified, since it is always `None`.
+- The following module-level symbols do not require type annotations:
+  `__all__`, `__author__`, `__copyright__`, `__email__`,
+  `__license__`, `__title__`, `__uri__`, `__version__`.
+- The following class-level symbols do not require type annotations:
+  `__class__`, `__dict__`, `__doc__`, `__module__`, `__slots__`.
+
 ## JSON
 
 - [ ] When serialize to JSON, always enclose decimal values

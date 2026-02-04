@@ -50,7 +50,7 @@ class ChatBotModel:
         if model_name == "wangchanglm":
             from pythainlp.generate.wangchanglm import WangChanGLM
 
-            self.model: "WangChanGLM" = WangChanGLM()
+            self.model = WangChanGLM()
             self.model.load_model(
                 model_path="pythainlp/wangchanglm-7.5B-sft-en-sharded",
                 return_dict=return_dict,

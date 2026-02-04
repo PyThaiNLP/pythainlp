@@ -228,9 +228,11 @@ According to PEP 561 and the Python typing documentation, a library is considere
 The analyzer implements the following exemptions as specified in the type completeness guidelines:
 
 1. **Constants with simple literal values** - Constants assigned simple literals don't require annotations
-   - Example: `MAX_VALUE = 100`, `DEFAULT_NAME = "test"`
-   - Must be named in ALL_CAPS or annotated with `Final`
-   - Complex values still require annotations: `COMPLEX_LIST: list = ["a", "b", {"key": "value"}]`
+   - The variable name must be in ALL_CAPS (including private constants like `_MAX_VALUE`)
+   - The assigned value must be a "simple literal": str, int, float, bool, None, or containers (list, tuple, dict, set) composed only of such simple literals
+   - Example exempt constants: `MAX_VALUE = 100`, `DEFAULT_NAME = "test"`, `ALLOWED = ["a", "b", "c"]`
+   - Complex values containing non-simple literals still require annotations: `BYTES_VAL: bytes = b"data"`
+   - Note: The analyzer does not currently check for `Final` annotations when deciding exemptions
 
 2. **Enum values** - Values within an Enum class don't require annotations
    - They automatically take on the type of the Enum class

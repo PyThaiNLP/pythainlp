@@ -14,7 +14,8 @@ https://typing.python.org/en/latest/guides/libraries.html#type-completeness
 The analyzer implements the following exemptions from type annotation requirements:
 
 1. Constants assigned simple literal values (e.g., RED = '#F00', MAX_TIMEOUT = 50)
-   - Named in ALL_CAPS or annotated with Final
+   - Named in ALL_CAPS (including private constants like _MAX_VALUE)
+   - Assigned a simple literal value (str, int, float, bool, None, or containers of these)
 2. Enum values within an Enum class
 3. Type aliases (assignments to instantiable types)
 4. self/cls parameters in methods
@@ -322,29 +323,6 @@ class TypeHintAnalyzer(ast.NodeVisitor):
             name_without_underscores and name_without_underscores.isupper()
         )
 
-    def _has_final_annotation(self, annotation: ast.expr) -> bool:
-        """Check if an annotation uses Final."""
-        if annotation is None:
-            return False
-
-        # Check for Final
-        if isinstance(annotation, ast.Name) and annotation.id == "Final":
-            return True
-
-        # Check for Final[...] (subscript)
-        if isinstance(annotation, ast.Subscript):
-            if isinstance(annotation.value, ast.Name):
-                return annotation.value.id == "Final"
-            elif isinstance(annotation.value, ast.Attribute):
-                return annotation.value.attr == "Final"
-
-        # Check for typing.Final or typing_extensions.Final
-        if isinstance(annotation, ast.Attribute):
-            if annotation.attr == "Final":
-                return True
-
-        return False
-
     def _is_in_enum_class(self) -> bool:
         """Check if currently inside an Enum class."""
         if not self.current_class:
@@ -359,9 +337,7 @@ class TypeHintAnalyzer(ast.NodeVisitor):
 
         return False
 
-    def _is_type_alias_without_annotation(
-        self, target: ast.expr, value: ast.expr
-    ) -> bool:
+    def _is_type_alias_without_annotation(self, value: ast.expr) -> bool:
         """
         Check if an assignment is a type alias without TypeAlias annotation.
 
@@ -510,7 +486,7 @@ class TypeHintAnalyzer(ast.NodeVisitor):
 
             # Type aliases without annotation don't require annotations
             if self.module_level and self._is_type_alias_without_annotation(
-                target, node.value
+                node.value
             ):
                 # This is a type alias, doesn't need annotation
                 continue

@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 import re
-
 from typing import Pattern
 
 from pythainlp import thai_consonants, thai_tonemarks

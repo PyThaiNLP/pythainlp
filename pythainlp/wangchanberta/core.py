@@ -8,7 +8,11 @@ import warnings
 from typing import TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
-    from transformers import CamembertTokenizer, PreTrainedModel, PreTrainedTokenizerBase
+    from transformers import (
+        CamembertTokenizer,
+        PreTrainedModel,
+        PreTrainedTokenizerBase,
+    )
     from transformers.pipelines import TokenClassificationPipeline
 
 from pythainlp.tokenize import word_tokenize

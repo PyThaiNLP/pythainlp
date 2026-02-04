@@ -16,8 +16,7 @@ from typing import TYPE_CHECKING, List, Optional, Union
 from transformers import AutoModelForTokenClassification, AutoTokenizer
 
 if TYPE_CHECKING:
-    import numpy as np
-    import torch
+    pass
 
 
 class Parse:

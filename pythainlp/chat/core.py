@@ -94,4 +94,4 @@ class ChatBotModel:
         )
         _bot = self.model.gen_instruct(_temp)
         self.history.append((text, _bot))
-        return _bot  # type: ignore[no-any-return]
+        return _bot

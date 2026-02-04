@@ -7,7 +7,7 @@ import random
 import re
 import warnings
 from collections.abc import Callable
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Any, Union
 
 if TYPE_CHECKING:
     from transformers import CamembertTokenizer
@@ -213,11 +213,11 @@ class ThaiTextAugmenter:
 
         self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(
             _model_name
-        )  # type: ignore[assignment]
+        )
         self.model_for_masked_lm: AutoModelForMaskedLM = (
             AutoModelForMaskedLM.from_pretrained(_model_name)
-        )  # type: ignore[assignment]
-        self.model: any = pipeline(  # transformers.Pipeline
+        )
+        self.model: Any = pipeline(  # transformers.Pipeline
             "fill-mask",
             tokenizer=self.tokenizer,
             model=self.model_for_masked_lm,
@@ -310,10 +310,10 @@ class PartOfSpeechTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)  # type: ignore[assignment]
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
         self.model: AutoModelForTokenClassification = (
             AutoModelForTokenClassification.from_pretrained(model)
-        )  # type: ignore[assignment]
+        )
 
     def get_tag(
         self, sentence: str, strategy: str = "simple"
@@ -355,10 +355,10 @@ class NamedEntityTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)  # type: ignore[assignment]
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
         self.model: AutoModelForTokenClassification = (
             AutoModelForTokenClassification.from_pretrained(model)
-        )  # type: ignore[assignment]
+        )
 
     def get_ner(
         self,

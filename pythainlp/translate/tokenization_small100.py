@@ -27,9 +27,11 @@ import json
 import os
 from pathlib import Path
 from shutil import copyfile
-from typing import Any, Optional, Union, cast
+from typing import TYPE_CHECKING, Optional, Union, cast
 
-import sentencepiece
+if TYPE_CHECKING:
+    from sentencepiece import SentencePieceProcessor
+
 from transformers.tokenization_utils import BatchEncoding, PreTrainedTokenizer
 
 SPIECE_UNDERLINE = "▁"
@@ -122,14 +124,14 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     prefix_tokens: Optional[list[int]] = []
     suffix_tokens: list[int] = []
 
-    sp_model_kwargs: dict[str, Any]
+    sp_model_kwargs: dict[str, str]
     language_codes: str
     lang_code_to_token: dict[str, str]
     vocab_file: str
     encoder: dict[str, int]
     decoder: dict[int, str]
     spm_file: str
-    sp_model: Any
+    sp_model: SentencePieceProcessor
     encoder_size: int
     lang_token_to_id: dict[str, int]
     lang_code_to_id: dict[str, int]
@@ -149,9 +151,9 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         pad_token: str = "<pad>",  # noqa: S107
         unk_token: str = "<unk>",  # noqa: S107
         language_codes: str = "m2m100",
-        sp_model_kwargs: Optional[dict[str, Any]] = None,
+        sp_model_kwargs: Optional[dict[str, str]] = None,
         num_madeup_words: int = 8,
-        **kwargs: Any,
+        **kwargs: str,
     ) -> None:
         self.sp_model_kwargs = (
             {} if sp_model_kwargs is None else sp_model_kwargs
@@ -398,7 +400,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         return super().prepare_seq2seq_batch(src_texts, tgt_texts, **kwargs)
 
     def _build_translation_inputs(
-        self, raw_inputs: Union[str, list[str]], tgt_lang: Optional[str], **extra_kwargs: Any
+        self, raw_inputs: Union[str, list[str]], tgt_lang: Optional[str], **extra_kwargs: str
     ) -> dict[str, Any]:
         """Used by translation pipeline, to prepare inputs for the generate
         function"""
@@ -434,18 +436,20 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
 
 def load_spm(
-    path: str, sp_model_kwargs: dict[str, Any]
-) -> sentencepiece.SentencePieceProcessor:
+    path: str, sp_model_kwargs: dict[str, str]
+) -> SentencePieceProcessor:
+    import sentencepiece
+    
     spm = sentencepiece.SentencePieceProcessor(**sp_model_kwargs)
     spm.Load(str(path))
     return spm
 
 
-def load_json(path: str) -> Union[dict[Any, Any], list[Any]]:
+def load_json(path: str) -> Union[dict[str, str], list[str]]:
     with open(path) as f:
         return json.load(f)  # type: ignore[no-any-return]
 
 
-def save_json(data: Union[dict[Any, Any], list[Any]], path: str) -> None:
+def save_json(data: Union[dict[str, str], list[str]], path: str) -> None:
     with open(path, "w") as f:
         json.dump(data, f, indent=2)

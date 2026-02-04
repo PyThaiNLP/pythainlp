@@ -4,7 +4,11 @@
 from __future__ import annotations
 
 import itertools
-from typing import Any
+from typing import TYPE_CHECKING, Union
+
+if TYPE_CHECKING:
+    from gensim.models import FastText
+    from gensim.models.keyedvectors import KeyedVectors
 
 from pythainlp.tokenize import word_tokenize
 
@@ -15,7 +19,7 @@ class FastTextAug:
     :param str model_path: path of model file
     """
 
-    model: Any
+    model: Union[FastText, KeyedVectors]
     dict_wv: list[str]
     sentence: list[str]
     list_synonym: list[list[str]]
@@ -26,7 +30,7 @@ class FastTextAug:
         from gensim.models.keyedvectors import KeyedVectors
 
         if model_path.endswith(".bin"):
-            self.model: Any = FastText_gensim.load_facebook_vectors(model_path)
+            self.model: Union[FastText, KeyedVectors] = FastText_gensim.load_facebook_vectors(model_path)
         elif model_path.endswith(".vec"):
             self.model = KeyedVectors.load_word2vec_format(model_path)
         else:

@@ -28,6 +28,7 @@ NEREngineType = Union[
     "NamedEntityRecognition",
     "WangchanbertaThaiNameTagger",
     "NamedEntityTagger",
+    None,
 ]
 
 
@@ -154,7 +155,6 @@ class NNER:
     engine: "ThaiNNER"
 
     def __init__(self, engine: str = "thai_nner") -> None:
-        self.engine: "ThaiNNER"
         self.load_engine(engine)
 
     def load_engine(self, engine: str = "thai_nner") -> None:

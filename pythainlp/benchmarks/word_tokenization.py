@@ -166,11 +166,11 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, dict[str, Union
     c_pos_pred = c_pos_pred[c_pos_pred < ref_sample_arr.shape[0]]
     c_neg_pred = c_neg_pred[c_neg_pred < ref_sample_arr.shape[0]]
 
-    c_tp: np.intp = np.sum(ref_sample_arr[c_pos_pred] == 1)
-    c_fp: np.intp = np.sum(ref_sample_arr[c_pos_pred] == 0)
+    c_tp: int = int(np.sum(ref_sample_arr[c_pos_pred] == 1))
+    c_fp: int = int(np.sum(ref_sample_arr[c_pos_pred] == 0))
 
-    c_tn: np.intp = np.sum(ref_sample_arr[c_neg_pred] == 0)
-    c_fn: np.intp = np.sum(ref_sample_arr[c_neg_pred] == 1)
+    c_tn: int = int(np.sum(ref_sample_arr[c_neg_pred] == 0))
+    c_fn: int = int(np.sum(ref_sample_arr[c_neg_pred] == 1))
 
     # Compute word-level statistics
 
@@ -183,7 +183,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, dict[str, Union
         word_boundaries, ss_boundaries
     )
 
-    correctly_tokenised_words: np.intp = np.sum(tokenization_indicators)
+    correctly_tokenised_words: int = int(np.sum(tokenization_indicators))
 
     tokenization_indicators_str = list(map(str, tokenization_indicators))
 
@@ -196,8 +196,8 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, dict[str, Union
         },
         "word_level": {
             "correctly_tokenised_words": correctly_tokenised_words,
-            "total_words_in_sample": np.sum(sample_arr),
-            "total_words_in_ref_sample": np.sum(ref_sample_arr),
+            "total_words_in_sample": int(np.sum(sample_arr)),
+            "total_words_in_ref_sample": int(np.sum(ref_sample_arr)),
         },
         "global": {
             "tokenisation_indicators": "".join(tokenization_indicators_str)

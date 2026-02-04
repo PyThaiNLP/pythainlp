@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import epitran
 
-_EPI_THA: epitran._epitran.Epitran = epitran.Epitran("tha-Thai")
+_EPI_THA: epitran.Epitran = epitran.Epitran("tha-Thai")
 
 
 def transliterate(text: str) -> str:

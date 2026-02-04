@@ -300,10 +300,13 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         """
         Check if a variable name follows constant naming convention.
 
-        Constants are typically named in ALL_CAPS or with Final annotation.
+        Constants are typically named in ALL_CAPS (with optional underscores).
+        This includes both public (MAX_VALUE) and private (_MAX_VALUE) constants.
         """
         # Check if name is in ALL_CAPS (with optional underscores)
-        if name.isupper() and not name.startswith("_"):
+        # Remove leading underscores for the check
+        name_without_underscores = name.lstrip("_")
+        if name_without_underscores and name_without_underscores.isupper():
             return True
         return False
 
@@ -466,7 +469,6 @@ class TypeHintAnalyzer(ast.NodeVisitor):
             # Check for exemptions based on type completeness guidelines
             # Module-level exempt symbols
             if self.module_level and self._is_exempt_module_symbol(var_name):
-                self.generic_visit(node)
                 continue
 
             # Class-level exempt symbols
@@ -475,7 +477,6 @@ class TypeHintAnalyzer(ast.NodeVisitor):
                 and self.current_function is None
                 and self._is_exempt_class_symbol(var_name)
             ):
-                self.generic_visit(node)
                 continue
 
             # Enum values - skip if we're in an Enum class
@@ -485,14 +486,12 @@ class TypeHintAnalyzer(ast.NodeVisitor):
                 and self._is_in_enum_class()
             ):
                 # Enum values don't require annotations
-                self.generic_visit(node)
                 continue
 
             # Constants with simple literal values don't require annotations
             if self.module_level and self._is_constant_name(var_name):
                 if self._is_simple_literal(node.value):
                     # This is an exempt constant
-                    self.generic_visit(node)
                     continue
 
             # Type aliases without annotation don't require annotations
@@ -500,7 +499,6 @@ class TypeHintAnalyzer(ast.NodeVisitor):
                 target, node.value
             ):
                 # This is a type alias, doesn't need annotation
-                self.generic_visit(node)
                 continue
 
             # Determine variable type and qualified name

@@ -13,9 +13,11 @@ __all__: list[str] = ["gen_sentence"]
 
 import pickle
 import random
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Any, Union
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     import pandas as pd
     from fastai.basic_train import Learner
     from fastai.text import (
@@ -25,7 +27,6 @@ if TYPE_CHECKING:
         Vocab,
         language_model_learner,
     )
-    from pathlib import Path
 
 # fastai
 import fastai

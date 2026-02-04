@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import json
 import os
-from typing import Any, Optional
+from typing import Optional
 
 from pythainlp.corpus import corpus_path, get_corpus_path
 from pythainlp.tag import blackboard, orchid

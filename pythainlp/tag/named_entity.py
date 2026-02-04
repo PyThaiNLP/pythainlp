@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Any, Union
 
 if TYPE_CHECKING:
     from types import ModuleType
@@ -15,6 +15,8 @@ if TYPE_CHECKING:
     from pythainlp.tag.thainer import ThaiNameTagger
     from pythainlp.wangchanberta.core import (
         NamedEntityRecognition,
+    )
+    from pythainlp.wangchanberta.core import (
         ThaiNameTagger as WangchanbertaThaiNameTagger,
     )
 

@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import argparse
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pythainlp import cli
 from pythainlp.tokenize import (

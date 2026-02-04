@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import collections
 from collections.abc import Callable, Collection
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 import torch
 

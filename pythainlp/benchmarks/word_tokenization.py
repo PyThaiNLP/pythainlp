@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import re
 import sys
-from typing import TYPE_CHECKING, Any, Union
+from typing import TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
     import numpy as np

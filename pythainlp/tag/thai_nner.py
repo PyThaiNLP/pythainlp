@@ -76,7 +76,7 @@ def get_top_level_entities(entities: list[dict]) -> list[dict]:
         entities, key=lambda x: (x["span"][0], -x["span"][1])
     )
 
-    top_level = []
+    top_level: list[dict] = []
     for ent in sorted_entities:
         is_contained = False
         # Only check against entities already in top_level

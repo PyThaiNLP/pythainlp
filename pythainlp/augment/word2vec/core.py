@@ -29,15 +29,13 @@ class Word2VecAug:
 
         self.tokenizer: Callable[[str], list[str]] = tokenize
         if type == "file":
-            self.model: "KeyedVectors" = (
-                word2vec.KeyedVectors.load_word2vec_format(model)
-            )
+            self.model: "KeyedVectors" = word2vec.KeyedVectors.load_word2vec_format(model)
         elif type == "binary":
-            self.model = word2vec.KeyedVectors.load_word2vec_format(
+            self.model: "KeyedVectors" = word2vec.KeyedVectors.load_word2vec_format(
                 model, binary=True, unicode_errors="ignore"
             )
         else:
-            self.model = model
+            self.model: "KeyedVectors" = model  # type: ignore[assignment]
         self.dict_wv: list[str] = list(self.model.key_to_index.keys())
 
     def modify_sent(self, sent: list[str], p: float = 0.7) -> list[list[str]]:

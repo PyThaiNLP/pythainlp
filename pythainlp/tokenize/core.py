@@ -25,8 +25,8 @@ from pythainlp.tokenize._utils import (
 )
 from pythainlp.util.trie import Trie, dict_trie
 
-_RE_WHITESPACE = re.compile(r"\s")
-_RE_WORD_CHAR = re.compile(r"\w")
+_RE_WHITESPACE: re.Pattern[str] = re.compile(r"\s")
+_RE_WORD_CHAR: re.Pattern[str] = re.compile(r"\w")
 
 
 def word_detokenize(
@@ -941,9 +941,9 @@ class Tokenizer:
         """
         self.__trie_dict: Trie = Trie([])
         if custom_dict:
-            self.__trie_dict = dict_trie(custom_dict)
+            self.__trie_dict: Trie = dict_trie(custom_dict)
         else:
-            self.__trie_dict = word_dict_trie()
+            self.__trie_dict: Trie = word_dict_trie()
         self.__engine: str = engine
         if self.__engine not in ["newmm", "mm", "longest", "deepcut"]:
             raise NotImplementedError(
@@ -993,4 +993,4 @@ class Tokenizer:
             tokenizer.word_tokenize("สวัสดีครับ")
             # output: ['สวัสดี', 'ครับ']
         """
-        self.__engine = engine
+        self.__engine: str = engine

@@ -31,7 +31,7 @@ class KeyBERT:
     ) -> None:
         from transformers import pipeline
 
-        self.ft_pipeline = pipeline(
+        self.ft_pipeline: Any = pipeline(
             "feature-extraction",
             tokenizer=model_name,
             model=model_name,
@@ -154,7 +154,7 @@ class KeyBERT:
                 [np.array(emb[0]).mean(axis=0) for emb in embs]
             )
 
-        return emb_mean  # type: ignore[no-any-return]
+        return emb_mean
 
 
 def _generate_ngrams(
@@ -223,10 +223,10 @@ def _rank_keywords(
         )
         if not np.isclose(np.linalg.norm(result, axis=1), 1).all():
             raise ValueError("Cannot normalize a vector to unit vector.")
-        return result  # type: ignore[no-any-return]
+        return result
 
     def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:
-        return (np.matmul(a, b.T).T).sum(axis=1)  # type: ignore[no-any-return]
+        return (np.matmul(a, b.T).T).sum(axis=1)
 
     doc_vector = l2_norm(doc_vector)
     word_vectors = l2_norm(word_vectors)

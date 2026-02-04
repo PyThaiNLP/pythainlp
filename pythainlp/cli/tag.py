@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import argparse
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from pythainlp import cli
 from pythainlp.tag import pos_tag
@@ -38,7 +38,7 @@ class SubAppBase:
         )
 
         args = parser.parse_args(argv)
-        self.args = args
+        self.args: Any = args
 
         tokens = args.text.split(args.separator)
         result = self.run(tokens)
@@ -52,8 +52,8 @@ class POSTaggingApp(SubAppBase):
     run: Callable[[list[str]], list[tuple[str, str]]]
 
     def __init__(self, *args: str, **kwargs: str) -> None:
-        self.separator = "|"
-        self.run = pos_tag
+        self.separator: str = "|"
+        self.run: Callable[[list[str]], list[tuple[str, str]]] = pos_tag
 
         super().__init__(*args, **kwargs)
 

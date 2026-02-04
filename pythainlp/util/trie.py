@@ -50,15 +50,15 @@ class Trie(Iterable[str]):
     root: Node
 
     class Node:
-        __slots__ = "end", "children"
+        __slots__: tuple[str, str] = ("end", "children")
 
         def __init__(self) -> None:
             self.end: bool = False
             self.children: dict[str, Trie.Node] = {}
 
     def __init__(self, words: Iterable[str]) -> None:
-        self.words = set(words)
-        self.root = Trie.Node()
+        self.words: set[str] = set(words)
+        self.root: Trie.Node = Trie.Node()
 
         for word in words:
             self.add(word)

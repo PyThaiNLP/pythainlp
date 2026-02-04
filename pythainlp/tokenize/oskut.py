@@ -16,8 +16,8 @@ from typing import cast
 
 import oskut
 
-_DEFAULT_ENGINE = "ws"
-_engine_lock = threading.Lock()
+_DEFAULT_ENGINE: str = "ws"
+_engine_lock: threading.Lock = threading.Lock()
 
 # Load default model at module initialization
 oskut.load_model(engine=_DEFAULT_ENGINE)

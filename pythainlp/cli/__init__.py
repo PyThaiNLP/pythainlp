@@ -15,8 +15,8 @@ from pythainlp.cli import benchmark, data, misspell, soundex, tag, tokenize
 if TYPE_CHECKING:
     from types import ModuleType
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")  # type: ignore[assignment]
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")  # type: ignore[assignment]
+sys.stdout: io.TextIOWrapper = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+sys.stderr: io.TextIOWrapper = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8")
 
 # a command should start with a verb when possible
 COMMANDS: list[str] = sorted(

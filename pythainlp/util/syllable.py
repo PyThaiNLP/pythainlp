@@ -55,7 +55,10 @@ thai_initial_consonant_type: dict[str, list[str]] = {
 }
 thai_initial_consonant_to_type: dict[str, str] = {}
 
+k: str
+v: list[str]
 for k, v in thai_initial_consonant_type.items():
+    i: str
     for i in v:
         thai_initial_consonant_to_type[i] = k
 

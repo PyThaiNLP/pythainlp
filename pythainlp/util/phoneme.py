@@ -11,7 +11,7 @@ from functools import lru_cache
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util.trie import Trie
 
-consonants_ipa_nectec = [
+consonants_ipa_nectec: list[tuple[str, ...]] = [
     ("k", "k", "k^"),
     ("kʰ", "kh"),
     ("ŋ", "ng", "ng^"),
@@ -36,7 +36,7 @@ consonants_ipa_nectec = [
 ]
 # ipa, initial, final
 
-monophthong_ipa_nectec = [
+monophthong_ipa_nectec: list[tuple[str, str]] = [
     ("i", "i"),
     ("e", "e"),
     ("ɛ", "x"),
@@ -59,7 +59,7 @@ monophthong_ipa_nectec = [
     ("", "@@"),  # -อ long
 ]
 
-diphthong_ipa_nectec = [
+diphthong_ipa_nectec: list[tuple[str, str]] = [
     ("ia", "ia"),
     ("ɯa", "va"),
     ("ua", "ua"),
@@ -68,7 +68,7 @@ diphthong_ipa_nectec = [
     ("uua", "uua"),
 ]
 
-tones_ipa_nectec = [
+tones_ipa_nectec: list[tuple[str, str]] = [
     ("˧", "0"),
     ("˨˩", "1"),
     ("˥˩", "2"),
@@ -76,7 +76,7 @@ tones_ipa_nectec = [
     ("˩˩˦", "4"),
 ]
 
-dict_nectec_to_ipa = {
+dict_nectec_to_ipa: dict[str, str] = {
     i[1]: i[0]
     for i in consonants_ipa_nectec
     + monophthong_ipa_nectec
@@ -121,7 +121,7 @@ def nectec_to_ipa(pronunciation: str) -> str:
     return " ".join(ipa)
 
 
-dict_ipa_rtgs = {
+dict_ipa_rtgs: dict[str, str] = {
     "b": "b",
     "d": "d",
     "f": "f",
@@ -191,7 +191,7 @@ dict_ipa_rtgs = {
     ".": ".",
 }
 
-dict_ipa_rtgs_final = {"w": "o"}
+dict_ipa_rtgs_final: dict[str, str] = {"w": "o"}
 
 
 @lru_cache

@@ -27,22 +27,22 @@ import json
 import os
 from pathlib import Path
 from shutil import copyfile
-from typing import TYPE_CHECKING, Any, Optional, Union, cast
+from typing import TYPE_CHECKING, Any, Mapping, Optional, Union, cast
 
 if TYPE_CHECKING:
     from sentencepiece import SentencePieceProcessor
 
 from transformers.tokenization_utils import BatchEncoding, PreTrainedTokenizer
 
-SPIECE_UNDERLINE = "▁"
+SPIECE_UNDERLINE: str = "▁"
 
-VOCAB_FILES_NAMES = {
+VOCAB_FILES_NAMES: dict[str, str] = {
     "vocab_file": "vocab.json",
     "spm_file": "sentencepiece.bpe.model",
     "tokenizer_config_file": "tokenizer_config.json",
 }
 
-PRETRAINED_VOCAB_FILES_MAP = {
+PRETRAINED_VOCAB_FILES_MAP: dict[str, dict[str, str]] = {
     "vocab_file": {
         "alirezamsh/small100": "https://huggingface.co/alirezamsh/small100/resolve/main/vocab.json",
     },
@@ -54,12 +54,12 @@ PRETRAINED_VOCAB_FILES_MAP = {
     },
 }
 
-PRETRAINED_POSITIONAL_EMBEDDINGS_SIZES = {
+PRETRAINED_POSITIONAL_EMBEDDINGS_SIZES: dict[str, int] = {
     "alirezamsh/small100": 1024,
 }
 
 # fmt: off
-FAIRSEQ_LANGUAGE_CODES = {
+FAIRSEQ_LANGUAGE_CODES: dict[str, list[str]] = {
     "m2m100": ["af", "am", "ar", "ast", "az", "ba", "be", "bg", "bn", "br", "bs", "ca", "ceb", "cs", "cy", "da", "de", "el", "en", "es", "et", "fa", "ff", "fi", "fr", "fy", "ga", "gd", "gl", "gu", "ha", "he", "hi", "hr", "ht", "hu", "hy", "id", "ig", "ilo", "is", "it", "ja", "jv", "ka", "kk", "km", "kn", "ko", "lb", "lg", "ln", "lo", "lt", "lv", "mg", "mk", "ml", "mn", "mr", "ms", "my", "ne", "nl", "no", "ns", "oc", "or", "pa", "pl", "ps", "pt", "ro", "ru", "sd", "si", "sk", "sl", "so", "sq", "sr", "ss", "su", "sv", "sw", "ta", "th", "tl", "tn", "tr", "uk", "ur", "uz", "vi", "wo", "xh", "yi", "yo", "zh", "zu"]
 }
 # fmt: on
@@ -153,15 +153,15 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         language_codes: str = "m2m100",
         sp_model_kwargs: Optional[dict[str, str]] = None,
         num_madeup_words: int = 8,
-        **kwargs: str,
+        **kwargs: Any,
     ) -> None:
-        self.sp_model_kwargs = (
+        self.sp_model_kwargs: dict[str, str] = (
             {} if sp_model_kwargs is None else sp_model_kwargs
         )
 
-        self.language_codes = language_codes
+        self.language_codes: str = language_codes
         fairseq_language_code = FAIRSEQ_LANGUAGE_CODES[language_codes]
-        self.lang_code_to_token = {
+        self.lang_code_to_token: dict[str, str] = {
             lang_code: f"__{lang_code}__"
             for lang_code in fairseq_language_code
         }
@@ -189,34 +189,34 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
             **kwargs,
         )
 
-        self.vocab_file = vocab_file
+        self.vocab_file: str = vocab_file
         encoder_data = load_json(vocab_file)
         if not isinstance(encoder_data, dict):
             raise ValueError("encoder must be a dict")
-        self.encoder = cast(dict[str, int], encoder_data)
-        self.decoder = {v: k for k, v in self.encoder.items()}
-        self.spm_file = spm_file
-        self.sp_model = load_spm(spm_file, self.sp_model_kwargs)  # SentencePieceProcessor
+        self.encoder: dict[str, int] = cast(dict[str, int], encoder_data)
+        self.decoder: dict[int, str] = {v: k for k, v in self.encoder.items()}
+        self.spm_file: str = spm_file
+        self.sp_model: SentencePieceProcessor = load_spm(spm_file, self.sp_model_kwargs)  # SentencePieceProcessor
 
-        self.encoder_size = len(self.encoder)
+        self.encoder_size: int = len(self.encoder)
 
-        self.lang_token_to_id = {
+        self.lang_token_to_id: dict[str, int] = {
             self.get_lang_token(lang_code): self.encoder_size + i
             for i, lang_code in enumerate(fairseq_language_code)
         }
-        self.lang_code_to_id = {
+        self.lang_code_to_id: dict[str, int] = {
             lang_code: self.encoder_size + i
             for i, lang_code in enumerate(fairseq_language_code)
         }
-        self.id_to_lang_token = {
+        self.id_to_lang_token: dict[int, str] = {
             v: k for k, v in self.lang_token_to_id.items()
         }
 
-        self._tgt_lang = tgt_lang if tgt_lang is not None else "en"
-        self.cur_lang_id = self.get_lang_id(self._tgt_lang)
+        self._tgt_lang: str = tgt_lang if tgt_lang is not None else "en"
+        self.cur_lang_id: int = self.get_lang_id(self._tgt_lang)
         self.set_lang_special_tokens(self._tgt_lang)
 
-        self.num_madeup_words = num_madeup_words
+        self.num_madeup_words: int = num_madeup_words
 
     @property
     def vocab_size(self) -> int:
@@ -229,7 +229,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
 
     @tgt_lang.setter
     def tgt_lang(self, new_tgt_lang: str) -> None:
-        self._tgt_lang = new_tgt_lang
+        self._tgt_lang: str = new_tgt_lang
         self.set_lang_special_tokens(self._tgt_lang)
 
     def _tokenize(self, text: str) -> list[str]:
@@ -352,13 +352,13 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         return state
 
     def __setstate__(self, d: dict) -> None:
-        self.__dict__ = d
+        self.__dict__: dict = d
 
         # for backward compatibility
         if not hasattr(self, "sp_model_kwargs"):
-            self.sp_model_kwargs = {}
+            self.sp_model_kwargs: dict[str, str] = {}
 
-        self.sp_model = load_spm(self.spm_file, self.sp_model_kwargs)
+        self.sp_model: SentencePieceProcessor = load_spm(self.spm_file, self.sp_model_kwargs)
 
     def save_vocabulary(
         self, save_directory: str, filename_prefix: Optional[str] = None
@@ -395,7 +395,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         tgt_lang: str = "ro",
         **kwargs: Any,
     ) -> BatchEncoding:
-        self.tgt_lang = tgt_lang
+        self.tgt_lang: str = tgt_lang
         self.set_lang_special_tokens(self.tgt_lang)
         return super().prepare_seq2seq_batch(src_texts, tgt_texts, **kwargs)
 
@@ -408,7 +408,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
             raise ValueError(
                 "Translation requires a `tgt_lang` for this model"
             )
-        self.tgt_lang = tgt_lang
+        self.tgt_lang: str = tgt_lang
         inputs = self(raw_inputs, add_special_tokens=True, **extra_kwargs)
         return inputs  # type: ignore[no-any-return]
 
@@ -416,16 +416,16 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         self.set_lang_special_tokens(self.tgt_lang)
 
     def _switch_to_target_mode(self) -> None:
-        self.prefix_tokens = None
-        self.suffix_tokens = [self.eos_token_id]
+        self.prefix_tokens: Optional[list[int]] = None
+        self.suffix_tokens: list[int] = [self.eos_token_id]
 
     def set_lang_special_tokens(self, src_lang: str) -> None:
         """Reset the special tokens to the tgt lang setting.
         No prefix and suffix=[eos, tgt_lang_code]."""
         lang_token = self.get_lang_token(src_lang)
-        self.cur_lang_id = self.lang_token_to_id[lang_token]
-        self.prefix_tokens = [self.cur_lang_id]
-        self.suffix_tokens = [self.eos_token_id]
+        self.cur_lang_id: int = self.lang_token_to_id[lang_token]
+        self.prefix_tokens: list[int] = [self.cur_lang_id]
+        self.suffix_tokens: list[int] = [self.eos_token_id]
 
     def get_lang_token(self, lang: str) -> str:
         return self.lang_code_to_token[lang]
@@ -450,6 +450,6 @@ def load_json(path: str) -> Union[dict[str, str], list[str]]:
         return json.load(f)  # type: ignore[no-any-return]
 
 
-def save_json(data: Union[dict[str, str], list[str]], path: str) -> None:
+def save_json(data: Union[Mapping[str, Union[str, int]], list[str]], path: str) -> None:
     with open(path, "w") as f:
         json.dump(data, f, indent=2)

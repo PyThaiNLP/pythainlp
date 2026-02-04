@@ -66,7 +66,7 @@ class ThaiTokenizer(BaseTokenizer):
              ' ', 'ภาวนามยปัญญา']
 
         """
-        return thai2fit_tokenizer().word_tokenize(text)  # type: ignore[no-any-return]
+        return thai2fit_tokenizer().word_tokenize(text)
 
     def add_special_cases(self, toks: Collection[str]) -> None:
         pass

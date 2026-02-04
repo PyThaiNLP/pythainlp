@@ -3,13 +3,16 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
     import torch
 
 
 class ChatBotModel:
+    history: list[tuple[str, str]]
+    model: Any
+
     def __init__(self) -> None:
         """Chat using AI generation"""
         self.history: list[tuple[str, str]] = []
@@ -46,7 +49,7 @@ class ChatBotModel:
         if model_name == "wangchanglm":
             from pythainlp.generate.wangchanglm import WangChanGLM
 
-            self.model = WangChanGLM()
+            self.model: Any = WangChanGLM()
             self.model.load_model(
                 model_path="pythainlp/wangchanglm-7.5B-sft-en-sharded",
                 return_dict=return_dict,
@@ -94,4 +97,4 @@ class ChatBotModel:
         )
         _bot = self.model.gen_instruct(_temp)
         self.history.append((text, _bot))
-        return _bot  # type: ignore[no-any-return]
+        return _bot

@@ -99,7 +99,7 @@ def evaluate_one_text(model: BertModel, sentence: str) -> list[str]:
     return prediction_label
 
 
-mlm_model: AutoModelForMaskedLM = AutoModelForMaskedLM.from_pretrained(
+mlm_model: "AutoModelForMaskedLM" = AutoModelForMaskedLM.from_pretrained(
     "bookpanda/wangchanberta-base-att-spm-uncased-masking"
 )
 if use_cuda:

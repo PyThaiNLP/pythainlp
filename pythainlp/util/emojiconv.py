@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import re
+from typing import Pattern
 
 _emoji_th: dict[str, str] = {
     "😀": "หน้ายิ้มยิงฟัน",
@@ -1825,11 +1826,11 @@ _emoji_th: dict[str, str] = {
     "🏴󠁧󠁢󠁷󠁬󠁳󠁿": "ธง_เวลส์",
 }
 
-_th_emoji = {v: k for k, v in _emoji_th.items()}
+_th_emoji: dict[str, str] = {v: k for k, v in _emoji_th.items()}
 
-_emojis = sorted(_emoji_th.keys(), key=len, reverse=True)
-_emoji_regex = re.compile("|".join(map(re.escape, _emojis)))
-_delimiter = ":"
+_emojis: list[str] = sorted(_emoji_th.keys(), key=len, reverse=True)
+_emoji_regex: Pattern[str] = re.compile("|".join(map(re.escape, _emojis)))
+_delimiter: str = ":"
 
 
 def emoji_to_thai(text: str, delimiters: tuple[str, str] = (_delimiter, _delimiter)) -> str:

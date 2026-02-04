@@ -15,8 +15,8 @@ class MultiEL:
     _bela_run: BELA
 
     def __init__(self, model_name: str = "bela", device: str = "cuda") -> None:
-        self.model_name = model_name
-        self.device = device
+        self.model_name: str = model_name
+        self.device: str = device
         self.load_model()
 
     def load_model(self) -> None:
@@ -26,7 +26,7 @@ class MultiEL:
             raise ImportError(
                 "Can't import multiel package, you can install by pip install multiel."
             ) from exc
-        self._bela_run = BELA(device=self.device)
+        self._bela_run: "BELA" = BELA(device=self.device)
 
     def process_batch(
         self, list_text: Union[list[str], str]

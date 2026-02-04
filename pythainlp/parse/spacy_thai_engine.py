@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 class Parse:
     def __init__(self, model: str = "th") -> None:
-        self.nlp: Language = spacy_thai.load()  # type: ignore[assignment]
+        self.nlp: Language = spacy_thai.load()
 
     def __call__(
         self, text: str, tag: str = "str"

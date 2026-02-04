@@ -30,13 +30,11 @@ class FastTextAug:
         from gensim.models.keyedvectors import KeyedVectors
 
         if model_path.endswith(".bin"):
-            self.model: Union[FastText, KeyedVectors] = (
-                FastText_gensim.load_facebook_vectors(model_path)
-            )
+            self.model: Union["FastText", "KeyedVectors"] = FastText_gensim.load_facebook_vectors(model_path)
         elif model_path.endswith(".vec"):
-            self.model = KeyedVectors.load_word2vec_format(model_path)
+            self.model: Union["FastText", "KeyedVectors"] = KeyedVectors.load_word2vec_format(model_path)
         else:
-            self.model = FastText_gensim.load(model_path)
+            self.model: Union["FastText", "KeyedVectors"] = FastText_gensim.load(model_path)
         self.dict_wv: list[str] = list(self.model.key_to_index.keys())
 
     def tokenize(self, text: str) -> list[str]:

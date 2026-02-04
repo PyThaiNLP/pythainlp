@@ -8,7 +8,7 @@ from __future__ import annotations
 import re
 from collections.abc import Callable, Sequence
 
-_DIGITS_WITH_SEPARATOR = re.compile(r"(\d+[\.\,:])+\d+")
+_DIGITS_WITH_SEPARATOR: re.Pattern[str] = re.compile(r"(\d+[\.\,:])+\d+")
 
 
 def apply_postprocessors(

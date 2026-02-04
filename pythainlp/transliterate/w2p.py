@@ -15,14 +15,14 @@ if TYPE_CHECKING:
     import numpy as np
     from numpy.typing import NDArray
 
-_GRAPHEMES = list(
+_GRAPHEMES: list[str] = list(
     "พจใงต้ืฮแาฐฒฤๅูศฅถฺฎหคสุขเึดฟำฝยลอ็ม" + " ณิฑชฉซทรฏฬํัฃวก่ป์ผฆบี๊ธญฌษะไ๋นโภ?"
 )
-_PHONEMES = list(
+_PHONEMES: list[str] = list(
     "-พจใงต้ืฮแาฐฒฤูศฅถฺฎหคสุขเึดฟำฝยลอ็ม" + " ณิฑชฉซทรํฬฏ–ัฃวก่ปผ์ฆบี๊ธฌญะไษ๋นโภ?"
 )
 
-_MODEL_NAME = "thai_w2p"
+_MODEL_NAME: str = "thai_w2p"
 
 
 class _Hparams:
@@ -37,7 +37,7 @@ class _Hparams:
     lr: float = 0.001
 
 
-hp = _Hparams()
+hp: _Hparams = _Hparams()
 
 
 def _load_vocab() -> tuple[
@@ -89,7 +89,7 @@ class Thai_W2P:
         )
         if self.checkpoint is None:
             download(_MODEL_NAME, version="0.2")
-            self.checkpoint = get_corpus_path(_MODEL_NAME)
+            self.checkpoint: Optional[str] = get_corpus_path(_MODEL_NAME)
             if self.checkpoint is None:
                 raise RuntimeError(
                     f"Failed to download or locate {_MODEL_NAME} corpus"
@@ -278,7 +278,7 @@ class Thai_W2P:
         return pron_result
 
 
-_THAI_W2P = Thai_W2P()
+_THAI_W2P: "Thai_W2P" = Thai_W2P()
 
 
 def pronunciate(text: str) -> str:

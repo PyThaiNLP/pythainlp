@@ -74,7 +74,7 @@ class SubAppBase:
         parser.set_defaults(keep_whitespace=True)
 
         args = parser.parse_args(argv)
-        self.args = args
+        self.args: Any = args
 
         cli.exit_if_empty(args.text, parser)
         result = self.run(

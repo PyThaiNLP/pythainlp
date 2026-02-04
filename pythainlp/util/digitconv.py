@@ -44,7 +44,7 @@ _digit_spell: dict[str, str] = {
     "9": "เก้า",
 }
 
-_spell_digit = {
+_spell_digit: dict[str, str] = {
     "ศูนย์": "0",
     "หนึ่ง": "1",
     "สอง": "2",
@@ -57,9 +57,9 @@ _spell_digit = {
     "เก้า": "9",
 }
 
-_arabic_thai_translate_table = str.maketrans(_arabic_thai)
-_thai_arabic_translate_table = str.maketrans(_thai_arabic)
-_digit_spell_translate_table = str.maketrans(_digit_spell)
+_arabic_thai_translate_table: dict[int, int] = str.maketrans(_arabic_thai)
+_thai_arabic_translate_table: dict[int, int] = str.maketrans(_thai_arabic)
+_digit_spell_translate_table: dict[int, str] = str.maketrans(_digit_spell)
 
 
 def thai_digit_to_arabic_digit(text: str) -> str:

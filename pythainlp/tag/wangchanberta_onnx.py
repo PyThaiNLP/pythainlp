@@ -4,15 +4,29 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Any, Union
 
 if TYPE_CHECKING:
     import numpy as np
+    import sentencepiece as spm
+    from onnxruntime import InferenceSession, SessionOptions
 
 from pythainlp.corpus import get_path_folder_corpus
 
 
 class WngchanBerta_ONNX:
+    """WangchanBERTa NER engine with ONNX Runtime backend"""
+
+    model_name: str
+    model_version: str
+    options: "SessionOptions"
+    session: "InferenceSession"
+    outputs_name: str
+    sp: "spm.SentencePieceProcessor"
+    _json: dict[str, Any]
+    id2tag: dict[str, str]
+    _s: dict[str, "np.ndarray"]
+
     def __init__(
         self,
         model_name: str,
@@ -42,7 +56,7 @@ class WngchanBerta_ONNX:
         )
         self.session.disable_fallback()
         self.outputs_name: str = self.session.get_outputs()[0].name
-        self.sp: spm.SentencePieceProcessor = spm.SentencePieceProcessor(  # type: ignore[assignment]
+        self.sp: spm.SentencePieceProcessor = spm.SentencePieceProcessor(
             model_file=get_path_folder_corpus(
                 self.model_name, self.model_version, "sentencepiece.bpe.model"
             )
@@ -53,8 +67,8 @@ class WngchanBerta_ONNX:
             ),
             encoding="utf-8-sig",
         ) as fh:
-            self._json = json.load(fh)
-            self.id2tag = self._json["id2label"]
+            self._json: dict[str, Any] = json.load(fh)
+            self.id2tag: dict[str, str] = self._json["id2label"]
 
     def build_tokenizer(self, sent: str) -> dict[str, "np.ndarray"]:
         import numpy as np
@@ -74,7 +88,7 @@ class WngchanBerta_ONNX:
         maxes = np.max(logits_t, axis=-1, keepdims=True)
         shifted_exp = np.exp(logits_t - maxes)
         scores = shifted_exp / shifted_exp.sum(axis=-1, keepdims=True)
-        return scores  # type: ignore[no-any-return]
+        return scores
 
     def clean_output(
         self, list_text: list[tuple[str, str]]
@@ -103,7 +117,7 @@ class WngchanBerta_ONNX:
     def get_ner(
         self, text: str, tag: bool = False
     ) -> Union[str, list[tuple[str, str]]]:
-        self._s = self.build_tokenizer(text)
+        self._s: dict[str, "np.ndarray"] = self.build_tokenizer(text)
         logits = self.session.run(
             output_names=[self.outputs_name], input_feed=self._s
         )[0]

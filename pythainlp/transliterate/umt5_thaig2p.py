@@ -9,7 +9,7 @@ huggingface: https://huggingface.co/B-K/umt5-thai-g2p-v2-0.5k
 # Use a pipeline as a high-level helper
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     from transformers import Pipeline
@@ -32,7 +32,7 @@ class Umt5ThaiG2P:
     def __init__(self, device: str = "cpu") -> None:
         from transformers import pipeline
 
-        self.pipe = pipeline(
+        self.pipe: "Pipeline" = pipeline(
             "text2text-generation",
             model="B-K/umt5-thai-g2p-v2-0.5k",
             device=device,
@@ -42,7 +42,7 @@ class Umt5ThaiG2P:
         return self.pipe(text)[0]["generated_text"]  # type: ignore[no-any-return]
 
 
-_THAI_G2P = None
+_THAI_G2P: Optional[Umt5ThaiG2P] = None
 
 
 def transliterate(text: str, device: str = "cpu") -> str:

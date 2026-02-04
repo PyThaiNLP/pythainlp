@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import re
 import warnings
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 if TYPE_CHECKING:
     from transformers import (
@@ -17,8 +17,8 @@ if TYPE_CHECKING:
 
 from pythainlp.tokenize import word_tokenize
 
-_model_name = "wangchanberta-base-att-spm-uncased"
-_tokenizer = None
+_model_name: str = "wangchanberta-base-att-spm-uncased"
+_tokenizer: Optional["CamembertTokenizer"] = None
 
 
 def _get_tokenizer() -> CamembertTokenizer:

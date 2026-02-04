@@ -17,9 +17,9 @@ if TYPE_CHECKING:
 
     import numpy as np
 
-_MODEL_ENCODER_NAME = "thai2rom_encoder_onnx"
-_MODEL_DECODER_NAME = "thai2rom_decoder_onnx"
-_MODEL_CONFIG_NAME = "thai2rom_config_onnx"
+_MODEL_ENCODER_NAME: str = "thai2rom_encoder_onnx"
+_MODEL_DECODER_NAME: str = "thai2rom_decoder_onnx"
+_MODEL_CONFIG_NAME: str = "thai2rom_config_onnx"
 
 
 class ThaiTransliterator_ONNX:
@@ -95,12 +95,20 @@ class ThaiTransliterator_ONNX:
             target = ["<PAD>"]
         else:
             target_tensor = np.argmax(target_tensor_logits.squeeze(1), 1)
-            target = [self._ix_to_target_char[str(t)] for t in target_tensor]
+            target = [self._ix_to_target_char[int(t)] for t in target_tensor]
 
         return "".join(target)
 
 
 class Seq2Seq_ONNX:
+    encoder: InferenceSession
+    decoder: InferenceSession
+    pad_idx: int
+    target_start_token: int
+    target_end_token: int
+    max_length: int
+    target_vocab_size: int
+
     def __init__(
         self,
         encoder: InferenceSession,
@@ -112,14 +120,14 @@ class Seq2Seq_ONNX:
     ) -> None:
         super().__init__()
 
-        self.encoder = encoder
-        self.decoder = decoder
-        self.pad_idx = 0
-        self.target_start_token = target_start_token
-        self.target_end_token = target_end_token
-        self.max_length = max_length
+        self.encoder: "InferenceSession" = encoder
+        self.decoder: "InferenceSession" = decoder
+        self.pad_idx: int = 0
+        self.target_start_token: int = target_start_token
+        self.target_end_token: int = target_end_token
+        self.max_length: int = max_length
 
-        self.target_vocab_size = target_vocab_size
+        self.target_vocab_size: int = target_vocab_size
 
     def create_mask(self, source_seq: "np.ndarray") -> "np.ndarray":
         mask = source_seq != self.pad_idx
@@ -193,7 +201,7 @@ class Seq2Seq_ONNX:
         return outputs
 
 
-_THAI_TO_ROM_ONNX = ThaiTransliterator_ONNX()
+_THAI_TO_ROM_ONNX: ThaiTransliterator_ONNX = ThaiTransliterator_ONNX()
 
 
 def romanize(text: str) -> str:

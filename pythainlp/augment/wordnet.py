@@ -12,7 +12,7 @@ __all__: list[str] = [
 
 import itertools
 from collections import OrderedDict
-from typing import Callable, Optional
+from typing import Any, Callable, Optional
 
 from nltk.corpus import wordnet as wn
 
@@ -112,11 +112,23 @@ def postype2wordnet(pos: str, corpus: str) -> Optional[str]:
     """
     if corpus not in ["orchid"]:
         return None
-    return orchid[pos]  # type: ignore[no-any-return]
+    return orchid[pos]
 
 
 class WordNetAug:
     """Text Augment using wordnet"""
+
+    synonyms: list[str]
+    list_synsets: list
+    p2w_pos: Optional[str]
+    synset: Any
+    syn: str
+    synonyms_without_duplicates: list[str]
+    list_words: list[str]
+    list_synonym: list
+    p_all: int
+    list_pos: list[tuple[str, str]]
+    temp: list[str]
 
     def __init__(self) -> None:
         pass
@@ -137,13 +149,13 @@ class WordNetAug:
         """
         self.synonyms: list[str] = []
         if pos is None:
-            self.list_synsets = wordnet.synsets(word)
+            self.list_synsets: list = wordnet.synsets(word)
         else:
-            self.p2w_pos = postype2wordnet(pos, postag_corpus)
+            self.p2w_pos: Optional[str] = postype2wordnet(pos, postag_corpus)
             if self.p2w_pos != "":
-                self.list_synsets = wordnet.synsets(word, pos=self.p2w_pos)
+                self.list_synsets: list = wordnet.synsets(word, pos=self.p2w_pos)
             else:
-                self.list_synsets = wordnet.synsets(word)
+                self.list_synsets: list = wordnet.synsets(word)
 
         for self.synset in wordnet.synsets(word):
             for self.syn in self.synset.lemma_names(lang="tha"):
@@ -189,7 +201,7 @@ class WordNetAug:
         """
         new_sentences = []
         self.list_words: list[str] = tokenize(sentence)
-        self.list_synonym: list[list[str]] = []
+        self.list_synonym: list = []
         self.p_all: int = 1
         if postag:
             self.list_pos: list[tuple[str, str]] = pos_tag(
@@ -206,7 +218,7 @@ class WordNetAug:
                     self.p_all *= len(self.temp)
         else:
             for word in self.list_words:
-                self.temp = self.find_synonyms(word)
+                self.temp: list[str] = self.find_synonyms(word)
                 if not self.temp:
                     self.list_synonym.append([word])
                 else:

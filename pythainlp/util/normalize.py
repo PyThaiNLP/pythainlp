@@ -48,14 +48,14 @@ _NOREPEAT_PAIRS: list[tuple[str, str]] = list(
     zip([f"({ch}[ ]*)+{ch}" for ch in _NOREPEAT_CHARS], _NOREPEAT_CHARS)
 )
 
-_RE_TONEMARKS = re.compile(f"[{tonemarks}]+")
+_RE_TONEMARKS: Pattern[str] = re.compile(f"[{tonemarks}]+")
 
-_RE_REMOVE_NEWLINES = re.compile("[ \n]*\n[ \n]*")
+_RE_REMOVE_NEWLINES: Pattern[str] = re.compile("[ \n]*\n[ \n]*")
 
 # Remove single space before non-base characters, but only after a consonant
 # that's not preceded by a vowel (to avoid breaking up complete words)
 # This conservative approach fixes "พ ุ่ม" but preserves "ภาพ ุ่"
-_RE_REMOVE_SPACES_BEFORE_NONBASE = re.compile(
+_RE_REMOVE_SPACES_BEFORE_NONBASE: Pattern[str] = re.compile(
     f"([{thai_consonants}])(?<![{thai_vowels}][{thai_consonants}]) ([{_DANGLING_CHARS}])"
 )
 

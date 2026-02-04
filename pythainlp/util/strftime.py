@@ -17,15 +17,15 @@ from pythainlp.util.date import (
     thai_full_weekdays,
 )
 
-__all__ = [
+__all__: list[str] = [
     "thai_strftime",
 ]
 
-_HA_TH_DIGITS = str.maketrans(digits, thai_digits)
-_BE_AD_DIFFERENCE = 543
+_HA_TH_DIGITS: dict[int, int] = str.maketrans(digits, thai_digits)
+_BE_AD_DIFFERENCE: int = 543
 
-_NEED_L10N = "AaBbCcDFGgvXxYy+"  # flags that need localization
-_EXTENSIONS = "EO-_0^#"  # extension flags
+_NEED_L10N: str = "AaBbCcDFGgvXxYy+"  # flags that need localization
+_EXTENSIONS: str = "EO-_0^#"  # extension flags
 
 
 def _std_strftime(dt_obj: datetime, fmt_char: str) -> str:

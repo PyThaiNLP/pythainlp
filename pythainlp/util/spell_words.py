@@ -18,9 +18,9 @@ from pythainlp import (
 )
 from pythainlp.tokenize import Tokenizer, subword_tokenize
 
-_r1 = ["เ-ย", "เ-ะ", "แ-ะ", "โ-ะ", "เ-าะ", "เ-อะ", "เ-อ", "เ-า"]
-_r2 = ["–ั:วะ", "เ–ี:ยะ", "เ–ือะ", "–ั:ว", "เ–ี:ย", "เ–ื:อ", "–ื:อ"]
-tonemarks = {
+_r1: list[str] = ["เ-ย", "เ-ะ", "แ-ะ", "โ-ะ", "เ-าะ", "เ-อะ", "เ-อ", "เ-า"]
+_r2: list[str] = ["–ั:วะ", "เ–ี:ยะ", "เ–ือะ", "–ั:ว", "เ–ี:ย", "เ–ื:อ", "–ื:อ"]
+tonemarks: dict[str, str] = {
     i: "ไม้" + j
     for i, j in zip(list(thai_tonemarks), ["เอก", "โท", "ตรี", "จัตวา"])
 }
@@ -35,12 +35,13 @@ rule3: list[str] = [
     i.replace("–", f"([{thai_letters}])").replace(":", f"([{thai_tonemarks}])")
     for i in _r2
 ]
-dict_vowel_ex = {}
+dict_vowel_ex: dict[str, str] = {}
+i: str
 for i in _r1 + _r2:
     dict_vowel_ex[i.replace("-", "อ").replace("–", "อ").replace(":", "")] = (
         i.replace("-", "อ").replace(":", "").replace("–", "อ")
     )
-dict_vowel = {}
+dict_vowel: dict[str, str] = {}
 for i in _r1 + _r2:
     dict_vowel[i.replace("-", "อ").replace("–", "อ").replace(":", "")] = (
         i.replace("-", "อ").replace(":", "").replace("–", "อ")

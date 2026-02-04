@@ -9,9 +9,10 @@ from __future__ import annotations
 
 import re
 from collections.abc import Iterable
+from typing import Pattern
 
-_RE_TONE = re.compile(r"[็-์]")
-_RE_LV_C = re.compile(r"([เ-ไ])([ก-ฮ])")
+_RE_TONE: Pattern[str] = re.compile(r"[็-์]")
+_RE_LV_C: Pattern[str] = re.compile(r"([เ-ไ])([ก-ฮ])")
 
 
 def _thkey(word: str) -> str:

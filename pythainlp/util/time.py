@@ -16,9 +16,9 @@ from pythainlp.tokenize import Tokenizer
 from pythainlp.util.numtoword import num_to_thaiword
 from pythainlp.util.wordtonum import thaiword_to_num
 
-_TIME_FORMAT_WITH_SEC = "%H:%M:%S"
-_TIME_FORMAT_WITHOUT_SEC = "%H:%M"
-_DICT_THAI_TIME = {
+_TIME_FORMAT_WITH_SEC: str = "%H:%M:%S"
+_TIME_FORMAT_WITHOUT_SEC: str = "%H:%M"
+_DICT_THAI_TIME: dict[str, int] = {
     "ศูนย์": 0,
     "หนึ่ง": 1,
     "สอง": 2,
@@ -53,7 +53,7 @@ def _thai_time_cut() -> Tokenizer:
     return Tokenizer(custom_dict=list(_DICT_THAI_TIME.keys()), engine="newmm")
 
 
-_THAI_TIME_AFFIX = [
+_THAI_TIME_AFFIX: list[str] = [
     "โมงเช้า",
     "บ่ายโมง",
     "โมงเย็น",

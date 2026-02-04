@@ -6,7 +6,7 @@ from __future__ import annotations
 import types
 from contextlib import AbstractContextManager
 from importlib.resources import as_file, files
-from typing import Any, Optional
+from typing import Any, Optional, Union
 
 from pycrfsuite import Tagger as CRFTagger
 
@@ -17,12 +17,12 @@ def _is_stopword(word: str) -> bool:  # check Thai stopword
     return word in thai_stopwords()
 
 
-def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, Any]:
+def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, Union[str, bool]]:
     """`tokens` = a POS-tagged sentence [(w1, t1), ...]
     `index` = the index of the token we want to extract features for
     """
     word, pos = tokens[index]
-    f: dict[str, Any] = {
+    f: dict[str, Union[str, bool]] = {
         "word": word,
         "word_is_stopword": _is_stopword(word),
         "pos": pos,
@@ -55,7 +55,7 @@ def _doc2features(tokens: list[tuple[str, str]], index: int) -> dict[str, Any]:
     return f
 
 
-def extract_features(doc: list[tuple[str, str]]) -> list[dict[str, Any]]:
+def extract_features(doc: list[tuple[str, str]]) -> list[dict[str, Union[str, bool]]]:
     return [_doc2features(doc, i) for i in range(0, len(doc))]
 
 
@@ -75,26 +75,24 @@ class CRFchunk:
     corpus: str
     _model_file_ctx: Optional[AbstractContextManager[Any]]
     tagger: CRFTagger
-    xseq: list[dict[str, Any]]
+    xseq: list[dict[str, Union[str, bool]]]
 
     def __init__(self, corpus: str = "orchidpp") -> None:
-        self.corpus: str = corpus
-        self._model_file_ctx: Optional[AbstractContextManager[Any]] = None
+        self.corpus = corpus
+        self._model_file_ctx = None
         self.load_model(self.corpus)
 
     def load_model(self, corpus: str) -> None:
-        self.tagger: CRFTagger = CRFTagger()
+        self.tagger = CRFTagger()
         if corpus == "orchidpp":
             corpus_files = files("pythainlp.corpus")
             model_file = corpus_files.joinpath("crfchunk_orchidpp.model")
-            self._model_file_ctx: Optional[AbstractContextManager[Any]] = (
-                as_file(model_file)
-            )
+            self._model_file_ctx = as_file(model_file)
             model_path = self._model_file_ctx.__enter__()
             self.tagger.open(str(model_path))
 
     def parse(self, token_pos: list[tuple[str, str]]) -> list[str]:
-        self.xseq: list[dict[str, Any]] = extract_features(token_pos)
+        self.xseq = extract_features(token_pos)
         return self.tagger.tag(self.xseq)  # type: ignore[no-any-return]
 
     def __enter__(self) -> CRFchunk:

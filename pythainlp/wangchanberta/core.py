@@ -61,9 +61,9 @@ class ThaiNameTagger:
         """
         from transformers import pipeline
 
-        self.dataset_name: str = dataset_name
-        self.grouped_entities: bool = grouped_entities
-        self.classify_tokens: TokenClassificationPipeline = pipeline(
+        self.dataset_name = dataset_name
+        self.grouped_entities = grouped_entities
+        self.classify_tokens = pipeline(
             task="ner",
             tokenizer=_get_tokenizer(),
             model=f"airesearch/{_model_name}",

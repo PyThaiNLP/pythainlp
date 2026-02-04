@@ -5,7 +5,31 @@
 
 from __future__ import annotations
 
-from typing import Any, Union
+from typing import TYPE_CHECKING, Any, Union
+
+if TYPE_CHECKING:
+    from types import ModuleType
+
+    from pythainlp.phayathaibert.core import NamedEntityTagger
+    from pythainlp.tag.thai_nner import ThaiNNER
+    from pythainlp.tag.thainer import ThaiNameTagger
+    from pythainlp.wangchanberta.core import (
+        NamedEntityRecognition,
+    )
+    from pythainlp.wangchanberta.core import (
+        ThaiNameTagger as WangchanbertaThaiNameTagger,
+    )
+
+# Type alias for NER engine types
+NEREngineType = Union[
+    "ThaiNNER",
+    "ModuleType",
+    "ThaiNameTagger",
+    "NamedEntityRecognition",
+    "WangchanbertaThaiNameTagger",
+    "NamedEntityTagger",
+    None,
+]
 
 
 class NER:
@@ -31,38 +55,36 @@ class NER:
     """
 
     name_engine: str
-    engine: Any
+    engine: NEREngineType
 
     def __init__(
         self, engine: str = "thainer-v2", corpus: str = "thainer"
     ) -> None:
-        self.name_engine: str
-        self.engine: Any
         self.load_engine(engine=engine, corpus=corpus)
 
     def load_engine(self, engine: str, corpus: str) -> None:
-        self.name_engine: str = engine
-        self.engine: Any = None
+        self.name_engine = engine
+        self.engine = None
 
         # Engines that ignore corpus parameter
         if engine == "thai-nner":
             from pythainlp.tag.thai_nner import ThaiNNER
 
-            self.engine: Any = ThaiNNER()
+            self.engine = ThaiNNER()
         elif engine == "tltk":
             from pythainlp.tag import tltk
 
-            self.engine: Any = tltk
+            self.engine = tltk
         # Corpus-specific engines
         elif corpus == "thainer":
             if engine == "thainer":
                 from pythainlp.tag.thainer import ThaiNameTagger
 
-                self.engine: Any = ThaiNameTagger()
+                self.engine = ThaiNameTagger()
             elif engine == "thainer-v2":
                 from pythainlp.wangchanberta import NamedEntityRecognition
 
-                self.engine: Any = NamedEntityRecognition(
+                self.engine = NamedEntityRecognition(
                     model="pythainlp/thainer-corpus-v2-base-model"
                 )
             elif engine == "wangchanberta":
@@ -70,14 +92,14 @@ class NER:
                     ThaiNameTagger as WangchanbertaThaiNameTagger,
                 )  # noqa: I001,E501
 
-                self.engine: Any = WangchanbertaThaiNameTagger(
+                self.engine = WangchanbertaThaiNameTagger(
                     dataset_name=corpus
                 )
         elif corpus == "thainer-v2":
             if engine == "phayathaibert":
                 from pythainlp.phayathaibert.core import NamedEntityTagger
 
-                self.engine: Any = NamedEntityTagger()
+                self.engine = NamedEntityTagger()
 
         if self.engine is None:
             raise ValueError(
@@ -130,16 +152,15 @@ class NNER:
         * *thai_nner* - Thai NER engine
     """
 
-    engine: Any
+    engine: "ThaiNNER"
 
     def __init__(self, engine: str = "thai_nner") -> None:
-        self.engine: Any
         self.load_engine(engine)
 
     def load_engine(self, engine: str = "thai_nner") -> None:
         from pythainlp.tag.thai_nner import ThaiNNER
 
-        self.engine: Any = ThaiNNER()
+        self.engine = ThaiNNER()
 
     def tag(
         self, text: str, top_level_only: bool = False

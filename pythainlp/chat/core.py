@@ -10,6 +10,8 @@ if TYPE_CHECKING:
 
     import torch
 
+    from pythainlp.generate.wangchanglm import WangChanGLM
+
 
 class ChatBotModel:
     history: list[tuple[str, str]]
@@ -17,7 +19,7 @@ class ChatBotModel:
 
     def __init__(self) -> None:
         """Chat using AI generation"""
-        self.history: list[tuple[str, str]] = []
+        self.history = []
 
     def reset_chat(self) -> None:
         """Reset chat by cleaning history"""

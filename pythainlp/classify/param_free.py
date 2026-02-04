@@ -35,8 +35,8 @@ class GzipModel:
         if model_path:
             self.load(model_path)
         else:
-            self.training_data: "NDArray[Any]" = np.array(training_data)
-            self.cx2_list: list[int] = self.train()
+            self.training_data = np.array(training_data)
+            self.cx2_list = self.train()
 
     def train(self) -> list[int]:
         temp_list = []
@@ -112,7 +112,5 @@ class GzipModel:
 
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
-            self.cx2_list: list[int] = data["cx2_list"]
-            self.training_data: "NDArray[Any]" = np.array(
-                data["training_data"]
-            )
+            self.cx2_list = data["cx2_list"]
+            self.training_data = np.array(data["training_data"])

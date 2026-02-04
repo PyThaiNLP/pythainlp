@@ -41,31 +41,31 @@ class ThaiTransliterator:
         Now supports Thai to Latin (romanization)
         """
         # get the model, download it if it's not available locally
-        self.__model_filename: str = get_corpus_path(_MODEL_NAME)  # type: ignore[assignment]
+        self.__model_filename = get_corpus_path(_MODEL_NAME)  # type: ignore[assignment]
 
         loader = torch.load(self.__model_filename, map_location=device)
 
         INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT = loader["encoder_params"]
         OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT = loader["decoder_params"]
 
-        self._maxlength: int = 100
+        self._maxlength = 100
 
-        self._char_to_ix: "Dict[str, int]" = loader["char_to_ix"]
-        self._ix_to_char: "Dict[int, str]" = loader["ix_to_char"]
-        self._target_char_to_ix: "Dict[str, int]" = loader["target_char_to_ix"]
-        self._ix_to_target_char: "Dict[int, str]" = loader["ix_to_target_char"]
+        self._char_to_ix = loader["char_to_ix"]
+        self._ix_to_char = loader["ix_to_char"]
+        self._target_char_to_ix = loader["target_char_to_ix"]
+        self._ix_to_target_char = loader["ix_to_target_char"]
 
         # encoder/ decoder
         # Restore the model and construct the encoder and decoder.
-        self._encoder: "Encoder" = Encoder(
+        self._encoder = Encoder(
             INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT
         )
 
-        self._decoder: "AttentionDecoder" = AttentionDecoder(
+        self._decoder = AttentionDecoder(
             OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT
         )
 
-        self._network: "Seq2Seq" = Seq2Seq(
+        self._network = Seq2Seq(
             self._encoder,
             self._decoder,
             self._target_char_to_ix["<start>"],
@@ -130,18 +130,18 @@ class Encoder(nn.Module):
     ) -> None:
         """Constructor"""
         super().__init__()
-        self.hidden_size: int = hidden_size
-        self.character_embedding: nn.Embedding = nn.Embedding(
+        self.hidden_size = hidden_size
+        self.character_embedding = nn.Embedding(
             vocabulary_size, embedding_size
         )
-        self.rnn: nn.LSTM = nn.LSTM(
+        self.rnn = nn.LSTM(
             input_size=embedding_size,
             hidden_size=hidden_size // 2,
             bidirectional=True,
             batch_first=True,
         )
 
-        self.dropout: nn.Dropout = nn.Dropout(dropout)
+        self.dropout = nn.Dropout(dropout)
 
     def forward(
         self, sequences: torch.Tensor, sequences_lengths: torch.Tensor
@@ -201,15 +201,15 @@ class Attn(nn.Module):
     def __init__(self, method: str, hidden_size: int) -> None:
         super().__init__()
 
-        self.method: str = method
-        self.hidden_size: int = hidden_size
+        self.method = method
+        self.hidden_size = hidden_size
 
         if self.method == "general":
-            self.attn: nn.Linear = nn.Linear(self.hidden_size, hidden_size)
+            self.attn = nn.Linear(self.hidden_size, hidden_size)
 
         elif self.method == "concat":
             self.attn = nn.Linear(self.hidden_size * 2, hidden_size)
-            self.other: nn.Parameter = nn.Parameter(
+            self.other = nn.Parameter(
                 torch.FloatTensor(1, hidden_size)
             )
 
@@ -268,22 +268,22 @@ class AttentionDecoder(nn.Module):
     ) -> None:
         """Constructor"""
         super().__init__()
-        self.vocabulary_size: int = vocabulary_size
-        self.hidden_size: int = hidden_size
-        self.character_embedding: nn.Embedding = nn.Embedding(
+        self.vocabulary_size = vocabulary_size
+        self.hidden_size = hidden_size
+        self.character_embedding = nn.Embedding(
             vocabulary_size, embedding_size
         )
-        self.rnn: nn.LSTM = nn.LSTM(
+        self.rnn = nn.LSTM(
             input_size=embedding_size + self.hidden_size,
             hidden_size=hidden_size,
             bidirectional=False,
             batch_first=True,
         )
 
-        self.attn: Attn = Attn(method="general", hidden_size=self.hidden_size)
-        self.linear: nn.Linear = nn.Linear(hidden_size, vocabulary_size)
+        self.attn = Attn(method="general", hidden_size=self.hidden_size)
+        self.linear = nn.Linear(hidden_size, vocabulary_size)
 
-        self.dropout: nn.Dropout = nn.Dropout(dropout)
+        self.dropout = nn.Dropout(dropout)
 
     def forward(
         self,

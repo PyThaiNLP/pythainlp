@@ -21,6 +21,8 @@
       <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/README.md>.
       Mind that the analyzer can create false positives,
       please refer to Python tyep specification when in doubt.
+- [ ] Complete type annotations for function, method, class, variable, etc.
+      Maintain near-100% type annotation coverage.
 
 ## Project contribution guidelines
 
@@ -202,8 +204,8 @@
 - [ ] Defensive coding: always check for None/empty and handle exceptions
       when dealing with external inputs, like function arguments,
       file I/O, network I/O, etc.
-- [ ] Use type hints for function/method signatures
-      and variable declarations as much as possible.
+- [ ] Complete type annotations for function, method, class, and variable,
+      as much as possible.
   - [ ] Follow best practices and standard Python type hint patterns.
   - [ ] Use mypy as an assistant.
     - [ ] mypy is in "dev" optional dependency. 

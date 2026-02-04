@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import re
 import sys
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
     import numpy as np
@@ -42,7 +42,7 @@ def _f1(precision: float, recall: float) -> float:
     return 2 * precision * recall / (precision + recall)
 
 
-def _flatten_result(my_dict: dict, sep: str = ":") -> dict[str, Any]:
+def _flatten_result(my_dict: dict, sep: str = ":") -> dict[str, Union[int, str]]:
     """Flatten two-dimension dictionary.
 
     Use keys in the first dimension as a prefix for keys in the second dimension.
@@ -56,7 +56,7 @@ def _flatten_result(my_dict: dict, sep: str = ":") -> dict[str, Any]:
     :param str sep: separator between the two keys (default: ":")
 
     :return: a one-dimension dictionary with keys combined
-    :rtype: dict[str, Any]
+    :rtype: dict[str, Union[int, str]]
     """
     return {
         f"{k1}{sep}{k2}": v
@@ -133,7 +133,7 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
     return txt
 
 
-def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, Any]:
+def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, dict[str, Union[int, str]]]:
     """Compute statistics for tokenization quality
 
     These statistics include:
@@ -150,7 +150,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, Any]:
     :param str samples: samples that we want to evaluate
 
     :return: metrics at character- and word-level and indicators of correctly tokenized words
-    :rtype: dict[str, Any]
+    :rtype: dict[str, dict[str, Union[int, str]]]
     """
     import numpy as np
 
@@ -166,11 +166,11 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, Any]:
     c_pos_pred = c_pos_pred[c_pos_pred < ref_sample_arr.shape[0]]
     c_neg_pred = c_neg_pred[c_neg_pred < ref_sample_arr.shape[0]]
 
-    c_tp: np.intp = np.sum(ref_sample_arr[c_pos_pred] == 1)
-    c_fp: np.intp = np.sum(ref_sample_arr[c_pos_pred] == 0)
+    c_tp: int = int(np.sum(ref_sample_arr[c_pos_pred] == 1))
+    c_fp: int = int(np.sum(ref_sample_arr[c_pos_pred] == 0))
 
-    c_tn: np.intp = np.sum(ref_sample_arr[c_neg_pred] == 0)
-    c_fn: np.intp = np.sum(ref_sample_arr[c_neg_pred] == 1)
+    c_tn: int = int(np.sum(ref_sample_arr[c_neg_pred] == 0))
+    c_fn: int = int(np.sum(ref_sample_arr[c_neg_pred] == 1))
 
     # Compute word-level statistics
 
@@ -183,7 +183,7 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, Any]:
         word_boundaries, ss_boundaries
     )
 
-    correctly_tokenised_words: np.intp = np.sum(tokenization_indicators)
+    correctly_tokenised_words: int = int(np.sum(tokenization_indicators))
 
     tokenization_indicators_str = list(map(str, tokenization_indicators))
 
@@ -196,8 +196,8 @@ def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, Any]:
         },
         "word_level": {
             "correctly_tokenised_words": correctly_tokenised_words,
-            "total_words_in_sample": np.sum(sample_arr),
-            "total_words_in_ref_sample": np.sum(ref_sample_arr),
+            "total_words_in_sample": int(np.sum(sample_arr)),
+            "total_words_in_ref_sample": int(np.sum(ref_sample_arr)),
         },
         "global": {
             "tokenisation_indicators": "".join(tokenization_indicators_str)

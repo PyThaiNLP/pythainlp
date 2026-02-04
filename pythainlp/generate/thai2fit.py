@@ -16,7 +16,10 @@ import random
 from typing import TYPE_CHECKING, Any, Union
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     import pandas as pd
+    from fastai.basic_train import Learner
     from fastai.text import (
         AWD_LSTM,
         LMDataBunch,
@@ -48,7 +51,7 @@ from pythainlp.ulmfit import (
 )
 
 # get dummy data
-imdb: Any = untar_data(URLs.IMDB_SAMPLE)
+imdb: "Path" = untar_data(URLs.IMDB_SAMPLE)
 dummy_df: "pd.DataFrame" = pd.read_csv(imdb / "texts.csv")
 
 # get vocab
@@ -113,7 +116,7 @@ trn_args: dict[str, Any] = {
     "beta": 1,
 }
 
-learn: Any = language_model_learner(
+learn: "Learner" = language_model_learner(
     data_lm, AWD_LSTM, config=config, pretrained=False, **trn_args
 )
 

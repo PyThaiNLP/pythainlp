@@ -73,12 +73,16 @@ class WangChanGLM:
             offload_folder=offload_folder,
             low_cpu_mem_usage=low_cpu_mem_usage,
         )
-        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(self.model_path)
+        self.tokenizer: "PreTrainedTokenizerBase" = (
+            AutoTokenizer.from_pretrained(self.model_path)
+        )
         self.df: "pd.DataFrame" = pd.DataFrame(
             self.tokenizer.vocab.items(), columns=["text", "idx"]
         )
         self.df["is_exclude"] = self.df.text.map(self.is_exclude)
-        self.exclude_ids: list[int] = self.df[self.df.is_exclude is True].idx.tolist()
+        self.exclude_ids: list[int] = self.df[
+            self.df.is_exclude is True
+        ].idx.tolist()
 
     def gen_instruct(
         self,

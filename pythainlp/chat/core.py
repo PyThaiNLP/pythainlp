@@ -42,7 +42,7 @@ class ChatBotModel:
 
         if torch_dtype is None:
             torch_dtype = torch.float16
-            
+
         if model_name == "wangchanglm":
             from pythainlp.generate.wangchanglm import WangChanGLM
 

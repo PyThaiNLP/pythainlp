@@ -11,6 +11,18 @@ for all functions and classes.
 Based on the type completeness information from
 https://typing.python.org/en/latest/guides/libraries.html#type-completeness
 
+The analyzer implements the following exemptions from type annotation requirements:
+
+1. Constants assigned simple literal values (e.g., RED = '#F00', MAX_TIMEOUT = 50)
+   - Named in ALL_CAPS or annotated with Final
+2. Enum values within an Enum class
+3. Type aliases (assignments to instantiable types)
+4. self/cls parameters in methods
+5. __init__ return types (always None)
+6. Module-level symbols: __all__, __author__, __copyright__, __email__,
+   __license__, __title__, __uri__, __version__
+7. Class-level symbols: __class__, __dict__, __doc__, __module__, __slots__
+
 Usage:
     python type_hint_analyzer.py [--output-dir OUTPUT_DIR]
 
@@ -26,6 +38,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
+
 
 
 def count_mypy_errors_by_submodule(pythainlp_dir: str) -> Dict[str, int]:
@@ -91,6 +104,7 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         self.current_class = None
         self.current_function = None
         self.module_level = True
+        self.current_class_bases = []  # Track base classes to detect Enum
 
     def is_private(self, name: str) -> bool:
         """Check if a name is private (starts with underscore)."""
@@ -104,13 +118,19 @@ class TypeHintAnalyzer(ast.NodeVisitor):
 
     def check_function_type_hints(
         self, node: ast.FunctionDef
-    ) -> Tuple[str, int, int]:
+    ) -> Tuple[str, int, int, bool]:
         """
         Check type hint completeness for a function.
-        Returns: (status, total_params, hinted_params)
+
+        Returns: (status, total_params, hinted_params, has_return_hint)
         - status: "complete", "incomplete", "none"
         - total_params: number of parameters (excluding self/cls)
         - hinted_params: number of parameters with type hints
+        - has_return_hint: whether return type annotation is present
+
+        According to type completeness guidelines:
+        - self/cls parameters don't require annotations
+        - __init__ methods don't require return type annotations
         """
         # Count parameters (excluding self/cls)
         params = []
@@ -122,16 +142,35 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         hinted_params = sum(1 for arg in params if arg.annotation is not None)
         has_return_hint = node.returns is not None
 
+        # __init__ methods don't need return type annotations
+        is_init = node.name == "__init__"
+        requires_return_hint = not is_init
+
         # Determine status
-        if total_params == 0 and not has_return_hint:
+        if total_params == 0 and not requires_return_hint:
+            # No params and return type not required (e.g., __init__ with no params)
+            status = "complete"
+        elif total_params == 0 and requires_return_hint and not has_return_hint:
+            # No params but return type required and missing
             status = "none"
         elif total_params == 0 and has_return_hint:
+            # No params and has return type
             status = "complete"
         elif hinted_params == 0 and not has_return_hint:
+            # No hints at all
             status = "none"
-        elif hinted_params == total_params and has_return_hint:
+        elif requires_return_hint and (
+            hinted_params == total_params and has_return_hint
+        ):
+            # All params and return type hinted
+            status = "complete"
+        elif (
+            not requires_return_hint and hinted_params == total_params
+        ):
+            # All params hinted, return type not required (__init__)
             status = "complete"
         else:
+            # Partial hints
             status = "incomplete"
 
         return status, total_params, hinted_params, has_return_hint
@@ -186,6 +225,170 @@ class TypeHintAnalyzer(ast.NodeVisitor):
             return target.attr
         else:
             return "unknown"
+
+    def _is_exempt_module_symbol(self, name: str) -> bool:
+        """
+        Check if a symbol is exempt from type annotation requirements.
+
+        According to type completeness guidelines, these module-level
+        symbols do not require type annotations:
+        __all__, __author__, __copyright__, __email__, __license__,
+        __title__, __uri__, __version__
+        """
+        exempt_symbols = {
+            "__all__",
+            "__author__",
+            "__copyright__",
+            "__email__",
+            "__license__",
+            "__title__",
+            "__uri__",
+            "__version__",
+        }
+        return name in exempt_symbols
+
+    def _is_exempt_class_symbol(self, name: str) -> bool:
+        """
+        Check if a class-level symbol is exempt from type annotations.
+
+        According to type completeness guidelines, these class-level
+        symbols do not require type annotations:
+        __class__, __dict__, __doc__, __module__, __slots__
+        """
+        exempt_symbols = {
+            "__class__",
+            "__dict__",
+            "__doc__",
+            "__module__",
+            "__slots__",
+        }
+        return name in exempt_symbols
+
+    def _is_simple_literal(self, value: ast.expr) -> bool:
+        """
+        Check if a value is a simple literal.
+
+        Simple literals include: strings, numbers, booleans, None,
+        and simple containers (list, tuple, dict, set) containing
+        only simple literals.
+        """
+        if value is None:
+            return True
+
+        # Direct literal types
+        if isinstance(
+            value,
+            (ast.Constant, ast.Num, ast.Str, ast.Bytes, ast.NameConstant),
+        ):
+            return True
+
+        # Check for simple containers
+        if isinstance(value, (ast.List, ast.Tuple, ast.Set)):
+            return all(self._is_simple_literal(elt) for elt in value.elts)
+
+        if isinstance(value, ast.Dict):
+            return all(
+                self._is_simple_literal(k) and self._is_simple_literal(v)
+                for k, v in zip(value.keys, value.values)
+            )
+
+        # Unary operations on literals (e.g., -1, +5)
+        if isinstance(value, ast.UnaryOp) and isinstance(
+            value.op, (ast.UAdd, ast.USub)
+        ):
+            return self._is_simple_literal(value.operand)
+
+        return False
+
+    def _is_constant_name(self, name: str) -> bool:
+        """
+        Check if a variable name follows constant naming convention.
+
+        Constants are typically named in ALL_CAPS or with Final annotation.
+        """
+        # Check if name is in ALL_CAPS (with optional underscores)
+        if name.isupper() and not name.startswith("_"):
+            return True
+        return False
+
+    def _has_final_annotation(self, annotation: ast.expr) -> bool:
+        """Check if an annotation uses Final."""
+        if annotation is None:
+            return False
+
+        # Check for Final
+        if isinstance(annotation, ast.Name) and annotation.id == "Final":
+            return True
+
+        # Check for Final[...] (subscript)
+        if isinstance(annotation, ast.Subscript):
+            if isinstance(annotation.value, ast.Name):
+                return annotation.value.id == "Final"
+            elif isinstance(annotation.value, ast.Attribute):
+                return annotation.value.attr == "Final"
+
+        # Check for typing.Final or typing_extensions.Final
+        if isinstance(annotation, ast.Attribute):
+            if annotation.attr == "Final":
+                return True
+
+        return False
+
+    def _is_in_enum_class(self) -> bool:
+        """Check if currently inside an Enum class."""
+        if not self.current_class:
+            return False
+
+        # Check if any base class looks like Enum
+        for base in self.current_class_bases:
+            if isinstance(base, ast.Name) and "Enum" in base.id:
+                return True
+            elif isinstance(base, ast.Attribute) and "Enum" in base.attr:
+                return True
+
+        return False
+
+    def _is_type_alias_without_annotation(
+        self, target: ast.expr, value: ast.expr
+    ) -> bool:
+        """
+        Check if an assignment is a type alias without TypeAlias annotation.
+
+        Type aliases are assignments where the value is an instantiable type.
+        Examples: MyType = dict[str, int], Foo = Optional[str]
+        """
+        if value is None:
+            return False
+
+        # Check for common type alias patterns
+        # 1. Subscripted types: List[str], Dict[int, str], etc.
+        if isinstance(value, ast.Subscript):
+            return True
+
+        # 2. Union types with | operator (Python 3.10+)
+        if isinstance(value, ast.BinOp) and isinstance(value.op, ast.BitOr):
+            return True
+
+        # 3. Type names that suggest type aliases
+        if isinstance(value, ast.Name):
+            # Common typing constructs
+            type_keywords = {
+                "Optional",
+                "Union",
+                "Callable",
+                "Type",
+                "Any",
+                "NoReturn",
+            }
+            if value.id in type_keywords:
+                return True
+
+        # 4. Attribute access suggesting typing module usage
+        if isinstance(value, ast.Attribute):
+            # typing.Optional, typing.Union, etc.
+            return True
+
+        return False
 
     def visit_AnnAssign(self, node: ast.AnnAssign):
         """Visit annotated assignment (variable with type hint)."""
@@ -263,6 +466,46 @@ class TypeHintAnalyzer(ast.NodeVisitor):
 
         for target in node.targets:
             var_name = self._get_variable_name(target)
+
+            # Check for exemptions based on type completeness guidelines
+            # Module-level exempt symbols
+            if self.module_level and self._is_exempt_module_symbol(var_name):
+                self.generic_visit(node)
+                continue
+
+            # Class-level exempt symbols
+            if (
+                self.current_class is not None
+                and self.current_function is None
+                and self._is_exempt_class_symbol(var_name)
+            ):
+                self.generic_visit(node)
+                continue
+
+            # Enum values - skip if we're in an Enum class
+            if (
+                self.current_class is not None
+                and self.current_function is None
+                and self._is_in_enum_class()
+            ):
+                # Enum values don't require annotations
+                self.generic_visit(node)
+                continue
+
+            # Constants with simple literal values don't require annotations
+            if self.module_level and self._is_constant_name(var_name):
+                if self._is_simple_literal(node.value):
+                    # This is an exempt constant
+                    self.generic_visit(node)
+                    continue
+
+            # Type aliases without annotation don't require annotations
+            if self.module_level and self._is_type_alias_without_annotation(
+                target, node.value
+            ):
+                # This is a type alias, doesn't need annotation
+                self.generic_visit(node)
+                continue
 
             # Determine variable type and qualified name
             if self._is_instance_variable(target):
@@ -374,11 +617,14 @@ class TypeHintAnalyzer(ast.NodeVisitor):
 
         # Visit class body (methods and class variables)
         old_class = self.current_class
+        old_class_bases = self.current_class_bases
         self.current_class = node.name
+        self.current_class_bases = node.bases  # Track base classes for Enum detection
         old_module_level = self.module_level
         self.module_level = False
         self.generic_visit(node)
         self.current_class = old_class
+        self.current_class_bases = old_class_bases
         self.module_level = old_module_level
 
 

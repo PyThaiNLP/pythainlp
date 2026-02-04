@@ -39,7 +39,7 @@ class Small100Translator:
         )
         self.tgt_lang: Optional[str] = None
         if use_gpu:
-            self.model: "M2M100ForConditionalGeneration" = self.model.cuda()
+            self.model = self.model.cuda()
 
     def translate(self, text: str, tgt_lang: str = "en") -> str:
         """Translate text from X to X

@@ -53,7 +53,7 @@ class ThFrTranslator:
             AutoModelForSeq2SeqLM.from_pretrained(pretrained)
         )
         if use_gpu:
-            self.model_thfr: AutoModelForSeq2SeqLM = self.model_thfr.cuda()
+            self.model_thfr = self.model_thfr.cuda()
 
     def translate(self, text: str) -> str:
         """Translate text from Thai to French

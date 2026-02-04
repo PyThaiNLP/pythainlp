@@ -89,7 +89,7 @@ class Thai_W2P:
         )
         if self.checkpoint is None:
             download(_MODEL_NAME, version="0.2")
-            self.checkpoint: Optional[str] = get_corpus_path(_MODEL_NAME)
+            self.checkpoint = get_corpus_path(_MODEL_NAME)
             if self.checkpoint is None:
                 raise RuntimeError(
                     f"Failed to download or locate {_MODEL_NAME} corpus"

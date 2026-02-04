@@ -47,7 +47,7 @@ class ThZhTranslator:
             AutoModelForSeq2SeqLM.from_pretrained(pretrained)
         )
         if use_gpu:
-            self.model_thzh: AutoModelForSeq2SeqLM = self.model_thzh.cuda()
+            self.model_thzh = self.model_thzh.cuda()
 
     def translate(self, text: str) -> str:
         """Translate text from Thai to Chinese

@@ -208,7 +208,7 @@ class Attn(nn.Module):
             self.attn: nn.Linear = nn.Linear(self.hidden_size, hidden_size)
 
         elif self.method == "concat":
-            self.attn: nn.Linear = nn.Linear(self.hidden_size * 2, hidden_size)
+            self.attn = nn.Linear(self.hidden_size * 2, hidden_size)
             self.other: nn.Parameter = nn.Parameter(
                 torch.FloatTensor(1, hidden_size)
             )

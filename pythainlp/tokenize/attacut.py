@@ -23,7 +23,7 @@ class AttacutTokenizer:
         self._MODEL_NAME: str = "attacut-sc"
 
         if model == "attacut-c":
-            self._MODEL_NAME: str = "attacut-c"
+            self._MODEL_NAME = "attacut-c"
 
         self._tokenizer: Tokenizer = Tokenizer(model=self._MODEL_NAME)
 

@@ -101,6 +101,14 @@ class ThaiTransliterator_ONNX:
 
 
 class Seq2Seq_ONNX:
+    encoder: InferenceSession
+    decoder: InferenceSession
+    pad_idx: int
+    target_start_token: int
+    target_end_token: int
+    max_length: int
+    target_vocab_size: int
+
     def __init__(
         self,
         encoder: InferenceSession,

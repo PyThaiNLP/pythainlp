@@ -124,6 +124,12 @@ class ThaiG2P:
 
 
 class Encoder(nn.Module):
+    hidden_size: int
+    character_embedding: nn.Embedding
+    rnn: nn.LSTM
+    dropout: nn.Dropout
+    hidden: tuple[torch.Tensor, torch.Tensor]
+
     def __init__(
         self,
         vocabulary_size: int,
@@ -203,6 +209,11 @@ class Encoder(nn.Module):
 
 
 class Attn(nn.Module):
+    method: str
+    hidden_size: int
+    attn: nn.Linear
+    other: nn.Parameter
+
     def __init__(self, method: str, hidden_size: int) -> None:
         super().__init__()
 
@@ -210,11 +221,11 @@ class Attn(nn.Module):
         self.hidden_size = hidden_size
 
         if self.method == "general":
-            self.attn: nn.Linear = nn.Linear(self.hidden_size, hidden_size)
+            self.attn = nn.Linear(self.hidden_size, hidden_size)
 
         elif self.method == "concat":
             self.attn = nn.Linear(self.hidden_size * 2, hidden_size)
-            self.other: nn.Parameter = nn.Parameter(
+            self.other = nn.Parameter(
                 torch.FloatTensor(1, hidden_size)
             )
 
@@ -256,6 +267,14 @@ class Attn(nn.Module):
 
 
 class AttentionDecoder(nn.Module):
+    vocabulary_size: int
+    hidden_size: int
+    character_embedding: nn.Embedding
+    rnn: nn.LSTM
+    attn: Attn
+    linear: nn.Linear
+    dropout: nn.Dropout
+
     def __init__(
         self,
         vocabulary_size: int,
@@ -316,6 +335,13 @@ class AttentionDecoder(nn.Module):
 
 
 class Seq2Seq(nn.Module):
+    encoder: Encoder
+    decoder: AttentionDecoder
+    pad_idx: int
+    target_start_token: int
+    target_end_token: int
+    max_length: int
+
     def __init__(
         self,
         encoder: Encoder,

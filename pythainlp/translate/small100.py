@@ -6,8 +6,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
-    from transformers import M2M100ForConditionalGeneration
     import torch
+    from transformers import M2M100ForConditionalGeneration
 
 from .tokenization_small100 import SMALL100Tokenizer
 

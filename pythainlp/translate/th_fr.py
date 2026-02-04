@@ -14,11 +14,11 @@ BLEU 20.4
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
-    from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
     import torch
+    from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 
 class ThFrTranslator:

@@ -45,7 +45,9 @@ class CompleteSoundex:
 
     def __init__(self) -> None:
         # Thai consonants for pattern matching
-        self.thai_consonants: str = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮอ"
+        self.thai_consonants: str = (
+            "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬฮอ"
+        )
 
         # 1. Maps (Tables 5.1 - 5.4)
         self.initial_map: dict[str, str] = {
@@ -613,7 +615,7 @@ class CompleteSoundex:
 
 
 # Singleton instance for module-level function
-_complete_soundex_instance = None
+_complete_soundex_instance: "CompleteSoundex | None" = None
 
 
 def complete_soundex(text: str) -> str:

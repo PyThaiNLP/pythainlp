@@ -3,23 +3,26 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Optional, cast
+from typing import TYPE_CHECKING, Optional, Union, cast
 
 from pythainlp.corpus import thai_wsd_dict
 from pythainlp.tokenize import Tokenizer
 from pythainlp.util.trie import Trie
 
-_wsd_dict = thai_wsd_dict()
-_mean_all = {}
+if TYPE_CHECKING:
+    from typing import Any
+
+_wsd_dict: dict[str, Union[list[str], list[list[str]]]] = thai_wsd_dict()
+_mean_all: dict[str, Any] = {}
 
 for i, j in zip(_wsd_dict["word"], _wsd_dict["meaning"]):
     _mean_all[i] = j
 
-_all_word = cast(set[str], set(_mean_all.keys()))
-_TRIE = Trie(_all_word)
-_word_cut = Tokenizer(custom_dict=_TRIE)
+_all_word: set[str] = cast(set[str], set(_mean_all.keys()))
+_TRIE: Trie = Trie(_all_word)
+_word_cut: Tokenizer = Tokenizer(custom_dict=_TRIE)
 
-_MODEL = None
+_MODEL: Optional[Any] = None
 
 
 class _SentenceTransformersModel:
@@ -32,7 +35,9 @@ class _SentenceTransformersModel:
 
         self.device: str = device
         self.model_name: str = model
-        self.model: SentenceTransformer = SentenceTransformer(self.model_name, device=self.device)  # type: ignore[assignment]
+        self.model: SentenceTransformer = SentenceTransformer(
+            self.model_name, device=self.device
+        )  # type: ignore[assignment]
 
     def change_device(self, device: str) -> None:
         from sentence_transformers import SentenceTransformer

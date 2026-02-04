@@ -11,10 +11,10 @@
     },
     "variables": {
       "total": 1258,
-      "complete": 1228,
-      "none": 30,
-      "pct_complete": 97.61526232114467,
-      "pct_none": 2.384737678855326,
+      "complete": 1226,
+      "none": 32,
+      "pct_complete": 97.45627980922097,
+      "pct_none": 2.5437201907790143,
       "class_variables": 297,
       "instance_variables": 439,
       "module_variables": 522
@@ -37,121 +37,121 @@
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "augment": {
       "complete": 29,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 12
     },
     "benchmarks": {
       "complete": 8,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "chat": {
       "complete": 4,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 14
+      "mypy_errors": 12
     },
     "classify": {
       "complete": 5,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "cli": {
       "complete": 21,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 15
+      "mypy_errors": 13
     },
     "coref": {
       "complete": 5,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "corpus": {
       "complete": 70,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "el": {
       "complete": 5,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "generate": {
       "complete": 15,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 18
+      "mypy_errors": 16
     },
     "khavee": {
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "lm": {
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "morpheme": {
       "complete": 2,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "parse": {
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "phayathaibert": {
       "complete": 19,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "soundex": {
       "complete": 27,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "spell": {
       "complete": 43,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "summarize": {
       "complete": 17,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "tag": {
       "complete": 73,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "tokenize": {
       "complete": 73,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "tokenizeicu": {
       "complete": 3,
@@ -163,19 +163,19 @@
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "translate": {
       "complete": 44,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 20
+      "mypy_errors": 18
     },
     "transliterate": {
       "complete": 75,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "transliterateicu": {
       "complete": 1,
@@ -187,31 +187,31 @@
       "complete": 25,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 18
+      "mypy_errors": 16
     },
     "util": {
       "complete": 109,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "wangchanberta": {
       "complete": 9,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     },
     "word_vector": {
       "complete": 7,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 18
+      "mypy_errors": 16
     },
     "wsd": {
       "complete": 4,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 15
+      "mypy_errors": 13
     }
   },
   "functions_no_hints": [],
@@ -349,6 +349,18 @@
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/ancient/aksonhan.py",
       "line": 22
+    },
+    {
+      "name": "pythainlp.spell.wanchanberta_thai_grammarly.tagging_model",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
+      "line": 60
+    },
+    {
+      "name": "pythainlp.spell.wanchanberta_thai_grammarly.mlm_model",
+      "scope": "public",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
+      "line": 106
     },
     {
       "name": "pythainlp.util.morse.unknown",

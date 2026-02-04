@@ -57,7 +57,7 @@ class BertModel(torch.nn.Module):
 
 tagging_model: BertModel = BertModel()
 if use_cuda:
-    tagging_model: BertModel = tagging_model.to(device=device)
+    tagging_model = tagging_model.to(device=device)
 ids_to_labels: dict[int, str] = {0: "f", 1: "i"}
 
 
@@ -103,7 +103,7 @@ mlm_model: "AutoModelForMaskedLM" = AutoModelForMaskedLM.from_pretrained(
     "bookpanda/wangchanberta-base-att-spm-uncased-masking"
 )
 if use_cuda:
-    mlm_model: "AutoModelForMaskedLM" = mlm_model.to(device=device)
+    mlm_model = mlm_model.to(device=device)
 
 
 def correct(text: str) -> str:

@@ -101,7 +101,7 @@ def replace_rep_after(text: str) -> str:
         'กาxxrep7 '
     """
 
-    def _replace_rep(m):
+    def _replace_rep(m: re.Match[str]) -> str:
         c, cc = m.groups()
         return f"{c}{_TK_REP}{len(cc) + 1} "
 
@@ -224,7 +224,7 @@ def replace_rep_nonum(text: str) -> str:
 
     """
 
-    def _replace_rep(m):
+    def _replace_rep(m: re.Match[str]) -> str:
         c, _ = m.groups()
         return f"{c} {_TK_REP} "
 

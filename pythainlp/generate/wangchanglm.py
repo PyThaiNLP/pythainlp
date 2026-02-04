@@ -4,15 +4,31 @@
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING
 
 import torch
 
+if TYPE_CHECKING:
+    import pandas as pd
+    from transformers import PreTrainedModel, PreTrainedTokenizerBase
+
 
 class WangChanGLM:
-    def __init__(self):
-        self.exclude_pattern = re.compile(r"[^ก-๙]+")
-        self.stop_token = "\n"  # noqa: S105
-        self.PROMPT_DICT = {
+    exclude_pattern: "re.Pattern"
+    stop_token: str
+    PROMPT_DICT: dict[str, str]
+    device: str
+    torch_dtype: "torch.dtype"
+    model_path: str
+    model: "PreTrainedModel"
+    tokenizer: "PreTrainedTokenizerBase"
+    df: "pd.DataFrame"
+    exclude_ids: list[int]
+
+    def __init__(self) -> None:
+        self.exclude_pattern: "re.Pattern" = re.compile(r"[^ก-๙]+")
+        self.stop_token: str = "\n"  # noqa: S105
+        self.PROMPT_DICT: dict[str, str] = {
             "prompt_input": (
                 "<context>: {input}\n<human>: {instruction}\n<bot>: "
             ),
@@ -29,10 +45,10 @@ class WangChanGLM:
         return_dict: bool = True,
         load_in_8bit: bool = False,
         device: str = "cuda",
-        torch_dtype=torch.float16,
+        torch_dtype: torch.dtype = torch.float16,
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
-    ):
+    ) -> None:
         """Load model
 
         :param str model_path: model path
@@ -46,10 +62,10 @@ class WangChanGLM:
         import pandas as pd
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
-        self.device = device
-        self.torch_dtype = torch_dtype
-        self.model_path = model_path
-        self.model = AutoModelForCausalLM.from_pretrained(
+        self.device: str = device
+        self.torch_dtype: "torch.dtype" = torch_dtype
+        self.model_path: str = model_path
+        self.model: "PreTrainedModel" = AutoModelForCausalLM.from_pretrained(
             self.model_path,
             return_dict=return_dict,
             load_in_8bit=load_in_8bit,
@@ -58,12 +74,12 @@ class WangChanGLM:
             offload_folder=offload_folder,
             low_cpu_mem_usage=low_cpu_mem_usage,
         )
-        self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
-        self.df = pd.DataFrame(
+        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(self.model_path)
+        self.df: "pd.DataFrame" = pd.DataFrame(
             self.tokenizer.vocab.items(), columns=["text", "idx"]
         )
         self.df["is_exclude"] = self.df.text.map(self.is_exclude)
-        self.exclude_ids = self.df[self.df.is_exclude is True].idx.tolist()
+        self.exclude_ids: list[int] = self.df[self.df.is_exclude is True].idx.tolist()
 
     def gen_instruct(
         self,
@@ -76,7 +92,7 @@ class WangChanGLM:
         typical_p: float = 1.0,
         thai_only: bool = True,
         skip_special_tokens: bool = True,
-    ):
+    ) -> str:
         """Generate Instruct
 
         :param str text: text
@@ -125,7 +141,7 @@ class WangChanGLM:
         self,
         instruct: str,
         context: str = "",
-        max_new_tokens=512,
+        max_new_tokens: int = 512,
         temperature: float = 0.9,
         top_p: float = 0.95,
         top_k: int = 50,
@@ -133,7 +149,7 @@ class WangChanGLM:
         typical_p: float = 1,
         thai_only: bool = True,
         skip_special_tokens: bool = True,
-    ):
+    ) -> str:
         """Generate Instruct
 
         :param str instruct: Instruct

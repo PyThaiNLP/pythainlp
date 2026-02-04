@@ -11,6 +11,14 @@
       name (tend to be a verb or a generic noun), function name, and
       configuration. Communicate this to the users during code review.
       See <https://www.nltk.org/py-modindex.html>.
+- [ ] The type information analyzer at
+      <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/type_hint_analyzer.py>
+      can generate information about annotation completeness of
+      variables, functions, methods, type aliases, decorators, and
+      classes in the PyThaiNLP repo.
+      Use it to assist the maintenance of 100% type completeness in
+      the repo. Read its usage and information it generates at
+      <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/README.md>.
 
 ## Project contribution guidelines
 
@@ -198,9 +206,13 @@
   - [ ] Use pyright, pyrefly, and pytype for second opinions.
   - [ ] When insert typing imports, put it in appropriate location and order.
         Use "if TYPE_CHECKING import" block when possible.
-  - [ ] Try to find type information for external libraries:
+  - [ ] Minimize the use of `Any`. Try to find sources for type information
+        of external libraries:
     - [ ] Check if type stub is available and install it.
     - [ ] Check if source code is available and analyze it for correct types.
+          Open source library tend to have source code available on the
+          internet. For example, at GitHub, GitLab, Codeberg.
+          Try to find the source code repo from metadata in PyPI/pip.
   - [ ] Recheck necessity of casting.
   - [ ] Recheck necessity of `# noqa:` and `# type: ignore`.
   - [ ] Recheck docstring and documentation consistency with the code;
@@ -209,6 +221,8 @@
         For example, `numpy.ndarray` instead of `ndarray`;
         `pandas.DataFrame` instead of `pd.DataFrame`.
         So the user can know exactly which module the data type comes from.
+- [ ] Try to achieve type completeness, according to
+      <https://typing.python.org/en/latest/guides/libraries.html#type-completeness>.
 - [ ] requires-python in pyproject.toml should reflect the minimum
       Python version supported by the project.
 - [ ] Do not introduce syntax or features that are not supported

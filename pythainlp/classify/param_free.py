@@ -5,9 +5,10 @@ from __future__ import annotations
 
 import gzip
 import json
-from typing import Optional
+from typing import Any, Optional
 
 import numpy as np
+from numpy.typing import NDArray
 
 
 class GzipModel:
@@ -21,18 +22,21 @@ class GzipModel:
         Default is empty string.
     """
 
+
+    cx2_list: list[int]
+    training_data: "NDArray[Any]"
     def __init__(
         self,
         training_data: Optional[list[tuple[str, str]]] = None,
         model_path: str = "",
-    ):
+    ) -> None:
         if model_path:
             self.load(model_path)
         else:
             self.training_data = np.array(training_data)
             self.cx2_list = self.train()
 
-    def train(self):
+    def train(self) -> list[int]:
         temp_list = []
         for i in range(len(self.training_data)):
             temp_list.append(
@@ -86,7 +90,7 @@ class GzipModel:
 
         return predict_class
 
-    def save(self, path: str):
+    def save(self, path: str) -> None:
         """:param str path: path to save model"""
         with open(path, "w", encoding="utf-8") as f:
             json.dump(
@@ -98,7 +102,7 @@ class GzipModel:
                 ensure_ascii=False,
             )
 
-    def load(self, path: str):
+    def load(self, path: str) -> None:
         """:param str path: path to load model"""
         with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)

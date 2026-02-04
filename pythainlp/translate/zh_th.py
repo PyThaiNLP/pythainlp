@@ -11,7 +11,11 @@ from AI builder
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import TYPE_CHECKING, Any, Optional
+
+if TYPE_CHECKING:
+    from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+    import torch
 
 
 class ThZhTranslator:
@@ -24,6 +28,10 @@ class ThZhTranslator:
 
     :param bool use_gpu : load model using GPU (Default is False)
     """
+
+    tokenizer_thzh: AutoTokenizer
+    model_thzh: AutoModelForSeq2SeqLM
+    translated: torch.Tensor
 
     def __init__(
         self,
@@ -95,6 +103,10 @@ class ZhThTranslator:
 
     :param bool use_gpu : load model using GPU (Default is False)
     """
+
+    tokenizer_zhth: AutoTokenizer
+    model_zhth: AutoModelForSeq2SeqLM
+    translated: torch.Tensor
 
     def __init__(
         self,

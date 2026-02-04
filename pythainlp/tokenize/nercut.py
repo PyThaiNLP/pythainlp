@@ -29,7 +29,7 @@ def segment(
         "DATE",
         "TIME",
     ],
-    tagger=_thainer,
+    tagger: NER = _thainer,
 ) -> list[str]:
     """Dictionary-based maximal matching word segmentation, constrained by
     Thai Character Cluster (TCC) boundaries, and combining tokens that are

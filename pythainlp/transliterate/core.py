@@ -5,9 +5,9 @@ from __future__ import annotations
 
 from typing import Callable
 
-DEFAULT_ROMANIZE_ENGINE = "royin"
-DEFAULT_TRANSLITERATE_ENGINE = "thaig2p"
-DEFAULT_PRONUNCIATE_ENGINE = "w2p"
+DEFAULT_ROMANIZE_ENGINE: str = "royin"
+DEFAULT_TRANSLITERATE_ENGINE: str = "thaig2p"
+DEFAULT_PRONUNCIATE_ENGINE: str = "w2p"
 
 
 def romanize(

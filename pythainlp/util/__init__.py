@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Utility functions, like date conversion and digit conversion"""
 
-__all__ = [
+__all__: list[str] = [
     "Trie",
     "abbreviation_to_full_text",
     "arabic_digit_to_thai_digit",

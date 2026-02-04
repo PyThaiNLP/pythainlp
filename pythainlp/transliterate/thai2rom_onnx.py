@@ -6,11 +6,15 @@
 from __future__ import annotations
 
 import json
+from typing import TYPE_CHECKING
 
 import numpy as np
 from onnxruntime import InferenceSession
 
 from pythainlp.corpus import get_corpus_path
+
+if TYPE_CHECKING:
+    from typing import Dict, List
 
 _MODEL_ENCODER_NAME = "thai2rom_encoder_onnx"
 _MODEL_DECODER_NAME = "thai2rom_decoder_onnx"
@@ -18,15 +22,15 @@ _MODEL_CONFIG_NAME = "thai2rom_config_onnx"
 
 
 class ThaiTransliterator_ONNX:
-    def __init__(self):
+    def __init__(self) -> None:
         """Transliteration of Thai words.
 
         Now supports Thai to Latin (romanization)
         """
         # get the model, download it if it's not available locally
-        self.__encoder_filename = get_corpus_path(_MODEL_ENCODER_NAME)
-        self.__decoder_filename = get_corpus_path(_MODEL_DECODER_NAME)
-        self.__config_filename = get_corpus_path(_MODEL_CONFIG_NAME)
+        self.__encoder_filename: str = get_corpus_path(_MODEL_ENCODER_NAME)  # type: ignore[assignment]
+        self.__decoder_filename: str = get_corpus_path(_MODEL_DECODER_NAME)  # type: ignore[assignment]
+        self.__config_filename: str = get_corpus_path(_MODEL_CONFIG_NAME)  # type: ignore[assignment]
 
         # loader = torch.load(self.__model_filename, map_location=device)
         with open(str(self.__config_filename)) as f:
@@ -34,20 +38,20 @@ class ThaiTransliterator_ONNX:
 
         OUTPUT_DIM = loader["output_dim"]
 
-        self._maxlength = 100
+        self._maxlength: int = 100
 
-        self._char_to_ix = loader["char_to_ix"]
-        self._ix_to_char = loader["ix_to_char"]
-        self._target_char_to_ix = loader["target_char_to_ix"]
-        self._ix_to_target_char = loader["ix_to_target_char"]
+        self._char_to_ix: Dict[str, int] = loader["char_to_ix"]
+        self._ix_to_char: Dict[int, str] = loader["ix_to_char"]
+        self._target_char_to_ix: Dict[str, int] = loader["target_char_to_ix"]
+        self._ix_to_target_char: Dict[int, str] = loader["ix_to_target_char"]
 
         # encoder/ decoder
         # Load encoder decoder onnx models.
-        self._encoder = InferenceSession(self.__encoder_filename)
+        self._encoder: InferenceSession = InferenceSession(self.__encoder_filename)
 
-        self._decoder = InferenceSession(self.__decoder_filename)
+        self._decoder: InferenceSession = InferenceSession(self.__decoder_filename)
 
-        self._network = Seq2Seq_ONNX(
+        self._network: Seq2Seq_ONNX = Seq2Seq_ONNX(
             self._encoder,
             self._decoder,
             self._target_char_to_ix["<start>"],
@@ -56,7 +60,7 @@ class ThaiTransliterator_ONNX:
             target_vocab_size=OUTPUT_DIM,
         )
 
-    def _prepare_sequence_in(self, text: str):
+    def _prepare_sequence_in(self, text: str) -> np.ndarray:
         """Prepare input sequence for ONNX"""
         idxs = []
         for ch in text:
@@ -90,13 +94,13 @@ class ThaiTransliterator_ONNX:
 class Seq2Seq_ONNX:
     def __init__(
         self,
-        encoder,
-        decoder,
-        target_start_token,
-        target_end_token,
-        max_length,
-        target_vocab_size,
-    ):
+        encoder: InferenceSession,
+        decoder: InferenceSession,
+        target_start_token: int,
+        target_end_token: int,
+        max_length: int,
+        target_vocab_size: int,
+    ) -> None:
         super().__init__()
 
         self.encoder = encoder
@@ -108,11 +112,11 @@ class Seq2Seq_ONNX:
 
         self.target_vocab_size = target_vocab_size
 
-    def create_mask(self, source_seq):
+    def create_mask(self, source_seq: np.ndarray) -> np.ndarray:
         mask = source_seq != self.pad_idx
         return mask
 
-    def run(self, source_seq, source_seq_len):
+    def run(self, source_seq: np.ndarray, source_seq_len: List[int]) -> np.ndarray:
         # source_seq: (batch_size, MAX_LENGTH)
         # source_seq_len: (batch_size, 1)
         # target_seq: (batch_size, MAX_LENGTH)

@@ -20,7 +20,7 @@ _dict_file_ctx = None  # File context manager kept alive for program lifetime
 _load_lock = threading.Lock()  # Thread safety for lazy loading
 
 
-def _ensure_default_dict_loaded():
+def _ensure_default_dict_loaded() -> str:
     """Ensure the default dictionary is loaded.
 
     This function uses a lock to ensure thread-safe initialization.

@@ -13,13 +13,13 @@ installation hint.
 from __future__ import annotations
 
 import threading
-from typing import cast
+from typing import Any, cast
 
 _parser = None
 _parser_lock = threading.Lock()
 
 
-def _init_parser():
+def _init_parser() -> Any:
     """Lazy initialize and return a budoux parser instance.
 
     Raises ImportError when `budoux` is not installed, and RuntimeError

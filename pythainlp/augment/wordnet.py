@@ -101,7 +101,7 @@ orchid = {
 }
 
 
-def postype2wordnet(pos: str, corpus: str):
+def postype2wordnet(pos: str, corpus: str) -> Optional[str]:
     """Convert part-of-speech type to wordnet type
 
     :param str pos: POS type
@@ -112,13 +112,13 @@ def postype2wordnet(pos: str, corpus: str):
     """
     if corpus not in ["orchid"]:
         return None
-    return orchid[pos]
+    return orchid[pos]  # type: ignore[no-any-return]
 
 
 class WordNetAug:
     """Text Augment using wordnet"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
     def find_synonyms(
@@ -135,7 +135,7 @@ class WordNetAug:
         :return: list of synonyms
         :rtype: list[str]
         """
-        self.synonyms = []
+        self.synonyms: list[str] = []
         if pos is None:
             self.list_synsets = wordnet.synsets(word)
         else:
@@ -149,7 +149,7 @@ class WordNetAug:
             for self.syn in self.synset.lemma_names(lang="tha"):
                 self.synonyms.append(self.syn)
 
-        self.synonyms_without_duplicates = list(
+        self.synonyms_without_duplicates: list[str] = list(
             OrderedDict.fromkeys(self.synonyms)
         )
         return self.synonyms_without_duplicates
@@ -188,13 +188,13 @@ class WordNetAug:
              ('เรา', 'ชอบ', 'ไปยัง', 'รร.')]
         """
         new_sentences = []
-        self.list_words = tokenize(sentence)
-        self.list_synonym = []
-        self.p_all = 1
+        self.list_words: list[str] = tokenize(sentence)
+        self.list_synonym: list[list[str]] = []
+        self.p_all: int = 1
         if postag:
-            self.list_pos = pos_tag(self.list_words, corpus=postag_corpus)
+            self.list_pos: list[tuple[str, str]] = pos_tag(self.list_words, corpus=postag_corpus)
             for word, pos in self.list_pos:
-                self.temp = self.find_synonyms(word, pos, postag_corpus)
+                self.temp: list[str] = self.find_synonyms(word, pos, postag_corpus)
                 if not self.temp:
                     self.list_synonym.append([word])
                 else:

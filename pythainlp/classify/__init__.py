@@ -3,6 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 """pythainlp.classify"""
 
-__all__ = ["GzipModel"]
+__all__: list[str] = ["GzipModel"]
 
 from pythainlp.classify.param_free import GzipModel

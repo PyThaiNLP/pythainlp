@@ -4,13 +4,13 @@
 from __future__ import annotations
 
 # defined strings for special characters
-CHAR_TO_ESCAPE = {" ": "_"}
-ESCAPE_TO_CHAR = {v: k for k, v in CHAR_TO_ESCAPE.items()}
+CHAR_TO_ESCAPE: dict[str, str] = {" ": "_"}
+ESCAPE_TO_CHAR: dict[str, str] = {v: k for k, v in CHAR_TO_ESCAPE.items()}
 
 
 # map from Blackboard treebank POS tag to Universal POS tag
 # from Wannaphong Phatthiyaphaibun & Korakot Chaovavanich
-TO_UD = {
+TO_UD: dict[str, str] = {
     "": "",
     "AJ": "ADJ",
     "AV": "ADV",

@@ -26,13 +26,13 @@ class WngchanBerta_ONNX:
             SessionOptions,
         )
 
-        self.model_name = model_name
-        self.model_version = model_version
-        self.options = SessionOptions()
+        self.model_name: str = model_name
+        self.model_version: str = model_version
+        self.options: SessionOptions = SessionOptions()
         self.options.graph_optimization_level = (
             GraphOptimizationLevel.ORT_ENABLE_ALL
         )
-        self.session = InferenceSession(
+        self.session: InferenceSession = InferenceSession(
             get_path_folder_corpus(
                 self.model_name, self.model_version, file_onnx
             ),
@@ -40,8 +40,8 @@ class WngchanBerta_ONNX:
             providers=providers,
         )
         self.session.disable_fallback()
-        self.outputs_name = self.session.get_outputs()[0].name
-        self.sp = spm.SentencePieceProcessor(
+        self.outputs_name: str = self.session.get_outputs()[0].name
+        self.sp: spm.SentencePieceProcessor = spm.SentencePieceProcessor(  # type: ignore[assignment]
             model_file=get_path_folder_corpus(
                 self.model_name, self.model_version, "sentencepiece.bpe.model"
             )

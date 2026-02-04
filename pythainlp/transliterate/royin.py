@@ -16,10 +16,10 @@ import re
 from pythainlp import thai_consonants, word_tokenize
 
 # Romanized vowels for checking
-_ROMANIZED_VOWELS = "aeiou"
+_ROMANIZED_VOWELS: str = "aeiou"
 
 # vowel
-_vowel_patterns = """เ*ียว,\\1iao
+_vowel_patterns: str = """เ*ียว,\\1iao
 แ*็ว,\\1aeo
 เ*ือย,\\1ueai
 แ*ว,\\1aeo
@@ -74,10 +74,10 @@ _vowel_patterns = _vowel_patterns.replace("*", f"([{thai_consonants}])")
 _vowel_patterns = _vowel_patterns.replace("#", "([คนพมห])")
 _vowel_patterns = _vowel_patterns.replace("$", "([กตทปศส])")
 
-_VOWELS = [x.split(",") for x in _vowel_patterns.split("\n")]
+_VOWELS: list[list[str]] = [x.split(",") for x in _vowel_patterns.split("\n")]
 
 # พยัญชนะ ต้น สะกด
-_CONSONANTS = {
+_CONSONANTS: dict[str, list[str]] = {
     "ก": ["k", "k"],
     "ข": ["kh", "k"],
     "ฃ": ["kh", "k"],
@@ -126,9 +126,9 @@ _CONSONANTS = {
     "ฮ": ["h", ""],
 }
 
-_THANTHAKHAT = "\u0e4c"
-_RE_CONSONANT = re.compile(f"[{thai_consonants}]")
-_RE_NORMALIZE = re.compile(
+_THANTHAKHAT: str = "\u0e4c"
+_RE_CONSONANT: re.Pattern[str] = re.compile(f"[{thai_consonants}]")
+_RE_NORMALIZE: re.Pattern[str] = re.compile(
     f"จน์|มณ์|ณฑ์|ทร์|ตร์|[{thai_consonants}]{_THANTHAKHAT}|"
     f"[{thai_consonants}][\u0e30-\u0e39]{_THANTHAKHAT}"
     # Paiyannoi, Maiyamok, Tonemarks, Thanthakhat, Nikhahit, other signs

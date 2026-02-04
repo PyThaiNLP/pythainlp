@@ -6,29 +6,30 @@
 from __future__ import annotations
 
 import os
+from typing import Optional
 
 from pythainlp.corpus import corpus_path, get_corpus_path
 from pythainlp.tag import PerceptronTagger, blackboard, orchid
 
-_BLACKBOARD_NAME = "blackboard_pt_tagger"
+_BLACKBOARD_NAME: str = "blackboard_pt_tagger"
 
-_ORCHID_FILENAME = "pos_orchid_perceptron.json"
-_ORCHID_PATH = os.path.join(corpus_path(), _ORCHID_FILENAME)
+_ORCHID_FILENAME: str = "pos_orchid_perceptron.json"
+_ORCHID_PATH: str = os.path.join(corpus_path(), _ORCHID_FILENAME)
 
-_PUD_FILENAME = "pos_ud_perceptron-v0.2.json"
-_PUD_PATH = os.path.join(corpus_path(), _PUD_FILENAME)
+_PUD_FILENAME: str = "pos_ud_perceptron-v0.2.json"
+_PUD_PATH: str = os.path.join(corpus_path(), _PUD_FILENAME)
 
-_TDTB_FILENAME = "tdtb-pt_tagger.json"
-_TDTB_PATH = os.path.join(corpus_path(), _TDTB_FILENAME)
+_TDTB_FILENAME: str = "tdtb-pt_tagger.json"
+_TDTB_PATH: str = os.path.join(corpus_path(), _TDTB_FILENAME)
 
-_TUD_FILENAME = "pos_tud_perceptron.json"
-_TUD_PATH = os.path.join(corpus_path(), _TUD_FILENAME)
+_TUD_FILENAME: str = "pos_tud_perceptron.json"
+_TUD_PATH: str = os.path.join(corpus_path(), _TUD_FILENAME)
 
-_BLACKBOARD_TAGGER = None
-_ORCHID_TAGGER = None
-_PUD_TAGGER = None
-_TDTB_TAGGER = None
-_TUD_TAGGER = None
+_BLACKBOARD_TAGGER: Optional[PerceptronTagger] = None
+_ORCHID_TAGGER: Optional[PerceptronTagger] = None
+_PUD_TAGGER: Optional[PerceptronTagger] = None
+_TDTB_TAGGER: Optional[PerceptronTagger] = None
+_TUD_TAGGER: Optional[PerceptronTagger] = None
 
 
 def _orchid_tagger() -> PerceptronTagger:

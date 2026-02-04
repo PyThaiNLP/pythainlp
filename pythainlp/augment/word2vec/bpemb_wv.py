@@ -3,7 +3,13 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Any
+
 from pythainlp.augment.word2vec.core import Word2VecAug
+
+if TYPE_CHECKING:
+    from bpemb import BPEmb
+    from gensim.models.keyedvectors import KeyedVectors
 
 
 class BPEmbAug:
@@ -13,7 +19,17 @@ class BPEmbAug:
     `github.com/bheinzerling/bpemb <https://github.com/bheinzerling/bpemb>`_
     """
 
-    def __init__(self, lang: str = "th", vs: int = 100000, dim: int = 300):
+    bpemb_temp: BPEmb
+    model: KeyedVectors
+    aug: Word2VecAug
+    sentence: str
+    temp: list[tuple[str, ...]]
+    temp_new: list[str]
+    t: str
+
+    def __init__(
+        self, lang: str = "th", vs: int = 100000, dim: int = 300
+    ) -> None:
         from bpemb import BPEmb
 
         self.bpemb_temp = BPEmb(lang=lang, dim=dim, vs=vs)
@@ -26,7 +42,7 @@ class BPEmbAug:
         """
         return self.bpemb_temp.encode(text)  # type: ignore[no-any-return]
 
-    def load_w2v(self):
+    def load_w2v(self) -> None:
         """Load BPEmb model"""
         self.aug = Word2VecAug(
             self.model, tokenize=self.tokenizer, type="model"

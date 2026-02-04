@@ -7,11 +7,11 @@ import torch
 
 
 class ChatBotModel:
-    def __init__(self):
+    def __init__(self) -> None:
         """Chat using AI generation"""
-        self.history = []
+        self.history: list[tuple[str, str]] = []
 
-    def reset_chat(self):
+    def reset_chat(self) -> None:
         """Reset chat by cleaning history"""
         self.history = []
 
@@ -21,10 +21,10 @@ class ChatBotModel:
         return_dict: bool = True,
         load_in_8bit: bool = False,
         device: str = "cuda",
-        torch_dtype=torch.float16,
+        torch_dtype: torch.dtype = torch.float16,
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
-    ):
+    ) -> None:
         """Load model
 
         :param str model_name: Model name (Now, we support wangchanglm only)

@@ -48,6 +48,10 @@ def _get_tagger() -> pycrfsuite.Tagger:
 class Featurizer:
     #  This class from ssg at https://github.com/ponrawee/ssg.
 
+    N: int
+    delimiter: Optional[str]
+    radius: int
+
     def __init__(
         self,
         N: int = 2,

@@ -46,14 +46,17 @@ class Trie(Iterable[str]):
         # output: 5
     """
 
+    words: set[str]
+    root: Node
+
     class Node:
         __slots__ = "end", "children"
 
-        def __init__(self):
-            self.end = False
-            self.children = {}
+        def __init__(self) -> None:
+            self.end: bool = False
+            self.children: dict[str, Trie.Node] = {}
 
-    def __init__(self, words: Iterable[str]):
+    def __init__(self, words: Iterable[str]) -> None:
         self.words = set(words)
         self.root = Trie.Node()
 

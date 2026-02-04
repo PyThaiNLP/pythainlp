@@ -7,8 +7,9 @@
 from __future__ import annotations
 
 import re
+from typing import Pattern
 
-_emoji_th = {
+_emoji_th: dict[str, str] = {
     "😀": "หน้ายิ้มยิงฟัน",
     "😁": "ยิ้มยิงฟันตายิ้ม",
     "😂": "ร้องไห้ดีใจ",
@@ -1832,7 +1833,7 @@ _emoji_regex = re.compile("|".join(map(re.escape, _emojis)))
 _delimiter = ":"
 
 
-def emoji_to_thai(text: str, delimiters=(_delimiter, _delimiter)) -> str:
+def emoji_to_thai(text: str, delimiters: tuple[str, str] = (_delimiter, _delimiter)) -> str:
     """Converts emojis to their Thai meanings.
 
     :param str text: Text with emojis

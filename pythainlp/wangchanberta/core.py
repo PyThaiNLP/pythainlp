@@ -5,7 +5,11 @@ from __future__ import annotations
 
 import re
 import warnings
-from typing import Union
+from typing import TYPE_CHECKING, Union
+
+if TYPE_CHECKING:
+    from transformers import CamembertTokenizer, PreTrainedModel, PreTrainedTokenizerBase
+    from transformers.pipelines import TokenClassificationPipeline
 
 from pythainlp.tokenize import word_tokenize
 
@@ -13,7 +17,7 @@ _model_name = "wangchanberta-base-att-spm-uncased"
 _tokenizer = None
 
 
-def _get_tokenizer():
+def _get_tokenizer() -> CamembertTokenizer:
     """Get the tokenizer, initializing it if necessary."""
     global _tokenizer
     if _tokenizer is None:
@@ -32,9 +36,16 @@ def _get_tokenizer():
 
 
 class ThaiNameTagger:
+    dataset_name: str
+    grouped_entities: bool
+    classify_tokens: TokenClassificationPipeline
+    json_ner: list[dict[str, str]]
+    output: str
+    sent_ner: list[tuple[str, str]]
+
     def __init__(
         self, dataset_name: str = "thainer", grouped_entities: bool = True
-    ):
+    ) -> None:
         """This function tags named entities in text in IOB format.
 
         Powered by wangchanberta from VISTEC-depa\
@@ -46,9 +57,9 @@ class ThaiNameTagger:
         """
         from transformers import pipeline
 
-        self.dataset_name = dataset_name
-        self.grouped_entities = grouped_entities
-        self.classify_tokens = pipeline(
+        self.dataset_name: str = dataset_name
+        self.grouped_entities: bool = grouped_entities
+        self.classify_tokens: TokenClassificationPipeline = pipeline(
             task="ner",
             tokenizer=_get_tokenizer(),
             model=f"airesearch/{_model_name}",
@@ -57,12 +68,12 @@ class ThaiNameTagger:
             grouped_entities=self.grouped_entities,
         )
 
-    def _IOB(self, tag):
+    def _IOB(self, tag: str) -> str:
         if tag != "O":
             return "B-" + tag
         return "O"
 
-    def _clear_tag(self, tag):
+    def _clear_tag(self, tag: str) -> str:
         return tag.replace("B-", "").replace("I-", "")
 
     def get_ner(
@@ -87,10 +98,10 @@ class ThaiNameTagger:
                 stacklevel=2,
             )
         text = re.sub(" ", "<_>", text)
-        self.json_ner = self.classify_tokens(text)
-        self.output = ""
+        self.json_ner: list[dict[str, str]] = self.classify_tokens(text)
+        self.output: str = ""
         if self.grouped_entities and self.dataset_name == "thainer":
-            self.sent_ner = [
+            self.sent_ner: list[tuple[str, str]] = [
                 (
                     i["word"].replace("<_>", " ").replace("▁", ""),
                     self._IOB(i["entity_group"]),
@@ -144,6 +155,9 @@ class ThaiNameTagger:
 
 
 class NamedEntityRecognition:
+    tokenizer: PreTrainedTokenizerBase
+    model: PreTrainedModel
+
     def __init__(
         self, model: str = "pythainlp/thainer-corpus-v2-base-model"
     ) -> None:
@@ -155,22 +169,22 @@ class NamedEntityRecognition:
         """
         from transformers import AutoModelForTokenClassification, AutoTokenizer
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model)
-        self.model = AutoModelForTokenClassification.from_pretrained(model)
+        self.tokenizer: PreTrainedTokenizerBase = AutoTokenizer.from_pretrained(model)
+        self.model: PreTrainedModel = AutoModelForTokenClassification.from_pretrained(model)
 
-    def _fix_span_error(self, words, ner):
+    def _fix_span_error(self, words: list[int], ner: list[str]) -> list[tuple[str, str]]:
         _ner = []
         _ner = ner
         _new_tag = []
         for i, j in zip(words, _ner):
-            i = self.tokenizer.decode(i)
-            if i.isspace() and j.startswith("B-"):
+            i_decoded = self.tokenizer.decode(i)
+            if i_decoded.isspace() and j.startswith("B-"):
                 j = "O"
-            if i in ("", "<s>", "</s>"):
+            if i_decoded in ("", "<s>", "</s>"):
                 continue
-            if i == "<_>":
-                i = " "
-            _new_tag.append((i, j))
+            if i_decoded == "<_>":
+                i_decoded = " "
+            _new_tag.append((i_decoded, j))
         return _new_tag
 
     def get_ner(
@@ -232,7 +246,7 @@ class NamedEntityRecognition:
                     sent += "</" + temp + ">"
 
             return sent
-        return ner_tag  # type: ignore[no-any-return]
+        return ner_tag
 
 
 def segment(text: str) -> list[str]:

@@ -3,7 +3,15 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from pythainlp.augment.word2vec.core import Word2VecAug
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pythainlp.augment.word2vec.core import Word2VecAug
+
+from pythainlp.augment.word2vec.core import Word2VecAug as _Word2VecAug
+
+# Make it accessible for runtime
+Word2VecAug = _Word2VecAug
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import word_tokenize
 
@@ -15,7 +23,10 @@ class LTW2VAug:
     `github.com/PyThaiNLP/large-thaiword2vec <https://github.com/PyThaiNLP/large-thaiword2vec>`_
     """
 
-    def __init__(self):
+    ltw2v_wv: str | None
+    aug: Word2VecAug
+
+    def __init__(self) -> None:
         self.ltw2v_wv = get_corpus_path("ltw2v")
         self.load_w2v()
 
@@ -25,7 +36,7 @@ class LTW2VAug:
         """
         return word_tokenize(text, engine="newmm")
 
-    def load_w2v(self):  # insert substitute
+    def load_w2v(self) -> None:  # insert substitute
         """Load LTW2V's word2vec model"""
         if self.ltw2v_wv is None:
             raise ValueError(

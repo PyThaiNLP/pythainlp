@@ -10,9 +10,6 @@ if TYPE_CHECKING:
 
     import torch
 
-    from pythainlp.generate.wangchanglm import WangChanGLM
-
-
 class ChatBotModel:
     history: list[tuple[str, str]]
     model: "WangChanGLM"

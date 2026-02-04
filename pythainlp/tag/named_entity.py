@@ -18,6 +18,16 @@ if TYPE_CHECKING:
         ThaiNameTagger as WangchanbertaThaiNameTagger,
     )
 
+# Type alias for NER engine types
+NEREngineType = Union[
+    "ThaiNNER",
+    "ModuleType",
+    "ThaiNameTagger",
+    "NamedEntityRecognition",
+    "WangchanbertaThaiNameTagger",
+    "NamedEntityTagger",
+]
+
 
 class NER:
     """Class of named-entity recognizer
@@ -42,40 +52,18 @@ class NER:
     """
 
     name_engine: str
-    engine: Union[
-        "ThaiNNER",
-        "ModuleType",
-        "ThaiNameTagger",
-        "NamedEntityRecognition",
-        "WangchanbertaThaiNameTagger",
-        "NamedEntityTagger",
-    ]
+    engine: NEREngineType
 
     def __init__(
         self, engine: str = "thainer-v2", corpus: str = "thainer"
     ) -> None:
         self.name_engine: str
-        self.engine: Union[
-            "ThaiNNER",
-            "ModuleType",
-            "ThaiNameTagger",
-            "NamedEntityRecognition",
-            "WangchanbertaThaiNameTagger",
-            "NamedEntityTagger",
-        ]
+        self.engine: NEREngineType
         self.load_engine(engine=engine, corpus=corpus)
 
     def load_engine(self, engine: str, corpus: str) -> None:
         self.name_engine: str = engine
-        self.engine: Union[
-            "ThaiNNER",
-            "ModuleType",
-            "ThaiNameTagger",
-            "NamedEntityRecognition",
-            "WangchanbertaThaiNameTagger",
-            "NamedEntityTagger",
-            None,
-        ] = None
+        self.engine: NEREngineType | None = None
 
         # Engines that ignore corpus parameter
         if engine == "thai-nner":

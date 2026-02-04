@@ -207,7 +207,9 @@ class Thai_W2P:
 
         return outputs
 
-    def _encode(self, word: str) -> np.ndarray:
+    def _encode(self, word: str) -> "np.ndarray":
+        import numpy as np
+
         chars = list(word) + ["</s>"]
         x = [self.g2idx.get(char, self.g2idx["<unk>"]) for char in chars]
         x = np.take(self.enc_emb, np.expand_dims(x, 0), axis=0)
@@ -223,6 +225,8 @@ class Thai_W2P:
         return None
 
     def _predict(self, word: str) -> str:
+        import numpy as np
+
         short_word = self._short_word(word)
         if short_word is not None:
             return short_word

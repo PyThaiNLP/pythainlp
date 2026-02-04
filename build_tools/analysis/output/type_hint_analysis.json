@@ -11,10 +11,10 @@
     },
     "variables": {
       "total": 1166,
-      "complete": 738,
-      "none": 428,
-      "pct_complete": 63.293310463121784,
-      "pct_none": 36.706689536878216,
+      "complete": 778,
+      "none": 388,
+      "pct_complete": 66.7238421955403,
+      "pct_none": 33.27615780445969,
       "class_variables": 216,
       "instance_variables": 439,
       "module_variables": 511
@@ -1722,256 +1722,16 @@
       "line": 19
     },
     {
-      "name": "pythainlp.coref.core._MODEL",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/coref/core.py",
-      "line": 8
-    },
-    {
-      "name": "pythainlp.corpus.tnc.__all__",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/tnc.py",
-      "line": 8
-    },
-    {
-      "name": "pythainlp.corpus.tnc._UNIGRAM_FILENAME",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/tnc.py",
-      "line": 19
-    },
-    {
-      "name": "pythainlp.corpus.tnc._BIGRAM_CORPUS_NAME",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/tnc.py",
-      "line": 20
-    },
-    {
-      "name": "pythainlp.corpus.tnc._TRIGRAM_CORPUS_NAME",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/tnc.py",
-      "line": 21
-    },
-    {
-      "name": "pythainlp.corpus.ttc.__all__",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/ttc.py",
-      "line": 12
-    },
-    {
-      "name": "pythainlp.corpus.ttc._UNIGRAM_FILENAME",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/ttc.py",
-      "line": 18
-    },
-    {
-      "name": "pythainlp.corpus.volubilis._VOLUBILIS_WORDS",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/volubilis.py",
-      "line": 10
-    },
-    {
-      "name": "pythainlp.corpus.volubilis._VOLUBILIS_FILENAME",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/volubilis.py",
-      "line": 11
-    },
-    {
-      "name": "pythainlp.corpus.wikipedia._WIKIPEDIA_TITLES",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/wikipedia.py",
-      "line": 10
-    },
-    {
-      "name": "pythainlp.corpus.wikipedia._WIKIPEDIA_TITLES_FILENAME",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/corpus/wikipedia.py",
-      "line": 11
-    },
-    {
-      "name": "pythainlp.generate.__all__",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/__init__.py",
-      "line": 6
-    },
-    {
-      "name": "pythainlp.generate.thai2fit.__all__",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/thai2fit.py",
-      "line": 12
-    },
-    {
-      "name": "pythainlp.generate.thai2fit.imdb",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/thai2fit.py",
-      "line": 41
-    },
-    {
-      "name": "pythainlp.generate.thai2fit.dummy_df",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/thai2fit.py",
-      "line": 42
-    },
-    {
-      "name": "pythainlp.generate.thai2fit.thwiki",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/thai2fit.py",
-      "line": 45
-    },
-    {
-      "name": "pythainlp.generate.thai2fit.thwiki_itos",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/thai2fit.py",
-      "line": 61
-    },
-    {
-      "name": "pythainlp.generate.thai2fit.thwiki_vocab",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/thai2fit.py",
-      "line": 62
-    },
-    {
-      "name": "pythainlp.generate.thai2fit.tt",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/thai2fit.py",
-      "line": 65
-    },
-    {
-      "name": "pythainlp.generate.thai2fit.processor",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/thai2fit.py",
-      "line": 71
-    },
-    {
-      "name": "pythainlp.generate.thai2fit.data_lm",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/thai2fit.py",
-      "line": 75
-    },
-    {
-      "name": "pythainlp.generate.thai2fit.config",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/thai2fit.py",
-      "line": 85
-    },
-    {
-      "name": "pythainlp.generate.thai2fit.trn_args",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/thai2fit.py",
-      "line": 99
-    },
-    {
-      "name": "pythainlp.generate.thai2fit.learn",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/generate/thai2fit.py",
-      "line": 101
-    },
-    {
-      "name": "pythainlp.phayathaibert.__all__",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/phayathaibert/__init__.py",
-      "line": 6
-    },
-    {
-      "name": "pythainlp.phayathaibert.core._PAT_URL",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/phayathaibert/core.py",
-      "line": 18
-    },
-    {
-      "name": "pythainlp.phayathaibert.core._model_name",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/phayathaibert/core.py",
-      "line": 20
-    },
-    {
-      "name": "pythainlp.phayathaibert.core._tokenizer",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/phayathaibert/core.py",
-      "line": 21
-    },
-    {
-      "name": "pythainlp.spell.phunspell.pspell",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/phunspell.py",
-      "line": 22
-    },
-    {
-      "name": "pythainlp.spell.symspellpy._UNIGRAM_FILENAME",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/symspellpy.py",
-      "line": 28
-    },
-    {
-      "name": "pythainlp.spell.symspellpy._BIGRAM_CORPUS_NAME",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/symspellpy.py",
-      "line": 29
-    },
-    {
-      "name": "pythainlp.spell.symspellpy._sym_spell",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/symspellpy.py",
-      "line": 31
-    },
-    {
-      "name": "pythainlp.spell.symspellpy._unigram_file_ctx",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/symspellpy.py",
-      "line": 32
-    },
-    {
-      "name": "pythainlp.spell.symspellpy._load_lock",
-      "scope": "private",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/symspellpy.py",
-      "line": 35
-    },
-    {
-      "name": "pythainlp.spell.wanchanberta_thai_grammarly.use_cuda",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
-      "line": 27
-    },
-    {
-      "name": "pythainlp.spell.wanchanberta_thai_grammarly.device",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
-      "line": 28
-    },
-    {
-      "name": "pythainlp.spell.wanchanberta_thai_grammarly.tokenizer",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
-      "line": 29
-    },
-    {
       "name": "pythainlp.spell.wanchanberta_thai_grammarly.tagging_model",
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
-      "line": 56
-    },
-    {
-      "name": "pythainlp.spell.wanchanberta_thai_grammarly.tagging_model",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
-      "line": 58
-    },
-    {
-      "name": "pythainlp.spell.wanchanberta_thai_grammarly.ids_to_labels",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
-      "line": 59
+      "line": 60
     },
     {
       "name": "pythainlp.spell.wanchanberta_thai_grammarly.mlm_model",
       "scope": "public",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
-      "line": 100
-    },
-    {
-      "name": "pythainlp.spell.wanchanberta_thai_grammarly.mlm_model",
-      "scope": "public",
-      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/spell/wanchanberta_thai_grammarly.py",
-      "line": 104
+      "line": 106
     },
     {
       "name": "pythainlp.spell.words_spelling_correction._WSC",

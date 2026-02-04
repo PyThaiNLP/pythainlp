@@ -4,15 +4,29 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Any, Union
 
 if TYPE_CHECKING:
     import numpy as np
+    import sentencepiece as spm
+    from onnxruntime import InferenceSession, SessionOptions
 
 from pythainlp.corpus import get_path_folder_corpus
 
 
 class WngchanBerta_ONNX:
+    """WangchanBERTa NER engine with ONNX Runtime backend"""
+
+    model_name: str
+    model_version: str
+    options: "SessionOptions"
+    session: "InferenceSession"
+    outputs_name: str
+    sp: "spm.SentencePieceProcessor"
+    _json: dict[str, Any]
+    id2tag: dict[str, str]
+    _s: dict[str, "np.ndarray"]
+
     def __init__(
         self,
         model_name: str,

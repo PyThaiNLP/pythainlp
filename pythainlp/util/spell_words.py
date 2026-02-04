@@ -36,6 +36,7 @@ rule3: list[str] = [
     for i in _r2
 ]
 dict_vowel_ex: dict[str, str] = {}
+i: str
 for i in _r1 + _r2:
     dict_vowel_ex[i.replace("-", "อ").replace("–", "อ").replace(":", "")] = (
         i.replace("-", "อ").replace(":", "").replace("–", "อ")

@@ -11,9 +11,11 @@ from pythainlp.tokenize import Tokenizer
 from pythainlp.util import Trie
 
 _dict_aksonhan: dict[str, str] = {}
+i: str
 for i in list(thai_consonants):
     if i == "ร":
         continue
+    j: str
     for j in list(thai_tonemarks):
         _dict_aksonhan[i + j + i] = "ั" + j + i
         _dict_aksonhan[i + i + j + i] = i + "ั" + j + i

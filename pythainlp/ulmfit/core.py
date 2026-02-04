@@ -33,17 +33,17 @@ from pythainlp.ulmfit.preprocess import (
 )
 from pythainlp.util import reorder_vowels
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device: "torch.device" = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-_MODEL_NAME_LSTM = "wiki_lm_lstm"
-_ITOS_NAME_LSTM = "wiki_itos_lstm"
+_MODEL_NAME_LSTM: str = "wiki_lm_lstm"
+_ITOS_NAME_LSTM: str = "wiki_itos_lstm"
 
 
 # Pretrained model paths
 # Note: These may be None if corpus is not downloaded.
 # Access via get_thwiki_lstm() for proper validation or use directly
 # if you've already verified the corpus is downloaded.
-THWIKI_LSTM = {
+THWIKI_LSTM: dict[str, Optional[str]] = {
     "wgts_fname": get_corpus_path(_MODEL_NAME_LSTM),
     "itos_fname": get_corpus_path(_ITOS_NAME_LSTM),
 }
@@ -75,7 +75,7 @@ def get_thwiki_lstm() -> dict[str, str]:
 
 # Preprocessing rules for Thai text
 # dense features
-pre_rules_th = [
+pre_rules_th: list[Callable[[str], str]] = [
     replace_rep_after,
     fix_html,
     reorder_vowels,
@@ -85,11 +85,11 @@ pre_rules_th = [
     rm_brackets,
     replace_url,
 ]
-post_rules_th = [replace_wrep_post, ungroup_emoji, lowercase_all]
+post_rules_th: list[Callable[[str], str]] = [replace_wrep_post, ungroup_emoji, lowercase_all]
 
 # sparse features
-pre_rules_th_sparse = pre_rules_th[1:] + [replace_rep_nonum]
-post_rules_th_sparse = post_rules_th[1:] + [
+pre_rules_th_sparse: list[Callable[[str], str]] = pre_rules_th[1:] + [replace_rep_nonum]
+post_rules_th_sparse: list[Callable[[str], str]] = post_rules_th[1:] + [
     replace_wrep_post_nonum,
     remove_space,
 ]

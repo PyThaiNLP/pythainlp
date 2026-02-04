@@ -71,8 +71,8 @@ _vowel_patterns: str = """เ*ียว,\\1iao
 #ฤ,\\1rue
 $ฤ,\\1ri"""
 _vowel_patterns: str = _vowel_patterns.replace("*", f"([{thai_consonants}])")
-_vowel_patterns = _vowel_patterns.replace("#", "([คนพมห])")
-_vowel_patterns = _vowel_patterns.replace("$", "([กตทปศส])")
+_vowel_patterns: str = _vowel_patterns.replace("#", "([คนพมห])")
+_vowel_patterns: str = _vowel_patterns.replace("$", "([กตทปศส])")
 
 _VOWELS: list[list[str]] = [x.split(",") for x in _vowel_patterns.split("\n")]
 

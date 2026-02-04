@@ -3,13 +3,16 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
     import torch
 
 
 class ChatBotModel:
+    history: list[tuple[str, str]]
+    model: Any
+
     def __init__(self) -> None:
         """Chat using AI generation"""
         self.history: list[tuple[str, str]] = []

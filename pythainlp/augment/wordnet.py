@@ -12,7 +12,7 @@ __all__: list[str] = [
 
 import itertools
 from collections import OrderedDict
-from typing import Callable, Optional
+from typing import Any, Callable, Optional
 
 from nltk.corpus import wordnet as wn
 
@@ -117,6 +117,18 @@ def postype2wordnet(pos: str, corpus: str) -> Optional[str]:
 
 class WordNetAug:
     """Text Augment using wordnet"""
+
+    synonyms: list[str]
+    list_synsets: list
+    p2w_pos: Optional[str]
+    synset: Any
+    syn: str
+    synonyms_without_duplicates: list[str]
+    list_words: list[str]
+    list_synonym: list
+    p_all: int
+    list_pos: list[tuple[str, str]]
+    temp: list[str]
 
     def __init__(self) -> None:
         pass

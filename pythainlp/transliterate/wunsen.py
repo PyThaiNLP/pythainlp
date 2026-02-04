@@ -12,9 +12,12 @@ By Wunsen
 
 from __future__ import annotations
 
-from typing import Optional, Union
+from typing import TYPE_CHECKING, Optional, Union
 
 from wunsen import ThapSap
+
+if TYPE_CHECKING:
+    pass
 
 
 class WunsenTransliterate:
@@ -26,6 +29,12 @@ class WunsenTransliterate:
         * `GitHub \
             <https://github.com/cakimpei/wunsen>`_
     """
+
+    thap_value: Optional["ThapSap"]
+    lang: Optional[str]
+    jp_input: Optional[str]
+    zh_sandhi: Optional[bool]
+    system: Optional[str]
 
     def __init__(self) -> None:
         self.thap_value: Optional[ThapSap] = None

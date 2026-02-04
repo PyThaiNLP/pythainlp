@@ -257,6 +257,13 @@ class FastTextEncoder:
 
 
 class Words_Spelling_Correction(FastTextEncoder):
+    """Word-level Spell Checker and Correction using FastText"""
+
+    model_name: str
+    model_path: str
+    model_onnx: str
+    list_word: list[str]
+
     def __init__(self) -> None:
         self.model_name: str = "pythainlp/word-spelling-correction-char2vec"
         self.model_path: str = get_hf_hub(self.model_name)

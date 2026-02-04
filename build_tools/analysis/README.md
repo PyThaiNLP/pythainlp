@@ -223,6 +223,34 @@ According to PEP 561 and the Python typing documentation, a library is considere
 4. Generic types are properly parameterized
 5. The library passes type checking with mypy in strict mode
 
+**Exemptions from Type Annotation Requirements:**
+
+The analyzer implements the following exemptions as specified in the type completeness guidelines:
+
+1. **Constants with simple literal values** - Constants assigned simple literals don't require annotations
+   - Example: `MAX_VALUE = 100`, `DEFAULT_NAME = "test"`
+   - Must be named in ALL_CAPS or annotated with `Final`
+   - Complex values still require annotations: `COMPLEX_LIST: list = ["a", "b", {"key": "value"}]`
+
+2. **Enum values** - Values within an Enum class don't require annotations
+   - They automatically take on the type of the Enum class
+
+3. **Type aliases** - Type aliases don't require `TypeAlias` annotation
+   - Example: `MyType = dict[str, int]`, `Foo = Callable[[int], str]`
+   - These are recognized as type aliases by their assignment pattern
+
+4. **self and cls parameters** - Don't require explicit annotations
+   - Standard Python convention
+
+5. **__init__ return types** - Don't need annotation
+   - Always return None by definition
+
+6. **Special module-level symbols** - Don't require annotations
+   - `__all__`, `__author__`, `__copyright__`, `__email__`, `__license__`, `__title__`, `__uri__`, `__version__`
+
+7. **Special class-level symbols** - Don't require annotations
+   - `__class__`, `__dict__`, `__doc__`, `__module__`, `__slots__`
+
 ### Analysis Categories
 
 **Type Hint Status:**
@@ -235,12 +263,15 @@ According to PEP 561 and the Python typing documentation, a library is considere
 
 - **Functions/Methods:** Function signatures including parameters and return types
   - Excludes `self` and `cls` parameters from parameter counts
+  - `__init__` methods don't require return type annotations (always None)
   - Considers both parameters and return type for completeness
   - Tracks decorator usage (e.g., `@staticmethod`, `@lru_cache`)
   
 - **Class Variables:** Variables defined at class level
   - Distinguishes between annotated (`class_var: int = 10`) and non-annotated
   - Can include `ClassVar` type hints for class-specific attributes
+  - Special symbols like `__slots__` are exempt from annotation requirements
+  - Enum values are exempt (they inherit the Enum class type)
   
 - **Instance Variables:** Variables defined as instance attributes (e.g., `self.attr`)
   - Detected in `__init__` and other methods
@@ -248,11 +279,14 @@ According to PEP 561 and the Python typing documentation, a library is considere
   
 - **Module Variables:** Variables defined at module level
   - Includes constants, configuration values, and exported names
+  - Constants with simple literal values (ALL_CAPS naming) are exempt
+  - Special symbols like `__all__`, `__version__` are exempt from annotation requirements
   - Important for library API clarity
   
 - **Type Aliases:** Type alias definitions (using TypeAlias annotation)
   - Modern syntax: `MyType: TypeAlias = dict[str, int]`
   - Also detects `typing.TypeAlias` and `typing_extensions.TypeAlias`
+  - Type aliases without explicit `TypeAlias` annotation are also recognized and exempt
 
 **Priority Levels:**
 

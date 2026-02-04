@@ -275,11 +275,8 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         if value is None:
             return True
 
-        # Direct literal types
-        if isinstance(
-            value,
-            (ast.Constant, ast.Num, ast.Str, ast.Bytes, ast.NameConstant),
-        ):
+        # Direct literal types (use ast.Constant for Python 3.8+)
+        if isinstance(value, ast.Constant):
             return True
 
         # Check for simple containers

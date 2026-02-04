@@ -6,10 +6,9 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING
 
-import torch
-
 if TYPE_CHECKING:
     import pandas as pd
+    import torch
     from transformers import PreTrainedModel, PreTrainedTokenizerBase
 
 
@@ -45,7 +44,7 @@ class WangChanGLM:
         return_dict: bool = True,
         load_in_8bit: bool = False,
         device: str = "cuda",
-        torch_dtype: torch.dtype = torch.float16,
+        torch_dtype: "torch.dtype | None" = None,
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
     ) -> None:
@@ -107,6 +106,8 @@ class WangChanGLM:
         :return: the answer from Instruct
         :rtype: str
         """
+        import torch
+
         batch = self.tokenizer(text, return_tensors="pt")
         with torch.autocast(device_type=self.device, dtype=self.torch_dtype):
             if thai_only:

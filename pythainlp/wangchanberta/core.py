@@ -5,7 +5,11 @@ from __future__ import annotations
 
 import re
 import warnings
-from typing import Any, Union
+from typing import TYPE_CHECKING, Union
+
+if TYPE_CHECKING:
+    from transformers import CamembertTokenizer, PreTrainedModel, PreTrainedTokenizerBase
+    from transformers.pipelines import TokenClassificationPipeline
 
 from pythainlp.tokenize import word_tokenize
 
@@ -13,7 +17,7 @@ _model_name = "wangchanberta-base-att-spm-uncased"
 _tokenizer = None
 
 
-def _get_tokenizer() -> Any:
+def _get_tokenizer() -> CamembertTokenizer:
     """Get the tokenizer, initializing it if necessary."""
     global _tokenizer
     if _tokenizer is None:
@@ -34,8 +38,8 @@ def _get_tokenizer() -> Any:
 class ThaiNameTagger:
     dataset_name: str
     grouped_entities: bool
-    classify_tokens: Any
-    json_ner: list[dict[str, Any]]
+    classify_tokens: TokenClassificationPipeline
+    json_ner: list[dict[str, str]]
     output: str
     sent_ner: list[tuple[str, str]]
 
@@ -55,7 +59,7 @@ class ThaiNameTagger:
 
         self.dataset_name: str = dataset_name
         self.grouped_entities: bool = grouped_entities
-        self.classify_tokens: Any = pipeline(
+        self.classify_tokens: TokenClassificationPipeline = pipeline(
             task="ner",
             tokenizer=_get_tokenizer(),
             model=f"airesearch/{_model_name}",
@@ -94,7 +98,7 @@ class ThaiNameTagger:
                 stacklevel=2,
             )
         text = re.sub(" ", "<_>", text)
-        self.json_ner: list[dict[str, Any]] = self.classify_tokens(text)
+        self.json_ner: list[dict[str, str]] = self.classify_tokens(text)
         self.output: str = ""
         if self.grouped_entities and self.dataset_name == "thainer":
             self.sent_ner: list[tuple[str, str]] = [
@@ -151,8 +155,8 @@ class ThaiNameTagger:
 
 
 class NamedEntityRecognition:
-    tokenizer: Any
-    model: Any
+    tokenizer: PreTrainedTokenizerBase
+    model: PreTrainedModel
 
     def __init__(
         self, model: str = "pythainlp/thainer-corpus-v2-base-model"
@@ -165,8 +169,8 @@ class NamedEntityRecognition:
         """
         from transformers import AutoModelForTokenClassification, AutoTokenizer
 
-        self.tokenizer: Any = AutoTokenizer.from_pretrained(model)
-        self.model: Any = AutoModelForTokenClassification.from_pretrained(model)
+        self.tokenizer: PreTrainedTokenizerBase = AutoTokenizer.from_pretrained(model)
+        self.model: PreTrainedModel = AutoModelForTokenClassification.from_pretrained(model)
 
     def _fix_span_error(self, words: list[int], ner: list[str]) -> list[tuple[str, str]]:
         _ner = []

@@ -126,7 +126,7 @@ class ZhThTranslator:
             AutoModelForSeq2SeqLM.from_pretrained(pretrained)
         )
         if use_gpu:
-            self.model_zhth.cuda()
+            self.model_zhth = self.model_zhth.cuda()
 
     def translate(
         self, text: str, exclude_words: Optional[list[str]] = None

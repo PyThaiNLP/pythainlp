@@ -91,7 +91,7 @@ def _multicut(
 
         if len_q == 1:
             q0 = min(q)
-            yield LatticeString(text[last_p:q0], serialize(last_p, q0))
+            yield LatticeString(text[last_p:q0], list(serialize(last_p, q0)))
             last_p = q0
         elif len_q == 0:  # len(q) == 0  means not found in dictionary
             m = _PAT_NONTHAI.match(text[p:])

@@ -198,4 +198,4 @@ class NNER:
             >>> nner.tag("แมวทำอะไรตอนห้าโมงเช้า", top_level_only=True)
             ([...], [{'text': ['', 'ห้า', '', 'โมง'], 'span': [7, 11], 'entity_type': 'time'}])
         """
-        return self.engine.tag(text, top_level_only=top_level_only)
+        return self.engine.tag(text, top_level_only=top_level_only)  # type: ignore[no-any-return]

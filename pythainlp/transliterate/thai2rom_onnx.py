@@ -95,7 +95,7 @@ class ThaiTransliterator_ONNX:
             target = ["<PAD>"]
         else:
             target_tensor = np.argmax(target_tensor_logits.squeeze(1), 1)
-            target = [self._ix_to_target_char[str(t)] for t in target_tensor]
+            target = [self._ix_to_target_char[int(t)] for t in target_tensor]
 
         return "".join(target)
 

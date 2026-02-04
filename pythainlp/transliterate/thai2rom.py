@@ -381,11 +381,10 @@ class Seq2Seq(nn.Module):
             # Non-cryptographic use, pseudo-random generator is acceptable here
             teacher_force = random.random() < teacher_forcing_ratio  # noqa: S311
 
-            decoder_input = (
-                target_seq[:, di].reshape(batch_size, 1)
-                if teacher_force
-                else topi.detach()
-            )
+            if teacher_force and target_seq is not None:
+                decoder_input = target_seq[:, di].reshape(batch_size, 1)
+            else:
+                decoder_input = topi.detach()
 
             decoder_input = topi.detach()
 

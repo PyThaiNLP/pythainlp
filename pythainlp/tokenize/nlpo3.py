@@ -20,12 +20,15 @@ _dict_file_ctx = None  # File context manager kept alive for program lifetime
 _load_lock = threading.Lock()  # Thread safety for lazy loading
 
 
-def _ensure_default_dict_loaded() -> str:
+def _ensure_default_dict_loaded() -> None:
     """Ensure the default dictionary is loaded.
 
     This function uses a lock to ensure thread-safe initialization.
     The context manager is kept alive for the lifetime of the program
     to prevent cleanup of temporary files while the dictionary is in use.
+
+    :raises ImportError: If nlpo3 is not installed.
+    :raises RuntimeError: If dictionary loading fails.
     """
     try:
         from nlpo3 import load_dict as nlpo3_load_dict
@@ -43,10 +46,12 @@ def _ensure_default_dict_loaded() -> str:
                 dict_file = corpus_files.joinpath(_THAI_WORDS_FILENAME)
                 _dict_file_ctx = as_file(dict_file)
                 dict_path = _dict_file_ctx.__enter__()
-                _NLPO3_DEFAULT_DICT = nlpo3_load_dict(
+                msg, success = nlpo3_load_dict(
                     str(dict_path), _NLPO3_DEFAULT_DICT_NAME
                 )
-    return _NLPO3_DEFAULT_DICT
+                if not success:
+                    raise RuntimeError(f"Failed to load nlpo3 dictionary: {msg}")
+                _NLPO3_DEFAULT_DICT = _NLPO3_DEFAULT_DICT_NAME
 
 
 def load_dict(file_path: str, dict_name: str) -> bool:
@@ -76,7 +81,7 @@ def load_dict(file_path: str, dict_name: str) -> bool:
     msg, success = nlpo3_load_dict(file_path=file_path, dict_name=dict_name)
     if not success:
         print(msg, file=stderr)
-    return success
+    return success  # type: ignore[no-any-return]
 
 
 def segment(
@@ -114,7 +119,7 @@ def segment(
     if custom_dict == _NLPO3_DEFAULT_DICT_NAME:
         _ensure_default_dict_loaded()
 
-    return nlpo3_segment(
+    return nlpo3_segment(  # type: ignore[no-any-return]
         text=text,
         dict_name=custom_dict,
         safe=safe_mode,

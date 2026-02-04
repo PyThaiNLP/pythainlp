@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import re
+from typing import Optional
 
 from pythainlp import thai_consonants, thai_tonemarks
 from pythainlp.corpus import thai_words
@@ -12,7 +13,7 @@ from pythainlp.tokenize import Tokenizer, syllable_tokenize
 from pythainlp.util import remove_tonemark
 
 kv: KhaveeVerifier = KhaveeVerifier()
-all_thai_words_dict: list[str] | None = None
+all_thai_words_dict: Optional[list[str]] = None
 
 
 def rhyme(word: str) -> list[str]:

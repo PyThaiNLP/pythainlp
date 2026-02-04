@@ -78,23 +78,21 @@ class CRFchunk:
     xseq: list[dict[str, Union[str, bool]]]
 
     def __init__(self, corpus: str = "orchidpp") -> None:
-        self.corpus: str = corpus
-        self._model_file_ctx: Optional[AbstractContextManager[Any]] = None
+        self.corpus = corpus
+        self._model_file_ctx = None
         self.load_model(self.corpus)
 
     def load_model(self, corpus: str) -> None:
-        self.tagger: CRFTagger = CRFTagger()
+        self.tagger = CRFTagger()
         if corpus == "orchidpp":
             corpus_files = files("pythainlp.corpus")
             model_file = corpus_files.joinpath("crfchunk_orchidpp.model")
-            self._model_file_ctx: Optional[AbstractContextManager[Any]] = (
-                as_file(model_file)
-            )
+            self._model_file_ctx = as_file(model_file)
             model_path = self._model_file_ctx.__enter__()
             self.tagger.open(str(model_path))
 
     def parse(self, token_pos: list[tuple[str, str]]) -> list[str]:
-        self.xseq: list[dict[str, Union[str, bool]]] = extract_features(token_pos)
+        self.xseq = extract_features(token_pos)
         return self.tagger.tag(self.xseq)  # type: ignore[no-any-return]
 
     def __enter__(self) -> CRFchunk:

@@ -67,24 +67,18 @@ class FastTextEncoder:
             )
         except Exception as e:
             raise RuntimeError(f"An unexpected error occurred: {e}") from e
-        self.model_dir: str = model_dir
-        self.nn_model_path: str = nn_model_path
-        self.bucket: int = bucket
-        self.nb_words: int = nb_words
-        self.minn: int = minn
-        self.maxn: int = maxn
+        self.model_dir = model_dir
+        self.nn_model_path = nn_model_path
+        self.bucket = bucket
+        self.nb_words = nb_words
+        self.minn = minn
+        self.maxn = maxn
 
         # Load data and models
-        self.vocabulary: list[str]
-        self.embeddings: "NDArray[np.float32]"
         self.vocabulary, self.embeddings = self._load_embeddings()
-        self.words_for_suggestion: "NDArray[np.str_]" = (
-            self._load_suggestion_words(words_list)
-        )
-        self.nn_session: "InferenceSession" = self._load_onnx_session(
-            nn_model_path
-        )
-        self.embedding_dim: int = self.embeddings.shape[1]
+        self.words_for_suggestion = self._load_suggestion_words(words_list)
+        self.nn_session = self._load_onnx_session(nn_model_path)
+        self.embedding_dim = self.embeddings.shape[1]
 
     def _load_embeddings(self) -> tuple[list[str], NDArray[np.float32]]:
         """Loads embeddings matrix and vocabulary list."""

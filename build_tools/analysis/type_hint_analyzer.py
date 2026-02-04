@@ -39,6 +39,17 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
+# Constants for type checking
+_NONE_TYPE = type(None)
+_TYPE_ALIAS_KEYWORDS = {
+    "Optional",
+    "Union",
+    "Callable",
+    "Type",
+    "Any",
+    "NoReturn",
+}
+
 
 def count_mypy_errors_by_submodule(pythainlp_dir: str) -> Dict[str, int]:
     """
@@ -277,7 +288,7 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         # Direct literal types (use ast.Constant for Python 3.8+)
         # Only accept simple types: str, int, float, bool, None
         if isinstance(value, ast.Constant):
-            return isinstance(value.value, (str, int, float, bool, type(None)))
+            return isinstance(value.value, (str, int, float, bool, _NONE_TYPE))
 
         # Check for simple containers
         if isinstance(value, (ast.List, ast.Tuple, ast.Set)):
@@ -374,15 +385,7 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         # 3. Type names that suggest type aliases
         if isinstance(value, ast.Name):
             # Common typing constructs
-            type_keywords = {
-                "Optional",
-                "Union",
-                "Callable",
-                "Type",
-                "Any",
-                "NoReturn",
-            }
-            if value.id in type_keywords:
+            if value.id in _TYPE_ALIAS_KEYWORDS:
                 return True
 
         # 4. Attribute access from typing module (typing.Something)

@@ -306,9 +306,9 @@ class TypeHintAnalyzer(ast.NodeVisitor):
         # Check if name is in ALL_CAPS (with optional underscores)
         # Remove leading underscores for the check
         name_without_underscores = name.lstrip("_")
-        if name_without_underscores and name_without_underscores.isupper():
-            return True
-        return False
+        return bool(
+            name_without_underscores and name_without_underscores.isupper()
+        )
 
     def _has_final_annotation(self, annotation: ast.expr) -> bool:
         """Check if an annotation uses Final."""
@@ -489,10 +489,13 @@ class TypeHintAnalyzer(ast.NodeVisitor):
                 continue
 
             # Constants with simple literal values don't require annotations
-            if self.module_level and self._is_constant_name(var_name):
-                if self._is_simple_literal(node.value):
-                    # This is an exempt constant
-                    continue
+            if (
+                self.module_level
+                and self._is_constant_name(var_name)
+                and self._is_simple_literal(node.value)
+            ):
+                # This is an exempt constant
+                continue
 
             # Type aliases without annotation don't require annotations
             if self.module_level and self._is_type_alias_without_annotation(

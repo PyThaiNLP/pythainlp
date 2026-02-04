@@ -86,7 +86,11 @@ def load_dict(file_path: str, dict_name: str) -> bool:
             "nlpo3 is not installed. Install it with: pip install nlpo3"
         ) from ex
 
-    msg, success = nlpo3_load_dict(file_path=file_path, dict_name=dict_name)
+    msg: str
+    success: bool
+    msg, success = nlpo3_load_dict(
+        file_path=file_path, dict_name=dict_name
+    )
     if not success:
         print(msg, file=stderr)
     return success
@@ -127,9 +131,10 @@ def segment(
     if custom_dict == _NLPO3_DEFAULT_DICT_NAME:
         _ensure_default_dict_loaded()
 
-    return nlpo3_segment(
+    result: list[str] = nlpo3_segment(
         text=text,
         dict_name=custom_dict,
         safe=safe_mode,
         parallel=parallel_mode,
     )
+    return result

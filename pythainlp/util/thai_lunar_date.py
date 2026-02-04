@@ -187,7 +187,23 @@ _BEGIN_DATES: list[date] = [
 
 _DAYS_354: list[int] = [29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30]
 _DAYS_355: list[int] = [29, 30, 29, 30, 29, 30, 30, 30, 29, 30, 29, 30, 29, 30]
-_DAYS_384: list[int] = [29, 30, 29, 30, 29, 30, 29, 30, 30, 29, 30, 29, 30, 29, 30]
+_DAYS_384: list[int] = [
+    29,
+    30,
+    29,
+    30,
+    29,
+    30,
+    29,
+    30,
+    30,
+    29,
+    30,
+    29,
+    30,
+    29,
+    30,
+]
 
 # Zodiac names in Thai, English, and Numeric representations
 _ZODIAC: dict[int, list[Union[str, int]]] = {

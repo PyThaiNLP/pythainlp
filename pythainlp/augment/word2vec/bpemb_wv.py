@@ -69,7 +69,9 @@ class BPEmbAug:
             # output: ['ผมสอน', 'ผมเข้าเรียน']
         """
         self.sentence: str = sentence.replace(" ", "▁")
-        self.temp: list[tuple[str, ...]] = self.aug.augment(self.sentence, n_sent, p=p)
+        self.temp: list[tuple[str, ...]] = self.aug.augment(
+            self.sentence, n_sent, p=p
+        )
         self.temp_new: list[str] = []
         for i in self.temp:
             self.t: str = ""

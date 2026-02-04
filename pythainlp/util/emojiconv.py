@@ -1833,7 +1833,9 @@ _emoji_regex: Pattern[str] = re.compile("|".join(map(re.escape, _emojis)))
 _delimiter: str = ":"
 
 
-def emoji_to_thai(text: str, delimiters: tuple[str, str] = (_delimiter, _delimiter)) -> str:
+def emoji_to_thai(
+    text: str, delimiters: tuple[str, str] = (_delimiter, _delimiter)
+) -> str:
     """Converts emojis to their Thai meanings.
 
     :param str text: Text with emojis
@@ -1856,8 +1858,8 @@ def emoji_to_thai(text: str, delimiters: tuple[str, str] = (_delimiter, _delimit
         # output: :ธง_ไทย: นี่คือธงประเทศไทย
     """
     return _emoji_regex.sub(
-        lambda match: delimiters[0]
-        + _emoji_th[match.group(0)]
-        + delimiters[1],
+        lambda match: (
+            delimiters[0] + _emoji_th[match.group(0)] + delimiters[1]
+        ),
         text,
     )

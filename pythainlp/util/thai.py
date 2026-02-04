@@ -22,7 +22,9 @@ from pythainlp import (
     thai_vowels,
 )
 
-_DEFAULT_IGNORE_CHARS: str = string.whitespace + string.digits + string.punctuation
+_DEFAULT_IGNORE_CHARS: str = (
+    string.whitespace + string.digits + string.punctuation
+)
 _TH_FIRST_CHAR_ASCII: int = 3584
 _TH_LAST_CHAR_ASCII: int = 3711
 

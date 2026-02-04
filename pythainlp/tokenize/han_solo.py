@@ -20,7 +20,9 @@ except ImportError as ex:
     ) from ex
 
 _tagger: Optional[pycrfsuite.Tagger] = None
-_model_file_ctx: Optional[Any] = None  # File context manager kept alive for program lifetime
+_model_file_ctx: Optional[Any] = (
+    None  # File context manager kept alive for program lifetime
+)
 _load_lock: threading.Lock = threading.Lock()  # Thread safety for lazy loading
 
 

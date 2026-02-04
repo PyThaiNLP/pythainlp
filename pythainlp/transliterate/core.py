@@ -179,7 +179,7 @@ def transliterate(
     elif engine == "thaig2p_v2":
         from pythainlp.transliterate.thaig2p_v2 import transliterate  # noqa: I001
     elif engine == "umt5_thaig2p":
-        from pythainlp.translate.umt5_thaig2p import transliterate  # type: ignore[no-redef]  # noqa: I001
+        from pythainlp.translate.umt5_thaig2p import transliterate  # type: ignore[import-not-found,no-redef]  # noqa: I001
     else:  # use default engine: "thaig2p"
         from pythainlp.transliterate.thaig2p import transliterate  # noqa: I001
 

@@ -3,7 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0
 __version__: str = "5.2.0"
 
-thai_consonants: str = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44 chars
+thai_consonants: str = (
+    "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44 chars
+)
 
 thai_vowels: str = (
     "\u0e24\u0e26\u0e30\u0e31\u0e32\u0e33\u0e34\u0e35\u0e36\u0e37"

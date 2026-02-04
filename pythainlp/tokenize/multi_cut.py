@@ -29,7 +29,12 @@ class LatticeString(str):
     multi: list[str]
     in_dict: bool
 
-    def __new__(cls, value: str, multi: Optional[list[str]] = None, in_dict: bool = True) -> "LatticeString":
+    def __new__(
+        cls,
+        value: str,
+        multi: Optional[list[str]] = None,
+        in_dict: bool = True,
+    ) -> "LatticeString":
         return str.__new__(cls, value)
 
     def __init__(

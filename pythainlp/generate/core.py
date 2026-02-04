@@ -47,7 +47,9 @@ class Unigram:
         self.n: int = 0
         for i in self.word:
             self.n += self.counts[i]
-        self.prob: dict[str, float] = {i: self.counts[i] / self.n for i in self.word}
+        self.prob: dict[str, float] = {
+            i: self.counts[i] / self.n for i in self.word
+        }
         self._word_prob: dict[str, float] = {}
 
     def gen_sentence(

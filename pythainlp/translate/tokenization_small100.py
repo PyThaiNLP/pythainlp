@@ -117,8 +117,12 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     """
 
     vocab_files_names: dict[str, str] = VOCAB_FILES_NAMES
-    max_model_input_sizes: dict[str, int] = PRETRAINED_POSITIONAL_EMBEDDINGS_SIZES
-    pretrained_vocab_files_map: dict[str, dict[str, str]] = PRETRAINED_VOCAB_FILES_MAP
+    max_model_input_sizes: dict[str, int] = (
+        PRETRAINED_POSITIONAL_EMBEDDINGS_SIZES
+    )
+    pretrained_vocab_files_map: dict[str, dict[str, str]] = (
+        PRETRAINED_VOCAB_FILES_MAP
+    )
     model_input_names: list[str] = ["input_ids", "attention_mask"]
 
     prefix_tokens: Optional[list[int]] = []
@@ -196,7 +200,9 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         self.encoder: dict[str, int] = cast(dict[str, int], encoder_data)
         self.decoder: dict[int, str] = {v: k for k, v in self.encoder.items()}
         self.spm_file: str = spm_file
-        self.sp_model: SentencePieceProcessor = load_spm(spm_file, self.sp_model_kwargs)  # SentencePieceProcessor
+        self.sp_model: SentencePieceProcessor = load_spm(
+            spm_file, self.sp_model_kwargs
+        )  # SentencePieceProcessor
 
         self.encoder_size: int = len(self.encoder)
 
@@ -221,7 +227,11 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     @property
     def vocab_size(self) -> int:
         # Type ignore for external library dict operations
-        return len(self.encoder) + len(self.lang_token_to_id) + self.num_madeup_words
+        return (
+            len(self.encoder)
+            + len(self.lang_token_to_id)
+            + self.num_madeup_words
+        )
 
     @property
     def tgt_lang(self) -> str:
@@ -358,7 +368,9 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         if not hasattr(self, "sp_model_kwargs"):
             self.sp_model_kwargs: dict[str, str] = {}
 
-        self.sp_model: SentencePieceProcessor = load_spm(self.spm_file, self.sp_model_kwargs)
+        self.sp_model: SentencePieceProcessor = load_spm(
+            self.spm_file, self.sp_model_kwargs
+        )
 
     def save_vocabulary(
         self, save_directory: str, filename_prefix: Optional[str] = None
@@ -400,7 +412,10 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         return super().prepare_seq2seq_batch(src_texts, tgt_texts, **kwargs)
 
     def _build_translation_inputs(
-        self, raw_inputs: Union[str, list[str]], tgt_lang: Optional[str], **extra_kwargs: str
+        self,
+        raw_inputs: Union[str, list[str]],
+        tgt_lang: Optional[str],
+        **extra_kwargs: str,
     ) -> dict[str, Any]:
         """Used by translation pipeline, to prepare inputs for the generate
         function"""
@@ -450,6 +465,8 @@ def load_json(path: str) -> Union[dict[str, str], list[str]]:
         return json.load(f)  # type: ignore[no-any-return]
 
 
-def save_json(data: Union[Mapping[str, Union[str, int]], list[str]], path: str) -> None:
+def save_json(
+    data: Union[Mapping[str, Union[str, int]], list[str]], path: str
+) -> None:
     with open(path, "w") as f:
         json.dump(data, f, indent=2)

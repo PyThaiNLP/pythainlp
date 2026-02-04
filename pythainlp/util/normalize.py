@@ -19,7 +19,9 @@ from pythainlp.tools import warn_deprecation
 
 _DANGLING_CHARS: str = f"{above_v}{below_v}{tonemarks}\u0e3a\u0e4c\u0e4d\u0e4e"
 _RE_REMOVE_DANGLINGS: Pattern[str] = re.compile(f"^[{_DANGLING_CHARS}]+")
-_RE_REMOVE_DANGLINGS_AFTER_SPACE: Pattern[str] = re.compile(f" +[{_DANGLING_CHARS}]+")
+_RE_REMOVE_DANGLINGS_AFTER_SPACE: Pattern[str] = re.compile(
+    f" +[{_DANGLING_CHARS}]+"
+)
 
 _ZERO_WIDTH_CHARS: str = "\u200b\u200c"  # ZWSP, ZWNJ
 
@@ -60,7 +62,9 @@ _RE_REMOVE_SPACES_BEFORE_NONBASE: Pattern[str] = re.compile(
 )
 
 
-def _last_char(matchobj: re.Match[str]) -> str:  # to be used with _RE_NOREPEAT_TONEMARKS
+def _last_char(
+    matchobj: re.Match[str],
+) -> str:  # to be used with _RE_NOREPEAT_TONEMARKS
     return matchobj.group(0)[-1]
 
 

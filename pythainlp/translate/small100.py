@@ -34,8 +34,8 @@ class Small100Translator:
         from transformers import M2M100ForConditionalGeneration
 
         self.pretrained: str = pretrained
-        self.model: "M2M100ForConditionalGeneration" = M2M100ForConditionalGeneration.from_pretrained(
-            self.pretrained
+        self.model: "M2M100ForConditionalGeneration" = (
+            M2M100ForConditionalGeneration.from_pretrained(self.pretrained)
         )
         self.tgt_lang: Optional[str] = None
         if use_gpu:
@@ -71,8 +71,10 @@ class Small100Translator:
 
         """
         if tgt_lang != self.tgt_lang:
-            self.tokenizer: SMALL100Tokenizer = SMALL100Tokenizer.from_pretrained(
-                self.pretrained, tgt_lang=tgt_lang
+            self.tokenizer: SMALL100Tokenizer = (
+                SMALL100Tokenizer.from_pretrained(
+                    self.pretrained, tgt_lang=tgt_lang
+                )
             )
             self.tgt_lang: str = tgt_lang
         self.translated: torch.Tensor = self.model.generate(

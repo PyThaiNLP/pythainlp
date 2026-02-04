@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, Union, cast
 
 EN_TH_KEYB_PAIRS: dict[str, str] = {
     "Z": "(",
@@ -104,8 +104,12 @@ EN_TH_KEYB_PAIRS: dict[str, str] = {
 
 TH_EN_KEYB_PAIRS: dict[str, str] = {v: k for k, v in EN_TH_KEYB_PAIRS.items()}
 
-EN_TH_TRANSLATE_TABLE: dict[int, int] = str.maketrans(EN_TH_KEYB_PAIRS)
-TH_EN_TRANSLATE_TABLE: dict[int, int] = str.maketrans(TH_EN_KEYB_PAIRS)
+EN_TH_TRANSLATE_TABLE: dict[int, Union[int, str, None]] = str.maketrans(
+    cast(dict[str, Union[int, str, None]], EN_TH_KEYB_PAIRS)
+)
+TH_EN_TRANSLATE_TABLE: dict[int, Union[int, str, None]] = str.maketrans(
+    cast(dict[str, Union[int, str, None]], TH_EN_KEYB_PAIRS)
+)
 
 TIS_820_2531_MOD: list[list[str]] = [
     ["-", "ๅ", "/", "", "_", "ภ", "ถ", "ุ", "ึ", "ค", "ต", "จ", "ข", "ช"],

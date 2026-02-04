@@ -6,7 +6,7 @@ from __future__ import annotations
 import threading
 from importlib.resources import as_file, files
 from sys import stderr
-from typing import TYPE_CHECKING, Any, Optional, cast
+from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
     from nlpo3 import (
@@ -133,12 +133,10 @@ def segment(
     if custom_dict == _NLPO3_DEFAULT_DICT_NAME:
         _ensure_default_dict_loaded()
 
-    return cast(
-        list[str],
-        nlpo3_segment(
-            text=text,
-            dict_name=custom_dict,
-            safe=safe_mode,
-            parallel=parallel_mode,
-        ),
+    result: list[str] = nlpo3_segment(
+        text=text,
+        dict_name=custom_dict,
+        safe=safe_mode,
+        parallel=parallel_mode,
     )
+    return result

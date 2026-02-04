@@ -11,10 +11,10 @@
     },
     "variables": {
       "total": 1258,
-      "complete": 1226,
-      "none": 32,
-      "pct_complete": 97.45627980922097,
-      "pct_none": 2.5437201907790143,
+      "complete": 1220,
+      "none": 38,
+      "pct_complete": 96.97933227344993,
+      "pct_none": 3.0206677265500796,
       "class_variables": 297,
       "instance_variables": 439,
       "module_variables": 522
@@ -211,7 +211,7 @@
       "complete": 4,
       "incomplete": 0,
       "none": 0,
-      "mypy_errors": 13
+      "mypy_errors": 11
     }
   },
   "functions_no_hints": [],
@@ -245,6 +245,20 @@
       "parent_class": "LatticeString",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/tokenize/multi_cut.py",
       "line": 45
+    },
+    {
+      "name": "pythainlp.transliterate.w2p.Thai_W2P.word",
+      "scope": "public",
+      "parent_class": "Thai_W2P",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/w2p.py",
+      "line": 222
+    },
+    {
+      "name": "pythainlp.transliterate.w2p.Thai_W2P.word",
+      "scope": "public",
+      "parent_class": "Thai_W2P",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/transliterate/w2p.py",
+      "line": 223
     },
     {
       "name": "pythainlp.transliterate.wunsen.WunsenTransliterate.jp_input",
@@ -328,7 +342,35 @@
       "scope": "public",
       "parent_class": "ThaiNameTagger",
       "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
+      "line": 116
+    },
+    {
+      "name": "pythainlp.wangchanberta.core.ThaiNameTagger.sent_ner",
+      "scope": "public",
+      "parent_class": "ThaiNameTagger",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
+      "line": 122
+    },
+    {
+      "name": "pythainlp.wangchanberta.core.ThaiNameTagger.sent_ner",
+      "scope": "public",
+      "parent_class": "ThaiNameTagger",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wangchanberta/core.py",
       "line": 130
+    },
+    {
+      "name": "pythainlp.wsd.core._SentenceTransformersModel.device",
+      "scope": "public",
+      "parent_class": "_SentenceTransformersModel",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wsd/core.py",
+      "line": 49
+    },
+    {
+      "name": "pythainlp.wsd.core._SentenceTransformersModel.model",
+      "scope": "public",
+      "parent_class": "_SentenceTransformersModel",
+      "file": "/home/runner/work/pythainlp/pythainlp/pythainlp/wsd/core.py",
+      "line": 50
     }
   ],
   "module_variables_no_hints": [

@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import argparse
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from pythainlp import cli
 from pythainlp.tokenize import (
@@ -74,7 +74,7 @@ class SubAppBase:
         parser.set_defaults(keep_whitespace=True)
 
         args = parser.parse_args(argv)
-        self.args: Any = args
+        self.args: argparse.Namespace = args
 
         cli.exit_if_empty(args.text, parser)
         result = self.run(

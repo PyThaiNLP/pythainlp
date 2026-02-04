@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import collections
 from collections.abc import Callable, Collection
-from typing import TYPE_CHECKING, Any, Optional
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 import torch
 
@@ -160,13 +160,18 @@ def process_thai(
 
 
     """
-    res = text
+    res: Union[str, list[str]] = text
 
     if tok_func is None:
         tok_func = thai2fit_tokenizer().word_tokenize
 
     for rule in pre_rules:
         res = rule(res)
+    
+    # tok_func expects str, so ensure res is still str at this point
+    if not isinstance(res, str):
+        raise TypeError(f"Expected str after pre_rules, got {type(res)}")
+    
     res = tok_func(res)
     for rule in post_rules:
         res = rule(res)

@@ -27,7 +27,7 @@ import json
 import os
 from pathlib import Path
 from shutil import copyfile
-from typing import TYPE_CHECKING, Any, Optional, Union, cast
+from typing import TYPE_CHECKING, Any, Mapping, Optional, Union, cast
 
 if TYPE_CHECKING:
     from sentencepiece import SentencePieceProcessor
@@ -153,7 +153,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         language_codes: str = "m2m100",
         sp_model_kwargs: Optional[dict[str, str]] = None,
         num_madeup_words: int = 8,
-        **kwargs: str,
+        **kwargs: Any,
     ) -> None:
         self.sp_model_kwargs = (
             {} if sp_model_kwargs is None else sp_model_kwargs
@@ -450,6 +450,6 @@ def load_json(path: str) -> Union[dict[str, str], list[str]]:
         return json.load(f)  # type: ignore[no-any-return]
 
 
-def save_json(data: Union[dict[str, str], list[str]], path: str) -> None:
+def save_json(data: Union[Mapping[str, Union[str, int]], list[str]], path: str) -> None:
     with open(path, "w") as f:
         json.dump(data, f, indent=2)

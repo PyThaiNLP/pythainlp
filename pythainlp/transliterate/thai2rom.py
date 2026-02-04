@@ -283,7 +283,7 @@ class AttentionDecoder(nn.Module):
         self.attn = Attn(method="general", hidden_size=self.hidden_size)
         self.linear = nn.Linear(hidden_size, vocabulary_size)
 
-        self.dropout: nn.Dropout = nn.Dropout(dropout)
+        self.dropout = nn.Dropout(dropout)
 
     def forward(
         self,

@@ -3,16 +3,16 @@
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 """
-Type Hint Analyzer for PyThaiNLP
+Type Annotation Analyzer for PyThaiNLP
 
-This script scans the entire repository and analyzes type hint coverage
+This script scans the entire repository and analyzes type annotation coverage
 for all functions and classes.
 
 Based on the type completeness information from
 https://typing.python.org/en/latest/guides/libraries.html#type-completeness
 
 Usage:
-    python type_hint_analyzer.py [--output-dir OUTPUT_DIR]
+    python type-analyzer.py [--output-dir OUTPUT_DIR]
 
 Options:
     --output-dir    Directory to save output files (default: ./output)
@@ -562,7 +562,7 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
 
     print("=" * 80)
-    print("TYPE HINT COVERAGE ANALYSIS FOR PYTHAINLP")
+    print("TYPE ANNOTATION COVERAGE ANALYSIS FOR PYTHAINLP")
     print("=" * 80)
     print()
     print(f"Repository root: {repo_root}")

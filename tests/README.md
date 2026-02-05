@@ -1,12 +1,31 @@
 # Test suites and execution
 
-The default test suite is executed using the `unittest tests` command.
-It includes all test cases within the `tests.core` and `tests.compact`
-packages, as defined in the `tests/__init__.py` file.
+To run a test suite, run:
+
+```shell
+unittest tests.<test_suite_name>
+```
+
+This command will run a default set of test suites:
+
+```shell
+unittest tests
+```
+
+The default test suite includes all test suites listed in `tests/__init__.py` file.
+Currently, it includes `tests.core` and `tests.compact`.
 
 To optimize CI/CD resource utilization and manage dependency overhead,
 tests are categorized into four tiers based on their resource
 requirements and complexity: "core", "compact", "extra", and "noauto".
+
+## Adding a test case to a test suite
+
+To add a test case to a test suite,
+add it to `tests_packages` list in `__init__.py`
+inside that test suite's directory.
+
+## Test matrix for CI
 
 The following table outlines the automated test coverage across
 supported Python versions and operating systems:
@@ -58,6 +77,11 @@ The CI/CD test workflow is at
 - These dependencies might include huge libraries like `tensorflow`.
 - Due to dependency complexities, these functionalities may not be tested
   in the CI/CD pipeline.
+  - In the future, we might create a separate
+    step or workflow to run this test suite.
+    It will be triggered manually.
+    We may also need to group test cases by
+    a non-conflicting set of dependencies.
 - Test case class suffix: `TestCaseN`
 
 ## Robustness tests (test_robustness.py)

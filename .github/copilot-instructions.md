@@ -12,7 +12,7 @@
       configuration. Communicate this to the users during code review.
       See <https://www.nltk.org/py-modindex.html>.
 - [ ] The type information analyzer at
-      <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/type_hint_analyzer.py>
+      <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/type-analyzer.py>
       can generate information about annotation completeness of
       variables, functions, methods, type aliases, decorators, and
       classes in the PyThaiNLP repo.
@@ -23,6 +23,13 @@
       please refer to Python tyep specification when in doubt.
 - [ ] Complete type annotations for function, method, class, variable, etc.
       Maintain near-100% type annotation coverage.
+- [ ] Add tests for new functionality or behavior.
+      Keep the test coverage high.
+- [ ] Add test cases to capture edge cases.
+- [ ] Add test cases to cover code branches.
+- [ ] Major changes should be logged in the change log at
+      <https://github.com/PyThaiNLP/pythainlp/blob/dev/CHANGELOG.md>.
+      Provide issue number or PR number if available.
 
 ## Project contribution guidelines
 

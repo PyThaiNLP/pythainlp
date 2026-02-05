@@ -1,7 +1,12 @@
-# Type Hint Analysis Data Files
+# Type annotation analysis data files
 
-This directory contains detailed data files from the type hint coverage
-analysis.
+This directory contains detailed data files from the type annotation coverage
+analysis. Note that the analysis may not be highly accurate and may contain
+false positives, partly due to annotation requirement exemptions of certain
+cases as listed in the
+[Python typing documentation's type completeness guidelines][type-completeness].
+
+[type-completeness]: https://typing.python.org/en/latest/guides/libraries.html#type-completeness
 
 ## Files
 
@@ -80,9 +85,8 @@ csvsort -c References -r functions_no_hints.csv
 
 ## Related Files
 
-- `../../../TYPE_HINT_ANALYSIS.md` - Comprehensive analysis report
-- `../type_hint_analyzer.py` - Main analyzer script
-- `../generate_csv.py` - CSV generator script
+- `../type-analyzer.py` - Main analyzer script
+- `../gen-csv.py` - CSV generator script
 
 ## Updating the Analysis
 
@@ -93,8 +97,8 @@ To regenerate this analysis:
 cd build_tools/analysis
 
 # Run the analyzer
-python3 type_hint_analyzer.py
+python type-analyzer.py
 
 # Generate CSV files
-python3 generate_csv.py
+python gen-csv.py
 ```

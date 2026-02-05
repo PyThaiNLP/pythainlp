@@ -139,7 +139,9 @@ class NER:
             >>> ner.tag("ทดสอบ นายวรรณพงษ์ ภัททิยไพบูลย์", tag=True)
             'ทดสอบ <PERSON>นายวรรณพงษ์ ภัททิยไพบูลย์</PERSON>'
         """
-        return self.engine.get_ner(text, tag=tag, pos=pos)  # type: ignore[no-any-return]
+        if self.engine is None:
+            raise RuntimeError("Engine not initialized")
+        return self.engine.get_ner(text, tag=tag, pos=pos)
 
 
 class NNER:
@@ -223,4 +225,4 @@ class NNER:
             >>> nner.tag("แมวทำอะไรตอนห้าโมงเช้า", top_level_only=True)
             ([...], [{'text': ['', 'ห้า', '', 'โมง'], 'span': [7, 11], 'entity_type': 'time'}])
         """
-        return self.engine.tag(text, top_level_only=top_level_only)  # type: ignore[no-any-return]
+        return self.engine.tag(text, top_level_only=top_level_only)

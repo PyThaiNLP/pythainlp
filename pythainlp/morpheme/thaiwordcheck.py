@@ -80,7 +80,7 @@ def is_native_thai(word: str) -> bool:
 
     English word::
 
-        from pythainlp.util import is_native_thai
+        from pythainlp.morpheme import is_native_thai
 
         is_native_thai("Avocado")
         # output: False

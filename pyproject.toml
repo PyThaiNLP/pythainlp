@@ -224,7 +224,7 @@ noauto-cython = [
     "phunspell>=0.1.6",
 ]
 
-# Network-dependent tests - for tests.noauto-network
+# Network-dependent tests - for tests.noauto_network
 # These tests require network access but minimal dependencies
 noauto-network = [
     "huggingface-hub>=0.16.0",

@@ -61,6 +61,7 @@ jobs:
         with:
           sanitizer: ${{ matrix.sanitizer }}
           language: python
+          dockerfile-path: fuzz/Dockerfile
 
       - name: Run Fuzzers (${{ matrix.sanitizer }})
         id: run

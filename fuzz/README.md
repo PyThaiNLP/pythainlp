@@ -15,6 +15,7 @@ Fuzz testing helps discover edge cases, crashes, and potential security vulnerab
 
 ```
 fuzz/
+├── Dockerfile                 # Docker image for ClusterFuzzLite fuzzing
 ├── build.sh                   # Build script for compiling fuzzers
 ├── fuzz_tokenize.py           # Fuzzer for word_tokenize()
 ├── fuzz_util_normalize.py     # Fuzzer for normalize()

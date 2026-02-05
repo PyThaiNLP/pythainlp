@@ -13,7 +13,6 @@ on:
       - '**.md'
       - '**.rst'
       - '**.txt'
-      - '**.yml'
       - 'docs/**'
   pull_request:
     branches:
@@ -24,7 +23,6 @@ on:
       - '**.md'
       - '**.rst'
       - '**.txt'
-      - '**.yml'
       - 'docs/**'
   schedule:
     - cron: '0 6 * * *'  # Daily at 06:00 UTC
@@ -44,7 +42,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
   issues: write
 
 jobs:
@@ -69,7 +67,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           fuzz-seconds: 300
-          mode: 'code-change'
+          mode: ${{ github.event_name == 'pull_request' && 'code-change' || 'batch' }}
           sanitizer: ${{ matrix.sanitizer }}
           storage-repo: https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           storage-repo-branch: gh-pages

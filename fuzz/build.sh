@@ -4,22 +4,21 @@
 # SPDX-FileType: SOURCE
 
 # Build script for ClusterFuzzLite fuzzing harnesses
-# This script installs atheris and compiles all fuzzing harnesses
+# This script installs atheris and prepares all fuzzing harnesses
 
 echo "Building PyThaiNLP fuzz targets..."
 
-# Install atheris for Python fuzzing
-pip install atheris
+# Install atheris for Python fuzzing with version constraint
+pip install "atheris>=2.3.0"
 
 # Find all fuzz_*.py files in the fuzz directory
 for fuzzer in "${SRC}/pythainlp/fuzz"/fuzz_*.py; do
     fuzzer_basename=$(basename -s .py "$fuzzer")
-    fuzzer_package="fuzz.${fuzzer_basename}"
 
-    echo "Compiling ${fuzzer_basename}..."
+    echo "Preparing ${fuzzer_basename}..."
 
-    # Compile fuzzer with atheris
-    python -m atheris.instrument_libfuzzer "${fuzzer}" "${OUT}/${fuzzer_basename}"
+    # Copy fuzzer to output directory (instrumentation happens at runtime)
+    cp "${fuzzer}" "${OUT}/${fuzzer_basename}"
 
     # Make fuzzer executable
     chmod +x "${OUT}/${fuzzer_basename}"

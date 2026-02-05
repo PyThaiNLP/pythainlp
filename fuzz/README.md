@@ -106,7 +106,7 @@ if __name__ == "__main__":
     main()
 ```
 
-2. The fuzzer will be automatically discovered and built by `build.sh`
+2. Ensure the new fuzzer file name follows the ``fuzz_*.py`` pattern so it can be discovered by ``build.sh``, and run ``bash fuzz/build.sh`` locally to verify that your fuzzer is picked up and built.
 
 3. No changes needed to GitHub Actions workflow
 

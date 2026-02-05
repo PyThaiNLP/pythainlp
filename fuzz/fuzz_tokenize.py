@@ -18,6 +18,7 @@ def TestOneInput(data: bytes) -> None:
     """Fuzz target for word_tokenize.
 
     :param bytes data: Random input bytes from the fuzzer
+    :rtype: None
     """
     fdp = atheris.FuzzedDataProvider(data)
 
@@ -29,16 +30,14 @@ def TestOneInput(data: bytes) -> None:
         result = pythainlp.tokenize.word_tokenize(text)
 
         # Validate output type
-        assert isinstance(result, list), f"Expected list, got {type(result)}"
-        assert all(isinstance(token, str) for token in result), \
-            "All tokens should be strings"
+        if not isinstance(result, list):
+            raise TypeError(f"Expected list, got {type(result)}")
+        if not all(isinstance(token, str) for token in result):
+            raise TypeError("All tokens should be strings")
 
     except (ValueError, TypeError, UnicodeDecodeError):
         # Expected exceptions - these are acceptable
         pass
-    except Exception:
-        # Unexpected exceptions - re-raise for investigation
-        raise
 
 
 def main() -> None:

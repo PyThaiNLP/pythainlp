@@ -18,6 +18,7 @@ def TestOneInput(data: bytes) -> None:
     """Fuzz target for normalize.
 
     :param bytes data: Random input bytes from the fuzzer
+    :rtype: None
     """
     fdp = atheris.FuzzedDataProvider(data)
 
@@ -29,14 +30,12 @@ def TestOneInput(data: bytes) -> None:
         result = pythainlp.util.normalize(text)
 
         # Validate output type
-        assert isinstance(result, str), f"Expected str, got {type(result)}"
+        if not isinstance(result, str):
+            raise TypeError(f"Expected str, got {type(result)}")
 
     except (ValueError, TypeError, UnicodeDecodeError):
         # Expected exceptions - these are acceptable
         pass
-    except Exception:
-        # Unexpected exceptions - re-raise for investigation
-        raise
 
 
 def main() -> None:

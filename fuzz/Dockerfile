@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
-# SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+# SPDX-FileType: SOURCE
 
 # Dockerfile for ClusterFuzzLite fuzzing
 # This extends the OSS-Fuzz base builder image for Python projects
@@ -25,5 +25,5 @@ WORKDIR $SRC/pythainlp
 # This installs the package without heavy ML dependencies to speed up builds
 RUN pip install --no-cache-dir -e .
 
-# Copy build script
+# Copy build script to $SRC/build.sh as expected by OSS-Fuzz/ClusterFuzzLite
 COPY fuzz/build.sh $SRC/

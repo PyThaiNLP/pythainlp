@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """Phupha: Thai Word Frequency Dataset
 
-Phupha is A Thai Word Frequency Dataset from Common Crawl Corpus.
+Phupha is a Thai Word Frequency Dataset from Common Crawl Corpus.
 
 Dataset:
     Phatthiyaphaibun, W. (2026). Phupha: Thai Word Frequency Dataset
@@ -30,7 +30,7 @@ _UNIGRAM_FILENAME: str = "phupha_word_freqs.txt"
 def word_freqs() -> list[tuple[str, int]]:
     """Get word frequency from Phupha dataset
 
-    Phupha is A Thai Word Frequency Dataset from Common Crawl Corpus.
+    Phupha is a Thai Word Frequency Dataset from Common Crawl Corpus.
 
     :return: List of tuples (word, frequency)
     :rtype: list[tuple[str, int]]
@@ -61,7 +61,7 @@ def word_freqs() -> list[tuple[str, int]]:
 def unigram_word_freqs() -> dict[str, int]:
     """Get unigram word frequency from Phupha dataset
 
-    Phupha is A Thai Word Frequency Dataset from Common Crawl Corpus.
+    Phupha is a Thai Word Frequency Dataset from Common Crawl Corpus.
 
     :return: Dictionary mapping words to their frequencies
     :rtype: dict[str, int]

@@ -45,6 +45,14 @@ class SpellTestCase(unittest.TestCase):
         self.assertGreater(len(checker.dictionary()), 0)
         self.assertGreaterEqual(checker.prob("มี"), 0)
 
+        # Verify default dictionary is filtered with thai_orst_words
+        from pythainlp.corpus import thai_orst_words
+        orst = thai_orst_words()
+        # Check that dictionary size is reasonable (around ORST size)
+        dict_size = len(checker.dictionary())
+        self.assertGreater(dict_size, 30000)  # Should have substantial words
+        self.assertLess(dict_size, len(orst) + 1000)  # Should not exceed ORST by much
+
         user_dict = [
             ("การงาน", 31),  # longer than max_len
             ("กาม", 1),  # fewer than min_freq

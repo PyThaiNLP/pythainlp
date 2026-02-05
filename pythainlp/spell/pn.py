@@ -14,7 +14,7 @@ from string import digits
 from typing import Optional, Union, cast
 
 from pythainlp import thai_digits, thai_letters
-from pythainlp.corpus import phupha
+from pythainlp.corpus import phupha, thai_orst_words
 from pythainlp.util import isthaichar
 
 
@@ -164,8 +164,13 @@ class NorvigSpellChecker:
                                  with numbers or non-Thai characters.
                                  If no filter is required, use None.
         """
-        if not custom_dict:  # default, use Phupha (filtered with ORST words)
-            custom_dict = [(i, j) for i, j in phupha.word_freqs()]
+        if not custom_dict:  # default, use Phupha filtered with ORST words
+            orst_words = thai_orst_words()
+            custom_dict = [
+                (word, freq)
+                for word, freq in phupha.word_freqs()
+                if word in orst_words
+            ]
 
         if not dict_filter:
             dict_filter = _no_filter

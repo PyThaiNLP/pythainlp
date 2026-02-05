@@ -3,10 +3,10 @@
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 """
-Generate detailed CSV report from type hint analysis
+Generate detailed CSV report from type annotation analysis
 
 Usage:
-    python generate_csv.py [--input INPUT_JSON] [--output-dir OUTPUT_DIR]
+    python gen-csv.py [--input INPUT_JSON] [--output-dir OUTPUT_DIR]
 
 Options:
     --input         Input JSON file (default: ./output/type_hint_analysis.json)
@@ -19,10 +19,10 @@ from pathlib import Path
 
 
 def main():
-    """Generate CSV files from type hint analysis JSON."""
+    """Generate CSV files from type annotation analysis JSON."""
     # Parse command line arguments
     parser = argparse.ArgumentParser(
-        description="Generate CSV reports from type hint analysis"
+        description="Generate CSV reports from type annotation analysis"
     )
     parser.add_argument(
         "--input",

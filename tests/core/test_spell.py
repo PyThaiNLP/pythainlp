@@ -96,6 +96,44 @@ class SpellTestCase(unittest.TestCase):
         with self.assertRaises(TypeError):
             _ = NorvigSpellChecker(custom_dict=user_dict)
 
+    def test_issue_680_orst_filtering(self):
+        """Test for issue #680: Spell checker uses only ORST words.
+
+        Issue #680 reported that the TNC dictionary contained misspelled words.
+        The solution is to filter Phupha dataset by thai_orst_words.
+
+        Note: Compound words like 'ปลาอินทรีย์' and 'ปลาอินทรี' that are not
+        in the ORST dictionary as single entries will not be suggested by the
+        spell checker. This is expected behavior when filtering to ORST words only.
+        """
+        from pythainlp.corpus import thai_orst_words
+
+        checker = NorvigSpellChecker()
+        orst = thai_orst_words()
+
+        # Verify that the checker only uses ORST words
+        # Check a sample of words from the dictionary
+        dict_words = [word for word, _ in list(checker.dictionary())[:1000]]
+        non_orst_words = [w for w in dict_words if w not in orst]
+        self.assertEqual(len(non_orst_words), 0,
+                        "All words in spell checker should be from ORST")
+
+        # The specific case from issue #680
+        # Both 'ปลาอินทรีย์' (misspelled) and 'ปลาอินทรี' (correct)
+        # are not in ORST as compound words, so neither will be suggested
+        word_misspelled = "ปลาอินทรีย์"
+        word_correct = "ปลาอินทรี"
+
+        # Verify neither is in ORST
+        self.assertNotIn(word_misspelled, orst)
+        self.assertNotIn(word_correct, orst)
+
+        # Since neither is in the dictionary, the spell checker
+        # will return the input word unchanged
+        result = checker.correct(word_misspelled)
+        # The checker returns the word as-is if no suggestions found
+        self.assertEqual(result, word_misspelled)
+
     def test_spell_sent(self):
         self.assertIsNotNone(spell_sent(SENT_TOKS))
         self.assertIsNotNone(spell_sent(SENT_TOKS, engine="pn"))

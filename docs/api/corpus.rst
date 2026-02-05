@@ -72,6 +72,11 @@ thai_stopwords
 .. autofunction:: thai_stopwords
    :noindex:
 
+thai_wikipedia_titles
+~~~~~~~~~~~~~~~~~~~~~
+.. autofunction:: thai_wikipedia_titles
+   :noindex:
+
 thai_words
 ~~~~~~~~~~
 .. autofunction:: thai_words

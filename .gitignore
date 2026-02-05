@@ -129,3 +129,7 @@ logs/
 # Temp files
 *.tmp
 *.temp
+
+# Type annotation analyzer
+build_tools/output/*.csv
+build_tools/output/*.json

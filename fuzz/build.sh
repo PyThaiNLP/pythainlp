@@ -1,18 +1,19 @@
 #!/bin/bash -eu
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
-# SPDX-License-Identifier: Apache-2.0
 # SPDX-FileType: SOURCE
+# SPDX-License-Identifier: Apache-2.0
 
 # Build script for ClusterFuzzLite fuzzing harnesses
 # This script installs atheris and prepares all fuzzing harnesses
 
 echo "Building PyThaiNLP fuzz targets..."
 
-# Install atheris for Python fuzzing with version constraint
-pip install "atheris>=2.3.0"
+# Install atheris for Python fuzzing with pinned version for security
+pip install "atheris==2.3.0"
 
 # Find all fuzz_*.py files in the fuzz directory
 for fuzzer in "${SRC}/pythainlp/fuzz"/fuzz_*.py; do
+    [[ -e "$fuzzer" ]] || continue
     fuzzer_basename=$(basename -s .py "$fuzzer")
 
     echo "Preparing ${fuzzer_basename}..."

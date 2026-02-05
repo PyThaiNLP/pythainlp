@@ -89,7 +89,8 @@ def TestOneInput(data: bytes) -> None:
         result = pythainlp.<module>.<function>(text)
         
         # Validate output
-        assert isinstance(result, <expected_type>)
+        if not isinstance(result, <expected_type>):
+            raise TypeError(f"Expected <expected_type>, got {type(result)}")
         
     except (ValueError, TypeError, UnicodeDecodeError):
         # Expected exceptions

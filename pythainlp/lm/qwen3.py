@@ -52,7 +52,7 @@ class Qwen3:
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         # Check CUDA availability early before loading model
-        if isinstance(device, str) and device.startswith("cuda"):
+        if device.startswith("cuda"):
             if not torch.cuda.is_available():
                 raise RuntimeError(
                     "CUDA device requested but CUDA is not available. "
@@ -143,6 +143,8 @@ class Qwen3:
         inputs = self.tokenizer(text, return_tensors="pt")
         input_ids = inputs["input_ids"].to(self.device)
 
+        # Note: When do_sample=False (greedy decoding), temperature, top_p,
+        # and top_k parameters are ignored by the transformers library
         with torch.inference_mode():
             output_ids = self.model.generate(
                 input_ids,
@@ -154,6 +156,8 @@ class Qwen3:
             )
 
         # Decode only the newly generated tokens
+        # output_ids and input_ids are guaranteed to be 2D tensors with
+        # batch size 1 from the tokenizer call above
         generated_text = self.tokenizer.decode(
             output_ids[0][len(input_ids[0]) :],
             skip_special_tokens=skip_special_tokens,
@@ -214,17 +218,19 @@ class Qwen3:
                 add_generation_prompt=True,
             )
         else:
-            # Simple fallback format - remove newlines to avoid confusion
-            text = ""
+            # Simple fallback format - preserve content newlines
+            lines = []
             for msg in messages:
                 role = str(msg.get("role", "user")).replace("\n", " ")
-                content = str(msg.get("content", "")).replace("\n", " ")
-                text += f"{role}: {content}\n"
-            text += "assistant: "
+                content = str(msg.get("content", ""))
+                lines.append(f"{role}: {content}")
+            text = "\n".join(lines) + "\nassistant: "
 
         inputs = self.tokenizer(text, return_tensors="pt")
         input_ids = inputs["input_ids"].to(self.device)
 
+        # Note: When do_sample=False (greedy decoding), temperature, top_p,
+        # and top_k parameters are ignored by the transformers library
         with torch.inference_mode():
             output_ids = self.model.generate(
                 input_ids,
@@ -236,6 +242,8 @@ class Qwen3:
             )
 
         # Decode only the newly generated tokens
+        # output_ids and input_ids are guaranteed to be 2D tensors with
+        # batch size 1 from the tokenizer call above
         generated_text = self.tokenizer.decode(
             output_ids[0][len(input_ids[0]) :],
             skip_special_tokens=skip_special_tokens,

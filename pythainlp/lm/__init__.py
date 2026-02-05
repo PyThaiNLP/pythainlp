@@ -15,7 +15,7 @@ except ImportError:
     # If dependencies are not installed, make Qwen3 available but raise
     # error when instantiated
     class Qwen3:  # type: ignore
-        def __init__(self):
+        def __init__(self) -> None:
             raise ImportError(
                 "Qwen3 requires additional dependencies. "
                 "Install with: pip install pythainlp[qwen3]"

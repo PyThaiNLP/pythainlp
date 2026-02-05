@@ -110,8 +110,10 @@ class SpellONNXTestCaseN(unittest.TestCase):
     """Tests for ONNX-based spell correction (requires onnxruntime)"""
 
     def test_words_spelling_correction(self):
-        from pythainlp.spell.words_spelling_correction import correct
+        from pythainlp.spell.words_spelling_correction import (
+            get_words_spell_suggestion,
+        )
 
-        result = correct("สวัสดี")
-        self.assertIsInstance(result, (str, list))
+        result = get_words_spell_suggestion("สวัสดี")
+        self.assertIsInstance(result, list)
 

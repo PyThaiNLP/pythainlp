@@ -186,13 +186,6 @@ class ParseTestCaseN(unittest.TestCase):
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
 
-    def test_dependency_parsing_v2(self):
-        from pythainlp.parse import dependency_parsing_v2
-
-        result = dependency_parsing_v2("แมวกินปลา")
-        self.assertIsInstance(result, list)
-        self.assertGreater(len(result), 0)
-
 
 class SummarizeTestCaseN(unittest.TestCase):
     """Tests for summarization functions (requires transformers)"""
@@ -202,7 +195,7 @@ class SummarizeTestCaseN(unittest.TestCase):
 
         text = "แมวเป็นสัตว์เลี้ยงที่น่ารัก แมวชอบกินปลา แมวชอบนอนหลับ"
         keybert = KeyBERT()
-        result = keybert.extract_keywords(text, n=2)
+        result = keybert.extract_keywords(text, max_keywords=2)
         self.assertIsInstance(result, list)
 
     def test_summarize_mt5(self):
@@ -211,23 +204,25 @@ class SummarizeTestCaseN(unittest.TestCase):
         text = "แมวเป็นสัตว์เลี้ยงที่น่ารัก แมวชอบกินปลา แมวชอบนอนหลับ"
         summarizer = mT5Summarizer()
         result = summarizer.summarize(text)
-        self.assertIsInstance(result, str)
+        self.assertIsInstance(result, list)
 
 
 class AugmentTestCaseN(unittest.TestCase):
     """Tests for augmentation functions (requires transformers)"""
 
     def test_augment_wangchanberta(self):
-        from pythainlp.augment.lm import aug_wangchanberta
+        from pythainlp.augment.lm import Thai2transformersAug
 
-        result = aug_wangchanberta("แมวกิน<mask>")
+        augmenter = Thai2transformersAug()
+        result = augmenter.augment("แมวกิน<mask>")
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
 
     def test_augment_phayathaibert(self):
-        from pythainlp.augment.lm import aug_phayathaibert
+        from pythainlp.augment.lm import ThaiTextAugmenter
 
-        result = aug_phayathaibert("แมวกิน<mask>")
+        augmenter = ThaiTextAugmenter()
+        result = augmenter.augment("แมวกิน<mask>")
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
 

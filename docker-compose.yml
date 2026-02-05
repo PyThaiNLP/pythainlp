@@ -1,6 +1,8 @@
 services:
   pythainlp:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.app
     image: pythainlp:latest
     volumes:
       - .:/workspace

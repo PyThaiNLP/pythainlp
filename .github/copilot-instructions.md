@@ -12,7 +12,7 @@
       configuration. Communicate this to the users during code review.
       See <https://www.nltk.org/py-modindex.html>.
 - [ ] The type information analyzer at
-      <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/type_hint_analyzer.py>
+      <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/type-analyzer.py>
       can generate information about annotation completeness of
       variables, functions, methods, type aliases, decorators, and
       classes in the PyThaiNLP repo.

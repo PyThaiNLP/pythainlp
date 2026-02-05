@@ -6,9 +6,8 @@
 Test functions that require PyTorch and its ecosystem dependencies:
 - torch
 - transformers (when using PyTorch backend)
-- sentence-transformers
 - attacut
-- thai_nner
+- thai-nner
 - wtpsplit
 
 These tests are NOT run in automated CI workflows due to:

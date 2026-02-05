@@ -108,7 +108,7 @@ By separating tests by dependency group, we can:
 - Run `unittest tests.noauto_torch`
   - Need dependencies from `pip install "pythainlp[noauto-torch]"`
 - Tests requiring PyTorch and its ecosystem:
-  - torch, transformers (PyTorch backend), sentence-transformers
+  - torch, transformers (PyTorch backend)
   - attacut, thai-nner, wtpsplit, tltk
 - Tests: spell correction (wanchanberta), NER/POS tagging (transformers-based),
   tokenization (attacut), subword tokenization (phayathai, wangchanberta),

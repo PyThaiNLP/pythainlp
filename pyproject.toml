@@ -190,6 +190,47 @@ extra = [
     "tltk>=1.10",
 ]
 
+# Noauto test dependencies - for tests.noauto-* modules
+# These are grouped by dependency framework to avoid conflicts
+
+# PyTorch-based dependencies - for tests.noauto-torch
+noauto-torch = [
+    "attacut>=1.0.6",
+    "numpy>=1.26.0",
+    "sentencepiece>=0.1.91",
+    "thai-nner>=0.3",
+    "tltk>=1.10",
+    "torch>=1.13.1",
+    "transformers>=4.22.1",
+    "wtpsplit>=1.0.1",
+]
+
+# TensorFlow-based dependencies - for tests.noauto-tensorflow
+noauto-tensorflow = [
+    "deepcut>=0.7.0",
+    "numpy>=1.26.0",
+]
+
+# ONNX Runtime-based dependencies - for tests.noauto-onnx
+noauto-onnx = [
+    "numpy>=1.26.0",
+    "onnxruntime>=1.10.0",
+    "oskut>=1.3",
+    "sefr_cut>=1.1",
+]
+
+# Cython-based dependencies - for tests.noauto-cython
+noauto-cython = [
+    "phunspell>=0.1.6",
+]
+
+# Network-dependent tests - for tests.noauto-network
+# These tests require network access but minimal dependencies
+noauto-network = [
+    "huggingface-hub>=0.16.0",
+]
+
+
 # Full dependencies - pinned where available
 full = [
     "attacut==1.0.6",

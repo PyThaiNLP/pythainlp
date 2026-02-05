@@ -34,6 +34,12 @@ class TestCase(unittest.TestCase):
         self.assertIsInstance(thai_word_braille("123"), str)
         self.assertIsInstance(thai_word_braille("๑๒๓"), str)
 
+        # Additional test cases
+        self.assertEqual(thai_word_braille("ลิ้น"), "⠇⠃⠲⠝")
+        self.assertEqual(thai_word_braille("ว่าง"), "⠺⠔⠡⠻")
+        self.assertEqual(thai_word_braille("แก้ม"), "⠣⠛⠲⠍")
+        self.assertEqual(thai_word_braille("เรียน"), "⠗⠷⠝")
+
     def test_thai_text_braille(self) -> None:
         """Test thai_text_braille function."""
         # Test simple text - word_tokenize splits on spaces so we get 3 tokens
@@ -57,3 +63,8 @@ class TestCase(unittest.TestCase):
         result = thai_text_braille("ภาษา ไทย")
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
+
+        # Additional test case with multiple spaces
+        self.assertEqual(
+            thai_text_braille("แมวกิน   ปลา"), ["⠣⠍⠺", "⠛⠃⠝", "   ", "⠯⠇⠡"]
+        )

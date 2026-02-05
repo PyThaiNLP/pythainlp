@@ -205,12 +205,13 @@ def thai_word_braille(word: str) -> str:
     word = replace_number(word)
     _temp: list[list[str]] = []
     for token in word_tokenize(word, custom_dict=char_trie, engine="mm"):
-        if token in thai_braille_mapping_dict:
-            if token.isspace() and len(token) > 1:
-                for char in token:
+        if token.isspace() and len(token) > 1:
+            # Handle multiple spaces by converting each space individually
+            for char in token:
+                if char in thai_braille_mapping_dict:
                     _temp.append(thai_braille_mapping_dict[char])
-            else:
-                _temp.append(thai_braille_mapping_dict[token])
+        elif token in thai_braille_mapping_dict:
+            _temp.append(thai_braille_mapping_dict[token])
     if not _temp:
         return ""
     braille_obj = Braille(_temp)

@@ -35,7 +35,7 @@ test_packages: list[str] = [
 ]
 
 # New modular test suites by dependency group
-test_packages_modular: list[str] = [
+modular_test_packages: list[str] = [
     "tests.noauto-torch",
     "tests.noauto-tensorflow",
     "tests.noauto-onnx",
@@ -66,7 +66,7 @@ def load_tests(
         suite.addTests(tests)
 
     # Load new modular test suites
-    for test_package in test_packages_modular:
+    for test_package in modular_test_packages:
         tests = loader.loadTestsFromName(test_package)
         suite.addTests(tests)
 

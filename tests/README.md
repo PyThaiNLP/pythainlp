@@ -119,7 +119,7 @@ By separating tests by dependency group, we can:
 **TensorFlow-based: tests.noauto_tensorflow**
 
 - Run `unittest tests.noauto_tensorflow`
-  - Need dependencies from `pip install "pythainlp[noauto_tensorflow]"`
+  - Need dependencies from `pip install "pythainlp[noauto-tensorflow]"`
 - Tests requiring TensorFlow:
   - deepcut tokenizer
 - Dependencies: ~1-2 GB

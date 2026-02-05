@@ -27,6 +27,9 @@
       Keep the test coverage high.
 - [ ] Add test cases to capture edge cases.
 - [ ] Add test cases to cover code branches.
+- [ ] Major changes should be logged in the change log at
+      <https://github.com/PyThaiNLP/pythainlp/blob/dev/CHANGELOG.md>.
+      Provide issue number or PR number if available.
 
 ## Project contribution guidelines
 

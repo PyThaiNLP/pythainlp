@@ -23,6 +23,10 @@
       please refer to Python tyep specification when in doubt.
 - [ ] Complete type annotations for function, method, class, variable, etc.
       Maintain near-100% type annotation coverage.
+- [ ] Add tests for new functionality or behavior.
+      Keep the test coverage high.
+- [ ] Add test cases to capture edge cases.
+- [ ] Add test cases to cover code branches.
 
 ## Project contribution guidelines
 

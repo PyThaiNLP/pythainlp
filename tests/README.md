@@ -25,7 +25,7 @@ To add a test case to a test suite,
 add it to `tests_packages` list in `__init__.py`
 inside that test suite's directory.
 
-## Test matrix
+## Test matrix for CI
 
 The following table outlines the automated test coverage across
 supported Python versions and operating systems:

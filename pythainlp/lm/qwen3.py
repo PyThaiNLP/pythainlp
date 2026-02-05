@@ -7,9 +7,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
+    import torch
     from transformers import PreTrainedModel, PreTrainedTokenizerBase
-
-import torch
 
 
 class Qwen3:
@@ -23,14 +22,14 @@ class Qwen3:
         self.model: Optional["PreTrainedModel"] = None
         self.tokenizer: Optional["PreTrainedTokenizerBase"] = None
         self.device: Optional[str] = None
-        self.torch_dtype: Optional[torch.dtype] = None
+        self.torch_dtype: Optional["torch.dtype"] = None
         self.model_path: Optional[str] = None
 
     def load_model(
         self,
         model_path: str = "Qwen/Qwen3-0.6B",
         device: str = "cuda",
-        torch_dtype: Optional[torch.dtype] = torch.float16,
+        torch_dtype: Optional["torch.dtype"] = None,
         low_cpu_mem_usage: bool = True,
     ) -> None:
         """Load Qwen3 model.
@@ -49,7 +48,12 @@ class Qwen3:
             model = Qwen3()
             model.load_model(device="cpu", torch_dtype=torch.bfloat16)
         """
+        import torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
+
+        # Set default torch_dtype if not provided
+        if torch_dtype is None:
+            torch_dtype = torch.float16
 
         # Check CUDA availability early before loading model
         if device.startswith("cuda"):

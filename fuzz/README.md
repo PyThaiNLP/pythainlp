@@ -1,6 +1,7 @@
 # PyThaiNLP Fuzz Testing
 
-This directory contains fuzz testing infrastructure using [ClusterFuzzLite](https://google.github.io/clusterfuzzlite/) and [Atheris](https://github.com/google/atheris).
+This directory contains fuzz testing infrastructure using
+[ClusterFuzzLite](https://google.github.io/clusterfuzzlite/) and [Atheris](https://github.com/google/atheris).
 
 ## Overview
 

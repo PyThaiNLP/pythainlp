@@ -148,30 +148,30 @@ class TransliterateTestCaseN(unittest.TestCase):
     """Tests for transliteration functions (requires torch)"""
 
     def test_thai2rom(self):
-        from pythainlp.transliterate import thai2rom
+        from pythainlp.transliterate.thai2rom import romanize
 
-        result = thai2rom("สวัสดี")
+        result = romanize("สวัสดี")
         self.assertIsInstance(result, str)
         self.assertGreater(len(result), 0)
 
     def test_thaig2p(self):
-        from pythainlp.transliterate import thaig2p
+        from pythainlp.transliterate.thaig2p import transliterate
 
-        result = thaig2p("สวัสดี")
+        result = transliterate("สวัสดี")
         self.assertIsInstance(result, str)
         self.assertGreater(len(result), 0)
 
     def test_thaig2p_v2(self):
-        from pythainlp.transliterate import thaig2p_v2
+        from pythainlp.transliterate.thaig2p_v2 import transliterate
 
-        result = thaig2p_v2("สวัสดี")
+        result = transliterate("สวัสดี")
         self.assertIsInstance(result, str)
         self.assertGreater(len(result), 0)
 
     def test_umt5_thaig2p(self):
-        from pythainlp.transliterate import umt5_thaig2p
+        from pythainlp.transliterate.umt5_thaig2p import transliterate
 
-        result = umt5_thaig2p("สวัสดี")
+        result = transliterate("สวัสดี")
         self.assertIsInstance(result, str)
         self.assertGreater(len(result), 0)
 
@@ -198,17 +198,19 @@ class SummarizeTestCaseN(unittest.TestCase):
     """Tests for summarization functions (requires transformers)"""
 
     def test_summarize_keybert(self):
-        from pythainlp.summarize import keybert
+        from pythainlp.summarize.keybert import KeyBERT
 
         text = "แมวเป็นสัตว์เลี้ยงที่น่ารัก แมวชอบกินปลา แมวชอบนอนหลับ"
-        result = keybert(text, n=2)
+        keybert = KeyBERT()
+        result = keybert.extract_keywords(text, n=2)
         self.assertIsInstance(result, list)
 
     def test_summarize_mt5(self):
-        from pythainlp.summarize import mt5
+        from pythainlp.summarize.mt5 import mT5Summarizer
 
         text = "แมวเป็นสัตว์เลี้ยงที่น่ารัก แมวชอบกินปลา แมวชอบนอนหลับ"
-        result = mt5(text)
+        summarizer = mT5Summarizer()
+        result = summarizer.summarize(text)
         self.assertIsInstance(result, str)
 
 

@@ -44,6 +44,6 @@ def load_tests(
 
 
 if __name__ == "__main__":
-    import unittest
+    from unittest import main
 
-    unittest.main()
+    main()

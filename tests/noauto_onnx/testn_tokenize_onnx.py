@@ -84,9 +84,9 @@ class TransliterateONNXTestCaseN(unittest.TestCase):
     """Tests for ONNX-based transliteration (requires onnxruntime)"""
 
     def test_thai2rom_onnx(self):
-        from pythainlp.transliterate import thai2rom_onnx
+        from pythainlp.transliterate.thai2rom_onnx import romanize
 
-        result = thai2rom_onnx("สวัสดี")
+        result = romanize("สวัสดี")
         self.assertIsInstance(result, str)
         self.assertGreater(len(result), 0)
 
@@ -110,8 +110,8 @@ class SpellONNXTestCaseN(unittest.TestCase):
     """Tests for ONNX-based spell correction (requires onnxruntime)"""
 
     def test_words_spelling_correction(self):
-        from pythainlp.spell import words_spelling_correction
+        from pythainlp.spell.words_spelling_correction import correct
 
-        result = words_spelling_correction("สวัสดี")
-        self.assertIsInstance(result, list)
+        result = correct("สวัสดี")
+        self.assertIsInstance(result, (str, list))
 

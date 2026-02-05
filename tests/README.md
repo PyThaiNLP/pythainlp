@@ -138,7 +138,7 @@ By separating tests by dependency group, we can:
 **Cython-compiled: tests.noauto_cython**
 
 - Run `unittest tests.noauto_cython`
-  - Need dependencies from `pip install "pythainlp[noauto_cython]"`
+  - Need dependencies from `pip install "pythainlp[noauto-cython]"`
 - Tests requiring Cython-compiled packages:
   - phunspell spell checker
 - Requires: Cython, C compiler, system libraries (hunspell)

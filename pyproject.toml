@@ -190,10 +190,10 @@ extra = [
     "tltk>=1.10",
 ]
 
-# Noauto test dependencies - for tests.noauto-* modules
+# Noauto test dependencies - for tests.noauto_* modules
 # These are grouped by dependency framework to avoid conflicts
 
-# PyTorch-based dependencies - for tests.noauto-torch
+# PyTorch-based dependencies - for tests.noauto_torch
 noauto-torch = [
     "attacut>=1.0.6",
     "numpy>=1.26.0",
@@ -205,13 +205,13 @@ noauto-torch = [
     "wtpsplit>=1.0.1",
 ]
 
-# TensorFlow-based dependencies - for tests.noauto-tensorflow
+# TensorFlow-based dependencies - for tests.noauto_tensorflow
 noauto-tensorflow = [
     "deepcut>=0.7.0",
     "numpy>=1.26.0",
 ]
 
-# ONNX Runtime-based dependencies - for tests.noauto-onnx
+# ONNX Runtime-based dependencies - for tests.noauto_onnx
 noauto-onnx = [
     "numpy>=1.26.0",
     "onnxruntime>=1.10.0",
@@ -219,7 +219,7 @@ noauto-onnx = [
     "sefr_cut>=1.1",
 ]
 
-# Cython-based dependencies - for tests.noauto-cython
+# Cython-based dependencies - for tests.noauto_cython
 noauto-cython = [
     "phunspell>=0.1.6",
 ]

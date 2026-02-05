@@ -2,6 +2,9 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+# DEPRECATED: This file is kept for backward compatibility only.
+# New tests should be added to tests.noauto-torch for transformers-based tests.
+
 # Tests for tag functions that require transformers or torch
 # These tests are NOT run in automated CI workflows due to:
 # - Large dependencies (transformers, torch)
@@ -17,7 +20,10 @@ from pythainlp.tag import (
 
 
 class TagTransformersTestCaseN(unittest.TestCase):
-    """Tests for transformers-based engines (requires transformers, torch)"""
+    """Tests for transformers-based engines (requires transformers, torch)
+
+    DEPRECATED: Moved to tests.noauto-torch.testn_tag_torch
+    """
 
     def test_NER_class(self):
         with self.assertRaises(ValueError):

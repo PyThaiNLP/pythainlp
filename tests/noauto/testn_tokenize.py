@@ -2,6 +2,12 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+# DEPRECATED: This file is kept for backward compatibility only.
+# New tests should be added to the appropriate modular test suite:
+# - tests.noauto-torch for attacut, wtp, subword tokenizers
+# - tests.noauto-tensorflow for deepcut
+# - tests.noauto-onnx for oskut, sefr_cut
+
 # Tests for tokenize functions that require TensorFlow, Keras, or transformers
 # These tests are NOT run in automated CI workflows due to:
 # - Large dependencies (TensorFlow, Keras, transformers, torch)
@@ -31,6 +37,8 @@ from ..test_helpers import (
 
 
 class DetokenizeTestCaseN(unittest.TestCase):
+    """DEPRECATED: Tests split across noauto-torch, noauto-tensorflow, and noauto-onnx"""
+
     def test_numeric_data_format(self):
         engines = ["attacut", "deepcut", "sefr_cut"]
 
@@ -79,6 +87,8 @@ class DetokenizeTestCaseN(unittest.TestCase):
 
 
 class WordTokenizeAttacutTestCaseN(unittest.TestCase):
+    """DEPRECATED: Moved to tests.noauto-torch.testn_tokenize_torch"""
+
     def test_word_tokenize_attacut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="attacut"))
 
@@ -98,6 +108,8 @@ class WordTokenizeAttacutTestCaseN(unittest.TestCase):
 
 
 class WordTokenizeDeepcutTestCaseN(unittest.TestCase):
+    """DEPRECATED: Moved to tests.noauto-tensorflow.testn_tokenize_tensorflow"""
+
     def test_word_tokenize_deepcut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="deepcut"))
 
@@ -114,6 +126,8 @@ class WordTokenizeDeepcutTestCaseN(unittest.TestCase):
 
 
 class WordTokenizeOSKutTestCaseN(unittest.TestCase):
+    """DEPRECATED: Moved to tests.noauto-onnx.testn_tokenize_onnx"""
+
     def test_word_tokenize_oskut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="oskut"))
 
@@ -128,6 +142,8 @@ class WordTokenizeOSKutTestCaseN(unittest.TestCase):
 
 
 class WordTokenizeSEFRCutTestCaseN(unittest.TestCase):
+    """DEPRECATED: Moved to tests.noauto-onnx.testn_tokenize_onnx"""
+
     def test_word_tokenize_sefr_cut(self):
         self.assertIsNotNone(word_tokenize(TEXT_1, engine="sefr_cut"))
 
@@ -142,6 +158,8 @@ class WordTokenizeSEFRCutTestCaseN(unittest.TestCase):
 
 
 class ParagraphTokenizeTestCaseN(unittest.TestCase):
+    """DEPRECATED: Moved to tests.noauto-torch.testn_tokenize_torch"""
+
     def test_paragraph_tokenize(self):
         sent = (
             "(1) บทความนี้ผู้เขียนสังเคราะห์ขึ้นมา"
@@ -157,6 +175,8 @@ class ParagraphTokenizeTestCaseN(unittest.TestCase):
 
 
 class SentTokenizeWTPTestCaseN(unittest.TestCase):
+    """DEPRECATED: Moved to tests.noauto-torch.testn_tokenize_torch"""
+
     def test_sent_tokenize_wtp(self):
         self.assertIsNotNone(
             sent_tokenize(
@@ -175,10 +195,14 @@ class SentTokenizeWTPTestCaseN(unittest.TestCase):
 
 
 class SubwordTokenizePhayathaiTestCaseN(unittest.TestCase):
+    """DEPRECATED: Moved to tests.noauto-torch.testn_tokenize_torch"""
+
     def test_subword_tokenize_phayathai(self):
         assert_subword_tokenize_basic(self, "phayathai")
 
 
 class SubwordTokenizeWangchanbertaTestCaseN(unittest.TestCase):
+    """DEPRECATED: Moved to tests.noauto-torch.testn_tokenize_torch"""
+
     def test_subword_tokenize_wangchanberta(self):
         assert_subword_tokenize_basic(self, "wangchanberta")

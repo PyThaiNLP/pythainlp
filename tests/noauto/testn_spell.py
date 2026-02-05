@@ -2,6 +2,12 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+# DEPRECATED: This file is kept for backward compatibility only.
+# New tests should be added to the appropriate modular test suite:
+# - tests.noauto-cython for phunspell tests
+# - tests.noauto-torch for wanchanberta tests
+# - tests.noauto-network for HuggingFace Hub tests
+
 # Tests for spell functions that require phunspell (Cython) or torch
 # These tests are NOT run in automated CI workflows due to:
 # - Compilation issues (phunspell requires Cython)
@@ -22,7 +28,10 @@ from ..core.test_spell import SENT_TOKS
 
 
 class SpellPhunspellTestCaseN(unittest.TestCase):
-    """Tests for phunspell engine (requires Cython compilation)"""
+    """Tests for phunspell engine (requires Cython compilation)
+
+    DEPRECATED: Moved to tests.noauto-cython.testn_spell_cython
+    """
 
     def test_spell_phunspell(self):
         result = spell("เน้ร", engine="phunspell")
@@ -46,7 +55,10 @@ class SpellPhunspellTestCaseN(unittest.TestCase):
 
 
 class SpellWanchanbertaTestCaseN(unittest.TestCase):
-    """Tests for wanchanberta_thai_grammarly engine (requires torch)"""
+    """Tests for wanchanberta_thai_grammarly engine (requires torch)
+
+    DEPRECATED: Moved to tests.noauto-torch.testn_spell_torch
+    """
 
     def test_word_correct_wanchanberta(self):
         result = correct("ทดสอง", engine="wanchanberta_thai_grammarly")
@@ -62,7 +74,10 @@ class SpellWanchanbertaTestCaseN(unittest.TestCase):
 
 
 class SpellHuggingFaceTestCaseN(unittest.TestCase):
-    """Tests for get_words_spell_suggestion (requires HuggingFace Hub network access)"""
+    """Tests for get_words_spell_suggestion (requires HuggingFace Hub network access)
+
+    DEPRECATED: Moved to tests.noauto-network.testn_spell_network
+    """
 
     def test_get_words_spell_suggestion(self):
         self.assertIsNotNone(get_words_spell_suggestion("คมดี"))

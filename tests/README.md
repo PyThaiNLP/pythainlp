@@ -106,7 +106,7 @@ By separating tests by dependency group, we can:
 **PyTorch-based: tests.noauto_torch**
 
 - Run `unittest tests.noauto_torch`
-  - Need dependencies from `pip install "pythainlp[noauto_torch]"`
+  - Need dependencies from `pip install "pythainlp[noauto-torch]"`
 - Tests requiring PyTorch and its ecosystem:
   - torch, transformers (PyTorch backend), sentence-transformers
   - attacut, thai-nner, wtpsplit, tltk

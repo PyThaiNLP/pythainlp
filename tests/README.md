@@ -129,7 +129,7 @@ By separating tests by dependency group, we can:
 **ONNX Runtime-based: tests.noauto_onnx**
 
 - Run `unittest tests.noauto_onnx`
-  - Need dependencies from `pip install "pythainlp[noauto_onnx]"`
+  - Need dependencies from `pip install "pythainlp[noauto-onnx]"`
 - Tests requiring ONNX Runtime:
   - oskut, sefr_cut tokenizers
 - Dependencies: ~200-500 MB

@@ -41,11 +41,18 @@ class Small100Translator:
         if use_gpu:
             self.model = self.model.cuda()
 
-    def translate(self, text: str, tgt_lang: str = "en") -> str:
+    def translate(
+        self,
+        text: str,
+        tgt_lang: str = "en",
+        exclude_words: Optional[list[str]] = None,
+    ) -> str:
         """Translate text from X to X
 
         :param str text: input text in source language
         :param str tgt_lang: target language
+        :param list[str] exclude_words: words to exclude from translation
+                                        (optional)
         :return: translated text in target language
         :rtype: str
 
@@ -69,18 +76,31 @@ class Small100Translator:
             mt.translate("ทดสอบระบบ", tgt_lang="fr")
             # output: 'Test du système'
 
+            # Translate text from Thai to English with excluded words
+            mt.translate("ทดสอบระบบ", tgt_lang="en", exclude_words=["ระบบ"])
+            # output: 'Testing ระบบ'
+
         """
+        from pythainlp.translate.core import (
+            _prepare_text_with_exclusions,
+            _restore_excluded_words,
+        )
+
         if tgt_lang != self.tgt_lang:
             self.tokenizer: SMALL100Tokenizer = (
                 SMALL100Tokenizer.from_pretrained(
                     self.pretrained, tgt_lang=tgt_lang
                 )
             )
-            self.tgt_lang: str = tgt_lang
+            self.tgt_lang = tgt_lang
+
+        prepared_text, placeholder_map = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
         self.translated: torch.Tensor = self.model.generate(
-            **self.tokenizer(text, return_tensors="pt")
+            **self.tokenizer(prepared_text, return_tensors="pt")
         )
-        decoded_list: list[str] = self.tokenizer.batch_decode(
+        translated_text = self.tokenizer.batch_decode(
             self.translated, skip_special_tokens=True
-        )
-        return decoded_list[0]
+        )[0]
+        return _restore_excluded_words(translated_text, placeholder_map)

@@ -13,7 +13,6 @@ from pythainlp.tokenize import (
     attacut,
     paragraph_tokenize,
     sent_tokenize,
-    word_dict_trie,
     word_tokenize,
 )
 

@@ -129,3 +129,14 @@ logs/
 # Temp files
 *.tmp
 *.temp
+
+# Fuzzing artifacts
+fuzz/corpus/
+fuzz/crashes/
+fuzz/artifacts/
+fuzz/*.profraw
+fuzz/*.profdata
+crash-*
+leak-*
+timeout-*
+oom-*

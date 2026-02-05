@@ -107,7 +107,9 @@ if __name__ == "__main__":
     main()
 ```
 
-2. Ensure the new fuzzer file name follows the ``fuzz_*.py`` pattern so it can be discovered by ``build.sh``, and run ``bash fuzz/build.sh`` locally to verify that your fuzzer is picked up and built.
+2. Ensure the new fuzzer file name follows the ``fuzz_*.py`` pattern so it can be discovered by
+   ``build.sh``, and run ``bash fuzz/build.sh`` locally to verify that your fuzzer is picked up
+   and built.
 
 3. No changes needed to GitHub Actions workflow
 
@@ -155,3 +157,138 @@ If a fuzzer finds a crash:
 - [Atheris Documentation](https://github.com/google/atheris)
 - [OSS-Fuzz](https://github.com/google/oss-fuzz)
 - [libFuzzer Tutorial](https://github.com/google/fuzzing/blob/master/tutorial/libFuzzerTutorial.md)
+
+## Corpus Storage Best Practices
+
+The fuzzing corpus (test inputs that trigger interesting code paths) is automatically managed by
+ClusterFuzzLite and stored in the `gh-pages` branch. However, if you need to manually manage corpus
+data, follow these best practices:
+
+### 1. Minimize and De-duplicate
+
+Keep only the smallest, most unique set of inputs:
+
+```bash
+# Use libFuzzer's merge feature to minimize corpus
+python fuzz/fuzz_tokenize.py -merge=1 minimized_corpus/ original_corpus/
+
+# This keeps only inputs that trigger unique code coverage
+```
+
+The `-merge=1` flag tells libFuzzer to:
+- Remove duplicate inputs that cover the same code paths
+- Keep the smallest input for each unique coverage pattern
+- Output the minimized corpus to the first directory
+
+### 2. Sanitize the Data
+
+**Never use sensitive production data for fuzzing:**
+
+- ✅ Use synthetic test data
+- ✅ Use publicly available sample data
+- ✅ Generate random valid inputs
+- ❌ Do not use real user data
+- ❌ Do not use data containing secrets, passwords, or API keys
+- ❌ Do not use data with personally identifiable information (PII)
+
+**Before committing any corpus:**
+```bash
+# Review corpus files for sensitive data
+find corpus/ -type f -exec head -n 5 {} \;
+
+# Check for common patterns
+grep -r "password\|api_key\|secret\|token" corpus/
+```
+
+### 3. Use Dedicated Storage
+
+**ClusterFuzzLite automatically stores corpus in `gh-pages` branch**, which is separate from the main codebase. This is the recommended approach.
+
+**If storing corpus locally or in version control:**
+- ❌ Do NOT add corpus to the main branch with `git add fuzz/corpus/`
+- ✅ Use a dedicated branch (e.g., `fuzzing-data` or `gh-pages`)
+- ✅ Use GitHub Actions artifacts (already configured)
+- ✅ Use external storage (S3, GCS) for large corpora
+
+**Note:** The `.gitignore` is configured to exclude local corpus artifacts:
+- `fuzz/corpus/` - Corpus files
+- `fuzz/crashes/` - Crash-triggering inputs
+- `fuzz/artifacts/` - Build artifacts
+- `crash-*`, `leak-*`, `timeout-*`, `oom-*` - Fuzzer output files
+
+### 4. Monitor for Crashes
+
+**Never commit a crash-triggering input without fixing the bug first.**
+
+**When a crash is found:**
+
+1. **Reproduce the crash locally:**
+   ```bash
+   # ClusterFuzzLite saves crashes in artifacts
+   python fuzz/fuzz_tokenize.py crash-file
+   ```
+
+2. **Debug and fix the underlying bug:**
+   - Identify the root cause in the target function
+   - Write a unit test that reproduces the issue
+   - Fix the bug in the codebase
+
+3. **Verify the fix:**
+   ```bash
+   # Re-run the fuzzer with the crash input
+   python fuzz/fuzz_tokenize.py crash-file
+   # Should not crash after fix
+   ```
+
+4. **Add as regression test:**
+   ```python
+   # In tests/test_tokenize.py
+   def test_crash_regression_issue_1234():
+       """Regression test for crash found by fuzzer."""
+       # Use the crash-triggering input as a test case
+       result = word_tokenize("...")
+       assert isinstance(result, list)
+   ```
+
+5. **Only then add to corpus:**
+   ```bash
+   # After bug is fixed, add input to corpus for future testing
+   cp crash-file fuzz/corpus/tokenize/
+   ```
+
+### Security Considerations
+
+**Corpus storage in public gh-pages branch is safe for open-source projects:**
+- ✅ Corpus contains only test inputs (strings, bytes)
+- ✅ Does not contain code execution artifacts
+- ✅ Follows standard OSS fuzzing practices (OSS-Fuzz, ClusterFuzzLite)
+
+**Crash artifacts have limited exposure:**
+- Uploaded as GitHub Actions artifacts (not to gh-pages)
+- Have configurable retention period (default: 90 days)
+- Only accessible to repository collaborators
+
+**For private repositories with sensitive concerns:**
+- Consider using a private storage-repo-branch
+- Or disable corpus persistence by removing `storage-repo` parameters from workflow
+- Fuzzing will still work, just won't persist corpus between runs
+
+### Corpus Management Commands
+
+```bash
+# View corpus statistics
+python fuzz/fuzz_tokenize.py corpus/ -runs=0
+
+# Minimize corpus (keep unique inputs only)
+python fuzz/fuzz_tokenize.py -merge=1 minimized/ corpus/
+
+# Find minimum reproducer for a crash
+python fuzz/fuzz_tokenize.py -minimize_crash=1 crash-file
+
+# Run fuzzer with existing corpus
+python fuzz/fuzz_tokenize.py corpus/ -max_total_time=60
+
+# Check corpus coverage
+python fuzz/fuzz_tokenize.py corpus/ -runs=0 -print_coverage=1
+```
+

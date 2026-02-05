@@ -6,13 +6,9 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING
 
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import Trie
-
-if TYPE_CHECKING:
-    pass
 
 # Thai character to braille pattern mapping
 # Braille patterns are represented as dot numbers (1-8)

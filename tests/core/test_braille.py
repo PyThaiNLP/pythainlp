@@ -8,7 +8,7 @@ from pythainlp.braille import thai_text_braille, thai_word_braille
 from pythainlp.braille.core import Braille
 
 
-class TestCase(unittest.TestCase):
+class BrailleTestCase(unittest.TestCase):
     """Test Thai braille conversion."""
 
     def test_thai_word_braille(self) -> None:

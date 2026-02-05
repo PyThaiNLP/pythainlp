@@ -148,7 +148,7 @@ By separating tests by dependency group, we can:
 **Network-dependent: tests.noauto_network**
 
 - Run `unittest tests.noauto_network`
-  - Need dependencies from `pip install "pythainlp[noauto_network]"`
+  - Need dependencies from `pip install "pythainlp[noauto-network]"`
 - Tests requiring network access:
   - HuggingFace Hub model downloads
   - External API calls

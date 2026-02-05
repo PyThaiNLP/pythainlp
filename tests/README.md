@@ -97,7 +97,7 @@ By separating tests by dependency group, we can:
 #### Umbrella suite: tests.noauto
 
 - Run `unittest tests.noauto`
-- Includes all noauto test suites (legacy and new modular suites)
+- Includes all modular noauto test suites
 - Use this for comprehensive testing when all dependencies are available
 - Test case class suffix: `TestCaseN`
 

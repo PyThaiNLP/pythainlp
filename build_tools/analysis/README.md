@@ -35,7 +35,8 @@ using Python's Abstract Syntax Tree (AST) module.
 
 **Implementation Details:**
 
-The analyzer uses Python's `ast` module to parse and traverse the syntax tree of each Python file. Key components:
+The analyzer uses Python's `ast` module to parse and traverse the syntax tree
+of each Python file. Key components:
 
 - `TypeHintAnalyzer` class: Custom `ast.NodeVisitor` that visits each node
 - `visit_FunctionDef()`: Analyzes function/method signatures
@@ -71,6 +72,9 @@ python type-analyzer.py --output-dir /path/to/output
 # Get help
 python type-analyzer.py --help
 ```
+
+Enable more accurate static analysis by installing optional dependencies
+(and their type stubs, if available) for enhanced type discovery.
 
 #### gen-csv.py
 

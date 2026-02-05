@@ -58,6 +58,11 @@ The CI/CD test workflow is at
 - These dependencies might include huge libraries like `tensorflow`.
 - Due to dependency complexities, these functionalities may not be tested
   in the CI/CD pipeline.
+  - In the future, we might create a separate
+    step or workflow to run this test suite.
+    It will be triggered manually.
+    We may also need to group test cases by
+    a non-conflicting set of dependencies.
 - Test case class suffix: `TestCaseN`
 
 ## Robustness tests (test_robustness.py)

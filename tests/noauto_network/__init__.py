@@ -1,27 +1,28 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Unit test suite for ONNX Runtime-based functionalities.
+"""Unit test suite for network-dependent functionalities.
 
-Test functions that require ONNX Runtime and its ecosystem dependencies:
-- onnxruntime
-- oskut
-- sefr_cut
+Test functions that require network access:
+- HuggingFace Hub downloads
+- Model downloads from remote servers
+- API calls to external services
 
 These tests are NOT run in automated CI workflows due to:
-- Large dependencies
-- Potential compatibility issues across platforms
-- Version constraints
+- Network dependency
+- Potential for large downloads
+- External service availability
+- Rate limiting concerns
 
-These tests are kept for manual testing and may be run in separate CI
-workflows dedicated to ONNX Runtime-based features.
+These tests are kept for manual testing and may be run in environments
+with appropriate network access and caching.
 """
 
 from unittest import TestLoader, TestSuite
 
 # Names of module to be tested
 test_packages: list[str] = [
-    "tests.noauto-onnx.testn_tokenize_onnx",
+    "tests.noauto_network.testn_spell_network",
 ]
 
 

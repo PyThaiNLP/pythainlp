@@ -14,11 +14,11 @@ manual testing and future re-enabling when dependencies improve.
 
 This test suite serves as an umbrella that includes all specialized
 noauto test suites:
-- noauto-torch: PyTorch and transformers-based tests
-- noauto-tensorflow: TensorFlow-based tests
-- noauto-onnx: ONNX Runtime-based tests
-- noauto-cython: Cython-compiled package tests
-- noauto-network: Network-dependent tests
+- noauto_torch: PyTorch and transformers-based tests
+- noauto_tensorflow: TensorFlow-based tests
+- noauto_onnx: ONNX Runtime-based tests
+- noauto_cython: Cython-compiled package tests
+- noauto_network: Network-dependent tests
 
 For targeted testing, use the specific test suites instead of this umbrella.
 """
@@ -27,20 +27,12 @@ from unittest import TestLoader, TestSuite
 
 # Names of module to be tested
 # Note: These tests are NOT included in automated CI runs
-# Legacy test files (deprecated, kept for backward compatibility)
 test_packages: list[str] = [
-    "tests.noauto.testn_spell",
-    "tests.noauto.testn_tag",
-    "tests.noauto.testn_tokenize",
-]
-
-# New modular test suites by dependency group
-modular_test_packages: list[str] = [
-    "tests.noauto-torch",
-    "tests.noauto-tensorflow",
-    "tests.noauto-onnx",
-    "tests.noauto-cython",
-    "tests.noauto-network",
+    "tests.noauto_torch",
+    "tests.noauto_tensorflow",
+    "tests.noauto_onnx",
+    "tests.noauto_cython",
+    "tests.noauto_network",
 ]
 
 
@@ -50,26 +42,18 @@ def load_tests(
     """Load test protocol
     See: https://docs.python.org/3/library/unittest.html#id1
 
-    This loads both legacy and new modular test suites.
+    This loads all modular test suites.
     For targeted testing, use specific test suites directly:
-    - unittest tests.noauto-torch
-    - unittest tests.noauto-tensorflow
-    - unittest tests.noauto-onnx
-    - unittest tests.noauto-cython
-    - unittest tests.noauto-network
+    - unittest tests.noauto_torch
+    - unittest tests.noauto_tensorflow
+    - unittest tests.noauto_onnx
+    - unittest tests.noauto_cython
+    - unittest tests.noauto_network
     """
     suite = TestSuite()
-
-    # Load legacy test files (for backward compatibility)
     for test_package in test_packages:
         tests = loader.loadTestsFromName(test_package)
         suite.addTests(tests)
-
-    # Load new modular test suites
-    for test_package in modular_test_packages:
-        tests = loader.loadTestsFromName(test_package)
-        suite.addTests(tests)
-
     return suite
 
 

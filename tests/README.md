@@ -103,10 +103,10 @@ By separating tests by dependency group, we can:
 
 #### Modular suites by dependency:
 
-**PyTorch-based: tests.noauto-torch**
+**PyTorch-based: tests.noauto_torch**
 
-- Run `unittest tests.noauto-torch`
-  - Need dependencies from `pip install "pythainlp[noauto-torch]"`
+- Run `unittest tests.noauto_torch`
+  - Need dependencies from `pip install "pythainlp[noauto_torch]"`
 - Tests requiring PyTorch and its ecosystem:
   - torch, transformers (PyTorch backend), sentence-transformers
   - attacut, thai-nner, wtpsplit, tltk
@@ -116,56 +116,45 @@ By separating tests by dependency group, we can:
 - Dependencies: ~2-3 GB
 - Test case class suffix: `TestCaseN`
 
-**TensorFlow-based: tests.noauto-tensorflow**
+**TensorFlow-based: tests.noauto_tensorflow**
 
-- Run `unittest tests.noauto-tensorflow`
-  - Need dependencies from `pip install "pythainlp[noauto-tensorflow]"`
+- Run `unittest tests.noauto_tensorflow`
+  - Need dependencies from `pip install "pythainlp[noauto_tensorflow]"`
 - Tests requiring TensorFlow:
   - deepcut tokenizer
 - Dependencies: ~1-2 GB
 - Note: May conflict with PyTorch dependencies
 - Test case class suffix: `TestCaseN`
 
-**ONNX Runtime-based: tests.noauto-onnx**
+**ONNX Runtime-based: tests.noauto_onnx**
 
-- Run `unittest tests.noauto-onnx`
-  - Need dependencies from `pip install "pythainlp[noauto-onnx]"`
+- Run `unittest tests.noauto_onnx`
+  - Need dependencies from `pip install "pythainlp[noauto_onnx]"`
 - Tests requiring ONNX Runtime:
   - oskut, sefr_cut tokenizers
 - Dependencies: ~200-500 MB
 - Test case class suffix: `TestCaseN`
 
-**Cython-compiled: tests.noauto-cython**
+**Cython-compiled: tests.noauto_cython**
 
-- Run `unittest tests.noauto-cython`
-  - Need dependencies from `pip install "pythainlp[noauto-cython]"`
+- Run `unittest tests.noauto_cython`
+  - Need dependencies from `pip install "pythainlp[noauto_cython]"`
 - Tests requiring Cython-compiled packages:
   - phunspell spell checker
 - Requires: Cython, C compiler, system libraries (hunspell)
 - Platform-specific build requirements
 - Test case class suffix: `TestCaseN`
 
-**Network-dependent: tests.noauto-network**
+**Network-dependent: tests.noauto_network**
 
-- Run `unittest tests.noauto-network`
-  - Need dependencies from `pip install "pythainlp[noauto-network]"`
+- Run `unittest tests.noauto_network`
+  - Need dependencies from `pip install "pythainlp[noauto_network]"`
 - Tests requiring network access:
   - HuggingFace Hub model downloads
   - External API calls
 - Requires: Internet connection, may involve large downloads
 - Test case class suffix: `TestCaseN`
 
-### Legacy noauto tests (deprecated)
-
-The original test files in `tests/noauto/` directory are kept for backward
-compatibility but are deprecated:
-- `testn_spell.py`
-- `testn_tag.py`
-- `testn_tokenize.py`
-
-New tests should be added to the appropriate modular test suite
-(`tests.noauto-torch/`, `tests.noauto-tensorflow/`, etc.) instead of
-the legacy files.
 
 ## Robustness tests (test_robustness.py)
 

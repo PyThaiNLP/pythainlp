@@ -78,3 +78,40 @@ class WordTokenizeSEFRCutTestCaseN(unittest.TestCase):
         self.assertIsNotNone(
             sefr_cut.segment("ฉันรักภาษาไทยเพราะฉันเป็นคนไทย", engine="tnhc"),
         )
+
+
+class TransliterateONNXTestCaseN(unittest.TestCase):
+    """Tests for ONNX-based transliteration (requires onnxruntime)"""
+
+    def test_thai2rom_onnx(self):
+        from pythainlp.transliterate import thai2rom_onnx
+
+        result = thai2rom_onnx("สวัสดี")
+        self.assertIsInstance(result, str)
+        self.assertGreater(len(result), 0)
+
+
+class TagONNXTestCaseN(unittest.TestCase):
+    """Tests for ONNX-based POS tagging (requires onnxruntime)"""
+
+    def test_pos_tag_wangchanberta_onnx(self):
+        from pythainlp.tag import pos_tag
+
+        result = pos_tag(
+            ["แมว", "กิน", "ปลา"],
+            engine="wangchanberta_onnx"
+        )
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+        self.assertEqual(len(result), 3)
+
+
+class SpellONNXTestCaseN(unittest.TestCase):
+    """Tests for ONNX-based spell correction (requires onnxruntime)"""
+
+    def test_words_spelling_correction(self):
+        from pythainlp.spell import words_spelling_correction
+
+        result = words_spelling_correction("สวัสดี")
+        self.assertIsInstance(result, list)
+

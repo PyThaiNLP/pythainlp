@@ -171,10 +171,12 @@ for real-world usage:
 
 ## Corpus test (corpus/)
 
-A separate test suite that verifies the integrity, format, parseability, and catalog
-functionality of corpus in PyThaiNLP. These tests are separate from regular unit tests
-because they test actual file loading and parsing (not mocked), downloadable corpus tests
-require network access, and they verify corpus catalog operations.
+A separate test suite that verifies the integrity, format, parseability,
+and catalog functionality of corpus in PyThaiNLP.
+
+These tests are separate from regular unit tests because they test actual
+file loading and parsing (not mocked), require network access, and
+can be resource intensive.
 
 For detailed information about corpus test, see:
 [tests/corpus/README.md](corpus/README.md)

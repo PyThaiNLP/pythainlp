@@ -5,6 +5,8 @@ name: Unit test
 
 on:
   push:
+    branches:
+    - dev
     paths:
       - ".github/workflows/unittest.yml"
       - "bin/**"

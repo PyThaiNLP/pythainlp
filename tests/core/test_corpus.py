@@ -4,6 +4,7 @@
 
 import os
 import unittest
+from unittest.mock import mock_open, patch
 
 from pythainlp.corpus import (
     countries,
@@ -111,18 +112,110 @@ class CorpusTestCase(unittest.TestCase):
         self.assertFalse(download(name="test", version="0.0.1"))
 
     def test_oscar(self):
-        self.assertIsNotNone(oscar.word_freqs())
-        self.assertIsNotNone(oscar.unigram_word_freqs())
+        # Mock the oscar corpus file to avoid slow download and parsing
+        # Format: word,count
+        # Note: A line starting with space becomes empty string after strip()
+        mock_oscar_data = """word,count
+คน,1000
+ไทย,500
+ภาษา,300
+ ,100
+"test",50
+"""
+        mock_path = "/mock/path/oscar_icu"
+
+        with patch('pythainlp.corpus.oscar.get_corpus_path', return_value=mock_path):
+            with patch('builtins.open', mock_open(read_data=mock_oscar_data)):
+                result = oscar.word_freqs()
+                self.assertIsNotNone(result)
+                self.assertIsInstance(result, list)
+                self.assertGreater(len(result), 0)
+                # Verify parsing logic
+                self.assertEqual(result[0], ("คน", 1000))
+                # Space line becomes empty string (not <s/>) due to strip()
+                self.assertIn(("", 100), result)
+                # Verify quoted values are filtered out
+                for word, _ in result:
+                    self.assertNotIn('"', word)
+
+                # Reset mock for unigram test
+                with patch('builtins.open', mock_open(read_data=mock_oscar_data)):
+                    result_unigram = oscar.unigram_word_freqs()
+                    self.assertIsNotNone(result_unigram)
+                    self.assertIsInstance(result_unigram, dict)
+                    self.assertGreater(len(result_unigram), 0)
+                    self.assertEqual(result_unigram["คน"], 1000)
 
     def test_tnc(self):
-        self.assertIsNotNone(tnc.word_freqs())
-        self.assertIsNotNone(tnc.unigram_word_freqs())
-        self.assertIsNotNone(tnc.bigram_word_freqs())
-        self.assertIsNotNone(tnc.trigram_word_freqs())
+        # Mock TNC unigram corpus
+        mock_unigram_data = """คน	1000
+ไทย	500
+ภาษา	300"""
+
+        # Mock TNC bigram corpus
+        mock_bigram_data = """คน	ไทย	100
+ไทย	ภาษา	50
+ภาษา	ไทย	30"""
+
+        # Mock TNC trigram corpus
+        mock_trigram_data = """คน	ไทย	ภาษา	10
+ไทย	ภาษา	ไทย	5
+ภาษา	ไทย	คน	3"""
+
+        # Test unigram functions
+        with patch('pythainlp.corpus.tnc.get_corpus', return_value=frozenset(mock_unigram_data.split('\n'))):
+            result = tnc.word_freqs()
+            self.assertIsNotNone(result)
+            self.assertIsInstance(result, list)
+            self.assertGreater(len(result), 0)
+            # Check that at least one expected entry exists (order not guaranteed)
+            self.assertIn(("คน", 1000), result)
+
+            result_unigram = tnc.unigram_word_freqs()
+            self.assertIsNotNone(result_unigram)
+            self.assertIsInstance(result_unigram, dict)
+            self.assertGreater(len(result_unigram), 0)
+            self.assertEqual(result_unigram["คน"], 1000)
+
+        # Test bigram function
+        mock_bigram_path = "/mock/path/bigram"
+        with patch('pythainlp.corpus.tnc.get_corpus_path', return_value=mock_bigram_path):
+            with patch('builtins.open', mock_open(read_data=mock_bigram_data)):
+                result_bigram = tnc.bigram_word_freqs()
+                self.assertIsNotNone(result_bigram)
+                self.assertIsInstance(result_bigram, dict)
+                self.assertGreater(len(result_bigram), 0)
+                self.assertEqual(result_bigram[("คน", "ไทย")], 100)
+
+        # Test trigram function
+        mock_trigram_path = "/mock/path/trigram"
+        with patch('pythainlp.corpus.tnc.get_corpus_path', return_value=mock_trigram_path):
+            with patch('builtins.open', mock_open(read_data=mock_trigram_data)):
+                result_trigram = tnc.trigram_word_freqs()
+                self.assertIsNotNone(result_trigram)
+                self.assertIsInstance(result_trigram, dict)
+                self.assertGreater(len(result_trigram), 0)
+                self.assertEqual(result_trigram[("คน", "ไทย", "ภาษา")], 10)
 
     def test_ttc(self):
-        self.assertIsNotNone(ttc.word_freqs())
-        self.assertIsNotNone(ttc.unigram_word_freqs())
+        # Mock TTC corpus
+        mock_ttc_data = """คน	1000
+ไทย	500
+ภาษา	300"""
+
+        with patch('pythainlp.corpus.ttc.get_corpus', return_value=frozenset(mock_ttc_data.split('\n'))):
+            result = ttc.word_freqs()
+            self.assertIsNotNone(result)
+            self.assertIsInstance(result, list)
+            self.assertGreater(len(result), 0)
+            # Check that at least one expected entry exists (order not guaranteed)
+            self.assertIn(("คน", 1000), result)
+
+            result_unigram = ttc.unigram_word_freqs()
+            self.assertIsNotNone(result_unigram)
+            self.assertIsInstance(result_unigram, dict)
+            self.assertGreater(len(result_unigram), 0)
+            self.assertEqual(result_unigram["คน"], 1000)
 
     def test_revise_wordset(self):
         training_data = [

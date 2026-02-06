@@ -1,3 +1,8 @@
+SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+SPDX-FileType: DOCUMENTATION
+SPDX-License-Identifier: Apache-2.0
+---
+
 # Test suites and execution
 
 To run a test suite, run:
@@ -155,7 +160,6 @@ By separating tests by dependency group, we can:
 - Requires: Internet connection, may involve large downloads
 - Test case class suffix: `TestCaseN`
 
-
 ## Robustness tests (test_robustness.py)
 
 A comprehensive test suite within core tests that tests edge cases important
@@ -169,3 +173,24 @@ for real-world usage:
 - Thai-specific edge cases with combining characters and mixed scripts
 - Multi-engine robustness testing across all core tokenization engines
 - Very long strings that can cause performance issues (issue #893)
+
+## Corpus test (corpus/)
+
+A separate test suite that verifies the integrity, format, parseability,
+and catalog functionality of corpus in PyThaiNLP.
+
+These tests are separate from regular unit tests because they test actual
+file loading and parsing (not mocked), require network access, and
+can be resource intensive.
+
+For detailed information about corpus test, see:
+[tests/corpus/README.md](corpus/README.md)
+
+The corpus test is triggered automatically via GitHub Actions
+when changes are made to `pythainlp/corpus/**` or `tests/corpus/**`.
+
+Run corpus test:
+
+```shell
+python -m unittest tests.corpus
+```

@@ -4,7 +4,7 @@ SPDX-FileType: DOCUMENTATION
 SPDX-License-Identifier: CC0-1.0
 ---
 
-# PyThaiNLP Development Notebooks
+# PyThaiNLP development notebooks
 
 This directory contains Jupyter notebooks used for **development and testing purposes**. These notebooks are **not** intended for end-users and are primarily used by developers to:
 
@@ -13,9 +13,9 @@ This directory contains Jupyter notebooks used for **development and testing pur
 - Experiment with algorithms
 - Debug and validate module functionality
 
-## Notebooks Overview
+## Notebooks overview
 
-### Testing Notebooks
+### Testing notebooks
 
 These notebooks test specific module functionality:
 
@@ -27,7 +27,7 @@ These notebooks test specific module functionality:
 - `test_wangchanglm.ipynb` - Testing WangChanGLM text generation
 - `test_wsd.ipynb` - Testing word sense disambiguation
 
-### Development Tools
+### Development tools
 
 These notebooks are used for building and preparing models:
 
@@ -36,7 +36,7 @@ These notebooks are used for building and preparing models:
 - `create_words.ipynb` - Word list creation and curation
 - `word_detokenize.ipynb` - Testing word detokenization
 
-## For End-Users
+## For end-users
 
 If you're looking for examples and tutorials on how to use PyThaiNLP, please visit:
 

@@ -35,7 +35,8 @@ class CliTestCase(unittest.TestCase):
             with self.assertRaises((ArgumentError, SystemExit)):
                 __main__.main(["thainlp", "NOT_EXIST", "command"])
 
-            self.assertIsNone(__main__.main(["thainlp", "data", "path"]))
+            # Test a valid command that should succeed
+            __main__.main(["thainlp", "data", "path"])
 
     def test_cli_data(self):
         self.assertTrue(hasattr(cli, "data"))

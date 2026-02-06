@@ -88,7 +88,7 @@ pip install pythainlp[extra1,extra2,...]
 - `compact` (ติดตั้งไลบารีชุดเล็กที่ทดสอบแล้วว่าไม่ตีกันเองและติดตั้งได้ในทุกระบบปฏิบัติการ)
 - `abbreviation` (สำหรับการย่อคำภาษาไทย)
 - `attacut` (เพื่อสนับสนุน attacut ซึ่งเป็นตัวตัดคำที่ทำงานได้รวดเร็วและมีประสิทธิภาพ)
-- `benchmarks` (สำหรับ [word tokenization benchmarking](tokenization-benchmark.md))
+- `benchmarks` (สำหรับการทดสอบประสิทธิภาพการตัดคำ)
 - `budoux` (สำหรับการแบ่งข้อความด้วย BudouX)
 - `coreference_resolution` (สำหรับการหาคำที่อ้างอิงถึงกัน)
 - `dependency_parsing` (สำหรับการวิเคราะห์โครงสร้างประโยค)

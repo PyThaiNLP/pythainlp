@@ -1,10 +1,12 @@
-# Corpus Data Tests
+# Corpus data tests
 
-This directory contains tests that verify the integrity, format, parseability, and catalog functionality of corpus data in PyThaiNLP.
+This directory contains tests that verify the integrity, format,
+parseability, and catalog functionality of corpus data in PyThaiNLP.
 
 ## Purpose
 
 These tests are separate from regular unit tests because:
+
 1. They test actual file loading and parsing (not mocked)
 2. Downloadable corpus tests require network access and can be slow
 3. They verify corpus data format and structure
@@ -16,50 +18,54 @@ These tests are separate from regular unit tests because:
 ### Corpus Catalog Tests (`test_catalog.py`)
 
 Tests corpus catalog functionality:
+
 - Catalog download from remote server
 - Catalog URL and path validation
 - Catalog JSON structure verification
 - Querying specific corpus details
 - Version information validation
 
-**Run time:** < 1 second
-
 ### Built-in Corpus Tests (`test_builtin_corpus.py`)
 
 Tests corpus files that are included in the package:
+
 - Text word lists (negations, stopwords, syllables, words, etc.)
 - CSV files (provinces)
 - Frequency data (TNC, TTC)
 - Name lists (family names, person names)
 
-**Run time:** < 1 second
-
 ### Downloadable Corpus Tests (`test_downloadable_corpus.py`)
 
 Tests corpus files that need to be downloaded:
+
 - OSCAR word frequencies (96MB)
 - TNC bigram/trigram frequencies (41MB + 145MB)
 
-**Run time:** ~17 seconds (includes download time)
+This test will take longer time than others due to
+size of the downloads.
 
 ## Running Tests
 
-### Run all corpus data tests:
+Run all corpus data tests:
+
 ```bash
 python -m unittest discover -s tests/corpus_integrity -v
 ```
 
-### Run only catalog tests:
+Run only catalog tests:
+
 ```bash
 python -m unittest tests.corpus_integrity.test_catalog -v
 ```
 
-### Run only built-in corpus tests:
+Run only built-in corpus tests:
+
 ```bash
 python -m unittest tests.corpus_integrity.test_builtin_corpus -v
 ```
 
-### Run only downloadable corpus tests:
+Run only downloadable corpus tests:
+
 ```bash
 python -m unittest tests.corpus_integrity.test_downloadable_corpus -v
 ```
@@ -74,6 +80,7 @@ The corpus data tests run automatically via GitHub Actions workflow (`.github/wo
 ## What is Tested
 
 Each test verifies:
+
 1. **Loadability**: File can be loaded without errors
 2. **Type correctness**: Returns expected data type (frozenset, list, dict)
 3. **Non-empty**: Contains actual data
@@ -84,6 +91,7 @@ Each test verifies:
 ## Adding New Tests
 
 When adding a new corpus file or function to `pythainlp.corpus`:
+
 1. Add a test to `test_builtin_corpus.py` if it's included in the package
 2. Add a test to `test_downloadable_corpus.py` if it requires download
 3. Add a test to `test_catalog.py` if it involves catalog operations

@@ -1,24 +1,25 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Unit test. Extra version.
+"""Unit test suite for Cython-compiled package functionalities.
 
-Test functions that require dependencies beyond "compact" (see pyproject.toml).
+Test functions that require packages that need Cython compilation:
+- phunspell (requires Cython and hunspell C library)
+
+These tests are NOT run in automated CI workflows due to:
+- Compilation requirements (Cython, C compiler)
+- System library dependencies
+- Platform-specific build issues
+
+These tests are kept for manual testing and may be run in separate CI
+workflows with appropriate build environments.
 """
 
 from unittest import TestLoader, TestSuite
 
 # Names of module to be tested
 test_packages: list[str] = [
-    "tests.extra.testx_augment",
-    "tests.extra.testx_benchmarks",
-    "tests.extra.testx_cli",
-    "tests.extra.testx_lm",
-    "tests.extra.testx_spell",
-    "tests.extra.testx_tag",
-    "tests.extra.testx_tokenize",
-    "tests.extra.testx_translate_helpers",
-    "tests.extra.testx_word_vector",
+    "tests.noauto_cython.testn_spell_cython",
 ]
 
 
@@ -36,6 +37,6 @@ def load_tests(
 
 
 if __name__ == "__main__":
-    import unittest
+    from unittest import main
 
-    unittest.main()
+    main()

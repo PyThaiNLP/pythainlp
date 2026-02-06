@@ -11,6 +11,7 @@ from unittest import TestLoader, TestSuite
 # Names of module to be tested
 test_packages: list[str] = [
     "tests.core.test_ancient",
+    "tests.core.test_braille",
     "tests.core.test_cli",
     "tests.core.test_corpus",
     "tests.core.test_generate",

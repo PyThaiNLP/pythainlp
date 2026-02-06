@@ -74,15 +74,87 @@ The CI/CD test workflow is at
 
 ## Noauto tests (testn_*.py)
 
-- These dependencies might include huge libraries like `tensorflow`.
-- Due to dependency complexities, these functionalities may not be tested
-  in the CI/CD pipeline.
-  - In the future, we might create a separate
-    step or workflow to run this test suite.
-    It will be triggered manually.
-    We may also need to group test cases by
-    a non-conflicting set of dependencies.
+The noauto (no-automated) test suite contains tests for functionalities
+that require heavy dependencies which are not feasible to run in automated
+CI/CD pipelines. These tests are organized into specialized suites based
+on their dependency requirements.
+
+### Why separate noauto test suites?
+
+Different ML/AI frameworks often have conflicting version requirements for
+their dependencies. For example:
+- PyTorch and TensorFlow may require different versions of numpy or protobuf
+- Large frameworks take significant time to install (~1-3 GB each)
+- Some packages require Cython compilation or system libraries
+
+By separating tests by dependency group, we can:
+- Test each framework independently without conflicts
+- Optimize CI/CD resources by running only relevant test groups
+- Make it easier for developers to test specific functionality
+
+### Noauto test suites
+
+#### Umbrella suite: tests.noauto
+
+- Run `unittest tests.noauto`
+- Includes all modular noauto test suites
+- Use this for comprehensive testing when all dependencies are available
 - Test case class suffix: `TestCaseN`
+
+#### Modular suites by dependency:
+
+**PyTorch-based: tests.noauto_torch**
+
+- Run `unittest tests.noauto_torch`
+  - Need dependencies from `pip install "pythainlp[noauto-torch]"`
+- Tests requiring PyTorch and its ecosystem:
+  - torch, transformers (PyTorch backend)
+  - attacut, thai-nner, wtpsplit, tltk
+- Tests: spell correction (wanchanberta), NER/POS tagging (transformers-based),
+  tokenization (attacut), subword tokenization (phayathai, wangchanberta),
+  sentence tokenization (wtp)
+- Dependencies: ~2-3 GB
+- Test case class suffix: `TestCaseN`
+
+**TensorFlow-based: tests.noauto_tensorflow**
+
+- Run `unittest tests.noauto_tensorflow`
+  - Need dependencies from `pip install "pythainlp[noauto-tensorflow]"`
+- Tests requiring TensorFlow:
+  - deepcut tokenizer
+- Dependencies: ~1-2 GB
+- Note: May conflict with PyTorch dependencies
+- Test case class suffix: `TestCaseN`
+
+**ONNX Runtime-based: tests.noauto_onnx**
+
+- Run `unittest tests.noauto_onnx`
+  - Need dependencies from `pip install "pythainlp[noauto-onnx]"`
+- Tests requiring ONNX Runtime:
+  - oskut, sefr_cut tokenizers
+- Dependencies: ~200-500 MB
+- Test case class suffix: `TestCaseN`
+
+**Cython-compiled: tests.noauto_cython**
+
+- Run `unittest tests.noauto_cython`
+  - Need dependencies from `pip install "pythainlp[noauto-cython]"`
+- Tests requiring Cython-compiled packages:
+  - phunspell spell checker
+- Requires: Cython, C compiler, system libraries (hunspell)
+- Platform-specific build requirements
+- Test case class suffix: `TestCaseN`
+
+**Network-dependent: tests.noauto_network**
+
+- Run `unittest tests.noauto_network`
+  - Need dependencies from `pip install "pythainlp[noauto-network]"`
+- Tests requiring network access:
+  - HuggingFace Hub model downloads
+  - External API calls
+- Requires: Internet connection, may involve large downloads
+- Test case class suffix: `TestCaseN`
+
 
 ## Robustness tests (test_robustness.py)
 

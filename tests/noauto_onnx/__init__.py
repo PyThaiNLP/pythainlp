@@ -1,24 +1,27 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Unit test. Extra version.
+"""Unit test suite for ONNX Runtime-based functionalities.
 
-Test functions that require dependencies beyond "compact" (see pyproject.toml).
+Test functions that require ONNX Runtime and its ecosystem dependencies:
+- onnxruntime
+- oskut
+- sefr_cut
+
+These tests are NOT run in automated CI workflows due to:
+- Large dependencies
+- Potential compatibility issues across platforms
+- Version constraints
+
+These tests are kept for manual testing and may be run in separate CI
+workflows dedicated to ONNX Runtime-based features.
 """
 
 from unittest import TestLoader, TestSuite
 
 # Names of module to be tested
 test_packages: list[str] = [
-    "tests.extra.testx_augment",
-    "tests.extra.testx_benchmarks",
-    "tests.extra.testx_cli",
-    "tests.extra.testx_lm",
-    "tests.extra.testx_spell",
-    "tests.extra.testx_tag",
-    "tests.extra.testx_tokenize",
-    "tests.extra.testx_translate_helpers",
-    "tests.extra.testx_word_vector",
+    "tests.noauto_onnx.testn_tokenize_onnx",
 ]
 
 
@@ -36,6 +39,6 @@ def load_tests(
 
 
 if __name__ == "__main__":
-    import unittest
+    from unittest import main
 
-    unittest.main()
+    main()

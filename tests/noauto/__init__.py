@@ -11,6 +11,16 @@ Test functions that require dependencies that are:
 
 These tests are NOT run in automated CI workflows but are kept for
 manual testing and future re-enabling when dependencies improve.
+
+This test suite serves as an umbrella that includes all specialized
+noauto test suites:
+- noauto_torch: PyTorch and transformers-based tests
+- noauto_tensorflow: TensorFlow-based tests
+- noauto_onnx: ONNX Runtime-based tests
+- noauto_cython: Cython-compiled package tests
+- noauto_network: Network-dependent tests
+
+For targeted testing, use the specific test suites instead of this umbrella.
 """
 
 from unittest import TestLoader, TestSuite
@@ -18,9 +28,11 @@ from unittest import TestLoader, TestSuite
 # Names of module to be tested
 # Note: These tests are NOT included in automated CI runs
 test_packages: list[str] = [
-    "tests.noauto.testn_spell",
-    "tests.noauto.testn_tag",
-    "tests.noauto.testn_tokenize",
+    "tests.noauto_torch",
+    "tests.noauto_tensorflow",
+    "tests.noauto_onnx",
+    "tests.noauto_cython",
+    "tests.noauto_network",
 ]
 
 
@@ -29,6 +41,14 @@ def load_tests(
 ) -> TestSuite:
     """Load test protocol
     See: https://docs.python.org/3/library/unittest.html#id1
+
+    This loads all modular test suites.
+    For targeted testing, use specific test suites directly:
+    - unittest tests.noauto_torch
+    - unittest tests.noauto_tensorflow
+    - unittest tests.noauto_onnx
+    - unittest tests.noauto_cython
+    - unittest tests.noauto_network
     """
     suite = TestSuite()
     for test_package in test_packages:

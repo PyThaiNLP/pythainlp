@@ -68,7 +68,8 @@ dependencies = [
 
 [project.optional-dependencies]
 
-# Development and testing dependencies
+## 1) Development ########################################
+
 dev = [
     "black>=25.11.0",
     "build>=1.0.0",
@@ -79,14 +80,13 @@ dev = [
     "tox>=4.30.3",
 ]
 
-# Documentation dependencies
 docs = [
     "Sphinx>=6.2",
     "sphinx-copybutton>=0.5.2",
     "sphinx-rtd-theme>=3.1.0",
 ]
 
-# Below are dependencies for optional features
+## 2) Feature sets #######################################
 
 abbreviation = ["khamyo>=0.2.0"]
 
@@ -166,9 +166,13 @@ wtp = ["transformers>=4.22.1", "wtpsplit>=1.0.1"]
 
 wunsen = ["wunsen>=0.0.3"]
 
-# Below are defined groups of CI testing dependencies
+## 3) Testing ############################################
 
-# Compact dependencies - safe small set of optional dependencies
+# Below are dependency groups for each defined test suites
+
+# Compact dependencies - for tests.compact modules
+# Safe small set of optional dependencies
+# for common tasks like tokenization and tagging.
 compact = [
     "nlpo3>=1.4.0",
     "numpy>=1.26.0",
@@ -178,7 +182,6 @@ compact = [
 ]
 
 # Extra dependencies - for tests.extra modules
-# Note: Some packages excluded due to Python 3.13 compatibility issues
 extra = [
     "bpemb>=0.3.2",
     "budoux>=0.7.0",
@@ -191,7 +194,7 @@ extra = [
 ]
 
 # Noauto test dependencies - for tests.noauto_* modules
-# These are grouped by dependency framework to avoid conflicts
+# These are further grouped by dependency framework to avoid conflicts 
 
 # PyTorch-based dependencies - for tests.noauto_torch
 noauto-torch = [
@@ -229,7 +232,6 @@ noauto-cython = [
 noauto-network = [
     "huggingface-hub>=0.16.0",
 ]
-
 
 # Full dependencies - pinned where available
 full = [

@@ -13,7 +13,6 @@ if TYPE_CHECKING:
     from transformers import (
         AutoModelForMaskedLM,
         AutoModelForTokenClassification,
-        AutoTokenizer,
         CamembertTokenizer,
         Pipeline,
         PreTrainedTokenizerBase,

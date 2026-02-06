@@ -169,7 +169,7 @@ for real-world usage:
 - Multi-engine robustness testing across all core tokenization engines
 - Very long strings that can cause performance issues (issue #893)
 
-## Corpus data tests (corpus_integrity/)
+## Corpus data tests (corpus_data/)
 
 A separate test suite that verifies the integrity, format, parseability, and catalog
 functionality of corpus data in PyThaiNLP. These tests are separate from regular unit tests
@@ -177,12 +177,12 @@ because they test actual file loading and parsing (not mocked), downloadable cor
 require network access, and they verify corpus catalog operations.
 
 For detailed information about corpus data tests, see:
-[tests/corpus_integrity/README.md](corpus_integrity/README.md)
+[tests/corpus_data/README.md](corpus_data/README.md)
 
 The corpus data tests are triggered automatically via GitHub Actions
-when changes are made to `pythainlp/corpus/**` or `tests/corpus_integrity/**`.
+when changes are made to `pythainlp/corpus/**` or `tests/corpus_data/**`.
 
 **Run corpus data tests:**
 ```shell
-python -m unittest tests.corpus_integrity
+python -m unittest tests.corpus_data
 ```

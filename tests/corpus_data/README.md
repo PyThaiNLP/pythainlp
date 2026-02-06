@@ -49,32 +49,32 @@ size of the downloads.
 Run all corpus data tests:
 
 ```bash
-python -m unittest discover -s tests/corpus_integrity -v
+python -m unittest discover -s tests/corpus_data -v
 ```
 
 Run only catalog tests:
 
 ```bash
-python -m unittest tests.corpus_integrity.test_catalog -v
+python -m unittest tests.corpus_data.test_catalog -v
 ```
 
 Run only built-in corpus tests:
 
 ```bash
-python -m unittest tests.corpus_integrity.test_builtin_corpus -v
+python -m unittest tests.corpus_data.test_builtin_corpus -v
 ```
 
 Run only downloadable corpus tests:
 
 ```bash
-python -m unittest tests.corpus_integrity.test_downloadable_corpus -v
+python -m unittest tests.corpus_data.test_downloadable_corpus -v
 ```
 
 ## CI Integration
 
 The corpus data tests run automatically via GitHub Actions workflow (`.github/workflows/corpus-data.yml`) when:
 - Changes are made to `pythainlp/corpus/**`
-- Changes are made to `tests/corpus_integrity/**`
+- Changes are made to `tests/corpus_data/**`
 - The workflow file itself is modified
 
 ## What is Tested

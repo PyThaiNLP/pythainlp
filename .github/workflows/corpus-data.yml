@@ -8,14 +8,14 @@ on:
     paths:
       - ".github/workflows/corpus-data.yml"
       - "pythainlp/corpus/**"
-      - "tests/corpus_integrity/**"
+      - "tests/corpus_data/**"
   pull_request:
     branches:
       - dev
     paths:
       - ".github/workflows/corpus-data.yml"
       - "pythainlp/corpus/**"
-      - "tests/corpus_integrity/**"
+      - "tests/corpus_data/**"
 
 # Avoid duplicate runs for the same source branch and repository
 concurrency:
@@ -50,16 +50,16 @@ jobs:
         env:
           PYTHONIOENCODING: utf-8
         run: |
-          python -m unittest discover -s tests/corpus_integrity -p "test_catalog*.py" -v
+          python -m unittest discover -s tests/corpus_data -p "test_catalog*.py" -v
 
       - name: Test built-in corpus files
         env:
           PYTHONIOENCODING: utf-8
         run: |
-          python -m unittest discover -s tests/corpus_integrity -p "test_builtin_*.py" -v
+          python -m unittest discover -s tests/corpus_data -p "test_builtin_*.py" -v
 
       - name: Test downloadable corpus files
         env:
           PYTHONIOENCODING: utf-8
         run: |
-          python -m unittest discover -s tests/corpus_integrity -p "test_downloadable_*.py" -v
+          python -m unittest discover -s tests/corpus_data -p "test_downloadable_*.py" -v

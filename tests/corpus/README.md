@@ -1,3 +1,8 @@
+SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+SPDX-FileType: DOCUMENTATION
+SPDX-License-Identifier: Apache-2.0
+---
+
 # Corpus test
 
 This directory contains tests that verify the integrity, format,

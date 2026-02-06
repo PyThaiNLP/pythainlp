@@ -2,7 +2,6 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-import io
 import os
 import unittest
 from unittest.mock import mock_open, patch
@@ -124,7 +123,7 @@ class CorpusTestCase(unittest.TestCase):
 "test",50
 """
         mock_path = "/mock/path/oscar_icu"
-        
+
         with patch('pythainlp.corpus.oscar.get_corpus_path', return_value=mock_path):
             with patch('builtins.open', mock_open(read_data=mock_oscar_data)):
                 result = oscar.word_freqs()
@@ -138,7 +137,7 @@ class CorpusTestCase(unittest.TestCase):
                 # Verify quoted values are filtered out
                 for word, _ in result:
                     self.assertNotIn('"', word)
-                
+
                 # Reset mock for unigram test
                 with patch('builtins.open', mock_open(read_data=mock_oscar_data)):
                     result_unigram = oscar.unigram_word_freqs()
@@ -152,17 +151,17 @@ class CorpusTestCase(unittest.TestCase):
         mock_unigram_data = """คน	1000
 ไทย	500
 ภาษา	300"""
-        
+
         # Mock TNC bigram corpus
         mock_bigram_data = """คน	ไทย	100
 ไทย	ภาษา	50
 ภาษา	ไทย	30"""
-        
+
         # Mock TNC trigram corpus
         mock_trigram_data = """คน	ไทย	ภาษา	10
 ไทย	ภาษา	ไทย	5
 ภาษา	ไทย	คน	3"""
-        
+
         # Test unigram functions
         with patch('pythainlp.corpus.tnc.get_corpus', return_value=frozenset(mock_unigram_data.split('\n'))):
             result = tnc.word_freqs()
@@ -171,13 +170,13 @@ class CorpusTestCase(unittest.TestCase):
             self.assertGreater(len(result), 0)
             # Check that at least one expected entry exists (order not guaranteed)
             self.assertIn(("คน", 1000), result)
-            
+
             result_unigram = tnc.unigram_word_freqs()
             self.assertIsNotNone(result_unigram)
             self.assertIsInstance(result_unigram, dict)
             self.assertGreater(len(result_unigram), 0)
             self.assertEqual(result_unigram["คน"], 1000)
-        
+
         # Test bigram function
         mock_bigram_path = "/mock/path/bigram"
         with patch('pythainlp.corpus.tnc.get_corpus_path', return_value=mock_bigram_path):
@@ -187,7 +186,7 @@ class CorpusTestCase(unittest.TestCase):
                 self.assertIsInstance(result_bigram, dict)
                 self.assertGreater(len(result_bigram), 0)
                 self.assertEqual(result_bigram[("คน", "ไทย")], 100)
-        
+
         # Test trigram function
         mock_trigram_path = "/mock/path/trigram"
         with patch('pythainlp.corpus.tnc.get_corpus_path', return_value=mock_trigram_path):
@@ -203,7 +202,7 @@ class CorpusTestCase(unittest.TestCase):
         mock_ttc_data = """คน	1000
 ไทย	500
 ภาษา	300"""
-        
+
         with patch('pythainlp.corpus.ttc.get_corpus', return_value=frozenset(mock_ttc_data.split('\n'))):
             result = ttc.word_freqs()
             self.assertIsNotNone(result)
@@ -211,7 +210,7 @@ class CorpusTestCase(unittest.TestCase):
             self.assertGreater(len(result), 0)
             # Check that at least one expected entry exists (order not guaranteed)
             self.assertIn(("คน", 1000), result)
-            
+
             result_unigram = ttc.unigram_word_freqs()
             self.assertIsNotNone(result_unigram)
             self.assertIsInstance(result_unigram, dict)

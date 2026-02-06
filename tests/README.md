@@ -191,7 +191,7 @@ when changes are made to `pythainlp/corpus/**` or `tests/corpus_integrity/**`.
 
 **Run corpus integrity tests:**
 ```shell
-unittest tests.corpus_integrity
+python -m unittest tests.corpus_integrity
 ```
 
 Or run specific test files:

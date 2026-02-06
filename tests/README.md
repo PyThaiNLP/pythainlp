@@ -189,7 +189,8 @@ For detailed information about corpus test, see:
 The corpus test is triggered automatically via GitHub Actions
 when changes are made to `pythainlp/corpus/**` or `tests/corpus/**`.
 
-**Run corpus test:**
+Run corpus test:
+
 ```shell
 python -m unittest tests.corpus
 ```

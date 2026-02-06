@@ -7,7 +7,7 @@ import unittest
 from pythainlp.lm import Qwen3
 
 
-class LMTestCaseX(unittest.TestCase):
+class LMTestCaseN(unittest.TestCase):
     def test_qwen3_initialization(self):
         # Test that Qwen3 can be instantiated
         try:

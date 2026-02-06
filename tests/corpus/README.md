@@ -13,9 +13,9 @@ These tests are separate from regular unit tests because:
 4. They test corpus catalog download and query functionality
 5. They should only run when corpus files or corpus code changes
 
-## Test Categories
+## Test categories
 
-### Corpus Catalog Tests (`test_catalog.py`)
+### Corpus catalog tests (`test_catalog.py`)
 
 Tests corpus catalog functionality:
 
@@ -25,7 +25,7 @@ Tests corpus catalog functionality:
 - Querying specific corpus details
 - Version information validation
 
-### Built-in Corpus Tests (`test_builtin_corpus.py`)
+### Built-in corpus tests (`test_builtin_corpus.py`)
 
 Tests corpus files that are included in the package:
 
@@ -34,7 +34,7 @@ Tests corpus files that are included in the package:
 - Frequency data (TNC, TTC)
 - Name lists (family names, person names)
 
-### Downloadable Corpus Tests (`test_downloadable_corpus.py`)
+### Downloadable corpus tests (`test_downloadable_corpus.py`)
 
 Tests corpus files that need to be downloaded:
 
@@ -44,7 +44,7 @@ Tests corpus files that need to be downloaded:
 This test will take longer time than others due to
 size of the downloads.
 
-## Running Tests
+## Running tests
 
 Run all corpus tests:
 
@@ -70,25 +70,30 @@ Run only downloadable corpus tests:
 python -m unittest tests.corpus.test_downloadable_corpus -v
 ```
 
-## CI Integration
+## CI integration
 
-The corpus test runs automatically via GitHub Actions workflow (`.github/workflows/corpus.yml`) when:
+The corpus test runs automatically via
+GitHub Actions workflow (`.github/workflows/corpus.yml`) when:
+
 - Changes are made to `pythainlp/corpus/**`
 - Changes are made to `tests/corpus/**`
 - The workflow file itself is modified
 
-## What is Tested
+## What is tested
 
 Each test verifies:
 
 1. **Loadability**: File can be loaded without errors
-2. **Type correctness**: Returns expected data type (frozenset, list, dict)
-3. **Non-empty**: Contains actual data
-4. **Format validity**: Data structure matches expected format
-5. **Content validity**: Contains expected content (e.g., Thai characters)
-6. **Catalog functionality**: Catalog can be downloaded and queried correctly
+2. **Type correctness**: Returns expected data type
+   (frozenset, list, dict)
+4. **Non-empty**: Contains actual data
+5. **Format validity**: Data structure matches expected format
+6. **Content validity**: Contains expected content
+   (e.g., Thai characters)
+8. **Catalog functionality**: Catalog can be downloaded
+   and queried correctly
 
-## Adding New Tests
+## Adding new tests
 
 When adding a new corpus file or function to `pythainlp.corpus`:
 
@@ -97,9 +102,11 @@ When adding a new corpus file or function to `pythainlp.corpus`:
 3. Add a test to `test_catalog.py` if it involves catalog operations
 4. Verify the test catches format errors by temporarily breaking the corpus
 
-## Relationship to Unit Tests
+## Relationship to unit tests
 
-- **Unit tests** (`tests/core/test_corpus.py`): Use mocks for speed, test code logic
-- **Corpus test** (this directory): Use real data, test file integrity and catalog
+- **Unit tests** (`tests/core/test_corpus.py`):
+  Use mocks for speed, test code logic
+- **Corpus test** (this directory):
+  Use real data, test file integrity and catalog
 
 Both test suites are important and complementary.

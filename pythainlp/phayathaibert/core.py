@@ -218,7 +218,7 @@ class ThaiTextAugmenter:
             pipeline,
         )
 
-        self.tokenizer: "AutoTokenizer" = AutoTokenizer.from_pretrained(
+        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(
             _model_name
         )
         self.model_for_masked_lm: "AutoModelForMaskedLM" = (

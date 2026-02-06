@@ -144,6 +144,8 @@ class Qwen3:
                 "text parameter must be a non-empty string."
             )
 
+        import torch
+
         inputs = self.tokenizer(text, return_tensors="pt")
         input_ids = inputs["input_ids"].to(self.device)
 
@@ -229,6 +231,8 @@ class Qwen3:
                 content = str(msg.get("content", ""))
                 lines.append(f"{role}: {content}")
             text = "\n".join(lines) + "\nassistant: "
+
+        import torch
 
         inputs = self.tokenizer(text, return_tensors="pt")
         input_ids = inputs["input_ids"].to(self.device)

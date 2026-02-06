@@ -3,7 +3,7 @@
   <h1>PyThaiNLP: Thai Natural Language Processing in Python</h1>
   <a href="https://www.repostatus.org/#active"><img alt="Project Status: Active – The project has reached a stable, usable state and is being actively developed." src="https://www.repostatus.org/badges/latest/active.svg"/></a>
   <a href="https://pypi.python.org/pypi/pythainlp"><img alt="pypi" src="https://img.shields.io/pypi/v/pythainlp.svg"/></a>
-  <a href="https://www.python.org/downloads/"><img alt="Python 3.9" src="https://img.shields.io/badge/python-3.9-blue.svg"/></a>
+  <a href="https://www.python.org/downloads/"><img alt="Python 3.10" src="https://img.shields.io/badge/python-3.10-blue.svg"/></a>
   <a href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"/></a>
   <a href="https://www.codacy.com/gh/PyThaiNLP/pythainlp/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/5821a0de122041c79999bbb280230ffb"/></a>
   <a href="https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev"><img alt="Coverage Status" src="https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev"/></a>
@@ -88,7 +88,7 @@ pip install pythainlp[extra1,extra2,...]
 - `compact` (ติดตั้งไลบารีชุดเล็กที่ทดสอบแล้วว่าไม่ตีกันเองและติดตั้งได้ในทุกระบบปฏิบัติการ)
 - `abbreviation` (สำหรับการย่อคำภาษาไทย)
 - `attacut` (เพื่อสนับสนุน attacut ซึ่งเป็นตัวตัดคำที่ทำงานได้รวดเร็วและมีประสิทธิภาพ)
-- `benchmarks` (สำหรับ [word tokenization benchmarking](tokenization-benchmark.md))
+- `benchmarks` (สำหรับทดสอบความแม่นยำของการตัดคำ)
 - `budoux` (สำหรับการแบ่งข้อความด้วย BudouX)
 - `coreference_resolution` (สำหรับการหาคำที่อ้างอิงถึงกัน)
 - `dependency_parsing` (สำหรับการวิเคราะห์โครงสร้างประโยค)
@@ -123,7 +123,8 @@ pip install pythainlp[extra1,extra2,...]
 
 </details>
 
-สำหรับโมดูลที่ต้องการ สามารถดูรายละเอียดได้ที่ส่วน `[project.optional-dependencies]` ใน [`pyproject.toml`](https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml).
+สำหรับโมดูลที่ต้องการ สามารถดูรายละเอียดได้ที่ส่วน `[project.optional-dependencies]`
+ใน [`pyproject.toml`](https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml).
 
 ## Command-line
 
@@ -143,7 +144,9 @@ thainlp help
 
 ## ผู้ใช้งาน Python 2
 
-- PyThaiNLP สนับสนุน Python 3.9 ขึ้นไป บางความสามารถ สามารถใช้งานกับ Python 3 รุ่นก่อนหน้าได้ แต่ไม่ได้มีการทดสอบว่าใช้งานได้หรือไม่ อ่านเพิ่มเติม [1.7 -> 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
+- PyThaiNLP สนับสนุน Python 3.10 ขึ้นไป บางความสามารถ สามารถใช้งานกับ Python 3 รุ่นก่อนหน้าได้
+  แต่ไม่ได้มีการทดสอบว่าใช้งานได้หรือไม่
+  อ่านเพิ่มเติม [1.7 -> 2.0 change log](https://github.com/PyThaiNLP/pythainlp/issues/118).
   - [Upgrading from 1.7](https://pythainlp.org/docs/2.0/notes/pythainlp-1_7-2_0.html)
   - [Upgrade ThaiNER from 1.7](https://github.com/PyThaiNLP/pythainlp/wiki/Upgrade-ThaiNER-from-PyThaiNLP-1.7-to-PyThaiNLP-2.0)
 - ผู้ใช้งาน Python 2.7 สามารถใช้งาน PyThaiNLP 1.6

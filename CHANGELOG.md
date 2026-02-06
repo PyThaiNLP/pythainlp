@@ -34,6 +34,7 @@ See PR for prompt and details.
 - Make package zip-safe #1212
 - Ensure thread-safety for tokenizers #1213
 - Add Thai-NNER integration with top-level entity filtering #1221
+- Reorganize noauto test suite by dependency groups (torch, tensorflow, onnx, cython, network) #935
 - Improved documentation; code cleanup; more tests
 
 ## Version 5.1.2 -> 5.2.0

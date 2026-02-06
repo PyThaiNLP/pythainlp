@@ -169,20 +169,34 @@ for real-world usage:
 - Multi-engine robustness testing across all core tokenization engines
 - Very long strings that can cause performance issues (issue #893)
 
-## Corpus integrity tests (corpus_integrity/)
+## Corpus data tests (corpus_integrity/)
 
-A separate test suite that verifies the integrity, format, and parseability
-of corpus files in PyThaiNLP. These tests are separate from regular unit tests
-because they test actual file loading and parsing (not mocked) and downloadable
-corpus tests require network access.
+A separate test suite that verifies the integrity, format, parseability, and catalog
+functionality of corpus data in PyThaiNLP. These tests are separate from regular unit tests
+because they test actual file loading and parsing (not mocked), downloadable corpus tests
+require network access, and they verify corpus catalog operations.
 
-For detailed information about corpus integrity tests, see:
+For detailed information about corpus data tests, see:
 [tests/corpus_integrity/README.md](corpus_integrity/README.md)
 
-The corpus integrity tests are triggered automatically via GitHub Actions
+The corpus data tests are triggered automatically via GitHub Actions
 when changes are made to `pythainlp/corpus/**` or `tests/corpus_integrity/**`.
 
-**Run corpus integrity tests:**
+**Key characteristics:**
+- Tests actual file loading and parsing (not mocked)
+- Verifies corpus data format and structure
+- Tests corpus catalog download and query
+- Only runs when corpus files or corpus code changes
+- Includes tests for both built-in and downloadable corpus files
+
+**Run corpus data tests:**
 ```shell
 python -m unittest tests.corpus_integrity
+```
+
+Or run specific test files:
+```shell
+python -m unittest tests.corpus_integrity.test_catalog
+python -m unittest tests.corpus_integrity.test_builtin_corpus
+python -m unittest tests.corpus_integrity.test_downloadable_corpus
 ```

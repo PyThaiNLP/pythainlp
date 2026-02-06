@@ -1,6 +1,6 @@
-# Corpus Integrity Tests
+# Corpus Data Tests
 
-This directory contains tests that verify the integrity, format, and parseability of corpus files in PyThaiNLP.
+This directory contains tests that verify the integrity, format, parseability, and catalog functionality of corpus data in PyThaiNLP.
 
 ## Purpose
 
@@ -8,9 +8,21 @@ These tests are separate from regular unit tests because:
 1. They test actual file loading and parsing (not mocked)
 2. Downloadable corpus tests require network access and can be slow
 3. They verify corpus data format and structure
-4. They should only run when corpus files or corpus code changes
+4. They test corpus catalog download and query functionality
+5. They should only run when corpus files or corpus code changes
 
 ## Test Categories
+
+### Corpus Catalog Tests (`test_catalog.py`)
+
+Tests corpus catalog functionality:
+- Catalog download from remote server
+- Catalog URL and path validation
+- Catalog JSON structure verification
+- Querying specific corpus details
+- Version information validation
+
+**Run time:** < 1 second
 
 ### Built-in Corpus Tests (`test_builtin_corpus.py`)
 
@@ -32,9 +44,14 @@ Tests corpus files that need to be downloaded:
 
 ## Running Tests
 
-### Run all corpus integrity tests:
+### Run all corpus data tests:
 ```bash
 python -m unittest discover -s tests/corpus_integrity -v
+```
+
+### Run only catalog tests:
+```bash
+python -m unittest tests.corpus_integrity.test_catalog -v
 ```
 
 ### Run only built-in corpus tests:
@@ -49,7 +66,7 @@ python -m unittest tests.corpus_integrity.test_downloadable_corpus -v
 
 ## CI Integration
 
-The corpus integrity tests run automatically via GitHub Actions workflow (`.github/workflows/corpus-integrity.yml`) when:
+The corpus data tests run automatically via GitHub Actions workflow (`.github/workflows/corpus-data.yml`) when:
 - Changes are made to `pythainlp/corpus/**`
 - Changes are made to `tests/corpus_integrity/**`
 - The workflow file itself is modified
@@ -62,17 +79,19 @@ Each test verifies:
 3. **Non-empty**: Contains actual data
 4. **Format validity**: Data structure matches expected format
 5. **Content validity**: Contains expected content (e.g., Thai characters)
+6. **Catalog functionality**: Catalog can be downloaded and queried correctly
 
 ## Adding New Tests
 
 When adding a new corpus file or function to `pythainlp.corpus`:
 1. Add a test to `test_builtin_corpus.py` if it's included in the package
 2. Add a test to `test_downloadable_corpus.py` if it requires download
-3. Verify the test catches format errors by temporarily breaking the corpus
+3. Add a test to `test_catalog.py` if it involves catalog operations
+4. Verify the test catches format errors by temporarily breaking the corpus
 
 ## Relationship to Unit Tests
 
 - **Unit tests** (`tests/core/test_corpus.py`): Use mocks for speed, test code logic
-- **Corpus integrity tests** (this directory): Use real data, test file integrity
+- **Corpus data tests** (this directory): Use real data, test file integrity and catalog
 
 Both test suites are important and complementary.

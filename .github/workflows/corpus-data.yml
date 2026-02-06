@@ -1,19 +1,19 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 
-name: Corpus Integrity Test
+name: Corpus Data Test
 
 on:
   push:
     paths:
-      - ".github/workflows/corpus-integrity.yml"
+      - ".github/workflows/corpus-data.yml"
       - "pythainlp/corpus/**"
       - "tests/corpus_integrity/**"
   pull_request:
     branches:
       - dev
     paths:
-      - ".github/workflows/corpus-integrity.yml"
+      - ".github/workflows/corpus-data.yml"
       - "pythainlp/corpus/**"
       - "tests/corpus_integrity/**"
 
@@ -26,7 +26,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  corpus-integrity:
+  corpus-data:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -45,6 +45,12 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install .
+
+      - name: Test corpus catalog
+        env:
+          PYTHONIOENCODING: utf-8
+        run: |
+          python -m unittest discover -s tests/corpus_integrity -p "test_catalog*.py" -v
 
       - name: Test built-in corpus files
         env:

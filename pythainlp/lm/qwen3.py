@@ -48,8 +48,14 @@ class Qwen3:
             model = Qwen3()
             model.load_model(device="cpu", torch_dtype=torch.bfloat16)
         """
-        import torch
-        from transformers import AutoModelForCausalLM, AutoTokenizer
+        try:
+            import torch
+            from transformers import AutoModelForCausalLM, AutoTokenizer
+        except (ImportError, ModuleNotFoundError) as exc:
+            raise ImportError(
+                "Qwen3 language model requires optional dependencies. "
+                "Install them with: pip install 'pythainlp[qwen3]'"
+            ) from exc
 
         # Set default torch_dtype if not provided
         if torch_dtype is None:
@@ -144,7 +150,13 @@ class Qwen3:
                 "text parameter must be a non-empty string."
             )
 
-        import torch
+        try:
+            import torch
+        except (ImportError, ModuleNotFoundError) as exc:
+            raise ImportError(
+                "Qwen3 language model requires optional dependencies. "
+                "Install them with: pip install 'pythainlp[qwen3]'"
+            ) from exc
 
         inputs = self.tokenizer(text, return_tensors="pt")
         input_ids = inputs["input_ids"].to(self.device)
@@ -232,7 +244,13 @@ class Qwen3:
                 lines.append(f"{role}: {content}")
             text = "\n".join(lines) + "\nassistant: "
 
-        import torch
+        try:
+            import torch
+        except (ImportError, ModuleNotFoundError) as exc:
+            raise ImportError(
+                "Qwen3 language model requires optional dependencies. "
+                "Install them with: pip install 'pythainlp[qwen3]'"
+            ) from exc
 
         inputs = self.tokenizer(text, return_tensors="pt")
         input_ids = inputs["input_ids"].to(self.device)

@@ -182,21 +182,7 @@ For detailed information about corpus data tests, see:
 The corpus data tests are triggered automatically via GitHub Actions
 when changes are made to `pythainlp/corpus/**` or `tests/corpus_integrity/**`.
 
-**Key characteristics:**
-- Tests actual file loading and parsing (not mocked)
-- Verifies corpus data format and structure
-- Tests corpus catalog download and query
-- Only runs when corpus files or corpus code changes
-- Includes tests for both built-in and downloadable corpus files
-
 **Run corpus data tests:**
 ```shell
 python -m unittest tests.corpus_integrity
-```
-
-Or run specific test files:
-```shell
-python -m unittest tests.corpus_integrity.test_catalog
-python -m unittest tests.corpus_integrity.test_builtin_corpus
-python -m unittest tests.corpus_integrity.test_downloadable_corpus
 ```

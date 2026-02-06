@@ -35,9 +35,12 @@ class CliTestCase(unittest.TestCase):
             with self.assertRaises((ArgumentError, SystemExit)):
                 __main__.main(["thainlp", "NOT_EXIST", "command"])
 
-            # Test a valid command that should succeed (returns None)
-            # The assertion verifies the command completes without raising an exception
-            self.assertIsNone(__main__.main(["thainlp", "data", "path"]))
+            # Test a valid command - should not raise an exception
+            # (main() returns None on success, raises SystemExit on failure)
+            try:
+                __main__.main(["thainlp", "data", "path"])
+            except SystemExit:
+                self.fail("Valid command should not raise SystemExit")
 
     def test_cli_data(self):
         self.assertTrue(hasattr(cli, "data"))

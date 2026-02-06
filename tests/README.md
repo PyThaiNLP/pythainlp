@@ -169,20 +169,20 @@ for real-world usage:
 - Multi-engine robustness testing across all core tokenization engines
 - Very long strings that can cause performance issues (issue #893)
 
-## Corpus data tests (corpus_data/)
+## Corpus test (corpus/)
 
 A separate test suite that verifies the integrity, format, parseability, and catalog
-functionality of corpus data in PyThaiNLP. These tests are separate from regular unit tests
+functionality of corpus in PyThaiNLP. These tests are separate from regular unit tests
 because they test actual file loading and parsing (not mocked), downloadable corpus tests
 require network access, and they verify corpus catalog operations.
 
-For detailed information about corpus data tests, see:
-[tests/corpus_data/README.md](corpus_data/README.md)
+For detailed information about corpus test, see:
+[tests/corpus/README.md](corpus/README.md)
 
-The corpus data tests are triggered automatically via GitHub Actions
-when changes are made to `pythainlp/corpus/**` or `tests/corpus_data/**`.
+The corpus test is triggered automatically via GitHub Actions
+when changes are made to `pythainlp/corpus/**` or `tests/corpus/**`.
 
-**Run corpus data tests:**
+**Run corpus test:**
 ```shell
-python -m unittest tests.corpus_data
+python -m unittest tests.corpus
 ```

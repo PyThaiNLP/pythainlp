@@ -1,7 +1,7 @@
-# Corpus data tests
+# Corpus test
 
 This directory contains tests that verify the integrity, format,
-parseability, and catalog functionality of corpus data in PyThaiNLP.
+parseability, and catalog functionality of corpus in PyThaiNLP.
 
 ## Purpose
 
@@ -9,7 +9,7 @@ These tests are separate from regular unit tests because:
 
 1. They test actual file loading and parsing (not mocked)
 2. Downloadable corpus tests require network access and can be slow
-3. They verify corpus data format and structure
+3. They verify corpus format and structure
 4. They test corpus catalog download and query functionality
 5. They should only run when corpus files or corpus code changes
 
@@ -46,35 +46,35 @@ size of the downloads.
 
 ## Running Tests
 
-Run all corpus data tests:
+Run all corpus tests:
 
 ```bash
-python -m unittest discover -s tests/corpus_data -v
+python -m unittest discover -s tests/corpus -v
 ```
 
 Run only catalog tests:
 
 ```bash
-python -m unittest tests.corpus_data.test_catalog -v
+python -m unittest tests.corpus.test_catalog -v
 ```
 
 Run only built-in corpus tests:
 
 ```bash
-python -m unittest tests.corpus_data.test_builtin_corpus -v
+python -m unittest tests.corpus.test_builtin_corpus -v
 ```
 
 Run only downloadable corpus tests:
 
 ```bash
-python -m unittest tests.corpus_data.test_downloadable_corpus -v
+python -m unittest tests.corpus.test_downloadable_corpus -v
 ```
 
 ## CI Integration
 
-The corpus data tests run automatically via GitHub Actions workflow (`.github/workflows/corpus-data.yml`) when:
+The corpus test runs automatically via GitHub Actions workflow (`.github/workflows/corpus.yml`) when:
 - Changes are made to `pythainlp/corpus/**`
-- Changes are made to `tests/corpus_data/**`
+- Changes are made to `tests/corpus/**`
 - The workflow file itself is modified
 
 ## What is Tested
@@ -100,6 +100,6 @@ When adding a new corpus file or function to `pythainlp.corpus`:
 ## Relationship to Unit Tests
 
 - **Unit tests** (`tests/core/test_corpus.py`): Use mocks for speed, test code logic
-- **Corpus data tests** (this directory): Use real data, test file integrity and catalog
+- **Corpus test** (this directory): Use real data, test file integrity and catalog
 
 Both test suites are important and complementary.

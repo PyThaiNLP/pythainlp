@@ -1,21 +1,21 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 
-name: Corpus Data Test
+name: Corpus Test
 
 on:
   push:
     paths:
-      - ".github/workflows/corpus-data.yml"
+      - ".github/workflows/corpus.yml"
       - "pythainlp/corpus/**"
-      - "tests/corpus_data/**"
+      - "tests/corpus/**"
   pull_request:
     branches:
       - dev
     paths:
-      - ".github/workflows/corpus-data.yml"
+      - ".github/workflows/corpus.yml"
       - "pythainlp/corpus/**"
-      - "tests/corpus_data/**"
+      - "tests/corpus/**"
 
 # Avoid duplicate runs for the same source branch and repository
 concurrency:
@@ -26,7 +26,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  corpus-data:
+  corpus:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -50,16 +50,16 @@ jobs:
         env:
           PYTHONIOENCODING: utf-8
         run: |
-          python -m unittest discover -s tests/corpus_data -p "test_catalog*.py" -v
+          python -m unittest discover -s tests/corpus -p "test_catalog*.py" -v
 
       - name: Test built-in corpus files
         env:
           PYTHONIOENCODING: utf-8
         run: |
-          python -m unittest discover -s tests/corpus_data -p "test_builtin_*.py" -v
+          python -m unittest discover -s tests/corpus -p "test_builtin_*.py" -v
 
       - name: Test downloadable corpus files
         env:
           PYTHONIOENCODING: utf-8
         run: |
-          python -m unittest discover -s tests/corpus_data -p "test_downloadable_*.py" -v
+          python -m unittest discover -s tests/corpus -p "test_downloadable_*.py" -v

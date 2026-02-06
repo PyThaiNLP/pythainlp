@@ -1,6 +1,7 @@
-# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
-# SPDX-FileType: DOCUMENTATION
-# SPDX-License-Identifier: Apache-2.0
+SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+SPDX-FileType: DOCUMENTATION
+SPDX-License-Identifier: Apache-2.0
+---
 
 # Test suites and execution
 

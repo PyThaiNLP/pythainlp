@@ -4,9 +4,8 @@
 
 __all__: list[str] = ["calculate_ngram_counts", "remove_repeated_ngrams", "Qwen3"]
 
+from pythainlp.lm.qwen3 import Qwen3
 from pythainlp.lm.text_util import (
     calculate_ngram_counts,
     remove_repeated_ngrams,
 )
-
-from pythainlp.lm.qwen3 import Qwen3

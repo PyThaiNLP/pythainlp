@@ -111,7 +111,7 @@ class BuiltinCorpusIntegrityTestCase(unittest.TestCase):
         result = provinces()
         self.assertIsInstance(result, frozenset)
         self.assertGreater(len(result), 0)
-        
+
         # Test with details
         result_details = provinces(details=True)
         self.assertIsInstance(result_details, list)
@@ -146,7 +146,7 @@ class BuiltinCorpusIntegrityTestCase(unittest.TestCase):
             self.assertEqual(len(item), 2)
             self.assertIsInstance(item[0], str)
             self.assertIsInstance(item[1], int)
-        
+
         # Test unigram version
         result_unigram = ttc.unigram_word_freqs()
         self.assertIsInstance(result_unigram, dict)

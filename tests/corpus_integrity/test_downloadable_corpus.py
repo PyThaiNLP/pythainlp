@@ -24,7 +24,7 @@ class DownloadableCorpusIntegrityTestCase(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
-        
+
         # Verify format: list of (word, frequency) tuples
         for item in result[:10]:  # Check first 10 items
             self.assertIsInstance(item, tuple)
@@ -32,13 +32,13 @@ class DownloadableCorpusIntegrityTestCase(unittest.TestCase):
             self.assertIsInstance(item[0], str)
             self.assertIsInstance(item[1], int)
             self.assertGreater(item[1], 0)
-        
+
         # Test unigram_word_freqs
         result_unigram = oscar.unigram_word_freqs()
         self.assertIsNotNone(result_unigram)
         self.assertIsInstance(result_unigram, dict)
         self.assertGreater(len(result_unigram), 0)
-        
+
         # Verify dict values are integers
         for word, freq in list(result_unigram.items())[:10]:
             self.assertIsInstance(word, str)
@@ -51,14 +51,14 @@ class DownloadableCorpusIntegrityTestCase(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertIsInstance(result, list)
         self.assertGreater(len(result), 0)
-        
+
         # Verify format
         for item in result[:10]:
             self.assertIsInstance(item, tuple)
             self.assertEqual(len(item), 2)
             self.assertIsInstance(item[0], str)
             self.assertIsInstance(item[1], int)
-        
+
         # Test unigram version
         result_unigram = tnc.unigram_word_freqs()
         self.assertIsNotNone(result_unigram)
@@ -71,7 +71,7 @@ class DownloadableCorpusIntegrityTestCase(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertIsInstance(result, dict)
         self.assertGreater(len(result), 0)
-        
+
         # Verify format: dict with tuple keys (word1, word2) -> frequency
         for key, freq in list(result.items())[:10]:
             self.assertIsInstance(key, tuple)
@@ -87,7 +87,7 @@ class DownloadableCorpusIntegrityTestCase(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertIsInstance(result, dict)
         self.assertGreater(len(result), 0)
-        
+
         # Verify format: dict with tuple keys (word1, word2, word3) -> frequency
         for key, freq in list(result.items())[:10]:
             self.assertIsInstance(key, tuple)

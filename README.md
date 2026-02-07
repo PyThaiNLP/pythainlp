@@ -99,12 +99,12 @@ for guidelines and algorithm references.
 
 ## Citations
 
-If you use `PyThaiNLP` in your project or publication,
-please cite the library as follows:
+If you use `PyThaiNLP` library in your project,
+please cite the software as follows:
 
 > Phatthiyaphaibun, Wannaphong, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, and Pattarawat Chormai. “Pythainlp: Thai Natural Language Processing in Python”. Zenodo, 2 June 2024. <http://doi.org/10.5281/zenodo.3519354>.
 
-or by BibTeX entry:
+with this BibTeX entry:
 
 ```bibtex
 @software{pythainlp,
@@ -124,11 +124,12 @@ or by BibTeX entry:
 }
 ```
 
-Our [NLP-OSS 2023](https://nlposs.github.io/2023/) paper:
+To cite our [NLP-OSS 2023](https://nlposs.github.io/2023/) academic paper,
+please cite the paper as follows:
 
 > Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, Pattarawat Chormai, Peerat Limkonchotiwat, Thanathip Suntorntip, and Can Udomcharoenchaikit. 2023. [PyThaiNLP: Thai Natural Language Processing in Python.](https://aclanthology.org/2023.nlposs-1.4) In Proceedings of the 3rd Workshop for Natural Language Processing Open Source Software (NLP-OSS 2023), pages 25–36, Singapore, Singapore. Empirical Methods in Natural Language Processing.
 
-and its BibTeX entry:
+with this BibTeX entry:
 
 ```bibtex
 @inproceedings{phatthiyaphaibun-etal-2023-pythainlp,

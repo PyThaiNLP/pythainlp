@@ -1,3 +1,4 @@
+---
 SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 SPDX-FileType: DOCUMENTATION
 SPDX-License-Identifier: Apache-2.0
@@ -88,11 +89,13 @@ on their dependency requirements.
 
 Different ML/AI frameworks often have conflicting version requirements for
 their dependencies. For example:
+
 - PyTorch and TensorFlow may require different versions of numpy or protobuf
 - Large frameworks take significant time to install (~1-3 GB each)
 - Some packages require Cython compilation or system libraries
 
 By separating tests by dependency group, we can:
+
 - Test each framework independently without conflicts
 - Optimize CI/CD resources by running only relevant test groups
 - Make it easier for developers to test specific functionality
@@ -106,9 +109,9 @@ By separating tests by dependency group, we can:
 - Use this for comprehensive testing when all dependencies are available
 - Test case class suffix: `TestCaseN`
 
-#### Modular suites by dependency:
+#### Modular suites by dependency
 
-**PyTorch-based: tests.noauto_torch**
+##### PyTorch-based: tests.noauto_torch
 
 - Run `unittest tests.noauto_torch`
   - Need dependencies from `pip install "pythainlp[noauto-torch]"`
@@ -121,7 +124,7 @@ By separating tests by dependency group, we can:
 - Dependencies: ~2-3 GB
 - Test case class suffix: `TestCaseN`
 
-**TensorFlow-based: tests.noauto_tensorflow**
+##### TensorFlow-based: tests.noauto_tensorflow
 
 - Run `unittest tests.noauto_tensorflow`
   - Need dependencies from `pip install "pythainlp[noauto-tensorflow]"`
@@ -131,7 +134,7 @@ By separating tests by dependency group, we can:
 - Note: May conflict with PyTorch dependencies
 - Test case class suffix: `TestCaseN`
 
-**ONNX Runtime-based: tests.noauto_onnx**
+##### ONNX Runtime-based: tests.noauto_onnx
 
 - Run `unittest tests.noauto_onnx`
   - Need dependencies from `pip install "pythainlp[noauto-onnx]"`
@@ -140,7 +143,7 @@ By separating tests by dependency group, we can:
 - Dependencies: ~200-500 MB
 - Test case class suffix: `TestCaseN`
 
-**Cython-compiled: tests.noauto_cython**
+##### Cython-compiled: tests.noauto_cython
 
 - Run `unittest tests.noauto_cython`
   - Need dependencies from `pip install "pythainlp[noauto-cython]"`
@@ -150,12 +153,12 @@ By separating tests by dependency group, we can:
 - Platform-specific build requirements
 - Test case class suffix: `TestCaseN`
 
-**Network-dependent: tests.noauto_network**
+##### Network-dependent: tests.noauto_network
 
 - Run `unittest tests.noauto_network`
   - Need dependencies from `pip install "pythainlp[noauto-network]"`
 - Tests requiring network access:
-  - HuggingFace Hub model downloads
+  - Hugging Face Hub model downloads
   - External API calls
 - Requires: Internet connection, may involve large downloads
 - Test case class suffix: `TestCaseN`

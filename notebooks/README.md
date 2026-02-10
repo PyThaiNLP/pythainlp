@@ -6,7 +6,10 @@ SPDX-License-Identifier: CC0-1.0
 
 # PyThaiNLP development notebooks
 
-This directory contains Jupyter notebooks used for **development and testing purposes**. These notebooks are **not** intended for end-users and are primarily used by developers to:
+This directory contains Jupyter notebooks used for
+**development and testing purposes**.
+These notebooks are **not** intended for end-users
+and are primarily used by developers to:
 
 - Test new features and models
 - Develop ONNX model conversions
@@ -31,19 +34,26 @@ These notebooks test specific module functionality:
 
 These notebooks are used for building and preparing models:
 
-- `convert_thai2rom_to_onnx.ipynb` - Convert Thai romanization models to ONNX format
-- `clean_dict.ipynb` - Dictionary cleaning and preprocessing
+- `convert_thai2rom_to_onnx.ipynb` -
+  Convert Thai romanization models to ONNX format
+- `clean_dict.ipynb` -
+  Dictionary cleaning and preprocessing
 - `create_words.ipynb` - Word list creation and curation
 - `word_detokenize.ipynb` - Testing word detokenization
 
 ## For end-users
 
-If you're looking for examples and tutorials on how to use PyThaiNLP, please visit:
+If you're looking for examples and tutorials on
+how to use PyThaiNLP, please visit:
 
-- **Official Tutorials**: <https://pythainlp.org/tutorials>
-- **Get Started Guide**: <https://pythainlp.org/tutorials/notebooks/pythainlp_get_started.html>
-- **Documentation**: <https://pythainlp.org/docs>
-- **Example Scripts**: See the `/examples` directory in the repository root
+- **Official Tutorials**:
+  <https://pythainlp.org/tutorials>
+- **Get Started Guide**:
+  <https://pythainlp.org/tutorials/notebooks/pythainlp_get_started.html>
+- **Documentation**:
+  <https://pythainlp.org/docs>
+- **Example Scripts**:
+  See the `/examples` directory in the repository root
 
 ## Note
 

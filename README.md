@@ -104,7 +104,7 @@ please cite the software as follows:
 
 > Phatthiyaphaibun, Wannaphong, Korakot Chaovavanich, Charin Polpanumas,
 > Arthit Suriyawongkul, Lalita Lowphansirikul, and Pattarawat Chormai.
-> “Pythainlp: Thai Natural Language Processing in Python”.
+> “PyThaiNLP: Thai Natural Language Processing in Python”.
 > Zenodo, 2 June 2024. <http://doi.org/10.5281/zenodo.3519354>.
 
 with this BibTeX entry:

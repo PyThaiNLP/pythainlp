@@ -1,3 +1,4 @@
+---
 SPDX-FileCopyrightText: 2026 PyThaiNLP Project
 SPDX-FileType: DOCUMENTATION
 SPDX-License-Identifier: Apache-2.0
@@ -91,11 +92,11 @@ Each test verifies:
 1. **Loadability**: File can be loaded without errors
 2. **Type correctness**: Returns expected data type
    (frozenset, list, dict)
-4. **Non-empty**: Contains actual data
-5. **Format validity**: Data structure matches expected format
-6. **Content validity**: Contains expected content
+3. **Non-empty**: Contains actual data
+4. **Format validity**: Data structure matches expected format
+5. **Content validity**: Contains expected content
    (e.g., Thai characters)
-8. **Catalog functionality**: Catalog can be downloaded
+6. **Catalog functionality**: Catalog can be downloaded
    and queried correctly
 
 ## Adding new tests

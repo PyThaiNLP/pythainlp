@@ -144,9 +144,15 @@ class BenchmarksTestCaseX(unittest.TestCase):
         self.assertIn("bleu", score_longest)
 
     def test_bleu_score_lowercase(self):
-        """Test BLEU score with lowercase option."""
-        references = ["ABC DEF GHI JKL"]
-        hypotheses = ["abc def ghi jkl"]
+        """Test BLEU score with lowercase option.
+        
+        Note: This test uses mixed Thai and English text since the lowercase
+        parameter is primarily useful for languages with case distinctions.
+        Thai doesn't have case, so this is relevant when processing mixed
+        Thai-English content or for multilingual applications.
+        """
+        references = ["Hello สวัสดี World โลก"]
+        hypotheses = ["hello สวัสดี world โลก"]
 
         score_no_lower = bleu_score(references, hypotheses, lowercase=False)
         score_lower = bleu_score(references, hypotheses, lowercase=True)

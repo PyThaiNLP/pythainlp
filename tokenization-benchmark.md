@@ -9,7 +9,7 @@ as well as a module interface for use in development pipelines.
 ## Metrics
 
 <div align="center">
-    <img src="https://i.imgur.com/jVBOLa2.png"/>
+    <img alt="Metrics overview" src="https://i.imgur.com/jVBOLa2.png"/>
 </div>
 
 ### Character-Level (CL)

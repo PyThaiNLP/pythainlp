@@ -215,7 +215,7 @@
       as much as possible.
   - [ ] Follow best practices and standard Python type hint patterns.
   - [ ] Use mypy as an assistant.
-    - [ ] mypy is in "dev" optional dependency. 
+    - [ ] mypy is in "dev" optional dependency.
     - [ ] Sometimes mypy may report errors wrongly due to cache issues.
           Try to reset the cache if unexpected errors occured.
   - [ ] Use pyright, pyrefly, and pytype for second opinions.

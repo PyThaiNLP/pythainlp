@@ -23,6 +23,7 @@ Added official support and CI testing for Python 3.14.
 Some features and fixes in this version are AI-assisted.
 See PR for prompt and details.
 
+- Add BLEU and ROUGE metrics to pythainlp.benchmarks #<issue_number>
 - Fix `royin` romanization #1172
 - Fix final consonant classification in `check_marttra()` #1173
 - Lazy load dictionaries to reduce memory usage #1186

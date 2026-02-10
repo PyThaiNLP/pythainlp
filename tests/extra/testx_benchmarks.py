@@ -145,7 +145,7 @@ class BenchmarksTestCaseX(unittest.TestCase):
 
     def test_bleu_score_lowercase(self):
         """Test BLEU score with lowercase option.
-        
+
         Note: This test uses mixed Thai and English text since the lowercase
         parameter is primarily useful for languages with case distinctions.
         Thai doesn't have case, so this is relevant when processing mixed

@@ -102,7 +102,10 @@ for guidelines and algorithm references.
 If you use `PyThaiNLP` in your project or publication,
 please cite the library as follows:
 
-> Phatthiyaphaibun, Wannaphong, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, and Pattarawat Chormai. “Pythainlp: Thai Natural Language Processing in Python”. Zenodo, 2 June 2024. <http://doi.org/10.5281/zenodo.3519354>.
+> Phatthiyaphaibun, Wannaphong, Korakot Chaovavanich, Charin Polpanumas,
+> Arthit Suriyawongkul, Lalita Lowphansirikul, and Pattarawat Chormai.
+> “Pythainlp: Thai Natural Language Processing in Python”.
+> Zenodo, 2 June 2024. <http://doi.org/10.5281/zenodo.3519354>.
 
 or by BibTeX entry:
 
@@ -126,7 +129,15 @@ or by BibTeX entry:
 
 Our [NLP-OSS 2023](https://nlposs.github.io/2023/) paper:
 
-> Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, Pattarawat Chormai, Peerat Limkonchotiwat, Thanathip Suntorntip, and Can Udomcharoenchaikit. 2023. [PyThaiNLP: Thai Natural Language Processing in Python.](https://aclanthology.org/2023.nlposs-1.4) In Proceedings of the 3rd Workshop for Natural Language Processing Open Source Software (NLP-OSS 2023), pages 25–36, Singapore, Singapore. Empirical Methods in Natural Language Processing.
+> Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas,
+> Arthit Suriyawongkul, Lalita Lowphansirikul, Pattarawat Chormai,
+> Peerat Limkonchotiwat, Thanathip Suntorntip, and Can Udomcharoenchaikit.
+> 2023.
+> [PyThaiNLP: Thai Natural Language Processing in Python.](https://aclanthology.org/2023.nlposs-1.4)
+> In Proceedings of the 3rd Workshop for Natural Language Processing
+> Open Source Software (NLP-OSS 2023),
+> pages 25–36, Singapore, Singapore.
+> Empirical Methods in Natural Language Processing.
 
 and its BibTeX entry:
 

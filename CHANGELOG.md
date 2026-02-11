@@ -11,9 +11,10 @@ Notable changes between versions.
 - For full release notes, see:
   <https://github.com/PyThaiNLP/pythainlp/releases>
 - For detailed commit changes, see:
-  <https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...dev> (select tags to compare)
+  <https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...dev>
+  (select tags to compare)
 
-# Version 5.2.0 -> dev
+## Version 5.2.0 -> dev
 
 Minimum required version is now 3.9.
 Support for Python 3.7 and 3.8 has been removed.
@@ -34,6 +35,8 @@ See PR for prompt and details.
 - Make package zip-safe #1212
 - Ensure thread-safety for tokenizers #1213
 - Add Thai-NNER integration with top-level entity filtering #1221
+- Reorganize noauto test suite by dependency groups
+  (torch, tensorflow, onnx, cython, network) #935
 - Improved documentation; code cleanup; more tests
 
 ## Version 5.1.2 -> 5.2.0
@@ -46,7 +49,8 @@ See PR for prompt and details.
 - Add budoux #1161
 - Remove conceptnet #1103
 - fix the connectivity of cli commands #1154
-- Fix Docker build failure, add docker compose file for convenience #1132
+- Fix Docker build failure, add docker compose file
+  for convenience #1132
 
 ## Version 5.1.1 -> 5.1.2
 
@@ -54,7 +58,8 @@ See PR for prompt and details.
 
 ## Version 5.1.0 -> 5.1.1
 
-- PR Description: Refactor thai_consonants_all to Use set in syllable.py #1087
+- PR Description: Refactor thai_consonants_all to
+  use set in syllable.py #1087
 - ThaiTransliterator: Select 1D CPU int64 tensor device #1089
 
 ## Version 5.0.5 -> 5.1.0
@@ -62,10 +67,13 @@ See PR for prompt and details.
 - Add Thai Discourse Treebank postag #910
 - Add Thai Universal Dependency Treebank postag #916
 - Add Thai G2P v2 Grapheme-to-Phoneme model #923
-- Add support for list of strings as input to sent_tokenize() #927
-- Add pythainlp.tools.safe_print to handle UnicodeEncodeError on console #969
+- Add support for list of strings as input
+  to sent_tokenize() #927
+- Add pythainlp.tools.safe_print to handle UnicodeEncodeError
+  on console #969
 - Fix collate() to consider tonemark in ordering #926
-- Fix nlpo3.load_dict() that never print error msg when not success #979
+- Fix nlpo3.load_dict() that never print error msg when
+  not success #979
 - Add Thai Solar Date convert to Thai Lunar Date #998
 - Add Thai pangram text #1045
 - Remove clause_tokenize #1024
@@ -77,8 +85,8 @@ See PR for prompt and details.
 
 ## Version 5.0.3 -> 5.0.4
 
-- Fix: pythainlp.util.maiyamok does not duplicate words when more than one
-  Maiyamok is used #917
+- Fix: pythainlp.util.maiyamok does not duplicate words
+  when more than one Maiyamok is used #917
 
 ## Version 5.0.2 -> 5.0.3
 
@@ -87,8 +95,10 @@ See PR for prompt and details.
 
 ## Version 5.0.1 -> 5.0.2
 
-- Fix: crfcut: Ensure splitting of sentences using terminal punctuation #905
+- Fix: crfcut: Ensure splitting of sentences using terminal
+  punctuation #905
 
 ## Version 5.0.0 -> 5.0.1
 
-- Fix: delay calling syllable_tokenize to avoid pycrfsuite ImportError #901
+- Fix: delay calling syllable_tokenize to avoid
+  pycrfsuite ImportError #901

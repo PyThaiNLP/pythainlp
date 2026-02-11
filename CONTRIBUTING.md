@@ -30,10 +30,11 @@ Please refer to our
   - Please follow this [naming convention][naming].
     For example, global constant variables must be in `ALL_CAPS`;
     ![Naming Convention](https://i.stack.imgur.com/uBr10.png)
-- Write tests for your new features. The test suite is in `tests/` directory.
+- Write tests for your new features.
+  The test suite is in `tests/` directory.
   (see "Testing" section below);
-- Run all tests before pushing (just execute `tox`) so you will know if your
-  changes broke something;
+- Run all tests before pushing (just execute `tox`) so you will
+  know if your changes broke something;
 - Commented-out code is [dead code][dead-codes];
 - All `#TODO` comments should be turned into [issues][issues] in GitHub;
 - When appropriate, use [f-string][pep0498]
@@ -89,7 +90,8 @@ Please refer to our
 
 ## Testing
 
-We use standard Python `unittest`. The test suite is in `tests/` directory.
+We use standard Python `unittest`.
+The test suite is in `tests/` directory.
 
 To run unit tests locally together with code coverage test:
 
@@ -151,9 +153,9 @@ This will create distribution packages in the `dist/` directory.
 
 ## Releasing
 
-- We use [semantic versioning](https://semver.org/): MAJOR.MINOR.PATCH,
+- We use [Semantic Versioning][semver]: MAJOR.MINOR.PATCH,
   with development build suffix: MAJOR.MINOR.PATCH-devBUILD
-- We use [`bump-my-version`](https://github.com/callowayproject/bump-my-version)
+- We use [`bump-my-version`][bump-my-version]
   to manage versioning. The configuration is in `pyproject.toml`
   under `[tool.bumpversion]`.
   - `bump-my-version bump [major|minor|patch|release|build]`
@@ -195,19 +197,25 @@ This will create distribution packages in the `dist/` directory.
 
 - Read the full [how to cut a new release](./release.md) documentation.
 
+[semver]: https://semver.org/
+[bump-my-version]: https://github.com/callowayproject/bump-my-version
+
 ## Credits
 
 [![Contributors](https://contributors-img.firebaseapp.com/image?repo=PyThaiNLP/pythainlp)](https://github.com/PyThaiNLP/pythainlp/graphs/contributors)
 
-Thanks to all [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contributors).
+Thanks to all
+[contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contributors).
 (Image made with [contributors-img](https://contributors-img.firebaseapp.com))
 
 ### Development Leads
 
-- Wannaphong Phatthiyaphaibun <wannaphong@pythainlp.org> - foundation, distribution and maintenance
+- Wannaphong Phatthiyaphaibun <wannaphong@pythainlp.org> - foundation,
+  distribution and maintenance
 - Korakot Chaovavanich - initial tokenization and soundex codes
 - Charin Polpanumas - classification and benchmarking
-- Arthit Suriyawongkul - CI/infrastructure, documentation, refactoring and distribution
+- Arthit Suriyawongkul - localization functions, documentation,
+  tests, refactoring, code modernization, and CI/build infrastructure
 - Lalita Lowphansirikul - documentation
 - Pattarawat Chormai - benchmarking
 - Peerat Limkonchotiwat
@@ -225,9 +233,41 @@ Thanks to all [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contr
 
 ## References
 
-- **[Maximum Matching]** -- Manabu Sassano. Deterministic Word Segmentation Using Maximum Matching with Fully Lexicalized Rules. Retrieved from <https://doi.org/10.3115/v1/E14-4016>
-- **[MetaSound]** -- Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statistical Ontology for Analysing Names Given in Accordance with Thai Astrology. Retrieved from <https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf>
-- **[Thai Character Cluster]** -- T. Teeramunkong, V. Sornlertlamvanich, T. Tanhermhong and W. Chinnan, “Character cluster based Thai information retrieval,” in IRAL '00 Proceedings of the fifth international workshop on on Information retrieval with Asian languages, 2000.
-- **[Enhanced Thai Character Cluster]** -- Jeeragone Inrut, Patiroop Yuanghirun, Sarayut Paludkong, Supot Nitsuwat, and Para Limmaneepraserth. “Thai word segmentation using combination of forward and backward longest matching techniques.” In International Symposium on Communications and Information Technology (ISCIT), pp. 37-40. 2001.
-- **[Thai Stopword List]** -- เพ็ญศิริ ลี้ตระกูล. การเลือกประโยคสำคัญในการสรุปความภาษาไทย โดยใช้แบบจำลองแบบลำดับชั้น (Selection of Important Sentences in Thai Text Summarization Using a Hierarchical Model). Retrieved from [http://digi.library.tu.ac.th/thesis/st/0192/](https://digital.library.tu.ac.th/tu_dc/frontend/Info/item/dc:124897)
-- **[Thai Discourse Treebank]** -- Ponrawee Prasertsom, Apiwat Jaroonpol, Attapol T. Rutherford; The Thai Discourse Treebank: Annotating and Classifying Thai Discourse Connectives. Transactions of the Association for Computational Linguistics 2024; 12 613–629. doi: <https://doi.org/10.1162/tacl_a_00650>
+- **[Maximum Matching]** --
+  Manabu Sassano. Deterministic Word Segmentation Using Maximum
+  Matching with Fully Lexicalized Rules.
+  Retrieved from
+  <https://doi.org/10.3115/v1/E14-4016>
+- **[MetaSound]** --
+  Snae & Brückner. (2009).
+  Novel Phonetic Name Matching Algorithm with a Statistical
+  Ontology for Analysing Names Given in Accordance with
+  Thai Astrology.
+  Retrieved from
+  <https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf>
+- **[Thai Character Cluster]** --
+  T. Teeramunkong, V. Sornlertlamvanich, T. Tanhermhong and W. Chinnan,
+  “Character cluster based Thai information retrieval,”
+  in IRAL '00 Proceedings of the fifth international workshop
+  on Information retrieval with Asian languages, 2000.
+- **[Enhanced Thai Character Cluster]** --
+  Jeeragone Inrut, Patiroop Yuanghirun, Sarayut Paludkong,
+  Supot Nitsuwat, and Para Limmaneepraserth.
+  “Thai word segmentation using combination of forward and backward
+  longest matching techniques.”
+  In International Symposium on Communications and Information
+  Technology (ISCIT), pp. 37-40. 2001.
+- **[Thai Stopword List]** --
+  เพ็ญศิริ ลี้ตระกูล.
+  การเลือกประโยคสำคัญในการสรุปความภาษาไทย โดยใช้แบบจำลองแบบลำดับชั้น
+  (Selection of Important Sentences in Thai Text Summarization
+  Using a Hierarchical Model).
+  Retrieved from
+  [http://digi.library.tu.ac.th/thesis/st/0192/](https://digital.library.tu.ac.th/tu_dc/frontend/Info/item/dc:124897)
+- **[Thai Discourse Treebank]** --
+  Ponrawee Prasertsom, Apiwat Jaroonpol, Attapol T. Rutherford;
+  The Thai Discourse Treebank: Annotating and Classifying Thai
+  Discourse Connectives.
+  Transactions of the Association for Computational Linguistics 2024;
+  12 613–629.
+  doi: <https://doi.org/10.1162/tacl_a_00650>

@@ -1,30 +1,28 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Unit test.
+"""Unit test suite for network-dependent functionalities.
 
-Each file in tests/ is for each main package.
+Test functions that require network access:
+- HuggingFace Hub downloads
+- Model downloads from remote servers
+- API calls to external services
+
+These tests are NOT run in automated CI workflows due to:
+- Network dependency
+- Potential for large downloads
+- External service availability
+- Rate limiting concerns
+
+These tests are kept for manual testing and may be run in environments
+with appropriate network access and caching.
 """
 
 from unittest import TestLoader, TestSuite
 
 # Names of module to be tested
 test_packages: list[str] = [
-    "tests.core.test_ancient",
-    "tests.core.test_braille",
-    "tests.core.test_cli",
-    "tests.core.test_corpus",
-    "tests.core.test_generate",
-    "tests.core.test_khavee",
-    "tests.core.test_morpheme",
-    "tests.core.test_security",
-    "tests.core.test_soundex",
-    "tests.core.test_spell",
-    "tests.core.test_tag",
-    "tests.core.test_tokenize",
-    "tests.core.test_tools",
-    "tests.core.test_transliterate",
-    "tests.core.test_util",
+    "tests.noauto_network.testn_spell_network",
 ]
 
 
@@ -42,6 +40,6 @@ def load_tests(
 
 
 if __name__ == "__main__":
-    import unittest
+    from unittest import main
 
-    unittest.main()
+    main()

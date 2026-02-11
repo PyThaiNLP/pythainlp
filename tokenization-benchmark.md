@@ -3,39 +3,47 @@
 **Note: This benchmark framework is obsolete and no longer actively maintained.**
 
 A framework for benchmarking tokenization algorithms for Thai.
-It provides a command-line interface that allows users to conveniently execute the benchmarks,
+It provides a command-line interface that allows users to
+conveniently execute the benchmarks,
 as well as a module interface for use in development pipelines.
 
 ## Metrics
 
 <div align="center">
-    <img src="https://i.imgur.com/jVBOLa2.png"/>
+    <img alt="Metrics overview" src="https://i.imgur.com/jVBOLa2.png"/>
 </div>
 
 ### Character-Level (CL)
 
-- True Positive (TP): no. of starting characters that are correctly predicted.
-- True Negative (TN): no. of non-starting characters that are correctly predicted.
-- False Positive (FP): no. of non-starting characters that are wrongly predicted as starting characters.
-- False Negative (FN): no. of starting characters that are wrongly predicted as non-starting characters.
+- True Positive (TP):
+  no. of starting characters that are correctly predicted.
+- True Negative (TN):
+  no. of non-starting characters that are correctly predicted.
+- False Positive (FP):
+  no. of non-starting characters that are wrongly predicted as starting characters.
+- False Negative (FN):
+  no. of starting characters that are wrongly predicted as non-starting characters.
 - Precision: TP / (TP + FP)
 - Recall: TP / (TP+FN)
 - f1: ...
 
 ### Word-Level (WL)
 
-- Correctly Tokenized Words (CTW): no. of words in reference that are correctly tokenized.
-- Precision: CTW / no. words in reference solution
-- Recall: CTW / no. words in sample
+- Correctly Tokenized Words (CTW):
+  no. of words in reference that are correctly tokenized.
+- Precision:
+  CTW / no. words in reference solution
+- Recall:
+  CTW / no. words in sample
 - f1: ...
 
 ## Benchmark Results
 
 | Vendor | Approach | Datasets |
 |---|---|---|
-| DeepCut | CNN | [![](https://img.shields.io/badge/BEST:val-WL:f1(0.9732)-yellow.svg)][res-BEST-val-DeepCut] [![](https://img.shields.io/badge/THNC-WL:f1(0.6323)-yellow.svg)][res-THNC-DeepCut] [![](https://img.shields.io/badge/Orchid-WL:f1(0.6638)-yellow.svg)][res-Orchid-DeepCut] [![](https://img.shields.io/badge/WiseSight160-WL:f1(0.8042)-yellow.svg)][res-WiseSight160-DeepCut] |
-| PyThaiNLP-newmm | dictionary-based | [![](https://img.shields.io/badge/BEST:val-WL:f1(0.6836)-yellow.svg)][res-BEST-val-PyThaiNLP-newmm] [![](https://img.shields.io/badge/THNC-WL:f1(0.7338)-yellow.svg)][res-THNC-PyThaiNLP-newmm] [![](https://img.shields.io/badge/Orchid-WL:f1(0.7223)-yellow.svg)][res-Orchid-PyThaiNLP-newmm] [![](https://img.shields.io/badge/WiseSight160-WL:f1(0.7248)-yellow.svg)][res-WiseSight160-PyThaiNLP-newmm] |
-| Sertis-BiGRU | Bi-directional RNN | [![](https://img.shields.io/badge/BEST:val-WL:f1(0.9251)-yellow.svg)][res-BEST-val-Sertis-BiGRU] [![](https://img.shields.io/badge/WiseSight160-WL:f1(0.8115)-yellow.svg)][res-WiseSight160-Sertis-BiGRU] |
+| DeepCut | CNN | [![BEST-DeepCut](https://img.shields.io/badge/BEST:val-WL:f1(0.9732)-yellow.svg)][res-BEST-val-DeepCut] [![THNC-DeepCut](https://img.shields.io/badge/THNC-WL:f1(0.6323)-yellow.svg)][res-THNC-DeepCut] [![Orchid-DeepCut](https://img.shields.io/badge/Orchid-WL:f1(0.6638)-yellow.svg)][res-Orchid-DeepCut] [![Wisesight160-DeepCut](https://img.shields.io/badge/WiseSight160-WL:f1(0.8042)-yellow.svg)][res-WiseSight160-DeepCut] |
+| PyThaiNLP-newmm | dictionary-based | [![BEST-newmm](https://img.shields.io/badge/BEST:val-WL:f1(0.6836)-yellow.svg)][res-BEST-val-PyThaiNLP-newmm] [![THNC-newmm](https://img.shields.io/badge/THNC-WL:f1(0.7338)-yellow.svg)][res-THNC-PyThaiNLP-newmm] [![Orchid-newmm](https://img.shields.io/badge/Orchid-WL:f1(0.7223)-yellow.svg)][res-Orchid-PyThaiNLP-newmm] [![Wisesight160-newmm](https://img.shields.io/badge/WiseSight160-WL:f1(0.7248)-yellow.svg)][res-WiseSight160-PyThaiNLP-newmm] |
+| Sertis-BiGRU | Bi-directional RNN | [![BEST-Sertis](https://img.shields.io/badge/BEST:val-WL:f1(0.9251)-yellow.svg)][res-BEST-val-Sertis-BiGRU] [![Wisesight160-Sertis](https://img.shields.io/badge/WiseSight160-WL:f1(0.8115)-yellow.svg)][res-WiseSight160-Sertis-BiGRU] |
 
 [res-BEST-val-DeepCut]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=BEST-val-DeepCut
 [res-THNC-DeepCut]: https://pythainlp.org/tokenization-benchmark-visualization/?experiment-name=THNC-DeepCut
@@ -100,7 +108,8 @@ pip install "pythainlp[benchmarks]"
 
 ## Related Work
 
-- [Thai Tokenizers Docker][docker]: collection of Docker containers of pre-built Thai tokenizers.
+- [Thai Tokenizers Docker][docker]: collection of Docker containers of
+  pre-built Thai tokenizers.
 
 ## Development
 
@@ -112,7 +121,8 @@ TEST_VERBOSE=1 PYTHONPATH=. python tests/__init__.py
 
 ## Acknowledgement
 
-This project was initially started by [Pattarawat Chormai][pat], while he was interning at [Dr. Attapol Thamrongrattanarit][ate]'s lab.
+This project was initially started by [Pattarawat Chormai][pat],
+while he was interning at [Dr. Attapol Thamrongrattanarit][ate]'s lab.
 
 [docker]: https://github.com/PyThaiNLP/docker-thai-tokenizers
 [ate]: https://attapol.github.io

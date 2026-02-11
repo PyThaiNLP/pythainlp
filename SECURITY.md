@@ -20,7 +20,11 @@
 
 The following security improvements are planned for future releases:
 
-- Migrate from pickle to a safer serialization format such as JSON or MessagePack.
-- Upgrade the hashing algorithm for integrity verification from MD5 to SHA-256 or SHA-3.
+- Migrate from pickle to a safer serialization format such as JSON or
+  [MessagePack][].
+- Upgrade the hashing algorithm for integrity verification from MD5 to SHA-256
+  or SHA-3.
 - Implement digital signatures for corpus files to ensure authenticity.
 - Add version tracking to the corpus to prevent rollback attacks.
+
+[MessagePack]: https://msgpack.org/

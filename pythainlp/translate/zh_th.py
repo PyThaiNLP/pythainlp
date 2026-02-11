@@ -11,7 +11,7 @@ from AI builder
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     import torch
@@ -29,10 +29,6 @@ class ThZhTranslator:
     :param bool use_gpu : load model using GPU (Default is False)
     """
 
-    tokenizer_thzh: AutoTokenizer
-    model_thzh: AutoModelForSeq2SeqLM
-    translated: torch.Tensor
-
     def __init__(
         self,
         use_gpu: bool = False,
@@ -49,10 +45,14 @@ class ThZhTranslator:
         if use_gpu:
             self.model_thzh = self.model_thzh.cuda()
 
-    def translate(self, text: str) -> str:
+    def translate(
+        self, text: str, exclude_words: Optional[list[str]] = None
+    ) -> str:
         """Translate text from Thai to Chinese
 
         :param str text: input text in source language
+        :param list[str] exclude_words: words to exclude from translation
+                                        (optional)
         :return: translated text in target language
         :rtype: str
 
@@ -67,15 +67,30 @@ class ThZhTranslator:
             thzh.translate("ผมรักคุณ")
             # output: 我爱你
 
+        Translate text from Thai to Chinese with excluded words::
+
+            thzh.translate("ผมรักคุณ", exclude_words=["ผม"])
+            # output: ผม爱你
+
         """
-        self.translated: torch.Tensor = self.model_thzh.generate(
-            **self.tokenizer_thzh(text, return_tensors="pt", padding=True)
+        from pythainlp.translate.core import (
+            _prepare_text_with_exclusions,
+            _restore_excluded_words,
         )
-        decoded_list: list[str] = [
+
+        prepared_text, placeholder_map = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+        self.translated: torch.Tensor = self.model_thzh.generate(
+            **self.tokenizer_thzh(
+                prepared_text, return_tensors="pt", padding=True
+            )
+        )
+        translated_text = [
             self.tokenizer_thzh.decode(t, skip_special_tokens=True)
             for t in self.translated
-        ]
-        return decoded_list[0]
+        ][0]
+        return _restore_excluded_words(translated_text, placeholder_map)
 
 
 class ZhThTranslator:
@@ -88,10 +103,6 @@ class ZhThTranslator:
 
     :param bool use_gpu : load model using GPU (Default is False)
     """
-
-    tokenizer_zhth: AutoTokenizer
-    model_zhth: AutoModelForSeq2SeqLM
-    translated: torch.Tensor
 
     def __init__(
         self,
@@ -107,12 +118,16 @@ class ZhThTranslator:
             AutoModelForSeq2SeqLM.from_pretrained(pretrained)
         )
         if use_gpu:
-            self.model_zhth.cuda()
+            self.model_zhth = self.model_zhth.cuda()
 
-    def translate(self, text: str) -> str:
+    def translate(
+        self, text: str, exclude_words: Optional[list[str]] = None
+    ) -> str:
         """Translate text from Chinese to Thai
 
         :param str text: input text in source language
+        :param list[str] exclude_words: words to exclude from translation
+                                        (optional)
         :return: translated text in target language
         :rtype: str
 
@@ -127,12 +142,27 @@ class ZhThTranslator:
             zhth.translate("我爱你")
             # output: ผมรักคุณนะ
 
+        Translate text from Chinese to Thai with excluded words::
+
+            zhth.translate("我爱你", exclude_words=["我"])
+            # output: 我รักคุณนะ
+
         """
-        self.translated: torch.Tensor = self.model_zhth.generate(
-            **self.tokenizer_zhth(text, return_tensors="pt", padding=True)
+        from pythainlp.translate.core import (
+            _prepare_text_with_exclusions,
+            _restore_excluded_words,
         )
-        decoded_list: list[str] = [
+
+        prepared_text, placeholder_map = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+        self.translated: torch.Tensor = self.model_zhth.generate(
+            **self.tokenizer_zhth(
+                prepared_text, return_tensors="pt", padding=True
+            )
+        )
+        translated_text = [
             self.tokenizer_zhth.decode(t, skip_special_tokens=True)
             for t in self.translated
-        ]
-        return decoded_list[0]
+        ][0]
+        return _restore_excluded_words(translated_text, placeholder_map)

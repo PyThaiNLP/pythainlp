@@ -13,12 +13,12 @@
 [![Facebook](https://img.shields.io/badge/Facebook-0866FF?style=flat&logo=facebook&logoColor=white)](https://www.facebook.com/pythainlp/)
 [![Chat on Matrix](https://matrix.to/img/matrix-badge.svg)](https://matrix.to/#/#thainlp:matrix.org)
 
-[pythainlp.org](https://pythainlp.org/) |
-[Tutorials](https://pythainlp.org/tutorials) |
-[License info](https://pythainlp.org/dev-docs/notes/license.html) |
-[Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards) |
-[Adopters](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md) |
-*[เอกสารภาษาไทย](https://github.com/PyThaiNLP/pythainlp/blob/dev/README_TH.md)*
+[pythainlp.org](https://pythainlp.org/)
+| [Tutorials](https://pythainlp.org/tutorials)
+| [License info](https://pythainlp.org/dev-docs/notes/license.html)
+| [Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards)
+| [Adopters](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md)
+| *[เอกสารภาษาไทย](https://github.com/PyThaiNLP/pythainlp/blob/dev/README_TH.md)*
 
 Designed to be a Thai-focused counterpart to [NLTK](https://www.nltk.org/),
 **PyThaiNLP** provides standard tools for linguistic analysis under
@@ -186,9 +186,12 @@ with this BibTeX entry:
 ------
 
 <div align="center">
-  <strong>We have only one official repository at https://github.com/PyThaiNLP/pythainlp and another mirror at https://gitlab.com/pythainlp/pythainlp</strong>
+  <strong>We have only one official repository at
+  https://github.com/PyThaiNLP/pythainlp and another mirror at
+  https://gitlab.com/pythainlp/pythainlp</strong>
 </div>
 
 <div align="center">
-  <strong>Beware of malware if you use code from mirrors other than the official two on GitHub and GitLab.</strong>
+  <strong>Beware of malware if you use code from mirrors other than the
+  official two on GitHub and GitLab.</strong>
 </div>

@@ -5,5 +5,9 @@
 
 __all__: list[str] = ["benchmark", "bleu_score", "rouge_score", "word_error_rate"]
 
-from pythainlp.benchmarks.metrics import bleu_score, rouge_score, word_error_rate
+from pythainlp.benchmarks.metrics import (
+    bleu_score,
+    rouge_score,
+    word_error_rate,
+)
 from pythainlp.benchmarks.word_tokenization import benchmark

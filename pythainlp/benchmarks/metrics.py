@@ -319,3 +319,80 @@ def rouge_score(
             )
 
     return result
+
+
+def word_error_rate(
+    reference: str,
+    hypothesis: str,
+    tokenize: str = "newmm",
+) -> float:
+    """
+    Calculate Word Error Rate (WER) for Thai text with automatic tokenization.
+
+    Word Error Rate is a common metric for evaluating speech recognition
+    and machine translation systems. It measures the minimum number of
+    word-level edits (insertions, deletions, substitutions) needed to
+    transform the hypothesis into the reference, normalized by the
+    reference length.
+
+    WER = (S + D + I) / N
+
+    where:
+    - S = number of substitutions
+    - D = number of deletions
+    - I = number of insertions
+    - N = number of words in reference
+
+    :param str reference: reference text
+    :param str hypothesis: hypothesis text to evaluate
+    :param str tokenize: tokenization engine to use (default: "newmm").
+        See :func:`pythainlp.tokenize.word_tokenize` for available engines.
+
+    :return: word error rate as a float (0.0 = perfect, >1.0 = very poor)
+    :rtype: float
+
+    :Example:
+    ::
+
+        from pythainlp.benchmarks import word_error_rate
+
+        reference = "สวัสดีครับ วันนี้อากาศดีมาก"
+        hypothesis = "สวัสดีค่ะ วันนี้อากาศดี"
+        wer = word_error_rate(reference, hypothesis)
+        print(f"WER: {wer:.4f}")
+    """
+    from pythainlp.tokenize import word_tokenize
+
+    # Tokenize texts
+    ref_tokens = word_tokenize(reference, engine=tokenize, keep_whitespace=False)
+    hyp_tokens = word_tokenize(hypothesis, engine=tokenize, keep_whitespace=False)
+
+    # Calculate edit distance using dynamic programming
+    r = len(ref_tokens)
+    h = len(hyp_tokens)
+
+    # Create distance matrix
+    d = [[0] * (h + 1) for _ in range(r + 1)]
+
+    # Initialize first row and column
+    for i in range(r + 1):
+        d[i][0] = i
+    for j in range(h + 1):
+        d[0][j] = j
+
+    # Fill in the rest of the matrix
+    for i in range(1, r + 1):
+        for j in range(1, h + 1):
+            if ref_tokens[i - 1] == hyp_tokens[j - 1]:
+                d[i][j] = d[i - 1][j - 1]
+            else:
+                substitution = d[i - 1][j - 1] + 1
+                insertion = d[i][j - 1] + 1
+                deletion = d[i - 1][j] + 1
+                d[i][j] = min(substitution, insertion, deletion)
+
+    # Calculate WER
+    if r == 0:
+        return 0.0 if h == 0 else float('inf')
+
+    return d[r][h] / r

@@ -91,6 +91,24 @@ ROUGE (Recall-Oriented Understudy for Gisting Evaluation) is a set of metrics fo
     for rouge_type, (precision, recall, fmeasure) in scores.items():
         print(f"{rouge_type}: P={precision:.4f}, R={recall:.4f}, F={fmeasure:.4f}")
 
+Word Error Rate (WER)
+^^^^^^^^^^^^^^^^^^^^^
+
+Word Error Rate is a common metric for evaluating speech recognition and machine translation systems. It measures the minimum number of word-level edits (insertions, deletions, substitutions) needed to transform the hypothesis into the reference.
+
+.. autofunction:: pythainlp.benchmarks.word_error_rate
+
+**Example:**
+
+.. code-block:: python
+
+    from pythainlp.benchmarks import word_error_rate
+
+    reference = "สวัสดีครับ วันนี้อากาศดีมาก"
+    hypothesis = "สวัสดีค่ะ วันนี้อากาศดี"
+    wer = word_error_rate(reference, hypothesis)
+    print(f"WER: {wer:.4f}")
+
 Usage
 -----
 

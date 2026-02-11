@@ -241,3 +241,81 @@ class BenchmarksTestCaseX(unittest.TestCase):
             self.assertGreaterEqual(precision, 0.0)
             self.assertGreaterEqual(recall, 0.0)
             self.assertGreaterEqual(fmeasure, 0.0)
+
+    def test_word_error_rate_basic(self):
+        """Test WER with basic Thai text."""
+        from pythainlp.benchmarks import word_error_rate
+
+        reference = "สวัสดีครับ วันนี้อากาศดีมาก"
+        hypothesis = "สวัสดีค่ะ วันนี้อากาศดี"
+
+        wer = word_error_rate(reference, hypothesis)
+
+        self.assertIsNotNone(wer)
+        self.assertGreaterEqual(wer, 0.0)
+        # WER can be > 1.0 if hypothesis has many insertions
+        self.assertIsInstance(wer, float)
+
+    def test_word_error_rate_perfect_match(self):
+        """Test WER when reference and hypothesis are identical."""
+        from pythainlp.benchmarks import word_error_rate
+
+        text = "สวัสดีครับ วันนี้อากาศดีมาก"
+
+        wer = word_error_rate(text, text)
+
+        # Perfect match should have WER = 0
+        self.assertEqual(wer, 0.0)
+
+    def test_word_error_rate_completely_different(self):
+        """Test WER with completely different text."""
+        from pythainlp.benchmarks import word_error_rate
+
+        reference = "สวัสดีครับ"
+        hypothesis = "ลาก่อนค่ะ"
+
+        wer = word_error_rate(reference, hypothesis)
+
+        # Should be > 0 since texts are different
+        self.assertGreater(wer, 0.0)
+
+    def test_word_error_rate_different_engines(self):
+        """Test WER with different tokenization engines."""
+        from pythainlp.benchmarks import word_error_rate
+
+        reference = "สวัสดีครับ"
+        hypothesis = "สวัสดีค่ะ"
+
+        # Test with newmm (default)
+        wer_newmm = word_error_rate(reference, hypothesis, tokenize="newmm")
+        self.assertIsNotNone(wer_newmm)
+        self.assertGreaterEqual(wer_newmm, 0.0)
+
+        # Test with longest
+        wer_longest = word_error_rate(reference, hypothesis, tokenize="longest")
+        self.assertIsNotNone(wer_longest)
+        self.assertGreaterEqual(wer_longest, 0.0)
+
+    def test_word_error_rate_empty_reference(self):
+        """Test WER with empty reference."""
+        from pythainlp.benchmarks import word_error_rate
+
+        reference = ""
+        hypothesis = "สวัสดีครับ"
+
+        wer = word_error_rate(reference, hypothesis)
+
+        # Empty reference with non-empty hypothesis should return inf or 0
+        self.assertTrue(wer == 0.0 or wer == float('inf'))
+
+    def test_word_error_rate_insertions(self):
+        """Test WER with insertions (hypothesis longer than reference)."""
+        from pythainlp.benchmarks import word_error_rate
+
+        reference = "สวัสดี"
+        hypothesis = "สวัสดี ครับ วันนี้"
+
+        wer = word_error_rate(reference, hypothesis)
+
+        # WER can be > 1.0 due to insertions
+        self.assertGreater(wer, 0.0)

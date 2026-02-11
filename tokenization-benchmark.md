@@ -3,7 +3,8 @@
 **Note: This benchmark framework is obsolete and no longer actively maintained.**
 
 A framework for benchmarking tokenization algorithms for Thai.
-It provides a command-line interface that allows users to conveniently execute the benchmarks,
+It provides a command-line interface that allows users to
+conveniently execute the benchmarks,
 as well as a module interface for use in development pipelines.
 
 ## Metrics
@@ -107,7 +108,8 @@ pip install "pythainlp[benchmarks]"
 
 ## Related Work
 
-- [Thai Tokenizers Docker][docker]: collection of Docker containers of pre-built Thai tokenizers.
+- [Thai Tokenizers Docker][docker]: collection of Docker containers of
+  pre-built Thai tokenizers.
 
 ## Development
 

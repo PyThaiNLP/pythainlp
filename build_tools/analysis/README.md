@@ -90,10 +90,12 @@ easy analysis in spreadsheet applications or data analysis tools.
 - `output/functions_no_hints.csv` - Functions without any type hints
 - `output/functions_incomplete_hints.csv` - Functions with partial hints
 - `output/class_variables_no_hints.csv` - Class variables without type hints
-- `output/instance_variables_no_hints.csv` - Instance variables without type hints
+- `output/instance_variables_no_hints.csv` -
+  Instance variables without type hints
 - `output/module_variables_no_hints.csv` - Module variables without type hints
 - `output/type_aliases.csv` - All type aliases defined in the codebase
-- `output/submodule_summary.csv` - Summary statistics by submodule with mypy errors
+- `output/submodule_summary.csv` -
+  Summary statistics by submodule with mypy errors
 
 **CSV Schema:**
 
@@ -155,9 +157,9 @@ cat output/submodule_summary.csv
 **Example Output:**
 
 ```text
-================================================================================
+==============================================================================
 TYPE ANNOTATION COVERAGE ANALYSIS FOR PYTHAINLP
-================================================================================
+==============================================================================
 
 Repository root: /path/to/pythainlp
 Output directory: ./output
@@ -181,17 +183,17 @@ Analyzed 426 instance variables
 Analyzed 508 module variables
 Analyzed 0 type aliases
 
-================================================================================
+==============================================================================
 OVERALL STATISTICS - FUNCTIONS/METHODS
-================================================================================
+==============================================================================
 Total functions/methods: 720
 Complete type hints:      592 (82.22%)
 Incomplete type hints:     56 ( 7.78%)
 No type hints:             72 (10.00%)
 
-================================================================================
+==============================================================================
 OVERALL STATISTICS - VARIABLES
-================================================================================
+==============================================================================
 Total variables:         959
   Class variables:       25
   Instance variables:    426
@@ -202,7 +204,8 @@ No type hints:            909 (94.79%)
 
 ### Automated Analysis
 
-The repository includes a GitHub Actions workflow that automatically runs the type hint analyzer on every push to the `dev` branch:
+The repository includes a GitHub Actions workflow that automatically runs
+the type hint analyzer on every push to the `dev` branch:
 
 - **Workflow**: `.github/workflows/type-hint-analysis.yml`
 - **Trigger**: Push to `dev` branch
@@ -210,11 +213,13 @@ The repository includes a GitHub Actions workflow that automatically runs the ty
 - **Artifacts**: JSON and CSV files (30-day retention)
 - **Summary**: Displayed in GitHub Actions UI
 
-The workflow provides continuous monitoring of type hint coverage as the codebase evolves.
+The workflow provides continuous monitoring of type hint coverage
+as the codebase evolves.
 
 ### Type Completeness Standards
 
-This analyzer follows the type completeness guidelines from the Python typing documentation:
+This analyzer follows the type completeness guidelines from
+the Python typing documentation:
 <https://typing.python.org/en/latest/guides/libraries.html#type-completeness>
 
 The analysis covers:
@@ -241,13 +246,16 @@ a library is considered to have complete type hints when:
 
 **Type hint status:**
 
-- **Complete:** All parameters and return value have type hints (for functions), or variable has type annotation (for variables)
-- **Incomplete:** Some parameters or return value missing type hints (for functions only)
+- **Complete:** All parameters and return value have type hints
+  (for functions), or variable has type annotation (for variables)
+- **Incomplete:** Some parameters or return value missing type hints
+  (for functions only)
 - **None:** No type hints at all
 
 **Analyzed Elements:**
 
-- **Functions/Methods:** Function signatures including parameters and return types
+- **Functions/Methods:** Function signatures including parameters
+  and return types
   - Excludes `self` and `cls` parameters from parameter counts
   - Considers both parameters and return type for completeness
   - Tracks decorator usage (e.g., `@staticmethod`, `@lru_cache`)
@@ -361,7 +369,8 @@ The analyzer codebase maintains high documentation standards:
 
 **Key Design decisions:**
 
-1. **AST-based Analysis**: Uses Python's `ast` module rather than runtime inspection
+1. **AST-based Analysis**: Uses Python's `ast` module rather than runtime
+    inspection
    - Pros: No need to import/execute code, faster, safer
    - Cons: Cannot detect dynamically generated code
 
@@ -396,7 +405,8 @@ The analyzer codebase maintains high documentation standards:
 2. **More Accurate Reference Counting**
    - Use AST-based import analysis instead of text search
    - Track actual usage vs. string mentions
-   - Distinguish between different types of references (call, attribute access, etc.)
+   - Distinguish between different types of references
+     (call, attribute access, etc.)
 
 3. **Additional Metrics**
    - Generic type parameterization completeness
@@ -447,9 +457,12 @@ type annotations should be added to:
 
 ### What should not be annotated
 
-1. **Reassignments** - Adding type annotations to reassignments causes `no-redef` errors
-2. **Dictionary subscript operations** - Cannot annotate `dict[key] = value` operations
-3. **Variables with obvious literal types** - Optional, but generally omitted for simple cases
+1. **Reassignments** -
+    Adding type annotations to reassignments causes `no-redef` errors
+2. **Dictionary subscript operations** -
+    Cannot annotate `dict[key] = value` operations
+3. **Variables with obvious literal types** -
+    Optional, but generally omitted for simple cases
 
 ## Future Tools
 

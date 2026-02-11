@@ -12,7 +12,7 @@
       configuration. Communicate this to the users during code review.
       See <https://www.nltk.org/py-modindex.html>.
 - [ ] The type information analyzer at
-      <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/type_hint_analyzer.py>
+      <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/type-analyzer.py>
       can generate information about annotation completeness of
       variables, functions, methods, type aliases, decorators, and
       classes in the PyThaiNLP repo.
@@ -23,6 +23,13 @@
       please refer to Python tyep specification when in doubt.
 - [ ] Complete type annotations for function, method, class, variable, etc.
       Maintain near-100% type annotation coverage.
+- [ ] Add tests for new functionality or behavior.
+      Keep the test coverage high.
+- [ ] Add test cases to capture edge cases.
+- [ ] Add test cases to cover code branches.
+- [ ] Major changes should be logged in the change log at
+      <https://github.com/PyThaiNLP/pythainlp/blob/dev/CHANGELOG.md>.
+      Provide issue number or PR number if available.
 
 ## Project contribution guidelines
 
@@ -38,9 +45,9 @@
 - [ ] For significant changes, update the CHANGELOG.md file
       to document the changes.
   - [ ] Follow "Keep a Changelog" principles
-        https://keepachangelog.com/en/1.0.0/
+        <https://keepachangelog.com/en/1.0.0/>
   - [ ] Use semantic versioning for version numbers
-        https://semver.org/
+        <https://semver.org/>
   - [ ] If it is a breaking change, indicate it clearly in the changelog.
     - [ ] Provide migration instructions if necessary.
 - [ ] Do not leave trailing whitespaces in the code or documentation files,
@@ -98,10 +105,10 @@
       in names.
 - [ ] For URLs/IRIs, use lowercase letters and hyphens to separate words
       (e.g., `my-api-endpoint`) and follow W3C Cool URIs for the Semantic Web:
-      https://www.w3.org/TR/cooluris/
+      <https://www.w3.org/TR/cooluris/>
 - [ ] Consult Schema.org vocabularies when deciding about names.
 - [ ] Consult "Style Guidelines for Naming and Labeling Ontologies in the
-      Multilingual Web" https://www.researchgate.net/publication/277224472
+      Multilingual Web" <https://www.researchgate.net/publication/277224472>
 
 ## Tidy code and documentation
 
@@ -121,7 +128,7 @@
 ## File header
 
 - [ ] When possible, put relevant SPDX File Tags at file header.
-      See https://spdx.github.io/spdx-spec/v2.3/file-information/
+      See <https://spdx.github.io/spdx-spec/v2.3/file-information/>
   - [ ] SPDX-FileContributor
   - [ ] SPDX-FileCopyrightText
   - [ ] Default SPDX-FileType for code is "SOURCE"
@@ -183,7 +190,7 @@
 ## API
 
 - [ ] The overall architecture, code, and API endpoints should follow the latest
-      version of OpenAPI specification at https://spec.openapis.org/oas/
+      version of OpenAPI specification at <https://spec.openapis.org/oas/>
 - [ ] API endpoints must use proper HTTP return codes.
 - [ ] Follow web best practices as recommended by OpenAPI, IETF, W3C, etc.
 
@@ -208,7 +215,7 @@
       as much as possible.
   - [ ] Follow best practices and standard Python type hint patterns.
   - [ ] Use mypy as an assistant.
-    - [ ] mypy is in "dev" optional dependency. 
+    - [ ] mypy is in "dev" optional dependency.
     - [ ] Sometimes mypy may report errors wrongly due to cache issues.
           Try to reset the cache if unexpected errors occured.
   - [ ] Use pyright, pyrefly, and pytype for second opinions.

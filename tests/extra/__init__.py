@@ -16,6 +16,7 @@ test_packages: list[str] = [
     "tests.extra.testx_spell",
     "tests.extra.testx_tag",
     "tests.extra.testx_tokenize",
+    "tests.extra.testx_translate_helpers",
     "tests.extra.testx_word_vector",
 ]
 

@@ -1,18 +1,25 @@
-# Code Analysis Tools
+# Code analysis tools
 
 This directory contains tools for analyzing the PyThaiNLP codebase.
 
-## Type Hint Analysis
+## Type annotation analysis
 
 ### Overview
 
-The type hint analysis system provides comprehensive coverage analysis of type annotations across the entire PyThaiNLP codebase. It follows the [Python typing documentation's type completeness guidelines](https://typing.python.org/en/latest/guides/libraries.html#type-completeness) to assess the quality and completeness of type hints.
+The type annotation analysis system provides comprehensive coverage analysis
+of type annotations across the entire PyThaiNLP codebase.
+It follows the
+[Python typing documentation's type completeness guidelines][type-completeness]
+to estimate the quality and completeness of type annotations.
+
+[type-completeness]: https://typing.python.org/en/latest/guides/libraries.html#type-completeness
 
 ### Scripts
 
-#### type_hint_analyzer.py
+#### type-analyzer.py
 
-Main script that performs comprehensive type hint coverage analysis using Python's Abstract Syntax Tree (AST) module.
+Main script that performs comprehensive type annotation coverage analysis
+using Python's Abstract Syntax Tree (AST) module.
 
 **What it analyzes:**
 
@@ -28,7 +35,8 @@ Main script that performs comprehensive type hint coverage analysis using Python
 
 **Implementation Details:**
 
-The analyzer uses Python's `ast` module to parse and traverse the syntax tree of each Python file. Key components:
+The analyzer uses Python's `ast` module to parse and traverse the syntax tree
+of each Python file. Key components:
 
 - `TypeHintAnalyzer` class: Custom `ast.NodeVisitor` that visits each node
 - `visit_FunctionDef()`: Analyzes function/method signatures
@@ -37,6 +45,7 @@ The analyzer uses Python's `ast` module to parse and traverse the syntax tree of
 - `visit_Assign()`: Handles non-annotated assignments for comparison
 
 The analyzer distinguishes between:
+
 - Module-level scope (top of file)
 - Class-level scope (inside class definition)
 - Function-level scope (inside function/method)
@@ -49,45 +58,49 @@ The analyzer distinguishes between:
 
 **Usage:**
 
+For best results, delete all previous data files (`*.csv`, `*.json`)
+and clear the cache for mypy and any other static type checkers
+before running the analyzer.
+
 ```bash
 # Run from the build_tools/analysis directory (default output: ./output)
-python3 type_hint_analyzer.py
+python type-analyzer.py
 
 # Or specify a custom output directory
-python3 type_hint_analyzer.py --output-dir /path/to/output
+python type-analyzer.py --output-dir /path/to/output
 
 # Get help
-python3 type_hint_analyzer.py --help
+python type-analyzer.py --help
 ```
 
-**Performance:**
+Enable more accurate static analysis by installing optional dependencies
+(and their type stubs, if available) for enhanced type discovery.
 
-- Analyzes ~190 Python files in pythainlp/ directory
-- Processes ~720 functions/methods and ~960 variables
-- Typical runtime: 2-3 minutes (including mypy analysis)
-- Mypy timeout: 60 seconds per submodule
+#### gen-csv.py
 
-#### generate_csv.py
-
-Converts the JSON output from type_hint_analyzer.py into CSV files for easy analysis in spreadsheet applications or data analysis tools.
+Converts the JSON output from type-analyzer.py into CSV files for
+easy analysis in spreadsheet applications or data analysis tools.
 
 **Prerequisites:**
 
-- Must run `type_hint_analyzer.py` first to generate the JSON data
+- Must run `type-analyzer.py` first to generate the JSON data
 
 **Output:**
 
 - `output/functions_no_hints.csv` - Functions without any type hints
 - `output/functions_incomplete_hints.csv` - Functions with partial hints
 - `output/class_variables_no_hints.csv` - Class variables without type hints
-- `output/instance_variables_no_hints.csv` - Instance variables without type hints
+- `output/instance_variables_no_hints.csv` -
+  Instance variables without type hints
 - `output/module_variables_no_hints.csv` - Module variables without type hints
 - `output/type_aliases.csv` - All type aliases defined in the codebase
-- `output/submodule_summary.csv` - Summary statistics by submodule with mypy errors
+- `output/submodule_summary.csv` -
+  Summary statistics by submodule with mypy errors
 
 **CSV Schema:**
 
 Functions CSV files include:
+
 - Function Name (qualified name)
 - Submodule
 - Scope (public/private)
@@ -101,6 +114,7 @@ Functions CSV files include:
 - Line Number
 
 Variables CSV files include:
+
 - Variable Name (qualified name)
 - Submodule
 - Parent Class (for class/instance variables)
@@ -112,28 +126,28 @@ Variables CSV files include:
 
 ```bash
 # Run from the build_tools/analysis directory (uses ./output by default)
-python3 generate_csv.py
+python gen-csv.py
 
 # Or specify custom paths
-python3 generate_csv.py --input /path/to/input.json --output-dir /path/to/output
+python gen-csv.py --input /path/to/input.json --output-dir /path/to/output
 
 # Get help
-python3 generate_csv.py --help
+python gen-csv.py --help
 ```
 
 ### Complete Workflow
 
-To perform a full type hint analysis:
+To perform a full type annotation analysis:
 
 ```bash
 # Navigate to the analysis directory
 cd build_tools/analysis
 
 # 1. Run the analyzer (outputs to ./output by default)
-python3 type_hint_analyzer.py
+python type-analyzer.py
 
 # 2. Generate CSV files (reads from ./output by default)
-python3 generate_csv.py
+python gen-csv.py
 
 # 3. Review the results
 ls -la output/
@@ -142,10 +156,10 @@ cat output/submodule_summary.csv
 
 **Example Output:**
 
-```
-================================================================================
-TYPE HINT COVERAGE ANALYSIS FOR PYTHAINLP
-================================================================================
+```text
+==============================================================================
+TYPE ANNOTATION COVERAGE ANALYSIS FOR PYTHAINLP
+==============================================================================
 
 Repository root: /path/to/pythainlp
 Output directory: ./output
@@ -169,17 +183,17 @@ Analyzed 426 instance variables
 Analyzed 508 module variables
 Analyzed 0 type aliases
 
-================================================================================
+==============================================================================
 OVERALL STATISTICS - FUNCTIONS/METHODS
-================================================================================
+==============================================================================
 Total functions/methods: 720
 Complete type hints:      592 (82.22%)
 Incomplete type hints:     56 ( 7.78%)
 No type hints:             72 (10.00%)
 
-================================================================================
+==============================================================================
 OVERALL STATISTICS - VARIABLES
-================================================================================
+==============================================================================
 Total variables:         959
   Class variables:       25
   Instance variables:    426
@@ -190,7 +204,8 @@ No type hints:            909 (94.79%)
 
 ### Automated Analysis
 
-The repository includes a GitHub Actions workflow that automatically runs the type hint analyzer on every push to the `dev` branch:
+The repository includes a GitHub Actions workflow that automatically runs
+the type hint analyzer on every push to the `dev` branch:
 
 - **Workflow**: `.github/workflows/type-hint-analysis.yml`
 - **Trigger**: Push to `dev` branch
@@ -198,14 +213,17 @@ The repository includes a GitHub Actions workflow that automatically runs the ty
 - **Artifacts**: JSON and CSV files (30-day retention)
 - **Summary**: Displayed in GitHub Actions UI
 
-The workflow provides continuous monitoring of type hint coverage as the codebase evolves.
+The workflow provides continuous monitoring of type hint coverage
+as the codebase evolves.
 
 ### Type Completeness Standards
 
-This analyzer follows the type completeness guidelines from the Python typing documentation:
-https://typing.python.org/en/latest/guides/libraries.html#type-completeness
+This analyzer follows the type completeness guidelines from
+the Python typing documentation:
+<https://typing.python.org/en/latest/guides/libraries.html#type-completeness>
 
 The analysis covers:
+
 - All function and method signatures (parameters and return types)
 - Class variables (class-level attributes)
 - Instance variables (instance attributes)
@@ -215,7 +233,8 @@ The analysis covers:
 
 **Type Completeness Criteria:**
 
-According to PEP 561 and the Python typing documentation, a library is considered to have complete type hints when:
+According to PEP 561 and the Python typing documentation,
+a library is considered to have complete type hints when:
 
 1. All exported functions, methods, and classes have type annotations
 2. All public module-level variables have type annotations
@@ -223,17 +242,20 @@ According to PEP 561 and the Python typing documentation, a library is considere
 4. Generic types are properly parameterized
 5. The library passes type checking with mypy in strict mode
 
-### Analysis Categories
+### Analysis categories
 
-**Type Hint Status:**
+**Type hint status:**
 
-- **Complete:** All parameters and return value have type hints (for functions), or variable has type annotation (for variables)
-- **Incomplete:** Some parameters or return value missing type hints (for functions only)
+- **Complete:** All parameters and return value have type hints
+  (for functions), or variable has type annotation (for variables)
+- **Incomplete:** Some parameters or return value missing type hints
+  (for functions only)
 - **None:** No type hints at all
 
 **Analyzed Elements:**
 
-- **Functions/Methods:** Function signatures including parameters and return types
+- **Functions/Methods:** Function signatures including parameters
+  and return types
   - Excludes `self` and `cls` parameters from parameter counts
   - Considers both parameters and return type for completeness
   - Tracks decorator usage (e.g., `@staticmethod`, `@lru_cache`)
@@ -254,7 +276,7 @@ According to PEP 561 and the Python typing documentation, a library is considere
   - Modern syntax: `MyType: TypeAlias = dict[str, int]`
   - Also detects `typing.TypeAlias` and `typing_extensions.TypeAlias`
 
-**Priority Levels:**
+**Priority levels:**
 
 Functions are assigned priority based on visibility and usage patterns:
 
@@ -269,7 +291,7 @@ Functions are assigned priority based on visibility and usage patterns:
   - Internal implementation details
   - Lower priority for type hint coverage
 
-**Test Suites:**
+**Test suites:**
 
 The analyzer maps functions to test categories based on their dependencies:
 
@@ -281,14 +303,13 @@ The analyzer maps functions to test categories based on their dependencies:
 
 This mapping helps understand which functions are tested and their dependency requirements.
 
-### Output Files
+### Output files
 
 All analysis outputs are stored in:
 
 - `build_tools/analysis/output/` - JSON and CSV data files
-- `TYPE_HINT_ANALYSIS.md` - Main analysis report (repository root)
 
-**JSON Structure:**
+**JSON structure:**
 
 ```json
 {
@@ -329,36 +350,38 @@ All analysis outputs are stored in:
 }
 ```
 
-### Code Review and Quality
+### Code review and quality
 
-**Documentation Coverage:**
+**Documentation coverage:**
 
 The analyzer codebase maintains high documentation standards:
+
 - 95.7% docstring coverage (22 of 23 functions/methods)
 - All public functions have comprehensive docstrings
 - Docstrings follow reStructuredText format for Sphinx compatibility
 
-**Code Quality:**
+**Code quality:**
 
 - Follows Ruff linting standards
 - Type hints on all function signatures
 - Clear separation of concerns with dedicated helper methods
 - Proper exception handling for file I/O and subprocess calls
 
-**Key Design Decisions:**
+**Key Design decisions:**
 
-1. **AST-based Analysis**: Uses Python's `ast` module rather than runtime inspection
+1. **AST-based Analysis**: Uses Python's `ast` module rather than runtime
+    inspection
    - Pros: No need to import/execute code, faster, safer
    - Cons: Cannot detect dynamically generated code
-   
+
 2. **Stateful Visitor Pattern**: Tracks context (class, function, module level)
    - Enables accurate classification of variables
    - Distinguishes between local, instance, class, and module variables
-   
+
 3. **Reference Counting**: Simple text-based search for usage patterns
    - Fast and implementation-agnostic
    - Trade-off: May have false positives (comments, strings)
-   
+
 4. **Priority System**: Heuristic-based prioritization
    - Helps focus improvement efforts on most impactful areas
    - Based on visibility (public/private) and usage frequency
@@ -382,7 +405,8 @@ The analyzer codebase maintains high documentation standards:
 2. **More Accurate Reference Counting**
    - Use AST-based import analysis instead of text search
    - Track actual usage vs. string mentions
-   - Distinguish between different types of references (call, attribute access, etc.)
+   - Distinguish between different types of references
+     (call, attribute access, etc.)
 
 3. **Additional Metrics**
    - Generic type parameterization completeness
@@ -411,14 +435,34 @@ The analyzer codebase maintains high documentation standards:
 
 If you'd like to improve the type hint analyzer:
 
-1. The main implementation is in `type_hint_analyzer.py`
-2. The CSV generator is in `generate_csv.py`
+1. The main implementation is in `type-analyzer.py`
+2. The CSV generator is in `gen-csv.py`
 3. Both scripts follow PyThaiNLP coding standards
 4. Run Ruff before submitting changes: `ruff check build_tools/analysis/`
 5. Ensure all docstrings are complete and follow reStructuredText format
 6. Test changes by running the analyzer on the full repository
 
 For questions or suggestions, please open an issue in the PyThaiNLP repository.
+
+## Understanding variable type annotations
+
+### What should be annotated
+
+According to Python typing best practices and type checking tools like mypy,
+type annotations should be added to:
+
+1. **First assignment** of a variable
+2. **Variables where type isn't obvious** from the assigned value
+3. **Class and instance variables** (on first assignment only)
+
+### What should not be annotated
+
+1. **Reassignments** -
+    Adding type annotations to reassignments causes `no-redef` errors
+2. **Dictionary subscript operations** -
+    Cannot annotate `dict[key] = value` operations
+3. **Variables with obvious literal types** -
+    Optional, but generally omitted for simple cases
 
 ## Future Tools
 

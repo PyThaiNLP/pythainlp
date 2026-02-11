@@ -14,7 +14,7 @@ BLEU 20.4
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     import torch
@@ -55,10 +55,14 @@ class ThFrTranslator:
         if use_gpu:
             self.model_thfr = self.model_thfr.cuda()
 
-    def translate(self, text: str) -> str:
+    def translate(
+        self, text: str, exclude_words: Optional[list[str]] = None
+    ) -> str:
         """Translate text from Thai to French
 
         :param str text: input text in source language
+        :param list[str] exclude_words: words to exclude from translation
+                                        (optional)
         :return: translated text in target language
         :rtype: str
 
@@ -73,12 +77,27 @@ class ThFrTranslator:
             thfr.translate("ทดสอบระบบ")
             # output: "Test du système."
 
+        Translate text from Thai to French with excluded words::
+
+            thfr.translate("ทดสอบระบบ", exclude_words=["ระบบ"])
+            # output: "Test du ระบบ."
+
         """
-        self.translated: torch.Tensor = self.model_thfr.generate(
-            **self.tokenizer_thfr(text, return_tensors="pt", padding=True)
+        from pythainlp.translate.core import (
+            _prepare_text_with_exclusions,
+            _restore_excluded_words,
         )
-        decoded_list: list[str] = [
+
+        prepared_text, placeholder_map = _prepare_text_with_exclusions(
+            text, exclude_words
+        )
+        self.translated: torch.Tensor = self.model_thfr.generate(
+            **self.tokenizer_thfr(
+                prepared_text, return_tensors="pt", padding=True
+            )
+        )
+        translated_text = [
             self.tokenizer_thfr.decode(t, skip_special_tokens=True)
             for t in self.translated
-        ]
-        return decoded_list[0]
+        ][0]
+        return _restore_excluded_words(translated_text, placeholder_map)

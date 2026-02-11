@@ -2,18 +2,17 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-# Tests for spell functions that require phunspell (Cython) or torch
+# Tests for spell functions that require phunspell (Cython)
 # These tests are NOT run in automated CI workflows due to:
-# - Compilation issues (phunspell requires Cython)
-# - Large dependencies (torch ~800MB)
-# - Python 3.13+ compatibility issues
+# - Compilation requirements (Cython, C compiler)
+# - System library dependencies (hunspell)
+# - Platform-specific build issues
 
 import unittest
 
 from pythainlp.spell import (
     correct,
     correct_sent,
-    get_words_spell_suggestion,
     spell,
     spell_sent,
 )
@@ -43,27 +42,3 @@ class SpellPhunspellTestCaseN(unittest.TestCase):
 
     def test_correct_sent_phunspell(self):
         self.assertIsNotNone(correct_sent(SENT_TOKS, engine="phunspell"))
-
-
-class SpellWanchanbertaTestCaseN(unittest.TestCase):
-    """Tests for wanchanberta_thai_grammarly engine (requires torch)"""
-
-    def test_word_correct_wanchanberta(self):
-        result = correct("ทดสอง", engine="wanchanberta_thai_grammarly")
-        self.assertIsInstance(result, str)
-        self.assertNotEqual(result, "")
-
-    def test_correct_sent_wanchanberta(self):
-        from ..core.test_spell import SENT_TOKS
-
-        self.assertIsNotNone(
-            correct_sent(SENT_TOKS, engine="wanchanberta_thai_grammarly")
-        )
-
-
-class SpellHuggingFaceTestCaseN(unittest.TestCase):
-    """Tests for get_words_spell_suggestion (requires HuggingFace Hub network access)"""
-
-    def test_get_words_spell_suggestion(self):
-        self.assertIsNotNone(get_words_spell_suggestion("คมดี"))
-        self.assertIsNotNone(get_words_spell_suggestion(["คมดี", "มะนา"]))

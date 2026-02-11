@@ -13,12 +13,12 @@
 [![Facebook](https://img.shields.io/badge/Facebook-0866FF?style=flat&logo=facebook&logoColor=white)](https://www.facebook.com/pythainlp/)
 [![Chat on Matrix](https://matrix.to/img/matrix-badge.svg)](https://matrix.to/#/#thainlp:matrix.org)
 
-[pythainlp.org](https://pythainlp.org/) |
-[Tutorials](https://pythainlp.org/tutorials) |
-[License info](https://pythainlp.org/dev-docs/notes/license.html) |
-[Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards) |
-[Adopters](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md) |
-*[เอกสารภาษาไทย](https://github.com/PyThaiNLP/pythainlp/blob/dev/README_TH.md)*
+[pythainlp.org](https://pythainlp.org/)
+| [Tutorials](https://pythainlp.org/tutorials)
+| [License info](https://pythainlp.org/dev-docs/notes/license.html)
+| [Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards)
+| [Adopters](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md)
+| *[เอกสารภาษาไทย](https://github.com/PyThaiNLP/pythainlp/blob/dev/README_TH.md)*
 
 Designed to be a Thai-focused counterpart to [NLTK](https://www.nltk.org/),
 **PyThaiNLP** provides standard tools for linguistic analysis under
@@ -99,12 +99,15 @@ for guidelines and algorithm references.
 
 ## Citations
 
-If you use `PyThaiNLP` in your project or publication,
-please cite the library as follows:
+If you use `PyThaiNLP` library in your project,
+please cite the software as follows:
 
-> Phatthiyaphaibun, Wannaphong, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, and Pattarawat Chormai. “Pythainlp: Thai Natural Language Processing in Python”. Zenodo, 2 June 2024. <http://doi.org/10.5281/zenodo.3519354>.
+> Phatthiyaphaibun, Wannaphong, Korakot Chaovavanich, Charin Polpanumas,
+> Arthit Suriyawongkul, Lalita Lowphansirikul, and Pattarawat Chormai.
+> “PyThaiNLP: Thai Natural Language Processing in Python”.
+> Zenodo, 2 June 2024. <http://doi.org/10.5281/zenodo.3519354>.
 
-or by BibTeX entry:
+with this BibTeX entry:
 
 ```bibtex
 @software{pythainlp,
@@ -124,11 +127,20 @@ or by BibTeX entry:
 }
 ```
 
-Our [NLP-OSS 2023](https://nlposs.github.io/2023/) paper:
+To cite our [NLP-OSS 2023](https://nlposs.github.io/2023/) academic paper,
+please cite the paper as follows:
 
-> Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas, Arthit Suriyawongkul, Lalita Lowphansirikul, Pattarawat Chormai, Peerat Limkonchotiwat, Thanathip Suntorntip, and Can Udomcharoenchaikit. 2023. [PyThaiNLP: Thai Natural Language Processing in Python.](https://aclanthology.org/2023.nlposs-1.4) In Proceedings of the 3rd Workshop for Natural Language Processing Open Source Software (NLP-OSS 2023), pages 25–36, Singapore, Singapore. Empirical Methods in Natural Language Processing.
+> Wannaphong Phatthiyaphaibun, Korakot Chaovavanich, Charin Polpanumas,
+> Arthit Suriyawongkul, Lalita Lowphansirikul, Pattarawat Chormai,
+> Peerat Limkonchotiwat, Thanathip Suntorntip, and Can Udomcharoenchaikit.
+> 2023.
+> [PyThaiNLP: Thai Natural Language Processing in Python.](https://aclanthology.org/2023.nlposs-1.4)
+> In Proceedings of the 3rd Workshop for Natural Language Processing
+> Open Source Software (NLP-OSS 2023),
+> pages 25–36, Singapore, Singapore.
+> Empirical Methods in Natural Language Processing.
 
-and its BibTeX entry:
+with this BibTeX entry:
 
 ```bibtex
 @inproceedings{phatthiyaphaibun-etal-2023-pythainlp,
@@ -174,9 +186,12 @@ and its BibTeX entry:
 ------
 
 <div align="center">
-  <strong>We have only one official repository at https://github.com/PyThaiNLP/pythainlp and another mirror at https://gitlab.com/pythainlp/pythainlp</strong>
+  <strong>We have only one official repository at
+  https://github.com/PyThaiNLP/pythainlp and another mirror at
+  https://gitlab.com/pythainlp/pythainlp</strong>
 </div>
 
 <div align="center">
-  <strong>Beware of malware if you use code from mirrors other than the official two on GitHub and GitLab.</strong>
+  <strong>Beware of malware if you use code from mirrors other than the
+  official two on GitHub and GitLab.</strong>
 </div>

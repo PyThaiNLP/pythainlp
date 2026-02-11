@@ -2,9 +2,9 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-# Tests for tag functions that require transformers or torch
+# Tests for tag functions that require torch and transformers
 # These tests are NOT run in automated CI workflows due to:
-# - Large dependencies (transformers, torch)
+# - Large dependencies (torch, transformers)
 # - Python 3.13+ compatibility issues
 
 import unittest
@@ -17,7 +17,7 @@ from pythainlp.tag import (
 
 
 class TagTransformersTestCaseN(unittest.TestCase):
-    """Tests for transformers-based engines (requires transformers, torch)"""
+    """Tests for transformers-based engines (requires transformers and torch)"""
 
     def test_NER_class(self):
         with self.assertRaises(ValueError):

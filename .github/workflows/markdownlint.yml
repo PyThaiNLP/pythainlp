@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2026 PyThaiNLP contributors
+# SPDX-FileType: SOURCE
+# SPDX-License-Identifier: Apache-2.0
+
+name: Markdown lint
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - ".github/workflows/markdownlint.yml"
+      - "**/*.md"
+  pull_request:
+    branches:
+      - dev
+    paths:
+      - ".github/workflows/markdownlint.yml"
+      - "**/*.md"
+
+jobs:
+  markdownlint:
+    name: Run Markdown lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: DavidAnson/markdownlint-cli2-action@v22
+        with:
+          globs: |
+            **/*.md
+            !License.md
+            !LICENSE.md

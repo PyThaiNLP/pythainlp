@@ -1,10 +1,19 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-License-Identifier: Apache-2.0
 
+# To reduce test time and save resources,
+# unit tests that download large corpus files will not be covered
+# in this workflow.
+# A separated corpus test workflow is in
+# https://github.com/PyThaiNLP/pythainlp/blob/dev/.github/workflows/corpus.yml
+# which will be triggered only if there is a change in a corpus.
+
 name: Unit test
 
 on:
   push:
+    branches:
+    - dev
     paths:
       - ".github/workflows/unittest.yml"
       - "bin/**"

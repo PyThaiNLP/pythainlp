@@ -1,4 +1,10 @@
-# PyThaiNLP Fuzz Testing
+---
+SPDX-FileCopyrightText: 2026-present PyThaiNLP Project
+SPDX-FileType: DOCUMENTATION
+SPDX-License-Identifier: CC0-1.0
+---
+
+# PyThaiNLP fuzz testing
 
 This directory contains fuzz testing infrastructure using
 [ClusterFuzzLite](https://google.github.io/clusterfuzzlite/)
@@ -15,7 +21,7 @@ vulnerabilities by feeding random inputs to functions. This setup uses:
 
 ## Directory Structure
 
-```
+```text
 fuzz/
 ├── Dockerfile                 # Docker image for ClusterFuzzLite fuzzing
 ├── build.sh                   # Build script for compiling fuzzers

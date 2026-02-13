@@ -54,7 +54,7 @@ class WangChanGLM:
         :param bool return_dict: return dict
         :param bool load_in_8bit: load model in 8bit
         :param str device: device (cpu, cuda or other)
-        :param torch_dtype torch_dtype: torch_dtype
+        :param Optional[torch.dtype] torch_dtype: torch_dtype
         :param str offload_folder: offload folder
         :param bool low_cpu_mem_usage: low cpu mem usage
         """

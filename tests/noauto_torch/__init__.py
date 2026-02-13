@@ -23,6 +23,7 @@ from unittest import TestLoader, TestSuite
 
 # Names of module to be tested
 test_packages: list[str] = [
+    "tests.noauto_torch.testn_lm_torch",
     "tests.noauto_torch.testn_spell_torch",
     "tests.noauto_torch.testn_tag_torch",
     "tests.noauto_torch.testn_tokenize_torch",

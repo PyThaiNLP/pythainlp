@@ -10,8 +10,13 @@ from collections.abc import Callable
 from typing import TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
-    from transformers import CamembertTokenizer
-    from transformers.pipelines.base import Pipeline
+    from transformers import (
+        AutoModelForMaskedLM,
+        AutoModelForTokenClassification,
+        CamembertTokenizer,
+        Pipeline,
+        PreTrainedTokenizerBase,
+    )
 
 from transformers import (
     CamembertTokenizer,
@@ -212,13 +217,13 @@ class ThaiTextAugmenter:
             pipeline,
         )
 
-        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(
+        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(
             _model_name
         )
-        self.model_for_masked_lm: AutoModelForMaskedLM = (
+        self.model_for_masked_lm: "AutoModelForMaskedLM" = (
             AutoModelForMaskedLM.from_pretrained(_model_name)
         )
-        self.model: "Pipeline" = pipeline(
+        self.model: "Pipeline" = pipeline(  # transformers.Pipeline
             "fill-mask",
             tokenizer=self.tokenizer,
             model=self.model_for_masked_lm,
@@ -311,8 +316,8 @@ class PartOfSpeechTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
-        self.model: AutoModelForTokenClassification = (
+        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(model)
+        self.model: "AutoModelForTokenClassification" = (
             AutoModelForTokenClassification.from_pretrained(model)
         )
 
@@ -356,8 +361,8 @@ class NamedEntityTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
-        self.model: AutoModelForTokenClassification = (
+        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(model)
+        self.model: "AutoModelForTokenClassification" = (
             AutoModelForTokenClassification.from_pretrained(model)
         )
 

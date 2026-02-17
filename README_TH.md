@@ -18,7 +18,7 @@
 | [ข้อมูลสัญญาอนุญาต](https://pythainlp.org/dev-docs/notes/license.html)
 | [ใบข้อมูลโมเดล](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards)
 | [ใครใช้ PyThaiNLP บ้าง](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md)
-| *[English](https://github.com/PyThaiNLP/pythainlp/blob/dev/README.md)*
+| *[English README](https://github.com/PyThaiNLP/pythainlp/blob/dev/README.md)*
 
 **PyThaiNLP** ถูกออกแบบให้เป็นเครื่องมือมาตรฐานสำหรับการวิเคราะห์ภาษาศาสตร์ภาษาไทย
 ภายใต้สัญญาอนุญาต Apache-2.0 โดยข้อมูลและโมเดลอยู่ภายใต้ CC0-1.0 และ CC-BY-4.0

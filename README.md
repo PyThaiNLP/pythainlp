@@ -216,5 +216,5 @@ Beware of malware if you use code from places other than these two.
 
 Made with ❤️ | PyThaiNLP Team 💻 | "We build Thai NLP" 🇹🇭
 
-![](./docs/images/airesearch-logo.png)
-![](./docs/images/macstadium-logo.png)
+![VISTEC-depa Thailand AI Research Institute](./docs/images/airesearch-logo.png)
+![MacStadium](./docs/images/macstadium-logo.png)

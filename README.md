@@ -187,8 +187,9 @@ under Grant Number 18/CRT/6224
 
 The contributions of Pattarawat Chormai to PyThaiNLP from 2018 until 2019
 were made during a research internship at the
-[Natural Language Processing Lab][nlp-chula],
-Department of Linguistics, Faculty of Arts, Chulalongkorn University.
+[Natural Language Processing Lab,
+Department of Linguistics, Faculty of Arts,
+Chulalongkorn University][nlp-chula].
 
 The contributions of Korakot Chaovavanich and Lalita Lowphansirikul
 to PyThaiNLP from 2019 until 2022 were funded by the
@@ -207,6 +208,9 @@ native support for Apple Silicon runners.
 [nlp-chula]: https://attapol.github.io/lab.html
 [macstadium]: https://www.macstadium.com/
 
+![VISTEC-depa Thailand AI Research Institute](./docs/images/airesearch-logo.png)
+![MacStadium](./docs/images/macstadium-logo.png)
+
 We have only one official repository at
 <https://github.com/PyThaiNLP/pythainlp>
 and another mirror at
@@ -215,6 +219,3 @@ and another mirror at
 Beware of malware if you use code from places other than these two.
 
 Made with ❤️ | PyThaiNLP Team 💻 | "We build Thai NLP" 🇹🇭
-
-![VISTEC-depa Thailand AI Research Institute](./docs/images/airesearch-logo.png)
-![MacStadium](./docs/images/macstadium-logo.png)

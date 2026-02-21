@@ -178,7 +178,7 @@ His contributions from 2021 were made during a PhD studentship supported by
 
 The contributions of Arthit Suriyawongkul to PyThaiNLP
 from November 2017 until August 2019 were funded by [Wisesight][].
-His contributions from November 2019 until October 2023 were made during
+His contributions from November 2019 until October 2024 were made during
 a PhD studentship supported by
 [Taighde Éireann – Research Ireland][researchireland]
 under Grant Number 18/CRT/6224

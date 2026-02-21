@@ -1,6 +1,6 @@
 # PyThaiNLP: Thai Natural Language Processing in Python
 
-![Project Logo](https://avatars0.githubusercontent.com/u/32934255?s=200&v=4)
+![Project Logo](./docs/images/logo.png)
 
 [![pypi](https://img.shields.io/pypi/v/pythainlp.svg)](https://pypi.python.org/pypi/pythainlp)
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/)
@@ -170,28 +170,51 @@ with this BibTeX entry:
 }
 ```
 
-## Sponsors
+## Acknowledgements
 
-| Logo | Description |
-| --- | ----------- |
-| [![VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/assets/img/logo/airesearch-logo.svg)](https://airesearch.in.th/) | Since 2019, our contributors Korakot Chaovavanich and Lalita Lowphansirikul have been supported by [VISTEC-depa Thailand Artificial Intelligence Research Institute](https://airesearch.in.th/). |
-| [![MacStadium](https://i.imgur.com/rKy1dJX.png)](https://www.macstadium.com) | We get support of free Mac Mini M1 from [MacStadium](https://www.macstadium.com) for running CI builds. |
+PyThaiNLP was founded by Wannaphong Phatthiyaphaibun in 2016.
+His contributions from 2021 were made during a PhD studentship supported by
+[Vidyasirimedhi Institute of Science and Technology (VISTEC)][vistec].
 
-------
+The contributions of Arthit Suriyawongkul to PyThaiNLP
+from November 2017 until August 2019 were funded by [Wisesight][].
+His contributions from November 2019 until October 2023 were made during
+a PhD studentship supported by
+[Taighde Éireann – Research Ireland][researchireland]
+under Grant Number 18/CRT/6224
+([Research Ireland Centre for Research Training in Digitally-Enhanced Reality
+(d-real)][dreal]).
 
-<div align="center">
-  Made with ❤️ | PyThaiNLP Team 💻 | "We build Thai NLP" 🇹🇭
-</div>
+The contributions of Pattarawat Chormai to PyThaiNLP from 2018 until 2019
+were made during a research internship at the
+[Natural Language Processing Lab][nlp-chula],
+Department of Linguistics, Faculty of Arts, Chulalongkorn University.
 
-------
+The contributions of Korakot Chaovavanich and Lalita Lowphansirikul
+to PyThaiNLP from 2019 until 2022 were funded by the
+[VISTEC-depa Thailand AI Research Institute][airesearch].
 
-<div align="center">
-  <strong>We have only one official repository at
-  https://github.com/PyThaiNLP/pythainlp and another mirror at
-  https://gitlab.com/pythainlp/pythainlp</strong>
-</div>
+The Mac Mini M1 used for macOS testing was donated by [MacStadium][].
+This hardware was essential for the project's testing suite from October 2022
+to October 2023, filling a critical gap before GitHub Actions introduced
+native support for Apple Silicon runners.
 
-<div align="center">
-  <strong>Beware of malware if you use code from mirrors other than the
-  official two on GitHub and GitLab.</strong>
-</div>
+[vistec]: https://www.vistec.ac.th/
+[airesearch]: https://airesearch.in.th/
+[wisesight]: https://wisesight.com/
+[researchireland]: https://www.researchireland.ie/
+[dreal]: https://d-real.ie/
+[nlp-chula]: https://attapol.github.io/lab.html
+[macstadium]: https://www.macstadium.com/
+
+We have only one official repository at
+<https://github.com/PyThaiNLP/pythainlp>
+and another mirror at
+<https://gitlab.com/pythainlp/pythainlp>.
+
+Beware of malware if you use code from places other than these two.
+
+Made with ❤️ | PyThaiNLP Team 💻 | "We build Thai NLP" 🇹🇭
+
+![](./docs/images/airesearch-logo.png)
+![](./docs/images/macstadium-logo.png)

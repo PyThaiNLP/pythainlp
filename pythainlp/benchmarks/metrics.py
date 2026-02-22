@@ -396,3 +396,75 @@ def word_error_rate(
         return 0.0 if h == 0 else float('inf')
 
     return d[r][h] / r
+
+
+def character_error_rate(
+    reference: str,
+    hypothesis: str,
+) -> float:
+    """
+    Calculate Character Error Rate (CER) for Thai text.
+
+    Character Error Rate is a metric for evaluating speech recognition
+    and optical character recognition (OCR) systems. It measures the
+    minimum number of character-level edits (insertions, deletions,
+    substitutions) needed to transform the hypothesis into the reference,
+    normalized by the reference length.
+
+    CER = (S + D + I) / N
+
+    where:
+    - S = number of substitutions
+    - D = number of deletions
+    - I = number of insertions
+    - N = number of characters in reference
+
+    :param str reference: reference text
+    :param str hypothesis: hypothesis text to evaluate
+
+    :return: character error rate as a float (0.0 = perfect, >1.0 = very poor)
+    :rtype: float
+
+    :Example:
+    ::
+
+        from pythainlp.benchmarks import character_error_rate
+
+        reference = "สวัสดีครับ"
+        hypothesis = "สวัสดีค่ะ"
+        cer = character_error_rate(reference, hypothesis)
+        print(f"CER: {cer:.4f}")
+    """
+    # Work with characters directly (no tokenization needed)
+    ref_chars = list(reference)
+    hyp_chars = list(hypothesis)
+
+    # Calculate edit distance using dynamic programming
+    r = len(ref_chars)
+    h = len(hyp_chars)
+
+    # Create distance matrix
+    d = [[0] * (h + 1) for _ in range(r + 1)]
+
+    # Initialize first row and column
+    for i in range(r + 1):
+        d[i][0] = i
+    for j in range(h + 1):
+        d[0][j] = j
+
+    # Fill in the rest of the matrix
+    for i in range(1, r + 1):
+        for j in range(1, h + 1):
+            if ref_chars[i - 1] == hyp_chars[j - 1]:
+                d[i][j] = d[i - 1][j - 1]
+            else:
+                substitution = d[i - 1][j - 1] + 1
+                insertion = d[i][j - 1] + 1
+                deletion = d[i - 1][j] + 1
+                d[i][j] = min(substitution, insertion, deletion)
+
+    # Calculate CER
+    if r == 0:
+        return 0.0 if h == 0 else float('inf')
+
+    return d[r][h] / r

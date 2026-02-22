@@ -109,6 +109,24 @@ Word Error Rate is a common metric for evaluating speech recognition and machine
     wer = word_error_rate(reference, hypothesis)
     print(f"WER: {wer:.4f}")
 
+Character Error Rate (CER)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Character Error Rate is a metric for evaluating speech recognition and optical character recognition (OCR) systems. It measures the minimum number of character-level edits (insertions, deletions, substitutions) needed to transform the hypothesis into the reference.
+
+.. autofunction:: pythainlp.benchmarks.character_error_rate
+
+**Example:**
+
+.. code-block:: python
+
+    from pythainlp.benchmarks import character_error_rate
+
+    reference = "สวัสดีครับ"
+    hypothesis = "สวัสดีค่ะ"
+    cer = character_error_rate(reference, hypothesis)
+    print(f"CER: {cer:.4f}")
+
 Usage
 -----
 

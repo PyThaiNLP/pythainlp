@@ -319,3 +319,79 @@ class BenchmarksTestCaseX(unittest.TestCase):
 
         # WER can be > 1.0 due to insertions
         self.assertGreater(wer, 0.0)
+
+    def test_character_error_rate_basic(self):
+        """Test CER with basic Thai text."""
+        from pythainlp.benchmarks import character_error_rate
+
+        reference = "สวัสดีครับ"
+        hypothesis = "สวัสดีค่ะ"
+
+        cer = character_error_rate(reference, hypothesis)
+
+        self.assertIsNotNone(cer)
+        self.assertGreaterEqual(cer, 0.0)
+        self.assertIsInstance(cer, float)
+
+    def test_character_error_rate_perfect_match(self):
+        """Test CER when reference and hypothesis are identical."""
+        from pythainlp.benchmarks import character_error_rate
+
+        text = "สวัสดีครับ วันนี้อากาศดีมาก"
+
+        cer = character_error_rate(text, text)
+
+        # Perfect match should have CER = 0
+        self.assertEqual(cer, 0.0)
+
+    def test_character_error_rate_completely_different(self):
+        """Test CER with completely different text."""
+        from pythainlp.benchmarks import character_error_rate
+
+        reference = "สวัสดี"
+        hypothesis = "ลาก่อน"
+
+        cer = character_error_rate(reference, hypothesis)
+
+        # Should be > 0 since texts are different
+        self.assertGreater(cer, 0.0)
+
+    def test_character_error_rate_empty_reference(self):
+        """Test CER with empty reference."""
+        from pythainlp.benchmarks import character_error_rate
+
+        reference = ""
+        hypothesis = "สวัสดีครับ"
+
+        cer = character_error_rate(reference, hypothesis)
+
+        # Empty reference with non-empty hypothesis should return inf or 0
+        self.assertTrue(cer == 0.0 or cer == float('inf'))
+
+    def test_character_error_rate_insertions(self):
+        """Test CER with insertions (hypothesis longer than reference)."""
+        from pythainlp.benchmarks import character_error_rate
+
+        reference = "abc"
+        hypothesis = "abcd"
+
+        cer = character_error_rate(reference, hypothesis)
+
+        # CER should be > 0 due to insertion
+        self.assertGreater(cer, 0.0)
+        # CER can be > 1.0 if there are many insertions
+        self.assertLess(cer, 1.0)  # Single insertion should be < 1.0
+
+    def test_character_error_rate_deletions(self):
+        """Test CER with deletions (hypothesis shorter than reference)."""
+        from pythainlp.benchmarks import character_error_rate
+
+        reference = "abcd"
+        hypothesis = "abc"
+
+        cer = character_error_rate(reference, hypothesis)
+
+        # CER should be > 0 due to deletion
+        self.assertGreater(cer, 0.0)
+        self.assertLess(cer, 1.0)
+        self.assertGreater(wer, 0.0)

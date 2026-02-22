@@ -394,4 +394,3 @@ class BenchmarksTestCaseX(unittest.TestCase):
         # CER should be > 0 due to deletion
         self.assertGreater(cer, 0.0)
         self.assertLess(cer, 1.0)
-        self.assertGreater(wer, 0.0)

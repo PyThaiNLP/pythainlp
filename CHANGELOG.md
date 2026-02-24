@@ -23,7 +23,6 @@ Added official support and CI testing for Python 3.14.
 Some features and fixes in this version are AI-assisted.
 See PR for prompt and details.
 
-- Add BLEU, ROUGE, WER, and CER metrics to pythainlp.benchmarks #<issue_number>
 - Fix `royin` romanization #1172
 - Fix final consonant classification in `check_marttra()` #1173
 - Lazy load dictionaries to reduce memory usage #1186
@@ -36,6 +35,7 @@ See PR for prompt and details.
 - Make package zip-safe #1212
 - Ensure thread-safety for tokenizers #1213
 - Add Thai-NNER integration with top-level entity filtering #1221
+- Add BLEU, ROUGE, WER, and CER metrics to pythainlp.benchmarks #1295
 - Reorganize noauto test suite by dependency groups
   (torch, tensorflow, onnx, cython, network) #935
 - Improved documentation; code cleanup; more tests

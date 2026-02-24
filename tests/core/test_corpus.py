@@ -15,6 +15,7 @@ from pythainlp.corpus import (
     get_corpus_default_db,
     get_corpus_path,
     oscar,
+    phupha,
     provinces,
     remove,
     thai_family_names,
@@ -196,6 +197,32 @@ class CorpusTestCase(unittest.TestCase):
                 self.assertIsInstance(result_trigram, dict)
                 self.assertGreater(len(result_trigram), 0)
                 self.assertEqual(result_trigram[("คน", "ไทย", "ภาษา")], 10)
+
+    def test_phupha(self):
+        # Test word_freqs() returns list of tuples
+        word_freqs_result = phupha.word_freqs()
+        self.assertIsNotNone(word_freqs_result)
+        self.assertIsInstance(word_freqs_result, list)
+        self.assertGreater(len(word_freqs_result), 0)
+        # Check first item is a tuple of (str, int)
+        self.assertIsInstance(word_freqs_result[0], tuple)
+        self.assertEqual(len(word_freqs_result[0]), 2)
+        self.assertIsInstance(word_freqs_result[0][0], str)
+        self.assertIsInstance(word_freqs_result[0][1], int)
+
+        # Test unigram_word_freqs() returns dict
+        unigram_result = phupha.unigram_word_freqs()
+        self.assertIsNotNone(unigram_result)
+        self.assertIsInstance(unigram_result, dict)
+        self.assertGreater(len(unigram_result), 0)
+
+        # Check that common Thai words exist
+        self.assertIn('ไทย', unigram_result)
+        self.assertGreater(unigram_result['ไทย'], 0)
+
+        # Verify the full dataset is available (not pre-filtered)
+        # The full dataset should have more words than just ORST
+        self.assertGreater(len(word_freqs_result), 38000)
 
     def test_ttc(self):
         # Mock TTC corpus

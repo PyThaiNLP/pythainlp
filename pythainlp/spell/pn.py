@@ -1,6 +1,7 @@
 """Spell checker, using Peter Norvig algorithm.
 Spelling dictionary can be customized.
-Default spelling dictionary is based on Thai National Corpus.
+Default spelling dictionary is based on Phupha: Thai Word Frequency Dataset,
+filtered with Royal Society of Thailand word list.
 
 Based on Peter Norvig's Python code from http://norvig.com/spell-correct.html
 """
@@ -13,7 +14,7 @@ from string import digits
 from typing import Optional, Union, cast
 
 from pythainlp import thai_digits, thai_letters
-from pythainlp.corpus import tnc
+from pythainlp.corpus import phupha, thai_orst_words
 from pythainlp.util import isthaichar
 
 
@@ -133,7 +134,8 @@ class NorvigSpellChecker:
         """Initializes Peter Norvig's spell checker object.
         Spelling dictionary can be customized.
         By default, spelling dictionary is from
-        `Thai National Corpus <http://www.arts.chula.ac.th/ling/tnc/>`_
+        `Phupha: Thai Word Frequency Dataset <https://github.com/PyThaiNLP/Phupha-Word-freq>`_
+        (filtered with Royal Society of Thailand word list).
 
         Basically, Norvig's spell checker will choose the most likely
         corrected spelling given a word by searching for candidates of
@@ -150,8 +152,8 @@ class NorvigSpellChecker:
                                 (3) an iterable of just words (`str`), without
                                     frequencies -- in this case `1` will be
                                     assigned to every words.
-                                Default is from Thai National Corpus (around
-                                40,000 words).
+                                Default is from Phupha dataset, filtered with
+                                Royal Society of Thailand word list (38,160 words).
         :param int min_freq: Minimum frequency of a word to keep (default = 2)
         :param int min_len: Minimum length (in characters) of a word to keep
                             (default = 2)
@@ -162,9 +164,13 @@ class NorvigSpellChecker:
                                  with numbers or non-Thai characters.
                                  If no filter is required, use None.
         """
-        if not custom_dict:  # default, use Thai National Corpus
-            # TODO: #680 change the dict
-            custom_dict = [(i, j) for i, j in tnc.word_freqs()]
+        if not custom_dict:  # default, use Phupha filtered with ORST words
+            orst_words = thai_orst_words()
+            custom_dict = [
+                (word, freq)
+                for word, freq in phupha.word_freqs()
+                if word in orst_words
+            ]
 
         if not dict_filter:
             dict_filter = _no_filter

@@ -92,6 +92,8 @@ abbreviation = ["khamyo>=0.2.0"]
 
 attacut = ["attacut>=1.0.6"]
 
+attaparse = ["attaparse>=1.0.0"]
+
 benchmarks = ["numpy>=1.22", "pandas>=0.24", "PyYAML>=5.4.1"]
 
 budoux = ["budoux>=0.7.0"]
@@ -99,6 +101,7 @@ budoux = ["budoux>=0.7.0"]
 coreference_resolution = ["fastcoref>=2.1.5", "spacy>=3.0"]
 
 dependency_parsing = [
+    "attaparse>=1.0.0",
     "spacy_thai>=0.7.1",
     "transformers>=4.22.1",
     "ufal.chu-liu-edmonds>=1.0.2",
@@ -237,6 +240,7 @@ noauto-network = [
 
 # Full dependencies - pinned where available
 full = [
+    "attaparse==1.0.0",
     "attacut==1.0.6",
     "bpemb>=0.3.6,<0.4",
     "budoux==0.7.0",
@@ -441,6 +445,7 @@ disallow_incomplete_defs = true
 [[tool.mypy.overrides]]
 module = [
     "attacut.*",
+    "attaparse.*",
     "bpemb.*",
     "budoux.*",
     "deepcut.*",
@@ -472,6 +477,7 @@ module = [
     "spacy.*",
     "spacy_thai.*",
     "ssg.*",
+    "stanza.*",
     "symspellpy.*",
     "thai_nner.*",
     "tltk.*",

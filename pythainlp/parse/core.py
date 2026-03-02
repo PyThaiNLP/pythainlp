@@ -36,6 +36,8 @@ def dependency_parsing(
             `GitHub <https://github.com/KoichiYasuoka/>`_
         * *ud_goeswith* - POS tagging and dependency parsing \
             using `goeswith` for subwords
+        * *attaparse* - Thai dependency parser using Stanza and PhayaThaiBERT. \
+            `GitHub <https://github.com/nlp-chula/attaparse>`_
 
     **Options for model (esupar engine)**
         * *th* (default) - KoichiYasuoka/roberta-base-thai-spm-upos model \
@@ -121,6 +123,10 @@ def dependency_parsing(
                 if model
                 else "KoichiYasuoka/deberta-base-thai-ud-goeswith"
             )
+        elif engine == "attaparse":
+            from pythainlp.parse.attaparse_engine import Parse  # type: ignore[assignment]  # noqa: I001
+
+            _tagger = Parse()
         else:
             raise NotImplementedError("The engine doesn't support.")
 

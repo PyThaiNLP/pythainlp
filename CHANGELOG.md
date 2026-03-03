@@ -38,6 +38,8 @@ See PR for prompt and details.
 - Reorganize noauto test suite by dependency groups
   (torch, tensorflow, onnx, cython, network) #1290
 - Add BLEU, ROUGE, WER, and CER metrics to pythainlp.benchmarks #1295
+- Add Attaparse engine to dependency parser
+  (`dependency_parsing`, engine="attaparse") #1303
 - Improved documentation; code cleanup; more tests
 
 ## Version 5.1.2 -> 5.2.0

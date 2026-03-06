@@ -19,7 +19,7 @@ vulnerabilities by feeding random inputs to functions. This setup uses:
 - **Atheris**: Coverage-guided Python fuzzing engine
 - **AddressSanitizer**: Memory safety checks
 
-## Directory Structure
+## Directory structure
 
 ```text
 .clusterfuzzlite/
@@ -35,7 +35,7 @@ fuzz/
 ClusterFuzzLite requires the ``Dockerfile`` and ``build.sh`` at
 ``.clusterfuzzlite/``. The fuzzer Python files live in ``fuzz/``.
 
-## Current Fuzzing Targets
+## Current fuzzing targets
 
 ### 1. `fuzz_tokenize.py`
 
@@ -53,7 +53,7 @@ Tests `pythainlp.util.normalize()` with random Unicode input to ensure:
 - Proper string normalization
 - Type safety
 
-## Local Testing
+## Local testing
 
 To test fuzzers locally:
 
@@ -68,7 +68,7 @@ python fuzz/fuzz_tokenize.py -max_total_time=60
 python fuzz/fuzz_tokenize.py corpus_dir/ -max_total_time=60
 ```
 
-## CI/CD Integration
+## CI/CD integration
 
 Fuzzing runs automatically via GitHub Actions:
 
@@ -78,7 +78,7 @@ Fuzzing runs automatically via GitHub Actions:
 
 Configuration: `.github/workflows/clusterfuzzlite.yml`
 
-## Adding New Fuzzers
+## Adding new fuzzers
 
 To add a new fuzzing target:
 
@@ -146,23 +146,23 @@ To add a new fuzzing target:
 
 3. No changes needed to GitHub Actions workflow
 
-## Expansion Plan
+## Expansion plan
 
 Future fuzzing targets to consider:
 
-### High Priority
+### High priority
 
 - **spell/** - Spelling correction functions
 - **soundex/** - Phonetic encoding functions
 - **transliterate/** - Romanization functions
 
-### Medium Priority
+### Medium priority
 
 - **corpus/** - Data loading and corpus functions
 - **tag/** - Part-of-speech tagging
 - **parse/** - Parsing functions
 
-### Low Priority
+### Low priority
 
 - **classify/** - Classification functions
 - **generate/** - Text generation functions
@@ -170,7 +170,7 @@ Future fuzzing targets to consider:
 
 ## Troubleshooting
 
-### Fuzzer Crashes
+### Fuzzer crashes
 
 If a fuzzer finds a crash:
 
@@ -179,13 +179,27 @@ If a fuzzer finds a crash:
 3. Fix the underlying issue in the target function
 4. Re-run fuzzer to verify fix
 
-### Performance Issues
+### Performance issues
 
 - Adjust fuzzing time in `.github/workflows/clusterfuzzlite.yml`
 - Default is 300 seconds (5 minutes) per fuzzer
 - For longer sessions, increase the value
 
-### Known warnings on first run
+### Known warnings
+
+**``WARNING: no interesting inputs were found so far``**
+
+If the fuzzer imports are not wrapped in
+``atheris.instrument_imports()``, libFuzzer receives no coverage
+feedback and prints this warning. All harnesses in this directory
+wrap their imports correctly:
+
+```python
+with atheris.instrument_imports():
+    import pythainlp.<module>
+```
+
+Ensure any new fuzzer you add follows the same pattern.
 
 **``fatal: 'origin/gh-pages' is not a commit``**
 
@@ -202,21 +216,7 @@ This is expected. The `gh-pages` branch does not exist yet, so
 ClusterFuzzLite creates it and pushes an empty commit to bootstrap the
 corpus storage. Subsequent runs will not show this message.
 
-**``WARNING: no interesting inputs were found so far``**
-
-If the fuzzer imports are not wrapped in
-``atheris.instrument_imports()``, libFuzzer receives no coverage
-feedback and prints this warning. All harnesses in this directory
-wrap their imports correctly:
-
-```python
-with atheris.instrument_imports():
-    import pythainlp.<module>
-```
-
-Ensure any new fuzzer you add follows the same pattern.
-
-### False Positives
+### False positives
 
 - Update the exception handling in the fuzzer
 - Add expected exceptions to the `except` block
@@ -229,7 +229,7 @@ Ensure any new fuzzer you add follows the same pattern.
 - [OSS-Fuzz](https://github.com/google/oss-fuzz)
 - [libFuzzer Tutorial](https://github.com/google/fuzzing/blob/master/tutorial/libFuzzerTutorial.md)
 
-## Corpus Storage Best Practices
+## Corpus storage best practices
 
 The fuzzing corpus (test inputs that trigger interesting code paths)
 is automatically managed by ClusterFuzzLite
@@ -237,7 +237,7 @@ and stored in the `gh-pages` branch.
 However, if you need to manually manage corpus
 data, follow these best practices:
 
-### 1. Minimize and De-duplicate
+### 1. Minimize and de-duplicate
 
 Keep only the smallest, most unique set of inputs:
 
@@ -254,7 +254,7 @@ The `-merge=1` flag tells libFuzzer to:
 - Keep the smallest input for each unique coverage pattern
 - Output the minimized corpus to the first directory
 
-### 2. Sanitize the Data
+### 2. Sanitize the data
 
 **Never use sensitive production data for fuzzing:**
 
@@ -275,7 +275,7 @@ find corpus/ -type f -exec head -n 5 {} \;
 grep -r "password\|api_key\|secret\|token" corpus/
 ```
 
-### 3. Use Dedicated Storage
+### 3. Use dedicated storage
 
 **ClusterFuzzLite automatically stores corpus in `gh-pages` branch**,
 which is separate from the main codebase.
@@ -295,7 +295,7 @@ This is the recommended approach.
 - `fuzz/artifacts/` - Build artifacts
 - `crash-*`, `leak-*`, `timeout-*`, `oom-*` - Fuzzer output files
 
-### 4. Monitor for Crashes
+### 4. Monitor for crashes
 
 **Never commit a crash-triggering input without fixing the bug first.**
 
@@ -339,7 +339,7 @@ This is the recommended approach.
    cp crash-file fuzz/corpus/tokenize/
    ```
 
-### Security Considerations
+### Security considerations
 
 **Corpus storage in public gh-pages branch is safe for open-source projects:**
 
@@ -360,7 +360,7 @@ This is the recommended approach.
   parameters from workflow
 - Fuzzing will still work, just won't persist corpus between runs
 
-### Corpus Management Commands
+### Corpus management commands
 
 ```bash
 # View corpus statistics

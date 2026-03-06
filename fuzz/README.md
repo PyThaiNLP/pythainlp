@@ -74,8 +74,8 @@ Fuzzing runs automatically via GitHub Actions in three separate jobs:
 
 | Job | Trigger | Mode | Fuzz seconds | Purpose |
 | --- | --- | --- | --- | --- |
-| **PR Fuzzing** | Pull request / push to `dev` | `code-change` | 300 s | Quick check for shallow bugs in new code |
-| **Batch Fuzzing** | Daily at 01:30 AM UTC+7 (18:30 UTC) | `batch` | 3600 s (1 hour) | Deep session to build corpus and find edge cases |
+| **PR Fuzzing** | Pull request / push to `dev` | `code-change` | 300 s (5 minutes) | Quick check for shallow bugs in new code |
+| **Batch Fuzzing** | Daily at 01:30 AM UTC+7 (18:30 UTC) | `batch` | 7200 s (2 hours) | Deep session to build corpus and find edge cases |
 | **Corpus Pruning** | Daily at 04:00 AM UTC+7 (21:00 UTC) | `prune` | 600 s | Remove redundant corpus entries; runs 2.5 h after Batch Fuzzing |
 
 Total job wall-clock time is longer than the fuzz seconds value because it
@@ -193,7 +193,7 @@ If a fuzzer finds a crash:
 
 - Adjust fuzzing time in `.github/workflows/clusterfuzzlite.yml`
 - PR Fuzzing default: 300 seconds (5 minutes)
-- Batch Fuzzing default: 3600 seconds (1 hour)
+- Batch Fuzzing default: 7200 seconds (2 hours)
 - For corpus pruning, the `fuzz-seconds` value is 600 seconds
 
 ### Known warnings

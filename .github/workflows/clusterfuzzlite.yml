@@ -30,9 +30,10 @@ on:
     # Corpus Pruning: 04:00 AM UTC+7 = 21:00 UTC (2.5 h after Batch Fuzzing)
     - cron: '0 21 * * *'
 
+# Restrict default permissions to read-only at the workflow level.
+# Each job that needs write access declares it explicitly.
 permissions:
-  contents: write
-  issues: write
+  contents: read
 
 jobs:
   # -------------------------------------------------------------------------
@@ -44,6 +45,9 @@ jobs:
     name: PR Fuzzing
     if: github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Push corpus updates to gh-pages
+      issues: write    # Allow run_fuzzers to file issues on crashes
     # Cancel in-progress runs for the same branch to avoid wasted resources.
     # Uses the source repo name to avoid cross-fork collisions.
     concurrency:
@@ -123,6 +127,9 @@ jobs:
       github.event_name == 'schedule' &&
       github.event.schedule == '30 18 * * *'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Push corpus updates to gh-pages
+      issues: write    # Allow run_fuzzers to file issues on crashes
     # Do not cancel in-progress batch runs; let them finish naturally.
     concurrency:
       group: batch-fuzzing-${{ github.repository }}
@@ -199,6 +206,8 @@ jobs:
       github.event_name == 'schedule' &&
       github.event.schedule == '0 21 * * *'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Push pruned corpus back to gh-pages
     # Do not cancel in-progress pruning runs.
     concurrency:
       group: corpus-pruning-${{ github.repository }}

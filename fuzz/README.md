@@ -86,8 +86,8 @@ To add a new fuzzing target:
 
    ```python
    # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
-   # SPDX-License-Identifier: Apache-2.0
    # SPDX-FileType: SOURCE
+   # SPDX-License-Identifier: Apache-2.0
    """Fuzzing harness for pythainlp.<module>.<function>()"""
 
    import sys
@@ -95,29 +95,38 @@ To add a new fuzzing target:
    import pythainlp.<module>
 
 
-   def TestOneInput(data: bytes) -> None:
-      """Fuzz target for <function>."""
+   def test_one_input(data: bytes) -> None:
+      """Fuzz target for <function>.
+
+      :param bytes data: Random input bytes from the fuzzer
+      :rtype: None
+      """
       fdp = atheris.FuzzedDataProvider(data)
-      
+
       try:
          # Generate test input
          text = fdp.ConsumeUnicodeNoSurrogates(fdp.remaining_bytes())
-         
+
          # Call target function
          result = pythainlp.<module>.<function>(text)
-         
-         # Validate output
+
+         # Validate output (TypeError propagates as a fuzzer finding)
          if not isinstance(result, <expected_type>):
-               raise TypeError(f"Expected <expected_type>, got {type(result)}")
-         
-      except (ValueError, TypeError, UnicodeDecodeError):
-         # Expected exceptions
+               raise TypeError(
+                  f"Expected <expected_type>, got {type(result)}"
+               )
+
+      except (ValueError, UnicodeDecodeError):
+         # Expected exceptions from the target function
          pass
 
 
    def main() -> None:
-      """Entry point for the fuzzer."""
-      atheris.Setup(sys.argv, TestOneInput)
+      """Entry point for the fuzzer.
+
+      :rtype: None
+      """
+      atheris.Setup(sys.argv, test_one_input)
       atheris.Fuzz()
 
 

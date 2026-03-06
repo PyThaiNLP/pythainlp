@@ -14,7 +14,7 @@ import atheris
 import pythainlp.util
 
 
-def TestOneInput(data: bytes) -> None:
+def test_one_input(data: bytes) -> None:
     """Fuzz target for normalize.
 
     :param bytes data: Random input bytes from the fuzzer
@@ -33,17 +33,17 @@ def TestOneInput(data: bytes) -> None:
         if not isinstance(result, str):
             raise TypeError(f"Expected str, got {type(result)}")
 
-    except (ValueError, TypeError, UnicodeDecodeError):
+    except (ValueError, UnicodeDecodeError):
         # Expected exceptions - these are acceptable
         pass
 
 
 def main() -> None:
     """Entry point for the fuzzer.
-    
+
     :rtype: None
     """
-    atheris.Setup(sys.argv, TestOneInput)
+    atheris.Setup(sys.argv, test_one_input)
     atheris.Fuzz()
 
 

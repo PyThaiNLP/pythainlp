@@ -14,7 +14,7 @@ import atheris
 import pythainlp.tokenize
 
 
-def TestOneInput(data: bytes) -> None:
+def test_one_input(data: bytes) -> None:
     """Fuzz target for word_tokenize.
 
     :param bytes data: Random input bytes from the fuzzer
@@ -35,17 +35,17 @@ def TestOneInput(data: bytes) -> None:
         if not all(isinstance(token, str) for token in result):
             raise TypeError("All tokens should be strings")
 
-    except (ValueError, TypeError, UnicodeDecodeError):
+    except (ValueError, UnicodeDecodeError):
         # Expected exceptions - these are acceptable
         pass
 
 
 def main() -> None:
     """Entry point for the fuzzer.
-    
+
     :rtype: None
     """
-    atheris.Setup(sys.argv, TestOneInput)
+    atheris.Setup(sys.argv, test_one_input)
     atheris.Fuzz()
 
 

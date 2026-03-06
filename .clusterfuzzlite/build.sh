@@ -15,15 +15,9 @@ pip install "atheris==2.3.0"
 # Find all fuzz_*.py files in the fuzz directory
 for fuzzer in "${SRC}/pythainlp/fuzz"/fuzz_*.py; do
     [[ -e "$fuzzer" ]] || continue
-    fuzzer_basename=$(basename -s .py "$fuzzer")
-
-    echo "Preparing ${fuzzer_basename}..."
-
-    # Copy fuzzer to output directory (instrumentation happens at runtime)
-    cp "${fuzzer}" "${OUT}/${fuzzer_basename}"
-
-    # Make fuzzer executable
-    chmod +x "${OUT}/${fuzzer_basename}"
+    echo "Compiling $(basename "${fuzzer}")..."
+    # compile_python_fuzzer creates a proper executable wrapper for libFuzzer
+    compile_python_fuzzer "${fuzzer}"
 done
 
 echo "Build completed successfully!"

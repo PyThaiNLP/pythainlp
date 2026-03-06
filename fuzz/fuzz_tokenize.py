@@ -11,7 +11,8 @@ import sys
 
 import atheris
 
-import pythainlp.tokenize
+with atheris.instrument_imports():
+    import pythainlp.tokenize
 
 
 def test_one_input(data: bytes) -> None:

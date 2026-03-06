@@ -11,7 +11,8 @@ import sys
 
 import atheris
 
-import pythainlp.util
+with atheris.instrument_imports():
+    import pythainlp.util
 
 
 def test_one_input(data: bytes) -> None:

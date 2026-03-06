@@ -91,8 +91,11 @@ To add a new fuzzing target:
    """Fuzzing harness for pythainlp.<module>.<function>()"""
 
    import sys
+
    import atheris
-   import pythainlp.<module>
+
+   with atheris.instrument_imports():
+       import pythainlp.<module>
 
 
    def test_one_input(data: bytes) -> None:
@@ -116,8 +119,10 @@ To add a new fuzzing target:
                   f"Expected <expected_type>, got {type(result)}"
                )
 
-      except (ValueError, UnicodeDecodeError):
-         # Expected exceptions from the target function
+      except ValueError:
+         # Expected exceptions from the target function.
+         # UnicodeDecodeError is a subclass of ValueError, so this
+         # catches both.
          pass
 
 
@@ -179,6 +184,37 @@ If a fuzzer finds a crash:
 - Adjust fuzzing time in `.github/workflows/clusterfuzzlite.yml`
 - Default is 300 seconds (5 minutes) per fuzzer
 - For longer sessions, increase the value
+
+### Known warnings on first run
+
+**``fatal: 'origin/gh-pages' is not a commit``**
+
+On the very first workflow run after the PR is merged, ClusterFuzzLite
+will print:
+
+```
+fatal: 'origin/gh-pages' is not a commit and a branch 'gh-pages'
+cannot be created from it
+Switched to a new branch 'gh-pages'
+```
+
+This is expected. The `gh-pages` branch does not exist yet, so
+ClusterFuzzLite creates it and pushes an empty commit to bootstrap the
+corpus storage. Subsequent runs will not show this message.
+
+**``WARNING: no interesting inputs were found so far``**
+
+If the fuzzer imports are not wrapped in
+``atheris.instrument_imports()``, libFuzzer receives no coverage
+feedback and prints this warning. All harnesses in this directory
+wrap their imports correctly:
+
+```python
+with atheris.instrument_imports():
+    import pythainlp.<module>
+```
+
+Ensure any new fuzzer you add follows the same pattern.
 
 ### False Positives
 

@@ -206,7 +206,7 @@ Ensure any new fuzzer you add follows the same pattern.
 On the very first workflow run after the PR is merged, ClusterFuzzLite
 will print:
 
-```
+```text
 fatal: 'origin/gh-pages' is not a commit and a branch 'gh-pages'
 cannot be created from it
 Switched to a new branch 'gh-pages'

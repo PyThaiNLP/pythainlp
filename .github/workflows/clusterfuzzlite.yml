@@ -115,7 +115,7 @@ jobs:
   # -------------------------------------------------------------------------
   # 2. Batch Fuzzing
   # Deep, long-running session to build corpus and find "deep" edge cases.
-  # Duration: ~1 hour. Scheduled daily at 01:30 AM UTC+7 (18:30 UTC).
+  # Duration: ~2 hour. Scheduled daily at 01:30 AM UTC+7 (18:30 UTC).
   # -------------------------------------------------------------------------
   batch-fuzzing:
     name: Batch Fuzzing
@@ -141,7 +141,7 @@ jobs:
             echo "| --- | --- |"
             echo "| Sanitizer | \`${{ matrix.sanitizer }}\` |"
             echo "| Mode | \`batch\` |"
-            echo "| Fuzz seconds | 3600 |"
+            echo "| Fuzz seconds | 7200 |"
             echo "| Schedule | 01:30 AM UTC+7 (18:30 UTC) |"
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -157,7 +157,7 @@ jobs:
         uses: google/clusterfuzzlite/actions/run_fuzzers@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          fuzz-seconds: 3600
+          fuzz-seconds: 7200
           mode: batch
           sanitizer: ${{ matrix.sanitizer }}
           storage-repo: https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git

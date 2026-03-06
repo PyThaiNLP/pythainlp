@@ -3,8 +3,9 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-# Build script for ClusterFuzzLite fuzzing harnesses
-# This script installs atheris and prepares all fuzzing harnesses
+# Build script for ClusterFuzzLite fuzzing harnesses.
+# ClusterFuzzLite requires this file at .clusterfuzzlite/build.sh.
+# This script installs atheris and prepares all fuzzing harnesses.
 
 echo "Building PyThaiNLP fuzz targets..."
 

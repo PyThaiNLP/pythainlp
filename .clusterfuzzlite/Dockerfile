@@ -1,9 +1,10 @@
 # SPDX-FileCopyrightText: 2026 PyThaiNLP Project
-# SPDX-License-Identifier: Apache-2.0
 # SPDX-FileType: SOURCE
+# SPDX-License-Identifier: Apache-2.0
 
-# Dockerfile for ClusterFuzzLite fuzzing
-# This extends the OSS-Fuzz base builder image for Python projects
+# Dockerfile for ClusterFuzzLite fuzzing.
+# ClusterFuzzLite requires this file at .clusterfuzzlite/Dockerfile.
+# This extends the OSS-Fuzz base builder image for Python projects.
 
 FROM gcr.io/oss-fuzz-base/base-builder-python
 
@@ -26,4 +27,4 @@ WORKDIR $SRC/pythainlp
 RUN pip install --no-cache-dir -e .
 
 # Copy build script to $SRC/build.sh as expected by OSS-Fuzz/ClusterFuzzLite
-COPY fuzz/build.sh $SRC/
+COPY .clusterfuzzlite/build.sh $SRC/

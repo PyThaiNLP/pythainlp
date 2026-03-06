@@ -22,13 +22,18 @@ vulnerabilities by feeding random inputs to functions. This setup uses:
 ## Directory Structure
 
 ```text
-fuzz/
+.clusterfuzzlite/
 ├── Dockerfile                 # Docker image for ClusterFuzzLite fuzzing
-├── build.sh                   # Build script for compiling fuzzers
+└── build.sh                   # Build script for ClusterFuzzLite
+
+fuzz/
 ├── fuzz_tokenize.py           # Fuzzer for word_tokenize()
 ├── fuzz_util_normalize.py     # Fuzzer for normalize()
 └── README.md                  # This file
 ```
+
+ClusterFuzzLite requires the ``Dockerfile`` and ``build.sh`` at
+``.clusterfuzzlite/``. The fuzzer Python files live in ``fuzz/``.
 
 ## Current Fuzzing Targets
 
@@ -121,9 +126,9 @@ To add a new fuzzing target:
    ```
 
 2. Ensure the new fuzzer file name follows the ``fuzz_*.py`` pattern,
-    so it can be discovered by ``build.sh``,
-    and run ``bash fuzz/build.sh`` locally to verify
-    that your fuzzer is picked up and built.
+   so it can be discovered by ``.clusterfuzzlite/build.sh``,
+   and run ``bash .clusterfuzzlite/build.sh`` locally to verify
+   that your fuzzer is picked up and built.
 
 3. No changes needed to GitHub Actions workflow
 

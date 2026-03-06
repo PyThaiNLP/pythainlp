@@ -166,6 +166,7 @@
 
 ## Security
 
+- [ ] Follow the principle of least privilege.
 - [ ] Avoid using deprecated, obsolete, or insecure libraries,
       frameworks, or APIs.
 - [ ] When handling sensitive data (like passwords, API keys, personal data),

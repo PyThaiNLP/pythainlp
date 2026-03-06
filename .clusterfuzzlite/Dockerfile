@@ -22,9 +22,9 @@ COPY . $SRC/pythainlp
 # Set working directory
 WORKDIR $SRC/pythainlp
 
-# Install pythainlp in development mode with minimal dependencies
-# This installs the package without heavy ML dependencies to speed up builds
-RUN pip install --no-cache-dir -e .
+# Install pythainlp as a regular install so PyInstaller can bundle it
+# Editable installs use path hooks that PyInstaller cannot follow
+RUN pip install --no-cache-dir .
 
 # Copy build script to $SRC/build.sh as expected by OSS-Fuzz/ClusterFuzzLite
 COPY .clusterfuzzlite/build.sh $SRC/

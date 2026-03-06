@@ -70,11 +70,21 @@ python fuzz/fuzz_tokenize.py corpus_dir/ -max_total_time=60
 
 ## CI/CD integration
 
-Fuzzing runs automatically via GitHub Actions:
+Fuzzing runs automatically via GitHub Actions in three separate jobs:
 
-- On pull requests to `dev` branch (focuses on code changes)
-- On push to `dev` branch
-- Daily at 06:00 UTC (full fuzzing run)
+| Job | Trigger | Mode | Fuzz seconds | Purpose |
+| --- | --- | --- | --- | --- |
+| **PR Fuzzing** | Pull request / push to `dev` | `code-change` | 300 s | Quick check for shallow bugs in new code |
+| **Batch Fuzzing** | Daily at 01:30 AM UTC+7 (18:30 UTC) | `batch` | 3600 s (1 hour) | Deep session to build corpus and find edge cases |
+| **Corpus Pruning** | Daily at 04:00 AM UTC+7 (21:00 UTC) | `prune` | 600 s | Remove redundant corpus entries; runs 2.5 h after Batch Fuzzing |
+
+Total job wall-clock time is longer than the fuzz seconds value because it
+includes building the fuzz targets (Docker image pull + compile, typically
+3–5 minutes). For example, PR Fuzzing targets a total wall-clock time under
+10 minutes with 300 seconds of actual fuzzing.
+
+Each job writes a summary to the GitHub Actions Job Summary panel so that
+the status and any required actions are immediately visible.
 
 Configuration: `.github/workflows/clusterfuzzlite.yml`
 
@@ -182,8 +192,9 @@ If a fuzzer finds a crash:
 ### Performance issues
 
 - Adjust fuzzing time in `.github/workflows/clusterfuzzlite.yml`
-- Default is 300 seconds (5 minutes) per fuzzer
-- For longer sessions, increase the value
+- PR Fuzzing default: 300 seconds (5 minutes)
+- Batch Fuzzing default: 3600 seconds (1 hour)
+- For corpus pruning, the `fuzz-seconds` value is 600 seconds
 
 ### Known warnings
 

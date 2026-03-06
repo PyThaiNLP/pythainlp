@@ -25,34 +25,52 @@ on:
       - '**.txt'
       - 'docs/**'
   schedule:
-    - cron: '0 6 * * *'  # Daily at 06:00 UTC
-
-# Avoid duplicate runs for the same source branch and repository.
-# For pull_request events, uses the source repo name from
-# github.event.pull_request.head.repo.full_name; otherwise uses github.repository.
-# For push events, uses the branch name from github.ref_name.
-# For pull_request events, uses the source branch name from github.head_ref.
-# This ensures events for the same repo and branch share the same group,
-# and avoids cross-fork collisions when branch names are reused.
-concurrency:
-  group: >-
-    ${{ github.workflow }}-${{
-      github.event.pull_request.head.repo.full_name || github.repository
-    }}-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: true
+    # Batch Fuzzing: 01:30 AM UTC+7 = 18:30 UTC
+    - cron: '30 18 * * *'
+    # Corpus Pruning: 04:00 AM UTC+7 = 21:00 UTC (2.5 h after Batch Fuzzing)
+    - cron: '0 21 * * *'
 
 permissions:
   contents: write
   issues: write
 
 jobs:
-  fuzzing:
+  # -------------------------------------------------------------------------
+  # 1. PR Fuzzing
+  # Quick check for "shallow" bugs introduced by new code.
+  # Target: under 10 minutes. Triggered by pull_request or push.
+  # -------------------------------------------------------------------------
+  pr-fuzzing:
+    name: PR Fuzzing
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
+    # Cancel in-progress runs for the same branch to avoid wasted resources.
+    # Uses the source repo name to avoid cross-fork collisions.
+    concurrency:
+      group: >-
+        pr-fuzzing-${{
+          github.event.pull_request.head.repo.full_name || github.repository
+        }}-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: true
     strategy:
       fail-fast: false
       matrix:
         sanitizer: [address]
     steps:
+      - name: Summarize job parameters
+        run: |
+          {
+            echo "## PR Fuzzing"
+            echo ""
+            echo "| Property | Value |"
+            echo "| --- | --- |"
+            echo "| Sanitizer | \`${{ matrix.sanitizer }}\` |"
+            echo "| Mode | \`code-change\` |"
+            echo "| Fuzz seconds | 300 |"
+            echo "| Trigger | \`${{ github.event_name }}\` |"
+            echo "| Ref | \`${{ github.head_ref || github.ref_name }}\` |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Build Fuzzers (${{ matrix.sanitizer }})
         id: build
         uses: google/clusterfuzzlite/actions/build_fuzzers@v1
@@ -66,15 +84,173 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           fuzz-seconds: 300
-          mode: ${{ github.event_name == 'pull_request' && 'code-change' || 'batch' }}
+          mode: code-change
           sanitizer: ${{ matrix.sanitizer }}
           storage-repo: https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           storage-repo-branch: gh-pages
           storage-repo-branch-coverage: gh-pages
 
+      - name: Report results
+        if: always()
+        run: |
+          {
+            echo ""
+            if [ "${{ steps.build.outcome }}" != "success" ]; then
+              echo ":x: **Build failed.** Check the build step log for details."
+            elif [ "${{ steps.run.outcome }}" = "success" ]; then
+              echo ":white_check_mark: **PR fuzzing completed — no new crashes found.**"
+            else
+              echo ":x: **PR fuzzing found a crash or encountered an error.**"
+              echo "Download the \`${{ matrix.sanitizer }}-pr-artifacts\` artifact for crash inputs."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload crash artifacts
         if: failure() && steps.run.outcome == 'failure'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.sanitizer }}-artifacts
+          name: ${{ matrix.sanitizer }}-pr-artifacts
           path: ./out/artifacts
+
+  # -------------------------------------------------------------------------
+  # 2. Batch Fuzzing
+  # Deep, long-running session to build corpus and find "deep" edge cases.
+  # Duration: ~1 hour. Scheduled daily at 01:30 AM UTC+7 (18:30 UTC).
+  # -------------------------------------------------------------------------
+  batch-fuzzing:
+    name: Batch Fuzzing
+    if: >-
+      github.event_name == 'schedule' &&
+      github.event.schedule == '30 18 * * *'
+    runs-on: ubuntu-latest
+    # Do not cancel in-progress batch runs; let them finish naturally.
+    concurrency:
+      group: batch-fuzzing-${{ github.repository }}
+      cancel-in-progress: false
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer: [address]
+    steps:
+      - name: Summarize job parameters
+        run: |
+          {
+            echo "## Batch Fuzzing"
+            echo ""
+            echo "| Property | Value |"
+            echo "| --- | --- |"
+            echo "| Sanitizer | \`${{ matrix.sanitizer }}\` |"
+            echo "| Mode | \`batch\` |"
+            echo "| Fuzz seconds | 3600 |"
+            echo "| Schedule | 01:30 AM UTC+7 (18:30 UTC) |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Build Fuzzers (${{ matrix.sanitizer }})
+        id: build
+        uses: google/clusterfuzzlite/actions/build_fuzzers@v1
+        with:
+          sanitizer: ${{ matrix.sanitizer }}
+          language: python
+
+      - name: Run Fuzzers (${{ matrix.sanitizer }})
+        id: run
+        uses: google/clusterfuzzlite/actions/run_fuzzers@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fuzz-seconds: 3600
+          mode: batch
+          sanitizer: ${{ matrix.sanitizer }}
+          storage-repo: https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          storage-repo-branch: gh-pages
+          storage-repo-branch-coverage: gh-pages
+
+      - name: Report results
+        if: always()
+        run: |
+          {
+            echo ""
+            if [ "${{ steps.build.outcome }}" != "success" ]; then
+              echo ":x: **Build failed.** Check the build step log for details."
+            elif [ "${{ steps.run.outcome }}" = "success" ]; then
+              echo ":white_check_mark: **Batch fuzzing completed — no new crashes found.**"
+              echo ""
+              echo "Corpus has been updated in the \`gh-pages\` branch."
+            else
+              echo ":x: **Batch fuzzing found a crash or encountered an error.**"
+              echo "Download the \`${{ matrix.sanitizer }}-batch-artifacts\` artifact for crash inputs."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload crash artifacts
+        if: failure() && steps.run.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.sanitizer }}-batch-artifacts
+          path: ./out/artifacts
+
+  # -------------------------------------------------------------------------
+  # 3. Corpus Pruning
+  # Housekeeping: removes redundant test cases to keep the fuzzer efficient.
+  # Scheduled daily at 04:00 AM UTC+7 (21:00 UTC), 2.5 h after Batch Fuzzing.
+  # -------------------------------------------------------------------------
+  corpus-pruning:
+    name: Corpus Pruning
+    if: >-
+      github.event_name == 'schedule' &&
+      github.event.schedule == '0 21 * * *'
+    runs-on: ubuntu-latest
+    # Do not cancel in-progress pruning runs.
+    concurrency:
+      group: corpus-pruning-${{ github.repository }}
+      cancel-in-progress: false
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer: [address]
+    steps:
+      - name: Summarize job parameters
+        run: |
+          {
+            echo "## Corpus Pruning"
+            echo ""
+            echo "| Property | Value |"
+            echo "| --- | --- |"
+            echo "| Sanitizer | \`${{ matrix.sanitizer }}\` |"
+            echo "| Mode | \`prune\` |"
+            echo "| Schedule | 04:00 AM UTC+7 (21:00 UTC) |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Build Fuzzers (${{ matrix.sanitizer }})
+        id: build
+        uses: google/clusterfuzzlite/actions/build_fuzzers@v1
+        with:
+          sanitizer: ${{ matrix.sanitizer }}
+          language: python
+
+      - name: Prune Corpus (${{ matrix.sanitizer }})
+        id: prune
+        uses: google/clusterfuzzlite/actions/run_fuzzers@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fuzz-seconds: 600
+          mode: prune
+          sanitizer: ${{ matrix.sanitizer }}
+          storage-repo: https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          storage-repo-branch: gh-pages
+          storage-repo-branch-coverage: gh-pages
+
+      - name: Report results
+        if: always()
+        run: |
+          {
+            echo ""
+            if [ "${{ steps.build.outcome }}" != "success" ]; then
+              echo ":x: **Build failed.** Check the build step log for details."
+            elif [ "${{ steps.prune.outcome }}" = "success" ]; then
+              echo ":white_check_mark: **Corpus pruning completed successfully.**"
+              echo ""
+              echo "The corpus in the \`gh-pages\` branch has been pruned."
+            else
+              echo ":x: **Corpus pruning encountered an error.** Check the prune step log."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

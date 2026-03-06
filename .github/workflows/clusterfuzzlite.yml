@@ -1,0 +1,80 @@
+# SPDX-FileCopyrightText: 2026 PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
+
+name: ClusterFuzzLite
+
+on:
+  push:
+    branches:
+      - dev
+    paths-ignore:
+      - '**.cff'
+      - '**.json'
+      - '**.md'
+      - '**.rst'
+      - '**.txt'
+      - 'docs/**'
+  pull_request:
+    branches:
+      - dev
+    paths-ignore:
+      - '**.cff'
+      - '**.json'
+      - '**.md'
+      - '**.rst'
+      - '**.txt'
+      - 'docs/**'
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 06:00 UTC
+
+# Avoid duplicate runs for the same source branch and repository.
+# For pull_request events, uses the source repo name from
+# github.event.pull_request.head.repo.full_name; otherwise uses github.repository.
+# For push events, uses the branch name from github.ref_name.
+# For pull_request events, uses the source branch name from github.head_ref.
+# This ensures events for the same repo and branch share the same group,
+# and avoids cross-fork collisions when branch names are reused.
+concurrency:
+  group: >-
+    ${{ github.workflow }}-${{
+      github.event.pull_request.head.repo.full_name || github.repository
+    }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  fuzzing:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer: [address]
+    steps:
+      - name: Build Fuzzers (${{ matrix.sanitizer }})
+        id: build
+        uses: google/clusterfuzzlite/actions/build_fuzzers@v1
+        with:
+          sanitizer: ${{ matrix.sanitizer }}
+          language: python
+
+      - name: Run Fuzzers (${{ matrix.sanitizer }})
+        id: run
+        uses: google/clusterfuzzlite/actions/run_fuzzers@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fuzz-seconds: 300
+          mode: ${{ github.event_name == 'pull_request' && 'code-change' || 'batch' }}
+          sanitizer: ${{ matrix.sanitizer }}
+          storage-repo: https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          storage-repo-branch: gh-pages
+          storage-repo-branch-coverage: gh-pages
+
+      - name: Upload crash artifacts
+        if: failure() && steps.run.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.sanitizer }}-artifacts
+          path: ./out/artifacts

@@ -133,3 +133,14 @@ logs/
 # Type annotation analyzer
 build_tools/output/*.csv
 build_tools/output/*.json
+
+# Fuzzing artifacts
+fuzz/corpus/
+fuzz/crashes/
+fuzz/artifacts/
+fuzz/*.profraw
+fuzz/*.profdata
+crash-*
+leak-*
+timeout-*
+oom-*

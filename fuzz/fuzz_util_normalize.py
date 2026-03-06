@@ -33,8 +33,8 @@ def test_one_input(data: bytes) -> None:
         if not isinstance(result, str):
             raise TypeError(f"Expected str, got {type(result)}")
 
-    except (ValueError, UnicodeDecodeError):
-        # Expected exceptions - these are acceptable
+    except ValueError:
+        # Expected exception - UnicodeDecodeError is a subclass of ValueError
         pass
 
 

@@ -35,8 +35,8 @@ def test_one_input(data: bytes) -> None:
         if not all(isinstance(token, str) for token in result):
             raise TypeError("All tokens should be strings")
 
-    except (ValueError, UnicodeDecodeError):
-        # Expected exceptions - these are acceptable
+    except ValueError:
+        # Expected exception - UnicodeDecodeError is a subclass of ValueError
         pass
 
 

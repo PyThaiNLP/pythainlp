@@ -24,7 +24,8 @@
 - [ ] Complete type annotations for function, method, class, variable, etc.
       Maintain near-100% type annotation coverage.
 - [ ] Add tests for new functionality or behavior.
-      Keep the test coverage high.
+      New PR must not drop the test coverage more than 0.2%.
+- [ ] Keep the test coverage high. Aim at least 70% test coverage.
 - [ ] Add test cases to capture edge cases.
 - [ ] Add test cases to cover code branches.
 - [ ] Major changes should be logged in the change log at

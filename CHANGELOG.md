@@ -40,8 +40,11 @@ See PR for prompt and details.
 - Add BLEU, ROUGE, WER, and CER metrics to pythainlp.benchmarks #1295
 - Add Attaparse engine to dependency parser
   (`dependency_parsing`, engine="attaparse") #1303
-- `get_corpus_path()` no longer auto-downloads missing corpus files;
-  callers now raise `FileNotFoundError` with download instructions #1306
+- `get_corpus_path()` now respects `PYTHAINLP_OFFLINE` env var (same semantics
+  as `HF_HUB_OFFLINE`): when set, raises `FileNotFoundError` if the corpus is
+  not already cached locally; when unset, auto-downloads as before #1306
+- Callers raise `FileNotFoundError` with download instructions when a corpus
+  path cannot be resolved (e.g. download failed) #1306
 - Improved documentation; code cleanup; more tests
 
 ## Version 5.1.2 -> 5.2.0

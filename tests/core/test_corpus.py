@@ -262,30 +262,44 @@ class CorpusTestCase(unittest.TestCase):
             self.assertGreater(len(result_unigram), 0)
             self.assertEqual(result_unigram["คน"], 1000)
 
-    def test_get_corpus_path_no_auto_download(self):
-        """Test that get_corpus_path() does not auto-download missing corpora."""
-        # Unknown corpus name → None
-        self.assertIsNone(get_corpus_path("XXXkdjfBzc_nonexistent"))
+    def test_get_corpus_path_offline_mode(self):
+        """Test get_corpus_path() behavior with PYTHAINLP_OFFLINE env var."""
+        # Unknown corpus name: download is attempted (it fails) → None
+        with patch.dict(os.environ, {"PYTHAINLP_OFFLINE": ""}):
+            self.assertIsNone(get_corpus_path("XXXkdjfBzc_nonexistent"))
 
-        # Corpus in local catalog but file missing → empty string
+        # When PYTHAINLP_OFFLINE=1 and corpus not in local catalog → raises
+        with patch.dict(os.environ, {"PYTHAINLP_OFFLINE": "1"}):
+            with patch(
+                "pythainlp.corpus.core.get_corpus_db_detail",
+                return_value={},
+            ):
+                with self.assertRaises(FileNotFoundError) as ctx:
+                    get_corpus_path("some_corpus")
+                self.assertIn("PYTHAINLP_OFFLINE", str(ctx.exception))
+
+        # When PYTHAINLP_OFFLINE=1 and file registered but missing → raises
         fake_db_detail = {"name": "fake_corpus", "filename": "fake_file.txt"}
-        with patch(
-            "pythainlp.corpus.core.get_corpus_db_detail",
-            return_value=fake_db_detail,
-        ):
-            with patch("os.path.exists", return_value=False):
-                result = get_corpus_path("fake_corpus")
-                self.assertEqual(result, "")
+        with patch.dict(os.environ, {"PYTHAINLP_OFFLINE": "1"}):
+            with patch(
+                "pythainlp.corpus.core.get_corpus_db_detail",
+                return_value=fake_db_detail,
+            ):
+                with patch("os.path.exists", return_value=False):
+                    with self.assertRaises(FileNotFoundError) as ctx:
+                        get_corpus_path("fake_corpus")
+                    self.assertIn("PYTHAINLP_OFFLINE", str(ctx.exception))
 
-        # Corpus in local catalog and file present → non-empty path
-        with patch(
-            "pythainlp.corpus.core.get_corpus_db_detail",
-            return_value=fake_db_detail,
-        ):
-            with patch("os.path.exists", return_value=True):
-                result = get_corpus_path("fake_corpus")
-                self.assertIsNotNone(result)
-                self.assertNotEqual(result, "")
+        # When PYTHAINLP_OFFLINE=1 and file exists → returns path normally
+        with patch.dict(os.environ, {"PYTHAINLP_OFFLINE": "1"}):
+            with patch(
+                "pythainlp.corpus.core.get_corpus_db_detail",
+                return_value=fake_db_detail,
+            ):
+                with patch("os.path.exists", return_value=True):
+                    result = get_corpus_path("fake_corpus")
+                    self.assertIsNotNone(result)
+                    self.assertNotEqual(result, "")
 
     def test_revise_wordset(self):
         training_data = [

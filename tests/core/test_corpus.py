@@ -125,8 +125,10 @@ class CorpusTestCase(unittest.TestCase):
 """
         mock_path = "/mock/path/oscar_icu"
 
-        with patch('pythainlp.corpus.oscar.get_corpus_path', return_value=mock_path):
-            with patch('builtins.open', mock_open(read_data=mock_oscar_data)):
+        with patch(
+            "pythainlp.corpus.oscar.get_corpus_path", return_value=mock_path
+        ):
+            with patch("builtins.open", mock_open(read_data=mock_oscar_data)):
                 result = oscar.word_freqs()
                 self.assertIsNotNone(result)
                 self.assertIsInstance(result, list)
@@ -140,7 +142,9 @@ class CorpusTestCase(unittest.TestCase):
                     self.assertNotIn('"', word)
 
                 # Reset mock for unigram test
-                with patch('builtins.open', mock_open(read_data=mock_oscar_data)):
+                with patch(
+                    "builtins.open", mock_open(read_data=mock_oscar_data)
+                ):
                     result_unigram = oscar.unigram_word_freqs()
                     self.assertIsNotNone(result_unigram)
                     self.assertIsInstance(result_unigram, dict)
@@ -164,7 +168,10 @@ class CorpusTestCase(unittest.TestCase):
 ภาษา	ไทย	คน	3"""
 
         # Test unigram functions
-        with patch('pythainlp.corpus.tnc.get_corpus', return_value=frozenset(mock_unigram_data.split('\n'))):
+        with patch(
+            "pythainlp.corpus.tnc.get_corpus",
+            return_value=frozenset(mock_unigram_data.split("\n")),
+        ):
             result = tnc.word_freqs()
             self.assertIsNotNone(result)
             self.assertIsInstance(result, list)
@@ -180,8 +187,11 @@ class CorpusTestCase(unittest.TestCase):
 
         # Test bigram function
         mock_bigram_path = "/mock/path/bigram"
-        with patch('pythainlp.corpus.tnc.get_corpus_path', return_value=mock_bigram_path):
-            with patch('builtins.open', mock_open(read_data=mock_bigram_data)):
+        with patch(
+            "pythainlp.corpus.tnc.get_corpus_path",
+            return_value=mock_bigram_path,
+        ):
+            with patch("builtins.open", mock_open(read_data=mock_bigram_data)):
                 result_bigram = tnc.bigram_word_freqs()
                 self.assertIsNotNone(result_bigram)
                 self.assertIsInstance(result_bigram, dict)
@@ -190,8 +200,13 @@ class CorpusTestCase(unittest.TestCase):
 
         # Test trigram function
         mock_trigram_path = "/mock/path/trigram"
-        with patch('pythainlp.corpus.tnc.get_corpus_path', return_value=mock_trigram_path):
-            with patch('builtins.open', mock_open(read_data=mock_trigram_data)):
+        with patch(
+            "pythainlp.corpus.tnc.get_corpus_path",
+            return_value=mock_trigram_path,
+        ):
+            with patch(
+                "builtins.open", mock_open(read_data=mock_trigram_data)
+            ):
                 result_trigram = tnc.trigram_word_freqs()
                 self.assertIsNotNone(result_trigram)
                 self.assertIsInstance(result_trigram, dict)
@@ -217,8 +232,8 @@ class CorpusTestCase(unittest.TestCase):
         self.assertGreater(len(unigram_result), 0)
 
         # Check that common Thai words exist
-        self.assertIn('ไทย', unigram_result)
-        self.assertGreater(unigram_result['ไทย'], 0)
+        self.assertIn("ไทย", unigram_result)
+        self.assertGreater(unigram_result["ไทย"], 0)
 
         # Verify the full dataset is available (not pre-filtered)
         # The full dataset should have more words than just ORST
@@ -230,7 +245,10 @@ class CorpusTestCase(unittest.TestCase):
 ไทย	500
 ภาษา	300"""
 
-        with patch('pythainlp.corpus.ttc.get_corpus', return_value=frozenset(mock_ttc_data.split('\n'))):
+        with patch(
+            "pythainlp.corpus.ttc.get_corpus",
+            return_value=frozenset(mock_ttc_data.split("\n")),
+        ):
             result = ttc.word_freqs()
             self.assertIsNotNone(result)
             self.assertIsInstance(result, list)
@@ -244,6 +262,59 @@ class CorpusTestCase(unittest.TestCase):
             self.assertGreater(len(result_unigram), 0)
             self.assertEqual(result_unigram["คน"], 1000)
 
+    def test_get_corpus_path_offline_mode(self):
+        """Test get_corpus_path() behavior with PYTHAINLP_OFFLINE env var."""
+        # Unknown corpus name: download is attempted (it fails) → None
+        with patch.dict(os.environ, {"PYTHAINLP_OFFLINE": ""}):
+            self.assertIsNone(get_corpus_path("XXXkdjfBzc_nonexistent"))
+
+        # When PYTHAINLP_OFFLINE=1 and corpus not in local catalog → raises
+        with patch.dict(os.environ, {"PYTHAINLP_OFFLINE": "1"}):
+            with patch(
+                "pythainlp.corpus.core.get_corpus_db_detail",
+                return_value={},
+            ):
+                with self.assertRaises(FileNotFoundError) as ctx:
+                    get_corpus_path("some_corpus")
+                self.assertIn("PYTHAINLP_OFFLINE", str(ctx.exception))
+
+        # When PYTHAINLP_OFFLINE=1 and file registered but missing → raises
+        fake_db_detail = {"name": "fake_corpus", "filename": "fake_file.txt"}
+        with patch.dict(os.environ, {"PYTHAINLP_OFFLINE": "1"}):
+            with patch(
+                "pythainlp.corpus.core.get_corpus_db_detail",
+                return_value=fake_db_detail,
+            ):
+                with patch("os.path.exists", return_value=False):
+                    with self.assertRaises(FileNotFoundError) as ctx:
+                        get_corpus_path("fake_corpus")
+                    self.assertIn("PYTHAINLP_OFFLINE", str(ctx.exception))
+
+        # When PYTHAINLP_OFFLINE=1 and file exists → returns path normally
+        with patch.dict(os.environ, {"PYTHAINLP_OFFLINE": "1"}):
+            with patch(
+                "pythainlp.corpus.core.get_corpus_db_detail",
+                return_value=fake_db_detail,
+            ):
+                with patch("os.path.exists", return_value=True):
+                    result = get_corpus_path("fake_corpus")
+                    self.assertIsNotNone(result)
+                    self.assertNotEqual(result, "")
+
+    def test_download_ignores_offline_mode(self):
+        """download() must work even when PYTHAINLP_OFFLINE=1.
+
+        Explicit calls to download() are deliberate user actions and must
+        not be blocked by the PYTHAINLP_OFFLINE environment variable.
+        That variable only prevents the *automatic* download triggered by
+        get_corpus_path() when a corpus is missing locally.
+        """
+        # Use the real "test" corpus so the download actually goes through
+        with patch.dict(os.environ, {"PYTHAINLP_OFFLINE": "1"}):
+            result = download("test")
+            # Should succeed (returns True), not be blocked
+            self.assertTrue(result)
+
     def test_revise_wordset(self):
         training_data = [
             ["ถวิล อุดล", " ", "เป็น", "นักการเมือง", "หนึ่ง", "ใน"],
@@ -255,7 +326,8 @@ class CorpusTestCase(unittest.TestCase):
         self.assertIsInstance(revise_newmm_default_wordset(training_data), set)
 
     def test_zip(self):
-        p = get_corpus_path("test_zip")  # may need to reduce the test zip size
+        self.assertTrue(download("test_zip"))  # download first
+        p = get_corpus_path("test_zip")
         self.assertTrue(os.path.isdir(p))
         self.assertTrue(remove("test_zip"))
 

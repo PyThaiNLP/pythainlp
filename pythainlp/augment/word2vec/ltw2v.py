@@ -32,10 +32,12 @@ class LTW2VAug:
 
     def load_w2v(self) -> None:  # insert substitute
         """Load LTW2V's word2vec model"""
-        if self.ltw2v_wv is None:
-            raise ValueError(
-                "LTW2V word2vec model not found. "
-                "Please download it first using pythainlp.corpus.download('ltw2v_wv')"
+        if not self.ltw2v_wv:
+            raise FileNotFoundError(
+                "corpus-not-found name='ltw2v_wv'\n"
+                "  Corpus 'ltw2v_wv' not found.\n"
+                "    Python: pythainlp.corpus.download('ltw2v_wv')\n"
+                "    CLI:    thainlp data get ltw2v_wv"
             )
         self.aug: Word2VecAug = Word2VecAug(
             self.ltw2v_wv, self.tokenizer, type="binary"

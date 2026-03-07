@@ -32,6 +32,30 @@ class ThaiTransliterator_ONNX:
         self.__encoder_filename: str = get_corpus_path(_MODEL_ENCODER_NAME)  # type: ignore[assignment]
         self.__decoder_filename: str = get_corpus_path(_MODEL_DECODER_NAME)  # type: ignore[assignment]
         self.__config_filename: str = get_corpus_path(_MODEL_CONFIG_NAME)  # type: ignore[assignment]
+        if (
+            not self.__encoder_filename
+            or not self.__decoder_filename
+            or not self.__config_filename
+        ):
+            missing = [
+                n
+                for n, v in (
+                    (_MODEL_ENCODER_NAME, self.__encoder_filename),
+                    (_MODEL_DECODER_NAME, self.__decoder_filename),
+                    (_MODEL_CONFIG_NAME, self.__config_filename),
+                )
+                if not v
+            ]
+            raise FileNotFoundError(
+                f"corpus-not-found names={missing!r}\n"
+                f"  Corpus file(s) not found: {', '.join(missing)}.\n"
+                f"  Download each missing corpus:\n"
+                + "\n".join(
+                    f"    Python: pythainlp.corpus.download('{n}')\n"
+                    f"    CLI:    thainlp data get {n}"
+                    for n in missing
+                )
+            )
 
         # loader = torch.load(self.__model_filename, map_location=device)
         with open(str(self.__config_filename)) as f:

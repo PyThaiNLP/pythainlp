@@ -49,8 +49,14 @@ class ThaiG2P:
     _network: "Seq2Seq"
 
     def __init__(self) -> None:
-        # get the model, download it if it's not available locally
         self.__model_filename: str = get_corpus_path(_MODEL_NAME)  # type: ignore[assignment]
+        if not self.__model_filename:
+            raise FileNotFoundError(
+                f"corpus-not-found name={_MODEL_NAME!r}\n"
+                f"  Corpus '{_MODEL_NAME}' not found.\n"
+                f"    Python: pythainlp.corpus.download('{_MODEL_NAME}')\n"
+                f"    CLI:    thainlp data get {_MODEL_NAME}"
+            )
 
         loader = torch.load(self.__model_filename, map_location=device)
 

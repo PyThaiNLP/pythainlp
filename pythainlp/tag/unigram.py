@@ -53,8 +53,13 @@ def _blackboard_tagger() -> dict[str, str]:
     global _BLACKBOARD_TAGGER
     if not _BLACKBOARD_TAGGER:
         path = get_corpus_path(_BLACKBOARD_NAME)
-        if path is None:
-            raise ValueError(f"Corpus path not found for {_BLACKBOARD_NAME}")
+        if not path:
+            raise FileNotFoundError(
+                f"corpus-not-found name={_BLACKBOARD_NAME!r}\n"
+                f"  Corpus '{_BLACKBOARD_NAME}' not found.\n"
+                f"    Python: pythainlp.corpus.download('{_BLACKBOARD_NAME}')\n"
+                f"    CLI:    thainlp data get {_BLACKBOARD_NAME}"
+            )
         with open(path, encoding="utf-8-sig") as fh:
             _BLACKBOARD_TAGGER = json.load(fh)
     return _BLACKBOARD_TAGGER

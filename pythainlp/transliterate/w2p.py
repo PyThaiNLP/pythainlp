@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional
 
-from pythainlp.corpus import download, get_corpus_path
+from pythainlp.corpus import get_corpus_path
 
 if TYPE_CHECKING:
     import numpy as np
@@ -87,13 +87,13 @@ class Thai_W2P:
         self.checkpoint: Optional[str] = get_corpus_path(
             _MODEL_NAME, version="0.2"
         )
-        if self.checkpoint is None:
-            download(_MODEL_NAME, version="0.2")
-            self.checkpoint = get_corpus_path(_MODEL_NAME)
-            if self.checkpoint is None:
-                raise RuntimeError(
-                    f"Failed to download or locate {_MODEL_NAME} corpus"
-                )
+        if not self.checkpoint:
+            raise FileNotFoundError(
+                f"corpus-not-found name={_MODEL_NAME!r}\n"
+                f"  Corpus '{_MODEL_NAME}' not found.\n"
+                f"    Python: pythainlp.corpus.download('{_MODEL_NAME}', version='0.2')\n"
+                f"    CLI:    thainlp data get {_MODEL_NAME}"
+            )
         self._load_variables()
 
     def _load_variables(self) -> None:

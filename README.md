@@ -77,13 +77,26 @@ please inspect the `[project.optional-dependencies]` section of
 PyThaiNLP downloads data (see the data catalog `db.json` at
 [pythainlp-corpus](https://github.com/PyThaiNLP/pythainlp-corpus))
 to `~/pythainlp-data` by default.
-Set the `PYTHAINLP_DATA_DIR` environment variable to override this location.
+Set the `PYTHAINLP_DATA` environment variable to override this location.
+(`PYTHAINLP_DATA_DIR` is still accepted but deprecated.)
 
 When using PyThaiNLP in distributed computing environments
-(e.g., Apache Spark), set the `PYTHAINLP_DATA_DIR` environment variable
+(e.g., Apache Spark), set the `PYTHAINLP_DATA` environment variable
 inside the function that will be distributed to worker nodes.
 See details in
 [the documentation](https://pythainlp.org/dev-docs/notes/installation.html).
+
+### Offline mode
+
+Set `PYTHAINLP_OFFLINE=1` to disable automatic corpus downloads.
+When this variable is set and a corpus is not already cached locally,
+a `FileNotFoundError` is raised instead of attempting a network download.
+Use `pythainlp.is_offline_mode()` to check the current state programmatically.
+
+```python
+import pythainlp
+print(pythainlp.is_offline_mode())  # True if PYTHAINLP_OFFLINE=1
+```
 
 ## Testing
 

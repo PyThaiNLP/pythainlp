@@ -109,10 +109,11 @@ pip install "pythainlp[extra1,extra2,...]"
 PyThaiNLP ดาวน์โหลดข้อมูล (ดูแค็ตตาล็อกข้อมูล `db.json` ที่
 [pythainlp-corpus](https://github.com/PyThaiNLP/pythainlp-corpus))
 ไปที่ `~/pythainlp-data` ตามค่าเริ่มต้น
-ตั้งค่า environment variable `PYTHAINLP_DATA_DIR` เพื่อเปลี่ยนตำแหน่งนี้
+ตั้งค่า environment variable `PYTHAINLP_DATA` เพื่อเปลี่ยนตำแหน่งนี้
+(`PYTHAINLP_DATA_DIR` ยังคงใช้ได้แต่เลิกใช้แล้ว)
 
 เมื่อใช้ PyThaiNLP ในสภาพแวดล้อมการคำนวณแบบกระจาย
-(เช่น Apache Spark) ให้ตั้งค่า environment variable `PYTHAINLP_DATA_DIR`
+(เช่น Apache Spark) ให้ตั้งค่า environment variable `PYTHAINLP_DATA`
 ภายในฟังก์ชันที่จะถูกกระจายไปยัง worker nodes
 ดูรายละเอียดใน[เอกสาร](https://pythainlp.org/dev-docs/notes/installation.html)
 

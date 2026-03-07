@@ -18,6 +18,7 @@ from typing import TYPE_CHECKING
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
+from pythainlp.tools.path import is_offline_mode
 
 if TYPE_CHECKING:
     from typing import Any, Optional
@@ -245,46 +246,74 @@ def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
     return None
 
 
-def get_corpus_path(
-    name: str, version: str = "", force: bool = False
+def _resolve_corpus_file_path(
+    corpus_db_detail: dict[str, Any],
 ) -> Optional[str]:
+    """Resolve the local filesystem path for a corpus catalog entry.
+
+    :param dict corpus_db_detail: a corpus catalog entry from the local DB
+    :return: full local path to the corpus file or folder,
+             or ``None`` if required path information is missing
+    :rtype: Optional[str]
+    """
+    if corpus_db_detail.get("is_folder"):
+        foldername = corpus_db_detail.get("foldername")
+        return get_full_data_path(foldername) if foldername else None
+    filename = corpus_db_detail.get("filename")
+    return get_full_data_path(filename) if filename else None
+
+
+def get_corpus_path(name: str, version: str = "") -> Optional[str]:
     """Get corpus path.
 
+    The function checks the following locations in order:
+
+    1. A user-defined path override (``CUSTOMIZE`` mapping).
+    2. Bundled (default) corpora shipped with PyThaiNLP.
+    3. The local download catalog (``~/pythainlp-data/``).
+
+    When the corpus file is not present locally, the behavior depends on the
+    ``PYTHAINLP_OFFLINE`` environment variable:
+
+    - If ``PYTHAINLP_OFFLINE`` is set to a truthy value (e.g., ``"1"``),
+      a :exc:`FileNotFoundError` is raised immediately.
+    - Otherwise, the corpus is downloaded automatically.
+
     :param str name: corpus name
-    :param str version: version
-    :param bool force: force downloading
-    :return: path to the corpus or **None** if the corpus doesn't \
-             exist on the device
-    :rtype: str
+    :param str version: corpus version (empty string means latest)
+    :return: full local path when the corpus exists,
+             or ``None`` when the corpus cannot be found or downloaded.
+    :rtype: Optional[str]
+
+    :raises FileNotFoundError: when the corpus is missing locally and
+        ``PYTHAINLP_OFFLINE`` is set to a truthy value.
 
     :Example:
 
     (Please see the filename in
-    `this file
-    <https://pythainlp.org/pythainlp-corpus/db.json>`_
+    `this file <https://pythainlp.org/pythainlp-corpus/db.json>`_)
 
     If the corpus already exists::
 
         from pythainlp.corpus import get_corpus_path
 
-        print(get_corpus_path('ttc'))
+        print(get_corpus_path("ttc"))
         # output: /root/pythainlp-data/ttc_freq.txt
 
-    If the corpus has not been downloaded yet::
+    If the corpus has not been downloaded yet (online mode)::
+
+        from pythainlp.corpus import get_corpus_path
+
+        print(get_corpus_path("wiki_lm_lstm"))
+        # output: /root/pythainlp-data/thwiki_model_lstm.pth
+        # (downloads automatically on first call)
+
+    To download manually::
 
         from pythainlp.corpus import download, get_corpus_path
 
-        print(get_corpus_path('wiki_lm_lstm'))
-        # output: None
-
-        download('wiki_lm_lstm')
-        # output:
-        # Download: wiki_lm_lstm
-        # wiki_lm_lstm 0.32
-        # thwiki_lm.pth?dl=1: 1.05GB [00:25, 41.5MB/s]
-        # /root/pythainlp-data/thwiki_model_lstm.pth
-
-        print(get_corpus_path('wiki_lm_lstm'))
+        download("wiki_lm_lstm")
+        print(get_corpus_path("wiki_lm_lstm"))
         # output: /root/pythainlp-data/thwiki_model_lstm.pth
     """
     CUSTOMIZE: dict[str, str] = {
@@ -293,38 +322,50 @@ def get_corpus_path(
     if name in CUSTOMIZE:
         return CUSTOMIZE[name]
 
+    # Check bundled (default) corpora first
     default_path = get_corpus_default_db(name=name, version=version)
     if default_path is not None:
         return default_path
 
-    # check if the corpus is in local catalog, download it if not
+    # Check the local download catalog
     corpus_db_detail = get_corpus_db_detail(name, version=version)
-
-    if not corpus_db_detail or not corpus_db_detail.get("filename"):
-        download(name, version=version, force=force)
+    if not corpus_db_detail:
+        # Corpus not in local catalog; download it unless in offline mode
+        if is_offline_mode():
+            raise FileNotFoundError(
+                f"corpus-not-found name={name!r}\n"
+                f"  Corpus '{name}' not found locally.\n"
+                f"  PYTHAINLP_OFFLINE is set; automatic downloading is disabled.\n"
+                f"  To download, unset PYTHAINLP_OFFLINE, then run:\n"
+                f"    Python: pythainlp.corpus.download('{name}')\n"
+                f"    CLI:    thainlp data get {name}"
+            )
+        if not download(name, version=version):
+            return None
         corpus_db_detail = get_corpus_db_detail(name, version=version)
+        if not corpus_db_detail:
+            return None
 
-    if corpus_db_detail and corpus_db_detail.get("filename"):
-        # corpus is in the local catalog, get full path to the file
-        if corpus_db_detail.get("is_folder"):
-            foldername = corpus_db_detail.get("foldername")
-            if foldername:
-                path = get_full_data_path(foldername)
-            else:
-                return None
-        else:
-            filename = corpus_db_detail.get("filename")
-            if filename:
-                path = get_full_data_path(filename)
-            else:
-                return None
-        # check if the corpus file actually exists, download it if not
-        if not os.path.exists(path):
-            download(name, version=version, force=force)
-        if os.path.exists(path):
-            return path
+    path = _resolve_corpus_file_path(corpus_db_detail)
+    if path is None:
+        return None
 
-    return None
+    if os.path.exists(path):
+        return path
+
+    # File is registered in catalog but missing from disk
+    if is_offline_mode():
+        raise FileNotFoundError(
+            f"corpus-not-found name={name!r} expected-path={path!r}\n"
+            f"  Corpus '{name}' expected at '{path}' but file not found.\n"
+            f"  PYTHAINLP_OFFLINE is set; automatic re-downloading is disabled.\n"
+            f"  To re-download, unset PYTHAINLP_OFFLINE, then run:\n"
+            f"    Python: pythainlp.corpus.download('{name}', force=True)\n"
+            f"    CLI:    thainlp data get {name}"
+        )
+    if not download(name, version=version, force=True):
+        return None
+    return path if os.path.exists(path) else None
 
 
 def _download(url: str, dst: str) -> int:
@@ -588,6 +629,12 @@ def download(
     The available corpus names can be seen in this file:
     https://pythainlp.org/pythainlp-corpus/db.json
 
+    This function always performs the download regardless of the
+    ``PYTHAINLP_OFFLINE`` environment variable, because an explicit call
+    to ``download()`` is a deliberate user action.
+    ``PYTHAINLP_OFFLINE`` only blocks the *automatic* download triggered
+    by :func:`pythainlp.corpus.get_corpus_path`.
+
     :param str name: corpus name
     :param bool force: force downloading
     :param str url: URL of the corpus catalog
@@ -614,6 +661,7 @@ def download(
     if _CHECK_MODE == "1":
         print("PyThaiNLP is read-only mode. It can't download.")
         return False
+
     if not url:
         url = corpus_db_url()
 
@@ -788,8 +836,13 @@ def remove(name: str) -> bool:
 
 def get_path_folder_corpus(name: str, version: str, *path: str) -> str:
     corpus_path = get_corpus_path(name, version)
-    if corpus_path is None:
-        raise ValueError(f"Corpus path not found for {name} version {version}")
+    if not corpus_path:
+        raise FileNotFoundError(
+            f"corpus-not-found name={name!r} version={version!r}\n"
+            f"  Corpus '{name}' (version {version}) not found.\n"
+            f"    Python: pythainlp.corpus.download('{name}')\n"
+            f"    CLI:    thainlp data get {name}"
+        )
     return os.path.join(corpus_path, *path)
 
 

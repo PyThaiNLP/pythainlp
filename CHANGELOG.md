@@ -38,7 +38,8 @@ See PR for prompt and details.
 - Reorganize noauto test suite by dependency groups
   (torch, tensorflow, onnx, cython, network) #1290
 - Add BLEU, ROUGE, WER, and CER metrics to pythainlp.benchmarks #1295
-- Add `check_khuap_klam` to `pythainlp.util` for checking Thai consonant clusters #1308
+- Add `check_khuap_klam` to `pythainlp.util` for checking
+  Thai consonant clusters #1308
 - Add Attaparse engine to dependency parser
   (`dependency_parsing`, engine="attaparse") #1303
 - Improved documentation; code cleanup; more tests

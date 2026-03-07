@@ -333,10 +333,12 @@ def get_corpus_path(name: str, version: str = "") -> Optional[str]:
         # Corpus not in local catalog; download it unless in offline mode
         if is_offline_mode():
             raise FileNotFoundError(
-                f"Corpus '{name}' not found locally. "
-                f"PYTHAINLP_OFFLINE is set; automatic downloading is disabled. "
-                f"To download, unset PYTHAINLP_OFFLINE and run: "
-                f"pythainlp.corpus.download('{name}')"
+                f"corpus-not-found name={name!r}\n"
+                f"  Corpus '{name}' not found locally.\n"
+                f"  PYTHAINLP_OFFLINE is set; automatic downloading is disabled.\n"
+                f"  To download, unset PYTHAINLP_OFFLINE, then run:\n"
+                f"    Python: pythainlp.corpus.download('{name}')\n"
+                f"    CLI:    thainlp data get {name}"
             )
         if not download(name, version=version):
             return None
@@ -354,10 +356,12 @@ def get_corpus_path(name: str, version: str = "") -> Optional[str]:
     # File is registered in catalog but missing from disk
     if is_offline_mode():
         raise FileNotFoundError(
-            f"Corpus '{name}' expected at '{path}' but file not found. "
-            f"PYTHAINLP_OFFLINE is set; automatic re-downloading is disabled. "
-            f"To re-download, unset PYTHAINLP_OFFLINE and run: "
-            f"pythainlp.corpus.download('{name}', force=True)"
+            f"corpus-not-found name={name!r} expected-path={path!r}\n"
+            f"  Corpus '{name}' expected at '{path}' but file not found.\n"
+            f"  PYTHAINLP_OFFLINE is set; automatic re-downloading is disabled.\n"
+            f"  To re-download, unset PYTHAINLP_OFFLINE, then run:\n"
+            f"    Python: pythainlp.corpus.download('{name}', force=True)\n"
+            f"    CLI:    thainlp data get {name}"
         )
     if not download(name, version=version, force=True):
         return None
@@ -625,6 +629,12 @@ def download(
     The available corpus names can be seen in this file:
     https://pythainlp.org/pythainlp-corpus/db.json
 
+    This function always performs the download regardless of the
+    ``PYTHAINLP_OFFLINE`` environment variable, because an explicit call
+    to ``download()`` is a deliberate user action.
+    ``PYTHAINLP_OFFLINE`` only blocks the *automatic* download triggered
+    by :func:`pythainlp.corpus.get_corpus_path`.
+
     :param str name: corpus name
     :param bool force: force downloading
     :param str url: URL of the corpus catalog
@@ -651,12 +661,7 @@ def download(
     if _CHECK_MODE == "1":
         print("PyThaiNLP is read-only mode. It can't download.")
         return False
-    if is_offline_mode():
-        print(
-            "PYTHAINLP_OFFLINE is set. Cannot download. "
-            "To enable downloading, unset PYTHAINLP_OFFLINE."
-        )
-        return False
+
     if not url:
         url = corpus_db_url()
 
@@ -833,8 +838,10 @@ def get_path_folder_corpus(name: str, version: str, *path: str) -> str:
     corpus_path = get_corpus_path(name, version)
     if not corpus_path:
         raise FileNotFoundError(
-            f"Corpus '{name}' (version {version}) not found. "
-            f"To download: pythainlp.corpus.download('{name}')"
+            f"corpus-not-found name={name!r} version={version!r}\n"
+            f"  Corpus '{name}' (version {version}) not found.\n"
+            f"    Python: pythainlp.corpus.download('{name}')\n"
+            f"    CLI:    thainlp data get {name}"
         )
     return os.path.join(corpus_path, *path)
 

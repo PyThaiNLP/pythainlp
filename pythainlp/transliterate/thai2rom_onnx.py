@@ -47,9 +47,14 @@ class ThaiTransliterator_ONNX:
                 if not v
             ]
             raise FileNotFoundError(
-                f"Corpus file(s) not found: {', '.join(missing)}. "
-                f"To download, run: pythainlp.corpus.download('<name>') "
-                f"for each missing corpus."
+                f"corpus-not-found names={missing!r}\n"
+                f"  Corpus file(s) not found: {', '.join(missing)}.\n"
+                f"  Download each missing corpus:\n"
+                + "\n".join(
+                    f"    Python: pythainlp.corpus.download('{n}')\n"
+                    f"    CLI:    thainlp data get {n}"
+                    for n in missing
+                )
             )
 
         # loader = torch.load(self.__model_filename, map_location=device)

@@ -109,20 +109,22 @@ class ThaiNameTagger:
         if version == "1.4":
             model_path = get_corpus_path("thainer-1.4", version="1.4")
             if not model_path:
-                raise RuntimeError(
-                    "ThaiNER 1.4 model not found. "
-                    "Please download the corpus first:\n"
-                    "  pythainlp.corpus.download('thainer-1.4')"
+                raise FileNotFoundError(
+                    "corpus-not-found name='thainer-1.4'\n"
+                    "  Corpus 'thainer-1.4' not found.\n"
+                    "    Python: pythainlp.corpus.download('thainer-1.4')\n"
+                    "    CLI:    thainlp data get thainer-1.4"
                 )
             self.crf.open(model_path)
             self.pos_tag_name: str = "orchid_ud"
         elif version == "1.5":
             model_path = get_corpus_path("thainer", version="1.5")
             if not model_path:
-                raise RuntimeError(
-                    "ThaiNER 1.5 model not found. "
-                    "Please download the corpus first:\n"
-                    "  pythainlp.corpus.download('thainer')"
+                raise FileNotFoundError(
+                    "corpus-not-found name='thainer'\n"
+                    "  Corpus 'thainer' not found.\n"
+                    "    Python: pythainlp.corpus.download('thainer')\n"
+                    "    CLI:    thainlp data get thainer"
                 )
             self.crf.open(model_path)
             self.pos_tag_name = "blackboard"

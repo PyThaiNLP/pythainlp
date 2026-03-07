@@ -89,8 +89,10 @@ class Thai_W2P:
         )
         if not self.checkpoint:
             raise FileNotFoundError(
-                f"Corpus '{_MODEL_NAME}' not found. "
-                f"To download: pythainlp.corpus.download('{_MODEL_NAME}', version='0.2')"
+                f"corpus-not-found name={_MODEL_NAME!r}\n"
+                f"  Corpus '{_MODEL_NAME}' not found.\n"
+                f"    Python: pythainlp.corpus.download('{_MODEL_NAME}', version='0.2')\n"
+                f"    CLI:    thainlp data get {_MODEL_NAME}"
             )
         self._load_variables()
 

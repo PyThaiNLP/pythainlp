@@ -301,6 +301,20 @@ class CorpusTestCase(unittest.TestCase):
                     self.assertIsNotNone(result)
                     self.assertNotEqual(result, "")
 
+    def test_download_ignores_offline_mode(self):
+        """download() must work even when PYTHAINLP_OFFLINE=1.
+
+        Explicit calls to download() are deliberate user actions and must
+        not be blocked by the PYTHAINLP_OFFLINE environment variable.
+        That variable only prevents the *automatic* download triggered by
+        get_corpus_path() when a corpus is missing locally.
+        """
+        # Use the real "test" corpus so the download actually goes through
+        with patch.dict(os.environ, {"PYTHAINLP_OFFLINE": "1"}):
+            result = download("test")
+            # Should succeed (returns True), not be blocked
+            self.assertTrue(result)
+
     def test_revise_wordset(self):
         training_data = [
             ["ถวิล อุดล", " ", "เป็น", "นักการเมือง", "หนึ่ง", "ใน"],

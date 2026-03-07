@@ -34,8 +34,14 @@ def is_offline_mode() -> bool:
 
     When offline mode is active, :func:`pythainlp.corpus.get_corpus_path`
     raises :exc:`FileNotFoundError` for any corpus that is not already
-    cached locally, and :func:`pythainlp.corpus.download` refuses to
-    fetch anything from the network.
+    cached locally, instead of triggering an automatic download.
+
+    .. note::
+        :func:`pythainlp.corpus.download` always executes regardless of
+        this setting, because an explicit call to ``download()`` or
+        ``thainlp data get`` is a deliberate user action.
+        ``PYTHAINLP_OFFLINE`` only prevents *automatic* downloads
+        initiated by :func:`~pythainlp.corpus.get_corpus_path`.
 
     :return: ``True`` if PyThaiNLP is in offline mode, ``False`` otherwise.
     :rtype: bool

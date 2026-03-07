@@ -67,11 +67,13 @@ def get_thwiki_lstm() -> dict[str, str]:
     itos_fname = THWIKI_LSTM["itos_fname"]
 
     if not wgts_fname or not itos_fname:
-        raise RuntimeError(
-            "ULMFiT model files not found. "
-            "Please download the corpus first:\n"
-            "  pythainlp.corpus.download('wiki_lm_lstm')\n"
-            "  pythainlp.corpus.download('wiki_itos_lstm')"
+        raise FileNotFoundError(
+            "corpus-not-found names=['wiki_lm_lstm', 'wiki_itos_lstm']\n"
+            "  ULMFiT model files not found.\n"
+            "    Python: pythainlp.corpus.download('wiki_lm_lstm')\n"
+            "    CLI:    thainlp data get wiki_lm_lstm\n"
+            "    Python: pythainlp.corpus.download('wiki_itos_lstm')\n"
+            "    CLI:    thainlp data get wiki_itos_lstm"
         )
 
     return {"wgts_fname": wgts_fname, "itos_fname": itos_fname}

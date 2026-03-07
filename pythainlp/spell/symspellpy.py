@@ -68,8 +68,10 @@ def _get_sym_spell() -> SymSpell:
                 bigram_path = get_corpus_path(_BIGRAM_CORPUS_NAME)
                 if not bigram_path:
                     raise FileNotFoundError(
-                        f"Corpus '{_BIGRAM_CORPUS_NAME}' not found. "
-                        f"To download: pythainlp.corpus.download('{_BIGRAM_CORPUS_NAME}')"
+                        f"corpus-not-found name={_BIGRAM_CORPUS_NAME!r}\n"
+                        f"  Corpus '{_BIGRAM_CORPUS_NAME}' not found.\n"
+                        f"    Python: pythainlp.corpus.download('{_BIGRAM_CORPUS_NAME}')\n"
+                        f"    CLI:    thainlp data get {_BIGRAM_CORPUS_NAME}"
                     )
                 _sym_spell.load_bigram_dictionary(
                     bigram_path,

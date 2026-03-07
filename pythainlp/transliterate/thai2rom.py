@@ -43,8 +43,10 @@ class ThaiTransliterator:
         self.__model_filename = get_corpus_path(_MODEL_NAME)  # type: ignore[assignment]
         if not self.__model_filename:
             raise FileNotFoundError(
-                f"Corpus '{_MODEL_NAME}' not found. "
-                f"To download: pythainlp.corpus.download('{_MODEL_NAME}')"
+                f"corpus-not-found name={_MODEL_NAME!r}\n"
+                f"  Corpus '{_MODEL_NAME}' not found.\n"
+                f"    Python: pythainlp.corpus.download('{_MODEL_NAME}')\n"
+                f"    CLI:    thainlp data get {_MODEL_NAME}"
             )
 
         loader = torch.load(self.__model_filename, map_location=device)

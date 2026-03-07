@@ -51,7 +51,12 @@ def _blackboard_tagger() -> PerceptronTagger:
     if not _BLACKBOARD_TAGGER:
         path = get_corpus_path(_BLACKBOARD_NAME)
         if not path:
-            raise ValueError(f"Corpus path not found for {_BLACKBOARD_NAME}")
+            raise FileNotFoundError(
+                f"corpus-not-found name={_BLACKBOARD_NAME!r}\n"
+                f"  Corpus '{_BLACKBOARD_NAME}' not found.\n"
+                f"    Python: pythainlp.corpus.download('{_BLACKBOARD_NAME}')\n"
+                f"    CLI:    thainlp data get {_BLACKBOARD_NAME}"
+            )
         _BLACKBOARD_TAGGER = PerceptronTagger(path=path)
     return _BLACKBOARD_TAGGER
 

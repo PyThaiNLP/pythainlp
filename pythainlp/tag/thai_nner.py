@@ -122,8 +122,10 @@ class ThaiNNER:
             path_model = get_corpus_path("thai_nner", "1.0")
         if not path_model:
             raise FileNotFoundError(
-                "Corpus 'thai_nner' not found. "
-                "To download: pythainlp.corpus.download('thai_nner')"
+                "corpus-not-found name='thai_nner'\n"
+                "  Corpus 'thai_nner' not found.\n"
+                "    Python: pythainlp.corpus.download('thai_nner')\n"
+                "    CLI:    thainlp data get thai_nner"
             )
 
         # Import inside __init__ (not at module level) to allow:

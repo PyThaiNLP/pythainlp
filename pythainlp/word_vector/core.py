@@ -61,8 +61,10 @@ class WordVector:
         corpus_file = get_corpus_path(self.model_name)
         if not corpus_file:
             raise FileNotFoundError(
-                f"Corpus '{model_name}' not found. "
-                f"To download: pythainlp.corpus.download('{model_name}')"
+                f"corpus-not-found name={model_name!r}\n"
+                f"  Corpus '{model_name}' not found.\n"
+                f"    Python: pythainlp.corpus.download('{model_name}')\n"
+                f"    CLI:    thainlp data get {model_name}"
             )
         self.model = KeyedVectors.load_word2vec_format(
             corpus_file,

@@ -120,6 +120,11 @@ class ThaiNNER:
         # Resolve path_model at runtime to avoid freezing the value at module import time
         if path_model is None:
             path_model = get_corpus_path("thai_nner", "1.0")
+        if not path_model:
+            raise FileNotFoundError(
+                "Corpus 'thai_nner' not found. "
+                "To download: pythainlp.corpus.download('thai_nner')"
+            )
 
         # Import inside __init__ (not at module level) to allow:
         # 1. Helper functions (get_top_level_entities, _entities_to_iob, etc.) to work

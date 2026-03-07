@@ -4,10 +4,18 @@
 
 import unittest
 
+from pythainlp.corpus import download
 from pythainlp.generate import Bigram, Trigram, Unigram
 
 
 class GenerateTestCase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        """Download required corpora before running tests."""
+        download("oscar_icu")
+        download("tnc_bigram_word_freqs")
+        download("tnc_trigram_word_freqs")
+
     def test_unigram(self):
         tnc_unigram = Unigram("tnc")
         self.assertIsNotNone(tnc_unigram.gen_sentence())

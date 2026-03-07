@@ -58,8 +58,14 @@ class WordVector:
         from gensim.models import KeyedVectors
 
         self.model_name = model_name
+        corpus_file = get_corpus_path(self.model_name)
+        if not corpus_file:
+            raise FileNotFoundError(
+                f"Corpus '{model_name}' not found. "
+                f"To download: pythainlp.corpus.download('{model_name}')"
+            )
         self.model = KeyedVectors.load_word2vec_format(
-            get_corpus_path(self.model_name),
+            corpus_file,
             binary=True,
             unicode_errors="ignore",
         )

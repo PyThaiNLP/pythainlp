@@ -108,7 +108,7 @@ class ThaiNameTagger:
 
         if version == "1.4":
             model_path = get_corpus_path("thainer-1.4", version="1.4")
-            if model_path is None:
+            if not model_path:
                 raise RuntimeError(
                     "ThaiNER 1.4 model not found. "
                     "Please download the corpus first:\n"
@@ -118,7 +118,7 @@ class ThaiNameTagger:
             self.pos_tag_name: str = "orchid_ud"
         elif version == "1.5":
             model_path = get_corpus_path("thainer", version="1.5")
-            if model_path is None:
+            if not model_path:
                 raise RuntimeError(
                     "ThaiNER 1.5 model not found. "
                     "Please download the corpus first:\n"

@@ -40,8 +40,12 @@ class ThaiTransliterator:
 
         Now supports Thai to Latin (romanization)
         """
-        # get the model, download it if it's not available locally
         self.__model_filename = get_corpus_path(_MODEL_NAME)  # type: ignore[assignment]
+        if not self.__model_filename:
+            raise FileNotFoundError(
+                f"Corpus '{_MODEL_NAME}' not found. "
+                f"To download: pythainlp.corpus.download('{_MODEL_NAME}')"
+            )
 
         loader = torch.load(self.__model_filename, map_location=device)
 
@@ -57,9 +61,7 @@ class ThaiTransliterator:
 
         # encoder/ decoder
         # Restore the model and construct the encoder and decoder.
-        self._encoder = Encoder(
-            INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT
-        )
+        self._encoder = Encoder(INPUT_DIM, E_EMB_DIM, E_HID_DIM, E_DROPOUT)
 
         self._decoder = AttentionDecoder(
             OUTPUT_DIM, D_EMB_DIM, D_HID_DIM, D_DROPOUT
@@ -209,9 +211,7 @@ class Attn(nn.Module):
 
         elif self.method == "concat":
             self.attn = nn.Linear(self.hidden_size * 2, hidden_size)
-            self.other = nn.Parameter(
-                torch.FloatTensor(1, hidden_size)
-            )
+            self.other = nn.Parameter(torch.FloatTensor(1, hidden_size))
 
     def forward(
         self,

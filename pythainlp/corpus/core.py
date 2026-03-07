@@ -245,17 +245,16 @@ def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
     return None
 
 
-def get_corpus_path(
-    name: str, version: str = "", force: bool = False
-) -> Optional[str]:
+def get_corpus_path(name: str, version: str = "") -> Optional[str]:
     """Get corpus path.
 
     :param str name: corpus name
     :param str version: version
-    :param bool force: force downloading
-    :return: path to the corpus or **None** if the corpus doesn't \
-             exist on the device
-    :rtype: str
+    :return: full path to the corpus file if it exists locally,
+             empty string ``""`` if the corpus name is registered in the
+             local catalog but the file has not been downloaded yet,
+             or ``None`` if the corpus name is not valid.
+    :rtype: Optional[str]
 
     :Example:
 
@@ -267,24 +266,24 @@ def get_corpus_path(
 
         from pythainlp.corpus import get_corpus_path
 
-        print(get_corpus_path('ttc'))
+        print(get_corpus_path("ttc"))
         # output: /root/pythainlp-data/ttc_freq.txt
 
     If the corpus has not been downloaded yet::
 
         from pythainlp.corpus import download, get_corpus_path
 
-        print(get_corpus_path('wiki_lm_lstm'))
+        print(get_corpus_path("wiki_lm_lstm"))
         # output: None
 
-        download('wiki_lm_lstm')
+        download("wiki_lm_lstm")
         # output:
         # Download: wiki_lm_lstm
         # wiki_lm_lstm 0.32
         # thwiki_lm.pth?dl=1: 1.05GB [00:25, 41.5MB/s]
         # /root/pythainlp-data/thwiki_model_lstm.pth
 
-        print(get_corpus_path('wiki_lm_lstm'))
+        print(get_corpus_path("wiki_lm_lstm"))
         # output: /root/pythainlp-data/thwiki_model_lstm.pth
     """
     CUSTOMIZE: dict[str, str] = {
@@ -297,12 +296,8 @@ def get_corpus_path(
     if default_path is not None:
         return default_path
 
-    # check if the corpus is in local catalog, download it if not
+    # check if the corpus is in the local catalog
     corpus_db_detail = get_corpus_db_detail(name, version=version)
-
-    if not corpus_db_detail or not corpus_db_detail.get("filename"):
-        download(name, version=version, force=force)
-        corpus_db_detail = get_corpus_db_detail(name, version=version)
 
     if corpus_db_detail and corpus_db_detail.get("filename"):
         # corpus is in the local catalog, get full path to the file
@@ -318,11 +313,10 @@ def get_corpus_path(
                 path = get_full_data_path(filename)
             else:
                 return None
-        # check if the corpus file actually exists, download it if not
-        if not os.path.exists(path):
-            download(name, version=version, force=force)
+        # return the path if the file exists, otherwise empty string
         if os.path.exists(path):
             return path
+        return ""
 
     return None
 
@@ -788,8 +782,11 @@ def remove(name: str) -> bool:
 
 def get_path_folder_corpus(name: str, version: str, *path: str) -> str:
     corpus_path = get_corpus_path(name, version)
-    if corpus_path is None:
-        raise ValueError(f"Corpus path not found for {name} version {version}")
+    if not corpus_path:
+        raise FileNotFoundError(
+            f"Corpus '{name}' (version {version}) not found. "
+            f"To download: pythainlp.corpus.download('{name}')"
+        )
     return os.path.join(corpus_path, *path)
 
 

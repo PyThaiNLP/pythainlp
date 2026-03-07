@@ -33,7 +33,7 @@ class Thai2fitAug:
 
     def load_w2v(self) -> None:
         """Load Thai2Fit's word2vec model"""
-        if self.thai2fit_wv is None:
+        if not self.thai2fit_wv:
             raise ValueError(
                 "Thai2Fit word2vec model not found. "
                 "Please download it first using pythainlp.corpus.download('thai2fit_wv')"

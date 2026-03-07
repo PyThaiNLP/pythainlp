@@ -66,7 +66,7 @@ def get_thwiki_lstm() -> dict[str, str]:
     wgts_fname = THWIKI_LSTM["wgts_fname"]
     itos_fname = THWIKI_LSTM["itos_fname"]
 
-    if wgts_fname is None or itos_fname is None:
+    if not wgts_fname or not itos_fname:
         raise RuntimeError(
             "ULMFiT model files not found. "
             "Please download the corpus first:\n"

@@ -53,7 +53,7 @@ def _blackboard_tagger() -> dict[str, str]:
     global _BLACKBOARD_TAGGER
     if not _BLACKBOARD_TAGGER:
         path = get_corpus_path(_BLACKBOARD_NAME)
-        if path is None:
+        if not path:
             raise ValueError(f"Corpus path not found for {_BLACKBOARD_NAME}")
         with open(path, encoding="utf-8-sig") as fh:
             _BLACKBOARD_TAGGER = json.load(fh)

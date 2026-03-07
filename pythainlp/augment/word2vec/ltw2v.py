@@ -32,7 +32,7 @@ class LTW2VAug:
 
     def load_w2v(self) -> None:  # insert substitute
         """Load LTW2V's word2vec model"""
-        if self.ltw2v_wv is None:
+        if not self.ltw2v_wv:
             raise ValueError(
                 "LTW2V word2vec model not found. "
                 "Please download it first using pythainlp.corpus.download('ltw2v_wv')"

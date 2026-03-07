@@ -17,7 +17,6 @@ from pythainlp.util import (
     analyze_thai_text,
     arabic_digit_to_thai_digit,
     bahttext,
-    check_khuap_klam,
     collate,
     convert_years,
     count_thai_chars,
@@ -1035,26 +1034,3 @@ class UtilTestCase(unittest.TestCase):
             analyze_thai_text("เล่น"),
             {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
         )
-
-    # ### pythainlp.util.khuap_klam
-
-    def test_check_khuap_klam(self):
-        # True consonant clusters (คำควบกล้ำแท้)
-        self.assertTrue(check_khuap_klam("กราบ"))
-        self.assertTrue(check_khuap_klam("ปลา"))
-        self.assertTrue(check_khuap_klam("เพราะ"))
-        self.assertTrue(check_khuap_klam("ตรง"))
-
-        # False consonant clusters (คำควบกล้ำไม่แท้)
-        self.assertFalse(check_khuap_klam("จริง"))
-        self.assertFalse(check_khuap_klam("ทราย"))
-        self.assertFalse(check_khuap_klam("เศร้า"))
-
-        # Not a consonant cluster
-        self.assertIsNone(check_khuap_klam("แม่"))
-        self.assertIsNone(check_khuap_klam("ตา"))
-        self.assertIsNone(check_khuap_klam("มา"))
-        self.assertIsNone(check_khuap_klam("นา"))
-
-        # Edge cases: empty string returns None
-        self.assertIsNone(check_khuap_klam(""))

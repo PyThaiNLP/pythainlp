@@ -43,6 +43,11 @@ See PR for prompt and details.
 - `get_corpus_path()` now respects `PYTHAINLP_OFFLINE` env var (same semantics
   as `HF_HUB_OFFLINE`): when set, raises `FileNotFoundError` if the corpus is
   not already cached locally; when unset, auto-downloads as before #1306
+- Added `pythainlp.is_offline_mode()` helper function (mirrors
+  `huggingface_hub.is_offline_mode()`) #1306
+- `PYTHAINLP_DATA` is now the preferred env var for the data directory
+  (same pattern as `NLTK_DATA`); `PYTHAINLP_DATA_DIR` is deprecated
+  and will emit a `DeprecationWarning` #1306
 - Callers raise `FileNotFoundError` with download instructions when a corpus
   path cannot be resolved (e.g. download failed) #1306
 - Improved documentation; code cleanup; more tests

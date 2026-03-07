@@ -89,7 +89,8 @@ Key considerations
 
 2. **Use a writable local directory**: The default data directory (``~/pythainlp-data``) may not be writable on executor nodes. Use a local directory like ``./pythainlp-data`` instead.
 
-3. **Set ``PYTHAINLP_DATA_DIR`` before data access**: Always set the ``PYTHAINLP_DATA_DIR`` environment variable before the first call that reads or writes PyThaiNLP data on each worker.
+3. **Set ``PYTHAINLP_DATA`` before data access**: Always set the ``PYTHAINLP_DATA`` environment variable before the first call that reads or writes PyThaiNLP data on each worker.
+   (``PYTHAINLP_DATA_DIR`` is also accepted for backward compatibility but is deprecated.)
 
 Example usage with Apache Spark
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -104,7 +105,7 @@ Basic example using PySpark RDD::
 
     def tokenize_thai(text):
         import os
-        os.environ['PYTHAINLP_DATA_DIR'] = './pythainlp-data'
+        os.environ['PYTHAINLP_DATA'] = './pythainlp-data'
         from pythainlp.tokenize import word_tokenize
         return word_tokenize(text)
 
@@ -123,7 +124,7 @@ Example using PySpark DataFrame API::
     @udf(returnType=ArrayType(StringType()))
     def tokenize_udf(text):
         import os
-        os.environ['PYTHAINLP_DATA_DIR'] = './pythainlp-data'
+        os.environ['PYTHAINLP_DATA'] = './pythainlp-data'
         from pythainlp.tokenize import word_tokenize
         return word_tokenize(text)
 
@@ -141,13 +142,30 @@ Note that while the code itself is thread-safe, you still need to configure the 
 Runtime configurations
 ----------------------
 
-.. envvar:: PYTHAINLP_DATA_DIR
+.. envvar:: PYTHAINLP_DATA
 
    Specifies the location where downloaded data and the corpus database are stored. If the directory does not exist, PyThaiNLP will create it.
 
    By default this is a directory named ``pythainlp-data`` in the user's home directory.
 
-   Run ``thainlp data path`` at the command line to display the current `PYTHAINLP_DATA_DIR`.
+   Run ``thainlp data path`` at the command line to display the current data directory.
+
+.. envvar:: PYTHAINLP_DATA_DIR
+
+   .. deprecated::
+      Use :envvar:`PYTHAINLP_DATA` instead. Setting ``PYTHAINLP_DATA_DIR`` triggers a
+      :class:`DeprecationWarning` at runtime. If both ``PYTHAINLP_DATA`` and ``PYTHAINLP_DATA_DIR``
+      are set simultaneously, PyThaiNLP raises :exc:`ValueError`.
+
+.. envvar:: PYTHAINLP_OFFLINE
+
+   When set to a truthy value (``1``, ``true``, ``yes``, ``on``), PyThaiNLP operates in
+   *offline mode*: corpus downloads are disabled, and :func:`pythainlp.corpus.get_corpus_path`
+   raises :exc:`FileNotFoundError` for any corpus that is not already cached locally.
+
+   Use :func:`pythainlp.is_offline_mode` to check the current state programmatically.
+
+   This follows the same convention as ``HF_HUB_OFFLINE`` in `huggingface_hub`.
 
 .. envvar:: PYTHAINLP_READ_MODE
 
@@ -158,11 +176,11 @@ Installation FAQ
 
 Q: How do I set environment variables on each executor node in a distributed environment?
 
-A: When using PyThaiNLP in distributed computing environments like Apache Spark, you need to set the ``PYTHAINLP_DATA_DIR`` environment variable inside the function that will be distributed to executor nodes. For example::
+A: When using PyThaiNLP in distributed computing environments like Apache Spark, you need to set the ``PYTHAINLP_DATA`` environment variable inside the function that will be distributed to executor nodes. For example::
 
     def tokenize_thai(text):
         import os
-        os.environ['PYTHAINLP_DATA_DIR'] = './pythainlp-data'
+        os.environ['PYTHAINLP_DATA'] = './pythainlp-data'
         from pythainlp.tokenize import word_tokenize
         return word_tokenize(text)
 

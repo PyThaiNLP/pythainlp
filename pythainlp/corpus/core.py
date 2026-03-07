@@ -18,6 +18,7 @@ from typing import TYPE_CHECKING
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
+from pythainlp.tools.path import is_offline_mode
 
 if TYPE_CHECKING:
     from typing import Any, Optional
@@ -28,19 +29,6 @@ _USER_AGENT: str = (
     f"(Python/{sys.version_info.major}.{sys.version_info.minor}; "
     f"{sys.platform})"
 )
-
-
-def _is_offline() -> bool:
-    """Return True if ``PYTHAINLP_OFFLINE`` env var is set to a truthy value.
-
-    Truthy values: any non-empty string other than ``"0"``, ``"false"``,
-    ``"no"``, and ``"off"`` (case-insensitive).
-
-    This follows the same convention as ``HF_HUB_OFFLINE`` in
-    `huggingface_hub`.
-    """
-    val = os.getenv("PYTHAINLP_OFFLINE", "")
-    return val.strip().lower() not in ("", "0", "false", "no", "off")
 
 
 class _ResponseWrapper:
@@ -343,7 +331,7 @@ def get_corpus_path(name: str, version: str = "") -> Optional[str]:
     corpus_db_detail = get_corpus_db_detail(name, version=version)
     if not corpus_db_detail:
         # Corpus not in local catalog; download it unless in offline mode
-        if _is_offline():
+        if is_offline_mode():
             raise FileNotFoundError(
                 f"Corpus '{name}' not found locally. "
                 f"PYTHAINLP_OFFLINE is set; automatic downloading is disabled. "
@@ -364,7 +352,7 @@ def get_corpus_path(name: str, version: str = "") -> Optional[str]:
         return path
 
     # File is registered in catalog but missing from disk
-    if _is_offline():
+    if is_offline_mode():
         raise FileNotFoundError(
             f"Corpus '{name}' expected at '{path}' but file not found. "
             f"PYTHAINLP_OFFLINE is set; automatic re-downloading is disabled. "
@@ -663,7 +651,7 @@ def download(
     if _CHECK_MODE == "1":
         print("PyThaiNLP is read-only mode. It can't download.")
         return False
-    if _is_offline():
+    if is_offline_mode():
         print(
             "PYTHAINLP_OFFLINE is set. Cannot download. "
             "To enable downloading, unset PYTHAINLP_OFFLINE."

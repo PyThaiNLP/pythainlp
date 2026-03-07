@@ -21,6 +21,41 @@ else:
 PYTHAINLP_DEFAULT_DATA_DIR: str = "pythainlp-data"
 
 
+def is_offline_mode() -> bool:
+    """Return whether PyThaiNLP is operating in offline mode.
+
+    Offline mode is activated by setting the ``PYTHAINLP_OFFLINE``
+    environment variable to a truthy value (e.g. ``"1"``).
+    Falsy values (``""``, ``"0"``, ``"false"``, ``"no"``, ``"off"``)
+    keep online mode active.
+
+    This follows the same convention as ``HF_HUB_OFFLINE`` in
+    `huggingface_hub`.
+
+    When offline mode is active, :func:`pythainlp.corpus.get_corpus_path`
+    raises :exc:`FileNotFoundError` for any corpus that is not already
+    cached locally, and :func:`pythainlp.corpus.download` refuses to
+    fetch anything from the network.
+
+    :return: ``True`` if PyThaiNLP is in offline mode, ``False`` otherwise.
+    :rtype: bool
+
+    :Example:
+    ::
+
+        import os
+        from pythainlp import is_offline_mode
+
+        os.environ["PYTHAINLP_OFFLINE"] = "1"
+        print(is_offline_mode())  # True
+
+        os.environ["PYTHAINLP_OFFLINE"] = "0"
+        print(is_offline_mode())  # False
+    """
+    val = os.getenv("PYTHAINLP_OFFLINE", "")
+    return val.strip().lower() not in ("", "0", "false", "no", "off")
+
+
 def get_full_data_path(path: str) -> str:
     """This function joins path of :mod:`pythainlp` data directory and the
     given path, and returns the full path.
@@ -40,11 +75,24 @@ def get_full_data_path(path: str) -> str:
 
 
 def get_pythainlp_data_path() -> str:
-    """Returns the full path where PyThaiNLP keeps its (downloaded) data.
-    If the directory does not yet exist, it will be created.
-    The path can be specified through the environment variable
-    :envvar:`PYTHAINLP_DATA_DIR`. By default, `~/pythainlp-data`
-    will be used.
+    """Return the full path where PyThaiNLP keeps its (downloaded) data.
+
+    The directory is created if it does not yet exist.
+
+    The path is resolved in the following order:
+
+    1. ``PYTHAINLP_DATA`` environment variable (preferred).
+    2. ``PYTHAINLP_DATA_DIR`` environment variable
+       (deprecated; shows a warning).
+    3. If **both** variables are set, the function raises
+       :exc:`ValueError` because the conflict must be resolved
+       explicitly.
+    4. If neither is set, ``~/pythainlp-data`` is used.
+
+    .. deprecated::
+        ``PYTHAINLP_DATA_DIR`` is deprecated.
+        Use ``PYTHAINLP_DATA`` instead (follows the same pattern as
+        ``NLTK_DATA``).
 
     :return: full path of directory for :mod:`pythainlp` downloaded data
     :rtype: str
@@ -57,10 +105,27 @@ def get_pythainlp_data_path() -> str:
         get_pythainlp_data_path()
         # output: '/root/pythainlp-data'
     """
-    pythainlp_data_dir = os.getenv(
-        "PYTHAINLP_DATA_DIR", os.path.join("~", PYTHAINLP_DEFAULT_DATA_DIR)
-    )
-    path = os.path.expanduser(pythainlp_data_dir)
+    import warnings
+
+    data_dir = os.getenv("PYTHAINLP_DATA")
+    data_dir_legacy = os.getenv("PYTHAINLP_DATA_DIR")
+
+    if data_dir and data_dir_legacy:
+        raise ValueError(
+            "Both PYTHAINLP_DATA and PYTHAINLP_DATA_DIR are set. "
+            "Please use PYTHAINLP_DATA only and unset PYTHAINLP_DATA_DIR."
+        )
+
+    if data_dir_legacy and not data_dir:
+        warnings.warn(
+            "PYTHAINLP_DATA_DIR is deprecated; use PYTHAINLP_DATA instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        data_dir = data_dir_legacy
+
+    resolved = data_dir or os.path.join("~", PYTHAINLP_DEFAULT_DATA_DIR)
+    path = os.path.expanduser(resolved)
     os.makedirs(path, exist_ok=True)
     return path
 

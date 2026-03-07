@@ -251,9 +251,10 @@ def get_corpus_path(name: str, version: str = "") -> Optional[str]:
     :param str name: corpus name
     :param str version: version
     :return: full path to the corpus file if it exists locally,
-             empty string ``""`` if the corpus name is registered in the
-             local catalog but the file has not been downloaded yet,
-             or ``None`` if the corpus name is not valid.
+             empty string ``""`` if the corpus was previously downloaded
+             (registered in local catalog) but its file is no longer present,
+             or ``None`` if the corpus name is not valid or has never been
+             downloaded.
     :rtype: Optional[str]
 
     :Example:

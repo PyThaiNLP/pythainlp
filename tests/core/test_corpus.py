@@ -287,6 +287,7 @@ class CorpusTestCase(unittest.TestCase):
                 self.assertIsNotNone(result)
                 self.assertNotEqual(result, "")
 
+    def test_revise_wordset(self):
         training_data = [
             ["ถวิล อุดล", " ", "เป็น", "นักการเมือง", "หนึ่ง", "ใน"],
             ["สี่เสืออีสาน", " ", "ซึ่ง", "ประกอบ", "ด้วย", "ตัว", "นายถวิล"],

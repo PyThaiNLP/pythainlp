@@ -27,6 +27,11 @@ Modules
 
     The `bahttext` function specializes in converting numerical values into Thai Baht text, an essential feature for rendering financial data or monetary amounts in a user-friendly Thai format.
 
+.. autofunction:: check_khuap_klam
+    :noindex:
+
+    The `check_khuap_klam` function checks whether a Thai word is a consonant cluster (Kham Khuap Klam, คำควบกล้ำ). It returns ``True`` for a true consonant cluster (คำควบกล้ำแท้), ``False`` for a false consonant cluster (คำควบกล้ำไม่แท้), or ``None`` if the word is not a consonant cluster.
+
 .. autofunction:: censor_profanity
     :noindex:
 

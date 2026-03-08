@@ -34,6 +34,7 @@ The minimum requirement is now Python 3.9.
 - Attaparse engine to dependency parser
   (`dependency_parsing`, engine="attaparse") (#1303)
 - `pythainlp.is_offline_mode()` helper function (#1306)
+- Thai consonant cluster detection (`check_khuap_klam`) (#1308)
 
 ### Changed
 

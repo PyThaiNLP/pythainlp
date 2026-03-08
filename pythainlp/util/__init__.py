@@ -9,6 +9,7 @@ __all__: list[str] = [
     "arabic_digit_to_thai_digit",
     "bahttext",
     "censor_profanity",
+    "check_khuap_klam",
     "collate",
     "contains_profanity",
     "convert_years",
@@ -100,6 +101,7 @@ from pythainlp.util.keyboard import (
     thai_to_eng,
 )
 from pythainlp.util.keywords import find_keyword, rank
+from pythainlp.util.khuap_klam import check_khuap_klam
 from pythainlp.util.lcs import longest_common_subsequence
 from pythainlp.util.normalize import (
     expand_maiyamok,

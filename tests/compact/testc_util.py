@@ -6,7 +6,12 @@
 
 import unittest
 
-from pythainlp.util import rhyme, spell_word, thai_word_tone_detector
+from pythainlp.util import (
+    check_khuap_klam,
+    rhyme,
+    spell_word,
+    thai_word_tone_detector,
+)
 
 
 class SpellWordTestCaseC(unittest.TestCase):
@@ -35,3 +40,26 @@ class UtilTestCaseC(unittest.TestCase):
         # Edge cases: None and empty string
         self.assertEqual(thai_word_tone_detector(None), [])
         self.assertEqual(thai_word_tone_detector(""), [])
+
+
+class KhuapKlamTestCaseC(unittest.TestCase):
+    def test_check_khuap_klam(self):
+        # True consonant clusters (คำควบกล้ำแท้)
+        self.assertTrue(check_khuap_klam("กราบ"))
+        self.assertTrue(check_khuap_klam("ปลา"))
+        self.assertTrue(check_khuap_klam("เพราะ"))
+        self.assertTrue(check_khuap_klam("ตรง"))
+
+        # False consonant clusters (คำควบกล้ำไม่แท้)
+        self.assertFalse(check_khuap_klam("จริง"))
+        self.assertFalse(check_khuap_klam("ทราย"))
+        self.assertFalse(check_khuap_klam("เศร้า"))
+
+        # Not a consonant cluster
+        self.assertIsNone(check_khuap_klam("แม่"))
+        self.assertIsNone(check_khuap_klam("ตา"))
+        self.assertIsNone(check_khuap_klam("มา"))
+        self.assertIsNone(check_khuap_klam("นา"))
+
+        # Edge cases: empty string returns None
+        self.assertIsNone(check_khuap_klam(""))

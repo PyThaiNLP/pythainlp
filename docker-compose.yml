@@ -8,4 +8,4 @@ services:
     stdin_open: true
     tty: true
     environment:
-      - PYTHAINLP_DATA_DIR=/workspace/pythainlp-data
+      - PYTHAINLP_DATA=/workspace/pythainlp-data

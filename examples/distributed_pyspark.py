@@ -5,7 +5,7 @@
 Example: Using PyThaiNLP in PySpark Distributed Environment
 
 This example demonstrates how to use PyThaiNLP in a distributed environment
-like Apache Spark. The key is to set the PYTHAINLP_DATA_DIR environment
+like Apache Spark. The key is to set the PYTHAINLP_DATA environment
 variable inside the function that will be distributed to executor nodes.
 
 PyThaiNLP's core tokenization engines are thread-safe, making them suitable
@@ -45,9 +45,9 @@ def example_basic_spark():
         """
         import os
 
-        # Set PYTHAINLP_DATA_DIR before importing pythainlp
+        # Set PYTHAINLP_DATA before importing pythainlp
         # Use './pythainlp-data' to store data in current working directory
-        os.environ["PYTHAINLP_DATA_DIR"] = "./pythainlp-data"
+        os.environ["PYTHAINLP_DATA"] = "./pythainlp-data"
 
         # Now import pythainlp modules
         from pythainlp.tokenize import word_tokenize
@@ -96,7 +96,7 @@ def example_dataframe_api():
         """
         import os
 
-        os.environ["PYTHAINLP_DATA_DIR"] = "./pythainlp-data"
+        os.environ["PYTHAINLP_DATA"] = "./pythainlp-data"
 
         from pythainlp.tokenize import word_tokenize
 
@@ -134,7 +134,7 @@ def example_advanced():
         import os
 
         # Configure data directory
-        os.environ["PYTHAINLP_DATA_DIR"] = "./pythainlp-data"
+        os.environ["PYTHAINLP_DATA"] = "./pythainlp-data"
 
         # Import required modules
         from pythainlp.tag import pos_tag
@@ -197,7 +197,7 @@ def example_production_best_practices():
 
         try:
             # Set environment variables
-            os.environ["PYTHAINLP_DATA_DIR"] = "./pythainlp-data"
+            os.environ["PYTHAINLP_DATA"] = "./pythainlp-data"
 
             # Import modules
             from pythainlp.tokenize import word_tokenize

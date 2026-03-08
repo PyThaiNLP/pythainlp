@@ -37,16 +37,18 @@
 - [ ] Follow the project's established coding style and conventions.
 - [ ] Run Ruff and fix errors before committing code.
   - [ ] New code should be written to pass all Ruff checks.
-  - [ ] McCabe complexity should be kept low; refactor the new code
-        that exceeds 10.
+  - [ ] McCabe complexity should be kept low;
+        refactor the new code that exceeds 10.
+  - [ ] Cognitive complexity should be kept low;
+        refactor the new code that exceeds 15.
   - [ ] Existing code should be gradually improved to pass Ruff checks
         when making changes.
 - [ ] Write clear and concise commit messages that accurately describe
       the changes made.
 - [ ] For significant changes, update the CHANGELOG.md file
       to document the changes.
-  - [ ] Follow "Keep a Changelog" principles
-        <https://keepachangelog.com/en/1.0.0/>
+  - [ ] Follow "Keep a Changelog" style guide
+        <https://keepachangelog.com/en/1.1.0/>
   - [ ] Use semantic versioning for version numbers
         <https://semver.org/>
   - [ ] If it is a breaking change, indicate it clearly in the changelog.

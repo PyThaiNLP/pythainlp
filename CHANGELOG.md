@@ -19,9 +19,16 @@ and this project adheres to
 
 ## [Unreleased]
 
+This release focuses on stability and performance, featuring optimized memory
+efficiency and standardized error messaging. We’ve expanded our test suite to
+include Python 3.14 and broadened type hint support for a better developer
+experience.
+
+The minimum requirement is now Python 3.9.
+
 ### Added
 
-- Official support and CI testing for Python 3.14
+- Tapsai et al. 2020 soundex (#1175)
 - Thai-NNER integration with top-level entity filtering (#1221)
 - BLEU, ROUGE, WER, and CER metrics to `pythainlp.benchmarks` (#1295)
 - Attaparse engine to dependency parser
@@ -30,36 +37,34 @@ and this project adheres to
 
 ### Changed
 
-- Minimum required Python version is now 3.9
 - Lazy load dictionaries to reduce memory usage (#1186)
 - Migrate configurations to `pyproject.toml` (#1188, #1226, #1239)
 - Update type hints; use Python 3.9 features (#1189, #1190)
 - Make package zip-safe (#1212)
 - Ensure thread-safety for tokenizers (#1213)
-- `get_corpus_path()` now respects `PYTHAINLP_OFFLINE` env var:
+- Reorganize "noauto" test suite by dependency groups
+  (torch, tensorflow, onnx, cython, network) (#1290)
+- `get_corpus_path()` now respects `PYTHAINLP_OFFLINE` env var
+  (follows `HF_HUB_OFFLINE` convention from Hugging Face):
   raises `FileNotFoundError` if the corpus is not cached locally
   when the var is set; auto-downloads otherwise (#1306)
-- `PYTHAINLP_DATA` is now the preferred env var for the data directory
-  (replaces deprecated `PYTHAINLP_DATA_DIR`) (#1306)
 - Callers raise `FileNotFoundError` with download instructions when
   a corpus path cannot be resolved (#1306)
-- Reorganize noauto test suite by dependency groups
-  (torch, tensorflow, onnx, cython, network) (#1290)
 
 ### Deprecated
 
-- `PYTHAINLP_DATA_DIR` env var; use `PYTHAINLP_DATA` instead (#1306)
+- `PYTHAINLP_DATA_DIR` env var; use `PYTHAINLP_DATA` instead
+  (follows `NLTK_DATA` convention from NLTK) (#1306)
 
 ### Removed
 
-- Support for Python 3.7 and 3.8
-- Duplicated entries in volubilis dictionary (#1200)
+- Duplicated entries in Volubilis dictionary (#1200)
 - Star imports (#1207)
 - `requests` dependency (#1211)
 
 ### Fixed
 
-- `royin` romanization (#1172)
+- Consonant cluster boundary issue in `royin` romanization (#1172)
 - Final consonant classification in `check_marttra()` (#1173)
 - Kho Khon alphabet issue in `tltk` transliteration (#1187)
 

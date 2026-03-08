@@ -9,13 +9,13 @@ SPDX-License-Identifier: Apache-2.0
 To run a test suite, run:
 
 ```shell
-unittest tests.<test_suite_name>
+python -m unittest tests.<test_suite_name>
 ```
 
 This command will run a default set of test suites:
 
 ```shell
-unittest tests
+python -m unittest tests
 ```
 
 The default test suite includes all test suites listed in `tests/__init__.py` file.

@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [build-system]
-requires = ["setuptools>=69.0.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "pythainlp"
@@ -297,14 +297,16 @@ issues = "https://github.com/PyThaiNLP/pythainlp/issues"
 [project.scripts]
 thainlp = "pythainlp.__main__:main"
 
-[tool.setuptools]
-include-package-data = true
+[tool.hatch.build.targets.wheel]
+packages = ["pythainlp"]
 
-[tool.setuptools.packages.find]
-exclude = ["tests", "tests.*"]
-
-[tool.setuptools.package-data]
-pythainlp = ["corpus/*"]
+[tool.hatch.build.targets.sdist]
+include = [
+    "pythainlp/",
+    "tests/",
+    "LICENSE",
+    "README.md",
+]
 
 # Bumpversion configuration
 [tool.bumpversion]

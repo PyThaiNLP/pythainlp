@@ -51,6 +51,7 @@ The minimum requirement is now Python 3.9.
   when the var is set; auto-downloads otherwise (#1306)
 - Callers raise `FileNotFoundError` with download instructions when
   a corpus path cannot be resolved (#1306)
+- Migrate build backend to `hatchling` (#1311)
 
 ### Deprecated
 

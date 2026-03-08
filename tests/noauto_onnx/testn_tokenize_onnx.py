@@ -116,4 +116,3 @@ class SpellONNXTestCaseN(unittest.TestCase):
 
         result = get_words_spell_suggestion("สวัสดี")
         self.assertIsInstance(result, list)
-

@@ -47,6 +47,7 @@ def exit_if_empty(command: str, parser: ArgumentParser) -> None:
 
 
 if __name__ == "__main__":
+    # Create a simple mapping from command name to the imported module
     COMMAND_MAP: dict[str, ModuleType] = {
         "tokenize": tokenize,
         "soundex": soundex,

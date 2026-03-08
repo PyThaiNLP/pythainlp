@@ -68,10 +68,8 @@ if thwiki["itos_fname"] is None or thwiki["wgts_fname"] is None:
         "    CLI:    thainlp data get wiki_itos_lstm"
     )
 
-# Security Note: This loads a pickle file from PyThaiNLP's trusted corpus.
-# The file is downloaded from PyThaiNLP's official repository with MD5 verification.
-# Users should only use corpus files from trusted sources.
-# WARNING: Pickle deserialization can execute arbitrary code if the file is malicious.
+# Load vocabulary from corpus (pickle file verified by MD5).
+# Deserialization can execute arbitrary code; use only trusted corpus files.
 with open(thwiki["itos_fname"], "rb") as f:
     thwiki_itos: list[str] = pickle.load(f)  # noqa: S301
 thwiki_vocab: "Vocab" = fastai.text.transform.Vocab(thwiki_itos)

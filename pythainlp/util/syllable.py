@@ -37,7 +37,7 @@ re_short: Pattern[str] = re.compile(
 pattern: Pattern[str] = re.compile("เ(.*)า", re.U)  # เ-า is live syllable
 
 _check_1: list[str] = []
-# These spelling consonant ares live syllables.
+# These spelling consonants are live syllables.
 for i in ["กง", "กน", "กม", "เกย", "เกอว"]:
     _check_1.extend(spelling_class[i])
 

@@ -138,7 +138,7 @@ thai_braille_mapping_dict = {**thai_braille_mapping_dict, **_dict_2}
 _v1: list[str] = ["เ-tอ", "เ-ีtย", "เ-ืtอ", "-ัtว", "เ-tา", "เ-tาะ"]
 
 # Create trie for efficient pattern matching
-char_trie = Trie(list(thai_braille_mapping_dict.keys()) + _v1 + [" ", "<N>"])
+char_trie: Trie = Trie(list(thai_braille_mapping_dict.keys()) + _v1 + [" ", "<N>"])
 
 # Build vowel replacement patterns
 _vowel_patterns: list[str] = [

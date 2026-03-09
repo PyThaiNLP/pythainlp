@@ -11,12 +11,9 @@ GitHub: https://github.com/KoichiYasuoka
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Optional, Union
+from typing import List, Optional, Union
 
 from transformers import AutoModelForTokenClassification, AutoTokenizer
-
-if TYPE_CHECKING:
-    pass
 
 
 class Parse:

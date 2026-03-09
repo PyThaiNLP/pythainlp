@@ -6,11 +6,12 @@ from __future__ import annotations
 import random
 import re
 import warnings
-from collections.abc import Callable
 from typing import TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
-    from transformers import (
+    from collections.abc import Callable
+
+    from transformers import (  # noqa: F401
         AutoModelForMaskedLM,
         AutoModelForTokenClassification,
         CamembertTokenizer,
@@ -217,8 +218,8 @@ class ThaiTextAugmenter:
             pipeline,
         )
 
-        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(
-            _model_name
+        self.tokenizer: "PreTrainedTokenizerBase" = (
+            AutoTokenizer.from_pretrained(_model_name)
         )
         self.model_for_masked_lm: "AutoModelForMaskedLM" = (
             AutoModelForMaskedLM.from_pretrained(_model_name)
@@ -316,7 +317,9 @@ class PartOfSpeechTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(model)
+        self.tokenizer: "PreTrainedTokenizerBase" = (
+            AutoTokenizer.from_pretrained(model)
+        )
         self.model: "AutoModelForTokenClassification" = (
             AutoModelForTokenClassification.from_pretrained(model)
         )
@@ -361,7 +364,9 @@ class NamedEntityTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(model)
+        self.tokenizer: "PreTrainedTokenizerBase" = (
+            AutoTokenizer.from_pretrained(model)
+        )
         self.model: "AutoModelForTokenClassification" = (
             AutoModelForTokenClassification.from_pretrained(model)
         )

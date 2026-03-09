@@ -92,9 +92,7 @@ class NER:
                     ThaiNameTagger as WangchanbertaThaiNameTagger,
                 )  # noqa: I001,E501
 
-                self.engine = WangchanbertaThaiNameTagger(
-                    dataset_name=corpus
-                )
+                self.engine = WangchanbertaThaiNameTagger(dataset_name=corpus)
         elif corpus == "thainer-v2":
             if engine == "phayathaibert":
                 from pythainlp.phayathaibert.core import NamedEntityTagger

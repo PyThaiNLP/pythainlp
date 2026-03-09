@@ -42,7 +42,9 @@ def _f1(precision: float, recall: float) -> float:
     return 2 * precision * recall / (precision + recall)
 
 
-def _flatten_result(my_dict: dict, sep: str = ":") -> dict[str, Union[int, str]]:
+def _flatten_result(
+    my_dict: dict, sep: str = ":"
+) -> dict[str, Union[int, str]]:
     """Flatten two-dimension dictionary.
 
     Use keys in the first dimension as a prefix for keys in the second dimension.
@@ -89,7 +91,7 @@ def benchmark(ref_samples: list[str], samples: list[str]) -> "pd.DataFrame":
                 flat_stats["expected"] = r
                 flat_stats["actual"] = s
                 results.append(flat_stats)
-        except:
+        except Exception:
             reason = """
 [Error]
 Reason: %s
@@ -133,7 +135,9 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
     return txt
 
 
-def compute_stats(ref_sample: str, raw_sample: str) -> dict[str, dict[str, Union[int, str]]]:
+def compute_stats(
+    ref_sample: str, raw_sample: str
+) -> dict[str, dict[str, Union[int, str]]]:
     """Compute statistics for tokenization quality
 
     These statistics include:

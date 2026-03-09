@@ -6,8 +6,11 @@
 from __future__ import annotations
 
 import warnings
-from datetime import datetime
 from string import digits
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from datetime import datetime
 
 from pythainlp import thai_digits
 from pythainlp.util.date import (

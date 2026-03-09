@@ -197,7 +197,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         encoder_data = load_json(vocab_file)
         if not isinstance(encoder_data, dict):
             raise ValueError("encoder must be a dict")
-        self.encoder: dict[str, int] = cast(dict[str, int], encoder_data)
+        self.encoder: dict[str, int] = cast("dict[str, int]", encoder_data)
         self.decoder: dict[int, str] = {v: k for k, v in self.encoder.items()}
         self.spm_file: str = spm_file
         self.sp_model: SentencePieceProcessor = load_spm(

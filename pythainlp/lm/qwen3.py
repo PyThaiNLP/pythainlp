@@ -146,9 +146,7 @@ class Qwen3:
             )
 
         if not text or not isinstance(text, str):
-            raise ValueError(
-                "text parameter must be a non-empty string."
-            )
+            raise ValueError("text parameter must be a non-empty string.")
 
         try:
             import torch
@@ -176,9 +174,11 @@ class Qwen3:
         # Decode only the newly generated tokens
         # output_ids and input_ids are guaranteed to be 2D tensors with
         # batch size 1 from the tokenizer call above
-        generated_text = self.tokenizer.decode(
-            output_ids[0][len(input_ids[0]) :],
-            skip_special_tokens=skip_special_tokens,
+        generated_text = str(
+            self.tokenizer.decode(
+                output_ids[0][len(input_ids[0]) :],
+                skip_special_tokens=skip_special_tokens,
+            )
         )
 
         return generated_text
@@ -270,9 +270,11 @@ class Qwen3:
         # Decode only the newly generated tokens
         # output_ids and input_ids are guaranteed to be 2D tensors with
         # batch size 1 from the tokenizer call above
-        generated_text = self.tokenizer.decode(
-            output_ids[0][len(input_ids[0]) :],
-            skip_special_tokens=skip_special_tokens,
+        generated_text = str(
+            self.tokenizer.decode(
+                output_ids[0][len(input_ids[0]) :],
+                skip_special_tokens=skip_special_tokens,
+            )
         )
 
         return generated_text

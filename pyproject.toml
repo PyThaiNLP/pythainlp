@@ -75,7 +75,10 @@ dev = [
     "build>=1.0.0",
     "bump-my-version>=1.2.6",
     "coverage>=7.10.7",
+    "flake8>=7.0.0",
+    "flake8-type-checking>=3.2.0",
     "mypy>=1.19.1",
+    "pylint>=4.0.0",
     "ruff>=0.14.14",
     "tox>=4.30.3",
 ]
@@ -460,10 +463,13 @@ module = [
     "gensim.*",
     "huggingface_hub.*",
     "icu.*",
+    "importlib_resources",
+    "importlib_resources.*",
     "khamyo.*",
     "khanaa.*",
     "multiel.*",
     "nltk.*",
+    "nlpo3.*",
     "numpy.*",
     "onnxruntime.*",
     "oskut.*",
@@ -494,3 +500,14 @@ module = [
     "yaml.*",
 ]
 ignore_missing_imports = true
+
+[tool.pylint.main]
+disable = [
+    "import-error",
+    "no-name-in-module",
+    "too-few-public-methods",
+    "too-many-arguments",
+    "too-many-locals",
+    "too-many-branches",
+    "too-many-statements",
+]

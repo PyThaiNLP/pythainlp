@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     import torch
-    from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+    from transformers import AutoModelForSeq2SeqLM, AutoTokenizer  # noqa: F401
 
 
 class ThZhTranslator:

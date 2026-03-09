@@ -9,8 +9,8 @@ from sys import stderr
 from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
-    from nlpo3 import (
-        load_dict as nlpo3_load_dict,  # noqa: F401
+    from nlpo3 import (  # noqa: F401
+        load_dict as nlpo3_load_dict,
     )
     from nlpo3 import segment as nlpo3_segment  # noqa: F401
 
@@ -88,9 +88,7 @@ def load_dict(file_path: str, dict_name: str) -> bool:
 
     msg: str
     success: bool
-    msg, success = nlpo3_load_dict(
-        file_path=file_path, dict_name=dict_name
-    )
+    msg, success = nlpo3_load_dict(file_path=file_path, dict_name=dict_name)
     if not success:
         print(msg, file=stderr)
     return success

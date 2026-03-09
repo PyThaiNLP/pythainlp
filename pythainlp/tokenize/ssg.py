@@ -13,4 +13,4 @@ def segment(text: str) -> list[str]:
     if not text or not isinstance(text, str):
         return []
 
-    return cast(list[str], syllable_tokenize(text))
+    return cast("list[str]", syllable_tokenize(text))

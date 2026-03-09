@@ -66,12 +66,12 @@ def _prepare_text_with_exclusions(
         # - a delimiter character such as whitespace or common punctuation.
         # This allows matching words like "cat" in "I love cat.".
         delimiter_chars = r"\s" + re.escape(
-            ".,!?;:'\"()[]{}<>/\\|`~@#$%^&*-+=""''、，。！？；：（）【】《》"
+            ".,!?;:'\"()[]{}<>/\\|`~@#$%^&*-+=''、，。！？；：（）【】《》"
         )
         pattern = (
-            fr"(?:(?<=^)|(?<=[{delimiter_chars}]))"
+            rf"(?:(?<=^)|(?<=[{delimiter_chars}]))"
             f"{escaped_word}"
-            fr"(?:(?=$)|(?=[{delimiter_chars}]))"
+            rf"(?:(?=$)|(?=[{delimiter_chars}]))"
         )
 
         # Check if there's a match with token boundaries

@@ -7,11 +7,12 @@ Evaluation metrics for Thai text generation tasks.
 This module provides pure Python implementations of common evaluation
 metrics (BLEU, ROUGE) that handle Thai text tokenization automatically.
 """
+
 from __future__ import annotations
 
 import math
 from collections import Counter
-from typing import Union
+from typing import Optional, Union, cast
 
 
 def _get_ngrams(tokens: list[str], n: int) -> list[tuple[str, ...]]:
@@ -82,7 +83,7 @@ def bleu_score(
     lowercase: bool = False,
     max_ngram: int = 4,
     smooth: bool = True,
-) -> dict[str, float]:
+) -> dict[str, Union[float, list[float]]]:
     """
     Calculate BLEU score for Thai text with automatic tokenization.
 
@@ -90,7 +91,7 @@ def bleu_score(
     Understudy) metric that automatically tokenizes Thai text using
     PyThaiNLP before calculating the score.
 
-    :param list[str] | list[list[str]] references: reference translations.
+    :param Union[list[str], list[list[str]]] references: reference translations.
         Can be:
         - A list of strings (one reference per hypothesis)
         - A list of lists of strings (multiple references per hypothesis)
@@ -103,9 +104,11 @@ def bleu_score(
     :param bool smooth: whether to use smoothing for zero counts
         (default: True)
 
-    :return: dictionary with 'bleu', 'precisions', 'bp', 'length_ratio',
-        'hyp_length', and 'ref_length'
-    :rtype: dict[str, float]
+    :return: dictionary with ``'bleu'``, ``'precisions'``, ``'bp'``,
+        ``'length_ratio'``, ``'hyp_length'``, and ``'ref_length'``.
+        The ``'precisions'`` value is a ``list[float]``; all other values
+        are ``float``.
+    :rtype: dict[str, Union[float, list[float]]]
 
     :Example:
     ::
@@ -131,7 +134,9 @@ def bleu_score(
 
     # Normalize references format
     if references and isinstance(references[0], str):
-        refs_normalized: list[list[str]] = [[ref] for ref in references]
+        refs_normalized: list[list[str]] = [
+            [ref] for ref in cast("list[str]", references)
+        ]
     else:
         refs_normalized = references  # type: ignore[assignment]
 
@@ -231,7 +236,7 @@ def rouge_score(
     reference: str,
     hypothesis: str,
     tokenize: str = "newmm",
-    rouge_types: list[str] | None = None,
+    rouge_types: Optional[list[str]] = None,
 ) -> dict[str, tuple[float, float, float]]:
     """
     Calculate ROUGE scores for Thai text with automatic tokenization.
@@ -249,7 +254,7 @@ def rouge_score(
     :param str hypothesis: hypothesis text to evaluate
     :param str tokenize: tokenization engine to use (default: "newmm").
         See :func:`pythainlp.tokenize.word_tokenize` for available engines.
-    :param list[str] | None rouge_types: list of ROUGE types to calculate.
+    :param Optional[list[str]] rouge_types: list of ROUGE types to calculate.
         Default is ["rouge1", "rouge2", "rougeL"]
 
     :return: dictionary mapping ROUGE type to (precision, recall, fmeasure)
@@ -273,8 +278,12 @@ def rouge_score(
         rouge_types = ["rouge1", "rouge2", "rougeL"]
 
     # Tokenize texts
-    ref_tokens = word_tokenize(reference, engine=tokenize, keep_whitespace=False)
-    hyp_tokens = word_tokenize(hypothesis, engine=tokenize, keep_whitespace=False)
+    ref_tokens = word_tokenize(
+        reference, engine=tokenize, keep_whitespace=False
+    )
+    hyp_tokens = word_tokenize(
+        hypothesis, engine=tokenize, keep_whitespace=False
+    )
 
     result: dict[str, tuple[float, float, float]] = {}
 
@@ -364,8 +373,12 @@ def word_error_rate(
     from pythainlp.tokenize import word_tokenize
 
     # Tokenize texts
-    ref_tokens = word_tokenize(reference, engine=tokenize, keep_whitespace=False)
-    hyp_tokens = word_tokenize(hypothesis, engine=tokenize, keep_whitespace=False)
+    ref_tokens = word_tokenize(
+        reference, engine=tokenize, keep_whitespace=False
+    )
+    hyp_tokens = word_tokenize(
+        hypothesis, engine=tokenize, keep_whitespace=False
+    )
 
     # Calculate edit distance using dynamic programming
     r = len(ref_tokens)
@@ -393,7 +406,7 @@ def word_error_rate(
 
     # Calculate WER
     if r == 0:
-        return 0.0 if h == 0 else float('inf')
+        return 0.0 if h == 0 else float("inf")
 
     return d[r][h] / r
 
@@ -465,6 +478,6 @@ def character_error_rate(
 
     # Calculate CER
     if r == 0:
-        return 0.0 if h == 0 else float('inf')
+        return 0.0 if h == 0 else float("inf")
 
     return d[r][h] / r

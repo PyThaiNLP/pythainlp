@@ -5,7 +5,10 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 from pythainlp import thai_consonants as consonants
 from pythainlp.corpus import thai_words

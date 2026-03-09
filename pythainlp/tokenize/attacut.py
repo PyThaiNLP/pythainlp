@@ -28,7 +28,7 @@ class AttacutTokenizer:
         self._tokenizer: Tokenizer = Tokenizer(model=self._MODEL_NAME)
 
     def tokenize(self, text: str) -> list[str]:
-        return cast(list[str], self._tokenizer.tokenize(text))
+        return cast("list[str]", self._tokenizer.tokenize(text))
 
 
 _tokenizers: dict[str, AttacutTokenizer] = {}

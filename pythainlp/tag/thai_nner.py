@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING, Optional, Union
 from pythainlp.corpus import get_corpus_path
 
 if TYPE_CHECKING:
-    from thai_nner import NNER
+    from thai_nner import NNER  # noqa: F401
 
 __all__: list[str] = ["ThaiNNER"]
 

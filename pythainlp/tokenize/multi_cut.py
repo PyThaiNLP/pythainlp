@@ -15,11 +15,14 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
-from collections.abc import Iterator
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
+    from pythainlp.util import Trie
 
 from pythainlp.tokenize import word_dict_trie
-from pythainlp.util import Trie
 
 
 class LatticeString(str):

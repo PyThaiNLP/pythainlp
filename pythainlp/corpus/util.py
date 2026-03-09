@@ -14,7 +14,10 @@ codes are from Korakot Chaovavanich.
 from __future__ import annotations
 
 from collections import Counter
-from collections.abc import Callable, Iterable, Iterator
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Iterable, Iterator
 
 from pythainlp.corpus import thai_words
 from pythainlp.tokenize import newmm

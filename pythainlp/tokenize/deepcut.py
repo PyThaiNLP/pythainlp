@@ -31,6 +31,6 @@ def segment(
         if isinstance(custom_dict, Trie):
             custom_dict = list(custom_dict)
 
-        return cast(list[str], tokenize(text, custom_dict))
+        return cast("list[str]", tokenize(text, custom_dict))
 
-    return cast(list[str], tokenize(text))
+    return cast("list[str]", tokenize(text))

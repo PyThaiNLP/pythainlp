@@ -5,8 +5,10 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
-from typing import Optional, cast
+from typing import TYPE_CHECKING, Optional, cast
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 from pythainlp.summarize import (
     CPE_KMUTT_THAI_SENTENCE_SUM,
@@ -227,7 +229,7 @@ def extract_keywords(
         from .keybert import KeyBERT
 
         keywords = cast(
-            list[str],
+            "list[str]",
             KeyBERT().extract_keywords(
                 text,
                 keyphrase_ngram_range=keyphrase_ngram_range,

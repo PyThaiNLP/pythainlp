@@ -9,9 +9,11 @@ Based on Peter Norvig's Python code from https://norvig.com/spell-correct.html
 from __future__ import annotations
 
 from collections import Counter
-from collections.abc import Callable, ItemsView, Iterable
 from string import digits
-from typing import Optional, Union, cast
+from typing import TYPE_CHECKING, Optional, Union, cast
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, ItemsView, Iterable
 
 from pythainlp import thai_digits, thai_letters
 from pythainlp.corpus import phupha, thai_orst_words
@@ -97,7 +99,7 @@ def _convert_custom_dict(
     if isinstance(first_member, str):
         # create tuples of a word with frequency equaling 1,
         # and filter word list
-        custom_dict = cast(Iterable[str], custom_dict)
+        custom_dict = cast("Iterable[str]", custom_dict)
         result = [
             (word, 1)
             for word in custom_dict
@@ -105,7 +107,7 @@ def _convert_custom_dict(
         ]
     elif isinstance(first_member, tuple):
         # filter word list
-        custom_dict = cast(Iterable[tuple[str, int]], custom_dict)
+        custom_dict = cast("Iterable[tuple[str, int]]", custom_dict)
         result = [
             word_freq
             for word_freq in custom_dict

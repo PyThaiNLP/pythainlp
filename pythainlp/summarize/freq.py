@@ -56,7 +56,7 @@ class FrequencySummarizer:
     ) -> list[str]:
         # sent_tokenize with str input returns list[str]
         sents = cast(
-            list[str], sent_tokenize(text, engine="whitespace+newline")
+            "list[str]", sent_tokenize(text, engine="whitespace+newline")
         )
         word_tokenized_sents = [
             word_tokenize(sent, engine=tokenizer) for sent in sents

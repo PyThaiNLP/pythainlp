@@ -7,8 +7,10 @@ from __future__ import annotations
 
 import html
 import re
-from collections.abc import Collection
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from collections.abc import Collection
 
 import emoji
 

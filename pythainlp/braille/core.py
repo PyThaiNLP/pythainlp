@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import re
+from typing import cast
 
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import Trie
@@ -250,9 +251,10 @@ class Braille:
         self.inputdata: list[list[str]] | list[str] | str = data
         if isinstance(data, list):
             if len(data) > 1:
-                self.data: list[list[str]] | list[str] = [""] * len(data)
-                for i in range(len(data)):
-                    self.data[i] = sorted(list(data[i]))
+                nested_data: list[list[str]] = [[] for _ in range(len(data))]
+                for i, item in enumerate(data):
+                    nested_data[i] = sorted(list(item))
+                self.data: list[list[str]] | list[str] = nested_data
             elif len(data) == 1:
                 self.data = sorted(list(data[0]))
             else:
@@ -540,7 +542,7 @@ class Braille:
                     result += self.db[pattern_str]
             return result
         else:
-            pattern_str = "".join(self.data)
+            pattern_str = "".join(cast(list[str], self.data))
             return self.db.get(pattern_str, "")
 
     def printbraille(self) -> str:
@@ -571,6 +573,6 @@ class Braille:
             mirrored_patterns.reverse()
             return "".join(mirrored_patterns)
         else:
-            mirrored = "".join(mirror_map[dot] for dot in self.data)
+            mirrored = "".join(mirror_map[dot] for dot in cast(list[str], self.data))
             mirrored_sorted = "".join(sorted(mirrored))
             return self.db[mirrored_sorted]

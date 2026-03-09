@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import math
 from collections import Counter
-from typing import Union
+from typing import Union, cast
 
 
 def _get_ngrams(tokens: list[str], n: int) -> list[tuple[str, ...]]:
@@ -82,7 +82,7 @@ def bleu_score(
     lowercase: bool = False,
     max_ngram: int = 4,
     smooth: bool = True,
-) -> dict[str, float]:
+) -> dict[str, Union[float, list[float]]]:
     """
     Calculate BLEU score for Thai text with automatic tokenization.
 
@@ -103,9 +103,11 @@ def bleu_score(
     :param bool smooth: whether to use smoothing for zero counts
         (default: True)
 
-    :return: dictionary with 'bleu', 'precisions', 'bp', 'length_ratio',
-        'hyp_length', and 'ref_length'
-    :rtype: dict[str, float]
+    :return: dictionary with ``'bleu'``, ``'precisions'``, ``'bp'``,
+        ``'length_ratio'``, ``'hyp_length'``, and ``'ref_length'``.
+        The ``'precisions'`` value is a ``list[float]``; all other values
+        are ``float``.
+    :rtype: dict[str, float | list[float]]
 
     :Example:
     ::
@@ -131,7 +133,9 @@ def bleu_score(
 
     # Normalize references format
     if references and isinstance(references[0], str):
-        refs_normalized: list[list[str]] = [[ref] for ref in references]
+        refs_normalized: list[list[str]] = [
+            [ref] for ref in cast(list[str], references)
+        ]
     else:
         refs_normalized = references  # type: ignore[assignment]
 

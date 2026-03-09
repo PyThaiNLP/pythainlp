@@ -9,14 +9,14 @@ For text processing and text conversion, see pythainlp.util
 from __future__ import annotations
 
 import os
+import sys
 from os import PathLike
-from sys import version_info
 from typing import cast
 
-if version_info >= (3, 11):
+if sys.version_info >= (3, 11):
     from importlib.resources import files  # Available in Python 3.11+
 else:
-    from importlib_resources import files  # type: ignore[no-redef]  # noqa: I001
+    from importlib_resources import files  # noqa: I001
 
 PYTHAINLP_DEFAULT_DATA_DIR: str = "pythainlp-data"
 

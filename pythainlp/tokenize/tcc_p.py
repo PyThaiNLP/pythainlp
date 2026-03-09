@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """The implementation of tokenizer according to Thai Character Clusters (TCCs)
 rules proposed by `Theeramunkong et al. 2000. \
-    <https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548>`_
+    <https://doi.org/10.1145/355214.355225>`_
 and improved rules that are used in newmm
 
 Credits:

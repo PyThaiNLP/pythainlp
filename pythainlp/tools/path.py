@@ -202,7 +202,8 @@ def get_pythainlp_data_path() -> str:
 
     resolved = data_dir or os.path.join("~", PYTHAINLP_DEFAULT_DATA_DIR)
     path = os.path.expanduser(resolved)
-    os.makedirs(path, exist_ok=True)
+    if not is_read_only_mode():
+        os.makedirs(path, exist_ok=True)
     return path
 
 

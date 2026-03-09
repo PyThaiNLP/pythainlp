@@ -64,7 +64,8 @@ The minimum requirement is now Python 3.9.
 - Duplicated entries in Volubilis dictionary (#1200)
 - Star imports (#1207)
 - `requests` dependency (#1211)
-- `pythainlp.util.is_native_thai` (deprecated since v5.0); use `pythainlp.morpheme.is_native_thai` instead
+- `pythainlp.util.is_native_thai` (deprecated since v5.0);
+  use `pythainlp.morpheme.is_native_thai` instead (#1315)
 
 ### Fixed
 

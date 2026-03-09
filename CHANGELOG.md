@@ -20,9 +20,10 @@ and this project adheres to
 ## [Unreleased]
 
 This release focuses on stability and performance, featuring optimized memory
-efficiency and standardized error messaging. We’ve expanded our test suite to
-include Python 3.14 and broadened type hint support for a better developer
-experience.
+efficiency, better read-only environment support, and standardized error
+messaging.
+We’ve expanded our test suite to include Python 3.14 and broadened type hint
+support for a better developer experience.
 
 The minimum requirement is now Python 3.9.
 
@@ -60,9 +61,9 @@ The minimum requirement is now Python 3.9.
 
 - `PYTHAINLP_DATA_DIR` env var; use `PYTHAINLP_DATA` instead
   (follows `NLTK_DATA` convention from NLTK)
-  `PYTHAINLP_DATA_DIR` will be removed in future version (#1306)
-- `PYTHAINLP_READ_MODE` env var; use `PYTHAINLP_READ_ONLY` instead.
-  Setting both at the same time raises `ValueError`.
+  `PYTHAINLP_DATA_DIR` will be removed in a future version (#1306)
+- `PYTHAINLP_READ_MODE` env var; use `PYTHAINLP_READ_ONLY` instead
+  `PYTHAINLP_READ_MODE` will be removed in a future version (#1317)
 
 ### Removed
 

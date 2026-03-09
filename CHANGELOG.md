@@ -15,9 +15,9 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
-- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...HEAD>
+- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...5.3.0>
 
-## [5.3.0] - 2026-02-10
+## [5.3.0] - 2026-03-10
 
 This release focuses on stability and performance, featuring optimized memory
 efficiency, better read-only environment support, and standardized error

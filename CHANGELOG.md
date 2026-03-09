@@ -57,7 +57,8 @@ The minimum requirement is now Python 3.9.
 ### Deprecated
 
 - `PYTHAINLP_DATA_DIR` env var; use `PYTHAINLP_DATA` instead
-  (follows `NLTK_DATA` convention from NLTK) (#1306)
+  (follows `NLTK_DATA` convention from NLTK)
+  `PYTHAINLP_DATA_DIR` will be removed in future version (#1306)
 
 ### Removed
 
@@ -72,7 +73,7 @@ The minimum requirement is now Python 3.9.
 - Consonant cluster boundary issue in `royin` romanization (#1172)
 - Final consonant classification in `check_marttra()` (#1173)
 - Kho Khon alphabet issue in `tltk` transliteration (#1187)
-- Suppress gensim duplicate-word warnings when loading word2vec
+- Suppress Gensim duplicate-word warnings when loading word2vec
   binary files (#1316)
 
 ## [5.2.0] - 2025-12-20

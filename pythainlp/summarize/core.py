@@ -5,8 +5,10 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
-from typing import Optional, cast
+from typing import TYPE_CHECKING, Optional, cast
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 from pythainlp.summarize import (
     CPE_KMUTT_THAI_SENTENCE_SUM,

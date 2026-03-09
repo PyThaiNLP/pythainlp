@@ -9,9 +9,11 @@ Based on Peter Norvig's Python code from http://norvig.com/spell-correct.html
 from __future__ import annotations
 
 from collections import Counter
-from collections.abc import Callable, ItemsView, Iterable
 from string import digits
-from typing import Optional, Union, cast
+from typing import TYPE_CHECKING, Optional, Union, cast
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, ItemsView, Iterable
 
 from pythainlp import thai_digits, thai_letters
 from pythainlp.corpus import phupha, thai_orst_words

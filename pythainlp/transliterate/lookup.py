@@ -10,8 +10,10 @@ Zenodo. https://doi.org/10.5281/zenodo.6716672
 
 from __future__ import annotations
 
-from collections.abc import Callable
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 from pythainlp.corpus.th_en_translit import (
     TRANSLITERATE_DICT,

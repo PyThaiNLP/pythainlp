@@ -6,10 +6,11 @@ from __future__ import annotations
 import random
 import re
 import warnings
-from collections.abc import Callable
 from typing import TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from transformers import (  # noqa: F401
         AutoModelForMaskedLM,
         AutoModelForTokenClassification,

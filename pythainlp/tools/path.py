@@ -10,8 +10,10 @@ from __future__ import annotations
 
 import os
 import sys
-from os import PathLike
-from typing import cast
+from typing import TYPE_CHECKING, cast
+
+if TYPE_CHECKING:
+    from os import PathLike
 
 if sys.version_info >= (3, 11):
     from importlib.resources import files  # Available in Python 3.11+

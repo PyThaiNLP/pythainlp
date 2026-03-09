@@ -21,8 +21,10 @@ from __future__ import annotations
 
 import json
 from collections import defaultdict
-from collections.abc import Iterable
-from typing import Optional, Union
+from typing import TYPE_CHECKING, Optional, Union
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 class AveragedPerceptron:

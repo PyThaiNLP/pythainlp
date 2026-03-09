@@ -12,8 +12,10 @@ https://www.nltk.org/howto/wordnet.html
 
 from __future__ import annotations
 
-from collections.abc import Iterable
-from typing import IO, Optional, Union
+from typing import IO, TYPE_CHECKING, Optional, Union
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 import nltk
 

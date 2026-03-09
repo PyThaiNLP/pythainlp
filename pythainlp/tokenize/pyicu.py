@@ -13,7 +13,10 @@ from __future__ import annotations
 
 import re
 import threading
-from collections.abc import Iterator
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 from icu import BreakIterator, Locale
 

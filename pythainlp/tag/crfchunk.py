@@ -3,10 +3,12 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-import types
-from contextlib import AbstractContextManager
 from importlib.resources import as_file, files
-from typing import Any, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
+
+if TYPE_CHECKING:
+    import types
+    from contextlib import AbstractContextManager
 
 from pycrfsuite import Tagger as CRFTagger
 

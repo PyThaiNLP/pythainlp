@@ -12,10 +12,12 @@ __all__: list[str] = [
 
 import itertools
 from collections import OrderedDict
-from typing import Callable, Optional
+from typing import TYPE_CHECKING, Callable, Optional
 
 from nltk.corpus import wordnet as wn
-from nltk.corpus.reader.wordnet import Synset
+
+if TYPE_CHECKING:
+    from nltk.corpus.reader.wordnet import Synset
 
 from pythainlp.corpus import wordnet
 from pythainlp.tag import pos_tag

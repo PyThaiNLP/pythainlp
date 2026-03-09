@@ -11,7 +11,6 @@ import re
 import sys
 import tarfile
 import zipfile
-from http.client import HTTPMessage, HTTPResponse
 from importlib.resources import files
 from typing import TYPE_CHECKING
 
@@ -21,6 +20,7 @@ from pythainlp.tools import get_full_data_path
 from pythainlp.tools.path import is_offline_mode
 
 if TYPE_CHECKING:
+    from http.client import HTTPMessage, HTTPResponse
     from typing import Any, Optional
 
 _CHECK_MODE: Optional[str] = os.getenv("PYTHAINLP_READ_MODE")

@@ -18,13 +18,16 @@ from __future__ import annotations
 
 import re
 from collections import defaultdict
-from collections.abc import Generator
 from heapq import heappop, heappush
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
+
+    from pythainlp.util import Trie
 
 from pythainlp.tokenize import word_dict_trie
 from pythainlp.tokenize.tcc_p import tcc_pos
-from pythainlp.util import Trie
 
 # match non-Thai tokens
 # `|` is used as like "early return",

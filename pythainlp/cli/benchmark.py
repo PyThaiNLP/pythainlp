@@ -157,15 +157,6 @@ class WordTokenizationBenchmark:
             dir_name = os.path.dirname(args.input_file)
             file_name = args.input_file.split("/")[-1].split(".")[0]
 
-            from pythainlp.tools.path import is_read_only_mode
-
-            if is_read_only_mode():
-                safe_print(
-                    "PyThaiNLP is in read-only mode. "
-                    "Benchmark details cannot be saved."
-                )
-                return
-
             res_path = "%s/eval-%s.yml" % (dir_name, file_name)
             safe_print("Evaluation result is saved to %s" % res_path)
 

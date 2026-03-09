@@ -250,7 +250,11 @@ class ToolsTestCase(unittest.TestCase):
             self.assertIn("PYTHAINLP_READ_MODE", str(ctx.exception))
 
     def test_get_pythainlp_data_path_no_makedirs_in_read_only(self):
-        """Test that get_pythainlp_data_path skips makedirs in read-only mode."""
+        """Test that get_pythainlp_data_path skips makedirs in read-only mode.
+
+        Directory creation is an implicit side-effect the user may not be
+        aware of.  Read-only mode must suppress it.
+        """
         with tempfile.TemporaryDirectory() as tmpdir:
             new_dir = os.path.join(tmpdir, "new-pythainlp-data")
             with patch.dict(
@@ -268,28 +272,16 @@ class ToolsTestCase(unittest.TestCase):
                     "Data directory should not be created in read-only mode",
                 )
 
-    def test_param_free_save_blocked_in_read_only(self):
-        """Test that GzipModel.save raises PermissionError in read-only mode."""
+    def test_explicit_save_allowed_in_read_only(self):
+        """Test that user-explicit saves are allowed in read-only mode.
+
+        Read-only mode only blocks implicit background writes to PyThaiNLP's
+        internal data directory.  Operations where the user explicitly
+        specifies an output path must proceed normally.
+        """
         from pythainlp.classify.param_free import GzipModel
-
-        # Bypass __init__ (which needs numpy) — only the guard is under test
-        model = object.__new__(GzipModel)
-        with patch.dict(
-            os.environ,
-            {"PYTHAINLP_READ_ONLY": "1"},
-            clear=False,
-        ):
-            os.environ.pop("PYTHAINLP_READ_MODE", None)
-            with tempfile.TemporaryDirectory() as tmpdir:
-                with self.assertRaises(PermissionError):
-                    model.save(os.path.join(tmpdir, "model.json"))
-
-    def test_perceptron_train_save_blocked_in_read_only(self):
-        """Test that PerceptronTagger.train raises PermissionError when saving in read-only mode."""
         from pythainlp.tag._tag_perceptron import PerceptronTagger
 
-        tagger = PerceptronTagger()
-        sentences = [[("กิน", "VV"), ("ข้าว", "NN")]]
         with patch.dict(
             os.environ,
             {"PYTHAINLP_READ_ONLY": "1"},
@@ -297,9 +289,19 @@ class ToolsTestCase(unittest.TestCase):
         ):
             os.environ.pop("PYTHAINLP_READ_MODE", None)
             with tempfile.TemporaryDirectory() as tmpdir:
-                with self.assertRaises(PermissionError):
-                    tagger.train(
-                        sentences,
-                        save_loc=os.path.join(tmpdir, "tagger.json"),
-                        nr_iter=1,
-                    )
+                # GzipModel.save — user explicitly provides the path
+                model = object.__new__(GzipModel)
+                import numpy as np
+
+                model.training_data = np.array([("text", "label")])
+                model.cx2_list = [4]
+                out = os.path.join(tmpdir, "model.json")
+                model.save(out)
+                self.assertTrue(os.path.isfile(out))
+
+                # PerceptronTagger.train — user explicitly provides save_loc
+                tagger = PerceptronTagger()
+                sentences = [[("กิน", "VV"), ("ข้าว", "NN")]]
+                tagger_out = os.path.join(tmpdir, "tagger.json")
+                tagger.train(sentences, save_loc=tagger_out, nr_iter=1)
+                self.assertTrue(os.path.isfile(tagger_out))

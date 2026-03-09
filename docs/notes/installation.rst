@@ -174,19 +174,32 @@ Runtime configurations
 .. envvar:: PYTHAINLP_READ_ONLY
 
    When set to a truthy value (``1``, ``true``, ``yes``, ``on``), PyThaiNLP operates in
-   *read-only mode*: all write operations are disabled, including corpus downloads and
-   corpus catalog updates.
+   *read-only mode*: implicit background writes to PyThaiNLP's internal data directory
+   are disabled.
 
-   In read-only mode:
+   **What read-only mode blocks** (implicit writes the user may not be aware of):
 
-   - :func:`pythainlp.corpus.download` refuses to download any corpus.
-   - :func:`pythainlp.corpus.remove` refuses to remove any corpus.
+   - Creating the PyThaiNLP data directory (``~/pythainlp-data`` or
+     as configured by :envvar:`PYTHAINLP_DATA`).
+   - :func:`pythainlp.corpus.download` — corpus file downloads and catalog
+     (``db.json``) updates.
+   - :func:`pythainlp.corpus.remove` — corpus file and catalog deletions.
+
+   **What read-only mode does NOT block** (explicit user-initiated writes):
+
+   - Saving trained models or vocabularies to a user-specified path
+     (e.g., ``model.save("my_model.json")``, ``tagger.train(..., save_loc="...")``,
+     ``tokenizer.save_vocabulary("my_dir/")``) — the user explicitly provided the
+     destination path.
+   - CLI output files written to a user-specified location
+     (e.g., ``thainlp benchmark --save-details``,
+     ``thainlp misspell --output myfile.txt``).
 
    Use :func:`pythainlp.is_read_only_mode` to check the current state programmatically.
 
    .. note::
-      For disabling only *automatic* downloads while still allowing explicit downloads,
-      use :envvar:`PYTHAINLP_OFFLINE` instead.
+      To disable only *automatic* background downloads while keeping explicit
+      ``download()`` calls working, use :envvar:`PYTHAINLP_OFFLINE` instead.
 
    If both :envvar:`PYTHAINLP_READ_ONLY` and :envvar:`PYTHAINLP_READ_MODE` are set at the
    same time, PyThaiNLP raises :exc:`ValueError`.

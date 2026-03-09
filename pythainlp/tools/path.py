@@ -26,8 +26,9 @@ PYTHAINLP_DEFAULT_DATA_DIR: str = "pythainlp-data"
 def is_read_only_mode() -> bool:
     """Return whether PyThaiNLP is operating in read-only mode.
 
-    Read-only mode prevents any write operations such as corpus downloads
-    and catalog updates. It is activated by setting the
+    Read-only mode prevents **implicit background writes** to PyThaiNLP's
+    internal data directory — writes that happen as side effects the user
+    may not be aware of. It is activated by setting the
     ``PYTHAINLP_READ_ONLY`` environment variable to a truthy value
     (e.g. ``"1"``).
 
@@ -36,17 +37,27 @@ def is_read_only_mode() -> bool:
         Use ``PYTHAINLP_READ_ONLY`` instead.
         Setting both variables at the same time raises :exc:`ValueError`.
 
-    When read-only mode is active:
+    When read-only mode is active, the following implicit writes are blocked:
 
-    - :func:`pythainlp.corpus.download` refuses to download any corpus.
-    - :func:`pythainlp.corpus.remove` refuses to remove any corpus.
+    - Creating the PyThaiNLP data directory
+      (``~/pythainlp-data`` or as set by ``PYTHAINLP_DATA``).
+    - :func:`pythainlp.corpus.download` — corpus downloads and catalog
+      updates.
+    - :func:`pythainlp.corpus.remove` — corpus file and catalog deletions.
+
+    The following **explicit** user-initiated writes are **not** blocked,
+    because the user deliberately provided the destination path:
+
+    - Saving a trained model to a user-specified path
+      (e.g. ``model.save("my_model.json")``).
+    - Training a tagger with an explicit ``save_loc`` argument.
+    - Saving a tokenizer vocabulary to a user-specified directory.
+    - CLI output files written to a path the user specified or invoked.
 
     .. note::
-        Use :func:`~pythainlp.tools.path.is_offline_mode` to disable only
-        *automatic* downloads triggered by
-        :func:`~pythainlp.corpus.get_corpus_path`.  ``PYTHAINLP_OFFLINE``
-        still allows explicit :func:`~pythainlp.corpus.download` calls;
-        ``PYTHAINLP_READ_ONLY`` blocks all writes.
+        Use :func:`~pythainlp.tools.path.is_offline_mode` (``PYTHAINLP_OFFLINE``)
+        to disable only *automatic* background downloads while still allowing
+        explicit :func:`~pythainlp.corpus.download` calls.
 
     :return: ``True`` if PyThaiNLP is in read-only mode, ``False`` otherwise.
     :rtype: bool

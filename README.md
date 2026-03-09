@@ -93,7 +93,7 @@ See details in
 | `PYTHAINLP_DATA` | Path to the data directory (default: `~/pythainlp-data`). | Current |
 | `PYTHAINLP_DATA_DIR` | Legacy alias for `PYTHAINLP_DATA`. Emits a `DeprecationWarning`. Setting both raises `ValueError`. | Deprecated; use `PYTHAINLP_DATA` |
 | `PYTHAINLP_OFFLINE` | Set to `1` to disable automatic corpus downloads. Explicit `download()` calls still work. | Current |
-| `PYTHAINLP_READ_ONLY` | Set to `1` to enable read-only mode, which prevents all write operations (downloads and catalog updates). | Current |
+| `PYTHAINLP_READ_ONLY` | Set to `1` to enable read-only mode, which prevents implicit background writes to PyThaiNLP's internal data directory (corpus downloads, catalog updates, directory creation). Explicit user-initiated saves to user-specified paths are unaffected. | Current |
 | `PYTHAINLP_READ_MODE` | Legacy alias for `PYTHAINLP_READ_ONLY`. Emits a `DeprecationWarning`. Setting both raises `ValueError`. | Deprecated; use `PYTHAINLP_READ_ONLY` |
 
 ### Offline mode
@@ -111,8 +111,15 @@ print(pythainlp.is_offline_mode())  # True if PYTHAINLP_OFFLINE=1
 
 ### Read-only mode
 
-Set `PYTHAINLP_READ_ONLY=1` to disable **all** write operations,
-including both explicit and automatic corpus downloads as well as catalog updates.
+Set `PYTHAINLP_READ_ONLY=1` to prevent implicit background writes to PyThaiNLP's
+internal data directory. This blocks corpus downloads, catalog updates, and
+automatic data directory creation — writes that happen as side effects the user
+may not be aware of.
+
+Operations where the user explicitly specifies an output path are unaffected
+(e.g., `model.save("path")`, `tagger.train(..., save_loc="path")`,
+`thainlp misspell --output myfile.txt`).
+
 Use `pythainlp.is_read_only_mode()` to check the current state programmatically.
 
 ```python

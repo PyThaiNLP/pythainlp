@@ -70,14 +70,5 @@ class App:
             base, ext = os.path.splitext(args.file)
             args.output = f"{base}-misspelled-r{args.misspell_ratio}-seed{args.seed}{ext}"
 
-        from pythainlp.tools.path import is_read_only_mode
-
-        if is_read_only_mode():
-            print(
-                "PyThaiNLP is in read-only mode. "
-                f"Cannot write output to {args.output!r}."
-            )
-            return
-
         with open(args.output, "w", encoding="utf-8") as f:
             f.writelines(misspelled_lines)

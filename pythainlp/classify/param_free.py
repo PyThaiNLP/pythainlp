@@ -96,12 +96,6 @@ class GzipModel:
 
     def save(self, path: str) -> None:
         """:param str path: path to save model"""
-        from pythainlp.tools.path import is_read_only_mode
-
-        if is_read_only_mode():
-            raise PermissionError(
-                "PyThaiNLP is in read-only mode. Cannot save model."
-            )
         with open(path, "w", encoding="utf-8") as f:
             json.dump(
                 {

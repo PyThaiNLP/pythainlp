@@ -375,12 +375,6 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
     def save_vocabulary(
         self, save_directory: str, filename_prefix: Optional[str] = None
     ) -> tuple[str, str]:
-        from pythainlp.tools.path import is_read_only_mode
-
-        if is_read_only_mode():
-            raise PermissionError(
-                "PyThaiNLP is in read-only mode. Cannot save vocabulary."
-            )
         save_dir = Path(save_directory)
         if not save_dir.is_dir():
             raise OSError(f"{save_directory} should be a directory")
@@ -474,11 +468,5 @@ def load_json(path: str) -> Union[dict[str, str], list[str]]:
 def save_json(
     data: Union[Mapping[str, Union[str, int]], list[str]], path: str
 ) -> None:
-    from pythainlp.tools.path import is_read_only_mode
-
-    if is_read_only_mode():
-        raise PermissionError(
-            "PyThaiNLP is in read-only mode. Cannot save file."
-        )
     with open(path, "w") as f:
         json.dump(data, f, indent=2)

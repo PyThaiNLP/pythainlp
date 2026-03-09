@@ -202,12 +202,6 @@ class PerceptronTagger:
 
         # save the model
         if save_loc is not None:
-            from pythainlp.tools.path import is_read_only_mode
-
-            if is_read_only_mode():
-                raise PermissionError(
-                    "PyThaiNLP is in read-only mode. Cannot save model."
-                )
             data: dict[str, Union[dict, list]] = {}
             data["weights"] = self.model.weights
             data["tagdict"] = self.tagdict

@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+import logging
 from collections.abc import Callable
 from typing import TYPE_CHECKING
 
@@ -19,6 +20,13 @@ _MODEL_NAME: str = "thai2fit_wv"
 
 _TK_SP: str = "xxspace"
 _TK_EOL: str = "xxeol"
+
+
+class _DuplicateWordFilter(logging.Filter):
+    """Suppress gensim's 'duplicate word' warnings for word2vec files."""
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        return "duplicate word" not in record.getMessage()
 
 
 class WordVector:
@@ -66,11 +74,17 @@ class WordVector:
                 f"    Python: pythainlp.corpus.download('{model_name}')\n"
                 f"    CLI:    thainlp data get {model_name}"
             )
-        self.model = KeyedVectors.load_word2vec_format(
-            corpus_file,
-            binary=True,
-            unicode_errors="ignore",
-        )
+        _filter = _DuplicateWordFilter()
+        _gensim_kv_logger = logging.getLogger("gensim.models.keyedvectors")
+        _gensim_kv_logger.addFilter(_filter)
+        try:
+            self.model = KeyedVectors.load_word2vec_format(
+                corpus_file,
+                binary=True,
+                unicode_errors="ignore",
+            )
+        finally:
+            _gensim_kv_logger.removeFilter(_filter)
         self.WV_DIM = self.model.vector_size
 
         if self.model_name == "thai2fit_wv":

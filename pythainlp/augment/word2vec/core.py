@@ -25,15 +25,24 @@ class Word2VecAug:
         :param Callable[[str], list[str]] tokenize: tokenize function
         :param str type: model type (file, binary, model)
         """
+        import logging
+
         import gensim.models.keyedvectors as word2vec
 
         self.tokenizer: Callable[[str], list[str]] = tokenize
-        if type == "file":
-            self.model = word2vec.KeyedVectors.load_word2vec_format(model)
-        elif type == "binary":
-            self.model = word2vec.KeyedVectors.load_word2vec_format(
-                model, binary=True, unicode_errors="ignore"
-            )
+        if type in ("file", "binary"):
+            _gensim_kv_logger = logging.getLogger("gensim.models.keyedvectors")
+            _prev_level = _gensim_kv_logger.level
+            _gensim_kv_logger.setLevel(logging.ERROR)
+            try:
+                if type == "file":
+                    self.model = word2vec.KeyedVectors.load_word2vec_format(model)
+                else:
+                    self.model = word2vec.KeyedVectors.load_word2vec_format(
+                        model, binary=True, unicode_errors="ignore"
+                    )
+            finally:
+                _gensim_kv_logger.setLevel(_prev_level)
         else:
             self.model = model
         self.dict_wv: list[str] = list(self.model.key_to_index.keys())

@@ -55,6 +55,8 @@ class WordVector:
 
         :param str model_name: model name
         """
+        import logging
+
         from gensim.models import KeyedVectors
 
         self.model_name = model_name
@@ -66,11 +68,17 @@ class WordVector:
                 f"    Python: pythainlp.corpus.download('{model_name}')\n"
                 f"    CLI:    thainlp data get {model_name}"
             )
-        self.model = KeyedVectors.load_word2vec_format(
-            corpus_file,
-            binary=True,
-            unicode_errors="ignore",
-        )
+        _gensim_kv_logger = logging.getLogger("gensim.models.keyedvectors")
+        _prev_level = _gensim_kv_logger.level
+        _gensim_kv_logger.setLevel(logging.ERROR)
+        try:
+            self.model = KeyedVectors.load_word2vec_format(
+                corpus_file,
+                binary=True,
+                unicode_errors="ignore",
+            )
+        finally:
+            _gensim_kv_logger.setLevel(_prev_level)
         self.WV_DIM = self.model.vector_size
 
         if self.model_name == "thai2fit_wv":

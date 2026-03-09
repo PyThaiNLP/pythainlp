@@ -47,7 +47,6 @@ __all__: list[str] = [
 ]
 
 import os
-from typing import Optional
 
 from pythainlp.tools import get_full_data_path, get_pythainlp_path
 
@@ -55,9 +54,6 @@ from pythainlp.tools import get_full_data_path, get_pythainlp_path
 
 _CORPUS_DIRNAME: str = "corpus"
 _CORPUS_PATH: str = os.path.join(get_pythainlp_path(), _CORPUS_DIRNAME)
-_CHECK_MODE: Optional[str] = os.getenv("PYTHAINLP_READ_MODE")
-
-# URL of remote corpus catalog
 _CORPUS_DB_URL: str = "https://pythainlp.org/pythainlp-corpus/db.json"
 
 # filename of local corpus catalog
@@ -65,11 +61,6 @@ _CORPUS_DB_FILENAME: str = "db.json"
 
 # full path of local corpus catalog
 _CORPUS_DB_PATH: str = get_full_data_path(_CORPUS_DB_FILENAME)
-
-# create a local corpus database if it does not already exist
-if not os.path.exists(_CORPUS_DB_PATH) and _CHECK_MODE != "1":
-    with open(_CORPUS_DB_PATH, "w", encoding="utf-8") as f:
-        f.write(r'{"_default": {}}')
 
 
 def corpus_path() -> str:

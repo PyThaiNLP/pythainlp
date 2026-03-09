@@ -8,7 +8,10 @@ These tests verify that the corpus catalog can be downloaded from
 the remote server and queried correctly.
 """
 
+import os
+import tempfile
 import unittest
+from unittest.mock import patch
 
 from pythainlp.corpus import (
     corpus_db_path,
@@ -103,6 +106,36 @@ class CorpusCatalogTestCase(unittest.TestCase):
         detail_nonexist = get_corpus_db_detail("NONEXISTENT_CORPUS_12345")
         self.assertIsInstance(detail_nonexist, dict)
         self.assertEqual(len(detail_nonexist), 0, "Non-existent corpus should return empty dict")
+
+    def test_no_db_json_created_on_import(self):
+        """Test that importing pythainlp.corpus does not create db.json."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            non_existent_path = os.path.join(tmpdir, "db.json")
+
+            with patch(
+                "pythainlp.corpus._CORPUS_DB_PATH",
+                non_existent_path,
+            ):
+                import importlib
+
+                import pythainlp.corpus as corpus_module
+                importlib.reload(corpus_module)
+                self.assertFalse(
+                    os.path.exists(non_existent_path),
+                    "db.json should NOT be created on import when it does not exist",
+                )
+
+    def test_get_corpus_db_detail_no_db_json(self):
+        """Test that get_corpus_db_detail returns empty dict when db.json is absent."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            non_existent_path = os.path.join(tmpdir, "nonexistent_db.json")
+            with patch(
+                "pythainlp.corpus.core.corpus_db_path",
+                return_value=non_existent_path,
+            ):
+                detail = get_corpus_db_detail("any_corpus")
+        self.assertIsInstance(detail, dict)
+        self.assertEqual(detail, {})
 
     def test_catalog_version_info(self):
         """Test that catalog entries contain valid version information."""

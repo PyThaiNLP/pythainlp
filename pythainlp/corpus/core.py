@@ -17,13 +17,12 @@ from typing import TYPE_CHECKING
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
-from pythainlp.tools.path import is_offline_mode
+from pythainlp.tools.path import is_offline_mode, is_read_only_mode
 
 if TYPE_CHECKING:
     from http.client import HTTPMessage, HTTPResponse
     from typing import Any, Optional
 
-_CHECK_MODE: Optional[str] = os.getenv("PYTHAINLP_READ_MODE")
 _USER_AGENT: str = (
     f"PyThaiNLP/{__version__} "
     f"(Python/{sys.version_info.major}.{sys.version_info.minor}; "
@@ -85,7 +84,10 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict[str, Any]:
     :return: details about corpus
     :rtype: dict
     """
-    with open(corpus_db_path(), encoding="utf-8-sig") as f:
+    db_path = corpus_db_path()
+    if not os.path.exists(db_path):
+        return {}
+    with open(db_path, encoding="utf-8-sig") as f:
         local_db = json.load(f)
 
     if not version:
@@ -658,8 +660,8 @@ def download(
     ``$HOME/pythainlp-data/``
     (e.g. ``/Users/bact/pythainlp-data/wiki_lm_lstm.pth``).
     """
-    if _CHECK_MODE == "1":
-        print("PyThaiNLP is read-only mode. It can't download.")
+    if is_read_only_mode():
+        print("PyThaiNLP is in read-only mode. It cannot download.")
         return False
 
     if not url:
@@ -674,8 +676,12 @@ def download(
 
     # check if corpus is available
     if name in corpus_db_dict:
-        with open(corpus_db_path(), encoding="utf-8-sig") as f:
-            local_db = json.load(f)
+        db_path = corpus_db_path()
+        if os.path.exists(db_path):
+            with open(db_path, encoding="utf-8-sig") as f:
+                local_db = json.load(f)
+        else:
+            local_db = {"_default": {}}
 
         corpus = corpus_db_dict[name]
         print("Corpus:", name)
@@ -802,10 +808,13 @@ def remove(name: str) -> bool:
         # FileNotFoundError: [Errno 2] No such file or directory:
         # '/usr/local/lib/python3.6/dist-packages/pythainlp/corpus/ttc'
     """
-    if _CHECK_MODE == "1":
-        print("PyThaiNLP is read-only mode. It can't download.")
+    if is_read_only_mode():
+        print("PyThaiNLP is in read-only mode. It cannot remove corpus.")
         return False
-    with open(corpus_db_path(), encoding="utf-8-sig") as f:
+    db_path = corpus_db_path()
+    if not os.path.exists(db_path):
+        return False
+    with open(db_path, encoding="utf-8-sig") as f:
         db = json.load(f)
     data = [
         corpus for corpus in db["_default"].values() if corpus["name"] == name

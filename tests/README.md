@@ -50,20 +50,22 @@ The CI/CD test workflow is at
 
 ## Core tests (test_*.py)
 
-- Run `unittest tests.core`
+- Run `python -m unittest tests.core`
 - Focus on core functionalities.
 - Do not rely on external dependencies beyond the standard library.
+- Do not perform network access or corpus downloads.
 - Tested on all supported operating systems and all active Python versions.
 - Test case class suffix: `TestCase`
 
 ## Compact tests (testc_*.py)
 
-- Run `unittest tests.compact`
+- Run `python -m unittest tests.compact`
   - Need dependencies from `pip install "pythainlp[compact]"`
 - Test a limited set of functionalities that rely on a stable
   and small set of dependencies.
 - These dependencies are `PyYAML`, `nlpo3`, `numpy`, `pyicu`,
-  `python-crfsuite`, and `requests`.
+  and `python-crfsuite`.
+- Includes corpus download/remove tests (may require network access).
 - Tested on:
   - All OSes: earliest and second-latest supported Python versions
   - Ubuntu: additionally tested on the latest version
@@ -71,7 +73,7 @@ The CI/CD test workflow is at
 
 ## Extra tests (testx_*.py)
 
-- Run `unittest tests.extra`
+- Run `python -m unittest tests.extra`
   - Need dependencies from `pip install "pythainlp[compact,extra]"`
 - Test more functionalities that rely on larger set of dependencies
   or one that require more time or computation.
@@ -104,7 +106,7 @@ By separating tests by dependency group, we can:
 
 #### Umbrella suite: tests.noauto
 
-- Run `unittest tests.noauto`
+- Run `python -m unittest tests.noauto`
 - Includes all modular noauto test suites
 - Use this for comprehensive testing when all dependencies are available
 - Test case class suffix: `TestCaseN`
@@ -113,7 +115,7 @@ By separating tests by dependency group, we can:
 
 ##### PyTorch-based: tests.noauto_torch
 
-- Run `unittest tests.noauto_torch`
+- Run `python -m unittest tests.noauto_torch`
   - Need dependencies from `pip install "pythainlp[noauto-torch]"`
 - Tests requiring PyTorch and its ecosystem:
   - torch, transformers (PyTorch backend)
@@ -126,7 +128,7 @@ By separating tests by dependency group, we can:
 
 ##### TensorFlow-based: tests.noauto_tensorflow
 
-- Run `unittest tests.noauto_tensorflow`
+- Run `python -m unittest tests.noauto_tensorflow`
   - Need dependencies from `pip install "pythainlp[noauto-tensorflow]"`
 - Tests requiring TensorFlow:
   - deepcut tokenizer
@@ -136,7 +138,7 @@ By separating tests by dependency group, we can:
 
 ##### ONNX Runtime-based: tests.noauto_onnx
 
-- Run `unittest tests.noauto_onnx`
+- Run `python -m unittest tests.noauto_onnx`
   - Need dependencies from `pip install "pythainlp[noauto-onnx]"`
 - Tests requiring ONNX Runtime:
   - oskut, sefr_cut tokenizers
@@ -145,7 +147,7 @@ By separating tests by dependency group, we can:
 
 ##### Cython-compiled: tests.noauto_cython
 
-- Run `unittest tests.noauto_cython`
+- Run `python -m unittest tests.noauto_cython`
   - Need dependencies from `pip install "pythainlp[noauto-cython]"`
 - Tests requiring Cython-compiled packages:
   - phunspell spell checker
@@ -155,7 +157,7 @@ By separating tests by dependency group, we can:
 
 ##### Network-dependent: tests.noauto_network
 
-- Run `unittest tests.noauto_network`
+- Run `python -m unittest tests.noauto_network`
   - Need dependencies from `pip install "pythainlp[noauto-network]"`
 - Tests requiring network access:
   - Hugging Face Hub model downloads

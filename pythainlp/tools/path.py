@@ -23,6 +23,85 @@ else:
 PYTHAINLP_DEFAULT_DATA_DIR: str = "pythainlp-data"
 
 
+def is_read_only_mode() -> bool:
+    """Return whether PyThaiNLP is operating in read-only mode.
+
+    Read-only mode prevents **implicit background writes** to PyThaiNLP's
+    internal data directory — writes that happen as side effects the user
+    may not be aware of. It is activated by setting the
+    ``PYTHAINLP_READ_ONLY`` environment variable to a truthy value
+    (e.g. ``"1"``).
+
+    .. deprecated::
+        ``PYTHAINLP_READ_MODE`` is deprecated.
+        Use ``PYTHAINLP_READ_ONLY`` instead.
+        Setting both variables at the same time raises :exc:`ValueError`.
+
+    When read-only mode is active, the following implicit writes are blocked:
+
+    - Creating the PyThaiNLP data directory
+      (``~/pythainlp-data`` or as set by ``PYTHAINLP_DATA``).
+    - :func:`pythainlp.corpus.download` — corpus downloads and catalog
+      updates.
+    - :func:`pythainlp.corpus.remove` — corpus file and catalog deletions.
+
+    The following **explicit** user-initiated writes are **not** blocked,
+    because the user deliberately provided the destination path:
+
+    - Saving a trained model to a user-specified path
+      (e.g. ``model.save("my_model.json")``).
+    - Training a tagger with an explicit ``save_loc`` argument.
+    - Saving a tokenizer vocabulary to a user-specified directory.
+    - CLI output files written to a path the user specified or invoked.
+
+    .. note::
+        Use :func:`~pythainlp.tools.path.is_offline_mode` (``PYTHAINLP_OFFLINE``)
+        to disable only *automatic* background downloads while still allowing
+        explicit :func:`~pythainlp.corpus.download` calls.
+
+    :return: ``True`` if PyThaiNLP is in read-only mode, ``False`` otherwise.
+    :rtype: bool
+
+    :raises ValueError: if both ``PYTHAINLP_READ_ONLY`` and
+        ``PYTHAINLP_READ_MODE`` are set at the same time.
+
+    :Example:
+    ::
+
+        import os
+        from pythainlp import is_read_only_mode
+
+        os.environ["PYTHAINLP_READ_ONLY"] = "1"
+        print(is_read_only_mode())  # True
+
+        os.environ["PYTHAINLP_READ_ONLY"] = "0"
+        print(is_read_only_mode())  # False
+    """
+    import warnings
+
+    read_only = os.getenv("PYTHAINLP_READ_ONLY")
+    read_mode_legacy = os.getenv("PYTHAINLP_READ_MODE")
+
+    if read_only is not None and read_mode_legacy is not None:
+        raise ValueError(
+            "Both PYTHAINLP_READ_ONLY and PYTHAINLP_READ_MODE are set. "
+            "Please use PYTHAINLP_READ_ONLY only and unset PYTHAINLP_READ_MODE."
+        )
+
+    if read_mode_legacy is not None and read_only is None:
+        warnings.warn(
+            "PYTHAINLP_READ_MODE is deprecated; use PYTHAINLP_READ_ONLY instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return read_mode_legacy == "1"
+
+    if read_only is not None:
+        return read_only.strip().lower() not in ("", "0", "false", "no", "off")
+
+    return False
+
+
 def is_offline_mode() -> bool:
     """Return whether PyThaiNLP is operating in offline mode.
 
@@ -134,7 +213,8 @@ def get_pythainlp_data_path() -> str:
 
     resolved = data_dir or os.path.join("~", PYTHAINLP_DEFAULT_DATA_DIR)
     path = os.path.expanduser(resolved)
-    os.makedirs(path, exist_ok=True)
+    if not is_read_only_mode():
+        os.makedirs(path, exist_ok=True)
     return path
 
 

@@ -35,6 +35,8 @@ The minimum requirement is now Python 3.9.
   (`dependency_parsing`, engine="attaparse") (#1303)
 - `pythainlp.is_offline_mode()` helper function (#1306)
 - Thai consonant cluster detection (`check_khuap_klam`) (#1308)
+- `pythainlp.is_read_only_mode()` helper function;
+  use `PYTHAINLP_READ_ONLY=1` to prevent all write operations
 
 ### Changed
 
@@ -59,6 +61,8 @@ The minimum requirement is now Python 3.9.
 - `PYTHAINLP_DATA_DIR` env var; use `PYTHAINLP_DATA` instead
   (follows `NLTK_DATA` convention from NLTK)
   `PYTHAINLP_DATA_DIR` will be removed in future version (#1306)
+- `PYTHAINLP_READ_MODE` env var; use `PYTHAINLP_READ_ONLY` instead.
+  Setting both at the same time raises `ValueError`.
 
 ### Removed
 
@@ -75,6 +79,8 @@ The minimum requirement is now Python 3.9.
 - Kho Khon alphabet issue in `tltk` transliteration (#1187)
 - Suppress Gensim duplicate-word warnings when loading word2vec
   binary files (#1316)
+- `db.json` is no longer created on import; it is created lazily only
+  when a corpus is first downloaded (#1317)
 
 ## [5.2.0] - 2025-12-20
 

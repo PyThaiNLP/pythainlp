@@ -56,6 +56,7 @@ __all__: list[str] = [
     "collate",
     "correct",
     "is_offline_mode",
+    "is_read_only_mode",
     "pos_tag",
     "romanize",
     "spell",
@@ -77,6 +78,6 @@ from pythainlp.tokenize import (
     subword_tokenize,
     word_tokenize,
 )
-from pythainlp.tools.path import is_offline_mode
+from pythainlp.tools.path import is_offline_mode, is_read_only_mode
 from pythainlp.transliterate import romanize, transliterate
 from pythainlp.util import collate, thai_strftime

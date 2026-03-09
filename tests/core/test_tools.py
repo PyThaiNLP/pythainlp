@@ -8,7 +8,7 @@ import unittest
 import warnings
 from unittest.mock import patch
 
-from pythainlp import is_offline_mode
+from pythainlp import is_offline_mode, is_read_only_mode
 from pythainlp.tools import (
     get_full_data_path,
     get_pythainlp_data_path,
@@ -16,6 +16,9 @@ from pythainlp.tools import (
 )
 from pythainlp.tools import (
     is_offline_mode as tools_is_offline_mode,
+)
+from pythainlp.tools import (
+    is_read_only_mode as tools_is_read_only_mode,
 )
 from pythainlp.tools.core import safe_print, warn_deprecation
 
@@ -177,3 +180,95 @@ class ToolsTestCase(unittest.TestCase):
 
         # Note: Testing actual UnicodeEncodeError is environment-dependent
         # and would require mocking sys.stdout.encoding
+
+    def test_is_read_only_mode_new_var(self):
+        """Test is_read_only_mode() reflects PYTHAINLP_READ_ONLY env var."""
+        # Truthy values
+        for truthy in ("1", "true", "True", "TRUE", "yes", "YES", "on", "ON"):
+            with patch.dict(
+                os.environ,
+                {"PYTHAINLP_READ_ONLY": truthy},
+                clear=False,
+            ):
+                os.environ.pop("PYTHAINLP_READ_MODE", None)
+                self.assertTrue(
+                    is_read_only_mode(),
+                    f"Expected read-only for PYTHAINLP_READ_ONLY={truthy!r}",
+                )
+        # Falsy values
+        for falsy in ("", "0", "false", "False", "FALSE", "no", "NO", "off", "OFF"):
+            with patch.dict(
+                os.environ,
+                {"PYTHAINLP_READ_ONLY": falsy},
+                clear=False,
+            ):
+                os.environ.pop("PYTHAINLP_READ_MODE", None)
+                self.assertFalse(
+                    is_read_only_mode(),
+                    f"Expected not read-only for PYTHAINLP_READ_ONLY={falsy!r}",
+                )
+        # Unset: should default to False
+        with patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("PYTHAINLP_READ_ONLY", None)
+            os.environ.pop("PYTHAINLP_READ_MODE", None)
+            self.assertFalse(is_read_only_mode())
+        # Same function is exposed via pythainlp.tools
+        self.assertIs(is_read_only_mode, tools_is_read_only_mode)
+
+    def test_is_read_only_mode_legacy_var(self):
+        """Test is_read_only_mode() emits DeprecationWarning for PYTHAINLP_READ_MODE."""
+        with patch.dict(os.environ, {"PYTHAINLP_READ_MODE": "1"}, clear=False):
+            os.environ.pop("PYTHAINLP_READ_ONLY", None)
+            with warnings.catch_warnings(record=True) as w:
+                warnings.simplefilter("always")
+                result = is_read_only_mode()
+            self.assertTrue(result)
+            self.assertEqual(len(w), 1)
+            self.assertTrue(issubclass(w[0].category, DeprecationWarning))
+            self.assertIn("PYTHAINLP_READ_MODE", str(w[0].message))
+            self.assertIn("PYTHAINLP_READ_ONLY", str(w[0].message))
+
+        # PYTHAINLP_READ_MODE=0 should still warn and return False
+        with patch.dict(os.environ, {"PYTHAINLP_READ_MODE": "0"}, clear=False):
+            os.environ.pop("PYTHAINLP_READ_ONLY", None)
+            with warnings.catch_warnings(record=True) as w:
+                warnings.simplefilter("always")
+                result = is_read_only_mode()
+            self.assertFalse(result)
+            self.assertEqual(len(w), 1)
+            self.assertTrue(issubclass(w[0].category, DeprecationWarning))
+
+    def test_is_read_only_mode_conflict(self):
+        """Test is_read_only_mode() raises ValueError when both env vars are set."""
+        with patch.dict(
+            os.environ,
+            {"PYTHAINLP_READ_ONLY": "1", "PYTHAINLP_READ_MODE": "1"},
+        ):
+            with self.assertRaises(ValueError) as ctx:
+                is_read_only_mode()
+            self.assertIn("PYTHAINLP_READ_ONLY", str(ctx.exception))
+            self.assertIn("PYTHAINLP_READ_MODE", str(ctx.exception))
+
+    def test_get_pythainlp_data_path_no_makedirs_in_read_only(self):
+        """Test that get_pythainlp_data_path skips makedirs in read-only mode.
+
+        Directory creation is an implicit side-effect the user may not be
+        aware of.  Read-only mode must suppress it.
+        """
+        with tempfile.TemporaryDirectory() as tmpdir:
+            new_dir = os.path.join(tmpdir, "new-pythainlp-data")
+            with patch.dict(
+                os.environ,
+                {"PYTHAINLP_DATA": new_dir, "PYTHAINLP_READ_ONLY": "1"},
+                clear=False,
+            ):
+                os.environ.pop("PYTHAINLP_DATA_DIR", None)
+                os.environ.pop("PYTHAINLP_READ_MODE", None)
+                path = get_pythainlp_data_path()
+                self.assertEqual(path, new_dir)
+                # Directory must NOT be created in read-only mode
+                self.assertFalse(
+                    os.path.exists(new_dir),
+                    "Data directory should not be created in read-only mode",
+                )
+

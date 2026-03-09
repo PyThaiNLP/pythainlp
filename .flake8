@@ -17,10 +17,3 @@ extend-ignore =
     TC001,
     TC002,
     TC003,
-per-file-ignores =
-    # Pre-existing bare-except usage
-    pythainlp/benchmarks/word_tokenization.py: E722
-    pythainlp/khavee/core.py: E722
-    pythainlp/spell/wanchanberta_thai_grammarly.py: E722
-    # Pre-existing missing blank lines
-    pythainlp/chat/core.py: E302

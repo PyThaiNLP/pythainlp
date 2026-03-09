@@ -521,7 +521,7 @@ class KhaveeVerifier:
                         )
                     else:
                         return error
-            except:
+            except Exception:
                 return "Something went wrong. Make sure you enter it in the correct form of klon 8."
         elif k_type == 4:
             try:
@@ -620,7 +620,7 @@ class KhaveeVerifier:
                         )
                     else:
                         return error
-            except:
+            except Exception:
                 return "Something went wrong. Make sure you enter it in the correct form."
 
         else:

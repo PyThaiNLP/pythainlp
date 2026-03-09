@@ -89,7 +89,7 @@ def benchmark(ref_samples: list[str], samples: list[str]) -> "pd.DataFrame":
                 flat_stats["expected"] = r
                 flat_stats["actual"] = s
                 results.append(flat_stats)
-        except:
+        except Exception:
             reason = """
 [Error]
 Reason: %s

@@ -105,22 +105,26 @@ class Trie(Iterable[str]):
                 break
             del parent.children[ch]  # remove from parent dict
 
-    def prefixes(self, text: str) -> list[str]:
+    def prefixes(self, text: str, start: int = 0) -> list[str]:
         """List all possible words from first sequence of characters in a word.
 
-        :param str text: a word
-        :return: a list of possible words
-        :rtype: List[str]
+        :param str text: text to search for prefixes
+        :param int start: starting position in text, defaults to 0
+        :return: a list of possible words starting at ``start``
+        :rtype: list[str]
         """
         res = []
         cur = self.root
-        for i, ch in enumerate(text):
-            node = cur.children.get(ch)
+        i = start
+        n = len(text)
+        while i < n:
+            node = cur.children.get(text[i])
             if not node:
                 break
             if node.end:
-                res.append(text[: i + 1])
+                res.append(text[start : i + 1])
             cur = node
+            i += 1
         return res
 
     def __contains__(self, key: str) -> bool:

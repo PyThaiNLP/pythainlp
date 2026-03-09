@@ -63,13 +63,17 @@ del _TEXT_SCAN_RIGHT
 def _bfs_paths_graph(
     graph: defaultdict, start: int, goal: int
 ) -> Generator[list[int], None, None]:
+    # visited set prevents re-exploring nodes already reached via a shorter
+    # path, converting worst-case BFS from exponential to O(V + E).
+    visited: set[int] = {start}
     queue = [(start, [start])]
     while queue:
         (vertex, path) = queue.pop(0)
         for pos in graph[vertex]:
             if pos == goal:
                 yield path + [pos]
-            else:
+            elif pos not in visited:
+                visited.add(pos)
                 queue.append((pos, path + [pos]))
 
 
@@ -89,7 +93,7 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
     end_pos = 0
     while pos_list[0] < len_text:
         begin_pos = heappop(pos_list)
-        for word in custom_dict.prefixes(text[begin_pos:]):
+        for word in custom_dict.prefixes(text, begin_pos):
             end_pos_candidate = begin_pos + len(word)
             if end_pos_candidate in valid_poss:
                 graph[begin_pos].append(end_pos_candidate)
@@ -107,20 +111,20 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
                 _bfs_paths_graph(graph, end_pos, pos_list[0])
             )
             graph_size = 0
+            graph.clear()
             for pos in end_pos_candidates[1:]:
                 yield text[end_pos:pos]
                 end_pos = pos
         elif len_pos_list == 0:  # no candidate, deal with non-dictionary word
-            m = _PAT_NONTHAI.match(text[begin_pos:])
+            m = _PAT_NONTHAI.match(text, begin_pos)
             if m:  # non-Thai token, skip to the end
-                end_pos = begin_pos + m.end()
+                end_pos = m.end()
             else:  # Thai token, find minimum skip
                 for pos in range(begin_pos + 1, len_text):
                     if pos in valid_poss:
-                        prefix = text[pos:]
                         words = [
                             word
-                            for word in custom_dict.prefixes(prefix)
+                            for word in custom_dict.prefixes(text, pos)
                             if (
                                 (pos + len(word) in valid_poss)
                                 and not _PAT_THAI_TWOCHARS.match(word)
@@ -131,14 +135,14 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
                             break
 
                         # is a non-Thai token
-                        if _PAT_NONTHAI.match(prefix):
+                        if _PAT_NONTHAI.match(text, pos):
                             end_pos = pos
                             break
                 else:
                     end_pos = len_text
 
-            graph[begin_pos].append(end_pos)
-            graph_size = graph_size + 1
+            graph_size = 0
+            graph.clear()
             yield text[begin_pos:end_pos]
             heappush(pos_list, end_pos)
 
@@ -155,13 +159,17 @@ def segment(
 
     A custom dictionary can be supplied.
 
+    For very long texts (hundreds of kilobytes or more), consider using
+    ``safe_mode=True`` to enable chunk-based processing and reduce memory use.
+
     :param text: text to be tokenized
     :type text: str
     :param custom_dict: tokenization dictionary,\
         defaults to word_dict_trie()
     :type custom_dict: Trie, optional
-    :param safe_mode: reduce chance for long processing time for long text\
-        with many ambiguous breaking points, defaults to False
+    :param safe_mode: use chunk-based processing to reduce memory use and
+        processing time for long text with many ambiguous breaking points,
+        defaults to False
     :type safe_mode: bool, optional
     :return: list of tokens
     :rtype: list[str]

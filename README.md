@@ -116,6 +116,14 @@ internal data directory. This blocks corpus downloads, catalog updates, and
 automatic data directory creation — writes that happen as side effects the user
 may not be aware of.
 
+> **Note:** Read-only mode is more restrictive than offline mode.
+> `PYTHAINLP_OFFLINE=1` blocks only *automatic* downloads triggered by
+> `get_corpus_path()`; explicit `pythainlp.corpus.download()` calls still work.
+> `PYTHAINLP_READ_ONLY=1` also blocks explicit `download()` calls, because any
+> download requires writing to the data directory.
+> Use `PYTHAINLP_READ_ONLY` when the data directory is on a read-only file system
+> (e.g., a read-only Docker volume or a shared cluster mount).
+
 Operations where the user explicitly specifies an output path are unaffected
 (e.g., `model.save("path")`, `tagger.train(..., save_loc="path")`,
 `thainlp misspell --output myfile.txt`).

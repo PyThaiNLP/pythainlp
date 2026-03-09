@@ -8,6 +8,7 @@ from unittest.mock import mock_open, patch
 
 from pythainlp.corpus import (
     countries,
+    download,
     get_corpus_db,
     get_corpus_db_detail,
     get_corpus_default_db,
@@ -276,6 +277,35 @@ class CorpusTestCase(unittest.TestCase):
                     result = get_corpus_path("fake_corpus")
                     self.assertIsNotNone(result)
                     self.assertNotEqual(result, "")
+
+    def test_download_read_only_mode(self):
+        """Test that download() returns False when read-only mode is active.
+
+        When the data directory is read-only (e.g. a read-only mounted volume),
+        download() must not attempt any network or file-system operations and
+        must return False immediately.  This is stricter than offline mode:
+        PYTHAINLP_OFFLINE only prevents *automatic* downloads; PYTHAINLP_READ_ONLY
+        also prevents explicit download() calls.
+        """
+        # Corpus not in cache — must fail in read-only mode.
+        with patch(
+            "pythainlp.corpus.core.is_read_only_mode", return_value=True
+        ):
+            result = download("not_a_real_corpus_xyz123")
+            self.assertFalse(result)
+
+        # Sanity-check: with read-only mode off, the call is at least
+        # attempted (returns False because the corpus does not exist remotely,
+        # not because of read-only mode).
+        with patch(
+            "pythainlp.corpus.core.is_read_only_mode", return_value=False
+        ):
+            with patch(
+                "pythainlp.corpus.core.get_corpus_db",
+                return_value=None,
+            ):
+                result = download("not_a_real_corpus_xyz123")
+                self.assertFalse(result)
 
     def test_revise_wordset(self):
         training_data = [

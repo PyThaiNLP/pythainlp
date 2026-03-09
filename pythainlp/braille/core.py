@@ -253,7 +253,7 @@ class Braille:
             if len(data) > 1:
                 nested_data: list[list[str]] = [[] for _ in range(len(data))]
                 for i, item in enumerate(data):
-                    nested_data[i] = sorted(list(item))
+                    nested_data[i] = sorted(item)
                 self.data: list[list[str]] | list[str] = nested_data
             elif len(data) == 1:
                 self.data = sorted(list(data[0]))

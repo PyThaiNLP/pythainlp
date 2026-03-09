@@ -56,6 +56,6 @@ def segment(text: str) -> list[str]:
             _parser = _init_parser()
         parser = _parser
 
-    result = cast(list[str], parser.parse(text))
+    result = cast("list[str]", parser.parse(text))
 
     return result

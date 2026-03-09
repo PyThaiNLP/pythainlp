@@ -227,7 +227,7 @@ def extract_keywords(
         from .keybert import KeyBERT
 
         keywords = cast(
-            list[str],
+            "list[str]",
             KeyBERT().extract_keywords(
                 text,
                 keyphrase_ngram_range=keyphrase_ngram_range,

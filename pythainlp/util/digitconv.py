@@ -60,13 +60,13 @@ _spell_digit: dict[str, str] = {
 }
 
 _arabic_thai_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
-    cast(dict[str, Union[int, str, None]], _arabic_thai)
+    cast("dict[str, Union[int, str, None]]", _arabic_thai)
 )
 _thai_arabic_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
-    cast(dict[str, Union[int, str, None]], _thai_arabic)
+    cast("dict[str, Union[int, str, None]]", _thai_arabic)
 )
 _digit_spell_translate_table: dict[int, Union[int, str, None]] = str.maketrans(
-    cast(dict[str, Union[int, str, None]], _digit_spell)
+    cast("dict[str, Union[int, str, None]]", _digit_spell)
 )
 
 

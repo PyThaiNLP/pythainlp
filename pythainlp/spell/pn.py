@@ -97,7 +97,7 @@ def _convert_custom_dict(
     if isinstance(first_member, str):
         # create tuples of a word with frequency equaling 1,
         # and filter word list
-        custom_dict = cast(Iterable[str], custom_dict)
+        custom_dict = cast("Iterable[str]", custom_dict)
         result = [
             (word, 1)
             for word in custom_dict
@@ -105,7 +105,7 @@ def _convert_custom_dict(
         ]
     elif isinstance(first_member, tuple):
         # filter word list
-        custom_dict = cast(Iterable[tuple[str, int]], custom_dict)
+        custom_dict = cast("Iterable[tuple[str, int]]", custom_dict)
         result = [
             word_freq
             for word_freq in custom_dict

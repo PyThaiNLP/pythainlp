@@ -45,4 +45,4 @@ def segment(text: str, engine: str = "ws1000") -> list[str]:
             _DEFAULT_ENGINE = engine
             sefr_cut.load_model(engine=_DEFAULT_ENGINE)
 
-    return cast(list[str], sefr_cut.tokenize(text)[0])
+    return cast("list[str]", sefr_cut.tokenize(text)[0])

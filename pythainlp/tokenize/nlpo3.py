@@ -9,8 +9,8 @@ from sys import stderr
 from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
-    from nlpo3 import (
-        load_dict as nlpo3_load_dict,  # noqa: F401
+    from nlpo3 import (  # noqa: F401
+        load_dict as nlpo3_load_dict,
     )
     from nlpo3 import segment as nlpo3_segment  # noqa: F401
 

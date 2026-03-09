@@ -134,7 +134,7 @@ def bleu_score(
     # Normalize references format
     if references and isinstance(references[0], str):
         refs_normalized: list[list[str]] = [
-            [ref] for ref in cast(list[str], references)
+            [ref] for ref in cast("list[str]", references)
         ]
     else:
         refs_normalized = references  # type: ignore[assignment]

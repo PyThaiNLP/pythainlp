@@ -246,7 +246,7 @@ class Braille:
         """Initialize Braille converter.
 
         :param data: Braille dot patterns as list or string
-        :type data: list[list[str]] or list[str] or str
+        :type data: Union[list[list[str]], list[str], str]
         """
         self.inputdata: Union[list[list[str]], list[str], str] = data
         if isinstance(data, list):
@@ -542,7 +542,7 @@ class Braille:
                     result += self.db[pattern_str]
             return result
         else:
-            pattern_str = "".join(cast(list[str], self.data))
+            pattern_str = "".join(cast("list[str]", self.data))
             return self.db.get(pattern_str, "")
 
     def printbraille(self) -> str:
@@ -573,6 +573,6 @@ class Braille:
             mirrored_patterns.reverse()
             return "".join(mirrored_patterns)
         else:
-            mirrored = "".join(mirror_map[dot] for dot in cast(list[str], self.data))
+            mirrored = "".join(mirror_map[dot] for dot in cast("list[str]", self.data))
             mirrored_sorted = "".join(sorted(mirrored))
             return self.db[mirrored_sorted]

@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import re
-from typing import Optional
+from functools import lru_cache
 
 from pythainlp import thai_consonants, thai_tonemarks
 from pythainlp.corpus import thai_words
@@ -13,9 +13,15 @@ from pythainlp.tokenize import Tokenizer, syllable_tokenize
 from pythainlp.util import remove_tonemark
 
 kv: KhaveeVerifier = KhaveeVerifier()
-all_thai_words_dict: Optional[list[str]] = None
 
 
+@lru_cache(maxsize=None)
+def _single_syllable_thai_words() -> list[str]:
+    """Return cached list of single-syllable Thai words."""
+    return [i for i in thai_words() if len(syllable_tokenize(i)) == 1]
+
+
+@lru_cache(maxsize=1024)
 def rhyme(word: str) -> list[str]:
     """Find Thai rhyme
 
@@ -31,16 +37,9 @@ def rhyme(word: str) -> list[str]:
         print(rhyme("จีบ"))
         # output: ['กลีบ', 'กีบ', 'ครีบ', ...]
     """
-    global all_thai_words_dict
-    list_sumpus = []
-    if all_thai_words_dict is None:
-        all_thai_words_dict = [
-            i for i in list(thai_words()) if len(syllable_tokenize(i)) == 1
-        ]
-    for i in all_thai_words_dict:
-        if kv.is_sumpus(word, i) and i != word:
-            list_sumpus.append(i)
-    return sorted(list_sumpus)
+    return sorted(
+        i for i in _single_syllable_thai_words() if kv.is_sumpus(word, i) and i != word
+    )
 
 
 _vowel_str: str = "".join(
@@ -130,31 +129,18 @@ def tone_to_spelling(t: str) -> str:
     return t
 
 
-def spelling(word: str) -> list[str]:
-    """Thai word to spelling
-
-    This funnction support Thai root word only.
-
-    :param str word: A Thai word
-    :return: spelling
-    :rtype: List[str]
-
-    :Example:
-    ::
-
-        from pythainlp.util import spelling
-
-        print(spelling("เรียน"))
-        # output: ['รอ', 'เอีย', 'นอ', 'เรียน']
-
-        print(spelling("เฝ้า)
-        # output: ['ฝอ', 'เอา', 'เฝา', 'ไม้โท', 'เฝ้า']
-    """
-    if not word or not isinstance(word, str):
-        return []
-    thai_vowel_tokenizer = Tokenizer(
+@lru_cache(maxsize=None)
+def _spelling_tokenizer() -> Tokenizer:
+    """Lazy-load and cache the vowel/consonant tokenizer used by spelling()."""
+    return Tokenizer(
         custom_dict=thai_vowel + list(thai_consonants), engine="longest"
     )
+
+
+@lru_cache(maxsize=1024)
+def _spelling_impl(word: str) -> list[str]:
+    """Cached implementation of spelling() for valid string inputs."""
+    thai_vowel_tokenizer = _spelling_tokenizer()
     word_pre = remove_tonemark(word).replace("็", "")
     tone = [tone_to_spelling(i) for i in word if i in thai_tonemarks]
     word_output = word_pre
@@ -179,3 +165,28 @@ def spelling(word: str) -> list[str]:
         return output + [word]
     else:
         return output + [word_pre, word]
+
+
+def spelling(word: str) -> list[str]:
+    """Thai word to spelling
+
+    This function supports Thai root words only.
+
+    :param str word: A Thai word
+    :return: spelling
+    :rtype: List[str]
+
+    :Example:
+    ::
+
+        from pythainlp.util import spelling
+
+        print(spelling("เรียน"))
+        # output: ['รอ', 'เอีย', 'นอ', 'เรียน']
+
+        print(spelling("เฝ้า"))
+        # output: ['ฝอ', 'เอา', 'เฝา', 'ไม้โท', 'เฝ้า']
+    """
+    if not word or not isinstance(word, str):
+        return []
+    return _spelling_impl(word)

@@ -11,6 +11,7 @@ import re
 import sys
 import tarfile
 import zipfile
+from functools import lru_cache
 from importlib.resources import files
 from typing import TYPE_CHECKING
 
@@ -113,6 +114,7 @@ def path_pythainlp_corpus(filename: str) -> str:
     return os.path.join(corpus_path(), filename)
 
 
+@lru_cache(maxsize=None)
 def get_corpus(filename: str, comments: bool = True) -> frozenset[str]:
     """Read corpus data from file and return a frozenset.
 
@@ -183,6 +185,7 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset[str]:
     return frozenset(filter(None, lines))
 
 
+@lru_cache(maxsize=None)
 def get_corpus_as_is(filename: str) -> list[str]:
     """Read corpus data from file, as it is, and return a list.
 
@@ -218,6 +221,15 @@ def get_corpus_as_is(filename: str) -> list[str]:
     return lines
 
 
+@lru_cache(maxsize=None)
+def _load_default_db() -> dict[str, Any]:
+    """Load and cache the bundled default_db.json corpus catalog."""
+    corpus_files = files("pythainlp.corpus")
+    default_db_file = corpus_files.joinpath("default_db.json")
+    text = default_db_file.read_text(encoding="utf-8-sig")
+    return json.loads(text)  # type: ignore[no-any-return]
+
+
 def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
     """Get model path from default_db.json
 
@@ -229,10 +241,7 @@ def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
     If you want to edit default_db.json, \
         you can edit pythainlp/corpus/default_db.json
     """
-    corpus_files = files("pythainlp.corpus")
-    default_db_file = corpus_files.joinpath("default_db.json")
-    text = default_db_file.read_text(encoding="utf-8-sig")
-    corpus_db = json.loads(text)
+    corpus_db = _load_default_db()
 
     if name in corpus_db:
         if version in corpus_db[name]["versions"]:

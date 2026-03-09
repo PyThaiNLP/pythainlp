@@ -18,7 +18,7 @@ kv: KhaveeVerifier = KhaveeVerifier()
 @lru_cache(maxsize=None)
 def _single_syllable_thai_words() -> list[str]:
     """Return cached list of single-syllable Thai words."""
-    return [i for i in list(thai_words()) if len(syllable_tokenize(i)) == 1]
+    return [i for i in thai_words() if len(syllable_tokenize(i)) == 1]
 
 
 @lru_cache(maxsize=1024)

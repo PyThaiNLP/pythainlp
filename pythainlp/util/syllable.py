@@ -194,7 +194,7 @@ def syllable_open_close_detector(syllable: str) -> str:
         print(syllable_open_close_detector("คะ"))
         # output: open
     """
-    consonants = [i for i in syllable if i in list(thai_consonants)]
+    consonants = [i for i in syllable if i in thai_consonants]
 
     if len(consonants) < 2:
         return "open"
@@ -225,7 +225,7 @@ def syllable_length(syllable: str) -> str:
         print(syllable_length("คะ"))
         # output: short
     """
-    consonants = [i for i in syllable if i in list(thai_consonants)]
+    consonants = [i for i in syllable if i in thai_consonants]
     if len(consonants) <= 3 and any((c in set(short)) for c in syllable):
         return "short"
 
@@ -236,7 +236,7 @@ def syllable_length(syllable: str) -> str:
 
 
 def _tone_mark_detector(syllable: str) -> str:
-    tone_mark = [i for i in syllable if i in list(thai_tonemarks)]
+    tone_mark = [i for i in syllable if i in thai_tonemarks]
     if tone_mark == []:
         return ""
 
@@ -245,7 +245,7 @@ def _tone_mark_detector(syllable: str) -> str:
 
 def _check_sonorant_syllable(syllable: str) -> bool:
     _sonorant = [i for i in syllable if i in thai_low_sonorants]
-    consonants = [i for i in syllable if i in list(thai_consonants)]
+    consonants = [i for i in syllable if i in thai_consonants]
 
     # Return False if no sonorants or not enough consonants
     if not _sonorant or len(consonants) < 2:
@@ -289,7 +289,7 @@ def tone_detector(syllable: str) -> str:
     """
     s = sound_syllable(syllable)
     # get consonants
-    consonants = [i for i in syllable if i in list(thai_consonants)]
+    consonants = [i for i in syllable if i in thai_consonants]
 
     # Handle syllables with no consonants (e.g., ฤ, ฦ)
     if len(consonants) == 0:

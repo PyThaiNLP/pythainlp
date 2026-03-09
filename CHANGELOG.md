@@ -75,6 +75,8 @@ The minimum requirement is now Python 3.9.
 - Kho Khon alphabet issue in `tltk` transliteration (#1187)
 - Suppress Gensim duplicate-word warnings when loading word2vec
   binary files (#1316)
+- `db.json` is no longer created on import; it is created lazily only
+  when a corpus is first downloaded (#298)
 
 ## [5.2.0] - 2025-12-20
 

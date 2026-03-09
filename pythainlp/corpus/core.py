@@ -85,7 +85,10 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict[str, Any]:
     :return: details about corpus
     :rtype: dict
     """
-    with open(corpus_db_path(), encoding="utf-8-sig") as f:
+    db_path = corpus_db_path()
+    if not os.path.exists(db_path):
+        return {}
+    with open(db_path, encoding="utf-8-sig") as f:
         local_db = json.load(f)
 
     if not version:
@@ -674,8 +677,12 @@ def download(
 
     # check if corpus is available
     if name in corpus_db_dict:
-        with open(corpus_db_path(), encoding="utf-8-sig") as f:
-            local_db = json.load(f)
+        db_path = corpus_db_path()
+        if os.path.exists(db_path):
+            with open(db_path, encoding="utf-8-sig") as f:
+                local_db = json.load(f)
+        else:
+            local_db = {"_default": {}}
 
         corpus = corpus_db_dict[name]
         print("Corpus:", name)
@@ -805,7 +812,10 @@ def remove(name: str) -> bool:
     if _CHECK_MODE == "1":
         print("PyThaiNLP is read-only mode. It can't download.")
         return False
-    with open(corpus_db_path(), encoding="utf-8-sig") as f:
+    db_path = corpus_db_path()
+    if not os.path.exists(db_path):
+        return False
+    with open(db_path, encoding="utf-8-sig") as f:
         db = json.load(f)
     data = [
         corpus for corpus in db["_default"].values() if corpus["name"] == name

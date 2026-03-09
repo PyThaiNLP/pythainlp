@@ -72,7 +72,7 @@ def unigram_word_freqs() -> dict[str, int]:
         from pythainlp.corpus import phupha
 
         freqs = phupha.unigram_word_freqs()
-        print(freqs.get('ไทย', 0))
+        print(freqs.get("ไทย", 0))
         # output: frequency count for 'ไทย'
 
     **Dataset Citation:**

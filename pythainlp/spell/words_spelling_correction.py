@@ -268,9 +268,7 @@ class Words_Spelling_Correction(FastTextEncoder):
     def __init__(self) -> None:
         self.model_name = "pythainlp/word-spelling-correction-char2vec"
         self.model_path = get_hf_hub(self.model_name)
-        self.model_onnx = get_hf_hub(
-            self.model_name, "nearest_neighbors.onnx"
-        )
+        self.model_onnx = get_hf_hub(self.model_name, "nearest_neighbors.onnx")
         with open(
             get_hf_hub(
                 self.model_name, "list_word-spelling-correction-char2vec.txt"

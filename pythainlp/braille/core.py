@@ -139,11 +139,16 @@ thai_braille_mapping_dict = {**thai_braille_mapping_dict, **_dict_2}
 _v1: list[str] = ["เ-tอ", "เ-ีtย", "เ-ืtอ", "-ัtว", "เ-tา", "เ-tาะ"]
 
 # Create trie for efficient pattern matching
-char_trie: Trie = Trie(list(thai_braille_mapping_dict.keys()) + _v1 + [" ", "<N>"])
+char_trie: Trie = Trie(
+    list(thai_braille_mapping_dict.keys()) + _v1 + [" ", "<N>"]
+)
 
 # Build vowel replacement patterns
 _vowel_patterns: list[str] = [
-    i.replace("-", "([ก-ฮ])").replace("t", "([่้๊๋])") + ",\\1" + i.replace("t", "") + "\\2"
+    i.replace("-", "([ก-ฮ])").replace("t", "([่้๊๋])")
+    + ",\\1"
+    + i.replace("t", "")
+    + "\\2"
     for i in _v1
 ]
 _vowel_patterns += [
@@ -573,6 +578,8 @@ class Braille:
             mirrored_patterns.reverse()
             return "".join(mirrored_patterns)
         else:
-            mirrored = "".join(mirror_map[dot] for dot in cast("list[str]", self.data))
+            mirrored = "".join(
+                mirror_map[dot] for dot in cast("list[str]", self.data)
+            )
             mirrored_sorted = "".join(sorted(mirrored))
             return self.db[mirrored_sorted]

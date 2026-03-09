@@ -11,9 +11,3 @@ extend-ignore =
     W503,
     # Redefinition of unused name — intentional lazy-import pattern
     F811,
-    # Move app/third-party/built-in import into TYPE_CHECKING block
-    # These are valid optimizations but require a codebase-wide refactor;
-    # suppress here and address in a dedicated follow-up.
-    TC001,
-    TC002,
-    TC003,

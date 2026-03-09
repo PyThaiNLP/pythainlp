@@ -40,19 +40,19 @@ def check_khuap_klam(word: str) -> Optional[bool]:
         from pythainlp.util import check_khuap_klam
 
         # True consonant clusters (คำควบกล้ำแท้)
-        print(check_khuap_klam("กราบ"))   # True
-        print(check_khuap_klam("ปลา"))    # True
+        print(check_khuap_klam("กราบ"))  # True
+        print(check_khuap_klam("ปลา"))  # True
         print(check_khuap_klam("เพราะ"))  # True
-        print(check_khuap_klam("ตรง"))    # True
+        print(check_khuap_klam("ตรง"))  # True
 
         # False consonant clusters (คำควบกล้ำไม่แท้)
-        print(check_khuap_klam("จริง"))   # False
-        print(check_khuap_klam("ทราย"))   # False
+        print(check_khuap_klam("จริง"))  # False
+        print(check_khuap_klam("ทราย"))  # False
         print(check_khuap_klam("เศร้า"))  # False
 
         # Not a consonant cluster
-        print(check_khuap_klam("แม่"))    # None
-        print(check_khuap_klam("ตา"))     # None
+        print(check_khuap_klam("แม่"))  # None
+        print(check_khuap_klam("ตา"))  # None
     """
     if not word:
         return None

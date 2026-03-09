@@ -217,8 +217,8 @@ class ThaiTextAugmenter:
             pipeline,
         )
 
-        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(
-            _model_name
+        self.tokenizer: "PreTrainedTokenizerBase" = (
+            AutoTokenizer.from_pretrained(_model_name)
         )
         self.model_for_masked_lm: "AutoModelForMaskedLM" = (
             AutoModelForMaskedLM.from_pretrained(_model_name)
@@ -316,7 +316,9 @@ class PartOfSpeechTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(model)
+        self.tokenizer: "PreTrainedTokenizerBase" = (
+            AutoTokenizer.from_pretrained(model)
+        )
         self.model: "AutoModelForTokenClassification" = (
             AutoModelForTokenClassification.from_pretrained(model)
         )
@@ -361,7 +363,9 @@ class NamedEntityTagger:
             AutoTokenizer,
         )
 
-        self.tokenizer: "PreTrainedTokenizerBase" = AutoTokenizer.from_pretrained(model)
+        self.tokenizer: "PreTrainedTokenizerBase" = (
+            AutoTokenizer.from_pretrained(model)
+        )
         self.model: "AutoModelForTokenClassification" = (
             AutoModelForTokenClassification.from_pretrained(model)
         )

@@ -7,6 +7,7 @@ Evaluation metrics for Thai text generation tasks.
 This module provides pure Python implementations of common evaluation
 metrics (BLEU, ROUGE) that handle Thai text tokenization automatically.
 """
+
 from __future__ import annotations
 
 import math
@@ -277,8 +278,12 @@ def rouge_score(
         rouge_types = ["rouge1", "rouge2", "rougeL"]
 
     # Tokenize texts
-    ref_tokens = word_tokenize(reference, engine=tokenize, keep_whitespace=False)
-    hyp_tokens = word_tokenize(hypothesis, engine=tokenize, keep_whitespace=False)
+    ref_tokens = word_tokenize(
+        reference, engine=tokenize, keep_whitespace=False
+    )
+    hyp_tokens = word_tokenize(
+        hypothesis, engine=tokenize, keep_whitespace=False
+    )
 
     result: dict[str, tuple[float, float, float]] = {}
 
@@ -368,8 +373,12 @@ def word_error_rate(
     from pythainlp.tokenize import word_tokenize
 
     # Tokenize texts
-    ref_tokens = word_tokenize(reference, engine=tokenize, keep_whitespace=False)
-    hyp_tokens = word_tokenize(hypothesis, engine=tokenize, keep_whitespace=False)
+    ref_tokens = word_tokenize(
+        reference, engine=tokenize, keep_whitespace=False
+    )
+    hyp_tokens = word_tokenize(
+        hypothesis, engine=tokenize, keep_whitespace=False
+    )
 
     # Calculate edit distance using dynamic programming
     r = len(ref_tokens)
@@ -397,7 +406,7 @@ def word_error_rate(
 
     # Calculate WER
     if r == 0:
-        return 0.0 if h == 0 else float('inf')
+        return 0.0 if h == 0 else float("inf")
 
     return d[r][h] / r
 
@@ -469,6 +478,6 @@ def character_error_rate(
 
     # Calculate CER
     if r == 0:
-        return 0.0 if h == 0 else float('inf')
+        return 0.0 if h == 0 else float("inf")
 
     return d[r][h] / r

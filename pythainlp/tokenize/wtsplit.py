@@ -46,7 +46,9 @@ def _tokenize(
         raise RuntimeError("Model failed to load")
 
     if tokenize == "sentence":
-        return cast("list[str]", model_instance.split(text, lang_code=lang_code))
+        return cast(
+            "list[str]", model_instance.split(text, lang_code=lang_code)
+        )
     else:  # Paragraph
         if style == "newline":
             return cast(

@@ -88,9 +88,7 @@ def load_dict(file_path: str, dict_name: str) -> bool:
 
     msg: str
     success: bool
-    msg, success = nlpo3_load_dict(
-        file_path=file_path, dict_name=dict_name
-    )
+    msg, success = nlpo3_load_dict(file_path=file_path, dict_name=dict_name)
     if not success:
         print(msg, file=stderr)
     return success

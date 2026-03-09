@@ -8,7 +8,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pythainlp"
-version = "5.2.0"
+version = "5.3.0"
 description = "Thai Natural Language Processing library"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -202,7 +202,7 @@ extra = [
 ]
 
 # Noauto test dependencies - for tests.noauto_* modules
-# These are further grouped by dependency framework to avoid conflicts 
+# These are further grouped by dependency framework to avoid conflicts
 
 # PyTorch-based dependencies - for tests.noauto_torch
 noauto-torch = [
@@ -243,8 +243,8 @@ noauto-network = [
 
 # Full dependencies - pinned where available
 full = [
-    "attaparse==1.0.0",
     "attacut==1.0.6",
+    "attaparse==1.0.0",
     "bpemb>=0.3.6,<0.4",
     "budoux==0.7.0",
     "deepcut==0.7.0.0",
@@ -313,7 +313,7 @@ include = [
 
 # Bumpversion configuration
 [tool.bumpversion]
-current_version = "5.2.0"
+current_version = "5.3.0"
 commit = true
 tag = true
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)(\\-(?P<release>[a-z]+)(?P<build>\\d+))?"

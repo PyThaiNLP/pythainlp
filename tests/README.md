@@ -53,6 +53,7 @@ The CI/CD test workflow is at
 - Run `unittest tests.core`
 - Focus on core functionalities.
 - Do not rely on external dependencies beyond the standard library.
+- Do not perform network access or corpus downloads.
 - Tested on all supported operating systems and all active Python versions.
 - Test case class suffix: `TestCase`
 
@@ -64,6 +65,8 @@ The CI/CD test workflow is at
   and small set of dependencies.
 - These dependencies are `PyYAML`, `nlpo3`, `numpy`, `pyicu`,
   `python-crfsuite`, and `requests`.
+- Includes corpus download/remove tests (require network access and `requests`)
+  and any tests that depend on `numpy` or `python-crfsuite`.
 - Tested on:
   - All OSes: earliest and second-latest supported Python versions
   - Ubuntu: additionally tested on the latest version

@@ -8,8 +8,6 @@ from unittest.mock import mock_open, patch
 
 from pythainlp.corpus import (
     countries,
-    download,
-    find_synonyms,
     get_corpus_db,
     get_corpus_db_detail,
     get_corpus_default_db,
@@ -17,7 +15,6 @@ from pythainlp.corpus import (
     oscar,
     phupha,
     provinces,
-    remove,
     thai_family_names,
     thai_female_names,
     thai_icu_words,
@@ -89,28 +86,7 @@ class CorpusTestCase(unittest.TestCase):
             get_corpus_db_detail("XXXmx3KSXX", version="0.2"), {}
         )  # corpus does not exist
         self.assertIsNone(get_corpus_path("XXXkdjfBzc"))  # query non-existing
-        self.assertFalse(
-            download(name="test", url="wrongurl00AAfcX2df")
-        )  # URL not exist
-        self.assertFalse(
-            download(name="XxxXXxxx817d37sf")
-        )  # corpus name not exist
         # END - Test non-exists
-
-        # BEGIN - Test download
-        self.assertTrue(download("test"))  # download the first time
-        self.assertTrue(download(name="test", force=True))  # force download
-        self.assertTrue(download(name="test"))  # try download existing
-        self.assertIsNotNone(get_corpus_db_detail("test"))  # corpus exists
-        self.assertIsNotNone(get_corpus_path("test"))  # corpus exists
-        self.assertIsNone(get_corpus_default_db("test"))
-        self.assertTrue(remove("test"))  # remove existing
-        self.assertFalse(remove("test"))  # remove non-existing
-        # END - Test download
-
-        # Corpus version does not support in this PyThaiNLP version
-        # test 0.0.1 is for PyThaiNLP version <2.0
-        self.assertFalse(download(name="test", version="0.0.1"))
 
     def test_oscar(self):
         # Mock the oscar corpus file to avoid slow download and parsing
@@ -301,20 +277,6 @@ class CorpusTestCase(unittest.TestCase):
                     self.assertIsNotNone(result)
                     self.assertNotEqual(result, "")
 
-    def test_download_ignores_offline_mode(self):
-        """download() must work even when PYTHAINLP_OFFLINE=1.
-
-        Explicit calls to download() are deliberate user actions and must
-        not be blocked by the PYTHAINLP_OFFLINE environment variable.
-        That variable only prevents the *automatic* download triggered by
-        get_corpus_path() when a corpus is missing locally.
-        """
-        # Use the real "test" corpus so the download actually goes through
-        with patch.dict(os.environ, {"PYTHAINLP_OFFLINE": "1"}):
-            result = download("test")
-            # Should succeed (returns True), not be blocked
-            self.assertTrue(result)
-
     def test_revise_wordset(self):
         training_data = [
             ["ถวิล อุดล", " ", "เป็น", "นักการเมือง", "หนึ่ง", "ใน"],
@@ -324,15 +286,3 @@ class CorpusTestCase(unittest.TestCase):
             ["ที่", "ถูก", "สังหาร", "เมื่อ", "ปี", " ", "พ.ศ.", " ", "2492"],
         ]
         self.assertIsInstance(revise_newmm_default_wordset(training_data), set)
-
-    def test_zip(self):
-        self.assertTrue(download("test_zip"))  # download first
-        p = get_corpus_path("test_zip")
-        self.assertTrue(os.path.isdir(p))
-        self.assertTrue(remove("test_zip"))
-
-    def test_find_synonyms(self):
-        self.assertEqual(
-            find_synonyms("หมู"), ["จรุก", "วราหะ", "วราห์", "ศูกร", "สุกร"]
-        )
-        self.assertEqual(find_synonyms("1"), [])

@@ -272,36 +272,3 @@ class ToolsTestCase(unittest.TestCase):
                     "Data directory should not be created in read-only mode",
                 )
 
-    def test_explicit_save_allowed_in_read_only(self):
-        """Test that user-explicit saves are allowed in read-only mode.
-
-        Read-only mode only blocks implicit background writes to PyThaiNLP's
-        internal data directory.  Operations where the user explicitly
-        specifies an output path must proceed normally.
-        """
-        from pythainlp.classify.param_free import GzipModel
-        from pythainlp.tag._tag_perceptron import PerceptronTagger
-
-        with patch.dict(
-            os.environ,
-            {"PYTHAINLP_READ_ONLY": "1"},
-            clear=False,
-        ):
-            os.environ.pop("PYTHAINLP_READ_MODE", None)
-            with tempfile.TemporaryDirectory() as tmpdir:
-                # GzipModel.save — user explicitly provides the path
-                model = object.__new__(GzipModel)
-                import numpy as np
-
-                model.training_data = np.array([("text", "label")])
-                model.cx2_list = [4]
-                out = os.path.join(tmpdir, "model.json")
-                model.save(out)
-                self.assertTrue(os.path.isfile(out))
-
-                # PerceptronTagger.train — user explicitly provides save_loc
-                tagger = PerceptronTagger()
-                sentences = [[("กิน", "VV"), ("ข้าว", "NN")]]
-                tagger_out = os.path.join(tmpdir, "tagger.json")
-                tagger.train(sentences, save_loc=tagger_out, nr_iter=1)
-                self.assertTrue(os.path.isfile(tagger_out))

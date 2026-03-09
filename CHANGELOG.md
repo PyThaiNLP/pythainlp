@@ -15,9 +15,9 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
-- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...HEAD>
+- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...5.3.0>
 
-## [Unreleased]
+## [5.3.0] - 2026-03-10
 
 This release focuses on stability and performance, featuring optimized memory
 efficiency, better read-only environment support, and standardized error
@@ -30,22 +30,29 @@ The minimum requirement is now Python 3.9.
 ### Added
 
 - Tapsai et al. 2020 soundex (#1175)
+- Thai profanity detection (#1183)
+- Qwen3-0.6B language model (#1217)
 - Thai-NNER integration with top-level entity filtering (#1221)
+- `pythainlp.braille` module for Thai braille conversion (#1287)
 - BLEU, ROUGE, WER, and CER metrics to `pythainlp.benchmarks` (#1295)
 - Attaparse engine to dependency parser
   (`dependency_parsing`, engine="attaparse") (#1303)
-- `pythainlp.is_offline_mode()` helper function (#1306)
+- `pythainlp.is_offline_mode()` helper function;
+  use `PYTHAINLP_OFFLINE=1` to disable automatic corpus downloads (#1306)
 - Thai consonant cluster detection (`check_khuap_klam`) (#1308)
 - `pythainlp.is_read_only_mode()` helper function;
-  use `PYTHAINLP_READ_ONLY=1` to prevent all write operations
+  use `PYTHAINLP_READ_ONLY=1` to prevent all write operations (#1317)
 
 ### Changed
 
+- Optimized for performance (#1182, #1237, #1320)
 - Lazy load dictionaries to reduce memory usage (#1186)
-- Migrate configurations to `pyproject.toml` (#1188, #1226, #1239)
-- Update type hints; use Python 3.9 features (#1189, #1190)
+- Migrate configurations to `pyproject.toml` (#1188, #1190, #1226, #1239)
+- Update type hints; use Python 3.9 features (#1189, #1190, #1232,
+  #1262, #1263, #1264, #1274, etc.)
 - Make package zip-safe (#1212)
 - Ensure thread-safety for tokenizers (#1213)
+- Replace TNC word frequency dataset with Phupha filtered by ORST words (#1284)
 - Reorganize "noauto" test suite by dependency groups
   (torch, tensorflow, onnx, cython, network) (#1290)
 - `get_corpus_path()` now respects `PYTHAINLP_OFFLINE` env var
@@ -55,7 +62,6 @@ The minimum requirement is now Python 3.9.
 - Callers raise `FileNotFoundError` with download instructions when
   a corpus path cannot be resolved (#1306)
 - Migrate build backend to `hatchling` (#1311)
-- Update HTTP links to HTTPS in source files and documentation
 
 ### Deprecated
 
@@ -75,16 +81,24 @@ The minimum requirement is now Python 3.9.
 
 ### Fixed
 
-- Consonant cluster boundary issue in `royin` romanization (#1172)
-- Final consonant classification in `check_marttra()` (#1173)
-- Kho Khon alphabet issue in `tltk` transliteration (#1187)
+- `royin` romanization: Consonant cluster boundary (#1172)
+- `check_marttra()`: Final consonant classification (#1173)
+- Base dependencies (#1185)
+- `tltk` transliteration: Kho Khon alphabet issue in (#1187)
+- Fix tone_detector and sound_syllable bugs (#1197)
+- `normalize()`: Remove spaces before tone marks and non-base
+  characters (#1222)
 - Suppress Gensim duplicate-word warnings when loading word2vec
   binary files (#1316)
-- `db.json` is no longer created on import; created lazily only
-  when a corpus is first downloaded (#1317)
-- Exponential-time explosion in "newmm" tokenization
-  engine when tokenizing text with many ambiguous
-  breaking points (#1319)
+- `db.json`: created lazily only when a corpus is first
+  downloaded (#1317)
+- `newmm` tokenization: Exponential-time explosion when text has
+  many ambiguous breaking points (#1319)
+
+### Security
+
+- Prevent path traversal and symlink attacks in archive extraction
+  (#1225)
 
 ## [5.2.0] - 2025-12-20
 
@@ -187,7 +201,7 @@ The minimum requirement is now Python 3.9.
 
 - See <https://github.com/PyThaiNLP/pythainlp/releases/tag/v5.0.0>
 
-[Unreleased]: https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...HEAD
+[5.3.0]: https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...v5.3.0
 [5.2.0]: https://github.com/PyThaiNLP/pythainlp/compare/v5.1.2...v5.2.0
 [5.1.2]: https://github.com/PyThaiNLP/pythainlp/compare/v5.1.1...v5.1.2
 [5.1.1]: https://github.com/PyThaiNLP/pythainlp/compare/v5.1.0...v5.1.1

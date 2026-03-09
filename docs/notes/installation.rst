@@ -213,6 +213,60 @@ Runtime configurations
 
       ``PYTHAINLP_READ_MODE=1`` is equivalent to ``PYTHAINLP_READ_ONLY=1``.
 
+Interaction between environment variables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The table below shows how :envvar:`PYTHAINLP_OFFLINE` and :envvar:`PYTHAINLP_READ_ONLY`
+affect the two main corpus operations:
+
+.. list-table::
+   :header-rows: 1
+   :widths: 35 32 33
+
+   * - Operation
+     - ``PYTHAINLP_OFFLINE=1``
+     - ``PYTHAINLP_READ_ONLY=1``
+   * - :func:`pythainlp.corpus.get_corpus_path` — corpus already cached locally
+     - Succeeds (returns path)
+     - Succeeds (no write needed)
+   * - :func:`pythainlp.corpus.get_corpus_path` — corpus **not** cached locally
+     - Fails (:exc:`FileNotFoundError`)
+     - Fails (:exc:`FileNotFoundError`)
+   * - :func:`pythainlp.corpus.download` — corpus already in local catalog
+     - Succeeds (download is an explicit user action)
+     - Fails (returns ``False``; all writes are blocked)
+   * - :func:`pythainlp.corpus.download` — corpus **not** in local catalog
+     - Succeeds (downloads the corpus)
+     - Fails (returns ``False``; all writes are blocked)
+
+Key differences:
+
+- :envvar:`PYTHAINLP_OFFLINE` blocks only **automatic** downloads.
+  Explicit calls to :func:`~pythainlp.corpus.download` (or the
+  ``thainlp data get`` CLI command) still work, because those are
+  deliberate user actions.
+
+- :envvar:`PYTHAINLP_READ_ONLY` is **more restrictive**: it blocks
+  *all* writes to the data directory, including explicit
+  :func:`~pythainlp.corpus.download` calls.
+  Use this when the data directory is on a read-only file system
+  (e.g., a read-only Docker volume or a shared cluster mount).
+
+- :envvar:`PYTHAINLP_DATA` sets the path of the data directory used by
+  both modes.  In read-only mode the directory is not created if it
+  does not already exist.
+
+Typical use cases:
+
+- **Offline laptop / air-gapped system**: set ``PYTHAINLP_OFFLINE=1``
+  after downloading all required corpora.  You can still call
+  ``download()`` manually if you have network access.
+
+- **Read-only container image with pre-bundled corpora**:
+  set ``PYTHAINLP_READ_ONLY=1`` so that no writes occur at all.
+  Any attempt to download a corpus that is missing from the image
+  will return ``False`` instead of raising a permission error.
+
 Installation FAQ
 ----------------
 

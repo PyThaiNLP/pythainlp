@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import re
+from typing import Union, cast
 
 from pythainlp.tokenize import word_tokenize
 from pythainlp.util import Trie
@@ -138,11 +139,16 @@ thai_braille_mapping_dict = {**thai_braille_mapping_dict, **_dict_2}
 _v1: list[str] = ["เ-tอ", "เ-ีtย", "เ-ืtอ", "-ัtว", "เ-tา", "เ-tาะ"]
 
 # Create trie for efficient pattern matching
-char_trie: Trie = Trie(list(thai_braille_mapping_dict.keys()) + _v1 + [" ", "<N>"])
+char_trie: Trie = Trie(
+    list(thai_braille_mapping_dict.keys()) + _v1 + [" ", "<N>"]
+)
 
 # Build vowel replacement patterns
 _vowel_patterns: list[str] = [
-    i.replace("-", "([ก-ฮ])").replace("t", "([่้๊๋])") + ",\\1" + i.replace("t", "") + "\\2"
+    i.replace("-", "([ก-ฮ])").replace("t", "([่้๊๋])")
+    + ",\\1"
+    + i.replace("t", "")
+    + "\\2"
     for i in _v1
 ]
 _vowel_patterns += [
@@ -241,18 +247,19 @@ class Braille:
     Converts dot number patterns to Unicode braille characters.
     """
 
-    def __init__(self, data: list[list[str]] | list[str] | str) -> None:
+    def __init__(self, data: Union[list[list[str]], list[str], str]) -> None:
         """Initialize Braille converter.
 
         :param data: Braille dot patterns as list or string
-        :type data: list[list[str]] | list[str] | str
+        :type data: Union[list[list[str]], list[str], str]
         """
-        self.inputdata: list[list[str]] | list[str] | str = data
+        self.inputdata: Union[list[list[str]], list[str], str] = data
         if isinstance(data, list):
             if len(data) > 1:
-                self.data: list[list[str]] | list[str] = [""] * len(data)
-                for i in range(len(data)):
-                    self.data[i] = sorted(list(data[i]))
+                nested_data: list[list[str]] = [[] for _ in range(len(data))]
+                for i, item in enumerate(data):
+                    nested_data[i] = sorted(item)
+                self.data: Union[list[list[str]], list[str]] = nested_data
             elif len(data) == 1:
                 self.data = sorted(list(data[0]))
             else:
@@ -540,7 +547,7 @@ class Braille:
                     result += self.db[pattern_str]
             return result
         else:
-            pattern_str = "".join(self.data)
+            pattern_str = "".join(cast("list[str]", self.data))
             return self.db.get(pattern_str, "")
 
     def printbraille(self) -> str:
@@ -571,6 +578,8 @@ class Braille:
             mirrored_patterns.reverse()
             return "".join(mirrored_patterns)
         else:
-            mirrored = "".join(mirror_map[dot] for dot in self.data)
+            mirrored = "".join(
+                mirror_map[dot] for dot in cast("list[str]", self.data)
+            )
             mirrored_sorted = "".join(sorted(mirrored))
             return self.db[mirrored_sorted]

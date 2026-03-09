@@ -12,12 +12,9 @@ By Wunsen
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, Union
+from typing import Optional, Union
 
 from wunsen import ThapSap
-
-if TYPE_CHECKING:
-    pass
 
 
 class WunsenTransliterate:

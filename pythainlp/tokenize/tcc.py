@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 """The implementation of tokenizer according to Thai Character Clusters (TCCs)
 rules proposed by `Theeramunkong et al. 2000. \
-    <http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548>`_
+    <https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.2548>`_
 
 Credits:
     * TCC: Jakkrit TeCho
@@ -15,7 +15,10 @@ Credits:
 from __future__ import annotations
 
 import re
-from collections.abc import Iterator
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 _RE_TCC: list[str] = (
     """\

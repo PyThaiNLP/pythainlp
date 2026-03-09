@@ -73,7 +73,7 @@ def align_word_ids(texts: str) -> list[int]:
         else:
             try:
                 label_ids.append(2)
-            except:
+            except Exception:
                 label_ids.append(-100)
 
     return label_ids

@@ -13,13 +13,14 @@ https://github.com/MaartenGr/KeyBERT
 from __future__ import annotations
 
 from collections import Counter
-from collections.abc import Iterable
 from typing import TYPE_CHECKING, Optional, Union
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     import numpy as np
     from transformers.pipelines.base import Pipeline
 

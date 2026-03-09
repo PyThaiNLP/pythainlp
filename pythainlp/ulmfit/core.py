@@ -6,12 +6,13 @@
 from __future__ import annotations
 
 import collections
-from collections.abc import Callable, Collection
 from typing import TYPE_CHECKING, Any, Optional, Union
 
 import torch
 
 if TYPE_CHECKING:
+    from collections.abc import Callable, Collection
+
     import numpy as np
     from fastai.basic_data import DataBunch
     from fastai.basic_train import Learner

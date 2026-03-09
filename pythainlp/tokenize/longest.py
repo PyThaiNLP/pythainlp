@@ -14,11 +14,13 @@ from __future__ import annotations
 
 import re
 import threading
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from pythainlp.util import Trie
 
 from pythainlp import thai_tonemarks
 from pythainlp.tokenize import word_dict_trie
-from pythainlp.util import Trie
 
 _FRONT_DEP_CHAR: list[str] = [
     "ะ",

@@ -47,4 +47,4 @@ Modules
 References
 ----------
 
-.. [#Lowphansirikul_2021] Lowphansirikul L, Polpanumas C, Jantrakulchai N, Nutanong S. WangchanBERTa: Pretraining transformer-based Thai Language Models. `ArXiv:2101.09635 <http://arxiv.org/abs/2101.09635>`_ [Internet]. 2021 Jan 23 [cited 2021 Feb 27].
+.. [#Lowphansirikul_2021] Lowphansirikul L, Polpanumas C, Jantrakulchai N, Nutanong S. WangchanBERTa: Pretraining transformer-based Thai Language Models. `ArXiv:2101.09635 <https://arxiv.org/abs/2101.09635>`_ [Internet]. 2021 Jan 23 [cited 2021 Feb 27].

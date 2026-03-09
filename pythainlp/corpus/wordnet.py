@@ -12,8 +12,10 @@ https://www.nltk.org/howto/wordnet.html
 
 from __future__ import annotations
 
-from collections.abc import Iterable
-from typing import IO, Optional, Union
+from typing import IO, TYPE_CHECKING, Optional, Union
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 import nltk
 
@@ -436,7 +438,7 @@ def morphy(form: str, pos: Optional[str] = None) -> str:
 
 def custom_lemmas(tab_file: Union[str, IO[str]], lang: str) -> None:
     """This function reads a custom tab file
-    (see: http://compling.hss.ntu.edu.sg/omw/)
+    (see: https://omwn.org/)
     containing mappings of lemmas in the given language.
 
     :param tab_file: Tab file as a file or file-like object

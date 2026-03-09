@@ -8,8 +8,10 @@ Simple implementation using regular expressions
 from __future__ import annotations
 
 import re
-from collections.abc import Iterable
-from typing import Pattern
+from typing import TYPE_CHECKING, Pattern
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 _RE_TONE: Pattern[str] = re.compile(r"[็-์]")
 _RE_LV_C: Pattern[str] = re.compile(r"([เ-ไ])([ก-ฮ])")

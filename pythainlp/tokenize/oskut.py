@@ -46,4 +46,4 @@ def segment(text: str, engine: str = "ws") -> list[str]:
             _DEFAULT_ENGINE = engine
             oskut.load_model(engine=_DEFAULT_ENGINE)
 
-    return cast(list[str], oskut.OSKut(text))
+    return cast("list[str]", oskut.OSKut(text))

@@ -2,7 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-# Copyright (c) 2022 Idiap Research Institute, http://www.idiap.ch/
+# Copyright (c) 2022 Idiap Research Institute, https://www.idiap.ch/
 # Written by Alireza Mohammadshahi <alireza.mohammadshahi@idiap.ch>
 # This is a modified version of https://github.com/huggingface/transformers/blob/main/src/transformers/models/m2m_100/tokenization_m2m_100.py
 # which owns by Fariseq Authors and The HuggingFace Inc. team.
@@ -12,7 +12,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -197,7 +197,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         encoder_data = load_json(vocab_file)
         if not isinstance(encoder_data, dict):
             raise ValueError("encoder must be a dict")
-        self.encoder: dict[str, int] = cast(dict[str, int], encoder_data)
+        self.encoder: dict[str, int] = cast("dict[str, int]", encoder_data)
         self.decoder: dict[int, str] = {v: k for k, v in self.encoder.items()}
         self.spm_file: str = spm_file
         self.sp_model: SentencePieceProcessor = load_spm(

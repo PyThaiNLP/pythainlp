@@ -9,7 +9,7 @@ https://github.com/wannaphong/open-thai-nlp-document/blob/master/check_thai_word
 References
 ----------
 - ทีมงานทรูปลูกปัญญา 2015. ลักษณะของคำไทยแท้ \
-    http://www.trueplookpanya.com/learning/detail/30589-043067
+    https://www.trueplookpanya.com/learning/detail/30589-043067
 - วารุณี บำรุงรส 2010. คำไทยแท้ https://www.gotoknow.org/posts/377619
 
 """

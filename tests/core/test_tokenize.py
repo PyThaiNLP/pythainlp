@@ -2,6 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+import time
 import unittest
 
 from pythainlp.tokenize import (
@@ -582,6 +583,21 @@ class TokenizeTestCase(unittest.TestCase):
         self.assertIsInstance(
             word_tokenize(DANGER_TEXT_3, engine="newmm-safe"), list
         )
+
+    def test_newmm_ambiguous_performance(self):
+        # Regression test for issue #893: newmm BFS path explosion.
+        # Repeated ambiguous words (e.g. "ด้านหน้า" which can split as
+        # "ด้าน"+"หน้า" or stay whole) used to cause exponential BFS blowup.
+        # This test verifies that tokenizing 1,000 repetitions completes
+        # quickly (well under 1 second).
+        text = "ด้านหน้า" * 1000
+        t = time.perf_counter()
+        result = word_tokenize(text, engine="newmm")
+        elapsed = time.perf_counter() - t
+        self.assertIsInstance(result, list)
+        self.assertGreater(len(result), 0)
+        # Should complete in well under 1 second after the BFS fix.
+        self.assertLess(elapsed, 5.0)
 
     def test_tcc(self):
         assert_segment_handles_none_and_empty(self, tcc.segment)

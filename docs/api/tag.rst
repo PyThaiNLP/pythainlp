@@ -217,7 +217,7 @@ Named Entity tag                Examples
  ORGANIZATION                   กรมวิทยาศาสตร์การแพทย์, อย.
  PERSON                         น.พ.จรัล, นางประนอม ทองจันทร์
  PHONE                          1200, 0 2670 8888
- URL                            http://www.bangkokhealth.com/
+ URL                            https://www.bangkokhealth.com/
  ZIP                            10400, 11130
  Money                          2.7 ล้านบาท, 2,000 บาท
  LAW                            พ.ร.บ.โรคระบาด พ.ศ.2499, รัฐธรรมนูญ

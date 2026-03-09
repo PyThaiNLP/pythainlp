@@ -48,11 +48,11 @@ The `NorvigSpellChecker` class is a fundamental component of the `pythainlp.spel
 DEFAULT_SPELL_CHECKER
 ~~~~~~~~~~~~~~~~~~~~~
 .. autodata:: DEFAULT_SPELL_CHECKER
-   :annotation: = Default reference of the standard NorvigSpellChecker, using word list data from the Thai National Corpus: http://www.arts.chula.ac.th/ling/tnc/
+   :annotation: = Default reference of the standard NorvigSpellChecker, using word list data from the Thai National Corpus: https://www.arts.chula.ac.th/ling/tnc/
 
 The `DEFAULT_SPELL_CHECKER` is an reference to the `NorvigSpellChecker` class with default settings. It is pre-configured to use word list data from the Thai National Corpus, making it a reliable choice for general spell-checking tasks.
 
 References
 ----------
 
-.. [#norvig_spellchecker]  Peter Norvig (2007). `How to Write a Spelling Corrector <http://norvig.com/spell-correct.html>`_.
+.. [#norvig_spellchecker]  Peter Norvig (2007). `How to Write a Spelling Corrector <https://norvig.com/spell-correct.html>`_.

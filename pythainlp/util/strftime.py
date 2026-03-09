@@ -186,7 +186,7 @@ def thai_strftime(
 
         * Python
           https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
-        * C http://www.cplusplus.com/reference/ctime/strftime/
+        * C https://en.cppreference.com/w/cpp/chrono/c/strftime
         * GNU https://metacpan.org/pod/POSIX::strftime::GNU
         * Linux https://linux.die.net/man/3/strftime
         * OpenBSD https://man.openbsd.org/strftime.3
@@ -195,7 +195,7 @@ def thai_strftime(
           https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man3/strftime.3.html
         * PHP https://secure.php.net/manual/en/function.strftime.php
         * JavaScript's implementation https://github.com/samsonjs/strftime
-        * strftime() quick reference http://www.strftime.net/
+        * strftime() quick reference https://strftime.net/
 
     :param datetime dt_obj: an instantiatetd object of
                             :mod:`datetime.datetime`

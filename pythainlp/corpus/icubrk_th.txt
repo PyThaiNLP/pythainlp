@@ -1,6 +1,6 @@
 # SPDX-FileType: TEXT
 # SPDX-FileCopyrightText: Copyright (C) 2016 and later: Unicode, Inc. and others.
-# SPDX-FileCopyrightText: License & terms of use: http://www.unicode.org/copyright.html
+# SPDX-FileCopyrightText: License & terms of use: https://www.unicode.org/copyright.html
 # SPDX-FileCopyrightText: Copyright (c) 2006-2015 International Business Machines Corporation,
 # SPDX-FileCopyrightText: Apple Inc., and others. All Rights Reserved.
 # SPDX-License-Identifier: Unicode-DFS-2016

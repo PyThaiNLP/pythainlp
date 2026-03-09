@@ -3,7 +3,7 @@ Spelling dictionary can be customized.
 Default spelling dictionary is based on Phupha: Thai Word Frequency Dataset,
 filtered with Royal Society of Thailand word list.
 
-Based on Peter Norvig's Python code from http://norvig.com/spell-correct.html
+Based on Peter Norvig's Python code from https://norvig.com/spell-correct.html
 """
 
 from __future__ import annotations

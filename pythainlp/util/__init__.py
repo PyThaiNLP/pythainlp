@@ -24,7 +24,6 @@ __all__: list[str] = [
     "find_keyword",
     "find_profanity",
     "ipa_to_rtgs",
-    "is_native_thai",
     "isthai",
     "isthaichar",
     "longest_common_subsequence",
@@ -138,7 +137,6 @@ from pythainlp.util.thai import (
     thai_word_tone_detector,
 )
 from pythainlp.util.thai_lunar_date import th_zodiac, to_lunar_date
-from pythainlp.util.thaiwordcheck import is_native_thai
 from pythainlp.util.time import thaiword_to_time, time_to_thaiword
 from pythainlp.util.trie import Trie, dict_trie
 from pythainlp.util.wordtonum import text_to_num, thaiword_to_num, words_to_num

@@ -4,10 +4,18 @@
 from __future__ import annotations
 
 import itertools
+import logging
 from typing import TYPE_CHECKING, Callable, Union
 
 if TYPE_CHECKING:
     from gensim.models.keyedvectors import KeyedVectors
+
+
+class _DuplicateWordFilter(logging.Filter):
+    """Suppress gensim's 'duplicate word' warnings for word2vec files."""
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        return "duplicate word" not in record.getMessage()
 
 
 class Word2VecAug:
@@ -25,15 +33,13 @@ class Word2VecAug:
         :param Callable[[str], list[str]] tokenize: tokenize function
         :param str type: model type (file, binary, model)
         """
-        import logging
-
         import gensim.models.keyedvectors as word2vec
 
         self.tokenizer: Callable[[str], list[str]] = tokenize
         if type in ("file", "binary"):
+            _filter = _DuplicateWordFilter()
             _gensim_kv_logger = logging.getLogger("gensim.models.keyedvectors")
-            _prev_level = _gensim_kv_logger.level
-            _gensim_kv_logger.setLevel(logging.ERROR)
+            _gensim_kv_logger.addFilter(_filter)
             try:
                 if type == "file":
                     self.model = word2vec.KeyedVectors.load_word2vec_format(model)
@@ -42,7 +48,7 @@ class Word2VecAug:
                         model, binary=True, unicode_errors="ignore"
                     )
             finally:
-                _gensim_kv_logger.setLevel(_prev_level)
+                _gensim_kv_logger.removeFilter(_filter)
         else:
             self.model = model
         self.dict_wv: list[str] = list(self.model.key_to_index.keys())

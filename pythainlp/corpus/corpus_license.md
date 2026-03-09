@@ -67,7 +67,7 @@ and released under
 A Thai word list from ICU (International Components for Unicode) project
 (icubrk_th.txt) is copyrighted by Unicode, Inc. and others.,
 released under **Unicode License Agreement - Data Files and Software (2016)**
-﻿<http://www.unicode.org/copyright.html>
+﻿<https://www.unicode.org/copyright.html>
 
 Original data:
 <https://github.com/unicode-org/icu/blob/main/icu4c/source/data/brkitr/dictionaries/thaidict.txt>

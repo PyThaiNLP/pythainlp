@@ -8,7 +8,7 @@ Wannee Udompanich. String searching for Thai alphabet
 using Soundex compression technique. Master Thesis
 of Department of Computer Engineering Graduate
 School, Chulalongkorn University, 1983.
-http://cuir.car.chula.ac.th/handle/123456789/48471
+https://cuir.car.chula.ac.th/handle/123456789/48471
 
 Python implementation:
 by Korakot Chaovavanich

@@ -61,7 +61,7 @@ This section includes multiple transliteration engines designed to suit various 
 References
 ----------
 
-.. [#rtgs_transcription] Nitaya Kanchanawan. (2006). `Romanization, Transliteration, and Transcription for the Globalization of the Thai Language. <http://www.royin.go.th/wp-content/uploads/royin-ebook/276/FileUpload/758_6484.pdf>`_
+.. [#rtgs_transcription] Nitaya Kanchanawan. (2006). `Romanization, Transliteration, and Transcription for the Globalization of the Thai Language. <http://legacy.orst.go.th/wp-content/uploads/royin-ebook/276/FileUpload/758_6484.pdf>`_
         The Journal of the Royal Institute of Thailand.
 
 The `pythainlp.transliterate` module offers a comprehensive set of tools and engines for transliterating Thai text into Romanized form. Whether you need a simple transliteration, specific engines for accurate representation, or phonetic rendering, this module provides a wide range of options. Additionally, the module references a publication that highlights the significance of Romanization, Transliteration, and Transcription in making the Thai language accessible to a global audience.

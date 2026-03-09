@@ -4,7 +4,7 @@
 """Convert number value to Thai read out
 
 Adapted from
-http://justmindthought.blogspot.com/2012/12/code-php.html
+https://justmindthought.blogspot.com/2012/12/code-php.html
 https://suksit.com/post/writing-bahttext-in-php/
 """
 

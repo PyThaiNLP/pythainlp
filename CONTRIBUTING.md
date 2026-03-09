@@ -44,21 +44,21 @@ Please refer to our
   This is [to please Git][empty-line] and
   [to keep up with POSIX standard][posix].
 
-[pep8]: http://www.python.org/dev/peps/pep-0008/
+[pep8]: https://peps.python.org/pep-0008/
 [black]: https://github.com/ambv/black
 [naming]: https://namingconvention.org/python/
 [pep0498]: https://www.python.org/dev/peps/pep-0498/
-[dead-codes]: http://www.codinghorror.com/blog/2008/07/coding-without-comments.html
+[dead-codes]: https://blog.codinghorror.com/coding-without-comments/
 [issues]: https://github.com/pythainlp/pythainlp/issues
 [empty-line]: https://stackoverflow.com/questions/5813311/no-newline-at-end-of-file#5813359
 [posix]: https://stackoverflow.com/questions/729692/why-should-text-files-end-with-a-newline
 
 ### Version Control System
 
-- We use [Git](http://git-scm.com/) as our
-  [version control system](http://en.wikipedia.org/wiki/Revision_control),
+- We use [Git](https://git-scm.com/) as our
+  [version control system](https://en.wikipedia.org/wiki/Revision_control),
   so it may be a good idea to familiarize yourself with it.
-- You can start with the [Pro Git book](http://git-scm.com/book/) (free!).
+- You can start with the [Pro Git book](https://git-scm.com/book/) (free!).
 
 ### Commit Message
 
@@ -72,7 +72,7 @@ Please refer to our
   and several checks automatically. Click the "Details" link
   at the end of each check to see what needs to be fixed.
 
-[gitflow]: http://nvie.com/posts/a-successful-git-branching-model/
+[gitflow]: https://nvie.com/posts/a-successful-git-branching-model/
 
 ## Documentation
 
@@ -263,7 +263,7 @@ Thanks to all
   (Selection of Important Sentences in Thai Text Summarization
   Using a Hierarchical Model).
   Retrieved from
-  [http://digi.library.tu.ac.th/thesis/st/0192/](https://digital.library.tu.ac.th/tu_dc/frontend/Info/item/dc:124897)
+  <https://digital.library.tu.ac.th/tu_dc/frontend/Info/item/dc:124897>
 - **[Thai Discourse Treebank]** --
   Ponrawee Prasertsom, Apiwat Jaroonpol, Attapol T. Rutherford;
   The Thai Discourse Treebank: Annotating and Classifying Thai

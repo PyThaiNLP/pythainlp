@@ -29,7 +29,7 @@ class AveragedPerceptron:
     """An averaged perceptron, as implemented by Matthew Honnibal.
 
     See more implementation details here:
-        http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
+        https://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
     """
 
     weights: dict[str, dict[str, float]]
@@ -104,7 +104,7 @@ class PerceptronTagger:
     """Greedy Averaged Perceptron tagger, as implemented by Matthew Honnibal.
 
     See more implementation details here:
-        http://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
+        https://honnibal.wordpress.com/2013/09/11/a-good-part-of-speechpos-tagger-in-about-200-lines-of-python/
 
     >>> from pythainlp.tag import PerceptronTagger
     >>> tagger = PerceptronTagger()

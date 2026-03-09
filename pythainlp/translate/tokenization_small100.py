@@ -2,7 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-# Copyright (c) 2022 Idiap Research Institute, http://www.idiap.ch/
+# Copyright (c) 2022 Idiap Research Institute, https://www.idiap.ch/
 # Written by Alireza Mohammadshahi <alireza.mohammadshahi@idiap.ch>
 # This is a modified version of https://github.com/huggingface/transformers/blob/main/src/transformers/models/m2m_100/tokenization_m2m_100.py
 # which owns by Fariseq Authors and The HuggingFace Inc. team.
@@ -12,7 +12,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,

@@ -52,6 +52,7 @@ The minimum requirement is now Python 3.9.
 - Callers raise `FileNotFoundError` with download instructions when
   a corpus path cannot be resolved (#1306)
 - Migrate build backend to `hatchling` (#1311)
+- Update HTTP links to HTTPS in source files and documentation
 
 ### Deprecated
 
@@ -63,6 +64,8 @@ The minimum requirement is now Python 3.9.
 - Duplicated entries in Volubilis dictionary (#1200)
 - Star imports (#1207)
 - `requests` dependency (#1211)
+- `pythainlp.util.is_native_thai` (deprecated since v5.0);
+  use `pythainlp.morpheme.is_native_thai` instead (#1315)
 
 ### Fixed
 

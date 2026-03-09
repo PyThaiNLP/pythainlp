@@ -39,17 +39,6 @@ The minimum requirement is now Python 3.9.
 - `pythainlp.is_read_only_mode()` helper function;
   use `PYTHAINLP_READ_ONLY=1` to prevent all write operations
 
-### Fixed
-
-- `newmm` tokenization engine: fix exponential-time BFS path explosion when
-  tokenizing text with many ambiguous breaking points (e.g., repeated words
-  like "ด้านหน้า" that can be split multiple ways). The internal
-  `_bfs_paths_graph` function now uses a visited set, reducing worst-case
-  complexity from exponential to O(V + E). The ambiguity graph is now also
-  cleared after each commit point, preventing unbounded accumulation for long
-  inputs. The `Trie.prefixes()` method accepts an optional ``start`` offset to
-  avoid creating large string copies on each call. (#893)
-
 ### Changed
 
 - Lazy load dictionaries to reduce memory usage (#1186)
@@ -91,8 +80,11 @@ The minimum requirement is now Python 3.9.
 - Kho Khon alphabet issue in `tltk` transliteration (#1187)
 - Suppress Gensim duplicate-word warnings when loading word2vec
   binary files (#1316)
-- `db.json` is no longer created on import; it is created lazily only
+- `db.json` is no longer created on import; created lazily only
   when a corpus is first downloaded (#1317)
+- Fix exponential-time explosion in "newmm" tokenization
+  engine when tokenizing text with many ambiguous
+  breaking points (#1319)
 
 ## [5.2.0] - 2025-12-20
 

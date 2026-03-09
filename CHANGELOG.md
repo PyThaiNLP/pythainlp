@@ -82,7 +82,7 @@ The minimum requirement is now Python 3.9.
   binary files (#1316)
 - `db.json` is no longer created on import; created lazily only
   when a corpus is first downloaded (#1317)
-- Fix exponential-time explosion in "newmm" tokenization
+- Exponential-time explosion in "newmm" tokenization
   engine when tokenizing text with many ambiguous
   breaking points (#1319)
 

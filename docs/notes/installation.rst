@@ -160,16 +160,45 @@ Runtime configurations
 .. envvar:: PYTHAINLP_OFFLINE
 
    When set to a truthy value (``1``, ``true``, ``yes``, ``on``), PyThaiNLP operates in
-   *offline mode*: corpus downloads are disabled, and :func:`pythainlp.corpus.get_corpus_path`
-   raises :exc:`FileNotFoundError` for any corpus that is not already cached locally.
+   *offline mode*: automatic corpus downloads are disabled, and
+   :func:`pythainlp.corpus.get_corpus_path` raises :exc:`FileNotFoundError`
+   for any corpus that is not already cached locally.
+
+   Explicit calls to :func:`pythainlp.corpus.download` or ``thainlp data get``
+   still work normally, because those are deliberate user actions.
 
    Use :func:`pythainlp.is_offline_mode` to check the current state programmatically.
 
    This follows the same convention as ``HF_HUB_OFFLINE`` in `huggingface_hub`.
 
+.. envvar:: PYTHAINLP_READ_ONLY
+
+   When set to a truthy value (``1``, ``true``, ``yes``, ``on``), PyThaiNLP operates in
+   *read-only mode*: all write operations are disabled, including corpus downloads and
+   corpus catalog updates.
+
+   In read-only mode:
+
+   - :func:`pythainlp.corpus.download` refuses to download any corpus.
+   - :func:`pythainlp.corpus.remove` refuses to remove any corpus.
+
+   Use :func:`pythainlp.is_read_only_mode` to check the current state programmatically.
+
+   .. note::
+      For disabling only *automatic* downloads while still allowing explicit downloads,
+      use :envvar:`PYTHAINLP_OFFLINE` instead.
+
+   If both :envvar:`PYTHAINLP_READ_ONLY` and :envvar:`PYTHAINLP_READ_MODE` are set at the
+   same time, PyThaiNLP raises :exc:`ValueError`.
+
 .. envvar:: PYTHAINLP_READ_MODE
 
-   Configures PyThaiNLP to operate in read-only mode (0 = False, 1 = True).
+   .. deprecated::
+      Use :envvar:`PYTHAINLP_READ_ONLY` instead. Setting ``PYTHAINLP_READ_MODE`` triggers a
+      :class:`DeprecationWarning` at runtime. If both ``PYTHAINLP_READ_ONLY`` and
+      ``PYTHAINLP_READ_MODE`` are set simultaneously, PyThaiNLP raises :exc:`ValueError`.
+
+      ``PYTHAINLP_READ_MODE=1`` is equivalent to ``PYTHAINLP_READ_ONLY=1``.
 
 Installation FAQ
 ----------------
@@ -194,4 +223,5 @@ For more discussion, see `PermissionError: [Errno 13] Permission denied: /home/p
 
 Q: How do I enable read-only mode for PyThaiNLP?
 
-A: Set the environment variable ``PYTHAINLP_READ_MODE`` to ``1``.
+A: Set the environment variable ``PYTHAINLP_READ_ONLY`` to ``1``.
+The legacy ``PYTHAINLP_READ_MODE=1`` is still accepted but deprecated.

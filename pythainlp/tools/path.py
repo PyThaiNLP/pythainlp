@@ -23,6 +23,74 @@ else:
 PYTHAINLP_DEFAULT_DATA_DIR: str = "pythainlp-data"
 
 
+def is_read_only_mode() -> bool:
+    """Return whether PyThaiNLP is operating in read-only mode.
+
+    Read-only mode prevents any write operations such as corpus downloads
+    and catalog updates. It is activated by setting the
+    ``PYTHAINLP_READ_ONLY`` environment variable to a truthy value
+    (e.g. ``"1"``).
+
+    .. deprecated::
+        ``PYTHAINLP_READ_MODE`` is deprecated.
+        Use ``PYTHAINLP_READ_ONLY`` instead.
+        Setting both variables at the same time raises :exc:`ValueError`.
+
+    When read-only mode is active:
+
+    - :func:`pythainlp.corpus.download` refuses to download any corpus.
+    - :func:`pythainlp.corpus.remove` refuses to remove any corpus.
+
+    .. note::
+        Use :func:`~pythainlp.tools.path.is_offline_mode` to disable only
+        *automatic* downloads triggered by
+        :func:`~pythainlp.corpus.get_corpus_path`.  ``PYTHAINLP_OFFLINE``
+        still allows explicit :func:`~pythainlp.corpus.download` calls;
+        ``PYTHAINLP_READ_ONLY`` blocks all writes.
+
+    :return: ``True`` if PyThaiNLP is in read-only mode, ``False`` otherwise.
+    :rtype: bool
+
+    :raises ValueError: if both ``PYTHAINLP_READ_ONLY`` and
+        ``PYTHAINLP_READ_MODE`` are set at the same time.
+
+    :Example:
+    ::
+
+        import os
+        from pythainlp import is_read_only_mode
+
+        os.environ["PYTHAINLP_READ_ONLY"] = "1"
+        print(is_read_only_mode())  # True
+
+        os.environ["PYTHAINLP_READ_ONLY"] = "0"
+        print(is_read_only_mode())  # False
+    """
+    import warnings
+
+    read_only = os.getenv("PYTHAINLP_READ_ONLY")
+    read_mode_legacy = os.getenv("PYTHAINLP_READ_MODE")
+
+    if read_only is not None and read_mode_legacy is not None:
+        raise ValueError(
+            "Both PYTHAINLP_READ_ONLY and PYTHAINLP_READ_MODE are set. "
+            "Please use PYTHAINLP_READ_ONLY only and unset PYTHAINLP_READ_MODE."
+        )
+
+    if read_mode_legacy is not None and read_only is None:
+        warnings.warn(
+            "PYTHAINLP_READ_MODE is deprecated; use PYTHAINLP_READ_ONLY instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return read_mode_legacy == "1"
+
+    if read_only is not None:
+        return read_only.strip().lower() not in ("", "0", "false", "no", "off")
+
+    return False
+
+
 def is_offline_mode() -> bool:
     """Return whether PyThaiNLP is operating in offline mode.
 

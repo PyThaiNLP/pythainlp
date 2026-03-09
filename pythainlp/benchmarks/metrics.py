@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import math
 from collections import Counter
-from typing import Union, cast
+from typing import Optional, Union, cast
 
 
 def _get_ngrams(tokens: list[str], n: int) -> list[tuple[str, ...]]:
@@ -90,7 +90,7 @@ def bleu_score(
     Understudy) metric that automatically tokenizes Thai text using
     PyThaiNLP before calculating the score.
 
-    :param list[str] | list[list[str]] references: reference translations.
+    :param Union[list[str], list[list[str]]] references: reference translations.
         Can be:
         - A list of strings (one reference per hypothesis)
         - A list of lists of strings (multiple references per hypothesis)
@@ -107,7 +107,7 @@ def bleu_score(
         ``'length_ratio'``, ``'hyp_length'``, and ``'ref_length'``.
         The ``'precisions'`` value is a ``list[float]``; all other values
         are ``float``.
-    :rtype: dict[str, float | list[float]]
+    :rtype: dict[str, Union[float, list[float]]]
 
     :Example:
     ::
@@ -235,7 +235,7 @@ def rouge_score(
     reference: str,
     hypothesis: str,
     tokenize: str = "newmm",
-    rouge_types: list[str] | None = None,
+    rouge_types: Optional[list[str]] = None,
 ) -> dict[str, tuple[float, float, float]]:
     """
     Calculate ROUGE scores for Thai text with automatic tokenization.
@@ -253,7 +253,7 @@ def rouge_score(
     :param str hypothesis: hypothesis text to evaluate
     :param str tokenize: tokenization engine to use (default: "newmm").
         See :func:`pythainlp.tokenize.word_tokenize` for available engines.
-    :param list[str] | None rouge_types: list of ROUGE types to calculate.
+    :param Optional[list[str]] rouge_types: list of ROUGE types to calculate.
         Default is ["rouge1", "rouge2", "rougeL"]
 
     :return: dictionary mapping ROUGE type to (precision, recall, fmeasure)

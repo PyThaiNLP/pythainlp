@@ -94,10 +94,7 @@ The minimum requirement is now Python 3.9.
   downloaded (#1317)
 - `newmm` tokenization: Exponential-time explosion when text has
   many ambiguous breaking points (#1319)
-- `Trie`: Reduce peak memory by using lazy `Node.children` allocation,
-  replacing `words: set[str]` with `_word_count: int`, and using
-  `tcc_pos_array()` bytearray in `newmm` for faster TCC boundary
-  lookups (#1323)
+- `Trie`: Reduce memory usage and faster TCC lookups (#1323)
 
 ### Security
 

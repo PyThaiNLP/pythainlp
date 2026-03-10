@@ -105,12 +105,15 @@ class Trie(Iterable[str]):
         node.end = False
         self._word_count -= 1
         # Prune nodes that are now unused (not an end and no children).
+        # parent.children is always non-None here because the path was
+        # built by traversing through existing children dicts.
         for parent, child, ch in reversed(path):
             if child.end or child.children:
                 break
-            del parent.children[ch]
-            if not parent.children:
-                parent.children = None  # free empty dict
+            if parent.children is not None:  # always true; narrows type
+                del parent.children[ch]
+                if not parent.children:
+                    parent.children = None  # free empty dict
 
     def prefixes(self, text: str, start: int = 0) -> list[str]:
         """List all possible words from first sequence of characters in a word.

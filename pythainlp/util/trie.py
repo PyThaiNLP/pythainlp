@@ -9,7 +9,7 @@ Designed to be used for tokenizer's dictionary, but can be for other purposes.
 from __future__ import annotations
 
 from collections.abc import Iterable, Iterator
-from typing import Union
+from typing import Optional, Union
 
 
 class Trie(Iterable[str]):
@@ -46,20 +46,20 @@ class Trie(Iterable[str]):
         # output: 5
     """
 
-    words: set[str]
     root: Node
+    _word_count: int
 
     class Node:
         __slots__: tuple[str, str] = ("end", "children")
 
         def __init__(self) -> None:
             self.end: bool = False
-            self.children: dict[str, Trie.Node] = {}
+            # Children dict is created on demand to reduce memory for leaf nodes.
+            self.children: Optional[dict[str, Trie.Node]] = None
 
     def __init__(self, words: Iterable[str]) -> None:
-        self.words: set[str] = set(words)
+        self._word_count: int = 0
         self.root: Trie.Node = Trie.Node()
-
         for word in words:
             self.add(word)
 
@@ -67,43 +67,53 @@ class Trie(Iterable[str]):
         """Add a word to the trie.
         Spaces in front of and following the word will be removed.
 
-        :param str text: a word
+        :param str word: a word
         """
         word = word.strip()
-        self.words.add(word)
         cur = self.root
         for ch in word:
+            if cur.children is None:
+                cur.children = {}
             child = cur.children.get(ch)
-            if not child:
+            if child is None:
                 child = Trie.Node()
                 cur.children[ch] = child
             cur = child
-        cur.end = True
+        if not cur.end:
+            cur.end = True
+            self._word_count += 1
 
     def remove(self, word: str) -> None:
         """Remove a word from the trie.
         If the word is not found, do nothing.
 
-        :param str text: a word
+        :param str word: a word
         """
-        # remove from set first
-        if word not in self.words:
-            return
-        self.words.remove(word)
-        # then remove from nodes
-        parent = self.root
-        data = []  # track path to leaf
+        # Navigate to the word's end node, recording the path.
+        node = self.root
+        path: list[tuple[Trie.Node, Trie.Node, str]] = []
         for ch in word:
-            child = parent.children[ch]
-            data.append((parent, child, ch))
-            parent = child
-        # remove the last one
-        child.end = False
-        # prune up the tree
-        for parent, child, ch in reversed(data):
+            if node.children is None:
+                return  # word not in trie
+            child = node.children.get(ch)
+            if child is None:
+                return  # word not in trie
+            path.append((node, child, ch))
+            node = child
+        if not node.end:
+            return  # path exists but not a complete word
+        node.end = False
+        self._word_count -= 1
+        # Prune nodes that are now unused (not an end and no children).
+        # parent.children is always non-None here because the path was
+        # built by traversing through existing children dicts.
+        for parent, child, ch in reversed(path):
             if child.end or child.children:
                 break
-            del parent.children[ch]  # remove from parent dict
+            if parent.children is not None:  # always true; narrows type
+                del parent.children[ch]
+                if not parent.children:
+                    parent.children = None  # free empty dict
 
     def prefixes(self, text: str, start: int = 0) -> list[str]:
         """List all possible words from first sequence of characters in a word.
@@ -118,8 +128,10 @@ class Trie(Iterable[str]):
         i = start
         n = len(text)
         while i < n:
+            if cur.children is None:
+                break
             node = cur.children.get(text[i])
-            if not node:
+            if node is None:
                 break
             if node.end:
                 res.append(text[start : i + 1])
@@ -128,13 +140,33 @@ class Trie(Iterable[str]):
         return res
 
     def __contains__(self, key: str) -> bool:
-        return key in self.words
+        cur = self.root
+        for ch in key:
+            if cur.children is None:
+                return False
+            node = cur.children.get(ch)
+            if node is None:
+                return False
+            cur = node
+        return cur.end
 
     def __iter__(self) -> Iterator[str]:
-        yield from self.words
+        # DFS through the trie to yield all stored words.
+        # A shared mutable prefix list is appended/popped to avoid
+        # O(k²) list copies that a stack-based approach would incur.
+        def _dfs(node: Trie.Node, prefix: list[str]) -> Iterator[str]:
+            if node.end:
+                yield "".join(prefix)
+            if node.children:
+                for ch, child in node.children.items():
+                    prefix.append(ch)
+                    yield from _dfs(child, prefix)
+                    prefix.pop()
+
+        yield from _dfs(self.root, [])
 
     def __len__(self) -> int:
-        return len(self.words)
+        return self._word_count
 
 
 def dict_trie(dict_source: Union[str, Iterable[str], Trie]) -> Trie:

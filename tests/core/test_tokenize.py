@@ -684,6 +684,14 @@ class TokenizeTestCase(unittest.TestCase):
         # )
         self.assertEqual(list(tcc_p.tcc("")), [])
         self.assertEqual(tcc_p.tcc_pos(""), set())
+        # tcc_pos_array: edge cases
+        self.assertIsInstance(tcc_p.tcc_pos_array(""), bytearray)
+        self.assertIsInstance(tcc_p.tcc_pos_array(None), bytearray)
+        self.assertIsInstance(tcc_p.tcc_pos_array(42), bytearray)
+        # valid text: array length must equal len(text)+1 and mark boundaries
+        arr = tcc_p.tcc_pos_array("ประเทศ")
+        self.assertEqual(len(arr), len("ประเทศ") + 1)
+        self.assertEqual(arr[0], 0)  # position 0 is never a boundary
 
     def test_display_cell_tokenize(self):
         self.assertEqual(display_cell_tokenize(""), [])

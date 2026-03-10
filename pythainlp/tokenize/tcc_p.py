@@ -88,7 +88,7 @@ def tcc_pos(text: str) -> set[int]:
     """TCC positions
 
     :param str text: text to be tokenized into character clusters
-    :return: list of the ending position of subwords
+    :return: set of the ending positions of character clusters
     :rtype: set[int]
     """
     if not text or not isinstance(text, str):
@@ -101,6 +101,30 @@ def tcc_pos(text: str) -> set[int]:
         p_set.add(p)
 
     return p_set
+
+
+def tcc_pos_array(text: str) -> bytearray:
+    """TCC positions as a bytearray.
+
+    Returns a bytearray of length ``len(text) + 1`` where index ``i``
+    is ``1`` if position ``i`` is a valid Thai Character Cluster boundary,
+    and ``0`` otherwise.  Array-index lookup is faster and uses less
+    memory than set membership for large texts.
+
+    :param str text: text to be tokenized into character clusters
+    :return: bytearray of valid TCC boundary flags, indexed by position
+    :rtype: bytearray
+    """
+    if not text or not isinstance(text, str):
+        return bytearray(1)
+
+    arr = bytearray(len(text) + 1)
+    p = 0
+    for w in tcc(text):
+        p += len(w)
+        arr[p] = 1
+
+    return arr
 
 
 def segment(text: str) -> list[str]:

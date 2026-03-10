@@ -516,6 +516,20 @@ class UtilTestCase(unittest.TestCase):
         trie.remove("ทด")
         self.assertEqual(len(trie), 2)
 
+        # _word_count must not double-count re-added words
+        trie2 = Trie(["ก", "ข", "ก"])
+        self.assertEqual(len(trie2), 2)
+        trie2.add("ก")  # already present – count must stay the same
+        self.assertEqual(len(trie2), 2)
+        trie2.add("ค")
+        self.assertEqual(len(trie2), 3)
+        trie2.remove("ข")
+        self.assertEqual(len(trie2), 2)
+        trie2.remove("ข")  # removing non-existent word must not change count
+        self.assertEqual(len(trie2), 2)
+        # All remaining words must be reachable via __iter__
+        self.assertEqual(sorted(trie2), ["ก", "ค"])
+
         trie = Trie([])
         self.assertEqual(len(trie), 0)
         trie.remove("หมด")

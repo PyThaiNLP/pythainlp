@@ -27,7 +27,7 @@ if TYPE_CHECKING:
     from pythainlp.util import Trie
 
 from pythainlp.tokenize import word_dict_trie
-from pythainlp.tokenize.tcc_p import tcc_pos
+from pythainlp.tokenize.tcc_p import tcc_pos_array
 
 # match non-Thai tokens
 # `|` is used as like "early return",
@@ -86,7 +86,7 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
 
     graph_size = 0  # keep track of graph size, if too big, force cutoff
 
-    valid_poss = tcc_pos(text)  # breaking positions that are TCC-valid
+    valid_poss = tcc_pos_array(text)  # bytearray of valid TCC break positions
 
     len_text = len(text)
     pos_list = [0]  # priority queue of possible breaking positions
@@ -95,7 +95,7 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
         begin_pos = heappop(pos_list)
         for word in custom_dict.prefixes(text, begin_pos):
             end_pos_candidate = begin_pos + len(word)
-            if end_pos_candidate in valid_poss:
+            if valid_poss[end_pos_candidate]:
                 graph[begin_pos].append(end_pos_candidate)
                 graph_size = graph_size + 1
 
@@ -121,12 +121,12 @@ def _onecut(text: str, custom_dict: Trie) -> Generator[str, None, None]:
                 end_pos = m.end()
             else:  # Thai token, find minimum skip
                 for pos in range(begin_pos + 1, len_text):
-                    if pos in valid_poss:
+                    if valid_poss[pos]:
                         words = [
                             word
                             for word in custom_dict.prefixes(text, pos)
                             if (
-                                (pos + len(word) in valid_poss)
+                                valid_poss[pos + len(word)]
                                 and not _PAT_THAI_TWOCHARS.match(word)
                             )
                         ]

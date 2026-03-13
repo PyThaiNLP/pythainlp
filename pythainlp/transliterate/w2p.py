@@ -7,6 +7,7 @@ GitHub : https://github.com/wannaphong/Thai_W2P
 
 from __future__ import annotations
 
+import os
 from typing import TYPE_CHECKING, Optional
 
 from pythainlp.corpus import get_corpus_path
@@ -100,33 +101,53 @@ class Thai_W2P:
 
         if self.checkpoint is None:
             raise RuntimeError("checkpoint path is not set")
-        variables: "np.lib.npyio.NpzFile" = np.load(
-            self.checkpoint, allow_pickle=False
-        )
+
+        # .npz files store each array directly (no pickle needed).
+        # Legacy .npy files store a pickled dict as an object array.
+        # NOTE: allow_pickle=True is retained only for backward compatibility
+        # with the existing .npy corpus. When the corpus is republished in
+        # .npz format, the legacy branch can be removed.
+        _, ext = os.path.splitext(self.checkpoint)
+        if ext.lower() == ".npz":
+            raw: "np.lib.npyio.NpzFile" = np.load(
+                self.checkpoint, allow_pickle=False
+            )
+            weights: dict[str, "NDArray"] = dict(raw)
+        else:
+            legacy: "NDArray" = np.load(
+                self.checkpoint, allow_pickle=True
+            )
+            weights = legacy.item()
+            if not isinstance(weights, dict):
+                raise ValueError(
+                    f"Expected a dict in legacy corpus file, got "
+                    f"{type(weights).__name__!r}"
+                )
+
         # (29, 64). (len(graphemes), emb)
-        self.enc_emb: "NDArray" = variables["encoder.emb.weight"]
+        self.enc_emb: "NDArray" = weights["encoder.emb.weight"]
         # (3*128, 64)
-        self.enc_w_ih: "NDArray" = variables["encoder.rnn.weight_ih_l0"]
+        self.enc_w_ih: "NDArray" = weights["encoder.rnn.weight_ih_l0"]
         # (3*128, 128)
-        self.enc_w_hh: "NDArray" = variables["encoder.rnn.weight_hh_l0"]
+        self.enc_w_hh: "NDArray" = weights["encoder.rnn.weight_hh_l0"]
         # (3*128,)
-        self.enc_b_ih: "NDArray" = variables["encoder.rnn.bias_ih_l0"]
+        self.enc_b_ih: "NDArray" = weights["encoder.rnn.bias_ih_l0"]
         # (3*128,)
-        self.enc_b_hh: "NDArray" = variables["encoder.rnn.bias_hh_l0"]
+        self.enc_b_hh: "NDArray" = weights["encoder.rnn.bias_hh_l0"]
         # (74, 64). (len(phonemes), emb)
-        self.dec_emb: "NDArray" = variables["decoder.emb.weight"]
+        self.dec_emb: "NDArray" = weights["decoder.emb.weight"]
         # (3*128, 64)
-        self.dec_w_ih: "NDArray" = variables["decoder.rnn.weight_ih_l0"]
+        self.dec_w_ih: "NDArray" = weights["decoder.rnn.weight_ih_l0"]
         # (3*128, 128)
-        self.dec_w_hh: "NDArray" = variables["decoder.rnn.weight_hh_l0"]
+        self.dec_w_hh: "NDArray" = weights["decoder.rnn.weight_hh_l0"]
         # (3*128,)
-        self.dec_b_ih: "NDArray" = variables["decoder.rnn.bias_ih_l0"]
+        self.dec_b_ih: "NDArray" = weights["decoder.rnn.bias_ih_l0"]
         # (3*128,)
-        self.dec_b_hh: "NDArray" = variables["decoder.rnn.bias_hh_l0"]
+        self.dec_b_hh: "NDArray" = weights["decoder.rnn.bias_hh_l0"]
         # (74, 128)
-        self.fc_w: "NDArray" = variables["decoder.fc.weight"]
+        self.fc_w: "NDArray" = weights["decoder.fc.weight"]
         # (74,)
-        self.fc_b: "NDArray" = variables["decoder.fc.bias"]
+        self.fc_b: "NDArray" = weights["decoder.fc.bias"]
 
     def _sigmoid(self, x: "np.ndarray") -> "np.ndarray":
         import numpy as np

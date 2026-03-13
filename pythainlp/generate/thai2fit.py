@@ -11,7 +11,7 @@ from __future__ import annotations
 
 __all__: list[str] = ["gen_sentence"]
 
-import pickle
+import json
 import random
 from typing import TYPE_CHECKING, Any, Union
 
@@ -58,22 +58,18 @@ dummy_df: "pd.DataFrame" = pd.read_csv(imdb / "texts.csv")
 thwiki: dict[str, Any] = THWIKI_LSTM
 
 # Validate that corpus files are available
-if thwiki["itos_fname"] is None or thwiki["wgts_fname"] is None:
+if thwiki["json_itos_fname"] is None or thwiki["wgts_fname"] is None:
     raise FileNotFoundError(
         "corpus-not-found names=['wiki_lm_lstm', 'wiki_itos_lstm']\n"
         "  Thai2fit model files not found.\n"
         "    Python: pythainlp.corpus.download('wiki_lm_lstm')\n"
         "    CLI:    thainlp data get wiki_lm_lstm\n"
-        "    Python: pythainlp.corpus.download('wiki_itos_lstm')\n"
-        "    CLI:    thainlp data get wiki_itos_lstm"
+        "    Python: pythainlp.corpus.download('json_itos_fname')\n"
+        "    CLI:    thainlp data get json_itos_fname"
     )
 
-# Loads a pickle file from PyThaiNLP's official repository with MD5 verification.
-# WARNING:
-# Pickle deserialization can execute arbitrary code if the file is malicious.
-# Users should only use files from trusted sources.
-with open(thwiki["itos_fname"], "rb") as f:
-    thwiki_itos: list[str] = pickle.load(f)  # noqa: S301
+with open(thwiki["json_itos_fname"], "r") as f:
+    thwiki_itos: list[str] = json.load(f)
 thwiki_vocab: "Vocab" = fastai.text.transform.Vocab(thwiki_itos)
 
 # dummy databunch

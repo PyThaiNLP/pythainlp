@@ -51,6 +51,7 @@ _ITOS_NAME_LSTM: str = "wiki_itos_lstm"
 THWIKI_LSTM: dict[str, Optional[str]] = {
     "wgts_fname": get_corpus_path(_MODEL_NAME_LSTM),
     "itos_fname": get_corpus_path(_ITOS_NAME_LSTM),
+    "json_itos_fname": get_corpus_path("wiki_itos_lstm_json"),
 }
 
 

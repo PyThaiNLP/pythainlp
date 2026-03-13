@@ -110,6 +110,9 @@ def provinces(
         prov_details = []
 
         for line in get_corpus_as_is(_THAI_THAILAND_PROVINCES_FILENAME):
+            # Skip completely empty or whitespace-only lines without warning.
+            if not line.strip():
+                continue
             parts = line.split(",")
             try:
                 prov = {

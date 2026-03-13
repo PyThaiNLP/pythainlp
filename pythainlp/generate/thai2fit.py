@@ -73,7 +73,7 @@ if thwiki["json_itos_fname"] is None or thwiki["wgts_fname"] is None:
 # Pickle deserialization can execute arbitrary code if the file is malicious.
 # Users should only use files from trusted sources.
 with open(thwiki["json_itos_fname"], "r") as f:
-    thwiki_itos: list[str] = json.load(f)  # noqa: S301
+    thwiki_itos: list[str] = json.load(f)
 thwiki_vocab: "Vocab" = fastai.text.transform.Vocab(thwiki_itos)
 
 # dummy databunch

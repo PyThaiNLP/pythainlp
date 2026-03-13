@@ -101,7 +101,7 @@ class Thai_W2P:
 
         if self.checkpoint is None:
             raise RuntimeError("checkpoint path is not set")
-        self.variables: "NDArray" = np.load(self.checkpoint, allow_pickle=True)
+        self.variables: "NDArray" = np.load(self.checkpoint, allow_pickle=False)
         # (29, 64). (len(graphemes), emb)
         self.enc_emb: "NDArray" = self.variables.item().get(
             "encoder.emb.weight"

@@ -68,10 +68,6 @@ if thwiki["json_itos_fname"] is None or thwiki["wgts_fname"] is None:
         "    CLI:    thainlp data get json_itos_fname"
     )
 
-# Loads a pickle file from PyThaiNLP's official repository with MD5 verification.
-# WARNING:
-# Pickle deserialization can execute arbitrary code if the file is malicious.
-# Users should only use files from trusted sources.
 with open(thwiki["json_itos_fname"], "r") as f:
     thwiki_itos: list[str] = json.load(f)
 thwiki_vocab: "Vocab" = fastai.text.transform.Vocab(thwiki_itos)

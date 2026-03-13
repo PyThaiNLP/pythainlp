@@ -120,7 +120,14 @@ def provinces(
                 }
             except IndexError:
                 warnings.warn(
-                    f"Skipping malformed province entry: {line!r}",
+                    f"Skipping malformed province entry (too few fields): {line!r}",
+                    UserWarning,
+                    stacklevel=2,
+                )
+                continue
+            if not all(v.strip() for v in prov.values()):
+                warnings.warn(
+                    f"Skipping province entry with blank or empty field(s): {line!r}",
                     UserWarning,
                     stacklevel=2,
                 )
@@ -307,16 +314,17 @@ def thai_dict() -> dict[str, list[str]]:
     with open(path, newline="\n", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile, delimiter=",")
         for row in reader:
-            try:
-                words.append(row["word"])
-                meanings.append(row["meaning"])
-            except KeyError as e:
+            word = row.get("word")
+            meaning = row.get("meaning")
+            if not word or not word.strip() or not meaning or not meaning.strip():
                 warnings.warn(
-                    f"Skipping malformed thai_dict entry, missing column {e}: {dict(row)!r}",
+                    f"Skipping thai_dict entry with missing or empty field(s): {dict(row)!r}",
                     UserWarning,
                     stacklevel=2,
                 )
                 continue
+            words.append(word)
+            meanings.append(meaning)
     _THAI_DICT = {"word": words, "meaning": meanings}
 
     return _THAI_DICT
@@ -340,7 +348,7 @@ def thai_wsd_dict() -> dict[str, Union[list[str], list[list[str]]]]:
     for word, meaning in zip(thai_wsd["word"], thai_wsd["meaning"]):
         try:
             parsed = ast.literal_eval(meaning)
-        except (ValueError, SyntaxError):
+        except (SyntaxError, TypeError, ValueError):
             warnings.warn(
                 f"Skipping thai_wsd_dict entry for word {word!r}: "
                 f"meaning could not be parsed: {meaning!r}",
@@ -392,17 +400,19 @@ def thai_synonyms() -> dict[str, Union[list[str], list[list[str]]]]:
     with open(path, newline="\n", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile, delimiter=",")
         for row in reader:
-            try:
-                words.append(row["word"])
-                pos_tags.append(row["pos"])
-                synonym_groups.append(row["synonym"].split("|"))
-            except KeyError as e:
+            word = row.get("word")
+            pos = row.get("pos")
+            synonym = row.get("synonym")
+            if not word or not word.strip() or not pos or not pos.strip() or not synonym or not synonym.strip():
                 warnings.warn(
-                    f"Skipping malformed thai_synonyms entry, missing column {e}: {dict(row)!r}",
+                    f"Skipping thai_synonyms entry with missing or empty field(s): {dict(row)!r}",
                     UserWarning,
                     stacklevel=2,
                 )
                 continue
+            words.append(word)
+            pos_tags.append(pos)
+            synonym_groups.append(synonym.split("|"))
     _THAI_SYNONYMS = {"word": words, "pos": pos_tags, "synonym": synonym_groups}
     return _THAI_SYNONYMS
 

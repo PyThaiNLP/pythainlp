@@ -61,10 +61,12 @@ The CI/CD test workflow is at
 
 - Run `python -m unittest tests.compact`
   - Need dependencies:
+
     ```shell
     pip install pythainlp
     pip install --group test-compact
     ```
+
     The `test-compact` group uses `pyicu-wheels` for pre-built ICU binary
     wheels (easier to install on all platforms without local compilation).
     Note: `pyicu-wheels` is from a third-party source (Init7) and is used
@@ -83,10 +85,12 @@ The CI/CD test workflow is at
 
 - Run `python -m unittest tests.extra`
   - Need dependencies:
+
     ```shell
     pip install pythainlp
     pip install --group test-extra
     ```
+
     The `test-extra` group includes all `test-compact` dependencies.
 - Test more functionalities that rely on larger set of dependencies
   or one that require more time or computation.
@@ -130,10 +134,12 @@ By separating tests by dependency group, we can:
 
 - Run `python -m unittest tests.noauto_torch`
   - Need dependencies:
+
     ```shell
     pip install pythainlp
     pip install --group test-noauto-torch
     ```
+
 - Tests requiring PyTorch and its ecosystem:
   - torch, transformers (PyTorch backend)
   - attacut, thai-nner, wtpsplit, tltk
@@ -147,10 +153,12 @@ By separating tests by dependency group, we can:
 
 - Run `python -m unittest tests.noauto_tensorflow`
   - Need dependencies:
+
     ```shell
     pip install pythainlp
     pip install --group test-noauto-tensorflow
     ```
+
 - Tests requiring TensorFlow:
   - deepcut tokenizer
 - Dependencies: ~1-2 GB
@@ -161,10 +169,12 @@ By separating tests by dependency group, we can:
 
 - Run `python -m unittest tests.noauto_onnx`
   - Need dependencies:
+
     ```shell
     pip install pythainlp
     pip install --group test-noauto-onnx
     ```
+
 - Tests requiring ONNX Runtime:
   - oskut, sefr_cut tokenizers
 - Dependencies: ~200-500 MB
@@ -174,10 +184,12 @@ By separating tests by dependency group, we can:
 
 - Run `python -m unittest tests.noauto_cython`
   - Need dependencies:
+
     ```shell
     pip install pythainlp
     pip install --group test-noauto-cython
     ```
+
 - Tests requiring Cython-compiled packages:
   - phunspell spell checker
 - Requires: Cython, C compiler, system libraries (hunspell)
@@ -188,10 +200,12 @@ By separating tests by dependency group, we can:
 
 - Run `python -m unittest tests.noauto_network`
   - Need dependencies:
+
     ```shell
     pip install pythainlp
     pip install --group test-noauto-network
     ```
+
 - Tests requiring network access:
   - Hugging Face Hub model downloads
   - External API calls

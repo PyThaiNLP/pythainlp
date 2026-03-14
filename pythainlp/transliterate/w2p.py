@@ -42,9 +42,9 @@ class _Hparams:
 hp: _Hparams = _Hparams()
 
 
-def _load_vocab() -> tuple[
-    dict[str, int], dict[int, str], dict[str, int], dict[int, str]
-]:
+def _load_vocab() -> (
+    tuple[dict[str, int], dict[int, str], dict[str, int], dict[int, str]]
+):
     g2idx = {g: idx for idx, g in enumerate(hp.graphemes)}
     idx2g = dict(enumerate(hp.graphemes))
 
@@ -85,9 +85,7 @@ class Thai_W2P:
         self.p2idx: dict[str, int]
         self.idx2p: dict[int, str]
         self.g2idx, self.idx2g, self.p2idx, self.idx2p = _load_vocab()
-        self.checkpoint: Optional[str] = get_corpus_path(
-            _MODEL_NAME, version="0.2"
-        )
+        self.checkpoint: Optional[str] = get_corpus_path(_MODEL_NAME, version="0.2")
         if not self.checkpoint:
             raise FileNotFoundError(
                 f"corpus-not-found name={_MODEL_NAME!r}\n"
@@ -113,36 +111,34 @@ class Thai_W2P:
             with np.load(self.checkpoint, allow_pickle=False) as raw:
                 weights: dict[str, "NDArray"] = dict(raw)
         else:
-            # For security reasons, loading legacy .npy corpora via pickle is
-            # disabled by default. Users who understand and accept the risk
-            # may explicitly opt in via the PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE
-            # environment variable (set to "1", "true", or "yes").
+            # NOTE: Loading legacy .npy file via pickle is disabled by default.
+            # Users may explicitly opt in via the
+            # PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE environment variable
+            # (set to "1").
             legacy_opt_in = os.getenv(
                 "PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE", ""
             ).lower() in {"1", "true", "yes"}
             if not legacy_opt_in:
                 raise RuntimeError(
                     "Refusing to load legacy .npy W2P corpus via pickle "
-                    "(allow_pickle=True) by default, because this can lead "
-                    "to arbitrary code execution if the file is tampered "
-                    "with. Please migrate to a .npz corpus file. To "
-                    "temporarily re-enable the legacy loader, set the "
+                    "by default, because this can lead to arbitrary code "
+                    "execution if the file is tampered with. "
+                    "Please migrate to a .npz file. "
+                    "To temporarily re-enable the legacy loader, set the "
                     "environment variable PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE "
-                    'to "1", "true", or "yes".'
+                    'to "1".'
                 )
 
             warnings.warn(
-                f"Loading legacy corpus file {self.checkpoint!r} using pickle "
-                "(allow_pickle=True). This is a security risk and is "
-                "deprecated. Set PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE only if "
+                f"Loading legacy corpus file {self.checkpoint!r} "
+                "using pickle. This is a security risk and is deprecated. "
+                "Set PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE only if "
                 "you understand and accept the risk, and migrate to .npz "
                 "format as soon as possible.",
                 UserWarning,
                 stacklevel=3,
             )
-            legacy: "NDArray" = np.load(
-                self.checkpoint, allow_pickle=True
-            )
+            legacy: "NDArray" = np.load(self.checkpoint, allow_pickle=True)
             weights = legacy.item()
             if not isinstance(weights, dict):
                 raise ValueError(

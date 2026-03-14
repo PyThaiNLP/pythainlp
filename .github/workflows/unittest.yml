@@ -137,6 +137,7 @@ jobs:
         if: ${{ ((matrix.python-version == env.PYTHON_VERSION_LATEST_2) || (matrix.python-version == env.PYTHON_VERSION_EARLIEST)) && !(matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2) }}
         env:
           PYTHONIOENCODING: utf-8
+          PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE: 1
         run: |
           pip install ".[compact]"
           python -m unittest tests.core tests.compact
@@ -145,6 +146,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_VERSION_LATEST_2
         env:
           PYTHONIOENCODING: utf-8
+          PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE: 1
         run: |
           pip install ".[compact,extra]"
           coverage run -m unittest tests.core tests.compact tests.extra

@@ -97,52 +97,52 @@ class Thai_W2P:
         import numpy as np
         if self.checkpoint is None:
             raise RuntimeError("checkpoint path is not set")
-        self.variables: "NDArray" = np.load(self.checkpoint, allow_pickle=False)
-        # (29, 64). (len(graphemes), emb)
-        self.enc_emb: "NDArray" = self.variables[
-            "encoder_emb_weight"
-        ]
-        # (3*128, 64)
-        self.enc_w_ih: "NDArray" = self.variables[
-            "encoder_rnn_weight_ih_l0"
-        ]
-        # (3*128, 128)
-        self.enc_w_hh: "NDArray" = self.variables[
-            "encoder_rnn_weight_hh_l0"
-        ]
-        # (3*128,)
-        self.enc_b_ih: "NDArray" = self.variables[
-            "encoder_rnn_bias_ih_l0"
-        ]
-        # (3*128,)
-        self.enc_b_hh: "NDArray" = self.variables[
-            "encoder_rnn_bias_hh_l0"
-        ]
+        with np.load(self.checkpoint, allow_pickle=False) as variables:
+            # (29, 64). (len(graphemes), emb)
+            self.enc_emb: "NDArray" = variables[
+                "encoder_emb_weight"
+            ]
+            # (3*128, 64)
+            self.enc_w_ih: "NDArray" = variables[
+                "encoder_rnn_weight_ih_l0"
+            ]
+            # (3*128, 128)
+            self.enc_w_hh: "NDArray" = variables[
+                "encoder_rnn_weight_hh_l0"
+            ]
+            # (3*128,)
+            self.enc_b_ih: "NDArray" = variables[
+                "encoder_rnn_bias_ih_l0"
+            ]
+            # (3*128,)
+            self.enc_b_hh: "NDArray" = variables[
+                "encoder_rnn_bias_hh_l0"
+            ]
 
-        # (74, 64). (len(phonemes), emb)
-        self.dec_emb: "NDArray" = self.variables[
-            "decoder_emb_weight"
-        ]
-        # (3*128, 64)
-        self.dec_w_ih: "NDArray" = self.variables[
-            "decoder_rnn_weight_ih_l0"
-        ]
-        # (3*128, 128)
-        self.dec_w_hh: "NDArray" = self.variables[
-            "decoder_rnn_weight_hh_l0"
-        ]
-        # (3*128,)
-        self.dec_b_ih: "NDArray" = self.variables[
-            "decoder_rnn_bias_ih_l0"
-        ]
-        # (3*128,)
-        self.dec_b_hh: "NDArray" = self.variables[
-            "decoder_rnn_bias_hh_l0"
-        ]
-        # (74, 128)
-        self.fc_w: "NDArray" = self.variables["decoder_fc_weight"]
-        # (74,)
-        self.fc_b: "NDArray" = self.variables["decoder_fc_bias"]
+            # (74, 64). (len(phonemes), emb)
+            self.dec_emb: "NDArray" = variables[
+                "decoder_emb_weight"
+            ]
+            # (3*128, 64)
+            self.dec_w_ih: "NDArray" = variables[
+                "decoder_rnn_weight_ih_l0"
+            ]
+            # (3*128, 128)
+            self.dec_w_hh: "NDArray" = variables[
+                "decoder_rnn_weight_hh_l0"
+            ]
+            # (3*128,)
+            self.dec_b_ih: "NDArray" = variables[
+                "decoder_rnn_bias_ih_l0"
+            ]
+            # (3*128,)
+            self.dec_b_hh: "NDArray" = variables[
+                "decoder_rnn_bias_hh_l0"
+            ]
+            # (74, 128)
+            self.fc_w: "NDArray" = variables["decoder_fc_weight"]
+            # (74,)
+            self.fc_b: "NDArray" = variables["decoder_fc_bias"]
 
     def _sigmoid(self, x: "np.ndarray") -> "np.ndarray":
         import numpy as np

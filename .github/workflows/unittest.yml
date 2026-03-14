@@ -74,7 +74,6 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     env:
-      PYICU_WIN_VER: 2.15 # 2.15 is the last version that supports Python 3.9
       INSTALL_FULL_DEPS: false
       PYTHON_VERSION_LATEST: "3.14"
       PYTHON_VERSION_LATEST_2: "3.13" # Second-latest supported version
@@ -94,26 +93,6 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install coverage coveralls
-
-      - name: Install ICU (macOS)
-        if: startsWith(matrix.os, 'macos-')
-        run: |
-          brew install icu4c
-          PKG_CONFIG_PATH=$(brew --prefix)/opt/icu4c/lib/pkgconfig
-          echo "PKG_CONFIG_PATH=${PKG_CONFIG_PATH}" >> "${GITHUB_ENV}"
-          ICU_VER=$(pkg-config --modversion icu-i18n)
-          echo "ICU_VER=${ICU_VER}"
-          echo "ICU_VER=${ICU_VER}" >> "${GITHUB_ENV}"
-
-      - name: Install PyICU (Windows)
-        if: startsWith(matrix.os, 'windows-') && (matrix.python-version == env.PYTHON_VERSION_LATEST_2 || matrix.python-version == env.PYTHON_VERSION_EARLIEST)
-        shell: powershell
-        # Get the wheel URL from https://github.com/cgohlke/pyicu-build/releases
-        run: |
-          $PYTHON_WIN_VER = "${{ matrix.python-version }}"
-          $CP_VER = "cp" + $PYTHON_WIN_VER.Replace(".", "")
-          $WHEEL_URL = "https://github.com/cgohlke/pyicu-build/releases/download/v${{ env.PYICU_WIN_VER }}/PyICU-${{ env.PYICU_WIN_VER }}-${CP_VER}-${CP_VER}-win_amd64.whl"
-          pip install "$WHEEL_URL"
 
       - name: Install PyThaiNLP + full testing dependencies
         if: env.INSTALL_FULL_DEPS == 'true'
@@ -138,7 +117,8 @@ jobs:
         env:
           PYTHONIOENCODING: utf-8
         run: |
-          pip install ".[compact]"
+          pip install .
+          pip install --group test-compact
           python -m unittest tests.core tests.compact
 
       - name: Test (extra + compact + core)
@@ -146,7 +126,8 @@ jobs:
         env:
           PYTHONIOENCODING: utf-8
         run: |
-          pip install ".[compact,extra]"
+          pip install .
+          pip install --group test-extra
           coverage run -m unittest tests.core tests.compact tests.extra
 
       # Only submit a report from the "extra" run, to get maximum coverage

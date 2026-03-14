@@ -21,6 +21,12 @@ and this project adheres to
 
 This release focuses on security issues related to corpus file loading.
 
+### Changed
+
+- Use PEP 735 dependency groups in `pyproject.toml` for test suites;
+  use `pyicu-wheels` for pre-built ICU binary wheels in test groups,
+  simplifying local development and CI on Windows and macOS (#1329)
+
 ### Security
 
 - thai2fit: Use JSON model instead of pickle (#1325)

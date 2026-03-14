@@ -100,6 +100,10 @@ The minimum requirement is now Python 3.9.
 
 - Prevent path traversal and symlink attacks in archive extraction
   (#1225)
+- Disallow pickle when loading numpy arrays to reduce security risk (#1328, #1329)
+- Emit a warning when loading legacy corpus files using pickle (#1328)
+- Defensive file loading in corpus utilities: validate fields before processing
+  (#1325, #1327)
 
 ## [5.2.0] - 2025-12-20
 

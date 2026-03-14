@@ -23,9 +23,12 @@ This release focuses on security issues related to corpus file loading.
 
 ### Changed
 
-- Use PEP 735 dependency groups in `pyproject.toml` for test suites;
-  use `pyicu-wheels` for pre-built ICU binary wheels in test groups,
-  simplifying local development and CI on Windows and macOS (#1329)
+- Migrate development, documentation, and testing dependencies from
+  `[project.optional-dependencies]` to PEP 735 `[dependency-groups]`
+  in `pyproject.toml`; use `pip install --group <name>` to install (#1329)
+- Use `pyicu-wheels` in test dependency groups for pre-built ICU binary
+  wheels, simplifying local development and CI on Windows and macOS (#1329)
+- Simplify CI by removing platform-specific ICU compilation steps (#1329)
 
 ### Security
 

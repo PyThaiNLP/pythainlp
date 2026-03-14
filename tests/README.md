@@ -60,21 +60,18 @@ The CI/CD test workflow is at
 ## Compact tests (testc_*.py)
 
 - Run `python -m unittest tests.compact`
-  - Need dependencies from:
-    ```shell
-    pip install "pythainlp[compact]"
-    ```
-    or, using PEP 735 dependency groups (recommended for local development,
-    uses pre-built `pyicu-wheels` instead of `pyicu`; note:
-    `pyicu-wheels` is from a third-party source and used for testing
-    convenience only — distribution dependencies use `pyicu`):
+  - Need dependencies:
     ```shell
     pip install pythainlp
     pip install --group test-compact
     ```
+    The `test-compact` group uses `pyicu-wheels` for pre-built ICU binary
+    wheels (easier to install on all platforms without local compilation).
+    Note: `pyicu-wheels` is from a third-party source (Init7) and is used
+    for testing convenience only; distribution dependencies use `pyicu`.
 - Test a limited set of functionalities that rely on a stable
   and small set of dependencies.
-- These dependencies are `PyYAML`, `nlpo3`, `numpy`, `pyicu`,
+- These dependencies are `PyYAML`, `nlpo3`, `numpy`, `pyicu-wheels`,
   and `python-crfsuite`.
 - Includes corpus download/remove tests (may require network access).
 - Tested on:
@@ -85,15 +82,12 @@ The CI/CD test workflow is at
 ## Extra tests (testx_*.py)
 
 - Run `python -m unittest tests.extra`
-  - Need dependencies from:
-    ```shell
-    pip install "pythainlp[compact,extra]"
-    ```
-    or, using PEP 735 dependency groups (recommended for local development):
+  - Need dependencies:
     ```shell
     pip install pythainlp
     pip install --group test-extra
     ```
+    The `test-extra` group includes all `test-compact` dependencies.
 - Test more functionalities that rely on larger set of dependencies
   or one that require more time or computation.
 - Only tested on Ubuntu using the second-latest Python version.
@@ -135,11 +129,7 @@ By separating tests by dependency group, we can:
 ##### PyTorch-based: tests.noauto_torch
 
 - Run `python -m unittest tests.noauto_torch`
-  - Need dependencies from:
-    ```shell
-    pip install "pythainlp[noauto-torch]"
-    ```
-    or, using PEP 735 dependency groups:
+  - Need dependencies:
     ```shell
     pip install pythainlp
     pip install --group test-noauto-torch
@@ -156,11 +146,7 @@ By separating tests by dependency group, we can:
 ##### TensorFlow-based: tests.noauto_tensorflow
 
 - Run `python -m unittest tests.noauto_tensorflow`
-  - Need dependencies from:
-    ```shell
-    pip install "pythainlp[noauto-tensorflow]"
-    ```
-    or, using PEP 735 dependency groups:
+  - Need dependencies:
     ```shell
     pip install pythainlp
     pip install --group test-noauto-tensorflow
@@ -174,11 +160,7 @@ By separating tests by dependency group, we can:
 ##### ONNX Runtime-based: tests.noauto_onnx
 
 - Run `python -m unittest tests.noauto_onnx`
-  - Need dependencies from:
-    ```shell
-    pip install "pythainlp[noauto-onnx]"
-    ```
-    or, using PEP 735 dependency groups:
+  - Need dependencies:
     ```shell
     pip install pythainlp
     pip install --group test-noauto-onnx
@@ -191,11 +173,7 @@ By separating tests by dependency group, we can:
 ##### Cython-compiled: tests.noauto_cython
 
 - Run `python -m unittest tests.noauto_cython`
-  - Need dependencies from:
-    ```shell
-    pip install "pythainlp[noauto-cython]"
-    ```
-    or, using PEP 735 dependency groups:
+  - Need dependencies:
     ```shell
     pip install pythainlp
     pip install --group test-noauto-cython
@@ -209,11 +187,7 @@ By separating tests by dependency group, we can:
 ##### Network-dependent: tests.noauto_network
 
 - Run `python -m unittest tests.noauto_network`
-  - Need dependencies from:
-    ```shell
-    pip install "pythainlp[noauto-network]"
-    ```
-    or, using PEP 735 dependency groups:
+  - Need dependencies:
     ```shell
     pip install pythainlp
     pip install --group test-noauto-network

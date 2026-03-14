@@ -15,7 +15,7 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
-- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.0...5.3.1>
+- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.0...v5.3.1>
 
 ## [5.3.1] - 2026-03-15
 

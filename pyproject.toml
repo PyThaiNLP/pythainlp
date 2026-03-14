@@ -95,7 +95,7 @@ esupar = ["esupar>=1.3.8", "numpy>=1.22", "transformers>=4.22.1"]
 
 generate = ["fastai<2.0"]
 
-icu = ["pyicu>=2.14"]
+icu = ["pyicu>=2.14"]  # PyICU 2.14 is the last version to support Python 3.9
 
 ipa = ["epitran>=1.1"]
 

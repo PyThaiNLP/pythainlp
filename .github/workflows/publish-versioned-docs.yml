@@ -21,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     # Only run for the main repository, not forks.
     if: github.repository == 'PyThaiNLP/pythainlp'
+    permissions:
+      contents: read
 
     steps:
     - name: Get version from release tag

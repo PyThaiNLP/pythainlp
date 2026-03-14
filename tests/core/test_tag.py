@@ -228,6 +228,82 @@ class TagLocationsTestCase(unittest.TestCase):
         )
 
 
+class BlackboardPreProcessTestCase(unittest.TestCase):
+    """Tests for pythainlp.tag.blackboard.pre_process"""
+
+    def setUp(self):
+        from pythainlp.tag.blackboard import pre_process
+
+        self.pre_process = pre_process
+
+    def test_space_is_escaped(self):
+        self.assertEqual(self.pre_process([" "]), ["_"])
+
+    def test_regular_words_unchanged(self):
+        self.assertEqual(self.pre_process(["ผม", "รัก", "คุณ"]), ["ผม", "รัก", "คุณ"])
+
+    def test_mixed_space_and_words(self):
+        self.assertEqual(self.pre_process(["ผม", " ", "คุณ"]), ["ผม", "_", "คุณ"])
+
+    def test_multiple_spaces(self):
+        self.assertEqual(self.pre_process([" ", " "]), ["_", "_"])
+
+    def test_empty_list(self):
+        self.assertEqual(self.pre_process([]), [])
+
+    def test_non_space_special_chars_unchanged(self):
+        self.assertEqual(self.pre_process(["_"]), ["_"])  # already escaped form
+
+    def test_single_thai_word(self):
+        self.assertEqual(self.pre_process(["สวัสดี"]), ["สวัสดี"])
+
+
+class BlackboardPostProcessTestCase(unittest.TestCase):
+    """Tests for pythainlp.tag.blackboard.post_process"""
+
+    def setUp(self):
+        from pythainlp.tag.blackboard import TO_UD, post_process
+
+        self.post_process = post_process
+        self.TO_UD = TO_UD
+
+    def test_unescape_underscore_to_space(self):
+        result = self.post_process([("_", "NN"), ("คน", "NN")])
+        self.assertEqual(result, [(" ", "NN"), ("คน", "NN")])
+
+    def test_regular_words_pass_through(self):
+        result = self.post_process([("ผม", "PPRS"), ("รัก", "VACT")])
+        self.assertEqual(result, [("ผม", "PPRS"), ("รัก", "VACT")])
+
+    def test_unescape_to_space_with_ud(self):
+        result = self.post_process([("_", "NN")], to_ud=True)
+        self.assertEqual(result, [(" ", "NOUN")])
+
+    def test_regular_word_to_ud(self):
+        result = self.post_process([("คน", "NN")], to_ud=True)
+        self.assertEqual(result, [("คน", "NOUN")])
+
+    def test_all_to_ud_mappings(self):
+        for bb_tag, ud_tag in self.TO_UD.items():
+            if bb_tag == "":
+                continue  # skip empty-string sentinel
+            result = self.post_process([("word", bb_tag)], to_ud=True)
+            self.assertEqual(
+                result[0][1],
+                ud_tag,
+                f"TO_UD mapping failed for tag '{bb_tag}': "
+                f"expected '{ud_tag}', got '{result[0][1]}'",
+            )
+
+    def test_empty_list(self):
+        self.assertEqual(self.post_process([]), [])
+        self.assertEqual(self.post_process([], to_ud=True), [])
+
+    def test_no_ud_default_preserves_tag(self):
+        result = self.post_process([("คน", "VV")])
+        self.assertEqual(result[0][1], "VV")
+
+
 class TagNNERTestCase(unittest.TestCase):
     """Test pythainlp.tag.thai_nner"""
 

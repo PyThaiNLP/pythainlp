@@ -110,10 +110,8 @@ class Thai_W2P:
         # .npz format, the legacy branch can be removed.
         _, ext = os.path.splitext(self.checkpoint)
         if ext.lower() == ".npz":
-            raw: "np.lib.npyio.NpzFile" = np.load(
-                self.checkpoint, allow_pickle=False
-            )
-            weights: dict[str, "NDArray"] = dict(raw)
+            with np.load(self.checkpoint, allow_pickle=False) as raw:
+                weights: dict[str, "NDArray"] = dict(raw)
         else:
             warnings.warn(
                 f"Loading legacy corpus file {self.checkpoint!r} using pickle "

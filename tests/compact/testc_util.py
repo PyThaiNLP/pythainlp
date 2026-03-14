@@ -22,10 +22,17 @@ class SpellWordTestCaseC(unittest.TestCase):
         self.assertEqual(
             spell_word("คนดี"), ["คอ", "นอ", "คน", "ดอ", "อี", "ดี", "คนดี"]
         )
+        result = spell_word("คน")
+        self.assertIsInstance(result, list)
+        self.assertIn("คน", result)
+
         # Edge cases: None and empty string
         self.assertEqual(spell_word(None), [])
         self.assertEqual(spell_word(""), [])
 
+        # multi-syllable: last element is the full word
+        result_multi = spell_word("คนดี")
+        self.assertEqual(result_multi[-1], "คนดี")
 
 class UtilTestCaseC(unittest.TestCase):
     def test_rhyme(self):
@@ -37,6 +44,14 @@ class UtilTestCaseC(unittest.TestCase):
         self.assertEqual(
             thai_word_tone_detector("ราคา"), [("รา", "m"), ("คา", "m")]
         )
+        result = thai_word_tone_detector("คนดี")
+        self.assertIsInstance(result, list)
+        valid_tones = {"l", "m", "h", "r", "f", ""}
+        for syllable, tone in result:
+            self.assertIsInstance(syllable, str)
+            self.assertIn(tone, valid_tones)
+        self.assertIsInstance(thai_word_tone_detector("มือถือ"), list)
+
         # Edge cases: None and empty string
         self.assertEqual(thai_word_tone_detector(None), [])
         self.assertEqual(thai_word_tone_detector(""), [])
@@ -63,3 +78,5 @@ class KhuapKlamTestCaseC(unittest.TestCase):
 
         # Edge cases: empty string returns None
         self.assertIsNone(check_khuap_klam(""))
+        for word in ["กลม", "จริง", "ตา"]:
+            self.assertIn(check_khuap_klam(word), (True, False, None))

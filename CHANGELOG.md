@@ -17,7 +17,7 @@ and this project adheres to
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
 - Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.0...v5.3.1>
 
-## [5.3.1] - 2026-03-15
+## [5.3.1] - 2026-03-14
 
 This release focuses on security issues related to corpus file loading.
 

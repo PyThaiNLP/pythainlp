@@ -210,7 +210,7 @@ class PerceptronTagger:
                 json.dump(data, f, ensure_ascii=False)
 
     def load(self, loc: str) -> None:
-        """Load a pickled model.
+        """Load a saved model from a JSON file.
         :param str loc: model path
         """
         try:

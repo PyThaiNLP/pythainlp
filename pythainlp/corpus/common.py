@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import ast
+import warnings
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -109,14 +110,31 @@ def provinces(
         prov_details = []
 
         for line in get_corpus_as_is(_THAI_THAILAND_PROVINCES_FILENAME):
-            p = line.split(",")
-
-            prov = {}
-            prov["name_th"] = p[0]
-            prov["abbr_th"] = p[1]
-            prov["name_en"] = p[2]
-            prov["abbr_en"] = p[3]
-
+            # Skip completely empty or whitespace-only lines without warning.
+            if not line.strip():
+                continue
+            parts = line.split(",")
+            try:
+                prov = {
+                    "name_th": parts[0],
+                    "abbr_th": parts[1],
+                    "name_en": parts[2],
+                    "abbr_en": parts[3],
+                }
+            except IndexError:
+                warnings.warn(
+                    f"Skipping malformed province entry (too few fields): {line!r}",
+                    UserWarning,
+                    stacklevel=2,
+                )
+                continue
+            if not all(v.strip() for v in prov.values()):
+                warnings.warn(
+                    f"Skipping province entry with blank or empty field(s): {line!r}",
+                    UserWarning,
+                    stacklevel=2,
+                )
+                continue
             provs.add(prov["name_th"])
             prov_details.append(prov)
 
@@ -294,12 +312,23 @@ def thai_dict() -> dict[str, list[str]]:
         return _THAI_DICT
     path = str(path)
 
-    _THAI_DICT = {"word": [], "meaning": []}
+    words: list[str] = []
+    meanings: list[str] = []
     with open(path, newline="\n", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile, delimiter=",")
         for row in reader:
-            _THAI_DICT["word"].append(row["word"])
-            _THAI_DICT["meaning"].append(row["meaning"])
+            word = row.get("word")
+            meaning = row.get("meaning")
+            if not (word and word.strip() and meaning and meaning.strip()):
+                warnings.warn(
+                    f"Skipping thai_dict entry with missing or empty field(s): {dict(row)!r}",
+                    UserWarning,
+                    stacklevel=2,
+                )
+                continue
+            words.append(word)
+            meanings.append(meaning)
+    _THAI_DICT = {"word": words, "meaning": meanings}
 
     return _THAI_DICT
 
@@ -317,17 +346,35 @@ def thai_wsd_dict() -> dict[str, Union[list[str], list[list[str]]]]:
         return _THAI_WSD_DICT
 
     thai_wsd = thai_dict()
-    _THAI_WSD_DICT = {"word": [], "meaning": []}
-    for i, j in zip(thai_wsd["word"], thai_wsd["meaning"]):
-        all_value = list(ast.literal_eval(j).values())
-        use = []
-        for k in all_value:
-            use.extend(k)
-        use = list(set(use))
-        if len(use) > 1:
-            _THAI_WSD_DICT["word"].append(i)  # type: ignore[arg-type]
-            _THAI_WSD_DICT["meaning"].append(use)  # type: ignore[arg-type]
-
+    words: list[str] = []
+    meanings: list[list[str]] = []
+    for word, meaning in zip(thai_wsd["word"], thai_wsd["meaning"]):
+        try:
+            parsed = ast.literal_eval(meaning)
+        except (SyntaxError, TypeError, ValueError):
+            warnings.warn(
+                f"Skipping thai_wsd_dict entry for word {word!r}: "
+                f"meaning could not be parsed: {meaning!r}",
+                UserWarning,
+                stacklevel=2,
+            )
+            continue
+        if not isinstance(parsed, dict):
+            warnings.warn(
+                f"Skipping thai_wsd_dict entry for word {word!r}: "
+                f"expected dict after parsing, got {type(parsed).__name__!r}",
+                UserWarning,
+                stacklevel=2,
+            )
+            continue
+        senses: list[str] = []
+        for sense_list in parsed.values():
+            senses.extend(sense_list)
+        senses = list(set(senses))
+        if len(senses) > 1:
+            words.append(word)
+            meanings.append(senses)
+    _THAI_WSD_DICT = {"word": words, "meaning": meanings}
     return _THAI_WSD_DICT
 
 
@@ -350,14 +397,30 @@ def thai_synonyms() -> dict[str, Union[list[str], list[list[str]]]]:
         return _THAI_SYNONYMS
     path = str(path)
 
-    _THAI_SYNONYMS = {"word": [], "pos": [], "synonym": []}
+    words: list[str] = []
+    pos_tags: list[str] = []
+    synonym_groups: list[list[str]] = []
     with open(path, newline="\n", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile, delimiter=",")
         for row in reader:
-            _THAI_SYNONYMS["word"].append(row["word"])  # type: ignore[arg-type]
-            _THAI_SYNONYMS["pos"].append(row["pos"])  # type: ignore[arg-type]
-            _THAI_SYNONYMS["synonym"].append(row["synonym"].split("|"))  # type: ignore[arg-type]
-
+            word = row.get("word")
+            pos = row.get("pos")
+            synonym = row.get("synonym")
+            if not (
+                word and word.strip()
+                and pos and pos.strip()
+                and synonym and synonym.strip()
+            ):
+                warnings.warn(
+                    f"Skipping thai_synonyms entry with missing or empty field(s): {dict(row)!r}",
+                    UserWarning,
+                    stacklevel=2,
+                )
+                continue
+            words.append(word)
+            pos_tags.append(pos)
+            synonym_groups.append(synonym.split("|"))
+    _THAI_SYNONYMS = {"word": words, "pos": pos_tags, "synonym": synonym_groups}
     return _THAI_SYNONYMS
 
 

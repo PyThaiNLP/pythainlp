@@ -8,6 +8,7 @@ GitHub : https://github.com/wannaphong/Thai_W2P
 from __future__ import annotations
 
 import os
+import warnings
 from typing import TYPE_CHECKING, Optional
 
 from pythainlp.corpus import get_corpus_path
@@ -114,6 +115,13 @@ class Thai_W2P:
             )
             weights: dict[str, "NDArray"] = dict(raw)
         else:
+            warnings.warn(
+                f"Loading legacy corpus file {self.checkpoint!r} using pickle "
+                "(allow_pickle=True). This is a security risk. "
+                "The corpus should be republished in .npz format.",
+                UserWarning,
+                stacklevel=3,
+            )
             legacy: "NDArray" = np.load(
                 self.checkpoint, allow_pickle=True
             )

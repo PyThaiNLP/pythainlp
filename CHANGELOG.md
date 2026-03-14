@@ -15,7 +15,19 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
-- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...5.3.0>
+- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.0...5.3.1>
+
+## [5.3.1] - 2026-03-15
+
+This release focuses on security issues related to corpus file loading.
+
+### Security
+
+- Remove pickle from pythainlp/generate/thai2fit.py (#1325)
+- Defensive file loading in corpus utilities: validate fields before processing
+  (#1327)
+- Improved pickle handling; Emit a warning when loading legacy
+  corpus files using pickle (#1328)
 
 ## [5.3.0] - 2026-03-10
 
@@ -202,6 +214,7 @@ The minimum requirement is now Python 3.9.
 
 - See <https://github.com/PyThaiNLP/pythainlp/releases/tag/v5.0.0>
 
+[5.3.1]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.0...v5.3.1
 [5.3.0]: https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...v5.3.0
 [5.2.0]: https://github.com/PyThaiNLP/pythainlp/compare/v5.1.2...v5.2.0
 [5.1.2]: https://github.com/PyThaiNLP/pythainlp/compare/v5.1.1...v5.1.2

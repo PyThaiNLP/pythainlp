@@ -12,7 +12,6 @@ import warnings
 from typing import TYPE_CHECKING, Optional
 
 from pythainlp.corpus import get_corpus_path
-from pythainlp.tools import is_unsafe_pickle_allowed
 
 if TYPE_CHECKING:
     import numpy as np
@@ -25,7 +24,7 @@ _PHONEMES: list[str] = list(
     "-พจใงต้ืฮแาฐฒฤูศฅถฺฎหคสุขเึดฟำฝยลอ็ม" + " ณิฑชฉซทรํฬฏ–ัฃวก่ปผ์ฆบี๊ธฌญะไษ๋นโภ?"
 )
 
-_MODEL_NAME: str = "thai_w2p"
+_MODEL_NAME: str = "thai_w2p_npz"
 
 
 class _Hparams:
@@ -98,72 +97,54 @@ class Thai_W2P:
 
     def _load_variables(self) -> None:
         import numpy as np
-
         if self.checkpoint is None:
             raise RuntimeError("checkpoint path is not set")
-
-        # .npz files store each array directly (no pickle needed).
-        # Legacy .npy files store a pickled dict as an object array.
-        # NOTE: allow_pickle=True is retained only for backward compatibility
-        # with the existing .npy corpus. When the corpus is republished in
-        # .npz format, the legacy branch can be removed.
-        _, ext = os.path.splitext(self.checkpoint)
-        if ext.lower() == ".npz":
-            with np.load(self.checkpoint, allow_pickle=False) as raw:
-                weights: dict[str, "NDArray"] = dict(raw)
-        else:
-            if not is_unsafe_pickle_allowed():
-                raise RuntimeError(
-                    "Refusing to load legacy .npy W2P corpus via pickle "
-                    "by default, because this can lead to arbitrary code "
-                    "execution if the file is tampered with. "
-                    "Please migrate to a .npz file. "
-                    "To temporarily re-enable the legacy loader, set the "
-                    "environment variable PYTHAINLP_ALLOW_UNSAFE_PICKLE "
-                    'to "1".'
-                )
-
-            warnings.warn(
-                f"Loading legacy corpus file {self.checkpoint!r} "
-                "using pickle. This is a security risk and is deprecated. "
-                "Set PYTHAINLP_ALLOW_UNSAFE_PICKLE only if "
-                "you understand and accept the risk, and migrate to .npz "
-                "format as soon as possible.",
-                UserWarning,
-                stacklevel=3,
-            )
-            legacy: "NDArray" = np.load(self.checkpoint, allow_pickle=True)
-            weights = legacy.item()
-            if not isinstance(weights, dict):
-                raise ValueError(
-                    f"Expected a dict in legacy corpus file, got "
-                    f"{type(weights).__name__!r}"
-                )
-
+        self.variables: "NDArray" = np.load(self.checkpoint, allow_pickle=False)
         # (29, 64). (len(graphemes), emb)
-        self.enc_emb: "NDArray" = weights["encoder.emb.weight"]
+        self.enc_emb: "NDArray" = self.variables[
+            "encoder_emb_weight"
+        ]
         # (3*128, 64)
-        self.enc_w_ih: "NDArray" = weights["encoder.rnn.weight_ih_l0"]
+        self.enc_w_ih: "NDArray" = self.variables[
+            "encoder_rnn_weight_ih_l0"
+        ]
         # (3*128, 128)
-        self.enc_w_hh: "NDArray" = weights["encoder.rnn.weight_hh_l0"]
+        self.enc_w_hh: "NDArray" = self.variables[
+            "encoder_rnn_weight_hh_l0"
+        ]
         # (3*128,)
-        self.enc_b_ih: "NDArray" = weights["encoder.rnn.bias_ih_l0"]
+        self.enc_b_ih: "NDArray" = self.variables[
+            "encoder_rnn_bias_ih_l0"
+        ]
         # (3*128,)
-        self.enc_b_hh: "NDArray" = weights["encoder.rnn.bias_hh_l0"]
+        self.enc_b_hh: "NDArray" = self.variables[
+            "encoder_rnn_bias_hh_l0"
+        ]
+
         # (74, 64). (len(phonemes), emb)
-        self.dec_emb: "NDArray" = weights["decoder.emb.weight"]
+        self.dec_emb: "NDArray" = self.variables[
+            "decoder_emb_weight"
+        ]
         # (3*128, 64)
-        self.dec_w_ih: "NDArray" = weights["decoder.rnn.weight_ih_l0"]
+        self.dec_w_ih: "NDArray" = self.variables[
+            "decoder_rnn_weight_ih_l0"
+        ]
         # (3*128, 128)
-        self.dec_w_hh: "NDArray" = weights["decoder.rnn.weight_hh_l0"]
+        self.dec_w_hh: "NDArray" = self.variables[
+            "decoder_rnn_weight_hh_l0"
+        ]
         # (3*128,)
-        self.dec_b_ih: "NDArray" = weights["decoder.rnn.bias_ih_l0"]
+        self.dec_b_ih: "NDArray" = self.variables[
+            "decoder_rnn_bias_ih_l0"
+        ]
         # (3*128,)
-        self.dec_b_hh: "NDArray" = weights["decoder.rnn.bias_hh_l0"]
+        self.dec_b_hh: "NDArray" = self.variables[
+            "decoder_rnn_bias_hh_l0"
+        ]
         # (74, 128)
-        self.fc_w: "NDArray" = weights["decoder.fc.weight"]
+        self.fc_w: "NDArray" = self.variables["decoder_fc_weight"]
         # (74,)
-        self.fc_b: "NDArray" = weights["decoder.fc.bias"]
+        self.fc_b: "NDArray" = self.variables["decoder_fc_bias"]
 
     def _sigmoid(self, x: "np.ndarray") -> "np.ndarray":
         import numpy as np

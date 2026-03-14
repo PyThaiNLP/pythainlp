@@ -102,6 +102,22 @@ def is_read_only_mode() -> bool:
     return False
 
 
+def is_unsafe_pickle_allowed() -> bool:
+    """Return whether loading legacy pickle-based corpus files is allowed.
+
+    Pickle deserialisation can execute arbitrary code if the file has been
+    tampered with, so it is **disabled by default**.
+    Set the ``PYTHAINLP_ALLOW_UNSAFE_PICKLE`` environment variable to
+    a truthy value (e.g. ``"1"``) only when you trust the corpus file and
+    understand the risk.
+
+    :return: ``True`` if legacy pickle loading is allowed, ``False`` otherwise.
+    :rtype: bool
+    """
+    val = os.getenv("PYTHAINLP_ALLOW_UNSAFE_PICKLE", "")
+    return val.strip().lower() in ("1", "true", "yes", "on")
+
+
 def is_offline_mode() -> bool:
     """Return whether PyThaiNLP is operating in offline mode.
 

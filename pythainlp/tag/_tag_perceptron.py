@@ -166,8 +166,8 @@ class PerceptronTagger:
         ``nr_iter`` controls the number of Perceptron training iterations.
 
         :param sentences: A list of (words, tags) tuples.
-        :param save_loc: If not ``None``, saves a pickled model in this \
-            location.
+        :param save_loc: If not ``None``, saves the model as a JSON file in \
+            this location.
         :param nr_iter: Number of training iterations.
         """
         import random
@@ -200,7 +200,7 @@ class PerceptronTagger:
             random.shuffle(sentences_list)
         self.model.average_weights()
 
-        # save the model
+        # save the model as JSON
         if save_loc is not None:
             data: dict[str, Union[dict, list]] = {}
             data["weights"] = self.model.weights
@@ -210,7 +210,7 @@ class PerceptronTagger:
                 json.dump(data, f, ensure_ascii=False)
 
     def load(self, loc: str) -> None:
-        """Load a pickled model.
+        """Load a saved model from a JSON file.
         :param str loc: model path
         """
         try:

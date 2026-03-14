@@ -8,6 +8,7 @@ __all__: list[str] = [
     "get_pythainlp_path",
     "is_offline_mode",
     "is_read_only_mode",
+    "is_unsafe_pickle_allowed",
     "safe_print",
     "warn_deprecation",
 ]
@@ -20,4 +21,5 @@ from pythainlp.tools.path import (
     get_pythainlp_path,
     is_offline_mode,
     is_read_only_mode,
+    is_unsafe_pickle_allowed,
 )

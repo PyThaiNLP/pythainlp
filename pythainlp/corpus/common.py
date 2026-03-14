@@ -319,7 +319,7 @@ def thai_dict() -> dict[str, list[str]]:
         for row in reader:
             word = row.get("word")
             meaning = row.get("meaning")
-            if not word or not word.strip() or not meaning or not meaning.strip():
+            if not (word and word.strip() and meaning and meaning.strip()):
                 warnings.warn(
                     f"Skipping thai_dict entry with missing or empty field(s): {dict(row)!r}",
                     UserWarning,
@@ -406,7 +406,11 @@ def thai_synonyms() -> dict[str, Union[list[str], list[list[str]]]]:
             word = row.get("word")
             pos = row.get("pos")
             synonym = row.get("synonym")
-            if not word or not word.strip() or not pos or not pos.strip() or not synonym or not synonym.strip():
+            if not (
+                word and word.strip()
+                and pos and pos.strip()
+                and synonym and synonym.strip()
+            ):
                 warnings.warn(
                     f"Skipping thai_synonyms entry with missing or empty field(s): {dict(row)!r}",
                     UserWarning,

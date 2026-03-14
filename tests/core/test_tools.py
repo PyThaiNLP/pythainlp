@@ -8,7 +8,11 @@ import unittest
 import warnings
 from unittest.mock import patch
 
-from pythainlp import is_offline_mode, is_read_only_mode
+from pythainlp import (
+    is_offline_mode,
+    is_read_only_mode,
+    is_unsafe_pickle_allowed,
+)
 from pythainlp.tools import (
     get_full_data_path,
     get_pythainlp_data_path,
@@ -26,9 +30,7 @@ from pythainlp.tools.core import safe_print, warn_deprecation
 class ToolsTestCase(unittest.TestCase):
     def test_path(self):
         data_filename = "ttc_freq.txt"
-        self.assertTrue(
-            get_full_data_path(data_filename).endswith(data_filename)
-        )
+        self.assertTrue(get_full_data_path(data_filename).endswith(data_filename))
         self.assertIsInstance(get_pythainlp_data_path(), str)
         self.assertIsInstance(get_pythainlp_path(), str)
 
@@ -272,3 +274,23 @@ class ToolsTestCase(unittest.TestCase):
                     "Data directory should not be created in read-only mode",
                 )
 
+    def test_is_unsafe_pickle_allowed(self):
+        """Test is_unsafe_pickle_allowed() reflects PYTHAINLP_ALLOW_UNSAFE_PICKLE env var."""
+        # Truthy values
+        for truthy in ("1", "true", "True", "TRUE", "yes", "YES", "on", "ON"):
+            with patch.dict(os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": truthy}):
+                self.assertTrue(
+                    is_unsafe_pickle_allowed(),
+                    f"Expected True for PYTHAINLP_ALLOW_UNSAFE_PICKLE={truthy!r}",
+                )
+        # Falsy values
+        for falsy in ("", "0", "false", "False", "FALSE", "no", "NO", "off", "OFF"):
+            with patch.dict(os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": falsy}):
+                self.assertFalse(
+                    is_unsafe_pickle_allowed(),
+                    f"Expected False for PYTHAINLP_ALLOW_UNSAFE_PICKLE={falsy!r}",
+                )
+        # Unset: should default to False
+        with patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("PYTHAINLP_ALLOW_UNSAFE_PICKLE", None)
+            self.assertFalse(is_unsafe_pickle_allowed())

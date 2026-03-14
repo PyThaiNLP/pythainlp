@@ -81,7 +81,6 @@ please inspect the `[project.optional-dependencies]` section of
 | `PYTHAINLP_OFFLINE` | Set to `1` to disable automatic corpus downloads. Explicit `download()` calls still work. | Current |
 | `PYTHAINLP_READ_ONLY` | Set to `1` to enable read-only mode, which prevents implicit background writes to PyThaiNLP's internal data directory (corpus downloads, catalog updates, directory creation). Explicit user-initiated saves to user-specified paths are unaffected. | Current |
 | `PYTHAINLP_READ_MODE` | Legacy alias for `PYTHAINLP_READ_ONLY`. Emits a `DeprecationWarning`. Setting both raises `ValueError`. | Deprecated; use `PYTHAINLP_READ_ONLY` |
-| `PYTHAINLP_ALLOW_UNSAFE_PICKLE` | Set to `1` to enable loading of legacy pickle files. This is disabled by default as pickle files can execute arbitrary code. Only enable this if you trust the source of your data. | Current |
 
 ### Data directory
 

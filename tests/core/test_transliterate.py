@@ -102,4 +102,3 @@ class TransliterateTestCase(unittest.TestCase):
         self.assertEqual(
             transliterate("ภาษาไทย", engine="iso_11940"), "p̣hās̛̄āịthy"
         )
-

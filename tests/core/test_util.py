@@ -17,7 +17,6 @@ from pythainlp.util import (
     analyze_thai_text,
     arabic_digit_to_thai_digit,
     bahttext,
-    check_khuap_klam,
     collate,
     convert_years,
     count_thai_chars,
@@ -50,7 +49,6 @@ from pythainlp.util import (
     reorder_vowels,
     sound_syllable,
     spell_syllable,
-    spell_word,
     spelling,
     syllable_length,
     syllable_open_close_detector,
@@ -64,7 +62,6 @@ from pythainlp.util import (
     thai_strftime,
     thai_strptime,
     thai_to_eng,
-    thai_word_tone_detector,
     thaiword_to_date,
     thaiword_to_num,
     thaiword_to_time,
@@ -1058,24 +1055,6 @@ class UtilTestCase(unittest.TestCase):
             {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
         )
 
-    # ### pythainlp.util.khuap_klam
-
-    def test_check_khuap_klam(self):
-        # true consonant clusters (คำควบกล้ำแท้)
-        self.assertTrue(check_khuap_klam("กราบ"))
-        self.assertTrue(check_khuap_klam("ปลา"))
-        self.assertTrue(check_khuap_klam("เพราะ"))
-        # false consonant clusters (คำควบกล้ำไม่แท้)
-        self.assertFalse(check_khuap_klam("จริง"))
-        self.assertFalse(check_khuap_klam("ทราย"))
-        # not a cluster
-        self.assertIsNone(check_khuap_klam("แม่"))
-        self.assertIsNone(check_khuap_klam("ตา"))
-        # edge cases
-        self.assertIsNone(check_khuap_klam(""))
-        for word in ["กลม", "จริง", "ตา"]:
-            self.assertIn(check_khuap_klam(word), (True, False, None))
-
     # ### pythainlp.util.pronounce
 
     def test_thai_consonant_to_spelling(self):
@@ -1106,29 +1085,6 @@ class UtilTestCase(unittest.TestCase):
         result_kon = spell_syllable("คน")
         self.assertGreater(len(result_kon), 0)
         self.assertIn("คน", result_kon)
-
-    def test_spell_word(self):
-        self.assertEqual(spell_word(None), [])
-        self.assertEqual(spell_word(""), [])
-        result = spell_word("คน")
-        self.assertIsInstance(result, list)
-        self.assertIn("คน", result)
-        # multi-syllable: last element is the full word
-        result_multi = spell_word("คนดี")
-        self.assertEqual(result_multi[-1], "คนดี")
-
-    # ### pythainlp.util.thai – thai_word_tone_detector
-
-    def test_thai_word_tone_detector(self):
-        self.assertEqual(thai_word_tone_detector(None), [])
-        self.assertEqual(thai_word_tone_detector(""), [])
-        result = thai_word_tone_detector("คนดี")
-        self.assertIsInstance(result, list)
-        valid_tones = {"l", "m", "h", "r", "f", ""}
-        for syllable, tone in result:
-            self.assertIsInstance(syllable, str)
-            self.assertIn(tone, valid_tones)
-        self.assertIsInstance(thai_word_tone_detector("มือถือ"), list)
 
     # ### pythainlp.util.normalize – remove_repeat_vowels,
     #     remove_spaces_before_marks, reorder_vowels

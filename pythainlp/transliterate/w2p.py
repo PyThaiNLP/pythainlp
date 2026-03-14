@@ -12,6 +12,7 @@ import warnings
 from typing import TYPE_CHECKING, Optional
 
 from pythainlp.corpus import get_corpus_path
+from pythainlp.tools import is_unsafe_pickle_allowed
 
 if TYPE_CHECKING:
     import numpy as np
@@ -111,28 +112,21 @@ class Thai_W2P:
             with np.load(self.checkpoint, allow_pickle=False) as raw:
                 weights: dict[str, "NDArray"] = dict(raw)
         else:
-            # NOTE: Loading legacy .npy file via pickle is disabled by default.
-            # Users may explicitly opt in via the
-            # PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE environment variable
-            # (set to "1").
-            legacy_opt_in = os.getenv(
-                "PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE", ""
-            ).lower() in {"1", "true", "yes"}
-            if not legacy_opt_in:
+            if not is_unsafe_pickle_allowed():
                 raise RuntimeError(
                     "Refusing to load legacy .npy W2P corpus via pickle "
                     "by default, because this can lead to arbitrary code "
                     "execution if the file is tampered with. "
                     "Please migrate to a .npz file. "
                     "To temporarily re-enable the legacy loader, set the "
-                    "environment variable PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE "
+                    "environment variable PYTHAINLP_ALLOW_UNSAFE_PICKLE "
                     'to "1".'
                 )
 
             warnings.warn(
                 f"Loading legacy corpus file {self.checkpoint!r} "
                 "using pickle. This is a security risk and is deprecated. "
-                "Set PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE only if "
+                "Set PYTHAINLP_ALLOW_UNSAFE_PICKLE only if "
                 "you understand and accept the risk, and migrate to .npz "
                 "format as soon as possible.",
                 UserWarning,

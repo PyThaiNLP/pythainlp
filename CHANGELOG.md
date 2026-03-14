@@ -26,8 +26,9 @@ This release focuses on security issues related to corpus file loading.
 - Remove pickle from pythainlp/generate/thai2fit.py (#1325)
 - Defensive file loading in corpus utilities: validate fields before processing
   (#1327)
-- Improved pickle handling; Emit a warning when loading legacy
-  corpus files using pickle (#1328)
+- Improved pickle handling;
+  Only allow pickle loading when `PYTHAINLP_ALLOW_UNSAFE_PICKLE` is set;
+  Emit a warning when loading pickle (#1328)
 
 ## [5.3.0] - 2026-03-10
 

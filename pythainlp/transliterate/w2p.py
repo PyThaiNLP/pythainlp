@@ -7,8 +7,6 @@ GitHub : https://github.com/wannaphong/Thai_W2P
 
 from __future__ import annotations
 
-import os
-import warnings
 from typing import TYPE_CHECKING, Optional
 
 from pythainlp.corpus import get_corpus_path

@@ -113,10 +113,30 @@ class Thai_W2P:
             with np.load(self.checkpoint, allow_pickle=False) as raw:
                 weights: dict[str, "NDArray"] = dict(raw)
         else:
+            # For security reasons, loading legacy .npy corpora via pickle is
+            # disabled by default. Users who understand and accept the risk
+            # may explicitly opt in via the PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE
+            # environment variable (set to "1", "true", or "yes").
+            legacy_opt_in = os.getenv(
+                "PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE", ""
+            ).lower() in {"1", "true", "yes"}
+            if not legacy_opt_in:
+                raise RuntimeError(
+                    "Refusing to load legacy .npy W2P corpus via pickle "
+                    "(allow_pickle=True) by default, because this can lead "
+                    "to arbitrary code execution if the file is tampered "
+                    "with. Please migrate to a .npz corpus file. To "
+                    "temporarily re-enable the legacy loader, set the "
+                    "environment variable PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE "
+                    'to "1", "true", or "yes".'
+                )
+
             warnings.warn(
                 f"Loading legacy corpus file {self.checkpoint!r} using pickle "
-                "(allow_pickle=True). This is a security risk. "
-                "The corpus should be republished in .npz format.",
+                "(allow_pickle=True). This is a security risk and is "
+                "deprecated. Set PYTHAINLP_W2P_ALLOW_LEGACY_PICKLE only if "
+                "you understand and accept the risk, and migrate to .npz "
+                "format as soon as possible.",
                 UserWarning,
                 stacklevel=3,
             )

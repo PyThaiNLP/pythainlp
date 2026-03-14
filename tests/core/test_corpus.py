@@ -316,3 +316,308 @@ class CorpusTestCase(unittest.TestCase):
             ["ที่", "ถูก", "สังหาร", "เมื่อ", "ปี", " ", "พ.ศ.", " ", "2492"],
         ]
         self.assertIsInstance(revise_newmm_default_wordset(training_data), set)
+
+
+class DefensiveLoadingTestCase(unittest.TestCase):
+    """Tests for warning-based defensive loading in corpus/common.py."""
+
+    # ------------------------------------------------------------------
+    # provinces()
+    # ------------------------------------------------------------------
+
+    def test_provinces_skips_short_line_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        with patch.object(m, "_THAI_THAILAND_PROVINCES", frozenset()):
+            with patch.object(m, "_THAI_THAILAND_PROVINCES_DETAILS", []):
+                with patch(
+                    "pythainlp.corpus.common.get_corpus_as_is",
+                    return_value=["กรุงเทพ,กทม"],  # only 2 fields, needs 4
+                ):
+                    with self.assertWarns(UserWarning) as cm:
+                        result = m.provinces()
+                    self.assertEqual(len(result), 0)
+                    self.assertIn("too few fields", str(cm.warning))
+
+    def test_provinces_skips_blank_field_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        with patch.object(m, "_THAI_THAILAND_PROVINCES", frozenset()):
+            with patch.object(m, "_THAI_THAILAND_PROVINCES_DETAILS", []):
+                with patch(
+                    "pythainlp.corpus.common.get_corpus_as_is",
+                    return_value=["กรุงเทพ,,Bangkok,BKK"],  # blank abbr_th
+                ):
+                    with self.assertWarns(UserWarning) as cm:
+                        result = m.provinces()
+                    self.assertEqual(len(result), 0)
+                    self.assertIn("blank or empty", str(cm.warning))
+
+    def test_provinces_skips_whitespace_only_field_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        with patch.object(m, "_THAI_THAILAND_PROVINCES", frozenset()):
+            with patch.object(m, "_THAI_THAILAND_PROVINCES_DETAILS", []):
+                with patch(
+                    "pythainlp.corpus.common.get_corpus_as_is",
+                    return_value=["กรุงเทพ,   ,Bangkok,BKK"],  # whitespace-only abbr_th
+                ):
+                    with self.assertWarns(UserWarning):
+                        result = m.provinces()
+                    self.assertEqual(len(result), 0)
+
+    def test_provinces_loads_valid_entry(self):
+        import pythainlp.corpus.common as m
+
+        with patch.object(m, "_THAI_THAILAND_PROVINCES", frozenset()):
+            with patch.object(m, "_THAI_THAILAND_PROVINCES_DETAILS", []):
+                with patch(
+                    "pythainlp.corpus.common.get_corpus_as_is",
+                    return_value=["กรุงเทพมหานคร,กทม,Bangkok,BKK"],
+                ):
+                    result = m.provinces()
+                    self.assertIn("กรุงเทพมหานคร", result)
+
+    # ------------------------------------------------------------------
+    # thai_dict()
+    # ------------------------------------------------------------------
+
+    def test_thai_dict_skips_none_word_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        mock_rows = [
+            {"word": "แมว", "meaning": "cat"},
+            {"word": None, "meaning": "some meaning"},  # None word
+        ]
+        with patch.object(m, "_THAI_DICT", {}):
+            with patch(
+                "pythainlp.corpus.common.get_corpus_path",
+                return_value="/mock/path",
+            ):
+                with patch("builtins.open", mock_open()):
+                    with patch("csv.DictReader", return_value=mock_rows):
+                        with self.assertWarns(UserWarning) as cm:
+                            result = m.thai_dict()
+                        self.assertEqual(result["word"], ["แมว"])
+                        self.assertIn("missing or empty", str(cm.warning))
+
+    def test_thai_dict_skips_empty_word_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        mock_rows = [
+            {"word": "แมว", "meaning": "cat"},
+            {"word": "", "meaning": "empty word field"},  # empty word
+        ]
+        with patch.object(m, "_THAI_DICT", {}):
+            with patch(
+                "pythainlp.corpus.common.get_corpus_path",
+                return_value="/mock/path",
+            ):
+                with patch("builtins.open", mock_open()):
+                    with patch("csv.DictReader", return_value=mock_rows):
+                        with self.assertWarns(UserWarning):
+                            result = m.thai_dict()
+                        self.assertEqual(result["word"], ["แมว"])
+
+    def test_thai_dict_skips_whitespace_only_word_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        mock_rows = [
+            {"word": "แมว", "meaning": "cat"},
+            {"word": "   ", "meaning": "whitespace word"},
+        ]
+        with patch.object(m, "_THAI_DICT", {}):
+            with patch(
+                "pythainlp.corpus.common.get_corpus_path",
+                return_value="/mock/path",
+            ):
+                with patch("builtins.open", mock_open()):
+                    with patch("csv.DictReader", return_value=mock_rows):
+                        with self.assertWarns(UserWarning):
+                            result = m.thai_dict()
+                        self.assertEqual(result["word"], ["แมว"])
+
+    def test_thai_dict_skips_none_meaning_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        mock_rows = [
+            {"word": "แมว", "meaning": "cat"},
+            {"word": "หมา", "meaning": None},  # None meaning (short CSV row)
+        ]
+        with patch.object(m, "_THAI_DICT", {}):
+            with patch(
+                "pythainlp.corpus.common.get_corpus_path",
+                return_value="/mock/path",
+            ):
+                with patch("builtins.open", mock_open()):
+                    with patch("csv.DictReader", return_value=mock_rows):
+                        with self.assertWarns(UserWarning):
+                            result = m.thai_dict()
+                        self.assertEqual(result["word"], ["แมว"])
+
+    def test_thai_dict_returns_empty_when_no_path(self):
+        import pythainlp.corpus.common as m
+
+        with patch.object(m, "_THAI_DICT", {}):
+            with patch(
+                "pythainlp.corpus.common.get_corpus_path", return_value=None
+            ):
+                result = m.thai_dict()
+                self.assertEqual(result, {})
+
+    # ------------------------------------------------------------------
+    # thai_wsd_dict()
+    # ------------------------------------------------------------------
+
+    def test_thai_wsd_dict_skips_none_meaning_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        # None meaning causes TypeError in ast.literal_eval
+        mock_source = {"word": ["แมว"], "meaning": [None]}
+        with patch.object(m, "_THAI_WSD_DICT", {}):
+            with patch("pythainlp.corpus.common.thai_dict", return_value=mock_source):
+                with self.assertWarns(UserWarning) as cm:
+                    result = m.thai_wsd_dict()
+                self.assertEqual(result["word"], [])
+                self.assertIn("could not be parsed", str(cm.warning))
+
+    def test_thai_wsd_dict_skips_unparseable_meaning_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        mock_source = {"word": ["แมว"], "meaning": ["not valid python literal!!!"]}
+        with patch.object(m, "_THAI_WSD_DICT", {}):
+            with patch("pythainlp.corpus.common.thai_dict", return_value=mock_source):
+                with self.assertWarns(UserWarning) as cm:
+                    result = m.thai_wsd_dict()
+                self.assertEqual(result["word"], [])
+                self.assertIn("could not be parsed", str(cm.warning))
+
+    def test_thai_wsd_dict_skips_non_dict_meaning_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        # Parses OK but yields a list, not a dict
+        mock_source = {"word": ["แมว"], "meaning": ["['cat', 'kitty']"]}
+        with patch.object(m, "_THAI_WSD_DICT", {}):
+            with patch("pythainlp.corpus.common.thai_dict", return_value=mock_source):
+                with self.assertWarns(UserWarning) as cm:
+                    result = m.thai_wsd_dict()
+                self.assertEqual(result["word"], [])
+                self.assertIn("expected dict", str(cm.warning))
+
+    # ------------------------------------------------------------------
+    # thai_synonyms()
+    # ------------------------------------------------------------------
+
+    def test_thai_synonyms_skips_none_synonym_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        mock_rows = [
+            {"word": "แมว", "pos": "n", "synonym": "cat|kitty"},
+            {"word": "หมา", "pos": "n", "synonym": None},  # None synonym
+        ]
+        with patch.object(m, "_THAI_SYNONYMS", {}):
+            with patch(
+                "pythainlp.corpus.common.get_corpus_path",
+                return_value="/mock/path",
+            ):
+                with patch("builtins.open", mock_open()):
+                    with patch("csv.DictReader", return_value=mock_rows):
+                        with self.assertWarns(UserWarning):
+                            result = m.thai_synonyms()
+                        self.assertEqual(result["word"], ["แมว"])
+                        self.assertEqual(result["synonym"], [["cat", "kitty"]])
+
+    def test_thai_synonyms_skips_none_word_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        mock_rows = [
+            {"word": "แมว", "pos": "n", "synonym": "cat|kitty"},
+            {"word": None, "pos": "n", "synonym": "dog"},  # None word
+        ]
+        with patch.object(m, "_THAI_SYNONYMS", {}):
+            with patch(
+                "pythainlp.corpus.common.get_corpus_path",
+                return_value="/mock/path",
+            ):
+                with patch("builtins.open", mock_open()):
+                    with patch("csv.DictReader", return_value=mock_rows):
+                        with self.assertWarns(UserWarning):
+                            result = m.thai_synonyms()
+                        self.assertEqual(result["word"], ["แมว"])
+
+    def test_thai_synonyms_skips_none_pos_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        mock_rows = [
+            {"word": "แมว", "pos": "n", "synonym": "cat|kitty"},
+            {"word": "หมา", "pos": None, "synonym": "dog"},  # None pos
+        ]
+        with patch.object(m, "_THAI_SYNONYMS", {}):
+            with patch(
+                "pythainlp.corpus.common.get_corpus_path",
+                return_value="/mock/path",
+            ):
+                with patch("builtins.open", mock_open()):
+                    with patch("csv.DictReader", return_value=mock_rows):
+                        with self.assertWarns(UserWarning):
+                            result = m.thai_synonyms()
+                        self.assertEqual(result["word"], ["แมว"])
+
+    def test_thai_synonyms_skips_empty_pos_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        mock_rows = [
+            {"word": "แมว", "pos": "n", "synonym": "cat|kitty"},
+            {"word": "หมา", "pos": "", "synonym": "dog"},  # empty pos
+        ]
+        with patch.object(m, "_THAI_SYNONYMS", {}):
+            with patch(
+                "pythainlp.corpus.common.get_corpus_path",
+                return_value="/mock/path",
+            ):
+                with patch("builtins.open", mock_open()):
+                    with patch("csv.DictReader", return_value=mock_rows):
+                        with self.assertWarns(UserWarning):
+                            result = m.thai_synonyms()
+                        self.assertEqual(result["word"], ["แมว"])
+
+    def test_thai_synonyms_skips_whitespace_only_fields_with_warning(self):
+        import pythainlp.corpus.common as m
+
+        mock_rows = [
+            {"word": "แมว", "pos": "n", "synonym": "cat|kitty"},
+            {"word": "  ", "pos": "n", "synonym": "dog"},   # whitespace word
+            {"word": "หมา", "pos": "  ", "synonym": "dog"}, # whitespace pos
+            {"word": "ปลา", "pos": "n", "synonym": "  "},   # whitespace synonym
+        ]
+        with patch.object(m, "_THAI_SYNONYMS", {}):
+            with patch(
+                "pythainlp.corpus.common.get_corpus_path",
+                return_value="/mock/path",
+            ):
+                with patch("builtins.open", mock_open()):
+                    with patch("csv.DictReader", return_value=mock_rows):
+                        with self.assertWarns(UserWarning):
+                            result = m.thai_synonyms()
+                        self.assertEqual(result["word"], ["แมว"])
+
+    def test_thai_synonyms_loads_valid_rows(self):
+        import pythainlp.corpus.common as m
+
+        mock_rows = [
+            {"word": "แมว", "pos": "n", "synonym": "cat|kitty"},
+            {"word": "หมา", "pos": "n", "synonym": "dog"},
+        ]
+        with patch.object(m, "_THAI_SYNONYMS", {}):
+            with patch(
+                "pythainlp.corpus.common.get_corpus_path",
+                return_value="/mock/path",
+            ):
+                with patch("builtins.open", mock_open()):
+                    with patch("csv.DictReader", return_value=mock_rows):
+                        result = m.thai_synonyms()
+                        self.assertEqual(result["word"], ["แมว", "หมา"])
+                        self.assertEqual(result["pos"], ["n", "n"])
+                        self.assertEqual(
+                            result["synonym"], [["cat", "kitty"], ["dog"]]
+                        )

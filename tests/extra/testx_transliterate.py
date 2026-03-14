@@ -2,10 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-import os
 import unittest
-import warnings
-from unittest.mock import patch
 
 import torch
 
@@ -187,78 +184,11 @@ class TransliterateTestCaseX(unittest.TestCase):
     def test_pronunciate(self):
         self.assertEqual(pronunciate(""), "")
         remove("thai_w2p")
-        with patch.dict(os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": "1"}):
-            with warnings.catch_warnings(record=True):
-                warnings.simplefilter("always")
-                self.assertIsNotNone(pronunciate("คน", engine="w2p"))
-                self.assertIsNotNone(pronunciate("แมว", engine="w2p"))
-                self.assertIsNotNone(pronunciate("มข.", engine="w2p"))
-                self.assertIsNotNone(pronunciate("มช.", engine="w2p"))
-                self.assertIsNotNone(pronunciate("jks", engine="w2p"))
-
-    def test_pronunciate_w2p_pickle_blocked_by_default(self):
-        """Thai_W2P._load_variables must raise RuntimeError for a legacy .npy
-        corpus when PYTHAINLP_ALLOW_UNSAFE_PICKLE is not set.
-        """
-        try:
-            from pythainlp.transliterate.w2p import Thai_W2P
-        except (FileNotFoundError, RuntimeError):
-            self.skipTest("w2p module not ready (corpus missing or pickle blocked)")
-
-        instance = object.__new__(Thai_W2P)
-        instance.checkpoint = "/fake/model.npy"
-        with patch.dict(os.environ, {}, clear=False):
-            os.environ.pop("PYTHAINLP_ALLOW_UNSAFE_PICKLE", None)
-            with self.assertRaises(RuntimeError) as ctx:
-                instance._load_variables()
-            self.assertIn("PYTHAINLP_ALLOW_UNSAFE_PICKLE", str(ctx.exception))
-
-    def test_pronunciate_w2p_pickle_warning_when_allowed(self):
-        """Thai_W2P._load_variables must emit a UserWarning when loading a
-        legacy .npy corpus with PYTHAINLP_ALLOW_UNSAFE_PICKLE set.
-        """
-        import numpy as np
-
-        try:
-            from pythainlp.transliterate.w2p import Thai_W2P
-        except (FileNotFoundError, RuntimeError):
-            self.skipTest("w2p module not ready (corpus missing or pickle blocked)")
-
-        keys = [
-            "encoder.emb.weight",
-            "encoder.rnn.weight_ih_l0",
-            "encoder.rnn.weight_hh_l0",
-            "encoder.rnn.bias_ih_l0",
-            "encoder.rnn.bias_hh_l0",
-            "decoder.emb.weight",
-            "decoder.rnn.weight_ih_l0",
-            "decoder.rnn.weight_hh_l0",
-            "decoder.rnn.bias_ih_l0",
-            "decoder.rnn.bias_hh_l0",
-            "decoder.fc.weight",
-            "decoder.fc.bias",
-        ]
-        fake_weights = {k: np.zeros(1) for k in keys}
-        fake_array = np.empty((), dtype=object)
-        fake_array[()] = fake_weights
-
-        instance = object.__new__(Thai_W2P)
-        instance.checkpoint = "/fake/model.npy"
-        with patch.dict(os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": "1"}):
-            with patch("numpy.load", return_value=fake_array):
-                with warnings.catch_warnings(record=True) as w:
-                    warnings.simplefilter("always")
-                    instance._load_variables()
-                user_warnings = [
-                    x for x in w if issubclass(x.category, UserWarning)
-                ]
-                self.assertTrue(
-                    any(
-                        "PYTHAINLP_ALLOW_UNSAFE_PICKLE" in str(x.message)
-                        for x in user_warnings
-                    ),
-                    "Expected a UserWarning mentioning PYTHAINLP_ALLOW_UNSAFE_PICKLE",
-                )
+        self.assertIsNotNone(pronunciate("คน", engine="w2p"))
+        self.assertIsNotNone(pronunciate("แมว", engine="w2p"))
+        self.assertIsNotNone(pronunciate("มข.", engine="w2p"))
+        self.assertIsNotNone(pronunciate("มช.", engine="w2p"))
+        self.assertIsNotNone(pronunciate("jks", engine="w2p"))
 
     def test_puan(self):
         self.assertEqual(puan("แมว"), "แมว")

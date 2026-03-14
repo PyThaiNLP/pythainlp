@@ -36,39 +36,33 @@ class UtilTestCaseC(unittest.TestCase):
         self.assertGreater(len(rhyme("แมว")), 2)
 
     def test_thai_word_tone_detector(self):
-        with patch.dict(os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": "1"}):
-            with warnings.catch_warnings(record=True):
-                warnings.simplefilter("always")
-                self.assertIsNotNone(thai_word_tone_detector("คนดี"))
-                self.assertEqual(
-                    thai_word_tone_detector("ราคา"), [("รา", "m"), ("คา", "m")]
-                )
-                # Edge cases: None and empty string
-                self.assertEqual(thai_word_tone_detector(None), [])
-                self.assertEqual(thai_word_tone_detector(""), [])
+        self.assertIsNotNone(thai_word_tone_detector("คนดี"))
+        self.assertEqual(
+            thai_word_tone_detector("ราคา"), [("รา", "m"), ("คา", "m")]
+        )
+        # Edge cases: None and empty string
+        self.assertEqual(thai_word_tone_detector(None), [])
+        self.assertEqual(thai_word_tone_detector(""), [])
 
 
 class KhuapKlamTestCaseC(unittest.TestCase):
     def test_check_khuap_klam(self):
-        with patch.dict(os.environ, {"PYTHAINLP_ALLOW_UNSAFE_PICKLE": "1"}):
-            with warnings.catch_warnings(record=True):
-                warnings.simplefilter("always")
-                # True consonant clusters (คำควบกล้ำแท้)
-                self.assertTrue(check_khuap_klam("กราบ"))
-                self.assertTrue(check_khuap_klam("ปลา"))
-                self.assertTrue(check_khuap_klam("เพราะ"))
-                self.assertTrue(check_khuap_klam("ตรง"))
+        # True consonant clusters (คำควบกล้ำแท้)
+        self.assertTrue(check_khuap_klam("กราบ"))
+        self.assertTrue(check_khuap_klam("ปลา"))
+        self.assertTrue(check_khuap_klam("เพราะ"))
+        self.assertTrue(check_khuap_klam("ตรง"))
 
-                # False consonant clusters (คำควบกล้ำไม่แท้)
-                self.assertFalse(check_khuap_klam("จริง"))
-                self.assertFalse(check_khuap_klam("ทราย"))
-                self.assertFalse(check_khuap_klam("เศร้า"))
+        # False consonant clusters (คำควบกล้ำไม่แท้)
+        self.assertFalse(check_khuap_klam("จริง"))
+        self.assertFalse(check_khuap_klam("ทราย"))
+        self.assertFalse(check_khuap_klam("เศร้า"))
 
-                # Not a consonant cluster
-                self.assertIsNone(check_khuap_klam("แม่"))
-                self.assertIsNone(check_khuap_klam("ตา"))
-                self.assertIsNone(check_khuap_klam("มา"))
-                self.assertIsNone(check_khuap_klam("นา"))
+        # Not a consonant cluster
+        self.assertIsNone(check_khuap_klam("แม่"))
+        self.assertIsNone(check_khuap_klam("ตา"))
+        self.assertIsNone(check_khuap_klam("มา"))
+        self.assertIsNone(check_khuap_klam("นา"))
 
-                # Edge cases: empty string returns None
-                self.assertIsNone(check_khuap_klam(""))
+        # Edge cases: empty string returns None
+        self.assertIsNone(check_khuap_klam(""))

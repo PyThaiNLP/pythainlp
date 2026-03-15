@@ -65,13 +65,13 @@ def extract_features(
     return [_doc2features(doc, i) for i in range(0, len(doc))]
 
 
-class CRFchunk:
+class CRFChunk:
     """CRF-based chunker for Thai text.
 
     This class can be used as a context manager to ensure proper cleanup
     of resources. Example:
 
-        with CRFchunk() as chunker:
+        with CRFChunk() as chunker:
             result = chunker.parse(tokens)
 
     Alternatively, the object will attempt to clean up resources when
@@ -101,7 +101,7 @@ class CRFchunk:
         self.xseq = extract_features(token_pos)
         return self.tagger.tag(self.xseq)  # type: ignore[no-any-return]
 
-    def __enter__(self) -> CRFchunk:
+    def __enter__(self) -> CRFChunk:
         """Context manager entry."""
         return self
 
@@ -132,3 +132,7 @@ class CRFchunk:
             except Exception:  # noqa: S110
                 # Silently ignore cleanup errors during garbage collection
                 pass
+
+
+# Backward-compatible alias. Deprecated since 5.1; will be removed in 6.0.
+CRFchunk = CRFChunk

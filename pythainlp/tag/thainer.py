@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING, Union
 from pythainlp.corpus import get_corpus_path, thai_stopwords
 from pythainlp.tag.pos_tag import pos_tag
 from pythainlp.tokenize import word_tokenize
-from pythainlp.util import isthai
+from pythainlp.util import is_thai
 
 if TYPE_CHECKING:
     from pycrfsuite import Tagger as CRFTagger
@@ -33,7 +33,7 @@ def _doc2features(doc: list, i: int) -> dict:
     features = {
         "word.word": word,
         "word.stopword": _is_stopword(word),
-        "word.isthai": isthai(word),
+        "word.isthai": is_thai(word),
         "word.isspace": word.isspace(),
         "postag": postag,
         "word.isdigit": word.isdigit(),
@@ -48,7 +48,7 @@ def _doc2features(doc: list, i: int) -> dict:
         prev_features = {
             "word.prevword": prevword,
             "word.previsspace": prevword.isspace(),
-            "word.previsthai": isthai(prevword),
+            "word.previsthai": is_thai(prevword),
             "word.prevstopword": _is_stopword(prevword),
             "word.prevpostag": prevpostag,
             "word.prevwordisdigit": prevword.isdigit(),
@@ -65,7 +65,7 @@ def _doc2features(doc: list, i: int) -> dict:
             "word.nextword": nextword,
             "word.nextisspace": nextword.isspace(),
             "word.nextpostag": nextpostag,
-            "word.nextisthai": isthai(nextword),
+            "word.nextisthai": is_thai(nextword),
             "word.nextstopword": _is_stopword(nextword),
             "word.nextwordisdigit": nextword.isdigit(),
         }

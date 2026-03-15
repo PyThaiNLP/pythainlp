@@ -27,7 +27,7 @@ def chunk_parse(
         print(chunk_parse(tokens_pos))
         # output: ['B-NP', 'B-VP', 'I-VP']
     """
-    from .crfchunk import CRFchunk
+    from .crfchunk import CRFChunk
 
-    _engine = CRFchunk()
+    _engine = CRFChunk()
     return _engine.parse(sent)

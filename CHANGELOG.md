@@ -21,6 +21,25 @@ and this project adheres to
 
 This release focuses on security issues related to corpus file loading.
 
+### Added
+
+- `pythainlp.util.is_thai_char()`: Pythonic alias for deprecated `isthaichar()`
+- `pythainlp.util.is_thai()`: Pythonic alias for deprecated `isthai()`
+- `pythainlp.util.count_thai()`: Pythonic alias for deprecated `countthai()`
+
+### Changed
+
+- `pythainlp.tag.crfchunk.CRFchunk` renamed to `CRFChunk`
+  (backward-compatible alias `CRFchunk` kept until 6.0)
+- Internal usages updated to use the new Pythonic names
+
+### Deprecated
+
+- `pythainlp.util.isthaichar()`: use `is_thai_char()` instead (removed in 6.0)
+- `pythainlp.util.isthai()`: use `is_thai()` instead (removed in 6.0)
+- `pythainlp.util.countthai()`: use `count_thai()` instead (removed in 6.0)
+- `pythainlp.tag.crfchunk.CRFchunk`: use `CRFChunk` instead (removed in 6.0)
+
 ### Security
 
 - thai2fit: Use JSON model instead of pickle (#1325)

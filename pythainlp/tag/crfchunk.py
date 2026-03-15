@@ -13,6 +13,7 @@ if TYPE_CHECKING:
 from pycrfsuite import Tagger as CRFTagger
 
 from pythainlp.corpus import thai_stopwords
+from pythainlp.tools import warn_deprecation
 
 
 def _is_stopword(word: str) -> bool:  # check Thai stopword
@@ -135,4 +136,18 @@ class CRFChunk:
 
 
 # Backward-compatible alias. Deprecated since 5.1; will be removed in 6.0.
-CRFchunk = CRFChunk
+class CRFchunk(CRFChunk):
+    """Deprecated. Use :class:`CRFChunk` instead.
+
+    .. deprecated:: 5.1
+        Use :class:`CRFChunk` instead.
+    """
+
+    def __init__(self, corpus: str = "orchidpp") -> None:
+        warn_deprecation(
+            "pythainlp.tag.crfchunk.CRFchunk",
+            "pythainlp.tag.crfchunk.CRFChunk",
+            "5.1",
+            "6.0",
+        )
+        super().__init__(corpus)

@@ -60,7 +60,7 @@ def _doc2features(
     return f
 
 
-def extract_features(
+def _extract_features(
     doc: list[tuple[str, str]],
 ) -> list[dict[str, Union[str, bool]]]:
     return [_doc2features(doc, i) for i in range(0, len(doc))]
@@ -99,7 +99,7 @@ class CRFChunk:
             self.tagger.open(str(model_path))
 
     def parse(self, token_pos: list[tuple[str, str]]) -> list[str]:
-        self.xseq = extract_features(token_pos)
+        self.xseq = _extract_features(token_pos)
         return self.tagger.tag(self.xseq)  # type: ignore[no-any-return]
 
     def __enter__(self) -> CRFChunk:

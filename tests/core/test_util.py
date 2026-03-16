@@ -10,8 +10,7 @@ import unittest
 from collections import Counter
 from datetime import date, datetime, time, timedelta, timezone
 
-from pythainlp.corpus import _CORPUS_PATH, thai_words
-from pythainlp.corpus.common import _THAI_WORDS_FILENAME
+from pythainlp.corpus import corpus_path, thai_words
 from pythainlp.util import (
     Trie,
     analyze_thai_text,
@@ -550,7 +549,7 @@ class UtilTestCase(unittest.TestCase):
         self.assertIsNotNone(dict_trie({"ลอง", "สร้าง", "Trie", "ลน"}))
         self.assertIsNotNone(dict_trie(thai_words()))
         self.assertIsNotNone(
-            dict_trie(os.path.join(_CORPUS_PATH, _THAI_WORDS_FILENAME))
+            dict_trie(os.path.join(corpus_path(), "words_th.txt"))
         )
         with self.assertRaises(TypeError):
             dict_trie("")

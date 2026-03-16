@@ -32,6 +32,12 @@ This release focuses on security issues related to corpus file loading.
 - `pythainlp.tag.crfchunk.CRFchunk` renamed to `CRFChunk`
   (backward-compatible alias `CRFchunk` kept until 6.0)
 - Internal usages updated to use the new Pythonic names
+- `THAI_CHAR_NAMES` renamed to `_THAI_CHAR_NAMES` (internal constant, not public API)
+- `extract_features()` in `crfchunk` and `crfcut` made private (`_extract_features`)
+- `ThaiNameTagger.__extract_features` (name-mangled) renamed to `_extract_features`
+- `nlpo3.py`: removed cross-module import of private `_THAI_WORDS_FILENAME`
+- Tests: replaced direct access to private `_CORPUS_PATH`/`_THAI_WORDS_FILENAME`
+  with public `corpus_path()` and literal filename
 
 ### Deprecated
 

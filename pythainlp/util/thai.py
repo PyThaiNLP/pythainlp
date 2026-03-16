@@ -30,7 +30,7 @@ _TH_FIRST_CHAR_ASCII: int = 3584
 _TH_LAST_CHAR_ASCII: int = 3711
 
 # A comprehensive map of Thai characters to their descriptive names.
-THAI_CHAR_NAMES: dict[str, str] = {
+_THAI_CHAR_NAMES: dict[str, str] = {
     # Consonants
     **{char: char for char in thai_consonants},
     # Vowels and Signs
@@ -415,8 +415,8 @@ def analyze_thai_text(text: str) -> dict:
     # Iterate over each character in the input string
     for char in text:
         # Check if the character is in our mapping
-        if char in THAI_CHAR_NAMES:
-            name = THAI_CHAR_NAMES[char]
+        if char in _THAI_CHAR_NAMES:
+            name = _THAI_CHAR_NAMES[char]
             results[name] += 1
         else:
             # If the character is not a known Thai character, classify it as character

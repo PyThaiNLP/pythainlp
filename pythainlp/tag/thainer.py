@@ -186,7 +186,7 @@ class ThaiNameTagger:
         pos_tags = pos_tag(
             tokens, engine="perceptron", corpus=self.pos_tag_name
         )
-        x_test = ThaiNameTagger.__extract_features(pos_tags)
+        x_test = ThaiNameTagger._extract_features(pos_tags)
         y = self.crf.tag(x_test)
 
         sent_ner = [(pos_tags[i][0], data) for i, data in enumerate(y)]
@@ -221,7 +221,7 @@ class ThaiNameTagger:
         return sent_ner
 
     @staticmethod
-    def __extract_features(
+    def _extract_features(
         doc: list[tuple[str, str]],
     ) -> list[dict[str, Union[str, bool]]]:
         return [_doc2features(doc, i) for i in range(len(doc))]

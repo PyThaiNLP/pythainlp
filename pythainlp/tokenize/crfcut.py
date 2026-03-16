@@ -126,7 +126,7 @@ _STARTERS: set[str] = {
 }
 
 
-def extract_features(
+def _extract_features(
     doc: list[str], window: int = 2, max_n_gram: int = 3
 ) -> list[list[str]]:
     """Extract features for CRF by sliding `max_n_gram` of tokens
@@ -186,7 +186,7 @@ def segment(text: str) -> list[str]:
     :return: list of words, tokenized from the text
     """
     toks = word_tokenize(text)
-    feat = extract_features(toks)
+    feat = _extract_features(toks)
     labs = _tagger.tag(feat)
     labs[-1] = "E"  # make sure it cuts the last sentence
 

@@ -18,7 +18,11 @@ from typing import TYPE_CHECKING
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
-from pythainlp.tools.path import is_offline_mode, is_read_only_mode
+from pythainlp.tools.path import (
+    _safe_path_join,
+    is_offline_mode,
+    is_read_only_mode,
+)
 
 if TYPE_CHECKING:
     from http.client import HTTPMessage, HTTPResponse
@@ -108,22 +112,13 @@ def path_pythainlp_corpus(filename: str) -> str:
 
     :param str filename: filename of the corpus to be read
 
-    :return: path of corpus
+    :return: normalized absolute path of the corpus file.
     :rtype: str
 
     :raises ValueError: if *filename* resolves to a location outside the
         bundled corpus directory (path traversal attempt).
     """
-    base = corpus_path()
-    full_path = os.path.join(base, filename)
-    abs_base = os.path.abspath(base)
-    abs_full = os.path.abspath(full_path)
-    if abs_full != abs_base and not abs_full.startswith(abs_base + os.sep):
-        raise ValueError(
-            f"Path traversal attempt detected: {filename!r} resolves outside "
-            "the bundled corpus directory."
-        )
-    return full_path
+    return _safe_path_join(corpus_path(), filename)
 
 
 @lru_cache(maxsize=None)
@@ -872,7 +867,8 @@ def get_path_folder_corpus(name: str, version: str, *path: str) -> str:
     :param path: additional path components appended to the corpus folder
     :type path: str
 
-    :return: full path to the requested resource inside the corpus folder
+    :return: normalized absolute path to the requested resource inside the
+        corpus folder.
     :rtype: str
 
     :raises FileNotFoundError: if the corpus is not found locally.
@@ -887,17 +883,7 @@ def get_path_folder_corpus(name: str, version: str, *path: str) -> str:
             f"    Python: pythainlp.corpus.download('{name}')\n"
             f"    CLI:    thainlp data get {name}"
         )
-    full_path = os.path.join(base_path, *path)
-    # Validate only when extra path components are provided;
-    # base_path alone is already trusted (returned by get_corpus_path).
-    if path:
-        abs_base = os.path.abspath(base_path)
-        abs_full = os.path.abspath(full_path)
-        if abs_full != abs_base and not abs_full.startswith(abs_base + os.sep):
-            raise ValueError(
-                f"Path traversal attempt detected in path components: {path!r}"
-            )
-    return full_path
+    return _safe_path_join(base_path, *path)
 
 
 def make_safe_directory_name(name: str) -> str:

@@ -159,12 +159,38 @@ def is_offline_mode() -> bool:
     return val.strip().lower() not in ("", "0", "false", "no", "off")
 
 
+def _safe_path_join(base: str, *parts: str) -> str:
+    """Join *base* with *parts*, verify containment, and return the normalized path.
+
+    This is the single authoritative path-traversal guard used by
+    :func:`get_full_data_path`, :func:`pythainlp.corpus.core.path_pythainlp_corpus`,
+    and :func:`pythainlp.corpus.core.get_path_folder_corpus`.
+
+    :param str base: base directory that the result must reside within.
+    :param parts: additional path components to append.
+    :type parts: str
+
+    :return: normalized absolute path of the joined result.
+    :rtype: str
+
+    :raises ValueError: if the resolved path escapes *base*.
+    """
+    abs_base = os.path.abspath(base)
+    abs_full = os.path.abspath(os.path.join(abs_base, *parts))
+    if abs_full != abs_base and not abs_full.startswith(abs_base + os.sep):
+        raise ValueError(
+            f"Path traversal attempt detected: resolved path {abs_full!r} "
+            f"is outside the base directory {abs_base!r}."
+        )
+    return abs_full
+
+
 def get_full_data_path(path: str) -> str:
     """Join the PyThaiNLP data directory path with *path* and return the result.
 
     :param str path: relative path or filename to append to the data directory.
 
-    :return: full path given the name of dataset
+    :return: normalized absolute path within the PyThaiNLP data directory.
     :rtype: str
 
     :raises ValueError: if *path* resolves to a location outside the
@@ -178,16 +204,7 @@ def get_full_data_path(path: str) -> str:
         get_full_data_path("ttc_freq.txt")
         # output: '/root/pythainlp-data/ttc_freq.txt'
     """
-    base = get_pythainlp_data_path()
-    full_path = os.path.join(base, path)
-    abs_base = os.path.abspath(base)
-    abs_full = os.path.abspath(full_path)
-    if abs_full != abs_base and not abs_full.startswith(abs_base + os.sep):
-        raise ValueError(
-            f"Path traversal attempt detected: {path!r} resolves outside "
-            "the PyThaiNLP data directory."
-        )
-    return full_path
+    return _safe_path_join(get_pythainlp_data_path(), path)
 
 
 def get_pythainlp_data_path() -> str:

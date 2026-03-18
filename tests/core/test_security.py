@@ -9,15 +9,19 @@ import os
 import tarfile
 import tempfile
 import unittest
+import unittest.mock
 import zipfile
 
+from pythainlp.corpus import corpus_path
 from pythainlp.corpus.core import (
     _is_within_directory,
     _safe_extract_tar,
     _safe_extract_zip,
+    get_path_folder_corpus,
     path_pythainlp_corpus,
 )
 from pythainlp.tools import get_full_data_path
+from pythainlp.tools.path import get_pythainlp_data_path
 
 
 class SecurityTestCase(unittest.TestCase):
@@ -190,9 +194,9 @@ class SecurityTestCase(unittest.TestCase):
 
 
     def test_get_full_data_path_safe(self):
-        """Test that get_full_data_path accepts safe filenames."""
+        """Test that get_full_data_path returns a path within the data directory."""
         result = get_full_data_path("ttc_freq.txt")
-        self.assertTrue(result.endswith("ttc_freq.txt"))
+        self.assertTrue(_is_within_directory(get_pythainlp_data_path(), result))
 
     def test_get_full_data_path_rejects_traversal(self):
         """Test that get_full_data_path rejects path traversal attempts."""
@@ -207,15 +211,36 @@ class SecurityTestCase(unittest.TestCase):
         self.assertIn("path traversal", str(ctx.exception).lower())
 
     def test_path_pythainlp_corpus_safe(self):
-        """Test that path_pythainlp_corpus accepts safe filenames."""
+        """Test that path_pythainlp_corpus returns a path within the corpus directory."""
         result = path_pythainlp_corpus("negations_th.txt")
-        self.assertTrue(result.endswith("negations_th.txt"))
+        self.assertTrue(_is_within_directory(corpus_path(), result))
 
     def test_path_pythainlp_corpus_rejects_traversal(self):
         """Test that path_pythainlp_corpus rejects path traversal attempts."""
         with self.assertRaises(ValueError) as ctx:
             path_pythainlp_corpus("../../etc/passwd")
         self.assertIn("path traversal", str(ctx.exception).lower())
+
+    def test_get_path_folder_corpus_safe(self):
+        """Test that get_path_folder_corpus returns a path within the corpus folder."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with unittest.mock.patch(
+                "pythainlp.corpus.core.get_corpus_path",
+                return_value=tmpdir,
+            ):
+                result = get_path_folder_corpus("testcorpus", "1.0", "model.txt")
+                self.assertTrue(_is_within_directory(tmpdir, result))
+
+    def test_get_path_folder_corpus_rejects_traversal(self):
+        """Test that get_path_folder_corpus rejects traversal in extra path components."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with unittest.mock.patch(
+                "pythainlp.corpus.core.get_corpus_path",
+                return_value=tmpdir,
+            ):
+                with self.assertRaises(ValueError) as ctx:
+                    get_path_folder_corpus("testcorpus", "1.0", "../../etc/passwd")
+                self.assertIn("path traversal", str(ctx.exception).lower())
 
 
 if __name__ == "__main__":

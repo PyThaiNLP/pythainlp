@@ -104,14 +104,26 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict[str, Any]:
 
 
 def path_pythainlp_corpus(filename: str) -> str:
-    """Get path pythainlp.corpus data
+    """Get path to a file in the bundled :mod:`pythainlp.corpus` data.
 
     :param str filename: filename of the corpus to be read
 
-    :return: : path of corpus
+    :return: path of corpus
     :rtype: str
+
+    :raises ValueError: if *filename* resolves to a location outside the
+        bundled corpus directory (path traversal attempt).
     """
-    return os.path.join(corpus_path(), filename)
+    base = corpus_path()
+    full_path = os.path.join(base, filename)
+    abs_base = os.path.abspath(base)
+    abs_full = os.path.abspath(full_path)
+    if abs_full != abs_base and not abs_full.startswith(abs_base + os.sep):
+        raise ValueError(
+            f"Path traversal attempt detected: {filename!r} resolves outside "
+            "the bundled corpus directory."
+        )
+    return full_path
 
 
 @lru_cache(maxsize=None)
@@ -853,15 +865,39 @@ def remove(name: str) -> bool:
 
 
 def get_path_folder_corpus(name: str, version: str, *path: str) -> str:
-    corpus_path = get_corpus_path(name, version)
-    if not corpus_path:
+    """Get the path to a file or sub-directory inside a downloaded corpus folder.
+
+    :param str name: corpus name
+    :param str version: corpus version
+    :param path: additional path components appended to the corpus folder
+    :type path: str
+
+    :return: full path to the requested resource inside the corpus folder
+    :rtype: str
+
+    :raises FileNotFoundError: if the corpus is not found locally.
+    :raises ValueError: if the resolved path escapes the corpus folder
+        (path traversal attempt).
+    """
+    base_path = get_corpus_path(name, version)
+    if not base_path:
         raise FileNotFoundError(
             f"corpus-not-found name={name!r} version={version!r}\n"
             f"  Corpus '{name}' (version {version}) not found.\n"
             f"    Python: pythainlp.corpus.download('{name}')\n"
             f"    CLI:    thainlp data get {name}"
         )
-    return os.path.join(corpus_path, *path)
+    full_path = os.path.join(base_path, *path)
+    # Validate only when extra path components are provided;
+    # base_path alone is already trusted (returned by get_corpus_path).
+    if path:
+        abs_base = os.path.abspath(base_path)
+        abs_full = os.path.abspath(full_path)
+        if abs_full != abs_base and not abs_full.startswith(abs_base + os.sep):
+            raise ValueError(
+                f"Path traversal attempt detected in path components: {path!r}"
+            )
+    return full_path
 
 
 def make_safe_directory_name(name: str) -> str:

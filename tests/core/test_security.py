@@ -15,7 +15,9 @@ from pythainlp.corpus.core import (
     _is_within_directory,
     _safe_extract_tar,
     _safe_extract_zip,
+    path_pythainlp_corpus,
 )
+from pythainlp.tools import get_full_data_path
 
 
 class SecurityTestCase(unittest.TestCase):
@@ -185,6 +187,35 @@ class SecurityTestCase(unittest.TestCase):
             # Note: The actual symlink target validation is done separately
             # in the _safe_extract_tar and _safe_extract_zip functions,
             # which check where symlinks actually point to.
+
+
+    def test_get_full_data_path_safe(self):
+        """Test that get_full_data_path accepts safe filenames."""
+        result = get_full_data_path("ttc_freq.txt")
+        self.assertTrue(result.endswith("ttc_freq.txt"))
+
+    def test_get_full_data_path_rejects_traversal(self):
+        """Test that get_full_data_path rejects path traversal attempts."""
+        with self.assertRaises(ValueError) as ctx:
+            get_full_data_path("../../etc/passwd")
+        self.assertIn("path traversal", str(ctx.exception).lower())
+
+    def test_get_full_data_path_rejects_multiple_traversal(self):
+        """Test that get_full_data_path rejects multiple parent directory traversal."""
+        with self.assertRaises(ValueError) as ctx:
+            get_full_data_path("../../../root/.ssh/id_rsa")
+        self.assertIn("path traversal", str(ctx.exception).lower())
+
+    def test_path_pythainlp_corpus_safe(self):
+        """Test that path_pythainlp_corpus accepts safe filenames."""
+        result = path_pythainlp_corpus("negations_th.txt")
+        self.assertTrue(result.endswith("negations_th.txt"))
+
+    def test_path_pythainlp_corpus_rejects_traversal(self):
+        """Test that path_pythainlp_corpus rejects path traversal attempts."""
+        with self.assertRaises(ValueError) as ctx:
+            path_pythainlp_corpus("../../etc/passwd")
+        self.assertIn("path traversal", str(ctx.exception).lower())
 
 
 if __name__ == "__main__":

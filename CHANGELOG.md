@@ -15,7 +15,34 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
-- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.0...v5.3.1>
+- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.2>
+
+## [5.3.2] - 2026-03-19
+
+This release focuses on security issues related to path traversal
+and renaming functions to conform with PEP 8 and follow NLTK convention.
+Old function names are still accessible, but migration to new names are
+recommended as old function names will be removed in a future version.
+
+### Added
+
+- `pythainlp.chunk` module: canonical home for chunking/phrase-structure
+  parsing, following the NLTK `nltk.chunk` naming convention.
+
+### Deprecated
+
+The following names are deprecated and will be removed in 6.0 (#1339):
+
+- `pythainlp.util.isthaichar()`: use `pythainlp.util.is_thai_char()`.
+- `pythainlp.util.isthai()`: use `pythainlp.util.is_thai()`.
+- `pythainlp.util.countthai()`: use `pythainlp.util.count_thai()`.
+- `pythainlp.tag.crfchunk.CRFchunk`: use `pythainlp.chunk.CRFChunkParser`.
+- `pythainlp.tag.chunk_parse()`: use `pythainlp.chunk.chunk_parse()`.
+
+### Security
+
+- Prevent path traversal: validate that paths stay within
+  their expected base directory (#1342)
 
 ## [5.3.1] - 2026-03-14
 
@@ -212,6 +239,7 @@ The minimum requirement is now Python 3.9.
 
 - See <https://github.com/PyThaiNLP/pythainlp/releases/tag/v5.0.0>
 
+[5.3.2]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.2
 [5.3.1]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.0...v5.3.1
 [5.3.0]: https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...v5.3.0
 [5.2.0]: https://github.com/PyThaiNLP/pythainlp/compare/v5.1.2...v5.2.0

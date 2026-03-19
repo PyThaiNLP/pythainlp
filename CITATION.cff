@@ -24,7 +24,7 @@ abstract: PyThaiNLP is a Thai natural language processing library for Python. It
 repository-code: "https://github.com/PyThaiNLP/pythainlp"
 type: software
 doi: 10.5281/zenodo.3519354
-version: 5.3.1
+version: 5.3.2
 license-url: "https://spdx.org/licenses/Apache-2.0"
 keywords:
   - computational linguistics

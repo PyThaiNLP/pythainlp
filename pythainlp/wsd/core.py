@@ -21,12 +21,12 @@ _word_cut: Tokenizer = Tokenizer(custom_dict=_TRIE)
 
 words: list[str] = cast("list[str]", _wsd_dict["word"])
 meanings: list[list[str]] = cast("list[list[str]]", _wsd_dict["meaning"])
-i: str
-j: list[str]
-for i, j in zip(words, meanings):
-    _mean_all[i] = j
+i_word: str
+i_meanings: list[str]
+for i_word, i_meanings in zip(words, meanings):
+    _mean_all[i_word] = i_meanings
 
-_MODEL: Optional[Any] = None
+_MODEL_CACHE: dict[str, _SentenceTransformersModel] = {}
 
 
 class _SentenceTransformersModel:
@@ -54,14 +54,16 @@ class _SentenceTransformersModel:
 
         embedding_1 = self.model.encode(sentences1, convert_to_tensor=True)
         embedding_2 = self.model.encode(sentences2, convert_to_tensor=True)
-        return 1 - util.pytorch_cos_sim(embedding_1, embedding_2)[0][0].item()  # type: ignore[no-any-return]
+        return float(
+            1 - util.pytorch_cos_sim(embedding_1, embedding_2)[0][0].item()
+        )
 
 
 def get_sense(
     sentence: str,
     word: str,
     device: str = "cpu",
-    custom_dict: Optional[dict] = None,
+    custom_dict: Optional[dict[str, list[str]]] = None,
     custom_tokenizer: Tokenizer = _word_cut,
 ) -> list[tuple[str, float]]:
     """Get word sense from the sentence.
@@ -70,7 +72,8 @@ def get_sense(
     :param str sentence: Thai sentence
     :param str word: Thai word
     :param str device: device for running model on.
-    :param dict custom_dict: Thai dictionary {"word":["definition",..]}
+    :param Optional[dict[str, list[str]]] custom_dict: Thai dictionary in the
+        form {"word": ["definition", ...]}
     :param Tokenizer custom_tokenizer: Tokenizer used to tokenize words in \
         sentence.
     :return: a list of definitions and distances (1 - cos_sim) or \
@@ -107,7 +110,6 @@ def get_sense(
         #  ('ชื่อขนมชนิดหนึ่งจำพวกขนมเค้ก แต่ทำเป็นชิ้นเล็ก ๆ แบน ๆ แล้วอบให้กรอบ',
         #   0.12473666667938232)]
     """
-    global _MODEL
     if not custom_dict:
         custom_dict = _mean_all
 
@@ -115,24 +117,24 @@ def get_sense(
     if word not in set(custom_dict.keys()) or word not in sentence:
         return []
 
-    if not _MODEL:
-        _MODEL = _SentenceTransformersModel(device=device)
-    if _MODEL.device != device:
-        _MODEL.change_device(device=device)
+    if device not in _MODEL_CACHE:
+        _MODEL_CACHE[device] = _SentenceTransformersModel(device=device)
+
+    model = _MODEL_CACHE[device]
 
     temp_mean = custom_dict[word]
-    temp = []
-    for i in temp_mean:
-        _temp_2 = []
-        for j in w:
-            if j == word:
-                j = (
+    temp: list[tuple[str, float]] = []
+    for meaning in temp_mean:
+        tokens_with_sense: list[str] = []
+        for token in w:
+            if token == word:
+                token = (
                     word
                     + f" ({word} ความหมาย '"
-                    + i.replace("(", "").replace(")", "")
+                    + meaning.replace("(", "").replace(")", "")
                     + "') "
                 )
-            _temp_2.append(j)
-        temp.append((i, _MODEL.get_score(sentence, "".join(_temp_2))))
+            tokens_with_sense.append(token)
+        temp.append((meaning, model.get_score(sentence, "".join(tokens_with_sense))))
 
     return temp

@@ -122,13 +122,13 @@ class WordNetAug:
     """Text Augment using wordnet"""
 
     synonyms: list[str]
-    list_synsets: list
+    list_synsets: list[Synset]
     p2w_pos: Optional[str]
     synset: Synset
     syn: str
     synonyms_without_duplicates: list[str]
     list_words: list[str]
-    list_synonym: list
+    list_synonym: list[list[str]]
     p_all: int
     list_pos: list[tuple[str, str]]
     temp: list[str]
@@ -152,15 +152,15 @@ class WordNetAug:
         """
         self.synonyms: list[str] = []
         if pos is None:
-            self.list_synsets: list = wordnet.synsets(word)
+            self.list_synsets: list[Synset] = wordnet.synsets(word)
         else:
             self.p2w_pos: Optional[str] = postype2wordnet(pos, postag_corpus)
             if self.p2w_pos != "":
-                self.list_synsets: list = wordnet.synsets(
+                self.list_synsets: list[Synset] = wordnet.synsets(
                     word, pos=self.p2w_pos
                 )
             else:
-                self.list_synsets: list = wordnet.synsets(word)
+                self.list_synsets: list[Synset] = wordnet.synsets(word)
 
         for self.synset in wordnet.synsets(word):
             for self.syn in self.synset.lemma_names(lang="tha"):
@@ -206,7 +206,7 @@ class WordNetAug:
         """
         new_sentences = []
         self.list_words: list[str] = tokenize(sentence)
-        self.list_synonym: list = []
+        self.list_synonym: list[list[str]] = []
         self.p_all: int = 1
         if postag:
             self.list_pos: list[tuple[str, str]] = pos_tag(

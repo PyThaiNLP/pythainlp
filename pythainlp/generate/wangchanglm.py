@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, cast
 
 if TYPE_CHECKING:
     import pandas as pd
@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 class WangChanGLM:
-    exclude_pattern: "re.Pattern"
+    exclude_pattern: "re.Pattern[str]"
     stop_token: str
     PROMPT_DICT: dict[str, str]
     device: str
@@ -25,7 +25,7 @@ class WangChanGLM:
     exclude_ids: list[int]
 
     def __init__(self) -> None:
-        self.exclude_pattern: "re.Pattern" = re.compile(r"[^ก-๙]+")
+        self.exclude_pattern: "re.Pattern[str]" = re.compile(r"[^ก-๙]+")
         self.stop_token: str = "\n"  # noqa: S105
         self.PROMPT_DICT: dict[str, str] = {
             "prompt_input": (
@@ -137,9 +137,12 @@ class WangChanGLM:
                     typical_p=typical_p,
                     temperature=temperature,  # 0.9
                 )
-        return self.tokenizer.decode(  # type: ignore[no-any-return]
-            output_tokens[0][len(batch["input_ids"][0]) :],
-            skip_special_tokens=skip_special_tokens,
+        return cast(
+            str,
+            self.tokenizer.decode(
+                output_tokens[0][len(batch["input_ids"][0]) :],
+                skip_special_tokens=skip_special_tokens,
+            ),
         )
 
     def instruct_generate(

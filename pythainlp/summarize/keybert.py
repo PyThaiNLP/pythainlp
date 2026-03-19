@@ -13,7 +13,7 @@ https://github.com/MaartenGr/KeyBERT
 from __future__ import annotations
 
 from collections import Counter
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Optional, Union, cast
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
@@ -22,6 +22,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
 
     import numpy as np
+    from numpy.typing import NDArray
     from transformers.pipelines.base import Pipeline
 
 
@@ -112,11 +113,11 @@ class KeyBERT:
         """
         try:
             text = text.strip()
-        except AttributeError:
+        except AttributeError as exc:
             raise AttributeError(
                 f"Unable to process data of type {type(text)}. "
                 f"Please provide input of string type."
-            )
+            ) from exc
 
         if not text:
             return []
@@ -141,22 +142,29 @@ class KeyBERT:
         else:
             return [kw for kw, _ in keywords]
 
-    def embed(self, docs: Union[str, list[str]]) -> np.ndarray:
-        """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer."""
+    def embed(self, docs: Union[str, list[str]]) -> "NDArray[np.float32]":
+        """Create embeddings by averaging vectors from the last hidden layer.
+
+        :param Union[str, list[str]] docs: input document or documents
+        :return: embeddings as a float32 array with one row per input document
+        :rtype: numpy.typing.NDArray[numpy.float32]
+        """
         import numpy as np
 
         embs = self.ft_pipeline(docs)
         if isinstance(docs, str) or len(docs) == 1:
             # embed doc. return shape = [1, hidden_size]
-            emb_mean = np.array(embs).mean(axis=1)
+            emb_mean = np.array(embs, dtype=np.float32).mean(
+                axis=1, dtype=np.float32
+            )
         else:
             # mean of embedding of each word
             # return shape = [len(docs), hidden_size]
             emb_mean = np.stack(
                 [np.array(emb[0]).mean(axis=0) for emb in embs]
-            )
+            ).astype(np.float32)
 
-        return emb_mean
+        return cast("NDArray[np.float32]", emb_mean)
 
 
 def _generate_ngrams(
@@ -210,25 +218,28 @@ def _generate_ngrams(
 
 
 def _rank_keywords(
-    doc_vector: np.ndarray,
-    word_vectors: np.ndarray,
+    doc_vector: "NDArray[np.float32]",
+    word_vectors: "NDArray[np.float32]",
     keywords: list[str],
     max_keywords: int,
 ) -> list[tuple[str, float]]:
     import numpy as np
 
-    def l2_norm(v: np.ndarray) -> np.ndarray:
+    def l2_norm(v: "NDArray[np.float32]") -> "NDArray[np.float32]":
         vec_size = v.shape[1]
         result = np.divide(
             v,
             np.linalg.norm(v, axis=1).reshape(-1, 1).repeat(vec_size, axis=1),
+            dtype=np.float32,
         )
         if not np.isclose(np.linalg.norm(result, axis=1), 1).all():
             raise ValueError("Cannot normalize a vector to unit vector.")
-        return result
+        return cast("NDArray[np.float32]", result)
 
-    def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:
-        return (np.matmul(a, b.T).T).sum(axis=1)
+    def cosine_sim(
+        a: "NDArray[np.float32]", b: "NDArray[np.float32]"
+    ) -> "NDArray[np.float32]":
+        return cast("NDArray[np.float32]", (np.matmul(a, b.T).T).sum(axis=1))
 
     doc_vector = l2_norm(doc_vector)
     word_vectors = l2_norm(word_vectors)
@@ -236,6 +247,7 @@ def _rank_keywords(
     ranking_desc = np.argsort(-cosine_sims)
 
     final_ranks = [
-        (keywords[r], cosine_sims[r]) for r in ranking_desc[:max_keywords]
+        (keywords[r], float(cosine_sims[r]))
+        for r in ranking_desc[:max_keywords]
     ]
     return final_ranks

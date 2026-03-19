@@ -38,7 +38,9 @@ def rhyme(word: str) -> list[str]:
         # output: ['กลีบ', 'กีบ', 'ครีบ', ...]
     """
     return sorted(
-        i for i in _single_syllable_thai_words() if kv.is_sumpus(word, i) and i != word
+        i
+        for i in _single_syllable_thai_words()
+        if kv.is_sumpus(word, i) and i != word
     )
 
 

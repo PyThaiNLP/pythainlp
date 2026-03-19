@@ -13,7 +13,7 @@ _STOPWORDS: frozenset[str] = thai_stopwords()
 
 def rank(
     words: list[str], exclude_stopwords: bool = False
-) -> Optional[Counter]:
+) -> Optional[Counter[str]]:
     """Count word frequencies given a list of Thai words with an option
     to exclude stopwords.
 
@@ -23,8 +23,9 @@ def rank(
                                    Otherwise, the stopwords will be counted.
                                    By default, `exclude_stopwords`is
                                    set to **False**
-    :return: a Counter object representing word frequencies in the text
-    :rtype: :class:`collections.Counter`
+    :return: a Counter object representing word frequencies in the text,
+             or None if `words` is empty
+    :rtype: Optional[collections.Counter[str]]
 
     :Example:
 

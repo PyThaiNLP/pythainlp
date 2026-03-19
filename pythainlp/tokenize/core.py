@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import re
 from collections import deque
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Optional, Union, cast
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -637,7 +637,7 @@ def paragraph_tokenize(
             It might be a typo; if not, please consult our document."""
         )
 
-    return segments  # type: ignore[return-value]
+    return cast(list[list[str]], segments)
 
 
 def subword_tokenize(

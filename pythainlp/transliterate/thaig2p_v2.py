@@ -9,7 +9,7 @@ huggingface: https://huggingface.co/pythainlp/thaig2p-v2.0
 # Use a pipeline as a high-level helper
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, cast
 
 if TYPE_CHECKING:
     from transformers import Pipeline
@@ -39,7 +39,8 @@ class ThaiG2P:
         )
 
     def g2p(self, text: str) -> str:
-        return self.pipe(text)[0]["generated_text"]  # type: ignore[no-any-return]
+        outputs = cast(list[dict[str, str]], self.pipe(text))
+        return outputs[0]["generated_text"]
 
 
 _THAI_G2P: Optional[ThaiG2P] = None

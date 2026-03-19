@@ -65,7 +65,7 @@ FAIRSEQ_LANGUAGE_CODES: dict[str, list[str]] = {
 # fmt: on
 
 
-class SMALL100Tokenizer(PreTrainedTokenizer):
+class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
     """Construct an SMALL100 tokenizer. Based on [SentencePiece](https://github.com/google/sentencepiece).
     This tokenizer inherits from [`PreTrainedTokenizer`] which contains most of the main methods. Users should refer to
     this superclass for more information regarding those methods.
@@ -243,7 +243,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         self.set_lang_special_tokens(self._tgt_lang)
 
     def _tokenize(self, text: str) -> list[str]:
-        return self.sp_model.encode(text, out_type=str)  # type: ignore[no-any-return]
+        return cast(list[str], self.sp_model.encode(text, out_type=str))
 
     def _convert_token_to_id(self, token: str) -> int:
         if token in self.lang_token_to_id:
@@ -256,12 +256,12 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
             return self.id_to_lang_token[index]
         token = self.decoder.get(index, self.unk_token)
         if token is None:
-            return self.unk_token  # type: ignore[no-any-return]
+            return cast(str, self.unk_token)
         return token
 
     def convert_tokens_to_string(self, tokens: list[str]) -> str:
         """Converts a sequence of tokens (strings for sub-words) in a single string."""
-        return self.sp_model.decode(tokens)  # type: ignore[no-any-return]
+        return cast(str, self.sp_model.decode(tokens))
 
     def get_special_tokens_mask(
         self,
@@ -289,10 +289,13 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         """
         if already_has_special_tokens:
             # External library method
-            return super().get_special_tokens_mask(  # type: ignore[no-any-return]
-                token_ids_0=token_ids_0,
-                token_ids_1=token_ids_1,
-                already_has_special_tokens=True,
+            return cast(
+                list[int],
+                super().get_special_tokens_mask(
+                    token_ids_0=token_ids_0,
+                    token_ids_1=token_ids_1,
+                    already_has_special_tokens=True,
+                ),
             )
 
         prefix_ones = (
@@ -349,20 +352,20 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
                 + self.suffix_tokens
             )
 
-    def get_vocab(self) -> dict:
+    def get_vocab(self) -> dict[str, int]:
         vocab = {
             self.convert_ids_to_tokens(i): i for i in range(self.vocab_size)
         }
         vocab.update(self.added_tokens_encoder)
         return vocab
 
-    def __getstate__(self) -> dict:
+    def __getstate__(self) -> dict[str, Any]:
         state = self.__dict__.copy()
         state["sp_model"] = None
         return state
 
-    def __setstate__(self, d: dict) -> None:
-        self.__dict__: dict = d
+    def __setstate__(self, d: dict[str, Any]) -> None:
+        self.__dict__: dict[str, Any] = d
 
         # for backward compatibility
         if not hasattr(self, "sp_model_kwargs"):
@@ -425,7 +428,7 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
             )
         self.tgt_lang: str = tgt_lang
         inputs = self(raw_inputs, add_special_tokens=True, **extra_kwargs)
-        return inputs  # type: ignore[no-any-return]
+        return cast(dict[str, Any], inputs)
 
     def _switch_to_input_mode(self) -> None:
         self.set_lang_special_tokens(self.tgt_lang)
@@ -462,7 +465,7 @@ def load_spm(
 
 def load_json(path: str) -> Union[dict[str, str], list[str]]:
     with open(path) as f:
-        return json.load(f)  # type: ignore[no-any-return]
+        return cast(Union[dict[str, str], list[str]], json.load(f))
 
 
 def save_json(

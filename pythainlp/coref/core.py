@@ -3,16 +3,16 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Any, Optional, Union
+from typing import Any, Union, cast
 
-_MODEL: Optional[Any] = None
+_MODEL_CACHE: dict[tuple[str, str], Any] = {}
 
 
 def coreference_resolution(
     texts: Union[str, list[str]],
     model_name: str = "han-coref-v1.0",
     device: str = "cpu",
-) -> list[dict]:
+) -> list[dict[str, Any]]:
     """Coreference Resolution
 
     :param Union[str, list[str]] texts: list of texts to apply coreference resolution to
@@ -20,7 +20,7 @@ def coreference_resolution(
     :param str device: device for running coreference resolution model on\
         ("cpu", "cuda", and others)
     :return: List of texts with coreference resolution
-    :rtype: list[dict]
+    :rtype: list[dict[str, Any]]
 
     :Options for model_name:
         * *han-coref-v1.0* - (default) Han-Coref: Thai coreference resolution\
@@ -43,17 +43,18 @@ def coreference_resolution(
         # 'clusters': [[(0, 10), (50, 52)]]}
         # ]
     """
-    global _MODEL
     if isinstance(texts, str):
         texts = [texts]
 
-    if _MODEL is None and model_name == "han-coref-v1.0":
+    model_key = (model_name, device)
+    if model_key not in _MODEL_CACHE and model_name == "han-coref-v1.0":
         from pythainlp.coref.han_coref import HanCoref
 
-        _MODEL = HanCoref(device=device)
+        _MODEL_CACHE[model_key] = HanCoref(device=device)
 
-    if _MODEL:
-        return _MODEL.predict(texts)  # type: ignore[no-any-return]
+    model = _MODEL_CACHE.get(model_key)
+    if model is not None:
+        return cast(list[dict[str, Any]], model.predict(texts))
 
     return [
         {"text": text, "clusters_string": [], "clusters": []} for text in texts

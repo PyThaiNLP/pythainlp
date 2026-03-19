@@ -119,7 +119,7 @@ class ThaiTransliterator:
         return "".join(target)
 
 
-class Encoder(nn.Module):
+class Encoder(nn.Module):  # type: ignore[misc]
     hidden_size: int
     character_embedding: nn.Embedding
     rnn: nn.LSTM
@@ -196,7 +196,7 @@ class Encoder(nn.Module):
         return (h_0, c_0)
 
 
-class Attn(nn.Module):
+class Attn(nn.Module):  # type: ignore[misc]
     method: str
     hidden_size: int
     attn: nn.Linear
@@ -252,7 +252,7 @@ class Attn(nn.Module):
         return F.softmax(attn_energies, 1)
 
 
-class AttentionDecoder(nn.Module):
+class AttentionDecoder(nn.Module):  # type: ignore[misc]
     vocabulary_size: int
     hidden_size: int
     character_embedding: nn.Embedding
@@ -320,7 +320,7 @@ class AttentionDecoder(nn.Module):
         return x, hidden[0], attn_weights
 
 
-class Seq2Seq(nn.Module):
+class Seq2Seq(nn.Module):  # type: ignore[misc]
     encoder: Encoder
     decoder: AttentionDecoder
     pad_idx: int

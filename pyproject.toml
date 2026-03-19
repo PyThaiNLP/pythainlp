@@ -83,11 +83,7 @@ dev = [
     "tox>=4.30.3",
 ]
 
-docs = [
-    "Sphinx>=6.2",
-    "sphinx-copybutton>=0.5.2",
-    "sphinx-rtd-theme>=3.1.0",
-]
+docs = ["Sphinx>=6.2", "sphinx-copybutton>=0.5.2", "sphinx-rtd-theme>=3.1.0"]
 
 ## 2) Feature sets #######################################
 
@@ -217,10 +213,7 @@ noauto-torch = [
 ]
 
 # TensorFlow-based dependencies - for tests.noauto_tensorflow
-noauto-tensorflow = [
-    "deepcut>=0.7.0",
-    "numpy>=1.26.0",
-]
+noauto-tensorflow = ["deepcut>=0.7.0", "numpy>=1.26.0"]
 
 # ONNX Runtime-based dependencies - for tests.noauto_onnx
 noauto-onnx = [
@@ -231,15 +224,11 @@ noauto-onnx = [
 ]
 
 # Cython-based dependencies - for tests.noauto_cython
-noauto-cython = [
-    "phunspell>=0.1.6",
-]
+noauto-cython = ["phunspell>=0.1.6"]
 
 # Network-dependent tests - for tests.noauto_network
 # These tests require network access but minimal dependencies
-noauto-network = [
-    "huggingface-hub>=0.16.0",
-]
+noauto-network = ["huggingface-hub>=0.16.0"]
 
 # Full dependencies - pinned where available
 full = [
@@ -304,12 +293,7 @@ thainlp = "pythainlp.__main__:main"
 packages = ["pythainlp"]
 
 [tool.hatch.build.targets.sdist]
-include = [
-    "pythainlp/",
-    "tests/",
-    "LICENSE",
-    "README.md",
-]
+include = ["pythainlp/", "tests/", "LICENSE", "README.md"]
 
 # Bumpversion configuration
 [tool.bumpversion]
@@ -399,7 +383,17 @@ select = [
 extend-ignore = ["E402", "E501", "E722", "S101", "S202", "S301", "S310"]
 
 [tool.tox]
-env_list = ["py39", "py310", "py311", "py312", "py313", "py314", "pypy310", "pypy311", "ruff"]
+env_list = [
+    "py39",
+    "py310",
+    "py311",
+    "py312",
+    "py313",
+    "py314",
+    "pypy310",
+    "pypy311",
+    "ruff",
+]
 skip_missing_interpreters = true
 
 [tool.tox.env_run_base]
@@ -414,8 +408,20 @@ basepython = "pypy3.11"
 
 [tool.tox.env.ruff]
 basepython = "python"
-deps = ["ruff"]
-commands = [["ruff", "check", "pythainlp"], ["ruff", "format", "--check", "pythainlp"]]
+deps = "ruff"
+commands = [
+    [
+        "ruff",
+        "check",
+        "pythainlp",
+    ],
+    [
+        "ruff",
+        "format",
+        "--check",
+        "pythainlp",
+    ],
+]
 skip_install = true
 
 # Mypy configuration
@@ -432,71 +438,116 @@ warn_redundant_casts = true
 warn_unused_ignores = true
 warn_no_return = true
 warn_unreachable = true
+strict = true
 strict_equality = true
+strict_equality_for_none = true
 show_error_codes = true
 show_column_numbers = true
 pretty = true
 
 # Per-module options for stricter checking on foundation modules
 [[tool.mypy.overrides]]
-module = [
-    "pythainlp.tools.*",
-    "pythainlp.cli.*",
-]
+module = ["pythainlp.tools.*", "pythainlp.cli.*"]
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
 
 # Ignore missing imports for optional dependencies
 [[tool.mypy.overrides]]
 module = [
+    "attacut",
     "attacut.*",
+    "attaparse",
     "attaparse.*",
+    "bpemb",
     "bpemb.*",
+    "budoux",
     "budoux.*",
+    "deepcut",
     "deepcut.*",
+    "emoji",
     "emoji.*",
+    "epitran",
     "epitran.*",
+    "esupar",
     "esupar.*",
+    "fairseq",
     "fairseq.*",
+    "fastai",
     "fastai.*",
+    "fastcoref",
     "fastcoref.*",
+    "gensim",
     "gensim.*",
+    "huggingface_hub",
     "huggingface_hub.*",
+    "icu",
     "icu.*",
     "importlib_resources",
     "importlib_resources.*",
+    "khamyo",
     "khamyo.*",
+    "khanaa",
     "khanaa.*",
+    "multiel",
     "multiel.*",
+    "nltk",
     "nltk.*",
+    "nlpo3",
     "nlpo3.*",
+    "numpy",
     "numpy.*",
+    "onnxruntime",
     "onnxruntime.*",
+    "oskut",
     "oskut.*",
+    "pandas",
     "pandas.*",
+    "panphon",
     "panphon.*",
+    "phunspell",
     "phunspell.*",
+    "pycrfsuite",
     "pycrfsuite.*",
+    "pyicu",
     "pyicu.*",
+    "sacremoses",
     "sacremoses.*",
+    "sefr_cut",
     "sefr_cut.*",
+    "sentencepiece",
     "sentencepiece.*",
+    "sentence_transformers",
     "sentence_transformers.*",
+    "spacy",
     "spacy.*",
+    "spacy_thai",
     "spacy_thai.*",
+    "ssg",
     "ssg.*",
+    "stanza",
     "stanza.*",
+    "symspellpy",
     "symspellpy.*",
+    "thai_nner",
     "thai_nner.*",
+    "tltk",
     "tltk.*",
+    "torch",
     "torch.*",
+    "tqdm",
     "tqdm.*",
+    "transformers",
     "transformers.*",
+    "ufal",
     "ufal.*",
     "ufal.chu_liu_edmonds.*",
+    "word2word",
     "word2word.*",
+    "wtpsplit",
     "wtpsplit.*",
+    "wunsen",
     "wunsen.*",
+    "yaml",
     "yaml.*",
 ]
 ignore_missing_imports = true

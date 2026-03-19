@@ -12,6 +12,8 @@ Thai Language Toolkit
 
 from __future__ import annotations
 
+from typing import cast
+
 try:
     from tltk.nlp import spell_candidates
 except ImportError:
@@ -21,4 +23,4 @@ except ImportError:
 
 
 def spell(text: str) -> list[str]:
-    return spell_candidates(text)  # type: ignore[no-any-return]
+    return cast(list[str], spell_candidates(text))

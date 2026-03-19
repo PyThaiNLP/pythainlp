@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import cast
+
 try:
     from tltk.nlp import g2p, th2ipa, th2roman
 except ImportError:
@@ -20,19 +22,24 @@ def romanize(text: str) -> str:
     """
     # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)
     text = text.replace("ฅ", "ค")
-    _temp = th2roman(text)
-    return _temp[: _temp.rfind(" <s/>")].replace("<s/>", "")  # type: ignore[no-any-return]
+    _temp = cast(str, th2roman(text))
+    return _temp[: _temp.rfind(" <s/>")].replace("<s/>", "")
 
 
 def tltk_g2p(text: str) -> str:
     # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)
     text = text.replace("ฅ", "ค")
-    _temp = g2p(text).split("<tr/>")[1].replace("|<s/>", "").replace("|", " ")
-    return _temp.replace("<s/>", "")  # type: ignore[no-any-return]
+    _temp = (
+        cast(str, g2p(text))
+        .split("<tr/>")[1]
+        .replace("|<s/>", "")
+        .replace("|", " ")
+    )
+    return _temp.replace("<s/>", "")
 
 
 def tltk_ipa(text: str) -> str:
     # Replace ฅ with ค to avoid KeyError in tltk (out-of-vocabulary issue)
     text = text.replace("ฅ", "ค")
-    _temp = th2ipa(text)
-    return _temp[: _temp.rfind(" <s/>")].replace("<s/>", "")  # type: ignore[no-any-return]
+    _temp = cast(str, th2ipa(text))
+    return _temp[: _temp.rfind(" <s/>")].replace("<s/>", "")

@@ -21,7 +21,7 @@ from __future__ import annotations
 
 import json
 from collections import defaultdict
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -202,7 +202,7 @@ class PerceptronTagger:
 
         # save the model as JSON
         if save_loc is not None:
-            data: dict[str, Union[dict, list]] = {}
+            data: dict[str, Any] = {}
             data["weights"] = self.model.weights
             data["tagdict"] = self.tagdict
             data["classes"] = list(self.classes)

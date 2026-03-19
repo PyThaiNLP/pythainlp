@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from onnxruntime import InferenceSession
 
@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     from typing import Dict, List
 
     import numpy as np
+    from numpy.typing import NDArray
 
 _MODEL_ENCODER_NAME: str = "thai2rom_encoder_onnx"
 _MODEL_DECODER_NAME: str = "thai2rom_decoder_onnx"
@@ -58,7 +59,7 @@ class ThaiTransliterator_ONNX:
             )
 
         # loader = torch.load(self.__model_filename, map_location=device)
-        with open(str(self.__config_filename)) as f:
+        with open(str(self.__config_filename), encoding="utf-8") as f:
             loader = json.load(f)
 
         OUTPUT_DIM = loader["output_dim"]
@@ -89,8 +90,13 @@ class ThaiTransliterator_ONNX:
             target_vocab_size=OUTPUT_DIM,
         )
 
-    def _prepare_sequence_in(self, text: str) -> "np.ndarray":
-        """Prepare input sequence for ONNX"""
+    def _prepare_sequence_in(self, text: str) -> "NDArray[np.int64]":
+        """Prepare an int64 input sequence for the ONNX encoder.
+
+        :param str text: Thai text to encode
+        :return: encoded character ids ending with the ``<end>`` token
+        :rtype: numpy.typing.NDArray[numpy.int64]
+        """
         import numpy as np
 
         idxs = []
@@ -100,7 +106,7 @@ class ThaiTransliterator_ONNX:
             else:
                 idxs.append(self._char_to_ix["<UNK>"])
         idxs.append(self._char_to_ix["<end>"])
-        return np.array(idxs)
+        return np.array(idxs, dtype=np.int64)
 
     def romanize(self, text: str) -> str:
         """:param str text: Thai text to be romanized
@@ -153,13 +159,31 @@ class Seq2Seq_ONNX:
 
         self.target_vocab_size: int = target_vocab_size
 
-    def create_mask(self, source_seq: "np.ndarray") -> "np.ndarray":
+    def create_mask(
+        self, source_seq: "NDArray[np.int64]"
+    ) -> "NDArray[np.bool_]":
+        """Create a boolean mask for non-padding positions.
+
+        :param numpy.typing.NDArray[numpy.int64] source_seq: encoded source
+            sequence
+        :return: boolean mask where True marks non-padding positions
+        :rtype: numpy.typing.NDArray[numpy.bool_]
+        """
         mask = source_seq != self.pad_idx
-        return mask
+        return cast("NDArray[np.bool_]", mask)
 
     def run(
-        self, source_seq: "np.ndarray", source_seq_len: List[int]
-    ) -> "np.ndarray":
+        self, source_seq: "NDArray[np.int64]", source_seq_len: List[int]
+    ) -> "NDArray[np.float32]":
+        """Run ONNX seq2seq decoding and return logits.
+
+        :param numpy.typing.NDArray[numpy.int64] source_seq: encoded source
+            sequence with shape ``(batch_size, sequence_length)``
+        :param List[int] source_seq_len: unpadded source lengths
+        :return: decoder logits as a float32 array with shape
+            ``(decoded_length, batch_size, target_vocab_size)``
+        :rtype: numpy.typing.NDArray[numpy.float32]
+        """
         # source_seq: (batch_size, MAX_LENGTH)
         # source_seq_len: (batch_size, 1)
         # target_seq: (batch_size, MAX_LENGTH)
@@ -171,7 +195,9 @@ class Seq2Seq_ONNX:
         max_len = self.max_length
         # target_vocab_size = self.decoder.vocabulary_size
 
-        outputs = np.zeros((max_len, batch_size, self.target_vocab_size))
+        outputs: "NDArray[np.float32]" = np.zeros(
+            (max_len, batch_size, self.target_vocab_size), dtype=np.float32
+        )
 
         expected_encoder_outputs = [
             output.name for output in self.encoder.get_outputs()
@@ -201,7 +227,7 @@ class Seq2Seq_ONNX:
         mask = self.create_mask(source_seq[:, 0:max_source_len])
 
         for di in range(max_len):
-            decoder_output, decoder_hidden = self.decoder.run(
+            decoder_output_raw, decoder_hidden = self.decoder.run(
                 input_feed={
                     "decoder_input": decoder_input.astype("int32"),
                     "decoder_hidden_1": decoder_hidden,
@@ -213,13 +239,14 @@ class Seq2Seq_ONNX:
                     self.decoder.get_outputs()[1].name,
                 ],
             )
+            decoder_output = cast("NDArray[np.float32]", decoder_output_raw)
 
             topi = np.argmax(decoder_output, axis=1)
             outputs[di] = decoder_output
 
-            decoder_input = np.array([topi])
+            decoder_input = np.array([topi], dtype=np.int64)
 
-            if decoder_input == end_token:
+            if (decoder_input == end_token).all():
                 return outputs[:di]
 
         return outputs

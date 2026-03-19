@@ -42,7 +42,9 @@ class Word2VecAug:
             _gensim_kv_logger.addFilter(_filter)
             try:
                 if type == "file":
-                    self.model = word2vec.KeyedVectors.load_word2vec_format(model)
+                    self.model = word2vec.KeyedVectors.load_word2vec_format(
+                        model
+                    )
                 else:
                     self.model = word2vec.KeyedVectors.load_word2vec_format(
                         model, binary=True, unicode_errors="ignore"

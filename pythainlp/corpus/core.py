@@ -13,7 +13,7 @@ import tarfile
 import zipfile
 from functools import lru_cache
 from importlib.resources import files
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
@@ -50,7 +50,7 @@ class _ResponseWrapper:
     def json(self) -> dict[str, Any]:
         """Parse JSON content from response."""
         try:
-            return json.loads(self._content.decode("utf-8"))  # type: ignore[no-any-return]
+            return cast(dict[str, Any], json.loads(self._content.decode("utf-8")))
         except (json.JSONDecodeError, UnicodeDecodeError) as err:
             raise ValueError(f"Failed to parse JSON response: {err}") from err
 
@@ -98,14 +98,13 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict[str, Any]:
     if not version:
         for corpus in local_db["_default"].values():
             if corpus["name"] == name:
-                return corpus  # type: ignore[no-any-return]
+                return cast(dict[str, Any], corpus)
     else:
         for corpus in local_db["_default"].values():
             if corpus["name"] == name and corpus["version"] == version:
-                return corpus  # type: ignore[no-any-return]
+                return cast(dict[str, Any], corpus)
 
     return {}
-
 
 
 @lru_cache(maxsize=None)
@@ -221,7 +220,7 @@ def _load_default_db() -> dict[str, Any]:
     corpus_files = files("pythainlp.corpus")
     default_db_file = corpus_files.joinpath("default_db.json")
     text = default_db_file.read_text(encoding="utf-8-sig")
-    return json.loads(text)  # type: ignore[no-any-return]
+    return cast(dict[str, Any], json.loads(text))
 
 
 def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
@@ -848,7 +847,6 @@ def remove(name: str) -> bool:
     return False
 
 
-
 def make_safe_directory_name(name: str) -> str:
     """Make safe directory name
 
@@ -921,4 +919,4 @@ def get_hf_hub(repo_id: str, filename: str = "") -> str:
         output_path = snapshot_download(
             repo_id=repo_id, local_dir=root_project
         )
-    return output_path  # type: ignore[no-any-return]
+    return output_path

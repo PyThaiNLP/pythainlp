@@ -9,7 +9,7 @@ Nested Named Entity Recognition for Thai text.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 from pythainlp.corpus import get_corpus_path
 
@@ -18,12 +18,13 @@ if TYPE_CHECKING:
 
 __all__: list[str] = ["ThaiNNER"]
 
-
-def _is_contained_in(entity: dict, container: dict) -> bool:
+def _is_contained_in(
+    entity: dict[str, Any], container: dict[str, Any]
+) -> bool:
     """Check if an entity is strictly contained within a container entity.
 
-    :param dict entity: Entity to check
-    :param dict container: Potential container entity
+    :param dict[str, Any] entity: Entity to check
+    :param dict[str, Any] container: Potential container entity
     :return: True if entity is strictly contained in container
     :rtype: bool
     """
@@ -39,17 +40,20 @@ def _is_contained_in(entity: dict, container: dict) -> bool:
     )
 
 
-def get_top_level_entities(entities: list[dict]) -> list[dict]:
+def get_top_level_entities(
+    entities: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
     """Extract only top-level (outermost) entities from nested NER results.
 
     In nested NER, entities can contain other entities. This function filters
     the results to return only the outermost entities that are not contained
     within other entity.
 
-    :param list[dict] entities: List of entity dictionaries with 'span',
-                                'text', and 'entity_type' keys
+    :param list[dict[str, Any]] entities: List of entity dictionaries with
+                                          'span', 'text', and 'entity_type'
+                                          keys
     :return: List of top-level entities only
-    :rtype: list[dict]
+    :rtype: list[dict[str, Any]]
 
     :Example:
     ::
@@ -76,7 +80,7 @@ def get_top_level_entities(entities: list[dict]) -> list[dict]:
         entities, key=lambda x: (x["span"][0], -x["span"][1])
     )
 
-    top_level: list[dict] = []
+    top_level: list[dict[str, Any]] = []
     for ent in sorted_entities:
         is_contained = False
         # Only check against entities already in top_level
@@ -98,8 +102,9 @@ class ThaiNNER:
     The model recognizes nested named entities in Thai text, supporting
     104 entity types across multiple levels of nesting.
 
-    :param str path_model: Path to the Thai-NNER model file.
-                           If not specified, downloads from PyThaiNLP corpus.
+    :param Optional[str] path_model: Path to the Thai-NNER model file.
+                                     If not specified, uses the default
+                                     PyThaiNLP corpus path.
 
     :Example:
     ::
@@ -115,7 +120,10 @@ class ThaiNNER:
     def __init__(self, path_model: Optional[str] = None) -> None:
         """Initialize ThaiNNER with model path.
 
-        :param Optional[str] path_model: Path to model file. If None, uses default corpus path.
+        :param Optional[str] path_model: Path to model file. If None, uses
+                                         the default corpus path.
+        :raises FileNotFoundError: If the Thai-NNER corpus is not available.
+        :raises ImportError: If the thai-nner library is not installed.
         """
         # Resolve path_model at runtime to avoid freezing the value at module import time
         if path_model is None:
@@ -135,15 +143,15 @@ class ThaiNNER:
         # 3. Clear error message only when ThaiNNER class is actually instantiated
         try:
             from thai_nner import NNER
-        except ImportError:
+        except ImportError as exc:
             raise ImportError(
                 "thai-nner library not found. Please install it with 'pip install thai-nner'."
-            )
+            ) from exc
         self.model: NNER = NNER(path_model=path_model)
 
     def tag(
         self, text: str, top_level_only: bool = False
-    ) -> tuple[list[str], list[dict]]:
+    ) -> tuple[list[str], list[dict[str, Any]]]:
         """Tag Thai text with nested named entities.
 
         :param str text: Thai text to tag
@@ -153,7 +161,7 @@ class ThaiNNER:
         :return: Tuple of (tokens, entities) where tokens is a list of
                  tokenized strings and entities is a list of dictionaries
                  containing 'text', 'span', and 'entity_type' keys.
-        :rtype: tuple[list[str], list[dict]]
+        :rtype: tuple[list[str], list[dict[str, Any]]]
 
         :Example:
         ::
@@ -210,6 +218,7 @@ class ThaiNNER:
             result = nner.get_ner("วันที่ 5 เมษายน 2565", tag=True)
             # 'วันที่ <DATE>5 เมษายน 2565</DATE>'
         """
+        _ = pos
         # Get tokens and entities, using only top-level to avoid overlaps in IOB
         tokens, entities = self.tag(text, top_level_only=True)
 
@@ -222,7 +231,7 @@ class ThaiNNER:
 
 
 def _entities_to_iob(
-    tokens: list[str], entities: list[dict]
+    tokens: list[str], entities: list[dict[str, Any]]
 ) -> list[tuple[str, str]]:
     """Convert Thai-NNER entity format to IOB format.
 
@@ -232,7 +241,8 @@ def _entities_to_iob(
     will overwrite the IOB tags of earlier entities.
 
     :param list[str] tokens: List of tokens
-    :param list[dict] entities: List of entity dictionaries (should be non-overlapping)
+    :param list[dict[str, Any]] entities: List of entity dictionaries
+                                          that should be non-overlapping
     :return: List of (token, tag) tuples in IOB format
     :rtype: list[tuple[str, str]]
     """
@@ -257,7 +267,7 @@ def _entities_to_iob(
     return result
 
 
-def _entities_to_html(tokens: list[str], entities: list[dict]) -> str:
+def _entities_to_html(tokens: list[str], entities: list[dict[str, Any]]) -> str:
     """Convert Thai-NNER entity format to HTML-like tags.
 
     This function assumes entities do not overlap. If entities overlap,
@@ -265,7 +275,7 @@ def _entities_to_html(tokens: list[str], entities: list[dict]) -> str:
     use only top-level entities (use get_top_level_entities() to filter).
 
     :param list[str] tokens: List of tokens
-    :param list[dict] entities: List of entity dictionaries
+    :param list[dict[str, Any]] entities: List of entity dictionaries
     :return: String with HTML-like entity tags
     :rtype: str
     """

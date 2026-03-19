@@ -189,7 +189,6 @@ class SecurityTestCase(unittest.TestCase):
             # in the _safe_extract_tar and _safe_extract_zip functions,
             # which check where symlinks actually point to.
 
-
     def test_get_full_data_path_safe(self):
         """Test that get_full_data_path returns a path within the data directory."""
         result = get_full_data_path("ttc_freq.txt")

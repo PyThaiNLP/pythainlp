@@ -45,9 +45,7 @@ class WngchanBerta_ONNX:
         self.model_name = model_name
         self.model_version = model_version
         self.options = SessionOptions()
-        self.options.graph_optimization_level = (
-            GraphOptimizationLevel.ORT_ENABLE_ALL
-        )
+        self.options.graph_optimization_level = GraphOptimizationLevel.ORT_ENABLE_ALL
         _corpus_base = get_corpus_path(self.model_name, self.model_version)
         if not _corpus_base:
             raise FileNotFoundError(self.model_name)
@@ -59,9 +57,7 @@ class WngchanBerta_ONNX:
         self.session.disable_fallback()
         self.outputs_name = self.session.get_outputs()[0].name
         self.sp = spm.SentencePieceProcessor(
-            model_file=safe_path_join(
-                _corpus_base, "sentencepiece.bpe.model"
-            )
+            model_file=safe_path_join(_corpus_base, "sentencepiece.bpe.model")
         )
         with open(
             safe_path_join(_corpus_base, "config.json"),
@@ -76,9 +72,7 @@ class WngchanBerta_ONNX:
         _t = [5] + [i + 4 for i in self.sp.encode(sent)] + [6]
         model_inputs = {}
         model_inputs["input_ids"] = np.array([_t], dtype=np.int64)
-        model_inputs["attention_mask"] = np.array(
-            [[1] * len(_t)], dtype=np.int64
-        )
+        model_inputs["attention_mask"] = np.array([[1] * len(_t)], dtype=np.int64)
         return model_inputs
 
     def postprocess(self, logits_data: "np.ndarray") -> "np.ndarray":
@@ -90,9 +84,7 @@ class WngchanBerta_ONNX:
         scores = shifted_exp / shifted_exp.sum(axis=-1, keepdims=True)
         return scores
 
-    def clean_output(
-        self, list_text: list[tuple[str, str]]
-    ) -> list[tuple[str, str]]:
+    def clean_output(self, list_text: list[tuple[str, str]]) -> list[tuple[str, str]]:
         return list_text
 
     def totag(self, post: np.ndarray, sent: str) -> list[tuple[str, str]]:
@@ -102,25 +94,21 @@ class WngchanBerta_ONNX:
             tag.append(
                 (
                     _s[i],
-                    self.id2tag[
-                        str(list(post[i + 1]).index(max(list(post[i + 1]))))
-                    ],
+                    self.id2tag[str(list(post[i + 1]).index(max(list(post[i + 1]))))],
                 )
             )
         return tag
 
-    def _config(
-        self, list_ner: list[tuple[str, str]]
-    ) -> list[tuple[str, str]]:
+    def _config(self, list_ner: list[tuple[str, str]]) -> list[tuple[str, str]]:
         return list_ner
 
     def get_ner(
         self, text: str, tag: bool = False
     ) -> Union[str, list[tuple[str, str]]]:
         self._s: dict[str, "np.ndarray"] = self.build_tokenizer(text)
-        logits = self.session.run(
-            output_names=[self.outputs_name], input_feed=self._s
-        )[0]
+        logits = self.session.run(output_names=[self.outputs_name], input_feed=self._s)[
+            0
+        ]
         _tag = self.clean_output(self.totag(self.postprocess(logits), text))
         if tag:
             _tag = self._config(_tag)

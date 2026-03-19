@@ -50,14 +50,7 @@ class WngchanBerta_ONNX:
         )
         _corpus_base = get_corpus_path(self.model_name, self.model_version)
         if not _corpus_base:
-            raise FileNotFoundError(
-                f"corpus-not-found name={self.model_name!r} "
-                f"version={self.model_version!r}\n"
-                f"  Corpus '{self.model_name}' "
-                f"(version {self.model_version}) not found.\n"
-                f"    Python: pythainlp.corpus.download('{self.model_name}')\n"
-                f"    CLI:    thainlp data get {self.model_name}"
-            )
+            raise FileNotFoundError(self.model_name)
         self.session = InferenceSession(
             safe_path_join(_corpus_base, file_onnx),
             sess_options=self.options,

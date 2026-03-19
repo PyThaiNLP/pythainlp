@@ -28,8 +28,7 @@ This release focuses on security issues related to corpus file loading.
 - w2p: Use npz model instead of pickle (#1328)
 - Fix path traversal vulnerabilities: validate that paths constructed from
   external input stay within their expected base directory;
-  `get_full_data_path()`, `path_pythainlp_corpus()`, and
-  `get_path_folder_corpus()` now raise `ValueError` on traversal attempts
+  `get_full_data_path()` now raises `ValueError` on traversal attempts
 
 ## [5.3.0] - 2026-03-10
 

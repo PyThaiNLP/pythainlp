@@ -16,7 +16,9 @@ from pythainlp.tokenize import word_tokenize
 from pythainlp.util import is_thai
 
 if TYPE_CHECKING:
-    from pycrfsuite import Tagger as CRFTagger
+    from pycrfsuite import (
+        Tagger as CRFTagger,  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
+    )
 
 _TOKENIZER_ENGINE: str = "mm"
 
@@ -102,7 +104,9 @@ class ThaiNameTagger:
                             It's support Thai NER 1.4 & 1.5.
                             The default value is `1.4`
         """
-        from pycrfsuite import Tagger as CRFTagger
+        from pycrfsuite import (
+            Tagger as CRFTagger,  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
+        )
 
         self.crf: "CRFTagger" = CRFTagger()
 

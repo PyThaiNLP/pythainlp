@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import string
 from collections import defaultdict
+from types import MappingProxyType
 from typing import Optional
 
 from pythainlp import (
@@ -30,7 +31,8 @@ _TH_FIRST_CHAR_ASCII: int = 3584
 _TH_LAST_CHAR_ASCII: int = 3711
 
 # A comprehensive map of Thai characters to their descriptive names.
-_THAI_CHAR_NAMES: dict[str, str] = {
+# MappingProxyType makes this constant read-only at runtime.
+_THAI_CHAR_NAMES: MappingProxyType[str, str] = MappingProxyType({
     # Consonants
     **{char: char for char in thai_consonants},
     # Vowels and Signs
@@ -73,7 +75,7 @@ _THAI_CHAR_NAMES: dict[str, str] = {
     **{char: char for char in thai_digits},
     # Symbol
     "\u0e3f": "฿",
-}
+})
 
 
 def is_thai_char(ch: str) -> bool:
@@ -104,7 +106,7 @@ def is_thai_char(ch: str) -> bool:
 def isthaichar(ch: str) -> bool:
     """Check if a character is a Thai character.
 
-    .. deprecated:: 5.1
+    .. deprecated:: 5.3.2
         Use :func:`is_thai_char` instead.
 
     :param ch: input character
@@ -115,7 +117,7 @@ def isthaichar(ch: str) -> bool:
     warn_deprecation(
         "pythainlp.util.isthaichar",
         "pythainlp.util.is_thai_char",
-        "5.1",
+        "5.3.2",
         "6.0",
     )
     return is_thai_char(ch)
@@ -162,7 +164,7 @@ def is_thai(text: str, ignore_chars: str = ".") -> bool:
 def isthai(text: str, ignore_chars: str = ".") -> bool:
     """Check if every character in a string is a Thai character.
 
-    .. deprecated:: 5.1
+    .. deprecated:: 5.3.2
         Use :func:`is_thai` instead.
 
     :param text: input text
@@ -176,7 +178,7 @@ def isthai(text: str, ignore_chars: str = ".") -> bool:
     warn_deprecation(
         "pythainlp.util.isthai",
         "pythainlp.util.is_thai",
-        "5.1",
+        "5.3.2",
         "6.0",
     )
     return is_thai(text, ignore_chars)
@@ -236,7 +238,7 @@ def count_thai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
 def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
     """Find proportion of Thai characters in a given text.
 
-    .. deprecated:: 5.1
+    .. deprecated:: 5.3.2
         Use :func:`count_thai` instead.
 
     :param text: input text
@@ -250,7 +252,7 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
     warn_deprecation(
         "pythainlp.util.countthai",
         "pythainlp.util.count_thai",
-        "5.1",
+        "5.3.2",
         "6.0",
     )
     return count_thai(text, ignore_chars)

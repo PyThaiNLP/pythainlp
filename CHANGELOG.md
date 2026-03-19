@@ -19,12 +19,41 @@ and this project adheres to
 
 ## [5.3.2] - 2026-03-20
 
+### Added
+
+- `pythainlp.chunk` module: canonical home for Thai chunking/phrase-structure
+  parsing, following the NLTK `nltk.chunk` naming convention.
+- `pythainlp.chunk.CRFChunkParser`: CRF-based chunk parser class
+  (replaces `pythainlp.tag.crfchunk.CRFChunk`).
+- `pythainlp.chunk.chunk_parse()`: chunk parsing convenience function
+  (replaces `pythainlp.tag.chunk_parse`).
+- `pythainlp.util.is_thai_char()`: Pythonic replacement for `isthaichar()`.
+- `pythainlp.util.is_thai()`: Pythonic replacement for `isthai()`.
+- `pythainlp.util.count_thai()`: Pythonic replacement for `countthai()`.
+
+### Changed
+
+- `THAI_CHAR_NAMES` renamed to `_THAI_CHAR_NAMES` (internal constant) and
+  wrapped in `types.MappingProxyType` to make it read-only at runtime.
+- Internal feature-extraction helpers made private in
+  `pythainlp.tag.crfchunk` and `pythainlp.tokenize.crfcut`.
+- `ThaiNameTagger.__extract_features` (name-mangled) replaced with
+  `_extract_features` (single-underscore convention).
+- `pythainlp.tools.warn_deprecation`: message format updated to be
+  generic (applies to both functions and classes); parameters renamed from
+  `deprecated_func`/`replacing_func` to `deprecated_symbol`/`replacing_symbol`.
+
 ### Deprecated
 
-- `pythainlp.util.isthaichar()`: use `is_thai_char()` instead
-- `pythainlp.util.isthai()`: use `is_thai()` instead
-- `pythainlp.util.countthai()`: use `count_thai()` instead
-- `pythainlp.tag.crfchunk.CRFchunk`: use `CRFChunk` instead
+The following names are deprecated since 5.3.2 and will be removed in 6.0:
+
+- `pythainlp.util.isthaichar()`: use `pythainlp.util.is_thai_char()`.
+- `pythainlp.util.isthai()`: use `pythainlp.util.is_thai()`.
+- `pythainlp.util.countthai()`: use `pythainlp.util.count_thai()`.
+- `pythainlp.tag.crfchunk.CRFchunk`: use `pythainlp.chunk.CRFChunkParser`.
+- `pythainlp.tag.chunk_parse()`: use `pythainlp.chunk.chunk_parse()`.
+- `pythainlp.tag` module attribute `chunk_parse`: use
+  `pythainlp.chunk.chunk_parse()`.
 
 ## [5.3.1] - 2026-03-14
 

@@ -5,6 +5,11 @@
 
 Tagging each token in a sentence with supplementary information,
 such as its part-of-speech (POS) tag, and named entity (NE) tag.
+
+.. note::
+    :func:`chunk_parse` has moved to :mod:`pythainlp.chunk`.
+    Importing it from :mod:`pythainlp.tag` still works but emits a
+    :class:`DeprecationWarning` and will be removed in 6.0.
 """
 
 __all__: list[str] = [

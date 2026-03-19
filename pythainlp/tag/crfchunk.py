@@ -1,153 +1,31 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Deprecated. Use :mod:`pythainlp.chunk` instead.
+
+.. deprecated:: 5.3.2
+    This module has been superseded by :mod:`pythainlp.chunk`.
+    Import :class:`pythainlp.chunk.CRFChunkParser` directly.
+"""
 from __future__ import annotations
 
-from importlib.resources import as_file, files
-from typing import TYPE_CHECKING, Any, Optional, Union
-
-if TYPE_CHECKING:
-    import types
-    from contextlib import AbstractContextManager
-
-from pycrfsuite import Tagger as CRFTagger
-
-from pythainlp.corpus import thai_stopwords
+from pythainlp.chunk.crfchunk import CRFChunkParser
 from pythainlp.tools import warn_deprecation
 
 
-def _is_stopword(word: str) -> bool:  # check Thai stopword
-    return word in thai_stopwords()
+# Backward-compatible alias. Deprecated since 5.3.2; removed in 6.0.
+class CRFchunk(CRFChunkParser):
+    """Deprecated. Use :class:`pythainlp.chunk.CRFChunkParser` instead.
 
-
-def _doc2features(
-    tokens: list[tuple[str, str]], index: int
-) -> dict[str, Union[str, bool]]:
-    """`tokens` = a POS-tagged sentence [(w1, t1), ...]
-    `index` = the index of the token we want to extract features for
-    """
-    word, pos = tokens[index]
-    f: dict[str, Union[str, bool]] = {
-        "word": word,
-        "word_is_stopword": _is_stopword(word),
-        "pos": pos,
-    }
-    if index > 0 and index > 1:
-        prevprevword, prevprevpos = tokens[index - 2]
-        f["prev-prev-word"] = prevprevword
-        f["prev-prevz-word_is_stopword"] = _is_stopword(prevprevword)
-        f["prev-prevz-pos"] = prevprevpos
-    if index > 0:
-        prevword, prevpos = tokens[index - 1]
-        f["prev-word"] = prevword
-        f["prev-word_is_stopword"] = _is_stopword(prevword)
-        f["prev-pos"] = prevpos
-    else:
-        f["BOS"] = True
-    if index < len(tokens) - 2:
-        nextnextword, nextnextpos = tokens[index + 2]
-        f["nextnext-word"] = nextnextword
-        f["nextnext-word_is_stopword"] = _is_stopword(nextnextword)
-        f["nextnext-pos"] = nextnextpos
-    if index < len(tokens) - 1:
-        nextword, nextpos = tokens[index + 1]
-        f["next-word"] = nextword
-        f["next-word_is_stopword"] = _is_stopword(nextword)
-        f["next-pos"] = nextpos
-    else:
-        f["EOS"] = True
-
-    return f
-
-
-def _extract_features(
-    doc: list[tuple[str, str]],
-) -> list[dict[str, Union[str, bool]]]:
-    return [_doc2features(doc, i) for i in range(0, len(doc))]
-
-
-class CRFChunk:
-    """CRF-based chunker for Thai text.
-
-    This class can be used as a context manager to ensure proper cleanup
-    of resources. Example:
-
-        with CRFChunk() as chunker:
-            result = chunker.parse(tokens)
-
-    Alternatively, the object will attempt to clean up resources when
-    garbage collected, though this is not guaranteed.
-    """
-
-    corpus: str
-    _model_file_ctx: Optional[AbstractContextManager[Any]]
-    tagger: CRFTagger
-    xseq: list[dict[str, Union[str, bool]]]
-
-    def __init__(self, corpus: str = "orchidpp") -> None:
-        self.corpus = corpus
-        self._model_file_ctx = None
-        self.load_model(self.corpus)
-
-    def load_model(self, corpus: str) -> None:
-        self.tagger = CRFTagger()
-        if corpus == "orchidpp":
-            corpus_files = files("pythainlp.corpus")
-            model_file = corpus_files.joinpath("crfchunk_orchidpp.model")
-            self._model_file_ctx = as_file(model_file)
-            model_path = self._model_file_ctx.__enter__()
-            self.tagger.open(str(model_path))
-
-    def parse(self, token_pos: list[tuple[str, str]]) -> list[str]:
-        self.xseq = _extract_features(token_pos)
-        return self.tagger.tag(self.xseq)  # type: ignore[no-any-return]
-
-    def __enter__(self) -> CRFChunk:
-        """Context manager entry."""
-        return self
-
-    def __exit__(
-        self,
-        exc_type: Optional[type[BaseException]],
-        exc_val: Optional[BaseException],
-        exc_tb: Optional[types.TracebackType],
-    ) -> None:
-        """Context manager exit - clean up resources."""
-        if self._model_file_ctx is not None:
-            try:
-                self._model_file_ctx.__exit__(exc_type, exc_val, exc_tb)
-                self._model_file_ctx = None
-            except Exception:  # noqa: S110
-                pass
-
-    def __del__(self) -> None:
-        """Clean up the context manager when object is destroyed.
-
-        Note: __del__ is not guaranteed to be called and should not be
-        relied upon for critical cleanup. Use the context manager protocol
-        (with statement) for reliable resource management.
-        """
-        if self._model_file_ctx is not None:
-            try:
-                self._model_file_ctx.__exit__(None, None, None)
-            except Exception:  # noqa: S110
-                # Silently ignore cleanup errors during garbage collection
-                pass
-
-
-# Backward-compatible alias. Deprecated since 5.1; will be removed in 6.0.
-class CRFchunk(CRFChunk):
-    """Deprecated. Use :class:`CRFChunk` instead.
-
-    .. deprecated:: 5.1
-        Use :class:`CRFChunk` instead.
+    .. deprecated:: 5.3.2
+        Use :class:`pythainlp.chunk.CRFChunkParser` instead.
     """
 
     def __init__(self, corpus: str = "orchidpp") -> None:
         warn_deprecation(
             "pythainlp.tag.crfchunk.CRFchunk",
-            "pythainlp.tag.crfchunk.CRFChunk",
-            "5.1",
+            "pythainlp.chunk.CRFChunkParser",
+            "5.3.2",
             "6.0",
         )
         super().__init__(corpus)

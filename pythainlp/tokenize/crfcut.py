@@ -175,7 +175,7 @@ def _extract_features(
 
 
 _CRFCUT_DATA_FILENAME: str = "sentenceseg_crfcut.model"
-_tagger: pycrfsuite.Tagger = pycrfsuite.Tagger()
+_tagger: pycrfsuite.Tagger = pycrfsuite.Tagger()  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-attribute]
 _tagger.open(os.path.join(corpus_path(), _CRFCUT_DATA_FILENAME))
 
 

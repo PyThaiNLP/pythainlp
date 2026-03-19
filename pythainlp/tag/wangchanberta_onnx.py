@@ -100,7 +100,9 @@ class WngchanBerta_ONNX:
             tag.append(
                 (
                     _s[i],
-                    self.id2tag[str(list(post[i + 1]).index(max(list(post[i + 1]))))],
+                    self.id2tag[
+                        str(list(post[i + 1]).index(max(list(post[i + 1]))))
+                    ],
                 )
             )
         return tag

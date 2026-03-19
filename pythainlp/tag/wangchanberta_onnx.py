@@ -11,7 +11,8 @@ if TYPE_CHECKING:
     import sentencepiece as spm
     from onnxruntime import InferenceSession, SessionOptions
 
-from pythainlp.corpus import get_path_folder_corpus
+from pythainlp.corpus import get_corpus_path
+from pythainlp.tools.path import _safe_path_join
 
 
 class WngchanBerta_ONNX:
@@ -47,24 +48,30 @@ class WngchanBerta_ONNX:
         self.options.graph_optimization_level = (
             GraphOptimizationLevel.ORT_ENABLE_ALL
         )
+        _corpus_base = get_corpus_path(self.model_name, self.model_version)
+        if not _corpus_base:
+            raise FileNotFoundError(
+                f"corpus-not-found name={self.model_name!r} "
+                f"version={self.model_version!r}\n"
+                f"  Corpus '{self.model_name}' "
+                f"(version {self.model_version}) not found.\n"
+                f"    Python: pythainlp.corpus.download('{self.model_name}')\n"
+                f"    CLI:    thainlp data get {self.model_name}"
+            )
         self.session = InferenceSession(
-            get_path_folder_corpus(
-                self.model_name, self.model_version, file_onnx
-            ),
+            _safe_path_join(_corpus_base, file_onnx),
             sess_options=self.options,
             providers=providers,
         )
         self.session.disable_fallback()
         self.outputs_name = self.session.get_outputs()[0].name
         self.sp = spm.SentencePieceProcessor(
-            model_file=get_path_folder_corpus(
-                self.model_name, self.model_version, "sentencepiece.bpe.model"
+            model_file=_safe_path_join(
+                _corpus_base, "sentencepiece.bpe.model"
             )
         )
         with open(
-            get_path_folder_corpus(
-                self.model_name, self.model_version, "config.json"
-            ),
+            _safe_path_join(_corpus_base, "config.json"),
             encoding="utf-8-sig",
         ) as fh:
             self._json = json.load(fh)

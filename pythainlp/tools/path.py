@@ -162,9 +162,10 @@ def is_offline_mode() -> bool:
 def _safe_path_join(base: str, *parts: str) -> str:
     """Join *base* with *parts*, verify containment, and return the normalized path.
 
-    This is the single authoritative path-traversal guard used by
-    :func:`get_full_data_path`, :func:`pythainlp.corpus.core.path_pythainlp_corpus`,
-    and :func:`pythainlp.corpus.core.get_path_folder_corpus`.
+    This is the single authoritative path-traversal guard used throughout
+    the library wherever a base directory and external path components are
+    combined (e.g., :func:`get_full_data_path` and the internal corpus
+    path helpers in :mod:`pythainlp.corpus.core`).
 
     :param str base: base directory that the result must reside within.
     :param parts: additional path components to append.

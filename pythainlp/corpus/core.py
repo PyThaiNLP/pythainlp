@@ -107,19 +107,6 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict[str, Any]:
     return {}
 
 
-def path_pythainlp_corpus(filename: str) -> str:
-    """Get path to a file in the bundled :mod:`pythainlp.corpus` data.
-
-    :param str filename: filename of the corpus to be read
-
-    :return: normalized absolute path of the corpus file.
-    :rtype: str
-
-    :raises ValueError: if *filename* resolves to a location outside the
-        bundled corpus directory (path traversal attempt).
-    """
-    return _safe_path_join(corpus_path(), filename)
-
 
 @lru_cache(maxsize=None)
 def get_corpus(filename: str, comments: bool = True) -> frozenset[str]:
@@ -252,13 +239,15 @@ def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
 
     if name in corpus_db:
         if version in corpus_db[name]["versions"]:
-            return path_pythainlp_corpus(
-                corpus_db[name]["versions"][version]["filename"]
+            return _safe_path_join(
+                corpus_path(),
+                corpus_db[name]["versions"][version]["filename"],
             )
         elif not version:  # load latest version
             version = corpus_db[name]["latest_version"]
-            return path_pythainlp_corpus(
-                corpus_db[name]["versions"][version]["filename"]
+            return _safe_path_join(
+                corpus_path(),
+                corpus_db[name]["versions"][version]["filename"],
             )
 
     return None
@@ -858,32 +847,6 @@ def remove(name: str) -> bool:
 
     return False
 
-
-def get_path_folder_corpus(name: str, version: str, *path: str) -> str:
-    """Get the path to a file or sub-directory inside a downloaded corpus folder.
-
-    :param str name: corpus name
-    :param str version: corpus version
-    :param path: additional path components appended to the corpus folder
-    :type path: str
-
-    :return: normalized absolute path to the requested resource inside the
-        corpus folder.
-    :rtype: str
-
-    :raises FileNotFoundError: if the corpus is not found locally.
-    :raises ValueError: if the resolved path escapes the corpus folder
-        (path traversal attempt).
-    """
-    base_path = get_corpus_path(name, version)
-    if not base_path:
-        raise FileNotFoundError(
-            f"corpus-not-found name={name!r} version={version!r}\n"
-            f"  Corpus '{name}' (version {version}) not found.\n"
-            f"    Python: pythainlp.corpus.download('{name}')\n"
-            f"    CLI:    thainlp data get {name}"
-        )
-    return _safe_path_join(base_path, *path)
 
 
 def make_safe_directory_name(name: str) -> str:

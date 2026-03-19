@@ -10,26 +10,30 @@ import warnings
 
 
 def warn_deprecation(
-    deprecated_func: str,
-    replacing_func: str = "",
+    deprecated_symbol: str,
+    replacing_symbol: str = "",
     deprecated_version: str = "",
     removal_version: str = "",
 ) -> None:
-    """Warn about the deprecation of a function.
+    """Warn about the deprecation of a function, class, or other symbol.
 
-    :param str deprecated_func: Name of the deprecated function.
-    :param str replacing_func: Name of the function to use instead (optional).
-    :param str deprecated_version: Version in which the function will be deprecated (optional).
-    :param str removal_version: Version in which the function will be removed (optional).
+    :param str deprecated_symbol: Fully qualified name of the deprecated
+        symbol (e.g. ``"pythainlp.util.isthaichar"``).
+    :param str replacing_symbol: Fully qualified name of the replacement
+        (optional).
+    :param str deprecated_version: Version in which the symbol was
+        deprecated (optional).
+    :param str removal_version: Version in which the symbol will be
+        removed (optional).
     """
-    message = f"The '{deprecated_func}' function is deprecated"
+    message = f"'{deprecated_symbol}' is deprecated"
     if deprecated_version:
         message += f" since {deprecated_version}"
     if not removal_version:
         removal_version = "a future release"
     message += f" and will be removed in {removal_version}."
-    if replacing_func:
-        message += f" Please use '{replacing_func}' instead."
+    if replacing_symbol:
+        message += f" Use '{replacing_symbol}' instead."
     warnings.warn(message, DeprecationWarning, stacklevel=2)
 
 

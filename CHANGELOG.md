@@ -19,7 +19,24 @@ and this project adheres to
 
 ## [5.3.2] - 2026-03-20
 
-This release focuses on security issues related to path traversal.
+This release focuses on security issues related to path traversal
+and renaming functions to conform with PEP 8. Old function names are
+still accessible but migration to new names are recommended.
+
+### Added
+
+- `pythainlp.chunk` module: canonical home for chunking/phrase-structure
+  parsing, following the NLTK `nltk.chunk` naming convention.
+
+### Deprecated
+
+The following names are deprecated and will be removed in 6.0 (#1339):
+
+- `pythainlp.util.isthaichar()`: use `pythainlp.util.is_thai_char()`.
+- `pythainlp.util.isthai()`: use `pythainlp.util.is_thai()`.
+- `pythainlp.util.countthai()`: use `pythainlp.util.count_thai()`.
+- `pythainlp.tag.crfchunk.CRFchunk`: use `pythainlp.chunk.CRFChunkParser`.
+- `pythainlp.tag.chunk_parse()`: use `pythainlp.chunk.chunk_parse()`.
 
 ### Security
 

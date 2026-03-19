@@ -1,33 +1,37 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
+"""Deprecated. Use :func:`pythainlp.chunk.chunk_parse` instead.
+
+.. deprecated:: 5.3.2
+    :func:`chunk_parse` has moved to :mod:`pythainlp.chunk`.
+"""
 from __future__ import annotations
+
+from pythainlp.chunk import chunk_parse as _chunk_parse
+from pythainlp.tools import warn_deprecation
 
 
 def chunk_parse(
-    sent: list[tuple[str, str]], engine: str = "crf", corpus: str = "orchidpp"
+    sent: list[tuple[str, str]],
+    engine: str = "crf",
+    corpus: str = "orchidpp",
 ) -> list[str]:
-    """This function parses Thai sentence to phrase structure in IOB format.
+    """Parse a Thai sentence into phrase-structure chunks (IOB format).
 
-    :param list[tuple[str, str]] sent: list [(word, part-of-speech)]
-    :param str engine: chunk parse engine (now, it has crf only)
-    :param str corpus: chunk parse corpus (now, it has orchidpp only)
+    .. deprecated:: 5.3.2
+        Use :func:`pythainlp.chunk.chunk_parse` instead.
 
-    :return: a list of tuples (word, part-of-speech, chunking)
+    :param list[tuple[str, str]] sent: list of (word, POS-tag) pairs.
+    :param str engine: chunking engine (default: ``"crf"``).
+    :param str corpus: corpus name (default: ``"orchidpp"``).
+    :return: list of IOB chunk labels, one per token.
     :rtype: list[str]
-
-    :Example:
-    ::
-
-        from pythainlp.tag import chunk_parse, pos_tag
-
-        tokens = ["ผม", "รัก", "คุณ"]
-        tokens_pos = pos_tag(tokens, engine="perceptron", corpus="orchid")
-
-        print(chunk_parse(tokens_pos))
-        # output: ['B-NP', 'B-VP', 'I-VP']
     """
-    from .crfchunk import CRFchunk
-
-    _engine = CRFchunk()
-    return _engine.parse(sent)
+    warn_deprecation(
+        "pythainlp.tag.chunk_parse",
+        "pythainlp.chunk.chunk_parse",
+        "5.3.2",
+        "6.0",
+    )
+    return _chunk_parse(sent, engine=engine, corpus=corpus)

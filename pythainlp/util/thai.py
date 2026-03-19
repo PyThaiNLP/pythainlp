@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import string
 from collections import defaultdict
+from types import MappingProxyType
 from typing import Optional
 
 from pythainlp import (
@@ -21,6 +22,7 @@ from pythainlp import (
     thai_tonemarks,
     thai_vowels,
 )
+from pythainlp.tools import warn_deprecation
 
 _DEFAULT_IGNORE_CHARS: str = (
     string.whitespace + string.digits + string.punctuation
@@ -29,7 +31,8 @@ _TH_FIRST_CHAR_ASCII: int = 3584
 _TH_LAST_CHAR_ASCII: int = 3711
 
 # A comprehensive map of Thai characters to their descriptive names.
-THAI_CHAR_NAMES: dict[str, str] = {
+# MappingProxyType makes this constant read-only at runtime.
+_THAI_CHAR_NAMES: MappingProxyType[str, str] = MappingProxyType({
     # Consonants
     **{char: char for char in thai_consonants},
     # Vowels and Signs
@@ -72,10 +75,10 @@ THAI_CHAR_NAMES: dict[str, str] = {
     **{char: char for char in thai_digits},
     # Symbol
     "\u0e3f": "฿",
-}
+})
 
 
-def isthaichar(ch: str) -> bool:
+def is_thai_char(ch: str) -> bool:
     """Check if a character is a Thai character.
 
     :param ch: input character
@@ -86,12 +89,12 @@ def isthaichar(ch: str) -> bool:
     :Example:
     ::
 
-        from pythainlp.util import isthaichar
+        from pythainlp.util import is_thai_char
 
-        isthaichar("ก")  # THAI CHARACTER KO KAI
+        is_thai_char("ก")  # THAI CHARACTER KO KAI
         # output: True
 
-        isthaichar("๕")  # THAI DIGIT FIVE
+        is_thai_char("๕")  # THAI DIGIT FIVE
         # output: True
     """
     ch_val = ord(ch)
@@ -100,7 +103,27 @@ def isthaichar(ch: str) -> bool:
     return False
 
 
-def isthai(text: str, ignore_chars: str = ".") -> bool:
+def isthaichar(ch: str) -> bool:
+    """Check if a character is a Thai character.
+
+    .. deprecated:: 5.3.2
+        Use :func:`is_thai_char` instead.
+
+    :param ch: input character
+    :type ch: str
+    :return: True if ch is a Thai character, otherwise False.
+    :rtype: bool
+    """
+    warn_deprecation(
+        "pythainlp.util.isthaichar",
+        "pythainlp.util.is_thai_char",
+        "5.3.2",
+        "6.0",
+    )
+    return is_thai_char(ch)
+
+
+def is_thai(text: str, ignore_chars: str = ".") -> bool:
     """Check if every character in a string is a Thai character.
 
     :param text: input text
@@ -114,18 +137,18 @@ def isthai(text: str, ignore_chars: str = ".") -> bool:
     :Example:
     ::
 
-        from pythainlp.util import isthai
+        from pythainlp.util import is_thai
 
-        isthai("กาลเวลา")
+        is_thai("กาลเวลา")
         # output: True
 
-        isthai("กาลเวลา.")
+        is_thai("กาลเวลา.")
         # output: True
 
-        isthai("กาล-เวลา")
+        is_thai("กาล-เวลา")
         # output: False
 
-        isthai("กาล-เวลา +66", ignore_chars="01234567890+-.,")
+        is_thai("กาล-เวลา +66", ignore_chars="01234567890+-.,")
         # output: True
 
     """
@@ -133,13 +156,36 @@ def isthai(text: str, ignore_chars: str = ".") -> bool:
         ignore_chars = ""
 
     for ch in text:
-        if ch not in ignore_chars and not isthaichar(ch):
+        if ch not in ignore_chars and not is_thai_char(ch):
             return False
     return True
 
 
-def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
-    """Find proportion of Thai characters in a given text
+def isthai(text: str, ignore_chars: str = ".") -> bool:
+    """Check if every character in a string is a Thai character.
+
+    .. deprecated:: 5.3.2
+        Use :func:`is_thai` instead.
+
+    :param text: input text
+    :type text: str
+    :param ignore_chars: characters to be ignored, defaults to "."
+    :type ignore_chars: str, optional
+    :return: True if every character in the input string is Thai,
+             otherwise False.
+    :rtype: bool
+    """
+    warn_deprecation(
+        "pythainlp.util.isthai",
+        "pythainlp.util.is_thai",
+        "5.3.2",
+        "6.0",
+    )
+    return is_thai(text, ignore_chars)
+
+
+def count_thai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
+    """Find proportion of Thai characters in a given text.
 
     :param text: input text
     :type text: str
@@ -152,18 +198,18 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
     :Example:
     ::
 
-        from pythainlp.util import countthai
+        from pythainlp.util import count_thai
 
-        countthai("ไทยเอ็นแอลพี 3.0")
+        count_thai("ไทยเอ็นแอลพี 3.0")
         # output: 100.0
 
-        countthai("PyThaiNLP 3.0")
+        count_thai("PyThaiNLP 3.0")
         # output: 0.0
 
-        countthai("ใช้งาน PyThaiNLP 3.0")
+        count_thai("ใช้งาน PyThaiNLP 3.0")
         # output: 40.0
 
-        countthai("ใช้งาน PyThaiNLP 3.0", ignore_chars="")
+        count_thai("ใช้งาน PyThaiNLP 3.0", ignore_chars="")
         # output: 30.0
     """
     if not text or not isinstance(text, str):
@@ -178,7 +224,7 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
     for ch in text:
         if ch in ignore_chars:
             num_ignore += 1
-        elif isthaichar(ch):
+        elif is_thai_char(ch):
             num_thai += 1
 
     num_count = len(text) - num_ignore
@@ -187,6 +233,29 @@ def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
         return 0.0
 
     return (num_thai / num_count) * 100
+
+
+def countthai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
+    """Find proportion of Thai characters in a given text.
+
+    .. deprecated:: 5.3.2
+        Use :func:`count_thai` instead.
+
+    :param text: input text
+    :type text: str
+    :param ignore_chars: characters to be ignored, defaults to whitespace,\\
+        digits, and punctuation marks.
+    :type ignore_chars: str, optional
+    :return: proportion of Thai characters in the text (percentage)
+    :rtype: float
+    """
+    warn_deprecation(
+        "pythainlp.util.countthai",
+        "pythainlp.util.count_thai",
+        "5.3.2",
+        "6.0",
+    )
+    return count_thai(text, ignore_chars)
 
 
 def display_thai_char(ch: str) -> str:
@@ -348,8 +417,8 @@ def analyze_thai_text(text: str) -> dict:
     # Iterate over each character in the input string
     for char in text:
         # Check if the character is in our mapping
-        if char in THAI_CHAR_NAMES:
-            name = THAI_CHAR_NAMES[char]
+        if char in _THAI_CHAR_NAMES:
+            name = _THAI_CHAR_NAMES[char]
             results[name] += 1
         else:
             # If the character is not a known Thai character, classify it as character

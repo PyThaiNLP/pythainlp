@@ -15,36 +15,20 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
-- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.0...v5.3.1>
+- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.2>
+
+## [5.3.2] - 2026-03-20
+
+### Deprecated
+
+- `pythainlp.util.isthaichar()`: use `is_thai_char()` instead
+- `pythainlp.util.isthai()`: use `is_thai()` instead
+- `pythainlp.util.countthai()`: use `count_thai()` instead
+- `pythainlp.tag.crfchunk.CRFchunk`: use `CRFChunk` instead
 
 ## [5.3.1] - 2026-03-14
 
 This release focuses on security issues related to corpus file loading.
-
-### Added
-
-- `pythainlp.util.is_thai_char()`: Pythonic alias for deprecated `isthaichar()`
-- `pythainlp.util.is_thai()`: Pythonic alias for deprecated `isthai()`
-- `pythainlp.util.count_thai()`: Pythonic alias for deprecated `countthai()`
-
-### Changed
-
-- `pythainlp.tag.crfchunk.CRFchunk` renamed to `CRFChunk`
-  (backward-compatible alias `CRFchunk` kept until 6.0)
-- Internal usages updated to use the new Pythonic names
-- `THAI_CHAR_NAMES` renamed to `_THAI_CHAR_NAMES` (internal constant, not public API)
-- `extract_features()` in `crfchunk` and `crfcut` made private (`_extract_features`)
-- `ThaiNameTagger.__extract_features` (name-mangled) renamed to `_extract_features`
-- `nlpo3.py`: removed cross-module import of private `_THAI_WORDS_FILENAME`
-- Tests: replaced direct access to private `_CORPUS_PATH`/`_THAI_WORDS_FILENAME`
-  with public `corpus_path()` and literal filename
-
-### Deprecated
-
-- `pythainlp.util.isthaichar()`: use `is_thai_char()` instead (removed in 6.0)
-- `pythainlp.util.isthai()`: use `is_thai()` instead (removed in 6.0)
-- `pythainlp.util.countthai()`: use `count_thai()` instead (removed in 6.0)
-- `pythainlp.tag.crfchunk.CRFchunk`: use `CRFChunk` instead (removed in 6.0)
 
 ### Security
 
@@ -237,6 +221,7 @@ The minimum requirement is now Python 3.9.
 
 - See <https://github.com/PyThaiNLP/pythainlp/releases/tag/v5.0.0>
 
+[5.3.1]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.2
 [5.3.1]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.0...v5.3.1
 [5.3.0]: https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...v5.3.0
 [5.2.0]: https://github.com/PyThaiNLP/pythainlp/compare/v5.1.2...v5.2.0

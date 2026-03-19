@@ -88,7 +88,9 @@ class WngchanBerta_ONNX:
         scores = shifted_exp / shifted_exp.sum(axis=-1, keepdims=True)
         return scores
 
-    def clean_output(self, list_text: list[tuple[str, str]]) -> list[tuple[str, str]]:
+    def clean_output(
+        self, list_text: list[tuple[str, str]]
+    ) -> list[tuple[str, str]]:
         return list_text
 
     def totag(self, post: np.ndarray, sent: str) -> list[tuple[str, str]]:

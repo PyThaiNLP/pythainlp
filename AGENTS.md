@@ -6,7 +6,7 @@
       <https://github.com/PyThaiNLP/pythainlp/blob/dev/tests/README.md>.
       The document list test categories, their dependency sets,
       and test naming conventions.
-- [ ] Use reStructuredText for docstring (PEP 287), targetting Sphinx.
+- [ ] Use reStructuredText for docstring (PEP 287), targeting Sphinx.
 - [ ] When possible, follow NLTK established convention of submodule
       name (tend to be a verb or a generic noun), function name, and
       configuration. Communicate this to the users during code review.
@@ -20,7 +20,7 @@
       the repo. Read its usage and information it generates at
       <https://github.com/PyThaiNLP/pythainlp/blob/dev/build_tools/analysis/README.md>.
       Mind that the analyzer can create false positives,
-      please refer to Python tyep specification when in doubt.
+      please refer to Python type specification when in doubt.
 - [ ] Complete type annotations for function, method, class, variable, etc.
       Maintain near-100% type annotation coverage.
 - [ ] Add tests for new functionality or behavior.
@@ -31,6 +31,9 @@
 - [ ] Major changes should be logged in the change log at
       <https://github.com/PyThaiNLP/pythainlp/blob/dev/CHANGELOG.md>.
       Provide issue number or PR number if available.
+- [ ] Do not use os.path.join();
+      always use pythainlp.tools.safe_path_join() instead,
+      to prevent path traversal vulnerabilities (CWE-22).
 
 ## Project contribution guidelines
 

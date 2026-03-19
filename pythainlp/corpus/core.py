@@ -18,7 +18,11 @@ from typing import TYPE_CHECKING
 from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
-from pythainlp.tools.path import is_offline_mode, is_read_only_mode
+from pythainlp.tools.path import (
+    is_offline_mode,
+    is_read_only_mode,
+    safe_path_join,
+)
 
 if TYPE_CHECKING:
     from http.client import HTTPMessage, HTTPResponse
@@ -102,16 +106,6 @@ def get_corpus_db_detail(name: str, version: str = "") -> dict[str, Any]:
 
     return {}
 
-
-def path_pythainlp_corpus(filename: str) -> str:
-    """Get path pythainlp.corpus data
-
-    :param str filename: filename of the corpus to be read
-
-    :return: : path of corpus
-    :rtype: str
-    """
-    return os.path.join(corpus_path(), filename)
 
 
 @lru_cache(maxsize=None)
@@ -245,13 +239,15 @@ def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
 
     if name in corpus_db:
         if version in corpus_db[name]["versions"]:
-            return path_pythainlp_corpus(
-                corpus_db[name]["versions"][version]["filename"]
+            return safe_path_join(
+                corpus_path(),
+                corpus_db[name]["versions"][version]["filename"],
             )
         elif not version:  # load latest version
             version = corpus_db[name]["latest_version"]
-            return path_pythainlp_corpus(
-                corpus_db[name]["versions"][version]["filename"]
+            return safe_path_join(
+                corpus_path(),
+                corpus_db[name]["versions"][version]["filename"],
             )
 
     return None
@@ -851,17 +847,6 @@ def remove(name: str) -> bool:
 
     return False
 
-
-def get_path_folder_corpus(name: str, version: str, *path: str) -> str:
-    corpus_path = get_corpus_path(name, version)
-    if not corpus_path:
-        raise FileNotFoundError(
-            f"corpus-not-found name={name!r} version={version!r}\n"
-            f"  Corpus '{name}' (version {version}) not found.\n"
-            f"    Python: pythainlp.corpus.download('{name}')\n"
-            f"    CLI:    thainlp data get {name}"
-        )
-    return os.path.join(corpus_path, *path)
 
 
 def make_safe_directory_name(name: str) -> str:

@@ -107,7 +107,9 @@ class WngchanBerta_ONNX:
             )
         return tag
 
-    def _config(self, list_ner: list[tuple[str, str]]) -> list[tuple[str, str]]:
+    def _config(
+        self, list_ner: list[tuple[str, str]]
+    ) -> list[tuple[str, str]]:
         return list_ner
 
     def get_ner(

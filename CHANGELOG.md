@@ -26,7 +26,8 @@ and this project adheres to
 
 ### Deprecated
 
-The following names are deprecated since 5.3.2 and will be removed in 6.0:
+The following names are deprecated since 5.3.2 and will be removed in 6.0
+(#1339):
 
 - `pythainlp.util.isthaichar()`: use `pythainlp.util.is_thai_char()`.
 - `pythainlp.util.isthai()`: use `pythainlp.util.is_thai()`.

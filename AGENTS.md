@@ -28,6 +28,10 @@
 - [ ] Keep the test coverage high. Aim at least 70% test coverage.
 - [ ] Add test cases to capture edge cases.
 - [ ] Add test cases to cover code branches.
+- [ ] Docstring and doctest must reflect the latest code.
+- [ ] API documentation is in docs/api/.
+      There must be an .rst file for each module, so that the generated
+      module API documentation is visible publicly.
 - [ ] Major changes should be logged in the change log at
       <https://github.com/PyThaiNLP/pythainlp/blob/dev/CHANGELOG.md>.
       Provide issue number or PR number if available.

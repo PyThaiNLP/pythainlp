@@ -9,6 +9,7 @@ __all__: list[str] = [
     "is_offline_mode",
     "is_read_only_mode",
     "is_unsafe_pickle_allowed",
+    "safe_path_join",
     "safe_print",
     "warn_deprecation",
 ]
@@ -22,4 +23,5 @@ from pythainlp.tools.path import (
     is_offline_mode,
     is_read_only_mode,
     is_unsafe_pickle_allowed,
+    safe_path_join,
 )

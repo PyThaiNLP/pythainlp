@@ -17,8 +17,8 @@ from pythainlp.corpus.core import (
     _safe_extract_tar,
     _safe_extract_zip,
 )
-from pythainlp.tools import get_full_data_path
-from pythainlp.tools.path import _safe_path_join, get_pythainlp_data_path
+from pythainlp.tools import get_full_data_path, safe_path_join
+from pythainlp.tools.path import get_pythainlp_data_path
 
 
 class SecurityTestCase(unittest.TestCase):
@@ -208,27 +208,27 @@ class SecurityTestCase(unittest.TestCase):
         self.assertIn("path traversal", str(ctx.exception).lower())
 
     def test_safe_path_join_bundled_corpus_safe(self):
-        """Test _safe_path_join with corpus_path() base accepts safe filenames."""
-        result = _safe_path_join(corpus_path(), "negations_th.txt")
+        """Test safe_path_join with corpus_path() base accepts safe filenames."""
+        result = safe_path_join(corpus_path(), "negations_th.txt")
         self.assertTrue(_is_within_directory(corpus_path(), result))
 
     def test_safe_path_join_bundled_corpus_rejects_traversal(self):
-        """Test _safe_path_join with corpus_path() base rejects traversal."""
+        """Test safe_path_join with corpus_path() base rejects traversal."""
         with self.assertRaises(ValueError) as ctx:
-            _safe_path_join(corpus_path(), "../../etc/passwd")
+            safe_path_join(corpus_path(), "../../etc/passwd")
         self.assertIn("path traversal", str(ctx.exception).lower())
 
     def test_safe_path_join_with_tmpdir_safe(self):
-        """Test _safe_path_join accepts safe sub-paths within a temp directory."""
+        """Test safe_path_join accepts safe sub-paths within a temp directory."""
         with tempfile.TemporaryDirectory() as tmpdir:
-            result = _safe_path_join(tmpdir, "model.txt")
+            result = safe_path_join(tmpdir, "model.txt")
             self.assertTrue(_is_within_directory(tmpdir, result))
 
     def test_safe_path_join_with_tmpdir_rejects_traversal(self):
-        """Test _safe_path_join rejects traversal escape from a temp directory."""
+        """Test safe_path_join rejects traversal escape from a temp directory."""
         with tempfile.TemporaryDirectory() as tmpdir:
             with self.assertRaises(ValueError) as ctx:
-                _safe_path_join(tmpdir, "../../etc/passwd")
+                safe_path_join(tmpdir, "../../etc/passwd")
             self.assertIn("path traversal", str(ctx.exception).lower())
 
 

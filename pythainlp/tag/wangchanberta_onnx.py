@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from onnxruntime import InferenceSession, SessionOptions
 
 from pythainlp.corpus import get_corpus_path
-from pythainlp.tools.path import _safe_path_join
+from pythainlp.tools import safe_path_join
 
 
 class WngchanBerta_ONNX:
@@ -59,19 +59,19 @@ class WngchanBerta_ONNX:
                 f"    CLI:    thainlp data get {self.model_name}"
             )
         self.session = InferenceSession(
-            _safe_path_join(_corpus_base, file_onnx),
+            safe_path_join(_corpus_base, file_onnx),
             sess_options=self.options,
             providers=providers,
         )
         self.session.disable_fallback()
         self.outputs_name = self.session.get_outputs()[0].name
         self.sp = spm.SentencePieceProcessor(
-            model_file=_safe_path_join(
+            model_file=safe_path_join(
                 _corpus_base, "sentencepiece.bpe.model"
             )
         )
         with open(
-            _safe_path_join(_corpus_base, "config.json"),
+            safe_path_join(_corpus_base, "config.json"),
             encoding="utf-8-sig",
         ) as fh:
             self._json = json.load(fh)

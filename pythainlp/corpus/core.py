@@ -19,9 +19,9 @@ from pythainlp import __version__
 from pythainlp.corpus import corpus_db_path, corpus_db_url, corpus_path
 from pythainlp.tools import get_full_data_path
 from pythainlp.tools.path import (
-    _safe_path_join,
     is_offline_mode,
     is_read_only_mode,
+    safe_path_join,
 )
 
 if TYPE_CHECKING:
@@ -239,13 +239,13 @@ def get_corpus_default_db(name: str, version: str = "") -> Optional[str]:
 
     if name in corpus_db:
         if version in corpus_db[name]["versions"]:
-            return _safe_path_join(
+            return safe_path_join(
                 corpus_path(),
                 corpus_db[name]["versions"][version]["filename"],
             )
         elif not version:  # load latest version
             version = corpus_db[name]["latest_version"]
-            return _safe_path_join(
+            return safe_path_join(
                 corpus_path(),
                 corpus_db[name]["versions"][version]["filename"],
             )

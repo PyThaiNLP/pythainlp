@@ -19,7 +19,7 @@ and this project adheres to
 
 ## [5.3.2] - 2026-03-19
 
-This release focuses on security issues related to path traversal
+This release focuses on security improvements related to path traversal
 and renaming functions to conform with PEP 8 and follow NLTK convention.
 Old function names are still accessible, but migration to new names are
 recommended as old function names will be removed in a future version.

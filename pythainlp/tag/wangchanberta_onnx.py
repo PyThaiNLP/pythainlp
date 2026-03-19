@@ -74,7 +74,9 @@ class WngchanBerta_ONNX:
         _t = [5] + [i + 4 for i in self.sp.encode(sent)] + [6]
         model_inputs = {}
         model_inputs["input_ids"] = np.array([_t], dtype=np.int64)
-        model_inputs["attention_mask"] = np.array([[1] * len(_t)], dtype=np.int64)
+        model_inputs["attention_mask"] = np.array(
+            [[1] * len(_t)], dtype=np.int64
+        )
         return model_inputs
 
     def postprocess(self, logits_data: "np.ndarray") -> "np.ndarray":

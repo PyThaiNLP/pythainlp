@@ -45,7 +45,9 @@ class WngchanBerta_ONNX:
         self.model_name = model_name
         self.model_version = model_version
         self.options = SessionOptions()
-        self.options.graph_optimization_level = GraphOptimizationLevel.ORT_ENABLE_ALL
+        self.options.graph_optimization_level = (
+            GraphOptimizationLevel.ORT_ENABLE_ALL
+        )
         _corpus_base = get_corpus_path(self.model_name, self.model_version)
         if not _corpus_base:
             raise FileNotFoundError(self.model_name)

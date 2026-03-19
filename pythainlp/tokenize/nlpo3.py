@@ -14,11 +14,10 @@ if TYPE_CHECKING:
     )
     from nlpo3 import segment as nlpo3_segment  # noqa: F401
 
-from pythainlp.corpus.common import _THAI_WORDS_FILENAME
-
 _NLPO3_DEFAULT_DICT_NAME: str = (
     "_73bcj049dzbu9t49b4va170k"  # supposed to be unique
 )
+_NLPO3_WORDS_FILENAME: str = "words_th.txt"
 _NLPO3_DEFAULT_DICT: Optional[str] = None  # Will be lazily loaded
 _dict_file_ctx: Optional[Any] = (
     None  # File context manager kept alive for program lifetime
@@ -49,7 +48,7 @@ def _ensure_default_dict_loaded() -> None:
             # Double-check pattern to avoid race conditions
             if _NLPO3_DEFAULT_DICT is None:
                 corpus_files = files("pythainlp.corpus")
-                dict_file = corpus_files.joinpath(_THAI_WORDS_FILENAME)
+                dict_file = corpus_files.joinpath(_NLPO3_WORDS_FILENAME)
                 _dict_file_ctx = as_file(dict_file)
                 dict_path = _dict_file_ctx.__enter__()
                 msg, success = nlpo3_load_dict(

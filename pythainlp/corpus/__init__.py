@@ -22,9 +22,7 @@ __all__: list[str] = [
     "get_corpus_db_detail",
     "get_corpus_default_db",
     "get_corpus_path",
-    "get_path_folder_corpus",
     "get_hf_hub",
-    "path_pythainlp_corpus",
     "provinces",
     "remove",
     "thai_dict",
@@ -89,9 +87,7 @@ from pythainlp.corpus.core import (  # noqa: I001
     get_corpus_default_db,
     get_corpus_path,
     get_hf_hub,
-    get_path_folder_corpus,
     make_safe_directory_name,
-    path_pythainlp_corpus,
     remove,
 )
 from pythainlp.corpus.common import (

@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 from pythainlp import thai_digits, thai_letters
 from pythainlp.corpus import phupha, thai_orst_words
-from pythainlp.util import isthaichar
+from pythainlp.util import is_thai_char
 
 
 def _no_filter(word: str) -> bool:
@@ -26,7 +26,7 @@ def _no_filter(word: str) -> bool:
 
 def _is_thai_and_not_num(word: str) -> bool:
     for ch in word:
-        if ch != "." and not isthaichar(ch):
+        if ch != "." and not is_thai_char(ch):
             return False
         if ch in thai_digits or ch in digits:
             return False

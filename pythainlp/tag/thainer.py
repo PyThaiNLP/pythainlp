@@ -13,10 +13,12 @@ from typing import TYPE_CHECKING, Union
 from pythainlp.corpus import get_corpus_path, thai_stopwords
 from pythainlp.tag.pos_tag import pos_tag
 from pythainlp.tokenize import word_tokenize
-from pythainlp.util import isthai
+from pythainlp.util import is_thai
 
 if TYPE_CHECKING:
-    from pycrfsuite import Tagger as CRFTagger
+    from pycrfsuite import (
+        Tagger as CRFTagger,  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
+    )
 
 _TOKENIZER_ENGINE: str = "mm"
 
@@ -33,7 +35,7 @@ def _doc2features(doc: list, i: int) -> dict:
     features = {
         "word.word": word,
         "word.stopword": _is_stopword(word),
-        "word.isthai": isthai(word),
+        "word.isthai": is_thai(word),
         "word.isspace": word.isspace(),
         "postag": postag,
         "word.isdigit": word.isdigit(),
@@ -48,7 +50,7 @@ def _doc2features(doc: list, i: int) -> dict:
         prev_features = {
             "word.prevword": prevword,
             "word.previsspace": prevword.isspace(),
-            "word.previsthai": isthai(prevword),
+            "word.previsthai": is_thai(prevword),
             "word.prevstopword": _is_stopword(prevword),
             "word.prevpostag": prevpostag,
             "word.prevwordisdigit": prevword.isdigit(),
@@ -65,7 +67,7 @@ def _doc2features(doc: list, i: int) -> dict:
             "word.nextword": nextword,
             "word.nextisspace": nextword.isspace(),
             "word.nextpostag": nextpostag,
-            "word.nextisthai": isthai(nextword),
+            "word.nextisthai": is_thai(nextword),
             "word.nextstopword": _is_stopword(nextword),
             "word.nextwordisdigit": nextword.isdigit(),
         }
@@ -102,7 +104,9 @@ class ThaiNameTagger:
                             It's support Thai NER 1.4 & 1.5.
                             The default value is `1.4`
         """
-        from pycrfsuite import Tagger as CRFTagger
+        from pycrfsuite import (
+            Tagger as CRFTagger,  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-module-attribute]
+        )
 
         self.crf: "CRFTagger" = CRFTagger()
 
@@ -186,7 +190,7 @@ class ThaiNameTagger:
         pos_tags = pos_tag(
             tokens, engine="perceptron", corpus=self.pos_tag_name
         )
-        x_test = ThaiNameTagger.__extract_features(pos_tags)
+        x_test = ThaiNameTagger._extract_features(pos_tags)
         y = self.crf.tag(x_test)
 
         sent_ner = [(pos_tags[i][0], data) for i, data in enumerate(y)]
@@ -221,7 +225,7 @@ class ThaiNameTagger:
         return sent_ner
 
     @staticmethod
-    def __extract_features(
+    def _extract_features(
         doc: list[tuple[str, str]],
     ) -> list[dict[str, Union[str, bool]]]:
         return [_doc2features(doc, i) for i in range(len(doc))]

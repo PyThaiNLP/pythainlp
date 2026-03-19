@@ -159,12 +159,43 @@ def is_offline_mode() -> bool:
     return val.strip().lower() not in ("", "0", "false", "no", "off")
 
 
-def get_full_data_path(path: str) -> str:
-    """This function joins path of :mod:`pythainlp` data directory and the
-    given path, and returns the full path.
+def safe_path_join(base: str, *parts: str) -> str:
+    """Join *base* with *parts*, verify containment, and return the normalized path.
 
-    :return: full path given the name of dataset
+    This is the authoritative path-traversal guard used throughout the library
+    wherever a base directory and external path components are combined
+    (e.g., :func:`get_full_data_path` and the internal corpus path helpers
+    in :mod:`pythainlp.corpus.core`).
+
+    :param str base: base directory that the result must reside within.
+    :param parts: additional path components to append.
+    :type parts: str
+
+    :return: normalized absolute path of the joined result.
     :rtype: str
+
+    :raises ValueError: if the resolved path escapes *base*.
+    """
+    abs_base = os.path.abspath(base)
+    abs_full = os.path.abspath(os.path.join(abs_base, *parts))
+    if abs_full != abs_base and not abs_full.startswith(abs_base + os.sep):
+        raise ValueError(
+            f"Path traversal attempt detected: resolved path {abs_full!r} "
+            f"is outside the base directory {abs_base!r}."
+        )
+    return abs_full
+
+
+def get_full_data_path(path: str) -> str:
+    """Join the PyThaiNLP data directory path with *path* and return the result.
+
+    :param str path: relative path or filename to append to the data directory.
+
+    :return: normalized absolute path within the PyThaiNLP data directory.
+    :rtype: str
+
+    :raises ValueError: if *path* resolves to a location outside the
+        PyThaiNLP data directory (path traversal attempt).
 
     :Example:
     ::
@@ -174,7 +205,7 @@ def get_full_data_path(path: str) -> str:
         get_full_data_path("ttc_freq.txt")
         # output: '/root/pythainlp-data/ttc_freq.txt'
     """
-    return os.path.join(get_pythainlp_data_path(), path)
+    return safe_path_join(get_pythainlp_data_path(), path)
 
 
 def get_pythainlp_data_path() -> str:

@@ -130,10 +130,10 @@ class ToolsTestCase(unittest.TestCase):
             self.assertIn("old_func", str(w[0].message))
             self.assertIn("deprecated", str(w[0].message))
 
-        # Test with replacement function
+        # Test with replacement symbol
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
-            warn_deprecation("old_func", replacing_func="new_func")
+            warn_deprecation("old_func", replacing_symbol="new_func")
             self.assertEqual(len(w), 1)
             self.assertIn("old_func", str(w[0].message))
             self.assertIn("new_func", str(w[0].message))
@@ -153,7 +153,7 @@ class ToolsTestCase(unittest.TestCase):
             warnings.simplefilter("always")
             warn_deprecation(
                 "old_func",
-                replacing_func="new_func",
+                replacing_symbol="new_func",
                 deprecated_version="1.0",
                 removal_version="2.0",
             )

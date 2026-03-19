@@ -116,9 +116,9 @@ class WngchanBerta_ONNX:
         self, text: str, tag: bool = False
     ) -> Union[str, list[tuple[str, str]]]:
         self._s: dict[str, "np.ndarray"] = self.build_tokenizer(text)
-        logits = self.session.run(output_names=[self.outputs_name], input_feed=self._s)[
-            0
-        ]
+        logits = self.session.run(
+            output_names=[self.outputs_name], input_feed=self._s
+        )[0]
         _tag = self.clean_output(self.totag(self.postprocess(logits), text))
         if tag:
             _tag = self._config(_tag)

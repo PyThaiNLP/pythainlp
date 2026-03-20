@@ -1,7 +1,7 @@
 # Sponsors
 
-Current PyThaiNLP remains an independent community with 
-no affiliation with any organization.
+Current PyThaiNLP remains an independent community with no affiliation
+with any organization.
 We don't have a Patreon or GitHub sponsor for the organization.
 
 However, some development leads have GitHub sponsors.

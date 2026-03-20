@@ -66,11 +66,11 @@ class ThaiTransliterator_ONNX:
         self._maxlength: int = 100
 
         self._char_to_ix: Dict[str, int] = loader["char_to_ix"]
+        self._target_char_to_ix: Dict[str, int] = loader["target_char_to_ix"]
         # JSON keys are always strings; convert to int for index-based lookup.
         self._ix_to_char: Dict[int, str] = {
             int(k): v for k, v in loader["ix_to_char"].items()
         }
-        self._target_char_to_ix: Dict[str, int] = loader["target_char_to_ix"]
         self._ix_to_target_char: Dict[int, str] = {
             int(k): v for k, v in loader["ix_to_target_char"].items()
         }

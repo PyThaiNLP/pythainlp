@@ -222,7 +222,7 @@ with this BibTeX entry:
 
 ## Sponsors
 
-See [sponsors.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/sponsors.md)
+See [SPONSORS.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/SPONSORS.md)
 
 ## Acknowledgements
 

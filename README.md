@@ -220,6 +220,10 @@ with this BibTeX entry:
 }
 ```
 
+## Sponsors
+
+See [sponsors.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/sponsors.md)
+
 ## Acknowledgements
 
 PyThaiNLP was founded by Wannaphong Phatthiyaphaibun in 2016.

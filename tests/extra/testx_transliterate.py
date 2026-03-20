@@ -41,7 +41,7 @@ class TransliterateTestCaseX(unittest.TestCase):
             romanize("ความอิ่ม", engine="thai2rom_onnx"), "khwam-im"
         )
         self.assertEqual(
-            romanize("กานต์ ณรงค์", engine="thai2rom_onnx"), "kan narong"
+            romanize("กานต์ ณรงค์", engine="thai2rom_onnx"), "kan narang"
         )
         self.assertEqual(romanize("สกุนต์", engine="thai2rom_onnx"), "sakun")
         self.assertEqual(romanize("ชารินทร์", engine="thai2rom_onnx"), "charin")

@@ -218,7 +218,6 @@ class ThaiNNER:
             result = nner.get_ner("วันที่ 5 เมษายน 2565", tag=True)
             # 'วันที่ <DATE>5 เมษายน 2565</DATE>'
         """
-        _ = pos
         # Get tokens and entities, using only top-level to avoid overlaps in IOB
         tokens, entities = self.tag(text, top_level_only=True)
 

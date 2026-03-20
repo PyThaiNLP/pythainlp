@@ -7,4 +7,4 @@ However, some development leads have GitHub sponsors. You can sponsor them to he
 - [bact](https://github.com/sponsors/bact)
 - [wannaphong](https://github.com/sponsors/wannaphong)
 
-And you can sponsor by contributing to PyThaiNLP!
+And you can sponsor by [contributing to PyThaiNLP](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)!

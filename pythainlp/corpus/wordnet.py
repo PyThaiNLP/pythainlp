@@ -447,4 +447,3 @@ def custom_lemmas(tab_file: Union[str, IO[str]], lang: str) -> None:
     :param str lang: abbreviation of language (i.e. *eng*, *tha*).
     """
     wordnet.custom_lemmas(tab_file, lang)
-    return None

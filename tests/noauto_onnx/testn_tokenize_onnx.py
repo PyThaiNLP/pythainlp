@@ -84,11 +84,45 @@ class TransliterateONNXTestCaseN(unittest.TestCase):
     """Tests for ONNX-based transliteration (requires onnxruntime)"""
 
     def test_thai2rom_onnx(self):
-        from pythainlp.transliterate.thai2rom_onnx import romanize
+        from pythainlp.transliterate import romanize
 
-        result = romanize("สวัสดี")
+        # Basic smoke test
+        result = romanize("สวัสดี", engine="thai2rom_onnx")
         self.assertIsInstance(result, str)
         self.assertGreater(len(result), 0)
+
+    def test_thai2rom_onnx_romanize(self):
+        from pythainlp.transliterate import romanize
+
+        # The bug-report case (#1346): must not return "" or "<PAD>"
+        self.assertEqual(romanize("สมชาย", engine="thai2rom_onnx"), "somchai")
+
+        # Common words
+        self.assertEqual(romanize("แมว", engine="thai2rom_onnx"), "maeo")
+        self.assertEqual(romanize("บ้านไร่", engine="thai2rom_onnx"), "banrai")
+        self.assertEqual(romanize("สุนัข", engine="thai2rom_onnx"), "sunak")
+        self.assertEqual(romanize("นก", engine="thai2rom_onnx"), "nok")
+        self.assertEqual(romanize("ความอิ่ม", engine="thai2rom_onnx"), "khwam-im")
+        self.assertEqual(romanize("สกุนต์", engine="thai2rom_onnx"), "sakun")
+        self.assertEqual(romanize("ชารินทร์", engine="thai2rom_onnx"), "charin")
+
+        # Multi-word input (space-separated)
+        result = romanize("กานต์ ณรงค์", engine="thai2rom_onnx")
+        self.assertIsInstance(result, str)
+        self.assertIn(" ", result)
+
+    def test_thai2rom_onnx_edge_cases(self):
+        from pythainlp.transliterate import romanize
+
+        # Empty string should return empty string
+        self.assertEqual(romanize("", engine="thai2rom_onnx"), "")
+
+        # Output must never contain raw special tokens
+        for word in ("สมชาย", "แมว", "นก"):
+            result = romanize(word, engine="thai2rom_onnx")
+            self.assertNotIn("<PAD>", result)
+            self.assertNotIn("<start>", result)
+            self.assertNotIn("<end>", result)
 
 
 class TagONNXTestCaseN(unittest.TestCase):

@@ -6,7 +6,7 @@ from __future__ import annotations
 import random
 import re
 import warnings
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING, Union, cast
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -193,14 +193,14 @@ class ThaiTextProcessor:
     def preprocess(
         self,
         text: str,
-        pre_rules: list[Callable] = [
+        pre_rules: list[Callable[..., str]] = [
             rm_brackets,
             replace_newlines,
             rm_useless_spaces,
             replace_spaces,
             replace_rep_after,
         ],
-        tok_func: Callable = word_tokenize,
+        tok_func: Callable[..., list[str]] = word_tokenize,
     ) -> str:
         text = text.lower()
         for rule in pre_rules:
@@ -460,4 +460,4 @@ def segment(sentence: str) -> list[str]:
     if not sentence or not isinstance(sentence, str):
         return []
 
-    return _tokenizer.tokenize(sentence)  # type: ignore[no-any-return]
+    return cast(list[str], _tokenizer.tokenize(sentence))

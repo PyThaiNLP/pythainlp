@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Union
+from typing import Any, Union
 
 
 class EntityLinker:
@@ -41,12 +41,12 @@ class EntityLinker:
 
     def get_el(
         self, list_text: Union[list[str], str]
-    ) -> Union[list[dict], str]:
+    ) -> Union[list[dict[str, Any]], str]:
         """Get Entity Linking from Thai Text
 
-        :param str Union[list[str], str]: list of Thai text or text
+        :param Union[list[str], str] list_text: list of Thai text or text
         :return: list of entity linking
-        :rtype: Union[list[dict], str]
+        :rtype: Union[list[dict[str, Any]], str]
 
         :Example:
         ::

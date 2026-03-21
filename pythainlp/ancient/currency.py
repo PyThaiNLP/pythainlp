@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 
-def convert_currency(value: float, from_unit: str) -> dict:
+def convert_currency(value: float, from_unit: str) -> dict[str, float]:
     """Convert ancient Thai currency to other units
 
     * เบี้ย (Bia)
@@ -23,7 +23,7 @@ def convert_currency(value: float, from_unit: str) -> dict:
     :param str from_unit: currency unit \
         ('เบี้ย', 'อัฐ', 'ไพ', 'เฟื้อง', 'สลึง', 'บาท', 'ตำลึง', 'ชั่ง')
     :return: Thai currency
-    :rtype: dict
+    :rtype: dict[str, float]
 
     :Example:
     ::
@@ -63,8 +63,8 @@ def convert_currency(value: float, from_unit: str) -> dict:
     # start from 'อัฐ'
     value_in_att = value * conversion_factors_to_att[from_unit]
 
-    # Calculate values ​​in other units
-    results = {}
+    # Calculate values in other units
+    results: dict[str, float] = {}
     for unit, factor in conversion_factors_to_att.items():
         results[unit] = value_in_att / factor
 

@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING, Union
 if TYPE_CHECKING:
     import numpy as np
     import pandas as pd
+    from numpy.typing import NDArray
 
 SEPARATOR: str = "|"
 
@@ -43,7 +44,7 @@ def _f1(precision: float, recall: float) -> float:
 
 
 def _flatten_result(
-    my_dict: dict, sep: str = ":"
+    my_dict: dict[str, dict[str, Union[int, str]]], sep: str = ":"
 ) -> dict[str, Union[int, str]]:
     """Flatten two-dimension dictionary.
 
@@ -54,7 +55,8 @@ def _flatten_result(
     { "a:b": 7 }
 
 
-    :param dict my_dict: dictionary containing stats
+    :param dict[str, dict[str, Union[int, str]]] my_dict: dictionary
+        containing stats
     :param str sep: separator between the two keys (default: ":")
 
     :return: a one-dimension dictionary with keys combined
@@ -91,7 +93,7 @@ def benchmark(ref_samples: list[str], samples: list[str]) -> "pd.DataFrame":
                 flat_stats["expected"] = r
                 flat_stats["actual"] = s
                 results.append(flat_stats)
-        except Exception:
+        except Exception as exc:
             reason = """
 [Error]
 Reason: %s
@@ -107,7 +109,7 @@ Pair (i=%d)
                 r,
                 s,
             )
-            raise SystemExit(reason)
+            raise SystemExit(reason) from exc
 
     return pd.DataFrame(results)
 
@@ -209,7 +211,9 @@ def compute_stats(
     }
 
 
-def _binary_representation(txt: str, verbose: bool = False) -> "np.ndarray":
+def _binary_representation(
+    txt: str, verbose: bool = False
+) -> "NDArray[np.int8]":
     """Transform text into {0, 1} sequence.
 
     where (1) indicates that the corresponding character is the beginning of
@@ -219,7 +223,7 @@ def _binary_representation(txt: str, verbose: bool = False) -> "np.ndarray":
     :param bool verbose: for debugging purposes
 
     :return: {0, 1} sequence
-    :rtype: np.ndarray
+    :rtype: numpy.typing.NDArray[numpy.int8]
     """
     import numpy as np
 
@@ -228,7 +232,7 @@ def _binary_representation(txt: str, verbose: bool = False) -> "np.ndarray":
     boundary = np.argwhere(chars == SEPARATOR).reshape(-1)
     boundary = boundary - np.array(range(boundary.shape[0]))
 
-    bin_rept: np.ndarray = np.zeros(len(txt) - boundary.shape[0])
+    bin_rept = np.zeros(len(txt) - boundary.shape[0], dtype=np.int8)
     bin_rept[list(boundary) + [0]] = 1
 
     sample_wo_seps = list(txt.replace(SEPARATOR, ""))
@@ -247,10 +251,13 @@ def _binary_representation(txt: str, verbose: bool = False) -> "np.ndarray":
     return bin_rept
 
 
-def _find_word_boundaries(bin_reps: "np.ndarray") -> list[tuple[int, int]]:
+def _find_word_boundaries(
+    bin_reps: "NDArray[np.int8]",
+) -> list[tuple[int, int]]:
     """Find the starting and ending location of each word.
 
-    :param numpy.ndarray bin_reps: binary representation of a text
+    :param numpy.typing.NDArray[numpy.int8] bin_reps: binary representation
+        of a text
 
     :return: list of tuples (start, end)
     :rtype: list[tuple[int, int]]

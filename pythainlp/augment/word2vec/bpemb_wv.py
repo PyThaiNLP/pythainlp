@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from pythainlp.augment.word2vec.core import Word2VecAug
 
@@ -40,7 +40,7 @@ class BPEmbAug:
         """:param str text: Thai text
         :rtype: List[str]
         """
-        return self.bpemb_temp.encode(text)  # type: ignore[no-any-return]
+        return cast(list[str], self.bpemb_temp.encode(text))
 
     def load_w2v(self) -> None:
         """Load BPEmb model"""

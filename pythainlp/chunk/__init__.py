@@ -25,6 +25,7 @@ NLTK :mod:`nltk.chunk` naming convention.
             print(parser.parse(tokens_pos))
         # output: ['B-NP', 'B-VP', 'I-VP']
 """
+
 from __future__ import annotations
 
 __all__: list[str] = [

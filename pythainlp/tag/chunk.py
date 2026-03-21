@@ -6,6 +6,7 @@
 .. deprecated:: 5.3.2
     :func:`chunk_parse` has moved to :mod:`pythainlp.chunk`.
 """
+
 from __future__ import annotations
 
 from pythainlp.chunk import chunk_parse as _chunk_parse

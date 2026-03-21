@@ -4,14 +4,15 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, Any, Optional, Union
+from importlib import import_module
+from typing import TYPE_CHECKING, Union, cast
+
+from pythainlp.corpus import get_hf_hub
 
 if TYPE_CHECKING:
     import numpy as np
     from numpy.typing import NDArray
     from onnxruntime import InferenceSession
-
-from pythainlp.corpus import get_hf_hub
 
 
 class FastTextEncoder:
@@ -58,15 +59,13 @@ class FastTextEncoder:
 
         """
         try:
-            import numpy as np  # noqa: F401
-        except ModuleNotFoundError:
+            import_module("numpy")
+            import_module("onnxruntime")
+        except ModuleNotFoundError as exc:
             raise ModuleNotFoundError(
-                """
-            Please installing the package via 'pip install numpy onnxruntime'.
-            """
-            )
-        except Exception as e:
-            raise RuntimeError(f"An unexpected error occurred: {e}") from e
+                "Please install the required packages via "
+                "'pip install numpy onnxruntime'."
+            ) from exc
         self.model_dir = model_dir
         self.nn_model_path = nn_model_path
         self.bucket = bucket
@@ -81,7 +80,11 @@ class FastTextEncoder:
         self.embedding_dim = self.embeddings.shape[1]
 
     def _load_embeddings(self) -> tuple[list[str], NDArray[np.float32]]:
-        """Loads embeddings matrix and vocabulary list."""
+        """Load the embeddings matrix and vocabulary list.
+
+        :return: vocabulary entries and their float32 embedding matrix
+        :rtype: tuple[list[str], numpy.typing.NDArray[numpy.float32]]
+        """
         import numpy as np
 
         input_matrix = np.load(
@@ -97,7 +100,12 @@ class FastTextEncoder:
     def _load_suggestion_words(
         self, words_list: list[str]
     ) -> NDArray[np.str_]:
-        """Loads the list of words used for suggestions."""
+        """Load suggestion words into a NumPy string array.
+
+        :param list[str] words_list: words used for nearest-neighbor lookup
+        :return: words as a NumPy string array
+        :rtype: numpy.typing.NDArray[numpy.str_]
+        """
         import numpy as np
 
         words = np.array(words_list)
@@ -125,7 +133,12 @@ class FastTextEncoder:
         return h % self.bucket + self.nb_words
 
     def _get_subwords(self, word: str) -> tuple[list[str], NDArray[np.int_]]:
-        """Extracts subwords and their corresponding indices for a given word."""
+        """Extract subwords and their corresponding integer indices.
+
+        :param str word: input word
+        :return: extracted subwords and their NumPy index array
+        :rtype: tuple[list[str], numpy.typing.NDArray[numpy.int_]]
+        """
         _word = "<" + word + ">"
         _subwords = []
         _subword_ids = []
@@ -156,7 +169,12 @@ class FastTextEncoder:
         return _subwords, np.array(_subword_ids)
 
     def get_word_vector(self, word: str) -> NDArray[np.float32]:
-        """Computes the normalized vector for a single word."""
+        """Compute the normalized vector for a single word.
+
+        :param str word: input word
+        :return: normalized float32 embedding vector
+        :rtype: numpy.typing.NDArray[numpy.float32]
+        """
         import numpy as np
 
         # subword_ids[1] contains the array of indices for the word and its subwords
@@ -165,17 +183,21 @@ class FastTextEncoder:
         # Check if the array of subword indices is empty
         if subword_ids.size == 0:
             # Return a 300-dimensional zero vector if no word/subword is found.
-            return np.zeros(self.embedding_dim)
+            return np.zeros(self.embedding_dim, dtype=np.float32)
 
         # Compute the mean of the embeddings for all subword indices
-        vector = np.mean([self.embeddings[s] for s in subword_ids], axis=0)
+        vector = np.mean(
+            [self.embeddings[s] for s in subword_ids],
+            axis=0,
+            dtype=np.float32,
+        )
 
         # Normalize the vector
         norm = np.linalg.norm(vector)
         if norm > 0:
             vector /= norm
 
-        return vector
+        return cast("NDArray[np.float32]", vector)
 
     def _tokenize(self, sentence: str) -> list[str]:
         """Tokenizes a sentence based on whitespace."""
@@ -195,7 +217,12 @@ class FastTextEncoder:
         return tokens
 
     def get_sentence_vector(self, line: str) -> NDArray[np.float32]:
-        """Computes the mean vector for a sentence."""
+        """Compute the mean embedding vector for a sentence.
+
+        :param str line: input sentence
+        :return: float32 sentence embedding vector
+        :rtype: numpy.typing.NDArray[numpy.float32]
+        """
         import numpy as np
 
         tokens = self._tokenize(line)
@@ -207,9 +234,12 @@ class FastTextEncoder:
 
         # If the sentence was empty and resulted in no vectors, return a zero vector
         if not vectors:
-            return np.zeros(self.embedding_dim)
+            return np.zeros(self.embedding_dim, dtype=np.float32)
 
-        return np.mean(vectors, axis=0)
+        return cast(
+            "NDArray[np.float32]",
+            np.mean(vectors, axis=0, dtype=np.float32),
+        )
 
     # --- Nearest Neighbor Method ---
 
@@ -274,13 +304,14 @@ class Words_Spelling_Correction(FastTextEncoder):
         with open(
             get_hf_hub(
                 self.model_name, "list_word-spelling-correction-char2vec.txt"
-            )
+            ),
+            encoding="utf-8",
         ) as f:
             self.list_word = list(map(str.strip, f.readlines()))
         super().__init__(self.model_path, self.model_onnx, self.list_word)
 
 
-_WSC: Optional[Any] = None
+_WSC_CACHE: dict[str, Words_Spelling_Correction] = {}
 
 
 def get_words_spell_suggestion(
@@ -309,7 +340,6 @@ def get_words_spell_suggestion(
         # output: [['คนดีผีคุ้ม', 'มีดคอม้า', 'คดี', 'มีดสองคม', 'มูลคดี'],
         # ['กระเพาะ', 'กระพา', 'กะเพรา', 'กระเพาะปลา', 'พระประธาน']]
     """
-    global _WSC
-    if _WSC is None:
-        _WSC = Words_Spelling_Correction()
-    return _WSC.get_word_suggestion(list_words)
+    if "default" not in _WSC_CACHE:
+        _WSC_CACHE["default"] = Words_Spelling_Correction()
+    return _WSC_CACHE["default"].get_word_suggestion(list_words)

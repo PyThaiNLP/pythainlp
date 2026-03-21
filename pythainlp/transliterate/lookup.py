@@ -10,7 +10,7 @@ Zenodo. https://doi.org/10.5281/zenodo.6716672
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, cast
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -38,7 +38,7 @@ def follow_rtgs(text: str) -> Optional[bool]:
     except IndexError:
         return None
     else:
-        return follow  # type: ignore[return-value]
+        return cast(bool, follow)
 
 
 def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
@@ -52,7 +52,7 @@ def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
     except TypeError as e:
         raise TypeError(f"`fallback_engine` is not callable. {e}") from e
     else:
-        return lookup  # type: ignore[return-value]
+        return cast(str, lookup)
 
 
 def romanize(text: str, fallback_func: Callable[[str], str]) -> str:

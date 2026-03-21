@@ -28,12 +28,12 @@ class FrequencySummarizer:
         self.__stopwords: set[str] = set(punctuation).union(_STOPWORDS)
 
     @staticmethod
-    def __rank(ranking: dict, n: int) -> list:
-        return nlargest(n, ranking, key=ranking.get)  # type: ignore[arg-type]
+    def __rank(ranking: dict[int, float], n: int) -> list[int]:
+        return nlargest(n, ranking, key=lambda idx: ranking[idx])
 
     def __compute_frequencies(
         self, word_tokenized_sents: list[list[str]]
-    ) -> defaultdict:
+    ) -> defaultdict[str, float]:
         word_freqs: defaultdict[str, float] = defaultdict(int)
         for sent in word_tokenized_sents:
             for word in sent:

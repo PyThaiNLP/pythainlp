@@ -11,18 +11,20 @@ Using epitran
 
 from __future__ import annotations
 
+from typing import cast
+
 import epitran
 
 _EPI_THA: epitran.Epitran = epitran.Epitran("tha-Thai")
 
 
 def transliterate(text: str) -> str:
-    return _EPI_THA.transliterate(text)  # type: ignore[no-any-return]
+    return cast(str, _EPI_THA.transliterate(text))
 
 
 def trans_list(text: str) -> list[str]:
-    return _EPI_THA.trans_list(text)  # type: ignore[no-any-return]
+    return cast(list[str], _EPI_THA.trans_list(text))
 
 
 def xsampa_list(text: str) -> list[str]:
-    return _EPI_THA.xsampa_list(text)  # type: ignore[no-any-return]
+    return cast(list[str], _EPI_THA.xsampa_list(text))

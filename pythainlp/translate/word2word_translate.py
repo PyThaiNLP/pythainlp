@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, cast
 
 from word2word import Word2word
 
@@ -87,4 +87,4 @@ def translate(word: str, src: str, target: str) -> Optional[list[str]]:
     elif src == target:
         return [word]
     _engine = Word2word(src, target)
-    return _engine(word)  # type: ignore[no-any-return]
+    return cast(Optional[list[str]], _engine(word))

@@ -9,7 +9,7 @@ Nested Named Entity Recognition for Thai text.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union
 
 from pythainlp.corpus import get_corpus_path
 
@@ -18,12 +18,13 @@ if TYPE_CHECKING:
 
 __all__: list[str] = ["ThaiNNER"]
 
-
-def _is_contained_in(entity: dict, container: dict) -> bool:
+def _is_contained_in(
+    entity: dict[str, Any], container: dict[str, Any]
+) -> bool:
     """Check if an entity is strictly contained within a container entity.
 
-    :param dict entity: Entity to check
-    :param dict container: Potential container entity
+    :param dict[str, Any] entity: Entity to check
+    :param dict[str, Any] container: Potential container entity
     :return: True if entity is strictly contained in container
     :rtype: bool
     """
@@ -39,17 +40,20 @@ def _is_contained_in(entity: dict, container: dict) -> bool:
     )
 
 
-def get_top_level_entities(entities: list[dict]) -> list[dict]:
+def get_top_level_entities(
+    entities: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
     """Extract only top-level (outermost) entities from nested NER results.
 
     In nested NER, entities can contain other entities. This function filters
     the results to return only the outermost entities that are not contained
     within other entity.
 
-    :param list[dict] entities: List of entity dictionaries with 'span',
-                                'text', and 'entity_type' keys
+    :param list[dict[str, Any]] entities: List of entity dictionaries with
+                                          'span', 'text', and 'entity_type'
+                                          keys
     :return: List of top-level entities only
-    :rtype: list[dict]
+    :rtype: list[dict[str, Any]]
 
     :Example:
     ::
@@ -76,7 +80,7 @@ def get_top_level_entities(entities: list[dict]) -> list[dict]:
         entities, key=lambda x: (x["span"][0], -x["span"][1])
     )
 
-    top_level: list[dict] = []
+    top_level: list[dict[str, Any]] = []
     for ent in sorted_entities:
         is_contained = False
         # Only check against entities already in top_level
@@ -98,8 +102,9 @@ class ThaiNNER:
     The model recognizes nested named entities in Thai text, supporting
     104 entity types across multiple levels of nesting.
 
-    :param str path_model: Path to the Thai-NNER model file.
-                           If not specified, downloads from PyThaiNLP corpus.
+    :param Optional[str] path_model: Path to the Thai-NNER model file.
+                                     If not specified, uses the default
+                                     PyThaiNLP corpus path.
 
     :Example:
     ::

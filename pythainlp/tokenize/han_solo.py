@@ -73,7 +73,7 @@ class Featurizer:
         padding: bool = True,
         indiv_char: bool = True,
         return_type: str = "list",
-    ) -> dict[str, list]:
+    ) -> dict[str, list[Any]]:
         if padding:
             sentence = self.pad(sentence)
         all_features_list: list[list[str]] = []

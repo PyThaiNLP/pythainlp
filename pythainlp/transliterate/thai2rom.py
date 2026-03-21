@@ -23,6 +23,9 @@ device: torch.device = torch.device(
 
 _MODEL_NAME: str = "thai2rom-pytorch-attn"
 
+# Special tokens in the target vocabulary that must not appear in output.
+_SPECIAL_TARGET_TOKENS: frozenset = frozenset(["<PAD>", "<start>", "<end>"])
+
 
 class ThaiTransliterator:
     __model_filename: str
@@ -103,20 +106,18 @@ class ThaiTransliterator:
             input_tensor, input_length, None, 0
         )
 
-        # Seq2seq model returns <END> as the first token,
-        # As a result, target_tensor_logits.size() is torch.Size([0])
+        # Seq2seq model returns <END> as the first token when it cannot
+        # romanize the input; target_tensor_logits.size() is torch.Size([0]).
         if target_tensor_logits.size(0) == 0:
-            target = ["<PAD>"]
-        else:
-            target_tensor = (
-                torch.argmax(target_tensor_logits.squeeze(1), 1)
-                .cpu()
-                .detach()
-                .numpy()
-            )
-            target = [self._ix_to_target_char[t] for t in target_tensor]
-
-        return "".join(target)
+            return ""
+        target_tensor = (
+            torch.argmax(target_tensor_logits.squeeze(1), 1)
+            .cpu()
+            .detach()
+            .numpy()
+        )
+        chars = [self._ix_to_target_char[t] for t in target_tensor]
+        return "".join(c for c in chars if c not in _SPECIAL_TARGET_TOKENS)
 
 
 class Encoder(nn.Module):

@@ -23,6 +23,7 @@ class TransliterateTestCaseX(unittest.TestCase):
     def test_romanize_thai2rom(self):
         self.assertEqual(romanize("แมว", engine="thai2rom"), "maeo")
         self.assertEqual(romanize("บ้านไร่", engine="thai2rom"), "banrai")
+        self.assertEqual(romanize("สมชาย", engine="thai2rom"), "somchai")
         self.assertEqual(romanize("สุนัข", engine="thai2rom"), "sunak")
         self.assertEqual(romanize("นก", engine="thai2rom"), "nok")
         self.assertEqual(romanize("ความอิ่ม", engine="thai2rom"), "khwam-im")
@@ -35,6 +36,7 @@ class TransliterateTestCaseX(unittest.TestCase):
     def test_romanize_thai2rom_onnx(self):
         self.assertEqual(romanize("แมว", engine="thai2rom_onnx"), "maeo")
         self.assertEqual(romanize("บ้านไร่", engine="thai2rom_onnx"), "banrai")
+        self.assertEqual(romanize("สมชาย", engine="thai2rom_onnx"), "somchai")
         self.assertEqual(romanize("สุนัข", engine="thai2rom_onnx"), "sunak")
         self.assertEqual(romanize("นก", engine="thai2rom_onnx"), "nok")
         self.assertEqual(

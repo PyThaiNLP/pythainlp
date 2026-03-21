@@ -21,6 +21,9 @@ _MODEL_ENCODER_NAME: str = "thai2rom_encoder_onnx"
 _MODEL_DECODER_NAME: str = "thai2rom_decoder_onnx"
 _MODEL_CONFIG_NAME: str = "thai2rom_config_onnx"
 
+# Special tokens in the target vocabulary that must not appear in output.
+_SPECIAL_TARGET_TOKENS: frozenset = frozenset(["<PAD>", "<start>", "<end>"])
+
 
 class ThaiTransliterator_ONNX:
     def __init__(self) -> None:
@@ -118,15 +121,13 @@ class ThaiTransliterator_ONNX:
         input_length = [len(text) + 1]
         target_tensor_logits = self._network.run(input_tensor, input_length)
 
-        # Seq2seq model returns <END> as the first token,
-        # As a result, target_tensor_logits.size() is torch.Size([0])
+        # Seq2seq model returns <END> as the first token when it cannot
+        # romanize the input; target_tensor_logits.shape[0] is 0.
         if target_tensor_logits.shape[0] == 0:
-            target = ["<PAD>"]
-        else:
-            target_tensor = np.argmax(target_tensor_logits.squeeze(1), 1)
-            target = [self._ix_to_target_char[int(t)] for t in target_tensor]
-
-        return "".join(target)
+            return ""
+        target_tensor = np.argmax(target_tensor_logits.squeeze(1), 1)
+        chars = [self._ix_to_target_char[int(t)] for t in target_tensor]
+        return "".join(c for c in chars if c not in _SPECIAL_TARGET_TOKENS)
 
 
 class Seq2Seq_ONNX:

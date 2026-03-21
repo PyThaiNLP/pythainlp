@@ -17,6 +17,27 @@ and this project adheres to
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
 - Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.2>
 
+## [Unreleased]
+
+### Fixed
+
+- `romanize()` with `engine="thai2rom_onnx"` now works correctly.
+  Three bugs were fixed: (1) the bundled ONNX encoder model had `TopK`
+  nodes whose `K` input was a scalar (rank-0) tensor; newer ONNX Runtime
+  rejects this; the model is now patched to use a 1-D tensor of shape
+  `[1]`. (2) `ix_to_char` and `ix_to_target_char` JSON keys are strings;
+  lookups were incorrectly using `int` keys, causing `KeyError` on every
+  decode step; keys are now converted to `int` at load time. (3) The
+  loop-termination check `decoder_input == end_token` compared a NumPy
+  array to a scalar, yielding an ambiguous truth value; changed to
+  `decoder_input.item() == end_token` (#1346, #1348, #1349).
+- `romanize()` with `engine="thai2rom"` and `engine="thai2rom_onnx"`:
+  when the seq2seq model produces no output (immediately predicts
+  `<end>`), the function now returns `""` rather than the literal string
+  `"<PAD>"`. Special tokens (`<PAD>`, `<start>`, `<end>`) that may
+  appear in the raw model output are now filtered from the result
+  (#1346).
+
 ## [5.3.2] - 2026-03-19
 
 This release focuses on security improvements related to path traversal

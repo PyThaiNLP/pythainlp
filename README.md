@@ -220,6 +220,10 @@ with this BibTeX entry:
 }
 ```
 
+## Sponsors
+
+See [SPONSORS.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/SPONSORS.md)
+
 ## Acknowledgements
 
 PyThaiNLP was founded by Wannaphong Phatthiyaphaibun in 2016.
@@ -257,9 +261,6 @@ native support for Apple Silicon runners.
 [dreal]: https://d-real.ie/
 [nlp-chula]: https://attapol.github.io/lab.html
 [macstadium]: https://www.macstadium.com/
-
-![VISTEC-depa Thailand AI Research Institute](./docs/images/airesearch-logo.png)
-![MacStadium](./docs/images/macstadium-logo.png)
 
 We have only one official repository at
 <https://github.com/PyThaiNLP/pythainlp>

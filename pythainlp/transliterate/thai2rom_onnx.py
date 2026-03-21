@@ -67,9 +67,14 @@ class ThaiTransliterator_ONNX:
         self._maxlength: int = 100
 
         self._char_to_ix: Dict[str, int] = loader["char_to_ix"]
-        self._ix_to_char: Dict[int, str] = loader["ix_to_char"]
         self._target_char_to_ix: Dict[str, int] = loader["target_char_to_ix"]
-        self._ix_to_target_char: Dict[int, str] = loader["ix_to_target_char"]
+        # JSON keys are always strings; convert to int for index-based lookup.
+        self._ix_to_char: Dict[int, str] = {
+            int(k): v for k, v in loader["ix_to_char"].items()
+        }
+        self._ix_to_target_char: Dict[int, str] = {
+            int(k): v for k, v in loader["ix_to_target_char"].items()
+        }
 
         # encoder/ decoder
         # Load encoder decoder onnx models.
@@ -246,7 +251,7 @@ class Seq2Seq_ONNX:
 
             decoder_input = np.array([topi], dtype=np.int64)
 
-            if (decoder_input == end_token).all():
+            if decoder_input.item() == end_token:
                 return outputs[:di]
 
         return outputs

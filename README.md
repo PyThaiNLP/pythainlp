@@ -262,9 +262,6 @@ native support for Apple Silicon runners.
 [nlp-chula]: https://attapol.github.io/lab.html
 [macstadium]: https://www.macstadium.com/
 
-![VISTEC-depa Thailand AI Research Institute](./docs/images/airesearch-logo.png)
-![MacStadium](./docs/images/macstadium-logo.png)
-
 We have only one official repository at
 <https://github.com/PyThaiNLP/pythainlp>
 and another mirror at

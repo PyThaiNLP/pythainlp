@@ -155,9 +155,7 @@ class Thai_W2P:
                 "NDArray[np.float32]", variables["decoder_fc_bias"]
             )
 
-    def _sigmoid(
-        self, x: "NDArray[np.float32]"
-    ) -> "NDArray[np.float32]":
+    def _sigmoid(self, x: "NDArray[np.float32]") -> "NDArray[np.float32]":
         """Apply the sigmoid function to a float32 array.
 
         :param numpy.typing.NDArray[numpy.float32] x: input array
@@ -256,7 +254,9 @@ class Thai_W2P:
         import numpy as np
 
         chars = list(word) + ["</s>"]
-        char_ids = [self.g2idx.get(char, self.g2idx["<unk>"]) for char in chars]
+        char_ids = [
+            self.g2idx.get(char, self.g2idx["<unk>"]) for char in chars
+        ]
         x = np.take(self.enc_emb, np.expand_dims(char_ids, 0), axis=0)
 
         return x

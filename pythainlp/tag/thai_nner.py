@@ -18,6 +18,7 @@ if TYPE_CHECKING:
 
 __all__: list[str] = ["ThaiNNER"]
 
+
 def _is_contained_in(
     entity: dict[str, Any], container: dict[str, Any]
 ) -> bool:
@@ -41,7 +42,7 @@ def _is_contained_in(
 
 
 def get_top_level_entities(
-    entities: list[dict[str, Any]]
+    entities: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
     """Extract only top-level (outermost) entities from nested NER results.
 

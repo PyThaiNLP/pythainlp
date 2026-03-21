@@ -117,9 +117,7 @@ def process_thai(
     text: str,
     pre_rules: Optional[Collection[Callable[[str], str]]] = None,
     tok_func: Optional[Callable[[str], list[str]]] = None,
-    post_rules: Optional[Collection[
-        Callable[[list[str]], list[str]]
-    ]] = None,
+    post_rules: Optional[Collection[Callable[[list[str]], list[str]]]] = None,
 ) -> list[str]:
     """Process Thai texts for models (with sparse features as default)
 

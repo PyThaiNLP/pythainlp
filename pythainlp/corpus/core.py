@@ -49,7 +49,9 @@ class _ResponseWrapper:
     def json(self) -> dict[str, Any]:
         """Parse JSON content from response."""
         try:
-            return cast(dict[str, Any], json.loads(self._content.decode("utf-8")))
+            return cast(
+                dict[str, Any], json.loads(self._content.decode("utf-8"))
+            )
         except (json.JSONDecodeError, UnicodeDecodeError) as err:
             raise ValueError(f"Failed to parse JSON response: {err}") from err
 

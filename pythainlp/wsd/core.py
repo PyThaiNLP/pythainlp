@@ -132,6 +132,8 @@ def get_sense(
                     + "') "
                 )
             tokens_with_sense.append(token)
-        temp.append((meaning, model.get_score(sentence, "".join(tokens_with_sense))))
+        temp.append(
+            (meaning, model.get_score(sentence, "".join(tokens_with_sense)))
+        )
 
     return temp

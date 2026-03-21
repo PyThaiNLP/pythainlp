@@ -74,7 +74,8 @@ def audio_vector(word: str) -> list[list[int]]:
         # output : [[-1, 1, 1, -1, -1, -1, ...]]
     """
     return cast(
-        list[list[int]], _ft.word_to_vector_list(word2audio(word), numeric=True)
+        list[list[int]],
+        _ft.word_to_vector_list(word2audio(word), numeric=True),
     )
 
 

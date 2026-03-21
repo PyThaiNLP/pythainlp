@@ -131,7 +131,7 @@ class ThaiG2P:
         return "".join(target)
 
 
-class Encoder(nn.Module):  # type: ignore[misc]
+class Encoder(nn.Module):
     hidden_size: int
     character_embedding: nn.Embedding
     rnn: nn.LSTM
@@ -216,7 +216,7 @@ class Encoder(nn.Module):  # type: ignore[misc]
         return (h_0, c_0)
 
 
-class Attn(nn.Module):  # type: ignore[misc]
+class Attn(nn.Module):
     method: str
     hidden_size: int
     attn: nn.Linear
@@ -274,7 +274,7 @@ class Attn(nn.Module):  # type: ignore[misc]
         return F.softmax(attn_energies, 1)
 
 
-class AttentionDecoder(nn.Module):  # type: ignore[misc]
+class AttentionDecoder(nn.Module):
     vocabulary_size: int
     hidden_size: int
     character_embedding: nn.Embedding
@@ -342,7 +342,7 @@ class AttentionDecoder(nn.Module):  # type: ignore[misc]
         return x, hidden[0], attn_weights
 
 
-class Seq2Seq(nn.Module):  # type: ignore[misc]
+class Seq2Seq(nn.Module):
     encoder: Encoder
     decoder: AttentionDecoder
     pad_idx: int

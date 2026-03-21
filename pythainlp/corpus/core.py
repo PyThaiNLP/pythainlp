@@ -920,4 +920,4 @@ def get_hf_hub(repo_id: str, filename: str = "") -> str:
         output_path = snapshot_download(
             repo_id=repo_id, local_dir=root_project
         )
-    return output_path
+    return str(output_path)

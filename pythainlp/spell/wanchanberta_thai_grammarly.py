@@ -31,7 +31,7 @@ tokenizer: "PreTrainedTokenizer" = AutoTokenizer.from_pretrained(
 )
 
 
-class BertModel(torch.nn.Module):  # type: ignore[misc]
+class BertModel(torch.nn.Module):
     def __init__(self) -> None:
         super().__init__()
         self.bert: BertForTokenClassification = (

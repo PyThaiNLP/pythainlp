@@ -65,7 +65,7 @@ FAIRSEQ_LANGUAGE_CODES: dict[str, list[str]] = {
 # fmt: on
 
 
-class SMALL100Tokenizer(PreTrainedTokenizer):  # type: ignore[misc]
+class SMALL100Tokenizer(PreTrainedTokenizer):
     """Construct an SMALL100 tokenizer. Based on [SentencePiece](https://github.com/google/sentencepiece).
     This tokenizer inherits from [`PreTrainedTokenizer`] which contains most of the main methods. Users should refer to
     this superclass for more information regarding those methods.

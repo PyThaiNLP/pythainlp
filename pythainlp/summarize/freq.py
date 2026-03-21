@@ -33,16 +33,16 @@ class FrequencySummarizer:
 
     def __compute_frequencies(
         self, word_tokenized_sents: list[list[str]]
-    ) -> defaultdict[str, float]:
-        word_freqs: defaultdict[str, float] = defaultdict(int)
+    ) -> defaultdict[str, int]:
+        word_freqs: defaultdict[str, int] = defaultdict(int)
         for sent in word_tokenized_sents:
             for word in sent:
                 if word not in self.__stopwords:
                     word_freqs[word] += 1
 
-        max_freq = float(max(word_freqs.values()))
+        max_freq = max(word_freqs.values())
         for w in list(word_freqs):
-            word_freqs[w] = word_freqs[w] / max_freq
+            word_freqs[w] = word_freqs[w] // max_freq
             if (
                 word_freqs[w] >= self.__max_cut
                 or word_freqs[w] <= self.__min_cut
@@ -61,7 +61,7 @@ class FrequencySummarizer:
         word_tokenized_sents = [
             word_tokenize(sent, engine=tokenizer) for sent in sents
         ]
-        self.__freq: "defaultdict[str, float]" = self.__compute_frequencies(
+        self.__freq: "defaultdict[str, float]" = self.__(
             word_tokenized_sents
         )
         ranking: defaultdict[int, float] = defaultdict(int)

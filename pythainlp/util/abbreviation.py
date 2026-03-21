@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Optional, cast
 
 
 def abbreviation_to_full_text(
@@ -44,4 +44,4 @@ def abbreviation_to_full_text(
             pip install pythainlp[abbreviation].
             """
         )
-    return _replace(text, top_k=top_k)  # type: ignore[no-any-return]
+    return cast(list[tuple[str, Optional[float]]], _replace(text, top_k=top_k))

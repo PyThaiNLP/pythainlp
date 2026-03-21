@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import collections
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Optional, cast
 
 import torch
 
@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     import numpy as np
     from fastai.basic_data import DataBunch
     from fastai.basic_train import Learner
+    from numpy.typing import NDArray
 
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer
@@ -114,21 +115,27 @@ post_rules_th_sparse: list[Callable[[Collection[str]], list[str]]] = (
 
 def process_thai(
     text: str,
-    pre_rules: Collection = pre_rules_th_sparse,
-    tok_func: Optional[Callable] = None,
-    post_rules: Collection = post_rules_th_sparse,
-) -> Collection[str]:
+    pre_rules: Optional[Collection[Callable[[str], str]]] = None,
+    tok_func: Optional[Callable[[str], list[str]]] = None,
+    post_rules: Optional[Collection[
+        Callable[[list[str]], list[str]]
+    ]] = None,
+) -> list[str]:
     """Process Thai texts for models (with sparse features as default)
 
     :param str text: text to be cleaned
-    :param list[func] pre_rules: rules to apply before tokenization.
-    :param func tok_func: tokenization function (by default, **tok_func** is
-                          :func:`pythainlp.tokenize.word_tokenize`)
+    :param Optional[Collection[Callable[[str], str]]] pre_rules: rules to
+        apply before tokenization. If None, use the default sparse pre-rules.
+    :param Optional[Callable[[str], list[str]]] tok_func: tokenization
+        function. By default, **tok_func** is
+        :func:`pythainlp.tokenize.word_tokenize`.
 
-    :param list[func]  post_rules: rules to apply after tokenizations
+    :param Optional[Collection[Callable[[list[str]], list[str]]]] post_rules:
+        rules to apply after tokenization. If None, use the default sparse
+        post-rules.
 
     :return: a list of cleaned tokenized texts
-    :rtype: Collection[str]
+    :rtype: list[str]
 
 
     :Note:
@@ -177,23 +184,30 @@ def process_thai(
 
 
     """
-    res: Union[str, list[str]] = text
+    processed_text = text
+    if pre_rules is None:
+        pre_rules = pre_rules_th_sparse
+    if post_rules is None:
+        post_rules = cast(
+            Collection[Callable[[list[str]], list[str]]],
+            post_rules_th_sparse,
+        )
 
     if tok_func is None:
         tok_func = thai2fit_tokenizer().word_tokenize
 
-    for rule in pre_rules:
-        res = rule(res)
-    res = tok_func(res)  # type: ignore[arg-type]
-    for rule in post_rules:
-        res = rule(res)
+    for pre_rule in pre_rules:
+        processed_text = pre_rule(processed_text)
+    tokens = tok_func(processed_text)
+    for post_rule in post_rules:
+        tokens = post_rule(tokens)
 
-    return res
+    return tokens
 
 
 def document_vector(
     text: str, learn: "Learner", data: "DataBunch", agg: str = "mean"
-) -> "np.ndarray":
+) -> "NDArray[np.float32]":
     """This function vectorizes Thai input text into a 400 dimension vector using
     :class:`fastai` language model and data bunch.
 
@@ -205,9 +219,9 @@ def document_vector(
     :param str agg: name of aggregation methods for word embeddings
                     The available methods are "mean" and "sum"
 
-    :return: :class:`numpy.array` of document vector sized 400 based on
-             the encoder of the model
-    :rtype: :class:`numpy.ndarray((1, 400))`
+    :return: :class:`numpy.ndarray` of dtype ``numpy.float32`` containing
+             the document vector produced by the encoder
+    :rtype: numpy.typing.NDArray[numpy.float32]
 
     :Example:
 
@@ -237,19 +251,22 @@ def document_vector(
         device
     )
     m = learn.model[0].encoder.to(device)
-    res = m(t).cpu().detach().numpy()
+    res = m(t).cpu().detach().numpy().astype("float32", copy=False)
     if agg == "mean":
-        res = res.mean(0)
+        res = res.mean(0, dtype="float32")
     elif agg == "sum":
-        res = res.sum(0)
+        res = res.sum(0, dtype="float32")
     else:
         raise ValueError("Aggregate by mean or sum")
 
-    return res
+    return cast("NDArray[np.float32]", res)
 
 
 def merge_wgts(
-    em_sz: int, wgts: dict[str, Any], itos_pre: list[str], itos_new: list[str]
+    em_sz: int,
+    wgts: dict[str, torch.Tensor],
+    itos_pre: list[str],
+    itos_new: list[str],
 ) -> dict[str, torch.Tensor]:
     """This function is to insert new vocab into an existing model named `wgts`
     and update the model's weights for new vocab with the average embedding.
@@ -287,10 +304,10 @@ def merge_wgts(
         # [0.5952, 0.4453, 0.0011]])}
     """
     vocab_size = len(itos_new)
-    enc_wgts = wgts["0.encoder.weight"].numpy()
+    enc_wgts = wgts["0.encoder.weight"].numpy().astype("float32", copy=False)
 
     # Average weight of encoding
-    row_m = enc_wgts.mean(0)
+    row_m = enc_wgts.mean(0, dtype="float32")
     stoi_pre = collections.defaultdict(
         lambda: -1, {v: k for k, v in enumerate(itos_pre)}
     )

@@ -9,7 +9,7 @@ huggingface: https://huggingface.co/B-K/umt5-thai-g2p-v2-0.5k
 # Use a pipeline as a high-level helper
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, cast
 
 if TYPE_CHECKING:
     from transformers import Pipeline
@@ -39,7 +39,8 @@ class Umt5ThaiG2P:
         )
 
     def g2p(self, text: str) -> str:
-        return self.pipe(text)[0]["generated_text"]  # type: ignore[no-any-return]
+        outputs = cast(list[dict[str, str]], self.pipe(text))
+        return outputs[0]["generated_text"]
 
 
 _THAI_G2P: Optional[Umt5ThaiG2P] = None

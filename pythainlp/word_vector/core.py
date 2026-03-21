@@ -5,14 +5,15 @@ from __future__ import annotations
 
 import logging
 from collections.abc import Callable
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from pythainlp.corpus import get_corpus_path
 from pythainlp.tokenize import thai2fit_tokenizer, word_tokenize
 
 if TYPE_CHECKING:
+    import numpy as np
     from gensim.models.keyedvectors import Word2VecKeyedVectors
-    from numpy import ndarray
+    from numpy.typing import NDArray
 
 WV_DIM: int = 300  # word vector dimension
 
@@ -135,7 +136,7 @@ class WordVector:
         >>> wv.doesnt_match(words)
         'เรือ'
         """
-        return self.model.doesnt_match(words)  # type: ignore[no-any-return]
+        return cast(str, self.model.doesnt_match(words))
 
     def most_similar_cosmul(
         self, positive: list[str], negative: list[str]
@@ -236,8 +237,11 @@ class WordVector:
         >>> wv.most_similar_cosmul(list_positive, list_negative)
         KeyError: "word 'เมนูอาหารไทย' not in vocabulary"
         """
-        return self.model.most_similar_cosmul(  # type: ignore[no-any-return]
-            positive=positive, negative=negative
+        return cast(
+            list[tuple[str, float]],
+            self.model.most_similar_cosmul(
+                positive=positive, negative=negative
+            ),
         )
 
     def similarity(self, word1: str, word2: str) -> float:
@@ -276,9 +280,11 @@ class WordVector:
         0.04300258
 
         """
-        return self.model.similarity(word1, word2)  # type: ignore[no-any-return]
+        return cast(float, self.model.similarity(word1, word2))
 
-    def sentence_vectorizer(self, text: str, use_mean: bool = True) -> ndarray:
+    def sentence_vectorizer(
+        self, text: str, use_mean: bool = True
+    ) -> "NDArray[np.float32]":
         """Converts a Thai sentence into a vector.
         Specifically, it first tokenizes that text and maps each tokenized word
         with the word vectors from the model.
@@ -290,9 +296,9 @@ class WordVector:
                                  word vectors. Otherwise, aggregate with
                                  summation of all word vectors
 
-        :return: 300-dimension vector representing the given sentence
-                 in form of :mod:`numpy` array
-        :rtype: numpy.ndarray
+        :return: a :class:`numpy.ndarray` of dtype ``numpy.float32`` and
+               shape ``(1, 300)`` representing the given sentence
+        :rtype: numpy.typing.NDArray[numpy.float32]
 
 
         :Example:
@@ -321,9 +327,9 @@ class WordVector:
             0.40506999,  1.58591403,  0.63869202, -0.702155  ,  1.62977601,
             4.52269109, -0.70760502,  0.50952601, -0.914392  ,  0.70673105]])
         """
-        from numpy import zeros
+        import numpy as np
 
-        vec = zeros((1, self.WV_DIM))
+        vec = np.zeros((1, self.WV_DIM), dtype=np.float32)
 
         words = self.tokenize(text)
         len_words = len(words)

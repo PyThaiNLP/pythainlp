@@ -80,7 +80,7 @@ def _get_sym_spell() -> SymSpell:
                     separator="\t",
                     encoding="utf-8-sig",
                 )
-    return _sym_spell
+    return _sym_spell  # pyright: ignore[reportReturnType]
 
 
 def spell(text: str, max_edit_distance: int = 2) -> list[str]:

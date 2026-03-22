@@ -89,7 +89,9 @@ def _convert_custom_dict(
 ) -> list[tuple[str, int]]:
     """Converts a custom dictionary to a list of (str, int) tuples"""
     if isinstance(custom_dict, dict):
-        custom_dict = list(custom_dict.items())
+        custom_dict = cast(  # pyright: ignore[reportAssignmentType]
+            Iterable[tuple[str, int]], list(custom_dict.items())
+        )
 
     i = iter(custom_dict)
     first_member = next(i)

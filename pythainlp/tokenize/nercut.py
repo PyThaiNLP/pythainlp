@@ -12,7 +12,7 @@ Code by Wannaphong Phatthiyaphaibun
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -46,7 +46,7 @@ def segment(
     if not text:
         return []
 
-    tagged_words = tagger.tag(text, pos=False)
+    tagged_words = cast(list[tuple[str, str]], tagger.tag(text, pos=False))
 
     words = []
     combining_word = ""

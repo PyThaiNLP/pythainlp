@@ -50,7 +50,7 @@ _vowel_str: str = "".join(
         "โอ,เอาะ,ออ,เออะ,เออ,อำ,ใอ,ไอ,เอา,ฤ,ฤๅ,ฦ,ฦๅ",
     )
 )
-thai_vowel: list[str] = _vowel_str.split(",")
+thai_vowel: list[str] = list(_vowel_str.split(","))
 thai_vowel_all: list[tuple[str, str]] = [
     ("([ก-ฮ])ะ", "\\1อะ"),
     ("([ก-ฮ])า", "\\1อา"),

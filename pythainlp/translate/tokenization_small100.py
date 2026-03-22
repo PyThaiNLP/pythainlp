@@ -234,12 +234,12 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         )
 
     @property
-    def tgt_lang(self) -> str:
+    def tgt_lang(self) -> str:  # pyright: ignore[reportRedeclaration]
         return self._tgt_lang
 
     @tgt_lang.setter
-    def tgt_lang(self, new_tgt_lang: str) -> None:
-        self._tgt_lang: str = new_tgt_lang
+    def tgt_lang(self, new_tgt_lang: str) -> None:  # pyright: ignore[reportRedeclaration]
+        self._tgt_lang = new_tgt_lang
         self.set_lang_special_tokens(self._tgt_lang)
 
     def _tokenize(self, text: str) -> list[str]:
@@ -434,16 +434,16 @@ class SMALL100Tokenizer(PreTrainedTokenizer):
         self.set_lang_special_tokens(self.tgt_lang)
 
     def _switch_to_target_mode(self) -> None:
-        self.prefix_tokens: Optional[list[int]] = None
-        self.suffix_tokens: list[int] = [self.eos_token_id]
+        self.prefix_tokens = None
+        self.suffix_tokens = [self.eos_token_id]
 
     def set_lang_special_tokens(self, src_lang: str) -> None:
         """Reset the special tokens to the tgt lang setting.
         No prefix and suffix=[eos, tgt_lang_code]."""
         lang_token = self.get_lang_token(src_lang)
-        self.cur_lang_id: int = self.lang_token_to_id[lang_token]
-        self.prefix_tokens: list[int] = [self.cur_lang_id]
-        self.suffix_tokens: list[int] = [self.eos_token_id]
+        self.cur_lang_id = self.lang_token_to_id[lang_token]
+        self.prefix_tokens = [self.cur_lang_id]
+        self.suffix_tokens = [self.eos_token_id]
 
     def get_lang_token(self, lang: str) -> str:
         return self.lang_code_to_token[lang]

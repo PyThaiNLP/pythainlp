@@ -275,8 +275,7 @@ def word_tokenize(
         from pythainlp.tokenize.deepcut import segment as deepcut_segment  # noqa: I001
 
         if custom_dict:
-            custom_dict = list(custom_dict)  # type: ignore[assignment]
-            segments = deepcut_segment(text, custom_dict)
+            segments = deepcut_segment(text, list(custom_dict))
         else:
             segments = deepcut_segment(text)
     elif engine == "icu":

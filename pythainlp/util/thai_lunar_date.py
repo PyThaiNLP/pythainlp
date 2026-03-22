@@ -407,8 +407,13 @@ def to_lunar_date(input_date: date) -> str:
         days_in_month = _DAYS_355
     elif last_day == 384:
         days_in_month = _DAYS_384
+    else:
+        raise ValueError(
+            f"Unexpected last_day value: {last_day!r}. Expected 354, 355, or 384."
+        )
 
     days_of_year = day_from_one
+    th_m = 0
     for j, days in enumerate(days_in_month, start=1):
         th_m = j
         if 0 < days_of_year <= days:

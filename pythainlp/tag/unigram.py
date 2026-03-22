@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import json
 import os
-from typing import Optional
+from typing import Optional, cast
 
 from pythainlp.corpus import corpus_path, get_corpus_path
 from pythainlp.tag import blackboard, orchid
@@ -38,7 +38,7 @@ def _orchid_tagger() -> dict[str, str]:
     if not _ORCHID_TAGGER:
         with open(_ORCHID_PATH, encoding="utf-8-sig") as fh:
             _ORCHID_TAGGER = json.load(fh)
-    return _ORCHID_TAGGER
+    return cast(dict[str, str], _ORCHID_TAGGER)
 
 
 def _pud_tagger() -> dict[str, str]:
@@ -46,7 +46,7 @@ def _pud_tagger() -> dict[str, str]:
     if not _PUD_TAGGER:
         with open(_PUD_PATH, encoding="utf-8-sig") as fh:
             _PUD_TAGGER = json.load(fh)
-    return _PUD_TAGGER
+    return cast(dict[str, str], _PUD_TAGGER)
 
 
 def _blackboard_tagger() -> dict[str, str]:
@@ -62,7 +62,7 @@ def _blackboard_tagger() -> dict[str, str]:
             )
         with open(path, encoding="utf-8-sig") as fh:
             _BLACKBOARD_TAGGER = json.load(fh)
-    return _BLACKBOARD_TAGGER
+    return cast(dict[str, str], _BLACKBOARD_TAGGER)
 
 
 def _thai_tdtb() -> dict[str, str]:
@@ -70,7 +70,7 @@ def _thai_tdtb() -> dict[str, str]:
     if not _TDTB_TAGGER:
         with open(_TDTB_PATH, encoding="utf-8-sig") as fh:
             _TDTB_TAGGER = json.load(fh)
-    return _TDTB_TAGGER
+    return cast(dict[str, str], _TDTB_TAGGER)
 
 
 def _tud_tagger() -> dict[str, str]:
@@ -78,7 +78,7 @@ def _tud_tagger() -> dict[str, str]:
     if not _TUD_TAGGER:
         with open(_TUD_PATH, encoding="utf-8-sig") as fh:
             _TUD_TAGGER = json.load(fh)
-    return _TUD_TAGGER
+    return cast(dict[str, str], _TUD_TAGGER)
 
 
 def _find_tag(

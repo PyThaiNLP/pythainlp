@@ -127,13 +127,9 @@ class PerceptronTagger:
     END: list[str] = ["-END-", "-END2-"]
     AP_MODEL_LOC: str = ""
 
-    model: "AveragedPerceptron"
-    tagdict: dict[str, str]
-    classes: set[str]
-
     def __init__(self, path: str = "") -> None:
         """:param str path: model path"""
-        self.model: "AveragedPerceptron" = AveragedPerceptron()
+        self.model: AveragedPerceptron = AveragedPerceptron()
         self.tagdict: dict[str, str] = {}
         self.classes: set[str] = set()
         if path != "":
@@ -142,7 +138,8 @@ class PerceptronTagger:
 
     def tag(self, tokens: Iterable[str]) -> list[tuple[str, str]]:
         """Tags a string `tokens`."""
-        prev, prev2 = self.START
+        prev = self.START[0]
+        prev2 = self.START[1]
         output = []
 
         context = self.START + [self._normalize(w) for w in tokens] + self.END
@@ -181,7 +178,8 @@ class PerceptronTagger:
             for sentence in sentences_list:
                 words, tags = zip(*sentence)
 
-                prev, prev2 = self.START
+                prev = self.START[0]
+                prev2 = self.START[1]
                 context = (
                     self.START + [self._normalize(w) for w in words] + self.END
                 )
@@ -220,9 +218,9 @@ class PerceptronTagger:
             msg = "Missing trontagger.json file."
             raise OSError(msg) from ex
         self.model.weights = w_td_c["weights"]
-        self.tagdict: dict[str, list[str]] = w_td_c["tagdict"]
-        self.classes: list[str] = w_td_c["classes"]
-        self.model.classes = set(self.classes)
+        self.tagdict = w_td_c["tagdict"]
+        self.classes = set(w_td_c["classes"])
+        self.model.classes = self.classes
 
     def _normalize(self, word: str) -> str:
         """Normalization used in pre-processing.

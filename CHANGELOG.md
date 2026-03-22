@@ -19,8 +19,45 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Type checking: add `pyrightconfig.json` to configure pyright for the project.
+
+### Changed
+
+- Type checking: add `extra_checks`, `strict_bytes`, `strict_equality_for_none`,
+  and `strict_optional` options to mypy configuration in `pyproject.toml`.
+- `tokenize.tcc`, `tokenize.tcc_p`, `util.pronounce`: use `list()` constructor
+  to produce `list[str]` instead of assigning `list[LiteralString]` to `list[str]`.
+- `tag._tag_perceptron.PerceptronTagger`: remove duplicate class-level type
+  declarations; fix incorrect re-annotations in `load()` method; use indexed
+  access instead of sequence unpacking for `START` and `END` lists.
+- `tag.unigram`: use `cast` for lazy-loaded global tagger dicts to satisfy
+  pyright's return-type narrowing requirements.
+- `tokenize.budoux`: add an explicit `None`-guard after lazy init to narrow
+  the parser type before calling `.parse()`.
+- `tokenize.core`: pass `list(custom_dict)` directly to `deepcut_segment`
+  instead of re-annotating the parameter variable.
+- `tokenize.nercut`: cast `NER.tag()` result to `list[tuple[str, str]]` to
+  resolve the broad return-type union.
+- `summarize.core`: use `cast` instead of a bare `# type: ignore` comment.
+- `translate.tokenization_small100`: remove redundant instance-level type
+  re-annotations for `prefix_tokens` and `cur_lang_id`; suppress false-positive
+  `reportRedeclaration` on property getter/setter pair.
+- `transliterate.thai2rom`, `transliterate.thaig2p`: add `else: raise ValueError`
+  branch to attention-energy if/elif chains so `attn_energies` is always bound.
+- `util.thai_lunar_date`: initialize `th_m` before the loop; add `else: raise
+  ValueError` for unexpected `last_day` values.
+- `spell.pn`: use `cast` when converting a `dict` argument to an item list.
+- `spell.symspellpy`: suppress pyright `reportReturnType` false positive caused
+  by `SymSpell` being unresolvable when `symspellpy` is not installed.
+
 ### Fixed
 
+- thai2rom, thaig2p: raise `ValueError` for unsupported attention method name,
+  eliminating the possibly-unbound variable warning.
+- thai_lunar_date: raise `ValueError` for unexpected `last_day` values, making
+  the `days_in_month` variable always bound.
 - thai2rom_onnx: fix ONNX encoder model and fix inference bugs (#1349)
 - wordnet: fix AttributeError (#1354)
 

@@ -1,0 +1,12 @@
+{
+    "pythonVersion": "3.9",
+    "typeCheckingMode": "basic",
+    "reportMissingImports": "none",
+    "reportMissingModuleSource": "none",
+    "reportAttributeAccessIssue": "none",
+    "reportCallIssue": "none",
+    "reportGeneralTypeIssues": "none",
+    "reportInvalidTypeForm": "none",
+    "reportOperatorIssue": "none",
+    "reportOptionalMemberAccess": "none"
+}

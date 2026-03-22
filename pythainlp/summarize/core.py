@@ -114,7 +114,7 @@ def summarize(
         sents = mT5Summarizer(model_size=size).summarize(text)
     else:  # if engine not found, return first n sentences
         # sent_tokenize with str input returns list[str]
-        sents = sent_tokenize(text, engine="whitespace+newline")[:n]  # type: ignore[assignment]
+        sents = cast(list[str], sent_tokenize(text, engine="whitespace+newline")[:n])
 
     return sents
 

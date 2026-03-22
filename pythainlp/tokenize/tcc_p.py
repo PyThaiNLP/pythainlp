@@ -21,7 +21,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from collections.abc import Iterator
 
-_RE_TCC: list[str] = (
+_RE_TCC: list[str] = list(
     """\
 เc็ck
 เcctาะk

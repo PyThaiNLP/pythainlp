@@ -26,9 +26,10 @@
 - [ ] Add tests for new functionality or behavior.
       New PR must not drop the test coverage more than 0.2%.
 - [ ] Keep the test coverage high. Aim at least 70% test coverage.
-- [ ] Add test cases to capture edge cases.
-- [ ] Add test cases to cover code branches.
+- [ ] Add test cases to cover all code branches and capture edge cases.
 - [ ] Docstring and doctest must reflect the latest code.
+- [ ] All error messages and warning messages should be clear, concise,
+      and consistent in style. They should be parseable.
 - [ ] API documentation is in docs/api/.
       There must be an .rst file for each module, so that the generated
       module API documentation is visible publicly.

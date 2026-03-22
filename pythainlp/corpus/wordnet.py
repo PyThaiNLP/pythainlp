@@ -428,7 +428,7 @@ def morphy(form: str, pos: Optional[str] = None) -> str:
         >>> morphy("calculated")
         'calculate'
     """
-    return cast(str, wordnet.morphy(form, pos=None))
+    return cast(str, wordnet.morphy(form, pos=pos))
 
 
 def custom_lemmas(tab_file: Union[str, IO[str]], lang: str) -> None:

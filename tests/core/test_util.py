@@ -123,7 +123,8 @@ class UtilTestCase(unittest.TestCase):
         )
         self.assertEqual(bahttext(116), "หนึ่งร้อยสิบหกบาทถ้วน")
         self.assertEqual(bahttext(0), "ศูนย์บาทถ้วน")
-        self.assertEqual(bahttext(None), "")
+        with self.assertRaises(TypeError):
+            bahttext(None)  # type: ignore[arg-type]
         # Edge cases: negative number
         self.assertEqual(bahttext(-100), "ลบหนึ่งร้อยบาทถ้วน")
         self.assertEqual(bahttext(-50.50), "ลบห้าสิบบาทห้าสิบสตางค์")

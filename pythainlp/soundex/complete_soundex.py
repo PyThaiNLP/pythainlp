@@ -208,7 +208,9 @@ class CompleteSoundex:
 
         return [(text, None)]
 
-    def _process_leading_vowel(self, chars: list, idx: int) -> tuple:
+    def _process_leading_vowel(
+        self, chars: list[str], idx: int
+    ) -> tuple[str, int]:
         """Extract and process leading vowel."""
         leading_vowel = ""
         if idx < len(chars) and chars[idx] in ["เ", "แ", "โ", "ไ", "ใ"]:
@@ -217,8 +219,8 @@ class CompleteSoundex:
         return leading_vowel, idx
 
     def _process_initial_consonant(
-        self, chars: list, idx: int, leading_vowel: str
-    ) -> tuple:
+        self, chars: list[str], idx: int, leading_vowel: str
+    ) -> tuple[str, str, str, int]:
         """Process initial consonant and cluster."""
         init_char = ""
         init_code = ""
@@ -248,7 +250,7 @@ class CompleteSoundex:
         return init_char, init_code, cluster_char, idx
 
     def _detect_cluster(
-        self, chars: list, idx: int, leading_vowel: str
+        self, chars: list[str], idx: int, leading_vowel: str
     ) -> bool:
         """Detect if ร/ล/ว is a cluster."""
         if idx + 1 < len(chars):
@@ -269,7 +271,7 @@ class CompleteSoundex:
             return True
         return False
 
-    def _map_leading_vowel_code(self, leading_vowel: str) -> tuple:
+    def _map_leading_vowel_code(self, leading_vowel: str) -> tuple[str, str]:
         """Map leading vowel to initial vowel and final code."""
         vowel_code = ""
         final_code = "-"
@@ -292,12 +294,12 @@ class CompleteSoundex:
 
     def _scan_vowels_tones_finals(
         self,
-        chars: list,
+        chars: list[str],
         idx: int,
         leading_vowel: str,
         vowel_code: str,
         final_code: str,
-    ) -> tuple:
+    ) -> tuple[str, str, str, list[str]]:
         """Scan remaining characters for vowels, tones, and finals."""
         remaining = chars[idx:]
         final_candidates = []
@@ -317,7 +319,7 @@ class CompleteSoundex:
 
     def _process_vowel_char(
         self, c: str, leading_vowel: str, vowel_code: str, final_code: str
-    ) -> tuple:
+    ) -> tuple[str, str]:
         """Process a single vowel character."""
         # Complex Vowel Checks
         if leading_vowel == "เ" and c == "ื":
@@ -354,8 +356,8 @@ class CompleteSoundex:
         syl: str,
         final_code: str,
         vowel_code: str,
-        final_candidates: list,
-    ) -> tuple:
+        final_candidates: list[str],
+    ) -> tuple[str, str, bool]:
         """Process final consonant and detect dropped ร."""
         dropped_r = False
 
@@ -388,7 +390,10 @@ class CompleteSoundex:
         return vowel_code, final_code, dropped_r
 
     def _check_special_format(
-        self, init_char: str, final_candidates: list, vowel_code: str
+        self,
+        init_char: str,
+        final_candidates: list[str],
+        vowel_code: str,
     ) -> bool:
         """Check if special format (tone before final) should be used."""
         # Special format (tone before final) is used when:

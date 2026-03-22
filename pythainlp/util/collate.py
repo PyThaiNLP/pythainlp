@@ -26,13 +26,13 @@ def _thkey(word: str) -> str:
     return cv + tone
 
 
-def collate(data: Iterable, reverse: bool = False) -> list[str]:
+def collate(data: Iterable[str], reverse: bool = False) -> list[str]:
     """Sorts strings (almost) according to Thai dictionary.
 
     Important notes: this implementation ignores tone marks and symbols
 
-    :param data: a list of words to be sorted
-    :type data: Iterable
+    :param data: an iterable of words to be sorted
+    :type data: Iterable[str]
     :param reverse: If `reverse` is set to **True** the result will be
                          sorted in descending order. Otherwise, the result
                          will be sorted in ascending order, defaults to False
@@ -40,7 +40,7 @@ def collate(data: Iterable, reverse: bool = False) -> list[str]:
 
     :return: a list of strings, sorted alphabetically, (almost) according to
              Thai dictionary
-    :rtype: List[str]
+    :rtype: list[str]
 
     :Example:
     ::

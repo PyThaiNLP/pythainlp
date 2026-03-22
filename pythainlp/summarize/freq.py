@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from collections import defaultdict
+from collections import Counter
 from heapq import nlargest
 from string import punctuation
 from typing import cast
@@ -20,36 +20,32 @@ class FrequencySummarizer:
     __min_cut: float
     __max_cut: float
     __stopwords: set[str]
-    __freq: "defaultdict[str, float]"
+    __freq: dict[str, float]
 
     def __init__(self, min_cut: float = 0.1, max_cut: float = 0.9) -> None:
         self.__min_cut: float = min_cut
         self.__max_cut: float = max_cut
         self.__stopwords: set[str] = set(punctuation).union(_STOPWORDS)
 
-    @staticmethod
-    def __rank(ranking: dict, n: int) -> list:
-        return nlargest(n, ranking, key=ranking.get)  # type: ignore[arg-type]
-
     def __compute_frequencies(
         self, word_tokenized_sents: list[list[str]]
-    ) -> defaultdict:
-        word_freqs: defaultdict[str, float] = defaultdict(int)
+    ) -> dict[str, float]:
+        counts: Counter[str] = Counter()
         for sent in word_tokenized_sents:
             for word in sent:
                 if word not in self.__stopwords:
-                    word_freqs[word] += 1
+                    counts[word] += 1
 
-        max_freq = float(max(word_freqs.values()))
-        for w in list(word_freqs):
-            word_freqs[w] = word_freqs[w] / max_freq
-            if (
-                word_freqs[w] >= self.__max_cut
-                or word_freqs[w] <= self.__min_cut
-            ):
-                del word_freqs[w]
+        if not counts:
+            return {}
 
-        return word_freqs
+        max_freq = float(max(counts.values()))
+        freqs = {w: (c / max_freq) for w, c in counts.items()}
+        return {
+            w: f
+            for w, f in freqs.items()
+            if self.__min_cut < f < self.__max_cut
+        }
 
     def summarize(
         self, text: str, n: int, tokenizer: str = "newmm"
@@ -61,15 +57,9 @@ class FrequencySummarizer:
         word_tokenized_sents = [
             word_tokenize(sent, engine=tokenizer) for sent in sents
         ]
-        self.__freq: "defaultdict[str, float]" = self.__compute_frequencies(
-            word_tokenized_sents
-        )
-        ranking: defaultdict[int, float] = defaultdict(int)
-
+        self.__freq = self.__compute_frequencies(word_tokenized_sents)
+        scores = [0.0] * len(word_tokenized_sents)
         for i, sent in enumerate(word_tokenized_sents):
-            for w in sent:
-                if w in self.__freq:
-                    ranking[i] += self.__freq[w]
-        summaries_idx = self.__rank(ranking, n)
-
+            scores[i] = sum(self.__freq.get(w, 0.0) for w in sent)
+        summaries_idx = nlargest(n, range(len(scores)), key=scores.__getitem__)
         return [sents[j] for j in summaries_idx]

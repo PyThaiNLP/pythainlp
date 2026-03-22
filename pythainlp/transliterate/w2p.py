@@ -7,7 +7,7 @@ GitHub : https://github.com/wannaphong/Thai_W2P
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, cast
 
 from pythainlp.corpus import get_corpus_path
 
@@ -40,9 +40,9 @@ class _Hparams:
 hp: _Hparams = _Hparams()
 
 
-def _load_vocab() -> (
-    tuple[dict[str, int], dict[int, str], dict[str, int], dict[int, str]]
-):
+def _load_vocab() -> tuple[
+    dict[str, int], dict[int, str], dict[str, int], dict[int, str]
+]:
     g2idx = {g: idx for idx, g in enumerate(hp.graphemes)}
     idx2g = dict(enumerate(hp.graphemes))
 
@@ -60,18 +60,18 @@ class Thai_W2P:
     p2idx: dict[str, int]
     idx2p: dict[int, str]
     checkpoint: Optional[str]
-    enc_emb: "NDArray"
-    enc_w_ih: "NDArray"
-    enc_w_hh: "NDArray"
-    enc_b_ih: "NDArray"
-    enc_b_hh: "NDArray"
-    dec_emb: "NDArray"
-    dec_w_ih: "NDArray"
-    dec_w_hh: "NDArray"
-    dec_b_ih: "NDArray"
-    dec_b_hh: "NDArray"
-    fc_w: "NDArray"
-    fc_b: "NDArray"
+    enc_emb: "NDArray[np.float32]"
+    enc_w_ih: "NDArray[np.float32]"
+    enc_w_hh: "NDArray[np.float32]"
+    enc_b_ih: "NDArray[np.float32]"
+    enc_b_hh: "NDArray[np.float32]"
+    dec_emb: "NDArray[np.float32]"
+    dec_w_ih: "NDArray[np.float32]"
+    dec_w_hh: "NDArray[np.float32]"
+    dec_b_ih: "NDArray[np.float32]"
+    dec_b_hh: "NDArray[np.float32]"
+    fc_w: "NDArray[np.float32]"
+    fc_b: "NDArray[np.float32]"
     word: str
 
     def __init__(self) -> None:
@@ -83,7 +83,9 @@ class Thai_W2P:
         self.p2idx: dict[str, int]
         self.idx2p: dict[int, str]
         self.g2idx, self.idx2g, self.p2idx, self.idx2p = _load_vocab()
-        self.checkpoint: Optional[str] = get_corpus_path(_MODEL_NAME, version="0.2")
+        self.checkpoint: Optional[str] = get_corpus_path(
+            _MODEL_NAME, version="0.2"
+        )
         if not self.checkpoint:
             raise FileNotFoundError(
                 f"corpus-not-found name={_MODEL_NAME!r}\n"
@@ -95,69 +97,95 @@ class Thai_W2P:
 
     def _load_variables(self) -> None:
         import numpy as np
+
         if self.checkpoint is None:
             raise RuntimeError("checkpoint path is not set")
         with np.load(self.checkpoint, allow_pickle=False) as variables:
             # (29, 64). (len(graphemes), emb)
-            self.enc_emb: "NDArray" = variables[
-                "encoder_emb_weight"
-            ]
+            self.enc_emb = cast(
+                "NDArray[np.float32]", variables["encoder_emb_weight"]
+            )
             # (3*128, 64)
-            self.enc_w_ih: "NDArray" = variables[
-                "encoder_rnn_weight_ih_l0"
-            ]
+            self.enc_w_ih = cast(
+                "NDArray[np.float32]",
+                variables["encoder_rnn_weight_ih_l0"],
+            )
             # (3*128, 128)
-            self.enc_w_hh: "NDArray" = variables[
-                "encoder_rnn_weight_hh_l0"
-            ]
+            self.enc_w_hh = cast(
+                "NDArray[np.float32]",
+                variables["encoder_rnn_weight_hh_l0"],
+            )
             # (3*128,)
-            self.enc_b_ih: "NDArray" = variables[
-                "encoder_rnn_bias_ih_l0"
-            ]
+            self.enc_b_ih = cast(
+                "NDArray[np.float32]", variables["encoder_rnn_bias_ih_l0"]
+            )
             # (3*128,)
-            self.enc_b_hh: "NDArray" = variables[
-                "encoder_rnn_bias_hh_l0"
-            ]
+            self.enc_b_hh = cast(
+                "NDArray[np.float32]", variables["encoder_rnn_bias_hh_l0"]
+            )
 
             # (74, 64). (len(phonemes), emb)
-            self.dec_emb: "NDArray" = variables[
-                "decoder_emb_weight"
-            ]
+            self.dec_emb = cast(
+                "NDArray[np.float32]", variables["decoder_emb_weight"]
+            )
             # (3*128, 64)
-            self.dec_w_ih: "NDArray" = variables[
-                "decoder_rnn_weight_ih_l0"
-            ]
+            self.dec_w_ih = cast(
+                "NDArray[np.float32]",
+                variables["decoder_rnn_weight_ih_l0"],
+            )
             # (3*128, 128)
-            self.dec_w_hh: "NDArray" = variables[
-                "decoder_rnn_weight_hh_l0"
-            ]
+            self.dec_w_hh = cast(
+                "NDArray[np.float32]",
+                variables["decoder_rnn_weight_hh_l0"],
+            )
             # (3*128,)
-            self.dec_b_ih: "NDArray" = variables[
-                "decoder_rnn_bias_ih_l0"
-            ]
+            self.dec_b_ih = cast(
+                "NDArray[np.float32]", variables["decoder_rnn_bias_ih_l0"]
+            )
             # (3*128,)
-            self.dec_b_hh: "NDArray" = variables[
-                "decoder_rnn_bias_hh_l0"
-            ]
+            self.dec_b_hh = cast(
+                "NDArray[np.float32]", variables["decoder_rnn_bias_hh_l0"]
+            )
             # (74, 128)
-            self.fc_w: "NDArray" = variables["decoder_fc_weight"]
+            self.fc_w = cast(
+                "NDArray[np.float32]", variables["decoder_fc_weight"]
+            )
             # (74,)
-            self.fc_b: "NDArray" = variables["decoder_fc_bias"]
+            self.fc_b = cast(
+                "NDArray[np.float32]", variables["decoder_fc_bias"]
+            )
 
-    def _sigmoid(self, x: "np.ndarray") -> "np.ndarray":
+    def _sigmoid(self, x: "NDArray[np.float32]") -> "NDArray[np.float32]":
+        """Apply the sigmoid function to a float32 array.
+
+        :param numpy.typing.NDArray[numpy.float32] x: input array
+        :return: element-wise sigmoid values
+        :rtype: numpy.typing.NDArray[numpy.float32]
+        """
         import numpy as np
 
-        return 1 / (1 + np.exp(-x))
+        return cast("NDArray[np.float32]", 1 / (1 + np.exp(-x)))
 
     def _grucell(
         self,
-        x: "np.ndarray",
-        h: "np.ndarray",
-        w_ih: "np.ndarray",
-        w_hh: "np.ndarray",
-        b_ih: "np.ndarray",
-        b_hh: "np.ndarray",
-    ) -> "np.ndarray":
+        x: "NDArray[np.float32]",
+        h: "NDArray[np.float32]",
+        w_ih: "NDArray[np.float32]",
+        w_hh: "NDArray[np.float32]",
+        b_ih: "NDArray[np.float32]",
+        b_hh: "NDArray[np.float32]",
+    ) -> "NDArray[np.float32]":
+        """Run one GRU cell step on float32 inputs.
+
+        :param numpy.typing.NDArray[numpy.float32] x: input features
+        :param numpy.typing.NDArray[numpy.float32] h: previous hidden state
+        :param numpy.typing.NDArray[numpy.float32] w_ih: input-hidden weights
+        :param numpy.typing.NDArray[numpy.float32] w_hh: hidden-hidden weights
+        :param numpy.typing.NDArray[numpy.float32] b_ih: input-hidden bias
+        :param numpy.typing.NDArray[numpy.float32] b_hh: hidden-hidden bias
+        :return: updated hidden state
+        :rtype: numpy.typing.NDArray[numpy.float32]
+        """
         import numpy as np
 
         rzn_ih = np.matmul(x, w_ih.T) + b_ih
@@ -182,14 +210,27 @@ class Thai_W2P:
 
     def _gru(
         self,
-        x: "np.ndarray",
+        x: "NDArray[np.float32]",
         steps: int,
-        w_ih: "np.ndarray",
-        w_hh: "np.ndarray",
-        b_ih: "np.ndarray",
-        b_hh: "np.ndarray",
-        h0: Optional["np.ndarray"] = None,
-    ) -> "np.ndarray":
+        w_ih: "NDArray[np.float32]",
+        w_hh: "NDArray[np.float32]",
+        b_ih: "NDArray[np.float32]",
+        b_hh: "NDArray[np.float32]",
+        h0: Optional["NDArray[np.float32]"] = None,
+    ) -> "NDArray[np.float32]":
+        """Run a GRU over multiple time steps.
+
+        :param numpy.typing.NDArray[numpy.float32] x: input sequence tensor
+        :param int steps: number of decoding steps
+        :param numpy.typing.NDArray[numpy.float32] w_ih: input-hidden weights
+        :param numpy.typing.NDArray[numpy.float32] w_hh: hidden-hidden weights
+        :param numpy.typing.NDArray[numpy.float32] b_ih: input-hidden bias
+        :param numpy.typing.NDArray[numpy.float32] b_hh: hidden-hidden bias
+        :param Optional[numpy.typing.NDArray[numpy.float32]] h0: initial
+            hidden state
+        :return: hidden states for all time steps
+        :rtype: numpy.typing.NDArray[numpy.float32]
+        """
         import numpy as np
 
         if h0 is None:
@@ -203,12 +244,20 @@ class Thai_W2P:
 
         return outputs
 
-    def _encode(self, word: str) -> "np.ndarray":
+    def _encode(self, word: str) -> "NDArray[np.float32]":
+        """Encode a word into its embedding sequence tensor.
+
+        :param str word: input Thai word
+        :return: float32 embedding sequence for the encoder
+        :rtype: numpy.typing.NDArray[numpy.float32]
+        """
         import numpy as np
 
         chars = list(word) + ["</s>"]
-        x = [self.g2idx.get(char, self.g2idx["<unk>"]) for char in chars]
-        x = np.take(self.enc_emb, np.expand_dims(x, 0), axis=0)
+        char_ids = [
+            self.g2idx.get(char, self.g2idx["<unk>"]) for char in chars
+        ]
+        x = np.take(self.enc_emb, np.expand_dims(char_ids, 0), axis=0)
 
         return x
 
@@ -244,7 +293,7 @@ class Thai_W2P:
         dec = np.take(self.dec_emb, [2], axis=0)  # 2: <s>
         h = last_hidden
 
-        preds = []
+        preds: list[int] = []
         for _ in range(20):
             h = self._grucell(
                 dec,
@@ -255,7 +304,7 @@ class Thai_W2P:
                 self.dec_b_hh,
             )  # (b, h)
             logits = np.matmul(h, self.fc_w.T) + self.fc_b
-            pred = logits.argmax()
+            pred = int(logits.argmax())
             if pred == 3:
                 break
             preds.append(pred)

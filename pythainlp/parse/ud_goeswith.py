@@ -45,11 +45,15 @@ class Parse:
             e = self.model(input_ids=torch.tensor(x)).logits.numpy()[
                 :, 1:-2, :
             ]
-        r = [
+        root_adjustments: list[int] = [
             1 if i == 0 else -1 if j.endswith("|root") else 0
             for i, j in sorted(self.model.config.id2label.items())
         ]
-        e += np.where(np.add.outer(np.identity(e.shape[0]), r) == 0, 0, np.nan)
+        e += np.where(
+            np.add.outer(np.identity(e.shape[0]), root_adjustments) == 0,
+            0,
+            np.nan,
+        )
         g = self.model.config.label2id["X|_|goeswith"]
         r = np.tri(e.shape[0])
         for i in range(e.shape[0]):

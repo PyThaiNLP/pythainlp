@@ -61,7 +61,7 @@ del _TEXT_SCAN_RIGHT
 
 
 def _bfs_paths_graph(
-    graph: defaultdict, start: int, goal: int
+    graph: defaultdict[int, list[int]], start: int, goal: int
 ) -> Generator[list[int], None, None]:
     # visited set prevents re-exploring nodes already reached via a shorter
     # path, converting worst-case BFS from exponential to O(V + E).

@@ -35,12 +35,14 @@ def bahttext(number: float) -> str:
     a suffix "บาท" (Baht).
     The precision will be fixed at two decimal places (0.00)
     to fit "สตางค์" (Satang) unit.
-    This function works similarly to the `BAHTTEXT` function in Microsoft Excel.
+    This function works similarly to the ``BAHTTEXT`` function in Microsoft Excel.
 
     :param float number: number to be converted into Thai Baht currency format
     :return: text representing the amount of money in the format
              of Thai currency
     :rtype: str
+    :raises TypeError: if *number* is not a numeric type
+
     :Example:
     ::
 
@@ -55,11 +57,14 @@ def bahttext(number: float) -> str:
         bahttext(200)
         # output: สองร้อยบาทถ้วน
     """
+    if not isinstance(number, (int, float)):
+        raise TypeError(
+            f"number must be a numeric type, not {type(number).__name__!r}"
+        )
+
     ret = ""
 
-    if number is None:
-        pass
-    elif number == 0:
+    if number == 0:
         ret = "ศูนย์บาทถ้วน"
     else:
         num_int_str, num_dec_str = f"{number:.2f}".split(".")

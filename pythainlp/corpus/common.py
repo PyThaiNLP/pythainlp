@@ -407,9 +407,12 @@ def thai_synonyms() -> dict[str, Union[list[str], list[list[str]]]]:
             pos = row.get("pos")
             synonym = row.get("synonym")
             if not (
-                word and word.strip()
-                and pos and pos.strip()
-                and synonym and synonym.strip()
+                word
+                and word.strip()
+                and pos
+                and pos.strip()
+                and synonym
+                and synonym.strip()
             ):
                 warnings.warn(
                     f"Skipping thai_synonyms entry with missing or empty field(s): {dict(row)!r}",
@@ -420,7 +423,11 @@ def thai_synonyms() -> dict[str, Union[list[str], list[list[str]]]]:
             words.append(word)
             pos_tags.append(pos)
             synonym_groups.append(synonym.split("|"))
-    _THAI_SYNONYMS = {"word": words, "pos": pos_tags, "synonym": synonym_groups}
+    _THAI_SYNONYMS = {
+        "word": words,
+        "pos": pos_tags,
+        "synonym": synonym_groups,
+    }
     return _THAI_SYNONYMS
 
 

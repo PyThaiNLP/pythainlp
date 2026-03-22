@@ -32,50 +32,52 @@ _TH_LAST_CHAR_ASCII: int = 3711
 
 # A comprehensive map of Thai characters to their descriptive names.
 # MappingProxyType makes this constant read-only at runtime.
-_THAI_CHAR_NAMES: MappingProxyType[str, str] = MappingProxyType({
-    # Consonants
-    **{char: char for char in thai_consonants},
-    # Vowels and Signs
-    "\u0e24": "ฤ",
-    "\u0e26": "ฦ",
-    "\u0e30": "สระ อะ",
-    "\u0e31": "ไม้หันอากาศ",
-    "\u0e32": "สระ อา",
-    "\u0e33": "สระ อำ",
-    "\u0e34": "สระ อิ",
-    "\u0e35": "สระ อี",
-    "\u0e36": "สระ อึ",
-    "\u0e37": "สระ อือ",
-    "\u0e38": "สระ อุ",
-    "\u0e39": "สระ อู",
-    "\u0e40": "สระ เอ",
-    "\u0e41": "สระ แอ",
-    "\u0e42": "สระ โอ",
-    "\u0e43": "สระ ใอ",
-    "\u0e44": "สระ ไอ",
-    "\u0e45": "ไม้ม้วน",
-    "\u0e4d": "นฤคหิต",
-    "\u0e47": "ไม้ไต่คู้",
-    # Tone Marks
-    "\u0e48": "ไม้เอก",
-    "\u0e49": "ไม้โท",
-    "\u0e4a": "ไม้ตรี",
-    "\u0e4b": "ไม้จัตวา",
-    # Other Signs
-    "\u0e2f": "ไปยาลน้อย",
-    "\u0e3a": "พินทุ",
-    "\u0e46": "ไม้ยมก",
-    "\u0e4c": "การันต์",
-    "\u0e4e": "ยามักการ",
-    # Punctuation
-    "\u0e4f": "ฟองมัน",
-    "\u0e5a": "อังคั่นคู่",
-    "\u0e5b": "โคมุต",
-    # Digits
-    **{char: char for char in thai_digits},
-    # Symbol
-    "\u0e3f": "฿",
-})
+_THAI_CHAR_NAMES: MappingProxyType[str, str] = MappingProxyType(
+    {
+        # Consonants
+        **{char: char for char in thai_consonants},
+        # Vowels and Signs
+        "\u0e24": "ฤ",
+        "\u0e26": "ฦ",
+        "\u0e30": "สระ อะ",
+        "\u0e31": "ไม้หันอากาศ",
+        "\u0e32": "สระ อา",
+        "\u0e33": "สระ อำ",
+        "\u0e34": "สระ อิ",
+        "\u0e35": "สระ อี",
+        "\u0e36": "สระ อึ",
+        "\u0e37": "สระ อือ",
+        "\u0e38": "สระ อุ",
+        "\u0e39": "สระ อู",
+        "\u0e40": "สระ เอ",
+        "\u0e41": "สระ แอ",
+        "\u0e42": "สระ โอ",
+        "\u0e43": "สระ ใอ",
+        "\u0e44": "สระ ไอ",
+        "\u0e45": "ไม้ม้วน",
+        "\u0e4d": "นฤคหิต",
+        "\u0e47": "ไม้ไต่คู้",
+        # Tone Marks
+        "\u0e48": "ไม้เอก",
+        "\u0e49": "ไม้โท",
+        "\u0e4a": "ไม้ตรี",
+        "\u0e4b": "ไม้จัตวา",
+        # Other Signs
+        "\u0e2f": "ไปยาลน้อย",
+        "\u0e3a": "พินทุ",
+        "\u0e46": "ไม้ยมก",
+        "\u0e4c": "การันต์",
+        "\u0e4e": "ยามักการ",
+        # Punctuation
+        "\u0e4f": "ฟองมัน",
+        "\u0e5a": "อังคั่นคู่",
+        "\u0e5b": "โคมุต",
+        # Digits
+        **{char: char for char in thai_digits},
+        # Symbol
+        "\u0e3f": "฿",
+    }
+)
 
 
 def is_thai_char(ch: str) -> bool:
@@ -322,7 +324,7 @@ def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:
     return [(i, tone_detector(i.replace("หฺ", "ห"))) for i in _pronunciate]
 
 
-def count_thai_chars(text: str) -> dict:
+def count_thai_chars(text: str) -> dict[str, int]:
     """Count Thai characters by type
 
     This function will give you numbers of Thai characters by type\
@@ -331,7 +333,7 @@ def count_thai_chars(text: str) -> dict:
 
     :param str text: Text
     :return: Dict with numbers of Thai characters by type
-    :rtype: dict
+    :rtype: dict[str, int]
 
     :Example:
     ::
@@ -392,7 +394,7 @@ def count_thai_chars(text: str) -> dict:
     return _dict
 
 
-def analyze_thai_text(text: str) -> dict:
+def analyze_thai_text(text: str) -> dict[str, int]:
     """Analyzes a string of Thai text and returns a dictionaries,
     where each values represents a single classified character from the text.
 
@@ -400,7 +402,7 @@ def analyze_thai_text(text: str) -> dict:
     character to its descriptive name or itself (for consonants and digits).
 
     :param str text: The Thai text string to be analyzed.
-    :rtype: dict
+    :rtype: dict[str, int]
     :return: A dictionaries, with each item containing
                     a single character and a count of 1.
 

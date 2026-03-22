@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-from typing import Union
+from typing import Union, cast
 
 try:
     from tltk import nlp
@@ -19,8 +19,8 @@ nlp.ner_load()
 
 def pos_tag(words: list[str], corpus: str = "tnc") -> list[tuple[str, str]]:
     if corpus != "tnc":
-        raise ValueError(f"tltk not support {0} corpus.")
-    return nlp.pos_tag_wordlist(words)  # type: ignore[no-any-return]
+        raise ValueError(f"tltk not support {corpus!r} corpus.")
+    return cast(list[tuple[str, str]], nlp.pos_tag_wordlist(words))
 
 
 def _post_process(text: str) -> str:

@@ -27,6 +27,9 @@ class CorpusTestCaseX(unittest.TestCase):
         self.assertIsNotNone(wordnet.lemma("cat.n.01.cat"))
 
         self.assertEqual(wordnet.morphy("dogs"), "dog")
+        # morphy with pos=None (default) and with explicit pos
+        self.assertEqual(wordnet.morphy("dogs", pos=None), "dog")
+        self.assertEqual(wordnet.morphy("dogs", pos="n"), "dog")
 
         bird = wordnet.synset("bird.n.01")
         mouse = wordnet.synset("mouse.n.01")

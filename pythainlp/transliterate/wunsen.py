@@ -12,7 +12,7 @@ By Wunsen
 
 from __future__ import annotations
 
-from typing import Optional, Union
+from typing import Optional, Union, cast
 
 from wunsen import ThapSap
 
@@ -153,4 +153,4 @@ class WunsenTransliterate:
         if self.thap_value is None:
             raise RuntimeError("ThapSap model not initialized")
 
-        return self.thap_value.thap(text)  # type: ignore[no-any-return]
+        return cast(str, self.thap_value.thap(text))

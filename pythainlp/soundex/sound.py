@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
+from typing import cast
+
 import panphon
 import panphon.distance
 
@@ -71,7 +73,10 @@ def audio_vector(word: str) -> list[list[int]]:
         audio_vector("น้ำ")
         # output : [[-1, 1, 1, -1, -1, -1, ...]]
     """
-    return _ft.word_to_vector_list(word2audio(word), numeric=True)  # type: ignore[no-any-return]
+    return cast(
+        list[list[int]],
+        _ft.word_to_vector_list(word2audio(word), numeric=True),
+    )
 
 
 def word_approximation(word: str, list_word: list[str]) -> list[float]:

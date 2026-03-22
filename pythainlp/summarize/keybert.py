@@ -13,7 +13,7 @@ https://github.com/MaartenGr/KeyBERT
 from __future__ import annotations
 
 from collections import Counter
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Optional, Union, cast
 
 from pythainlp.corpus import thai_stopwords
 from pythainlp.tokenize import word_tokenize
@@ -22,6 +22,7 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
 
     import numpy as np
+    from numpy.typing import NDArray
     from transformers.pipelines.base import Pipeline
 
 
@@ -112,11 +113,11 @@ class KeyBERT:
         """
         try:
             text = text.strip()
-        except AttributeError:
+        except AttributeError as exc:
             raise AttributeError(
                 f"Unable to process data of type {type(text)}. "
                 f"Please provide input of string type."
-            )
+            ) from exc
 
         if not text:
             return []
@@ -141,22 +142,29 @@ class KeyBERT:
         else:
             return [kw for kw, _ in keywords]
 
-    def embed(self, docs: Union[str, list[str]]) -> np.ndarray:
-        """Create an embedding of each input in `docs` by averaging vectors from the last hidden layer."""
+    def embed(self, docs: Union[str, list[str]]) -> "NDArray[np.float32]":
+        """Create embeddings by averaging vectors from the last hidden layer.
+
+        :param Union[str, list[str]] docs: input document or documents
+        :return: embeddings as a float32 array with one row per input document
+        :rtype: numpy.typing.NDArray[numpy.float32]
+        """
         import numpy as np
 
         embs = self.ft_pipeline(docs)
         if isinstance(docs, str) or len(docs) == 1:
             # embed doc. return shape = [1, hidden_size]
-            emb_mean = np.array(embs).mean(axis=1)
+            emb_mean = np.array(embs, dtype=np.float32).mean(
+                axis=1, dtype=np.float32
+            )
         else:
             # mean of embedding of each word
             # return shape = [len(docs), hidden_size]
             emb_mean = np.stack(
                 [np.array(emb[0]).mean(axis=0) for emb in embs]
-            )
+            ).astype(np.float32)
 
-        return emb_mean
+        return cast("NDArray[np.float32]", emb_mean)
 
 
 def _generate_ngrams(
@@ -210,8 +218,8 @@ def _generate_ngrams(
 
 
 def _rank_keywords(
-    doc_vector: np.ndarray,
-    word_vectors: np.ndarray,
+    doc_vector: "NDArray[np.float32]",
+    word_vectors: "NDArray[np.float32]",
     keywords: list[str],
     max_keywords: int,
 ) -> list[tuple[str, float]]:

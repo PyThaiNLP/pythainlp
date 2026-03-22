@@ -7,6 +7,7 @@
     This module has been superseded by :mod:`pythainlp.chunk`.
     Import :class:`pythainlp.chunk.CRFChunkParser` directly.
 """
+
 from __future__ import annotations
 
 from pythainlp.chunk.crfchunk import CRFChunkParser

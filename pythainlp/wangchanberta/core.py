@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import re
 import warnings
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Optional, Union, cast
 
 if TYPE_CHECKING:
     from transformers import (
@@ -269,4 +269,4 @@ def segment(text: str) -> list[str]:
     if not text or not isinstance(text, str):
         return []
 
-    return _get_tokenizer().tokenize(text)  # type: ignore[no-any-return]
+    return cast(list[str], _get_tokenizer().tokenize(text))

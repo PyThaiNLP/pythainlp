@@ -2,10 +2,11 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 """CRF-based Thai phrase structure (chunk) parser."""
+
 from __future__ import annotations
 
 from importlib.resources import as_file, files
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import TYPE_CHECKING, Any, Optional, Union, cast
 
 if TYPE_CHECKING:
     import types
@@ -130,7 +131,7 @@ class CRFChunkParser:
         :rtype: list[str]
         """
         self.xseq = _extract_features(token_pos)
-        return self.tagger.tag(self.xseq)  # type: ignore[no-any-return]
+        return cast(list[str], self.tagger.tag(self.xseq))
 
     def __enter__(self) -> CRFChunkParser:
         """Context manager entry."""

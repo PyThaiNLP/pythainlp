@@ -81,20 +81,20 @@ Write messages as complete sentences.
 - Identify the offending value, name, or path explicitly.
 - For a missing optional dependency, include the `pip install` command:
 
-  ```
+  ```text
   <Package> is not installed. Install it with: pip install <package>
   ```
 
   If the package is a PyThaiNLP optional-dependency group, name the extra:
 
-  ```
+  ```text
   <Package> is required for this feature.
   Install it with: pip install pythainlp[<extra>]
   ```
 
 - For an invalid argument value, name the parameter and show the received value:
 
-  ```
+  ```text
   <param> must be <description>; got {value!r}
   ```
 
@@ -172,13 +172,13 @@ Warning messages should be clear, concise, and parseable:
 - Write messages as complete sentences ending with a period.
 - For deprecations, name the deprecated symbol and its replacement:
 
-  ```
+  ```text
   <old_symbol> is deprecated; use <new_symbol> instead.
   ```
 
 - For skipped data or fallback behavior, describe what was skipped and why:
 
-  ```
+  ```text
   Skipping <item> entry with <reason>: {value!r}
   ```
 

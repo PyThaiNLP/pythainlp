@@ -17,6 +17,13 @@ and this project adheres to
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
 - Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.2>
 
+## [Unreleased]
+
+### Fixed
+
+- thai2rom_onnx: fix ONNX encoder model and fix inference bugs (#1349)
+- wordnet: fix AttributeError (#1354)
+
 ## [5.3.2] - 2026-03-19
 
 This release focuses on security improvements related to path traversal

@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from collections import defaultdict
+from collections import Counter
 from heapq import nlargest
 from string import punctuation
 from typing import cast
@@ -20,7 +20,7 @@ class FrequencySummarizer:
     __min_cut: float
     __max_cut: float
     __stopwords: set[str]
-    __freq: "defaultdict[str, float]"
+    __freq: dict[str, float]
 
     def __init__(self, min_cut: float = 0.1, max_cut: float = 0.9) -> None:
         self.__min_cut: float = min_cut

@@ -407,8 +407,8 @@ class NamedEntityTagger:
 
         if pos:
             warnings.warn(
-                "This model doesn't support output \
-                          postag and It doesn't output the postag.",
+                "This model does not support POS tag output.",
+                UserWarning,
                 stacklevel=2,
             )
 

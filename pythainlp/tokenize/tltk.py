@@ -6,10 +6,10 @@ from __future__ import annotations
 try:
     from tltk.nlp import syl_segment
     from tltk.nlp import word_segment as tltk_segment
-except ImportError:
+except ImportError as e:
     raise ImportError(
-        "Not found tltk! Please install tltk by pip install tltk"
-    )
+        "tltk is not installed. Install it with: pip install tltk"
+    ) from e
 
 
 def segment(text: str) -> list[str]:

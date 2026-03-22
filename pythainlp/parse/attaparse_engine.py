@@ -12,10 +12,10 @@ from typing import TYPE_CHECKING, List, Union
 
 try:
     from attaparse import depparse, load_model
-except ImportError:
+except ImportError as e:
     raise ImportError(
-        "Import Error; Install attaparse by pip install attaparse"
-    )
+        "attaparse is not installed. Install it with: pip install attaparse"
+    ) from e
 
 if TYPE_CHECKING:
     from stanza import Pipeline

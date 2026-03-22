@@ -36,12 +36,10 @@ def abbreviation_to_full_text(
     """
     try:
         from khamyo import replace as _replace
-    except ImportError:
+    except ImportError as e:
         raise ImportError(
-            """
-            This function needs to use khamyo.
-            You can install by pip install khamyo or
-            pip install pythainlp[abbreviation].
-            """
-        )
+            "khamyo is required for this feature."
+            " Install it with: pip install khamyo"
+            " or pip install pythainlp[abbreviation]"
+        ) from e
     return cast(list[tuple[str, Optional[float]]], _replace(text, top_k=top_k))

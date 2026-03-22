@@ -216,10 +216,10 @@ def pos_tag_transformers(
             AutoTokenizer,
             TokenClassificationPipeline,
         )
-    except ImportError:
+    except ImportError as e:
         raise ImportError(
-            "Not found transformers! Please install transformers by pip install transformers"
-        )
+            "transformers is not installed. Install it with: pip install transformers"
+        ) from e
 
     if not sentence:
         return []

@@ -141,10 +141,10 @@ class ThaiNNER:
         # 3. Clear error message only when ThaiNNER class is actually instantiated
         try:
             from thai_nner import NNER
-        except ImportError:
+        except ImportError as e:
             raise ImportError(
                 "thai-nner library not found. Please install it with 'pip install thai-nner'."
-            )
+            ) from e
         self.model: NNER = NNER(path_model=path_model)
 
     def tag(

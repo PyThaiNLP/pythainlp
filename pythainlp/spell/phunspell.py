@@ -19,10 +19,10 @@ if TYPE_CHECKING:
 
 try:
     import phunspell
-except ImportError:
+except ImportError as e:
     raise ImportError(
-        "Import Error; Install phunspell by pip install phunspell"
-    )
+        "phunspell is not installed. Install it with: pip install phunspell"
+    ) from e
 
 pspell: "phunspell.Phunspell" = phunspell.Phunspell("th_TH")
 

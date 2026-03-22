@@ -9,8 +9,10 @@ from typing import TYPE_CHECKING, List, Optional, Union
 
 try:
     import esupar
-except ImportError:
-    raise ImportError("Import Error; Install esupar by pip install esupar")
+except ImportError as e:
+    raise ImportError(
+        "esupar is not installed. Install it with: pip install esupar"
+    ) from e
 
 if TYPE_CHECKING:
     from esupar import Model

@@ -53,6 +53,138 @@ Please refer to our
 [empty-line]: https://stackoverflow.com/questions/5813311/no-newline-at-end-of-file#5813359
 [posix]: https://stackoverflow.com/questions/729692/why-should-text-files-end-with-a-newline
 
+### Error messages, warnings, and exception handling
+
+Clear, consistent, and parseable error and warning messages help users
+debug problems and allow tooling to parse and filter output.
+Follow these conventions in all PyThaiNLP code.
+
+#### Exception types
+
+Use the most specific built-in exception type for each situation:
+
+| Situation | Exception type |
+| --- | --- |
+| Missing optional dependency at import time | `ImportError` or `ModuleNotFoundError` |
+| Invalid argument value | `ValueError` |
+| Wrong argument type | `TypeError` |
+| Required file not found | `FileNotFoundError` |
+| I/O or OS-level failure | `OSError` |
+| Runtime failure with no more-specific type | `RuntimeError` |
+| Feature not yet implemented | `NotImplementedError` |
+
+#### Exception message format
+
+Write messages as complete sentences.
+
+- End each sentence with a period.
+- Identify the offending value, name, or path explicitly.
+- For a missing optional dependency, include the `pip install` command:
+
+  ```text
+  <Package> is not installed. Install it with: pip install <package>
+  ```
+
+  If the package is a PyThaiNLP optional-dependency group, name the extra:
+
+  ```text
+  <Package> is required for this feature.
+  Install it with: pip install pythainlp[<extra>]
+  ```
+
+- For an invalid argument value, name the parameter and show the received value:
+
+  ```text
+  <param> must be <description>; got {value!r}
+  ```
+
+#### Exception forwarding (chaining)
+
+Always chain exceptions with `from` when raising a new exception inside an
+`except` block, so the full traceback and original cause are preserved:
+
+```python
+# Correct: chain to the original exception.
+try:
+    import some_package
+except ImportError as e:
+    raise ImportError(
+        "some_package is not installed. Install it with: pip install some_package"
+    ) from e
+
+# Correct: suppress chain with `from None` only when the original
+# exception is irrelevant noise that would confuse the user.
+raise ValueError("Invalid configuration value.") from None
+```
+
+Never use `raise e` to re-raise a caught exception. Use bare `raise` instead,
+which preserves the original traceback:
+
+```python
+# Correct: bare re-raise preserves traceback.
+except Exception:
+    log_or_print_something()
+    raise
+
+# Incorrect: `raise e` creates a new traceback starting at this line.
+except Exception as e:
+    log_or_print_something()
+    raise e  # do not do this
+```
+
+When re-raising as a *different* exception type, always supply `from`:
+
+```python
+# Correct.
+except OSError as e:
+    raise RuntimeError(f"Failed to read model file: {e}") from e
+
+# Incorrect: original cause is silently discarded.
+except OSError as e:
+    raise RuntimeError(f"Failed to read model file: {e}")
+```
+
+#### Warnings
+
+Use `warnings.warn()` for non-fatal conditions that the caller should know
+about. Always pass both `category` and `stacklevel` explicitly:
+
+```python
+import warnings
+
+warnings.warn("Message.", UserWarning, stacklevel=2)
+```
+
+Recommended categories:
+
+| Situation | Category |
+| --- | --- |
+| Deprecated API that will be removed in a future version | `DeprecationWarning` |
+| Skipped or degraded behavior the caller should review | `UserWarning` |
+
+Use `stacklevel=2` so the warning points at the **caller's** line, not the
+internal line that called `warnings.warn()`. Increase `stacklevel` by one for
+each additional layer of indirection between the public API and the
+`warnings.warn()` call.
+
+Warning messages should be clear, concise, and parseable:
+
+- Write messages as complete sentences ending with a period.
+- For deprecations, name the deprecated symbol and its replacement:
+
+  ```text
+  <old_symbol> is deprecated; use <new_symbol> instead.
+  ```
+
+- For skipped data or fallback behavior, describe what was skipped and why:
+
+  ```text
+  Skipping <item> entry with <reason>: {value!r}
+  ```
+
+Do **not** rely on the default `UserWarning` by omitting `category`.
+Always supply `category` explicitly for clarity and greppability.
+
 ### Version Control System
 
 - We use [Git](https://git-scm.com/) as our

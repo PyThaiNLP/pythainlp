@@ -16,17 +16,17 @@ from typing import Optional
 
 try:
     from fairseq.models.transformer import TransformerModel
-except ImportError:
+except ImportError as e:
     raise ImportError(
-        "Not found fairseq! Please install fairseq by pip install fairseq"
-    )
+        "fairseq is not installed. Install it with: pip install fairseq"
+    ) from e
 
 try:
     from sacremoses import MosesTokenizer
-except ImportError:
+except ImportError as e:
     raise ImportError(
-        "Not found sacremoses! Please install sacremoses by pip install sacremoses"
-    )
+        "sacremoses is not installed. Install it with: pip install sacremoses"
+    ) from e
 
 from pythainlp.corpus import download, get_corpus_path
 

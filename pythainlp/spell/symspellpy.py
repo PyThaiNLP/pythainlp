@@ -22,10 +22,10 @@ if TYPE_CHECKING:
 
 try:
     from symspellpy import SymSpell, Verbosity
-except ImportError:
+except ImportError as e:
     raise ImportError(
-        "Import Error; Install symspellpy by pip install symspellpy"
-    )
+        "symspellpy is not installed. Install it with: pip install symspellpy"
+    ) from e
 
 from pythainlp.corpus import get_corpus_path
 

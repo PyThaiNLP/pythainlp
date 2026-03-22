@@ -110,9 +110,9 @@ def find_misspell_candidates(
             printing_locations[ix] = char
         except IndexError:
             continue
-        except Exception as e:
+        except Exception:
             print("Something wrong with: ", char)
-            raise e
+            raise
 
     return chars
 

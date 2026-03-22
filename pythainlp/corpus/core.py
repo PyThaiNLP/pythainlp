@@ -484,7 +484,7 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
             tarfile.LinkOutsideDestinationError,
         ) as e:
             # Re-raise as ValueError for consistency with older Python versions
-            raise ValueError(str(e))
+            raise ValueError(str(e)) from e
     else:
         # Manual validation for older Python versions
         for member in tar.getmembers():
@@ -900,13 +900,11 @@ def get_hf_hub(repo_id: str, filename: str = "") -> str:
     """
     try:
         from huggingface_hub import hf_hub_download, snapshot_download
-    except ModuleNotFoundError:
+    except ModuleNotFoundError as e:
         raise ModuleNotFoundError(
-            """
-        huggingface-hub isn't found!
-        Please installing the package via 'pip install huggingface-hub'.
-        """
-        )
+            "huggingface-hub is not installed."
+            " Install it with: pip install huggingface-hub"
+        ) from e
     except Exception as e:
         raise RuntimeError(f"An unexpected error occurred: {e}") from e
     hf_root = get_full_data_path("hf_models")

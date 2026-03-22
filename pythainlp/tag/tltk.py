@@ -7,10 +7,10 @@ from typing import Union, cast
 
 try:
     from tltk import nlp
-except ImportError:
+except ImportError as e:
     raise ImportError(
-        "Not found tltk! Please install tltk by pip install tltk"
-    )
+        "tltk is not installed. Install it with: pip install tltk"
+    ) from e
 from pythainlp.tokenize import word_tokenize
 
 nlp.pos_load()

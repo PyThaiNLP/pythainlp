@@ -98,7 +98,8 @@ class ThaiNameTagger:
         """
         if pos:
             warnings.warn(
-                "This model doesn't support output of POS tags and it doesn't output the POS tags.",
+                "This model does not support POS tag output.",
+                UserWarning,
                 stacklevel=2,
             )
         text = re.sub(" ", "<_>", text)
@@ -217,7 +218,8 @@ class NamedEntityRecognition:
 
         if pos:
             warnings.warn(
-                "This model doesn't support output postag and It doesn't output the postag.",
+                "This model does not support POS tag output.",
+                UserWarning,
                 stacklevel=2,
             )
         words_token = word_tokenize(text.replace(" ", "<_>"))

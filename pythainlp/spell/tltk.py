@@ -16,10 +16,10 @@ from typing import cast
 
 try:
     from tltk.nlp import spell_candidates
-except ImportError:
+except ImportError as e:
     raise ImportError(
-        "Not found tltk! Please install tltk by pip install tltk"
-    )
+        "tltk is not installed. Install it with: pip install tltk"
+    ) from e
 
 
 def spell(text: str) -> list[str]:

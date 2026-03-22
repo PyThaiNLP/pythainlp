@@ -16,8 +16,10 @@ from typing import Union, cast
 
 try:
     from deepcut import tokenize
-except ImportError:
-    raise ImportError("Please install deepcut by pip install deepcut")
+except ImportError as e:
+    raise ImportError(
+        "deepcut is not installed. Install it with: pip install deepcut"
+    ) from e
 from pythainlp.util import Trie
 
 

@@ -417,7 +417,7 @@ def morphy(form: str, pos: Optional[str] = None) -> str:
         >>> from pythainlp.corpus.wordnet import morphy
         >>>
         >>> morphy("dogs")
-        'dogs'
+        'dog'
         >>>
         >>> morphy("thieves")
         'thief'

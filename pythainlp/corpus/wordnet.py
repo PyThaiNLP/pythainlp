@@ -30,11 +30,12 @@ except LookupError:
     nltk.download("wordnet")
 
 from nltk.corpus import wordnet
+from nltk.corpus.reader.wordnet import Lemma, Synset
 
 
 def synsets(
     word: str, pos: Optional[str] = None, lang: str = "tha"
-) -> list[wordnet.Synset]:
+) -> list[Synset]:
     """This function returns the synonym set for all lemmas of the given word
     with an optional argument to constrain the part of speech of the word.
 
@@ -78,12 +79,10 @@ def synsets(
         >>> synsets("แรง", pos="a", lang="tha")
         [Synset('hard.s.10'), Synset('strong.s.02')]
     """
-    return cast(
-        list[wordnet.Synset], wordnet.synsets(lemma=word, pos=pos, lang=lang)
-    )
+    return cast(list[Synset], wordnet.synsets(lemma=word, pos=pos, lang=lang))
 
 
-def synset(name_synsets: str) -> wordnet.Synset:
+def synset(name_synsets: str) -> Synset:
     """This function returns the synonym set (synset) given the name of the synset
     (i.e. 'dog.n.01', 'chase.v.01').
 
@@ -149,7 +148,7 @@ def all_lemma_names(pos: Optional[str] = None, lang: str = "tha") -> list[str]:
     return cast(list[str], wordnet.all_lemma_names(pos=pos, lang=lang))
 
 
-def all_synsets(pos: Optional[str] = None) -> Iterable[wordnet.Synset]:
+def all_synsets(pos: Optional[str] = None) -> Iterable[Synset]:
     """This function iterates over all synsets constrained by the given
     part of speech tag.
 
@@ -176,7 +175,7 @@ def all_synsets(pos: Optional[str] = None) -> Iterable[wordnet.Synset]:
         >>> next(generator)
         Synset('unable.a.01')
     """
-    return cast(Iterable[wordnet.Synset], wordnet.all_synsets(pos=pos))
+    return cast(Iterable[Synset], wordnet.all_synsets(pos=pos))
 
 
 def langs() -> list[str]:
@@ -199,7 +198,7 @@ def langs() -> list[str]:
 
 def lemmas(
     word: str, pos: Optional[str] = None, lang: str = "tha"
-) -> list[wordnet.Lemma]:
+) -> list[Lemma]:
     """This function returns all lemmas given the word with an optional
     argument to constrain the part of speech of the word.
 
@@ -239,10 +238,10 @@ def lemmas(
         >>> lemmas("ม้วน", pos="n")
         [Lemma('roll.n.11.ม้วน')]
     """
-    return cast(list[wordnet.Lemma], wordnet.lemmas(word, pos=pos, lang=lang))
+    return cast(list[Lemma], wordnet.lemmas(word, pos=pos, lang=lang))
 
 
-def lemma(name_synsets: str) -> wordnet.Lemma:
+def lemma(name_synsets: str) -> Lemma:
     """This function returns lemma object given the name.
 
     .. note::
@@ -269,7 +268,7 @@ def lemma(name_synsets: str) -> wordnet.Lemma:
     return wordnet.lemma(name_synsets)
 
 
-def lemma_from_key(key: str) -> wordnet.Lemma:
+def lemma_from_key(key: str) -> Lemma:
     """This function returns lemma object given the lemma key.
     This is similar to :func:`lemma` but it needs to be given the key
     of lemma instead of the name of lemma.
@@ -295,9 +294,7 @@ def lemma_from_key(key: str) -> wordnet.Lemma:
     return wordnet.lemma_from_key(key)
 
 
-def path_similarity(
-    synsets1: wordnet.Synset, synsets2: wordnet.Synset
-) -> float:
+def path_similarity(synsets1: Synset, synsets2: Synset) -> float:
     """This function returns similarity between two synsets based on the
     shortest path distance calculated using the equation below.
 
@@ -336,9 +333,7 @@ def path_similarity(
     return cast(float, wordnet.path_similarity(synsets1, synsets2))
 
 
-def lch_similarity(
-    synsets1: wordnet.Synset, synsets2: wordnet.Synset
-) -> float:
+def lch_similarity(synsets1: Synset, synsets2: Synset) -> float:
     """This function returns Leacock Chodorow similarity (LCH)
     between two synsets, based on the shortest path distance
     and the maximum depth of the taxonomy. The equation to
@@ -375,9 +370,7 @@ def lch_similarity(
     return cast(float, wordnet.lch_similarity(synsets1, synsets2))
 
 
-def wup_similarity(
-    synsets1: wordnet.Synset, synsets2: wordnet.Synset
-) -> float:
+def wup_similarity(synsets1: Synset, synsets2: Synset) -> float:
     """This function returns Wu-Palmer similarity (WUP) between two synsets,
     based on the depth of the two senses in the taxonomy and their
     Least Common Subsumer (most specific ancestor node).

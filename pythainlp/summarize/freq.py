@@ -31,7 +31,9 @@ class FrequencySummarizer:
     def __rank(ranking: dict[int, float], n: int) -> list[int]:
         return nlargest(n, ranking, key=lambda idx: ranking[idx])
 
-    def __compute_frequencies(self, word_tokenized_sents: list[list[str]]) -> dict[str, float]:
+    def __compute_frequencies(
+        self, word_tokenized_sents: list[list[str]]
+    ) -> dict[str, float]:
         counts: Counter[str] = Counter()
         for sent in word_tokenized_sents:
             for word in sent:
@@ -42,10 +44,7 @@ class FrequencySummarizer:
             return {}
 
         max_freq = float(max(counts.values()))
-        freqs = {
-            w: (c / max_freq)
-            for w, c in counts.items()
-        }
+        freqs = {w: (c / max_freq) for w, c in counts.items()}
         return {
             w: f
             for w, f in freqs.items()

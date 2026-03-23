@@ -12,7 +12,7 @@ Hi! Thanks for your interest in contributing to
 Please refer to our
 [Contributor Covenant Code of Conduct](https://github.com/PyThaiNLP/pythainlp/blob/dev/CODE_OF_CONDUCT.md).
 
-## Issue Report and Discussion
+## Issue report and discussion
 
 - Discussion: <https://github.com/PyThaiNLP/pythainlp/discussions>
 - GitHub issues (for problems and suggestions):
@@ -22,7 +22,7 @@ Please refer to our
 
 ## Code
 
-## Code Guidelines
+## Code guidelines
 
 - Follow [PEP8][pep8], use [black][black] with `--line-length` = 79;
 - Name identifiers (variables, classes, functions, module names)
@@ -185,19 +185,19 @@ Warning messages should be clear, concise, and parseable:
 Do **not** rely on the default `UserWarning` by omitting `category`.
 Always supply `category` explicitly for clarity and greppability.
 
-### Version Control System
+### Version control system
 
 - We use [Git](https://git-scm.com/) as our
   [version control system](https://en.wikipedia.org/wiki/Revision_control),
   so it may be a good idea to familiarize yourself with it.
 - You can start with the [Pro Git book](https://git-scm.com/book/) (free!).
 
-### Commit Message
+### Commit message
 
 - [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/)
 - [Commit Verbs 101: why I like to use this and why you should also like it.](https://chris.beams.io/posts/git-commit/)
 
-### Pull Request
+### Pull request
 
 - We use the famous [gitflow][] to manage our branches.
 - When you create pull requests on GitHub, GitHub Actions will run tests
@@ -250,9 +250,9 @@ Make sure the tests pass on GitHub Actions.
 
 See more in [tests/README.md](./tests/README.md)
 
-## Installing and Building
+## Installing and building
 
-### Installing for Development
+### Installing for development
 
 Install PyThaiNLP in editable mode with core dependencies:
 
@@ -273,7 +273,7 @@ pip install -e ".[compact,extra]"
 See all available optional dependency groups in `pyproject.toml`
 under `[project.optional-dependencies]`.
 
-### Building Distribution Packages
+### Building distribution packages
 
 To build source distribution and wheel:
 
@@ -340,13 +340,13 @@ Thanks to all
 [contributors](https://github.com/PyThaiNLP/pythainlp/graphs/contributors).
 (Image made with [contributors-img](https://contributors-img.firebaseapp.com))
 
-### Development Leads
+### Development leads
 
 - Wannaphong Phatthiyaphaibun <wannaphong@pythainlp.org> - foundation,
   distribution and maintenance
 - Korakot Chaovavanich - initial tokenization and soundex codes
 - Charin Polpanumas - classification and benchmarking
-- Arthit Suriyawongkul - localization functions, documentation,
+- Arthit Suriyawongkul - localization functions, documentation, security,
   tests, refactoring, code modernization, and CI/build infrastructure
 - Lalita Lowphansirikul - documentation
 - Pattarawat Chormai - benchmarking
@@ -365,7 +365,7 @@ Thanks to all
 
 ## References
 
-- **[Maximum Matching]** --
+- **[Maximum matching]** --
   Manabu Sassano. Deterministic Word Segmentation Using Maximum
   Matching with Fully Lexicalized Rules.
   Retrieved from

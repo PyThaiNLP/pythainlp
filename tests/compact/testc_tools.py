@@ -95,14 +95,14 @@ class MisspellTestCaseC(unittest.TestCase):
         # Test Thai characters
         loc = search_location_of_character("ก")
         self.assertIsNotNone(loc)
-        assert loc is not None  # narrowing for type checker
-        self.assertEqual(len(loc), 4)  # (language_ix, is_shift, row, pos)
+        # loc shape is (language_ix, is_shift, row, pos)
+        self.assertEqual(len(loc), 4)  # type: ignore[arg-type]
 
         # Test English characters
         loc = search_location_of_character("a")
         self.assertIsNotNone(loc)
-        assert loc is not None  # narrowing for type checker
-        self.assertEqual(len(loc), 4)
+        # loc shape is (language_ix, is_shift, row, pos)
+        self.assertEqual(len(loc), 4)  # type: ignore[arg-type]
 
         # Test shifted characters
         loc = search_location_of_character("A")

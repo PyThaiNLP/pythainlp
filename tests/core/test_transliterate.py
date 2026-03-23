@@ -58,8 +58,7 @@ class TransliterateTestCase(unittest.TestCase):
 
     def test_romanize_royin_basic(self):
         for word, expect in BASIC_TESTS.items():
-            assert word is not None  # narrowing for type checker
-            self.assertEqual(romanize(word, engine="royin"), expect)
+            self.assertEqual(romanize(word, engine="royin"), expect)  # type: ignore[arg-type]
 
     def test_romanize_royin_consistency(self):
         for word, part1, part2 in CONSISTENCY_TESTS:

@@ -9,6 +9,7 @@ import os
 import unittest
 from collections import Counter
 from datetime import date, datetime, time, timedelta, timezone
+from unittest.mock import patch
 
 from pythainlp.corpus import corpus_path, thai_words
 from pythainlp.util import (
@@ -76,6 +77,7 @@ from pythainlp.util import (
     words_to_num,
 )
 from pythainlp.util.morse import morse_decode, morse_encode
+import pythainlp.util.thai_lunar_date as thai_lunar_date
 
 
 class UtilTestCase(unittest.TestCase):
@@ -1017,10 +1019,18 @@ class UtilTestCase(unittest.TestCase):
     def test_morse_encode(self):
         self.assertEqual(morse_encode("แมว", lang="th"), ".-.- -- .--")
         self.assertEqual(morse_encode("cat", lang="en"), "-.-. .- -")
+        with self.assertRaisesRegex(
+            NotImplementedError, "This function doesn't support jp"
+        ):
+            morse_encode("แมว", lang="jp")
 
     def test_morse_decode(self):
         self.assertEqual(morse_decode(".-.- -- .--", lang="th"), "แมว")
         self.assertEqual(morse_decode("-.-. .- -", lang="en"), "CAT")
+        with self.assertRaisesRegex(
+            NotImplementedError, "This function doesn't support jp"
+        ):
+            morse_decode(".-.- -- .--", lang="jp")
 
     def test_to_lunar_date(self):
         self.assertEqual(to_lunar_date(date(2024, 11, 15)), "ขึ้น 15 ค่ำ เดือน 12")
@@ -1030,6 +1040,11 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(to_lunar_date(date(2020, 10, 31)), "ขึ้น 15 ค่ำ เดือน 12")
         with self.assertRaises(NotImplementedError):
             to_lunar_date(date(1885, 9, 7))  # back to the future
+        with patch.object(thai_lunar_date, "last_day_in_year", return_value=353):
+            with self.assertRaisesRegex(
+                ValueError, "Unexpected last_day value: 353"
+            ):
+                to_lunar_date(date(1903, 1, 1))
 
     def test_th_zodiac(self):
         self.assertEqual(th_zodiac(2024), "มะโรง")

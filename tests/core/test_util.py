@@ -62,6 +62,7 @@ from pythainlp.util import (
     thai_consonant_to_spelling,
     thai_digit_to_arabic_digit,
     thai_keyboard_dist,
+    thai_lunar_date,
     thai_strftime,
     thai_strptime,
     thai_to_eng,
@@ -77,7 +78,6 @@ from pythainlp.util import (
     words_to_num,
 )
 from pythainlp.util.morse import morse_decode, morse_encode
-import pythainlp.util.thai_lunar_date as thai_lunar_date
 
 
 class UtilTestCase(unittest.TestCase):

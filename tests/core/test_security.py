@@ -135,6 +135,23 @@ class SecurityTestCase(unittest.TestCase):
                     _safe_extract_zip(zf, extract_dir)
                 self.assertIn("path traversal", str(context.exception).lower())
 
+    def test_safe_extract_zip_rejects_symlink_escape(self):
+        """Test that safe zip extraction rejects zip symlinks pointing outside."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            zip_path = os.path.join(tmpdir, "symlink_attack.zip")
+            with zipfile.ZipFile(zip_path, "w") as zf:
+                info = zipfile.ZipInfo("evil_symlink")
+                # Set Unix symlink mode: S_IFLNK = 0o120000
+                info.external_attr = 0o120777 << 16
+                zf.writestr(info, "../../etc/passwd")
+
+            extract_dir = os.path.join(tmpdir, "extract")
+            os.makedirs(extract_dir)
+            with zipfile.ZipFile(zip_path, "r") as zf:
+                with self.assertRaises(ValueError) as context:
+                    _safe_extract_zip(zf, extract_dir)
+                self.assertIn("symlink", str(context.exception).lower())
+
     def test_safe_extract_tar_rejects_symlink_escape(self):
         """Test that safe tar extraction rejects symlinks pointing outside."""
         with tempfile.TemporaryDirectory() as tmpdir:

@@ -56,6 +56,7 @@ class CorpusCatalogTestCase(unittest.TestCase):
         catalog = get_corpus_db(url)
 
         self.assertIsNotNone(catalog)
+        assert catalog is not None  # narrowing for type checker
         catalog_data = catalog.json()
 
         self.assertIsInstance(catalog_data, dict, "Catalog should be a dictionary")
@@ -77,6 +78,7 @@ class CorpusCatalogTestCase(unittest.TestCase):
         catalog = get_corpus_db(url)
 
         self.assertIsNotNone(catalog)
+        assert catalog is not None  # narrowing for type checker
         catalog_data = catalog.json()
 
         # Check for some known corpus entries
@@ -143,6 +145,7 @@ class CorpusCatalogTestCase(unittest.TestCase):
         catalog = get_corpus_db(url)
 
         self.assertIsNotNone(catalog)
+        assert catalog is not None  # narrowing for type checker
         catalog_data = catalog.json()
 
         # Check version information for test corpus

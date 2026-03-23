@@ -4,7 +4,7 @@
 
 import io
 import unittest
-from argparse import ArgumentError
+from argparse import ArgumentError, ArgumentParser
 from contextlib import redirect_stderr, redirect_stdout
 from unittest.mock import MagicMock, patch
 
@@ -18,8 +18,9 @@ from pythainlp.cli.tokenize import App as TokenizeApp
 
 class CliTestCase(unittest.TestCase):
     def test_cli(self):
+        parser = ArgumentParser()
         with self.assertRaises((ArgumentError, SystemExit)):
-            cli.exit_if_empty("", None)
+            cli.exit_if_empty("", parser)
 
     def test_cli_main(self):
         # Suppress output to keep test log clean

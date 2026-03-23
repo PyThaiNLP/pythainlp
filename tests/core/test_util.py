@@ -168,9 +168,9 @@ class UtilTestCase(unittest.TestCase):
         with self.assertRaises(ValueError):
             thaiword_to_num("ห้าพันสี่หมื่น")
         with self.assertRaises(TypeError):
-            thaiword_to_num(None)
+            thaiword_to_num(None)  # type: ignore[arg-type]
         with self.assertRaises(TypeError):
-            thaiword_to_num(["หนึ่ง"])
+            thaiword_to_num(["หนึ่ง"])  # type: ignore[arg-type]
 
         self.assertEqual(words_to_num("ศูนย์"), 0)
         self.assertEqual(words_to_num("แปด"), 8)
@@ -201,34 +201,31 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(
             arabic_digit_to_thai_digit("ไทยแลนด์ 4.0"), "ไทยแลนด์ ๔.๐"
         )
+        self.assertEqual(arabic_digit_to_thai_digit(""), "")
         with self.assertRaises(TypeError):
-            arabic_digit_to_thai_digit("")
-        with self.assertRaises(TypeError):
-            arabic_digit_to_thai_digit(None)
+            arabic_digit_to_thai_digit(None)  # type: ignore[arg-type]
 
         self.assertEqual(
             thai_digit_to_arabic_digit("๔๐๔ Not Found"), "404 Not Found"
         )
+        self.assertEqual(thai_digit_to_arabic_digit(""), "")
         with self.assertRaises(TypeError):
-            thai_digit_to_arabic_digit("")
-        with self.assertRaises(TypeError):
-            thai_digit_to_arabic_digit(None)
+            thai_digit_to_arabic_digit(None)  # type: ignore[arg-type]
 
         self.assertEqual(digit_to_text("RFC 7258"), "RFC เจ็ดสองห้าแปด")
+        self.assertEqual(digit_to_text(""), "")
         with self.assertRaises(TypeError):
-            digit_to_text("")
-        with self.assertRaises(TypeError):
-            digit_to_text(None)
+            digit_to_text(None)  # type: ignore[arg-type]
 
         self.assertEqual(text_to_arabic_digit("เจ็ด"), "7")
         self.assertEqual(text_to_arabic_digit(""), "")
         with self.assertRaises(TypeError):
-            text_to_arabic_digit(None)
+            text_to_arabic_digit(None)  # type: ignore[arg-type]
 
         self.assertEqual(text_to_thai_digit("เก้า"), "๙")
         self.assertEqual(text_to_thai_digit(""), "")
         with self.assertRaises(TypeError):
-            text_to_thai_digit(None)
+            text_to_thai_digit(None)  # type: ignore[arg-type]
 
     # ### pythainlp.util.keyboard
 

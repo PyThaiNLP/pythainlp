@@ -38,7 +38,7 @@ class MisspellTestCaseC(unittest.TestCase):
         self.assertEqual(len(result), 1)
         # Edge case: None raises TypeError
         with self.assertRaises(TypeError):
-            misspell(None)
+            misspell(None)  # type: ignore[arg-type]
 
     def test_misspell_naive(self):
         for text in self.texts:
@@ -95,11 +95,13 @@ class MisspellTestCaseC(unittest.TestCase):
         # Test Thai characters
         loc = search_location_of_character("ก")
         self.assertIsNotNone(loc)
+        assert loc is not None  # narrowing for type checker
         self.assertEqual(len(loc), 4)  # (language_ix, is_shift, row, pos)
 
         # Test English characters
         loc = search_location_of_character("a")
         self.assertIsNotNone(loc)
+        assert loc is not None  # narrowing for type checker
         self.assertEqual(len(loc), 4)
 
         # Test shifted characters

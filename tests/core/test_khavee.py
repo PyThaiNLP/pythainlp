@@ -177,7 +177,7 @@ class KhaveeCheckAekTooEdgeCasesTestCase(unittest.TestCase):
 
     def test_non_string_raises_type_error(self):
         with self.assertRaises(TypeError):
-            self.kv.check_aek_too(123)
+            self.kv.check_aek_too(123)  # type: ignore[arg-type]
 
     def test_dead_syllable_as_aek_flag(self):
         self.assertEqual(self.kv.check_aek_too("บท", dead_syllable_as_aek=True), "aek")
@@ -187,7 +187,7 @@ class KhaveeCheckAekTooEdgeCasesTestCase(unittest.TestCase):
 
     def test_list_with_non_string_element_raises(self):
         with self.assertRaises(TypeError):
-            self.kv.check_aek_too(["ไก่", 42])
+            self.kv.check_aek_too(["ไก่", 42])  # type: ignore[list-item]
 
     def test_both_tone_marks_returns_false(self):
         # word with both ่ and ้ should return False

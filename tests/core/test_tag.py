@@ -28,7 +28,7 @@ class TagTestCase(unittest.TestCase):
         download("blackboard_unigram_tagger")
 
     def test_pos_tag(self):
-        self.assertEqual(pos_tag(None), [])
+        self.assertEqual(pos_tag(None), [])  # type: ignore[arg-type]
         self.assertEqual(pos_tag([]), [])
         self.assertEqual(
             pos_tag(["นักเรียน", "ถาม", "ครู"]),
@@ -38,13 +38,13 @@ class TagTestCase(unittest.TestCase):
             len(pos_tag(["การ", "เดินทาง", "มี", "ความ", "ท้าทาย"])), 5
         )
 
-        self.assertEqual(unigram.tag(None, corpus="pud"), [])
+        self.assertEqual(unigram.tag(None, corpus="pud"), [])  # type: ignore[arg-type]
         self.assertEqual(unigram.tag([], corpus="pud"), [])
-        self.assertEqual(unigram.tag(None, corpus="orchid"), [])
+        self.assertEqual(unigram.tag(None, corpus="orchid"), [])  # type: ignore[arg-type]
         self.assertEqual(unigram.tag([], corpus="orchid"), [])
-        self.assertEqual(unigram.tag(None, corpus="blackboard"), [])
+        self.assertEqual(unigram.tag(None, corpus="blackboard"), [])  # type: ignore[arg-type]
         self.assertEqual(unigram.tag([], corpus="blackboard"), [])
-        self.assertEqual(unigram.tag(None, corpus="tud"), [])
+        self.assertEqual(unigram.tag(None, corpus="tud"), [])  # type: ignore[arg-type]
         self.assertEqual(unigram.tag([], corpus="tud"), [])
         self.assertIsNotNone(
             pos_tag(TEST_TOKENS, engine="unigram", corpus="orchid")

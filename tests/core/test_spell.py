@@ -17,7 +17,7 @@ SENT_TOKS = ["เด็", "อินอร์เน็ต", "แรง"]
 
 class SpellTestCase(unittest.TestCase):
     def test_spell(self):
-        self.assertEqual(spell(None), [""])
+        self.assertEqual(spell(None), [""])  # type: ignore
         self.assertEqual(spell(""), [""])
 
         result = spell("เน้ร")
@@ -29,7 +29,7 @@ class SpellTestCase(unittest.TestCase):
         self.assertGreater(len(result), 0)
 
     def test_word_correct(self):
-        self.assertEqual(correct(None), "")
+        self.assertEqual(correct(None), "")  # type: ignore
         self.assertEqual(correct(""), "")
         self.assertEqual(correct("1"), "1")
         self.assertEqual(correct("05"), "05")
@@ -53,7 +53,7 @@ class SpellTestCase(unittest.TestCase):
         self.assertGreater(dict_size, 30000)  # Should have substantial words
         self.assertLess(dict_size, len(orst) + 1000)  # Should not exceed ORST by much
 
-        user_dict = [
+        user_list_tuple = [
             ("การงาน", 31),  # longer than max_len
             ("กาม", 1),  # fewer than min_freq
             ("กาล0", 64),  # has digit
@@ -63,11 +63,11 @@ class SpellTestCase(unittest.TestCase):
             ("การ", 42),  # OK
         ]
         checker = NorvigSpellChecker(
-            custom_dict=user_dict, min_freq=2, max_len=5
+            custom_dict=user_list_tuple, min_freq=2, max_len=5
         )
         self.assertEqual(len(checker.dictionary()), 1)
 
-        user_dict = [
+        user_list_str = [
             "เอกราช",
             "ปลอดภัย",
             "เศรษฐกิจ",
@@ -75,8 +75,8 @@ class SpellTestCase(unittest.TestCase):
             "เสรีภาพ",
             "การศึกษา",
         ]
-        checker = NorvigSpellChecker(custom_dict=user_dict)
-        self.assertEqual(len(checker.dictionary()), len(user_dict))
+        checker = NorvigSpellChecker(custom_dict=user_list_str)
+        self.assertEqual(len(checker.dictionary()), len(user_list_str))
 
         user_dict = {
             "พหลโยธิน": 1,
@@ -92,9 +92,9 @@ class SpellTestCase(unittest.TestCase):
         # as it has frequency less than default min_freq (2)
         self.assertEqual(len(checker.dictionary()), len(user_dict) - 1)
 
-        user_dict = [24, 6, 2475]
+        user_list_int = [24, 6, 2475]
         with self.assertRaises(TypeError):
-            _ = NorvigSpellChecker(custom_dict=user_dict)
+            _ = NorvigSpellChecker(custom_dict=user_list_int)  # type: ignore[arg-type]
 
     def test_issue_680_orst_filtering(self):
         """Test for issue #680: Spell checker uses only ORST words.

@@ -296,7 +296,7 @@ class TokenizeTestCase(unittest.TestCase):
         _tokenizer = Tokenizer(word_dict_trie())
         self.assertEqual(_tokenizer.word_tokenize(""), [])
         _tokenizer.set_tokenize_engine("longest")
-        self.assertEqual(_tokenizer.word_tokenize(None), [])
+        self.assertEqual(_tokenizer.word_tokenize(None), [])  # type: ignore[arg-type]
 
         _tokenizer = Tokenizer()
         self.assertEqual(_tokenizer.word_tokenize("ก"), ["ก"])
@@ -335,7 +335,7 @@ class TokenizeTestCase(unittest.TestCase):
             sent_tokenize("ฉันไป กิน", engine="XX")  # engine does not exist
 
     def test_subword_tokenize(self):
-        self.assertEqual(subword_tokenize(None), [])
+        self.assertEqual(subword_tokenize(None), [])  # type: ignore[arg-type]
         self.assertEqual(subword_tokenize(""), [])
         self.assertIsInstance(
             subword_tokenize("สวัสดีดาวอังคาร", engine="tcc"), list
@@ -345,7 +345,7 @@ class TokenizeTestCase(unittest.TestCase):
             subword_tokenize("สวัสดีดาวอังคาร", engine="tcc_p"), list
         )
         self.assertNotIn("า", subword_tokenize("สวัสดีดาวอังคาร", engine="tcc_p"))
-        self.assertEqual(subword_tokenize(None, engine="etcc"), [])
+        self.assertEqual(subword_tokenize(None, engine="etcc"), [])  # type: ignore[arg-type]
         self.assertEqual(subword_tokenize("", engine="etcc"), [])
         self.assertIsInstance(
             subword_tokenize("สวัสดิีดาวอังคาร", engine="etcc"), list
@@ -495,7 +495,7 @@ class TokenizeTestCase(unittest.TestCase):
         self.assertIsNotNone(
             multi_cut.find_all_segment("รถไฟฟ้ากรุงเทพมหานครBTS")
         )
-        self.assertEqual(multi_cut.find_all_segment(None), [])
+        self.assertEqual(multi_cut.find_all_segment(None), [])  # type: ignore[arg-type]
 
     def test_newmm(self):
         assert_segment_handles_none_and_empty(self, newmm.segment)
@@ -686,8 +686,8 @@ class TokenizeTestCase(unittest.TestCase):
         self.assertEqual(tcc_p.tcc_pos(""), set())
         # tcc_pos_array: edge cases
         self.assertIsInstance(tcc_p.tcc_pos_array(""), bytearray)
-        self.assertIsInstance(tcc_p.tcc_pos_array(None), bytearray)
-        self.assertIsInstance(tcc_p.tcc_pos_array(42), bytearray)
+        self.assertIsInstance(tcc_p.tcc_pos_array(None), bytearray)  # type: ignore[arg-type]
+        self.assertIsInstance(tcc_p.tcc_pos_array(42), bytearray)    # type: ignore[arg-type]
         # valid text: array length must equal len(text)+1 and mark boundaries
         arr = tcc_p.tcc_pos_array("ประเทศ")
         self.assertEqual(len(arr), len("ประเทศ") + 1)

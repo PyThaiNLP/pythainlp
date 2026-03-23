@@ -27,7 +27,7 @@ class SoundexTestCase(unittest.TestCase):
         self.assertIsNotNone(soundex("a", engine="complete_soundex"))
         self.assertIsNotNone(soundex("a", engine="XXX"))
 
-        self.assertEqual(lk82(None), "")
+        self.assertEqual(lk82(None), "")  # type: ignore
         self.assertEqual(lk82(""), "")
         self.assertEqual(lk82("เหตุ"), lk82("เหด"))
         self.assertEqual(lk82("รถ"), "ร3000")
@@ -43,13 +43,13 @@ class SoundexTestCase(unittest.TestCase):
         self.assertIsNotNone(lk82("หืออือ"))
         self.assertEqual(lk82("น์"), "")
 
-        self.assertEqual(udom83(None), "")
+        self.assertEqual(udom83(None), "")  # type: ignore
         self.assertEqual(udom83(""), "")
         self.assertEqual(udom83("เหตุ"), udom83("เหด"))
         self.assertEqual(udom83("รถ"), "ร800000")
         self.assertEqual(udom83("น์"), "")
 
-        self.assertEqual(metasound(None), "")
+        self.assertEqual(metasound(None), "")  # type: ignore
         self.assertEqual(metasound(""), "")
         self.assertEqual(metasound("เหตุ"), metasound("เหด"))
         self.assertEqual(metasound("รักษ์"), metasound("รัก"))
@@ -70,7 +70,7 @@ class SoundexTestCase(unittest.TestCase):
         self.assertIsNotNone(metasound("สุวรรณา"))
         self.assertIsNotNone(metasound("ดอยบอย"))
 
-        self.assertEqual(prayut_and_somchaip(None), "")
+        self.assertEqual(prayut_and_somchaip(None), "")  # type: ignore
         self.assertEqual(prayut_and_somchaip(""), "")
         self.assertEqual(prayut_and_somchaip("vp"), "11")
         self.assertIsNotNone(prayut_and_somchaip("บา"))
@@ -86,7 +86,7 @@ class SoundexTestCase(unittest.TestCase):
         self.assertIsNotNone(prayut_and_somchaip("ว้าว"))
 
         # Test complete_soundex
-        self.assertEqual(complete_soundex(None), "")
+        self.assertEqual(complete_soundex(None), "")  # type: ignore
         self.assertEqual(complete_soundex(""), "")
 
         # Single syllable test cases from the paper

@@ -52,13 +52,13 @@ CONSISTENCY_TESTS = [
 
 class TransliterateTestCase(unittest.TestCase):
     def test_romanize(self):
-        self.assertEqual(romanize(None), "")
+        self.assertEqual(romanize(None), "")  # type: ignore[arg-type]
         self.assertEqual(romanize(""), "")
         self.assertEqual(romanize("แมว"), "maeo")
 
     def test_romanize_royin_basic(self):
         for word, expect in BASIC_TESTS.items():
-            self.assertEqual(romanize(word, engine="royin"), expect)
+            self.assertEqual(romanize(word, engine="royin"), expect)  # type: ignore[arg-type]
 
     def test_romanize_royin_consistency(self):
         for word, part1, part2 in CONSISTENCY_TESTS:

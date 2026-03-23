@@ -4,6 +4,7 @@
 
 import pickle
 import unittest
+from typing import cast
 
 import fastai
 import pandas as pd
@@ -19,7 +20,7 @@ from fastai.text import (
     untar_data,
 )
 
-from pythainlp.tokenize import THAI2FIT_TOKENIZER
+from pythainlp.tokenize import thai2fit_tokenizer
 from pythainlp.ulmfit import (
     THWIKI_LSTM,
     ThaiTokenizer,
@@ -53,12 +54,14 @@ class UlmfitTestCaseX(unittest.TestCase):
     def test_ThaiTokenizer(self):
         self.thai = ThaiTokenizer()
         self.assertIsNotNone(self.thai.tokenizer("ทดสอบการตัดคำ"))
-        self.assertIsNone(self.thai.add_special_cases(["แมว"]))
+        result = self.thai.add_special_cases(["แมว"])
+        self.assertIsNone(result)
 
     def test_BaseTokenizer(self):
         self.base = base_tokenizer(lang="th")
         self.assertIsNotNone(self.base.tokenizer("ทดสอบ การ ตัด คำ"))
-        self.assertIsNone(self.base.add_special_cases(["แมว"]))
+        result = self.base.add_special_cases(["แมว"])
+        self.assertIsNone(result)
 
     def test_load_pretrained(self):
         self.assertIsNotNone(THWIKI_LSTM)
@@ -179,7 +182,7 @@ class UlmfitTestCaseX(unittest.TestCase):
             text,
             pre_rules=pre_rules_th,
             post_rules=post_rules_th,
-            tok_func=THAI2FIT_TOKENIZER.word_tokenize,
+            tok_func=thai2fit_tokenizer().word_tokenize,
         )
 
         # after pre_rules_th
@@ -225,7 +228,7 @@ class UlmfitTestCaseX(unittest.TestCase):
         thwiki = THWIKI_LSTM
         # Security note: pickle.load() executes arbitrary code if file is malicious.
         # These corpus files come from a trusted source with MD5 verification.
-        with open(thwiki["itos_fname"], "rb") as f:
+        with open(cast(str, thwiki["itos_fname"]), "rb") as f:
             thwiki_itos = pickle.load(f)
         thwiki_vocab = fastai.text.transform.Vocab(thwiki_itos)
         tt = Tokenizer(

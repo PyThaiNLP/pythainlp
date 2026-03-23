@@ -57,7 +57,7 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
     def test_prepare_text_with_exclusions_empty_list(self):
         """Test with empty exclusion list"""
         text = "Hello world"
-        exclude_words = []
+        exclude_words: list[str] = []
         prepared, mapping = _prepare_text_with_exclusions(
             text, exclude_words
         )
@@ -93,7 +93,7 @@ class TranslateHelpersTestCaseX(unittest.TestCase):
     def test_restore_excluded_words_empty_map(self):
         """Test restoring with empty mapping"""
         translated = "Hello world"
-        mapping = {}
+        mapping: dict[str, str] = {}
         restored = _restore_excluded_words(translated, mapping)
 
         # Text should be unchanged

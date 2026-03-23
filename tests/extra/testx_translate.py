@@ -15,7 +15,8 @@ from pythainlp.translate.en_th import (
 class TranslateTestCaseX(unittest.TestCase):
     def test_translate(self):
         # remove("scb_1m_th-en_spm")
-        self.assertIsNone(download_model_all())
+        result = download_model_all()
+        self.assertIsNone(result)
         self.th_en_translator = ThEnTranslator()
         self.assertIsNotNone(
             self.th_en_translator.translate(

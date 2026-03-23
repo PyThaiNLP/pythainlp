@@ -225,25 +225,31 @@ def _rank_keywords(
 ) -> list[tuple[str, float]]:
     import numpy as np
 
-    def l2_norm(v: np.ndarray) -> np.ndarray:
+    def l2_norm(v: "NDArray[np.float32]") -> "NDArray[np.float32]":
         vec_size = v.shape[1]
         result = np.divide(
             v,
             np.linalg.norm(v, axis=1).reshape(-1, 1).repeat(vec_size, axis=1),
+            dtype=np.float32,
         )
         if not np.isclose(np.linalg.norm(result, axis=1), 1).all():
             raise ValueError("Cannot normalize a vector to unit vector.")
-        return result
+        return cast("NDArray[np.float32]", result)
 
-    def cosine_sim(a: np.ndarray, b: np.ndarray) -> np.ndarray:
-        return (np.matmul(a, b.T).T).sum(axis=1)
+    def cosine_sim(
+        a: "NDArray[np.float32]", b: "NDArray[np.float32]"
+    ) -> "NDArray[np.float32]":
+        # `a` has one row (document embedding), so flatten to get 1-D scores.
+        scores = np.matmul(a, b.T).reshape(-1)
+        return cast("NDArray[np.float32]", scores.astype(np.float32, copy=False))
 
     doc_vector = l2_norm(doc_vector)
     word_vectors = l2_norm(word_vectors)
     cosine_sims = cosine_sim(doc_vector, word_vectors)
     ranking_desc = np.argsort(-cosine_sims)
 
+    top_indices = cast("list[int]", ranking_desc[:max_keywords].tolist())
     final_ranks = [
-        (keywords[r], cosine_sims[r]) for r in ranking_desc[:max_keywords]
+        (keywords[idx], float(cosine_sims[idx])) for idx in top_indices
     ]
     return final_ranks

@@ -56,6 +56,9 @@ def segment(text: str) -> list[str]:
             _parser = _init_parser()
         parser = _parser
 
+    if parser is None:
+        raise RuntimeError("Failed to initialize BudouX parser")
+
     result = cast("list[str]", parser.parse(text))
 
     return result

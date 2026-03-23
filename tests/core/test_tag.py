@@ -85,7 +85,7 @@ class TagTestCase(unittest.TestCase):
             pos_tag(["ความ", "พอเพียง"], corpus="orchid_ud")[0][1], "NOUN"
         )
 
-        self.assertEqual(pos_tag_sents(None), [])
+        self.assertEqual(pos_tag_sents(None), [])  # type: ignore[arg-type]
         self.assertEqual(pos_tag_sents([]), [])
         self.assertEqual(
             pos_tag_sents([["ผม", "กิน", "ข้าว"], ["แมว", "วิ่ง"]]),
@@ -123,15 +123,15 @@ class PerceptronTaggerTestCase(unittest.TestCase):
         download("blackboard_pt_tagger")
 
     def test_perceptron_tagger(self):
-        self.assertEqual(perceptron.tag(None, corpus="orchid"), [])
+        self.assertEqual(perceptron.tag(None, corpus="orchid"), [])  # type: ignore[arg-type]
         self.assertEqual(perceptron.tag([], corpus="orchid"), [])
-        self.assertEqual(perceptron.tag(None, corpus="orchid_ud"), [])
+        self.assertEqual(perceptron.tag(None, corpus="orchid_ud"), [])  # type: ignore[arg-type]
         self.assertEqual(perceptron.tag([], corpus="orchid_ud"), [])
-        self.assertEqual(perceptron.tag(None, corpus="pud"), [])
+        self.assertEqual(perceptron.tag(None, corpus="pud"), [])  # type: ignore[arg-type]
         self.assertEqual(perceptron.tag([], corpus="pud"), [])
-        self.assertEqual(perceptron.tag(None, corpus="blackboard"), [])
+        self.assertEqual(perceptron.tag(None, corpus="blackboard"), [])  # type: ignore[arg-type]
         self.assertEqual(perceptron.tag([], corpus="blackboard"), [])
-        self.assertEqual(perceptron.tag(None, corpus="tud"), [])
+        self.assertEqual(perceptron.tag(None, corpus="tud"), [])  # type: ignore[arg-type]
         self.assertEqual(perceptron.tag([], corpus="tud"), [])
 
         self.assertIsNotNone(

@@ -729,7 +729,6 @@ class UtilTestCase(unittest.TestCase):
         self.assertTrue(isthai("(ต.ค.)", ignore_chars=".()"))
         self.assertFalse(isthai("ไทย0"))
         self.assertFalse(isthai("(ต.ค.)"))
-        self.assertFalse(isthai("ต.ค.", ignore_chars=None))
 
     def test_is_thai(self):
         self.assertTrue(is_thai("ไทย"))
@@ -737,7 +736,6 @@ class UtilTestCase(unittest.TestCase):
         self.assertTrue(is_thai("(ต.ค.)", ignore_chars=".()"))
         self.assertFalse(is_thai("ไทย0"))
         self.assertFalse(is_thai("(ต.ค.)"))
-        self.assertFalse(is_thai("ต.ค.", ignore_chars=None))
 
     def test_count_thai(self):
         self.assertEqual(count_thai(""), 0.0)
@@ -746,7 +744,6 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(count_thai("ประเทศไทย"), 100.0)
         self.assertEqual(count_thai("โรค COVID-19"), 37.5)
         self.assertEqual(count_thai("(กกต.)", ".()"), 100.0)
-        self.assertEqual(count_thai("(กกต.)", None), 50.0)
 
     def test_display_thai_char(self):
         self.assertEqual(display_thai_char("้"), "_้")

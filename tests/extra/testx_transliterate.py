@@ -7,7 +7,15 @@ import unittest
 import torch
 
 from pythainlp.corpus import remove
-from pythainlp.transliterate import pronunciate, puan, romanize, transliterate
+from pythainlp.transliterate import (
+    lookup,
+    pronunciate,
+    puan,
+    romanize,
+    thai2rom,
+    thaig2p,
+    transliterate,
+)
 from pythainlp.transliterate.ipa import trans_list, xsampa_list
 from pythainlp.transliterate.thai2rom import ThaiTransliterator
 from pythainlp.transliterate.thai2rom_onnx import ThaiTransliterator_ONNX
@@ -101,6 +109,59 @@ class TransliterateTestCaseX(unittest.TestCase):
             .tolist(),
         )
 
+    def test_thai2rom_unsupported_attention_method_raises_value_error(self):
+        attn = thai2rom.Attn(method="unsupported", hidden_size=4)
+        hidden = torch.randn(1, 1, 4)
+        encoder_outputs = torch.randn(1, 2, 4)
+        mask = torch.ones(1, 2, dtype=torch.bool)
+
+        with self.assertRaisesRegex(ValueError, "Unsupported attention method"):
+            attn(hidden, encoder_outputs, mask)
+
+    def test_thai2rom_seq2seq_hidden_mismatch_raises_value_error(self):
+        encoder = thai2rom.Encoder(
+            vocabulary_size=16,
+            embedding_size=8,
+            hidden_size=8,
+            dropout=0.0,
+        )
+        decoder = thai2rom.AttentionDecoder(
+            vocabulary_size=16,
+            embedding_size=8,
+            hidden_size=10,
+            dropout=0.0,
+        )
+
+        with self.assertRaisesRegex(
+            ValueError, "Encoder and decoder hidden sizes must match"
+        ):
+            thai2rom.Seq2Seq(encoder, decoder, 2, 3, 10)
+
+    def test_thai2rom_seq2seq_inference_teacher_forcing_raises_value_error(self):
+        encoder = thai2rom.Encoder(
+            vocabulary_size=16,
+            embedding_size=8,
+            hidden_size=8,
+            dropout=0.0,
+        )
+        decoder = thai2rom.AttentionDecoder(
+            vocabulary_size=16,
+            embedding_size=8,
+            hidden_size=8,
+            dropout=0.0,
+        )
+        network = thai2rom.Seq2Seq(encoder, decoder, 2, 3, 10)
+
+        with self.assertRaisesRegex(
+            ValueError, "teacher_forcing_ratio must be zero during inference"
+        ):
+            network(
+                torch.tensor([[1, 2, 0]], dtype=torch.long),
+                torch.tensor([2], dtype=torch.int),
+                None,
+                teacher_forcing_ratio=0.5,
+            )
+
     def test_thai2rom_onnx_prepare_sequence(self):
         transliterater = ThaiTransliterator_ONNX()
 
@@ -133,6 +194,65 @@ class TransliterateTestCaseX(unittest.TestCase):
             .numpy()
             .tolist(),
         )
+
+    def test_thaig2p_unsupported_attention_method_raises_value_error(self):
+        attn = thaig2p.Attn(method="unsupported", hidden_size=4)
+        hidden = torch.randn(1, 1, 4)
+        encoder_outputs = torch.randn(1, 2, 4)
+        mask = torch.ones(1, 2, dtype=torch.bool)
+
+        with self.assertRaisesRegex(ValueError, "Unsupported attention method"):
+            attn(hidden, encoder_outputs, mask)
+
+    def test_thaig2p_seq2seq_hidden_mismatch_raises_value_error(self):
+        encoder = thaig2p.Encoder(
+            vocabulary_size=16,
+            embedding_size=8,
+            hidden_size=8,
+            dropout=0.0,
+        )
+        decoder = thaig2p.AttentionDecoder(
+            vocabulary_size=16,
+            embedding_size=8,
+            hidden_size=10,
+            dropout=0.0,
+        )
+
+        with self.assertRaisesRegex(
+            ValueError, "Encoder and decoder hidden sizes must match"
+        ):
+            thaig2p.Seq2Seq(encoder, decoder, 2, 3, 10)
+
+    def test_thaig2p_seq2seq_inference_teacher_forcing_raises_value_error(self):
+        encoder = thaig2p.Encoder(
+            vocabulary_size=16,
+            embedding_size=8,
+            hidden_size=8,
+            dropout=0.0,
+        )
+        decoder = thaig2p.AttentionDecoder(
+            vocabulary_size=16,
+            embedding_size=8,
+            hidden_size=8,
+            dropout=0.0,
+        )
+        network = thaig2p.Seq2Seq(encoder, decoder, 2, 3, 10)
+
+        with self.assertRaisesRegex(
+            ValueError, "teacher_forcing_ratio must be zero during inference"
+        ):
+            network(
+                torch.tensor([[1, 2, 0]], dtype=torch.long),
+                [2],
+                None,
+                teacher_forcing_ratio=0.5,
+            )
+
+    def test_lookup_non_callable_fallback_raises_type_error(self):
+        with self.assertRaisesRegex(
+            TypeError, "`fallback_engine` is not callable"
+        ):
+            lookup.romanize("___", fallback_func="not-callable")  # type: ignore[arg-type]
 
     def test_transliterate(self):
         self.assertEqual(transliterate("แมว", "pyicu"), "mæw")

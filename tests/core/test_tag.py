@@ -95,6 +95,12 @@ class TagTestCase(unittest.TestCase):
             ],
         )
 
+    def test_pos_tag_error_handling(self):
+        with self.assertRaises(ValueError):
+            pos_tag(["ทดสอบ"], engine="invalid_engine", corpus="invalid_corpus")
+        with self.assertRaises(ValueError):
+            pos_tag(["ทดสอบ"], engine="unigram", corpus="invalid_corpus")
+
     def test_NER_error_handling(self):
         with self.assertRaises(ValueError):
             NER(engine="xx_non_existing", corpus="thainer")

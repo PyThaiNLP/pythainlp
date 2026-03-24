@@ -414,7 +414,7 @@ basepython = "pypy3.11"
 
 [tool.tox.env.ruff]
 basepython = "python"
-deps = ["ruff"]
+deps = "ruff"
 commands = [["ruff", "check", "pythainlp"], ["ruff", "format", "--check", "pythainlp"]]
 skip_install = true
 

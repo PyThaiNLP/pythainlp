@@ -8,6 +8,7 @@ from os import path
 from pythainlp.corpus import download
 from pythainlp.tag import (
     NER,
+    EntitySpan,
     PerceptronTagger,
     perceptron,
     pos_tag,
@@ -318,9 +319,9 @@ class TagNNERTestCase(unittest.TestCase):
 
         # Test with nested entities
         entities = [
-            {"text": ["ห้า"], "span": [7, 9], "entity_type": "cardinal"},
-            {"text": ["ห้า", "โมง"], "span": [7, 11], "entity_type": "time"},
-            {"text": ["โมง"], "span": [9, 11], "entity_type": "unit"},
+            EntitySpan(text=["ห้า"], span=[7, 9], entity_type="cardinal"),
+            EntitySpan(text=["ห้า", "โมง"], span=[7, 11], entity_type="time"),
+            EntitySpan(text=["โมง"], span=[9, 11], entity_type="unit"),
         ]
         top_entities = get_top_level_entities(entities)
         # Should only return 'time' as it contains the others
@@ -330,8 +331,8 @@ class TagNNERTestCase(unittest.TestCase):
 
         # Test with non-overlapping entities
         entities = [
-            {"text": ["วัน"], "span": [0, 1], "entity_type": "time"},
-            {"text": ["เดือน"], "span": [2, 3], "entity_type": "time"},
+            EntitySpan(text=["วัน"], span=[0, 1], entity_type="time"),
+            EntitySpan(text=["เดือน"], span=[2, 3], entity_type="time"),
         ]
         top_entities = get_top_level_entities(entities)
         # Both should be returned as neither contains the other
@@ -352,11 +353,7 @@ class TagNNERTestCase(unittest.TestCase):
         # Test basic IOB conversion
         tokens = ["วัน", "ที่", " ", "5", " ", "เมษายน"]
         entities = [
-            {
-                "text": ["5", " ", "เมษายน"],
-                "span": [3, 6],
-                "entity_type": "date",
-            }
+            EntitySpan(text=["5", " ", "เมษายน"], span=[3, 6], entity_type="date")
         ]
         result = _entities_to_iob(tokens, entities)
 
@@ -375,11 +372,7 @@ class TagNNERTestCase(unittest.TestCase):
         # Test basic HTML conversion
         tokens = ["วัน", "ที่", " ", "5", " ", "เมษายน"]
         entities = [
-            {
-                "text": ["5", " ", "เมษายน"],
-                "span": [3, 6],
-                "entity_type": "date",
-            }
+            EntitySpan(text=["5", " ", "เมษายน"], span=[3, 6], entity_type="date")
         ]
         result = _entities_to_html(tokens, entities)
 
@@ -390,12 +383,8 @@ class TagNNERTestCase(unittest.TestCase):
         # Test with multiple entities
         tokens = ["นาย", "สมชาย", " ", "อยู่", "ที่", "กรุงเทพ"]
         entities = [
-            {
-                "text": ["นาย", "สมชาย"],
-                "span": [0, 2],
-                "entity_type": "person",
-            },
-            {"text": ["กรุงเทพ"], "span": [5, 6], "entity_type": "location"},
+            EntitySpan(text=["นาย", "สมชาย"], span=[0, 2], entity_type="person"),
+            EntitySpan(text=["กรุงเทพ"], span=[5, 6], entity_type="location"),
         ]
         result = _entities_to_html(tokens, entities)
         expected = "<PERSON>นายสมชาย</PERSON> อยู่ที่<LOCATION>กรุงเทพ</LOCATION>"

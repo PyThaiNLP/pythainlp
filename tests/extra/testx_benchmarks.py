@@ -91,9 +91,9 @@ class BenchmarksTestCaseX(unittest.TestCase):
         self.assertEqual(expected, "".join(np.array(labels).astype(str)))
 
     def test_flatten_result(self):
-        result = {"key1": {"v1": 6}, "key2": {"v2": 7}}
-
-        actual = word_tokenization._flatten_result(result)
+        actual = word_tokenization._flatten_result(
+            {"key1": {"v1": 6}, "key2": {"v2": 7}}
+        )
         self.assertEqual(actual, {"key1:v1": 6, "key2:v2": 7})
 
     def test_bleu_score_single_reference(self):

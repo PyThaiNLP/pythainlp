@@ -442,6 +442,10 @@ warn_unreachable = true
 warn_unused_configs = true
 warn_unused_ignores = true
 
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+
 # Ignore missing imports for optional dependencies
 [[tool.mypy.overrides]]
 module = [

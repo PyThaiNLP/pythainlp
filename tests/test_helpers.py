@@ -41,7 +41,7 @@ def assert_subword_tokenize_handles_none_and_empty(
     """
     from pythainlp.tokenize import subword_tokenize
 
-    test_case.assertEqual(subword_tokenize(None, engine=engine), [])
+    test_case.assertEqual(subword_tokenize(None, engine=engine), [])  # type: ignore[arg-type]
     test_case.assertEqual(subword_tokenize("", engine=engine), [])
 
 

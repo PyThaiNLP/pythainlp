@@ -29,7 +29,7 @@ from ..test_helpers import assert_segment_handles_none_and_empty
 class SentTokenizeCRFCutTestCaseC(unittest.TestCase):
     def test_sent_tokenize(self):
         # Use default engine (crfcut)
-        self.assertEqual(sent_tokenize(None), [])
+        self.assertEqual(sent_tokenize(None), [])  # type: ignore[arg-type]
         self.assertEqual(sent_tokenize(""), [])
         self.assertEqual(
             sent_tokenize(SENT_1),
@@ -64,7 +64,7 @@ class SentTokenizeCRFCutTestCaseC(unittest.TestCase):
 
 class SubwordTokenizeHanSoloTestCaseC(unittest.TestCase):
     def test_subword_tokenize(self):
-        self.assertEqual(subword_tokenize(None, engine="han_solo"), [])
+        self.assertEqual(subword_tokenize(None, engine="han_solo"), [])  # type: ignore[arg-type]
         self.assertEqual(
             subword_tokenize("แมวกินปลา", engine="han_solo"),
             ["แมว", "กิน", "ปลา"],

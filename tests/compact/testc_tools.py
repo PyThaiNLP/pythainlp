@@ -2,6 +2,7 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
+from typing import cast
 import unittest
 
 import numpy as np
@@ -128,12 +129,14 @@ class MisspellTestCaseC(unittest.TestCase):
         candidates = find_misspell_candidates("ก")
         self.assertIsNotNone(candidates)
         self.assertIsInstance(candidates, list)
+        candidates = cast("list[str]", candidates)  # for type checker
         self.assertGreater(len(candidates), 0)
 
         # Test English character
         candidates = find_misspell_candidates("a")
         self.assertIsNotNone(candidates)
         self.assertIsInstance(candidates, list)
+        candidates = cast("list[str]", candidates)  # for type checker
         self.assertGreater(len(candidates), 0)
 
         # Test character not in keyboard

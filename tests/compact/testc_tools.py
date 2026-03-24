@@ -2,8 +2,8 @@
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
-from typing import cast
 import unittest
+from typing import cast
 
 import numpy as np
 
@@ -18,8 +18,8 @@ def _count_difference(st1: str, st2: str) -> int:
     # this assumes len(st1) == len(st2)
 
     count = 0
-    for i in range(len(st1)):
-        if st1[i] != st2[i]:
+    for i, c in enumerate(st1):
+        if c != st2[i]:
             count += 1
 
     return count

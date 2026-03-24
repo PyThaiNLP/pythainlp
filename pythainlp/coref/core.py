@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from typing import Any, Union, cast
 
+from pythainlp.coref._fastcoref import CorefResult
+
 _MODEL_CACHE: dict[tuple[str, str], Any] = {}
 
 
@@ -12,7 +14,7 @@ def coreference_resolution(
     texts: Union[str, list[str]],
     model_name: str = "han-coref-v1.0",
     device: str = "cpu",
-) -> list[dict[str, Any]]:
+) -> list[CorefResult]:
     """Coreference Resolution
 
     :param Union[str, list[str]] texts: list of texts to apply coreference resolution to
@@ -20,7 +22,7 @@ def coreference_resolution(
     :param str device: device for running coreference resolution model on\
         ("cpu", "cuda", and others)
     :return: List of texts with coreference resolution
-    :rtype: list[dict[str, Any]]
+    :rtype: list[CorefResult]
 
     :Options for model_name:
         * *han-coref-v1.0* - (default) Han-Coref: Thai coreference resolution\
@@ -54,8 +56,9 @@ def coreference_resolution(
 
     model = _MODEL_CACHE.get(model_key)
     if model is not None:
-        return cast(list[dict[str, Any]], model.predict(texts))
+        return cast(list[CorefResult], model.predict(texts))
 
     return [
-        {"text": text, "clusters_string": [], "clusters": []} for text in texts
+        CorefResult(text=text, clusters_string=[], clusters=[])
+        for text in texts
     ]

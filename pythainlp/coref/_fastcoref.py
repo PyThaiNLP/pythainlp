@@ -6,12 +6,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, TypedDict
 
 if TYPE_CHECKING:
-    from fastcoref.modeling import CorefModel, CorefResult
+    from fastcoref.modeling import CorefModel
+    from fastcoref.modeling import CorefResult as FastCorefResult
     from spacy.language import Language
 
 
-class CorefResultDict(TypedDict):
-    """Dictionary representation of coreference resolution results."""
+class CorefResult(TypedDict):
+    """Coreference resolution result for a single text."""
 
     text: str
     clusters_string: list[list[str]]
@@ -42,14 +43,14 @@ class FastCoref:
             self.model_name, device=device, nlp=self.nlp
         )
 
-    def _to_json(self, _predict: "CorefResult") -> CorefResultDict:
+    def _to_json(self, _predict: "FastCorefResult") -> CorefResult:
         return {
             "text": _predict.text,
             "clusters_string": _predict.get_clusters(as_strings=True),
             "clusters": _predict.get_clusters(as_strings=False),
         }
 
-    def predict(self, texts: list[str]) -> list[CorefResultDict]:
+    def predict(self, texts: list[str]) -> list[CorefResult]:
         return [
             self._to_json(pred) for pred in self.model.predict(texts=texts)
         ]

@@ -19,6 +19,73 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- `RougeScore` TypedDict in `pythainlp.benchmarks`: precision, recall, and
+  fmeasure fields replace the previous `tuple[float, float, float]` value
+  in the `rouge_score()` return dict. **Breaking change** – migrate as follows:
+
+  ```python
+  # Before (tuple indexing, error-prone)
+  precision, recall, fmeasure = scores["rouge1"]
+
+  # After (named fields)
+  precision  = scores["rouge1"]["precision"]
+  recall     = scores["rouge1"]["recall"]
+  fmeasure   = scores["rouge1"]["fmeasure"]
+  ```
+
+- `CharLevelStats`, `WordLevelStats`, `GlobalStats`, and `TokenizationStats`
+  TypedDicts in `pythainlp.benchmarks`: give named, type-safe access to the
+  dict returned by `word_tokenization.compute_stats()`.
+
+  ```python
+  # Before (opaque nested dict)
+  result = compute_stats(ref, hyp)
+  tp = result["char_level"]["tp"]
+
+  # After (same access, now type-safe with TokenizationStats)
+  from pythainlp.benchmarks import TokenizationStats
+  result: TokenizationStats = compute_stats(ref, hyp)
+  tp = result["char_level"]["tp"]
+  ```
+
+- `CorefResult` TypedDict is now exported from `pythainlp.coref`.
+  `coreference_resolution()` return type updated from `list[dict[str, Any]]`
+  to `list[CorefResult]`.
+
+  ```python
+  # Before
+  from pythainlp.coref import coreference_resolution
+
+  # After – import the TypedDict for type annotations
+  from pythainlp.coref import CorefResult, coreference_resolution
+  ```
+
+- `EntitySpan` TypedDict (`pythainlp.tag.named_entity`, #1363) and
+  `BleuScore` TypedDict (`pythainlp.benchmarks`, #1365) were introduced in
+  previous releases. Migration notes for completeness:
+
+  ```python
+  # EntitySpan – Before (plain dict)
+  entity = {"text": ["สมชาย"], "span": [0, 1], "entity_type": "PERSON"}
+
+  # EntitySpan – After (TypedDict constructor)
+  from pythainlp.tag.named_entity import EntitySpan
+  entity = EntitySpan(text=["สมชาย"], span=[0, 1], entity_type="PERSON")
+  ```
+
+  ```python
+  # BleuScore – Before (plain dict, no type hint)
+  score = bleu_score(refs, hyps)
+  print(score["bleu"])
+
+  # BleuScore – After (TypedDict annotation)
+  from pythainlp.benchmarks import BleuScore, bleu_score
+  score: BleuScore = bleu_score(refs, hyps)
+  print(score["bleu"])
+  ```
+
 ### Fixed
 
 - thai2rom_onnx: fix ONNX encoder model and fix inference bugs (#1349)

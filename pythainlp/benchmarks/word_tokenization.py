@@ -5,7 +5,8 @@ from __future__ import annotations
 
 import re
 import sys
-from typing import TYPE_CHECKING, Union
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, TypedDict, Union, overload
 
 if TYPE_CHECKING:
     import numpy as np
@@ -29,6 +30,41 @@ TAG_RX: re.Pattern[str] = re.compile(r"<\/?[A-Z]+>")
 TAILING_SEP_RX: re.Pattern[str] = re.compile(f"{re.escape(SEPARATOR)}$")
 
 
+class CharLevelStats(TypedDict):
+    """Character-level confusion matrix statistics for tokenization."""
+
+    tp: int
+    fp: int
+    tn: int
+    fn: int
+
+
+class WordLevelStats(TypedDict):
+    """Word-level tokenization statistics."""
+
+    correctly_tokenised_words: int
+    total_words_in_sample: int
+    total_words_in_ref_sample: int
+
+
+class GlobalStats(TypedDict):
+    """Global tokenization indicators as a binary indicator string."""
+
+    tokenisation_indicators: str
+
+
+# Functional form is required because 'global' is a Python reserved keyword.
+TokenizationStats = TypedDict(
+    "TokenizationStats",
+    {
+        "char_level": CharLevelStats,
+        "word_level": WordLevelStats,
+        "global": GlobalStats,
+    },
+)
+"""Tokenization quality statistics at character, word, and global level."""
+
+
 def _f1(precision: float, recall: float) -> float:
     """Compute f1.
 
@@ -43,8 +79,21 @@ def _f1(precision: float, recall: float) -> float:
     return 2 * precision * recall / (precision + recall)
 
 
+@overload
 def _flatten_result(
-    my_dict: dict[str, dict[str, Union[int, str]]], sep: str = ":"
+    my_dict: TokenizationStats, sep: str = ...
+) -> dict[str, Union[int, str]]: ...
+
+
+@overload
+def _flatten_result(
+    my_dict: Mapping[str, Mapping[str, Union[int, str]]], sep: str = ...
+) -> dict[str, Union[int, str]]: ...
+
+
+def _flatten_result(
+    my_dict: Any,
+    sep: str = ":",
 ) -> dict[str, Union[int, str]]:
     """Flatten two-dimension dictionary.
 
@@ -55,8 +104,9 @@ def _flatten_result(
     { "a:b": 7 }
 
 
-    :param dict[str, dict[str, Union[int, str]]] my_dict: dictionary
-        containing stats
+    :param my_dict: dictionary containing stats
+    :type my_dict: TokenizationStats or
+        collections.abc.Mapping[str, collections.abc.Mapping[str, Union[int, str]]]
     :param str sep: separator between the two keys (default: ":")
 
     :return: a one-dimension dictionary with keys combined
@@ -139,7 +189,7 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
 
 def compute_stats(
     ref_sample: str, raw_sample: str
-) -> dict[str, dict[str, Union[int, str]]]:
+) -> TokenizationStats:
     """Compute statistics for tokenization quality
 
     These statistics include:
@@ -156,7 +206,7 @@ def compute_stats(
     :param str samples: samples that we want to evaluate
 
     :return: metrics at character- and word-level and indicators of correctly tokenized words
-    :rtype: dict[str, dict[str, Union[int, str]]]
+    :rtype: TokenizationStats
     """
     import numpy as np
 
@@ -194,20 +244,20 @@ def compute_stats(
     tokenization_indicators_str = list(map(str, tokenization_indicators))
 
     return {
-        "char_level": {
-            "tp": c_tp,
-            "fp": c_fp,
-            "tn": c_tn,
-            "fn": c_fn,
-        },
-        "word_level": {
-            "correctly_tokenised_words": correctly_tokenised_words,
-            "total_words_in_sample": int(np.sum(sample_arr)),
-            "total_words_in_ref_sample": int(np.sum(ref_sample_arr)),
-        },
-        "global": {
-            "tokenisation_indicators": "".join(tokenization_indicators_str)
-        },
+        "char_level": CharLevelStats(
+            tp=c_tp,
+            fp=c_fp,
+            tn=c_tn,
+            fn=c_fn,
+        ),
+        "word_level": WordLevelStats(
+            correctly_tokenised_words=correctly_tokenised_words,
+            total_words_in_sample=int(np.sum(sample_arr)),
+            total_words_in_ref_sample=int(np.sum(ref_sample_arr)),
+        ),
+        "global": GlobalStats(
+            tokenisation_indicators="".join(tokenization_indicators_str),
+        ),
     }
 
 

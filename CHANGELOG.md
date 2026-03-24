@@ -35,19 +35,21 @@ and this project adheres to
   fmeasure   = scores["rouge1"]["fmeasure"]
   ```
 
-- `CharLevelStats`, `WordLevelStats`, `GlobalStats`, and `TokenizationStats`
+- `CharLevelStat`, `WordLevelStat`, `GlobalStat`, and `TokenizationStat`
   TypedDicts in `pythainlp.benchmarks`: give named, type-safe access to the
-  dict returned by `word_tokenization.compute_stats()`.
+  dict returned by `word_tokenization.compute_stats()`. The global-level key
+  is `"global_"` (trailing underscore avoids the Python reserved word).
 
   ```python
   # Before (opaque nested dict)
   result = compute_stats(ref, hyp)
   tp = result["char_level"]["tp"]
 
-  # After (same access, now type-safe with TokenizationStats)
-  from pythainlp.benchmarks import TokenizationStats
-  result: TokenizationStats = compute_stats(ref, hyp)
+  # After (same access, now type-safe with TokenizationStat)
+  from pythainlp.benchmarks import TokenizationStat
+  result: TokenizationStat = compute_stats(ref, hyp)
   tp = result["char_level"]["tp"]
+  indicators = result["global_"]["tokenisation_indicators"]
   ```
 
 - `CorefResult` TypedDict is now exported from `pythainlp.coref`.

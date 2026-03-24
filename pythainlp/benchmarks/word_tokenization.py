@@ -30,7 +30,7 @@ TAG_RX: re.Pattern[str] = re.compile(r"<\/?[A-Z]+>")
 TAILING_SEP_RX: re.Pattern[str] = re.compile(f"{re.escape(SEPARATOR)}$")
 
 
-class CharLevelStats(TypedDict):
+class CharLevelStat(TypedDict):
     """Character-level confusion matrix statistics for tokenization."""
 
     tp: int
@@ -39,7 +39,7 @@ class CharLevelStats(TypedDict):
     fn: int
 
 
-class WordLevelStats(TypedDict):
+class WordLevelStat(TypedDict):
     """Word-level tokenization statistics."""
 
     correctly_tokenised_words: int
@@ -47,22 +47,18 @@ class WordLevelStats(TypedDict):
     total_words_in_ref_sample: int
 
 
-class GlobalStats(TypedDict):
-    """Global tokenization indicators as a binary indicator string."""
+class GlobalStat(TypedDict):
+    """Global tokenization indicator as a binary indicator string."""
 
     tokenisation_indicators: str
 
 
-# Functional form is required because 'global' is a Python reserved keyword.
-TokenizationStats = TypedDict(
-    "TokenizationStats",
-    {
-        "char_level": CharLevelStats,
-        "word_level": WordLevelStats,
-        "global": GlobalStats,
-    },
-)
-"""Tokenization quality statistics at character, word, and global level."""
+class TokenizationStat(TypedDict):
+    """Tokenization quality statistics at character, word, and global level."""
+
+    char_level: CharLevelStat
+    word_level: WordLevelStat
+    global_: GlobalStat
 
 
 def _f1(precision: float, recall: float) -> float:
@@ -81,7 +77,7 @@ def _f1(precision: float, recall: float) -> float:
 
 @overload
 def _flatten_result(
-    my_dict: TokenizationStats, sep: str = ...
+    my_dict: TokenizationStat, sep: str = ...
 ) -> dict[str, Union[int, str]]: ...
 
 
@@ -105,7 +101,7 @@ def _flatten_result(
 
 
     :param my_dict: dictionary containing stats
-    :type my_dict: TokenizationStats or
+    :type my_dict: TokenizationStat or
         collections.abc.Mapping[str, collections.abc.Mapping[str, Union[int, str]]]
     :param str sep: separator between the two keys (default: ":")
 
@@ -189,7 +185,7 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
 
 def compute_stats(
     ref_sample: str, raw_sample: str
-) -> TokenizationStats:
+) -> TokenizationStat:
     """Compute statistics for tokenization quality
 
     These statistics include:
@@ -206,7 +202,7 @@ def compute_stats(
     :param str samples: samples that we want to evaluate
 
     :return: metrics at character- and word-level and indicators of correctly tokenized words
-    :rtype: TokenizationStats
+    :rtype: TokenizationStat
     """
     import numpy as np
 
@@ -244,18 +240,18 @@ def compute_stats(
     tokenization_indicators_str = list(map(str, tokenization_indicators))
 
     return {
-        "char_level": CharLevelStats(
+        "char_level": CharLevelStat(
             tp=c_tp,
             fp=c_fp,
             tn=c_tn,
             fn=c_fn,
         ),
-        "word_level": WordLevelStats(
+        "word_level": WordLevelStat(
             correctly_tokenised_words=correctly_tokenised_words,
             total_words_in_sample=int(np.sum(sample_arr)),
             total_words_in_ref_sample=int(np.sum(ref_sample_arr)),
         ),
-        "global": GlobalStats(
+        "global_": GlobalStat(
             tokenisation_indicators="".join(tokenization_indicators_str),
         ),
     }

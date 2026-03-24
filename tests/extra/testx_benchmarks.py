@@ -9,11 +9,11 @@ import yaml
 
 from pythainlp.benchmarks import (
     BleuScore,
-    CharLevelStats,
-    GlobalStats,
+    CharLevelStat,
+    GlobalStat,
     RougeScore,
-    TokenizationStats,
-    WordLevelStats,
+    TokenizationStat,
+    WordLevelStat,
     bleu_score,
     rouge_score,
     word_tokenization,
@@ -59,31 +59,31 @@ class BenchmarksTestCaseX(unittest.TestCase):
             self.assertIsNotNone(result)
 
     def test_compute_stats_return_type(self):
-        """Test that compute_stats returns a TokenizationStats typed dict."""
+        """Test that compute_stats returns a TokenizationStat typed dict."""
         ref = word_tokenization.preprocessing("อากาศ|ร้อน|มาก")
         act = word_tokenization.preprocessing("อากาศ|ร้อนมาก")
 
-        result: TokenizationStats = word_tokenization.compute_stats(ref, act)
+        result: TokenizationStat = word_tokenization.compute_stats(ref, act)
 
         self.assertIsInstance(result, dict)
         self.assertIn("char_level", result)
         self.assertIn("word_level", result)
-        self.assertIn("global", result)
+        self.assertIn("global_", result)
 
-        char: CharLevelStats = result["char_level"]
+        char: CharLevelStat = result["char_level"]
         self.assertIsInstance(char, dict)
         self.assertIsInstance(char["tp"], int)
         self.assertIsInstance(char["fp"], int)
         self.assertIsInstance(char["tn"], int)
         self.assertIsInstance(char["fn"], int)
 
-        word: WordLevelStats = result["word_level"]
+        word: WordLevelStat = result["word_level"]
         self.assertIsInstance(word, dict)
         self.assertIsInstance(word["correctly_tokenised_words"], int)
         self.assertIsInstance(word["total_words_in_sample"], int)
         self.assertIsInstance(word["total_words_in_ref_sample"], int)
 
-        glob: GlobalStats = result["global"]
+        glob: GlobalStat = result["global_"]
         self.assertIsInstance(glob, dict)
         self.assertIsInstance(glob["tokenisation_indicators"], str)
 

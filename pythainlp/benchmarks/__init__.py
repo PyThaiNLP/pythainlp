@@ -5,11 +5,11 @@
 
 __all__: list[str] = [
     "BleuScore",
-    "CharLevelStats",
-    "GlobalStats",
+    "CharLevelStat",
+    "GlobalStat",
     "RougeScore",
-    "TokenizationStats",
-    "WordLevelStats",
+    "TokenizationStat",
+    "WordLevelStat",
     "benchmark",
     "bleu_score",
     "character_error_rate",
@@ -26,9 +26,9 @@ from pythainlp.benchmarks.metrics import (
     word_error_rate,
 )
 from pythainlp.benchmarks.word_tokenization import (
-    CharLevelStats,
-    GlobalStats,
-    TokenizationStats,
-    WordLevelStats,
+    CharLevelStat,
+    GlobalStat,
+    TokenizationStat,
+    WordLevelStat,
     benchmark,
 )

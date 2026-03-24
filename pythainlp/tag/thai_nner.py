@@ -12,7 +12,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, Union
 
 from pythainlp.corpus import get_corpus_path
-from pythainlp.tag.named_entity import NEREntity
+from pythainlp.tag.named_entity import EntitySpan
 
 if TYPE_CHECKING:
     from thai_nner import NNER  # noqa: F401
@@ -21,11 +21,11 @@ if TYPE_CHECKING:
 __all__: list[str] = ["ThaiNNER"]
 
 
-def _is_contained_in(entity: NEREntity, container: NEREntity) -> bool:
+def _is_contained_in(entity: EntitySpan, container: EntitySpan) -> bool:
     """Check if an entity is strictly contained within a container entity.
 
-    :param NEREntity entity: Entity to check
-    :param NEREntity container: Potential container entity
+    :param EntitySpan entity: Entity to check
+    :param EntitySpan container: Potential container entity
     :return: True if entity is strictly contained in container
     :rtype: bool
     """
@@ -42,19 +42,19 @@ def _is_contained_in(entity: NEREntity, container: NEREntity) -> bool:
 
 
 def get_top_level_entities(
-    entities: list[NEREntity],
-) -> list[NEREntity]:
+    entities: list[EntitySpan],
+) -> list[EntitySpan]:
     """Extract only top-level (outermost) entities from nested NER results.
 
     In nested NER, entities can contain other entities. This function filters
     the results to return only the outermost entities that are not contained
     within other entity.
 
-    :param list[NEREntity] entities: List of entity dictionaries with
+    :param list[EntitySpan] entities: List of entity dictionaries with
                                           'span', 'text', and 'entity_type'
                                           keys
     :return: List of top-level entities only
-    :rtype: list[NEREntity]
+    :rtype: list[EntitySpan]
 
     :Example:
     ::
@@ -81,7 +81,7 @@ def get_top_level_entities(
         entities, key=lambda x: (x["span"][0], -x["span"][1])
     )
 
-    top_level: list[NEREntity] = []
+    top_level: list[EntitySpan] = []
     for ent in sorted_entities:
         is_contained = False
         # Only check against entities already in top_level
@@ -149,7 +149,7 @@ class ThaiNNER:
 
     def tag(
         self, text: str, top_level_only: bool = False
-    ) -> tuple[list[str], list[NEREntity]]:
+    ) -> tuple[list[str], list[EntitySpan]]:
         """Tag Thai text with nested named entities.
 
         :param str text: Thai text to tag
@@ -159,7 +159,7 @@ class ThaiNNER:
         :return: Tuple of (tokens, entities) where tokens is a list of
                  tokenized strings and entities is a list of dictionaries
                  containing 'text', 'span', and 'entity_type' keys.
-        :rtype: tuple[list[str], list[NEREntity]]
+        :rtype: tuple[list[str], list[EntitySpan]]
 
         :Example:
         ::
@@ -228,7 +228,7 @@ class ThaiNNER:
 
 
 def _entities_to_iob(
-    tokens: list[str], entities: list[NEREntity]
+    tokens: list[str], entities: list[EntitySpan]
 ) -> list[tuple[str, str]]:
     """Convert Thai-NNER entity format to IOB format.
 
@@ -238,7 +238,7 @@ def _entities_to_iob(
     will overwrite the IOB tags of earlier entities.
 
     :param list[str] tokens: List of tokens
-    :param list[NEREntity] entities: List of entity dictionaries (should be non-overlapping)
+    :param list[EntitySpan] entities: List of entity dictionaries (should be non-overlapping)
     :return: List of (token, tag) tuples in IOB format
     :rtype: list[tuple[str, str]]
     """
@@ -263,7 +263,7 @@ def _entities_to_iob(
     return result
 
 
-def _entities_to_html(tokens: list[str], entities: list[NEREntity]) -> str:
+def _entities_to_html(tokens: list[str], entities: list[EntitySpan]) -> str:
     """Convert Thai-NNER entity format to HTML-like tags.
 
     This function assumes entities do not overlap. If entities overlap,
@@ -271,7 +271,7 @@ def _entities_to_html(tokens: list[str], entities: list[NEREntity]) -> str:
     use only top-level entities (use get_top_level_entities() to filter).
 
     :param list[str] tokens: List of tokens
-    :param list[NEREntity] entities: List of entity dictionaries
+    :param list[EntitySpan] entities: List of entity dictionaries
     :return: String with HTML-like entity tags
     :rtype: str
     """

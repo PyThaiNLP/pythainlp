@@ -42,7 +42,7 @@
 - [ ] Do not use os.path.join();
       always use pythainlp.tools.safe_path_join() instead,
       to prevent path traversal vulnerabilities (CWE-22).
-- [ ] Naming conventions: Follows PEP 8. 
+- [ ] Naming conventions: Follows PEP 8. Concise. Use US spelling.
       Align new modules, classes, public APIs, and environment
       variables with NLTK conventions as the primary standard,
       provided they suit the component's behavior.

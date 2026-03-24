@@ -429,6 +429,7 @@ python_version = "3.9"
 show_column_numbers = true
 show_error_code_links = true
 show_error_context = true
+strict = true
 strict_bytes = true
 strict_equality = true
 strict_equality_for_none = true

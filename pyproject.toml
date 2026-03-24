@@ -421,9 +421,9 @@ skip_install = true
 # Mypy configuration
 [tool.mypy]
 check_untyped_defs = true
-disallow_untyped_defs = false
-disallow_incomplete_defs = false
-disallow_untyped_decorators = false
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
 pretty = true
 python_version = "3.9"
 show_column_numbers = true
@@ -439,15 +439,6 @@ warn_return_any = true
 warn_unused_configs = true
 warn_unused_ignores = true
 warn_unreachable = true
-
-# Per-module options for stricter checking on foundation modules
-[[tool.mypy.overrides]]
-module = [
-    "pythainlp.tools.*",
-    "pythainlp.cli.*",
-]
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
 
 # Ignore missing imports for optional dependencies
 [[tool.mypy.overrides]]

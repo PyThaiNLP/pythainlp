@@ -12,7 +12,18 @@ from __future__ import annotations
 
 import math
 from collections import Counter
-from typing import Optional, Union, cast
+from typing import Optional, TypedDict, Union, cast
+
+
+class BleuScore(TypedDict):
+    """BLEU score"""
+
+    bleu: float  # BLEU score as a percentage (0.0 to 100.0)
+    precisions: list[float]
+    bp: float
+    length_ratio: float
+    hyp_length: int
+    ref_length: int
 
 
 def _get_ngrams(tokens: list[str], n: int) -> list[tuple[str, ...]]:
@@ -83,7 +94,7 @@ def bleu_score(
     lowercase: bool = False,
     max_ngram: int = 4,
     smooth: bool = True,
-) -> dict[str, Union[float, list[float]]]:
+) -> BleuScore:
     """
     Calculate BLEU score for Thai text with automatic tokenization.
 
@@ -104,11 +115,12 @@ def bleu_score(
     :param bool smooth: whether to use smoothing for zero counts
         (default: True)
 
-    :return: dictionary with ``'bleu'``, ``'precisions'``, ``'bp'``,
-        ``'length_ratio'``, ``'hyp_length'``, and ``'ref_length'``.
-        The ``'precisions'`` value is a ``list[float]``; all other values
-        are ``float``.
-    :rtype: dict[str, Union[float, list[float]]]
+    :return: a :class:`BleuScore` typed dict with ``'bleu'``,
+        ``'precisions'``, ``'bp'``, ``'length_ratio'``, ``'hyp_length'``,
+        and ``'ref_length'``. ``'precisions'`` is ``list[float]``;
+        ``'hyp_length'`` and ``'ref_length'`` are ``int``; all other
+        values are ``float``.
+    :rtype: BleuScore
 
     :Example:
     ::
@@ -220,16 +232,16 @@ def bleu_score(
     else:
         bleu = 0.0
 
-    return {
-        "bleu": bleu * 100,  # Return as percentage
-        "precisions": precisions,
-        "bp": bp,
-        "length_ratio": total_hyp_length / total_ref_length
+    return BleuScore(
+        bleu=bleu * 100,  # Return as percentage
+        precisions=precisions,
+        bp=bp,
+        length_ratio=total_hyp_length / total_ref_length
         if total_ref_length > 0
         else 0.0,
-        "hyp_length": total_hyp_length,
-        "ref_length": total_ref_length,
-    }
+        hyp_length=total_hyp_length,
+        ref_length=total_ref_length,
+    )
 
 
 def rouge_score(

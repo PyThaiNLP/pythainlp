@@ -4,6 +4,7 @@
 """Performance benchmarking."""
 
 __all__: list[str] = [
+    "BleuScore",
     "benchmark",
     "bleu_score",
     "character_error_rate",
@@ -12,6 +13,7 @@ __all__: list[str] = [
 ]
 
 from pythainlp.benchmarks.metrics import (
+    BleuScore,
     bleu_score,
     character_error_rate,
     rouge_score,

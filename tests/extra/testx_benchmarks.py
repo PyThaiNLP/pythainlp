@@ -7,7 +7,12 @@ import unittest
 import numpy as np
 import yaml
 
-from pythainlp.benchmarks import bleu_score, rouge_score, word_tokenization
+from pythainlp.benchmarks import (
+    BleuScore,
+    bleu_score,
+    rouge_score,
+    word_tokenization,
+)
 
 with open("./tests/data/sentences.yml", "r", encoding="utf8") as stream:
     TEST_DATA = yaml.safe_load(stream)
@@ -102,6 +107,22 @@ class BenchmarksTestCaseX(unittest.TestCase):
         self.assertIn("bleu", score)
         self.assertGreater(score["bleu"], 0)
         self.assertLessEqual(score["bleu"], 100)
+
+    def test_bleu_score_return_type(self):
+        """Test that bleu_score returns a BleuScore typed dict."""
+        references = ["สวัสดีครับ วันนี้อากาศดีมาก"]
+        hypotheses = ["สวัสดีค่ะ วันนี้อากาศดี"]
+
+        score: BleuScore = bleu_score(references, hypotheses)
+
+        self.assertIsInstance(score, dict)
+        self.assertIsInstance(score["bleu"], float)
+        self.assertIsInstance(score["precisions"], list)
+        self.assertTrue(all(isinstance(p, float) for p in score["precisions"]))
+        self.assertIsInstance(score["bp"], float)
+        self.assertIsInstance(score["length_ratio"], float)
+        self.assertIsInstance(score["hyp_length"], int)
+        self.assertIsInstance(score["ref_length"], int)
 
     def test_bleu_score_multiple_references(self):
         """Test BLEU score with multiple references per hypothesis."""

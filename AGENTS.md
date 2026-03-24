@@ -28,7 +28,8 @@
 - [ ] Keep the test coverage high. Aim at least 70% test coverage.
 - [ ] Add test cases to cover all code branches and capture edge cases.
 - [ ] `# type: ignore[arg-type]` comment can be used in the test code,
-      only if that specific code want to explicitly test TypeError handling.
+      only if that specific code want to explicitly test type handling
+      or TypeError raising.
 - [ ] Docstring and doctest must reflect the latest code.
 - [ ] All error messages and warning messages should be clear, concise,
       and consistent in style. They should be parseable.

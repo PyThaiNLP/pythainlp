@@ -60,4 +60,4 @@ jobs:
           pip install mypy
 
       - name: Run mypy
-        run: mypy pythainlp
+        run: mypy pythainlp tests

@@ -52,16 +52,14 @@ from pythainlp.ulmfit.tokenizer import BaseTokenizer as base_tokenizer
 
 class UlmfitTestCaseX(unittest.TestCase):
     def test_ThaiTokenizer(self):
-        self.thai = ThaiTokenizer()
-        self.assertIsNotNone(self.thai.tokenizer("ทดสอบการตัดคำ"))
-        result = self.thai.add_special_cases(["แมว"])
-        self.assertIsNone(result)
+        tokenizer = ThaiTokenizer()
+        self.assertIsNotNone(tokenizer.tokenizer("ทดสอบการตัดคำ"))
+        tokenizer.add_special_cases(["แมว"])  # does not implemented yet
 
     def test_BaseTokenizer(self):
-        self.base = base_tokenizer(lang="th")
-        self.assertIsNotNone(self.base.tokenizer("ทดสอบ การ ตัด คำ"))
-        result = self.base.add_special_cases(["แมว"])
-        self.assertIsNone(result)
+        tokenizer = base_tokenizer(lang="th")
+        self.assertIsNotNone(tokenizer.tokenizer("ทดสอบ การ ตัด คำ"))
+        tokenizer.add_special_cases(["แมว"])  # does not implemented yet
 
     def test_load_pretrained(self):
         self.assertIsNotNone(THWIKI_LSTM)

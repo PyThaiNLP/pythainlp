@@ -79,13 +79,13 @@ class BenchmarksTestCaseX(unittest.TestCase):
 
         word: WordLevelStat = result["word_level"]
         self.assertIsInstance(word, dict)
-        self.assertIsInstance(word["correctly_tokenised_words"], int)
+        self.assertIsInstance(word["correctly_tokenized_words"], int)
         self.assertIsInstance(word["total_words_in_sample"], int)
         self.assertIsInstance(word["total_words_in_ref_sample"], int)
 
         glob: GlobalStat = result["global_"]
         self.assertIsInstance(glob, dict)
-        self.assertIsInstance(glob["tokenisation_indicators"], str)
+        self.assertIsInstance(glob["tokenization_indicators"], str)
 
     def test_benchmark(self):
         expected = []
@@ -98,7 +98,7 @@ class BenchmarksTestCaseX(unittest.TestCase):
 
         self.assertIsNotNone(df)
 
-    def test_count_correctly_tokenised_words(self):
+    def test_count_correctly_tokenized_words(self):
         for d in TEST_DATA["binary_sentences"]:
             sample = np.array(list(d["actual"])).astype(int)
             ref_sample = np.array(list(d["expected"])).astype(int)
@@ -108,20 +108,20 @@ class BenchmarksTestCaseX(unittest.TestCase):
 
             # in binary [{0, 1}, ...]
             correctly_tokenized_words = (
-                word_tokenization._find_words_correctly_tokenised(rb, sb)
+                word_tokenization._find_words_correctly_tokenized(rb, sb)
             )
 
             self.assertEqual(
                 np.sum(correctly_tokenized_words), d["expected_count"]
             )
 
-    def test_words_correctly_tokenised(self):
+    def test_words_correctly_tokenized(self):
         r = [(0, 2), (2, 10), (10, 12)]
         s = [(0, 10), (10, 12)]
 
         expected = "01"
 
-        labels = word_tokenization._find_words_correctly_tokenised(r, s)
+        labels = word_tokenization._find_words_correctly_tokenized(r, s)
         self.assertEqual(expected, "".join(np.array(labels).astype(str)))
 
     def test_flatten_result(self):

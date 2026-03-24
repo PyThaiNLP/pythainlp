@@ -42,7 +42,7 @@ class CharLevelStat(TypedDict):
 class WordLevelStat(TypedDict):
     """Word-level tokenization statistics."""
 
-    correctly_tokenised_words: int
+    correctly_tokenized_words: int
     total_words_in_sample: int
     total_words_in_ref_sample: int
 
@@ -50,7 +50,7 @@ class WordLevelStat(TypedDict):
 class GlobalStat(TypedDict):
     """Global tokenization indicator as a binary indicator string."""
 
-    tokenisation_indicators: str
+    tokenization_indicators: str
 
 
 class TokenizationStat(TypedDict):
@@ -231,11 +231,11 @@ def compute_stats(
 
     # Find correctly tokenized words in the sample
     ss_boundaries = _find_word_boundaries(sample_arr)
-    tokenization_indicators = _find_words_correctly_tokenised(
+    tokenization_indicators = _find_words_correctly_tokenized(
         word_boundaries, ss_boundaries
     )
 
-    correctly_tokenised_words: int = int(np.sum(tokenization_indicators))
+    correctly_tokenized_words: int = int(np.sum(tokenization_indicators))
 
     tokenization_indicators_str = list(map(str, tokenization_indicators))
 
@@ -247,12 +247,12 @@ def compute_stats(
             fn=c_fn,
         ),
         "word_level": WordLevelStat(
-            correctly_tokenised_words=correctly_tokenised_words,
+            correctly_tokenized_words=correctly_tokenized_words,
             total_words_in_sample=int(np.sum(sample_arr)),
             total_words_in_ref_sample=int(np.sum(ref_sample_arr)),
         ),
         "global_": GlobalStat(
-            tokenisation_indicators="".join(tokenization_indicators_str),
+            tokenization_indicators="".join(tokenization_indicators_str),
         ),
     }
 
@@ -317,7 +317,7 @@ def _find_word_boundaries(
     return list(zip(start_idx, end_idx))
 
 
-def _find_words_correctly_tokenised(
+def _find_words_correctly_tokenized(
     ref_boundaries: list[tuple[int, int]],
     predicted_boundaries: list[tuple[int, int]],
 ) -> tuple[int, ...]:

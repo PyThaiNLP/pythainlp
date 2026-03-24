@@ -49,7 +49,7 @@ and this project adheres to
   from pythainlp.benchmarks import TokenizationStat
   result: TokenizationStat = compute_stats(ref, hyp)
   tp = result["char_level"]["tp"]
-  indicators = result["global_"]["tokenisation_indicators"]
+  indicators = result["global_"]["tokenization_indicators"]
   ```
 
 - `CorefResult` TypedDict is now exported from `pythainlp.coref`.

@@ -42,8 +42,9 @@
 - [ ] Do not use os.path.join();
       always use pythainlp.tools.safe_path_join() instead,
       to prevent path traversal vulnerabilities (CWE-22).
-- [ ] Naming conventions: Follows PEP 8. Align new modules, classes
-      and public APIs with NLTK conventions as the primary standard.
+- [ ] Naming conventions: Follows PEP 8.
+      Align new modules, classes, public APIs, and environment
+      variables with NLTK conventions as the primary standard.
       If NLTK offers no clear precedent, defer to established NLP
       frameworks in the following order of preference:
       spaCy, CoreNLP/Stanza, LangPipe, and Hugging Face,

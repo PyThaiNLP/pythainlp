@@ -57,7 +57,7 @@ class SentTokenizeThaiSumTestCaseX(unittest.TestCase):
 class SubwordTokenizeSSGTestCaseX(unittest.TestCase):
     def test_subword_tokenize_ssg(self):
         assert_segment_handles_none_and_empty(self, ssg.segment)
-        self.assertEqual(subword_tokenize(None, engine="ssg"), [])
+        self.assertEqual(subword_tokenize(None, engine="ssg"), [])  # type: ignore[arg-type]
         self.assertEqual(
             subword_tokenize("แมวกินปลา", engine="ssg"), ["แมว", "กิน", "ปลา"]
         )
@@ -135,7 +135,7 @@ class SyllableTokenizeTLTKTestCaseX(unittest.TestCase):
                 "ไทย",
             ],
         )
-        self.assertEqual(tltk.syllable_tokenize(None), [])
+        self.assertEqual(tltk.syllable_tokenize(None), [])  # type: ignore[arg-type]
         self.assertEqual(tltk.syllable_tokenize(""), [])
 
 

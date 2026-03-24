@@ -15,76 +15,78 @@ from pythainlp.translate.en_th import (
 class TranslateTestCaseX(unittest.TestCase):
     def test_translate(self):
         # remove("scb_1m_th-en_spm")
-        result = download_model_all()
-        self.assertIsNone(result)
-        self.th_en_translator = ThEnTranslator()
+        try:
+            download_model_all()
+        except Exception as e:
+            self.fail(f"download_model_all() raised {e}")
+        th_en_translator = ThEnTranslator()
         self.assertIsNotNone(
-            self.th_en_translator.translate(
+            th_en_translator.translate(
                 "แมวกินปลา",
             )
         )
-        self.en_th_translator = EnThTranslator()
+        en_th_translator = EnThTranslator()
         self.assertIsNotNone(
-            self.en_th_translator.translate(
+            en_th_translator.translate(
                 "the cat eats fish.",
             )
         )
         # Test exclude_words feature
-        result_with_exclusion = self.th_en_translator.translate(
+        result_with_exclusion = th_en_translator.translate(
             "แมวกินปลา", exclude_words=["แมว"]
         )
         self.assertIsNotNone(result_with_exclusion)
         self.assertIn("แมว", result_with_exclusion)
 
-        result_with_exclusion_en = self.en_th_translator.translate(
+        result_with_exclusion_en = en_th_translator.translate(
             "the cat eats fish.", exclude_words=["cat"]
         )
         self.assertIsNotNone(result_with_exclusion_en)
         self.assertIn("cat", result_with_exclusion_en)
-        # self.th_zh_translator = ThZhTranslator()
+        # th_zh_translator = ThZhTranslator()
         # self.assertIsNotNone(
-        #     self.th_zh_translator.translate(
+        #     th_zh_translator.translate(
         #         "ผมรักคุณ",
         #     )
         # )
-        # self.zh_th_translator = ZhThTranslator()
+        # zh_th_translator = ZhThTranslator()
         # self.assertIsNotNone(
-        #     self.zh_th_translator.translate(
+        #     zh_th_translator.translate(
         #         "我爱你",
         #     )
         # )
-        # self.th_zh_translator = Translate('th', 'zh')
+        # th_zh_translator = Translate('th', 'zh')
         # self.assertIsNotNone(
-        #     self.th_zh_translator.translate(
+        #     th_zh_translator.translate(
         #         "ผมรักคุณ",
         #     )
         # )
-        # self.zh_th_translator = Translate('zh', 'th')
+        # zh_th_translator = Translate('zh', 'th')
         # self.assertIsNotNone(
-        #     self.zh_th_translator.translate(
+        #     zh_th_translator.translate(
         #         "我爱你",
         #     )
         # )
-        # self.th_fr_translator = Translate('th', 'fr')
+        # th_fr_translator = Translate('th', 'fr')
         # self.assertIsNotNone(
-        #     self.th_fr_translator.translate(
+        #     th_fr_translator.translate(
         #         "ทดสอบระบบ",
         #     )
         # )
-        # self.th_fr_translator = Translate('th', 'fr', engine="small100")
+        # th_fr_translator = Translate('th', 'fr', engine="small100")
         # self.assertIsNotNone(
-        #     self.th_fr_translator.translate(
+        #     th_fr_translator.translate(
         #         "ทดสอบระบบ",
         #     )
         # )
-        # self.th_ja_translator = Translate('th', 'ja', engine="small100")
+        # th_ja_translator = Translate('th', 'ja', engine="small100")
         # self.assertIsNotNone(
-        #     self.th_fr_translator.translate(
+        #     th_ja_translator.translate(
         #         "ทดสอบระบบ",
         #     )
         # )
         with self.assertRaises(ValueError):
-            self.th_cat_translator = Translate("th", "cat", engine="fkfj")
+            _ = Translate("th", "cat", engine="fkfj")
 
     def test_word_translate(self):
         self.assertIsNone(word_translate("cat", src="en", target="th"))

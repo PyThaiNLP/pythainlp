@@ -9,9 +9,12 @@ multiple test files.
 """
 
 import unittest
+from typing import Callable
 
 
-def assert_segment_handles_none_and_empty(test_case: unittest.TestCase, segment_func):
+def assert_segment_handles_none_and_empty(
+    test_case: unittest.TestCase, segment_func: Callable[..., list[str]]
+) -> None:
     """Test that a segment function properly handles None and empty string inputs.
 
     :param unittest.TestCase test_case: The unittest.TestCase instance (typically 'self')
@@ -28,7 +31,7 @@ def assert_segment_handles_none_and_empty(test_case: unittest.TestCase, segment_
 
 def assert_subword_tokenize_handles_none_and_empty(
     test_case: unittest.TestCase, engine: str
-):
+) -> None:
     """Test that subword_tokenize properly handles None and empty string inputs.
 
     :param unittest.TestCase test_case: The unittest.TestCase instance (typically 'self')
@@ -41,11 +44,11 @@ def assert_subword_tokenize_handles_none_and_empty(
     """
     from pythainlp.tokenize import subword_tokenize
 
-    test_case.assertEqual(subword_tokenize(None, engine=engine), [])
+    test_case.assertEqual(subword_tokenize(None, engine=engine), [])  # type: ignore[arg-type]
     test_case.assertEqual(subword_tokenize("", engine=engine), [])
 
 
-def assert_subword_tokenize_basic(test_case: unittest.TestCase, engine: str):
+def assert_subword_tokenize_basic(test_case: unittest.TestCase, engine: str) -> None:
     """Run basic subword tokenize tests with common test cases.
 
     This helper function runs a standard set of tests for subword tokenization:

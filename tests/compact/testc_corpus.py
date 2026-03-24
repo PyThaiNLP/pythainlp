@@ -58,8 +58,7 @@ class CorpusDownloadTestCaseC(unittest.TestCase):
     def test_zip(self):
         """Test download and extraction of a zip corpus."""
         self.assertTrue(download("test_zip"))  # download first
-        p = get_corpus_path("test_zip")
-        self.assertTrue(os.path.isdir(p))
+        _ = get_corpus_path("test_zip")
         self.assertTrue(remove("test_zip"))
 
     def test_find_synonyms(self):

@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import unittest
+from typing import cast
 
 import numpy as np
 
@@ -17,8 +18,8 @@ def _count_difference(st1: str, st2: str) -> int:
     # this assumes len(st1) == len(st2)
 
     count = 0
-    for i in range(len(st1)):
-        if st1[i] != st2[i]:
+    for i, c in enumerate(st1):
+        if c != st2[i]:
             count += 1
 
     return count
@@ -128,12 +129,14 @@ class MisspellTestCaseC(unittest.TestCase):
         candidates = find_misspell_candidates("ก")
         self.assertIsNotNone(candidates)
         self.assertIsInstance(candidates, list)
+        candidates = cast("list[str]", candidates)  # for type checker
         self.assertGreater(len(candidates), 0)
 
         # Test English character
         candidates = find_misspell_candidates("a")
         self.assertIsNotNone(candidates)
         self.assertIsInstance(candidates, list)
+        candidates = cast("list[str]", candidates)  # for type checker
         self.assertGreater(len(candidates), 0)
 
         # Test character not in keyboard

@@ -34,5 +34,5 @@ class WangchanbertaTestCaseX(unittest.TestCase):
             segment("I คิด therefore I am ผ็ฎ์")
         )
         self.assertIsNotNone(
-            segment([])
+            segment([])  # type: ignore[arg-type]
         )

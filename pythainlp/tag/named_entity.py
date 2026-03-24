@@ -5,7 +5,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Union
+from typing import TYPE_CHECKING, TypedDict, Union
 
 if TYPE_CHECKING:
     from types import ModuleType
@@ -19,6 +19,14 @@ if TYPE_CHECKING:
     from pythainlp.wangchanberta.core import (
         ThaiNameTagger as WangchanbertaThaiNameTagger,
     )
+
+
+class EntitySpan(TypedDict):
+    """Entity span dictionary"""
+    entity_type: str
+    text: list[str]
+    span: list[int]
+
 
 # Type alias for NER engine types
 NEREngineType = Union[
@@ -164,7 +172,7 @@ class NNER:
 
     def tag(
         self, text: str, top_level_only: bool = False
-    ) -> tuple[list[str], list[dict[str, Any]]]:
+    ) -> tuple[list[str], list[EntitySpan]]:
         """This function tags nested named entities.
 
         :param str text: text in Thai to be tagged
@@ -175,7 +183,7 @@ class NNER:
         :return: a tuple of (tokens, entities) where tokens is a list of
                  tokenized strings and entities is a list of dictionaries
                  containing 'text', 'span', and 'entity_type' keys.
-        :rtype: tuple[list[str], list[dict[str, Any]]]
+        :rtype: tuple[list[str], list[EntitySpan]]
 
         .. note::
             The tokenized output may include empty strings as part of the

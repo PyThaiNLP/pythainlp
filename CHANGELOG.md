@@ -19,6 +19,20 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- `EntitySpan` TypedDict (#1363).
+  Migration notes:
+
+  ```python
+  # EntitySpan – Before (plain dict)
+  entity = {"text": ["สมชาย"], "span": [0, 1], "entity_type": "PERSON"}
+
+  # EntitySpan – After (TypedDict)
+  from pythainlp.tag.named_entity import EntitySpan
+  entity = EntitySpan(text=["สมชาย"], span=[0, 1], entity_type="PERSON")
+  ```
+
 ### Fixed
 
 - thai2rom_onnx: fix ONNX encoder model and fix inference bugs (#1349)

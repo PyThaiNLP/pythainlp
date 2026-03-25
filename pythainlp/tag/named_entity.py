@@ -22,7 +22,8 @@ if TYPE_CHECKING:
 
 
 class EntitySpan(TypedDict):
-    """Entity span dictionary"""
+    """Named-entity span with its type, tokens, and position."""
+
     entity_type: str
     text: list[str]
     span: list[int]

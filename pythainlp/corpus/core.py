@@ -502,16 +502,13 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
                 link_target = member.linkname
 
                 # If it's a relative symlink, resolve it relative to the member's directory.
-                # Compute the candidate as a relative path from the extraction root,
-                # then validate with safe_path_join.
+                # Pass the archive-relative dirname and link target as separate parts to
+                # safe_path_join, which canonicalises and validates containment in one step.
                 if not os.path.isabs(link_target):
-                    rel_candidate = os.path.normpath(
-                        os.path.join(
-                            os.path.dirname(member.name), link_target
-                        )
-                    )
                     try:
-                        safe_path_join(path, rel_candidate)
+                        safe_path_join(
+                            path, os.path.dirname(member.name), link_target
+                        )
                     except ValueError:
                         raise ValueError(
                             f"Symlink {member.name} points outside extraction directory: {member.linkname}"
@@ -559,14 +556,13 @@ def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
             link_target = zip_file.read(member).decode("utf-8")
 
             # Resolve the link target relative to the member's directory.
-            # Compute the candidate as a relative path from the extraction root,
-            # then validate with safe_path_join.
+            # Pass the archive-relative dirname and link target as separate parts to
+            # safe_path_join, which canonicalises and validates containment in one step.
             if not os.path.isabs(link_target):
-                rel_candidate = os.path.normpath(
-                    os.path.join(os.path.dirname(member), link_target)
-                )
                 try:
-                    safe_path_join(path, rel_candidate)
+                    safe_path_join(
+                        path, os.path.dirname(member), link_target
+                    )
                 except ValueError:
                     raise ValueError(
                         f"Symlink {member} points outside extraction directory: {link_target}"

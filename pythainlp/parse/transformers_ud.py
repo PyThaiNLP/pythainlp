@@ -21,6 +21,8 @@ if TYPE_CHECKING:
         TokenClassificationPipeline,
     )
 
+from pythainlp.tools.path import safe_path_join
+
 
 class Parse:
     def __init__(
@@ -44,8 +46,8 @@ class Parse:
         x = AutoModelForTokenClassification.from_pretrained
         if os.path.isdir(model):
             d, t = (
-                x(os.path.join(model, "deprel")),
-                x(os.path.join(model, "tagger")),
+                x(safe_path_join(model, "deprel")),
+                x(safe_path_join(model, "tagger")),
             )
         else:
             c = AutoConfig.from_pretrained(

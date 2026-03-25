@@ -489,8 +489,9 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
         # Manual validation for older Python versions
         for member in tar.getmembers():
             # Check the member's target path
-            member_path = os.path.join(path, member.name)
-            if not _is_within_directory(path, member_path):
+            try:
+                safe_path_join(path, member.name)
+            except ValueError:
                 raise ValueError(
                     f"Attempted path traversal in tar file: {member.name}"
                 )
@@ -500,21 +501,29 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
                 # Get the link target (can be absolute or relative)
                 link_target = member.linkname
 
-                # If it's a relative symlink, resolve it relative to the member's directory
+                # If it's a relative symlink, resolve it relative to the member's directory.
+                # Compute the candidate as a relative path from the extraction root,
+                # then validate with safe_path_join.
                 if not os.path.isabs(link_target):
-                    member_dir = os.path.dirname(member_path)
-                    link_target = os.path.join(member_dir, link_target)
+                    rel_candidate = os.path.normpath(
+                        os.path.join(
+                            os.path.dirname(member.name), link_target
+                        )
+                    )
+                    try:
+                        safe_path_join(path, rel_candidate)
+                    except ValueError:
+                        raise ValueError(
+                            f"Symlink {member.name} points outside extraction directory: {member.linkname}"
+                        )
                 else:
                     # Absolute symlinks are dangerous - make them relative to extraction path
-                    link_target = os.path.join(
-                        path, link_target.lstrip(os.sep)
-                    )
-
-                # Check if the resolved symlink target is within the directory
-                if not _is_within_directory(path, link_target):
-                    raise ValueError(
-                        f"Symlink {member.name} points outside extraction directory: {member.linkname}"
-                    )
+                    try:
+                        safe_path_join(path, link_target.lstrip(os.sep))
+                    except ValueError:
+                        raise ValueError(
+                            f"Symlink {member.name} points outside extraction directory: {member.linkname}"
+                        )
 
         tar.extractall(path=path)
 
@@ -533,8 +542,9 @@ def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
     created by Unix-based archiving tools and may not be portable.
     """
     for member in zip_file.namelist():
-        member_path = os.path.join(path, member)
-        if not _is_within_directory(path, member_path):
+        try:
+            safe_path_join(path, member)
+        except ValueError:
             raise ValueError(f"Attempted path traversal in zip file: {member}")
 
         # Check for potential symlinks in ZIP files
@@ -548,21 +558,27 @@ def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
             # Read the symlink target from the file content
             link_target = zip_file.read(member).decode("utf-8")
 
-            # Resolve the link target relative to the member's directory
+            # Resolve the link target relative to the member's directory.
+            # Compute the candidate as a relative path from the extraction root,
+            # then validate with safe_path_join.
             if not os.path.isabs(link_target):
-                member_dir = os.path.dirname(member_path)
-                resolved_target = os.path.join(member_dir, link_target)
+                rel_candidate = os.path.normpath(
+                    os.path.join(os.path.dirname(member), link_target)
+                )
+                try:
+                    safe_path_join(path, rel_candidate)
+                except ValueError:
+                    raise ValueError(
+                        f"Symlink {member} points outside extraction directory: {link_target}"
+                    )
             else:
                 # Absolute symlinks - make them relative to extraction path
-                resolved_target = os.path.join(
-                    path, link_target.lstrip(os.sep)
-                )
-
-            # Check if the symlink target is within the directory
-            if not _is_within_directory(path, resolved_target):
-                raise ValueError(
-                    f"Symlink {member} points outside extraction directory: {link_target}"
-                )
+                try:
+                    safe_path_join(path, link_target.lstrip(os.sep))
+                except ValueError:
+                    raise ValueError(
+                        f"Symlink {member} points outside extraction directory: {link_target}"
+                    )
 
     zip_file.extractall(path=path)
 
@@ -909,7 +925,7 @@ def get_hf_hub(repo_id: str, filename: str = "") -> str:
         raise RuntimeError(f"An unexpected error occurred: {e}") from e
     hf_root = get_full_data_path("hf_models")
     name_dir = make_safe_directory_name(repo_id)
-    root_project = os.path.join(hf_root, name_dir)
+    root_project = safe_path_join(hf_root, name_dir)
     if filename:
         output_path = hf_hub_download(
             repo_id=repo_id, filename=filename, local_dir=root_project

@@ -6,25 +6,25 @@
 from __future__ import annotations
 
 import json
-import os
 from typing import Optional
 
 from pythainlp.corpus import corpus_path, get_corpus_path
 from pythainlp.tag import blackboard, orchid
+from pythainlp.tools.path import safe_path_join
 
 _ORCHID_FILENAME: str = "pos_orchid_unigram.json"
-_ORCHID_PATH: str = os.path.join(corpus_path(), _ORCHID_FILENAME)
+_ORCHID_PATH: str = safe_path_join(corpus_path(), _ORCHID_FILENAME)
 
 _PUD_FILENAME: str = "pos_ud_unigram-v0.2.json"
-_PUD_PATH: str = os.path.join(corpus_path(), _PUD_FILENAME)
+_PUD_PATH: str = safe_path_join(corpus_path(), _PUD_FILENAME)
 
 _TDTB_FILENAME: str = "tdtb-unigram_tagger.json"
-_TDTB_PATH: str = os.path.join(corpus_path(), _TDTB_FILENAME)
+_TDTB_PATH: str = safe_path_join(corpus_path(), _TDTB_FILENAME)
 
 _BLACKBOARD_NAME: str = "blackboard_unigram_tagger"
 
 _TUD_FILENAME: str = "pos_tud_unigram.json"
-_TUD_PATH: str = os.path.join(corpus_path(), _TUD_FILENAME)
+_TUD_PATH: str = safe_path_join(corpus_path(), _TUD_FILENAME)
 
 _ORCHID_TAGGER: Optional[dict[str, str]] = None
 _PUD_TAGGER: Optional[dict[str, str]] = None

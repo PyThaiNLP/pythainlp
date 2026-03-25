@@ -17,12 +17,11 @@ POS features are not used due to unreliable POS tagging available
 
 from __future__ import annotations
 
-import os
-
 import pycrfsuite
 
 from pythainlp.corpus import corpus_path
 from pythainlp.tokenize import word_tokenize
+from pythainlp.tools.path import safe_path_join
 
 _ENDERS: set[str] = {
     # ending honorifics
@@ -176,7 +175,7 @@ def _extract_features(
 
 _CRFCUT_DATA_FILENAME: str = "sentenceseg_crfcut.model"
 _tagger: pycrfsuite.Tagger = pycrfsuite.Tagger()  # pyright: ignore[reportAttributeAccessIssue]  # pyrefly: ignore[missing-attribute]
-_tagger.open(os.path.join(corpus_path(), _CRFCUT_DATA_FILENAME))
+_tagger.open(safe_path_join(corpus_path(), _CRFCUT_DATA_FILENAME))
 
 
 def segment(text: str) -> list[str]:

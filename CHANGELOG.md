@@ -27,11 +27,7 @@ and this project adheres to
 ### Security
 
 - Replace `os.path.join` with `safe_path_join` throughout the codebase
-  to prevent path manipulation vulnerabilities (CWE-22). Affected modules:
-  `pythainlp.corpus`, `pythainlp.tag.unigram`, `pythainlp.tag.perceptron`,
-  `pythainlp.parse.transformers_ud`, `pythainlp.translate.en_th`,
-  `pythainlp.spell.words_spelling_correction`, `pythainlp.tokenize.crfcut`,
-  and the tar/zip archive extraction helpers in `pythainlp.corpus.core`.
+  to prevent path manipulation vulnerabilities (CWE-22) (#1369)
 
 ## [5.3.2] - 2026-03-19
 

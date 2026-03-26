@@ -3,11 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 from __future__ import annotations
 
-import os
 from importlib import import_module
 from typing import TYPE_CHECKING, Union, cast
 
 from pythainlp.corpus import get_hf_hub
+from pythainlp.tools.path import safe_path_join
 
 if TYPE_CHECKING:
     import numpy as np
@@ -88,10 +88,10 @@ class FastTextEncoder:
         import numpy as np
 
         input_matrix = np.load(
-            os.path.join(self.model_dir, "embeddings.npy"), allow_pickle=False
+            safe_path_join(self.model_dir, "embeddings.npy"), allow_pickle=False
         )
         words = []
-        vocab_path = os.path.join(self.model_dir, "vocabulary.txt")
+        vocab_path = safe_path_join(self.model_dir, "vocabulary.txt")
         with open(vocab_path, encoding="utf-8") as f:
             for line in f.readlines():
                 words.append(line.rstrip())

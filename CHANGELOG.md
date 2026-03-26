@@ -38,6 +38,11 @@ and this project adheres to
 - thai2rom_onnx: fix ONNX encoder model and fix inference bugs (#1349)
 - wordnet: fix AttributeError (#1354)
 
+### Security
+
+- Replace `os.path.join` with `safe_path_join` throughout the codebase
+  to prevent path manipulation vulnerabilities (CWE-22) (#1369)
+
 ## [5.3.2] - 2026-03-19
 
 This release focuses on security improvements related to path traversal

@@ -19,6 +19,8 @@ and this project adheres to
 
 ## [5.3.3] - 2026-03-26
 
+Security fixes and thai2rom_onnx bug fixes.
+
 ### Added
 
 - `EntitySpan` TypedDict to allow type checking of members (#1363).

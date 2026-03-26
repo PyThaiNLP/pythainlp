@@ -15,22 +15,34 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
-- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.2>
+- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.3>
 
-## [Unreleased]
+## [5.3.3] - 2026-03-26
 
 ### Added
 
-- `EntitySpan` TypedDict (#1363).
+- `EntitySpan` TypedDict to allow type checking of members (#1363).
   Migration notes:
 
   ```python
-  # EntitySpan – Before (plain dict)
-  entity = {"text": ["สมชาย"], "span": [0, 1], "entity_type": "PERSON"}
+  # Before (plain dict)
+  from pythainlp.tag.thai_nner import get_top_level_entities
+  entities = [
+      {"text": ["ห้า"], "span": [7, 9], "entity_type": "cardinal"},
+      {"text": ["ห้า", "โมง"], "span": [7, 11], "entity_type": "time"},
+      {"text": ["โมง"], "span": [9, 11], "entity_type": "unit"},
+  ]
+  top_entities = get_top_level_entities(entities)
 
-  # EntitySpan – After (TypedDict)
+  # After (TypedDict)
   from pythainlp.tag.named_entity import EntitySpan
-  entity = EntitySpan(text=["สมชาย"], span=[0, 1], entity_type="PERSON")
+  from pythainlp.tag.thai_nner import get_top_level_entities
+  entities = [
+      EntitySpan(text=["ห้า"], span=[7, 9], entity_type="cardinal"),
+      EntitySpan(text=["ห้า", "โมง"], span=[7, 11], entity_type="time"),
+      EntitySpan(text=["โมง"], span=[9, 11], entity_type="unit"),
+  ]
+  top_entities = get_top_level_entities(entities)
   ```
 
 ### Fixed
@@ -265,6 +277,7 @@ The minimum requirement is now Python 3.9.
 
 - See <https://github.com/PyThaiNLP/pythainlp/releases/tag/v5.0.0>
 
+[5.3.3]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.2...v5.3.3
 [5.3.2]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.2
 [5.3.1]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.0...v5.3.1
 [5.3.0]: https://github.com/PyThaiNLP/pythainlp/compare/v5.2.0...v5.3.0

@@ -25,6 +25,7 @@ Security fixes and thai2rom_onnx bug fixes.
 
 - `EntitySpan` TypedDict to allow type checking
   of tagged entity members (#1363).
+
   Migration notes:
 
   ```python

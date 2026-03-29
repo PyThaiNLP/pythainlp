@@ -632,10 +632,10 @@ def _check_version(cause: str) -> bool:
         check = _version2int(temp_parts[0]) < v < _version2int(temp_parts[1])
     elif cause.startswith("<="):
         temp = cause.replace("<=", "")
-        check = v <= _version2int(temp[0])
+        check = v <= _version2int(temp)
     elif cause.startswith("<"):
         temp = cause.replace("<", "")
-        check = v < _version2int(temp[0])
+        check = v < _version2int(temp)
 
     return check
 

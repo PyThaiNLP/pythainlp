@@ -162,7 +162,7 @@ def segment(text: str) -> list[str]:
     y_pred = tagger.tag(x)
     list_cut = []
     for j, k in zip(list(text), y_pred):
-        if k == "1":
+        if k == "1" or not list_cut:
             list_cut.append(j)
         else:
             list_cut[-1] += j

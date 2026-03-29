@@ -105,7 +105,7 @@ class LongestMatchTokenizer:
                     return text[0 : len_word_valid + 1]
                 else:
                     return word_valid
-            except BaseException:
+            except IndexError:
                 return word_valid
         else:
             return ""

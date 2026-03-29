@@ -143,6 +143,7 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(num_to_thaiword(-273), "ลบสองร้อยเจ็ดสิบสาม")
         # เอ็ด rule: ones=1 must use เอ็ด when number > 1
         self.assertEqual(num_to_thaiword(1), "หนึ่ง")
+        self.assertEqual(num_to_thaiword(-1), "ลบหนึ่ง")
         self.assertEqual(num_to_thaiword(101), "หนึ่งร้อยเอ็ด")
         self.assertEqual(num_to_thaiword(1001), "หนึ่งพันเอ็ด")
         self.assertEqual(num_to_thaiword(1000001), "หนึ่งล้านเอ็ด")

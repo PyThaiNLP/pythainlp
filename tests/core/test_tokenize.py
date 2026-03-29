@@ -333,6 +333,16 @@ class TokenizeTestCase(unittest.TestCase):
         )
         with self.assertRaises(ValueError):
             sent_tokenize("ฉันไป กิน", engine="XX")  # engine does not exist
+        # Reproduce: list with non-string items should return []
+        # instead of raising TypeError (str.join raises TypeError, not ValueError)
+        self.assertEqual(
+            sent_tokenize(["สวัสดี", 123], engine="whitespace+newline"),
+            [],
+        )
+        self.assertEqual(
+            sent_tokenize(["สวัสดี", None], engine="whitespace+newline"),
+            [],
+        )
 
     def test_subword_tokenize(self):
         self.assertEqual(subword_tokenize(None), [])  # type: ignore[arg-type]

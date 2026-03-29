@@ -488,7 +488,7 @@ def sent_tokenize(
     if isinstance(text, list):
         try:
             original_text = "".join(text)
-        except ValueError:
+        except TypeError:
             return []
     else:
         original_text = str(text)

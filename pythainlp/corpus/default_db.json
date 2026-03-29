@@ -1,4 +1,29 @@
 {
+    "deepcut_onnx": {
+        "name": "deepcut_onnx",
+        "latest_version": "1.0.0",
+        "description": "DeepCut ONNX model",
+        "long_description": "DeepCut Thai word segmentation model in ONNX format, ported from the original TensorFlow model",
+        "url": "https://github.com/PyThaiNLP/LEKCut",
+        "authors": [
+            "Rakpong Kittinaradorn",
+            "Titipat Achakulvisut",
+            "Korakot Chaovavanich",
+            "Kittinan Srithaworn",
+            "Pattarawat Chormai",
+            "Chanwit Kaewkasi",
+            "Tulakan Ruangrong",
+            "Krichkorn Oparad"
+        ],
+        "license": "MIT",
+        "versions": {
+            "1.0.0": {
+                "filename": "deepcut.onnx",
+                "md5": "f4662560dd9a706bfb1d7790ad6c667f",
+                "pythainlp_version": ">=5.4.0"
+            }
+        }
+    },
     "thainer": {
         "name": "thainer",
         "latest_version": "1.5.1",

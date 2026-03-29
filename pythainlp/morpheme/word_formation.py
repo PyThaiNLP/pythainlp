@@ -41,7 +41,7 @@ def nighit(w1: str, w2: str) -> str:
     consonants_in_w2 = [i for i in list_w2 if i in set(thai_consonants)]
     if not consonants_in_w2:
         raise ValueError(
-            f"w2 '{w2}' contains no Thai consonants."
+            f"w2 {w2!r} contains no Thai consonants."
         )
     consonant_start = consonants_in_w2[0]
     if consonant_start in ["ก", "ช", "ค", "ข", "ง"]:

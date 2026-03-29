@@ -38,7 +38,12 @@ def nighit(w1: str, w2: str) -> str:
     newword = []
     newword.append(list_w1[0])
     newword.append("ั")
-    consonant_start = [i for i in list_w2 if i in set(thai_consonants)][0]
+    consonants_in_w2 = [i for i in list_w2 if i in set(thai_consonants)]
+    if not consonants_in_w2:
+        raise ValueError(
+            f"w2 '{w2}' contains no Thai consonants."
+        )
+    consonant_start = consonants_in_w2[0]
     if consonant_start in ["ก", "ช", "ค", "ข", "ง"]:
         newword.append("ง")
     elif consonant_start in ["จ", "ฉ", "ช", "ฌ"]:

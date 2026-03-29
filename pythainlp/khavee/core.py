@@ -54,6 +54,9 @@ class KhaveeVerifier:
         sara = []
         countoa = 0
 
+        if not word:
+            return ""
+
         # In case of การันย์
         if "์" in word[-1]:
             word = word[:-2]
@@ -252,6 +255,9 @@ class KhaveeVerifier:
 
         word = self.handle_karun_sound_silence(word)
         word = remove_tonemark(word)
+
+        if not word:
+            return ""
 
         # Check for ำ at the end (represents "am" sound, ends with m)
         if word[-1] == "ำ":

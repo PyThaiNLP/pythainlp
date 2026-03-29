@@ -121,6 +121,10 @@ def num_to_thaiword(number: Optional[int]) -> str:
     for search, replac in _EXCEPTIONS.items():
         output = output.replace(search, replac)
 
+    # เอ็ด rule: trailing หนึ่ง in ones place (after any place marker)
+    if number != 1 and number != -1 and output.endswith("หนึ่ง"):
+        output = output[: -len("หนึ่ง")] + "เอ็ด"
+
     if number_temp < 0:
         output = "ลบ" + output
 

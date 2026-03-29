@@ -52,6 +52,9 @@ def word_detokenize(
     """
     list_all: list[list[str]] = []
 
+    if not segments:
+        return "" if output == "str" else []
+
     if isinstance(segments[0], str):
         segments = [segments]  # type: ignore[assignment]
 
@@ -63,6 +66,8 @@ def word_detokenize(
         space_index: list[int] = []
         mark_index: list[int] = []
         for j, w in enumerate(s):
+            if not w:
+                continue
             if j > 0:
                 # previous word
                 p_w = s[j - 1]
@@ -75,7 +80,7 @@ def word_detokenize(
                     list_sents.append(" ")
                     add_index.append(j)
                 # if previous word is number or other language and is not space
-                elif p_w[0] not in thai_characters and not p_w.isspace():
+                elif p_w and p_w[0] not in thai_characters and not p_w.isspace():
                     list_sents.append(" ")
                     add_index.append(j)
                 # if word is Thai iteration mark

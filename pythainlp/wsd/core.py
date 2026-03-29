@@ -12,16 +12,16 @@ from pythainlp.util.trie import Trie
 _wsd_dict: dict[str, Union[list[str], list[list[str]]]] = thai_wsd_dict()
 _mean_all: dict[str, list[str]] = {}
 
-_all_word: set[str] = cast("set[str]", set(_mean_all.keys()))
-_TRIE: Trie = Trie(_all_word)
-_word_cut: Tokenizer = Tokenizer(custom_dict=_TRIE)
-
 words: list[str] = cast("list[str]", _wsd_dict["word"])
 meanings: list[list[str]] = cast("list[list[str]]", _wsd_dict["meaning"])
 i_word: str
 i_meanings: list[str]
 for i_word, i_meanings in zip(words, meanings):
     _mean_all[i_word] = i_meanings
+
+_all_word: set[str] = cast("set[str]", set(_mean_all.keys()))
+_TRIE: Trie = Trie(_all_word)
+_word_cut: Tokenizer = Tokenizer(custom_dict=_TRIE)
 
 _MODEL_CACHE: dict[str, _SentenceTransformersModel] = {}
 

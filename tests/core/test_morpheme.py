@@ -21,17 +21,12 @@ class MorphemeTestCase(unittest.TestCase):
             nighit("สํ", "มาร")  # consonant ม is not in any supported group
 
     def test_is_native_thai(self):
-        self.assertFalse(is_native_thai(None), False)  # type: ignore[arg-type]
-        self.assertFalse(is_native_thai(""), False)
-        self.assertFalse(is_native_thai("116"), False)
-        self.assertFalse(is_native_thai("abc"), False)
-        self.assertFalse(is_native_thai("ศา"), False)
-self.assertFalse(is_native_thai(None))  # type: ignore[arg-type]
-self.assertFalse(is_native_thai(""))
-self.assertFalse(is_native_thai("116"))
-self.assertFalse(is_native_thai("abc"))
-self.assertFalse(is_native_thai("ศา"))
-self.assertFalse(is_native_thai("ลักษ์"))
+        self.assertFalse(is_native_thai(None))  # type: ignore[arg-type]
+        self.assertFalse(is_native_thai(""))
+        self.assertFalse(is_native_thai("116"))
+        self.assertFalse(is_native_thai("abc"))
+        self.assertFalse(is_native_thai("ศา"))
+        self.assertFalse(is_native_thai("ลักษ์"))
         self.assertFalse(is_native_thai("มาร์ค"))
         self.assertFalse(is_native_thai("เลข"))
         self.assertFalse(is_native_thai("เทเวศน์"))

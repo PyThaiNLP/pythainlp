@@ -233,6 +233,12 @@ class DetokenizeTestCase(unittest.TestCase):
             word_detokenize(["ม่ายย", " ", "ผม", "เลี้ยง", "5", "ตัว"]),
             "ม่ายย ผมเลี้ยง 5 ตัว",
         )
+        # Reproduce: empty strings in token list should not cause IndexError
+        self.assertIsInstance(word_detokenize(["สวัสดี", "", "ครับ"]), str)
+        self.assertIsInstance(word_detokenize(["hello", "", "world"]), str)
+        self.assertIsInstance(word_detokenize([""]), str)
+        # Empty list should not crash
+        self.assertEqual(word_detokenize([]), "")
 
     def test_numeric_data_format(self):
         engines = ["newmm", "longest"]

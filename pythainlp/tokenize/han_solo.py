@@ -160,9 +160,9 @@ def segment(text: str) -> list[str]:
     tagger = _get_tagger()
     x = _to_feature.featurize(text)["X"]
     y_pred = tagger.tag(x)
-    list_cut = []
+    list_cut: list[str] = []
     for j, k in zip(list(text), y_pred):
-        if k == "1":
+        if k == "1" or not list_cut:
             list_cut.append(j)
         else:
             list_cut[-1] += j

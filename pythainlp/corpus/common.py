@@ -449,12 +449,10 @@ def find_synonyms(word: str) -> list[str]:
     :rtype: list[str]
 
     :Example:
-    ::
 
-        from pythainlp.corpus import find_synonyms
-
-        print(find_synonyms("หมู"))
-        # output: ['จรุก', 'วราหะ', 'วราห์', 'ศูกร', 'สุกร']
+        >>> from pythainlp.corpus import find_synonyms  # doctest: +SKIP
+        >>> print(find_synonyms("หมู"))  # doctest: +SKIP
+        ['จรุก', 'วราหะ', 'วราห์', 'ศูกร', 'สุกร']
     """
     synonyms = thai_synonyms()  # get a dictionary of {word, synonym}
     list_synonym: list[Any] = []

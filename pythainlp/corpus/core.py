@@ -126,45 +126,16 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset[str]:
     :rtype: :class:`frozenset`
 
     :Example:
-    ::
 
-        from pythainlp.corpus import get_corpus
-
-        # input file (negations_th.txt):
-        # แต่
-        # ไม่
-
-        get_corpus("negations_th.txt")
-        # output:
-        # frozenset({'แต่', 'ไม่'})
-
-        # input file (ttc_freq.txt):
-        # ตัวบท<tab>10
-        # โดยนัยนี้<tab>1
-
-        get_corpus("ttc_freq.txt")
-        # output:
-        # frozenset({'โดยนัยนี้\\t1',
-        #    'ตัวบท\\t10',
-        #     ...})
-
-        # input file (icubrk_th.txt):
-        # # Thai Dictionary for ICU BreakIterator
-        # กก
-        # กกขนาก
-
-        get_corpus("icubrk_th.txt")
-        # output:
-        # frozenset({'กกขนาก',
-        #     '# Thai Dictionary for ICU BreakIterator',
-        #     'กก',
-        #     ...})
-
-        get_corpus("icubrk_th.txt", comments=False)
-        # output:
-        # frozenset({'กกขนาก',
-        #     'กก',
-        #     ...})
+        >>> from pythainlp.corpus import get_corpus  # doctest: +SKIP
+        >>> get_corpus("negations_th.txt")  # doctest: +SKIP
+        frozenset({'แต่', 'ไม่'})
+        >>> get_corpus("ttc_freq.txt")  # doctest: +SKIP
+        frozenset({'โดยนัยนี้\\t1', 'ตัวบท\\t10', ...})
+        >>> get_corpus("icubrk_th.txt")  # doctest: +SKIP
+        frozenset({'กกขนาก', '# Thai Dictionary for ICU BreakIterator', 'กก', ...})
+        >>> get_corpus("icubrk_th.txt", comments=False)  # doctest: +SKIP
+        frozenset({'กกขนาก', 'กก', ...})
 
     """
     corpus_files = files("pythainlp.corpus")
@@ -195,17 +166,10 @@ def get_corpus_as_is(filename: str) -> list[str]:
     :rtype: :class:`list`
 
     :Example:
-    ::
 
-        from pythainlp.corpus import get_corpus
-
-        # input file (negations_th.txt):
-        # แต่
-        # ไม่
-
-        get_corpus_as_is("negations_th.txt")
-        # output:
-        # ['แต่', 'ไม่']
+        >>> from pythainlp.corpus import get_corpus_as_is  # doctest: +SKIP
+        >>> get_corpus_as_is("negations_th.txt")  # doctest: +SKIP
+        ['แต่', 'ไม่']
     """
     corpus_files = files("pythainlp.corpus")
     corpus_file = corpus_files.joinpath(filename)
@@ -300,28 +264,23 @@ def get_corpus_path(name: str, version: str = "") -> Optional[str]:
     (Please see the filename in
     `this file <https://pythainlp.org/pythainlp-corpus/db.json>`_)
 
-    If the corpus already exists::
+    If the corpus already exists:
 
-        from pythainlp.corpus import get_corpus_path
+        >>> from pythainlp.corpus import get_corpus_path  # doctest: +SKIP
+        >>> get_corpus_path("ttc")  # doctest: +SKIP
+        '/root/pythainlp-data/ttc_freq.txt'
 
-        print(get_corpus_path("ttc"))
-        # output: /root/pythainlp-data/ttc_freq.txt
+    If the corpus has not been downloaded yet (online mode):
 
-    If the corpus has not been downloaded yet (online mode)::
+        >>> get_corpus_path("wiki_lm_lstm")  # doctest: +SKIP
+        '/root/pythainlp-data/thwiki_model_lstm.pth'
 
-        from pythainlp.corpus import get_corpus_path
+    To download manually:
 
-        print(get_corpus_path("wiki_lm_lstm"))
-        # output: /root/pythainlp-data/thwiki_model_lstm.pth
-        # (downloads automatically on first call)
-
-    To download manually::
-
-        from pythainlp.corpus import download, get_corpus_path
-
-        download("wiki_lm_lstm")
-        print(get_corpus_path("wiki_lm_lstm"))
-        # output: /root/pythainlp-data/thwiki_model_lstm.pth
+        >>> from pythainlp.corpus import download  # doctest: +SKIP
+        >>> download("wiki_lm_lstm")  # doctest: +SKIP
+        >>> get_corpus_path("wiki_lm_lstm")  # doctest: +SKIP
+        '/root/pythainlp-data/thwiki_model_lstm.pth'
     """
     CUSTOMIZE: dict[str, str] = {
         # "the corpus name":"path"
@@ -667,15 +626,12 @@ def download(
     :rtype: bool
 
     :Example:
-    ::
 
-        from pythainlp.corpus import download
-
-        download("wiki_lm_lstm", force=True)
-        # output:
-        # Corpus: wiki_lm_lstm
-        # - Downloading: wiki_lm_lstm 0.1
-        # thwiki_lm.pth:  26%|██▌       | 114k/434k [00:00<00:00, 690kB/s]
+        >>> from pythainlp.corpus import download  # doctest: +SKIP
+        >>> download("wiki_lm_lstm", force=True)  # doctest: +SKIP
+        Corpus: wiki_lm_lstm
+        - Downloading: wiki_lm_lstm 0.1
+        ...
 
     By default, downloaded corpora and models will be saved in
     ``$HOME/pythainlp-data/``
@@ -814,20 +770,11 @@ def remove(name: str) -> bool:
     :rtype: bool
 
     :Example:
-    ::
 
-        from pythainlp.corpus import remove, get_corpus_path, get_corpus
-
-        print(remove("ttc"))
-        # output: True
-
-        print(get_corpus_path("ttc"))
-        # output: None
-
-        get_corpus("ttc")
-        # output:
-        # FileNotFoundError: [Errno 2] No such file or directory:
-        # '/usr/local/lib/python3.6/dist-packages/pythainlp/corpus/ttc'
+        >>> from pythainlp.corpus import remove, get_corpus_path  # doctest: +SKIP
+        >>> remove("ttc")  # doctest: +SKIP
+        True
+        >>> get_corpus_path("ttc")  # doctest: +SKIP
     """
     if is_read_only_mode():
         print("PyThaiNLP is in read-only mode. It cannot remove corpus.")

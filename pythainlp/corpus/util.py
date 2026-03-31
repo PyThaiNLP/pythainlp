@@ -90,29 +90,20 @@ def revise_wordset(
     :rtype: set[str]
 
     :Example:
-    ::
 
-        from pythainlp.corpus import thai_words
-        from pythainlp.corpus.util import revise_wordset
-        from pythainlp.tokenize.longest import segment
-
-        base_words = thai_words()
-        more_words = {
-            "ถวิล อุดล", "ทองอินทร์ ภูริพัฒน์",
-            "เตียง ศิริขันธ์", "จำลอง ดาวเรือง",
-        }
-        base_words = base_words.union(more_words)
-        dict_trie = Trie(base_words)
-
-        tokenize = lambda text: segment(text, dict_trie)
-
-        training_data = [
-            ["word1", "word2", "word3", ...],
-            ["word1", "word2", "word3", "word4", ...],
-            ...
-        ]
-
-        revised_words = revise_wordset(tokenize, base_words, training_data)
+        >>> from pythainlp.corpus import thai_words  # doctest: +SKIP
+        >>> from pythainlp.corpus.util import revise_wordset  # doctest: +SKIP
+        >>> from pythainlp.tokenize.longest import segment  # doctest: +SKIP
+        >>> base_words = thai_words()  # doctest: +SKIP
+        >>> more_words = {  # doctest: +SKIP
+        ...     "ถวิล อุดล", "ทองอินทร์ ภูริพัฒน์",
+        ...     "เตียง ศิริขันธ์", "จำลอง ดาวเรือง",
+        ... }
+        >>> base_words = base_words.union(more_words)  # doctest: +SKIP
+        >>> dict_trie = Trie(base_words)  # doctest: +SKIP
+        >>> tokenize = lambda text: segment(text, dict_trie)  # doctest: +SKIP
+        >>> training_data = [["word1", "word2"], ["word3", "word4"]]  # doctest: +SKIP
+        >>> revised_words = revise_wordset(tokenize, base_words, training_data)  # doctest: +SKIP
     """
     bad_words = find_badwords(tokenize, training_data)
     return set(orig_words) - bad_words

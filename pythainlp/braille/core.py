@@ -191,15 +191,12 @@ def thai_word_braille(word: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.braille import thai_word_braille
-
-        thai_word_braille("กก")
-        # Output: '⠛⠛'
-
-        thai_word_braille("น้ำ")
-        # Output: '⠝⠲⠵'
+        >>> from pythainlp.braille import thai_word_braille
+        >>> thai_word_braille("กก")
+        '⠛⠛'
+        >>> thai_word_braille("น้ำ")
+        '⠝⠲⠵'
     """
     if not word:
         return ""
@@ -228,12 +225,10 @@ def thai_text_braille(text: str) -> list[str]:
     :rtype: list[str]
 
     :Example:
-    ::
 
-        from pythainlp.braille import thai_text_braille
-
-        thai_text_braille("สวัสดี ครับ")
-        # Output: ['⠎⠺⢂⠎⠤⠙⢒', '⠅⠗⢢⠃']
+        >>> from pythainlp.braille import thai_text_braille
+        >>> thai_text_braille("สวัสดี ครับ")
+        ['⠎⠺⠜⠎⠙⠆', ' ', '⠥⠗⠜⠧']
     """
     _list_braille: list[str] = []
     for token in word_tokenize(text):

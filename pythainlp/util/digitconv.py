@@ -80,14 +80,11 @@ def thai_digit_to_arabic_digit(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import thai_digit_to_arabic_digit
-
-        text = "เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท"
-
-        thai_digit_to_arabic_digit(text)
-        # output: เป็นจำนวน 123,400.25 บาท
+        >>> from pythainlp.util import thai_digit_to_arabic_digit
+        >>> text = "เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท"
+        >>> thai_digit_to_arabic_digit(text)
+        'เป็นจำนวน 123,400.25 บาท'
     """
     if not isinstance(text, str):
         raise TypeError("The text must be str type.")
@@ -107,14 +104,11 @@ def arabic_digit_to_thai_digit(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import arabic_digit_to_thai_digit
-
-        text = "เป็นจำนวน 123,400.25 บาท"
-
-        arabic_digit_to_thai_digit(text)
-        # output: เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท
+        >>> from pythainlp.util import arabic_digit_to_thai_digit
+        >>> text = "เป็นจำนวน 123,400.25 บาท"
+        >>> arabic_digit_to_thai_digit(text)
+        'เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท'
     """
     if not isinstance(text, str):
         raise TypeError("The text must be str type.")
@@ -133,18 +127,14 @@ def digit_to_text(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import digit_to_text
-
-        digit_to_text("เบอร์โทร 0812345678")
-        # output: 'เบอร์โทร ศูนย์แปดหนึ่งสองสามสี่ห้าหกเจ็ดแปด'
-
-        digit_to_text("123")
-        # output: 'หนึ่งสองสาม'
-
-        digit_to_text("๕๖๗")
-        # output: 'ห้าหกเจ็ด'
+        >>> from pythainlp.util import digit_to_text
+        >>> digit_to_text("เบอร์โทร 0812345678")
+        'เบอร์โทร ศูนย์แปดหนึ่งสองสามสี่ห้าหกเจ็ดแปด'
+        >>> digit_to_text("123")
+        'หนึ่งสองสาม'
+        >>> digit_to_text("๕๖๗")
+        'ห้าหกเจ็ด'
     """
     if not isinstance(text, str):
         raise TypeError("The text must be str type.")

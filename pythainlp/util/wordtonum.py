@@ -84,15 +84,12 @@ def thaiword_to_num(word: str) -> int:
     :rtype: int
 
     :Example:
-    ::
 
-        from pythainlp.util import thaiword_to_num
-
-        thaiword_to_num("ศูนย์")
-        # output: 0
-
-        thaiword_to_num("สองล้านสามแสนหกร้อยสิบสอง")
-        # output: 2300612
+        >>> from pythainlp.util import thaiword_to_num
+        >>> thaiword_to_num("ศูนย์")
+        0
+        >>> thaiword_to_num("สองล้านสามแสนหกร้อยสิบสอง")
+        2300612
 
     """
     if not isinstance(word, str):
@@ -149,12 +146,10 @@ def words_to_num(words: list[str]) -> float:
     :rtype: float
 
     :Example:
-    ::
 
-        from pythainlp.util import words_to_num
-
-        words_to_num(["ห้า", "สิบ", "จุด", "เก้า", "ห้า"])
-        # output: 50.95
+        >>> from pythainlp.util import words_to_num
+        >>> words_to_num(["ห้า", "สิบ", "จุด", "เก้า", "ห้า"])
+        50.95
 
     """
     num: Union[int, float] = 0
@@ -180,15 +175,12 @@ def text_to_num(text: str) -> list[str]:
     :rtype: List[str]
 
     :Example:
-    ::
 
-        from pythainlp.util import text_to_num
-
-        text_to_num("เก้าร้อยแปดสิบจุดเก้าห้าบาทนี่คือจำนวนทั้งหมด")
-        # output: ['980.95', 'บาท', 'นี่', 'คือ', 'จำนวน', 'ทั้งหมด']
-
-        text_to_num("สิบล้านสองหมื่นหนึ่งพันแปดร้อยแปดสิบเก้าบาท")
-        # output: ['10021889', 'บาท']
+        >>> from pythainlp.util import text_to_num
+        >>> text_to_num("เก้าร้อยแปดสิบจุดเก้าห้าบาทนี่คือจำนวนทั้งหมด")
+        ['980.95', 'บาท', 'นี่', 'คือ', 'จำนวน', 'ทั้งหมด']
+        >>> text_to_num("สิบล้านสองหมื่นหนึ่งพันแปดร้อยแปดสิบเก้าบาท")
+        ['10021889', 'บาท']
 
     """
     _temp = _tokenizer_thaiwords().word_tokenize(text)

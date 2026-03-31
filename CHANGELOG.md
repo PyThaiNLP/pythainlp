@@ -22,10 +22,7 @@ and this project adheres to
 ### Changed
 
 - Fix doctests, docstring formatting, typos, and outdated content
-  across all modules (`tokenize`, `util`, `corpus`, `tag`, `soundex`,
-  `transliterate`, `spell`, `generate`, `translate`, `summarize`,
-  `benchmarks`, `morpheme`, `braille`, `ancient`, `ulmfit`,
-  `wangchanberta`, `lm`, `el`, `classify`, `cli`, and more).
+  across all modules.
 
 ## [5.3.3] - 2026-03-26
 

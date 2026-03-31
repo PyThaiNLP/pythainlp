@@ -408,15 +408,12 @@ def analyze_thai_text(text: str) -> dict[str, int]:
     :rtype: dict[str, int]
 
     :Example:
-    ::
 
-        from pythainlp.util import analyze_thai_text
-
-        analyze_thai_text("คนดี")
-        # output: {'ค': 1, 'น': 1, 'ด': 1, 'สระ อี': 1}
-
-        analyze_thai_text("เล่น")
-        # output: {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
+        >>> from pythainlp.util import analyze_thai_text
+        >>> analyze_thai_text("คนดี")
+        {'ค': 1, 'น': 1, 'ด': 1, 'สระ อี': 1}
+        >>> analyze_thai_text("เล่น")
+        {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
 
     """
     results: dict[str, int] = defaultdict(int)

@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Generic functions of tokenizers"""
+"""Generic tokenizer functions for word, sentence, paragraph, and subword."""
 
 from __future__ import annotations
 
@@ -117,15 +117,18 @@ def word_tokenize(
 
     :param str text: text to be tokenized
     :param str engine: name of the tokenizer to be used
-    :param pythainlp.util.Trie custom_dict: dictionary trie (some engine may not support)
-    :param bool keep_whitespace: True to keep whitespace, a common mark
-                                  for end of phrase in Thai.
-                                  Otherwise, whitespace is omitted.
-    :param bool join_broken_num: True to rejoin formatted numeric that could be wrongly separated.
-                                  Otherwise, formatted numeric could be wrongly separated.
+    :param pythainlp.util.Trie custom_dict: dictionary trie
+        (some engines may not support this)
+    :param bool keep_whitespace: True to keep whitespace, a common
+        marker for end of phrase in Thai.
+        Otherwise, whitespace is omitted.
+    :param bool join_broken_num: True to rejoin formatted numerics
+        that could be wrongly separated (e.g., time, IP addresses).
+        Otherwise, formatted numerics could be wrongly separated.
 
     :return: list of words
     :rtype: list[str]
+
     **Options for engine**
         * *attacut* - wrapper for
           `AttaCut <https://github.com/PyThaiNLP/attacut>`_.,
@@ -145,9 +148,10 @@ def word_tokenize(
         * *newmm* (default) - "new multi-cut",
           dictionary-based, maximum matching,
           constrained by Thai Character Cluster (TCC) boundaries
-          with improved TCC rules that are used in newmm.
-        * *newmm-safe* - newmm, with a mechanism to avoid long
-          processing time for text with continuously ambiguous breaking points
+          with improved TCC rules.
+        * *newmm-safe* - newmm with a mechanism to avoid long
+          processing time for text with continuously ambiguous
+          breaking points
         * *nlpo3* - wrapper for a word tokenizer in
           `nlpO3 <https://github.com/PyThaiNLP/nlpo3>`_.,
           adaptation of newmm in Rust (2.5x faster)
@@ -424,27 +428,32 @@ def sent_tokenize(
 ) -> Union[list[str], list[list[str]]]:
     """Sentence tokenizer.
 
-    Tokenizes running text into "sentences". Supports both string and list of strings.
+    Tokenizes running text into sentences.
+    Supports both string and list of strings as input.
 
-    :param text: the text (string) or list of words (list of strings) to be tokenized
-    :param str engine: choose among *'crfcut'*, *'whitespace'*, \
-    *'whitespace+newline'*
-    :return: list of split sentences
+    :param text: text string or list of word tokens to be tokenized
+    :type text: Union[str, list[str]]
+    :param str engine: choose among *'crfcut'*, *'whitespace'*,
+        *'whitespace+newline'*
+    :return: list of sentences
     :rtype: Union[list[str], list[list[str]]]
+
     **Options for engine**
         * *crfcut* - (default) split by CRF trained on TED dataset
-        * *thaisum* - The implementation of sentence segmenter from \
+        * *thaisum* - sentence segmenter from
             Nakhun Chumpolsathien, 2020
-        * *tltk* - split by `TLTK <https://pypi.org/project/tltk/>`_.,
-        * *wtp* - split by `wtpsplitaxe <https://github.com/bminixhofer/wtpsplit>`_., \
-            It supports many sizes of models. You can use ``wtp`` to use mini model, \
-            ``wtp-tiny`` to use ``wtp-bert-tiny`` model (default), \
-            ``wtp-mini`` to use ``wtp-bert-mini`` model, \
-            ``wtp-base`` to use ``wtp-canine-s-1l`` model, \
-            and ``wtp-large`` to use ``wtp-canine-s-12l`` model.
-        * *whitespace+newline* - split by whitespace and newline.
-        * *whitespace* - split by whitespace, specifically with \
-                          :class:`regex` pattern  ``r" +"``
+        * *tltk* - split by `TLTK <https://pypi.org/project/tltk/>`_
+        * *wtp* - split by
+            `wtpsplitaxe <https://github.com/bminixhofer/wtpsplit>`_.
+            Supports many model sizes:
+            ``wtp`` uses mini model (default),
+            ``wtp-tiny`` uses ``wtp-bert-tiny``,
+            ``wtp-mini`` uses ``wtp-bert-mini``,
+            ``wtp-base`` uses ``wtp-canine-s-1l``,
+            ``wtp-large`` uses ``wtp-canine-s-12l``.
+        * *whitespace+newline* - split by whitespace and newline
+        * *whitespace* - split by whitespace,
+            using :class:`regex` pattern ``r" +"``
     :Example:
 
     Split the text based on *whitespace*::
@@ -472,7 +481,7 @@ def sent_tokenize(
         # output: ['ฉันไปประชุมเมื่อวันที่', '11', 'มีนาคม']
         sent_tokenize(sentence_2, engine="whitespace+newline")
         # output: ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ',
-        '\\nและได้รับมอบหมายให้ประจำในระดับภูมิภาค']
+        #   '\\nและได้รับมอบหมายให้ประจำในระดับภูมิภาค']
 
     Split the text using CRF trained on TED dataset::
 
@@ -485,7 +494,7 @@ def sent_tokenize(
 
         sent_tokenize(sentence_2, engine="crfcut")
         # output: ['ข้าราชการได้รับการหมุนเวียนเป็นระยะ ',
-        'และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค']
+        #   'และเขาได้รับมอบหมายให้ประจำในระดับภูมิภาค']
     """
     if not text or not isinstance(text, (str, list)):
         return []
@@ -590,14 +599,17 @@ def paragraph_tokenize(
     :param str text: text to be tokenized
     :param str engine: the name of paragraph tokenizer
     :return: list of paragraphs
-    :rtype: list[List[str]]
+    :rtype: list[list[str]]
+
     **Options for engine**
-        * *wtp* - split by `wtpsplitaxe <https://github.com/bminixhofer/wtpsplit>`_., \
-            It supports many sizes of models. You can use ``wtp`` to use mini model, \
-            ``wtp-tiny`` to use ``wtp-bert-tiny`` model (default), \
-            ``wtp-mini`` to use ``wtp-bert-mini`` model, \
-            ``wtp-base`` to use ``wtp-canine-s-1l`` model, \
-            and ``wtp-large`` to use ``wtp-canine-s-12l`` model.
+        * *wtp* - split by
+            `wtpsplitaxe <https://github.com/bminixhofer/wtpsplit>`_.
+            Supports many model sizes:
+            ``wtp`` uses mini model (default),
+            ``wtp-tiny`` uses ``wtp-bert-tiny``,
+            ``wtp-mini`` uses ``wtp-bert-mini``,
+            ``wtp-base`` uses ``wtp-canine-s-1l``,
+            ``wtp-large`` uses ``wtp-canine-s-12l``.
 
     :Example:
 
@@ -670,18 +682,21 @@ def subword_tokenize(
     :param bool keep_whitespace: keep whitespace
     :return: list of subwords
     :rtype: list[str]
+
     **Options for engine**
         * *dict* - newmm word tokenizer with a syllable dictionary
         * *etcc* - Enhanced Thai Character Cluster (Inrut et al. 2001)
-        * *han_solo* - CRF syllable segmenter for Thai that can work in the \
-            Thai social media domain. See `PyThaiNLP/Han-solo \
-        <https://github.com/PyThaiNLP/Han-solo>`_.
-        * *ssg* - CRF syllable segmenter for Thai. See `ponrawee/ssg \
-        <https://github.com/ponrawee/ssg>`_.
-        * *tcc* (default) - Thai Character Cluster (Theeramunkong et al. 2000)
-        * *tcc_p* - Thai Character Cluster + improved rules that are used in newmm
-        * *tltk* - syllable tokenizer from tltk. See `tltk \
-        <https://pypi.org/project/tltk/>`_.
+        * *han_solo* - CRF syllable segmenter for Thai that can work
+            in the Thai social media domain. See
+            `PyThaiNLP/Han-solo <https://github.com/PyThaiNLP/Han-solo>`_.
+        * *ssg* - CRF syllable segmenter for Thai. See
+            `ponrawee/ssg <https://github.com/ponrawee/ssg>`_.
+        * *tcc* (default) - Thai Character Cluster
+            (Theeramunkong et al. 2000)
+        * *tcc_p* - Thai Character Cluster with improved rules
+            used in newmm
+        * *tltk* - syllable tokenizer from tltk. See
+            `tltk <https://pypi.org/project/tltk/>`_.
         * *wangchanberta* - SentencePiece from wangchanberta model
     :Example:
 
@@ -699,7 +714,7 @@ def subword_tokenize(
 
         subword_tokenize(text_2, engine='tcc')
         # output: ['ค', 'วา', 'ม', 'แป', 'ล', 'ก', 'แย', 'ก',
-        'และ', 'พัฒ','นา', 'กา', 'ร']
+        #   'และ', 'พัฒ', 'นา', 'กา', 'ร']
 
     Tokenize text into subwords based on *etcc*::
 
@@ -791,17 +806,18 @@ def syllable_tokenize(
     :param str text: text to be tokenized
     :param str engine: the name of syllable tokenizer
     :param bool keep_whitespace: keep whitespace
-    :return: list of subwords
+    :return: list of syllables
     :rtype: list[str]
+
     **Options for engine**
         * *dict* - newmm word tokenizer with a syllable dictionary
-        * *han_solo* - CRF syllable segmenter for Thai that can work in the \
-            Thai social media domain. See `PyThaiNLP/Han-solo \
-        <https://github.com/PyThaiNLP/Han-solo>`_.
-        * *ssg* - CRF syllable segmenter for Thai. See `ponrawee/ssg \
-        <https://github.com/ponrawee/ssg>`_.
-        * *tltk* - syllable tokenizer from tltk. See `tltk \
-        <https://pypi.org/project/tltk/>`_.
+        * *han_solo* - CRF syllable segmenter for Thai that can work
+            in the Thai social media domain. See
+            `PyThaiNLP/Han-solo <https://github.com/PyThaiNLP/Han-solo>`_.
+        * *ssg* - CRF syllable segmenter for Thai. See
+            `ponrawee/ssg <https://github.com/ponrawee/ssg>`_.
+        * *tltk* - syllable tokenizer from tltk. See
+            `tltk <https://pypi.org/project/tltk/>`_.
 
     :Example:
     ::
@@ -866,11 +882,10 @@ def display_cell_tokenize(text: str) -> list[str]:
 class Tokenizer:
     """Tokenizer class for a custom tokenizer.
 
-    This class allows users to pre-define custom dictionary along with
-    tokenizer and encapsulate them into one single object.
-    It is an wrapper for both functions, that are
-    :func:`pythainlp.tokenize.word_tokenize`,
-    and :func:`pythainlp.util.dict_trie`
+    This class allows users to pre-define a custom dictionary along with
+    a tokenizer and encapsulate them into one single object.
+    It is a wrapper for both :func:`pythainlp.tokenize.word_tokenize`
+    and :func:`pythainlp.util.dict_trie`.
 
     :Example:
 
@@ -888,8 +903,8 @@ class Tokenizer:
         text = "อะเฟเซีย (Aphasia*) เป็นอาการผิดปกติของการพูด"
         _tokenizer = Tokenizer(custom_dict=trie, engine='newmm')
         _tokenizer.word_tokenize(text)
-        # output: ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ', 'เป็น', 'อาการ',
-        'ผิดปกติ', 'ของ', 'การ', 'พูด']
+        # output: ['อะเฟเซีย', ' ', '(', 'Aphasia', ')', ' ',
+        #   'เป็น', 'อาการ', 'ผิดปกติ', 'ของ', 'การ', 'พูด']
 
     Tokenizer object instantiated with a list of words::
 
@@ -904,7 +919,7 @@ class Tokenizer:
     words separated with *newline* and explicitly setting a new tokenizer
     after initiation::
 
-        PATH_TO_CUSTOM_DICTIONARY = './custom_dictionary.txtt'
+        PATH_TO_CUSTOM_DICTIONARY = './custom_dictionary.txt'
 
         # write a file
         with open(PATH_TO_CUSTOM_DICTIONARY, 'w', encoding='utf-8') as f:
@@ -938,13 +953,14 @@ class Tokenizer:
     ) -> None:
         """Initialize tokenizer object.
 
-        :param str custom_dict: a file path, a list of vocaburaies* to be
+        :param custom_dict: a file path, a list of vocabularies to be
                     used to create a trie, or an instantiated
                     :class:`pythainlp.util.Trie` object.
-        :param str engine: choose between different options of tokenizer engines
-                            (i.e.  *newmm*, *mm*, *longest*, *deepcut*)
-        :param bool keep_whitespace: True to keep whitespace, a common mark
-                                     for end of phrase in Thai
+        :type custom_dict: Union[Trie, Iterable[str], str, None]
+        :param str engine: tokenizer engine
+            (i.e. *newmm*, *mm*, *longest*, *deepcut*)
+        :param bool keep_whitespace: True to keep whitespace, a common
+            marker for end of phrase in Thai
         """
         self.__trie_dict: Trie = Trie([])
         if custom_dict:

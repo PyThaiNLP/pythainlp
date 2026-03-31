@@ -88,7 +88,7 @@ def tcc_pos(text: str) -> set[int]:
     """TCC positions
 
     :param str text: text to be tokenized into character clusters
-    :return: list of the ending position of subwords
+    :return: set of the ending positions of character clusters
     :rtype: set[int]
     """
     if not text or not isinstance(text, str):

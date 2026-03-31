@@ -189,7 +189,7 @@ def thai_keyboard_dist(c1: str, c2: str, shift_dist: float = 0.0) -> float:
 
     :param str c1: first character
     :param str c2: second character
-    :param str shift_dist: return value if they're shifted
+    :param float shift_dist: return value if they are on shifted keys
     :return: Euclidean distance between two characters
     :rtype: float
 

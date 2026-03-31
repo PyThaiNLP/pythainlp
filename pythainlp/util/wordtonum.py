@@ -142,10 +142,10 @@ def _decimal_unit(words: list[str]) -> float:
 
 
 def words_to_num(words: list[str]) -> float:
-    """Thai Words to float
+    """Thai words to float.
 
-    :param str text: Thai words
-    :return: float of words
+    :param list[str] words: Thai words (a number broken into tokens)
+    :return: float value of the words
     :rtype: float
 
     :Example:

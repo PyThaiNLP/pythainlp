@@ -126,8 +126,11 @@ def arabic_digit_to_thai_digit(text: str) -> str:
 
 
 def digit_to_text(text: str) -> str:
-    """:param str text: Text with digits such as '1', '2', '๓', '๔'
-    :return: Text with digits spelled out in Thai
+    """Spell out digits in Thai.
+
+    :param str text: text with digits such as '1', '2', '๓', '๔'
+    :return: text with digits spelled out in Thai
+    :rtype: str
 
     :Example:
     ::

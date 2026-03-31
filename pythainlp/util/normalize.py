@@ -328,9 +328,10 @@ def expand_maiyamok(sent: Union[str, list[str]]) -> list[str]:
     repetition. This function preprocesses Thai text by replacing
     Maiyamok with a word being repeated.
 
-    :param Union[str, List[str]] sent: sentence (list or string)
+    :param sent: sentence (list or string)
+    :type sent: Union[str, list[str]]
     :return: list of words
-    :rtype: List[str]
+    :rtype: list[str]
 
     :Example:
     ::
@@ -383,22 +384,24 @@ def expand_maiyamok(sent: Union[str, list[str]]) -> list[str]:
 def maiyamok(sent: Union[str, list[str]]) -> list[str]:
     """Expand Maiyamok.
 
-    Deprecated. Use expand_maiyamok() instead.
+    .. deprecated:: 5.0.5
+        Use :func:`expand_maiyamok` instead.
 
     Maiyamok (ๆ) (Unicode U+0E46) is a Thai character indicating word
     repetition. This function preprocesses Thai text by replacing
     Maiyamok with a word being repeated.
 
-    :param Union[str, List[str]] sent: sentence (list or string)
+    :param sent: sentence (list or string)
+    :type sent: Union[str, list[str]]
     :return: list of words
-    :rtype: List[str]
+    :rtype: list[str]
 
     :Example:
     ::
 
-        from pythainlp.util import expand_maiyamok
+        from pythainlp.util import maiyamok
 
-        expand_maiyamok("คนๆนก")
+        maiyamok("คนๆนก")
         # output: ['คน', 'คน', 'นก']
     """
     warn_deprecation(

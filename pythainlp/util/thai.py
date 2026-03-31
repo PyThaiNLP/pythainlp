@@ -294,10 +294,13 @@ def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:
     It uses pythainlp.transliterate.pronunciate for converting word to\
         pronunciation.
 
-    :param Optional[str] word: Thai word, or None
-    :return: List of tuples containing Thai pronunciation with tones in each syllable.\
-        Tone values: l (low), m (mid), h (high), r (rising), f (falling), or empty if it cannot be detected.\
-        Returns [] if word is None or empty.
+    :param word: Thai word, or None
+    :type word: str, optional
+    :return: list of tuples (syllable, tone) for each syllable.
+        Tone values: ``l`` (low), ``m`` (mid), ``h`` (high),
+        ``r`` (rising), ``f`` (falling), or empty string
+        if it cannot be detected.
+        Returns ``[]`` if word is None or empty.
     :rtype: list[tuple[str, str]]
 
     :Example:
@@ -325,14 +328,14 @@ def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:
 
 
 def count_thai_chars(text: str) -> dict[str, int]:
-    """Count Thai characters by type
+    """Count Thai characters by type.
 
-    This function will give you numbers of Thai characters by type\
-        (consonants, vowels, lead_vowels, follow_vowels, above_vowels,\
-        below_vowels, tonemarks, signs, thai_digits, punctuations, non_thai)
+    Count Thai characters by type: consonants, vowels, lead_vowels,
+    follow_vowels, above_vowels, below_vowels, tonemarks, signs,
+    thai_digits, punctuations, and non_thai.
 
-    :param str text: Text
-    :return: Dict with numbers of Thai characters by type
+    :param str text: input text
+    :return: dict with counts of Thai characters by type
     :rtype: dict[str, int]
 
     :Example:
@@ -395,23 +398,25 @@ def count_thai_chars(text: str) -> dict[str, int]:
 
 
 def analyze_thai_text(text: str) -> dict[str, int]:
-    """Analyzes a string of Thai text and returns a dictionaries,
-    where each values represents a single classified character from the text.
+    """Analyze Thai text and return a character count by descriptive name.
 
-    The function processes the text character by character and maps each Thai
-    character to its descriptive name or itself (for consonants and digits).
+    Process the text character by character and map each Thai character
+    to its descriptive name or to itself (for consonants and digits).
 
-    :param str text: The Thai text string to be analyzed.
+    :param str text: Thai text string to be analyzed
+    :return: dict mapping character names to their count in the text
     :rtype: dict[str, int]
-    :return: A dictionaries, with each item containing
-                    a single character and a count of 1.
 
-    Examples:
-        >>> analyze_thai_text("คนดี")
-        {'ค': 1, 'น': 1, 'ด': 1, 'สระ อี': 1}
+    :Example:
+    ::
 
-        >>> analyze_thai_text("เล่น")
-        {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
+        from pythainlp.util import analyze_thai_text
+
+        analyze_thai_text("คนดี")
+        # output: {'ค': 1, 'น': 1, 'ด': 1, 'สระ อี': 1}
+
+        analyze_thai_text("เล่น")
+        # output: {'สระ เอ': 1, 'ล': 1, 'ไม้เอก': 1, 'น': 1}
 
     """
     results: dict[str, int] = defaultdict(int)

@@ -365,7 +365,7 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
 
         print("The 1st reign year of the King Rama IX is in", \\
             reign_year_to_ad(1, 9))
-        # output: The 4th reign year of the King Rama X is in 1946
+        # output: The 1st reign year of the King Rama IX is in 1946
     """
     ad = 0
     if int(reign) == 10:

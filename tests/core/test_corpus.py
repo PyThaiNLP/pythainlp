@@ -630,6 +630,8 @@ class DefensiveLoadingTestCase(unittest.TestCase):
         self.assertTrue(_check_version("*"))
         self.assertTrue(_check_version("<=9999.9.9"))
         self.assertTrue(_check_version("<9999.9.9"))
+        self.assertTrue(_check_version(">=0.0.1"))
+        self.assertTrue(_check_version(">0.0.1"))
         self.assertFalse(_check_version("<=0.0.1"))
         self.assertFalse(_check_version("<0.0.1"))
         # version2int consistency

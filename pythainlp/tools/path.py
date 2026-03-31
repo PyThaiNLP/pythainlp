@@ -282,7 +282,7 @@ def get_pythainlp_path() -> str:
         from pythainlp.tools import get_pythainlp_path
 
         get_pythainlp_path()
-        # output: '/usr/local/lib/python3.6/dist-packages/pythainlp'
+        # output: '/usr/local/lib/python3/dist-packages/pythainlp'
     """
     package_path = files("pythainlp")
     # For compatibility, convert to string path if possible

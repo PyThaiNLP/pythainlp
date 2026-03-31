@@ -23,7 +23,7 @@ def romanize(
     :param str text: A Thai word to be romanized. \
         The input should not include whitespace because \
         the function is support subwords by splitting whitespace.
-    :param str engine: One of 'royin' (default), 'thai2rom', 'thai2rom_onnx,
+    :param str engine: One of 'royin' (default), 'thai2rom', 'thai2rom_onnx',
         'tltk', and 'lookup'. See more in options for engine section.
     :param str fallback_engine: If engine equals 'lookup',
         use `fallback_engine` for words that are not in the lookup dictionary.

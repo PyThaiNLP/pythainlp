@@ -93,9 +93,12 @@ class ThaiTransliterator:
         return tensor.to(device)
 
     def romanize(self, text: str) -> str:
-        """:param str text: Thai text to be romanized
+        """Romanize Thai text to Latin alphabet.
+
+        :param str text: Thai text to be romanized
         :return: English (more or less) text that spells out how the Thai text
                  should be pronounced.
+        :rtype: str
         """
         input_tensor = self._prepare_sequence_in(text).view(1, -1)
         input_length = torch.Tensor([len(text) + 1]).int()

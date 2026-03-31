@@ -25,10 +25,12 @@ _TRANSLITERATE_IDX: int = 0
 
 
 def follow_rtgs(text: str) -> Optional[bool]:
-    """Check if the `text` follows romanization defined by Royal Society of Thailand (RTGS).
-    :param str text: Text to look up. Must be a self-contained word.
-    :return: True if text follows the definition by RTGS, False otherwise.
-            `None` means unverified or unknown word.
+    """Check if *text* follows Royal Thai General System of Transcription (RTGS).
+
+    :param str text: text to look up; must be a self-contained word.
+    :return: ``True`` if *text* follows the RTGS definition,
+        ``False`` otherwise.
+        ``None`` means unverified or unknown word.
     :rtype: Optional[bool]
     """
     try:
@@ -42,10 +44,10 @@ def follow_rtgs(text: str) -> Optional[bool]:
 
 
 def _romanize(text: str, fallback_func: Callable[[str], str]) -> str:
-    """Romanize one word. Look up first, call `fallback_func` if not found."""
+    """Romanize one word; look up first, call `fallback_func` if not found."""
     try:
-        # try to get 0-th idx of look up result, simply ignore other possible variations.
-        # not found means no mapping.
+        # Get 0-th entry; ignore other possible variations.
+        # IndexError means no mapping.
         lookup = TRANSLITERATE_DICT[text][TRANSLITERATE_EN][_TRANSLITERATE_IDX]
     except IndexError:
         return fallback_func(text)

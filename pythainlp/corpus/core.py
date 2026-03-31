@@ -378,8 +378,8 @@ def get_corpus_path(name: str, version: str = "") -> Optional[str]:
 def _download(url: str, dst: str) -> int:
     """Download helper.
 
-    @param: URL for downloading file
-    @param: dst place to put the file into
+    :param str url: URL for the file to download.
+    :param str dst: local destination path for the downloaded file.
 
     Security Note: Downloads use HTTPS with SSL certificate validation.
     Files are verified using MD5 checksums after download.
@@ -415,8 +415,8 @@ def _download(url: str, dst: str) -> int:
 def _check_hash(dst: str, md5: str) -> None:
     """Check hash helper.
 
-    @param: dst place to put the file into
-    @param: md5 place to file hash (MD5)
+    :param str dst: local path of the file to verify.
+    :param str md5: expected MD5 checksum of the file.
     """
     if md5 and md5 != "-":
         import hashlib
@@ -433,16 +433,18 @@ def _check_hash(dst: str, md5: str) -> None:
 def _is_within_directory(directory: str, target: str) -> bool:
     """Check if target path is within directory (prevent path traversal).
 
-    @param: directory base directory path
-    @param: target target file path to check
-    @return: True if target is within directory, False otherwise
+    :param str directory: base directory path.
+    :param str target: target file path to check.
+    :return: ``True`` if target is within directory, ``False`` otherwise.
+    :rtype: bool
 
     Security Note: This function normalizes paths using os.path.abspath()
     to handle relative paths and .. sequences. It does NOT follow symlinks
     (unlike os.path.realpath()), because:
-    - Symlink validation is handled separately in extraction functions
-    - We want to check if the path string itself is safe, not where it points
-    - This prevents false negatives when symlinks don't exist yet
+
+    - Symlink validation is handled separately in extraction functions.
+    - We want to check if the path string itself is safe, not where it points.
+    - This prevents false negatives when symlinks don't exist yet.
 
     For symlink security, use the extraction function's symlink validation.
     """
@@ -463,16 +465,17 @@ def _is_within_directory(directory: str, target: str) -> bool:
 def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
     """Safely extract tar archive, preventing path traversal attacks.
 
-    @param: tar tarfile object
-    @param: path destination path for extraction
+    :param tarfile.TarFile tar: tarfile object to extract.
+    :param str path: destination path for extraction.
 
     Security Note: This function prevents path traversal attacks including:
-    - Files with .. in their path
-    - Symlinks pointing outside the extraction directory
-    - Files extracted through malicious symlinks
 
-    For Python 3.12+, uses tarfile.data_filter for additional protection.
-    For Python 3.9-3.11, implements custom validation of all members.
+    - Files with ``..`` in their path.
+    - Symlinks pointing outside the extraction directory.
+    - Files extracted through malicious symlinks.
+
+    For Python 3.12+, uses ``tarfile.data_filter`` for additional protection.
+    For Python 3.9--3.11, implements custom validation of all members.
     """
     # Check if data_filter is available (Python 3.12+)
     if hasattr(tarfile, "data_filter"):
@@ -528,12 +531,13 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
 def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
     """Safely extract zip archive, preventing path traversal attacks.
 
-    @param: zip_file zipfile object
-    @param: path destination path for extraction
+    :param zipfile.ZipFile zip_file: zipfile object to extract.
+    :param str path: destination path for extraction.
 
     Security Note: This function prevents path traversal attacks including:
-    - Files with .. in their path
-    - Symlinks pointing outside the extraction directory (on Unix systems)
+
+    - Files with ``..`` in their path.
+    - Symlinks pointing outside the extraction directory (on Unix systems).
 
     Note: ZIP format has limited symlink support. Symlinks are primarily
     created by Unix-based archiving tools and may not be portable.

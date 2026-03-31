@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
+# SPDX-FileType: SOURCE
+# SPDX-License-Identifier: Apache-2.0
 """Spell checker, using Peter Norvig algorithm.
 Spelling dictionary can be customized.
 Default spelling dictionary is based on Phupha: Thai Word Frequency Dataset,
@@ -145,17 +148,19 @@ class NorvigSpellChecker:
         Then, it selects the candidate with
         the highest word occurrence probability.
 
-        :param str custom_dict: A custom spelling dictionary. This can be:
-                                (1) a dictionary (`dict`), with words (`str`)
-                                    as keys and frequencies (`int`) as values;
-                                (2) an iterable (list, tuple, or set) of words
-                                    (`str`) and frequency (`int`) tuples:
-                                    `(str, int)`; or
-                                (3) an iterable of just words (`str`), without
-                                    frequencies -- in this case `1` will be
-                                    assigned to every words.
-                                Default is from Phupha dataset, filtered with
-                                Royal Society of Thailand word list (38,160 words).
+        :param custom_dict: A custom spelling dictionary. This can be:
+                            (1) a dictionary (`dict`), with words (`str`)
+                                as keys and frequencies (`int`) as values;
+                            (2) an iterable (list, tuple, or set) of words
+                                (`str`) and frequency (`int`) tuples:
+                                ``(str, int)``; or
+                            (3) an iterable of just words (`str`), without
+                                frequencies -- in this case ``1`` will be
+                                assigned to every word.
+                            Default is from Phupha dataset, filtered with
+                            Royal Society of Thailand word list (38,160 words).
+        :type custom_dict: dict[str, int] or Iterable[str] or\
+            Iterable[tuple[str, int]], optional
         :param int min_freq: Minimum frequency of a word to keep (default = 2)
         :param int min_len: Minimum length (in characters) of a word to keep
                             (default = 2)

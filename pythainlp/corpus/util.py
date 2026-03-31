@@ -39,11 +39,11 @@ def find_badwords(
     """Find words that do not work well with the `tokenize` function
     for the provided `training_data`.
 
-    :param Callable[[str], List[str]] tokenize: a tokenize function
+    :param Callable[[str], list[str]] tokenize: a tokenize function
     :param Iterable[Iterable[str]] training_data: tokenized text, to be used\
         as a training set
-    :return: words that are considered to make `tokenize` perform badly
-    :rtype: Set[str]
+    :return: words that do not work well with the `tokenize` function
+    :rtype: set[str]
     """
     right: Counter[str] = Counter()
     wrong: Counter[str] = Counter()
@@ -77,19 +77,19 @@ def revise_wordset(
     a dictionary-based `tokenize` function.
 
     `orig_words` will be used as a base set for the dictionary.
-    Words that do not performed well with `training_data` will be removed.
+    Words that do not perform well with `training_data` will be removed.
     The remaining words will be returned.
 
-    :param Callable[[str], List[str]] tokenize: a tokenize function, can be\
-        any function that takes a string as input and returns a List[str]
-    :param Iterable[str] orig_words: words that used by the tokenize function,\
+    :param Callable[[str], list[str]] tokenize: a tokenize function, can be\
+        any function that takes a string as input and returns a list[str]
+    :param Iterable[str] orig_words: words used by the tokenize function,\
         will be used as a base for revision
     :param Iterable[Iterable[str]] training_data: tokenized text, to be used\
         as a training set
-    :return: words that are considered to make `tokenize` perform badly
-    :rtype: Set[str]
+    :return: revised set of words with underperforming words removed
+    :rtype: set[str]
 
-    :Example::
+    :Example:
     ::
 
         from pythainlp.corpus import thai_words
@@ -98,20 +98,21 @@ def revise_wordset(
 
         base_words = thai_words()
         more_words = {
-            "ถวิล อุดล", "ทองอินทร์ ภูริพัฒน์", "เตียง ศิริขันธ์", "จำลอง ดาวเรือง"
+            "ถวิล อุดล", "ทองอินทร์ ภูริพัฒน์",
+            "เตียง ศิริขันธ์", "จำลอง ดาวเรือง",
         }
         base_words = base_words.union(more_words)
-        dict_trie = Trie(wordlist)
+        dict_trie = Trie(base_words)
 
         tokenize = lambda text: segment(text, dict_trie)
 
         training_data = [
-            [str, str, str. ...],
-            [str, str, str, str, ...],
+            ["word1", "word2", "word3", ...],
+            ["word1", "word2", "word3", "word4", ...],
             ...
         ]
 
-        revised_words = revise_wordset(tokenize, wordlist, training_data)
+        revised_words = revise_wordset(tokenize, base_words, training_data)
     """
     bad_words = find_badwords(tokenize, training_data)
     return set(orig_words) - bad_words
@@ -125,13 +126,13 @@ def revise_newmm_default_wordset(
     tokenizer for PyThaiNLP.
 
     Words from `pythainlp.corpus.thai_words()` will be used as a base set
-    for the dictionary. Words that do not performed well with `training_data`
+    for the dictionary. Words that do not perform well with `training_data`
     will be removed. The remaining words will be returned.
 
     :param Iterable[Iterable[str]] training_data: tokenized text, to be used\
         as a training set
-    :return: words that are considered to make `tokenize` perform badly
-    :rtype: Set[str]
+    :return: revised set of words with underperforming words removed
+    :rtype: set[str]
     """
     orig_words = thai_words()
     trie = Trie(orig_words)

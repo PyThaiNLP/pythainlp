@@ -628,8 +628,8 @@ class DefensiveLoadingTestCase(unittest.TestCase):
         # only gets the first character of the version string instead
         # of the full version, causing incorrect comparisons.
         self.assertTrue(_check_version("*"))
-        self.assertTrue(_check_version("<=9.9.9"))
-        self.assertTrue(_check_version("<9.9.9"))
+        self.assertTrue(_check_version("<=9999.9.9"))
+        self.assertTrue(_check_version("<9999.9.9"))
         self.assertFalse(_check_version("<=0.0.1"))
         self.assertFalse(_check_version("<0.0.1"))
         # version2int consistency

@@ -68,8 +68,7 @@ def unigram_word_freqs() -> dict[str, int]:
 
         >>> from pythainlp.corpus import phupha  # doctest: +SKIP
         >>> freqs = phupha.unigram_word_freqs()  # doctest: +SKIP
-        >>> print(freqs.get("ไทย", 0))  # doctest: +SKIP
-        ...
+        >>> freqs.get("ไทย", 0)  # doctest: +SKIP
 
     **Dataset Citation:**
 

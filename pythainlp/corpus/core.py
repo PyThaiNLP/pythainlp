@@ -775,6 +775,7 @@ def remove(name: str) -> bool:
         >>> remove("ttc")  # doctest: +SKIP
         True
         >>> get_corpus_path("ttc")  # doctest: +SKIP
+        None
     """
     if is_read_only_mode():
         print("PyThaiNLP is in read-only mode. It cannot remove corpus.")

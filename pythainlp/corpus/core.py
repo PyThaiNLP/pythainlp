@@ -475,7 +475,7 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
     - Files extracted through malicious symlinks.
 
     For Python 3.12+, uses ``tarfile.data_filter`` for additional protection.
-    For Python 3.9--3.11, implements custom validation of all members.
+    For Python 3.9-3.11, implements custom validation of all members.
     """
     # Check if data_filter is available (Python 3.12+)
     if hasattr(tarfile, "data_filter"):

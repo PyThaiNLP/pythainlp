@@ -19,7 +19,7 @@ def abbreviation_to_full_text(
     :param str text: Thai text
     :param int top_k: Top K
     :return: list of ``(full_text, cosine_similarity)`` tuples.
-    :rtype: list[tuple[str, float or None]]
+    :rtype: list[tuple[str, Optional[float]]]
 
     :Example:
     ::

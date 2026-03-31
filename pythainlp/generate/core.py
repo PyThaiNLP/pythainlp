@@ -60,13 +60,16 @@ class Unigram:
         output_str: bool = True,
         duplicate: bool = False,
     ) -> Union[list[str], str]:
-        """:param str start_seq: word to begin sentence with
+        """Generate a sentence using the unigram model.
+
+        :param str start_seq: word to begin sentence with
         :param int N: number of words
+        :param float prob: minimum word probability threshold
         :param bool output_str: output as string
         :param bool duplicate: allow duplicate words in sentence
 
         :return: list of words or a word string
-        :rtype: list[str], str
+        :rtype: Union[list[str], str]
 
         :Example:
         ::
@@ -139,10 +142,10 @@ class Bigram:
         self.words: list[str] = [i[-1] for i in self.bi_keys]
 
     def prob(self, t1: str, t2: str) -> float:
-        """Probability of word
+        """Compute bigram probability P(t2 | t1).
 
-        :param int t1: text 1
-        :param int t2: text 2
+        :param str t1: first word
+        :param str t2: second word
 
         :return: probability value
         :rtype: float
@@ -161,13 +164,16 @@ class Bigram:
         output_str: bool = True,
         duplicate: bool = False,
     ) -> Union[list[str], str]:
-        """:param str start_seq: word to begin sentence with
+        """Generate a sentence using the bigram model.
+
+        :param str start_seq: word to begin sentence with
         :param int N: number of words
+        :param float prob: minimum word probability threshold
         :param bool output_str: output as string
         :param bool duplicate: allow duplicate words in sentence
 
         :return: list of words or a word string
-        :rtype: list[str], str
+        :rtype: Union[list[str], str]
 
         :Example:
         ::
@@ -236,11 +242,11 @@ class Trigram:
         self.words: list[str] = [i[-1] for i in self.bi_keys]
 
     def prob(self, t1: str, t2: str, t3: str) -> float:
-        """Probability of word
+        """Compute trigram probability P(t3 | t1, t2).
 
-        :param int t1: text 1
-        :param int t2: text 2
-        :param int t3: text 3
+        :param str t1: first word
+        :param str t2: second word
+        :param str t3: third word
 
         :return: probability value
         :rtype: float
@@ -260,13 +266,17 @@ class Trigram:
         output_str: bool = True,
         duplicate: bool = False,
     ) -> Union[list[str], str]:
-        """:param str start_seq: word to begin sentence with
+        """Generate a sentence using the trigram model.
+
+        :param start_seq: word or bigram to begin sentence with
+        :type start_seq: Union[str, tuple[str, str]]
         :param int N: number of words
+        :param float prob: minimum word probability threshold
         :param bool output_str: output as string
         :param bool duplicate: allow duplicate words in sentence
 
         :return: list of words or a word string
-        :rtype: list[str], str
+        :rtype: Union[list[str], str]
 
         :Example:
         ::

@@ -95,7 +95,10 @@ class GzipModel:
         return predict_class
 
     def save(self, path: str) -> None:
-        """:param str path: path to save model"""
+        """Save model to file.
+
+        :param str path: path to save model
+        """
         with open(path, "w", encoding="utf-8") as f:
             json.dump(
                 {
@@ -107,7 +110,10 @@ class GzipModel:
             )
 
     def load(self, path: str) -> None:
-        """:param str path: path to load model"""
+        """Load model from file.
+
+        :param str path: path to load model from
+        """
         import numpy as np
 
         with open(path, "r", encoding="utf-8") as f:

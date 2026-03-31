@@ -126,7 +126,7 @@ class Translate:
         :param str engine: machine translation engine
         :param bool use_gpu: load model using GPU (Default is False)
 
-        **Options for engine*
+        **Options for engine**
             * *default* - The default engine for each language.
             * *small100* - A multilingual machine translation model (covering 100 languages)
 
@@ -227,8 +227,8 @@ def word_translate(
     :param str src: src language
     :param str target: target language
     :param str engine: Word translate engine (the default engine is word2word)
-    :return: return list word translate or None
-    :rtype: Union[List[str], None]
+    :return: list of translated words or None
+    :rtype: list[str] or None
 
     :Example:
 

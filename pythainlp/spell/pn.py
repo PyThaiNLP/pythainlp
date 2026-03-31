@@ -159,8 +159,8 @@ class NorvigSpellChecker:
                                 assigned to every word.
                             Default is from Phupha dataset, filtered with
                             Royal Society of Thailand word list (38,160 words).
-        :type custom_dict: dict[str, int] or Iterable[str] or\
-            Iterable[tuple[str, int]], optional
+        :type custom_dict: Union[dict[str, int], Iterable[str],
+            Iterable[tuple[str, int]]], optional
         :param int min_freq: Minimum frequency of a word to keep (default = 2)
         :param int min_len: Minimum length (in characters) of a word to keep
                             (default = 2)

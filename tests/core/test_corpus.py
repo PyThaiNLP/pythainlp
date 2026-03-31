@@ -31,6 +31,7 @@ from pythainlp.corpus import (
     tnc,
     ttc,
 )
+from pythainlp.corpus.core import _check_version, _version2int
 from pythainlp.corpus.util import revise_newmm_default_wordset
 
 
@@ -621,3 +622,18 @@ class DefensiveLoadingTestCase(unittest.TestCase):
                         self.assertEqual(
                             result["synonym"], [["cat", "kitty"], ["dog"]]
                         )
+
+    def test_check_version(self):
+        # Reproduce: _check_version with <= and < used temp[0] which
+        # only gets the first character of the version string instead
+        # of the full version, causing incorrect comparisons.
+        self.assertTrue(_check_version("*"))
+        self.assertTrue(_check_version("<=9999.9.9"))
+        self.assertTrue(_check_version("<9999.9.9"))
+        self.assertTrue(_check_version(">=0.0.1"))
+        self.assertTrue(_check_version(">0.0.1"))
+        self.assertFalse(_check_version("<=0.0.1"))
+        self.assertFalse(_check_version("<0.0.1"))
+        # version2int consistency
+        self.assertNotEqual(_version2int("5.3.3"), _version2int("5"))
+        self.assertEqual(_version2int("2.0"), _version2int("2.0.0"))

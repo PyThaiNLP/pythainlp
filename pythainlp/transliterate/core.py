@@ -42,33 +42,24 @@ def romanize(
         * *lookup* - Look up on Thai-English Transliteration dictionary v1.4 compiled by Wannaphong.
 
     :Example:
-    ::
 
-        from pythainlp.transliterate import romanize
-
-        romanize("สามารถ", engine="royin")
-        # output: 'samant'
-
-        romanize("สามารถ", engine="thai2rom")
-        # output: 'samat'
-
-        romanize("สามารถ", engine="tltk")
-        # output: 'samat'
-
-        romanize("ภาพยนตร์", engine="royin")
-        # output: 'phapn'
-
-        romanize("รส ดี", engine="royin") # subwords
-        # output: 'rot di'
-
-        romanize("ภาพยนตร์", engine="thai2rom")
-        # output: 'phapphayon'
-
-        romanize("ภาพยนตร์", engine="thai2rom_onnx")
-        # output: 'phapphayon'
-
-        romanize("ก็อปปี้", engine="lookup")
-        # output: 'copy'
+        >>> from pythainlp.transliterate import romanize
+        >>> romanize("สามารถ", engine="royin")
+        'samant'
+        >>> romanize("สามารถ", engine="thai2rom")  # doctest: +SKIP
+        'samat'
+        >>> romanize("สามารถ", engine="tltk")  # doctest: +SKIP
+        'samat'
+        >>> romanize("ภาพยนตร์", engine="royin")
+        'phapn'
+        >>> romanize("รส ดี", engine="royin")  # subwords
+        'rot di'
+        >>> romanize("ภาพยนตร์", engine="thai2rom")  # doctest: +SKIP
+        'phapphayon'
+        >>> romanize("ภาพยนตร์", engine="thai2rom_onnx")  # doctest: +SKIP
+        'phapphayon'
+        >>> romanize("ก็อปปี้", engine="lookup")
+        'k็ppi'
 
     """
 
@@ -129,39 +120,28 @@ def transliterate(
           https://huggingface.co/B-K/umt5-thai-g2p-v2-0.5k
 
     :Example:
-    ::
 
-        from pythainlp.transliterate import transliterate
-
-        transliterate("สามารถ", engine="icu")
-        # output: 's̄āmārt̄h'
-
-        transliterate("สามารถ", engine="ipa")
-        # output: 'saːmaːrot'
-
-        transliterate("สามารถ", engine="thaig2p")
-        # output: 's aː ˩˩˦ . m aː t̚ ˥˩'
-
-        transliterate("สามารถ", engine="tltk_ipa")
-        # output: 'saː5.maːt3'
-
-        transliterate("สามารถ", engine="tltk_g2p")
-        # output: 'saa4~maat2'
-
-        transliterate("สามารถ", engine="iso_11940")
-        # output: 's̄āmārt̄h'
-
-        transliterate("ภาพยนตร์", engine="icu")
-        # output: 'p̣hāphyntr̒'
-
-        transliterate("ภาพยนตร์", engine="ipa")
-        # output: 'pʰaːpjanot'
-
-        transliterate("ภาพยนตร์", engine="thaig2p")
-        # output: 'pʰ aː p̚ ˥˩ . pʰ a ˦˥ . j o n ˧'
-
-        transliterate("ภาพยนตร์", engine="iso_11940")
-        # output: 'p̣hāphyntr'
+        >>> from pythainlp.transliterate import transliterate
+        >>> transliterate("สามารถ", engine="icu")  # doctest: +SKIP
+        's̄āmārt̄h'
+        >>> transliterate("สามารถ", engine="ipa")  # doctest: +SKIP
+        'saːmaːrot'
+        >>> transliterate("สามารถ", engine="thaig2p")  # doctest: +SKIP
+        's aː ˩˩˦ . m aː t̚ ˥˩'
+        >>> transliterate("สามารถ", engine="tltk_ipa")  # doctest: +SKIP
+        'saː5.maːt3'
+        >>> transliterate("สามารถ", engine="tltk_g2p")  # doctest: +SKIP
+        'saa4~maat2'
+        >>> transliterate("สามารถ", engine="iso_11940")
+        's̄āmārt̄h'
+        >>> transliterate("ภาพยนตร์", engine="icu")  # doctest: +SKIP
+        'p̣hāphyntr̒'
+        >>> transliterate("ภาพยนตร์", engine="ipa")  # doctest: +SKIP
+        'pʰaːpjanot'
+        >>> transliterate("ภาพยนตร์", engine="thaig2p")  # doctest: +SKIP
+        'pʰ aː p̚ ˥˩ . pʰ a ˦˥ . j o n ˧'
+        >>> transliterate("ภาพยนตร์", engine="iso_11940")
+        'p̣hāphyntr̒'
     """
     if not text or not isinstance(text, str):
         return ""
@@ -200,15 +180,12 @@ def pronunciate(word: str, engine: str = DEFAULT_PRONUNCIATE_ENGINE) -> str:
         * *w2p* - Thai Word-to-Phoneme
 
     :Example:
-    ::
 
-        from pythainlp.transliterate import pronunciate
-
-        pronunciate("สามารถ", engine="w2p")
-        # output: 'สา-มาด'
-
-        pronunciate("ภาพยนตร์", engine="w2p")
-        # output: 'พาบ-พะ-ยน'
+        >>> from pythainlp.transliterate import pronunciate
+        >>> pronunciate("สามารถ", engine="w2p")  # doctest: +SKIP
+        'สา-มาด'
+        >>> pronunciate("ภาพยนตร์", engine="w2p")  # doctest: +SKIP
+        'พาบ-พะ-ยน'
     """
     if not word or not isinstance(word, str):
         return ""

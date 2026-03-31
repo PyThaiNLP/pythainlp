@@ -39,18 +39,14 @@ def aksonhan_to_current(word: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.ancient import aksonhan_to_current
-
-        print(aksonhan_to_current("จกก"))
-        # output: จัก
-
-        print(aksonhan_to_current("บงงคบบ"))
-        # output: บังคับ
-
-        print(aksonhan_to_current("สรรเพชญ")) # รร is still used.
-        # output: สรรเพชญ
+        >>> from pythainlp.ancient import aksonhan_to_current
+        >>> print(aksonhan_to_current("จกก"))
+        จัก
+        >>> print(aksonhan_to_current("บงงคบบ"))
+        บังคับ
+        >>> print(aksonhan_to_current("สรรเพชญ"))  # รร is still used.
+        สรรเพชญ
 
     """
     if len(word) < 3:

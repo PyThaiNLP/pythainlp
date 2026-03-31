@@ -144,15 +144,12 @@ def morse_encode(text: str, lang: str = "th") -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util.morse import morse_encode
-
-        print(morse_encode("แมว", lang="th"))
-        # output: .-.- -- .--
-
-        print(morse_encode("cat", lang="en"))
-        # output: -.-. .- -
+        >>> from pythainlp.util.morse import morse_encode
+        >>> morse_encode("แมว", lang="th")
+        '.-.- -- .--'
+        >>> morse_encode("cat", lang="en")
+        '-.-. .- -'
     """
     if lang == "th":  # Thai
         return " ".join(
@@ -178,14 +175,12 @@ def morse_decode(morse_text: str, lang: str = "th") -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util.morse import morse_decode
-        print(morse_decode(".-.- -- .--", lang="th"))
-        # output: แมว
-
-        print(morse_decode("-.-. .- -", lang="en"))
-        # output: CAT
+        >>> from pythainlp.util.morse import morse_decode
+        >>> morse_decode(".-.- -- .--", lang="th")
+        'แมว'
+        >>> morse_decode("-.-. .- -", lang="en")
+        'CAT'
     """
     if lang == "th":
         ans = "".join(

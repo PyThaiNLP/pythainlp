@@ -79,15 +79,12 @@ def sound_syllable(syllable: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import sound_syllable
-
-        print(sound_syllable("มา"))
-        # output: live
-
-        print(sound_syllable("เลข"))
-        # output: dead
+        >>> from pythainlp.util import sound_syllable
+        >>> sound_syllable("มา")
+        'live'
+        >>> sound_syllable("เลข")
+        'dead'
     """
     # if len of syllable < 2
     if len(syllable) < 2:
@@ -184,15 +181,12 @@ def syllable_open_close_detector(syllable: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import syllable_open_close_detector
-
-        print(syllable_open_close_detector("มาก"))
-        # output: close
-
-        print(syllable_open_close_detector("คะ"))
-        # output: open
+        >>> from pythainlp.util import syllable_open_close_detector
+        >>> syllable_open_close_detector("มาก")
+        'close'
+        >>> syllable_open_close_detector("คะ")
+        'open'
     """
     consonants = [i for i in syllable if i in thai_consonants]
 
@@ -215,15 +209,12 @@ def syllable_length(syllable: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import syllable_length
-
-        print(syllable_length("มาก"))
-        # output: long
-
-        print(syllable_length("คะ"))
-        # output: short
+        >>> from pythainlp.util import syllable_length
+        >>> syllable_length("มาก")
+        'long'
+        >>> syllable_length("คะ")
+        'short'
     """
     consonants = [i for i in syllable if i in thai_consonants]
     if len(consonants) <= 3 and any((c in set(short)) for c in syllable):
@@ -277,15 +268,12 @@ def tone_detector(syllable: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import tone_detector
-
-        print(tone_detector("มา"))
-        # output: m
-
-        print(tone_detector("ไม้"))
-        # output: h
+        >>> from pythainlp.util import tone_detector
+        >>> tone_detector("มา")
+        'm'
+        >>> tone_detector("ไม้")
+        'h'
     """
     s = sound_syllable(syllable)
     # get consonants

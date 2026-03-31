@@ -30,8 +30,6 @@ def pos_tag(
         * *tdtb* - `Thai Discourse Treebank \
             <https://github.com/nlp-chula/thai-discourse-treebank/tree/main>`_ \
             , natively use Universal POS tags
-        * *tnc* - Thai National Corpus (support tltk engine only)
-        * *tdtb* - `Thai Discourse Treebank <https://github.com/nlp-chula/thai-discourse-treebank>`_
         * *tud* - `Thai Universal Dependency Treebank (TUD)\
             <https://github.com/nlp-chula/TUD>`_ \
     :return: a list of tuples (word, POS tag)
@@ -159,7 +157,7 @@ def pos_tag_sents(
 
         sentences = [['เก้าอี้','มี','3','ขา'], \\
                             ['นก', 'บิน', 'กลับ', 'รัง']]
-        pos_tag_sents(sentences, corpus='pud)
+        pos_tag_sents(sentences, corpus='pud')
         # output:
         # [[('เก้าอี้', 'PROPN'), ('มี', 'VERB'), ('3', 'NUM'),
         #   ('ขา', 'NOUN')], [('นก', 'NOUN'), ('บิน', 'VERB'),

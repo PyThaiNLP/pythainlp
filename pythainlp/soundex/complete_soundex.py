@@ -25,7 +25,7 @@ Note:
         complete_soundex("ก้าน")  # 'กก1Bน2-'
 
         # Multi-syllable (automatically handled)
-        complete_soundex("ปุญญา")  # 'ปป4G0น-ยย1B0--*'
+        complete_soundex("ปุญญา")  # 'ปป1B0น-*'
         complete_soundex("สวรรค์")  # 'ซศ1A-0-วว1Aน0-'
 """
 
@@ -554,7 +554,7 @@ class CompleteSoundex:
             >>> complete_soundex("ก้าน")
             'กก1Bน2-'
             >>> complete_soundex("ปุญญา")
-            'ปป4G0น-ยย1B0--*'
+            'ปป1B0น-*'
         """
         text = self.clean_text(text)
 
@@ -649,13 +649,13 @@ def complete_soundex(text: str) -> str:
 
         # Multi-syllable words (automatically tokenized)
         complete_soundex("ปุญญา")
-        # output: 'ปป4G0น-ยย1B0--*'
+        # output: 'ปป1B0น-*'
 
         complete_soundex("สวรรค์")
         # output: 'ซศ1A-0-วว1Aน0-'
 
         complete_soundex("ปันนา")
-        # output: 'ปป1A0น-นน1B0--'
+        # output: 'ปป1Bน0-'
     """
     global _complete_soundex_instance
 

@@ -39,12 +39,11 @@ def remove_repeated_ngrams(string_list: list[str], n: int = 2) -> list[str]:
     :rtype: list[str]
 
     :Example:
-    ::
 
-        from pythainlp.lm import remove_repeated_ngrams
+        >>> from pythainlp.lm import remove_repeated_ngrams  # doctest: +SKIP
 
-        remove_repeated_ngrams(["เอา", "เอา", "แบบ", "ไหน"], n=1)
-        # output: ['เอา', 'แบบ', 'ไหน']
+        >>> remove_repeated_ngrams(["เอา", "เอา", "แบบ", "ไหน"], n=1)  # doctest: +SKIP
+        ['เอา', 'แบบ', 'ไหน']
     """
     if not string_list or n <= 0:
         return string_list

@@ -550,6 +550,7 @@ class CompleteSoundex:
         :rtype: str
 
         :Example:
+
             >>> from pythainlp.soundex import complete_soundex
             >>> complete_soundex("ก้าน")
             'กก1Bน2-'
@@ -636,26 +637,25 @@ def complete_soundex(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.soundex import complete_soundex
+        >>> from pythainlp.soundex import complete_soundex  # doctest: +SKIP
 
-        # Single syllable encoding
-        complete_soundex("ก้าน")
-        # output: 'กก1Bน2-'
+        >>> # Single syllable encoding
+        >>> complete_soundex("ก้าน")  # doctest: +SKIP
+        'กก1Bน2-'
 
-        complete_soundex("กลับ")
-        # output: 'กก1Aบ0ล'
+        >>> complete_soundex("กลับ")  # doctest: +SKIP
+        'กก1Aบ0ล'
 
-        # Multi-syllable words (automatically tokenized)
-        complete_soundex("ปุญญา")
-        # output: 'ปป1B0น-*'
+        >>> # Multi-syllable words (automatically tokenized)
+        >>> complete_soundex("ปุญญา")  # doctest: +SKIP
+        'ปป1B0น-*'
 
-        complete_soundex("สวรรค์")
-        # output: 'ซศ1A-0-วว1Aน0-'
+        >>> complete_soundex("สวรรค์")  # doctest: +SKIP
+        'ซศ1A-0-วว1Aน0-'
 
-        complete_soundex("ปันนา")
-        # output: 'ปป1Bน0-'
+        >>> complete_soundex("ปันนา")  # doctest: +SKIP
+        'ปป1Bน0-'
     """
     global _complete_soundex_instance
 
@@ -688,32 +688,31 @@ def complete_soundex_similarity(code1: str, code2: str) -> float:
     :rtype: float
 
     :Example:
-    ::
 
-        from pythainlp.soundex import (
-            complete_soundex,
-            complete_soundex_similarity,
-        )
+        >>> from pythainlp.soundex import (  # doctest: +SKIP
+        ...     complete_soundex,
+        ...     complete_soundex_similarity,
+        ... )
 
-        # Encode two words
-        code1 = complete_soundex("ข้มขืน")  # Bitter/Forced (with tone)
-        code2 = complete_soundex("ขมขืน")  # Bitter (no tone)
+        >>> # Encode two words
+        >>> code1 = complete_soundex("ข้มขืน")  # Bitter/Forced (with tone)  # doctest: +SKIP
+        >>> code2 = complete_soundex("ขมขืน")  # Bitter (no tone)  # doctest: +SKIP
 
-        # Calculate similarity
-        similarity = complete_soundex_similarity(code1, code2)
-        # output: ~0.93 (13 matches out of 14 characters)
+        >>> # Calculate similarity
+        >>> similarity = complete_soundex_similarity(code1, code2)  # doctest: +SKIP
+        ~0.93 (13 matches out of 14 characters)
 
-        # Perfect match
-        code_a = complete_soundex("ก้าน")
-        code_b = complete_soundex("ก้าน")
-        complete_soundex_similarity(code_a, code_b)
-        # output: 1.0
+        >>> # Perfect match
+        >>> code_a = complete_soundex("ก้าน")  # doctest: +SKIP
+        >>> code_b = complete_soundex("ก้าน")  # doctest: +SKIP
+        >>> complete_soundex_similarity(code_a, code_b)  # doctest: +SKIP
+        1.0
 
-        # No match
-        code_x = complete_soundex("ทราย")
-        code_y = complete_soundex("น้ำ")
-        complete_soundex_similarity(code_x, code_y)
-        # output: 0.0 (completely different)
+        >>> # No match
+        >>> code_x = complete_soundex("ทราย")  # doctest: +SKIP
+        >>> code_y = complete_soundex("น้ำ")  # doctest: +SKIP
+        >>> complete_soundex_similarity(code_x, code_y)  # doctest: +SKIP
+        0.0 (completely different)
     """
     if not code1 and not code2:
         return 1.0

@@ -373,12 +373,11 @@ def maiyamok(sent: Union[str, list[str]]) -> list[str]:
     :rtype: list[str]
 
     :Example:
-    ::
 
-        from pythainlp.util import maiyamok
+        >>> from pythainlp.util import maiyamok
 
-        maiyamok("คนๆนก")
-        # output: ['คน', 'คน', 'นก']
+        >>> maiyamok("คนๆนก")
+        ['คน', 'คน', 'นก']
     """
     warn_deprecation(
         "pythainlp.util.maiyamok",

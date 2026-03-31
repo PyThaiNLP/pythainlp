@@ -191,13 +191,12 @@ class WordNetAug:
         :rtype: list[list[str]]
 
         :Example:
-        ::
 
-            from pythainlp.augment import WordNetAug
+            >>> from pythainlp.augment import WordNetAug  # doctest: +SKIP
 
-            aug = WordNetAug()
-            aug.augment("เราชอบไปโรงเรียน")
-            # output: [('เรา', 'ชอบ', 'ไป', 'ร.ร.'),
+            >>> aug = WordNetAug()  # doctest: +SKIP
+            >>> aug.augment("เราชอบไปโรงเรียน")  # doctest: +SKIP
+            [('เรา', 'ชอบ', 'ไป', 'ร.ร.'),
              ('เรา', 'ชอบ', 'ไป', 'รร.'),
              ('เรา', 'ชอบ', 'ไป', 'โรงเรียน'),
              ('เรา', 'ชอบ', 'ไป', 'อาคารเรียน'),

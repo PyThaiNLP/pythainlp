@@ -80,14 +80,13 @@ class ThaiTextAugmenter:
         :rtype: List[str]
 
         :Example:
-        ::
 
-            from pythainlp.augment.lm import ThaiTextAugmenter
+            >>> from pythainlp.augment.lm import ThaiTextAugmenter  # doctest: +SKIP
 
-            aug = ThaiTextAugmenter()
-            aug.augment("ช้างมีทั้งหมด 50 ตัว บน", num_args=5)
+            >>> aug = ThaiTextAugmenter()  # doctest: +SKIP
+            >>> aug.augment("ช้างมีทั้งหมด 50 ตัว บน", num_args=5)  # doctest: +SKIP
 
-            # output = ['ช้างมีทั้งหมด 50 ตัว บนโลกใบนี้ครับ.',
+            ['ช้างมีทั้งหมด 50 ตัว บนโลกใบนี้ครับ.',
                 'ช้างมีทั้งหมด 50 ตัว บนพื้นดินครับ...',
                 'ช้างมีทั้งหมด 50 ตัว บนท้องฟ้าครับ...',
                 'ช้างมีทั้งหมด 50 ตัว บนดวงจันทร์.‼',

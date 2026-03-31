@@ -89,15 +89,14 @@ def is_thai_char(ch: str) -> bool:
     :rtype: bool
 
     :Example:
-    ::
 
-        from pythainlp.util import is_thai_char
+        >>> from pythainlp.util import is_thai_char  # doctest: +SKIP
 
-        is_thai_char("ก")  # THAI CHARACTER KO KAI
-        # output: True
+        >>> is_thai_char("ก")  # THAI CHARACTER KO KAI  # doctest: +SKIP
+        True
 
-        is_thai_char("๕")  # THAI DIGIT FIVE
-        # output: True
+        >>> is_thai_char("๕")  # THAI DIGIT FIVE  # doctest: +SKIP
+        True
     """
     ch_val = ord(ch)
     if _TH_FIRST_CHAR_ASCII <= ch_val <= _TH_LAST_CHAR_ASCII:
@@ -137,21 +136,20 @@ def is_thai(text: str, ignore_chars: str = ".") -> bool:
     :rtype: bool
 
     :Example:
-    ::
 
-        from pythainlp.util import is_thai
+        >>> from pythainlp.util import is_thai  # doctest: +SKIP
 
-        is_thai("กาลเวลา")
-        # output: True
+        >>> is_thai("กาลเวลา")  # doctest: +SKIP
+        True
 
-        is_thai("กาลเวลา.")
-        # output: True
+        >>> is_thai("กาลเวลา.")  # doctest: +SKIP
+        True
 
-        is_thai("กาล-เวลา")
-        # output: False
+        >>> is_thai("กาล-เวลา")  # doctest: +SKIP
+        False
 
-        is_thai("กาล-เวลา +66", ignore_chars="01234567890+-.,")
-        # output: True
+        >>> is_thai("กาล-เวลา +66", ignore_chars="01234567890+-.,")  # doctest: +SKIP
+        True
 
     """
     if not ignore_chars:
@@ -198,21 +196,20 @@ def count_thai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
     :rtype: float
 
     :Example:
-    ::
 
-        from pythainlp.util import count_thai
+        >>> from pythainlp.util import count_thai  # doctest: +SKIP
 
-        count_thai("ไทยเอ็นแอลพี 3.0")
-        # output: 100.0
+        >>> count_thai("ไทยเอ็นแอลพี 3.0")  # doctest: +SKIP
+        100.0
 
-        count_thai("PyThaiNLP 3.0")
-        # output: 0.0
+        >>> count_thai("PyThaiNLP 3.0")  # doctest: +SKIP
+        0.0
 
-        count_thai("ใช้งาน PyThaiNLP 3.0")
-        # output: 40.0
+        >>> count_thai("ใช้งาน PyThaiNLP 3.0")  # doctest: +SKIP
+        40.0
 
-        count_thai("ใช้งาน PyThaiNLP 3.0", ignore_chars="")
-        # output: 30.0
+        >>> count_thai("ใช้งาน PyThaiNLP 3.0", ignore_chars="")  # doctest: +SKIP
+        30.0
     """
     if not text or not isinstance(text, str):
         return 0.0
@@ -270,12 +267,11 @@ def display_thai_char(ch: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import display_thai_char
+        >>> from pythainlp.util import display_thai_char  # doctest: +SKIP
 
-        display_thai_char("้")
-        # output: "_้"
+        >>> display_thai_char("้")  # doctest: +SKIP
+        "_้"
     """
     if (
         ch in thai_above_vowels
@@ -304,18 +300,17 @@ def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:
     :rtype: list[tuple[str, str]]
 
     :Example:
-    ::
 
-        from pythainlp.util import thai_word_tone_detector
+        >>> from pythainlp.util import thai_word_tone_detector  # doctest: +SKIP
 
-        print(thai_word_tone_detector("คนดี"))
-        # output: [('คน', 'm'), ('ดี', 'm')]
+        >>> print(thai_word_tone_detector("คนดี"))  # doctest: +SKIP
+        [('คน', 'm'), ('ดี', 'm')]
 
-        print(thai_word_tone_detector("มือถือ"))
-        # output: [('มือ', 'm'), ('ถือ', 'r')]
+        >>> print(thai_word_tone_detector("มือถือ"))  # doctest: +SKIP
+        [('มือ', 'm'), ('ถือ', 'r')]
 
-        print(thai_word_tone_detector(None))
-        # output: []
+        >>> print(thai_word_tone_detector(None))  # doctest: +SKIP
+        []
     """
     if not word:
         return []
@@ -339,24 +334,23 @@ def count_thai_chars(text: str) -> dict[str, int]:
     :rtype: dict[str, int]
 
     :Example:
-    ::
 
-        from pythainlp.util import count_thai_chars
+        >>> from pythainlp.util import count_thai_chars  # doctest: +SKIP
 
-        count_thai_chars("ทดสอบภาษาไทย")
-        # output: {
-        # 'vowels': 3,
-        # 'lead_vowels': 1,
-        # 'follow_vowels': 2,
-        # 'above_vowels': 0,
-        # 'below_vowels': 0,
-        # 'consonants': 9,
-        # 'tonemarks': 0,
-        # 'signs': 0,
-        # 'thai_digits': 0,
-        # 'punctuations': 0,
-        # 'non_thai': 0
-        # }
+        >>> count_thai_chars("ทดสอบภาษาไทย")  # doctest: +SKIP
+        {
+        'vowels': 3,
+        'lead_vowels': 1,
+        'follow_vowels': 2,
+        'above_vowels': 0,
+        'below_vowels': 0,
+        'consonants': 9,
+        'tonemarks': 0,
+        'signs': 0,
+        'thai_digits': 0,
+        'punctuations': 0,
+        'non_thai': 0
+        }
     """
     _dict = {
         "vowels": 0,

@@ -96,13 +96,11 @@ def nectec_to_ipa(pronunciation: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import nectec_to_ipa
+        >>> from pythainlp.util import nectec_to_ipa  # doctest: +SKIP
 
-        print(nectec_to_ipa("kl-uua-j^-2"))
-        # output : 'kl uua j ˥˩'
-
+        >>> print(nectec_to_ipa("kl-uua-j^-2"))  # doctest: +SKIP
+        'kl uua j ˥˩'
 
     References
     ----------
@@ -211,12 +209,11 @@ def ipa_to_rtgs(ipa: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import ipa_to_rtgs
+        >>> from pythainlp.util import ipa_to_rtgs  # doctest: +SKIP
 
-        print(ipa_to_rtgs("kluaj"))
-        # output : 'kluai'
+        >>> print(ipa_to_rtgs("kluaj"))  # doctest: +SKIP
+        'kluai'
 
     """
     rtgs_parts = []
@@ -249,12 +246,11 @@ def remove_tone_ipa(ipa: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import remove_tone_ipa
+        >>> from pythainlp.util import remove_tone_ipa  # doctest: +SKIP
 
-        print(remove_tone_ipa("laː˦˥.sa˨˩.maj˩˩˦"))
-        # output : laː.sa.maj
+        >>> print(remove_tone_ipa("laː˦˥.sa˨˩.maj˩˩˦"))  # doctest: +SKIP
+        laː.sa.maj
 
     """
     _list_tone = ["˩˩˦", "˥˩", "˨˩", "˦˥", "˧"]

@@ -177,31 +177,24 @@ def time_to_thaiword(
     :rtype: str
 
     :Example:
-    ::
 
-        time_to_thaiword("8:17")
-        # output:
-        # แปดนาฬิกาสิบเจ็ดนาที
+        >>> time_to_thaiword("8:17")  # doctest: +SKIP
+        แปดนาฬิกาสิบเจ็ดนาที
 
-        time_to_thaiword("8:17", "6h")
-        # output:
-        # สองโมงเช้าสิบเจ็ดนาที
+        >>> time_to_thaiword("8:17", "6h")  # doctest: +SKIP
+        สองโมงเช้าสิบเจ็ดนาที
 
-        time_to_thaiword("8:17", "m6h")
-        # output:
-        # แปดโมงสิบเจ็ดนาที
+        >>> time_to_thaiword("8:17", "m6h")  # doctest: +SKIP
+        แปดโมงสิบเจ็ดนาที
 
-        time_to_thaiword("18:30", fmt="m6h")
-        # output:
-        # หกโมงครึ่ง
+        >>> time_to_thaiword("18:30", fmt="m6h")  # doctest: +SKIP
+        หกโมงครึ่ง
 
-        time_to_thaiword(datetime.time(12, 3, 0))
-        # output:
-        # สิบสองนาฬิกาสามนาที
+        >>> time_to_thaiword(datetime.time(12, 3, 0))  # doctest: +SKIP
+        สิบสองนาฬิกาสามนาที
 
-        time_to_thaiword(datetime.time(12, 3, 0), precision="s")
-        # output:
-        # สิบสองนาฬิกาสามนาทีศูนย์วินาที
+        >>> time_to_thaiword(datetime.time(12, 3, 0), precision="s")  # doctest: +SKIP
+        สิบสองนาฬิกาสามนาทีศูนย์วินาที
     """
     _time = None
 
@@ -245,11 +238,9 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        thaiword_to_time("บ่ายโมงครึ่ง")
-        # output:
-        # 13:30
+        >>> thaiword_to_time("บ่ายโมงครึ่ง")  # doctest: +SKIP
+        13:30
     """
     keys_dict = list(_DICT_THAI_TIME.keys())
     text = text.replace("กว่า", "").replace("ๆ", "").replace(" ", "")

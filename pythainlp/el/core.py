@@ -49,16 +49,15 @@ class EntityLinker:
         :rtype: Union[list[dict[str, Any]], str]
 
         :Example:
-        ::
 
-                from pythainlp.el import EntityLinker
+            >>>     from pythainlp.el import EntityLinker  # doctest: +SKIP
 
-                el = EntityLinker(device="cuda")
-                print(el.get_el("จ๊อบเคยเป็นซีอีโอบริษัทแอปเปิล"))
-                # output: [{'offsets': [11, 23],
-                # 'lengths': [6, 7],
-                # 'entities': ['Q484876', 'Q312'],
-                # 'md_scores': [0.30301809310913086, 0.6399497389793396],
-                # 'el_scores': [0.7142490744590759, 0.8657019734382629]}]
+            >>>     el = EntityLinker(device="cuda")  # doctest: +SKIP
+            >>>     print(el.get_el("จ๊อบเคยเป็นซีอีโอบริษัทแอปเปิล"))  # doctest: +SKIP
+                [{'offsets': [11, 23],
+                'lengths': [6, 7],
+                'entities': ['Q484876', 'Q312'],
+                'md_scores': [0.30301809310913086, 0.6399497389793396],
+                'el_scores': [0.7142490744590759, 0.8657019734382629]}]
         """
         return self.model.process_batch(list_text)

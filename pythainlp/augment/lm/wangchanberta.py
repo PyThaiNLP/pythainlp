@@ -76,14 +76,13 @@ class Thai2transformersAug:
         :rtype: List[str]
 
         :Example:
-        ::
 
-            from pythainlp.augment.lm import Thai2transformersAug
+            >>> from pythainlp.augment.lm import Thai2transformersAug  # doctest: +SKIP
 
-            aug = Thai2transformersAug()
+            >>> aug = Thai2transformersAug()  # doctest: +SKIP
 
-            aug.augment("ช้างมีทั้งหมด 50 ตัว บน")
-            # output: ['ช้างมีทั้งหมด 50 ตัว บนโลกใบนี้',
+            >>> aug.augment("ช้างมีทั้งหมด 50 ตัว บน")  # doctest: +SKIP
+            ['ช้างมีทั้งหมด 50 ตัว บนโลกใบนี้',
              'ช้างมีทั้งหมด 50 ตัว บนสุด',
              'ช้างมีทั้งหมด 50 ตัว บนบก',
              'ช้างมีทั้งหมด 50 ตัว บนนั้น',

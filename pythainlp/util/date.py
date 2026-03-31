@@ -137,21 +137,20 @@ def convert_years(year: str, src: str = "be", target: str = "ad") -> str:
     you should care about the correct calendar.
 
     :Example:
-    ::
 
-        from pythainlp.util import convert_years
+        >>> from pythainlp.util import convert_years  # doctest: +SKIP
 
-        # Convert Buddhist Era (BE) to Anno Domini (AD)
-        convert_years("2566", src="be", target="ad")
-        # output: '2023'
+        >>> # Convert Buddhist Era (BE) to Anno Domini (AD)
+        >>> convert_years("2566", src="be", target="ad")  # doctest: +SKIP
+        '2023'
 
-        # Convert AD to BE
-        convert_years("2023", src="ad", target="be")
-        # output: '2566'
+        >>> # Convert AD to BE
+        >>> convert_years("2023", src="ad", target="be")  # doctest: +SKIP
+        '2566'
 
-        # Convert BE to Rattanakosin Era (RE)
-        convert_years("2566", src="be", target="re")
-        # output: '242'
+        >>> # Convert BE to Rattanakosin Era (RE)
+        >>> convert_years("2566", src="be", target="re")  # doctest: +SKIP
+        '242'
     """
     output_year = None
     if src == "be":
@@ -237,21 +236,19 @@ def thai_strptime(
         * *%f* - Microsecond
 
     :Example:
-    ::
 
-        from pythainlp.util import thai_strptime
+        >>> from pythainlp.util import thai_strptime  # doctest: +SKIP
 
-        thai_strptime("15 ก.ค. 2565 09:00:01","%d %B %Y %H:%M:%S")
-        # output:
-        # datetime.datetime(
-        #   2022,
-        #   7,
-        #   15,
-        #   9,
-        #   0,
-        #   1,
-        #   tzinfo=zoneinfo.ZoneInfo(key='Asia/Bangkok')
-        # )
+        >>> thai_strptime("15 ก.ค. 2565 09:00:01","%d %B %Y %H:%M:%S")  # doctest: +SKIP
+        datetime.datetime(
+          2022,
+          7,
+          15,
+          9,
+          0,
+          1,
+          tzinfo=zoneinfo.ZoneInfo(key='Asia/Bangkok')
+        )
     """
     fmt = fmt.replace("%-m", "%m")
     fmt = fmt.replace("%-d", "%d")
@@ -327,15 +324,14 @@ def now_reign_year() -> int:
     :rtype: int
 
     :Example:
-    ::
 
-        from pythainlp.util import now_reign_year
+        >>> from pythainlp.util import now_reign_year  # doctest: +SKIP
 
-        text = "เป็นปีที่ {reign_year} ในรัชกาลปัจจุบัน"\\
-            .format(reign_year=now_reign_year())
+        >>> text = "เป็นปีที่ {reign_year} ในรัชกาลปัจจุบัน"\\  # doctest: +SKIP
+        ...     .format(reign_year=now_reign_year())
 
-        print(text)
-        # output: เป็นปีที่ 4 ในรัชการปัจจุบัน
+        >>> print(text)  # doctest: +SKIP
+        เป็นปีที่ 4 ในรัชการปัจจุบัน
     """
     now_ = datetime.now()
     return now_.year - 2015
@@ -355,17 +351,16 @@ def reign_year_to_ad(reign_year: int, reign: int) -> int:
     :rtype: int
 
     :Example:
-    ::
 
-        from pythainlp.util import reign_year_to_ad
+        >>> from pythainlp.util import reign_year_to_ad  # doctest: +SKIP
 
-        print("The 4th reign year of the King Rama X is in", \\
-            reign_year_to_ad(4, 10))
-        # output: The 4th reign year of the King Rama X is in 2019
+        >>> print("The 4th reign year of the King Rama X is in", \\  # doctest: +SKIP
+        ...     reign_year_to_ad(4, 10))
+        The 4th reign year of the King Rama X is in 2019
 
-        print("The 1st reign year of the King Rama IX is in", \\
-            reign_year_to_ad(1, 9))
-        # output: The 1st reign year of the King Rama IX is in 1946
+        >>> print("The 1st reign year of the King Rama IX is in", \\  # doctest: +SKIP
+        ...     reign_year_to_ad(1, 9))
+        The 1st reign year of the King Rama IX is in 1946
     """
     ad = 0
     if int(reign) == 10:

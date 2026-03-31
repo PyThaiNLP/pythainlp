@@ -72,14 +72,13 @@ class Unigram:
         :rtype: Union[list[str], str]
 
         :Example:
-        ::
 
-            from pythainlp.generate import Unigram
+            >>> from pythainlp.generate import Unigram  # doctest: +SKIP
 
-            gen = Unigram()
+            >>> gen = Unigram()  # doctest: +SKIP
 
-            gen.gen_sentence("แมว")
-            # output: 'แมวเวลานะนั้น'
+            >>> gen.gen_sentence("แมว")  # doctest: +SKIP
+            'แมวเวลานะนั้น'
         """
         if not start_seq:
             # Non-cryptographic use, pseudo-random generator is acceptable here
@@ -176,14 +175,13 @@ class Bigram:
         :rtype: Union[list[str], str]
 
         :Example:
-        ::
 
-            from pythainlp.generate import Bigram
+            >>> from pythainlp.generate import Bigram  # doctest: +SKIP
 
-            gen = Bigram()
+            >>> gen = Bigram()  # doctest: +SKIP
 
-            gen.gen_sentence("แมว")
-            # output: 'แมวไม่ได้รับเชื้อมัน'
+            >>> gen.gen_sentence("แมว")  # doctest: +SKIP
+            'แมวไม่ได้รับเชื้อมัน'
         """
         if not start_seq:
             # Non-cryptographic use, pseudo-random generator is acceptable here
@@ -279,14 +277,13 @@ class Trigram:
         :rtype: Union[list[str], str]
 
         :Example:
-        ::
 
-            from pythainlp.generate import Trigram
+            >>> from pythainlp.generate import Trigram  # doctest: +SKIP
 
-            gen = Trigram()
+            >>> gen = Trigram()  # doctest: +SKIP
 
-            gen.gen_sentence()
-            # output: 'ยังทำตัวเป็นเซิร์ฟเวอร์คือ'
+            >>> gen.gen_sentence()  # doctest: +SKIP
+            'ยังทำตัวเป็นเซิร์ฟเวอร์คือ'
         """
         late_word: Union[str, tuple[str, str]]
         if not start_seq:

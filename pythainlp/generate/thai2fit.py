@@ -139,7 +139,6 @@ def gen_sentence(
     :rtype: list[str], str
 
     :Example:
-    ::
 
       from pythainlp.generate.thai2fit import gen_sentence
 

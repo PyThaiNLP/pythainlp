@@ -104,19 +104,19 @@ class EnThTranslator:
 
         :Example:
 
-        Translate text from English to Thai::
+        Translate text from English to Thai:
 
-            from pythainlp.translate import EnThTranslator
+            >>> from pythainlp.translate import EnThTranslator  # doctest: +SKIP
 
-            enth = EnThTranslator()
+            >>> enth = EnThTranslator()  # doctest: +SKIP
 
-            enth.translate("I love cat.")
-            # output: ฉันรักแมว
+            >>> enth.translate("I love cat.")  # doctest: +SKIP
+            ฉันรักแมว
 
-        Translate text from English to Thai with excluded words::
+        Translate text from English to Thai with excluded words:
 
-            enth.translate("I love cat.", exclude_words=["cat"])
-            # output: ฉันรัก cat
+            >>> enth.translate("I love cat.", exclude_words=["cat"])  # doctest: +SKIP
+            ฉันรัก cat
 
         """
         from pythainlp.translate.core import (
@@ -190,19 +190,19 @@ class ThEnTranslator:
 
         :Example:
 
-        Translate text from Thai to English::
+        Translate text from Thai to English:
 
-            from pythainlp.translate import ThEnTranslator
+            >>> from pythainlp.translate import ThEnTranslator  # doctest: +SKIP
 
-            then = ThEnTranslator()
+            >>> then = ThEnTranslator()  # doctest: +SKIP
 
-            then.translate("ฉันรักแมว")
-            # output: I love cat.
+            >>> then.translate("ฉันรักแมว")  # doctest: +SKIP
+            I love cat.
 
-        Translate text from Thai to English with excluded words::
+        Translate text from Thai to English with excluded words:
 
-            then.translate("ฉันรักแมว", exclude_words=["แมว"])
-            # output: I love แมว.
+            >>> then.translate("ฉันรักแมว", exclude_words=["แมว"])  # doctest: +SKIP
+            I love แมว.
 
         """
         from pythainlp.translate.core import (

@@ -40,13 +40,12 @@ class Qwen3:
         :param bool low_cpu_mem_usage: low cpu mem usage
 
         :Example:
-        ::
 
-            from pythainlp.lm import Qwen3
-            import torch
+            >>> from pythainlp.lm import Qwen3  # doctest: +SKIP
+            >>> import torch  # doctest: +SKIP
 
-            model = Qwen3()
-            model.load_model(device="cpu", torch_dtype=torch.bfloat16)
+            >>> model = Qwen3()  # doctest: +SKIP
+            >>> model.load_model(device="cpu", torch_dtype=torch.bfloat16)  # doctest: +SKIP
         """
         try:
             import torch
@@ -129,16 +128,15 @@ class Qwen3:
         :rtype: str
 
         :Example:
-        ::
 
-            from pythainlp.lm import Qwen3
-            import torch
+            >>> from pythainlp.lm import Qwen3  # doctest: +SKIP
+            >>> import torch  # doctest: +SKIP
 
-            model = Qwen3()
-            model.load_model(device="cpu", torch_dtype=torch.bfloat16)
+            >>> model = Qwen3()  # doctest: +SKIP
+            >>> model.load_model(device="cpu", torch_dtype=torch.bfloat16)  # doctest: +SKIP
 
-            result = model.generate("สวัสดี")
-            print(result)
+            >>> result = model.generate("สวัสดี")  # doctest: +SKIP
+            >>> print(result)  # doctest: +SKIP
         """
         if self.model is None or self.tokenizer is None or self.device is None:
             raise RuntimeError(
@@ -206,17 +204,16 @@ class Qwen3:
         :rtype: str
 
         :Example:
-        ::
 
-            from pythainlp.lm import Qwen3
-            import torch
+            >>> from pythainlp.lm import Qwen3  # doctest: +SKIP
+            >>> import torch  # doctest: +SKIP
 
-            model = Qwen3()
-            model.load_model(device="cpu", torch_dtype=torch.bfloat16)
+            >>> model = Qwen3()  # doctest: +SKIP
+            >>> model.load_model(device="cpu", torch_dtype=torch.bfloat16)  # doctest: +SKIP
 
-            messages = [{"role": "user", "content": "สวัสดีครับ"}]
-            response = model.chat(messages)
-            print(response)
+            >>> messages = [{"role": "user", "content": "สวัสดีครับ"}]  # doctest: +SKIP
+            >>> response = model.chat(messages)  # doctest: +SKIP
+            >>> print(response)  # doctest: +SKIP
         """
         if self.model is None or self.tokenizer is None or self.device is None:
             raise RuntimeError(

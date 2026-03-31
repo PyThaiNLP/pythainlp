@@ -60,13 +60,12 @@ class BPEmbAug:
         :return: list of synonyms
         :rtype: list[str]
         :Example:
-        ::
 
-            from pythainlp.augment.word2vec.bpemb_wv import BPEmbAug
+            >>> from pythainlp.augment.word2vec.bpemb_wv import BPEmbAug  # doctest: +SKIP
 
-            aug = BPEmbAug()
-            aug.augment("ผมเรียน", n_sent=2, p=0.5)
-            # output: ['ผมสอน', 'ผมเข้าเรียน']
+            >>> aug = BPEmbAug()  # doctest: +SKIP
+            >>> aug.augment("ผมเรียน", n_sent=2, p=0.5)  # doctest: +SKIP
+            ['ผมสอน', 'ผมเข้าเรียน']
         """
         self.sentence: str = sentence.replace(" ", "▁")
         self.temp: list[tuple[str, ...]] = self.aug.augment(

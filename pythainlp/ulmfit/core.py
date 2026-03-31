@@ -275,27 +275,25 @@ def merge_wgts(
     :rtype: dict[str, torch.Tensor]
 
     :Example:
-    ::
 
-        from pythainlp.ulmfit import merge_wgts
-        import torch
+        >>> from pythainlp.ulmfit import merge_wgts  # doctest: +SKIP
+        >>> import torch  # doctest: +SKIP
 
-        wgts = {"0.encoder.weight": torch.randn(5, 3)}
-        itos_pre = ["แมว", "คน", "หนู"]
-        itos_new = ["ปลา", "เต่า", "นก"]
-        em_sz = 3
+        >>> wgts = {"0.encoder.weight": torch.randn(5, 3)}  # doctest: +SKIP
+        >>> itos_pre = ["แมว", "คน", "หนู"]  # doctest: +SKIP
+        >>> itos_new = ["ปลา", "เต่า", "นก"]  # doctest: +SKIP
+        >>> em_sz = 3  # doctest: +SKIP
 
-        merge_wgts(em_sz, wgts, itos_pre, itos_new)
-        # output:
-        # {'0.encoder.weight': tensor([[0.5952, 0.4453, 0.0011],
-        # [0.5952, 0.4453, 0.0011],
-        # [0.5952, 0.4453, 0.0011]]),
-        # '0.encoder_dp.emb.weight': tensor([[0.5952, 0.4453, 0.0011],
-        # [0.5952, 0.4453, 0.0011],
-        # [0.5952, 0.4453, 0.0011]]),
-        # '1.decoder.weight': tensor([[0.5952, 0.4453, 0.0011],
-        # [0.5952, 0.4453, 0.0011],
-        # [0.5952, 0.4453, 0.0011]])}
+        >>> merge_wgts(em_sz, wgts, itos_pre, itos_new)  # doctest: +SKIP
+        {'0.encoder.weight': tensor([[0.5952, 0.4453, 0.0011],
+        [0.5952, 0.4453, 0.0011],
+        [0.5952, 0.4453, 0.0011]]),
+        '0.encoder_dp.emb.weight': tensor([[0.5952, 0.4453, 0.0011],
+        [0.5952, 0.4453, 0.0011],
+        [0.5952, 0.4453, 0.0011]]),
+        '1.decoder.weight': tensor([[0.5952, 0.4453, 0.0011],
+        [0.5952, 0.4453, 0.0011],
+        [0.5952, 0.4453, 0.0011]])}
     """
     vocab_size = len(itos_new)
     enc_wgts = wgts["0.encoder.weight"].numpy().astype("float32", copy=False)

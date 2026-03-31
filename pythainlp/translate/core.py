@@ -141,19 +141,19 @@ class Translate:
 
         :Example:
 
-        Translate text from Thai to English::
+        Translate text from Thai to English:
 
-            from pythainlp.translate import Translate
+            >>> from pythainlp.translate import Translate  # doctest: +SKIP
 
-            th2en = Translate("th", "en")
+            >>> th2en = Translate("th", "en")  # doctest: +SKIP
 
-            th2en.translate("ฉันรักแมว")
-            # output: I love cat.
+            >>> th2en.translate("ฉันรักแมว")  # doctest: +SKIP
+            I love cat.
 
-        Translate text with excluded words::
+        Translate text with excluded words:
 
-            th2en.translate("ฉันรักแมว", exclude_words=["แมว"])
-            # output: I love แมว.
+            >>> th2en.translate("ฉันรักแมว", exclude_words=["แมว"])  # doctest: +SKIP
+            I love แมว.
         """
         self.model: Union[
             Small100Translator,
@@ -232,19 +232,19 @@ def word_translate(
 
     :Example:
 
-    Translate word from Thai to English::
+    Translate word from Thai to English:
 
-        from pythainlp.translate import word_translate
+        >>> from pythainlp.translate import word_translate  # doctest: +SKIP
 
-        print(word_translate("แมว", "th", "en"))
-        # output: ['cat', 'cats', 'kitty', 'kitten', 'Cat']
+        >>> print(word_translate("แมว", "th", "en"))  # doctest: +SKIP
+        ['cat', 'cats', 'kitty', 'kitten', 'Cat']
 
-    Translate word from English to Thai::
+    Translate word from English to Thai:
 
-        from pythainlp.translate import word_translate
+        >>> from pythainlp.translate import word_translate  # doctest: +SKIP
 
-        print(word_translate("cat", "en", "th"))
-        # output: ['แมว', 'แมวป่า', 'ข่วน', 'เลี้ยง', 'อาหาร']
+        >>> print(word_translate("cat", "en", "th"))  # doctest: +SKIP
+        ['แมว', 'แมวป่า', 'ข่วน', 'เลี้ยง', 'อาหาร']
 
     """
     if engine == "word2word":

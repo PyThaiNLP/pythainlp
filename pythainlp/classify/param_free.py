@@ -55,24 +55,23 @@ class GzipModel:
         :rtype: str
 
         :Example:
-        ::
 
-                from pythainlp.classify import GzipModel
+            >>>     from pythainlp.classify import GzipModel  # doctest: +SKIP
 
-                training_data = [
-                    ("รายละเอียดตามนี้เลยค่าา ^^", "Neutral"),
-                    ("กลัวพวกมึงหาย อดกินบาบิก้อน", "Neutral"),
-                    ("บริการแย่มากก เป็นหมอได้ไง😤", "Negative"),
-                    ("ขับรถแย่มาก", "Negative"),
-                    ("ดีนะครับ", "Positive"),
-                    ("ลองแล้วรสนี้อร่อย... ชอบๆ", "Positive"),
-                    ("ฉันรู้สึกโกรธ เวลามือถือแบตหมด", "Negative"),
-                    ("เธอภูมิใจที่ได้ทำสิ่งดี ๆ และดีใจกับเด็ก ๆ", "Positive"),
-                    ("นี่เป็นบทความหนึ่ง", "Neutral"),
-                ]
-                model = GzipModel(training_data)
-                print(model.predict("ฉันดีใจ", k=1))
-                # output: Positive
+            >>>     training_data = [  # doctest: +SKIP
+            ...         ("รายละเอียดตามนี้เลยค่าา ^^", "Neutral"),
+            ...         ("กลัวพวกมึงหาย อดกินบาบิก้อน", "Neutral"),
+            ...         ("บริการแย่มากก เป็นหมอได้ไง😤", "Negative"),
+            ...         ("ขับรถแย่มาก", "Negative"),
+            ...         ("ดีนะครับ", "Positive"),
+            ...         ("ลองแล้วรสนี้อร่อย... ชอบๆ", "Positive"),
+            ...         ("ฉันรู้สึกโกรธ เวลามือถือแบตหมด", "Negative"),
+            ...         ("เธอภูมิใจที่ได้ทำสิ่งดี ๆ และดีใจกับเด็ก ๆ", "Positive"),
+            ...         ("นี่เป็นบทความหนึ่ง", "Neutral"),
+            ...     ]
+            >>>     model = GzipModel(training_data)  # doctest: +SKIP
+            >>>     print(model.predict("ฉันดีใจ", k=1))  # doctest: +SKIP
+                Positive
         """
         import numpy as np
 

@@ -37,58 +37,54 @@ def pos_tag(
 
     :Example:
 
-    Tag words with corpus `orchid` (default)::
+    Tag words with corpus `orchid` (default):
 
-        from pythainlp.tag import pos_tag
+        >>> from pythainlp.tag import pos_tag  # doctest: +SKIP
 
-        words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\
-            'นายก', 'เชอร์ชิล']
-        pos_tag(words)
-        # output:
-        # [('ฉัน', 'PPRS'), ('มี', 'VSTA'), ('ชีวิต', 'NCMN'), ('รอด', 'NCMN'),
-        #   ('ใน', 'RPRE'), ('อาคาร', 'NCMN'), ('หลบภัย', 'NCMN'),
-        #   ('ของ', 'RPRE'), ('นายก', 'NCMN'), ('เชอร์ชิล', 'NCMN')]
+        >>> words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\  # doctest: +SKIP
+        ...     'นายก', 'เชอร์ชิล']
+        >>> pos_tag(words)  # doctest: +SKIP
+        [('ฉัน', 'PPRS'), ('มี', 'VSTA'), ('ชีวิต', 'NCMN'), ('รอด', 'NCMN'),
+          ('ใน', 'RPRE'), ('อาคาร', 'NCMN'), ('หลบภัย', 'NCMN'),
+          ('ของ', 'RPRE'), ('นายก', 'NCMN'), ('เชอร์ชิล', 'NCMN')]
 
-    Tag words with corpus `orchid_ud`::
+    Tag words with corpus `orchid_ud`:
 
-        from pythainlp.tag import pos_tag
+        >>> from pythainlp.tag import pos_tag  # doctest: +SKIP
 
-        words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\
-            'นายก', 'เชอร์ชิล']
-        pos_tag(words, corpus='orchid_ud')
-        # output:
-        # [('ฉัน', 'PROPN'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'),
-        #   ('รอด', 'NOUN'), ('ใน', 'ADP'),  ('อาคาร', 'NOUN'),
-        #   ('หลบภัย', 'NOUN'), ('ของ', 'ADP'), ('นายก', 'NOUN'),
-        #   ('เชอร์ชิล', 'NOUN')]
+        >>> words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\  # doctest: +SKIP
+        ...     'นายก', 'เชอร์ชิล']
+        >>> pos_tag(words, corpus='orchid_ud')  # doctest: +SKIP
+        [('ฉัน', 'PROPN'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'),
+          ('รอด', 'NOUN'), ('ใน', 'ADP'),  ('อาคาร', 'NOUN'),
+          ('หลบภัย', 'NOUN'), ('ของ', 'ADP'), ('นายก', 'NOUN'),
+          ('เชอร์ชิล', 'NOUN')]
 
-    Tag words with corpus `pud`::
+    Tag words with corpus `pud`:
 
-        from pythainlp.tag import pos_tag
+        >>> from pythainlp.tag import pos_tag  # doctest: +SKIP
 
-        words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\
-            'นายก', 'เชอร์ชิล']
-        pos_tag(words, corpus='pud')
-        # [('ฉัน', 'PRON'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'), ('รอด', 'VERB'),
-        #   ('ใน', 'ADP'), ('อาคาร', 'NOUN'), ('หลบภัย', 'NOUN'),
-        #   ('ของ', 'ADP'), ('นายก', 'NOUN'), ('เชอร์ชิล', 'PROPN')]
+        >>> words = ['ฉัน','มี','ชีวิต','รอด','ใน','อาคาร','หลบภัย','ของ', \\  # doctest: +SKIP
+        ...     'นายก', 'เชอร์ชิล']
+        >>> pos_tag(words, corpus='pud')  # doctest: +SKIP
+        >>> # [('ฉัน', 'PRON'), ('มี', 'VERB'), ('ชีวิต', 'NOUN'), ('รอด', 'VERB'),
+        >>> #   ('ใน', 'ADP'), ('อาคาร', 'NOUN'), ('หลบภัย', 'NOUN'),
+        >>> #   ('ของ', 'ADP'), ('นายก', 'NOUN'), ('เชอร์ชิล', 'PROPN')]
 
-    Tag words with different engines including *perceptron* and *unigram*::
+    Tag words with different engines including *perceptron* and *unigram*:
 
-        from pythainlp.tag import pos_tag
+        >>> from pythainlp.tag import pos_tag  # doctest: +SKIP
 
-        words = ['เก้าอี้','มี','จำนวน','ขา', ' ', '=', '3']
+        >>> words = ['เก้าอี้','มี','จำนวน','ขา', ' ', '=', '3']  # doctest: +SKIP
 
-        pos_tag(words, engine='perceptron', corpus='orchid')
-        # output:
-        # [('เก้าอี้', 'NCMN'), ('มี', 'VSTA'), ('จำนวน', 'NCMN'),
-        #   ('ขา', 'NCMN'), (' ', 'PUNC'),
-        #   ('=', 'PUNC'), ('3', 'NCNM')]
+        >>> pos_tag(words, engine='perceptron', corpus='orchid')  # doctest: +SKIP
+        [('เก้าอี้', 'NCMN'), ('มี', 'VSTA'), ('จำนวน', 'NCMN'),
+          ('ขา', 'NCMN'), (' ', 'PUNC'),
+          ('=', 'PUNC'), ('3', 'NCNM')]
 
-        pos_tag(words, engine='unigram', corpus='pud')
-        # output:
-        # [('เก้าอี้', None), ('มี', 'VERB'), ('จำนวน', 'NOUN'), ('ขา', None),
-        #   ('<space>', None), ('<equal>', None), ('3', 'NUM')]
+        >>> pos_tag(words, engine='unigram', corpus='pud')  # doctest: +SKIP
+        [('เก้าอี้', None), ('มี', 'VERB'), ('จำนวน', 'NOUN'), ('ขา', None),
+          ('<space>', None), ('<equal>', None), ('3', 'NUM')]
     """
     if not words:
         return []
@@ -151,17 +147,16 @@ def pos_tag_sents(
 
     :Example:
 
-    Labels POS for two sentences::
+    Labels POS for two sentences:
 
-        from pythainlp.tag import pos_tag_sents
+        >>> from pythainlp.tag import pos_tag_sents  # doctest: +SKIP
 
-        sentences = [['เก้าอี้','มี','3','ขา'], \\
-                            ['นก', 'บิน', 'กลับ', 'รัง']]
-        pos_tag_sents(sentences, corpus='pud')
-        # output:
-        # [[('เก้าอี้', 'PROPN'), ('มี', 'VERB'), ('3', 'NUM'),
-        #   ('ขา', 'NOUN')], [('นก', 'NOUN'), ('บิน', 'VERB'),
-        #   ('กลับ', 'VERB'), ('รัง', 'NOUN')]]
+        >>> sentences = [['เก้าอี้','มี','3','ขา'], \\  # doctest: +SKIP
+        ...                     ['นก', 'บิน', 'กลับ', 'รัง']]
+        >>> pos_tag_sents(sentences, corpus='pud')  # doctest: +SKIP
+        [[('เก้าอี้', 'PROPN'), ('มี', 'VERB'), ('3', 'NUM'),
+          ('ขา', 'NOUN')], [('นก', 'NOUN'), ('บิน', 'VERB'),
+          ('กลับ', 'VERB'), ('รัง', 'NOUN')]]
     """
     if not sentences:
         return []
@@ -199,14 +194,13 @@ def pos_tag_transformers(
 
     :Example:
 
-    Labels POS for given sentence::
+    Labels POS for given sentence:
 
-        from pythainlp.tag import pos_tag_transformers
+        >>> from pythainlp.tag import pos_tag_transformers  # doctest: +SKIP
 
-        sentences = "แมวทำอะไรตอนห้าโมงเช้า"
-        pos_tag_transformers(sentences, engine="bert", corpus='blackboard')
-        # output:
-        # [[('แมว', 'NOUN'), ('ทําอะไร', 'VERB'), ('ตอนห้าโมงเช้า', 'NOUN')]]
+        >>> sentences = "แมวทำอะไรตอนห้าโมงเช้า"  # doctest: +SKIP
+        >>> pos_tag_transformers(sentences, engine="bert", corpus='blackboard')  # doctest: +SKIP
+        [[('แมว', 'NOUN'), ('ทําอะไร', 'VERB'), ('ตอนห้าโมงเช้า', 'NOUN')]]
     """
     try:
         from transformers import (

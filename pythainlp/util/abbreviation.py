@@ -22,17 +22,16 @@ def abbreviation_to_full_text(
     :rtype: list[tuple[str, Optional[float]]]
 
     :Example:
-    ::
 
-        from pythainlp.util import abbreviation_to_full_text
+        >>> from pythainlp.util import abbreviation_to_full_text  # doctest: +SKIP
 
-        text = "รร.ของเราน่าอยู่"
+        >>> text = "รร.ของเราน่าอยู่"  # doctest: +SKIP
 
-        abbreviation_to_full_text(text)
-        # output: [
-        # ('โรงเรียนของเราน่าอยู่', tensor(0.3734)),
-        # ('โรงแรมของเราน่าอยู่', tensor(0.2438))
-        # ]
+        >>> abbreviation_to_full_text(text)  # doctest: +SKIP
+        [
+        ('โรงเรียนของเราน่าอยู่', tensor(0.3734)),
+        ('โรงแรมของเราน่าอยู่', tensor(0.2438))
+        ]
     """
     try:
         from khamyo import replace as _replace

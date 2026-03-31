@@ -30,12 +30,11 @@ def rhyme(word: str) -> list[str]:
     :rtype: List[str]
 
     :Example:
-    ::
 
-        from pythainlp.util import rhyme
+        >>> from pythainlp.util import rhyme  # doctest: +SKIP
 
-        print(rhyme("จีบ"))
-        # output: ['กลีบ', 'กีบ', 'ครีบ', ...]
+        >>> print(rhyme("จีบ"))  # doctest: +SKIP
+        ['กลีบ', 'กีบ', 'ครีบ', ...]
     """
     return sorted(
         i
@@ -93,12 +92,11 @@ def thai_consonant_to_spelling(c: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import thai_consonant_to_spelling
+        >>> from pythainlp.util import thai_consonant_to_spelling  # doctest: +SKIP
 
-        print(tone_to_spelling("ก"))
-        # output: กอ
+        >>> print(tone_to_spelling("ก"))  # doctest: +SKIP
+        กอ
     """
     if len(c) == 1 and c in thai_consonants:
         return c + "อ"
@@ -113,12 +111,11 @@ def tone_to_spelling(t: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import tone_to_spelling
+        >>> from pythainlp.util import tone_to_spelling  # doctest: +SKIP
 
-        print(tone_to_spelling("่"))  # ไม้เอก
-        # output: ไม้เอก
+        >>> print(tone_to_spelling("่"))  # ไม้เอก  # doctest: +SKIP
+        ไม้เอก
     """
     if t == "่":
         return "ไม้เอก"
@@ -179,15 +176,14 @@ def spelling(word: str) -> list[str]:
     :rtype: List[str]
 
     :Example:
-    ::
 
-        from pythainlp.util import spelling
+        >>> from pythainlp.util import spelling  # doctest: +SKIP
 
-        print(spelling("เรียน"))
-        # output: ['รอ', 'เอีย', 'นอ', 'เรียน']
+        >>> print(spelling("เรียน"))  # doctest: +SKIP
+        ['รอ', 'เอีย', 'นอ', 'เรียน']
 
-        print(spelling("เฝ้า"))
-        # output: ['ฝอ', 'เอา', 'เฝา', 'ไม้โท', 'เฝ้า']
+        >>> print(spelling("เฝ้า"))  # doctest: +SKIP
+        ['ฝอ', 'เอา', 'เฝา', 'ไม้โท', 'เฝ้า']
     """
     if not word or not isinstance(word, str):
         return []

@@ -58,27 +58,25 @@ class Small100Translator:
 
         :Example:
 
-        ::
+            >>> from pythainlp.translate.small100 import Small100Translator  # doctest: +SKIP
 
-            from pythainlp.translate.small100 import Small100Translator
+            >>> mt = Small100Translator()  # doctest: +SKIP
 
-            mt = Small100Translator()
+            >>> # Translate text from Thai to English
+            >>> mt.translate("ทดสอบระบบ", tgt_lang="en")  # doctest: +SKIP
+            'Testing system'
 
-            # Translate text from Thai to English
-            mt.translate("ทดสอบระบบ", tgt_lang="en")
-            # output: 'Testing system'
+            >>> # Translate text from Thai to Chinese
+            >>> mt.translate("ทดสอบระบบ", tgt_lang="zh")  # doctest: +SKIP
+            '系统测试'
 
-            # Translate text from Thai to Chinese
-            mt.translate("ทดสอบระบบ", tgt_lang="zh")
-            # output: '系统测试'
+            >>> # Translate text from Thai to French
+            >>> mt.translate("ทดสอบระบบ", tgt_lang="fr")  # doctest: +SKIP
+            'Test du système'
 
-            # Translate text from Thai to French
-            mt.translate("ทดสอบระบบ", tgt_lang="fr")
-            # output: 'Test du système'
-
-            # Translate text from Thai to English with excluded words
-            mt.translate("ทดสอบระบบ", tgt_lang="en", exclude_words=["ระบบ"])
-            # output: 'Testing ระบบ'
+            >>> # Translate text from Thai to English with excluded words
+            >>> mt.translate("ทดสอบระบบ", tgt_lang="en", exclude_words=["ระบบ"])  # doctest: +SKIP
+            'Testing ระบบ'
 
         """
         from pythainlp.translate.core import (

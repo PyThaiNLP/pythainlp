@@ -18,13 +18,12 @@ def tag_provinces(tokens: list[str]) -> list[tuple[str, str]]:
     :rtype: list[tuple[str, str]]
 
     :Example:
-    ::
 
-        from pythainlp.tag import tag_provinces
+        >>> from pythainlp.tag import tag_provinces  # doctest: +SKIP
 
-        text = ["หนองคาย", "น่าอยู่"]
-        tag_provinces(text)
-        # output: [('หนองคาย', 'B-LOCATION'), ('น่าอยู่', 'O')]
+        >>> text = ["หนองคาย", "น่าอยู่"]  # doctest: +SKIP
+        >>> tag_provinces(text)  # doctest: +SKIP
+        [('หนองคาย', 'B-LOCATION'), ('น่าอยู่', 'O')]
     """
     province_list = provinces()
     output = [

@@ -35,24 +35,23 @@ def check_khuap_klam(word: str) -> Optional[bool]:
     :rtype: Optional[bool]
 
     :Example:
-    ::
 
-        from pythainlp.util import check_khuap_klam
+        >>> from pythainlp.util import check_khuap_klam  # doctest: +SKIP
 
-        # True consonant clusters (คำควบกล้ำแท้)
-        print(check_khuap_klam("กราบ"))  # True
-        print(check_khuap_klam("ปลา"))  # True
-        print(check_khuap_klam("เพราะ"))  # True
-        print(check_khuap_klam("ตรง"))  # True
+        >>> # True consonant clusters (คำควบกล้ำแท้)
+        >>> print(check_khuap_klam("กราบ"))  # True  # doctest: +SKIP
+        >>> print(check_khuap_klam("ปลา"))  # True  # doctest: +SKIP
+        >>> print(check_khuap_klam("เพราะ"))  # True  # doctest: +SKIP
+        >>> print(check_khuap_klam("ตรง"))  # True  # doctest: +SKIP
 
-        # False consonant clusters (คำควบกล้ำไม่แท้)
-        print(check_khuap_klam("จริง"))  # False
-        print(check_khuap_klam("ทราย"))  # False
-        print(check_khuap_klam("เศร้า"))  # False
+        >>> # False consonant clusters (คำควบกล้ำไม่แท้)
+        >>> print(check_khuap_klam("จริง"))  # False  # doctest: +SKIP
+        >>> print(check_khuap_klam("ทราย"))  # False  # doctest: +SKIP
+        >>> print(check_khuap_klam("เศร้า"))  # False  # doctest: +SKIP
 
-        # Not a consonant cluster
-        print(check_khuap_klam("แม่"))  # None
-        print(check_khuap_klam("ตา"))  # None
+        >>> # Not a consonant cluster
+        >>> print(check_khuap_klam("แม่"))  # None  # doctest: +SKIP
+        >>> print(check_khuap_klam("ตา"))  # None  # doctest: +SKIP
     """
     if not word:
         return None

@@ -41,31 +41,30 @@ def spell(word: str, engine: str = "pn") -> list[str]:
     :rtype: list[str]
 
     :Example:
-    ::
 
-        from pythainlp.spell import spell
+        >>> from pythainlp.spell import spell  # doctest: +SKIP
 
-        spell("เส้นตรบ", engine="pn")
-        # output: ['เส้นตรง']
+        >>> spell("เส้นตรบ", engine="pn")  # doctest: +SKIP
+        ['เส้นตรง']
 
-        spell("เส้นตรบ")
-        # output: ['เส้นตรง']
+        >>> spell("เส้นตรบ")  # doctest: +SKIP
+        ['เส้นตรง']
 
-        spell("เส้นตรบ", engine="tltk")
-        # output: ['เส้นตรง']
+        >>> spell("เส้นตรบ", engine="tltk")  # doctest: +SKIP
+        ['เส้นตรง']
 
-        spell("ครัช")
-        # output: ['ครับ', 'ครัว', 'รัช', 'ครัม', 'ครัน', 'วรัช', 'ครัส',
-        # 'ปรัช', 'บรัช', 'ครัง', 'คัช', 'คลัช', 'ครัย', 'ครัด']
+        >>> spell("ครัช")  # doctest: +SKIP
+        ['ครับ', 'ครัว', 'รัช', 'ครัม', 'ครัน', 'วรัช', 'ครัส',
+        'ปรัช', 'บรัช', 'ครัง', 'คัช', 'คลัช', 'ครัย', 'ครัด']
 
-        spell("กระปิ")
-        # output: ['กะปิ', 'กระบิ']
+        >>> spell("กระปิ")  # doctest: +SKIP
+        ['กะปิ', 'กระบิ']
 
-        spell("สังเกตุ")
-        # output: ['สังเกต']
+        >>> spell("สังเกตุ")  # doctest: +SKIP
+        ['สังเกต']
 
-        spell("เหตการณ")
-        # output: ['เหตุการณ์']
+        >>> spell("เหตการณ")  # doctest: +SKIP
+        ['เหตุการณ์']
     """
     if engine == "phunspell":
         from pythainlp.spell.phunspell import spell as SPELL_CHECKER
@@ -99,24 +98,23 @@ def correct(word: str, engine: str = "pn") -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.spell import correct
+        >>> from pythainlp.spell import correct  # doctest: +SKIP
 
-        correct("เส้นตรบ")
-        # output: 'เส้นตรง'
+        >>> correct("เส้นตรบ")  # doctest: +SKIP
+        'เส้นตรง'
 
-        correct("ครัช")
-        # output: 'ครับ'
+        >>> correct("ครัช")  # doctest: +SKIP
+        'ครับ'
 
-        correct("สังเกตุ")
-        # output: 'สังเกต'
+        >>> correct("สังเกตุ")  # doctest: +SKIP
+        'สังเกต'
 
-        correct("กระปิ")
-        # output: 'กะปิ'
+        >>> correct("กระปิ")  # doctest: +SKIP
+        'กะปิ'
 
-        correct("เหตการณ")
-        # output: 'เหตุการณ์'
+        >>> correct("เหตการณ")  # doctest: +SKIP
+        'เหตุการณ์'
     """
     if engine == "phunspell":
         from pythainlp.spell.phunspell import correct as SPELL_CHECKER
@@ -151,12 +149,11 @@ def spell_sent(list_words: list[str], engine: str = "pn") -> list[list[str]]:
     :rtype: list[list[str]]
 
     :Example:
-    ::
 
-        from pythainlp.spell import spell_sent
+        >>> from pythainlp.spell import spell_sent  # doctest: +SKIP
 
-        spell_sent(["เด็", "อินอร์เน็ต", "แรง"], engine="symspellpy")
-        # output: [['เด็ก', 'อินเทอร์เน็ต', 'แรง']]
+        >>> spell_sent(["เด็", "อินอร์เน็ต", "แรง"], engine="symspellpy")  # doctest: +SKIP
+        [['เด็ก', 'อินเทอร์เน็ต', 'แรง']]
     """
     if engine == "symspellpy":
         from pythainlp.spell.symspellpy import spell_sent as symspellpy_spell
@@ -189,11 +186,10 @@ def correct_sent(list_words: list[str], engine: str = "pn") -> list[str]:
     :rtype: list[str]
 
     :Example:
-    ::
 
-        from pythainlp.spell import correct_sent
+        >>> from pythainlp.spell import correct_sent  # doctest: +SKIP
 
-        correct_sent(["เด็", "อินอร์เน็ต", "แรง"], engine="symspellpy")
-        # output: ['เด็ก', 'อินเทอร์เน็ต', 'แรง']
+        >>> correct_sent(["เด็", "อินอร์เน็ต", "แรง"], engine="symspellpy")  # doctest: +SKIP
+        ['เด็ก', 'อินเทอร์เน็ต', 'แรง']
     """
     return spell_sent(list_words, engine=engine)[0]

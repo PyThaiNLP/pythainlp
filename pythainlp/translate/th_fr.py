@@ -68,19 +68,19 @@ class ThFrTranslator:
 
         :Example:
 
-        Translate text from Thai to French::
+        Translate text from Thai to French:
 
-            from pythainlp.translate.th_fr import ThFrTranslator
+            >>> from pythainlp.translate.th_fr import ThFrTranslator  # doctest: +SKIP
 
-            thfr = ThFrTranslator()
+            >>> thfr = ThFrTranslator()  # doctest: +SKIP
 
-            thfr.translate("ทดสอบระบบ")
-            # output: "Test du système."
+            >>> thfr.translate("ทดสอบระบบ")  # doctest: +SKIP
+            "Test du système."
 
-        Translate text from Thai to French with excluded words::
+        Translate text from Thai to French with excluded words:
 
-            thfr.translate("ทดสอบระบบ", exclude_words=["ระบบ"])
-            # output: "Test du ระบบ."
+            >>> thfr.translate("ทดสอบระบบ", exclude_words=["ระบบ"])  # doctest: +SKIP
+            "Test du ระบบ."
 
         """
         from pythainlp.translate.core import (

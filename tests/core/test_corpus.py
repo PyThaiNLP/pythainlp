@@ -6,7 +6,6 @@ import os
 import unittest
 from unittest.mock import mock_open, patch
 
-from pythainlp.corpus.core import _check_version, _version2int
 from pythainlp.corpus import (
     countries,
     download,
@@ -32,6 +31,7 @@ from pythainlp.corpus import (
     tnc,
     ttc,
 )
+from pythainlp.corpus.core import _check_version, _version2int
 from pythainlp.corpus.util import revise_newmm_default_wordset
 
 

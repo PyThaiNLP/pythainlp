@@ -63,24 +63,18 @@ def udom83(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.soundex import udom83
-
-        udom83("ลัก")
-        # output : 'ล100'
-
-        udom83("รัก")
-        # output: 'ร100'
-
-        udom83("รักษ์")
-        # output: 'ร100'
-
-        udom83("บูรณการ")
-        # output: 'บ5515'
-
-        udom83("ปัจจุบัน")
-        # output: 'ป775300'
+        >>> from pythainlp.soundex import udom83
+        >>> udom83("ลัก")
+        'ร100000'
+        >>> udom83("รัก")
+        'ร100000'
+        >>> udom83("รักษ์")
+        'ร100000'
+        >>> udom83("บูรณการ")
+        'บ931900'
+        >>> udom83("ปัจจุบัน")
+        'ป775300'
     """
     if not text or not isinstance(text, str):
         return ""

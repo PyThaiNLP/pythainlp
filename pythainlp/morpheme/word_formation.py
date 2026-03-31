@@ -21,16 +21,19 @@ def nighit(w1: str, w2: str) -> str:
     :rtype: str
     :Example:
 
-    ::
-
-        from pythainlp.morpheme import nighit
-
-        assert nighit("สํ","คีต")=="สังคีต"
-        assert nighit("สํ","จร")=="สัญจร"
-        assert nighit("สํ","ฐาน")=="สัณฐาน"
-        assert nighit("สํ","นิษฐาน")=="สันนิษฐาน"
-        assert nighit("สํ","ปทา")=="สัมปทา"
-        assert nighit("สํ","โยค")=="สังโยค"
+        >>> from pythainlp.morpheme import nighit
+        >>> nighit("สํ", "คีต")
+        'สังคีต'
+        >>> nighit("สํ", "จร")
+        'สัญจร'
+        >>> nighit("สํ", "ฐาน")
+        'สัณฐาน'
+        >>> nighit("สํ", "นิษฐาน")
+        'สันนิษฐาน'
+        >>> nighit("สํ", "ปทา")
+        'สัมปทา'
+        >>> nighit("สํ", "โยค")
+        'สังโยค'
     """
     if not str(w1).endswith("ํ") and len(w1) != 2:
         raise NotImplementedError(f"The function doesn't support {w1}.")

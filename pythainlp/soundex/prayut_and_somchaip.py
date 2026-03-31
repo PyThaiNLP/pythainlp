@@ -41,15 +41,12 @@ def prayut_and_somchaip(text: str, length: int = 4) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.soundex.prayut_and_somchaip import prayut_and_somchaip
-
-        prayut_and_somchaip("king", 2)
-        # output: '52'
-
-        prayut_and_somchaip("คิง", 2)
-        # output: '52'
+        >>> from pythainlp.soundex.prayut_and_somchaip import prayut_and_somchaip
+        >>> prayut_and_somchaip("king", 2)
+        '52'
+        >>> prayut_and_somchaip("คิง", 2)
+        '52'
     """
     if not text or not isinstance(text, str):
         return ""

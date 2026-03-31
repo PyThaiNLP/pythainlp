@@ -48,24 +48,18 @@ def lk82(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.soundex import lk82
-
-        lk82("ลัก")
-        # output: 'ร1000'
-
-        lk82("รัก")
-        # output: 'ร1000'
-
-        lk82("รักษ์")
-        # output: 'ร1000'
-
-        lk82("บูรณการ")
-        # output: 'บE419'
-
-        lk82("ปัจจุบัน")
-        # output: 'ป3E54'
+        >>> from pythainlp.soundex import lk82
+        >>> lk82("ลัก")
+        'ร1000'
+        >>> lk82("รัก")
+        'ร1000'
+        >>> lk82("รักษ์")
+        'ร1000'
+        >>> lk82("บูรณการ")
+        'บE419'
+        >>> lk82("ปัจจุบัน")
+        'ป3E54'
     """
     if not text or not isinstance(text, str):
         return ""

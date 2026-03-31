@@ -78,26 +78,17 @@ def is_native_thai(word: str) -> bool:
 
     :Example:
 
-    English word::
-
-        from pythainlp.morpheme import is_native_thai
-
-        is_native_thai("Avocado")
-        # output: False
-
-    Native Thai word::
-
-        is_native_thai("มะม่วง")
-        # output: True
-        is_native_thai("ตะวัน")
-        # output: True
-
-    Non-native Thai word::
-
-        is_native_thai("สามารถ")
-        # output: False
-        is_native_thai("อิสริยาภรณ์")
-        # output: False
+        >>> from pythainlp.morpheme import is_native_thai
+        >>> is_native_thai("Avocado")
+        False
+        >>> is_native_thai("มะม่วง")
+        True
+        >>> is_native_thai("ตะวัน")
+        True
+        >>> is_native_thai("สามารถ")
+        False
+        >>> is_native_thai("อิสริยาภรณ์")
+        False
     """
     if not isinstance(word, str) or not word.strip():
         return False

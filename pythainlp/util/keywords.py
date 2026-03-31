@@ -33,7 +33,7 @@ def rank(
 
         from pythainlp.util import rank
 
-        words = ["บันทึก", "เหตุการณ์", " ", "มี", "การ", "บันทึก", \\
+        words = ["บันทึก", "เหตุการณ์", " ", "มี", "การ", "บันทึก",
         "เป็น", " ", "ลายลักษณ์อักษร"]
 
         rank(words)
@@ -53,7 +53,7 @@ def rank(
 
         from pythainlp.util import rank
 
-        words = ["บันทึก", "เหตุการณ์", " ", "มี", "การ", "บันทึก", \\
+        words = ["บันทึก", "เหตุการณ์", " ", "มี", "การ", "บันทึก",
             "เป็น", " ", "ลายลักษณ์อักษร"]
 
         rank(words)
@@ -99,7 +99,7 @@ def find_keyword(word_list: list[str], min_len: int = 3) -> dict[str, int]:
 
         find_keyword(words, min_len=1)
         # output: {' ': 2, 'บันทึก': 4, 'ลายลักษณ์อักษรและ': 1,
-         'เสียง': 1, 'เหตุการณ์': 3}
+        #          'เสียง': 1, 'เหตุการณ์': 3}
     """
     word_counter = rank(word_list, exclude_stopwords=True)
 

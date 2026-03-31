@@ -224,10 +224,10 @@ class KhaveeVerifier:
 
     def check_marttra(self, word: str) -> str:
         """
-        Check the Thai spelling Section in the Thai word.
+        Check the Thai spelling section of the Thai word.
 
         :param str word: Thai word
-        :return: name of spelling Section of the word.
+        :return: name of the spelling section of the word
         :rtype: str
 
         :Example:
@@ -678,8 +678,8 @@ class KhaveeVerifier:
         by stripping all characters before the 'Karun' character
         that should be silenced
 
-        :param str text: Thai word
-        :return: Thai word with silent words stripped
+        :param str word: Thai word
+        :return: Thai word with silent consonant stripped
         :rtype: str
         """
         sound_silenced = word.endswith("์")

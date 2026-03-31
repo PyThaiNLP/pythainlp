@@ -18,8 +18,8 @@ def abbreviation_to_full_text(
 
     :param str text: Thai text
     :param int top_k: Top K
-    :return: Thai full text with abbreviations converted to full text and cos scores (original text - modified text).
-    :rtype: List[Tuple[str, Union[float, None]]]
+    :return: list of ``(full_text, cosine_similarity)`` tuples.
+    :rtype: list[tuple[str, float or None]]
 
     :Example:
     ::

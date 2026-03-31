@@ -93,9 +93,9 @@ def _clean(w: str) -> str:
 def spell_syllable(text: str) -> list[str]:
     """Spell out syllables in Thai word distribution form.
 
-    :param str s: Thai syllables only
-    :return: List of spelled out syllables
-    :rtype: List[str]
+    :param str text: Thai syllables only
+    :return: list of spelled-out syllable components
+    :rtype: list[str]
 
     :Example:
     ::

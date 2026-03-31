@@ -153,7 +153,7 @@ def thai_strftime(
 ) -> str:
     """Convert :class:`datetime.datetime` into Thai date and time format.
 
-    The formatting directives are similar to :func:`datatime.strrftime`.
+    The formatting directives are similar to :func:`datetime.strftime`.
 
     This function uses Thai names and Thai Buddhist Era for these directives:
         * **%a** - abbreviated weekday name

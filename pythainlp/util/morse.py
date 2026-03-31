@@ -167,14 +167,14 @@ def morse_encode(text: str, lang: str = "th") -> str:
 
 
 def morse_decode(morse_text: str, lang: str = "th") -> str:
-    """Simple Convert Morse code to text
+    """Convert Morse code to text.
 
-    Thai still have some wrong character problem that\
-        can fix by spell corrector.
+    Thai decoding may produce incorrect characters
+    that can be fixed with a spell corrector.
 
     :param str morse_text: Morse code
-    :param str lang: Language Code (*th* is Thai and *en* is English)
-    :return: Text
+    :param str lang: language code (``'th'`` for Thai, ``'en'`` for English)
+    :return: decoded text
     :rtype: str
 
     :Example:

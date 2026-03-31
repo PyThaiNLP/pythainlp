@@ -7,16 +7,17 @@ from pythainlp import thai_consonants
 
 
 def nighit(w1: str, w2: str) -> str:
-    """Nighit (นิคหิต or  ํ ) is the niggahita in Thai language for create new \
-    words from Pali language in Thai.
-    The function use simple method to create new Thai word from two words \
-    that the root is from Pali language.
+    """Create a new word using Nighit (นิคหิต or ํ).
 
-    Read more: https://www.trueplookpanya.com/learning/detail/1180
+    Nighit is the niggahita in Thai, used to form new words
+    from Pali roots. This function applies a simple rule to
+    combine two Thai words derived from Pali.
 
-    :param str w1: A Thai word that has a nighit.
-    :param str w2: A Thai word.
-    :return: Thai word.
+    Reference: https://www.trueplookpanya.com/learning/detail/1180
+
+    :param str w1: a Thai word ending with a nighit (ํ)
+    :param str w2: a Thai word
+    :return: combined Thai word
     :rtype: str
     :Example:
 

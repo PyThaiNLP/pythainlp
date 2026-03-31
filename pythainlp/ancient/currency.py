@@ -57,7 +57,7 @@ def convert_currency(value: float, from_unit: str) -> dict[str, float]:
 
     if from_unit not in conversion_factors_to_att:
         raise NotImplementedError(
-            f"Currency unit '{from_unit}' is not support."
+            f"Currency unit '{from_unit}' is not supported."
         )
 
     # start from 'อัฐ'

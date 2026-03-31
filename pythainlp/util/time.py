@@ -161,9 +161,10 @@ def time_to_thaiword(
 ) -> str:
     """Spell out time as Thai words.
 
-    :param str time_data: time input, can be a datetime.time object \
-        or a datetime.datetime object \
-        or a string (in H:M or H:M:S format, using 24-hour clock)
+    :param time_data: time input; a :class:`datetime.time` object,
+        a :class:`datetime.datetime` object, or a string
+        in ``H:M`` or ``H:M:S`` format (24-hour clock)
+    :type time_data: datetime.time or datetime.datetime or str
     :param str fmt: time output format
         * *24h* - 24-hour clock (default)
         * *6h* - 6-hour clock

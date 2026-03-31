@@ -47,15 +47,18 @@ def summarize(
                           (effective for frequency engine only)
 
     :return: list of selected sentences
+    :rtype: list[str]
+
     **Options for engine**
-        * *frequency* (default) - frequency of words
+        * *frequency* (default) - word frequency
         * *mt5* - mT5-small model
         * *mt5-small* - mT5-small model
         * *mt5-base* - mT5-base model
         * *mt5-large* - mT5-large model
         * *mt5-xl* - mT5-xl model
         * *mt5-xxl* - mT5-xxl model
-        * *mt5-cpe-kmutt-thai-sentence-sum* - mT5 Thai sentence summarization by CPE KMUTT
+        * *mt5-cpe-kmutt-thai-sentence-sum* - mT5 Thai sentence
+          summarization by CPE KMUTT
 
     :Example:
     ::
@@ -128,32 +131,40 @@ def extract_keywords(
     tokenizer: str = "newmm",
     stop_words: Optional[Iterable[str]] = None,
 ) -> list[str]:
-    """Returns most-relevant keywords (and/or keyphrases) from the input document.
-    Each algorithm may produce completely different keywords from each other,
-    so please be careful when choosing the algorithm.
+    """Return the most relevant keywords (and keyphrases) from a document.
 
-    *Note*: Calling :func: `extract_keywords()` is expensive. For repetitive use of KeyBERT (the default engine),
-    creating a KeyBERT object is highly recommended.
+    Each algorithm may produce completely different keywords,
+    so choose the algorithm carefully.
 
-    :param str text: text to be summarized
-    :param Tuple[int, int] keyphrase_ngram_range: Number of token units to be defined as keyword.
-                            The token unit varies w.r.t. `tokenizer_engine`.
-                            For instance, (1, 1) means each token (unigram) can be a keyword (e.g. "เสา", "ไฟฟ้า"),
-                            (1, 2) means one and two consecutive tokens (unigram and bigram) can be keywords
-                            (e.g. "เสา", "ไฟฟ้า", "เสาไฟฟ้า")  (default: (1, 2))
-    :param int max_keywords: Number of maximum keywords to be returned. (default: 5)
-    :param int min_df: Minimum frequency required to be a keyword. (default: 1)
-    :param str engine: Name of algorithm to use for keyword extraction. (default: 'keybert')
-    :param str tokenizer: Name of tokenizer engine to use.
-                            Refer to options in :func: `pythainlp.tokenize.word_tokenizer() (default: 'newmm')
-    :param Optional[Iterable[str]] stop_words: A list of stop words (a.k.a words to be ignored).
-                            If not specified, :func:`pythainlp.corpus.thai_stopwords` is used. (default: None)
+    .. note::
+
+        Calling :func:`extract_keywords` is expensive.
+        For repeated use of KeyBERT (the default engine),
+        creating a ``KeyBERT`` object directly is recommended.
+
+    :param str text: text to extract keywords from
+    :param tuple[int, int] keyphrase_ngram_range: token range for keywords.
+        ``(1, 1)`` allows unigrams only (e.g. "เสา", "ไฟฟ้า");
+        ``(1, 2)`` allows unigrams and bigrams
+        (e.g. "เสา", "ไฟฟ้า", "เสาไฟฟ้า"). Default: ``(1, 2)``.
+    :param int max_keywords: maximum number of keywords to return.
+        Default: 5.
+    :param int min_df: minimum term frequency to qualify as keyword.
+        Default: 1.
+    :param str engine: keyword extraction algorithm. Default: ``'keybert'``.
+    :param str tokenizer: tokenizer engine name.
+        See :func:`pythainlp.tokenize.word_tokenize` for options.
+        Default: ``'newmm'``.
+    :param stop_words: words to ignore. If ``None``,
+        :func:`pythainlp.corpus.thai_stopwords` is used. Default: ``None``.
+    :type stop_words: collections.abc.Iterable[str] or None
 
     :return: list of keywords
+    :rtype: list[str]
 
     **Options for engine**
-        * *keybert* (default) - KeyBERT keyword extraction algorithm
-        * *frequency* - frequency of words
+        * *keybert* (default) - KeyBERT keyword extraction
+        * *frequency* - word frequency
 
     :Example:
     ::

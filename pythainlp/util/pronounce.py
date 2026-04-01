@@ -93,9 +93,8 @@ def thai_consonant_to_spelling(c: str) -> str:
 
     :Example:
 
-        >>> from pythainlp.util import thai_consonant_to_spelling  # doctest: +SKIP
-
-        >>> print(tone_to_spelling("ก"))  # doctest: +SKIP
+        >>> from pythainlp.util import thai_consonant_to_spelling
+        >>> print(thai_consonant_to_spelling("ก"))
         กอ
     """
     if len(c) == 1 and c in thai_consonants:
@@ -112,9 +111,8 @@ def tone_to_spelling(t: str) -> str:
 
     :Example:
 
-        >>> from pythainlp.util import tone_to_spelling  # doctest: +SKIP
-
-        >>> print(tone_to_spelling("่"))  # ไม้เอก  # doctest: +SKIP
+        >>> from pythainlp.util import tone_to_spelling
+        >>> print(tone_to_spelling("่"))  # ไม้เอก
         ไม้เอก
     """
     if t == "่":

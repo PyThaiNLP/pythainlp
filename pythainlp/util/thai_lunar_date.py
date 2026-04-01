@@ -365,8 +365,8 @@ def to_lunar_date(input_date: date) -> str:
 
     :Example:
 
-        >>> from pythainlp.util import to_lunar_date
         >>> from datetime import date
+        >>> from pythainlp.util import to_lunar_date
         >>> to_lunar_date(date(2024, 1, 1))
         'แรม 5 ค่ำ เดือน 1'
         >>> to_lunar_date(date(2024, 12, 31))

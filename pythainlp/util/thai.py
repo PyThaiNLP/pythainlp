@@ -90,12 +90,10 @@ def is_thai_char(ch: str) -> bool:
 
     :Example:
 
-        >>> from pythainlp.util import is_thai_char  # doctest: +SKIP
-
-        >>> is_thai_char("ก")  # THAI CHARACTER KO KAI  # doctest: +SKIP
+        >>> from pythainlp.util import is_thai_char
+        >>> is_thai_char("ก")  # THAI CHARACTER KO KAI
         True
-
-        >>> is_thai_char("๕")  # THAI DIGIT FIVE  # doctest: +SKIP
+        >>> is_thai_char("๕")  # THAI DIGIT FIVE
         True
     """
     ch_val = ord(ch)
@@ -137,18 +135,14 @@ def is_thai(text: str, ignore_chars: str = ".") -> bool:
 
     :Example:
 
-        >>> from pythainlp.util import is_thai  # doctest: +SKIP
-
-        >>> is_thai("กาลเวลา")  # doctest: +SKIP
+        >>> from pythainlp.util import is_thai
+        >>> is_thai("กาลเวลา")
         True
-
-        >>> is_thai("กาลเวลา.")  # doctest: +SKIP
+        >>> is_thai("กาลเวลา.")
         True
-
-        >>> is_thai("กาล-เวลา")  # doctest: +SKIP
+        >>> is_thai("กาล-เวลา")
         False
-
-        >>> is_thai("กาล-เวลา +66", ignore_chars="01234567890+-.,")  # doctest: +SKIP
+        >>> is_thai("กาล-เวลา +66", ignore_chars="01234567890+-., ")
         True
 
     """
@@ -197,18 +191,14 @@ def count_thai(text: str, ignore_chars: str = _DEFAULT_IGNORE_CHARS) -> float:
 
     :Example:
 
-        >>> from pythainlp.util import count_thai  # doctest: +SKIP
-
-        >>> count_thai("ไทยเอ็นแอลพี 3.0")  # doctest: +SKIP
+        >>> from pythainlp.util import count_thai
+        >>> count_thai("ไทยเอ็นแอลพี 3.0")
         100.0
-
-        >>> count_thai("PyThaiNLP 3.0")  # doctest: +SKIP
+        >>> count_thai("PyThaiNLP 3.0")
         0.0
-
-        >>> count_thai("ใช้งาน PyThaiNLP 3.0")  # doctest: +SKIP
+        >>> count_thai("ใช้งาน PyThaiNLP 3.0")
         40.0
-
-        >>> count_thai("ใช้งาน PyThaiNLP 3.0", ignore_chars="")  # doctest: +SKIP
+        >>> count_thai("ใช้งาน PyThaiNLP 3.0", ignore_chars="")
         30.0
     """
     if not text or not isinstance(text, str):
@@ -268,10 +258,9 @@ def display_thai_char(ch: str) -> str:
 
     :Example:
 
-        >>> from pythainlp.util import display_thai_char  # doctest: +SKIP
-
-        >>> display_thai_char("้")  # doctest: +SKIP
-        "_้"
+        >>> from pythainlp.util import display_thai_char
+        >>> display_thai_char("้")
+        '_้'
     """
     if (
         ch in thai_above_vowels
@@ -301,15 +290,12 @@ def thai_word_tone_detector(word: Optional[str]) -> list[tuple[str, str]]:
 
     :Example:
 
-        >>> from pythainlp.util import thai_word_tone_detector  # doctest: +SKIP
-
-        >>> print(thai_word_tone_detector("คนดี"))  # doctest: +SKIP
+        >>> from pythainlp.util import thai_word_tone_detector
+        >>> print(thai_word_tone_detector("คนดี"))
         [('คน', 'm'), ('ดี', 'm')]
-
-        >>> print(thai_word_tone_detector("มือถือ"))  # doctest: +SKIP
+        >>> print(thai_word_tone_detector("มือถือ"))
         [('มือ', 'm'), ('ถือ', 'r')]
-
-        >>> print(thai_word_tone_detector(None))  # doctest: +SKIP
+        >>> print(thai_word_tone_detector(None))
         []
     """
     if not word:
@@ -335,9 +321,8 @@ def count_thai_chars(text: str) -> dict[str, int]:
 
     :Example:
 
-        >>> from pythainlp.util import count_thai_chars  # doctest: +SKIP
-
-        >>> count_thai_chars("ทดสอบภาษาไทย")  # doctest: +SKIP
+        >>> from pythainlp.util import count_thai_chars
+        >>> count_thai_chars("ทดสอบภาษาไทย")  # doctest: +NORMALIZE_WHITESPACE
         {
         'vowels': 3,
         'lead_vowels': 1,

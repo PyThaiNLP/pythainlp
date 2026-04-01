@@ -99,9 +99,8 @@ def spell_syllable(text: str) -> list[str]:
 
     :Example:
 
-        >>> from pythainlp.util.spell_words import spell_syllable  # doctest: +SKIP
-
-        >>> print(spell_syllable("แมว"))  # doctest: +SKIP
+        >>> from pythainlp.util.spell_words import spell_syllable
+        >>> spell_syllable("แมว")
         ['มอ', 'วอ', 'แอ', 'แมว']
     """
     tokens = _cut().word_tokenize(_clean(text))
@@ -122,12 +121,10 @@ def spell_word(text: Optional[str]) -> list[str]:
 
     :Example:
 
-        >>> from pythainlp.util.spell_words import spell_word  # doctest: +SKIP
-
-        >>> print(spell_word("คนดี"))  # doctest: +SKIP
+        >>> from pythainlp.util.spell_words import spell_word
+        >>> spell_word("คนดี")
         ['คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี']
-
-        >>> print(spell_word(None))  # doctest: +SKIP
+        >>> spell_word(None)
         []
     """
     if not text:

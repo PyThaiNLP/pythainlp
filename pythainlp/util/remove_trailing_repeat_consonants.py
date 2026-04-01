@@ -50,27 +50,20 @@ def remove_trailing_repeat_consonants(
 
     :Example:
 
-        >>> from pythainlp.util import remove_trailing_repeat_consonants  # doctest: +SKIP
-        >>> from pythainlp.util import dict_trie  # doctest: +SKIP
-
+        >>> from pythainlp.util import remove_trailing_repeat_consonants
+        >>> from pythainlp.util import dict_trie
         >>> # use default dictionary (pythainlp.corpus.thai_words())
-        >>> remove_trailing_repeat_consonants('เริ่ดดดดดดดด')  # doctest: +SKIP
-        เริ่ด
-
-        >>> remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม')  # doctest: +SKIP
-        อืมมม
-        "อืมมม" is in the default dictionary
-
+        >>> remove_trailing_repeat_consonants('เริ่ดดดดดดดด')
+        'เริ่ด'
+        >>> # "อืมมม" is in the default dictionary
+        >>> remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม')
+        'อืมมม'
         >>> # use custom dictionary
-        >>> custom_dict = dict_trie(["อืมมมมม"])  # doctest: +SKIP
-        >>> remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม', custom_dict)  # doctest: +SKIP
-        อืมมมมม
-
-        >>> # long text
-        >>> remove_trailing_repeat_consonants('อืมมมมมมมมมมมมม คุณมีบุคลิกที่เริ่ดดดดด '\
-        ... 'ฉันจะให้เกรดดีกับคุณณณ\nนี่เป็นความลับบบบบ')
-        อืมมม คุณมีบุคลิกที่เริ่ด ฉันจะให้เกรดดีกับคุณ
-                นี่เป็นความลับ
+        >>> custom_dict = dict_trie(["อืมมมมม"])
+        >>> remove_trailing_repeat_consonants('อืมมมมมมมมมมมมมมม', custom_dict)
+        'อืมมมมม'
+        >>> remove_trailing_repeat_consonants('เริ่ดดด คุณณณ ความลับบบบบ')
+        'เริ่ด คุณ ความลับ'
     """
     # use default dictionary if not given
     if not custom_dict:

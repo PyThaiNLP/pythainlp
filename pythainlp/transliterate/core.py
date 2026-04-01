@@ -59,7 +59,7 @@ def romanize(
         >>> romanize("ภาพยนตร์", engine="thai2rom_onnx")  # doctest: +SKIP
         'phapphayon'
         >>> romanize("ก็อปปี้", engine="lookup")
-        'k็ppi'
+        'copy'
 
     """
 

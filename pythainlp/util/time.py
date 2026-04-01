@@ -188,9 +188,9 @@ def time_to_thaiword(
         'แปดโมงสิบเจ็ดนาที'
         >>> time_to_thaiword("18:30", fmt="m6h")
         'หกโมงครึ่ง'
-        >>> time_to_thaiword(datetime.time(12, 3, 0))
+        >>> time_to_thaiword(time(12, 3, 0))
         'สิบสองนาฬิกาสามนาที'
-        >>> time_to_thaiword(datetime.time(12, 3, 0), precision="s")
+        >>> time_to_thaiword(time(12, 3, 0), precision="s")
         'สิบสองนาฬิกาสามนาทีศูนย์วินาที'
     """
     _time = None
@@ -236,7 +236,7 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
 
     :Example:
 
-        >>> from pythainlp.util import time_to_thaiword
+        >>> from pythainlp.util import thaiword_to_time
         >>> thaiword_to_time("บ่ายโมงครึ่ง")
         '13:30'
     """

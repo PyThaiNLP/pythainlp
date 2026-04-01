@@ -97,7 +97,7 @@ def _flatten_result(
     For example::
 
         my_dict = {"a": {"b": 7}}
-        flatten(my_dict)
+        _flatten_result(my_dict)
         # {"a:b": 7}
 
     :param my_dict: dictionary containing stats

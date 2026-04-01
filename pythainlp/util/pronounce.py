@@ -32,9 +32,8 @@ def rhyme(word: str) -> list[str]:
     :Example:
 
         >>> from pythainlp.util import rhyme  # doctest: +SKIP
-
-        >>> print(rhyme("จีบ"))  # doctest: +SKIP
-        ['กลีบ', 'กีบ', 'ครีบ', ...]
+        >>> rhyme("จีบ")  # doctest: +SKIP
+        ['กลีบ', 'กีบ', 'ครีบ', 'คีบ', 'งีบ', ... ]
     """
     return sorted(
         i
@@ -175,12 +174,10 @@ def spelling(word: str) -> list[str]:
 
     :Example:
 
-        >>> from pythainlp.util import spelling  # doctest: +SKIP
-
-        >>> print(spelling("เรียน"))  # doctest: +SKIP
+        >>> from pythainlp.util import spelling
+        >>> spelling("เรียน")
         ['รอ', 'เอีย', 'นอ', 'เรียน']
-
-        >>> print(spelling("เฝ้า"))  # doctest: +SKIP
+        >>> spelling("เฝ้า")
         ['ฝอ', 'เอา', 'เฝา', 'ไม้โท', 'เฝ้า']
     """
     if not word or not isinstance(word, str):

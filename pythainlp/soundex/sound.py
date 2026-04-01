@@ -43,12 +43,10 @@ def word2audio(word: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.soundex.sound import word2audio
-
-        word2audio("น้ำ")
-        # output : 'n aː m .'
+        >>> from pythainlp.soundex.sound import word2audio
+        >>> word2audio("น้ำ")  # doctest: +SKIP
+        'n aː m .'
     """
     _word = word_tokenize(word)
     _phone = [pronunciate(w, engine="w2p") for w in _word]
@@ -66,12 +64,10 @@ def audio_vector(word: str) -> list[list[int]]:
     :rtype: list[list[int]]
 
     :Example:
-    ::
 
-        from pythainlp.soundex.sound import audio_vector
-
-        audio_vector("น้ำ")
-        # output : [[-1, 1, 1, -1, -1, -1, ...]]
+        >>> from pythainlp.soundex.sound import audio_vector
+        >>> audio_vector("น้ำ")  # doctest: +SKIP
+        [[-1, 1, 1, -1, -1, -1, ...]]
     """
     return cast(
         list[list[int]],
@@ -88,12 +84,10 @@ def word_approximation(word: str, list_word: list[str]) -> list[float]:
     :rtype: list[float]
 
     :Example:
-    ::
 
-        from pythainlp.soundex.sound import word_approximation
-
-        word_approximation("รถ", ["รด", "รส", "รม", "น้ำ"])
-        # output : [0.0, 0.0, 3.875, 8.375]
+        >>> from pythainlp.soundex.sound import word_approximation
+        >>> word_approximation("รถ", ["รด", "รส", "รม", "น้ำ"])  # doctest: +SKIP
+        [0.0, 0.0, 3.875, 8.375]
     """
     _word = word2audio(word)
     _list_word = [word2audio(w) for w in list_word]

@@ -63,8 +63,8 @@ def segment(text: str) -> list[str]:
     and Information Technology (ISCIT), pp. 37-40. 2001.
 
     :param str text: text to be tokenized into character clusters
-    :return: list of clusters, tokenized from the text
-    :return: List[str]
+    :return: list of clusters tokenized from the text
+    :rtype: list[str]
     """
     if not text or not isinstance(text, str):
         return []

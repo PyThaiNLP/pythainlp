@@ -38,27 +38,20 @@ def metasound(text: str, length: int = 4) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.soundex.metasound import metasound
-
-        metasound("ลัก")
-        # output: 'ล100'
-
-        metasound("รัก")
-        # output: 'ร100'
-
-        metasound("รักษ์")
-        # output: 'ร100'
-
-        metasound("บูรณการ", 5)
-        # output: 'บ5515'
-
-        metasound("บูรณการ", 6))
-        # output: 'บ55150'
-
-        metasound("บูรณการ", 4)
-        # output: 'บ551'
+        >>> from pythainlp.soundex.metasound import metasound
+        >>> metasound("ลัก")
+        'ล100'
+        >>> metasound("รัก")
+        'ร100'
+        >>> metasound("รักษ์")
+        'ร100'
+        >>> metasound("บูรณการ", 5)
+        'บ5515'
+        >>> metasound("บูรณการ", 6)
+        'บ55150'
+        >>> metasound("บูรณการ", 4)
+        'บ551'
     """
     if not text or not isinstance(text, str):
         return ""

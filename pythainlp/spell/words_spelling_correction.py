@@ -329,16 +329,15 @@ def get_words_spell_suggestion(
     :rtype: Union[list[str], list[list[str]]]
 
     :Example:
-    ::
 
-        from pythainlp.spell import get_words_spell_suggestion
+        >>> from pythainlp.spell import get_words_spell_suggestion  # doctest: +SKIP
 
-        print(get_words_spell_suggestion("คมดี"))
-        # output: ['คนดีผีคุ้ม', 'มีดคอม้า', 'คดี', 'มีดสองคม', 'มูลคดี']
+        >>> print(get_words_spell_suggestion("คมดี"))  # doctest: +SKIP
+        ['คนดีผีคุ้ม', 'มีดคอม้า', 'คดี', 'มีดสองคม', 'มูลคดี']
 
-        print(get_words_spell_suggestion(["คมดี","กระเพาะ"]))
-        # output: [['คนดีผีคุ้ม', 'มีดคอม้า', 'คดี', 'มีดสองคม', 'มูลคดี'],
-        # ['กระเพาะ', 'กระพา', 'กะเพรา', 'กระเพาะปลา', 'พระประธาน']]
+        >>> print(get_words_spell_suggestion(["คมดี","กระเพาะ"]))  # doctest: +SKIP
+        [['คนดีผีคุ้ม', 'มีดคอม้า', 'คดี', 'มีดสองคม', 'มูลคดี'],
+        ['กระเพาะ', 'กระพา', 'กะเพรา', 'กระเพาะปลา', 'พระประธาน']]
     """
     if "default" not in _WSC_CACHE:
         _WSC_CACHE["default"] = Words_Spelling_Correction()

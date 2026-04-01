@@ -29,21 +29,19 @@ def coreference_resolution(
             by PyThaiNLP v1.0
 
     :Example:
-    ::
 
-        from pythainlp.coref import coreference_resolution
+        >>> from pythainlp.coref import coreference_resolution  # doctest: +SKIP
 
-        print(
-            coreference_resolution(
-                ["Bill Gates ได้รับวัคซีน COVID-19 เข็มแรกแล้ว ระบุ ผมรู้สึกสบายมาก"]
-            )
-        )
-        # output:
-        # [
-        # {'text': 'Bill Gates ได้รับวัคซีน COVID-19 เข็มแรกแล้ว ระบุ ผมรู้สึกสบายมาก',
-        # 'clusters_string': [['Bill Gates', 'ผม']],
-        # 'clusters': [[(0, 10), (50, 52)]]}
-        # ]
+        >>> print(  # doctest: +SKIP
+        ...     coreference_resolution(
+        ...         ["Bill Gates ได้รับวัคซีน COVID-19 เข็มแรกแล้ว ระบุ ผมรู้สึกสบายมาก"]
+        ...     )
+        ... )
+        [
+        {'text': 'Bill Gates ได้รับวัคซีน COVID-19 เข็มแรกแล้ว ระบุ ผมรู้สึกสบายมาก',
+        'clusters_string': [['Bill Gates', 'ผม']],
+        'clusters': [[(0, 10), (50, 52)]]}
+        ]
     """
     if isinstance(texts, str):
         texts = [texts]

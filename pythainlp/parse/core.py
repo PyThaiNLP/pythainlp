@@ -79,22 +79,19 @@ def dependency_parsing(
             `Huggingface <https://huggingface.co/KoichiYasuoka/deberta-base-thai-ud-goeswith>`_
 
     :Example:
-    ::
 
-        from pythainlp.parse import dependency_parsing
+        >>> from pythainlp.parse import dependency_parsing  # doctest: +SKIP
 
-        print(dependency_parsing("ผมเป็นคนดี", engine="esupar"))
-        # output:
-        # 1       ผม      _       PRON    _       _       3       nsubj   _       SpaceAfter=No
-        # 2       เป็น     _       VERB    _       _       3       cop     _       SpaceAfter=No
-        # 3       คน      _       NOUN    _       _       0       root    _       SpaceAfter=No
-        # 4       ดี       _       VERB    _       _       3       acl     _       SpaceAfter=No
+        >>> print(dependency_parsing("ผมเป็นคนดี", engine="esupar"))  # doctest: +SKIP
+        1       ผม      _       PRON    _       _       3       nsubj   _       SpaceAfter=No
+        2       เป็น     _       VERB    _       _       3       cop     _       SpaceAfter=No
+        3       คน      _       NOUN    _       _       0       root    _       SpaceAfter=No
+        4       ดี       _       VERB    _       _       3       acl     _       SpaceAfter=No
 
-        print(dependency_parsing("ผมเป็นคนดี", engine="spacy_thai"))
-        # output:
-        # 1       ผม              PRON    PPRS    _       2       nsubj   _       SpaceAfter=No
-        # 2       เป็น             VERB    VSTA    _       0       ROOT    _       SpaceAfter=No
-        # 3       คนดี             NOUN    NCMN    _       2       obj     _       SpaceAfter=No
+        >>> print(dependency_parsing("ผมเป็นคนดี", engine="spacy_thai"))  # doctest: +SKIP
+        1       ผม              PRON    PPRS    _       2       nsubj   _       SpaceAfter=No
+        2       เป็น             VERB    VSTA    _       0       ROOT    _       SpaceAfter=No
+        3       คนดี             NOUN    NCMN    _       2       obj     _       SpaceAfter=No
     """
     global _tagger, _tagger_name
 

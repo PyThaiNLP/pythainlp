@@ -85,15 +85,12 @@ def remove_dangling(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import remove_dangling
-
-        remove_dangling("๊ก")
-        # output: 'ก'
-
-        remove_dangling("คำ ่ที่สอง")
-        # output: 'คำ ที่สอง'
+        >>> from pythainlp.util import remove_dangling
+        >>> remove_dangling("๊ก")
+        'ก'
+        >>> remove_dangling("คำ ่ที่สอง")
+        'คำ ที่สอง'
     """
     text = _RE_REMOVE_DANGLINGS.sub("", text)
     text = _RE_REMOVE_DANGLINGS_AFTER_SPACE.sub(" ", text)
@@ -111,12 +108,10 @@ def remove_dup_spaces(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import remove_dup_spaces
-
-        remove_dup_spaces("ก    ข    ค")
-        # output: 'ก ข ค'
+        >>> from pythainlp.util import remove_dup_spaces
+        >>> remove_dup_spaces("ก    ข    ค")
+        'ก ข ค'
     """
     while "  " in text:
         text = text.replace("  ", " ")
@@ -144,12 +139,10 @@ def remove_tonemark(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import remove_tonemark
-
-        remove_tonemark("สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด")
-        # output: สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด
+        >>> from pythainlp.util import remove_tonemark
+        >>> remove_tonemark("สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด")
+        'สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด'
     """
     for ch in tonemarks:
         while ch in text:
@@ -173,15 +166,12 @@ def remove_zw(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import remove_zw
-
-        remove_zw("สวัสดี\u200bครับ")
-        # output: 'สวัสดีครับ'
-
-        remove_zw("ภาษา\u200cไทย")
-        # output: 'ภาษาไทย'
+        >>> from pythainlp.util import remove_zw
+        >>> remove_zw("สวัสดี\u200bครับ")
+        'สวัสดีครับ'
+        >>> remove_zw("ภาษา\u200cไทย")
+        'ภาษาไทย'
     """
     for ch in _ZERO_WIDTH_CHARS:
         while ch in text:
@@ -202,12 +192,10 @@ def remove_spaces_before_marks(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import remove_spaces_before_marks
-
-        remove_spaces_before_marks("พ ุ่มดอกไม้")
-        # output: 'พุ่มดอกไม้'
+        >>> from pythainlp.util import remove_spaces_before_marks
+        >>> remove_spaces_before_marks("พ ุ่มดอกไม้")
+        'พุ่มดอกไม้'
     """
     return _RE_REMOVE_SPACES_BEFORE_NONBASE.sub(r"\1\2", text)
 
@@ -228,17 +216,12 @@ def reorder_vowels(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import reorder_vowels
-
-        # Two Sara E become Sara Ae
-        reorder_vowels("เเปลก")
-        # output: 'แปลก'
-
-        # Reorder tone marks and vowels
-        reorder_vowels("ก้ำ")
-        # output: 'กำ้'
+        >>> from pythainlp.util import reorder_vowels
+        >>> reorder_vowels("เเปลก")  # two Sara E become Sara Ae
+        'แปลก'
+        >>> reorder_vowels("ก้ำ")  # reorder tone marks and vowels
+        'ก้ำ'
     """
     for pair in _REORDER_PAIRS:
         text = re.sub(pair[0], pair[1], text)
@@ -257,15 +240,12 @@ def remove_repeat_vowels(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import remove_repeat_vowels
-
-        remove_repeat_vowels("นานาาา")
-        # output: 'นานา'
-
-        remove_repeat_vowels("ดีีีี")
-        # output: 'ดี'
+        >>> from pythainlp.util import remove_repeat_vowels
+        >>> remove_repeat_vowels("นานาาา")
+        'นานา'
+        >>> remove_repeat_vowels("ดีีีี")
+        'ดี'
     """
     text = reorder_vowels(text)
     for pair in _NOREPEAT_PAIRS:
@@ -302,15 +282,12 @@ def normalize(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import normalize
-
-        normalize("เเปลก")  # starts with two Sara E
-        # output: แปลก
-
-        normalize("นานาาา")
-        # output: นานา
+        >>> from pythainlp.util import normalize
+        >>> normalize("เเปลก")  # starts with two Sara E
+        'แปลก'
+        >>> normalize("นานาาา")
+        'นานา'
     """
     text = remove_zw(text)
     text = remove_dup_spaces(text)
@@ -328,16 +305,16 @@ def expand_maiyamok(sent: Union[str, list[str]]) -> list[str]:
     repetition. This function preprocesses Thai text by replacing
     Maiyamok with a word being repeated.
 
-    :param Union[str, List[str]] sent: sentence (list or string)
+    :param sent: sentence (list or string)
+    :type sent: Union[str, list[str]]
     :return: list of words
-    :rtype: List[str]
+    :rtype: list[str]
 
     :Example:
-    ::
-        from pythainlp.util import expand_maiyamok
 
-        expand_maiyamok("คนๆนก")
-        # output: ['คน', 'คน', 'นก']
+        >>> from pythainlp.util import expand_maiyamok
+        >>> expand_maiyamok("คนๆนก")
+        ['คน', 'คน', 'นก']
     """
     if isinstance(sent, str):
         sent = word_tokenize(sent)
@@ -383,23 +360,24 @@ def expand_maiyamok(sent: Union[str, list[str]]) -> list[str]:
 def maiyamok(sent: Union[str, list[str]]) -> list[str]:
     """Expand Maiyamok.
 
-    Deprecated. Use expand_maiyamok() instead.
+    .. deprecated:: 5.0.5
+        Use :func:`expand_maiyamok` instead.
 
     Maiyamok (ๆ) (Unicode U+0E46) is a Thai character indicating word
     repetition. This function preprocesses Thai text by replacing
     Maiyamok with a word being repeated.
 
-    :param Union[str, List[str]] sent: sentence (list or string)
+    :param sent: sentence (list or string)
+    :type sent: Union[str, list[str]]
     :return: list of words
-    :rtype: List[str]
+    :rtype: list[str]
 
     :Example:
-    ::
 
-        from pythainlp.util import expand_maiyamok
+        >>> from pythainlp.util import maiyamok
 
-        expand_maiyamok("คนๆนก")
-        # output: ['คน', 'คน', 'นก']
+        >>> maiyamok("คนๆนก")
+        ['คน', 'คน', 'นก']
     """
     warn_deprecation(
         "pythainlp.util.maiyamok",

@@ -17,6 +17,13 @@ and this project adheres to
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
 - Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.3>
 
+## [Unreleased]
+
+### Changed
+
+- Fix doctests, docstring formatting, typos, and outdated content
+  across all modules (#1392).
+
 ## [5.3.3] - 2026-03-26
 
 Security fixes and thai2rom_onnx bug fixes.

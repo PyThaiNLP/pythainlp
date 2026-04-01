@@ -41,27 +41,24 @@ class ThaiTokenizer(BaseTokenizer):
 
     @staticmethod
     def tokenizer(text: str) -> list[str]:
-        """This function tokenizes text using *newmm* engine and the dictionary
-        specifically for `ulmfit` related functions
-        (see: `Dictionary file (.txt) \
-        <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/words_th_thai2fit_201810.txt>`_).
-        :meth: tokenize text using a frozen newmm engine
+        """Tokenize text using the newmm engine and the thai2fit dictionary.
+
         :param str text: text to tokenize
         :return: tokenized text
         :rtype: list[str]
 
         :Example:
 
-            Using :func:`pythainlp.ulmfit.ThaiTokenizer.tokenizer` is
-            similar to :func:`pythainlp.tokenize.word_tokenize`
-            using *ulmfit* engine.
+            Using :func:`ThaiTokenizer.tokenizer` is similar to
+            :func:`pythainlp.tokenize.word_tokenize` with the
+            ``"ulmfit"`` engine.
 
             >>> from pythainlp.ulmfit import ThaiTokenizer
             >>> from pythainlp.tokenize import word_tokenize
             >>>
             >>> text = "อาภรณ์, จินตมยปัญญา ภาวนามยปัญญา"
             >>> ThaiTokenizer.tokenizer(text)
-             ['อาภรณ์', ',', ' ', 'จิน', 'ตม', 'ย', 'ปัญญา',
+            ['อาภรณ์', ',', ' ', 'จิน', 'ตม', 'ย', 'ปัญญา',
              ' ', 'ภาวนามยปัญญา']
             >>>
             >>> word_tokenize(text, engine='ulmfit')

@@ -91,8 +91,8 @@ def provinces(
 ) -> Union[frozenset[str], list[dict[str, str]]]:
     """Return a frozenset of Thailand province names in Thai such as "กระบี่",
     "กรุงเทพมหานคร", "กาญจนบุรี", and "อุบลราชธานี".
-    \n(See: `dev/pythainlp/corpus/thailand_provinces_th.txt\
-    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/thailand_provinces_th.txt>`_)
+    \n(See: `dev/pythainlp/corpus/thailand_provinces_th.csv\
+    <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/thailand_provinces_th.csv>`_)
 
     :param bool details: return details of provinces or not
 
@@ -181,7 +181,7 @@ def thai_words() -> frozenset[str]:
 
 def thai_orst_words() -> frozenset[str]:
     """Return a frozenset of Thai words from Royal Society of Thailand
-    \n(See: `dev/pythainlp/corpus/thai_orst_words.txt\
+    \n(See: `dev/pythainlp/corpus/orst_words_th.txt\
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/orst_words_th.txt>`_)
 
     :return: :class:`frozenset` containing words in the Thai language.
@@ -445,16 +445,14 @@ def find_synonyms(word: str) -> list[str]:
     """Find synonyms
 
     :param str word: Thai word
-    :return: List of synonyms of the input word or an empty list if it isn't exist.
-    :rtype: List[str]
+    :return: list of synonyms of the input word, or an empty list if none exist.
+    :rtype: list[str]
 
     :Example:
-    ::
 
-        from pythainlp.corpus import find_synonyms
-
-        print(find_synonyms("หมู"))
-        # output: ['จรุก', 'วราหะ', 'วราห์', 'ศูกร', 'สุกร']
+        >>> from pythainlp.corpus import find_synonyms  # doctest: +SKIP
+        >>> print(find_synonyms("หมู"))  # doctest: +SKIP
+        ['จรุก', 'วราหะ', 'วราห์', 'ศูกร', 'สุกร']
     """
     synonyms = thai_synonyms()  # get a dictionary of {word, synonym}
     list_synonym: list[Any] = []

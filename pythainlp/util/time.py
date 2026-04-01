@@ -161,9 +161,10 @@ def time_to_thaiword(
 ) -> str:
     """Spell out time as Thai words.
 
-    :param str time_data: time input, can be a datetime.time object \
-        or a datetime.datetime object \
-        or a string (in H:M or H:M:S format, using 24-hour clock)
+    :param time_data: time input; a :class:`datetime.time` object,
+        a :class:`datetime.datetime` object, or a string
+        in ``H:M`` or ``H:M:S`` format (24-hour clock)
+    :type time_data: datetime.time or datetime.datetime or str
     :param str fmt: time output format
         * *24h* - 24-hour clock (default)
         * *6h* - 6-hour clock
@@ -176,31 +177,21 @@ def time_to_thaiword(
     :rtype: str
 
     :Example:
-    ::
 
-        time_to_thaiword("8:17")
-        # output:
-        # แปดนาฬิกาสิบเจ็ดนาที
-
-        time_to_thaiword("8:17", "6h")
-        # output:
-        # สองโมงเช้าสิบเจ็ดนาที
-
-        time_to_thaiword("8:17", "m6h")
-        # output:
-        # แปดโมงสิบเจ็ดนาที
-
-        time_to_thaiword("18:30", fmt="m6h")
-        # output:
-        # หกโมงครึ่ง
-
-        time_to_thaiword(datetime.time(12, 3, 0))
-        # output:
-        # สิบสองนาฬิกาสามนาที
-
-        time_to_thaiword(datetime.time(12, 3, 0), precision="s")
-        # output:
-        # สิบสองนาฬิกาสามนาทีศูนย์วินาที
+        >>> from datetime import time
+        >>> from pythainlp.util import time_to_thaiword
+        >>> time_to_thaiword("8:17")
+        'แปดนาฬิกาสิบเจ็ดนาที'
+        >>> time_to_thaiword("8:17", "6h")
+        'สองโมงเช้าสิบเจ็ดนาที'
+        >>> time_to_thaiword("8:17", "m6h")
+        'แปดโมงสิบเจ็ดนาที'
+        >>> time_to_thaiword("18:30", fmt="m6h")
+        'หกโมงครึ่ง'
+        >>> time_to_thaiword(time(12, 3, 0))
+        'สิบสองนาฬิกาสามนาที'
+        >>> time_to_thaiword(time(12, 3, 0), precision="s")
+        'สิบสองนาฬิกาสามนาทีศูนย์วินาที'
     """
     _time = None
 
@@ -244,11 +235,10 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        thaiword_to_time("บ่ายโมงครึ่ง")
-        # output:
-        # 13:30
+        >>> from pythainlp.util import thaiword_to_time
+        >>> thaiword_to_time("บ่ายโมงครึ่ง")
+        '13:30'
     """
     keys_dict = list(_DICT_THAI_TIME.keys())
     text = text.replace("กว่า", "").replace("ๆ", "").replace(" ", "")

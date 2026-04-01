@@ -26,22 +26,10 @@ def convert_currency(value: float, from_unit: str) -> dict[str, float]:
     :rtype: dict[str, float]
 
     :Example:
-    ::
 
-        from pythainlp.ancient import convert_currency
-
-        print(convert_currency(8, "บาท"))
-        # output:
-        # {
-        #  'เบี้ย': 51200.0,
-        #  'อัฐ': 512.0,
-        #  'ไพ': 256.0,
-        #  'เฟื้อง': 64.0,
-        #  'สลึง': 32.0,
-        #  'บาท': 8.0,
-        #  'ตำลึง': 2.0,
-        #  'ชั่ง': 0.1
-        # }
+        >>> from pythainlp.ancient import convert_currency
+        >>> print(convert_currency(8, "บาท"))
+        {'เบี้ย': 51200.0, 'อัฐ': 512.0, 'ไพ': 256.0, 'เฟื้อง': 64.0, 'สลึง': 32.0, 'บาท': 8.0, 'ตำลึง': 2.0, 'ชั่ง': 0.1}
 
     """
     conversion_factors_to_att = {
@@ -57,7 +45,7 @@ def convert_currency(value: float, from_unit: str) -> dict[str, float]:
 
     if from_unit not in conversion_factors_to_att:
         raise NotImplementedError(
-            f"Currency unit '{from_unit}' is not support."
+            f"Currency unit '{from_unit}' is not supported."
         )
 
     # start from 'อัฐ'

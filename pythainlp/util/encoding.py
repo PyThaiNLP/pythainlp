@@ -1,4 +1,4 @@
-# -*- coding_utf-8 -*-
+# -*- coding: utf-8 -*-
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
@@ -13,12 +13,10 @@ def tis620_to_utf8(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import tis620_to_utf8
-
-        tis620_to_utf8("¡ÃÐ·ÃÇ§ÍØµÊÒË¡ÃÃÁ")
-        # output: 'กระทรวงอุตสาหกรรม'
+        >>> from pythainlp.util import tis620_to_utf8
+        >>> tis620_to_utf8("¡ÃÐ·ÃÇ§ÍØµÊÒË¡ÃÃÁ")
+        'กระทรวงอุตสาหกรรม'
     """
     return text.encode("cp1252", "ignore").decode("tis-620")
 
@@ -31,11 +29,9 @@ def to_idna(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import to_idna
-
-        to_idna("คนละครึ่ง.com")
-        # output: 'xn--42caj4e6bk1f5b1j.com'
+        >>> from pythainlp.util import to_idna
+        >>> to_idna("คนละครึ่ง.com")
+        'xn--42caj4e6bk1f5b1j.com'
     """
     return text.encode("idna").decode("utf-8")

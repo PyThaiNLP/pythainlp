@@ -66,16 +66,15 @@ def is_read_only_mode() -> bool:
         ``PYTHAINLP_READ_MODE`` are set at the same time.
 
     :Example:
-    ::
 
-        import os
-        from pythainlp import is_read_only_mode
-
-        os.environ["PYTHAINLP_READ_ONLY"] = "1"
-        print(is_read_only_mode())  # True
-
-        os.environ["PYTHAINLP_READ_ONLY"] = "0"
-        print(is_read_only_mode())  # False
+        >>> import os  # doctest: +SKIP
+        >>> from pythainlp import is_read_only_mode  # doctest: +SKIP
+        >>> os.environ["PYTHAINLP_READ_ONLY"] = "1"  # doctest: +SKIP
+        >>> is_read_only_mode()  # doctest: +SKIP
+        True
+        >>> os.environ["PYTHAINLP_READ_ONLY"] = "0"  # doctest: +SKIP
+        >>> is_read_only_mode()  # doctest: +SKIP
+        False
     """
     import warnings
 
@@ -144,16 +143,15 @@ def is_offline_mode() -> bool:
     :rtype: bool
 
     :Example:
-    ::
 
-        import os
-        from pythainlp import is_offline_mode
-
-        os.environ["PYTHAINLP_OFFLINE"] = "1"
-        print(is_offline_mode())  # True
-
-        os.environ["PYTHAINLP_OFFLINE"] = "0"
-        print(is_offline_mode())  # False
+        >>> import os  # doctest: +SKIP
+        >>> from pythainlp import is_offline_mode  # doctest: +SKIP
+        >>> os.environ["PYTHAINLP_OFFLINE"] = "1"  # doctest: +SKIP
+        >>> is_offline_mode()  # doctest: +SKIP
+        True
+        >>> os.environ["PYTHAINLP_OFFLINE"] = "0"  # doctest: +SKIP
+        >>> is_offline_mode()  # doctest: +SKIP
+        False
     """
     val = os.getenv("PYTHAINLP_OFFLINE", "")
     return val.strip().lower() not in ("", "0", "false", "no", "off")
@@ -198,12 +196,10 @@ def get_full_data_path(path: str) -> str:
         PyThaiNLP data directory (path traversal attempt).
 
     :Example:
-    ::
 
-        from pythainlp.tools import get_full_data_path
-
-        get_full_data_path("ttc_freq.txt")
-        # output: '/root/pythainlp-data/ttc_freq.txt'
+        >>> from pythainlp.tools import get_full_data_path  # doctest: +SKIP
+        >>> get_full_data_path("ttc_freq.txt")  # doctest: +SKIP
+        '/root/pythainlp-data/ttc_freq.txt'
     """
     return safe_path_join(get_pythainlp_data_path(), path)
 
@@ -232,12 +228,10 @@ def get_pythainlp_data_path() -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.tools import get_pythainlp_data_path
-
-        get_pythainlp_data_path()
-        # output: '/root/pythainlp-data'
+        >>> from pythainlp.tools import get_pythainlp_data_path  # doctest: +SKIP
+        >>> get_pythainlp_data_path()  # doctest: +SKIP
+        '/root/pythainlp-data'
     """
     import warnings
 
@@ -277,12 +271,10 @@ def get_pythainlp_path() -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.tools import get_pythainlp_path
-
-        get_pythainlp_path()
-        # output: '/usr/local/lib/python3.6/dist-packages/pythainlp'
+        >>> from pythainlp.tools import get_pythainlp_path  # doctest: +SKIP
+        >>> get_pythainlp_path()  # doctest: +SKIP
+        '/usr/local/lib/python3/dist-packages/pythainlp'
     """
     package_path = files("pythainlp")
     # For compatibility, convert to string path if possible

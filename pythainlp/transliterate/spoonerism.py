@@ -21,15 +21,12 @@ def puan(word: str, show_pronunciation: bool = True) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.transliterate import puan
-
-        puan("นาริน")
-        # output: 'นิน-รา'
-
-        puan("นาริน", False)
-        # output: 'นินรา'
+        >>> from pythainlp.transliterate import puan
+        >>> puan("นาริน")  # doctest: +SKIP
+        'นิน-รา'
+        >>> puan("นาริน", False)  # doctest: +SKIP
+        'นินรา'
     """
     word = pronunciate(word, engine="w2p")
     _list_char = []

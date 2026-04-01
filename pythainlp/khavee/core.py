@@ -42,14 +42,13 @@ class KhaveeVerifier:
         :rtype: str
 
         :Example:
-        ::
 
-            from pythainlp.khavee import KhaveeVerifier
+            >>> from pythainlp.khavee import KhaveeVerifier  # doctest: +SKIP
 
-            kv = KhaveeVerifier()
+            >>> kv = KhaveeVerifier()  # doctest: +SKIP
 
-            print(kv.check_sara("เริง"))
-            # output: 'เออ'
+            >>> print(kv.check_sara("เริง"))  # doctest: +SKIP
+            'เออ'
         """
         sara = []
         countoa = 0
@@ -224,21 +223,20 @@ class KhaveeVerifier:
 
     def check_marttra(self, word: str) -> str:
         """
-        Check the Thai spelling Section in the Thai word.
+        Check the Thai spelling section of the Thai word.
 
         :param str word: Thai word
-        :return: name of spelling Section of the word.
+        :return: name of the spelling section of the word
         :rtype: str
 
         :Example:
-        ::
 
-            from pythainlp.khavee import KhaveeVerifier
+            >>> from pythainlp.khavee import KhaveeVerifier  # doctest: +SKIP
 
-            kv = KhaveeVerifier()
+            >>> kv = KhaveeVerifier()  # doctest: +SKIP
 
-            print(kv.check_marttra("สาว"))
-            # output: 'เกอว'
+            >>> print(kv.check_marttra("สาว"))  # doctest: +SKIP
+            'เกอว'
         """
         # Handle consonant clusters ending with ร
         # ตร, ทร → remove ร (treat as final ต/ท sound)
@@ -326,17 +324,16 @@ class KhaveeVerifier:
         :rtype: bool
 
         :Example:
-        ::
 
-            from pythainlp.khavee import KhaveeVerifier
+            >>> from pythainlp.khavee import KhaveeVerifier  # doctest: +SKIP
 
-            kv = KhaveeVerifier()
+            >>> kv = KhaveeVerifier()  # doctest: +SKIP
 
-            print(kv.is_sumpus("สรร", "อัน"))
-            # output: True
+            >>> print(kv.is_sumpus("สรร", "อัน"))  # doctest: +SKIP
+            True
 
-            print(kv.is_sumpus("สรร", "แมว"))
-            # output: False
+            >>> print(kv.is_sumpus("สรร", "แมว"))  # doctest: +SKIP
+            False
         """
         marttra1 = self.check_marttra(word1)
         marttra2 = self.check_marttra(word2)
@@ -394,25 +391,24 @@ class KhaveeVerifier:
         :rtype: Union[list[str], str]
 
         :Example:
-        ::
 
-            from pythainlp.khavee import KhaveeVerifier
+            >>> from pythainlp.khavee import KhaveeVerifier  # doctest: +SKIP
 
-            kv = KhaveeVerifier()
+            >>> kv = KhaveeVerifier()  # doctest: +SKIP
 
-            print(kv.check_klon(
-                'ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง เอ๋งเอ๋งคะนอง \
-                มีคนจับจอง เขาชื่อน้องเธียร',
-                k_type=4
-            ))
-            # output: The poem is correct according to the principle.
+            >>> print(kv.check_klon(  # doctest: +SKIP
+            ...     'ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง เอ๋งเอ๋งคะนอง \
+            ...     มีคนจับจอง เขาชื่อน้องเธียร',
+            ...     k_type=4
+            ... ))
+            The poem is correct according to the principle.
 
-            print(kv.check_klon(
-                'ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง \
-                เอ๋งเอ๋งเสียงหมา มีคนจับจอง เขาชื่อน้องเธียร',
-                k_type=4
-            ))
-            # output: [
+            >>> print(kv.check_klon(  # doctest: +SKIP
+            ...     'ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง \
+            ...     เอ๋งเอ๋งเสียงหมา มีคนจับจอง เขาชื่อน้องเธียร',
+            ...     k_type=4
+            ... ))
+            [
                 "Can't find rhyme between paragraphs ('หมา', 'จอง') in paragraph 2",
                 "Can't find rhyme between paragraphs ('หมา', 'ทอง') in paragraph 2"
             ]
@@ -640,21 +636,20 @@ class KhaveeVerifier:
         :rtype: Union[list[bool], List[str], bool, str]
 
         :Example:
-        ::
 
-            from pythainlp.khavee import KhaveeVerifier
+            >>> from pythainlp.khavee import KhaveeVerifier  # doctest: +SKIP
 
-            kv = KhaveeVerifier()
+            >>> kv = KhaveeVerifier()  # doctest: +SKIP
 
-            # การเช็คคำเอกโท
-            print(
-                kv.check_aek_too("เอง"),
-                kv.check_aek_too("เอ่ง"),
-                kv.check_aek_too("เอ้ง"),
-            )
-            # -> False, aek, too
-            print(kv.check_aek_too(["เอง", "เอ่ง", "เอ้ง"]))  # ใช้ List ได้เหมือนกัน
-            # -> [False, 'aek', 'too']
+            >>> # การเช็คคำเอกโท
+            >>> print(  # doctest: +SKIP
+            ...     kv.check_aek_too("เอง"),
+            ...     kv.check_aek_too("เอ่ง"),
+            ...     kv.check_aek_too("เอ้ง"),
+            ... )
+            >>> # -> False, aek, too
+            >>> print(kv.check_aek_too(["เอง", "เอ่ง", "เอ้ง"]))  # ใช้ List ได้เหมือนกัน  # doctest: +SKIP
+            >>> # -> [False, 'aek', 'too']
         """
         if isinstance(text, list):
             return [self.check_aek_too(t, dead_syllable_as_aek) for t in text]  # type: ignore[misc]
@@ -678,8 +673,8 @@ class KhaveeVerifier:
         by stripping all characters before the 'Karun' character
         that should be silenced
 
-        :param str text: Thai word
-        :return: Thai word with silent words stripped
+        :param str word: Thai word
+        :return: Thai word with silent consonant stripped
         :rtype: str
         """
         sound_silenced = word.endswith("์")

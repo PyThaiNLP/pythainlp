@@ -35,16 +35,15 @@ def rejoin_formatted_num(segments: list[str]) -> list[str]:
     :rtype: list[str]
 
     :Example:
-        tokens = ['ขณะ', 'นี้', 'เวลา', ' ', '12', ':', '00น', ' ', 'อัตรา',
-                'แลกเปลี่ยน', ' ', '1', ',', '234', '.', '5', ' ', 'baht/zeny']
-        rejoin_formatted_num(tokens)
-        # output:
-        # ['ขณะ', 'นี้', 'เวลา', ' ', '12:00น', ' ', 'อัตรา', 'แลกเปลี่ยน', ' ', '1,234.5', ' ', 'baht/zeny']
 
-        tokens = ['IP', ' ', 'address', ' ', 'ของ', 'คุณ', 'คือ', ' ', '127', '.', '0', '.', '0', '.', '1', ' ', 'ครับ']
-        rejoin_formatted_num(tokens)
-        # output:
-        # ['IP', ' ', 'address', ' ', 'ของ', 'คุณ', 'คือ', ' ', '127.0.0.1', ' ', 'ครับ']
+        >>> from pythainlp.tokenize._utils import rejoin_formatted_num
+        >>> tokens = ['ขณะ', 'นี้', 'เวลา', ' ', '12', ':', '00น', ' ', 'อัตรา',
+        ...         'แลกเปลี่ยน', ' ', '1', ',', '234', '.', '5', ' ', 'baht/zeny']
+        >>> rejoin_formatted_num(tokens)
+        ['ขณะ', 'นี้', 'เวลา', ' ', '12:00น', ' ', 'อัตรา', 'แลกเปลี่ยน', ' ', '1,234.5', ' ', 'baht/zeny']
+        >>> tokens = ['IP', ' ', 'address', ' ', 'ของ', 'คุณ', 'คือ', ' ', '127', '.', '0', '.', '0', '.', '1', ' ', 'ครับ']
+        >>> rejoin_formatted_num(tokens)
+        ['IP', ' ', 'address', ' ', 'ของ', 'คุณ', 'คือ', ' ', '127.0.0.1', ' ', 'ครับ']
     """
     original = "".join(segments)
     matching_results = _DIGITS_WITH_SEPARATOR.finditer(original)
@@ -80,9 +79,11 @@ def strip_whitespace(segments: list[str]) -> list[str]:
     :rtype: list[str]
 
     :Example:
-        tokens = [" ", "วันนี้ ", "เวลา ", "19.00น"]
-        strip_whitespace(tokens)
-        # ["วันนี้", "เวลา", "19.00น"]
+
+        >>> from pythainlp.tokenize._utils import strip_whitespace
+        >>> tokens = [" ", "วันนี้ ", "เวลา ", "19.00น"]
+        >>> strip_whitespace(tokens)
+        ['วันนี้', 'เวลา', '19.00น']
 
     """
     segments = [token.strip(" ") for token in segments if token.strip(" ")]

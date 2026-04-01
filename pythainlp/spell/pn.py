@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
+# SPDX-FileType: SOURCE
+# SPDX-License-Identifier: Apache-2.0
 """Spell checker, using Peter Norvig algorithm.
 Spelling dictionary can be customized.
 Default spelling dictionary is based on Phupha: Thai Word Frequency Dataset,
@@ -145,17 +148,19 @@ class NorvigSpellChecker:
         Then, it selects the candidate with
         the highest word occurrence probability.
 
-        :param str custom_dict: A custom spelling dictionary. This can be:
-                                (1) a dictionary (`dict`), with words (`str`)
-                                    as keys and frequencies (`int`) as values;
-                                (2) an iterable (list, tuple, or set) of words
-                                    (`str`) and frequency (`int`) tuples:
-                                    `(str, int)`; or
-                                (3) an iterable of just words (`str`), without
-                                    frequencies -- in this case `1` will be
-                                    assigned to every words.
-                                Default is from Phupha dataset, filtered with
-                                Royal Society of Thailand word list (38,160 words).
+        :param custom_dict: A custom spelling dictionary. This can be:
+                            (1) a dictionary (`dict`), with words (`str`)
+                                as keys and frequencies (`int`) as values;
+                            (2) an iterable (list, tuple, or set) of words
+                                (`str`) and frequency (`int`) tuples:
+                                ``(str, int)``; or
+                            (3) an iterable of just words (`str`), without
+                                frequencies -- in this case ``1`` will be
+                                assigned to every word.
+                            Default is from Phupha dataset, filtered with
+                            Royal Society of Thailand word list (38,160 words).
+        :type custom_dict: Union[dict[str, int], Iterable[str],
+            Iterable[tuple[str, int]]], optional
         :param int min_freq: Minimum frequency of a word to keep (default = 2)
         :param int min_len: Minimum length (in characters) of a word to keep
                             (default = 2)
@@ -192,15 +197,14 @@ class NorvigSpellChecker:
         :rtype: ItemsView[str, int]
 
         :Example:
-        ::
 
-            from pythainlp.spell import NorvigSpellChecker
+            >>> from pythainlp.spell import NorvigSpellChecker  # doctest: +SKIP
 
-            dictionary = [("หวาน", 30), ("มะนาว", 2), ("แอบ", 3223)]
+            >>> dictionary = [("หวาน", 30), ("มะนาว", 2), ("แอบ", 3223)]  # doctest: +SKIP
 
-            checker = NorvigSpellChecker(custom_dict=dictionary)
-            checker.dictionary()
-            # output: dict_items([('หวาน', 30), ('มะนาว', 2), ('แอบ', 3223)])
+            >>> checker = NorvigSpellChecker(custom_dict=dictionary)  # doctest: +SKIP
+            >>> checker.dictionary()  # doctest: +SKIP
+            dict_items([('หวาน', 30), ('มะนาว', 2), ('แอบ', 3223)])
         """
         return self.__WORDS.items()
 
@@ -215,20 +219,19 @@ class NorvigSpellChecker:
         :rtype: list[str]
 
         :Example:
-        ::
 
-            from pythainlp.spell import NorvigSpellChecker
+            >>> from pythainlp.spell import NorvigSpellChecker  # doctest: +SKIP
 
-            checker = NorvigSpellChecker()
+            >>> checker = NorvigSpellChecker()  # doctest: +SKIP
 
-            checker.known(["เพยน", "เพล", "เพลง"])
-            # output: ['เพล', 'เพลง']
+            >>> checker.known(["เพยน", "เพล", "เพลง"])  # doctest: +SKIP
+            ['เพล', 'เพลง']
 
-            checker.known(["ยกไ", "ไฟล์ม"])
-            # output: []
+            >>> checker.known(["ยกไ", "ไฟล์ม"])  # doctest: +SKIP
+            []
 
-            checker.known([])
-            # output: []
+            >>> checker.known([])  # doctest: +SKIP
+            []
         """
         return list(w for w in words if w in self.__WORDS)
 
@@ -242,20 +245,19 @@ class NorvigSpellChecker:
         :rtype: float
 
         :Example:
-        ::
 
-            from pythainlp.spell import NorvigSpellChecker
+            >>> from pythainlp.spell import NorvigSpellChecker  # doctest: +SKIP
 
-            checker = NorvigSpellChecker()
+            >>> checker = NorvigSpellChecker()  # doctest: +SKIP
 
-            checker.prob("ครัช")
-            # output: 0.0
+            >>> checker.prob("ครัช")  # doctest: +SKIP
+            0.0
 
-            checker.prob("รัก")
-            # output: 0.0006959172792052158
+            >>> checker.prob("รัก")  # doctest: +SKIP
+            0.0006959172792052158
 
-            checker.prob("น่ารัก")
-            # output: 9.482306849763902e-05
+            >>> checker.prob("น่ารัก")  # doctest: +SKIP
+            9.482306849763902e-05
         """
         return self.__WORDS[word] / self.__WORDS_TOTAL
 
@@ -268,17 +270,16 @@ class NorvigSpellChecker:
         :rtype: int
 
         :Example:
-        ::
 
-            from pythainlp.spell import NorvigSpellChecker
+            >>> from pythainlp.spell import NorvigSpellChecker  # doctest: +SKIP
 
-            checker = NorvigSpellChecker()
+            >>> checker = NorvigSpellChecker()  # doctest: +SKIP
 
-            checker.freq("ปัญญา")
-            # output: 3639
+            >>> checker.freq("ปัญญา")  # doctest: +SKIP
+            3639
 
-            checker.freq("บิญชา")
-            # output: 0
+            >>> checker.freq("บิญชา")  # doctest: +SKIP
+            0
         """
         return self.__WORDS[word]
 
@@ -304,19 +305,18 @@ class NorvigSpellChecker:
         :rtype: list[str]
 
         :Example:
-        ::
 
-            from pythainlp.spell import NorvigSpellChecker
+            >>> from pythainlp.spell import NorvigSpellChecker  # doctest: +SKIP
 
-            checker = NorvigSpellChecker()
+            >>> checker = NorvigSpellChecker()  # doctest: +SKIP
 
-            checker.spell("เส้นตรบ")
-            # output: ['เส้นตรง']
+            >>> checker.spell("เส้นตรบ")  # doctest: +SKIP
+            ['เส้นตรง']
 
-            checker.spell("ครัช")
-            # output: ['ครับ', 'ครัว', 'รัช', 'ครัม', 'ครัน',
-            # 'วรัช', 'ครัส', 'ปรัช', 'บรัช', 'ครัง',
-            #'คัช', 'คลัช', 'ครัย', 'ครัด']
+            >>> checker.spell("ครัช")  # doctest: +SKIP
+            ['ครับ', 'ครัว', 'รัช', 'ครัม', 'ครัน',
+            'วรัช', 'ครัส', 'ปรัช', 'บรัช', 'ครัง',
+            'คัช', 'คลัช', 'ครัย', 'ครัด']
         """
         if not word:
             return [""]
@@ -341,20 +341,19 @@ class NorvigSpellChecker:
         :rtype: str
 
         :Example:
-        ::
 
-            from pythainlp.spell import NorvigSpellChecker
+            >>> from pythainlp.spell import NorvigSpellChecker  # doctest: +SKIP
 
-            checker = NorvigSpellChecker()
+            >>> checker = NorvigSpellChecker()  # doctest: +SKIP
 
-            checker.correct("ปัญชา")
-            # output: 'ปัญหา'
+            >>> checker.correct("ปัญชา")  # doctest: +SKIP
+            'ปัญหา'
 
-            checker.correct("บิญชา")
-            # output: 'บัญชา'
+            >>> checker.correct("บิญชา")  # doctest: +SKIP
+            'บัญชา'
 
-            checker.correct("มิตรภาบ")
-            # output: 'มิตรภาพ'
+            >>> checker.correct("มิตรภาบ")  # doctest: +SKIP
+            'มิตรภาพ'
         """
         if not word:
             return ""

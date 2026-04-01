@@ -47,53 +47,55 @@ def summarize(
                           (effective for frequency engine only)
 
     :return: list of selected sentences
+    :rtype: list[str]
+
     **Options for engine**
-        * *frequency* (default) - frequency of words
+        * *frequency* (default) - word frequency
         * *mt5* - mT5-small model
         * *mt5-small* - mT5-small model
         * *mt5-base* - mT5-base model
         * *mt5-large* - mT5-large model
         * *mt5-xl* - mT5-xl model
         * *mt5-xxl* - mT5-xxl model
-        * *mt5-cpe-kmutt-thai-sentence-sum* - mT5 Thai sentence summarization by CPE KMUTT
+        * *mt5-cpe-kmutt-thai-sentence-sum* - mT5 Thai sentence
+          summarization by CPE KMUTT
 
     :Example:
-    ::
 
-        from pythainlp.summarize import summarize
+        >>> from pythainlp.summarize import summarize  # doctest: +SKIP
 
-        text = '''
-                ทำเนียบท่าช้าง หรือ วังถนนพระอาทิตย์
-                ตั้งอยู่บนถนนพระอาทิตย์ เขตพระนคร กรุงเทพมหานคร
-                เดิมเป็นบ้านของเจ้าพระยามหาโยธา (ทอเรียะ คชเสนี)
-                บุตรเจ้าพระยามหาโยธานราธิบดีศรีพิชัยณรงค์ (พญาเจ่ง)
-                ต้นสกุลคชเสนี เชื้อสายมอญ เจ้าพระยามหาโยธา (ทอเรีย)
-                เป็นปู่ของเจ้าจอมมารดากลิ่นในพระบาทสมเด็จพระจอมเกล้าเจ้าอยู่หัว
-                และเป็นมรดกตกทอดมาถึง พระเจ้าบรมวงศ์เธอ กรมพระนเรศรวรฤทธิ์
-                (พระองค์เจ้ากฤดาภินิหาร)
-                ต่อมาในรัชสมัยพระบาทสมเด็จพระจุลจอมเกล้าเจ้าอยู่หัวโปรดเกล้าฯ
-                ให้สร้างตำหนัก 2 ชั้น
-                เป็นที่ประทับของพระเจ้าบรมวงศ์เธอ
-                กรมพระนเรศวรฤทิธิ์และเจ้าจอมมารดา
-                ต่อมาเรียกอาคารหลักนี้ว่า ตำหนักเดิม
-            '''
+        >>> text = '''  # doctest: +SKIP
+        ...         ทำเนียบท่าช้าง หรือ วังถนนพระอาทิตย์
+        ...         ตั้งอยู่บนถนนพระอาทิตย์ เขตพระนคร กรุงเทพมหานคร
+        ...         เดิมเป็นบ้านของเจ้าพระยามหาโยธา (ทอเรียะ คชเสนี)
+        ...         บุตรเจ้าพระยามหาโยธานราธิบดีศรีพิชัยณรงค์ (พญาเจ่ง)
+        ...         ต้นสกุลคชเสนี เชื้อสายมอญ เจ้าพระยามหาโยธา (ทอเรีย)
+        ...         เป็นปู่ของเจ้าจอมมารดากลิ่นในพระบาทสมเด็จพระจอมเกล้าเจ้าอยู่หัว
+        ...         และเป็นมรดกตกทอดมาถึง พระเจ้าบรมวงศ์เธอ กรมพระนเรศรวรฤทธิ์
+        ...         (พระองค์เจ้ากฤดาภินิหาร)
+        ...         ต่อมาในรัชสมัยพระบาทสมเด็จพระจุลจอมเกล้าเจ้าอยู่หัวโปรดเกล้าฯ
+        ...         ให้สร้างตำหนัก 2 ชั้น
+        ...         เป็นที่ประทับของพระเจ้าบรมวงศ์เธอ
+        ...         กรมพระนเรศวรฤทิธิ์และเจ้าจอมมารดา
+        ...         ต่อมาเรียกอาคารหลักนี้ว่า ตำหนักเดิม
+        ...     '''
 
-        summarize(text, n=1)
-        # output: ['บุตรเจ้าพระยามหาโยธานราธิบดีศรีพิชัยณรงค์']
+        >>> summarize(text, n=1)  # doctest: +SKIP
+        ['บุตรเจ้าพระยามหาโยธานราธิบดีศรีพิชัยณรงค์']
 
-        summarize(text, n=3)
-        # output: ['บุตรเจ้าพระยามหาโยธานราธิบดีศรีพิชัยณรงค์',
-        # 'เดิมเป็นบ้านของเจ้าพระยามหาโยธา',
-        # 'เจ้าพระยามหาโยธา']
+        >>> summarize(text, n=3)  # doctest: +SKIP
+        ['บุตรเจ้าพระยามหาโยธานราธิบดีศรีพิชัยณรงค์',
+        'เดิมเป็นบ้านของเจ้าพระยามหาโยธา',
+        'เจ้าพระยามหาโยธา']
 
-        summarize(text, engine="mt5-small")
-        # output: ['<extra_id_0> ท่าช้าง หรือ วังถนนพระอาทิตย์
-        # เขตพระนคร กรุงเทพมหานคร ฯลฯ ดังนี้:
-        # ที่อยู่ - ศิลปวัฒนธรรม']
+        >>> summarize(text, engine="mt5-small")  # doctest: +SKIP
+        ['<extra_id_0> ท่าช้าง หรือ วังถนนพระอาทิตย์
+        เขตพระนคร กรุงเทพมหานคร ฯลฯ ดังนี้:
+        ที่อยู่ - ศิลปวัฒนธรรม']
 
-        text = "ถ้าพูดถึงขนมหวานในตำนานที่ชื่นใจที่สุดแล้วละก็ต้องไม่พ้น น้ำแข็งใส แน่ๆ เพราะว่าเป็นอะไรที่ชื่นใจสุดๆ"
-        summarize(text, engine="mt5-cpe-kmutt-thai-sentence-sum")
-        # output: ['น้ําแข็งใสเป็นอะไรที่ชื่นใจที่สุด']
+        >>> text = "ถ้าพูดถึงขนมหวานในตำนานที่ชื่นใจที่สุดแล้วละก็ต้องไม่พ้น น้ำแข็งใส แน่ๆ เพราะว่าเป็นอะไรที่ชื่นใจสุดๆ"  # doctest: +SKIP
+        >>> summarize(text, engine="mt5-cpe-kmutt-thai-sentence-sum")  # doctest: +SKIP
+        ['น้ําแข็งใสเป็นอะไรที่ชื่นใจที่สุด']
     """
     if not text or not isinstance(text, str):
         return []
@@ -128,68 +130,75 @@ def extract_keywords(
     tokenizer: str = "newmm",
     stop_words: Optional[Iterable[str]] = None,
 ) -> list[str]:
-    """Returns most-relevant keywords (and/or keyphrases) from the input document.
-    Each algorithm may produce completely different keywords from each other,
-    so please be careful when choosing the algorithm.
+    """Return the most relevant keywords (and keyphrases) from a document.
 
-    *Note*: Calling :func: `extract_keywords()` is expensive. For repetitive use of KeyBERT (the default engine),
-    creating a KeyBERT object is highly recommended.
+    Each algorithm may produce completely different keywords,
+    so choose the algorithm carefully.
 
-    :param str text: text to be summarized
-    :param Tuple[int, int] keyphrase_ngram_range: Number of token units to be defined as keyword.
-                            The token unit varies w.r.t. `tokenizer_engine`.
-                            For instance, (1, 1) means each token (unigram) can be a keyword (e.g. "เสา", "ไฟฟ้า"),
-                            (1, 2) means one and two consecutive tokens (unigram and bigram) can be keywords
-                            (e.g. "เสา", "ไฟฟ้า", "เสาไฟฟ้า")  (default: (1, 2))
-    :param int max_keywords: Number of maximum keywords to be returned. (default: 5)
-    :param int min_df: Minimum frequency required to be a keyword. (default: 1)
-    :param str engine: Name of algorithm to use for keyword extraction. (default: 'keybert')
-    :param str tokenizer: Name of tokenizer engine to use.
-                            Refer to options in :func: `pythainlp.tokenize.word_tokenizer() (default: 'newmm')
-    :param Optional[Iterable[str]] stop_words: A list of stop words (a.k.a words to be ignored).
-                            If not specified, :func:`pythainlp.corpus.thai_stopwords` is used. (default: None)
+    .. note::
+
+        Calling :func:`extract_keywords` is expensive.
+        For repeated use of KeyBERT (the default engine),
+        creating a ``KeyBERT`` object directly is recommended.
+
+    :param str text: text to extract keywords from
+    :param tuple[int, int] keyphrase_ngram_range: token range for keywords.
+        ``(1, 1)`` allows unigrams only (e.g. "เสา", "ไฟฟ้า");
+        ``(1, 2)`` allows unigrams and bigrams
+        (e.g. "เสา", "ไฟฟ้า", "เสาไฟฟ้า"). Default: ``(1, 2)``.
+    :param int max_keywords: maximum number of keywords to return.
+        Default: 5.
+    :param int min_df: minimum term frequency to qualify as keyword.
+        Default: 1.
+    :param str engine: keyword extraction algorithm. Default: ``'keybert'``.
+    :param str tokenizer: tokenizer engine name.
+        See :func:`pythainlp.tokenize.word_tokenize` for options.
+        Default: ``'newmm'``.
+    :param stop_words: words to ignore. If ``None``,
+        :func:`pythainlp.corpus.thai_stopwords` is used. Default: ``None``.
+    :type stop_words: collections.abc.Iterable[str] or None
 
     :return: list of keywords
+    :rtype: list[str]
 
     **Options for engine**
-        * *keybert* (default) - KeyBERT keyword extraction algorithm
-        * *frequency* - frequency of words
+        * *keybert* (default) - KeyBERT keyword extraction
+        * *frequency* - word frequency
 
     :Example:
-    ::
 
-        from pythainlp.summarize import extract_keywords
+        >>> from pythainlp.summarize import extract_keywords  # doctest: +SKIP
 
-        text = '''
-            อาหาร หมายถึง ของแข็งหรือของเหลว
-            ที่กินหรือดื่มเข้าสู่ร่างกายแล้ว
-            จะทำให้เกิดพลังงานและความร้อนแก่ร่างกาย
-            ทำให้ร่างกายเจริญเติบโต
-            ซ่อมแซมส่วนที่สึกหรอ ควบคุมการเปลี่ยนแปลงต่างๆ ในร่างกาย
-            ช่วยทำให้อวัยวะต่างๆ ทำงานได้อย่างปกติ
-            อาหารจะต้องไม่มีพิษและไม่เกิดโทษต่อร่างกาย
-        '''
+        >>> text = '''  # doctest: +SKIP
+        ...     อาหาร หมายถึง ของแข็งหรือของเหลว
+        ...     ที่กินหรือดื่มเข้าสู่ร่างกายแล้ว
+        ...     จะทำให้เกิดพลังงานและความร้อนแก่ร่างกาย
+        ...     ทำให้ร่างกายเจริญเติบโต
+        ...     ซ่อมแซมส่วนที่สึกหรอ ควบคุมการเปลี่ยนแปลงต่างๆ ในร่างกาย
+        ...     ช่วยทำให้อวัยวะต่างๆ ทำงานได้อย่างปกติ
+        ...     อาหารจะต้องไม่มีพิษและไม่เกิดโทษต่อร่างกาย
+        ... '''
 
-        keywords = extract_keywords(text)
+        >>> keywords = extract_keywords(text)  # doctest: +SKIP
 
-        # output: ['อวัยวะต่างๆ',
-        # 'ซ่อมแซมส่วน',
-        # 'เจริญเติบโต',
-        # 'ควบคุมการเปลี่ยนแปลง',
-        # 'มีพิษ']
+        ['อวัยวะต่างๆ',
+        'ซ่อมแซมส่วน',
+        'เจริญเติบโต',
+        'ควบคุมการเปลี่ยนแปลง',
+        'มีพิษ']
 
-        keywords = extract_keywords(text, max_keywords=10)
+        >>> keywords = extract_keywords(text, max_keywords=10)  # doctest: +SKIP
 
-        # output: ['อวัยวะต่างๆ',
-        # 'ซ่อมแซมส่วน',
-        # 'เจริญเติบโต',
-        # 'ควบคุมการเปลี่ยนแปลง',
-        # 'มีพิษ',
-        # 'ทำให้ร่างกาย',
-        # 'ร่างกายเจริญเติบโต',
-        # 'จะทำให้เกิด',
-        # 'มีพิษและ',
-        # 'เกิดโทษ']
+        ['อวัยวะต่างๆ',
+        'ซ่อมแซมส่วน',
+        'เจริญเติบโต',
+        'ควบคุมการเปลี่ยนแปลง',
+        'มีพิษ',
+        'ทำให้ร่างกาย',
+        'ร่างกายเจริญเติบโต',
+        'จะทำให้เกิด',
+        'มีพิษและ',
+        'เกิดโทษ']
 
     """
 

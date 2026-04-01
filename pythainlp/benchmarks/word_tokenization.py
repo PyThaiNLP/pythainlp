@@ -91,21 +91,22 @@ def _flatten_result(
     my_dict: Any,
     sep: str = ":",
 ) -> dict[str, Union[int, str]]:
-    """Flatten two-dimension dictionary.
+    """Flatten a two-level dictionary.
 
-    Use keys in the first dimension as a prefix for keys in the second dimension.
-    For example,
-    my_dict = { "a": { "b": 7 } }
-    flatten(my_dict)
-    { "a:b": 7 }
+    Uses keys from the first level as a prefix for keys in the second level.
+    For example::
 
+        my_dict = {"a": {"b": 7}}
+        _flatten_result(my_dict)
+        # {"a:b": 7}
 
     :param my_dict: dictionary containing stats
     :type my_dict: TokenizationStat or
-        collections.abc.Mapping[str, collections.abc.Mapping[str, Union[int, str]]]
-    :param str sep: separator between the two keys (default: ":")
+        collections.abc.Mapping[str,
+        collections.abc.Mapping[str, Union[int, str]]]
+    :param str sep: separator between the two keys (default: ``":"``)
 
-    :return: a one-dimension dictionary with keys combined
+    :return: a flat dictionary with combined keys
     :rtype: dict[str, Union[int, str]]
     """
     return {
@@ -118,13 +119,13 @@ def _flatten_result(
 def benchmark(ref_samples: list[str], samples: list[str]) -> "pd.DataFrame":
     """Performance benchmarking for samples.
 
-    Please see :meth:`pythainlp.benchmarks.word_tokenization.compute_stats` for
-    the computed metrics.
+    See :func:`pythainlp.benchmarks.word_tokenization.compute_stats`
+    for computed metrics.
 
-    :param list[str] ref_samples: ground truth for samples
-    :param list[str] samples: samples that we want to evaluate
+    :param list[str] ref_samples: ground truth
+    :param list[str] samples: samples to evaluate
 
-    :return: dataframe with row x col = len(samples) x len(metrics)
+    :return: dataframe with shape ``len(samples) × len(metrics)``
     :rtype: pandas.DataFrame
     """
     import pandas as pd
@@ -186,22 +187,22 @@ def preprocessing(txt: str, remove_space: bool = True) -> str:
 def compute_stats(
     ref_sample: str, raw_sample: str
 ) -> TokenizationStat:
-    """Compute statistics for tokenization quality
+    """Compute statistics for tokenization quality.
 
     These statistics include:
 
-    **Character-Level**:
-      True Positive, False Positive, True Negative, False Negative, Precision, Recall, and f1
-    **Word-Level**:
-      Precision, Recall, and f1
-    **Other**:
-      - Correct tokenization indicator: {0, 1} sequence indicating that the corresponding
-        word is tokenized correctly.
+    **Character-level**:
+      True Positive, False Positive, True Negative, False Negative
+    **Word-level**:
+      Precision, Recall, and F1
+    **Global**:
+      A ``{0, 1}`` sequence indicating whether each word
+      is tokenized correctly.
 
-    :param str ref_sample: ground truth for samples
-    :param str samples: samples that we want to evaluate
+    :param str ref_sample: ground truth sample
+    :param str raw_sample: sample to evaluate
 
-    :return: metrics at character- and word-level and indicators of correctly tokenized words
+    :return: character-level, word-level, and global tokenization metrics
     :rtype: TokenizationStat
     """
     import numpy as np
@@ -323,10 +324,12 @@ def _find_words_correctly_tokenized(
 ) -> tuple[int, ...]:
     """Find whether each word is correctly tokenized.
 
-    :param list[tuple[int, int]] ref_boundaries: word boundaries of reference tokenization
-    :param list[tuple[int, int]] predicted_boundaries: word boundaries of predicted tokenization
+    :param list[tuple[int, int]] ref_boundaries: word boundaries of
+        the reference tokenization
+    :param list[tuple[int, int]] predicted_boundaries: word boundaries of
+        the predicted tokenization
 
-    :return: binary sequence where 1 indicates the corresponding word is tokenized correctly
+    :return: binary sequence; 1 means the word is tokenized correctly
     :rtype: tuple[int, ...]
     """
     ref_b = dict(zip(ref_boundaries, [1] * len(ref_boundaries)))

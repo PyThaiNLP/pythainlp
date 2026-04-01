@@ -131,24 +131,22 @@ def bleu_score(
     :rtype: BleuScore
 
     :Example:
-    ::
 
-        from pythainlp.benchmarks import bleu_score
+        >>> from pythainlp.benchmarks import bleu_score
 
-        references = ["สวัสดีครับ วันนี้อากาศดีมาก"]
-        hypotheses = ["สวัสดีค่ะ วันนี้อากาศดี"]
-        score = bleu_score(references, hypotheses)
-        print(f"BLEU score: {score['bleu']:.2f}")
+        >>> references = ["สวัสดีครับ วันนี้อากาศดีมาก"]
+        >>> hypotheses = ["สวัสดีค่ะ วันนี้อากาศดี"]
+        >>> score = bleu_score(references, hypotheses)
+        >>> print(f"BLEU score: {score['bleu']:.2f}")
+        BLEU score: 28.12
 
-    ::
-
-        # Multiple references per hypothesis
-        references = [
-            ["สวัสดีครับ", "สวัสดีค่ะ"],  # two refs for first hypothesis
-            ["ลาก่อนครับ", "ลาก่อนค่ะ"],  # two refs for second hypothesis
-        ]
-        hypotheses = ["สวัสดี", "ลาก่อน"]
-        score = bleu_score(references, hypotheses)
+        >>> # Multiple references per hypothesis
+        >>> references = [
+        ...     ["สวัสดีครับ", "สวัสดีค่ะ"],  # two refs for first hypothesis
+        ...     ["ลาก่อนครับ", "ลาก่อนค่ะ"],  # two refs for second hypothesis
+        ... ]
+        >>> hypotheses = ["สวัสดี", "ลาก่อน"]
+        >>> score = bleu_score(references, hypotheses)
     """
     from pythainlp.tokenize import word_tokenize
 
@@ -282,16 +280,18 @@ def rouge_score(
     :rtype: dict[str, RougeScore]
 
     :Example:
-    ::
 
-        from pythainlp.benchmarks import rouge_score
+        >>> from pythainlp.benchmarks import rouge_score
 
-        reference = "สวัสดีครับ วันนี้อากาศดีมาก"
-        hypothesis = "สวัสดีค่ะ วันนี้อากาศดี"
-        scores = rouge_score(reference, hypothesis)
-        print(f"ROUGE-1 F-measure: {scores['rouge1']['fmeasure']:.4f}")
-        print(f"ROUGE-2 F-measure: {scores['rouge2']['fmeasure']:.4f}")
-        print(f"ROUGE-L F-measure: {scores['rougeL']['fmeasure']:.4f}")
+        >>> reference = "สวัสดีครับ วันนี้อากาศดีมาก"
+        >>> hypothesis = "สวัสดีค่ะ วันนี้อากาศดี"
+        >>> scores = rouge_score(reference, hypothesis)
+        >>> print(f"ROUGE-1 F-measure: {scores['rouge1']['fmeasure']:.4f}")
+        ROUGE-1 F-measure: 0.6000
+        >>> print(f"ROUGE-2 F-measure: {scores['rouge2']['fmeasure']:.4f}")
+        ROUGE-2 F-measure: 0.2500
+        >>> print(f"ROUGE-L F-measure: {scores['rougeL']['fmeasure']:.4f}")
+        ROUGE-L F-measure: 0.6000
     """
     from pythainlp.tokenize import word_tokenize
 
@@ -391,14 +391,14 @@ def word_error_rate(
     :rtype: float
 
     :Example:
-    ::
 
-        from pythainlp.benchmarks import word_error_rate
+        >>> from pythainlp.benchmarks import word_error_rate
 
-        reference = "สวัสดีครับ วันนี้อากาศดีมาก"
-        hypothesis = "สวัสดีค่ะ วันนี้อากาศดี"
-        wer = word_error_rate(reference, hypothesis)
-        print(f"WER: {wer:.4f}")
+        >>> reference = "สวัสดีครับ วันนี้อากาศดีมาก"
+        >>> hypothesis = "สวัสดีค่ะ วันนี้อากาศดี"
+        >>> wer = word_error_rate(reference, hypothesis)
+        >>> print(f"WER: {wer:.4f}")
+        WER: 0.4000
     """
     from pythainlp.tokenize import word_tokenize
 
@@ -469,14 +469,14 @@ def character_error_rate(
     :rtype: float
 
     :Example:
-    ::
 
-        from pythainlp.benchmarks import character_error_rate
+        >>> from pythainlp.benchmarks import character_error_rate
 
-        reference = "สวัสดีครับ"
-        hypothesis = "สวัสดีค่ะ"
-        cer = character_error_rate(reference, hypothesis)
-        print(f"CER: {cer:.4f}")
+        >>> reference = "สวัสดีครับ"
+        >>> hypothesis = "สวัสดีค่ะ"
+        >>> cer = character_error_rate(reference, hypothesis)
+        >>> print(f"CER: {cer:.4f}")
+        CER: 0.3000
     """
     # Work with characters directly (no tokenization needed)
     ref_chars = list(reference)

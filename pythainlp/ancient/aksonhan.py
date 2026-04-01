@@ -29,28 +29,24 @@ _dict_thai: set[str] = set(thai_orst_words())  # call Thai words
 def aksonhan_to_current(word: str) -> str:
     """Convert AksonHan words to current Thai words
 
-    AksonHan (อักษรหัน) writes down two consonants for the \
-    spelling of the /a/ vowels. (สระ อะ).
+    AksonHan (อักษรหัน) writes two consonants to spell
+    the short /a/ vowel (สระ อะ).
 
-    Today, รร is an aksonHan word that is still used in Thai.
+    Today, รร is an aksonhan pattern still used in Thai.
 
     :param str word: Thai word
     :return: Thai AksonHan to be converted to current Thai word
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.ancient import aksonhan_to_current
-
-        print(aksonhan_to_current("จกก"))
-        # output: จัก
-
-        print(aksonhan_to_current("บงงคบบ"))
-        # output: บังคับ
-
-        print(aksonhan_to_current("สรรเพชญ")) # รร is still used.
-        # output: สรรเพชญ
+        >>> from pythainlp.ancient import aksonhan_to_current
+        >>> print(aksonhan_to_current("จกก"))
+        จัก
+        >>> print(aksonhan_to_current("บงงคบบ"))
+        บังคับ
+        >>> print(aksonhan_to_current("สรรเพชญ"))  # รร is still used.
+        สรรเพชญ
 
     """
     if len(word) < 3:

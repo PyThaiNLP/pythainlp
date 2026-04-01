@@ -44,18 +44,14 @@ def bahttext(number: float) -> str:
     :raises TypeError: if *number* is not a numeric type
 
     :Example:
-    ::
 
-        from pythainlp.util import bahttext
-
-        bahttext(1)
-        # output: หนึ่งบาทถ้วน
-
-        bahttext(21)
-        # output: ยี่สิบเอ็ดบาทถ้วน
-
-        bahttext(200)
-        # output: สองร้อยบาทถ้วน
+        >>> from pythainlp.util import bahttext
+        >>> bahttext(1)
+        'หนึ่งบาทถ้วน'
+        >>> bahttext(21)
+        'ยี่สิบเอ็ดบาทถ้วน'
+        >>> bahttext(200)
+        'สองร้อยบาทถ้วน'
     """
     if not isinstance(number, (int, float)):
         raise TypeError(
@@ -92,15 +88,12 @@ def num_to_thaiword(number: Optional[int]) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import num_to_thaiword
-
-        num_to_thaiword(1)
-        # output: หนึ่ง
-
-        num_to_thaiword(11)
-        # output: สิบเอ็ด
+        >>> from pythainlp.util import num_to_thaiword
+        >>> num_to_thaiword(1)
+        'หนึ่ง'
+        >>> num_to_thaiword(11)
+        'สิบเอ็ด'
     """
     if number is None:
         return ""

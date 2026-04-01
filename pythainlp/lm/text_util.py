@@ -8,13 +8,13 @@ from __future__ import annotations
 def calculate_ngram_counts(
     list_words: list[str], n_min: int = 2, n_max: int = 4
 ) -> dict[tuple[str, ...], int]:
-    """Calculates the counts of n-grams in the list words for the specified range.
+    """Calculate n-gram counts for the given word list.
 
-    :param List[str] list_words: List of string
-    :param int n_min: The minimum n-gram size (default: 2).
-    :param int n_max: The maximum n-gram size (default: 4).
+    :param list[str] list_words: list of words
+    :param int n_min: minimum n-gram size (default: 2)
+    :param int n_max: maximum n-gram size (default: 4)
 
-    :return: A dictionary where keys are n-grams and values are their counts.
+    :return: dictionary mapping n-grams to their counts
     :rtype: dict[tuple[str, ...], int]
     """
     if not list_words:
@@ -31,20 +31,19 @@ def calculate_ngram_counts(
 
 
 def remove_repeated_ngrams(string_list: list[str], n: int = 2) -> list[str]:
-    """Remove repeated n-grams
+    """Remove repeated n-grams from a word list.
 
-    :param List[str] string_list: List of string
+    :param list[str] string_list: list of words
     :param int n: n-gram size
-    :return: List of string
+    :return: list of words with repeated n-grams removed
     :rtype: list[str]
 
     :Example:
-    ::
 
-        from pythainlp.lm import remove_repeated_ngrams
+        >>> from pythainlp.lm import remove_repeated_ngrams  # doctest: +SKIP
 
-        remove_repeated_ngrams(["เอา", "เอา", "แบบ", "ไหน"], n=1)
-        # output: ['เอา', 'แบบ', 'ไหน']
+        >>> remove_repeated_ngrams(["เอา", "เอา", "แบบ", "ไหน"], n=1)  # doctest: +SKIP
+        ['เอา', 'แบบ', 'ไหน']
     """
     if not string_list or n <= 0:
         return string_list

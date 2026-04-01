@@ -128,15 +128,11 @@ def misspell(sentence: str, ratio: float = 0.05) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.tools.misspell import misspell
-
-        sentence = "ภาษาไทยปรากฏครั้งแรกในพุทธศักราช 1826"
-
-        misspell(sent, ratio=0.1)
-        # output:
-        ภาษาไทยปรากฏครั้งแรกในกุทธศักราช 1727
+        >>> from pythainlp.tools.misspell import misspell  # doctest: +SKIP
+        >>> sentence = "ภาษาไทยปรากฏครั้งแรกในพุทธศักราช 1826"  # doctest: +SKIP
+        >>> misspell(sentence, ratio=0.1)  # doctest: +SKIP
+        'ภาษาไทยปรากฏครั้งแรกในกุทธศักราช 1727'
     """
     num_misspells = math.floor(len(sentence) * ratio)
     positions = random.sample(range(len(sentence)), k=num_misspells)

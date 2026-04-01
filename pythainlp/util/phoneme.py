@@ -96,19 +96,17 @@ def nectec_to_ipa(pronunciation: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import nectec_to_ipa
+        >>> from pythainlp.util import nectec_to_ipa  # doctest: +SKIP
 
-        print(nectec_to_ipa("kl-uua-j^-2"))
-        # output : 'kl uua j ˥˩'
-
+        >>> print(nectec_to_ipa("kl-uua-j^-2"))  # doctest: +SKIP
+        'kl uua j ˥˩'
 
     References
     ----------
-    Pornpimon Palingoon, Sumonmas Thatphithakkul. Chapter 4 Speech processing \
-        and Speech corpus. In: Handbook of Thai Electronic Corpus. \
-        1st ed. p. 122–56.
+    Pornpimon Palingoon, Sumonmas Thatphithakkul. Chapter 4 Speech
+    processing and Speech corpus. In: Handbook of Thai Electronic
+    Corpus. 1st ed. p. 122–56.
 
     """
     parts = pronunciation.split("-")
@@ -127,11 +125,11 @@ dict_ipa_rtgs: dict[str, str] = {
     "f": "f",
     "h": "h",
     # The conversion of j depends on its position in the syllable.
-    # But, unfortunately, the current implementation cannot handle both cases.
-    # To remove confusions without changing the behavior and breaking existing codes,
-    # it is suggested that the first key-value mapping of j be simply commented out,
-    # as it would be overridden by the second one and thus never take effect from the beginning.
-    # See #846 for a more detailed discussion: https://github.com/PyThaiNLP/pythainlp/issues/846
+    # The current implementation cannot handle both cases.
+    # The first mapping ("j": "y") is commented out because it is
+    # overridden by the second one ("j": "i") and never takes effect.
+    # See issue #846:
+    # https://github.com/PyThaiNLP/pythainlp/issues/846
     # "j":"y",
     "k": "k",
     "kʰ": "kh",
@@ -211,12 +209,11 @@ def ipa_to_rtgs(ipa: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import ipa_to_rtgs
+        >>> from pythainlp.util import ipa_to_rtgs  # doctest: +SKIP
 
-        print(ipa_to_rtgs("kluaj"))
-        # output : 'kluai'
+        >>> print(ipa_to_rtgs("kluaj"))  # doctest: +SKIP
+        'kluai'
 
     """
     rtgs_parts = []
@@ -249,12 +246,11 @@ def remove_tone_ipa(ipa: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import remove_tone_ipa
+        >>> from pythainlp.util import remove_tone_ipa  # doctest: +SKIP
 
-        print(remove_tone_ipa("laː˦˥.sa˨˩.maj˩˩˦"))
-        # output : laː.sa.maj
+        >>> print(remove_tone_ipa("laː˦˥.sa˨˩.maj˩˩˦"))  # doctest: +SKIP
+        laː.sa.maj
 
     """
     _list_tone = ["˩˩˦", "˥˩", "˨˩", "˦˥", "˧"]

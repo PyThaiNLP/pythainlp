@@ -36,13 +36,11 @@ def word_freqs() -> list[tuple[str, int]]:
     :rtype: list[tuple[str, int]]
 
     :Example:
-    ::
 
-        from pythainlp.corpus import phupha
-
-        freqs = phupha.word_freqs()
-        print(freqs[:5])
-        # output: [('น', 1119315948), ('ร', 1066483406), ...]
+        >>> from pythainlp.corpus import phupha  # doctest: +SKIP
+        >>> freqs = phupha.word_freqs()  # doctest: +SKIP
+        >>> print(freqs[:5])  # doctest: +SKIP
+        [('น', 1119315948), ('ร', 1066483406), ...]
 
     **Dataset Citation:**
 
@@ -67,13 +65,10 @@ def unigram_word_freqs() -> dict[str, int]:
     :rtype: dict[str, int]
 
     :Example:
-    ::
 
-        from pythainlp.corpus import phupha
-
-        freqs = phupha.unigram_word_freqs()
-        print(freqs.get("ไทย", 0))
-        # output: frequency count for 'ไทย'
+        >>> from pythainlp.corpus import phupha  # doctest: +SKIP
+        >>> freqs = phupha.unigram_word_freqs()  # doctest: +SKIP
+        >>> freqs.get("ไทย", 0)  # doctest: +SKIP
 
     **Dataset Citation:**
 

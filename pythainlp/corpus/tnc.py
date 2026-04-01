@@ -22,11 +22,14 @@ _TRIGRAM_CORPUS_NAME: str = "tnc_trigram_word_freqs"
 
 
 def word_freqs() -> list[tuple[str, int]]:
-    """Get word frequency from Thai National Corpus (TNC)
-    \n(See: `dev/pythainlp/corpus/tnc_freq.txt\
+    """Get word frequency from Thai National Corpus (TNC).
+
+    (See: `dev/pythainlp/corpus/tnc_freq.txt
     <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/tnc_freq.txt>`_)
 
-    Credit: Korakot Chaovavanich https://www.facebook.com/groups/thainlp/posts/434330506948445
+    :See Also:
+        * Korakot Chaovavanich.
+          https://www.facebook.com/groups/thainlp/posts/434330506948445
     """
     freqs: list[tuple[str, int]] = []
     for line in get_corpus(_UNIGRAM_FILENAME):

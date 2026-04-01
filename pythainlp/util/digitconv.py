@@ -80,14 +80,11 @@ def thai_digit_to_arabic_digit(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import thai_digit_to_arabic_digit
-
-        text = "เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท"
-
-        thai_digit_to_arabic_digit(text)
-        # output: เป็นจำนวน 123,400.25 บาท
+        >>> from pythainlp.util import thai_digit_to_arabic_digit
+        >>> text = "เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท"
+        >>> thai_digit_to_arabic_digit(text)
+        'เป็นจำนวน 123,400.25 บาท'
     """
     if not isinstance(text, str):
         raise TypeError("The text must be str type.")
@@ -107,14 +104,11 @@ def arabic_digit_to_thai_digit(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import arabic_digit_to_thai_digit
-
-        text = "เป็นจำนวน 123,400.25 บาท"
-
-        arabic_digit_to_thai_digit(text)
-        # output: เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท
+        >>> from pythainlp.util import arabic_digit_to_thai_digit
+        >>> text = "เป็นจำนวน 123,400.25 บาท"
+        >>> arabic_digit_to_thai_digit(text)
+        'เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท'
     """
     if not isinstance(text, str):
         raise TypeError("The text must be str type.")
@@ -126,22 +120,21 @@ def arabic_digit_to_thai_digit(text: str) -> str:
 
 
 def digit_to_text(text: str) -> str:
-    """:param str text: Text with digits such as '1', '2', '๓', '๔'
-    :return: Text with digits spelled out in Thai
+    """Spell out digits in Thai.
+
+    :param str text: text with digits such as '1', '2', '๓', '๔'
+    :return: text with digits spelled out in Thai
+    :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import digit_to_text
-
-        digit_to_text("เบอร์โทร 0812345678")
-        # output: 'เบอร์โทร ศูนย์แปดหนึ่งสองสามสี่ห้าหกเจ็ดแปด'
-
-        digit_to_text("123")
-        # output: 'หนึ่งสองสาม'
-
-        digit_to_text("๕๖๗")
-        # output: 'ห้าหกเจ็ด'
+        >>> from pythainlp.util import digit_to_text
+        >>> digit_to_text("เบอร์โทร 0812345678")
+        'เบอร์โทร ศูนย์แปดหนึ่งสองสามสี่ห้าหกเจ็ดแปด'
+        >>> digit_to_text("123")
+        'หนึ่งสองสาม'
+        >>> digit_to_text("๕๖๗")
+        'ห้าหกเจ็ด'
     """
     if not isinstance(text, str):
         raise TypeError("The text must be str type.")
@@ -165,24 +158,23 @@ def text_to_arabic_digit(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import text_to_arabic_digit
+        >>> from pythainlp.util import text_to_arabic_digit  # doctest: +SKIP
 
-        text_to_arabic_digit("ศูนย์")
-        # output: 0
-        text_to_arabic_digit("หนึ่ง")
-        # output: 1
-        text_to_arabic_digit("แปด")
-        # output: 8
-        text_to_arabic_digit("เก้า")
-        # output: 9
+        >>> text_to_arabic_digit("ศูนย์")  # doctest: +SKIP
+        0
+        >>> text_to_arabic_digit("หนึ่ง")  # doctest: +SKIP
+        1
+        >>> text_to_arabic_digit("แปด")  # doctest: +SKIP
+        8
+        >>> text_to_arabic_digit("เก้า")  # doctest: +SKIP
+        9
 
-        # For text that is not digit spelled out in Thai
-        text_to_arabic_digit("สิบ") == ""
-        # output: True
-        text_to_arabic_digit("เก้าร้อย") == ""
-        # output: True
+        >>> # For text that is not digit spelled out in Thai
+        >>> text_to_arabic_digit("สิบ") == ""  # doctest: +SKIP
+        True
+        >>> text_to_arabic_digit("เก้าร้อย") == ""  # doctest: +SKIP
+        True
     """
     if not isinstance(text, str):
         raise TypeError("The text must be str type.")
@@ -202,24 +194,23 @@ def text_to_thai_digit(text: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import text_to_thai_digit
+        >>> from pythainlp.util import text_to_thai_digit  # doctest: +SKIP
 
-        text_to_thai_digit("ศูนย์")
-        # output: ๐
-        text_to_thai_digit("หนึ่ง")
-        # output: ๑
-        text_to_thai_digit("แปด")
-        # output: ๘
-        text_to_thai_digit("เก้า")
-        # output: ๙
+        >>> text_to_thai_digit("ศูนย์")  # doctest: +SKIP
+        ๐
+        >>> text_to_thai_digit("หนึ่ง")  # doctest: +SKIP
+        ๑
+        >>> text_to_thai_digit("แปด")  # doctest: +SKIP
+        ๘
+        >>> text_to_thai_digit("เก้า")  # doctest: +SKIP
+        ๙
 
-        # For text that is not Thai digit spelled out
-        text_to_thai_digit("สิบ") == ""
-        # output: True
-        text_to_thai_digit("เก้าร้อย") == ""
-        # output: True
+        >>> # For text that is not Thai digit spelled out
+        >>> text_to_thai_digit("สิบ") == ""  # doctest: +SKIP
+        True
+        >>> text_to_thai_digit("เก้าร้อย") == ""  # doctest: +SKIP
+        True
     """
     if not isinstance(text, str):
         raise TypeError("The text must be str type.")

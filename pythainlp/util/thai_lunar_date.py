@@ -333,21 +333,17 @@ def th_zodiac(year: int, output_type: int = 1) -> Union[str, int]:
     :rtype: Union[str, int]
 
     :Example:
-    ::
 
-        from pythainlp.util import th_zodiac
-
-        # Get Thai zodiac name
-        th_zodiac(2024, output_type=1)
-        # output: 'มะโรง'
-
-        # Get English zodiac name
-        th_zodiac(2024, output_type=2)
-        # output: 'DRAGON'
-
-        # Get zodiac number
-        th_zodiac(2024, output_type=3)
-        # output: 5
+        >>> from pythainlp.util import th_zodiac
+        >>> # Get Thai zodiac name
+        >>> th_zodiac(2024, output_type=1)
+        'มะโรง'
+        >>> # Get English zodiac name
+        >>> th_zodiac(2024, output_type=2)
+        'DRAGON'
+        >>> # Get zodiac number
+        >>> th_zodiac(2024, output_type=3)
+        5
     """
     # Calculate zodiac index
     result = year % 12
@@ -368,16 +364,13 @@ def to_lunar_date(input_date: date) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import to_lunar_date
-        from datetime import date
-
-        to_lunar_date(date(2024, 1, 1))
-        # output: 'แรม 5 ค่ำ เดือน 1'
-
-        to_lunar_date(date(2024, 12, 31))
-        # output: 'แรม 9 ค่ำ เดือน 2'
+        >>> from datetime import date
+        >>> from pythainlp.util import to_lunar_date
+        >>> to_lunar_date(date(2024, 1, 1))
+        'แรม 5 ค่ำ เดือน 1'
+        >>> to_lunar_date(date(2024, 12, 31))
+        'ขึ้น 2 ค่ำ เดือน 2'
     """
     # Check if date is within supported range
     if input_date.year < 1903 or input_date.year > 2460:

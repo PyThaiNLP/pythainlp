@@ -174,23 +174,22 @@ class WangChanGLM:
         :rtype: str
 
         :Example:
-        ::
 
-                from pythainlp.generate.wangchanglm import WangChanGLM
-                import torch
+            >>>     from pythainlp.generate.wangchanglm import WangChanGLM  # doctest: +SKIP
+            >>>     import torch  # doctest: +SKIP
 
-                model = WangChanGLM()
+            >>>     model = WangChanGLM()  # doctest: +SKIP
 
-                model.load_model(device="cpu", torch_dtype=torch.bfloat16)
+            >>>     model.load_model(device="cpu", torch_dtype=torch.bfloat16)  # doctest: +SKIP
 
-                print(model.instruct_generate(instruct="ขอวิธีลดน้ำหนัก"))
-                # output: ลดน้ําหนักให้ได้ผล ต้องทําอย่างค่อยเป็นค่อยไป
-                # ปรับเปลี่ยนพฤติกรรมการกินอาหาร
-                # ออกกําลังกายอย่างสม่ําเสมอ
-                # และพักผ่อนให้เพียงพอ
-                # ที่สําคัญควรหลีกเลี่ยงอาหารที่มีแคลอรี่สูง
-                # เช่น อาหารทอด อาหารมัน อาหารที่มีน้ําตาลสูง
-                # และเครื่องดื่มแอลกอฮอล์
+            >>>     print(model.instruct_generate(instruct="ขอวิธีลดน้ำหนัก"))  # doctest: +SKIP
+                ลดน้ําหนักให้ได้ผล ต้องทําอย่างค่อยเป็นค่อยไป
+                ปรับเปลี่ยนพฤติกรรมการกินอาหาร
+                ออกกําลังกายอย่างสม่ําเสมอ
+                และพักผ่อนให้เพียงพอ
+                ที่สําคัญควรหลีกเลี่ยงอาหารที่มีแคลอรี่สูง
+                เช่น อาหารทอด อาหารมัน อาหารที่มีน้ําตาลสูง
+                และเครื่องดื่มแอลกอฮอล์
 
         """
         if not context:

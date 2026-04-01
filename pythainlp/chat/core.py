@@ -71,19 +71,18 @@ class ChatBotModel:
         :return: answer from chatbot.
         :rtype: str
         :Example:
-        ::
 
-                from pythainlp.chat import ChatBotModel
-                import torch
+            >>>     from pythainlp.chat import ChatBotModel  # doctest: +SKIP
+            >>>     import torch  # doctest: +SKIP
 
-                chatbot = ChatBotModel()
-                chatbot.load_model(device="cpu", torch_dtype=torch.bfloat16)
+            >>>     chatbot = ChatBotModel()  # doctest: +SKIP
+            >>>     chatbot.load_model(device="cpu", torch_dtype=torch.bfloat16)  # doctest: +SKIP
 
-                print(chatbot.chat("สวัสดี"))
-                # output: ยินดีที่ได้รู้จัก
+            >>>     print(chatbot.chat("สวัสดี"))  # doctest: +SKIP
+                ยินดีที่ได้รู้จัก
 
-                print(chatbot.history)
-                # output: [('สวัสดี', 'ยินดีที่ได้รู้จัก')]
+            >>>     print(chatbot.history)  # doctest: +SKIP
+                [('สวัสดี', 'ยินดีที่ได้รู้จัก')]
         """
         _temp = ""
         if self.history:

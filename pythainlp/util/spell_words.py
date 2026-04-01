@@ -93,17 +93,15 @@ def _clean(w: str) -> str:
 def spell_syllable(text: str) -> list[str]:
     """Spell out syllables in Thai word distribution form.
 
-    :param str s: Thai syllables only
-    :return: List of spelled out syllables
-    :rtype: List[str]
+    :param str text: Thai syllables only
+    :return: list of spelled-out syllable components
+    :rtype: list[str]
 
     :Example:
-    ::
 
-        from pythainlp.util.spell_words import spell_syllable
-
-        print(spell_syllable("แมว"))
-        # output: ['มอ', 'วอ', 'แอ', 'แมว']
+        >>> from pythainlp.util.spell_words import spell_syllable
+        >>> spell_syllable("แมว")
+        ['มอ', 'วอ', 'แอ', 'แมว']
     """
     tokens = _cut().word_tokenize(_clean(text))
 
@@ -122,15 +120,12 @@ def spell_word(text: Optional[str]) -> list[str]:
     :rtype: list[str]
 
     :Example:
-    ::
 
-        from pythainlp.util.spell_words import spell_word
-
-        print(spell_word("คนดี"))
-        # output: ['คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี']
-
-        print(spell_word(None))
-        # output: []
+        >>> from pythainlp.util.spell_words import spell_word
+        >>> spell_word("คนดี")
+        ['คอ', 'นอ', 'คน', 'ดอ', 'อี', 'ดี', 'คนดี']
+        >>> spell_word(None)
+        []
     """
     if not text:
         return []

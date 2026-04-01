@@ -58,19 +58,19 @@ class ThZhTranslator:
 
         :Example:
 
-        Translate text from Thai to Chinese::
+        Translate text from Thai to Chinese:
 
-            from pythainlp.translate import ThZhTranslator
+            >>> from pythainlp.translate import ThZhTranslator  # doctest: +SKIP
 
-            thzh = ThZhTranslator()
+            >>> thzh = ThZhTranslator()  # doctest: +SKIP
 
-            thzh.translate("ผมรักคุณ")
-            # output: 我爱你
+            >>> thzh.translate("ผมรักคุณ")  # doctest: +SKIP
+            我爱你
 
-        Translate text from Thai to Chinese with excluded words::
+        Translate text from Thai to Chinese with excluded words:
 
-            thzh.translate("ผมรักคุณ", exclude_words=["ผม"])
-            # output: ผม爱你
+            >>> thzh.translate("ผมรักคุณ", exclude_words=["ผม"])  # doctest: +SKIP
+            ผม爱你
 
         """
         from pythainlp.translate.core import (
@@ -133,19 +133,19 @@ class ZhThTranslator:
 
         :Example:
 
-        Translate text from Chinese to Thai::
+        Translate text from Chinese to Thai:
 
-            from pythainlp.translate import ZhThTranslator
+            >>> from pythainlp.translate import ZhThTranslator  # doctest: +SKIP
 
-            zhth = ZhThTranslator()
+            >>> zhth = ZhThTranslator()  # doctest: +SKIP
 
-            zhth.translate("我爱你")
-            # output: ผมรักคุณนะ
+            >>> zhth.translate("我爱你")  # doctest: +SKIP
+            ผมรักคุณนะ
 
-        Translate text from Chinese to Thai with excluded words::
+        Translate text from Chinese to Thai with excluded words:
 
-            zhth.translate("我爱你", exclude_words=["我"])
-            # output: 我รักคุณนะ
+            >>> zhth.translate("我爱你", exclude_words=["我"])  # doctest: +SKIP
+            我รักคุณนะ
 
         """
         from pythainlp.translate.core import (

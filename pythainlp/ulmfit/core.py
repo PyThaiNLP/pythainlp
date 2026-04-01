@@ -57,14 +57,11 @@ THWIKI_LSTM: dict[str, Optional[str]] = {
 
 
 def get_thwiki_lstm() -> dict[str, str]:
-    """
-    Get THWIKI LSTM model paths with validation.
+    """Get THWIKI LSTM model paths with validation.
 
-    Returns dictionary with 'wgts_fname' and 'itos_fname' keys containing
-    validated file paths as strings.
-
-    :return: Dictionary with model file paths
-    :raises RuntimeError: If corpus files are not found
+    :return: dictionary with ``wgts_fname`` and ``itos_fname`` keys
+    :rtype: dict[str, str]
+    :raises FileNotFoundError: if corpus files are not found
     """
     wgts_fname = THWIKI_LSTM["wgts_fname"]
     itos_fname = THWIKI_LSTM["itos_fname"]
@@ -206,19 +203,17 @@ def process_thai(
 def document_vector(
     text: str, learn: "Learner", data: "DataBunch", agg: str = "mean"
 ) -> "NDArray[np.float32]":
-    """This function vectorizes Thai input text into a 400 dimension vector using
-    :class:`fastai` language model and data bunch.
+    """Vectorize a Thai sentence into a 400-dimension vector.
 
-    :meth: `document_vector` get document vector using fastai language model
-           and data bunch
-    :param str text: text to be vectorized with :class:`fastai` language model.
+    Uses a :class:`fastai` language model and data bunch.
+    Word vectors are aggregated by mean or summation.
+
+    :param str text: text to vectorize
     :param learn: :class:`fastai` language model learner
     :param data: :class:`fastai` data bunch
-    :param str agg: name of aggregation methods for word embeddings
-                    The available methods are "mean" and "sum"
+    :param str agg: aggregation method; ``"mean"`` or ``"sum"``
 
-    :return: :class:`numpy.ndarray` of dtype ``numpy.float32`` containing
-             the document vector produced by the encoder
+    :return: document vector of shape ``(1, 400)``
     :rtype: numpy.typing.NDArray[numpy.float32]
 
     :Example:
@@ -266,40 +261,39 @@ def merge_wgts(
     itos_pre: list[str],
     itos_new: list[str],
 ) -> dict[str, torch.Tensor]:
-    """This function is to insert new vocab into an existing model named `wgts`
-    and update the model's weights for new vocab with the average embedding.
+    """Insert new vocab into an existing model and update weights.
 
-    :meth: `merge_wgts` insert pretrained weights and vocab into a new set
-           of weights and vocab; use average if vocab not in pretrained vocab
+    New vocab weights are initialised with the average embedding
+    when not found in the pretrained vocab.
+
     :param int em_sz: embedding size
     :param wgts: torch model weights
-    :param list itos_pre: pretrained list of vocab
-    :param list itos_new: list of new vocab
+    :param list[str] itos_pre: pretrained list of vocab
+    :param list[str] itos_new: list of new vocab
 
     :return: merged torch model weights
+    :rtype: dict[str, torch.Tensor]
 
     :Example:
-    ::
 
-        from pythainlp.ulmfit import merge_wgts
-        import torch
+        >>> from pythainlp.ulmfit import merge_wgts  # doctest: +SKIP
+        >>> import torch  # doctest: +SKIP
 
-        wgts = {"0.encoder.weight": torch.randn(5, 3)}
-        itos_pre = ["แมว", "คน", "หนู"]
-        itos_new = ["ปลา", "เต่า", "นก"]
-        em_sz = 3
+        >>> wgts = {"0.encoder.weight": torch.randn(5, 3)}  # doctest: +SKIP
+        >>> itos_pre = ["แมว", "คน", "หนู"]  # doctest: +SKIP
+        >>> itos_new = ["ปลา", "เต่า", "นก"]  # doctest: +SKIP
+        >>> em_sz = 3  # doctest: +SKIP
 
-        merge_wgts(em_sz, wgts, itos_pre, itos_new)
-        # output:
-        # {'0.encoder.weight': tensor([[0.5952, 0.4453, 0.0011],
-        # [0.5952, 0.4453, 0.0011],
-        # [0.5952, 0.4453, 0.0011]]),
-        # '0.encoder_dp.emb.weight': tensor([[0.5952, 0.4453, 0.0011],
-        # [0.5952, 0.4453, 0.0011],
-        # [0.5952, 0.4453, 0.0011]]),
-        # '1.decoder.weight': tensor([[0.5952, 0.4453, 0.0011],
-        # [0.5952, 0.4453, 0.0011],
-        # [0.5952, 0.4453, 0.0011]])}
+        >>> merge_wgts(em_sz, wgts, itos_pre, itos_new)  # doctest: +SKIP
+        {'0.encoder.weight': tensor([[0.5952, 0.4453, 0.0011],
+        [0.5952, 0.4453, 0.0011],
+        [0.5952, 0.4453, 0.0011]]),
+        '0.encoder_dp.emb.weight': tensor([[0.5952, 0.4453, 0.0011],
+        [0.5952, 0.4453, 0.0011],
+        [0.5952, 0.4453, 0.0011]]),
+        '1.decoder.weight': tensor([[0.5952, 0.4453, 0.0011],
+        [0.5952, 0.4453, 0.0011],
+        [0.5952, 0.4453, 0.0011]])}
     """
     vocab_size = len(itos_new)
     enc_wgts = wgts["0.encoder.weight"].numpy().astype("float32", copy=False)

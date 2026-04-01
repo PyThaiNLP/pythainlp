@@ -13,12 +13,10 @@ def longest_common_subsequence(str1: str, str2: str) -> str:
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util.lcs import longest_common_subsequence
-
-        print(longest_common_subsequence("ABCBDAB", "BDCAB"))
-        # output: "BDAB"
+        >>> from pythainlp.util.lcs import longest_common_subsequence
+        >>> longest_common_subsequence("ABCBDAB", "BDCAB")
+        'BDAB'
     """
     m = len(str1)
     n = len(str2)

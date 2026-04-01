@@ -83,37 +83,25 @@ class WunsenTransliterate:
                 ภาษาจีน พ.ศ. 2543)
 
         :Example:
-        ::
 
-            from pythainlp.transliterate.wunsen import WunsenTransliterate
-
-            wt = WunsenTransliterate()
-
-            wt.transliterate("ohayō", lang="jp")
-            # output: 'โอฮาโย'
-
-            wt.transliterate(
-                "ohayou", lang="jp", jp_input="Hepburn-no diacritic"
-            )
-            # output: 'โอฮาโย'
-
-            wt.transliterate("ohayō", lang="jp", system="RI35")
-            # output: 'โอะฮะโย'
-
-            wt.transliterate("annyeonghaseyo", lang="ko")
-            # output: 'อันนย็องฮาเซโย'
-
-            wt.transliterate("xin chào", lang="vi")
-            # output: 'ซีน จ่าว'
-
-            wt.transliterate("ni3 hao3", lang="zh")
-            # output: 'หนี เห่า'
-
-            wt.transliterate("ni3 hao3", lang="zh", zh_sandhi=False)
-            # output: 'หนี่ เห่า'
-
-            wt.transliterate("ni3 hao3", lang="zh", system="RI49")
-            # output: 'หนี ห่าว'
+            >>> from pythainlp.transliterate.wunsen import WunsenTransliterate  # doctest: +SKIP
+            >>> wt = WunsenTransliterate()  # doctest: +SKIP
+            >>> wt.transliterate("ohayō", lang="jp")  # doctest: +SKIP
+            'โอฮาโย'
+            >>> wt.transliterate("ohayou", lang="jp", jp_input="Hepburn-no diacritic")  # doctest: +SKIP
+            'โอฮาโย'
+            >>> wt.transliterate("ohayō", lang="jp", system="RI35")  # doctest: +SKIP
+            'โอะฮะโย'
+            >>> wt.transliterate("annyeonghaseyo", lang="ko")  # doctest: +SKIP
+            'อันนย็องฮาเซโย'
+            >>> wt.transliterate("xin chào", lang="vi")  # doctest: +SKIP
+            'ซีน จ่าว'
+            >>> wt.transliterate("ni3 hao3", lang="zh")  # doctest: +SKIP
+            'หนี เห่า'
+            >>> wt.transliterate("ni3 hao3", lang="zh", zh_sandhi=False)  # doctest: +SKIP
+            'หนี่ เห่า'
+            >>> wt.transliterate("ni3 hao3", lang="zh", system="RI49")  # doctest: +SKIP
+            'หนี ห่าว'
         """
         if (
             self.lang != lang

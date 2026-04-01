@@ -50,6 +50,7 @@ class ThaiTextProcessor:
         :return: text where urls are replaced
         :rtype: str
         :Example:
+
             >>> replace_url("go to https://github.com")
             'go to <url>'
         """
@@ -61,6 +62,7 @@ class ThaiTextProcessor:
         :return: text where all useless brackets are removed
         :rtype: str
         :Example:
+
             >>> rm_brackets("hey() whats[;] up{*&} man(hey)")
             'hey whats up man(hey)'
         """
@@ -100,6 +102,7 @@ class ThaiTextProcessor:
         :return: text where all newlines are replaced with spaces
         :rtype: str
         :Example:
+
             >>> rm_useless_spaces("hey whats\n\nup")
             hey whats  up
         """
@@ -111,6 +114,7 @@ class ThaiTextProcessor:
         :return: text where all spaces are reduced to one
         :rtype: str
         :Example:
+
             >>> rm_useless_spaces("oh         no")
             oh no
         """
@@ -122,6 +126,7 @@ class ThaiTextProcessor:
         :return: text where all spaces replaced with _
         :rtype: str
         :Example:
+
             >>> replace_spaces("oh no")
             oh_no
         """
@@ -133,6 +138,7 @@ class ThaiTextProcessor:
         :return: text with repetitive tokens removed.
         :rtype: str
         :Example:
+
             >>> text = "กาาาาาาา"
             >>> replace_rep_after(text)
             'กา'
@@ -152,6 +158,7 @@ class ThaiTextProcessor:
         :return: list of tokens where repetitive words are removed.
         :rtype: list[str]
         :Example:
+
             >>> toks = ["กา", "น้ำ", "น้ำ", "น้ำ", "น้ำ"]
             >>> replace_wrep_post(toks)
             ['กา', 'น้ำ']
@@ -177,6 +184,7 @@ class ThaiTextProcessor:
         :return: List of tokens where space tokens (" ") are filtered out
         :rtype: list[str]
         :Example:
+
             >>> toks = ["ฉัน", "เดิน", " ", "กลับ", "บ้าน"]
             >>> remove_space(toks)
             ['ฉัน', 'เดิน', 'กลับ', 'บ้าน']
@@ -273,14 +281,13 @@ class ThaiTextAugmenter:
         :rtype: list[str]
 
         :Example:
-        ::
 
-            from pythainlp.augment.lm import ThaiTextAugmenter
+            >>> from pythainlp.augment.lm import ThaiTextAugmenter  # doctest: +SKIP
 
-            aug = ThaiTextAugmenter()
-            aug.augment("ช้างมีทั้งหมด 50 ตัว บน", num_args=5)
+            >>> aug = ThaiTextAugmenter()  # doctest: +SKIP
+            >>> aug.augment("ช้างมีทั้งหมด 50 ตัว บน", num_args=5)  # doctest: +SKIP
 
-            # output = ['ช้างมีทั้งหมด 50 ตัว บนโลกใบนี้ครับ.',
+            ['ช้างมีทั้งหมด 50 ตัว บนโลกใบนี้ครับ.',
                 'ช้างมีทั้งหมด 50 ตัว บนพื้นดินครับ...',
                 'ช้างมีทั้งหมด 50 ตัว บนท้องฟ้าครับ...',
                 'ช้างมีทั้งหมด 50 ตัว บนดวงจันทร์.‼',
@@ -335,14 +342,13 @@ class PartOfSpeechTagger:
 
         :Example:
 
-        Labels POS for given sentence::
+        Labels POS for given sentence:
 
-            from pythainlp.phayathaibert.core import PartOfSpeechTagger
+            >>> from pythainlp.phayathaibert.core import PartOfSpeechTagger  # doctest: +SKIP
 
-            tagger = PartOfSpeechTagger()
-            tagger.get_tag("แมวทำอะไรตอนห้าโมงเช้า")
-            # output:
-            # [[('แมว', 'NOUN'), ('ทําอะไร', 'VERB'), ('ตอนห้าโมงเช้า', 'NOUN')]]
+            >>> tagger = PartOfSpeechTagger()  # doctest: +SKIP
+            >>> tagger.get_tag("แมวทำอะไรตอนห้าโมงเช้า")  # doctest: +SKIP
+            [[('แมว', 'NOUN'), ('ทําอะไร', 'VERB'), ('ตอนห้าโมงเช้า', 'NOUN')]]
         """
         from transformers import TokenClassificationPipeline
 

@@ -153,7 +153,7 @@ def thai_strftime(
 ) -> str:
     """Convert :class:`datetime.datetime` into Thai date and time format.
 
-    The formatting directives are similar to :func:`datatime.strrftime`.
+    The formatting directives are similar to :func:`datetime.strftime`.
 
     This function uses Thai names and Thai Buddhist Era for these directives:
         * **%a** - abbreviated weekday name
@@ -215,43 +215,42 @@ def thai_strftime(
     :rtype: str
 
     :Example:
-    ::
 
-        from datetime import datetime
-        from pythainlp.util import thai_strftime
+        >>> from datetime import datetime
+        >>> from pythainlp.util import thai_strftime
 
-        datetime_obj = datetime(year=2019, month=6, day=9, \\
-            hour=5, minute=59, second=0, microsecond=0)
+        >>> datetime_obj = datetime(year=2019, month=6, day=9, \\
+        ...     hour=5, minute=59, second=0, microsecond=0)
 
-        print(datetime_obj)
-        # output: 2019-06-09 05:59:00
+        >>> print(datetime_obj)
+        2019-06-09 05:59:00
 
-        thai_strftime(datetime_obj, "%A %d %B %Y")
-        # output: 'วันอาทิตย์ 09 มิถุนายน 2562'
+        >>> thai_strftime(datetime_obj, "%A %d %B %Y")
+        'วันอาทิตย์ 09 มิถุนายน 2562'
 
-        thai_strftime(datetime_obj, "%a %-d %b %y")  # no padding
-        # output: 'อา 9 มิ.ย. 62'
+        >>> thai_strftime(datetime_obj, "%a %-d %b %y")  # no padding
+        'อา 9 มิ.ย. 62'
 
-        thai_strftime(datetime_obj, "%a %_d %b %y")  # space padding
-        # output: 'อา  9 มิ.ย. 62'
+        >>> thai_strftime(datetime_obj, "%a %_d %b %y")  # space padding
+        'อา  9 มิ.ย. 62'
 
-        thai_strftime(datetime_obj, "%a %0d %b %y")  # zero padding
-        # output: 'อา 09 มิ.ย. 62'
+        >>> thai_strftime(datetime_obj, "%a %0d %b %y")  # zero padding
+        'อา 09 มิ.ย. 62'
 
-        thai_strftime(datetime_obj, "%-H นาฬิกา %-M นาที", thaidigit=True)
-        # output: '๕ นาฬิกา ๕๙ นาที'
+        >>> thai_strftime(datetime_obj, "%-H นาฬิกา %-M นาที", thaidigit=True)
+        '๕ นาฬิกา ๕๙ นาที'
 
-        thai_strftime(datetime_obj, "%D (%v)")
-        # output: '06/09/62 ( 9-มิ.ย.-2562)'
+        >>> thai_strftime(datetime_obj, "%D (%v)")
+        '06/09/62 ( 9-มิ.ย.-2562)'
 
-        thai_strftime(datetime_obj, "%c")
-        # output: 'อา  9 มิ.ย. 05:59:00 2562'
+        >>> thai_strftime(datetime_obj, "%c")
+        'อา  9 มิ.ย. 05:59:00 2562'
 
-        thai_strftime(datetime_obj, "%H:%M %p")
-        # output: '01:40 AM'
+        >>> thai_strftime(datetime_obj, "%H:%M %p")
+        '05:59 AM'
 
-        thai_strftime(datetime_obj, "%H:%M %#p")
-        # output: '01:40 am'
+        >>> thai_strftime(datetime_obj, "%H:%M %#p")
+        '05:59 am'
     """
     thaidate_parts = []
 

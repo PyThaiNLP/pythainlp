@@ -126,45 +126,16 @@ def get_corpus(filename: str, comments: bool = True) -> frozenset[str]:
     :rtype: :class:`frozenset`
 
     :Example:
-    ::
 
-        from pythainlp.corpus import get_corpus
-
-        # input file (negations_th.txt):
-        # แต่
-        # ไม่
-
-        get_corpus("negations_th.txt")
-        # output:
-        # frozenset({'แต่', 'ไม่'})
-
-        # input file (ttc_freq.txt):
-        # ตัวบท<tab>10
-        # โดยนัยนี้<tab>1
-
-        get_corpus("ttc_freq.txt")
-        # output:
-        # frozenset({'โดยนัยนี้\\t1',
-        #    'ตัวบท\\t10',
-        #     ...})
-
-        # input file (icubrk_th.txt):
-        # # Thai Dictionary for ICU BreakIterator
-        # กก
-        # กกขนาก
-
-        get_corpus("icubrk_th.txt")
-        # output:
-        # frozenset({'กกขนาก',
-        #     '# Thai Dictionary for ICU BreakIterator',
-        #     'กก',
-        #     ...})
-
-        get_corpus("icubrk_th.txt", comments=False)
-        # output:
-        # frozenset({'กกขนาก',
-        #     'กก',
-        #     ...})
+        >>> from pythainlp.corpus import get_corpus  # doctest: +SKIP
+        >>> get_corpus("negations_th.txt")  # doctest: +SKIP
+        frozenset({'แต่', 'ไม่'})
+        >>> get_corpus("ttc_freq.txt")  # doctest: +SKIP
+        frozenset({'โดยนัยนี้\\t1', 'ตัวบท\\t10', ...})
+        >>> get_corpus("icubrk_th.txt")  # doctest: +SKIP
+        frozenset({'กกขนาก', '# Thai Dictionary for ICU BreakIterator', 'กก', ...})
+        >>> get_corpus("icubrk_th.txt", comments=False)  # doctest: +SKIP
+        frozenset({'กกขนาก', 'กก', ...})
 
     """
     corpus_files = files("pythainlp.corpus")
@@ -195,17 +166,10 @@ def get_corpus_as_is(filename: str) -> list[str]:
     :rtype: :class:`list`
 
     :Example:
-    ::
 
-        from pythainlp.corpus import get_corpus
-
-        # input file (negations_th.txt):
-        # แต่
-        # ไม่
-
-        get_corpus_as_is("negations_th.txt")
-        # output:
-        # ['แต่', 'ไม่']
+        >>> from pythainlp.corpus import get_corpus_as_is  # doctest: +SKIP
+        >>> get_corpus_as_is("negations_th.txt")  # doctest: +SKIP
+        ['แต่', 'ไม่']
     """
     corpus_files = files("pythainlp.corpus")
     corpus_file = corpus_files.joinpath(filename)
@@ -300,28 +264,23 @@ def get_corpus_path(name: str, version: str = "") -> Optional[str]:
     (Please see the filename in
     `this file <https://pythainlp.org/pythainlp-corpus/db.json>`_)
 
-    If the corpus already exists::
+    If the corpus already exists:
 
-        from pythainlp.corpus import get_corpus_path
+        >>> from pythainlp.corpus import get_corpus_path  # doctest: +SKIP
+        >>> get_corpus_path("ttc")  # doctest: +SKIP
+        '/root/pythainlp-data/ttc_freq.txt'
 
-        print(get_corpus_path("ttc"))
-        # output: /root/pythainlp-data/ttc_freq.txt
+    If the corpus has not been downloaded yet (online mode):
 
-    If the corpus has not been downloaded yet (online mode)::
+        >>> get_corpus_path("wiki_lm_lstm")  # doctest: +SKIP
+        '/root/pythainlp-data/thwiki_model_lstm.pth'
 
-        from pythainlp.corpus import get_corpus_path
+    To download manually:
 
-        print(get_corpus_path("wiki_lm_lstm"))
-        # output: /root/pythainlp-data/thwiki_model_lstm.pth
-        # (downloads automatically on first call)
-
-    To download manually::
-
-        from pythainlp.corpus import download, get_corpus_path
-
-        download("wiki_lm_lstm")
-        print(get_corpus_path("wiki_lm_lstm"))
-        # output: /root/pythainlp-data/thwiki_model_lstm.pth
+        >>> from pythainlp.corpus import download  # doctest: +SKIP
+        >>> download("wiki_lm_lstm")  # doctest: +SKIP
+        >>> get_corpus_path("wiki_lm_lstm")  # doctest: +SKIP
+        '/root/pythainlp-data/thwiki_model_lstm.pth'
     """
     CUSTOMIZE: dict[str, str] = {
         # "the corpus name":"path"
@@ -378,8 +337,8 @@ def get_corpus_path(name: str, version: str = "") -> Optional[str]:
 def _download(url: str, dst: str) -> int:
     """Download helper.
 
-    @param: URL for downloading file
-    @param: dst place to put the file into
+    :param str url: URL for the file to download.
+    :param str dst: local destination path for the downloaded file.
 
     Security Note: Downloads use HTTPS with SSL certificate validation.
     Files are verified using MD5 checksums after download.
@@ -415,8 +374,8 @@ def _download(url: str, dst: str) -> int:
 def _check_hash(dst: str, md5: str) -> None:
     """Check hash helper.
 
-    @param: dst place to put the file into
-    @param: md5 place to file hash (MD5)
+    :param str dst: local path of the file to verify.
+    :param str md5: expected MD5 checksum of the file.
     """
     if md5 and md5 != "-":
         import hashlib
@@ -433,16 +392,18 @@ def _check_hash(dst: str, md5: str) -> None:
 def _is_within_directory(directory: str, target: str) -> bool:
     """Check if target path is within directory (prevent path traversal).
 
-    @param: directory base directory path
-    @param: target target file path to check
-    @return: True if target is within directory, False otherwise
+    :param str directory: base directory path.
+    :param str target: target file path to check.
+    :return: ``True`` if target is within directory, ``False`` otherwise.
+    :rtype: bool
 
     Security Note: This function normalizes paths using os.path.abspath()
     to handle relative paths and .. sequences. It does NOT follow symlinks
     (unlike os.path.realpath()), because:
-    - Symlink validation is handled separately in extraction functions
-    - We want to check if the path string itself is safe, not where it points
-    - This prevents false negatives when symlinks don't exist yet
+
+    - Symlink validation is handled separately in extraction functions.
+    - We want to check if the path string itself is safe, not where it points.
+    - This prevents false negatives when symlinks don't exist yet.
 
     For symlink security, use the extraction function's symlink validation.
     """
@@ -463,15 +424,16 @@ def _is_within_directory(directory: str, target: str) -> bool:
 def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
     """Safely extract tar archive, preventing path traversal attacks.
 
-    @param: tar tarfile object
-    @param: path destination path for extraction
+    :param tarfile.TarFile tar: tarfile object to extract.
+    :param str path: destination path for extraction.
 
     Security Note: This function prevents path traversal attacks including:
-    - Files with .. in their path
-    - Symlinks pointing outside the extraction directory
-    - Files extracted through malicious symlinks
 
-    For Python 3.12+, uses tarfile.data_filter for additional protection.
+    - Files with ``..`` in their path.
+    - Symlinks pointing outside the extraction directory.
+    - Files extracted through malicious symlinks.
+
+    For Python 3.12+, uses ``tarfile.data_filter`` for additional protection.
     For Python 3.9-3.11, implements custom validation of all members.
     """
     # Check if data_filter is available (Python 3.12+)
@@ -528,12 +490,13 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
 def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
     """Safely extract zip archive, preventing path traversal attacks.
 
-    @param: zip_file zipfile object
-    @param: path destination path for extraction
+    :param zipfile.ZipFile zip_file: zipfile object to extract.
+    :param str path: destination path for extraction.
 
     Security Note: This function prevents path traversal attacks including:
-    - Files with .. in their path
-    - Symlinks pointing outside the extraction directory (on Unix systems)
+
+    - Files with ``..`` in their path.
+    - Symlinks pointing outside the extraction directory (on Unix systems).
 
     Note: ZIP format has limited symlink support. Symlinks are primarily
     created by Unix-based archiving tools and may not be portable.
@@ -663,15 +626,12 @@ def download(
     :rtype: bool
 
     :Example:
-    ::
 
-        from pythainlp.corpus import download
-
-        download("wiki_lm_lstm", force=True)
-        # output:
-        # Corpus: wiki_lm_lstm
-        # - Downloading: wiki_lm_lstm 0.1
-        # thwiki_lm.pth:  26%|██▌       | 114k/434k [00:00<00:00, 690kB/s]
+        >>> from pythainlp.corpus import download  # doctest: +SKIP
+        >>> download("wiki_lm_lstm", force=True)  # doctest: +SKIP
+        Corpus: wiki_lm_lstm
+        - Downloading: wiki_lm_lstm 0.1
+        ...
 
     By default, downloaded corpora and models will be saved in
     ``$HOME/pythainlp-data/``
@@ -810,20 +770,12 @@ def remove(name: str) -> bool:
     :rtype: bool
 
     :Example:
-    ::
 
-        from pythainlp.corpus import remove, get_corpus_path, get_corpus
-
-        print(remove("ttc"))
-        # output: True
-
-        print(get_corpus_path("ttc"))
-        # output: None
-
-        get_corpus("ttc")
-        # output:
-        # FileNotFoundError: [Errno 2] No such file or directory:
-        # '/usr/local/lib/python3.6/dist-packages/pythainlp/corpus/ttc'
+        >>> from pythainlp.corpus import remove, get_corpus_path  # doctest: +SKIP
+        >>> remove("ttc")  # doctest: +SKIP
+        True
+        >>> get_corpus_path("ttc")  # doctest: +SKIP
+        None
     """
     if is_read_only_mode():
         print("PyThaiNLP is in read-only mode. It cannot remove corpus.")

@@ -27,19 +27,18 @@ def contains_profanity(
     :rtype: bool
 
     :Example:
-    ::
 
-        from pythainlp.util import contains_profanity
+        >>> from pythainlp.util import contains_profanity  # doctest: +SKIP
 
-        print(contains_profanity("สวัสดีครับ"))
-        # output: False
+        >>> print(contains_profanity("สวัสดีครับ"))  # doctest: +SKIP
+        False
 
-        print(contains_profanity("คำหยาบคาย"))
-        # output: True if the word is in the profanity list
+        >>> print(contains_profanity("คำหยาบคาย"))  # doctest: +SKIP
+        True if the word is in the profanity list
 
-        # Add custom profanity words
-        print(contains_profanity("คำใหม่", custom_words={"คำใหม่"}))
-        # output: True
+        >>> # Add custom profanity words
+        >>> print(contains_profanity("คำใหม่", custom_words={"คำใหม่"}))  # doctest: +SKIP
+        True
     """
     if not text:
         return False
@@ -76,19 +75,18 @@ def find_profanity(
     :rtype: list[str]
 
     :Example:
-    ::
 
-        from pythainlp.util import find_profanity
+        >>> from pythainlp.util import find_profanity  # doctest: +SKIP
 
-        print(find_profanity("สวัสดีครับ"))
-        # output: []
+        >>> print(find_profanity("สวัสดีครับ"))  # doctest: +SKIP
+        []
 
-        print(find_profanity("text with profanity words"))
-        # output: ['profanity_word1', 'profanity_word2']
+        >>> print(find_profanity("text with profanity words"))  # doctest: +SKIP
+        ['profanity_word1', 'profanity_word2']
 
-        # Add custom profanity words
-        print(find_profanity("คำใหม่", custom_words={"คำใหม่"}))
-        # output: ['คำใหม่']
+        >>> # Add custom profanity words
+        >>> print(find_profanity("คำใหม่", custom_words={"คำใหม่"}))  # doctest: +SKIP
+        ['คำใหม่']
     """
     if not text:
         return []
@@ -130,19 +128,18 @@ def censor_profanity(
     :rtype: str
 
     :Example:
-    ::
 
-        from pythainlp.util import censor_profanity
+        >>> from pythainlp.util import censor_profanity  # doctest: +SKIP
 
-        print(censor_profanity("สวัสดีครับ"))
-        # output: สวัสดีครับ
+        >>> print(censor_profanity("สวัสดีครับ"))  # doctest: +SKIP
+        สวัสดีครับ
 
-        print(censor_profanity("text with profanity word"))
-        # output: text with *** word
+        >>> print(censor_profanity("text with profanity word"))  # doctest: +SKIP
+        text with *** word
 
-        # Add custom profanity words
-        print(censor_profanity("คำใหม่", custom_words={"คำใหม่"}))
-        # output: ******
+        >>> # Add custom profanity words
+        >>> print(censor_profanity("คำใหม่", custom_words={"คำใหม่"}))  # doctest: +SKIP
+        ******
     """
     if not text:
         return text

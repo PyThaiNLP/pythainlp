@@ -56,12 +56,11 @@ class LTW2VAug:
         :rtype: List[Tuple[str]]
 
         :Example:
-        ::
 
-            from pythainlp.augment.word2vec import LTW2VAug
+            >>> from pythainlp.augment.word2vec import LTW2VAug  # doctest: +SKIP
 
-            aug = LTW2VAug()
-            aug.augment("ผมเรียน", n_sent=2, p=0.5)
-            # output: [('เขา', 'เรียนหนังสือ'), ('เขา', 'สมัครเรียน')]
+            >>> aug = LTW2VAug()  # doctest: +SKIP
+            >>> aug.augment("ผมเรียน", n_sent=2, p=0.5)  # doctest: +SKIP
+            [('เขา', 'เรียนหนังสือ'), ('เขา', 'สมัครเรียน')]
         """
         return self.aug.augment(sentence, n_sent, p)

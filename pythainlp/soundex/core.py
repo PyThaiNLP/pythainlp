@@ -45,39 +45,46 @@ def soundex(
           Analysis [#complete_soundex]_
 
     :Example:
-    ::
 
-        from pythainlp.soundex import soundex
-
-        soundex("ลัก"), soundex("ลัก", engine='lk82'), \\
-            soundex("ลัก", engine='metasound')
-        # output: ('ร100000', 'ร1000', 'ล100')
-
-        soundex("รัก"), soundex("รัก", engine='lk82'), \\
-            soundex("รัก", engine='metasound')
-        # output: ('ร100000', 'ร1000', 'ร100')
-
-        soundex("รักษ์"), soundex("รักษ์", engine='lk82'), \\
-            soundex("รักษ์", engine='metasound')
-        # output: ('ร100000', 'ร1000', 'ร100')
-
-        soundex("บูรณการ"), soundex("บูรณการ", engine='lk82'), \\
-            soundex("บูรณการ", engine='metasound')
-        # output: ('บ931900', 'บE419', 'บ551')
-
-        soundex("ปัจจุบัน"), soundex("ปัจจุบัน", engine='lk82'), \\
-            soundex("ปัจจุบัน", engine='metasound')
-        # output: ('ป775300', 'ป3E54', 'ป223')
-
-        soundex("vp", engine="prayut_and_somchaip")
-        # output: '11'
-        soundex("วีพี", engine="prayut_and_somchaip")
-        # output: '11'
-
-        soundex("ก้าน", engine="complete_soundex")
-        # output: 'กก1Bน2-'
-        soundex("ทราย", engine="complete_soundex")
-        # output: 'ซซ1Bย0-'
+        >>> from pythainlp.soundex import soundex
+        >>> soundex("ลัก")
+        'ร100000'
+        >>> soundex("ลัก", engine='lk82')
+        'ร1000'
+        >>> soundex("ลัก", engine='metasound')
+        'ล100'
+        >>> soundex("รัก")
+        'ร100000'
+        >>> soundex("รัก", engine='lk82')
+        'ร1000'
+        >>> soundex("รัก", engine='metasound')
+        'ร100'
+        >>> soundex("รักษ์")
+        'ร100000'
+        >>> soundex("รักษ์", engine='lk82')
+        'ร1000'
+        >>> soundex("รักษ์", engine='metasound')
+        'ร100'
+        >>> soundex("บูรณการ")
+        'บ931900'
+        >>> soundex("บูรณการ", engine='lk82')
+        'บE419'
+        >>> soundex("บูรณการ", engine='metasound')
+        'บ551'
+        >>> soundex("ปัจจุบัน")
+        'ป775300'
+        >>> soundex("ปัจจุบัน", engine='lk82')
+        'ป3E54'
+        >>> soundex("ปัจจุบัน", engine='metasound')
+        'ป223'
+        >>> soundex("vp", engine="prayut_and_somchaip")
+        '11'
+        >>> soundex("วีพี", engine="prayut_and_somchaip")
+        '11'
+        >>> soundex("ก้าน", engine="complete_soundex")
+        'กก1Bน2-'
+        >>> soundex("ทราย", engine="complete_soundex")
+        'ซซ1Bย0-'
     """
     if engine == "lk82":
         _soundex = lk82(text)

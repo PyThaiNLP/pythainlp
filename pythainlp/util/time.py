@@ -178,23 +178,20 @@ def time_to_thaiword(
 
     :Example:
 
-        >>> time_to_thaiword("8:17")  # doctest: +SKIP
-        แปดนาฬิกาสิบเจ็ดนาที
-
-        >>> time_to_thaiword("8:17", "6h")  # doctest: +SKIP
-        สองโมงเช้าสิบเจ็ดนาที
-
-        >>> time_to_thaiword("8:17", "m6h")  # doctest: +SKIP
-        แปดโมงสิบเจ็ดนาที
-
-        >>> time_to_thaiword("18:30", fmt="m6h")  # doctest: +SKIP
-        หกโมงครึ่ง
-
-        >>> time_to_thaiword(datetime.time(12, 3, 0))  # doctest: +SKIP
-        สิบสองนาฬิกาสามนาที
-
-        >>> time_to_thaiword(datetime.time(12, 3, 0), precision="s")  # doctest: +SKIP
-        สิบสองนาฬิกาสามนาทีศูนย์วินาที
+        >>> from datetime import time
+        >>> from pythainlp.util import time_to_thaiword
+        >>> time_to_thaiword("8:17")
+        'แปดนาฬิกาสิบเจ็ดนาที'
+        >>> time_to_thaiword("8:17", "6h")
+        'สองโมงเช้าสิบเจ็ดนาที'
+        >>> time_to_thaiword("8:17", "m6h")
+        'แปดโมงสิบเจ็ดนาที'
+        >>> time_to_thaiword("18:30", fmt="m6h")
+        'หกโมงครึ่ง'
+        >>> time_to_thaiword(datetime.time(12, 3, 0))
+        'สิบสองนาฬิกาสามนาที'
+        >>> time_to_thaiword(datetime.time(12, 3, 0), precision="s")
+        'สิบสองนาฬิกาสามนาทีศูนย์วินาที'
     """
     _time = None
 
@@ -239,8 +236,9 @@ def thaiword_to_time(text: str, padding: bool = True) -> str:
 
     :Example:
 
-        >>> thaiword_to_time("บ่ายโมงครึ่ง")  # doctest: +SKIP
-        13:30
+        >>> from pythainlp.util import time_to_thaiword
+        >>> thaiword_to_time("บ่ายโมงครึ่ง")
+        '13:30'
     """
     keys_dict = list(_DICT_THAI_TIME.keys())
     text = text.replace("กว่า", "").replace("ๆ", "").replace(" ", "")

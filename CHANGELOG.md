@@ -22,7 +22,7 @@ and this project adheres to
 ### Changed
 
 - Fix doctests, docstring formatting, typos, and outdated content
-  across all modules.
+  across all modules (#1392).
 
 ## [5.3.3] - 2026-03-26
 

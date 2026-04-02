@@ -431,8 +431,10 @@ else:
     count_thai = _fast_count_thai  # noqa: F811
     is_thai = _fast_is_thai  # noqa: F811
 
-    def is_thai_char(ch: str) -> bool:  # noqa: F811
+    def _is_thai_char_fast(ch: str) -> bool:
         # ord(ch) raises the same TypeError as the pure-Python implementation
         # for empty strings or strings of length != 1, preserving behavior.
         _ = ord(ch)
         return _fast_is_thai_char(ch)
+
+    is_thai_char = _is_thai_char_fast  # noqa: F811

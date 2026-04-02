@@ -31,8 +31,8 @@ pip install pythainlp
 
 | Version | Python version | Changes | Documentation |
 |:-------:|:--------------:|:-------:|:-------------:|
-| [5.3.3](https://github.com/PyThaiNLP/pythainlp/releases) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/blob/dev/CHANGELOG.md#533---2026-03-26) | [pythainlp.org/docs](https://pythainlp.org/docs) |
-| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...HEAD) | [pythainlp.org/dev-docs](https://pythainlp.org/dev-docs/) |
+| [5.3.4](https://github.com/PyThaiNLP/pythainlp/releases) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/blob/dev/CHANGELOG.md#533---2026-03-26) | [pythainlp.org/docs](https://pythainlp.org/docs) |
+| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/compare/v5.3.4...HEAD) | [pythainlp.org/dev-docs](https://pythainlp.org/dev-docs/) |
 
 ## Features
 

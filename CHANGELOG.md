@@ -15,14 +15,16 @@ and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
-- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.3>
+- Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...v5.3.4>
 
-## [Unreleased]
+## [5.3.4] - 2026-04-02
 
-### Changed
+### Fixed
 
-- Fix doctests, docstring formatting, typos, and outdated content
-  across all modules (#1392).
+- Value range check fixes (#1374, #1379, #1382).
+- "1001" -> "หนึ่งพันเอ็ด" rule (#1386).
+- Build WSD Trie after populating dictionary (#1388).
+- Doctests across all modules (#1392).
 
 ## [5.3.3] - 2026-03-26
 
@@ -288,6 +290,7 @@ The minimum requirement is now Python 3.9.
 
 - See <https://github.com/PyThaiNLP/pythainlp/releases/tag/v5.0.0>
 
+[5.3.4]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...v5.3.4
 [5.3.3]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.2...v5.3.3
 [5.3.2]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.1...v5.3.2
 [5.3.1]: https://github.com/PyThaiNLP/pythainlp/compare/v5.3.0...v5.3.1

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-cython>=0.5.0", "cython>=3.0"]
 build-backend = "hatchling.build"
 
 [project]
@@ -233,6 +233,8 @@ noauto-onnx = [
 # Cython-based dependencies - for tests.noauto_cython
 noauto-cython = [
     "phunspell>=0.1.6",
+    "hatch-cython>=0.5.0",
+    "cython>=3.0",
 ]
 
 # Network-dependent tests - for tests.noauto_network
@@ -310,6 +312,21 @@ include = [
     "LICENSE",
     "README.md",
 ]
+
+[tool.hatch.build.hooks.cython]
+dependencies = ["cython>=3.0"]
+optional = true
+# Compile only .pyx files in pythainlp/_ext — do NOT compile .py files.
+# Without compile_py=false, hatch-cython would compile every .py file in
+# the package into a Cython extension, which is not what we want.
+compile_py = false
+src = "pythainlp/_ext"
+
+# hatch-cython internally invokes setuptools' build_ext. Restrict package
+# discovery to pythainlp only so setuptools doesn't error on the flat layout
+# (multiple top-level directories: build_tools, fuzz, notebooks, pythainlp).
+[tool.setuptools.packages.find]
+include = ["pythainlp*"]
 
 [tool.bumpversion]
 current_version = "5.3.3"
@@ -495,6 +512,10 @@ module = [
     "wunsen.*",
     "yaml.*",
 ]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["pythainlp._ext.*"]
 ignore_missing_imports = true
 
 [tool.pylint.main]

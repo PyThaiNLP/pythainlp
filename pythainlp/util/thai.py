@@ -408,3 +408,22 @@ def analyze_thai_text(text: str) -> dict[str, int]:
             results[char] += 1
 
     return dict(results)
+
+
+# Keep references to the pure-Python implementations before the Cython
+# override below so they remain importable for benchmarking and testing.
+_py_is_thai_char = is_thai_char
+_py_is_thai = is_thai
+_py_count_thai = count_thai
+
+# Load Cython-compiled fast implementations when available.
+# Falls back silently to the Python implementations above on PyPy,
+# systems without a C compiler, or when hatch-cython was not used at build time.
+try:
+    from pythainlp._ext._thai_fast import (
+        count_thai,  # noqa: F811
+        is_thai,  # noqa: F811
+        is_thai_char,  # noqa: F811
+    )
+except ImportError:
+    pass

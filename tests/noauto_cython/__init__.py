@@ -20,6 +20,7 @@ from unittest import TestLoader, TestSuite
 # Names of module to be tested
 test_packages: list[str] = [
     "tests.noauto_cython.testn_spell_cython",
+    "tests.noauto_cython.testn_fast_functions",
 ]
 
 

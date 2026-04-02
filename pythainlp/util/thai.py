@@ -425,13 +425,14 @@ try:
         is_thai as _fast_is_thai,
         is_thai_char as _fast_is_thai_char,
     )
-
+except ImportError:
+    pass
+else:
     count_thai = _fast_count_thai  # noqa: F811
     is_thai = _fast_is_thai  # noqa: F811
 
     def is_thai_char(ch: str) -> bool:  # noqa: F811
-        _ = ord(ch)  # raises TypeError for empty/multi-char, matching pure-Python
+        # ord(ch) raises the same TypeError as the pure-Python implementation
+        # for empty strings or strings of length != 1, preserving behavior.
+        _ = ord(ch)
         return _fast_is_thai_char(ch)
-
-except ImportError:
-    pass

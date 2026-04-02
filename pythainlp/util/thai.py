@@ -421,9 +421,17 @@ _py_count_thai = count_thai
 # systems without a C compiler, or when hatch-cython was not used at build time.
 try:
     from pythainlp._ext._thai_fast import (
-        count_thai,  # noqa: F811
-        is_thai,  # noqa: F811
-        is_thai_char,  # noqa: F811
+        count_thai as _fast_count_thai,
+        is_thai as _fast_is_thai,
+        is_thai_char as _fast_is_thai_char,
     )
+
+    count_thai = _fast_count_thai  # noqa: F811
+    is_thai = _fast_is_thai  # noqa: F811
+
+    def is_thai_char(ch: str) -> bool:  # noqa: F811
+        _ = ord(ch)  # raises TypeError for empty/multi-char, matching pure-Python
+        return _fast_is_thai_char(ch)
+
 except ImportError:
     pass

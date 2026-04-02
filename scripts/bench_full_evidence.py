@@ -20,7 +20,8 @@ import platform
 import pstats
 import sys
 import timeit
-from typing import Callable, Optional
+from collections.abc import Callable
+from typing import Optional
 
 
 # ---------------------------------------------------------------------------

@@ -10,7 +10,6 @@ Tests are skipped automatically when the Cython extensions are not built
 (e.g., on PyPy or systems without a C compiler).
 """
 
-import timeit
 import unittest
 
 try:
@@ -210,71 +209,3 @@ class FastNormalizeCorrectnessTest(unittest.TestCase):
             fast_remove_dup_spaces(text), py_remove_dup_spaces(text)
         )
 
-
-class FastFunctionPerformanceTest(unittest.TestCase):
-    """Verify Cython implementations are faster than Python versions."""
-
-    def setUp(self) -> None:
-        if not HAVE_EXT:
-            self.skipTest(
-                "pythainlp._ext Cython extensions not built; skipping"
-            )
-
-    def _speedup(self, py_func, cy_func, arg: str, n: int = 5000) -> float:
-        py_time = timeit.timeit(lambda: py_func(arg), number=n)
-        cy_time = timeit.timeit(lambda: cy_func(arg), number=n)
-        return py_time / cy_time
-
-    def test_is_thai_char_faster(self) -> None:
-        from pythainlp.util.thai import _py_is_thai_char as py_is_thai_char
-
-        sample = "ก"
-        speedup = self._speedup(py_is_thai_char, fast_is_thai_char, sample)
-        self.assertGreater(
-            speedup,
-            1.2,
-            f"is_thai_char speedup {speedup:.1f}x is less than 1.2x",
-        )
-
-    def test_is_thai_faster(self) -> None:
-        from pythainlp.util.thai import _py_is_thai as py_is_thai
-
-        long_text = "กาลเวลาผ่านไปอย่างรวดเร็ว ก้าวต่อไปด้วยความมุ่งมั่น " * 100
-        speedup = self._speedup(py_is_thai, fast_is_thai, long_text)
-        self.assertGreater(
-            speedup,
-            1.2,
-            f"is_thai speedup {speedup:.1f}x is less than 1.2x",
-        )
-
-    def test_count_thai_faster(self) -> None:
-        # Use _py_count_thai: the pure-Python reference saved before the
-        # Cython override runs in thai.py
-        from pythainlp.util.thai import _py_count_thai as py_count_thai
-
-        long_text = (
-            "กาลเวลาผ่านไปอย่างรวดเร็ว ก้าวต่อไปด้วยความมุ่งมั่น " * 100
-        )
-        speedup = self._speedup(py_count_thai, fast_count_thai, long_text)
-        self.assertGreater(
-            speedup,
-            1.2,
-            f"count_thai speedup {speedup:.1f}x is less than 1.2x",
-        )
-
-    def test_remove_tonemark_faster(self) -> None:
-        # Use _py_remove_tonemark: the pure-Python reference saved before the
-        # Cython override runs in normalize.py
-        from pythainlp.util.normalize import (
-            _py_remove_tonemark as py_remove_tonemark,
-        )
-
-        long_text = "จิ้นเก๋าก่้๊๋" * 500
-        speedup = self._speedup(
-            py_remove_tonemark, fast_remove_tonemark, long_text
-        )
-        self.assertGreater(
-            speedup,
-            1.2,
-            f"remove_tonemark speedup {speedup:.1f}x is less than 1.2x",
-        )

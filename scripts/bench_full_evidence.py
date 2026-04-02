@@ -20,7 +20,7 @@ import platform
 import pstats
 import sys
 import timeit
-from collections.abc import Callable
+from typing import Callable, Optional
 
 
 # ---------------------------------------------------------------------------
@@ -62,7 +62,7 @@ def _get_pythainlp_version() -> str:
 
 def _get_cython_status() -> str:
     try:
-        from pythainlp._ext import _thai_fast, _normalize_fast  # noqa: F401
+        from pythainlp._ext import _thai_fast, _normalize_fast  # noqa: F401  # pyright: ignore[reportUnusedImport]
 
         return "loaded (compiled)"
     except ImportError:
@@ -113,7 +113,7 @@ def print_dataset() -> None:
 def bench(
     label: str,
     func_py: Callable[..., object],
-    func_cy: Callable[..., object] | None,
+    func_cy: Optional[Callable[..., object]],
     args: tuple,
     number: int = 50_000,
 ) -> dict:

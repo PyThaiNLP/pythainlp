@@ -428,8 +428,8 @@ try:
 except ImportError:
     pass
 else:
-    count_thai = _fast_count_thai  # noqa: F811
-    is_thai = _fast_is_thai  # noqa: F811
+    count_thai = _fast_count_thai
+    is_thai = _fast_is_thai
 
     def _is_thai_char_fast(ch: str) -> bool:
         # ord(ch) raises the same TypeError as the pure-Python implementation
@@ -437,4 +437,4 @@ else:
         _ = ord(ch)
         return _fast_is_thai_char(ch)
 
-    is_thai_char = _is_thai_char_fast  # noqa: F811
+    is_thai_char = _is_thai_char_fast

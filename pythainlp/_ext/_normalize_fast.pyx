@@ -7,8 +7,8 @@ Provides faster implementations of remove_tonemark and remove_dup_spaces
 using C-level typed memory views and byte filtering.
 
 These functions are API-compatible with their equivalents in
-pythainlp.util.normalize and are loaded as transparent replacements when the
-Cython extension is available.
+pythainlp.util.normalize and can be used as faster drop-in replacements
+when explicitly imported.
 """
 # cython: language_level=3
 # cython: boundscheck=False

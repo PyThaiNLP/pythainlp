@@ -16,12 +16,11 @@ Usage:
 
 import cProfile
 import io
-import os
 import platform
 import pstats
-import statistics
 import sys
 import timeit
+from collections.abc import Callable
 
 
 # ---------------------------------------------------------------------------
@@ -47,8 +46,8 @@ def _get_cpu_model() -> str:
             for line in f:
                 if line.startswith("model name"):
                     return line.split(":", 1)[1].strip()
-    except Exception:
-        pass
+    except OSError:
+        return platform.processor() or "unknown"
     return platform.processor() or "unknown"
 
 
@@ -113,20 +112,20 @@ def print_dataset() -> None:
 # ---------------------------------------------------------------------------
 def bench(
     label: str,
-    func_py: object,
-    func_cy: object,
+    func_py: Callable[..., object],
+    func_cy: Callable[..., object] | None,
     args: tuple,
     number: int = 50_000,
 ) -> dict:
     """Benchmark a single function, return result dict."""
     # Python
-    timer_py = timeit.Timer(lambda: func_py(*args))  # type: ignore[operator]
+    timer_py = timeit.Timer(lambda: func_py(*args))
     times_py = timer_py.repeat(repeat=5, number=number)
     best_py = min(times_py)
 
     # Cython
     if func_cy is not None:
-        timer_cy = timeit.Timer(lambda: func_cy(*args))  # type: ignore[operator]
+        timer_cy = timeit.Timer(lambda: func_cy(*args))
         times_cy = timer_cy.repeat(repeat=5, number=number)
         best_cy = min(times_cy)
         speedup = best_py / best_cy
@@ -168,13 +167,13 @@ def print_table(title: str, rows: list[dict]) -> None:
 # 4. cProfile analysis
 # ---------------------------------------------------------------------------
 def profile_function(
-    label: str, func: object, args: tuple, repeat: int = 100_000
+    func: Callable[..., object], args: tuple, repeat: int = 100_000
 ) -> str:
     """Profile a function with cProfile and return top-10 hotspots."""
     pr = cProfile.Profile()
     pr.enable()
     for _ in range(repeat):
-        func(*args)  # type: ignore[operator]
+        func(*args)
     pr.disable()
 
     stream = io.StringIO()
@@ -278,7 +277,6 @@ def main() -> None:
 
     print("── BEFORE (Pure Python count_thai) ──")
     profile_out = profile_function(
-        "Python count_thai",
         _py_count_thai,
         (_SAMPLE_LONG,),
         repeat=100_000,
@@ -288,7 +286,6 @@ def main() -> None:
     if cy_count_thai is not None:
         print("── AFTER (Cython count_thai) ──")
         profile_out = profile_function(
-            "Cython count_thai",
             cy_count_thai,
             (_SAMPLE_LONG,),
             repeat=100_000,
@@ -297,7 +294,6 @@ def main() -> None:
 
     print("── BEFORE (Pure Python remove_tonemark) ──")
     profile_out = profile_function(
-        "Python remove_tonemark",
         _py_remove_tonemark,
         (_TONE_LONG,),
         repeat=50_000,
@@ -307,7 +303,6 @@ def main() -> None:
     if cy_remove_tonemark is not None:
         print("── AFTER (Cython remove_tonemark) ──")
         profile_out = profile_function(
-            "Cython remove_tonemark",
             cy_remove_tonemark,
             (_TONE_LONG,),
             repeat=50_000,

@@ -3,10 +3,13 @@
 # SPDX-License-Identifier: Apache-2.0
 """Shared loader factory for noauto test suites."""
 
+from collections.abc import Callable
 from unittest import TestLoader, TestSuite
 
 
-def make_load_tests(test_packages: list[str]):
+def make_load_tests(
+    test_packages: list[str],
+) -> Callable[[TestLoader, TestSuite, str], TestSuite]:
     """Return a load_tests function bound to *test_packages*.
 
     Each noauto ``__init__.py`` calls this factory so the

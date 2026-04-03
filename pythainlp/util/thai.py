@@ -420,11 +420,9 @@ _py_count_thai = count_thai
 # Falls back silently to the Python implementations above on PyPy,
 # systems without a C compiler, or when hatch-cython was not used at build time.
 try:
-    from pythainlp._ext._thai_fast import (
-        count_thai as _fast_count_thai,
-        is_thai as _fast_is_thai,
-        is_thai_char as _fast_is_thai_char,
-    )
+    from pythainlp._ext._thai_fast import count_thai as _fast_count_thai
+    from pythainlp._ext._thai_fast import is_thai as _fast_is_thai
+    from pythainlp._ext._thai_fast import is_thai_char as _fast_is_thai_char
 except ImportError:
     pass
 else:

@@ -316,11 +316,12 @@ include = [
 [tool.hatch.build.hooks.cython]
 dependencies = ["cython>=3.0"]
 optional = true
+
+[tool.hatch.build.hooks.cython.options]
 # Compile only .pyx files in pythainlp/_ext — do NOT compile .py files.
 # Without compile_py=false, hatch-cython would compile every .py file in
 # the package into a Cython extension, which is not what we want.
 compile_py = false
-src = "pythainlp/_ext"
 
 # hatch-cython internally invokes setuptools' build_ext. Restrict package
 # discovery to pythainlp only so setuptools doesn't error on the flat layout

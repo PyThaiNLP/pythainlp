@@ -141,7 +141,7 @@ jobs:
         path: dist
 
     - name: Retrieve binary wheels
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806  # v4.1.9
       with:
         pattern: cibw-wheels-*         # globs all 4 matrix artifacts
         path: dist

@@ -52,7 +52,7 @@ jobs:
       build: ${{ steps.check_build_trigger.outputs.build }}
     steps:
     - name: Checkout source code
-      uses: actions/checkout@v6
+      uses: actions/checkout@v4
       with:
         ref: ${{ github.event.pull_request.head.sha }}
     - id: check_build_trigger
@@ -71,10 +71,10 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -82,31 +82,73 @@ jobs:
       run: |
         pip install --upgrade build pip twine
 
-    - name: Build source distribution and wheels
-      run: python -m build
+    - name: Build source distribution
+      run: python -m build --sdist   # was: python -m build
 
     - name: Check distributions
       run: twine check dist/*
 
     - name: Store distributions
-      uses: actions/upload-artifact@v7
+      uses: actions/upload-artifact@v4
       with:
+        name: dist-sdist             # explicit name for downstream retrieval
         path: dist
+
+  build_wheels:
+    name: Build binary wheels (${{ matrix.os }})
+    needs: [check_build_trigger]
+    if: needs.check_build_trigger.outputs.build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest    # → manylinux_2_17_x86_64
+          - windows-latest   # → win_amd64
+          - macos-13         # → macosx_13_*_x86_64 (Intel)
+          - macos-14         # → macosx_14_*_arm64 (Apple Silicon)
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Build wheels
+      uses: pypa/cibuildwheel@v2.23.0
+      # All config is read from [tool.cibuildwheel] in pyproject.toml:
+      #   build/skip selectors, test command, per-platform archs
+
+    - name: Validate wheels
+      run: |
+        pip install twine
+        twine check ./wheelhouse/*.whl
+
+    - name: Upload wheel artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: cibw-wheels-${{ matrix.os }}
+        path: ./wheelhouse/*.whl
 
   publish_pypi:
     name: Publish to PyPI
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [build, build_wheels]       # was: needs: [build]
     if: github.event_name == 'release' && github.event.action == 'published'
     steps:
-    - name: Retrieve distributions
-      uses: actions/download-artifact@v7
+    - name: Retrieve sdist
+      uses: actions/download-artifact@v4
       with:
-        name: artifact
+        name: dist-sdist               # matches renamed artifact
         path: dist
+
+    - name: Retrieve binary wheels
+      uses: actions/download-artifact@v4
+      with:
+        pattern: cibw-wheels-*         # globs all 4 matrix artifacts
+        path: dist
+        merge-multiple: true           # flatten: cibw-wheels-os1/a.whl → dist/a.whl
+
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
-      if: github.event_name == 'release' && github.event.action == 'published'
       with:
         skip-existing: true
         user: __token__

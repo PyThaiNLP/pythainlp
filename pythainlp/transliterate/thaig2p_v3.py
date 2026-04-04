@@ -9,10 +9,13 @@ GitHub: https://github.com/wannaphong/thai-g2p-v3
 from __future__ import annotations
 
 import json
+import logging
 import os
 from typing import TYPE_CHECKING, Dict, List, Optional
 
 from pythainlp.tools import get_full_data_path
+
+_logger: logging.Logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
     import numpy as np
@@ -41,7 +44,7 @@ def _download_file(url: str, dst: str) -> None:
 
     user_agent = f"PyThaiNLP/{__version__}"
     req = Request(url, headers={"User-Agent": user_agent})
-    with urlopen(req, timeout=60) as response:  # noqa: S310
+    with urlopen(req, timeout=60) as response:
         with open(dst, "wb") as f:
             while True:
                 chunk = response.read(65536)
@@ -60,7 +63,7 @@ def _get_model_path(filename: str, source_basename: str) -> str:
     """
     local_path: str = get_full_data_path(filename)
     if not os.path.exists(local_path):
-        print(f"Downloading ThaiG2P v3 model file: {filename} ...")
+        _logger.info("Downloading ThaiG2P v3 model file: %s ...", filename)
         _download_file(_MODEL_BASE_URL + source_basename, local_path)
     return local_path
 
@@ -93,7 +96,7 @@ class ThaiG2P:
         vocab_path = _get_model_path(_VOCAB_FILENAME, _VOCAB_SOURCE)
 
         with open(vocab_path, encoding="utf-8") as f:
-            vocab: dict[str, dict[str, str]] = json.load(f)
+            vocab: Dict[str, Dict[str, str]] = json.load(f)
 
         self._char2idx: Dict[str, int] = {
             k: int(v) for k, v in vocab["input_char2idx"].items()

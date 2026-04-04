@@ -17,6 +17,14 @@ and this project adheres to
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
 - Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...v5.3.4>
 
+## [Unreleased]
+
+### Added
+
+- ThaiG2P v3 engine (`thaig2p_v3`) for `transliterate()` (#1398).
+  Uses a char-level Transformer model in ONNX format from
+  https://github.com/wannaphong/thai-g2p-v3.
+
 ## [5.3.4] - 2026-04-02
 
 ### Fixed

@@ -55,6 +55,7 @@ This section includes multiple transliteration engines designed to suit various 
 - **ipa**: Provides International Phonetic Alphabet (IPA) representation of Thai text.
 - **thaig2p**: (default) Transliterates Thai text into the Grapheme-to-Phoneme (G2P) representation.
 - **thaig2p_v2**: Transliterates Thai text into the Grapheme-to-Phoneme (G2P) representation. This model is from https://huggingface.co/pythainlp/thaig2p-v2.0
+- **thaig2p_v3**: Transliterates Thai text into the Grapheme-to-Phoneme (G2P) representation using an ONNX model (v3). This model is from https://github.com/wannaphong/thai-g2p-v3
 - **tltk**: Utilizes the TLTK transliteration system for a specific approach to transliteration.
 - **iso_11940**: Focuses on the ISO 11940 transliteration standard.
 

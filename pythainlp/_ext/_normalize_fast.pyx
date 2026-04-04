@@ -28,7 +28,7 @@ cdef frozenset _TONE_SET = frozenset(_tonemarks_str)
 _RE_REMOVE_NEWLINES = _re.compile(r"[ \n]*\n[ \n]*")
 
 
-cpdef str remove_tonemark(str text):
+cpdef str remove_tonemark(object text):
     """Remove Thai tone marks from text using UTF-8 byte-level filtering.
 
     Thai tone marks occupy the Unicode range U+0E48-U+0E4B, which encodes
@@ -36,23 +36,24 @@ cpdef str remove_tonemark(str text):
     at the byte level using typed memory views avoids per-character Python
     object creation and outperforms repeated str.replace() calls on long texts.
 
-    :param text: input text
+    :param text: input text (str or str-like object)
     :type text: str
     :return: text with all Thai tone marks removed
     :rtype: str
     """
-    if not text:
-        return text
+    cdef str _text = str(text)
+    if not _text:
+        return _text
 
     # Fast path: bail out early if none of the four tone marks are present
     cdef Py_UCS4 c
     cdef bint found = False
-    for c in text:
+    for c in _text:
         if c in _TONE_SET:
             found = True
             break
     if not found:
-        return text
+        return _text
 
     # Encode once to UTF-8 bytes; use memoryview for C-level access.
     # IMPORTANT: the byte pattern below is hard-coded for the four Thai tone
@@ -60,7 +61,7 @@ cpdef str remove_tonemark(str text):
     # pythainlp.thai_tonemarks is ever extended beyond those four codepoints
     # this filter will silently miss any additions; update the scan range
     # in the while-loop accordingly.
-    cdef bytes src_bytes = text.encode("utf-8")
+    cdef bytes src_bytes = _text.encode("utf-8")
     cdef const unsigned char[:] src = src_bytes
     cdef Py_ssize_t n = len(src)
 
@@ -85,23 +86,24 @@ cpdef str remove_tonemark(str text):
     return bytes(dst_arr[:j]).decode("utf-8")
 
 
-cpdef str remove_dup_spaces(str text):
+cpdef str remove_dup_spaces(object text):
     """Remove duplicate ASCII spaces and collapse newlines; strip result.
 
     Behaviorally identical to pythainlp.util.normalize.remove_dup_spaces:
     - Only ASCII space (0x20) runs are collapsed (not tabs or other whitespace)
     - Newline normalisation is delegated to the same compiled regex
 
-    :param text: input text
+    :param text: input text (str or str-like object)
     :type text: str
     :return: text without duplicate spaces, with newlines normalised and
              leading/trailing whitespace stripped
     :rtype: str
     """
+    cdef str _text = str(text)
     cdef list out = []
     cdef Py_UCS4 c
     cdef bint prev_space = False
-    for c in text:
+    for c in _text:
         if c == 32:  # ASCII space 0x20
             if not prev_space:
                 out.append(" ")

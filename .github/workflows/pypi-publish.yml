@@ -52,7 +52,7 @@ jobs:
       build: ${{ steps.check_build_trigger.outputs.build }}
     steps:
     - name: Checkout source code
-      uses: actions/checkout@v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
       with:
         ref: ${{ github.event.pull_request.head.sha }}
     - id: check_build_trigger
@@ -71,10 +71,10 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38  # v5.4.0
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -89,7 +89,7 @@ jobs:
       run: twine check dist/*
 
     - name: Store distributions
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1  # v4.6.1
       with:
         name: dist-sdist             # explicit name for downstream retrieval
         path: dist
@@ -110,10 +110,10 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
 
     - name: Build wheels
-      uses: pypa/cibuildwheel@v2.23.0
+      uses: pypa/cibuildwheel@fa04202e88ea28b84d5d4d20696ee8dfc0119436  # v2.23.0
       # All config is read from [tool.cibuildwheel] in pyproject.toml:
       #   build/skip selectors, test command, per-platform archs
 
@@ -123,7 +123,7 @@ jobs:
         twine check ./wheelhouse/*.whl
 
     - name: Upload wheel artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1  # v4.6.1
       with:
         name: cibw-wheels-${{ matrix.os }}
         path: ./wheelhouse/*.whl
@@ -135,7 +135,7 @@ jobs:
     if: github.event_name == 'release' && github.event.action == 'published'
     steps:
     - name: Retrieve sdist
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806  # v4.1.9
       with:
         name: dist-sdist               # matches renamed artifact
         path: dist
@@ -148,7 +148,7 @@ jobs:
         merge-multiple: true           # flatten: cibw-wheels-os1/a.whl → dist/a.whl
 
     - name: Publish to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+      uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e  # release/v1
       with:
         skip-existing: true
         user: __token__

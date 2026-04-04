@@ -9,63 +9,18 @@ GitHub: https://github.com/wannaphong/thai-g2p-v3
 from __future__ import annotations
 
 import json
-import logging
-import os
 from typing import TYPE_CHECKING, Dict, List, Optional
 
-from pythainlp.tools import get_full_data_path
-
-_logger: logging.Logger = logging.getLogger(__name__)
+from pythainlp.corpus import get_corpus_path
 
 if TYPE_CHECKING:
     import numpy as np
     from numpy.typing import NDArray
     from onnxruntime import InferenceSession
 
-_MODEL_BASE_URL: str = "https://github.com/wannaphong/thai-g2p-v3/raw/main/"
-_ENCODER_FILENAME: str = "thai-g2p-v3-encoder.onnx"
-_DECODER_FILENAME: str = "thai-g2p-v3-decoder.onnx"
-_VOCAB_FILENAME: str = "thai-g2p-v3-vocab.json"
-
-_ENCODER_SOURCE: str = "thai2ipa_encoder.onnx"
-_DECODER_SOURCE: str = "thai2ipa_decoder.onnx"
-_VOCAB_SOURCE: str = "thai2ipa_vocab.json"
-
-
-def _download_file(url: str, dst: str) -> None:
-    """Download a file from ``url`` to ``dst``.
-
-    :param str url: source URL
-    :param str dst: destination file path
-    """
-    from urllib.request import Request, urlopen
-
-    from pythainlp import __version__
-
-    user_agent = f"PyThaiNLP/{__version__}"
-    req = Request(url, headers={"User-Agent": user_agent})
-    with urlopen(req, timeout=60) as response:
-        with open(dst, "wb") as f:
-            while True:
-                chunk = response.read(65536)
-                if not chunk:
-                    break
-                f.write(chunk)
-
-
-def _get_model_path(filename: str, source_basename: str) -> str:
-    """Return a local path for a model file, downloading it if needed.
-
-    :param str filename: local filename to cache the file as
-    :param str source_basename: filename in the upstream GitHub repository
-    :return: absolute local path to the model file
-    :rtype: str
-    """
-    local_path: str = get_full_data_path(filename)
-    if not os.path.exists(local_path):
-        _logger.info("Downloading ThaiG2P v3 model file: %s ...", filename)
-        _download_file(_MODEL_BASE_URL + source_basename, local_path)
-    return local_path
+_MODEL_ENCODER_NAME: str = "thaig2p_v3_encoder_onnx"
+_MODEL_DECODER_NAME: str = "thaig2p_v3_decoder_onnx"
+_MODEL_VOCAB_NAME: str = "thaig2p_v3_vocab"
 
 
 class ThaiG2P:
@@ -74,8 +29,7 @@ class ThaiG2P:
     This version uses a char-level Transformer model exported to ONNX
     for converting Thai text to International Phonetic Alphabet (IPA).
 
-    The model files are downloaded automatically from the upstream
-    repository on first use and cached in the PyThaiNLP data directory.
+    Model files are bundled with PyThaiNLP in the corpus directory.
 
     For more information, see:
     https://github.com/wannaphong/thai-g2p-v3
@@ -91,11 +45,26 @@ class ThaiG2P:
     def __init__(self) -> None:
         from onnxruntime import InferenceSession
 
-        encoder_path = _get_model_path(_ENCODER_FILENAME, _ENCODER_SOURCE)
-        decoder_path = _get_model_path(_DECODER_FILENAME, _DECODER_SOURCE)
-        vocab_path = _get_model_path(_VOCAB_FILENAME, _VOCAB_SOURCE)
+        encoder_path = get_corpus_path(_MODEL_ENCODER_NAME)
+        decoder_path = get_corpus_path(_MODEL_DECODER_NAME)
+        vocab_path = get_corpus_path(_MODEL_VOCAB_NAME)
 
-        with open(vocab_path, encoding="utf-8") as f:
+        missing = [
+            n
+            for n, v in (
+                (_MODEL_ENCODER_NAME, encoder_path),
+                (_MODEL_DECODER_NAME, decoder_path),
+                (_MODEL_VOCAB_NAME, vocab_path),
+            )
+            if not v
+        ]
+        if missing:
+            raise FileNotFoundError(
+                f"corpus-not-found names={missing!r}\n"
+                f"  Corpus file(s) not found: {', '.join(missing)}."
+            )
+
+        with open(str(vocab_path), encoding="utf-8") as f:
             vocab: Dict[str, Dict[str, str]] = json.load(f)
 
         self._char2idx: Dict[str, int] = {
@@ -108,11 +77,11 @@ class ThaiG2P:
         self._eos_idx: int = self._char2idx["<EOS>"]
 
         self._encoder: "InferenceSession" = InferenceSession(
-            encoder_path,
+            str(encoder_path),
             providers=["CPUExecutionProvider"],
         )
         self._decoder: "InferenceSession" = InferenceSession(
-            decoder_path,
+            str(decoder_path),
             providers=["CPUExecutionProvider"],
         )
 

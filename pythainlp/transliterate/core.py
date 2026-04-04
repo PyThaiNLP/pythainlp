@@ -105,6 +105,8 @@ def transliterate(
     :rtype: str
 
     :Options for engines:
+        * *thaig2p_v3* - (default) Thai Grapheme-to-Phoneme using ONNX model (v3),
+          output is IPA. https://github.com/wannaphong/thai-g2p-v3
         * *thaig2p* - Thai Grapheme-to-Phoneme,
           output is IPA (require PyTorch)
         * *icu* - pyicu, based on International Components for Unicode (ICU)
@@ -115,8 +117,6 @@ def transliterate(
         * *tltk_ipa* - tltk, output is International Phonetic Alphabet (IPA)
         * *thaig2p_v2* - Thai Grapheme-to-Phoneme,
           output is IPA. https://huggingface.co/pythainlp/thaig2p-v2.0
-        * *thaig2p_v3* - (default) Thai Grapheme-to-Phoneme using ONNX model (v3),
-          output is IPA. https://github.com/wannaphong/thai-g2p-v3
         * *umt5_thaig2p* - Thai Grapheme-to-Phoneme,
           output is IPA, powered by UMT5.\
           https://huggingface.co/B-K/umt5-thai-g2p-v2-0.5k

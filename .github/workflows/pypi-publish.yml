@@ -7,9 +7,11 @@ name: Build and publish to PyPI
 on:
   push:                 # Use together with "[cd build]" commit message
     branches:
+      - main
       - dev
   pull_request:         # Use together with "[cd build]" commit message
     branches:
+      - main
       - dev
   release:
     types: [published]  # "Publish release" button

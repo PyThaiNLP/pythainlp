@@ -1,10 +1,10 @@
 License
 =======
- - PyThaiNLP source code and notebooks are released under the `Apache License 2.0 <https://github.com/PyThaiNLP/pythainlp/blob/dev/LICENSE>`_.
+ - PyThaiNLP source code and notebooks are released under the `Apache License 2.0 <https://github.com/PyThaiNLP/pythainlp/blob/main/LICENSE>`_.
  - All corpora, datasets, and documentation created by the PyThaiNLP project are released under the `Creative Commons Zero 1.0 Universal Public Domain Dedication <https://creativecommons.org/publicdomain/zero/1.0/>`_ (CC0).
  - Language models created by the PyThaiNLP project are released under the `Creative Commons Attribution 4.0 International License <https://creativecommons.org/licenses/by/4.0/>`_ (CC BY 4.0).
  - For more information about corpora and models created by the project, see `PyThaiNLP Corpus <https://github.com/PyThaiNLP/pythainlp-corpus/>`_.
- - For other corpora and models that may be included with the PyThaiNLP distribution, see `Corpus License <https://github.com/PyThaiNLP/pythainlp/blob/dev/pythainlp/corpus/corpus_license.md>`_.
+ - For other corpora and models that may be included with the PyThaiNLP distribution, see `Corpus License <https://github.com/PyThaiNLP/pythainlp/blob/main/pythainlp/corpus/corpus_license.md>`_.
 
 **PyThaiNLP License**
 

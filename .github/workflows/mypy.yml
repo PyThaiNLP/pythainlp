@@ -6,6 +6,7 @@ name: Type check
 on:
   push:
     branches:
+      - main
       - dev
     paths-ignore:
       - '**.cff'
@@ -16,6 +17,7 @@ on:
       - 'docs/**'
   pull_request:
     branches:
+      - main
       - dev
     paths-ignore:
       - '**.cff'

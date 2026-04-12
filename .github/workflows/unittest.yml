@@ -5,7 +5,7 @@
 # unit tests that download large corpus files will not be covered
 # in this workflow.
 # A separated corpus test workflow is in
-# https://github.com/PyThaiNLP/pythainlp/blob/dev/.github/workflows/corpus.yml
+# https://github.com/PyThaiNLP/pythainlp/blob/main/.github/workflows/corpus.yml
 # which will be triggered only if there is a change in a corpus.
 
 name: Unit test
@@ -13,6 +13,7 @@ name: Unit test
 on:
   push:
     branches:
+    - main
     - dev
     paths:
       - ".github/workflows/unittest.yml"
@@ -24,6 +25,7 @@ on:
       - "pyproject.toml"
   pull_request:
     branches:
+      - main
       - dev
     paths:
       - ".github/workflows/unittest.yml"
@@ -58,7 +60,7 @@ jobs:
         # and dependency complexity: "core", "compact", "extra", and "noauto".
         # Test cases in "noauto" will not be included here.
         # See details of test matrix in:
-        # https://github.com/PyThaiNLP/pythainlp/blob/dev/tests/README.md
+        # https://github.com/PyThaiNLP/pythainlp/blob/main/tests/README.md
         os: ["ubuntu-latest", "windows-latest", "macos-latest"]
         python-version: ["3.14", "3.9"] # Latest and earliest
         include:

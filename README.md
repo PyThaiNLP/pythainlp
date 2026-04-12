@@ -8,7 +8,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3519354.svg)](https://doi.org/10.5281/zenodo.3519354)
 [![Project Status: Active](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Codacy Grade](https://app.codacy.com/project/badge/Grade/5821a0de122041c79999bbb280230ffb)](https://www.codacy.com/gh/PyThaiNLP/pythainlp/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PyThaiNLP/pythainlp&amp;utm_campaign=Badge_Grade)
-[![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=dev)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=dev)
+[![Coverage Status](https://coveralls.io/repos/github/PyThaiNLP/pythainlp/badge.svg?branch=main)](https://coveralls.io/github/PyThaiNLP/pythainlp?branch=main)
 [![Google Colab Badge](https://badgen.net/badge/Launch%20Quick%20Start%20Guide/on%20Google%20Colab/blue?icon=terminal)](https://colab.research.google.com/github/PyThaiNLP/tutorials/blob/master/source/notebooks/pythainlp_get_started.ipynb)
 [![Facebook](https://img.shields.io/badge/Facebook-0866FF?style=flat&logo=facebook&logoColor=white)](https://www.facebook.com/pythainlp/)
 [![Chat on Matrix](https://matrix.to/img/matrix-badge.svg)](https://matrix.to/#/#thainlp:matrix.org)
@@ -17,8 +17,8 @@
 | [Tutorials](https://pythainlp.org/tutorials)
 | [License info](https://pythainlp.org/dev-docs/notes/license.html)
 | [Model cards](https://github.com/PyThaiNLP/pythainlp/wiki/Model-Cards)
-| [Adopters](https://github.com/PyThaiNLP/pythainlp/blob/dev/INTHEWILD.md)
-| *[เอกสารภาษาไทย](https://github.com/PyThaiNLP/pythainlp/blob/dev/README_TH.md)*
+| [Adopters](https://github.com/PyThaiNLP/pythainlp/blob/main/INTHEWILD.md)
+| *[เอกสารภาษาไทย](https://github.com/PyThaiNLP/pythainlp/blob/main/README_TH.md)*
 
 Designed to be a Thai-focused counterpart to [NLTK](https://www.nltk.org/),
 **PyThaiNLP** provides standard tools for linguistic analysis under
@@ -31,8 +31,8 @@ pip install pythainlp
 
 | Version | Python version | Changes | Documentation |
 |:-------:|:--------------:|:-------:|:-------------:|
-| [5.3.4](https://github.com/PyThaiNLP/pythainlp/releases) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/blob/dev/CHANGELOG.md#533---2026-03-26) | [pythainlp.org/docs](https://pythainlp.org/docs) |
-| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/compare/v5.3.4...HEAD) | [pythainlp.org/dev-docs](https://pythainlp.org/dev-docs/) |
+| [5.3.4](https://github.com/PyThaiNLP/pythainlp/releases) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/blob/main/CHANGELOG.md#533---2026-03-26) | [pythainlp.org/docs](https://pythainlp.org/docs) |
+| [`dev`](https://github.com/PyThaiNLP/pythainlp/tree/dev) | 3.9+ | [Log](https://github.com/PyThaiNLP/pythainlp/compare/v5.3.4...dev) | [pythainlp.org/dev-docs](https://pythainlp.org/dev-docs/) |
 
 ## Features
 
@@ -70,7 +70,7 @@ The documentation website maintains the
 [full list of extras](https://pythainlp.org/dev-docs/notes/installation.html).
 To see the specific libraries included in each extra,
 please inspect the `[project.optional-dependencies]` section of
-[`pyproject.toml`](https://github.com/PyThaiNLP/pythainlp/blob/dev/pyproject.toml).
+[`pyproject.toml`](https://github.com/PyThaiNLP/pythainlp/blob/main/pyproject.toml).
 
 ## Environment variables
 
@@ -144,7 +144,7 @@ See [tests/README.md](./tests/README.md) for test matrix and other details.
 ## Contribute to PyThaiNLP
 
 Please fork and create a pull request.
-See [CONTRIBUTING.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/CONTRIBUTING.md)
+See [CONTRIBUTING.md](https://github.com/PyThaiNLP/pythainlp/blob/main/CONTRIBUTING.md)
 for guidelines and algorithm references.
 
 ## Citations
@@ -222,7 +222,7 @@ with this BibTeX entry:
 
 ## Sponsors
 
-See [SPONSORS.md](https://github.com/PyThaiNLP/pythainlp/blob/dev/SPONSORS.md)
+See [SPONSORS.md](https://github.com/PyThaiNLP/pythainlp/blob/main/SPONSORS.md)
 
 ## Acknowledgements
 

@@ -264,3 +264,8 @@ class KhaveeCheckSaraEdgeCasesTestCase(unittest.TestCase):
 
     def test_empty_string_after_removing_karun_returns_empty(self):
         self.assertEqual(self.kv.check_sara("ก์"), "")
+
+    def test_empty_string_after_removing_tone_marks_returns_empty(self):
+        self.assertEqual(
+            self.kv.check_sara("\u0e48"), ""
+        )  # The string contains only Thai Mai Ek tone mark

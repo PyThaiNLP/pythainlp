@@ -340,7 +340,7 @@ class TokenizeTestCase(unittest.TestCase):
             [],
         )
         self.assertEqual(
-            sent_tokenize(["สวัสดี", None], engine="whitespace+newline"),
+            sent_tokenize(["สวัสดี", None], engine="whitespace+newline"),  # type: ignore
             [],
         )
 

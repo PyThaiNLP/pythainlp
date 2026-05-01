@@ -31,6 +31,14 @@ def nighit(w1: str, w2: str) -> str:
         assert nighit("สํ","ปทา")=="สัมปทา"
         assert nighit("สํ","โยค")=="สังโยค"
     """
+    if not isinstance(w1, str) or not isinstance(w2, str):
+        raise TypeError("Both w1 and w2 must be strings.")
+    w1 = w1.strip()
+    w2 = w2.strip()
+    if not w1:
+        return w2
+    if not w2:
+        return w1
     if not str(w1).endswith("ํ") and len(w1) != 2:
         raise NotImplementedError(f"The function doesn't support {w1}.")
     list_w1 = list(w1)

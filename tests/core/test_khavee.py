@@ -258,3 +258,9 @@ class KhaveeCheckSaraEdgeCasesTestCase(unittest.TestCase):
 
     def test_returns_string(self):
         self.assertIsInstance(self.kv.check_sara("เริง"), str)
+
+    def test_empty_string_returns_empty(self):
+        self.assertEqual(self.kv.check_sara(""), "")
+
+    def test_empty_string_after_removing_karun_returns_empty(self):
+        self.assertEqual(self.kv.check_sara("ก์"), "")

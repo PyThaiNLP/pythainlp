@@ -38,7 +38,8 @@ def nighit(w1: str, w2: str) -> str:
     newword = []
     newword.append(list_w1[0])
     newword.append("ั")
-    consonants_in_w2 = [i for i in list_w2 if i in set(thai_consonants)]
+    _consonants = set(thai_consonants)
+    consonants_in_w2 = [i for i in list_w2 if i in _consonants]
     if not consonants_in_w2:
         raise ValueError(
             f"w2 {w2!r} contains no Thai consonants."

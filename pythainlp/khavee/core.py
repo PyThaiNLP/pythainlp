@@ -60,6 +60,9 @@ class KhaveeVerifier:
         # In case of การันย์
         if "์" in word[-1]:
             word = word[:-2]
+            # After removing the karun, the word may become empty (e.g. "ก์")
+            if not word:
+                return ""
 
         # In case of สระเดี่ยว
         for i in word:

@@ -336,7 +336,7 @@ class TokenizeTestCase(unittest.TestCase):
         # Reproduce: list with non-string items should return []
         # instead of raising TypeError (str.join raises TypeError, not ValueError)
         self.assertEqual(
-            sent_tokenize(["สวัสดี", 123], engine="whitespace+newline"),
+            sent_tokenize(["สวัสดี", 123], engine="whitespace+newline"),  # type: ignore
             [],
         )
         self.assertEqual(

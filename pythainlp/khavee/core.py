@@ -223,7 +223,7 @@ class KhaveeVerifier:
             sara.append("เอือ")
 
         if not sara:
-            return "Can't find Sara in this word"
+            return ""
 
         return sara[0]
 

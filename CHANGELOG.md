@@ -17,6 +17,12 @@ and this project adheres to
 - Full release notes: <https://github.com/PyThaiNLP/pythainlp/releases>
 - Commit history: <https://github.com/PyThaiNLP/pythainlp/compare/v5.3.3...v5.3.4>
 
+## [Unreleased]
+
+## Changed
+
+- Improve guardrails in `check_sara()` and `nighit()`
+
 ## [5.3.4] - 2026-04-02
 
 ### Fixed

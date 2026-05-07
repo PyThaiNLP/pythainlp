@@ -105,6 +105,15 @@ The following names are deprecated and will be removed in 6.0 (#1339):
 
 This release focuses on security issues related to corpus file loading.
 
+### Changed
+
+- Migrate development, documentation, and testing dependencies from
+  `[project.optional-dependencies]` to PEP 735 `[dependency-groups]`
+  in `pyproject.toml`; use `pip install --group <name>` to install (#1329)
+- Use `pyicu-wheels` in test dependency groups for pre-built ICU binary
+  wheels, simplifying local development and CI on Windows and macOS (#1329)
+- Simplify CI by removing platform-specific ICU compilation steps (#1329)
+
 ### Security
 
 - thai2fit: Use JSON model instead of pickle (#1325)

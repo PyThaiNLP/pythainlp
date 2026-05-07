@@ -32,7 +32,9 @@ jobs:
     - name: Install build tools and doc build tools
       run: pip install --upgrade pip
     - name: Install PyThaiNLP
-      run: pip install ".[docs]"
+      run: |
+        pip install .
+        pip install --group docs
     - name: Build sphinx documentation
       run: |
         cd docs && make html

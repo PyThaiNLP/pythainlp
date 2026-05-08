@@ -16,7 +16,7 @@ from __future__ import annotations
 _CONS_THANTHAKHAT: str = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ์"
 _THANTHAKHAT: str = "์"  # \u0e4c
 _C1: str = "กขฃคฆฅ"  # sound K -> coded letter 1
-_C2: str = "จฉชฌซฐทฒดฎตสศษ"  # D -> 2
+_C2: str = "จฉชฌซฐฏทฑฒถธดฎตสศษ"  # D -> 2
 _C3: str = "ฟฝพผภบป"  # B -> 3
 _C4: str = "ง"  # NG -> 4
 _C5: str = "ลฬรนณฦญ"  # N -> 5
@@ -71,7 +71,8 @@ def metasound(text: str, length: int = 4) -> str:
             chars[i] = " "
         i += 1
 
-    # retain first consonant, encode the rest
+    # filter out spaces left by karan removal, then truncate
+    chars = [c for c in chars if c != " "]
     chars = chars[:length]
     i = 1
     while i < len(chars):

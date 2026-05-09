@@ -6,7 +6,6 @@
 Test functions that require TensorFlow and its ecosystem dependencies:
 - tensorflow
 - keras
-- deepcut
 
 These tests are NOT run in automated CI workflows due to:
 - Very large dependencies (~1-2 GB for tensorflow)
@@ -15,14 +14,15 @@ These tests are NOT run in automated CI workflows due to:
 
 These tests are kept for manual testing and may be run in separate CI
 workflows dedicated to TensorFlow-based features.
+
+NOTE: deepcut tokenizer was migrated to ONNX; its tests are now in
+tests/noauto_onnx/.
 """
 
 from unittest import TestLoader, TestSuite
 
 # Names of module to be tested
-test_packages: list[str] = [
-    "tests.noauto_tensorflow.testn_tokenize_tensorflow",
-]
+test_packages: list[str] = []
 
 
 def load_tests(

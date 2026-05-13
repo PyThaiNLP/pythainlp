@@ -4,7 +4,7 @@
 
 import unittest
 
-from pythainlp.transliterate import romanize, transliterate
+from pythainlp.transliterate import romanize, transliterate, pronunciate_pali
 
 BASIC_TESTS = {
     None: "",
@@ -101,4 +101,79 @@ class TransliterateTestCase(unittest.TestCase):
         )
         self.assertEqual(
             transliterate("ภาษาไทย", engine="iso_11940"), "p̣hās̛̄āịthy"
+        )
+
+    def test_pronunciate_pali(self):
+        # rule 1
+        self.assertEqual(
+            pronunciate_pali("ติสรเณนสห"), "ติสะระเณนะสะหะ"
+        )
+        self.assertEqual(
+            pronunciate_pali("สีลานิ ยาจาม"), "สีลานิ ยาจามะ"
+        )
+        self.assertEqual(
+            pronunciate_pali("ภควา"), "ภะคะวา"
+        )
+        self.assertEqual(
+            pronunciate_pali("อรหโต"), "อะระหะโต"
+        )
+        self.assertEqual(
+            pronunciate_pali("โลกวิทู"), "โลกะวิทู"
+        )
+        self.assertEqual(
+            pronunciate_pali("นมามิ"), "นะมามิ"
+        )
+        # rule 2
+        self.assertEqual(
+            pronunciate_pali("สมฺมา"), "สัมมา"
+        )
+        self.assertEqual(
+            pronunciate_pali("สงฺโฆ"), "สังโฆ"
+        )
+        self.assertEqual(
+            pronunciate_pali("พุทฺโธ"), "พุทโธ"
+        )
+        self.assertEqual(
+            pronunciate_pali("พุทฺธสฺส"), "พุทธัสสะ"
+        )
+        self.assertEqual(
+            pronunciate_pali("สนฺทิฏฺฐิโก"), "สันทิฏฐิโก"
+        )
+        self.assertEqual(
+            pronunciate_pali("ปาหุเนยฺโย"), "ปาหุเนยโย"
+        )
+        # rule 3
+        self.assertEqual(
+            pronunciate_pali("มยํ"), "มะยัง"
+        )
+        self.assertEqual(
+            pronunciate_pali("วิสุ ํ"), "วิสุง"
+        )
+        self.assertEqual(
+            pronunciate_pali("อรหํ"), "อะระหัง"
+        )
+        self.assertEqual(
+            pronunciate_pali("สงฺฆํ"), "สังฆัง"
+        )
+        self.assertEqual(
+            pronunciate_pali("ธมฺมํ"), "ธัมมัง"
+        )
+        self.assertEqual(
+            pronunciate_pali("สรณํ"), "สะระณัง"
+        )
+        self.assertEqual(
+            pronunciate_pali("สีล ํ"), "สีลัง"
+        )
+        self.assertEqual(
+            pronunciate_pali("พาหุ ํ"), "พาหุง"
+        )
+        # rule 4,5
+        self.assertEqual(
+            pronunciate_pali("สฺวากฺขาโต"), "สวากขาโต"
+        )
+        self.assertEqual(
+            pronunciate_pali("พฺยาธิ"), "พยาธิ"
+        )
+        self.assertEqual(
+            pronunciate_pali("พฺราหฺมณ"), "พราหมะณะ"
         )

@@ -4,7 +4,7 @@
 
 import unittest
 
-from pythainlp.transliterate import romanize, transliterate, pronunciate_pali
+from pythainlp.transliterate import pronunciate_pali, romanize, transliterate
 
 BASIC_TESTS = {
     None: "",

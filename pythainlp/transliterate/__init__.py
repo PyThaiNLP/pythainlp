@@ -8,6 +8,7 @@ __all__: list[str] = [
     "puan",
     "romanize",
     "transliterate",
+    "pronunciate_pali",
 ]
 
 from pythainlp.transliterate.core import pronunciate, romanize, transliterate

@@ -28,7 +28,6 @@ def _clean_ipa(ipa: str) -> str:
         .replace("˨˩", "")
         .replace("˦˥", "")
         .replace("˧", "")
-        .replace("˧", "")
         .replace(" .", ".")
         .replace(". ", ".")
         .strip()

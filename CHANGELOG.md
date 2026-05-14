@@ -19,6 +19,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- ThaiG2P v3 engine (`thaig2p_v3`) for `transliterate()` (#1398).
+  Uses a char-level Transformer model in ONNX format from
+  https://github.com/wannaphong/thai-g2p-v3.
 ## Changed
 
 - Improve guardrails in `check_sara()` and `nighit()`

@@ -72,5 +72,59 @@
                 "pythainlp_version": ">=3.2.0"
             }
         }
+    },
+    "thaig2p_v3_encoder_onnx": {
+        "name": "thaig2p_v3_encoder_onnx",
+        "latest_version": "1.0.0",
+        "description": "ThaiG2P v3 Encoder ONNX",
+        "long_description": "Thai Grapheme-to-Phoneme v3 ONNX model - Encoder",
+        "url": "https://github.com/wannaphong/thai-g2p-v3",
+        "authors": [
+            "Wannaphong Phatthiyaphaibun"
+        ],
+        "license": "Apache-2.0",
+        "versions": {
+            "1.0.0": {
+                "filename": "thaig2p_v3_encoder.onnx",
+                "md5": "-",
+                "pythainlp_version": ">=5.3.4"
+            }
+        }
+    },
+    "thaig2p_v3_decoder_onnx": {
+        "name": "thaig2p_v3_decoder_onnx",
+        "latest_version": "1.0.0",
+        "description": "ThaiG2P v3 Decoder ONNX",
+        "long_description": "Thai Grapheme-to-Phoneme v3 ONNX model - Decoder",
+        "url": "https://github.com/wannaphong/thai-g2p-v3",
+        "authors": [
+            "Wannaphong Phatthiyaphaibun"
+        ],
+        "license": "Apache-2.0",
+        "versions": {
+            "1.0.0": {
+                "filename": "thaig2p_v3_decoder.onnx",
+                "md5": "-",
+                "pythainlp_version": ">=5.3.4"
+            }
+        }
+    },
+    "thaig2p_v3_vocab": {
+        "name": "thaig2p_v3_vocab",
+        "latest_version": "1.0.0",
+        "description": "ThaiG2P v3 Vocabulary",
+        "long_description": "Thai Grapheme-to-Phoneme v3 vocabulary (character-to-index mapping)",
+        "url": "https://github.com/wannaphong/thai-g2p-v3",
+        "authors": [
+            "Wannaphong Phatthiyaphaibun"
+        ],
+        "license": "Apache-2.0",
+        "versions": {
+            "1.0.0": {
+                "filename": "thaig2p_v3_vocab.json",
+                "md5": "-",
+                "pythainlp_version": ">=5.3.4"
+            }
+        }
     }
 }

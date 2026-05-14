@@ -6,7 +6,7 @@ from __future__ import annotations
 from typing import Callable
 
 DEFAULT_ROMANIZE_ENGINE: str = "royin"
-DEFAULT_TRANSLITERATE_ENGINE: str = "thaig2p"
+DEFAULT_TRANSLITERATE_ENGINE: str = "thaig2p_v3"
 DEFAULT_PRONUNCIATE_ENGINE: str = "w2p"
 
 
@@ -105,7 +105,9 @@ def transliterate(
     :rtype: str
 
     :Options for engines:
-        * *thaig2p* - (default) Thai Grapheme-to-Phoneme,
+        * *thaig2p_v3* - (default) Thai Grapheme-to-Phoneme using ONNX model (v3),
+          output is IPA. https://github.com/wannaphong/thai-g2p-v3
+        * *thaig2p* - Thai Grapheme-to-Phoneme,
           output is IPA (require PyTorch)
         * *icu* - pyicu, based on International Components for Unicode (ICU)
         * *ipa* - epitran, output is International Phonetic Alphabet (IPA)
@@ -158,6 +160,8 @@ def transliterate(
         from pythainlp.transliterate.iso_11940 import transliterate  # type: ignore[assignment]  # noqa: I001
     elif engine == "thaig2p_v2":
         from pythainlp.transliterate.thaig2p_v2 import transliterate  # noqa: I001
+    elif engine == "thaig2p_v3":
+        from pythainlp.transliterate.thaig2p_v3 import transliterate  # noqa: I001
     elif engine == "umt5_thaig2p":
         from pythainlp.transliterate.umt5_thaig2p import transliterate  # noqa: I001
     else:  # use default engine: "thaig2p"

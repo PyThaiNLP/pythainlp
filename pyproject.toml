@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-cython>=0.5.0", "cython>=3.0"]
 build-backend = "hatchling.build"
 
 [project]
@@ -233,6 +233,8 @@ noauto-onnx = [
 # Cython-based dependencies - for tests.noauto_cython
 noauto-cython = [
     "phunspell>=0.1.6",
+    "hatch-cython>=0.5.0",
+    "cython>=3.0",
 ]
 
 # Network-dependent tests - for tests.noauto_network
@@ -310,6 +312,22 @@ include = [
     "LICENSE",
     "README.md",
 ]
+
+[tool.hatch.build.hooks.cython]
+dependencies = ["cython>=3.0"]
+optional = true
+
+[tool.hatch.build.hooks.cython.options]
+# Compile only .pyx files in pythainlp/_ext — do NOT compile .py files.
+# Without compile_py=false, hatch-cython would compile every .py file in
+# the package into a Cython extension, which is not what we want.
+compile_py = false
+
+# hatch-cython internally invokes setuptools' build_ext. Restrict package
+# discovery to pythainlp only so setuptools doesn't error on the flat layout
+# (multiple top-level directories: build_tools, fuzz, notebooks, pythainlp).
+[tool.setuptools.packages.find]
+include = ["pythainlp*"]
 
 [tool.bumpversion]
 current_version = "5.3.4"
@@ -497,6 +515,10 @@ module = [
 ]
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = ["pythainlp._ext.*"]
+ignore_missing_imports = true
+
 [tool.pylint.main]
 disable = [
     "import-error",
@@ -507,3 +529,29 @@ disable = [
     "too-many-branches",
     "too-many-statements",
 ]
+
+# ---------------------------------------------------------------------------
+# cibuildwheel — binary wheel build matrix
+# Docs: https://cibuildwheel.readthedocs.io/en/stable/options/
+# ---------------------------------------------------------------------------
+[tool.cibuildwheel]
+# CPython 3.9–3.13 (stable; matches requires-python = ">=3.9")
+build = "cp39-* cp310-* cp311-* cp312-* cp313-*"
+skip  = "pp* *-musllinux_*"           # PyPy and Alpine excluded (complex toolchain, deferred)
+
+[tool.cibuildwheel.test]
+# After wheel install, verify _thai_fast loaded as a compiled .so/.pyd
+# (not a pure-Python fallback).  No test deps required.
+# Note: pythainlp/_ext/_thai_fast has NO .py fallback — ImportError here
+# means compilation failed silently, which also fails this step explicitly.
+command = "python -c \"import pythainlp._ext._thai_fast as m; assert m.__file__.endswith(('.so', '.pyd')), 'NOT compiled: ' + m.__file__; print('CIBW OK:', m.__file__)\""
+
+[tool.cibuildwheel.linux]
+manylinux-x86_64-image = "manylinux2014"  # glibc >= 2.17 (RHEL 7+ / Ubuntu 18.04+)
+archs = "x86_64"                          # linux aarch64 deferred — QEMU adds ~20 min/version on GitHub runners
+
+[tool.cibuildwheel.macos]
+archs = "auto"                            # macos-13 runner = Intel (auto → x86_64); macos-14 runner = ARM (auto → arm64)
+
+[tool.cibuildwheel.windows]
+archs = "AMD64"

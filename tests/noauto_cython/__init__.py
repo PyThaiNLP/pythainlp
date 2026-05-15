@@ -15,26 +15,14 @@ These tests are kept for manual testing and may be run in separate CI
 workflows with appropriate build environments.
 """
 
-from unittest import TestLoader, TestSuite
+from tests._noauto_loader import make_load_tests
 
-# Names of module to be tested
 test_packages: list[str] = [
     "tests.noauto_cython.testn_spell_cython",
+    "tests.noauto_cython.testn_fast_functions",
 ]
 
-
-def load_tests(
-    loader: TestLoader, standard_tests: TestSuite, pattern: str
-) -> TestSuite:
-    """Load test protocol
-    See: https://docs.python.org/3/library/unittest.html#id1
-    """
-    suite = TestSuite()
-    for test_package in test_packages:
-        tests = loader.loadTestsFromName(test_package)
-        suite.addTests(tests)
-    return suite
-
+load_tests = make_load_tests(test_packages)
 
 if __name__ == "__main__":
     from unittest import main

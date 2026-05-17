@@ -270,3 +270,4 @@ and another mirror at
 Beware of malware if you use code from places other than these two.
 
 Made with ❤️ | PyThaiNLP Team 💻 | "We build Thai NLP" 🇹🇭
+Minimal 3

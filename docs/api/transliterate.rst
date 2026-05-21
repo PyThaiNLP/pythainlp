@@ -22,6 +22,9 @@ Modules
 
     This function provides assistance in generating phonetic representations of Thai words, which is particularly useful for language learning and pronunciation practice.
 
+.. autofunction:: pronunciate_pali
+    :noindex:
+
 .. autofunction:: puan
     :noindex:
 

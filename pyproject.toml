@@ -68,28 +68,7 @@ dependencies = [
 
 [project.optional-dependencies]
 
-## 1) Development ########################################
-
-dev = [
-    "black>=25.11.0",
-    "build>=1.0.0",
-    "bump-my-version>=1.2.6",
-    "coverage>=7.10.7",
-    "flake8>=7.0.0",
-    "flake8-type-checking>=3.2.0",
-    "mypy>=1.19.1",
-    "pylint>=4.0.0",
-    "ruff>=0.14.14",
-    "tox>=4.30.3",
-]
-
-docs = [
-    "Sphinx>=6.2",
-    "sphinx-copybutton>=0.5.2",
-    "sphinx-rtd-theme>=3.1.0",
-]
-
-## 2) Feature sets #######################################
+## Feature sets ###########################################
 
 abbreviation = ["khamyo>=0.2.0"]
 
@@ -116,7 +95,7 @@ esupar = ["esupar>=1.3.8", "numpy>=1.22", "transformers>=4.22.1"]
 
 generate = ["fastai<2.0"]
 
-icu = ["pyicu>=2.3"]
+icu = ["pyicu>=2.14"]  # PyICU 2.14 is the last version to support Python 3.9
 
 ipa = ["epitran>=1.1"]
 
@@ -174,23 +153,55 @@ wtp = ["transformers>=4.22.1", "wtpsplit>=1.0.1"]
 
 wunsen = ["wunsen>=0.0.3"]
 
-## 3) Testing ############################################
+## Dependency groups (PEP 735) ############################
 
-# Below are dependency groups for each defined test suites
+# Use `pip install --group <group-name>` to install a group.
+# For test groups, pyicu-wheels (https://pypi.org/project/pyicu-wheels/)
+# provides pre-built ICU binary wheels for all platforms without
+# local compilation. Note: pyicu-wheels is from a third-party source
+# (Init7, not the official PyICU project) and is used for testing only.
+# Distribution dependencies still use pyicu
+# (see icu = ["pyicu>=2.3"] in optional-dependencies below).
 
-# Compact dependencies - for tests.compact modules
-# Safe small set of optional dependencies
-# for common tasks like tokenization and tagging.
-compact = [
+[dependency-groups]
+
+# Development tools
+dev = [
+    "black>=25.11.0",
+    "build>=1.0.0",
+    "bump-my-version>=1.2.6",
+    "coverage>=7.10.7",
+    "flake8>=7.0.0",
+    "flake8-type-checking>=3.2.0",
+    "mypy>=1.19.1",
+    "pylint>=4.0.0",
+    "ruff>=0.14.14",
+    "tox>=4.30.3",
+]
+
+# Documentation build tools
+docs = [
+    "Sphinx>=6.2",
+    "sphinx-copybutton>=0.5.2",
+    "sphinx-rtd-theme>=3.1.0",
+]
+
+# Dependencies for tests.core
+# No extra optional dependencies needed beyond the base package.
+test-core = []
+
+# Dependencies for tests.compact
+test-compact = [
     "nlpo3>=1.4.0",
     "numpy>=1.26.0",
-    "pyicu>=2.3",
+    "pyicu-wheels>=2.14",
     "python-crfsuite>=0.9.7",
     "PyYAML>=5.4.1",
 ]
 
-# Extra dependencies - for tests.extra modules
-extra = [
+# Dependencies for tests.extra (includes compact dependencies)
+test-extra = [
+    {include-group = "test-compact"},
     "bpemb>=0.3.2",
     "budoux>=0.7.0",
     "gensim>=4.0.0",
@@ -201,11 +212,8 @@ extra = [
     "tltk>=1.10",
 ]
 
-# Noauto test dependencies - for tests.noauto_* modules
-# These are further grouped by dependency framework to avoid conflicts
-
-# PyTorch-based dependencies - for tests.noauto_torch
-noauto-torch = [
+# Dependencies for tests.noauto_torch
+test-noauto-torch = [
     "attacut>=1.0.6",
     "numpy>=1.26.0",
     "sentencepiece>=0.1.91",
@@ -216,33 +224,36 @@ noauto-torch = [
     "wtpsplit>=1.0.1",
 ]
 
-# TensorFlow-based dependencies - for tests.noauto_tensorflow
-noauto-tensorflow = [
+# Dependencies for tests.noauto_tensorflow
+test-noauto-tensorflow = [
     "deepcut>=0.7.0",
     "numpy>=1.26.0",
 ]
 
-# ONNX Runtime-based dependencies - for tests.noauto_onnx
-noauto-onnx = [
+# Dependencies for tests.noauto_onnx
+test-noauto-onnx = [
     "numpy>=1.26.0",
     "onnxruntime>=1.10.0",
     "oskut>=1.3",
     "sefr_cut>=1.1",
 ]
 
-# Cython-based dependencies - for tests.noauto_cython
-noauto-cython = [
+# Dependencies for tests.noauto_cython
+test-noauto-cython = [
     "phunspell>=0.1.6",
 ]
 
-# Network-dependent tests - for tests.noauto_network
-# These tests require network access but minimal dependencies
-noauto-network = [
+# Dependencies for tests.noauto_network
+test-noauto-network = [
     "huggingface-hub>=0.16.0",
 ]
 
-# Full dependencies - pinned where available
-full = [
+# Dependencies for tests.corpus
+# No extra optional dependencies needed beyond the base package.
+test-corpus = []
+
+# Full pinned dependencies for all features (for reproducible testing)
+test-full = [
     "attacut==1.0.6",
     "attaparse==1.0.0",
     "bpemb>=0.3.6,<0.4",
@@ -266,7 +277,7 @@ full = [
     "pandas>=2.2.0,<3",
     "panphon==0.22.2",
     "phunspell==0.1.6",
-    "pyicu>=2.15.2,<3",
+    "pyicu-wheels>=2.14",
     "python-crfsuite==0.9.12",
     "PyYAML>=5.4.1,<6.0.2",
     "sacremoses==0.1.1",

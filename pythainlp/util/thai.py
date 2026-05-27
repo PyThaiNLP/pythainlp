@@ -408,3 +408,31 @@ def analyze_thai_text(text: str) -> dict[str, int]:
             results[char] += 1
 
     return dict(results)
+
+
+# Keep references to the pure-Python implementations before the Cython
+# override below so they remain importable for benchmarking and testing.
+_py_is_thai_char = is_thai_char
+_py_is_thai = is_thai
+_py_count_thai = count_thai
+
+# Load Cython-compiled fast implementations when available.
+# Falls back silently to the Python implementations above on PyPy,
+# systems without a C compiler, or when hatch-cython was not used at build time.
+try:
+    from pythainlp._ext._thai_fast import count_thai as _fast_count_thai
+    from pythainlp._ext._thai_fast import is_thai as _fast_is_thai
+    from pythainlp._ext._thai_fast import is_thai_char as _fast_is_thai_char
+except ImportError:
+    pass
+else:
+    count_thai = _fast_count_thai
+    is_thai = _fast_is_thai
+
+    def _is_thai_char_fast(ch: str) -> bool:
+        # ord(ch) raises the same TypeError as the pure-Python implementation
+        # for empty strings or strings of length != 1, preserving behavior.
+        _ = ord(ch)
+        return _fast_is_thai_char(ch)
+
+    is_thai_char = _is_thai_char_fast

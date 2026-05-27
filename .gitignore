@@ -116,6 +116,10 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Cython-generated C source files (anywhere in the package tree)
+pythainlp/**/*.c
+
 notebooks/iso_11940-dev.ipynb
 
 # vscode devcontainer

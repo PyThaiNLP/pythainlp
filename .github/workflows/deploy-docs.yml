@@ -38,7 +38,7 @@ jobs:
         cd docs && make html
         cd ..
     - name: Deploy documentation
-      uses: peaceiris/actions-gh-pages@v4
+      uses: peaceiris/actions-gh-pages@v4.1.0
       with:
         personal_token: ${{ secrets.PERSONAL_TOKEN }}
         publish_dir: ./docs/_build/html

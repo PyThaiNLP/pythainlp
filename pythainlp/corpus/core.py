@@ -383,7 +383,7 @@ def _check_hash(dst: str, md5: str) -> None:
         with open(get_full_data_path(dst), "rb") as f:
             content = f.read()
             # MD5 is insecure but sufficient here
-            file_md5 = hashlib.md5(content).hexdigest()  # noqa: S324
+            file_md5 = hashlib.md5(content).hexdigest()  # noqa: S324  # nosec B324
 
             if md5 != file_md5:
                 raise ValueError("Hash does not match expected.")

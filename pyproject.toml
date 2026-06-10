@@ -71,6 +71,7 @@ dependencies = [
 ## 1) Development ########################################
 
 dev = [
+    "bandit>=1.9.4",
     "black>=25.11.0",
     "build>=1.0.0",
     "bump-my-version>=1.2.6",
@@ -496,6 +497,19 @@ module = [
     "yaml.*",
 ]
 ignore_missing_imports = true
+
+[tool.bandit]
+# Skip tests that produce known false positives or are accepted risks.
+# B105, B107: String/default value detected as hardcoded password.
+#             False positives: tokenizer special tokens and numeric config values.
+# B110: Try/Except/Pass. Accepted pattern in optional-dependency loading.
+# B202: tarfile.extractall. Accepted; no untrusted archives used.
+# B310: URL open for permitted schemes. Accepted; URLs are validated upstream.
+# B311: Standard pseudo-random generators. Used for NLP tasks, not security.
+# B614: PyTorch torch.load. Accepted; only trusted internal model files loaded.
+# B615: HuggingFace download without revision pinning.
+#       Accepted; release versions are tracked via dependency version pins.
+skips = ["B105", "B107", "B110", "B202", "B310", "B311", "B614", "B615"]
 
 [tool.pylint.main]
 disable = [

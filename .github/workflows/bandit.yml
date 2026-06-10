@@ -17,7 +17,6 @@ on:
       - '**.md'
       - '**.rst'
       - '**.txt'
-      - '**.yml'
       - 'docs/**'
   pull_request:
     branches:
@@ -29,7 +28,6 @@ on:
       - '**.md'
       - '**.rst'
       - '**.txt'
-      - '**.yml'
       - 'docs/**'
 
 # Avoid duplicate runs for the same source branch and repository.
@@ -49,6 +47,8 @@ concurrency:
 jobs:
   bandit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout
         uses: actions/checkout@v6.0.2

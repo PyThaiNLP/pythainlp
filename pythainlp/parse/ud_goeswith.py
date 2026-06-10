@@ -20,12 +20,17 @@ class Parse:
     def __init__(
         self,
         model: Optional[str] = "KoichiYasuoka/deberta-base-thai-ud-goeswith",
+        revision: Optional[str] = None,
     ) -> None:
         if model is None:
             model = "KoichiYasuoka/deberta-base-thai-ud-goeswith"
-        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(
+            model, revision=revision
+        )
         self.model: AutoModelForTokenClassification = (
-            AutoModelForTokenClassification.from_pretrained(model)
+            AutoModelForTokenClassification.from_pretrained(
+                model, revision=revision
+            )
         )
 
     def __call__(

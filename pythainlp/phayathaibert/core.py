@@ -6,7 +6,7 @@ from __future__ import annotations
 import random
 import re
 import warnings
-from typing import TYPE_CHECKING, Union, cast
+from typing import TYPE_CHECKING, Optional, Union, cast
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -29,7 +29,7 @@ _PAT_URL: str = r"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+
 
 _model_name: str = "clicknext/phayathaibert"
 _tokenizer: "CamembertTokenizer" = CamembertTokenizer.from_pretrained(
-    _model_name
+    _model_name  # nosec B615
 )
 
 
@@ -227,10 +227,10 @@ class ThaiTextAugmenter:
         )
 
         self.tokenizer: "PreTrainedTokenizerBase" = (
-            AutoTokenizer.from_pretrained(_model_name)
+            AutoTokenizer.from_pretrained(_model_name)  # nosec B615
         )
         self.model_for_masked_lm: "AutoModelForMaskedLM" = (
-            AutoModelForMaskedLM.from_pretrained(_model_name)
+            AutoModelForMaskedLM.from_pretrained(_model_name)  # nosec B615
         )
         self.model: "Pipeline" = pipeline(  # transformers.Pipeline
             "fill-mask",
@@ -317,7 +317,11 @@ class ThaiTextAugmenter:
 
 
 class PartOfSpeechTagger:
-    def __init__(self, model: str = "lunarlist/pos_thai_phayathai") -> None:
+    def __init__(
+        self,
+        model: str = "lunarlist/pos_thai_phayathai",
+        revision: Optional[str] = None,
+    ) -> None:
         # Load model directly
         from transformers import (
             AutoModelForTokenClassification,
@@ -325,10 +329,12 @@ class PartOfSpeechTagger:
         )
 
         self.tokenizer: "PreTrainedTokenizerBase" = (
-            AutoTokenizer.from_pretrained(model)
+            AutoTokenizer.from_pretrained(model, revision=revision)
         )
         self.model: "AutoModelForTokenClassification" = (
-            AutoModelForTokenClassification.from_pretrained(model)
+            AutoModelForTokenClassification.from_pretrained(
+                model, revision=revision
+            )
         )
 
     def get_tag(
@@ -364,17 +370,23 @@ class PartOfSpeechTagger:
 
 
 class NamedEntityTagger:
-    def __init__(self, model: str = "Pavarissy/phayathaibert-thainer") -> None:
+    def __init__(
+        self,
+        model: str = "Pavarissy/phayathaibert-thainer",
+        revision: Optional[str] = None,
+    ) -> None:
         from transformers import (
             AutoModelForTokenClassification,
             AutoTokenizer,
         )
 
         self.tokenizer: "PreTrainedTokenizerBase" = (
-            AutoTokenizer.from_pretrained(model)
+            AutoTokenizer.from_pretrained(model, revision=revision)
         )
         self.model: "AutoModelForTokenClassification" = (
-            AutoModelForTokenClassification.from_pretrained(model)
+            AutoModelForTokenClassification.from_pretrained(
+                model, revision=revision
+            )
         )
 
     def get_ner(

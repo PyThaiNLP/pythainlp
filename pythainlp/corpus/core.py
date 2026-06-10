@@ -853,12 +853,17 @@ def make_safe_directory_name(name: str) -> str:
     return safe_name
 
 
-def get_hf_hub(repo_id: str, filename: str = "") -> str:
+def get_hf_hub(
+    repo_id: str, filename: str = "", revision: Optional[str] = None
+) -> str:
     """HuggingFace Hub in :mod:`pythainlp` data directory.
 
     :param str repo_id: repo_id
     :param str filename: filename (optional, default is empty string).
         If empty, downloads entire snapshot.
+    :param Optional[str] revision: a git revision id, which can be a branch
+        name, a tag, or a commit hash (optional, default is ``None``).
+        Pin to a full commit hash for reproducible and secure downloads.
     :return: path
     :rtype: str
     """
@@ -876,10 +881,15 @@ def get_hf_hub(repo_id: str, filename: str = "") -> str:
     root_project = safe_path_join(hf_root, name_dir)
     if filename:
         output_path = hf_hub_download(
-            repo_id=repo_id, filename=filename, local_dir=root_project
+            repo_id=repo_id,
+            filename=filename,
+            local_dir=root_project,
+            revision=revision,
         )
     else:
         output_path = snapshot_download(
-            repo_id=repo_id, local_dir=root_project
+            repo_id=repo_id,
+            local_dir=root_project,
+            revision=revision,
         )
     return str(output_path)

@@ -29,10 +29,10 @@ class ThaiTextAugmenter:
         )
 
         self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(
-            _MODEL_NAME
+            _MODEL_NAME  # nosec B615
         )
         self.model_for_masked_lm: AutoModelForMaskedLM = (
-            AutoModelForMaskedLM.from_pretrained(_MODEL_NAME)
+            AutoModelForMaskedLM.from_pretrained(_MODEL_NAME)  # nosec B615
         )
         self.model: Pipeline = pipeline(
             "fill-mask",

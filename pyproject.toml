@@ -509,7 +509,7 @@ ignore_missing_imports = true
 # B614: PyTorch torch.load. Accepted; only trusted internal model files loaded.
 # B615: HuggingFace download without revision pinning.
 #       Accepted; release versions are tracked via dependency version pins.
-skips = ["B105", "B107", "B110", "B202", "B310", "B311", "B614", "B615"]
+skips = ["B105", "B107", "B110", "B202", "B310", "B311", "B614"]
 
 [tool.pylint.main]
 disable = [

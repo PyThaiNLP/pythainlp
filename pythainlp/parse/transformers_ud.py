@@ -56,16 +56,14 @@ class Parse:
                 x(safe_path_join(model, "tagger")),
             )
         else:
-            c = AutoConfig.from_pretrained(
-                cached_file(model, "deprel/config.json"),
-                revision=revision,
+            c = AutoConfig.from_pretrained(  # nosec B615
+                cached_file(model, "deprel/config.json", revision=revision),
             )
-            d = x(cached_file(model, "deprel/pytorch_model.bin"), config=c)
-            s = AutoConfig.from_pretrained(
-                cached_file(model, "tagger/config.json"),
-                revision=revision,
+            d = x(cached_file(model, "deprel/pytorch_model.bin", revision=revision), config=c)
+            s = AutoConfig.from_pretrained(  # nosec B615
+                cached_file(model, "tagger/config.json", revision=revision),
             )
-            t = x(cached_file(model, "tagger/pytorch_model.bin"), config=s)
+            t = x(cached_file(model, "tagger/pytorch_model.bin", revision=revision), config=s)
         self.deprel: TokenClassificationPipeline = TokenClassificationPipeline(
             model=d, tokenizer=self.tokenizer, aggregation_strategy="simple"
         )

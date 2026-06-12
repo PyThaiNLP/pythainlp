@@ -71,7 +71,7 @@ def get_corpus_db(url: str) -> Optional[_ResponseWrapper]:
     try:
         req = Request(url, headers={"User-Agent": _USER_AGENT})
         # SSL certificate verification is enabled by default
-        with urlopen(req, timeout=10) as response:
+        with urlopen(req, timeout=10) as response:  # nosec B310
             corpus_db = _ResponseWrapper(response)
     except HTTPError as http_err:
         print(f"HTTP error occurred: {http_err}")
@@ -349,7 +349,7 @@ def _download(url: str, dst: str) -> int:
 
     req = Request(url, headers={"User-Agent": _USER_AGENT})
     # SSL certificate verification is enabled by default
-    with urlopen(req, timeout=10) as response:
+    with urlopen(req, timeout=10) as response:  # nosec B310
         file_size = int(response.info().get("Content-Length", -1))
         with open(get_full_data_path(dst), "wb") as f:
             pbar = None
@@ -484,7 +484,7 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
                             f"Symlink {member.name} points outside extraction directory: {member.linkname}"
                         )
 
-        tar.extractall(path=path)
+        tar.extractall(path=path)  # nosec B202
 
 
 def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
@@ -539,7 +539,7 @@ def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
                         f"Symlink {member} points outside extraction directory: {link_target}"
                     )
 
-    zip_file.extractall(path=path)
+    zip_file.extractall(path=path)  # nosec B202
 
 
 def _version2int(v: str) -> int:

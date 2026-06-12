@@ -150,7 +150,7 @@ def gen_sentence(
     """
     if not start_seq:
         # Non-cryptographic use, pseudo-random generator is acceptable here
-        start_seq = random.choice(list(thwiki_itos))  # noqa: S311
+        start_seq = random.choice(list(thwiki_itos))  # noqa: S311  # nosec B311
     predicted_text: str = learn.predict(
         start_seq, N, temperature=0.8, min_p=prob, sep="-*-"
     )

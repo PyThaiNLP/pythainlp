@@ -135,7 +135,8 @@ def misspell(sentence: str, ratio: float = 0.05) -> str:
         'ภาษาไทยปรากฏครั้งแรกในกุทธศักราช 1727'
     """
     num_misspells = math.floor(len(sentence) * ratio)
-    positions = random.sample(range(len(sentence)), k=num_misspells)
+    # Non-cryptographic use, pseudo-random generator is acceptable here
+    positions = random.sample(range(len(sentence)), k=num_misspells)  # noqa: S311  # nosec B311
 
     # convert strings to array of characters
     misspelled = list(sentence)
@@ -145,7 +146,7 @@ def misspell(sentence: str, ratio: float = 0.05) -> str:
             continue
 
         # Non-cryptographic use, pseudo-random generator is acceptable here
-        candidate = random.choice(potential_candidates)  # noqa: S311
+        candidate = random.choice(potential_candidates)  # noqa: S311  # nosec B311
 
         misspelled[pos] = candidate
 

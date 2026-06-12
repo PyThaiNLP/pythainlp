@@ -253,7 +253,7 @@ class ThaiTextAugmenter:
             input_text = self.processor.preprocess(sample_txt)
             if sample:
                 # Non-cryptographic use, pseudo-random generator is acceptable here
-                random_word_idx = random.randint(0, 4)  # noqa: S311
+                random_word_idx = random.randint(0, 4)  # noqa: S311  # nosec B311
                 output = self.model(input_text)[random_word_idx]["sequence"]
             else:
                 output = self.model(input_text)[word_rank]["sequence"]

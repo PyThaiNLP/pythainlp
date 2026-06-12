@@ -97,7 +97,7 @@ config: dict[str, Any] = {
     "emb_sz": 400,
     "n_hid": 1550,
     "n_layers": 4,
-    "pad_token": 1,
+    "pad_token": 1,  # nosec B105
     "qrnn": False,
     "tie_weights": True,
     "out_bias": True,

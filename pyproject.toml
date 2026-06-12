@@ -500,11 +500,9 @@ ignore_missing_imports = true
 
 [tool.bandit]
 # Skip tests that produce known false positives or are accepted risks.
-# B105, B107: String/default value detected as hardcoded password.
-#             False positives: tokenizer special tokens and numeric config values.
 # B110: Try/Except/Pass. Accepted pattern in optional-dependency loading.
-# B202, B310, B311, B614: suppressed at each call site with # nosec comments.
-skips = ["B105", "B107", "B110"]
+# B105, B107, B202, B310, B311, B614: suppressed at each call site with # nosec comments.
+skips = ["B110"]
 
 [tool.pylint.main]
 disable = [

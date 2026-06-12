@@ -120,7 +120,7 @@ class ThaiTextProcessor:
         """
         return re.sub(" {2,}", " ", text)
 
-    def replace_spaces(self, text: str, space_token: str = "<_>") -> str:  # noqa: S107
+    def replace_spaces(self, text: str, space_token: str = "<_>") -> str:  # noqa: S107  # nosec B107
         """Replace spaces with _
         :param str text: text to replace spaces
         :return: text where all spaces replaced with _

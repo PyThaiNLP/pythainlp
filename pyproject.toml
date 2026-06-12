@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
+# SPDX-FileCopyrightText: 2016-present PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
@@ -312,6 +312,11 @@ include = [
     "README.md",
 ]
 
+[tool.bandit]
+# Skip tests that produce known false positives or are accepted risks.
+# B110: Try/Except/Pass. Accepted pattern in optional-dependency loading.
+skips = ["B110"]
+
 [tool.bumpversion]
 current_version = "5.3.4"
 commit = true
@@ -497,12 +502,6 @@ module = [
     "yaml.*",
 ]
 ignore_missing_imports = true
-
-[tool.bandit]
-# Skip tests that produce known false positives or are accepted risks.
-# B110: Try/Except/Pass. Accepted pattern in optional-dependency loading.
-# B105, B107, B202, B310, B311, B614: suppressed at each call site with # nosec comments.
-skips = ["B110"]
 
 [tool.pylint.main]
 disable = [

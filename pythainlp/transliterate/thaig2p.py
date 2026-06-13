@@ -438,7 +438,7 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
             outputs[di] = decoder_output.to(device)
 
             # Non-cryptographic use, pseudo-random generator is acceptable here
-            teacher_force = random.random() < teacher_forcing_ratio  # noqa: S311  # nosec B311
+            teacher_force = random.random() < teacher_forcing_ratio  # noqa: S311  # nosec B311  # NOSONAR
 
             decoder_input = (
                 target_seq[:, di].reshape(batch_size, 1)

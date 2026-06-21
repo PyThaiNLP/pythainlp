@@ -26,7 +26,9 @@ from pythainlp.tools.path import safe_path_join
 
 class Parse:
     def __init__(
-        self, model: Optional[str] = "KoichiYasuoka/deberta-base-thai-ud-head"
+        self,
+        model: Optional[str] = "KoichiYasuoka/deberta-base-thai-ud-head",
+        revision: Optional[str] = None,
     ) -> None:
         from transformers import (
             AutoConfig,
@@ -39,9 +41,13 @@ class Parse:
 
         if model is None:
             model = "KoichiYasuoka/deberta-base-thai-ud-head"
-        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(model)
+        self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(
+            model, revision=revision
+        )
         self.model: AutoModelForQuestionAnswering = (
-            AutoModelForQuestionAnswering.from_pretrained(model)
+            AutoModelForQuestionAnswering.from_pretrained(
+                model, revision=revision
+            )
         )
         x = AutoModelForTokenClassification.from_pretrained
         if os.path.isdir(model):
@@ -50,14 +56,14 @@ class Parse:
                 x(safe_path_join(model, "tagger")),
             )
         else:
-            c = AutoConfig.from_pretrained(
-                cached_file(model, "deprel/config.json")
+            c = AutoConfig.from_pretrained(  # nosec B615
+                cached_file(model, "deprel/config.json", revision=revision),
             )
-            d = x(cached_file(model, "deprel/pytorch_model.bin"), config=c)
-            s = AutoConfig.from_pretrained(
-                cached_file(model, "tagger/config.json")
+            d = x(cached_file(model, "deprel/pytorch_model.bin", revision=revision), config=c)
+            s = AutoConfig.from_pretrained(  # nosec B615
+                cached_file(model, "tagger/config.json", revision=revision),
             )
-            t = x(cached_file(model, "tagger/pytorch_model.bin"), config=s)
+            t = x(cached_file(model, "tagger/pytorch_model.bin", revision=revision), config=s)
         self.deprel: TokenClassificationPipeline = TokenClassificationPipeline(
             model=d, tokenizer=self.tokenizer, aggregation_strategy="simple"
         )

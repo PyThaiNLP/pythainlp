@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
+# SPDX-FileCopyrightText: 2016-present PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
 
@@ -71,6 +71,7 @@ dependencies = [
 ## 1) Development ########################################
 
 dev = [
+    "bandit>=1.9.4",
     "black>=25.11.0",
     "build>=1.0.0",
     "bump-my-version>=1.2.6",
@@ -310,6 +311,11 @@ include = [
     "LICENSE",
     "README.md",
 ]
+
+[tool.bandit]
+# Skip tests that produce known false positives or are accepted risks.
+# B110: Try/Except/Pass. Accepted pattern in optional-dependency loading.
+skips = ["B110"]
 
 [tool.bumpversion]
 current_version = "5.3.4"

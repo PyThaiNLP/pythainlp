@@ -1,0 +1,66 @@
+# SPDX-FileCopyrightText: 2026-present PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
+
+# Bandit is a tool designed to find common security issues in Python code.
+# https://github.com/pycqa/bandit
+
+name: Bandit
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+    paths-ignore:
+      - '**.cff'
+      - '**.json'
+      - '**.md'
+      - '**.rst'
+      - '**.txt'
+      - 'docs/**'
+  pull_request:
+    branches:
+      - dev
+      - main
+    paths-ignore:
+      - '**.cff'
+      - '**.json'
+      - '**.md'
+      - '**.rst'
+      - '**.txt'
+      - 'docs/**'
+
+# Avoid duplicate runs for the same source branch and repository.
+# For pull_request events, uses the source repo name from
+# github.event.pull_request.head.repo.full_name; otherwise uses github.repository.
+# For push events, uses the branch name from github.ref_name.
+# For pull_request events, uses the source branch name from github.head_ref.
+# This ensures events for the same repo and branch share the same group,
+# and avoids cross-fork collisions when branch names are reused.
+concurrency:
+  group: >-
+    ${{ github.workflow }}-${{
+      github.event.pull_request.head.repo.full_name || github.repository
+    }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  bandit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+          cache: "pip"
+
+      - name: Install bandit
+        run: pip install "bandit>=1.9.4"
+
+      - name: Run bandit
+        run: bandit -r pythainlp -c pyproject.toml

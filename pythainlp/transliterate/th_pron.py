@@ -287,11 +287,7 @@ _PARTIAL_PATTERN = re.compile(
 
 
 def _c2_decomp(c2_char: str, seq_idx: int) -> str:
-    converted_c2: list[str] = []
-    for character in list(c2_char):
-        val = _CODA.get(character)
-        converted_c2.append(val[seq_idx] if val else "")
-    return "".join(converted_c2)
+    return "".join(_CODA.get(char, ["", "", ""])[seq_idx] for char in c2_char)
 
 
 def transliterate(text: str, mode: str = "ipa") -> str:
@@ -326,10 +322,10 @@ def transliterate(text: str, mode: str = "ipa") -> str:
                 if mgvc_match:
                     g_new, v2_new, c2_new = mgvc_match.groups()
                     c1, g, v2, c2 = "ห", g_new, v2_new, c2_new
-                    if g != "" and v2 != "ย":
+                    if g and v2 != "ย":
                         c1, g = c1 + g, ""
 
-            if g == "ล" and (v2 + c2) == "":
+            if g == "ล" and not (v2 + c2):
                 c2 = g
                 g = ""
 
@@ -344,7 +340,7 @@ def transliterate(text: str, mode: str = "ipa") -> str:
                 v_lookup = _VOWEL[openness].get(v1 + v2)
                 v = v_lookup[seq_idx] if v_lookup else (v1 + v2)
                 g_clean = g.replace("ฺ", "")
-                g_lookup = _INITIAL.get(g_clean) or _INITIAL[""]
+                g_lookup = _INITIAL.get(g_clean, _INITIAL[""])
                 g = cast(list[str], g_lookup["seq"])[seq_idx]
 
             c1_clean = c1.replace("ฺ", "")
@@ -365,7 +361,7 @@ def transliterate(text: str, mode: str = "ipa") -> str:
                 "live"
                 if re.search(r"[มญณนรลฬง]", c2)
                 or (orig_v.endswith("ย") and v.endswith("i"))
-                or (c2 + length == "long")
+                or (c2 == "" and length == "long")
                 or _LIVE_EXC.get(orig_v)
                 else "dead"
             )

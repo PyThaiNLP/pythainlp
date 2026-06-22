@@ -299,6 +299,8 @@ def transliterate(text: str, mode: str = "ipa") -> str:
 
     :param str text: Thai text to transliterate.
     :param str mode: Output mode: ``paiboon``, ``royin``, or ``ipa``.
+    Unsupported modes return the input text unchanged.
+
     :return: Transliterated text.
     :rtype: str
     """
@@ -356,7 +358,7 @@ def transliterate(text: str, mode: str = "ipa") -> str:
                 "long"
                 if re.search(r"([aiʉueɛoɔə])\1", v)
                 or "ː" in v
-                or _UNROM_LONG.get(orig_v)
+                or orig_v in _UNROM_LONG
                 else "short"
             )
             life = (
@@ -395,10 +397,7 @@ def transliterate(text: str, mode: str = "ipa") -> str:
         word = _PARTIAL_PATTERN.sub(syllable, word)
         return word
 
-    words_iter = list(re.finditer(f"{_THAI_RANGE}+", text))
-    for match_word in words_iter:
-        processed = process_word(match_word)
-        text = text.replace(match_word.group(0), processed, 1)
+    text = re.sub(f"{_THAI_RANGE}+", lambda m: process_word(m), text)
 
     text = re.sub(r"[๐-๙]", lambda m: _SYMBOLS.get(m.group(0), m.group(0)), text)
 
@@ -414,7 +413,7 @@ def transliterate(text: str, mode: str = "ipa") -> str:
         text = re.sub(r"ng\$", "ng", text)
 
     if mode == "ipa":
-        text, _count_syl = re.subn(r"[ \-–]", ".", text)
+        text = re.sub(r"[ \-–]", ".", text)
         text = re.sub(r"([aiɯu])([˥-˩]+)$", r"\1ʔ\2", text)
 
     return unicodedata.normalize("NFC", text)

@@ -293,12 +293,17 @@ def _c2_decomp(c2_char: str, seq_idx: int) -> str:
 def transliterate(text: str, mode: str = "ipa") -> str:
     """Transliterate Thai text using Wiktionary th-pron logic.
 
-    :param str text: Thai text to transliterate.
+    :param str text: Thai text input (single word or text fragment).
     :param str mode: Output mode: ``paiboon``, ``royin``, or ``ipa``.
     Unsupported modes return the input text unchanged.
 
     :return: Transliterated text.
     :rtype: str
+
+    :Example:
+
+        >>> transliterate("แมว", mode="royin")
+        'maeo'
     """
     seq_idx = _SYSTEMS.get(mode)
     if seq_idx is None:
@@ -419,8 +424,13 @@ def get_word_dict(word: str) -> dict[str, str]:
     """Return th-pron transliteration outputs in all supported systems.
 
     :param str word: Thai input word.
-    :return: Dict containing ``word``, ``paiboon``, ``royin``, and ``ipa``.
+    :return: ``dict[str, str]`` with ``word``, ``paiboon``, ``royin``, and ``ipa``.
     :rtype: dict[str, str]
+
+    :Example:
+
+        >>> get_word_dict("แมว")
+        {'word': 'แมว', 'paiboon': 'mɛɛo', 'royin': 'maeo', 'ipa': 'mɛːw˧'}
     """
     return {
         "word": word,

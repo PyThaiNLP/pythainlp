@@ -14,7 +14,7 @@ class TransliterateThPronTestCase(unittest.TestCase):
         self.assertEqual(transliterate("คน", mode="paiboon"), "kon")
         self.assertEqual(transliterate("คน", mode="ipa"), "kʰon˧")
 
-    def test_transliterate_preserves_unknown_mode(self):
+    def test_transliterate_returns_input_for_unknown_mode(self):
         self.assertEqual(transliterate("แมว", mode="unknown"), "แมว")
 
     def test_thai_digits_conversion(self):

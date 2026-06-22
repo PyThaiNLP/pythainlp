@@ -290,7 +290,7 @@ def _c2_decomp(c2_char: str, seq_idx: int) -> str:
     return "".join(_CODA.get(char, ["", "", ""])[seq_idx] for char in c2_char)
 
 
-def transliterate(text: str, mode: str = "ipa") -> str:
+def th_pron_transliterate(text: str, mode: str = "ipa") -> str:
     """Transliterate Thai text using Wiktionary th-pron logic.
 
     :param str text: Thai text input (single word or text fragment).
@@ -302,7 +302,7 @@ def transliterate(text: str, mode: str = "ipa") -> str:
 
     :Example:
 
-        >>> transliterate("แมว", mode="royin")
+        >>> th_pron_transliterate("แมว", mode="royin")
         'maeo'
     """
     seq_idx = _SYSTEMS.get(mode)
@@ -434,7 +434,12 @@ def get_word_dict(word: str) -> dict[str, str]:
     """
     return {
         "word": word,
-        "paiboon": transliterate(word, mode="paiboon"),
-        "royin": transliterate(word, mode="royin"),
-        "ipa": transliterate(word, mode="ipa"),
+        "paiboon": th_pron_transliterate(word, mode="paiboon"),
+        "royin": th_pron_transliterate(word, mode="royin"),
+        "ipa": th_pron_transliterate(word, mode="ipa"),
     }
+
+
+def transliterate(text: str, mode: str = "ipa") -> str:
+    """Backward-compatible alias for :func:`th_pron_transliterate`."""
+    return th_pron_transliterate(text, mode=mode)

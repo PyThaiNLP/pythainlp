@@ -4,8 +4,7 @@
 
 import unittest
 
-from pythainlp.transliterate import get_word_dict
-from pythainlp.transliterate import transliterate_wiktionary
+from pythainlp.transliterate import get_word_dict, transliterate_wiktionary
 
 
 class TransliterateThPronTestCase(unittest.TestCase):

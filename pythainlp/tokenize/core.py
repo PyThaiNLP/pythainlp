@@ -166,7 +166,7 @@ def word_tokenize(
           `budoux <https://github.com/google/budoux>`_.
     :Note:
         - The **custom_dict** parameter only works for \
-          *deepcut*, *longest*, *newmm*, and *newmm-safe* engines.
+          *longest*, *newmm*, and *newmm-safe* engines.
         - Built-in tokenizers (*longest*, *mm*, *newmm*, and *newmm-safe*) \
           are thread-safe.
         - Wrappers of external tokenizer are designed to be thread-safe \
@@ -261,11 +261,7 @@ def word_tokenize(
     elif engine == "deepcut":  # deepcut can optionally use dictionary
         from pythainlp.tokenize.deepcut import segment as deepcut_segment  # noqa: I001
 
-        if custom_dict:
-            custom_dict = list(custom_dict)  # type: ignore[assignment]
-            segments = deepcut_segment(text, custom_dict)
-        else:
-            segments = deepcut_segment(text)
+        segments = deepcut_segment(text)
     elif engine == "icu":
         from pythainlp.tokenize.pyicu import segment as pyicu_segment  # noqa: I001
 

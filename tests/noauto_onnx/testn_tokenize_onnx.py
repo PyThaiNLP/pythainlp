@@ -15,9 +15,6 @@ from pythainlp.tokenize import (
     word_tokenize,
 )
 
-from ..core.test_tokenize import TEXT_1
-from ..test_helpers import assert_segment_handles_none_and_empty
-
 
 class tokenizeDeepcutTestCaseN(unittest.TestCase):
     """Tests for deepcut tokenizer numeric handling (requires onnxruntime)"""

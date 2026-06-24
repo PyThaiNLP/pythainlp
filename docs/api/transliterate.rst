@@ -17,6 +17,9 @@ Modules
 
     The `transliterate` function serves as a versatile transliteration tool, offering a range of transliteration engines to choose from. It provides flexibility and customization for your transliteration needs.
 
+.. autofunction:: transliterate_wiktionary
+    :noindex:
+
 .. autofunction:: pronunciate
     :noindex:
 
@@ -29,6 +32,9 @@ Modules
     :noindex:
 
     The `puan` function offers a unique transliteration feature known as "Puan." It provides a specialized transliteration method for Thai text and is an additional option for rendering Thai text into English characters.
+
+.. autofunction:: get_word_dict
+    :noindex:
 
 .. autoclass:: pythainlp.transliterate.wunsen.WunsenTransliterate
    :members:

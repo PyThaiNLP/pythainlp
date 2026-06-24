@@ -47,6 +47,7 @@ class WangChanGLM:
         torch_dtype: Optional["torch.dtype"] = None,
         offload_folder: str = "./",
         low_cpu_mem_usage: bool = True,
+        revision: Optional[str] = None,
     ) -> None:
         """Load model
 
@@ -57,6 +58,8 @@ class WangChanGLM:
         :param Optional[torch.dtype] torch_dtype: torch_dtype
         :param str offload_folder: offload folder
         :param bool low_cpu_mem_usage: low cpu mem usage
+        :param Optional[str] revision: a git revision id (branch, tag, or
+            commit hash). Pin to a full commit hash for secure downloads.
         """
         import pandas as pd
         from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -72,9 +75,10 @@ class WangChanGLM:
             torch_dtype=torch_dtype,
             offload_folder=offload_folder,
             low_cpu_mem_usage=low_cpu_mem_usage,
+            revision=revision,
         )
         self.tokenizer: "PreTrainedTokenizerBase" = (
-            AutoTokenizer.from_pretrained(self.model_path)
+            AutoTokenizer.from_pretrained(self.model_path, revision=revision)
         )
         self.df: "pd.DataFrame" = pd.DataFrame(
             self.tokenizer.vocab.items(), columns=["text", "idx"]

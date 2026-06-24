@@ -71,7 +71,7 @@ def get_corpus_db(url: str) -> Optional[_ResponseWrapper]:
     try:
         req = Request(url, headers={"User-Agent": _USER_AGENT})
         # SSL certificate verification is enabled by default
-        with urlopen(req, timeout=10) as response:
+        with urlopen(req, timeout=10) as response:  # nosec B310
             corpus_db = _ResponseWrapper(response)
     except HTTPError as http_err:
         print(f"HTTP error occurred: {http_err}")
@@ -349,7 +349,7 @@ def _download(url: str, dst: str) -> int:
 
     req = Request(url, headers={"User-Agent": _USER_AGENT})
     # SSL certificate verification is enabled by default
-    with urlopen(req, timeout=10) as response:
+    with urlopen(req, timeout=10) as response:  # nosec B310
         file_size = int(response.info().get("Content-Length", -1))
         with open(get_full_data_path(dst), "wb") as f:
             pbar = None
@@ -383,7 +383,7 @@ def _check_hash(dst: str, md5: str) -> None:
         with open(get_full_data_path(dst), "rb") as f:
             content = f.read()
             # MD5 is insecure but sufficient here
-            file_md5 = hashlib.md5(content).hexdigest()  # noqa: S324
+            file_md5 = hashlib.md5(content).hexdigest()  # noqa: S324  # nosec B324
 
             if md5 != file_md5:
                 raise ValueError("Hash does not match expected.")
@@ -484,7 +484,7 @@ def _safe_extract_tar(tar: tarfile.TarFile, path: str) -> None:
                             f"Symlink {member.name} points outside extraction directory: {member.linkname}"
                         )
 
-        tar.extractall(path=path)
+        tar.extractall(path=path)  # nosec B202
 
 
 def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
@@ -539,7 +539,7 @@ def _safe_extract_zip(zip_file: zipfile.ZipFile, path: str) -> None:
                         f"Symlink {member} points outside extraction directory: {link_target}"
                     )
 
-    zip_file.extractall(path=path)
+    zip_file.extractall(path=path)  # nosec B202
 
 
 def _version2int(v: str) -> int:
@@ -853,12 +853,17 @@ def make_safe_directory_name(name: str) -> str:
     return safe_name
 
 
-def get_hf_hub(repo_id: str, filename: str = "") -> str:
+def get_hf_hub(
+    repo_id: str, filename: str = "", revision: Optional[str] = None
+) -> str:
     """HuggingFace Hub in :mod:`pythainlp` data directory.
 
     :param str repo_id: repo_id
     :param str filename: filename (optional, default is empty string).
         If empty, downloads entire snapshot.
+    :param Optional[str] revision: a git revision id, which can be a branch
+        name, a tag, or a commit hash (optional, default is ``None``).
+        Pin to a full commit hash for reproducible and secure downloads.
     :return: path
     :rtype: str
     """
@@ -876,10 +881,15 @@ def get_hf_hub(repo_id: str, filename: str = "") -> str:
     root_project = safe_path_join(hf_root, name_dir)
     if filename:
         output_path = hf_hub_download(
-            repo_id=repo_id, filename=filename, local_dir=root_project
+            repo_id=repo_id,
+            filename=filename,
+            local_dir=root_project,
+            revision=revision,
         )
     else:
         output_path = snapshot_download(
-            repo_id=repo_id, local_dir=root_project
+            repo_id=repo_id,
+            local_dir=root_project,
+            revision=revision,
         )
     return str(output_path)

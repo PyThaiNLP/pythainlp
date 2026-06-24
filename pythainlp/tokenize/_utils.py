@@ -56,7 +56,7 @@ def rejoin_formatted_num(segments: list[str]) -> list[str]:
         is_span_beginning = pos >= match.start()
         token = segments[segment_idx]
         if is_span_beginning:
-            connected_token = ""
+            connected_token = ""  # nosec B105
             while pos < match.end() and segment_idx < len(segments):
                 connected_token += segments[segment_idx]
                 pos += len(segments[segment_idx])

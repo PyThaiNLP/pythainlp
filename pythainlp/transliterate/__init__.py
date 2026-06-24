@@ -4,13 +4,19 @@
 """Transliteration."""
 
 __all__: list[str] = [
+    "get_word_dict",
     "pronunciate",
     "puan",
     "romanize",
     "transliterate",
+    "transliterate_wiktionary",
     "pronunciate_pali",
 ]
 
 from pythainlp.transliterate.core import pronunciate, romanize, transliterate
 from pythainlp.transliterate.pali import pronunciate_pali
 from pythainlp.transliterate.spoonerism import puan
+from pythainlp.transliterate.wiktionary import (
+    get_word_dict,
+    transliterate_wiktionary,
+)

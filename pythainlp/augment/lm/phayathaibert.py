@@ -29,10 +29,10 @@ class ThaiTextAugmenter:
         )
 
         self.tokenizer: AutoTokenizer = AutoTokenizer.from_pretrained(
-            _MODEL_NAME
+            _MODEL_NAME  # nosec B615
         )
         self.model_for_masked_lm: AutoModelForMaskedLM = (
-            AutoModelForMaskedLM.from_pretrained(_MODEL_NAME)
+            AutoModelForMaskedLM.from_pretrained(_MODEL_NAME)  # nosec B615
         )
         self.model: Pipeline = pipeline(
             "fill-mask",
@@ -55,7 +55,7 @@ class ThaiTextAugmenter:
             input_text = self.processor.preprocess(sample_txt)
             if sample:
                 # Non-cryptographic use, pseudo-random generator is acceptable here
-                random_word_idx = random.randint(0, 4)  # noqa: S311
+                random_word_idx = random.randint(0, 4)  # noqa: S311  # nosec B311  # NOSONAR
                 output = self.model(input_text)[random_word_idx]["sequence"]
             else:
                 output = self.model(input_text)[word_rank]["sequence"]

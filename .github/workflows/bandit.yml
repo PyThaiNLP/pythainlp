@@ -1,27 +1,33 @@
-name: Lint
+# SPDX-FileCopyrightText: 2026-present PyThaiNLP Project
+# SPDX-License-Identifier: Apache-2.0
+
+# Bandit is a tool designed to find common security issues in Python code.
+# https://github.com/pycqa/bandit
+
+name: Bandit
 
 on:
   push:
     branches:
       - dev
+      - main
     paths-ignore:
       - '**.cff'
       - '**.json'
       - '**.md'
       - '**.rst'
       - '**.txt'
-      - '**.yml'
       - 'docs/**'
   pull_request:
     branches:
       - dev
+      - main
     paths-ignore:
       - '**.cff'
       - '**.json'
       - '**.md'
       - '**.rst'
       - '**.txt'
-      - '**.yml'
       - 'docs/**'
 
 # Avoid duplicate runs for the same source branch and repository.
@@ -39,13 +45,22 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ruff:
+  bandit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-    - name: Checkout
-      uses: actions/checkout@v6.0.3
-    - name: Ruff
-      uses: astral-sh/ruff-action@v3
-      with:
-        src: "./pythainlp ./tests ./examples"
-        args: check --verbose --config pyproject.toml
+      - name: Checkout
+        uses: actions/checkout@v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+          cache: "pip"
+
+      - name: Install bandit
+        run: pip install "bandit>=1.9.4"
+
+      - name: Run bandit
+        run: bandit -r pythainlp -c pyproject.toml

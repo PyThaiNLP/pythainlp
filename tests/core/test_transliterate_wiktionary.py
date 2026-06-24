@@ -20,10 +20,10 @@ class TransliterateThPronTestCase(unittest.TestCase):
             transliterate_wiktionary("คน", mode="ipa"), "kʰon˧")
 
     def test_transliterate_wiktionary_returns_input_for_unknown_mode(self):
-        self.assertEqual(transliterate("แมว", mode="unknown"), "แมว")
+        self.assertEqual(transliterate_wiktionary("แมว", mode="unknown"), "แมว")
 
     def test_thai_digits_conversion(self):
-        self.assertEqual(transliterate("๑๒๓", mode="royin"), "123")
+        self.assertEqual(transliterate_wiktionary("๑๒๓", mode="royin"), "123")
 
     def test_get_word_dict(self):
         self.assertEqual(

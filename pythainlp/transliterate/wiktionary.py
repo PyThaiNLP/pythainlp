@@ -1,7 +1,10 @@
 # SPDX-FileCopyrightText: 2016-2026 PyThaiNLP Project
 # SPDX-FileType: SOURCE
 # SPDX-License-Identifier: Apache-2.0
-"""Thai pronunciation transliteration from Wiktionary th-pron module."""
+"""
+Thai pronunciation transliteration from Wiktionary th-pron module.
+Source code: https://en.wiktionary.org/wiki/Module:th-pron
+"""
 
 from __future__ import annotations
 
@@ -421,7 +424,7 @@ def th_pron_transliterate(text: str, mode: str = "ipa") -> str:
 
 
 def get_word_dict(word: str) -> dict[str, str]:
-    """Return th-pron transliteration outputs in all supported systems.
+    """Return Wiktionary transliteration outputs in all supported systems.
 
     :param str word: Thai input word.
     :return: ``dict[str, str]`` with ``word``, ``paiboon``, ``royin``, and ``ipa``.
@@ -440,6 +443,6 @@ def get_word_dict(word: str) -> dict[str, str]:
     }
 
 
-def transliterate(text: str, mode: str = "ipa") -> str:
+def transliterate_wiktionary(text: str, mode: str = "ipa") -> str:
     """Backward-compatible alias for :func:`th_pron_transliterate`."""
     return th_pron_transliterate(text, mode=mode)

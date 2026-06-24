@@ -8,13 +8,13 @@ __all__: list[str] = [
     "pronunciate",
     "puan",
     "romanize",
-    "th_pron_transliterate",
     "transliterate",
+    "transliterate_wiktionary",
 ]
 
 from pythainlp.transliterate.core import pronunciate, romanize, transliterate
 from pythainlp.transliterate.spoonerism import puan
-from pythainlp.transliterate.th_pron import (
+from pythainlp.transliterate.wiktionary import (
     get_word_dict,
-    th_pron_transliterate,
+    transliterate_wiktionary,
 )

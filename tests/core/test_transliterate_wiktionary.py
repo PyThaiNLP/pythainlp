@@ -5,16 +5,21 @@
 import unittest
 
 from pythainlp.transliterate import get_word_dict
-from pythainlp.transliterate.th_pron import transliterate
+from pythainlp.transliterate.wiktionary import transliterate_wiktionary
 
 
 class TransliterateThPronTestCase(unittest.TestCase):
-    def test_transliterate_supported_modes(self):
-        self.assertEqual(transliterate("แมว", mode="royin"), "maeo")
-        self.assertEqual(transliterate("คน", mode="paiboon"), "kon")
-        self.assertEqual(transliterate("คน", mode="ipa"), "kʰon˧")
+    def test_transliterate_wiktionary(self):
+        self.assertEqual(
+            transliterate_wiktionary("แมว", mode="royin"), "maeo"
+        )
+        self.assertEqual(
+            transliterate_wiktionary("คน", mode="paiboon"), "kon"
+        )
+        self.assertEqual(
+            transliterate_wiktionary("คน", mode="ipa"), "kʰon˧")
 
-    def test_transliterate_returns_input_for_unknown_mode(self):
+    def test_transliterate_wiktionary_returns_input_for_unknown_mode(self):
         self.assertEqual(transliterate("แมว", mode="unknown"), "แมว")
 
     def test_thai_digits_conversion(self):
@@ -31,7 +36,7 @@ class TransliterateThPronTestCase(unittest.TestCase):
             },
         )
 
-    def test_transliterate_paiboon_cases(self):
+    def test_transliterate_wiktionary_paiboon_cases(self):
         # test cases from https://w.wiki/RifX
         test_cases = [
             ('เฮิ็้ย', 'hə́i'),
@@ -154,7 +159,10 @@ class TransliterateThPronTestCase(unittest.TestCase):
 
         for thai_text, expected_translit in test_cases:
             with self.subTest(thai_text=thai_text):
-                self.assertEqual(transliterate(thai_text, mode="paiboon"), expected_translit)
+                self.assertEqual(
+                    transliterate_wiktionary(thai_text, mode="paiboon"),
+                    expected_translit
+                )
 
 if __name__ == '__main__':
     unittest.main()

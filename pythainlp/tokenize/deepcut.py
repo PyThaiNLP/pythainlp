@@ -144,13 +144,10 @@ def _create_feature_array(
 
 def segment(
     text: str,
-    custom_dict: Union[Trie, list[str], str, None] = None,
 ) -> list[str]:
     """Segment Thai text using the DeepCut ONNX model.
 
     :param str text: text to segment
-    :param custom_dict: ignored; kept for API compatibility only
-    :type custom_dict: Union[pythainlp.util.Trie, list[str], str, None]
     :return: list of word tokens
     :rtype: list[str]
 

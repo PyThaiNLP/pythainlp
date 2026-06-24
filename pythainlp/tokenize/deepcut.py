@@ -24,13 +24,12 @@ available from the LEKCut project.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING, Optional
 
 import numpy as np
 from onnxruntime import InferenceSession
 
 from pythainlp.corpus import get_corpus_path
-from pythainlp.util import Trie
 
 if TYPE_CHECKING:
     from numpy.typing import NDArray

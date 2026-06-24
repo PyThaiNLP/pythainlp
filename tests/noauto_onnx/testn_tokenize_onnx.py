@@ -12,9 +12,6 @@ import unittest
 
 from pythainlp.tokenize import (
     deepcut,
-    oskut,
-    sefr_cut,
-    word_dict_trie,
     word_tokenize,
 )
 
@@ -22,7 +19,7 @@ from ..core.test_tokenize import TEXT_1
 from ..test_helpers import assert_segment_handles_none_and_empty
 
 
-class DetokenizeDeepcutTestCaseN(unittest.TestCase):
+class tokenizeDeepcutTestCaseN(unittest.TestCase):
     """Tests for deepcut tokenizer numeric handling (requires onnxruntime)"""
 
     def test_numeric_data_format_deepcut(self):

@@ -11,7 +11,6 @@
 import unittest
 
 from pythainlp.tokenize import (
-    deepcut,
     word_tokenize,
 )
 

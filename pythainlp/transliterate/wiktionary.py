@@ -305,7 +305,7 @@ def transliterate_wiktionary(text: str, mode: str = "ipa") -> str:
 
     :Example:
 
-        >>> th_pron_transliterate("แมว", mode="royin")
+        >>> transliterate_wiktionary("แมว", mode="royin")
         'maeo'
     """
     seq_idx = _SYSTEMS.get(mode)

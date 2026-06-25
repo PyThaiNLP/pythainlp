@@ -18,7 +18,7 @@ from pythainlp import thai_characters
 
 _C0: str = "AEIOUHWYอ"
 _C1: str = "BFPVบฝฟปผพภว"
-_C2: str = "CGJKQSXZขฃคฅฆฉขฌกจซศษส"
+_C2: str = "CGJKQSXZขฃคฅฆฉฌกจซศษส"
 _C3: str = "DTฎดฏตฐฑฒถทธ"
 _C4: str = "Lลฬ"
 _C5: str = "MNมณน"

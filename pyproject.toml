@@ -247,7 +247,7 @@ full = [
     "attacut==1.0.6",
     "attaparse==1.0.0",
     "bpemb>=0.3.6,<0.4",
-    "budoux==0.7.0",
+    "budoux==0.8.4",
     "deepcut==0.7.0.0",
     "emoji>=0.6.0,<1",
     "epitran==1.26.0",

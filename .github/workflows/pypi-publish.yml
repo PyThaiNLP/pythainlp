@@ -52,7 +52,7 @@ jobs:
       build: ${{ steps.check_build_trigger.outputs.build }}
     steps:
     - name: Checkout source code
-      uses: actions/checkout@v6.0.3
+      uses: actions/checkout@v7.0.0
       with:
         ref: ${{ github.event.pull_request.head.sha }}
     - id: check_build_trigger
@@ -71,7 +71,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v6.0.3
+      uses: actions/checkout@v7.0.0
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v6

@@ -25,7 +25,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v7.0.0
 
       - name: Generate CITATION.cff from codemeta.json
         uses: caltechlibrary/codemeta2cff@99ce10831c3037a067c3d9551d455638e0b438ac  #v0.3.3

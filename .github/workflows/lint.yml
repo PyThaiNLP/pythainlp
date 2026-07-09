@@ -45,7 +45,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v7.0.0
     - name: Ruff
-      uses: astral-sh/ruff-action@v3
+      uses: astral-sh/ruff-action@v4.0.0
       with:
         src: "./pythainlp ./tests ./examples"
         args: check --verbose --config pyproject.toml

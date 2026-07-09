@@ -426,8 +426,6 @@ class Seq2Seq(nn.Module):  # type: ignore[misc]
             else:
                 decoder_input = topi.detach()
 
-            decoder_input = topi.detach()
-
             if inference and decoder_input == end_token:
                 return outputs[:di]
 

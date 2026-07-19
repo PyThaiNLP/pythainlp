@@ -106,7 +106,7 @@ class KhaveeVerifier:
         if sara.count("เอ") >= 2:
             sara.remove("เอ")
             sara.remove("เอ")
-            sara.append("แ")
+            sara.append("แอ")
 
         # In case of สระประสม
         if "เอ" in sara and "อะ" in sara:

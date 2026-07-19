@@ -193,12 +193,12 @@ class KhaveeVerifier:
             sara.append("อือ")
         elif "ฤ" in word or "ฦ" in word:
             sara = []
-            sara.append("อึ")
-        elif "ฤ" in word or "ฦ" in word:
-            sara = []
             # for 'เออ' (ฤกษ์ - เริก) the only 'เออ' sound exception of ฤ
             if "ฤกษ" in word:
                 sara.append("เออ")
+            # พฤทธิธรรม (พฺรึด-ทิ-ทำ) the only 'อึ' sound exception of "ฤทธ/ฤทธิ"
+            elif "พฤทธิธรรม" in word:
+                sara.append("อึ")
             # for 'อิ' (กฤษณ์, กฤษณะ, ตฤณ, ตฤตีย, ทฤษฎี, ประกฤติ, วิกฤต, ฤทธิ์, อังกฤษ)
             elif any(ex in word for ex in ("กฤช", "กฤต", "กฤษ", "ตฤต", "ตฤณ", "ทฤษ", "ปฤษ", "ศฤง", "สฤต", "ฤทธ")):
                 sara.append("อิ")

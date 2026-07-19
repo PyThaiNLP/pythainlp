@@ -102,15 +102,11 @@ class KhaveeVerifier:
         if countoa == 1 and "อ" in word[-1] and "เ" not in word:
             sara.remove("ออ")
 
-        # In case of เอ เอ
-        countA = 0
-        for i in sara:
-            if i == "เอ":
-                countA = countA + 1
-            if countA > 1:
-                sara.remove("เอ")
-                sara.remove("เอ")
-                sara.append("แ")
+        # In case of เอ เอ (e.g., merging two 'เอ' into 'แ')
+        if sara.count("เอ") >= 2:
+            sara.remove("เอ")
+            sara.remove("เอ")
+            sara.append("แ")
 
         # In case of สระประสม
         if "เอ" in sara and "อะ" in sara:
@@ -199,7 +195,7 @@ class KhaveeVerifier:
             # for 'อิ' (กฤษณ์, กฤษณะ, ตฤณ, ตฤตีย, ทฤษฎี, ประกฤติ, วิกฤต, ฤทธิ์, อังกฤษ)
             elif any(ex in word for ex in ("กฤช", "กฤต", "กฤษ", "ตฤต", "ตฤณ", "ทฤษ", "ปฤษ", "ศฤง", "สฤต", "ฤทธ")):
                 sara.append("อิ")
-            # Default 'อึ' (รึ) (ฤดู, ฤทัย, พฤษภาคมม, etc.)
+            # Default 'อึ' (รึ) (ฤดู, ฤทัย, พฤษภาคมม)
             else:
                 sara.append("อึ")
 
@@ -209,7 +205,7 @@ class KhaveeVerifier:
                 # Words ending with ร without vowels usually take the 'ออ' sound (พร, นคร)
                 sara.append("ออ")
             else:
-                # Other consonants without vowels usually take the hidden 'โอะ' sound (e.g., นม, กรด)
+                # Other consonants without vowels usually take the hidden 'โอะ' sound (นม, กรด)
                 sara.append("โอะ")
 
         # In case of บ่
@@ -676,7 +672,7 @@ class KhaveeVerifier:
 
     def handle_karun_sound_silence(self, word: str) -> str:
         """
-        Handle silent sounds in Thai words using '์' character (Karun)
+        Handle silent sounds in Thai words using '-์' character (Karun)
         by stripping all characters before the 'Karun' character
         that should be silenced
 
@@ -684,10 +680,40 @@ class KhaveeVerifier:
         :return: Thai word with silent consonant stripped
         :rtype: str
         """
-        sound_silenced = word.endswith("์")
-        if not sound_silenced:
+        # Only process if the word ends with Karun (-์) [word like โอห์ม which has Karun in the middle will not be processed]
+        if not word.endswith("์"):
             return word
-        # Remove ์ and the silent consonant before it
-        # การันต์ (์) marks the consonant immediately before it as silent
-        word = word[:-2]
-        return word
+
+        # For specific multi-letter Karun silent suffixes
+        # 'พระลักษมณ์' -> strip 'ษมณ์' (leaving 'ก' for แม่กก)
+        if word.endswith("กษมณ์"):
+            return word[:-4]
+            
+        # 'ลักษณ์', 'ทรลักษณ์' -> strip 'ษณ์' avoid breaking 'สัมภาษณ์'
+        if word.endswith("กษณ์"):
+            return word[:-3]
+            
+        # 'กษัตริย์' -> strip 'ริย์'
+        if word.endswith("ตริย์"):
+            return word[:-4]
+            
+        # 'กาญจน์' -> strip 'จน์' avoid breaking 'โรจน์'
+        if word.endswith("ญจน์"):
+            return word[:-3]
+
+        # For 2-Consonant Karun silent suffixes
+        # ตร์: ศาสตร์, ภาพยนตร์, กาสาวพัสตร์, เวทมนตร์
+        # ทร์: จันทร์, บดินทร์, ภูมินทร์, นราธิเบนทร์
+        # ดร์: นิรันดร์
+        # ฎร์: ราษฎร์, สุราษฎร์
+        if word.endswith(("ตร์", "ทร์", "ดร์", "ฎร์")):
+            return word[:-3]
+
+        # For Standard Karun silent suffixes (1 Consonant + Optional Vowel + Karun)
+        # สัตว์ (ว์), แพทย์ (ย์), พันธุ์ (ธุ์), สิทธิ์ (ธิ์)
+        
+        # Check if there is an upper/lower vowel right before the Karun (e.g., ธุ์, ธิ์)
+        if len(word) >= 3 and word[-2] in ["ิ", "ี", "ึ", "ื", "ุ", "ู", "ั"]:
+            return word[:-3]
+        else:
+            return word[:-2]

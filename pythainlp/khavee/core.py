@@ -690,7 +690,7 @@ class KhaveeVerifier:
         # 'พระลักษมณ์' -> strip 'ษมณ์' (leaving 'ก' for แม่กก)
         if word.endswith("กษมณ์"):
             return word[:-4]
-            
+  
         # 'ลักษณ์', 'ทรลักษณ์' -> strip 'ษณ์' avoid breaking 'สัมภาษณ์'
         if word.endswith("กษณ์"):
             return word[:-3]

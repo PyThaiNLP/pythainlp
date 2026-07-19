@@ -340,13 +340,13 @@ class KhaveeVerifier:
         if sara1 == "อะ" and marttra1 == "เกย":
             sara1 = "ไอ"
             marttra1 = "กา"
-        elif sara2 == "อะ" and marttra2 == "เกย":
+        if sara2 == "อะ" and marttra2 == "เกย":
             sara2 = "ไอ"
             marttra2 = "กา"
         if sara1 == "อำ" and marttra1 == "กม":
             sara1 = "อำ"
             marttra1 = "กา"
-        elif sara2 == "อำ" and marttra2 == "กม":
+        if sara2 == "อำ" and marttra2 == "กม":
             sara2 = "อำ"
             marttra2 = "กา"
         return bool(marttra1 == marttra2 and sara1 == sara2)

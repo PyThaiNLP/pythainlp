@@ -279,8 +279,6 @@ class KhaveeVerifier:
             return "กม"
         elif word[-1] in ["ย"]:
             return "เกย"
-        elif word[-1] in ["ล"]:
-            return "เกย"
         elif word[-1] in ["ว"]:
             return "เกอว"
         elif word[-1] in ["ก", "ข", "ค", "ฆ"]:
@@ -304,7 +302,7 @@ class KhaveeVerifier:
             "ส",
         ]:
             return "กด"
-        elif word[-1] in ["ญ", "ณ", "น", "ร", "ฬ"]:
+        elif word[-1] in ["ญ", "ณ", "น", "ร", "ล", "ฬ"]:
             return "กน"
         elif word[-1] in ["บ", "ป", "พ", "ฟ", "ภ"]:
             return "กบ"

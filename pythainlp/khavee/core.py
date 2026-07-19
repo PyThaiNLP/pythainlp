@@ -342,16 +342,18 @@ class KhaveeVerifier:
         marttra2 = self.check_marttra(word2)
         sara1 = self.check_sara(word1)
         sara2 = self.check_sara(word2)
+        # อัย -> ไอ (Normalize 'อะ' + 'เกย' to 'ไอ' + 'กา')
         if sara1 == "อะ" and marttra1 == "เกย":
             sara1 = "ไอ"
             marttra1 = "กา"
         if sara2 == "อะ" and marttra2 == "เกย":
             sara2 = "ไอ"
             marttra2 = "กา"
-        if sara1 == "อำ" and marttra1 == "กม":
+        # อัม -> อำ (Normalize both 'อำ' and 'อะ' + 'กม' to 'อำ' + 'กา')
+        if (sara1 == "อะ" or sara1 == "อำ") and marttra1 == "กม":
             sara1 = "อำ"
             marttra1 = "กา"
-        if sara2 == "อำ" and marttra2 == "กม":
+        if (sara2 == "อะ" or sara2 == "อำ") and marttra2 == "กม":
             sara2 = "อำ"
             marttra2 = "กา"
         return bool(marttra1 == marttra2 and sara1 == sara2)

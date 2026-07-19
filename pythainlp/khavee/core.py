@@ -187,21 +187,33 @@ class KhaveeVerifier:
             sara = []
             sara.append("เอาะ")
 
+        # In case of ฤ ฦ
         if "ฤา" in word or "ฦา" in word:
             sara = []
             sara.append("อือ")
         elif "ฤ" in word or "ฦ" in word:
             sara = []
             sara.append("อึ")
-
-        # In case of กน
-        if not sara and len(word) == 2:
-            if word[-1] != "ร":
-                sara.append("โอะ")
+        elif "ฤ" in word or "ฦ" in word:
+            sara = []
+            # for 'เออ' (ฤกษ์ - เริก) the only 'เออ' sound exception of ฤ
+            if "ฤกษ" in word:
+                sara.append("เออ")
+            # for 'อิ' (กฤษณ์, กฤษณะ, ตฤณ, ตฤตีย, ทฤษฎี, ประกฤติ, วิกฤต, ฤทธิ์, อังกฤษ)
+            elif any(ex in word for ex in ("กฤช", "กฤต", "กฤษ", "ตฤต", "ตฤณ", "ทฤษ", "ปฤษ", "ศฤง", "สฤต", "ฤทธ")):
+                sara.append("อิ")
+            # Default 'อึ' (รึ) (ฤดู, ฤทัย, พฤษภาคมม, etc.)
             else:
+                sara.append("อึ")
+
+        # In case of สระลดรูป (ออ, โอะ)
+        if not sara and len(word) >= 2:
+            if word[-1] == "ร":
+                # Words ending with ร without vowels usually take the 'ออ' sound (พร, นคร)
                 sara.append("ออ")
-        elif not sara and len(word) == 3:
-            sara.append("ออ")
+            else:
+                # Other consonants without vowels usually take the hidden 'โอะ' sound (e.g., นม, กรด)
+                sara.append("โอะ")
 
         # In case of บ่
         if word == "บ่":

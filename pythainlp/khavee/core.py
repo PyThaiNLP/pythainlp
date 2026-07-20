@@ -17,13 +17,25 @@ class KhaveeVerifier:
         KhaveeVerifier: Thai Poetry verifier
         """
 
-    def _has_true_final_yl(self, word: str) -> bool:
+    # For backward compatibility, this method is kept as a private method.
+    def _has_true_final_yl(self, word: str) -> bool: 
         """
         Check if ย or ล is a true final consonant
         (not just part of the vowel sound with ไ/ใ)
 
         :param str word: Thai word
         :return: True if ย or ล is a true final consonant
+        :rtype: bool
+        """
+        return self._is_true_final(word)
+
+    def _is_true_final(self, word: str) -> bool:
+        """
+        Check if the last character is a true final consonant
+        (not part of a vowel sound or an initial cluster).
+
+        :param str word: Thai word
+        :return: True if the ending character acts as a final consonant
         :rtype: bool
         """
         # Handle การันย์
@@ -38,25 +50,33 @@ class KhaveeVerifier:
         if len(consonants) < 2:
             return False
 
-        if word[-1] not in ["ย", "ล"]:
-            return False
+        last_char = word[-1]
+
+        # if last_char not in ["ย", "ล"]:
+        #     return False
 
         # ไ/ใ never take a final consonant ย here is silent (ไทย, ไชย)
-        if word[-1] == "ย" and ("ไ" in word or "ใ" in word):
+        if last_char == "ย" and ("ไ" in word or "ใ" in word):
             return False
         # Check for ย inside เ-ีย (เสีย, เมีย) (part of the vowel)
-        if word[-1] == "ย" and "เ" in word and "ี" in word:
+        if last_char == "ย" and "เ" in word and "ี" in word:
             return False
 
-        # Check for ล in initial clusters (คำควบกล้ำ / อักษรนำ) with pre-posed vowels เ-, แ-, โ-, ไ-, ใ- (เปล, เถล, แผล, โหล, ไกล, ใกล้)
-        if word[-1] == "ล" and any(v in word for v in ["เ", "แ", "โ", "ไ", "ใ"]):
+        # Check for ล, ร, ว in initial clusters (คำควบกล้ำ / อักษรนำ) with pre-posed vowels เ-, แ-, โ-, ไ-, ใ- (เปล, เถล, แผล, โหล, ไกล, ใกล้, โปร, แตร, ไกวม เขว)
+        if last_char in ["ล", "ร", "ว"] and any(v in word for v in ["เ", "แ", "โ", "ไ", "ใ"]):
             if len(consonants) == 2:
                 cluster = consonants[0] + consonants[1]
-                # Valid Thai initial consonant clusters containing ล (ควบแท้ กล ขล คล ปล ผล พล) and อักษรนำ (ข, ฃ, ฉ, ฐ, ถ, ผ, ฝ, ศ, ษ, ส, ห, ก, จ, ฎ, ฏ, ด, ต, บ, ป, อ)
-                if cluster in ["กล", "ขล", "คล", "ปล", "ผล", "พล", "หล", "ถล", "ฉล", "สล", "ศล", "ตล"]:
-                    # Exception: 'เพล' (monk food) 'น' (แม่กน)
-                    if word == "เพล":
-                        return True
+                # Check for ล
+                if last_char == "ล" and cluster in ["กล", "ขล", "คล", "ปล", "ผล", "พล", "หล", "ถล", "ฉล", "สล", "ศล", "ตล"]:
+                    if word == "เพล": return True # Exception 'เพล' - แม่กน (monk food ฉันเพล)
+                    return False
+
+                # Check for ร
+                if last_char == "ร" and cluster in ["กร", "ขร", "คร", "ตร", "ปร", "พร", "ฟร", "บร", "ศร", "สร", "หร"]:
+                    return False
+
+                # Check for ว (ควบแท้ and อักษรนำ)
+                if last_char == "ว" and cluster in ["กว", "ขว", "คว", "สว", "หว", "ทว", "ชว", "ศว", "ถว"]:
                     return False
 
         # If it passed all the filters above, it is a true final (จัย, สมัย, ชล, ผล, เหนื่อย)
@@ -219,7 +239,7 @@ class KhaveeVerifier:
             sara = ["เอาะ"]
         
         # In case of เ-ย (ลดรูป เ-อ) เลย, เคย, เอย
-        if "เอ" in sara and word_req.endswith("ย") and self._has_true_final_yl(word_req):
+        if "เอ" in sara and word_req.endswith("ย") and self._is_true_final(word_req):
             # Ensure no competing vowels exist ('เตียง' uses เอีย, not เออ)
             other_vowels = [v for v in sara if v not in ["เอ", "ออ"]]
             if not other_vowels:
@@ -308,16 +328,16 @@ class KhaveeVerifier:
         if word[-1] == "ำ":
             return "กม"
 
-        # Check for ไ/ใ, check if ย/ล is a true final (เกย,เกอว) or just part of vowel (กา)
+        # Check for ไ/ใ
         if "ไ" in word or "ใ" in word:
-            if word[-1] not in ["ย", "ล"]:
+            if word[-1] not in ["ย", "ล", "ร", "ว"]:
                 return "กา"
-            elif not self._has_true_final_yl(word):
+            elif not self._is_true_final(word):
                 return "กา"
 
-        # Check for เ, แ, โ + ล (คำควบกล้ำ / อักษรนำ)
-        if word[-1] == "ล" and any(v in word for v in ["เ", "แ", "โ"]):
-            if not self._has_true_final_yl(word):
+        # Check for เ, แ, โ + ย, ร, ล, ว (คำควบกล้ำ / อักษรนำ)
+        if word[-1] in ["ย", "ล", "ร", "ว"] and any(v in word for v in ["เ", "แ", "โ"]):
+            if not self._is_true_final(word):
                 return "กา"
 
         if "ํ" in word and "า" in word:

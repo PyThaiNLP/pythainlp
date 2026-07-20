@@ -18,7 +18,7 @@ class KhaveeVerifier:
         """
 
     # For backward compatibility, this method is kept as a private method.
-    def _has_true_final_yl(self, word: str) -> bool: 
+    def _has_true_final_yl(self, word: str) -> bool:
         """
         Check if ย or ล is a true final consonant
         (not just part of the vowel sound with ไ/ใ)
@@ -51,9 +51,6 @@ class KhaveeVerifier:
             return False
 
         last_char = word[-1]
-
-        # if last_char not in ["ย", "ล"]:
-        #     return False
 
         # ไ/ใ never take a final consonant ย here is silent (ไทย, ไชย)
         if last_char == "ย" and ("ไ" in word or "ใ" in word):
@@ -168,7 +165,7 @@ class KhaveeVerifier:
             sara.remove("แอ")
             sara.remove("อะ")
             sara.append("แอะ")
-        
+
         # In case of สระประสม Transformed vowels ไม้ไต่คู้ (-็)
         if "็" in sara:
             sara.remove("็")

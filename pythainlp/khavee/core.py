@@ -59,7 +59,7 @@ class KhaveeVerifier:
         if last_char == "ย" and "เ" in word and "ี" in word:
             return False
 
-        # Check for ล, ร, ว in initial clusters (คำควบกล้ำ / อักษรนำ) with pre-posed vowels เ-, แ-, โ-, ไ-, ใ- (เปล, เถล, แผล, โหล, ไกล, ใกล้, โปร, แตร, ไกวม เขว)
+        # Check for ล, ร, ว in initial clusters (คำควบกล้ำ / อักษรนำ) with pre-posed vowels เ-, แ-, โ-, ไ-, ใ- (เปล, เถล, แผล, โหล, ไกล, ใกล้, โปร, แตร, ไกว, เขว)
         if last_char in ["ล", "ร", "ว"] and any(v in word for v in ["เ", "แ", "โ", "ไ", "ใ"]):
             if len(consonants) == 2:
                 cluster = consonants[0] + consonants[1]

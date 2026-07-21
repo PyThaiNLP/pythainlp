@@ -288,9 +288,12 @@ class KhaveeVerifier:
                 # Other consonants without vowels usually take the hidden 'โอะ' sound (นม, กรด)
                 sara.append("โอะ")
 
-        #"◌ํ" (nikkhahit) indicates a nasal sound, often associated with the 'อำ' sound in Thai.
+        # In case of นิกหิต (-ํ) + า (miss-typed of สระอำ) or standalone นิกหิต (-ํ) 'อัง'
         if "ํ" in word:
-            sara = ["อำ"]
+            if "ํา" in word:
+                sara = ["อำ"] # The strict decomposed 'อำ' typo
+            else:
+                sara = ["อะ"] # Standalone sounds like 'อัง' (อะ + ง) from pali/sanskrit
 
         # In case of บ่ / บ
         if word_req == "บ":
@@ -341,12 +344,16 @@ class KhaveeVerifier:
             word = word[:-1]
 
         # Check for อักษรตัวเดียวแทนคำ Standalone words
-        if word in ["บ", "ณ", "ธ", "พณ"]:
+        if word in ["บ", "ณ", "ธ", "พณ", "ฤ", "ฦ"]:
             return "กา"
 
-        # Check for ำ at the end (represents "am" sound, ends with m)
-        if word[-1] == "ำ":
+        # Check for ำ or นิคหิต (-ํ) + า
+        if word[-1] == "ำ" or word.endswith("ํา"):
             return "กม"
+
+        # Check for standalone นิคหิต (-ํ) 'อัง'
+        if word.endswith("ํ"):
+            return "กง"       
 
         # Check for ไ/ใ
         if "ไ" in word or "ใ" in word:
@@ -359,11 +366,11 @@ class KhaveeVerifier:
         if word[-1] in ["ย", "ล", "ร", "ว"] and any(v in word for v in ["เ", "แ", "โ"]):
             if not self._is_true_final(word):
                 return "กา"
-
-        if "ํ" in word and "า" in word:
-            return "กา"
-        elif (
-            word[-1] in ["า", "ะ", "ิ", "ี", "ุ", "ู", "อ"]
+        
+        # Check for ตัวสะกด final consonants
+        # Add รากยาว "ๅ" (not สระอา) for word like ฤๅ(ษี)
+        if (
+            word[-1] in ["า", "ๅ", "ะ", "ิ", "ี", "ุ", "ู", "อ"]
             or ("ี" in word and "ย" in word[-1])
             or ("ื" in word and "อ" in word[-1])
         ):

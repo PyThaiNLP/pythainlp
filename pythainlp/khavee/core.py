@@ -65,7 +65,8 @@ class KhaveeVerifier:
                 cluster = consonants[0] + consonants[1]
                 # Check for ล
                 if last_char == "ล" and cluster in ["กล", "ขล", "คล", "ปล", "ผล", "พล", "หล", "ถล", "ฉล", "สล", "ศล", "ตล"]:
-                    if word == "เพล": return True # Exception 'เพล' - แม่กน (monk food ฉันเพล)
+                    # Exception 'เพล' - แม่กน (monk food ฉันเพล)
+                    if word == "เพล": return True
                     return False
 
                 # Check for ร
@@ -98,6 +99,9 @@ class KhaveeVerifier:
         """
         sara = []
         countoa = 0 # Count occurrences of 'อ'
+
+        # Store original word to safely evaluate exceptions (like ฤทธิ์) after Karun stripping
+        original_word = word
 
         # In case of การันย์
         word = self.handle_karun_sound_silence(word)
@@ -234,7 +238,7 @@ class KhaveeVerifier:
             sara = ["เอา"]
         elif word == "เอาะ":
             sara = ["เอาะ"]
-        
+
         # In case of เ-ย (ลดรูป เ-อ) เลย, เคย, เอย
         if "เอ" in sara and word_req.endswith("ย") and self._is_true_final(word_req):
             # Ensure no competing vowels exist ('เตียง' uses เอีย, not เออ)
@@ -243,16 +247,16 @@ class KhaveeVerifier:
                 sara = ["เออ"]
 
         # In case of ฤ ฦ
-        if "ฤา" in word or "ฦา" in word:
-            sara = []
-            sara.append("อือ")
-        elif "ฤ" in word or "ฦ" in word:
+        if "ฤา" in original_word or "ฦา" in original_word:
+            sara = ["อือ"]
+        elif "ฤ" in original_word or "ฦ" in original_word:
             sara = []
             # for 'เออ' (ฤกษ์ - เริก) the only 'เออ' sound exception of ฤ
-            if word == "ฤก" or word.startswith("ฤกษ"):
+            if word == "ฤก" or original_word.startswith("ฤกษ"):
                 sara.append("เออ")
             # for 'อิ' (กฤษณ์, กฤษณะ, ตฤณ, ตฤตีย, ทฤษฎี, ประกฤติ, วิกฤต, ฤทธิ์, อังกฤษ)
-            elif any(ex in word for ex in ("กฤช", "กฤต", "กฤษ", "ตฤต", "ตฤณ", "ทฤษ", "ปฤษ", "ศฤง", "สฤต", "ฤทธ")):
+            # Use original_word here to ensure stripped Karun characters (like ธิ์) are evaluated
+            elif any(ex in original_word for ex in ("กฤช", "กฤต", "กฤษ", "ตฤต", "ตฤณ", "ทฤษ", "ปฤษ", "ศฤง", "สฤต", "ฤทธ")):
                 sara.append("อิ")
             # Default 'อึ' (รึ) (ฤดู, ฤทัย, พฤษภาคมม)
             else:

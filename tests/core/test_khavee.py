@@ -26,7 +26,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_sara("ยิ้ม"), "อิ")
         self.assertEqual(kv.check_sara("พิมพ์"), "อิ")
         self.assertEqual(kv.check_sara("หยิบ"), "อิ")
-        self.assertEqual(kv.check_sara("ตริ"), "อี")
+        self.assertEqual(kv.check_sara("ตรี"), "อี")
         self.assertEqual(kv.check_sara("ปี"), "อี")
         self.assertEqual(kv.check_sara("ปี่"), "อี")
         self.assertEqual(kv.check_sara("ฎี"), "อี") # ทฤษฎี

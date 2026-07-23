@@ -613,7 +613,8 @@ class KhaveeVerifier:
                                 countwrong += 1
                         if countwrong > 3:
                             error.append(
-                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent1[i], list_sumpus_sent2h[i]))} in paragraph {str(i + 1)}")
+                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent1[i], list_sumpus_sent2h[i],))} in paragraph {str(i + 1)}"
+                            )
                         if (
                             self.is_sumpus(
                                 list_sumpus_sent2l[i], list_sumpus_sent3[i]
@@ -621,7 +622,7 @@ class KhaveeVerifier:
                             is False
                         ):
                             error.append(
-                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent3[i]))} in paragraph {str(i + 1)}"
+                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent3[i],))} in paragraph {str(i + 1)}"
                             )
                         if i > 0:
                             if (
@@ -632,7 +633,7 @@ class KhaveeVerifier:
                                 is False
                             ):
                                 error.append(
-                                    f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent4[i - 1]))} in paragraph {str(i + 1)}"
+                                    f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent4[i - 1],))} in paragraph {str(i + 1)}"
                                 )
                     if not error:
                         return (
@@ -684,7 +685,7 @@ class KhaveeVerifier:
                                 countwrong += 1
                         if countwrong > 1:
                             error.append(
-                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent1[i], list_sumpus_sent2h[i]))} in paragraph {str(i + 1)}"
+                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent1[i], list_sumpus_sent2h[i],))} in paragraph {str(i + 1)}"
                             )
                         if (
                             self.is_sumpus(
@@ -693,7 +694,7 @@ class KhaveeVerifier:
                             is False
                         ):
                             error.append(
-                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent3[i]))} in paragraph {str(i + 1)}"
+                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent3[i],))} in paragraph {str(i + 1)}"
                             )
                         if i > 0:
                             if (
@@ -704,18 +705,7 @@ class KhaveeVerifier:
                                 is False
                             ):
                                 error.append(
-                                    f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent4[i - 1]))} in paragraph {str(i + 1)}"
-                                )
-                        if i > 0:
-                            if (
-                                self.is_sumpus(
-                                    list_sumpus_sent2l[i],
-                                    list_sumpus_sent4[i - 1],
-                                )
-                                is False
-                            ):
-                                error.append(
-                                    f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent4[i - 1]))} in paragraph {str(i + 1)}"
+                                    f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent4[i - 1],))} in paragraph {str(i + 1)}"
                                 )
                     if not error:
                         return (
@@ -759,8 +749,7 @@ class KhaveeVerifier:
             >>> # -> [False, 'aek', 'too']
         """
         if isinstance(text, list):
-            # type: ignore[misc]
-            return [self.check_aek_too(t, dead_syllable_as_aek) for t in text]
+            return [self.check_aek_too(t, dead_syllable_as_aek) for t in text] # type: ignore[misc]
 
         if not isinstance(text, str):
             raise TypeError("text must be str or iterable list[str]")

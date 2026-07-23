@@ -281,7 +281,7 @@ full = [
     "thai-nner==0.3",
     "tltk>=1.10,<2",
     "torch>=1.13.1,<3",
-    "transformers==5.13.0",
+    "transformers==5.14.1",
     "ufal.chu-liu-edmonds==1.0.3",
     "word2word>=1.0.0,<2",
     "wtpsplit==1.3.0",

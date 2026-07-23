@@ -277,7 +277,7 @@ full = [
     "spacy_thai==0.7.8",
     "ssg==0.0.8",
     "sefr_cut>=1.1",
-    "symspellpy==6.9.0",
+    "symspellpy==6.10.0",
     "thai-nner==0.3",
     "tltk>=1.10,<2",
     "torch>=1.13.1,<3",

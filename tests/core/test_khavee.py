@@ -10,6 +10,7 @@ kv = KhaveeVerifier()
 
 
 class KhaveeTestCase(unittest.TestCase):
+
     """Tests for KhaveeVerifier.check_sara, check_marttra, is_sumpus, check_klon, and check_aek_too methods."""
 
     def test_check_sara(self):
@@ -454,10 +455,10 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertFalse(kv.is_sumpus("สวม", "อัว"))
         self.assertFalse(kv.is_sumpus("ชัวร์", "ชัน"))
         self.assertFalse(kv.is_sumpus("เลว", "เร็ว"))
-        self.assertFalse(kv.is_sumpus("ฤทธิ์", "ฤกษ์")) # ฤทธิ์ = ริด, ฤกษ์ = เริก
-        self.assertFalse(kv.is_sumpus("ฤทธิ์", "ลึด")) # ฤทธิ์ = ริด != ลึด
-        self.assertFalse(kv.is_sumpus("ฤกษ์", "ลึก")) # ฤกษ์ = เริก != ลึก
-        self.assertFalse(kv.is_sumpus("โหว่", "โถ่ว")) # แม่ก กา vs แม่เกอว
+        self.assertFalse(kv.is_sumpus("ฤทธิ์", "ฤกษ์"))  # ฤทธิ์ = ริด, ฤกษ์ = เริก
+        self.assertFalse(kv.is_sumpus("ฤทธิ์", "ลึด"))  # ฤทธิ์ = ริด != ลึด
+        self.assertFalse(kv.is_sumpus("ฤกษ์", "ลึก"))  # ฤกษ์ = เริก != ลึก
+        self.assertFalse(kv.is_sumpus("โหว่", "โถ่ว"))  # แม่ก กา vs แม่เกอว
 
         self.assertTrue(kv.is_sumpus("เขว", "เอ"))
         self.assertTrue(kv.is_sumpus("เขว", "เหว่"))
@@ -468,9 +469,9 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertTrue(kv.is_sumpus("ธ", "ณ"))
         self.assertTrue(kv.is_sumpus("ธ", "ทะ"))
         self.assertTrue(kv.is_sumpus("ศาสตร์", "มารถ"))
-        self.assertTrue(kv.is_sumpus("แตร", "แปร")) # แม่ก กา
-        self.assertTrue(kv.is_sumpus("แหล่", "แต่")) # เหลือแหล่
-        self.assertTrue(kv.is_sumpus("แหน", "แกน")) # แม่ กน
+        self.assertTrue(kv.is_sumpus("แตร", "แปร"))  # แม่ก กา
+        self.assertTrue(kv.is_sumpus("แหล่", "แต่"))  # เหลือแหล่
+        self.assertTrue(kv.is_sumpus("แหน", "แกน"))  # แม่ กน
 
         # Structural equivalence logic & Normalization
         self.assertTrue(kv.is_sumpus("บ้าน", "พาล"))
@@ -529,6 +530,7 @@ class KhaveeTestCase(unittest.TestCase):
 
 
 class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
+
     """Tests for KhaveeVerifier.check_karu_lahu."""
 
     def setUp(self):
@@ -565,6 +567,7 @@ class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
 
 
 class KhaveeHandleKarunTestCase(unittest.TestCase):
+
     """Tests for KhaveeVerifier.handle_karun_sound_silence."""
 
     def setUp(self):
@@ -627,6 +630,7 @@ class KhaveeHandleKarunTestCase(unittest.TestCase):
 
 
 class KhaveeIsTrueFinalTestCase(unittest.TestCase):
+
     """Tests for internal method KhaveeVerifier._is_true_final."""
 
     def setUp(self):
@@ -657,6 +661,7 @@ class KhaveeIsTrueFinalTestCase(unittest.TestCase):
 
 
 class KhaveeCheckAekTooEdgeCasesTestCase(unittest.TestCase):
+
     """Edge-case tests for KhaveeVerifier.check_aek_too."""
 
     def setUp(self):
@@ -688,6 +693,7 @@ class KhaveeCheckAekTooEdgeCasesTestCase(unittest.TestCase):
 
 
 class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
+
     """Tests for check_klon k_type=8 and invalid k_type."""
 
     def setUp(self):
@@ -792,6 +798,7 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
 
 
 class KhaveeCheckSaraEdgeCasesTestCase(unittest.TestCase):
+
     """Edge-case tests for KhaveeVerifier.check_sara."""
 
     def setUp(self):

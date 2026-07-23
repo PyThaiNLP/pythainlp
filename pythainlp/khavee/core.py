@@ -40,59 +40,62 @@ class KhaveeVerifier:
         """
         # Handle การันย์
         word = self.handle_karun_sound_silence(word)
-
         # Store original word to distinguish tone-dependent structures
         original_word = word
-
         # Strip tone marks first so words like 'ใกล้' properly evaluate as ending in 'ล'
         word = remove_tonemark(word)
 
         if len(word) < 2:
             return False
 
+        last_char = word[-1]
+
         # explicitly include ฤ and ฦ as they act as initial consonants but aren't in thai_consonants
         consonants = [c for c in word if c in thai_consonants + "ฤฦ"]
-
         if len(consonants) < 2:
             return False
 
-        last_char = word[-1]
+        # คำควบกล้ำ / อักษรนำ (initial clusters)
         cluster = consonants[0] + consonants[1]
 
         # ไ/ใ never take a final consonant ย here is silent (ไทย, ไชย)
-        if last_char == "ย" and ("ไ" in word or "ใ" in word):
-            return False
         # Check for ย inside เ-ีย (เสีย, เมีย) (part of the vowel)
-        if last_char == "ย" and "เ" in word and "ี" in word:
-            return False
+        if last_char == "ย":
+            if ("ไ" in word or "ใ" in word) or ("เ" in word and "ี" in word):
+                return False
+
+        # ---------------------------------------------------------------------
+        # Guard Clauses: If it's not ending in ล, ร, ว, or doesn't have exactly 2
+        # consonants, or lacks pre-posed vowels, it bypasses the cluster checks.
+        # ---------------------------------------------------------------------
+        if last_char not in {"ล", "ร", "ว"} or len(consonants) != 2:
+            return True
 
         # Check for ล, ร, ว in initial clusters (คำควบกล้ำ / อักษรนำ) with pre-posed vowels เ-, แ-, โ-, ไ-, ใ- (เปล, เถล, แผล, โหล, ไกล, ใกล้, โปร, แตร, ไกว, เขว)
-        if last_char in ["ล", "ร", "ว"] and any(v in word for v in ["เ", "แ", "โ", "ไ", "ใ"]):
-            if len(consonants) == 2:
-                # Check for ล
-                if last_char == "ล" and cluster in ["กล", "ขล", "คล", "ปล", "ผล", "พล", "หล", "ถล", "ฉล", "สล", "ศล", "ตล"]:
-                    # Exception 'เพล' - แม่กน (monk food ฉันเพล)
-                    if word == "เพล":
-                        return True
+        if not any(v in word for v in {"เ", "แ", "โ", "ไ", "ใ"}):
+            return True
+
+        # Check for ล
+        if last_char == "ล" and cluster in {"กล", "ขล", "คล", "ปล", "ผล", "พล", "หล", "ถล", "ฉล", "สล", "ศล", "ตล"}:
+            # Exception 'เพล' - แม่กน (monk food ฉันเพล) Returns True, otherwise False
+            return word == "เพล"
+
+        # Check for ร
+        if last_char == "ร" and cluster in {"กร", "ขร", "คร", "ตร", "ปร", "พร", "ฟร", "บร", "ศร", "สร", "หร"}:
+            return False
+
+        # Check for ว (ควบแท้ and อักษรนำ)
+        if last_char == "ว":
+            # With ไ/ใ, 'ว' is ALWAYS a cluster (ไกว, ไขว้)
+            if ("ไ" in word or "ใ" in word) and cluster in {"กว", "ขว", "คว", "สว", "หว", "ทว", "ชว", "ศว", "ถว"}:
+                return False
+
+            # With เ/แ/โ, 'ว' is mostly is a true final (เลว, เหว, แก้ว, แห้ว). Whitelist อักษรนำ/คำควบกล้ำ as exceptions
+            elif any(v in word for v in {"เ", "แ", "โ"}):
+                # USE ORIGINAL_WORD to safely catch open syllables แม่ ก กา
+                # เดินเขว, ว้าเหว่, แม่น้ำแคว, ตวาดแหว, โควตา, ช่องโหว่
+                if original_word in {"เขว", "เหว่", "แคว", "แหว", "โคว", "โหว", "โหว่"}:
                     return False
-
-                # Check for ร
-                if last_char == "ร" and cluster in ["กร", "ขร", "คร", "ตร", "ปร", "พร", "ฟร", "บร", "ศร", "สร", "หร"]:
-                    return False
-
-                # Check for ว (ควบแท้ and อักษรนำ)
-                if last_char == "ว":
-                    # With ไ/ใ, 'ว' is ALWAYS a cluster (ไกว, ไขว้)
-                    if "ไ" in word or "ใ" in word:
-                        if cluster in ["กว", "ขว", "คว", "สว", "หว", "ทว", "ชว", "ศว", "ถว"]:
-                            return False
-
-                    # With เ/แ/โ, 'ว' is mostly is a true final (เลว, เหว, แก้ว, แห้ว). Whitelist อักษรนำ/คำควบกล้ำ as exceptions
-                    elif any(v in word for v in ["เ", "แ", "โ"]):
-                        # USE ORIGINAL_WORD to safely catch open syllables แม่ ก กา
-                        # เดินเขว, ว้าเหว่, แม่น้ำแคว, ตวาดแหว, โควตา, ช่องโหว่
-                        if original_word in ["เขว", "เหว่", "แคว", "แหว", "โคว", "โหว", "โหว่"]:
-                            return False
 
         # If it passed all the filters above, it is a true final (จัย, สมัย, ชล, ผล, เหนื่อย)
         return True
@@ -100,7 +103,7 @@ class KhaveeVerifier:
     def check_sara(self, word: str) -> str:
         """
         Check the phonetic vowel sound (สระ) of a Thai word.
-        
+
         Extracts the core vowel representation used for rhyme matching, handling 
         complex vowel combinations, transformed vowels (สระเปลี่ยนรูป), and reductions (สระลดรูป).
 
@@ -127,8 +130,8 @@ class KhaveeVerifier:
         word_req = remove_tonemark(word)
 
         # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ) Removing the final character -ิ or -ุ
-        silent_vowel_exceptions = ["เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ", "ญัติ", "ยัติ",
-                                   "ภูมิ", "พฤติ", "พรรดิ", "วรรดิ", "พยาธิ", "โพธิ", "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ"]
+        silent_vowel_exceptions = {"เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ", "ญัติ", "ยัติ",
+                                   "ภูมิ", "พฤติ", "พรรดิ", "วรรดิ", "พยาธิ", "โพธิ", "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ"}
         if any(word_req.endswith(ex) for ex in silent_vowel_exceptions):
             word = word[:-1]
             word_req = word_req[:-1]
@@ -249,7 +252,7 @@ class KhaveeVerifier:
         elif "ออ" in sara and len(sara) > 1:
             sara.remove("ออ")
         elif "ว" in word and len(sara) == 0:
-            if word_req in ["บวร", "วร"]:
+            if word_req in {"บวร", "วร"}:
                 sara.append("ออ")
             else:
                 sara.append("อัว")  # ควร, บวก, สวม
@@ -279,7 +282,7 @@ class KhaveeVerifier:
         # In case of เ-ย (ลดรูป เ-อ) เลย, เคย, เอย
         if "เอ" in sara and word_req.endswith("ย") and self._is_true_final(original_word):
             # Ensure no competing vowels exist ('เตียง' uses เอีย, not เออ)
-            other_vowels = [v for v in sara if v not in ["เอ", "ออ"]]
+            other_vowels = [v for v in sara if v not in {"เอ", "ออ"}]
             if not other_vowels:
                 sara = ["เออ"]
 
@@ -293,7 +296,7 @@ class KhaveeVerifier:
                 sara.append("เออ")
             # for 'อิ' (กฤษณ์, กฤษณะ, ตฤณ, ตฤตีย, ทฤษฎี, ประกฤติ, วิกฤต, ฤทธิ์, อังกฤษ)
             # Use original_word here to ensure stripped Karun characters (like ธิ์) are evaluated
-            elif any(ex in original_word for ex in ("กฤช", "กฤต", "กฤษ", "ตฤต", "ตฤณ", "ทฤษ", "ปฤษ", "ศฤง", "สฤต", "ฤทธ")):
+            elif any(ex in original_word for ex in {"กฤช", "กฤต", "กฤษ", "ตฤต", "ตฤณ", "ทฤษ", "ปฤษ", "ศฤง", "สฤต", "ฤทธ"}):
                 sara.append("อิ")
             # Default 'อึ' (รึ) (ฤดู, ฤทัย, พฤษภาคมม)
             else:
@@ -321,7 +324,7 @@ class KhaveeVerifier:
             sara = ["ออ"]
 
         # In case of isolated symbols as words (ลดรูป อะ)
-        if word_req in ["ณ", "ธ", "อ", "พณ"]:
+        if word_req in {"ณ", "ธ", "อ", "พณ"}:
             sara = ["อะ"]
 
         if not sara:
@@ -357,9 +360,9 @@ class KhaveeVerifier:
         # กร, ขร, คร, ฆร in compound words → remove ร (treat as final ก/ข/ค sound)
         # But single syllable words like "กร" should keep ร
         if len(word) >= 3 and word[-1] == "ร":
-            if word[-2] in ["ต", "ท"]:
+            if word[-2] in {"ต", "ท"}:
                 word = word[:-1]
-            elif word[-2] in ["ก", "ข", "ค", "ฆ"]:
+            elif word[-2] in {"ก", "ข", "ค", "ฆ"}:
                 word = word[:-1]
 
         word = self.handle_karun_sound_silence(word)
@@ -370,13 +373,13 @@ class KhaveeVerifier:
         word = remove_tonemark(word)
 
         # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ) Removing the final character -ิ or -ุ
-        silent_vowel_exceptions = ["เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ", "ญัติ", "ยัติ", "ภูมิ",
-                                   "พฤติ", "พรรดิ", "วรรดิ", "พยาธิ", "โพธิ", "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ", "สมมุติ"]
+        silent_vowel_exceptions = {"เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ", "ญัติ", "ยัติ", "ภูมิ",
+                                   "พฤติ", "พรรดิ", "วรรดิ", "พยาธิ", "โพธิ", "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ", "สมมุติ"}
         if any(word.endswith(ex) for ex in silent_vowel_exceptions):
             word = word[:-1]
 
         # Check for อักษรตัวเดียวแทนคำ Standalone words
-        if word in ["บ", "ณ", "ธ", "พณ", "ฤ", "ฦ"]:
+        if word in {"บ", "ณ", "ธ", "พณ", "ฤ", "ฦ"}:
             return "กา"
 
         # -------------------------------------------------------------------------
@@ -401,13 +404,13 @@ class KhaveeVerifier:
 
         # Check for ไ/ใ
         if "ไ" in word or "ใ" in word:
-            if word[-1] not in ["ย", "ล", "ร", "ว"]:
+            if word[-1] not in {"ย", "ล", "ร", "ว"}:
                 return "กา"
             elif not self._is_true_final(original_word):
                 return "กา"
 
         # Check for เ, แ, โ + ย, ร, ล, ว (คำควบกล้ำ / อักษรนำ)
-        if word[-1] in ["ย", "ล", "ร", "ว"] and any(v in word for v in ["เ", "แ", "โ"]):
+        if word[-1] in {"ย", "ล", "ร", "ว"} and any(v in word for v in {"เ", "แ", "โ"}):
             # ไม่ใช่ตัวสะกดแท้ -> แม่ก กา
             if not self._is_true_final(original_word):
                 return "กา"
@@ -415,23 +418,23 @@ class KhaveeVerifier:
         # Check for ตัวสะกด final consonants
         # Add รากยาว "ๅ" (not สระอา) for word like ฤๅ(ษี)
         if (
-            word[-1] in ["า", "ๅ", "ะ", "ิ", "ี", "ึ", "ุ", "ู", "อ"]
+            word[-1] in {"า", "ๅ", "ะ", "ิ", "ี", "ึ", "ุ", "ู", "อ"}
             or ("ี" in word and "ย" in word[-1])  # Catch สระเอีย (เสีย, เมีย)
             or ("ื" in word and "อ" in word[-1])  # Catch สระอือ (เรือ, เสือ)
             or ("ั" in word and "ว" in word[-1])  # Catch สระอัว (ตัว, ชั่ว, กลัว, อัว)
         ):
             return "กา"
-        elif word[-1] in ["ง"]:
+        elif word[-1] in {"ง"}:
             return "กง"
-        elif word[-1] in ["ม"]:
+        elif word[-1] in {"ม"}:
             return "กม"
-        elif word[-1] in ["ย"]:
+        elif word[-1] in {"ย"}:
             return "เกย"
-        elif word[-1] in ["ว"]:
+        elif word[-1] in {"ว"}:
             return "เกอว"
-        elif word[-1] in ["ก", "ข", "ค", "ฆ"]:
+        elif word[-1] in {"ก", "ข", "ค", "ฆ"}:
             return "กก"
-        elif word[-1] in [
+        elif word[-1] in {
             "จ",
             "ช",
             "ซ",
@@ -448,11 +451,11 @@ class KhaveeVerifier:
             "ศ",
             "ษ",
             "ส",
-        ]:
+        }:
             return "กด"
-        elif word[-1] in ["ญ", "ณ", "น", "ร", "ล", "ฬ"]:
+        elif word[-1] in {"ญ", "ณ", "น", "ร", "ล", "ฬ"}:
             return "กน"
-        elif word[-1] in ["บ", "ป", "พ", "ฟ", "ภ"]:
+        elif word[-1] in {"บ", "ป", "พ", "ฟ", "ภ"}:
             return "กบ"
         else:
             if "็" in word:
@@ -490,11 +493,11 @@ class KhaveeVerifier:
 
         # -------------------------------------------------------------------------
         # Phonetic Normalization for สระเกิน (อำ, ไอ, ใอ)
-        # 
+        #
         # While check_marttra classifies words like "วัย" as อะ+เกย and "ใจ" as ไอ+กา,
         # poetry cares about the sound (เสียง).
         # We normalize the phonetic CVC structures into their สระเกิน counterparts.
-        # ('เอา' requires no normalizer as native Thai spelling forces the /aw/ sound 
+        # ('เอา' requires no normalizer as native Thai spelling forces the /aw/ sound
         # to use 'เ-า', bypassing the need for an อะ+เกอว collision).
         # -------------------------------------------------------------------------
 
@@ -515,28 +518,17 @@ class KhaveeVerifier:
         return bool(marttra1 == marttra2 and sara1 == sara2)
 
     def check_karu_lahu(self, text: str) -> str:
-        if (
-            self.check_marttra(text) != "กา"
-            or (
-                self.check_marttra(text) == "กา"
-                and self.check_sara(text)
-                in [
-                    "อา",
-                    "อี",
-                    "อือ",
-                    "อู",
-                    "เอ",
-                    "แอ",
-                    "โอ",
-                    "ออ",
-                    "เออ",
-                    "เอีย",
-                    "เอือ",
-                    "อัว",
-                ]
-            )
-            or self.check_sara(text) in ["อำ", "ไอ", "เอา"]
-        ) and text not in ["บ่", "ณ", "ธ", "ก็"]:
+        if text in {"บ", "บ่", "ณ", "ธ", "ก็", "ฤ", "ฦ"}:
+            return "lahu"
+
+        marttra = self.check_marttra(text)
+        sara = self.check_sara(text)
+
+        if (marttra != "กา"
+            or (marttra == "กา" and sara in
+                {"อา", "อี", "อือ", "อู", "เอ", "แอ",
+                 "เออ", "โอ", "ออ", "เอีย", "เอือ", "อัว"})
+                or sara in {"อำ", "ไอ", "เอา"}):
             return "karu"
         else:
             return "lahu"
@@ -585,12 +577,7 @@ class KhaveeVerifier:
                 for i, sent in enumerate(text.split()):
                     sub_sent = subword_tokenize(sent, engine="dict")
                     if len(sub_sent) > 10:
-                        error.append(
-                            "In sentence "
-                            + str(i + 2)
-                            + ", there are more than 10 words. "
-                            + str(sub_sent)
-                        )
+                        error.append(f"In sentence {i + 2}, there are more than 10 words. {sub_sent}")
                     if (i + 1) % 4 == 1:
                         list_sumpus_sent1.append(sub_sent[-1])
                     elif (i + 1) % 4 == 2:
@@ -626,16 +613,7 @@ class KhaveeVerifier:
                                 countwrong += 1
                         if countwrong > 3:
                             error.append(
-                                "Can't find rhyme between paragraphs "
-                                + str(
-                                    (
-                                        list_sumpus_sent1[i],
-                                        list_sumpus_sent2h[i],
-                                    )
-                                )
-                                + " in paragraph "
-                                + str(i + 1)
-                            )
+                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent1[i], list_sumpus_sent2h[i]))} in paragraph {str(i + 1)}")
                         if (
                             self.is_sumpus(
                                 list_sumpus_sent2l[i], list_sumpus_sent3[i]
@@ -643,15 +621,7 @@ class KhaveeVerifier:
                             is False
                         ):
                             error.append(
-                                "Can't find rhyme between paragraphs "
-                                + str(
-                                    (
-                                        list_sumpus_sent2l[i],
-                                        list_sumpus_sent3[i],
-                                    )
-                                )
-                                + " in paragraph "
-                                + str(i + 1)
+                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent3[i]))} in paragraph {str(i + 1)}"
                             )
                         if i > 0:
                             if (
@@ -662,15 +632,7 @@ class KhaveeVerifier:
                                 is False
                             ):
                                 error.append(
-                                    "Can't find rhyme between paragraphs "
-                                    + str(
-                                        (
-                                            list_sumpus_sent2l[i],
-                                            list_sumpus_sent4[i - 1],
-                                        )
-                                    )
-                                    + " in paragraph "
-                                    + str(i + 1)
+                                    f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent4[i - 1]))} in paragraph {str(i + 1)}"
                                 )
                     if not error:
                         return (
@@ -692,10 +654,7 @@ class KhaveeVerifier:
                     sub_sent = subword_tokenize(sent, engine="dict")
                     if len(sub_sent) > 5:
                         error.append(
-                            "In sentence "
-                            + str(i + 2)
-                            + ", there are more than 4 words. "
-                            + str(sub_sent)
+                            f"In sentence {i + 2}, there are more than 4 words. {sub_sent}"
                         )
                     if (i + 1) % 4 == 1:
                         list_sumpus_sent1.append(sub_sent[-1])
@@ -725,15 +684,7 @@ class KhaveeVerifier:
                                 countwrong += 1
                         if countwrong > 1:
                             error.append(
-                                "Can't find rhyme between paragraphs "
-                                + str(
-                                    (
-                                        list_sumpus_sent1[i],
-                                        list_sumpus_sent2h[i],
-                                    )
-                                )
-                                + " in paragraph "
-                                + str(i + 1)
+                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent1[i], list_sumpus_sent2h[i]))} in paragraph {str(i + 1)}"
                             )
                         if (
                             self.is_sumpus(
@@ -742,15 +693,7 @@ class KhaveeVerifier:
                             is False
                         ):
                             error.append(
-                                "Can't find rhyme between paragraphs "
-                                + str(
-                                    (
-                                        list_sumpus_sent2l[i],
-                                        list_sumpus_sent3[i],
-                                    )
-                                )
-                                + " in paragraph "
-                                + str(i + 1)
+                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent3[i]))} in paragraph {str(i + 1)}"
                             )
                         if i > 0:
                             if (
@@ -761,15 +704,18 @@ class KhaveeVerifier:
                                 is False
                             ):
                                 error.append(
-                                    "Can't find rhyme between paragraphs "
-                                    + str(
-                                        (
-                                            list_sumpus_sent2l[i],
-                                            list_sumpus_sent4[i - 1],
-                                        )
-                                    )
-                                    + " in paragraph "
-                                    + str(i + 1)
+                                    f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent4[i - 1]))} in paragraph {str(i + 1)}"
+                                )
+                        if i > 0:
+                            if (
+                                self.is_sumpus(
+                                    list_sumpus_sent2l[i],
+                                    list_sumpus_sent4[i - 1],
+                                )
+                                is False
+                            ):
+                                error.append(
+                                    f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent4[i - 1]))} in paragraph {str(i + 1)}"
                                 )
                     if not error:
                         return (
@@ -868,7 +814,7 @@ class KhaveeVerifier:
         # For Standard Karun silent suffixes (1 Consonant + Optional Vowel + Karun)
         # สัตว์ (ว์), แพทย์ (ย์), พันธุ์ (ธุ์), สิทธิ์ (ธิ์)
         # Check if there is an upper/lower vowel right before the Karun (ธุ์, ธิ์)
-        if len(word) >= 3 and word[-2] in ["ิ", "ี", "ึ", "ื", "ุ", "ู", "ั"]:
+        if len(word) >= 3 and word[-2] in {"ิ", "ี", "ึ", "ื", "ุ", "ู", "ั"}:
             return word[:-3]
         else:
             return word[:-2]

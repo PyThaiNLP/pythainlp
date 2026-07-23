@@ -8,6 +8,7 @@ from pythainlp.khavee import KhaveeVerifier
 
 kv = KhaveeVerifier()
 
+
 class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
 
     """Tests for check_klon k_type=8 and invalid k_type."""
@@ -20,8 +21,7 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
         """Test that invalid k_type returns error string."""
         result = self.kv.check_klon("บทกวีทดสอบ", k_type=99)
         self.assertIsInstance(result, str)
-        self.assertIn("Something went wrong. Make sure you enter it in the correct form (k_type 4 or 8)."
-                      , result)
+        self.assertIn("Something went wrong. Make sure you enter it in the correct form (k_type 4 or 8).", result)
 
     def test_incomplete_klon4_poem(self):
         """Test that incomplete klon4 poem is detected."""
@@ -43,8 +43,8 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
         )
         result = self.kv.check_klon(poem, k_type=4)
         self.assertIsInstance(result, list)
-        self.assertEqual(["Rhyme error in Stanza (บทที่) 1: 'สวด' (วรรคสดับ (Wak 1)) does not rhyme with ['ระ', 'รวย'] (วรรครับ (Wak 2))"]
-                      ,result)
+        self.assertEqual(
+            ["Rhyme error in Stanza (บทที่) 1: 'สวด' (วรรคสดับ (Wak 1)) does not rhyme with ['ระ', 'รวย'] (วรรครับ (Wak 2))"], result)
 
     def test_check_klon4_incorrect_poem_2(self):
         """Test that invalid klon4 poem with wrong inter-stanza rhyme is detected."""
@@ -55,8 +55,7 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
         result = self.kv.check_klon(poem, k_type=4)
         self.assertIsInstance(result, list)
         self.assertEqual(["Rhyme error in Stanza (บทที่) 1: 'สวด' (วรรคสดับ (Wak 1)) does not rhyme with ['ระ', 'รวย'] (วรรครับ (Wak 2))",
-                       "Inter-stanza rhyme error (ผิดสัมผัสระหว่างบท) between Stanza 1 and 2: 'นะ' (วรรคส่ง (Wak 4)) does not rhyme with 'มา' (วรรครับ (Wak 2))"]
-                      ,result)
+                          "Inter-stanza rhyme error (ผิดสัมผัสระหว่างบท) between Stanza 1 and 2: 'นะ' (วรรคส่ง (Wak 4)) does not rhyme with 'มา' (วรรครับ (Wak 2))"], result)
 
     def test_check_klon4_correct_poem(self):
         """Test that valid klon4 poem is recognized."""
@@ -165,4 +164,26 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
         self.assertEqual(
             ["Inter-stanza rhyme error (ผิดสัมผัสระหว่างบท) between Stanza 1 and 2: 'ตัง' (วรรคส่ง (Wak 4)) does not rhyme with 'หัว' (วรรครับ (Wak 2))"],
             result,
+        )
+
+    def test_check_klon(self):
+        """Test check_klon for Thai poem verification (k_type=4)."""
+        poem = (
+            "ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้ววิ่งตามไป ไล่หมาน้ำทอง "
+            "ฉันมันคนเก่ง เอ๋งเอ๋งคะนอง มีคนจับจอง เป็นของน้องเธียร"
+        )
+        result = self.kv.check_klon(poem, k_type=4)
+        self.assertIsInstance(result, list)
+        self.assertEqual("The poem is correct according to the principle.", result)
+        
+        poem_invalid = (
+            "ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้ววิ่งตามไล่ น้องหมาน้ำทอง "
+            "ฉันมันคนโหด เอ๋งเอ๋งคะนอง มีคนจับจอง เป็นของน้องเธียร"
+        )
+        result_invalid = self.kv.check_klon(poem_invalid, k_type=4)
+        self.assertIsInstance(result_invalid, list)
+        self.assertEqual(
+            ["Rhyme error in Stanza (บทที่) 1: 'ไล่' (วรรครอง (Wak 3)) does not rhyme with ['น้อง', 'หมา'] (วรรคส่ง (Wak 4))",
+             "Rhyme error in Stanza (บทที่) 2: 'โหด' (วรรคสดับ (Wak 1)) does not rhyme with ['เอ๋ง', 'เอ๋ง'] (วรรครับ (Wak 2))"],
+            result_invalid,
         )

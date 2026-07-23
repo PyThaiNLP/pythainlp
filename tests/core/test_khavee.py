@@ -11,7 +11,10 @@ kv = KhaveeVerifier()
 
 class KhaveeTestCase(unittest.TestCase):
 
-    """Tests for KhaveeVerifier.check_sara, check_marttra, is_sumpus, check_klon, and check_aek_too methods."""
+    """
+    Tests for KhaveeVerifier.check_sara, check_marttra, is_sumpus, and check_aek_too methods.
+    check_klon method is tested in KhaveeCheckKlonExtendedTestCase class in test_khavee_extended.py.
+    """
 
     def test_check_sara(self):
         """Test check_sara with basic, reduced, complex, embedded, and standalone character vowels."""
@@ -496,28 +499,6 @@ class KhaveeTestCase(unittest.TestCase):
 
         # Verify strict phonemic constraints are maintained
         self.assertFalse(kv.is_sumpus("ก็", "ก้อ"))  # เอาะ vs ออ
-
-    def test_check_klon(self):
-        """Test check_klon for Thai poem verification (k_type=4)."""
-        self.assertEqual(
-            kv.check_klon(
-                "ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง \
-                    ลคคนเก่ง เอ๋งเอ๋งคะนอง มีคนจับจอง เขาชื่อน้องเธียร",
-                k_type=4,
-            ),
-            "The poem is correct according to the principle.",
-        )
-        self.assertEqual(
-            kv.check_klon(
-                "ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง \
-                    ลคคนเก่ง เอ๋งเอ๋งเสียงหมา มีคนจับจอง เขาชื่อน้องเธียร",
-                k_type=4,
-            ),
-            [
-                "Can't find rhyme between paragraphs ('หมา', 'จอง') in paragraph 2",
-                "Can't find rhyme between paragraphs ('หมา', 'ทอง') in paragraph 2",
-            ],
-        )
 
     def test_check_aek_too(self):
         """Test check_aek_too for Thai tone mark detection."""

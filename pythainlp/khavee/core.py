@@ -582,8 +582,8 @@ class KhaveeVerifier:
             >>> from pythainlp.khavee import KhaveeVerifier  # doctest: +SKIP
             >>> kv = KhaveeVerifier()  # doctest: +SKIP
             >>> print(kv.check_klon(  # doctest: +SKIP
-            ...     'ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง เอ๋งเอ๋งคะนอง \
-            ...     มีคนจับจอง เขาชื่อน้องเธียร',
+            ...     'ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้ววิ่งตามไป ไล่หมาน้ำทอง \
+            ...     ฉันมันคนเก่ง เอ๋งเอ๋งคะนอง มีคนจับจอง เป็นของน้องเธียร', \
             ...     k_type=4
             ... ))
             The poem is correct according to the principle.

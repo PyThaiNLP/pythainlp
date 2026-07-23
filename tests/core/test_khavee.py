@@ -438,22 +438,55 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("ฦๅ"), "กา")
 
     def test_is_sumpus(self):
-        self.assertTrue(kv.is_sumpus("สรร", "อัน"))
         self.assertFalse(kv.is_sumpus("สรร", "แมว"))
+        self.assertFalse(kv.is_sumpus("กลัว", "ไกล"))
+        self.assertFalse(kv.is_sumpus("ตัว", "ตะ"))
+        self.assertFalse(kv.is_sumpus("ตัว", "ไต"))
+        self.assertFalse(kv.is_sumpus("สาว", "อา"))
+        self.assertFalse(kv.is_sumpus("เอว", "อา"))
+        self.assertFalse(kv.is_sumpus("อัว", "อา"))
+        self.assertFalse(kv.is_sumpus("บวก", "อัว"))
+        self.assertFalse(kv.is_sumpus("สวม", "อัว"))
+        self.assertFalse(kv.is_sumpus("ชัวร์", "ชัน"))
+        self.assertFalse(kv.is_sumpus("เลว", "เร็ว"))
+        self.assertFalse(kv.is_sumpus("ฤทธิ์", "ฤกษ์")) # ฤทธิ์ = ริด, ฤกษ์ = เริก
+        self.assertFalse(kv.is_sumpus("ฤทธิ์", "ลึด")) # ฤทธิ์ = ริด != ลึด
+        self.assertFalse(kv.is_sumpus("ฤกษ์", "ลึก")) # ฤกษ์ = เริก != ลึก
+        self.assertFalse(kv.is_sumpus("โหว่", "โถ่ว")) # แม่ก กา vs แม่เกอว
+
+        self.assertTrue(kv.is_sumpus("เขว", "เอ"))
+        self.assertTrue(kv.is_sumpus("เขว", "เหว่"))
+        self.assertTrue(kv.is_sumpus("เหว", "เอว"))
+        self.assertTrue(kv.is_sumpus("โหว่", "โถ"))
+        self.assertTrue(kv.is_sumpus("ครัว", "ตัว"))
+        self.assertTrue(kv.is_sumpus("สรร", "อัน"))
+        self.assertTrue(kv.is_sumpus("ธ", "ณ"))
+        self.assertTrue(kv.is_sumpus("ธ", "ทะ"))
+        self.assertTrue(kv.is_sumpus("ศาสตร์", "มารถ"))
+        self.assertTrue(kv.is_sumpus("แตร", "แปร")) # แม่ก กา
+        self.assertTrue(kv.is_sumpus("แหล่", "แต่")) # เหลือแหล่
+        self.assertTrue(kv.is_sumpus("แหน", "แกน")) # แม่ กน
 
         # Structural equivalence logic & Normalization
         self.assertTrue(kv.is_sumpus("บ้าน", "พาล"))
         self.assertTrue(kv.is_sumpus("ทำ", "จำ"))
+        self.assertTrue(kv.is_sumpus("ทำ", "กัม"))
         self.assertTrue(kv.is_sumpus("กรรม", "ธรรม"))
         self.assertTrue(kv.is_sumpus("ธรรม", "สัม"))
         self.assertTrue(kv.is_sumpus("ธรรม", "จำ"))
         self.assertTrue(kv.is_sumpus("กัย", "ไก"))
         self.assertTrue(kv.is_sumpus("กัย", "ไกล"))
         self.assertTrue(kv.is_sumpus("ใจ", "ไทย"))
+        self.assertTrue(kv.is_sumpus("ใจ", "จัย"))
+        self.assertTrue(kv.is_sumpus("ไกว", "ใด"))
+        self.assertTrue(kv.is_sumpus("ไกว", "ใคร"))
         self.assertTrue(kv.is_sumpus("เลย", "เกย"))
         self.assertTrue(kv.is_sumpus("พวก", "จวก"))
         self.assertTrue(kv.is_sumpus("ฤทธิ์", "กิด"))
-        self.assertTrue(kv.is_sumpus("ใจ", "จัย"))
+        self.assertTrue(kv.is_sumpus("ฤกษ์", "เริก"))
+        self.assertTrue(kv.is_sumpus("พฤษ", "พรึด"))
+        self.assertTrue(kv.is_sumpus("พฤก", "พรึก"))
+        self.assertTrue(kv.is_sumpus("ฤ", "รึ"))
 
         # Verify strict phonemic constraints are maintained
         self.assertFalse(kv.is_sumpus("ก็", "ก้อ"))  # เอาะ vs ออ

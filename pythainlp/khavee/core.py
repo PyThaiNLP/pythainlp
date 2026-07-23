@@ -354,7 +354,7 @@ class KhaveeVerifier:
                 word = word[:-1]
 
         word = self.handle_karun_sound_silence(word)
-        
+
         # is_true_final process requires the original word to check for exceptions in อักษรนำ/คำควบกล้ำ
         original_word = word
         

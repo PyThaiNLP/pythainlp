@@ -521,8 +521,10 @@ class KhaveeTestCase(unittest.TestCase):
         )
 
 
-class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
-    """Tests for KhaveeVerifier.check_karu_lahu"""
+class KhaveeCheckKaruLahuTestCase(unittest.TestCase): 
+    """
+    Tests for KhaveeVerifier.check_karu_lahu.
+    """
 
     def setUp(self):
         self.kv = KhaveeVerifier()
@@ -550,7 +552,9 @@ class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
 
 
 class KhaveeHandleKarunTestCase(unittest.TestCase):
-    """Tests for KhaveeVerifier.handle_karun_sound_silence"""
+    """
+    Tests for KhaveeVerifier.handle_karun_sound_silence.
+    """
 
     def setUp(self):
         self.kv = KhaveeVerifier()
@@ -606,7 +610,9 @@ class KhaveeHandleKarunTestCase(unittest.TestCase):
 
 
 class KhaveeIsTrueFinalTestCase(unittest.TestCase):
-    """Tests for internal method KhaveeVerifier._is_true_final"""
+    """
+    Tests for internal method KhaveeVerifier._is_true_final.
+    """
 
     def setUp(self):
         self.kv = KhaveeVerifier()
@@ -633,7 +639,9 @@ class KhaveeIsTrueFinalTestCase(unittest.TestCase):
 
 
 class KhaveeCheckAekTooEdgeCasesTestCase(unittest.TestCase):
-    """Edge-case tests for KhaveeVerifier.check_aek_too"""
+    """
+    Edge-case tests for KhaveeVerifier.check_aek_too
+    """
 
     def setUp(self):
         self.kv = KhaveeVerifier()
@@ -658,7 +666,9 @@ class KhaveeCheckAekTooEdgeCasesTestCase(unittest.TestCase):
 
 
 class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
-    """Tests for check_klon k_type=8 and invalid k_type"""
+    """
+    Tests for check_klon k_type=8 and invalid k_type
+    """
 
     def setUp(self):
         self.kv = KhaveeVerifier()

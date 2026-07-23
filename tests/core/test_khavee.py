@@ -537,33 +537,44 @@ class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
         """Set up test fixtures."""
         self.kv = KhaveeVerifier()
 
-    def test_dead_syllable_is_karu(self):
-        """Test that dead syllables are identified as karu."""
-        self.assertEqual(self.kv.check_karu_lahu("กด"), "karu")
+    import unittest
 
-    def test_long_live_syllable_is_karu(self):
-        """Test that long live syllables are identified as karu."""
-        self.assertEqual(self.kv.check_karu_lahu("กา"), "karu")
+class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
 
-    def test_live_syllable_with_final_consonant_is_karu(self):
-        """Test that live syllables with final consonants are identified as karu."""
-        self.assertEqual(self.kv.check_karu_lahu("กาน"), "karu")
+    def setUp(self):
+        """Set up test fixtures."""
+        self.kv = KhaveeVerifier()
 
-    def test_bo_mai_ek_is_lahu(self):
-        """Test that bo mai ek is identified as lahu."""
-        self.assertEqual(self.kv.check_karu_lahu("บ่"), "lahu")
+    def test_karu_words(self):
+        """Test that all specified heavy syllables (Karu) are correctly identified."""
+        karu_words = [
+            "กด", "กา", "กาน", 
+            "ใน", "นา", "มี", "ปู", "ตา", "ดำ", "วัว", "ลาก", "ไถ", "พุทธ", 
+            "สันดาน", "มูล", "หมองมัว", "ยั่ว", "เอว", "เจ็บ", "โสภา", "ศาลา", 
+            "วัด", "แม่", "ข้าวสาร", "ดวงใจ", "ไฉไล", "เขลา", "เนื้อ", "เต้น", 
+            "ทั่ว", "ร่าง", "สั่น", "ไหว", "ช่อฟ้า", "หัว", "อีกา", "สาม", 
+            "ฤาษี", "คาวี", "วับวาบ", "ญาณ", "เรา", "ครอง", "แผ่นดิน", "โดย", 
+            "ธรรม", "พรรณ", "เย้ยหยัน", "ดุก", "โดด", "โลด", "หยอย", "น้ำ", "พร่ำ"
+        ]
 
-    def test_no_short_word_is_lahu(self):
-        """Test that standalone consonant without vowel is identified as lahu."""
-        self.assertEqual(self.kv.check_karu_lahu("ณ"), "lahu")
+        for word in karu_words:
+            with self.subTest(word=word):
+                self.assertEqual(self.kv.check_karu_lahu(word), "karu")
 
-    def test_tho_short_word_is_lahu(self):
-        """Test that tho short word is identified as lahu."""
-        self.assertEqual(self.kv.check_karu_lahu("ธ"), "lahu")
+    def test_lahu_words(self):
+        """Test that all specified light syllables (Lahu) are correctly identified."""
+        lahu_words = [
+            "บ", "บ่", "ณ", "ธ", "ก็", "ฤ", "ฦ",
+            "ชะ", "กระ", "ยะ", "พะ", "ระ", "ละ", "ประ", "ฉะ",
+            "มติ", "กะปิ", "กะทิ", "กะทะ", "ฐิติ", "อุระ", "อมตะ", 
+            "มิ", "จะ", "เกะกะ", "ทะลุ", "รวิ", "วจนะ", "ศศิ", 
+            "และ", "สุ", "จิ", "ปุ", "ลิ", "สติ", "พระ",
+            "ระยะ", "เยาะ", "ธุระ"
+        ]
 
-    def test_ko_mai_is_lahu(self):
-        """Test that ko mai (killed consonant marker) is identified as lahu."""
-        self.assertEqual(self.kv.check_karu_lahu("ก็"), "lahu")
+        for word in lahu_words:
+            with self.subTest(word=word):
+                self.assertEqual(self.kv.check_karu_lahu(word), "lahu")
 
 
 class KhaveeHandleKarunTestCase(unittest.TestCase):

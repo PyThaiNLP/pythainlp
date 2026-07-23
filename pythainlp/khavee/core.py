@@ -50,7 +50,8 @@ class KhaveeVerifier:
         if len(word) < 2:
             return False
 
-        consonants = [c for c in word if c in thai_consonants]
+        # explicitly include ฤ and ฦ as they act as initial consonants but aren't in thai_consonants
+        consonants = [c for c in word if c in thai_consonants + "ฤฦ"]
 
         if len(consonants) < 2:
             return False
@@ -251,8 +252,8 @@ class KhaveeVerifier:
                 sara.append("อัว")  # ควร, บวก, สวม
 
         if "ั" in word and self.check_marttra(word) == "กา":
-            sara = []
-            sara.append("ไอ")
+            if "อัว" not in sara:
+                sara = ["ไอ"]
 
         # In case of อ
         if word == "เออะ":
@@ -309,7 +310,8 @@ class KhaveeVerifier:
             if "ํา" in word:
                 sara = ["อำ"]  # The strict decomposed 'อำ' typo
             else:
-                sara = ["อะ"]  # Standalone sounds like 'อัง' (อะ + ง) from pali/sanskrit
+                # Standalone sounds like 'อัง' (อะ + ง) from pali/sanskrit
+                sara = ["อะ"]
 
         # In case of บ่ / บ
         if word_req == "บ":
@@ -366,14 +368,15 @@ class KhaveeVerifier:
 
         # Check for ำ or นิคหิต (-ํ) + า
         if word[-1] == "ำ" or word.endswith("ํา"):
-            return "กม"
+            return "กา"
 
         # Check for standalone นิคหิต (-ํ) 'อัง'
         if word.endswith("ํ"):
             return "กง"
 
         # Any word with exactly 1 consonant (and not ending in ำ/ํ) cannot have a final consonant and therefore must be "กา"
-        consonants = [c for c in word if c in thai_consonants]
+        # explicitly include ฤ and ฦ as they act as initial consonants but aren't in thai_consonants
+        consonants = [c for c in word if c in thai_consonants + "ฤฦ"]
         if len(consonants) == 1:
             return "กา"
 
@@ -393,8 +396,9 @@ class KhaveeVerifier:
         # Add รากยาว "ๅ" (not สระอา) for word like ฤๅ(ษี)
         if (
             word[-1] in ["า", "ๅ", "ะ", "ิ", "ี", "ึ", "ุ", "ู", "อ"]
-            or ("ี" in word and "ย" in word[-1])
-            or ("ื" in word and "อ" in word[-1])
+            or ("ี" in word and "ย" in word[-1])  # Catch สระเอีย (เสีย, เมีย)
+            or ("ื" in word and "อ" in word[-1])  # Catch สระอือ (เรือ, เสือ)
+            or ("ั" in word and "ว" in word[-1])  # Catch สระอัว (ตัว, ชั่ว, กลัว, อัว)
         ):
             return "กา"
         elif word[-1] in ["ง"]:
@@ -776,7 +780,8 @@ class KhaveeVerifier:
             >>> # -> [False, 'aek', 'too']
         """
         if isinstance(text, list):
-            return [self.check_aek_too(t, dead_syllable_as_aek) for t in text]  # type: ignore[misc]
+            # type: ignore[misc]
+            return [self.check_aek_too(t, dead_syllable_as_aek) for t in text]
 
         if not isinstance(text, str):
             raise TypeError("text must be str or iterable list[str]")

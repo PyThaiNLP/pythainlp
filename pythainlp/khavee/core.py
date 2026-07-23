@@ -357,7 +357,7 @@ class KhaveeVerifier:
 
         # is_true_final process requires the original word to check for exceptions in อักษรนำ/คำควบกล้ำ
         original_word = word
-        
+
         word = remove_tonemark(word)
 
         # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ) Removing the final character -ิ or -ุ

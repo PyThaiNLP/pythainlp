@@ -12,6 +12,9 @@ from pythainlp.util import remove_tonemark, sound_syllable
 
 
 class KhaveeVerifier:
+    # explicitly include ฤ and ฦ as they act as initial consonants but aren't in thai_consonants
+    VALID_CONSONANTS = frozenset(thai_consonants + "ฤฦ")
+
     def __init__(self) -> None:
         """
         KhaveeVerifier: Thai Poetry verifier
@@ -50,8 +53,7 @@ class KhaveeVerifier:
 
         last_char = word[-1]
 
-        # explicitly include ฤ and ฦ as they act as initial consonants but aren't in thai_consonants
-        consonants = [c for c in word if c in thai_consonants + "ฤฦ"]
+        consonants = [c for c in word if c in self.VALID_CONSONANTS]
         if len(consonants) < 2:
             return False
 
@@ -397,8 +399,8 @@ class KhaveeVerifier:
             return "กง"
 
         # Any word with exactly 1 consonant (and not ending in ำ/ํ) cannot have a final consonant and therefore must be "กา"
-        # explicitly include ฤ and ฦ as they act as initial consonants but aren't in thai_consonants
-        consonants = [c for c in word if c in thai_consonants + "ฤฦ"]
+        
+        consonants = [c for c in word if c in self.VALID_CONSONANTS]
         if len(consonants) == 1:
             return "กา"
 
@@ -569,11 +571,11 @@ class KhaveeVerifier:
         if k_type == 8:
             try:
                 error = []
-                list_sumpus_sent1 = []
-                list_sumpus_sent2h = []
-                list_sumpus_sent2l = []
-                list_sumpus_sent3 = []
-                list_sumpus_sent4 = []
+                list_sumpus_sent1 = []  # วรรคสดับ
+                list_sumpus_sent2h = [] # วรรครับ (คำที่ 2-5)
+                list_sumpus_sent2l = [] # วรรครับ (คำสุดท้าย)
+                list_sumpus_sent3 = []  # วรรครอง
+                list_sumpus_sent4 = []  # วรรคส่ง
                 for i, sent in enumerate(text.split()):
                     sub_sent = subword_tokenize(sent, engine="dict")
                     if len(sub_sent) > 10:
@@ -594,44 +596,33 @@ class KhaveeVerifier:
                         list_sumpus_sent3.append(sub_sent[-1])
                     elif (i + 1) % 4 == 0:
                         list_sumpus_sent4.append(sub_sent[-1])
-                if (
-                    len(list_sumpus_sent1) != len(list_sumpus_sent2h)
-                    or len(list_sumpus_sent2h) != len(list_sumpus_sent2l)
-                    or len(list_sumpus_sent2l) != len(list_sumpus_sent3)
-                    or len(list_sumpus_sent3) != len(list_sumpus_sent4)
-                    or len(list_sumpus_sent4) != len(list_sumpus_sent1)
-                ):
+                # set {} does not allow duplicates, so if all lengths are equal, the set will have only 1 element
+                if len({len(list_sumpus_sent1), len(list_sumpus_sent2h), len(list_sumpus_sent2l), len(list_sumpus_sent3), len(list_sumpus_sent4)}) != 1:
                     return "The poem does not have 4 complete sentences."
                 else:
                     for i in range(len(list_sumpus_sent1)):
                         countwrong = 0
                         for j in list_sumpus_sent2h[i]:
-                            if (
+                            if not (
                                 self.is_sumpus(list_sumpus_sent1[i], j)
-                                is False
                             ):
                                 countwrong += 1
                         if countwrong > 3:
                             error.append(
                                 f"Can't find rhyme between paragraphs {str((list_sumpus_sent1[i], list_sumpus_sent2h[i],))} in paragraph {str(i + 1)}"
                             )
-                        if (
+                        if not (
                             self.is_sumpus(
                                 list_sumpus_sent2l[i], list_sumpus_sent3[i]
                             )
-                            is False
                         ):
                             error.append(
                                 f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent3[i],))} in paragraph {str(i + 1)}"
                             )
                         if i > 0:
-                            if (
-                                self.is_sumpus(
-                                    list_sumpus_sent2l[i],
-                                    list_sumpus_sent4[i - 1],
-                                )
-                                is False
-                            ):
+                            if not (
+                                self.is_sumpus(list_sumpus_sent2l[i],list_sumpus_sent4[i - 1],)
+                                ):
                                 error.append(
                                     f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent4[i - 1],))} in paragraph {str(i + 1)}"
                                 )
@@ -666,43 +657,35 @@ class KhaveeVerifier:
                         list_sumpus_sent3.append(sub_sent[-1])
                     elif (i + 1) % 4 == 0:
                         list_sumpus_sent4.append(sub_sent[-1])
-                if (
-                    len(list_sumpus_sent1) != len(list_sumpus_sent2h)
-                    or len(list_sumpus_sent2h) != len(list_sumpus_sent2l)
-                    or len(list_sumpus_sent2l) != len(list_sumpus_sent3)
-                    or len(list_sumpus_sent3) != len(list_sumpus_sent4)
-                    or len(list_sumpus_sent4) != len(list_sumpus_sent1)
-                ):
+                # set {} does not allow duplicates, so if all lengths are equal, the set will have only 1 element
+                if len({len(list_sumpus_sent1), len(list_sumpus_sent2h), len(list_sumpus_sent2l), len(list_sumpus_sent3), len(list_sumpus_sent4)}) != 1:
                     return "The poem does not have 4 complete sentences."
                 else:
                     for i in range(len(list_sumpus_sent1)):
                         countwrong = 0
                         for j in list_sumpus_sent2h[i]:
-                            if (
+                            if not (
                                 self.is_sumpus(list_sumpus_sent1[i], j)
-                                is False
                             ):
                                 countwrong += 1
                         if countwrong > 1:
                             error.append(
                                 f"Can't find rhyme between paragraphs {str((list_sumpus_sent1[i], list_sumpus_sent2h[i],))} in paragraph {str(i + 1)}"
                             )
-                        if (
+                        if not (
                             self.is_sumpus(
                                 list_sumpus_sent2l[i], list_sumpus_sent3[i]
                             )
-                            is False
                         ):
                             error.append(
                                 f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent3[i],))} in paragraph {str(i + 1)}"
                             )
                         if i > 0:
-                            if (
+                            if not (
                                 self.is_sumpus(
                                     list_sumpus_sent2l[i],
                                     list_sumpus_sent4[i - 1],
                                 )
-                                is False
                             ):
                                 error.append(
                                     f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent4[i - 1],))} in paragraph {str(i + 1)}"

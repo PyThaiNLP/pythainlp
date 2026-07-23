@@ -528,17 +528,6 @@ class KhaveeTestCase(unittest.TestCase):
             kv.check_aek_too(["หนม", "หน่ม", "หน้ม"]), [False, "aek", "too"]
         )
 
-
-class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
-
-    """Tests for KhaveeVerifier.check_karu_lahu."""
-
-    def setUp(self):
-        """Set up test fixtures."""
-        self.kv = KhaveeVerifier()
-
-    import unittest
-
 class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
 
     def setUp(self):
@@ -702,111 +691,8 @@ class KhaveeCheckAekTooEdgeCasesTestCase(unittest.TestCase):
         # word with both ่ and ้ should return False
         self.assertFalse(self.kv.check_aek_too("ก่้"))
 
-
-class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
-
-    """Tests for check_klon k_type=8 and invalid k_type."""
-
-    def setUp(self):
-        """Set up test fixtures."""
-        self.kv = KhaveeVerifier()
-
-    def test_invalid_k_type_returns_error_string(self):
-        """Test that invalid k_type returns error string."""
-        result = self.kv.check_klon("บทกวีทดสอบ", k_type=99)
-        self.assertIsInstance(result, str)
-        self.assertIn("Something went wrong", result)
-
-    def test_incomplete_klon4_poem(self):
-        """Test that incomplete klon4 poem is detected."""
-        result = self.kv.check_klon("ฉันชื่อหมูกรอบ", k_type=4)
-        self.assertIsInstance(result, str)
-        self.assertIn("does not have 4 complete sentences", result)
-
-    def test_incomplete_klon8_poem(self):
-        """Test that incomplete klon8 poem is detected."""
-        result = self.kv.check_klon("ฉันชื่อหมูกรอบ", k_type=8)
-        self.assertIsInstance(result, str)
-
-    def test_check_klon8_correct_poem(self):
-        """Test that valid klon8 poem is recognized."""
-        poem = (
-            "ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง "
-            "ลคคนเก่ง เอ๋งเอ๋งคะนอง มีคนจับจอง เขาชื่อน้องเธียร"
-        )
-        self.assertIsNotNone(self.kv.check_klon(poem, k_type=8))
-
-    def test_check_klon8_correct_poem_2(self):
-        """Test that another valid klon8 poem is recognized."""
-        poem = (
-            "แม่รักลูกลูกก็รู้อยู่ว่ารัก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
-            "จะกินนอนวอนว่าเมตตาเตือน จะจากเรือนร้างแม่ไปแต่ตัว "
-            "แม่วันทองของลูกจงกลับบ้าน เขาจะพาลว้าวุ่นแม่ทูนหัว "
-            "จะก้มหน้าลาไปมิได้กลัว แม่อย่ามัวหมองนักจงหักใจ"
-        )
-        self.assertEqual(
-            self.kv.check_klon(poem, k_type=8),
-            "The poem is correct according to the principle."
-        )
-
-    def test_check_klon8_correct_poem_3(self):
-        """Test that third valid klon8 poem is recognized."""
-        poem = (
-            "นางกอดจูบลูบหลังแล้วสั่งสอน อำนวยพรพลายน้อยละห้อยไห้ "
-            "พ่อไปดีศรีสวัสดิ์กำจัดภัย จนเติบใหญ่ยิ่งยวดได้บวชเรียน "
-            "ลูกผู้ชายลายมือนั้นคือยศ เเจ้าจงอตส่าห์ทำสม่ำเสมียน "
-            "แล้วพาลูกออกมาข้างท่าเกวียน จะจากเจียนใจขาดอนาถใจ"
-        )
-        self.assertEqual(
-            self.kv.check_klon(poem, k_type=8),
-            "The poem is correct according to the principle."
-        )
-
-    def test_check_klon8_invalid_poem(self):
-        """Test that invalid klon8 poem with too many words is detected."""
-        poem = (
-            "แม่รักลูกลูกก็รู้อยู่ว่ารักมากมาก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
-            "จะกินนอนวอนว่าเมตตาเตือน จะจากเรือนร้างแม่ไปแต่ตัว "
-            "แม่วันทองของลูกจงกลับบ้าน เขาจะพาลว้าวุ่นแม่ทูนหัว "
-            "จะก้มหน้าลาไปมิได้กลัว แม่อย่ามัวหมองนักจงหักใจ"
-        )
-        result = self.kv.check_klon(poem, k_type=8)
-        self.assertIsInstance(result, list)
-        self.assertIn(
-            "In sentence 2, there are more than 10 words. ['แม่', 'รัก', 'ลูก', 'ลูก', 'ก็', 'รู้', 'อยู่', 'ว่า', 'รัก', 'มาก', 'มาก']",
-            result,
-        )
-
-    def test_check_klon8_invalid_poem_2(self):
-        """Test that invalid klon8 poem with incorrect rhyme is detected."""
-        poem = (
-            "แม่รักลูกลูกก็รู้อยู่ว่ารักมาก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
-            "จะกินนอนวอนว่าเมตตาเตือน จะจากเรือนร้างแม่ไปแต่ตัว "
-            "แม่วันทองของลูกจงกลับบ้าน เขาจะพาลว้าวุ่นแม่ทูนหัว "
-            "จะก้มหน้าลาไปมิได้กลัว แม่อย่ามัวหมองนักจงหักใจ"
-        )
-        result = self.kv.check_klon(poem, k_type=8)
-        self.assertIsInstance(result, list)
-        self.assertIn(
-            "Can't find rhyme between paragraphs ('มาก', ['อื่น', 'สัก', 'หมื่น', 'แสน']) in paragraph 1",
-            result,
-        )
-
-    def test_check_klon8_invalid_poem_3(self):
-        """Test that invalid klon8 poem with wrong final word is detected."""
-        poem = (
-            "แม่รักลูกลูกก็รู้อยู่ว่ารัก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
-            "จะกินนอนวอนว่าเมตตาเตือด จะจากเรือนร้างแม่ไปแต่ตัว "
-            "แม่วันทองของลูกจงกลับบ้าน เขาจะพาลว้าวุ่นแม่ทูนหัว "
-            "จะก้มหน้าลาไปมิได้กลัว แม่อย่ามัวหมองนักจงหักใจ"
-        )
-        result = self.kv.check_klon(poem, k_type=8)
-        self.assertIsInstance(result, list)
-        self.assertIn(
-            "Can't find rhyme between paragraphs ('เหมือน', 'เตือด') in paragraph 1",
-            result,
-        )
-
+# Test KhaveeCheckKlonExtendedTestCase is moved to tests/extra/test_khavee_extra.py
+# because it use extra dependency "ssg" that is not part of the core test
 
 class KhaveeCheckSaraEdgeCasesTestCase(unittest.TestCase):
 

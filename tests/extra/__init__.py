@@ -18,6 +18,7 @@ test_packages: list[str] = [
     "tests.extra.testx_tokenize",
     "tests.extra.testx_translate_helpers",
     "tests.extra.testx_word_vector",
+    "tests.extra.test_khavee.py"
 ]
 
 

@@ -4,6 +4,7 @@
 # ruff: noqa: C901
 from __future__ import annotations
 
+import re
 from typing import Union
 
 from pythainlp import thai_consonants
@@ -106,8 +107,8 @@ class KhaveeVerifier:
         """
         Check the phonetic vowel sound (สระ) of a Thai word.
 
-        Extracts the core vowel representation used for rhyme matching, handling 
-        complex vowel combinations, transformed vowels (สระเปลี่ยนรูป), and reductions (สระลดรูป).
+        Extracts the core vowel representation used for rhyme matching, handling complex vowel combinations,
+        transformed vowels (สระเปลี่ยนรูป), and reductions (สระลดรูป).
 
         :param str word: Thai word
         :return: The name of the vowel sound of the word (e.g., 'เออ', 'อะ', 'เอาะ')
@@ -338,10 +339,10 @@ class KhaveeVerifier:
         """
         Check the spelling section (มาตราตัวสะกด) of a Thai word.
 
-        Note: This function strictly adheres to orthographic spelling (รูป) based on 
+        Note: This function strictly adheres to orthographic spelling (รูป) based on
         the Royal Society of Thailand (ราชบัณฑิตยสภา) standards, rather than phonetics (เสียง).
-        Therefore, words ending in สระเกิน (อำ, ไอ, ใอ, เอา) as well as ฤ, ฤๅ, ฦ, ฦๅ 
-        are correctly classified grammatically as แม่ ก กา ("กา"). Phonetic rhyming 
+        Therefore, words ending in สระเกิน (อำ, ไอ, ใอ, เอา) as well as ฤ, ฤๅ, ฦ, ฦๅ
+        are correctly classified grammatically as แม่ ก กา ("กา"). Phonetic rhyming
         for these vowels is handled dynamically in the `is_sumpus` function.
 
         :param str word: Thai word
@@ -399,7 +400,7 @@ class KhaveeVerifier:
             return "กง"
 
         # Any word with exactly 1 consonant (and not ending in ำ/ํ) cannot have a final consonant and therefore must be "กา"
-        
+
         consonants = [c for c in word if c in self.VALID_CONSONANTS]
         if len(consonants) == 1:
             return "กา"
@@ -470,8 +471,8 @@ class KhaveeVerifier:
         Check the rhyme (สัมผัส) between two Thai words.
 
         This function evaluates both the vowel sound (สระ) and the spelling section (มาตราตัวสะกด).
-        It incorporates phonetic normalization for สระเกิน (อำ, ไอ, ใอ) to ensure that 
-        words with matching sounds but differing orthographies (e.g., "จำ" and "กรรม") 
+        It incorporates phonetic normalization for สระเกิน (อำ, ไอ, ใอ) to ensure that
+        words with matching sounds but differing orthographies (e.g., "จำ" and "กรรม")
         are correctly evaluated as rhymes.
 
         :param str word1: First Thai word
@@ -540,167 +541,161 @@ class KhaveeVerifier:
         Check the suitability of the poem according to Thai principles.
 
         :param str text: Thai poem
-        :param int k_type: type of Thai poem
-        :return: the check results of the suitability of the
-            poem according to Thai principles.
+        :param int k_type: type of Thai poem (4 or 8)
+        :return: the check results of the suitability of the poem according to Thai principles.
         :rtype: Union[list[str], str]
+
+        ════════════════════════════════════════════════════════════════════════
+
+        กลอนสี่ (Klon 4) Diagram:
+        วรรคที่ ๑ (สดับ)    วรรคที่ ๒ (รับ)
+        วรรคที่ ๓ (รอง)    วรรคที่ ๔ (ส่ง)
+
+              ┏━━━━━━━━┯━┓    [สัมผัสคำที่ 1 หรือ 2]
+        O O O X        X X O O
+              ┏━━━━━━━━┯━┳━━━┛
+        O O O X        X X O X ━┓
+              ┏━━━━━━━━┯━┓      ┃ สัมผัสระหว่างบท (Inter-stanza rhyme)
+        O O O X        X X O O ━┛
+              ┏━━━━━━━━┯━┳━━━┛
+        O O O X        X X O X
+
+        ════════════════════════════════════════════════════════════════════════
+
+        กลอนแปด (Klon 8) Diagram:
+        วรรคที่ ๑ (สดับ)    วรรคที่ ๒ (รับ)
+        วรรคที่ ๓ (รอง)    วรรคที่ ๔ (ส่ง)
+
+                      ┏━━━━━━━━┯━┯━┳━┯━┑    [สัมผัสคำที่ 3 หรือ 5 / อนุโลม 1,2,4]
+        O O O O O O O X        O O X O O O O X
+                      ┏━━━━━━━━┯━┯━┳━┯━━━━━━━┛
+        O O O O O O O X        O O X O O O O X ━┓
+                      ┏━━━━━━━━┯━┯━┳━┯━┑        ┃ สัมผัสระหว่างบท (Inter-stanza rhyme)
+        O O O O O O O X        O O X O O O O X ━┛
+                      ┏━━━━━━━━┯━┯━┳━┯━━━━━━━┛
+        O O O O O O O X        O O X O O O O X
+
+        ════════════════════════════════════════════════════════════════════════
 
         :Example:
 
             >>> from pythainlp.khavee import KhaveeVerifier  # doctest: +SKIP
-
             >>> kv = KhaveeVerifier()  # doctest: +SKIP
-
             >>> print(kv.check_klon(  # doctest: +SKIP
             ...     'ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง เอ๋งเอ๋งคะนอง \
             ...     มีคนจับจอง เขาชื่อน้องเธียร',
             ...     k_type=4
             ... ))
             The poem is correct according to the principle.
-
-            >>> print(kv.check_klon(  # doctest: +SKIP
-            ...     'ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง ลคคนเก่ง \
-            ...     เอ๋งเอ๋งเสียงหมา มีคนจับจอง เขาชื่อน้องเธียร',
-            ...     k_type=4
-            ... ))
-            [
-                "Can't find rhyme between paragraphs ('หมา', 'จอง') in paragraph 2",
-                "Can't find rhyme between paragraphs ('หมา', 'ทอง') in paragraph 2"
-            ]
         """
-        if k_type == 8:
-            try:
-                error = []
-                list_sumpus_sent1 = []  # วรรคสดับ
-                list_sumpus_sent2h = [] # วรรครับ (คำที่ 2-5)
-                list_sumpus_sent2l = [] # วรรครับ (คำสุดท้าย)
-                list_sumpus_sent3 = []  # วรรครอง
-                list_sumpus_sent4 = []  # วรรคส่ง
-                for i, sent in enumerate(text.split()):
-                    sub_sent = subword_tokenize(sent, engine="dict")
-                    if len(sub_sent) > 10:
-                        error.append(f"In sentence {i + 2}, there are more than 10 words. {sub_sent}")
-                    if (i + 1) % 4 == 1:
-                        list_sumpus_sent1.append(sub_sent[-1])
-                    elif (i + 1) % 4 == 2:
-                        list_sumpus_sent2h.append(
-                            [
-                                sub_sent[1],
-                                sub_sent[2],
-                                sub_sent[3],
-                                sub_sent[4],
-                            ]
-                        )
-                        list_sumpus_sent2l.append(sub_sent[-1])
-                    elif (i + 1) % 4 == 3:
-                        list_sumpus_sent3.append(sub_sent[-1])
-                    elif (i + 1) % 4 == 0:
-                        list_sumpus_sent4.append(sub_sent[-1])
-                # set {} does not allow duplicates, so if all lengths are equal, the set will have only 1 element
-                if len({len(list_sumpus_sent1), len(list_sumpus_sent2h), len(list_sumpus_sent2l), len(list_sumpus_sent3), len(list_sumpus_sent4)}) != 1:
-                    return "The poem does not have 4 complete sentences."
-                else:
-                    for i in range(len(list_sumpus_sent1)):
-                        countwrong = 0
-                        for j in list_sumpus_sent2h[i]:
-                            if not (
-                                self.is_sumpus(list_sumpus_sent1[i], j)
-                            ):
-                                countwrong += 1
-                        if countwrong > 3:
-                            error.append(
-                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent1[i], list_sumpus_sent2h[i],))} in paragraph {str(i + 1)}"
-                            )
-                        if not (
-                            self.is_sumpus(
-                                list_sumpus_sent2l[i], list_sumpus_sent3[i]
-                            )
-                        ):
-                            error.append(
-                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent3[i],))} in paragraph {str(i + 1)}"
-                            )
-                        if i > 0:
-                            if not (
-                                self.is_sumpus(list_sumpus_sent2l[i],list_sumpus_sent4[i - 1],)
-                                ):
-                                error.append(
-                                    f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent4[i - 1],))} in paragraph {str(i + 1)}"
-                                )
-                    if not error:
-                        return (
-                            "The poem is correct according to the principle."
-                        )
-                    else:
-                        return error
-            except Exception:
-                return "Something went wrong. Make sure you enter it in the correct form of klon 8."
-        elif k_type == 4:
-            try:
-                error = []
-                list_sumpus_sent1 = []
-                list_sumpus_sent2h = []
-                list_sumpus_sent2l = []
-                list_sumpus_sent3 = []
-                list_sumpus_sent4 = []
-                for i, sent in enumerate(text.split()):
-                    sub_sent = subword_tokenize(sent, engine="dict")
-                    if len(sub_sent) > 5:
-                        error.append(
-                            f"In sentence {i + 2}, there are more than 4 words. {sub_sent}"
-                        )
-                    if (i + 1) % 4 == 1:
-                        list_sumpus_sent1.append(sub_sent[-1])
-                    elif (i + 1) % 4 == 2:
-                        list_sumpus_sent2h.append([sub_sent[1], sub_sent[2]])
-                        list_sumpus_sent2l.append(sub_sent[-1])
-                    elif (i + 1) % 4 == 3:
-                        list_sumpus_sent3.append(sub_sent[-1])
-                    elif (i + 1) % 4 == 0:
-                        list_sumpus_sent4.append(sub_sent[-1])
-                # set {} does not allow duplicates, so if all lengths are equal, the set will have only 1 element
-                if len({len(list_sumpus_sent1), len(list_sumpus_sent2h), len(list_sumpus_sent2l), len(list_sumpus_sent3), len(list_sumpus_sent4)}) != 1:
-                    return "The poem does not have 4 complete sentences."
-                else:
-                    for i in range(len(list_sumpus_sent1)):
-                        countwrong = 0
-                        for j in list_sumpus_sent2h[i]:
-                            if not (
-                                self.is_sumpus(list_sumpus_sent1[i], j)
-                            ):
-                                countwrong += 1
-                        if countwrong > 1:
-                            error.append(
-                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent1[i], list_sumpus_sent2h[i],))} in paragraph {str(i + 1)}"
-                            )
-                        if not (
-                            self.is_sumpus(
-                                list_sumpus_sent2l[i], list_sumpus_sent3[i]
-                            )
-                        ):
-                            error.append(
-                                f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent3[i],))} in paragraph {str(i + 1)}"
-                            )
-                        if i > 0:
-                            if not (
-                                self.is_sumpus(
-                                    list_sumpus_sent2l[i],
-                                    list_sumpus_sent4[i - 1],
-                                )
-                            ):
-                                error.append(
-                                    f"Can't find rhyme between paragraphs {str((list_sumpus_sent2l[i], list_sumpus_sent4[i - 1],))} in paragraph {str(i + 1)}"
-                                )
-                    if not error:
-                        return (
-                            "The poem is correct according to the principle."
-                        )
-                    else:
-                        return error
-            except Exception:
-                return "Something went wrong. Make sure you enter it in the correct form."
 
-        else:
-            return "Something went wrong. Make sure you enter it in the correct form."
+        try:
+            import ssg  # type: ignore[import-unresolved]
+        except ImportError:
+            raise ImportError(
+            "The 'ssg' package is required for check_klon. "
+            "Please install it using: pip install pythainlp[extra] or pip install ssg"
+        )
+
+        if k_type not in {4, 8}:
+            return "Something went wrong. Make sure you enter it in the correct form (k_type 4 or 8)."
+
+        try:
+            # Normalize spacing with regex Splits by spaces, newlines, or transitions between phrases
+            waks = [w for w in re.split(r'\s+|\n+|\t+', text.strip()) if w]
+            # Ensure the poem has complete stanzas (4 waks per stanza)
+            if len(waks) % 4 != 0 or len(waks) == 0:
+                return "The poem does not have complete stanzas (บท). A stanza must contain exactly 4 sentences (วรรค)."
+
+            errors = []
+            stanzas = []
+            wak_names = ["วรรคสดับ (Wak 1)", "วรรครับ (Wak 2)", "วรรครอง (Wak 3)", "วรรคส่ง (Wak 4)"]
+
+            # 1. Tokenize and group sentences into stanzas (4 Waks per stanza)
+            for i in range(0, len(waks), 4):
+                stanza = [
+                    subword_tokenize(waks[i], engine="ssg"),
+                    subword_tokenize(waks[i + 1], engine="ssg"),
+                    subword_tokenize(waks[i + 2], engine="ssg"),
+                    subword_tokenize(waks[i + 3], engine="ssg"),
+                ]
+                stanzas.append(stanza)
+
+            # 2. Evaluate rules for each stanza
+            for stanza_index, stanza in enumerate(stanzas):
+                wak1, wak2, wak3, wak4 = stanza
+
+                # Safety check against empty sentences
+                if not all((wak1, wak2, wak3, wak4)):
+                    errors.append(f"Stanza (บทที่) {stanza_index + 1} contains empty sentences.")
+                    continue
+
+                # Check word counts
+                max_words = 10 if k_type == 8 else 5
+                for wak_index, wak in enumerate(stanza):
+                    if len(wak) > max_words:
+                        errors.append(
+                            f"Stanza (บทที่) {stanza_index + 1} {wak_names[wak_index]}: "
+                            f"Word count exceeds {max_words}: {wak}"
+                        )
+
+                # Define rhyme target lengths based on Klon type
+                # Klon 8: Targets first 5 words (อนุโลม 1, 2, 4 บังคับ 3, 5)
+                # Klon 4: Targets first 2 words
+                if k_type == 8:
+                    wak2_targets = wak2[:5]
+                    wak4_targets = wak4[:5]
+                else:
+                    # Klon 4: If the target sentence has 5 words, check the first 3 words.
+                    # Otherwise, check the standard first 2 words.
+                    limit_wak2 = 3 if len(wak2) == 5 else 2
+                    limit_wak4 = 3 if len(wak4) == 5 else 2
+
+                    wak2_targets = wak2[:limit_wak2]
+                    wak4_targets = wak4[:limit_wak4]
+
+                # Extract the last word of each Wak
+                wak1_last = wak1[-1]
+                wak2_last = wak2[-1]
+                wak3_last = wak3[-1]
+
+                # Rule 1: วรรคสดับ -> วรรครับ
+                if not any(self.is_sumpus(wak1_last, target) for target in wak2_targets):
+                    errors.append(
+                        f"Rhyme error in Stanza (บทที่) {stanza_index + 1}: "
+                        f"'{wak1_last}' ({wak_names[0]}) does not rhyme with {wak2_targets} ({wak_names[1]})"
+                    )
+
+                # Rule 2: วรรครับ -> วรรครอง
+                if not self.is_sumpus(wak2_last, wak3_last):
+                    errors.append(
+                        f"Rhyme error in Stanza (บทที่) {stanza_index + 1}: "
+                        f"'{wak2_last}' ({wak_names[1]}) does not rhyme with '{wak3_last}' ({wak_names[2]})"
+                    )
+
+                # Rule 3: วรรครอง -> วรรคส่ง
+                if not any(self.is_sumpus(wak3_last, target) for target in wak4_targets):
+                    errors.append(
+                        f"Rhyme error in Stanza (บทที่) {stanza_index + 1}: "
+                        f"'{wak3_last}' ({wak_names[2]}) does not rhyme with {wak4_targets} ({wak_names[3]})"
+                    )
+
+                # Rule 4: สัมผัสระหว่างบท (Inter-stanza)
+                if stanza_index > 0:
+                    # Target Wak 4 of the previous stanza
+                    prev_wak4_last = stanzas[stanza_index - 1][3][-1]
+                    if not self.is_sumpus(prev_wak4_last, wak2_last):
+                        errors.append(
+                            f"Inter-stanza rhyme error (ผิดสัมผัสระหว่างบท) between Stanza {stanza_index} and {stanza_index + 1}: "
+                            f"'{prev_wak4_last}' ({wak_names[3]}) does not rhyme with '{wak2_last}' ({wak_names[1]})"
+                        )
+
+            if not errors:
+                return "The poem is correct according to the principle."
+            return errors
+
+        except Exception as e:
+            return f"Something went wrong during evaluation: {e}"
 
     def check_aek_too(
         self, text: Union[list[str], str], dead_syllable_as_aek: bool = False

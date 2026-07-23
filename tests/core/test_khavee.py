@@ -29,7 +29,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_sara("ตรี"), "อี")
         self.assertEqual(kv.check_sara("ปี"), "อี")
         self.assertEqual(kv.check_sara("ปี่"), "อี")
-        self.assertEqual(kv.check_sara("ฎี"), "อี") # ทฤษฎี
+        self.assertEqual(kv.check_sara("ฎี"), "อี")  # ทฤษฎี
         self.assertEqual(kv.check_sara("ตรี"), "อี")
         self.assertEqual(kv.check_sara("พลี"), "อี")
         self.assertEqual(kv.check_sara("นีย์"), "อี")
@@ -76,7 +76,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_sara("เสือ"), "เอือ")
         self.assertEqual(kv.check_sara("เขือ"), "เอือ")
         self.assertEqual(kv.check_sara("กลัว"), "อัว")
-        
+
         # Reduced and Transformed Vowels (สระลดรูป/เปลี่ยนรูป)
         self.assertEqual(kv.check_sara("อัน"), "อะ")
         self.assertEqual(kv.check_sara("กัน"), "อะ")
@@ -101,9 +101,9 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_sara("ล็อก"), "เอาะ")
         self.assertEqual(kv.check_sara("อ็อก"), "เอาะ")
         self.assertEqual(kv.check_sara("ก็"), "เอาะ")
-        
+
         # Complex compound and hidden vowels
-        self.assertEqual(kv.check_sara("ภูมิ"), "อู") # ภูมิใจ (ไม่ใช่ ภู-มิ)
+        self.assertEqual(kv.check_sara("ภูมิ"), "อู")  # ภูมิใจ (ไม่ใช่ ภู-มิ)
         self.assertEqual(kv.check_sara("เกียรติ"), "เอีย")
         self.assertEqual(kv.check_sara("เกตุ"), "เอ")
         self.assertEqual(kv.check_sara("เมรุ"), "เอ")
@@ -112,9 +112,9 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_sara("ญาติ"), "อา")
         self.assertEqual(kv.check_sara("ธาตุ"), "อา")
         self.assertEqual(kv.check_sara("พยาธิ"), "อา")
-        self.assertEqual(kv.check_sara("วัติ"), "อะ") # ประวัติ
-        self.assertEqual(kv.check_sara("พรรดิ"), "อะ") # จักรพรรดิ
-        self.assertEqual(kv.check_sara("วรรดิ"), "อะ") # จักรวรรดิ
+        self.assertEqual(kv.check_sara("วัติ"), "อะ")  # ประวัติ
+        self.assertEqual(kv.check_sara("พรรดิ"), "อะ")  # จักรพรรดิ
+        self.assertEqual(kv.check_sara("วรรดิ"), "อะ")  # จักรวรรดิ
         self.assertEqual(kv.check_sara("สมมุติ"), "อุ")
         self.assertEqual(kv.check_sara("ชาติ"), "อา")
         self.assertEqual(kv.check_sara("ชาติ"), "อา")
@@ -166,7 +166,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_sara("ฤทธิ์"), "อิ")
         self.assertEqual(kv.check_sara("กฤษ"), "อิ")
         self.assertEqual(kv.check_sara("กฤษณ์"), "อิ")
-        self.assertEqual(kv.check_sara("ทฤษ"), "อิ") # ทฤษฎี
+        self.assertEqual(kv.check_sara("ทฤษ"), "อิ")  # ทฤษฎี
         self.assertEqual(kv.check_sara("ฤกษ์"), "เออ")
         self.assertEqual(kv.check_sara("พฤษ"), "อึ")
         self.assertEqual(kv.check_sara("พฤติ"), "อึ")
@@ -205,7 +205,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("ภูมิ"), "กม")
         self.assertEqual(kv.check_marttra("กรม"), "กม")
         self.assertEqual(kv.check_marttra("ธรรม"), "กม")
-        self.assertEqual(kv.check_marttra("จำ"), "กม") # สระ อำ ถือเป็นแม่กม
+        self.assertEqual(kv.check_marttra("จำ"), "กม")  # สระ อำ ถือเป็นแม่กม
         self.assertEqual(kv.check_marttra("ฟิล์ม"), "กม")
 
         self.assertEqual(kv.check_marttra("สวย"), "เกย")
@@ -333,6 +333,34 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("ธูป"), "กบ")
         self.assertEqual(kv.check_marttra("กอล์ฟ"), "กบ")
 
+        self.assertEqual(kv.check_marttra("อะ"), "กา")
+        self.assertEqual(kv.check_marttra("อา"), "กา")
+        self.assertEqual(kv.check_marttra("อิ"), "กา")
+        self.assertEqual(kv.check_marttra("อี"), "กา")
+        self.assertEqual(kv.check_marttra("อึ"), "กา")
+        self.assertEqual(kv.check_marttra("อือ"), "กา")
+        self.assertEqual(kv.check_marttra("อุ"), "กา")
+        self.assertEqual(kv.check_marttra("อู"), "กา")
+        self.assertEqual(kv.check_marttra("เอะ"), "กา")
+        self.assertEqual(kv.check_marttra("เอ"), "กา")
+        self.assertEqual(kv.check_marttra("แอะ"), "กา")
+        self.assertEqual(kv.check_marttra("แอ"), "กา")
+        self.assertEqual(kv.check_marttra("โอะ"), "กา")
+        self.assertEqual(kv.check_marttra("โอ"), "กา")
+        self.assertEqual(kv.check_marttra("เอาะ"), "กา")
+        self.assertEqual(kv.check_marttra("ออ"), "กา")
+        self.assertEqual(kv.check_marttra("เอาะ"), "กา")
+        self.assertEqual(kv.check_marttra("เออ"), "กา")
+        self.assertEqual(kv.check_marttra("เอียะ"), "กา")
+        self.assertEqual(kv.check_marttra("เอีย"), "กา")
+        self.assertEqual(kv.check_marttra("เอือะ"), "กา")
+        self.assertEqual(kv.check_marttra("เอือ"), "กา")
+        self.assertEqual(kv.check_marttra("อัวะ"), "กา")
+        self.assertEqual(kv.check_marttra("อัว"), "กา")
+        self.assertEqual(kv.check_marttra("อำ"), "กา")
+        self.assertEqual(kv.check_marttra("ไอ"), "กา")
+        self.assertEqual(kv.check_marttra("ใอ"), "กา")
+        self.assertEqual(kv.check_marttra("เอา"), "กา")
         self.assertEqual(kv.check_marttra("ปลา"), "กา")
         self.assertEqual(kv.check_marttra("งู"), "กา")
         self.assertEqual(kv.check_marttra("หมู"), "กา")
@@ -352,8 +380,6 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("ฎี"), "กา")
         self.assertEqual(kv.check_marttra("ตรี"), "กา")
         self.assertEqual(kv.check_marttra("พลี"), "กา")
-        self.assertEqual(kv.check_marttra("อึ"), "กา")
-        self.assertEqual(kv.check_marttra("อือ"), "กา")
         self.assertEqual(kv.check_marttra("ซื้อ"), "กา")
         self.assertEqual(kv.check_marttra("ปรือ"), "กา")
         self.assertEqual(kv.check_marttra("ธุ"), "กา")
@@ -373,7 +399,6 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("เขือ"), "กา")
         self.assertEqual(kv.check_marttra("กลัว"), "กา")
         self.assertEqual(kv.check_marttra("ก็"), "กา")
-        self.assertEqual(kv.check_marttra("ออ"), "กา")
         self.assertEqual(kv.check_marttra("ขอ"), "กา")
         self.assertEqual(kv.check_marttra("งอ"), "กา")
         self.assertEqual(kv.check_marttra("โต๊ะ"), "กา")
@@ -382,7 +407,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("ทรีย์"), "กา")
         self.assertEqual(kv.check_marttra("ปรีดิ์"), "กา")
         self.assertEqual(kv.check_marttra("นีย์"), "กา")
-       
+
         # Fake Finals (คำควบกล้า, คำที่มีพยัญชนะ/สระไม่ออกเสียง) mapping to open syllables
         self.assertEqual(kv.check_marttra("ไทย"), "กา")
         self.assertEqual(kv.check_marttra("ไกล"), "กา")
@@ -402,7 +427,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("บ"), "กา")
         self.assertEqual(kv.check_marttra("บ่"), "กา")
         self.assertEqual(kv.check_marttra("อ"), "กา")
-        
+
         # ฤ / ฦ
         self.assertEqual(kv.check_marttra("ฤ"), "กา")
         self.assertEqual(kv.check_marttra("ฦ"), "กา")
@@ -545,6 +570,7 @@ class KhaveeHandleKarunTestCase(unittest.TestCase):
     def test_returns_string(self):
         self.assertIsInstance(self.kv.handle_karun_sound_silence("สวัสดี"), str)
 
+
 class KhaveeIsTrueFinalTestCase(unittest.TestCase):
     """Tests for internal method KhaveeVerifier._is_true_final"""
 
@@ -632,7 +658,7 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
             "จะก้มหน้าลาไปมิได้กลัว แม่อย่ามัวหมองนักจงหักใจ"
         )
         self.assertEqual(
-            self.kv.check_klon(poem, k_type=8), 
+            self.kv.check_klon(poem, k_type=8),
             "The poem is correct according to the principle."
         )
 
@@ -644,42 +670,51 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
             "แล้วพาลูกออกมาข้างท่าเกวียน จะจากเจียนใจขาดอนาถใจ"
         )
         self.assertEqual(
-            self.kv.check_klon(poem, k_type=8), 
+            self.kv.check_klon(poem, k_type=8),
             "The poem is correct according to the principle."
         )
 
     def test_check_klon8_invalid_poem(self):
         poem = (
-        "แม่รักลูกลูกก็รู้อยู่ว่ารักมากมาก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
-        "จะกินนอนวอนว่าเมตตาเตือน จะจากเรือนร้างแม่ไปแต่ตัว "
-        "แม่วันทองของลูกจงกลับบ้าน เขาจะพาลว้าวุ่นแม่ทูนหัว "
-        "จะก้มหน้าลาไปมิได้กลัว แม่อย่ามัวหมองนักจงหักใจ"
+            "แม่รักลูกลูกก็รู้อยู่ว่ารักมากมาก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
+            "จะกินนอนวอนว่าเมตตาเตือน จะจากเรือนร้างแม่ไปแต่ตัว "
+            "แม่วันทองของลูกจงกลับบ้าน เขาจะพาลว้าวุ่นแม่ทูนหัว "
+            "จะก้มหน้าลาไปมิได้กลัว แม่อย่ามัวหมองนักจงหักใจ"
         )
         result = self.kv.check_klon(poem, k_type=8)
         self.assertIsInstance(result, list)
-        self.assertIn(["In sentence 2, there are more than 10 words. ['แม่', 'รัก', 'ลูก', 'ลูก', 'ก็', 'รู้', 'อยู่', 'ว่า', 'รัก', 'มาก', 'มาก']", "Can't find rhyme between paragraphs ('มาก', ['อื่น', 'สัก', 'หมื่น', 'แสน']) in paragraph 1"], result)
+        self.assertIn(
+            "In sentence 2, there are more than 10 words. ['แม่', 'รัก', 'ลูก', 'ลูก', 'ก็', 'รู้', 'อยู่', 'ว่า', 'รัก', 'มาก', 'มาก']",
+            result,
+        )
 
     def test_check_klon8_invalid_poem_2(self):
         poem = (
-        "แม่รักลูกลูกก็รู้อยู่ว่ารักมาก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
-        "จะกินนอนวอนว่าเมตตาเตือน จะจากเรือนร้างแม่ไปแต่ตัว "
-        "แม่วันทองของลูกจงกลับบ้าน เขาจะพาลว้าวุ่นแม่ทูนหัว "
-        "จะก้มหน้าลาไปมิได้กลัว แม่อย่ามัวหมองนักจงหักใจ"
+            "แม่รักลูกลูกก็รู้อยู่ว่ารักมาก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
+            "จะกินนอนวอนว่าเมตตาเตือน จะจากเรือนร้างแม่ไปแต่ตัว "
+            "แม่วันทองของลูกจงกลับบ้าน เขาจะพาลว้าวุ่นแม่ทูนหัว "
+            "จะก้มหน้าลาไปมิได้กลัว แม่อย่ามัวหมองนักจงหักใจ"
         )
         result = self.kv.check_klon(poem, k_type=8)
         self.assertIsInstance(result, list)
-        self.assertIn(["Can't find rhyme between paragraphs ('มาก', ['อื่น', 'สัก', 'หมื่น', 'แสน']) in paragraph 1"], result)
-    
+        self.assertIn(
+            "Can't find rhyme between paragraphs ('มาก', ['อื่น', 'สัก', 'หมื่น', 'แสน']) in paragraph 1",
+            result,
+        )
+
     def test_check_klon8_invalid_poem_3(self):
         poem = (
-        "แม่รักลูกลูกก็รู้อยู่ว่ารัก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
-        "จะกินนอนวอนว่าเมตตาเตือด จะจากเรือนร้างแม่ไปแต่ตัว "
-        "แม่วันทองของลูกจงกลับบ้าน เขาจะพาลว้าวุ่นแม่ทูนหัว "
-        "จะก้มหน้าลาไปมิได้กลัว แม่อย่ามัวหมองนักจงหักใจ"
+            "แม่รักลูกลูกก็รู้อยู่ว่ารัก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
+            "จะกินนอนวอนว่าเมตตาเตือด จะจากเรือนร้างแม่ไปแต่ตัว "
+            "แม่วันทองของลูกจงกลับบ้าน เขาจะพาลว้าวุ่นแม่ทูนหัว "
+            "จะก้มหน้าลาไปมิได้กลัว แม่อย่ามัวหมองนักจงหักใจ"
         )
         result = self.kv.check_klon(poem, k_type=8)
         self.assertIsInstance(result, list)
-        self.assertIn(["Can't find rhyme between paragraphs ('เหมือน', 'เตือด') in paragraph 1"], result)
+        self.assertIn(
+            "Can't find rhyme between paragraphs ('เหมือน', 'เตือด') in paragraph 1",
+            result,
+        )
 
 
 class KhaveeCheckSaraEdgeCasesTestCase(unittest.TestCase):

@@ -40,6 +40,10 @@ class KhaveeVerifier:
         """
         # Handle การันย์
         word = self.handle_karun_sound_silence(word)
+
+        # Store original word to distinguish tone-dependent structures
+        original_word = word
+
         # Strip tone marks first so words like 'ใกล้' properly evaluate as ending in 'ล'
         word = remove_tonemark(word)
 
@@ -47,10 +51,12 @@ class KhaveeVerifier:
             return False
 
         consonants = [c for c in word if c in thai_consonants]
+
         if len(consonants) < 2:
             return False
 
         last_char = word[-1]
+        cluster = consonants[0] + consonants[1]
 
         # ไ/ใ never take a final consonant ย here is silent (ไทย, ไชย)
         if last_char == "ย" and ("ไ" in word or "ใ" in word):
@@ -62,7 +68,6 @@ class KhaveeVerifier:
         # Check for ล, ร, ว in initial clusters (คำควบกล้ำ / อักษรนำ) with pre-posed vowels เ-, แ-, โ-, ไ-, ใ- (เปล, เถล, แผล, โหล, ไกล, ใกล้, โปร, แตร, ไกว, เขว)
         if last_char in ["ล", "ร", "ว"] and any(v in word for v in ["เ", "แ", "โ", "ไ", "ใ"]):
             if len(consonants) == 2:
-                cluster = consonants[0] + consonants[1]
                 # Check for ล
                 if last_char == "ล" and cluster in ["กล", "ขล", "คล", "ปล", "ผล", "พล", "หล", "ถล", "ฉล", "สล", "ศล", "ตล"]:
                     # Exception 'เพล' - แม่กน (monk food ฉันเพล)
@@ -74,8 +79,18 @@ class KhaveeVerifier:
                     return False
 
                 # Check for ว (ควบแท้ and อักษรนำ)
-                if last_char == "ว" and cluster in ["กว", "ขว", "คว", "สว", "หว", "ทว", "ชว", "ศว", "ถว"]:
-                    return False
+                if last_char == "ว":
+                    # With ไ/ใ, 'ว' is ALWAYS a cluster (ไกว, ไขว้)
+                    if "ไ" in word or "ใ" in word:
+                        if cluster in ["กว", "ขว", "คว", "สว", "หว", "ทว", "ชว", "ศว", "ถว"]:
+                            return False
+                            
+                    # With เ/แ/โ, 'ว' is mostly is a true final (เลว, เหว, แก้ว, แห้ว). Whitelist อักษรนำ/คำควบกล้ำ as exceptions
+                    elif any(v in word for v in ["เ", "แ", "โ"]):
+                        # USE ORIGINAL_WORD to safely catch open syllables แม่ ก กา
+                        # เดินเขว, แม่น้ำแคว, ตวาดแหว, โควตา, ช่องโหว่, ว้าเหว่
+                        if original_word in ["เขว", "แคว", "แหว", "โคว", "โหว", "โหว่", "เหว่"]:
+                            return False
 
         # If it passed all the filters above, it is a true final (จัย, สมัย, ชล, ผล, เหนื่อย)
         return True
@@ -105,10 +120,18 @@ class KhaveeVerifier:
 
         # In case of การันย์
         word = self.handle_karun_sound_silence(word)
+        # Remove tonemarks for checking endings safely
+        word_req = remove_tonemark(word)
+
+        # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ) Removing the final character -ิ or -ุ
+        silent_vowel_exceptions = ["เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ", "ญัติ", "ยัติ", "ภูมิ", "พฤติ", "พรรดิ", "วรรดิ", "พยาธิ", "โพธิ", "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ"]
+        if any(word_req.endswith(ex) for ex in silent_vowel_exceptions):
+            word = word[:-1]
+            word_req = word_req[:-1]
 
         # In case of สระเดี่ยว
         for i in word:
-            if i == "ั" and "ว" in word:
+            if i == "ั" and word_req.endswith("ว"):
                 sara.append("อัว")
             elif i in ("ะ", "ั"):
                 sara.append("อะ")
@@ -147,8 +170,10 @@ class KhaveeVerifier:
                 else:
                     sara.append("อะ")
 
-        # Remove tonemarks for checking endings safely
-        word_req = remove_tonemark(word)
+        
+        # Clean up 'ออ' if 'อ' is acting purely as an initial consonant (อต, อด, อบ, อวบ)
+        if "ออ" in sara and len(sara) == 1 and word.startswith("อ") and countoa == 1:
+            sara.remove("ออ")
 
         # In case of ออ (Clean redundant ออ from compound vowels like คือ, มือ)
         if countoa == 1 and "อ" in word[-1] and "เ" not in word and "ออ" in sara and len(sara) > 1:
@@ -219,7 +244,10 @@ class KhaveeVerifier:
         elif "ออ" in sara and len(sara) > 1:
             sara.remove("ออ")
         elif "ว" in word and len(sara) == 0:
-            sara.append("อัว")
+            if word_req in ["บวร", "วร"]:
+                sara.append("ออ")
+            else:
+                sara.append("อัว") # ควร, บวก, สวม
 
         if "ั" in word and self.check_marttra(word) == "กา":
             sara = []
@@ -239,6 +267,10 @@ class KhaveeVerifier:
         elif word == "เอาะ":
             sara = ["เอาะ"]
 
+        # In case of เ-ือ
+        if "เ" in word and "ื" in word and "อ" in word:
+            sara = ["เอือ"]
+
         # In case of เ-ย (ลดรูป เ-อ) เลย, เคย, เอย
         if "เอ" in sara and word_req.endswith("ย") and self._is_true_final(word_req):
             # Ensure no competing vowels exist ('เตียง' uses เอีย, not เออ)
@@ -247,7 +279,7 @@ class KhaveeVerifier:
                 sara = ["เออ"]
 
         # In case of ฤ ฦ
-        if "ฤา" in original_word or "ฦา" in original_word:
+        if  any(ex in original_word for ex in ("ฤา","ฤๅ","ฦา","ฦๅ")):
             sara = ["อือ"]
         elif "ฤ" in original_word or "ฦ" in original_word:
             sara = []
@@ -271,16 +303,16 @@ class KhaveeVerifier:
                 # Other consonants without vowels usually take the hidden 'โอะ' sound (นม, กรด)
                 sara.append("โอะ")
 
-        # In case of บ่ / บ
-        if word in ("บ่","บ"):
-            sara = ["ออ"]
-
-        #"◌ํ" (nikkhahit) indicates a nasal sound, often associated with the 'อำ' sound in Thai.
+        # In case of นิกหิต (-ํ) + า (miss-typed of สระอำ) or standalone นิกหิต (-ํ) 'อัง'
         if "ํ" in word:
-            sara = ["อำ"]
+            if "ํา" in word:
+                sara = ["อำ"] # The strict decomposed 'อำ' typo
+            else:
+                sara = ["อะ"] # Standalone sounds like 'อัง' (อะ + ง) from pali/sanskrit
 
-        if "เ" in word and "ื" in word and "อ" in word:
-            sara = ["เอือ"]
+        # In case of บ่ / บ
+        if word_req == "บ":
+            sara = ["ออ"]
             
         # In case of isolated symbols as words (ลดรูป อะ)
         if word_req in ["ณ", "ธ", "อ","พณ"]:
@@ -320,14 +352,23 @@ class KhaveeVerifier:
 
         word = self.handle_karun_sound_silence(word)
         word = remove_tonemark(word)
-        
+
+        # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ) Removing the final character -ิ or -ุ
+        silent_vowel_exceptions = ["เกียรติ", "ชาติ", "ญาติ", "มัติ", "วัติ", "บัติ", "ญัติ", "ยัติ", "ภูมิ", "พฤติ", "พรรดิ", "วรรดิ", "พยาธิ", "โพธิ", "เกตุ", "เมรุ", "เหตุ", "ธาตุ", "วุฒิ", "สมมุติ"]
+        if any(word.endswith(ex) for ex in silent_vowel_exceptions):
+            word = word[:-1]
+
         # Check for อักษรตัวเดียวแทนคำ Standalone words
-        if word in ["บ", "ณ", "ธ", "พณ"]:
+        if word in ["บ", "ณ", "ธ", "พณ", "ฤ", "ฦ"]:
             return "กา"
 
-        # Check for ำ at the end (represents "am" sound, ends with m)
-        if word[-1] == "ำ":
+        # Check for ำ or นิคหิต (-ํ) + า
+        if word[-1] == "ำ" or word.endswith("ํา"):
             return "กม"
+
+        # Check for standalone นิคหิต (-ํ) 'อัง'
+        if word.endswith("ํ"):
+            return "กง"       
 
         # Check for ไ/ใ
         if "ไ" in word or "ใ" in word:
@@ -340,11 +381,11 @@ class KhaveeVerifier:
         if word[-1] in ["ย", "ล", "ร", "ว"] and any(v in word for v in ["เ", "แ", "โ"]):
             if not self._is_true_final(word):
                 return "กา"
-
-        if "ํ" in word and "า" in word:
-            return "กา"
-        elif (
-            word[-1] in ["า", "ะ", "ิ", "ี", "ุ", "ู", "อ"]
+        
+        # Check for ตัวสะกด final consonants
+        # Add รากยาว "ๅ" (not สระอา) for word like ฤๅ(ษี)
+        if (
+            word[-1] in ["า", "ๅ", "ะ", "ิ", "ี", "ุ", "ู", "อ"]
             or ("ี" in word and "ย" in word[-1])
             or ("ื" in word and "อ" in word[-1])
         ):
@@ -786,3 +827,4 @@ class KhaveeVerifier:
             return word[:-3]
         else:
             return word[:-2]
+        

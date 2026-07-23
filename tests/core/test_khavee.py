@@ -10,7 +10,10 @@ kv = KhaveeVerifier()
 
 
 class KhaveeTestCase(unittest.TestCase):
+    """Tests for KhaveeVerifier.check_sara, check_marttra, is_sumpus, check_klon, and check_aek_too methods."""
+
     def test_check_sara(self):
+        """Test check_sara with basic, reduced, complex, embedded, and standalone character vowels."""
         # Basic Vowels
         self.assertEqual(kv.check_sara("ฉะ"), "อะ")
         self.assertEqual(kv.check_sara("ค่ะ"), "อะ")
@@ -177,6 +180,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_sara("ฦๅ"), "อือ")
 
     def test_check_marttra(self):
+        """Test check_marttra for various final consonant patterns."""
         self.assertEqual(kv.check_marttra("ปลิง"), "กง")
         self.assertEqual(kv.check_marttra("ยูง"), "กง")
         self.assertEqual(kv.check_marttra("กล่อง"), "กง")
@@ -438,6 +442,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("ฦๅ"), "กา")
 
     def test_is_sumpus(self):
+        """Test is_sumpus for checking structural equivalence of Thai words."""
         self.assertFalse(kv.is_sumpus("สรร", "แมว"))
         self.assertFalse(kv.is_sumpus("กลัว", "ไกล"))
         self.assertFalse(kv.is_sumpus("ตัว", "ตะ"))
@@ -492,6 +497,7 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertFalse(kv.is_sumpus("ก็", "ก้อ"))  # เอาะ vs ออ
 
     def test_check_klon(self):
+        """Test check_klon for Thai poem verification (k_type=4)."""
         self.assertEqual(
             kv.check_klon(
                 "ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง \
@@ -513,6 +519,7 @@ class KhaveeTestCase(unittest.TestCase):
         )
 
     def test_check_aek_too(self):
+        """Test check_aek_too for Thai tone mark detection."""
         self.assertFalse(kv.check_aek_too("ไกด์"))
         self.assertEqual(kv.check_aek_too("ไก่"), "aek")
         self.assertEqual(kv.check_aek_too("ไก้"), "too")
@@ -525,27 +532,35 @@ class KhaveeCheckKaruLahuTestCase(unittest.TestCase):
     """Tests for KhaveeVerifier.check_karu_lahu."""
 
     def setUp(self):
+        """Set up test fixtures."""
         self.kv = KhaveeVerifier()
 
     def test_dead_syllable_is_karu(self):
+        """Test that dead syllables are identified as karu."""
         self.assertEqual(self.kv.check_karu_lahu("กด"), "karu")
 
     def test_long_live_syllable_is_karu(self):
+        """Test that long live syllables are identified as karu."""
         self.assertEqual(self.kv.check_karu_lahu("กา"), "karu")
 
     def test_live_syllable_with_final_consonant_is_karu(self):
+        """Test that live syllables with final consonants are identified as karu."""
         self.assertEqual(self.kv.check_karu_lahu("กาน"), "karu")
 
     def test_bo_mai_ek_is_lahu(self):
+        """Test that bo mai ek is identified as lahu."""
         self.assertEqual(self.kv.check_karu_lahu("บ่"), "lahu")
 
     def test_no_short_word_is_lahu(self):
+        """Test that standalone consonant without vowel is identified as lahu."""
         self.assertEqual(self.kv.check_karu_lahu("ณ"), "lahu")
 
     def test_tho_short_word_is_lahu(self):
+        """Test that tho short word is identified as lahu."""
         self.assertEqual(self.kv.check_karu_lahu("ธ"), "lahu")
 
     def test_ko_mai_is_lahu(self):
+        """Test that ko mai (killed consonant marker) is identified as lahu."""
         self.assertEqual(self.kv.check_karu_lahu("ก็"), "lahu")
 
 
@@ -553,9 +568,11 @@ class KhaveeHandleKarunTestCase(unittest.TestCase):
     """Tests for KhaveeVerifier.handle_karun_sound_silence."""
 
     def setUp(self):
+        """Set up test fixtures."""
         self.kv = KhaveeVerifier()
 
     def test_word_without_karun_unchanged(self):
+        """Test that words without karun are unchanged."""
         self.assertEqual(self.kv.handle_karun_sound_silence("คน"), "คน")
         self.assertEqual(self.kv.handle_karun_sound_silence("กา"), "กา")
         # internal karun unchanged
@@ -565,14 +582,17 @@ class KhaveeHandleKarunTestCase(unittest.TestCase):
         self.assertEqual(self.kv.handle_karun_sound_silence("สตาร์ตอัป"), "สตาร์ตอัป")
 
     def test_word_ending_with_karun_stripped(self):
+        """Test that karun and preceding consonant are stripped from end of word."""
         # เกมส์ → drop ์ and the consonant before it (ส) → เกม
         self.assertEqual(self.kv.handle_karun_sound_silence("เกมส์"), "เกม")
 
     def test_word_ending_with_karun_stripped_2(self):
+        """Test karun stripping with different consonant."""
         # รักษ์ → drop ์ + ษ → รัก
         self.assertEqual(self.kv.handle_karun_sound_silence("รักษ์"), "รัก")
 
     def test_complex_karun_stripped(self):
+        """Test complex karun stripping with single, multi-consonant, and vowel-embedded patterns."""
         # Explicit evaluation of single, multi-consonant, and vowel-embedded Karun rules
         self.assertEqual(self.kv.handle_karun_sound_silence("จันทร์"), "จัน")
         self.assertEqual(self.kv.handle_karun_sound_silence("สิทธิ์"), "สิท")
@@ -602,6 +622,7 @@ class KhaveeHandleKarunTestCase(unittest.TestCase):
         self.assertEqual(self.kv.handle_karun_sound_silence("สุปรีดิ์"), "สุปรี")
 
     def test_returns_string(self):
+        """Test that handle_karun_sound_silence returns a string."""
         self.assertIsInstance(self.kv.handle_karun_sound_silence("สวัสดี"), str)
 
 
@@ -609,9 +630,11 @@ class KhaveeIsTrueFinalTestCase(unittest.TestCase):
     """Tests for internal method KhaveeVerifier._is_true_final."""
 
     def setUp(self):
+        """Set up test fixtures."""
         self.kv = KhaveeVerifier()
 
     def test_true_finals(self):
+        """Test identification of true final consonant patterns."""
         self.assertTrue(self.kv._is_true_final("จัย"))
         self.assertTrue(self.kv._is_true_final("สมัย"))
         self.assertTrue(self.kv._is_true_final("เลื่อย"))
@@ -620,6 +643,7 @@ class KhaveeIsTrueFinalTestCase(unittest.TestCase):
         self.assertTrue(self.kv._is_true_final("เหนื่อย"))
 
     def test_fake_finals(self):
+        """Test identification of fake final consonant patterns."""
         self.assertFalse(self.kv._is_true_final("ไทย"))
         self.assertFalse(self.kv._is_true_final("ใคร"))
         self.assertFalse(self.kv._is_true_final("ไกล"))
@@ -636,23 +660,29 @@ class KhaveeCheckAekTooEdgeCasesTestCase(unittest.TestCase):
     """Edge-case tests for KhaveeVerifier.check_aek_too."""
 
     def setUp(self):
+        """Set up test fixtures."""
         self.kv = KhaveeVerifier()
 
     def test_non_string_raises_type_error(self):
+        """Test that non-string input raises TypeError."""
         with self.assertRaises(TypeError):
             self.kv.check_aek_too(123)  # type: ignore[arg-type]
 
     def test_dead_syllable_as_aek_flag(self):
+        """Test dead_syllable_as_aek flag behavior."""
         self.assertEqual(self.kv.check_aek_too("บท", dead_syllable_as_aek=True), "aek")
 
     def test_dead_syllable_without_flag_returns_false(self):
+        """Test that dead syllables return False when flag is not set."""
         self.assertFalse(self.kv.check_aek_too("บท", dead_syllable_as_aek=False))
 
     def test_list_with_non_string_element_raises(self):
+        """Test that list with non-string element raises TypeError."""
         with self.assertRaises(TypeError):
             self.kv.check_aek_too(["ไก่", 42])  # type: ignore[list-item]
 
     def test_both_tone_marks_returns_false(self):
+        """Test that word with both tone marks returns False."""
         # word with both ่ and ้ should return False
         self.assertFalse(self.kv.check_aek_too("ก่้"))
 
@@ -661,23 +691,28 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
     """Tests for check_klon k_type=8 and invalid k_type."""
 
     def setUp(self):
+        """Set up test fixtures."""
         self.kv = KhaveeVerifier()
 
     def test_invalid_k_type_returns_error_string(self):
+        """Test that invalid k_type returns error string."""
         result = self.kv.check_klon("บทกวีทดสอบ", k_type=99)
         self.assertIsInstance(result, str)
         self.assertIn("Something went wrong", result)
 
     def test_incomplete_klon4_poem(self):
+        """Test that incomplete klon4 poem is detected."""
         result = self.kv.check_klon("ฉันชื่อหมูกรอบ", k_type=4)
         self.assertIsInstance(result, str)
         self.assertIn("does not have 4 complete sentences", result)
 
     def test_incomplete_klon8_poem(self):
+        """Test that incomplete klon8 poem is detected."""
         result = self.kv.check_klon("ฉันชื่อหมูกรอบ", k_type=8)
         self.assertIsInstance(result, str)
 
     def test_check_klon8_correct_poem(self):
+        """Test that valid klon8 poem is recognized."""
         poem = (
             "ฉันชื่อหมูกรอบ ฉันชอบกินไก่ แล้วก็วิ่งไล่ หมาชื่อนํ้าทอง "
             "ลคคนเก่ง เอ๋งเอ๋งคะนอง มีคนจับจอง เขาชื่อน้องเธียร"
@@ -685,6 +720,7 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
         self.assertIsNotNone(self.kv.check_klon(poem, k_type=8))
 
     def test_check_klon8_correct_poem_2(self):
+        """Test that another valid klon8 poem is recognized."""
         poem = (
             "แม่รักลูกลูกก็รู้อยู่ว่ารัก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
             "จะกินนอนวอนว่าเมตตาเตือน จะจากเรือนร้างแม่ไปแต่ตัว "
@@ -697,6 +733,7 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
         )
 
     def test_check_klon8_correct_poem_3(self):
+        """Test that third valid klon8 poem is recognized."""
         poem = (
             "นางกอดจูบลูบหลังแล้วสั่งสอน อำนวยพรพลายน้อยละห้อยไห้ "
             "พ่อไปดีศรีสวัสดิ์กำจัดภัย จนเติบใหญ่ยิ่งยวดได้บวชเรียน "
@@ -709,6 +746,7 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
         )
 
     def test_check_klon8_invalid_poem(self):
+        """Test that invalid klon8 poem with too many words is detected."""
         poem = (
             "แม่รักลูกลูกก็รู้อยู่ว่ารักมากมาก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
             "จะกินนอนวอนว่าเมตตาเตือน จะจากเรือนร้างแม่ไปแต่ตัว "
@@ -723,6 +761,7 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
         )
 
     def test_check_klon8_invalid_poem_2(self):
+        """Test that invalid klon8 poem with incorrect rhyme is detected."""
         poem = (
             "แม่รักลูกลูกก็รู้อยู่ว่ารักมาก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
             "จะกินนอนวอนว่าเมตตาเตือน จะจากเรือนร้างแม่ไปแต่ตัว "
@@ -737,6 +776,7 @@ class KhaveeCheckKlonExtendedTestCase(unittest.TestCase):
         )
 
     def test_check_klon8_invalid_poem_3(self):
+        """Test that invalid klon8 poem with wrong final word is detected."""
         poem = (
             "แม่รักลูกลูกก็รู้อยู่ว่ารัก คนอื่นสักหมื่นแสนไม่แม้นเหมือน "
             "จะกินนอนวอนว่าเมตตาเตือด จะจากเรือนร้างแม่ไปแต่ตัว "
@@ -755,36 +795,47 @@ class KhaveeCheckSaraEdgeCasesTestCase(unittest.TestCase):
     """Edge-case tests for KhaveeVerifier.check_sara."""
 
     def setUp(self):
+        """Set up test fixtures."""
         self.kv = KhaveeVerifier()
 
     def test_bo_mai_ek_returns_oo(self):
+        """Test that bo mai ek returns ออ vowel."""
         self.assertEqual(self.kv.check_sara("บ่"), "ออ")
 
     def test_special_word_เออ(self):
+        """Test special word เออ vowel."""
         self.assertEqual(self.kv.check_sara("เออ"), "เออ")
 
     def test_special_word_เอ(self):
+        """Test special word เอ vowel."""
         self.assertEqual(self.kv.check_sara("เอ"), "เอ")
 
     def test_special_word_เอะ(self):
+        """Test special word เอะ vowel."""
         self.assertEqual(self.kv.check_sara("เอะ"), "เอะ")
 
     def test_special_word_เอา(self):
+        """Test special word เอา vowel."""
         self.assertEqual(self.kv.check_sara("เอา"), "เอา")
 
     def test_special_word_เอาะ(self):
+        """Test special word เอาะ vowel."""
         self.assertEqual(self.kv.check_sara("เอาะ"), "เอาะ")
 
     def test_ru_sara(self):
+        """Test ฤ (ru) character vowel."""
         self.assertEqual(self.kv.check_sara("ฤ"), "อึ")
 
     def test_ruea_sara(self):
+        """Test ฤา and ฤๅ (ru with aa vowel) characters."""
         # ฤา (ฤ + sara า U+0E32) → อือ; note: ฤๅ uses lakkhangyao, not sara aa
         self.assertEqual(self.kv.check_sara("ฤา"), "อือ")
         self.assertEqual(self.kv.check_sara("ฤๅ"), "อือ")
 
     def test_เอือ_sara(self):
+        """Test เอือ vowel combination."""
         self.assertEqual(self.kv.check_sara("เรือ"), "เอือ")
 
     def test_returns_string(self):
+        """Test that check_sara returns a string."""
         self.assertIsInstance(self.kv.check_sara("เริง"), str)

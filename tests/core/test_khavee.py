@@ -198,14 +198,12 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("จาม"), "กม")
         self.assertEqual(kv.check_marttra("ยิ้ม"), "กม")
         self.assertEqual(kv.check_marttra("เกม"), "กม")
-        self.assertEqual(kv.check_marttra("ขำ"), "กม")
         self.assertEqual(kv.check_marttra("รมย์"), "กม")
         self.assertEqual(kv.check_marttra("พิมพ์"), "กม")
         self.assertEqual(kv.check_marttra("เขษม"), "กม")
         self.assertEqual(kv.check_marttra("ภูมิ"), "กม")
         self.assertEqual(kv.check_marttra("กรม"), "กม")
         self.assertEqual(kv.check_marttra("ธรรม"), "กม")
-        self.assertEqual(kv.check_marttra("จำ"), "กม")  # สระ อำ ถือเป็นแม่กม
         self.assertEqual(kv.check_marttra("ฟิล์ม"), "กม")
 
         self.assertEqual(kv.check_marttra("สวย"), "เกย")
@@ -400,6 +398,8 @@ class KhaveeTestCase(unittest.TestCase):
         self.assertEqual(kv.check_marttra("ก็"), "กา")
         self.assertEqual(kv.check_marttra("ขอ"), "กา")
         self.assertEqual(kv.check_marttra("งอ"), "กา")
+        self.assertEqual(kv.check_marttra("ขำ"), "กา")
+        self.assertEqual(kv.check_marttra("จำ"), "กา")
         self.assertEqual(kv.check_marttra("โต๊ะ"), "กา")
         self.assertEqual(kv.check_marttra("เหม่อ"), "กา")
         self.assertEqual(kv.check_marttra("เกลือ"), "กา")

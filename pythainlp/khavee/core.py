@@ -99,18 +99,19 @@ class KhaveeVerifier:
 
     def check_sara(self, word: str) -> str:
         """
-        Check the vowels in the Thai word.
+        Check the phonetic vowel sound (สระ) of a Thai word.
+        
+        Extracts the core vowel representation used for rhyme matching, handling 
+        complex vowel combinations, transformed vowels (สระเปลี่ยนรูป), and reductions (สระลดรูป).
 
         :param str word: Thai word
-        :return: vowel name of the word
+        :return: The name of the vowel sound of the word (e.g., 'เออ', 'อะ', 'เอาะ')
         :rtype: str
 
         :Example:
 
             >>> from pythainlp.khavee import KhaveeVerifier  # doctest: +SKIP
-
             >>> kv = KhaveeVerifier()  # doctest: +SKIP
-
             >>> print(kv.check_sara("เริง"))  # doctest: +SKIP
             'เออ'
         """
@@ -330,20 +331,26 @@ class KhaveeVerifier:
 
     def check_marttra(self, word: str) -> str:
         """
-        Check the Thai spelling section of the Thai word.
+        Check the spelling section (มาตราตัวสะกด) of a Thai word.
+
+        Note: This function strictly adheres to orthographic spelling (รูป) based on 
+        the Royal Society of Thailand (ราชบัณฑิตยสภา) standards, rather than phonetics (เสียง).
+        Therefore, words ending in สระเกิน (อำ, ไอ, ใอ, เอา) as well as ฤ, ฤๅ, ฦ, ฦๅ 
+        are correctly classified grammatically as แม่ ก กา ("กา"). Phonetic rhyming 
+        for these vowels is handled dynamically in the `is_sumpus` function.
 
         :param str word: Thai word
-        :return: name of the spelling section of the word
+        :return: name of the spelling section of the word (e.g., กา, กก, กด, กน, กบ, กม, เกย, เกอว)
         :rtype: str
 
         :Example:
 
             >>> from pythainlp.khavee import KhaveeVerifier  # doctest: +SKIP
-
             >>> kv = KhaveeVerifier()  # doctest: +SKIP
-
             >>> print(kv.check_marttra("สาว"))  # doctest: +SKIP
             'เกอว'
+            >>> print(kv.check_marttra("ทำ"))  # doctest: +SKIP
+            'กา'
         """
         # Handle consonant clusters ending with ร
         # ตร, ทร → remove ร (treat as final ต/ท sound)
@@ -371,6 +378,12 @@ class KhaveeVerifier:
         # Check for อักษรตัวเดียวแทนคำ Standalone words
         if word in ["บ", "ณ", "ธ", "พณ", "ฤ", "ฦ"]:
             return "กา"
+
+        # -------------------------------------------------------------------------
+        # สระเกิน (อำ, ไอ, ใอ, เอา) Orthographic Handlers
+        # According to the Royal Society, these are classified structurally as แม่ ก กา.
+        # Phonetic rhyming (e.g. กรรม rhyming with จำ) is normalized in `is_sumpus`.
+        # -------------------------------------------------------------------------
 
         # Check for ำ or นิคหิต (-ํ) + า
         if word[-1] == "ำ" or word.endswith("ํา"):
@@ -449,29 +462,42 @@ class KhaveeVerifier:
 
     def is_sumpus(self, word1: str, word2: str) -> bool:
         """
-        Check the rhyme between two words.
+        Check the rhyme (สัมผัส) between two Thai words.
 
-        :param str word1: Thai word
-        :param str word2: Thai word
-        :return: boolean
+        This function evaluates both the vowel sound (สระ) and the spelling section (มาตราตัวสะกด).
+        It incorporates phonetic normalization for สระเกิน (อำ, ไอ, ใอ) to ensure that 
+        words with matching sounds but differing orthographies (e.g., "จำ" and "กรรม") 
+        are correctly evaluated as rhymes.
+
+        :param str word1: First Thai word
+        :param str word2: Second Thai word
+        :return: True if the words rhyme, False otherwise.
         :rtype: bool
 
         :Example:
 
             >>> from pythainlp.khavee import KhaveeVerifier  # doctest: +SKIP
-
             >>> kv = KhaveeVerifier()  # doctest: +SKIP
-
             >>> print(kv.is_sumpus("สรร", "อัน"))  # doctest: +SKIP
             True
-
-            >>> print(kv.is_sumpus("สรร", "แมว"))  # doctest: +SKIP
-            False
+            >>> print(kv.is_sumpus("จำ", "กรรม"))  # doctest: +SKIP
+            True
         """
         marttra1 = self.check_marttra(word1)
         marttra2 = self.check_marttra(word2)
         sara1 = self.check_sara(word1)
         sara2 = self.check_sara(word2)
+
+        # -------------------------------------------------------------------------
+        # Phonetic Normalization for สระเกิน (อำ, ไอ, ใอ)
+        # 
+        # While check_marttra classifies words like "วัย" as อะ+เกย and "ใจ" as ไอ+กา,
+        # poetry cares about the sound (เสียง).
+        # We normalize the phonetic CVC structures into their สระเกิน counterparts.
+        # ('เอา' requires no normalizer as native Thai spelling forces the /aw/ sound 
+        # to use 'เ-า', bypassing the need for an อะ+เกอว collision).
+        # -------------------------------------------------------------------------
+
         # อัย -> ไอ (Normalize 'อะ' + 'เกย' to 'ไอ' + 'กา')
         if sara1 == "อะ" and marttra1 == "เกย":
             sara1 = "ไอ"

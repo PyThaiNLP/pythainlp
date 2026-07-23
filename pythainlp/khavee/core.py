@@ -90,8 +90,8 @@ class KhaveeVerifier:
                     # With เ/แ/โ, 'ว' is mostly is a true final (เลว, เหว, แก้ว, แห้ว). Whitelist อักษรนำ/คำควบกล้ำ as exceptions
                     elif any(v in word for v in ["เ", "แ", "โ"]):
                         # USE ORIGINAL_WORD to safely catch open syllables แม่ ก กา
-                        # เดินเขว, แม่น้ำแคว, ตวาดแหว, โควตา, ช่องโหว่, ว้าเหว่
-                        if original_word in ["เขว", "แคว", "แหว", "โคว", "โหว", "โหว่", "เหว่"]:
+                        # เดินเขว, ว้าเหว่, แม่น้ำแคว, ตวาดแหว, โควตา, ช่องโหว่
+                        if original_word in ["เขว", "เหว่", "แคว", "แหว", "โคว", "โหว", "โหว่"]:
                             return False
 
         # If it passed all the filters above, it is a true final (จัย, สมัย, ชล, ผล, เหนื่อย)
@@ -120,7 +120,7 @@ class KhaveeVerifier:
         # Store original word to safely evaluate exceptions (like ฤทธิ์) after Karun stripping
         original_word = word
 
-        # In case of การันย์
+        # In case of การันย์ (word stripped of Karun characters)
         word = self.handle_karun_sound_silence(word)
         # Remove tonemarks for checking endings safely
         word_req = remove_tonemark(word)
@@ -274,7 +274,7 @@ class KhaveeVerifier:
             sara = ["เอือ"]
 
         # In case of เ-ย (ลดรูป เ-อ) เลย, เคย, เอย
-        if "เอ" in sara and word_req.endswith("ย") and self._is_true_final(word_req):
+        if "เอ" in sara and word_req.endswith("ย") and self._is_true_final(original_word):
             # Ensure no competing vowels exist ('เตียง' uses เอีย, not เออ)
             other_vowels = [v for v in sara if v not in ["เอ", "ออ"]]
             if not other_vowels:
@@ -354,6 +354,10 @@ class KhaveeVerifier:
                 word = word[:-1]
 
         word = self.handle_karun_sound_silence(word)
+        
+        # is_true_final process requires the original word to check for exceptions in อักษรนำ/คำควบกล้ำ
+        original_word = word
+        
         word = remove_tonemark(word)
 
         # Intercept Pali/Sanskrit words with silent terminal vowels (สระที่ไม่ออกเสียงท้ายคำ) Removing the final character -ิ or -ุ
@@ -384,12 +388,13 @@ class KhaveeVerifier:
         if "ไ" in word or "ใ" in word:
             if word[-1] not in ["ย", "ล", "ร", "ว"]:
                 return "กา"
-            elif not self._is_true_final(word):
+            elif not self._is_true_final(original_word):
                 return "กา"
 
         # Check for เ, แ, โ + ย, ร, ล, ว (คำควบกล้ำ / อักษรนำ)
         if word[-1] in ["ย", "ล", "ร", "ว"] and any(v in word for v in ["เ", "แ", "โ"]):
-            if not self._is_true_final(word):
+            # ไม่ใช่ตัวสะกดแท้ -> แม่ก กา
+            if not self._is_true_final(original_word):
                 return "กา"
 
         # Check for ตัวสะกด final consonants

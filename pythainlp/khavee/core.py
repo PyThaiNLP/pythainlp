@@ -167,11 +167,13 @@ class KhaveeVerifier:
                 sara.append("ไอ")
             elif i == "็":
                 sara.append("็")
-            elif "รร" in word:
-                if self.check_marttra(word) == "กม":
-                    sara.append("อำ")
-                else:
-                    sara.append("อะ")
+
+        # In case of รร
+        if "รร" in word:
+            if self.check_marttra(word) == "กม":
+                sara.append("อำ")
+            else:
+                sara.append("อะ")
 
         # Clean up 'ออ' if 'อ' is acting purely as an initial consonant (อต, อด, อบ, อวบ)
         if "ออ" in sara and len(sara) == 1 and word.startswith("อ") and countoa == 1:

@@ -156,7 +156,10 @@ class UtilTestCase(unittest.TestCase):
         self.assertEqual(num_to_thaiword_float(-0.5), "ลบศูนย์จุดห้า")
         # Very small float (scientific notation)
         self.assertEqual(num_to_thaiword_float(1e-5), "ศูนย์จุดศูนย์ศูนย์ศูนย์ศูนย์หนึ่ง")
-        # Leading zeros after decimal
+        self.assertEqual(
+             num_to_thaiword_float(1.23e-10),
+             "ศูนย์จุดศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์ศูนย์หนึ่งสองสาม",
+         )
         self.assertEqual(num_to_thaiword_float(0.001), "ศูนย์จุดศูนย์ศูนย์หนึ่ง")
         self.assertEqual(num_to_thaiword_float(100.0001), "หนึ่งร้อยจุดศูนย์ศูนย์ศูนย์หนึ่ง")
         # Many decimal digits

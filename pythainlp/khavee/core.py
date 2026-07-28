@@ -81,6 +81,37 @@ class KhaveeVerifier:
         "บ", "บ่", "ณ", "ธ", "ก็", "ฤ", "ฦ",
     })
 
+    # Pre-computed frozensets for high-frequency set operations
+    _SINGLE_CHAR_WORDS: frozenset[str] = frozenset({"บ", "ณ", "ธ", "พณ", "ฤ", "ฦ"})
+
+    # Initial cluster sets for _is_true_final
+    _LAM_CLUSTERS: frozenset[str] = frozenset({
+        "กล", "ขล", "คล", "ปล", "ผล", "พล", "หล", "ถล", "ฉล", "สล", "ศล", "ตล"
+    })
+    _RUA_CLUSTERS: frozenset[str] = frozenset({
+        "กร", "ขร", "คร", "ตร", "ปร", "พร", "ฟร", "บร", "ศร", "สร", "หร"
+    })
+    _WA_CLUSTERS: frozenset[str] = frozenset({
+        "กว", "ขว", "คว", "สว", "หว", "ทว", "ชว", "ศว", "ถว"
+    })
+    _WA_WHITELIST: frozenset[str] = frozenset({"เขว", "เหว่", "แคว", "แหว", "โคว", "โหว", "โหว่"})
+
+    # Spelling sections (มาตราตัวสะกด)
+    _OPEN_SYLLABLE_VOWELS: frozenset[str] = frozenset({"า", "ๅ", "ะ", "ิ", "ี", "ึ", "ุ", "ู", "อ"})
+    _KOK_CHARS: frozenset[str] = frozenset({"ก", "ข", "ค", "ฆ"})
+    _KOD_CHARS: frozenset[str] = frozenset({
+        "จ", "ช", "ซ", "ฎ", "ฏ", "ฐ", "ฑ", "ฒ", "ด", "ต", "ถ", "ท", "ธ", "ศ", "ษ", "ส"
+    })
+    _KON_CHARS: frozenset[str] = frozenset({"ญ", "ณ", "น", "ร", "ล", "ฬ"})
+    _KOB_CHARS: frozenset[str] = frozenset({"บ", "ป", "พ", "ฟ", "ภ"})
+
+    # Karu / Lahu prosody
+    _LONG_VOWELS: frozenset[str] = frozenset({
+        "อา", "อี", "อือ", "อู", "เอ", "แอ", "เออ", "โอ", "ออ", "เอีย", "เอือ", "อัว"
+    })
+    _SPECIAL_VOWELS: frozenset[str] = frozenset({"อำ", "ไอ", "เอา"})
+    _EXPLICIT_SARA_WORDS: frozenset[str] = frozenset({"เออะ", "เออ", "เอ", "เอะ", "เอา", "เอาะ"})
+
     def __init__(self) -> None:
         """Initialize the KhaveeVerifier class."""
 
@@ -134,7 +165,7 @@ class KhaveeVerifier:
         # Guard Clauses: If it's not ending in ล, ร, ว, or doesn't have exactly 2
         # consonants, or lacks pre-posed vowels, it bypasses the cluster checks.
         # ---------------------------------------------------------------------
-        if last_char not in {"ล", "ร", "ว"} or len(consonants) != 2:
+        if last_char not in "ลรว" or len(consonants) != 2:
             return True
 
         # Check for ล, ร, ว in initial clusters (คำควบกล้ำ / อักษรนำ)
@@ -144,23 +175,18 @@ class KhaveeVerifier:
             return True
 
         # Check for ล
-        if last_char == "ล" and cluster in {
-            "กล", "ขล", "คล", "ปล", "ผล", "พล",
-                "หล", "ถล", "ฉล", "สล", "ศล", "ตล"}:
+        if last_char == "ล" and cluster in self._LAM_CLUSTERS:
             # Exception 'เพล' - แม่กน (monk food ฉันเพล) Returns True, otherwise False
             return word == "เพล"
 
         # Check for ร
-        if last_char == "ร" and cluster in {
-            "กร", "ขร", "คร", "ตร", "ปร", "พร",
-                "ฟร", "บร", "ศร", "สร", "หร"}:
+        if last_char == "ร" and cluster in self._RUA_CLUSTERS:
             return False
 
         # Check for ว (ควบแท้ and อักษรนำ)
         if last_char == "ว":
             # With ไ/ใ, 'ว' is ALWAYS a cluster (ไกว, ไขว้)
-            if (cluster in {"กว", "ขว", "คว", "สว", "หว", "ทว", "ชว", "ศว", "ถว"}
-                    and ("ไ" in word or "ใ" in word)):
+            if ("ไ" in word or "ใ" in word) and (cluster in self._WA_CLUSTERS):
                 return False
 
             # With เ/แ/โ, 'ว' is mostly is a true final (เลว, เหว, แก้ว, แห้ว).
@@ -168,7 +194,7 @@ class KhaveeVerifier:
             elif ("เ" in word or "แ" in word or "โ" in word):
                 # USE ORIGINAL_WORD to safely catch open syllables แม่ ก กา
                 # เดินเขว, ว้าเหว่, แม่น้ำแคว, ตวาดแหว, โควตา, ช่องโหว่
-                if original_word in {"เขว", "เหว่", "แคว", "แหว", "โคว", "โหว", "โหว่"}:
+                if original_word in self._WA_WHITELIST:
                     return False
 
         # If it passed all the filters above, it is a true final (จัย, สมัย, ชล, ผล, เหนื่อย)
@@ -340,18 +366,8 @@ class KhaveeVerifier:
                 sara = ["ไอ"]
 
         # In case of อ
-        if word == "เออะ":
-            sara = ["เออะ"]
-        elif word == "เออ":
-            sara = ["เออ"]
-        elif word == "เอ":
-            sara = ["เอ"]
-        elif word == "เอะ":
-            sara = ["เอะ"]
-        elif word == "เอา":
-            sara = ["เอา"]
-        elif word == "เอาะ":
-            sara = ["เอาะ"]
+        if word in self._EXPLICIT_SARA_WORDS:
+            sara = [word]
 
         # In case of เ-ือ
         if "เ" in word and "ื" in word and "อ" in word:
@@ -474,7 +490,7 @@ class KhaveeVerifier:
                 # (Words like นคร, มังกร, สุนทร will correctly BYPASS this and remain แม่กน)
 
         # Check for อักษรตัวเดียวแทนคำ Standalone words
-        if word in {"บ", "ณ", "ธ", "พณ", "ฤ", "ฦ"}:
+        if word in self._SINGLE_CHAR_WORDS:
             return "กา"
 
         # -------------------------------------------------------------------------
@@ -500,7 +516,7 @@ class KhaveeVerifier:
 
         # Check for ไ/ใ
         if "ไ" in word or "ใ" in word:
-            if word[-1] not in {"ย", "ล", "ร", "ว"}:
+            if word[-1] not in "ยลรว":
                 return "กา"
             elif not self._is_true_final(original_word):
                 return "กา"
@@ -513,45 +529,29 @@ class KhaveeVerifier:
 
         # Check for ตัวสะกด final consonants
         # Add รากยาว "ๅ" (not สระอา) for word like ฤๅ(ษี)
+        last_char = word[-1]
         if (
-            word[-1] in {"า", "ๅ", "ะ", "ิ", "ี", "ึ", "ุ", "ู", "อ"}
-            or ("ี" in word and "ย" == word[-1])  # Catch สระเอีย (เสีย, เมีย)
-            or ("ื" in word and "อ" == word[-1])  # Catch สระอือ (เรือ, เสือ)
-            or ("ั" in word and "ว" == word[-1])  # Catch สระอัว (ตัว, ชั่ว, กลัว, อัว)
+            last_char in self._OPEN_SYLLABLE_VOWELS
+            or ("ี" in word and last_char == "ย")  # Catch สระเอีย (เสีย, เมีย)
+            or ("ื" in word and last_char == "อ")  # Catch สระอือ (เรือ, เสือ)
+            or ("ั" in word and last_char == "ว")  # Catch สระอัว (ตัว, ชั่ว, กลัว, อัว)
         ):
             return "กา"
-        elif word[-1] == "ง":
+        elif last_char == "ง":
             return "กง"
-        elif word[-1] == "ม":
+        elif last_char == "ม":
             return "กม"
-        elif word[-1] == "ย":
+        elif last_char == "ย":
             return "เกย"
-        elif word[-1] == "ว":
+        elif last_char == "ว":
             return "เกอว"
-        elif word[-1] in {"ก", "ข", "ค", "ฆ"}:
+        elif last_char in self._KOK_CHARS:
             return "กก"
-        elif word[-1] in {
-            "จ",
-            "ช",
-            "ซ",
-            "ฎ",
-            "ฏ",
-            "ฐ",
-            "ฑ",
-            "ฒ",
-            "ด",
-            "ต",
-            "ถ",
-            "ท",
-            "ธ",
-            "ศ",
-            "ษ",
-            "ส",
-        }:
+        elif last_char in self._KOD_CHARS:
             return "กด"
-        elif word[-1] in {"ญ", "ณ", "น", "ร", "ล", "ฬ"}:
+        elif last_char in self._KON_CHARS:
             return "กน"
-        elif word[-1] in {"บ", "ป", "พ", "ฟ", "ภ"}:
+        elif last_char in self._KOB_CHARS:
             return "กบ"
         else:
             return "กา"
@@ -643,10 +643,8 @@ class KhaveeVerifier:
         sara = self.check_sara(text)
 
         if (marttra != "กา"
-            or (marttra == "กา" and sara in
-                {"อา", "อี", "อือ", "อู", "เอ", "แอ",
-                 "เออ", "โอ", "ออ", "เอีย", "เอือ", "อัว"})
-                or sara in {"อำ", "ไอ", "เอา"}):
+            or (marttra == "กา" and sara in self._LONG_VOWELS)
+            or sara in self._SPECIAL_VOWELS):
             return "karu"
         else:
             return "lahu"
@@ -716,9 +714,8 @@ class KhaveeVerifier:
             return "Something went wrong. Make sure you enter it in the correct form (k_type 4 or 8)."
 
         try:
-            # Normalize spacing with regex Splits by spaces,
-            # newlines, or transitions between phrases
-            waks = [w for w in re.split(r'\s+', text.strip()) if w]
+            # Normalize spacing and split phrases/sentences across arbitrary whitespace
+            waks = text.split()
             # Ensure the poem has complete stanzas (4 waks per stanza)
             if len(waks) % 4 != 0 or len(waks) == 0:
                 return "The poem does not have complete stanzas (บท). A stanza must contain exactly 4 sentences (วรรค)."
@@ -891,8 +888,8 @@ class KhaveeVerifier:
             return word[:-3]
 
         # For Standard Karun silent suffixes (1 Consonant + Optional Vowel + Karun)
-        # สัตว์ (ว์), แพทย์ (ย์), พันธุ์ (ธุ์), สิทธิ์ (ธิ์)
-        # Check if there is an upper/lower vowel right before the Karun (ธุ์, ธิ์)
+        # สัตว์ (ว์), แพทย์ (ย์), พันธุ์ (พันธุ์), สิทธิ์ (ธิ์)
+        # Check if there is an upper/lower vowel right before the Karun (พันธุ์, ธิ์)
         if len(word) >= 3 and word[-2] in {"ิ", "ี", "ึ", "ื", "ุ", "ู", "ั"}:
             return word[:-3]
         else:

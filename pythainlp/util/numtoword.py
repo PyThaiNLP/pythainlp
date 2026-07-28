@@ -190,8 +190,15 @@ def num_to_thaiword_float(number: float) -> str:
             f"number must be a numeric type, not {type(number).__name__!r}"
         )
 
+    # Reject non-finite floats early (nan/inf), since they cannot be rendered.
+    if isinstance(number, float):
+        import math
+
+        if not math.isfinite(number):
+            raise ValueError("number must be a finite float")
+
     # Handle whole numbers (including integer types)
-    if isinstance(number, int) or number == int(number):
+    if isinstance(number, int) or (isinstance(number, float) and number.is_integer()):
         return num_to_thaiword(int(number))
 
     # Capture sign for negative floats
@@ -201,17 +208,26 @@ def num_to_thaiword_float(number: float) -> str:
 
     # Handle scientific notation (e.g., "1e-05", "1.23e-10")
     if "e" in num_str or "E" in num_str:
-        mantissa_str, exp_str = num_str.lower().split("e")
+        mantissa, exp_str = num_str.lower().split("e", 1)
         exponent: int = int(exp_str)
-        if "." in mantissa_str:
-            mant_int, mant_frac = mantissa_str.split(".")
-            exponent -= len(mant_frac)
-            mantissa_str = mant_int + mant_frac
-        if exponent < 0:
-            num_str = "0." + "0" * (-exponent - 1) + mantissa_str
-        else:
-            num_str = mantissa_str + "0" * exponent
 
+        if "." in mantissa:
+            mant_int, mant_frac = mantissa.split(".", 1)
+            digits = mant_int + mant_frac
+            decimal_places = len(mant_frac)
+        else:
+            digits = mantissa
+            decimal_places = 0
+
+        shift = exponent - decimal_places
+        if shift >= 0:
+            num_str = digits + ("0" * shift)
+        else:
+            pos = len(digits) + shift
+            if pos > 0:
+                num_str = digits[:pos] + "." + digits[pos:]
+            else:
+                num_str = "0." + ("0" * (-pos)) + digits
     if "." not in num_str:
         result = num_to_thaiword(int(num_str))
     else:

@@ -4,7 +4,6 @@
 # ruff: noqa: C901
 from __future__ import annotations
 
-import re
 from typing import Union
 
 from pythainlp import thai_consonants
@@ -423,7 +422,7 @@ class KhaveeVerifier:
             sara = ["อะ"]
 
         if not sara:
-            # Fallback: If no explicit vowel is found and it doesn't fit closed-syllable 
+            # Fallback: If no explicit vowel is found and it doesn't fit closed-syllable
             # reductions, assume the implied short 'a' (เสียงอะกึ่งมาตรา).
             return "อะ"
 
